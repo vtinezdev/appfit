@@ -18,11 +18,68 @@ export interface Food {
   updatedAt: number
 }
 
+/** Un alimento del catálogo: por ahora solo se conoce como texto libre (`usda`, `off`, `bedca`…). */
+export type FuenteCatalogo = string
+
+/** `tipo`: genérico («pollo»), producto de marca o plato preparado. */
+export type TipoCatalogo = 'generico' | 'marca' | 'preparado'
+
+/**
+ * Alimento del catálogo (tabla `catalogFoods`): solo lectura desde la app, re-descargable y NO va en el backup.
+ * `nombreNorm` NO es único (habrá muchas «leche entera»); la identidad es `id`.
+ */
+export interface CatalogFood {
+  /** Determinista y estable: `${fuente}:${idExterno}` (ver `catalogId()`). No es autoincremental. */
+  id: string
+  fuente: FuenteCatalogo
+  idExterno: string
+  /** Nombre en español si existe; si no, el original. */
+  nombre: string
+  nombreOriginal?: string
+  nombreNorm: string
+  /** Tokens de búsqueda (índice multiEntry): palabras normalizadas del nombre, sin repetir. */
+  tok: string[]
+  tipo: TipoCatalogo
+  categoria?: string
+  marca?: string
+  /** Código de barras normalizado (solo dígitos). Índice NO único. */
+  gtin?: string
+  kcal100: number
+  prot100: number
+  carb100: number
+  grasa100: number
+  /**
+   * Nutrientes adicionales por 100 g, por código (p. ej. `FIBTG`). Clave ausente = desconocido;
+   * `0` = conocido y cero. Nunca se rellenan los desconocidos con 0.
+   */
+  nutrientes?: Record<string, number>
+  /** Calidad de los datos, de 0 (casi vacío) a 1 (completo). */
+  completitud?: number
+  /** Versión del paquete del que viene el registro (para actualizar una fuente y borrar lo antiguo). */
+  version: string
+  importadoAt: number
+  /** Última modificación en la fuente original (ms), si se conoce. */
+  actualizadoFuenteAt?: number
+}
+
+/** Metadatos de una fuente importada al catálogo (licencia, atribución, versión…). */
+export interface CatalogSource {
+  id: FuenteCatalogo
+  version: string
+  importadoAt: number
+  licencia: string
+  atribucion: string
+  filas: number
+}
+
 export interface Entry {
   id: number
   fecha: string // YYYY-MM-DD
   comida: Comida
+  /** Referencia a un alimento del usuario. Como mucho una de `foodId` / `catalogId` (ver `foodRef.ts`). */
   foodId?: number
+  /** Referencia blanda a `catalogFoods.id`. El snapshot de abajo hace que la entrada no dependa del catálogo. */
+  catalogId?: string
   nombre: string
   gramos: number
   kcal: number
@@ -38,6 +95,8 @@ export interface Entry {
 /** Alimento de una plantilla. Guarda un snapshot de respaldo por si el alimento se borra (o si es una entrada rápida). */
 export interface MealItem {
   foodId?: number
+  /** Como en `Entry`: referencia blanda a `catalogFoods.id`. */
+  catalogId?: string
   nombre: string
   gramos: number
   kcal: number

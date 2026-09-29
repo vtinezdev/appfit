@@ -14,7 +14,7 @@ npm run build    # tsc -b && vite build
 
 ```
 src/app/                 App (router casero con useState), BottomNav, Ajustes
-src/shared/db/           db.ts (esquema Dexie + versiones), types.ts, settings.ts
+src/shared/db/           db.ts (esquema Dexie v3 + TABLAS_USUARIO/TABLAS_CATALOGO), types.ts, foodRef.ts, settings.ts
 src/shared/lib/          dates, format, text, backup
 src/shared/ai/           gemini.ts (cliente genérico generarJson)
 src/shared/design/       tokens.css (única fuente de valores), theme, macros, chart, guard
@@ -29,6 +29,7 @@ src/features/gym/        GymTab + pages/ data/ (repos) lib/workout.ts (lógica p
 - En las features (Nutrición y Gym), solo `features/*/data/*Repo.ts` toca `db.*` (lo vigila `shared/db/acceso.test.ts`). Las lecturas nunca escriben (se usan en `useLiveQuery`).
 - Escrituras de varias filas → `db.transaction(...)`; dentro, ningún `await` que no sea de Dexie (nada de `fetch`).
 - Cambiar esquema o forma de registros → revisar `migrarBackup` en `shared/lib/backup.ts` (reglas escritas en `db.ts`/`backup.ts`).
+- Tablas nuevas → añadirlas a `TABLAS_USUARIO` (entran en backup) o `TABLAS_CATALOGO` (datos de referencia, fuera del backup y de «borrar todo»). Una entrada/ítem referencia como mucho uno de `foodId`/`catalogId` (`shared/db/foodRef.ts`).
 - Borrados: rutinas y plantillas → confirmación previa (`ConfirmacionDestructiva`); filas sueltas (series, entradas, alimentos) → borrado inmediato con aviso «Deshacer» (`useAviso`). Dentro de un Sheet el Toast queda debajo: errores en línea con `ErrorState`.
 - Lógica de negocio en funciones puras con tests; componentes solo componen.
 - Diseño: nada de colores/tamaños sueltos; tokens + primitives. Ver `docs/DESIGN-SYSTEM.md` y `shared/design/guard.test.ts`.
