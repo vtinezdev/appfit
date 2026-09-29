@@ -48,10 +48,9 @@ appfit/
 ├── docs/                 # documentación del proyecto (plan, decisiones, progreso por sesión)
 ├── public/                # iconos y assets estáticos de la PWA
 ├── src/
-│   ├── db.ts               # esquema de la base de datos local (Dexie)
-│   ├── lib/                 # lógica pura: fechas, macros, entrenos, llamada a Gemini, backup
-│   ├── components/           # componentes de UI reutilizables
-│   └── pages/                 # pantallas, organizadas por Nutrición / Gym / Ajustes
+│   ├── app/                 # App (navegación), BottomNav, Ajustes
+│   ├── shared/              # db (esquema Dexie), lib (fechas, backup…), ai (Gemini), design (tokens), components, hooks
+│   └── features/            # nutricion/ y gym/, cada una con pages/, data/ (repositorios) y lib/ (lógica pura)
 ├── package.json
 └── vite.config.ts
 ```
@@ -95,6 +94,8 @@ No existe backend. Todos los datos (comidas, entrenos, alimentos, ajustes, y la 
 ## Estado del proyecto
 
 Consulta [`docs/PROCESO.md`](docs/PROCESO.md) para la bitácora técnica completa de decisiones, y [`docs/progreso/`](docs/progreso/) para el resumen sesión a sesión de en qué se ha trabajado.
+
+El desarrollo se hace con un equipo de agentes de Claude Code (coordinador + auditor técnico + auditor de UX + documentación): ver [`docs/AGENTES.md`](docs/AGENTES.md).
 
 ## Licencia
 

@@ -1,0 +1,136 @@
+/*
+ * DESIGN TOKENS — única fuente de verdad del aspecto de AppFit.
+ *
+ * Los colores son canales RGB ("R G B") para que Tailwind pueda aplicar opacidad (bg-accent/40).
+ * Tailwind los expone en tailwind.config.js con nombres semánticos: nada de slate-*, #hex ni colores de componente.
+ *
+ * Cómo tocar el diseño:
+ *   · «accent más cálido»        → --c-accent / --c-accent-subtle (en :root y en dark)
+ *   · «radios más pequeños»      → --radius-*
+ *   · «cards con menos contraste» → --c-surface / --c-surface-muted / --c-border
+ *   · «otra tipografía»           → --font-sans y la escala --fs-*
+ *   · «otro tema»                 → añade un bloque [data-theme='x'] con los mismos nombres
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ── Color · superficies ───────────────────────────── */
+  --c-bg: 247 246 243;
+  --c-surface: 255 255 255;
+  --c-surface-elevated: 255 255 255; /* sheets, toasts: se separan por sombra */
+  --c-surface-muted: 240 239 235; /* inputs, botones secundarios, carriles */
+  --c-overlay: 20 20 18; /* backdrop de sheets */
+
+  /* ── Color · texto y bordes ────────────────────────── */
+  --c-text-primary: 28 27 25;
+  --c-text-secondary: 82 80 75;
+  --c-text-tertiary: 108 105 98;
+  --c-border: 229 227 221;
+  --c-border-strong: 205 202 194;
+
+  /* ── Color · marca y estado ────────────────────────── */
+  --c-accent: 37 74 214;
+  --c-accent-subtle: 232 237 253;
+  --c-on-accent: 255 255 255;
+  --c-success: 22 128 90;
+  --c-warning: 160 98 0;
+  --c-destructive: 196 58 48;
+
+  /* ── Color · datos (significan siempre lo mismo, en tarjeta, barra o gráfica) ── */
+  --c-kcal: 43 108 176;
+  --c-protein: 30 140 110;
+  --c-carbs: 199 135 20;
+  --c-fat: 150 85 170;
+  --c-goal: var(--c-text-primary); /* marca de objetivo en carriles y gráficas */
+
+  /* ── Tipografía ────────────────────────────────────── */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-numeric: var(--font-sans);
+  /* tamaño / interlineado */
+  --fs-display: 2.25rem;
+  --lh-display: 2.5rem;
+  --fs-heading: 1.5rem;
+  --lh-heading: 2rem;
+  --fs-title: 1.125rem;
+  --lh-title: 1.5rem;
+  --fs-body: 1rem; /* 16 px: mínimo para inputs (evita el zoom de iOS) */
+  --lh-body: 1.5rem;
+  --fs-body-sm: 0.875rem;
+  --lh-body-sm: 1.25rem;
+  --fs-label: 0.8125rem;
+  --lh-label: 1rem;
+  --fs-caption: 0.75rem;
+  --lh-caption: 1rem;
+  --fs-metric: 2.75rem; /* cifras grandes (kcal del día) */
+  --lh-metric: 1;
+
+  /* ── Spacing semántico (la escala base es la de 4 px de Tailwind) ── */
+  --space-page: 1rem; /* margen lateral de pantalla */
+  --space-section: 1.5rem; /* entre bloques de una pantalla */
+  --space-card: 1rem; /* padding interno de una card */
+  --space-stack: 0.75rem; /* entre elementos de un mismo bloque */
+  --touch-target: 2.75rem; /* 44 px */
+  --touch-target-lg: 3.25rem;
+  --sheet-max-height: 85dvh;
+
+  /* ── Radios ────────────────────────────────────────── */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-pill: 9999px;
+
+  /* ── Elevación: solo dos niveles ───────────────────── */
+  --shadow-raised: 0 1px 2px rgb(20 20 18 / 0.06), 0 1px 1px rgb(20 20 18 / 0.04);
+  --shadow-overlay: 0 -8px 32px rgb(20 20 18 / 0.14), 0 2px 8px rgb(20 20 18 / 0.08);
+
+  /* ── Motion ────────────────────────────────────────── */
+  --dur-short: 120ms;
+  --dur-normal: 220ms;
+  --dur-long: 360ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.3, 0, 0, 1.05);
+  --motion-shift: 0.75rem; /* desplazamiento de las entradas (cambio de día, toast): discreto */
+}
+
+/* Dark: valores propios, no una inversión. Superficies cálidas, acentos más claros y menos saturados.
+   theme.ts pone data-theme='light'|'dark' en <html> (siguiendo al sistema si no hay preferencia), así solo hay un bloque dark. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --c-bg: 15 15 14;
+  --c-surface: 24 24 22;
+  --c-surface-elevated: 30 30 27;
+  --c-surface-muted: 37 37 33;
+  --c-overlay: 0 0 0;
+
+  --c-text-primary: 240 238 233;
+  --c-text-secondary: 178 175 168;
+  --c-text-tertiary: 142 139 131;
+  --c-border: 44 44 40;
+  --c-border-strong: 68 67 61;
+
+  --c-accent: 124 156 255;
+  --c-accent-subtle: 28 36 66;
+  --c-on-accent: 12 16 36;
+  --c-success: 74 201 150;
+  --c-warning: 232 178 70;
+  --c-destructive: 240 120 110;
+
+  --c-kcal: 110 170 235;
+  --c-protein: 80 200 160;
+  --c-carbs: 235 180 80;
+  --c-fat: 200 140 220;
+
+  --shadow-raised: 0 0 0 1px rgb(255 255 255 / 0.03);
+  --shadow-overlay: 0 -8px 32px rgb(0 0 0 / 0.5);
+}
+
+/* Reduced motion: las duraciones colapsan a 0 y todo lo que use estos tokens deja de animarse. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-short: 0ms;
+    --dur-normal: 0ms;
+    --dur-long: 0ms;
+  }
+}

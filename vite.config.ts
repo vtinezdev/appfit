@@ -12,8 +12,8 @@ export default defineConfig({
         name: 'AppFit',
         short_name: 'AppFit',
         description: 'Nutrición y gimnasio, uso personal',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
+        theme_color: '#f7f6f3',
+        background_color: '#f7f6f3',
         display: 'standalone',
         start_url: '/',
         scope: '/',
@@ -30,5 +30,6 @@ export default defineConfig({
   ],
   test: {
     environment: 'node',
+    setupFiles: ['./src/test/setup-db.ts'],
   },
 })

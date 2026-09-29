@@ -10,6 +10,8 @@ Esta carpeta guarda un registro por sesión de trabajo. Cada vez que se cierra u
 ## Índice de sesiones
 
 - [`sesion-01/`](./sesion-01/) — Construcción inicial de la app completa (nutrición + gym + PWA) y arreglo del modelo de Gemini desactualizado.
+- [`sesion-02/`](./sesion-02/) — Nutrición v2, Fase 1 (en curso): kcal rápidas (A5), copiar comida/día (A2) y plantillas (A1), sobre el esquema v2 y los frecuentes/buscador ya hechos. Queda D1 (Resumen navegable).
+- [`sesion-03/`](./sesion-03/) — Rediseño piloto de Hoy y Añadir comida; Gym migrado a `features/` con repositorios, `useAviso` y patrón de borrado (confirmación en rutinas/plantillas, «Deshacer» en filas sueltas).
 
 ## Convención para futuras sesiones
 

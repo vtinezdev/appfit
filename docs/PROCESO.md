@@ -125,3 +125,195 @@ Según el propio plan, estos pasos no se podían completar sin cuentas externas:
 3. **Prueba en el iPhone real**: una vez desplegada, abrir la URL en Safari, "Añadir a pantalla de inicio", y verificar ahí (no se puede hacer desde este PC): el micrófono real, el modo avión, y que las actualizaciones futuras se apliquen solas.
 
 En cuanto tengas la cuenta de Cloudflare, decímelo y seguimos con esos dos puntos.
+
+## 14. Nutrición v2 — Fase 0: red de seguridad antes de tocar nada
+
+Se planificó la iteración siguiente de Nutrición en [`roadmap/PLAN-nutricion-v2.md`](./roadmap/PLAN-nutricion-v2.md) a partir de la lluvia de ideas de [`roadmap/nutricion-ideas.md`](./roadmap/nutricion-ideas.md). Antes de planificar, cada problema del documento de ideas se comprobó contra el código: P7 solo se confirmó en parte (la rejilla de añadido rápido no ordena por «editados», sino por «últimos tocados»), P9 tenía matices y aparecieron dos fallos nuevos (P11 y P12, más abajo).
+
+Antes de cambiar una sola línea se prepararon dos cosas:
+
+- **Un backup v1 de referencia** (`src/test/fixtures/backup-v1.json`), generado con el código *de la sesión 01* y datos sintéticos (4 alimentos, 9 entradas en 3 días, una rutina y un entreno). Se usa en los tests y en la prueba manual de importación, y garantiza que los backups antiguos siguen entrando.
+- **Un origen de pruebas aparte**: todas las pruebas en el navegador se hacen en `http://appfit-test.localhost:5173` y no en `localhost:5173`. Para el navegador son orígenes distintos, así que cada uno tiene su propia IndexedDB, y los datos y la API key real que hay en `localhost` no se tocan. Esa base de datos de pruebas se queda en la versión 1 de Dexie a propósito, para probar después el upgrade real de la Fase 1.
+
+Para testear la capa de datos sin navegador se añadió **`fake-indexeddb`** como devDependency: es una IndexedDB en memoria para Node, el estándar para testear Dexie, y no llega al bundle. Se carga en `src/test/setup-db.ts` (`setupFiles` de Vitest).
+
+## 15. Reestructuración por funcionalidades
+
+El código de Nutrición y lo compartido se reorganizó así (Gym se queda donde estaba; solo cambiaron sus imports):
+
+```
+src/app/                 App, BottomNav, Ajustes
+src/shared/db/           db.ts (esquema), types.ts, settings.ts
+src/shared/lib/          dates, format (round1), text (normalizeName), backup
+src/shared/ai/           gemini.ts (cliente genérico)
+src/shared/components/   Sheet, NumberStepper, VoiceRecorder, SegmentedControl, Toast
+src/features/nutricion/  NutricionTab + pages/ components/ hooks/ data/ lib/
+```
+
+Decisiones:
+
+- **Primero mover y después arreglar.** Los archivos se movieron con `git mv` (conserva el historial) y en un paso sin ningún cambio de contenido. Después se partió `db.ts` y se extrajeron componentes, siempre sin cambios visibles, y solo entonces vinieron los arreglos. Así cada diff se revisa por separado.
+- **Imports relativos, sin alias** (`@/…`): habría obligado a tocar la configuración de Vite y de TypeScript para ganar solo estética.
+- `getSettings()` ahora **completa con los valores por defecto** lo que falte en el registro guardado. Así, los campos nuevos de ajustes de fases posteriores (perfil, objetivos de descanso…) no necesitarán un `upgrade()` de Dexie. Sigue siendo de solo lectura: no reintroduce el `ReadOnlyError` del punto 10.
+- La clase `AppFitDB` se exporta y acepta un nombre de base de datos para poder probar migraciones en los tests.
+- `AnadirComida.tsx` pasó de 376 líneas a unas 150: `useInterpretarComida()` (un solo flujo para texto y audio, antes duplicado), `ItemRevisionCard`, `MacroInputs` (los 4 inputs por 100 g, antes duplicados con Alimentos), `QuickAddGrid` y `EntradaIA`.
+
+## 16. Capa de repositorios
+
+`features/nutricion/data/foodsRepo.ts` y `entriesRepo.ts` son lo único de Nutrición que toca `db.*`. Reglas:
+
+- Las funciones de lectura **nunca escriben**, así que se pueden usar dentro de `useLiveQuery`.
+- **Toda escritura de más de una fila va en `db.transaction(...)`** (arregla **P3**: antes, si fallaba el segundo alimento de una comida, el primero quedaba guardado). Hay un test que simula el fallo y comprueba que no queda nada.
+- Dentro de una transacción de Dexie no puede haber `await` que no sean de Dexie (nada de `fetch`). Por eso la IA se llama siempre antes, en la revisión, y el guardado solo toca la base de datos.
+
+## 17. Identidad de los alimentos por nombre (P4, P5, P11, P12)
+
+Aquí estaban los fallos que más afectaban a los datos:
+
+- **P4**: al reutilizar un alimento existente, siempre se marcaba como `manual` aunque no se hubiera tocado. Con el tiempo, todo acababa siendo «manual».
+- **P5, peor de lo que decía el documento de ideas**: al guardar la edición de una entrada, se sobrescribía el alimento global con valores *reconstruidos desde el snapshot de la entrada* (redondeados y quizá obsoletos), aunque no se cambiara nada.
+- **P11 (nuevo)**: renombrar un alimento en la revisión cambiaba su `nombre` pero **no su `nombreNorm`**, la clave única, que quedaba desfasada.
+- **P12 (nuevo)**: en Alimentos, guardar un nombre que ya existía daba un `ConstraintError` sin capturar (el formulario no se cerraba y no salía ningún mensaje). Además, el buscador no ignoraba las tildes.
+
+La solución es una regla única: **un alimento se identifica por su nombre normalizado**. La lógica vive en funciones puras de `lib/alimentos.ts`, con tests:
+
+- `decidirGuardado(existente, item)` → `crear` / `reutilizar` (no se toca nada, ni la procedencia) / `actualizar` (el usuario cambió los valores: se corrigen y pasa a `manual`).
+- Cada ítem de la revisión recuerda su **origen** (procedencia y valores iniciales). Si se guarda como alimento nuevo, será `manual` solo si el usuario cambió los valores. Si va a corregir un alimento ya guardado, la tarjeta lo avisa: «Actualizará el alimento guardado en «Alimentos»».
+- Renombrar un ítem en la revisión lo convierte en **otro** alimento (se reutiliza si ese nombre ya existe o se crea si no), nunca renombra el guardado por accidente.
+- **Editar una entrada solo cambia esa entrada** (decisión de Víctor). Una casilla «Aplicar también a «X» en Alimentos», desmarcada por defecto, permite corregir el alimento a propósito.
+- `foodsRepo.crear/actualizar` recalculan `nombreNorm` y lanzan `NombreDuplicadoError` con un mensaje en español, que Alimentos y la edición muestran.
+- `buscarPorNombre` es el único punto de búsqueda por nombre: los alias de la fusión de duplicados (E2, Fase 4) se añadirán ahí.
+
+## 18. Medias reales en el Resumen (P1)
+
+La media diaria dividía entre **todos** los días del periodo, futuros incluidos: a día 5 del mes salía unas 6 veces más baja de lo real. `resumenPeriodo(entries, fechas, hoy)` solo cuenta los días con al menos una entrada y fecha ≤ hoy, y el Resumen lo indica («De 3 días registrados»). Con los datos del fixture, la media del mes pasó de ≈ 56 a 559 kcal, que es lo que da el cálculo a mano.
+
+## 19. Deshacer al borrar (P8)
+
+Borrar una entrada en Hoy era inmediato. Ahora `entriesRepo.borrar` devuelve la entrada borrada, y un `Toast` de 5 s ofrece «Deshacer», que la vuelve a guardar con **el mismo id** (`bulkPut`). El toast deja libre la esquina del botón flotante «+» y queda por encima de la barra inferior.
+
+## 20. Backup v2 (P9) y su regla de migración
+
+El documento de ideas decía que los backups antiguos «dejarían de importarse»; en realidad eso solo pasaría si se exigiera la versión nueva. Los riesgos reales eran otros tres:
+
+1. importar solo vaciaba las 7 tablas conocidas, así que una tabla nueva conservaría datos viejos tras importar;
+2. los registros importados se saltan los `upgrade()` de Dexie;
+3. importar sobrescribía la API key del móvil (y el backup la exportaba en claro).
+
+El backup v2 (`shared/lib/backup.ts`):
+
+- `migrarBackup(raw)` es una función pura que valida y convierte cualquier versión conocida a la actual (v1 → v2: mismos registros, solo se añaden metadatos: `dbVersion` e `incluyeApiKey`). Un backup de una versión más nueva se rechaza con un mensaje claro.
+- Al importar se vacían **todas** las tablas (`db.tables`), no solo las conocidas.
+- La API key **no se exporta por defecto** (casilla en Ajustes, desmarcada y sin guardarse). Al importar, si el móvil ya tiene una key, se conserva; si no, se usa la del backup.
+- **Reglas para el futuro**, escritas también en `db.ts` y `backup.ts`: añadir una tabla nueva la hace *opcional* en el backup (si falta, se importa vacía) y no sube la versión. Cambiar la forma de los registros, o un `upgrade()` que transforme datos, obliga a añadir el paso equivalente en `migrarBackup`.
+
+## 21. IA desacoplada y reintentos (P10)
+
+`shared/ai/gemini.ts` ahora solo sabe hacer una llamada `generarJson({ apiKey, modelo, parts, schema })`: el fetch, los errores en español y los reintentos. El prompt, el schema y la validación de «interpretar comida» viven en `features/nutricion/lib/prompts/interpretarComida.ts`. Las tareas futuras (foto de etiqueta, foto del plato…) serán otro archivo de prompt, sin tocar el cliente.
+
+Se adelantó a esta fase **P10** (decisión de Víctor): los 500/502/503/504 puntuales, como el 503 «modelo con mucha demanda» visto en la sesión 01, se reintentan 2 veces con esperas de 1 s y 3 s. Si siguen fallando, sale «Gemini está saturado ahora mismo. Prueba en unos segundos.». Un 429 (cuota agotada) no se reintenta. La espera se inyecta en los tests para que no tarden.
+
+## 22. Carga diferida de las gráficas
+
+`Resumen` (Nutrición) y `Progreso` (Gym, donde solo cambió esa línea de import) se cargan con `React.lazy`. Recharts sale del arranque: el chunk principal bajó de 738 kB a 366 kB y desapareció el aviso de «chunks > 500 kB». El service worker precachea también los chunks diferidos, así que la app sigue funcionando sin conexión.
+
+## 23. Verificación end-to-end de la Fase 0
+
+Probado en el navegador integrado en vista móvil (375×812), en el origen de pruebas. Gemini se simuló sustituyendo `fetch` solo para `generativelanguage.googleapis.com` (primero un 503 y después una respuesta válida) y con una clave ficticia en Ajustes, así que no hubo red real ni se gastó cuota. Resultados:
+
+- Reintento: 2 llamadas separadas ~1 s, y la revisión usa los valores guardados de un alimento conocido.
+- P4: reutilizar sin cambios mantiene `gemini`; cambiar las kcal muestra el aviso y lo deja en `manual`. P11: renombrar crea otro alimento y el original queda intacto.
+- P5: sin la casilla solo cambia la entrada; con ella, también el alimento.
+- P12: el mensaje de nombre duplicado aparece sin errores en consola, y «platano» encuentra «Plátano».
+- P1: la media del mes es la de los 3 días registrados. P8: «Deshacer» recupera la entrada con el mismo id.
+- P9: el export es `version: 2` y sin key; el **backup v1 de referencia se importó por el input real de archivo** y restauró exactamente los datos, conservando la key del móvil.
+- Diseño: sin scroll horizontal en ninguna pantalla y todos los inputs de Nutrición a 16 px. Aquí apareció un fallo que ya existía: el nombre editable de la tarjeta de revisión tenía `text-sm` (14 px), que pisa la regla global y en iOS provoca zoom al tocarlo. Se corrigió a `text-base`. El `NumberStepper` compacto del Gym tiene el mismo problema, pero Gym quedaba fuera de esta iteración y queda anotado.
+
+## 24. Nutrición v2 — Fase 1: esquema v2 y añadido rápido con buscador (A3)
+
+- `db.version(2)` añade la tabla `meals` (plantillas, para A1) sin `upgrade()`: es una tabla nueva y vacía, y `Entry.rapida` (A5) es un campo opcional sin índice, así que los backups v1/v2 anteriores siguen entrando igual. Test de migración real: se crea una base de datos solo con v1, se llena, se cierra y se reabre con el código nuevo (`new AppFitDB(...)`), comprobando `verno === 2`, que los datos siguen intactos y que `meals` existe vacía.
+- El añadido rápido (`QuickAddGrid`, en `AnadirComida`) muestra ahora los alimentos más usados en la comida actual en vez de solo los últimos tocados: `rankFrecuentes(entries, { comida, hoy })` en `features/nutricion/lib/alimentos.ts` puntúa cada alimento (3 si el uso fue en la misma comida, 1 si fue en otra, ventana de 60 días) y excluye las entradas sin alimento o marcadas `rapida`. Hay un buscador encima que ignora tildes (`filtrarAlimentos`, con `normalizeName`) sobre todos los alimentos guardados, no solo los frecuentes.
+- Efecto colateral necesario: `entriesRepo.anadirDesdeAlimento` (añadido rápido) dejó de actualizar `updatedAt` del alimento, para que "frecuente en Nutrición" y "reciente en Alimentos" no se mezclen.
+
+## 25. A5 — Kcal rápidas
+
+- Nueva entrada sin alimento asociado (`Entry.rapida: true`, `gramos: 0`, sin `foodId`), para una comida fuera que no merece registrarse con detalle. `validarKcalRapidas` (`lib/alimentos.ts`) exige las kcal (> 0) y deja prot/carb/grasa opcionales (0 por defecto); si el nombre se deja vacío, usa «Comida fuera» (el mismo texto que el placeholder del campo).
+- UI: botón «Kcal rápidas» en `AnadirComida`, junto al añadido rápido sin IA, que abre `KcalRapidasSheet`.
+- **Decisión de flujo importante**: tocar una entrada `rapida` en Hoy no puede pasar por la pantalla de revisión normal, porque esa pantalla reconstruye los valores por 100 g dividiendo por los gramos (`por100DesdeEntrada`), y una entrada rápida tiene 0 g. `NutricionTab` detecta `entry.rapida` en `onEditarEntry` y abre directamente el mismo `KcalRapidasSheet` en modo edición (`entriesRepo.editarRapida`), sin tocar `AnadirComida` ni la revisión.
+- Hoy la muestra sin «0 g», con los macros que no sean cero: «≈ 900 kcal · P40 · rápida».
+- No hizo falta tocar `rankFrecuentes`: ya excluía las entradas `rapida` desde el punto 24 (A3), así que las kcal rápidas no ensucian los frecuentes del añadido rápido.
+
+## 26. A2 — Copiar comida o día
+
+- Lógica pura `planCopia(entries, destino, ahora)` en el nuevo `features/nutricion/lib/plantillas.ts` (que en A1 sumará la lógica de plantillas propiamente dicha): prepara el snapshot a insertar —mismos valores, alimento, `rapida`, etc., `createdAt` nuevo y sin `id`—; si `destino.comida` no se especifica, cada entrada conserva la suya (para "copiar el día entero" conservando cada comida).
+- `entriesRepo.copiar({ origen, destino })` (atómico dentro de `db.transaction`) y `entriesRepo.borrarVarias(ids)` (borra varias y las devuelve, para poder deshacer con `restaurar`, igual que P8).
+- En Hoy: el «⋯» de cada cabecera de comida abre un sheet con el formulario de copia (fecha destino con `<input type="date" max={hoy}>` y comida destino, por defecto la misma comida; en el punto 27 se convierte en el menú `AccionesComidaSheet`, con una segunda opción). El «⋯» de la cabecera de fecha abre `CopiarDiaSheet` (solo la fecha; conserva la comida de cada entrada). Tras copiar sale un toast «N entradas copiadas · Deshacer».
+- Si una comida está vacía y el día anterior tiene entradas en esa misma comida, aparece el enlace «Repetir del día anterior (N)», que copia directamente sin abrir ningún sheet.
+- El `Toast` de Hoy se generalizó: en vez de guardar las entradas a restaurar, guarda una función `onDeshacer` cualquiera (una closure), para reutilizar el mismo mecanismo al borrar una entrada y al deshacer una copia.
+- **Corrección durante la verificación manual en navegador**: `<input type="date" max={hoy}>` no impide por sí solo que el valor programático supere `max` —el atributo solo restringe el selector nativo, no bloquea una escritura directa de `.value`—; se comprobó copiando a `hoy + 2` con el input, que se guardó sin avisar. Se añadió `fechaDestino > todayISO()` a la condición que deshabilita el botón «Copiar» en los dos sheets, así que no se puede confirmar una copia a un día futuro aunque se fuerce la fecha.
+
+## 27. A1 — Plantillas
+
+- **Lógica pura** en `features/nutricion/lib/plantillas.ts` (el mismo archivo de A2, tal como preveía el plan):
+  - `itemsDesdeEntradas(entries)`: snapshot de cada entrada como `MealItem` (sin fecha/id/createdAt/textoOriginal), en objetos nuevos (nunca la misma referencia que la entrada de origen).
+  - `resolverItemsPlantilla(items, foodsById)`: por cada ítem, si su `foodId` sigue existiendo en `foodsById` usa los valores **actuales** de ese alimento escalados a los gramos guardados (`macrosPorGramos`); si no (se borró, o el ítem es una «rápida» sin `foodId`), devuelve una **copia** del snapshot guardado en el ítem.
+  - `entradasDesdePlantilla(meal, foodsById, destino, ahora)`: aplica `resolverItemsPlantilla` y da a cada resultado la fecha/comida de destino, `createdAt` nuevo y sin id.
+  - Estas tres funciones siempre devuelven objetos nuevos, nunca el mismo objeto de entrada/ítem: hay un test explícito por función que muta el resultado y comprueba que el original (la entrada, el ítem de la plantilla, o `meal.items`) no cambia.
+- **`foodsRepo.porIds(ids)`**: alimentos por id en una sola lectura (`bulkGet` + filtro), para resolver los ítems de una plantilla sin una consulta por alimento.
+- **`mealsRepo.ts`** (nuevo, junto a `foodsRepo`/`entriesRepo`):
+  - `listar()` (por `usadoAt` descendente), `obtener(id)`, `borrar(id)`.
+  - `actualizar(id, { nombre?, items? })`: lectura + `put` dentro de una transacción (no `update`, porque el `UpdateSpec` de Dexie no tipa bien un reemplazo completo de un campo array como `items`).
+  - `crearDesdeEntradas({ nombre, comida?, entries })`: una escritura; `usadoAt` se inicializa igual que `createdAt`, así la plantilla recién creada aparece la primera en la lista aunque no se haya usado nunca.
+  - `aplicar(id, { fecha, comida })`: **tx rw meals+foods+entries**. Resuelve los ítems con los valores actuales (o el snapshot), inserta las entradas con `bulkAdd` e incrementa `usos`/`usadoAt`. Si la plantilla no existe o no tiene ítems, no hace nada (no cuenta como «uso»). Todo o nada: un fallo en la inserción no deja ni entradas nuevas ni `usos` incrementado.
+- **UI — crear**: el «⋯» de una comida en Hoy pasó a abrir `AccionesComidaSheet`, un menú de dos pasos: «Copiar a otro día…» (el formulario de A2, sin cambios de comportamiento) y «Guardar como plantilla…» (pide un nombre, con el placeholder «Mi {comida} de siempre»). Guardar muestra el mismo tipo de toast que copiar («Plantilla «X» guardada», sin «Deshacer»: no hacía falta generalizar más el toast porque ya admitía una acción opcional desde A2).
+- **UI — usar**: `PlantillasLista` (sección «Plantillas» en `AnadirComida`, encima del añadido rápido, ordenada por `usadoAt`; oculta si no hay ninguna). Al tocar una, `AplicarPlantillaSheet` resuelve los ítems en vivo (mismo `resolverItemsPlantilla` que usa `mealsRepo.aplicar`, así la vista previa nunca miente sobre lo que se va a guardar) y muestra cada alimento con sus gramos y kcal, el total, y un botón «Añadir a {la comida actual de AnadirComida}» (no la comida de origen de la plantilla, que es solo informativa).
+- **UI — gestionar**: en Alimentos, `SegmentedControl` «Alimentos | Plantillas». La lista de plantillas abre `GestionPlantillaSheet`: renombrar, cambiar los gramos de un ítem (recalcula sus macros con la densidad implícita del propio snapshot del ítem —`por100DesdeEntrada`, reutilizado tal cual porque `MealItem` tiene la misma forma que necesita—, sin tocar el alimento en vivo ni volver a consultarlo), quitar un ítem, o borrar la plantilla entera. Los ítems «rápida» no muestran el stepper de gramos (no tienen gramos con sentido).
+- **Aceptación verificada a mano**: se creó un alimento a 150 kcal/100g, se añadió a Desayuno (210 g) y se guardó como plantilla; se cambió el alimento a 200 kcal/100g en Alimentos; al aplicar la plantilla en Cena, la vista previa y la entrada guardada usaron 200 kcal/100g (no los 150 originales). Borrando después el alimento y aplicando la plantilla otra vez, se usó el snapshot guardado (sin errores en consola).
+- **Bug de diseño encontrado y corregido en la verificación manual**: en `GestionPlantillaSheet`, la fila de cada ítem ponía el nombre+kcal (`min-w-0 flex-1`) en la misma fila que el `NumberStepper` y el botón de borrar; como estos dos últimos no tienen `min-w-0`, en 375 px se quedaban con todo el ancho y el nombre se quedaba a 0 px (visible solo un fragmento de la cifra de kcal). Se corrigió apilando nombre+borrar arriba y kcal+stepper abajo, en dos filas en vez de una.
+
+## 28. D1 — Resumen navegable (P2)
+
+- **`dates.ts`**: `PeriodoRango` (`'semana' | 'mes'`) y cuatro funciones puras:
+  - `fechasPeriodo(rango, iso)`: reutiliza `weekDates`/`monthDates` según el rango.
+  - `desplazarPeriodo(rango, iso, delta)`: en semana, `addDays(iso, delta * 7)`. En mes, **ancla siempre en el día 1 antes de cambiar de mes** (`new Date(year, month + delta, 1)`); si no se fija el día antes, desplazar desde el día 31 se desborda en los meses cortos (31 de enero + 1 mes con `setMonth` sin fijar el día caería en marzo, no en febrero, porque el día 31 no existe en febrero y JS lo normaliza al mes siguiente).
+  - `etiquetaPeriodo(rango, iso)`: «22–28 sep» (semana dentro del mismo mes), «28 sep – 4 oct» (cruza de mes, sin año) o «septiembre 2026» (mes). La semana nunca muestra el año, ni siquiera al cruzar de diciembre a enero.
+  - `esPeriodoActual(rango, iso)`: el periodo que contiene `iso` es el mismo que contiene hoy → no se puede avanzar más allá.
+  - Tests (12 nuevos en `dates.test.ts`): cambio de mes desde el día 31 (enero→febrero sin saltarse a marzo, marzo→febrero al retroceder), diciembre→enero y enero→diciembre cruzando de año, semana que cruza de mes y de año en la etiqueta, y `esPeriodoActual` para impedir avanzar al futuro.
+- **`Resumen.tsx`**: `fechaAncla` (estado, inicial `todayISO()`) sustituye a los `weekDates(todayISO())`/`monthDates(todayISO())` fijos. Cambiar de «Semana» a «Mes» (o viceversa) resetea `fechaAncla` a hoy, para no aterrizar en un periodo derivado raro al cambiar de rango tras navegar hacia atrás.
+  - Fila «‹ {etiqueta} ›» con el mismo estilo que la navegación de fecha de `Hoy.tsx` (botones redondos 36 px). El botón «›» se deshabilita (`disabled:opacity-30`) con `esPeriodoActual`, igual que en `Hoy.tsx`.
+  - **Nueva gráfica «Kcal por día»** (antes solo estaba la de macros) con `<ReferenceLine y={objetivos.kcal}>` marcando el objetivo.
+  - **Bug encontrado en la verificación manual**: por defecto, una `ReferenceLine` de Recharts **no extiende el dominio del eje Y** aunque se le pase `ifOverflow="extendDomain"` — en la prueba, con kcal diarias de ~400 y un objetivo de 2200, la línea se dibujaba fuera del área visible del gráfico (coordenadas Y negativas) y no llegó a verse. Se corrigió en su lugar fijando el propio `domain` del `YAxis`: `domain={[0, (dataMax) => Math.max(dataMax, objetivos.kcal)]}`, así el eje siempre llega al menos hasta el objetivo. Verificado con capturas: la línea aparece en 2200 kcal aunque los datos reales del fixture sean mucho más bajos.
+  - La tarjeta «Media diaria» ahora muestra «valor / objetivo» para las 4 métricas (antes solo el valor), igual que hace `MacroBar` en Hoy.
+- **Verificado a mano en el origen de pruebas (375×812)**: navegación semana atrás/adelante con la etiqueta correcta y «›» deshabilitado en el periodo actual; cambio a «Mes» resetea al mes actual; retroceder dos meses desde septiembre pasa por agosto (31 días) sin saltarse ningún mes; sin scroll horizontal (`scrollWidth === innerWidth === 375`) y sin errores en consola en ningún paso.
+
+## 29. Verificación E2E de la Fase 1 (§7 del plan) y cierre de fase
+
+Con D1 terminado, se hizo la verificación conjunta de toda la Fase 1 que pedía el plan (§7, «Tras la F1»), en un origen de pruebas nuevo (`http://appfit-upgrade.localhost:5173`) para no tocar ni el origen de pruebas de la Fase 0 ni los datos reales de `localhost`.
+
+1. **Upgrade real v1→v2**: se creó a mano, con la API cruda de IndexedDB (sin pasar por Dexie), una base de datos `appfit` en la versión 10 que replica exactamente el esquema `version(1)` de `db.ts` (mismos object stores, key paths e índices, incluido el índice compuesto `[exerciseId+createdAt]`), con datos de prueba en las 5 tablas con datos (`foods`, `entries`, `settings`, `exercises`, `routines`). Al cargar la app real (que declara `version(2)`), Dexie hizo el upgrade en caliente a la versión 20: `meals` apareció vacía, el resto de tablas conservó sus recuentos exactos, y la UI (Hoy, con el día siguiente al de los datos de prueba) mostró las entradas migradas correctamente. Sin errores en consola.
+2. **Importar `backup-v1.json` bajo el esquema v2**: con esa misma base ya en v2, se importó el fixture v1 (idéntico a `src/test/fixtures/backup-v1.json`) por el input real de archivo (`DataTransfer` + evento `change`, como en la Fase 0). Mensaje «Backup importado correctamente», los recuentos de todas las tablas pasaron a coincidir exactamente con el fixture (9 entries, 4 foods, 2 exercises, 1 routine, 1 workout, 5 sets) y `meals` quedó vacía (el backup v1 no la trae, y al importar se vacían todas las tablas, conocidas o no). La API key del móvil (`clave-ficticia-v1`) se conservó porque el backup traía `apiKey: ''` (regla P9).
+3. **A3**: en «Añadir comida», «Frecuentes en el snack» mostró los 4 alimentos usados; el buscador encontró «Plátano» escribiendo «platano» sin tilde.
+4. **A5**: se creó una entrada «Kcal rápidas» (900 kcal, P40) desde Snack; se vio en Hoy como «≈ 900 kcal · P40 · rápida» sin «0 g», sumó bien a los totales del día, y tocarla volvió a abrir el mismo sheet (no la revisión normal) con los valores precargados.
+5. **A2**: «Repetir del día anterior» copió la entrada esperada con el toast «1 entrada copiada · Deshacer»; deshacer la quitó y los totales bajaron a lo que había antes (comprobado con dos ejecuciones: deshacer dentro de los 5 s revierte, y dejar pasar los 5 s deja el borrado/copia en firme, regresión de P8 confirmada de paso). El menú «⋯ → Copiar a otro día…» copió correctamente a la fecha y comida elegidas. Se repitió también la comprobación de la Fase 1 de que forzar una fecha futura en el input (vía JS, saltándose el `max` del picker) mantiene el botón «Copiar» deshabilitado.
+6. **A1**: se guardó «Comida» del día como plantilla («Mi comida de prueba»), se aplicó desde «Añadir comida» (vista previa con el total correcto) a Snack. Se cambió después el alimento «Yogur natural» de 61 a 100 kcal/100 g en Alimentos y se volvió a abrir la vista previa de la misma plantilla: pasó de 76 a 125 kcal para los mismos 125 g, confirmando que usa el valor **actual** del alimento, no uno congelado.
+7. **D1**: ya verificado en el punto 28, en el origen de pruebas de la Fase 0.
+8. **Backup v2 con `meals`**: se interceptó `URL.createObjectURL` para capturar el JSON que genera el botón «Exportar» sin depender de la descarga real del navegador. El backup incluyó `version: 2`, `meals` con la plantilla creada en el punto 6, y `apiKey: ''` (casilla «Incluir la API key» desmarcada). Ese mismo JSON se reimportó por el input real de archivo: todos los recuentos de tabla (incluida `meals`) coincidieron exactamente con los del export, y la API key del móvil se conservó. Sin errores en consola ni scroll horizontal en ningún paso de toda la verificación (`scrollWidth === innerWidth === 375`).
+
+**Conclusión**: 167 tests en verde, `npm run build` sin errores, y el checklist completo de §7 pasado sin encontrar ningún bug nuevo (los únicos bugs de esta sesión —el `ReferenceLine` de D1 y el bug de infraestructura que cortó la sesión anterior— ya están descritos y corregidos). **Fase 1 (Nutrición v2) dada por terminada.** Sigue sin haber ningún commit; todo el trabajo de Fase 0 y Fase 1 está en el árbol de trabajo, pendiente de que Víctor lo revise y decida cuándo commitear.
+
+## 30. Gym a `features/`, repositorios de Gym y patrón de borrado
+
+Gym era lo último que seguía en la estructura antigua (`src/pages`, `src/lib`). Ahora vive en `src/features/gym/` con la misma forma que Nutrición: `GymTab.tsx`, `pages/` (GymHome, Rutinas, Historial, Progreso, EntrenoActivo), `lib/workout.ts` (+ test) y `data/`. Las carpetas `src/pages` y `src/lib` desaparecen.
+
+1. **Repositorios de Gym** (`features/gym/data/`): `exercisesRepo` (`obtenerOCrear` atómico por `nombreNorm`), `routinesRepo` (listar, obtener, guardar, borrar), `workoutsRepo` (activo, terminados, listar, empezar, terminar) y `setsRepo` (todas, delWorkout, delEjercicio, agregar, agregarConEjercicio, actualizar, borrar, restaurar). Tests en `gymRepos.test.ts`.
+   - `workoutsRepo.empezar` es transaccional: si ya hay un entreno activo devuelve ese, así un doble toque no crea dos activos.
+   - `setsRepo.agregar` calcula el `orden` (máximo + 1) dentro de la transacción, y toma reps/peso de la última serie del ejercicio con el índice `[exerciseId+createdAt]`; un doble toque en «Serie» ya no repite orden. La lógica pura está en `lib/workout.ts` (`valoresNuevaSerie`, `siguienteOrden`). `agregarConEjercicio` crea el ejercicio (si no existe) y la serie en una sola transacción.
+2. **La regla de acceso a `db` ya cubre todas las features**: solo `features/*/data/*Repo.ts` importa `db`. Lo vigila `shared/db/acceso.test.ts`, cuya regex detecta también `import()` dinámico.
+3. **`useAviso`** (`shared/hooks/useAviso.tsx`, carpeta nueva): devuelve `{ avisar, avisarError, toast }` y soporta `onDeshacer` (si deshacer falla, avisa del error). `Hoy.tsx` se migró a él sin cambiar su comportamiento. El Toast queda por debajo de los Sheet (z-40 frente a z-50), por eso dentro de un Sheet los errores se muestran en línea con `ErrorState`.
+4. **Regla de borrado, decidida por Víctor**: rutinas y plantillas → confirmación previa con el nuevo primitive `ConfirmacionDestructiva`; filas sueltas (series, entradas, alimentos) → borrado inmediato con aviso «Deshacer». Implementado en: serie (`EntrenoActivo`, `setsRepo.borrar` devuelve la serie y `restaurar` la repone), alimento (`foodsRepo.borrar` ahora devuelve el `Food` y `foodsRepo.restaurar` lanza `NombreDuplicadoError` si entretanto se creó otro con el mismo nombre), rutina (`Rutinas`) y plantilla (`GestionPlantillaSheet`). Las entradas de Hoy ya tenían deshacer. Ver [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) («Patrón de borrado»).
+5. **Errores**: todas las escrituras de Gym van con `try/catch` (toast de error fuera de sheets, `ErrorState` dentro); el borrado de alimento y de plantilla muestra el error en línea.
+6. **Sin cambios de esquema Dexie ni de backup**: el esquema de Gym es idéntico y `migrarBackup` ya cubre sus tablas.
+
+**Verificación**: 285 tests, `tsc -b` y build en verde. Prueba en navegador (Edge headless por CDP, origen `http://appfit-test.localhost:5173`, 375×812): 26/26 comprobaciones OK (doble toque en entreno → 1 activo; doble toque en Serie → órdenes distintos; borrar/deshacer serie y alimento conservando el id; confirmar y cancelar en rutina y plantilla; avisos de error forzando fallos de IndexedDB; sin scroll horizontal).
+
+**Pendiente observado (preexistente, no tocado)**: en `EntrenoActivo` a 375 px los `NumberStepper` compactos no muestran el valor numérico (campo muy estrecho); y en Rutinas sale «1 ejercicios» sin singular.
