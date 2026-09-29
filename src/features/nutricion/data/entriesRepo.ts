@@ -97,6 +97,31 @@ export async function anadirDesdeAlimento({ fecha, comida, foodId, gramos }: Ana
   })
 }
 
+export interface AnadirDesdeCatalogoInput {
+  fecha: string
+  comida: Comida
+  catalogId: string
+  gramos: number
+}
+
+/**
+ * Añadido rápido desde el catálogo: entrada con `catalogId` y el snapshot de sus valores actuales, sin crear
+ * ningún alimento en «Alimentos». Devuelve `undefined` si ese alimento ya no está en el catálogo.
+ */
+export async function anadirDesdeCatalogo({ fecha, comida, catalogId, gramos }: AnadirDesdeCatalogoInput): Promise<number | undefined> {
+  const food = await db.catalogFoods.get(catalogId)
+  if (!food) return undefined
+  return db.entries.add({
+    fecha,
+    comida,
+    catalogId: food.id,
+    nombre: food.nombre,
+    gramos,
+    ...macrosPorGramos(food, gramos),
+    createdAt: Date.now(),
+  })
+}
+
 export interface AnadirRapidaInput extends KcalRapidasDraft {
   fecha: string
   comida: Comida

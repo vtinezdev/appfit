@@ -1,4 +1,5 @@
-import type { Comida, Entry, Food, FuenteAlimento } from '../../../shared/db/types'
+import { claveRef, refDe, type FoodRef } from '../../../shared/db/foodRef'
+import type { CatalogFood, Comida, Entry, Food, FuenteAlimento } from '../../../shared/db/types'
 import { addDays } from '../../../shared/lib/dates'
 import { round1 } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
@@ -106,24 +107,51 @@ export function actualizaAlimentoGuardado(item: ItemRevision): boolean {
 export const VENTANA_FRECUENTES_DIAS = 60
 
 /**
- * Ids de alimentos ordenados por uso en los últimos `dias`: cada uso en la misma comida (desayuno, cena…)
- * vale 3 puntos y en otra comida, 1. En caso de empate gana el usado más recientemente.
- * Las entradas rápidas o sin alimento no cuentan.
+ * Referencias a alimentos (propios o del catálogo) ordenadas por uso en los últimos `dias`: cada uso en la misma
+ * comida (desayuno, cena…) vale 3 puntos y en otra comida, 1. En caso de empate gana el usado más recientemente.
+ * Las entradas rápidas o sin alimento no cuentan, y tampoco una entrada que incumpla el invariante de `foodRef`
+ * (se ignora en vez de romper la lista).
  */
 export function rankFrecuentes(
   entries: Entry[],
   { comida, hoy, dias = VENTANA_FRECUENTES_DIAS }: { comida: Comida; hoy: string; dias?: number },
-): number[] {
+): FoodRef[] {
   const desde = addDays(hoy, -(dias - 1))
-  const stats = new Map<number, { puntos: number; ultimo: number }>()
+  const stats = new Map<string, { ref: FoodRef; puntos: number; ultimo: number }>()
   for (const e of entries) {
-    if (e.foodId === undefined || e.rapida || e.fecha < desde || e.fecha > hoy) continue
-    const s = stats.get(e.foodId) ?? { puntos: 0, ultimo: 0 }
+    if (e.rapida || e.fecha < desde || e.fecha > hoy) continue
+    let ref: FoodRef | undefined
+    try {
+      ref = refDe(e)
+    } catch {
+      continue
+    }
+    if (!ref) continue
+    const clave = claveRef(ref)
+    const s = stats.get(clave) ?? { ref, puntos: 0, ultimo: 0 }
     s.puntos += e.comida === comida ? 3 : 1
     s.ultimo = Math.max(s.ultimo, e.createdAt)
-    stats.set(e.foodId, s)
+    stats.set(clave, s)
   }
-  return [...stats.entries()].sort(([, a], [, b]) => b.puntos - a.puntos || b.ultimo - a.ultimo).map(([id]) => id)
+  return [...stats.values()].sort((a, b) => b.puntos - a.puntos || b.ultimo - a.ultimo).map((s) => s.ref)
+}
+
+/**
+ * Un alimento que se puede elegir para añadirlo con sus gramos: uno propio (`foods`) o uno del catálogo.
+ * `detalle` es una línea secundaria opcional (la categoría del catálogo).
+ */
+export interface AlimentoElegible extends Por100 {
+  ref: FoodRef
+  nombre: string
+  detalle?: string
+}
+
+export function elegibleDeFood(f: Food): AlimentoElegible {
+  return { ref: { tipo: 'user', id: f.id }, nombre: f.nombre, ...valoresDe(f) }
+}
+
+export function elegibleDeCatalogo(f: CatalogFood): AlimentoElegible {
+  return { ref: { tipo: 'catalog', id: f.id }, nombre: f.nombre, detalle: f.categoria, ...valoresDe(f) }
 }
 
 /** Formulario de «Kcal rápidas» (A5): una comida fuera que no merece registrarse con detalle. */

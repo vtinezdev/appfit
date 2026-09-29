@@ -27,6 +27,7 @@ export function planCopia(entries: Entry[], destino: DestinoCopia, ahora: number
     fecha: destino.fecha,
     comida: destino.comida ?? e.comida,
     foodId: e.foodId,
+    catalogId: e.catalogId,
     nombre: e.nombre,
     gramos: e.gramos,
     kcal: e.kcal,
@@ -43,6 +44,7 @@ export function planCopia(entries: Entry[], destino: DestinoCopia, ahora: number
 export function itemsDesdeEntradas(entries: Entry[]): MealItem[] {
   return entries.map((e) => ({
     foodId: e.foodId,
+    catalogId: e.catalogId,
     nombre: e.nombre,
     gramos: e.gramos,
     kcal: e.kcal,
@@ -94,6 +96,7 @@ export function entradasDesdePlantilla(meal: Meal, foodsById: Map<number, Food>,
     fecha: destino.fecha,
     comida: destino.comida,
     foodId: item.foodId,
+    catalogId: item.catalogId,
     nombre: item.nombre,
     gramos: item.gramos,
     kcal: item.kcal,

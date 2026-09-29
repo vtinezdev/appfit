@@ -1,10 +1,13 @@
-import { db } from '../db/db'
+import { db, TABLAS_USUARIO } from '../db/db'
 import { conDefaults } from '../db/settings'
 import type { Entry, Exercise, Food, Meal, Routine, SetEntry, Settings, Workout } from '../db/types'
 
 /**
  * Formato del backup JSON. Reglas para cambiarlo:
- * - Añadir una tabla nueva: va en TABLAS_OPCIONALES (si falta en un backup, se importa vacía). No sube la versión.
+ * - El catálogo de alimentos (`TABLAS_CATALOGO`) NUNCA entra: es re-descargable y puede ser grande. Solo se
+ *   exportan, importan y borran las `TABLAS_USUARIO`; una tabla de datos del usuario nueva va en esa lista.
+ * - Añadir una tabla nueva de usuario: va en TABLAS_OPCIONALES (si falta en un backup, se importa vacía). No sube la versión.
+ * - Campos opcionales nuevos en los registros (p. ej. `catalogId` en entries) no cambian la versión.
  * - Cambiar la forma de los registros: sube BACKUP_VERSION y se añade el paso correspondiente en `migrarBackup`.
  *   Lo mismo si un `upgrade()` de Dexie transforma registros, porque importar se salta los upgrades.
  */
@@ -30,13 +33,16 @@ export interface BackupV2 {
   meals?: Meal[]
 }
 
+/** Las tablas de datos del usuario (todas menos el catálogo). */
+const usuarioTablas = () => TABLAS_USUARIO.map((t) => db.table(t))
+
 export class BackupError extends Error {}
 
 const ERROR_FORMATO = 'El archivo no tiene el formato de backup de AppFit.'
 
 /** Exporta todas las tablas en una lectura coherente. La API key solo se incluye si se pide. */
 export async function exportarBackup({ incluirApiKey = false }: { incluirApiKey?: boolean } = {}): Promise<BackupV2> {
-  return db.transaction('r', db.tables, async () => {
+  return db.transaction('r', usuarioTablas(), async () => {
     const [foods, entries, settings, exercises, routines, workouts, sets, meals] = await Promise.all([
       db.foods.toArray(),
       db.entries.toArray(),
@@ -115,8 +121,8 @@ export function migrarBackup(raw: unknown): BackupV2 {
 }
 
 /**
- * Sustituye todos los datos locales por los del backup: vacía **todas** las tablas (también las que el backup
- * no trae) y las rellena. De los ajustes se toma todo del backup salvo la API key: si el móvil ya tiene una,
+ * Sustituye todos los datos locales por los del backup: vacía **todas las tablas de usuario** (también las que el backup
+ * no trae, pero no el catálogo) y las rellena. De los ajustes se toma todo del backup salvo la API key: si el móvil ya tiene una,
  * se conserva; si no, se usa la del backup.
  */
 export async function importarBackup(json: string): Promise<void> {
@@ -128,9 +134,9 @@ export async function importarBackup(json: string): Promise<void> {
   }
   const backup = migrarBackup(data)
 
-  await db.transaction('rw', db.tables, async () => {
+  await db.transaction('rw', usuarioTablas(), async () => {
     const actual = await db.settings.get(1)
-    await Promise.all(db.tables.map((t) => t.clear()))
+    await Promise.all(usuarioTablas().map((t) => t.clear()))
     for (const t of TABLAS_OBLIGATORIAS) {
       if (t !== 'settings') await db.table(t).bulkAdd(backup[t])
     }
@@ -142,8 +148,9 @@ export async function importarBackup(json: string): Promise<void> {
   })
 }
 
+/** Borra solo los datos del usuario: el catálogo se conserva. */
 export async function borrarTodosLosDatos(): Promise<void> {
-  await db.transaction('rw', db.tables, async () => {
-    await Promise.all(db.tables.map((t) => t.clear()))
+  await db.transaction('rw', usuarioTablas(), async () => {
+    await Promise.all(usuarioTablas().map((t) => t.clear()))
   })
 }

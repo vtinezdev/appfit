@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { getSettings, updateSettings } from '../shared/db/settings'
 import { borrarTodosLosDatos, descargarBackup, exportarBackup, importarBackup } from '../shared/lib/backup'
+import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
 import { Input } from '../shared/components/Input'
 import { LoadingState } from '../shared/components/StateMessage'
 import Button from '../shared/components/Button'
@@ -114,6 +115,8 @@ export default function Ajustes() {
         </div>
         {mensaje && <p className="text-body-sm text-accent">{mensaje}</p>}
       </Card>
+
+      <CatalogoAjustes />
 
       <Card className="space-y-3">
         <SectionHeader tone="destructive">Zona peligrosa</SectionHeader>

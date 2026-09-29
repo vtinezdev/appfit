@@ -1,7 +1,17 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { db } from '../../../shared/db/db'
+import type { CatalogFood } from '../../../shared/db/types'
+import { tokenizar } from '../../../shared/lib/text'
+import * as catalogRepo from './catalogRepo'
 import * as entriesRepo from './entriesRepo'
 import * as foodsRepo from './foodsRepo'
+
+function catalogo(idExterno: string, nombre: string): CatalogFood {
+  return {
+    id: `ciqual:${idExterno}`, fuente: 'ciqual', idExterno, nombre, nombreNorm: nombre.toLowerCase(), tok: tokenizar(nombre),
+    tipo: 'generico', categoria: 'Frutas', kcal100: 90, prot100: 1, carb100: 20, grasa100: 0.3, version: '1', importadoAt: 0,
+  }
+}
 
 const PLATANO: foodsRepo.FoodInput = { nombre: 'Plátano', kcal100: 89, prot100: 1.1, carb100: 22.8, grasa100: 0.3, fuente: 'manual' }
 const ARROZ: foodsRepo.FoodInput = { nombre: 'Arroz blanco', kcal100: 130, prot100: 2.7, carb100: 28, grasa100: 0.3, fuente: 'gemini' }
@@ -83,7 +93,7 @@ describe('foodsRepo', () => {
     const id = await foodsRepo.crear(PLATANO)
     await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-28', comida: 'cena', foodId: id, gramos: 100 })
     await foodsRepo.restaurar((await foodsRepo.borrar(id))!)
-    expect((await foodsRepo.frecuentes({ comida: 'cena', hoy: '2026-09-28' })).map((f) => f.id)).toEqual([id])
+    expect((await foodsRepo.frecuentes({ comida: 'cena', hoy: '2026-09-28' })).map((f) => f.ref.id)).toEqual([id])
   })
 
   it('borrar un alimento que no existe devuelve undefined', async () => {
@@ -112,9 +122,9 @@ describe('foodsRepo.frecuentes y buscar (A3)', () => {
     for (let i = 0; i < 3; i++) await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-27', comida: 'cena', foodId: arroz, gramos: 100 })
     await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-28', comida: 'desayuno', foodId: platano, gramos: 100 })
     const cena = await foodsRepo.frecuentes({ comida: 'cena', hoy: '2026-09-28' })
-    expect(cena.map((f) => f.id).slice(0, 2)).toEqual([arroz, platano])
-    expect(cena.map((f) => f.id)).toContain(kiwi)
-    expect(new Set(cena.map((f) => f.id)).size).toBe(cena.length)
+    expect(cena.map((f) => f.ref.id).slice(0, 2)).toEqual([arroz, platano])
+    expect(cena.map((f) => f.ref.id)).toContain(kiwi)
+    expect(new Set(cena.map((f) => f.ref.id)).size).toBe(cena.length)
   })
 
   it('descarta los alimentos borrados', async () => {
@@ -122,6 +132,21 @@ describe('foodsRepo.frecuentes y buscar (A3)', () => {
     await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-28', comida: 'cena', foodId: platano, gramos: 100 })
     await foodsRepo.borrar(platano)
     expect(await foodsRepo.frecuentes({ comida: 'cena', hoy: '2026-09-28' })).toEqual([])
+  })
+
+  it('incluye alimentos del catálogo usados y descarta los que ya no están en el catálogo', async () => {
+    await catalogRepo.guardarLote([catalogo('13005', 'Plátano, pulpa, crudo'), catalogo('9100', 'Arroz blanco, crudo')])
+    const propio = await foodsRepo.crear(ARROZ)
+    for (let i = 0; i < 2; i++) await entriesRepo.anadirDesdeCatalogo({ fecha: '2026-09-28', comida: 'cena', catalogId: 'ciqual:13005', gramos: 120 })
+    await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-28', comida: 'cena', foodId: propio, gramos: 100 })
+    await entriesRepo.anadirDesdeCatalogo({ fecha: '2026-09-28', comida: 'cena', catalogId: 'ciqual:9100', gramos: 80 })
+    await db.catalogFoods.delete('ciqual:9100') // p. ej. el catálogo se actualizó y ya no lo trae
+    const cena = await foodsRepo.frecuentes({ comida: 'cena', hoy: '2026-09-28' })
+    expect(cena.map((a) => a.ref)).toEqual([
+      { tipo: 'catalog', id: 'ciqual:13005' },
+      { tipo: 'user', id: propio },
+    ])
+    expect(cena[0]).toMatchObject({ nombre: 'Plátano, pulpa, crudo', detalle: 'Frutas', kcal100: 90 })
   })
 
   it('buscar encuentra sin tildes', async () => {
