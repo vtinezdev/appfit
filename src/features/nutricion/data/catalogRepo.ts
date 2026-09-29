@@ -4,16 +4,7 @@
 import { db } from '../../../shared/db/db'
 import { normalizarGtin } from '../../../shared/db/foodRef'
 import type { CatalogFood, CatalogSource, FuenteCatalogo } from '../../../shared/db/types'
-import { normalizeName } from '../../../shared/lib/text'
-
-/**
- * Palabras normalizadas y sin repetir de un texto: los valores del índice `*tok`. Es lo único que se normaliza
- * para buscar (ñ → n, sin tildes, minúsculas): `nombre` y `nombreOriginal` se guardan tal cual para mostrarlos.
- * Separa por lo que no sea letra o número Unicode (así `ß`, `ø` o el griego no desaparecen como separadores).
- */
-export function tokenizar(texto: string): string[] {
-  return [...new Set(normalizeName(texto).split(/[^\p{L}\p{N}]+/u).filter(Boolean))]
-}
+import { tokensConsulta } from '../../../shared/lib/text'
 
 export function obtener(id: string): Promise<CatalogFood | undefined> {
   return db.catalogFoods.get(id)
@@ -39,11 +30,13 @@ export async function buscarPorGtin(gtin: string): Promise<CatalogFood[]> {
  *
  * - Exhaustiva: no hay tope de candidatos, así que un prefijo muy frecuente no oculta coincidencias válidas.
  * - Sin ranking: devuelve las primeras `limite` en el orden del índice (palabra, luego id), no las mejores.
+ *   Quien muestra resultados pide candidatos de sobra y los ordena con `rankCatalogo` (lib/catalogo/ranking).
  *   Si el token guía es muy común y el resto casi nunca coincide, el cursor puede recorrer muchas filas
  *   (memoria constante, pero tiempo proporcional). Se revisará al medir 5.000–10.000 alimentos en WebKit real.
+ * - Las palabras vacías de la consulta («de», «con»…) no filtran (`tokensConsulta`).
  */
 export async function buscar(q: string, limite = 20): Promise<CatalogFood[]> {
-  const tokens = tokenizar(q)
+  const tokens = tokensConsulta(q)
   if (tokens.length === 0) return []
   const [guia, ...resto] = [...tokens].sort((a, b) => b.length - a.length)
   return db.catalogFoods
@@ -96,4 +89,19 @@ export function fuentes(): Promise<CatalogSource[]> {
 
 export function guardarFuente(fuente: CatalogSource): Promise<void> {
   return db.catalogSources.put(fuente).then(() => undefined)
+}
+
+/**
+ * Instala (o actualiza) una fuente: guarda sus filas, borra las de versiones antiguas y, AL FINAL, anota la fuente.
+ * Sin `db.transaction` global a propósito (un paquete grande no cabe en una): `guardarLote` escribe por lotes.
+ * El orden hace que una importación interrumpida se reintente sola en el siguiente arranque, porque la fuente
+ * aún no consta como instalada, y es idempotente (`bulkPut`). Solo toca filas de `meta.id`.
+ */
+export async function importarFuente(meta: CatalogSource, foods: CatalogFood[]): Promise<void> {
+  if (foods.some((f) => f.fuente !== meta.id)) {
+    throw new Error(`Hay alimentos que no son de la fuente «${meta.id}»`)
+  }
+  await guardarLote(foods)
+  await borrarVersionesAntiguas(meta.id, meta.version)
+  await guardarFuente(meta)
 }

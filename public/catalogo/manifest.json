@@ -1,0 +1,13 @@
+{
+  "formato": 1,
+  "fuentes": [
+    {
+      "id": "ciqual",
+      "version": "2025-es1",
+      "archivo": "ciqual-2025-es1.json",
+      "filas": 3323,
+      "licencia": "Licence Ouverte Etalab 2.0",
+      "atribucion": "Fuente: ANSES, Table de composition nutritionnelle des aliments Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Nombres traducidos al español."
+    }
+  ]
+}

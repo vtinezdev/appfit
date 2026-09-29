@@ -13,3 +13,6 @@ dist-ssr
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# catálogo: descargas crudas de fuentes (se regeneran, ver scripts/catalogo/README.md)
+scripts/catalogo/raw/

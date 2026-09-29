@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { camposDeRef, catalogId, normalizarGtin, refDe } from './foodRef'
+import { camposDeRef, catalogId, claveRef, normalizarGtin, refDe } from './foodRef'
 
 describe('refDe / camposDeRef', () => {
   it('distingue alimento del usuario, del catálogo y rápida', () => {
@@ -40,5 +40,13 @@ describe('normalizarGtin', () => {
     expect(normalizarGtin('123')).toBeUndefined()
     expect(normalizarGtin('')).toBeUndefined()
     expect(normalizarGtin('123456789012345')).toBeUndefined()
+  })
+})
+
+describe('claveRef', () => {
+  it('no confunde un alimento propio con uno del catálogo', () => {
+    expect(claveRef({ tipo: 'user', id: 3 })).toBe('user:3')
+    expect(claveRef({ tipo: 'catalog', id: 'ciqual:3' })).toBe('catalog:ciqual:3')
+    expect(claveRef({ tipo: 'user', id: 3 })).not.toBe(claveRef({ tipo: 'catalog', id: '3' }))
   })
 })

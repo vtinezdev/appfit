@@ -39,3 +39,8 @@ export function normalizarGtin(raw: string): string | undefined {
   if (d.length === 14) return d.startsWith('0') ? d.slice(1) : d
   return d.padStart(13, '0')
 }
+
+/** Clave de texto única para una referencia (`user:3`, `catalog:ciqual:1000`), para usarla en Map/Set o como `key`. */
+export function claveRef(ref: FoodRef): string {
+  return `${ref.tipo}:${ref.id}`
+}

@@ -1,10 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import type { Entry, Food } from '../../../shared/db/types'
+import type { FoodRef } from '../../../shared/db/foodRef'
+import type { CatalogFood, Entry, Food } from '../../../shared/db/types'
 import { normalizeName } from '../../../shared/lib/text'
 import {
   aItemGuardado,
   actualizaAlimentoGuardado,
   decidirGuardado,
+  elegibleDeCatalogo,
+  elegibleDeFood,
   filtrarAlimentos,
   mismosValores,
   NOMBRE_RAPIDA_POR_DEFECTO,
@@ -95,12 +98,31 @@ function uso(foodId: number | undefined, fecha: string, comida: Entry['comida'],
   return { id: 0, fecha, comida, foodId, nombre: 'x', gramos: 100, kcal: 0, prot: 0, carb: 0, grasa: 0, createdAt, ...extra }
 }
 
+const ids = (refs: FoodRef[]) => refs.map((r) => r.id)
+
 describe('rankFrecuentes (A3)', () => {
+  it('cuenta alimentos propios y del catálogo sin confundirlos aunque compartan id', () => {
+    const entries = [
+      uso(undefined, '2026-09-28', 'cena', 10, { catalogId: 'ciqual:1' }),
+      uso(undefined, '2026-09-27', 'cena', 5, { catalogId: 'ciqual:1' }),
+      uso(1, '2026-09-28', 'cena', 20),
+    ]
+    expect(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28' })).toEqual([
+      { tipo: 'catalog', id: 'ciqual:1' },
+      { tipo: 'user', id: 1 },
+    ])
+  })
+
+  it('ignora una entrada que referencia a la vez un alimento propio y uno del catálogo', () => {
+    const entries = [uso(1, '2026-09-28', 'cena', 0, { catalogId: 'ciqual:1' }), uso(2, '2026-09-28', 'cena')]
+    expect(ids(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28' }))).toEqual([2])
+  })
+
   it('pesa más los usos en la misma comida', () => {
     // El 1 se usa 2 veces en la comida; el 2, una vez en la cena → para la cena gana el 2 (3 puntos contra 2).
     const entries = [uso(1, '2026-09-27', 'comida'), uso(1, '2026-09-28', 'comida'), uso(2, '2026-09-28', 'cena')]
-    expect(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28' })).toEqual([2, 1])
-    expect(rankFrecuentes(entries, { comida: 'comida', hoy: '2026-09-28' })).toEqual([1, 2])
+    expect(ids(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28' }))).toEqual([2, 1])
+    expect(ids(rankFrecuentes(entries, { comida: 'comida', hoy: '2026-09-28' }))).toEqual([1, 2])
   })
 
   it('ignora lo que queda fuera de la ventana, lo futuro y las entradas rápidas o sin alimento', () => {
@@ -111,13 +133,13 @@ describe('rankFrecuentes (A3)', () => {
       uso(3, '2026-09-28', 'cena', 0, { rapida: true }),
       uso(4, '2026-08-01', 'cena'),
     ]
-    expect(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28' })).toEqual([4])
-    expect(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28', dias: 30 })).toEqual([])
+    expect(ids(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28' }))).toEqual([4])
+    expect(ids(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28', dias: 30 }))).toEqual([])
   })
 
   it('en caso de empate gana el usado más recientemente', () => {
     const entries = [uso(1, '2026-09-28', 'cena', 100), uso(2, '2026-09-28', 'cena', 200)]
-    expect(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28' })).toEqual([2, 1])
+    expect(ids(rankFrecuentes(entries, { comida: 'cena', hoy: '2026-09-28' }))).toEqual([2, 1])
   })
 })
 
@@ -166,5 +188,20 @@ describe('validarKcalRapidas (A5)', () => {
   it('prot/carb/grasa son opcionales (0 por defecto) pero no pueden ser negativas', () => {
     expect(validarKcalRapidas({ ...BASE, prot: 0, carb: 0, grasa: 0 })).not.toBeNull()
     expect(validarKcalRapidas({ ...BASE, carb: -1 })).toBeNull()
+  })
+})
+
+describe('AlimentoElegible', () => {
+  it('un alimento propio conserva su id y sus valores', () => {
+    expect(elegibleDeFood(PLATANO)).toEqual({ ref: { tipo: 'user', id: 7 }, nombre: 'Plátano', kcal100: 89, prot100: 1.1, carb100: 22.8, grasa100: 0.3 })
+  })
+  it('uno del catálogo lleva su categoría como detalle', () => {
+    const cf: CatalogFood = {
+      id: 'ciqual:13005', fuente: 'ciqual', idExterno: '13005', nombre: 'Plátano, pulpa, crudo', nombreNorm: 'platano, pulpa, crudo', tok: [],
+      tipo: 'generico', categoria: 'Frutas', kcal100: 90, prot100: 1.1, carb100: 20, grasa100: 0.2, version: '1', importadoAt: 0,
+    }
+    expect(elegibleDeCatalogo(cf)).toEqual({
+      ref: { tipo: 'catalog', id: 'ciqual:13005' }, nombre: 'Plátano, pulpa, crudo', detalle: 'Frutas', kcal100: 90, prot100: 1.1, carb100: 20, grasa100: 0.2,
+    })
   })
 })

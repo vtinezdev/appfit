@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import type { Comida, Entry, Food, Meal } from '../../../shared/db/types'
+import type { Comida, Entry, Meal } from '../../../shared/db/types'
 import { comidaPorHora } from '../../../shared/lib/dates'
 import AnimatedNumber from '../../../shared/components/AnimatedNumber'
 import Card from '../../../shared/components/Card'
@@ -12,7 +12,15 @@ import Sheet from '../../../shared/components/Sheet'
 import * as entriesRepo from '../data/entriesRepo'
 import * as foodsRepo from '../data/foodsRepo'
 import { useInterpretarComida, type EntradaComida } from '../hooks/useInterpretarComida'
-import { aItemGuardado, actualizaAlimentoGuardado, por100DesdeEntrada, validarKcalRapidas, type ItemRevision, type KcalRapidasDraft } from '../lib/alimentos'
+import {
+  aItemGuardado,
+  actualizaAlimentoGuardado,
+  por100DesdeEntrada,
+  validarKcalRapidas,
+  type AlimentoElegible,
+  type ItemRevision,
+  type KcalRapidasDraft,
+} from '../lib/alimentos'
 import { formatInt } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
 import { macrosPorGramos, resumenMacros, sumMacros } from '../lib/nutrition'
@@ -56,7 +64,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
     async () => (entryEditar?.foodId !== undefined ? ((await foodsRepo.obtener(entryEditar.foodId)) ?? null) : null),
     [entryEditar?.foodId],
   )
-  const [gramosRapido, setGramosRapido] = useState<{ food: Food; gramos: number } | null>(null)
+  const [gramosRapido, setGramosRapido] = useState<{ alimento: AlimentoElegible; gramos: number } | null>(null)
   const [kcalRapidas, setKcalRapidas] = useState<KcalRapidasDraft | null>(null)
   const [guardandoRapida, setGuardandoRapida] = useState(false)
   const [errorRapida, setErrorRapida] = useState<string | null>(null)
@@ -99,7 +107,11 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
 
   async function confirmarRapido() {
     if (!gramosRapido) return
-    const id = await entriesRepo.anadirDesdeAlimento({ fecha, comida, foodId: gramosRapido.food.id, gramos: gramosRapido.gramos })
+    const { alimento, gramos } = gramosRapido
+    const id =
+      alimento.ref.tipo === 'user'
+        ? await entriesRepo.anadirDesdeAlimento({ fecha, comida, foodId: alimento.ref.id, gramos })
+        : await entriesRepo.anadirDesdeCatalogo({ fecha, comida, catalogId: alimento.ref.id, gramos })
     if (id === undefined) return
     setGramosRapido(null)
     onGuardado()
@@ -123,7 +135,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
   }
 
   const totales = items ? sumMacros(items.map((it) => macrosPorGramos(it, it.gramos))) : null
-  const aporteRapido = gramosRapido ? macrosPorGramos(gramosRapido.food, gramosRapido.gramos) : null
+  const aporteRapido = gramosRapido ? macrosPorGramos(gramosRapido.alimento, gramosRapido.gramos) : null
   const kcalTotales = totales ? Math.round(totales.kcal) : 0
   const kcalRapido = aporteRapido ? Math.round(aporteRapido.kcal) : 0
   const columna = 'mx-auto w-full max-w-lg px-page'
@@ -169,7 +181,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
                 </Button>
               </div>
 
-              <AlimentosRapidos comida={comida} onElegir={(food) => setGramosRapido({ food, gramos: 100 })} />
+              <AlimentosRapidos comida={comida} onElegir={(alimento) => setGramosRapido({ alimento, gramos: 100 })} />
             </>
           )}
 
@@ -233,7 +245,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
         </div>
       )}
 
-      <Sheet open={gramosRapido !== null} onClose={() => setGramosRapido(null)} title={gramosRapido?.food.nombre}>
+      <Sheet open={gramosRapido !== null} onClose={() => setGramosRapido(null)} title={gramosRapido?.alimento.nombre}>
         {gramosRapido && aporteRapido && (
           <div className="space-y-5">
             <div className="text-center">
@@ -242,7 +254,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
                 <span className="text-body text-fg-muted">kcal</span>
               </p>
               <p className="tabular mt-1 text-body-sm text-fg-subtle">
-                {resumenMacros(aporteRapido)} · {formatInt(gramosRapido.food.kcal100)} kcal por 100 g
+                {resumenMacros(aporteRapido)} · {formatInt(gramosRapido.alimento.kcal100)} kcal por 100 g
               </p>
             </div>
             <div className="flex justify-center">

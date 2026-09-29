@@ -1,10 +1,20 @@
-// Acceso a la tabla `foods`. Junto con entriesRepo, es lo único de Nutrición que toca `db.*`.
+// Acceso a la tabla `foods`. Con entriesRepo, mealsRepo y catalogRepo, es lo único de Nutrición que toca `db.*`.
 // Las funciones de lectura no escriben nunca, así que se pueden usar dentro de un useLiveQuery.
 import { db } from '../../../shared/db/db'
 import type { Comida, Food } from '../../../shared/db/types'
 import { addDays } from '../../../shared/lib/dates'
 import { normalizeName } from '../../../shared/lib/text'
-import { decidirGuardado, filtrarAlimentos, rankFrecuentes, VENTANA_FRECUENTES_DIAS, type ItemGuardado } from '../lib/alimentos'
+import {
+  decidirGuardado,
+  elegibleDeCatalogo,
+  elegibleDeFood,
+  filtrarAlimentos,
+  rankFrecuentes,
+  VENTANA_FRECUENTES_DIAS,
+  type AlimentoElegible,
+  type ItemGuardado,
+} from '../lib/alimentos'
+import * as catalogRepo from './catalogRepo'
 
 export type FoodInput = Omit<Food, 'id' | 'nombreNorm' | 'updatedAt'>
 
@@ -41,16 +51,27 @@ export interface FrecuentesInput {
 }
 
 /**
- * Los alimentos más usados en esa comida en los últimos días (ver `rankFrecuentes`), completados con los
- * recientes si no hay historial suficiente. Solo lectura: se puede usar en un liveQuery.
+ * Los alimentos (propios o del catálogo) más usados en esa comida en los últimos días (ver `rankFrecuentes`),
+ * completados con tus alimentos recientes si no hay historial suficiente. Los que ya no existen (alimento
+ * borrado, catálogo borrado o actualizado sin ese id) se descartan. Solo lectura: se puede usar en un liveQuery.
  */
-export async function frecuentes({ comida, hoy, dias = VENTANA_FRECUENTES_DIAS, limite = 10 }: FrecuentesInput): Promise<Food[]> {
+export async function frecuentes({ comida, hoy, dias = VENTANA_FRECUENTES_DIAS, limite = 10 }: FrecuentesInput): Promise<AlimentoElegible[]> {
   const entries = await db.entries.where('fecha').between(addDays(hoy, -(dias - 1)), hoy, true, true).toArray()
-  const ids = rankFrecuentes(entries, { comida, hoy, dias }).slice(0, limite)
-  const usados = (await db.foods.bulkGet(ids)).filter((f): f is Food => f !== undefined)
+  const refs = rankFrecuentes(entries, { comida, hoy, dias }).slice(0, limite)
+  const idsUsuario = refs.flatMap((r) => (r.tipo === 'user' ? [r.id] : []))
+  const idsCatalogo = refs.flatMap((r) => (r.tipo === 'catalog' ? [r.id] : []))
+  const [propios, delCatalogo] = await Promise.all([porIds(idsUsuario), catalogRepo.porIds(idsCatalogo)])
+  const usados = refs.flatMap((r): AlimentoElegible[] => {
+    if (r.tipo === 'user') {
+      const f = propios.get(r.id)
+      return f ? [elegibleDeFood(f)] : []
+    }
+    const f = delCatalogo.get(r.id)
+    return f ? [elegibleDeCatalogo(f)] : []
+  })
   if (usados.length >= limite) return usados
-  const yaIncluidos = new Set(usados.map((f) => f.id))
-  const relleno = (await recientes(limite * 2)).filter((f) => !yaIncluidos.has(f.id))
+  const yaIncluidos = new Set(idsUsuario)
+  const relleno = (await recientes(limite * 2)).filter((f) => !yaIncluidos.has(f.id)).map(elegibleDeFood)
   return [...usados, ...relleno].slice(0, limite)
 }
 

@@ -23,6 +23,23 @@ describe('entriesRepo: lecturas y añadido rápido', () => {
     expect(e).toMatchObject({ fecha: '2026-09-28', comida: 'cena', foodId, nombre: 'Pollo', gramos: 200, kcal: 330, prot: 62, carb: 0, grasa: 7.2 })
   })
 
+  it('anadirDesdeCatalogo guarda catalogId y el snapshot, sin crear ningún alimento', async () => {
+    await db.catalogFoods.put({
+      id: 'ciqual:36018', fuente: 'ciqual', idExterno: '36018', nombre: 'Pollo, pechuga a la plancha', nombreNorm: 'pollo, pechuga a la plancha',
+      tok: ['pollo', 'pechuga'], tipo: 'generico', kcal100: 150, prot100: 30, carb100: 0, grasa100: 3, version: '1', importadoAt: 0,
+    })
+    const id = await entriesRepo.anadirDesdeCatalogo({ fecha: '2026-09-28', comida: 'cena', catalogId: 'ciqual:36018', gramos: 150 })
+    const e = await db.entries.get(id!)
+    expect(e).toMatchObject({ catalogId: 'ciqual:36018', nombre: 'Pollo, pechuga a la plancha', gramos: 150, kcal: 225, prot: 45, carb: 0, grasa: 4.5 })
+    expect(e?.foodId).toBeUndefined()
+    expect(await db.foods.count()).toBe(0)
+  })
+
+  it('anadirDesdeCatalogo devuelve undefined si el alimento ya no está en el catálogo', async () => {
+    expect(await entriesRepo.anadirDesdeCatalogo({ fecha: '2026-09-28', comida: 'cena', catalogId: 'ciqual:1', gramos: 100 })).toBeUndefined()
+    expect(await db.entries.count()).toBe(0)
+  })
+
   it('anadirDesdeAlimento no modifica el alimento (los frecuentes salen de las entradas)', async () => {
     const foodId = await crearPollo()
     const antes = await foodsRepo.obtener(foodId)
