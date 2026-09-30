@@ -54,9 +54,9 @@ const TABLA: Record<string, Racion> = {
   cerveza: { gramos: 330, medidas: { lata: 330 }, preferido: 'ciqual:5001' },
   'coca cola': { gramos: 330, medidas: { lata: 330 } },
   aceite: { preferido: 'ciqual:17270' },
-  atun: { gramos: 60, medidas: { lata: 60 }, preferido: 'ciqual:26039' },
-  jamon: { medidas: { loncha: 15 } },
-  'jamon york': { medidas: { loncha: 15 }, preferido: 'ciqual:28900' },
+  atún: { gramos: 60, medidas: { lata: 60 }, preferido: 'ciqual:26039' },
+  jamón: { medidas: { loncha: 15 } },
+  'jamón york': { medidas: { loncha: 15 }, preferido: 'ciqual:28900' },
   queso: { medidas: { loncha: 20 } },
   'pechuga de pollo': { gramos: 150, preferido: 'ciqual:36017' },
   pechuga: { gramos: 150 },
@@ -71,6 +71,13 @@ const ENTRADAS = Object.entries(TABLA).map(([nombre, racion]) => ({ tokens: toke
 
 function mismasPalabras(a: string[], b: string[]): boolean {
   return a.length === b.length && a.every((t, i) => mismaRaiz(t, b[i]))
+}
+
+/** Las medidas que la tabla concreta por alimento («lata» de atún: 60 g), para la pantalla de medidas. */
+export function medidasPorAlimento(): { alimento: string; unidad: Unidad; gramos: number }[] {
+  return Object.entries(TABLA).flatMap(([alimento, racion]) =>
+    Object.entries(racion.medidas ?? {}).map(([unidad, gramos]) => ({ alimento, unidad: unidad as Unidad, gramos: gramos as number })),
+  )
 }
 
 /** Los alimentos preferidos de la tabla (para comprobar en los tests que siguen existiendo en el catálogo). */

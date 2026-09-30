@@ -24,7 +24,7 @@ function v1ConApiKey(apiKey: string): string {
 describe('importarBackup', () => {
   it('importa entero el backup v1 de referencia (generado con el código de la sesión 01)', async () => {
     await importarBackup(backupV1)
-    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, catalogFoods: 0, catalogSources: 0 })
+    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, catalogFoods: 0, catalogSources: 0 })
     expect((await db.foods.get(1))?.nombre).toBe('Plátano')
     expect(await db.entries.get(9)).toMatchObject({ fecha: '2026-09-28', comida: 'cena', kcal: 330, textoOriginal: 'pollo a la plancha' })
   })
@@ -86,9 +86,10 @@ describe('exportarBackup', () => {
     expect(b.settings[0].apiKey).toBe('secreta')
   })
 
-  it('ida y vuelta v2 sin perder datos (plantillas incluidas)', async () => {
+  it('ida y vuelta v2 sin perder datos (plantillas y notas de medidas incluidas)', async () => {
     await importarBackup(backupV1)
     await db.meals.add({ nombre: 'Desayuno', comida: 'desayuno', items: [{ foodId: 4, nombre: 'Yogur natural', gramos: 125, kcal: 76.3, prot: 4.4, carb: 5.9, grasa: 4.1 }], usos: 2, usadoAt: 5, createdAt: 1 })
+    await db.notasMedida.add({ texto: 'tarrina de hummus ≈ 200 g', createdAt: 3 })
     const antes = await exportarBackup()
     await Promise.all(db.tables.map((t) => t.clear()))
     await importarBackup(JSON.stringify(antes))
@@ -105,10 +106,12 @@ describe('migrarBackup', () => {
     expect(v2.entries).toEqual(v1.entries)
     expect(v2.sets).toEqual(v1.sets)
     expect(v2.meals).toEqual([])
+    expect(v2.notasMedida).toEqual([])
   })
 
   it('rechaza una tabla opcional con forma incorrecta', () => {
     expect(() => migrarBackup({ ...JSON.parse(backupV1), version: 2, meals: 'no' })).toThrow(BackupError)
+    expect(() => migrarBackup({ ...JSON.parse(backupV1), version: 2, notasMedida: {} })).toThrow(BackupError)
   })
 
   it('rechaza backups de una versión más nueva con un mensaje claro', () => {
@@ -171,7 +174,7 @@ describe('el catálogo queda fuera de los datos del usuario', () => {
     await db.meals.add({ nombre: 'Desayuno', items: [], usos: 0, usadoAt: 0, createdAt: 0 })
     await sembrarCatalogo()
     await borrarTodosLosDatos()
-    for (const t of ['foods', 'entries', 'meals', 'settings', 'exercises', 'routines', 'workouts', 'sets']) {
+    for (const t of ['foods', 'entries', 'meals', 'settings', 'exercises', 'routines', 'workouts', 'sets', 'notasMedida']) {
       expect(await db.table(t).count(), t).toBe(0)
     }
     expect(await db.catalogFoods.count()).toBe(1)

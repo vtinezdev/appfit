@@ -117,6 +117,13 @@ export interface Meal {
   createdAt: number
 }
 
+/** Nota libre sobre una medida que el intérprete no entiende todavía («tarrina de hummus ≈ 200 g»), para añadirla después. */
+export interface NotaMedida {
+  id: number
+  texto: string
+  createdAt: number
+}
+
 export interface Objetivos {
   kcal: number
   prot: number

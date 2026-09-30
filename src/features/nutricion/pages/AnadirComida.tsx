@@ -22,6 +22,7 @@ import {
   itemDeProductoIncompleto,
   itemDesdeElegible,
   itemSinCoincidencia,
+  medidaPendiente,
   por100DesdeEntrada,
   validarKcalRapidas,
   type AlimentoElegible,
@@ -39,6 +40,7 @@ import PlantillasLista from '../components/PlantillasLista'
 import AlimentosRapidos from '../components/AlimentosRapidos'
 import CambiarAlimentoSheet from '../components/CambiarAlimentoSheet'
 import EscanerCodigo from '../components/EscanerCodigo'
+import Medidas from './Medidas'
 import Button from '../../../shared/components/Button'
 import { ErrorState } from '../../../shared/components/StateMessage'
 
@@ -80,6 +82,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
   const [plantillaElegida, setPlantillaElegida] = useState<Meal | null>(null)
   const [cambiando, setCambiando] = useState<number | null>(null)
   const [escaneando, setEscaneando] = useState(false)
+  const [verMedidas, setVerMedidas] = useState(false)
   const ia = useInterpretarComida()
   const local = useInterpretarLocal()
   const iaDisponible = useLiveQuery(async () => (await getSettings()).apiKey.trim() !== '', []) ?? false
@@ -98,12 +101,12 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
     setItems(resultado.items)
   }
 
-  /** «Cambiar»: sustituye el alimento del ítem conservando los gramos y las demás opciones. */
+  /** «Cambiar»: sustituye el alimento del ítem conservando los gramos (o la medida por elegir) y las demás opciones. */
   function cambiarAlimento(alimento: AlimentoElegible) {
     if (cambiando === null || !items) return
     const actual = items[cambiando]
     const alternativas = actual.origen.alternativas?.filter((a) => a !== alimento)
-    setItems(items.map((it, i) => (i === cambiando ? itemDesdeElegible(alimento, it.gramos, { gramosEstimados: it.gramosEstimados, alternativas }) : it)))
+    setItems(items.map((it, i) => (i === cambiando ? itemDesdeElegible(alimento, it.gramos, { gramosEstimados: it.gramosEstimados, medida: it.medida, alternativas }) : it)))
     setCambiando(null)
   }
 
@@ -203,6 +206,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
                   cargando={local.cargando || ia.cargando}
                   cargandoIA={ia.cargando}
                   error={local.error ?? ia.error}
+                  onVerMedidas={() => setVerMedidas(true)}
                 />
                 <Button
                   variant="secondary"
@@ -254,10 +258,16 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
                 </label>
               )}
               {!entryEditar && (
-                <Button variant="ghost" size="sm" className="-ml-3" onClick={() => setItems(null)}>
-                  <Icon name="arrow-left" size={16} />
-                  Volver a interpretar
-                </Button>
+                <div className="flex items-center justify-between gap-2">
+                  <Button variant="ghost" size="sm" className="-ml-3" onClick={() => setItems(null)}>
+                    <Icon name="arrow-left" size={16} />
+                    Volver a interpretar
+                  </Button>
+                  <Button variant="ghost" size="sm" className="-mr-3" onClick={() => setVerMedidas(true)}>
+                    <Icon name="info" size={16} />
+                    Medidas
+                  </Button>
+                </div>
               )}
             </div>
           )}
@@ -268,7 +278,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
         <div className="safe-bottom border-t border-line bg-bg">
           <div className={`${columna} space-y-2 py-3`}>
             {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
-            <Button size="lg" shape="pill" block onClick={guardar} disabled={guardando || items.some((it) => !it.nombre.trim() || faltanValores(it))}>
+            <Button size="lg" shape="pill" block onClick={guardar} disabled={guardando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
               {guardando ? (
                 'Guardando…'
               ) : (
@@ -324,6 +334,8 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
           setErrorRapida(null)
         }}
       />
+
+      {verMedidas && <Medidas onClose={() => setVerMedidas(false)} />}
 
       <CambiarAlimentoSheet item={cambiando !== null ? (items?.[cambiando] ?? null) : null} onElegir={cambiarAlimento} onClose={() => setCambiando(null)} />
 

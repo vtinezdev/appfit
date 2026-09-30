@@ -14,14 +14,14 @@ npm run build    # tsc -b && vite build
 
 ```
 src/app/                 App (router casero con useState), BottomNav, Ajustes
-src/shared/db/           db.ts (esquema Dexie v3 + TABLAS_USUARIO/TABLAS_CATALOGO), types.ts, foodRef.ts, settings.ts
+src/shared/db/           db.ts (esquema Dexie v4 + TABLAS_USUARIO/TABLAS_CATALOGO), types.ts, foodRef.ts, settings.ts
 src/shared/lib/          dates, format, text, backup
 src/shared/ai/           gemini.ts (cliente genérico generarJson)
 src/shared/design/       tokens.css (única fuente de valores), theme, macros, chart, guard
 src/shared/components/   primitives (Button, Card, Sheet, Toast, NumberStepper, ConfirmacionDestructiva…)
 src/shared/hooks/        useAviso (Toast con «Deshacer» y errores)
 src/features/nutricion/  NutricionTab + pages/ components/ hooks/ data/ (repos) lib/ (lógica pura, prompts/, catalogo/: paquete, sincronización, ranking;
-                         interprete/: intérprete local sin IA; off/: Open Food Facts; escaner/: lector de códigos con carga perezosa)
+                         interprete/: intérprete local sin IA, medidas caseras en unidades.ts/medidas.ts; off/: Open Food Facts; escaner/: lector de códigos con carga perezosa)
 src/features/gym/        GymTab + pages/ data/ (repos) lib/workout.ts (lógica pura)
 scripts/catalogo/        Tubería offline CIQUAL → paquete JSON (Node, manual; no va en la app ni en el build)
 public/catalogo/         Paquete estático del catálogo (manifest.json + ciqual-*.json) que la app descarga sola

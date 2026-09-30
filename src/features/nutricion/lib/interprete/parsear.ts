@@ -1,7 +1,7 @@
 // Intérprete local, paso 1: parte una frase («200 g de arroz, 2 huevos y un plátano») en alimentos con su cantidad.
 // Sin IA ni conexión. El dictado del teclado de iOS escribe el texto (suele poner cifras: «200 gramos», «2 huevos»).
 import { normalizeName, tokensConsulta } from '../../../../shared/lib/text'
-import { UNIDADES_EXACTAS, unidadDe, type Unidad } from './unidades'
+import { UNIDADES_EXACTAS, unidadEn, type Unidad } from './unidades'
 
 export interface ParteComida {
   /** El trozo de la frase tal cual, para mostrarlo o depurar. */
@@ -84,8 +84,8 @@ function extraerCantidad(palabras: string[]): { cantidad?: number; unidad?: Unid
     i = inicio.usadas
   }
   // «un cuarto de kilo»: la unidad puede venir tras un «de».
-  const saltaDe = norm[i] === 'de' && unidadDe(norm[i + 1] ?? '') !== undefined ? 1 : 0
-  const u = unidadDe(norm[i + saltaDe] ?? '')
+  const saltaDe = norm[i] === 'de' && unidadEn(norm, i + 1) !== undefined ? 1 : 0
+  const u = unidadEn(norm, i + saltaDe)
   // Una unidad casera sin número («vaso de leche») cuenta como una; una de peso sin número («g de arroz») no se entiende.
   if (u !== undefined && (cantidad !== undefined || !UNIDADES_EXACTAS.has(u))) {
     unidad = u
@@ -106,7 +106,7 @@ function extraerCantidad(palabras: string[]): { cantidad?: number; unidad?: Unid
 
   // Al final: «arroz 200 g», «arroz 200g», «huevos 2».
   const n = norm.length
-  const uFinal = n >= 3 ? unidadDe(norm[n - 1]) : undefined
+  const uFinal = n >= 3 ? unidadEn(norm, n - 1) : undefined
   const numFinal = uFinal !== undefined ? numeroDeCifras(norm[n - 2]) : n >= 2 ? numeroDeCifras(norm[n - 1]) : undefined
   if (numFinal !== undefined) {
     return { cantidad: numFinal, unidad: uFinal, resto: palabras.slice(0, uFinal !== undefined ? n - 2 : n - 1) }

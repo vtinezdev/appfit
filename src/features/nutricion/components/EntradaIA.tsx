@@ -1,6 +1,6 @@
 import VoiceRecorder from '../../../shared/components/VoiceRecorder'
 import type { EntradaComida } from '../hooks/useInterpretarComida'
-import Button from '../../../shared/components/Button'
+import Button, { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { Textarea } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
@@ -20,17 +20,21 @@ interface Props {
   /** Qué está interpretando ahora mismo, para el texto del botón. */
   cargandoIA: boolean
   error: string | null
+  /** Abre «Medidas» (qué medidas caseras se entienden). */
+  onVerMedidas: () => void
 }
 
 /**
  * Texto libre (escrito o dictado con el micrófono del teclado) que se interpreta en el dispositivo; con API key,
  * también con IA (texto o voz grabada).
  */
-export default function EntradaIA({ texto, onTextoChange, onInterpretar, onInterpretarIA, iaDisponible, onError, cargando, cargandoIA, error }: Props) {
+export default function EntradaIA({ texto, onTextoChange, onInterpretar, onInterpretarIA, iaDisponible, onError, cargando, cargandoIA, error, onVerMedidas }: Props) {
   const vacio = !texto.trim()
   return (
     <section aria-label="Describir comida" className="space-y-2">
-      <SectionHeader>Describir comida</SectionHeader>
+      <SectionHeader action={<IconButton icon="info" label="Medidas que se entienden" variant="ghost" size="sm" className="-my-2" onClick={onVerMedidas} />}>
+        Describir comida
+      </SectionHeader>
       <Textarea
         tone="surface"
         aria-label="Describe lo que has comido"

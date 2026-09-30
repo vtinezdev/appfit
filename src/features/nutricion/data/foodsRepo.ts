@@ -1,4 +1,4 @@
-// Acceso a la tabla `foods`. Con entriesRepo, mealsRepo y catalogRepo, es lo único de Nutrición que toca `db.*`.
+// Acceso a la tabla `foods`. Con entriesRepo, mealsRepo, catalogRepo y notasMedidaRepo, es lo único de Nutrición que toca `db.*`.
 // Las funciones de lectura no escriben nunca, así que se pueden usar dentro de un useLiveQuery.
 import { db } from '../../../shared/db/db'
 import type { Comida, Food } from '../../../shared/db/types'

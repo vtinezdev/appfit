@@ -3,6 +3,7 @@ import type { CatalogFood, Comida, Entry, Food, FuenteAlimento } from '../../../
 import { addDays } from '../../../shared/lib/dates'
 import { round1 } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
+import type { MedidaAmbigua } from './interprete/medidas'
 
 /** Valores nutricionales por 100 g de un alimento. */
 export type Por100 = Pick<Food, 'kcal100' | 'prot100' | 'carb100' | 'grasa100'>
@@ -46,6 +47,18 @@ export interface ItemRevision extends Por100 {
   sinCoincidencia?: boolean
   /** Producto escaneado al que le faltan datos (nombre o algún valor): se completan a mano. */
   datosIncompletos?: boolean
+  /** Medida casera ambigua («2 cucharadas»): hasta elegir cuánto pesa una, el ítem no tiene gramos (ver `medidaPendiente`). */
+  medida?: MedidaAmbigua
+}
+
+/** Lo que el intérprete local (o «Cambiar») añade a un ítem además del alimento y los gramos. */
+export type ExtraItem = Pick<ItemRevision, 'gramosEstimados' | 'medida'> & { alternativas?: AlimentoElegible[] }
+
+function aplicarExtra(item: ItemRevision, extra: ExtraItem): ItemRevision {
+  if (extra.alternativas && extra.alternativas.length > 0) item.origen.alternativas = extra.alternativas
+  if (extra.gramosEstimados) item.gramosEstimados = true
+  if (extra.medida) item.medida = extra.medida
+  return item
 }
 
 function valoresDe(p: Por100): Por100 {
@@ -127,24 +140,18 @@ export function aItemGuardado(item: ItemRevision): ItemGuardado {
  * Ítem de la revisión a partir de un alimento elegido (intérprete local o «Cambiar»). Uno propio cuenta como
  * guardado; uno del catálogo lleva su `catalogId` (ver `OrigenItem`).
  */
-export function itemDesdeElegible(a: AlimentoElegible, gramos: number, extra: Pick<ItemRevision, 'gramosEstimados'> & { alternativas?: AlimentoElegible[] } = {}): ItemRevision {
+export function itemDesdeElegible(a: AlimentoElegible, gramos: number, extra: ExtraItem = {}): ItemRevision {
   const valores = valoresDe(a)
   const origen: OrigenItem = { fuente: 'manual', valores, nombreNorm: normalizeName(a.nombre), guardado: a.ref.tipo === 'user' }
   if (a.ref.tipo === 'catalog') origen.catalogId = a.ref.id
-  if (extra.alternativas && extra.alternativas.length > 0) origen.alternativas = extra.alternativas
-  const item: ItemRevision = { nombre: a.nombre, gramos, ...valores, origen }
-  if (extra.gramosEstimados) item.gramosEstimados = true
-  return item
+  return aplicarExtra({ nombre: a.nombre, gramos, ...valores, origen }, extra)
 }
 
 /** Ítem de un alimento que no se ha encontrado: valores a 0 para que el usuario elija uno o los escriba. */
-export function itemSinCoincidencia(nombre: string, gramos: number, extra: Pick<ItemRevision, 'gramosEstimados'> & { alternativas?: AlimentoElegible[] } = {}): ItemRevision {
+export function itemSinCoincidencia(nombre: string, gramos: number, extra: ExtraItem = {}): ItemRevision {
   const valores: Por100 = { kcal100: 0, prot100: 0, carb100: 0, grasa100: 0 }
   const origen: OrigenItem = { fuente: 'manual', valores, nombreNorm: normalizeName(nombre), guardado: false }
-  if (extra.alternativas && extra.alternativas.length > 0) origen.alternativas = extra.alternativas
-  const item: ItemRevision = { nombre, gramos, ...valores, origen, sinCoincidencia: true }
-  if (extra.gramosEstimados) item.gramosEstimados = true
-  return item
+  return aplicarExtra({ nombre, gramos, ...valores, origen, sinCoincidencia: true }, extra)
 }
 
 /**
@@ -159,6 +166,11 @@ export function itemDeProductoIncompleto(nombre: string, conocidos: Partial<Por1
 /** true si el ítem no se encontró (o le faltan datos) y todavía no tiene ningún valor: no se puede guardar así. */
 export function faltanValores(item: ItemRevision): boolean {
   return (item.sinCoincidencia === true || item.datosIncompletos === true) && mismosValores(item, { kcal100: 0, prot100: 0, carb100: 0, grasa100: 0 })
+}
+
+/** true si el ítem tiene una medida ambigua sin concretar («una cucharada»): todavía no tiene gramos, no se puede guardar. */
+export function medidaPendiente(item: ItemRevision): boolean {
+  return item.medida !== undefined && item.medida.elegida === undefined
 }
 
 /**

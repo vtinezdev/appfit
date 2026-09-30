@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import type { CatalogFood, CatalogSource, Entry, Exercise, Food, Meal, Routine, SetEntry, Settings, Workout } from './types'
+import type { CatalogFood, CatalogSource, Entry, Exercise, Food, Meal, NotaMedida, Routine, SetEntry, Settings, Workout } from './types'
 
 /**
  * Esquema de IndexedDB. Reglas para cambiarlo sin perder los datos del móvil:
@@ -16,7 +16,7 @@ import type { CatalogFood, CatalogSource, Entry, Exercise, Food, Meal, Routine, 
 export const TABLAS_CATALOGO = ['catalogFoods', 'catalogSources'] as const
 
 /** Tablas con datos del usuario: van en el backup y se vacían al importar o al borrarlo todo. */
-export const TABLAS_USUARIO = ['foods', 'entries', 'meals', 'settings', 'exercises', 'routines', 'workouts', 'sets'] as const
+export const TABLAS_USUARIO = ['foods', 'entries', 'meals', 'settings', 'exercises', 'routines', 'workouts', 'sets', 'notasMedida'] as const
 
 export class AppFitDB extends Dexie {
   foods!: EntityTable<Food, 'id'>
@@ -27,6 +27,7 @@ export class AppFitDB extends Dexie {
   workouts!: EntityTable<Workout, 'id'>
   sets!: EntityTable<SetEntry, 'id'>
   meals!: EntityTable<Meal, 'id'>
+  notasMedida!: EntityTable<NotaMedida, 'id'>
   catalogFoods!: EntityTable<CatalogFood, 'id'>
   catalogSources!: EntityTable<CatalogSource, 'id'>
 
@@ -58,6 +59,10 @@ export class AppFitDB extends Dexie {
       entries: '++id, fecha, comida, foodId, catalogId, createdAt',
       catalogFoods: '&id, *tok, gtin, fuente',
       catalogSources: '&id',
+    })
+    // v4 (medidas del intérprete): tabla `notasMedida` (notas sobre medidas que faltan). Tabla nueva y vacía: sin upgrade().
+    this.version(4).stores({
+      notasMedida: '++id, createdAt',
     })
   }
 }
