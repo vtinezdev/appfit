@@ -200,6 +200,17 @@ describe('sincronizar con catalogRepo real', () => {
     expect(await db.foods.count()).toBe(1)
   })
 
+  it('una versión nueva del paquete no borra los productos escaneados (guardarProductoOff)', async () => {
+    await conRepo({ '/catalogo/manifest.json': manifest('v1'), '/catalogo/ciqual-v1.json': paquete('v1') })()
+    await catalogRepo.guardarProductoOff({
+      id: 'off:8410000000000', fuente: 'off', idExterno: '8410000000000', nombre: 'Leche', nombreNorm: 'leche', tok: ['leche'],
+      tipo: 'marca', gtin: '8410000000000', kcal100: 46, prot100: 3, carb100: 5, grasa100: 1.6, version: 'live', importadoAt: 3,
+    })
+    await conRepo({ '/catalogo/manifest.json': manifest('v2'), '/catalogo/ciqual-v2.json': paquete('v2') })()
+    expect((await catalogRepo.buscarPorGtin('8410000000000')).map((f) => f.id)).toEqual(['off:8410000000000'])
+    expect((await catalogRepo.fuentes()).map((s) => `${s.id}@${s.version}:${s.filas}`).sort()).toEqual(['ciqual@v2:2', 'off@live:1'])
+  })
+
   it('un paquete corrupto no toca lo ya importado', async () => {
     await conRepo({ '/catalogo/manifest.json': manifest('v1'), '/catalogo/ciqual-v1.json': paquete('v1') })()
     const corrupto = paquete('v2')

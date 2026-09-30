@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeName, singular, tokenizar, tokensConsulta } from './text'
+import { mismaRaiz, normalizeName, singular, tokenizar, tokensConsulta } from './text'
 
 describe('normalizeName', () => {
   it('quita espacios sobrantes, mayúsculas y tildes', () => {
@@ -50,5 +50,18 @@ describe('singular', () => {
   })
   it('tokensConsulta pasa a singular y no repite', () => {
     expect(tokensConsulta('huevos y huevo')).toEqual(['huevo'])
+  })
+})
+
+describe('mismaRaiz', () => {
+  it('iguala la raíz aproximada de singular con la palabra completa', () => {
+    expect(mismaRaiz(singular('tomates'), 'tomate')).toBe(true)
+    expect(mismaRaiz('tomate', 'tomat')).toBe(true)
+    expect(mismaRaiz('huevo', 'huevo')).toBe(true)
+  })
+  it('no confunde palabras distintas ni raíces demasiado cortas', () => {
+    expect(mismaRaiz('pan', 'panceta')).toBe(false)
+    expect(mismaRaiz('pera', 'perla')).toBe(false)
+    expect(mismaRaiz('te', 'tea')).toBe(false)
   })
 })

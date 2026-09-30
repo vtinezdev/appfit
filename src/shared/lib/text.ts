@@ -33,6 +33,16 @@ export function singular(t: string): string {
 }
 
 /**
+ * true si dos palabras ya pasadas por `singular` son la misma palabra: iguales o una es la otra más una letra
+ * («tomat», de «tomates», y «tomate»). Compensa que `singular` solo dé una raíz aproximada.
+ */
+export function mismaRaiz(a: string, b: string): boolean {
+  if (a === b) return true
+  const [corta, larga] = a.length <= b.length ? [a, b] : [b, a]
+  return corta.length >= 3 && larga.length - corta.length === 1 && larga.startsWith(corta)
+}
+
+/**
  * Palabras útiles para buscar: las de `tokenizar`, sin palabras vacías y en singular (`singular`), sin repetir.
  * Si solo hay palabras vacías (alguien escribe «con»), se conservan para no dejar la consulta sin tokens.
  * Se aplica igual a la consulta y a los nombres al ordenar, para compararlos en la misma forma.

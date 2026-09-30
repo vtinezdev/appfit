@@ -25,6 +25,15 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        // El .wasm del escáner (~1 MB) no se precachea: pesaría en cada instalación y el escáner casi siempre
+        // necesita conexión (Open Food Facts). Se guarda la primera vez que se usa y después funciona sin red.
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.endsWith('.wasm'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'wasm', expiration: { maxEntries: 4 } },
+          },
+        ],
       },
     }),
   ],

@@ -5,6 +5,7 @@ import { db } from '../../../shared/db/db'
 import { normalizarGtin } from '../../../shared/db/foodRef'
 import type { CatalogFood, CatalogSource, FuenteCatalogo } from '../../../shared/db/types'
 import { tokensConsulta } from '../../../shared/lib/text'
+import { FUENTE_OFF, VERSION_OFF } from '../lib/off/mapearProducto'
 
 export function obtener(id: string): Promise<CatalogFood | undefined> {
   return db.catalogFoods.get(id)
@@ -89,6 +90,28 @@ export function fuentes(): Promise<CatalogSource[]> {
 
 export function guardarFuente(fuente: CatalogSource): Promise<void> {
   return db.catalogSources.put(fuente).then(() => undefined)
+}
+
+/** Licencia y atribución de Open Food Facts (la exige la ODbL). */
+export const METADATOS_OFF: Omit<CatalogSource, 'importadoAt' | 'filas'> = {
+  id: FUENTE_OFF,
+  version: VERSION_OFF,
+  licencia: 'ODbL 1.0 (Open Database License)',
+  atribucion: 'Datos de Open Food Facts (openfoodfacts.org), con licencia ODbL.',
+}
+
+/**
+ * Guarda un producto escaneado de Open Food Facts (`fuente: 'off'`) y anota la fuente `off` con el número de
+ * productos guardados. Los datos ya vienen descargados: dentro de la transacción no hay red.
+ * La sincronización del paquete no toca esta fuente (solo importa las del manifest).
+ */
+export function guardarProductoOff(food: CatalogFood): Promise<void> {
+  if (food.fuente !== FUENTE_OFF) return Promise.reject(new Error(`«${food.id}» no es de Open Food Facts`))
+  return db.transaction('rw', db.catalogFoods, db.catalogSources, async () => {
+    await db.catalogFoods.put(food)
+    const filas = await db.catalogFoods.where('fuente').equals(FUENTE_OFF).count()
+    await db.catalogSources.put({ ...METADATOS_OFF, importadoAt: food.importadoAt, filas })
+  })
 }
 
 /**

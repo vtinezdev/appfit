@@ -5,10 +5,9 @@ import Card from '../../../shared/components/Card'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
-import { formatInt } from '../../../shared/lib/format'
 import * as catalogRepo from '../data/catalogRepo'
 import { sincronizarCatalogo } from '../lib/catalogo/sincronizar'
-import { mensajeError, nombreFuente, resumenResultado } from '../lib/catalogo/textos'
+import { detalleFuente, mensajeError, nombreFuente, resumenResultado } from '../lib/catalogo/textos'
 
 type Estado = { tipo: 'ok'; texto: string } | { tipo: 'error'; texto: string } | null
 
@@ -68,9 +67,7 @@ export default function CatalogoAjustes() {
             <li key={f.id} className="space-y-1">
               <div className="flex items-baseline justify-between gap-3">
                 <span className="text-body-sm text-fg-muted">{nombreFuente(f.id)}</span>
-                <span className="text-body-sm text-fg-subtle">
-                  {f.version} · {formatInt(f.filas)} alimentos
-                </span>
+                <span className="text-body-sm text-fg-subtle">{detalleFuente(f)}</span>
               </div>
               <p className="text-caption text-fg-subtle">{f.atribucion}</p>
             </li>
@@ -94,7 +91,7 @@ export default function CatalogoAjustes() {
         </div>
       ) : (
         <ConfirmacionDestructiva
-          mensaje="¿Borrar el catálogo? No afecta a tus alimentos, comidas ni plantillas. Se volverá a descargar al abrir la app con conexión."
+          mensaje="¿Borrar el catálogo? No afecta a tus alimentos, comidas ni plantillas. Se volverá a descargar al abrir la app con conexión; los productos escaneados se volverán a consultar al escanearlos."
           confirmar="Sí, borrar"
           onConfirmar={borrar}
           onCancelar={() => setConfirmandoBorrado(false)}
