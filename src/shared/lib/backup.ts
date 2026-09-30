@@ -8,6 +8,8 @@ import type { Entry, Exercise, Food, Meal, NotaMedida, Peso, Routine, SetEntry, 
  *   exportan, importan y borran las `TABLAS_USUARIO`; una tabla de datos del usuario nueva va en esa lista.
  * - Añadir una tabla nueva de usuario: va en TABLAS_OPCIONALES (si falta en un backup, se importa vacía). No sube la versión.
  * - Campos opcionales nuevos en los registros (p. ej. `catalogId` en entries) no cambian la versión.
+ * - Campos de `settings` que se dejan de usar tampoco: `conDefaults` los descarta al importar (así se quitaron
+ *   `apiKey` y `modelo` al retirar la IA, junto con el metadato `incluyeApiKey`, que ahora se ignora).
  * - Cambiar la forma de los registros: sube BACKUP_VERSION y se añade el paso correspondiente en `migrarBackup`.
  *   Lo mismo si un `upgrade()` de Dexie transforma registros, porque importar se salta los upgrades.
  */
@@ -21,7 +23,6 @@ export interface BackupV2 {
   exportedAt: string
   /** Versión del esquema de Dexie al exportar (informativo). */
   dbVersion: number
-  incluyeApiKey: boolean
   foods: Food[]
   entries: Entry[]
   settings: Settings[]
@@ -44,8 +45,8 @@ export class BackupError extends Error {}
 
 const ERROR_FORMATO = 'El archivo no tiene el formato de backup de AppFit.'
 
-/** Exporta todas las tablas en una lectura coherente. La API key solo se incluye si se pide. */
-export async function exportarBackup({ incluirApiKey = false }: { incluirApiKey?: boolean } = {}): Promise<BackupV2> {
+/** Exporta todas las tablas en una lectura coherente. */
+export async function exportarBackup(): Promise<BackupV2> {
   return db.transaction('r', usuarioTablas(), async () => {
     const [foods, entries, settings, exercises, routines, workouts, sets, meals, notasMedida, pesos] = await Promise.all([
       db.foods.toArray(),
@@ -63,10 +64,9 @@ export async function exportarBackup({ incluirApiKey = false }: { incluirApiKey?
       version: BACKUP_VERSION,
       exportedAt: new Date().toISOString(),
       dbVersion: db.verno,
-      incluyeApiKey: incluirApiKey && settings.some((s) => Boolean(s.apiKey)),
       foods,
       entries,
-      settings: incluirApiKey ? settings : settings.map((s) => ({ ...s, apiKey: '' })),
+      settings,
       exercises,
       routines,
       workouts,
@@ -119,21 +119,19 @@ export function migrarBackup(raw: unknown): BackupV2 {
   const exportedAt = typeof d.exportedAt === 'string' ? d.exportedAt : ''
 
   if (d.version === 1) {
-    return { version: 2, exportedAt, dbVersion: 1, incluyeApiKey: tablas.settings.some((s) => Boolean(s?.apiKey)), ...tablas }
+    return { version: 2, exportedAt, dbVersion: 1, ...tablas }
   }
   return {
     version: 2,
     exportedAt,
     dbVersion: typeof d.dbVersion === 'number' ? d.dbVersion : 1,
-    incluyeApiKey: Boolean(d.incluyeApiKey),
     ...tablas,
   }
 }
 
 /**
  * Sustituye todos los datos locales por los del backup: vacía **todas las tablas de usuario** (también las que el backup
- * no trae, pero no el catálogo) y las rellena. De los ajustes se toma todo del backup salvo la API key: si el móvil ya tiene una,
- * se conserva; si no, se usa la del backup.
+ * no trae, pero no el catálogo) y las rellena. Los ajustes vienen del backup, completados con los valores por defecto.
  */
 export async function importarBackup(json: string): Promise<void> {
   let data: unknown
@@ -145,7 +143,6 @@ export async function importarBackup(json: string): Promise<void> {
   const backup = migrarBackup(data)
 
   await db.transaction('rw', usuarioTablas(), async () => {
-    const actual = await db.settings.get(1)
     await Promise.all(usuarioTablas().map((t) => t.clear()))
     for (const t of TABLAS_OBLIGATORIAS) {
       if (t !== 'settings') await db.table(t).bulkAdd(backup[t])
@@ -154,7 +151,7 @@ export async function importarBackup(json: string): Promise<void> {
       await db.table(t).bulkAdd(backup[t] ?? [])
     }
     const delBackup = backup.settings.find((s) => s.id === 1) ?? backup.settings[0]
-    await db.settings.put(conDefaults({ ...delBackup, apiKey: actual?.apiKey || delBackup?.apiKey || '' }))
+    await db.settings.put(conDefaults(delBackup))
   })
 }
 

@@ -4,6 +4,7 @@
 
 export type Comida = 'desayuno' | 'comida' | 'cena' | 'snack'
 
+/** `gemini`: alimentos creados con la IA que tuvo la app (ya retirada); solo existe en datos antiguos. */
 export type FuenteAlimento = 'gemini' | 'manual'
 
 export interface Food {
@@ -142,8 +143,6 @@ export interface Objetivos {
 
 export interface Settings {
   id: number // siempre 1 (registro único)
-  apiKey: string
-  modelo: string
   objetivos: Objetivos
 }
 

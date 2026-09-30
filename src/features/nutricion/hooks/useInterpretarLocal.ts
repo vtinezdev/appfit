@@ -35,7 +35,7 @@ async function interpretarParte(parte: ParteComida): Promise<ItemRevision> {
 }
 
 /**
- * Intérprete local (sin IA ni conexión): parte la frase, busca cada alimento en tus alimentos y en el catálogo y
+ * Intérprete local (sin conexión): parte la frase, busca cada alimento en tus alimentos y en el catálogo y
  * lo prepara para la revisión. Sin useLiveQuery: es una acción puntual.
  */
 export function useInterpretarLocal() {
@@ -60,5 +60,5 @@ export function useInterpretarLocal() {
     }
   }
 
-  return { interpretar, cargando, error, setError }
+  return { interpretar, cargando, error }
 }

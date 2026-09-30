@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import backupV1 from '../../test/fixtures/backup-v1.json?raw'
 import { db } from '../db/db'
-import { updateSettings } from '../db/settings'
 import type { CatalogFood } from '../db/types'
 import { BackupError, borrarTodosLosDatos, exportarBackup, importarBackup, migrarBackup } from './backup'
 
@@ -41,21 +40,11 @@ describe('importarBackup', () => {
     expect(await db.meals.count()).toBe(0)
   })
 
-  it('conserva la API key del móvil si el backup no trae ninguna', async () => {
-    await updateSettings({ apiKey: 'clave-movil' })
-    await importarBackup(backupV1)
-    expect((await db.settings.get(1))?.apiKey).toBe('clave-movil')
-  })
-
-  it('conserva la API key del móvil aunque el backup traiga otra', async () => {
-    await updateSettings({ apiKey: 'clave-movil' })
+  it('descarta la API key y el modelo de un backup antiguo (la IA se retiró)', async () => {
     await importarBackup(v1ConApiKey('clave-backup'))
-    expect((await db.settings.get(1))?.apiKey).toBe('clave-movil')
-  })
-
-  it('en un móvil sin API key usa la del backup', async () => {
-    await importarBackup(v1ConApiKey('clave-backup'))
-    expect((await db.settings.get(1))?.apiKey).toBe('clave-backup')
+    const s = await db.settings.get(1)
+    expect(s).not.toHaveProperty('apiKey')
+    expect(s).not.toHaveProperty('modelo')
   })
 
   it('rechaza un JSON inválido', async () => {
@@ -70,20 +59,13 @@ describe('importarBackup', () => {
 })
 
 describe('exportarBackup', () => {
-  it('por defecto no incluye la API key', async () => {
+  it('exporta la versión actual sin la API key antigua', async () => {
     await importarBackup(v1ConApiKey('secreta'))
     const b = await exportarBackup()
     expect(b.version).toBe(2)
     expect(b.dbVersion).toBe(db.verno)
-    expect(b.incluyeApiKey).toBe(false)
-    expect(b.settings[0].apiKey).toBe('')
-  })
-
-  it('incluye la API key solo si se pide', async () => {
-    await importarBackup(v1ConApiKey('secreta'))
-    const b = await exportarBackup({ incluirApiKey: true })
-    expect(b.incluyeApiKey).toBe(true)
-    expect(b.settings[0].apiKey).toBe('secreta')
+    expect(b.settings[0]).not.toHaveProperty('apiKey')
+    expect(JSON.stringify(b)).not.toContain('secreta')
   })
 
   it('ida y vuelta v2 sin perder datos (plantillas, notas de medidas y pesos incluidos)', async () => {
@@ -114,7 +96,7 @@ describe('migrarBackup', () => {
   it('lleva un v1 a v2 sin cambiar los registros', () => {
     const v1 = JSON.parse(backupV1)
     const v2 = migrarBackup(v1)
-    expect(v2).toMatchObject({ version: 2, dbVersion: 1, incluyeApiKey: false, exportedAt: v1.exportedAt })
+    expect(v2).toMatchObject({ version: 2, dbVersion: 1, exportedAt: v1.exportedAt })
     expect(v2.entries).toEqual(v1.entries)
     expect(v2.sets).toEqual(v1.sets)
     expect(v2.meals).toEqual([])

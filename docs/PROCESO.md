@@ -408,3 +408,15 @@ Rama `feat/mejorar-home`. La app arranca en una pantalla general de **Inicio** (
 5. **Comidas en Card**: `ComidaSection` pasa a una Card por comida con cabecera (nombre + kcal + acciones), `FranjaMacros` (barra segmentada P/C/G por reparto de kcal y gramos debajo), filas con hairlines y pie «Añadir a desayuno» / «Repetir del día anterior (n)». Sin entradas la card es compacta. Un día vacío muestra las cuatro cards compactas: **`ComidasVacias` se elimina**. «Añadir a …» abre Añadir comida con esa comida preseleccionada (`comidaInicial`); la CTA grande sigue eligiendo por hora.
 
 **Verificación**: tests y build en verde (Recharts sigue en su chunk `chart`, fuera del de arranque).
+
+## 37. Se retira la IA (Gemini)
+
+Rama `feat/quitar-ia`. Gemini estaba saturado casi siempre y el intérprete local (§34) ya cubre el uso diario, así que se quita la IA entera.
+
+1. **Fuera**: `shared/ai/gemini.ts`, `lib/prompts/interpretarComida.ts`, `hooks/useInterpretarComida.ts`, `VoiceRecorder` (la voz grabada solo iba a Gemini; el dictado del teclado sigue funcionando) y el icono `mic`. En `lib/alimentos.ts` salen `revisarItems` y la procedencia `estimado` (etiqueta «Estimado» en la revisión). `EntradaIA` pasa a llamarse `DescribirComida`, con un único botón «Interpretar».
+2. **Ajustes**: sin la tarjeta Gemini (API key y modelo) ni «Incluir la API key en el backup».
+3. **Datos**: `Settings` pierde `apiKey` y `modelo`. `conDefaults` los descarta al leer y al importar, y `ensureSettings` (al arrancar) reescribe el registro sin ellos, así que la key desaparece del dispositivo. Sin `upgrade()` de Dexie.
+4. **Backup**: sale el metadato `incluyeApiKey` (se ignora si llega). **`BACKUP_VERSION` no sube**: los backups antiguos importan igual (se descartan `apiKey`/`modelo`) y ningún registro cambia de forma.
+5. **Se conserva** `FuenteAlimento = 'gemini'`: los alimentos creados con la IA siguen existiendo; en «Alimentos» mantienen su icono. `fuenteSiNuevo` queda siempre en `manual` para lo nuevo.
+
+**Verificación**: `tsc -b`, tests y build en verde.

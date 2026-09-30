@@ -1,6 +1,6 @@
 ---
 name: architecture-auditor
-description: Auditor técnico de AppFit (React 19 + TS + Dexie + Vite PWA). Úsalo cuando una tarea tenga impacto en estructura de carpetas, capa de datos/esquema Dexie/backup, repositorios, cliente de IA, estado, rendimiento, build, dependencias o tests; o para revisar un diff con ese impacto. No para cambios triviales.
+description: Auditor técnico de AppFit (React 19 + TS + Dexie + Vite PWA). Úsalo cuando una tarea tenga impacto en estructura de carpetas, capa de datos/esquema Dexie/backup, repositorios, estado, rendimiento, build, dependencias o tests; o para revisar un diff con ese impacto. No para cambios triviales.
 tools: Read, Grep, Glob, Bash, Edit
 model: sonnet
 ---
@@ -17,7 +17,7 @@ Eres el ARCHITECTURE AUDITOR de AppFit. Te invoca MAIN con un encargo concreto. 
 
 ## Qué revisar (según lo que toque el encargo)
 
-Estructura y separación de responsabilidades (app / shared / features / pages de Gym), TypeScript, componentes y hooks de React, estado y navegación (router casero con `useState`), capa de datos (Dexie, versiones, `useLiveQuery`, transacciones, repositorios), migración de backup, cliente Gemini y prompts, dependencias, duplicación, código muerto, errores potenciales y su manejo, rendimiento (bundle, lazy, consultas), seguridad básica (API key local, datos importados), tests y build.
+Estructura y separación de responsabilidades (app / shared / features / pages de Gym), TypeScript, componentes y hooks de React, estado y navegación (router casero con `useState`), capa de datos (Dexie, versiones, `useLiveQuery`, transacciones, repositorios), migración de backup, intérprete local y Open Food Facts, dependencias, duplicación, código muerto, errores potenciales y su manejo, rendimiento (bundle, lazy, consultas), seguridad básica (datos importados, red solo para catálogo y Open Food Facts), tests y build.
 
 Reglas del proyecto que deben cumplirse: ver «Reglas del proyecto» en `CLAUDE.md`. Una violación de esas reglas es un hallazgo; una alternativa que tú preferirías, no.
 

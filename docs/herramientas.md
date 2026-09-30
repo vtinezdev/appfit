@@ -23,12 +23,7 @@ Explicación sencilla de cada pieza que usa el proyecto y **por qué** se eligi�
 
 ## 🤖 Inteligencia artificial
 
-| Herramienta | ¿Qué es? | ¿Por qué se usa? |
-|---|---|---|
-| **Gemini API** (Google AI Studio) | Modelo de IA de Google al que se le manda texto o audio y devuelve una respuesta. | Su capa gratuita permite interpretar "200 g de arroz con pollo" (o un audio hablando) y convertirlo en macros (kcal, proteína, carbo, grasa) automáticamente. |
-| `responseSchema` de Gemini | Una forma de pedirle a Gemini que responda en un formato JSON fijo. | Así la respuesta siempre es previsible y se puede usar directamente en la app sin "adivinar" el texto. |
-
-> ⏳ **Pendiente de configurar**: hace falta pegar tu propia API key gratuita de Gemini en Ajustes cuando la tengas.
+La app ya **no usa IA**. Al principio interpretaba las comidas con la API de Gemini, pero estaba saturada a menudo; se retiró cuando el intérprete local (texto o dictado del teclado + catálogo CIQUAL + Open Food Facts) cubrió ese uso sin conexión. Ver `docs/PROCESO.md` §37.
 
 ## 📊 Gráficas
 
@@ -48,7 +43,7 @@ Explicación sencilla de cada pieza que usa el proyecto y **por qué** se eligi�
 
 | Herramienta | ¿Qué es? | ¿Por qué se usa? |
 |---|---|---|
-| **Vitest** | Framework para escribir tests automáticos. | Comprueba que los cálculos importantes (macros, 1RM, validación de la respuesta de Gemini) sigan siendo correctos aunque se cambie el código más adelante. |
+| **Vitest** | Framework para escribir tests automáticos. | Comprueba que los cálculos importantes (macros, 1RM, intérprete de comidas) sigan siendo correctos aunque se cambie el código más adelante. |
 
 ## ☁️ Publicar la app
 
@@ -69,4 +64,4 @@ Explicación sencilla de cada pieza que usa el proyecto y **por qué** se eligi�
 ---
 
 ### Resumen en una frase
-Una **web hecha con React** que se instala como app en el iPhone (**PWA**), guarda todo **en el propio móvil** (Dexie/IndexedDB), usa la **IA de Gemini** para interpretar comidas por texto o voz, dibuja gráficas con **Recharts**, y se aloja gratis en **Cloudflare Pages**.
+Una **web hecha con React** que se instala como app en el iPhone (**PWA**), guarda todo **en el propio móvil** (Dexie/IndexedDB), interpreta las comidas por texto **en el propio móvil**, dibuja gráficas con **Recharts**, y se aloja gratis en **Cloudflare Pages**.
