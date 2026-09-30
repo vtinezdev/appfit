@@ -3,6 +3,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { getSettings, updateSettings } from '../shared/db/settings'
 import { borrarTodosLosDatos, descargarBackup, exportarBackup, importarBackup } from '../shared/lib/backup'
 import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
+import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { Input } from '../shared/components/Input'
 import { LoadingState } from '../shared/components/StateMessage'
 import Button from '../shared/components/Button'
@@ -64,28 +65,7 @@ export default function Ajustes() {
         </p>
       </Card>
 
-      <Card className="space-y-3">
-        <SectionHeader>Objetivos diarios</SectionHeader>
-        {(
-          [
-            ['kcal', 'Calorías (kcal)'],
-            ['prot', 'Proteína (g)'],
-            ['carb', 'Carbohidratos (g)'],
-            ['grasa', 'Grasa (g)'],
-          ] as const
-        ).map(([key, label]) => (
-          <label key={key} className="flex items-center justify-between gap-3">
-            <span className="text-body-sm text-fg-muted">{label}</span>
-            <Input
-              type="number"
-              inputMode="decimal"
-              value={settings.objetivos[key]}
-              onChange={(e) => updateSettings({ objetivos: { ...settings.objetivos, [key]: Number(e.target.value) || 0 } })}
-              className="w-24 text-right"
-            />
-          </label>
-        ))}
-      </Card>
+      <ObjetivosAjustes objetivos={settings.objetivos} onGuardar={(objetivos) => updateSettings({ objetivos })} />
 
       <Card className="space-y-3">
         <SectionHeader>Backup</SectionHeader>

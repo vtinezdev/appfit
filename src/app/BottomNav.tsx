@@ -1,5 +1,5 @@
 import Icon, { type IconName } from '../shared/components/Icon'
-export type Tab = 'nutricion' | 'gym' | 'ajustes'
+export type Tab = 'inicio' | 'nutricion' | 'gym' | 'ajustes'
 
 interface Props {
   tab: Tab
@@ -7,6 +7,7 @@ interface Props {
 }
 
 const ITEMS: { key: Tab; label: string; icon: IconName }[] = [
+  { key: 'inicio', label: 'Inicio', icon: 'home' },
   { key: 'nutricion', label: 'Nutrición', icon: 'utensils' },
   { key: 'gym', label: 'Gym', icon: 'dumbbell' },
   { key: 'ajustes', label: 'Ajustes', icon: 'settings' },

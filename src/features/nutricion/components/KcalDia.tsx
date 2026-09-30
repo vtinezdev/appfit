@@ -2,6 +2,7 @@ import AnimatedNumber from '../../../shared/components/AnimatedNumber'
 import ProgressBar from '../../../shared/components/ProgressBar'
 import { MACROS } from '../../../shared/design/macros'
 import { formatInt } from '../../../shared/lib/format'
+import { fraseKcal } from '../lib/nutrition'
 
 interface Props {
   valor: number
@@ -19,7 +20,7 @@ export default function KcalDia({ valor, objetivo }: Props) {
   const diff = v - g
   const hayObjetivo = g > 0
 
-  const frase = !hayObjetivo ? null : diff > 0 ? `${formatInt(diff)} kcal sobre el objetivo` : diff < 0 ? `Quedan ${formatInt(-diff)} kcal` : 'En el objetivo'
+  const frase = fraseKcal(valor, objetivo)
   const valueText = hayObjetivo ? `${formatInt(v)} de ${formatInt(g)} kcal. ${frase}` : `${formatInt(v)} kcal`
 
   return (

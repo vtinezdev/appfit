@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { aggregateByDate, distribucionPCG, macrosPorGramos, mediaDiaria, resumenMacros, resumenPeriodo, sumMacros } from './nutrition'
+import { aggregateByDate, distribucionPCG, fraseKcal, macrosPorGramos, mediaDiaria, resumenMacros, resumenPeriodo, sumMacros } from './nutrition'
 import type { Entry } from '../../../shared/db/types'
 
 describe('resumenMacros', () => {
@@ -68,8 +68,29 @@ describe('distribucionPCG', () => {
     expect(dist).toEqual({ prot: 50, carb: 50, grasa: 0 })
   })
 
+  it('los porcentajes suman siempre 100', () => {
+    // 1/3 de las kcal cada uno: redondear por separado daría 33 + 33 + 33 = 99
+    const tercios = distribucionPCG({ kcal: 1200, prot: 100, carb: 100, grasa: 400 / 9 })
+    expect(tercios.prot + tercios.carb + tercios.grasa).toBe(100)
+    // 27,27 / 43,27 / 29,45: el punto que falta va al de mayor resto
+    expect(distribucionPCG({ kcal: 2200, prot: 150, carb: 238, grasa: 72 })).toEqual({ prot: 27, carb: 43, grasa: 30 })
+  })
+
   it('devuelve ceros si no hay macros', () => {
     expect(distribucionPCG({ kcal: 0, prot: 0, carb: 0, grasa: 0 })).toEqual({ prot: 0, carb: 0, grasa: 0 })
+  })
+})
+
+describe('fraseKcal', () => {
+  it('cuenta lo que queda, lo que sobra o que se está en el objetivo', () => {
+    expect(fraseKcal(1888, 2200)).toBe('Quedan 312 kcal')
+    expect(fraseKcal(2292, 2200)).toBe('92 kcal sobre el objetivo')
+    expect(fraseKcal(2200.3, 2200)).toBe('En el objetivo')
+    expect(fraseKcal(12500, 2200)).toBe('10.300 kcal sobre el objetivo')
+  })
+
+  it('sin objetivo no hay frase', () => {
+    expect(fraseKcal(500, 0)).toBeNull()
   })
 })
 
