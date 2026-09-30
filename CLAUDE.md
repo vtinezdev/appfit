@@ -20,7 +20,8 @@ src/shared/ai/           gemini.ts (cliente genérico generarJson)
 src/shared/design/       tokens.css (única fuente de valores), theme, macros, chart, guard
 src/shared/components/   primitives (Button, Card, Sheet, Toast, NumberStepper, ConfirmacionDestructiva…)
 src/shared/hooks/        useAviso (Toast con «Deshacer» y errores)
-src/features/nutricion/  NutricionTab + pages/ components/ hooks/ data/ (repos) lib/ (lógica pura, prompts/, catalogo/: paquete, sincronización, ranking)
+src/features/nutricion/  NutricionTab + pages/ components/ hooks/ data/ (repos) lib/ (lógica pura, prompts/, catalogo/: paquete, sincronización, ranking;
+                         interprete/: intérprete local sin IA; off/: Open Food Facts; escaner/: lector de códigos con carga perezosa)
 src/features/gym/        GymTab + pages/ data/ (repos) lib/workout.ts (lógica pura)
 scripts/catalogo/        Tubería offline CIQUAL → paquete JSON (Node, manual; no va en la app ni en el build)
 public/catalogo/         Paquete estático del catálogo (manifest.json + ciqual-*.json) que la app descarga sola

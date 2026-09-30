@@ -1,6 +1,7 @@
 // Acceso a la tabla `entries` (lo que se ha comido). Las entradas guardan un snapshot de los macros,
 // así que cambiar o borrar un alimento después no altera lo ya registrado.
 import { db } from '../../../shared/db/db'
+import { camposDeRef, type FoodRef } from '../../../shared/db/foodRef'
 import type { Comida, Entry } from '../../../shared/db/types'
 import type { ItemGuardado, KcalRapidasDraft, Por100 } from '../lib/alimentos'
 import { macrosPorGramos } from '../lib/nutrition'
@@ -25,18 +26,19 @@ export interface GuardarComidaInput {
 
 /**
  * Guarda los alimentos revisados como entradas nuevas (creando o actualizando sus alimentos).
+ * Un ítem con `catalogId` referencia el catálogo y no crea ni toca ningún alimento propio.
  * Todo o nada: si falla un alimento, no se guarda ninguno.
  */
 export function guardarComida({ fecha, comida, items, textoOriginal }: GuardarComidaInput): Promise<number[]> {
   return db.transaction('rw', db.foods, db.entries, async () => {
     const ids: number[] = []
     for (const item of items) {
-      const foodId = await foodsRepo.resolverParaGuardar(item)
+      const ref: FoodRef = item.catalogId !== undefined ? { tipo: 'catalog', id: item.catalogId } : { tipo: 'user', id: await foodsRepo.resolverParaGuardar(item) }
       ids.push(
         await db.entries.add({
           fecha,
           comida,
-          foodId,
+          ...camposDeRef(ref),
           nombre: item.nombre,
           gramos: item.gramos,
           ...macrosPorGramos(item, item.gramos),

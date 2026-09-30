@@ -176,3 +176,20 @@ describe('catalogRepo', () => {
     })
   })
 })
+
+describe('catalogRepo.guardarProductoOff', () => {
+  it('guarda el producto y anota la fuente off con licencia, atribución y número de productos', async () => {
+    await catalogRepo.guardarProductoOff(food('off', '8410000000000', 'Leche', { tipo: 'marca', gtin: '8410000000000', version: 'live', importadoAt: 5 }))
+    await catalogRepo.guardarProductoOff(food('off', '8410000000001', 'Yogur', { tipo: 'marca', gtin: '8410000000001', version: 'live', importadoAt: 7 }))
+    await catalogRepo.guardarProductoOff(food('off', '8410000000001', 'Yogur natural', { tipo: 'marca', gtin: '8410000000001', version: 'live', importadoAt: 8 }))
+    expect((await catalogRepo.buscarPorGtin('8410000000001')).map((f) => f.nombre)).toEqual(['Yogur natural'])
+    expect(await catalogRepo.fuentes()).toEqual([
+      { id: 'off', version: 'live', importadoAt: 8, filas: 2, licencia: expect.stringMatching(/ODbL/), atribucion: expect.stringMatching(/Open Food Facts/) },
+    ])
+  })
+
+  it('rechaza alimentos que no son de Open Food Facts', async () => {
+    await expect(catalogRepo.guardarProductoOff(food('ciqual', '1', 'Leche'))).rejects.toThrow(/Open Food Facts/)
+    expect(await catalogRepo.contar()).toBe(0)
+  })
+})

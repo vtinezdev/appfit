@@ -12,9 +12,16 @@ import Sheet from '../../../shared/components/Sheet'
 import * as entriesRepo from '../data/entriesRepo'
 import * as foodsRepo from '../data/foodsRepo'
 import { useInterpretarComida, type EntradaComida } from '../hooks/useInterpretarComida'
+import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
+import { getSettings } from '../../../shared/db/settings'
 import {
   aItemGuardado,
   actualizaAlimentoGuardado,
+  elegibleDeCatalogo,
+  faltanValores,
+  itemDeProductoIncompleto,
+  itemDesdeElegible,
+  itemSinCoincidencia,
   por100DesdeEntrada,
   validarKcalRapidas,
   type AlimentoElegible,
@@ -30,6 +37,8 @@ import ItemRevisionRow from '../components/ItemRevisionRow'
 import KcalRapidasSheet from '../components/KcalRapidasSheet'
 import PlantillasLista from '../components/PlantillasLista'
 import AlimentosRapidos from '../components/AlimentosRapidos'
+import CambiarAlimentoSheet from '../components/CambiarAlimentoSheet'
+import EscanerCodigo from '../components/EscanerCodigo'
 import Button from '../../../shared/components/Button'
 import { ErrorState } from '../../../shared/components/StateMessage'
 
@@ -69,13 +78,33 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
   const [guardandoRapida, setGuardandoRapida] = useState(false)
   const [errorRapida, setErrorRapida] = useState<string | null>(null)
   const [plantillaElegida, setPlantillaElegida] = useState<Meal | null>(null)
+  const [cambiando, setCambiando] = useState<number | null>(null)
+  const [escaneando, setEscaneando] = useState(false)
   const ia = useInterpretarComida()
+  const local = useInterpretarLocal()
+  const iaDisponible = useLiveQuery(async () => (await getSettings()).apiKey.trim() !== '', []) ?? false
+
+  async function interpretarLocal() {
+    ia.setError(null)
+    const resultado = await local.interpretar(texto)
+    if (resultado) setItems(resultado)
+  }
 
   async function interpretar(entrada: EntradaComida) {
+    local.setError(null)
     const resultado = await ia.interpretar(entrada)
     if (!resultado) return
     if (resultado.transcripcion) setTexto(resultado.transcripcion)
     setItems(resultado.items)
+  }
+
+  /** «Cambiar»: sustituye el alimento del ítem conservando los gramos y las demás opciones. */
+  function cambiarAlimento(alimento: AlimentoElegible) {
+    if (cambiando === null || !items) return
+    const actual = items[cambiando]
+    const alternativas = actual.origen.alternativas?.filter((a) => a !== alimento)
+    setItems(items.map((it, i) => (i === cambiando ? itemDesdeElegible(alimento, it.gramos, { gramosEstimados: it.gramosEstimados, alternativas }) : it)))
+    setCambiando(null)
   }
 
   function actualizarItem(i: number, patch: Partial<ItemRevision>) {
@@ -164,10 +193,16 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
                 <EntradaIA
                   texto={texto}
                   onTextoChange={setTexto}
-                  onInterpretar={interpretar}
-                  onError={ia.setError}
-                  cargando={ia.cargando}
-                  error={ia.error}
+                  onInterpretar={interpretarLocal}
+                  onInterpretarIA={interpretar}
+                  iaDisponible={iaDisponible}
+                  onError={(mensaje) => {
+                    local.setError(null)
+                    ia.setError(mensaje)
+                  }}
+                  cargando={local.cargando || ia.cargando}
+                  cargandoIA={ia.cargando}
+                  error={local.error ?? ia.error}
                 />
                 <Button
                   variant="secondary"
@@ -181,7 +216,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
                 </Button>
               </div>
 
-              <AlimentosRapidos comida={comida} onElegir={(alimento) => setGramosRapido({ alimento, gramos: 100 })} />
+              <AlimentosRapidos comida={comida} onElegir={(alimento) => setGramosRapido({ alimento, gramos: 100 })} onEscanear={() => setEscaneando(true)} />
             </>
           )}
 
@@ -206,6 +241,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
                       item={item}
                       onChange={(patch) => actualizarItem(i, patch)}
                       onQuitar={entryEditar ? undefined : () => quitarItem(i)}
+                      onCambiar={entryEditar ? undefined : () => setCambiando(i)}
                       aviso={actualizaAlimentoGuardado(item) ? 'Actualizará el alimento guardado en «Alimentos».' : undefined}
                     />
                   ))}
@@ -232,7 +268,7 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
         <div className="safe-bottom border-t border-line bg-bg">
           <div className={`${columna} space-y-2 py-3`}>
             {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
-            <Button size="lg" shape="pill" block onClick={guardar} disabled={guardando || items.some((it) => !it.nombre.trim())}>
+            <Button size="lg" shape="pill" block onClick={guardar} disabled={guardando || items.some((it) => !it.nombre.trim() || faltanValores(it))}>
               {guardando ? (
                 'Guardando…'
               ) : (
@@ -266,6 +302,30 @@ export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }
           </div>
         )}
       </Sheet>
+
+      <EscanerCodigo
+        open={escaneando}
+        onClose={() => setEscaneando(false)}
+        onEncontrado={(food) => {
+          setEscaneando(false)
+          setGramosRapido({ alimento: elegibleDeCatalogo(food), gramos: 100 })
+        }}
+        onIncompleto={({ nombre, valores }) => {
+          setEscaneando(false)
+          setItems([itemDeProductoIncompleto(nombre, valores)])
+        }}
+        onManual={() => {
+          setEscaneando(false)
+          setItems([itemSinCoincidencia('', 100)])
+        }}
+        onKcalRapidas={() => {
+          setEscaneando(false)
+          setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 })
+          setErrorRapida(null)
+        }}
+      />
+
+      <CambiarAlimentoSheet item={cambiando !== null ? (items?.[cambiando] ?? null) : null} onElegir={cambiarAlimento} onClose={() => setCambiando(null)} />
 
       <KcalRapidasSheet
         open={kcalRapidas !== null}

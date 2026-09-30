@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { db } from '../../../shared/db/db'
+import { refDe } from '../../../shared/db/foodRef'
 import type { ItemGuardado } from '../lib/alimentos'
 import * as entriesRepo from './entriesRepo'
 import * as foodsRepo from './foodsRepo'
@@ -16,6 +17,28 @@ function crearPollo(): Promise<number> {
 }
 
 describe('entriesRepo: lecturas y añadido rápido', () => {
+  it('guardarComida: un ítem con catalogId referencia el catálogo sin crear ni tocar alimentos propios', async () => {
+    const foodId = await crearPollo()
+    const antes = await foodsRepo.obtener(foodId)
+    const ids = await entriesRepo.guardarComida({
+      fecha: '2026-09-28',
+      comida: 'comida',
+      items: [
+        { nombre: 'Pollo', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual', catalogId: 'ciqual:36003' },
+        ARROZ,
+      ],
+    })
+    const [delCatalogo, propia] = await Promise.all(ids.map((id) => db.entries.get(id)))
+    expect(delCatalogo).toMatchObject({ catalogId: 'ciqual:36003', nombre: 'Pollo', gramos: 150, kcal: 247.5 })
+    expect(delCatalogo?.foodId).toBeUndefined()
+    expect(() => refDe(delCatalogo!)).not.toThrow()
+    expect(propia?.catalogId).toBeUndefined()
+    expect(propia?.foodId).toBeDefined()
+    // Solo se ha creado el alimento del ítem sin catalogId (Arroz); Pollo sigue igual aunque se llame igual.
+    expect((await db.foods.toArray()).map((f) => f.nombre).sort()).toEqual(['Arroz', 'Pollo'])
+    expect(await foodsRepo.obtener(foodId)).toEqual(antes)
+  })
+
   it('anadirDesdeAlimento guarda un snapshot de los macros con los valores actuales del alimento', async () => {
     const foodId = await crearPollo()
     const id = await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-28', comida: 'cena', foodId, gramos: 200 })

@@ -8,13 +8,19 @@ import {
   decidirGuardado,
   elegibleDeCatalogo,
   elegibleDeFood,
+  faltanValores,
   filtrarAlimentos,
+  itemDeProductoIncompleto,
+  itemDesdeElegible,
+  itemSinCoincidencia,
   mismosValores,
   NOMBRE_RAPIDA_POR_DEFECTO,
   por100DesdeEntrada,
+  procedencia,
   rankFrecuentes,
   revisarItems,
   validarKcalRapidas,
+  type AlimentoElegible,
   type ItemRevision,
 } from './alimentos'
 
@@ -203,5 +209,77 @@ describe('AlimentoElegible', () => {
     expect(elegibleDeCatalogo(cf)).toEqual({
       ref: { tipo: 'catalog', id: 'ciqual:13005' }, nombre: 'Plátano, pulpa, crudo', detalle: 'Frutas', kcal100: 90, prot100: 1.1, carb100: 20, grasa100: 0.2,
     })
+  })
+})
+
+describe('ítems del intérprete local (catálogo, propios y sin coincidencia)', () => {
+  const ARROZ_CAT: AlimentoElegible = { ref: { tipo: 'catalog', id: 'ciqual:9100' }, nombre: 'Arroz blanco, crudo', kcal100: 350, prot100: 7, carb100: 78, grasa100: 0.6 }
+
+  it('un ítem del catálogo sin cambios se guarda con su catalogId', () => {
+    const item = itemDesdeElegible(ARROZ_CAT, 200)
+    expect(item.origen).toMatchObject({ fuente: 'manual', guardado: false, catalogId: 'ciqual:9100', nombreNorm: 'arroz blanco, crudo' })
+    expect(aItemGuardado(item)).toEqual({ nombre: 'Arroz blanco, crudo', gramos: 200, kcal100: 350, prot100: 7, carb100: 78, grasa100: 0.6, fuenteSiNuevo: 'manual', catalogId: 'ciqual:9100' })
+    expect(procedencia(item)).toBe('catalogo')
+  })
+
+  it('si el usuario cambia los valores o el nombre, sale un alimento propio manual (sin catalogId)', () => {
+    const item = itemDesdeElegible(ARROZ_CAT, 200)
+    const otrosValores = aItemGuardado({ ...item, kcal100: 130 })
+    expect(otrosValores.catalogId).toBeUndefined()
+    expect(otrosValores.fuenteSiNuevo).toBe('manual')
+    expect(aItemGuardado({ ...item, nombre: 'Mi arroz' }).catalogId).toBeUndefined()
+    expect(procedencia({ ...item, kcal100: 130 })).toBeUndefined()
+    // Cambiar solo gramos o mayúsculas/espacios del nombre no lo saca del catálogo
+    expect(aItemGuardado({ ...item, gramos: 80, nombre: ' arroz blanco, CRUDO ' }).catalogId).toBe('ciqual:9100')
+  })
+
+  it('uno propio cuenta como guardado, sin catalogId', () => {
+    const item = itemDesdeElegible(elegibleDeFood(PLATANO), 120, { gramosEstimados: true })
+    expect(item.origen.guardado).toBe(true)
+    expect(item.origen.catalogId).toBeUndefined()
+    expect(item.gramosEstimados).toBe(true)
+    expect(aItemGuardado(item).catalogId).toBeUndefined()
+    expect(procedencia(item)).toBe('tuyo')
+  })
+
+  it('guarda las alternativas solo si hay', () => {
+    expect(itemDesdeElegible(ARROZ_CAT, 100, { alternativas: [] }).origen.alternativas).toBeUndefined()
+    expect(itemDesdeElegible(ARROZ_CAT, 100, { alternativas: [elegibleDeFood(PLATANO)] }).origen.alternativas).toHaveLength(1)
+  })
+
+  it('sin coincidencia: valores a 0 y no se puede guardar hasta escribirlos', () => {
+    const item = itemSinCoincidencia('arroz con pollo', 300)
+    expect(item).toMatchObject({ nombre: 'arroz con pollo', gramos: 300, kcal100: 0, sinCoincidencia: true })
+    expect(faltanValores(item)).toBe(true)
+    expect(faltanValores({ ...item, kcal100: 150 })).toBe(false)
+    expect(procedencia(item)).toBeUndefined()
+  })
+
+  it('los de la IA sin cambios son «estimado»', () => {
+    const [item] = revisarItems([{ nombre: 'Kebab', gramos: 300, kcal100: 215, prot100: 12, carb100: 20, grasa100: 10 }], new Map())
+    expect(procedencia(item)).toBe('estimado')
+    expect(procedencia({ ...item, kcal100: 200 })).toBeUndefined()
+  })
+})
+
+describe('producto escaneado incompleto', () => {
+  it('lleva lo conocido y 0 en lo demás, y se guarda como alimento propio manual', () => {
+    const item = itemDeProductoIncompleto('Galletas', { kcal100: 480 })
+    expect(item).toMatchObject({ nombre: 'Galletas', gramos: 100, kcal100: 480, prot100: 0, datosIncompletos: true })
+    expect(faltanValores(item)).toBe(false)
+    expect(aItemGuardado({ ...item, prot100: 6 })).toMatchObject({ fuenteSiNuevo: 'manual' })
+    expect(aItemGuardado(item).catalogId).toBeUndefined()
+  })
+
+  it('sin ningún valor no se puede guardar', () => {
+    expect(faltanValores(itemDeProductoIncompleto('', {}))).toBe(true)
+  })
+
+  it('en un producto de marca, el detalle es la marca', () => {
+    const f: CatalogFood = {
+      id: 'off:1', fuente: 'off', idExterno: '1', nombre: 'Leche', nombreNorm: 'leche', tok: ['leche'], tipo: 'marca', marca: 'Pascual',
+      kcal100: 46, prot100: 3, carb100: 5, grasa100: 1.6, version: 'live', importadoAt: 0,
+    }
+    expect(elegibleDeCatalogo(f).detalle).toBe('Pascual')
   })
 })

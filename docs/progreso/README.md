@@ -13,6 +13,7 @@ Esta carpeta guarda un registro por sesión de trabajo. Cada vez que se cierra u
 - [`sesion-02/`](./sesion-02/) — Nutrición v2, Fase 1 (en curso): kcal rápidas (A5), copiar comida/día (A2) y plantillas (A1), sobre el esquema v2 y los frecuentes/buscador ya hechos. Queda D1 (Resumen navegable).
 - [`sesion-03/`](./sesion-03/) — Rediseño piloto de Hoy y Añadir comida; Gym migrado a `features/` con repositorios, `useAviso` y patrón de borrado (confirmación en rutinas/plantillas, «Deshacer» en filas sueltas).
 - [`sesion-04/`](./sesion-04/) — food-database, Fases 2 y 3: catálogo CIQUAL traducido dentro del móvil (descarga automática) y buscador de alimentos propios + catálogo en Añadir comida. Handoff de las Fases 4 y 5 en `handoff-fases-4-5.md`.
+- [`sesion-05/`](./sesion-05/) — food-database, Fases 4 y 5: intérprete local de comidas sin IA (texto y dictado) con «Cambiar», y escáner de códigos de barras con Open Food Facts.
 
 ## Convención para futuras sesiones
 
