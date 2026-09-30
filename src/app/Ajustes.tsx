@@ -4,7 +4,6 @@ import { getSettings, updateSettings } from '../shared/db/settings'
 import { borrarTodosLosDatos, descargarBackup, exportarBackup, importarBackup } from '../shared/lib/backup'
 import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
-import { Input } from '../shared/components/Input'
 import { LoadingState } from '../shared/components/StateMessage'
 import Button from '../shared/components/Button'
 import Card from '../shared/components/Card'
@@ -14,13 +13,12 @@ export default function Ajustes() {
   const settings = useLiveQuery(() => getSettings(), [])
   const [mensaje, setMensaje] = useState<string | null>(null)
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false)
-  const [incluirApiKey, setIncluirApiKey] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
   if (!settings) return <LoadingState />
 
   async function exportar() {
-    const data = await exportarBackup({ incluirApiKey })
+    const data = await exportarBackup()
     descargarBackup(data)
   }
 
@@ -42,38 +40,11 @@ export default function Ajustes() {
 
   return (
     <div className="space-y-6 px-4 pb-8 pt-4">
-      <Card className="space-y-3">
-        <SectionHeader>Gemini</SectionHeader>
-        <label className="block space-y-1">
-          <span className="text-body-sm text-fg-muted">API key (Google AI Studio)</span>
-          <Input
-            type="password"
-            value={settings.apiKey}
-            onChange={(e) => updateSettings({ apiKey: e.target.value })}
-            placeholder="AIza…"
-          />
-        </label>
-        <label className="block space-y-1">
-          <span className="text-body-sm text-fg-muted">Modelo</span>
-          <Input
-            value={settings.modelo}
-            onChange={(e) => updateSettings({ modelo: e.target.value })}
-          />
-        </label>
-        <p className="text-caption text-fg-subtle">
-          Consigue una key gratuita en ai.google.dev. Se guarda solo en este móvil (IndexedDB), nunca en ningún servidor.
-        </p>
-      </Card>
-
       <ObjetivosAjustes objetivos={settings.objetivos} onGuardar={(objetivos) => updateSettings({ objetivos })} />
 
       <Card className="space-y-3">
         <SectionHeader>Backup</SectionHeader>
         <p className="text-caption text-fg-subtle">Tus datos viven solo en este móvil. Exporta un JSON de vez en cuando por si acaso.</p>
-        <label className="flex items-center gap-3 text-body-sm text-fg-muted">
-          <input type="checkbox" checked={incluirApiKey} onChange={(e) => setIncluirApiKey(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
-          Incluir la API key en el backup
-        </label>
         <div className="flex gap-2">
           <Button variant="secondary" onClick={exportar} className="flex-1">
             Exportar

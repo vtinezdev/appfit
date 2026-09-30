@@ -19,10 +19,8 @@ import {
   por100DesdeEntrada,
   procedencia,
   rankFrecuentes,
-  revisarItems,
   validarKcalRapidas,
   type AlimentoElegible,
-  type ItemRevision,
 } from './alimentos'
 
 const PLATANO: Food = {
@@ -59,37 +57,16 @@ describe('decidirGuardado', () => {
   })
 })
 
-describe('revisarItems', () => {
-  it('usa el nombre y los valores locales si el alimento ya existe, y recuerda su origen', () => {
-    const [item] = revisarItems([{ nombre: 'platano', gramos: 120, kcal100: 95, prot100: 1, carb100: 23, grasa100: 0.2 }], new Map([['platano', PLATANO]]))
-    expect(item).toEqual({
-      nombre: 'Plátano', gramos: 120, ...VALORES_PLATANO,
-      origen: { fuente: 'gemini', valores: VALORES_PLATANO, nombreNorm: 'platano', guardado: true },
-    })
-  })
-
-  it('los alimentos nuevos tienen origen gemini y no guardado', () => {
-    const [item] = revisarItems([{ nombre: 'Kiwi', gramos: 80, kcal100: 61, prot100: 1.1, carb100: 15, grasa100: 0.5 }], new Map())
-    expect(item.origen).toEqual({ fuente: 'gemini', valores: { kcal100: 61, prot100: 1.1, carb100: 15, grasa100: 0.5 }, nombreNorm: 'kiwi', guardado: false })
-  })
-})
-
 describe('aItemGuardado y actualizaAlimentoGuardado', () => {
-  const [local] = revisarItems([{ nombre: 'Plátano', gramos: 120, ...VALORES_PLATANO }], new Map([['platano', PLATANO]]))
-  const [nuevo] = revisarItems([{ nombre: 'Kiwi', gramos: 80, kcal100: 61, prot100: 1.1, carb100: 15, grasa100: 0.5 }], new Map())
+  const local = itemDesdeElegible(elegibleDeFood(PLATANO), 120)
 
-  it('sin cambios conserva la procedencia original', () => {
-    expect(aItemGuardado(nuevo).fuenteSiNuevo).toBe('gemini')
-    expect(aItemGuardado(local).fuenteSiNuevo).toBe('gemini')
+  it('un alimento guardado sin cambios se reutiliza sin avisar', () => {
+    expect(aItemGuardado(local)).toMatchObject({ nombre: 'Plátano', gramos: 120, ...VALORES_PLATANO, fuenteSiNuevo: 'manual' })
     expect(actualizaAlimentoGuardado(local)).toBe(false)
   })
 
-  it('si el usuario cambia los valores, lo nuevo es manual y se avisa si afecta a un alimento guardado', () => {
-    const editadoNuevo: ItemRevision = { ...nuevo, kcal100: 70 }
-    const editadoLocal: ItemRevision = { ...local, kcal100: 95 }
-    expect(aItemGuardado(editadoNuevo).fuenteSiNuevo).toBe('manual')
-    expect(actualizaAlimentoGuardado(editadoNuevo)).toBe(false)
-    expect(actualizaAlimentoGuardado(editadoLocal)).toBe(true)
+  it('si el usuario cambia los valores de un alimento guardado, se avisa', () => {
+    expect(actualizaAlimentoGuardado({ ...local, kcal100: 95 })).toBe(true)
   })
 
   it('si el usuario renombra un alimento guardado, ya no se avisa (será otro alimento)', () => {
@@ -97,7 +74,7 @@ describe('aItemGuardado y actualizaAlimentoGuardado', () => {
   })
 
   it('quita los espacios sobrantes del nombre', () => {
-    expect(aItemGuardado({ ...nuevo, nombre: '  Kiwi  ' }).nombre).toBe('Kiwi')
+    expect(aItemGuardado({ ...local, nombre: '  Plátano  ' }).nombre).toBe('Plátano')
   })
 })
 
@@ -264,12 +241,6 @@ describe('ítems del intérprete local (catálogo, propios y sin coincidencia)',
     expect(faltanValores(item)).toBe(true)
     expect(faltanValores({ ...item, kcal100: 150 })).toBe(false)
     expect(procedencia(item)).toBeUndefined()
-  })
-
-  it('los de la IA sin cambios son «estimado»', () => {
-    const [item] = revisarItems([{ nombre: 'Kebab', gramos: 300, kcal100: 215, prot100: 12, carb100: 20, grasa100: 10 }], new Map())
-    expect(procedencia(item)).toBe('estimado')
-    expect(procedencia({ ...item, kcal100: 200 })).toBeUndefined()
   })
 })
 

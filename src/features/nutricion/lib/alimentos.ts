@@ -91,31 +91,6 @@ export function decidirGuardado(existente: Food | undefined, item: Por100): 'cre
   return mismosValores(existente, item) ? 'reutilizar' : 'actualizar'
 }
 
-/**
- * Prepara los alimentos que devuelve la IA para la revisión: si un alimento ya está guardado,
- * se usan su nombre y sus valores locales (los del usuario tienen prioridad sobre la estimación).
- * `locales` va indexado por nombre normalizado.
- */
-export function revisarItems(items: (Por100 & { nombre: string; gramos: number })[], locales: Map<string, Food>): ItemRevision[] {
-  return items.map((it) => {
-    const local = locales.get(normalizeName(it.nombre))
-    if (!local) {
-      return {
-        nombre: it.nombre,
-        gramos: it.gramos,
-        ...valoresDe(it),
-        origen: { fuente: 'gemini', valores: valoresDe(it), nombreNorm: normalizeName(it.nombre), guardado: false },
-      }
-    }
-    return {
-      nombre: local.nombre,
-      gramos: it.gramos,
-      ...valoresDe(local),
-      origen: { fuente: local.fuente, valores: valoresDe(local), nombreNorm: local.nombreNorm, guardado: true },
-    }
-  })
-}
-
 /** true si el ítem sigue siendo tal cual el alimento del catálogo del que salió (mismo nombre y valores). */
 function sigueSiendoDelCatalogo(item: ItemRevision): boolean {
   return item.origen.catalogId !== undefined && normalizeName(item.nombre) === item.origen.nombreNorm && mismosValores(item, item.origen.valores)
@@ -175,12 +150,11 @@ export function medidaPendiente(item: ItemRevision): boolean {
 
 /**
  * Qué etiqueta de procedencia mostrar en la revisión: `tuyo` (un alimento de «Alimentos»), `catalogo` (tal cual
- * del catálogo), `estimado` (valores estimados por la IA) o nada (escrito o cambiado por el usuario).
+ * del catálogo) o nada (escrito o cambiado por el usuario).
  */
-export function procedencia(item: ItemRevision): 'tuyo' | 'catalogo' | 'estimado' | undefined {
+export function procedencia(item: ItemRevision): 'tuyo' | 'catalogo' | undefined {
   if (item.origen.guardado) return 'tuyo'
   if (item.origen.catalogId !== undefined) return sigueSiendoDelCatalogo(item) ? 'catalogo' : undefined
-  if (item.origen.fuente === 'gemini' && mismosValores(item, item.origen.valores)) return 'estimado'
   return undefined
 }
 

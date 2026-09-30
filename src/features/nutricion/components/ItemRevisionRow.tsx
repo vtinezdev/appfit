@@ -20,15 +20,13 @@ interface Props {
   aviso?: string
 }
 
-/** Texto de la etiqueta de procedencia (Tuyo, CIQUAL, Estimado…), o nada si el usuario lo ha escrito o cambiado. */
+/** Texto de la etiqueta de procedencia (Tuyo, CIQUAL…), o nada si el usuario lo ha escrito o cambiado. */
 function textoProcedencia(item: ItemRevision): string | undefined {
   switch (procedencia(item)) {
     case 'tuyo':
       return 'Tuyo'
     case 'catalogo':
       return etiquetaFuente(item.origen.catalogId!.split(':')[0])
-    case 'estimado':
-      return 'Estimado'
     default:
       return undefined
   }

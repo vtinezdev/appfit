@@ -1,6 +1,6 @@
 # AppFit
 
-App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra comidas por texto o voz (interpretadas por IA), lleva el control de tus entrenos, y guarda absolutamente todo **solo en tu propio móvil**: no hay backend, no hay cuentas, no hay servidor que vea tus datos.
+App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra comidas por texto o dictado (interpretadas en el propio móvil, sin IA), lleva el control de tus entrenos, y guarda absolutamente todo **solo en tu propio móvil**: no hay backend, no hay cuentas, no hay servidor que vea tus datos.
 
 > Proyecto personal de uso individual — no está pensado para múltiples usuarios ni para publicarse en tiendas de apps.
 
@@ -19,9 +19,10 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 ## Características
 
 **Nutrición**
-- Añadir comidas por texto libre o por voz; una IA (Gemini) interpreta lo comido y estima gramos y macros.
+- Añadir comidas por texto libre (o dictado con el micrófono del teclado); un intérprete local reconoce alimentos, cantidades y medidas caseras y los busca en tus alimentos y en el catálogo (CIQUAL). Sin IA ni conexión.
+- Productos de marca por código de barras (Open Food Facts).
 - Pantalla de revisión editable antes de guardar — nunca se guarda nada sin poder corregirlo.
-- Añadido rápido sin IA para alimentos ya conocidos (funciona sin conexión).
+- Añadido rápido para alimentos ya conocidos y plantillas de comidas.
 - Resumen diario, semanal y mensual con gráficas de macros frente a tus objetivos.
 - Base de datos personal de alimentos, editable a mano.
 
@@ -31,13 +32,13 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Rutinas reutilizables, historial de entrenos completados, y gráficas de progreso (peso máximo, 1RM estimado, volumen) por ejercicio.
 
 **General**
-- Instalable en iOS como PWA ("Añadir a pantalla de inicio"), con icono propio y funcionamiento offline salvo la interpretación por IA.
+- Instalable en iOS como PWA ("Añadir a pantalla de inicio"), con icono propio y funcionamiento offline (salvo escanear un producto nuevo).
 - Copia de seguridad exportable/importable en un único archivo JSON.
 - Coste de infraestructura: **0 €**.
 
 ## Stack técnico
 
-Vite + React 19 + TypeScript + Tailwind CSS, datos en IndexedDB vía Dexie, gráficas con Recharts, PWA con `vite-plugin-pwa`, tests con Vitest, IA con la API REST de Gemini, y despliegue estático gratuito en Cloudflare Pages.
+Vite + React 19 + TypeScript + Tailwind CSS, datos en IndexedDB vía Dexie, gráficas con Recharts, PWA con `vite-plugin-pwa`, tests con Vitest, y despliegue estático gratuito en Cloudflare Pages.
 
 Explicación de cada pieza y por qué se eligió: [`docs/herramientas.md`](docs/herramientas.md).
 
@@ -49,7 +50,7 @@ appfit/
 ├── public/                # iconos y assets estáticos de la PWA
 ├── src/
 │   ├── app/                 # App (navegación), BottomNav, Ajustes
-│   ├── shared/              # db (esquema Dexie), lib (fechas, backup…), ai (Gemini), design (tokens), components, hooks
+│   ├── shared/              # db (esquema Dexie), lib (fechas, backup…), design (tokens), components, hooks
 │   └── features/            # nutricion/ y gym/, cada una con pages/, data/ (repositorios) y lib/ (lógica pura)
 ├── package.json
 └── vite.config.ts
@@ -71,8 +72,6 @@ npm run preview       # previsualizar el build de producción
 
 La app no necesita variables de entorno ni backend propio. Toda la configuración se hace **dentro de la app**, en la pestaña Ajustes:
 
-- **API key de Gemini**: gratuita, se obtiene en [Google AI Studio](https://aistudio.google.com/). Se guarda solo en el dispositivo (IndexedDB), nunca se envía a ningún servidor propio.
-- **Modelo de Gemini**: configurable por si Google cambia el nombre del modelo disponible en el futuro.
 - **Objetivos diarios** de calorías y macros.
 
 ## Despliegue
@@ -85,11 +84,11 @@ npm run build
 npx wrangler pages deploy dist
 ```
 
-Una vez desplegado, abre la URL en Safari (iOS) y usa "Compartir → Añadir a pantalla de inicio" para instalarla como app. El micrófono para el registro por voz requiere HTTPS, por lo que esa parte solo se puede probar ya desplegada, no en local.
+Una vez desplegado, abre la URL en Safari (iOS) y usa "Compartir → Añadir a pantalla de inicio" para instalarla como app. La cámara del escáner de códigos de barras requiere HTTPS, por lo que esa parte solo se puede probar ya desplegada, no en local.
 
 ## Privacidad
 
-No existe backend. Todos los datos (comidas, entrenos, alimentos, ajustes, y la propia API key de Gemini) se guardan exclusivamente en el `IndexedDB` del navegador/dispositivo donde se use la app. Cloudflare Pages solo sirve los archivos estáticos de la aplicación; no aloja ni tiene acceso a ningún dato personal.
+No existe backend. Todos los datos (comidas, entrenos, alimentos y ajustes) se guardan exclusivamente en el `IndexedDB` del navegador/dispositivo donde se use la app. Cloudflare Pages solo sirve los archivos estáticos de la aplicación; no aloja ni tiene acceso a ningún dato personal.
 
 ## Estado del proyecto
 

@@ -11,9 +11,7 @@ import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
 import * as entriesRepo from '../data/entriesRepo'
 import * as foodsRepo from '../data/foodsRepo'
-import { useInterpretarComida, type EntradaComida } from '../hooks/useInterpretarComida'
 import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
-import { getSettings } from '../../../shared/db/settings'
 import {
   aItemGuardado,
   actualizaAlimentoGuardado,
@@ -33,7 +31,7 @@ import { formatInt } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
 import { macrosPorGramos, resumenMacros, sumMacros } from '../lib/nutrition'
 import AplicarPlantillaSheet from '../components/AplicarPlantillaSheet'
-import EntradaIA from '../components/EntradaIA'
+import DescribirComida from '../components/DescribirComida'
 import ItemRevisionRow from '../components/ItemRevisionRow'
 import KcalRapidasSheet from '../components/KcalRapidasSheet'
 import PlantillasLista from '../components/PlantillasLista'
@@ -85,22 +83,11 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
   const [cambiando, setCambiando] = useState<number | null>(null)
   const [escaneando, setEscaneando] = useState(false)
   const [verMedidas, setVerMedidas] = useState(false)
-  const ia = useInterpretarComida()
   const local = useInterpretarLocal()
-  const iaDisponible = useLiveQuery(async () => (await getSettings()).apiKey.trim() !== '', []) ?? false
 
-  async function interpretarLocal() {
-    ia.setError(null)
+  async function interpretar() {
     const resultado = await local.interpretar(texto)
     if (resultado) setItems(resultado)
-  }
-
-  async function interpretar(entrada: EntradaComida) {
-    local.setError(null)
-    const resultado = await ia.interpretar(entrada)
-    if (!resultado) return
-    if (resultado.transcripcion) setTexto(resultado.transcripcion)
-    setItems(resultado.items)
   }
 
   /** «Cambiar»: sustituye el alimento del ítem conservando los gramos (o la medida por elegir) y las demás opciones. */
@@ -195,19 +182,12 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
               <PlantillasLista onElegir={setPlantillaElegida} />
 
               <div className="space-y-3">
-                <EntradaIA
+                <DescribirComida
                   texto={texto}
                   onTextoChange={setTexto}
-                  onInterpretar={interpretarLocal}
-                  onInterpretarIA={interpretar}
-                  iaDisponible={iaDisponible}
-                  onError={(mensaje) => {
-                    local.setError(null)
-                    ia.setError(mensaje)
-                  }}
-                  cargando={local.cargando || ia.cargando}
-                  cargandoIA={ia.cargando}
-                  error={local.error ?? ia.error}
+                  onInterpretar={interpretar}
+                  cargando={local.cargando}
+                  error={local.error}
                   onVerMedidas={() => setVerMedidas(true)}
                 />
                 <Button

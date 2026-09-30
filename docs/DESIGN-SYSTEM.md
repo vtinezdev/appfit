@@ -99,7 +99,7 @@ Mismo lenguaje que Hoy, aplicado a un flujo de entrada de datos. Detalle en `doc
 | `SearchInput` (en `Input.tsx`) | Campo `type="search"` con lupa; `aria-label` obligatorio; icono `search` nuevo | Alimentos y Gym buscan con un `Input` sin lupa; pendiente de migrar |
 | `ErrorState` | Icono `alert` | El color no debe ser el único indicador (ya lo hacía el `Toast` de error) |
 | `NumberStepper` | Variante normal: zonas de 44 px, campo de ancho fijo con la unidad **dentro** (`100 g`), sin flechas del navegador. **`compact` (Gym, plantillas) intacta**: mismas clases que antes | En Sheets el campo se estiraba a todo el ancho y los botones medían 36 px |
-| `VoiceRecorder` | Reposo secundario (`surface-muted`), grabando = acento + `aria-pressed`. Sin rojo | Dos botones rellenos de acento competían; grabar no es un error |
+| `VoiceRecorder` (retirado con la IA, PROCESO §37) | Reposo secundario (`surface-muted`), grabando = acento + `aria-pressed`. Sin rojo | Dos botones rellenos de acento competían; grabar no es un error |
 | `.no-spin` (`index.css`) | Oculta las flechas de `type="number"`, **por clase** (opt-in) | Pisaban la cifra en campos estrechos en escritorio |
 | tokens dark | `--c-surface-elevated` 34→30, `--c-surface-muted` 33→37 | En oscuro, un campo `surface-muted` dentro de un Sheet (`surface-elevated`) era prácticamente invisible (1 punto de diferencia); ahora hay 7. `contrast.test.ts` sigue en verde |
 

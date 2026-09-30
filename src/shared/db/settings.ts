@@ -3,17 +3,20 @@ import type { Objetivos, Settings } from './types'
 
 /** Cuadran: 150·4 + 238·4 + 72·9 = 2200 kcal. */
 export const DEFAULT_OBJETIVOS: Objetivos = { kcal: 2200, prot: 150, carb: 238, grasa: 72 }
-export const DEFAULT_MODELO = 'gemini-3.8-flash'
+
+/** Campos que tuvo `settings` y ya no se usan (la IA con Gemini se retiró). Pueden venir de la BD o de un backup antiguo. */
+type SettingsGuardados = Partial<Settings> & { apiKey?: string; modelo?: string }
 
 /**
- * Completa un registro guardado con los valores por defecto. Así, los campos nuevos de `settings`
- * que se añadan en el futuro no necesitan un `upgrade()` de Dexie.
+ * Completa un registro guardado con los valores por defecto y descarta los campos antiguos. Así, los campos nuevos
+ * de `settings` que se añadan en el futuro no necesitan un `upgrade()` de Dexie.
  */
-export function conDefaults(s?: Partial<Settings>): Settings {
+export function conDefaults(s?: SettingsGuardados): Settings {
+  const resto: SettingsGuardados = { ...s }
+  delete resto.apiKey
+  delete resto.modelo
   return {
-    apiKey: '',
-    modelo: DEFAULT_MODELO,
-    ...s,
+    ...resto,
     id: 1,
     objetivos: { ...DEFAULT_OBJETIVOS, ...s?.objetivos },
   }
@@ -24,11 +27,14 @@ export async function getSettings(): Promise<Settings> {
   return conDefaults(await db.settings.get(1))
 }
 
-/** Crea el registro de settings por defecto si todavía no existe. Llamar una vez al arrancar la app. */
+/**
+ * Crea el registro de settings por defecto si todavía no existe, y borra del dispositivo los campos antiguos
+ * (la API key de Gemini). Llamar una vez al arrancar la app.
+ */
 export async function ensureSettings(): Promise<void> {
-  const s = await db.settings.get(1)
-  if (!s) {
-    await db.settings.put(conDefaults())
+  const s: SettingsGuardados | undefined = await db.settings.get(1)
+  if (!s || s.apiKey !== undefined || s.modelo !== undefined) {
+    await db.settings.put(conDefaults(s))
   }
 }
 
