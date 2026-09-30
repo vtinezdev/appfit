@@ -35,6 +35,9 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props
 
   if (frecuentes === undefined) return null
 
+  // Los del catálogo que ya usas: en el ranking de la búsqueda, a igualdad de coincidencia, van primero.
+  const idsCatalogo = frecuentes.flatMap((a) => (a.ref.tipo === 'catalog' ? [a.ref.id] : []))
+
   return (
     <section aria-label="Buscar alimentos" className="space-y-stack">
       <div className="flex items-center gap-2">
@@ -56,7 +59,7 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props
         </div>
       )}
 
-      <ResultadosBusqueda busqueda={busqueda} onElegir={onElegir} />
+      <ResultadosBusqueda busqueda={busqueda} onElegir={onElegir} frecuentes={idsCatalogo} />
     </section>
   )
 }

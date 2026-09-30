@@ -49,8 +49,8 @@ La app ya **no usa IA**. Al principio interpretaba las comidas con la API de Gem
 
 | Herramienta | ¿Qué es? | ¿Por qué se usa? |
 |---|---|---|
-| **Cloudflare Pages** | Servicio gratuito de hosting para webs estáticas. | Aloja los archivos generados (`dist/`) en una URL propia con HTTPS, necesario para que funcione el micrófono y la instalación como PWA. |
-| **Wrangler** | Herramienta de línea de comandos de Cloudflare. | Permite subir la app a Cloudflare Pages con un solo comando (`npx wrangler pages deploy dist`). |
+| **Cloudflare Workers** (static assets) | Servicio gratuito de Cloudflare que puede servir webs estáticas sin backend. | Aloja los archivos generados (`dist/`) en una URL propia con HTTPS, necesario para la cámara del escáner y la instalación como PWA. La configuración está en `wrangler.jsonc`. |
+| **Wrangler** | Herramienta de línea de comandos de Cloudflare. | Permite subir la app a Cloudflare con un solo comando (`npm run build && npx wrangler deploy`). |
 
 > ⏳ **Pendiente de configurar**: hace falta tu cuenta gratuita de Cloudflare para poder desplegar.
 
@@ -64,4 +64,4 @@ La app ya **no usa IA**. Al principio interpretaba las comidas con la API de Gem
 ---
 
 ### Resumen en una frase
-Una **web hecha con React** que se instala como app en el iPhone (**PWA**), guarda todo **en el propio móvil** (Dexie/IndexedDB), interpreta las comidas por texto **en el propio móvil**, dibuja gráficas con **Recharts**, y se aloja gratis en **Cloudflare Pages**.
+Una **web hecha con React** que se instala como app en el iPhone (**PWA**), guarda todo **en el propio móvil** (Dexie/IndexedDB), interpreta las comidas por texto **en el propio móvil**, dibuja gráficas con **Recharts**, y se aloja gratis en **Cloudflare Workers**.

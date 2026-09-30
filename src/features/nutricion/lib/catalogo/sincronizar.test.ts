@@ -20,9 +20,10 @@ const entrada = (version: string, filas = 2) => ({
 const manifest = (version: string, filas = 2) => ({ formato: 1, fuentes: [entrada(version, filas)] })
 
 const paquete = (version: string) => ({
-  formato: 1,
+  formato: 2,
   fuente: 'ciqual',
   version,
+  tipo: 'generico',
   filas: [
     ['1', 'Leche entera', 'Lait entier', 'Lácteos', 64, 3.3, 4.7, 3.6],
     ['2', 'Manzana', 'Pomme', 'Frutas', 52, 0.3, 11.4, 0.2, { fibra: 2 }],

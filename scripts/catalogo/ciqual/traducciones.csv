@@ -29,29 +29,29 @@ code;nombre_es;alias
 1032;Picada a base de ternera y soja, envasada;
 1033;Nuggets o croqueta empanada de pollo (con soja), envasado;
 1034;Salchicha de ave tipo knack (con soja), envasada;
-2000;Zumo de piña, a base de concentrado;
+2000;Zumo de piña, a base de concentrado;jugo de piña
 2002;Zumo multifrutas, 100 % zumo, multivitamínico;
 2004;Zumo de frutas (promedio);
 2006;Zumo de zanahoria, 100 % zumo;
-2007;Zumo de limón, casero;
+2007;Zumo de limón, casero;jugo de limón
 2008;Cóctel o bebida aperitivo sin alcohol a base de zumos de fruta y sirope;
 2009;Néctar multifrutas, base manzana, estándar;
 2010;Néctar multifrutas, base manzana, multivitamínico;
 2011;Zumo multifrutas, base naranja, multivitamínico;
-2012;Zumo de naranja, a base de concentrado;
-2013;Zumo de naranja, fresco;
-2014;Zumo de manzana, a base de concentrado;
-2015;Zumo de pomelo, a base de concentrado;
-2016;Zumo de uva, 100 % zumo;
+2012;Zumo de naranja, a base de concentrado;jugo de naranja
+2013;Zumo de naranja, fresco;jugo de naranja
+2014;Zumo de manzana, a base de concentrado;jugo de manzana
+2015;Zumo de pomelo, a base de concentrado;jugo de pomelo|jugo de toronja
+2016;Zumo de uva, 100 % zumo;jugo de uva
 2017;Zumo de granada, 100 % zumo;
 2018;Zumo de ciruela pasa;
-2019;Zumo de uva, a base de concentrado;
+2019;Zumo de uva, a base de concentrado;jugo de uva
 2022;Néctar de fresa;
 2023;Zumo de mango, fresco;
 2024;Zumo de maracuyá, fresco;
-2025;Zumo de pomelo, fresco;
-2026;Zumo de tomate, 100 % zumo, con sal (3 g/L);
-2027;Zumo de pomelo, 100 % zumo;
+2025;Zumo de pomelo, fresco;jugo de pomelo|jugo de toronja
+2026;Zumo de tomate, 100 % zumo, con sal (3 g/L);jugo de tomate
+2027;Zumo de pomelo, 100 % zumo;jugo de pomelo|jugo de toronja
 2028;Zumo de limón, 100 % zumo;
 2030;Zumo de lima, fresco;
 2031;Zumo de lima, 100 % zumo;
@@ -76,11 +76,11 @@ code;nombre_es;alias
 2063;Néctar multifrutas, base naranja, estándar;
 2064;Néctar con edulcorantes, reducido en azúcares;
 2069;Zumo multifrutas, a base de concentrado, estándar;
-2070;Zumo de naranja, 100 % zumo;
+2070;Zumo de naranja, 100 % zumo;jugo de naranja
 2071;Zumo multifrutas, a base de concentrado, multivitamínico;
 2072;Zumo de frutas, 100 % zumo (promedio);
-2073;Zumo de piña, 100 % zumo;
-2074;Zumo de manzana, 100 % zumo;
+2073;Zumo de piña, 100 % zumo;jugo de piña
+2074;Zumo de manzana, 100 % zumo;jugo de manzana
 2075;Zumo de verduras, 100 % zumo (promedio);
 2076;Néctar de manzana;
 2077;Zumo de frutas, a base de concentrado (promedio);
@@ -96,12 +96,12 @@ code;nombre_es;alias
 3000;Leche de inicio (1.ª edad), en polvo soluble (fórmula para lactantes);
 3002;Leche de continuación (2.ª edad), en polvo soluble;
 4000;Tapioca o perlas del Japón, cruda;
-4002;Patata, sin piel, asada al horno;
-4003;Patata, hervida;
+4002;Patata, sin piel, asada al horno;papa
+4003;Patata, hervida;papa
 4004;Patatas fritas de bolsa, naturales o aromatizadas;chips|patatas chips
-4007;Patata nueva, hervida;
-4008;Patata, sin piel, cruda;
-4011;Patata, en conserva, escurrida;
+4007;Patata nueva, hervida;papa
+4008;Patata, sin piel, cruda;papa
+4011;Patata, en conserva, escurrida;papa
 4013;Patata noisette, congelada, cruda;
 4014;Patata al vapor, envasada al vacío;
 4015;Patata a la sartén, con grasa;
@@ -118,20 +118,20 @@ code;nombre_es;alias
 4027;Patata salteada a la sartén, prefrita, congelada, cocinada;
 4028;Patata de conservación, sin piel, hervida;
 4029;Patata nueva, hervida, sin piel;
-4030;Patatas fritas, congeladas, asadas al horno;
-4032;Patatas fritas, congeladas, fritas en freidora;
+4030;Patatas fritas, congeladas, asadas al horno;papas fritas
+4032;Patatas fritas, congeladas, fritas en freidora;papas fritas
 4034;Patata duquesa, congelada, cocida;
 4035;Patata noisette, congelada, cocida;
 4036;Patata salteada a la sartén con grasa de pato;
-4037;Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano;
-4038;Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa;
+4037;Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano;papas fritas|chips
+4038;Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa;papas fritas|chips
 4039;Rösti o tortita de patata;
 4040;Puré de patata, con leche y mantequilla, con sal;
 4041;Aligot (puré de patata con queso tomme fresco), envasado;
 4042;Patata duquesa, congelada, cruda;
 4043;Patata salteada a la sartén, prefrita, congelada, cruda;
-4044;Patatas fritas, congeladas, prefritas, para cocinar al horno;
-4045;Patatas fritas, congeladas, prefritas, para cocinar en microondas;
+4044;Patatas fritas, congeladas, prefritas, para cocinar al horno;papas fritas
+4045;Patatas fritas, congeladas, prefritas, para cocinar en microondas;papas fritas
 4046;Patatas fritas, congeladas, prefritas, para freír en freidora;
 4047;Puré de patata (promedio);
 4048;Patata, cocinada (promedio);
@@ -145,7 +145,7 @@ code;nombre_es;alias
 4102;Boniato, cocido;batata|camote
 4103;Boniato, puré, cocinado con nata;
 5000;Cerveza negra;
-5001;Cerveza estándar (4-5° de alcohol);
+5001;Cerveza estándar (4-5° de alcohol);cerveza rubia|birra
 5002;Cerveza fuerte (más de 8° de alcohol);
 5003;Sidra (promedio);
 5004;Clara (cerveza con limonada);shandy|cerveza con limón
@@ -311,7 +311,7 @@ code;nombre_es;alias
 7347;Galleta salada de trigo con semillas;
 7348;Galleta salada de trigo con queso y semillas;
 7349;Galleta salada integral;
-7351;Galletas saladas de trigo;
+7351;Galletas saladas de trigo;crackers
 7352;Tortita de arroz integral inflado;
 7353;Tortita de cereales infladas;
 7354;Tortita de maíz inflado;
@@ -339,10 +339,10 @@ code;nombre_es;alias
 7500;Pan rallado;
 7525;Palillos de pan, naturales (sin sésamo);
 7600;Bollería vienesa (promedio);
-7603;Croissant (promedio);
-7615;Croissant ordinario, artesanal;
-7616;Croissant ordinario, envasado;
-7619;Croissant de pura mantequilla (promedio);
+7603;Croissant (promedio);cruasán|croasán
+7615;Croissant ordinario, artesanal;cruasán|croasán
+7616;Croissant ordinario, envasado;cruasán|croasán
+7619;Croissant de pura mantequilla (promedio);cruasán|croasán
 7620;Croissant de pura mantequilla, artesanal;
 7621;Croissant de pura mantequilla, envasado;
 7650;Croissant con almendras, artesanal;
@@ -468,11 +468,11 @@ code;nombre_es;alias
 9121;Arroz, mezcla de variedades (blanco, integral, rojo, salvaje, etc.), crudo;
 9124;Arroz tailandés, cocido, sin sal añadida;
 9125;Arroz basmati, cocido, sin sal añadida;
-9230;Palomitas de maíz o maíz inflado, con aceite, salado;
-9231;Palomitas de maíz o maíz inflado, sin aceite, sin sal;
-9232;Palomitas de maíz o maíz inflado, con caramelo;
+9230;Palomitas de maíz o maíz inflado, con aceite, salado;pochoclo|cotufas|canguil
+9231;Palomitas de maíz o maíz inflado, sin aceite, sin sal;pochoclo|cotufas|canguil
+9232;Palomitas de maíz o maíz inflado, con caramelo;pochoclo|cotufas|canguil
 9310;Avena, cruda;
-9313;Copos de avena cocidos/hervidos en agua;
+9313;Copos de avena cocidos/hervidos en agua;gachas de avena|porridge
 9320;Cebada integral, cruda;
 9321;Cebada perlada, cruda;
 9322;Cebada perlada, hervida/cocida en agua, sin sal añadida;
@@ -518,12 +518,12 @@ code;nombre_es;alias
 9686;Sémola o grano de cuscús semiintegral, cocido, sin sal añadida;
 9690;Bulgur de trigo, crudo;
 9691;Bulgur de trigo, cocido, sin sal añadida;
-9810;Pasta seca, estándar, cruda;
-9811;Pasta seca, estándar, cocida, sin sal añadida;
+9810;Pasta seca, estándar, cruda;macarrones|espaguetis|fideos|tallarines
+9811;Pasta seca, estándar, cocida, sin sal añadida;macarrones|espaguetis|fideos|tallarines
 9815;Pasta fresca, con huevos, cruda;
 9816;Pasta fresca, con huevos, cocida, sin sal añadida;
-9821;Pasta seca, con huevos, cruda;
-9822;Pasta seca, con huevos, cocida, sin sal añadida;
+9821;Pasta seca, con huevos, cruda;macarrones|espaguetis|fideos|tallarines
+9822;Pasta seca, con huevos, cocida, sin sal añadida;macarrones|espaguetis|fideos|tallarines
 9824;Pasta seca, sin gluten, cocida, sin sal añadida;
 9863;Pasta o fideos asiáticos secos, de trigo y huevos, natural, crudo;
 9870;Pasta seca, integral, cruda;
@@ -542,8 +542,8 @@ code;nombre_es;alias
 10003;Vieira, noix y coral, cruda;
 10004;Vieira, noix y coral, cocida;
 10005;Cangrejo, desmenuzado o patas peladas, en conserva, escurrido;
-10006;Gamba gris, cocida;
-10007;Gamba o langostino, cocido;
+10006;Gamba gris, cocida;camarón
+10007;Gamba o langostino, cocido;camarón
 10008;Caracol, crudo;
 10009;Bogavante, hervido/cocido en agua;
 10010;Bogavante, crudo;
@@ -552,12 +552,12 @@ code;nombre_es;alias
 10013;Mejillón, hervido/cocido en agua;
 10014;Mejillón común, crudo;
 10015;Langosta, cruda;
-10016;Sepia, cruda;
+10016;Sepia, cruda;choco|jibia
 10017;Almeja, navaja o pipa, cruda;
 10018;Pulpo, crudo;
 10019;Buccino o bucio, crudo;
 10020;Buccino o bucio, cocido;
-10021;Gamba o langostino, crudo;
+10021;Gamba o langostino, crudo;camarón
 10022;Langosta, hervida/cocida en agua;
 10023;Buñuelo de gamba;
 10024;Cigala, cruda;
@@ -572,7 +572,7 @@ code;nombre_es;alias
 10035;Ostra cóncava, cruda;
 10036;Ostra plana, cruda;
 10037;Calamar, hervido o cocido en agua;
-10038;Gamba o langostino, congelada, cruda;
+10038;Gamba o langostino, congelada, cruda;camarón
 10039;Cangrejo, crudo;
 10041;Oreja de mar, cruda;
 10042;Caracol en salsa de mantequilla y perejil, envasado, cocido;
@@ -606,7 +606,7 @@ code;nombre_es;alias
 11005;Curry, polvo;
 11006;Jengibre, polvo;
 11007;Gelatina, seca;
-11008;Ketchup, envasado;
+11008;Ketchup, envasado;kétchup|catsup
 11009;Levadura de cerveza en copos;
 11010;Levadura de panadero fresca;
 11013;Mostaza;
@@ -643,7 +643,7 @@ code;nombre_es;alias
 11051;Salsa tártara, envasada;
 11052;Clavo de especia;
 11053;Laurel, hojas;
-11054;Mayonesa (70% grasa mín.), envasada;
+11054;Mayonesa (70% grasa mín.), envasada;mahonesa
 11056;Mezcla de 4 especias, polvo;
 11058;Sal blanca alimentaria, yodada, no fluorada (marina, ígnea o de roca);
 11060;Hierbas de Provenza, deshidratadas;
@@ -656,11 +656,11 @@ code;nombre_es;alias
 11068;Romero, fresco;
 11069;Salvia, fresca;
 11070;Tomillo, fresco;
-11073;Ketchup reducido en azúcares, envasado;
+11073;Ketchup reducido en azúcares, envasado;kétchup|catsup
 11074;Jengibre, raíz fresca;
 11075;Cardamomo, polvo;
 11077;Alholva, grano;
-11079;Mayonesa con grasa reducida o mayonesa light, envasada;
+11079;Mayonesa con grasa reducida o mayonesa light, envasada;mahonesa
 11080;Hierbas aromáticas frescas (promedio);
 11081;Especia (promedio);
 11082;Flor de sal, no yodada, no fluorada;
@@ -905,19 +905,19 @@ code;nombre_es;alias
 12848;Queso Valençay (queso de cabra);
 12850;Queso de cabra de pasta prensada no cocida, tipo tomme o tome o gouda de cabra;
 12999;Queso (promedio);
-13000;Albaricoque, deshuesado, crudo;
-13001;Albaricoque, deshuesado, deshidratado;
-13002;Piña, pulpa sin piel, cruda;
-13004;Aguacate, pulpa sin piel, sin hueso, crudo;
-13005;Plátano, pulpa sin piel, cruda;
+13000;Albaricoque, deshuesado, crudo;damasco|chabacano
+13001;Albaricoque, deshuesado, deshidratado;orejones|damasco deshidratado
+13002;Piña, pulpa sin piel, cruda;ananá
+13004;Aguacate, pulpa sin piel, sin hueso, crudo;palta
+13005;Plátano, pulpa sin piel, cruda;banana|banano
 13007;Grosella negra, cruda;
 13008;Cereza, pulpa y piel, sin hueso, cruda;
 13009;Limón, pulpa sin piel, sin pepitas, crudo;
 13010;Membrillo, crudo;
 13011;Dátil, pulpa y piel, sin hueso, deshidratado;
 13012;Higo, crudo;
-13013;Higo, deshidratado;
-13014;Fresa, cruda;
+13013;Higo, deshidratado;higo seco
+13014;Fresa, cruda;frutilla|fresón
 13015;Frambuesa, cruda;
 13016;Fruta de la pasión o maracuyá, pulpa sin piel, con pepitas, cruda;
 13018;Granada, pulpa sin piel, con pepitas, cruda;
@@ -934,18 +934,18 @@ code;nombre_es;alias
 13032;Aceituna negra, en salmuera, escurrida;
 13033;Aceituna verde, en salmuera, escurrida;
 13034;Naranja, pulpa sin piel, sin pepitas, cruda;
-13035;Papaya, pulpa sin piel, cruda;
-13036;Sandía, pulpa sin piel, sin pepitas, cruda;
+13035;Papaya, pulpa sin piel, cruda;lechosa
+13036;Sandía, pulpa sin piel, sin pepitas, cruda;patilla
 13037;Pera, pulpa y piel, cruda;
 13038;Compota de manzana, envasada;
 13039;Manzana, pulpa y piel, cruda;
-13040;Pomelo (llamado Toronja), pulpa sin piel, sin pepitas, cruda;
+13040;Pomelo (llamado Toronja), pulpa sin piel, sin pepitas, cruda;toronja
 13041;Ciruela Reina Claudia, sin hueso, cruda;
 13042;Ciruela pasa, sin hueso, deshidratada;
-13043;Melocotón, pulpa y piel, sin hueso, crudo;
+13043;Melocotón, pulpa y piel, sin hueso, crudo;durazno
 13044;Uva blanca, de grano grande (tipo Italia o Dattier), cruda;
 13045;Uva negra, cruda;
-13046;Uva pasa;
+13046;Uva pasa;pasas|uvas pasas
 13047;Ruibarbo, tallo, crudo;
 13051;Mezcla aperitivo de frutas exóticas, deshidratada;
 13054;Carambola, pulpa y piel, cruda;
@@ -1006,9 +1006,9 @@ code;nombre_es;alias
 13190;Manzana Chantecler, pulpa sin piel, cruda;
 13191;Manzana Gala, pulpa sin piel, cruda;
 13192;Manzana Pink lady, pulpa sin piel, cruda;
-13193;Melocotón blanco, pulpa y piel, sin hueso, crudo;
-13194;Melocotón blanco, pulpa sin piel, sin hueso, crudo;
-13195;Melocotón amarillo, pulpa sin piel, sin hueso, crudo;
+13193;Melocotón blanco, pulpa y piel, sin hueso, crudo;durazno
+13194;Melocotón blanco, pulpa sin piel, sin hueso, crudo;durazno
+13195;Melocotón amarillo, pulpa sin piel, sin hueso, crudo;durazno
 13199;Compota, todo tipo de frutas distintas de sola manzana, reducida en azúcares, envasada, a temperatura ambiente;
 13200;Mango José, pulpa sin piel, sin hueso, cruda, recogida en la Reunión (Mangifera indica L.);
 13201;Piña Victoria o Queen Victoria, pulpa, cruda, recogida en la Reunión;
@@ -1029,7 +1029,7 @@ code;nombre_es;alias
 13395;Uva cruda (promedio);
 13396;Manzana, pulpa sin piel, cruda (promedio);
 13397;Pera, pulpa, cruda (promedio);
-13398;Melocotón, pulpa sin piel, sin hueso, crudo (promedio);
+13398;Melocotón, pulpa sin piel, sin hueso, crudo (promedio);durazno
 13399;Nectarina o bruñón, pulpa y piel, sin hueso, cruda (promedio);
 13417;Zumo de mandarina común, zumo puro filtrado, recogido en Martinica;
 13418;Zumo de mandarina Macaque, zumo puro filtrado, recogido en Martinica;
@@ -1075,8 +1075,8 @@ code;nombre_es;alias
 14007;Ciervo, carne asada/cocida al horno;
 14008;Caza de pelo, cocida (promedio);
 15000;Almendra, con piel, sin sal añadida;
-15001;Cacahuete, sin sal añadida;
-15002;Cacahuete, tostado, salado;
+15001;Cacahuete, sin sal añadida;maní
+15002;Cacahuete, tostado, salado;maní
 15004;Avellana, sin sal añadida;
 15005;Nuez, grano, deshidratada;
 15006;Coco, pulpa, fresco;
@@ -1101,7 +1101,7 @@ code;nombre_es;alias
 15033;Avellana tostada, sin sal añadida;
 15034;Lino, semilla;
 15035;Sésamo, semilla sin cascara;
-15037;Cacahuete, tostado en seco, salado;
+15037;Cacahuete, tostado en seco, salado;maní
 15038;Sésamo, tostado, semilla sin cascara;
 15039;Castaña o marón, en conserva;
 15041;Almendra, pelada, sin sal añadida;
@@ -1115,10 +1115,10 @@ code;nombre_es;alias
 15049;Mezcla de aperitivo de semillas y pasas, sin sal añadida;
 15050;Avellana tostada, salada;
 15052;Lino marrón, semilla;linaza
-15053;Cacahuete, tostado, sin sal añadida;
+15053;Cacahuete, tostado, sin sal añadida;maní
 15054;Anacardo, tostado, sin sal añadida;
 15055;Anacardo, tostado en seco, sin sal añadida;
-15057;Cacahuete, tostado, aromatizado;
+15057;Cacahuete, tostado, aromatizado;maní
 15058;Cacahuete caramelizado;garrapiñada
 15059;Mezcla de aperitivo de semillas tostadas, saladas;
 15062;Almendra, tostada, salada, sabor ahumado;
@@ -1261,11 +1261,11 @@ code;nombre_es;alias
 18101;Polvo de chocolate para bebida, azucarado;
 18104;Chocolate caliente, bebida instantánea, azucarada, lista para beber (reconstituida con leche semidesnatada);
 18106;Chocolate caliente, bebida instantánea, azucarada, enriquecida en vitaminas, lista para beber (reconstituida con leche semidesnatada);
-18107;Bebida de almendra, natural, sin azúcares añadidos, no enriquecida, envasada;
-18110;Bebida de almendra, azucarada, enriquecida en calcio, envasada;
-18111;Bebida de almendra, envasada (promedio);
+18107;Bebida de almendra, natural, sin azúcares añadidos, no enriquecida, envasada;leche de almendra
+18110;Bebida de almendra, azucarada, enriquecida en calcio, envasada;leche de almendra
+18111;Bebida de almendra, envasada (promedio);leche de almendra
 18112;Bebida vegetal, envasada (promedio);
-18113;Bebida de soja, envasada (promedio);
+18113;Bebida de soja, envasada (promedio);leche de soja
 18150;Achicoria y café, polvo soluble;
 18151;Café con leche o capuchino, instantáneo o no, sin azúcares añadidos, listo para beber;
 18152;Achicoria, polvo soluble;
@@ -1312,14 +1312,14 @@ code;nombre_es;alias
 18354;Bebida energética, azucarada, con edulcorantes;
 18356;Tónica o bitter, sin precisar el contenido en azúcares y edulcorantes (promedio);
 18430;Agua de manantial gaseosa o plana;
-18899;Bebida de avena, natural, sin azúcares añadidos, no enriquecida, envasada;
-18900;Bebida de soja, natural, no enriquecida, envasada;
-18901;Bebida de soja, natural, enriquecida en calcio, envasada;
-18902;Bebida de soja, aromatizada, azucarada, no enriquecida, envasada;
-18903;Bebida de soja, aromatizada, azucarada, enriquecida en calcio, envasada;
-18904;Bebida de arroz, natural, envasada;
+18899;Bebida de avena, natural, sin azúcares añadidos, no enriquecida, envasada;leche de avena
+18900;Bebida de soja, natural, no enriquecida, envasada;leche de soja
+18901;Bebida de soja, natural, enriquecida en calcio, envasada;leche de soja
+18902;Bebida de soja, aromatizada, azucarada, no enriquecida, envasada;leche de soja
+18903;Bebida de soja, aromatizada, azucarada, enriquecida en calcio, envasada;leche de soja
+18904;Bebida de arroz, natural, envasada;leche de arroz
 18906;Bebida de castaña, natural, envasada;
-18907;Bebida de coco, natural, envasada;
+18907;Bebida de coco, natural, envasada;leche de coco
 19000;Leche de mezcla general, a granel;
 19012;Leche de crecimiento infantil, líquida (alimento lácteo destinado a niños pequeños);
 19013;Leche primer edad, lista para consumir (preparación para lactantes);
@@ -1356,10 +1356,10 @@ code;nombre_es;alias
 19402;Nata o especialidad a base de nata ligera, sin precisar el contenido en materia grasa (promedio);
 19403;Nata o especialidad a base de nata ligera, sin precisar el contenido en materia grasa, fluida (promedio);
 19404;Nata o especialidad a base de nata ligera, sin precisar el contenido en materia grasa, espesa o semiespesa (promedio);
-19410;Nata, 30 % MG, espesa, en fresco;
+19410;Nata, 30 % MG, espesa, en fresco;crema de leche
 19411;Nata de Isigny, >= 35 % MG;
-19415;Nata, 30 % MG, semiespesa, UHT;
-19417;Nata, 30 % MG, fluida, UHT;
+19415;Nata, 30 % MG, semiespesa, UHT;crema de leche
+19417;Nata, 30 % MG, fluida, UHT;crema de leche
 19420;Nata montada, bajo presión, UHT;
 19430;Nata, 12-25 % MG, ligera, semiespesa, UHT;
 19431;Nata, 12-25 % MG, ligera, espesa, en fresco;
@@ -1492,22 +1492,22 @@ code;nombre_es;alias
 19999;Pimiento, verde, amarillo o rojo, cocido (promedio);
 20000;Alcachofa, cocida;
 20002;Berenjena, cocida;
-20003;Remolacha, cocida;
+20003;Remolacha, cocida;betabel|betarraga
 20004;Acelga, tallo sin hojas, crudo;
 20005;Acelga, tallo sin hojas, cocida;
 20007;Zanahoria, en conserva, escurrida;
 20009;Zanahoria, cruda;
-20010;Champiñón, todos los tipos, crudo;
-20011;Champiñón, todos los tipos, en conserva, escurrido;
+20010;Champiñón, todos los tipos, crudo;hongos
+20011;Champiñón, todos los tipos, en conserva, escurrido;hongos
 20012;Lechuga o escarola rizada, cruda;
-20014;Repollo rojo, crudo;
-20015;Repollo verde, cocido;
+20014;Repollo rojo, crudo;lombarda|col lombarda
+20015;Repollo verde, cocido;col|col verde
 20016;Coliflor, cruda;
 20017;Coliflor, hervida;
 20018;Corazón de palma, en conserva, escurrido;
 20019;Pepino, pulpa y piel, crudo;
-20020;Calabacín, pulpa y piel, crudo;
-20021;Calabacín, pulpa y piel, cocido;
+20020;Calabacín, pulpa y piel, crudo;zapallito|zucchini
+20021;Calabacín, pulpa y piel, cocido;zapallito|zucchini
 20022;Berro, crudo;
 20023;Apio rama, crudo;
 20025;Apio nabo, cocido;
@@ -1515,21 +1515,21 @@ code;nombre_es;alias
 20027;Espinaca, cocida;
 20028;Hinojo, crudo;
 20029;Brote germinado de judía mungo o de soja, en conserva, escurrido;
-20030;Judía verde, cocida;
+20030;Judía verde, cocida;ejote|habichuela verde|vainita
 20031;Lechuga, cruda;
 20033;Nabo, cocido;
 20034;Cebolla, cruda;
 20035;Cebolla, cocida;
-20036;Guisante, en conserva, escurrido;
-20037;Guisante, cocido;
+20036;Guisante, en conserva, escurrido;arveja|chícharo
+20037;Guisante, cocido;arveja|chícharo
 20038;Diente de león, crudo;
 20039;Puerro, crudo;
 20041;Pimiento, verde, amarillo o rojo, crudo;
-20044;Calabaza, cruda;
+20044;Calabaza, cruda;zapallo|ahuyama
 20045;Rábano, crudo;
 20046;Salsifí, cocido;
 20048;Tomate, pelado, en conserva, escurrido;
-20049;Maíz dulce, mazorca, cocido;
+20049;Maíz dulce, mazorca, cocido;choclo|elote
 20050;Tupinambo, cocido;
 20051;Ensalada de verduras mixtas, en conserva, escurrida;
 20052;Alcachofa, cruda;
@@ -1541,18 +1541,18 @@ code;nombre_es;alias
 20058;Coles de Bruselas, cruda;
 20059;Espinaca, cruda;
 20060;Espinaca, en conserva, escurrida;
-20061;Judía verde, cruda;
-20062;Judía verde, en conserva, escurrida;
+20061;Judía verde, cruda;ejote|habichuela verde|vainita
+20062;Judía verde, en conserva, escurrida;ejote|habichuela verde|vainita
 20063;Judía mantequilla, en conserva, escurrida;
 20064;Nabo, pelado, crudo;
 20065;Colinabo, crudo;
-20066;Maíz dulce, en conserva, escurrido;
+20066;Maíz dulce, en conserva, escurrido;choclo|elote
 20067;Alcachofa, en conserva, escurrida;
 20068;Tomate, concentrado, en conserva;
 20069;Repollo verde, crudo;
-20070;Judía verde, congelada, cruda;
-20071;Judía verde, congelada, cocida;
-20072;Guisante, crudo;
+20070;Judía verde, congelada, cruda;ejote|habichuela verde|vainita
+20071;Judía verde, congelada, cocida;ejote|habichuela verde|vainita
+20072;Guisante, crudo;arveja|chícharo
 20074;Alcachofa, cocida al vapor;
 20076;Espárrago, en conserva, escurrido;
 20077;Coles de Bruselas, en conserva, escurrida;
@@ -1561,33 +1561,33 @@ code;nombre_es;alias
 20081;Salsifí, en conserva, escurrido;
 20082;Coliflor, congelada, cruda;
 20083;Espinaca, picada o en puré o en ramas, congelada, cruda;
-20084;Guisante, congelados, crudos;
+20084;Guisante, congelados, crudos;arveja|chícharo
 20085;Pimiento verde, crudo;
 20086;Pimiento verde, cocido;
-20087;Pimiento rojo, crudo;
-20088;Pimiento rojo, cocido;
+20087;Pimiento rojo, crudo;pimiento morrón
+20088;Pimiento rojo, cocido;pimiento morrón
 20089;Rábano negro, crudo;
 20090;Escarola, cruda;
-20091;Remolacha, cruda;
+20091;Remolacha, cruda;betabel|betarraga
 20092;Zanahoria, deshidratada;
-20093;Guisante y zanahoria, en conserva, escurridos;
+20093;Guisante y zanahoria, en conserva, escurridos;arveja|chícharo
 20094;Colinabo, hervido;
 20095;Repollo rojo, hervido;
-20096;Calabaza, cocida;
+20096;Calabaza, cocida;zapallo|ahuyama
 20097;Chalota, cruda;
 20099;Canónigos, cruda;
 20101;Verduras mixtas, congeladas, crudas;
 20102;Champiñón de París o champiñón cultivado, hervido;
 20103;Champiñón chanterela o rebozuelo, crudo;
 20105;Champiñón seta de chopo, crudo;
-20108;Maíz dulce, mazorca, congelado, crudo;
+20108;Maíz dulce, mazorca, congelado, crudo;choclo|elote
 20111;Acedera, cruda;
 20114;Champiñón ostra, crudo;
 20116;Repollo blanco, crudo;
 20118;Hinojo, hervido;
 20119;Tomate verde, crudo;
 20123;Lechuga variedad batavia, cruda;
-20124;Guisante, congelados, cocidos;
+20124;Guisante, congelados, cocidos;arveja|chícharo
 20125;Champiñón de París o champiñón cultivado, salteado, sin grasa;
 20128;Calabaza moscada, pulpa sin piel, cruda;
 20132;Potimarrón, pulpa sin piel, cruda;
@@ -1619,8 +1619,8 @@ code;nombre_es;alias
 20181;Chirivía, cruda;
 20183;Brote germinado de judía mungo o de soja, crudo;
 20188;Brotes de bambú, en conserva, escurridos;
-20192;Tomate costoludo o de corazón de buey, crudo;
-20194;Judías blancas en salsa de tomate, en conserva;
+20192;Tomate costoludo o de corazón de buey, crudo;jitomate
+20194;Judías blancas en salsa de tomate, en conserva;alubias en salsa de tomate
 20195;Judía mantequilla, cruda;
 20196;Tupinambo, crudo;
 20197;Salsifí negro o escorzonera de España, crudo;
@@ -1642,10 +1642,10 @@ code;nombre_es;alias
 20219;Repollo rizado, cocido;
 20221;Repollo chino pe-tsai, salteado;
 20228;Champiñón de París o champiñón cultivado, congelado, crudo;
-20230;Calabacín, pulpa y piel, congelado, crudo;
+20230;Calabacín, pulpa y piel, congelado, crudo;zapallito|zucchini
 20231;Crosne o cardamomo, congelado, crudo;
 20232;Alcachofa, fondo, congelada, cruda;
-20233;Maíz dulce, congelado, crudo;
+20233;Maíz dulce, congelado, crudo;choclo|elote
 20234;Nabo, congelado, crudo;
 20235;Cebolla, congelada, cruda;
 20236;Puerro, congelado, crudo;
@@ -1685,7 +1685,7 @@ code;nombre_es;alias
 20273;Sofrito de verduras condimentadas a la asiática o wok de verduras, congelado, crudo;
 20274;Salteado de verduras condimentadas a la plancha, estilo mediterráneo, congelado, crudo;
 20275;Pimiento rojo, en conserva, escurrido;
-20276;Tomate redondo, crudo;
+20276;Tomate redondo, crudo;jitomate
 20277;Espárrago blanco, hervido;
 20278;Apio nabo, puré;
 20279;Espárrago verde, crudo;
@@ -1717,7 +1717,7 @@ code;nombre_es;alias
 20310;Repollo rojo, estofado;
 20311;Repollo verde, hervido;
 20312;Coliflor, al vapor;
-20313;Calabacín, pulpa y piel, asado;
+20313;Calabacín, pulpa y piel, asado;zapallito|zucchini
 20314;Apio rama, estofado;
 20315;Apio nabo, hervido;
 20316;Endibia, asada;
@@ -1762,22 +1762,22 @@ code;nombre_es;alias
 20498;Sofrito de verduras condimentadas con champiñones campestres, congelado;
 20499;Verdura cocida (promedio);
 20500;Haba, hervida;
-20501;Judía blanca, seca;
-20502;Judía blanca, hervida;
-20503;Judía roja, hervida;
+20501;Judía blanca, seca;alubia|poroto|frijol blanco
+20502;Judía blanca, hervida;alubia|poroto|frijol blanco
+20503;Judía roja, hervida;alubia roja|frijol rojo|poroto rojo
 20506;Guisante partida, hervida;
 20507;Garbanzo, hervido;
 20508;Judía flageolet, en conserva, escurrida;
 20510;Lenteja, culinaria, en conserva, escurrida;
-20511;Judía blanca, en conserva, escurrida;
+20511;Judía blanca, en conserva, escurrida;alubia|poroto|frijol blanco
 20513;Judía flageolet, hervida;
 20515;Guisante partida, seca;
 20516;Garbanzo, seco;
 20517;Haba para desgranar, fresca, cruda;
 20518;Haba, seca;
 20521;Brotes germinados de lenteja, frescos, crudos;
-20524;Judía roja, en conserva, escurrida;
-20525;Judía roja, seca;
+20524;Judía roja, en conserva, escurrida;alubia roja|frijol rojo|poroto rojo
+20525;Judía roja, seca;alubia roja|frijol rojo|poroto rojo
 20527;Frijol de ojo negro verde, fresco, crudo;
 20529;Judía de Lima o guisante de soja o guisante de Cabo, cruda;
 20530;Judía mungo, seca;
@@ -1791,7 +1791,7 @@ code;nombre_es;alias
 20541;Haba, pelada, fresca, congelada, cruda;
 20542;Haba, pelada, fresca, congelada, hervida;
 20543;Haba, fresca, congelada, hervida;
-20584;Tomate racimo, cruda;
+20584;Tomate racimo, crudo;jitomate
 20585;Lenteja verde, seca;
 20586;Lenteja rubia, seca;
 20587;Lenteja verde, hervida;
@@ -1878,7 +1878,7 @@ code;nombre_es;alias
 22004;Huevo, clara, en polvo;
 22008;Huevo, clara, cocida;
 22009;Huevo, yema, cocida;
-22010;Huevo duro;
+22010;Huevo duro;huevo cocido
 22011;Huevo escalfado;
 22013;Huevo, en polvo;
 22014;Huevo pasado por agua;
@@ -1886,9 +1886,9 @@ code;nombre_es;alias
 22060;Huevo de pato, crudo;
 22070;Huevo de oca, crudo;
 22080;Huevo de pavo, crudo;
-22500;Tortilla natural, casera;
+22500;Tortilla natural, casera;tortilla francesa|omelette
 22502;Huevo revuelto, con grasa;
-22505;Huevo frito, sin grasa;
+22505;Huevo frito, sin grasa;huevo a la plancha
 22506;Tortilla de queso, casera;
 22507;Tortilla con panceta, casera;
 22508;Tortilla con champiñones, casera;
@@ -2493,13 +2493,13 @@ code;nombre_es;alias
 26030;Pescado empanado, frito;
 26031;Raya, asada/al horno;
 26033;Pintarroja o alitán, cocido;
-26034;Sardina, en aceite, en conserva, escurrida;
+26034;Sardina, en aceite, en conserva, escurrida;sardinas en lata
 26035;Sardina, en salsa de tomate, en conserva, escurrida;
 26036;Salmón, de cría, crudo;
 26037;Salmón ahumado;
 26038;Salmón, cocido al vapor;
-26039;Atún, al natural, en conserva, escurrido;
-26040;Sardina, en aceite de oliva, en conserva, escurrida;
+26039;Atún, al natural, en conserva, escurrido;atún en lata
+26040;Sardina, en aceite de oliva, en conserva, escurrida;sardinas en lata
 26041;Atún, asado/al horno;
 26042;Rodaballo, salvaje, crudo;
 26043;Bacalao, crudo;
@@ -2694,7 +2694,7 @@ code;nombre_es;alias
 27017;Panga o siluro, crudo;
 27018;Panga o siluro, filete, cocido;
 27019;Tilapia, cruda;
-27021;Trucha marina, cruda;
+27021;Trucha asalmonada, cruda;
 27023;Lota, cruda;
 27024;Sandalia, cruda;
 27025;Perca del Nilo, cruda;
@@ -2703,7 +2703,7 @@ code;nombre_es;alias
 27031;Dorada, asada/cocida al horno;
 28001;Cerdo, paletilla cruda;
 28002;Cerdo, pecho crudo;
-28009;Cerdo, paletilla cruda;
+28009;Cerdo, paleta (corte palette), cruda;
 28010;Cerdo, paletilla cocida;
 28100;Cerdo, chuleta cruda;
 28101;Cerdo, chuleta a la plancha/a la sartén;
@@ -2733,21 +2733,21 @@ code;nombre_es;alias
 28477;Cerdo, paletilla, descarnada, desgrasada, deshuesada, cruda;
 28479;Cerdo, pecho en chuleta, sin vientre, crudo;
 28480;Cerdo, asado de filete con solomillo, crudo;
-28501;Panceta al natural, cruda;
+28501;Panceta al natural, cruda;beicon|bacon
 28502;Pecho de cerdo en salazón, ahumado, crudo;
 28503;Bresaola;
-28504;Panceta al natural, cocida;
+28504;Panceta al natural, cocida;beicon|bacon
 28505;Corned beef, en conserva;
 28507;Pecho de cerdo en salazón, al natural, crudo;
 28530;Oreja de cerdo en salmuera;
 28540;Pata de cerdo en salmuera;
 28550;Pecho de cerdo en salmuera;
 28700;Jamón de cerdo a cocer o jamón a asador/cocedor al horno;
-28720;Panceta ahumada, cruda;
+28720;Panceta ahumada, cruda;beicon|bacon
 28723;Panceta, cruda, con contenido reducido de sal;
-28725;Panceta ahumada, cocida;
+28725;Panceta ahumada, cocida;beicon|bacon
 28727;Filete de panceta;
-28800;Jamón curado;
+28800;Jamón curado;jamón serrano
 28801;Jamón curado ahumado;
 28803;Jamón cocido ahumado;
 28804;Jamón curado ahumado, reducido en grasa;
@@ -2758,13 +2758,13 @@ code;nombre_es;alias
 28850;Coppa;
 28858;Panceta o pecho enrollado seco;
 28860;Carne de los Grisones;
-28900;Jamón cocido, superior;
-28901;Jamón cocido, superior, con corteza;
-28902;Jamón cocido, superior, sin corteza;
+28900;Jamón cocido, superior;jamón york|jamón de york|jamón dulce
+28901;Jamón cocido, superior, con corteza;jamón york|jamón de york|jamón dulce
+28902;Jamón cocido, superior, sin corteza;jamón york|jamón de york|jamón dulce
 28905;Jamón al hueso estofado;
-28906;Jamón cocido, superior, sin corteza desgrasado;
-28907;Jamón cocido, superior, sin corteza desgrasado, con contenido reducido de sal;
-28910;Jamón cocido, primera calidad;
+28906;Jamón cocido, superior, sin corteza desgrasado;jamón york|jamón de york|jamón dulce
+28907;Jamón cocido, superior, sin corteza desgrasado, con contenido reducido de sal;jamón york|jamón de york|jamón dulce
+28910;Jamón cocido, primera calidad;jamón york|jamón de york|jamón dulce
 28911;Paletilla de cerdo, cocida, primera calidad, sin corteza desgrasada;
 28912;Jamón cocido, primera calidad, con corteza;
 28913;Jamón cocido, primera calidad, sin corteza desgrasado;
@@ -2911,7 +2911,7 @@ code;nombre_es;alias
 31093;Malvavisco, cubierto de chocolate;
 31094;Caramelo duro, de caramelo;
 31095;Gelatina de grosella;
-31097;Caramelo masticable;
+31097;Caramelo blando;
 31098;Barra de chocolate con leche y turrón;
 31100;Barra de cereales para desayuno con leche, con chocolate o sin él, enriquecida con vitaminas y minerales;
 31101;Barra de cereales equilibrada con frutas, enriquecida con vitaminas y minerales;
@@ -2932,17 +2932,17 @@ code;nombre_es;alias
 31126;Pastilla refrescante, azucarada;
 31127;Turrón suave;
 31128;Caramelo duro y piruleta, sin azúcares;
-31129;Preparación de frutas variadas;
+31129;Preparación de frutas variadas, con 35 % de fruta como mínimo;
 32000;Granos de trigo inflados con miel o caramelo, enriquecidos con vitaminas y minerales;
 32001;Cereales para desayuno chocolatados, no rellenos, enriquecidos con vitaminas y minerales;
 32003;Cereales para desayuno (promedio);
 32004;Muesli (promedio);
-32005;Copos de maíz al natural, enriquecidos con vitaminas y minerales;
+32005;Copos de maíz al natural, enriquecidos con vitaminas y minerales;corn flakes|cereales de maíz
 32006;Arroz inflado al natural, enriquecido con vitaminas y minerales;
 32008;Cereales para desayuno ricos en fibra, con chocolate, enriquecidos con vitaminas y minerales;
 32012;Arroz inflado chocolatado, no enriquecido con vitaminas y minerales;
 32013;Cereales para desayuno chocolatados, no rellenos, no enriquecidos;
-32014;Copos de maíz al natural, no enriquecidos;
+32014;Copos de maíz al natural, no enriquecidos;corn flakes|cereales de maíz
 32016;Cereales para desayuno rellenos de chocolate o chocolate-avellana, enriquecidos;
 32017;Cereales para desayuno rellenos de chocolate o chocolate-avellana, no enriquecidos;
 32018;Cereales para desayuno rellenos de leche o vainilla, enriquecidos;
@@ -3226,8 +3226,8 @@ code;nombre_es;alias
 51510;Frik (trigo duro inmaduro molido), crudo;
 51511;Frik (trigo duro inmaduro molido), cocido, sin sal añadida;
 51550;Hoja de brick o khatfa, envasada;
-53100;Plátano plantain, crudo;
-53101;Plátano plantain, cocido;
+53100;Plátano plantain, crudo;plátano macho|plátano verde
+53101;Plátano plantain, cocido;plátano macho|plátano verde
 53200;Taro, tubérculo, crudo;
 53201;Taro, tubérculo, cocido;
 53502;Ñame, pelado, crudo;

@@ -36,6 +36,11 @@ describe('intérprete local con CIQUAL', () => {
     expect(idsPreferidos().filter((id) => !porId.has(id))).toEqual([])
   })
 
+  it('ningún preferido de la tabla de raciones está oculto (un oculto no se busca)', () => {
+    const ocultos = idsPreferidos().filter((id) => (porId.get(id)?.tok.length ?? 0) === 0)
+    expect(ocultos).toEqual([])
+  })
+
   it.each([
     ['200 g de arroz', 'Arroz blanco, crudo'],
     ['2 huevos', 'Huevo crudo'],

@@ -3,11 +3,19 @@
   "fuentes": [
     {
       "id": "ciqual",
-      "version": "2025-es1",
-      "archivo": "ciqual-2025-es1.json",
+      "version": "2025-es2",
+      "archivo": "ciqual-2025-es2.json",
       "filas": 3323,
       "licencia": "Licence Ouverte Etalab 2.0",
       "atribucion": "Fuente: ANSES, Table de composition nutritionnelle des aliments Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Nombres traducidos al español."
+    },
+    {
+      "id": "offes",
+      "version": "2026-09-30",
+      "archivo": "offes-2026-09-30.json",
+      "filas": 3000,
+      "licencia": "ODbL 1.0",
+      "atribucion": "Contiene datos de Open Food Facts (openfoodfacts.org), disponibles bajo la Open Database License (ODbL). Los contenidos individuales están bajo la Database Contents License (DbCL)."
     }
   ]
 }

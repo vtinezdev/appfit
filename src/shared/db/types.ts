@@ -45,6 +45,12 @@ export interface CatalogFood {
   marca?: string
   /** Código de barras normalizado (solo dígitos). Índice NO único. */
   gtin?: string
+  /** Sinónimos reales («banana» para «Plátano»). Ya están en `tok`; se guardan para que el ranking cuente el alias exacto. Sin índice. */
+  alias?: string[]
+  /** Los valores son por 100 ml (bebidas de marca) en lugar de por 100 g. Sin índice. */
+  ml?: true
+  /** Va detrás de los demás al buscar (alimentos de Martinica/Reunión, infantiles). Sin índice. */
+  secundario?: true
   kcal100: number
   prot100: number
   carb100: number

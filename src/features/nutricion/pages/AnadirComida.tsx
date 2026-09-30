@@ -283,11 +283,11 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
                 <span className="text-body text-fg-muted">kcal</span>
               </p>
               <p className="tabular mt-1 text-body-sm text-fg-subtle">
-                {resumenMacros(aporteRapido)} · {formatInt(gramosRapido.alimento.kcal100)} kcal por 100 g
+                {resumenMacros(aporteRapido)} · {formatInt(gramosRapido.alimento.kcal100)} kcal por 100 {gramosRapido.alimento.ml ? 'ml' : 'g'}
               </p>
             </div>
             <div className="flex justify-center">
-              <NumberStepper label="gramos" value={gramosRapido.gramos} onChange={(v) => setGramosRapido({ ...gramosRapido, gramos: v })} step={10} suffix="g" />
+              <NumberStepper label={gramosRapido.alimento.ml ? 'mililitros' : 'gramos'} value={gramosRapido.gramos} onChange={(v) => setGramosRapido({ ...gramosRapido, gramos: v })} step={10} suffix={gramosRapido.alimento.ml ? 'ml' : 'g'} />
             </div>
             <Button block onClick={confirmarRapido}>
               Añadir

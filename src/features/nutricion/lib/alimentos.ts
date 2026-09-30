@@ -204,14 +204,27 @@ export interface AlimentoElegible extends Por100 {
   ref: FoodRef
   nombre: string
   detalle?: string
+  /** Los valores son por 100 ml (bebida de marca) en lugar de por 100 g. Las cantidades se guardan igual (ml ≈ g). */
+  ml?: true
 }
 
 export function elegibleDeFood(f: Food): AlimentoElegible {
   return { ref: { tipo: 'user', id: f.id }, nombre: f.nombre, ...valoresDe(f) }
 }
 
+/** Detalle de una línea: «Marca · Categoría» en un producto de marca, la categoría en un genérico. */
+function detalleDeCatalogo(f: CatalogFood): string | undefined {
+  return f.marca ? [f.marca, f.categoria].filter(Boolean).join(' · ') : f.categoria
+}
+
 export function elegibleDeCatalogo(f: CatalogFood): AlimentoElegible {
-  return { ref: { tipo: 'catalog', id: f.id }, nombre: f.nombre, detalle: f.categoria ?? f.marca, ...valoresDe(f) }
+  return {
+    ref: { tipo: 'catalog', id: f.id },
+    nombre: f.nombre,
+    detalle: detalleDeCatalogo(f),
+    ...(f.ml ? { ml: true as const } : {}),
+    ...valoresDe(f),
+  }
 }
 
 /** Formulario de «Kcal rápidas» (A5): una comida fuera que no merece registrarse con detalle. */

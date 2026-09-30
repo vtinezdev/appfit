@@ -20,7 +20,7 @@ export default function ListaElegibles({ alimentos, onElegir }: Props) {
               {a.detalle && <span className="block truncate text-caption text-fg-subtle">{a.detalle}</span>}
             </span>
             <span className="tabular shrink-0 text-right">
-              <span className="text-body-sm text-fg">{formatInt(a.kcal100)}</span> <span className="text-caption text-fg-subtle">kcal/100 g</span>
+              <span className="text-body-sm text-fg">{formatInt(a.kcal100)}</span> <span className="text-caption text-fg-subtle">{a.ml ? 'kcal/100 ml' : 'kcal/100 g'}</span>
             </span>
           </ListRow>
         </li>

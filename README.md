@@ -38,7 +38,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 
 ## Stack técnico
 
-Vite + React 19 + TypeScript + Tailwind CSS, datos en IndexedDB vía Dexie, gráficas con Recharts, PWA con `vite-plugin-pwa`, tests con Vitest, y despliegue estático gratuito en Cloudflare Pages.
+Vite + React 19 + TypeScript + Tailwind CSS, datos en IndexedDB vía Dexie, gráficas con Recharts, PWA con `vite-plugin-pwa`, tests con Vitest, y despliegue estático gratuito en Cloudflare Workers.
 
 Explicación de cada pieza y por qué se eligió: [`docs/herramientas.md`](docs/herramientas.md).
 
@@ -51,9 +51,11 @@ appfit/
 ├── src/
 │   ├── app/                 # App (navegación), BottomNav, Ajustes
 │   ├── shared/              # db (esquema Dexie), lib (fechas, backup…), design (tokens), components, hooks
-│   └── features/            # nutricion/ y gym/, cada una con pages/, data/ (repositorios) y lib/ (lógica pura)
+│   └── features/            # inicio/, nutricion/ y gym/, cada una con data/ (repositorios), lib/ (lógica pura) y sus pantallas
+├── scripts/catalogo/      # tubería offline CIQUAL → public/catalogo/ (`npm run catalogo:ciqual`)
 ├── package.json
-└── vite.config.ts
+├── vite.config.ts
+└── wrangler.jsonc        # despliegue en Cloudflare Workers
 ```
 
 ## Empezar
@@ -76,25 +78,25 @@ La app no necesita variables de entorno ni backend propio. Toda la configuració
 
 ## Despliegue
 
-El proyecto se despliega como sitio estático en [Cloudflare Pages](https://pages.cloudflare.com/) (capa gratuita):
+El proyecto se despliega como sitio estático en [Cloudflare Workers](https://developers.cloudflare.com/workers/static-assets/) (capa gratuita). `wrangler.jsonc` sirve `dist/` sin código de Worker, con `not_found_handling: single-page-application`:
 
 ```bash
 npx wrangler login
 npm run build
-npx wrangler pages deploy dist
+npx wrangler deploy
 ```
 
 Una vez desplegado, abre la URL en Safari (iOS) y usa "Compartir → Añadir a pantalla de inicio" para instalarla como app. La cámara del escáner de códigos de barras requiere HTTPS, por lo que esa parte solo se puede probar ya desplegada, no en local.
 
 ## Privacidad
 
-No existe backend. Todos los datos (comidas, entrenos, alimentos y ajustes) se guardan exclusivamente en el `IndexedDB` del navegador/dispositivo donde se use la app. Cloudflare Pages solo sirve los archivos estáticos de la aplicación; no aloja ni tiene acceso a ningún dato personal.
+No existe backend. Todos los datos (comidas, entrenos, alimentos y ajustes) se guardan exclusivamente en el `IndexedDB` del navegador/dispositivo donde se use la app. Cloudflare solo sirve los archivos estáticos de la aplicación; no aloja ni tiene acceso a ningún dato personal.
 
 ## Estado del proyecto
 
 Consulta [`docs/PROCESO.md`](docs/PROCESO.md) para la bitácora técnica completa de decisiones, y [`docs/progreso/`](docs/progreso/) para el resumen sesión a sesión de en qué se ha trabajado.
 
-El desarrollo se hace con un equipo de agentes de Claude Code (coordinador + auditor técnico + auditor de UX + documentación): ver [`docs/AGENTES.md`](docs/AGENTES.md).
+El desarrollo se hace con Claude Code (sesión principal, con subagentes especialistas solo bajo petición): ver [`docs/AGENTES.md`](docs/AGENTES.md).
 
 ## Licencia
 

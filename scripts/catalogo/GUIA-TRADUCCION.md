@@ -15,3 +15,10 @@ Estilo del nombre:
 - Pescados/mariscos y especies: nombre común español correcto (cabillaud/morue → bacalao; lieu noir → carbonero; colin/merlu → merluza; lotte → rape; sole → lenguado; bar → lubina; dorade → dorada; maquereau → caballa; hareng → arenque; saumon → salmón; crevette → gamba/langostino; moule → mejillón; coquille Saint-Jacques → vieira; seiche → sepia; encornet/calmar → calamar; poulpe → pulpo).
 - Longitud: intenta ≤ 80 caracteres; si el original es muy largo, condensa sin perder lo nutricionalmente relevante.
 - Unidades y números tal cual (p. ej. «20% MG» → «20 % MG» o «20 % de grasa»).
+
+## Alias (reglas)
+
+- Solo sinónimos reales y de uso cotidiano en español (España o América): banana, palta, frutilla, durazno, choclo, arveja, poroto/alubia, jamón york, jugo de naranja, leche de avena… Nada de alias arbitrarios ni marcas.
+- Van en la fila de los alimentos «base» (crudo/cocido habituales), no en todas las variantes raras. Varios alias separados por `|`.
+- Un alias exacto cuenta como nombre exacto en el ranking (banana → Plátano). Los alias de una palabra suelta que ya sea prefijo de otro alimento generan ruido: mejor una frase.
+- Los duplicados de nombre en español son un error de `construir` (`calidad.ts`): si dos códigos franceses distintos se traducen igual, diferénciales en el nombre.
