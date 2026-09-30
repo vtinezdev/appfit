@@ -9,6 +9,8 @@ raw/ (ignorado por git) ─► ciqual.ts / off.ts (E/S) ─► ciqualLib.ts / of
 app: validarPaquete → aCatalogFoods → catalogRepo.importarFuente → buscar (índice `tok`) → corrección de erratas → rankCatalogo → UI
 ```
 
+Lo que hace la app con los paquetes (sincronización, búsqueda, ranking, erratas): `docs/features/nutricion.md` § Catálogo en la app. Por qué un catálogo local: `docs/decisiones/005-catalogo-local-de-alimentos.md`.
+
 ## Fuentes
 
 | Fuente | Qué aporta | Licencia | Obtenida |

@@ -1,8 +1,10 @@
 # Nutrición v2 — ideas de funcionalidades y reestructuración
 
+> **Histórico, no normativo.** Lluvia de ideas del 2026-09-28. Lo que sigue pendiente o se descartó está en `../roadmap.md`. El estado actual está en los documentos listados en `CLAUDE.md` § Documentación.
+
 Lluvia de ideas del 2026-09-28 para la siguiente iteración de la parte de nutrición. Parte de revisar el código actual (`src/pages/nutricion/*`, `src/lib/*`, `src/db.ts`) tal como quedó en la [sesión 01](../progreso/sesion-01/resumen-tecnico.md).
 
-Restricciones que se mantienen de [`PLAN.md`](../PLAN.md): uso personal en iPhone como PWA, **0 €**, **sin backend** (todo en IndexedDB del móvil), Gemini en capa gratuita, UI en español, tests solo de lógica pura.
+Restricciones que se mantienen de [`plan-original.md`](./plan-original.md): uso personal en iPhone como PWA, **0 €**, **sin backend** (todo en IndexedDB del móvil), Gemini en capa gratuita, UI en español, tests solo de lógica pura.
 
 Leyenda: **Valor** (qué mejora el día a día) y **Esfuerzo**: S = una tarde, M = 1–2 sesiones, L = más de 2 sesiones.
 

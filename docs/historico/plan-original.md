@@ -1,5 +1,7 @@
 # Plan: AppFit — PWA personal de nutrición y gimnasio (iPhone)
 
+> **Histórico, no normativo.** Plan inicial del 2026-09-27, ya ejecutado (usaba Gemini y Cloudflare Pages; hoy no hay IA y se despliega en Workers). El estado actual está en los documentos listados en `CLAUDE.md` § Documentación.
+
 ## Contexto
 Víctor quiere una app privada para uso propio, sin publicarla en tiendas y con coste 0 €, con dos partes:
 1. **Nutrición**: registrar comidas por texto o voz; un LLM interpreta lo comido y calcula los macros; resúmenes por día/semana/mes con objetivos.

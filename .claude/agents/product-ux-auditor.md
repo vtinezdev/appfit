@@ -11,7 +11,7 @@ AppFit es una app personal (un único usuario) para registrar comidas y entrenos
 
 ## Cómo trabajar (ahorro de contexto)
 
-1. Lee `CLAUDE.md` y, si el encargo toca UI, `docs/DESIGN-SYSTEM.md` (solo las secciones relevantes; el lenguaje de Hoy y Añadir comida es la referencia).
+1. Lee `CLAUDE.md` y, si el encargo toca UI, `docs/DESIGN-SYSTEM.md` (solo las secciones relevantes; el lenguaje de Hoy y Añadir comida es la referencia). Los flujos de cada pantalla están en `docs/features/<feature>.md`.
 2. Limítate al **alcance** del encargo. En revisiones, empieza por `git diff` y lee solo los componentes afectados y los primitives que usan.
 3. No re-analices lo que el brief marca como «ya sabido».
 4. Analiza el código (JSX, estados, handlers). Puedes ejecutar `npm run test`. No ejecutes `npm run dev` ni navegadores: si algo requiere comprobación visual, indícalo como «verificar en navegador» para que MAIN lo haga.
