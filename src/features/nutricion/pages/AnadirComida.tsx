@@ -174,7 +174,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
       </header>
 
       <div className="flex-1 overflow-y-auto overscroll-contain">
-        <div className={`${columna} space-y-section py-4`}>
+        <div className={`${columna} space-y-section py-6`}>
           <SegmentedControl opciones={COMIDAS} valor={comida} onChange={setComida} />
 
           {items === null && (
@@ -210,6 +210,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
             <div className="animate-fade-in space-y-section">
               <section aria-label={items.length === 1 ? 'Alimento' : 'Alimentos'} className="space-y-1">
                 <SectionHeader
+                  variant="section"
                   action={
                     items.length > 1 ? (
                       <span className="tabular text-caption text-fg-subtle" title="Proteína, carbohidratos y grasa en gramos">
@@ -260,7 +261,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
         <div className="safe-bottom border-t border-line bg-bg">
           <div className={`${columna} space-y-2 py-3`}>
             {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
-            <Button size="lg" shape="pill" block onClick={guardar} disabled={guardando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
+            <Button size="lg" block loading={guardando} onClick={guardar} disabled={items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
               {guardando ? (
                 'Guardando…'
               ) : (

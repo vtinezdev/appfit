@@ -49,8 +49,9 @@ export default function CatalogoAjustes() {
   }
 
   return (
-    <Card className="space-y-3">
-      <SectionHeader>Catálogo de alimentos</SectionHeader>
+    <section aria-label="Catálogo de alimentos" className="space-y-stack">
+      <SectionHeader variant="section">Catálogo de alimentos</SectionHeader>
+      <Card className="space-y-3">
 
       {fuentes === undefined ? (
         <LoadingState />
@@ -75,12 +76,12 @@ export default function CatalogoAjustes() {
         </ul>
       )}
 
-      {estado?.tipo === 'ok' && <p className="text-body-sm text-accent">{estado.texto}</p>}
+      {estado?.tipo === 'ok' && <p role="status" className="text-body-sm text-accent-strong">{estado.texto}</p>}
       {estado?.tipo === 'error' && <ErrorState>{estado.texto}</ErrorState>}
 
       {!confirmandoBorrado ? (
         <div className="flex gap-2">
-          <Button variant="secondary" onClick={buscarActualizacion} disabled={buscando} className="flex-1">
+          <Button variant="secondary" loading={buscando} onClick={buscarActualizacion} className="flex-1">
             {buscando ? 'Buscando…' : 'Buscar actualización'}
           </Button>
           {fuentes && fuentes.length > 0 && (
@@ -98,6 +99,7 @@ export default function CatalogoAjustes() {
           ocupado={borrando}
         />
       )}
-    </Card>
+      </Card>
+    </section>
   )
 }

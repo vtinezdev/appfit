@@ -10,7 +10,7 @@ interface Props {
 }
 
 /**
- * Un dato nutricional del día como columna: nombre, cifra, carril con su meta y el objetivo debajo.
+ * Un macro del día como columna (dentro del hero ink de ResumenNutricional): nombre, cifra, carril con su meta y el objetivo debajo.
  * Color y etiqueta salen de MACROS (un único lenguaje). El exceso se cuenta con «+N» y con el tramo atenuado del carril.
  */
 export default function MacroBar({ macro, valor, objetivo }: Props) {
@@ -23,16 +23,16 @@ export default function MacroBar({ macro, valor, objetivo }: Props) {
 
   return (
     <div className="min-w-0">
-      <p className="truncate text-label text-fg-muted">{m.label}</p>
-      <p className="mt-1 flex items-baseline gap-1 text-fg">
-        <AnimatedNumber value={v} className="text-title" />
-        <span className="text-caption text-fg-subtle">{m.unit}</span>
+      <p className="truncate text-caption text-fg-muted">{m.label}</p>
+      <p className="mt-0.5 flex items-baseline gap-1 text-fg">
+        <AnimatedNumber value={v} className="text-heading" />
+        <span className="text-caption text-fg-muted">{m.unit}</span>
       </p>
       <div className="mt-2">
         <ProgressBar value={valor} goal={objetivo} colorClass={m.bg} label={m.label} valueText={valueText} />
       </div>
       {hayObjetivo && (
-        <p className="tabular mt-2 text-caption text-fg-subtle">
+        <p className="tabular mt-2 text-caption text-fg-muted">
           de {formatInt(g)} {m.unit}
           {diff > 0 && <strong className="font-semibold text-fg-muted"> · +{formatInt(diff)}</strong>}
         </p>

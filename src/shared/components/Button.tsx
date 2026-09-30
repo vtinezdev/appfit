@@ -1,21 +1,26 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import Icon, { type IconName } from './Icon'
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'danger'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'danger' | 'contrast'
 type Size = 'sm' | 'md' | 'lg'
 
+/**
+ * Naranja = acción principal; negro (`contrast`) = acción de estructura (p. ej. «Terminar»); gris = secundaria.
+ * `hover:` solo actúa con puntero fino (tailwind `hoverOnlyWhenSupported`): en iOS no se queda pegado.
+ */
 const VARIANTS: Record<Variant, string> = {
-  primary: 'bg-accent text-accent-on',
-  secondary: 'bg-surface-muted text-fg',
-  ghost: 'text-accent',
-  destructive: 'bg-surface-muted text-destructive', // acción destructiva ofrecida
-  danger: 'bg-destructive text-accent-on', // confirmación de una acción destructiva
+  primary: 'bg-accent text-accent-on hover:brightness-95',
+  secondary: 'bg-surface-muted text-fg hover:bg-line',
+  ghost: 'text-accent-strong hover:bg-accent-subtle',
+  destructive: 'bg-surface-muted text-destructive hover:bg-line', // acción destructiva ofrecida
+  danger: 'bg-destructive text-destructive-on hover:brightness-95', // confirmación de una acción destructiva
+  contrast: 'bg-selected text-selected-on hover:opacity-90',
 }
 
 const SIZES: Record<Size, string> = {
-  sm: 'min-h-touch px-3 text-body-sm font-medium', // acciones secundarias dentro de una lista; la zona táctil sigue en 44 px
-  md: 'min-h-touch px-4 text-body font-medium',
-  lg: 'min-h-touch-lg px-5 text-body font-semibold',
+  sm: 'min-h-touch px-4 text-body-sm font-semibold', // acciones secundarias dentro de una lista; la zona táctil sigue en 44 px
+  md: 'min-h-touch px-5 text-body font-semibold',
+  lg: 'min-h-touch-lg px-6 text-body font-bold',
 }
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -23,18 +28,24 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: Size
   /** Ocupa todo el ancho disponible (dentro de una fila usa `className="flex-1"`). */
   block?: boolean
-  /** `pill` para la acción flotante principal de una pantalla (icono + texto). */
-  shape?: 'default' | 'pill'
+  /** Acción en curso: muestra un spinner, deshabilita el botón y marca `aria-busy`. */
+  loading?: boolean
   children: ReactNode
 }
 
-export default function Button({ variant = 'primary', size = 'md', block = false, shape = 'default', className = '', type = 'button', ...rest }: Props) {
+/** Todos los botones son pill. */
+export default function Button({ variant = 'primary', size = 'md', block = false, loading = false, className = '', type = 'button', disabled, children, ...rest }: Props) {
   return (
     <button
       type={type}
-      className={`inline-flex items-center justify-center gap-2 ${shape === 'pill' ? 'rounded-pill enabled:active:scale-95' : 'rounded-md'} transition-[opacity,transform] duration-short active:opacity-80 disabled:opacity-40 ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      className={`inline-flex items-center justify-center gap-2 rounded-pill transition-[opacity,transform,background-color,filter] duration-short enabled:active:scale-95 ${loading ? 'opacity-70' : 'disabled:opacity-40'} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
       {...rest}
-    />
+    >
+      {loading && <Icon name="loader" size={18} />}
+      {children}
+    </button>
   )
 }
 
@@ -42,7 +53,7 @@ interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 
   icon: IconName
   /** Obligatorio: es el nombre accesible y el tooltip. */
   label: string
-  variant?: 'secondary' | 'primary' | 'ghost'
+  variant?: 'secondary' | 'primary' | 'ghost' | 'contrast'
   /** `sm` 36 px (filas densas con separación alrededor), `md` 44 px, `lg` 56 px (acción flotante). */
   size?: 'sm' | 'md' | 'lg'
 }
@@ -53,13 +64,13 @@ const ICON_SIZE = { sm: 18, md: 20, lg: 26 }
 
 /** Botón solo-icono. */
 export function IconButton({ icon, label, variant = 'secondary', size = 'md', className = '', type = 'button', ...rest }: IconButtonProps) {
-  const v = variant === 'ghost' ? 'text-fg-muted' : VARIANTS[variant]
+  const v = variant === 'ghost' ? 'text-fg-muted hover:bg-surface-muted hover:text-fg' : VARIANTS[variant]
   return (
     <button
       type={type}
       aria-label={label}
       title={label}
-      className={`inline-flex shrink-0 items-center justify-center rounded-pill transition-opacity duration-short active:opacity-80 disabled:opacity-30 ${ICON_BOX[size]} ${v} ${className}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-pill transition-[opacity,transform,background-color,filter] duration-short enabled:active:scale-90 disabled:opacity-30 ${ICON_BOX[size]} ${v} ${className}`}
       {...rest}
     >
       <Icon name={icon} size={ICON_SIZE[size]} />

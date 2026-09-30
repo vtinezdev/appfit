@@ -101,11 +101,23 @@ describe('tokens.css es la única fuente de verdad', () => {
   }
   const names = (b: string) => [...b.matchAll(/^\s*(--[\w-]+):/gm)].map((m) => m[1])
   const light = names(block(':root {'))
-  const dark = names(block(":root[data-theme='dark']"))
+  const dark = names(block(":root[data-theme='dark'] {"))
+  const ink = names(block("[data-surface='ink'] {"))
+  const inkDark = names(block(":root[data-theme='dark'] [data-surface='ink']"))
+  // Los tokens derivados (`--c-kcal: var(--c-accent)`) heredan el valor del tema; no necesitan uno propio en oscuro.
+  const derived = [...block(':root {').matchAll(/^\s*(--c-[\w-]+):\s*var\(/gm)].map((m) => m[1])
 
   it('todo color del tema claro tiene su valor propio en oscuro', () => {
-    const colors = light.filter((n) => n.startsWith('--c-') && n !== '--c-goal')
+    const colors = light.filter((n) => n.startsWith('--c-') && !derived.includes(n))
     expect(colors.filter((n) => !dark.includes(n))).toEqual([])
+  })
+
+  it('los bloques ink solo redefinen tokens de color que existen en :root', () => {
+    expect([...ink, ...inkDark].filter((n) => !n.startsWith('--c-') || !light.includes(n))).toEqual([])
+  })
+
+  it('ink redeclara los tokens derivados que dependen del texto (se resuelven donde se declaran)', () => {
+    expect(ink).toEqual(expect.arrayContaining(['--c-goal', '--c-focus']))
   })
 
   it('el oscuro no define nada que no exista en el claro', () => {

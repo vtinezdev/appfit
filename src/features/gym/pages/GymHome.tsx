@@ -5,6 +5,9 @@ import * as workoutsRepo from '../data/workoutsRepo'
 import Sheet from '../../../shared/components/Sheet'
 import ListRow from '../../../shared/components/ListRow'
 import Button from '../../../shared/components/Button'
+import Card from '../../../shared/components/Card'
+import Icon from '../../../shared/components/Icon'
+import TarjetaEntreno from '../components/TarjetaEntreno'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
 
@@ -39,17 +42,25 @@ export default function GymHome() {
   }
 
   return (
-    <div className="space-y-3 pb-4">
-      <Button size="lg" block onClick={empezarVacio}>
-        Entreno vacío
-      </Button>
-      <Button variant="secondary" size="lg" block
-        onClick={() => abrirRutinas(true)}
-        disabled={!rutinas || rutinas.length === 0}
-      >
-        Desde rutina
-      </Button>
-      {rutinas?.length === 0 && <p className="text-center text-body-sm text-fg-subtle">Crea una rutina primero en la pestaña Rutinas.</p>}
+    <div className="space-y-stack">
+      <Card tone="ink" role="region" aria-label="Empezar a entrenar" className="space-y-5">
+        <div className="space-y-1">
+          <h2 className="text-display text-fg">Empieza a entrenar</h2>
+          <p className="text-body-sm text-fg-muted">Un entreno vacío o desde una de tus rutinas.</p>
+        </div>
+        <div className="space-y-2">
+          <Button size="lg" block onClick={empezarVacio}>
+            <Icon name="plus" size={20} />
+            Entreno vacío
+          </Button>
+          <Button variant="secondary" size="lg" block onClick={() => abrirRutinas(true)} disabled={!rutinas || rutinas.length === 0}>
+            Desde rutina
+          </Button>
+          {rutinas?.length === 0 && <p className="text-center text-caption text-fg-muted">Crea una rutina primero en la pestaña Rutinas.</p>}
+        </div>
+      </Card>
+
+      <TarjetaEntreno soloUltimo />
 
       <Sheet open={eligiendoRutina} onClose={() => abrirRutinas(false)} title="Elegir rutina">
         <div className="space-y-2">

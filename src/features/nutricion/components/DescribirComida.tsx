@@ -1,5 +1,4 @@
 import Button, { IconButton } from '../../../shared/components/Button'
-import Icon from '../../../shared/components/Icon'
 import { Textarea } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -17,8 +16,8 @@ interface Props {
 /** Texto libre (escrito o dictado con el micrófono del teclado) que se interpreta en el dispositivo, sin conexión. */
 export default function DescribirComida({ texto, onTextoChange, onInterpretar, cargando, error, onVerMedidas }: Props) {
   return (
-    <section aria-label="Describir comida" className="space-y-2">
-      <SectionHeader action={<IconButton icon="info" label="Medidas que se entienden" variant="ghost" size="sm" className="-my-2" onClick={onVerMedidas} />}>
+    <section aria-label="Describir comida" className="space-y-stack">
+      <SectionHeader variant="section" action={<IconButton icon="info" label="Medidas que se entienden" variant="ghost" size="sm" onClick={onVerMedidas} />}>
         Describir comida
       </SectionHeader>
       <Textarea
@@ -29,8 +28,7 @@ export default function DescribirComida({ texto, onTextoChange, onInterpretar, c
         placeholder="Escribe o dicta con el micrófono del teclado: 200 g de arroz, 2 huevos y un plátano"
         rows={3}
       />
-      <Button onClick={onInterpretar} disabled={!texto.trim() || cargando} block>
-        {cargando && <Icon name="loader" size={18} />}
+      <Button onClick={onInterpretar} disabled={!texto.trim()} loading={cargando} block>
         {cargando ? 'Interpretando…' : 'Interpretar'}
       </Button>
       {error && <ErrorState>{error}</ErrorState>}

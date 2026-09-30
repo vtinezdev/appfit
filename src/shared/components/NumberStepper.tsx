@@ -21,7 +21,7 @@ interface Props {
 export default function NumberStepper({ value, onChange, step = 1, min = 0, suffix, compact = false, inputTextoGrande = false, label }: Props) {
   const clamp = (n: number) => Math.max(min, Math.round(n * 100) / 100)
   const btn =
-    'flex shrink-0 items-center justify-center rounded-pill bg-surface-muted text-fg-muted ' +
+    'flex shrink-0 items-center justify-center rounded-pill bg-surface-muted text-fg hover:bg-line ' +
     (compact ? 'h-8 w-8 transition-opacity duration-short active:opacity-70' : 'h-touch w-touch transition-[opacity,transform] duration-short active:scale-95 active:opacity-70')
 
   return (

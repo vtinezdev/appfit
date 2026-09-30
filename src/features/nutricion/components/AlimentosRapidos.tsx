@@ -36,7 +36,7 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props
   if (frecuentes === undefined) return null
 
   return (
-    <section aria-label="Buscar alimentos" className="space-y-3">
+    <section aria-label="Buscar alimentos" className="space-y-stack">
       <div className="flex items-center gap-2">
         <SearchInput
           tone="surface"
@@ -51,7 +51,7 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props
 
       {busqueda.trim() === '' && frecuentes.length > 0 && (
         <div className="space-y-1">
-          <SectionHeader>Frecuentes en {EN_LA_COMIDA[comida]}</SectionHeader>
+          <SectionHeader variant="section">Frecuentes en {EN_LA_COMIDA[comida]}</SectionHeader>
           <ListaElegibles alimentos={frecuentes} onElegir={onElegir} />
         </div>
       )}

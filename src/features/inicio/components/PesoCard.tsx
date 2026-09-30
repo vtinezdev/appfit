@@ -1,6 +1,8 @@
 import Button from '../../../shared/components/Button'
+import Badge from '../../../shared/components/Badge'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
+import Metric from '../../../shared/components/Metric'
 import { EmptyState } from '../../../shared/components/StateMessage'
 import { formatNumber } from '../../../shared/lib/format'
 import { puntosSparkline, type TendenciaPeso } from '../lib/peso'
@@ -31,8 +33,8 @@ export default function PesoCard({ tendencia, onRegistrar }: Props) {
 
   return (
     <Card>
-      <section aria-label="Peso" className="space-y-3">
-        <div className="flex items-center justify-between gap-2">
+      <section aria-label="Peso" className="space-y-4">
+        <div className="flex min-h-touch items-center justify-between gap-2">
           <h2 className="text-title text-fg">Peso</h2>
           <Button variant="ghost" size="sm" className="-mr-3" onClick={onRegistrar}>
             <Icon name="plus" size={16} />
@@ -43,12 +45,9 @@ export default function PesoCard({ tendencia, onRegistrar }: Props) {
           <EmptyState>Aún no hay pesajes</EmptyState>
         ) : (
           <>
-            <div>
-              <p className="flex items-baseline gap-1.5 text-fg">
-                <span className="tabular text-metric">{formatNumber(tendencia.actual, 1)}</span>
-                <span className="text-body text-fg-muted">kg</span>
-              </p>
-              {tendencia.variacion7d !== null && <p className="tabular mt-1 text-body-sm text-fg-muted">{fraseVariacion(tendencia.variacion7d)}</p>}
+            <div className="flex items-end justify-between gap-3">
+              <Metric size="metric" valor={formatNumber(tendencia.actual, 1)} unidad="kg" />
+              {tendencia.variacion7d !== null && <Badge>{fraseVariacion(tendencia.variacion7d)}</Badge>}
             </div>
             {valores.length >= 2 && (
               <svg

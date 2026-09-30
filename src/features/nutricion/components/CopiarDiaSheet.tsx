@@ -27,7 +27,7 @@ export default function CopiarDiaSheet({ open, fechaOrigen, fechaDestino, onFech
           onChange={(e) => onFechaDestinoChange(e.target.value)}
         />
         {noOp && <p className="text-body-sm text-warning">El destino no puede ser el mismo día.</p>}
-        <Button block
+        <Button block loading={copiando}
           onClick={onCopiar}
           disabled={!fechaDestino || fechaDestino > todayISO() || noOp || copiando}
         >

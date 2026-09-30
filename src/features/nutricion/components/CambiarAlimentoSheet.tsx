@@ -34,7 +34,7 @@ export default function CambiarAlimentoSheet({ item, onElegir, onClose }: Props)
         />
         {busqueda.trim() === '' && alternativas.length > 0 && (
           <div className="space-y-1">
-            <SectionHeader>Otras opciones</SectionHeader>
+            <SectionHeader variant="section">Otras opciones</SectionHeader>
             <ListaElegibles
               alimentos={alternativas}
               onElegir={(a) => {

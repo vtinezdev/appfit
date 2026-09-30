@@ -13,22 +13,23 @@ export const chartColors = {
   axis: rgb('text-tertiary'),
   // Series de gym (no son datos nutricionales)
   seriesPrimary: rgb('accent'),
-  seriesSecondary: rgb('success'),
-  seriesTertiary: rgb('warning'),
+  seriesSecondary: rgb('text-primary'),
+  seriesTertiary: rgb('accent'),
 }
 
 export const chartAxis = { stroke: chartColors.axis, fontSize: 11, tickLine: false, axisLine: false } as const
 
 export const chartTooltip = {
+  // Tooltip «ink»: invertido respecto al tema (negro con texto claro en claro, claro con texto oscuro en oscuro).
   contentStyle: {
-    background: rgb('surface-elevated'),
-    border: `1px solid ${rgb('border')}`,
-    borderRadius: 'var(--radius-sm)',
+    background: rgb('text-primary'),
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
     fontSize: 12,
-    boxShadow: 'var(--shadow-raised)',
+    boxShadow: 'var(--shadow-overlay)',
   },
-  labelStyle: { color: rgb('text-primary') },
-  itemStyle: { color: rgb('text-secondary') },
+  labelStyle: { color: rgb('bg'), fontWeight: 600 },
+  itemStyle: { color: rgb('bg') },
   cursor: { fill: rgb('surface-muted') },
 } as const
 

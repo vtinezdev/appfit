@@ -9,10 +9,13 @@ import * as mealsRepo from '../data/mealsRepo'
 import GestionPlantillaSheet from '../components/GestionPlantillaSheet'
 import MacroInputs from '../components/MacroInputs'
 import { filtrarAlimentos } from '../lib/alimentos'
-import Button, { IconButton } from '../../../shared/components/Button'
+import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
+import Metric from '../../../shared/components/Metric'
+import Badge from '../../../shared/components/Badge'
+import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
-import { Input } from '../../../shared/components/Input'
+import { Input, SearchInput } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
 
@@ -68,55 +71,67 @@ export default function Alimentos() {
   }
 
   return (
-    <div className="space-y-4 pb-4">
+    <div className="space-y-section">
       <SegmentedControl opciones={VISTAS} valor={vista} onChange={setVista} />
 
       {vista === 'alimentos' && (
-        <>
+        <div className="space-y-stack">
           <div className="flex items-center gap-2">
-            <Input
+            <SearchInput
               tone="surface"
+              aria-label="Buscar en tus alimentos"
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
               placeholder="Buscar alimento…"
               className="flex-1"
             />
-            <IconButton
-              icon="plus"
-              label="Nuevo alimento"
-              variant="primary"
+            <Button
+              size="md"
               onClick={() => abrir({ nombre: '', kcal100: 0, prot100: 0, carb100: 0, grasa100: 0, fuente: 'manual' })}
-            />
+            >
+              <Icon name="plus" size={18} />
+              Nuevo
+            </Button>
           </div>
 
-          <div className="space-y-2">
-            {filtrados?.length === 0 && <EmptyState>No hay alimentos guardados todavía.</EmptyState>}
-            {filtrados?.map((f) => (
-              <ListRow key={f.id} onClick={() => abrir(f)}>
-                <div className="min-w-0">
-                  <p className="truncate text-body-sm font-medium text-fg">{f.nombre}</p>
-                  <p className="text-caption text-fg-subtle">
-                    {formatInt(f.kcal100)} kcal · P{formatInt(f.prot100)} C{formatInt(f.carb100)} G{formatInt(f.grasa100)} /100g
-                  </p>
-                </div>
-                <Icon name={f.fuente === 'manual' ? 'pencil' : 'sparkles'} size={16} className="text-fg-subtle" label={f.fuente === 'manual' ? 'Añadido a mano' : 'Interpretado con IA'} />
-              </ListRow>
-            ))}
-          </div>
-        </>
+          {filtrados?.length === 0 && <EmptyState icon="utensils" title={busqueda.trim() ? 'Sin coincidencias' : 'Aún no hay alimentos'}>{busqueda.trim() ? 'Prueba con otro nombre.' : 'Los alimentos que crees o edites aparecerán aquí.'}</EmptyState>}
+          {filtrados && filtrados.length > 0 && (
+            <ListGroup aria-label="Tus alimentos">
+              {filtrados.map((f) => (
+                <li key={f.id}>
+                  <ListRow onClick={() => abrir(f)}>
+                    <div className="min-w-0 flex-1">
+                      <p className="line-clamp-2 text-body-sm font-medium text-fg">{f.nombre}</p>
+                      <p className="tabular text-caption text-fg-muted">
+                        P{formatInt(f.prot100)} C{formatInt(f.carb100)} G{formatInt(f.grasa100)} · por 100 g
+                      </p>
+                    </div>
+                    <Metric size="title" align="right" valor={formatInt(f.kcal100)} unidad="kcal" />
+                  </ListRow>
+                </li>
+              ))}
+            </ListGroup>
+          )}
+        </div>
       )}
 
       {vista === 'plantillas' && (
-        <div className="space-y-2">
-          {plantillas?.length === 0 && <EmptyState>No hay plantillas guardadas todavía.</EmptyState>}
-          {plantillas?.map((m) => (
-            <ListRow key={m.id} onClick={() => setPlantillaEditando(m)}>
-              <span className="truncate text-body-sm font-medium text-fg">{m.nombre}</span>
-              <span className="ml-2 shrink-0 text-caption text-fg-subtle">
-                {m.items.length} alimento{m.items.length === 1 ? '' : 's'}
-              </span>
-            </ListRow>
-          ))}
+        <div className="space-y-stack">
+          {plantillas?.length === 0 && <EmptyState icon="copy" title="Aún no hay plantillas">Guarda una comida como plantilla desde el menú «⋯» de Hoy.</EmptyState>}
+          {plantillas && plantillas.length > 0 && (
+            <ListGroup aria-label="Plantillas">
+              {plantillas.map((m) => (
+                <li key={m.id}>
+                  <ListRow onClick={() => setPlantillaEditando(m)}>
+                    <span className="line-clamp-2 min-w-0 flex-1 text-body-sm font-medium text-fg">{m.nombre}</span>
+                    <Badge>
+                      {m.items.length} alimento{m.items.length === 1 ? '' : 's'}
+                    </Badge>
+                  </ListRow>
+                </li>
+              ))}
+            </ListGroup>
+          )}
         </div>
       )}
 

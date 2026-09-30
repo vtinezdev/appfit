@@ -195,7 +195,7 @@ export default function EscanerCodigo({ open, onClose, onEncontrado, onIncomplet
               value={codigo}
               onChange={(e) => setCodigo(e.target.value)}
             />
-            <Button type="submit" variant="secondary" disabled={!codigo.trim() || estado.tipo === 'buscando'}>
+            <Button type="submit" variant="secondary" loading={estado.tipo === 'buscando'} disabled={!codigo.trim()}>
               Buscar
             </Button>
           </div>

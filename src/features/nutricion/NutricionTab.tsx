@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState } from 'react'
 import type { Comida, Entry } from '../../shared/db/types'
 import { todayISO } from '../../shared/lib/dates'
+import PageHeader from '../../shared/components/PageHeader'
 import SegmentedControl from '../../shared/components/SegmentedControl'
 import KcalRapidasSheet from './components/KcalRapidasSheet'
 import * as entriesRepo from './data/entriesRepo'
@@ -73,8 +74,11 @@ export default function NutricionTab() {
   }
 
   return (
-    <div className="relative min-h-full px-4 pt-4">
-      <SegmentedControl opciones={VISTAS} valor={vista} onChange={setVista} className="mb-4" />
+    <div className="relative min-h-full px-page pt-6">
+      <div className="mb-section space-y-stack">
+        <PageHeader title="Nutrición" />
+        <SegmentedControl opciones={VISTAS} valor={vista} onChange={setVista} />
+      </div>
 
       {vista === 'hoy' && <Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} />}
       {vista === 'resumen' && (

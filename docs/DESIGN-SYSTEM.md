@@ -1,5 +1,26 @@
 # Design system
 
+## Dirección visual (rediseño §38)
+
+**Negro estructura, naranja actúa/progresa, blanco respira, gris informa.** Naranja solo con función: acción principal, seleccionado/activo de la navegación, progreso, dato principal (kcal). Negro: navegación, hero de cada pantalla (`ink`), selección de segmentos, botón `contrast`. Menos cards: secciones planas con título y hairlines; card solo donde agrupa (resumen, grupo de lista, formulario, ejercicio con campos).
+
+- **Naranja en un solo sitio**: `--c-accent` (relleno), `--c-accent-strong` (naranja como texto/icono, 5,7:1 sobre blanco; nunca `text-accent`, no existe), `--c-accent-subtle` (fondos tintados). Texto sobre relleno naranja: `--c-on-accent` (negro, 6:1). Selección negra: `--c-selected/--c-on-selected` (cámbialos para una selección naranja).
+- **Superficie ink** (`Card tone="ink"`, `Toast`, `BottomNav`): `[data-surface='ink']` en `tokens.css` redefine surface, textos, pistas, `accent-strong`, `selected`, `destructive`, `goal` y `focus`. Las variables que referencian a otras se resuelven donde se declaran, por eso `goal`/`focus` se redeclaran. En oscuro el ink es una superficie elevada. Como mucho un ink por pantalla (la barra y el Toast son la excepción). `contrast.test.ts` lo cubre.
+- **Datos**: kcal = naranja; proteína pizarra, carbohidratos salvia, grasa malva (≥3:1 sobre blanco y sobre ink). Como texto se usan solo con un punto de color (`Badge dotClass`), nunca como color de texto pequeño.
+- **Tipografía** (sistema): `hero` 56 px/800 (cifra de la pantalla) > `metric` > `display` (título de pestaña) > `heading` (título de sheet) > `title` > `body` > `label` (overline en mayúsculas) > `caption`. Cifras siempre `tabular`.
+- **Radios** 10/14/24 px; botones y controles en pill. **Spacing**: `page` 20, `section` 32, `card` 20, `stack` 12.
+- **Barra flotante**: `--nav-height`, `--nav-offset` (safe area), `--nav-clearance` (`pb-nav`) y `--nav-toast`.
+- **Hover** solo con puntero fino (`hoverOnlyWhenSupported`); pulsación `active:scale-95`; foco `--c-focus`.
+
+### Patrón de pantalla
+
+`px-page pt-6` → `PageHeader` (overline + título `display`) → (SegmentedControl) → hero `ink` → secciones planas con `SectionHeader variant="section"` separadas con `space-y-section`. Listas de primer nivel en `ListGroup` con `ListRow` (plain). Estados vacíos con `EmptyState icon title`.
+
+### Primitives nuevas del rediseño
+
+`PageHeader`, `Metric` (cifra + unidad + etiqueta + caption; `hero|metric|title`, `align`), `Badge` (`neutral|accent|warning`, `dotClass`), `ListGroup`. Cambios: `Button` (todo pill, sin `shape`; `contrast`, `loading`), `Card tone ink`, `SectionHeader variant`, `ListRow` (`plain|muted|accent|flat`), `EmptyState icon/title`. Componentes de dominio compartidos: `ResumenNutricional` (hero de kcal/macros en Inicio y Hoy) y `TarjetaEntreno`.
+
+
 ## Arquitectura
 
 ```
@@ -24,11 +45,13 @@ Los valores en JS (gráficas, meta `theme-color`) se leen de las mismas variable
 
 | Quiero… | Toco |
 |---|---|
-| Accent más cálido | `--c-accent`, `--c-accent-subtle` (claro y `[data-theme='dark']`) |
+| Otro naranja / acento | `--c-accent`, `--c-accent-strong`, `--c-accent-subtle` (claro, `[data-theme='dark']` y bloque ink) |
+| Selección en naranja | `--c-selected`, `--c-on-selected` |
 | Radios más pequeños | `--radius-sm/md/lg` |
 | Cards con menos contraste | `--c-surface`, `--c-surface-muted`, `--c-border`, `--shadow-raised` |
 | Otra tipografía / escala | `--font-sans`, `--fs-*`, `--lh-*` |
 | Más/menos aire | `--space-page/section/card/stack` |
+| Fondo con más/menos color | `--glow-alpha` (claro y oscuro), `--glow-height`, `--gradient-page` |
 | Otro tema | Bloque `[data-theme='x']` con los mismos nombres + `theme.ts` |
 | Animaciones más lentas | `--dur-*`, `--ease-*` (con `prefers-reduced-motion` valen 0) |
 
@@ -36,14 +59,14 @@ Los valores en JS (gráficas, meta `theme-color`) se leen de las mismas variable
 
 - Superficies: `bg-bg`, `bg-surface`, `bg-surface-elevated`, `bg-surface-muted`
 - Texto: `text-fg`, `text-fg-muted`, `text-fg-subtle` · Bordes: `border-line`, `border-line-strong`
-- Estado: `accent`, `accent-subtle`, `text-accent-on`, `success`, `warning`, `destructive`
+- Estado: `accent`, `accent-subtle`, `text-accent-on`, `text-accent-strong`, `selected`/`text-selected-on`, `success`, `warning`, `destructive`/`text-destructive-on`
 - Datos: `kcal`, `protein`, `carbs`, `fat`, `goal` (significan siempre lo mismo)
-- Tipografía: `text-display|heading|title|body|body-sm|label|caption|metric` (`.tabular` para cifras)
+- Tipografía: `text-hero|display|heading|title|body|body-sm|label|caption|metric` (`.tabular` para cifras)
 - Radios: `rounded-sm|md|lg|pill` · Sombras: `shadow-raised|overlay` · Zona táctil: `min-h-touch`, `min-h-touch-lg`, `max-h-sheet`
 
 ## Primitives (`src/shared/components`)
 
-`Button` (primary · secondary · ghost · destructive · danger; `size` sm · md · lg; `shape="pill"` para la acción flotante principal), `IconButton` (label obligatorio), `Icon`, `Card`, `ListRow` (fila pulsable; `tone="flat"` para listas con hairlines), `Input/Textarea/Select/SearchInput` (`tone`, `dense`), `SegmentedControl`, `NumberStepper`, `ProgressBar` (el carril, ver abajo), `ProgressRing` (el mismo carril en anillo, con `children` en el centro; geometría en `shared/design/carril.ts`), `AnimatedNumber`, `SectionHeader`, `LoadingState/EmptyState/ErrorState`, `Toast` (`tono="error"` para fallos recuperables), `Sheet`, `ConfirmacionDestructiva`.
+`Button` (primary · secondary · ghost · destructive · danger · contrast; `size` sm · md · lg; `loading`), `IconButton` (label obligatorio), `Icon`, `Card`, `ListRow` (fila pulsable; `plain` dentro de `ListGroup`, `flat` para listas con hairlines), `Input/Textarea/Select/SearchInput` (`tone`, `dense`), `SegmentedControl`, `NumberStepper`, `ProgressBar` (el carril, ver abajo), `ProgressRing` (el mismo carril en anillo, con `children` en el centro; geometría en `shared/design/carril.ts`), `AnimatedNumber`, `SectionHeader`, `PageHeader`, `Metric`, `Badge`, `ListGroup`, `LoadingState/EmptyState/ErrorState`, `Toast` (`tono="error"` para fallos recuperables), `Sheet`, `ConfirmacionDestructiva`.
 
 Hook asociado: `shared/hooks/useAviso` devuelve `{ avisar, avisarError, toast }` (se renderiza `toast` una vez por pantalla; `avisar({ mensaje, onDeshacer })` muestra «Deshacer» y, si deshacer falla, avisa del error). El Toast queda por debajo de los Sheet (z-40 frente a z-50): dentro de un Sheet los errores van en línea con `ErrorState`.
 
@@ -65,6 +88,7 @@ Dirección: **Nítido** (jerarquía clara, superficies sobrias) + **Dorsal** (ci
 - **Acción principal**: `Button size="lg" shape="pill" block` con icono + texto, **dentro del flujo**, como último elemento de la pantalla. No flota sobre el contenido (un botón flotante puede tapar filas accionables); el espacio inferior lo reserva la propia pantalla. El `Toast` flota sobre la barra de navegación y desaparece solo.
 - **Día vacío / comida vacía**: las cuatro cards se muestran siempre; una comida sin entradas es una card compacta (cabecera sin franja + pie con Añadir/Repetir). No hay texto de «Sin registros» repetido.
 - **Movimiento**: `animate-shift-next|shift-prev` (cambio de día), `animate-rise-in` (toast), `animate-fade-in-late` (carga: no aparece si los datos llegan enseguida). Duración y distancia salen de `--dur-*` y `--motion-shift`; con `prefers-reduced-motion` las duraciones valen 0.
+- **Fondo**: un resplandor naranja de marca (`bg-page-glow`, `--gradient-page`) arriba de las 4 pestañas, dibujado por el shell de `App` (absoluto: se mueve con el contenido). Nunca en pantallas de tarea (Añadir comida, Medidas) ni en sheets. Sale de `--c-accent`/`--glow-alpha`; `contrast.test.ts` comprueba el texto sobre su pico.
 - **Cifras**: toda métrica numérica que se lee (kcal, g, kg, volumen) pasa por `formatInt`/`formatNumber` (ver «Formato de números»).
 - **Filas de lista**: el elemento pulsable es un `<button>` (foco y teclado), el borrado es otro botón aparte; nombres largos a 2 líneas (`line-clamp-2`).
 

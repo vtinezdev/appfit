@@ -15,6 +15,7 @@ Esta carpeta guarda un registro por sesión de trabajo. Cada vez que se cierra u
 - [`sesion-04/`](./sesion-04/) — food-database, Fases 2 y 3: catálogo CIQUAL traducido dentro del móvil (descarga automática) y buscador de alimentos propios + catálogo en Añadir comida. Handoff de las Fases 4 y 5 en `handoff-fases-4-5.md`.
 - [`sesion-05/`](./sesion-05/) — food-database, Fases 4 y 5: intérprete local de comidas sin IA (texto y dictado) con «Cambiar», y escáner de códigos de barras con Open Food Facts.
 - [`sesion-06/`](./sesion-06/) — Pantalla Inicio (anillo de kcal, macros y peso con la tabla `pesos`, esquema v5) y comidas de Hoy en Card con franja de macros.
+- [`sesion-07/`](./sesion-07/) — Rediseño visual: paleta naranja/negro/blanco, superficie `ink`, primitives nuevas (PageHeader, Metric, Badge, ListGroup), barra de navegación flotante y todas las pantallas.
 
 ## Convención para futuras sesiones
 

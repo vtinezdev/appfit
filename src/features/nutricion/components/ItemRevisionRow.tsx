@@ -1,4 +1,5 @@
-import AnimatedNumber from '../../../shared/components/AnimatedNumber'
+import Badge from '../../../shared/components/Badge'
+import Metric from '../../../shared/components/Metric'
 import { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { Input, Select } from '../../../shared/components/Input'
@@ -88,7 +89,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
 
       {(etiqueta || onCambiar) && (
         <div className="-my-2 flex items-center justify-between gap-2">
-          {etiqueta ? <span className="rounded-pill bg-surface-muted px-2 py-0.5 text-caption text-fg-muted">{etiqueta}</span> : <span />}
+          {etiqueta ? <Badge>{etiqueta}</Badge> : <span />}
           {onCambiar && (
             <Button variant="ghost" size="sm" className="-mr-3" onClick={onCambiar} aria-label={`Cambiar ${item.nombre || 'alimento'}`}>
               Cambiar
@@ -102,13 +103,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
       {!medidaPendiente(item) && (
         <div className="flex items-center justify-between gap-3">
           <NumberStepper label="gramos" value={item.gramos} onChange={(v) => onChange({ gramos: v })} step={10} suffix="g" />
-          <div className="min-w-0 text-right">
-            <p className="flex items-baseline justify-end gap-1 text-fg">
-              <AnimatedNumber value={kcal} className="text-title" />
-              <span className="text-caption text-fg-subtle">kcal</span>
-            </p>
-            <p className="tabular truncate text-caption text-fg-subtle">{resumenMacros(aporte)}</p>
-          </div>
+          <Metric valor={kcal} animate unidad="kcal" size="title" align="right" caption={resumenMacros(aporte)} />
         </div>
       )}
 

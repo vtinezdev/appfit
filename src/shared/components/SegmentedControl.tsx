@@ -7,10 +7,10 @@ interface Props<T extends string> {
   size?: 'md' | 'sm'
 }
 
-/** Fila de botones-pestaña donde solo uno está activo (Hoy/Resumen/Alimentos, Semana/Mes, Desayuno/Comida…). */
+/** Fila de botones-pestaña donde solo uno está activo (Hoy/Resumen/Alimentos, Semana/Mes, Desayuno/Comida…). El activo se marca con `bg-selected` (negro). */
 export default function SegmentedControl<T extends string>({ opciones, valor, onChange, className = '', size = 'md' }: Props<T>) {
   return (
-    <div role="tablist" className={`flex gap-1 rounded-md bg-surface-muted p-1 ${className}`}>
+    <div role="tablist" className={`flex gap-1 rounded-pill bg-surface-muted p-1 ${className}`}>
       {opciones.map((o) => {
         const activo = valor === o.valor
         return (
@@ -20,8 +20,8 @@ export default function SegmentedControl<T extends string>({ opciones, valor, on
             role="tab"
             aria-selected={activo}
             onClick={() => onChange(o.valor)}
-            className={`min-h-touch flex-1 rounded-sm font-medium transition-colors duration-short ${size === 'sm' ? 'text-caption' : 'text-body-sm'} ${
-              activo ? 'bg-surface text-fg shadow-raised' : 'text-fg-muted'
+            className={`min-h-touch flex-1 rounded-pill font-semibold transition-[background-color,color,transform] duration-short active:scale-95 ${size === 'sm' ? 'text-caption' : 'text-body-sm'} ${
+              activo ? 'bg-selected text-selected-on' : 'text-fg-muted hover:text-fg'
             }`}
           >
             {o.label}

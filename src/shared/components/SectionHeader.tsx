@@ -2,16 +2,28 @@ import type { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
-  /** Acción a la derecha (p. ej. un IconButton «⋯»). */
+  /** Acción a la derecha (p. ej. un IconButton «⋯» o un ghost «Ver todo»). */
   action?: ReactNode
+  /**
+   * `section`: título de sección de una pantalla (`text-title`, sin mayúsculas).
+   * `label` (por defecto): etiqueta pequeña en mayúsculas, para dentro de sheets y cards.
+   */
+  variant?: 'label' | 'section'
   tone?: 'default' | 'destructive'
 }
 
-/** Título de sección: etiqueta pequeña en mayúsculas. */
-export default function SectionHeader({ children, action, tone = 'default' }: Props) {
+export default function SectionHeader({ children, action, variant = 'label', tone = 'default' }: Props) {
+  if (variant === 'section') {
+    return (
+      <div className="flex items-center justify-between gap-2">
+        <h2 className={`text-title ${tone === 'destructive' ? 'text-destructive' : 'text-fg'}`}>{children}</h2>
+        {action}
+      </div>
+    )
+  }
   return (
     <div className="flex items-center justify-between gap-2 px-1">
-      <h2 className={`text-label uppercase tracking-wide ${tone === 'destructive' ? 'text-destructive' : 'text-fg-subtle'}`}>{children}</h2>
+      <h2 className={`text-label uppercase ${tone === 'destructive' ? 'text-destructive' : 'text-fg-subtle'}`}>{children}</h2>
       {action}
     </div>
   )

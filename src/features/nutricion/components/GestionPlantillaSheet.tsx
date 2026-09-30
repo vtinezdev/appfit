@@ -87,7 +87,7 @@ export default function GestionPlantillaSheet({ meal, onClose, onBorrada }: Prop
         <div className="space-y-2">
           {entradas.length === 0 && <EmptyState>Sin alimentos.</EmptyState>}
           {entradas.map(({ item: it }, i) => (
-            <div key={i} className="space-y-1.5 rounded-sm bg-surface-muted px-3 py-2">
+            <div key={i} className="space-y-1.5 rounded-md bg-surface-muted px-3 py-2">
               <div className="flex items-center justify-between gap-2">
                 <p className="min-w-0 flex-1 truncate text-body-sm text-fg">{it.nombre}</p>
                 <IconButton icon="trash" label={`Quitar ${it.nombre}`} variant="ghost" size="sm" onClick={() => quitar(i)} />
@@ -116,7 +116,7 @@ export default function GestionPlantillaSheet({ meal, onClose, onBorrada }: Prop
             <Button variant="destructive" onClick={() => setConfirmandoBorrado(true)} disabled={guardando} className="flex-1">
               Borrar plantilla
             </Button>
-            <Button onClick={guardar} disabled={!puedeGuardar} className="flex-1">
+            <Button loading={guardando} onClick={guardar} disabled={!puedeGuardar} className="flex-1">
               {guardando ? 'Guardando…' : 'Guardar'}
             </Button>
           </div>

@@ -7,7 +7,9 @@ import Sheet from '../../../shared/components/Sheet'
 import Button, { IconButton } from '../../../shared/components/Button'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import ListRow from '../../../shared/components/ListRow'
-import { Input } from '../../../shared/components/Input'
+import Icon from '../../../shared/components/Icon'
+import ListGroup from '../../../shared/components/ListGroup'
+import { Input, SearchInput } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 
 export default function Rutinas() {
@@ -85,20 +87,30 @@ export default function Rutinas() {
   }
 
   return (
-    <div className="space-y-3 pb-4">
-      <Button block
-        onClick={() => abrir({ nombre: '', exerciseIds: [] })}
-      >
+    <div className="space-y-stack">
+      <Button block onClick={() => abrir({ nombre: '', exerciseIds: [] })}>
+        <Icon name="plus" size={18} />
         Nueva rutina
       </Button>
 
-      {rutinas?.length === 0 && <EmptyState>Todavía no tienes rutinas.</EmptyState>}
-      {rutinas?.map((r) => (
-        <ListRow key={r.id} onClick={() => abrir(r)}>
-          <p className="font-medium text-fg">{r.nombre}</p>
-          <p className="text-caption text-fg-subtle">{r.exerciseIds.length} ejercicios</p>
-        </ListRow>
-      ))}
+      {rutinas?.length === 0 && <EmptyState icon="dumbbell" title="Todavía no tienes rutinas">Crea una para empezar tus entrenos con los ejercicios ya elegidos.</EmptyState>}
+      {rutinas && rutinas.length > 0 && (
+        <ListGroup aria-label="Tus rutinas">
+          {rutinas.map((r) => (
+            <li key={r.id}>
+              <ListRow onClick={() => abrir(r)}>
+                <span className="min-w-0">
+                  <span className="block text-body-sm font-medium text-fg">{r.nombre}</span>
+                  <span className="block text-caption text-fg-muted">
+                    {r.exerciseIds.length} ejercicio{r.exerciseIds.length === 1 ? '' : 's'}
+                  </span>
+                </span>
+                <Icon name="chevron-right" size={18} className="text-fg-subtle" />
+              </ListRow>
+            </li>
+          ))}
+        </ListGroup>
+      )}
 
       <Sheet open={editando !== null} onClose={() => abrir(null)} title={editando?.id ? 'Editar rutina' : 'Nueva rutina'}>
         {editando && (
@@ -111,14 +123,15 @@ export default function Rutinas() {
 
             <div className="space-y-1">
               {editando.exerciseIds.map((id) => (
-                <div key={id} className="flex items-center justify-between rounded-sm bg-surface-muted px-3 py-2">
-                  <span className="text-body-sm text-fg">{exerciseMap.get(id)?.nombre ?? '…'}</span>
-                  <IconButton icon="close" label="Quitar ejercicio" variant="ghost" size="sm" onClick={() => quitarEjercicio(id)} />
+                <div key={id} className="flex min-h-touch items-center justify-between gap-2 rounded-md bg-surface-muted pl-3 pr-1">
+                  <span className="min-w-0 text-body-sm text-fg">{exerciseMap.get(id)?.nombre ?? '…'}</span>
+                  <IconButton icon="close" label={`Quitar ${exerciseMap.get(id)?.nombre ?? 'ejercicio'}`} variant="ghost" size="sm" onClick={() => quitarEjercicio(id)} />
                 </div>
               ))}
             </div>
 
-            <Input
+            <SearchInput
+              aria-label="Buscar o crear ejercicio"
               value={busquedaEj}
               onChange={(e) => setBusquedaEj(e.target.value)}
               placeholder="Buscar o crear ejercicio…"
@@ -131,7 +144,7 @@ export default function Rutinas() {
               ))}
               {busquedaEj.trim() && !existeExacto && (
                 <ListRow tone="accent" onClick={crearEjercicioYAgregar} className="text-body-sm">
-                  Crear "{busquedaEj.trim()}"
+                  Crear «{busquedaEj.trim()}»
                 </ListRow>
               )}
             </div>
@@ -155,7 +168,7 @@ export default function Rutinas() {
                     Borrar
                   </Button>
                 )}
-                <Button onClick={guardar} disabled={!editando.nombre.trim() || ocupado} className="flex-1">
+                <Button loading={ocupado} onClick={guardar} disabled={!editando.nombre.trim()} className="flex-1">
                   Guardar
                 </Button>
               </div>

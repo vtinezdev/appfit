@@ -19,10 +19,12 @@ export default {
       // texto: text-fg, text-fg-muted, text-fg-subtle
       fg: { DEFAULT: c('text-primary'), muted: c('text-secondary'), subtle: c('text-tertiary') },
       line: { DEFAULT: c('border'), strong: c('border-strong') }, // border-line, border-line-strong
-      accent: { DEFAULT: c('accent'), subtle: c('accent-subtle'), on: c('on-accent') },
+      // accent = relleno; accent-strong = naranja como texto/icono (llega a 4.5:1); accent-on = texto sobre el relleno
+      accent: { DEFAULT: c('accent'), subtle: c('accent-subtle'), on: c('on-accent'), strong: c('accent-strong') },
+      selected: { DEFAULT: c('selected'), on: c('on-selected') }, // segmento / chip activo
       success: c('success'),
       warning: c('warning'),
-      destructive: c('destructive'),
+      destructive: { DEFAULT: c('destructive'), on: c('on-destructive') },
       // datos: significan siempre lo mismo (bg-kcal, text-protein, stroke-carbs…)
       kcal: c('kcal'),
       protein: c('protein'),
@@ -32,14 +34,15 @@ export default {
     },
     fontFamily: { sans: 'var(--font-sans)', numeric: 'var(--font-numeric)' },
     fontSize: {
-      display: ['var(--fs-display)', { lineHeight: 'var(--lh-display)', fontWeight: '700', letterSpacing: '-0.02em' }],
-      heading: ['var(--fs-heading)', { lineHeight: 'var(--lh-heading)', fontWeight: '650', letterSpacing: '-0.015em' }],
-      title: ['var(--fs-title)', { lineHeight: 'var(--lh-title)', fontWeight: '600' }],
+      hero: ['var(--fs-hero)', { lineHeight: 'var(--lh-hero)', fontWeight: '800', letterSpacing: '-0.045em' }],
+      display: ['var(--fs-display)', { lineHeight: 'var(--lh-display)', fontWeight: '800', letterSpacing: '-0.03em' }],
+      heading: ['var(--fs-heading)', { lineHeight: 'var(--lh-heading)', fontWeight: '700', letterSpacing: '-0.02em' }],
+      title: ['var(--fs-title)', { lineHeight: 'var(--lh-title)', fontWeight: '600', letterSpacing: '-0.01em' }],
       body: ['var(--fs-body)', { lineHeight: 'var(--lh-body)' }],
       'body-sm': ['var(--fs-body-sm)', { lineHeight: 'var(--lh-body-sm)' }],
-      label: ['var(--fs-label)', { lineHeight: 'var(--lh-label)', fontWeight: '600', letterSpacing: '0.02em' }],
+      label: ['var(--fs-label)', { lineHeight: 'var(--lh-label)', fontWeight: '600', letterSpacing: '0.04em' }],
       caption: ['var(--fs-caption)', { lineHeight: 'var(--lh-caption)' }],
-      metric: ['var(--fs-metric)', { lineHeight: 'var(--lh-metric)', fontWeight: '700', letterSpacing: '-0.03em' }],
+      metric: ['var(--fs-metric)', { lineHeight: 'var(--lh-metric)', fontWeight: '800', letterSpacing: '-0.04em' }],
     },
     borderRadius: {
       none: '0',
@@ -56,10 +59,14 @@ export default {
         stack: 'var(--space-stack)',
         touch: 'var(--touch-target)',
       },
+      height: { nav: 'var(--nav-height)', glow: 'var(--glow-height)' },
+      backgroundImage: { 'page-glow': 'var(--gradient-page)' },
+      inset: { 'nav-offset': 'var(--nav-offset)', 'nav-toast': 'var(--nav-toast)' },
+      padding: { nav: 'var(--nav-clearance)' },
       minHeight: { touch: 'var(--touch-target)', 'touch-lg': 'var(--touch-target-lg)' },
       maxHeight: { sheet: 'var(--sheet-max-height)' },
       minWidth: { touch: 'var(--touch-target)' },
-      boxShadow: { raised: 'var(--shadow-raised)', overlay: 'var(--shadow-overlay)' },
+      boxShadow: { raised: 'var(--shadow-raised)', overlay: 'var(--shadow-overlay)', nav: 'var(--shadow-nav)' },
       transitionDuration: { short: 'var(--dur-short)', normal: 'var(--dur-normal)', long: 'var(--dur-long)' },
       transitionTimingFunction: { standard: 'var(--ease-standard)', emphasized: 'var(--ease-emphasized)' },
       // Entradas discretas. Duración y distancia salen de los tokens de motion (0 con prefers-reduced-motion).
@@ -79,5 +86,7 @@ export default {
       },
     },
   },
+  // hover solo en dispositivos con puntero fino: en iOS un toque no deja el hover «pegado».
+  future: { hoverOnlyWhenSupported: true },
   plugins: [],
 }

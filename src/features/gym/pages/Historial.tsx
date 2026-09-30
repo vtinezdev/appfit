@@ -5,19 +5,15 @@ import * as exercisesRepo from '../data/exercisesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import type { Workout } from '../../../shared/db/types'
-import { volumenSets } from '../lib/workout'
+import { formatDuracion, volumenSets } from '../lib/workout'
 import Sheet from '../../../shared/components/Sheet'
+import Icon from '../../../shared/components/Icon'
+import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import { EmptyState } from '../../../shared/components/StateMessage'
 
 function formatFechaHora(ts: number): string {
   return new Date(ts).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
-}
-
-function formatDuracion(inicio: number, fin: number): string {
-  const min = Math.round((fin - inicio) / 60000)
-  if (min < 60) return `${min} min`
-  return `${Math.floor(min / 60)} h ${min % 60} min`
 }
 
 export default function Historial() {
@@ -37,31 +33,53 @@ export default function Historial() {
   }
 
   return (
-    <div className="space-y-2 pb-4">
-      {lista.length === 0 && <EmptyState>Todavía no has completado ningún entreno.</EmptyState>}
-      {lista.map((w) => (
-        <ListRow key={w.id} onClick={() => setSeleccionado(w)}>
-          <p className="font-medium text-fg">{formatFechaHora(w.inicio)}</p>
-          <p className="text-caption text-fg-subtle">{w.fin ? formatDuracion(w.inicio, w.fin) : '—'}</p>
-        </ListRow>
-      ))}
+    <div className="space-y-stack">
+      {lista.length === 0 && <EmptyState icon="dumbbell" title="Sin entrenos todavía">Cuando termines un entreno aparecerá aquí.</EmptyState>}
+      {lista.length > 0 && (
+        <ListGroup aria-label="Entrenos terminados">
+          {lista.map((w) => (
+            <li key={w.id}>
+              <ListRow onClick={() => setSeleccionado(w)}>
+                <span className="min-w-0">
+                  <span className="block text-body-sm font-medium text-fg">{formatFechaHora(w.inicio)}</span>
+                  <span className="tabular block text-caption text-fg-muted">{w.fin ? formatDuracion(w.fin - w.inicio) : '—'}</span>
+                </span>
+                <Icon name="chevron-right" size={18} className="text-fg-subtle" />
+              </ListRow>
+            </li>
+          ))}
+        </ListGroup>
+      )}
 
       <Sheet open={seleccionado !== null} onClose={() => setSeleccionado(null)} title={seleccionado ? formatFechaHora(seleccionado.inicio) : ''}>
-        <div className="space-y-3">
+        <div className="space-y-section">
           {Array.from(porEjercicio.entries()).map(([exId, sets]) => (
-            <div key={exId}>
-              <p className="mb-1 text-body-sm font-medium text-fg">{exerciseMap.get(exId)?.nombre ?? '…'}</p>
-              <div className="space-y-0.5 text-body-sm text-fg-muted">
-                {sets
-                  ?.sort((a, b) => a.orden - b.orden)
-                  .map((s) => (
-                    <p key={s.id}>
-                      {s.reps} reps × {s.peso} kg
-                    </p>
-                  ))}
-                <p className="text-caption text-fg-subtle">Volumen: {formatNumber(volumenSets(sets ?? []), 1)} kg</p>
+            <section key={exId} aria-label={exerciseMap.get(exId)?.nombre ?? 'Ejercicio'} className="space-y-2">
+              <div className="flex items-baseline justify-between gap-2">
+                <h3 className="text-title text-fg">{exerciseMap.get(exId)?.nombre ?? '…'}</h3>
+                <span className="tabular text-caption text-fg-muted">{formatNumber(volumenSets(sets ?? []), 1)} kg</span>
               </div>
-            </div>
+              <table className="tabular w-full text-body-sm">
+                <thead>
+                  <tr className="text-left text-label uppercase text-fg-subtle">
+                    <th className="w-16 pb-1 font-semibold">Serie</th>
+                    <th className="pb-1 text-right font-semibold">Reps</th>
+                    <th className="pb-1 text-right font-semibold">Kg</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line">
+                  {[...(sets ?? [])]
+                    .sort((a, b) => a.orden - b.orden)
+                    .map((s, i) => (
+                      <tr key={s.id}>
+                        <td className="py-1.5 text-fg-muted">{i + 1}</td>
+                        <td className="py-1.5 text-right text-fg">{formatNumber(s.reps, 0)}</td>
+                        <td className="py-1.5 text-right font-semibold text-fg">{formatNumber(s.peso, 2)}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </section>
           ))}
           {porEjercicio.size === 0 && <EmptyState>Sin ejercicios registrados.</EmptyState>}
         </div>
