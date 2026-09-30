@@ -1,5 +1,7 @@
 # Plan Nutrición v2 — Fase 0 (Cimientos) y Fase 1 (Registro rápido)
 
+> **Histórico, no normativo.** Plan de Nutrición v2 (Fases 0 y 1), ejecutado en las sesiones 02 y 03 (`PROCESO.md` §14–§29). El estado actual está en los documentos listados en `CLAUDE.md` § Documentación.
+
 > Plan aprobado el 2026-09-28. Cada paso numerado es **un commit propuesto**; no se hace ningún commit ni despliegue sin pedirlo expresamente.
 
 ## Contexto

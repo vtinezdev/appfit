@@ -1,6 +1,8 @@
 # Proceso: qué se ha hecho y por qué
 
-Registro detallado de la ejecución de [`PLAN.md`](./PLAN.md), en orden cronológico. Sirve como referencia de las decisiones tomadas, no solo de los pasos.
+Bitácora cronológica de cambios y decisiones, desde el [plan original](./historico/plan-original.md). Se cita como `PROCESO §N`.
+
+> **Histórico, no normativo.** Cada sección describe el código *de su momento*: las antiguas hablan de cosas que ya no existen (Gemini, `src/pages/`, `wrangler pages deploy`…). El estado actual está en los documentos vivos (`CLAUDE.md` § Documentación). Consúltala por secciones con `grep -n '^## ' docs/PROCESO.md`, nunca entera. Se añade una sección al final por cambio relevante y nunca se reescriben las anteriores (formato: `desarrollo.md` § Mantener la documentación).
 
 ## 0. Punto de partida
 
@@ -128,7 +130,7 @@ En cuanto tengas la cuenta de Cloudflare, decímelo y seguimos con esos dos punt
 
 ## 14. Nutrición v2 — Fase 0: red de seguridad antes de tocar nada
 
-Se planificó la iteración siguiente de Nutrición en [`roadmap/PLAN-nutricion-v2.md`](./roadmap/PLAN-nutricion-v2.md) a partir de la lluvia de ideas de [`roadmap/nutricion-ideas.md`](./roadmap/nutricion-ideas.md). Antes de planificar, cada problema del documento de ideas se comprobó contra el código: P7 solo se confirmó en parte (la rejilla de añadido rápido no ordena por «editados», sino por «últimos tocados»), P9 tenía matices y aparecieron dos fallos nuevos (P11 y P12, más abajo).
+Se planificó la iteración siguiente de Nutrición en [`historico/plan-nutricion-v2.md`](./historico/plan-nutricion-v2.md) a partir de la lluvia de ideas de [`historico/ideas-nutricion-v2.md`](./historico/ideas-nutricion-v2.md). Antes de planificar, cada problema del documento de ideas se comprobó contra el código: P7 solo se confirmó en parte (la rejilla de añadido rápido no ordena por «editados», sino por «últimos tocados»), P9 tenía matices y aparecieron dos fallos nuevos (P11 y P12, más abajo).
 
 Antes de cambiar una sola línea se prepararon dos cosas:
 
@@ -449,3 +451,13 @@ Objetivo: catálogo fiable, consistente y fácil de ampliar, con prioridad a lo 
 6. **App**: `ranking` con alias exacto = exacto, criterio `frecuente`, genérico antes que marca (puesto el PRIMERO, no tras `exactas`, porque una marca llamada exactamente «Pechuga de pollo» ganaba al genérico; una marca ya usada no se penaliza), secundarios detrás y `offes` en `PRIORIDAD_FUENTE`. Corrección de erratas (`erratas.ts`, Damerau-Levenshtein, 0/1/2 letras según longitud, solo si la búsqueda no encuentra nada; empate: candidata no más corta, luego más frecuente) con `catalogRepo.vocabulario()` en caché e invalidación en cada escritura; «Resultados para «…»» en el buscador; el intérprete también reintenta. `CANDIDATOS` 300 → 600. Detalle «Marca · Categoría» y «kcal/100 ml».
 7. **Tests**: `calidad`, `offLib`, `erratas`, ampliación de `ciqualLib`, `paquete`, `ranking` (regresión con el paquete real), `catalogRepo` (vocabulario, ocultos), compatibilidad es1→es2 con datos de usuario (fixture `src/test/fixtures/ciqual-2025-es1-muestra.json`), preferidos no ocultos, escalado 100/200/50 g.
 8. **Pendiente / límites**: prueba en Safari/iPhone real y medir importación (~6.300 filas) e índice en WebKit; no hay genéricos españoles (manchego, etc.: BEDCA no es redistribuible); la categoría y el idioma de OFF son heurísticos; el vocabulario tarda ~3,5 s en fake-indexeddb la primera vez que hay una errata.
+
+## 40. Reestructuración de la documentación (rama `feat/ampliar-alimentos`)
+
+Objetivo: que cada tema tenga una sola fuente de verdad, que `CLAUDE.md` sea contexto global mínimo y que el resto se lea solo cuando haga falta. Sin cambios de código.
+
+1. **Documentos vivos nuevos**: `arquitectura.md` (capas, mapa, navegación, arranque, PWA), `datos.md` (tablas, invariantes, repos, backup, trampas de Dexie), `features/{nutricion,gym,inicio}.md`, `desarrollo.md` (tests, navegador, Git/PR, despliegue, Claude Code), `roadmap.md` (pendientes, ideas y descartadas) y `decisiones/001–006` (ADR de las decisiones de base). Hasta ahora buena parte del estado actual solo estaba en esta bitácora.
+2. **`CLAUDE.md`**: pierde el mapa detallado (pasa a `arquitectura.md` y `features/`), los comandos del catálogo y del despliegue, y gana una tabla «documento → fuente de verdad de → cuándo actualizarlo», que sustituye a las listas equivalentes de `AGENTES.md` y `documentation-agent.md`.
+3. **Eliminados o movidos**: `AGENTES.md` (su contenido pasa a `desarrollo.md` § Claude Code), `roadmap/prompt-plan-nutricion-v2.md` (prompt ya usado); `PLAN.md` y `roadmap/*` pasan a `historico/`.
+4. **Corregido lo que no coincidía con el código**: `DESIGN-SYSTEM.md` describía Hoy con una card por comida (son secciones planas desde §38), usaba la prop `Button shape` (eliminada), mencionaba `ResumenDiaCard` y `VoiceRecorder` (eliminados) y daba por pendientes `SearchInput` en Gym y los ejes de Progreso (ya hechos). `herramientas.md` y `README.md` seguían con el despliegue «pendiente», Git «sin commits», solo CIQUAL como catálogo y sin las dependencias del escáner.
+5. **Hueco documentado**: el esquema v4 (tabla `notasMedida`, pantalla «Medidas», medidas caseras ambiguas en `lib/interprete/medidas.ts`, rama `feat/mejorar-parser`) y el reparto de objetivos (`lib/objetivos.ts`) no tenían sección aquí; ahora constan en `datos.md` y `features/nutricion.md`.

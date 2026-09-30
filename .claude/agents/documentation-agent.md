@@ -17,16 +17,11 @@ Documenta **solo lo que existe en el código ahora**. Verifica cada afirmación 
 
 ## Qué documento tocar (solo los afectados)
 
-| Documento | Cuándo | Cómo |
-|---|---|---|
-| `docs/PROCESO.md` | Hubo decisiones técnicas, bugs relevantes o cambios de arquitectura/datos | Nueva sección numerada al final (sigue la numeración). Qué se hizo **y por qué**, estilo de las secciones existentes |
-| `docs/progreso/sesion-NN/` | MAIN indica que se cierra una sesión de trabajo | Seguir `docs/progreso/README.md`: `resumen-tecnico.md` + `resumen-humano.md`, y añadir la línea al índice |
-| `README.md` | Cambian características, estructura de carpetas, comandos, configuración o despliegue | Editar la sección concreta |
-| `docs/DESIGN-SYSTEM.md` | Cambian tokens, primitives, vocabulario de clases o el lenguaje de una pantalla | Editar la sección concreta |
-| `docs/herramientas.md` | Se añade o quita una dependencia/herramienta | Mismo tono divulgativo del archivo |
-| `CLAUDE.md` (secciones «Mapa del código» y «Reglas del proyecto») | Cambia la estructura real o una regla del proyecto | Mantenerlo breve; es contexto que se carga en cada sesión |
+La tabla de `CLAUDE.md` § Documentación dice qué documento es la fuente de verdad de cada tema y cuándo se actualiza: síguela. Además:
+- `docs/PROCESO.md`: nueva sección numerada al final (qué se hizo y **por qué**, enlazando a los documentos vivos en vez de repetirlos). Formato en `docs/desarrollo.md` § Mantener la documentación.
+- `docs/progreso/sesion-NN/`: solo si MAIN indica que se cierra una sesión; sigue `docs/progreso/README.md`.
 
-No toques `docs/PLAN.md` ni `docs/roadmap/` (son planes históricos) salvo que MAIN lo pida. No toques el protocolo de agentes de `CLAUDE.md`, `.claude/agents/` ni `docs/AGENTES.md` salvo que MAIN lo pida.
+No toques `docs/historico/` ni las secciones antiguas de `PROCESO.md`. No toques `.claude/agents/`, la sección «Forma de trabajar» de `CLAUDE.md` ni `docs/desarrollo.md` § Claude Code salvo que MAIN lo pida.
 
 ## Cómo trabajar (ahorro de contexto)
 
