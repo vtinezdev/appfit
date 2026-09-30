@@ -1,6 +1,6 @@
 import { db, TABLAS_USUARIO } from '../db/db'
 import { conDefaults } from '../db/settings'
-import type { Entry, Exercise, Food, Meal, Routine, SetEntry, Settings, Workout } from '../db/types'
+import type { Entry, Exercise, Food, Meal, NotaMedida, Routine, SetEntry, Settings, Workout } from '../db/types'
 
 /**
  * Formato del backup JSON. Reglas para cambiarlo:
@@ -14,7 +14,7 @@ import type { Entry, Exercise, Food, Meal, Routine, SetEntry, Settings, Workout 
 export const BACKUP_VERSION = 2
 
 const TABLAS_OBLIGATORIAS = ['foods', 'entries', 'settings', 'exercises', 'routines', 'workouts', 'sets'] as const
-const TABLAS_OPCIONALES = ['meals'] as const
+const TABLAS_OPCIONALES = ['meals', 'notasMedida'] as const
 
 export interface BackupV2 {
   version: 2
@@ -31,6 +31,8 @@ export interface BackupV2 {
   sets: SetEntry[]
   /** Opcional: los backups anteriores a la fase 1 de Nutrición v2 no la traen. */
   meals?: Meal[]
+  /** Opcional: los backups anteriores a las notas de medidas no la traen. */
+  notasMedida?: NotaMedida[]
 }
 
 /** Las tablas de datos del usuario (todas menos el catálogo). */
@@ -43,7 +45,7 @@ const ERROR_FORMATO = 'El archivo no tiene el formato de backup de AppFit.'
 /** Exporta todas las tablas en una lectura coherente. La API key solo se incluye si se pide. */
 export async function exportarBackup({ incluirApiKey = false }: { incluirApiKey?: boolean } = {}): Promise<BackupV2> {
   return db.transaction('r', usuarioTablas(), async () => {
-    const [foods, entries, settings, exercises, routines, workouts, sets, meals] = await Promise.all([
+    const [foods, entries, settings, exercises, routines, workouts, sets, meals, notasMedida] = await Promise.all([
       db.foods.toArray(),
       db.entries.toArray(),
       db.settings.toArray(),
@@ -52,6 +54,7 @@ export async function exportarBackup({ incluirApiKey = false }: { incluirApiKey?
       db.workouts.toArray(),
       db.sets.toArray(),
       db.meals.toArray(),
+      db.notasMedida.toArray(),
     ])
     return {
       version: BACKUP_VERSION,
@@ -66,6 +69,7 @@ export async function exportarBackup({ incluirApiKey = false }: { incluirApiKey?
       workouts,
       sets,
       meals,
+      notasMedida,
     }
   })
 }
@@ -105,6 +109,7 @@ export function migrarBackup(raw: unknown): BackupV2 {
     workouts: d.workouts as Workout[],
     sets: d.sets as SetEntry[],
     meals: (d.meals as Meal[] | undefined) ?? [],
+    notasMedida: (d.notasMedida as NotaMedida[] | undefined) ?? [],
   }
   const exportedAt = typeof d.exportedAt === 'string' ? d.exportedAt : ''
 

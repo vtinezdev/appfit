@@ -4,6 +4,7 @@ import * as foodsRepo from '../data/foodsRepo'
 import { itemDesdeElegible, itemSinCoincidencia, type ItemRevision } from '../lib/alimentos'
 import { rankCatalogo } from '../lib/catalogo/ranking'
 import { emparejar } from '../lib/interprete/emparejar'
+import { medidaAmbigua } from '../lib/interprete/medidas'
 import { parsear, type ParteComida } from '../lib/interprete/parsear'
 import { gramosDeParte, racionDe } from '../lib/interprete/raciones'
 
@@ -26,8 +27,10 @@ async function interpretarParte(parte: ParteComida): Promise<ItemRevision> {
     catalogo: rankCatalogo(conPreferido, parte.consulta),
     preferido: preferido?.id,
   })
-  const { gramos, estimados } = gramosDeParte(parte, racion)
-  const extra = { gramosEstimados: estimados, alternativas }
+  // Una medida ambigua («una cucharada») no lleva gramos hasta que se elija cuánto pesa en la revisión.
+  const medida = medidaAmbigua(parte, racion)
+  const { gramos, estimados } = medida ? { gramos: 0, estimados: false } : gramosDeParte(parte, racion)
+  const extra = { gramosEstimados: estimados, alternativas, medida }
   return mejor ? itemDesdeElegible(mejor, gramos, extra) : itemSinCoincidencia(parte.nombre, gramos, extra)
 }
 

@@ -30,17 +30,18 @@ const meal: Omit<Meal, 'id'> = {
   items: [{ foodId: 1, nombre: 'Plátano', gramos: 100, kcal: 89, prot: 1, carb: 23, grasa: 0.3 }],
 }
 
-describe('esquema v3', () => {
-  it('instalación nueva: crea todas las tablas y los índices del catálogo, con la versión 3', async () => {
+describe('esquema v4', () => {
+  it('instalación nueva: crea todas las tablas y los índices del catálogo, con la versión 4', async () => {
     const nombre = 'appfit-instalacion-test'
     const d = new AppFitDB(nombre)
     await d.open()
-    expect(d.verno).toBe(3)
+    expect(d.verno).toBe(4)
     expect(d.tables.map((t) => t.name).sort()).toEqual([...TABLAS_USUARIO, ...TABLAS_CATALOGO].sort())
     expect(d.table('catalogFoods').schema.primKey.auto).toBe(false)
     expect(d.table('catalogFoods').schema.idxByName.tok.multi).toBe(true)
     expect(d.table('catalogFoods').schema.idxByName.gtin.unique).toBeFalsy()
     expect(d.table('entries').schema.idxByName.catalogId).toBeDefined()
+    expect(d.table('notasMedida').schema.primKey.auto).toBe(true)
     d.close()
     await Dexie.delete(nombre)
   })
@@ -52,7 +53,7 @@ describe('esquema v3', () => {
     expect(TABLAS_USUARIO.filter((t) => (TABLAS_CATALOGO as readonly string[]).includes(t))).toEqual([])
   })
 
-  it('v2 → v3: foods, entries, meals y Gym sobreviven intactos; el catálogo aparece vacío', async () => {
+  it('v2 → v4: foods, entries, meals y Gym sobreviven intactos; el catálogo y las notas de medidas aparecen vacíos', async () => {
     const nombre = 'appfit-migracion-v2-test'
     const datos = JSON.parse(backupV1)
 
@@ -68,7 +69,7 @@ describe('esquema v3', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(3)
+    expect(actual.verno).toBe(4)
     // Ningún registro cambia: contenido idéntico (incluido Gym y meals).
     for (const tabla of Object.keys(ESQUEMA_V2)) expect(await actual.table(tabla).toArray(), tabla).toEqual(antes[tabla])
     expect(antes.foods).toHaveLength(datos.foods.length)
@@ -76,6 +77,7 @@ describe('esquema v3', () => {
     expect(antes.meals).toHaveLength(1)
     expect(await actual.catalogFoods.count()).toBe(0)
     expect(await actual.catalogSources.count()).toBe(0)
+    expect(await actual.notasMedida.count()).toBe(0)
     // Evidencia de que Dexie ha creado de verdad tablas e índices en la IndexedDB migrada (no solo en su esquema en memoria).
     const idb = actual.backendDB()
     const tx = idb.transaction(['entries', 'catalogFoods'], 'readonly')
@@ -138,7 +140,7 @@ describe('catálogo en Dexie', () => {
 })
 
 describe('migraciones de Dexie', () => {
-  it('v1 → v3: los datos existentes sobreviven y aparecen meals y el catálogo vacíos', async () => {
+  it('v1 → v4: los datos existentes sobreviven y aparecen vacíos meals, el catálogo y las notas de medidas', async () => {
     const nombre = 'appfit-migracion-test'
     const datos = JSON.parse(backupV1)
 
@@ -150,13 +152,14 @@ describe('migraciones de Dexie', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(3)
+    expect(actual.verno).toBe(4)
     expect(await actual.catalogFoods.count()).toBe(0)
     for (const tabla of Object.keys(ESQUEMA_V1)) {
       expect(await actual.table(tabla).count(), tabla).toBe(datos[tabla].length)
     }
     expect(await actual.entries.get(9)).toEqual(datos.entries[8])
     expect(await actual.meals.count()).toBe(0)
+    expect(await actual.notasMedida.count()).toBe(0)
     // Los índices de v1 siguen funcionando.
     expect((await actual.foods.where('nombreNorm').equals('platano').first())?.id).toBe(1)
     actual.close()

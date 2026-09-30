@@ -1,11 +1,12 @@
 import AnimatedNumber from '../../../shared/components/AnimatedNumber'
 import { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
-import { Input } from '../../../shared/components/Input'
+import { Input, Select } from '../../../shared/components/Input'
 import NumberStepper from '../../../shared/components/NumberStepper'
 import Button from '../../../shared/components/Button'
-import { procedencia, type ItemRevision } from '../lib/alimentos'
+import { medidaPendiente, procedencia, type ItemRevision } from '../lib/alimentos'
 import { etiquetaFuente } from '../lib/catalogo/textos'
+import { elegirMedida, preguntaMedida, textoOpcionMedida, type MedidaAmbigua } from '../lib/interprete/medidas'
 import { macrosPorGramos, resumenMacros } from '../lib/nutrition'
 import MacroInputs from './MacroInputs'
 
@@ -42,16 +43,37 @@ function Aviso({ children }: { children: string }) {
   )
 }
 
+/** «¿Cuánto es una cucharada?»: elige los gramos de una medida casera ambigua. Sin elegir, no hay opción marcada. */
+function SelectorMedida({ medida, onElegir }: { medida: MedidaAmbigua; onElegir: (gramosPorUnidad: number) => void }) {
+  return (
+    <label className="block">
+      <span className="mb-1 block text-caption text-fg-muted">{preguntaMedida(medida)}</span>
+      <Select value={medida.elegida ?? ''} onChange={(e) => onElegir(Number(e.target.value))} aria-invalid={medida.elegida === undefined}>
+        <option value="" disabled>
+          Elige una cantidad
+        </option>
+        {medida.opciones.map((g) => (
+          <option key={g} value={g}>
+            {textoOpcionMedida(medida, g)}
+          </option>
+        ))}
+      </Select>
+    </label>
+  )
+}
+
 /**
  * Un alimento en la revisión, como fila de una lista (la Card que las agrupa la pone quien las usa).
  * Orden de lectura: nombre → cantidad → lo que aporta (kcal con presencia, P/C/G debajo) → valores por 100 g, todo editable.
- * Las kcal y los macros son los mismos que se guardarán (`macrosPorGramos`).
+ * Las kcal y los macros son los mismos que se guardarán (`macrosPorGramos`). Con una medida ambigua («una cucharada»),
+ * primero se elige cuánto pesa y hasta entonces no se muestran gramos ni kcal.
  */
 export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso }: Props) {
   const aporte = macrosPorGramos(item, item.gramos)
   const kcal = Math.round(aporte.kcal)
   const sinNombre = !item.nombre.trim()
   const etiqueta = textoProcedencia(item)
+  const { medida } = item
   return (
     <div className="space-y-3 p-card">
       <div className="flex items-center gap-2">
@@ -77,16 +99,20 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-3">
-        <NumberStepper label="gramos" value={item.gramos} onChange={(v) => onChange({ gramos: v })} step={10} suffix="g" />
-        <div className="min-w-0 text-right">
-          <p className="flex items-baseline justify-end gap-1 text-fg">
-            <AnimatedNumber value={kcal} className="text-title" />
-            <span className="text-caption text-fg-subtle">kcal</span>
-          </p>
-          <p className="tabular truncate text-caption text-fg-subtle">{resumenMacros(aporte)}</p>
+      {medida && <SelectorMedida medida={medida} onElegir={(g) => onChange(elegirMedida(medida, g))} />}
+
+      {!medidaPendiente(item) && (
+        <div className="flex items-center justify-between gap-3">
+          <NumberStepper label="gramos" value={item.gramos} onChange={(v) => onChange({ gramos: v })} step={10} suffix="g" />
+          <div className="min-w-0 text-right">
+            <p className="flex items-baseline justify-end gap-1 text-fg">
+              <AnimatedNumber value={kcal} className="text-title" />
+              <span className="text-caption text-fg-subtle">kcal</span>
+            </p>
+            <p className="tabular truncate text-caption text-fg-subtle">{resumenMacros(aporte)}</p>
+          </div>
         </div>
-      </div>
+      )}
 
       <MacroInputs layout="row" valores={item} onChange={onChange} />
 

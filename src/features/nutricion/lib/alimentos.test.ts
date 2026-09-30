@@ -13,6 +13,7 @@ import {
   itemDeProductoIncompleto,
   itemDesdeElegible,
   itemSinCoincidencia,
+  medidaPendiente,
   mismosValores,
   NOMBRE_RAPIDA_POR_DEFECTO,
   por100DesdeEntrada,
@@ -245,6 +246,16 @@ describe('ítems del intérprete local (catálogo, propios y sin coincidencia)',
   it('guarda las alternativas solo si hay', () => {
     expect(itemDesdeElegible(ARROZ_CAT, 100, { alternativas: [] }).origen.alternativas).toBeUndefined()
     expect(itemDesdeElegible(ARROZ_CAT, 100, { alternativas: [elegibleDeFood(PLATANO)] }).origen.alternativas).toHaveLength(1)
+  })
+
+  it('una medida ambigua sin elegir no se puede guardar; elegida, sí', () => {
+    const medida = { cantidad: 2, unidad: 'cucharada' as const, opciones: [10, 15, 20, 25] }
+    const item = itemDesdeElegible(ARROZ_CAT, 0, { medida })
+    expect(item.medida).toEqual(medida)
+    expect(medidaPendiente(item)).toBe(true)
+    expect(medidaPendiente({ ...item, medida: { ...medida, elegida: 15 }, gramos: 30 })).toBe(false)
+    expect(medidaPendiente(itemDesdeElegible(ARROZ_CAT, 100))).toBe(false)
+    expect(itemSinCoincidencia('miel', 0, { medida }).medida).toEqual(medida)
   })
 
   it('sin coincidencia: valores a 0 y no se puede guardar hasta escribirlos', () => {
