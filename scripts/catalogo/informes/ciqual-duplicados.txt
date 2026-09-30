@@ -1,0 +1,14 @@
+Casi-duplicados de CIQUAL 2025-es2: 3 grupos
+Mismo nombre base (sin descriptores neutros) y 8 nutrientes dentro de tolerancia. Solo informativo: se cura a mano en ciqual/ocultos.csv.
+(marca «*» = ya oculto)
+
+desnatada leche
+    19050	Leche desnatada, UHT	34.4 kcal · P 3.6 · C 5 · G 0 · 1.00
+  * 19051	Leche desnatada, pasterizada	32.7 kcal · P 3.4 · C 4.7 · G 0.1 · 1.00
+entera leche
+    19016	Leche entera (promedio)	63.9 kcal · P 3.4 · C 4.8 · G 3.5 · 1.00
+  * 19023	Leche entera, UHT	64.6 kcal · P 3.5 · C 4.8 · G 3.6 · 1.00
+leche semidesnatada
+    19033	Leche semidesnatada (promedio)	47.5 kcal · P 3.5 · C 5 · G 1.6 · 1.00
+  * 19041	Leche semidesnatada, UHT	47.7 kcal · P 3.5 · C 5 · G 1.6 · 1.00
+  * 19042	Leche semidesnatada, pasterizada	46.4 kcal · P 3.2 · C 4.9 · G 1.5 · 1.00

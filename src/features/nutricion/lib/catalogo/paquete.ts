@@ -1,7 +1,11 @@
 // Formato del paquete estático del catálogo (`public/catalogo/`) y su conversión a `CatalogFood`.
 // Lógica pura: validar lo descargado (nunca se importa un JSON sin comprobar) y transformarlo.
 // Los tipos duplican los de `scripts/catalogo/ciqualLib.ts` a propósito: la app no importa de `scripts/`.
-import { catalogId } from '../../../../shared/db/foodRef'
+//
+// Formato 2 (el manifest sigue en formato 1). Se rechaza el formato 1: los paquetes se republicaron todos.
+// Un cliente con la app antigua (Service Worker sin actualizar) rechazará un paquete de formato 2 y lo
+// reintentará en el siguiente arranque, cuando `autoUpdate` ya haya instalado la app nueva.
+import { catalogId, normalizarGtin } from '../../../../shared/db/foodRef'
 import type { CatalogFood } from '../../../../shared/db/types'
 import { normalizeName, tokenizar } from '../../../../shared/lib/text'
 
@@ -12,7 +16,25 @@ const CLAVES_NUTRIENTE: readonly ClaveNutriente[] = ['fibra', 'azucares', 'sal',
 const TOTAL_NUTRIENTES = 8
 const BASICOS = 4
 
-/** `[idExterno, nombre, nombreOriginal, categoria, kcal, prot, carb, grasa, nutrientes?, alias?]`, valores por 100 g. */
+/**
+ * Campos poco frecuentes de una fila. `ml`, `oculto` y `secundario` son indicadores: cuando existen valen `1`.
+ * En productos de marca el GTIN es el `idExterno`, así que `gtin` solo hace falta si difiere.
+ */
+export interface ExtraFila {
+  alias?: string[]
+  marca?: string
+  gtin?: string
+  /** Valores por 100 ml en lugar de 100 g (solo productos de marca). */
+  ml?: 1
+  /** No aparece al buscar (`tok` vacío); sigue existiendo por su id para frecuentes, plantillas y entradas. */
+  oculto?: 1
+  /** Va detrás de los demás al buscar. */
+  secundario?: 1
+}
+
+export type TipoPaquete = 'generico' | 'marca'
+
+/** `[idExterno, nombre, nombreOriginal, categoria, kcal, prot, carb, grasa, nutrientes?, extra?]`, valores por 100 g (o 100 ml con `extra.ml`). */
 export type Fila = [
   idExterno: string,
   nombre: string,
@@ -23,13 +45,15 @@ export type Fila = [
   carb: number,
   grasa: number,
   nutrientes?: Partial<Record<ClaveNutriente, number>>,
-  alias?: string[],
+  extra?: ExtraFila,
 ]
 
 export interface Paquete {
-  formato: 1
+  formato: 2
   fuente: string
   version: string
+  /** Genéricos (CIQUAL) o productos de marca (Open Food Facts). */
+  tipo: TipoPaquete
   filas: Fila[]
 }
 
@@ -67,14 +91,40 @@ function numero(x: unknown, donde: string): number {
   return x
 }
 
-function comprobarFormato(x: Record<string, unknown>, que: string): void {
-  if (x.formato !== 1) throw new Error(`${que}: formato ${JSON.stringify(x.formato)} no soportado (se esperaba 1)`)
+function comprobarFormato(x: Record<string, unknown>, que: string, esperado: number): void {
+  if (x.formato !== esperado) {
+    throw new Error(`${que}: formato ${JSON.stringify(x.formato)} no soportado (se esperaba ${esperado})`)
+  }
+}
+
+function indicador(x: unknown, donde: string): 1 {
+  if (x !== 1) throw new Error(`${donde}: se esperaba 1`)
+  return 1
+}
+
+/** Valida el objeto `extra` de una fila. Las claves que no conoce se ignoran (compatibilidad hacia delante). */
+function validarExtra(x: unknown, tipo: TipoPaquete, dondeId: string): ExtraFila {
+  if (!esObjeto(x)) throw new Error(`${dondeId}, extra: se esperaba un objeto`)
+  const extra: ExtraFila = {}
+  if (x.alias !== undefined) {
+    if (!Array.isArray(x.alias)) throw new Error(`${dondeId}, alias: se esperaba una lista`)
+    extra.alias = x.alias.map((a: unknown, j) => texto(a, `${dondeId}, alias ${j + 1}`))
+  }
+  if (x.marca !== undefined) extra.marca = texto(x.marca, `${dondeId}, marca`)
+  if (x.gtin !== undefined) extra.gtin = texto(x.gtin, `${dondeId}, gtin`)
+  if (x.ml !== undefined) {
+    if (tipo === 'generico') throw new Error(`${dondeId}: un alimento genérico no puede ir por 100 ml`)
+    extra.ml = indicador(x.ml, `${dondeId}, ml`)
+  }
+  if (x.oculto !== undefined) extra.oculto = indicador(x.oculto, `${dondeId}, oculto`)
+  if (x.secundario !== undefined) extra.secundario = indicador(x.secundario, `${dondeId}, secundario`)
+  return extra
 }
 
 /** Valida el `manifest.json`. Lanza un `Error` con el motivo si no cumple el formato 1. */
 export function validarManifest(datos: unknown): Manifest {
   if (!esObjeto(datos)) throw new Error('Manifest: no es un objeto')
-  comprobarFormato(datos, 'Manifest')
+  comprobarFormato(datos, 'Manifest', 1)
   if (!Array.isArray(datos.fuentes)) throw new Error('Manifest: falta la lista «fuentes»')
   const ids = new Set<string>()
   const fuentes = datos.fuentes.map((f: unknown, i): EntradaManifest => {
@@ -100,11 +150,13 @@ export function validarManifest(datos: unknown): Manifest {
   return { formato: 1, fuentes }
 }
 
-/** Valida un paquete de una fuente. Lanza un `Error` que nombra la fila que falla. */
+/** Valida un paquete de una fuente (formato 2). Lanza un `Error` que nombra la fila que falla. */
 export function validarPaquete(datos: unknown): Paquete {
   if (!esObjeto(datos)) throw new Error('Paquete: no es un objeto')
-  comprobarFormato(datos, 'Paquete')
+  comprobarFormato(datos, 'Paquete', 2)
   const fuente = texto(datos.fuente, 'Paquete, fuente')
+  if (datos.tipo !== 'generico' && datos.tipo !== 'marca') throw new Error('Paquete, tipo: se esperaba «generico» o «marca»')
+  const tipo: TipoPaquete = datos.tipo
   const version = texto(datos.version, 'Paquete, version')
   if (!Array.isArray(datos.filas)) throw new Error('Paquete: falta la lista «filas»')
 
@@ -138,24 +190,25 @@ export function validarPaquete(datos: unknown): Paquete {
       fila.push(nutrientes)
     }
     if (f[9] !== undefined) {
-      if (!Array.isArray(f[9])) throw new Error(`${dondeId}, alias: se esperaba una lista`)
-      if (fila.length === 8) throw new Error(`${dondeId}: hay alias pero falta «nutrientes» (debe ir como {})`)
-      fila.push(f[9].map((a: unknown, j) => texto(a, `${dondeId}, alias ${j + 1}`)))
+      if (fila.length === 8) throw new Error(`${dondeId}: hay «extra» pero falta «nutrientes» (debe ir como {})`)
+      fila.push(validarExtra(f[9], tipo, dondeId))
     }
     return fila
   })
-  return { formato: 1, fuente, version, filas }
+  return { formato: 2, fuente, version, tipo, filas }
 }
 
 // ───────────────────────── Conversión ─────────────────────────
 
 /**
- * Convierte un paquete validado en filas de `catalogFoods`. `tok` sale del nombre y los alias (no del nombre
- * original en otro idioma); `nutrientes` solo existe si hay claves; `completitud` se deduce de las claves
- * (4 básicos + extras) / 8, porque el paquete no la guarda.
+ * Convierte un paquete validado en filas de `catalogFoods`.
+ * - `tok` (índice de búsqueda) sale del nombre, los alias y la marca (no del nombre original en otro idioma);
+ *   una fila `oculto` lleva `tok: []`: no se encuentra al buscar, pero `obtener`/`porIds` la resuelven.
+ * - `nutrientes` solo existe si hay claves; `completitud` se deduce de las claves (4 básicos + extras) / 8.
+ * - En productos de marca el GTIN es el `idExterno` salvo que la fila traiga otro.
  */
 export function aCatalogFoods(paquete: Paquete, importadoAt: number): CatalogFood[] {
-  return paquete.filas.map(([idExterno, nombre, nombreOriginal, categoria, kcal, prot, carb, grasa, nutrientes, alias]) => {
+  return paquete.filas.map(([idExterno, nombre, nombreOriginal, categoria, kcal, prot, carb, grasa, nutrientes, extra]) => {
     const extras = nutrientes ? Object.keys(nutrientes).length : 0
     const food: CatalogFood = {
       id: catalogId(paquete.fuente, idExterno),
@@ -163,8 +216,8 @@ export function aCatalogFoods(paquete: Paquete, importadoAt: number): CatalogFoo
       idExterno,
       nombre,
       nombreNorm: normalizeName(nombre),
-      tok: tokenizar([nombre, ...(alias ?? [])].join(' ')),
-      tipo: 'generico',
+      tok: extra?.oculto ? [] : tokenizar([nombre, ...(extra?.alias ?? []), extra?.marca ?? ''].join(' ')),
+      tipo: paquete.tipo,
       kcal100: kcal,
       prot100: prot,
       carb100: carb,
@@ -176,6 +229,12 @@ export function aCatalogFoods(paquete: Paquete, importadoAt: number): CatalogFoo
     if (nombreOriginal) food.nombreOriginal = nombreOriginal
     if (categoria) food.categoria = categoria
     if (extras > 0) food.nutrientes = { ...nutrientes }
+    if (extra?.alias && extra.alias.length > 0) food.alias = extra.alias
+    if (extra?.marca) food.marca = extra.marca
+    const gtin = extra?.gtin ? normalizarGtin(extra.gtin) : paquete.tipo === 'marca' ? normalizarGtin(idExterno) : undefined
+    if (gtin) food.gtin = gtin
+    if (extra?.ml) food.ml = true
+    if (extra?.secundario) food.secundario = true
     return food
   })
 }

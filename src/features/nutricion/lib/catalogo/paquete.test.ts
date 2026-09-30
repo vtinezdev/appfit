@@ -4,22 +4,34 @@ import { aCatalogFoods, validarManifest, validarPaquete, type Paquete } from './
 
 const entrada = {
   id: 'ciqual',
-  version: '2025-es1',
-  archivo: 'ciqual-2025-es1.json',
+  version: '2025-es2',
+  archivo: 'ciqual-2025-es2.json',
   filas: 2,
   licencia: 'Licence Ouverte Etalab 2.0',
   atribucion: 'ANSES, Ciqual',
 }
 
 const paquete = () => ({
-  formato: 1,
+  formato: 2,
   fuente: 'ciqual',
-  version: '2025-es1',
+  version: '2025-es2',
+  tipo: 'generico',
   filas: [
-    ['1', 'Leche entera', 'Lait entier', 'Lácteos', 64, 3.3, 4.7, 3.6],
-    ['2', 'Ñoquis de patata', 'Gnocchi', 'Platos', 150, 4, 30, 1, {}, ['ñoqui']],
+    ['1', 'Leche entera', 'Lait entier', 'Leche y nata', 64, 3.3, 4.7, 3.6],
+    ['2', 'Ñoquis de patata', 'Gnocchi', 'Platos preparados', 150, 4, 30, 1, {}, { alias: ['ñoqui'] }],
     ['3', 'Manzana', 'Pomme', 'Frutas', 52, 0.3, 11.4, 0.2, { fibra: 2, sal: 0 }],
-  ],
+  ] as unknown[][],
+})
+
+const productos = () => ({
+  formato: 2,
+  fuente: 'offes',
+  version: '2026-09-30',
+  tipo: 'marca',
+  filas: [
+    ['8410000000017', 'Yogur natural', '', 'Yogures y postres lácteos', 60, 4, 5, 3, { azucares: 5 }, { marca: 'Hacendado' }],
+    ['8410000000024', 'Cerveza sin alcohol', '', 'Bebidas', 20, 0, 4.5, 0, {}, { marca: 'Mahou', ml: 1 }],
+  ] as unknown[][],
 })
 
 describe('validarManifest', () => {
@@ -41,12 +53,15 @@ describe('validarManifest', () => {
   })
 })
 
-describe('validarPaquete', () => {
+describe('validarPaquete (formato 2)', () => {
   it('acepta un paquete válido', () => {
     expect(validarPaquete(paquete()).filas).toHaveLength(3)
+    expect(validarPaquete(productos()).tipo).toBe('marca')
   })
-  it('rechaza otro formato o estructura', () => {
-    expect(() => validarPaquete({ ...paquete(), formato: 2 })).toThrow(/formato/)
+  it('rechaza el formato 1 (los paquetes se republicaron), otro tipo y otra estructura', () => {
+    expect(() => validarPaquete({ ...paquete(), formato: 1 })).toThrow(/formato 1.*se esperaba 2/)
+    expect(() => validarPaquete({ ...paquete(), tipo: 'otro' })).toThrow(/tipo/)
+    expect(() => validarPaquete({ ...paquete(), tipo: undefined })).toThrow(/tipo/)
     expect(() => validarPaquete({ ...paquete(), version: '' })).toThrow(/version/)
     expect(() => validarPaquete({ ...paquete(), filas: 'x' })).toThrow(/filas/)
     expect(() => validarPaquete('hola')).toThrow(/objeto/)
@@ -63,13 +78,35 @@ describe('validarPaquete', () => {
     expect(() => validarPaquete(con(1, 1, ' '))).toThrow(/fila 2.*nombre/)
     expect(() => validarPaquete(con(2, 8, { fibra: Infinity }))).toThrow(/fibra/)
     expect(() => validarPaquete(con(2, 8, { vitC: 3 }))).toThrow(/vitC/)
-    expect(() => validarPaquete(con(1, 9, 'ñoqui'))).toThrow(/alias/)
-    expect(() => validarPaquete(con(1, 9, [''])) ).toThrow(/alias/)
   })
-  it('rechaza filas cortas y ids repetidos', () => {
+  it('valida el objeto extra', () => {
+    const con = (extra: unknown) => {
+      const p = paquete()
+      ;(p.filas[1] as unknown[])[9] = extra
+      return p
+    }
+    expect(() => validarPaquete(con(['ñoqui']))).toThrow(/extra/)
+    expect(() => validarPaquete(con({ alias: 'ñoqui' }))).toThrow(/alias/)
+    expect(() => validarPaquete(con({ alias: [''] }))).toThrow(/alias/)
+    expect(() => validarPaquete(con({ oculto: true }))).toThrow(/oculto/)
+    expect(() => validarPaquete(con({ secundario: 2 }))).toThrow(/secundario/)
+    expect(() => validarPaquete(con({ marca: '' }))).toThrow(/marca/)
+    // Una clave desconocida se ignora (compatibilidad hacia delante).
+    expect(validarPaquete(con({ futura: 1 })).filas[1][9]).toEqual({})
+  })
+  it('ml solo en productos de marca', () => {
+    const p = paquete()
+    ;(p.filas[0] as unknown[]).push({}, { ml: 1 })
+    expect(() => validarPaquete(p)).toThrow(/genérico.*100 ml/)
+    expect(validarPaquete(productos()).filas[1][9]).toMatchObject({ ml: 1 })
+  })
+  it('rechaza filas cortas, «extra» sin «nutrientes» e ids repetidos', () => {
     const corta = paquete()
     corta.filas[0] = ['1', 'x'] as never
     expect(() => validarPaquete(corta)).toThrow(/entre 8 y 10/)
+    const sinNutrientes = paquete()
+    sinNutrientes.filas[0] = ['1', 'x', '', '', 1, 1, 1, 1, undefined, { alias: ['y'] }]
+    expect(() => validarPaquete(sinNutrientes)).toThrow(/falta «nutrientes»/)
     const repetida = paquete()
     repetida.filas[1][0] = '1'
     expect(() => validarPaquete(repetida)).toThrow(/repetido/)
@@ -89,19 +126,21 @@ describe('aCatalogFoods', () => {
       nombreNorm: 'leche entera',
       tok: ['leche', 'entera'],
       tipo: 'generico',
-      categoria: 'Lácteos',
+      categoria: 'Leche y nata',
       kcal100: 64,
       prot100: 3.3,
       carb100: 4.7,
       grasa100: 3.6,
       completitud: 0.5,
-      version: '2025-es1',
+      version: '2025-es2',
       importadoAt: 1234,
     })
     expect(foods[0]).not.toHaveProperty('nutrientes')
+    expect(foods[0]).not.toHaveProperty('alias')
   })
-  it('el alias entra en tok pero el nombre mostrado no cambia; nutrientes {} no se guarda', () => {
+  it('el alias entra en tok y se guarda; el nombre mostrado no cambia; nutrientes {} no se guarda', () => {
     expect(foods[1].tok).toEqual(['noquis', 'de', 'patata', 'noqui'])
+    expect(foods[1].alias).toEqual(['ñoqui'])
     expect(foods[1].nombre).toBe('Ñoquis de patata')
     expect(foods[1].nombreNorm).toBe('noquis de patata')
     expect(foods[1]).not.toHaveProperty('nutrientes')
@@ -112,11 +151,34 @@ describe('aCatalogFoods', () => {
     expect(foods[2].completitud).toBe(0.75)
   })
   it('un alias con otras palabras se puede buscar', () => {
-    const p: Paquete = { formato: 1, fuente: 'ciqual', version: 'v', filas: [['9', 'Pan', '', '', 1, 1, 1, 1, {}, ['bocata']]] }
+    const p: Paquete = { formato: 2, fuente: 'ciqual', version: 'v', tipo: 'generico', filas: [['9', 'Pan', '', '', 1, 1, 1, 1, {}, { alias: ['bocata'] }]] }
     const [f] = aCatalogFoods(p, 1)
     expect(f.tok).toEqual(['pan', 'bocata'])
     expect(f).not.toHaveProperty('nombreOriginal')
     expect(f).not.toHaveProperty('categoria')
+  })
+  it('oculto: sin tok (no se busca) pero con todos sus datos y su id', () => {
+    const p: Paquete = { formato: 2, fuente: 'ciqual', version: 'v', tipo: 'generico', filas: [['19023', 'Leche entera, UHT', '', 'Leche y nata', 64, 3.5, 4.8, 3.6, {}, { oculto: 1 }]] }
+    const [f] = aCatalogFoods(p, 1)
+    expect(f.tok).toEqual([])
+    expect(f.id).toBe('ciqual:19023')
+    expect(f.nombre).toBe('Leche entera, UHT')
+    expect(f.kcal100).toBe(64)
+  })
+  it('secundario se guarda como indicador', () => {
+    const p: Paquete = { formato: 2, fuente: 'ciqual', version: 'v', tipo: 'generico', filas: [['1', 'Ñame', '', '', 1, 1, 1, 1, {}, { secundario: 1 }]] }
+    expect(aCatalogFoods(p, 1)[0].secundario).toBe(true)
+  })
+  it('productos de marca: tipo, marca en tok, gtin = idExterno y ml', () => {
+    const [yogur, cerveza] = aCatalogFoods(validarPaquete(productos()), 5)
+    expect(yogur).toMatchObject({ id: 'offes:8410000000017', fuente: 'offes', tipo: 'marca', marca: 'Hacendado', gtin: '8410000000017' })
+    expect(yogur.tok).toEqual(['yogur', 'natural', 'hacendado'])
+    expect(yogur).not.toHaveProperty('ml')
+    expect(cerveza.ml).toBe(true)
+    expect(cerveza.marca).toBe('Mahou')
+  })
+  it('un genérico no lleva gtin aunque su id sea numérico', () => {
+    expect(foods[0]).not.toHaveProperty('gtin')
   })
 })
 
@@ -133,7 +195,15 @@ describe('paquete publicado en public/catalogo', () => {
       expect(p.filas).toHaveLength(f.filas)
       const foods = aCatalogFoods(p, 1)
       expect(new Set(foods.map((x) => x.id)).size).toBe(foods.length)
-      expect(foods.every((x) => x.tok.length > 0)).toBe(true)
+      // Solo los ocultos quedan fuera del índice de búsqueda.
+      const ocultos = p.filas.filter((fila) => fila[9]?.oculto).length
+      expect(foods.filter((x) => x.tok.length === 0)).toHaveLength(ocultos)
     }
+  })
+  it('CIQUAL y la selección de OFF España están publicados, con su licencia', () => {
+    const manifest = validarManifest(leer('manifest.json'))
+    expect(manifest.fuentes.map((f) => f.id).sort()).toEqual(['ciqual', 'offes'])
+    expect(manifest.fuentes.find((f) => f.id === 'offes')?.licencia).toBe('ODbL 1.0')
+    expect(manifest.fuentes.find((f) => f.id === 'offes')?.atribucion).toContain('Open Food Facts')
   })
 })

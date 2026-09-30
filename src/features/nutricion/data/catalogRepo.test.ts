@@ -177,6 +177,52 @@ describe('catalogRepo', () => {
   })
 })
 
+describe('catalogRepo.vocabulario', () => {
+  it('devuelve las palabras del índice ordenadas y sin repetir, con su frecuencia', async () => {
+    await catalogRepo.guardarLote([food('ciqual', '1', 'Leche entera'), food('ciqual', '2', 'Leche desnatada'), food('off', '1', 'Yogur')])
+    const v = await catalogRepo.vocabulario()
+    expect(v.palabras).toEqual(['desnatada', 'entera', 'leche', 'yogur'])
+    expect(v.frecuencias.get('leche')).toBe(2)
+    expect(v.frecuencias.get('yogur')).toBe(1)
+  })
+
+  it('se guarda en caché y se invalida al escribir (importar, borrar fuente, borrar catálogo, producto escaneado)', async () => {
+    await catalogRepo.guardarLote([food('ciqual', '1', 'Leche')])
+    const a = await catalogRepo.vocabulario()
+    expect(await catalogRepo.vocabulario()).toBe(a) // misma referencia: sin releer el índice
+    await catalogRepo.guardarLote([food('ciqual', '2', 'Arroz')])
+    expect((await catalogRepo.vocabulario()).palabras).toEqual(['arroz', 'leche'])
+
+    await catalogRepo.importarFuente(
+      { id: 'ciqual', version: '2', importadoAt: 1, licencia: 'L', atribucion: 'A', filas: 1 },
+      [food('ciqual', '3', 'Pan', { version: '2' })],
+    )
+    expect((await catalogRepo.vocabulario()).palabras).toEqual(['pan'])
+
+    await catalogRepo.guardarProductoOff(food('off', '8410000000000', 'Galletas', { tipo: 'marca', gtin: '8410000000000', version: 'live' }))
+    expect((await catalogRepo.vocabulario()).palabras).toEqual(['galletas', 'pan'])
+
+    await catalogRepo.borrarFuente('ciqual')
+    expect((await catalogRepo.vocabulario()).palabras).toEqual(['galletas'])
+    await catalogRepo.borrarCatalogo()
+    expect((await catalogRepo.vocabulario()).palabras).toEqual([])
+  })
+})
+
+describe('catalogRepo: alimentos ocultos', () => {
+  it('un oculto (tok vacío) no se encuentra al buscar, pero obtener, porIds y buscarPorGtin lo resuelven', async () => {
+    await catalogRepo.guardarLote([
+      food('ciqual', '19016', 'Leche entera (promedio)'),
+      food('ciqual', '19023', 'Leche entera, UHT', { tok: [] }),
+    ])
+    expect((await catalogRepo.buscar('leche entera')).map((f) => f.id)).toEqual(['ciqual:19016'])
+    expect((await catalogRepo.obtener('ciqual:19023'))?.nombre).toBe('Leche entera, UHT')
+    expect([...(await catalogRepo.porIds(['ciqual:19023'])).keys()]).toEqual(['ciqual:19023'])
+    // Y no aporta palabras al vocabulario de erratas.
+    expect((await catalogRepo.vocabulario()).frecuencias.get('uht')).toBeUndefined()
+  })
+})
+
 describe('catalogRepo.guardarProductoOff', () => {
   it('guarda el producto y anota la fuente off con licencia, atribución y número de productos', async () => {
     await catalogRepo.guardarProductoOff(food('off', '8410000000000', 'Leche', { tipo: 'marca', gtin: '8410000000000', version: 'live', importadoAt: 5 }))

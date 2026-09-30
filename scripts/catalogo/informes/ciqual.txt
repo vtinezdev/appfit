@@ -1,0 +1,24 @@
+Informe de calidad · ciqual 2025-es2
+Alimentos publicados: 3323
+Descartados por no tener kcal, proteína, hidratos o grasa: 161
+Ocultos (no se buscan; id conservado): 10
+Alias: 169 alimentos con alias
+Secundarios (detrás al buscar): 52
+
+Nutrientes extra ausentes (alimentos sin el dato):
+  fibra: 13
+  azucares: 139
+  sal: 108
+  agSat: 149
+
+ERRORES: 0
+
+AVISOS: 7
+  energia-incoherente: 7
+  ciqual:11018	Vinagre	[energia-incoherente] 22.5 kcal declaradas frente a 5 esperadas (4P+4C+9G+2fibra); diferencia +18
+  ciqual:11220	Vinagre de vino tinto	[energia-incoherente] 20.6 kcal declaradas frente a 2 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia +19
+  ciqual:13019	Grosella roja, cruda	[energia-incoherente] 67.2 kcal declaradas frente a 50 esperadas (4P+4C+9G+2fibra); diferencia +17
+  ciqual:31054	Chicle sin azúcares	[energia-incoherente] 206 kcal declaradas frente a 312 esperadas (4P+4C+9G+2fibra); diferencia -106
+  ciqual:31121	Chicle, sin precisión en azúcar (promedio)	[energia-incoherente] 263 kcal declaradas frente a 329 esperadas (4P+4C+9G+2fibra); diferencia -66
+  ciqual:31125	Pastilla refrescante, sin azúcares	[energia-incoherente] 241 kcal declaradas frente a 393 esperadas (4P+4C+9G+2fibra); diferencia -152
+  ciqual:31128	Caramelo duro y piruleta, sin azúcares	[energia-incoherente] 235 kcal declaradas frente a 388 esperadas (4P+4C+9G+2fibra); diferencia -153

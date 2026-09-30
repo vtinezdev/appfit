@@ -1,0 +1,262 @@
+Informe de calidad · offes 2026-09-30
+Alimentos publicados: 3000
+Volcado: off-products-2026-09-30.csv.gz (4535569 productos; 354697 con «en:spain»)
+Pasan todos los filtros: 67553; duplicados descartados al elegir: 184; máximo (--max): 3000; mínimo de escaneos (--min-escaneos): 5
+Con valores por 100 ml: 439
+Excluidos de España por motivo:
+  no-es-mercado-principal-espana: 248792
+  sin-marca: 19088
+  sin-nutrientes-basicos: 9126
+  errores-de-calidad-de-off: 2828
+  sin-nombre: 2269
+  nombre-en-otro-idioma: 1289
+  infantil-o-suplemento: 1111
+  calidad:energia-incoherente: 962
+  codigo-invalido: 731
+  nombre-invalido: 685
+  calidad:bebida-con-energia-imposible: 170
+  calidad:macros-suman-mas-de-100: 46
+  nombre-demasiado-largo: 17
+  calidad:azucares-mayor-que-carb: 14
+  calidad:kcal-excesiva: 12
+  calidad:agsat-mayor-que-grasa: 2
+  calidad:macro-excesivo: 1
+  calidad:numero-invalido: 1
+Publicados por categoría:
+  Galletas, bollería y pasteles: 318
+  Yogures y postres lácteos: 264
+  Bebidas: 230
+  Dulces y chocolate: 226
+  Pan y tostadas: 208
+  Cereales de desayuno y barritas: 192
+  Snacks salados: 168
+  Salsas y condimentos: 165
+  Quesos: 156
+  Alternativas vegetales: 138
+  Embutidos y fiambres: 122
+  Platos preparados: 111
+  Bebidas vegetales: 111
+  Cereales, arroz y pasta: 105
+  Frutos secos y semillas: 99
+  Leche y nata: 88
+  Pescados: 70
+  Otros: 51
+  Aceites y grasas: 47
+  Frutas: 30
+  Carnes: 28
+  Verduras y hortalizas: 24
+  Helados: 17
+  Patatas y tubérculos: 10
+  Legumbres: 9
+  Huevos: 7
+  Bebidas alcohólicas: 6
+
+ERRORES: 0
+
+AVISOS: 200
+  energia-incoherente: 165
+  bebida-con-energia-imposible: 24
+  azucares-mayor-que-carb: 6
+  macros-suman-mas-de-100: 3
+  kcal-excesiva: 1
+  macro-excesivo: 1
+  offes:0000890000005	Aronia Berries	[energia-incoherente] 235 kcal declaradas frente a 307 esperadas (4P+4C+9G+2fibra); diferencia -72
+  offes:0001280000001	Harina de coco	[energia-incoherente] 267 kcal declaradas frente a 189 esperadas (4P+4C+9G+2fibra); diferencia +78
+  offes:0013310000004	Leche de coco en polvo liofilizada	[bebida-con-energia-imposible] 650 kcal/100 ml
+  offes:0020000012056	Alpiste	[energia-incoherente] 399 kcal declaradas frente a 293 esperadas (4P+4C+9G+2fibra); diferencia +106
+  offes:0046000283265	Tortillas de trigo	[energia-incoherente] 670.4 kcal declaradas frente a 295 esperadas (4P+4C+9G+2fibra); diferencia +376
+  offes:0064144321605	Mustard Spicy Brown	[energia-incoherente] 200 kcal declaradas frente a 1 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia +199
+  offes:0084380957246	Blueberry Fruit Spread	[azucares-mayor-que-carb] azúcares 48 > hidratos 16.3
+  offes:0200030314782	Pastillas de menta	[energia-incoherente] 242 kcal declaradas frente a 402 esperadas (4P+4C+9G+2fibra); diferencia -160
+  offes:0397669083919	Croquetas estofado de cocido	[energia-incoherente] 197 kcal declaradas frente a 257 esperadas (4P+4C+9G+2fibra); diferencia -60
+  offes:0000004386483	Capuccino sabor vainilla	[bebida-con-energia-imposible] 378 kcal/100 ml
+  offes:0000006816285	Pan fibra & sesamo	[energia-incoherente] 97.8 kcal declaradas frente a 305 esperadas (4P+4C+9G+2fibra); diferencia -207
+  offes:0696859027390	Avocado oil	[kcal-excesiva] 928.6 kcal/100 g (máximo físico 900)
+  offes:0887443301068	Pastas de España	[energia-incoherente] 516 kcal declaradas frente a 404 esperadas (4P+4C+9G+2fibra); diferencia +112
+  offes:0000010598132	Eko natural	[bebida-con-energia-imposible] 359 kcal/100 ml
+  offes:0000012420730	Graneras	[energia-incoherente] 154.6 kcal declaradas frente a 428 esperadas (4P+4C+9G+2fibra); diferencia -274
+  offes:0000013595678	Jamón cocido extra	[energia-incoherente] 412 kcal declaradas frente a 311 esperadas (4P+4C+9G+2fibra); diferencia +101
+  offes:0000014103988	Avena	[energia-incoherente] 0 kcal declaradas frente a 56 esperadas (4P+4C+9G+2fibra); diferencia -56
+  offes:0000014124648	Crema de verduras	[energia-incoherente] 48 kcal declaradas frente a 69 esperadas (4P+4C+9G+2fibra); diferencia -21
+  offes:0000019855684	Maiz dulce en grano	[macros-suman-mas-de-100] prot + carb + grasa = 103.9 g/100 g
+  offes:0000020010089	Cafe del mundo	[energia-incoherente] 1 kcal declaradas frente a 40 esperadas (4P+4C+9G+2fibra); diferencia -39
+  offes:2004060022642	Falafel	[energia-incoherente] 162 kcal declaradas frente a 208 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia -46
+  offes:0000020046361	Mix de especias	[energia-incoherente] 298 kcal declaradas frente a 224 esperadas (4P+4C+9G+2fibra); diferencia +74
+  offes:0000020050726	Ensaimada	[energia-incoherente] 461 kcal declaradas frente a 321 esperadas (4P+4C+9G+2fibra); diferencia +140
+  offes:0000020188276	Pipa tostada gigante agua-sal	[bebida-con-energia-imposible] 640 kcal/100 ml
+  offes:0000020245917	Cappuccino Clássico	[bebida-con-energia-imposible] 419 kcal/100 ml
+  offes:0000020255282	Setas cultivadas (pleuritis ostreatus)	[energia-incoherente] 0 kcal declaradas frente a 22 esperadas (4P+4C+9G+2fibra); diferencia -22
+  offes:0000020256678	Vino	[energia-incoherente] 660.1 kcal declaradas frente a 521 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia +139
+  offes:0000020259495	Vino tinto	[bebida-con-energia-imposible] 407 kcal/100 ml
+  offes:0000020259730	Bebida proteínas en polvo sabor vainilla	[bebida-con-energia-imposible] 369 kcal/100 ml
+  offes:0000020259747	Bebida en polvo a base de proteínas sabor vainilla	[bebida-con-energia-imposible] 391 kcal/100 ml
+  offes:0000020343163	Azucar de caña	[energia-incoherente] 38 kcal declaradas frente a 388 esperadas (4P+4C+9G+2fibra); diferencia -350
+  offes:0000020389178	Flavour Euka Menthol	[energia-incoherente] 148 kcal declaradas frente a 248 esperadas (4P+4C+9G+2fibra); diferencia -100
+  offes:0000020389260	Liquids	[energia-incoherente] 173 kcal declaradas frente a 286 esperadas (4P+4C+9G+2fibra); diferencia -113
+  offes:0000020556242	Pipas gigantes con sal	[energia-incoherente] 367 kcal declaradas frente a 283 esperadas (4P+4C+9G+2fibra); diferencia +84
+  offes:0000020561864	Soba Noodles	[energia-incoherente] 461.3 kcal declaradas frente a 346 esperadas (4P+4C+9G+2fibra); diferencia +116
+  offes:0000020564834	Curry Madrás	[energia-incoherente] 384 kcal declaradas frente a 282 esperadas (4P+4C+9G+2fibra); diferencia +102
+  offes:0000020564971	Algas nori	[energia-incoherente] 316.1 kcal declaradas frente a 399 esperadas (4P+4C+9G+2fibra); diferencia -83
+  offes:0000020572822	Chili Fire American Style Hot	[energia-incoherente] 150 kcal declaradas frente a 109 esperadas (4P+4C+9G+2fibra); diferencia +41
+  offes:0000020921712	Altramuces cocidos	[energia-incoherente] 106 kcal declaradas frente a 82 esperadas (4P+4C+9G+2fibra); diferencia +24
+  offes:0000020945350	Barra proteica	[bebida-con-energia-imposible] 445 kcal/100 ml
+  offes:0000020945626	6 huevos frescos ecológicos	[energia-incoherente] 148 kcal declaradas frente a 101 esperadas (4P+4C+9G+2fibra); diferencia +47
+  offes:0000020951122	Ristretto Espresso	[bebida-con-energia-imposible] 396.6 kcal/100 ml
+  offes:2302785002889	Alas de pollo	[energia-incoherente] 155 kcal declaradas frente a 108 esperadas (4P+4C+9G+2fibra); diferencia +47
+  offes:2302785003077	Alas de pollo	[energia-incoherente] 155 kcal declaradas frente a 120 esperadas (4P+4C+9G+2fibra); diferencia +35
+  offes:2302793002642	Chuleta de contramuslo de pavo	[energia-incoherente] 149 kcal declaradas frente a 105 esperadas (4P+4C+9G+2fibra); diferencia +44
+  offes:2303024003131	Piña natural en rodajas	[energia-incoherente] 58 kcal declaradas frente a 42 esperadas (4P+4C+9G+2fibra); diferencia +16
+  offes:2303858002133	Aguacates	[energia-incoherente] 100 kcal declaradas frente a 135 esperadas (4P+4C+9G+2fibra); diferencia -35
+  offes:2303858002669	Aguacates	[energia-incoherente] 0 kcal declaradas frente a 202 esperadas (4P+4C+9G+2fibra); diferencia -202
+  offes:2350148001895	Semicurado	[energia-incoherente] 389 kcal declaradas frente a 299 esperadas (4P+4C+9G+2fibra); diferencia +90
+  offes:2350163001856	Queso light	[energia-incoherente] 300 kcal declaradas frente a 372 esperadas (4P+4C+9G+2fibra); diferencia -72
+  offes:2350163001894	Light	[energia-incoherente] 300 kcal declaradas frente a 372 esperadas (4P+4C+9G+2fibra); diferencia -72
+  offes:2350163001993	Queso Entrepinares light	[energia-incoherente] 300 kcal declaradas frente a 372 esperadas (4P+4C+9G+2fibra); diferencia -72
+  offes:2350163002051	Queso light	[energia-incoherente] 300 kcal declaradas frente a 372 esperadas (4P+4C+9G+2fibra); diferencia -72
+  offes:2350163002099	Queso lonchas light	[energia-incoherente] 300 kcal declaradas frente a 372 esperadas (4P+4C+9G+2fibra); diferencia -72
+  offes:2350163002174	Queso light lonchas	[energia-incoherente] 300 kcal declaradas frente a 372 esperadas (4P+4C+9G+2fibra); diferencia -72
+  offes:2350163002488	Queso en lonchas light	[energia-incoherente] 300 kcal declaradas frente a 372 esperadas (4P+4C+9G+2fibra); diferencia -72
+  offes:2350171002029	Queso en lonchas tierno de vaca	[energia-incoherente] 374 kcal declaradas frente a 291 esperadas (4P+4C+9G+2fibra); diferencia +83
+  offes:2350294003170	Queso semicurado	[energia-incoherente] 408 kcal declaradas frente a 326 esperadas (4P+4C+9G+2fibra); diferencia +82
+  offes:2350297003504	Queso oveja curado	[energia-incoherente] 440 kcal declaradas frente a 348 esperadas (4P+4C+9G+2fibra); diferencia +92
+  offes:2350373004180	Queso viejo tostado	[energia-incoherente] 461 kcal declaradas frente a 367 esperadas (4P+4C+9G+2fibra); diferencia +94
+  offes:2350439002723	Queso havarti light	[energia-incoherente] 252 kcal declaradas frente a 331 esperadas (4P+4C+9G+2fibra); diferencia -79
+  offes:2350522003248	Queso añejo en aceite de oliva	[energia-incoherente] 424 kcal declaradas frente a 321 esperadas (4P+4C+9G+2fibra); diferencia +103
+  offes:2350918003432	Tierno cuñitas	[energia-incoherente] 363 kcal declaradas frente a 284 esperadas (4P+4C+9G+2fibra); diferencia +79
+  offes:2350966004900	Queso curado cuñitas	[energia-incoherente] 431 kcal declaradas frente a 531 esperadas (4P+4C+9G+2fibra); diferencia -100
+  offes:2350971004346	Queso Viejo TOSTADO	[energia-incoherente] 461 kcal declaradas frente a 363 esperadas (4P+4C+9G+2fibra); diferencia +98
+  offes:2380849003539	Alitas de pollo	[energia-incoherente] 240 kcal declaradas frente a 314 esperadas (4P+4C+9G+2fibra); diferencia -74
+  offes:2381928005468	Bacalao	[energia-incoherente] 63 kcal declaradas frente a 82 esperadas (4P+4C+9G+2fibra); diferencia -19
+  offes:2383863004872	Atún fresco	[energia-incoherente] 82 kcal declaradas frente a 103 esperadas (4P+4C+9G+2fibra); diferencia -21
+  offes:0000024004879	Mejillones al natural	[energia-incoherente] 112 kcal declaradas frente a 140 esperadas (4P+4C+9G+2fibra); diferencia -28
+  offes:0000024008181	Café Latte Cappuccino	[energia-incoherente] 59 kcal declaradas frente a 78 esperadas (4P+4C+9G+2fibra); diferencia -19
+  offes:0000024021258	Ensalada de atún Mediterránea	[energia-incoherente] 129 kcal declaradas frente a 93 esperadas (4P+4C+9G+2fibra); diferencia +36
+  offes:0000024038003	Edulcorante	[energia-incoherente] 20 kcal declaradas frente a 1 esperadas (4P+4C+9G+2fibra); diferencia +19
+  offes:0000024039819	Ajo granulado	[energia-incoherente] 72 kcal declaradas frente a 52 esperadas (4P+4C+9G+2fibra); diferencia +20
+  offes:0000024046152	Hierbas	[energia-incoherente] 235 kcal declaradas frente a 388 esperadas (4P+4C+9G+2fibra); diferencia -153
+  offes:0000024046305	Zumo de naranja zanahoria y limón	[energia-incoherente] 63 kcal declaradas frente a 40 esperadas (4P+4C+9G+2fibra); diferencia +23
+  offes:0000024048170	Captains	[energia-incoherente] 178 kcal declaradas frente a 296 esperadas (4P+4C+9G+2fibra); diferencia -118
+  offes:0000024067102	Bebida de almendras	[azucares-mayor-que-carb] azúcares 3.9 > hidratos 0.4
+  offes:0000024068338	Griego frutos secos	[energia-incoherente] 157 kcal declaradas frente a 121 esperadas (4P+4C+9G+2fibra); diferencia +36
+  offes:0000024076401	Macarrones boloñesa	[energia-incoherente] 164 kcal declaradas frente a 124 esperadas (4P+4C+9G+2fibra); diferencia +40
+  offes:0000024097925	Sandwich Atun y Tomate semi seco	[energia-incoherente] 217 kcal declaradas frente a 171 esperadas (4P+4C+9G+2fibra); diferencia +46
+  offes:2623241001506	Mini croissants mantequilla	[energia-incoherente] 471 kcal declaradas frente a 339 esperadas (4P+4C+9G+2fibra); diferencia +132
+  offes:2709772004008	Anacardo crudo	[energia-incoherente] 450 kcal declaradas frente a 559 esperadas (4P+4C+9G+2fibra); diferencia -109
+  offes:2959737000006	Pechuga de pavo selección	[energia-incoherente] 2.6 kcal declaradas frente a 106 esperadas (4P+4C+9G+2fibra); diferencia -104
+  offes:3018274813094	Eucalipto y mentol	[energia-incoherente] 233 kcal declaradas frente a 388 esperadas (4P+4C+9G+2fibra); diferencia -155
+  offes:3046920022088	Excelllence 100 % Cocoa	[energia-incoherente] 64.5 kcal declaradas frente a 813 esperadas (4P+4C+9G+2fibra); diferencia -749
+  offes:3166296203314	Curry estilo India	[energia-incoherente] 335 kcal declaradas frente a 263 esperadas (4P+4C+9G+2fibra); diferencia +72
+  offes:3215690801906	Caramelos de nata sin azúcares	[energia-incoherente] 270 kcal declaradas frente a 412 esperadas (4P+4C+9G+2fibra); diferencia -142
+  offes:3215690801913	Caramelos de café sin azúcares	[energia-incoherente] 247 kcal declaradas frente a 390 esperadas (4P+4C+9G+2fibra); diferencia -143
+  offes:3245678094037	Saveur Vanille	[energia-incoherente] 1 kcal declaradas frente a 41 esperadas (4P+4C+9G+2fibra); diferencia -40
+  offes:3245678094044	SAVEUR CARAMELCapsules aluminium	[energia-incoherente] 1 kcal declaradas frente a 40 esperadas (4P+4C+9G+2fibra); diferencia -39
+  offes:3245678151648	Espresso intense	[energia-incoherente] 0 kcal declaradas frente a 397 esperadas (4P+4C+9G+2fibra); diferencia -397
+  offes:3245678169032	Tradition	[energia-incoherente] 0 kcal declaradas frente a 42 esperadas (4P+4C+9G+2fibra); diferencia -42
+  offes:3245678169063	100% Arabica classique Café moulu	[bebida-con-energia-imposible] 396.6 kcal/100 ml
+  offes:3245678172018	Capuccino	[bebida-con-energia-imposible] 377 kcal/100 ml
+  offes:3245678172049	Cappuccino Chocolate	[bebida-con-energia-imposible] 404 kcal/100 ml
+  offes:3431590013991	Miso Arroz	[energia-incoherente] 145 kcal declaradas frente a 110 esperadas (4P+4C+9G+2fibra); diferencia +35
+  offes:3510002750904	Me&you cacao y leche	[energia-incoherente] 109 kcal declaradas frente a 78 esperadas (4P+4C+9G+2fibra); diferencia +31
+  offes:3516662870006	Levadura fresca	[energia-incoherente] 74 kcal declaradas frente a 120 esperadas (4P+4C+9G+2fibra); diferencia -46
+  offes:3560070046140	Vermouth rosso	[energia-incoherente] 50.1 kcal declaradas frente a 476 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia -426
+  offes:3560070118373	Vikoroff vodka	[energia-incoherente] 242 kcal declaradas frente a 191 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia +51
+  offes:3560071013769	Capuccino soluble clásico	[bebida-con-energia-imposible] 362 kcal/100 ml
+  offes:3560071092122	Té instantáneo sabor melocotón	[bebida-con-energia-imposible] 389 kcal/100 ml
+  offes:3560071109035	Sirop d'Agave	[macro-excesivo] carb = 105 g/100 g
+  offes:3560071223984	Saer brau est. 1983 radler	[energia-incoherente] 35.6 kcal declaradas frente a 242 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia -207
+  offes:3560071227807	Helado tarrina vainilla sin azúcar	[energia-incoherente] 149 kcal declaradas frente a 180 esperadas (4P+4C+9G+2fibra); diferencia -31
+  offes:3560071558352	Edam Tranches	[azucares-mayor-que-carb] azúcares 4.8 > hidratos 0
+  offes:3560071558383	GOUDA Tranches	[azucares-mayor-que-carb] azúcares 4.8 > hidratos 0
+  offes:3638860120230	Stevia	[energia-incoherente] 0 kcal declaradas frente a 390 esperadas (4P+4C+9G+2fibra); diferencia -390
+  offes:4005394286326	Levadura quimica profesional	[energia-incoherente] 226 kcal declaradas frente a 179 esperadas (4P+4C+9G+2fibra); diferencia +48
+  offes:4009900385879	Hierbabuena	[energia-incoherente] 152 kcal declaradas frente a 254 esperadas (4P+4C+9G+2fibra); diferencia -102
+  offes:4009900385916	Fresa	[energia-incoherente] 167 kcal declaradas frente a 272 esperadas (4P+4C+9G+2fibra); diferencia -105
+  offes:4009900446754	Menta Fuerte	[energia-incoherente] 143 kcal declaradas frente a 238 esperadas (4P+4C+9G+2fibra); diferencia -95
+  offes:4009900483483	Orbit Eucaliptus	[energia-incoherente] 148.6 kcal declaradas frente a 248 esperadas (4P+4C+9G+2fibra); diferencia -99
+  offes:4009900484275	Chicles de hierbabuena sin azúcar	[energia-incoherente] 150 kcal declaradas frente a 248 esperadas (4P+4C+9G+2fibra); diferencia -98
+  offes:4009900502696	Chicles de naranja	[energia-incoherente] 176 kcal declaradas frente a 288 esperadas (4P+4C+9G+2fibra); diferencia -112
+  offes:4009900534529	Menta fuerte)	[energia-incoherente] 143 kcal declaradas frente a 240 esperadas (4P+4C+9G+2fibra); diferencia -97
+  offes:4009900536288	Refreshers Peppermint sch	[energia-incoherente] 169 kcal declaradas frente a 280 esperadas (4P+4C+9G+2fibra); diferencia -111
+  offes:4009900536486	Refreshers Bubblemint sch	[energia-incoherente] 168 kcal declaradas frente a 280 esperadas (4P+4C+9G+2fibra); diferencia -112
+  offes:4009900539746	5 Sandia Watermelon x30 Sugar Free	[energia-incoherente] 158 kcal declaradas frente a 256 esperadas (4P+4C+9G+2fibra); diferencia -98
+  offes:4009900550062	Sugar-free chewing gum, eucalyptus	[energia-incoherente] 147 kcal declaradas frente a 244 esperadas (4P+4C+9G+2fibra); diferencia -97
+  offes:4019839835215	Birkenzucker	[energia-incoherente] 240 kcal declaradas frente a 400 esperadas (4P+4C+9G+2fibra); diferencia -160
+  offes:4030300022415	Praims doble acción	[energia-incoherente] 233 kcal declaradas frente a 388 esperadas (4P+4C+9G+2fibra); diferencia -155
+  offes:4043041010443	Caramelo tradicional	[energia-incoherente] 315 kcal declaradas frente a 451 esperadas (4P+4C+9G+2fibra); diferencia -136
+  offes:4056489110118	CREAMY YOGURT mild Vanilla	[energia-incoherente] 64.7 kcal declaradas frente a 101 esperadas (4P+4C+9G+2fibra); diferencia -36
+  offes:4056489140146	Crema de setas y trufa	[energia-incoherente] 177 kcal declaradas frente a 136 esperadas (4P+4C+9G+2fibra); diferencia +41
+  offes:4056489140733	Surtido pastas de té con mantequilla	[bebida-con-energia-imposible] 517 kcal/100 ml
+  offes:4056489175971	Dumplings	[energia-incoherente] 145 kcal declaradas frente a 180 esperadas (4P+4C+9G+2fibra); diferencia -35
+  offes:4056489197386	CARAMELOS sabor menta	[energia-incoherente] 245 kcal declaradas frente a 400 esperadas (4P+4C+9G+2fibra); diferencia -155
+  offes:4056489203339	Edam	[azucares-mayor-que-carb] azúcares 4.8 > hidratos 0
+  offes:4056489238614	Chocolate	[energia-incoherente] 111 kcal declaradas frente a 135 esperadas (4P+4C+9G+2fibra); diferencia -24
+  offes:4056489255970	Pulpo cocido	[energia-incoherente] 34.8 kcal declaradas frente a 87 esperadas (4P+4C+9G+2fibra); diferencia -52
+  offes:4056489318613	Langostino cocido	[energia-incoherente] 75 kcal declaradas frente a 94 esperadas (4P+4C+9G+2fibra); diferencia -19
+  offes:4056489355144	Queso Tierno	[energia-incoherente] 37.3 kcal declaradas frente a 376 esperadas (4P+4C+9G+2fibra); diferencia -339
+  offes:4056489409441	Natillas de soja chocolate	[energia-incoherente] 78 kcal declaradas frente a 101 esperadas (4P+4C+9G+2fibra); diferencia -23
+  offes:4056489424567	Chicles sin azucar sabor menta	[energia-incoherente] 156 kcal declaradas frente a 260 esperadas (4P+4C+9G+2fibra); diferencia -104
+  offes:4056489424581	Chicle de fresa	[energia-incoherente] 162 kcal declaradas frente a 264 esperadas (4P+4C+9G+2fibra); diferencia -102
+  offes:4056489424611	Especias para Harissa	[energia-incoherente] 315 kcal declaradas frente a 250 esperadas (4P+4C+9G+2fibra); diferencia +66
+  offes:4056489424727	Chicle Hierba buena	[energia-incoherente] 154 kcal declaradas frente a 256 esperadas (4P+4C+9G+2fibra); diferencia -102
+  offes:4056489424734	Chicle sabor menta	[energia-incoherente] 156 kcal declaradas frente a 260 esperadas (4P+4C+9G+2fibra); diferencia -104
+  offes:4056489510154	Aceite	[macros-suman-mas-de-100] prot + carb + grasa = 105.0 g/100 g
+  offes:4056489573616	Filete d anchoa	[energia-incoherente] 143.3 kcal declaradas frente a 173 esperadas (4P+4C+9G+2fibra); diferencia -29
+  offes:4056489635284	Tiras de jamón curado	[macros-suman-mas-de-100] prot + carb + grasa = 101.4 g/100 g
+  offes:4056489672494	Sazonador para sousouki	[energia-incoherente] 151 kcal declaradas frente a 119 esperadas (4P+4C+9G+2fibra); diferencia +32
+  offes:4056489978879	Gouda Light	[azucares-mayor-que-carb] azúcares 4.8 > hidratos 0.1
+  offes:4057824606037	Erythrit	[energia-incoherente] 0 kcal declaradas frente a 400 esperadas (4P+4C+9G+2fibra); diferencia -400
+  offes:4065019027277	Camembert	[energia-incoherente] 265 kcal declaradas frente a 189 esperadas (4P+4C+9G+2fibra); diferencia +76
+  offes:4068263000607	Yogur estilo griego natural	[energia-incoherente] 100.8 kcal declaradas frente a 124 esperadas (4P+4C+9G+2fibra); diferencia -23
+  offes:0000040884752	Jengibre molido	[energia-incoherente] 0 kcal declaradas frente a 335 esperadas (4P+4C+9G+2fibra); diferencia -335
+  offes:4102222371787	Eko natural	[bebida-con-energia-imposible] 359.2 kcal/100 ml
+  offes:0000042018018	Atun claro al natural	[energia-incoherente] 0 kcal declaradas frente a 72 esperadas (4P+4C+9G+2fibra); diferencia -72
+  offes:0000042112921	Menta fuerte	[energia-incoherente] 142 kcal declaradas frente a 236 esperadas (4P+4C+9G+2fibra); diferencia -94
+  offes:0000042123880	Orbit Blueberry x10 Sugar Free	[energia-incoherente] 172 kcal declaradas frente a 280 esperadas (4P+4C+9G+2fibra); diferencia -108
+  offes:0000042221807	Surtido de bombones de chocolate	[energia-incoherente] 334.5 kcal declaradas frente a 503 esperadas (4P+4C+9G+2fibra); diferencia -169
+  offes:0000042247401	Chicles fresa	[energia-incoherente] 167 kcal declaradas frente a 271 esperadas (4P+4C+9G+2fibra); diferencia -104
+  offes:0000042247432	Eucalipto	[energia-incoherente] 146 kcal declaradas frente a 244 esperadas (4P+4C+9G+2fibra); diferencia -98
+  offes:0000042268291	Bubblegum	[energia-incoherente] 154 kcal declaradas frente a 256 esperadas (4P+4C+9G+2fibra); diferencia -102
+  offes:0000042306733	Ice - Menta polar	[energia-incoherente] 141 kcal declaradas frente a 236 esperadas (4P+4C+9G+2fibra); diferencia -95
+  offes:4250107650530	Xylitol Chewing Gum	[energia-incoherente] 165 kcal declaradas frente a 280 esperadas (4P+4C+9G+2fibra); diferencia -115
+  offes:4250382207238	Edulcorante eritritol	[energia-incoherente] 0 kcal declaradas frente a 400 esperadas (4P+4C+9G+2fibra); diferencia -400
+  offes:4250424165274	Pastilla de jengibre y limón	[energia-incoherente] 194 kcal declaradas frente a 249 esperadas (4P+4C+9G+2fibra); diferencia -55
+  offes:4260179255137	Stevia con inulina	[energia-incoherente] 97 kcal declaradas frente a 2 esperadas (4P+4C+9G+2fibra); diferencia +95
+  offes:4335619153547	Edulcorante Eritritol & Sucralosa	[energia-incoherente] 0 kcal declaradas frente a 398 esperadas (4P+4C+9G+2fibra); diferencia -398
+  offes:4514603410617	Morning Shot Black	[energia-incoherente] 0 kcal declaradas frente a 40 esperadas (4P+4C+9G+2fibra); diferencia -40
+  offes:4771218200983	Pepper & sea salt	[energia-incoherente] 255.6 kcal declaradas frente a 309 esperadas (4P+4C+9G+2fibra); diferencia -53
+  offes:4901061206508	Sake	[energia-incoherente] 0 kcal declaradas frente a 171 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia -171
+  offes:4902663007258	Soupe Miso	[energia-incoherente] 179 kcal declaradas frente a 252 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia -73
+  offes:5000237126943	Coca Cola	[bebida-con-energia-imposible] 427 kcal/100 ml
+  offes:5000243800042	Capsules NESCAFE DOLCE GUSTO Avoine 12 capsules	[bebida-con-energia-imposible] 469 kcal/100 ml
+  offes:5000267023601	Black Label	[energia-incoherente] 22.3 kcal declaradas frente a 736 esperadas (4P+4C+9G+2fibra+7alcohol); diferencia -714
+  offes:5010338303006	Sushi Nori	[energia-incoherente] 348 kcal declaradas frente a 432 esperadas (4P+4C+9G+2fibra); diferencia -84
+  offes:5011013500680	Coffee Layered Liqueur	[energia-incoherente] 315 kcal declaradas frente a 223 esperadas (4P+4C+9G+2fibra); diferencia +92
+  offes:0000050173099	Fresa	[energia-incoherente] 167 kcal declaradas frente a 272 esperadas (4P+4C+9G+2fibra); diferencia -105
+  offes:0000050173358	Orbit hierbabuena	[energia-incoherente] 149 kcal declaradas frente a 248 esperadas (4P+4C+9G+2fibra); diferencia -99
+  offes:5056128127315	Skinny Coffee	[bebida-con-energia-imposible] 430 kcal/100 ml
+  offes:5060057800027	Peppermint chewing gum	[energia-incoherente] 150 kcal declaradas frente a 252 esperadas (4P+4C+9G+2fibra); diferencia -102
+  offes:5060326278908	Defatted Cocoa Powder	[energia-incoherente] 314 kcal declaradas frente a 243 esperadas (4P+4C+9G+2fibra); diferencia +71
+  offes:5060346990194	Goldenberry - the Andean Superfruit	[energia-incoherente] 294 kcal declaradas frente a 382 esperadas (4P+4C+9G+2fibra); diferencia -88
+  offes:5201583086510	Fresa con deliciosa nata y yogur griego 0% azúcares	[energia-incoherente] 270 kcal declaradas frente a 414 esperadas (4P+4C+9G+2fibra); diferencia -144
+  offes:0000052016363	Splash with strawberry lime flavour	[energia-incoherente] 187 kcal declaradas frente a 289 esperadas (4P+4C+9G+2fibra); diferencia -102
+  offes:5310002750717	Me&You	[energia-incoherente] 574 kcal declaradas frente a 418 esperadas (4P+4C+9G+2fibra); diferencia +156
+  offes:5310002750892	Chocolatina Me&You	[energia-incoherente] 109 kcal declaradas frente a 78 esperadas (4P+4C+9G+2fibra); diferencia +31
+  offes:5410153256486	Compota de manzana	[energia-incoherente] 65 kcal declaradas frente a 89 esperadas (4P+4C+9G+2fibra); diferencia -24
+  offes:5412360007431	Cacao Cru Bio En Poudre	[energia-incoherente] 354 kcal declaradas frente a 271 esperadas (4P+4C+9G+2fibra); diferencia +83
+  offes:5420008527623	Caramelos emolientes aromaforce	[energia-incoherente] 342 kcal declaradas frente a 243 esperadas (4P+4C+9G+2fibra); diferencia +99
+  offes:5600244397550	Despertar de Buda	[bebida-con-energia-imposible] 402 kcal/100 ml
+  offes:5600317473341	Despertar de Buda - Maca & vainilla	[bebida-con-energia-imposible] 437 kcal/100 ml
+  offes:5600317474621	Detomix ecológico	[energia-incoherente] 302 kcal declaradas frente a 234 esperadas (4P+4C+9G+2fibra); diferencia +68
+  offes:5600317475734	Despertar de Buda Cacao	[bebida-con-energia-imposible] 445 kcal/100 ml
+  offes:5600317477974	Te Matcha	[energia-incoherente] 323 kcal declaradas frente a 258 esperadas (4P+4C+9G+2fibra); diferencia +65
+  offes:5601082035185	Cafe Classic	[energia-incoherente] 336 kcal declaradas frente a 236 esperadas (4P+4C+9G+2fibra); diferencia +100
+  offes:5601082041728	Café molido de tueste natural Colombia	[bebida-con-energia-imposible] 358 kcal/100 ml
+  offes:5601307002022	Café molido mezcla	[energia-incoherente] 335 kcal declaradas frente a 240 esperadas (4P+4C+9G+2fibra); diferencia +95
+  offes:5601307002053	Café molido torrefacto	[energia-incoherente] 337 kcal declaradas frente a 242 esperadas (4P+4C+9G+2fibra); diferencia +95
+  offes:5601345001407	Café especial torrefacto	[energia-incoherente] 323 kcal declaradas frente a 230 esperadas (4P+4C+9G+2fibra); diferencia +94
+  offes:5601345001810	Café torrefacto	[energia-incoherente] 323 kcal declaradas frente a 230 esperadas (4P+4C+9G+2fibra); diferencia +94
+  offes:5601557025703	Lentejas rojas	[energia-incoherente] 293 kcal declaradas frente a 232 esperadas (4P+4C+9G+2fibra); diferencia +61
+  offes:5602477835533	Cuajada	[energia-incoherente] 65 kcal declaradas frente a 47 esperadas (4P+4C+9G+2fibra); diferencia +19
+  offes:5603493001957	Zumo de frutas frescas	[energia-incoherente] 65 kcal declaradas frente a 47 esperadas (4P+4C+9G+2fibra); diferencia +18
+  offes:0000056092646	Spearmint flavour	[energia-incoherente] 167 kcal declaradas frente a 272 esperadas (4P+4C+9G+2fibra); diferencia -105
+  offes:0000057023687	Mini Mints Sugar Free	[energia-incoherente] 235 kcal declaradas frente a 391 esperadas (4P+4C+9G+2fibra); diferencia -156

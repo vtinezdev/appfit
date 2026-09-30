@@ -13,6 +13,13 @@ describe('resumenMacros', () => {
 })
 
 describe('macrosPorGramos', () => {
+  it('escala lineal: 100 g ×1, 200 g ×2, 50 g ×0,5', () => {
+    const por100 = { kcal100: 200, prot100: 20, carb100: 10, grasa100: 5 }
+    expect(macrosPorGramos(por100, 100)).toEqual({ kcal: 200, prot: 20, carb: 10, grasa: 5 })
+    expect(macrosPorGramos(por100, 200)).toEqual({ kcal: 400, prot: 40, carb: 20, grasa: 10 })
+    expect(macrosPorGramos(por100, 50)).toEqual({ kcal: 100, prot: 10, carb: 5, grasa: 2.5 })
+  })
+
   it('escala los valores por 100 g a los gramos indicados', () => {
     const macros = macrosPorGramos({ kcal100: 200, prot100: 20, carb100: 10, grasa100: 5 }, 150)
     expect(macros).toEqual({ kcal: 300, prot: 30, carb: 15, grasa: 7.5 })

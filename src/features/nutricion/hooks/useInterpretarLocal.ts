@@ -3,28 +3,32 @@ import * as catalogRepo from '../data/catalogRepo'
 import * as foodsRepo from '../data/foodsRepo'
 import { itemDesdeElegible, itemSinCoincidencia, type ItemRevision } from '../lib/alimentos'
 import { rankCatalogo } from '../lib/catalogo/ranking'
+import { buscarCatalogo } from './buscarCatalogo'
 import { emparejar } from '../lib/interprete/emparejar'
 import { medidaAmbigua } from '../lib/interprete/medidas'
 import { parsear, type ParteComida } from '../lib/interprete/parsear'
 import { gramosDeParte, racionDe } from '../lib/interprete/raciones'
 
-/** Como en el buscador (`useBusquedaCatalogo`): el índice no ordena, así que se piden candidatos de sobra. */
-const CANDIDATOS = 300
 const PROPIOS = 10
 
 async function interpretarParte(parte: ParteComida): Promise<ItemRevision> {
   const racion = racionDe(parte.consulta)
-  const [propios, candidatos, preferido] = await Promise.all([
+  // Como en el buscador: candidatos de sobra, ordenados, y si no hay ninguno se corrigen las erratas y se reintenta.
+  const [propios, resultado, preferido] = await Promise.all([
     foodsRepo.buscar(parte.consulta, PROPIOS),
-    catalogRepo.buscar(parte.consulta, CANDIDATOS),
+    buscarCatalogo(parte.consulta),
     racion?.preferido ? catalogRepo.obtener(racion.preferido) : undefined,
   ])
+  const consulta = resultado.consulta
+  // Tus alimentos también se buscan con la consulta corregida si la original no encontró ninguno.
+  const suyos = propios.length === 0 && consulta !== parte.consulta ? await foodsRepo.buscar(consulta, PROPIOS) : propios
   // El preferido puede no estar entre los candidatos («macarrones» → pasta) o quedar fuera del tope.
+  const candidatos = resultado.foods
   const conPreferido = preferido && !candidatos.some((f) => f.id === preferido.id) ? [preferido, ...candidatos] : candidatos
   const { mejor, alternativas } = emparejar({
-    consulta: parte.consulta,
-    propios,
-    catalogo: rankCatalogo(conPreferido, parte.consulta),
+    consulta,
+    propios: suyos,
+    catalogo: rankCatalogo(conPreferido, consulta),
     preferido: preferido?.id,
   })
   // Una medida ambigua («una cucharada») no lleva gramos hasta que se elija cuánto pesa en la revisión.

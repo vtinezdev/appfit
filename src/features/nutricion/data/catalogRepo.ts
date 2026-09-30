@@ -49,6 +49,41 @@ export async function buscar(q: string, limite = 20): Promise<CatalogFood[]> {
     .toArray()
 }
 
+/** Las palabras del índice de búsqueda y en cuántos alimentos aparece cada una. */
+export interface Vocabulario {
+  /** Palabras (`tok`) ordenadas y sin repetir. */
+  palabras: string[]
+  frecuencias: Map<string, number>
+}
+
+/** Caché en memoria del vocabulario: cambia solo al escribir. */
+let vocabularioCache: Promise<Vocabulario> | undefined
+
+/** Descarta el vocabulario en caché. Lo llaman todas las escrituras que tocan `catalogFoods`. */
+function invalidarVocabulario(): void {
+  vocabularioCache = undefined
+}
+
+/**
+ * Todas las palabras del índice `*tok` (unas miles), en orden, con su frecuencia. Sirve para corregir erratas
+ * (`lib/catalogo/erratas`). Se calcula una vez con las claves del índice (sin leer filas) y se reutiliza hasta la
+ * próxima escritura. Las filas ocultas tienen `tok: []`, así que no aportan palabras.
+ */
+export function vocabulario(): Promise<Vocabulario> {
+  vocabularioCache ??= db.catalogFoods
+    .orderBy('tok')
+    .keys()
+    .then((claves) => {
+      const frecuencias = new Map<string, number>()
+      for (const c of claves) {
+        const p = String(c)
+        frecuencias.set(p, (frecuencias.get(p) ?? 0) + 1)
+      }
+      return { palabras: [...frecuencias.keys()].sort(), frecuencias }
+    })
+  return vocabularioCache
+}
+
 export function contar(): Promise<number> {
   return db.catalogFoods.count()
 }
@@ -58,30 +93,44 @@ export function contar(): Promise<number> {
  * pequeñas para no bloquear ni agotar memoria con paquetes grandes.
  */
 export async function guardarLote(foods: CatalogFood[], tamanoLote = 2000): Promise<void> {
+  invalidarVocabulario()
   for (let i = 0; i < foods.length; i += tamanoLote) {
     const lote = foods.slice(i, i + tamanoLote)
     await db.transaction('rw', db.catalogFoods, () => db.catalogFoods.bulkPut(lote))
   }
+  invalidarVocabulario()
 }
 
 /** Borra las filas de una fuente con `version` distinta de la actual (tras reimportar una versión nueva). */
-export function borrarVersionesAntiguas(fuente: FuenteCatalogo, versionActual: string): Promise<number> {
-  return db.catalogFoods.where('fuente').equals(fuente).and((f) => f.version !== versionActual).delete()
+export async function borrarVersionesAntiguas(fuente: FuenteCatalogo, versionActual: string): Promise<number> {
+  try {
+    return await db.catalogFoods.where('fuente').equals(fuente).and((f) => f.version !== versionActual).delete()
+  } finally {
+    invalidarVocabulario()
+  }
 }
 
-export function borrarFuente(fuente: FuenteCatalogo): Promise<void> {
-  return db.transaction('rw', db.catalogFoods, db.catalogSources, async () => {
-    await db.catalogFoods.where('fuente').equals(fuente).delete()
-    await db.catalogSources.delete(fuente)
-  })
+export async function borrarFuente(fuente: FuenteCatalogo): Promise<void> {
+  try {
+    await db.transaction('rw', db.catalogFoods, db.catalogSources, async () => {
+      await db.catalogFoods.where('fuente').equals(fuente).delete()
+      await db.catalogSources.delete(fuente)
+    })
+  } finally {
+    invalidarVocabulario()
+  }
 }
 
 /** Vacía el catálogo entero (y sus metadatos) sin tocar datos del usuario. */
-export function borrarCatalogo(): Promise<void> {
-  return db.transaction('rw', db.catalogFoods, db.catalogSources, async () => {
-    await db.catalogFoods.clear()
-    await db.catalogSources.clear()
-  })
+export async function borrarCatalogo(): Promise<void> {
+  try {
+    await db.transaction('rw', db.catalogFoods, db.catalogSources, async () => {
+      await db.catalogFoods.clear()
+      await db.catalogSources.clear()
+    })
+  } finally {
+    invalidarVocabulario()
+  }
 }
 
 export function fuentes(): Promise<CatalogSource[]> {
@@ -105,13 +154,17 @@ export const METADATOS_OFF: Omit<CatalogSource, 'importadoAt' | 'filas'> = {
  * productos guardados. Los datos ya vienen descargados: dentro de la transacción no hay red.
  * La sincronización del paquete no toca esta fuente (solo importa las del manifest).
  */
-export function guardarProductoOff(food: CatalogFood): Promise<void> {
-  if (food.fuente !== FUENTE_OFF) return Promise.reject(new Error(`«${food.id}» no es de Open Food Facts`))
-  return db.transaction('rw', db.catalogFoods, db.catalogSources, async () => {
-    await db.catalogFoods.put(food)
-    const filas = await db.catalogFoods.where('fuente').equals(FUENTE_OFF).count()
-    await db.catalogSources.put({ ...METADATOS_OFF, importadoAt: food.importadoAt, filas })
-  })
+export async function guardarProductoOff(food: CatalogFood): Promise<void> {
+  if (food.fuente !== FUENTE_OFF) throw new Error(`«${food.id}» no es de Open Food Facts`)
+  try {
+    await db.transaction('rw', db.catalogFoods, db.catalogSources, async () => {
+      await db.catalogFoods.put(food)
+      const filas = await db.catalogFoods.where('fuente').equals(FUENTE_OFF).count()
+      await db.catalogSources.put({ ...METADATOS_OFF, importadoAt: food.importadoAt, filas })
+    })
+  } finally {
+    invalidarVocabulario()
+  }
 }
 
 /**
