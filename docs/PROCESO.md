@@ -396,3 +396,15 @@ Escanear un producto de marca y añadirlo. A Open Food Facts **solo se le envía
 5. **`catalogRepo.guardarProductoOff`**: `put` + `CatalogSource` `off` (ODbL, «Open Food Facts») con el número de productos, en una transacción sin red. La sincronización del paquete solo toca las fuentes del manifest: test con un producto escaneado que sobrevive a una versión nueva de CIQUAL. Ajustes muestra «Open Food Facts · N productos escaneados»; «Borrar catálogo» también los borra (se vuelven a consultar al escanear). En listas, el detalle de un producto de marca es su marca.
 
 **Verificación**: tests y build en verde. Pendiente: prueba en navegador simulando OFF (origen de pruebas, webcam y entrada manual) y, tras un deploy HTTPS, 3 productos reales en el iPhone.
+
+## 36. Pantalla Inicio, registro de peso (esquema v5) y comidas en Card
+
+Rama `feat/mejorar-home`. La app arranca en una pantalla general de **Inicio** (primera pestaña) y las comidas de Nutrición → Hoy dejan de ser una lista plana.
+
+1. **Tabla `pesos` (Dexie v5)**: `{ id, fecha, kg, createdAt }` con `&fecha` único (un pesaje por día; registrar de nuevo el mismo día sobrescribe). Tabla nueva y vacía, sin `upgrade()`. Entra en `TABLAS_USUARIO` y en el backup como tabla opcional (`pesos?`; un backup antiguo la importa vacía). **`BACKUP_VERSION` no sube** (no cambia la forma de ningún registro existente).
+2. **`features/inicio/`**: `InicioTab` (cabecera con la fecha, `ResumenDiaCard`, `PesoCard`, `RegistrarPesoSheet`), `data/pesosRepo.ts` (`delRango` de solo lectura; `registrar` = upsert por fecha en transacción) y `lib/peso.ts` puro (`validarPeso` 20–300 kg a 1 decimal, `tendenciaPeso`, `puntosSparkline`). La variación a 7 días compara el último pesaje con el último cuya fecha sea ≤ la suya − 7; sin ese pesaje no se muestra. La mini gráfica de 30 días es un SVG propio: **Recharts no entra en Inicio** (sigue en su chunk perezoso). Borrar pesajes queda fuera de esta versión.
+3. **`ProgressRing`** (primitive nuevo): el carril de `ProgressBar` en forma de anillo (pista, relleno, marca de meta, exceso atenuado, dominio `max(objetivo, valor)`). La geometría es pura: `shared/design/carril.ts` (`tramosCarril`). La frase de kcal («Quedan 312 kcal») se extrae a `fraseKcal` en `nutrition.ts` y la comparten `KcalDia` y el resumen de Inicio.
+4. **Navegación**: `Tab` gana `'inicio'` (primero, icono `home`) y es la pestaña por defecto; «Ver día» lleva a Nutrición.
+5. **Comidas en Card**: `ComidaSection` pasa a una Card por comida con cabecera (nombre + kcal + acciones), `FranjaMacros` (barra segmentada P/C/G por reparto de kcal y gramos debajo), filas con hairlines y pie «Añadir a desayuno» / «Repetir del día anterior (n)». Sin entradas la card es compacta. Un día vacío muestra las cuatro cards compactas: **`ComidasVacias` se elimina**. «Añadir a …» abre Añadir comida con esa comida preseleccionada (`comidaInicial`); la CTA grande sigue eligiendo por hora.
+
+**Verificación**: tests y build en verde (Recharts sigue en su chunk `chart`, fuera del de arranque).

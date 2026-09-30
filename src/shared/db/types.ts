@@ -124,6 +124,15 @@ export interface NotaMedida {
   createdAt: number
 }
 
+/** Un pesaje: como mucho uno por día (`fecha` es única; registrar de nuevo el mismo día lo sobrescribe). */
+export interface Peso {
+  id: number
+  /** YYYY-MM-DD */
+  fecha: string
+  kg: number
+  createdAt: number
+}
+
 export interface Objetivos {
   kcal: number
   prot: number

@@ -1,7 +1,8 @@
 import { db } from './db'
 import type { Objetivos, Settings } from './types'
 
-export const DEFAULT_OBJETIVOS: Objetivos = { kcal: 2200, prot: 150, carb: 220, grasa: 70 }
+/** Cuadran: 150·4 + 238·4 + 72·9 = 2200 kcal. */
+export const DEFAULT_OBJETIVOS: Objetivos = { kcal: 2200, prot: 150, carb: 238, grasa: 72 }
 export const DEFAULT_MODELO = 'gemini-3.8-flash'
 
 /**

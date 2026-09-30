@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from 'react'
-import type { Entry } from '../../shared/db/types'
+import type { Comida, Entry } from '../../shared/db/types'
 import { todayISO } from '../../shared/lib/dates'
 import SegmentedControl from '../../shared/components/SegmentedControl'
 import KcalRapidasSheet from './components/KcalRapidasSheet'
@@ -27,6 +27,7 @@ export default function NutricionTab() {
   const [vista, setVista] = useState<Vista>('hoy')
   const [fecha, setFecha] = useState(todayISO())
   const [mostrarAnadir, setMostrarAnadir] = useState(false)
+  const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(undefined)
   const [entryEditar, setEntryEditar] = useState<Entry | undefined>(undefined)
   const [rapidaEditar, setRapidaEditar] = useState<Entry | null>(null)
   const [rapidaDraft, setRapidaDraft] = useState<KcalRapidasDraft>(RAPIDA_VACIA)
@@ -36,6 +37,7 @@ export default function NutricionTab() {
   function cerrarAnadir() {
     setMostrarAnadir(false)
     setEntryEditar(undefined)
+    setComidaAnadir(undefined)
   }
 
   function cerrarRapidaEditar() {
@@ -74,7 +76,7 @@ export default function NutricionTab() {
     <div className="relative min-h-full px-4 pt-4">
       <SegmentedControl opciones={VISTAS} valor={vista} onChange={setVista} className="mb-4" />
 
-      {vista === 'hoy' && <Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onAnadir={() => setMostrarAnadir(true)} />}
+      {vista === 'hoy' && <Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} />}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>
           <Resumen />
@@ -83,7 +85,7 @@ export default function NutricionTab() {
       {vista === 'alimentos' && <Alimentos />}
 
       {mostrarAnadir && (
-        <AnadirComida fecha={entryEditar?.fecha ?? fecha} entryEditar={entryEditar} onClose={cerrarAnadir} onGuardado={cerrarAnadir} />
+        <AnadirComida fecha={entryEditar?.fecha ?? fecha} entryEditar={entryEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={cerrarAnadir} />
       )}
 
       <KcalRapidasSheet

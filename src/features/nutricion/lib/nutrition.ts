@@ -63,17 +63,19 @@ export function porcentajeObjetivo(valor: number, objetivo: number): number {
   return Math.min(100, Math.round((valor / objetivo) * 100))
 }
 
+/** % de las kcal de los macros que aporta cada uno. Enteros que suman exactamente 100 (resto mayor). */
 export function distribucionPCG(m: Macros): { prot: number; carb: number; grasa: number } {
-  const kcalProt = m.prot * 4
-  const kcalCarb = m.carb * 4
-  const kcalGrasa = m.grasa * 9
-  const total = kcalProt + kcalCarb + kcalGrasa
-  if (total <= 0) return { prot: 0, carb: 0, grasa: 0 }
-  return {
-    prot: Math.round((kcalProt / total) * 100),
-    carb: Math.round((kcalCarb / total) * 100),
-    grasa: Math.round((kcalGrasa / total) * 100),
-  }
+  const campos = ['prot', 'carb', 'grasa'] as const
+  const kcal = { prot: m.prot * 4, carb: m.carb * 4, grasa: m.grasa * 9 }
+  const total = kcal.prot + kcal.carb + kcal.grasa
+  const dist = { prot: 0, carb: 0, grasa: 0 }
+  if (total <= 0) return dist
+  const exacto = (c: (typeof campos)[number]) => (kcal[c] / total) * 100
+  for (const c of campos) dist[c] = Math.floor(exacto(c))
+  const faltan = 100 - dist.prot - dist.carb - dist.grasa
+  const porResto = [...campos].sort((a, b) => (exacto(b) % 1) - (exacto(a) % 1))
+  for (const c of porResto.slice(0, faltan)) dist[c] += 1
+  return dist
 }
 
 export function mediaDiaria(macros: Macros[]): Macros {
@@ -115,4 +117,17 @@ export function resumenPeriodo(entries: Entry[], fechas: string[], hoy: string):
     diasRegistrados: registrados.length,
     distribucion: distribucionPCG(total),
   }
+}
+
+/**
+ * Frase de kcal del día respecto al objetivo («Quedan 312 kcal», «92 kcal sobre el objetivo»). Superarlo se cuenta
+ * con el mismo tono que quedarse por debajo. `null` si no hay objetivo.
+ */
+export function fraseKcal(valor: number, objetivo: number): string | null {
+  const g = Math.round(objetivo)
+  if (g <= 0) return null
+  const diff = Math.round(valor) - g
+  if (diff > 0) return `${formatInt(diff)} kcal sobre el objetivo`
+  if (diff < 0) return `Quedan ${formatInt(-diff)} kcal`
+  return 'En el objetivo'
 }

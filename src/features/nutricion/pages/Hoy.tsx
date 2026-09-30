@@ -6,7 +6,6 @@ import { addDays, formatFriendly, todayISO } from '../../../shared/lib/dates'
 import { getSettings } from '../../../shared/db/settings'
 import AccionesComidaSheet from '../components/AccionesComidaSheet'
 import ComidaSection from '../components/ComidaSection'
-import ComidasVacias from '../components/ComidasVacias'
 import CopiarDiaSheet from '../components/CopiarDiaSheet'
 import KcalDia from '../components/KcalDia'
 import MacroBar from '../components/MacroBar'
@@ -21,7 +20,8 @@ interface Props {
   fecha: string
   onFechaChange: (fecha: string) => void
   onEditarEntry: (entry: Entry) => void
-  onAnadir: () => void
+  /** Sin argumento, Añadir comida elige la comida por la hora. */
+  onAnadir: (comida?: Comida) => void
 }
 
 const ORDEN_COMIDAS: Comida[] = ['desayuno', 'comida', 'cena', 'snack']
@@ -128,47 +128,24 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
             </div>
           </Card>
 
-          <div key={fecha} className={`space-y-section ${transicion}`}>
-            {entries.length === 0 ? (
-              <ComidasVacias
+          <div key={fecha} className={`space-y-stack ${transicion}`}>
+            {ORDEN_COMIDAS.map((c) => (
+              <ComidaSection
+                key={c}
+                titulo={LABELS[c]}
+                entries={porComida.get(c) ?? []}
+                onAcciones={() => setAccionesComida(c)}
+                onEditar={onEditarEntry}
+                onBorrar={(e) => borrar(e.id)}
+                onAnadir={() => onAnadir(c)}
+                disponiblesAyer={porComidaAyer.get(c) ?? 0}
+                onRepetir={() => repetirDeAyer(c)}
                 ocupado={repitiendo !== null}
-                repitiendo={repitiendo}
-                comidas={ORDEN_COMIDAS.map((c) => ({
-                  clave: c,
-                  titulo: LABELS[c],
-                  disponiblesAyer: porComidaAyer.get(c) ?? 0,
-                  onRepetir: () => repetirDeAyer(c),
-                }))}
+                repitiendo={repitiendo === c}
               />
-            ) : (
-              ORDEN_COMIDAS.map((c) => {
-                const items = porComida.get(c) ?? []
-                const disponiblesAyer = porComidaAyer.get(c) ?? 0
-                return (
-                  <ComidaSection
-                    key={c}
-                    titulo={LABELS[c]}
-                    entries={items}
-                    onAcciones={() => setAccionesComida(c)}
-                    onEditar={onEditarEntry}
-                    onBorrar={(e) => borrar(e.id)}
-                    vacioAccion={
-                      disponiblesAyer > 0 ? (
-                        <div className="flex flex-wrap items-center justify-between gap-x-3 px-1 text-body-sm text-fg-subtle">
-                          <span>Sin registros</span>
-                          <Button variant="ghost" size="sm" className="-mr-3" onClick={() => repetirDeAyer(c)} disabled={repitiendo !== null}>
-                            <Icon name="copy" size={16} />
-                            {repitiendo === c ? 'Repitiendo…' : `Repetir del día anterior (${disponiblesAyer})`}
-                          </Button>
-                        </div>
-                      ) : undefined
-                    }
-                  />
-                )
-              })
-            )}
+            ))}
           </div>
-          <Button size="lg" shape="pill" block onClick={onAnadir}>
+          <Button size="lg" shape="pill" block onClick={() => onAnadir()}>
             <Icon name="plus" size={22} />
             Añadir comida
           </Button>

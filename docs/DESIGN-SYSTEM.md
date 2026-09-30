@@ -43,7 +43,7 @@ Los valores en JS (gráficas, meta `theme-color`) se leen de las mismas variable
 
 ## Primitives (`src/shared/components`)
 
-`Button` (primary · secondary · ghost · destructive · danger; `size` sm · md · lg; `shape="pill"` para la acción flotante principal), `IconButton` (label obligatorio), `Icon`, `Card`, `ListRow` (fila pulsable; `tone="flat"` para listas con hairlines), `Input/Textarea/Select/SearchInput` (`tone`, `dense`), `SegmentedControl`, `NumberStepper`, `ProgressBar` (el carril, ver abajo), `AnimatedNumber`, `SectionHeader`, `LoadingState/EmptyState/ErrorState`, `Toast` (`tono="error"` para fallos recuperables), `Sheet`, `ConfirmacionDestructiva`.
+`Button` (primary · secondary · ghost · destructive · danger; `size` sm · md · lg; `shape="pill"` para la acción flotante principal), `IconButton` (label obligatorio), `Icon`, `Card`, `ListRow` (fila pulsable; `tone="flat"` para listas con hairlines), `Input/Textarea/Select/SearchInput` (`tone`, `dense`), `SegmentedControl`, `NumberStepper`, `ProgressBar` (el carril, ver abajo), `ProgressRing` (el mismo carril en anillo, con `children` en el centro; geometría en `shared/design/carril.ts`), `AnimatedNumber`, `SectionHeader`, `LoadingState/EmptyState/ErrorState`, `Toast` (`tono="error"` para fallos recuperables), `Sheet`, `ConfirmacionDestructiva`.
 
 Hook asociado: `shared/hooks/useAviso` devuelve `{ avisar, avisarError, toast }` (se renderiza `toast` una vez por pantalla; `avisar({ mensaje, onDeshacer })` muestra «Deshacer» y, si deshacer falla, avisa del error). El Toast queda por debajo de los Sheet (z-40 frente a z-50): dentro de un Sheet los errores van en línea con `ErrorState`.
 
@@ -58,15 +58,26 @@ Regla: se abstraen **patrones visuales repetidos con semántica clara**, no elem
 
 Dirección: **Nítido** (jerarquía clara, superficies sobrias) + **Dorsal** (cifras con presencia, carriles, meta) + **Calma** (sin lenguaje de castigo).
 
-- **Una sola Card por pantalla para el resumen**; las listas (comidas) van planas sobre el fondo, con `divide-line` entre filas. Nunca card dentro de card.
+- **Una Card de resumen por pantalla y una Card por comida**. Cada comida (`ComidaSection`) es su propia Card (`padded={false}`): cabecera con nombre en `text-title` (sin mayúsculas), kcal y acciones; `FranjaMacros` (barra fina segmentada `h-1.5` con el reparto de kcal P/C/G en los colores de `MACROS` y, debajo, «P 24 g · C 51 g · G 12 g»); filas con `divide-line` hasta el borde de la card; y pie con `Button ghost sm` «Añadir a …» y «Repetir del día anterior (n)». Nunca card dentro de card.
 - **Cifra principal** = `text-metric` + `AnimatedNumber`, con su unidad en `text-body text-fg-muted` y el objetivo asociado a la vista. Las cifras secundarias usan `text-title`.
 - **Carril (`ProgressBar`)**: pista `bg-surface-muted`, relleno del color del dato, **línea de meta siempre visible** (`bg-goal` con halo `ring-surface`, sobresale de la pista) y, si se supera la meta, un **tramo atenuado** (`opacity-50`) después de ella. El dominio es `max(objetivo, valor)`: nada se corta al 100 %. `size="lg"` para la métrica principal, `md` para las secundarias. Crece desde 0 al montarse y sigue los cambios con `duration-long` (0 con reduced motion).
 - **Superar el objetivo no es un error**: no cambia de color. Se dice con texto (`+92 kcal sobre el objetivo`, `de 60 g · +4`), con la meta física del carril y con el tramo atenuado. Quedarse por debajo se dice igual de sereno (`Quedan 240 kcal`). Los errores de acción (`Toast tono="error"`) llevan icono y `role="alert"`; `destructive` solo para eso.
 - **Acción principal**: `Button size="lg" shape="pill" block` con icono + texto, **dentro del flujo**, como último elemento de la pantalla. No flota sobre el contenido (un botón flotante puede tapar filas accionables); el espacio inferior lo reserva la propia pantalla. El `Toast` flota sobre la barra de navegación y desaparece solo.
-- **Día vacío**: un único «Sin registros» y una lista compacta con las comidas (`ComidasVacias`), sin repetir el estado vacío por sección. Los huecos dentro de un día con datos siguen siendo una línea por comida.
+- **Día vacío / comida vacía**: las cuatro cards se muestran siempre; una comida sin entradas es una card compacta (cabecera sin franja + pie con Añadir/Repetir). No hay texto de «Sin registros» repetido.
 - **Movimiento**: `animate-shift-next|shift-prev` (cambio de día), `animate-rise-in` (toast), `animate-fade-in-late` (carga: no aparece si los datos llegan enseguida). Duración y distancia salen de `--dur-*` y `--motion-shift`; con `prefers-reduced-motion` las duraciones valen 0.
 - **Cifras**: toda métrica numérica que se lee (kcal, g, kg, volumen) pasa por `formatInt`/`formatNumber` (ver «Formato de números»).
 - **Filas de lista**: el elemento pulsable es un `<button>` (foco y teclado), el borrado es otro botón aparte; nombres largos a 2 líneas (`line-clamp-2`).
+
+## Lenguaje de Inicio
+
+Pantalla de arranque: cabecera (`text-heading` «Inicio» + fecha en `text-body-sm`) y una pila de Cards de resumen (`space-y-stack`). Mismo lenguaje que Hoy (serenidad, meta física, sin castigo).
+
+- **Card de resumen** (`ResumenDiaCard`, `PesoCard`): título `text-title` a la izquierda y acción `Button ghost sm` a la derecha («Ver día ›», «Registrar»). Sin cards anidadas.
+- **Anillo (`ProgressRing`)**: pista `stroke-surface-muted`, relleno del color del dato (`stroke-kcal`…), marca de meta siempre visible (`stroke-goal` con halo `stroke-surface`), exceso con `opacity-50`, dominio `max(objetivo, valor)`, crece desde 0 con `duration-long` (0 con reduced motion). La cifra principal va en el centro (`AnimatedNumber`) con el objetivo debajo en `text-caption`; `role="progressbar"` + `aria-valuetext`. Junto al anillo, tres líneas compactas de macro con `ProgressBar md`.
+- **Sparkline** (`PesoCard`): SVG propio (`puntosSparkline`, sin Recharts), `stroke-accent`, trazo 2 con `vector-effect: non-scaling-stroke`, `role="img"` con `aria-label` que dice el rango. Los puntos se reparten por orden, no por fecha. Con menos de 2 pesajes no se dibuja.
+- **Variación de peso**: «−0,6 kg en 7 días» con `formatNumber(…, 1)`, mismo tono suba o baje (nada de rojo/verde). Sin pesaje de hace 7 días o más, no se muestra.
+- **Estado vacío**: «Aún no hay pesajes» (`EmptyState`) y el botón «Registrar» sigue disponible. Carga: `LoadingState` con `animate-fade-in-late`.
+- **Registrar**: `Sheet` con `NumberStepper` (paso 0,1, «kg»); los errores van en línea (`ErrorState`), la confirmación en Toast.
 
 ## Lenguaje de Añadir comida (segunda pantalla del sistema)
 

@@ -47,6 +47,8 @@ import { ErrorState } from '../../../shared/components/StateMessage'
 interface Props {
   fecha: string
   entryEditar?: Entry
+  /** Comida preseleccionada al abrir desde «Añadir a …» (al editar manda la de la entrada). */
+  comidaInicial?: Comida
   onClose: () => void
   onGuardado: () => void
 }
@@ -64,8 +66,8 @@ function itemDesdeEntrada(e: Entry): ItemRevision {
   return { nombre: e.nombre, gramos: e.gramos, ...valores, origen: { fuente: 'manual', valores, nombreNorm: normalizeName(e.nombre), guardado: false } }
 }
 
-export default function AnadirComida({ fecha, entryEditar, onClose, onGuardado }: Props) {
-  const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? comidaPorHora())
+export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClose, onGuardado }: Props) {
+  const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? comidaInicial ?? comidaPorHora())
   const [texto, setTexto] = useState('')
   const [guardando, setGuardando] = useState(false)
   const [errorGuardar, setErrorGuardar] = useState<string | null>(null)
