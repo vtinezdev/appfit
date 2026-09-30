@@ -1,27 +1,33 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
+import Button from '../../shared/components/Button'
+import Icon from '../../shared/components/Icon'
+import PageHeader from '../../shared/components/PageHeader'
 import { LoadingState } from '../../shared/components/StateMessage'
 import { getSettings } from '../../shared/db/settings'
 import { addDays, parseISODate, todayISO } from '../../shared/lib/dates'
 import { useAviso } from '../../shared/hooks/useAviso'
+import TarjetaEntreno from '../gym/components/TarjetaEntreno'
+import ResumenNutricional from '../nutricion/components/ResumenNutricional'
 import * as entriesRepo from '../nutricion/data/entriesRepo'
 import { sumMacros } from '../nutricion/lib/nutrition'
 import * as pesosRepo from './data/pesosRepo'
 import PesoCard from './components/PesoCard'
 import RegistrarPesoSheet from './components/RegistrarPesoSheet'
-import ResumenDiaCard from './components/ResumenDiaCard'
 import { tendenciaPeso } from './lib/peso'
+import { saludoPorHora } from './lib/saludo'
 
 interface Props {
   onIrANutricion: () => void
+  onIrAGym: () => void
 }
 
 const PESO_POR_DEFECTO = 70
 /** Historial que se lee: de sobra para la serie de 30 días y para encontrar un pesaje de hace una semana o más. */
 const DIAS_HISTORIAL = 365
 
-/** Pantalla de arranque: lo esencial de hoy de un vistazo. Crecerá con más tarjetas. */
-export default function InicioTab({ onIrANutricion }: Props) {
+/** Pantalla de arranque: lo esencial de hoy de un vistazo (resumen del día, entreno y peso). */
+export default function InicioTab({ onIrANutricion, onIrAGym }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const settings = useLiveQuery(() => getSettings(), [])
@@ -45,11 +51,8 @@ export default function InicioTab({ onIrANutricion }: Props) {
   }
 
   return (
-    <div className="space-y-section px-4 pb-4 pt-4">
-      <header>
-        <h1 className="text-heading text-fg">Inicio</h1>
-        <p className="text-body-sm text-fg-muted first-letter:uppercase">{fechaLarga}</p>
-      </header>
+    <div className="space-y-section px-page pt-6">
+      <PageHeader overline={fechaLarga} title={saludoPorHora()} />
 
       {!entries || !settings || !pesos ? (
         <div className="animate-fade-in-late">
@@ -57,7 +60,18 @@ export default function InicioTab({ onIrANutricion }: Props) {
         </div>
       ) : (
         <div className="space-y-stack">
-          <ResumenDiaCard totales={sumMacros(entries)} objetivos={settings.objetivos} onVerDia={onIrANutricion} />
+          <ResumenNutricional
+            titulo="Resumen de hoy"
+            totales={sumMacros(entries)}
+            objetivos={settings.objetivos}
+            accion={
+              <Button variant="ghost" size="sm" onClick={onIrANutricion}>
+                Ver día
+                <Icon name="chevron-right" size={16} />
+              </Button>
+            }
+          />
+          <TarjetaEntreno onAbrir={onIrAGym} />
           <PesoCard tendencia={tendencia} onRegistrar={abrirRegistro} />
         </div>
       )}

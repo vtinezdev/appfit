@@ -118,7 +118,7 @@ export default function AccionesComidaSheet({ fecha, comida, entries, onClose, o
           <SegmentedControl opciones={COMIDAS} valor={comidaDestino} onChange={setComidaDestino} />
           {copiaNoOp && <p className="text-body-sm text-warning">El origen y el destino son iguales.</p>}
           {error && <ErrorState>{error}</ErrorState>}
-          <Button block
+          <Button block loading={copiando}
             onClick={copiar}
             disabled={!fechaDestino || fechaDestino > todayISO() || copiaNoOp || copiando}
           >
@@ -135,7 +135,7 @@ export default function AccionesComidaSheet({ fecha, comida, entries, onClose, o
             placeholder={`Mi ${LABELS[comida].toLowerCase()} de siempre`}
           />
           {error && <ErrorState>{error}</ErrorState>}
-          <Button block onClick={guardarPlantilla} disabled={!nombrePlantilla.trim() || guardando}>
+          <Button block loading={guardando} onClick={guardarPlantilla} disabled={!nombrePlantilla.trim() || guardando}>
             {guardando ? 'Guardando…' : 'Guardar'}
           </Button>
         </div>

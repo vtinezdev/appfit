@@ -71,12 +71,12 @@ function NotasMedida() {
   }
 
   return (
-    <section aria-label="Medidas que faltan" className="space-y-2">
-      <SectionHeader>Medidas que faltan</SectionHeader>
+    <section aria-label="Medidas que faltan" className="space-y-stack">
+      <SectionHeader variant="section">Medidas que faltan</SectionHeader>
       <p className="px-1 text-body-sm text-fg-muted">¿Has usado una medida que no está en la lista? Apúntala para añadirla más adelante.</p>
       <form onSubmit={apuntar} className="flex items-center gap-2">
         <Input tone="surface" aria-label="Medida que falta" placeholder="Ej.: tarrina de hummus ≈ 200 g" value={texto} onChange={(e) => setTexto(e.target.value)} />
-        <Button type="submit" disabled={!texto.trim() || guardando}>
+        <Button type="submit" loading={guardando} disabled={!texto.trim()}>
           Apuntar
         </Button>
       </form>
@@ -113,12 +113,12 @@ export default function Medidas({ onClose }: Props) {
       </header>
 
       <div className="flex-1 overflow-y-auto overscroll-contain">
-        <div className={`${columna} safe-bottom space-y-section py-4`}>
+        <div className={`${columna} safe-bottom space-y-section py-6`}>
           <p className="px-1 text-body-sm text-fg-muted">Así convierte «Interpretar» las medidas caseras en gramos.</p>
           <NotasMedida />
           {GRUPOS.map((g) => (
             <section key={g.tipo} aria-label={g.titulo} className="space-y-1">
-              <SectionHeader>{g.titulo}</SectionHeader>
+              <SectionHeader variant="section">{g.titulo}</SectionHeader>
               <p className="px-1 text-caption text-fg-subtle">{g.explicacion}</p>
               <ul className="divide-y divide-line">
                 {MEDIDAS.filter((m) => m.tipo === g.tipo).map((m) => (

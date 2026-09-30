@@ -11,7 +11,12 @@ import { resumenPeriodo } from '../lib/nutrition'
 import { IconButton } from '../../../shared/components/Button'
 import { LoadingState } from '../../../shared/components/StateMessage'
 import { chartAxis, chartColors, chartGoalLine, chartTooltip } from '../../../shared/design/chart'
+import { MACROS } from '../../../shared/design/macros'
+import Badge from '../../../shared/components/Badge'
 import Card from '../../../shared/components/Card'
+import Metric from '../../../shared/components/Metric'
+import ProgressBar from '../../../shared/components/ProgressBar'
+import SectionHeader from '../../../shared/components/SectionHeader'
 
 const RANGOS: { valor: PeriodoRango; label: string }[] = [
   { valor: 'semana', label: 'Semana' },
@@ -40,6 +45,7 @@ export default function Resumen() {
 
   const { porDia: macros, media, diasRegistrados, distribucion } = resumenPeriodo(entries, fechas, todayISO())
   const objetivos = settings.objetivos
+  const fraseDias = diasRegistrados === 0 ? 'Sin registros en este periodo' : `De ${diasRegistrados} ${diasRegistrados === 1 ? 'día registrado' : 'días registrados'}`
 
   const chartData = fechas.map((f, i) => ({
     dia: formatShort(f),
@@ -49,18 +55,68 @@ export default function Resumen() {
     Grasa: macros[i].grasa,
   }))
 
-  return (
-    <div className="space-y-5 pb-4">
-      <SegmentedControl opciones={RANGOS} valor={rango} onChange={cambiarRango} />
+  const medias = [
+    { macro: MACROS.prot, valor: media.prot, objetivo: objetivos.prot },
+    { macro: MACROS.carbs, valor: media.carb, objetivo: objetivos.carb },
+    { macro: MACROS.fat, valor: media.grasa, objetivo: objetivos.grasa },
+  ]
+  const reparto = [
+    { macro: MACROS.prot, pct: distribucion.prot },
+    { macro: MACROS.carbs, pct: distribucion.carb },
+    { macro: MACROS.fat, pct: distribucion.grasa },
+  ]
 
-      <div className="flex items-center justify-between px-1">
-        <IconButton icon="chevron-left" label="Periodo anterior" size="sm" onClick={() => setFechaAncla(desplazarPeriodo(rango, fechaAncla, -1))} />
-        <span className="text-body font-semibold capitalize text-fg">{etiquetaPeriodo(rango, fechaAncla)}</span>
-        <IconButton icon="chevron-right" label="Periodo siguiente" size="sm" onClick={() => setFechaAncla(desplazarPeriodo(rango, fechaAncla, 1))} disabled={esPeriodoActual(rango, fechaAncla)} />
+  return (
+    <div className="space-y-section">
+      <div className="space-y-stack">
+        <SegmentedControl opciones={RANGOS} valor={rango} onChange={cambiarRango} />
+        <div className="flex items-center rounded-pill bg-surface shadow-raised">
+          <IconButton icon="chevron-left" label="Periodo anterior" variant="ghost" onClick={() => setFechaAncla(desplazarPeriodo(rango, fechaAncla, -1))} />
+          <span className="min-w-0 flex-1 truncate text-center text-title capitalize text-fg">{etiquetaPeriodo(rango, fechaAncla)}</span>
+          <IconButton icon="chevron-right" label="Periodo siguiente" variant="ghost" onClick={() => setFechaAncla(desplazarPeriodo(rango, fechaAncla, 1))} disabled={esPeriodoActual(rango, fechaAncla)} />
+        </div>
       </div>
 
-      <Card>
-        <h3 className="mb-3 text-body-sm font-semibold text-fg-muted">Kcal por día</h3>
+      <Card tone="ink" role="region" aria-label="Media diaria" className="space-y-4">
+        <h2 className="text-label uppercase text-fg-subtle">Media diaria</h2>
+        <Metric size="hero" valor={formatInt(media.kcal)} unidad="kcal" caption={`${fraseDias}${objetivos.kcal > 0 ? ` · objetivo ${formatInt(objetivos.kcal)} kcal` : ''}`} />
+        <ProgressBar
+          size="lg"
+          value={media.kcal}
+          goal={objetivos.kcal}
+          colorClass="bg-kcal"
+          label="Media diaria de calorías"
+          valueText={`${formatInt(media.kcal)} de ${formatInt(objetivos.kcal)} kcal de media`}
+        />
+      </Card>
+
+      <section aria-label="Macros medios" className="space-y-stack">
+        <SectionHeader variant="section">Macros medios por día</SectionHeader>
+        <div className="grid grid-cols-3 gap-4">
+          {medias.map(({ macro, valor, objetivo }) => (
+            <div key={macro.short} className="min-w-0">
+              <Metric size="metric" label={macro.label} valor={formatInt(valor)} unidad="g" caption={`de ${formatInt(objetivo)} g`} />
+              <div className="mt-2">
+                <ProgressBar value={valor} goal={objetivo} colorClass={macro.bg} label={macro.label} valueText={`${formatInt(valor)} de ${formatInt(objetivo)} g de media`} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section aria-label="Distribución de calorías" className="space-y-stack">
+        <SectionHeader variant="section">Distribución</SectionHeader>
+        <div className="flex flex-wrap gap-2">
+          {reparto.map(({ macro, pct }) => (
+            <Badge key={macro.short} dotClass={macro.bg}>
+              {macro.label} {formatInt(pct)} %
+            </Badge>
+          ))}
+        </div>
+      </section>
+
+      <section aria-label="Kcal por día" className="space-y-stack">
+        <SectionHeader variant="section">Kcal por día</SectionHeader>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={chartData}>
             <XAxis dataKey="dia" {...chartAxis} />
@@ -72,47 +128,24 @@ export default function Resumen() {
             />
             <Tooltip {...chartTooltip} formatter={(v) => formatInt(Number(v))} />
             <ReferenceLine y={objetivos.kcal} {...chartGoalLine} />
-            <Bar dataKey="Kcal" fill={chartColors.kcal} radius={[4, 4, 0, 0]} />
+            <Bar dataKey="Kcal" fill={chartColors.kcal} radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
-      </Card>
+      </section>
 
-      <Card>
-        <h3 className="mb-3 text-body-sm font-semibold text-fg-muted">Macros por día (g)</h3>
+      <section aria-label="Macros por día" className="space-y-stack">
+        <SectionHeader variant="section">Macros por día (g)</SectionHeader>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={chartData}>
             <XAxis dataKey="dia" {...chartAxis} />
-            <YAxis {...chartAxis} width={30} />
-            <Tooltip {...chartTooltip} />
+            <YAxis {...chartAxis} width={30} tickFormatter={formatInt} />
+            <Tooltip {...chartTooltip} formatter={(v) => formatInt(Number(v))} />
             <Bar dataKey="Proteína" stackId="m" fill={chartColors.protein} radius={[0, 0, 0, 0]} />
             <Bar dataKey="Carbohidratos" stackId="m" fill={chartColors.carbs} radius={[0, 0, 0, 0]} />
-            <Bar dataKey="Grasa" stackId="m" fill={chartColors.fat} radius={[4, 4, 0, 0]} />
+            <Bar dataKey="Grasa" stackId="m" fill={chartColors.fat} radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
-      </Card>
-
-      <div className="grid grid-cols-2 gap-3">
-        <Card>
-          <h3 className="text-body-sm font-semibold text-fg-muted">Media diaria</h3>
-          <p className="mb-2 text-caption text-fg-subtle">
-            {diasRegistrados === 0 ? 'Sin registros en este periodo' : `De ${diasRegistrados} ${diasRegistrados === 1 ? 'día registrado' : 'días registrados'}`}
-          </p>
-          <ul className="space-y-1 text-body-sm text-fg-muted">
-            <li>Kcal: {formatInt(media.kcal)} / {formatInt(objetivos.kcal)}</li>
-            <li>Prot: {formatInt(media.prot)} / {formatInt(objetivos.prot)} g</li>
-            <li>Carb: {formatInt(media.carb)} / {formatInt(objetivos.carb)} g</li>
-            <li>Grasa: {formatInt(media.grasa)} / {formatInt(objetivos.grasa)} g</li>
-          </ul>
-        </Card>
-        <Card>
-          <h3 className="mb-2 text-body-sm font-semibold text-fg-muted">Distribución</h3>
-          <ul className="space-y-1 text-body-sm text-fg-muted">
-            <li>Proteína: {distribucion.prot}%</li>
-            <li>Carbohidratos: {distribucion.carb}%</li>
-            <li>Grasa: {distribucion.grasa}%</li>
-          </ul>
-        </Card>
-      </div>
+      </section>
     </div>
   )
 }

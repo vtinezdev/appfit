@@ -75,7 +75,7 @@ export default function AplicarPlantillaSheet({ meal, fecha, comida, onClose, on
           </div>
         )}
         {error && <ErrorState>{error}</ErrorState>}
-        <Button block onClick={aplicar} disabled={!resueltos || aplicando}>
+        <Button block loading={aplicando} onClick={aplicar} disabled={!resueltos}>
           {aplicando ? 'Añadiendo…' : `Añadir a ${LABELS[comida]}`}
         </Button>
       </div>

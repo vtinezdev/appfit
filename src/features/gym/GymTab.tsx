@@ -1,4 +1,5 @@
 import { LoadingState } from '../../shared/components/StateMessage'
+import PageHeader from '../../shared/components/PageHeader'
 import SegmentedControl from '../../shared/components/SegmentedControl'
 import { lazy, Suspense, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
@@ -22,19 +23,21 @@ export default function GymTab() {
   }
 
   return (
-    <div className="min-h-full px-4 pt-4">
-      <SegmentedControl
-        size="sm"
-        className="mb-4"
-        opciones={[
-          { valor: 'inicio', label: 'Inicio' },
-          { valor: 'rutinas', label: 'Rutinas' },
-          { valor: 'historial', label: 'Historial' },
-          { valor: 'progreso', label: 'Progreso' },
-        ]}
-        valor={vista}
-        onChange={setVista}
-      />
+    <div className="min-h-full px-page pt-6">
+      <div className="mb-section space-y-stack">
+        <PageHeader title="Entreno" />
+        <SegmentedControl
+          size="sm"
+          opciones={[
+            { valor: 'inicio', label: 'Inicio' },
+            { valor: 'rutinas', label: 'Rutinas' },
+            { valor: 'historial', label: 'Historial' },
+            { valor: 'progreso', label: 'Progreso' },
+          ]}
+          valor={vista}
+          onChange={setVista}
+        />
+      </div>
 
       {vista === 'inicio' && <GymHome />}
       {vista === 'rutinas' && <Rutinas />}

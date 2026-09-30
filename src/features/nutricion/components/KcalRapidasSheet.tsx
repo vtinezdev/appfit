@@ -65,7 +65,7 @@ export default function KcalRapidasSheet({ open, valor, onChange, onGuardar, onC
           </div>
         </fieldset>
         {error && <ErrorState>{error}</ErrorState>}
-        <Button block onClick={onGuardar} disabled={!validarKcalRapidas(valor) || guardando}>
+        <Button block loading={guardando} onClick={onGuardar} disabled={!validarKcalRapidas(valor)}>
           {guardando ? 'Guardando…' : 'Guardar'}
         </Button>
       </div>

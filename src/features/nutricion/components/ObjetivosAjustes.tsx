@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Badge from '../../../shared/components/Badge'
 import Button from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import { Input } from '../../../shared/components/Input'
@@ -41,16 +42,15 @@ export default function ObjetivosAjustes({ objetivos, onGuardar }: Props) {
   }
 
   return (
-    <Card className="space-y-3">
-      <SectionHeader>Objetivos diarios</SectionHeader>
+    <section aria-label="Objetivos diarios" className="space-y-stack">
+      <SectionHeader variant="section">Objetivos diarios</SectionHeader>
+      <Card className="space-y-3">
       {CAMPOS.map(({ campo, label, macro }) => (
         <label key={campo} className="flex items-center justify-between gap-3">
-          <span className="text-body-sm text-fg-muted">{label}</span>
+          <span className="text-body-sm font-medium text-fg">{label}</span>
           <span className="flex items-center gap-3">
             {campo !== 'kcal' && (
-              <span className={`tabular text-body-sm font-semibold ${macro.text}`}>
-                {dist[campo]} %
-              </span>
+              <Badge dotClass={macro.bg}>{dist[campo]} %</Badge>
             )}
             <Input
               type="number"
@@ -80,6 +80,7 @@ export default function ObjetivosAjustes({ objetivos, onGuardar }: Props) {
           Si cambias las calorías, los macros mantienen su reparto. Si cambias un macro, los otros dos se ajustan para seguir sumando las mismas calorías.
         </p>
       )}
-    </Card>
+      </Card>
+    </section>
   )
 }

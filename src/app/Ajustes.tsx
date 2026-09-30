@@ -7,6 +7,8 @@ import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { LoadingState } from '../shared/components/StateMessage'
 import Button from '../shared/components/Button'
 import Card from '../shared/components/Card'
+import ConfirmacionDestructiva from '../shared/components/ConfirmacionDestructiva'
+import PageHeader from '../shared/components/PageHeader'
 import SectionHeader from '../shared/components/SectionHeader'
 
 export default function Ajustes() {
@@ -39,56 +41,63 @@ export default function Ajustes() {
   }
 
   return (
-    <div className="space-y-6 px-4 pb-8 pt-4">
+    <div className="space-y-section px-page pt-6">
+      <PageHeader title="Ajustes" />
+
       <ObjetivosAjustes objetivos={settings.objetivos} onGuardar={(objetivos) => updateSettings({ objetivos })} />
 
-      <Card className="space-y-3">
-        <SectionHeader>Backup</SectionHeader>
-        <p className="text-caption text-fg-subtle">Tus datos viven solo en este móvil. Exporta un JSON de vez en cuando por si acaso.</p>
-        <div className="flex gap-2">
-          <Button variant="secondary" onClick={exportar} className="flex-1">
-            Exportar
-          </Button>
-          <Button variant="secondary" onClick={() => fileRef.current?.click()} className="flex-1">
-            Importar
-          </Button>
-          <input
-            ref={fileRef}
-            type="file"
-            accept="application/json"
-            className="hidden"
-            onChange={(e) => {
-              const file = e.target.files?.[0]
-              if (file) importar(file)
-              e.target.value = ''
-            }}
-          />
-        </div>
-        {mensaje && <p className="text-body-sm text-accent">{mensaje}</p>}
-      </Card>
+      <section aria-label="Backup" className="space-y-stack">
+        <SectionHeader variant="section">Backup</SectionHeader>
+        <Card className="space-y-3">
+          <p className="text-body-sm text-fg-muted">Tus datos viven solo en este móvil. Exporta un JSON de vez en cuando por si acaso.</p>
+          <div className="flex gap-2">
+            <Button variant="secondary" onClick={exportar} className="flex-1">
+              Exportar
+            </Button>
+            <Button variant="secondary" onClick={() => fileRef.current?.click()} className="flex-1">
+              Importar
+            </Button>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="application/json"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) importar(file)
+                e.target.value = ''
+              }}
+            />
+          </div>
+          {mensaje && (
+            <p role="status" className="text-body-sm text-accent-strong">
+              {mensaje}
+            </p>
+          )}
+        </Card>
+      </section>
 
       <CatalogoAjustes />
 
-      <Card className="space-y-3">
-        <SectionHeader tone="destructive">Zona peligrosa</SectionHeader>
-        {!confirmandoBorrado ? (
-          <Button variant="destructive" block onClick={() => setConfirmandoBorrado(true)}>
-            Borrar todos los datos
-          </Button>
-        ) : (
-          <div className="space-y-2">
-            <p className="text-body-sm text-destructive">¿Seguro? Esto borra nutrición, gym y ajustes de este móvil. No se puede deshacer.</p>
-            <div className="flex gap-2">
-              <Button variant="secondary" onClick={() => setConfirmandoBorrado(false)} className="flex-1">
-                Cancelar
-              </Button>
-              <Button variant="danger" onClick={confirmarBorrado} className="flex-1">
-                Sí, borrar
-              </Button>
-            </div>
-          </div>
-        )}
-      </Card>
+      <section aria-label="Zona peligrosa" className="space-y-stack">
+        <SectionHeader variant="section" tone="destructive">
+          Zona peligrosa
+        </SectionHeader>
+        <Card>
+          {!confirmandoBorrado ? (
+            <Button variant="destructive" block onClick={() => setConfirmandoBorrado(true)}>
+              Borrar todos los datos
+            </Button>
+          ) : (
+            <ConfirmacionDestructiva
+              mensaje="¿Seguro? Esto borra nutrición, gym y ajustes de este móvil. No se puede deshacer."
+              confirmar="Sí, borrar"
+              onConfirmar={confirmarBorrado}
+              onCancelar={() => setConfirmandoBorrado(false)}
+            />
+          )}
+        </Card>
+      </section>
     </div>
   )
 }

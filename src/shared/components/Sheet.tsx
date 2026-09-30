@@ -157,9 +157,9 @@ export default function Sheet({ open, onClose, title, children }: Props) {
           onPointerUp={onDragEnd}
           onPointerCancel={onDragEnd}
         >
-          <div className="mx-auto h-1 w-10 rounded-pill bg-line-strong" aria-hidden />
+          <div className="mx-auto h-1 w-9 rounded-pill bg-line-strong" aria-hidden />
           {title && (
-            <h2 id={titleId} className="mt-3 text-title text-fg">
+            <h2 id={titleId} className="mt-3 text-heading text-fg">
               {title}
             </h2>
           )}

@@ -37,14 +37,14 @@ export default function ResultadosBusqueda({ busqueda, onElegir }: Props) {
 
       {propios && propios.length > 0 && (
         <div className="space-y-1">
-          <SectionHeader>Tus alimentos</SectionHeader>
+          <SectionHeader variant="section">Tus alimentos</SectionHeader>
           <ListaElegibles alimentos={propios} onElegir={onElegir} />
         </div>
       )}
 
       {catalogo.alimentos.length > 0 && (
         <div className="space-y-1">
-          <SectionHeader>Catálogo</SectionHeader>
+          <SectionHeader variant="section">Catálogo</SectionHeader>
           <ListaElegibles alimentos={catalogo.alimentos} onElegir={onElegir} />
         </div>
       )}

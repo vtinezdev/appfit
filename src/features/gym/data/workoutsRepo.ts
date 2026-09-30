@@ -12,6 +12,11 @@ export function terminados(): Promise<Workout[]> {
   return db.workouts.filter((w) => w.fin !== undefined).reverse().sortBy('inicio')
 }
 
+/** El último entreno terminado (el de `inicio` más reciente), si hay alguno. */
+export function ultimoTerminado(): Promise<Workout | undefined> {
+  return db.workouts.orderBy('inicio').reverse().filter((w) => w.fin !== undefined).first()
+}
+
 export function listar(): Promise<Workout[]> {
   return db.workouts.toArray()
 }

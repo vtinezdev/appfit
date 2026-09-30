@@ -7,14 +7,12 @@ import { getSettings } from '../../../shared/db/settings'
 import AccionesComidaSheet from '../components/AccionesComidaSheet'
 import ComidaSection from '../components/ComidaSection'
 import CopiarDiaSheet from '../components/CopiarDiaSheet'
-import KcalDia from '../components/KcalDia'
-import MacroBar from '../components/MacroBar'
+import ResumenNutricional from '../components/ResumenNutricional'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { sumMacros } from '../lib/nutrition'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { LoadingState } from '../../../shared/components/StateMessage'
-import Card from '../../../shared/components/Card'
 
 interface Props {
   fecha: string
@@ -101,7 +99,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
   const transicion = navegacion.sentido === 'next' ? 'animate-shift-next' : navegacion.sentido === 'prev' ? 'animate-shift-prev' : ''
 
   return (
-    <div className="space-y-section pb-4">
+    <div className="space-y-section">
       <div className="flex items-center gap-2">
         <div className="flex min-w-0 flex-1 items-center rounded-pill bg-surface shadow-raised">
           <IconButton icon="chevron-left" label="Día anterior" variant="ghost" onClick={() => onFechaChange(addDays(fecha, -1))} />
@@ -119,16 +117,9 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
         </div>
       ) : (
         <>
-          <Card className="space-y-5">
-            <KcalDia valor={totales.kcal} objetivo={objetivos.kcal} />
-            <div className="grid grid-cols-3 gap-4 border-t border-line pt-5">
-              <MacroBar macro="prot" valor={totales.prot} objetivo={objetivos.prot} />
-              <MacroBar macro="carbs" valor={totales.carb} objetivo={objetivos.carb} />
-              <MacroBar macro="fat" valor={totales.grasa} objetivo={objetivos.grasa} />
-            </div>
-          </Card>
+          <ResumenNutricional totales={totales} objetivos={objetivos} titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`} />
 
-          <div key={fecha} className={`space-y-stack ${transicion}`}>
+          <div key={fecha} className={`space-y-6 ${transicion}`}>
             {ORDEN_COMIDAS.map((c) => (
               <ComidaSection
                 key={c}
@@ -145,7 +136,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
               />
             ))}
           </div>
-          <Button size="lg" shape="pill" block onClick={() => onAnadir()}>
+          <Button size="lg" block onClick={() => onAnadir()}>
             <Icon name="plus" size={22} />
             Añadir comida
           </Button>

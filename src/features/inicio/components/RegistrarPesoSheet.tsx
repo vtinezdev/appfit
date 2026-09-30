@@ -46,7 +46,7 @@ export default function RegistrarPesoSheet({ open, onClose, pesoInicial, onGuard
         </div>
         <p className="text-center text-caption text-fg-subtle">Un pesaje por día: si ya hay uno de hoy, se sustituye.</p>
         {error && <ErrorState>{error}</ErrorState>}
-        <Button block onClick={guardar} disabled={guardando}>
+        <Button block loading={guardando} onClick={guardar}>
           {guardando ? 'Guardando…' : 'Guardar'}
         </Button>
       </div>

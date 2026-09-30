@@ -16,7 +16,7 @@ export default function PlantillasLista({ onElegir }: Props) {
 
   return (
     <section aria-label="Plantillas" className="space-y-1">
-      <SectionHeader>Plantillas</SectionHeader>
+      <SectionHeader variant="section">Plantillas</SectionHeader>
       <ul className="divide-y divide-line">
         {plantillas.map((m) => (
           <li key={m.id}>
