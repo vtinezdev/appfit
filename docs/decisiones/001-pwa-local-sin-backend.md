@@ -18,5 +18,5 @@ App de uso personal para un iPhone, sin publicarla en tiendas y con coste 0 €.
 - Privacidad total y coste 0; la app funciona sin conexión (service worker de Workbox).
 - **El backup JSON es la única copia de seguridad** y la única forma de cambiar de móvil: no hay sincronización.
 - Todo lo que necesite un servidor queda fuera: notificaciones push, sincronización entre dispositivos, compartir hacia la app (Web Share Target no existe en iOS).
-- En iOS, Safari y la PWA instalada tienen almacenamientos separados: un enlace abierto en Safari no ve los datos de la app.
+- En iOS, Safari y la PWA abierta desde la pantalla de inicio pueden tener almacenamientos separados. El primer alta no traslada automáticamente los datos: la app guía la exportación en el acceso original y la importación en el nuevo (ver `../datos.md` § Conservación y primer traslado en iPhone).
 - Lo que depende de WebKit (rendimiento de IndexedDB, cámara, safe areas) solo se confirma en el iPhone real.

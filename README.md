@@ -25,7 +25,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 
 **General**
 - Instalable en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
-- Copia de seguridad exportable e importable en un único archivo JSON.
+- Copia de seguridad exportable e importable en un único archivo JSON, con confirmación antes de sustituir registros y ayuda para trasladarlos de Safari al acceso de pantalla de inicio en iPhone.
 - Tema claro y oscuro según el sistema.
 - Coste de infraestructura: **0 €**.
 

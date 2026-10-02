@@ -57,11 +57,20 @@ Reglas y patrones:
 - `getSettings()` es de **solo lectura**: completa con `DEFAULT_OBJETIVOS` lo que falte (`conDefaults`) y descarta los campos antiguos (`apiKey`, `modelo`). Así, un campo nuevo de ajustes no necesita `upgrade()`.
 - `ensureSettings()` es la única escritura al arrancar (`main.tsx`). `updateSettings()` guarda cambios.
 
+## Conservación y primer traslado en iPhone
+
+- La base se llama siempre `appfit`, sin el número de build en su nombre. Está en IndexedDB, ligada al origen (protocolo, dominio y puerto) y al almacenamiento del navegador/PWA. Cerrar, recargar o desplegar en la misma dirección no crea una base nueva.
+- En iPhone, Safari y la PWA abierta desde el acceso de la pantalla de inicio pueden usar almacenes separados. Añadir el acceso no traslada automáticamente los registros de Safari. Si parece vacío, comprobar el enlace original en Safari y **exportar allí → importar en el acceso nuevo**. No reinstalar ni borrar los datos para intentar recuperarlos.
+- `app/TrasladarDatos` muestra un aviso breve en iOS: antes de añadir el acceso, y en el primer inicio de la PWA si no hay registros. «Ver instrucciones» abre y enfoca la guía «Primera vez en AppFit» de Ajustes, con pasos para añadir el acceso y trasladar la copia; desde allí se puede saltar a Exportar/Importar. `shared/db/estadoDatos.ts` consulta todas las tablas de usuario en solo lectura; los ajustes por defecto y el catálogo no cuentan como datos introducidos, pero los objetivos personalizados sí.
+- `shared/lib/almacenamiento.ts` consulta/solicita protección con StorageManager. Distingue permiso concedido, rechazado, API no disponible y error. No cambia de base ni elimina registros si falla o se rechaza. Ajustes muestra el acceso actual y permite reintentar la solicitud.
+- La protección depende del navegador y no sustituye a una copia exportada. Borrar los datos del sitio, cambiar de dominio/perfil o cambiar de móvil requiere recuperar esa copia; no hay sincronización entre almacenes.
+
 ## Backup (`shared/lib/backup.ts`)
 
 - Un único JSON con las `TABLAS_USUARIO` (nunca el catálogo). `BACKUP_VERSION` y sus reglas de cambio están en la cabecera del archivo.
 - `migrarBackup(raw)` es pura: valida y convierte cualquier versión conocida a la actual, y rechaza una versión más nueva con un mensaje claro. Las tablas de `TABLAS_OPCIONALES` (las posteriores al primer backup) pueden faltar: se importan vacías.
 - `importarBackup` **sustituye** todo en una transacción: vacía todas las tablas de usuario, también las que el backup no trae, y los ajustes pasan por `conDefaults`.
+- En Ajustes, seleccionar un archivo solo lo valida y muestra cuántos registros de comida contiene. La escritura empieza al pulsar «Importar copia». Si ya hay datos, se advierte que serán sustituidos y se puede exportar antes. Cancelar o elegir un archivo inválido no altera ningún registro. Los fallos de lectura/exportación/importación se muestran en línea.
 - Fixture de referencia para las migraciones: `src/test/fixtures/backup-v1.json`.
 
 ## Checklist: cambiar el esquema o la forma de los datos

@@ -4,10 +4,11 @@ import './index.css'
 import App from './app/App.tsx'
 import { initTheme } from './shared/design/theme.ts'
 import { ensureSettings } from './shared/db/settings.ts'
+import { solicitarPersistencia } from './shared/lib/almacenamiento.ts'
 import { sincronizarCatalogo } from './features/nutricion/lib/catalogo/sincronizar.ts'
 
 initTheme()
-navigator.storage?.persist?.().catch(() => {})
+void solicitarPersistencia()
 
 /**
  * Descarga/actualiza el catálogo de alimentos en segundo plano: unos 2 s después del arranque, cuando el navegador

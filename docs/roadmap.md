@@ -9,6 +9,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Catálogo: tiempo de importación (~6.300 filas) y de búsqueda en Safari/WebKit.
 - Escáner: 3 productos reales (la cámara necesita HTTPS).
 - Exportar el backup (`<a download>` con un blob) desde la PWA instalada.
+- Persistencia (§44): trasladar una copia de Safari al acceso de pantalla de inicio, cerrar/reabrir y actualizar la PWA en la misma dirección. Comprobado en Chromium con perfil persistente y modos de iOS emulados; confirmar el comportamiento del almacenamiento y del permiso en WebKit.
 
 ## Limitaciones conocidas
 
