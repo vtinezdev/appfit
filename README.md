@@ -13,8 +13,8 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Añadir comidas por texto libre o con el dictado del teclado: un intérprete local entiende alimentos, cantidades y medidas caseras («2 huevos», «una lata de atún», «un vaso de leche») y los busca en tus alimentos y en un catálogo de más de 6.000 alimentos (CIQUAL y productos de marca de Open Food Facts España). Sin conexión.
 - Escáner de códigos de barras (Open Food Facts; solo se envía el número del código).
 - Pantalla de revisión editable antes de guardar: muestra cómo se divide la descripción y permite añadir alimentos uno a uno o por tandas, conservando las correcciones y guardándolos juntos.
-- Los alimentos guardados juntos aparecen como un plato desplegable en Nutrición, con nombre opcional, totales y edición de cada ingrediente. Copiar o repetir conserva los platos separados.
-- Nutrición muestra nombres de alimentos más breves cuando se reconocen con seguridad, y permite guardar una etiqueta corta personal sin cambiar los nombres originales ni sus nutrientes.
+- Los alimentos guardados juntos aparecen como un plato desplegable en Nutrición, con su propio bloque, borde y espacio entre platos, nombre opcional, totales y edición de cada ingrediente. Copiar o repetir conserva los platos separados.
+- Nutrición simplifica automáticamente el nombre de todos los alimentos, incluidos los que añades manualmente, mientras Añadir comida conserva el nombre completo. Se puede personalizar la etiqueta sin cambiar los nombres originales ni sus nutrientes.
 - Buscador con frecuentes, plantillas de comidas, copiar una comida o un día y «kcal rápidas» para una comida fuera.
 - Buscador e intérprete priorizan alimentos básicos habituales («pollo» → pechuga sin piel), conservando las variantes de preparación y marca cuando las especificas.
 - Resumen semanal y mensual navegable, con gráficas frente a tus objetivos.
