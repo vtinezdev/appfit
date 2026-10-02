@@ -4,7 +4,7 @@ Fuentes de verdad en el código: el esquema es `src/shared/db/db.ts`, los tipos 
 
 ## Tablas
 
-La versión actual del esquema es el último `this.version(n)` de `db.ts`. Cada versión lleva un comentario con qué añadió.
+La versión actual del esquema es la v6; cada versión lleva un comentario con qué añadió.
 
 | Tabla | Lista | Para qué | Notas |
 |---|---|---|---|
@@ -18,12 +18,15 @@ La versión actual del esquema es el último `this.version(n)` de `db.ts`. Cada 
 | `sets` | usuario | series | índice `[exerciseId+createdAt]` para la última serie de un ejercicio |
 | `notasMedida` | usuario | notas libres sobre medidas caseras que el intérprete aún no entiende | pantalla «Medidas» |
 | `pesos` | usuario | pesajes | `&fecha`: uno por día |
+| `nombresAlimentos` | usuario | nombres cortos personales para Nutrición | clave = `FoodRef` estable (`user:<id>` o `catalog:<id>`); no cambia los nombres ni nutrientes de origen |
 | `catalogFoods` | catálogo | alimentos de referencia (CIQUAL, Open Food Facts) | id `fuente:idExterno`, estable; `*tok` multiEntry para buscar; `gtin` no único |
 | `catalogSources` | catálogo | fuentes instaladas (versión, licencia, atribución, nº de filas) | |
 
 - **`TABLAS_USUARIO`** entran en el backup, se vacían al importar y con «Borrar todos los datos».
 - **`TABLAS_CATALOGO`** se pueden volver a descargar: no entran en el backup ni se borran con «borrar todo». `db.test.ts` exige que toda tabla esté en una de las dos listas.
 - Fuentes del catálogo: `ciqual` y `offes` llegan en paquetes (`public/catalogo/`; formato en `scripts/catalogo/README.md`). `off` son los productos escaneados en directo (`version: 'live'`). Son fuentes distintas a propósito: `importarFuente` borra por versión y se llevaría los escaneados.
+
+`nombresAlimentos` guarda alias de presentación independientes de los nombres completos en `foods`, el catálogo y las entradas. Se vinculan por `FoodRef` para que sobrevivan a las actualizaciones del catálogo y sigan disponibles cuando se elimina un alimento referenciado por el historial. Al ser datos personales, están incluidos en los backups; los backups anteriores importan esta tabla vacía.
 
 ## Invariantes
 
@@ -44,7 +47,7 @@ Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`). Fue
 
 | Feature | Repos | Tablas |
 |---|---|---|
-| nutricion | `foodsRepo`, `entriesRepo`, `mealsRepo`, `catalogRepo`, `notasMedidaRepo` | `foods`, `entries`, `meals`, `catalog*`, `notasMedida` |
+| nutricion | `foodsRepo`, `entriesRepo`, `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo` | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos` |
 | gym | `exercisesRepo`, `routinesRepo`, `workoutsRepo`, `setsRepo` | `exercises`, `routines`, `workouts`, `sets` |
 | inicio | `pesosRepo` | `pesos` |
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida, Entry, Meal } from '../../../shared/db/types'
 import { comidaPorHora } from '../../../shared/lib/dates'
@@ -11,6 +11,7 @@ import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
 import * as entriesRepo from '../data/entriesRepo'
 import * as foodsRepo from '../data/foodsRepo'
+import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
 import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
 import {
   aItemGuardado,
@@ -83,11 +84,29 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
   const [kcalRapidas, setKcalRapidas] = useState<KcalRapidasDraft | null>(null)
   const [guardandoRapida, setGuardandoRapida] = useState(false)
   const [errorRapida, setErrorRapida] = useState<string | null>(null)
+  const [nombreCortoEditando, setNombreCortoEditando] = useState(false)
   const [plantillaElegida, setPlantillaElegida] = useState<Meal | null>(null)
   const [cambiando, setCambiando] = useState<number | null>(null)
   const [escaneando, setEscaneando] = useState(false)
   const [verMedidas, setVerMedidas] = useState(false)
   const local = useInterpretarLocal()
+
+  const claveRevision = items
+    ? JSON.stringify(items.map((item) => [item.nombre, item.origen.nombreNorm, item.origen.catalogId, item.origen.guardado]))
+    : ''
+  const nombresGuardadosRevision = useLiveQuery(
+    () => (items ? nombresAlimentosRepo.paraRevision(items, entryEditar) : Promise.resolve(new Map<number, string>())),
+    [claveRevision, entryEditar?.id],
+  )
+
+  useEffect(() => {
+    if (!nombresGuardadosRevision) return
+    setItems((prev) => prev?.map((item, i) => {
+      if (item.nombreCortoModificado) return item
+      const nombreCorto = nombresGuardadosRevision.get(i)
+      return item.nombreCorto === nombreCorto ? item : { ...item, nombreCorto }
+    }) ?? null)
+  }, [claveRevision, nombresGuardadosRevision])
 
   async function interpretar() {
     if (local.cargando) return
@@ -126,7 +145,17 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
     try {
       if (entryEditar?.id) {
         const { nombre, gramos, kcal100, prot100, carb100, grasa100 } = items[0]
-        await entriesRepo.editar(entryEditar.id, { comida, nombre: nombre.trim(), gramos, kcal100, prot100, carb100, grasa100, aplicarAlAlimento })
+        await entriesRepo.editar(entryEditar.id, {
+          comida,
+          nombre: nombre.trim(),
+          gramos,
+          kcal100,
+          prot100,
+          carb100,
+          grasa100,
+          aplicarAlAlimento,
+          ...(items[0].nombreCortoModificado ? { nombreCorto: items[0].nombreCorto?.trim() || null } : {}),
+        })
       } else {
         await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: textoOriginal || undefined, nombrePlato })
       }
@@ -246,6 +275,9 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
                       key={i}
                       item={item}
                       onChange={(patch) => actualizarItem(i, patch)}
+                      nombreCorto={item.nombreCortoModificado ? item.nombreCorto : nombresGuardadosRevision?.get(i) ?? item.nombreCorto}
+                      onCambioNombreCorto={setNombreCortoEditando}
+                      nombreCortoBloqueado={nombreCortoEditando}
                       onQuitar={entryEditar ? undefined : () => quitarItem(i)}
                       onCambiar={entryEditar ? undefined : () => setCambiando(i)}
                       aviso={actualizaAlimentoGuardado(item) ? 'Actualizará el alimento guardado en «Alimentos».' : undefined}
@@ -319,7 +351,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
         <div className="safe-bottom border-t border-line bg-bg">
           <div className={`${columna} space-y-2 py-3`}>
             {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
-            <Button size="lg" block loading={guardando} onClick={guardar} disabled={anadiendo || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
+            <Button size="lg" block loading={guardando} onClick={guardar} disabled={anadiendo || nombreCortoEditando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
               {guardando ? (
                 'Guardando…'
               ) : (

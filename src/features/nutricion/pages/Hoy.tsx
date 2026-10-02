@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as entriesRepo from '../data/entriesRepo'
+import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
 import type { Comida, Entry } from '../../../shared/db/types'
 import { addDays, formatFriendly, todayISO } from '../../../shared/lib/dates'
 import { getSettings } from '../../../shared/db/settings'
@@ -34,6 +35,7 @@ const LABELS: Record<Comida, string> = {
 export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: Props) {
   const ayer = addDays(fecha, -1)
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
+  const nombresCortos = useLiveQuery(() => nombresAlimentosRepo.paraComida(entries ?? []), [entries]) ?? new Map()
   const entriesAyer = useLiveQuery(() => entriesRepo.delDia(ayer), [ayer])
   const settings = useLiveQuery(() => getSettings(), [])
   const { avisar, avisarError, toast } = useAviso()
@@ -135,6 +137,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
                 key={c}
                 titulo={LABELS[c]}
                 entries={porComida.get(c) ?? []}
+                nombresCortos={nombresCortos}
                 onAcciones={() => setAccionesComida(c)}
                 onEditar={onEditarEntry}
                 onBorrar={(e) => borrar(e.id)}

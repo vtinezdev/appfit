@@ -14,6 +14,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Escáner de códigos de barras (Open Food Facts; solo se envía el número del código).
 - Pantalla de revisión editable antes de guardar: muestra cómo se divide la descripción y permite añadir alimentos uno a uno o por tandas, conservando las correcciones y guardándolos juntos.
 - Los alimentos guardados juntos aparecen como un plato desplegable en Nutrición, con nombre opcional, totales y edición de cada ingrediente. Copiar o repetir conserva los platos separados.
+- Nutrición muestra nombres de alimentos más breves cuando se reconocen con seguridad, y permite guardar una etiqueta corta personal sin cambiar los nombres originales ni sus nutrientes.
 - Buscador con frecuentes, plantillas de comidas, copiar una comida o un día y «kcal rápidas» para una comida fuera.
 - Buscador e intérprete priorizan alimentos básicos habituales («pollo» → pechuga sin piel), conservando las variantes de preparación y marca cuando las especificas.
 - Resumen semanal y mensual navegable, con gráficas frente a tus objetivos.

@@ -30,12 +30,12 @@ const meal: Omit<Meal, 'id'> = {
   items: [{ foodId: 1, nombre: 'Plátano', gramos: 100, kcal: 89, prot: 1, carb: 23, grasa: 0.3 }],
 }
 
-describe('esquema v5', () => {
-  it('instalación nueva: crea todas las tablas y los índices del catálogo, con la versión 5', async () => {
+describe('esquema v6', () => {
+  it('instalación nueva: crea todas las tablas y los índices del catálogo, con la versión 6', async () => {
     const nombre = 'appfit-instalacion-test'
     const d = new AppFitDB(nombre)
     await d.open()
-    expect(d.verno).toBe(5)
+    expect(d.verno).toBe(6)
     expect(d.tables.map((t) => t.name).sort()).toEqual([...TABLAS_USUARIO, ...TABLAS_CATALOGO].sort())
     expect(d.table('catalogFoods').schema.primKey.auto).toBe(false)
     expect(d.table('catalogFoods').schema.idxByName.tok.multi).toBe(true)
@@ -54,7 +54,7 @@ describe('esquema v5', () => {
     expect(TABLAS_USUARIO.filter((t) => (TABLAS_CATALOGO as readonly string[]).includes(t))).toEqual([])
   })
 
-  it('v2 → v5: foods, entries, meals y Gym sobreviven intactos; el catálogo y las notas de medidas aparecen vacíos', async () => {
+  it('v2 → v6: foods, entries, meals y Gym sobreviven intactos; las tablas nuevas aparecen vacías', async () => {
     const nombre = 'appfit-migracion-v2-test'
     const datos = JSON.parse(backupV1)
 
@@ -70,7 +70,7 @@ describe('esquema v5', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(5)
+    expect(actual.verno).toBe(6)
     // Ningún registro cambia: contenido idéntico (incluido Gym y meals).
     for (const tabla of Object.keys(ESQUEMA_V2)) expect(await actual.table(tabla).toArray(), tabla).toEqual(antes[tabla])
     expect(antes.foods).toHaveLength(datos.foods.length)
@@ -142,7 +142,7 @@ describe('catálogo en Dexie', () => {
 })
 
 describe('migraciones de Dexie', () => {
-  it('v1 → v5: los datos existentes sobreviven y aparecen vacíos meals, el catálogo y las notas de medidas', async () => {
+  it('v1 → v6: los datos existentes sobreviven y aparecen vacías las tablas nuevas', async () => {
     const nombre = 'appfit-migracion-test'
     const datos = JSON.parse(backupV1)
 
@@ -154,7 +154,7 @@ describe('migraciones de Dexie', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(5)
+    expect(actual.verno).toBe(6)
     expect(await actual.catalogFoods.count()).toBe(0)
     for (const tabla of Object.keys(ESQUEMA_V1)) {
       expect(await actual.table(tabla).count(), tabla).toBe(datos[tabla].length)

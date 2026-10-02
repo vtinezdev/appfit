@@ -18,6 +18,8 @@ export interface ItemGuardado extends Por100 {
   gramos: number
   fuenteSiNuevo: FuenteAlimento
   catalogId?: string
+  /** `undefined`: no cambiar la preferencia; `null`: eliminarla; texto: guardar un nombre personal. */
+  nombreCorto?: string | null
 }
 
 /** De dónde salieron los valores de un ítem de la revisión, para saber después si el usuario los ha cambiado. */
@@ -49,6 +51,10 @@ export interface ItemRevision extends Por100 {
   datosIncompletos?: boolean
   /** Medida casera ambigua («2 cucharadas»): hasta elegir cuánto pesa una, el ítem no tiene gramos (ver `medidaPendiente`). */
   medida?: MedidaAmbigua
+  /** Nombre personal ya guardado o borrador. No sustituye `nombre`, que conserva el nombre completo. */
+  nombreCorto?: string
+  /** Solo se persisten los cambios confirmados expresamente en la revisión. */
+  nombreCortoModificado?: boolean
 }
 
 /** Lo que el intérprete local (o «Cambiar») añade a un ítem además del alimento y los gramos. */
@@ -108,6 +114,7 @@ export function aItemGuardado(item: ItemRevision): ItemGuardado {
     fuenteSiNuevo: mismosValores(item, item.origen.valores) ? item.origen.fuente : 'manual',
   }
   if (sigueSiendoDelCatalogo(item)) guardado.catalogId = item.origen.catalogId
+  if (item.nombreCortoModificado) guardado.nombreCorto = item.nombreCorto?.trim() || null
   return guardado
 }
 

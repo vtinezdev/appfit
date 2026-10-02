@@ -13,7 +13,7 @@ export function clavePlato(e: Entry): string {
 }
 
 /** Mantiene el orden de registro y los snapshots originales; no crea filas de totales que dupliquen macros. */
-export function agruparPlatos(entries: Entry[]): Plato[] {
+export function agruparPlatos(entries: Entry[], nombreAlimento: (entry: Entry) => string = (entry) => entry.nombre): Plato[] {
   const platos = new Map<string, Plato>()
   for (const e of entries) {
     const clave = e.platoId ? clavePlato(e) : `entrada:${e.id}`
@@ -23,7 +23,7 @@ export function agruparPlatos(entries: Entry[]): Plato[] {
   }
   return [...platos.values()].map((plato) => ({
     ...plato,
-    nombre: plato.entries.find((e) => e.nombrePlato?.trim())?.nombrePlato?.trim() || plato.entries.map((e) => e.nombre).join(' + '),
+    nombre: plato.entries.find((e) => e.nombrePlato?.trim())?.nombrePlato?.trim() || plato.entries.map(nombreAlimento).join(' + '),
   }))
 }
 

@@ -96,6 +96,7 @@ Reglas comunes:
 - **Una sección plana por comida** (`ComidaSection`, sin card): cabecera con el nombre en `text-title`, kcal y «⋯»; `FranjaMacros` (barra fina segmentada con el reparto de kcal P/C/G y, debajo, «P 24 g · C 51 g · G 12 g»); filas con `divide-line`; pie con `Button ghost sm` «Añadir a …» y «Repetir del día anterior (n)».
 - **Comida vacía**: una sola línea con «Añadir» (y «Repetir…» si ayer hubo). Las cuatro comidas se muestran siempre; no hay «Sin registros» repetido.
 - **Platos**: cada guardado de varios alimentos es una fila desplegable entre hairlines, sin card anidada. Muestra título (hasta dos líneas), número de alimentos, «Ver/Ocultar ingredientes», macros y kcal totales. Chevron rotatorio y `aria-expanded`/`aria-controls`; los ingredientes se muestran en una lista indentada con borde lateral, con edición y papelera propias. La papelera del encabezado borra el plato completo con «Deshacer». Los alimentos individuales conservan la fila plana.
+- **Nombre en Nutrición**: las filas usan el alias personal guardado por `FoodRef`, luego una sugerencia automática conservadora y, si no hay, el nombre original. El nombre completo permanece en búsqueda y edición.
 - La acción principal «Añadir comida» cierra la pantalla (ver «Acción principal»).
 
 ## Lenguaje de Inicio
@@ -119,6 +120,7 @@ Mismo lenguaje que Hoy, aplicado a un flujo de entrada de datos.
 - **CTA**: `Button size="lg" block` en una barra inferior **fuera del área con scroll**, con `Guardar · N kcal` (N = suma de `macrosPorGramos`, lo mismo que se guarda). Los Sheets usan `Button block` md.
 - **Avisos**: «Actualizará el alimento guardado» va en `warning`; los errores, en `ErrorState`.
 - **Campos**: nunca por debajo de 16 px (CSS global) ni de 44 px de alto; etiqueta visible encima (`text-caption`) y `aria-label` cuando la etiqueta visible es corta.
+- **Personalizar nombre en Nutrición**: línea breve con nombre propuesto y `Button ghost sm`; al abrir «Personalizar» se expone un `Input` con su propuesta prellenada, «Guardar nombre», «Usar sugerencia automática» cuando ya hay preferencia y «Cancelar». Guardar el alias del alimento sigue usando el botón principal del registro.
 
 ## Almacenamiento y traslado de registros
 

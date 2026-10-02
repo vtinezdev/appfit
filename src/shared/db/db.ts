@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import type { CatalogFood, CatalogSource, Entry, Exercise, Food, Meal, NotaMedida, Peso, Routine, SetEntry, Settings, Workout } from './types'
+import type { CatalogFood, CatalogSource, Entry, Exercise, Food, Meal, NombreAlimento, NotaMedida, Peso, Routine, SetEntry, Settings, Workout } from './types'
 
 /**
  * Esquema de IndexedDB. Reglas para cambiarlo sin perder los datos del móvil:
@@ -16,7 +16,9 @@ import type { CatalogFood, CatalogSource, Entry, Exercise, Food, Meal, NotaMedid
 export const TABLAS_CATALOGO = ['catalogFoods', 'catalogSources'] as const
 
 /** Tablas con datos del usuario: van en el backup y se vacían al importar o al borrarlo todo. */
-export const TABLAS_USUARIO = ['foods', 'entries', 'meals', 'settings', 'exercises', 'routines', 'workouts', 'sets', 'notasMedida', 'pesos'] as const
+export const TABLAS_USUARIO = [
+  'foods', 'entries', 'meals', 'settings', 'exercises', 'routines', 'workouts', 'sets', 'notasMedida', 'pesos', 'nombresAlimentos',
+] as const
 
 export class AppFitDB extends Dexie {
   foods!: EntityTable<Food, 'id'>
@@ -29,6 +31,7 @@ export class AppFitDB extends Dexie {
   meals!: EntityTable<Meal, 'id'>
   notasMedida!: EntityTable<NotaMedida, 'id'>
   pesos!: EntityTable<Peso, 'id'>
+  nombresAlimentos!: EntityTable<NombreAlimento, 'id'>
   catalogFoods!: EntityTable<CatalogFood, 'id'>
   catalogSources!: EntityTable<CatalogSource, 'id'>
 
@@ -69,6 +72,10 @@ export class AppFitDB extends Dexie {
     // `&fecha` es único: un pesaje por día (el repositorio sobrescribe el del mismo día).
     this.version(5).stores({
       pesos: '++id, &fecha',
+    })
+    // v6 (nombres de visualización en Nutrición): preferencias personales por FoodRef. Tabla nueva, sin upgrade().
+    this.version(6).stores({
+      nombresAlimentos: '&id',
     })
   }
 }
