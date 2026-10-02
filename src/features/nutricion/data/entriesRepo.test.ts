@@ -93,6 +93,60 @@ describe('entriesRepo: lecturas y añadido rápido', () => {
 })
 
 describe('entriesRepo.guardarComida', () => {
+  it('cada guardado múltiple crea un plato distinto, incluso con el mismo texto y hora', async () => {
+    const reloj = vi.spyOn(Date, 'now').mockReturnValue(100)
+    const input = { fecha: '2026-10-02', comida: 'cena' as const, items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }], textoOriginal: 'arroz y pollo', nombrePlato: '  Arroz con pollo  ' }
+    const ids = await entriesRepo.guardarComida(input)
+    const siguientes = await entriesRepo.guardarComida(input)
+    const platos = (await db.entries.bulkGet([...ids, ...siguientes])).map((e) => e!)
+    expect(platos[0].platoId).toEqual(expect.any(String))
+    expect(platos[0].platoId).toBe(platos[1].platoId)
+    expect(platos[2].platoId).toBe(platos[3].platoId)
+    expect(platos[0].platoId).not.toBe(platos[2].platoId)
+    expect(platos.every((e) => e.createdAt === 100)).toBe(true)
+    expect(platos.every((e) => e.nombrePlato === 'Arroz con pollo')).toBe(true)
+    reloj.mockRestore()
+  })
+
+  it('un alimento aislado no crea grupo; un plato sin nombre permite el título automático', async () => {
+    const individual = await entriesRepo.guardarComida({ fecha: '2026-10-02', comida: 'cena', items: [ARROZ], nombrePlato: 'Ignorado' })
+    expect(await db.entries.get(individual[0])).not.toHaveProperty('platoId')
+    expect(await db.entries.get(individual[0])).not.toHaveProperty('nombrePlato')
+    const plato = await entriesRepo.guardarComida({ fecha: '2026-10-02', comida: 'cena', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }], nombrePlato: '  ' })
+    expect((await db.entries.get(plato[0]))?.platoId).toBeDefined()
+    expect(await db.entries.get(plato[0])).not.toHaveProperty('nombrePlato')
+  })
+
+  it('editar gramos mantiene el plato; mover un ingrediente a otra comida lo separa', async () => {
+    const ids = await entriesRepo.guardarComida({ fecha: '2026-10-02', comida: 'cena', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }], nombrePlato: 'Mi plato' })
+    const original = await db.entries.get(ids[1])
+    const datos = { ...ARROZ, gramos: 300, aplicarAlAlimento: false }
+    await entriesRepo.editar(ids[0], { ...datos, comida: 'cena' })
+    expect(await db.entries.get(ids[0])).toMatchObject({ platoId: original!.platoId, nombrePlato: 'Mi plato', gramos: 300, kcal: 390 })
+    expect(await db.entries.get(ids[1])).toEqual(original)
+    await entriesRepo.editar(ids[0], { ...datos, comida: 'snack' })
+    expect((await db.entries.get(ids[0]))?.platoId).toBeUndefined()
+    expect((await db.entries.get(ids[0]))?.nombrePlato).toBeUndefined()
+    expect(await db.entries.get(ids[1])).toEqual(original)
+  })
+
+  it('copiar dos veces conserva platos separados; borrar y deshacer restaura exactamente sus ingredientes', async () => {
+    const origen = { fecha: '2026-10-01', comida: 'cena' as const }
+    const originales = await entriesRepo.guardarComida({ ...origen, items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }], nombrePlato: 'Mi plato' })
+    const destino = { fecha: '2026-10-02', comida: 'cena' as const }
+    const primera = await entriesRepo.copiar({ origen, destino })
+    const segunda = await entriesRepo.copiar({ origen, destino })
+    const copias = await entriesRepo.delDia(destino.fecha)
+    expect(copias[0].platoId).toBe(copias[1].platoId)
+    expect(copias[2].platoId).toBe(copias[3].platoId)
+    expect(copias[0].platoId).not.toBe(copias[2].platoId)
+    expect(copias[0].platoId).not.toBe((await db.entries.get(originales[0]))?.platoId)
+    const borradas = await entriesRepo.borrarVarias(primera)
+    expect((await entriesRepo.delDia(destino.fecha)).map((e) => e.id)).toEqual(segunda)
+    await entriesRepo.restaurar(borradas)
+    expect(await entriesRepo.delDia(destino.fecha)).toEqual(copias)
+  })
+
   it('crea las entradas y los alimentos nuevos con su procedencia', async () => {
     const ids = await entriesRepo.guardarComida({ fecha: '2026-09-28', comida: 'comida', textoOriginal: 'arroz', items: [ARROZ] })
     const e = await db.entries.get(ids[0])

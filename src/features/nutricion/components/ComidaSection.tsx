@@ -1,8 +1,10 @@
+import { useId, useState } from 'react'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import type { Entry } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
-import { sumMacros } from '../lib/nutrition'
+import { resumenMacros, sumMacros } from '../lib/nutrition'
+import { agruparPlatos, type Plato } from '../lib/platos'
 import FranjaMacros from './FranjaMacros'
 
 interface Props {
@@ -11,6 +13,7 @@ interface Props {
   onAcciones: () => void
   onEditar: (entry: Entry) => void
   onBorrar: (entry: Entry) => void
+  onBorrarPlato: (plato: Plato) => void
   /** «Añadir a desayuno»: abre Añadir comida con esta comida preseleccionada. */
   onAnadir: () => void
   /** Entradas de esa misma comida el día anterior: si hay, se ofrece repetirlas. */
@@ -38,12 +41,68 @@ function detalleEntry(e: Entry): string {
   return `${macros ? `${macros} · ` : ''}rápida`
 }
 
-/**
- * Una comida del día como sección plana (sin card): título, kcal y «⋯»; franja de macros; filas con hairlines
- * (cada fila es un botón para editar; borrar es un botón aparte, nombres largos hasta dos líneas) y pie con
- * «Añadir a …» / «Repetir del día anterior». Una comida vacía es una sola línea con «Añadir».
- */
-export default function ComidaSection({ titulo, entries, onAcciones, onEditar, onBorrar, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
+function FilaEntrada({ entry: e, onEditar, onBorrar }: { entry: Entry } & Pick<Props, 'onEditar' | 'onBorrar'>) {
+  return (
+    <li className="flex items-center gap-1">
+      <button
+        type="button"
+        onClick={() => onEditar(e)}
+        className="-mx-2 flex min-h-touch min-w-0 flex-1 items-center gap-3 rounded-md px-2 py-2 text-left transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted"
+      >
+        <span className="min-w-0 flex-1">
+          <span className="line-clamp-2 block text-body-sm font-medium text-fg">{e.nombre}</span>
+          <span className="tabular block text-caption text-fg-muted">{detalleEntry(e)}</span>
+        </span>
+        <span className="tabular shrink-0 text-body font-semibold text-fg">
+          {e.rapida ? '≈ ' : ''}
+          {formatInt(e.kcal)}
+        </span>
+      </button>
+      <IconButton icon="trash" label={`Borrar ${e.nombre}`} variant="ghost" size="sm" onClick={() => onBorrar(e)} />
+    </li>
+  )
+}
+
+function FilaPlato({ plato, onEditar, onBorrar, onBorrarPlato }: { plato: Plato } & Pick<Props, 'onEditar' | 'onBorrar' | 'onBorrarPlato'>) {
+  const [abierto, setAbierto] = useState(false)
+  const detalleId = useId()
+  const totales = sumMacros(plato.entries)
+  return (
+    <li>
+      <div className="flex items-center gap-1">
+        <button
+          type="button"
+          aria-expanded={abierto}
+          aria-controls={detalleId}
+          onClick={() => setAbierto(!abierto)}
+          className="-mx-2 flex min-h-touch min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-3 text-left transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted"
+        >
+          <Icon name="chevron-right" size={16} className={`text-fg-muted transition-transform duration-short ${abierto ? 'rotate-90' : ''}`} />
+          <span className="min-w-0 flex-1">
+            <span className="line-clamp-2 block text-body-sm font-medium text-fg">{plato.nombre}</span>
+            <span className="block text-caption text-fg-muted">
+              {formatInt(plato.entries.length)} {plato.entries.length === 1 ? 'alimento' : 'alimentos'} · {abierto ? 'Ocultar ingredientes' : 'Ver ingredientes'}
+            </span>
+            <span className="tabular block text-caption text-fg-muted">{resumenMacros(totales)}</span>
+          </span>
+          <span className="tabular shrink-0 text-body font-semibold text-fg">
+            {plato.entries.some((e) => e.rapida) ? '≈ ' : ''}
+            {formatInt(totales.kcal)}
+          </span>
+        </button>
+        <IconButton icon="trash" label={`Borrar plato ${plato.nombre}`} variant="ghost" size="sm" onClick={() => onBorrarPlato(plato)} />
+      </div>
+      <ul id={detalleId} hidden={!abierto} aria-label={`Ingredientes de ${plato.nombre}`} className="mb-2 ml-3 divide-y divide-line border-l border-line pl-3">
+        {plato.entries.map((e) => (
+          <FilaEntrada key={e.id} entry={e} onEditar={onEditar} onBorrar={onBorrar} />
+        ))}
+      </ul>
+    </li>
+  )
+}
+
+/** Sección plana por comida; los guardados múltiples son platos desplegables, sin duplicar sus macros. */
+export default function ComidaSection({ titulo, entries, onAcciones, onEditar, onBorrar, onBorrarPlato, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
   const totales = sumMacros(entries)
   const hayEntradas = entries.length > 0
   const repetir = disponiblesAyer > 0 && (
@@ -76,25 +135,13 @@ export default function ComidaSection({ titulo, entries, onAcciones, onEditar, o
             <FranjaMacros macros={totales} />
           </div>
           <ul className="mt-2 divide-y divide-line border-t border-line">
-            {entries.map((e) => (
-              <li key={e.id} className="flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={() => onEditar(e)}
-                  className="-mx-2 flex min-h-touch min-w-0 flex-1 items-center gap-3 rounded-md px-2 py-2 text-left transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted"
-                >
-                  <span className="min-w-0 flex-1">
-                    <span className="line-clamp-2 block text-body-sm font-medium text-fg">{e.nombre}</span>
-                    <span className="tabular block text-caption text-fg-muted">{detalleEntry(e)}</span>
-                  </span>
-                  <span className="tabular shrink-0 text-body font-semibold text-fg">
-                    {e.rapida ? '≈ ' : ''}
-                    {formatInt(e.kcal)}
-                  </span>
-                </button>
-                <IconButton icon="trash" label={`Borrar ${e.nombre}`} variant="ghost" size="sm" onClick={() => onBorrar(e)} />
-              </li>
-            ))}
+            {agruparPlatos(entries).map((plato) =>
+              plato.agrupado ? (
+                <FilaPlato key={plato.clave} plato={plato} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} />
+              ) : (
+                <FilaEntrada key={plato.clave} entry={plato.entries[0]} onEditar={onEditar} onBorrar={onBorrar} />
+              ),
+            )}
           </ul>
           <div className="border-t border-line">
             <div className="-ml-4 flex flex-wrap items-center gap-x-1">

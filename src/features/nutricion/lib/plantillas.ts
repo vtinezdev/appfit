@@ -1,6 +1,7 @@
 import type { Comida, Entry, Food, Meal, MealItem } from '../../../shared/db/types'
 import type { Por100 } from './alimentos'
 import { macrosPorGramos } from './nutrition'
+import { camposPlato, clavePlato, renovarPlatos } from './platos'
 
 export interface DestinoCopia {
   fecha: string
@@ -22,8 +23,8 @@ export function copiaEsNoOp(origen: DestinoCopia, destino: DestinoCopia): boolea
  * Prepara las entradas a insertar para copiar `entries` a `destino` (A2): mismo snapshot
  * (alimento, macros, «rápida»…), `createdAt` nuevo y sin id (lo asigna Dexie al insertar).
  */
-export function planCopia(entries: Entry[], destino: DestinoCopia, ahora: number): Omit<Entry, 'id'>[] {
-  return entries.map((e) => ({
+export function planCopia(entries: Entry[], destino: DestinoCopia, ahora: number, loteId: string): Omit<Entry, 'id'>[] {
+  return renovarPlatos(entries, loteId, clavePlato).map((e) => ({
     fecha: destino.fecha,
     comida: destino.comida ?? e.comida,
     foodId: e.foodId,
@@ -37,6 +38,7 @@ export function planCopia(entries: Entry[], destino: DestinoCopia, ahora: number
     textoOriginal: e.textoOriginal,
     createdAt: ahora,
     rapida: e.rapida,
+    ...camposPlato(e),
   }))
 }
 
@@ -52,6 +54,7 @@ export function itemsDesdeEntradas(entries: Entry[]): MealItem[] {
     carb: e.carb,
     grasa: e.grasa,
     rapida: e.rapida,
+    ...camposPlato(e),
   }))
 }
 
@@ -78,7 +81,7 @@ export function resolverItemsPlantilla(items: MealItem[], foodsById: Map<number,
   return items.map((item) => {
     const food = item.foodId !== undefined ? foodsById.get(item.foodId) : undefined
     if (!food) return { ...item }
-    return { foodId: food.id, nombre: food.nombre, gramos: item.gramos, ...macrosPorGramos(food, item.gramos) }
+    return { foodId: food.id, nombre: food.nombre, gramos: item.gramos, ...macrosPorGramos(food, item.gramos), ...camposPlato(item) }
   })
 }
 
@@ -91,8 +94,8 @@ export interface DestinoPlantilla {
  * Prepara las entradas a insertar al aplicar una plantilla (A1): resuelve cada ítem (ver
  * `resolverItemsPlantilla`) y les da la fecha/comida de destino, `createdAt` nuevo y sin id.
  */
-export function entradasDesdePlantilla(meal: Meal, foodsById: Map<number, Food>, destino: DestinoPlantilla, ahora: number): Omit<Entry, 'id'>[] {
-  return resolverItemsPlantilla(meal.items, foodsById).map((item) => ({
+export function entradasDesdePlantilla(meal: Meal, foodsById: Map<number, Food>, destino: DestinoPlantilla, ahora: number, loteId: string): Omit<Entry, 'id'>[] {
+  return renovarPlatos(resolverItemsPlantilla(meal.items, foodsById), loteId).map((item) => ({
     fecha: destino.fecha,
     comida: destino.comida,
     foodId: item.foodId,
@@ -105,5 +108,6 @@ export function entradasDesdePlantilla(meal: Meal, foodsById: Map<number, Food>,
     grasa: item.grasa,
     createdAt: ahora,
     rapida: item.rapida,
+    ...camposPlato(item),
   }))
 }

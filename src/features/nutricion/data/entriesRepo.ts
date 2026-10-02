@@ -22,14 +22,18 @@ export interface GuardarComidaInput {
   comida: Comida
   items: ItemGuardado[]
   textoOriginal?: string
+  nombrePlato?: string
 }
 
 /**
  * Guarda los alimentos revisados como entradas nuevas (creando o actualizando sus alimentos).
+ * Varios ingredientes del mismo guardado comparten un plato, con identidad independiente de otros guardados.
  * Un ítem con `catalogId` referencia el catálogo y no crea ni toca ningún alimento propio.
  * Todo o nada: si falla un alimento, no se guarda ninguno.
  */
-export function guardarComida({ fecha, comida, items, textoOriginal }: GuardarComidaInput): Promise<number[]> {
+export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato }: GuardarComidaInput): Promise<number[]> {
+  const agrupacion = items.length > 1 ? { platoId: crypto.randomUUID(), ...(nombrePlato?.trim() ? { nombrePlato: nombrePlato.trim() } : {}) } : {}
+  const createdAt = Date.now()
   return db.transaction('rw', db.foods, db.entries, async () => {
     const ids: number[] = []
     for (const item of items) {
@@ -43,7 +47,8 @@ export function guardarComida({ fecha, comida, items, textoOriginal }: GuardarCo
           gramos: item.gramos,
           ...macrosPorGramos(item, item.gramos),
           textoOriginal,
-          createdAt: Date.now(),
+          createdAt,
+          ...agrupacion,
         }),
       )
     }
@@ -70,7 +75,14 @@ export function editar(id: number, { comida, nombre, gramos, aplicarAlAlimento, 
     if (aplicarAlAlimento && entry.foodId !== undefined && (await db.foods.get(entry.foodId))) {
       await foodsRepo.actualizar(entry.foodId, { nombre, ...valores, fuente: 'manual' })
     }
-    await db.entries.update(id, { comida, nombre, gramos, ...macrosPorGramos(valores, gramos) })
+    await db.entries.update(id, {
+      comida,
+      nombre,
+      gramos,
+      ...macrosPorGramos(valores, gramos),
+      // Mover un ingrediente a otra comida lo separa del plato original.
+      ...(entry.platoId && entry.comida !== comida ? { platoId: undefined, nombrePlato: undefined } : {}),
+    })
   })
 }
 
@@ -163,11 +175,12 @@ export interface CopiarInput {
  * o «Copiar el día a…» (sin `comida`, conserva la de cada entrada). Todo o nada.
  */
 export function copiar({ origen, destino }: CopiarInput): Promise<number[]> {
+  const loteId = crypto.randomUUID()
   return db.transaction('rw', db.entries, async () => {
     const deLaFecha = await db.entries.where('fecha').equals(origen.fecha).toArray()
     const entradas = origen.comida ? deLaFecha.filter((e) => e.comida === origen.comida) : deLaFecha
     if (entradas.length === 0) return []
-    return db.entries.bulkAdd(planCopia(entradas, destino, Date.now()), { allKeys: true })
+    return db.entries.bulkAdd(planCopia(entradas, destino, Date.now(), loteId), { allKeys: true })
   })
 }
 

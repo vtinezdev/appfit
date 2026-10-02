@@ -52,7 +52,7 @@ describe('copiaEsNoOp (A2)', () => {
 
 describe('planCopia (A2)', () => {
   it('copia a otro día conservando la comida si no se especifica destino.comida', () => {
-    const [copia] = planCopia([entrada()], { fecha: '2026-09-29' }, 500)
+    const [copia] = planCopia([entrada()], { fecha: '2026-09-29' }, 500, 'lote')
     expect(copia).toEqual({
       fecha: '2026-09-29', comida: 'cena', foodId: 3, nombre: 'Pollo',
       gramos: 150, kcal: 250, prot: 40, carb: 0, grasa: 8, textoOriginal: undefined, createdAt: 500, rapida: undefined,
@@ -60,24 +60,24 @@ describe('planCopia (A2)', () => {
   })
 
   it('cambia la comida si se especifica destino.comida', () => {
-    const [copia] = planCopia([entrada()], { fecha: '2026-09-29', comida: 'snack' }, 500)
+    const [copia] = planCopia([entrada()], { fecha: '2026-09-29', comida: 'snack' }, 500, 'lote')
     expect(copia.comida).toBe('snack')
   })
 
   it('no copia el id ni conserva el createdAt original', () => {
-    const [copia] = planCopia([entrada({ id: 42, createdAt: 1 })], { fecha: '2026-09-29' }, 999)
+    const [copia] = planCopia([entrada({ id: 42, createdAt: 1 })], { fecha: '2026-09-29' }, 999, 'lote')
     expect(copia).not.toHaveProperty('id')
     expect(copia.createdAt).toBe(999)
   })
 
   it('mantiene el snapshot y la marca «rápida» de una entrada rápida', () => {
     const rapida = entrada({ foodId: undefined, gramos: 0, rapida: true, nombre: 'Pizza fuera' })
-    const [copia] = planCopia([rapida], { fecha: '2026-09-29' }, 500)
+    const [copia] = planCopia([rapida], { fecha: '2026-09-29' }, 500, 'lote')
     expect(copia).toMatchObject({ rapida: true, gramos: 0, foodId: undefined, nombre: 'Pizza fuera' })
   })
 
   it('copia varias entradas manteniendo el orden', () => {
-    const copias = planCopia([entrada({ id: 1, nombre: 'A' }), entrada({ id: 2, nombre: 'B' })], { fecha: '2026-09-29' }, 500)
+    const copias = planCopia([entrada({ id: 1, nombre: 'A' }), entrada({ id: 2, nombre: 'B' })], { fecha: '2026-09-29' }, 500, 'lote')
     expect(copias.map((c) => c.nombre)).toEqual(['A', 'B'])
   })
 })
@@ -144,7 +144,7 @@ describe('itemConGramos (edición de gramos en la plantilla)', () => {
     editado = itemConGramos(editado, por100, 150)
 
     const plantilla = meal({ items: [editado] })
-    const [entradaNueva] = entradasDesdePlantilla(plantilla, new Map(), { fecha: '2026-10-01', comida: 'cena' }, 999)
+    const [entradaNueva] = entradasDesdePlantilla(plantilla, new Map(), { fecha: '2026-10-01', comida: 'cena' }, 999, 'lote')
 
     expect(entradaNueva).toMatchObject({ gramos: 150, kcal: 250.1, prot: 40.1, carb: 0, grasa: 8 })
   })
@@ -208,7 +208,7 @@ describe('resolverItemsPlantilla (A1)', () => {
 
 describe('entradasDesdePlantilla (A1)', () => {
   it('usa la fecha y la comida de destino, con createdAt nuevo y sin id', () => {
-    const [entradaNueva] = entradasDesdePlantilla(meal(), new Map([[3, POLLO]]), { fecha: '2026-10-01', comida: 'desayuno' }, 999)
+    const [entradaNueva] = entradasDesdePlantilla(meal(), new Map([[3, POLLO]]), { fecha: '2026-10-01', comida: 'desayuno' }, 999, 'lote')
     expect(entradaNueva).not.toHaveProperty('id')
     expect(entradaNueva).toEqual({
       fecha: '2026-10-01', comida: 'desayuno', foodId: 3, nombre: 'Pollo',
@@ -217,20 +217,20 @@ describe('entradasDesdePlantilla (A1)', () => {
   })
 
   it('usa el snapshot si el alimento se borró', () => {
-    const [entradaNueva] = entradasDesdePlantilla(meal(), new Map(), { fecha: '2026-10-01', comida: 'cena' }, 999)
+    const [entradaNueva] = entradasDesdePlantilla(meal(), new Map(), { fecha: '2026-10-01', comida: 'cena' }, 999, 'lote')
     expect(entradaNueva).toMatchObject({ foodId: 3, nombre: 'Pollo', kcal: 250, prot: 40 })
   })
 
   it('no comparte referencias con los ítems de la plantilla original', () => {
     const m = meal()
-    const [entradaNueva] = entradasDesdePlantilla(m, new Map(), { fecha: '2026-10-01', comida: 'cena' }, 999)
+    const [entradaNueva] = entradasDesdePlantilla(m, new Map(), { fecha: '2026-10-01', comida: 'cena' }, 999, 'lote')
     entradaNueva.nombre = 'Cambiado'
     expect(m.items[0].nombre).toBe('Pollo')
   })
 
   it('varios ítems producen varias entradas', () => {
     const dos = meal({ items: [item({ nombre: 'A' }), item({ nombre: 'B', foodId: undefined })] })
-    const entradas = entradasDesdePlantilla(dos, new Map(), { fecha: '2026-10-01', comida: 'cena' }, 999)
+    const entradas = entradasDesdePlantilla(dos, new Map(), { fecha: '2026-10-01', comida: 'cena' }, 999, 'lote')
     expect(entradas.map((e) => e.nombre)).toEqual(['A', 'B'])
   })
 })

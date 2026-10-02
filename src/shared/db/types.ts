@@ -79,7 +79,13 @@ export interface CatalogSource {
   filas: number
 }
 
-export interface Entry {
+/** Identidad de los ingredientes guardados juntos. Opcional para conservar los registros antiguos. */
+export interface AgrupacionPlato {
+  platoId?: string
+  nombrePlato?: string
+}
+
+export interface Entry extends AgrupacionPlato {
   id: number
   fecha: string // YYYY-MM-DD
   comida: Comida
@@ -100,7 +106,7 @@ export interface Entry {
 }
 
 /** Alimento de una plantilla. Guarda un snapshot de respaldo por si el alimento se borra (o si es una entrada rápida). */
-export interface MealItem {
+export interface MealItem extends AgrupacionPlato {
   foodId?: number
   /** Como en `Entry`: referencia blanda a `catalogFoods.id`. */
   catalogId?: string
