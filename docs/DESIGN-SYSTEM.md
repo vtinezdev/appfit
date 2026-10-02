@@ -111,7 +111,8 @@ Reglas comunes:
 Mismo lenguaje que Hoy, aplicado a un flujo de entrada de datos.
 
 - **Secciones planas**: cada bloque = `SectionHeader` + contenido; entre bloques `space-y-section`. Las listas de selección (plantillas, frecuentes, resultados) son `ul.divide-y divide-line` con `ListRow tone="flat"`, sin una card por fila.
-- **Una Card solo donde hay campos editables**: la revisión agrupa todos los alimentos en **una** Card con `divide-y` (filas `p-card`, no cards anidadas). Los campos usan `tone="muted"` sobre esa superficie.
+- **Separación al escribir**: debajo de la descripción, una lista numerada muestra cada fragmento detectado en su propia `Card tone="muted"`, con borde y espacio entre alimentos. El número usa `Badge tone="accent"`; cantidad y nombre se conservan tal como se escribieron. Son bloques informativos, sin aspecto de botón, y los nombres largos saltan de línea.
+- **Campos editables**: la revisión agrupa todos los alimentos en **una** Card con `divide-y` (filas `p-card`, no cards anidadas). Los campos usan `tone="muted"` sobre esa superficie.
 - **Cifra con presencia, sin decoración**: cada alimento muestra su kcal en `text-title` (`AnimatedNumber`) con P/C/G en `text-caption` (`resumenMacros`). En Sheets de una sola decisión (gramos) la kcal sube a `text-display`. **No hay carriles**: aquí no hay objetivo que comunicar.
 - **CTA**: `Button size="lg" block` en una barra inferior **fuera del área con scroll**, con `Guardar · N kcal` (N = suma de `macrosPorGramos`, lo mismo que se guarda). Los Sheets usan `Button block` md.
 - **Avisos**: «Actualizará el alimento guardado» va en `warning`; los errores, en `ErrorState`.

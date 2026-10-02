@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import * as catalogRepo from '../data/catalogRepo'
+import { tokensConsulta } from '../../../shared/lib/text'
 import * as foodsRepo from '../data/foodsRepo'
 import { itemDesdeElegible, itemSinCoincidencia, type ItemRevision } from '../lib/alimentos'
-import { rankCatalogo } from '../lib/catalogo/ranking'
+import { preferidoDe } from '../lib/catalogo/preferidos'
 import { buscarCatalogo } from './buscarCatalogo'
 import { emparejar } from '../lib/interprete/emparejar'
 import { medidaAmbigua } from '../lib/interprete/medidas'
@@ -14,22 +14,19 @@ const PROPIOS = 10
 async function interpretarParte(parte: ParteComida): Promise<ItemRevision> {
   const racion = racionDe(parte.consulta)
   // Como en el buscador: candidatos de sobra, ordenados, y si no hay ninguno se corrigen las erratas y se reintenta.
-  const [propios, resultado, preferido] = await Promise.all([
+  const [propios, resultado] = await Promise.all([
     foodsRepo.buscar(parte.consulta, PROPIOS),
-    buscarCatalogo(parte.consulta),
-    racion?.preferido ? catalogRepo.obtener(racion.preferido) : undefined,
+    // Conserva «con piel», que la consulta por tokens perdería, para ordenar según lo pedido.
+    buscarCatalogo(parte.nombre),
   ])
-  const consulta = resultado.consulta
+  const consulta = tokensConsulta(resultado.consulta).join(' ')
   // Tus alimentos también se buscan con la consulta corregida si la original no encontró ninguno.
   const suyos = propios.length === 0 && consulta !== parte.consulta ? await foodsRepo.buscar(consulta, PROPIOS) : propios
-  // El preferido puede no estar entre los candidatos («macarrones» → pasta) o quedar fuera del tope.
-  const candidatos = resultado.foods
-  const conPreferido = preferido && !candidatos.some((f) => f.id === preferido.id) ? [preferido, ...candidatos] : candidatos
   const { mejor, alternativas } = emparejar({
     consulta,
     propios: suyos,
-    catalogo: rankCatalogo(conPreferido, consulta),
-    preferido: preferido?.id,
+    catalogo: resultado.foods,
+    preferido: preferidoDe(consulta),
   })
   // Una medida ambigua («una cucharada») no lleva gramos hasta que se elija cuánto pesa en la revisión.
   const medida = medidaAmbigua(parte, racion)

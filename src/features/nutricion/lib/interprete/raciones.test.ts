@@ -11,10 +11,10 @@ describe('racionDe', () => {
   it('encuentra la ración por la consulta, en singular o con la raíz aproximada', () => {
     expect(racionDe('huevo')?.gramos).toBe(60)
     expect(racionDe('tomat')?.gramos).toBe(120) // «tomates» → «tomat»
-    expect(racionDe('pechuga pollo')?.preferido).toBe('ciqual:36017')
+    expect(racionDe('pechuga pollo')?.gramos).toBe(150)
   })
 
-  it('con varias palabras, si no está entera, vale el peso de la primera pero no su preferido', () => {
+  it('con varias palabras, si no está entera, vale el peso de la primera', () => {
     expect(racionDe('huevo duro')).toEqual({ gramos: 60, medidas: undefined })
     expect(racionDe('yogur griego')).toEqual({ gramos: 125 })
   })

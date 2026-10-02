@@ -33,7 +33,7 @@ export interface EmparejarInput {
   propios: Food[]
   /** Candidatos del catálogo ya ordenados (`rankCatalogo`). */
   catalogo: CatalogFood[]
-  /** Id del catálogo que se prefiere para esta consulta (`Racion.preferido`), si está entre los candidatos. */
+  /** Id del básico compartido (`preferidoDe`), si está entre los candidatos. */
   preferido?: string
 }
 
@@ -45,7 +45,7 @@ export interface Emparejamiento {
 /**
  * El mejor alimento para la consulta y hasta `MAX_ALTERNATIVAS` más:
  * 1. Uno tuyo con coincidencia fuerte (lo registras tú: gana).
- * 2. Si no, el del catálogo: el preferido de la tabla de raciones o el primero del ranking, dejando detrás las
+ * 2. Si no, el del catálogo: el preferido compartido o el primero del ranking, dejando detrás las
  *    formas procesadas que la consulta no nombra.
  * 3. Si el catálogo no tiene nada, uno tuyo aunque la coincidencia sea débil.
  * Alternativas: dos tuyos como mucho primero, luego el catálogo y después el resto de los tuyos.

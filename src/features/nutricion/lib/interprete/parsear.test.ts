@@ -112,6 +112,43 @@ describe('parsear: separadores', () => {
     expect(parsear('1 kilo y medio de patatas y 2 huevos').map((p) => [p.cantidad, p.consulta])).toEqual([[1.5, 'patata'], [2, 'huevo']])
   })
 
+  it.each([
+    ['2 huevos y medio aguacate', [[2, undefined, 'huevo'], [0.5, undefined, 'aguacate']]],
+    ['150 g de pollo y media manzana', [[150, 'g', 'pollo'], [0.5, undefined, 'manzana']]],
+    ['1 y medio plátanos y medio yogur', [[1.5, undefined, 'platano'], [0.5, undefined, 'yogur']]],
+    ['1 vaso y medio de leche y media manzana', [[1.5, 'vaso', 'leche'], [0.5, undefined, 'manzana']]],
+  ])('distingue otra media ración de una cantidad fraccionaria: %s', (texto, esperado) => {
+    expect(parsear(texto).map((p) => [p.cantidad, p.unidad, p.consulta])).toEqual(esperado)
+  })
+
+  it.each([
+    ['200 g de arroz con 150 g de pollo', [[200, 'g', 'arroz'], [150, 'g', 'pollo']]],
+    ['2 huevos con medio aguacate y un yogur', [[2, undefined, 'huevo'], [0.5, undefined, 'aguacate'], [1, undefined, 'yogur']]],
+    ['un café con leche con 2 tostadas', [[1, undefined, 'cafe leche'], [2, undefined, 'tostada']]],
+    ['150 g de arroz con pollo con 2 huevos', [[150, 'g', 'arroz pollo'], [2, undefined, 'huevo']]],
+  ])('separa por «con» si hay otra cantidad explícita: %s', (texto, esperado) => {
+    expect(parsear(texto).map((p) => [p.cantidad, p.unidad, p.consulta])).toEqual(esperado)
+  })
+
+  it('tolera el contexto del dictado sin incluirlo en la búsqueda', () => {
+    expect(parsear('Para cenar he comido 200 g de arroz, además 2 huevos y de postre una manzana.').map((p) => [p.cantidad, p.consulta])).toEqual([
+      [200, 'arroz'], [2, 'huevo'], [1, 'manzana'],
+    ])
+    expect(parsear('Hoy he cenado 150 g de pollo y también un yogur').map((p) => [p.cantidad, p.consulta])).toEqual([
+      [150, 'pollo'], [1, 'yogur'],
+    ])
+  })
+
+  it('admite una lista con un alimento por línea y viñetas', () => {
+    expect(parsear('- 200 g de arroz\n• 150 g de pollo\n- medio aguacate').map((p) => [p.cantidad, p.consulta])).toEqual([
+      [200, 'arroz'], [150, 'pollo'], [0.5, 'aguacate'],
+    ])
+  })
+
+  it('descarta conjunciones e introducciones sueltas, sin inventar alimentos', () => {
+    expect(parsear('He cenado: , y, de postre, con')).toEqual([])
+  })
+
   it('descarta trozos vacíos o sin alimento', () => {
     expect(parsear(' , 200 g, , arroz,')).toEqual([expect.objectContaining({ consulta: 'arroz' })])
     expect(parsear('')).toEqual([])
