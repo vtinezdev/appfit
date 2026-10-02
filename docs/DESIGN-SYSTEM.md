@@ -118,6 +118,13 @@ Mismo lenguaje que Hoy, aplicado a un flujo de entrada de datos.
 - **Avisos**: «Actualizará el alimento guardado» va en `warning`; los errores, en `ErrorState`.
 - **Campos**: nunca por debajo de 16 px (CSS global) ni de 44 px de alto; etiqueta visible encima (`text-caption`) y `aria-label` cuando la etiqueta visible es corta.
 
+## Almacenamiento y traslado de registros
+
+- **Primer acceso en iPhone**: una `Card tone="muted"` al inicio muestra un aviso breve («Añade AppFit a tu pantalla de inicio» en Safari; «¿Primera vez abriendo AppFit?» en la PWA sin datos) y «Ver instrucciones». Abre Ajustes, desplaza la vista y enfoca la guía «Primera vez en AppFit». En la PWA se oculta en cuanto haya datos. No bloquea el registro.
+- **Guía en Ajustes**: después de la cabecera, una Card contiene pasos numerados para añadir el acceso y recuperar las comidas de Safari, con el aviso de exportar antes. «Ir a Exportar / Importar» desplaza la vista y el foco a los controles de backup. La guía está disponible también al abrir Ajustes desde la barra inferior.
+- **Ajustes**: «Tus registros» indica navegador/pantalla de inicio y el estado real de protección del almacenamiento. «Proteger almacenamiento» permite reintentar cuando falta permiso o hubo un error, sin prometer una concesión.
+- **Importación**: elegir archivo abre un grupo «Confirmar importación» con el número de comidas, «Cancelar» e «Importar copia». Con datos existentes se explica la sustitución y se usa `danger`; en un acceso nuevo la recuperación es `primary`. Se puede exportar la copia actual antes de confirmar. Los errores se muestran con `ErrorState`.
+
 ## Formato de números (`shared/lib/format.ts`)
 
 Una regla: **cualquier cifra que el usuario lee como métrica se formatea con `formatInt(n)` (entero) o `formatNumber(n, maxDecimales)`**, siempre con separador de millares (`1.842`, `12.500,5`; es-ES no lo pone en 4 cifras por defecto, por eso no se usa `toLocaleString` a pelo). Nunca `{Math.round(x)}` ni `${x}` en el JSX.

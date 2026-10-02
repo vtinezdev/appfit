@@ -34,10 +34,10 @@ Excepciones conocidas:
 ```
 src/main.tsx             arranque (ver abajo)
 src/index.css            CSS global: inputs a 16 px, utilidades (.no-spin, .tabular…)
-src/app/                 App (pestañas), BottomNav, Ajustes (objetivos, backup, catálogo, borrar todo)
-src/shared/db/           db.ts (esquema y listas de tablas), types.ts, settings.ts, foodRef.ts
+src/app/                 App (pestañas), BottomNav, TrasladarDatos, Ajustes (objetivos, almacenamiento, backup, catálogo, borrar todo)
+src/shared/db/           db.ts (esquema y listas de tablas), types.ts, settings.ts, estadoDatos.ts, foodRef.ts
 src/shared/lib/          dates (fechas locales, periodos), format (formatInt/formatNumber), text (normalizeName, tokenizar,
-                         tokensConsulta, singular, mismaRaiz), backup (exportar/importar/migrar/borrar)
+                         tokensConsulta, singular, mismaRaiz), almacenamiento (protección y modo PWA), backup (exportar/importar/migrar/borrar)
 src/shared/design/       tokens.css (única fuente de valores), theme, macros, chart, motion, carril, guard
 src/shared/components/   primitives (lista en DESIGN-SYSTEM.md § Primitives)
 src/features/inicio/     → features/inicio.md
@@ -53,6 +53,7 @@ scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/REA
 Router casero con `useState`, sin URLs ni historial ([ADR 002](decisiones/002-router-casero.md)).
 
 - `app/App.tsx`: pestaña activa (`Tab` en `BottomNav.tsx`): `inicio` (por defecto) · `nutricion` · `gym` · `ajustes`.
+- El aviso de primer inicio en iOS abre Ajustes con `abrirGuia`: después de cargar, desplaza la vista y enfoca «Primera vez en AppFit». La navegación habitual de la barra no activa ese salto. La guía tiene un segundo salto a Exportar/Importar, sin cambiar la URL.
 - `NutricionTab`: vistas `hoy` · `resumen` · `alimentos` (SegmentedControl). «Añadir comida» (y la edición de una entrada) es un overlay a pantalla completa; «Medidas» se abre encima de él.
 - `GymTab`: vistas `inicio` · `rutinas` · `historial` · `progreso`. Si hay un entreno sin `fin`, la pestaña entera pasa a ser `EntrenoActivo`.
 - Los Sheets (`shared/components/Sheet`) son estado local de cada pantalla.
@@ -60,13 +61,14 @@ Router casero con `useState`, sin URLs ni historial ([ADR 002](decisiones/002-ro
 ## Arranque (`src/main.tsx`)
 
 1. `initTheme()` (tema claro/oscuro/sistema; ver DESIGN-SYSTEM.md § Arquitectura).
-2. `navigator.storage.persist()` (pide que el navegador no borre los datos).
+2. `solicitarPersistencia()` (`shared/lib/almacenamiento.ts`): conserva un permiso existente o pide protección frente al borrado automático; fallos y rechazo no impiden abrir la app. Ajustes consulta el estado real y permite reintentar. No es una garantía ni una copia de seguridad.
 3. `ensureSettings()`: la **única** escritura de ajustes al arrancar (las lecturas nunca escriben; ver `datos.md`).
 4. Unos 2 s después, con el navegador ocioso y solo si hay conexión: `sincronizarCatalogo()` en segundo plano. Los errores se ignoran y se reintenta en el siguiente arranque (Ajustes permite lanzarlo a mano).
 
 ## PWA, caché y tamaño del bundle
 
 - `vite.config.ts`: `VitePWA` con `registerType: 'autoUpdate'` (un deploy nuevo se aplica solo).
+- Manifest con `id: '/'`, `start_url: '/'` y `scope: '/'` estables entre builds. Los archivos precacheados se actualizan; la base IndexedDB `appfit` conserva los registros en el mismo origen. La PWA y Safari pueden tener almacenes separados en iOS (traslado: `datos.md`).
 - El precache (`globPatterns`) incluye js/css/html/svg/png/ico/woff2. **No** incluye:
   - los `.json` del catálogo: el manifest se pide con `cache: 'no-cache'`;
   - el `.wasm` del escáner: regla `CacheFirst` en tiempo de ejecución, así que funciona sin red desde su primer uso.

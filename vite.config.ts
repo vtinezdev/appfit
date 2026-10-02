@@ -9,6 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['apple-touch-icon.png', 'favicon.svg'],
       manifest: {
+        // Identidad estable entre builds; el almacenamiento sigue ligado al mismo origen.
+        id: '/',
         name: 'AppFit',
         short_name: 'AppFit',
         description: 'Nutrición y gimnasio, uso personal',
