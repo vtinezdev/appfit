@@ -1,5 +1,5 @@
-// Intérprete local, paso 2: cuántos gramos son «2 huevos» o «una lata de atún», y qué alimento del catálogo se
-// entiende por defecto con una palabra suelta («huevo» → huevo entero, no en polvo). Tabla curada a mano.
+// Intérprete local, paso 2: cuántos gramos son «2 huevos» o «una lata de atún». Tabla de pesos curada a mano.
+// Los alimentos preferidos se comparten con el buscador en ../catalogo/preferidos.ts.
 import { mismaRaiz, tokensConsulta } from '../../../../shared/lib/text'
 import type { ParteComida } from './parsear'
 import { GRAMOS_POR_UNIDAD, UNIDADES_EXACTAS, type Unidad } from './unidades'
@@ -9,62 +9,51 @@ export interface Racion {
   gramos?: number
   /** Medidas caseras que cambian con el alimento («una lata de atún» no pesa lo que una de cerveza). */
   medidas?: Partial<Record<Unidad, number>>
-  /**
-   * Alimento del catálogo que se elige cuando la consulta es exactamente este nombre. Solo para palabras
-   * cuya primera opción del ranking no es la habitual («huevo» → en polvo, «pasta» → de almendra).
-   */
-  preferido?: string
 }
 
-/** Pesos por unidad típicos (parte comestible) y alimentos preferidos de CIQUAL. La clave se escribe normal. */
+/** Pesos por unidad típicos (parte comestible) y medidas caseras. La clave se escribe normal. */
 const TABLA: Record<string, Racion> = {
-  huevo: { gramos: 60, preferido: 'ciqual:22000' },
-  'clara de huevo': { gramos: 35, preferido: 'ciqual:22001' },
-  platano: { gramos: 120, preferido: 'ciqual:13005' },
-  manzana: { gramos: 180, preferido: 'ciqual:13039' },
-  pera: { gramos: 170, preferido: 'ciqual:13037' },
+  huevo: { gramos: 60 },
+  'clara de huevo': { gramos: 35 },
+  platano: { gramos: 120 },
+  manzana: { gramos: 180 },
+  pera: { gramos: 170 },
   naranja: { gramos: 200 },
-  mandarina: { gramos: 70, preferido: 'ciqual:13024' },
+  mandarina: { gramos: 70 },
   kiwi: { gramos: 75 },
-  melocoton: { gramos: 150, preferido: 'ciqual:13043' },
-  fresa: { gramos: 12, preferido: 'ciqual:13014' },
+  melocoton: { gramos: 150 },
+  fresa: { gramos: 12 },
   uva: { gramos: 5 },
-  nuez: { gramos: 5, preferido: 'ciqual:15005' },
+  nuez: { gramos: 5 },
   almendra: { gramos: 1.2 },
   aguacate: { gramos: 150 },
-  tomate: { gramos: 120, preferido: 'ciqual:20276' },
+  tomate: { gramos: 120 },
   patata: { gramos: 170 },
-  cebolla: { gramos: 110, preferido: 'ciqual:20034' },
-  zanahoria: { gramos: 70, preferido: 'ciqual:20009' },
-  pimiento: { gramos: 150, preferido: 'ciqual:20041' },
-  pepino: { gramos: 250, preferido: 'ciqual:20019' },
-  limon: { gramos: 100, preferido: 'ciqual:13009' },
-  yogur: { gramos: 125, preferido: 'ciqual:19593' },
+  cebolla: { gramos: 110 },
+  zanahoria: { gramos: 70 },
+  pimiento: { gramos: 150 },
+  pepino: { gramos: 250 },
+  limon: { gramos: 100 },
+  yogur: { gramos: 125 },
   'yogur griego': { gramos: 125 },
-  pan: { preferido: 'ciqual:7001' },
-  tostada: { gramos: 30, preferido: 'ciqual:7004' },
+  tostada: { gramos: 30 },
   galleta: { gramos: 8 },
-  croissant: { gramos: 60, preferido: 'ciqual:7603' },
-  magdalena: { gramos: 30, preferido: 'ciqual:24632' },
-  'tortita de arroz': { gramos: 8, preferido: 'ciqual:7352' },
-  'tortilla de patata': { gramos: 150, preferido: 'ciqual:22510' },
-  leche: { gramos: 200, preferido: 'ciqual:19033' },
-  cafe: { gramos: 100, preferido: 'ciqual:18004' },
-  'cafe con leche': { gramos: 200, preferido: 'ciqual:18151' },
-  cerveza: { gramos: 330, medidas: { lata: 330 }, preferido: 'ciqual:5001' },
+  croissant: { gramos: 60 },
+  magdalena: { gramos: 30 },
+  'tortita de arroz': { gramos: 8 },
+  'tortilla de patata': { gramos: 150 },
+  leche: { gramos: 200 },
+  cafe: { gramos: 100 },
+  'cafe con leche': { gramos: 200 },
+  cerveza: { gramos: 330, medidas: { lata: 330 } },
   'coca cola': { gramos: 330, medidas: { lata: 330 } },
-  aceite: { preferido: 'ciqual:17270' },
-  atún: { gramos: 60, medidas: { lata: 60 }, preferido: 'ciqual:26039' },
+  atún: { gramos: 60, medidas: { lata: 60 } },
   jamón: { medidas: { loncha: 15 } },
-  'jamón york': { medidas: { loncha: 15 }, preferido: 'ciqual:28900' },
+  'jamón york': { medidas: { loncha: 15 } },
   queso: { medidas: { loncha: 20 } },
-  'pechuga de pollo': { gramos: 150, preferido: 'ciqual:36017' },
+  'pechuga de pollo': { gramos: 150 },
   pechuga: { gramos: 150 },
   salchicha: { gramos: 50 },
-  arroz: { preferido: 'ciqual:9100' },
-  pasta: { preferido: 'ciqual:9810' },
-  macarrones: { preferido: 'ciqual:9810' },
-  espaguetis: { preferido: 'ciqual:9810' },
 }
 
 const ENTRADAS = Object.entries(TABLA).map(([nombre, racion]) => ({ tokens: tokensConsulta(nombre), racion }))
@@ -80,15 +69,9 @@ export function medidasPorAlimento(): { alimento: string; unidad: Unidad; gramos
   )
 }
 
-/** Los alimentos preferidos de la tabla (para comprobar en los tests que siguen existiendo en el catálogo). */
-export function idsPreferidos(): string[] {
-  return ENTRADAS.flatMap((e) => (e.racion.preferido ? [e.racion.preferido] : []))
-}
-
 /**
  * La ración de una consulta (en la forma de `ParteComida.consulta`). Si la consulta entera no está en la tabla,
- * vale la de su primera palabra para el peso («huevo duro» pesa como un huevo), pero sin `preferido`: «huevo
- * duro» ya se busca tal cual.
+ * vale la de su primera palabra para el peso («huevo duro» pesa como un huevo). No elige alimentos del catálogo.
  */
 export function racionDe(consulta: string): Racion | undefined {
   const tokens = consulta.split(' ').filter(Boolean)

@@ -67,6 +67,8 @@ function itemDesdeEntrada(e: Entry): ItemRevision {
 export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClose, onGuardado }: Props) {
   const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? comidaInicial ?? comidaPorHora())
   const [texto, setTexto] = useState('')
+  const [textoOriginal, setTextoOriginal] = useState('')
+  const [anadiendo, setAnadiendo] = useState(false)
   const [guardando, setGuardando] = useState(false)
   const [errorGuardar, setErrorGuardar] = useState<string | null>(null)
   const [items, setItems] = useState<ItemRevision[] | null>(entryEditar ? [itemDesdeEntrada(entryEditar)] : null)
@@ -86,8 +88,16 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
   const local = useInterpretarLocal()
 
   async function interpretar() {
-    const resultado = await local.interpretar(texto)
-    if (resultado) setItems(resultado)
+    if (local.cargando) return
+    const descripcion = texto.trim()
+    const resultado = await local.interpretar(descripcion)
+    if (resultado) {
+      setItems((prev) => anadiendo && prev ? [...prev, ...resultado] : resultado)
+      setTextoOriginal((prev) => anadiendo ? [prev, descripcion].filter(Boolean).join('\n') : descripcion)
+      setTexto('')
+      setAnadiendo(false)
+      setErrorGuardar(null)
+    }
   }
 
   /** «Cambiar»: sustituye el alimento del ítem conservando los gramos (o la medida por elegir) y las demás opciones. */
@@ -116,7 +126,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
         const { nombre, gramos, kcal100, prot100, carb100, grasa100 } = items[0]
         await entriesRepo.editar(entryEditar.id, { comida, nombre: nombre.trim(), gramos, kcal100, prot100, carb100, grasa100, aplicarAlAlimento })
       } else {
-        await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: texto || undefined })
+        await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: textoOriginal || undefined })
       }
       onGuardado()
     } catch (e) {
@@ -241,15 +251,54 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
                 </label>
               )}
               {!entryEditar && (
-                <div className="flex items-center justify-between gap-2">
-                  <Button variant="ghost" size="sm" className="-ml-3" onClick={() => setItems(null)}>
-                    <Icon name="arrow-left" size={16} />
-                    Volver a interpretar
-                  </Button>
-                  <Button variant="ghost" size="sm" className="-mr-3" onClick={() => setVerMedidas(true)}>
-                    <Icon name="info" size={16} />
-                    Medidas
-                  </Button>
+                <div className="space-y-3">
+                  {anadiendo ? (
+                    <>
+                      <DescribirComida
+                        texto={texto}
+                        onTextoChange={setTexto}
+                        onInterpretar={interpretar}
+                        cargando={local.cargando}
+                        error={local.error}
+                        onVerMedidas={() => setVerMedidas(true)}
+                        accion="Añadir a la revisión"
+                      />
+                      <Button variant="ghost" block disabled={local.cargando} onClick={() => setAnadiendo(false)}>
+                        Cancelar añadido
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      variant="secondary"
+                      block
+                      onClick={() => {
+                        setTexto('')
+                        setAnadiendo(true)
+                      }}
+                    >
+                      <Icon name="plus" size={18} />
+                      Añadir otro alimento
+                    </Button>
+                  )}
+                  <div className="flex items-center justify-between gap-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="-ml-3"
+                      disabled={anadiendo}
+                      onClick={() => {
+                        setTexto(textoOriginal)
+                        setItems(null)
+                      }}
+                    >
+                      <Icon name="arrow-left" size={16} />
+                      Volver a interpretar
+                    </Button>
+                    <Button variant="ghost" size="sm" className="-mr-3" onClick={() => setVerMedidas(true)}>
+                      <Icon name="info" size={16} />
+                      Medidas
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
@@ -261,7 +310,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
         <div className="safe-bottom border-t border-line bg-bg">
           <div className={`${columna} space-y-2 py-3`}>
             {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
-            <Button size="lg" block loading={guardando} onClick={guardar} disabled={items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
+            <Button size="lg" block loading={guardando} onClick={guardar} disabled={anadiendo || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
               {guardando ? (
                 'Guardando…'
               ) : (

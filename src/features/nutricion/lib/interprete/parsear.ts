@@ -16,9 +16,30 @@ export interface ParteComida {
 
 /**
  * Separadores entre alimentos: `,` (salvo la coma decimal: «1,5 kg»), `;`, `+`, salto de línea, punto seguido
- * y las conjunciones «y»/«e» (salvo «y medio»). NO separa por «con»: «arroz con pollo» es un plato.
+ * y las conjunciones «y»/«e». «Con» solo separa si introduce otra cantidad; «arroz con pollo» sigue siendo un plato.
+ * «Y medio» forma parte de la cantidad únicamente mientras todavía no hay nombre de alimento a su izquierda.
  */
-const SEPARADORES = /(?<!\d),|,(?!\d)|;|\+|\n|\.(?=\s|$)|\s+y\s+(?!medi[oa]\b)|\s+e\s+(?=h?[iy])/i
+const SEPARADORES = /(?<!\d),|,(?!\d)|;|\+|\n|\.(?=\s|$)|\s+(?:y|e|con)\s+/gi
+
+/** Contexto habitual del dictado; solo se quita al principio, nunca dentro del nombre de un alimento. */
+const INTRODUCCION = /^(?:(?:hoy\s+)?he\s+(?:comido|cenado|desayunado|almorzado|merendado|tomado)|para\s+(?:cenar|comer|desayunar|almorzar|merendar)|(?:en|para)\s+(?:la\s+(?:cena|comida|merienda)|el\s+(?:desayuno|almuerzo))|de\s+postre|adem[aá]s|tambi[eé]n)\b\s*:?\s*/i
+const SIN_ALIMENTO = new Set(['y', 'e', 'con', 'de', 'del', 'el', 'la', 'los', 'las', 'un', 'una'])
+
+function limpiarParte(texto: string): string {
+  let limpio = texto
+    .trim()
+    .replace(/^[-•]\s+/, '')
+    .replace(/[()[\]:"«»¿?¡!]/g, ' ')
+    // «200g», «1,5kg», «½kg»: separa la cifra de la unidad pegada.
+    .replace(/(\d|[½¼¾⅓⅔])(?=\p{L})/gu, '$1 ')
+    .trim()
+  let anterior: string
+  do {
+    anterior = limpio
+    limpio = limpio.replace(INTRODUCCION, '').replace(/^(?:y|e|con)\b\s*/i, '').trim()
+  } while (limpio !== anterior)
+  return limpio
+}
 
 /** Números escritos con letras (normalizados). El dictado suele escribir cifras, pero no siempre («dos huevos»). */
 const NUMEROS: Record<string, number> = {
@@ -116,16 +137,12 @@ function extraerCantidad(palabras: string[]): { cantidad?: number; unidad?: Unid
 
 /** Interpreta un trozo con un solo alimento. `undefined` si no queda nombre (p. ej. «200 g» suelto). */
 export function parsearParte(texto: string): ParteComida | undefined {
-  const limpio = texto
-    .replace(/[()[\]:"«»¿?¡!]/g, ' ')
-    // «200g», «1,5kg», «½kg»: separa la cifra de la unidad pegada.
-    .replace(/(\d|[½¼¾⅓⅔])(?=\p{L})/gu, '$1 ')
-    .trim()
+  const limpio = limpiarParte(texto)
   if (!limpio) return undefined
   const { cantidad, unidad, resto } = extraerCantidad(limpio.split(/\s+/))
   const nombre = resto.join(' ').trim()
   const consulta = tokensConsulta(nombre).join(' ')
-  if (!consulta) return undefined
+  if (!consulta || resto.every((p) => SIN_ALIMENTO.has(normalizeName(p)))) return undefined
   const parte: ParteComida = { texto: texto.trim(), nombre, consulta }
   if (cantidad !== undefined && cantidad > 0) {
     parte.cantidad = cantidad
@@ -137,8 +154,28 @@ export function parsearParte(texto: string): ParteComida | undefined {
 
 /** Parte una frase en alimentos. Los trozos sin alimento («y», «200 g» suelto) se descartan. */
 export function parsear(texto: string): ParteComida[] {
-  return texto.split(SEPARADORES).flatMap((t) => {
-    const parte = parsearParte(t)
-    return parte ? [parte] : []
-  })
+  const partes: ParteComida[] = []
+  let inicio = 0
+  for (const separador of texto.matchAll(SEPARADORES)) {
+    const izquierda = texto.slice(inicio, separador.index)
+    const derecha = texto.slice(separador.index + separador[0].length)
+    const conjuncion = separador[0].trim().toLowerCase()
+    if (conjuncion === 'con' || conjuncion === 'e') {
+      const norm = limpiarParte(derecha).split(/\s+/).map(normalizeName)
+      const nuevaCantidad = cantidadAlPrincipio(norm) !== undefined
+      if (conjuncion === 'con' && !nuevaCantidad) continue
+      if (conjuncion === 'e' && !nuevaCantidad && !/^h?[iy]/i.test(norm[0])) continue
+    }
+    if (conjuncion === 'y' && /^\s*medi[oa]\b/i.test(derecha)) {
+      const anterior = extraerCantidad(limpiarParte(izquierda).split(/\s+/))
+      // «1 kilo y medio de patatas» frente a «2 huevos y medio aguacate».
+      if (anterior.cantidad !== undefined && anterior.resto.length === 0) continue
+    }
+    const parte = parsearParte(izquierda)
+    if (parte) partes.push(parte)
+    inicio = separador.index + separador[0].length
+  }
+  const ultima = parsearParte(texto.slice(inicio))
+  if (ultima) partes.push(ultima)
+  return partes
 }

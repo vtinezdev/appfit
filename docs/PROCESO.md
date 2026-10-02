@@ -461,3 +461,29 @@ Objetivo: que cada tema tenga una sola fuente de verdad, que `CLAUDE.md` sea con
 3. **Eliminados o movidos**: `AGENTES.md` (su contenido pasa a `desarrollo.md` § Claude Code), `roadmap/prompt-plan-nutricion-v2.md` (prompt ya usado); `PLAN.md` y `roadmap/*` pasan a `historico/`.
 4. **Corregido lo que no coincidía con el código**: `DESIGN-SYSTEM.md` describía Hoy con una card por comida (son secciones planas desde §38), usaba la prop `Button shape` (eliminada), mencionaba `ResumenDiaCard` y `VoiceRecorder` (eliminados) y daba por pendientes `SearchInput` en Gym y los ejes de Progreso (ya hechos). `herramientas.md` y `README.md` seguían con el despliegue «pendiente», Git «sin commits», solo CIQUAL como catálogo y sin las dependencias del escáner.
 5. **Hueco documentado**: el esquema v4 (tabla `notasMedida`, pantalla «Medidas», medidas caseras ambiguas en `lib/interprete/medidas.ts`, rama `feat/mejorar-parser`) y el reparto de objetivos (`lib/objetivos.ts`) no tenían sección aquí; ahora constan en `datos.md` y `features/nutricion.md`.
+
+## 41. Separación de cenas y registro por tandas (rama `feat/parser-comidas`)
+
+El registro de varios alimentos podía unir cantidades independientes: «2 huevos y medio aguacate» quedaba como un solo alimento, igual que «200 g de arroz con 150 g de pollo». La revisión tampoco permitía incorporar otro alimento sin reinterpretar lo anterior.
+
+Se distingue el «y medio» de una cantidad del comienzo de otro alimento; «con» separa únicamente delante de una nueva cantidad explícita, conservando los nombres de platos. Se limpian introducciones habituales del dictado y viñetas. La descripción recomienda un alimento por línea y muestra la separación antes de interpretar. «Añadir otro alimento» incorpora nuevas tandas a la revisión conservando las correcciones; el guardado sigue siendo único y transaccional. El flujo y sus límites se documentan en [Nutrición](features/nutricion.md), sin cambios de esquema ni de catálogo.
+
+Se añaden regresiones de separación y cenas completas contra el paquete CIQUAL real. La comprobación en Chromium a 375×812, claro y oscuro, verifica añadido sin conexión, conservación de cantidades editadas, cancelación, guardado conjunto de cinco entradas, recuperación del texto al reinterpretar y eliminación de un ítem, sin errores de consola ni scroll horizontal.
+
+**Verificación**: 843 tests en 43 archivos y `npm run build` (TypeScript + PWA) en verde.
+
+## 42. Distinción visual entre alimentos al escribir (rama `feat/parser-comidas`)
+
+La vista previa de la descripción pasa de viñetas a tarjetas numeradas, con borde y separación entre cada alimento. Se actualiza mientras se escribe: «2 huevos fritos y una longaniza» muestra dos bloques con sus cantidades originales. Se usan `Card` y `Badge` del sistema de diseño, y los textos largos pueden ocupar varias líneas. El mismo componente se usa al añadir una nueva tanda. Detalle del patrón en [Design system](DESIGN-SYSTEM.md#lenguaje-de-añadir-comida) y del flujo en [Nutrición](features/nutricion.md#añadir-comida).
+
+**Verificación**: 843 tests y build en verde. Chromium a 375×812, claro y oscuro: aparición de las dos tarjetas al escribir, separación entre bloques, nombres largos sin desbordar, coma decimal, vaciado y nueva tanda, sin errores de consola.
+
+## 43. Básicos compartidos entre buscador e intérprete (rama `feat/parser-comidas`)
+
+El orden por coincidencias textuales priorizaba pato para «pechuga», huevo en polvo para «huevo» o mazapán para «pasta». Los preferidos curados que solo usaba el intérprete pasan de `raciones.ts` a `catalogo/preferidos.ts`; los pesos y medidas se mantienen aparte. Se añaden «pollo» y «pechuga» como consultas completas del básico ya existente: pechuga de pollo sin piel cruda (`ciqual:36017`). Se conservan los demás defaults, incluida la equivalencia de tostada con pan tostado.
+
+`buscarCatalogo` y `rankCatalogo` comparten la selección. Si el básico queda fuera de los 600 candidatos, se recupera por id únicamente si existe, es visible y compatible; no se duplica. Las consultas específicas no reciben el básico genérico, los propios con coincidencia fuerte siguen ganando en el intérprete y los frecuentes personalizan las alternativas. Se relegan contradicciones explícitas de preparación o piel: «arroz cocido» ya no empieza por una fila etiquetada también como cruda. El hook conserva «con piel» al buscar y evita volver a ordenar los resultados con una consulta que pierde esa información.
+
+**Comparativa**: [28 búsquedas antes y después](historico/prioridad-alimentos-2026-10-02.md), usando los paquetes publicados y una IndexedDB en memoria. Cambia el primer resultado en 14; en las 28 se conserva el número de candidatos. Se mantienen las 6.323 filas, ids, nutrientes, esquema, historial, plantillas y dependencias. No se regeneran paquetes ni se incorporan servicios de IA. Agrupar variantes o ampliar la selección curada queda para una siguiente iteración si hace falta.
+
+**Verificación**: 937 tests en 45 archivos y `npm run build` en verde. Nuevas regresiones de preferidos, consultas específicas, marcas, frecuentes, alimentos propios, erratas, recuperación fuera del límite y preferidos ausentes/ocultos/incompatibles. Chromium a 375×812, claro y oscuro, en el origen aislado de pruebas: ocho búsquedas y dos descripciones completas por tema; básicos, pechuga con piel, arroz cocido y tostadas correctos, cantidades conservadas, sin errores de consola ni desbordamientos. Pendiente únicamente la comprobación en iPhone real.
