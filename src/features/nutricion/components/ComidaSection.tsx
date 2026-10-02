@@ -4,6 +4,7 @@ import Icon from '../../../shared/components/Icon'
 import type { Entry } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { resumenMacros, sumMacros } from '../lib/nutrition'
+import { nombreVisible } from '../lib/nombresCortos'
 import { agruparPlatos, type Plato } from '../lib/platos'
 import FranjaMacros from './FranjaMacros'
 
@@ -23,6 +24,7 @@ interface Props {
   ocupado: boolean
   /** Esta comida es la que se está repitiendo (cambia el texto del botón). */
   repitiendo: boolean
+  nombresCortos: ReadonlyMap<string, string>
 }
 
 /** «Kcal rápidas» (A5) no tiene gramos: se muestra solo con los macros que se hayan indicado. */
@@ -41,7 +43,7 @@ function detalleEntry(e: Entry): string {
   return `${macros ? `${macros} · ` : ''}rápida`
 }
 
-function FilaEntrada({ entry: e, onEditar, onBorrar }: { entry: Entry } & Pick<Props, 'onEditar' | 'onBorrar'>) {
+function FilaEntrada({ entry: e, nombreCorto, onEditar, onBorrar }: { entry: Entry; nombreCorto: string } & Pick<Props, 'onEditar' | 'onBorrar'>) {
   return (
     <li className="flex items-center gap-1">
       <button
@@ -50,7 +52,7 @@ function FilaEntrada({ entry: e, onEditar, onBorrar }: { entry: Entry } & Pick<P
         className="-mx-2 flex min-h-touch min-w-0 flex-1 items-center gap-3 rounded-md px-2 py-2 text-left transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted"
       >
         <span className="min-w-0 flex-1">
-          <span className="line-clamp-2 block text-body-sm font-medium text-fg">{e.nombre}</span>
+          <span className="line-clamp-2 block text-body-sm font-medium text-fg" title={e.nombre}>{nombreCorto}</span>
           <span className="tabular block text-caption text-fg-muted">{detalleEntry(e)}</span>
         </span>
         <span className="tabular shrink-0 text-body font-semibold text-fg">
@@ -63,7 +65,7 @@ function FilaEntrada({ entry: e, onEditar, onBorrar }: { entry: Entry } & Pick<P
   )
 }
 
-function FilaPlato({ plato, onEditar, onBorrar, onBorrarPlato }: { plato: Plato } & Pick<Props, 'onEditar' | 'onBorrar' | 'onBorrarPlato'>) {
+function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'onEditar' | 'onBorrar' | 'onBorrarPlato'>) {
   const [abierto, setAbierto] = useState(false)
   const detalleId = useId()
   const totales = sumMacros(plato.entries)
@@ -94,7 +96,7 @@ function FilaPlato({ plato, onEditar, onBorrar, onBorrarPlato }: { plato: Plato 
       </div>
       <ul id={detalleId} hidden={!abierto} aria-label={`Ingredientes de ${plato.nombre}`} className="mb-2 ml-3 divide-y divide-line border-l border-line pl-3">
         {plato.entries.map((e) => (
-          <FilaEntrada key={e.id} entry={e} onEditar={onEditar} onBorrar={onBorrar} />
+          <FilaEntrada key={e.id} entry={e} nombreCorto={nombreVisible(e, nombresCortos)} onEditar={onEditar} onBorrar={onBorrar} />
         ))}
       </ul>
     </li>
@@ -102,7 +104,7 @@ function FilaPlato({ plato, onEditar, onBorrar, onBorrarPlato }: { plato: Plato 
 }
 
 /** Sección plana por comida; los guardados múltiples son platos desplegables, sin duplicar sus macros. */
-export default function ComidaSection({ titulo, entries, onAcciones, onEditar, onBorrar, onBorrarPlato, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
+export default function ComidaSection({ titulo, entries, nombresCortos, onAcciones, onEditar, onBorrar, onBorrarPlato, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
   const totales = sumMacros(entries)
   const hayEntradas = entries.length > 0
   const repetir = disponiblesAyer > 0 && (
@@ -135,11 +137,11 @@ export default function ComidaSection({ titulo, entries, onAcciones, onEditar, o
             <FranjaMacros macros={totales} />
           </div>
           <ul className="mt-2 divide-y divide-line border-t border-line">
-            {agruparPlatos(entries).map((plato) =>
+            {agruparPlatos(entries, (entry) => nombreVisible(entry, nombresCortos)).map((plato) =>
               plato.agrupado ? (
-                <FilaPlato key={plato.clave} plato={plato} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} />
+                <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} />
               ) : (
-                <FilaEntrada key={plato.clave} entry={plato.entries[0]} onEditar={onEditar} onBorrar={onBorrar} />
+                <FilaEntrada key={plato.clave} entry={plato.entries[0]} nombreCorto={nombreVisible(plato.entries[0], nombresCortos)} onEditar={onEditar} onBorrar={onBorrar} />
               ),
             )}
           </ul>

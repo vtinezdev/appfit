@@ -1,12 +1,13 @@
 // Acceso a la tabla `entries` (lo que se ha comido). Las entradas guardan un snapshot de los macros,
 // así que cambiar o borrar un alimento después no altera lo ya registrado.
 import { db } from '../../../shared/db/db'
-import { camposDeRef, type FoodRef } from '../../../shared/db/foodRef'
+import { camposDeRef, refDe, type FoodRef } from '../../../shared/db/foodRef'
 import type { Comida, Entry } from '../../../shared/db/types'
 import type { ItemGuardado, KcalRapidasDraft, Por100 } from '../lib/alimentos'
 import { macrosPorGramos } from '../lib/nutrition'
 import { planCopia, type DestinoCopia } from '../lib/plantillas'
 import * as foodsRepo from './foodsRepo'
+import * as nombresAlimentosRepo from './nombresAlimentosRepo'
 
 export function delDia(fecha: string): Promise<Entry[]> {
   return db.entries.where('fecha').equals(fecha).toArray()
@@ -34,10 +35,11 @@ export interface GuardarComidaInput {
 export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato }: GuardarComidaInput): Promise<number[]> {
   const agrupacion = items.length > 1 ? { platoId: crypto.randomUUID(), ...(nombrePlato?.trim() ? { nombrePlato: nombrePlato.trim() } : {}) } : {}
   const createdAt = Date.now()
-  return db.transaction('rw', db.foods, db.entries, async () => {
+  return db.transaction('rw', db.foods, db.entries, db.nombresAlimentos, async () => {
     const ids: number[] = []
     for (const item of items) {
       const ref: FoodRef = item.catalogId !== undefined ? { tipo: 'catalog', id: item.catalogId } : { tipo: 'user', id: await foodsRepo.resolverParaGuardar(item) }
+      if (item.nombreCorto !== undefined) await nombresAlimentosRepo.guardarEnTransaccion(ref, item.nombreCorto)
       ids.push(
         await db.entries.add({
           fecha,
@@ -62,16 +64,26 @@ export interface EditarInput extends Por100 {
   gramos: number
   /** Si es true, los valores y el nombre se aplican también al alimento guardado de la entrada. */
   aplicarAlAlimento: boolean
+  /** `null` elimina una preferencia personal; `undefined` mantiene el valor guardado. */
+  nombreCorto?: string | null
 }
 
 /**
  * Edita una entrada. Por defecto solo cambia esa entrada (su snapshot); el alimento guardado
  * solo se corrige si se pide expresamente con `aplicarAlAlimento`.
  */
-export function editar(id: number, { comida, nombre, gramos, aplicarAlAlimento, ...valores }: EditarInput): Promise<void> {
-  return db.transaction('rw', db.foods, db.entries, async () => {
+export function editar(id: number, { comida, nombre, gramos, aplicarAlAlimento, nombreCorto, ...valores }: EditarInput): Promise<void> {
+  return db.transaction('rw', db.foods, db.entries, db.nombresAlimentos, async () => {
     const entry = await db.entries.get(id)
     if (!entry) return
+    if (nombreCorto !== undefined) {
+      try {
+        const ref = refDe(entry)
+        if (ref) await nombresAlimentosRepo.guardarEnTransaccion(ref, nombreCorto)
+      } catch {
+        // Una referencia inválida o ausente no debe impedir editar la entrada.
+      }
+    }
     if (aplicarAlAlimento && entry.foodId !== undefined && (await db.foods.get(entry.foodId))) {
       await foodsRepo.actualizar(entry.foodId, { nombre, ...valores, fuente: 'manual' })
     }

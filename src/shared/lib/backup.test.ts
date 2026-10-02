@@ -23,7 +23,7 @@ function v1ConApiKey(apiKey: string): string {
 describe('importarBackup', () => {
   it('importa entero el backup v1 de referencia (generado con el código de la sesión 01)', async () => {
     await importarBackup(backupV1)
-    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, catalogFoods: 0, catalogSources: 0 })
+    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, catalogFoods: 0, catalogSources: 0 })
     expect((await db.foods.get(1))?.nombre).toBe('Plátano')
     expect(await db.entries.get(9)).toMatchObject({ fecha: '2026-09-28', comida: 'cena', kcal: 330, textoOriginal: 'pollo a la plancha' })
   })

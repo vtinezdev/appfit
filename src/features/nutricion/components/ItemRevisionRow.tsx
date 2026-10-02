@@ -1,3 +1,4 @@
+import { useId, useState } from 'react'
 import Badge from '../../../shared/components/Badge'
 import Metric from '../../../shared/components/Metric'
 import { IconButton } from '../../../shared/components/Button'
@@ -10,6 +11,7 @@ import { etiquetaFuente } from '../lib/catalogo/textos'
 import { elegirMedida, preguntaMedida, textoOpcionMedida, type MedidaAmbigua } from '../lib/interprete/medidas'
 import { macrosPorGramos, resumenMacros } from '../lib/nutrition'
 import MacroInputs from './MacroInputs'
+import { sugerirNombreCorto } from '../lib/nombresCortos'
 
 interface Props {
   item: ItemRevision
@@ -19,6 +21,9 @@ interface Props {
   /** Abre «Cambiar alimento». Si no se pasa, no se ofrece (p. ej. al editar una entrada). */
   onCambiar?: () => void
   aviso?: string
+  nombreCorto?: string
+  onCambioNombreCorto?: (editando: boolean) => void
+  nombreCortoBloqueado?: boolean
 }
 
 /** Texto de la etiqueta de procedencia (Tuyo, CIQUAL…), o nada si el usuario lo ha escrito o cambiado. */
@@ -67,12 +72,22 @@ function SelectorMedida({ medida, onElegir }: { medida: MedidaAmbigua; onElegir:
  * Las kcal y los macros son los mismos que se guardarán (`macrosPorGramos`). Con una medida ambigua («una cucharada»),
  * primero se elige cuánto pesa y hasta entonces no se muestran gramos ni kcal.
  */
-export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso }: Props) {
+export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado }: Props) {
   const aporte = macrosPorGramos(item, item.gramos)
   const kcal = Math.round(aporte.kcal)
   const sinNombre = !item.nombre.trim()
   const etiqueta = textoProcedencia(item)
   const { medida } = item
+  const propuesta = sugerirNombreCorto(item.nombre)
+  const idNombreCorto = useId()
+  const [editandoNombreCorto, setEditandoNombreCorto] = useState(false)
+  const [borradorNombreCorto, setBorradorNombreCorto] = useState('')
+
+  function abrirNombreCorto() {
+    setBorradorNombreCorto(nombreCorto ?? propuesta)
+    setEditandoNombreCorto(true)
+    onCambioNombreCorto?.(true)
+  }
   return (
     <div className="space-y-3 p-card">
       <div className="flex items-center gap-2">
@@ -84,7 +99,21 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
           onChange={(e) => onChange({ nombre: e.target.value })}
           className="truncate font-medium"
         />
-        {onQuitar && <IconButton icon="trash" label={`Quitar ${item.nombre || 'alimento'}`} variant="ghost" size="sm" onClick={onQuitar} />}
+        {onQuitar && (
+          <IconButton
+            icon="trash"
+            label={`Quitar ${item.nombre || 'alimento'}`}
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              if (editandoNombreCorto) {
+                setEditandoNombreCorto(false)
+                onCambioNombreCorto?.(false)
+              }
+              onQuitar()
+            }}
+          />
+        )}
       </div>
 
       {(etiqueta || onCambiar) && (
@@ -97,6 +126,69 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
           )}
         </div>
       )}
+
+      <div className="space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          <p className="min-w-0 text-body-sm text-fg-muted">
+            En Nutrición: <span className="font-medium text-fg">{nombreCorto ?? propuesta}</span>
+            {nombreCorto && <span className="text-caption"> · personalizado</span>}
+          </p>
+          <Button variant="ghost" size="sm" disabled={nombreCortoBloqueado && !editandoNombreCorto} onClick={abrirNombreCorto} aria-label={`${nombreCorto ? 'Cambiar' : 'Personalizar'} nombre en Nutrición para ${item.nombre}`}>
+            {nombreCorto ? 'Cambiar' : 'Personalizar'}
+          </Button>
+        </div>
+        {editandoNombreCorto && (
+          <div className="space-y-2">
+            <label htmlFor={idNombreCorto} className="block text-caption text-fg-muted">
+              Nombre que se verá en Nutrición
+            </label>
+            <Input
+              id={idNombreCorto}
+              value={borradorNombreCorto}
+              maxLength={60}
+              onChange={(e) => setBorradorNombreCorto(e.target.value)}
+              aria-label="Nombre que se verá en Nutrición"
+            />
+            <div className="flex flex-wrap items-center gap-1">
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={!borradorNombreCorto.trim()}
+                  onClick={() => {
+                    onChange({ nombreCorto: borradorNombreCorto.trim(), nombreCortoModificado: true })
+                    setEditandoNombreCorto(false)
+                    onCambioNombreCorto?.(false)
+                }}
+              >
+                Guardar nombre
+              </Button>
+              {nombreCorto && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    onChange({ nombreCorto: undefined, nombreCortoModificado: true })
+                    setEditandoNombreCorto(false)
+                    onCambioNombreCorto?.(false)
+                  }}
+                >
+                  Usar sugerencia automática
+                </Button>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setEditandoNombreCorto(false)
+                  onCambioNombreCorto?.(false)
+                }}
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
 
       {medida && <SelectorMedida medida={medida} onElegir={(g) => onChange(elegirMedida(medida, g))} />}
 

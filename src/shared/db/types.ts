@@ -79,6 +79,12 @@ export interface CatalogSource {
   filas: number
 }
 
+/** Nombre personal para mostrar un alimento en Nutrición. `id` es la clave estable de un `FoodRef`. */
+export interface NombreAlimento {
+  id: string
+  nombre: string
+}
+
 /** Identidad de los ingredientes guardados juntos. Opcional para conservar los registros antiguos. */
 export interface AgrupacionPlato {
   platoId?: string
