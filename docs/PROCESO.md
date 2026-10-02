@@ -521,3 +521,23 @@ Víctor acepta una solución mixta para que la revisión conserve el nombre comp
 Las correcciones personales se guardan por FoodRef estable en la nueva tabla `nombresAlimentos` (Dexie v6). Aparecen también en registros anteriores del mismo alimento, grupos/platos y añadidos rápidos. Las tablas de usuario incluyen esa preferencia; los backups viejos la dejan vacía, la versión del formato se mantiene porque la tabla opcional no modifica los registros previos. Nombres, referencias y snapshots nutricionales de alimentos/entradas originales permanecen intactos.
 
 **Verificación**: `npm run build` correcto (TypeScript y PWA). No se ejecutaron tests automatizados en esta sesión.
+
+## 48. Alimento principal en las cuatro comidas (rama `feat/nombres-simples-nutricion`)
+
+Víctor pide ver «Pollo», «Arroz» y «Hamburguesa» en Desayuno, Comida, Cena y Snack, manteniendo el nombre completo al añadir alimentos. Se amplían las reglas locales de presentación para reconocer alimentos habituales, quitar cortes/variedades/preparaciones y conservar nombres compuestos que identifican el alimento. Los nombres desconocidos mantienen su encabezado sin descripciones reconocidas. Se aplican al historial y a los títulos automáticos e ingredientes de platos; las preferencias personales siguen teniendo prioridad. No se modifica el almacenamiento ni los snapshots nutricionales. Flujo y reglas vigentes: [Nutrición](features/nutricion.md); presentación: [DESIGN-SYSTEM](DESIGN-SYSTEM.md).
+
+Se añaden pruebas de ejemplos reales, nombres compuestos, referencias antiguas o inválidas, alias y agrupación sin alterar los registros. La suite detectó un fixture anterior incompleto para `nombresAlimentos` en la prueba de conservación de datos; se añade su registro de prueba.
+
+**Verificación**: `npm run test` (49 archivos, 1.009 tests) y `npm run build` correctos. Prueba en `appfit-test.localhost:5173` a 375×812, en claro y oscuro: nombre completo al buscar/seleccionar/editar, etiquetas breves en las cuatro comidas y platos, personalizar/restablecer el nombre, snapshots intactos y ausencia de desbordamiento horizontal y errores de consola.
+
+## 49. Simplificación general de todos los alimentos (rama `feat/nombres-simples-nutricion`)
+
+Víctor aclara que quiere nombres simples para cualquier alimento añadido. Se elimina la lista cerrada que activaba la simplificación y se aplica una regla general a cualquier nombre: se omiten cantidades, artículos y tamaños, se resuelven cortes con «de/del» y se muestra la primera palabra salvo excepciones que conservan nombres compuestos. Los alimentos desconocidos y propios reciben también una etiqueta breve. El nombre completo sigue disponible al añadir y editar; los datos guardados conservan sus nombres y nutrientes. Reglas vigentes: [Nutrición](features/nutricion.md); presentación: [DESIGN-SYSTEM](DESIGN-SYSTEM.md).
+
+**Verificación**: 1.037 tests en 49 archivos y build TypeScript/PWA correctos. Se comprueban etiquetas breves para los 6.323 alimentos publicados en CIQUAL y Open Food Facts, además de ejemplos de productos y alimentos no contemplados por la lista anterior. Navegador aislado a 375×812 en claro/oscuro: doce nombres variados en las cuatro comidas, nombres completos al seleccionar/editar, nombres compuestos, grupos, alias y snapshots intactos, sin errores de consola ni scroll horizontal.
+
+## 50. Separación visual de platos en Nutrición (rama `feat/nombres-simples-nutricion`)
+
+Víctor pide distinguir con claridad las tandas de alimentos guardadas como platos. Cada plato pasa a tener un bloque con fondo, borde y separación entre guardados. Al desplegarlo, todos sus ingredientes quedan dentro del mismo contenedor, con líneas interiores; cada plato se abre de forma independiente. Se reutiliza `Card` y los tokens del diseño. El cambio es de presentación; las referencias de los ingredientes, agrupación, cálculos y operaciones de guardado se conservan. Flujo: [Nutrición](features/nutricion.md); patrón: [DESIGN-SYSTEM](DESIGN-SYSTEM.md).
+
+**Verificación**: 1.037 tests en 49 archivos y build TypeScript/PWA correctos. Navegador aislado a 375×812 en claro/oscuro: platos cerrados y varios abiertos, espacio visible entre bloques, ingredientes dentro de sus bordes, edición, borrado completo/parcial con deshacer, totales, recarga, copiar/repetir y backup. Sin errores de consola ni desbordamiento horizontal.

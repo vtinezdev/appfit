@@ -10,6 +10,7 @@ const datos: Record<string, unknown[]> = {
   meals: [{ id: 1, nombre: 'Desayuno', items: [], usos: 0, usadoAt: 0, createdAt: 1 }],
   notasMedida: [{ id: 1, texto: 'Un bol son 200 g', createdAt: 1 }],
   pesos: [{ id: 1, fecha: '2026-10-01', kg: 72, createdAt: 1 }],
+  nombresAlimentos: [{ id: 'catalog:ciqual:1', nombre: 'Arroz' }],
 }
 
 beforeEach(async () => {
