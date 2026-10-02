@@ -6,7 +6,7 @@
 
 | Área | Pantalla / componentes | Lógica pura (`lib/`) | Datos / hooks |
 |---|---|---|---|
-| Día (Hoy) | `pages/Hoy`, `ComidaSection`, `FranjaMacros`, `ResumenNutricional`, `MacroBar`, `AccionesComidaSheet`, `CopiarDiaSheet` | `nutrition.ts` (macros, sumas, `fraseKcal`), `plantillas.ts` (`planCopia`) | `entriesRepo` |
+| Día (Hoy) | `pages/Hoy`, `ComidaSection`, `FranjaMacros`, `ResumenNutricional`, `MacroBar`, `AccionesComidaSheet`, `CopiarDiaSheet` | `nutrition.ts` (macros, sumas, `fraseKcal`), `platos.ts` (agrupación y renovación de ids), `plantillas.ts` (`planCopia`) | `entriesRepo` |
 | Añadir / editar comida | `pages/AnadirComida`, `DescribirComida`, `ItemRevisionRow`, `CambiarAlimentoSheet`, `AlimentosRapidos`, `ListaElegibles`, `ResultadosBusqueda`, `KcalRapidasSheet`, `MacroInputs` | `alimentos.ts` (modelo de revisión, guardado, frecuentes, kcal rápidas) | `entriesRepo`, `foodsRepo`, `hooks/useInterpretarLocal`, `hooks/useBusquedaCatalogo` |
 | Intérprete local | (dentro de Añadir comida) · `pages/Medidas` | `interprete/`: `parsear`, `unidades`, `raciones`, `medidas`, `emparejar` | `hooks/useInterpretarLocal`, `notasMedidaRepo` |
 | Catálogo en la app | `CatalogoAjustes` (en Ajustes) | `catalogo/`: `paquete`, `sincronizar`, `preferidos`, `ranking`, `erratas`, `textos` | `catalogRepo`, `hooks/buscarCatalogo` |
@@ -22,7 +22,9 @@
 
 - Navegación por días (no se avanza más allá de hoy), el resumen del día (`ResumenNutricional`, compartido con Inicio) y una sección por comida (desayuno, comida, cena, snack).
 - Tocar una entrada la edita. Una entrada `rapida` abre `KcalRapidasSheet` y no la revisión, porque la revisión reconstruye los valores por 100 g dividiendo por los gramos y una rápida tiene 0 g.
+- Los alimentos guardados juntos aparecen como **un plato desplegable**, con título, número de ingredientes y suma de kcal/macros. Cada guardado es independiente, aunque se repita la misma descripción. Tocar el plato muestra sus ingredientes, que se editan o borran individualmente. La papelera del plato borra todos sus ingredientes en una transacción y ofrece «Deshacer». Un plato que conserva un único ingrediente sigue teniendo su nombre. Los alimentos añadidos solos y el historial sin agrupación mantienen sus filas habituales.
 - «⋯» de una comida → `AccionesComidaSheet`: copiar a otro día o guardar como plantilla. «⋯» del día → `CopiarDiaSheet`. «Repetir del día anterior (n)» copia sin abrir ningún sheet. Nunca se copia a un día futuro (ver la trampa del `max` en `DESIGN-SYSTEM.md` § Trampas de UI).
+- Copiar, repetir y aplicar una plantilla conservan sus platos, con ids nuevos para no mezclarlos con aplicaciones anteriores. Las plantillas antiguas sin agrupación conservan sus filas individuales.
 
 ## Añadir comida
 
@@ -37,6 +39,8 @@ Secciones, en orden: comida (preseleccionada por hora o por «Añadir a …») �
 | Kcal rápidas | kcal obligatorias, macros opcionales, nombre por defecto «Comida fuera» | `anadirRapida` |
 
 Revisión (`ItemRevisionRow`): cada ítem muestra su procedencia («Tuyo» o la fuente del catálogo, `etiquetaFuente`), «Cambiar» (alternativas + buscador), los avisos de gramos estimados y de «no encontrado» (no se guarda sin valores: `faltanValores`), el selector de una medida ambigua y el aviso «Actualizará el alimento guardado» si corrige uno propio. Qué se crea o se actualiza al guardar: `decidirGuardado` y `aItemGuardado` (ver `datos.md` § Invariantes).
+
+Cuando la revisión tiene varios alimentos, se explica que se guardarán como un plato y aparece «Nombre del plato (opcional)». Sin nombre se usan los nombres de los ingredientes unidos con «+». «Añadir otro alimento» incorpora ingredientes al mismo plato hasta pulsar Guardar; para registrar otro plato se guarda y se abre un nuevo añadido. Editar un ingrediente mantiene la agrupación salvo que se cambie su comida (por ejemplo, de cena a snack).
 
 **Entrada recomendada: un alimento por línea, con su cantidad**. Se admiten varios a la vez y `DescribirComida` muestra los fragmentos en tarjetas numeradas que se actualizan mientras escribes, antes de interpretarlos: «2 huevos fritos y una longaniza» aparece como dos bloques separados. Para registrar por tandas, «Añadir otro alimento» abre una nueva descripción dentro de la revisión; «Añadir a la revisión» incorpora sus resultados sin reemplazar los anteriores ni sus correcciones. «Cancelar añadido» conserva la revisión. Mientras se añade, Guardar queda deshabilitado. Todas las tandas se guardan juntas y su descripción original se concatena con saltos de línea; «Volver a interpretar» recupera ese texto completo (recalcula la revisión). Los platos compuestos pueden buscarse como tales; si no están en el catálogo o en tus alimentos, hay que detallar los ingredientes, sin inventar su composición.
 

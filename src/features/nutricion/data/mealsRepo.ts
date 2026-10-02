@@ -55,12 +55,13 @@ export function crearDesdeEntradas({ nombre, comida, entries }: CrearDesdeEntrad
  * Todo o nada. Si la plantilla no existe o no tiene ítems, no hace nada.
  */
 export function aplicar(id: number, destino: DestinoPlantilla): Promise<number[]> {
+  const loteId = crypto.randomUUID()
   return db.transaction('rw', db.meals, db.foods, db.entries, async () => {
     const meal = await db.meals.get(id)
     if (!meal || meal.items.length === 0) return []
     const foodIds = meal.items.map((it) => it.foodId).filter((fid): fid is number => fid !== undefined)
     const foodsById = await foodsRepo.porIds(foodIds)
-    const nuevas = entradasDesdePlantilla(meal, foodsById, destino, Date.now())
+    const nuevas = entradasDesdePlantilla(meal, foodsById, destino, Date.now(), loteId)
     const ids = await db.entries.bulkAdd(nuevas, { allKeys: true })
     await db.meals.update(id, { usos: meal.usos + 1, usadoAt: Date.now() })
     return ids

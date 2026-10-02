@@ -40,6 +40,7 @@ import CambiarAlimentoSheet from '../components/CambiarAlimentoSheet'
 import EscanerCodigo from '../components/EscanerCodigo'
 import Medidas from './Medidas'
 import Button from '../../../shared/components/Button'
+import { Input } from '../../../shared/components/Input'
 import { ErrorState } from '../../../shared/components/StateMessage'
 
 interface Props {
@@ -68,6 +69,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
   const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? comidaInicial ?? comidaPorHora())
   const [texto, setTexto] = useState('')
   const [textoOriginal, setTextoOriginal] = useState('')
+  const [nombrePlato, setNombrePlato] = useState('')
   const [anadiendo, setAnadiendo] = useState(false)
   const [guardando, setGuardando] = useState(false)
   const [errorGuardar, setErrorGuardar] = useState<string | null>(null)
@@ -126,7 +128,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
         const { nombre, gramos, kcal100, prot100, carb100, grasa100 } = items[0]
         await entriesRepo.editar(entryEditar.id, { comida, nombre: nombre.trim(), gramos, kcal100, prot100, carb100, grasa100, aplicarAlAlimento })
       } else {
-        await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: textoOriginal || undefined })
+        await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: textoOriginal || undefined, nombrePlato })
       }
       onGuardado()
     } catch (e) {
@@ -218,6 +220,13 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
 
           {items !== null && totales && (
             <div className="animate-fade-in space-y-section">
+              {!entryEditar && items.length > 1 && (
+                <div className="space-y-2">
+                  <label htmlFor="nombre-plato" className="block text-caption text-fg-muted">Nombre del plato (opcional)</label>
+                  <Input id="nombre-plato" tone="surface" value={nombrePlato} onChange={(e) => setNombrePlato(e.target.value)} placeholder="Por ejemplo, huevos con longaniza" aria-describedby="ayuda-plato" />
+                  <p id="ayuda-plato" className="text-body-sm text-fg-muted">Se guardarán juntos como un plato. Podrás desplegarlo para ver o editar cada alimento. Sin nombre, se usarán los nombres de los alimentos.</p>
+                </div>
+              )}
               <section aria-label={items.length === 1 ? 'Alimento' : 'Alimentos'} className="space-y-1">
                 <SectionHeader
                   variant="section"

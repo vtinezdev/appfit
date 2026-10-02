@@ -95,6 +95,7 @@ Reglas comunes:
 - Cabecera de fecha con «‹ ›» (no se pasa de hoy) y «⋯» del día; hero `ResumenNutricional` (kcal en `hero`, anillo y tres carriles P/C/G).
 - **Una sección plana por comida** (`ComidaSection`, sin card): cabecera con el nombre en `text-title`, kcal y «⋯»; `FranjaMacros` (barra fina segmentada con el reparto de kcal P/C/G y, debajo, «P 24 g · C 51 g · G 12 g»); filas con `divide-line`; pie con `Button ghost sm` «Añadir a …» y «Repetir del día anterior (n)».
 - **Comida vacía**: una sola línea con «Añadir» (y «Repetir…» si ayer hubo). Las cuatro comidas se muestran siempre; no hay «Sin registros» repetido.
+- **Platos**: cada guardado de varios alimentos es una fila desplegable entre hairlines, sin card anidada. Muestra título (hasta dos líneas), número de alimentos, «Ver/Ocultar ingredientes», macros y kcal totales. Chevron rotatorio y `aria-expanded`/`aria-controls`; los ingredientes se muestran en una lista indentada con borde lateral, con edición y papelera propias. La papelera del encabezado borra el plato completo con «Deshacer». Los alimentos individuales conservan la fila plana.
 - La acción principal «Añadir comida» cierra la pantalla (ver «Acción principal»).
 
 ## Lenguaje de Inicio
@@ -113,6 +114,7 @@ Mismo lenguaje que Hoy, aplicado a un flujo de entrada de datos.
 - **Secciones planas**: cada bloque = `SectionHeader` + contenido; entre bloques `space-y-section`. Las listas de selección (plantillas, frecuentes, resultados) son `ul.divide-y divide-line` con `ListRow tone="flat"`, sin una card por fila.
 - **Separación al escribir**: debajo de la descripción, una lista numerada muestra cada fragmento detectado en su propia `Card tone="muted"`, con borde y espacio entre alimentos. El número usa `Badge tone="accent"`; cantidad y nombre se conservan tal como se escribieron. Son bloques informativos, sin aspecto de botón, y los nombres largos saltan de línea.
 - **Campos editables**: la revisión agrupa todos los alimentos en **una** Card con `divide-y` (filas `p-card`, no cards anidadas). Los campos usan `tone="muted"` sobre esa superficie.
+- **Nombre del plato**: si se revisan varios alimentos (no al editar un ingrediente), campo opcional `Input tone="surface"` sobre el fondo de pantalla con etiqueta visible y ayuda que explica el guardado conjunto y el título automático.
 - **Cifra con presencia, sin decoración**: cada alimento muestra su kcal en `text-title` (`AnimatedNumber`) con P/C/G en `text-caption` (`resumenMacros`). En Sheets de una sola decisión (gramos) la kcal sube a `text-display`. **No hay carriles**: aquí no hay objetivo que comunicar.
 - **CTA**: `Button size="lg" block` en una barra inferior **fuera del área con scroll**, con `Guardar · N kcal` (N = suma de `macrosPorGramos`, lo mismo que se guarda). Los Sheets usan `Button block` md.
 - **Avisos**: «Actualizará el alimento guardado» va en `warning`; los errores, en `ErrorState`.

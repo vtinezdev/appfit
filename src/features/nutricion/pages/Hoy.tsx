@@ -10,6 +10,7 @@ import CopiarDiaSheet from '../components/CopiarDiaSheet'
 import ResumenNutricional from '../components/ResumenNutricional'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { sumMacros } from '../lib/nutrition'
+import type { Plato } from '../lib/platos'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { LoadingState } from '../../../shared/components/StateMessage'
@@ -47,6 +48,15 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
   async function borrar(id: number) {
     const entry = await entriesRepo.borrar(id)
     if (entry) avisar({ mensaje: `Borrada «${entry.nombre}»`, onDeshacer: () => entriesRepo.restaurar([entry]) })
+  }
+
+  async function borrarPlato(plato: Plato) {
+    try {
+      const borradas = await entriesRepo.borrarVarias(plato.entries.map((e) => e.id))
+      if (borradas.length) avisar({ mensaje: `Borrado plato «${plato.nombre}»`, onDeshacer: () => entriesRepo.restaurar(borradas) })
+    } catch {
+      avisarError('No se ha podido borrar el plato. Inténtalo de nuevo.')
+    }
   }
 
   function avisarCopia(ids: number[]) {
@@ -128,6 +138,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
                 onAcciones={() => setAccionesComida(c)}
                 onEditar={onEditarEntry}
                 onBorrar={(e) => borrar(e.id)}
+                onBorrarPlato={borrarPlato}
                 onAnadir={() => onAnadir(c)}
                 disponiblesAyer={porComidaAyer.get(c) ?? 0}
                 onRepetir={() => repetirDeAyer(c)}

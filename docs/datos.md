@@ -9,8 +9,8 @@ La versión actual del esquema es el último `this.version(n)` de `db.ts`. Cada 
 | Tabla | Lista | Para qué | Notas |
 |---|---|---|---|
 | `foods` | usuario | alimentos propios («Alimentos») | identidad = `&nombreNorm` (ver invariantes); `fuente` `manual` \| `gemini` (este último solo en datos antiguos) |
-| `entries` | usuario | lo comido: una fila por alimento y comida del día | guarda un **snapshot** de gramos y macros; `rapida: true` = «Kcal rápidas» (sin alimento, `gramos: 0`) |
-| `meals` | usuario | plantillas de comida | `items[]` con snapshot + referencia; `usos`/`usadoAt` para ordenar |
+| `entries` | usuario | lo comido: una fila por ingrediente y comida del día | snapshot de gramos/macros; `platoId`/`nombrePlato` opcionales agrupan un guardado múltiple; `rapida: true` = «Kcal rápidas» (sin alimento, `gramos: 0`) |
+| `meals` | usuario | plantillas de comida | `items[]` con snapshot, referencia y agrupación opcional; `usos`/`usadoAt` para ordenar |
 | `settings` | usuario | registro único (`id: 1`) con los objetivos | ver «Ajustes» |
 | `exercises` | usuario | ejercicios | `&nombreNorm` |
 | `routines` | usuario | rutinas: `exerciseIds[]` ordenados | |
@@ -34,6 +34,9 @@ La versión actual del esquema es el último `this.version(n)` de `db.ts`. Cada 
 5. **Los ids del catálogo no desaparecen**: un alimento `oculto` sale de la búsqueda (`tok: []`) pero conserva su id, así que entradas, plantillas y frecuentes lo siguen resolviendo. `construir` falla si se pierde un id (ver `scripts/catalogo/README.md`).
 6. **Como mucho un entreno activo**: `workoutsRepo.empezar` es transaccional y devuelve el activo si ya existe. `setsRepo.agregar` calcula `orden` dentro de la transacción (un doble toque no repite orden).
 7. **Un pesaje por día**: `pesosRepo.registrar` sobrescribe el de la misma fecha.
+8. **Un plato por guardado múltiple**: `guardarComida` asigna un `platoId` único a todos los ingredientes de una revisión con más de un alimento (incluidas las tandas). No hay una entrada extra de totales: calorías, macros y frecuentes siguen calculándose sobre los ingredientes. `nombrePlato` es opcional; la vista deriva el título de los nombres si falta. `agruparPlatos` separa por fecha, comida e id, sin adivinar agrupaciones de registros antiguos. Al editar gramos se mantiene el plato; mover un ingrediente a otra comida lo separa. Copias y aplicaciones de plantillas renuevan los ids de plato por operación, conservando las separaciones y nombres. Borrar un plato y deshacer conservan todos los snapshots e ids de sus ingredientes.
+
+`platoId` y `nombrePlato` son campos opcionales sin índice, tanto en entradas como en ítems de plantilla: no requieren cambiar el esquema Dexie ni la versión del backup. Los registros y las plantillas anteriores siguen siendo válidos y no se reagrupan automáticamente.
 
 ## Repositorios (`features/*/data/*Repo.ts`)
 

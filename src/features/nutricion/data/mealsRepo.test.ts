@@ -65,6 +65,22 @@ describe('mealsRepo.actualizar / borrar (gestión en Alimentos)', () => {
 })
 
 describe('mealsRepo.aplicar (A1)', () => {
+  it('cada aplicación conserva sus platos y no se mezcla con las anteriores', async () => {
+    const item = { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual' as const }
+    await entriesRepo.guardarComida({ fecha: '2026-10-01', comida: 'cena', items: [item, { ...item, nombre: 'Arroz' }], nombrePlato: 'Plato A' })
+    await entriesRepo.guardarComida({ fecha: '2026-10-01', comida: 'cena', items: [item, { ...item, nombre: 'Patatas' }], nombrePlato: 'Plato B' })
+    const entries = await entriesRepo.delDia('2026-10-01')
+    const id = await mealsRepo.crearDesdeEntradas({ nombre: 'Mi cena', entries })
+    const destino = { fecha: '2026-10-02', comida: 'comida' as const }
+    const primera = await mealsRepo.aplicar(id, destino)
+    const segunda = await mealsRepo.aplicar(id, destino)
+    const nuevos = (await db.entries.bulkGet([...primera, ...segunda])).map((e) => e!)
+    expect(new Set(nuevos.map((e) => e.platoId)).size).toBe(4)
+    for (let i = 0; i < nuevos.length; i += 2) expect(nuevos[i].platoId).toBe(nuevos[i + 1].platoId)
+    expect(nuevos.map((e) => e.nombrePlato)).toEqual(['Plato A', 'Plato A', 'Plato B', 'Plato B', 'Plato A', 'Plato A', 'Plato B', 'Plato B'])
+    expect((await mealsRepo.obtener(id))!.items.map((it) => it.platoId)).toEqual(entries.map((e) => e.platoId))
+  })
+
   it('usa los valores actuales del alimento (no el snapshot) al aplicar', async () => {
     const { foodId, entries } = await crearComidaDePollo(100)
     const id = await mealsRepo.crearDesdeEntradas({ nombre: 'Mi cena', entries })

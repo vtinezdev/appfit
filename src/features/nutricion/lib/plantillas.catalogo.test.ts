@@ -9,7 +9,7 @@ const entrada: Entry = {
 
 describe('alimentos del catálogo en copias y plantillas', () => {
   it('copiar entradas conserva catalogId', () => {
-    expect(planCopia([entrada], { fecha: '2026-09-30' }, 5)[0]).toMatchObject({ catalogId: 'usda:1', foodId: undefined, kcal: 180 })
+    expect(planCopia([entrada], { fecha: '2026-09-30' }, 5, 'lote')[0]).toMatchObject({ catalogId: 'usda:1', foodId: undefined, kcal: 180 })
   })
 
   it('guardar como plantilla y aplicarla conserva catalogId y usa el snapshot (no hay alimento de usuario)', () => {
@@ -20,6 +20,7 @@ describe('alimentos del catálogo en copias y plantillas', () => {
       new Map(),
       { fecha: '2026-10-01', comida: 'cena' },
       9,
+      'lote',
     )
     expect(nuevas[0]).toMatchObject({ catalogId: 'usda:1', kcal: 180, prot: 33, gramos: 150, comida: 'cena' })
   })

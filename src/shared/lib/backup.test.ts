@@ -59,6 +59,21 @@ describe('importarBackup', () => {
 })
 
 describe('exportarBackup', () => {
+  it('exportar e importar conserva platos e ingredientes en entradas y plantillas sin cambiar la versión', async () => {
+    await importarBackup(backupV1)
+    await db.entries.update(8, { platoId: 'plato-cena', nombrePlato: 'Mi cena' })
+    await db.entries.update(9, { platoId: 'plato-cena', nombrePlato: 'Mi cena' })
+    const entries = (await db.entries.bulkGet([8, 9])).map((e) => e!)
+    await db.meals.add({ nombre: 'Cena', items: entries.map(({ id: _id, fecha: _fecha, comida: _comida, createdAt: _createdAt, ...item }) => item), usos: 0, usadoAt: 1, createdAt: 1 })
+    const antes = await exportarBackup()
+    expect(antes.version).toBe(2)
+    await importarBackup(JSON.stringify(antes))
+    const despues = await exportarBackup()
+    expect(despues.entries).toEqual(antes.entries)
+    expect(despues.meals).toEqual(antes.meals)
+    expect((await db.entries.get(1))?.platoId).toBeUndefined()
+  })
+
   it('exporta la versión actual sin la API key antigua', async () => {
     await importarBackup(v1ConApiKey('secreta'))
     const b = await exportarBackup()
