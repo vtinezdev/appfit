@@ -11,6 +11,7 @@ import Hoy from './pages/Hoy'
 import Alimentos from './pages/Alimentos'
 import AnadirComida from './pages/AnadirComida'
 import { LoadingState } from '../../shared/components/StateMessage'
+import type { Plato } from './lib/platos'
 
 const RAPIDA_VACIA: KcalRapidasDraft = { nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }
 
@@ -31,6 +32,7 @@ export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?
   const [mostrarAnadir, setMostrarAnadir] = useState(anadirAlAbrir)
   const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(undefined)
   const [entryEditar, setEntryEditar] = useState<Entry | undefined>(undefined)
+  const [platoEditar, setPlatoEditar] = useState<Plato | undefined>(undefined)
   const [rapidaEditar, setRapidaEditar] = useState<Entry | null>(null)
   const [rapidaDraft, setRapidaDraft] = useState<KcalRapidasDraft>(RAPIDA_VACIA)
   const [guardandoRapida, setGuardandoRapida] = useState(false)
@@ -39,6 +41,7 @@ export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?
   function cerrarAnadir() {
     setMostrarAnadir(false)
     setEntryEditar(undefined)
+    setPlatoEditar(undefined)
     setComidaAnadir(undefined)
   }
 
@@ -78,7 +81,7 @@ export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?
     <div className="space-y-3 px-page pt-5">
       <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="primary" onClick={() => { setComidaAnadir(undefined); setMostrarAnadir(true) }} />} />
       <ViewTabs label="Vistas de nutrición" opciones={VISTAS} valor={vista} onChange={setVista}>
-      {vista === 'hoy' && <Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} />}
+      {vista === 'hoy' && <Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} />}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>
           <Resumen />
@@ -88,7 +91,7 @@ export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?
       </ViewTabs>
 
       {mostrarAnadir && (
-        <AnadirComida fecha={entryEditar?.fecha ?? fecha} entryEditar={entryEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={cerrarAnadir} />
+        <AnadirComida fecha={entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fecha} entryEditar={entryEditar} platoDestino={platoEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={cerrarAnadir} />
       )}
 
       <KcalRapidasSheet

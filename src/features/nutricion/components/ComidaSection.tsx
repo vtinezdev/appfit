@@ -15,6 +15,8 @@ interface Props {
   onEditar: (entry: Entry) => void
   onBorrar: (entry: Entry) => void
   onBorrarPlato: (plato: Plato) => void
+  onEditarPlato: (plato: Plato) => void
+  onAccionesPlato: (plato: Plato) => void
   /** «Añadir a desayuno»: abre Añadir comida con esta comida preseleccionada. */
   onAnadir: () => void
   /** Entradas de esa misma comida el día anterior: si hay, se ofrece repetirlas. */
@@ -65,7 +67,7 @@ function FilaEntrada({ entry: e, nombreCorto, onEditar, onBorrar }: { entry: Ent
   )
 }
 
-function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'onEditar' | 'onBorrar' | 'onBorrarPlato'>) {
+function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'onEditar' | 'onBorrar' | 'onBorrarPlato' | 'onEditarPlato' | 'onAccionesPlato'>) {
   const [abierto, setAbierto] = useState(false)
   const detalleId = useId()
   const totales = sumMacros(plato.entries)
@@ -100,13 +102,23 @@ function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato }: 
             <FilaEntrada key={e.id} entry={e} nombreCorto={nombreVisible(e, nombresCortos)} onEditar={onEditar} onBorrar={onBorrar} />
           ))}
         </ul>
+        <div className="flex flex-wrap gap-1 border-t border-line px-3 py-1">
+          <Button variant="ghost" size="sm" aria-label={`Editar plato ${plato.nombre}`} onClick={() => onEditarPlato(plato)}>
+            <Icon name="pencil" size={16} />
+            Editar plato
+          </Button>
+          <Button variant="ghost" size="sm" aria-label={`Copiar plato ${plato.nombre}`} onClick={() => onAccionesPlato(plato)}>
+            <Icon name="copy" size={16} />
+            Copiar plato
+          </Button>
+        </div>
       </Card>
     </li>
   )
 }
 
 /** Sección por comida; cada guardado múltiple tiene su propio bloque desplegable, sin duplicar macros. */
-export default function ComidaSection({ titulo, entries, nombresCortos, onAcciones, onEditar, onBorrar, onBorrarPlato, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
+export default function ComidaSection({ titulo, entries, nombresCortos, onAcciones, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
   const totales = sumMacros(entries)
   const hayEntradas = entries.length > 0
   const repetir = disponiblesAyer > 0 && (
@@ -138,7 +150,7 @@ export default function ComidaSection({ titulo, entries, nombresCortos, onAccion
           <ul className="mt-3 space-y-stack">
             {agruparPlatos(entries, (entry) => nombreVisible(entry, nombresCortos)).map((plato) =>
               plato.agrupado ? (
-                <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} />
+                <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} onEditarPlato={onEditarPlato} onAccionesPlato={onAccionesPlato} />
               ) : (
                 <FilaEntrada key={plato.clave} entry={plato.entries[0]} nombreCorto={nombreVisible(plato.entries[0], nombresCortos)} onEditar={onEditar} onBorrar={onBorrar} />
               ),

@@ -15,7 +15,7 @@ interface Props {
   onEncontrado: (food: CatalogFood) => void
   /** Producto al que le faltan datos: se revisa a mano y acaba como alimento propio. */
   onIncompleto: (producto: { nombre: string; valores: Partial<Por100> }) => void
-  onKcalRapidas: () => void
+  onKcalRapidas?: () => void
   /** Crear el alimento a mano (revisión vacía). */
   onManual: () => void
 }
@@ -165,9 +165,9 @@ export default function EscanerCodigo({ open, onClose, onEncontrado, onIncomplet
                 <Button variant="secondary" className="flex-1" onClick={onManual}>
                   Escribir valores
                 </Button>
-                <Button variant="secondary" className="flex-1" onClick={onKcalRapidas}>
+                {onKcalRapidas && <Button variant="secondary" className="flex-1" onClick={onKcalRapidas}>
                   Kcal rápidas
-                </Button>
+                </Button>}
               </div>
             }
           >
