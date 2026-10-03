@@ -15,6 +15,7 @@ import {
   type ItemGuardado,
 } from '../lib/alimentos'
 import * as catalogRepo from './catalogRepo'
+import { escalarNutrientes } from '../lib/nutrientes'
 
 export type FoodInput = Omit<Food, 'id' | 'nombreNorm' | 'updatedAt'>
 
@@ -144,7 +145,7 @@ export async function restaurar(food: Food): Promise<void> {
  */
 export async function resolverParaGuardar(item: ItemGuardado): Promise<number> {
   const existente = await buscarPorNombre(item.nombre)
-  const valores = { kcal100: item.kcal100, prot100: item.prot100, carb100: item.carb100, grasa100: item.grasa100 }
+  const valores = { kcal100: item.kcal100, prot100: item.prot100, carb100: item.carb100, grasa100: item.grasa100, nutrientes: escalarNutrientes(item.nutrientes) }
   switch (decidirGuardado(existente, item)) {
     case 'crear':
       return db.foods.add({ nombreNorm: normalizeName(item.nombre), nombre: item.nombre, ...valores, fuente: item.fuenteSiNuevo, updatedAt: Date.now() })

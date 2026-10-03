@@ -2,6 +2,7 @@ import type { Comida, Entry, Food, Meal, MealItem } from '../../../shared/db/typ
 import type { Por100 } from './alimentos'
 import { macrosPorGramos } from './nutrition'
 import { camposPlato, clavePlato, renovarPlatos } from './platos'
+import { camposNutrientes, escalarNutrientes } from './nutrientes'
 
 export interface DestinoCopia {
   fecha: string
@@ -35,6 +36,7 @@ export function planCopia(entries: Entry[], destino: DestinoCopia, ahora: number
     prot: e.prot,
     carb: e.carb,
     grasa: e.grasa,
+    ...camposNutrientes(e.nutrientes),
     textoOriginal: e.textoOriginal,
     createdAt: ahora,
     rapida: e.rapida,
@@ -53,6 +55,7 @@ export function itemsDesdeEntradas(entries: Entry[]): MealItem[] {
     prot: e.prot,
     carb: e.carb,
     grasa: e.grasa,
+    ...camposNutrientes(e.nutrientes),
     rapida: e.rapida,
     ...camposPlato(e),
   }))
@@ -64,7 +67,7 @@ export function itemsDesdeEntradas(entries: Entry[]): MealItem[] {
  * nunca corrompe los valores por 100 g originales.
  */
 export function itemConGramos(item: MealItem, por100: Por100, gramos: number): MealItem {
-  return { ...item, gramos, ...macrosPorGramos(por100, gramos) }
+  return { ...item, gramos, ...macrosPorGramos(por100, gramos), nutrientes: escalarNutrientes(por100.nutrientes, gramos / 100) }
 }
 
 /** true si todos los ítems no «rápidos» tienen gramos válidos (> 0), listos para guardar. */
@@ -80,7 +83,7 @@ export function itemsConGramosValidos(items: MealItem[]): boolean {
 export function resolverItemsPlantilla(items: MealItem[], foodsById: Map<number, Food>): MealItem[] {
   return items.map((item) => {
     const food = item.foodId !== undefined ? foodsById.get(item.foodId) : undefined
-    if (!food) return { ...item }
+    if (!food) return { ...item, ...camposNutrientes(item.nutrientes) }
     return { foodId: food.id, nombre: food.nombre, gramos: item.gramos, ...macrosPorGramos(food, item.gramos), ...camposPlato(item) }
   })
 }
@@ -106,6 +109,7 @@ export function entradasDesdePlantilla(meal: Meal, foodsById: Map<number, Food>,
     prot: item.prot,
     carb: item.carb,
     grasa: item.grasa,
+    ...camposNutrientes(item.nutrientes),
     createdAt: ahora,
     rapida: item.rapida,
     ...camposPlato(item),

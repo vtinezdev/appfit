@@ -46,8 +46,8 @@ export default function Alimentos() {
 
   async function guardar() {
     if (!editando) return
-    const { nombre, kcal100, prot100, carb100, grasa100 } = editando
-    const datos: foodsRepo.FoodInput = { nombre: nombre.trim(), kcal100, prot100, carb100, grasa100, fuente: 'manual' }
+    const { nombre, kcal100, prot100, carb100, grasa100, nutrientes } = editando
+    const datos: foodsRepo.FoodInput = { nombre: nombre.trim(), kcal100, prot100, carb100, grasa100, nutrientes, fuente: 'manual' }
     try {
       if (editando.id) {
         await foodsRepo.actualizar(editando.id, datos)
@@ -153,7 +153,7 @@ export default function Alimentos() {
               onChange={(e) => setEditando({ ...editando, nombre: e.target.value })}
               placeholder="Nombre"
             /></label>
-            <MacroInputs valores={editando} onChange={(patch) => setEditando({ ...editando, ...patch })} />
+            <MacroInputs detallado valores={editando} onChange={(patch) => setEditando({ ...editando, ...patch })} />
 
           </div>
         )}

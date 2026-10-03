@@ -1,16 +1,18 @@
-import type { Entry, Objetivos } from '../../../shared/db/types'
+import type { Entry, NutrientesAdicionales, Objetivos } from '../../../shared/db/types'
 import { formatInt, round1 } from '../../../shared/lib/format'
+import { camposNutrientes } from './nutrientes'
 
 export interface Macros {
   kcal: number
   prot: number
   carb: number
   grasa: number
+  nutrientes?: NutrientesAdicionales
 }
 
 /** Escala los valores "por 100 g" a los gramos indicados. */
 export function macrosPorGramos(
-  por100: { kcal100: number; prot100: number; carb100: number; grasa100: number },
+  por100: { kcal100: number; prot100: number; carb100: number; grasa100: number; nutrientes?: NutrientesAdicionales },
   gramos: number,
 ): Macros {
   const factor = gramos / 100
@@ -19,6 +21,7 @@ export function macrosPorGramos(
     prot: round1(por100.prot100 * factor),
     carb: round1(por100.carb100 * factor),
     grasa: round1(por100.grasa100 * factor),
+    ...camposNutrientes(por100.nutrientes, factor),
   }
 }
 

@@ -49,6 +49,8 @@ No es una dependencia de la PWA ni del runner Vitest. El script usa solo el orig
 
 El viewport reducido simula espacio disponible con teclado, no un teclado real. La validación offline/SW se hace con producción; este script de desarrollo importa módulos src para preparar fixtures. Reiniciar Vite al cambiar Tailwind si el CSS servido conserva reglas anteriores.
 
+`node scripts/ui/validar-nutrientes.cjs` comprueba el selector sencilla/detallada, interpretación con el catálogo real, extras siempre visibles en Detalles, guardado por cantidad, totales/cobertura, alimentos propios, cero conocido, eliminación de un dato y recarga. Usa contextos nuevos en el origen de pruebas, tres tamaños móviles y ambos temas; bloquea la API externa. Informe/capturas en `/tmp/appfit-nutrientes-ui` (`APPFIT_UI_OUTPUT` cambia destino).
+
 ### Regresión de conservación de datos
 
 Probar con una build de producción (`npm run preview -- --host 0.0.0.0 --port 5173 --strictPort`) y el origen `appfit-test.localhost`, con un perfil de navegador persistente (no crear un contexto vacío en cada reapertura):

@@ -12,6 +12,7 @@ import { elegirMedida, preguntaMedida, textoOpcionMedida, type MedidaAmbigua } f
 import { macrosPorGramos, resumenMacros } from '../lib/nutrition'
 import MacroInputs from './MacroInputs'
 import { sugerirNombreCorto } from '../lib/nombresCortos'
+import NutrientesDetalle from './NutrientesDetalle'
 
 interface Props {
   item: ItemRevision
@@ -87,7 +88,8 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
           <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre completo</span>
             <Input aria-label="Nombre del alimento" aria-invalid={sinNombre} placeholder="Nombre del alimento" value={item.nombre} onChange={(e) => onChange({ nombre: e.target.value })} />
           </label>
-          <MacroInputs valores={item} onChange={onChange} />
+          <MacroInputs detallado valores={item} onChange={onChange} />
+          {!medidaPendiente(item) && <NutrientesDetalle entries={[aporte]} titulo="Aporte de la cantidad indicada" />}
           <div className="space-y-2 border-t border-line pt-3">
             <p className="text-body-sm text-fg-muted">En Nutrición: <strong className="font-semibold text-fg">{nombreCorto ?? propuesta}</strong></p>
             {!editandoNombreCorto && <Button variant="ghost" size="sm" className="-ml-3" disabled={nombreCortoBloqueado} onClick={() => { setBorradorNombreCorto(nombreCorto ?? propuesta); setEditandoNombreCorto(true); onCambioNombreCorto?.(true) }} aria-label={`${nombreCorto ? 'Cambiar' : 'Personalizar'} nombre en Nutrición para ${item.nombre}`}>{nombreCorto ? 'Cambiar nombre simple' : 'Personalizar nombre simple'}</Button>}
