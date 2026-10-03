@@ -11,9 +11,9 @@ interface Props {
 /** Cabecera de pantalla: overline discreto + título `display`. Una por pestaña (Inicio, Nutrición, Entreno, Ajustes). */
 export default function PageHeader({ title, overline, action }: Props) {
   return (
-    <header className="flex items-end justify-between gap-3">
+    <header className="flex min-h-touch items-center justify-between gap-3">
       <div className="min-w-0">
-        {overline && <p className="text-label uppercase text-fg-muted first-letter:uppercase">{overline}</p>}
+        {overline && <p className="mb-1 text-label text-fg-muted first-letter:uppercase">{overline}</p>}
         <h1 className="text-display text-fg">{title}</h1>
       </div>
       {action}

@@ -14,13 +14,11 @@ export default function ListaElegibles({ alimentos, onElegir }: Props) {
     <ul className="animate-fade-in divide-y divide-line">
       {alimentos.map((a) => (
         <li key={claveRef(a.ref)}>
-          <ListRow tone="flat" onClick={() => onElegir(a)}>
+          <ListRow tone="flat" onClick={() => onElegir(a)} className="items-start">
             <span className="min-w-0 flex-1">
-              <span className="line-clamp-2 text-body-sm font-medium">{a.nombre}</span>
+              <span className="block break-words text-body font-medium">{a.nombre}</span>
+              <span className="tabular mt-1 block text-caption text-fg-muted">{formatInt(a.kcal100)} kcal por 100 {a.ml ? 'ml' : 'g'}</span>
               {a.detalle && <span className="block truncate text-caption text-fg-subtle">{a.detalle}</span>}
-            </span>
-            <span className="tabular shrink-0 text-right">
-              <span className="text-body-sm text-fg">{formatInt(a.kcal100)}</span> <span className="text-caption text-fg-subtle">{a.ml ? 'kcal/100 ml' : 'kcal/100 g'}</span>
             </span>
           </ListRow>
         </li>

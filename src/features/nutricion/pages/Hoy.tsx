@@ -12,8 +12,7 @@ import ResumenNutricional from '../components/ResumenNutricional'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { sumMacros } from '../lib/nutrition'
 import type { Plato } from '../lib/platos'
-import Button, { IconButton } from '../../../shared/components/Button'
-import Icon from '../../../shared/components/Icon'
+import { IconButton } from '../../../shared/components/Button'
 import { LoadingState } from '../../../shared/components/StateMessage'
 
 interface Props {
@@ -41,6 +40,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
   const { avisar, avisarError, toast } = useAviso()
   const [copiarDia, setCopiarDia] = useState<{ fechaDestino: string } | null>(null)
   const [copiandoDia, setCopiandoDia] = useState(false)
+  const [errorCopia, setErrorCopia] = useState<string | null>(null)
   const [repitiendo, setRepitiendo] = useState<Comida | null>(null)
   const [accionesComida, setAccionesComida] = useState<Comida | null>(null)
   // Sentido del último cambio de día, solo para orientar la transición (no afecta a los datos).
@@ -70,12 +70,13 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
   async function confirmarCopiarDia() {
     if (!copiarDia || copiandoDia) return
     setCopiandoDia(true)
+    setErrorCopia(null)
     try {
       const ids = await entriesRepo.copiar({ origen: { fecha }, destino: { fecha: copiarDia.fechaDestino } })
       setCopiarDia(null)
       avisarCopia(ids)
     } catch {
-      avisarError('No se ha podido copiar el día. Inténtalo de nuevo.')
+      setErrorCopia('No se ha podido copiar el día. Inténtalo de nuevo.')
     } finally {
       setCopiandoDia(false)
     }
@@ -113,14 +114,14 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
   return (
     <div className="space-y-section">
       <div className="flex items-center gap-2">
-        <div className="flex min-w-0 flex-1 items-center rounded-pill bg-surface shadow-raised">
+        <div className="flex min-w-0 flex-1 items-center border-b border-line">
           <IconButton icon="chevron-left" label="Día anterior" variant="ghost" onClick={() => onFechaChange(addDays(fecha, -1))} />
-          <h2 key={fecha} aria-live="polite" className={`min-w-0 flex-1 truncate text-center text-title text-fg first-letter:uppercase ${transicion}`}>
+          <h2 key={fecha} aria-live="polite" className={`min-w-0 flex-1 text-center text-body font-semibold text-fg first-letter:uppercase ${transicion}`}>
             {formatFriendly(fecha)}
           </h2>
           <IconButton icon="chevron-right" label="Día siguiente" variant="ghost" onClick={() => onFechaChange(addDays(fecha, 1))} disabled={fecha >= todayISO()} />
         </div>
-        <IconButton icon="more" label="Copiar el día" onClick={() => setCopiarDia({ fechaDestino: fecha })} />
+        <IconButton icon="more" label="Copiar el día" onClick={() => { setErrorCopia(null); setCopiarDia({ fechaDestino: fecha }) }} />
       </div>
 
       {!cargado || !totales || !objetivos ? (
@@ -150,10 +151,6 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
               />
             ))}
           </div>
-          <Button size="lg" block onClick={() => onAnadir()}>
-            <Icon name="plus" size={22} />
-            Añadir comida
-          </Button>
         </>
       )}
 
@@ -167,6 +164,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
         onCopiar={confirmarCopiarDia}
         onClose={() => setCopiarDia(null)}
         copiando={copiandoDia}
+        error={errorCopia}
       />
 
       {accionesComida && (

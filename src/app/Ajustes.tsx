@@ -8,7 +8,9 @@ import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { ErrorState, LoadingState } from '../shared/components/StateMessage'
 import Button from '../shared/components/Button'
-import Card from '../shared/components/Card'
+import Disclosure from '../shared/components/Disclosure'
+import SegmentedControl from '../shared/components/SegmentedControl'
+import { getThemePref, setThemePref, type ThemePref } from '../shared/design/theme'
 import ConfirmacionDestructiva from '../shared/components/ConfirmacionDestructiva'
 import PageHeader from '../shared/components/PageHeader'
 import SectionHeader from '../shared/components/SectionHeader'
@@ -22,6 +24,10 @@ function irASeccion(seccion: HTMLElement | null) {
 export default function Ajustes({ abrirGuia = false }: { abrirGuia?: boolean }) {
   const settings = useLiveQuery(() => getSettings(), [])
   const hayDatos = useLiveQuery(hayDatosGuardados, [])
+  const [tema, setTema] = useState<ThemePref>(getThemePref)
+  const [guiaAbierta, setGuiaAbierta] = useState(abrirGuia)
+  const [errorBorrado, setErrorBorrado] = useState<string | null>(null)
+  const [errorObjetivos, setErrorObjetivos] = useState<string | null>(null)
   const [mensaje, setMensaje] = useState<string | null>(null)
   const [errorBackup, setErrorBackup] = useState<string | null>(null)
   const [backupPendiente, setBackupPendiente] = useState<{ texto: string; comidas: number } | null>(null)
@@ -74,7 +80,7 @@ export default function Ajustes({ abrirGuia = false }: { abrirGuia?: boolean }) 
     try {
       await importarBackup(backupPendiente.texto)
       setBackupPendiente(null)
-      setMensaje('Backup importado correctamente.')
+      setMensaje('Copia importada correctamente.')
     } catch (e) {
       setErrorBackup(e instanceof Error ? e.message : 'Error importando el backup.')
     } finally {
@@ -83,50 +89,39 @@ export default function Ajustes({ abrirGuia = false }: { abrirGuia?: boolean }) 
   }
 
   async function confirmarBorrado() {
-    await borrarTodosLosDatos()
-    setConfirmandoBorrado(false)
-    setMensaje('Todos los datos han sido borrados.')
+    if (ocupado) return
+    setOcupado(true)
+    setErrorBorrado(null)
+    try {
+      await borrarTodosLosDatos()
+      setConfirmandoBorrado(false)
+      setMensaje('Todos los datos han sido borrados.')
+    } catch {
+      setErrorBorrado('No se han podido borrar los datos. Inténtalo de nuevo.')
+    } finally {
+      setOcupado(false)
+    }
   }
 
   return (
-    <div className="space-y-section px-page pt-6">
+    <div className="space-y-section px-page pt-5">
       <PageHeader title="Ajustes" />
 
-      <section ref={guiaRef} tabIndex={-1} aria-label="Primera vez en AppFit" className="scroll-mt-6 space-y-stack">
-        <SectionHeader variant="section">Primera vez en AppFit</SectionHeader>
-        <Card className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-body font-semibold">Añade la app a tu pantalla de inicio</h3>
-            <p className="text-body-sm text-fg-muted">Si ya registraste comidas en Safari, exporta primero una copia desde Ajustes.</p>
-            <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
-              <li>Abre el enlace de AppFit en Safari.</li>
-              <li>Pulsa «Compartir» y elige «Añadir a pantalla de inicio».</li>
-              <li>Abre AppFit desde el nuevo acceso de tu pantalla de inicio.</li>
-            </ol>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-body font-semibold">¿Ya registraste comidas en Safari?</h3>
-            <p className="text-body-sm text-fg-muted">En iPhone, los registros de Safari pueden guardarse por separado. Lleva una copia al nuevo acceso:</p>
-            <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
-              <li>En Safari, abre el enlace original y entra en Ajustes.</li>
-              <li>Pulsa «Exportar» y guarda el archivo. Si todavía no has añadido el acceso, haz esta copia primero.</li>
-              <li>Abre AppFit desde la pantalla de inicio y entra en Ajustes.</li>
-              <li>Pulsa «Importar», elige el archivo y confirma «Importar copia».</li>
-            </ol>
-          </div>
-          <p className="text-body-sm font-medium">Después, abre siempre AppFit desde el mismo acceso de la pantalla de inicio.</p>
-          <Button variant="secondary" block onClick={() => irASeccion(backupRef.current)}>Ir a Exportar / Importar</Button>
-        </Card>
+
+      <ObjetivosAjustes objetivos={settings.objetivos} onGuardar={(objetivos) => {
+        setErrorObjetivos(null)
+        updateSettings({ objetivos }).catch(() => setErrorObjetivos('No se han podido guardar los objetivos. Inténtalo de nuevo.'))
+      }} />
+      {errorObjetivos && <ErrorState>{errorObjetivos}</ErrorState>}
+      <section aria-label="Apariencia" className="space-y-stack">
+        <SectionHeader variant="section">Apariencia</SectionHeader>
+        <SegmentedControl label="Tema de la aplicación" opciones={[{ valor: 'system', label: 'Sistema' }, { valor: 'light', label: 'Claro' }, { valor: 'dark', label: 'Oscuro' }]} valor={tema} onChange={(v) => { setTema(v); setThemePref(v) }} />
       </section>
 
-      <ObjetivosAjustes objetivos={settings.objetivos} onGuardar={(objetivos) => updateSettings({ objetivos })} />
-
-      <AlmacenamientoAjustes />
-
       <section ref={backupRef} tabIndex={-1} aria-label="Backup" className="scroll-mt-6 space-y-stack">
-        <SectionHeader variant="section">Backup</SectionHeader>
-        <Card className="space-y-3">
-          <p className="text-body-sm text-fg-muted">Tus datos viven solo en este móvil. Exporta un JSON de vez en cuando por si acaso.</p>
+        <SectionHeader variant="section">Copias de seguridad</SectionHeader>
+        <div className="space-y-3">
+          <p className="text-body-sm text-fg-muted">Tus registros son privados y se guardan en este dispositivo. Exporta una copia para conservarlos si cambias de móvil.</p>
           <div className="flex gap-2">
             <Button variant="secondary" onClick={exportar} disabled={ocupado} className="flex-1">
               Exportar
@@ -163,18 +158,50 @@ export default function Ajustes({ abrirGuia = false }: { abrirGuia?: boolean }) 
               {mensaje}
             </p>
           )}
-        </Card>
+        </div>
       </section>
+
+      <AlmacenamientoAjustes />
+
+      <section ref={guiaRef} tabIndex={-1} aria-label="Primera vez en AppFit" className="scroll-mt-6 space-y-stack">
+        <Disclosure title="Instalación y traslado de registros" open={guiaAbierta} onChange={setGuiaAbierta}>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h3 className="text-body font-semibold">Añade la app a tu pantalla de inicio</h3>
+            <p className="text-body-sm text-fg-muted">Si ya registraste comidas en Safari, exporta primero una copia desde Ajustes.</p>
+            <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
+              <li>Abre el enlace de AppFit en Safari.</li>
+              <li>Pulsa «Compartir» y elige «Añadir a pantalla de inicio».</li>
+              <li>Abre AppFit desde el nuevo acceso de tu pantalla de inicio.</li>
+            </ol>
+          </div>
+          <div className="space-y-2">
+            <p className="text-body-sm text-fg-muted">En Android, abre el menú del navegador y elige «Instalar aplicación» o «Añadir a pantalla de inicio».</p>
+            <h3 className="text-body font-semibold">¿Ya registraste comidas en Safari?</h3>
+            <p className="text-body-sm text-fg-muted">En iPhone, los registros de Safari pueden guardarse por separado. Lleva una copia al nuevo acceso:</p>
+            <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
+              <li>En Safari, abre el enlace original y entra en Ajustes.</li>
+              <li>Pulsa «Exportar» y guarda el archivo. Si todavía no has añadido el acceso, haz esta copia primero.</li>
+              <li>Abre AppFit desde la pantalla de inicio y entra en Ajustes.</li>
+              <li>Pulsa «Importar», elige el archivo y confirma «Importar copia».</li>
+            </ol>
+          </div>
+          <p className="text-body-sm font-medium">Después, abre siempre AppFit desde el mismo acceso de la pantalla de inicio.</p>
+          <Button variant="secondary" block onClick={() => irASeccion(backupRef.current)}>Ir a Exportar / Importar</Button>
+        </div>
+        </Disclosure>
+      </section>
+
 
       <CatalogoAjustes />
 
-      <section aria-label="Zona peligrosa" className="space-y-stack">
+      <section aria-label="Borrar registros" className="space-y-stack">
         <SectionHeader variant="section" tone="destructive">
-          Zona peligrosa
+          Borrar registros
         </SectionHeader>
-        <Card>
+        <div className="border-t border-line pt-3">
           {!confirmandoBorrado ? (
-            <Button variant="destructive" block onClick={() => setConfirmandoBorrado(true)}>
+            <Button variant="destructive" block onClick={() => { setErrorBorrado(null); setConfirmandoBorrado(true) }}>
               Borrar todos los datos
             </Button>
           ) : (
@@ -183,10 +210,13 @@ export default function Ajustes({ abrirGuia = false }: { abrirGuia?: boolean }) 
               confirmar="Sí, borrar"
               onConfirmar={confirmarBorrado}
               onCancelar={() => setConfirmandoBorrado(false)}
+              ocupado={ocupado}
             />
           )}
-        </Card>
+          {errorBorrado && <ErrorState>{errorBorrado}</ErrorState>}
+        </div>
       </section>
+      <p className="border-t border-line pt-4 text-caption text-fg-muted">APPFIT · Privada y sin cuentas.<br />Nutrición y entrenos disponibles sin conexión.</p>
     </div>
   )
 }

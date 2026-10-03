@@ -1,197 +1,120 @@
-/*
- * DESIGN TOKENS — única fuente de verdad del aspecto de AppFit.
- *
- * Los colores son canales RGB ("R G B") para que Tailwind pueda aplicar opacidad (bg-accent/40).
- * Tailwind los expone en tailwind.config.js con nombres semánticos: nada de slate-*, #hex ni colores de componente.
- *
- * Cómo tocar el diseño:
- *   · «otro naranja» (marca)     → --c-accent, --c-accent-strong (texto), --c-accent-subtle (en :root, en dark y en ink)
- *   · «selección en naranja»      → --c-selected / --c-on-selected (segmento y chip activos; hoy negro)
- *   · «superficie negra»          → bloques [data-surface='ink'] (redefinen los tokens semánticos dentro de un hero)
- *   · «radios más pequeños»      → --radius-*
- *   · «cards con menos contraste» → --c-surface / --c-surface-muted / --c-border
- *   · «otra tipografía»           → --font-sans y la escala --fs-*
- *   · «fondo con más/menos color» → --glow-alpha (resplandor de marca de las pestañas), --glow-height, --gradient-page
- *   · «otro tema»                 → añade un bloque [data-theme='x'] con los mismos nombres
- */
-
+/* Valores visuales de APPFIT. Intención: DESIGN.md; implementación: docs/DESIGN-SYSTEM.md.
+   Canales RGB para opacidad Tailwind. Ninguna pantalla define su propia paleta. */
 :root {
   color-scheme: light;
-
-  /* ── Color · superficies ───────────────────────────── */
-  --c-bg: 245 245 243;
+  --c-bg: 245 245 242;
   --c-surface: 255 255 255;
-  --c-surface-elevated: 255 255 255; /* sheets: se separan por sombra */
-  --c-surface-muted: 238 238 235; /* campos, botones secundarios, carriles */
-  --c-overlay: 20 20 22; /* backdrop de sheets */
-
-  /* ── Color · texto y bordes ────────────────────────── */
-  --c-text-primary: 20 20 22;
-  --c-text-secondary: 84 84 90;
-  --c-text-tertiary: 104 104 110;
-  --c-border: 228 228 224;
-  --c-border-strong: 200 200 195;
-
-  /* ── Color · marca y estado ────────────────────────── */
-  /* Naranja: relleno (CTA, progreso, activo de la navegación). Texto sobre él: NEGRO (6:1; el blanco daría 3:1). */
-  --c-accent: 250 100 20;
-  --c-on-accent: 20 20 22;
-  /* Naranja como TEXTO o icono sobre superficies claras (enlaces, «Deshacer», ghost): oscurecido para llegar a 4.5:1. */
-  --c-accent-strong: 180 65 0;
-  --c-accent-subtle: 255 236 224;
-  /* Selección (segmento activo, chip): negro. Cámbialo aquí para que la selección sea naranja. */
-  --c-selected: 20 20 22;
-  --c-on-selected: 250 250 248;
-  --c-focus: var(--c-accent-strong); /* anillo de foco */
-  --c-success: 22 128 90;
-  --c-warning: 160 98 0;
-  --c-destructive: 196 58 48;
+  --c-surface-elevated: 255 255 255;
+  --c-surface-muted: 236 236 231;
+  --c-overlay: 20 20 18;
+  --c-text-primary: 32 32 28;
+  --c-text-secondary: 87 87 79;
+  --c-text-tertiary: 102 102 92;
+  --c-border: 218 218 210;
+  --c-border-strong: 135 135 122;
+  --c-accent: 223 87 27;
+  --c-on-accent: 20 20 18;
+  --c-accent-strong: 157 55 13;
+  --c-accent-subtle: 255 236 222;
+  --c-selected: 255 255 255;
+  --c-on-selected: 32 32 28;
+  --c-focus: var(--c-accent-strong);
+  --c-success: 24 111 73;
+  --c-warning: 137 84 9;
+  --c-destructive: 175 49 38;
   --c-on-destructive: 255 255 255;
-
-  /* ── Color · datos (significan siempre lo mismo, en tarjeta, barra o gráfica) ── */
-  --c-kcal: var(--c-accent); /* el dato principal es el color de marca */
-  --c-protein: 84 110 160; /* pizarra */
-  --c-carbs: 120 140 80; /* salvia */
-  --c-fat: 160 110 150; /* malva */
-  --c-goal: var(--c-text-primary); /* marca de objetivo en carriles y gráficas */
-
-  /* ── Fondo · resplandor de marca arriba de las pestañas (App.tsx). Sigue a --c-accent. ── */
-  --glow-alpha: 0.26;
-  --glow-height: 30rem;
-  --gradient-page:
-    radial-gradient(ellipse 90% 100% at 100% 0%, rgb(var(--c-accent) / var(--glow-alpha)), transparent 70%),
-    radial-gradient(ellipse 80% 70% at 0% 0%, rgb(var(--c-accent-subtle) / 0.9), transparent 70%);
-
-  /* ── Tipografía ────────────────────────────────────── */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --c-kcal: var(--c-accent);
+  --c-protein: 66 95 136;
+  --c-carbs: 83 102 47;
+  --c-fat: 129 78 113;
+  --c-goal: var(--c-text-primary);
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-numeric: var(--font-sans);
-  /* tamaño / interlineado */
-  --fs-hero: 3.5rem; /* la cifra de una pantalla (kcal del día) */
-  --lh-hero: 1;
-  --fs-display: 2rem;
-  --lh-display: 2.25rem;
-  --fs-heading: 1.5rem;
-  --lh-heading: 2rem;
+  --fs-hero: 2.75rem;
+  --lh-hero: 1.1;
+  --fs-display: 1.75rem;
+  --lh-display: 1.2;
+  --fs-heading: 1.375rem;
+  --lh-heading: 1.4;
   --fs-title: 1.125rem;
-  --lh-title: 1.5rem;
-  --fs-body: 1rem; /* 16 px: mínimo para inputs (evita el zoom de iOS) */
-  --lh-body: 1.5rem;
+  --lh-title: 1.5;
+  --fs-body: 1rem;
+  --lh-body: 1.5;
   --fs-body-sm: 0.875rem;
-  --lh-body-sm: 1.25rem;
+  --lh-body-sm: 1.5;
   --fs-label: 0.8125rem;
-  --lh-label: 1rem;
+  --lh-label: 1.4;
   --fs-caption: 0.75rem;
-  --lh-caption: 1rem;
-  --fs-metric: 2.25rem; /* cifras grandes de segundo nivel */
-  --lh-metric: 1;
-
-  /* ── Spacing semántico (la escala base es la de 4 px de Tailwind) ── */
-  --space-page: 1.25rem; /* margen lateral de pantalla */
-  --space-section: 2rem; /* entre bloques de una pantalla */
-  --space-card: 1.25rem; /* padding interno de una card */
-  --space-stack: 0.75rem; /* entre elementos de un mismo bloque */
-  --touch-target: 2.75rem; /* 44 px */
-  --touch-target-lg: 3.25rem;
-  --sheet-max-height: 85dvh;
-  /* Barra de navegación flotante: separada de los bordes y por encima del home indicator. */
+  --lh-caption: 1.5;
+  --fs-metric: 1.75rem;
+  --lh-metric: 1.2;
+  --space-page: 1.25rem;
+  --space-section: 1.75rem;
+  --space-card: 1rem;
+  --space-stack: 0.75rem;
+  --touch-target: 2.75rem;
+  --touch-target-lg: 3rem;
+  --sheet-max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - 1rem);
+  --app-height: 100dvh;
   --nav-height: 4rem;
-  --nav-offset: max(env(safe-area-inset-bottom), 0.75rem);
-  --nav-clearance: calc(var(--nav-height) + var(--nav-offset) + 1.5rem); /* padding-bottom de las pantallas */
-  --nav-toast: calc(var(--nav-height) + var(--nav-offset) + 0.75rem); /* el Toast flota justo encima */
-
-  /* ── Radios ────────────────────────────────────────── */
-  --radius-sm: 0.625rem;
-  --radius-md: 0.875rem;
-  --radius-lg: 1.5rem;
+  --nav-toast: calc(var(--nav-height) + env(safe-area-inset-bottom) + 0.75rem);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-sheet: 1.5rem;
   --radius-pill: 9999px;
-
-  /* ── Elevación: solo dos niveles ───────────────────── */
-  --shadow-raised: 0 1px 2px rgb(20 20 22 / 0.04), 0 8px 24px rgb(20 20 22 / 0.06);
-  --shadow-overlay: 0 -8px 32px rgb(20 20 22 / 0.16), 0 2px 8px rgb(20 20 22 / 0.08);
-  --shadow-nav: 0 8px 24px rgb(20 20 22 / 0.28), 0 2px 6px rgb(20 20 22 / 0.16);
-
-  /* ── Motion ────────────────────────────────────────── */
+  --shadow-overlay: 0 -4px 24px rgb(20 20 18 / 0.12);
   --dur-short: 120ms;
-  --dur-normal: 220ms;
-  --dur-long: 360ms;
+  --dur-normal: 200ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-  --ease-emphasized: cubic-bezier(0.3, 0, 0, 1.05);
-  --motion-shift: 0.75rem; /* desplazamiento de las entradas (cambio de día, toast): discreto */
+  --motion-shift: 0.25rem;
 }
-
-/* Dark: valores propios, no una inversión. Superficies cálidas, acentos más claros y menos saturados.
-   theme.ts pone data-theme='light'|'dark' en <html> (siguiendo al sistema si no hay preferencia), así solo hay un bloque dark. */
 :root[data-theme='dark'] {
   color-scheme: dark;
-
-  --c-bg: 11 11 12;
-  --c-surface: 22 22 24;
-  --c-surface-elevated: 30 30 33;
-  --c-surface-muted: 40 40 44;
+  --c-bg: 20 20 18;
+  --c-surface: 32 32 29;
+  --c-surface-elevated: 39 39 35;
+  --c-surface-muted: 45 45 40;
   --c-overlay: 0 0 0;
-
-  --c-text-primary: 244 244 241;
-  --c-text-secondary: 178 178 184;
-  --c-text-tertiary: 142 142 148;
-  --c-border: 42 42 46;
-  --c-border-strong: 68 68 74;
-
-  --c-accent: 255 122 51;
-  --c-on-accent: 20 20 22;
-  --c-accent-strong: 255 138 76;
-  --c-accent-subtle: 58 32 18;
-  --c-selected: 244 244 241;
-  --c-on-selected: 20 20 22;
-  --c-success: 74 201 150;
-  --c-warning: 232 178 70;
-  --c-destructive: 240 120 110;
-  --c-on-destructive: 20 20 22;
-
-  --c-protein: 122 152 208;
-  --c-carbs: 156 178 108;
-  --c-fat: 198 148 188;
-
-  --glow-alpha: 0.22;
-  --gradient-page: radial-gradient(ellipse 90% 100% at 100% 0%, rgb(var(--c-accent) / var(--glow-alpha)), transparent 70%);
-
-  --shadow-raised: 0 0 0 1px rgb(255 255 255 / 0.04);
-  --shadow-overlay: 0 -8px 32px rgb(0 0 0 / 0.6);
-  --shadow-nav: 0 8px 24px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(255 255 255 / 0.08);
+  --c-text-primary: 245 245 239;
+  --c-text-secondary: 194 194 181;
+  --c-text-tertiary: 170 170 154;
+  --c-border: 68 68 59;
+  --c-border-strong: 132 132 118;
+  --c-accent: 255 148 92;
+  --c-on-accent: 20 20 18;
+  --c-accent-strong: 255 170 124;
+  --c-accent-subtle: 68 39 24;
+  --c-selected: 65 65 57;
+  --c-on-selected: 245 245 239;
+  --c-success: 105 207 157;
+  --c-warning: 235 193 97;
+  --c-destructive: 255 148 135;
+  --c-on-destructive: 20 20 18;
+  --c-protein: 151 179 221;
+  --c-carbs: 173 195 121;
+  --c-fat: 215 166 201;
+  --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
 }
-
-/* Superficie «ink» (hero negro de una pantalla): redefine los tokens semánticos, así ProgressRing, ProgressBar, Button ghost,
-   Badge y los textos se adaptan solos sin variantes por componente. Se usa como mucho una por pantalla.
-   Las variables que referencian a otras se resuelven donde se declaran: por eso --c-goal y --c-focus se redeclaran aquí. */
-[data-surface='ink'] {
-  --c-surface: 20 20 22;
-  --c-surface-muted: 48 48 54;
-  --c-text-primary: 250 250 248;
-  --c-text-secondary: 194 194 200;
-  --c-text-tertiary: 164 164 170;
-  --c-border: 58 58 64;
-  --c-accent-strong: 255 138 76;
-  --c-accent-subtle: 62 34 18;
-  --c-selected: 250 250 248; /* el «contrast» y el segmento activo se invierten dentro de ink */
-  --c-on-selected: 20 20 22;
-  --c-destructive: 255 130 120;
-  --c-on-destructive: 20 20 22;
-  --c-goal: var(--c-text-primary);
+/* Aviso temporal, sin obligar a usar bloques negros en las pantallas. */
+[data-surface='inverse'] {
+  --c-surface: 32 32 28;
+  --c-text-primary: 245 245 239;
+  --c-text-secondary: 194 194 181;
+  --c-accent-strong: 255 170 124;
+  --c-destructive: 255 148 135;
   --c-focus: var(--c-accent-strong);
 }
-
-/* En oscuro el ink es una superficie elevada (un negro sobre el negro del fondo no se distingue). */
-:root[data-theme='dark'] [data-surface='ink'] {
-  --c-surface: 32 32 36;
-  --c-surface-muted: 58 58 64;
-  --c-text-tertiary: 174 174 180;
-  --c-border: 64 64 70;
+:root[data-theme='dark'] [data-surface='inverse'] {
+  --c-surface: 245 245 239;
+  --c-text-primary: 32 32 28;
+  --c-text-secondary: 87 87 79;
+  --c-accent-strong: 157 55 13;
+  --c-destructive: 175 49 38;
 }
-
-/* Reduced motion: las duraciones colapsan a 0 y todo lo que use estos tokens deja de animarse. */
+@media (max-width: 359px) {
+  :root { --space-page: 1rem; }
+}
 @media (prefers-reduced-motion: reduce) {
-  :root {
-    --dur-short: 0ms;
-    --dur-normal: 0ms;
-    --dur-long: 0ms;
-  }
+  :root { --dur-short: 0ms; --dur-normal: 0ms; }
 }

@@ -7,7 +7,6 @@ import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { resumenMacros, sumMacros } from '../lib/nutrition'
 import { nombreVisible } from '../lib/nombresCortos'
 import { agruparPlatos, type Plato } from '../lib/platos'
-import FranjaMacros from './FranjaMacros'
 
 interface Props {
   titulo: string
@@ -31,7 +30,7 @@ interface Props {
 /** «Kcal rápidas» (A5) no tiene gramos: se muestra solo con los macros que se hayan indicado. */
 function detalleEntry(e: Entry): string {
   if (!e.rapida) {
-    return `${formatNumber(e.gramos, 1)} g · P${formatInt(e.prot)} C${formatInt(e.carb)} G${formatInt(e.grasa)}`
+    return `${formatNumber(e.gramos, 1)} g`
   }
   const macros = ([
     ['P', e.prot],
@@ -53,7 +52,7 @@ function FilaEntrada({ entry: e, nombreCorto, onEditar, onBorrar }: { entry: Ent
         className="-mx-2 flex min-h-touch min-w-0 flex-1 items-center gap-3 rounded-md px-2 py-2 text-left transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted"
       >
         <span className="min-w-0 flex-1">
-          <span className="line-clamp-2 block text-body-sm font-medium text-fg" title={e.nombre}>{nombreCorto}</span>
+          <span className="block break-words text-body font-medium text-fg" title={e.nombre}>{nombreCorto}</span>
           <span className="tabular block text-caption text-fg-muted">{detalleEntry(e)}</span>
         </span>
         <span className="tabular shrink-0 text-body font-semibold text-fg">
@@ -72,7 +71,7 @@ function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato }: 
   const totales = sumMacros(plato.entries)
   return (
     <li>
-      <Card tone="muted" padded={false} className="overflow-hidden border border-line">
+      <Card padded={false} className="overflow-hidden">
         <div className="flex items-center gap-1 px-3 py-1">
           <button
             type="button"
@@ -83,7 +82,7 @@ function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato }: 
           >
             <Icon name="chevron-right" size={16} className={`text-fg-muted transition-transform duration-short ${abierto ? 'rotate-90' : ''}`} />
             <span className="min-w-0 flex-1">
-              <span className="line-clamp-2 block text-body-sm font-medium text-fg">{plato.nombre}</span>
+              <span className="line-clamp-2 block text-body font-semibold text-fg" title={plato.nombre}>{plato.nombre}</span>
               <span className="block text-caption text-fg-muted">
                 {formatInt(plato.entries.length)} {plato.entries.length === 1 ? 'alimento' : 'alimentos'} · {abierto ? 'Ocultar ingredientes' : 'Ver ingredientes'}
               </span>
@@ -117,7 +116,7 @@ export default function ComidaSection({ titulo, entries, nombresCortos, onAccion
     </Button>
   )
   return (
-    <section aria-label={titulo}>
+    <section aria-label={titulo} className="border-t border-line pt-2">
       <div className="flex items-center justify-between gap-2">
         <h2 className="text-title text-fg">{titulo}</h2>
         <div className="flex items-center gap-1">
@@ -136,9 +135,6 @@ export default function ComidaSection({ titulo, entries, nombresCortos, onAccion
       </div>
       {hayEntradas && (
         <>
-          <div className="mt-1">
-            <FranjaMacros macros={totales} />
-          </div>
           <ul className="mt-3 space-y-stack">
             {agruparPlatos(entries, (entry) => nombreVisible(entry, nombresCortos)).map((plato) =>
               plato.agrupado ? (

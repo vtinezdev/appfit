@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida, Entry, Meal } from '../../../shared/db/types'
 import { comidaPorHora } from '../../../shared/lib/dates'
-import AnimatedNumber from '../../../shared/components/AnimatedNumber'
-import Card from '../../../shared/components/Card'
+import ModalPage from '../../../shared/components/ModalPage'
+import ViewTabs from '../../../shared/components/ViewTabs'
 import Icon from '../../../shared/components/Icon'
 import NumberStepper from '../../../shared/components/NumberStepper'
 import SectionHeader from '../../../shared/components/SectionHeader'
@@ -42,7 +42,7 @@ import EscanerCodigo from '../components/EscanerCodigo'
 import Medidas from './Medidas'
 import Button from '../../../shared/components/Button'
 import { Input } from '../../../shared/components/Input'
-import { ErrorState } from '../../../shared/components/StateMessage'
+import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 
 interface Props {
   fecha: string
@@ -68,6 +68,9 @@ function itemDesdeEntrada(e: Entry): ItemRevision {
 
 export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClose, onGuardado }: Props) {
   const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? comidaInicial ?? comidaPorHora())
+  const [metodo, setMetodo] = useState<'describir' | 'buscar' | 'plantillas'>('describir')
+  const [guardandoRapido, setGuardandoRapido] = useState(false)
+  const [errorRapido, setErrorRapido] = useState<string | null>(null)
   const [texto, setTexto] = useState('')
   const [textoOriginal, setTextoOriginal] = useState('')
   const [nombrePlato, setNombrePlato] = useState('')
@@ -75,6 +78,8 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
   const [guardando, setGuardando] = useState(false)
   const [errorGuardar, setErrorGuardar] = useState<string | null>(null)
   const [items, setItems] = useState<ItemRevision[] | null>(entryEditar ? [itemDesdeEntrada(entryEditar)] : null)
+  // Identidad solo de UI: quitar un ingrediente no traslada su formulario a la fila siguiente.
+  const [clavesItems, setClavesItems] = useState<string[]>(entryEditar ? [`entrada-${entryEditar.id}`] : [])
   const [aplicarAlAlimento, setAplicarAlAlimento] = useState(false)
   const alimentoDeLaEntrada = useLiveQuery(
     async () => (entryEditar?.foodId !== undefined ? ((await foodsRepo.obtener(entryEditar.foodId)) ?? null) : null),
@@ -113,12 +118,19 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
     const descripcion = texto.trim()
     const resultado = await local.interpretar(descripcion)
     if (resultado) {
-      setItems((prev) => anadiendo && prev ? [...prev, ...resultado] : resultado)
+      abrirRevision(resultado, anadiendo)
       setTextoOriginal((prev) => anadiendo ? [prev, descripcion].filter(Boolean).join('\n') : descripcion)
       setTexto('')
       setAnadiendo(false)
       setErrorGuardar(null)
     }
+  }
+
+  function abrirRevision(nuevos: ItemRevision[], agregar = false) {
+    const claves = nuevos.map(() => crypto.randomUUID())
+    setItems((prev) => agregar && prev ? [...prev, ...nuevos] : nuevos)
+    setClavesItems((prev) => agregar ? [...prev, ...claves] : claves)
+    if (!agregar) setNombreCortoEditando(false)
   }
 
   /** «Cambiar»: sustituye el alimento del ítem conservando los gramos (o la medida por elegir) y las demás opciones. */
@@ -136,6 +148,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
 
   function quitarItem(i: number) {
     setItems((prev) => prev?.filter((_, idx) => idx !== i) ?? null)
+    setClavesItems((prev) => prev.filter((_, idx) => idx !== i))
   }
 
   async function guardar() {
@@ -168,15 +181,22 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
   }
 
   async function confirmarRapido() {
-    if (!gramosRapido) return
-    const { alimento, gramos } = gramosRapido
-    const id =
-      alimento.ref.tipo === 'user'
+    if (!gramosRapido || guardandoRapido) return
+    setGuardandoRapido(true)
+    setErrorRapido(null)
+    try {
+      const { alimento, gramos } = gramosRapido
+      const id = alimento.ref.tipo === 'user'
         ? await entriesRepo.anadirDesdeAlimento({ fecha, comida, foodId: alimento.ref.id, gramos })
         : await entriesRepo.anadirDesdeCatalogo({ fecha, comida, catalogId: alimento.ref.id, gramos })
-    if (id === undefined) return
-    setGramosRapido(null)
-    onGuardado()
+      if (id === undefined) { setErrorRapido('Este alimento ya no está disponible. Elige otro.'); return }
+      setGramosRapido(null)
+      onGuardado()
+    } catch {
+      setErrorRapido('No se ha podido guardar. Inténtalo de nuevo.')
+    } finally {
+      setGuardandoRapido(false)
+    }
   }
 
   async function guardarKcalRapidas() {
@@ -200,51 +220,35 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
   const aporteRapido = gramosRapido ? macrosPorGramos(gramosRapido.alimento, gramosRapido.gramos) : null
   const kcalTotales = totales ? Math.round(totales.kcal) : 0
   const kcalRapido = aporteRapido ? Math.round(aporteRapido.kcal) : 0
-  const columna = 'mx-auto w-full max-w-lg px-page'
 
   return (
-    <div className="fixed inset-0 z-50 flex animate-rise-in flex-col bg-bg">
-      <header className="safe-top border-b border-line">
-        <div className={`${columna} flex items-center justify-between py-3`}>
-          <Button variant="ghost" onClick={onClose} className="-ml-4">
-            Cancelar
+    <ModalPage title={entryEditar ? 'Editar alimento' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose}
+      footer={items !== null && items.length > 0 && totales && (
+        <div className="space-y-2">
+          {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
+          <Button size="lg" block loading={guardando} onClick={guardar} disabled={anadiendo || nombreCortoEditando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
+            {guardando ? 'Guardando…' : `Guardar · ${formatInt(kcalTotales)} kcal`}
           </Button>
-          <h1 className="text-title text-fg">{entryEditar ? 'Editar' : 'Añadir comida'}</h1>
-          <div className="w-16" />
         </div>
-      </header>
-
-      <div className="flex-1 overflow-y-auto overscroll-contain">
-        <div className={`${columna} space-y-section py-6`}>
-          <SegmentedControl opciones={COMIDAS} valor={comida} onChange={setComida} />
+      )}>
+      <div className="space-y-5">
+        <SegmentedControl label="Comida del día" opciones={COMIDAS} valor={comida} onChange={setComida} />
 
           {items === null && (
-            <>
-              <PlantillasLista onElegir={setPlantillaElegida} />
-
-              <div className="space-y-3">
-                <DescribirComida
-                  texto={texto}
-                  onTextoChange={setTexto}
-                  onInterpretar={interpretar}
-                  cargando={local.cargando}
-                  error={local.error}
-                  onVerMedidas={() => setVerMedidas(true)}
-                />
-                <Button
-                  variant="secondary"
-                  block
-                  onClick={() => {
-                    setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 })
-                    setErrorRapida(null)
-                  }}
-                >
-                  Kcal rápidas
-                </Button>
+            <ViewTabs label="Cómo añadir comida" opciones={[
+              { valor: 'describir', label: 'Describir' },
+              { valor: 'buscar', label: 'Buscar' },
+              { valor: 'plantillas', label: 'Plantillas' },
+            ]} valor={metodo} onChange={setMetodo}>
+              <div className="space-y-section">
+                {metodo === 'describir' && <DescribirComida texto={texto} onTextoChange={setTexto} onInterpretar={interpretar} cargando={local.cargando} error={local.error} onVerMedidas={() => setVerMedidas(true)} />}
+                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => { setErrorRapido(null); setGramosRapido({ alimento, gramos: 100 }) }} onEscanear={() => setEscaneando(true)} />}
+                {metodo === 'plantillas' && <PlantillasLista onElegir={setPlantillaElegida} />}
+                <div className="border-t border-line pt-3">
+                  <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}>Solo registrar calorías</Button>
+                </div>
               </div>
-
-              <AlimentosRapidos comida={comida} onElegir={(alimento) => setGramosRapido({ alimento, gramos: 100 })} onEscanear={() => setEscaneando(true)} />
-            </>
+            </ViewTabs>
           )}
 
           {items !== null && totales && (
@@ -253,7 +257,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
                 <div className="space-y-2">
                   <label htmlFor="nombre-plato" className="block text-caption text-fg-muted">Nombre del plato (opcional)</label>
                   <Input id="nombre-plato" tone="surface" value={nombrePlato} onChange={(e) => setNombrePlato(e.target.value)} placeholder="Por ejemplo, huevos con longaniza" aria-describedby="ayuda-plato" />
-                  <p id="ayuda-plato" className="text-body-sm text-fg-muted">Se guardarán juntos como un plato. Podrás desplegarlo para ver o editar cada alimento. Sin nombre, se usarán los nombres de los alimentos.</p>
+                  <p id="ayuda-plato" className="text-body-sm text-fg-muted">Un solo plato. Podrás desplegar sus ingredientes en Nutrición.</p>
                 </div>
               )}
               <section aria-label={items.length === 1 ? 'Alimento' : 'Alimentos'} className="space-y-1">
@@ -269,10 +273,11 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
                 >
                   {items.length === 1 ? 'Alimento' : `Alimentos · ${items.length}`}
                 </SectionHeader>
-                <Card padded={false} className="divide-y divide-line">
+                <div className="space-y-stack">
+                  {items.length === 0 && <EmptyState title="La revisión está vacía">Añade otro alimento o vuelve a interpretar tu descripción.</EmptyState>}
                   {items.map((item, i) => (
                     <ItemRevisionRow
-                      key={i}
+                      key={clavesItems[i]}
                       item={item}
                       onChange={(patch) => actualizarItem(i, patch)}
                       nombreCorto={item.nombreCortoModificado ? item.nombreCorto : nombresGuardadosRevision?.get(i) ?? item.nombreCorto}
@@ -283,7 +288,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
                       aviso={actualizaAlimentoGuardado(item) ? 'Actualizará el alimento guardado en «Alimentos».' : undefined}
                     />
                   ))}
-                </Card>
+                </div>
               </section>
               {entryEditar && alimentoDeLaEntrada && (
                 <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg-muted">
@@ -330,6 +335,8 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
                       onClick={() => {
                         setTexto(textoOriginal)
                         setItems(null)
+                        setClavesItems([])
+                        setNombreCortoEditando(false)
                       }}
                     >
                       <Icon name="arrow-left" size={16} />
@@ -344,32 +351,19 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
               )}
             </div>
           )}
-        </div>
       </div>
 
-      {items !== null && items.length > 0 && totales && (
-        <div className="safe-bottom border-t border-line bg-bg">
-          <div className={`${columna} space-y-2 py-3`}>
-            {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
-            <Button size="lg" block loading={guardando} onClick={guardar} disabled={anadiendo || nombreCortoEditando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
-              {guardando ? (
-                'Guardando…'
-              ) : (
-                <span>
-                  Guardar · <AnimatedNumber value={kcalTotales} /> kcal
-                </span>
-              )}
-            </Button>
-          </div>
-        </div>
-      )}
-
-      <Sheet open={gramosRapido !== null} onClose={() => setGramosRapido(null)} title={gramosRapido?.alimento.nombre}>
+      <Sheet open={gramosRapido !== null} onClose={() => setGramosRapido(null)} title="Cantidad"
+        footer={gramosRapido && <div className="space-y-2">
+          {errorRapido && <ErrorState>{errorRapido}</ErrorState>}
+          <Button block loading={guardandoRapido} onClick={confirmarRapido}>Añadir</Button>
+        </div>}>
         {gramosRapido && aporteRapido && (
           <div className="space-y-5">
+            <h3 className="break-words text-title text-fg">{gramosRapido.alimento.nombre}</h3>
             <div className="text-center">
               <p className="flex items-baseline justify-center gap-1.5 text-fg">
-                <AnimatedNumber value={kcalRapido} className="text-display" />
+                <span className="tabular text-display">{formatInt(kcalRapido)}</span>
                 <span className="text-body text-fg-muted">kcal</span>
               </p>
               <p className="tabular mt-1 text-body-sm text-fg-subtle">
@@ -379,9 +373,6 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
             <div className="flex justify-center">
               <NumberStepper label={gramosRapido.alimento.ml ? 'mililitros' : 'gramos'} value={gramosRapido.gramos} onChange={(v) => setGramosRapido({ ...gramosRapido, gramos: v })} step={10} suffix={gramosRapido.alimento.ml ? 'ml' : 'g'} />
             </div>
-            <Button block onClick={confirmarRapido}>
-              Añadir
-            </Button>
           </div>
         )}
       </Sheet>
@@ -395,11 +386,11 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
         }}
         onIncompleto={({ nombre, valores }) => {
           setEscaneando(false)
-          setItems([itemDeProductoIncompleto(nombre, valores)])
+          abrirRevision([itemDeProductoIncompleto(nombre, valores)])
         }}
         onManual={() => {
           setEscaneando(false)
-          setItems([itemSinCoincidencia('', 100)])
+          abrirRevision([itemSinCoincidencia('', 100)])
         }}
         onKcalRapidas={() => {
           setEscaneando(false)
@@ -437,6 +428,6 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
           }}
         />
       )}
-    </div>
+    </ModalPage>
   )
 }

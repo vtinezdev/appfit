@@ -4,20 +4,18 @@ import Icon from './Icon'
 interface FieldProps {
   /** `muted` (por defecto) dentro de sheets y cards; `surface` cuando el campo va directamente sobre el fondo de pantalla. */
   tone?: 'muted' | 'surface'
-  /** Campo compacto (filas con varios números). Sigue a 16 px de texto: el CSS global lo garantiza. */
-  dense?: boolean
 }
 
-/** Todos los campos comparten esta base: texto ≥16 px (sin zoom en iOS) zona táctil de 44 px salvo `dense`, foco visible (anillo global) y `aria-invalid` con anillo destructive. */
-function field({ tone = 'muted', dense }: FieldProps, tall: boolean, className: string) {
+/** Campos de 16 px, controles de al menos 44 px, foco visible y borde de error. */
+function field({ tone = 'muted' }: FieldProps, tall: boolean, className: string) {
   const bg = tone === 'surface' ? 'bg-surface' : 'bg-surface-muted'
-  const size = dense ? 'px-2 py-1.5' : `px-3 ${tall ? 'min-h-touch' : 'py-2.5'}`
+  const size = `px-3 ${tall ? 'min-h-touch' : 'py-2.5'}`
   const width = /(^|\s)w-/.test(className) ? '' : 'w-full' // un `w-24` explícito sustituye al ancho completo
-  return `${width} min-w-0 rounded-md ${bg} ${size} text-body text-fg transition-shadow duration-short placeholder:text-fg-subtle aria-invalid:ring-2 aria-invalid:ring-destructive disabled:opacity-50`
+  return `${width} min-w-0 border border-line-strong rounded-md ${bg} ${size} text-body text-fg transition-colors duration-short placeholder:text-fg-subtle aria-invalid:border-destructive disabled:opacity-50`
 }
 
-export function Input({ tone, dense, className = '', ...rest }: InputHTMLAttributes<HTMLInputElement> & FieldProps) {
-  return <input className={`${field({ tone, dense }, true, className)} ${className}`} {...rest} />
+export function Input({ tone, className = '', ...rest }: InputHTMLAttributes<HTMLInputElement> & FieldProps) {
+  return <input className={`${field({ tone }, true, className)} ${className}`} {...rest} />
 }
 
 /** Buscador: mismo campo con una lupa a la izquierda. El nombre accesible es obligatorio (el placeholder no lo es). */
@@ -30,10 +28,10 @@ export function SearchInput({ tone, className = '', ...rest }: Omit<InputHTMLAtt
   )
 }
 
-export function Textarea({ tone, dense, className = '', ...rest }: TextareaHTMLAttributes<HTMLTextAreaElement> & FieldProps) {
-  return <textarea className={`${field({ tone, dense }, false, className)} ${className}`} {...rest} />
+export function Textarea({ tone, className = '', ...rest }: TextareaHTMLAttributes<HTMLTextAreaElement> & FieldProps) {
+  return <textarea className={`${field({ tone }, false, className)} ${className}`} {...rest} />
 }
 
-export function Select({ tone, dense, className = '', ...rest }: SelectHTMLAttributes<HTMLSelectElement> & FieldProps) {
-  return <select className={`${field({ tone, dense }, true, className)} ${className}`} {...rest} />
+export function Select({ tone, className = '', ...rest }: SelectHTMLAttributes<HTMLSelectElement> & FieldProps) {
+  return <select className={`${field({ tone }, true, className)} ${className}`} {...rest} />
 }

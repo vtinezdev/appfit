@@ -19,7 +19,7 @@ export default {
       // texto: text-fg, text-fg-muted, text-fg-subtle
       fg: { DEFAULT: c('text-primary'), muted: c('text-secondary'), subtle: c('text-tertiary') },
       line: { DEFAULT: c('border'), strong: c('border-strong') }, // border-line, border-line-strong
-      // accent = relleno; accent-strong = naranja como texto/icono (llega a 4.5:1); accent-on = texto sobre el relleno
+      // Acento funcional; strong tiene contraste de texto en cada tema.
       accent: { DEFAULT: c('accent'), subtle: c('accent-subtle'), on: c('on-accent'), strong: c('accent-strong') },
       selected: { DEFAULT: c('selected'), on: c('on-selected') }, // segmento / chip activo
       success: c('success'),
@@ -34,8 +34,8 @@ export default {
     },
     fontFamily: { sans: 'var(--font-sans)', numeric: 'var(--font-numeric)' },
     fontSize: {
-      hero: ['var(--fs-hero)', { lineHeight: 'var(--lh-hero)', fontWeight: '800', letterSpacing: '-0.045em' }],
-      display: ['var(--fs-display)', { lineHeight: 'var(--lh-display)', fontWeight: '800', letterSpacing: '-0.03em' }],
+      hero: ['var(--fs-hero)', { lineHeight: 'var(--lh-hero)', fontWeight: '800', letterSpacing: '-0.04em' }],
+      display: ['var(--fs-display)', { lineHeight: 'var(--lh-display)', fontWeight: '700', letterSpacing: '-0.035em' }],
       heading: ['var(--fs-heading)', { lineHeight: 'var(--lh-heading)', fontWeight: '700', letterSpacing: '-0.02em' }],
       title: ['var(--fs-title)', { lineHeight: 'var(--lh-title)', fontWeight: '600', letterSpacing: '-0.01em' }],
       body: ['var(--fs-body)', { lineHeight: 'var(--lh-body)' }],
@@ -49,6 +49,7 @@ export default {
       sm: 'var(--radius-sm)',
       md: 'var(--radius-md)',
       lg: 'var(--radius-lg)',
+      sheet: 'var(--radius-sheet)',
       pill: 'var(--radius-pill)',
     },
     extend: {
@@ -59,16 +60,14 @@ export default {
         stack: 'var(--space-stack)',
         touch: 'var(--touch-target)',
       },
-      height: { nav: 'var(--nav-height)', glow: 'var(--glow-height)' },
-      backgroundImage: { 'page-glow': 'var(--gradient-page)' },
-      inset: { 'nav-offset': 'var(--nav-offset)', 'nav-toast': 'var(--nav-toast)' },
-      padding: { nav: 'var(--nav-clearance)' },
+      height: { nav: 'var(--nav-height)', app: 'var(--app-height)' },
+      inset: { 'nav-toast': 'var(--nav-toast)' },
       minHeight: { touch: 'var(--touch-target)', 'touch-lg': 'var(--touch-target-lg)' },
       maxHeight: { sheet: 'var(--sheet-max-height)' },
       minWidth: { touch: 'var(--touch-target)' },
-      boxShadow: { raised: 'var(--shadow-raised)', overlay: 'var(--shadow-overlay)', nav: 'var(--shadow-nav)' },
-      transitionDuration: { short: 'var(--dur-short)', normal: 'var(--dur-normal)', long: 'var(--dur-long)' },
-      transitionTimingFunction: { standard: 'var(--ease-standard)', emphasized: 'var(--ease-emphasized)' },
+      boxShadow: { overlay: 'var(--shadow-overlay)' },
+      transitionDuration: { short: 'var(--dur-short)', normal: 'var(--dur-normal)' },
+      transitionTimingFunction: { standard: 'var(--ease-standard)' },
       // Entradas discretas. Duración y distancia salen de los tokens de motion (0 con prefers-reduced-motion).
       keyframes: {
         'shift-next': { from: { opacity: '0', transform: 'translateX(var(--motion-shift))' }, to: { opacity: '1', transform: 'none' } },

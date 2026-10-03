@@ -3,6 +3,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/manrope-latin-variable.woff2') format('woff2');
+}
+
 html, body, #root {
   height: 100%;
 }
@@ -16,6 +24,17 @@ body {
 /* Inputs editables: 16 px como mínimo en móvil para evitar el zoom automático de iOS. */
 input, select, textarea, button {
   font-size: 16px;
+}
+input, select, textarea { scroll-margin-block: 1rem; }
+button, input, select, textarea { touch-action: manipulation; }
+button { overflow-wrap: anywhere; }
+button:disabled { cursor: default; }
+input[type='checkbox'] { min-width: 20px; min-height: 20px; }
+
+/* Geometría del área visible, incluido el teclado cuando el navegador expone visualViewport. */
+.modal-viewport {
+  top: var(--viewport-top, 0px);
+  height: var(--viewport-height, 100dvh);
 }
 
 /* Cifras tabulares: los números no bailan al cambiar. */
@@ -47,6 +66,4 @@ input, select, textarea, button {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
+/* El scroll es visible donde el navegador lo necesita; no se oculta globalmente. */

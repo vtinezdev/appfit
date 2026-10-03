@@ -19,7 +19,7 @@ const TONES: Record<Tone, string> = {
 /** Pastilla informativa: procedencia («Tuyo», «CIQUAL»), contadores, % de reparto. No es pulsable. */
 export default function Badge({ children, tone = 'neutral', dotClass, className = '' }: Props) {
   return (
-    <span className={`tabular inline-flex items-center gap-1.5 whitespace-nowrap rounded-pill px-2.5 py-0.5 text-caption font-semibold ${TONES[tone]} ${className}`}>
+    <span className={`tabular inline-flex items-center gap-1.5 rounded-sm px-2 py-0.5 text-caption font-medium ${TONES[tone]} ${className}`}>
       {dotClass && <span className={`h-2 w-2 rounded-pill ${dotClass}`} aria-hidden />}
       {children}
     </span>

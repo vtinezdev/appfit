@@ -112,44 +112,7 @@ export default function Rutinas() {
         </ListGroup>
       )}
 
-      <Sheet open={editando !== null} onClose={() => abrir(null)} title={editando?.id ? 'Editar rutina' : 'Nueva rutina'}>
-        {editando && (
-          <div className="space-y-3">
-            <Input
-              value={editando.nombre}
-              onChange={(e) => setEditando({ ...editando, nombre: e.target.value })}
-              placeholder="Nombre de la rutina"
-            />
-
-            <div className="space-y-1">
-              {editando.exerciseIds.map((id) => (
-                <div key={id} className="flex min-h-touch items-center justify-between gap-2 rounded-md bg-surface-muted pl-3 pr-1">
-                  <span className="min-w-0 text-body-sm text-fg">{exerciseMap.get(id)?.nombre ?? '…'}</span>
-                  <IconButton icon="close" label={`Quitar ${exerciseMap.get(id)?.nombre ?? 'ejercicio'}`} variant="ghost" size="sm" onClick={() => quitarEjercicio(id)} />
-                </div>
-              ))}
-            </div>
-
-            <SearchInput
-              aria-label="Buscar o crear ejercicio"
-              value={busquedaEj}
-              onChange={(e) => setBusquedaEj(e.target.value)}
-              placeholder="Buscar o crear ejercicio…"
-            />
-            <div className="max-h-40 space-y-1 overflow-y-auto">
-              {resultados?.map((ex) => (
-                <ListRow tone="muted" key={ex.id} onClick={() => agregarEjercicio(ex.id!)} className="text-body-sm">
-                  {ex.nombre}
-                </ListRow>
-              ))}
-              {busquedaEj.trim() && !existeExacto && (
-                <ListRow tone="accent" onClick={crearEjercicioYAgregar} className="text-body-sm">
-                  Crear «{busquedaEj.trim()}»
-                </ListRow>
-              )}
-            </div>
-
-            {error && <ErrorState>{error}</ErrorState>}
+      <Sheet open={editando !== null} onClose={() => abrir(null)} title={editando?.id ? 'Editar rutina' : 'Nueva rutina'} footer={editando && <div className="space-y-2">            {error && <ErrorState>{error}</ErrorState>}
 
             {confirmandoBorrado && editando.id ? (
               <div className="pt-2">
@@ -172,7 +135,44 @@ export default function Rutinas() {
                   Guardar
                 </Button>
               </div>
-            )}
+            )}</div>}>
+        {editando && (
+          <div className="space-y-3">
+            <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la rutina</span><Input
+              value={editando.nombre}
+              onChange={(e) => setEditando({ ...editando, nombre: e.target.value })}
+              placeholder="Nombre de la rutina"
+            /></label>
+
+            <div className="space-y-1">
+              {editando.exerciseIds.map((id, i) => (
+                <div key={id} className="flex min-h-touch items-center justify-between gap-2 border-b border-line py-1">
+                  <span className="tabular text-caption text-fg-muted">{i + 1}</span><span className="min-w-0 flex-1 break-words text-body text-fg">{exerciseMap.get(id)?.nombre ?? '…'}</span>
+                  <IconButton icon="close" label={`Quitar ${exerciseMap.get(id)?.nombre ?? 'ejercicio'}`} variant="ghost" size="sm" onClick={() => quitarEjercicio(id)} />
+                </div>
+              ))}
+            </div>
+
+            <SearchInput
+              aria-label="Buscar o crear ejercicio"
+              value={busquedaEj}
+              onChange={(e) => setBusquedaEj(e.target.value)}
+              placeholder="Buscar o crear ejercicio…"
+            />
+            <div className="divide-y divide-line">
+              {resultados?.map((ex) => (
+                <ListRow tone="flat" key={ex.id} onClick={() => agregarEjercicio(ex.id!)} className="text-body">
+                  {ex.nombre}
+                </ListRow>
+              ))}
+              {busquedaEj.trim() && !existeExacto && (
+                <ListRow tone="accent" onClick={crearEjercicioYAgregar} className="text-body-sm">
+                  Crear «{busquedaEj.trim()}»
+                </ListRow>
+              )}
+            </div>
+
+
           </div>
         )}
       </Sheet>

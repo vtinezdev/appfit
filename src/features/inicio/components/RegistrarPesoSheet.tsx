@@ -39,16 +39,15 @@ export default function RegistrarPesoSheet({ open, onClose, pesoInicial, onGuard
   }
 
   return (
-    <Sheet open={open} onClose={onClose} title="Registrar peso">
+    <Sheet open={open} onClose={onClose} title="Registrar peso" footer={<div className="space-y-2">
+      {error && <ErrorState>{error}</ErrorState>}
+      <Button block loading={guardando} onClick={guardar}>{guardando ? 'Guardando…' : 'Guardar'}</Button>
+    </div>}>
       <div className="space-y-4">
         <div className="flex justify-center">
           <NumberStepper value={kg} onChange={setKg} step={0.1} min={0} suffix="kg" label="Peso" />
         </div>
         <p className="text-center text-caption text-fg-subtle">Un pesaje por día: si ya hay uno de hoy, se sustituye.</p>
-        {error && <ErrorState>{error}</ErrorState>}
-        <Button block loading={guardando} onClick={guardar}>
-          {guardando ? 'Guardando…' : 'Guardar'}
-        </Button>
       </div>
     </Sheet>
   )

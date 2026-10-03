@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Button from '../../../shared/components/Button'
-import Card from '../../../shared/components/Card'
+import Disclosure from '../../../shared/components/Disclosure'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
@@ -51,7 +51,7 @@ export default function CatalogoAjustes() {
   return (
     <section aria-label="Catálogo de alimentos" className="space-y-stack">
       <SectionHeader variant="section">Catálogo de alimentos</SectionHeader>
-      <Card className="space-y-3">
+      <Disclosure title="Fuentes, licencias y mantenimiento"><div className="space-y-3">
 
       {fuentes === undefined ? (
         <LoadingState />
@@ -66,7 +66,7 @@ export default function CatalogoAjustes() {
         <ul className="space-y-2">
           {fuentes.map((f) => (
             <li key={f.id} className="space-y-1">
-              <div className="flex items-baseline justify-between gap-3">
+              <div className="flex flex-wrap items-baseline justify-between gap-3">
                 <span className="text-body-sm text-fg-muted">{nombreFuente(f.id)}</span>
                 <span className="text-body-sm text-fg-subtle">{detalleFuente(f)}</span>
               </div>
@@ -80,7 +80,7 @@ export default function CatalogoAjustes() {
       {estado?.tipo === 'error' && <ErrorState>{estado.texto}</ErrorState>}
 
       {!confirmandoBorrado ? (
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button variant="secondary" loading={buscando} onClick={buscarActualizacion} className="flex-1">
             {buscando ? 'Buscando…' : 'Buscar actualización'}
           </Button>
@@ -99,7 +99,7 @@ export default function CatalogoAjustes() {
           ocupado={borrando}
         />
       )}
-      </Card>
+      </div></Disclosure>
     </section>
   )
 }

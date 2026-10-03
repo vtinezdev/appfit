@@ -1,20 +1,19 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import Icon, { type IconName } from './Icon'
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'danger' | 'contrast'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'danger'
 type Size = 'sm' | 'md' | 'lg'
 
 /**
- * Naranja = acción principal; negro (`contrast`) = acción de estructura (p. ej. «Terminar»); gris = secundaria.
+ * Acento = acción principal; neutro = secundaria; rojo sólido = confirmación destructiva.
  * `hover:` solo actúa con puntero fino (tailwind `hoverOnlyWhenSupported`): en iOS no se queda pegado.
  */
 const VARIANTS: Record<Variant, string> = {
   primary: 'bg-accent text-accent-on hover:brightness-95',
-  secondary: 'bg-surface-muted text-fg hover:bg-line',
+  secondary: 'border border-line bg-surface text-fg hover:bg-surface-muted',
   ghost: 'text-accent-strong hover:bg-accent-subtle',
   destructive: 'bg-surface-muted text-destructive hover:bg-line', // acción destructiva ofrecida
   danger: 'bg-destructive text-destructive-on hover:brightness-95', // confirmación de una acción destructiva
-  contrast: 'bg-selected text-selected-on hover:opacity-90',
 }
 
 const SIZES: Record<Size, string> = {
@@ -33,14 +32,14 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
 }
 
-/** Todos los botones son pill. */
+/** Botón de tarea, con altura táctil real y esquinas contenidas. */
 export default function Button({ variant = 'primary', size = 'md', block = false, loading = false, className = '', type = 'button', disabled, children, ...rest }: Props) {
   return (
     <button
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`inline-flex items-center justify-center gap-2 rounded-pill transition-[opacity,transform,background-color,filter] duration-short enabled:active:scale-95 ${loading ? 'opacity-70' : 'disabled:opacity-40'} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-md py-2 transition-[opacity,background-color,filter] duration-short enabled:active:brightness-95 ${loading ? 'opacity-70' : 'disabled:opacity-40'} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
       {...rest}
     >
       {loading && <Icon name="loader" size={18} />}
@@ -53,14 +52,13 @@ interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 
   icon: IconName
   /** Obligatorio: es el nombre accesible y el tooltip. */
   label: string
-  variant?: 'secondary' | 'primary' | 'ghost' | 'contrast'
-  /** `sm` 36 px (filas densas con separación alrededor), `md` 44 px, `lg` 56 px (acción flotante). */
+  variant?: 'secondary' | 'primary' | 'ghost'
+  /** Zona real de 44 px para sm/md, 48 px para lg; solo cambia el tamaño del icono. */
   size?: 'sm' | 'md' | 'lg'
 }
 
-// `sm` mide 36 px pero amplía su zona pulsable a 44 px con un pseudo-elemento invisible (before:-inset-1).
-const ICON_BOX = { sm: 'relative h-9 w-9 before:absolute before:-inset-1', md: 'h-touch w-touch', lg: 'h-14 w-14' }
-const ICON_SIZE = { sm: 18, md: 20, lg: 26 }
+const ICON_BOX = { sm: 'h-touch w-touch', md: 'h-touch w-touch', lg: 'h-12 w-12' }
+const ICON_SIZE = { sm: 18, md: 20, lg: 24 }
 
 /** Botón solo-icono. */
 export function IconButton({ icon, label, variant = 'secondary', size = 'md', className = '', type = 'button', ...rest }: IconButtonProps) {
@@ -70,7 +68,7 @@ export function IconButton({ icon, label, variant = 'secondary', size = 'md', cl
       type={type}
       aria-label={label}
       title={label}
-      className={`inline-flex shrink-0 items-center justify-center rounded-pill transition-[opacity,transform,background-color,filter] duration-short enabled:active:scale-90 disabled:opacity-30 ${ICON_BOX[size]} ${v} ${className}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-md transition-[opacity,background-color,filter] duration-short enabled:active:opacity-70 disabled:opacity-30 ${ICON_BOX[size]} ${v} ${className}`}
       {...rest}
     >
       <Icon name={icon} size={ICON_SIZE[size]} />

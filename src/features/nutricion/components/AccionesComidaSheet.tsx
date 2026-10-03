@@ -109,13 +109,13 @@ export default function AccionesComidaSheet({ fecha, comida, entries, onClose, o
 
       {paso === 'copiar' && (
         <div className="space-y-3">
-          <Input
+          <label className="block space-y-1"><span className="text-label text-fg-muted">Fecha de destino</span><Input
             type="date"
             value={fechaDestino}
             max={todayISO()}
             onChange={(e) => setFechaDestino(e.target.value)}
-          />
-          <SegmentedControl opciones={COMIDAS} valor={comidaDestino} onChange={setComidaDestino} />
+          /></label>
+          <SegmentedControl label="Comida de destino" opciones={COMIDAS} valor={comidaDestino} onChange={setComidaDestino} />
           {copiaNoOp && <p className="text-body-sm text-warning">El origen y el destino son iguales.</p>}
           {error && <ErrorState>{error}</ErrorState>}
           <Button block loading={copiando}
@@ -129,11 +129,11 @@ export default function AccionesComidaSheet({ fecha, comida, entries, onClose, o
 
       {paso === 'plantilla' && (
         <div className="space-y-3">
-          <Input
+          <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la plantilla</span><Input
             value={nombrePlantilla}
             onChange={(e) => setNombrePlantilla(e.target.value)}
             placeholder={`Mi ${LABELS[comida].toLowerCase()} de siempre`}
-          />
+          /></label>
           {error && <ErrorState>{error}</ErrorState>}
           <Button block loading={guardando} onClick={guardarPlantilla} disabled={!nombrePlantilla.trim() || guardando}>
             {guardando ? 'Guardando…' : 'Guardar'}

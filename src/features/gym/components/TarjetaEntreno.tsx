@@ -34,11 +34,8 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
       <Card>
         <section aria-label="Entreno en curso" className="space-y-stack">
           <div className="flex items-center gap-3">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-pill bg-accent text-accent-on">
-              <Icon name="dumbbell" size={22} />
-            </span>
             <div className="min-w-0 flex-1">
-              <h2 className="text-title text-fg">Entreno</h2>
+              <h2 className="text-title text-fg">Entreno en curso</h2>
               <p className="tabular text-body-sm text-fg-muted">En curso desde {formatHora(activo.inicio)}</p>
             </div>
             {onAbrir && (
@@ -67,7 +64,7 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
           )}
         </div>
         {!resumen ? (
-          <EmptyState>Aún no has terminado ningún entreno.</EmptyState>
+          <EmptyState action={onAbrir && <Button variant="secondary" block onClick={onAbrir}>Empezar entreno</Button>}>Todavía no hay un entreno terminado.</EmptyState>
         ) : (
           <>
             <p className="text-body-sm text-fg-muted">{resumen.cuando}</p>

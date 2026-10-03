@@ -9,17 +9,42 @@ import { normalizeName } from '../../../shared/lib/text'
 import { formatHora, formatUltimaVez, volumenSets } from '../lib/workout'
 import { formatInt } from '../../../shared/lib/format'
 import Metric from '../../../shared/components/Metric'
-import NumberStepper from '../../../shared/components/NumberStepper'
 import Sheet from '../../../shared/components/Sheet'
 import Button, { IconButton } from '../../../shared/components/Button'
 import ListRow from '../../../shared/components/ListRow'
-import { SearchInput } from '../../../shared/components/Input'
+import { Input, SearchInput } from '../../../shared/components/Input'
 import Icon from '../../../shared/components/Icon'
 import Card from '../../../shared/components/Card'
 import { useAviso } from '../../../shared/hooks/useAviso'
 
 interface Props {
   workout: Workout
+}
+
+/** El borrador evita que una respuesta asíncrona anterior interrumpa la escritura. */
+function CampoSerie({ valor, label, decimal = false, onChange }: {
+  valor: number
+  label: string
+  decimal?: boolean
+  onChange: (valor: number) => void
+}) {
+  const [borrador, setBorrador] = useState<string | null>(null)
+  return (
+    <Input type="number" inputMode={decimal ? 'decimal' : 'numeric'} enterKeyHint={decimal ? 'done' : 'next'}
+      min={0} step={decimal ? 2.5 : 1} aria-label={label} value={borrador ?? valor}
+      onFocus={() => setBorrador(String(valor))}
+      onChange={(e) => {
+        const texto = e.target.value
+        setBorrador(texto)
+        if (texto !== '') onChange(Math.round(Math.max(0, Number(texto) || 0) * 100) / 100)
+      }}
+      onBlur={() => {
+        if (borrador === '') onChange(0)
+        setBorrador(null)
+      }}
+      className="tabular no-spin text-center font-semibold"
+    />
+  )
 }
 
 export default function EntrenoActivo({ workout }: Props) {
@@ -102,11 +127,11 @@ export default function EntrenoActivo({ workout }: Props) {
   const volumen = volumenSets(currentSets)
 
   return (
-    <div className="min-h-full space-y-section px-page pt-6">
-      <Card tone="ink" role="region" aria-label="Entreno en curso" className="space-y-5">
+    <div className="space-y-section px-page pt-5">
+      <section aria-label="Entreno en curso" className="space-y-4 border-b border-line pb-5">
         <div className="flex min-h-touch items-center justify-between gap-2">
-          <h1 className="text-label uppercase text-fg-subtle">Entreno en curso</h1>
-          <Button variant="contrast" size="sm" onClick={terminar}>
+          <h1 className="text-heading text-fg">Entreno en curso</h1>
+          <Button variant="secondary" size="sm" onClick={terminar}>
             Terminar
           </Button>
         </div>
@@ -115,7 +140,7 @@ export default function EntrenoActivo({ workout }: Props) {
           <Metric size="title" label="Series" valor={formatInt(currentSets.length)} />
           <Metric size="title" label="Volumen" valor={formatInt(volumen)} unidad="kg" />
         </div>
-      </Card>
+      </section>
 
       <div className="space-y-stack">
         {visibleIds.map((exId) => {
@@ -130,28 +155,28 @@ export default function EntrenoActivo({ workout }: Props) {
           return (
             <Card key={exId} className="space-y-3">
               <div>
-                <h2 className="text-title text-fg">{ex.nombre}</h2>
+                <h2 className="break-words text-title text-fg">{ex.nombre}</h2>
                 <p className="text-caption text-fg-muted">
                   {historico.length > 0 ? `Última vez: ${formatUltimaVez(historico)}` : 'Sin datos previos'}
                 </p>
               </div>
               <div className="space-y-2">
                 {sets.length > 0 && (
-                  <div className="flex items-center gap-1.5 text-label uppercase text-fg-subtle" aria-hidden>
-                    <span className="w-4 shrink-0 text-center">Serie</span>
+                  <div className="flex items-center gap-2 text-caption text-fg-muted" aria-hidden>
+                    <span className="w-6 shrink-0 text-center">N.º</span>
                     <span className="min-w-0 flex-1 text-center">Reps</span>
-                    <span className="min-w-0 flex-1 text-center">Kg</span>
-                    <span className="w-9 shrink-0" />
+                    <span className="min-w-0 flex-1 text-center">Peso (kg)</span>
+                    <span className="w-touch shrink-0" />
                   </div>
                 )}
                 {sets.map((s, i) => (
-                  <div key={s.id} className="flex items-center gap-1.5">
-                    <span className="tabular w-4 shrink-0 text-center text-caption text-fg-muted">{i + 1}</span>
+                  <div key={s.id} className="flex items-center gap-2">
+                    <span className="tabular w-6 shrink-0 text-center text-label text-fg-muted">{i + 1}</span>
                     <div className="min-w-0 flex-1">
-                      <NumberStepper compact label="repeticiones" value={s.reps} onChange={(v) => actualizarSet(s.id!, { reps: v })} />
+                      <CampoSerie valor={s.reps} label={`Repeticiones, serie ${i + 1} de ${ex.nombre}`} onChange={(reps) => actualizarSet(s.id!, { reps })} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <NumberStepper compact label="peso en kg" value={s.peso} onChange={(v) => actualizarSet(s.id!, { peso: v })} step={2.5} />
+                      <CampoSerie valor={s.peso} label={`Peso en kg, serie ${i + 1} de ${ex.nombre}`} decimal onChange={(peso) => actualizarSet(s.id!, { peso })} />
                     </div>
                     <IconButton icon="close" label={`Borrar serie ${i + 1}`} variant="ghost" size="sm" onClick={() => borrarSet(s.id!, i + 1)} />
                   </div>
@@ -159,7 +184,7 @@ export default function EntrenoActivo({ workout }: Props) {
               </div>
               <Button variant="ghost" block onClick={() => agregarSet(exId)}>
                 <Icon name="plus" size={16} />
-                Serie
+                Añadir serie
               </Button>
             </Card>
           )
@@ -180,9 +205,9 @@ export default function EntrenoActivo({ workout }: Props) {
             onChange={(e) => setBusqueda(e.target.value)}
             placeholder="Buscar o crear ejercicio…"
           />
-          <div className="max-h-64 space-y-1 overflow-y-auto">
+          <div className="divide-y divide-line">
             {resultados.map((ex) => (
-              <ListRow tone="muted" key={ex.id} onClick={() => elegirEjercicio(ex)}>
+              <ListRow tone="flat" key={ex.id} onClick={() => elegirEjercicio(ex)}>
                 {ex.nombre}
               </ListRow>
             ))}

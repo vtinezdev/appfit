@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Button, { IconButton } from '../../../shared/components/Button'
-import Icon from '../../../shared/components/Icon'
+import ModalPage from '../../../shared/components/ModalPage'
 import { Input } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -44,7 +44,7 @@ function NotasMedida() {
   const [texto, setTexto] = useState('')
   const [guardando, setGuardando] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { avisar, avisarError, toast } = useAviso()
+  const { avisar, toast } = useAviso()
 
   async function apuntar(e: FormEvent) {
     e.preventDefault()
@@ -66,7 +66,7 @@ function NotasMedida() {
       const nota = await notasMedidaRepo.borrar(id)
       if (nota) avisar({ mensaje: 'Nota borrada', onDeshacer: () => notasMedidaRepo.restaurar(nota) })
     } catch {
-      avisarError('No se ha podido borrar la nota.')
+      setError('No se ha podido borrar la nota. Inténtalo de nuevo.')
     }
   }
 
@@ -98,24 +98,10 @@ function NotasMedida() {
 
 /** «Medidas»: qué medidas caseras entiende «Interpretar», cuánto vale cada una, y notas de las que faltan. */
 export default function Medidas({ onClose }: Props) {
-  const columna = 'mx-auto w-full max-w-lg px-page'
   return (
-    <div className="fixed inset-0 z-50 flex animate-rise-in flex-col bg-bg">
-      <header className="safe-top border-b border-line">
-        <div className={`${columna} flex items-center justify-between py-3`}>
-          <Button variant="ghost" onClick={onClose} className="-ml-4">
-            <Icon name="arrow-left" size={18} />
-            Volver
-          </Button>
-          <h1 className="text-title text-fg">Medidas</h1>
-          <div className="w-16" />
-        </div>
-      </header>
-
-      <div className="flex-1 overflow-y-auto overscroll-contain">
-        <div className={`${columna} safe-bottom space-y-section py-6`}>
+    <ModalPage title="Medidas caseras" onClose={onClose}>
+      <div className="safe-bottom space-y-section">
           <p className="px-1 text-body-sm text-fg-muted">Así convierte «Interpretar» las medidas caseras en gramos.</p>
-          <NotasMedida />
           {GRUPOS.map((g) => (
             <section key={g.tipo} aria-label={g.titulo} className="space-y-1">
               <SectionHeader variant="section">{g.titulo}</SectionHeader>
@@ -127,8 +113,8 @@ export default function Medidas({ onClose }: Props) {
               </ul>
             </section>
           ))}
-        </div>
+        <NotasMedida />
       </div>
-    </div>
+    </ModalPage>
   )
 }
