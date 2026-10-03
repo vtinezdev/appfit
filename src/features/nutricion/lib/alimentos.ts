@@ -3,10 +3,11 @@ import type { CatalogFood, Comida, Entry, Food, FuenteAlimento } from '../../../
 import { addDays } from '../../../shared/lib/dates'
 import { round1 } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
+import { camposNutrientes, mismosNutrientes } from './nutrientes'
 import type { MedidaAmbigua } from './interprete/medidas'
 
 /** Valores nutricionales por 100 g de un alimento. */
-export type Por100 = Pick<Food, 'kcal100' | 'prot100' | 'carb100' | 'grasa100'>
+export type Por100 = Pick<Food, 'kcal100' | 'prot100' | 'carb100' | 'grasa100' | 'nutrientes'>
 
 /**
  * Un alimento con sus gramos, listo para guardarse. La identidad del alimento es su nombre normalizado:
@@ -68,21 +69,22 @@ function aplicarExtra(item: ItemRevision, extra: ExtraItem): ItemRevision {
 }
 
 function valoresDe(p: Por100): Por100 {
-  return { kcal100: p.kcal100, prot100: p.prot100, carb100: p.carb100, grasa100: p.grasa100 }
+  return { kcal100: p.kcal100, prot100: p.prot100, carb100: p.carb100, grasa100: p.grasa100, ...camposNutrientes(p.nutrientes) }
 }
 
-/** Compara dos juegos de valores por 100 g con una tolerancia de 0,05 (los inputs redondean a 1 decimal). */
+/** Tolerancia de 0,05 para macros y de 0,0005 para extras; desconocido nunca equivale a cero. */
 export function mismosValores(a: Por100, b: Por100): boolean {
-  return (['kcal100', 'prot100', 'carb100', 'grasa100'] as const).every((k) => Math.abs(a[k] - b[k]) < 0.05)
+  return (['kcal100', 'prot100', 'carb100', 'grasa100'] as const).every((k) => Math.abs(a[k] - b[k]) < 0.05) && mismosNutrientes(a.nutrientes, b.nutrientes)
 }
 
 /** Valores por 100 g reconstruidos a partir del snapshot de una entrada (con 0 g, todo a 0). */
-export function por100DesdeEntrada(e: Pick<Entry, 'gramos' | 'kcal' | 'prot' | 'carb' | 'grasa'>): Por100 {
+export function por100DesdeEntrada(e: Pick<Entry, 'gramos' | 'kcal' | 'prot' | 'carb' | 'grasa' | 'nutrientes'>): Por100 {
   return {
     kcal100: round1((e.kcal / e.gramos) * 100),
     prot100: round1((e.prot / e.gramos) * 100),
     carb100: round1((e.carb / e.gramos) * 100),
     grasa100: round1((e.grasa / e.gramos) * 100),
+    ...camposNutrientes(e.nutrientes, e.gramos > 0 ? 100 / e.gramos : 0),
   }
 }
 
@@ -124,7 +126,7 @@ export function aItemGuardado(item: ItemRevision): ItemGuardado {
  */
 export function itemDesdeElegible(a: AlimentoElegible, gramos: number, extra: ExtraItem = {}): ItemRevision {
   const valores = valoresDe(a)
-  const origen: OrigenItem = { fuente: 'manual', valores, nombreNorm: normalizeName(a.nombre), guardado: a.ref.tipo === 'user' }
+  const origen: OrigenItem = { fuente: 'manual', valores: valoresDe(valores), nombreNorm: normalizeName(a.nombre), guardado: a.ref.tipo === 'user' }
   if (a.ref.tipo === 'catalog') origen.catalogId = a.ref.id
   return aplicarExtra({ nombre: a.nombre, gramos, ...valores, origen }, extra)
 }
@@ -142,12 +144,12 @@ export function itemSinCoincidencia(nombre: string, gramos: number, extra: Extra
  */
 export function itemDeProductoIncompleto(nombre: string, conocidos: Partial<Por100>, gramos = 100): ItemRevision {
   const valores: Por100 = { kcal100: 0, prot100: 0, carb100: 0, grasa100: 0, ...conocidos }
-  return { nombre, gramos, ...valores, origen: { fuente: 'manual', valores, nombreNorm: normalizeName(nombre), guardado: false }, datosIncompletos: true }
+  return { nombre, gramos, ...valoresDe(valores), origen: { fuente: 'manual', valores: valoresDe(valores), nombreNorm: normalizeName(nombre), guardado: false }, datosIncompletos: true }
 }
 
 /** true si el ítem no se encontró (o le faltan datos) y todavía no tiene ningún valor: no se puede guardar así. */
 export function faltanValores(item: ItemRevision): boolean {
-  return (item.sinCoincidencia === true || item.datosIncompletos === true) && mismosValores(item, { kcal100: 0, prot100: 0, carb100: 0, grasa100: 0 })
+  return (item.sinCoincidencia === true || item.datosIncompletos === true) && mismosValores({ ...item, nutrientes: undefined }, { kcal100: 0, prot100: 0, carb100: 0, grasa100: 0 })
 }
 
 /** true si el ítem tiene una medida ambigua sin concretar («una cucharada»): todavía no tiene gramos, no se puede guardar. */

@@ -39,7 +39,7 @@ describe('mapearProducto', () => {
         prot100: 13.5,
         carb100: 58.7,
         grasa100: 7,
-        nutrientes: { fibra: 10, azucares: 1.2, sal: 0, agSat: 1.3 },
+        nutrientes: { fibra: 10, azucares: 1.2, sal: 0.02, agSat: 1.3 },
         completitud: 1,
         version: 'live',
         importadoAt: 42,
@@ -90,7 +90,7 @@ describe('mapearProducto', () => {
       tipo: 'incompleto',
       nombre: '',
       marca: 'Marca',
-      valores: { kcal100: 389, prot100: 13.5, carb100: 58.7, grasa100: 7 },
+      valores: { kcal100: 389, prot100: 13.5, carb100: 58.7, grasa100: 7, nutrientes: { fibra: 10, azucares: 1.2, sal: 0.02, agSat: 1.3 } },
     })
     expect(mapearProducto(respuesta({ product_name: 'B' }), '12345678', 0)).toEqual({ tipo: 'incompleto', nombre: 'B', valores: {} })
   })

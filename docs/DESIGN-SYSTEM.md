@@ -79,7 +79,9 @@ Retirados: AnimatedNumber, ProgressRing, Card ink, Button contrast, stepper comp
 
 - **Inicio/Hoy**: resumen plano, kcal dominante, meta/diferencia y macros; sin anillo/porcentaje redundante. Inicio tiene Registrar comida directo.
 - **Diario**: total por comida; filas con nombre simple/cantidad/kcal. Un plato conserva contorno, separación y despliegue independiente. No repetir barras de macros a cada nivel.
+- **Detalle nutricional en Hoy**: selector segmentado superior Sencilla/Detallada, sencilla por defecto. Detallada añade al resumen diario una rejilla de dos columnas con fibra, azúcares, sal y grasas saturadas; muestra «Sin datos» o cobertura parcial cuando corresponde, sin objetivos inventados ni juicios de salud.
 - **Añadir**: comida + métodos Describir/Buscar/Plantillas. Revisión: nombre completo, cantidad, aporte, avisos y Cambiar. Nutrientes por 100 g/nombre personal en Detalles; incompletos abren esos detalles. Claves locales estables evitan mover borradores al quitar ingredientes.
+- **Detalles del alimento**: siempre muestra los cuatro extras opcionales junto a los macros, independientemente del modo del diario. Campos de dos columnas y estado vacío «Sin datos»; debajo, aporte conocido de la cantidad indicada.
 - **Gym activo**: ejercicio, referencia anterior, N.º/Reps/kg y añadir serie. Campos directos ≥44; sin seis mini botones por fila.
 - **Progreso**: una sesión es dato, sin curva de tendencia. Peso/1RM con leyenda (1RM discontinuo); volumen separado por unidad. Datos textuales desplegables.
 - **Resumen**: media solo de días registrados, cobertura explícita. Una métrica por gráfica, con meta y alternativa textual; sin gráfica vacía.

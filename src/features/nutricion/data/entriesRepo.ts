@@ -8,6 +8,7 @@ import { macrosPorGramos } from '../lib/nutrition'
 import { planCopia, type DestinoCopia } from '../lib/plantillas'
 import * as foodsRepo from './foodsRepo'
 import * as nombresAlimentosRepo from './nombresAlimentosRepo'
+import { escalarNutrientes } from '../lib/nutrientes'
 
 export function delDia(fecha: string): Promise<Entry[]> {
   return db.entries.where('fecha').equals(fecha).toArray()
@@ -92,6 +93,7 @@ export function editar(id: number, { comida, nombre, gramos, aplicarAlAlimento, 
       nombre,
       gramos,
       ...macrosPorGramos(valores, gramos),
+      nutrientes: escalarNutrientes(valores.nutrientes, gramos / 100),
       // Mover un ingrediente a otra comida lo separa del plato original.
       ...(entry.platoId && entry.comida !== comida ? { platoId: undefined, nombrePlato: undefined } : {}),
     })

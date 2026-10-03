@@ -7,6 +7,9 @@ export type Comida = 'desayuno' | 'comida' | 'cena' | 'snack'
 /** `gemini`: alimentos creados con la IA que tuvo la app (ya retirada); solo existe en datos antiguos. */
 export type FuenteAlimento = 'gemini' | 'manual'
 
+/** Gramos: clave ausente = desconocido, cero = valor conocido. */
+export type NutrientesAdicionales = Partial<Record<'fibra' | 'azucares' | 'sal' | 'agSat', number>>
+
 export interface Food {
   id: number
   nombreNorm: string
@@ -15,6 +18,7 @@ export interface Food {
   prot100: number
   carb100: number
   grasa100: number
+  nutrientes?: NutrientesAdicionales
   fuente: FuenteAlimento
   updatedAt: number
 }
@@ -105,6 +109,8 @@ export interface Entry extends AgrupacionPlato {
   prot: number
   carb: number
   grasa: number
+  /** Snapshot del aporte de la cantidad consumida, no valores por 100 g. */
+  nutrientes?: NutrientesAdicionales
   textoOriginal?: string
   createdAt: number
   /** «Kcal rápidas»: entrada sin alimento (gramos = 0, sin foodId), p. ej. una comida fuera. */
@@ -122,6 +128,7 @@ export interface MealItem extends AgrupacionPlato {
   prot: number
   carb: number
   grasa: number
+  nutrientes?: NutrientesAdicionales
   rapida?: true
 }
 

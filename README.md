@@ -18,6 +18,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Buscador con frecuentes, plantillas de comidas, copiar una comida o un día y «kcal rápidas» para una comida fuera.
 - Buscador e intérprete priorizan alimentos básicos habituales («pollo» → pechuga sin piel), conservando las variantes de preparación y marca cuando las especificas.
 - Resumen semanal y mensual navegable, con gráficas frente a tus objetivos.
+- Vista detallada opcional del diario con fibra, azúcares, sal y grasas saturadas; siempre disponibles en los detalles del alimento. Los datos ausentes se distinguen de cero y los totales incompletos se señalan.
 - Base de datos personal de alimentos, editable a mano.
 
 **Gimnasio**

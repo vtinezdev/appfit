@@ -41,6 +41,8 @@ La versión actual del esquema es la v6; cada versión lleva un comentario con q
 
 `platoId` y `nombrePlato` son campos opcionales sin índice, tanto en entradas como en ítems de plantilla: no requieren cambiar el esquema Dexie ni la versión del backup. Los registros y las plantillas anteriores siguen siendo válidos y no se reagrupan automáticamente.
 
+`nutrientes` es un campo opcional sin índice para fibra, azúcares, sal y grasas saturadas. En alimentos propios y catálogo son gramos por 100 g (o 100 ml cuando la fuente lo indica); en entradas e ítems de plantilla es el snapshot del aporte consumido. Clave ausente significa desconocido y `0` significa conocido; no se completan registros antiguos con valores del catálogo actual. Las copias, plantillas, edición de gramos, deshacer y backups conservan estos datos. El escalado usa hasta tres decimales para no perder pequeñas cantidades de sal. Las sumas exponen su cobertura por nutriente. Como el campo es opcional y no transforma registros ni índices, se mantiene Dexie v6 y el formato de backup v2, igual que con los metadatos opcionales de platos.
+
 ## Repositorios (`features/*/data/*Repo.ts`)
 
 Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`). Fuera de las features, solo `shared/db/settings.ts` y `shared/lib/backup.ts` lo tocan.

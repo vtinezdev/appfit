@@ -6,6 +6,7 @@ import { round1 } from '../../../../shared/lib/format'
 import { normalizeName, tokenizar } from '../../../../shared/lib/text'
 import type { Por100 } from '../alimentos'
 import type { ClaveNutriente } from '../catalogo/paquete'
+import { camposNutrientes } from '../nutrientes'
 
 export const FUENTE_OFF = 'off'
 /** Los productos de OFF no vienen de un paquete versionado: se guardan tal cual llegan. */
@@ -23,7 +24,7 @@ const NUTRIENTES_OFF: Record<ClaveNutriente, string> = {
   agSat: 'saturated-fat_100g',
 }
 
-const MACROS_OFF: Record<Exclude<keyof Por100, 'kcal100'>, string> = {
+const MACROS_OFF: Record<Exclude<keyof Por100, 'kcal100' | 'nutrientes'>, string> = {
   prot100: 'proteins_100g',
   carb100: 'carbohydrates_100g',
   grasa100: 'fat_100g',
@@ -78,15 +79,14 @@ export function mapearProducto(respuesta: unknown, gtin: string, importadoAt: nu
     if (v !== undefined) valores[clave] = round1(v)
   }
 
-  const { kcal100, prot100, carb100, grasa100 } = valores
-  if (!nombre || kcal100 === undefined || prot100 === undefined || carb100 === undefined || grasa100 === undefined) {
-    return { tipo: 'incompleto', nombre: nombre ?? '', ...(marca ? { marca } : {}), valores }
-  }
-
   const nutrientes: Record<string, number> = {}
   for (const [clave, campo] of Object.entries(NUTRIENTES_OFF)) {
     const v = numero(n[campo])
-    if (v !== undefined) nutrientes[clave] = round1(v)
+    if (v !== undefined) nutrientes[clave] = v
+  }
+  const { kcal100, prot100, carb100, grasa100 } = valores
+  if (!nombre || kcal100 === undefined || prot100 === undefined || carb100 === undefined || grasa100 === undefined) {
+    return { tipo: 'incompleto', nombre: nombre ?? '', ...(marca ? { marca } : {}), valores: { ...valores, ...camposNutrientes(nutrientes) } }
   }
   const extras = Object.keys(nutrientes).length
   const food: CatalogFood = {
@@ -107,6 +107,6 @@ export function mapearProducto(respuesta: unknown, gtin: string, importadoAt: nu
     importadoAt,
   }
   if (marca) food.marca = marca
-  if (extras > 0) food.nutrientes = nutrientes
+  Object.assign(food, camposNutrientes(nutrientes))
   return { tipo: 'completo', food }
 }

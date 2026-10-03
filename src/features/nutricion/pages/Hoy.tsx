@@ -14,6 +14,8 @@ import { sumMacros } from '../lib/nutrition'
 import type { Plato } from '../lib/platos'
 import { IconButton } from '../../../shared/components/Button'
 import { LoadingState } from '../../../shared/components/StateMessage'
+import SegmentedControl from '../../../shared/components/SegmentedControl'
+import NutrientesDetalle from '../components/NutrientesDetalle'
 
 interface Props {
   fecha: string
@@ -32,6 +34,7 @@ const LABELS: Record<Comida, string> = {
 }
 
 export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: Props) {
+  const [detalle, setDetalle] = useState<'sencilla' | 'detallada'>('sencilla')
   const ayer = addDays(fecha, -1)
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
   const nombresCortos = useLiveQuery(() => nombresAlimentosRepo.paraComida(entries ?? []), [entries]) ?? new Map()
@@ -113,6 +116,8 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
 
   return (
     <div className="space-y-section">
+      <SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
+        opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />
       <div className="flex items-center gap-2">
         <div className="flex min-w-0 flex-1 items-center border-b border-line">
           <IconButton icon="chevron-left" label="Día anterior" variant="ghost" onClick={() => onFechaChange(addDays(fecha, -1))} />
@@ -131,6 +136,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
       ) : (
         <>
           <ResumenNutricional totales={totales} objetivos={objetivos} titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`} />
+          {detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" />}
 
           <div key={fecha} className={`space-y-6 ${transicion}`}>
             {ORDEN_COMIDAS.map((c) => (

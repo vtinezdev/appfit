@@ -157,7 +157,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
     setErrorGuardar(null)
     try {
       if (entryEditar?.id) {
-        const { nombre, gramos, kcal100, prot100, carb100, grasa100 } = items[0]
+        const { nombre, gramos, kcal100, prot100, carb100, grasa100, nutrientes } = items[0]
         await entriesRepo.editar(entryEditar.id, {
           comida,
           nombre: nombre.trim(),
@@ -166,6 +166,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
           prot100,
           carb100,
           grasa100,
+          nutrientes,
           aplicarAlAlimento,
           ...(items[0].nombreCortoModificado ? { nombreCorto: items[0].nombreCorto?.trim() || null } : {}),
         })
