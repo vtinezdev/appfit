@@ -13,6 +13,8 @@ En una frase: una **web hecha con React** que se instala como app en el iPhone (
 | **TypeScript** | JavaScript con tipos que se revisan antes de ejecutar nada. | Evita errores tontos y hace el código más fácil de mantener. |
 | **Tailwind CSS** | Estilos mediante clases cortas (`bg-surface`, `rounded-lg`…). | Maquetar rápido y de forma consistente. En AppFit las clases solo nombran los tokens del diseño (ver `DESIGN-SYSTEM.md`). |
 
+La tipografía Manrope variable se incluye como archivo local (licencia OFL). Está en el precache: no necesita un servicio de fuentes ni conexión. No se añadió un paquete a las dependencias de la app para usarla.
+
 ## Guardar los datos (sin servidor)
 
 | Herramienta | Qué es | Por qué se usa |

@@ -5,7 +5,7 @@
 ## Pendiente de probar en el iPhone real
 
 Según los registros de sesión, sin confirmar todavía (preguntar a Víctor antes de darlo por hecho):
-- Rediseño (§38): safe areas, teclado y tacto.
+- Rediseño completo (§51): safe areas, teclado y tacto en iOS/Android reales. Chromium cubre tamaños/temas/foco/scroll y viewport reducido, no reproduce el teclado real de WebKit.
 - Catálogo: tiempo de importación (~6.300 filas) y de búsqueda en Safari/WebKit.
 - Escáner: 3 productos reales (la cámara necesita HTTPS).
 - Exportar el backup (`<a download>` con un blob) desde la PWA instalada.
@@ -18,7 +18,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Buscador e intérprete priorizan los básicos compartidos en `catalogo/preferidos.ts`; arroz, pasta y pollo sin más detalle se eligen en crudo. Si se pesa en cocido, especificarlo o usar «Cambiar». Si aún hay ruido, valorar sugerencias prioritarias con «Ver más variantes», sin fusionar alimentos por nombre.
 - Catálogo: no hay genéricos españoles (manchego, tortilla de patata…); la categoría y la detección de idioma de Open Food Facts son heurísticas (ver `scripts/catalogo/README.md`).
 - «Alimentos» ya no muestra la procedencia de cada alimento (se quitó en §38).
-- No hay selector de tema en la UI y el `theme_color` del manifest es solo el claro.
+- El `theme_color` del manifest es el claro; el meta de la página se adapta al tema.
 
 ## Ideas sin empezar
 

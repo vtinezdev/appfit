@@ -18,7 +18,7 @@ Este documento describe intención. [DESIGN-SYSTEM](docs/DESIGN-SYSTEM.md) descr
 
 Diseñar la secuencia de lectura y uso vertical, desde 320 px hasta móviles grandes. 375×812 es una referencia de comprobación, no un lienzo rígido. El ancho útil tiene margen lateral de 20 px, reducido a 16 px en pantallas muy estrechas. En tablet/escritorio la libreta se centra con ancho limitado; no se convierte en un dashboard de columnas.
 
-La navegación inferior tiene espacio propio y respeta el home indicator. Las acciones de registro frecuentes se alcanzan también desde cabecera/Inicio. Una página modal dedica su altura a la tarea, con contenido desplazable y cierre visible. El teclado no debe ocultar la acción final ni crear dos scrolls que compitan.
+La navegación inferior tiene espacio propio y respeta el home indicator. Las acciones de registro frecuentes se alcanzan también desde cabecera/Inicio. Una página modal dedica su altura a la tarea, con contenido desplazable y cierre visible. El teclado no debe ocultar la acción final ni crear dos scrolls que compitan. La cabecera de una capa nombra la tarea; un alimento o plantilla con nombre extenso va completo en el cuerpo desplazable, dejando espacio al campo activo.
 
 No imitar chrome de iOS o Android. Usar controles familiares, iconos propios, fechas locales y lenguaje español sencillo.
 
@@ -84,7 +84,7 @@ Cada comida tiene total y acción de añadir. Cada guardado múltiple es un plat
 
 Añadir comida ofrece Describir, Buscar y Plantillas como métodos claros. La descripción muestra separación de alimentos antes de interpretar. La revisión muestra nombre completo, cantidad y aporte. Los nutrientes por 100 g, nombre visible y otras opciones se consultan en detalles. Datos incompletos se exponen para resolverlos; no se guardan a escondidas.
 
-La media semanal/mensual dice cuántos días tienen registros. Una gráfica debe responder a una pregunta concreta. Métrica seleccionable, unidad, objetivo, cobertura y datos textuales accesibles; nunca rellenar huecos con datos inventados ni presentar un periodo vacío como progreso.
+La media semanal/mensual dice cuántos días tienen registros. Una gráfica debe responder a una pregunta concreta. Métrica seleccionable, unidad, objetivo, cobertura y datos textuales accesibles; ejes compactos cuando haga falta, cifras completas en métricas y datos; nunca rellenar huecos con datos inventados ni presentar un periodo vacío como progreso.
 
 ## Entrenamiento
 
