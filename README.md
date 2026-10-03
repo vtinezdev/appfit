@@ -16,6 +16,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Los alimentos guardados juntos aparecen como un plato desplegable en Nutrición, con su propio bloque, borde y espacio entre platos, nombre opcional, totales y edición de cada ingrediente. «Editar plato» permite añadir más alimentos al mismo plato. «Copiar plato» permite duplicarlo a otra comida del mismo día o a otro día, manteniendo el original. Copiar o repetir conserva los platos separados.
 - Nutrición simplifica automáticamente el nombre de todos los alimentos, incluidos los que añades manualmente, mientras Añadir comida conserva el nombre completo. Se puede personalizar la etiqueta sin cambiar los nombres originales ni sus nutrientes.
 - Buscador con frecuentes, plantillas de comidas, copiar una comida o un día y «kcal rápidas» para una comida fuera.
+- Resumen diario en un recuadro compartido entre Inicio y Nutrición, con calorías, objetivos y macros, separado del resto de secciones; la vista detallada incluye el desglose dentro del mismo panel.
 - Buscador e intérprete priorizan alimentos básicos habituales («pollo» → pechuga sin piel), conservando las variantes de preparación y marca cuando las especificas.
 - Resumen semanal y mensual navegable, con gráficas frente a tus objetivos.
 - Vista detallada opcional del diario con fibra, azúcares, sal y grasas saturadas; siempre disponibles en los detalles del alimento. Los datos ausentes se distinguen de cero y los totales incompletos se señalan.

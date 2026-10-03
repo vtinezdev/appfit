@@ -136,8 +136,12 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
         </div>
       ) : (
         <>
-          <ResumenNutricional totales={totales} objetivos={objetivos} titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`} />
-          {detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" />}
+          <ResumenNutricional
+            totales={totales}
+            objetivos={objetivos}
+            titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`}
+            detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" />}
+          />
 
           <div key={fecha} className={`space-y-6 ${transicion}`}>
             {ORDEN_COMIDAS.map((c) => (

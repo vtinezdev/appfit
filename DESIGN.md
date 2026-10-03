@@ -78,7 +78,7 @@ No crear abstracciones de dominio sin semántica común. Un componente compartid
 
 ## Nutrición
 
-El diario presenta kcal consumidas, objetivo y diferencia explícita. Macros a continuación, cada uno con gramos, objetivo y barra proporcional. El exceso continúa visualmente y se expresa en texto; no se recorta ni colorea como error.
+El resumen diario de Inicio y Nutrición es una unidad de información en un panel: superficie propia, borde fino, esquinas redondeadas y espacio claro respecto a las secciones siguientes. Presenta kcal consumidas, objetivo y diferencia explícita. Macros a continuación, cada uno con gramos, objetivo y barra proporcional; el desglose detallado pertenece al mismo contorno. No se crean tarjetas separadas para cada cifra. El exceso continúa visualmente y se expresa en texto; no se recorta ni colorea como error.
 
 Cada comida tiene total y acción de añadir. Cada guardado múltiple es un plato independiente. Los ingredientes se despliegan y editan sin cambiar su agrupación.
 
