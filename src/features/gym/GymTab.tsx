@@ -7,19 +7,22 @@ import * as workoutsRepo from './data/workoutsRepo'
 import GymHome from './pages/GymHome'
 import Rutinas from './pages/Rutinas'
 import Historial from './pages/Historial'
-import EntrenoActivo from './pages/EntrenoActivo'
+import WorkoutFinished, { type WorkoutSummary } from './components/WorkoutFinished'
 
 // Progreso lleva Recharts: se carga aparte para no inflar el arranque de la app.
 const Progreso = lazy(() => import('./pages/Progreso'))
+const EntrenoActivo = lazy(() => import('./pages/EntrenoActivo'))
 
 type Vista = 'inicio' | 'rutinas' | 'historial' | 'progreso'
 
 export default function GymTab() {
   const [vista, setVista] = useState<Vista>('inicio')
+  const [summary, setSummary] = useState<WorkoutSummary | null>(null)
   const activeWorkout = useLiveQuery(() => workoutsRepo.activo(), [])
 
+  if (summary) return <WorkoutFinished summary={summary} onClose={() => { setSummary(null); setVista('inicio') }} />
   if (activeWorkout) {
-    return <EntrenoActivo workout={activeWorkout} />
+    return <Suspense fallback={<div className="px-page pt-5"><LoadingState /></div>}><EntrenoActivo key={activeWorkout.id} workout={activeWorkout} onFinished={setSummary} /></Suspense>
   }
 
   return (

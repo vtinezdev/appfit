@@ -31,12 +31,12 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
 
   if (activo && !soloUltimo) {
     return (
-      <Card>
+      <Card className="training-surface">
         <section aria-label="Entreno en curso" className="space-y-stack">
           <div className="flex items-center gap-3">
             <div className="min-w-0 flex-1">
-              <h2 className="text-title text-fg">Entreno en curso</h2>
-              <p className="tabular text-body-sm text-fg-muted">En curso desde {formatHora(activo.inicio)}</p>
+              <h2 className="text-title">Entreno en curso</h2>
+              <p className="training-muted tabular text-body-sm">En curso desde {formatHora(activo.inicio)}</p>
             </div>
             {onAbrir && (
               <Button size="sm" onClick={onAbrir}>

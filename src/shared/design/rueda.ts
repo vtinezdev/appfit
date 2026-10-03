@@ -7,11 +7,14 @@ export function paginasRueda<T>(opciones: readonly T[]): T[][] {
   return paginas
 }
 
-/** Coordenadas unitarias, de arriba en sentido horario. El tamaño/radio vive en tokens.css. */
+/** Abanico ascendente: dos niveles evitan colisiones sin reducir los controles. */
 export function posicionesRueda(cantidad: number): { x: number; y: number }[] {
   if (!Number.isInteger(cantidad) || cantidad < 1 || cantidad > OPCIONES_POR_RUEDA) return []
-  return Array.from({ length: cantidad }, (_, i) => {
-    const angulo = (2 * Math.PI * i) / cantidad - Math.PI / 2
-    return { x: Math.round(Math.cos(angulo) * 1000) / 1000, y: Math.round(Math.sin(angulo) * 1000) / 1000 }
-  })
+  const posiciones = [
+    [{ x: 0, y: -.9 }],
+    [{ x: -.55, y: -.85 }, { x: .55, y: -.85 }],
+    [{ x: -1, y: -.55 }, { x: 0, y: -1.05 }, { x: 1, y: -.55 }],
+    [{ x: -1, y: -.55 }, { x: -.48, y: -1.05 }, { x: .48, y: -1.05 }, { x: 1, y: -.55 }],
+  ]
+  return posiciones[cantidad - 1]
 }

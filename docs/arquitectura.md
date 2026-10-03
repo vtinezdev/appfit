@@ -40,6 +40,7 @@ src/shared/lib/          dates (fechas locales, periodos), format (formatInt/for
                          tokensConsulta, singular, mismaRaiz), almacenamiento (protección y modo PWA), backup (exportar/importar/migrar/borrar)
 src/shared/design/       tokens.css (única fuente de valores), theme, viewport, selection, rueda, macros, chart, motion, carril, guard
 src/shared/components/   primitives (lista en DESIGN-SYSTEM.md § Primitives)
+src/shared/hooks/        useModalLayer, useOverlayPresence y useListMotion (capas, presencia y continuidad)
 src/features/inicio/     → features/inicio.md
 src/features/nutricion/  → features/nutricion.md
 src/features/gym/        → features/gym.md
@@ -50,15 +51,15 @@ scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/REA
 
 ## Navegación
 
-Router casero con `useState`, sin URLs ni historial ([ADR 002](decisiones/002-router-casero.md)).
+Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002](decisiones/002-router-casero.md)). Las capas tienen entradas efímeras de History para que Atrás cierre la superior antes de salir de la app; no son rutas de producto.
 
 - El shell flex ocupa 100dvh. `main` posee el scroll y la barra inferior su espacio propio; ancho de lectura máximo 512 px. Navegar restablece el scroll.
-- `app/App.tsx`: pestaña activa (`Tab` derivado de `DESTINOS` en `navegacion.ts`): `inicio` (por defecto) · `nutricion` · `gym` · `ajustes`. `BottomNav` muestra solo Menú y compone Sheet/RuedaNavegacion. La lista central fija nombres, iconos y orden; la rueda pagina automáticamente los destinos futuros de cuatro en cuatro ([ADR 008](decisiones/008-menu-radial.md)). Incorporar una pantalla requiere además conectarla en App.
+- `app/App.tsx`: pestaña activa (`Tab` derivado de `DESTINOS` en `navegacion.ts`): `inicio` (por defecto) · `nutricion` · `gym` · `ajustes`. `BottomNav` muestra Menú y la sección actual; abre por portal un abanico (`RuedaNavegacion`) anclado al botón, sin Sheet intermedio. La lista central fija nombres, iconos y orden; los destinos futuros se paginan de cuatro en cuatro ([ADR 009](decisiones/009-identidad-y-motion-impeccable.md)). Incorporar una pantalla requiere además conectarla en App.
 - Inicio permite abrir Añadir comida directamente en Nutrición. El aviso de primer inicio en iOS abre Ajustes con `abrirGuia`: después de cargar, desplaza la vista y enfoca la guía abierta «Instalación y traslado de registros». La navegación habitual de la barra no activa ese salto. La guía tiene un segundo salto a Exportar/Importar, sin cambiar la URL.
 - `NutricionTab`: vistas `hoy` · `resumen` · `alimentos` (ViewTabs). «Añadir comida» (y la edición de una entrada) usa ModalPage a pantalla completa; «Medidas» se abre encima de él.
-- `GymTab`: vistas `inicio` · `rutinas` · `historial` · `progreso`. Si hay un entreno sin `fin`, la pestaña entera pasa a ser `EntrenoActivo`.
+- `GymTab`: vistas `inicio` · `rutinas` · `historial` · `progreso`. Si hay un entreno sin `fin`, la pestaña entera pasa a ser `EntrenoActivo` (carga diferida); al terminar muestra `WorkoutFinished` con los resultados guardados. Marcas/descanso en `gym/lib/session.ts` son presentación por sesión, separados de los repositorios.
 - Gym también usa ViewTabs. Segmentación de valores (comida, periodo, tema) mediante SegmentedControl, con semántica radio.
-- Sheet y ModalPage usan portales en body y useModalLayer para foco, Escape, Tab, inert y retorno. Si el disparador desaparece, el foco vuelve al destino activo o al botón estable Menú (`data-nav-trigger`). Estado local de pantalla; ninguna dependencia nueva. visualViewport ajusta alto/offset al área visible.
+- Sheet, ModalPage y el abanico usan portales en body y `useModalLayer` para foco, Escape/Atrás, Tab, inert y retorno. `useOverlayPresence` comparte una única frontera de cierre y cancela tareas al reabrir. Si el disparador desaparece, el foco vuelve al destino activo o al botón estable Menú (`data-nav-trigger`). Estado local de pantalla; ninguna dependencia nueva. visualViewport ajusta alto/offset al área visible.
 
 ## Arranque (`src/main.tsx`)
 

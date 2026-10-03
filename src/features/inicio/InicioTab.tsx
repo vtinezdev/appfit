@@ -56,7 +56,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
 
   return (
     <div className="space-y-section px-page pt-5">
-      <div className="space-y-2"><p className="text-label font-bold tracking-widest text-accent-strong">APPFIT</p><PageHeader overline={fechaLarga} title={saludoPorHora()} /></div>
+      <PageHeader overline={fechaLarga} title={saludoPorHora()} action={<span aria-label="APPFIT" className="text-title font-extrabold tracking-tight">AF<span className="text-accent">/</span></span>} />
       {ayudaInicial}
 
       {!entries || !settings || !pesos ? (
@@ -69,6 +69,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
             titulo="Resumen de hoy"
             totales={sumMacros(entries)}
             objetivos={settings.objetivos}
+            footer={<Button block onClick={onAnadirComida}><Icon name="plus" size={18} />Registrar comida</Button>}
             accion={
               <Button variant="ghost" size="sm" onClick={onIrANutricion}>
                 Ver día
@@ -76,7 +77,6 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
               </Button>
             }
           />
-          <Button block size="lg" onClick={onAnadirComida}><Icon name="plus" size={18} />Registrar comida</Button>
           <TarjetaEntreno onAbrir={onIrAGym} />
           <PesoCard tendencia={tendencia} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
         </div>

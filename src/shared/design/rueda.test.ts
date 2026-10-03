@@ -14,8 +14,16 @@ describe('geometría y ampliación de la rueda', () => {
     expect(paginasRueda([])).toEqual([])
     expect(posicionesRueda(0)).toEqual([])
   })
-  it('los cuatro puntos siguen el orden arriba, derecha, abajo, izquierda', () => {
-    expect(posicionesRueda(4)).toEqual([{ x: 0, y: -1 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: -1, y: 0 }])
+  it('los cuatro destinos quedan sobre el origen, sin colisiones incluso a 320 px', () => {
+    const puntos = posicionesRueda(4).map(p => ({ x: 160 + p.x * 104, y: 500 + p.y * 160 }))
+    for (const p of puntos) {
+      expect(p.x - 42).toBeGreaterThanOrEqual(14)
+      expect(p.x + 42).toBeLessThanOrEqual(306)
+      expect(p.y + 34).toBeLessThan(476)
+    }
+    puntos.forEach((p, i) => puntos.slice(i + 1).forEach(q => {
+      expect(Math.abs(p.x - q.x) >= 84 || Math.abs(p.y - q.y) >= 68).toBe(true)
+    }))
   })
   it.each([1, 2, 3, 4])('%s opciones tienen puntos distintos, finitos y dentro de la órbita', (cantidad) => {
     const puntos = posicionesRueda(cantidad)
@@ -24,7 +32,8 @@ describe('geometría y ampliación de la rueda', () => {
     for (const p of puntos) {
       expect(Number.isFinite(p.x) && Number.isFinite(p.y)).toBe(true)
       expect(Math.abs(p.x)).toBeLessThanOrEqual(1)
-      expect(Math.abs(p.y)).toBeLessThanOrEqual(1)
+      expect(Math.abs(p.y)).toBeLessThanOrEqual(1.05)
+      expect(p.y).toBeLessThan(0)
     }
   })
   it.each([-1, 1.5, 5, NaN, Infinity])('no dispone una cantidad inválida %s', (cantidad) => {

@@ -1,0 +1,25 @@
+/** Estado de interacción de la sesión: no modifica series, esquema Dexie ni copias de seguridad. */
+export interface SessionUI { completed: number[]; restSeconds: number; restEndsAt: number | null }
+export const emptySession = (): SessionUI => ({ completed: [], restSeconds: 0, restEndsAt: null })
+const key = (id: number) => `appfit:workout-ui:${id}`
+
+export function readSession(id: number): SessionUI {
+  try {
+    const value = JSON.parse(sessionStorage.getItem(key(id)) ?? 'null')
+    if (!value || !Array.isArray(value.completed)) return emptySession()
+    return {
+      completed: value.completed.filter((n: unknown) => typeof n === 'number' && Number.isSafeInteger(n) && n > 0),
+      restSeconds: [0, 60, 90, 120].includes(value.restSeconds) ? value.restSeconds : 0,
+      restEndsAt: typeof value.restEndsAt === 'number' && Number.isFinite(value.restEndsAt) ? value.restEndsAt : null,
+    }
+  } catch { return emptySession() }
+}
+export function writeSession(id: number, value: SessionUI) {
+  try { sessionStorage.setItem(key(id), JSON.stringify(value)) } catch { /* Sin storage, la interacción continúa en memoria. */ }
+}
+export function clearSession(id: number) { try { sessionStorage.removeItem(key(id)) } catch { /* optional */ } }
+export function remainingSeconds(endsAt: number, now = Date.now()) { return Math.max(0, Math.ceil((endsAt - now) / 1000)) }
+export function clockText(seconds: number) {
+  const total = Math.max(0, Math.floor(seconds))
+  return `${Math.floor(total / 60).toString().padStart(2, '0')}:${(total % 60).toString().padStart(2, '0')}`
+}

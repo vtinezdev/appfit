@@ -71,7 +71,7 @@ export default function ObjetivosAjustes({ objetivos, onGuardar }: Props) {
           <p className="text-caption text-fg-subtle">
             Los macros suman {formatInt(kcalDeMacros(objetivos))} kcal, no {formatInt(objetivos.kcal)}.
           </p>
-          <Button variant="ghost" size="sm" onClick={() => onGuardar(cuadrarObjetivos(objetivos))}>
+          <Button variant="ghost" size="sm" className="shrink-0" onClick={() => onGuardar(cuadrarObjetivos(objetivos))}>
             Cuadrar
           </Button>
         </div>

@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useId, useRef, useState, type PointerEvent, type ReactNode } from 'react'
-import { motionMs } from '../design/motion'
+import { useId, useRef, type PointerEvent, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useModalLayer } from '../hooks/useModalLayer'
+import { useOverlayPresence } from '../hooks/useOverlayPresence'
 import { IconButton } from './Button'
 
 interface Props {
@@ -22,39 +22,10 @@ interface Props {
  * Las salidas iniciadas aquí animan antes de `onClose`; open=false también anima, desmontar directamente no.
  */
 export default function Sheet({ id, open, onClose, title, children, footer }: Props) {
-  const [mounted, setMounted] = useState(open)
-  const [visible, setVisible] = useState(false)
+  const { mounted, visible, close: requestClose } = useOverlayPresence(open, onClose)
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
-  const onCloseRef = useRef(onClose)
-  const closingRef = useRef(false)
   const drag = useRef<{ startY: number; dy: number; t: number } | null>(null)
-
-  useEffect(() => {
-    onCloseRef.current = onClose
-  })
-
-  // Montaje / desmontaje con animación
-  useEffect(() => {
-    if (open) {
-      closingRef.current = false
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setMounted(true)
-      // un instante después del montaje para que la transición de entrada parta del estado oculto
-      const t = setTimeout(() => setVisible(true), 20)
-      return () => clearTimeout(t)
-    }
-    setVisible(false)
-    const t = setTimeout(() => setMounted(false), motionMs('--dur-normal'))
-    return () => clearTimeout(t)
-  }, [open])
-
-  const requestClose = useCallback(() => {
-    if (closingRef.current) return
-    closingRef.current = true
-    setVisible(false)
-    setTimeout(() => onCloseRef.current(), motionMs('--dur-normal'))
-  }, [])
 
   useModalLayer(mounted, panelRef, requestClose)
 
@@ -84,12 +55,16 @@ export default function Sheet({ id, open, onClose, title, children, footer }: Pr
       el.style.transform = ''
     }
   }
+  const cancelDrag = () => {
+    drag.current = null
+    if (panelRef.current) { panelRef.current.style.transition = ''; panelRef.current.style.transform = '' }
+  }
 
   if (!mounted) return null
   return createPortal(
-    <div className="modal-viewport fixed inset-x-0 z-50 flex items-end justify-center">
+    <div data-visible={visible} className="sheet-layer modal-viewport fixed inset-x-0 z-50 flex items-end justify-center">
       <div
-        className={`absolute inset-0 bg-overlay/50 transition-opacity duration-normal ease-standard ${visible ? 'opacity-100' : 'opacity-0'}`}
+        className={`overlay-backdrop absolute inset-0 bg-overlay/50 ${visible ? 'opacity-100' : 'opacity-0'}`}
         onClick={requestClose}
         aria-hidden
       />
@@ -100,7 +75,7 @@ export default function Sheet({ id, open, onClose, title, children, footer }: Pr
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         tabIndex={-1}
-        className={`safe-bottom relative flex max-h-sheet w-full max-w-lg flex-col rounded-t-sheet bg-surface-elevated shadow-overlay outline-none transition-transform duration-normal ease-standard ${
+        className={`sheet-panel safe-bottom relative flex max-h-sheet w-full max-w-lg flex-col rounded-t-sheet bg-surface-elevated shadow-overlay outline-none ${
           visible ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
@@ -110,7 +85,8 @@ export default function Sheet({ id, open, onClose, title, children, footer }: Pr
             onPointerDown={onDragStart}
             onPointerMove={onDragMove}
             onPointerUp={onDragEnd}
-            onPointerCancel={onDragEnd}
+            onPointerCancel={cancelDrag}
+            onLostPointerCapture={cancelDrag}
           >
             <div className="h-1 w-8 rounded-pill bg-line-strong" aria-hidden />
             {title && <h2 id={titleId} className="mt-3 break-words text-title text-fg">{title}</h2>}

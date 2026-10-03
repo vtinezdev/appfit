@@ -10,7 +10,7 @@ const totales = { kcal: 113, prot: 6, carb: 9, grasa: 6 }
 describe('ResumenNutricional: panel diario compartido', () => {
   it('agrupa kcal y macros en una superficie con borde, radio y padding', () => {
     const html = renderToStaticMarkup(<ResumenNutricional totales={totales} objetivos={objetivos} />)
-    expect(html).toContain('<section aria-label="Resumen del día"><div class="rounded-lg border border-line bg-surface p-card space-y-4">')
+    expect(html).toContain('<section aria-label="Resumen del día"><div class="app-card rounded-lg border border-line bg-surface p-card nutrition-summary space-y-3">')
     expect(html).toContain('Quedan 2.087 kcal')
     expect(html.match(/role="progressbar"/g)).toHaveLength(4)
     for (const label of ['Calorías', 'Proteína', 'Carbohidratos', 'Grasa']) expect(html).toContain(`aria-label="${label}"`)

@@ -25,10 +25,11 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 **Gimnasio**
 - Entrenos desde cero o desde una rutina, con el progreso guardado aunque cierres la app a mitad.
 - Series con repeticiones y peso, precargadas con los valores de la última vez.
+- Confirmación reversible de series, descanso opcional y resumen al terminar; las marcas son una ayuda visual de la sesión, no cambian el historial guardado.
 - Rutinas, historial de entrenos y gráficas de progreso por ejercicio (peso máximo, 1RM estimado, volumen).
 
 **General**
-- Un botón Menú despliega una rueda para ir a Inicio, Nutrición, Gym y Ajustes, con la sección actual marcada.
+- Un botón Menú despliega un abanico desde su propio origen para ir a Inicio, Nutrición, Gym y Ajustes, con la sección actual marcada.
 - Instalable en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
 - Copia de seguridad exportable e importable en un único archivo JSON, con confirmación antes de sustituir registros y ayuda para trasladarlos de Safari al acceso de pantalla de inicio en iPhone.
 - Tema Sistema/Claro/Oscuro seleccionable en Ajustes. Interfaz móvil coherente, controles táctiles grandes y fuente disponible offline.

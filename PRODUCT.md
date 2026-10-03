@@ -1,0 +1,48 @@
+# APPFIT
+
+<!-- impeccable:product-schema 1 -->
+
+## Platform
+
+web
+
+APPFIT es una PWA móvil que se utiliza en iOS y Android. Este repositorio no contiene un cliente nativo; las convenciones de plataforma se adaptan dentro de las capacidades del navegador.
+
+## Users
+
+Registro personal de alimentación, peso y entrenamiento. La documentación identifica a Víctor como usuario actual; no se infieren perfiles, cuentas ni clientes adicionales.
+
+## Product Purpose
+
+Registrar y consultar datos propios de nutrición y fuerza con rapidez, también entre series, usando el móvil con una mano. El éxito es completar la tarea, entender el estado y recuperar los registros al volver.
+
+## Operating Context
+
+Uso repetido durante entrenamientos y a lo largo del día. La conexión puede faltar, el teclado ocupa espacio y una sesión puede interrumpirse. Inicio resume nutrición, entrenamiento y peso; Nutrición ofrece registro, búsqueda, plantillas e históricos; Gym ofrece rutinas, sesiones e indicadores de progreso.
+
+## Capabilities and Constraints
+
+- React, TypeScript, Vite, Tailwind, Dexie, Recharts; datos locales en IndexedDB, sin backend ni cuentas.
+- Las escrituras siguen los repositorios existentes y las copias conservan el esquema actual.
+- El catálogo se descarga del propio origen; Open Food Facts recibe exclusivamente el código de barras. No se añaden servicios de red.
+- Español en interfaz y documentación. Datos reales y estados vacíos honestos; no inventar rachas, resultados, récords o recomendaciones de salud.
+- El encargo permite rediseñar la UI completa y añadir feedback de series/descansos cuando sea necesario para la interacción, preservando funcionalidad y registros existentes.
+
+## Brand Commitments
+
+Nombre APPFIT, identidad deportiva, moderna, premium, limpia, energética y rápida. El usuario delega las decisiones visuales y pide un menú cuyas opciones nazcan espacialmente del botón inferior. Evitar ornamentación que compita con el entrenamiento.
+
+## Evidence on Hand
+
+Código en `src/`, documentación de flujos en `docs/features/`, fixtures de prueba en `src/test/fixtures/`, fuentes e iconos locales en `public/`. Los fixtures son sintéticos y se usan exclusivamente en contextos de prueba.
+
+## Product Principles
+
+1. La velocidad de registro y la legibilidad durante un entrenamiento mandan.
+2. Nutrición y entrenamiento forman un solo producto coherente.
+3. El movimiento explica cambios y confirma acciones, sin retrasarlas.
+4. Privacidad, persistencia local y conservación de datos son requisitos.
+
+## Accessibility & Inclusion
+
+Targets táctiles amplios, inputs de al menos 16 px, contraste AA, nombres accesibles, navegación por teclado, foco/aislamiento en overlays, safe areas y alternativa explícita de movimiento reducido. La vibración solo se usa cuando la plataforma la admite.

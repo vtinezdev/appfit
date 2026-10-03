@@ -18,7 +18,7 @@ El shell (`app/TrasladarDatos`) muestra antes del resumen un aviso breve para a�
 
 ## Presentación y acciones
 
-Resumen nutricional en un recuadro compartido con Hoy: fondo propio, borde fino, esquinas redondeadas y padding, separado de Registrar comida y los paneles siguientes por el espacio de sección. Cabecera con «Ver día», kcal destacadas y macros agrupados debajo de un divisor, sin anillo ni contador. «Registrar comida» abre directamente el flujo de Nutrición. Entreno y peso son paneles de contexto, con acciones claras. El historial de peso se consulta desde «⋯»: lista completa con fechas/kg, solo lectura sobre el repositorio existente. No hay tracking de medidas corporales; «Medidas caseras» pertenece a Nutrición.
+Resumen nutricional compacto en un recuadro compartido con Hoy: fondo propio, borde fino, esquinas redondeadas y padding, separado de los paneles siguientes por el espacio de sección. Cabecera con «Ver día», kcal destacadas y macros agrupados, sin anillo ni contador. «Registrar comida» está dentro del footer del mismo resumen y abre directamente el flujo de Nutrición. La cabecera da presencia a APPFIT; el entreno activo usa tinta para distinguirlo del contexto histórico y del peso. El historial de peso se consulta desde «⋯»: lista completa con fechas/kg, solo lectura sobre el repositorio existente. No hay tracking de medidas corporales; «Medidas caseras» pertenece a Nutrición.
 
 ## Reglas
 

@@ -4,9 +4,9 @@ import Icon, { type IconName } from './Icon'
 /** Estado de carga: una línea discreta, sin spinners a pantalla completa. */
 export function LoadingState({ children = 'Cargando…' }: { children?: ReactNode }) {
   return (
-    <div role="status" className="flex items-center gap-2 p-page text-body-sm text-fg-muted">
-      <Icon name="loader" size={16} />
-      {children}
+    <div role="status" className="space-y-3 py-4 text-body-sm text-fg-muted">
+      <span>{children}</span>
+      <div aria-hidden className="loading-skeleton space-y-2"><div className="h-3 w-2/3 rounded-sm bg-surface-muted" /><div className="h-3 w-full rounded-sm bg-surface-muted" /><div className="h-3 w-1/2 rounded-sm bg-surface-muted" /></div>
     </div>
   )
 }

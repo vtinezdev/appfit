@@ -13,6 +13,8 @@ const PATHS = {
   settings: 'M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4',
   trash: 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6',
   stop: 'M7 7h10v10H7z',
+  timer: 'M9 3h6M12 3v3M18 6l2 2M12 10v4l3 2M4 14a8 8 0 1 0 16 0a8 8 0 1 0-16 0',
+  trophy: 'M8 3h8v6a4 4 0 0 1-8 0V3M8 5H4v3a4 4 0 0 0 4 4M16 5h4v3a4 4 0 0 1-4 4M12 13v6M8 21h8M10 19h4',
   loader: 'M12 3a9 9 0 1 0 9 9',
   'chevron-left': 'M15 5l-7 7 7 7',
   'chevron-right': 'M9 5l7 7-7 7',
