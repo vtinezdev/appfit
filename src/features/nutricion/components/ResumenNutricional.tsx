@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import Card from '../../../shared/components/Card'
 import Metric from '../../../shared/components/Metric'
 import ProgressBar from '../../../shared/components/ProgressBar'
 import type { Objetivos } from '../../../shared/db/types'
@@ -10,28 +11,33 @@ interface Props {
   objetivos: Objetivos
   titulo?: string
   accion?: ReactNode
+  /** Desglose opcional dentro del mismo panel, sin cambiar el resumen sencillo. */
+  detalle?: ReactNode
 }
-/** Una métrica principal y tres datos secundarios. Mismo lenguaje en Inicio y diario. */
-export default function ResumenNutricional({ totales, objetivos, titulo = 'Resumen del día', accion }: Props) {
+/** Panel diario compartido: una métrica principal, macros y detalle opcional. */
+export default function ResumenNutricional({ totales, objetivos, titulo = 'Resumen del día', accion, detalle }: Props) {
   const v = Math.round(totales.kcal), g = Math.round(objetivos.kcal)
   const frase = fraseKcal(totales.kcal, objetivos.kcal)
   return (
-    <section aria-label={titulo} className="space-y-4">
-      <div className="flex min-h-touch items-center justify-between gap-2">
-        <h2 className="text-label font-semibold text-fg-muted">Nutrición · {titulo === 'Resumen de hoy' ? 'hoy' : 'día'}</h2>
-        {accion}
-      </div>
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <Metric size="hero" valor={v} unidad="kcal" />
-        {g > 0 && <p className="tabular pb-1 text-body-sm text-fg-muted">de <strong className="font-semibold text-fg">{formatInt(g)}</strong> kcal</p>}
-      </div>
-      <ProgressBar value={totales.kcal} goal={objetivos.kcal} size="lg" colorClass="bg-kcal" label="Calorías" valueText={`${formatInt(v)} de ${formatInt(g)} kcal. ${frase ?? ''}`} />
-      {frase && <p className="tabular text-body-sm text-fg-muted">{frase}</p>}
-      <div className="grid grid-cols-3 gap-4 border-t border-line pt-4">
-        <MacroBar macro="prot" valor={totales.prot} objetivo={objetivos.prot} />
-        <MacroBar macro="carbs" valor={totales.carb} objetivo={objetivos.carb} />
-        <MacroBar macro="fat" valor={totales.grasa} objetivo={objetivos.grasa} />
-      </div>
+    <section aria-label={titulo}>
+      <Card className="space-y-4">
+        <div className="flex min-h-touch items-center justify-between gap-2 border-b border-line pb-3">
+          <h2 className="min-w-0 text-body-sm font-semibold text-fg">Nutrición · {titulo === 'Resumen de hoy' ? 'hoy' : 'día'}</h2>
+          {accion}
+        </div>
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <Metric size="hero" valor={v} unidad="kcal" />
+          {g > 0 && <p className="tabular pb-1 text-body-sm text-fg-muted">de <strong className="font-semibold text-fg">{formatInt(g)}</strong> kcal</p>}
+        </div>
+        <ProgressBar value={totales.kcal} goal={objetivos.kcal} size="lg" colorClass="bg-kcal" label="Calorías" valueText={`${formatInt(v)} de ${formatInt(g)} kcal. ${frase ?? ''}`} />
+        {frase && <p className="tabular text-body-sm text-fg-muted">{frase}</p>}
+        <div className="grid grid-cols-3 gap-3 border-t border-line pt-4">
+          <MacroBar macro="prot" valor={totales.prot} objetivo={objetivos.prot} />
+          <MacroBar macro="carbs" valor={totales.carb} objetivo={objetivos.carb} />
+          <MacroBar macro="fat" valor={totales.grasa} objetivo={objetivos.grasa} />
+        </div>
+        {detalle}
+      </Card>
     </section>
   )
 }

@@ -55,6 +55,8 @@ El viewport reducido simula espacio disponible con teclado, no un teclado real. 
 
 `node scripts/ui/validar-copia-platos.cjs` comprueba copia de un plato de Desayuno a Comida/Cena en el mismo día, origen/destino idénticos, cancelar, deshacer, platos sucesivos separados y snapshots/nutrientes conservados. Incluye destinos ocupados, otro día, plantilla solo del plato, copia de una comida completa con kcal rápidas, recarga y copia dentro de un día histórico. Valida texto largo, cifras grandes, overflow, targets y campos en 320/375/430 px, claro/oscuro, en contextos nuevos del origen de pruebas. Informe/capturas en `/tmp/appfit-copia-platos-ui` (`APPFIT_UI_OUTPUT` cambia destino).
 
+`node scripts/ui/validar-resumen-diario.cjs` valida el panel compartido de Inicio/Hoy, borde/radio/padding, separación de las secciones siguientes, cifras/barras, «Ver día», modo detallado dentro del mismo contorno y cambios de fecha. Matriz de 320/375/430 px × claro/oscuro × día vacío/habitual/exceso/cifras extremas, con comprobaciones de overflow (también dentro de la tarjeta), targets y backup intacto tras navegar. Usa contextos aislados en el origen de pruebas; informe/capturas en `/tmp/appfit-resumen-diario-ui` (`APPFIT_UI_OUTPUT` cambia destino).
+
 ### Regresión de conservación de datos
 
 Probar con una build de producción (`npm run preview -- --host 0.0.0.0 --port 5173 --strictPort`) y el origen `appfit-test.localhost`, con un perfil de navegador persistente (no crear un contexto vacío en cada reapertura):
