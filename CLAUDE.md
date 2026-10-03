@@ -20,7 +20,7 @@ Catálogo (`npm run catalogo:*`): `scripts/catalogo/README.md`. Despliegue y res
 ```
 src/app/            shell: App (router casero con useState, sin URLs), BottomNav, Ajustes
 src/shared/         db/ (esquema Dexie, tipos, ajustes) · lib/ (fechas, formato, texto, backup) · design/ (tokens, guard)
-                    · components/ (primitives) · hooks/ (useAviso)
+                    · components/ (primitives) · hooks/ (useAviso, useModalLayer)
 src/features/       inicio/ · nutricion/ · gym/ — cada una: <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
 src/test/           setup-db.ts (fake-indexeddb) y fixtures/
 scripts/catalogo/   tubería offline (Node, manual) que genera los paquetes de public/catalogo/
@@ -41,9 +41,10 @@ Dónde está cada cosa: `docs/arquitectura.md` y `docs/features/<feature>.md`.
 - Imports relativos, sin alias.
 - Red: solo el catálogo del propio origen y Open Food Facts con el código de barras (nada más sale del móvil). Ningún servicio externo nuevo sin preguntar.
 
-**UI** (detalle en `docs/DESIGN-SYSTEM.md`: lee solo la sección que toque)
+**UI** (identidad en `DESIGN.md`; implementación en `docs/DESIGN-SYSTEM.md`: lee la sección que toque)
 - Nada de colores, tamaños, radios ni cifras sin formato sueltos, ni emojis como iconos: tokens + primitives. Lo vigilan `shared/design/guard.test.ts` y `contrast.test.ts`.
-- Inputs a 16 px como mínimo (Safari iOS hace zoom). Vista de referencia 375×812, sin scroll horizontal.
+- Inputs a 16 px como mínimo (Safari iOS hace zoom), controles reales ≥44 px. Validar 320/375/430 px, ambos temas, contenido largo y cifras grandes; sin scroll horizontal ni acciones cubiertas.
+- Listas planas; cards para unidades reales. Métricas inmediatas, sin halo/anillo/contador animado. ViewTabs para navegar, SegmentedControl para valores. Sheets y páginas modales usan las capas compartidas (foco/inert/viewport), sin wrappers nuevos por feature.
 - Borrados: rutinas y plantillas → confirmación previa (`ConfirmacionDestructiva`); filas sueltas (series, entradas, alimentos…) → borrado inmediato con «Deshacer» (`useAviso`). Dentro de un Sheet el Toast queda debajo: errores en línea con `ErrorState`.
 
 **Pruebas en navegador**
@@ -66,7 +67,8 @@ Los documentos vivos describen el estado actual y cada tema vive en uno solo. Si
 | `docs/arquitectura.md` | capas y dependencias, mapa de carpetas, navegación, arranque, PWA/offline, red | cambian carpetas, capas, arranque o caché |
 | `docs/datos.md` | tablas, invariantes, repositorios, ajustes, backup, trampas de Dexie | cambian tablas, invariantes, repos o el backup |
 | `docs/features/nutricion.md`, `gym.md`, `inicio.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
-| `docs/DESIGN-SYSTEM.md` | tokens, primitives, patrones y lenguaje de las pantallas | cambian tokens, primitives o patrones |
+| `DESIGN.md` | identidad, intención y criterios de producto | cambia la dirección visual |
+| `docs/DESIGN-SYSTEM.md` | implementación: tokens, primitives y patrones | cambian tokens, primitives o patrones |
 | `docs/desarrollo.md` | requisitos, tests, pruebas en navegador, Git/PR, despliegue, uso de Claude Code | cambian comandos, flujo de trabajo o despliegue |
 | `scripts/catalogo/README.md` | fuentes y licencias del catálogo, formato de paquete, tubería | cambia la tubería, una fuente o el formato |
 | `docs/decisiones/` | el porqué de las decisiones de base vigentes (un ADR por archivo) | se toma o se revierte una decisión duradera |
@@ -74,4 +76,4 @@ Los documentos vivos describen el estado actual y cada tema vive en uno solo. Si
 | `docs/herramientas.md` | para qué sirve cada dependencia (para personas) | se añade o quita una dependencia |
 | `README.md` | presentación para personas (qué hace, privacidad) | cambian las características visibles |
 
-Histórico, no normativo (describe código que puede ya no existir; consultar con `grep`, nunca entero): `docs/PROCESO.md` (bitácora `§N`), `docs/progreso/` (por sesión), `docs/historico/` (planes ya ejecutados).
+Histórico, no normativo (describe código que puede ya no existir; consultar con `rg`, nunca entero): `docs/PROCESO.md` (bitácora `§N`), `docs/progreso/` (por sesión), `docs/historico/` (planes ya ejecutados).

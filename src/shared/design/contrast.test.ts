@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 /**
- * Contraste WCAG de los pares texto/fondo de tokens.css, en claro y oscuro, y dentro de la superficie «ink».
+ * Contraste WCAG de los pares texto/fondo de tokens.css, en claro y oscuro, y en el aviso invertido.
  * Si cambias un color y falla, ajusta el token. Resuelve `var(--c-…)` (--c-kcal, --c-goal, --c-focus…) en el bloque donde se declara.
  */
 const css = readFileSync('src/shared/design/tokens.css', 'utf8')
@@ -32,22 +32,12 @@ function resolve(...layers: Tokens[]): Record<string, readonly number[]> {
 
 const rootLight = parse(block(':root {'))
 const rootDark = parse(block(":root[data-theme='dark'] {"))
-const inkLight = parse(block("[data-surface='ink'] {"))
-const inkDark = parse(block(":root[data-theme='dark'] [data-surface='ink']"))
-
+const inverseLight = parse(block("[data-surface='inverse'] {"))
+const inverseDark = parse(block(":root[data-theme='dark'] [data-surface='inverse']"))
 const light = resolve(rootLight)
 const dark = resolve(rootLight, rootDark)
-// Dentro de ink, las variables derivadas del :root (kcal, focus…) se resuelven en :root; las redeclaradas, en ink.
-const rootOnly = { light: rootLight, dark: { ...rootLight, ...rootDark } }
-const withInk = (root: Tokens, ink: Tokens[]): Record<string, readonly number[]> => {
-  const base = resolve(root)
-  const overrides = resolve(root, ...ink)
-  // solo lo que ink redeclara cambia; el resto conserva el valor resuelto en :root
-  const declared = new Set(ink.flatMap((l) => Object.keys(l)))
-  return Object.fromEntries(Object.keys(base).map((k) => [k, declared.has(k) ? overrides[k] : base[k]]))
-}
-const ink = withInk(rootOnly.light, [inkLight])
-const inkOscuro = withInk(rootOnly.dark, [inkLight, inkDark])
+const inverse = resolve(rootLight, inverseLight)
+const inverseOscuro = resolve(rootLight, rootDark, inverseLight, inverseDark)
 
 const lum = ([r, g, b]: readonly number[]) => {
   const f = (v: number) => (v / 255 <= 0.03928 ? v / 255 / 12.92 : ((v / 255 + 0.055) / 1.055) ** 2.4)
@@ -81,62 +71,24 @@ const TEXT: [string, string][] = [
 ]
 const FILLS = ['kcal', 'protein', 'carbs', 'fat']
 
-// Dentro del hero negro: texto sobre ink y sobre sus pistas, naranja de texto, datos como relleno.
-const TEXT_INK: [string, string][] = [
-  ['text-primary', 'surface'],
-  ['text-secondary', 'surface'],
-  ['text-secondary', 'surface-muted'],
-  ['text-tertiary', 'surface'],
-  ['text-tertiary', 'surface-muted'],
-  ['accent-strong', 'surface'],
-  ['accent-strong', 'accent-subtle'],
-  ['destructive', 'surface'],
-  ['on-accent', 'accent'],
-  ['on-selected', 'selected'],
+const TEXT_INVERSE: [string, string][] = [
+  ['text-primary', 'surface'], ['text-secondary', 'surface'],
+  ['accent-strong', 'surface'], ['destructive', 'surface'],
 ]
 
-describe.each([
-  ['claro', light],
-  ['oscuro', dark],
-])('contraste (%s)', (_name, t) => {
-  it.each(TEXT)('%s sobre %s ≥ 4.5', (fg, bg) => {
-    expect(ratio(t[fg], t[bg])).toBeGreaterThanOrEqual(4.5)
+describe.each([['claro', light], ['oscuro', dark]])('contraste (%s)', (_name, t) => {
+  it.each(TEXT)('%s sobre %s ≥ 4.5', (fg, bg) => expect(ratio(t[fg], t[bg])).toBeGreaterThanOrEqual(4.5))
+  it.each(FILLS)('%s sobre surface ≥ 3 (relleno)', (k) => expect(ratio(t[k], t.surface)).toBeGreaterThanOrEqual(3))
+  it.each(['protein', 'carbs', 'fat'])('%s como texto sobre todas las superficies ≥ 4.5', k => {
+    for (const bg of ['bg', 'surface', 'surface-muted']) expect(ratio(t[k], t[bg])).toBeGreaterThanOrEqual(4.5)
   })
-  it.each(FILLS)('%s sobre surface ≥ 3 (relleno)', (k) => {
-    expect(ratio(t[k], t.surface)).toBeGreaterThanOrEqual(3)
-  })
-  it('la marca de meta (goal) y el foco se ven sobre surface ≥ 3', () => {
+  it.each(['surface', 'surface-muted'])('borde de campo reconocible sobre %s ≥ 3', bg => expect(ratio(t['border-strong'], t[bg])).toBeGreaterThanOrEqual(3))
+  it('la meta y el foco tienen contraste ≥ 3', () => {
     expect(ratio(t.goal, t.surface)).toBeGreaterThanOrEqual(3)
     expect(ratio(t.focus, t.surface)).toBeGreaterThanOrEqual(3)
   })
 })
-
-describe.each([
-  ['ink (claro)', ink],
-  ['ink (oscuro)', inkOscuro],
-])('contraste dentro de %s', (_name, t) => {
-  it.each(TEXT_INK)('%s sobre %s ≥ 4.5', (fg, bg) => {
-    expect(ratio(t[fg], t[bg])).toBeGreaterThanOrEqual(4.5)
-  })
-  it.each(FILLS)('%s sobre ink ≥ 3 (relleno) y sobre su pista ≥ 1.5', (k) => {
-    expect(ratio(t[k], t.surface)).toBeGreaterThanOrEqual(3)
-    expect(ratio(t[k], t['surface-muted'])).toBeGreaterThanOrEqual(1.5)
-  })
-  it('la meta (goal) y el foco se ven sobre ink ≥ 3', () => {
-    expect(ratio(t.goal, t.surface)).toBeGreaterThanOrEqual(3)
-    expect(ratio(t.focus, t.surface)).toBeGreaterThanOrEqual(3)
-  })
-})
-
-// Resplandor de la cabecera: el pico del halo (accent con --glow-alpha sobre bg) no debe restar legibilidad al texto de la cabecera.
-const glowAlpha = (root: string) => parseFloat(root.match(/--glow-alpha:\s*([\d.]+)/)![1])
-const mezcla = (a: readonly number[], b: readonly number[], t: number) => a.map((v, i) => Math.round(v * t + b[i] * (1 - t)))
-describe.each([
-  ['claro', light, glowAlpha(block(':root {'))],
-  ['oscuro', dark, glowAlpha(block(":root[data-theme='dark'] {"))],
-])('resplandor de fondo (%s)', (_name, t, alpha) => {
-  const pico = mezcla(t.accent, t.bg, alpha)
-  it.each(['text-primary', 'text-secondary'])('%s sobre el pico del resplandor ≥ 4.5', (fg) => {
-    expect(ratio(t[fg], pico)).toBeGreaterThanOrEqual(4.5)
-  })
+describe.each([['inverse (claro)', inverse], ['inverse (oscuro)', inverseOscuro]])('avisos %s', (_name, t) => {
+  it.each(TEXT_INVERSE)('%s sobre %s ≥ 4.5', (fg, bg) => expect(ratio(t[fg], t[bg])).toBeGreaterThanOrEqual(4.5))
+  it('el foco se ve ≥ 3', () => expect(ratio(t.focus, t.surface)).toBeGreaterThanOrEqual(3))
 })

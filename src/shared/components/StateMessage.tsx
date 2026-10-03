@@ -23,14 +23,10 @@ interface EmptyProps {
 export function EmptyState({ children, action, icon, title }: EmptyProps) {
   if (icon || title) {
     return (
-      <div className="flex flex-col items-center gap-2 px-page py-section text-center">
-        {icon && (
-          <span className="mb-1 flex h-14 w-14 items-center justify-center rounded-pill bg-surface-muted text-fg-muted">
-            <Icon name={icon} size={24} />
-          </span>
-        )}
+      <div className="flex flex-col items-start gap-3 border-y border-line py-section">
+        {icon && <Icon name={icon} size={26} className="text-fg-muted" />}
         {title && <p className="text-title text-fg">{title}</p>}
-        {children && <p className="max-w-xs text-body-sm text-fg-muted">{children}</p>}
+        {children && <p className="max-w-sm text-body-sm text-fg-muted">{children}</p>}
         {action && <div className="mt-2">{action}</div>}
       </div>
     )

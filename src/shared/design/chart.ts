@@ -17,10 +17,10 @@ export const chartColors = {
   seriesTertiary: rgb('accent'),
 }
 
-export const chartAxis = { stroke: chartColors.axis, fontSize: 11, tickLine: false, axisLine: false } as const
+export const chartAxis = { stroke: chartColors.axis, fontSize: 12, tickLine: false, axisLine: false } as const
 
 export const chartTooltip = {
-  // Tooltip «ink»: invertido respecto al tema (negro con texto claro en claro, claro con texto oscuro en oscuro).
+  // Tooltip invertido respecto al tema, igual que los avisos temporales.
   contentStyle: {
     background: rgb('text-primary'),
     border: 'none',

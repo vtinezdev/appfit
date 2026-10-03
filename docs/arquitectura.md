@@ -1,6 +1,6 @@
 # Arquitectura
 
-Estado actual del código. El porqué de las decisiones de base está en `decisiones/`; los datos, en `datos.md`; la UI, en `DESIGN-SYSTEM.md`; cada feature, en `features/`.
+Estado actual del código. El porqué de las decisiones de base está en `decisiones/`; los datos, en `datos.md`; la identidad, en `../DESIGN.md`; la UI, en `DESIGN-SYSTEM.md`; cada feature, en `features/`.
 
 ## Visión general
 
@@ -19,7 +19,7 @@ src/main.tsx ─► src/app/ ─► src/features/* ─► src/shared/
 
 | Capa | Contiene | Puede importar |
 |---|---|---|
-| `shared/` | `db/` (esquema Dexie, tipos, `settings.ts`, `foodRef.ts`), `lib/` (`dates`, `format`, `text`, `backup`), `design/` (tokens y su JS), `components/` (primitives), `hooks/useAviso` | solo `shared/` (nunca `features/` ni `app/`) |
+| `shared/` | `db/` (esquema Dexie, tipos, `settings.ts`, `foodRef.ts`), `lib/` (`dates`, `format`, `text`, `backup`), `design/` (tokens y su JS), `components/` (primitives), `hooks/useAviso`, `hooks/useModalLayer` | solo `shared/` (nunca `features/` ni `app/`) |
 | `features/<x>/data/` | repositorios `*Repo.ts`: los **únicos** que tocan `db` | `shared/` |
 | `features/<x>/lib/` | lógica pura con tests (sin React ni `db`) | `shared/`, otras `lib/` |
 | `features/<x>/hooks/` | acciones asíncronas y estado de UI (p. ej. búsqueda con espera entre teclas) | `data/`, `lib/`, `shared/` |
@@ -36,15 +36,15 @@ src/main.tsx             arranque (ver abajo)
 src/index.css            CSS global: inputs a 16 px, utilidades (.no-spin, .tabular…)
 src/app/                 App (pestañas), BottomNav, TrasladarDatos, Ajustes (objetivos, almacenamiento, backup, catálogo, borrar todo)
 src/shared/db/           db.ts (esquema y listas de tablas), types.ts, settings.ts, estadoDatos.ts, foodRef.ts
-src/shared/lib/          dates (fechas locales, periodos), format (formatInt/formatNumber), text (normalizeName, tokenizar,
+src/shared/lib/          dates (fechas locales, periodos), format (formatInt/formatNumber/formatCompact), text (normalizeName, tokenizar,
                          tokensConsulta, singular, mismaRaiz), almacenamiento (protección y modo PWA), backup (exportar/importar/migrar/borrar)
-src/shared/design/       tokens.css (única fuente de valores), theme, macros, chart, motion, carril, guard
+src/shared/design/       tokens.css (única fuente de valores), theme, viewport, selection, macros, chart, motion, carril, guard
 src/shared/components/   primitives (lista en DESIGN-SYSTEM.md § Primitives)
 src/features/inicio/     → features/inicio.md
 src/features/nutricion/  → features/nutricion.md
 src/features/gym/        → features/gym.md
 src/test/                setup-db.ts (fake-indexeddb, cargado como setupFiles de Vitest) y fixtures/
-public/                  iconos de la PWA, favicon.svg y catalogo/ (paquetes que la app descarga)
+public/                  iconos de la PWA, favicon.svg, fonts/ (Manrope OFL) y catalogo/ (paquetes que la app descarga)
 scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/README.md
 ```
 
@@ -52,15 +52,17 @@ scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/REA
 
 Router casero con `useState`, sin URLs ni historial ([ADR 002](decisiones/002-router-casero.md)).
 
+- El shell flex ocupa 100dvh. `main` posee el scroll y la barra inferior su espacio propio; ancho de lectura máximo 512 px. Navegar restablece el scroll.
 - `app/App.tsx`: pestaña activa (`Tab` en `BottomNav.tsx`): `inicio` (por defecto) · `nutricion` · `gym` · `ajustes`.
-- El aviso de primer inicio en iOS abre Ajustes con `abrirGuia`: después de cargar, desplaza la vista y enfoca «Primera vez en AppFit». La navegación habitual de la barra no activa ese salto. La guía tiene un segundo salto a Exportar/Importar, sin cambiar la URL.
-- `NutricionTab`: vistas `hoy` · `resumen` · `alimentos` (SegmentedControl). «Añadir comida» (y la edición de una entrada) es un overlay a pantalla completa; «Medidas» se abre encima de él.
+- Inicio permite abrir Añadir comida directamente en Nutrición. El aviso de primer inicio en iOS abre Ajustes con `abrirGuia`: después de cargar, desplaza la vista y enfoca la guía abierta «Instalación y traslado de registros». La navegación habitual de la barra no activa ese salto. La guía tiene un segundo salto a Exportar/Importar, sin cambiar la URL.
+- `NutricionTab`: vistas `hoy` · `resumen` · `alimentos` (ViewTabs). «Añadir comida» (y la edición de una entrada) usa ModalPage a pantalla completa; «Medidas» se abre encima de él.
 - `GymTab`: vistas `inicio` · `rutinas` · `historial` · `progreso`. Si hay un entreno sin `fin`, la pestaña entera pasa a ser `EntrenoActivo`.
-- Los Sheets (`shared/components/Sheet`) son estado local de cada pantalla.
+- Gym también usa ViewTabs. Segmentación de valores (comida, periodo, tema) mediante SegmentedControl, con semántica radio.
+- Sheet y ModalPage usan portales en body y useModalLayer para foco, Escape, Tab, inert y retorno. Estado local de pantalla; ninguna dependencia nueva. visualViewport ajusta alto/offset al área visible.
 
 ## Arranque (`src/main.tsx`)
 
-1. `initTheme()` (tema claro/oscuro/sistema; ver DESIGN-SYSTEM.md § Arquitectura).
+1. `initTheme()` (Sistema/Claro/Oscuro desde Ajustes, preferencia visual en localStorage) e `initViewport()` (geometría de capas). Ver DESIGN-SYSTEM.md.
 2. `solicitarPersistencia()` (`shared/lib/almacenamiento.ts`): conserva un permiso existente o pide protección frente al borrado automático; fallos y rechazo no impiden abrir la app. Ajustes consulta el estado real y permite reintentar. No es una garantía ni una copia de seguridad.
 3. `ensureSettings()`: la **única** escritura de ajustes al arrancar (las lecturas nunca escriben; ver `datos.md`).
 4. Unos 2 s después, con el navegador ocioso y solo si hay conexión: `sincronizarCatalogo()` en segundo plano. Los errores se ignoran y se reintenta en el siguiente arranque (Ajustes permite lanzarlo a mano).
@@ -72,5 +74,6 @@ Router casero con `useState`, sin URLs ni historial ([ADR 002](decisiones/002-ro
 - El precache (`globPatterns`) incluye js/css/html/svg/png/ico/woff2. **No** incluye:
   - los `.json` del catálogo: el manifest se pide con `cache: 'no-cache'`;
   - el `.wasm` del escáner: regla `CacheFirst` en tiempo de ejecución, así que funciona sin red desde su primer uso.
+- La fuente local variable se precarga y precachea; no añade un origen de red. El logotipo/iconos existentes se mantienen.
 - Chunks diferidos (`React.lazy` / `import()`): `Resumen` y `Progreso` (llevan Recharts) y el lector de códigos (`nutricion/lib/escaner/`). Recharts no debe entrar en el chunk de arranque (Inicio usa un SVG propio).
 - Despliegue estático en Cloudflare Workers: `desarrollo.md` § Despliegue.

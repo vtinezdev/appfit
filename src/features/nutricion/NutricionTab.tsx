@@ -2,7 +2,8 @@ import { lazy, Suspense, useState } from 'react'
 import type { Comida, Entry } from '../../shared/db/types'
 import { todayISO } from '../../shared/lib/dates'
 import PageHeader from '../../shared/components/PageHeader'
-import SegmentedControl from '../../shared/components/SegmentedControl'
+import ViewTabs from '../../shared/components/ViewTabs'
+import { IconButton } from '../../shared/components/Button'
 import KcalRapidasSheet from './components/KcalRapidasSheet'
 import * as entriesRepo from './data/entriesRepo'
 import { validarKcalRapidas, type KcalRapidasDraft } from './lib/alimentos'
@@ -24,10 +25,10 @@ const VISTAS: { valor: Vista; label: string }[] = [
   { valor: 'alimentos', label: 'Alimentos' },
 ]
 
-export default function NutricionTab() {
+export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?: boolean }) {
   const [vista, setVista] = useState<Vista>('hoy')
   const [fecha, setFecha] = useState(todayISO())
-  const [mostrarAnadir, setMostrarAnadir] = useState(false)
+  const [mostrarAnadir, setMostrarAnadir] = useState(anadirAlAbrir)
   const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(undefined)
   const [entryEditar, setEntryEditar] = useState<Entry | undefined>(undefined)
   const [rapidaEditar, setRapidaEditar] = useState<Entry | null>(null)
@@ -74,12 +75,9 @@ export default function NutricionTab() {
   }
 
   return (
-    <div className="relative min-h-full px-page pt-6">
-      <div className="mb-section space-y-stack">
-        <PageHeader title="Nutrición" />
-        <SegmentedControl opciones={VISTAS} valor={vista} onChange={setVista} />
-      </div>
-
+    <div className="space-y-3 px-page pt-5">
+      <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="primary" onClick={() => { setComidaAnadir(undefined); setMostrarAnadir(true) }} />} />
+      <ViewTabs label="Vistas de nutrición" opciones={VISTAS} valor={vista} onChange={setVista}>
       {vista === 'hoy' && <Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} />}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>
@@ -87,6 +85,7 @@ export default function NutricionTab() {
         </Suspense>
       )}
       {vista === 'alimentos' && <Alimentos />}
+      </ViewTabs>
 
       {mostrarAnadir && (
         <AnadirComida fecha={entryEditar?.fecha ?? fecha} entryEditar={entryEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={cerrarAnadir} />

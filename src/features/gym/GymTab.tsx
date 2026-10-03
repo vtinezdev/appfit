@@ -1,6 +1,6 @@
 import { LoadingState } from '../../shared/components/StateMessage'
 import PageHeader from '../../shared/components/PageHeader'
-import SegmentedControl from '../../shared/components/SegmentedControl'
+import ViewTabs from '../../shared/components/ViewTabs'
 import { lazy, Suspense, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as workoutsRepo from './data/workoutsRepo'
@@ -23,11 +23,10 @@ export default function GymTab() {
   }
 
   return (
-    <div className="min-h-full px-page pt-6">
-      <div className="mb-section space-y-stack">
+    <div className="space-y-3 px-page pt-5">
         <PageHeader title="Entreno" />
-        <SegmentedControl
-          size="sm"
+        <ViewTabs
+          label="Vistas de entrenamiento"
           opciones={[
             { valor: 'inicio', label: 'Inicio' },
             { valor: 'rutinas', label: 'Rutinas' },
@@ -36,9 +35,7 @@ export default function GymTab() {
           ]}
           valor={vista}
           onChange={setVista}
-        />
-      </div>
-
+        >
       {vista === 'inicio' && <GymHome />}
       {vista === 'rutinas' && <Rutinas />}
       {vista === 'historial' && <Historial />}
@@ -47,6 +44,7 @@ export default function GymTab() {
           <Progreso />
         </Suspense>
       )}
+      </ViewTabs>
     </div>
   )
 }

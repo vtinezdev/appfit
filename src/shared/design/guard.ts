@@ -20,6 +20,11 @@ const UTIL = 'bg|text|border|ring|fill|stroke|from|via|to|divide|placeholder|acc
 
 export const RULES: Rule[] = [
   {
+    id: 'obsolete-visual',
+    message: 'Patrón visual retirado: halo, sombras de cards/nav, hero ink o contador animado. Consulta DESIGN.md.',
+    pattern: /bg-page-glow|shadow-raised|shadow-nav|data-surface=["']ink["']|AnimatedNumber|ProgressRing/,
+  },
+  {
     id: 'palette-class',
     message: 'Color de la paleta por defecto de Tailwind (slate-*, brand-*, white…). Usa un token: bg-surface, text-fg-muted, text-destructive…',
     pattern: new RegExp(`(?<![\\w-])(?:${UTIL})-(?:${PALETTE})(?:-\\d{2,3})?(?![\\w-])`),

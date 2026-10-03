@@ -7,7 +7,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 ## Características
 
 **Inicio**
-- Resumen del día: calorías y macros frente a tus objetivos, el entreno en curso o el último, y tu peso con su evolución de los últimos 30 días.
+- Resumen del día: calorías y macros frente a tus objetivos, el entreno en curso o el último, y tu peso con su evolución de los últimos 30 días e historial consultable. Registro de comida directo desde Inicio.
 
 **Nutrición**
 - Añadir comidas por texto libre o con el dictado del teclado: un intérprete local entiende alimentos, cantidades y medidas caseras («2 huevos», «una lata de atún», «un vaso de leche») y los busca en tus alimentos y en un catálogo de más de 6.000 alimentos (CIQUAL y productos de marca de Open Food Facts España). Sin conexión.
@@ -28,7 +28,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 **General**
 - Instalable en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
 - Copia de seguridad exportable e importable en un único archivo JSON, con confirmación antes de sustituir registros y ayuda para trasladarlos de Safari al acceso de pantalla de inicio en iPhone.
-- Tema claro y oscuro según el sistema.
+- Tema Sistema/Claro/Oscuro seleccionable en Ajustes. Interfaz móvil coherente, controles táctiles grandes y fuente disponible offline.
 - Coste de infraestructura: **0 €**.
 
 ## Empezar
@@ -46,8 +46,10 @@ No existe backend. Todos los datos (comidas, entrenos, pesos, alimentos y ajuste
 
 ## Documentación
 
+Identidad y criterios de interfaz: [`DESIGN.md`](DESIGN.md). Implementación visual: [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md).
+
 El índice de toda la documentación (qué hay en cada documento) está en [`CLAUDE.md`](CLAUDE.md) § Documentación. El proyecto se desarrolla con Claude Code.
 
 ## Licencia
 
-Código bajo licencia MIT: ver [`LICENSE`](LICENSE). Los datos del catálogo tienen su propia licencia: CIQUAL (Licence Ouverte Etalab 2.0) y Open Food Facts (ODbL 1.0); detalle en [`scripts/catalogo/README.md`](scripts/catalogo/README.md). El código es público a modo de portfolio; no se esperan ni gestionan contribuciones externas.
+Código bajo licencia MIT: ver [`LICENSE`](LICENSE). Los datos del catálogo tienen su propia licencia: CIQUAL (Licence Ouverte Etalab 2.0) y Open Food Facts (ODbL 1.0); detalle en [`scripts/catalogo/README.md`](scripts/catalogo/README.md). Manrope se distribuye con su licencia OFL en `public/fonts/Manrope-LICENSE.txt`. El código es público a modo de portfolio; no se esperan ni gestionan contribuciones externas.

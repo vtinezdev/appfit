@@ -9,6 +9,7 @@ import { SearchInput } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import ListaElegibles from './ListaElegibles'
 import ResultadosBusqueda from './ResultadosBusqueda'
+import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 
 interface Props {
   comida: Comida
@@ -33,7 +34,7 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props
   const hoy = todayISO()
   const frecuentes = useLiveQuery(() => foodsRepo.frecuentes({ comida, hoy }), [comida, hoy])
 
-  if (frecuentes === undefined) return null
+  if (frecuentes === undefined) return <LoadingState>Cargando alimentos…</LoadingState>
 
   // Los del catálogo que ya usas: en el ranking de la búsqueda, a igualdad de coincidencia, van primero.
   const idsCatalogo = frecuentes.flatMap((a) => (a.ref.tipo === 'catalog' ? [a.ref.id] : []))
@@ -60,6 +61,7 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props
       )}
 
       <ResultadosBusqueda busqueda={busqueda} onElegir={onElegir} frecuentes={idsCatalogo} />
+      {!busqueda.trim() && frecuentes.length === 0 && <EmptyState title="Busca tu primer alimento" icon="search">Escribe su nombre. Los alimentos que uses aparecerán aquí para añadirlos más rápido.</EmptyState>}
     </section>
   )
 }

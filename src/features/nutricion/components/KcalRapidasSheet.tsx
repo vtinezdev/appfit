@@ -28,7 +28,10 @@ const ETIQUETA = 'mb-1 block text-caption text-fg-subtle'
  */
 export default function KcalRapidasSheet({ open, valor, onChange, onGuardar, onClose, guardando = false, error = null }: Props) {
   return (
-    <Sheet open={open} onClose={onClose} title="Kcal rápidas">
+    <Sheet open={open} onClose={onClose} title="Kcal rápidas" footer={<div className="space-y-2">
+      {error && <ErrorState>{error}</ErrorState>}
+      <Button block loading={guardando} onClick={onGuardar} disabled={!validarKcalRapidas(valor)}>{guardando ? 'Guardando…' : 'Guardar'}</Button>
+    </div>}>
       <div className="space-y-4">
         <label className="block">
           <span className={ETIQUETA}>Nombre</span>
@@ -64,10 +67,6 @@ export default function KcalRapidasSheet({ open, valor, onChange, onGuardar, onC
             ))}
           </div>
         </fieldset>
-        {error && <ErrorState>{error}</ErrorState>}
-        <Button block loading={guardando} onClick={onGuardar} disabled={!validarKcalRapidas(valor)}>
-          {guardando ? 'Guardando…' : 'Guardar'}
-        </Button>
       </div>
     </Sheet>
   )

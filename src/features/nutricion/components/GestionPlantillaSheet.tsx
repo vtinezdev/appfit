@@ -80,28 +80,7 @@ export default function GestionPlantillaSheet({ meal, onClose, onBorrada }: Prop
   }
 
   return (
-    <Sheet open onClose={onClose} title="Editar plantilla">
-      <div className="space-y-3">
-        <Input value={nombre} onChange={(e) => setNombre(e.target.value)} />
-
-        <div className="space-y-2">
-          {entradas.length === 0 && <EmptyState>Sin alimentos.</EmptyState>}
-          {entradas.map(({ item: it }, i) => (
-            <div key={i} className="space-y-1.5 rounded-md bg-surface-muted px-3 py-2">
-              <div className="flex items-center justify-between gap-2">
-                <p className="min-w-0 flex-1 truncate text-body-sm text-fg">{it.nombre}</p>
-                <IconButton icon="trash" label={`Quitar ${it.nombre}`} variant="ghost" size="sm" onClick={() => quitar(i)} />
-              </div>
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-caption text-fg-subtle">{formatInt(it.kcal)} kcal</span>
-                {!it.rapida && <NumberStepper value={it.gramos} onChange={(g) => cambiarGramos(i, g)} step={10} suffix="g" compact inputTextoGrande />}
-              </div>
-              {!it.rapida && it.gramos <= 0 && <p className="text-caption text-destructive">Indica unos gramos válidos.</p>}
-            </div>
-          ))}
-        </div>
-
-        {error && <ErrorState>{error}</ErrorState>}
+    <Sheet open onClose={onClose} title="Editar plantilla" footer={<div className="space-y-2">        {error && <ErrorState>{error}</ErrorState>}
 
         {confirmandoBorrado ? (
           <ConfirmacionDestructiva
@@ -120,7 +99,28 @@ export default function GestionPlantillaSheet({ meal, onClose, onBorrada }: Prop
               {guardando ? 'Guardando…' : 'Guardar'}
             </Button>
           </div>
-        )}
+        )}</div>}>
+      <div className="space-y-3">
+        <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la plantilla</span><Input value={nombre} onChange={(e) => setNombre(e.target.value)} /></label>
+
+        <div className="space-y-2">
+          {entradas.length === 0 && <EmptyState>Sin alimentos.</EmptyState>}
+          {entradas.map(({ item: it }, i) => (
+            <div key={i} className="space-y-1.5 rounded-md bg-surface-muted px-3 py-2">
+              <div className="flex items-center justify-between gap-2">
+                <p className="min-w-0 flex-1 break-words text-body text-fg">{it.nombre}</p>
+                <IconButton icon="trash" label={`Quitar ${it.nombre}`} variant="ghost" size="sm" onClick={() => quitar(i)} />
+              </div>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <span className="text-caption text-fg-subtle">{formatInt(it.kcal)} kcal</span>
+                {!it.rapida && <NumberStepper label={`Gramos de ${it.nombre}`} value={it.gramos} onChange={(g) => cambiarGramos(i, g)} step={10} suffix="g" />}
+              </div>
+              {!it.rapida && it.gramos <= 0 && <p className="text-caption text-destructive">Indica unos gramos válidos.</p>}
+            </div>
+          ))}
+        </div>
+
+
       </div>
     </Sheet>
   )

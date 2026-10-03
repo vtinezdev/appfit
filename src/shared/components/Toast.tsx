@@ -11,7 +11,7 @@ interface Props {
 }
 
 /**
- * Aviso temporal (superficie ink: texto claro sobre negro, «Deshacer» en naranja) sobre la barra inferior flotante, con una acción opcional (p. ej. «Deshacer»).
+ * Aviso temporal sobre la navegación, con superficie inversa al tema y acción opcional.
  * Para mostrar uno nuevo mientras hay otro visible, cambia su `key` y el temporizador vuelve a empezar.
  * Flota justo encima de la barra de navegación, alineado con la columna de contenido también en escritorio.
  */
@@ -32,8 +32,8 @@ export default function Toast({ mensaje, accion, onCerrar, duracionMs = 5000, to
       <div className="mx-auto max-w-lg px-page">
         <div
           role={error ? 'alert' : 'status'}
-          data-surface="ink"
-          className="pointer-events-auto flex min-h-touch animate-rise-in items-center justify-between gap-3 rounded-lg bg-surface px-5 py-2 text-body-sm text-fg shadow-overlay"
+          data-surface="inverse"
+          className="pointer-events-auto flex min-h-touch animate-rise-in items-center justify-between gap-3 rounded-md bg-surface px-4 py-2 text-body-sm text-fg shadow-overlay"
         >
           <span className="flex min-w-0 items-center gap-2">
             {error && <Icon name="alert" size={18} className="text-destructive" />}

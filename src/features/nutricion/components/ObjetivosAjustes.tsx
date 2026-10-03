@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import Badge from '../../../shared/components/Badge'
 import Button from '../../../shared/components/Button'
-import Card from '../../../shared/components/Card'
+import Disclosure from '../../../shared/components/Disclosure'
 import { Input } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import type { Objetivos } from '../../../shared/db/types'
@@ -44,13 +43,13 @@ export default function ObjetivosAjustes({ objetivos, onGuardar }: Props) {
   return (
     <section aria-label="Objetivos diarios" className="space-y-stack">
       <SectionHeader variant="section">Objetivos diarios</SectionHeader>
-      <Card className="space-y-3">
+      <div className="space-y-3">
       {CAMPOS.map(({ campo, label, macro }) => (
         <label key={campo} className="flex items-center justify-between gap-3">
           <span className="text-body-sm font-medium text-fg">{label}</span>
           <span className="flex items-center gap-3">
             {campo !== 'kcal' && (
-              <Badge dotClass={macro.bg}>{dist[campo]} %</Badge>
+              <span className="tabular flex w-12 items-center justify-end gap-1 text-caption text-fg-muted"><span aria-hidden className={`h-1.5 w-1.5 shrink-0 rounded-pill ${macro.bg}`} />{dist[campo]} %</span>
             )}
             <Input
               type="number"
@@ -61,11 +60,12 @@ export default function ObjetivosAjustes({ objetivos, onGuardar }: Props) {
               onChange={(e) => teclear(campo, e.target.value, edicion?.campo === campo ? edicion.base : objetivos)}
               onBlur={() => setEdicion(null)}
               onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
-              className="w-24 text-right"
+              className="tabular no-spin w-24 text-right"
             />
           </span>
         </label>
       ))}
+      <p className="text-caption text-fg-muted">Los cambios se guardan automáticamente.</p>
       {descuadrados ? (
         <div className="flex items-center justify-between gap-3">
           <p className="text-caption text-fg-subtle">
@@ -76,11 +76,11 @@ export default function ObjetivosAjustes({ objetivos, onGuardar }: Props) {
           </Button>
         </div>
       ) : (
-        <p className="text-caption text-fg-subtle">
+        <Disclosure title="Cómo se ajustan los objetivos"><p className="text-body-sm text-fg-muted">
           Si cambias las calorías, los macros mantienen su reparto. Si cambias un macro, los otros dos se ajustan para seguir sumando las mismas calorías.
-        </p>
+        </p></Disclosure>
       )}
-      </Card>
+      </div>
     </section>
   )
 }

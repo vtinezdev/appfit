@@ -5,7 +5,6 @@ import * as workoutsRepo from '../data/workoutsRepo'
 import Sheet from '../../../shared/components/Sheet'
 import ListRow from '../../../shared/components/ListRow'
 import Button from '../../../shared/components/Button'
-import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
 import TarjetaEntreno from '../components/TarjetaEntreno'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -43,22 +42,20 @@ export default function GymHome() {
 
   return (
     <div className="space-y-stack">
-      <Card tone="ink" role="region" aria-label="Empezar a entrenar" className="space-y-5">
+      <section aria-label="Empezar a entrenar" className="space-y-5 border-b border-line pb-section">
         <div className="space-y-1">
-          <h2 className="text-display text-fg">Empieza a entrenar</h2>
-          <p className="text-body-sm text-fg-muted">Un entreno vacío o desde una de tus rutinas.</p>
+          <h2 className="text-heading text-fg">Tu próxima sesión</h2>
+          <p className="text-body-sm text-fg-muted">Elige una rutina o empieza con los ejercicios que quieras.</p>
         </div>
         <div className="space-y-2">
-          <Button size="lg" block onClick={empezarVacio}>
+          <Button variant={rutinas?.length ? 'secondary' : 'primary'} size="lg" block onClick={empezarVacio}>
             <Icon name="plus" size={20} />
             Entreno vacío
           </Button>
-          <Button variant="secondary" size="lg" block onClick={() => abrirRutinas(true)} disabled={!rutinas || rutinas.length === 0}>
-            Desde rutina
-          </Button>
+          {!!rutinas?.length && <Button size="lg" block onClick={() => abrirRutinas(true)}>Desde rutina</Button>}
           {rutinas?.length === 0 && <p className="text-center text-caption text-fg-muted">Crea una rutina primero en la pestaña Rutinas.</p>}
         </div>
-      </Card>
+      </section>
 
       <TarjetaEntreno soloUltimo />
 

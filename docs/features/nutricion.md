@@ -6,7 +6,7 @@
 
 | Área | Pantalla / componentes | Lógica pura (`lib/`) | Datos / hooks |
 |---|---|---|---|
-| Día (Hoy) | `pages/Hoy`, `ComidaSection`, `FranjaMacros`, `ResumenNutricional`, `MacroBar`, `AccionesComidaSheet`, `CopiarDiaSheet` | `nutrition.ts` (macros, sumas, `fraseKcal`), `platos.ts` (agrupación y renovación de ids), `plantillas.ts` (`planCopia`), `nombresCortos.ts` (etiquetas visibles) | `entriesRepo`, `nombresAlimentosRepo` |
+| Día (Hoy) | `pages/Hoy`, `ComidaSection`, `ResumenNutricional`, `MacroBar`, `AccionesComidaSheet`, `CopiarDiaSheet` | `nutrition.ts` (macros, sumas, `fraseKcal`), `platos.ts` (agrupación y renovación de ids), `plantillas.ts` (`planCopia`), `nombresCortos.ts` (etiquetas visibles) | `entriesRepo`, `nombresAlimentosRepo` |
 | Añadir / editar comida | `pages/AnadirComida`, `DescribirComida`, `ItemRevisionRow`, `CambiarAlimentoSheet`, `AlimentosRapidos`, `ListaElegibles`, `ResultadosBusqueda`, `KcalRapidasSheet`, `MacroInputs` | `alimentos.ts` (modelo de revisión, guardado, frecuentes, kcal rápidas) | `entriesRepo`, `foodsRepo`, `hooks/useInterpretarLocal`, `hooks/useBusquedaCatalogo` |
 | Intérprete local | (dentro de Añadir comida) · `pages/Medidas` | `interprete/`: `parsear`, `unidades`, `raciones`, `medidas`, `emparejar` | `hooks/useInterpretarLocal`, `notasMedidaRepo` |
 | Catálogo en la app | `CatalogoAjustes` (en Ajustes) | `catalogo/`: `paquete`, `sincronizar`, `preferidos`, `ranking`, `erratas`, `textos` | `catalogRepo`, `hooks/buscarCatalogo` |
@@ -20,6 +20,7 @@
 
 ## Hoy
 
+- Jerarquía plana: resumen kcal/meta/diferencia y macros; cada comida tiene total y acciones. Las filas ordinarias muestran alimento simple/cantidad/kcal, sin repetir todos los macros.
 - Navegación por días (no se avanza más allá de hoy), el resumen del día (`ResumenNutricional`, compartido con Inicio) y una sección por comida (desayuno, comida, cena, snack).
 - Tocar una entrada la edita. Una entrada `rapida` abre `KcalRapidasSheet` y no la revisión, porque la revisión reconstruye los valores por 100 g dividiendo por los gramos y una rápida tiene 0 g.
 - Los alimentos guardados juntos aparecen como **un plato desplegable**, con título, número de ingredientes y suma de kcal/macros. Cada plato tiene su propio bloque con borde, fondo y espacio respecto al siguiente; al desplegarlo, el mismo borde encierra todos sus ingredientes, separados por líneas interiores. Cada guardado es independiente, aunque se repita la misma descripción. Tocar el plato muestra sus ingredientes, que se editan o borran individualmente. La papelera del plato borra todos sus ingredientes en una transacción y ofrece «Deshacer». Un plato que conserva un único ingrediente sigue teniendo su nombre. Los alimentos añadidos solos y el historial sin agrupación mantienen sus filas habituales.
@@ -30,7 +31,7 @@
 
 ## Añadir comida
 
-Secciones, en orden: comida (preseleccionada por hora o por «Añadir a …») → Plantillas → Describir → Kcal rápidas → buscador y frecuentes (con el botón del escáner).
+ModalPage con salida visible y acción Guardar fuera del scroll. Comida preseleccionada por hora o «Añadir a …», seguida de métodos **Describir / Buscar / Plantillas** (ViewTabs). Buscar reúne buscador, frecuentes y escáner; calorías rápidas sigue accesible como acción secundaria. Inicio abre este flujo directamente. El diario también tiene Añadir en cabecera y en cada comida.
 
 | Vía | Flujo | Guarda con |
 |---|---|---|
@@ -40,11 +41,11 @@ Secciones, en orden: comida (preseleccionada por hora o por «Añadir a …») �
 | Plantilla | vista previa → «Añadir a {comida actual}» | `mealsRepo.aplicar` |
 | Kcal rápidas | kcal obligatorias, macros opcionales, nombre por defecto «Comida fuera» | `anadirRapida` |
 
-Revisión (`ItemRevisionRow`): cada ítem muestra su procedencia («Tuyo» o la fuente del catálogo, `etiquetaFuente`), «Cambiar» (alternativas + buscador), los avisos de gramos estimados y de «no encontrado» (no se guarda sin valores: `faltanValores`), el selector de una medida ambigua y el aviso «Actualizará el alimento guardado» si corrige uno propio. Qué se crea o se actualiza al guardar: `decidirGuardado` y `aItemGuardado` (ver `datos.md` § Invariantes).
+Revisión (`ItemRevisionRow`): cada alimento tiene su panel con nombre completo, cantidad y aporte. «Detalles del alimento» despliega nombre completo editable, valores por 100 g y nombre personal; abre automáticamente cuando falta información. La identidad local estable de cada fila conserva sus detalles/borrador aunque se borre otra. Guardar queda bloqueado durante una personalización sin confirmar. Cada ítem muestra su procedencia («Tuyo» o la fuente del catálogo, `etiquetaFuente`), «Cambiar» (alternativas + buscador), los avisos de gramos estimados y de «no encontrado» (no se guarda sin valores: `faltanValores`), el selector de una medida ambigua y el aviso «Actualizará el alimento guardado» si corrige uno propio. Qué se crea o se actualiza al guardar: `decidirGuardado` y `aItemGuardado` (ver `datos.md` § Invariantes).
 
 Cuando la revisión tiene varios alimentos, se explica que se guardarán como un plato y aparece «Nombre del plato (opcional)». Sin nombre se usan los nombres de los ingredientes unidos con «+». «Añadir otro alimento» incorpora ingredientes al mismo plato hasta pulsar Guardar; para registrar otro plato se guarda y se abre un nuevo añadido. Editar un ingrediente mantiene la agrupación salvo que se cambie su comida (por ejemplo, de cena a snack).
 
-**Entrada recomendada: un alimento por línea, con su cantidad**. Se admiten varios a la vez y `DescribirComida` muestra los fragmentos en tarjetas numeradas que se actualizan mientras escribes, antes de interpretarlos: «2 huevos fritos y una longaniza» aparece como dos bloques separados. Para registrar por tandas, «Añadir otro alimento» abre una nueva descripción dentro de la revisión; «Añadir a la revisión» incorpora sus resultados sin reemplazar los anteriores ni sus correcciones. «Cancelar añadido» conserva la revisión. Mientras se añade, Guardar queda deshabilitado. Todas las tandas se guardan juntas y su descripción original se concatena con saltos de línea; «Volver a interpretar» recupera ese texto completo (recalcula la revisión). Los platos compuestos pueden buscarse como tales; si no están en el catálogo o en tus alimentos, hay que detallar los ingredientes, sin inventar su composición.
+**Entrada recomendada: un alimento por línea, con su cantidad**. Se admiten varios a la vez y `DescribirComida` muestra los fragmentos numerados con un borde lateral que se actualizan mientras escribes, antes de interpretarlos: «2 huevos fritos y una longaniza» aparece como dos bloques separados. Para registrar por tandas, «Añadir otro alimento» abre una nueva descripción dentro de la revisión; «Añadir a la revisión» incorpora sus resultados sin reemplazar los anteriores ni sus correcciones. «Cancelar añadido» conserva la revisión. Mientras se añade, Guardar queda deshabilitado. Todas las tandas se guardan juntas y su descripción original se concatena con saltos de línea; «Volver a interpretar» recupera ese texto completo (recalcula la revisión). Los platos compuestos pueden buscarse como tales; si no están en el catálogo o en tus alimentos, hay que detallar los ingredientes, sin inventar su composición.
 
 Frecuentes: `rankFrecuentes` (usos recientes, con más peso los de la misma comida; excluye las rápidas) mezcla alimentos propios y del catálogo. `foodsRepo.frecuentes` los resuelve, descarta los que ya no existen y completa con tus recientes.
 
@@ -79,11 +80,11 @@ Sin IA ni red ([ADR 006](../decisiones/006-sin-ia-interprete-local.md)). `useInt
 - Todas las funciones devuelven objetos nuevos (hay tests que mutan el resultado y comprueban que el original no cambia) y propagan `catalogId`.
 - `planCopia`: prepara las entradas copiadas (mismos valores, `createdAt` nuevo, sin id). Sin comida de destino, cada entrada conserva la suya (copiar el día).
 - `resolverItemsPlantilla`: si la referencia de un ítem sigue existiendo, usa los valores **actuales** del alimento escalados a los gramos guardados; si no, el snapshot. La vista previa usa la misma función que `mealsRepo.aplicar`, así nunca difiere de lo que se guarda.
-- Gestión (en Alimentos → Plantillas): renombrar, cambiar gramos (con la densidad del propio snapshot), quitar ítems y borrar la plantilla (con confirmación).
+- Gestión (en Alimentos → Plantillas): nombre etiquetado, acciones/error persistentes, renombrar, cambiar gramos (con la densidad del propio snapshot), quitar ítems y borrar la plantilla (con confirmación).
 
 ## Resumen
 
-Semana o mes navegables (`fechasPeriodo`, `desplazarPeriodo`, `etiquetaPeriodo`, `esPeriodoActual` en `shared/lib/dates.ts`; cambiar de mes ancla en el día 1 para no desbordar). La media diaria solo cuenta los días con alguna entrada y fecha ≤ hoy (`resumenPeriodo`). Gráficas de kcal por día (con la línea del objetivo) y de macros por día.
+Semana o mes navegables (`fechasPeriodo`, `desplazarPeriodo`, `etiquetaPeriodo`, `esPeriodoActual` en `shared/lib/dates.ts`; cambiar de mes ancla en el día 1 para no desbordar). La media diaria solo cuenta los días con alguna entrada y fecha ≤ hoy (`resumenPeriodo`). Sin registros se muestra un estado vacío, sin gráficas ficticias. Media/objetivo, cobertura y macros primero; después una gráfica de barras con métrica seleccionable (kcal/P/C/G), unidad y línea de meta. «Ver datos del periodo» ofrece cifras textuales por fecha y señala días sin registro. FranjaMacros resume el reparto del periodo; no se repite en cada comida del diario.
 
 ## Objetivos (Ajustes)
 

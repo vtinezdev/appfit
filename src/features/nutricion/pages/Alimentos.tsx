@@ -72,7 +72,7 @@ export default function Alimentos() {
 
   return (
     <div className="space-y-section">
-      <SegmentedControl opciones={VISTAS} valor={vista} onChange={setVista} />
+      <SegmentedControl label="Tu biblioteca" opciones={VISTAS} valor={vista} onChange={setVista} />
 
       {vista === 'alimentos' && (
         <div className="space-y-stack">
@@ -101,7 +101,7 @@ export default function Alimentos() {
                 <li key={f.id}>
                   <ListRow onClick={() => abrir(f)}>
                     <div className="min-w-0 flex-1">
-                      <p className="line-clamp-2 text-body-sm font-medium text-fg">{f.nombre}</p>
+                      <p className="break-words text-body font-medium text-fg">{f.nombre}</p>
                       <p className="tabular text-caption text-fg-muted">
                         P{formatInt(f.prot100)} C{formatInt(f.carb100)} G{formatInt(f.grasa100)} · por 100 g
                       </p>
@@ -135,16 +135,7 @@ export default function Alimentos() {
         </div>
       )}
 
-      <Sheet open={editando !== null} onClose={() => abrir(null)} title={editando?.id ? 'Editar alimento' : 'Nuevo alimento'}>
-        {editando && (
-          <div className="space-y-3">
-            <Input
-              value={editando.nombre}
-              onChange={(e) => setEditando({ ...editando, nombre: e.target.value })}
-              placeholder="Nombre"
-            />
-            <MacroInputs valores={editando} onChange={(patch) => setEditando({ ...editando, ...patch })} className="text-body-sm text-fg-muted" />
-            {error && <ErrorState>{error}</ErrorState>}
+      <Sheet open={editando !== null} onClose={() => abrir(null)} title={editando?.id ? 'Editar alimento' : 'Nuevo alimento'} footer={editando && <div className="space-y-2">            {error && <ErrorState>{error}</ErrorState>}
             <div className="flex gap-2">
               {editando.id && (
                 <Button variant="destructive" onClick={() => borrar(editando.id!)} className="flex-1">
@@ -154,7 +145,16 @@ export default function Alimentos() {
               <Button onClick={guardar} disabled={!editando.nombre.trim()} className="flex-1">
                 Guardar
               </Button>
-            </div>
+            </div></div>}>
+        {editando && (
+          <div className="space-y-3">
+            <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre del alimento</span><Input
+              value={editando.nombre}
+              onChange={(e) => setEditando({ ...editando, nombre: e.target.value })}
+              placeholder="Nombre"
+            /></label>
+            <MacroInputs valores={editando} onChange={(patch) => setEditando({ ...editando, ...patch })} />
+
           </div>
         )}
       </Sheet>

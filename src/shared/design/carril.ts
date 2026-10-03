@@ -1,5 +1,5 @@
 /**
- * Geometría del «carril hacia un objetivo» (lenguaje de ProgressBar y ProgressRing), sin nada de DOM.
+ * Geometría del progreso hacia un objetivo (ProgressBar), sin nada de DOM.
  * El dominio es max(objetivo, valor), así que nada se corta al 100 %. Todo son fracciones 0–1 de ese dominio:
  * - `relleno`: lo conseguido hasta la meta (si te pasas, llega justo a la meta).
  * - `exceso`: lo que pasa de la meta (se dibuja atenuado, sin alarmas).

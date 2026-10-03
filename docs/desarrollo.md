@@ -10,8 +10,8 @@ Los comandos de todos los días están en `CLAUDE.md` § Comandos. Los scripts, 
 
 ## Tests (Vitest)
 
-- Entorno `node` con `fake-indexeddb` (`src/test/setup-db.ts`, `setupFiles` en `vite.config.ts`): se prueban la lógica pura y los repositorios contra una IndexedDB real en memoria. No hay tests de componentes.
-- Colocados junto al código (`*.test.ts`); también los de `scripts/catalogo/`.
+- Entorno `node` con `fake-indexeddb` (`src/test/setup-db.ts`, `setupFiles` en `vite.config.ts`): se prueban la lógica pura y los repositorios contra una IndexedDB real en memoria. Los contratos básicos de componentes se comprueban con render estático de React DOM (sin jsdom); la interacción se valida en navegador.
+- Colocados junto al código (`*.test.ts` / `*.test.tsx`); también los de `scripts/catalogo/`.
 - Fixtures: `src/test/fixtures/backup-v1.json` (backup antiguo para las migraciones) y `ciqual-2025-es1-muestra.json` (compatibilidad de ids entre versiones del paquete).
 - Tests que vigilan reglas del proyecto (si fallan, no se «arreglan» relajándolos):
 
@@ -20,7 +20,8 @@ Los comandos de todos los días están en `CLAUDE.md` § Comandos. Los scripts, 
 | `shared/db/acceso.test.ts` | en `features/`, solo `data/*Repo.ts` importa `db` |
 | `shared/db/db.test.ts` | toda tabla está en `TABLAS_USUARIO` o `TABLAS_CATALOGO`; migraciones v1→actual y v2→actual |
 | `shared/design/guard.test.ts` | nada de paleta de Tailwind, hex, emojis, tamaños, radios, cifras sin formato ni valores arbitrarios (DESIGN-SYSTEM.md § Guard) |
-| `shared/design/contrast.test.ts` | contraste WCAG de los tokens en claro, oscuro e `ink` |
+| `shared/components/components.test.tsx`, `shared/design/selection.test.ts` | navegación estable, semántica de tabs/radios, targets y teclado |
+| `shared/design/contrast.test.ts` | contraste WCAG de los tokens en claro, oscuro e `inverse`; también macros como texto y bordes de campos |
 | `lib/escaner/detector.test.ts` | `zxing-wasm` fijado a la versión que pide `barcode-detector` |
 | `lib/catalogo/paquete.test.ts`, `scripts/catalogo/calidad.test.ts` | los paquetes publicados en `public/catalogo/` son válidos |
 
@@ -30,11 +31,23 @@ Los comandos de todos los días están en `CLAUDE.md` § Comandos. Los scripts, 
 ## Pruebas en navegador
 
 - `npm run dev` (o la configuración `appfit-dev` de `.claude/launch.json`) y abrir **`http://appfit-test.localhost:5173`**. `localhost:5173` tiene los datos reales de Víctor: nunca se prueba ahí. Cada origen tiene su propia IndexedDB; para probar un upgrade desde cero se puede usar otro subdominio (`appfit-upgrade.localhost`).
-- Vista 375×812, en claro y oscuro. Sin scroll horizontal: `document.documentElement.scrollWidth === innerWidth`. Sin errores en consola.
+- Referencias 320×568, 375×812 y 430×932, claro/oscuro, sin datos/con datos/textos largos/cifras grandes. Sin scroll horizontal: `document.documentElement.scrollWidth === innerWidth`. Sin errores en consola.
 - **Open Food Facts se simula** sustituyendo `fetch` solo para `world.openfoodfacts.org` (producto completo, incompleto, 404, sin red). Nunca se llama a la API real en las pruebas.
 - Un backup se importa por el input real de archivo (`DataTransfer` + evento `change`) y el export se captura interceptando `URL.createObjectURL`.
 - En el iPhone, la cámara del escáner necesita HTTPS: solo se puede probar tras desplegar.
 - Lo que solo se confirma en un iPhone real (WebKit): safe areas, teclado, tacto, rendimiento de la importación y de la búsqueda. Pendientes en `roadmap.md`.
+
+### Recorrido del rediseño
+
+Con Vite en 5173, Playwright y Chromium disponibles en el entorno:
+
+```bash
+node scripts/ui/validar-rediseno.cjs
+```
+
+No es una dependencia de la PWA ni del runner Vitest. El script usa solo el origen de pruebas y contextos nuevos. Simula Open Food Facts; importa fixtures mediante repositorios/backup. Matriz de tres tamaños × dos temas × tres estados, todas las áreas, formularios y capas; verifica overflow, targets, tipografía, footer y posición de navegación. Los recorridos comprueban platos/alias/borradores, deshacer, cantidades/búsqueda, plantillas, entreno/recarga, tema y archivos de backup. Capturas e informe en `/tmp/appfit-ui` (`APPFIT_UI_OUTPUT` cambia destino); `APPFIT_CHROMIUM` cambia ejecutable. `APPFIT_UI_SOLO_FLUJOS=1` ejecuta únicamente los recorridos; `APPFIT_UI_SOLO_MODALES=1`, formularios largos y muchas series en 320 px/tablet.
+
+El viewport reducido simula espacio disponible con teclado, no un teclado real. La validación offline/SW se hace con producción; este script de desarrollo importa módulos src para preparar fixtures. Reiniciar Vite al cambiar Tailwind si el CSS servido conserva reglas anteriores.
 
 ### Regresión de conservación de datos
 
@@ -44,6 +57,8 @@ Probar con una build de producción (`npm run preview -- --host 0.0.0.0 --port 5
 2. Recargar, cerrar completamente el navegador y reabrir con el mismo perfil y dirección. Comparar todas las tablas del export, ignorando solo `exportedAt`.
 3. Compilar la nueva build, actualizar el service worker y recargar. Repetir la comparación y la reapertura. Mantener el mismo nombre de BD y origen.
 4. Para el primer traslado, usar otro contexto aislado, importar la copia con la confirmación y comprobar que cancelar/elegir un archivo inválido conserva los datos. Probar también sin conexión y a 375×812 en claro/oscuro.
+
+`scripts/ui/validar-produccion.cjs <perfil-de-pruebas> [export-esperado.json]` automatiza actualización del SW, cierre/reapertura, comparación de todas las tablas, fuentes/chunks offline y registro/recarga sin red. Requiere un perfil aislado ya preparado y su export de referencia, por defecto `registros-esperados.json` dentro del perfil. Restaura esa referencia al terminar. Solo ignora fecha de exportación y metadato de esquema; una tabla opcional vacía de preferencias equivale a su ausencia en backups antiguos.
 
 Emular `navigator.standalone` y el user agent de iPhone permite verificar la guía y la UI, pero no reproduce el aislamiento real de WebKit. El traslado real Safari → pantalla de inicio se valida en el iPhone.
 

@@ -15,6 +15,11 @@ const rules = (src: string) => scanSource(src).map((v) => v.rule)
 
 describe('guard: detecta regresiones', () => {
   it.each([
+    ['obsolete-visual', '<div className="bg-page-glow" />'],
+    ['obsolete-visual', '<Card className="shadow-raised" />'],
+    ['obsolete-visual', '<nav className="shadow-nav" />'],
+    ['obsolete-visual', '<div data-surface="ink" />'],
+    ['obsolete-visual', '<AnimatedNumber value={200} />'],
     ['palette-class', '<div className="bg-slate-900 p-4" />'],
     ['palette-class', '<div className="text-brand-400" />'],
     ['palette-class', '<div className="text-white" />'],
@@ -40,7 +45,7 @@ describe('guard: detecta regresiones', () => {
 describe('guard: no genera falsos positivos', () => {
   it.each([
     '<div className="bg-surface text-fg-muted border-line rounded-md text-body-sm" />',
-    '<div className="rounded-pill rounded-t-lg shadow-raised" />',
+    '<div className="rounded-pill rounded-t-sheet shadow-overlay" />',
     "stroke: 'rgb(var(--c-accent))'",
     '<div className="transition-[width] duration-normal" />',
     '<div className="text-accent-on bg-accent-subtle" />',
@@ -102,8 +107,8 @@ describe('tokens.css es la única fuente de verdad', () => {
   const names = (b: string) => [...b.matchAll(/^\s*(--[\w-]+):/gm)].map((m) => m[1])
   const light = names(block(':root {'))
   const dark = names(block(":root[data-theme='dark'] {"))
-  const ink = names(block("[data-surface='ink'] {"))
-  const inkDark = names(block(":root[data-theme='dark'] [data-surface='ink']"))
+  const inverse = names(block("[data-surface='inverse'] {"))
+  const inverseDark = names(block(":root[data-theme='dark'] [data-surface='inverse']"))
   // Los tokens derivados (`--c-kcal: var(--c-accent)`) heredan el valor del tema; no necesitan uno propio en oscuro.
   const derived = [...block(':root {').matchAll(/^\s*(--c-[\w-]+):\s*var\(/gm)].map((m) => m[1])
 
@@ -112,12 +117,12 @@ describe('tokens.css es la única fuente de verdad', () => {
     expect(colors.filter((n) => !dark.includes(n))).toEqual([])
   })
 
-  it('los bloques ink solo redefinen tokens de color que existen en :root', () => {
-    expect([...ink, ...inkDark].filter((n) => !n.startsWith('--c-') || !light.includes(n))).toEqual([])
+  it('los bloques inverse solo redefinen tokens de color que existen en :root', () => {
+    expect([...inverse, ...inverseDark].filter((n) => !n.startsWith('--c-') || !light.includes(n))).toEqual([])
   })
 
-  it('ink redeclara los tokens derivados que dependen del texto (se resuelven donde se declaran)', () => {
-    expect(ink).toEqual(expect.arrayContaining(['--c-goal', '--c-focus']))
+  it('inverse redeclara el foco que depende de su texto', () => {
+    expect(inverse).toEqual(expect.arrayContaining(['--c-focus']))
   })
 
   it('el oscuro no define nada que no exista en el claro', () => {

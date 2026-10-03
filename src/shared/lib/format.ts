@@ -23,3 +23,10 @@ export function formatNumber(n: number, maxDecimals = 0): string {
 export function formatInt(n: number): string {
   return formatNumber(n)
 }
+
+const compactFormatter = new Intl.NumberFormat('es-ES', { notation: 'compact', maximumSignificantDigits: 3 })
+
+/** Ejes de gráficas estrechas. Métricas, tooltips y datos textuales conservan el valor completo. */
+export function formatCompact(n: number): string {
+  return compactFormatter.format(Number.isFinite(n) ? n : 0)
+}

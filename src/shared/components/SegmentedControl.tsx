@@ -1,33 +1,30 @@
+import { indicePorTecla } from '../design/selection'
 interface Props<T extends string> {
   opciones: { valor: T; label: string }[]
   valor: T
   onChange: (valor: T) => void
   className?: string
-  /** `sm` para barras con muchas pestañas. */
+  label?: string
   size?: 'md' | 'sm'
 }
-
-/** Fila de botones-pestaña donde solo uno está activo (Hoy/Resumen/Alimentos, Semana/Mes, Desayuno/Comida…). El activo se marca con `bg-selected` (negro). */
-export default function SegmentedControl<T extends string>({ opciones, valor, onChange, className = '', size = 'md' }: Props<T>) {
+/** Selector de un valor. Para navegación entre vistas se usa ViewTabs. */
+export default function SegmentedControl<T extends string>({ opciones, valor, onChange, className = '', label = 'Elegir opción', size = 'md' }: Props<T>) {
   return (
-    <div role="tablist" className={`flex gap-1 rounded-pill bg-surface-muted p-1 ${className}`}>
-      {opciones.map((o) => {
-        const activo = valor === o.valor
-        return (
-          <button
-            key={o.valor}
-            type="button"
-            role="tab"
-            aria-selected={activo}
-            onClick={() => onChange(o.valor)}
-            className={`min-h-touch flex-1 rounded-pill font-semibold transition-[background-color,color,transform] duration-short active:scale-95 ${size === 'sm' ? 'text-caption' : 'text-body-sm'} ${
-              activo ? 'bg-selected text-selected-on' : 'text-fg-muted hover:text-fg'
-            }`}
-          >
-            {o.label}
-          </button>
-        )
-      })}
+    <div role="radiogroup" aria-label={label} className={`flex min-w-0 gap-1 rounded-md bg-surface-muted p-1 ${className}`}>
+      {opciones.map((o, i) => (
+        <button key={o.valor} type="button" role="radio" aria-checked={valor === o.valor} tabIndex={valor === o.valor ? 0 : -1}
+          onClick={() => onChange(o.valor)}
+          onKeyDown={(e) => {
+            const next = indicePorTecla(e.key, i, opciones.length)
+            if (next === null) return
+            e.preventDefault()
+            onChange(opciones[next].valor)
+            e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('button')[next]?.focus()
+          }}
+          className={`min-h-touch min-w-0 flex-auto rounded-sm px-1 font-semibold transition-colors duration-short ${size === 'sm' ? 'text-label' : 'text-body-sm'} ${valor === o.valor ? 'bg-selected text-selected-on' : 'text-fg-muted hover:text-fg'}`}>
+          {o.label}
+        </button>
+      ))}
     </div>
   )
 }

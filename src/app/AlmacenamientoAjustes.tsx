@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import Button from '../shared/components/Button'
-import Card from '../shared/components/Card'
-import SectionHeader from '../shared/components/SectionHeader'
+import Disclosure from '../shared/components/Disclosure'
 import { consultarPersistencia, entornoDeApp, solicitarPersistencia, type Persistencia } from '../shared/lib/almacenamiento'
 
 const MENSAJES: Record<Persistencia, string> = {
@@ -30,8 +29,8 @@ export default function AlmacenamientoAjustes() {
 
   return (
     <section aria-label="Almacenamiento" className="space-y-stack">
-      <SectionHeader variant="section">Tus registros</SectionHeader>
-      <Card className="space-y-3">
+      <Disclosure title="Dónde se guardan tus registros">
+      <div className="space-y-3">
         <p className="text-body-sm font-semibold">{instalada ? 'Guardados en el acceso de la pantalla de inicio' : 'Guardados en este navegador'}</p>
         <p className="text-body-sm text-fg-muted">Cerrar la app o actualizarla conserva los registros. Usa siempre la misma dirección y el mismo acceso.</p>
         <p role="status" className="text-body-sm text-fg-muted">{persistencia ? MENSAJES[persistencia] : 'Comprobando almacenamiento…'}</p>
@@ -39,7 +38,8 @@ export default function AlmacenamientoAjustes() {
           <Button variant="secondary" block loading={solicitando} onClick={proteger}>Proteger almacenamiento</Button>
         )}
         <p className="text-caption text-fg-subtle">La copia exportada permite recuperar los datos si cambias de móvil o borras los datos del navegador.</p>
-      </Card>
+      </div>
+      </Disclosure>
     </section>
   )
 }
