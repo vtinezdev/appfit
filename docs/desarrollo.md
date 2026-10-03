@@ -57,6 +57,8 @@ El viewport reducido simula espacio disponible con teclado, no un teclado real. 
 
 `node scripts/ui/validar-resumen-diario.cjs` valida el panel compartido de Inicio/Hoy, borde/radio/padding, separación de las secciones siguientes, cifras/barras, «Ver día», modo detallado dentro del mismo contorno y cambios de fecha. Matriz de 320/375/430 px × claro/oscuro × día vacío/habitual/exceso/cifras extremas, con comprobaciones de overflow (también dentro de la tarjeta), targets y backup intacto tras navegar. Usa contextos aislados en el origen de pruebas; informe/capturas en `/tmp/appfit-resumen-diario-ui` (`APPFIT_UI_OUTPUT` cambia destino).
 
+`node scripts/ui/validar-menu-radial.cjs` comprueba el único botón inferior, geometría circular sin solapes, tamaños táctiles, sección actual, cuatro formas de cierre, aislamiento, retorno/trampa de foco, flechas/Home/End/Enter/Espacio, navegación y scroll. Cancelar conserva la vista detallada y el scroll; navegar no cambia el backup. Monta además la rueda real con seis destinos de prueba para validar páginas, límites, foco y elección de una opción futura. Doce contextos: 320/375/430 px × claro/oscuro × movimiento normal/reducido. Informe/capturas en `/tmp/appfit-menu-radial-ui`. Los recorridos existentes comparten `scripts/ui/navegar.cjs` para abrir Menú y elegir destino. La geometría/paginación tiene además tests puros y de render estático.
+
 ### Regresión de conservación de datos
 
 Probar con una build de producción (`npm run preview -- --host 0.0.0.0 --port 5173 --strictPort`) y el origen `appfit-test.localhost`, con un perfil de navegador persistente (no crear un contexto vacío en cada reapertura):

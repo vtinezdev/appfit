@@ -3,6 +3,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
 const { chromium } = require('playwright')
+const { navegar } = require('./navegar.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-platos-ui'
 const nombre = 'Mi plato de arroz con pollo y acompañamientos para la comida'
@@ -72,7 +73,7 @@ async function main() {
         const antes = await registros(page)
         const platoId = antes[0].platoId
         const originales = antes.filter((e) => e.platoId === platoId)
-        await page.getByRole('button', { name: 'Nutrición', exact: true }).click()
+        await navegar(page, 'Nutrición')
         const editar = () => page.getByRole('button', { name: `Editar plato ${nombre}`, exact: true }).click()
         await layout(page)
         await editar()
@@ -162,7 +163,7 @@ async function main() {
         await layout(page)
         await page.screenshot({ path: path.join(salida, `${width}-${colorScheme}-diario.png`) })
         await page.reload()
-        await page.getByRole('button', { name: 'Nutrición', exact: true }).click()
+        await navegar(page, 'Nutrición')
         await editar()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('10 g de tomate')
         await page.getByRole('button', { name: 'Interpretar', exact: true }).click()

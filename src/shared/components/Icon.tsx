@@ -6,6 +6,7 @@ import type { SVGProps } from 'react'
  * Para cambiar el grosor de todo el set: `strokeWidth` de abajo.
  */
 const PATHS = {
+  menu: 'M4 6h16M4 12h16M4 18h16',
   home: 'M4 11l8-7 8 7M6 9.5V20h4v-5h4v5h4V9.5',
   utensils: 'M7 3v8a2 2 0 0 0 2 2v8M11 3v8a2 2 0 0 1-2 2M9 3v8M17 21V3c-2 1.5-3 4-3 7v3h3',
   dumbbell: 'M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11',

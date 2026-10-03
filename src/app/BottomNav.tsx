@@ -1,43 +1,36 @@
-import Icon, { type IconName } from '../shared/components/Icon'
-export type Tab = 'inicio' | 'nutricion' | 'gym' | 'ajustes'
+import { useId, useState } from 'react'
+import Icon from '../shared/components/Icon'
+import Button from '../shared/components/Button'
+import Sheet from '../shared/components/Sheet'
+import RuedaNavegacion from './RuedaNavegacion'
+import { DESTINOS, type Tab } from './navegacion'
+export type { Tab } from './navegacion'
 
 interface Props {
   tab: Tab
   onChange: (tab: Tab) => void
 }
 
-const ITEMS: { key: Tab; label: string; icon: IconName }[] = [
-  { key: 'inicio', label: 'Inicio', icon: 'home' },
-  { key: 'nutricion', label: 'Nutrición', icon: 'utensils' },
-  { key: 'gym', label: 'Gym', icon: 'dumbbell' },
-  { key: 'ajustes', label: 'Ajustes', icon: 'settings' },
-]
-
-/** Cuatro destinos estables y etiquetados. Ocupa espacio propio, fuera del scroll. */
+/** Un único botón con espacio propio; abre una rueda dentro de la capa compartida. */
 export default function BottomNav({ tab, onChange }: Props) {
+  const [abierto, setAbierto] = useState(false)
+  const menuId = useId()
+  const contextoId = useId()
+  const actual = DESTINOS.find((destino) => destino.key === tab)!
   return (
-    <nav aria-label="Navegación principal" className="safe-bottom z-40 shrink-0 border-t border-line bg-surface">
-      <div className="mx-auto grid h-nav max-w-lg grid-cols-4 px-2">
-        {ITEMS.map((item) => {
-          const active = item.key === tab
-          return (
-            <button
-              key={item.key}
-              type="button"
-              aria-label={item.label}
-              aria-current={active ? 'page' : undefined}
-              onClick={() => onChange(item.key)}
-              className={`relative flex min-h-touch min-w-0 flex-col items-center justify-center gap-1 px-1 transition-colors duration-short active:bg-surface-muted ${
-                active ? 'text-accent-strong' : 'text-fg-muted hover:text-fg'
-              }`}
-            >
-              <Icon name={item.icon} size={22} />
-              <span className={`text-caption ${active ? 'font-bold' : 'font-medium'}`}>{item.label}</span>
-              {active && <span aria-hidden className="absolute inset-x-6 top-0 h-0.5 bg-accent" />}
-            </button>
-          )
-        })}
+    <nav aria-label="Navegación principal" className="safe-bottom z-40 shrink-0 bg-bg">
+      <div className="mx-auto flex h-nav max-w-lg items-center justify-center px-page">
+        <Button variant="secondary" size="lg" className="rounded-pill px-6" aria-label="Menú" aria-haspopup="dialog"
+          aria-expanded={abierto} aria-controls={menuId} aria-describedby={contextoId} data-nav-trigger
+          onClick={() => setAbierto(true)}>
+          <Icon name="menu" size={22} />
+          Menú
+        </Button>
+        <span id={contextoId} className="sr-only">Sección actual: {actual.label}</span>
       </div>
+      <Sheet id={menuId} open={abierto} onClose={() => setAbierto(false)} title="Menú">
+        <RuedaNavegacion destinos={DESTINOS} actual={tab} onClose={() => setAbierto(false)} onElegir={(destino) => { setAbierto(false); onChange(destino) }} />
+      </Sheet>
     </nav>
   )
 }

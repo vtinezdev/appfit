@@ -57,6 +57,10 @@
   --sheet-max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - 1rem);
   --app-height: 100dvh;
   --nav-height: 4rem;
+  --menu-wheel-size: 17.5rem;
+  --menu-item-size: 5rem;
+  --menu-hub-size: 4rem;
+  --menu-orbit: 34%;
   --nav-toast: calc(var(--nav-height) + env(safe-area-inset-bottom) + 0.75rem);
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;

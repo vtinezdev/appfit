@@ -34,11 +34,11 @@ Excepciones conocidas:
 ```
 src/main.tsx             arranque (ver abajo)
 src/index.css            CSS global: inputs a 16 px, utilidades (.no-spin, .tabular…)
-src/app/                 App (pestañas), BottomNav, TrasladarDatos, Ajustes (objetivos, almacenamiento, backup, catálogo, borrar todo)
+src/app/                 App (pestañas), navegacion (destinos/Tab), BottomNav, RuedaNavegacion, TrasladarDatos, Ajustes
 src/shared/db/           db.ts (esquema y listas de tablas), types.ts, settings.ts, estadoDatos.ts, foodRef.ts
 src/shared/lib/          dates (fechas locales, periodos), format (formatInt/formatNumber/formatCompact), text (normalizeName, tokenizar,
                          tokensConsulta, singular, mismaRaiz), almacenamiento (protección y modo PWA), backup (exportar/importar/migrar/borrar)
-src/shared/design/       tokens.css (única fuente de valores), theme, viewport, selection, macros, chart, motion, carril, guard
+src/shared/design/       tokens.css (única fuente de valores), theme, viewport, selection, rueda, macros, chart, motion, carril, guard
 src/shared/components/   primitives (lista en DESIGN-SYSTEM.md § Primitives)
 src/features/inicio/     → features/inicio.md
 src/features/nutricion/  → features/nutricion.md
@@ -53,12 +53,12 @@ scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/REA
 Router casero con `useState`, sin URLs ni historial ([ADR 002](decisiones/002-router-casero.md)).
 
 - El shell flex ocupa 100dvh. `main` posee el scroll y la barra inferior su espacio propio; ancho de lectura máximo 512 px. Navegar restablece el scroll.
-- `app/App.tsx`: pestaña activa (`Tab` en `BottomNav.tsx`): `inicio` (por defecto) · `nutricion` · `gym` · `ajustes`.
+- `app/App.tsx`: pestaña activa (`Tab` derivado de `DESTINOS` en `navegacion.ts`): `inicio` (por defecto) · `nutricion` · `gym` · `ajustes`. `BottomNav` muestra solo Menú y compone Sheet/RuedaNavegacion. La lista central fija nombres, iconos y orden; la rueda pagina automáticamente los destinos futuros de cuatro en cuatro ([ADR 008](decisiones/008-menu-radial.md)). Incorporar una pantalla requiere además conectarla en App.
 - Inicio permite abrir Añadir comida directamente en Nutrición. El aviso de primer inicio en iOS abre Ajustes con `abrirGuia`: después de cargar, desplaza la vista y enfoca la guía abierta «Instalación y traslado de registros». La navegación habitual de la barra no activa ese salto. La guía tiene un segundo salto a Exportar/Importar, sin cambiar la URL.
 - `NutricionTab`: vistas `hoy` · `resumen` · `alimentos` (ViewTabs). «Añadir comida» (y la edición de una entrada) usa ModalPage a pantalla completa; «Medidas» se abre encima de él.
 - `GymTab`: vistas `inicio` · `rutinas` · `historial` · `progreso`. Si hay un entreno sin `fin`, la pestaña entera pasa a ser `EntrenoActivo`.
 - Gym también usa ViewTabs. Segmentación de valores (comida, periodo, tema) mediante SegmentedControl, con semántica radio.
-- Sheet y ModalPage usan portales en body y useModalLayer para foco, Escape, Tab, inert y retorno. Estado local de pantalla; ninguna dependencia nueva. visualViewport ajusta alto/offset al área visible.
+- Sheet y ModalPage usan portales en body y useModalLayer para foco, Escape, Tab, inert y retorno. Si el disparador desaparece, el foco vuelve al destino activo o al botón estable Menú (`data-nav-trigger`). Estado local de pantalla; ninguna dependencia nueva. visualViewport ajusta alto/offset al área visible.
 
 ## Arranque (`src/main.tsx`)
 

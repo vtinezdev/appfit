@@ -3,6 +3,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
 const { chromium } = require('playwright')
+const { navegar } = require('./navegar.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-resumen-diario-ui'
 const casos = {
@@ -93,7 +94,7 @@ async function main() {
         await comprobar(page, diario, casos.vacio)
         await page.getByRole('button', { name: 'Día siguiente', exact: true }).click()
         await comprobar(page, diario, totales)
-        await page.getByRole('button', { name: 'Inicio', exact: true }).click()
+        await navegar(page, 'Inicio')
         await comprobar(page, inicio, totales)
         assert.deepEqual(await backup(page), antes, 'la presentación no modifica datos')
         assert.deepEqual(errores, [])
