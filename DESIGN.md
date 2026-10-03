@@ -59,7 +59,7 @@ Radios contenidos: 8 px para pequeños controles, 12 px para campos/botones, 16 
 
 ## Navegación
 
-Cuatro destinos permanentes: **Inicio, Nutrición, Gym, Ajustes**. Icono y nombre siempre visibles, posiciones fijas. Selección por texto/indicador además de color. La barra ocupa su propio espacio y no cubre registros.
+Un único botón **Menú** en el espacio inferior abre una rueda con **Inicio, Nutrición, Gym y Ajustes**, en ese orden alrededor del centro. Cada destino conserva icono y nombre; la sección actual añade una marca además del color. El centro permite cerrar sin cambiar de sección. La navegación ocupa su propio espacio y no cubre registros. Los destinos futuros se incorporan a la misma rueda en grupos, sin reducir las áreas táctiles.
 
 Dentro de una feature, pestañas planas para navegar entre vistas. Selectores segmentados para cambiar un valor (comida, periodo, tema, métrica). No usar el mismo tratamiento para ambos conceptos. Los flujos de registro son capas modales con salida clara, aislamiento del fondo y retorno del foco.
 

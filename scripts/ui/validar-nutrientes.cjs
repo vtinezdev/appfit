@@ -4,6 +4,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
 const { chromium } = require('playwright')
+const { navegar } = require('./navegar.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-nutrientes-ui'
 const nutrientes = ['Fibra', 'Azúcares', 'Sal', 'Grasas saturadas']
@@ -43,7 +44,7 @@ async function main() {
         await page.goto(ORIGEN)
         await page.getByRole('heading', { name: /Buenos|Buenas/ }).waitFor()
         await page.evaluate(async () => { const c = await import('/src/features/nutricion/lib/catalogo/sincronizar.ts'); await c.sincronizarCatalogo() })
-        await page.getByRole('button', { name: 'Nutrición', exact: true }).click()
+        await navegar(page, 'Nutrición')
         assert.equal(await page.getByRole('radio', { name: 'Vista sencilla', exact: true }).getAttribute('aria-checked'), 'true')
         assert.equal(await page.getByRole('region', { name: 'Desglose del día', exact: true }).count(), 0)
         await page.getByRole('button', { name: 'Añadir comida', exact: true }).click()
@@ -116,7 +117,7 @@ async function main() {
         const manual = (await registros(page)).find((e) => e.nombre === 'Alimento de prueba')
         assert.deepEqual(manual.nutrientes, { fibra: 1, azucares: 0, agSat: 0.5 })
         await page.reload()
-        await page.getByRole('button', { name: 'Nutrición', exact: true }).click()
+        await navegar(page, 'Nutrición')
         assert.equal(await page.getByRole('radio', { name: 'Vista sencilla', exact: true }).getAttribute('aria-checked'), 'true')
         await page.getByRole('radio', { name: 'Vista detallada', exact: true }).click()
         await layout(page)

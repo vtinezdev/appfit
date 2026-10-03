@@ -3,6 +3,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
 const { chromium } = require('playwright')
+const { navegar } = require('./navegar.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-copia-platos-ui'
 const nombre = 'Mi desayuno con arroz y pollo para copiar a otra comida del día'
@@ -68,7 +69,7 @@ async function main() {
         }, nombre)
         const antes = await registros(page)
         const originales = antes.filter((e) => e.nombrePlato === nombre)
-        await page.getByRole('button', { name: 'Nutrición', exact: true }).click()
+        await navegar(page, 'Nutrición')
         const desayuno = page.getByRole('region', { name: 'Desayuno', exact: true })
         const abrir = async () => {
           await desayuno.getByRole('button', { name: `Copiar plato ${nombre}`, exact: true }).click()
@@ -144,7 +145,7 @@ async function main() {
         assert.equal(snack.find((e) => e.rapida).nombre, 'Entrada suelta')
         assert.deepEqual(actuales.filter((e) => antes.some((a) => a.id === e.id)), antes)
         await page.reload()
-        await page.getByRole('button', { name: 'Nutrición', exact: true }).click()
+        await navegar(page, 'Nutrición')
         assert.deepEqual(await registros(page), actuales)
 
         // En el histórico, «mismo día» es el día seleccionado, no hoy.

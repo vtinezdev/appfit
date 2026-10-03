@@ -43,7 +43,9 @@ Reduced motion lleva las duraciones a cero. La carga tiene retraso breve para ev
 
 ## Navegación y capas
 
-`App` es un flex de altura 100dvh: `main` tiene el único scroll de página y `BottomNav` espacio propio (64 px + safe area). Cambiar destino vuelve al inicio. Columna centrada de máximo 512 px también en escritorio. Cuatro destinos siempre con icono/nombre, `aria-current` y línea de selección; sin barra flotante ni anchos cambiantes.
+`App` es un flex de altura 100dvh: `main` tiene el único scroll de página y `BottomNav` espacio propio (64 px + safe area). Cambiar destino vuelve al inicio. Columna centrada de máximo 512 px también en escritorio. Un botón Menú de 48 px abre `Sheet`, sin otra capa modal. Tiene `aria-haspopup`, `aria-expanded`, `aria-controls` y contexto de la sección actual.
+
+`app/RuedaNavegacion` distribuye los destinos de `app/navegacion.ts` alrededor de un cierre central. Tokens: rueda de 280 px, destinos de 80 px, centro de 64 px y órbita del 34 %. Icono/nombre visibles, sección actual con `aria-current="page"`, borde/acento y marca. Flechas/Home/End mueven el foco; Enter/Espacio eligen. Cierre central, cabecera, fondo y Escape devuelven el foco a Menú sin cambiar la pantalla ni su scroll. Más de cuatro destinos se agrupan en páginas con controles Anteriores/Más destinos, contador y foco en la primera opción al cambiar. La geometría/paginación pura vive en `shared/design/rueda.ts`.
 
 - **ViewTabs**: navegar entre vistas. tablist/tab/tabpanel asociado, flechas/Home/End y una entrada de teclado.
 - **SegmentedControl**: elegir valor (comida, periodo, tema, métrica, colección). radiogroup/radio y etiqueta; mismo teclado. No confundir con navegación.

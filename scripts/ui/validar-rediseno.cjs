@@ -4,6 +4,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
 const { chromium } = require('playwright')
+const { navegar } = require('./navegar.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-ui'
 fs.mkdirSync(salida, { recursive: true })
@@ -58,7 +59,6 @@ async function validarLayout(page, nombre, captura = true) {
   if (captura) await page.screenshot({ path: path.join(salida, nombre + '.png'), animations: 'disabled' })
   resultados.push(nombre)
 }
-const navegar = (page, nombre) => page.getByRole('button', { name: nombre, exact: true }).click()
 const pestaña = (page, nombre) => page.getByRole('tab', { name: nombre, exact: true }).click()
 async function cerrar(page) { await page.keyboard.press('Escape'); await page.waitForTimeout(250) }
 async function entradas(page) { return page.evaluate(async () => { const r = await import('/src/features/nutricion/data/entriesRepo.ts'); const d = await import('/src/shared/lib/dates.ts'); return r.delDia(d.todayISO()) }) }

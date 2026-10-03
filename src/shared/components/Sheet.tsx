@@ -5,6 +5,8 @@ import { useModalLayer } from '../hooks/useModalLayer'
 import { IconButton } from './Button'
 
 interface Props {
+  /** Identidad del panel cuando un control externo usa aria-controls. */
+  id?: string
   open: boolean
   onClose: () => void
   title?: string
@@ -19,7 +21,7 @@ interface Props {
  * mantiene el foco dentro y lo devuelve al elemento que lo abrió.
  * Las salidas iniciadas aquí animan antes de `onClose`; open=false también anima, desmontar directamente no.
  */
-export default function Sheet({ open, onClose, title, children, footer }: Props) {
+export default function Sheet({ id, open, onClose, title, children, footer }: Props) {
   const [mounted, setMounted] = useState(open)
   const [visible, setVisible] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
@@ -93,6 +95,7 @@ export default function Sheet({ open, onClose, title, children, footer }: Props)
       />
       <div
         ref={panelRef}
+        id={id}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}

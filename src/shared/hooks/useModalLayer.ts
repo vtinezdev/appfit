@@ -58,7 +58,7 @@ export function useModalLayer(open: boolean, panelRef: RefObject<HTMLElement | n
       if (trigger?.isConnected && !trigger.closest('[inert]')) trigger.focus({ preventScroll: true })
       else layers.at(-1)?.focus({ preventScroll: true })
       if (!layers.length && !trigger?.isConnected) {
-        document.querySelector<HTMLElement>('[data-app-shell] [aria-current="page"]')?.focus({ preventScroll: true })
+        document.querySelector<HTMLElement>('[data-app-shell] [aria-current="page"], [data-app-shell] [data-nav-trigger]')?.focus({ preventScroll: true })
       }
     }
   }, [open, panelRef])

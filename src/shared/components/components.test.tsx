@@ -13,10 +13,16 @@ const opciones = [{ valor: 'hoy', label: 'Hoy' }, { valor: 'resumen', label: 'Re
 const noop = () => {}
 
 describe('contratos del sistema visual', () => {
-  it.each(['inicio', 'nutricion', 'gym', 'ajustes'] as Tab[])('navegación etiquetada en %s', tab => {
+  it.each(['inicio', 'nutricion', 'gym', 'ajustes'] as Tab[])('un único botón de menú accesible en %s', tab => {
     const html = renderToStaticMarkup(<BottomNav tab={tab} onChange={noop} />)
-    for (const label of ['Inicio', 'Nutrición', 'Gym', 'Ajustes']) expect(html).toMatch(new RegExp(`>${label}</span>`))
-    expect(html.match(/aria-current="page"/g)).toHaveLength(1)
+    expect(html.match(/<button/g)).toHaveLength(1)
+    expect(html).toContain('aria-label="Menú"')
+    expect(html).toContain('aria-haspopup="dialog"')
+    expect(html).toContain('aria-expanded="false"')
+    expect(html).toContain('aria-controls=')
+    expect(html).toContain('Sección actual:')
+    expect(html).toContain('data-nav-trigger=')
+    expect(html).not.toContain('role="dialog"')
     expect(html).not.toContain('fixed')
     expect(html).not.toContain('data-surface')
   })
