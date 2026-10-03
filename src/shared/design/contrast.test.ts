@@ -68,6 +68,9 @@ const TEXT: [string, string][] = [
   ['on-destructive', 'destructive'],
   ['warning', 'surface'],
   ['success', 'surface'],
+  ['on-success', 'success'],
+  ['on-training', 'training'],
+  ['training-muted', 'training'],
 ]
 const FILLS = ['kcal', 'protein', 'carbs', 'fat']
 

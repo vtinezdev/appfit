@@ -1,4 +1,4 @@
-/* Navegación circular: contextos aislados, nunca el origen con los datos reales. */
+/* Abanico ascendente: contextos aislados, nunca el origen con los datos reales. */
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -22,29 +22,28 @@ async function abrir(page, actual) {
   const menu = page.getByRole('dialog', { name: 'Menú', exact: true })
   await menu.waitFor()
   // Esperar el final de la entrada antes de medir; reducido también usa el montaje diferido.
-  await page.waitForTimeout(300)
+  await page.waitForTimeout(400)
   assert.equal(await trigger.getAttribute('aria-expanded'), 'true')
   assert.equal(await menu.locator('[aria-current="page"]').getAttribute('aria-label'), actual)
   const medidas = await menu.evaluate((el) => {
-    const wheel = el.querySelector('.h-menu-wheel').getBoundingClientRect()
-    const rects = [...el.querySelectorAll('.h-menu-item,.h-menu-hub')].map((n) => n.getBoundingClientRect().toJSON())
+    const rects = [...el.querySelectorAll('.fan-target,.fan-hub')].map((n) => n.getBoundingClientRect().toJSON())
     const solapes = rects.flatMap((a, i) => rects.slice(i + 1).filter((b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top))
-    return { width: wheel.width, height: wheel.height, rects, solapes, overflow: document.documentElement.scrollWidth > innerWidth,
+    return { rects, solapes, overflow: document.documentElement.scrollWidth > innerWidth,
       inert: document.querySelector('[data-app-shell]').inert }
   })
-  assert.equal(medidas.width, 280)
-  assert.equal(medidas.height, 280)
   assert.equal(medidas.overflow, false)
   assert.equal(medidas.inert, true)
   assert.deepEqual(medidas.solapes, [])
   for (const rect of medidas.rects) {
-    assert.ok(rect.width >= 64 && rect.height >= 64)
+    assert.ok(rect.width >= 44 && rect.height >= 44)
     assert.ok(rect.left >= 0 && rect.right <= page.viewportSize().width)
     assert.ok(rect.top >= 0 && rect.bottom <= page.viewportSize().height)
   }
-  // Top, right, bottom, left: orden estable y botones no encogidos en 320 px.
-  const [top, right, bottom, left, center] = medidas.rects
-  assert.ok(top.bottom < center.top && right.left > center.right && bottom.top > center.bottom && left.right < center.left)
+  const [left, topLeft, topRight, right, center] = medidas.rects
+  assert.ok(left.bottom < center.top && right.bottom < center.top && topLeft.bottom < left.top && topRight.bottom < right.top)
+  const origin = await page.locator('[data-nav-trigger]').boundingBox()
+  assert.ok(Math.abs(center.x + center.width / 2 - origin.x - origin.width / 2) < 1)
+  assert.ok(Math.abs(center.y + center.height / 2 - origin.y - origin.height / 2) < 1)
   return menu
 }
 
@@ -63,8 +62,8 @@ async function futuros(page) {
     const reactUrl = recursos.find((url) => /\/deps\/react\.js\?/.test(url))
     const domUrl = recursos.find((url) => /\/deps\/react-dom_client\.js\?/.test(url))
     if (!reactUrl || !domUrl) throw new Error('No se encontraron los módulos React del servidor de pruebas')
-    const [reactModule, domModule, { default: Sheet }, { default: Rueda }] = await Promise.all([
-      import(reactUrl), import(domUrl), import('/src/shared/components/Sheet.tsx'), import('/src/app/RuedaNavegacion.tsx'),
+    const [reactModule, domModule, { default: Rueda }] = await Promise.all([
+      import(reactUrl), import(domUrl), import('/src/app/RuedaNavegacion.tsx'),
     ])
     const React = reactModule.default ?? reactModule
     const { createRoot } = domModule.default ?? domModule
@@ -74,7 +73,7 @@ async function futuros(page) {
     const destinos = ['Inicio', 'Nutrición', 'Gym', 'Ajustes', 'Notas', 'Medidas'].map((label, i) => ({ key: `seccion-${i}`, label, icon: 'plus' }))
     const cerrar = () => { root.unmount(); host.remove() }
     window.__menuFuturo = null
-    root.render(React.createElement(Sheet, { open: true, title: 'Destinos futuros', onClose: cerrar },
+    root.render(React.createElement('div', { role: 'dialog', 'aria-label': 'Destinos futuros', className: 'fan-dialog', style: { '--menu-origin-x': `${innerWidth / 2}px`, '--menu-origin-y': `${innerHeight - 40}px` } },
       React.createElement(Rueda, { destinos, actual: 'seccion-4', onClose: cerrar, onElegir: (key) => { window.__menuFuturo = key; cerrar() } })))
   })
   const menu = page.getByRole('dialog', { name: 'Destinos futuros', exact: true })
@@ -127,7 +126,7 @@ async function main() {
         menu = await abrir(page, 'Inicio')
         await page.keyboard.press('Escape'); await cerrado(page)
         menu = await abrir(page, 'Inicio')
-        await menu.getByRole('button', { name: 'Cerrar', exact: true }).click(); await cerrado(page)
+        await page.goBack(); await cerrado(page)
         menu = await abrir(page, 'Inicio')
         await page.mouse.click(8, 8); await cerrado(page)
         menu = await abrir(page, 'Inicio')
@@ -136,10 +135,10 @@ async function main() {
           await page.keyboard.press(tecla)
           assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), esperado)
         }
-        // Tab no escapa de la capa y vuelve al cierre de la cabecera.
+        // Tab no escapa de la capa: vuelve al primer destino.
         await menu.getByRole('button', { name: 'Cerrar menú', exact: true }).focus()
         await page.keyboard.press('Tab')
-        assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), 'Cerrar')
+        assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), 'Inicio')
         await page.keyboard.press('Shift+Tab')
         assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), 'Cerrar menú')
         await menu.getByRole('button', { name: 'Nutrición', exact: true }).focus()

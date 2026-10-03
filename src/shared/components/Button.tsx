@@ -39,7 +39,7 @@ export default function Button({ variant = 'primary', size = 'md', block = false
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`inline-flex items-center justify-center gap-2 rounded-md py-2 transition-[opacity,background-color,filter] duration-short enabled:active:brightness-95 ${loading ? 'opacity-70' : 'disabled:opacity-40'} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
+      className={`app-button inline-flex items-center justify-center gap-2 rounded-md py-2 enabled:active:brightness-95 ${loading ? 'opacity-70' : 'disabled:opacity-40'} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
       {...rest}
     >
       {loading && <Icon name="loader" size={18} />}
@@ -68,7 +68,7 @@ export function IconButton({ icon, label, variant = 'secondary', size = 'md', cl
       type={type}
       aria-label={label}
       title={label}
-      className={`inline-flex shrink-0 items-center justify-center rounded-md transition-[opacity,background-color,filter] duration-short enabled:active:opacity-70 disabled:opacity-30 ${ICON_BOX[size]} ${v} ${className}`}
+      className={`app-button inline-flex shrink-0 items-center justify-center rounded-md enabled:active:opacity-70 disabled:opacity-30 ${ICON_BOX[size]} ${v} ${className}`}
       {...rest}
     >
       <Icon name={icon} size={ICON_SIZE[size]} />

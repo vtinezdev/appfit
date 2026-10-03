@@ -42,18 +42,19 @@ export default function GymHome() {
 
   return (
     <div className="space-y-stack">
-      <section aria-label="Empezar a entrenar" className="space-y-5 border-b border-line pb-section">
+      <section aria-label="Empezar a entrenar" className="training-surface space-y-5 p-5">
         <div className="space-y-1">
-          <h2 className="text-heading text-fg">Tu próxima sesión</h2>
-          <p className="text-body-sm text-fg-muted">Elige una rutina o empieza con los ejercicios que quieras.</p>
+          <Icon name="dumbbell" size={28} className="mb-4 text-accent" />
+          <h2 className="text-heading">Tu próxima sesión</h2>
+          <p className="training-muted text-body-sm">Elige una rutina o empieza con los ejercicios que quieras.</p>
         </div>
         <div className="space-y-2">
-          <Button variant={rutinas?.length ? 'secondary' : 'primary'} size="lg" block onClick={empezarVacio}>
+          <Button variant={rutinas?.length ? 'ghost' : 'primary'} className={rutinas?.length ? 'training-secondary' : ''} size="lg" block onClick={empezarVacio}>
             <Icon name="plus" size={20} />
             Entreno vacío
           </Button>
           {!!rutinas?.length && <Button size="lg" block onClick={() => abrirRutinas(true)}>Desde rutina</Button>}
-          {rutinas?.length === 0 && <p className="text-center text-caption text-fg-muted">Crea una rutina primero en la pestaña Rutinas.</p>}
+          {rutinas?.length === 0 && <p className="training-muted text-center text-caption">Crea una rutina primero en la pestaña Rutinas.</p>}
         </div>
       </section>
 

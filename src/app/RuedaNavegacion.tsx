@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent } from 'react'
+import { useRef, useState, type KeyboardEvent, type CSSProperties } from 'react'
 import Button from '../shared/components/Button'
 import Icon, { type IconName } from '../shared/components/Icon'
 import { indicePorTecla } from '../shared/design/selection'
@@ -9,12 +9,13 @@ interface Destino<T extends string> { key: T; label: string; icon: IconName }
 interface Props<T extends string> {
   destinos: readonly Destino<T>[]
   actual: T
+  visible?: boolean
   onElegir: (destino: T) => void
   onClose: () => void
 }
 
-/** Contenido de Sheet: navegación circular etiquetada, sin gestionar otra capa modal. */
-export default function RuedaNavegacion<T extends string>({ destinos, actual, onElegir, onClose }: Props<T>) {
+/** Destinos nacidos del mismo punto, con orden de lectura y teclado estable. */
+export default function RuedaNavegacion<T extends string>({ destinos, actual, visible = true, onElegir, onClose }: Props<T>) {
   const paginas = paginasRueda(destinos)
   const [pagina, setPagina] = useState(() => Math.floor(Math.max(0, destinos.findIndex((d) => d.key === actual)) / OPCIONES_POR_RUEDA))
   const paginaActual = Math.min(pagina, Math.max(0, paginas.length - 1))
@@ -37,23 +38,21 @@ export default function RuedaNavegacion<T extends string>({ destinos, actual, on
   }
 
   return (
-    <nav aria-label="Destinos de la aplicación" className="space-y-3">
-      <div className="relative mx-auto h-menu-wheel w-menu-wheel max-w-full">
-        <div aria-hidden className="pointer-events-none absolute inset-10 rounded-pill border border-line" />
+    <nav aria-label="Destinos de la aplicación" className="fan-menu" data-visible={visible}>
+      <div className="relative">
         <ul onKeyDown={teclado}>
           {opciones.map((destino, i) => {
             const activa = destino.key === actual
             const { x, y } = posiciones[i]
             return (
-              <li key={destino.key}>
+              <li key={destino.key} className="fan-item" style={{ '--fan-x': `calc(var(--menu-orbit) * ${x})`, '--fan-y': `calc(var(--menu-rise) * ${y})`, '--fan-index': i } as CSSProperties}>
                 <button
                   ref={(el) => { botones.current[i] = el }}
                   type="button"
                   aria-label={destino.label}
                   aria-current={activa ? 'page' : undefined}
                   onClick={() => onElegir(destino.key)}
-                  style={{ left: `calc(50% + var(--menu-orbit) * ${x})`, top: `calc(50% + var(--menu-orbit) * ${y})` }}
-                  className={`absolute flex h-menu-item w-menu-item -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-pill border p-2 transition-colors duration-short ${activa ? 'border-accent-strong bg-accent-subtle text-accent-strong' : 'border-line bg-surface text-fg hover:bg-surface-muted active:bg-surface-muted'}`}
+                  className={`fan-target app-button flex w-menu-item flex-col items-center justify-center gap-1 rounded-md p-2 ${activa ? 'bg-accent text-accent-on' : 'bg-surface-elevated text-fg hover:bg-surface-muted'}`}
                 >
                   <Icon name={destino.icon} size={24} />
                   <span className="w-full break-words text-center text-caption font-semibold">{destino.label}</span>
@@ -64,12 +63,11 @@ export default function RuedaNavegacion<T extends string>({ destinos, actual, on
           })}
         </ul>
         <button type="button" aria-label="Cerrar menú" onClick={onClose}
-          className="absolute left-1/2 top-1/2 flex h-menu-hub w-menu-hub -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-pill bg-accent text-accent-on transition-opacity duration-short active:opacity-80">
-          <Icon name="close" size={22} />
-          <span className="text-caption font-semibold">Cerrar</span>
+          className="menu-trigger fan-hub app-button">
+          <Icon name="close" size={20} /><span>Menú</span>
         </button>
       </div>
-      {paginas.length > 1 && <div className="flex items-center justify-between gap-2">
+      {paginas.length > 1 && <div className="fan-pages flex items-center justify-between gap-2">
         <Button variant="ghost" size="sm" aria-label="Destinos anteriores" disabled={paginaActual === 0} onClick={() => cambiarPagina(paginaActual - 1)}><Icon name="chevron-left" size={18} /></Button>
         <p aria-live="polite" className="text-caption text-fg-muted">{formatInt(paginaActual + 1)} de {formatInt(paginas.length)}</p>
         <Button variant="ghost" size="sm" aria-label="Más destinos" disabled={paginaActual === paginas.length - 1} onClick={() => cambiarPagina(paginaActual + 1)}><Icon name="chevron-right" size={18} /></Button>

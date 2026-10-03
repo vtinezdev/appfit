@@ -1,5 +1,7 @@
 # ADR 007 — Un sistema visual pequeño para toda la aplicación
 
+Estado: base arquitectónica conservada; la dirección de neutrales cálidos se sustituye por tinta/mineral en [ADR 009](009-identidad-y-motion-impeccable.md). El texto siguiente registra la decisión original.
+
 ## Contexto
 
 El diseño anterior repetía métricas, imponía superficies oscuras, superponía la barra al contenido y comprimía controles con demasiadas variantes. Las features compartían tokens pero no jerarquía. El rediseño permite sustituir esas decisiones preservando la app local-first.

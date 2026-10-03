@@ -26,7 +26,7 @@ export default function App() {
   return (
     <div data-app-shell className="flex h-app flex-col bg-bg">
       <main ref={scrollRef} className="safe-top min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <div className="mx-auto w-full max-w-lg pb-6">
+        <div key={tab} className="app-view mx-auto w-full max-w-lg pb-6">
         {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onAnadirComida={() => irANutricion(true)} onIrAGym={() => navegar('gym')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => { navegar('ajustes'); setAbrirGuia(true) }} />} />}
         {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} />}

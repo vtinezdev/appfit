@@ -1,5 +1,7 @@
 # ADR 008 — Navegación principal en una rueda bajo demanda
 
+Estado: la rueda dentro de Sheet se sustituye por el abanico anclado de [ADR 009](009-identidad-y-motion-impeccable.md). Se conservan la lista central, la paginación y el acceso bajo demanda. El texto siguiente registra la decisión original.
+
 ## Contexto
 
 Víctor solicita reemplazar los cuatro destinos inferiores por un único botón que abra una rueda, manteniendo Inicio, Nutrición, Gym y Ajustes y admitiendo secciones futuras.

@@ -117,8 +117,6 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
 
   return (
     <div className="space-y-section">
-      <SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
-        opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />
       <div className="flex items-center gap-2">
         <div className="flex min-w-0 flex-1 items-center border-b border-line">
           <IconButton icon="chevron-left" label="Día anterior" variant="ghost" onClick={() => onFechaChange(addDays(fecha, -1))} />
@@ -140,6 +138,8 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
             totales={totales}
             objetivos={objetivos}
             titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`}
+            controles={<SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
+              opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />}
             detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" />}
           />
 

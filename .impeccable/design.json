@@ -1,0 +1,1015 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-03T15:27:37Z",
+  "title": "Design System: APPFIT",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Fondo mineral",
+        "tonalRamp": [
+          "oklch(15% 0.00514 247.88)",
+          "oklch(26.4% 0.00514 247.88)",
+          "oklch(37.9% 0.00514 247.88)",
+          "oklch(49.3% 0.00514 247.88)",
+          "oklch(60.7% 0.00514 247.88)",
+          "oklch(72.1% 0.00514 247.88)",
+          "oklch(83.6% 0.00514 247.88)",
+          "oklch(95% 0.00514 247.88)"
+        ]
+      },
+      "dark-bg": {
+        "role": "neutral",
+        "displayName": "Fondo mineral · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.02536 256.49)",
+          "oklch(26.4% 0.02536 256.49)",
+          "oklch(37.9% 0.02536 256.49)",
+          "oklch(49.3% 0.02536 256.49)",
+          "oklch(60.7% 0.02536 256.49)",
+          "oklch(72.1% 0.02536 256.49)",
+          "oklch(83.6% 0.02536 256.49)",
+          "oklch(95% 0.02536 256.49)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Superficie de contenido",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0)",
+          "oklch(26.4% 0.00000 0)",
+          "oklch(37.9% 0.00000 0)",
+          "oklch(49.3% 0.00000 0)",
+          "oklch(60.7% 0.00000 0)",
+          "oklch(72.1% 0.00000 0)",
+          "oklch(83.6% 0.00000 0)",
+          "oklch(95% 0.00000 0)"
+        ]
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "Superficie de contenido · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.03270 256.31)",
+          "oklch(26.4% 0.03270 256.31)",
+          "oklch(37.9% 0.03270 256.31)",
+          "oklch(49.3% 0.03270 256.31)",
+          "oklch(60.7% 0.03270 256.31)",
+          "oklch(72.1% 0.03270 256.31)",
+          "oklch(83.6% 0.03270 256.31)",
+          "oklch(95% 0.03270 256.31)"
+        ]
+      },
+      "surface-elevated": {
+        "role": "neutral",
+        "displayName": "Superficie de capa",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0)",
+          "oklch(26.4% 0.00000 0)",
+          "oklch(37.9% 0.00000 0)",
+          "oklch(49.3% 0.00000 0)",
+          "oklch(60.7% 0.00000 0)",
+          "oklch(72.1% 0.00000 0)",
+          "oklch(83.6% 0.00000 0)",
+          "oklch(95% 0.00000 0)"
+        ]
+      },
+      "dark-surface-elevated": {
+        "role": "neutral",
+        "displayName": "Superficie de capa · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.03670 253.75)",
+          "oklch(26.4% 0.03670 253.75)",
+          "oklch(37.9% 0.03670 253.75)",
+          "oklch(49.3% 0.03670 253.75)",
+          "oklch(60.7% 0.03670 253.75)",
+          "oklch(72.1% 0.03670 253.75)",
+          "oklch(83.6% 0.03670 253.75)",
+          "oklch(95% 0.03670 253.75)"
+        ]
+      },
+      "surface-muted": {
+        "role": "neutral",
+        "displayName": "Mineral secundario",
+        "tonalRamp": [
+          "oklch(15% 0.00862 247.92)",
+          "oklch(26.4% 0.00862 247.92)",
+          "oklch(37.9% 0.00862 247.92)",
+          "oklch(49.3% 0.00862 247.92)",
+          "oklch(60.7% 0.00862 247.92)",
+          "oklch(72.1% 0.00862 247.92)",
+          "oklch(83.6% 0.00862 247.92)",
+          "oklch(95% 0.00862 247.92)"
+        ]
+      },
+      "dark-surface-muted": {
+        "role": "neutral",
+        "displayName": "Mineral secundario · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.03394 253.96)",
+          "oklch(26.4% 0.03394 253.96)",
+          "oklch(37.9% 0.03394 253.96)",
+          "oklch(49.3% 0.03394 253.96)",
+          "oklch(60.7% 0.03394 253.96)",
+          "oklch(72.1% 0.03394 253.96)",
+          "oklch(83.6% 0.03394 253.96)",
+          "oklch(95% 0.03394 253.96)"
+        ]
+      },
+      "overlay": {
+        "role": "neutral",
+        "displayName": "Fondo de aislamiento",
+        "tonalRamp": [
+          "oklch(15% 0.03332 258.28)",
+          "oklch(26.4% 0.03332 258.28)",
+          "oklch(37.9% 0.03332 258.28)",
+          "oklch(49.3% 0.03332 258.28)",
+          "oklch(60.7% 0.03332 258.28)",
+          "oklch(72.1% 0.03332 258.28)",
+          "oklch(83.6% 0.03332 258.28)",
+          "oklch(95% 0.03332 258.28)"
+        ]
+      },
+      "dark-overlay": {
+        "role": "neutral",
+        "displayName": "Fondo de aislamiento · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0)",
+          "oklch(26.4% 0.00000 0)",
+          "oklch(37.9% 0.00000 0)",
+          "oklch(49.3% 0.00000 0)",
+          "oklch(60.7% 0.00000 0)",
+          "oklch(72.1% 0.00000 0)",
+          "oklch(83.6% 0.00000 0)",
+          "oklch(95% 0.00000 0)"
+        ]
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "Tinta de lectura",
+        "tonalRamp": [
+          "oklch(15% 0.03730 255.48)",
+          "oklch(26.4% 0.03730 255.48)",
+          "oklch(37.9% 0.03730 255.48)",
+          "oklch(49.3% 0.03730 255.48)",
+          "oklch(60.7% 0.03730 255.48)",
+          "oklch(72.1% 0.03730 255.48)",
+          "oklch(83.6% 0.03730 255.48)",
+          "oklch(95% 0.03730 255.48)"
+        ]
+      },
+      "dark-text-primary": {
+        "role": "neutral",
+        "displayName": "Tinta de lectura · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.00684 247.89)",
+          "oklch(26.4% 0.00684 247.89)",
+          "oklch(37.9% 0.00684 247.89)",
+          "oklch(49.3% 0.00684 247.89)",
+          "oklch(60.7% 0.00684 247.89)",
+          "oklch(72.1% 0.00684 247.89)",
+          "oklch(83.6% 0.00684 247.89)",
+          "oklch(95% 0.00684 247.89)"
+        ]
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "Contexto",
+        "tonalRamp": [
+          "oklch(15% 0.03362 251.77)",
+          "oklch(26.4% 0.03362 251.77)",
+          "oklch(37.9% 0.03362 251.77)",
+          "oklch(49.3% 0.03362 251.77)",
+          "oklch(60.7% 0.03362 251.77)",
+          "oklch(72.1% 0.03362 251.77)",
+          "oklch(83.6% 0.03362 251.77)",
+          "oklch(95% 0.03362 251.77)"
+        ]
+      },
+      "dark-text-secondary": {
+        "role": "neutral",
+        "displayName": "Contexto · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.02706 251.69)",
+          "oklch(26.4% 0.02706 251.69)",
+          "oklch(37.9% 0.02706 251.69)",
+          "oklch(49.3% 0.02706 251.69)",
+          "oklch(60.7% 0.02706 251.69)",
+          "oklch(72.1% 0.02706 251.69)",
+          "oklch(83.6% 0.02706 251.69)",
+          "oklch(95% 0.02706 251.69)"
+        ]
+      },
+      "text-tertiary": {
+        "role": "neutral",
+        "displayName": "Metadato",
+        "tonalRamp": [
+          "oklch(15% 0.03461 251.53)",
+          "oklch(26.4% 0.03461 251.53)",
+          "oklch(37.9% 0.03461 251.53)",
+          "oklch(49.3% 0.03461 251.53)",
+          "oklch(60.7% 0.03461 251.53)",
+          "oklch(72.1% 0.03461 251.53)",
+          "oklch(83.6% 0.03461 251.53)",
+          "oklch(95% 0.03461 251.53)"
+        ]
+      },
+      "dark-text-tertiary": {
+        "role": "neutral",
+        "displayName": "Metadato · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.03549 249.65)",
+          "oklch(26.4% 0.03549 249.65)",
+          "oklch(37.9% 0.03549 249.65)",
+          "oklch(49.3% 0.03549 249.65)",
+          "oklch(60.7% 0.03549 249.65)",
+          "oklch(72.1% 0.03549 249.65)",
+          "oklch(83.6% 0.03549 249.65)",
+          "oklch(95% 0.03549 249.65)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Divisor mineral",
+        "tonalRamp": [
+          "oklch(15% 0.01640 245.10)",
+          "oklch(26.4% 0.01640 245.10)",
+          "oklch(37.9% 0.01640 245.10)",
+          "oklch(49.3% 0.01640 245.10)",
+          "oklch(60.7% 0.01640 245.10)",
+          "oklch(72.1% 0.01640 245.10)",
+          "oklch(83.6% 0.01640 245.10)",
+          "oklch(95% 0.01640 245.10)"
+        ]
+      },
+      "dark-border": {
+        "role": "neutral",
+        "displayName": "Divisor mineral · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.04175 254.02)",
+          "oklch(26.4% 0.04175 254.02)",
+          "oklch(37.9% 0.04175 254.02)",
+          "oklch(49.3% 0.04175 254.02)",
+          "oklch(60.7% 0.04175 254.02)",
+          "oklch(72.1% 0.04175 254.02)",
+          "oklch(83.6% 0.04175 254.02)",
+          "oklch(95% 0.04175 254.02)"
+        ]
+      },
+      "border-strong": {
+        "role": "neutral",
+        "displayName": "Límite de control",
+        "tonalRamp": [
+          "oklch(15% 0.02250 250.52)",
+          "oklch(26.4% 0.02250 250.52)",
+          "oklch(37.9% 0.02250 250.52)",
+          "oklch(49.3% 0.02250 250.52)",
+          "oklch(60.7% 0.02250 250.52)",
+          "oklch(72.1% 0.02250 250.52)",
+          "oklch(83.6% 0.02250 250.52)",
+          "oklch(95% 0.02250 250.52)"
+        ]
+      },
+      "dark-border-strong": {
+        "role": "neutral",
+        "displayName": "Límite de control · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.03982 250.90)",
+          "oklch(26.4% 0.03982 250.90)",
+          "oklch(37.9% 0.03982 250.90)",
+          "oklch(49.3% 0.03982 250.90)",
+          "oklch(60.7% 0.03982 250.90)",
+          "oklch(72.1% 0.03982 250.90)",
+          "oklch(83.6% 0.03982 250.90)",
+          "oklch(95% 0.03982 250.90)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Naranja señal",
+        "tonalRamp": [
+          "oklch(15% 0.18247 40.56)",
+          "oklch(26.4% 0.18247 40.56)",
+          "oklch(37.9% 0.18247 40.56)",
+          "oklch(49.3% 0.18247 40.56)",
+          "oklch(60.7% 0.18247 40.56)",
+          "oklch(72.1% 0.18247 40.56)",
+          "oklch(83.6% 0.18247 40.56)",
+          "oklch(95% 0.18247 40.56)"
+        ]
+      },
+      "dark-accent": {
+        "role": "primary",
+        "displayName": "Naranja señal · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.14733 47.21)",
+          "oklch(26.4% 0.14733 47.21)",
+          "oklch(37.9% 0.14733 47.21)",
+          "oklch(49.3% 0.14733 47.21)",
+          "oklch(60.7% 0.14733 47.21)",
+          "oklch(72.1% 0.14733 47.21)",
+          "oklch(83.6% 0.14733 47.21)",
+          "oklch(95% 0.14733 47.21)"
+        ]
+      },
+      "on-accent": {
+        "role": "neutral",
+        "displayName": "Tinta sobre señal",
+        "tonalRamp": [
+          "oklch(15% 0.03332 258.28)",
+          "oklch(26.4% 0.03332 258.28)",
+          "oklch(37.9% 0.03332 258.28)",
+          "oklch(49.3% 0.03332 258.28)",
+          "oklch(60.7% 0.03332 258.28)",
+          "oklch(72.1% 0.03332 258.28)",
+          "oklch(83.6% 0.03332 258.28)",
+          "oklch(95% 0.03332 258.28)"
+        ]
+      },
+      "accent-strong": {
+        "role": "primary",
+        "displayName": "Naranja de texto y foco",
+        "tonalRamp": [
+          "oklch(15% 0.14438 39.24)",
+          "oklch(26.4% 0.14438 39.24)",
+          "oklch(37.9% 0.14438 39.24)",
+          "oklch(49.3% 0.14438 39.24)",
+          "oklch(60.7% 0.14438 39.24)",
+          "oklch(72.1% 0.14438 39.24)",
+          "oklch(83.6% 0.14438 39.24)",
+          "oklch(95% 0.14438 39.24)"
+        ]
+      },
+      "dark-accent-strong": {
+        "role": "primary",
+        "displayName": "Naranja de texto y foco · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.11744 48.94)",
+          "oklch(26.4% 0.11744 48.94)",
+          "oklch(37.9% 0.11744 48.94)",
+          "oklch(49.3% 0.11744 48.94)",
+          "oklch(60.7% 0.11744 48.94)",
+          "oklch(72.1% 0.11744 48.94)",
+          "oklch(83.6% 0.11744 48.94)",
+          "oklch(95% 0.11744 48.94)"
+        ]
+      },
+      "accent-subtle": {
+        "role": "primary",
+        "displayName": "Apoyo de señal",
+        "tonalRamp": [
+          "oklch(15% 0.02789 58.83)",
+          "oklch(26.4% 0.02789 58.83)",
+          "oklch(37.9% 0.02789 58.83)",
+          "oklch(49.3% 0.02789 58.83)",
+          "oklch(60.7% 0.02789 58.83)",
+          "oklch(72.1% 0.02789 58.83)",
+          "oklch(83.6% 0.02789 58.83)",
+          "oklch(95% 0.02789 58.83)"
+        ]
+      },
+      "dark-accent-subtle": {
+        "role": "primary",
+        "displayName": "Apoyo de señal · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.05048 47.56)",
+          "oklch(26.4% 0.05048 47.56)",
+          "oklch(37.9% 0.05048 47.56)",
+          "oklch(49.3% 0.05048 47.56)",
+          "oklch(60.7% 0.05048 47.56)",
+          "oklch(72.1% 0.05048 47.56)",
+          "oklch(83.6% 0.05048 47.56)",
+          "oklch(95% 0.05048 47.56)"
+        ]
+      },
+      "selected": {
+        "role": "neutral",
+        "displayName": "Selección neutra",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0)",
+          "oklch(26.4% 0.00000 0)",
+          "oklch(37.9% 0.00000 0)",
+          "oklch(49.3% 0.00000 0)",
+          "oklch(60.7% 0.00000 0)",
+          "oklch(72.1% 0.00000 0)",
+          "oklch(83.6% 0.00000 0)",
+          "oklch(95% 0.00000 0)"
+        ]
+      },
+      "dark-selected": {
+        "role": "neutral",
+        "displayName": "Selección neutra · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.04357 252.47)",
+          "oklch(26.4% 0.04357 252.47)",
+          "oklch(37.9% 0.04357 252.47)",
+          "oklch(49.3% 0.04357 252.47)",
+          "oklch(60.7% 0.04357 252.47)",
+          "oklch(72.1% 0.04357 252.47)",
+          "oklch(83.6% 0.04357 252.47)",
+          "oklch(95% 0.04357 252.47)"
+        ]
+      },
+      "on-selected": {
+        "role": "neutral",
+        "displayName": "Texto de selección",
+        "tonalRamp": [
+          "oklch(15% 0.03730 255.48)",
+          "oklch(26.4% 0.03730 255.48)",
+          "oklch(37.9% 0.03730 255.48)",
+          "oklch(49.3% 0.03730 255.48)",
+          "oklch(60.7% 0.03730 255.48)",
+          "oklch(72.1% 0.03730 255.48)",
+          "oklch(83.6% 0.03730 255.48)",
+          "oklch(95% 0.03730 255.48)"
+        ]
+      },
+      "dark-on-selected": {
+        "role": "neutral",
+        "displayName": "Texto de selección · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.00684 247.89)",
+          "oklch(26.4% 0.00684 247.89)",
+          "oklch(37.9% 0.00684 247.89)",
+          "oklch(49.3% 0.00684 247.89)",
+          "oklch(60.7% 0.00684 247.89)",
+          "oklch(72.1% 0.00684 247.89)",
+          "oklch(83.6% 0.00684 247.89)",
+          "oklch(95% 0.00684 247.89)"
+        ]
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "Confirmación",
+        "tonalRamp": [
+          "oklch(15% 0.10090 159.23)",
+          "oklch(26.4% 0.10090 159.23)",
+          "oklch(37.9% 0.10090 159.23)",
+          "oklch(49.3% 0.10090 159.23)",
+          "oklch(60.7% 0.10090 159.23)",
+          "oklch(72.1% 0.10090 159.23)",
+          "oklch(83.6% 0.10090 159.23)",
+          "oklch(95% 0.10090 159.23)"
+        ]
+      },
+      "dark-success": {
+        "role": "semantic",
+        "displayName": "Confirmación · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.12088 160.39)",
+          "oklch(26.4% 0.12088 160.39)",
+          "oklch(37.9% 0.12088 160.39)",
+          "oklch(49.3% 0.12088 160.39)",
+          "oklch(60.7% 0.12088 160.39)",
+          "oklch(72.1% 0.12088 160.39)",
+          "oklch(83.6% 0.12088 160.39)",
+          "oklch(95% 0.12088 160.39)"
+        ]
+      },
+      "on-success": {
+        "role": "neutral",
+        "displayName": "Texto de confirmación",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0)",
+          "oklch(26.4% 0.00000 0)",
+          "oklch(37.9% 0.00000 0)",
+          "oklch(49.3% 0.00000 0)",
+          "oklch(60.7% 0.00000 0)",
+          "oklch(72.1% 0.00000 0)",
+          "oklch(83.6% 0.00000 0)",
+          "oklch(95% 0.00000 0)"
+        ]
+      },
+      "dark-on-success": {
+        "role": "neutral",
+        "displayName": "Texto de confirmación · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.02536 256.49)",
+          "oklch(26.4% 0.02536 256.49)",
+          "oklch(37.9% 0.02536 256.49)",
+          "oklch(49.3% 0.02536 256.49)",
+          "oklch(60.7% 0.02536 256.49)",
+          "oklch(72.1% 0.02536 256.49)",
+          "oklch(83.6% 0.02536 256.49)",
+          "oklch(95% 0.02536 256.49)"
+        ]
+      },
+      "success-subtle": {
+        "role": "semantic",
+        "displayName": "Fila confirmada",
+        "tonalRamp": [
+          "oklch(15% 0.01819 161.12)",
+          "oklch(26.4% 0.01819 161.12)",
+          "oklch(37.9% 0.01819 161.12)",
+          "oklch(49.3% 0.01819 161.12)",
+          "oklch(60.7% 0.01819 161.12)",
+          "oklch(72.1% 0.01819 161.12)",
+          "oklch(83.6% 0.01819 161.12)",
+          "oklch(95% 0.01819 161.12)"
+        ]
+      },
+      "dark-success-subtle": {
+        "role": "semantic",
+        "displayName": "Fila confirmada · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.04158 167.66)",
+          "oklch(26.4% 0.04158 167.66)",
+          "oklch(37.9% 0.04158 167.66)",
+          "oklch(49.3% 0.04158 167.66)",
+          "oklch(60.7% 0.04158 167.66)",
+          "oklch(72.1% 0.04158 167.66)",
+          "oklch(83.6% 0.04158 167.66)",
+          "oklch(95% 0.04158 167.66)"
+        ]
+      },
+      "warning": {
+        "role": "semantic",
+        "displayName": "Advertencia",
+        "tonalRamp": [
+          "oklch(15% 0.10579 67.12)",
+          "oklch(26.4% 0.10579 67.12)",
+          "oklch(37.9% 0.10579 67.12)",
+          "oklch(49.3% 0.10579 67.12)",
+          "oklch(60.7% 0.10579 67.12)",
+          "oklch(72.1% 0.10579 67.12)",
+          "oklch(83.6% 0.10579 67.12)",
+          "oklch(95% 0.10579 67.12)"
+        ]
+      },
+      "dark-warning": {
+        "role": "semantic",
+        "displayName": "Advertencia · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.12397 85.83)",
+          "oklch(26.4% 0.12397 85.83)",
+          "oklch(37.9% 0.12397 85.83)",
+          "oklch(49.3% 0.12397 85.83)",
+          "oklch(60.7% 0.12397 85.83)",
+          "oklch(72.1% 0.12397 85.83)",
+          "oklch(83.6% 0.12397 85.83)",
+          "oklch(95% 0.12397 85.83)"
+        ]
+      },
+      "destructive": {
+        "role": "semantic",
+        "displayName": "Acción destructiva",
+        "tonalRamp": [
+          "oklch(15% 0.16437 29.14)",
+          "oklch(26.4% 0.16437 29.14)",
+          "oklch(37.9% 0.16437 29.14)",
+          "oklch(49.3% 0.16437 29.14)",
+          "oklch(60.7% 0.16437 29.14)",
+          "oklch(72.1% 0.16437 29.14)",
+          "oklch(83.6% 0.16437 29.14)",
+          "oklch(95% 0.16437 29.14)"
+        ]
+      },
+      "dark-destructive": {
+        "role": "semantic",
+        "displayName": "Acción destructiva · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.13115 27.80)",
+          "oklch(26.4% 0.13115 27.80)",
+          "oklch(37.9% 0.13115 27.80)",
+          "oklch(49.3% 0.13115 27.80)",
+          "oklch(60.7% 0.13115 27.80)",
+          "oklch(72.1% 0.13115 27.80)",
+          "oklch(83.6% 0.13115 27.80)",
+          "oklch(95% 0.13115 27.80)"
+        ]
+      },
+      "on-destructive": {
+        "role": "neutral",
+        "displayName": "Texto destructivo",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0)",
+          "oklch(26.4% 0.00000 0)",
+          "oklch(37.9% 0.00000 0)",
+          "oklch(49.3% 0.00000 0)",
+          "oklch(60.7% 0.00000 0)",
+          "oklch(72.1% 0.00000 0)",
+          "oklch(83.6% 0.00000 0)",
+          "oklch(95% 0.00000 0)"
+        ]
+      },
+      "dark-on-destructive": {
+        "role": "neutral",
+        "displayName": "Texto destructivo · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.00395 106.77)",
+          "oklch(26.4% 0.00395 106.77)",
+          "oklch(37.9% 0.00395 106.77)",
+          "oklch(49.3% 0.00395 106.77)",
+          "oklch(60.7% 0.00395 106.77)",
+          "oklch(72.1% 0.00395 106.77)",
+          "oklch(83.6% 0.00395 106.77)",
+          "oklch(95% 0.00395 106.77)"
+        ]
+      },
+      "protein": {
+        "role": "data",
+        "displayName": "Proteína mineral",
+        "tonalRamp": [
+          "oklch(15% 0.07503 257.11)",
+          "oklch(26.4% 0.07503 257.11)",
+          "oklch(37.9% 0.07503 257.11)",
+          "oklch(49.3% 0.07503 257.11)",
+          "oklch(60.7% 0.07503 257.11)",
+          "oklch(72.1% 0.07503 257.11)",
+          "oklch(83.6% 0.07503 257.11)",
+          "oklch(95% 0.07503 257.11)"
+        ]
+      },
+      "dark-protein": {
+        "role": "data",
+        "displayName": "Proteína mineral · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.06810 258.35)",
+          "oklch(26.4% 0.06810 258.35)",
+          "oklch(37.9% 0.06810 258.35)",
+          "oklch(49.3% 0.06810 258.35)",
+          "oklch(60.7% 0.06810 258.35)",
+          "oklch(72.1% 0.06810 258.35)",
+          "oklch(83.6% 0.06810 258.35)",
+          "oklch(95% 0.06810 258.35)"
+        ]
+      },
+      "carbs": {
+        "role": "data",
+        "displayName": "Carbohidratos oliva",
+        "tonalRamp": [
+          "oklch(15% 0.08285 125.15)",
+          "oklch(26.4% 0.08285 125.15)",
+          "oklch(37.9% 0.08285 125.15)",
+          "oklch(49.3% 0.08285 125.15)",
+          "oklch(60.7% 0.08285 125.15)",
+          "oklch(72.1% 0.08285 125.15)",
+          "oklch(83.6% 0.08285 125.15)",
+          "oklch(95% 0.08285 125.15)"
+        ]
+      },
+      "dark-carbs": {
+        "role": "data",
+        "displayName": "Carbohidratos oliva · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.10095 122.24)",
+          "oklch(26.4% 0.10095 122.24)",
+          "oklch(37.9% 0.10095 122.24)",
+          "oklch(49.3% 0.10095 122.24)",
+          "oklch(60.7% 0.10095 122.24)",
+          "oklch(72.1% 0.10095 122.24)",
+          "oklch(83.6% 0.10095 122.24)",
+          "oklch(95% 0.10095 122.24)"
+        ]
+      },
+      "fat": {
+        "role": "data",
+        "displayName": "Grasa ciruela",
+        "tonalRamp": [
+          "oklch(15% 0.08388 339.48)",
+          "oklch(26.4% 0.08388 339.48)",
+          "oklch(37.9% 0.08388 339.48)",
+          "oklch(49.3% 0.08388 339.48)",
+          "oklch(60.7% 0.08388 339.48)",
+          "oklch(72.1% 0.08388 339.48)",
+          "oklch(83.6% 0.08388 339.48)",
+          "oklch(95% 0.08388 339.48)"
+        ]
+      },
+      "dark-fat": {
+        "role": "data",
+        "displayName": "Grasa ciruela · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.07369 336.92)",
+          "oklch(26.4% 0.07369 336.92)",
+          "oklch(37.9% 0.07369 336.92)",
+          "oklch(49.3% 0.07369 336.92)",
+          "oklch(60.7% 0.07369 336.92)",
+          "oklch(72.1% 0.07369 336.92)",
+          "oklch(83.6% 0.07369 336.92)",
+          "oklch(95% 0.07369 336.92)"
+        ]
+      },
+      "training": {
+        "role": "neutral",
+        "displayName": "Superficie de entrenamiento",
+        "tonalRamp": [
+          "oklch(15% 0.03730 255.48)",
+          "oklch(26.4% 0.03730 255.48)",
+          "oklch(37.9% 0.03730 255.48)",
+          "oklch(49.3% 0.03730 255.48)",
+          "oklch(60.7% 0.03730 255.48)",
+          "oklch(72.1% 0.03730 255.48)",
+          "oklch(83.6% 0.03730 255.48)",
+          "oklch(95% 0.03730 255.48)"
+        ]
+      },
+      "dark-training": {
+        "role": "neutral",
+        "displayName": "Superficie de entrenamiento · oscuro",
+        "tonalRamp": [
+          "oklch(15% 0.04440 254.24)",
+          "oklch(26.4% 0.04440 254.24)",
+          "oklch(37.9% 0.04440 254.24)",
+          "oklch(49.3% 0.04440 254.24)",
+          "oklch(60.7% 0.04440 254.24)",
+          "oklch(72.1% 0.04440 254.24)",
+          "oklch(83.6% 0.04440 254.24)",
+          "oklch(95% 0.04440 254.24)"
+        ]
+      },
+      "on-training": {
+        "role": "neutral",
+        "displayName": "Lectura de entrenamiento",
+        "tonalRamp": [
+          "oklch(15% 0.00622 255.47)",
+          "oklch(26.4% 0.00622 255.47)",
+          "oklch(37.9% 0.00622 255.47)",
+          "oklch(49.3% 0.00622 255.47)",
+          "oklch(60.7% 0.00622 255.47)",
+          "oklch(72.1% 0.00622 255.47)",
+          "oklch(83.6% 0.00622 255.47)",
+          "oklch(95% 0.00622 255.47)"
+        ]
+      },
+      "training-muted": {
+        "role": "neutral",
+        "displayName": "Contexto de entrenamiento",
+        "tonalRamp": [
+          "oklch(15% 0.02832 248.16)",
+          "oklch(26.4% 0.02832 248.16)",
+          "oklch(37.9% 0.02832 248.16)",
+          "oklch(49.3% 0.02832 248.16)",
+          "oklch(60.7% 0.02832 248.16)",
+          "oklch(72.1% 0.02832 248.16)",
+          "oklch(83.6% 0.02832 248.16)",
+          "oklch(95% 0.02832 248.16)"
+        ]
+      },
+      "training-track": {
+        "role": "neutral",
+        "displayName": "Carril de entrenamiento",
+        "tonalRamp": [
+          "oklch(15% 0.04175 254.02)",
+          "oklch(26.4% 0.04175 254.02)",
+          "oklch(37.9% 0.04175 254.02)",
+          "oklch(49.3% 0.04175 254.02)",
+          "oklch(60.7% 0.04175 254.02)",
+          "oklch(72.1% 0.04175 254.02)",
+          "oklch(83.6% 0.04175 254.02)",
+          "oklch(95% 0.04175 254.02)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "hero": {
+        "displayName": "hero",
+        "purpose": "Métrica protagonista y tiempo de sesión guardada."
+      },
+      "display": {
+        "displayName": "display",
+        "purpose": "Título de pantalla."
+      },
+      "metric": {
+        "displayName": "metric",
+        "purpose": "Cifra secundaria destacada."
+      },
+      "heading": {
+        "displayName": "heading",
+        "purpose": "Título o dato de contexto operativo compacto."
+      },
+      "title": {
+        "displayName": "title",
+        "purpose": "Sección, ejercicio y título de capa."
+      },
+      "body": {
+        "displayName": "body",
+        "purpose": "Lectura y campo editable."
+      },
+      "body-sm": {
+        "displayName": "body-sm",
+        "purpose": "Contexto y controles secundarios."
+      },
+      "label": {
+        "displayName": "label",
+        "purpose": "Etiqueta breve sin mayúsculas obligatorias."
+      },
+      "caption": {
+        "displayName": "caption",
+        "purpose": "Metadatos y unidades breves."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-overlay",
+        "value": "0 -4px 24px rgb(20 20 18 / 0.12)",
+        "purpose": "Sheets y avisos flotantes en claro; sin sombra en cards o navegación."
+      },
+      {
+        "name": "shadow-overlay-dark",
+        "value": "0 -4px 24px rgb(0 0 0 / 0.4)",
+        "purpose": "La misma elevación en tema oscuro."
+      }
+    ],
+    "motion": [
+      {
+        "name": "dur-short",
+        "value": "120ms",
+        "purpose": "Feedback, presión y entrada discreta de vista."
+      },
+      {
+        "name": "dur-normal",
+        "value": "200ms",
+        "purpose": "Selección, estado, confirmación de serie y continuidad FLIP."
+      },
+      {
+        "name": "dur-overlay",
+        "value": "280ms",
+        "purpose": "Entrada de capa y expansión del abanico."
+      },
+      {
+        "name": "dur-exit",
+        "value": "180ms",
+        "purpose": "Salida de capa y reversa del abanico."
+      },
+      {
+        "name": "dur-success",
+        "value": "420ms",
+        "purpose": "Check de sesión guardada."
+      },
+      {
+        "name": "dur-stagger",
+        "value": "18ms",
+        "purpose": "Desfase entre destinos del abanico."
+      },
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Desaceleración CSS/WAAPI sin rebote; no motor spring."
+      },
+      {
+        "name": "ease-exit",
+        "value": "cubic-bezier(0.4, 0, 1, 1)",
+        "purpose": "Aceleración de salida."
+      },
+      {
+        "name": "motion-shift",
+        "value": "0.5rem",
+        "purpose": "Entrada espacial discreta de tarea o fecha."
+      },
+      {
+        "name": "motion-press",
+        "value": "0.97",
+        "purpose": "Escala de presión en controles."
+      },
+      {
+        "name": "reduced-overlay",
+        "value": "80ms",
+        "purpose": "Fundido de capas con Reduce Motion; sin desplazamiento, escala ni desfase."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-page",
+        "value": "359px",
+        "purpose": "max-width: reducir el margen de página a 16 px."
+      },
+      {
+        "name": "compact-menu-height",
+        "value": "360px",
+        "purpose": "Altura de ventana inferior a este umbral activa la rejilla de destinos."
+      },
+      {
+        "name": "compact-menu-type",
+        "value": "20px",
+        "purpose": "Tamaño computado de raíz superior a este umbral activa la rejilla de destinos."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Variante real de Button: Guardar.",
+      "html": "<button type=\"button\" class=\"ds-button-primary\">Guardar</button>",
+      "css": ".ds-button-primary{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md,.75rem);font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:rgb(var(--c-accent, 223 87 27));color:rgb(var(--c-on-accent, 15 25 40));}.ds-button-primary:focus-visible{outline:2px solid rgb(var(--c-focus, 157 55 13));outline-offset:2px;}.ds-button-primary:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-primary:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-primary:hover:not(:disabled){filter:brightness(.95)}}@media(prefers-reduced-motion:reduce){.ds-button-primary:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Variante real de Button: Continuar.",
+      "html": "<button type=\"button\" class=\"ds-button-secondary\">Continuar</button>",
+      "css": ".ds-button-secondary{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md,.75rem);font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:rgb(var(--c-surface, 255 255 255));color:rgb(var(--c-text-primary, 21 34 51));border:1px solid rgb(var(--c-border, 213 223 232));}.ds-button-secondary:focus-visible{outline:2px solid rgb(var(--c-focus, 157 55 13));outline-offset:2px;}.ds-button-secondary:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-secondary:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-secondary:hover:not(:disabled){background:rgb(var(--c-surface-muted, 232 237 242))}}@media(prefers-reduced-motion:reduce){.ds-button-secondary:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Botón ghost",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Variante real de Button: Añadir serie.",
+      "html": "<button type=\"button\" class=\"ds-button-ghost\">Añadir serie</button>",
+      "css": ".ds-button-ghost{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md,.75rem);font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:transparent;color:rgb(var(--c-accent-strong, 157 55 13));}.ds-button-ghost:focus-visible{outline:2px solid rgb(var(--c-focus, 157 55 13));outline-offset:2px;}.ds-button-ghost:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-ghost:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-ghost:hover:not(:disabled){background:rgb(var(--c-accent-subtle, 255 236 222))}}@media(prefers-reduced-motion:reduce){.ds-button-ghost:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Oferta destructiva",
+      "kind": "button",
+      "refersTo": "button-destructive",
+      "description": "Variante real de Button: Borrar.",
+      "html": "<button type=\"button\" class=\"ds-button-destructive\">Borrar</button>",
+      "css": ".ds-button-destructive{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md,.75rem);font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:rgb(var(--c-surface-muted, 232 237 242));color:rgb(var(--c-destructive, 175 49 38));}.ds-button-destructive:focus-visible{outline:2px solid rgb(var(--c-focus, 157 55 13));outline-offset:2px;}.ds-button-destructive:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-destructive:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-destructive:hover:not(:disabled){background:rgb(var(--c-border, 213 223 232))}}@media(prefers-reduced-motion:reduce){.ds-button-destructive:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Confirmación destructiva",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Variante real de Button: Confirmar borrado.",
+      "html": "<button type=\"button\" class=\"ds-button-danger\">Confirmar borrado</button>",
+      "css": ".ds-button-danger{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md,.75rem);font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:rgb(var(--c-destructive, 175 49 38));color:rgb(var(--c-on-destructive, 255 255 255));}.ds-button-danger:focus-visible{outline:2px solid rgb(var(--c-focus, 157 55 13));outline-offset:2px;}.ds-button-danger:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-danger:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-danger:hover:not(:disabled){filter:brightness(.95)}}@media(prefers-reduced-motion:reduce){.ds-button-danger:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Campo editable",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo de una línea, texto de 16 px, borde fuerte y foco compartido.",
+      "html": "<label class=\"ds-field-label\" for=\"ds-field-weight\">Peso en kg</label><input id=\"ds-field-weight\" class=\"ds-field\" type=\"number\" inputmode=\"decimal\" min=\"0\" step=\"2.5\" value=\"40\" />",
+      "css": ".ds-field-label{display:block;margin-bottom:4px;font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:.875rem;line-height:1.5;color:rgb(var(--c-text-secondary, 73 88 105))}.ds-field{display:block;width:100%;min-width:0;min-height:var(--touch-target,2.75rem);padding:0 12px;border:1px solid rgb(var(--c-border-strong, 117 128 140));border-radius:var(--radius-md,.75rem);background:rgb(var(--c-surface-muted, 232 237 242));color:rgb(var(--c-text-primary, 21 34 51));font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;caret-color:rgb(var(--c-accent-strong, 157 55 13));transition:border-color var(--dur-short,120ms),background-color var(--dur-short,120ms)}.ds-field:focus{border-color:rgb(var(--c-accent-strong, 157 55 13));background:rgb(var(--c-surface, 255 255 255))}.ds-field:focus-visible{outline:2px solid rgb(var(--c-focus, 157 55 13));outline-offset:2px;}.ds-field[aria-invalid=true]{border-color:rgb(var(--c-destructive, 175 49 38))}.ds-field:disabled{opacity:.5}.ds-field::placeholder{color:rgb(var(--c-text-tertiary, 89 105 123))}"
+    },
+    {
+      "name": "Badge neutral",
+      "kind": "chip",
+      "refersTo": "badge-neutral",
+      "description": "Metadato no pulsable; el punto acompaña al nombre.",
+      "html": "<span class=\"ds-badge\"><span class=\"ds-badge-dot\" aria-hidden=\"true\"></span>Proteína</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:var(--radius-sm,.5rem);background:rgb(var(--c-surface-muted, 232 237 242));color:rgb(var(--c-text-secondary, 73 88 105));font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:.75rem;line-height:1.5;font-weight:500;font-variant-numeric:tabular-nums}.ds-badge-dot{width:8px;height:8px;border-radius:9999px;background:rgb(var(--c-protein, 66 95 136))}"
+    },
+    {
+      "name": "Panel de contenido",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Card default: unidad real de información, contorno fino y superficie sin sombra.",
+      "html": "<section class=\"ds-card\" aria-labelledby=\"ds-card-title\"><h2 id=\"ds-card-title\" class=\"ds-card-title\">Press de banca</h2><p class=\"ds-card-context\">Sin datos previos</p></section>",
+      "css": ".ds-card{padding:var(--space-card,1rem);border:1px solid rgb(var(--c-border, 213 223 232));border-radius:var(--radius-lg,1rem);background:rgb(var(--c-surface, 255 255 255));color:rgb(var(--c-text-primary, 21 34 51));font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);}.ds-card-title{margin:0;font-size:1.125rem;line-height:1.5;font-weight:600;letter-spacing:-.01em;overflow-wrap:anywhere}.ds-card-context{margin:0;font-size:.75rem;line-height:1.5;color:rgb(var(--c-text-secondary, 73 88 105))}"
+    },
+    {
+      "name": "Abanico de navegación",
+      "kind": "nav",
+      "refersTo": "menu-trigger",
+      "description": "Estado abierto del abanico: los cuatro destinos comparten origen; el destino actual contiene su check.",
+      "html": "<nav class=\"ds-fan\" aria-label=\"Destinos de la aplicación\"><ul class=\"ds-fan-list\"><li class=\"ds-fan-item ds-fan-one\"><button type=\"button\" class=\"ds-fan-target\" aria-label=\"Inicio\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 11l8-7 8 7M6 9.5V20h4v-5h4v5h4V9.5\"></path></svg><span>Inicio</span></button></li><li class=\"ds-fan-item ds-fan-two\"><button type=\"button\" class=\"ds-fan-target\" aria-label=\"Nutrición\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 3v8a2 2 0 0 0 2 2v8M11 3v8a2 2 0 0 1-2 2M9 3v8M17 21V3c-2 1.5-3 4-3 7v3h3\"></path></svg><span>Nutrición</span></button></li><li class=\"ds-fan-item ds-fan-three\"><button type=\"button\" class=\"ds-fan-target\" aria-label=\"Gym\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11\"></path></svg><span>Gym</span></button></li><li class=\"ds-fan-item ds-fan-four\"><button type=\"button\" class=\"ds-fan-target\" aria-label=\"Ajustes\" aria-current=\"page\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4\"></path></svg><span>Ajustes</span><svg class=\"ds-fan-check\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"></path></svg></button></li></ul><button type=\"button\" class=\"ds-fan-hub\" aria-label=\"Cerrar menú\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"></path></svg><span>Menú</span></button></nav>",
+      "css": ".ds-fan{position:relative;width:100%;min-width:300px;height:248px;font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);}.ds-fan-list{list-style:none;margin:0;padding:0}.ds-fan-item{position:absolute;left:50%;top:216px;width:var(--menu-item-size,5.25rem);height:var(--menu-action-height,4.25rem);transform:translate(calc(-50% + var(--ds-fan-x)),calc(-50% + var(--ds-fan-y)));animation:ds-fan-arrive var(--dur-overlay,280ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)) both;animation-delay:calc(var(--ds-fan-index) * var(--dur-stagger,18ms))}.ds-fan-one{--ds-fan-x:calc(var(--menu-orbit,104px) * -1);--ds-fan-y:calc(var(--menu-rise,160px) * -.55);--ds-fan-index:0}.ds-fan-two{--ds-fan-x:calc(var(--menu-orbit,104px) * -.48);--ds-fan-y:calc(var(--menu-rise,160px) * -1.05);--ds-fan-index:1}.ds-fan-three{--ds-fan-x:calc(var(--menu-orbit,104px) * .48);--ds-fan-y:calc(var(--menu-rise,160px) * -1.05);--ds-fan-index:2}.ds-fan-four{--ds-fan-x:var(--menu-orbit,104px);--ds-fan-y:calc(var(--menu-rise,160px) * -.55);--ds-fan-index:3}.ds-fan-target{position:relative;display:flex;width:100%;height:100%;min-height:var(--menu-action-height,4.25rem);flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;border:0;border-radius:var(--radius-md,.75rem);background:rgb(var(--c-surface-elevated, 255 255 255));color:rgb(var(--c-text-primary, 21 34 51));font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:.75rem;line-height:1.5;font-weight:600;transition:transform var(--dur-short,120ms),background-color var(--dur-short,120ms)}.ds-fan-target[aria-current=page]{background:rgb(var(--c-accent, 223 87 27));color:rgb(var(--c-on-accent, 15 25 40))}.ds-fan-check{position:absolute;right:8px;top:8px}.ds-fan-target:focus-visible,.ds-fan-hub:focus-visible{outline:2px solid rgb(var(--c-focus, 157 55 13));outline-offset:2px;}.ds-fan-target:active{transform:scale(var(--motion-press,.97))}.ds-fan-hub{position:absolute;left:50%;top:216px;display:flex;align-items:center;justify-content:center;gap:8px;width:124px;height:48px;padding:0;border:0;border-radius:12px;transform:translate(-50%,-50%);background:rgb(var(--c-accent, 223 87 27));color:rgb(var(--c-on-accent, 15 25 40));font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:14px;font-weight:700}.ds-fan-hub:active{transform:translate(-50%,-50%) scale(var(--motion-press,.97))}@media(hover:hover) and (pointer:fine){.ds-fan-target:not([aria-current=page]):hover{background:rgb(var(--c-surface-muted, 232 237 242))}}@keyframes ds-fan-arrive{from{opacity:0;transform:translate(-50%,-50%) scale(.7)}to{opacity:1;transform:translate(calc(-50% + var(--ds-fan-x)),calc(-50% + var(--ds-fan-y))) scale(1)}}@media(prefers-reduced-motion:reduce){.ds-fan-item{animation:none}.ds-fan-target:active{transform:none}.ds-fan-hub:active{transform:translate(-50%,-50%)}}"
+    },
+    {
+      "name": "Serie completada",
+      "kind": "custom",
+      "refersTo": "series-completed",
+      "description": "Fila real del entreno: check reversible, campos directos de reps/kg y acción de borrado con nombre accesible.",
+      "html": "<div class=\"ds-series-row\" data-done=\"true\"><button type=\"button\" class=\"ds-series-complete\" aria-label=\"Desmarcar serie 1 de Press de banca\" aria-pressed=\"true\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"></path></svg></button><input class=\"ds-series-input\" type=\"number\" inputmode=\"numeric\" aria-label=\"Repeticiones, serie 1 de Press de banca\" value=\"8\" min=\"0\" step=\"1\" /><input class=\"ds-series-input\" type=\"number\" inputmode=\"decimal\" aria-label=\"Peso en kg, serie 1 de Press de banca\" value=\"40\" min=\"0\" step=\"2.5\" /><button type=\"button\" class=\"ds-series-delete\" aria-label=\"Borrar serie 1\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6\"></path></svg></button></div>",
+      "css": ".ds-series-row{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(0,1fr) 44px;gap:6px;align-items:center;border-radius:10px;font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);transition:background-color var(--dur-normal,200ms)}.ds-series-row[data-done=true]{background:rgb(var(--c-success-subtle, 230 244 236))}.ds-series-complete{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:48px;padding:0;border:0;border-radius:10px;color:rgb(var(--c-text-secondary, 73 88 105));background:transparent;font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:.8125rem;line-height:1.4;font-weight:700;font-variant-numeric:tabular-nums;transition:transform var(--dur-short,120ms)}.ds-series-complete[aria-pressed=true]{background:rgb(var(--c-success, 24 111 73));color:rgb(var(--c-on-success, 255 255 255))}.ds-series-complete[aria-pressed=true] svg{animation:ds-series-confirm var(--dur-normal,200ms) var(--ease-standard,cubic-bezier(.16,1,.3,1))}.ds-series-input{width:100%;min-width:0;min-height:44px;padding:0 12px;border:1px solid rgb(var(--c-border-strong, 117 128 140));border-radius:var(--radius-md,.75rem);background:rgb(var(--c-surface-muted, 232 237 242));color:rgb(var(--c-text-primary, 21 34 51));font-family:var(--font-sans,'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;appearance:textfield;caret-color:rgb(var(--c-accent-strong, 157 55 13));transition:border-color var(--dur-short,120ms),background-color var(--dur-short,120ms)}.ds-series-input::-webkit-inner-spin-button,.ds-series-input::-webkit-outer-spin-button{appearance:none;margin:0}.ds-series-input:focus{border-color:rgb(var(--c-accent-strong, 157 55 13));background:rgb(var(--c-surface, 255 255 255))}.ds-series-delete{display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:0;border-radius:var(--radius-md,.75rem);background:transparent;color:rgb(var(--c-text-secondary, 73 88 105));transition:transform var(--dur-short,120ms),background-color var(--dur-short,120ms)}.ds-series-complete:focus-visible,.ds-series-input:focus-visible,.ds-series-delete:focus-visible{outline:2px solid rgb(var(--c-focus, 157 55 13));outline-offset:2px;}.ds-series-complete:active:not(:disabled),.ds-series-delete:active:not(:disabled){transform:scale(var(--motion-press,.97))}.ds-series-complete:disabled{opacity:.5}.ds-series-delete:disabled{opacity:.3}@media(hover:hover) and (pointer:fine){.ds-series-delete:hover:not(:disabled){background:rgb(var(--c-surface-muted, 232 237 242));color:rgb(var(--c-text-primary, 21 34 51))}}@keyframes ds-series-confirm{from{opacity:0;transform:scale(.65)}to{opacity:1;transform:scale(1)}}@media(prefers-reduced-motion:reduce){.ds-series-complete svg{animation:none!important}.ds-series-complete:active,.ds-series-delete:active{transform:none!important}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Pista indoor",
+    "overview": "La pista indoor organiza APPFIT con precisión deportiva: azul tinta para estructura y lectura, blanco mineral para descanso visual y naranja señal para actuar. Manrope local aporta títulos firmes y cifras tabulares; nutrición, peso y entrenamiento comparten la misma gramática de controles, líneas y superficies.\n\nLa densidad es operativa: los datos relacionados permanecen próximos y las tareas se leen en una columna móvil. El movimiento explica origen, continuidad y confirmación; el abanico que emerge del botón Menú es el gesto distintivo. La identidad se sostiene en tipo, color y geometría, sin añadir materiales o imágenes que el artefacto no utiliza.",
+    "keyCharacteristics": [
+      "Tinta, mineral y naranja señal con roles equivalentes en ambos temas.",
+      "Una familia local, cifras tabulares y jerarquía fuerte sin reducir los campos.",
+      "Superficies planas, radios contenidos y profundidad reservada a capas.",
+      "Acciones táctiles, continuidad breve y feedback que conserva texto e iconos."
+    ],
+    "rules": [
+      {
+        "name": "Señal con significado",
+        "body": "El naranja identifica acción, selección de destino y kcal. Proteína, carbohidratos y grasa conservan sus colores de datos; ningún color sustituye etiqueta, unidad o estado accesible.",
+        "section": "colors"
+      },
+      {
+        "name": "Una voz estable",
+        "body": "Manrope es la familia común. Las cifras cambian directamente y conservan ancho tabular; los nombres necesarios para elegir envuelven antes de reducir su tamaño.",
+        "section": "typography"
+      },
+      {
+        "name": "Plano por defecto",
+        "body": "Los paneles y la navegación reposan sin sombra. La separación se construye con tono, contorno y espacio; la única sombra compartida pertenece a capas y avisos flotantes.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do usar los roles de color y la escala compartida en claro y oscuro.",
+      "Do mantener campos de al menos 16 px y targets reales de 44 px; las acciones principales de registro usan 48 px.",
+      "Do colocar el contexto después del título y mantener nombres, cifras y unidades legibles al envolver.",
+      "Do mostrar selección y confirmación con texto o forma además del color.",
+      "Do mantener foco visible, aislamiento y retorno del foco en todas las capas.",
+      "Do conservar estados útiles bajo Reduce Motion y permitir que el contenido responda al teclado y las safe areas."
+    ],
+    "donts": [
+      "Don't introducir una paleta, familia o sombra propia por feature.",
+      "Don't convertir cada etiqueta o cifra en una tarjeta ni imponer una misma composición a todas las tareas.",
+      "Don't reducir tipografía o targets para encajar una etiqueta; ocultar overflow no repara un layout.",
+      "Don't colocar un eyebrow decorativo por encima del título.",
+      "Don't usar movimiento, vibración o color como única confirmación de una acción.",
+      "Don't presentar el exceso nutricional como error, ni añadir resultados, récords o tendencias que los registros no acreditan.",
+      "Don't describir la PWA como app nativa, prometer vibración en iOS o declarar un motor spring que el código no incorpora."
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "origin": "http://appfit-test.localhost:5173",
+  "results": [
+    {
+      "name": "320-light",
+      "status": "passed"
+    },
+    {
+      "name": "320-dark",
+      "status": "passed"
+    },
+    {
+      "name": "375-light",
+      "status": "passed"
+    },
+    {
+      "name": "375-dark",
+      "status": "passed"
+    },
+    {
+      "name": "430-light",
+      "status": "passed"
+    },
+    {
+      "name": "430-dark",
+      "status": "passed"
+    },
+    {
+      "name": "768-light",
+      "status": "passed"
+    },
+    {
+      "name": "768-dark",
+      "status": "passed"
+    },
+    {
+      "name": "1440-light",
+      "status": "passed"
+    },
+    {
+      "name": "1440-dark",
+      "status": "passed"
+    },
+    {
+      "name": "ios-emulado-reduce",
+      "status": "passed"
+    },
+    {
+      "name": "android-emulado-reduce",
+      "status": "passed"
+    }
+  ],
+  "allPassed": true,
+  "limitation": "Device profiles in Chromium are not native iOS/Android or Safari verification."
+}

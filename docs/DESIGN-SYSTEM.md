@@ -1,6 +1,6 @@
 # Sistema visual de APPFIT
 
-Implementación de la identidad de [DESIGN.md](../DESIGN.md). El criterio de producto vive allí; este documento explica cómo sostenerlo en código. Motivación: [auditoría](historico/auditoria-diseno-2026-10-02.md) y [ADR 007](decisiones/007-sistema-visual-movil.md).
+Implementación de la identidad de [DESIGN.md](../DESIGN.md). El criterio de producto vive allí; este documento explica cómo sostenerlo en código. Base arquitectónica: [ADR 007](decisiones/007-sistema-visual-movil.md). Dirección y motion actuales: [ADR 009](decisiones/009-identidad-y-motion-impeccable.md).
 
 ## Arquitectura
 
@@ -32,27 +32,28 @@ Los valores exactos viven en `tokens.css`; no se duplican en componentes.
 
 | Escala | Valores / clases |
 |---|---|
-| Tipografía | hero 44, display/metric 28, heading 22, title 18, body 16, body-sm 14, label 13, caption 12 px |
-| Espaciado | page 20 (16 bajo 360 px), section 28, card 16, stack 12 px; base de 4 px |
+| Tipografía | hero 44, display 32, metric 28, heading 22, title 18, body 16, body-sm 14, label 13, caption 12 px |
+| Espaciado | page 20 (16 bajo 360 px), section 24, card 16, stack 12 px; base de 4 px |
 | Radios | sm 8, md 12, lg 16, sheet 24; pill solo con significado |
 | Interacción | touch 44, touch-lg 48 px; área real, sin pseudo elemento |
 | Profundidad | shadow-overlay solamente; sin sombras de cards ni nav |
-| Motion | short 120, normal 200 ms, ease-standard; desplazamiento 4 px |
+| Motion | feedback 120, estado 200, entrada de capa 280, salida 180, éxito 420, stagger 18 ms; desplazamiento 8 px |
 
-Reduced motion lleva las duraciones a cero. La carga tiene retraso breve para evitar parpadeo. Valores inmediatos; gráficas sin animación de entrada.
+Reduce Motion suprime desplazamientos, escala, FLIP, stagger, pulsación y entradas de series/éxito. Capas conservan un fundido de 80 ms para explicar estados; selección y barras cambian sin transición espacial. Carga localizada con skeleton, sin pulso bajo reducción. Valores inmediatos; gráficas sin contador ni animación de entrada. `motion.ts` lee las duraciones/easing del CSS y ofrece haptic opcional, nunca un requisito para entender una acción.
 
 ## Navegación y capas
 
-`App` es un flex de altura 100dvh: `main` tiene el único scroll de página y `BottomNav` espacio propio (64 px + safe area). Cambiar destino vuelve al inicio. Columna centrada de máximo 512 px también en escritorio. Un botón Menú de 48 px abre `Sheet`, sin otra capa modal. Tiene `aria-haspopup`, `aria-expanded`, `aria-controls` y contexto de la sección actual.
+`App` es un flex de altura 100dvh: `main` tiene el único scroll de página y `BottomNav` espacio propio (72 px + safe area). Cambiar destino vuelve al inicio. Columna centrada de máximo 512 px también en escritorio. Un botón Menú de 124×48 px abre un portal de abanico, no una Sheet. Tiene `aria-haspopup`, `aria-expanded`, `aria-controls` y contexto visible de la sección actual.
 
-`app/RuedaNavegacion` distribuye los destinos de `app/navegacion.ts` alrededor de un cierre central. Tokens: rueda de 280 px, destinos de 80 px, centro de 64 px y órbita del 34 %. Icono/nombre visibles, sección actual con `aria-current="page"`, borde/acento y marca. Flechas/Home/End mueven el foco; Enter/Espacio eligen. Cierre central, cabecera, fondo y Escape devuelven el foco a Menú sin cambiar la pantalla ni su scroll. Más de cuatro destinos se agrupan en páginas con controles Anteriores/Más destinos, contador y foco en la primera opción al cambiar. La geometría/paginación pura vive en `shared/design/rueda.ts`.
+`app/RuedaNavegacion` distribuye cuatro destinos en dos niveles ascendentes desde el centro medido del botón. Targets de 84×68 px, órbita horizontal hasta 120 px (104 a 320), elevación de 160 px. Icono/nombre visibles, sección actual con `aria-current="page"`, acento y check. Las acciones viajan desde el origen en 280 ms con stagger de 18 ms; salida inversa de 180 ms. Texto ampliado o landscape muy bajo cambia a una rejilla desplazable de dos columnas sobre el mismo origen, sin reducir etiquetas. Flechas/Home/End, Enter/Espacio, Escape, Atrás, backdrop y cierre central mantienen foco, scroll y aislamiento. Más de cuatro destinos usa paginación, nunca targets menores. Geometría pura en `shared/design/rueda.ts`.
 
 - **ViewTabs**: navegar entre vistas. tablist/tab/tabpanel asociado, flechas/Home/End y una entrada de teclado.
 - **SegmentedControl**: elegir valor (comida, periodo, tema, métrica, colección). radiogroup/radio y etiqueta; mismo teclado. No confundir con navegación.
 - **Disclosure**: detalles, datos de gráfica y explicación; aria-expanded/controls. No ocultar errores que impiden guardar.
 - **Sheet**: panel inferior, asa y cierre explícito; contenido con scroll, footer opcional persistente. Backdrop/Escape/arrastre cierran. Arrastre solo en header.
 - **ModalPage**: tarea completa (Añadir/Editar comida, Medidas caseras), cabecera con salida y footer persistente opcional.
-- Ambos usan portal en body y **useModalLayer**: pila, foco, Tab, Escape, inert y retorno del foco. Solo la capa superior es interactiva; shell y capas inferiores quedan aislados.
+- Ambos usan portal en body y **useModalLayer**: pila, foco, Tab, Escape, Atrás, inert y retorno del foco. Solo la capa superior es interactiva. History API conserva URL/estado previos y serializa salidas antes de colocar una capa nueva; evita que un popstate pendiente cierre otra tarea.
+- **useOverlayPresence** monta la capa en el primer commit y mantiene una única frontera de salida: al acabar la transición se restaura foco/aislamiento. Reabrir cancela tareas pendientes. Pointer cancel/lost capture cancela el arrastre de Sheet; no confirma un cierre.
 - `.modal-viewport` usa alto/offset de visualViewport y fallback 100dvh. Sheet limita altura con safe top y margen. No situar capas dentro de padres transformados.
 - Formularios: error/acciones fuera del scroll, en footer. El header nombra la tarea; nombres extensos de alimentos/plantillas van completos en el cuerpo desplazable, para no consumir el área del teclado. Los fallos no van a un Toast detrás de la capa.
 
@@ -66,7 +67,7 @@ Reduced motion lleva las duraciones a cero. La carga tiene retraso breve para ev
 | NumberStepper | una escala; botones 44, campo 16, unidad y label obligatorio; Gym usa campos directos |
 | Card | default/muted; unidad real, no marco obligatorio de sección |
 | ListGroup / ListRow | lista plana/divisores; fila completa pulsable; tonos semánticos |
-| PageHeader / SectionHeader | pantalla 28, sección 18, etiqueta 13 en caja normal |
+| PageHeader / SectionHeader | pantalla 32, sección 18; contexto debajo del título, no eyebrow decorativo |
 | Metric | formato español inmediato, unidad/contexto; envuelve cifras largas |
 | ProgressBar | dominio max(valor, objetivo, 1), meta y exceso atenuado; aria-valuetext explícito |
 | Badge | metadato breve, radio contenido; no toda etiqueta necesita uno |
@@ -79,14 +80,17 @@ Retirados: AnimatedNumber, ProgressRing, Card ink, Button contrast, stepper comp
 
 ## Patrones de producto
 
-- **Inicio/Hoy**: `ResumenNutricional` comparte un panel Card con superficie/borde del tema, radio lg y padding card; separación exterior section respecto al contenido siguiente. Cabecera con divisor y «Ver día» en Inicio, kcal dominante, meta/diferencia y tres columnas de macros con divisor interno. El desglose opcional del diario queda dentro del mismo panel. Cifras largas envuelven sin ocultarse; sin anillo, sombra ni porcentaje redundante. Inicio mantiene Registrar comida fuera de la tarjeta.
+- **Inicio/Hoy**: `ResumenNutricional` comparte un panel compacto. Cabecera sin divisor redundante; kcal, objetivo, diferencia y tres macros dentro del mismo contorno. Inicio pone Registrar comida dentro del resumen, junto al contexto de registro. `controles`, `detalle` y `footer` son slots explícitos, no tarjetas anidadas. Cifras largas envuelven sin ocultarse.
 - **Diario**: total por comida; filas con nombre simple/cantidad/kcal. Un plato conserva contorno, separación y despliegue independiente. No repetir barras de macros a cada nivel.
 - **Editar plato**: acción de texto con lápiz en una fila propia dentro del contorno, visible sin desplegar ingredientes. La página modal identifica el plato completo en el cuerpo, fija la comida y permite consultar los ingredientes actuales; Describir/Buscar prepara nuevos ingredientes para revisar y confirmar con «Añadir al plato». Conserva la edición/borrado individual del diario, sin comprimir acciones en la cabecera del bloque.
 - **Copiar plato**: acción con icono de copia junto a Editar, con envoltura si falta ancho. Reutiliza el sheet de acciones, identificando el plato completo en el cuerpo. «Copiar a otra comida…» muestra solo el selector de comida de destino y conserva el día seleccionado; copiar al origen queda desactivado. «Copiar a otro día…» y plantilla siguen disponibles. El menú de una comida ofrece las mismas vías para toda la sección. Éxito con Deshacer y errores en la capa activa.
-- **Detalle nutricional en Hoy**: selector segmentado superior Sencilla/Detallada, sencilla por defecto. Detallada añade al resumen diario una rejilla de dos columnas con fibra, azúcares, sal y grasas saturadas; muestra «Sin datos» o cobertura parcial cuando corresponde, sin objetivos inventados ni juicios de salud.
+- **Detalle nutricional en Hoy**: selector Sencilla/Detallada dentro del resumen al que afecta. Detallada añade fibra, azúcares, sal y grasas saturadas, con «Sin datos»/cobertura parcial; no inventa objetivos ni juicios de salud. Fecha va inmediatamente después de tabs.
 - **Añadir**: comida + métodos Describir/Buscar/Plantillas. Revisión: nombre completo, cantidad, aporte, avisos y Cambiar. Nutrientes por 100 g/nombre personal en Detalles; incompletos abren esos detalles. Claves locales estables evitan mover borradores al quitar ingredientes.
 - **Detalles del alimento**: siempre muestra los cuatro extras opcionales junto a los macros, independientemente del modo del diario. Campos de dos columnas y estado vacío «Sin datos»; debajo, aporte conocido de la cantidad indicada.
-- **Gym activo**: ejercicio, referencia anterior, N.º/Reps/kg y añadir serie. Campos directos ≥44; sin seis mini botones por fila.
+- **Gym activo**: superficie tinta compacta para rutina/estado, reloj aislado, volumen y progreso de series marcadas. La primera fila editable permanece visible a 320×568 con descanso activo. Ejercicio, referencia anterior, Serie/Reps/kg/borrar y añadir serie; campos directos ≥44. Tocar el número confirma con check, superficie de éxito, haptic opcional y anuncio accesible; editar desmarca. `useListMotion` aplica FLIP al cambiar ids o la presencia/configuración del descanso, no a cada tecla o tick. Alta tiene entrada breve, borrado conserva Deshacer.
+- **Descanso**: desactivado por defecto, 60/90/120 s opcionales en un Disclosure; elegir una duración cierra la configuración y devuelve el foco. El temporizador activo sustituye esos ajustes, dando prioridad al registro de series. Deadline absoluto, render del reloj separado, pausa de ticks en pestaña oculta y recalculo al volver. Puede finalizarse antes; no pide notificaciones ni simula ejecución en background.
+- **Estado de sesión**: marcas/descanso viven en `sessionStorage`, por id de workout; sobreviven navegación y recarga de esa pestaña. No son datos históricos, no se exportan ni cambian el esquema. Todas las series registradas siguen guardándose, marcadas o no; confirmación de fin lo explica.
+- **Fin de sesión**: espera escrituras pendientes, ofrece continuar o guardar, muestra errores en la propia Sheet, y presenta resumen real de duración, ejercicios, series y volumen. Check de éxito de 420 ms, sin confeti ni récords inventados.
 - **Progreso**: una sesión es dato, sin curva de tendencia. Peso/1RM con leyenda (1RM discontinuo); volumen separado por unidad. Datos textuales desplegables.
 - **Resumen**: media solo de días registrados, cobertura explícita. Una métrica por gráfica, con meta y alternativa textual; sin gráfica vacía.
 - **Peso**: registro de hoy, fecha/variación neutral e historial; sin nuevo modelo. Medidas es ayuda de cantidades caseras.

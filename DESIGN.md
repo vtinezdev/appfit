@@ -1,140 +1,363 @@
-# APPFIT — identidad y diseño de producto
+---
+name: APPFIT
+description: "Precisión deportiva en tinta, mineral y naranja señal para un registro móvil rápido."
+colors:
+  bg: "rgb(242 245 248)"
+  dark-bg: "rgb(14 22 33)"
+  surface: "rgb(255 255 255)"
+  dark-surface: "rgb(23 34 49)"
+  surface-elevated: "rgb(255 255 255)"
+  dark-surface-elevated: "rgb(30 44 61)"
+  surface-muted: "rgb(232 237 242)"
+  dark-surface-muted: "rgb(36 49 65)"
+  overlay: "rgb(15 25 40)"
+  dark-overlay: "rgb(0 0 0)"
+  text-primary: "rgb(21 34 51)"
+  dark-text-primary: "rgb(244 248 252)"
+  text-secondary: "rgb(73 88 105)"
+  dark-text-secondary: "rgb(192 206 222)"
+  text-tertiary: "rgb(89 105 123)"
+  dark-text-tertiary: "rgb(166 185 205)"
+  border: "rgb(213 223 232)"
+  dark-border: "rgb(56 73 94)"
+  border-strong: "rgb(117 128 140)"
+  dark-border-strong: "rgb(133 153 175)"
+  accent: "rgb(223 87 27)"
+  dark-accent: "rgb(255 148 92)"
+  on-accent: "rgb(15 25 40)"
+  accent-strong: "rgb(157 55 13)"
+  dark-accent-strong: "rgb(255 170 124)"
+  accent-subtle: "rgb(255 236 222)"
+  dark-accent-subtle: "rgb(68 39 24)"
+  selected: "rgb(255 255 255)"
+  dark-selected: "rgb(64 83 105)"
+  on-selected: "rgb(21 34 51)"
+  dark-on-selected: "rgb(244 248 252)"
+  success: "rgb(24 111 73)"
+  dark-success: "rgb(105 207 157)"
+  on-success: "rgb(255 255 255)"
+  dark-on-success: "rgb(14 22 33)"
+  success-subtle: "rgb(230 244 236)"
+  dark-success-subtle: "rgb(25 55 44)"
+  warning: "rgb(137 84 9)"
+  dark-warning: "rgb(235 193 97)"
+  destructive: "rgb(175 49 38)"
+  dark-destructive: "rgb(255 148 135)"
+  on-destructive: "rgb(255 255 255)"
+  dark-on-destructive: "rgb(20 20 18)"
+  protein: "rgb(66 95 136)"
+  dark-protein: "rgb(151 179 221)"
+  carbs: "rgb(83 102 47)"
+  dark-carbs: "rgb(173 195 121)"
+  fat: "rgb(129 78 113)"
+  dark-fat: "rgb(215 166 201)"
+  training: "rgb(21 34 51)"
+  dark-training: "rgb(31 48 69)"
+  on-training: "rgb(245 248 252)"
+  training-muted: "rgb(191 207 223)"
+  training-track: "rgb(56 73 94)"
+typography:
+  hero:
+    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "2.75rem"
+    fontWeight: 800
+    lineHeight: 1.1
+    letterSpacing: "-0.04em"
+  display:
+    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "2rem"
+    fontWeight: 700
+    lineHeight: 1.2
+    letterSpacing: "-0.035em"
+  metric:
+    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "1.75rem"
+    fontWeight: 800
+    lineHeight: 1.2
+    letterSpacing: "-0.04em"
+  heading:
+    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "1.375rem"
+    fontWeight: 700
+    lineHeight: 1.4
+    letterSpacing: "-0.02em"
+  title:
+    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "1.125rem"
+    fontWeight: 600
+    lineHeight: 1.5
+    letterSpacing: "-0.01em"
+  body:
+    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: "normal"
+  body-sm:
+    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: "normal"
+  label:
+    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "0.8125rem"
+    fontWeight: 600
+    lineHeight: 1.4
+    letterSpacing: "0.04em"
+  caption:
+    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "0.75rem"
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: "normal"
+rounded:
+  sm: "0.5rem"
+  md: "0.75rem"
+  lg: "1rem"
+  sheet: "1.5rem"
+  pill: "9999px"
+spacing:
+  "1": "0.25rem"
+  "2": "0.5rem"
+  page: "1.25rem"
+  section: "1.5rem"
+  card: "1rem"
+  stack: "0.75rem"
+  touch: "2.75rem"
+  touch-lg: "3rem"
+components:
+  button-primary:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.on-accent}"
+    rounded: "{rounded.md}"
+    padding: "8px 20px"
+  button-secondary:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.md}"
+    padding: "8px 20px"
+  button-ghost:
+    backgroundColor: "transparent"
+    textColor: "{colors.accent-strong}"
+    rounded: "{rounded.md}"
+    padding: "8px 20px"
+  button-destructive:
+    backgroundColor: "{colors.surface-muted}"
+    textColor: "{colors.destructive}"
+    rounded: "{rounded.md}"
+    padding: "8px 20px"
+  button-danger:
+    backgroundColor: "{colors.destructive}"
+    textColor: "{colors.on-destructive}"
+    rounded: "{rounded.md}"
+    padding: "8px 20px"
+  input:
+    backgroundColor: "{colors.surface-muted}"
+    textColor: "{colors.text-primary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.md}"
+    padding: "0 12px"
+  card:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.lg}"
+    padding: "{spacing.card}"
+  card-muted:
+    backgroundColor: "{colors.surface-muted}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.lg}"
+    padding: "{spacing.card}"
+  badge-neutral:
+    backgroundColor: "{colors.surface-muted}"
+    textColor: "{colors.text-secondary}"
+    rounded: "{rounded.sm}"
+    padding: "2px 8px"
+  segmented-control:
+    backgroundColor: "{colors.surface-muted}"
+    textColor: "{colors.text-secondary}"
+    rounded: "{rounded.md}"
+    padding: "4px"
+  menu-trigger:
+    backgroundColor: "{colors.training}"
+    textColor: "{colors.on-training}"
+    rounded: "{rounded.md}"
+    width: "124px"
+    height: "48px"
+  menu-target:
+    backgroundColor: "{colors.surface-elevated}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.md}"
+    padding: "8px"
+    width: "5.25rem"
+    height: "4.25rem"
+  series-completed:
+    backgroundColor: "{colors.success}"
+    textColor: "{colors.on-success}"
+    rounded: "10px"
+---
 
-APPFIT es una libreta personal de nutrición y entrenamiento que cabe en una mano. Su personalidad combina **precisión deportiva, calma y cercanía**. Las cifras reales y las acciones útiles tienen presencia; la interfaz no pide atención por sí misma.
+# Design System: APPFIT
 
-Este documento describe intención. [DESIGN-SYSTEM](docs/DESIGN-SYSTEM.md) describe implementación. [Auditoría](docs/historico/auditoria-diseno-2026-10-02.md) explica el cambio de dirección y las referencias.
+## Overview
 
-## Principios
+**Creative North Star: "Pista indoor"**
 
-1. **Registrar es la tarea principal.** Añadir comida, registrar peso y apuntar una serie deben entenderse sin estudiar una pantalla.
-2. **Una jerarquía por vista.** Dato o tarea principal, contexto, acción; el resto tiene un nivel secundario reconocible.
-3. **Densidad útil.** Espacio entre temas, proximidad entre datos relacionados. Ni formularios diminutos ni grandes bloques vacíos.
-4. **Superficies con significado.** Un plato o ejercicio puede tener un panel. Una etiqueta o una cifra no necesita una card.
-5. **Resultados sin juicio.** No convertir un objetivo superado o una variación de peso en fracaso, alarma o celebración automática.
-6. **Una sola aplicación.** Nutrición y Gym comparten tipos, controles, espaciado, navegación y feedback. Su contenido define su carácter.
-7. **Honestidad y privacidad.** Mostrar datos existentes, estimaciones explícitas y estados vacíos. Todo el diseño funciona offline sin pedir cuentas, imágenes remotas ni analítica.
+La pista indoor organiza APPFIT con precisión deportiva: azul tinta para estructura y lectura, blanco mineral para descanso visual y naranja señal para actuar. Manrope local aporta títulos firmes y cifras tabulares; nutrición, peso y entrenamiento comparten la misma gramática de controles, líneas y superficies.
 
-## Mobile first
+La densidad es operativa: los datos relacionados permanecen próximos y las tareas se leen en una columna móvil. El movimiento explica origen, continuidad y confirmación; el abanico que emerge del botón Menú es el gesto distintivo. La identidad se sostiene en tipo, color y geometría, sin añadir materiales o imágenes que el artefacto no utiliza.
 
-Diseñar la secuencia de lectura y uso vertical, desde 320 px hasta móviles grandes. 375×812 es una referencia de comprobación, no un lienzo rígido. El ancho útil tiene margen lateral de 20 px, reducido a 16 px en pantallas muy estrechas. En tablet/escritorio la libreta se centra con ancho limitado; no se convierte en un dashboard de columnas.
+**Key Characteristics:**
 
-La navegación inferior tiene espacio propio y respeta el home indicator. Las acciones de registro frecuentes se alcanzan también desde cabecera/Inicio. Una página modal dedica su altura a la tarea, con contenido desplazable y cierre visible. El teclado no debe ocultar la acción final ni crear dos scrolls que compitan. La cabecera de una capa nombra la tarea; un alimento o plantilla con nombre extenso va completo en el cuerpo desplazable, dejando espacio al campo activo.
+- Tinta, mineral y naranja señal con roles equivalentes en ambos temas.
+- Una familia local, cifras tabulares y jerarquía fuerte sin reducir los campos.
+- Superficies planas, radios contenidos y profundidad reservada a capas.
+- Acciones táctiles, continuidad breve y feedback que conserva texto e iconos.
 
-No imitar chrome de iOS o Android. Usar controles familiares, iconos propios, fechas locales y lenguaje español sencillo.
+Este documento registra el rediseño construido en `src/shared/design/tokens.css`, `tailwind.config.js`, `src/index.css` y los componentes compartidos. [PRODUCT.md](PRODUCT.md) conserva la verdad de producto; [la superficie APPFIT](.impeccable/surfaces/appfit.md) conserva el brief y su composición concreta; [DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md) explica la implementación. La extracción es code-led, sin comp aprobado ni nuevos rasters; no acredita Safari/iOS o Android físicos.
 
-## Jerarquía y tipografía
+## Colors
 
-Manrope variable es la voz común, autoalojada y disponible offline. Una familia, sin parejas ornamentales. Fallback del sistema mientras carga. Números tabulares para métricas y formularios.
+La paleta combina minerales fríos y tinta azul con una señal naranja cálida. El frontmatter conserva colores CSS RGB derivados de los canales de la fuente; los tokens con prefijo `dark-` registran únicamente los valores que el tema oscuro sustituye. Los roles sin sustitución mantienen el mismo valor. Foco y kcal reutilizan naranja de texto y naranja señal; la meta reutiliza tinta de lectura.
 
-- Cabecera: título corto de 28 px, contexto de 13–14 px cuando aporte algo.
-- Métrica principal: hasta 44 px, fuerte, con unidad más pequeña y objetivo/contexto cercano.
-- Métrica secundaria: 28 px; en grupos densos, 18–22 px.
-- Sección: 18 px semibold; cuerpo/inputs: 16 px; contexto: 14 px; metadatos breves: 12–13 px.
-- Pesos 400 para lectura, 500–600 para controles, 700–800 para datos y títulos. No poner todo en negrita.
+### Primary
 
-Los nombres de alimentos se muestran completos en selección y revisión. Después de guardar se usan nombres simples y preferencias personales, sin alterar los originales. Los textos largos envuelven; no reducir tipografía para encajarlos. Las cifras grandes conservan su unidad y no fuerzan scroll horizontal.
+- **Naranja señal:** acción principal, indicador de navegación, destino actual y calorías. Su texto es tinta, en ambos temas.
+- **Naranja de texto y foco:** enlaces, acciones ghost y foco visible; tiene contraste propio para cada apariencia.
+- **Apoyo de señal:** fondo discreto de acciones contextuales y metadatos de acento.
 
-## Paleta
+### Neutral
 
-Neutrales de papel y grafito, sin halo ni gradientes. Naranja profundo de APPFIT para acción y progreso. Es una decisión de identidad deportiva, no una obligación heredada.
+- **Fondo mineral:** página clara; su equivalente oscuro es tinta profunda.
+- **Superficie de contenido:** paneles y listas agrupadas. La superficie de capa se distingue tonalmente en oscuro.
+- **Mineral secundario:** campos, selectores y contexto; no sustituye el límite de control.
+- **Tinta de lectura, contexto y metadato:** tres niveles legibles, sin usar opacidad para esconder información.
+- **Divisor mineral y límite de control:** separar contenido y reconocer un campo son funciones distintas.
+- **Superficie de entrenamiento:** tinta con lectura clara y un carril propio. Es un contexto semántico usado por la sesión activa y el cierre, no un color obligatorio de todos los resúmenes.
 
-| Rol | Claro | Oscuro | Intención |
-|---|---|---|---|
-| Fondo | Papel cálido, `#F5F5F2` | Grafito, `#141412` | Descanso visual |
-| Superficie | `#FFFFFF` | `#20201D` | Unidad de información o edición |
-| Superficie secundaria | `#ECECE7` | `#2D2D28` | Campos, controles y contexto |
-| Texto principal | `#20201C` | `#F5F5EF` | Legibilidad y presencia |
-| Acento | `#DF571B` | `#FF945C` | Acción principal y kcal |
-| Acento de texto | `#9D370D` | `#FFAA7C` | Links/foco con contraste |
+Proteína mineral, carbohidratos oliva y grasa ciruela son códigos de datos, no acentos de feature. Confirmación, advertencia y destrucción acompañan texto o iconos. Superar un objetivo nutricional mantiene una lectura neutral y una diferencia explícita. El aviso flotante utiliza una superficie inversa al tema con sus propios valores de lectura y foco.
 
-Proteína azul mineral, carbohidratos oliva y grasa ciruela son colores de datos, no acentos de sección. Mantienen significado en todo el producto. Las etiquetas y unidades siempre acompañan al color. Avisos y errores tienen texto e icono, no solo color. No usar rojo para superar kcal.
+**The Señal con significado Rule.** El naranja identifica acción, selección de destino y kcal. Proteína, carbohidratos y grasa conservan sus colores de datos; ningún color sustituye etiqueta, unidad o estado accesible.
 
-## Espaciado, layout y superficies
+## Typography
 
-Ritmo base de 4 px. Entre secciones: 28 px; entre unidades de un grupo: 12 px; padding de panel: 16 px. Separar cambios de tema más que filas de una misma lista.
+**Display Font:** Manrope variable local, con fallback sans del sistema.
+**Body Font:** la misma familia; no hay segunda voz ornamental.
+**Label/Mono Font:** Manrope con cifras tabulares donde hay métricas, cantidades o relojes; no se incorpora una familia monoespaciada.
 
-La pantalla se organiza en una columna. Rejillas de dos o tres métricas solo cuando sus valores caben; cantidades largas pueden envolver. Las listas usan divisores, no una card por fila. Los platos guardados juntos conservan panel independiente, borde y separación; sus ingredientes pertenecen al mismo contorno.
+Manrope Latin se sirve desde `public/fonts/manrope-latin-variable.woff2`, con intercambio de fuente y rango variable de pesos. La interfaz conserva tamaños finales inmediatos y usa el peso para separar tarea, dato y contexto.
 
-Radios contenidos: 8 px para pequeños controles, 12 px para campos/botones, 16 px para paneles y 24 px para sheets. Círculos solo en puntos/indicadores o controles cuya forma lo justifique. La profundidad se explica con superficie y línea; sombra solo en overlays.
+### Hierarchy
 
-## Navegación
+- **Hero:** métrica protagonista y tiempo de sesión guardada; peso fuerte y tracking cerrado.
+- **Display:** títulos de pantalla.
+- **Metric:** cifra secundaria destacada.
+- **Heading:** título o dato de un contexto operativo compacto.
+- **Title:** secciones, ejercicios y títulos de capas.
+- **Body:** lectura y campos editables.
+- **Body-sm:** contexto y controles secundarios; los botones lo refuerzan con peso semibold.
+- **Label:** etiqueta breve con tracking moderado, sin imponer mayúsculas.
+- **Caption:** metadatos y unidades breves; no sustituye texto de tarea o campo.
 
-Un único botón **Menú** en el espacio inferior abre una rueda con **Inicio, Nutrición, Gym y Ajustes**, en ese orden alrededor del centro. Cada destino conserva icono y nombre; la sección actual añade una marca además del color. El centro permite cerrar sin cambiar de sección. La navegación ocupa su propio espacio y no cubre registros. Los destinos futuros se incorporan a la misma rueda en grupos, sin reducir las áreas táctiles.
+Los tamaños, pesos, interlineados y tracking normativos están en el frontmatter. Los controles pueden reforzar el peso de su rol; el label no autoriza un kicker ornamental. La cabecera renderiza título primero y contexto debajo, aunque su API conserve el nombre histórico `overline`.
 
-Dentro de una feature, pestañas planas para navegar entre vistas. Selectores segmentados para cambiar un valor (comida, periodo, tema, métrica). No usar el mismo tratamiento para ambos conceptos. Los flujos de registro son capas modales con salida clara, aislamiento del fondo y retorno del foco.
+**The Una voz estable Rule.** Manrope es la familia común. Las cifras cambian directamente y conservan ancho tabular; los nombres necesarios para elegir envuelven antes de reducir su tamaño.
 
-## Controles y componentes
+## Layout
 
-- **Botón principal:** naranja, etiqueta concreta, al menos 48 px en acciones de registro. Uno domina cada tarea.
-- **Secundario:** superficie neutra/borde; no compite con guardar.
-- **Texto/ghost:** para ayuda, cambiar o acción contextual. Táctil aunque visualmente discreto.
-- **Destructivo:** discreto cuando se ofrece; rojo sólido únicamente al confirmar. Borrado reversible ofrece Deshacer; irreversible confirma consecuencias reales.
-- **Campos:** etiqueta visible, 16 px, mínimo 44 px, fondo neutro, borde reconocible y foco claro. Placeholder es ejemplo, no etiqueta.
-- **Cantidades:** campo directo o stepper de tamaño táctil real. En series de Gym, entrada directa; los botones de ajuste no deben comprimir los valores.
-- **Desplegable:** explica qué se abre, mantiene estado accesible y no esconde errores que impiden guardar.
-- **Listas:** fila completa pulsable, nombre primero, contexto debajo y dato/acción a la derecha cuando quepa. No esconder nombres completos necesarios para elegir.
+La PWA usa una columna centrada de máximo 512 px también en escritorio. El shell ocupa 100dvh; el contenido principal posee el scroll de página y la navegación tiene espacio propio. Margen lateral de página según la escala compartida, reducido a 16 px por debajo de 360 px; secciones, unidades y contenido interno utilizan los roles de espaciado del frontmatter. El ritmo básico es de 4 px.
 
-No crear abstracciones de dominio sin semántica común. Un componente compartido debe resolver una necesidad repetida, no imponer idéntica composición a todas las pantallas.
+La navegación reserva 72 px más la safe area inferior. Los contenidos respetan la safe area superior. Las capas siguen alto y desplazamiento de `visualViewport` cuando existe, con fallback a 100dvh, y separan acciones persistentes del contenido desplazable.
 
-## Nutrición
+Flex y rejillas mantienen ancho mínimo cero y permiten envolver. Las métricas pueden compartir dos o tres columnas cuando caben sus cifras. Listas y divisores agrupan registros; los paneles delimitan unidades de información reales. La composición particular del resumen diario o del entreno activo pertenece a sus componentes y a la superficie, no a una prohibición global de otras composiciones.
 
-El resumen diario de Inicio y Nutrición es una unidad de información en un panel: superficie propia, borde fino, esquinas redondeadas y espacio claro respecto a las secciones siguientes. Presenta kcal consumidas, objetivo y diferencia explícita. Macros a continuación, cada uno con gramos, objetivo y barra proporcional; el desglose detallado pertenece al mismo contorno. No se crean tarjetas separadas para cada cifra. El exceso continúa visualmente y se expresa en texto; no se recorta ni colorea como error.
+## Elevation & Depth
 
-Cada comida tiene total y acción de añadir. Cada guardado múltiple es un plato independiente. Los ingredientes se despliegan y editan sin cambiar su agrupación.
+La profundidad combina tono, línea y espacio. Los paneles, campos y barra inferior no tienen sombra. Sheets y avisos flotantes emplean la única sombra compartida; el tema oscuro adapta su intensidad. El backdrop usa el color de aislamiento a media opacidad. La superficie de entrenamiento tiene profundidad tonal, sin añadir un material simulado.
 
-Añadir comida ofrece Describir, Buscar y Plantillas como métodos claros. La descripción muestra separación de alimentos antes de interpretar. La revisión muestra nombre completo, cantidad y aporte. Los nutrientes por 100 g, nombre visible y otras opciones se consultan en detalles. Datos incompletos se exponen para resolverlos; no se guardan a escondidas.
+### Shadow Vocabulary
 
-La media semanal/mensual dice cuántos días tienen registros. Una gráfica debe responder a una pregunta concreta. Métrica seleccionable, unidad, objetivo, cobertura y datos textuales accesibles; ejes compactos cuando haga falta, cifras completas en métricas y datos; nunca rellenar huecos con datos inventados ni presentar un periodo vacío como progreso.
+- **Overlay:** sombra difusa superior para sheets y avisos. Sus valores y variante oscura viven en `extensions.shadows` del sidecar y en la variable de sombra de la fuente.
 
-## Entrenamiento
+**The Plano por defecto Rule.** Los paneles y la navegación reposan sin sombra. La separación se construye con tono, contorno y espacio; la única sombra compartida pertenece a capas y avisos flotantes.
 
-El entreno activo es una herramienta de registro: nombre del ejercicio, referencia de la sesión anterior, filas de serie/repeticiones/kg y añadir serie. Campos grandes y lectura rápida tienen prioridad sobre cualquier efecto.
+## Shapes
 
-Inicio de sesión distingue rutina y entreno libre. Finalizar es visible sin competir con cada nueva serie. Rutinas e historial utilizan el mismo lenguaje de listas. El progreso distingue peso máximo, 1RM estimado y volumen; una sola sesión no constituye una tendencia. Leyendas y alternativa textual evitan depender del color o del tooltip.
+Esquinas contenidas: pequeñas para badges e indicadores de selección, medias para botones y campos, grandes para paneles, y amplias solo en la parte superior de sheets. Los círculos y el radio pill resuelven puntos de dato, asa o acciones que lo justifican.
 
-## Peso y medidas
+Los contornos son finos. Los campos utilizan el límite fuerte; las agrupaciones de contenido utilizan la línea de división. El botón Menú es un rectángulo corto, no una rueda dibujada. Su abanico conserva cuatro destinos amplios en dos niveles. Las filas y el check de series tienen un radio local de 10 px: ese detalle de la tabla no amplía la escala común de radios.
 
-Peso: último registro, contexto temporal y variación sin valoración moral. Sparkline ligera solo cuando hay datos suficientes, historial consultable y registro de hoy con regla de sustitución explícita.
+## Components
 
-Medidas existentes son ayuda para convertir cantidades caseras en gramos. No presentar esa ayuda como seguimiento corporal. Explicar incertidumbre y opciones, conservar notas de medidas pendientes.
+### Buttons
 
-## Ajustes
+Controles firmes y táctiles, con radio medio. Primary usa naranja y tinta; secondary usa superficie y contorno; ghost usa naranja de texto. Destructive ofrece la acción sobre mineral secundario; danger usa fondo destructivo sólido para la confirmación.
 
-Orden por utilidad: objetivos, apariencia, copias y conservación, instalación/traslado, catálogo e información, acciones destructivas. Texto explicativo desplegable cuando es largo. La guía enlazada desde Inicio se abre y recibe foco. Exportación/importación accesibles, confirmación antes de sustituir datos y errores en su contexto.
+El tamaño medio conserva 44 px mínimos, padding vertical de 8 px y horizontal de 20 px. Small mantiene el target, reduce la tipografía a body-sm y el padding horizontal a 16 px. Large usa 48 px mínimos, peso bold y padding horizontal de 24 px. IconButton mantiene 44 px reales en small/medium y 48 px en large; requiere nombre accesible.
 
-## Feedback y estados
+Hover se limita a puntero compatible. Presionar aplica una escala breve de 0,97 y el tratamiento de brillo/opacidad de la variante. Loading deshabilita y anuncia ocupado. El foco compartido tiene contorno de 2 px y separación de 2 px. Reduce Motion elimina la escala de presión.
 
-Carga breve localizada; no bloquear toda la app por una fuente de datos secundaria. Vacío con explicación concreta y siguiente acción si existe. Error junto a la tarea, lenguaje recuperable y mensaje que no desaparece antes de leerlo. Avisos temporales para éxito/Deshacer por encima de navegación, nunca detrás de un modal.
+### Chips
 
-No prometer conexión, protección o guardado antes de conocer el resultado. Offline es una capacidad habitual; mostrar explicación solo cuando una operación necesita red y no está disponible.
+Badge es un metadato no pulsable: radio pequeño, padding breve y tipografía caption con peso medium. Las variantes neutral, accent y warning conservan contexto legible. El punto de dato, cuando existe, acompaña palabras.
 
-## Motion
+### Cards / Containers
 
-Transiciones breves de 120–200 ms para confirmar selección o entrada/salida de capa. Sin contador desde cero al navegar, cascadas de listas, rebotes, fondos en movimiento ni esperas decorativas. Reduced motion elimina transiciones; datos y estados aparecen inmediatamente.
+Card delimita una unidad real, con radio grande y padding de contenido. Default combina superficie y línea; muted utiliza el mineral secundario. No hay elevación de card. ListGroup y ListRow ofrecen listas planas, divisores y filas completas pulsables con estados de hover y presión.
 
-## Claro, oscuro y accesibilidad
+### Inputs / Fields
 
-Ambos modos tienen neutrales propios, mismos roles y jerarquía. Preferencia Sistema/Claro/Oscuro en Ajustes, guardada como preferencia visual. No forzar negro estructural en claro ni invertir colores sin comprobarlos.
+Input, Select, Textarea y SearchInput comparten radio medio, texto body, límite fuerte y superficie secundaria; el tono surface se utiliza cuando el campo va directamente sobre la página. Los campos de una línea tienen al menos 44 px y padding horizontal de 12 px. El foco refuerza el borde con naranja de texto y aclara la superficie. Error marca el borde y se explica en la misma tarea; disabled reduce presencia sin cambiar la geometría.
 
-Texto normal ≥4,5:1; indicadores y foco ≥3:1. Targets reales ≥44×44 px, controles de uso frecuente ≥48 px. Inputs ≥16 px. Foco visible, nombres accesibles, Escape, orden de teclado y retorno del foco en capas. Fondo inerte mientras una capa está abierta. No desactivar zoom. Respetar safe areas y movimiento reducido.
+Las etiquetas de formulario son visibles. Una búsqueda tiene nombre accesible y lupa SVG. Los campos numéricos del entreno son directos y tabulares; su borrador evita que una escritura asíncrona anterior interrumpa la entrada.
 
-Gráficas tienen título, unidades, leyenda y alternativa textual. Mensajes importantes usan status/alert según su semántica. Contenido largo y cifras grandes se comprueban en ambos temas; ocultar overflow no es una solución para una composición rota.
+### Navigation
 
-## Do / Don't
+Un botón Menú de 124×48 px abre el abanico desde el centro medido de ese mismo botón. Inicio, Nutrición, Gym y Ajustes conservan icono y nombre. El destino actual añade check y estado accesible además del naranja; cada target contiene su check también en la rejilla compacta.
 
-| Hacer | Evitar |
-|---|---|
-| Una cifra principal con contexto útil | Anillo, cifra y porcentaje contando lo mismo |
-| Panel por plato/ejercicio real | Mosaico de cards por cada dato |
-| Filas y divisores consistentes | Chips, badges y cajas en cada nivel |
-| Nombres completos al elegir | Recortar la variante que distingue dos alimentos |
-| Detalles bajo demanda | Exponer todo el formulario en la revisión habitual |
-| Una acción de registro clara | Varios botones principales iguales |
-| Tipografía y proporciones con carácter | Gradientes, glass, fotos decorativas o sombras como identidad |
-| Datos reales y vacío honesto | Gráficas falsas, rachas inventadas, premios o juicios sobre salud |
-| Controles táctiles y contenido que envuelve | Texto pequeño, scroll horizontal, acciones tapadas |
-| Sistema visual pequeño y mantenible | Librería nueva por una animación o wrapper para cada pantalla |
+Los destinos miden 84×68 px y se distribuyen en dos niveles ascendentes. La órbita horizontal alcanza 120 px y se limita por el ancho disponible; la elevación es de 160 px. Entrada de 280 ms con desfase de 18 ms y salida de 180 ms conservan origen y reversa. Las curvas desaceleran sin rebote. Texto ampliado o altura inferior a 360 px activa una rejilla desplazable de dos columnas sobre el mismo origen; se mantienen las etiquetas y el tamaño táctil. Más de cuatro destinos se pagina.
 
-## Regla para futuras iteraciones
+ViewTabs navega entre vistas con una línea indicadora de 3 px y panel asociado. SegmentedControl elige un valor sobre fondo mineral; el indicador neutro sigue el ancho y posición medidos de la opción. Sus opciones usan ancho flexible según contenido, evitando cortar una etiqueta frecuente para conservar segmentos iguales. Ambos incluyen flechas, Home/End y una entrada de teclado.
 
-Cada cambio debe mejorar comprensión, velocidad, legibilidad, accesibilidad, coherencia o personalidad. Comprobar primero las pantallas reales, incluidos vacíos, datos abundantes, cifras grandes, nombres largos y errores. Si una regla de este documento no funciona en el producto, revisarla y actualizar código/documentación juntos. La identidad es estable; la composición está al servicio de la tarea.
+### Layers and feedback
+
+Sheet es un panel inferior con asa, cierre visible, contenido desplazable y footer opcional persistente. ModalPage ocupa el área visible para una tarea completa. Portal, pila de capas, aislamiento del fondo, foco, Escape, Atrás y retorno del foco son compartidos. Solo la capa superior es interactiva. La salida mantiene la capa hasta su frontera de cierre; reabrir cancela tareas pendientes.
+
+Entrada de capa de 280 ms, estado de 200 ms y feedback de 120 ms usan la curva estándar. La salida usa 180 ms y curva propia. CSS y Web Animations implementan estas transiciones: no existe una librería ni un motor físico de spring. Reduce Motion elimina desplazamientos, escala, FLIP, desfase y animaciones de carga/éxito; las capas mantienen un fundido de 80 ms. Selección y progreso actualizan sin transición espacial.
+
+Toast flota sobre la navegación con superficie inversa y estado o alerta; ofrece Deshacer cuando procede. Los errores de una tarea modal se muestran dentro de esa capa. Haptic es complementario y opcional: iOS/Safari no expone Vibration API, Android depende del navegador; no se simula con audio. La interfaz comunica la acción sin vibración y la omite bajo Reduce Motion o pestaña oculta.
+
+### Nutritional summary
+
+ResumenNutricional integra cifra de kcal, objetivo, diferencia y tres macros en un panel. Controles, detalle y footer son slots dentro de su contorno. ProgressBar representa objetivo y exceso atenuado, con texto accesible; las cifras y unidades permanecen completas. Esta composición compartida resuelve el resumen del día, sin imponerla a todas las métricas del producto.
+
+### Active workout and completion
+
+El entreno activo usa un contexto de tinta compacto: título antes del estado, reloj aislado, volumen, series marcadas y progreso. La configuración del descanso queda en Disclosure y el temporizador la sustituye mientras corre, preservando espacio para editar series.
+
+Cada fila mantiene número/check, reps, kg y borrado. Completar aplica fondo de éxito, check reversible y anuncio accesible; editar desmarca. La confirmación espera la escritura pendiente. Altas y cambios de estructura, incluido abrir descanso/configuración, permiten continuidad FLIP; el reloj y las teclas no disparan mediciones de la lista. Borrar conserva Deshacer.
+
+Las marcas y el descanso son estado de presentación en `sessionStorage`, separados por workout. Sobreviven navegación y recarga de la misma pestaña; no cambian IndexedDB ni backups. Si storage falla, la interacción continúa en memoria. El descanso está desactivado por defecto, ofrece 60/90/120 s, usa deadline absoluto, suspende ticks ocultos y recalcula al volver. No declara ejecución fiable en background ni notificaciones.
+
+Terminar espera escrituras, explica que guarda todas las series registradas, marcadas o no, y ofrece continuar. El resumen de cierre muestra duración, ejercicios, series y volumen guardados; su check entra en 420 ms y aparece directamente bajo Reduce Motion.
+
+## Do's and Don'ts
+
+### Do:
+
+- **Do** usar los roles de color y la escala compartida en claro y oscuro.
+- **Do** mantener campos de al menos 16 px y targets reales de 44 px; las acciones principales de registro usan 48 px.
+- **Do** colocar el contexto después del título y mantener nombres, cifras y unidades legibles al envolver.
+- **Do** mostrar selección y confirmación con texto o forma además del color.
+- **Do** mantener foco visible, aislamiento y retorno del foco en todas las capas.
+- **Do** conservar estados útiles bajo Reduce Motion y permitir que el contenido responda al teclado y las safe areas.
+
+### Don't:
+
+- **Don't** introducir una paleta, familia o sombra propia por feature.
+- **Don't** convertir cada etiqueta o cifra en una tarjeta ni imponer una misma composición a todas las tareas.
+- **Don't** reducir tipografía o targets para encajar una etiqueta; ocultar overflow no repara un layout.
+- **Don't** colocar un eyebrow decorativo por encima del título.
+- **Don't** usar movimiento, vibración o color como única confirmación de una acción.
+- **Don't** presentar el exceso nutricional como error, ni añadir resultados, récords o tendencias que los registros no acreditan.
+- **Don't** describir la PWA como app nativa, prometer vibración en iOS o declarar un motor spring que el código no incorpora.

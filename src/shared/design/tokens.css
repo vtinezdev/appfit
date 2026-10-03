@@ -2,24 +2,25 @@
    Canales RGB para opacidad Tailwind. Ninguna pantalla define su propia paleta. */
 :root {
   color-scheme: light;
-  --c-bg: 245 245 242;
+  --c-bg: 242 245 248;
   --c-surface: 255 255 255;
   --c-surface-elevated: 255 255 255;
-  --c-surface-muted: 236 236 231;
-  --c-overlay: 20 20 18;
-  --c-text-primary: 32 32 28;
-  --c-text-secondary: 87 87 79;
-  --c-text-tertiary: 102 102 92;
-  --c-border: 218 218 210;
-  --c-border-strong: 135 135 122;
+  --c-surface-muted: 232 237 242;
+  --c-overlay: 15 25 40;
+  --c-text-primary: 21 34 51;
+  --c-text-secondary: 73 88 105;
+  --c-text-tertiary: 89 105 123;
+  --c-border: 213 223 232;
+  --c-border-strong: 117 128 140;
   --c-accent: 223 87 27;
-  --c-on-accent: 20 20 18;
+  --c-on-accent: 15 25 40;
   --c-accent-strong: 157 55 13;
   --c-accent-subtle: 255 236 222;
   --c-selected: 255 255 255;
-  --c-on-selected: 32 32 28;
+  --c-on-selected: 21 34 51;
   --c-focus: var(--c-accent-strong);
   --c-success: 24 111 73;
+  --c-on-success: 255 255 255;
   --c-warning: 137 84 9;
   --c-destructive: 175 49 38;
   --c-on-destructive: 255 255 255;
@@ -32,7 +33,7 @@
   --font-numeric: var(--font-sans);
   --fs-hero: 2.75rem;
   --lh-hero: 1.1;
-  --fs-display: 1.75rem;
+  --fs-display: 2rem;
   --lh-display: 1.2;
   --fs-heading: 1.375rem;
   --lh-heading: 1.4;
@@ -49,18 +50,18 @@
   --fs-metric: 1.75rem;
   --lh-metric: 1.2;
   --space-page: 1.25rem;
-  --space-section: 1.75rem;
+  --space-section: 1.5rem;
   --space-card: 1rem;
   --space-stack: 0.75rem;
   --touch-target: 2.75rem;
   --touch-target-lg: 3rem;
   --sheet-max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - 1rem);
   --app-height: 100dvh;
-  --nav-height: 4rem;
-  --menu-wheel-size: 17.5rem;
-  --menu-item-size: 5rem;
-  --menu-hub-size: 4rem;
-  --menu-orbit: 34%;
+  --nav-height: 4.5rem;
+  --menu-item-size: 5.25rem;
+  --menu-orbit: min(7.5rem, calc((100vw - 7rem) / 2));
+  --menu-rise: 10rem;
+  --menu-action-height: 4.25rem;
   --nav-toast: calc(var(--nav-height) + env(safe-area-inset-bottom) + 0.75rem);
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -70,49 +71,66 @@
   --shadow-overlay: 0 -4px 24px rgb(20 20 18 / 0.12);
   --dur-short: 120ms;
   --dur-normal: 200ms;
-  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-  --motion-shift: 0.25rem;
+  --dur-overlay: 280ms;
+  --dur-exit: 180ms;
+  --dur-success: 420ms;
+  --dur-stagger: 18ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --motion-shift: 0.5rem;
+  --motion-press: 0.97;
+  --c-training: 21 34 51;
+  --c-on-training: 245 248 252;
+  --c-training-muted: 191 207 223;
+  --c-training-track: 56 73 94;
+  --c-success-subtle: 230 244 236;
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --c-bg: 20 20 18;
-  --c-surface: 32 32 29;
-  --c-surface-elevated: 39 39 35;
-  --c-surface-muted: 45 45 40;
+  --c-bg: 14 22 33;
+  --c-surface: 23 34 49;
+  --c-surface-elevated: 30 44 61;
+  --c-surface-muted: 36 49 65;
   --c-overlay: 0 0 0;
-  --c-text-primary: 245 245 239;
-  --c-text-secondary: 194 194 181;
-  --c-text-tertiary: 170 170 154;
-  --c-border: 68 68 59;
-  --c-border-strong: 132 132 118;
+  --c-text-primary: 244 248 252;
+  --c-text-secondary: 192 206 222;
+  --c-text-tertiary: 166 185 205;
+  --c-border: 56 73 94;
+  --c-border-strong: 133 153 175;
   --c-accent: 255 148 92;
-  --c-on-accent: 20 20 18;
+  --c-on-accent: 15 25 40;
   --c-accent-strong: 255 170 124;
   --c-accent-subtle: 68 39 24;
-  --c-selected: 65 65 57;
-  --c-on-selected: 245 245 239;
+  --c-selected: 64 83 105;
+  --c-on-selected: 244 248 252;
   --c-success: 105 207 157;
+  --c-on-success: 14 22 33;
   --c-warning: 235 193 97;
   --c-destructive: 255 148 135;
   --c-on-destructive: 20 20 18;
   --c-protein: 151 179 221;
   --c-carbs: 173 195 121;
   --c-fat: 215 166 201;
+  --c-training: 31 48 69;
+  --c-on-training: 245 248 252;
+  --c-training-muted: 191 207 223;
+  --c-training-track: 56 73 94;
+  --c-success-subtle: 25 55 44;
   --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
 }
 /* Aviso temporal, sin obligar a usar bloques negros en las pantallas. */
 [data-surface='inverse'] {
-  --c-surface: 32 32 28;
-  --c-text-primary: 245 245 239;
-  --c-text-secondary: 194 194 181;
+  --c-surface: 21 34 51;
+  --c-text-primary: 244 248 252;
+  --c-text-secondary: 192 206 222;
   --c-accent-strong: 255 170 124;
   --c-destructive: 255 148 135;
   --c-focus: var(--c-accent-strong);
 }
 :root[data-theme='dark'] [data-surface='inverse'] {
-  --c-surface: 245 245 239;
-  --c-text-primary: 32 32 28;
-  --c-text-secondary: 87 87 79;
+  --c-surface: 244 248 252;
+  --c-text-primary: 21 34 51;
+  --c-text-secondary: 73 88 105;
   --c-accent-strong: 157 55 13;
   --c-destructive: 175 49 38;
 }
@@ -120,5 +138,9 @@
   :root { --space-page: 1rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  :root { --dur-short: 0ms; --dur-normal: 0ms; }
+  :root {
+    --dur-short: 80ms; --dur-normal: 80ms; --dur-overlay: 80ms;
+    --dur-exit: 80ms; --dur-success: 80ms; --dur-stagger: 0ms;
+    --motion-shift: 0rem; --motion-press: 1;
+  }
 }

@@ -16,10 +16,10 @@ export default function ProgressBar({ value, goal, colorClass = 'bg-accent', siz
     <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={Math.round(Math.max(g, v, 1))}
       aria-valuenow={Math.round(v)} aria-valuetext={valueText} className={`relative w-full ${size === 'lg' ? 'h-2' : 'h-1.5'}`}>
       <div className="absolute inset-0 overflow-hidden rounded-sm bg-surface-muted">
-        <div className={`absolute inset-y-0 left-0 ${colorClass} transition-[width] duration-normal`} style={{ width: `${t.relleno * 100}%` }} />
-        {t.exceso > 0 && <div className={`absolute inset-y-0 opacity-50 ${colorClass} transition-[left,width] duration-normal`} style={{ left: `${t.relleno * 100}%`, width: `${t.exceso * 100}%` }} />}
+        <div className={`progress-fill absolute inset-0 origin-left ${colorClass}`} style={{ transform: `scaleX(${t.relleno})` }} />
+        {t.exceso > 0 && <div className={`absolute inset-y-0 opacity-50 ${colorClass}`} style={{ left: `${t.relleno * 100}%`, width: `${t.exceso * 100}%` }} />}
       </div>
-      {t.meta !== null && <div aria-hidden className="absolute -inset-y-0.5 w-0.5 bg-goal ring-2 ring-bg transition-[left] duration-normal" style={{ left: `calc(${t.meta * 100}% - 1px)` }} />}
+      {t.meta !== null && <div aria-hidden className="absolute -inset-y-0.5 w-0.5 bg-goal ring-2 ring-bg" style={{ left: `calc(${t.meta * 100}% - 1px)` }} />}
     </div>
   )
 }
