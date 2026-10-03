@@ -28,7 +28,8 @@ import {
   type ItemRevision,
   type KcalRapidasDraft,
 } from '../lib/alimentos'
-import { formatInt } from '../../../shared/lib/format'
+import { formatInt, formatNumber } from '../../../shared/lib/format'
+import type { Plato } from '../lib/platos'
 import { normalizeName } from '../../../shared/lib/text'
 import { macrosPorGramos, resumenMacros, sumMacros } from '../lib/nutrition'
 import AplicarPlantillaSheet from '../components/AplicarPlantillaSheet'
@@ -47,6 +48,7 @@ import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 interface Props {
   fecha: string
   entryEditar?: Entry
+  platoDestino?: Plato
   /** Comida preseleccionada al abrir desde «Añadir a …» (al editar manda la de la entrada). */
   comidaInicial?: Comida
   onClose: () => void
@@ -66,8 +68,8 @@ function itemDesdeEntrada(e: Entry): ItemRevision {
   return { nombre: e.nombre, gramos: e.gramos, ...valores, origen: { fuente: 'manual', valores, nombreNorm: normalizeName(e.nombre), guardado: false } }
 }
 
-export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClose, onGuardado }: Props) {
-  const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? comidaInicial ?? comidaPorHora())
+export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaInicial, onClose, onGuardado }: Props) {
+  const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? platoDestino?.entries[0].comida ?? comidaInicial ?? comidaPorHora())
   const [metodo, setMetodo] = useState<'describir' | 'buscar' | 'plantillas'>('describir')
   const [guardandoRapido, setGuardandoRapido] = useState(false)
   const [errorRapido, setErrorRapido] = useState<string | null>(null)
@@ -152,7 +154,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
   }
 
   async function guardar() {
-    if (!items || items.length === 0) return
+    if (!items || items.length === 0 || guardando) return
     setGuardando(true)
     setErrorGuardar(null)
     try {
@@ -171,11 +173,11 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
           ...(items[0].nombreCortoModificado ? { nombreCorto: items[0].nombreCorto?.trim() || null } : {}),
         })
       } else {
-        await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: textoOriginal || undefined, nombrePlato })
+        await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: textoOriginal || undefined, nombrePlato, platoDestinoId: platoDestino?.entries[0].platoId })
       }
       onGuardado()
     } catch (e) {
-      setErrorGuardar(e instanceof foodsRepo.NombreDuplicadoError ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
+      setErrorGuardar(e instanceof foodsRepo.NombreDuplicadoError || e instanceof entriesRepo.PlatoNoDisponibleError ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
     } finally {
       setGuardando(false)
     }
@@ -187,6 +189,11 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
     setErrorRapido(null)
     try {
       const { alimento, gramos } = gramosRapido
+      if (platoDestino) {
+        abrirRevision([itemDesdeElegible(alimento, gramos)])
+        setGramosRapido(null)
+        return
+      }
       const id = alimento.ref.tipo === 'user'
         ? await entriesRepo.anadirDesdeAlimento({ fecha, comida, foodId: alimento.ref.id, gramos })
         : await entriesRepo.anadirDesdeCatalogo({ fecha, comida, catalogId: alimento.ref.id, gramos })
@@ -223,38 +230,53 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
   const kcalRapido = aporteRapido ? Math.round(aporteRapido.kcal) : 0
 
   return (
-    <ModalPage title={entryEditar ? 'Editar alimento' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose}
+    <ModalPage title={entryEditar ? 'Editar alimento' : platoDestino ? 'Editar plato' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose}
       footer={items !== null && items.length > 0 && totales && (
         <div className="space-y-2">
           {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
           <Button size="lg" block loading={guardando} onClick={guardar} disabled={anadiendo || nombreCortoEditando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
-            {guardando ? 'Guardando…' : `Guardar · ${formatInt(kcalTotales)} kcal`}
+            {guardando ? 'Guardando…' : `${platoDestino ? 'Añadir al plato' : 'Guardar'} · ${formatInt(kcalTotales)} kcal`}
           </Button>
         </div>
       )}>
       <div className="space-y-5">
-        <SegmentedControl label="Comida del día" opciones={COMIDAS} valor={comida} onChange={setComida} />
+        {platoDestino ? (
+          <section aria-label="Plato actual" className="space-y-2">
+            <h2 className="break-words text-title text-fg">{platoDestino.nombre}</h2>
+            <p className="text-body-sm text-fg-muted">{COMIDAS.find((c) => c.valor === comida)?.label} · Añade alimentos a este plato. Los ingredientes guardados se mantienen.</p>
+            <details className="border-b border-line pb-2">
+              <summary className="flex min-h-touch cursor-pointer items-center text-body-sm text-fg-muted">Ver ingredientes actuales ({formatInt(platoDestino.entries.length)})</summary>
+              <ul className="space-y-2 pb-2">
+                {platoDestino.entries.map((e) => (
+                  <li key={e.id} className="break-words text-body-sm text-fg">
+                    {e.nombre} · {e.rapida ? 'rápida' : `${formatNumber(e.gramos, 1)} g`} · {formatInt(e.kcal)} kcal
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </section>
+        ) : <SegmentedControl label="Comida del día" opciones={COMIDAS} valor={comida} onChange={setComida} />}
 
           {items === null && (
             <ViewTabs label="Cómo añadir comida" opciones={[
               { valor: 'describir', label: 'Describir' },
               { valor: 'buscar', label: 'Buscar' },
-              { valor: 'plantillas', label: 'Plantillas' },
+              ...(!platoDestino ? [{ valor: 'plantillas' as const, label: 'Plantillas' }] : []),
             ]} valor={metodo} onChange={setMetodo}>
               <div className="space-y-section">
                 {metodo === 'describir' && <DescribirComida texto={texto} onTextoChange={setTexto} onInterpretar={interpretar} cargando={local.cargando} error={local.error} onVerMedidas={() => setVerMedidas(true)} />}
                 {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => { setErrorRapido(null); setGramosRapido({ alimento, gramos: 100 }) }} onEscanear={() => setEscaneando(true)} />}
                 {metodo === 'plantillas' && <PlantillasLista onElegir={setPlantillaElegida} />}
-                <div className="border-t border-line pt-3">
+                {!platoDestino && <div className="border-t border-line pt-3">
                   <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}>Solo registrar calorías</Button>
-                </div>
+                </div>}
               </div>
             </ViewTabs>
           )}
 
           {items !== null && totales && (
             <div className="animate-fade-in space-y-section">
-              {!entryEditar && items.length > 1 && (
+              {!entryEditar && !platoDestino && items.length > 1 && (
                 <div className="space-y-2">
                   <label htmlFor="nombre-plato" className="block text-caption text-fg-muted">Nombre del plato (opcional)</label>
                   <Input id="nombre-plato" tone="surface" value={nombrePlato} onChange={(e) => setNombrePlato(e.target.value)} placeholder="Por ejemplo, huevos con longaniza" aria-describedby="ayuda-plato" />
@@ -357,7 +379,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
       <Sheet open={gramosRapido !== null} onClose={() => setGramosRapido(null)} title="Cantidad"
         footer={gramosRapido && <div className="space-y-2">
           {errorRapido && <ErrorState>{errorRapido}</ErrorState>}
-          <Button block loading={guardandoRapido} onClick={confirmarRapido}>Añadir</Button>
+          <Button block loading={guardandoRapido} onClick={confirmarRapido}>{platoDestino ? 'Revisar alimento' : 'Añadir'}</Button>
         </div>}>
         {gramosRapido && aporteRapido && (
           <div className="space-y-5">
@@ -393,7 +415,7 @@ export default function AnadirComida({ fecha, entryEditar, comidaInicial, onClos
           setEscaneando(false)
           abrirRevision([itemSinCoincidencia('', 100)])
         }}
-        onKcalRapidas={() => {
+        onKcalRapidas={platoDestino ? undefined : () => {
           setEscaneando(false)
           setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 })
           setErrorRapida(null)

@@ -93,6 +93,56 @@ describe('entriesRepo: lecturas y añadido rápido', () => {
 })
 
 describe('entriesRepo.guardarComida', () => {
+  it('añade un alimento al plato elegido sin modificar snapshots ni mezclar otros platos', async () => {
+    const input = { fecha: '2026-10-03', comida: 'comida' as const, items: [{ ...ARROZ, nutrientes: { fibra: 2, sal: 0.02 } }, { ...ARROZ, nombre: 'Pollo' }], nombrePlato: 'Mi plato' }
+    const ids = await entriesRepo.guardarComida(input)
+    await entriesRepo.guardarComida(input)
+    const antes = await db.entries.toArray()
+    const nuevo = await entriesRepo.guardarComida({ ...input, items: [{ ...ARROZ, nombre: 'Tomate', gramos: 50, nutrientes: { fibra: 1 } }], platoDestinoId: antes[0].platoId, nombrePlato: 'No renombrar' })
+    expect(nuevo).toHaveLength(1)
+    expect(await db.entries.get(nuevo[0])).toMatchObject({ platoId: antes[0].platoId, nombrePlato: 'Mi plato', gramos: 50, nutrientes: { fibra: 0.5 } })
+    expect(await db.entries.bulkGet(antes.map((e) => e.id))).toEqual(antes)
+    expect((await db.entries.filter((e) => e.platoId === antes[0].platoId).toArray()).length).toBe(3)
+    expect(ids).toHaveLength(2)
+  })
+
+  it('añade varios ingredientes a un plato sin nombre con un único ingrediente restante', async () => {
+    const ids = await entriesRepo.guardarComida({ fecha: '2026-10-03', comida: 'cena', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }] })
+    const original = (await db.entries.get(ids[0]))!
+    await entriesRepo.borrar(ids[1])
+    const nuevos = await entriesRepo.guardarComida({ fecha: original.fecha, comida: original.comida, platoDestinoId: original.platoId, nombrePlato: 'Ignorado', items: [{ ...ARROZ, nombre: 'Tomate' }, { ...ARROZ, nombre: 'Queso' }] })
+    for (const id of nuevos) {
+      expect(await db.entries.get(id)).toMatchObject({ platoId: original.platoId })
+      expect(await db.entries.get(id)).not.toHaveProperty('nombrePlato')
+    }
+    expect(await db.entries.get(original.id)).toEqual(original)
+  })
+
+  it.each(['borrado', 'otra fecha', 'otra comida', 'id vacío'] as const)('rechaza un destino %s sin guardar alimentos ni entradas', async (caso) => {
+    const ids = await entriesRepo.guardarComida({ fecha: '2026-10-03', comida: 'cena', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }] })
+    const platoId = (await db.entries.get(ids[0]))!.platoId!
+    if (caso === 'borrado') await entriesRepo.borrarVarias(ids)
+    const antes = await db.entries.toArray()
+    const alimentos = await db.foods.toArray()
+    await expect(entriesRepo.guardarComida({ fecha: caso === 'otra fecha' ? '2026-10-02' : '2026-10-03', comida: caso === 'otra comida' ? 'comida' : 'cena', platoDestinoId: caso === 'id vacío' ? '' : platoId, items: [{ ...ARROZ, nombre: 'Nuevo alimento' }] })).rejects.toBeInstanceOf(entriesRepo.PlatoNoDisponibleError)
+    expect(await db.entries.toArray()).toEqual(antes)
+    expect(await db.foods.toArray()).toEqual(alimentos)
+  })
+
+  it('revierte todos los añadidos si falla uno y mantiene intacto el plato original', async () => {
+    const ids = await entriesRepo.guardarComida({ fecha: '2026-10-03', comida: 'cena', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }] })
+    const antes = await db.entries.toArray()
+    const alimentos = await db.foods.toArray()
+    const addOriginal = db.entries.add.bind(db.entries)
+    const spy = vi.spyOn(db.entries, 'add').mockImplementationOnce(addOriginal).mockImplementationOnce(() => Promise.reject(new Error('fallo simulado')) as never)
+    try {
+      await expect(entriesRepo.guardarComida({ fecha: '2026-10-03', comida: 'cena', platoDestinoId: antes[0].platoId, items: [{ ...ARROZ, nombre: 'Tomate' }, { ...ARROZ, nombre: 'Queso' }] })).rejects.toThrow('fallo simulado')
+    } finally { spy.mockRestore() }
+    expect(await db.entries.bulkGet(ids)).toEqual(antes)
+    expect(await db.entries.toArray()).toEqual(antes)
+    expect(await db.foods.toArray()).toEqual(alimentos)
+  })
+
   it('cada guardado múltiple crea un plato distinto, incluso con el mismo texto y hora', async () => {
     const reloj = vi.spyOn(Date, 'now').mockReturnValue(100)
     const input = { fecha: '2026-10-02', comida: 'cena' as const, items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }], textoOriginal: 'arroz y pollo', nombrePlato: '  Arroz con pollo  ' }
@@ -264,6 +314,85 @@ describe('entriesRepo.anadirRapida / editarRapida (A5)', () => {
 })
 
 describe('entriesRepo.copiar / borrarVarias (A2)', () => {
+  it.each(['comida', 'cena', 'snack'] as const)('copia solo el plato elegido de desayuno a %s en el mismo día', async (comidaDestino) => {
+    const input = { fecha: '2026-10-03', comida: 'desayuno' as const, nombrePlato: 'Mi plato', items: [{ ...ARROZ, nutrientes: { fibra: 2, sal: 0.03, azucares: 0, agSat: 0.1 } }, { ...ARROZ, nombre: 'Pollo', catalogId: 'ciqual:36003' }] }
+    const ids = await entriesRepo.guardarComida(input)
+    await entriesRepo.guardarComida(input)
+    await entriesRepo.guardarComida({ ...input, comida: comidaDestino })
+    const antes = await db.entries.toArray()
+    const originales = (await db.entries.bulkGet(ids)).map((e) => e!)
+    // La copia usa los snapshots, aunque el alimento haya cambiado tras registrar el plato.
+    await foodsRepo.actualizar(originales[0].foodId!, { ...POLLO, nombre: 'Arroz', kcal100: 999 })
+    const foods = await db.foods.toArray()
+    const nuevos = await entriesRepo.copiar({ origen: { fecha: input.fecha, comida: input.comida, platoId: originales[0].platoId }, destino: { fecha: input.fecha, comida: comidaDestino } })
+    expect(nuevos).toHaveLength(2)
+    const copias = (await db.entries.bulkGet(nuevos)).map((e) => e!)
+    expect(copias[0].platoId).toBeDefined()
+    expect(copias[0].platoId).toBe(copias[1].platoId)
+    expect(antes.some((e) => e.platoId === copias[0].platoId)).toBe(false)
+    for (const [i, copia] of copias.entries()) {
+      expect(copia).toMatchObject({ ...originales[i], id: nuevos[i], comida: comidaDestino, createdAt: expect.any(Number), platoId: copias[0].platoId })
+    }
+    expect(await db.entries.bulkGet(antes.map((e) => e.id))).toEqual(antes)
+    expect(await db.foods.toArray()).toEqual(foods)
+    await entriesRepo.borrarVarias(nuevos)
+    expect(await db.entries.toArray()).toEqual(antes)
+  })
+
+  it('copias sucesivas del mismo plato permanecen independientes y admite un único ingrediente', async () => {
+    const ids = await entriesRepo.guardarComida({ fecha: '2026-10-03', comida: 'desayuno', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }], nombrePlato: 'Mi plato' })
+    await entriesRepo.borrar(ids[1])
+    const original = (await db.entries.get(ids[0]))!
+    const input = { origen: { fecha: original.fecha, comida: original.comida, platoId: original.platoId }, destino: { fecha: original.fecha, comida: 'cena' as const } }
+    const primera = await entriesRepo.copiar(input)
+    const segunda = await entriesRepo.copiar(input)
+    expect(primera).toHaveLength(1)
+    expect(segunda).toHaveLength(1)
+    expect((await db.entries.get(primera[0]))!.platoId).not.toBe((await db.entries.get(segunda[0]))!.platoId)
+    expect(await db.entries.get(original.id)).toEqual(original)
+  })
+
+  it('copiar a la misma fecha/comida no duplica el plato', async () => {
+    const ids = await entriesRepo.guardarComida({ fecha: '2026-10-03', comida: 'desayuno', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }] })
+    const antes = await db.entries.toArray()
+    expect(await entriesRepo.copiar({ origen: { fecha: '2026-10-03', comida: 'desayuno', platoId: antes[0].platoId }, destino: { fecha: '2026-10-03', comida: 'desayuno' } })).toEqual([])
+    expect(await db.entries.bulkGet(ids)).toEqual(antes)
+    expect(await db.entries.count()).toBe(2)
+  })
+
+  it.each(['borrado', 'otra fecha', 'otra comida', 'id vacío'] as const)('no copia otros platos si el origen está %s', async (caso) => {
+    const input = { fecha: '2026-10-03', comida: 'desayuno' as const, items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }] }
+    const ids = await entriesRepo.guardarComida(input)
+    await entriesRepo.guardarComida(input)
+    const platoId = (await db.entries.get(ids[0]))!.platoId!
+    if (caso === 'borrado') await entriesRepo.borrarVarias(ids)
+    const antes = await db.entries.toArray()
+    expect(await entriesRepo.copiar({ origen: { fecha: caso === 'otra fecha' ? '2026-10-02' : input.fecha, comida: caso === 'otra comida' ? 'cena' : input.comida, platoId: caso === 'id vacío' ? '' : platoId }, destino: { fecha: input.fecha, comida: 'comida' } })).toEqual([])
+    expect(await db.entries.toArray()).toEqual(antes)
+  })
+
+  it('la copia de un plato a otro día también limita el origen al plato elegido', async () => {
+    const input = { fecha: '2026-10-02', comida: 'desayuno' as const, items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }] }
+    const ids = await entriesRepo.guardarComida(input)
+    await entriesRepo.guardarComida(input)
+    const platoId = (await db.entries.get(ids[0]))!.platoId
+    const nuevos = await entriesRepo.copiar({ origen: { fecha: input.fecha, comida: input.comida, platoId }, destino: { fecha: '2026-10-03', comida: 'cena' } })
+    expect(nuevos).toHaveLength(2)
+    expect(await entriesRepo.delDia(input.fecha)).toHaveLength(4)
+    expect((await entriesRepo.delDia('2026-10-03')).every((e) => e.comida === 'cena' && e.platoId !== platoId)).toBe(true)
+  })
+
+  it('revierte las filas ya insertadas si falla la copia del plato', async () => {
+    const ids = await entriesRepo.guardarComida({ fecha: '2026-10-03', comida: 'desayuno', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }] })
+    const antes = await db.entries.toArray()
+    const spy = vi.spyOn(db.entries, 'bulkAdd').mockImplementationOnce((items) => db.entries.add(items[0]).then(() => { throw new Error('fallo simulado') }) as never)
+    try {
+      await expect(entriesRepo.copiar({ origen: { fecha: '2026-10-03', comida: 'desayuno', platoId: antes[0].platoId }, destino: { fecha: '2026-10-03', comida: 'cena' } })).rejects.toThrow('fallo simulado')
+    } finally { spy.mockRestore() }
+    expect(await db.entries.bulkGet(ids)).toEqual(antes)
+    expect(await db.entries.toArray()).toEqual(antes)
+  })
+
   it('copia las entradas de una comida a otro día sin tocar el origen', async () => {
     const foodId = await crearPollo()
     await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-27', comida: 'cena', foodId, gramos: 100 })

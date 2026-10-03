@@ -21,6 +21,7 @@ interface Props {
   fecha: string
   onFechaChange: (fecha: string) => void
   onEditarEntry: (entry: Entry) => void
+  onEditarPlato: (plato: Plato) => void
   /** Sin argumento, Añadir comida elige la comida por la hora. */
   onAnadir: (comida?: Comida) => void
 }
@@ -33,7 +34,7 @@ const LABELS: Record<Comida, string> = {
   snack: 'Snack',
 }
 
-export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: Props) {
+export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir }: Props) {
   const [detalle, setDetalle] = useState<'sencilla' | 'detallada'>('sencilla')
   const ayer = addDays(fecha, -1)
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
@@ -45,7 +46,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
   const [copiandoDia, setCopiandoDia] = useState(false)
   const [errorCopia, setErrorCopia] = useState<string | null>(null)
   const [repitiendo, setRepitiendo] = useState<Comida | null>(null)
-  const [accionesComida, setAccionesComida] = useState<Comida | null>(null)
+  const [accionesComida, setAccionesComida] = useState<{ comida: Comida; plato?: { id: string; nombre: string } } | null>(null)
   // Sentido del último cambio de día, solo para orientar la transición (no afecta a los datos).
   const [navegacion, setNavegacion] = useState<{ fecha: string; sentido: 'next' | 'prev' | null }>({ fecha, sentido: null })
   if (navegacion.fecha !== fecha) setNavegacion({ fecha, sentido: fecha > navegacion.fecha ? 'next' : 'prev' })
@@ -145,10 +146,15 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
                 titulo={LABELS[c]}
                 entries={porComida.get(c) ?? []}
                 nombresCortos={nombresCortos}
-                onAcciones={() => setAccionesComida(c)}
+                onAcciones={() => setAccionesComida({ comida: c })}
                 onEditar={onEditarEntry}
                 onBorrar={(e) => borrar(e.id)}
                 onBorrarPlato={borrarPlato}
+                onEditarPlato={onEditarPlato}
+                onAccionesPlato={(plato) => {
+                  const id = plato.entries[0].platoId
+                  if (id) setAccionesComida({ comida: c, plato: { id, nombre: plato.nombre } })
+                }}
                 onAnadir={() => onAnadir(c)}
                 disponiblesAyer={porComidaAyer.get(c) ?? 0}
                 onRepetir={() => repetirDeAyer(c)}
@@ -176,8 +182,9 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onAnadir }: P
       {accionesComida && (
         <AccionesComidaSheet
           fecha={fecha}
-          comida={accionesComida}
-          entries={porComida.get(accionesComida) ?? []}
+          comida={accionesComida.comida}
+          plato={accionesComida.plato}
+          entries={(porComida.get(accionesComida.comida) ?? []).filter((e) => !accionesComida.plato || e.platoId === accionesComida.plato.id)}
           onClose={() => setAccionesComida(null)}
           onCopiado={avisarCopia}
           onPlantillaGuardada={avisarPlantillaGuardada}

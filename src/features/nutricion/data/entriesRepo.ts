@@ -5,7 +5,7 @@ import { camposDeRef, refDe, type FoodRef } from '../../../shared/db/foodRef'
 import type { Comida, Entry } from '../../../shared/db/types'
 import type { ItemGuardado, KcalRapidasDraft, Por100 } from '../lib/alimentos'
 import { macrosPorGramos } from '../lib/nutrition'
-import { planCopia, type DestinoCopia } from '../lib/plantillas'
+import { copiaEsNoOp, planCopia, type DestinoCopia } from '../lib/plantillas'
 import * as foodsRepo from './foodsRepo'
 import * as nombresAlimentosRepo from './nombresAlimentosRepo'
 import { escalarNutrientes } from '../lib/nutrientes'
@@ -25,18 +25,37 @@ export interface GuardarComidaInput {
   items: ItemGuardado[]
   textoOriginal?: string
   nombrePlato?: string
+  /** Añade al plato existente de esta fecha/comida, sin reescribir sus ingredientes. */
+  platoDestinoId?: string
+}
+
+export class PlatoNoDisponibleError extends Error {
+  constructor() {
+    super('Este plato ya no está disponible en esta comida. Cierra y vuelve a abrir el plato.')
+    this.name = 'PlatoNoDisponibleError'
+  }
 }
 
 /**
  * Guarda los alimentos revisados como entradas nuevas (creando o actualizando sus alimentos).
  * Varios ingredientes del mismo guardado comparten un plato, con identidad independiente de otros guardados.
+ * Con destino explícito se valida y conserva el plato existente dentro de la transacción.
  * Un ítem con `catalogId` referencia el catálogo y no crea ni toca ningún alimento propio.
  * Todo o nada: si falla un alimento, no se guarda ninguno.
  */
-export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato }: GuardarComidaInput): Promise<number[]> {
-  const agrupacion = items.length > 1 ? { platoId: crypto.randomUUID(), ...(nombrePlato?.trim() ? { nombrePlato: nombrePlato.trim() } : {}) } : {}
+export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato, platoDestinoId }: GuardarComidaInput): Promise<number[]> {
   const createdAt = Date.now()
   return db.transaction('rw', db.foods, db.entries, db.nombresAlimentos, async () => {
+    let agrupacion: Pick<Entry, 'platoId' | 'nombrePlato'> = items.length > 1
+      ? { platoId: crypto.randomUUID(), ...(nombrePlato?.trim() ? { nombrePlato: nombrePlato.trim() } : {}) }
+      : {}
+    if (platoDestinoId !== undefined) {
+      const existentes = await db.entries.where('fecha').equals(fecha)
+        .filter((e) => e.comida === comida && e.platoId === platoDestinoId).toArray()
+      if (!platoDestinoId || existentes.length === 0) throw new PlatoNoDisponibleError()
+      const nombreExistente = existentes.find((e) => e.nombrePlato?.trim())?.nombrePlato
+      agrupacion = { platoId: platoDestinoId, ...(nombreExistente ? { nombrePlato: nombreExistente } : {}) }
+    }
     const ids: number[] = []
     for (const item of items) {
       const ref: FoodRef = item.catalogId !== undefined ? { tipo: 'catalog', id: item.catalogId } : { tipo: 'user', id: await foodsRepo.resolverParaGuardar(item) }
@@ -180,19 +199,24 @@ export async function restaurar(entries: Entry[]): Promise<void> {
 }
 
 export interface CopiarInput {
-  origen: DestinoCopia
+  origen: DestinoCopia & { platoId?: string }
   destino: DestinoCopia
 }
 
 /**
  * Copia el snapshot de las entradas del origen al destino (A2): «Copiar a otro día» (con `comida`)
- * o «Copiar el día a…» (sin `comida`, conserva la de cada entrada). Todo o nada.
+ * o «Copiar el día a…» (sin `comida`, conserva la de cada entrada).
+ * Con `platoId` limita el origen a ese plato; permite otra comida del mismo día. Todo o nada.
  */
 export function copiar({ origen, destino }: CopiarInput): Promise<number[]> {
   const loteId = crypto.randomUUID()
   return db.transaction('rw', db.entries, async () => {
+    if (copiaEsNoOp(origen, destino)) return []
     const deLaFecha = await db.entries.where('fecha').equals(origen.fecha).toArray()
-    const entradas = origen.comida ? deLaFecha.filter((e) => e.comida === origen.comida) : deLaFecha
+    const entradas = deLaFecha.filter((e) =>
+      (origen.comida === undefined || e.comida === origen.comida)
+      && (origen.platoId === undefined || e.platoId === origen.platoId),
+    )
     if (entradas.length === 0) return []
     return db.entries.bulkAdd(planCopia(entradas, destino, Date.now(), loteId), { allKeys: true })
   })
