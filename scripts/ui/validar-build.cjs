@@ -39,10 +39,15 @@ async function main() {
     assert.deepEqual(await exportData(page), before, 'recarga offline conserva todas las tablas')
     for (const theme of ['Claro', 'Oscuro']) {
       await page.getByRole('radio', { name: theme, exact: true }).click()
-      for (const tab of ['Inicio', 'Nutrición', 'Gym', 'Ajustes']) {
+      for (const tab of ['Inicio', 'Nutrición', 'Gym', 'Referencias', 'Ajustes']) {
         await navegar(page, tab)
         if (tab === 'Nutrición') { await page.getByRole('tab', { name: 'Resumen', exact: true }).click(); await page.getByRole('radio', { name: 'Mes', exact: true }).waitFor() }
         if (tab === 'Gym') { await page.getByRole('tab', { name: 'Progreso', exact: true }).click(); await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('1') }
+        if (tab === 'Referencias') {
+          await page.getByRole('button', { name: /Objetivos nutricionales/ }).click()
+          await page.locator('[data-referencia="fibra"] button').click()
+          await page.getByText('≥ 25 g/día', { exact: true }).waitFor()
+        }
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
       }
       assert.deepEqual(await exportData(page), before)

@@ -254,22 +254,22 @@ async function main() {
           await deshacer(page, antes)
         }
 
-        // Referencias explícitas, cobertura parcial; la revisión de alimento no las ofrece.
+        // Consumo/cobertura sin metodología permanente; el detalle consulta la referencia común.
         await page.getByRole('radio', { name: 'Vista detallada', exact: true }).click()
         const desglose = page.getByRole('region', { name: 'Desglose del día', exact: true })
         assert.equal(await desglose.getByRole('progressbar').count(), 4)
-        assert.match(await desglose.innerText(), /Mín\. 25 g.*sin máximo/s)
-        assert.match(await desglose.innerText(), /Referencia 90 g.*totales/s)
-        assert.match(await desglose.innerText(), /Límite < 5 g/s)
-        assert.equal(await desglose.getByText('Parcial · 2 de 3 alimentos', { exact: true }).count(), 4)
-        await desglose.getByRole('button', { name: 'Referencias diarias y fuentes', exact: true }).click()
-        assert.match(await desglose.innerText(), /no un máximo recomendado/)
+        assert.doesNotMatch(await desglose.innerText(), /Mín\.|Máx\.|sin máximo|Referencias diarias y fuentes/)
+        assert.equal(await desglose.getByText('Información disponible en 2 de 3 alimentos', { exact: true }).count(), 4)
+        await desglose.getByRole('button', { name: 'Información sobre Azúcares', exact: true }).click()
+        const informacion = page.getByRole('dialog', { name: 'Azúcares', exact: true })
+        await informacion.waitFor()
+        assert.match(await informacion.innerText(), /No es un máximo recomendado/)
         await layout(page)
         // El scroll pertenece a main, no a body. Una captura de elemento mayor
         // que main inventaría franjas vacías bajo su clip; guardar el viewport real.
-        await desglose.evaluate(el => el.scrollIntoView({ block: 'start', behavior: 'instant' }))
         await page.screenshot({ path: path.join(salida, `${etiqueta}-referencias.png`) })
-        await desglose.getByRole('button', { name: 'Referencias diarias y fuentes', exact: true }).click()
+        await informacion.getByRole('button', { name: 'Cerrar', exact: true }).click()
+        await informacion.waitFor({ state: 'detached' })
         await seccion(page, 'cena').scrollIntoViewIfNeeded()
         await page.screenshot({ path: path.join(salida, `${etiqueta}-comidas.png`) })
         assert.equal(await page.getByRole('button', { name: `Añadir ingredientes a ${nombre}`, exact: true }).count(), 1)

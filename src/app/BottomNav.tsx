@@ -50,9 +50,9 @@ export default function BottomNav({ tab, onChange }: Props) {
   function cerrar() { haptic(); close() }
   return (
     <nav aria-label="Navegación principal" className="app-nav safe-bottom z-40 shrink-0 border-t border-line bg-bg">
-      <div className="relative mx-auto flex h-nav max-w-lg items-center justify-center px-page">
+      <div className="nav-content relative mx-auto flex h-nav max-w-lg items-center justify-center px-page">
         <span id={contextoId} className="nav-context flex items-center gap-1.5 text-caption font-semibold">
-          <Icon name={actual.icon} size={16} /><span className="sr-only">Sección actual: </span>{actual.label}
+          <Icon name={actual.icon} size={16} /><span className="sr-only">Sección actual: </span><span className="min-w-0 break-words">{actual.label}</span>
         </span>
         <button ref={trigger} type="button" className="menu-trigger app-button" aria-label="Menú" aria-haspopup="dialog"
           aria-expanded={abierto} aria-controls={menuId} aria-describedby={contextoId} data-nav-trigger

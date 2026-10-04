@@ -19,7 +19,7 @@ export default function ProgressBar({ value, goal, colorClass = 'bg-accent', siz
         <div className={`progress-fill absolute inset-0 origin-left ${colorClass}`} style={{ transform: `scaleX(${t.relleno})` }} />
         {t.exceso > 0 && <div className={`absolute inset-y-0 opacity-50 ${colorClass}`} style={{ left: `${t.relleno * 100}%`, width: `${t.exceso * 100}%` }} />}
       </div>
-      {t.meta !== null && <div aria-hidden className="absolute -inset-y-0.5 w-0.5 bg-goal ring-2 ring-bg" style={{ left: `calc(${t.meta * 100}% - 1px)` }} />}
+      {t.meta !== null && <div aria-hidden className="absolute -inset-y-0.5 w-0.5 bg-goal ring-2 ring-bg" style={{ left: `clamp(0px, calc(${t.meta * 100}% - 0.0625rem), calc(100% - 0.125rem))` }} />}
     </div>
   )
 }

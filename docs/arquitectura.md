@@ -28,7 +28,7 @@ src/main.tsx ─► src/app/ ─► src/features/* ─► src/shared/
 Excepciones conocidas:
 - `nutricion/lib/catalogo/sincronizar.ts` y `nutricion/lib/off/buscarProducto.ts` reciben sus dependencias inyectadas (así se testean sin red), pero además exportan una instancia ya cableada con `fetch` y `catalogRepo`.
 - `nutricion/lib/arrastrePlatos.ts` y `PlatoPointerSensor.ts` son adaptadores de interacción con dnd-kit/DOM (coordenadas, eventos y captura), sin escrituras ni acceso a `db`; no son cálculos de nutrientes.
-- Composición entre features: `inicio/InicioTab` usa `gym/components/TarjetaEntreno`, `nutricion/components/ResumenNutricional`, `nutricion/data/entriesRepo` y `nutricion/lib/nutrition`. `app/Ajustes` monta `nutricion/components/ObjetivosAjustes` y `CatalogoAjustes`.
+- Composición entre features: `inicio/InicioTab` usa `gym/components/TarjetaEntreno`, `nutricion/components/ResumenNutricional`, `nutricion/data/entriesRepo` y `nutricion/lib/nutrition`. `app/Ajustes` monta `nutricion/components/ObjetivosAjustes` y `CatalogoAjustes`. `nutricion/components/NutrientesDetalle` compone `referencias/components/ReferenciaNutrienteContenido`; ambos consultan la lógica pura central `shared/lib/referenciasNutricionales`, sin dependencias de shared hacia features.
 
 ## Mapa de carpetas
 
@@ -45,6 +45,7 @@ src/shared/hooks/        useModalLayer, useOverlayPresence y useListMotion (capa
 src/features/inicio/     → features/inicio.md
 src/features/nutricion/  → features/nutricion.md
 src/features/gym/        → features/gym.md
+src/features/referencias/ → features/referencias.md (sección global, contenido compartido, catálogo y futuros grupos)
 src/test/                setup-db.ts (fake-indexeddb, cargado como setupFiles de Vitest) y fixtures/
 public/                  iconos de la PWA, favicon.svg, fonts/ (Manrope OFL) y catalogo/ (paquetes que la app descarga)
 scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/README.md
@@ -55,11 +56,12 @@ scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/REA
 Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002](decisiones/002-router-casero.md)). Las capas tienen entradas efímeras de History para que Atrás cierre la superior antes de salir de la app; no son rutas de producto.
 
 - El shell flex ocupa 100dvh. `main` posee el scroll y la barra inferior su espacio propio; ancho de lectura máximo 512 px. Navegar restablece el scroll.
-- `app/App.tsx`: pestaña activa (`Tab` derivado de `DESTINOS` en `navegacion.ts`): `inicio` (por defecto) · `nutricion` · `gym` · `ajustes`. `BottomNav` muestra Menú y la sección actual; abre por portal un abanico (`RuedaNavegacion`) anclado al botón, sin Sheet intermedio. La lista central fija nombres, iconos y orden; los destinos futuros se paginan de cuatro en cuatro ([ADR 009](decisiones/009-identidad-y-motion-impeccable.md)). Incorporar una pantalla requiere además conectarla en App.
+- `app/App.tsx`: pestaña activa (`Tab` derivado de `DESTINOS` en `navegacion.ts`): `inicio` (por defecto) · `nutricion` · `gym` · `referencias` · `ajustes`. `BottomNav` muestra Menú y la sección actual; abre por portal un abanico (`RuedaNavegacion`) anclado al botón, sin Sheet intermedio. La lista central fija nombres, iconos y orden; cinco destinos caben en dos niveles y los futuros se paginan de cinco en cinco ([ADR 011](decisiones/011-consumo-y-referencias.md)). Incorporar una pantalla requiere además conectarla en App.
 - Inicio permite abrir Añadir comida directamente en Nutrición. El aviso de primer inicio en iOS abre Ajustes con `abrirGuia`: después de cargar, desplaza la vista y enfoca la guía abierta «Instalación y traslado de registros». La navegación habitual de la barra no activa ese salto. La guía tiene un segundo salto a Exportar/Importar, sin cambiar la URL.
 - `NutricionTab`: vistas `hoy` · `resumen` · `alimentos` (ViewTabs). Hoy se carga con React.lazy: el arrastre de platos y dnd-kit no se ejecutan al abrir Inicio o Gym. `arrastrePlatos` y `PlatoPointerSensor` son adaptadores de interacción del diario, sin acceso a datos; las escrituras pasan por `entriesRepo`. «Añadir comida» (y la edición de una entrada) usa ModalPage; «Mover plato» usa Sheet y comparte la escritura con el gesto. «Medidas» se abre encima de Añadir.
 - `GymTab`: vistas `inicio` · `rutinas` · `historial` · `progreso`. Si hay un entreno sin `fin`, la pestaña entera pasa a ser `EntrenoActivo` (carga diferida); al terminar muestra `WorkoutFinished` con los resultados guardados. Marcas/descanso en `gym/lib/session.ts` son presentación por sesión, separados de los repositorios.
 - Gym también usa ViewTabs. Segmentación de valores (comida, periodo, tema) mediante SegmentedControl, con semántica radio.
+- `ReferenciasTab`, diferida, contiene un índice de cuatro áreas con vuelta y retorno de foco. `App.referenciaInicial` enlaza desde un nutriente a Objetivos nutricionales, abre su Disclosure y enfoca/desplaza esa referencia; se limpia al navegar normalmente. El salto espera `Sheet.onExited` para retirar aislamiento y restaurar History antes de cambiar pestaña. Las referencias leen Settings sin escribir, y sus explicaciones/fuentes no se duplican en Nutrición. No hay rutas nuevas, tablas ni migraciones.
 - Sheet, ModalPage y el abanico usan portales en body y `useModalLayer` para foco, Escape/Atrás, Tab, inert y retorno. `useOverlayPresence` comparte una única frontera de cierre y cancela tareas al reabrir. Si el disparador desaparece, el foco vuelve al destino activo o al botón estable Menú (`data-nav-trigger`). Estado local de pantalla; visualViewport ajusta alto/offset al área visible. `Sheet.onExited` notifica la salida terminada también si el padre cambió open, para enfocar un plato movido tras retirar el aislamiento.
 
 ## Arranque (`src/main.tsx`)
@@ -77,5 +79,5 @@ Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002]
   - los `.json` del catálogo: el manifest se pide con `cache: 'no-cache'`;
   - el `.wasm` del escáner: regla `CacheFirst` en tiempo de ejecución, así que funciona sin red desde su primer uso.
 - La fuente local variable se precarga y precachea; no añade un origen de red. El logotipo/iconos existentes se mantienen.
-- Chunks diferidos (`React.lazy` / `import()`): `Hoy` (dnd-kit), `EntrenoActivo`, `Resumen` y `Progreso` (Recharts), y el lector de códigos (`nutricion/lib/escaner/`). Recharts y dnd-kit no deben entrar en el chunk de arranque (Inicio usa un SVG propio). Las referencias nutricionales son constantes locales; solo abrir explícitamente sus enlaces consulta fuentes externas, sin enviar datos personales.
+- Chunks diferidos (`React.lazy` / `import()`): `ReferenciasTab`, `Hoy` (dnd-kit), `EntrenoActivo`, `Resumen` y `Progreso` (Recharts), y el lector de códigos (`nutricion/lib/escaner/`). Recharts y dnd-kit no deben entrar en el chunk de arranque (Inicio usa un SVG propio). Las referencias nutricionales son constantes locales; solo abrir explícitamente sus enlaces consulta fuentes externas, sin enviar datos personales.
 - Despliegue estático en Cloudflare Workers: `desarrollo.md` § Despliegue.

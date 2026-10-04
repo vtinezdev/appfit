@@ -1,20 +1,26 @@
-import { useRef, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import BottomNav, { type Tab } from './BottomNav'
 import InicioTab from '../features/inicio/InicioTab'
 import NutricionTab from '../features/nutricion/NutricionTab'
 import GymTab from '../features/gym/GymTab'
 import Ajustes from './Ajustes'
 import TrasladarDatos from './TrasladarDatos'
+import { LoadingState } from '../shared/components/StateMessage'
+import type { NutrienteId } from '../shared/lib/referenciasNutricionales'
+
+const ReferenciasTab = lazy(() => import('../features/referencias/ReferenciasTab'))
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('inicio')
   const [abrirGuia, setAbrirGuia] = useState(false)
   const [anadirAlAbrir, setAnadirAlAbrir] = useState(false)
+  const [referenciaInicial, setReferenciaInicial] = useState<NutrienteId | undefined>(undefined)
   const scrollRef = useRef<HTMLElement>(null)
 
   function navegar(siguiente: Tab) {
     setAbrirGuia(false)
     setAnadirAlAbrir(false)
+    setReferenciaInicial(undefined)
     setTab(siguiente)
     scrollRef.current?.scrollTo({ top: 0 })
   }
@@ -29,9 +35,10 @@ export default function App() {
         <div key={tab} className="app-view mx-auto w-full max-w-lg pb-6">
         {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onAnadirComida={() => irANutricion(true)} onIrAGym={() => navegar('gym')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => { navegar('ajustes'); setAbrirGuia(true) }} />} />}
-        {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} />}
+        {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
         {tab === 'gym' && <GymTab />}
         {tab === 'ajustes' && <Ajustes abrirGuia={abrirGuia} />}
+        {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} /></Suspense>}
         </div>
       </main>
       <BottomNav tab={tab} onChange={navegar} />

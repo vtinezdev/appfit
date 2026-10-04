@@ -9,7 +9,7 @@ THESIS: Precisión deportiva de una pista indoor: un registro de entrenamiento l
 
 OWN-WORLD: Azul tinta, blanco mineral y naranja señal; Manrope local con títulos contundentes y cifras tabulares. Radios contenidos, superficies limpias, selección con forma y texto además del color. Feedback breve y desaceleración sin rebote.
 
-STORY: Inicio orienta el día. Nutrición permite registrar y revisar. Gym presenta el trabajo como una secuencia de series, distingue su confirmación visual y propone descanso opcional. Datos y acciones conservan significado en ambas apariencias.
+STORY: Inicio orienta el día. Nutrición permite registrar y revisar consumo; Referencias explica criterios y procedencia mediante contenido común y consulta contextual. Gym presenta el trabajo como una secuencia de series, distingue su confirmación visual y propone descanso opcional. Datos y acciones conservan significado en ambas apariencias.
 
 FIRST VIEWPORT: Cabecera con APPFIT y fecha, saludo; resumen nutricional compacto con registro junto al contexto; sesión y peso como unidades de información. En entreno activo: estado, rutina, tiempo real, series y volumen; primera tabla de series editable al alcance. Botón Menú persistente centrado, destinos emergiendo hacia arriba en abanico.
 
@@ -19,7 +19,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 ## Motion thesis
 
-Focal: cuatro destinos salen del mismo origen y vuelven a él; confirmar una serie sella su check; el cierre de sesión fija el resultado real.
+Focal: cinco destinos salen del mismo origen y vuelven a él; confirmar una serie sella su check; el cierre de sesión fija el resultado real.
 Continuity: indicador de tabs/segmentos, altas/bajas de series, sheets interruptibles y navegación breve.
 Feedback: presión 120 ms, estados 200 ms, overlays/abanico 280 ms, cierre 180 ms y éxito 420 ms. Curvas desaceleradas sin overshoot; no se introduce un motor spring.
 Budget: CSS + Web Animations, sin dependencia nueva, temporizador absoluto y render aislado por segundo. Reduce Motion mantiene color/texto/check con 80 ms de fundido y suprime desplazamientos. Vibración solo tras acciones del usuario y si está soportada.

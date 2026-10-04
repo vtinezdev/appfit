@@ -40,10 +40,9 @@ async function comprobarTotales(page, entries, platoId) {
   assert.equal(await cabecera.locator('span.tabular').last().innerText(), formato.format(ingredientes.reduce((s, e) => s + e.kcal, 0)))
   const fibra = entries.filter((e) => e.nutrientes?.fibra !== undefined)
   const valor = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 3 }).format(fibra.reduce((s, e) => s + e.nutrientes.fibra, 0))
-  const celda = page.getByRole('region', { name: 'Desglose del día', exact: true }).locator('dl > div').filter({ has: page.getByText('Fibra', { exact: true }) })
-  const esperado = `${valor} g\nParcial · ${fibra.length} de ${entries.length} alimentos`
-  await celda.getByText(`Parcial · ${fibra.length} de ${entries.length} alimentos`, { exact: true }).waitFor()
-  assert.equal((await celda.locator('dd > span').allInnerTexts()).join('\n').replace(/\s+/g, ' ').trim(), esperado.replace(/\s+/g, ' '))
+  const celda = page.getByRole('region', { name: 'Desglose del día', exact: true }).locator('[data-nutriente="fibra"]')
+  await celda.getByText(`Información disponible en ${fibra.length} de ${entries.length} alimentos`, { exact: true }).waitFor()
+  assert.equal(await celda.locator('dd').textContent(), `${valor} g`)
 }
 
 async function main() {
