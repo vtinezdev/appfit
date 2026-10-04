@@ -9,6 +9,7 @@ import { copiaEsNoOp, planCopia, type DestinoCopia } from '../lib/plantillas'
 import * as foodsRepo from './foodsRepo'
 import * as nombresAlimentosRepo from './nombresAlimentosRepo'
 import { escalarNutrientes } from '../lib/nutrientes'
+import { esComida } from '../lib/comidas'
 
 export function delDia(fecha: string): Promise<Entry[]> {
   return db.entries.where('fecha').equals(fecha).toArray()
@@ -33,6 +34,13 @@ export class PlatoNoDisponibleError extends Error {
   constructor() {
     super('Este plato ya no está disponible en esta comida. Cierra y vuelve a abrir el plato.')
     this.name = 'PlatoNoDisponibleError'
+  }
+}
+
+export class PlatoCambiadoError extends Error {
+  constructor() {
+    super('El plato ha cambiado. Cierra y vuelve a abrir el plato para mover todos sus ingredientes.')
+    this.name = 'PlatoCambiadoError'
   }
 }
 
@@ -196,6 +204,49 @@ export function borrar(id: number): Promise<Entry | undefined> {
 /** Vuelve a guardar entradas borradas con sus mismos ids. */
 export async function restaurar(entries: Entry[]): Promise<void> {
   await db.entries.bulkPut(entries)
+}
+
+export interface MoverPlatoInput {
+  fecha: string
+  origen: Comida
+  destino: Comida
+  platoId: string
+  /** Evita mover un grupo sustituido o parcialmente cambiado durante el gesto/Deshacer. */
+  idsEsperados: number[]
+}
+
+export interface MovimientoPlato {
+  fecha: string
+  origen: Comida
+  destino: Comida
+  platoId: string
+  ids: number[]
+}
+
+/** Mueve el grupo completo, sin copiarlo ni recalcular snapshots. Todo o nada.
+ * Si el mismo id existe en destino (p. ej. un backup antiguo), asigna otro al
+ * grupo movido para no fusionar platos independientes. No cambia fecha/createdAt.
+ */
+export function moverPlato({ fecha, origen, destino, platoId, idsEsperados }: MoverPlatoInput): Promise<MovimientoPlato | null> {
+  if (!esComida(origen) || !esComida(destino)) return Promise.reject(new Error('Comida no válida.'))
+  if (origen === destino) return Promise.resolve(null)
+  return db.transaction('rw', db.entries, async () => {
+    const delDia = await db.entries.where('fecha').equals(fecha).toArray()
+    const plato = delDia.filter(e => e.comida === origen && e.platoId === platoId)
+    if (!platoId.trim() || !plato.length) throw new PlatoNoDisponibleError()
+    const esperados = new Set(idsEsperados)
+    if (!esperados.size || esperados.size !== idsEsperados.length || plato.length !== esperados.size || plato.some(e => !esperados.has(e.id))) {
+      throw new PlatoCambiadoError()
+    }
+    const idDestino = delDia.some(e => e.comida === destino && e.platoId === platoId) ? crypto.randomUUID() : platoId
+    await db.entries.bulkPut(plato.map(e => ({ ...e, comida: destino, platoId: idDestino })))
+    return { fecha, origen, destino, platoId: idDestino, ids: plato.map(e => e.id) }
+  })
+}
+
+/** Solo revierte la ubicación: conserva ediciones posteriores y nunca resucita borrados. */
+export function deshacerMovimientoPlato(movimiento: MovimientoPlato): Promise<MovimientoPlato | null> {
+  return moverPlato({ ...movimiento, origen: movimiento.destino, destino: movimiento.origen, idsEsperados: movimiento.ids })
 }
 
 export interface CopiarInput {

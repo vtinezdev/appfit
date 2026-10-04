@@ -43,7 +43,7 @@ async function comprobarTotales(page, entries, platoId) {
   const celda = page.getByRole('region', { name: 'Desglose del día', exact: true }).locator('dl > div').filter({ has: page.getByText('Fibra', { exact: true }) })
   const esperado = `${valor} g\nParcial · ${fibra.length} de ${entries.length} alimentos`
   await celda.getByText(`Parcial · ${fibra.length} de ${entries.length} alimentos`, { exact: true }).waitFor()
-  assert.equal((await celda.locator('dd').innerText()).replace(/\s+/g, ' ').trim(), esperado.replace(/\s+/g, ' '))
+  assert.equal((await celda.locator('dd > span').allInnerTexts()).join('\n').replace(/\s+/g, ' ').trim(), esperado.replace(/\s+/g, ' '))
 }
 
 async function main() {
@@ -74,10 +74,10 @@ async function main() {
         const platoId = antes[0].platoId
         const originales = antes.filter((e) => e.platoId === platoId)
         await navegar(page, 'Nutrición')
-        const editar = () => page.getByRole('button', { name: `Editar plato ${nombre}`, exact: true }).click()
+        const editar = () => page.getByRole('button', { name: `Añadir ingredientes a ${nombre}`, exact: true }).click()
         await layout(page)
         await editar()
-        await page.getByRole('heading', { name: 'Editar plato', exact: true }).waitFor()
+        await page.getByRole('heading', { name: 'Añadir ingredientes', exact: true }).waitFor()
         assert.equal(await page.getByRole('tab', { name: 'Plantillas', exact: true }).count(), 0)
         assert.equal(await page.getByRole('button', { name: 'Solo registrar calorías', exact: true }).count(), 0)
         assert.equal(await page.getByRole('radiogroup', { name: 'Comida del día', exact: true }).count(), 0)

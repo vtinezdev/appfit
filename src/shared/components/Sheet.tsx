@@ -1,4 +1,4 @@
-import { useId, useRef, type PointerEvent, type ReactNode } from 'react'
+import { useId, useLayoutEffect, useRef, type PointerEvent, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useModalLayer } from '../hooks/useModalLayer'
 import { useOverlayPresence } from '../hooks/useOverlayPresence'
@@ -9,6 +9,8 @@ interface Props {
   id?: string
   open: boolean
   onClose: () => void
+  /** Frontera real de salida, también cuando el padre cambia open a false. */
+  onExited?: () => void
   title?: string
   children: ReactNode
   /** Acciones persistentes en formularios largos; fuera del scroll del contenido. */
@@ -21,13 +23,18 @@ interface Props {
  * mantiene el foco dentro y lo devuelve al elemento que lo abrió.
  * Las salidas iniciadas aquí animan antes de `onClose`; open=false también anima, desmontar directamente no.
  */
-export default function Sheet({ id, open, onClose, title, children, footer }: Props) {
+export default function Sheet({ id, open, onClose, onExited, title, children, footer }: Props) {
   const { mounted, visible, close: requestClose } = useOverlayPresence(open, onClose)
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
   const drag = useRef<{ startY: number; dy: number; t: number } | null>(null)
 
   useModalLayer(mounted, panelRef, requestClose)
+  const wasMounted = useRef(false)
+  useLayoutEffect(() => {
+    if (mounted) { wasMounted.current = true; return }
+    if (wasMounted.current) { wasMounted.current = false; onExited?.() }
+  }, [mounted, onExited])
 
   // Arrastrar para cerrar: solo desde el asa y el título, para no pelear con el scroll del contenido.
   const onDragStart = (e: PointerEvent) => {

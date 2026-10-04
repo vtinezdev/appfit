@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { DndContext, DragOverlay, KeyboardSensor, MeasuringStrategy, useSensor, useSensors } from '@dnd-kit/core'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as entriesRepo from '../data/entriesRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
@@ -16,6 +18,13 @@ import { IconButton } from '../../../shared/components/Button'
 import { LoadingState } from '../../../shared/components/StateMessage'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import NutrientesDetalle from '../components/NutrientesDetalle'
+import MoverPlatoSheet from '../components/MoverPlatoSheet'
+import { COMIDAS, esComida, nombreComida } from '../lib/comidas'
+import { colisionesComidas, crearCoordenadasComidas, limitarCopiaAlViewport } from '../lib/arrastrePlatos'
+import { PlatoPointerSensor } from '../lib/PlatoPointerSensor'
+import { haptic } from '../../../shared/design/motion'
+import Card from '../../../shared/components/Card'
+import { formatInt } from '../../../shared/lib/format'
 
 interface Props {
   fecha: string
@@ -26,13 +35,6 @@ interface Props {
   onAnadir: (comida?: Comida) => void
 }
 
-const ORDEN_COMIDAS: Comida[] = ['desayuno', 'comida', 'cena', 'snack']
-const LABELS: Record<Comida, string> = {
-  desayuno: 'Desayuno',
-  comida: 'Comida',
-  cena: 'Cena',
-  snack: 'Snack',
-}
 
 export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir }: Props) {
   const [detalle, setDetalle] = useState<'sencilla' | 'detallada'>('sencilla')
@@ -47,6 +49,53 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   const [errorCopia, setErrorCopia] = useState<string | null>(null)
   const [repitiendo, setRepitiendo] = useState<Comida | null>(null)
   const [accionesComida, setAccionesComida] = useState<{ comida: Comida; plato?: { id: string; nombre: string } } | null>(null)
+  const [platoMover, setPlatoMover] = useState<Plato | null>(null)
+  const [platoArrastrado, setPlatoArrastrado] = useState<Plato | null>(null)
+  const [moviendo, setMoviendo] = useState(false)
+  const [errorMover, setErrorMover] = useState<string | null>(null)
+  const guardMoving = useRef(false)
+  const alive = useRef(true)
+  const fechaActual = useRef(fecha)
+  fechaActual.current = fecha
+  const [focoPendiente, setFocoPendiente] = useState<{ id: string; comida: Comida } | null>(null)
+  const coordenadasComidas = useMemo(crearCoordenadasComidas, [])
+  const sensors = useSensors(useSensor(PlatoPointerSensor, { distance: 8 }),
+    useSensor(KeyboardSensor, { coordinateGetter: coordenadasComidas, scrollBehavior: 'auto' }))
+  useEffect(() => { alive.current = true; return () => { alive.current = false } }, [])
+  useEffect(() => {
+    if (!focoPendiente || platoMover) return
+    const button = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-mover-plato]')).find(b =>
+      b.dataset.moverPlato === focoPendiente.id && b.closest<HTMLElement>('[data-comida]')?.dataset.comida === focoPendiente.comida)
+    if (button) { button.focus({ preventScroll: true }); setFocoPendiente(null) }
+  }, [entries, focoPendiente, platoMover])
+
+  async function mover(plato: Plato, destino: Comida): Promise<boolean> {
+    const first = plato.entries[0]
+    if (!alive.current || guardMoving.current || first.fecha !== fechaActual.current || !first.platoId || first.comida === destino) return false
+    guardMoving.current = true
+    setMoviendo(true)
+    setErrorMover(null)
+    try {
+      const cambio = await entriesRepo.moverPlato({ fecha: first.fecha, origen: first.comida, destino, platoId: first.platoId, idsEsperados: plato.entries.map(e => e.id) })
+      if (!cambio || !alive.current) return false
+      setFocoPendiente({ id: cambio.platoId, comida: destino })
+      haptic('success')
+      avisar({ mensaje: `Plato movido a ${nombreComida(destino)}`, onDeshacer: async () => {
+        const vuelto = await entriesRepo.deshacerMovimientoPlato(cambio)
+        if (vuelto && alive.current) setFocoPendiente({ id: vuelto.platoId, comida: vuelto.destino })
+      } })
+      return true
+    } catch (error) {
+      if (!alive.current) return false
+      const mensaje = error instanceof entriesRepo.PlatoNoDisponibleError || error instanceof entriesRepo.PlatoCambiadoError ? error.message : 'No se ha podido mover el plato. Inténtalo de nuevo.'
+      if (platoMover) setErrorMover(mensaje)
+      else avisarError(mensaje)
+      return false
+    } finally {
+      guardMoving.current = false
+      if (alive.current) setMoviendo(false)
+    }
+  }
   // Sentido del último cambio de día, solo para orientar la transición (no afecta a los datos).
   const [navegacion, setNavegacion] = useState<{ fecha: string; sentido: 'next' | 'prev' | null }>({ fecha, sentido: null })
   if (navegacion.fecha !== fecha) setNavegacion({ fecha, sentido: fecha > navegacion.fecha ? 'next' : 'prev' })
@@ -107,7 +156,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   const objetivos = settings?.objetivos
 
   const porComida = new Map<Comida, Entry[]>()
-  for (const c of ORDEN_COMIDAS) porComida.set(c, [])
+  for (const c of COMIDAS) porComida.set(c.valor, [])
   for (const e of entries ?? []) porComida.get(e.comida)?.push(e)
 
   const porComidaAyer = new Map<Comida, number>()
@@ -140,14 +189,31 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
             titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`}
             controles={<SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
               opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />}
-            detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" />}
+            detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" objetivoKcal={objetivos.kcal} />}
           />
 
-          <div key={fecha} className={`space-y-6 ${transicion}`}>
-            {ORDEN_COMIDAS.map((c) => (
+          <DndContext key={fecha} sensors={sensors} collisionDetection={colisionesComidas} measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
+            accessibility={{ restoreFocus: true, screenReaderInstructions: { draggable: 'Para mover el plato, pulsa Espacio o Enter, usa las flechas entre comidas y vuelve a pulsar para soltar. Escape cancela. También puedes usar el botón Mover.' },
+              announcements: {
+                onDragStart: ({ active }) => `Plato ${active.data.current?.plato?.nombre} seleccionado para mover.`,
+                onDragOver: ({ over }) => over && esComida(over.data.current?.comida) ? `Sobre ${nombreComida(over.data.current.comida)}.` : 'Fuera de las comidas; soltar cancela.',
+                onDragEnd: ({ over }) => over && esComida(over.data.current?.comida) ? `Soltado sobre ${nombreComida(over.data.current.comida)}.` : 'Movimiento cancelado.',
+                onDragCancel: () => 'Movimiento cancelado. El plato conserva su comida.',
+              } }}
+            onDragStart={({ active }) => { setPlatoArrastrado(active.data.current?.plato ?? null); haptic() }}
+            onDragCancel={() => setPlatoArrastrado(null)}
+            onDragEnd={({ active, over }) => {
+              setPlatoArrastrado(null)
+              const plato = active.data.current?.plato as Plato | undefined
+              const destino = over?.data.current?.comida
+              if (plato && esComida(destino)) void mover(plato, destino)
+            }}>
+          <div className={`space-y-6 ${transicion}`}>
+            {COMIDAS.map(({ valor: c, label }) => (
               <ComidaSection
                 key={c}
-                titulo={LABELS[c]}
+                comida={c}
+                titulo={label}
                 entries={porComida.get(c) ?? []}
                 nombresCortos={nombresCortos}
                 onAcciones={() => setAccionesComida({ comida: c })}
@@ -155,6 +221,8 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
                 onBorrar={(e) => borrar(e.id)}
                 onBorrarPlato={borrarPlato}
                 onEditarPlato={onEditarPlato}
+                onMoverPlato={plato => { setErrorMover(null); setPlatoMover(plato) }}
+                moviendo={moviendo}
                 onAccionesPlato={(plato) => {
                   const id = plato.entries[0].platoId
                   if (id) setAccionesComida({ comida: c, plato: { id, nombre: plato.nombre } })
@@ -167,10 +235,18 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
               />
             ))}
           </div>
+          {createPortal(<DragOverlay modifiers={[limitarCopiaAlViewport]} dropAnimation={null} transition="none" zIndex={45}>
+            {platoArrastrado && <Card className="dnd-overlay-copy pointer-events-none space-y-1" aria-hidden>
+              <p className="break-words text-body font-semibold text-fg">{platoArrastrado.nombre}</p>
+              <p className="text-caption text-fg-muted">{formatInt(platoArrastrado.entries.length)} ingredientes · mueve a otra comida</p>
+            </Card>}
+          </DragOverlay>, document.body)}
+          </DndContext>
         </>
       )}
 
       {toast}
+      <MoverPlatoSheet plato={platoMover} moviendo={moviendo} error={errorMover} onMover={mover} onClose={() => setPlatoMover(null)} />
 
       <CopiarDiaSheet
         open={copiarDia !== null}

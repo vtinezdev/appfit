@@ -77,7 +77,7 @@ async function main() {
         for (let i = 0; i < nutrientes.length; i++) {
           const celda = desglose.locator('dl > div').filter({ has: page.getByText(nutrientes[i], { exact: true }) })
           const esperadoVisible = esperado[claves[i]] === undefined ? 'Sin datos' : `${new Intl.NumberFormat('es-ES', { maximumFractionDigits: 3 }).format(esperado[claves[i]])} g`
-          assert.equal(await celda.locator('dd').innerText(), esperadoVisible)
+          assert.equal(await celda.locator('dd > span').first().innerText(), esperadoVisible)
         }
         await layout(page)
         await page.screenshot({ path: path.join(salida, `${width}-${colorScheme}-diario.png`) })

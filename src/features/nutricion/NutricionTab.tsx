@@ -7,7 +7,6 @@ import { IconButton } from '../../shared/components/Button'
 import KcalRapidasSheet from './components/KcalRapidasSheet'
 import * as entriesRepo from './data/entriesRepo'
 import { validarKcalRapidas, type KcalRapidasDraft } from './lib/alimentos'
-import Hoy from './pages/Hoy'
 import Alimentos from './pages/Alimentos'
 import AnadirComida from './pages/AnadirComida'
 import { LoadingState } from '../../shared/components/StateMessage'
@@ -17,6 +16,8 @@ const RAPIDA_VACIA: KcalRapidasDraft = { nombre: '', kcal: 0, prot: 0, carb: 0, 
 
 // Resumen lleva Recharts: se carga aparte para no inflar el arranque de la app.
 const Resumen = lazy(() => import('./pages/Resumen'))
+// Sensores de arrastre: el diario se carga al entrar, no en el arranque de Inicio.
+const Hoy = lazy(() => import('./pages/Hoy'))
 
 type Vista = 'hoy' | 'resumen' | 'alimentos'
 
@@ -81,7 +82,7 @@ export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?
     <div className="space-y-3 px-page pt-5">
       <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="primary" onClick={() => { setComidaAnadir(undefined); setMostrarAnadir(true) }} />} />
       <ViewTabs label="Vistas de nutrición" opciones={VISTAS} valor={vista} onChange={setVista}>
-      {vista === 'hoy' && <Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} />}
+      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} /></Suspense>}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>
           <Resumen />

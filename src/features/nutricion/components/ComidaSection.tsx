@@ -2,13 +2,16 @@ import { useId, useState } from 'react'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
-import type { Entry } from '../../../shared/db/types'
+import type { Comida, Entry } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { resumenMacros, sumMacros } from '../lib/nutrition'
 import { nombreVisible } from '../lib/nombresCortos'
 import { agruparPlatos, type Plato } from '../lib/platos'
+import { useDraggable, useDroppable } from '@dnd-kit/core'
+import { useListMotion } from '../../../shared/hooks/useListMotion'
 
 interface Props {
+  comida: Comida
   titulo: string
   entries: Entry[]
   onAcciones: () => void
@@ -17,6 +20,8 @@ interface Props {
   onBorrarPlato: (plato: Plato) => void
   onEditarPlato: (plato: Plato) => void
   onAccionesPlato: (plato: Plato) => void
+  onMoverPlato: (plato: Plato) => void
+  moviendo: boolean
   /** «Añadir a desayuno»: abre Añadir comida con esta comida preseleccionada. */
   onAnadir: () => void
   /** Entradas de esa misma comida el día anterior: si hay, se ofrece repetirlas. */
@@ -67,12 +72,13 @@ function FilaEntrada({ entry: e, nombreCorto, onEditar, onBorrar }: { entry: Ent
   )
 }
 
-function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'onEditar' | 'onBorrar' | 'onBorrarPlato' | 'onEditarPlato' | 'onAccionesPlato'>) {
+function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'onEditar' | 'onBorrar' | 'onBorrarPlato' | 'onEditarPlato' | 'onAccionesPlato' | 'onMoverPlato' | 'moviendo'>) {
   const [abierto, setAbierto] = useState(false)
+  const { attributes, listeners, setNodeRef, setActivatorNodeRef, isDragging } = useDraggable({ id: plato.clave, data: { plato }, disabled: moviendo })
   const detalleId = useId()
   const totales = sumMacros(plato.entries)
   return (
-    <li>
+    <li ref={setNodeRef} data-motion-id={plato.clave} data-plato-id={plato.entries[0].platoId} className={isDragging ? 'opacity-40' : ''}>
       <Card padded={false} className="overflow-hidden">
         <div className="flex items-center gap-1 px-3 py-1">
           <button
@@ -103,10 +109,17 @@ function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato, on
           ))}
         </ul>
         <div className="flex flex-wrap gap-1 border-t border-line px-3 py-1">
-          <Button variant="ghost" size="sm" aria-label={`Editar plato ${plato.nombre}`} onClick={() => onEditarPlato(plato)}>
-            <Icon name="pencil" size={16} />
-            Editar plato
+          <Button variant="ghost" size="sm" aria-label={`Añadir ingredientes a ${plato.nombre}`} onClick={() => onEditarPlato(plato)} disabled={moviendo}>
+            <Icon name="plus" size={16} />
+            Añadir ingredientes
           </Button>
+          <div className="flex items-center">
+            <Button variant="ghost" size="sm" data-mover-plato={plato.entries[0].platoId} aria-label={`Mover plato ${plato.nombre}`} disabled={moviendo} onClick={() => onMoverPlato(plato)}>
+              <Icon name="move" size={16} />Mover
+            </Button>
+            <IconButton ref={setActivatorNodeRef} {...attributes} {...listeners} icon="grip" variant="ghost"
+              label={`Arrastrar plato ${plato.nombre}`} className="touch-none cursor-grab active:cursor-grabbing" disabled={moviendo} />
+          </div>
           <Button variant="ghost" size="sm" aria-label={`Copiar plato ${plato.nombre}`} onClick={() => onAccionesPlato(plato)}>
             <Icon name="copy" size={16} />
             Copiar plato
@@ -118,7 +131,10 @@ function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato, on
 }
 
 /** Sección por comida; cada guardado múltiple tiene su propio bloque desplegable, sin duplicar macros. */
-export default function ComidaSection({ titulo, entries, nombresCortos, onAcciones, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
+export default function ComidaSection({ comida, titulo, entries, nombresCortos, onAcciones, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
+  const { setNodeRef, isOver, active } = useDroppable({ id: `comida:${comida}`, data: { comida }, disabled: moviendo })
+  const listRef = useListMotion<HTMLUListElement>(entries.map(e => e.id).join(','))
+  const recibe = isOver && active?.data.current?.plato?.entries[0].comida !== comida
   const totales = sumMacros(entries)
   const hayEntradas = entries.length > 0
   const repetir = disponiblesAyer > 0 && (
@@ -128,12 +144,12 @@ export default function ComidaSection({ titulo, entries, nombresCortos, onAccion
     </Button>
   )
   return (
-    <section aria-label={titulo} className="border-t border-line pt-2">
+    <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section border-t border-line pt-2">
       <div className="flex items-center justify-between gap-2">
-        <h2 className="text-title text-fg">{titulo}</h2>
+        <h2 className="min-w-0 break-words text-heading font-extrabold text-fg">{titulo}</h2>
         <div className="flex items-center gap-1">
           {hayEntradas ? (
-            <span className="tabular text-title text-fg">
+            <span className="tabular text-body font-semibold text-fg">
               {formatInt(totales.kcal)} <span className="text-body-sm font-normal text-fg-muted">kcal</span>
             </span>
           ) : (
@@ -147,10 +163,10 @@ export default function ComidaSection({ titulo, entries, nombresCortos, onAccion
       </div>
       {hayEntradas && (
         <>
-          <ul className="mt-3 space-y-stack">
+          <ul ref={listRef} className="mt-3 space-y-stack">
             {agruparPlatos(entries, (entry) => nombreVisible(entry, nombresCortos)).map((plato) =>
               plato.agrupado ? (
-                <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} onEditarPlato={onEditarPlato} onAccionesPlato={onAccionesPlato} />
+                <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} onEditarPlato={onEditarPlato} onAccionesPlato={onAccionesPlato} onMoverPlato={onMoverPlato} moviendo={moviendo} />
               ) : (
                 <FilaEntrada key={plato.clave} entry={plato.entries[0]} nombreCorto={nombreVisible(plato.entries[0], nombresCortos)} onEditar={onEditar} onBorrar={onBorrar} />
               ),

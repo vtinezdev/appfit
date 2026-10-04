@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Sheet from '../../../shared/components/Sheet'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import type { Comida, Entry } from '../../../shared/db/types'
+import { COMIDAS } from '../lib/comidas'
 import { todayISO } from '../../../shared/lib/dates'
 import * as entriesRepo from '../data/entriesRepo'
 import * as mealsRepo from '../data/mealsRepo'
@@ -11,12 +12,6 @@ import { Input } from '../../../shared/components/Input'
 import Button from '../../../shared/components/Button'
 import { ErrorState } from '../../../shared/components/StateMessage'
 
-const COMIDAS: { valor: Comida; label: string }[] = [
-  { valor: 'desayuno', label: 'Desayuno' },
-  { valor: 'comida', label: 'Comida' },
-  { valor: 'cena', label: 'Cena' },
-  { valor: 'snack', label: 'Snack' },
-]
 
 const LABELS: Record<Comida, string> = { desayuno: 'Desayuno', comida: 'Comida', cena: 'Cena', snack: 'Snack' }
 
