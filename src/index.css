@@ -136,6 +136,15 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   outline: 2px solid rgb(var(--c-accent-strong));
   outline-offset: 4px;
 }
+.food-record { container-type: inline-size; container-name: food-record; }
+.food-record-button { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, max-content); grid-template-areas: 'name name' 'detail energy'; column-gap: 0.5rem; row-gap: 0.25rem; align-items: baseline; }
+.food-record-name { grid-area: name; }
+.food-record-detail { grid-area: detail; }
+.food-record-energy { grid-area: energy; }
+/* Texto ampliado/cifras largas se mantienen completos, sin altura fija ni reducir targets. */
+@container food-record (max-width: 14rem) {
+  .food-record-button { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'name' 'detail' 'energy'; }
+}
 .overlay-backdrop { opacity: 0; transition: opacity var(--dur-overlay) var(--ease-standard); }
 [data-visible='true'] > .overlay-backdrop { opacity: 1; }
 [data-visible='false'] > .overlay-backdrop { transition-duration: var(--dur-exit); }

@@ -169,6 +169,12 @@ components:
     textColor: "{colors.text-primary}"
     rounded: "{rounded.lg}"
     padding: "{spacing.card}"
+  food-record:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-primary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.md}"
+    padding: "0"
   meal-header:
     backgroundColor: "{colors.training}"
     textColor: "{colors.on-training}"
@@ -313,6 +319,8 @@ Badge es un metadato no pulsable: radio pequeño, padding breve y tipografía ca
 Card delimita una unidad real, con radio grande y padding de contenido. Default combina superficie y línea; muted utiliza el mineral secundario. No hay elevación de card. ListGroup y ListRow ofrecen listas planas, divisores y filas completas pulsables con estados de hover y presión.
 
 La cabecera de cada comida es un bloque de tinta independiente del plato: icono circular, título heading con peso 800, número de registros debajo y total de kcal naranja a la derecha. Usa radio grande, borde naranja tenue y separación de 12 px respecto a sus entradas, sin sombra ni halo. El icono no es un control y la cabecera no se pulsa; el botón de acciones conserva su nombre y comportamiento. No se inventan horarios: el diario no registra la hora de la comida. En poco espacio las kcal ganan una fila; con texto ampliado el título ocupa todo el ancho bajo icono y acciones. Los nombres y las cifras completas envuelven, sin altura fija ni reducir targets.
+
+Los registros del diario comparten una fila compacta con superficie, borde fino y radio medio: nombre protagonista, cantidad o número de alimentos, macros secundarios y kcal a la derecha. Un plato solo añade chevrón/conteo y el menú de acciones; no tiene una barra permanente de botones ni más peso tipográfico que un alimento. Los ingredientes aparecen como filas interiores sin tarjetas propias, al desplegar. «Añadir ingredientes», «Mover», «Copiar plato» y borrar viven en la Sheet de «…»; el asa de arrastre se ofrece con los ingredientes abiertos. Las cifras y nombres envuelven sin altura fija, y el texto ampliado redistribuye la fila manteniendo targets de 44 px.
 
 ### Inputs / Fields
 

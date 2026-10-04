@@ -4,6 +4,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { chromium } = require('playwright')
 const { navegar } = require('./navegar.cjs')
+const { ejecutarAccionPlato } = require('./acciones-plato.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-copia-platos-ui'
 const nombre = 'Mi desayuno con arroz y pollo para copiar a otra comida del día'
@@ -72,7 +73,7 @@ async function main() {
         await navegar(page, 'Nutrición')
         const desayuno = page.getByRole('region', { name: 'Desayuno', exact: true })
         const abrir = async () => {
-          await desayuno.getByRole('button', { name: `Copiar plato ${nombre}`, exact: true }).click()
+          await ejecutarAccionPlato(page, nombre, 'Copiar plato', desayuno)
           await page.getByRole('button', { name: 'Copiar a otra comida…', exact: true }).click()
         }
         const confirmar = async () => {
@@ -96,10 +97,10 @@ async function main() {
         comprobarCopia(copiado.filter((e) => !antes.some((a) => a.id === e.id)), originales, 'comida', fechas.fecha)
         assert.deepEqual(copiado.filter((e) => antes.some((a) => a.id === e.id)), antes)
         const comida = page.getByRole('region', { name: 'Comida', exact: true })
-        await comida.getByRole('button', { name: `Añadir ingredientes a ${nombre}`, exact: true }).waitFor()
+        await comida.getByRole('button', { name: `Acciones del plato ${nombre}`, exact: true }).waitFor()
         await layout(page)
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
-        await comida.getByRole('button', { name: `Añadir ingredientes a ${nombre}`, exact: true }).waitFor({ state: 'detached' })
+        await comida.getByRole('button', { name: `Acciones del plato ${nombre}`, exact: true }).waitFor({ state: 'detached' })
         assert.deepEqual(await registros(page), antes)
 
         for (const destino of ['Cena', 'Comida', 'Comida']) {
@@ -114,7 +115,7 @@ async function main() {
         }
         const hoy = await registros(page)
         assert.equal(hoy.length, antes.length + 6)
-        await desayuno.getByRole('button', { name: `Copiar plato ${nombre}`, exact: true }).click()
+        await ejecutarAccionPlato(page, nombre, 'Copiar plato', desayuno)
         await page.getByRole('button', { name: 'Copiar a otro día…', exact: true }).click()
         await page.getByLabel('Fecha de destino', { exact: true }).fill(fechas.ayer)
         await page.getByRole('radio', { name: 'Snack', exact: true }).click()
@@ -123,7 +124,7 @@ async function main() {
         comprobarCopia(await registros(page, fechas.ayer), originales, 'snack', fechas.ayer)
         assert.deepEqual(await registros(page), hoy)
 
-        await desayuno.getByRole('button', { name: `Copiar plato ${nombre}`, exact: true }).click()
+        await ejecutarAccionPlato(page, nombre, 'Copiar plato', desayuno)
         await page.getByRole('button', { name: 'Guardar como plantilla…', exact: true }).click()
         await page.getByLabel('Nombre de la plantilla', { exact: true }).fill('Solo este plato')
         await page.getByRole('button', { name: 'Guardar', exact: true }).click()
@@ -150,7 +151,7 @@ async function main() {
 
         // En el histórico, «mismo día» es el día seleccionado, no hoy.
         await page.getByRole('button', { name: 'Día anterior', exact: true }).click()
-        await page.getByRole('region', { name: 'Snack', exact: true }).getByRole('button', { name: `Copiar plato ${nombre}`, exact: true }).click()
+        await ejecutarAccionPlato(page, nombre, 'Copiar plato', page.getByRole('region', { name: 'Snack', exact: true }))
         await page.getByRole('button', { name: 'Copiar a otra comida…', exact: true }).click()
         await page.getByRole('radio', { name: 'Cena', exact: true }).click()
         await confirmar()
