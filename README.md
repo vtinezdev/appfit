@@ -19,7 +19,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Resumen diario en un recuadro compartido entre Inicio y Nutrición, con calorías, objetivos y macros, separado del resto de secciones; la vista detallada incluye el desglose dentro del mismo panel.
 - Buscador e intérprete priorizan alimentos básicos habituales («pollo» → pechuga sin piel), conservando las variantes de preparación y marca cuando las especificas.
 - Resumen semanal y mensual navegable, con gráficas frente a tus objetivos.
-- Vista detallada con fibra, azúcares, sal y saturadas, y barras de referencias diarias con fuentes y distinción entre mínimos, límites y valores de etiquetado. Los extras también están en los detalles del alimento; los datos ausentes se distinguen de cero y las sumas incompletas se señalan.
+- Vista detallada con consumo, barras y cobertura de fibra, azúcares, sal y saturadas. Un botón de información explica criterio y fuente y permite abrir su referencia global. Los extras también están en los detalles del alimento; los datos ausentes se distinguen de cero y las sumas incompletas se señalan.
 - Base de datos personal de alimentos, editable a mano.
 
 **Gimnasio**
@@ -29,7 +29,8 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Rutinas, historial de entrenos y gráficas de progreso por ejercicio (peso máximo, 1RM estimado, volumen).
 
 **General**
-- Un botón Menú despliega un abanico desde su propio origen para ir a Inicio, Nutrición, Gym y Ajustes, con la sección actual marcada.
+- Un botón Menú despliega un abanico desde su propio origen para ir a Inicio, Nutrición, Gym, Referencias y Ajustes, con la sección actual marcada.
+- Referencias reúne procedencia del catálogo, objetivos nutricionales y limitaciones de datos; recomendaciones por grupos tienen su lugar preparado, sin inventar valores todavía.
 - Instalable en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
 - Copia de seguridad exportable e importable en un único archivo JSON, con confirmación antes de sustituir registros y ayuda para trasladarlos de Safari al acceso de pantalla de inicio en iPhone.
 - Tema Sistema/Claro/Oscuro seleccionable en Ajustes. Interfaz móvil coherente, controles táctiles grandes y fuente disponible offline.

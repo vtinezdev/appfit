@@ -13,7 +13,7 @@ export default function PageHeader({ title, overline, action }: Props) {
   return (
     <header className="flex min-h-touch items-center justify-between gap-3">
       <div className="min-w-0">
-        <h1 className="text-display text-fg">{title}</h1>
+        <h1 className="break-words text-display text-fg">{title}</h1>
         {overline && <p className="mt-1 text-body-sm text-fg-muted first-letter:uppercase">{overline}</p>}
       </div>
       {action}

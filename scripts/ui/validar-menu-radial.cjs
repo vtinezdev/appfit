@@ -39,8 +39,9 @@ async function abrir(page, actual) {
     assert.ok(rect.left >= 0 && rect.right <= page.viewportSize().width)
     assert.ok(rect.top >= 0 && rect.bottom <= page.viewportSize().height)
   }
-  const [left, topLeft, topRight, right, center] = medidas.rects
-  assert.ok(left.bottom < center.top && right.bottom < center.top && topLeft.bottom < left.top && topRight.bottom < right.top)
+  const center = medidas.rects.at(-1)
+  assert.equal(medidas.rects.length, 6, 'cinco destinos y el cierre central')
+  assert.ok(medidas.rects.slice(0, -1).every(r => r.bottom < center.top))
   const origin = await page.locator('[data-nav-trigger]').boundingBox()
   assert.ok(Math.abs(center.x + center.width / 2 - origin.x - origin.width / 2) < 1)
   assert.ok(Math.abs(center.y + center.height / 2 - origin.y - origin.height / 2) < 1)
@@ -70,11 +71,11 @@ async function futuros(page) {
     const host = document.createElement('div')
     document.body.append(host)
     const root = createRoot(host)
-    const destinos = ['Inicio', 'Nutrición', 'Gym', 'Ajustes', 'Notas', 'Medidas'].map((label, i) => ({ key: `seccion-${i}`, label, icon: 'plus' }))
+    const destinos = ['Inicio', 'Nutrición', 'Gym', 'Referencias', 'Ajustes', 'Notas', 'Medidas'].map((label, i) => ({ key: `seccion-${i}`, label, icon: 'plus' }))
     const cerrar = () => { root.unmount(); host.remove() }
     window.__menuFuturo = null
     root.render(React.createElement('div', { role: 'dialog', 'aria-label': 'Destinos futuros', className: 'fan-dialog', style: { '--menu-origin-x': `${innerWidth / 2}px`, '--menu-origin-y': `${innerHeight - 40}px` } },
-      React.createElement(Rueda, { destinos, actual: 'seccion-4', onClose: cerrar, onElegir: (key) => { window.__menuFuturo = key; cerrar() } })))
+      React.createElement(Rueda, { destinos, actual: 'seccion-5', onClose: cerrar, onElegir: (key) => { window.__menuFuturo = key; cerrar() } })))
   })
   const menu = page.getByRole('dialog', { name: 'Destinos futuros', exact: true })
   await menu.getByText('2 de 2', { exact: true }).waitFor()
@@ -93,7 +94,7 @@ async function futuros(page) {
   assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), 'Medidas')
   await page.keyboard.press('Space')
   await menu.waitFor({ state: 'detached' })
-  assert.equal(await page.evaluate(() => window.__menuFuturo), 'seccion-5')
+  assert.equal(await page.evaluate(() => window.__menuFuturo), 'seccion-6')
   assert.equal(await page.locator('[data-app-shell]').evaluate((el) => el.inert), false)
 }
 
@@ -131,7 +132,7 @@ async function main() {
         await page.mouse.click(8, 8); await cerrado(page)
         menu = await abrir(page, 'Inicio')
         await menu.getByRole('button', { name: 'Inicio', exact: true }).focus()
-        for (const [tecla, esperado] of [['ArrowRight', 'Nutrición'], ['ArrowDown', 'Gym'], ['ArrowRight', 'Ajustes'], ['ArrowRight', 'Inicio'], ['ArrowLeft', 'Ajustes'], ['ArrowUp', 'Gym'], ['End', 'Ajustes'], ['Home', 'Inicio']]) {
+        for (const [tecla, esperado] of [['ArrowRight', 'Nutrición'], ['ArrowDown', 'Gym'], ['ArrowRight', 'Referencias'], ['ArrowRight', 'Ajustes'], ['ArrowRight', 'Inicio'], ['ArrowLeft', 'Ajustes'], ['ArrowUp', 'Referencias'], ['End', 'Ajustes'], ['Home', 'Inicio']]) {
           await page.keyboard.press(tecla)
           assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), esperado)
         }
@@ -150,7 +151,7 @@ async function main() {
         await page.keyboard.press('Escape'); await cerrado(page)
         assert.equal(await page.locator('main').evaluate((el) => el.scrollTop), scroll)
         assert.equal(await page.getByRole('radio', { name: 'Vista detallada', exact: true }).getAttribute('aria-checked'), 'true')
-        for (const destino of ['Gym', 'Ajustes', 'Inicio', 'Nutrición']) {
+        for (const destino of ['Gym', 'Referencias', 'Ajustes', 'Inicio', 'Nutrición']) {
           await navegar(page, destino)
           assert.equal(await page.locator('main').evaluate((el) => el.scrollTop), 0)
           menu = await abrir(page, destino)

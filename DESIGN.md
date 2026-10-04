@@ -292,7 +292,7 @@ La profundidad combina tono, línea y espacio. Los paneles, campos y barra infer
 
 Esquinas contenidas: pequeñas para badges e indicadores de selección, medias para botones y campos, grandes para paneles, y amplias solo en la parte superior de sheets. Los círculos y el radio pill resuelven puntos de dato, asa o acciones que lo justifican.
 
-Los contornos son finos. Los campos utilizan el límite fuerte; las agrupaciones de contenido utilizan la línea de división. El botón Menú es un rectángulo corto, no una rueda dibujada. Su abanico conserva cuatro destinos amplios en dos niveles. Las filas y el check de series tienen un radio local de 10 px: ese detalle de la tabla no amplía la escala común de radios.
+Los contornos son finos. Los campos utilizan el límite fuerte; las agrupaciones de contenido utilizan la línea de división. El botón Menú es un rectángulo corto, no una rueda dibujada. Su abanico conserva cinco destinos amplios en dos niveles. Las filas y el check de series tienen un radio local de 10 px: ese detalle de la tabla no amplía la escala común de radios.
 
 ## Components
 
@@ -322,9 +322,9 @@ Las etiquetas de formulario son visibles. Una búsqueda tiene nombre accesible y
 
 ### Navigation
 
-Un botón Menú de 124×48 px abre el abanico desde el centro medido de ese mismo botón. Inicio, Nutrición, Gym y Ajustes conservan icono y nombre. El destino actual añade check y estado accesible además del naranja; cada target contiene su check también en la rejilla compacta.
+Un botón Menú de 124×48 px abre el abanico desde el centro medido de ese mismo botón. Inicio, Nutrición, Gym, Referencias y Ajustes conservan icono y nombre. El destino actual añade check y estado accesible además del naranja; cada target contiene su check también en la rejilla compacta.
 
-Los destinos miden 84×68 px y se distribuyen en dos niveles ascendentes. La órbita horizontal alcanza 120 px y se limita por el ancho disponible; la elevación es de 160 px. Entrada de 280 ms con desfase de 18 ms y salida de 180 ms conservan origen y reversa. Las curvas desaceleran sin rebote. Texto ampliado o altura inferior a 360 px activa una rejilla desplazable de dos columnas sobre el mismo origen; se mantienen las etiquetas y el tamaño táctil. Más de cuatro destinos se pagina.
+Los destinos miden 84×68 px y se distribuyen en dos niveles ascendentes: tres arriba y dos próximos al origen. La órbita horizontal alcanza 120 px y se limita por el ancho disponible; la elevación es de 160 px. Entrada de 280 ms con desfase de 18 ms y salida de 180 ms conservan origen y reversa. Las curvas desaceleran sin rebote. Texto ampliado o altura inferior a 360 px activa una rejilla desplazable de dos columnas sobre el mismo origen; se mantienen las etiquetas y el tamaño táctil. Más de cinco destinos se pagina. El contexto inferior permanece accesible aunque no quepa visualmente con texto ampliado; la cabecera identifica la pantalla.
 
 ViewTabs navega entre vistas con una línea indicadora de 3 px y panel asociado. SegmentedControl elige un valor sobre fondo mineral; el indicador neutro sigue el ancho y posición medidos de la opción. Sus opciones usan ancho flexible según contenido, evitando cortar una etiqueta frecuente para conservar segmentos iguales. Ambos incluyen flechas, Home/End y una entrada de teclado.
 
@@ -339,6 +339,10 @@ Toast flota sobre la navegación con superficie inversa y estado o alerta; ofrec
 ### Nutritional summary
 
 ResumenNutricional integra cifra de kcal, objetivo, diferencia y tres macros en un panel. Controles, detalle y footer son slots dentro de su contorno. ProgressBar representa objetivo y exceso atenuado, con texto accesible; las cifras y unidades permanecen completas. Esta composición compartida resuelve el resumen del día, sin imponerla a todas las métricas del producto.
+
+### Consumption and references
+
+**Nutrición muestra qué está consumiendo el usuario y cómo va. Referencias explica por qué APPFIT utiliza esos valores y de dónde proceden.** El desglose diario presenta nombre, gramos, barra y cobertura por nutriente. Un IconButton de información de 44 px abre criterio y fuente en Sheet; el usuario puede continuar hasta esa referencia en la sección global. Mínimos, límites y matices se consultan bajo demanda, sin permanecer debajo de las barras. Un mismo registro central y un mismo componente sirven ambas vistas. Los objetivos personales no se presentan como recomendaciones clínicas; las recomendaciones por grupos sin fuente definida mantienen un estado vacío.
 
 ### Active workout and completion
 

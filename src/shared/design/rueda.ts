@@ -1,5 +1,5 @@
-/** Cuatro destinos por rueda mantienen controles amplios incluso en 320 px. */
-export const OPCIONES_POR_RUEDA = 4
+/** Cinco destinos en dos niveles mantienen controles amplios incluso en 320 px. */
+export const OPCIONES_POR_RUEDA = 5
 
 export function paginasRueda<T>(opciones: readonly T[]): T[][] {
   const paginas: T[][] = []
@@ -15,6 +15,7 @@ export function posicionesRueda(cantidad: number): { x: number; y: number }[] {
     [{ x: -.55, y: -.85 }, { x: .55, y: -.85 }],
     [{ x: -1, y: -.55 }, { x: 0, y: -1.05 }, { x: 1, y: -.55 }],
     [{ x: -1, y: -.55 }, { x: -.48, y: -1.05 }, { x: .48, y: -1.05 }, { x: 1, y: -.55 }],
+    [{ x: -1, y: -1.05 }, { x: 0, y: -1.05 }, { x: 1, y: -1.05 }, { x: -.55, y: -.55 }, { x: .55, y: -.55 }],
   ]
   return posiciones[cantidad - 1]
 }

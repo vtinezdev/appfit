@@ -75,9 +75,9 @@ async function main() {
         const texto = await desglose.innerText()
         assert.ok(!texto.includes('Parcial'))
         for (let i = 0; i < nutrientes.length; i++) {
-          const celda = desglose.locator('dl > div').filter({ has: page.getByText(nutrientes[i], { exact: true }) })
+          const celda = desglose.locator('[data-nutriente]').filter({ has: page.getByText(nutrientes[i], { exact: true }) })
           const esperadoVisible = esperado[claves[i]] === undefined ? 'Sin datos' : `${new Intl.NumberFormat('es-ES', { maximumFractionDigits: 3 }).format(esperado[claves[i]])} g`
-          assert.equal(await celda.locator('dd > span').first().innerText(), esperadoVisible)
+          assert.equal(await celda.locator('dd').innerText(), esperadoVisible)
         }
         await layout(page)
         await page.screenshot({ path: path.join(salida, `${width}-${colorScheme}-diario.png`) })
@@ -88,7 +88,7 @@ async function main() {
           const d = await import('/src/shared/lib/dates.ts')
           await r.anadirRapida({ fecha: d.todayISO(), comida: 'snack', nombre: 'Sin información', kcal: 100, prot: 0, carb: 0, grasa: 0 })
         })
-        await desglose.getByText('Parcial · 1 de 2 alimentos', { exact: true }).first().waitFor()
+        await desglose.getByText('Información disponible en 1 de 2 alimentos', { exact: true }).first().waitFor()
         await page.getByRole('radio', { name: 'Vista sencilla', exact: true }).click()
         assert.equal(await desglose.count(), 0)
 

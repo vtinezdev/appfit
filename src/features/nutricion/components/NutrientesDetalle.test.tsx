@@ -4,14 +4,13 @@ import NutrientesDetalle from './NutrientesDetalle'
 import MacroInputs from './MacroInputs'
 
 describe('presentación de nutrientes adicionales', () => {
-  it('las referencias del diario distinguen mínimo, límite y azúcares totales', () => {
+  it('el diario muestra consumo/cobertura y accesos contextuales sin metodología permanente', () => {
     const html = renderToStaticMarkup(<NutrientesDetalle objetivoKcal={2200} entries={[{ nutrientes: { fibra: 30, azucares: 50, sal: 6, agSat: 20 } }]} />)
     expect(html.match(/role="progressbar"/g)).toHaveLength(4)
-    expect(html).toContain('Mín. 25 g · sin máximo indicado')
-    expect(html).toContain('Límite &lt; 5 g · sin mínimo indicado')
-    expect(html).toContain('Referencia 90 g · totales')
-    expect(html).toContain('Máx. 24,4 g · 10% de 2.200 kcal')
-    expect(html).not.toContain('Máx. 90 g')
+    for (const nombre of ['Fibra', 'Azúcares', 'Sal', 'Grasas saturadas']) expect(html).toContain(`aria-label="Información sobre ${nombre}"`)
+    expect(html.match(/Información disponible en 1 de 1 alimentos<\/p>/g)).toHaveLength(4)
+    for (const texto of ['Mín.', 'Máx.', 'sin máximo indicado', 'sin mínimo indicado', 'Referencias diarias y fuentes', 'who.int']) expect(html).not.toContain(texto)
+    expect(html.match(/aria-haspopup="dialog"/g)).toHaveLength(4)
   })
 
   it('no inventa consumos desconocidos ni referencias diarias en la revisión de un alimento', () => {
@@ -20,9 +19,12 @@ describe('presentación de nutrientes adicionales', () => {
     expect(diario.match(/role="progressbar"/g)).toHaveLength(1)
     expect(diario).toContain('0 g, suma parcial')
     expect(diario.match(/Sin datos/g)).toHaveLength(3)
+    expect(diario).toContain('Información disponible en 0 de 2 alimentos')
+    expect(diario).toContain('Información disponible en 1 de 2 alimentos')
     const alimento = renderToStaticMarkup(<NutrientesDetalle entries={entries} />)
     expect(alimento).not.toContain('progressbar')
     expect(alimento).not.toContain('Referencias diarias')
+    expect(alimento).not.toContain('Información sobre')
   })
 
   it('los valores parciales y desconocidos se distinguen de cero', () => {

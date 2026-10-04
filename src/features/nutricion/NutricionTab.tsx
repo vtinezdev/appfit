@@ -11,6 +11,7 @@ import Alimentos from './pages/Alimentos'
 import AnadirComida from './pages/AnadirComida'
 import { LoadingState } from '../../shared/components/StateMessage'
 import type { Plato } from './lib/platos'
+import type { NutrienteId } from '../../shared/lib/referenciasNutricionales'
 
 const RAPIDA_VACIA: KcalRapidasDraft = { nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }
 
@@ -27,7 +28,7 @@ const VISTAS: { valor: Vista; label: string }[] = [
   { valor: 'alimentos', label: 'Alimentos' },
 ]
 
-export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?: boolean }) {
+export default function NutricionTab({ anadirAlAbrir = false, onVerReferencia }: { anadirAlAbrir?: boolean; onVerReferencia?: (id: NutrienteId) => void }) {
   const [vista, setVista] = useState<Vista>('hoy')
   const [fecha, setFecha] = useState(todayISO())
   const [mostrarAnadir, setMostrarAnadir] = useState(anadirAlAbrir)
@@ -82,7 +83,7 @@ export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?
     <div className="space-y-3 px-page pt-5">
       <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="primary" onClick={() => { setComidaAnadir(undefined); setMostrarAnadir(true) }} />} />
       <ViewTabs label="Vistas de nutrición" opciones={VISTAS} valor={vista} onChange={setVista}>
-      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} /></Suspense>}
+      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} onVerReferencia={onVerReferencia} /></Suspense>}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>
           <Resumen />

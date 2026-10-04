@@ -11,9 +11,9 @@ describe('rueda de navegación', () => {
     expect(html.match(/aria-current="page"/g)).toHaveLength(1)
     expect(html).toContain(`aria-label="${DESTINOS.find((d) => d.key === actual)!.label}" aria-current="page"`)
     expect(html).toContain('aria-label="Cerrar menú"')
-    expect(html.match(/fan-target/g)).toHaveLength(4)
-    expect(html.match(/var\(--menu-orbit\)/g)).toHaveLength(4)
-    expect(html.match(/var\(--menu-rise\)/g)).toHaveLength(4)
+    expect(html.match(/fan-target/g)).toHaveLength(5)
+    expect(html.match(/var\(--menu-orbit\)/g)).toHaveLength(5)
+    expect(html.match(/var\(--menu-rise\)/g)).toHaveLength(5)
     expect(html).not.toContain('Más destinos')
   })
   it('destinos futuros abren la página que contiene la sección actual', () => {

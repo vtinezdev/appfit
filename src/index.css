@@ -152,7 +152,17 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   background: rgb(var(--c-training)); color: rgb(var(--c-on-training));
   font-weight: 700; font-size: 14px;
 }
-.nav-context { position: absolute; left: var(--space-page); max-width: calc(50% - 74px); color: rgb(var(--c-text-secondary)); overflow-wrap: anywhere; }
+.nav-content { container-type: inline-size; container-name: app-nav; }
+.nav-context { position: absolute; left: var(--space-page); max-width: calc(50% - 74px); color: rgb(var(--c-text-secondary)); overflow-wrap: anywhere; flex-wrap: wrap; row-gap: 0; }
+/* El nombre sigue accesible; la cabecera de pantalla mantiene el contexto visible. */
+@container app-nav (max-width: 14rem) {
+  .nav-context { width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
+}
+.nutrient-row { container-type: inline-size; container-name: nutrient-row; }
+@container nutrient-row (max-width: 14rem) {
+  .nutrient-values { grid-template-columns: minmax(0, 1fr); }
+  .nutrient-values dd { text-align: left; }
+}
 .nav-wordmark { position: absolute; right: var(--space-page); letter-spacing: -.035em; }
 .fan-dialog { position: absolute; left: var(--menu-origin-x); top: var(--menu-origin-y); width: 1px; height: 1px; }
 .fan-item {

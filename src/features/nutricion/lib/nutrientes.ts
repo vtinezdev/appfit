@@ -1,10 +1,11 @@
 import type { NutrientesAdicionales } from '../../../shared/db/types'
+import { NOMBRES_NUTRIENTES } from '../../../shared/lib/referenciasNutricionales'
 
 export const NUTRIENTES_ADICIONALES = [
-  { clave: 'fibra', label: 'Fibra' },
-  { clave: 'azucares', label: 'Azúcares' },
-  { clave: 'sal', label: 'Sal' },
-  { clave: 'agSat', label: 'Grasas saturadas' },
+  { clave: 'fibra', label: NOMBRES_NUTRIENTES.fibra },
+  { clave: 'azucares', label: NOMBRES_NUTRIENTES.azucares },
+  { clave: 'sal', label: NOMBRES_NUTRIENTES.sal },
+  { clave: 'agSat', label: NOMBRES_NUTRIENTES.agSat },
 ] as const
 
 /** Copia solo los cuatro nutrientes conocidos; nunca convierte un dato ausente en cero. */

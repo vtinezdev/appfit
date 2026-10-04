@@ -25,6 +25,7 @@ import { PlatoPointerSensor } from '../lib/PlatoPointerSensor'
 import { haptic } from '../../../shared/design/motion'
 import Card from '../../../shared/components/Card'
 import { formatInt } from '../../../shared/lib/format'
+import type { NutrienteId } from '../../../shared/lib/referenciasNutricionales'
 
 interface Props {
   fecha: string
@@ -33,10 +34,11 @@ interface Props {
   onEditarPlato: (plato: Plato) => void
   /** Sin argumento, Añadir comida elige la comida por la hora. */
   onAnadir: (comida?: Comida) => void
+  onVerReferencia?: (id: NutrienteId) => void
 }
 
 
-export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir }: Props) {
+export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir, onVerReferencia }: Props) {
   const [detalle, setDetalle] = useState<'sencilla' | 'detallada'>('sencilla')
   const ayer = addDays(fecha, -1)
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
@@ -189,7 +191,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
             titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`}
             controles={<SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
               opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />}
-            detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" objetivoKcal={objetivos.kcal} />}
+            detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" objetivoKcal={objetivos.kcal} onVerReferencia={onVerReferencia} />}
           />
 
           <DndContext key={fecha} sensors={sensors} collisionDetection={colisionesComidas} measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}

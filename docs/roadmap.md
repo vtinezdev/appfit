@@ -30,7 +30,8 @@ Cuerpo y objetivos:
 - Media móvil de 7 días del peso (hoy solo la variación a 7 días).
 - Calculadora de objetivos (Mifflin-St Jeor + actividad + déficit o superávit).
 - Objetivos distintos en días de entreno y de descanso (primera integración real Gym ↔ Nutrición).
-- Agua, y mostrar fibra, azúcar y sal (el catálogo ya los trae en `nutrientes`).
+- Agua.
+- Definir recomendaciones contrastadas por grupos de alimentos y comparar raciones con el consumo real. La sección Referencias y sus tipos ya están preparados; faltan fuentes, valores y clasificación de alimentos, sin recomendaciones ficticias.
 
 Análisis:
 - TDEE adaptativo con el peso y las kcal registradas (necesita semanas de datos).
