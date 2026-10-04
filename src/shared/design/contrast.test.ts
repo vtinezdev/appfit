@@ -38,6 +38,7 @@ const light = resolve(rootLight)
 const dark = resolve(rootLight, rootDark)
 const inverse = resolve(rootLight, inverseLight)
 const inverseOscuro = resolve(rootLight, rootDark, inverseLight, inverseDark)
+const meal = parse(block("[data-surface='meal-header'] {"))
 
 const lum = ([r, g, b]: readonly number[]) => {
   const f = (v: number) => (v / 255 <= 0.03928 ? v / 255 / 12.92 : ((v / 255 + 0.055) / 1.055) ** 2.4)
@@ -94,4 +95,17 @@ describe.each([['claro', light], ['oscuro', dark]])('contraste (%s)', (_name, t)
 describe.each([['inverse (claro)', inverse], ['inverse (oscuro)', inverseOscuro]])('avisos %s', (_name, t) => {
   it.each(TEXT_INVERSE)('%s sobre %s ≥ 4.5', (fg, bg) => expect(ratio(t[fg], t[bg])).toBeGreaterThanOrEqual(4.5))
   it('el foco se ve ≥ 3', () => expect(ratio(t.focus, t.surface)).toBeGreaterThanOrEqual(3))
+})
+
+describe.each([['claro', resolve(rootLight, meal)], ['oscuro', resolve(rootLight, rootDark, meal)]])('cabeceras de comida (%s)', (_name, t) => {
+  it.each(['text-primary', 'text-secondary', 'accent-strong'])('%s sobre tinta ≥ 4.5', fg => {
+    expect(ratio(t[fg], t.surface)).toBeGreaterThanOrEqual(4.5)
+  })
+  it.each(['text-primary', 'text-secondary'])('%s en acciones al pasar el puntero ≥ 4.5', fg => {
+    expect(ratio(t[fg], t['surface-muted'])).toBeGreaterThanOrEqual(4.5)
+  })
+  it.each(['text-secondary', 'accent-strong'])('%s sobre apoyo de acción ≥ 4.5', fg => {
+    expect(ratio(t[fg], t['accent-subtle'])).toBeGreaterThanOrEqual(4.5)
+  })
+  it('foco reconocible sobre la cabecera ≥ 3', () => expect(ratio(t.focus, t.surface)).toBeGreaterThanOrEqual(3))
 })

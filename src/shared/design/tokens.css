@@ -83,6 +83,7 @@
   --c-on-training: 245 248 252;
   --c-training-muted: 191 207 223;
   --c-training-track: 56 73 94;
+  --c-meal-accent: 255 148 92;
   --c-success-subtle: 230 244 236;
 }
 :root[data-theme='dark'] {
@@ -115,8 +116,21 @@
   --c-on-training: 245 248 252;
   --c-training-muted: 191 207 223;
   --c-training-track: 56 73 94;
+  --c-meal-accent: 255 148 92;
   --c-success-subtle: 25 55 44;
   --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
+}
+/* Cabeceras de comidas: tinta existente y naranja legible sobre tinta en ambos temas.
+   Contexto local: no cambia los platos, las filas ni otros paneles de la app. */
+[data-surface='meal-header'] {
+  --c-surface: var(--c-training);
+  --c-surface-muted: var(--c-overlay);
+  --c-text-primary: var(--c-on-training);
+  --c-text-secondary: var(--c-training-muted);
+  --c-text-tertiary: var(--c-training-muted);
+  --c-accent-strong: var(--c-meal-accent);
+  --c-accent-subtle: var(--c-overlay);
+  --c-focus: var(--c-meal-accent);
 }
 /* Aviso temporal, sin obligar a usar bloques negros en las pantallas. */
 [data-surface='inverse'] {

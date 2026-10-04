@@ -48,7 +48,10 @@ async function mouseStart(page) {
 }
 async function target(page, comida) {
   const heading = seccion(page, comida).getByRole('heading')
-  await heading.scrollIntoViewIfNeeded()
+  // Medir fuera del borde de autoscroll: una cabecera ya visible puede seguir
+  // desplazándose entre touchMove y touchEnd si permanece junto al borde.
+  await heading.evaluate(el => el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }))
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))
   const b = await heading.boundingBox()
   return { x: b.x + b.width / 2, y: b.y + b.height / 2 }
 }
@@ -184,6 +187,7 @@ async function main() {
           const q = { x: p.x - 40, y: p.y, id: 2 }
           await touch('touchStart', [p])
           await touch('touchMove', [{ ...p, y: p.y - 20 }])
+          const copiaInicial = await page.locator('.dnd-overlay-copy').boundingBox()
           await touch('touchStart', [{ ...p, y: p.y - 20 }, q])
           await touch('touchMove', [{ ...p, y: p.y - 20 }, { ...q, x: 10 }])
           await touch('touchEnd', [{ ...p, y: p.y - 20 }])
@@ -220,6 +224,8 @@ async function main() {
           const main = await page.locator('main').boundingBox()
           await touch('touchMove', [{ x: main.x + main.width / 2, y: main.y + 5, id: 1 }])
           await page.waitForFunction(anterior => document.querySelector('main').scrollTop < anterior - 30, scroll)
+          // Retirar el dedo del borde detiene el autoscroll antes de medir destino.
+          await touch('touchMove', [{ x: main.x + main.width / 2, y: main.y + main.height / 2, id: 1 }])
           const desayuno = await target(page, 'desayuno')
           await touch('touchMove', [{ ...desayuno, id: 1 }])
           await page.waitForFunction(() => document.querySelector('[data-comida="desayuno"]').dataset.dropActive === 'true')
