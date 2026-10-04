@@ -9,6 +9,7 @@ import { nombreVisible } from '../lib/nombresCortos'
 import { agruparPlatos, type Plato } from '../lib/platos'
 import { useDraggable, useDroppable } from '@dnd-kit/core'
 import { useListMotion } from '../../../shared/hooks/useListMotion'
+import CabeceraComida from './CabeceraComida'
 
 interface Props {
   comida: Comida
@@ -144,23 +145,12 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
     </Button>
   )
   return (
-    <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section border-t border-line pt-2">
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="min-w-0 break-words text-heading font-extrabold text-fg">{titulo}</h2>
-        <div className="flex items-center gap-1">
-          {hayEntradas ? (
-            <span className="tabular text-body font-semibold text-fg">
-              {formatInt(totales.kcal)} <span className="text-body-sm font-normal text-fg-muted">kcal</span>
-            </span>
-          ) : (
-            <Button variant="ghost" size="sm" onClick={onAnadir}>
-              <Icon name="plus" size={16} />
-              Añadir
-            </Button>
-          )}
-          <IconButton icon="more" label={`Acciones de ${titulo}`} variant="ghost" size="sm" onClick={onAcciones} />
-        </div>
-      </div>
+    <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section">
+      <CabeceraComida comida={comida} titulo={titulo} kcal={totales.kcal} registros={entries.length} onAcciones={onAcciones} />
+      {!hayEntradas && <div className="mt-1 flex flex-wrap items-center gap-x-1">
+        <Button variant="ghost" size="sm" onClick={onAnadir}><Icon name="plus" size={16} />Añadir</Button>
+        {repetir}
+      </div>}
       {hayEntradas && (
         <>
           <ul ref={listRef} className="mt-3 space-y-stack">
@@ -183,7 +173,6 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
           </div>
         </>
       )}
-      {!hayEntradas && disponiblesAyer > 0 && <div className="-ml-4">{repetir}</div>}
     </section>
   )
 }

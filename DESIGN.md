@@ -56,6 +56,7 @@ colors:
   on-training: "rgb(245 248 252)"
   training-muted: "rgb(191 207 223)"
   training-track: "rgb(56 73 94)"
+  meal-accent: "rgb(255 148 92)"
 typography:
   hero:
     fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
@@ -168,6 +169,11 @@ components:
     textColor: "{colors.text-primary}"
     rounded: "{rounded.lg}"
     padding: "{spacing.card}"
+  meal-header:
+    backgroundColor: "{colors.training}"
+    textColor: "{colors.on-training}"
+    rounded: "{rounded.lg}"
+    padding: "12px"
   badge-neutral:
     backgroundColor: "{colors.surface-muted}"
     textColor: "{colors.text-secondary}"
@@ -225,6 +231,7 @@ La paleta combina minerales fríos y tinta azul con una señal naranja cálida. 
 - **Naranja señal:** acción principal, indicador de navegación, destino actual y calorías. Su texto es tinta, en ambos temas.
 - **Naranja de texto y foco:** enlaces, acciones ghost y foco visible; tiene contraste propio para cada apariencia.
 - **Apoyo de señal:** fondo discreto de acciones contextuales y metadatos de acento.
+- **Señal sobre cabeceras de comida:** reutiliza el naranja claro del tema oscuro sobre tinta en ambos temas; icono y kcal distinguen la sección sin convertir el bloque en una acción naranja.
 
 ### Neutral
 
@@ -304,6 +311,8 @@ Badge es un metadato no pulsable: radio pequeño, padding breve y tipografía ca
 ### Cards / Containers
 
 Card delimita una unidad real, con radio grande y padding de contenido. Default combina superficie y línea; muted utiliza el mineral secundario. No hay elevación de card. ListGroup y ListRow ofrecen listas planas, divisores y filas completas pulsables con estados de hover y presión.
+
+La cabecera de cada comida es un bloque de tinta independiente del plato: icono circular, título heading con peso 800, número de registros debajo y total de kcal naranja a la derecha. Usa radio grande, borde naranja tenue y separación de 12 px respecto a sus entradas, sin sombra ni halo. El icono no es un control y la cabecera no se pulsa; el botón de acciones conserva su nombre y comportamiento. No se inventan horarios: el diario no registra la hora de la comida. En poco espacio las kcal ganan una fila; con texto ampliado el título ocupa todo el ancho bajo icono y acciones. Los nombres y las cifras completas envuelven, sin altura fija ni reducir targets.
 
 ### Inputs / Fields
 
