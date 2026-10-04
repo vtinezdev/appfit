@@ -5,6 +5,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { chromium } = require('playwright')
 const { navegar } = require('./navegar.cjs')
+const { ejecutarAccionPlato, desplegarPlato } = require('./acciones-plato.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-ui'
 fs.mkdirSync(salida, { recursive: true })
@@ -162,9 +163,9 @@ async function flujos(browser, colorScheme) {
   const guardadas = await entradas(page)
   assert.equal(guardadas.length, 7); assert.equal(new Set(guardadas.slice(-3).map(e => e.platoId)).size, 1)
   const cena = page.getByRole('region', { name: 'Cena', exact: true })
-  await cena.getByRole('button', { name: /^Pollo con arroz · cena .*ingredientes/ }).click()
+  await desplegarPlato(page, 'Pollo con arroz · cena', cena)
   await validarLayout(page, tag + '-plato-abierto')
-  await cena.getByRole('button', { name: 'Borrar plato Pollo con arroz · cena', exact: true }).click()
+  await ejecutarAccionPlato(page, 'Pollo con arroz · cena', 'Borrar plato', cena)
   await page.getByRole('button', { name: 'Deshacer', exact: true }).click(); assert.deepEqual(await entradas(page), guardadas)
   // Claves estables: borrar el primer ítem no desplaza el borrador del segundo.
   await page.getByRole('button', { name: 'Añadir comida', exact: true }).click(); await interpretar('150 g de pollo y 100 g de arroz')

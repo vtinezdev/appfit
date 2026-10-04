@@ -29,7 +29,7 @@ export default function MoverPlatoSheet({ plato, moviendo, error, onMover, onClo
         </Button>)}
       </div>
       {moviendo && <p role="status" className="text-body-sm text-fg-muted">Moviendo plato…</p>}
-      <p className="text-caption text-fg-muted">También puedes arrastrarlo desde el asa del plato en el diario.</p>
+      <p className="text-caption text-fg-muted">También puedes desplegar sus ingredientes y arrastrarlo desde el asa del plato en el diario.</p>
     </div>
   </Sheet>
 }

@@ -195,7 +195,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
           />
 
           <DndContext key={fecha} sensors={sensors} collisionDetection={colisionesComidas} measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
-            accessibility={{ restoreFocus: true, screenReaderInstructions: { draggable: 'Para mover el plato, pulsa Espacio o Enter, usa las flechas entre comidas y vuelve a pulsar para soltar. Escape cancela. También puedes usar el botón Mover.' },
+            accessibility={{ restoreFocus: true, screenReaderInstructions: { draggable: 'Para mover el plato, pulsa Espacio o Enter, usa las flechas entre comidas y vuelve a pulsar para soltar. Escape cancela. También puedes usar Mover en el menú de acciones del plato.' },
               announcements: {
                 onDragStart: ({ active }) => `Plato ${active.data.current?.plato?.nombre} seleccionado para mover.`,
                 onDragOver: ({ over }) => over && esComida(over.data.current?.comida) ? `Sobre ${nombreComida(over.data.current.comida)}.` : 'Fuera de las comidas; soltar cancela.',

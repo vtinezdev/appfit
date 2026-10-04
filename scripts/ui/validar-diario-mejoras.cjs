@@ -5,6 +5,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { chromium } = require('playwright')
 const { navegar } = require('./navegar.cjs')
+const { ejecutarAccionPlato, desplegarPlato } = require('./acciones-plato.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-diario-mejoras'
 const nombre = 'Arroz con pollo, verduras y salsa de tomate de la huerta'
@@ -17,12 +18,13 @@ async function registros(page) {
   })
 }
 const asa = page => page.getByRole('button', { name: `Arrastrar plato ${nombre}`, exact: true })
-const mover = page => page.getByRole('button', { name: `Mover plato ${nombre}`, exact: true })
+const mover = page => ({ click: () => ejecutarAccionPlato(page, nombre, 'Mover plato') })
 const seccion = (page, comida) => page.locator(`[data-comida="${comida}"]`)
 
 async function esperarComida(page, comida) {
-  await seccion(page, comida).getByRole('button', { name: `Mover plato ${nombre}`, exact: true }).waitFor()
-  assert.equal(await mover(page).count(), 1)
+  await seccion(page, comida).getByRole('button', { name: `Acciones del plato ${nombre}`, exact: true }).waitFor()
+  assert.equal(await page.getByRole('button', { name: `Acciones del plato ${nombre}`, exact: true }).count(), 1)
+  await desplegarPlato(page, nombre)
 }
 async function layout(page) {
   const resultado = await page.evaluate(() => {
@@ -272,7 +274,7 @@ async function main() {
         await informacion.waitFor({ state: 'detached' })
         await seccion(page, 'cena').scrollIntoViewIfNeeded()
         await page.screenshot({ path: path.join(salida, `${etiqueta}-comidas.png`) })
-        assert.equal(await page.getByRole('button', { name: `Añadir ingredientes a ${nombre}`, exact: true }).count(), 1)
+        assert.equal(await page.getByRole('button', { name: `Acciones del plato ${nombre}`, exact: true }).count(), 1)
         assert.deepEqual(errores, [])
         casos.push({ ...vista, correcto: true })
         console.log(`Diario: ${etiqueta}: correcto`)
