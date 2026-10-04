@@ -4,7 +4,7 @@ Implementación de la identidad de [DESIGN.md](../DESIGN.md). El criterio de pro
 
 ## Arquitectura
 
-Tres piezas, sin librería nueva ni variantes por feature:
+Tres piezas para la identidad compartida:
 
 1. `src/shared/design/tokens.css`: valores semánticos, temas, dimensiones y motion.
 2. `tailwind.config.js`: nombres de clase que apuntan a esos tokens; conserva el espaciado básico de Tailwind. Sustituye su paleta, escala tipográfica y radios.
@@ -62,7 +62,7 @@ Reduce Motion suprime desplazamientos, escala, FLIP, stagger, pulsación y entra
 | Componente | Contrato |
 |---|---|
 | Button | primary, secondary, ghost, destructive (oferta), danger (confirmación); loading deshabilita y anuncia ocupado |
-| IconButton | label obligatorio; sm/md 44 px, lg 48; sm solo reduce icono |
+| IconButton | label obligatorio; sm/md 44 px, lg 48; sm solo reduce icono; ref de React 19 apunta al botón real |
 | Input, Textarea, Select, SearchInput | 16 px, control ≥44, borde fuerte, foco global; etiquetas visibles en formularios y nombre accesible en búsquedas |
 | NumberStepper | una escala; botones 44, campo 16, unidad y label obligatorio; Gym usa campos directos |
 | Card | default/muted; unidad real, no marco obligatorio de sección |
@@ -81,10 +81,11 @@ Retirados: AnimatedNumber, ProgressRing, Card ink, Button contrast, stepper comp
 ## Patrones de producto
 
 - **Inicio/Hoy**: `ResumenNutricional` comparte un panel compacto. Cabecera sin divisor redundante; kcal, objetivo, diferencia y tres macros dentro del mismo contorno. Inicio pone Registrar comida dentro del resumen, junto al contexto de registro. `controles`, `detalle` y `footer` son slots explícitos, no tarjetas anidadas. Cifras largas envuelven sin ocultarse.
-- **Diario**: total por comida; filas con nombre simple/cantidad/kcal. Un plato conserva contorno, separación y despliegue independiente. No repetir barras de macros a cada nivel.
-- **Editar plato**: acción de texto con lápiz en una fila propia dentro del contorno, visible sin desplegar ingredientes. La página modal identifica el plato completo en el cuerpo, fija la comida y permite consultar los ingredientes actuales; Describir/Buscar prepara nuevos ingredientes para revisar y confirmar con «Añadir al plato». Conserva la edición/borrado individual del diario, sin comprimir acciones en la cabecera del bloque.
-- **Copiar plato**: acción con icono de copia junto a Editar, con envoltura si falta ancho. Reutiliza el sheet de acciones, identificando el plato completo en el cuerpo. «Copiar a otra comida…» muestra solo el selector de comida de destino y conserva el día seleccionado; copiar al origen queda desactivado. «Copiar a otro día…» y plantilla siguen disponibles. El menú de una comida ofrece las mismas vías para toda la sección. Éxito con Deshacer y errores en la capa activa.
-- **Detalle nutricional en Hoy**: selector Sencilla/Detallada dentro del resumen al que afecta. Detallada añade fibra, azúcares, sal y grasas saturadas, con «Sin datos»/cobertura parcial; no inventa objetivos ni juicios de salud. Fecha va inmediatamente después de tabs.
+- **Diario**: título de comida heading 22 px / 800, superior al alimento body 16 px; kcal con peso secundario. Filas planas con nombre/cantidad/kcal; cada plato conserva contorno, separación y despliegue independiente. No repetir barras de macros a cada nivel.
+- **Añadir ingredientes**: acción explícita con + dentro del contorno, visible sin desplegar ingredientes. La página modal identifica el plato completo en el cuerpo, fija la comida y permite consultar los ingredientes actuales; Describir/Buscar prepara ingredientes para revisar y confirmar con «Añadir al plato». Conserva edición/borrado individual, sin comprimir acciones en la cabecera.
+- **Mover plato**: asa de 44 px con icono grip y touch-action:none; el cuerpo conserva el scroll. Copia legible en portal, acotada al viewport, origen atenuado y comida receptora con fondo de acento suave/contorno fuerte. No anima el seguimiento del dedo ni el retorno; FLIP de los otros grupos solo al cambiar ids y sin movimiento con Reduce Motion. PointerSensor propio mantiene el primer pointerId y limpia captura/listeners ante cancel, Escape, blur, cambio de visibilidad o resize; dnd-kit aporta contexto, teclado, autoscroll y anuncios en español. «Mover» ofrece destinos mediante Sheet con errores en línea y actual deshabilitado. La nueva frontera opcional `Sheet.onExited` permite conservar contenido/foco durante la salida y enfocar el plato al terminar.
+- **Copiar plato**: acción junto a Añadir ingredientes y Mover, con envoltura si falta ancho. Reutiliza el sheet de acciones, identificando el plato completo en el cuerpo. «Copiar a otra comida…» conserva el día seleccionado; copiar al origen queda desactivado. «Copiar a otro día…» y plantilla siguen disponibles. Éxito con Deshacer y errores en la capa activa.
+- **Detalle nutricional en Hoy**: Sencilla/Detallada dentro del resumen. Detallada añade fibra, azúcares, sal y saturadas con gramos conocidos, cobertura y barra compartida; mínimo/límite/referencia se explicitan debajo y en aria-valuetext. «Sin datos» no muestra barra de consumo ni se convierte a cero. Fuentes/diferencia entre azúcares totales y libres en Disclosure; sin juicios de salud. Valores y alcance: [Nutrición](features/nutricion.md). Fecha inmediatamente después de tabs.
 - **Añadir**: comida + métodos Describir/Buscar/Plantillas. Revisión: nombre completo, cantidad, aporte, avisos y Cambiar. Nutrientes por 100 g/nombre personal en Detalles; incompletos abren esos detalles. Claves locales estables evitan mover borradores al quitar ingredientes.
 - **Detalles del alimento**: siempre muestra los cuatro extras opcionales junto a los macros, independientemente del modo del diario. Campos de dos columnas y estado vacío «Sin datos»; debajo, aporte conocido de la cantidad indicada.
 - **Gym activo**: superficie tinta compacta para rutina/estado, reloj aislado, volumen y progreso de series marcadas. La primera fila editable permanece visible a 320×568 con descanso activo. Ejercicio, referencia anterior, Serie/Reps/kg/borrar y añadir serie; campos directos ≥44. Tocar el número confirma con check, superficie de éxito, haptic opcional y anuncio accesible; editar desmarca. `useListMotion` aplica FLIP al cambiar ids o la presencia/configuración del descanso, no a cada tecla o tick. Alta tiene entrada breve, borrado conserva Deshacer.

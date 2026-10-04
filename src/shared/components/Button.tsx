@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
 import Icon, { type IconName } from './Icon'
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'danger'
@@ -49,6 +49,8 @@ export default function Button({ variant = 'primary', size = 'md', block = false
 }
 
 interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'> {
+  /** React 19: sensores/foco pueden referenciar el botón real sin un wrapper. */
+  ref?: Ref<HTMLButtonElement>
   icon: IconName
   /** Obligatorio: es el nombre accesible y el tooltip. */
   label: string

@@ -13,13 +13,13 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Añadir comidas por texto libre o con el dictado del teclado: un intérprete local entiende alimentos, cantidades y medidas caseras («2 huevos», «una lata de atún», «un vaso de leche») y los busca en tus alimentos y en un catálogo de más de 6.000 alimentos (CIQUAL y productos de marca de Open Food Facts España). Sin conexión.
 - Escáner de códigos de barras (Open Food Facts; solo se envía el número del código).
 - Pantalla de revisión editable antes de guardar: muestra cómo se divide la descripción y permite añadir alimentos uno a uno o por tandas, conservando las correcciones y guardándolos juntos.
-- Los alimentos guardados juntos aparecen como un plato desplegable en Nutrición, con su propio bloque, borde y espacio entre platos, nombre opcional, totales y edición de cada ingrediente. «Editar plato» permite añadir más alimentos al mismo plato. «Copiar plato» permite duplicarlo a otra comida del mismo día o a otro día, manteniendo el original. Copiar o repetir conserva los platos separados.
+- Los alimentos guardados juntos aparecen como un plato desplegable, con nombre opcional, totales y edición de cada ingrediente. «Añadir ingredientes» incorpora más alimentos al mismo plato. Arrastrarlo desde su asa o usar «Mover» lo traslada completo a otra comida del día, con Deshacer. «Copiar plato» lo duplica a otra comida o día, manteniendo el original. Las comidas tienen títulos más destacados que los alimentos.
 - Nutrición simplifica automáticamente el nombre de todos los alimentos, incluidos los que añades manualmente, mientras Añadir comida conserva el nombre completo. Se puede personalizar la etiqueta sin cambiar los nombres originales ni sus nutrientes.
 - Buscador con frecuentes, plantillas de comidas, copiar una comida o un día y «kcal rápidas» para una comida fuera.
 - Resumen diario en un recuadro compartido entre Inicio y Nutrición, con calorías, objetivos y macros, separado del resto de secciones; la vista detallada incluye el desglose dentro del mismo panel.
 - Buscador e intérprete priorizan alimentos básicos habituales («pollo» → pechuga sin piel), conservando las variantes de preparación y marca cuando las especificas.
 - Resumen semanal y mensual navegable, con gráficas frente a tus objetivos.
-- Vista detallada opcional del diario con fibra, azúcares, sal y grasas saturadas; siempre disponibles en los detalles del alimento. Los datos ausentes se distinguen de cero y los totales incompletos se señalan.
+- Vista detallada con fibra, azúcares, sal y saturadas, y barras de referencias diarias con fuentes y distinción entre mínimos, límites y valores de etiquetado. Los extras también están en los detalles del alimento; los datos ausentes se distinguen de cero y las sumas incompletas se señalan.
 - Base de datos personal de alimentos, editable a mano.
 
 **Gimnasio**

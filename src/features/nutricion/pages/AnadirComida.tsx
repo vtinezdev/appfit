@@ -31,6 +31,7 @@ import {
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import type { Plato } from '../lib/platos'
 import { normalizeName } from '../../../shared/lib/text'
+import { COMIDAS } from '../lib/comidas'
 import { macrosPorGramos, resumenMacros, sumMacros } from '../lib/nutrition'
 import AplicarPlantillaSheet from '../components/AplicarPlantillaSheet'
 import DescribirComida from '../components/DescribirComida'
@@ -55,12 +56,6 @@ interface Props {
   onGuardado: () => void
 }
 
-const COMIDAS: { valor: Comida; label: string }[] = [
-  { valor: 'desayuno', label: 'Desayuno' },
-  { valor: 'comida', label: 'Comida' },
-  { valor: 'cena', label: 'Cena' },
-  { valor: 'snack', label: 'Snack' },
-]
 
 /** En edición, el ítem parte del snapshot de la entrada (no del alimento guardado, que puede haber cambiado). */
 function itemDesdeEntrada(e: Entry): ItemRevision {
@@ -230,7 +225,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const kcalRapido = aporteRapido ? Math.round(aporteRapido.kcal) : 0
 
   return (
-    <ModalPage title={entryEditar ? 'Editar alimento' : platoDestino ? 'Editar plato' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose}
+    <ModalPage title={entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose}
       footer={items !== null && items.length > 0 && totales && (
         <div className="space-y-2">
           {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}

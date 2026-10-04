@@ -91,6 +91,12 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   transition: transform var(--dur-normal) var(--ease-standard);
 }
 .progress-fill { transition: transform var(--dur-normal) var(--ease-standard); }
+.meal-section { transition: background-color var(--dur-short) var(--ease-standard); }
+.meal-section[data-drop-active='true'] {
+  background: rgb(var(--c-accent-subtle));
+  outline: 2px solid rgb(var(--c-accent-strong));
+  outline-offset: 4px;
+}
 .overlay-backdrop { opacity: 0; transition: opacity var(--dur-overlay) var(--ease-standard); }
 [data-visible='true'] > .overlay-backdrop { opacity: 1; }
 [data-visible='false'] > .overlay-backdrop { transition-duration: var(--dur-exit); }

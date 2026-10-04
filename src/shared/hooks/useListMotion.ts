@@ -2,8 +2,8 @@ import { useLayoutEffect, useRef } from 'react'
 import { motionEasing, motionMs, reduceMotion } from '../design/motion'
 
 /** FLIP solo al cambiar la lista: no mide ni anima durante la escritura o el reloj. */
-export function useListMotion(identity: string) {
-  const ref = useRef<HTMLDivElement>(null)
+export function useListMotion<T extends HTMLElement = HTMLDivElement>(identity: string) {
+  const ref = useRef<T>(null)
   const positions = useRef(new Map<string, number>())
   const animations = useRef(new Map<string, Animation>())
   useLayoutEffect(() => {

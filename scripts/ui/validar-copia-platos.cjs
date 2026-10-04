@@ -96,10 +96,10 @@ async function main() {
         comprobarCopia(copiado.filter((e) => !antes.some((a) => a.id === e.id)), originales, 'comida', fechas.fecha)
         assert.deepEqual(copiado.filter((e) => antes.some((a) => a.id === e.id)), antes)
         const comida = page.getByRole('region', { name: 'Comida', exact: true })
-        await comida.getByRole('button', { name: `Editar plato ${nombre}`, exact: true }).waitFor()
+        await comida.getByRole('button', { name: `Añadir ingredientes a ${nombre}`, exact: true }).waitFor()
         await layout(page)
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
-        await comida.getByRole('button', { name: `Editar plato ${nombre}`, exact: true }).waitFor({ state: 'detached' })
+        await comida.getByRole('button', { name: `Añadir ingredientes a ${nombre}`, exact: true }).waitFor({ state: 'detached' })
         assert.deepEqual(await registros(page), antes)
 
         for (const destino of ['Cena', 'Comida', 'Comida']) {
