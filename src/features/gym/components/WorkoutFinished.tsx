@@ -10,7 +10,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
     <PageHeader title="Sesión guardada" overline="Tu entrenamiento ya está en el historial." />
     <section aria-label="Resumen del entrenamiento guardado" className="training-surface space-y-6 p-5">
       <div className="workout-finish-mark flex h-14 w-14 items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="check" size={30} /></div>
-      <div><p className="training-muted text-body-sm">Tiempo de sesión</p><p className="tabular text-hero font-extrabold">{clockText(summary.seconds)}</p></div>
+      <div><p className="training-muted text-body-sm">Tiempo de sesión</p><p className="font-numeric tabular text-hero">{clockText(summary.seconds)}</p></div>
       <div className="grid grid-cols-3 gap-3 workout-summary-metrics">
         <Metric label="Ejercicios" size="title" valor={summary.exercises} />
         <Metric label="Series" size="title" valor={summary.sets} />

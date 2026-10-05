@@ -1,29 +1,40 @@
 # APPFIT completa
 
 Target: `src/app/App.tsx`; related: `src/features/inicio/InicioTab.tsx`, `src/features/nutricion/NutricionTab.tsx`, `src/features/gym/GymTab.tsx`, `src/app/Ajustes.tsx`.
-Visitor mode: Operate. Rediseño delegado por el usuario; implementación directa en código para comprobar estados y movimiento. Esta elección se limita a la sesión, sin establecer un default de generación de imágenes.
+Visitor mode: Operate. Implementación directa solicitada por el usuario; elección de esta sesión, sin modificar preferencias globales de Impeccable.
 
 ## Direction contract
 
-THESIS: Precisión deportiva de una pista indoor: un registro de entrenamiento legible, táctil y compacto, con nutrición y peso en la misma gramática. Evitar una sucesión indiferenciada de paneles.
+THESIS: Herramienta de disciplina, rendimiento y progreso. La opción 3 «Enfocada y Enérgica» aportada por Víctor manda sobre la identidad anterior y sobre el roll.
 
-OWN-WORLD: Azul tinta, blanco mineral y naranja señal; Manrope local con títulos contundentes y cifras tabulares. Radios contenidos, superficies limpias, selección con forma y texto además del color. Feedback breve y desaceleración sin rebote.
+OWN-WORLD: Negro/grafito, blanco/grises y naranja intenso de acento. Barlow Condensed local para títulos/métricas, Manrope para lectura/edición. Superficies compactas por tono, radios contenidos, controles reconocibles; sin gaming, halo ni fotografía de relleno.
 
-STORY: Inicio orienta el día. Nutrición permite registrar y revisar consumo; Referencias explica criterios y procedencia mediante contenido común y consulta contextual. Gym presenta el trabajo como una secuencia de series, distingue su confirmación visual y propone descanso opcional. Datos y acciones conservan significado en ambas apariencias.
+STORY: Inicio propone entrenar y permite revisar consumo/peso. Nutrición muestra consumo; Referencias explica criterios/fuentes compartidos. Gym prioriza ejercicio y series. Cada acción conserva datos, navegación y recuperación existentes.
 
-FIRST VIEWPORT: Cabecera con APPFIT y fecha, saludo; resumen nutricional compacto con registro junto al contexto; sesión y peso como unidades de información. En entreno activo: estado, rutina, tiempo real, series y volumen; primera tabla de series editable al alcance. Botón Menú persistente centrado, destinos emergiendo hacia arriba en abanico.
+FIRST VIEWPORT: Saludo/fecha/marca, mensaje breve, sesión activa o acceso a elegir entrenamiento. Nutrición integrada y peso debajo. En sesión: estado/tiempo/series/volumen y primera fila editable al alcance. Menú inferior estable y abanico conectado a su origen.
 
-FORM: Candidato 5, pista indoor y señalética deportiva, seed `8fb039d8`. Alternativas exploradas: programa de entrenamiento impreso, club deportivo, fotografía de producto deportivo, clasificación de competición, pista indoor, fichas de material, acreditación de evento. El seed se consultó una vez sin red y se repitió con red para obtener challengers. Ningún challenger mejora conjuntamente identificación deportiva y claridad de uso frente al encargo: split-flap (declined, conservar estabilidad de columnas), folio botánico (declined, comparación alineada), orientación (competitive en identificación, conservar código de estados), catálogo de personajes (declined, controles inequívocos), Metro (competitive en claridad, conservar jerarquía de tipos), mapa de transporte (declined, continuidad de origen/destino). El brief manda sobre topologías ajenas al producto. Riesgo: el abanico necesita targets/colisiones probados en 320 px.
+FORM: Dirección fijada por el usuario: opción 3. Seed consultado una vez, `28308d58`, índice 6; el encargo explícito prevalece. Se conserva disciplina tipográfica/claridad operativa sin adoptar topologías ajenas. Riesgo: ampliación de texto y cifras deben envolver sin reducir targets.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
 
 ## Motion thesis
 
-Focal: cinco destinos salen del mismo origen y vuelven a él; confirmar una serie sella su check; el cierre de sesión fija el resultado real.
-Continuity: indicador de tabs/segmentos, altas/bajas de series, sheets interruptibles y navegación breve.
-Feedback: presión 120 ms, estados 200 ms, overlays/abanico 280 ms, cierre 180 ms y éxito 420 ms. Curvas desaceleradas sin overshoot; no se introduce un motor spring.
-Budget: CSS + Web Animations, sin dependencia nueva, temporizador absoluto y render aislado por segundo. Reduce Motion mantiene color/texto/check con 80 ms de fundido y suprime desplazamientos. Vibración solo tras acciones del usuario y si está soportada.
+Conservar el abanico, confirmación de series, descanso y cierre de sesión. Feedback 120 ms, estados 200 ms, capas 280 ms, salida 180 ms; éxito breve 420 ms. CSS/Web Animations sin rebote ni motor nuevo. Reduce Motion mantiene texto/check y fundido de 80 ms, sin desplazamiento/FLIP/stagger. Haptics opcionales según navegador.
 
 ## Constraints
 
-No cambios de esquema, backend ni cálculos. Completar series y descanso son estado de presentación por sesión, separado de IndexedDB y backups. Toda serie sigue guardándose con el mecanismo existente. Pruebas solo en `appfit-test.localhost:5173`, contextos nuevos, datos sintéticos.
+PWA React/TypeScript; no cliente nativo. Sin cambios de backend, cálculos, schema, parser, repositorios o backups. Marcas/descanso siguen en sessionStorage. Sistema/Claro/Oscuro y geometría accesible conservados. Pruebas en `appfit-test.localhost`, perfiles efímeros y fixtures sintéticos.
+
+## Finish record
+
+Revisión visual acotada y documentación en la sesión principal, respetando CLAUDE.md (sin subagentes). Evidencia y límites del sistema inicial: `docs/historico/identidad-enfocada-energica-2026-10-05.md`. Barlow local con licencia/procedencia documentada.
+
+## Extensión aprobada: atmósferas fotográficas
+
+Tras la preview estática de tres pantallas (`/workspace/generated_images/exec-22bc6273-7a5b-4550-b148-caf70875b471.png`), Víctor autoriza «Me gusta mucho, implementa todo». Inicio combina bienestar, fitness y nutrición; Nutrición usa cocina/meal prep calmado; Gym pesas y esfuerzo. Se generan tres escenas específicas sin UI ni texto: la interfaz y sus datos siguen siendo React, no parte de la imagen.
+
+`AtmosferaApp` es decoración sin eventos ni información accesible. Tokens compartidos controlan opacidad, saturación, lectura y desvanecimiento. Referencias/Ajustes reciben una variante más discreta; Claro reduce la foto; Forced Colors la oculta. Sin movimiento, parallax ni hueco decorativo que aleje las primeras series. Menú, capas y formularios conservan superficies protegidas.
+
+Tres WebP locales (175.712 bytes en total), precargados por la PWA, con prompts exactos en sidecars. Procedencia en `public/images/atmosferas/README.md`. Revisión inicial conjunta de Inicio/Nutrición/sesión móvil oscura e Inicio claro en escritorio: jerarquía, contraste y densidad correctos; no requiere tanda de fixes visuales. Detector: cero hallazgos principales, un aviso preexistente de radio en paginación futura del menú.
+
+Veredicto manual: listo dentro del alcance validado. 1.208 tests / 66 archivos y build TypeScript/Vite/PWA correctos; 514 estados, 12 contextos de motion y producción offline con las tres imágenes verificadas en CacheStorage. Evidencia, accesibilidad y límites en `docs/historico/atmosferas-fotograficas-2026-10-05.md`. Hardware iOS/Android y Safari siguen pendientes. Sin commit ni push.

@@ -8,7 +8,7 @@
 |---|---|---|
 | Pantalla | `InicioTab.tsx` (saludo según la hora: `lib/saludo.ts`) | lee `entriesRepo.delDia`, `getSettings`, `pesosRepo.delRango` |
 | Resumen de kcal y macros | `nutricion/components/ResumenNutricional` (el mismo que en Hoy) | — |
-| Entreno en curso o último | `gym/components/TarjetaEntreno` | solo lectura de `workoutsRepo` y `setsRepo` |
+| Entreno destacado y último resultado | `gym/components/TarjetaEntreno` | solo lectura de `workoutsRepo` y `setsRepo` |
 | Peso | `components/PesoCard`, `components/RegistrarPesoSheet`, `components/HistorialPeso` | `pesosRepo` (tabla `pesos`) |
 | Lógica del peso | `lib/peso.ts`: `validarPeso` (rango y decimales admitidos), `tendenciaPeso`, `puntosSparkline` | — |
 
@@ -18,7 +18,9 @@ El shell (`app/TrasladarDatos`) muestra antes del resumen un aviso breve para a�
 
 ## Presentación y acciones
 
-Resumen nutricional compacto en un recuadro compartido con Hoy: fondo propio, borde fino, esquinas redondeadas y padding, separado de los paneles siguientes por el espacio de sección. Cabecera con «Ver día», kcal destacadas y macros agrupados, sin anillo ni contador. «Registrar comida» está dentro del footer del mismo resumen y abre directamente el flujo de Nutrición. La cabecera da presencia a APPFIT; el entreno activo usa tinta para distinguirlo del contexto histórico y del peso. El historial de peso se consulta desde «⋯»: lista completa con fechas/kg, solo lectura sobre el repositorio existente. No hay tracking de medidas corporales; «Medidas caseras» pertenece a Nutrición.
+Saludo/fecha/BrandMark y mensaje «Entrena. Registra. Avanza.». Primero `TarjetaEntreno destacado`: grafito, título deportivo, Ir a entrenar o Continuar y último resultado real si existe. Abre Gym para elegir rutina o entreno libre, sin inventar una programación.
+
+Después `ResumenNutricional integrado`, sin otra tarjeta: kcal y macros protagonistas, «Ver día» y «Registrar comida» secundario. Se reutilizan cálculos/slots de Hoy. Peso conserva su panel; al final hay accesos Nutrición/Entreno. El historial de peso se consulta desde «⋯»: lista completa con fechas/kg, solo lectura sobre el repositorio existente. No hay tracking de medidas corporales; «Medidas caseras» pertenece a Nutrición.
 
 ## Reglas
 

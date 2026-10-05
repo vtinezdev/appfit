@@ -36,6 +36,7 @@ Excepciones conocidas:
 src/main.tsx             arranque (ver abajo)
 src/index.css            CSS global: inputs a 16 px, utilidades (.no-spin, .tabular…)
 src/app/                 App (pestañas), navegacion (destinos/Tab), BottomNav, RuedaNavegacion, TrasladarDatos, Ajustes
+                         AtmosferaApp (decoración local de cada destino, sin acceso a datos)
 src/shared/db/           db.ts (esquema y listas de tablas), types.ts, settings.ts, estadoDatos.ts, foodRef.ts
 src/shared/lib/          dates (fechas locales, periodos), format (formatInt/formatNumber/formatCompact), text (normalizeName, tokenizar,
                          tokensConsulta, singular, mismaRaiz), almacenamiento (protección y modo PWA), backup (exportar/importar/migrar/borrar)
@@ -47,7 +48,8 @@ src/features/nutricion/  → features/nutricion.md
 src/features/gym/        → features/gym.md
 src/features/referencias/ → features/referencias.md (sección global, contenido compartido, catálogo y futuros grupos)
 src/test/                setup-db.ts (fake-indexeddb, cargado como setupFiles de Vitest) y fixtures/
-public/                  iconos de la PWA, favicon.svg, fonts/ (Manrope OFL) y catalogo/ (paquetes que la app descarga)
+public/                  iconos de la PWA, favicon.svg, fonts/ (Manrope y Barlow Condensed, OFL) y catalogo/ (paquetes que la app descarga)
+                         images/atmosferas/ (tres fondos WebP locales y procedencia)
 scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/README.md
 ```
 
@@ -57,7 +59,7 @@ Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002]
 
 - El shell flex ocupa 100dvh. `main` posee el scroll y la barra inferior su espacio propio; ancho de lectura máximo 512 px. Navegar restablece el scroll.
 - `app/App.tsx`: pestaña activa (`Tab` derivado de `DESTINOS` en `navegacion.ts`): `inicio` (por defecto) · `nutricion` · `gym` · `referencias` · `ajustes`. `BottomNav` muestra Menú y la sección actual; abre por portal un abanico (`RuedaNavegacion`) anclado al botón, sin Sheet intermedio. La lista central fija nombres, iconos y orden; cinco destinos caben en dos niveles y los futuros se paginan de cinco en cinco ([ADR 011](decisiones/011-consumo-y-referencias.md)). Incorporar una pantalla requiere además conectarla en App.
-- Inicio permite abrir Añadir comida directamente en Nutrición. El aviso de primer inicio en iOS abre Ajustes con `abrirGuia`: después de cargar, desplaza la vista y enfoca la guía abierta «Instalación y traslado de registros». La navegación habitual de la barra no activa ese salto. La guía tiene un segundo salto a Exportar/Importar, sin cambiar la URL.
+- Inicio prioriza entrenamiento con `TarjetaEntreno destacado`, luego nutrición integrada y peso. Las variantes conservan las lecturas existentes. Inicio permite abrir Añadir comida directamente en Nutrición. El aviso de primer inicio en iOS abre Ajustes con `abrirGuia`: después de cargar, desplaza la vista y enfoca la guía abierta «Instalación y traslado de registros». La navegación habitual de la barra no activa ese salto. La guía tiene un segundo salto a Exportar/Importar, sin cambiar la URL.
 - `NutricionTab`: vistas `hoy` · `resumen` · `alimentos` (ViewTabs). Hoy se carga con React.lazy: el arrastre de platos y dnd-kit no se ejecutan al abrir Inicio o Gym. `arrastrePlatos` y `PlatoPointerSensor` son adaptadores de interacción del diario, sin acceso a datos; las escrituras pasan por `entriesRepo`. «Añadir comida» (y la edición de una entrada) usa ModalPage; «Mover plato» usa Sheet y comparte la escritura con el gesto. `ComidaSection` compone filas compartidas de plato/alimento (`RegistroComida`) y un menú contextual (`AccionesPlatoSheet`); su `onExited` encadena las tareas existentes sin apilar capas ni escribir datos nuevos. «Medidas» se abre encima de Añadir.
 - `GymTab`: vistas `inicio` · `rutinas` · `historial` · `progreso`. Si hay un entreno sin `fin`, la pestaña entera pasa a ser `EntrenoActivo` (carga diferida); al terminar muestra `WorkoutFinished` con los resultados guardados. Marcas/descanso en `gym/lib/session.ts` son presentación por sesión, separados de los repositorios.
 - Gym también usa ViewTabs. Segmentación de valores (comida, periodo, tema) mediante SegmentedControl, con semántica radio.
@@ -75,9 +77,10 @@ Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002]
 
 - `vite.config.ts`: `VitePWA` con `registerType: 'autoUpdate'` (un deploy nuevo se aplica solo).
 - Manifest con `id: '/'`, `start_url: '/'` y `scope: '/'` estables entre builds. Los archivos precacheados se actualizan; la base IndexedDB `appfit` conserva los registros en el mismo origen. La PWA y Safari pueden tener almacenes separados en iOS (traslado: `datos.md`).
-- El precache (`globPatterns`) incluye js/css/html/svg/png/ico/woff2. **No** incluye:
+- El precache (`globPatterns`) incluye js/css/html/svg/png/webp/ico/woff2, incluidas las tres escenas locales. **No** incluye:
   - los `.json` del catálogo: el manifest se pide con `cache: 'no-cache'`;
   - el `.wasm` del escáner: regla `CacheFirst` en tiempo de ejecución, así que funciona sin red desde su primer uso.
-- La fuente local variable se precarga y precachea; no añade un origen de red. El logotipo/iconos existentes se mantienen.
+- Manrope variable y Barlow Condensed 700 son locales, precargadas y precacheadas; no añaden un origen de red. Manifest/theme-color inicial usan grafito. Iconos/id/scope permanecen estables; BrandMark presenta la marca dentro de la UI.
+- AtmosferaApp introduce una sola imagen decorativa por destino (unos 176 KB para las tres escenas), sin solicitudes externas ni espacio de layout. Referencias/Ajustes reducen la intensidad; menús y tareas conservan sus capas. No hay cache runtime nueva ni cambios de registros/migraciones. La prueba de producción comprueba las entradas de CacheStorage y la carga al navegar offline.
 - Chunks diferidos (`React.lazy` / `import()`): `ReferenciasTab`, `Hoy` (dnd-kit), `EntrenoActivo`, `Resumen` y `Progreso` (Recharts), y el lector de códigos (`nutricion/lib/escaner/`). Recharts y dnd-kit no deben entrar en el chunk de arranque (Inicio usa un SVG propio). Las referencias nutricionales son constantes locales; solo abrir explícitamente sus enlaces consulta fuentes externas, sin enviar datos personales.
 - Despliegue estático en Cloudflare Workers: `desarrollo.md` § Despliegue.

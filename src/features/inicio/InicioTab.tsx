@@ -3,6 +3,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import Button from '../../shared/components/Button'
 import Icon from '../../shared/components/Icon'
 import PageHeader from '../../shared/components/PageHeader'
+import BrandMark from '../../shared/components/BrandMark'
 import { LoadingState } from '../../shared/components/StateMessage'
 import { getSettings } from '../../shared/db/settings'
 import { addDays, parseISODate, todayISO } from '../../shared/lib/dates'
@@ -56,7 +57,10 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
 
   return (
     <div className="space-y-section px-page pt-5">
-      <PageHeader overline={fechaLarga} title={saludoPorHora()} action={<span aria-label="APPFIT" className="text-title font-extrabold tracking-tight">AF<span className="text-accent">/</span></span>} />
+      <div className="space-y-3">
+        <PageHeader overline={fechaLarga} title={saludoPorHora()} action={<BrandMark />} />
+        <p className="text-body-sm text-fg-muted">Entrena. Registra. Avanza.</p>
+      </div>
       {ayudaInicial}
 
       {!entries || !settings || !pesos ? (
@@ -65,11 +69,13 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
         </div>
       ) : (
         <div className="space-y-section">
+          <TarjetaEntreno destacado onAbrir={onIrAGym} />
           <ResumenNutricional
+            integrado
             titulo="Resumen de hoy"
             totales={sumMacros(entries)}
             objetivos={settings.objetivos}
-            footer={<Button block onClick={onAnadirComida}><Icon name="plus" size={18} />Registrar comida</Button>}
+            footer={<Button variant="secondary" block onClick={onAnadirComida}><Icon name="plus" size={18} />Registrar comida</Button>}
             accion={
               <Button variant="ghost" size="sm" onClick={onIrANutricion}>
                 Ver día
@@ -77,8 +83,11 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
               </Button>
             }
           />
-          <TarjetaEntreno onAbrir={onIrAGym} />
           <PesoCard tendencia={tendencia} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
+          <div aria-label="Accesos rápidos" className="grid grid-cols-2 gap-2 border-t border-line pt-3">
+            <Button variant="secondary" onClick={onIrANutricion}><Icon name="utensils" size={20} />Nutrición</Button>
+            <Button variant="secondary" onClick={onIrAGym}><Icon name="dumbbell" size={20} />Entreno</Button>
+          </div>
         </div>
       )}
 

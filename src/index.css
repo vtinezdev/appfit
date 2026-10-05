@@ -10,10 +10,45 @@
   font-display: swap;
   src: url('/fonts/manrope-latin-variable.woff2') format('woff2');
 }
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-700.woff2') format('woff2');
+}
 
 html, body, #root {
   height: 100%;
 }
+html { scrollbar-color: rgb(var(--c-border-strong)) rgb(var(--c-bg)); }
+button, a { -webkit-user-select: none; }
+a { text-underline-offset: 0.2em; }
+.text-display, .text-heading { font-family: var(--font-display); font-weight: 700; }
+.text-display { text-transform: uppercase; }
+.page-header-main { min-width: min(100%, 10rem); }
+
+/* Una escena por sección, dentro del ancho de producto y ligada al scroll normal.
+   No parallax/backdrop-filter ni alturas añadidas al contenido. Si falla la imagen queda el tema. */
+.app-view[data-atmosphere] { position: relative; isolation: isolate; min-height: 100%; }
+.app-atmosphere { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.app-atmosphere img {
+  display: block; width: 100%; height: var(--atmosphere-height); object-fit: cover; object-position: center top;
+  opacity: var(--atmosphere-photo-opacity); filter: saturate(var(--atmosphere-photo-saturation));
+}
+.app-atmosphere::after {
+  content: ''; position: absolute; inset: 0 0 auto; height: var(--atmosphere-height);
+  background: linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-wash-top)) 0%, rgb(var(--c-bg) / .7) 18%, rgb(var(--c-bg) / .87) 43%, rgb(var(--c-bg) / .97) 75%, rgb(var(--c-bg)) 100%);
+}
+.app-atmosphere[data-quiet='true'] { --atmosphere-photo-opacity: 0.2; }
+.app-view[data-atmosphere] .page-header, .app-view[data-atmosphere] .app-tabs {
+  background: rgb(var(--c-bg) / var(--atmosphere-reading-wash));
+}
+.app-view[data-atmosphere] .app-card:not(.bg-surface-muted):not(.training-surface) {
+  background-color: rgb(var(--c-surface) / var(--atmosphere-panel-opacity));
+}
+.app-view[data-atmosphere] .training-surface { background-color: rgb(var(--c-training) / var(--atmosphere-training-opacity)); }
+@media (forced-colors: active) { .app-atmosphere { display: none; } }
 
 body {
   @apply bg-bg font-sans text-body text-fg antialiased;
@@ -94,7 +129,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .meal-section { transition: background-color var(--dur-short) var(--ease-standard); }
 .meal-header {
   @apply rounded-lg border bg-surface p-3;
-  border-color: rgb(var(--c-accent-strong) / 0.35);
+  border-color: rgb(var(--c-border));
   container: meal-header / inline-size;
 }
 .meal-header-grid {
@@ -108,7 +143,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .meal-header-icon { grid-area: icon; }
 .meal-header-title { grid-area: title; overflow-wrap: anywhere; }
 .meal-header-meta { grid-area: meta; }
-.meal-header-energy { grid-area: energy; border-left: 1px solid rgb(var(--c-accent-strong) / 0.25); padding-left: 0.5rem; }
+.meal-header-energy { grid-area: energy; border-left: 1px solid rgb(var(--c-border)); padding-left: 0.5rem; }
 .meal-header-energy .tabular { min-width: 0; overflow-wrap: anywhere; }
 .meal-header-actions { grid-area: actions; }
 /* La cifra completa y el texto ampliado ganan una fila, sin reducir letra/targets. */
@@ -157,8 +192,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 @keyframes view-arrival { from { opacity: .35; } to { opacity: 1; } }
 .menu-trigger {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 124px; height: 48px; border-radius: 12px;
-  background: rgb(var(--c-training)); color: rgb(var(--c-on-training));
+  width: 124px; height: 48px; border-radius: var(--radius-md);
+  background: rgb(var(--c-surface-elevated)); color: rgb(var(--c-text-primary));
+  border: 1px solid rgb(var(--c-border-strong));
   font-weight: 700; font-size: 14px;
 }
 .nav-content { container-type: inline-size; container-name: app-nav; }
@@ -185,7 +221,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   transition-duration: var(--dur-overlay); transition-timing-function: var(--ease-standard);
   transition-delay: calc(var(--fan-index) * var(--dur-stagger));
 }
-.fan-target { position: relative; min-height: var(--menu-action-height); height: 100%; }
+.fan-target { position: relative; min-height: var(--menu-action-height); height: 100%; border: 1px solid rgb(var(--c-border-strong)); }
+.fan-target[aria-current='page'] { border-color: rgb(var(--c-accent)); }
 .fan-hub { position: absolute; transform: translate(-50%, -50%); background: rgb(var(--c-accent)); color: rgb(var(--c-on-accent)); }
 .fan-hub:active { transform: translate(-50%, -50%) scale(var(--motion-press)); }
 .fan-pages { position: absolute; top: -245px; width: 260px; transform: translateX(-50%); border-radius: 12px; background: rgb(var(--c-surface)); padding: 4px; }
@@ -198,7 +235,17 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .fan-dialog[data-compact='true'] .fan-hub { left: 50%; }
 .loading-skeleton { animation: loading-breathe 1.4s ease-in-out infinite alternate; }
 @keyframes loading-breathe { to { opacity: .45; } }
-.training-surface { background: rgb(var(--c-training)); color: rgb(var(--c-on-training)); border-radius: var(--radius-lg); }
+.training-surface {
+  --c-text-primary: var(--c-on-training); --c-text-secondary: var(--c-training-muted); --c-text-tertiary: var(--c-training-muted);
+  --c-accent-strong: var(--c-meal-accent); --c-focus: var(--c-meal-accent); --c-border: var(--c-training-track);
+  background: rgb(var(--c-training)); color: rgb(var(--c-on-training)); border-radius: var(--radius-lg);
+}
+.training-feature { border: 1px solid rgb(var(--c-training-track)); }
+.training-feature .training-previous { border-top: 1px solid rgb(var(--c-training-track)); }
+.series-row .app-field { font-size: var(--fs-title); font-weight: 700; background: rgb(var(--c-bg)); }
+.exercise-panel .exercise-title { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: 700; }
+.nutrition-summary .calorie-value { color: rgb(var(--c-text-primary)); }
+.sheet-panel h2, .task-layer header h1 { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: 700; }
 .training-muted { color: rgb(var(--c-training-muted)); }
 .training-secondary { color: rgb(var(--c-on-training)); border: 1px solid rgb(var(--c-training-muted) / .4); }
 .training-secondary:hover, .training-secondary:active { background: rgb(var(--c-on-training) / .1); }

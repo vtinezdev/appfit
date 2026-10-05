@@ -11,7 +11,7 @@ interface Props {
   align?: 'left' | 'right'
   className?: string
 }
-const NUM: Record<Size, string> = { hero: 'text-hero', metric: 'text-metric', title: 'text-title font-bold' }
+const NUM: Record<Size, string> = { hero: 'font-numeric text-hero', metric: 'font-numeric text-metric', title: 'font-numeric text-heading' }
 const UNIT: Record<Size, string> = { hero: 'text-body', metric: 'text-body-sm', title: 'text-caption' }
 /** Métrica honesta: valor final inmediato, unidades visibles, contenido largo adaptable. */
 export default function Metric({ valor, unidad, label, caption, size = 'metric', align = 'left', className = '' }: Props) {

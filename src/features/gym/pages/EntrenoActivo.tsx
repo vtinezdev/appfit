@@ -192,9 +192,9 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
           </Button>
         </div>
         <div className="grid grid-cols-3 items-end gap-3">
-          <div className="min-w-0"><p className="training-muted text-caption">Tiempo</p><p className="text-heading font-extrabold"><WorkoutClock start={workout.inicio} /></p></div>
-          <div className="min-w-0"><p className="training-muted text-caption">Volumen</p><p className="tabular break-words text-title font-bold">{formatInt(volumen)} <span className="training-muted text-caption">kg</span></p></div>
-          <div className="min-w-0 text-right"><p className="training-muted text-caption">Series marcadas</p><p className="tabular text-title font-bold">{completedCount}<span className="training-muted text-body-sm"> / {currentSets.length}</span></p></div>
+          <div className="min-w-0"><p className="training-muted text-caption">Tiempo</p><p className="font-numeric text-heading"><WorkoutClock start={workout.inicio} /></p></div>
+          <div className="min-w-0"><p className="training-muted text-caption">Volumen</p><p className="tabular break-words font-numeric text-heading">{formatInt(volumen)} <span className="training-muted text-caption">kg</span></p></div>
+          <div className="min-w-0 text-right"><p className="training-muted text-caption">Series marcadas</p><p className="tabular font-numeric text-heading">{completedCount}<span className="training-muted text-body-sm"> / {currentSets.length}</span></p></div>
         </div>
         <div className="training-progress"><ProgressBar value={completedCount} goal={currentSets.length} label="Series completadas" valueText={`${completedCount} de ${currentSets.length} series marcadas`} /></div>
       </section>
@@ -224,9 +224,9 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
           )
 
           return (
-            <Card key={exId} className="space-y-3">
+            <Card key={exId} className="exercise-panel space-y-3">
               <div>
-                <h2 className="break-words text-title text-fg">{ex.nombre}</h2>
+                <h2 className="exercise-title break-words text-title text-fg">{ex.nombre}</h2>
                 <p className="text-caption text-fg-muted">
                   {historico.length > 0 ? `Última vez: ${formatUltimaVez(historico)}` : 'Sin datos previos'}
                 </p>
