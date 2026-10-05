@@ -44,8 +44,7 @@ export default function GymHome() {
     <div className="space-y-stack">
       <section aria-label="Empezar a entrenar" className="training-surface space-y-5 p-5">
         <div className="space-y-1">
-          <Icon name="dumbbell" size={28} className="mb-4 text-accent" />
-          <h2 className="text-heading">Tu próxima sesión</h2>
+          <div className="flex items-start justify-between gap-3"><h2 className="text-display">Tu próxima sesión</h2><Icon name="dumbbell" size={28} className="mt-1 text-accent" /></div>
           <p className="training-muted text-body-sm">Elige una rutina o empieza con los ejercicios que quieras.</p>
         </div>
         <div className="space-y-2">

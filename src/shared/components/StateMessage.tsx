@@ -25,7 +25,7 @@ export function EmptyState({ children, action, icon, title }: EmptyProps) {
     return (
       <div className="flex flex-col items-start gap-3 border-y border-line py-section">
         {icon && <Icon name={icon} size={26} className="text-fg-muted" />}
-        {title && <p className="text-title text-fg">{title}</p>}
+        {title && <p className="text-heading text-fg">{title}</p>}
         {children && <p className="max-w-sm text-body-sm text-fg-muted">{children}</p>}
         {action && <div className="mt-2">{action}</div>}
       </div>

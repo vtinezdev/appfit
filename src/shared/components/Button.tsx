@@ -9,7 +9,7 @@ type Size = 'sm' | 'md' | 'lg'
  * `hover:` solo actúa con puntero fino (tailwind `hoverOnlyWhenSupported`): en iOS no se queda pegado.
  */
 const VARIANTS: Record<Variant, string> = {
-  primary: 'bg-accent text-accent-on hover:brightness-95',
+  primary: 'bg-accent text-accent-on font-bold hover:brightness-95',
   secondary: 'border border-line bg-surface text-fg hover:bg-surface-muted',
   ghost: 'text-accent-strong hover:bg-accent-subtle',
   destructive: 'bg-surface-muted text-destructive hover:bg-line', // acción destructiva ofrecida

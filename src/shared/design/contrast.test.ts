@@ -49,6 +49,33 @@ const ratio = (a: readonly number[], b: readonly number[]) => {
   return (hi + 0.05) / (lo + 0.05)
 }
 
+const atmosphere = (name: string, theme: 'light' | 'dark') => {
+  const value = (section: string) => block(section).match(new RegExp(`--atmosphere-${name}:\\s*([\\d.]+)`))?.[1]
+  return Number((theme === 'dark' ? value(":root[data-theme='dark'] {") : undefined) ?? value(':root {'))
+}
+const over = (fg: readonly number[], bg: readonly number[], alpha: number) => fg.map((n, i) => n * alpha + bg[i] * (1 - alpha))
+
+describe.each([['light', light], ['dark', dark]] as const)('lectura sobre fotografía (%s)', (theme, t) => {
+  it.each([[0, 0, 0], [255, 255, 255]])('cabeceras/tabs con el extremo fotográfico %s', (r, g, b) => {
+    const photo = over([r, g, b], t.bg, atmosphere('photo-opacity', theme))
+    const scene = over(t.bg, photo, atmosphere('wash-top', theme))
+    const reading = over(t.bg, scene, atmosphere('reading-wash', theme))
+    for (const fg of ['text-primary', 'text-secondary', 'text-tertiary', 'accent-strong']) {
+      expect(ratio(t[fg], reading), fg).toBeGreaterThanOrEqual(4.5)
+    }
+  })
+
+  it.each([[0, 0, 0], [255, 255, 255]])('paneles sobre el extremo fotográfico %s', (r, g, b) => {
+    const surface = over(t.surface, [r, g, b], atmosphere('panel-opacity', theme))
+    const training = over(t.training, [r, g, b], atmosphere('training-opacity', theme))
+    for (const fg of ['text-primary', 'text-secondary', 'text-tertiary', 'accent-strong']) {
+      expect(ratio(t[fg], surface), fg).toBeGreaterThanOrEqual(4.5)
+    }
+    expect(ratio(t['on-training'], training)).toBeGreaterThanOrEqual(4.5)
+    expect(ratio(t['training-muted'], training)).toBeGreaterThanOrEqual(4.5)
+  })
+})
+
 // Texto que se lee: mínimo 4.5:1. Los colores de datos se usan como relleno de barras/gráficas (mínimo 3:1 en no-texto).
 const TEXT: [string, string][] = [
   ['text-primary', 'bg'],

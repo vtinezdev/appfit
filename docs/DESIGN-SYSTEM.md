@@ -1,6 +1,6 @@
 # Sistema visual de APPFIT
 
-Implementación de la identidad de [DESIGN.md](../DESIGN.md). El criterio de producto vive allí; este documento explica cómo sostenerlo en código. Base arquitectónica: [ADR 007](decisiones/007-sistema-visual-movil.md). Dirección y motion actuales: [ADR 009](decisiones/009-identidad-y-motion-impeccable.md).
+Implementación de la identidad de [DESIGN.md](../DESIGN.md). El criterio de producto vive allí; este documento explica cómo sostenerlo en código. Base arquitectónica: [ADR 007](decisiones/007-sistema-visual-movil.md). Identidad actual: [ADR 012](decisiones/012-identidad-enfocada-energica.md); motion: [ADR 009](decisiones/009-identidad-y-motion-impeccable.md).
 
 ## Arquitectura
 
@@ -12,7 +12,9 @@ Tres piezas para la identidad compartida:
 
 `src/index.css` contiene fuente local, base, foco, safe areas y cifras tabulares. `design/theme.ts` aplica el tema y actualiza `meta theme-color`; `design/viewport.ts`, inicializado al arrancar, sigue `visualViewport` para ajustar las capas al área visible cuando aparece el teclado. No modifica datos.
 
-Manrope variable Latin, Fontsource 5.3.0: `public/fonts/manrope-latin-variable.woff2`, con licencia OFL adjunta. Precarga local y precache del service worker; sin Google Fonts ni petición externa. Fallback del sistema sin bloquear el texto.
+Manrope variable Latin para lectura y controles, Barlow Condensed Latin 700 para títulos y métricas. Archivos locales en `public/fonts/`, licencias OFL, precarga y precache; sin petición externa en ejecución. `font-display` y `font-numeric` eligen Barlow; `text-display` y `text-heading` también lo aplican desde CSS. Fallback Manrope/sistema con `font-display: swap`.
+
+Barlow: `https://fonts.gstatic.com/s/barlowcondensed/v13/HTxwL3I-JCGChYJ8VI-L6OO_au7B46r2z3bWuQ.woff2` (latin, peso 700). Licencia: `https://github.com/google/fonts/blob/main/ofl/barlowcondensed/OFL.txt`. No se requiere red ni un peso inexistente.
 
 ## Tokens
 
@@ -28,13 +30,13 @@ Los valores exactos viven en `tokens.css`; no se duplican en componentes.
 | Estado | `success`, `warning`, `destructive`, `destructive-on` | siempre con texto o icono |
 | Datos | `kcal`, `protein`, `carbs`, `fat`, `goal` | naranja, azul, oliva, ciruela; mismos roles en toda la app |
 
-`data-theme="light|dark"` va en html. `data-surface="inverse"` se reserva al Toast, con texto/foco/acción adecuados al fondo inverso. `data-surface="meal-header"` delimita la cabecera de comida: reutiliza tinta/lectura de entrenamiento y el naranja existente mediante `meal-accent`; hover y foco se resuelven dentro de ese contexto sin cambiar los controles compartidos. Los resúmenes no tienen contexto negro especial.
+`data-theme="light|dark"` va en html. `data-surface="inverse"` se reserva al Toast, con texto/foco/acción adecuados al fondo inverso. `data-surface="meal-header"` delimita la cabecera de comida: reutiliza tinta/lectura de entrenamiento y el naranja existente mediante `meal-accent`; hover y foco se resuelven dentro de ese contexto sin cambiar los controles compartidos. Oscuro usa negro/grafito con naranja intenso como acento; Claro conserva una alternativa mineral. `kcal` es más oscuro en claro para contrastar ≥3:1 sobre blanco. `.training-surface` resuelve también texto/foco/controles sobre grafito. Los resúmenes nutricionales conservan el tema de página.
 
 | Escala | Valores / clases |
 |---|---|
-| Tipografía | hero 44, display 32, metric 28, heading 22, title 18, body 16, body-sm 14, label 13, caption 12 px |
+| Tipografía | hero 52, display 38, metric 32, heading 24, title 18, body 16, body-sm 14, label 13, caption 12 px |
 | Espaciado | page 20 (16 bajo 360 px), section 24, card 16, stack 12 px; base de 4 px |
-| Radios | sm 8, md 12, lg 16, sheet 24; pill solo con significado |
+| Radios | sm 6, md 10, lg 14, sheet 20 px; pill solo con significado |
 | Interacción | touch 44, touch-lg 48 px; área real, sin pseudo elemento |
 | Profundidad | shadow-overlay solamente; sin sombras de cards ni nav |
 | Motion | feedback 120, estado 200, entrada de capa 280, salida 180, éxito 420, stagger 18 ms; desplazamiento 8 px |
@@ -42,6 +44,18 @@ Los valores exactos viven en `tokens.css`; no se duplican en componentes.
 Reduce Motion suprime desplazamientos, escala, FLIP, stagger, pulsación y entradas de series/éxito. Capas conservan un fundido de 80 ms para explicar estados; selección y barras cambian sin transición espacial. Carga localizada con skeleton, sin pulso bajo reducción. Valores inmediatos; gráficas sin contador ni animación de entrada. `motion.ts` lee las duraciones/easing del CSS y ofrece haptic opcional, nunca un requisito para entender una acción.
 
 ## Navegación y capas
+
+### Fondo fotográfico
+
+`app/AtmosferaApp` es la única selección de escenas: Inicio → bienestar/fitness, Nutrición → meal prep, Gym → pesas; Referencias/Ajustes reutilizan las fotos con `data-quiet`. Se monta dentro de `.app-view[data-atmosphere]`, aislada y fuera del flujo, con alt vacío/aria-hidden/pointer-events:none. No lee ni escribe registros.
+
+Las tres WebP locales (960×1440, unos 176 KB en conjunto) cargan sin servicios externos; `vite.config` incluye webp en el precache. Decodificación async, prioridad alta solo para Inicio. Procedencia y prompts: `public/images/atmosferas/README.md` y sidecars. No usar un recorte del mockup con texto como fondo.
+
+Los tokens `--atmosphere-*` gobiernan altura, opacidad, saturación y protección de lectura. Capa de 42 rem, scroll normal y fade vertical; no hay hero de altura añadida, parallax, vídeo o backdrop-filter. PageHeader/tabs protegen su texto, Card dentro del shell conserva 96%/98% de opacidad (oscuro/claro); training conserva 96%. Menús, registros, controles y formularios siguen con superficies propias. Forced Colors oculta la foto, Reduce Motion mantiene una escena estática y una descarga fallida deja el fondo del tema.
+
+Los tests de contraste comprueban cabeceras/paneles incluso sobre negro/blanco fotográficos. No convertir una foto futura en más luminosidad detrás del texto eliminando su protección.
+
+### Shell y tareas
 
 `App` es un flex de altura 100dvh: `main` tiene el único scroll de página y `BottomNav` espacio propio (72 px + safe area). Cambiar destino vuelve al inicio. Columna centrada de máximo 512 px también en escritorio. Un botón Menú de 124×48 px abre un portal de abanico, no una Sheet. Tiene `aria-haspopup`, `aria-expanded`, `aria-controls` y contexto visible de la sección actual.
 
@@ -65,10 +79,11 @@ Reduce Motion suprime desplazamientos, escala, FLIP, stagger, pulsación y entra
 | IconButton | label obligatorio; sm/md 44 px, lg 48; sm solo reduce icono; ref de React 19 apunta al botón real |
 | Input, Textarea, Select, SearchInput | 16 px, control ≥44, borde fuerte, foco global; etiquetas visibles en formularios y nombre accesible en búsquedas |
 | NumberStepper | una escala; botones 44, campo 16, unidad y label obligatorio; Gym usa campos directos |
-| Card | default/muted; unidad real, no marco obligatorio de sección |
+| Card | default/muted; unidad real, superficie sin contorno visible por defecto; no marco obligatorio de sección |
 | ListGroup / ListRow | lista plana/divisores; fila completa pulsable; tonos semánticos |
-| PageHeader / SectionHeader | pantalla 32, sección 18; contexto debajo del título, no eyebrow decorativo |
-| Metric | formato español inmediato, unidad/contexto; envuelve cifras largas |
+| PageHeader / SectionHeader | pantalla 38, sección 24, Barlow 700; contexto debajo del título y acción redistribuida al ampliar texto |
+| BrandMark | AppFit accesible en Manrope; Fit en acento de texto, sin nuevo icono PWA |
+| Metric | Barlow para cifras principales, formato español inmediato, unidad/contexto; envuelve cifras largas |
 | ProgressBar | dominio max(valor, objetivo, 1), meta y exceso atenuado; aria-valuetext explícito |
 | Badge | metadato breve, radio contenido; no toda etiqueta necesita uno |
 | Icon | SVG propio coherente, sin emoji ni nueva librería |
@@ -80,8 +95,9 @@ Retirados: AnimatedNumber, ProgressRing, Card ink, Button contrast, stepper comp
 
 ## Patrones de producto
 
-- **Inicio/Hoy**: `ResumenNutricional` comparte un panel compacto. Cabecera sin divisor redundante; kcal, objetivo, diferencia y tres macros dentro del mismo contorno. Inicio pone Registrar comida dentro del resumen, junto al contexto de registro. `controles`, `detalle` y `footer` son slots explícitos, no tarjetas anidadas. Cifras largas envuelven sin ocultarse.
-- **Diario**: `ComidaSection` compone `CabeceraComida`, compartida por Desayuno/Comida/Cena/Snack. Bloque tinta, radio lg, padding 12 px y contorno naranja al 35%; icono circular decorativo de 44 px, título heading 22 px / 800, número real de registros caption y kcal tabulares heading/naranja con unidad visible. La rejilla separa título/contexto del total con una línea vertical tenue. Container queries mueven las kcal a una fila propia bajo 18 rem y título/contexto a ancho completo bajo 10 rem; cifras de más de cuatro caracteres ganan una fila independientemente del viewport. No oculta ni abrevia nombres/cifras ni fija altura. Acciones mantiene su IconButton de 44 px y retorno de foco; Añadir/Repetir quedan debajo en comidas vacías. `RegistroComida` es el contenedor común de plato e individual: superficie, borde fino, radio md, separación entre registros de 8 px y padding exterior 4×8 px. Nombre body/semibold; línea secundaria caption con cantidad/conteo y P/C/G; kcal tabulares con unidad a la derecha. El chevrón y conteo distinguen al plato. Los ingredientes usan la misma estructura como filas interiores sin borde/fondo independiente y nombre medium. Bajo 14 rem del contenedor se apilan detalles y kcal; nombres/cifras envuelven y no hay altura fija. No repetir barras de macros a cada nivel.
+- **Inicio**: saludo/fecha/marca y mensaje breve; `TarjetaEntreno destacado` presenta sesión en curso o acceso a elegir entrenamiento, con acción principal y último resultado real cuando existe. No presupone una rutina programada. Nutrición usa `ResumenNutricional integrado`, sin otra tarjeta; Registrar comida es secundario, Ver día permanece. Peso/historial y accesos rápidos se conservan.
+- **Hoy**: `ResumenNutricional` conserva panel, kcal, objetivo, diferencia y macros. `integrado` solo cambia su contenedor, no sus cálculos ni slots `controles`, `detalle`, `footer`. Kcal en Barlow 52, macros 24; cifras largas envuelven.
+- **Diario**: `ComidaSection` compone `CabeceraComida`, compartida por Desayuno/Comida/Cena/Snack. Bloque grafito, radio lg, padding 12 px y contorno neutro; icono circular decorativo de 44 px con acento contenido, título heading 24 px / 700, número real de registros caption y kcal tabulares heading/naranja con unidad visible. La rejilla separa título/contexto del total con una línea vertical tenue. Container queries mueven las kcal a una fila propia bajo 18 rem y título/contexto a ancho completo bajo 10 rem; cifras de más de cuatro caracteres ganan una fila independientemente del viewport. No oculta ni abrevia nombres/cifras ni fija altura. Acciones mantiene su IconButton de 44 px y retorno de foco; Añadir/Repetir quedan debajo en comidas vacías. `RegistroComida` es el contenedor común de plato e individual: superficie, borde fino, radio md, separación entre registros de 8 px y padding exterior 4×8 px. Nombre body/semibold; línea secundaria caption con cantidad/conteo y P/C/G; kcal tabulares con unidad a la derecha. El chevrón y conteo distinguen al plato. Los ingredientes usan la misma estructura como filas interiores sin borde/fondo independiente y nombre medium. Bajo 14 rem del contenedor se apilan detalles y kcal; nombres/cifras envuelven y no hay altura fija. No repetir barras de macros a cada nivel.
 - **Acciones del plato**: IconButton «…» de 44 px abre `AccionesPlatoSheet`: Añadir ingredientes, Mover, Copiar plato y Borrar plato. La Sheet identifica el plato completo, devuelve foco al cerrar y espera `onExited` antes de abrir otra tarea o borrar; no hay capas superpuestas ni Deshacer detrás del menú. Botones bloqueados mientras se mueve. La página de añadido mantiene su formulario, comida fija y confirmación; la copia reutiliza `AccionesComidaSheet`.
 - **Mover plato**: asa de 44 px al desplegar los ingredientes con icono grip y touch-action:none; el cuerpo conserva el scroll. Copia legible en portal, acotada al viewport, origen atenuado y comida receptora con fondo de acento suave/contorno fuerte. No anima el seguimiento del dedo ni el retorno; FLIP de los otros grupos solo al cambiar ids y sin movimiento con Reduce Motion. PointerSensor propio mantiene el primer pointerId y limpia captura/listeners ante cancel, Escape, blur, cambio de visibilidad o resize; dnd-kit aporta contexto, teclado, autoscroll y anuncios en español. «Mover» en el menú contextual ofrece destinos mediante Sheet con errores en línea y actual deshabilitado. La nueva frontera opcional `Sheet.onExited` permite conservar contenido/foco durante la salida y enfocar el plato al terminar.
 - **Copiar plato**: acción dentro de «…», junto a Añadir ingredientes y Mover. Reutiliza el sheet de acciones, identificando el plato completo en el cuerpo. «Copiar a otra comida…» conserva el día seleccionado; copiar al origen queda desactivado. «Copiar a otro día…» y plantilla siguen disponibles. Éxito con Deshacer y errores en la capa activa.
@@ -89,7 +105,7 @@ Retirados: AnimatedNumber, ProgressRing, Card ink, Button contrast, stepper comp
 - **Referencias**: índice plano de cuatro áreas, contenido de lectura y Disclosure por nutriente. Compartir `ReferenciaNutrienteContenido` y el registro puro con el detalle contextual. Títulos y cifras envuelven; abrir un área enfoca y desplaza su título, volver restaura el foco. Recomendaciones no definidas usan EmptyState, sin valores ficticios. Principio y estructura: [Referencias](features/referencias.md).
 - **Añadir**: comida + métodos Describir/Buscar/Plantillas. Revisión: nombre completo, cantidad, aporte, avisos y Cambiar. Nutrientes por 100 g/nombre personal en Detalles; incompletos abren esos detalles. Claves locales estables evitan mover borradores al quitar ingredientes.
 - **Detalles del alimento**: siempre muestra los cuatro extras opcionales junto a los macros, independientemente del modo del diario. Campos de dos columnas y estado vacío «Sin datos»; debajo, aporte conocido de la cantidad indicada.
-- **Gym activo**: superficie tinta compacta para rutina/estado, reloj aislado, volumen y progreso de series marcadas. La primera fila editable permanece visible a 320×568 con descanso activo. Ejercicio, referencia anterior, Serie/Reps/kg/borrar y añadir serie; campos directos ≥44. Tocar el número confirma con check, superficie de éxito, haptic opcional y anuncio accesible; editar desmarca. `useListMotion` aplica FLIP al cambiar ids o la presencia/configuración del descanso, no a cada tecla o tick. Alta tiene entrada breve, borrado conserva Deshacer.
+- **Gym activo**: superficie tinta compacta para rutina/estado, reloj aislado, volumen y progreso de series marcadas. La primera fila editable permanece visible a 320×568 con descanso activo. Ejercicio, referencia anterior, Serie/Reps/kg/borrar y añadir serie; campos directos ≥44, cifras de 18 px/700 y nombre del ejercicio Barlow 24. Tocar el número confirma con check, superficie de éxito, haptic opcional y anuncio accesible; editar desmarca. `useListMotion` aplica FLIP al cambiar ids o la presencia/configuración del descanso, no a cada tecla o tick. Alta tiene entrada breve, borrado conserva Deshacer.
 - **Descanso**: desactivado por defecto, 60/90/120 s opcionales en un Disclosure; elegir una duración cierra la configuración y devuelve el foco. El temporizador activo sustituye esos ajustes, dando prioridad al registro de series. Deadline absoluto, render del reloj separado, pausa de ticks en pestaña oculta y recalculo al volver. Puede finalizarse antes; no pide notificaciones ni simula ejecución en background.
 - **Estado de sesión**: marcas/descanso viven en `sessionStorage`, por id de workout; sobreviven navegación y recarga de esa pestaña. No son datos históricos, no se exportan ni cambian el esquema. Todas las series registradas siguen guardándose, marcadas o no; confirmación de fin lo explica.
 - **Fin de sesión**: espera escrituras pendientes, ofrece continuar o guardar, muestra errores en la propia Sheet, y presenta resumen real de duración, ejercicios, series y volumen. Check de éxito de 420 ms, sin confeti ni récords inventados.

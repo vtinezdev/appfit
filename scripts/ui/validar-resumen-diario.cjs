@@ -22,7 +22,7 @@ async function backup(page) {
   })
 }
 
-async function comprobar(page, resumen, totales) {
+async function comprobar(page, resumen, totales, integrado = false) {
   await resumen.locator(`[role="progressbar"][aria-label="Calorías"][aria-valuenow="${Math.round(totales.kcal)}"]`).waitFor()
   const tarjeta = resumen.locator(':scope > div')
   await tarjeta.waitFor()
@@ -37,11 +37,12 @@ async function comprobar(page, resumen, totales) {
     const tacto = [...document.querySelectorAll('button,[role="radio"],[role="tab"]')].filter(visible).filter((n) => n.getBoundingClientRect().height < 43.9).map((n) => n.textContent)
     return { border: style.borderTopWidth, radius: parseFloat(style.borderTopLeftRadius), padding: parseFloat(style.paddingLeft), bg: style.backgroundColor, fondo: shell.backgroundColor, separacion: siguiente ? siguiente.top - rect.bottom : null, desbordes, tacto }
   })
-  assert.equal(medidas.border, '1px')
-  assert.equal(medidas.radius, 16)
-  assert.equal(medidas.padding, 16)
-  assert.notEqual(medidas.bg, medidas.fondo)
-  assert.ok(medidas.separacion >= 27.9, `separación: ${medidas.separacion}`)
+  if (!integrado) {
+    assert.ok(medidas.radius > 0, 'Hoy mantiene su panel de consumo')
+    assert.ok(medidas.padding >= 12, 'el panel deja espacio de lectura')
+    assert.notEqual(medidas.bg, medidas.fondo)
+  }
+  assert.ok(medidas.separacion >= 16, `separación entre tareas: ${medidas.separacion}`)
   assert.deepEqual(medidas.desbordes, [])
   assert.deepEqual(medidas.tacto, [])
   for (const [label, clave] of [['Calorías', 'kcal'], ['Proteína', 'prot'], ['Carbohidratos', 'carb'], ['Grasa', 'grasa']]) {
@@ -73,7 +74,7 @@ async function main() {
         const antes = await backup(page)
         const inicio = page.getByRole('region', { name: 'Resumen de hoy', exact: true })
         const tag = `${width}-${colorScheme}-${estado}`
-        await comprobar(page, inicio, totales)
+        await comprobar(page, inicio, totales, true)
         if (estado === 'habitual') {
           await inicio.getByText('Quedan 2.087 kcal', { exact: true }).waitFor()
           await page.screenshot({ path: path.join(salida, `${tag}-inicio.png`) })
@@ -95,7 +96,7 @@ async function main() {
         await page.getByRole('button', { name: 'Día siguiente', exact: true }).click()
         await comprobar(page, diario, totales)
         await navegar(page, 'Inicio')
-        await comprobar(page, inicio, totales)
+        await comprobar(page, inicio, totales, true)
         assert.deepEqual(await backup(page), antes, 'la presentación no modifica datos')
         assert.deepEqual(errores, [])
         resultados.push({ width, colorScheme, estado, correcto: true })

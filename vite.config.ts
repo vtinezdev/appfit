@@ -14,8 +14,8 @@ export default defineConfig({
         name: 'AppFit',
         short_name: 'AppFit',
         description: 'Nutrición y gimnasio, uso personal',
-        theme_color: '#f2f5f8',
-        background_color: '#f2f5f8',
+        theme_color: '#0a0a0b',
+        background_color: '#0a0a0b',
         display: 'standalone',
         start_url: '/',
         scope: '/',
@@ -26,7 +26,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,ico,woff2}'],
         // El .wasm del escáner (~1 MB) no se precachea: pesaría en cada instalación y el escáner casi siempre
         // necesita conexión (Open Food Facts). Se guarda la primera vez que se usa y después funciona sin red.
         runtimeCaching: [
