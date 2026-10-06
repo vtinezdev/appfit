@@ -32,9 +32,11 @@ export default function App() {
 
   return (
     <div data-app-shell className="flex h-app flex-col bg-bg">
-      <main ref={scrollRef} className="safe-top min-h-0 flex-1 overflow-y-auto overscroll-contain">
+      {/* El fondo vive fuera del contenedor con scroll: queda quieto mientras el contenido se desplaza. */}
+      <div className="relative isolate min-h-0 flex-1">
+      <AtmosferaApp tab={tab} />
+      <main ref={scrollRef} className="safe-top h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view mx-auto w-full max-w-lg pb-6">
-        <AtmosferaApp tab={tab} />
         {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onAnadirComida={() => irANutricion(true)} onIrAGym={() => navegar('gym')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => { navegar('ajustes'); setAbrirGuia(true) }} />} />}
         {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
@@ -43,6 +45,7 @@ export default function App() {
         {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} /></Suspense>}
         </div>
       </main>
+      </div>
       <BottomNav tab={tab} onChange={navegar} />
     </div>
   )

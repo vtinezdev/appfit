@@ -35,13 +35,19 @@ a { text-underline-offset: 0.2em; }
 .font-numeric.text-hero { font-weight: var(--fw-numeric-hero); font-stretch: var(--fst-numeric-hero); }
 .page-header-main { min-width: min(100%, 10rem); }
 
-/* Una escena por sección, dentro del ancho de producto y ligada al scroll normal.
+/* Una escena por sección, dentro del ancho de producto. Es hermana del <main> con scroll, no hija:
+   el contenido se desplaza encima y la foto queda quieta, sin eventos de scroll ni position: fixed.
    No parallax/backdrop-filter ni alturas añadidas al contenido. Si falla la imagen queda el tema. */
 .app-view[data-atmosphere] { position: relative; isolation: isolate; min-height: 100%; }
+/* Franja de lectura de cabecera/pestañas: viaja con el contenido, no con la foto quieta. */
+.app-view[data-atmosphere]::before {
+  content: ''; position: absolute; inset: 0 0 auto; z-index: -1; height: var(--atmosphere-reading-fade); pointer-events: none;
+  background: linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-reading-wash)) 0%, rgb(var(--c-bg) / var(--atmosphere-reading-wash)) var(--atmosphere-reading-height), rgb(var(--c-bg) / 0) var(--atmosphere-reading-fade));
+}
 .app-atmosphere {
   --atmosphere-light-primary: var(--c-atmosphere-slate);
   --atmosphere-light-secondary: var(--c-atmosphere-mist);
-  position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  position: absolute; inset: env(safe-area-inset-top) 0 0; z-index: -1; overflow: hidden; pointer-events: none;
 }
 .app-atmosphere[data-scene='gym'] {
   --atmosphere-light-primary: var(--c-atmosphere-cobalt);
@@ -59,15 +65,13 @@ a { text-underline-offset: 0.2em; }
 }
 .app-atmosphere img {
   position: relative; z-index: 1;
-  display: block; width: 100%; height: var(--atmosphere-height); object-fit: cover; object-position: center top;
+  display: block; width: 100%; height: min(100%, var(--atmosphere-height)); object-fit: cover; object-position: center top;
   opacity: var(--atmosphere-photo-opacity);
   filter: saturate(var(--atmosphere-photo-saturation)) brightness(var(--atmosphere-photo-brightness)) contrast(var(--atmosphere-photo-contrast));
 }
 .app-atmosphere::after {
-  content: ''; position: absolute; inset: 0 0 auto; z-index: 2; height: var(--atmosphere-height);
-  background:
-    linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-reading-wash)) 0%, rgb(var(--c-bg) / var(--atmosphere-reading-wash)) var(--atmosphere-reading-height), rgb(var(--c-bg) / 0) var(--atmosphere-reading-fade)),
-    linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-wash-top)) 0%, rgb(var(--c-bg) / var(--atmosphere-wash-upper)) 18%, rgb(var(--c-bg) / var(--atmosphere-wash-middle)) 43%, rgb(var(--c-bg) / .97) 75%, rgb(var(--c-bg)) 100%);
+  content: ''; position: absolute; inset: 0 0 auto; z-index: 2; height: min(100%, var(--atmosphere-height));
+  background: linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-wash-top)) 0%, rgb(var(--c-bg) / var(--atmosphere-wash-upper)) 18%, rgb(var(--c-bg) / var(--atmosphere-wash-middle)) 43%, rgb(var(--c-bg) / .97) 75%, rgb(var(--c-bg)) 100%);
 }
 .app-atmosphere img, .app-atmosphere::after {
   mask-image: linear-gradient(rgb(var(--c-overlay)) 0%, rgb(var(--c-overlay)) 40%, transparent 100%);
@@ -78,7 +82,7 @@ a { text-underline-offset: 0.2em; }
   background-color: rgb(var(--c-surface) / var(--atmosphere-panel-opacity));
 }
 .app-view[data-atmosphere] .training-surface { background-color: rgb(var(--c-training) / var(--atmosphere-training-opacity)); }
-@media (forced-colors: active) { .app-atmosphere { display: none; } }
+@media (forced-colors: active) { .app-atmosphere, .app-view[data-atmosphere]::before { display: none; } }
 
 body {
   @apply bg-bg font-sans text-body text-fg antialiased;

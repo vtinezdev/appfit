@@ -63,9 +63,12 @@ async function captureScroll(page, tag, chunks = false) {
   const main = page.locator('main')
   const geometry = await main.evaluate(e => ({ height: e.clientHeight, fullHeight: e.scrollHeight, max: e.scrollHeight - e.clientHeight }))
   assert.ok(geometry.max > 1500, 'sesión suficientemente larga para revisar el tramo inferior')
+  const photo = page.locator('.app-atmosphere img')
+  const still = await photo.boundingBox()
   for (const [label, top] of [['superior', 0], ['transicion', 500], ['intermedia', Math.round(geometry.max * 0.5)], ['inferior', geometry.max]]) {
     await main.evaluate((e, y) => e.scrollTo(0, y), top)
     await page.mouse.move(0, 0)
+    assert.deepEqual(await photo.boundingBox(), still, 'la foto queda quieta mientras el contenido se desplaza')
     await page.screenshot({ path: `${output}/${tag}-${label}.png`, animations: 'disabled' })
   }
   if (chunks) {
