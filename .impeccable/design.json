@@ -938,25 +938,46 @@
         "referencias",
         "ajustes"
       ],
-      "rasterBytes": 175712,
+      "rasterBytes": 332504,
       "height": "42rem",
       "photoOpacity": {
-        "light": 0.14,
+        "light": 0.72,
         "dark": 1,
-        "quiet": 0.2
+        "quietLight": 0.14,
+        "quietDark": 0.2
       },
-      "photoSaturation": 0.72,
+      "photoSaturation": {
+        "light": 0.55,
+        "dark": 0.72
+      },
       "panelOpacity": {
         "light": 0.98,
         "dark": 0.96
       },
       "trainingOpacity": 0.96,
-      "washTop": 0.65,
+      "washTop": {
+        "light": 0.76,
+        "dark": 0.65
+      },
       "readingWash": 0.58,
       "motion": "none",
       "forcedColors": "hidden",
       "provenance": "public/images/atmosferas/README.md",
-      "offline": "Vite PWA precache glob webp"
+      "offline": "Vite PWA precache glob webp",
+      "assetsLight": {
+        "inicio": "/images/atmosferas/inicio-claro.webp",
+        "nutricion": "/images/atmosferas/nutricion-claro.webp",
+        "gym": "/images/atmosferas/gym-claro.webp"
+      },
+      "themeSelection": "getResolvedTheme/subscribeTheme + useSyncExternalStore; una imagen según preferencia Claro/Oscuro/Sistema",
+      "washUpper": {
+        "light": 0.88,
+        "dark": 0.7
+      },
+      "washMiddle": {
+        "light": 0.95,
+        "dark": 0.87
+      }
     }
   },
   "components": [

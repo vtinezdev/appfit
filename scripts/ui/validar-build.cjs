@@ -34,10 +34,10 @@ async function main() {
     await page.evaluate(async () => { const registration = await navigator.serviceWorker.ready; await registration.update() })
     await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
     assert.equal(await page.evaluate(async () => {
-      const responses = await Promise.all(['inicio', 'nutricion', 'gym'].map(name =>
+      const responses = await Promise.all(['inicio', 'nutricion', 'gym', 'inicio-claro', 'nutricion-claro', 'gym-claro'].map(name =>
         caches.match(`/images/atmosferas/${name}.webp`, { ignoreSearch: true })))
       return responses.every(response => response?.ok && response.headers.get('content-type')?.includes('image/webp'))
-    }), true, 'las tres escenas forman parte del precache, sin depender de la caché HTTP')
+    }), true, 'las seis escenas forman parte del precache, sin depender de la caché HTTP')
     await context.setOffline(true)
     await page.reload()
     await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
@@ -50,6 +50,7 @@ async function main() {
           const image = document.querySelector('.app-atmosphere img')
           return image?.complete && image.naturalWidth > 0
         })
+        assert.equal(await page.locator('.app-atmosphere img').evaluate(image => image.currentSrc.endsWith('-claro.webp')), theme === 'Claro', 'foto correspondiente al tema explícito, también offline')
         if (tab === 'Nutrición') { await page.getByRole('tab', { name: 'Resumen', exact: true }).click(); await page.getByRole('radio', { name: 'Mes', exact: true }).waitFor() }
         if (tab === 'Gym') { await page.getByRole('tab', { name: 'Progreso', exact: true }).click(); await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('1') }
         if (tab === 'Referencias') {

@@ -19,3 +19,7 @@ WebP 960×1440, menos de 200 KB en total, decodificación async y precache de la
 La atmósfera alcanza también subpantallas mediante el shell, sin soluciones separadas por feature. En entrenamiento la adaptación móvil conserva la primera serie visible en 320×568, evitando añadir la franja fotográfica libre del mockup. Los datos ilustrativos de la preview se sustituyen por registros reales; no se incorporan sus cifras como defaults.
 
 Se comprueban contraste con extremos de luminancia, origen local/peso/semántica de imágenes, navegación y capas, datos intactos, precache y descarga offline. Evidencia en el informe de implementación; hardware iOS/Android pendiente.
+
+## Extensión del 2026-10-06: fotografías para claro
+
+Víctor pide imágenes distintas que encajen con claro. Se añade un juego propio de luz natural, con el mismo mapa de secciones y un velo claro más rápido; oscuro conserva su tratamiento. `AtmosferaApp` consume el tema resuelto del módulo existente, incluyendo cambios de Sistema, mediante una suscripción sin acceder a datos. Se precachean las seis escenas (332.504 bytes); el DOM mantiene una sola imagen. No se incorporan controles de tema nuevos ni se duplica su persistencia.

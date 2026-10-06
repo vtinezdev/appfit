@@ -56,6 +56,26 @@ const atmosphere = (name: string, theme: 'light' | 'dark') => {
 const over = (fg: readonly number[], bg: readonly number[], alpha: number) => fg.map((n, i) => n * alpha + bg[i] * (1 - alpha))
 
 describe.each([['light', light], ['dark', dark]] as const)('lectura sobre fotografía (%s)', (theme, t) => {
+  // En claro el contexto superior y la lectura sin panel también deben resistir
+  // el extremo negro de las fotografías. En oscuro los paneles/cabeceras protegen lectura.
+  if (theme === 'light') {
+    it.each([[0, 0, 0], [255, 255, 255]])('contexto superior sin panel sobre %s', (r, g, b) => {
+      const photo = over([r, g, b], t.bg, atmosphere('photo-opacity', theme))
+      const scene = over(t.bg, photo, atmosphere('wash-top', theme))
+      for (const fg of ['text-primary', 'text-secondary']) {
+        expect(ratio(t[fg], scene), fg).toBeGreaterThanOrEqual(4.5)
+      }
+    })
+
+    it.each([[0, 0, 0], [255, 255, 255]])('lectura plana tras el contexto sobre %s', (r, g, b) => {
+      const photo = over([r, g, b], t.bg, atmosphere('photo-opacity', theme))
+      const scene = over(t.bg, photo, atmosphere('wash-upper', theme))
+      for (const fg of ['text-primary', 'text-secondary', 'text-tertiary', 'accent-strong']) {
+        expect(ratio(t[fg], scene), fg).toBeGreaterThanOrEqual(4.5)
+      }
+    })
+  }
+
   it.each([[0, 0, 0], [255, 255, 255]])('cabeceras/tabs con el extremo fotográfico %s', (r, g, b) => {
     const photo = over([r, g, b], t.bg, atmosphere('photo-opacity', theme))
     const scene = over(t.bg, photo, atmosphere('wash-top', theme))

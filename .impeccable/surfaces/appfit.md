@@ -35,6 +35,14 @@ Tras la preview estática de tres pantallas (`/workspace/generated_images/exec-2
 
 `AtmosferaApp` es decoración sin eventos ni información accesible. Tokens compartidos controlan opacidad, saturación, lectura y desvanecimiento. Referencias/Ajustes reciben una variante más discreta; Claro reduce la foto; Forced Colors la oculta. Sin movimiento, parallax ni hueco decorativo que aleje las primeras series. Menú, capas y formularios conservan superficies protegidas.
 
-Tres WebP locales (175.712 bytes en total), precargados por la PWA, con prompts exactos en sidecars. Procedencia en `public/images/atmosferas/README.md`. Revisión inicial conjunta de Inicio/Nutrición/sesión móvil oscura e Inicio claro en escritorio: jerarquía, contraste y densidad correctos; no requiere tanda de fixes visuales. Detector: cero hallazgos principales, un aviso preexistente de radio en paginación futura del menú.
+Entrega inicial: tres WebP locales (175.712 bytes en total), precargados por la PWA, con prompts exactos en sidecars. Procedencia en `public/images/atmosferas/README.md`. Revisión inicial conjunta de Inicio/Nutrición/sesión móvil oscura e Inicio claro en escritorio: jerarquía, contraste y densidad correctos; no requiere tanda de fixes visuales. Detector: cero hallazgos principales, un aviso preexistente de radio en paginación futura del menú.
 
 Veredicto manual: listo dentro del alcance validado. 1.208 tests / 66 archivos y build TypeScript/Vite/PWA correctos; 514 estados, 12 contextos de motion y producción offline con las tres imágenes verificadas en CacheStorage. Evidencia, accesibilidad y límites en `docs/historico/atmosferas-fotograficas-2026-10-05.md`. Hardware iOS/Android y Safari siguen pendientes. Sin commit ni push.
+
+## Extensión: fotografías propias para Claro (2026-10-06)
+
+Víctor solicita el mismo tratamiento para claro y prefiere fotografías distintas que encajen con el tema. Inicio combina bienestar/fitness en luz natural; Nutrición usa cocina clara y meal prep calmado; Gym conserva intensidad con pesas en un gimnasio luminoso. No sustituir identidad, controles, datos ni el juego oscuro. Un velo marfil más protector y desvanecimiento rápido subordinan la escena al contenido. Referencias/Ajustes conservan intensidad mínima.
+
+`AtmosferaApp` consume el tema resuelto por la preferencia existente mediante `useSyncExternalStore`; una sola imagen, actualización explícita/Sistema y persistencia de preferencia intactas. Seis WebP locales suman 332.504 bytes y están disponibles offline; los tres nuevos assets conservan prompts exactos. Contraste de lectura plana en claro verificado además de paneles/cabeceras.
+
+Revisión acotada manual de móvil/escritorio, sesión, diario, menú y texto ampliado; fondos sin defectos visuales que requieran cambios adicionales. La confirmación estabilizada detecta un desbordamiento previo de campos de objetivos en Ajustes al 200%, registrado fuera del alcance. Veredicto: fondos listos dentro del alcance emulado. 1.212 tests / 66 archivos, build y producción offline correctos. Evidencia y límites: `docs/historico/atmosferas-tema-claro-2026-10-06.md`. Sin dependencias, commit ni push.

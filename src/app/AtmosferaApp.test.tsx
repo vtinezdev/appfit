@@ -21,16 +21,20 @@ describe('atmósferas de AppFit', () => {
   })
 
   it('imágenes locales ligeras y con procedencia documentada', () => {
-    const files = new Set(DESTINOS.map(({ key }) => imagePath(key)))
+    const files = new Set(DESTINOS.flatMap(({ key }) => {
+      const light = imagePath(key)
+      return [light, light.replace('-claro.webp', '.webp')]
+    }))
     let total = 0
     for (const src of files) {
-      expect(src).toMatch(/^\/images\/atmosferas\/[a-z]+\.webp$/)
+      expect(src).toMatch(/^\/images\/atmosferas\/[a-z]+(?:-claro)?\.webp$/)
       const bytes = statSync(`public${src}`).size
       expect(bytes).toBeLessThan(100_000)
       total += bytes
       const provenance = JSON.parse(readFileSync(`public${src}.json`, 'utf8'))
       expect(JSON.stringify(provenance)).toContain('photorealistic')
     }
-    expect(total).toBeLessThan(200_000)
+    expect(files.size).toBe(6)
+    expect(total).toBeLessThan(400_000)
   })
 })

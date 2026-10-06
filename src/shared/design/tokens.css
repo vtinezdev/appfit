@@ -88,11 +88,14 @@
   --c-success-subtle: 230 244 236;
   /* La foto vive en una capa estática; las superficies conservan lectura/control propios. */
   --atmosphere-height: 42rem;
-  --atmosphere-photo-opacity: 0.14;
-  --atmosphere-photo-saturation: 0.72;
+  --atmosphere-photo-opacity: 0.72;
+  --atmosphere-photo-saturation: 0.55;
+  --atmosphere-quiet-opacity: 0.14;
   --atmosphere-panel-opacity: 0.98;
   --atmosphere-training-opacity: 0.96;
-  --atmosphere-wash-top: 0.65;
+  --atmosphere-wash-top: 0.76;
+  --atmosphere-wash-upper: 0.88;
+  --atmosphere-wash-middle: 0.95;
   --atmosphere-reading-wash: 0.58;
 }
 :root[data-theme='dark'] {
@@ -130,6 +133,11 @@
   --c-success-subtle: 25 55 44;
   --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
   --atmosphere-photo-opacity: 1;
+  --atmosphere-photo-saturation: 0.72;
+  --atmosphere-quiet-opacity: 0.2;
+  --atmosphere-wash-top: 0.65;
+  --atmosphere-wash-upper: 0.7;
+  --atmosphere-wash-middle: 0.87;
   --atmosphere-panel-opacity: 0.96;
 }
 /* Cabeceras de comidas: grafito y naranja legible en ambos temas.

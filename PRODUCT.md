@@ -36,6 +36,8 @@ La referencia elegida el 2026-10-05 es «Enfocada y Enérgica»: negro/grafito, 
 
 La preview aprobada ese mismo día incorpora fondos generados con acabado fotográfico propios de Inicio, Nutrición y Gym. Aportan contexto a baja intensidad, conservan la prioridad del contenido y se distribuyen localmente para funcionar offline. Referencias y Ajustes reutilizan estas escenas con menor presencia. No representan datos ni fotografías del usuario.
 
+El 2026-10-06 Víctor pide también una dirección fotográfica para claro, con imágenes distintas que encajen en ese tema: luz natural, materiales claros y energía deportiva contenida. La selección respeta la preferencia Claro/Oscuro/Sistema existente.
+
 ## Evidence on Hand
 
 Código en `src/`, documentación de flujos en `docs/features/`, fixtures de prueba en `src/test/fixtures/`, fuentes e iconos locales en `public/`. Los fixtures son sintéticos y se usan exclusivamente en contextos de prueba.
