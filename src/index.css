@@ -24,7 +24,8 @@
 html, body, #root {
   height: 100%;
 }
-html { scrollbar-color: rgb(var(--c-border-strong)) rgb(var(--c-bg)); }
+/* El viewport no rebota: el único scroll es el de <main>. En el root (no en body), que es donde se aplica al viewport. */
+html { scrollbar-color: rgb(var(--c-border-strong)) rgb(var(--c-bg)); overscroll-behavior: none; }
 button, a { -webkit-user-select: none; }
 a { text-underline-offset: 0.2em; }
 .text-display, .text-heading, .font-display { font-family: var(--font-display); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
@@ -39,6 +40,9 @@ a { text-underline-offset: 0.2em; }
    el contenido se desplaza encima y la foto queda quieta, sin eventos de scroll ni position: fixed.
    No parallax/backdrop-filter ni alturas añadidas al contenido. Si falla la imagen queda el tema. */
 .app-view[data-atmosphere] { position: relative; isolation: isolate; min-height: 100%; }
+/* En táctil, <main> siempre puede desplazarse: si una sección cabe en pantalla (Gym, Referencias), iOS no le pasa
+   el gesto al documento, que arrastraba la foto con el contenido; el rebote queda dentro de <main>, sobre la foto quieta. */
+@media (pointer: coarse) { .app-view[data-atmosphere] { min-height: calc(100% + 1px); } }
 /* Franja de lectura de cabecera/pestañas: viaja con el contenido, no con la foto quieta. */
 .app-view[data-atmosphere]::before {
   content: ''; position: absolute; inset: 0 0 auto; z-index: -1; height: var(--atmosphere-reading-fade); pointer-events: none;
