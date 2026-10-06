@@ -22,7 +22,7 @@ async function main() {
   await p.getByRole('radio',{name:'Sistema',exact:true}).waitFor()
   assert.deepEqual(await exportar(p),esperado)
   await c.close(); ({c,p}=await abrir(chromium)); assert.deepEqual(await exportar(p),esperado)
-  await p.evaluate(()=>document.fonts.ready); assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Manrope' && f.status==='loaded')),true)
+  await p.evaluate(()=>document.fonts.ready); assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Saira' && f.status==='loaded')),true)
   await c.setOffline(true); await p.reload(); await p.getByRole('button',{name:'Menú',exact:true}).waitFor()
   assert.deepEqual(await exportar(p),esperado)
   for (const theme of ['Claro','Oscuro']) {
@@ -41,7 +41,7 @@ async function main() {
   await p.getByRole('button',{name:/^Guardar ·/}).click(); await p.waitForFunction(()=>!document.querySelector('[role=dialog]'))
   const registrados=await exportar(p); assert.equal(registrados.entries.length,esperado.entries.length+2)
   await p.reload(); assert.deepEqual(await exportar(p),registrados)
-  assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Manrope' && f.status==='loaded')),true)
+  assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Saira' && f.status==='loaded')),true)
   // Restaurar la referencia hace repetible el ensayo en este perfil aislado.
   await p.locator('input[type=file]').setInputFiles({name:'referencia.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(esperado))})
   await p.getByRole('group',{name:'Confirmar importación',exact:true}).getByRole('button',{name:'Importar copia',exact:true}).click()

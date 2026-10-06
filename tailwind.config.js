@@ -34,15 +34,15 @@ export default {
     },
     fontFamily: { sans: 'var(--font-sans)', display: 'var(--font-display)', numeric: 'var(--font-numeric)' },
     fontSize: {
-      hero: ['var(--fs-hero)', { lineHeight: 'var(--lh-hero)', fontWeight: '700', letterSpacing: '-0.02em' }],
+      hero: ['var(--fs-hero)', { lineHeight: 'var(--lh-hero)', fontWeight: '700', letterSpacing: '0' }],
       display: ['var(--fs-display)', { lineHeight: 'var(--lh-display)', fontWeight: '700', letterSpacing: '-0.01em' }],
       heading: ['var(--fs-heading)', { lineHeight: 'var(--lh-heading)', fontWeight: '700', letterSpacing: '-0.02em' }],
       title: ['var(--fs-title)', { lineHeight: 'var(--lh-title)', fontWeight: '600', letterSpacing: '-0.01em' }],
       body: ['var(--fs-body)', { lineHeight: 'var(--lh-body)' }],
       'body-sm': ['var(--fs-body-sm)', { lineHeight: 'var(--lh-body-sm)' }],
-      label: ['var(--fs-label)', { lineHeight: 'var(--lh-label)', fontWeight: '600', letterSpacing: '0.04em' }],
+      label: ['var(--fs-label)', { lineHeight: 'var(--lh-label)', fontWeight: '700', letterSpacing: '0.04em' }],
       caption: ['var(--fs-caption)', { lineHeight: 'var(--lh-caption)' }],
-      metric: ['var(--fs-metric)', { lineHeight: 'var(--lh-metric)', fontWeight: '700', letterSpacing: '-0.01em' }],
+      metric: ['var(--fs-metric)', { lineHeight: 'var(--lh-metric)', fontWeight: '700', letterSpacing: '0' }],
     },
     borderRadius: {
       none: '0',

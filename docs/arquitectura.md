@@ -48,7 +48,7 @@ src/features/nutricion/  → features/nutricion.md
 src/features/gym/        → features/gym.md
 src/features/referencias/ → features/referencias.md (sección global, contenido compartido, catálogo y futuros grupos)
 src/test/                setup-db.ts (fake-indexeddb, cargado como setupFiles de Vitest) y fixtures/
-public/                  iconos de la PWA, favicon.svg, fonts/ (Manrope y Barlow Condensed, OFL) y catalogo/ (paquetes que la app descarga)
+public/                  iconos de la PWA, favicon.svg, fonts/ (Saira recta y cursiva, OFL) y catalogo/ (paquetes que la app descarga)
                          images/atmosferas/ (seis fondos WebP locales por sección/tema y procedencia)
 scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/README.md
 ```
@@ -81,7 +81,7 @@ Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002]
 - El precache (`globPatterns`) incluye js/css/html/svg/png/webp/ico/woff2, incluidas las seis escenas locales. **No** incluye:
   - los `.json` del catálogo: el manifest se pide con `cache: 'no-cache'`;
   - el `.wasm` del escáner: regla `CacheFirst` en tiempo de ejecución, así que funciona sin red desde su primer uso.
-- Manrope variable y Barlow Condensed 700 son locales, precargadas y precacheadas; no añaden un origen de red. Manifest/theme-color inicial usan grafito. Iconos/id/scope permanecen estables; BrandMark presenta la marca dentro de la UI.
+- Saira variable (recta y cursiva) es local, precargada y precacheada; no añaden un origen de red. Manifest/theme-color inicial usan grafito. Iconos/id/scope permanecen estables; BrandMark presenta la marca dentro de la UI.
 - AtmosferaApp introduce una sola imagen decorativa por destino/tema resuelto (unos 333 KB para las seis escenas), sin solicitudes externas ni espacio de layout. Consume `getResolvedTheme`/`subscribeTheme` del sistema existente mediante `useSyncExternalStore`; Claro/Oscuro y los cambios de Sistema actualizan la foto sin duplicar preferencias ni escribir registros. Referencias/Ajustes reducen la intensidad; menús y tareas conservan sus capas. No hay cache runtime nueva ni cambios de registros/migraciones. La prueba de producción comprueba las seis entradas de CacheStorage y la escena correspondiente al tema al navegar offline.
 - Chunks diferidos (`React.lazy` / `import()`): `ReferenciasTab`, `Hoy` (dnd-kit), `EntrenoActivo`, `Resumen` y `Progreso` (Recharts), y el lector de códigos (`nutricion/lib/escaner/`). Recharts y dnd-kit no deben entrar en el chunk de arranque (Inicio usa un SVG propio). Las referencias nutricionales son constantes locales; solo abrir explícitamente sus enlaces consulta fuentes externas, sin enviar datos personales.
 - Despliegue estático en Cloudflare Workers: `desarrollo.md` § Despliegue.

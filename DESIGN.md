@@ -84,55 +84,62 @@ colors:
 
 typography:
   hero:
-    fontFamily: "'Barlow Condensed', 'Manrope', ui-sans-serif, system-ui, sans-serif"
-    fontSize: "3.25rem"
-    fontWeight: 700
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "3.5rem"
+    fontWeight: 900
+    fontStyle: italic
+    fontStretch: "62.5%"
     lineHeight: 1
-    letterSpacing: "-0.02em"
+    letterSpacing: "0"
   display:
-    fontFamily: "'Barlow Condensed', 'Manrope', ui-sans-serif, system-ui, sans-serif"
-    fontSize: "2.375rem"
-    fontWeight: 700
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "2.5625rem"
+    fontWeight: 900
+    fontStretch: "62.5%"
     lineHeight: 1.05
     letterSpacing: "-0.01em"
   metric:
-    fontFamily: "'Barlow Condensed', 'Manrope', ui-sans-serif, system-ui, sans-serif"
-    fontSize: "2rem"
-    fontWeight: 700
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "2.125rem"
+    fontWeight: 800
+    fontStyle: italic
+    fontStretch: "70%"
     lineHeight: 1.1
-    letterSpacing: "-0.01em"
+    letterSpacing: "0"
   heading:
-    fontFamily: "'Barlow Condensed', 'Manrope', ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.5rem"
-    fontWeight: 700
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "1.625rem"
+    fontWeight: 900
+    fontStretch: "62.5%"
     lineHeight: 1.2
     letterSpacing: "-0.02em"
   title:
-    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
     fontSize: "1.125rem"
     fontWeight: 600
     lineHeight: 1.5
     letterSpacing: "-0.01em"
   body:
-    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.5
     letterSpacing: "normal"
   body-sm:
-    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.5
     letterSpacing: "normal"
   label:
-    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
     fontSize: "0.8125rem"
-    fontWeight: 600
+    fontWeight: 700
+    fontStretch: "85%"
     lineHeight: 1.4
     letterSpacing: "0.04em"
   caption:
-    fontFamily: "'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
     fontSize: "0.75rem"
     fontWeight: 400
     lineHeight: 1.5
@@ -258,13 +265,13 @@ Naranja intenso para acción principal y kcal; el naranja de texto tiene contras
 
 ## Typography
 
-Barlow Condensed Bold 700 local para títulos de pantalla, títulos operativos y métricas; Manrope variable local para nombres, lectura, etiquetas, botones y campos. Licencias OFL, precarga y precache; la app no pide fuentes a terceros.
+Una sola familia, Saira variable (anchura y peso), en tres voces: títulos de pantalla y operativos en negra 900 condensada al 62,5 % y recta; cifras en cursiva 800 condensada al 70 % (900 al 62,5 % en hero); nombres, lectura, botones y campos a ancho normal; etiquetas en 700 al 85 %. Archivos locales con licencia OFL, precarga y precache; la app no pide fuentes a terceros. Elegida el 2026-10-06 por Víctor entre varias direcciones («Saira recta»).
 
-Display 38, hero 52, metric 32 y heading 24 px. Title 18, body 16, body-sm 14, label 13 y caption 12 px. Display en mayúsculas; secciones y ejercicios en caja natural. Tracking entre −0,01 y −0,02 em para la voz condensada. Cifras completas e inmediatas; unidades visibles y ancho tabular.
+Display 41, hero 56, metric 34 y heading 26 px. Title 18, body 16, body-sm 14, label 13 y caption 12 px. Display en mayúsculas; secciones y ejercicios en caja natural. Tracking entre −0,01 y −0,02 em para la voz condensada. Cifras completas e inmediatas; unidades visibles, ancho tabular y en cursiva solo cuando son métrica (`font-numeric`): las cifras de filas, totales de comida y campos quedan rectas.
 
-Alimentos e ingredientes conservan Manrope para reconocimiento. Reps/kg editables en Manrope de 18 px; todos los campos tienen al menos 16 px. No se reduce la letra para encajar contenido y no se simula una fuente deportiva con Impact.
+Alimentos e ingredientes van a ancho normal para reconocimiento. Reps/kg editables rectos a ancho normal, 18 px; todos los campos tienen al menos 16 px. No se reduce la letra para encajar contenido y no se simula una fuente deportiva con Impact.
 
-**The Dos voces Rule.** Barlow expresa títulos y métricas; Manrope conserva lectura y edición.
+**The Saira recta Rule.** Títulos condensados rectos, cifras en cursiva, lectura y edición rectas a ancho normal. La cursiva es exclusiva de las métricas.
 
 ## Layout
 

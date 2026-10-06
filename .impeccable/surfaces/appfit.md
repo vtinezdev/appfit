@@ -7,7 +7,7 @@ Visitor mode: Operate. Implementación directa solicitada por el usuario; elecci
 
 THESIS: Herramienta de disciplina, rendimiento y progreso. La opción 3 «Enfocada y Enérgica» aportada por Víctor manda sobre la identidad anterior y sobre el roll.
 
-OWN-WORLD: Negro/grafito, blanco/grises y naranja intenso de acento. Barlow Condensed local para títulos/métricas, Manrope para lectura/edición. Superficies compactas por tono, radios contenidos, controles reconocibles; sin gaming, halo ni fotografía de relleno.
+OWN-WORLD: Negro/grafito, blanco/grises y naranja intenso de acento. Saira local: títulos condensados rectos, cifras en cursiva condensada, lectura/edición a ancho normal. Superficies compactas por tono, radios contenidos, controles reconocibles; sin gaming, halo ni fotografía de relleno.
 
 STORY: Inicio propone entrenar y permite revisar consumo/peso. Nutrición muestra consumo; Referencias explica criterios/fuentes compartidos. Gym prioriza ejercicio y series. Cada acción conserva datos, navegación y recuperación existentes.
 

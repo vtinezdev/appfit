@@ -13,7 +13,7 @@ En una frase: una **web hecha con React** que se instala como app en el iPhone (
 | **TypeScript** | JavaScript con tipos que se revisan antes de ejecutar nada. | Evita errores tontos y hace el código más fácil de mantener. |
 | **Tailwind CSS** | Estilos mediante clases cortas (`bg-surface`, `rounded-lg`…). | Maquetar rápido y de forma consistente. En AppFit las clases solo nombran los tokens del diseño (ver `DESIGN-SYSTEM.md`). |
 
-La tipografía Manrope variable se incluye como archivo local (licencia OFL). Está en el precache: no necesita un servicio de fuentes ni conexión. No se añadió un paquete a las dependencias de la app para usarla.
+La tipografía Saira variable (recta y cursiva) se incluye como archivo local (licencia OFL). Está en el precache: no necesita un servicio de fuentes ni conexión. No se añadió un paquete a las dependencias de la app para usarla.
 
 **@dnd-kit/core** gestiona contexto de arrastre, destinos, teclado, autoscroll y anuncios accesibles para mover platos entre comidas. El arrastre HTML nativo no resuelve bien tacto/teclado/scroll móvil; por eso se usa esta librería especializada. Se carga con Hoy, separada de Inicio y Gym. Un sensor de Pointer Events usa su API pública para conservar el primer dedo y cancelar limpiamente al interrumpir el gesto; no se añade una librería de motion ni se cambia la navegación.
 

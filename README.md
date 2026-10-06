@@ -60,4 +60,4 @@ El índice de toda la documentación (qué hay en cada documento) está en [`CLA
 
 ## Licencia
 
-Código bajo licencia MIT: ver [`LICENSE`](LICENSE). Los datos del catálogo tienen su propia licencia: CIQUAL (Licence Ouverte Etalab 2.0) y Open Food Facts (ODbL 1.0); detalle en [`scripts/catalogo/README.md`](scripts/catalogo/README.md). Manrope y Barlow Condensed se distribuyen con licencias OFL en `public/fonts/Manrope-LICENSE.txt` y `public/fonts/BarlowCondensed-LICENSE.txt`. El código es público a modo de portfolio; no se esperan ni gestionan contribuciones externas.
+Código bajo licencia MIT: ver [`LICENSE`](LICENSE). Los datos del catálogo tienen su propia licencia: CIQUAL (Licence Ouverte Etalab 2.0) y Open Food Facts (ODbL 1.0); detalle en [`scripts/catalogo/README.md`](scripts/catalogo/README.md). Saira se distribuye con licencia OFL en `public/fonts/Saira-LICENSE.txt`. El código es público a modo de portfolio; no se esperan ni gestionan contribuciones externas.
