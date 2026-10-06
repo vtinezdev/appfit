@@ -19,3 +19,6 @@ scripts/catalogo/raw/
 
 # skills de Claude Code instaladas en local (ui-ux-pro-max, impeccable)
 .claude/skills/
+
+# copias de trabajo (worktrees) de Claude Code
+.claude/worktrees/

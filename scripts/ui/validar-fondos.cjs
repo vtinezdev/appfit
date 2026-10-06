@@ -106,9 +106,9 @@ async function main() {
         })
         const original = await backup(page)
         const id = `${width}-${theme}`
-        for (const [label, scene] of [['Inicio', 'inicio'], ['Nutrición', 'nutricion'], ['Gym', 'gym'], ['Referencias', 'nutricion'], ['Ajustes', 'inicio']]) {
+        for (const [label, scene] of [['Inicio', 'inicio'], ['Nutrición', 'nutricion'], ['Gym', 'gym'], ['Perfil', 'inicio'], ['Referencias', 'nutricion'], ['Ajustes', 'inicio']]) {
           if (label !== 'Inicio') await navegar(page, label)
-          if (label === 'Referencias' || label === 'Ajustes') await page.getByRole('heading', { name: label, exact: true }).waitFor()
+          if (label === 'Perfil' || label === 'Referencias' || label === 'Ajustes') await page.getByRole('heading', { name: label, exact: true }).waitFor()
           if (label === 'Gym') await page.getByRole('button', { name: 'Completar serie 1 de Press banca', exact: true }).waitFor()
           if (label === 'Nutrición') await page.locator('[data-comida="desayuno"]').waitFor()
           await page.waitForFunction(() => { const i = document.querySelector('.app-atmosphere img'); return i?.complete && i.naturalWidth > 0 })

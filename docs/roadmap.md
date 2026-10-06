@@ -13,6 +13,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 
 ## Limitaciones conocidas
 
+- Perfil: los factores de actividad (1,2–1,9) se atribuyen a McArdle, Katch y Katch (1996) sin haber verificado la edición ni una derivación experimental; la cifra de 600 kcal/día de NICE procede de CG189 y no se ha cotejado en NG246. La media de Mifflin y Roza-Shizgal es criterio de AppFit, no un método publicado. Perfil y el nuevo menú de seis destinos no se han probado en un navegador ni en un iPhone real (Playwright no estaba instalado).
 - Ajustes: los campos de objetivos diarios desbordan a 375 px con texto al 200% (fila sin wrap y anchos fijos). Detectado al confirmar los fondos claros; pendiente de adaptación del formulario, sin relación con la capa fotográfica.
 - No se puede borrar un pesaje (solo se sustituye el del día).
 - La mini gráfica de peso reparte los puntos por orden, no por fecha.
@@ -29,13 +30,14 @@ Registro:
 
 Cuerpo y objetivos:
 - Media móvil de 7 días del peso (hoy solo la variación a 7 días).
-- Calculadora de objetivos (Mifflin-St Jeor + actividad + déficit o superávit).
+- Proteína por g/kg de peso (p. ej. 1,6–2,2 g/kg, Iraki 2019/ISSN) en lugar de reescalar por reparto: hoy, al bajar las kcal en definición, baja también la proteína.
+- Histórico de objetivos: los días pasados de Hoy y Resumen se comparan con el objetivo vigente, no con el que había entonces (el objetivo del Perfil cambia con el peso, la edad y los datos).
 - Objetivos distintos en días de entreno y de descanso (primera integración real Gym ↔ Nutrición).
 - Agua.
 - Definir recomendaciones contrastadas por grupos de alimentos y comparar raciones con el consumo real. La sección Referencias y sus tipos ya están preparados; faltan fuentes, valores y clasificación de alimentos, sin recomendaciones ficticias.
 
 Análisis:
-- TDEE adaptativo con el peso y las kcal registradas (necesita semanas de datos).
+- TDEE adaptativo con el peso y las kcal registradas (necesita semanas de datos); sustituiría o corregiría la estimación por ecuaciones de Perfil.
 - Adherencia: % de días dentro de ±10 % del objetivo y rachas.
 - Alimentos que más kcal o proteína aportan en un periodo.
 - Exportar CSV de entradas y pesos.

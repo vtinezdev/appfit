@@ -13,7 +13,7 @@ const opciones = [{ valor: 'hoy', label: 'Hoy' }, { valor: 'resumen', label: 'Re
 const noop = () => {}
 
 describe('contratos del sistema visual', () => {
-  it.each(['inicio', 'nutricion', 'gym', 'ajustes'] as Tab[])('un único botón de menú accesible en %s', tab => {
+  it.each(['inicio', 'nutricion', 'gym', 'perfil', 'referencias', 'ajustes'] as Tab[])('un único botón de menú accesible en %s', tab => {
     const html = renderToStaticMarkup(<BottomNav tab={tab} onChange={noop} />)
     expect(html.match(/<button/g)).toHaveLength(1)
     expect(html).toContain('aria-label="Menú"')

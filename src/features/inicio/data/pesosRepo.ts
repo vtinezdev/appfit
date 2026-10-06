@@ -15,3 +15,8 @@ export function registrar(fecha: string, kg: number): Promise<void> {
     else await db.pesos.add({ fecha, kg, createdAt: Date.now() } as Peso)
   })
 }
+
+/** Último pesaje con fecha ≤ `fecha` (los futuros se ignoran); `undefined` si no hay ninguno. Solo lectura. */
+export function ultimoHasta(fecha: string): Promise<Peso | undefined> {
+  return db.pesos.where('fecha').belowOrEqual(fecha).last()
+}

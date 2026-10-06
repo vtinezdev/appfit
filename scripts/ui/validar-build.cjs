@@ -44,7 +44,7 @@ async function main() {
     assert.deepEqual(await exportData(page), before, 'recarga offline conserva todas las tablas')
     for (const theme of ['Claro', 'Oscuro']) {
       await page.getByRole('radio', { name: theme, exact: true }).click()
-      for (const tab of ['Inicio', 'Nutrición', 'Gym', 'Referencias', 'Ajustes']) {
+      for (const tab of ['Inicio', 'Nutrición', 'Gym', 'Perfil', 'Referencias', 'Ajustes']) {
         await navegar(page, tab)
         await page.waitForFunction(() => {
           const image = document.querySelector('.app-atmosphere img')
@@ -73,6 +73,7 @@ async function main() {
           await page.keyboard.press('Escape')
           await page.getByRole('dialog', { name: 'Nueva rutina', exact: true }).waitFor({ state: 'detached' })
         }
+        if (tab === 'Perfil') await page.getByRole('heading', { name: 'Perfil', exact: true }).waitFor() // el chunk diferido se abre offline por primera vez
         if (tab === 'Referencias') {
           await page.getByRole('button', { name: /Objetivos nutricionales/ }).click()
           await page.locator('[data-referencia="fibra"] button').click()

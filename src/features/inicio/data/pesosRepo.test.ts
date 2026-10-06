@@ -20,4 +20,12 @@ describe('pesosRepo', () => {
     const r = await pesosRepo.delRango('2026-09-01', '2026-09-29')
     expect(r.map((p) => p.fecha)).toEqual(['2026-09-01', '2026-09-15', '2026-09-29'])
   })
+
+  it('ultimoHasta devuelve el último pesaje ≤ fecha, sin escribir', async () => {
+    for (const [f, kg] of [['2026-09-01', 75], ['2026-09-15', 73.5], ['2026-10-10', 70]] as const) await pesosRepo.registrar(f, kg)
+    expect(await pesosRepo.ultimoHasta('2026-09-30')).toMatchObject({ fecha: '2026-09-15', kg: 73.5 })
+    expect(await pesosRepo.ultimoHasta('2026-09-15')).toMatchObject({ fecha: '2026-09-15' })
+    expect(await pesosRepo.ultimoHasta('2026-08-31')).toBeUndefined()
+    expect(await db.pesos.count()).toBe(3)
+  })
 })

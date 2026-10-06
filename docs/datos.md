@@ -11,7 +11,7 @@ La versión actual del esquema es la v6; cada versión lleva un comentario con q
 | `foods` | usuario | alimentos propios («Alimentos») | identidad = `&nombreNorm` (ver invariantes); `fuente` `manual` \| `gemini` (este último solo en datos antiguos) |
 | `entries` | usuario | lo comido: una fila por ingrediente y comida del día | snapshot de gramos/macros; `platoId`/`nombrePlato` opcionales agrupan un guardado múltiple; `rapida: true` = «Kcal rápidas» (sin alimento, `gramos: 0`) |
 | `meals` | usuario | plantillas de comida | `items[]` con snapshot, referencia y agrupación opcional; `usos`/`usadoAt` para ordenar |
-| `settings` | usuario | registro único (`id: 1`) con los objetivos | ver «Ajustes» |
+| `settings` | usuario | registro único (`id: 1`) con los objetivos manuales y, opcional, el `perfil` | ver «Ajustes» |
 | `exercises` | usuario | ejercicios | `&nombreNorm` |
 | `routines` | usuario | rutinas: `exerciseIds[]` ordenados | |
 | `workouts` | usuario | entrenos | sin `fin` = en curso; snapshot muscular opcional v1 al terminar |
@@ -59,7 +59,8 @@ Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`). Fue
 |---|---|---|
 | nutricion | `foodsRepo`, `entriesRepo`, `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo` | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos` |
 | gym | `exercisesRepo`, `routinesRepo`, `workoutsRepo`, `setsRepo` | `exercises`, `routines`, `workouts`, `sets` |
-| inicio | `pesosRepo` | `pesos` |
+| inicio | `pesosRepo` (`delRango`, `registrar`, `ultimoHasta(fecha)`: último pesaje ≤ fecha, solo lectura) | `pesos` |
+| perfil | `perfilRepo` | `settings` (campo `perfil`), `pesos` (lectura) |
 
 Reglas y patrones:
 - **Lecturas sin escrituras**, para poder usarlas en `useLiveQuery`. Una búsqueda puntual (catálogo, intérprete) no usa `useLiveQuery`.
@@ -71,7 +72,9 @@ Reglas y patrones:
 ## Ajustes (`shared/db/settings.ts`)
 
 - `getSettings()` es de **solo lectura**: completa con `DEFAULT_OBJETIVOS` lo que falte (`conDefaults`) y descarta los campos antiguos (`apiKey`, `modelo`). Así, un campo nuevo de ajustes no necesita `upgrade()`.
-- `ensureSettings()` es la única escritura al arrancar (`main.tsx`). `updateSettings()` guarda cambios.
+- `ensureSettings()` es la única escritura al arrancar (`main.tsx`). `updateSettings()` guarda cambios en una **transacción** (lectura + `put`), porque escriben dos pantallas (Ajustes y Perfil); un campo `undefined` en el parche lo borra.
+- `Settings.perfil?: Perfil` (campo opcional, sin Dexie v7 ni cambio de `BACKUP_VERSION`): `sexo`, `fechaNacimiento` (YYYY-MM-DD), `alturaCm`, `actividad`, `objetivo`, `intensidadKcal`. Solo datos fuente: peso (último pesaje ≤ hoy), edad, IMC, TMB, GET y kcal objetivo se derivan al leer. `perfilRepo` lo sanea al leer (`normalizarPerfil`, sin escribir). Va en el backup (incluye la fecha de nacimiento) y lo borra «Borrar todos los datos». Backups antiguos importan con perfil vacío.
+- `hayDatosGuardados` cuenta un perfil con algún campo como dato introducido.
 
 ## Conservación y primer traslado en iPhone
 

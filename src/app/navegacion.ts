@@ -5,6 +5,7 @@ export const DESTINOS = [
   { key: 'inicio', label: 'Inicio', icon: 'home' },
   { key: 'nutricion', label: 'Nutrición', icon: 'utensils' },
   { key: 'gym', label: 'Gym', icon: 'dumbbell' },
+  { key: 'perfil', label: 'Perfil', icon: 'user' },
   { key: 'referencias', label: 'Referencias', icon: 'info' },
   { key: 'ajustes', label: 'Ajustes', icon: 'settings' },
 ] as const satisfies readonly { key: string; label: string; icon: IconName }[]

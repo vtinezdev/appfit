@@ -11,6 +11,7 @@ Los comandos de todos los días están en `CLAUDE.md` § Comandos. Los scripts, 
 ## Tests (Vitest)
 
 - Entorno `node` con `fake-indexeddb` (`src/test/setup-db.ts`, `setupFiles` en `vite.config.ts`): se prueban la lógica pura y los repositorios contra una IndexedDB real en memoria. Los contratos básicos de componentes se comprueban con render estático de React DOM (sin jsdom); la interacción se valida en navegador.
+- `vite.config.ts` excluye `.claude/**` además de los valores por defecto: ahí pueden vivir copias de trabajo de otras ramas (`.claude/worktrees/`, ignorada en Git) cuyos tests no son de esta rama.
 - Colocados junto al código (`*.test.ts` / `*.test.tsx`); también los de `scripts/catalogo/`.
 - Fixtures: `src/test/fixtures/backup-v1.json` (backup antiguo para las migraciones) y `ciqual-2025-es1-muestra.json` (compatibilidad de ids entre versiones del paquete).
 - Tests que vigilan reglas del proyecto (si fallan, no se «arreglan» relajándolos):

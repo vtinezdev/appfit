@@ -4,6 +4,8 @@ import { getSettings, updateSettings } from '../shared/db/settings'
 import { borrarTodosLosDatos, descargarBackup, exportarBackup, importarBackup, migrarBackup } from '../shared/lib/backup'
 import { hayDatosGuardados } from '../shared/db/estadoDatos'
 import { formatInt } from '../shared/lib/format'
+import { todayISO } from '../shared/lib/dates'
+import * as perfilRepo from '../features/perfil/data/perfilRepo'
 import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { ErrorState, LoadingState } from '../shared/components/StateMessage'
@@ -21,8 +23,9 @@ function irASeccion(seccion: HTMLElement | null) {
   seccion?.focus({ preventScroll: true })
 }
 
-export default function Ajustes({ abrirGuia = false }: { abrirGuia?: boolean }) {
+export default function Ajustes({ abrirGuia = false, onIrAPerfil }: { abrirGuia?: boolean; onIrAPerfil?: () => void }) {
   const settings = useLiveQuery(() => getSettings(), [])
+  const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(todayISO()), [])
   const hayDatos = useLiveQuery(hayDatosGuardados, [])
   const [tema, setTema] = useState<ThemePref>(getThemePref)
   const [guiaAbierta, setGuiaAbierta] = useState(abrirGuia)
@@ -42,7 +45,7 @@ export default function Ajustes({ abrirGuia = false }: { abrirGuia?: boolean }) 
     if (abrirGuia && cargados) irASeccion(guiaRef.current)
   }, [abrirGuia, cargados])
 
-  if (!settings) return <LoadingState />
+  if (!settings || !vigentes) return <LoadingState />
 
   async function exportar() {
     setErrorBackup(null)
@@ -108,7 +111,7 @@ export default function Ajustes({ abrirGuia = false }: { abrirGuia?: boolean }) 
       <PageHeader title="Ajustes" />
 
 
-      <ObjetivosAjustes objetivos={settings.objetivos} onGuardar={(objetivos) => {
+      <ObjetivosAjustes objetivos={vigentes} origen={vigentes.origen} onIrAPerfil={onIrAPerfil} onGuardar={(objetivos) => {
         setErrorObjetivos(null)
         updateSettings({ objetivos }).catch(() => setErrorObjetivos('No se han podido guardar los objetivos. Inténtalo de nuevo.'))
       }} />

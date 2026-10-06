@@ -47,4 +47,11 @@ describe('detección de registros al abrir otro acceso', () => {
     await ensureSettings()
     expect(await db.settings.get(1)).toEqual(antes)
   })
+
+  it('un perfil con algún campo cuenta como dato introducido; uno vacío no', async () => {
+    await updateSettings({ perfil: {} })
+    expect(await hayDatosGuardados()).toBe(false)
+    await updateSettings({ perfil: { sexo: 'mujer' } })
+    expect(await hayDatosGuardados()).toBe(true)
+  })
 })

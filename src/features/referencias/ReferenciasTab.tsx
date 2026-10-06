@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { getSettings } from '../../shared/db/settings'
+import { todayISO } from '../../shared/lib/dates'
+import { objetivosVigentes } from '../perfil/data/perfilRepo'
 import { IDS_NUTRIENTES, referenciaNutricional, textoReferencia, type NutrienteId } from '../../shared/lib/referenciasNutricionales'
 import PageHeader from '../../shared/components/PageHeader'
 import { IconButton } from '../../shared/components/Button'
@@ -10,24 +11,25 @@ import ListRow from '../../shared/components/ListRow'
 import Disclosure from '../../shared/components/Disclosure'
 import { EmptyState, LoadingState } from '../../shared/components/StateMessage'
 import ReferenciaNutrienteContenido from './components/ReferenciaNutrienteContenido'
+import EnergiaReferencias from './components/EnergiaReferencias'
 import { AREAS_REFERENCIAS, FUENTES_CATALOGO, GRUPOS_ALIMENTARIOS, RECOMENDACIONES_ALIMENTARIAS, SOBRE_LOS_DATOS, type AreaReferencias } from './lib/contenidoReferencias'
 import { formatNumber } from '../../shared/lib/format'
 
-export default function ReferenciasTab({ nutrienteInicial }: { nutrienteInicial?: NutrienteId }) {
-  const [area, setArea] = useState<AreaReferencias | null>(nutrienteInicial ? 'objetivos' : null)
+export default function ReferenciasTab({ nutrienteInicial, areaInicial }: { nutrienteInicial?: NutrienteId; areaInicial?: AreaReferencias }) {
+  const [area, setArea] = useState<AreaReferencias | null>(areaInicial ?? (nutrienteInicial ? 'objetivos' : null))
   const [abierto, setAbierto] = useState<NutrienteId | null>(nutrienteInicial ?? null)
-  const settings = useLiveQuery(getSettings, [])
+  const vigentes = useLiveQuery(() => objetivosVigentes(todayISO()), [])
   const focoInicial = useRef(false)
   const indexRef = useRef<HTMLDivElement>(null)
   const referenciasRef = useRef<HTMLDivElement>(null)
   const tituloRef = useRef<HTMLHeadingElement>(null)
-  const [enfocarTitulo, setEnfocarTitulo] = useState(false)
+  const [enfocarTitulo, setEnfocarTitulo] = useState(areaInicial !== undefined)
 
   useEffect(() => {
-    if (!settings || !nutrienteInicial || focoInicial.current) return
+    if (!vigentes || !nutrienteInicial || focoInicial.current) return
     const button = referenciasRef.current?.querySelector<HTMLButtonElement>(`[data-referencia="${nutrienteInicial}"] button`)
     if (button) { button.focus({ preventScroll: true }); button.scrollIntoView({ block: 'start', behavior: 'instant' }); focoInicial.current = true }
-  }, [settings, nutrienteInicial])
+  }, [vigentes, nutrienteInicial])
   useEffect(() => {
     if (enfocarTitulo) { tituloRef.current?.focus({ preventScroll: true }); tituloRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' }); setEnfocarTitulo(false) }
   }, [area, enfocarTitulo])
@@ -61,14 +63,15 @@ export default function ReferenciasTab({ nutrienteInicial }: { nutrienteInicial?
         <p>Las cifras describen el alimento de la fuente, no una medición de tu plato. Variedad, preparación y etiquetado pueden cambiar los valores reales.</p>
       </div>}
       {area === 'objetivos' && <div ref={referenciasRef} className="space-y-3">
-        <p className="text-body-sm text-fg-muted">Calorías y macros son tus objetivos editables. Los demás nutrientes usan referencias generales para adultos; consulta el criterio de cada uno.</p>
-        {!settings ? <LoadingState /> : IDS_NUTRIENTES.map(id => {
-          const referencia = referenciaNutricional(id, settings.objetivos)
+        <p className="text-body-sm text-fg-muted">Calorías y macros son tus objetivos: las calorías pueden salir de tu Perfil y los macros se editan en Ajustes. Los demás nutrientes usan referencias generales para adultos; consulta el criterio de cada uno.</p>
+        {!vigentes ? <LoadingState /> : IDS_NUTRIENTES.map(id => {
+          const referencia = referenciaNutricional(id, vigentes, vigentes.origen)
           return <div key={id} data-referencia={id}><Disclosure title={`${referencia.nombre} · ${textoReferencia(referencia)}`} open={abierto === id} onChange={open => setAbierto(open ? id : null)}>
             <ReferenciaNutrienteContenido referencia={referencia} />
           </Disclosure></div>
         })}
       </div>}
+      {area === 'energia' && <EnergiaReferencias />}
       {area === 'alimentarias' && (RECOMENDACIONES_ALIMENTARIAS.length === 0 ? <EmptyState icon="utensils" title="Recomendaciones aún no definidas">Todavía no hay referencias por grupos de alimentos. Se mostrarán aquí cuando sus criterios y fuentes estén definidos.</EmptyState> :
         <div className="space-y-section">{RECOMENDACIONES_ALIMENTARIAS.map(r => <section key={r.grupo} className="space-y-2">
           <h3 className="text-title font-semibold text-fg">{GRUPOS_ALIMENTARIOS.find(g => g.id === r.grupo)?.nombre}</h3>
