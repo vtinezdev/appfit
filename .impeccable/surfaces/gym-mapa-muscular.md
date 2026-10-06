@@ -4,7 +4,7 @@ Target: `src/features/gym/components/MapaMuscular.tsx`; related: WorkoutFinished
 Visitor mode: Operate. Extensión del sistema, sin rediseñar la sesión ni añadir dependencias.
 
 THESIS: Entender qué grupos recibieron más trabajo en una sesión real y poder recuperar ese reparto.
-OWN-WORLD: Tokens/Barlow/Manrope de AppFit; rojo semántico para datos y naranja para acciones. Dos figuras sobre una superficie sobria, sin fotografía/animación adicional.
+OWN-WORLD: Tokens y tipografía Saira de AppFit; rojo semántico para datos y naranja para acciones. Dos figuras sobre una superficie sobria, sin fotografía/animación adicional.
 STORY: Resultado guardado → frontal/trasera → escala/cobertura → grupos ordenados con detalle de ejercicios → metodología secundaria. Mismo componente en historial.
 FIRST VIEWPORT: Métricas finales antes del mapa; el cuerpo domina su sección. Dos vistas siempre visibles juntas, sin carrusel.
 FORM: Once grupos bilaterales, sin precisión anatómica inexistente. SVG decorativo accesible por lista textual; controles ≥44 px. Nombres/cifras/texto ampliado pueden envolver, sin altura rígida. Claro/oscuro y Forced Colors mantienen texto y estados.

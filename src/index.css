@@ -3,19 +3,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Saira variable (anchura y peso). La cursiva solo la usan las cifras. */
 @font-face {
-  font-family: 'Manrope';
+  font-family: 'Saira';
   font-style: normal;
-  font-weight: 200 800;
+  font-weight: 100 900;
+  font-stretch: 50% 125%;
   font-display: swap;
-  src: url('/fonts/manrope-latin-variable.woff2') format('woff2');
+  src: url('/fonts/saira-latin-variable.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Barlow Condensed';
-  font-style: normal;
-  font-weight: 700;
+  font-family: 'Saira';
+  font-style: italic;
+  font-weight: 100 900;
+  font-stretch: 50% 125%;
   font-display: swap;
-  src: url('/fonts/barlow-condensed-latin-700.woff2') format('woff2');
+  src: url('/fonts/saira-latin-italic-variable.woff2') format('woff2');
 }
 
 html, body, #root {
@@ -24,8 +27,12 @@ html, body, #root {
 html { scrollbar-color: rgb(var(--c-border-strong)) rgb(var(--c-bg)); }
 button, a { -webkit-user-select: none; }
 a { text-underline-offset: 0.2em; }
-.text-display, .text-heading { font-family: var(--font-display); font-weight: 700; }
+.text-display, .text-heading, .font-display { font-family: var(--font-display); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
 .text-display { text-transform: uppercase; }
+.text-label { font-stretch: var(--fst-label); }
+/* Después de .text-heading: una cifra con tamaño de título sigue siendo cifra. */
+.font-numeric { font-family: var(--font-numeric); font-weight: var(--fw-numeric); font-stretch: var(--fst-numeric); font-style: var(--font-style-numeric); }
+.font-numeric.text-hero { font-weight: var(--fw-numeric-hero); font-stretch: var(--fst-numeric-hero); }
 .page-header-main { min-width: min(100%, 10rem); }
 
 /* Una escena por sección, dentro del ancho de producto y ligada al scroll normal.
@@ -292,9 +299,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .training-feature { border: 1px solid rgb(var(--c-training-track)); }
 .training-feature .training-previous { border-top: 1px solid rgb(var(--c-training-track)); }
 .series-row .app-field { font-size: var(--fs-title); font-weight: 700; background: rgb(var(--c-bg)); }
-.exercise-panel .exercise-title { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: 700; }
+.exercise-panel .exercise-title { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
 .nutrition-summary .calorie-value { color: rgb(var(--c-text-primary)); }
-.sheet-panel h2, .task-layer header h1 { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: 700; }
+.sheet-panel h2, .task-layer header h1 { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
 .training-muted { color: rgb(var(--c-training-muted)); }
 .training-secondary { color: rgb(var(--c-on-training)); border: 1px solid rgb(var(--c-training-muted) / .4); }
 .training-secondary:hover, .training-secondary:active { background: rgb(var(--c-on-training) / .1); }

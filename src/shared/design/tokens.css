@@ -29,14 +29,23 @@
   --c-carbs: 84 96 50;
   --c-fat: 119 82 101;
   --c-goal: var(--c-text-primary);
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Barlow Condensed', 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  --font-numeric: var(--font-display);
-  --fs-hero: 3.25rem;
+  /* Una familia, tres voces: lectura a ancho normal, títulos negros condensados rectos, cifras en cursiva condensada. */
+  --font-sans: 'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-sans);
+  --font-numeric: var(--font-sans);
+  --fw-display: 900;
+  --fst-display: 62.5%;
+  --fw-numeric: 800;
+  --fst-numeric: 70%;
+  --fw-numeric-hero: 900;
+  --fst-numeric-hero: 62.5%;
+  --font-style-numeric: italic;
+  --fst-label: 85%;
+  --fs-hero: 3.5rem;
   --lh-hero: 1;
-  --fs-display: 2.375rem;
+  --fs-display: 2.5625rem;
   --lh-display: 1.05;
-  --fs-heading: 1.5rem;
+  --fs-heading: 1.625rem;
   --lh-heading: 1.2;
   --fs-title: 1.125rem;
   --lh-title: 1.5;
@@ -48,7 +57,7 @@
   --lh-label: 1.4;
   --fs-caption: 0.75rem;
   --lh-caption: 1.5;
-  --fs-metric: 2rem;
+  --fs-metric: 2.125rem;
   --lh-metric: 1.1;
   --space-page: 1.25rem;
   --space-section: 1.5rem;

@@ -6,7 +6,7 @@ Visitor mode: Operate. Extensión del sistema existente, sin reemplazar identida
 ## Direction contract
 
 THESIS: Elegir un ejercicio conocido con pocas pulsaciones y continuar la rutina o sesión sin escribir su nombre.
-OWN-WORLD: Grafito/claro, Manrope para lista y controles, Barlow para título de tarea, naranja reservado a selección/acción. Reutiliza tokens y capas.
+OWN-WORLD: Grafito/claro, Saira a ancho normal para lista y controles, Saira condensada para título de tarea, naranja reservado a selección/acción. Reutiliza tokens y capas.
 STORY: Buscador → dos filtros combinables → recientes o resultados planos → selección directa. Personalizado se crea con nombre/músculo/equipo en la misma tarea y permanece disponible.
 FIRST VIEWPORT: Título/Volver, buscador, chips de músculo/equipo y recientes; no abrir teclado automáticamente. Solo buscador fijo al desplazar; filtros/lista tienen scroll natural. Al crear, foco en nombre y acción persistente.
 FORM: Targets completos y chips en filas desplazables; nombres y metadatos envuelven. Cabecera puede colocar título debajo de Volver con texto ampliado. Datos antiguos visibles sin filtros si no hay clasificación fiable.

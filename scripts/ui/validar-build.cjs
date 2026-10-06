@@ -83,7 +83,7 @@ async function main() {
       assert.deepEqual(await exportData(page), before)
     }
     await page.evaluate(() => document.fonts.ready)
-    for (const family of ['Manrope', 'Barlow Condensed']) {
+    for (const family of ['Saira']) {
       assert.equal(await page.evaluate(name => Array.from(document.fonts).some(f => f.family === name && f.status === 'loaded'), family), true, `${family} disponible sin conexión`)
     }
     assert.deepEqual(errors, [])
