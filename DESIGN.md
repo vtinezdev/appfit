@@ -289,9 +289,9 @@ Sheet y ModalPage comparten títulos condensados, portal, aislamiento/foco, Esca
 
 ### Atmósferas de sección
 
-Una sola capa del shell selecciona tres WebP locales, de 960×1440 px y menos de 200 KB en conjunto, precacheados para uso offline. Imagen decorativa con alt vacío, oculta a tecnología asistiva y sin eventos de puntero. Overlay de grafito, saturación moderada y fade vertical hacia el fondo de página; no parallax ni animación de fotografía. La descarga/decodificación no desplaza contenido.
+Una sola capa del shell selecciona una WebP local según sección y tema resuelto. Tres escenas oscuras y tres fotografías distintas para claro, de 960×1440 px y menos de 400 KB en conjunto, precacheadas para uso offline. Imagen decorativa con alt vacío, oculta a tecnología asistiva y sin eventos de puntero. Overlay del tema, saturación moderada y fade vertical hacia el fondo de página; no parallax ni animación de fotografía. La descarga/decodificación no desplaza contenido.
 
-Cabeceras/tabs tienen protección de lectura; paneles mantienen opacidad 96% en oscuro y 98% en claro, entrenamiento 96%. Referencias y Ajustes reutilizan las escenas con intensidad mínima; no introducen otras fotos. En claro la presencia de imagen es más tenue y se respeta la preferencia existente. Forced Colors oculta la decoración. Si no carga una imagen, permanece el tema y todas las acciones.
+Cabeceras/tabs tienen protección de lectura; paneles mantienen opacidad 96% en oscuro y 98% en claro, entrenamiento 96%. Referencias y Ajustes reutilizan las escenas del tema con intensidad mínima; no introducen otras fotos. Claro tiene escenas propias de luz natural, piedra/cerámica clara y gimnasio luminoso: no es una foto oscura blanqueada. Su velo marfil y desvanecimiento más rápido conservan lectura y presencia fotográfica. La preferencia Claro/Oscuro prevalece sobre el sistema; Sistema actualiza escena y tokens a la vez. Forced Colors oculta la decoración. Si no carga una imagen, permanece el tema y todas las acciones.
 
 ### Navegación y motion
 

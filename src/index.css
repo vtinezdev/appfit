@@ -38,9 +38,9 @@ a { text-underline-offset: 0.2em; }
 }
 .app-atmosphere::after {
   content: ''; position: absolute; inset: 0 0 auto; height: var(--atmosphere-height);
-  background: linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-wash-top)) 0%, rgb(var(--c-bg) / .7) 18%, rgb(var(--c-bg) / .87) 43%, rgb(var(--c-bg) / .97) 75%, rgb(var(--c-bg)) 100%);
+  background: linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-wash-top)) 0%, rgb(var(--c-bg) / var(--atmosphere-wash-upper)) 18%, rgb(var(--c-bg) / var(--atmosphere-wash-middle)) 43%, rgb(var(--c-bg) / .97) 75%, rgb(var(--c-bg)) 100%);
 }
-.app-atmosphere[data-quiet='true'] { --atmosphere-photo-opacity: 0.2; }
+.app-atmosphere[data-quiet='true'] { --atmosphere-photo-opacity: var(--atmosphere-quiet-opacity); }
 .app-view[data-atmosphere] .page-header, .app-view[data-atmosphere] .app-tabs {
   background: rgb(var(--c-bg) / var(--atmosphere-reading-wash));
 }

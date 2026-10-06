@@ -34,7 +34,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Instalable en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
 - Copia de seguridad exportable e importable en un único archivo JSON, con confirmación antes de sustituir registros y ayuda para trasladarlos de Safari al acceso de pantalla de inicio en iPhone.
 - Tema Sistema/Claro/Oscuro seleccionable en Ajustes. Interfaz móvil coherente, controles táctiles grandes y fuente disponible offline.
-- Atmósferas fotográficas propias de Inicio, Nutrición y Gym, oscurecidas para priorizar contenido y acciones; imágenes locales disponibles offline.
+- Atmósferas fotográficas propias de Inicio, Nutrición y Gym: escenas oscuras y fotografías de luz natural para claro, integradas con el fondo para priorizar contenido y acciones; imágenes locales disponibles offline.
 - Coste de infraestructura: **0 €**.
 
 ## Empezar

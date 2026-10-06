@@ -6,6 +6,17 @@
 export type ThemePref = 'light' | 'dark' | 'system'
 
 const KEY = 'appfit-theme'
+const listeners = new Set<() => void>()
+
+/** Tema ya resuelto por el sistema existente; también sirve como snapshot de React. */
+export function getResolvedTheme(): 'light' | 'dark' {
+  return typeof document !== 'undefined' && document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'
+}
+
+export function subscribeTheme(listener: () => void) {
+  listeners.add(listener)
+  return () => { listeners.delete(listener) }
+}
 
 export function getThemePref(): ThemePref {
   try {
@@ -27,6 +38,7 @@ export function applyTheme(pref: ThemePref = getThemePref()) {
   // La barra del sistema (meta theme-color) usa el fondo del tema: se lee del token, no se duplica aquí.
   const bg = getComputedStyle(document.documentElement).getPropertyValue('--c-bg').trim()
   if (bg) document.querySelector('meta[name="theme-color"]')?.setAttribute('content', `rgb(${bg.split(/\s+/).join(',')})`)
+  listeners.forEach(listener => listener())
 }
 
 export function setThemePref(pref: ThemePref) {

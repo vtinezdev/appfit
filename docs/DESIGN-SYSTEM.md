@@ -47,13 +47,15 @@ Reduce Motion suprime desplazamientos, escala, FLIP, stagger, pulsación y entra
 
 ### Fondo fotográfico
 
-`app/AtmosferaApp` es la única selección de escenas: Inicio → bienestar/fitness, Nutrición → meal prep, Gym → pesas; Referencias/Ajustes reutilizan las fotos con `data-quiet`. Se monta dentro de `.app-view[data-atmosphere]`, aislada y fuera del flujo, con alt vacío/aria-hidden/pointer-events:none. No lee ni escribe registros.
+`app/AtmosferaApp` es la única selección de escenas: Inicio → bienestar/fitness, Nutrición → meal prep, Gym → pesas; Referencias/Ajustes reutilizan las fotos con `data-quiet`. Se monta dentro de `.app-view[data-atmosphere]`, aislada y fuera del flujo, con alt vacío/aria-hidden/pointer-events:none. No lee ni escribe registros. `useSyncExternalStore` consume el tema ya resuelto por `design/theme`, sin segunda preferencia ni observador del DOM. Solo se monta una imagen; las variantes `*-claro.webp` son fotografías distintas de luz natural, no una transformación de la escena oscura.
 
-Las tres WebP locales (960×1440, unos 176 KB en conjunto) cargan sin servicios externos; `vite.config` incluye webp en el precache. Decodificación async, prioridad alta solo para Inicio. Procedencia y prompts: `public/images/atmosferas/README.md` y sidecars. No usar un recorte del mockup con texto como fondo.
+Las seis WebP locales (960×1440, unos 333 KB en conjunto) cargan sin servicios externos; `vite.config` incluye webp en el precache. El juego claro añade unos 157 KB. Decodificación async, prioridad alta solo para Inicio. Procedencia y prompts: `public/images/atmosferas/README.md` y sidecars. No usar un recorte del mockup con texto como fondo.
 
 Los tokens `--atmosphere-*` gobiernan altura, opacidad, saturación y protección de lectura. Capa de 42 rem, scroll normal y fade vertical; no hay hero de altura añadida, parallax, vídeo o backdrop-filter. PageHeader/tabs protegen su texto, Card dentro del shell conserva 96%/98% de opacidad (oscuro/claro); training conserva 96%. Menús, registros, controles y formularios siguen con superficies propias. Forced Colors oculta la foto, Reduce Motion mantiene una escena estática y una descarga fallida deja el fondo del tema.
 
 Los tests de contraste comprueban cabeceras/paneles incluso sobre negro/blanco fotográficos. No convertir una foto futura en más luminosidad detrás del texto eliminando su protección.
+
+Claro usa foto al 72%, saturación 55%, velo superior 76% → 88% al 18% de altura → 95% al 43%; Referencias/Ajustes reducen la foto al 14%. Oscuro conserva foto al 100%, saturación 72%, velo 65% → 70% → 87% y variante quiet al 20%. Los stops finales, las superficies, la geometría y el motion no cambian. La lectura plana superior/tras el contexto en claro también se verifica frente a extremos fotográficos.
 
 ### Shell y tareas
 
