@@ -104,7 +104,7 @@ async function main() {
         await page.getByRole('button', { name: /^Alimento de prueba/ }).click()
         await page.getByRole('spinbutton', { name: 'Sal/100g', exact: true }).fill('')
         await page.getByRole('button', { name: 'Guardar', exact: true }).click()
-        await page.getByRole('tab', { name: 'Hoy', exact: true }).click()
+        await page.getByRole('tab', { name: 'Diario', exact: true }).click()
         assert.equal(await page.getByRole('radio', { name: 'Vista sencilla', exact: true }).getAttribute('aria-checked'), 'true')
         await page.getByRole('button', { name: 'Añadir comida', exact: true }).click()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('50 g de Alimento de prueba')

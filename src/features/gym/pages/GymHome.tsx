@@ -53,7 +53,7 @@ export default function GymHome() {
             Entreno vacío
           </Button>
           {!!rutinas?.length && <Button size="lg" block onClick={() => abrirRutinas(true)}>Desde rutina</Button>}
-          {rutinas?.length === 0 && <p className="training-muted text-center text-caption">Crea una rutina primero en la pestaña Rutinas.</p>}
+          {rutinas?.length === 0 && <p className="training-muted text-center text-caption">O crea una rutina en la pestaña Rutinas.</p>}
         </div>
       </section>
 

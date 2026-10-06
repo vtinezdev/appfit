@@ -23,7 +23,7 @@ const Hoy = lazy(() => import('./pages/Hoy'))
 type Vista = 'hoy' | 'resumen' | 'alimentos'
 
 const VISTAS: { valor: Vista; label: string }[] = [
-  { valor: 'hoy', label: 'Hoy' },
+  { valor: 'hoy', label: 'Diario' },
   { valor: 'resumen', label: 'Resumen' },
   { valor: 'alimentos', label: 'Alimentos' },
 ]

@@ -20,7 +20,8 @@ interface Props {
 /** Un registro tiene la misma jerarquía, sea alimento o plato; los ingredientes son filas interiores. */
 export default function RegistroComida({ tipo, nombre, nombreOriginal, detalle, macros, aproximado, onClick, abierto, detalleId, accion, children }: Props) {
   const kcal = formatInt(macros.kcal)
-  return <div data-registro={tipo} className={`food-record min-w-0 ${tipo === 'ingrediente' ? '' : 'rounded-md border border-line bg-surface'}`}>
+  // Filas planas dentro de la superficie de la comida: el agrupamiento lo da la comida, no una caja por registro.
+  return <div data-registro={tipo} className="food-record min-w-0">
     <div className="flex items-center gap-1 px-2 py-1">
       <button type="button" onClick={onClick} aria-expanded={abierto} aria-controls={detalleId}
         className="food-record-button min-h-touch min-w-0 flex-1 rounded-sm px-1 py-2 text-left transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted">

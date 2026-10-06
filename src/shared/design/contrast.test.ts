@@ -38,7 +38,6 @@ const light = resolve(rootLight)
 const dark = resolve(rootLight, rootDark)
 const inverse = resolve(rootLight, inverseLight)
 const inverseOscuro = resolve(rootLight, rootDark, inverseLight, inverseDark)
-const meal = parse(block("[data-surface='meal-header'] {"))
 
 const lum = ([r, g, b]: readonly number[]) => {
   const f = (v: number) => (v / 255 <= 0.03928 ? v / 255 / 12.92 : ((v / 255 + 0.055) / 1.055) ** 2.4)
@@ -60,7 +59,7 @@ const filteredPhoto = (rgb: readonly number[], theme: 'light' | 'dark') => rgb.m
 
 
 describe.each([['light', light], ['dark', dark]] as const)('luces ambientales (%s)', (theme, t) => {
-  it.each([['ember', 'amber'], ['olive', 'sand'], ['copper', 'stone']])('lectura sobre el máximo combinado de %s/%s', (primary, secondary) => {
+  it.each([['cobalt', 'steel'], ['sand', 'slate'], ['slate', 'mist']])('lectura sobre el máximo combinado de %s/%s', (primary, secondary) => {
     const first = over(t[`atmosphere-${primary}`], t.bg, atmosphere('light-primary-opacity', theme))
     const ambient = over(t[`atmosphere-${secondary}`], first, atmosphere('light-secondary-opacity', theme))
     for (const fg of ['text-primary', 'text-secondary', 'text-tertiary', 'accent-strong']) expect(ratio(t[fg], ambient), fg).toBeGreaterThanOrEqual(4.5)
@@ -165,15 +164,20 @@ describe.each([['inverse (claro)', inverse], ['inverse (oscuro)', inverseOscuro]
   it('el foco se ve ≥ 3', () => expect(ratio(t.focus, t.surface)).toBeGreaterThanOrEqual(3))
 })
 
-describe.each([['claro', resolve(rootLight, meal)], ['oscuro', resolve(rootLight, rootDark, meal)]])('cabeceras de comida (%s)', (_name, t) => {
-  it.each(['text-primary', 'text-secondary', 'accent-strong'])('%s sobre tinta ≥ 4.5', fg => {
-    expect(ratio(t[fg], t.surface)).toBeGreaterThanOrEqual(4.5)
-  })
-  it.each(['text-primary', 'text-secondary'])('%s en acciones al pasar el puntero ≥ 4.5', fg => {
-    expect(ratio(t[fg], t['surface-muted'])).toBeGreaterThanOrEqual(4.5)
-  })
-  it.each(['text-secondary', 'accent-strong'])('%s sobre apoyo de acción ≥ 4.5', fg => {
-    expect(ratio(t[fg], t['accent-subtle'])).toBeGreaterThanOrEqual(4.5)
-  })
-  it('foco reconocible sobre la cabecera ≥ 3', () => expect(ratio(t.focus, t.surface)).toBeGreaterThanOrEqual(3))
+/** Distancia perceptual ΔE en OKLab ×100: por debajo de ~5 dos colores se confunden; por encima de 10 se separan con claridad. */
+const oklab = (rgb: readonly number[]) => {
+  const lin = (v: number) => (v / 255 <= 0.04045 ? v / 255 / 12.92 : ((v / 255 + 0.055) / 1.055) ** 2.4)
+  const [r, g, b] = rgb.map(lin)
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b)
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b)
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b)
+  return [0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s, 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s]
+}
+const deltaE = (a: readonly number[], b: readonly number[]) => 100 * Math.hypot(...oklab(a).map((v, i) => v - oklab(b)[i]))
+
+// Jerarquía cromática: cada rol se distingue de los que comparten pantalla con él.
+describe.each([['claro', light], ['oscuro', dark]])('roles distinguibles (%s)', (_name, t) => {
+  it.each([['protein', 'carbs'], ['protein', 'fat'], ['carbs', 'fat'], ['kcal', 'fat']])('%s y %s ≥ 10', (a, b) => expect(deltaE(t[a], t[b])).toBeGreaterThanOrEqual(10))
+  it('acción textual y borrar ≥ 15', () => expect(deltaE(t['accent-strong'], t.destructive)).toBeGreaterThanOrEqual(15))
+  it('kcal y acción ≥ 15', () => expect(deltaE(t.kcal, t.accent)).toBeGreaterThanOrEqual(15))
 })

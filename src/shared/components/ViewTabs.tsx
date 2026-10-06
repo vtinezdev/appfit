@@ -14,7 +14,7 @@ export default function ViewTabs<T extends string>({ opciones, valor, onChange, 
   const elegir = (next: T) => { if (next !== valor) haptic(); onChange(next) }
   return (
     <div>
-      <div role="tablist" aria-label={label} className="app-tabs relative flex border-b border-line"
+      <div role="tablist" aria-label={label} className="app-tabs relative flex"
         style={{ '--selection-index': opciones.findIndex(o => o.valor === valor), '--selection-count': opciones.length } as CSSProperties}>
         <span className="tab-indicator" aria-hidden />
         {opciones.map((o, i) => (

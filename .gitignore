@@ -16,3 +16,6 @@ yarn-error.log*
 
 # catálogo: descargas crudas de fuentes (se regeneran, ver scripts/catalogo/README.md)
 scripts/catalogo/raw/
+
+# skills de Claude Code instaladas en local (ui-ux-pro-max, impeccable)
+.claude/skills/

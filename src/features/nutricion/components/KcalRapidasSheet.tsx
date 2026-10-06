@@ -16,7 +16,7 @@ interface Props {
 
 const MACROS: { key: 'prot' | 'carb' | 'grasa'; label: string }[] = [
   { key: 'prot', label: 'Proteína' },
-  { key: 'carb', label: 'Carbohidr.' },
+  { key: 'carb', label: 'Hidratos' },
   { key: 'grasa', label: 'Grasa' },
 ]
 

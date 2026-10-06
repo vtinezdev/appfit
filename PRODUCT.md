@@ -32,7 +32,7 @@ Uso repetido durante entrenamientos y a lo largo del día. La conexión puede fa
 
 Nombre APPFIT, identidad deportiva, moderna, premium, limpia, energética y rápida. El usuario delega las decisiones visuales y pide un menú cuyas opciones nazcan espacialmente del botón inferior. Evitar ornamentación que compita con el entrenamiento.
 
-La referencia elegida el 2026-10-05 es «Enfocada y Enérgica»: negro/grafito, blanco y naranja de acento, títulos deportivos y métricas claras. Disciplina/rendimiento/progreso, sin estética gaming ni imágenes que no ayuden a usar el producto.
+La referencia elegida el 2026-10-05 es «Enfocada y Enérgica»: títulos deportivos y métricas claras. El 2026-10-06 la paleta pasa a Cobalto (grafito frío, cobalto para actuar, ámbar para la energía) con una composición más respirada; la regla anterior de naranja + negro + blanco queda retirada. Disciplina/rendimiento/progreso, sin estética gaming ni imágenes que no ayuden a usar el producto.
 
 La preview aprobada ese mismo día incorpora fondos generados con acabado fotográfico propios de Inicio, Nutrición y Gym. Aportan contexto a baja intensidad, conservan la prioridad del contenido y se distribuyen localmente para funcionar offline. Referencias y Ajustes reutilizan estas escenas con menor presencia. No representan datos ni fotografías del usuario.
 

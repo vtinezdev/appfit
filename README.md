@@ -7,7 +7,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 ## Características
 
 **Inicio**
-- Entrenamiento como acción principal, calorías/macros frente a tus objetivos y peso con evolución de los últimos 30 días e historial. Registro de comida directo desde Inicio. Identidad deportiva grafito/blanco/naranja, títulos y métricas contundentes; alternativa clara conservada.
+- Entrenamiento como acción principal, calorías/macros frente a tus objetivos y peso con evolución de los últimos 30 días e historial. Registro de comida directo desde Inicio. Identidad deportiva en grafito frío y cobalto, con el ámbar para las calorías; títulos y métricas contundentes, composición limpia y alternativa clara conservada.
 
 **Nutrición**
 - Añadir comidas por texto libre o con el dictado del teclado: un intérprete local entiende alimentos, cantidades y medidas caseras («2 huevos», «una lata de atún», «un vaso de leche») y los busca en tus alimentos y en un catálogo de más de 6.000 alimentos (CIQUAL y productos de marca de Open Food Facts España). Sin conexión.
