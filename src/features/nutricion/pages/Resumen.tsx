@@ -22,7 +22,7 @@ type Dato = 'kcal' | 'prot' | 'carb' | 'grasa'
 const DATOS = [
   { valor: 'kcal' as const, label: 'Calorías', nombre: 'Calorías', color: chartColors.kcal, unidad: 'kcal' },
   { valor: 'prot' as const, label: 'Proteína', nombre: 'Proteína', color: chartColors.protein, unidad: 'g' },
-  { valor: 'carb' as const, label: 'Carboh.', nombre: 'Carbohidratos', color: chartColors.carbs, unidad: 'g' },
+  { valor: 'carb' as const, label: 'Hidratos', nombre: 'Carbohidratos', color: chartColors.carbs, unidad: 'g' },
   { valor: 'grasa' as const, label: 'Grasa', nombre: 'Grasa', color: chartColors.fat, unidad: 'g' },
 ]
 export default function Resumen() {
@@ -68,7 +68,7 @@ export default function Resumen() {
             <SectionHeader variant="section">Macros medios por día</SectionHeader>
             <div className="grid grid-cols-3 gap-3">
               {medias.map(({ macro, valor, objetivo }) => <div key={macro.short} className="min-w-0 space-y-2">
-                <Metric size="title" label={macro === MACROS.carbs ? 'Carbohidr.' : macro.label} valor={formatInt(valor)} unidad="g" caption={`de ${formatInt(objetivo)} g`} />
+                <Metric size="title" label={macro === MACROS.carbs ? 'Hidratos' : macro.label} valor={formatInt(valor)} unidad="g" caption={`de ${formatInt(objetivo)} g`} />
                 <ProgressBar value={valor} goal={objetivo} colorClass={macro.bg} label={macro.label} valueText={`${formatInt(valor)} de ${formatInt(objetivo)} g de media`} />
               </div>)}
             </div>

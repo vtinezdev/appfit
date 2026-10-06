@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-05T07:55:53Z",
+  "generatedAt": "2026-10-06T12:00:00Z",
   "title": "Design System: APPFIT",
   "extensions": {
     "muscleMap": {
@@ -12,22 +12,22 @@
       ],
       "representation": "SVG original bilateral, frontal/trasera; once grupos, sin lateralidad ni subdivisión de hombros",
       "dataTokens": {
-        "muscle-1": "rgb(251 225 224)",
-        "dark-muscle-1": "rgb(61 31 32)",
-        "muscle-2": "rgb(245 181 176)",
-        "dark-muscle-2": "rgb(105 42 44)",
-        "muscle-3": "rgb(230 122 114)",
-        "dark-muscle-3": "rgb(153 49 51)",
-        "muscle-4": "rgb(202 67 61)",
-        "dark-muscle-4": "rgb(197 58 62)",
-        "muscle-5": "rgb(153 34 42)",
-        "dark-muscle-5": "rgb(236 74 79)"
+        "muscle-1": "rgb(221 232 253)",
+        "dark-muscle-1": "rgb(32 46 71)",
+        "muscle-2": "rgb(178 203 249)",
+        "dark-muscle-2": "rgb(44 70 120)",
+        "muscle-3": "rgb(113 157 239)",
+        "dark-muscle-3": "rgb(59 99 176)",
+        "muscle-4": "rgb(53 109 220)",
+        "dark-muscle-4": "rgb(80 135 227)",
+        "muscle-5": "rgb(29 68 163)",
+        "dark-muscle-5": "rgb(128 183 254)"
       },
       "dimensions": {
         "bodyWidth": "10rem",
         "swatchSize": "0.75rem"
       },
-      "semantics": "rojo de datos independiente de error/destructivo; cero neutro; naranja sigue reservado a acciones",
+      "semantics": "rampa de cobalto independiente de error/destructivo; cero neutro; el cobalto sólido sigue reservado a acciones",
       "scale": "relativa al máximo de la sesión; límites 10/25/50/80/100%, no intensidad fisiológica",
       "accessibility": "niveles textuales y filas >=44 px para detalle; nivel debajo del nombre al estrechar el contenedor (16rem); SVG aria-hidden, Forced Colors Canvas/Highlight",
       "persistence": "snapshot semántico v1 en Workout, series originales, Dexie v6/backup v2",
@@ -52,798 +52,1148 @@
         "role": "neutral",
         "displayName": "Fondo neutro",
         "tonalRamp": [
-          "oklch(15% 0.00397 106.47)",
-          "oklch(26.4% 0.00397 106.47)",
-          "oklch(37.9% 0.00397 106.47)",
-          "oklch(49.3% 0.00397 106.47)",
-          "oklch(60.7% 0.00397 106.47)",
-          "oklch(72.1% 0.00397 106.47)",
-          "oklch(83.6% 0.00397 106.47)",
-          "oklch(95% 0.00397 106.47)"
+          "oklch(15.0% 0.00414 271.37)",
+          "oklch(26.4% 0.00414 271.37)",
+          "oklch(37.9% 0.00414 271.37)",
+          "oklch(49.3% 0.00414 271.37)",
+          "oklch(60.7% 0.00414 271.37)",
+          "oklch(72.1% 0.00414 271.37)",
+          "oklch(83.6% 0.00414 271.37)",
+          "oklch(95.0% 0.00414 271.37)"
         ]
       },
       "dark-bg": {
         "role": "neutral",
         "displayName": "Fondo neutro · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00213 286.13)",
-          "oklch(26.4% 0.00213 286.13)",
-          "oklch(37.9% 0.00213 286.13)",
-          "oklch(49.3% 0.00213 286.13)",
-          "oklch(60.7% 0.00213 286.13)",
-          "oklch(72.1% 0.00213 286.13)",
-          "oklch(83.6% 0.00213 286.13)",
-          "oklch(95% 0.00213 286.13)"
+          "oklch(15.0% 0.00747 256.88)",
+          "oklch(26.4% 0.00747 256.88)",
+          "oklch(37.9% 0.00747 256.88)",
+          "oklch(49.3% 0.00747 256.88)",
+          "oklch(60.7% 0.00747 256.88)",
+          "oklch(72.1% 0.00747 256.88)",
+          "oklch(83.6% 0.00747 256.88)",
+          "oklch(95.0% 0.00747 256.88)"
         ]
       },
       "surface": {
         "role": "neutral",
         "displayName": "Superficie de contenido",
         "tonalRamp": [
-          "oklch(15% 0.00000 89.88)",
-          "oklch(26.4% 0.00000 89.88)",
-          "oklch(37.9% 0.00000 89.88)",
-          "oklch(49.3% 0.00000 89.88)",
-          "oklch(60.7% 0.00000 89.88)",
-          "oklch(72.1% 0.00000 89.88)",
-          "oklch(83.6% 0.00000 89.88)",
-          "oklch(95% 0.00000 89.88)"
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
         ]
       },
       "dark-surface": {
         "role": "neutral",
         "displayName": "Superficie de contenido · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00394 286.04)",
-          "oklch(26.4% 0.00394 286.04)",
-          "oklch(37.9% 0.00394 286.04)",
-          "oklch(49.3% 0.00394 286.04)",
-          "oklch(60.7% 0.00394 286.04)",
-          "oklch(72.1% 0.00394 286.04)",
-          "oklch(83.6% 0.00394 286.04)",
-          "oklch(95% 0.00394 286.04)"
+          "oklch(15.0% 0.01109 260.66)",
+          "oklch(26.4% 0.01109 260.66)",
+          "oklch(37.9% 0.01109 260.66)",
+          "oklch(49.3% 0.01109 260.66)",
+          "oklch(60.7% 0.01109 260.66)",
+          "oklch(72.1% 0.01109 260.66)",
+          "oklch(83.6% 0.01109 260.66)",
+          "oklch(95.0% 0.01109 260.66)"
         ]
       },
       "surface-elevated": {
         "role": "neutral",
         "displayName": "Superficie de capa",
         "tonalRamp": [
-          "oklch(15% 0.00000 89.88)",
-          "oklch(26.4% 0.00000 89.88)",
-          "oklch(37.9% 0.00000 89.88)",
-          "oklch(49.3% 0.00000 89.88)",
-          "oklch(60.7% 0.00000 89.88)",
-          "oklch(72.1% 0.00000 89.88)",
-          "oklch(83.6% 0.00000 89.88)",
-          "oklch(95% 0.00000 89.88)"
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
         ]
       },
       "dark-surface-elevated": {
         "role": "neutral",
         "displayName": "Superficie de capa · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00571 285.95)",
-          "oklch(26.4% 0.00571 285.95)",
-          "oklch(37.9% 0.00571 285.95)",
-          "oklch(49.3% 0.00571 285.95)",
-          "oklch(60.7% 0.00571 285.95)",
-          "oklch(72.1% 0.00571 285.95)",
-          "oklch(83.6% 0.00571 285.95)",
-          "oklch(95% 0.00571 285.95)"
+          "oklch(15.0% 0.01241 264.30)",
+          "oklch(26.4% 0.01241 264.30)",
+          "oklch(37.9% 0.01241 264.30)",
+          "oklch(49.3% 0.01241 264.30)",
+          "oklch(60.7% 0.01241 264.30)",
+          "oklch(72.1% 0.01241 264.30)",
+          "oklch(83.6% 0.01241 264.30)",
+          "oklch(95.0% 0.01241 264.30)"
         ]
       },
       "surface-muted": {
         "role": "neutral",
         "displayName": "Superficie secundaria",
         "tonalRamp": [
-          "oklch(15% 0.00535 106.50)",
-          "oklch(26.4% 0.00535 106.50)",
-          "oklch(37.9% 0.00535 106.50)",
-          "oklch(49.3% 0.00535 106.50)",
-          "oklch(60.7% 0.00535 106.50)",
-          "oklch(72.1% 0.00535 106.50)",
-          "oklch(83.6% 0.00535 106.50)",
-          "oklch(95% 0.00535 106.50)"
+          "oklch(15.0% 0.00580 264.53)",
+          "oklch(26.4% 0.00580 264.53)",
+          "oklch(37.9% 0.00580 264.53)",
+          "oklch(49.3% 0.00580 264.53)",
+          "oklch(60.7% 0.00580 264.53)",
+          "oklch(72.1% 0.00580 264.53)",
+          "oklch(83.6% 0.00580 264.53)",
+          "oklch(95.0% 0.00580 264.53)"
         ]
       },
       "dark-surface-muted": {
         "role": "neutral",
         "displayName": "Superficie secundaria · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00557 286.00)",
-          "oklch(26.4% 0.00557 286.00)",
-          "oklch(37.9% 0.00557 286.00)",
-          "oklch(49.3% 0.00557 286.00)",
-          "oklch(60.7% 0.00557 286.00)",
-          "oklch(72.1% 0.00557 286.00)",
-          "oklch(83.6% 0.00557 286.00)",
-          "oklch(95% 0.00557 286.00)"
+          "oklch(15.0% 0.01277 258.37)",
+          "oklch(26.4% 0.01277 258.37)",
+          "oklch(37.9% 0.01277 258.37)",
+          "oklch(49.3% 0.01277 258.37)",
+          "oklch(60.7% 0.01277 258.37)",
+          "oklch(72.1% 0.01277 258.37)",
+          "oklch(83.6% 0.01277 258.37)",
+          "oklch(95.0% 0.01277 258.37)"
         ]
       },
       "overlay": {
         "role": "neutral",
         "displayName": "Fondo de aislamiento",
         "tonalRamp": [
-          "oklch(15% 0.00213 286.13)",
-          "oklch(26.4% 0.00213 286.13)",
-          "oklch(37.9% 0.00213 286.13)",
-          "oklch(49.3% 0.00213 286.13)",
-          "oklch(60.7% 0.00213 286.13)",
-          "oklch(72.1% 0.00213 286.13)",
-          "oklch(83.6% 0.00213 286.13)",
-          "oklch(95% 0.00213 286.13)"
+          "oklch(15.0% 0.01114 267.98)",
+          "oklch(26.4% 0.01114 267.98)",
+          "oklch(37.9% 0.01114 267.98)",
+          "oklch(49.3% 0.01114 267.98)",
+          "oklch(60.7% 0.01114 267.98)",
+          "oklch(72.1% 0.01114 267.98)",
+          "oklch(83.6% 0.01114 267.98)",
+          "oklch(95.0% 0.01114 267.98)"
         ]
       },
       "dark-overlay": {
         "role": "neutral",
         "displayName": "Fondo de aislamiento · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00000 0.00)",
+          "oklch(15.0% 0.00000 0.00)",
           "oklch(26.4% 0.00000 0.00)",
           "oklch(37.9% 0.00000 0.00)",
           "oklch(49.3% 0.00000 0.00)",
           "oklch(60.7% 0.00000 0.00)",
           "oklch(72.1% 0.00000 0.00)",
           "oklch(83.6% 0.00000 0.00)",
-          "oklch(95% 0.00000 0.00)"
+          "oklch(95.0% 0.00000 0.00)"
         ]
       },
       "text-primary": {
         "role": "neutral",
         "displayName": "Contenido principal",
         "tonalRamp": [
-          "oklch(15% 0.00394 286.04)",
-          "oklch(26.4% 0.00394 286.04)",
-          "oklch(37.9% 0.00394 286.04)",
-          "oklch(49.3% 0.00394 286.04)",
-          "oklch(60.7% 0.00394 286.04)",
-          "oklch(72.1% 0.00394 286.04)",
-          "oklch(83.6% 0.00394 286.04)",
-          "oklch(95% 0.00394 286.04)"
+          "oklch(15.0% 0.01578 256.82)",
+          "oklch(26.4% 0.01578 256.82)",
+          "oklch(37.9% 0.01578 256.82)",
+          "oklch(49.3% 0.01578 256.82)",
+          "oklch(60.7% 0.01578 256.82)",
+          "oklch(72.1% 0.01578 256.82)",
+          "oklch(83.6% 0.01578 256.82)",
+          "oklch(95.0% 0.01578 256.82)"
         ]
       },
       "dark-text-primary": {
         "role": "neutral",
         "displayName": "Contenido principal · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00396 106.47)",
-          "oklch(26.4% 0.00396 106.47)",
-          "oklch(37.9% 0.00396 106.47)",
-          "oklch(49.3% 0.00396 106.47)",
-          "oklch(60.7% 0.00396 106.47)",
-          "oklch(72.1% 0.00396 106.47)",
-          "oklch(83.6% 0.00396 106.47)",
-          "oklch(95% 0.00396 106.47)"
+          "oklch(15.0% 0.00342 247.86)",
+          "oklch(26.4% 0.00342 247.86)",
+          "oklch(37.9% 0.00342 247.86)",
+          "oklch(49.3% 0.00342 247.86)",
+          "oklch(60.7% 0.00342 247.86)",
+          "oklch(72.1% 0.00342 247.86)",
+          "oklch(83.6% 0.00342 247.86)",
+          "oklch(95.0% 0.00342 247.86)"
         ]
       },
       "text-secondary": {
         "role": "neutral",
         "displayName": "Contexto",
         "tonalRamp": [
-          "oklch(15% 0.00488 106.61)",
-          "oklch(26.4% 0.00488 106.61)",
-          "oklch(37.9% 0.00488 106.61)",
-          "oklch(49.3% 0.00488 106.61)",
-          "oklch(60.7% 0.00488 106.61)",
-          "oklch(72.1% 0.00488 106.61)",
-          "oklch(83.6% 0.00488 106.61)",
-          "oklch(95% 0.00488 106.61)"
+          "oklch(15.0% 0.01679 258.37)",
+          "oklch(26.4% 0.01679 258.37)",
+          "oklch(37.9% 0.01679 258.37)",
+          "oklch(49.3% 0.01679 258.37)",
+          "oklch(60.7% 0.01679 258.37)",
+          "oklch(72.1% 0.01679 258.37)",
+          "oklch(83.6% 0.01679 258.37)",
+          "oklch(95.0% 0.01679 258.37)"
         ]
       },
       "dark-text-secondary": {
         "role": "neutral",
         "displayName": "Contexto · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00139 106.43)",
-          "oklch(26.4% 0.00139 106.43)",
-          "oklch(37.9% 0.00139 106.43)",
-          "oklch(49.3% 0.00139 106.43)",
-          "oklch(60.7% 0.00139 106.43)",
-          "oklch(72.1% 0.00139 106.43)",
-          "oklch(83.6% 0.00139 106.43)",
-          "oklch(95% 0.00139 106.43)"
+          "oklch(15.0% 0.00951 258.34)",
+          "oklch(26.4% 0.00951 258.34)",
+          "oklch(37.9% 0.00951 258.34)",
+          "oklch(49.3% 0.00951 258.34)",
+          "oklch(60.7% 0.00951 258.34)",
+          "oklch(72.1% 0.00951 258.34)",
+          "oklch(83.6% 0.00951 258.34)",
+          "oklch(95.0% 0.00951 258.34)"
         ]
       },
       "text-tertiary": {
         "role": "neutral",
         "displayName": "Metadato",
         "tonalRamp": [
-          "oklch(15% 0.00783 106.69)",
-          "oklch(26.4% 0.00783 106.69)",
-          "oklch(37.9% 0.00783 106.69)",
-          "oklch(49.3% 0.00783 106.69)",
-          "oklch(60.7% 0.00783 106.69)",
-          "oklch(72.1% 0.00783 106.69)",
-          "oklch(83.6% 0.00783 106.69)",
-          "oklch(95% 0.00783 106.69)"
+          "oklch(15.0% 0.01291 256.74)",
+          "oklch(26.4% 0.01291 256.74)",
+          "oklch(37.9% 0.01291 256.74)",
+          "oklch(49.3% 0.01291 256.74)",
+          "oklch(60.7% 0.01291 256.74)",
+          "oklch(72.1% 0.01291 256.74)",
+          "oklch(83.6% 0.01291 256.74)",
+          "oklch(95.0% 0.01291 256.74)"
         ]
       },
       "dark-text-tertiary": {
         "role": "neutral",
         "displayName": "Metadato · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00312 264.54)",
-          "oklch(26.4% 0.00312 264.54)",
-          "oklch(37.9% 0.00312 264.54)",
-          "oklch(49.3% 0.00312 264.54)",
-          "oklch(60.7% 0.00312 264.54)",
-          "oklch(72.1% 0.00312 264.54)",
-          "oklch(83.6% 0.00312 264.54)",
-          "oklch(95% 0.00312 264.54)"
+          "oklch(15.0% 0.01167 256.71)",
+          "oklch(26.4% 0.01167 256.71)",
+          "oklch(37.9% 0.01167 256.71)",
+          "oklch(49.3% 0.01167 256.71)",
+          "oklch(60.7% 0.01167 256.71)",
+          "oklch(72.1% 0.01167 256.71)",
+          "oklch(83.6% 0.01167 256.71)",
+          "oklch(95.0% 0.01167 256.71)"
         ]
       },
       "border": {
         "role": "neutral",
         "displayName": "Divisor neutro",
         "tonalRamp": [
-          "oklch(15% 0.00812 106.57)",
-          "oklch(26.4% 0.00812 106.57)",
-          "oklch(37.9% 0.00812 106.57)",
-          "oklch(49.3% 0.00812 106.57)",
-          "oklch(60.7% 0.00812 106.57)",
-          "oklch(72.1% 0.00812 106.57)",
-          "oklch(83.6% 0.00812 106.57)",
-          "oklch(95% 0.00812 106.57)"
+          "oklch(15.0% 0.00634 255.48)",
+          "oklch(26.4% 0.00634 255.48)",
+          "oklch(37.9% 0.00634 255.48)",
+          "oklch(49.3% 0.00634 255.48)",
+          "oklch(60.7% 0.00634 255.48)",
+          "oklch(72.1% 0.00634 255.48)",
+          "oklch(83.6% 0.00634 255.48)",
+          "oklch(95.0% 0.00634 255.48)"
         ]
       },
       "dark-border": {
         "role": "neutral",
         "displayName": "Divisor neutro · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00703 285.99)",
-          "oklch(26.4% 0.00703 285.99)",
-          "oklch(37.9% 0.00703 285.99)",
-          "oklch(49.3% 0.00703 285.99)",
-          "oklch(60.7% 0.00703 285.99)",
-          "oklch(72.1% 0.00703 285.99)",
-          "oklch(83.6% 0.00703 285.99)",
-          "oklch(95% 0.00703 285.99)"
+          "oklch(15.0% 0.01284 253.00)",
+          "oklch(26.4% 0.01284 253.00)",
+          "oklch(37.9% 0.01284 253.00)",
+          "oklch(49.3% 0.01284 253.00)",
+          "oklch(60.7% 0.01284 253.00)",
+          "oklch(72.1% 0.01284 253.00)",
+          "oklch(83.6% 0.01284 253.00)",
+          "oklch(95.0% 0.01284 253.00)"
         ]
       },
       "border-strong": {
         "role": "neutral",
         "displayName": "Límite de control",
         "tonalRamp": [
-          "oklch(15% 0.00752 106.63)",
-          "oklch(26.4% 0.00752 106.63)",
-          "oklch(37.9% 0.00752 106.63)",
-          "oklch(49.3% 0.00752 106.63)",
-          "oklch(60.7% 0.00752 106.63)",
-          "oklch(72.1% 0.00752 106.63)",
-          "oklch(83.6% 0.00752 106.63)",
-          "oklch(95% 0.00752 106.63)"
+          "oklch(15.0% 0.01217 256.72)",
+          "oklch(26.4% 0.01217 256.72)",
+          "oklch(37.9% 0.01217 256.72)",
+          "oklch(49.3% 0.01217 256.72)",
+          "oklch(60.7% 0.01217 256.72)",
+          "oklch(72.1% 0.01217 256.72)",
+          "oklch(83.6% 0.01217 256.72)",
+          "oklch(95.0% 0.01217 256.72)"
         ]
       },
       "dark-border-strong": {
         "role": "neutral",
         "displayName": "Límite de control · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.00608 286.20)",
-          "oklch(26.4% 0.00608 286.20)",
-          "oklch(37.9% 0.00608 286.20)",
-          "oklch(49.3% 0.00608 286.20)",
-          "oklch(60.7% 0.00608 286.20)",
-          "oklch(72.1% 0.00608 286.20)",
-          "oklch(83.6% 0.00608 286.20)",
-          "oklch(95% 0.00608 286.20)"
+          "oklch(15.0% 0.01239 256.73)",
+          "oklch(26.4% 0.01239 256.73)",
+          "oklch(37.9% 0.01239 256.73)",
+          "oklch(49.3% 0.01239 256.73)",
+          "oklch(60.7% 0.01239 256.73)",
+          "oklch(72.1% 0.01239 256.73)",
+          "oklch(83.6% 0.01239 256.73)",
+          "oklch(95.0% 0.01239 256.73)"
         ]
       },
       "accent": {
         "role": "primary",
         "displayName": "Naranja señal",
         "tonalRamp": [
-          "oklch(15% 0.19680 43.49)",
-          "oklch(26.4% 0.19680 43.49)",
-          "oklch(37.9% 0.19680 43.49)",
-          "oklch(49.3% 0.19680 43.49)",
-          "oklch(60.7% 0.19680 43.49)",
-          "oklch(72.1% 0.19680 43.49)",
-          "oklch(83.6% 0.19680 43.49)",
-          "oklch(95% 0.19680 43.49)"
+          "oklch(15.0% 0.20035 261.97)",
+          "oklch(26.4% 0.20035 261.97)",
+          "oklch(37.9% 0.20035 261.97)",
+          "oklch(49.3% 0.20035 261.97)",
+          "oklch(60.7% 0.20035 261.97)",
+          "oklch(72.1% 0.20035 261.97)",
+          "oklch(83.6% 0.20035 261.97)",
+          "oklch(95.0% 0.20035 261.97)"
         ]
       },
       "dark-accent": {
         "role": "primary",
         "displayName": "Naranja señal · oscuro",
         "tonalRamp": [
-          "oklch(15% 0.19680 43.49)",
-          "oklch(26.4% 0.19680 43.49)",
-          "oklch(37.9% 0.19680 43.49)",
-          "oklch(49.3% 0.19680 43.49)",
-          "oklch(60.7% 0.19680 43.49)",
-          "oklch(72.1% 0.19680 43.49)",
-          "oklch(83.6% 0.19680 43.49)",
-          "oklch(95% 0.19680 43.49)"
-        ]
-      },
-      "on-accent": {
-        "role": "neutral",
-        "displayName": "Tinta sobre señal",
-        "tonalRamp": [
-          "oklch(15% 0.00213 286.13)",
-          "oklch(26.4% 0.00213 286.13)",
-          "oklch(37.9% 0.00213 286.13)",
-          "oklch(49.3% 0.00213 286.13)",
-          "oklch(60.7% 0.00213 286.13)",
-          "oklch(72.1% 0.00213 286.13)",
-          "oklch(83.6% 0.00213 286.13)",
-          "oklch(95% 0.00213 286.13)"
-        ]
-      },
-      "accent-strong": {
-        "role": "primary",
-        "displayName": "Naranja de texto y foco",
-        "tonalRamp": [
-          "oklch(15% 0.15057 39.69)",
-          "oklch(26.4% 0.15057 39.69)",
-          "oklch(37.9% 0.15057 39.69)",
-          "oklch(49.3% 0.15057 39.69)",
-          "oklch(60.7% 0.15057 39.69)",
-          "oklch(72.1% 0.15057 39.69)",
-          "oklch(83.6% 0.15057 39.69)",
-          "oklch(95% 0.15057 39.69)"
-        ]
-      },
-      "dark-accent-strong": {
-        "role": "primary",
-        "displayName": "Naranja de texto y foco · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.16761 47.41)",
-          "oklch(26.4% 0.16761 47.41)",
-          "oklch(37.9% 0.16761 47.41)",
-          "oklch(49.3% 0.16761 47.41)",
-          "oklch(60.7% 0.16761 47.41)",
-          "oklch(72.1% 0.16761 47.41)",
-          "oklch(83.6% 0.16761 47.41)",
-          "oklch(95% 0.16761 47.41)"
-        ]
-      },
-      "accent-subtle": {
-        "role": "primary",
-        "displayName": "Apoyo de señal",
-        "tonalRamp": [
-          "oklch(15% 0.03315 63.04)",
-          "oklch(26.4% 0.03315 63.04)",
-          "oklch(37.9% 0.03315 63.04)",
-          "oklch(49.3% 0.03315 63.04)",
-          "oklch(60.7% 0.03315 63.04)",
-          "oklch(72.1% 0.03315 63.04)",
-          "oklch(83.6% 0.03315 63.04)",
-          "oklch(95% 0.03315 63.04)"
-        ]
-      },
-      "dark-accent-subtle": {
-        "role": "primary",
-        "displayName": "Apoyo de señal · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.04767 45.86)",
-          "oklch(26.4% 0.04767 45.86)",
-          "oklch(37.9% 0.04767 45.86)",
-          "oklch(49.3% 0.04767 45.86)",
-          "oklch(60.7% 0.04767 45.86)",
-          "oklch(72.1% 0.04767 45.86)",
-          "oklch(83.6% 0.04767 45.86)",
-          "oklch(95% 0.04767 45.86)"
-        ]
-      },
-      "selected": {
-        "role": "neutral",
-        "displayName": "Selección neutra",
-        "tonalRamp": [
-          "oklch(15% 0.00000 89.88)",
-          "oklch(26.4% 0.00000 89.88)",
-          "oklch(37.9% 0.00000 89.88)",
-          "oklch(49.3% 0.00000 89.88)",
-          "oklch(60.7% 0.00000 89.88)",
-          "oklch(72.1% 0.00000 89.88)",
-          "oklch(83.6% 0.00000 89.88)",
-          "oklch(95% 0.00000 89.88)"
-        ]
-      },
-      "dark-selected": {
-        "role": "neutral",
-        "displayName": "Selección neutra · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.00676 286.07)",
-          "oklch(26.4% 0.00676 286.07)",
-          "oklch(37.9% 0.00676 286.07)",
-          "oklch(49.3% 0.00676 286.07)",
-          "oklch(60.7% 0.00676 286.07)",
-          "oklch(72.1% 0.00676 286.07)",
-          "oklch(83.6% 0.00676 286.07)",
-          "oklch(95% 0.00676 286.07)"
-        ]
-      },
-      "on-selected": {
-        "role": "neutral",
-        "displayName": "Texto de selección",
-        "tonalRamp": [
-          "oklch(15% 0.00394 286.04)",
-          "oklch(26.4% 0.00394 286.04)",
-          "oklch(37.9% 0.00394 286.04)",
-          "oklch(49.3% 0.00394 286.04)",
-          "oklch(60.7% 0.00394 286.04)",
-          "oklch(72.1% 0.00394 286.04)",
-          "oklch(83.6% 0.00394 286.04)",
-          "oklch(95% 0.00394 286.04)"
-        ]
-      },
-      "dark-on-selected": {
-        "role": "neutral",
-        "displayName": "Texto de selección · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.00396 106.47)",
-          "oklch(26.4% 0.00396 106.47)",
-          "oklch(37.9% 0.00396 106.47)",
-          "oklch(49.3% 0.00396 106.47)",
-          "oklch(60.7% 0.00396 106.47)",
-          "oklch(72.1% 0.00396 106.47)",
-          "oklch(83.6% 0.00396 106.47)",
-          "oklch(95% 0.00396 106.47)"
-        ]
-      },
-      "success": {
-        "role": "semantic",
-        "displayName": "Confirmación",
-        "tonalRamp": [
-          "oklch(15% 0.10090 159.23)",
-          "oklch(26.4% 0.10090 159.23)",
-          "oklch(37.9% 0.10090 159.23)",
-          "oklch(49.3% 0.10090 159.23)",
-          "oklch(60.7% 0.10090 159.23)",
-          "oklch(72.1% 0.10090 159.23)",
-          "oklch(83.6% 0.10090 159.23)",
-          "oklch(95% 0.10090 159.23)"
-        ]
-      },
-      "dark-success": {
-        "role": "semantic",
-        "displayName": "Confirmación · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.12088 160.39)",
-          "oklch(26.4% 0.12088 160.39)",
-          "oklch(37.9% 0.12088 160.39)",
-          "oklch(49.3% 0.12088 160.39)",
-          "oklch(60.7% 0.12088 160.39)",
-          "oklch(72.1% 0.12088 160.39)",
-          "oklch(83.6% 0.12088 160.39)",
-          "oklch(95% 0.12088 160.39)"
-        ]
-      },
-      "on-success": {
-        "role": "neutral",
-        "displayName": "Texto de confirmación",
-        "tonalRamp": [
-          "oklch(15% 0.00000 89.88)",
-          "oklch(26.4% 0.00000 89.88)",
-          "oklch(37.9% 0.00000 89.88)",
-          "oklch(49.3% 0.00000 89.88)",
-          "oklch(60.7% 0.00000 89.88)",
-          "oklch(72.1% 0.00000 89.88)",
-          "oklch(83.6% 0.00000 89.88)",
-          "oklch(95% 0.00000 89.88)"
-        ]
-      },
-      "dark-on-success": {
-        "role": "neutral",
-        "displayName": "Texto de confirmación · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.00213 286.13)",
-          "oklch(26.4% 0.00213 286.13)",
-          "oklch(37.9% 0.00213 286.13)",
-          "oklch(49.3% 0.00213 286.13)",
-          "oklch(60.7% 0.00213 286.13)",
-          "oklch(72.1% 0.00213 286.13)",
-          "oklch(83.6% 0.00213 286.13)",
-          "oklch(95% 0.00213 286.13)"
-        ]
-      },
-      "success-subtle": {
-        "role": "semantic",
-        "displayName": "Fila confirmada",
-        "tonalRamp": [
-          "oklch(15% 0.01819 161.12)",
-          "oklch(26.4% 0.01819 161.12)",
-          "oklch(37.9% 0.01819 161.12)",
-          "oklch(49.3% 0.01819 161.12)",
-          "oklch(60.7% 0.01819 161.12)",
-          "oklch(72.1% 0.01819 161.12)",
-          "oklch(83.6% 0.01819 161.12)",
-          "oklch(95% 0.01819 161.12)"
-        ]
-      },
-      "dark-success-subtle": {
-        "role": "semantic",
-        "displayName": "Fila confirmada · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.04158 167.66)",
-          "oklch(26.4% 0.04158 167.66)",
-          "oklch(37.9% 0.04158 167.66)",
-          "oklch(49.3% 0.04158 167.66)",
-          "oklch(60.7% 0.04158 167.66)",
-          "oklch(72.1% 0.04158 167.66)",
-          "oklch(83.6% 0.04158 167.66)",
-          "oklch(95% 0.04158 167.66)"
-        ]
-      },
-      "warning": {
-        "role": "semantic",
-        "displayName": "Advertencia",
-        "tonalRamp": [
-          "oklch(15% 0.10579 67.12)",
-          "oklch(26.4% 0.10579 67.12)",
-          "oklch(37.9% 0.10579 67.12)",
-          "oklch(49.3% 0.10579 67.12)",
-          "oklch(60.7% 0.10579 67.12)",
-          "oklch(72.1% 0.10579 67.12)",
-          "oklch(83.6% 0.10579 67.12)",
-          "oklch(95% 0.10579 67.12)"
-        ]
-      },
-      "dark-warning": {
-        "role": "semantic",
-        "displayName": "Advertencia · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.12397 85.83)",
-          "oklch(26.4% 0.12397 85.83)",
-          "oklch(37.9% 0.12397 85.83)",
-          "oklch(49.3% 0.12397 85.83)",
-          "oklch(60.7% 0.12397 85.83)",
-          "oklch(72.1% 0.12397 85.83)",
-          "oklch(83.6% 0.12397 85.83)",
-          "oklch(95% 0.12397 85.83)"
-        ]
-      },
-      "destructive": {
-        "role": "semantic",
-        "displayName": "Acción destructiva",
-        "tonalRamp": [
-          "oklch(15% 0.16437 29.14)",
-          "oklch(26.4% 0.16437 29.14)",
-          "oklch(37.9% 0.16437 29.14)",
-          "oklch(49.3% 0.16437 29.14)",
-          "oklch(60.7% 0.16437 29.14)",
-          "oklch(72.1% 0.16437 29.14)",
-          "oklch(83.6% 0.16437 29.14)",
-          "oklch(95% 0.16437 29.14)"
-        ]
-      },
-      "dark-destructive": {
-        "role": "semantic",
-        "displayName": "Acción destructiva · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.13115 27.80)",
-          "oklch(26.4% 0.13115 27.80)",
-          "oklch(37.9% 0.13115 27.80)",
-          "oklch(49.3% 0.13115 27.80)",
-          "oklch(60.7% 0.13115 27.80)",
-          "oklch(72.1% 0.13115 27.80)",
-          "oklch(83.6% 0.13115 27.80)",
-          "oklch(95% 0.13115 27.80)"
-        ]
-      },
-      "on-destructive": {
-        "role": "neutral",
-        "displayName": "Texto destructivo",
-        "tonalRamp": [
-          "oklch(15% 0.00000 89.88)",
-          "oklch(26.4% 0.00000 89.88)",
-          "oklch(37.9% 0.00000 89.88)",
-          "oklch(49.3% 0.00000 89.88)",
-          "oklch(60.7% 0.00000 89.88)",
-          "oklch(72.1% 0.00000 89.88)",
-          "oklch(83.6% 0.00000 89.88)",
-          "oklch(95% 0.00000 89.88)"
-        ]
-      },
-      "dark-on-destructive": {
-        "role": "neutral",
-        "displayName": "Texto destructivo · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.00395 106.77)",
-          "oklch(26.4% 0.00395 106.77)",
-          "oklch(37.9% 0.00395 106.77)",
-          "oklch(49.3% 0.00395 106.77)",
-          "oklch(60.7% 0.00395 106.77)",
-          "oklch(72.1% 0.00395 106.77)",
-          "oklch(83.6% 0.00395 106.77)",
-          "oklch(95% 0.00395 106.77)"
-        ]
-      },
-      "protein": {
-        "role": "data",
-        "displayName": "Proteína mineral",
-        "tonalRamp": [
-          "oklch(15% 0.04637 246.66)",
-          "oklch(26.4% 0.04637 246.66)",
-          "oklch(37.9% 0.04637 246.66)",
-          "oklch(49.3% 0.04637 246.66)",
-          "oklch(60.7% 0.04637 246.66)",
-          "oklch(72.1% 0.04637 246.66)",
-          "oklch(83.6% 0.04637 246.66)",
-          "oklch(95% 0.04637 246.66)"
-        ]
-      },
-      "dark-protein": {
-        "role": "data",
-        "displayName": "Proteína mineral · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.04110 237.78)",
-          "oklch(26.4% 0.04110 237.78)",
-          "oklch(37.9% 0.04110 237.78)",
-          "oklch(49.3% 0.04110 237.78)",
-          "oklch(60.7% 0.04110 237.78)",
-          "oklch(72.1% 0.04110 237.78)",
-          "oklch(83.6% 0.04110 237.78)",
-          "oklch(95% 0.04110 237.78)"
-        ]
-      },
-      "carbs": {
-        "role": "data",
-        "displayName": "Carbohidratos oliva",
-        "tonalRamp": [
-          "oklch(15% 0.06949 121.13)",
-          "oklch(26.4% 0.06949 121.13)",
-          "oklch(37.9% 0.06949 121.13)",
-          "oklch(49.3% 0.06949 121.13)",
-          "oklch(60.7% 0.06949 121.13)",
-          "oklch(72.1% 0.06949 121.13)",
-          "oklch(83.6% 0.06949 121.13)",
-          "oklch(95% 0.06949 121.13)"
-        ]
-      },
-      "dark-carbs": {
-        "role": "data",
-        "displayName": "Carbohidratos oliva · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.07938 114.55)",
-          "oklch(26.4% 0.07938 114.55)",
-          "oklch(37.9% 0.07938 114.55)",
-          "oklch(49.3% 0.07938 114.55)",
-          "oklch(60.7% 0.07938 114.55)",
-          "oklch(72.1% 0.07938 114.55)",
-          "oklch(83.6% 0.07938 114.55)",
-          "oklch(95% 0.07938 114.55)"
-        ]
-      },
-      "fat": {
-        "role": "data",
-        "displayName": "Grasa ciruela",
-        "tonalRamp": [
-          "oklch(15% 0.05632 347.24)",
-          "oklch(26.4% 0.05632 347.24)",
-          "oklch(37.9% 0.05632 347.24)",
-          "oklch(49.3% 0.05632 347.24)",
-          "oklch(60.7% 0.05632 347.24)",
-          "oklch(72.1% 0.05632 347.24)",
-          "oklch(83.6% 0.05632 347.24)",
-          "oklch(95% 0.05632 347.24)"
-        ]
-      },
-      "dark-fat": {
-        "role": "data",
-        "displayName": "Grasa ciruela · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.04973 337.21)",
-          "oklch(26.4% 0.04973 337.21)",
-          "oklch(37.9% 0.04973 337.21)",
-          "oklch(49.3% 0.04973 337.21)",
-          "oklch(60.7% 0.04973 337.21)",
-          "oklch(72.1% 0.04973 337.21)",
-          "oklch(83.6% 0.04973 337.21)",
-          "oklch(95% 0.04973 337.21)"
-        ]
-      },
-      "training": {
-        "role": "neutral",
-        "displayName": "Superficie de entrenamiento",
-        "tonalRamp": [
-          "oklch(15% 0.00399 286.02)",
-          "oklch(26.4% 0.00399 286.02)",
-          "oklch(37.9% 0.00399 286.02)",
-          "oklch(49.3% 0.00399 286.02)",
-          "oklch(60.7% 0.00399 286.02)",
-          "oklch(72.1% 0.00399 286.02)",
-          "oklch(83.6% 0.00399 286.02)",
-          "oklch(95% 0.00399 286.02)"
-        ]
-      },
-      "dark-training": {
-        "role": "neutral",
-        "displayName": "Superficie de entrenamiento · oscuro",
-        "tonalRamp": [
-          "oklch(15% 0.00399 286.02)",
-          "oklch(26.4% 0.00399 286.02)",
-          "oklch(37.9% 0.00399 286.02)",
-          "oklch(49.3% 0.00399 286.02)",
-          "oklch(60.7% 0.00399 286.02)",
-          "oklch(72.1% 0.00399 286.02)",
-          "oklch(83.6% 0.00399 286.02)",
-          "oklch(95% 0.00399 286.02)"
-        ]
-      },
-      "on-training": {
-        "role": "neutral",
-        "displayName": "Lectura de entrenamiento",
-        "tonalRamp": [
-          "oklch(15% 0.00396 106.47)",
-          "oklch(26.4% 0.00396 106.47)",
-          "oklch(37.9% 0.00396 106.47)",
-          "oklch(49.3% 0.00396 106.47)",
-          "oklch(60.7% 0.00396 106.47)",
-          "oklch(72.1% 0.00396 106.47)",
-          "oklch(83.6% 0.00396 106.47)",
-          "oklch(95% 0.00396 106.47)"
-        ]
-      },
-      "training-muted": {
-        "role": "neutral",
-        "displayName": "Contexto de entrenamiento",
-        "tonalRamp": [
-          "oklch(15% 0.00139 106.43)",
-          "oklch(26.4% 0.00139 106.43)",
-          "oklch(37.9% 0.00139 106.43)",
-          "oklch(49.3% 0.00139 106.43)",
-          "oklch(60.7% 0.00139 106.43)",
-          "oklch(72.1% 0.00139 106.43)",
-          "oklch(83.6% 0.00139 106.43)",
-          "oklch(95% 0.00139 106.43)"
-        ]
-      },
-      "training-track": {
-        "role": "neutral",
-        "displayName": "Carril de entrenamiento",
-        "tonalRamp": [
-          "oklch(15% 0.00859 285.95)",
-          "oklch(26.4% 0.00859 285.95)",
-          "oklch(37.9% 0.00859 285.95)",
-          "oklch(49.3% 0.00859 285.95)",
-          "oklch(60.7% 0.00859 285.95)",
-          "oklch(72.1% 0.00859 285.95)",
-          "oklch(83.6% 0.00859 285.95)",
-          "oklch(95% 0.00859 285.95)"
-        ]
-      },
-      "meal-accent": {
-        "role": "primary",
-        "displayName": "Naranja de cabecera · tinta",
-        "tonalRamp": [
-          "oklch(15% 0.16761 47.41)",
-          "oklch(26.4% 0.16761 47.41)",
-          "oklch(37.9% 0.16761 47.41)",
-          "oklch(49.3% 0.16761 47.41)",
-          "oklch(60.7% 0.16761 47.41)",
-          "oklch(72.1% 0.16761 47.41)",
-          "oklch(83.6% 0.16761 47.41)",
-          "oklch(95% 0.16761 47.41)"
+          "oklch(15.0% 0.15943 257.76)",
+          "oklch(26.4% 0.15943 257.76)",
+          "oklch(37.9% 0.15943 257.76)",
+          "oklch(49.3% 0.15943 257.76)",
+          "oklch(60.7% 0.15943 257.76)",
+          "oklch(72.1% 0.15943 257.76)",
+          "oklch(83.6% 0.15943 257.76)",
+          "oklch(95.0% 0.15943 257.76)"
         ]
       },
       "kcal": {
         "role": "primary",
         "displayName": "Energía diaria · claro",
         "tonalRamp": [
-          "oklch(15.0% 0.19254 40.44)",
-          "oklch(26.4% 0.19254 40.44)",
-          "oklch(37.9% 0.19254 40.44)",
-          "oklch(49.3% 0.19254 40.44)",
-          "oklch(60.7% 0.19254 40.44)",
-          "oklch(72.1% 0.19254 40.44)",
-          "oklch(83.6% 0.19254 40.44)",
-          "oklch(95.0% 0.19254 40.44)"
+          "oklch(15.0% 0.14581 62.06)",
+          "oklch(26.4% 0.14581 62.06)",
+          "oklch(37.9% 0.14581 62.06)",
+          "oklch(49.3% 0.14581 62.06)",
+          "oklch(60.7% 0.14581 62.06)",
+          "oklch(72.1% 0.14581 62.06)",
+          "oklch(83.6% 0.14581 62.06)",
+          "oklch(95.0% 0.14581 62.06)"
         ]
       },
       "dark-kcal": {
         "role": "primary",
         "displayName": "Energía diaria · oscuro",
         "tonalRamp": [
-          "oklch(15.0% 0.19680 43.49)",
-          "oklch(26.4% 0.19680 43.49)",
-          "oklch(37.9% 0.19680 43.49)",
-          "oklch(49.3% 0.19680 43.49)",
-          "oklch(60.7% 0.19680 43.49)",
-          "oklch(72.1% 0.19680 43.49)",
-          "oklch(83.6% 0.19680 43.49)",
-          "oklch(95.0% 0.19680 43.49)"
+          "oklch(15.0% 0.14014 71.82)",
+          "oklch(26.4% 0.14014 71.82)",
+          "oklch(37.9% 0.14014 71.82)",
+          "oklch(49.3% 0.14014 71.82)",
+          "oklch(60.7% 0.14014 71.82)",
+          "oklch(72.1% 0.14014 71.82)",
+          "oklch(83.6% 0.14014 71.82)",
+          "oklch(95.0% 0.14014 71.82)"
+        ]
+      },
+      "on-accent": {
+        "role": "neutral",
+        "displayName": "Tinta sobre señal",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-on-accent": {
+        "role": "neutral",
+        "displayName": "on-accent",
+        "tonalRamp": [
+          "oklch(15.0% 0.00747 256.88)",
+          "oklch(26.4% 0.00747 256.88)",
+          "oklch(37.9% 0.00747 256.88)",
+          "oklch(49.3% 0.00747 256.88)",
+          "oklch(60.7% 0.00747 256.88)",
+          "oklch(72.1% 0.00747 256.88)",
+          "oklch(83.6% 0.00747 256.88)",
+          "oklch(95.0% 0.00747 256.88)"
+        ]
+      },
+      "accent-strong": {
+        "role": "primary",
+        "displayName": "Naranja de texto y foco",
+        "tonalRamp": [
+          "oklch(15.0% 0.19004 261.97)",
+          "oklch(26.4% 0.19004 261.97)",
+          "oklch(37.9% 0.19004 261.97)",
+          "oklch(49.3% 0.19004 261.97)",
+          "oklch(60.7% 0.19004 261.97)",
+          "oklch(72.1% 0.19004 261.97)",
+          "oklch(83.6% 0.19004 261.97)",
+          "oklch(95.0% 0.19004 261.97)"
+        ]
+      },
+      "dark-accent-strong": {
+        "role": "primary",
+        "displayName": "Naranja de texto y foco · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.11775 255.22)",
+          "oklch(26.4% 0.11775 255.22)",
+          "oklch(37.9% 0.11775 255.22)",
+          "oklch(49.3% 0.11775 255.22)",
+          "oklch(60.7% 0.11775 255.22)",
+          "oklch(72.1% 0.11775 255.22)",
+          "oklch(83.6% 0.11775 255.22)",
+          "oklch(95.0% 0.11775 255.22)"
+        ]
+      },
+      "accent-subtle": {
+        "role": "primary",
+        "displayName": "Apoyo de señal",
+        "tonalRamp": [
+          "oklch(15.0% 0.02660 262.34)",
+          "oklch(26.4% 0.02660 262.34)",
+          "oklch(37.9% 0.02660 262.34)",
+          "oklch(49.3% 0.02660 262.34)",
+          "oklch(60.7% 0.02660 262.34)",
+          "oklch(72.1% 0.02660 262.34)",
+          "oklch(83.6% 0.02660 262.34)",
+          "oklch(95.0% 0.02660 262.34)"
+        ]
+      },
+      "dark-accent-subtle": {
+        "role": "primary",
+        "displayName": "Apoyo de señal · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.06049 262.60)",
+          "oklch(26.4% 0.06049 262.60)",
+          "oklch(37.9% 0.06049 262.60)",
+          "oklch(49.3% 0.06049 262.60)",
+          "oklch(60.7% 0.06049 262.60)",
+          "oklch(72.1% 0.06049 262.60)",
+          "oklch(83.6% 0.06049 262.60)",
+          "oklch(95.0% 0.06049 262.60)"
+        ]
+      },
+      "selected": {
+        "role": "neutral",
+        "displayName": "Selección neutra",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-selected": {
+        "role": "neutral",
+        "displayName": "Selección neutra · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01345 261.73)",
+          "oklch(26.4% 0.01345 261.73)",
+          "oklch(37.9% 0.01345 261.73)",
+          "oklch(49.3% 0.01345 261.73)",
+          "oklch(60.7% 0.01345 261.73)",
+          "oklch(72.1% 0.01345 261.73)",
+          "oklch(83.6% 0.01345 261.73)",
+          "oklch(95.0% 0.01345 261.73)"
+        ]
+      },
+      "on-selected": {
+        "role": "neutral",
+        "displayName": "Texto de selección",
+        "tonalRamp": [
+          "oklch(15.0% 0.01578 256.82)",
+          "oklch(26.4% 0.01578 256.82)",
+          "oklch(37.9% 0.01578 256.82)",
+          "oklch(49.3% 0.01578 256.82)",
+          "oklch(60.7% 0.01578 256.82)",
+          "oklch(72.1% 0.01578 256.82)",
+          "oklch(83.6% 0.01578 256.82)",
+          "oklch(95.0% 0.01578 256.82)"
+        ]
+      },
+      "dark-on-selected": {
+        "role": "neutral",
+        "displayName": "Texto de selección · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00342 247.86)",
+          "oklch(26.4% 0.00342 247.86)",
+          "oklch(37.9% 0.00342 247.86)",
+          "oklch(49.3% 0.00342 247.86)",
+          "oklch(60.7% 0.00342 247.86)",
+          "oklch(72.1% 0.00342 247.86)",
+          "oklch(83.6% 0.00342 247.86)",
+          "oklch(95.0% 0.00342 247.86)"
+        ]
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "Confirmación",
+        "tonalRamp": [
+          "oklch(15.0% 0.11034 159.84)",
+          "oklch(26.4% 0.11034 159.84)",
+          "oklch(37.9% 0.11034 159.84)",
+          "oklch(49.3% 0.11034 159.84)",
+          "oklch(60.7% 0.11034 159.84)",
+          "oklch(72.1% 0.11034 159.84)",
+          "oklch(83.6% 0.11034 159.84)",
+          "oklch(95.0% 0.11034 159.84)"
+        ]
+      },
+      "dark-success": {
+        "role": "semantic",
+        "displayName": "Confirmación · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.11968 160.04)",
+          "oklch(26.4% 0.11968 160.04)",
+          "oklch(37.9% 0.11968 160.04)",
+          "oklch(49.3% 0.11968 160.04)",
+          "oklch(60.7% 0.11968 160.04)",
+          "oklch(72.1% 0.11968 160.04)",
+          "oklch(83.6% 0.11968 160.04)",
+          "oklch(95.0% 0.11968 160.04)"
+        ]
+      },
+      "on-success": {
+        "role": "neutral",
+        "displayName": "Texto de confirmación",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-on-success": {
+        "role": "neutral",
+        "displayName": "Texto de confirmación · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00747 256.88)",
+          "oklch(26.4% 0.00747 256.88)",
+          "oklch(37.9% 0.00747 256.88)",
+          "oklch(49.3% 0.00747 256.88)",
+          "oklch(60.7% 0.00747 256.88)",
+          "oklch(72.1% 0.00747 256.88)",
+          "oklch(83.6% 0.00747 256.88)",
+          "oklch(95.0% 0.00747 256.88)"
+        ]
+      },
+      "success-subtle": {
+        "role": "semantic",
+        "displayName": "Fila confirmada",
+        "tonalRamp": [
+          "oklch(15.0% 0.02968 161.10)",
+          "oklch(26.4% 0.02968 161.10)",
+          "oklch(37.9% 0.02968 161.10)",
+          "oklch(49.3% 0.02968 161.10)",
+          "oklch(60.7% 0.02968 161.10)",
+          "oklch(72.1% 0.02968 161.10)",
+          "oklch(83.6% 0.02968 161.10)",
+          "oklch(95.0% 0.02968 161.10)"
+        ]
+      },
+      "dark-success-subtle": {
+        "role": "semantic",
+        "displayName": "Fila confirmada · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.04501 159.19)",
+          "oklch(26.4% 0.04501 159.19)",
+          "oklch(37.9% 0.04501 159.19)",
+          "oklch(49.3% 0.04501 159.19)",
+          "oklch(60.7% 0.04501 159.19)",
+          "oklch(72.1% 0.04501 159.19)",
+          "oklch(83.6% 0.04501 159.19)",
+          "oklch(95.0% 0.04501 159.19)"
+        ]
+      },
+      "warning": {
+        "role": "semantic",
+        "displayName": "Advertencia",
+        "tonalRamp": [
+          "oklch(15.0% 0.10024 65.20)",
+          "oklch(26.4% 0.10024 65.20)",
+          "oklch(37.9% 0.10024 65.20)",
+          "oklch(49.3% 0.10024 65.20)",
+          "oklch(60.7% 0.10024 65.20)",
+          "oklch(72.1% 0.10024 65.20)",
+          "oklch(83.6% 0.10024 65.20)",
+          "oklch(95.0% 0.10024 65.20)"
+        ]
+      },
+      "dark-warning": {
+        "role": "semantic",
+        "displayName": "Advertencia · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.10963 77.31)",
+          "oklch(26.4% 0.10963 77.31)",
+          "oklch(37.9% 0.10963 77.31)",
+          "oklch(49.3% 0.10963 77.31)",
+          "oklch(60.7% 0.10963 77.31)",
+          "oklch(72.1% 0.10963 77.31)",
+          "oklch(83.6% 0.10963 77.31)",
+          "oklch(95.0% 0.10963 77.31)"
+        ]
+      },
+      "destructive": {
+        "role": "semantic",
+        "displayName": "Acción destructiva",
+        "tonalRamp": [
+          "oklch(15.0% 0.19005 24.90)",
+          "oklch(26.4% 0.19005 24.90)",
+          "oklch(37.9% 0.19005 24.90)",
+          "oklch(49.3% 0.19005 24.90)",
+          "oklch(60.7% 0.19005 24.90)",
+          "oklch(72.1% 0.19005 24.90)",
+          "oklch(83.6% 0.19005 24.90)",
+          "oklch(95.0% 0.19005 24.90)"
+        ]
+      },
+      "dark-destructive": {
+        "role": "semantic",
+        "displayName": "Acción destructiva · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.15027 22.01)",
+          "oklch(26.4% 0.15027 22.01)",
+          "oklch(37.9% 0.15027 22.01)",
+          "oklch(49.3% 0.15027 22.01)",
+          "oklch(60.7% 0.15027 22.01)",
+          "oklch(72.1% 0.15027 22.01)",
+          "oklch(83.6% 0.15027 22.01)",
+          "oklch(95.0% 0.15027 22.01)"
+        ]
+      },
+      "on-destructive": {
+        "role": "neutral",
+        "displayName": "Texto destructivo",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-on-destructive": {
+        "role": "neutral",
+        "displayName": "Texto destructivo · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00747 256.88)",
+          "oklch(26.4% 0.00747 256.88)",
+          "oklch(37.9% 0.00747 256.88)",
+          "oklch(49.3% 0.00747 256.88)",
+          "oklch(60.7% 0.00747 256.88)",
+          "oklch(72.1% 0.00747 256.88)",
+          "oklch(83.6% 0.00747 256.88)",
+          "oklch(95.0% 0.00747 256.88)"
+        ]
+      },
+      "protein": {
+        "role": "data",
+        "displayName": "Proteína mineral",
+        "tonalRamp": [
+          "oklch(15.0% 0.12985 284.62)",
+          "oklch(26.4% 0.12985 284.62)",
+          "oklch(37.9% 0.12985 284.62)",
+          "oklch(49.3% 0.12985 284.62)",
+          "oklch(60.7% 0.12985 284.62)",
+          "oklch(72.1% 0.12985 284.62)",
+          "oklch(83.6% 0.12985 284.62)",
+          "oklch(95.0% 0.12985 284.62)"
+        ]
+      },
+      "dark-protein": {
+        "role": "data",
+        "displayName": "Proteína mineral · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.10956 285.26)",
+          "oklch(26.4% 0.10956 285.26)",
+          "oklch(37.9% 0.10956 285.26)",
+          "oklch(49.3% 0.10956 285.26)",
+          "oklch(60.7% 0.10956 285.26)",
+          "oklch(72.1% 0.10956 285.26)",
+          "oklch(83.6% 0.10956 285.26)",
+          "oklch(95.0% 0.10956 285.26)"
+        ]
+      },
+      "carbs": {
+        "role": "data",
+        "displayName": "Carbohidratos oliva",
+        "tonalRamp": [
+          "oklch(15.0% 0.08497 204.53)",
+          "oklch(26.4% 0.08497 204.53)",
+          "oklch(37.9% 0.08497 204.53)",
+          "oklch(49.3% 0.08497 204.53)",
+          "oklch(60.7% 0.08497 204.53)",
+          "oklch(72.1% 0.08497 204.53)",
+          "oklch(83.6% 0.08497 204.53)",
+          "oklch(95.0% 0.08497 204.53)"
+        ]
+      },
+      "dark-carbs": {
+        "role": "data",
+        "displayName": "Carbohidratos oliva · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.08028 204.79)",
+          "oklch(26.4% 0.08028 204.79)",
+          "oklch(37.9% 0.08028 204.79)",
+          "oklch(49.3% 0.08028 204.79)",
+          "oklch(60.7% 0.08028 204.79)",
+          "oklch(72.1% 0.08028 204.79)",
+          "oklch(83.6% 0.08028 204.79)",
+          "oklch(95.0% 0.08028 204.79)"
+        ]
+      },
+      "fat": {
+        "role": "data",
+        "displayName": "Grasa ciruela",
+        "tonalRamp": [
+          "oklch(15.0% 0.09014 41.70)",
+          "oklch(26.4% 0.09014 41.70)",
+          "oklch(37.9% 0.09014 41.70)",
+          "oklch(49.3% 0.09014 41.70)",
+          "oklch(60.7% 0.09014 41.70)",
+          "oklch(72.1% 0.09014 41.70)",
+          "oklch(83.6% 0.09014 41.70)",
+          "oklch(95.0% 0.09014 41.70)"
+        ]
+      },
+      "dark-fat": {
+        "role": "data",
+        "displayName": "Grasa ciruela · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.07488 42.03)",
+          "oklch(26.4% 0.07488 42.03)",
+          "oklch(37.9% 0.07488 42.03)",
+          "oklch(49.3% 0.07488 42.03)",
+          "oklch(60.7% 0.07488 42.03)",
+          "oklch(72.1% 0.07488 42.03)",
+          "oklch(83.6% 0.07488 42.03)",
+          "oklch(95.0% 0.07488 42.03)"
+        ]
+      },
+      "training": {
+        "role": "neutral",
+        "displayName": "Superficie de entrenamiento",
+        "tonalRamp": [
+          "oklch(15.0% 0.02014 254.87)",
+          "oklch(26.4% 0.02014 254.87)",
+          "oklch(37.9% 0.02014 254.87)",
+          "oklch(49.3% 0.02014 254.87)",
+          "oklch(60.7% 0.02014 254.87)",
+          "oklch(72.1% 0.02014 254.87)",
+          "oklch(83.6% 0.02014 254.87)",
+          "oklch(95.0% 0.02014 254.87)"
+        ]
+      },
+      "dark-training": {
+        "role": "neutral",
+        "displayName": "Superficie de entrenamiento · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01198 254.12)",
+          "oklch(26.4% 0.01198 254.12)",
+          "oklch(37.9% 0.01198 254.12)",
+          "oklch(49.3% 0.01198 254.12)",
+          "oklch(60.7% 0.01198 254.12)",
+          "oklch(72.1% 0.01198 254.12)",
+          "oklch(83.6% 0.01198 254.12)",
+          "oklch(95.0% 0.01198 254.12)"
+        ]
+      },
+      "on-training": {
+        "role": "neutral",
+        "displayName": "Lectura de entrenamiento",
+        "tonalRamp": [
+          "oklch(15.0% 0.00342 247.86)",
+          "oklch(26.4% 0.00342 247.86)",
+          "oklch(37.9% 0.00342 247.86)",
+          "oklch(49.3% 0.00342 247.86)",
+          "oklch(60.7% 0.00342 247.86)",
+          "oklch(72.1% 0.00342 247.86)",
+          "oklch(83.6% 0.00342 247.86)",
+          "oklch(95.0% 0.00342 247.86)"
+        ]
+      },
+      "dark-on-training": {
+        "role": "neutral",
+        "displayName": "on-training",
+        "tonalRamp": [
+          "oklch(15.0% 0.00342 247.86)",
+          "oklch(26.4% 0.00342 247.86)",
+          "oklch(37.9% 0.00342 247.86)",
+          "oklch(49.3% 0.00342 247.86)",
+          "oklch(60.7% 0.00342 247.86)",
+          "oklch(72.1% 0.00342 247.86)",
+          "oklch(83.6% 0.00342 247.86)",
+          "oklch(95.0% 0.00342 247.86)"
+        ]
+      },
+      "training-muted": {
+        "role": "neutral",
+        "displayName": "Contexto de entrenamiento",
+        "tonalRamp": [
+          "oklch(15.0% 0.01256 259.82)",
+          "oklch(26.4% 0.01256 259.82)",
+          "oklch(37.9% 0.01256 259.82)",
+          "oklch(49.3% 0.01256 259.82)",
+          "oklch(60.7% 0.01256 259.82)",
+          "oklch(72.1% 0.01256 259.82)",
+          "oklch(83.6% 0.01256 259.82)",
+          "oklch(95.0% 0.01256 259.82)"
+        ]
+      },
+      "dark-training-muted": {
+        "role": "neutral",
+        "displayName": "training-muted",
+        "tonalRamp": [
+          "oklch(15.0% 0.01256 259.82)",
+          "oklch(26.4% 0.01256 259.82)",
+          "oklch(37.9% 0.01256 259.82)",
+          "oklch(49.3% 0.01256 259.82)",
+          "oklch(60.7% 0.01256 259.82)",
+          "oklch(72.1% 0.01256 259.82)",
+          "oklch(83.6% 0.01256 259.82)",
+          "oklch(95.0% 0.01256 259.82)"
+        ]
+      },
+      "training-track": {
+        "role": "neutral",
+        "displayName": "Carril de entrenamiento",
+        "tonalRamp": [
+          "oklch(15.0% 0.01988 257.27)",
+          "oklch(26.4% 0.01988 257.27)",
+          "oklch(37.9% 0.01988 257.27)",
+          "oklch(49.3% 0.01988 257.27)",
+          "oklch(60.7% 0.01988 257.27)",
+          "oklch(72.1% 0.01988 257.27)",
+          "oklch(83.6% 0.01988 257.27)",
+          "oklch(95.0% 0.01988 257.27)"
+        ]
+      },
+      "dark-training-track": {
+        "role": "neutral",
+        "displayName": "training-track",
+        "tonalRamp": [
+          "oklch(15.0% 0.01811 258.37)",
+          "oklch(26.4% 0.01811 258.37)",
+          "oklch(37.9% 0.01811 258.37)",
+          "oklch(49.3% 0.01811 258.37)",
+          "oklch(60.7% 0.01811 258.37)",
+          "oklch(72.1% 0.01811 258.37)",
+          "oklch(83.6% 0.01811 258.37)",
+          "oklch(95.0% 0.01811 258.37)"
+        ]
+      },
+      "meal-accent": {
+        "role": "primary",
+        "displayName": "Naranja de cabecera · tinta",
+        "tonalRamp": [
+          "oklch(15.0% 0.11775 255.22)",
+          "oklch(26.4% 0.11775 255.22)",
+          "oklch(37.9% 0.11775 255.22)",
+          "oklch(49.3% 0.11775 255.22)",
+          "oklch(60.7% 0.11775 255.22)",
+          "oklch(72.1% 0.11775 255.22)",
+          "oklch(83.6% 0.11775 255.22)",
+          "oklch(95.0% 0.11775 255.22)"
+        ]
+      },
+      "dark-meal-accent": {
+        "role": "neutral",
+        "displayName": "meal-accent",
+        "tonalRamp": [
+          "oklch(15.0% 0.11775 255.22)",
+          "oklch(26.4% 0.11775 255.22)",
+          "oklch(37.9% 0.11775 255.22)",
+          "oklch(49.3% 0.11775 255.22)",
+          "oklch(60.7% 0.11775 255.22)",
+          "oklch(72.1% 0.11775 255.22)",
+          "oklch(83.6% 0.11775 255.22)",
+          "oklch(95.0% 0.11775 255.22)"
+        ]
+      },
+      "muscle-1": {
+        "role": "data",
+        "displayName": "muscle-1",
+        "tonalRamp": [
+          "oklch(15.0% 0.03091 263.51)",
+          "oklch(26.4% 0.03091 263.51)",
+          "oklch(37.9% 0.03091 263.51)",
+          "oklch(49.3% 0.03091 263.51)",
+          "oklch(60.7% 0.03091 263.51)",
+          "oklch(72.1% 0.03091 263.51)",
+          "oklch(83.6% 0.03091 263.51)",
+          "oklch(95.0% 0.03091 263.51)"
+        ]
+      },
+      "dark-muscle-1": {
+        "role": "data",
+        "displayName": "muscle-1",
+        "tonalRamp": [
+          "oklch(15.0% 0.04944 261.49)",
+          "oklch(26.4% 0.04944 261.49)",
+          "oklch(37.9% 0.04944 261.49)",
+          "oklch(49.3% 0.04944 261.49)",
+          "oklch(60.7% 0.04944 261.49)",
+          "oklch(72.1% 0.04944 261.49)",
+          "oklch(83.6% 0.04944 261.49)",
+          "oklch(95.0% 0.04944 261.49)"
+        ]
+      },
+      "muscle-2": {
+        "role": "data",
+        "displayName": "muscle-2",
+        "tonalRamp": [
+          "oklch(15.0% 0.07024 262.53)",
+          "oklch(26.4% 0.07024 262.53)",
+          "oklch(37.9% 0.07024 262.53)",
+          "oklch(49.3% 0.07024 262.53)",
+          "oklch(60.7% 0.07024 262.53)",
+          "oklch(72.1% 0.07024 262.53)",
+          "oklch(83.6% 0.07024 262.53)",
+          "oklch(95.0% 0.07024 262.53)"
+        ]
+      },
+      "dark-muscle-2": {
+        "role": "data",
+        "displayName": "muscle-2",
+        "tonalRamp": [
+          "oklch(15.0% 0.09055 262.30)",
+          "oklch(26.4% 0.09055 262.30)",
+          "oklch(37.9% 0.09055 262.30)",
+          "oklch(49.3% 0.09055 262.30)",
+          "oklch(60.7% 0.09055 262.30)",
+          "oklch(72.1% 0.09055 262.30)",
+          "oklch(83.6% 0.09055 262.30)",
+          "oklch(95.0% 0.09055 262.30)"
+        ]
+      },
+      "muscle-3": {
+        "role": "data",
+        "displayName": "muscle-3",
+        "tonalRamp": [
+          "oklch(15.0% 0.13033 262.08)",
+          "oklch(26.4% 0.13033 262.08)",
+          "oklch(37.9% 0.13033 262.08)",
+          "oklch(49.3% 0.13033 262.08)",
+          "oklch(60.7% 0.13033 262.08)",
+          "oklch(72.1% 0.13033 262.08)",
+          "oklch(83.6% 0.13033 262.08)",
+          "oklch(95.0% 0.13033 262.08)"
+        ]
+      },
+      "dark-muscle-3": {
+        "role": "data",
+        "displayName": "muscle-3",
+        "tonalRamp": [
+          "oklch(15.0% 0.13045 262.13)",
+          "oklch(26.4% 0.13045 262.13)",
+          "oklch(37.9% 0.13045 262.13)",
+          "oklch(49.3% 0.13045 262.13)",
+          "oklch(60.7% 0.13045 262.13)",
+          "oklch(72.1% 0.13045 262.13)",
+          "oklch(83.6% 0.13045 262.13)",
+          "oklch(95.0% 0.13045 262.13)"
+        ]
+      },
+      "muscle-4": {
+        "role": "data",
+        "displayName": "muscle-4",
+        "tonalRamp": [
+          "oklch(15.0% 0.18022 262.16)",
+          "oklch(26.4% 0.18022 262.16)",
+          "oklch(37.9% 0.18022 262.16)",
+          "oklch(49.3% 0.18022 262.16)",
+          "oklch(60.7% 0.18022 262.16)",
+          "oklch(72.1% 0.18022 262.16)",
+          "oklch(83.6% 0.18022 262.16)",
+          "oklch(95.0% 0.18022 262.16)"
+        ]
+      },
+      "dark-muscle-4": {
+        "role": "data",
+        "displayName": "muscle-4",
+        "tonalRamp": [
+          "oklch(15.0% 0.15088 260.10)",
+          "oklch(26.4% 0.15088 260.10)",
+          "oklch(37.9% 0.15088 260.10)",
+          "oklch(49.3% 0.15088 260.10)",
+          "oklch(60.7% 0.15088 260.10)",
+          "oklch(72.1% 0.15088 260.10)",
+          "oklch(83.6% 0.15088 260.10)",
+          "oklch(95.0% 0.15088 260.10)"
+        ]
+      },
+      "muscle-5": {
+        "role": "data",
+        "displayName": "muscle-5",
+        "tonalRamp": [
+          "oklch(15.0% 0.16012 263.88)",
+          "oklch(26.4% 0.16012 263.88)",
+          "oklch(37.9% 0.16012 263.88)",
+          "oklch(49.3% 0.16012 263.88)",
+          "oklch(60.7% 0.16012 263.88)",
+          "oklch(72.1% 0.16012 263.88)",
+          "oklch(83.6% 0.16012 263.88)",
+          "oklch(95.0% 0.16012 263.88)"
+        ]
+      },
+      "dark-muscle-5": {
+        "role": "data",
+        "displayName": "muscle-5",
+        "tonalRamp": [
+          "oklch(15.0% 0.11775 255.22)",
+          "oklch(26.4% 0.11775 255.22)",
+          "oklch(37.9% 0.11775 255.22)",
+          "oklch(49.3% 0.11775 255.22)",
+          "oklch(60.7% 0.11775 255.22)",
+          "oklch(72.1% 0.11775 255.22)",
+          "oklch(83.6% 0.11775 255.22)",
+          "oklch(95.0% 0.11775 255.22)"
+        ]
+      },
+      "atmosphere-cobalt": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-cobalt",
+        "tonalRamp": [
+          "oklch(15.0% 0.09959 261.59)",
+          "oklch(26.4% 0.09959 261.59)",
+          "oklch(37.9% 0.09959 261.59)",
+          "oklch(49.3% 0.09959 261.59)",
+          "oklch(60.7% 0.09959 261.59)",
+          "oklch(72.1% 0.09959 261.59)",
+          "oklch(83.6% 0.09959 261.59)",
+          "oklch(95.0% 0.09959 261.59)"
+        ]
+      },
+      "dark-atmosphere-cobalt": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-cobalt",
+        "tonalRamp": [
+          "oklch(15.0% 0.09959 261.59)",
+          "oklch(26.4% 0.09959 261.59)",
+          "oklch(37.9% 0.09959 261.59)",
+          "oklch(49.3% 0.09959 261.59)",
+          "oklch(60.7% 0.09959 261.59)",
+          "oklch(72.1% 0.09959 261.59)",
+          "oklch(83.6% 0.09959 261.59)",
+          "oklch(95.0% 0.09959 261.59)"
+        ]
+      },
+      "atmosphere-steel": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-steel",
+        "tonalRamp": [
+          "oklch(15.0% 0.03047 233.04)",
+          "oklch(26.4% 0.03047 233.04)",
+          "oklch(37.9% 0.03047 233.04)",
+          "oklch(49.3% 0.03047 233.04)",
+          "oklch(60.7% 0.03047 233.04)",
+          "oklch(72.1% 0.03047 233.04)",
+          "oklch(83.6% 0.03047 233.04)",
+          "oklch(95.0% 0.03047 233.04)"
+        ]
+      },
+      "dark-atmosphere-steel": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-steel",
+        "tonalRamp": [
+          "oklch(15.0% 0.03047 233.04)",
+          "oklch(26.4% 0.03047 233.04)",
+          "oklch(37.9% 0.03047 233.04)",
+          "oklch(49.3% 0.03047 233.04)",
+          "oklch(60.7% 0.03047 233.04)",
+          "oklch(72.1% 0.03047 233.04)",
+          "oklch(83.6% 0.03047 233.04)",
+          "oklch(95.0% 0.03047 233.04)"
+        ]
+      },
+      "atmosphere-slate": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-slate",
+        "tonalRamp": [
+          "oklch(15.0% 0.02439 259.19)",
+          "oklch(26.4% 0.02439 259.19)",
+          "oklch(37.9% 0.02439 259.19)",
+          "oklch(49.3% 0.02439 259.19)",
+          "oklch(60.7% 0.02439 259.19)",
+          "oklch(72.1% 0.02439 259.19)",
+          "oklch(83.6% 0.02439 259.19)",
+          "oklch(95.0% 0.02439 259.19)"
+        ]
+      },
+      "dark-atmosphere-slate": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-slate",
+        "tonalRamp": [
+          "oklch(15.0% 0.02439 259.19)",
+          "oklch(26.4% 0.02439 259.19)",
+          "oklch(37.9% 0.02439 259.19)",
+          "oklch(49.3% 0.02439 259.19)",
+          "oklch(60.7% 0.02439 259.19)",
+          "oklch(72.1% 0.02439 259.19)",
+          "oklch(83.6% 0.02439 259.19)",
+          "oklch(95.0% 0.02439 259.19)"
+        ]
+      },
+      "atmosphere-sand": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-sand",
+        "tonalRamp": [
+          "oklch(15.0% 0.04977 69.97)",
+          "oklch(26.4% 0.04977 69.97)",
+          "oklch(37.9% 0.04977 69.97)",
+          "oklch(49.3% 0.04977 69.97)",
+          "oklch(60.7% 0.04977 69.97)",
+          "oklch(72.1% 0.04977 69.97)",
+          "oklch(83.6% 0.04977 69.97)",
+          "oklch(95.0% 0.04977 69.97)"
+        ]
+      },
+      "dark-atmosphere-sand": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-sand",
+        "tonalRamp": [
+          "oklch(15.0% 0.04977 69.97)",
+          "oklch(26.4% 0.04977 69.97)",
+          "oklch(37.9% 0.04977 69.97)",
+          "oklch(49.3% 0.04977 69.97)",
+          "oklch(60.7% 0.04977 69.97)",
+          "oklch(72.1% 0.04977 69.97)",
+          "oklch(83.6% 0.04977 69.97)",
+          "oklch(95.0% 0.04977 69.97)"
+        ]
+      },
+      "atmosphere-mist": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-mist",
+        "tonalRamp": [
+          "oklch(15.0% 0.02058 217.31)",
+          "oklch(26.4% 0.02058 217.31)",
+          "oklch(37.9% 0.02058 217.31)",
+          "oklch(49.3% 0.02058 217.31)",
+          "oklch(60.7% 0.02058 217.31)",
+          "oklch(72.1% 0.02058 217.31)",
+          "oklch(83.6% 0.02058 217.31)",
+          "oklch(95.0% 0.02058 217.31)"
+        ]
+      },
+      "dark-atmosphere-mist": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-mist",
+        "tonalRamp": [
+          "oklch(15.0% 0.02058 217.31)",
+          "oklch(26.4% 0.02058 217.31)",
+          "oklch(37.9% 0.02058 217.31)",
+          "oklch(49.3% 0.02058 217.31)",
+          "oklch(60.7% 0.02058 217.31)",
+          "oklch(72.1% 0.02058 217.31)",
+          "oklch(83.6% 0.02058 217.31)",
+          "oklch(95.0% 0.02058 217.31)"
         ]
       }
     },
@@ -1037,7 +1387,26 @@
           0.1
         ]
       },
-      "quietAmbientOpacity": 0.35
+      "quietAmbientOpacity": 0.35,
+      "ambientLights": {
+        "inicio": [
+          "slate",
+          "mist"
+        ],
+        "nutricion": [
+          "sand",
+          "slate"
+        ],
+        "gym": [
+          "cobalt",
+          "steel"
+        ]
+      },
+      "readingBand": {
+        "solid": "15rem",
+        "fade": "21rem",
+        "wash": 0.58
+      }
     },
     "layeredBackgrounds": {
       "status": "approved-implemented",
@@ -1147,7 +1516,7 @@
       "name": "Cabecera de comida",
       "kind": "custom",
       "refersTo": "meal-header",
-      "description": "Comida en grafito con contorno neutro, título condensado, icono y kcal naranja; conteo real, sin horario inventado.",
+      "description": "Título de comida sobre la página, sin caja: icono neutro, título condensado, conteo real y kcal neutras; sin horario inventado.",
       "html": "<header class=\"ds-meal-header\"><div class=\"ds-meal-grid\"><span class=\"ds-meal-icon\" aria-hidden=\"true\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 17h18M5 21h14M6 17a6 6 0 0 1 12 0M12 3v3M4.2 8.2l2.1 2.1M19.8 8.2l-2.1 2.1M2 13h2M20 13h2\"></path></svg></span><h2 class=\"ds-meal-title\">Desayuno</h2><p class=\"ds-meal-meta\">2 registros</p><p class=\"ds-meal-energy\"><span class=\"ds-meal-value\">300</span><span class=\"ds-meal-unit\">kcal</span></p><button type=\"button\" class=\"ds-meal-actions\" aria-label=\"Acciones de Desayuno\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\"></path></svg></button></div></header>",
       "css": ".ds-meal-header{--ds-meal-accent:var(--c-meal-accent, 255 134 66);padding:.75rem;border:1px solid rgb(var(--c-border,50 50 54));border-radius:var(--radius-lg, 0.875rem);background:rgb(var(--c-training, 20 20 22));color:rgb(var(--c-on-training, 248 248 245));font-family:var(--font-sans,'Saira',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif);container:ds-meal / inline-size}.ds-meal-grid{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,max-content) auto;grid-template-areas:'icon title energy actions' 'icon meta energy actions';align-items:center;column-gap:.5rem;row-gap:.125rem}.ds-meal-icon{grid-area:icon;display:flex;align-items:center;justify-content:center;width:var(--touch-target,2.75rem);height:var(--touch-target,2.75rem);border-radius:var(--radius-pill,9999px);border:1px solid rgb(var(--ds-meal-accent)/.3);background:rgb(var(--ds-meal-accent)/.1);color:rgb(var(--ds-meal-accent))}.ds-meal-title{font-family:var(--font-display,'Saira',sans-serif);grid-area:title;min-width:0;margin:0;overflow-wrap:anywhere;font-size:var(--fs-heading,1.5rem);line-height:var(--lh-heading,1.2);font-weight:700;letter-spacing:-.02em}.ds-meal-meta{grid-area:meta;min-width:0;margin:0;color:rgb(var(--c-training-muted, 189 189 188));font-size:var(--fs-caption,.75rem);line-height:var(--lh-caption,1.5)}.ds-meal-energy{grid-area:energy;min-width:0;margin:0;padding-left:.5rem;border-left:1px solid rgb(var(--c-border,50 50 54));text-align:right;color:rgb(var(--ds-meal-accent))}.ds-meal-value{font-family:var(--font-numeric,'Saira',sans-serif);display:block;min-width:0;overflow-wrap:anywhere;font-size:var(--fs-heading,1.5rem);line-height:var(--lh-heading,1.2);font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.ds-meal-unit{display:block;font-size:var(--fs-caption,.75rem);line-height:var(--lh-caption,1.5);font-weight:600}.ds-meal-actions{grid-area:actions;display:flex;align-items:center;justify-content:center;width:var(--touch-target,2.75rem);height:var(--touch-target,2.75rem);padding:0;border:0;border-radius:var(--radius-md, 0.625rem);background:transparent;color:rgb(var(--c-training-muted, 189 189 188));transition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1))}.ds-meal-actions:focus-visible{outline:2px solid rgb(var(--ds-meal-accent));outline-offset:2px}.ds-meal-actions:active{transform:scale(var(--motion-press,.97));opacity:.7}@media(hover:hover) and (pointer:fine){.ds-meal-actions:hover{background:rgb(var(--c-overlay, 10 10 11));color:rgb(var(--c-on-training, 248 248 245))}}@container ds-meal (max-width:18rem){.ds-meal-grid{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:'icon title actions' 'icon meta actions' 'energy energy energy'}.ds-meal-energy{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:baseline;gap:.375rem;padding-left:0;border-left:0;border-top:1px solid rgb(var(--ds-meal-accent)/.25);padding-top:.5rem;margin-top:.375rem}}@container ds-meal (max-width:10rem){.ds-meal-grid{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'icon actions' 'title title' 'meta meta' 'energy energy'}}@media(prefers-reduced-motion:reduce){.ds-meal-actions:active{transform:none}}"
     },
@@ -1155,24 +1524,24 @@
       "name": "Registros de comida",
       "kind": "custom",
       "refersTo": "food-record",
-      "description": "Plato e individual comparten fila; chevrón/conteo y acciones contextuales distinguen el grupo. Valores ilustrativos del diario.",
+      "description": "Una superficie por comida con filas planas para platos y alimentos; «Añadir a…» como última fila neutra.",
       "html": "<section class=\"ds-records\" aria-label=\"Registros de desayuno\"><div class=\"ds-record\"><div class=\"ds-record-header\"><button type=\"button\" class=\"ds-record-button\" aria-expanded=\"false\"><span class=\"ds-record-name\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M9 5l7 7-7 7\"></path></svg><span>Café + Leche + Saladas</span></span><span class=\"ds-record-detail\">3 alimentos · P 11 · C 22 · G 11</span><span class=\"ds-record-energy\">227 <small>kcal</small></span></button><button type=\"button\" class=\"ds-record-action\" aria-label=\"Acciones del plato Café + Leche + Saladas\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0M17 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0\"></path></svg></button></div></div><div class=\"ds-record\"><div class=\"ds-record-header\"><button type=\"button\" class=\"ds-record-button\"><span class=\"ds-record-name\"><span>Bizcocho</span></span><span class=\"ds-record-detail\">40 g · P 2 · C 20 · G 10</span><span class=\"ds-record-energy\">174 <small>kcal</small></span></button><button type=\"button\" class=\"ds-record-action\" aria-label=\"Borrar Bizcocho\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6\"></path></svg></button></div></div></section>",
       "css": ".ds-records{display:grid;gap:8px;font-family:var(--font-sans,'Saira',ui-sans-serif,system-ui,sans-serif)}.ds-record{container-type:inline-size;container-name:ds-record;border:1px solid rgb(var(--c-border, 216 216 210));border-radius:var(--radius-md, 0.625rem);background:rgb(var(--c-surface, 255 255 255));color:rgb(var(--c-text-primary, 22 22 24))}.ds-record-header{display:flex;align-items:center;gap:4px;padding:4px 8px}.ds-record-button{display:grid;flex:1;min-width:0;min-height:var(--touch-target,2.75rem);grid-template-columns:minmax(0,1fr) minmax(0,max-content);grid-template-areas:'name name' 'detail energy';gap:4px 8px;align-items:baseline;padding:8px 4px;border:0;border-radius:var(--radius-sm, 0.375rem);background:transparent;color:inherit;text-align:left;font:inherit}.ds-record-name{grid-area:name;display:flex;align-items:start;gap:4px;font-size:1rem;line-height:1.5;font-weight:600;overflow-wrap:anywhere}.ds-record-name svg{flex-shrink:0;margin-top:4px}.ds-record-detail{grid-area:detail;font-size:.75rem;line-height:1.5;color:rgb(var(--c-text-secondary, 77 77 74));font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.ds-record-energy{grid-area:energy;font-size:1rem;line-height:1.5;font-weight:600;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.ds-record-energy small{font-size:.75rem;font-weight:400;color:rgb(var(--c-text-secondary, 77 77 74))}.ds-record-action{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:var(--touch-target,2.75rem);height:var(--touch-target,2.75rem);padding:0;border:0;border-radius:var(--radius-md, 0.625rem);background:transparent;color:rgb(var(--c-text-secondary, 77 77 74))}.ds-record-button:focus-visible,.ds-record-action:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px}@media(hover:hover){.ds-record-button:hover,.ds-record-action:hover{background:rgb(var(--c-surface-muted, 232 232 228))}}@container ds-record(max-width:14rem){.ds-record-button{grid-template-columns:minmax(0,1fr);grid-template-areas:'name' 'detail' 'energy'}}"
     }
   ],
   "narrative": {
     "northStar": "Enfocada y enérgica",
-    "overview": "**Creative North Star: \"Enfocada y enérgica\"**\n\nLa opción 3 aportada por el usuario fija la dirección artística: negro/grafito, blanco, naranja intenso y tipografía deportiva. AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.\n\nLa identidad nace de títulos condensados, cifras tabulares y superficies compactas; el abanico que emerge del botón Menú sigue siendo el gesto distintivo. Energía mediante contraste y jerarquía, sin neones, degradados decorativos, glassmorphism, imágenes genéricas ni movimiento constante. La implementación directa fue solicitada por el usuario.\n\nLa preview de tres pantallas aprobada incorpora atmósferas fotográficas: bienestar/fitness/nutrición en Inicio, meal prep en Nutrición y pesas/esfuerzo en Gym. Son imágenes generadas con acabado fotográfico, específicas de esta dirección. Texto, controles y datos siguen siendo interfaz real. Los degradados se permiten como integración de la foto, sin convertirse en decoración de componentes.\n\nPRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valores; tailwind.config.js sus clases; docs/DESIGN-SYSTEM.md los patrones. Este frontmatter y .impeccable/design.json documentan el código. La superficie appfit mantiene el encargo.",
+    "overview": "**Creative North Star: \"Enfocada y enérgica\"**\n\nLa opción 3 aportada por el usuario fijó la dirección deportiva; desde el 2026-10-06 la paleta es Cobalto: grafito frío, cobalto para actuar y ámbar para la energía, con una composición respirada (ADR 017). AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.\n\nLa identidad nace de títulos condensados, cifras tabulares y superficies compactas; el abanico que emerge del botón Menú sigue siendo el gesto distintivo. Energía mediante contraste y jerarquía, sin neones, degradados decorativos, glassmorphism, imágenes genéricas ni movimiento constante. La implementación directa fue solicitada por el usuario.\n\nLa preview de tres pantallas aprobada incorpora atmósferas fotográficas: bienestar/fitness/nutrición en Inicio, meal prep en Nutrición y pesas/esfuerzo en Gym. Son imágenes generadas con acabado fotográfico, específicas de esta dirección. Texto, controles y datos siguen siendo interfaz real. Los degradados se permiten como integración de la foto, sin convertirse en decoración de componentes.\n\nPRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valores; tailwind.config.js sus clases; docs/DESIGN-SYSTEM.md los patrones. Este frontmatter y .impeccable/design.json documentan el código. La superficie appfit mantiene el encargo.",
     "keyCharacteristics": [
-      "Grafito neutro y naranja funcional; claro mantiene la misma identidad.",
+      "Grafito frío, cobalto para actuar y ámbar para la energía; claro mantiene la misma identidad.",
       "Saira local en tres voces: títulos condensados rectos, cifras en cursiva, lectura a ancho normal.",
-      "Superficies compactas y contornos con función, sin sombras de cards.",
+      "Pocas superficies y pocas líneas: una superficie por unidad real, filas planas y color solo donde informa.",
       "Menú en abanico y motion breve que comunica estados."
     ],
     "rules": [
       {
         "name": "Acento",
-        "body": "El naranja orienta acciones y kcal; no sustituye superficies, texto o jerarquía.",
+        "body": "El cobalto orienta acciones y el ámbar las kcal del día; ninguno sustituye superficies, texto o jerarquía.",
         "section": "colors"
       },
       {

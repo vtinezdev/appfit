@@ -1,86 +1,89 @@
 ---
 name: APPFIT
-description: "Enfocada y enérgica: grafito, contraste y naranja de rendimiento para un registro móvil preciso."
+description: "Enfocada y respirada: grafito frío, cobalto para actuar y ámbar para la energía, en un registro móvil preciso."
 colors:
-  bg: "rgb(244 244 241)"
-  dark-bg: "rgb(10 10 11)"
-  surface: "rgb(255 255 255)"
-  dark-surface: "rgb(22 22 24)"
-  surface-elevated: "rgb(255 255 255)"
-  dark-surface-elevated: "rgb(29 29 32)"
-  surface-muted: "rgb(232 232 228)"
-  dark-surface-muted: "rgb(35 35 38)"
-  overlay: "rgb(10 10 11)"
+  bg: "rgb(243 244 247)"
+  dark-bg: "rgb(8 10 13)"
+  surface: "rgb(253 254 255)"
+  dark-surface: "rgb(19 22 27)"
+  surface-elevated: "rgb(253 254 255)"
+  dark-surface-elevated: "rgb(27 30 36)"
+  surface-muted: "rgb(232 234 238)"
+  dark-surface-muted: "rgb(31 35 41)"
+  overlay: "rgb(11 13 18)"
   dark-overlay: "rgb(0 0 0)"
-  text-primary: "rgb(22 22 24)"
-  dark-text-primary: "rgb(248 248 245)"
-  text-secondary: "rgb(77 77 74)"
-  dark-text-secondary: "rgb(189 189 188)"
-  text-tertiary: "rgb(96 96 91)"
-  dark-text-tertiary: "rgb(157 158 160)"
-  border: "rgb(216 216 210)"
-  dark-border: "rgb(50 50 54)"
-  border-strong: "rgb(121 121 116)"
-  dark-border-strong: "rgb(118 118 122)"
-  accent: "rgb(255 108 28)"
-  dark-accent: "rgb(255 108 28)"
-  kcal: "rgb(231 86 17)"
-  dark-kcal: "rgb(255 108 28)"
-  on-accent: "rgb(10 10 11)"
-  accent-strong: "rgb(163 56 7)"
-  dark-accent-strong: "rgb(255 134 66)"
-  accent-subtle: "rgb(255 234 216)"
-  dark-accent-subtle: "rgb(58 31 18)"
-  selected: "rgb(255 255 255)"
-  dark-selected: "rgb(64 64 68)"
-  on-selected: "rgb(22 22 24)"
-  dark-on-selected: "rgb(248 248 245)"
-  success: "rgb(24 111 73)"
-  dark-success: "rgb(105 207 157)"
-  on-success: "rgb(255 255 255)"
-  dark-on-success: "rgb(10 10 11)"
-  success-subtle: "rgb(230 244 236)"
-  dark-success-subtle: "rgb(25 55 44)"
-  warning: "rgb(137 84 9)"
-  dark-warning: "rgb(235 193 97)"
-  destructive: "rgb(175 49 38)"
-  dark-destructive: "rgb(255 148 135)"
-  on-destructive: "rgb(255 255 255)"
-  dark-on-destructive: "rgb(20 20 18)"
-  protein: "rgb(66 90 112)"
-  dark-protein: "rgb(153 181 200)"
-  carbs: "rgb(84 96 50)"
-  dark-carbs: "rgb(181 189 130)"
-  fat: "rgb(119 82 101)"
-  dark-fat: "rgb(194 161 184)"
-  training: "rgb(20 20 22)"
-  dark-training: "rgb(20 20 22)"
-  on-training: "rgb(248 248 245)"
-  training-muted: "rgb(189 189 188)"
-  training-track: "rgb(58 58 63)"
-  meal-accent: "rgb(255 134 66)"
-  muscle-1: "rgb(251 225 224)"
-  dark-muscle-1: "rgb(61 31 32)"
-  muscle-2: "rgb(245 181 176)"
-  dark-muscle-2: "rgb(105 42 44)"
-  muscle-3: "rgb(230 122 114)"
-  dark-muscle-3: "rgb(153 49 51)"
-  muscle-4: "rgb(202 67 61)"
-  dark-muscle-4: "rgb(197 58 62)"
-  muscle-5: "rgb(153 34 42)"
-  dark-muscle-5: "rgb(236 74 79)"
-  atmosphere-ember: "rgb(173 75 50)"
-  atmosphere-amber: "rgb(174 109 62)"
-  atmosphere-olive: "rgb(112 129 93)"
-  atmosphere-sand: "rgb(163 137 100)"
-  atmosphere-copper: "rgb(156 105 74)"
-  atmosphere-stone: "rgb(131 126 109)"
-  dark-atmosphere-ember: "rgb(173 75 50)"
-  dark-atmosphere-amber: "rgb(174 109 62)"
-  dark-atmosphere-olive: "rgb(112 129 93)"
-  dark-atmosphere-sand: "rgb(163 137 100)"
-  dark-atmosphere-copper: "rgb(156 105 74)"
-  dark-atmosphere-stone: "rgb(131 126 109)"
+  text-primary: "rgb(21 26 33)"
+  dark-text-primary: "rgb(245 247 249)"
+  text-secondary: "rgb(74 80 89)"
+  dark-text-secondary: "rgb(189 193 199)"
+  text-tertiary: "rgb(88 93 100)"
+  dark-text-tertiary: "rgb(157 162 169)"
+  border: "rgb(221 224 228)"
+  dark-border: "rgb(44 49 55)"
+  border-strong: "rgb(124 129 136)"
+  dark-border-strong: "rgb(112 117 124)"
+  accent: "rgb(34 97 221)"
+  dark-accent: "rgb(85 152 249)"
+  kcal: "rgb(201 116 5)"
+  dark-kcal: "rgb(252 180 82)"
+  on-accent: "rgb(253 254 255)"
+  dark-on-accent: "rgb(8 10 13)"
+  accent-strong: "rgb(30 89 205)"
+  dark-accent-strong: "rgb(128 183 254)"
+  accent-subtle: "rgb(227 237 255)"
+  dark-accent-subtle: "rgb(29 45 76)"
+  selected: "rgb(253 254 255)"
+  dark-selected: "rgb(52 56 63)"
+  on-selected: "rgb(21 26 33)"
+  dark-on-selected: "rgb(245 247 249)"
+  success: "rgb(3 115 74)"
+  dark-success: "rgb(107 207 157)"
+  on-success: "rgb(253 254 255)"
+  dark-on-success: "rgb(8 10 13)"
+  success-subtle: "rgb(222 245 232)"
+  dark-success-subtle: "rgb(21 50 35)"
+  warning: "rgb(138 86 25)"
+  dark-warning: "rgb(239 190 114)"
+  destructive: "rgb(183 24 36)"
+  dark-destructive: "rgb(244 122 121)"
+  on-destructive: "rgb(253 254 255)"
+  dark-on-destructive: "rgb(8 10 13)"
+  protein: "rgb(85 77 160)"
+  dark-protein: "rgb(170 167 244)"
+  carbs: "rgb(2 113 122)"
+  dark-carbs: "rgb(124 205 214)"
+  fat: "rgb(148 86 62)"
+  dark-fat: "rgb(219 162 140)"
+  training: "rgb(25 32 41)"
+  dark-training: "rgb(16 20 25)"
+  on-training: "rgb(245 247 249)"
+  dark-on-training: "rgb(245 247 249)"
+  training-muted: "rgb(185 190 198)"
+  dark-training-muted: "rgb(185 190 198)"
+  training-track: "rgb(52 59 69)"
+  dark-training-track: "rgb(45 51 60)"
+  meal-accent: "rgb(128 183 254)"
+  dark-meal-accent: "rgb(128 183 254)"
+  muscle-1: "rgb(221 232 253)"
+  dark-muscle-1: "rgb(32 46 71)"
+  muscle-2: "rgb(178 203 249)"
+  dark-muscle-2: "rgb(44 70 120)"
+  muscle-3: "rgb(113 157 239)"
+  dark-muscle-3: "rgb(59 99 176)"
+  muscle-4: "rgb(53 109 220)"
+  dark-muscle-4: "rgb(80 135 227)"
+  muscle-5: "rgb(29 68 163)"
+  dark-muscle-5: "rgb(128 183 254)"
+  atmosphere-cobalt: "rgb(72 104 162)"
+  dark-atmosphere-cobalt: "rgb(72 104 162)"
+  atmosphere-steel: "rgb(111 132 144)"
+  dark-atmosphere-steel: "rgb(111 132 144)"
+  atmosphere-slate: "rgb(105 114 128)"
+  dark-atmosphere-slate: "rgb(105 114 128)"
+  atmosphere-sand: "rgb(166 141 113)"
+  dark-atmosphere-sand: "rgb(166 141 113)"
+  atmosphere-mist: "rgb(145 162 167)"
+  dark-atmosphere-mist: "rgb(145 162 167)"
 
 typography:
   hero:
@@ -247,7 +250,7 @@ components:
 
 **Creative North Star: "Enfocada y enérgica"**
 
-La opción 3 aportada por el usuario fija la dirección artística: negro/grafito, blanco, naranja intenso y tipografía deportiva. AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.
+La opción 3 aportada por el usuario fijó la dirección deportiva: contraste, títulos condensados y métricas claras. El 2026-10-06 Víctor elige la paleta Cobalto y una composición más respirada ([ADR 017](docs/decisiones/017-paleta-cobalto-y-composicion-respirada.md)). AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.
 
 La identidad nace de títulos condensados, cifras tabulares y superficies compactas; el abanico que emerge del botón Menú sigue siendo el gesto distintivo. Energía mediante contraste y jerarquía, sin neones, degradados decorativos, glassmorphism, imágenes genéricas ni movimiento constante. La implementación directa fue solicitada por el usuario.
 
@@ -257,11 +260,11 @@ PRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valo
 
 ## Colors
 
-Oscuro es la referencia artística: fondo casi negro 10/10/11, contenido grafito 22/22/24, capas 29/29/32 y campos 35/35/38. Blanco cálido para contenido principal y dos grises legibles para contexto y metadatos. Claro conserva fondo neutro cálido, jerarquía y acento; Sistema/Claro/Oscuro siguen disponibles y las preferencias guardadas se respetan.
+Jerarquía cromática de cuatro niveles. 1) Grafito frío (tono 258) domina fondos, superficies, texto y bordes: oscuro casi negro 8/10/13 con superficies 19/22/27 y campos 31/35/41; claro gris azulado 243/244/247 con superficies casi blancas. 2) Cobalto para actuar. 3) Ámbar solo para la energía del día. 4) Primos atenuados de esas dos familias para los datos. Sistema/Claro/Oscuro siguen disponibles y las preferencias guardadas se respetan.
 
-Naranja intenso para acción principal y kcal; el naranja de texto tiene contraste propio por tema. En claro la barra kcal es más oscura para superar 3:1. P/C/G conservan sus roles azul/oliva/ciruela, moderados. Estados de éxito/error/advertencia acompañan texto o iconos. Entrenamiento y cabeceras usan grafito legible en ambos temas; Toast utiliza su contexto inverso.
+Cobalto para la acción principal, el foco, la selección, la pestaña activa y el menú; el cobalto de texto tiene contraste propio por tema. Ámbar para la barra y la cifra de kcal del día: acción y energía no comparten color. P/C/G son índigo, turquesa y arcilla (vecinos del cobalto y del ámbar), separados entre sí ΔE ≥ 10. El aviso pertenece a la familia ámbar y el mapa muscular a una rampa de cobalto. Rojo (borrar) y verde (serie hecha) son los únicos semánticos fuera de las familias y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas; Toast utiliza su contexto inverso.
 
-**The Acento Rule.** El naranja orienta acciones y kcal; no sustituye superficies, texto o jerarquía.
+**The Acento Rule.** El cobalto orienta acciones y el ámbar las kcal del día; ninguno sustituye superficies, texto o jerarquía. Las acciones repetidas en listas («Añadir a…», «Repetir») van en tono neutro para que el cobalto marque la acción principal.
 
 ## Typography
 
@@ -281,7 +284,7 @@ Sin alturas rígidas: nombres/cifras envuelven. PageHeader redistribuye la acci�
 
 La escena ocupa una capa decorativa fuera del flujo, dentro de la columna de producto, con fotografía de 50 rem y scroll natural. No añade espacio ni cambia el acceso a series. En desktop no se expande una fotografía móvil a toda la pantalla. Navegación y capas temporales conservan su fondo de control.
 
-El 2026-10-06 Víctor aprueba la preview de Gym y pide extenderla a toda la app. Foto y velo comparten máscara gradual, sobre dos luces estáticas por toda la longitud de la página: cobre/piedra en Inicio, oliva/arena en Nutrición y ember/ámbar en Gym. Los colores `atmosphere-*` pertenecen solo al fondo, sin función de acento o estado. Oscuro conserva exactamente el tratamiento aprobado de Gym (60% saturación, brillo 92%, contraste 96%, velo 52/56/82%); claro utiliza sus fotografías propias y velo claro 76/88/95%. Referencias/Ajustes atenúan fotografía y luces. No requiere URL de prueba, no añade fotos/animación ni cambia la UI de contenido.
+El 2026-10-06 Víctor aprueba la preview de Gym y pide extenderla a toda la app. Foto y velo comparten máscara gradual, sobre dos luces estáticas por toda la longitud de la página: pizarra/niebla en Inicio, arena/pizarra en Nutrición y cobalto/acero en Gym. Los colores `atmosphere-*` pertenecen solo al fondo, sin función de acento o estado. Oscuro conserva exactamente el tratamiento aprobado de Gym (60% saturación, brillo 92%, contraste 96%, velo 52/56/82%); claro utiliza sus fotografías propias y velo claro 76/88/95%. Referencias/Ajustes atenúan fotografía y luces. La protección de lectura de cabecera y pestañas es una franja continua que se desvanece (sólida hasta 15 rem, transparente a 21 rem), no una caja por elemento. No requiere URL de prueba, no añade fotos/animación ni cambia la UI de contenido.
 
 ## Elevation & Depth
 
@@ -291,7 +294,7 @@ Las superficies se diferencian por tono. Card conserva un borde transparente par
 
 ## Shapes
 
-Radios contenidos de la escala compartida, sin pastillas grandes ni halos. Cabeceras de comida con contorno neutro e icono/kcal naranja; registros compactos con el mismo contenedor para plato y alimento. Iconografía SVG existente, con trazo consistente.
+Radios contenidos de la escala compartida, sin pastillas grandes ni halos. Pocas superficies y pocas líneas: una superficie por unidad real (panel del día, cada comida), filas planas dentro y espacio en lugar de separadores. Cabeceras de comida como títulos sobre la página, con icono y kcal neutros; plato y alimento comparten fila plana. Iconografía SVG existente, con trazo consistente.
 
 ## Components
 
@@ -315,7 +318,7 @@ Cierre con datos realmente guardados. Progreso/estadísticas con cifras condensa
 
 ### Controles, capas y estados
 
-Buttons con radio contenido y target táctil; naranja sólido reservado a la acción principal. Inputs/selects/textarea con superficie secundaria, límite reconocible y foco naranja. Badges son metadatos; ViewTabs navega y SegmentedControl elige un valor con indicador neutro.
+Buttons con radio contenido y target táctil; cobalto sólido reservado a la acción principal y variante `subtle` neutra para acciones repetidas en listas. Inputs/selects/textarea con superficie secundaria, límite reconocible y foco cobalto. ViewTabs sin carril: solo el indicador marca la vista. Badges son metadatos; ViewTabs navega y SegmentedControl elige un valor con indicador neutro.
 
 Sheet y ModalPage comparten títulos condensados, portal, aislamiento/foco, Escape/Atrás y retorno de foco. Tareas encadenadas esperan onExited. EmptyState explica qué falta y cómo continuar; LoadingState localizado; errores dentro de la tarea. Caret, selección de texto, scrollbars y foco usan la paleta.
 
@@ -333,7 +336,7 @@ Cabeceras/tabs tienen protección de lectura; paneles mantienen opacidad 96% en 
 
 ### Navegación y motion
 
-Menú cerrado neutro con borde de control; abierto, naranja conecta origen y destino actual. Cinco destinos de 84×68 px en abanico, órbita hasta 120 px y elevación 160 px. Check y nombres visibles; texto ampliado o poca altura activa rejilla de dos columnas. Destinos futuros se paginan.
+Menú cerrado neutro y relleno, sin contorno; abierto, el cobalto conecta origen y destino actual. La barra inferior no lleva marca: contexto de sección y Menú. Cinco destinos de 84×68 px en abanico, órbita hasta 120 px y elevación 160 px. Check y nombres visibles; texto ampliado o poca altura activa rejilla de dos columnas. Destinos futuros se paginan.
 
 Feedback 120 ms, estados 200, overlays/abanico 280 y salida 180 ms. Fin de sesión conserva confirmación de 420 ms. CSS/Web Animations, curvas desaceleradas sin rebote; ninguna dependencia nueva. Reduce Motion elimina desplazamientos, escala, FLIP y stagger, preservando texto/check y fundido de 80 ms. Cifras y gráficas no cuentan desde cero.
 
@@ -341,13 +344,13 @@ Haptics opcionales según navegador: Safari/iOS no ofrece Vibration API; Android
 
 ## Do's and Don'ts
 
-El mapa muscular es un dato de sesión: dos siluetas SVG esquemáticas, rojo semántico de bajo a alto adaptado a claro/oscuro y naranja reservado a acciones. Cero permanece neutro. Se acompaña de niveles textuales y filas táctiles ≥44 px para consultar ejercicios; no depende del color ni de tocar zonas pequeñas. La escala compara trabajo dentro de la sesión, sin representar fatiga o recuperación. Metodología/cobertura visibles de forma proporcionada; no se animan los colores ni se introducen fotos/dependencias para esta sección.
+El mapa muscular es un dato de sesión: dos siluetas SVG esquemáticas, rampa de cobalto de bajo a alto adaptada a claro/oscuro, independiente del rojo de borrar. Cero permanece neutro. Se acompaña de niveles textuales y filas táctiles ≥44 px para consultar ejercicios; no depende del color ni de tocar zonas pequeñas. La escala compara trabajo dentro de la sesión, sin representar fatiga o recuperación. Metodología/cobertura visibles de forma proporcionada; no se animan los colores ni se introducen fotos/dependencias para esta sección.
 
 - Contraste AA en ambos temas; campos ≥16 px, controles ≥44 px.
 - Datos y unidades completos, estados honestos cuando falta información.
 - Sistema común; ninguna paleta o familia exclusiva por pantalla.
 - Superficies compactas y separación entre tareas; profundidad solo para capas.
-- Naranja orienta y confirma; no domina el contenido.
+- Cobalto orienta y confirma, ámbar mide la energía; ninguno domina el contenido.
 - Teclado, foco, Atrás, safe areas y Reduce Motion forman parte del producto.
 - Sigue siendo una PWA; emulación no acredita hardware físico iOS/Android.
 

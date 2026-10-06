@@ -169,14 +169,14 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   return (
     <div className="space-y-section">
       <div className="flex items-center gap-2">
-        <div className="flex min-w-0 flex-1 items-center border-b border-line">
+        <div className="flex min-w-0 flex-1 items-center">
           <IconButton icon="chevron-left" label="Día anterior" variant="ghost" onClick={() => onFechaChange(addDays(fecha, -1))} />
           <h2 key={fecha} aria-live="polite" className={`min-w-0 flex-1 text-center text-body font-semibold text-fg first-letter:uppercase ${transicion}`}>
             {formatFriendly(fecha)}
           </h2>
           <IconButton icon="chevron-right" label="Día siguiente" variant="ghost" onClick={() => onFechaChange(addDays(fecha, 1))} disabled={fecha >= todayISO()} />
         </div>
-        <IconButton icon="more" label="Copiar el día" onClick={() => { setErrorCopia(null); setCopiarDia({ fechaDestino: fecha }) }} />
+        <IconButton icon="more" label="Copiar el día" variant="ghost" onClick={() => { setErrorCopia(null); setCopiarDia({ fechaDestino: fecha }) }} />
       </div>
 
       {!cargado || !totales || !objetivos ? (
@@ -189,6 +189,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
             totales={totales}
             objetivos={objetivos}
             titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`}
+            tituloVisible={false}
             controles={<SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
               opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />}
             detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" objetivoKcal={objetivos.kcal} onVerReferencia={onVerReferencia} />}
@@ -210,7 +211,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
               const destino = over?.data.current?.comida
               if (plato && esComida(destino)) void mover(plato, destino)
             }}>
-          <div className={`space-y-6 ${transicion}`}>
+          <div className={`space-y-8 ${transicion}`}>
             {COMIDAS.map(({ valor: c, label }) => (
               <ComidaSection
                 key={c}

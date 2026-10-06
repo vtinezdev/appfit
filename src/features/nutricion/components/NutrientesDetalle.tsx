@@ -35,7 +35,8 @@ export default function NutrientesDetalle({ entries, titulo = 'Nutrientes adicio
           <div className="flex items-center gap-2">
             <dl className="nutrient-values grid min-w-0 flex-1 grid-cols-2 items-center gap-2">
               <dt className="min-w-0 break-words text-body-sm font-semibold text-fg">{label}</dt>
-              <dd className="tabular min-w-0 break-words text-right text-title font-bold text-fg">{consumo(valor)}</dd>
+              {/* Un hueco de datos no pesa más que una cifra real. */}
+              <dd className={`tabular min-w-0 break-words text-right ${valor === undefined ? 'text-body-sm text-fg-muted' : 'text-title font-bold text-fg'}`}>{consumo(valor)}</dd>
             </dl>
             <IconButton icon="info" label={`Información sobre ${label}`} variant="ghost" aria-haspopup="dialog" aria-controls={sheetId} aria-expanded={abierto && elegido === clave}
               onClick={() => { pendiente.current = null; setElegido(clave); setAbierto(true) }} />

@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
 import Icon, { type IconName } from './Icon'
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'danger'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'subtle' | 'destructive' | 'danger'
 type Size = 'sm' | 'md' | 'lg'
 
 /**
@@ -12,6 +12,7 @@ const VARIANTS: Record<Variant, string> = {
   primary: 'bg-accent text-accent-on font-bold hover:brightness-95',
   secondary: 'border border-line bg-surface text-fg hover:bg-surface-muted',
   ghost: 'text-accent-strong hover:bg-accent-subtle',
+  subtle: 'text-fg-muted hover:bg-surface-muted hover:text-fg', // acción repetida en listas: no compite con la principal
   destructive: 'bg-surface-muted text-destructive hover:bg-line', // acción destructiva ofrecida
   danger: 'bg-destructive text-destructive-on hover:brightness-95', // confirmación de una acción destructiva
 }

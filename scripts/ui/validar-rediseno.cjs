@@ -218,7 +218,7 @@ async function flujos(browser, colorScheme) {
   await pestaña(page, 'Alimentos'); await page.getByRole('radio', { name: 'Plantillas', exact: true }).click()
   await page.getByRole('button', { name: /Cena habitual/ }).click(); await page.getByRole('button', { name: 'Borrar plantilla', exact: true }).click()
   await validarLayout(page, tag + '-plantilla-confirmar'); await page.getByRole('button', { name: 'Cancelar', exact: true }).click(); await cerrar(page)
-  await pestaña(page, 'Hoy'); await page.getByRole('button', { name: 'Copiar el día', exact: true }).click()
+  await pestaña(page, 'Diario'); await page.getByRole('button', { name: 'Copiar el día', exact: true }).click()
   const ayer = await page.evaluate(async () => { const d = await import('/src/shared/lib/dates.ts'); return d.addDays(d.todayISO(), -1) })
   await page.getByLabel('Fecha de destino', { exact: true }).fill(ayer)
   const antesCopia = await backup(page)

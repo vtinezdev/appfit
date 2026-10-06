@@ -59,7 +59,6 @@ export default function BottomNav({ tab, onChange }: Props) {
           onClick={() => { haptic(); elegido.current = null; setAbierto(true) }}>
           <Icon name="menu" size={20} />Menú
         </button>
-        <span aria-hidden className="nav-wordmark text-label font-extrabold">AF<span className="text-accent">/</span></span>
       </div>
       {mounted && createPortal(<div className="fan-layer fixed inset-0 z-50" data-visible={visible}>
         <div className="overlay-backdrop absolute inset-0 bg-overlay/50" onClick={cerrar} aria-hidden />

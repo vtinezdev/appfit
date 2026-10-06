@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import Button, { IconButton } from '../../../shared/components/Button'
+import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
 import type { Comida, Entry } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
@@ -82,7 +83,7 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
   const totales = sumMacros(entries)
   const hayEntradas = entries.length > 0
   const repetir = disponiblesAyer > 0 && (
-    <Button variant="ghost" size="sm" onClick={onRepetir} disabled={ocupado}>
+    <Button variant="subtle" size="sm" onClick={onRepetir} disabled={ocupado}>
       <Icon name="copy" size={16} />
       {repitiendo ? 'Repitiendo…' : `Repetir del día anterior (${disponiblesAyer})`}
     </Button>
@@ -91,12 +92,12 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
     <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section">
       <CabeceraComida comida={comida} titulo={titulo} kcal={totales.kcal} registros={entries.length} onAcciones={onAcciones} />
       {!hayEntradas && <div className="mt-1 flex flex-wrap items-center gap-x-1">
-        <Button variant="ghost" size="sm" onClick={onAnadir}><Icon name="plus" size={16} />Añadir</Button>
+        <Button variant="subtle" size="sm" onClick={onAnadir}><Icon name="plus" size={16} />Añadir</Button>
         {repetir}
       </div>}
       {hayEntradas && (
-        <>
-          <ul ref={listRef} className="mt-3 space-y-2">
+        <Card padded={false} className="mt-2 px-1">
+          <ul ref={listRef} className="divide-y divide-line">
             {agruparPlatos(entries, (entry) => nombreVisible(entry, nombresCortos)).map((plato) =>
               plato.agrupado ? (
                 <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} onEditarPlato={onEditarPlato} onAccionesPlato={onAccionesPlato} onMoverPlato={onMoverPlato} moviendo={moviendo} />
@@ -105,16 +106,14 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
               ),
             )}
           </ul>
-          <div className="mt-3 border-t border-line">
-            <div className="-ml-4 flex flex-wrap items-center gap-x-1">
-              <Button variant="ghost" size="sm" onClick={onAnadir}>
-                <Icon name="plus" size={16} />
-                Añadir a {titulo.toLowerCase()}
-              </Button>
-              {repetir}
-            </div>
+          <div className="flex flex-wrap items-center gap-x-1 border-t border-line">
+            <Button variant="subtle" size="sm" onClick={onAnadir}>
+              <Icon name="plus" size={16} />
+              Añadir a {titulo.toLowerCase()}
+            </Button>
+            {repetir}
           </div>
-        </>
+        </Card>
       )}
     </section>
   )
