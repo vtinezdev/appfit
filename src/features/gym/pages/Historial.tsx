@@ -12,6 +12,8 @@ import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import Metric from '../../../shared/components/Metric'
+import MapaMuscular from '../components/MapaMuscular'
+import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 
 function formatFechaHora(ts: number): string {
   return new Date(ts).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
@@ -20,7 +22,9 @@ function formatFechaHora(ts: number): string {
 export default function Historial() {
   const [seleccionado, setSeleccionado] = useState<Workout | null>(null)
   const workouts = useLiveQuery(() => workoutsRepo.terminados(), [])
-  const detalleSets = useLiveQuery(() => (seleccionado?.id ? setsRepo.delWorkout(seleccionado.id) : []), [seleccionado?.id])
+  const consultaSets = useLiveQuery(async () => ({ workoutId: seleccionado?.id, sets: seleccionado?.id ? await setsRepo.delWorkout(seleccionado.id) : [] }), [seleccionado?.id])
+  // useLiveQuery puede conservar el resultado previo mientras consulta: nunca mezclar dos sesiones.
+  const detalleSets = consultaSets?.workoutId === seleccionado?.id ? consultaSets?.sets : undefined
   const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
   const exerciseMap = new Map((exercises ?? []).map((e) => [e.id!, e]))
 
@@ -60,6 +64,7 @@ export default function Historial() {
             <Metric size="title" label="Series" valor={detalleSets?.length ?? 0} />
             <Metric size="title" label="Volumen" valor={formatNumber(volumenSets(detalleSets ?? []), 1)} unidad="kg" />
           </div>}
+          {seleccionado && detalleSets !== undefined && exercises !== undefined && <MapaMuscular key={seleccionado.id} summary={trabajoMuscularWorkout(seleccionado, detalleSets, exercises)} />}
           {Array.from(porEjercicio.entries()).map(([exId, sets]) => (
             <section key={exId} aria-label={exerciseMap.get(exId)?.nombre ?? 'Ejercicio'} className="space-y-2">
               <div className="flex flex-wrap items-baseline justify-between gap-2">

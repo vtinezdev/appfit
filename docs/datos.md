@@ -14,7 +14,7 @@ La versión actual del esquema es la v6; cada versión lleva un comentario con q
 | `settings` | usuario | registro único (`id: 1`) con los objetivos | ver «Ajustes» |
 | `exercises` | usuario | ejercicios | `&nombreNorm` |
 | `routines` | usuario | rutinas: `exerciseIds[]` ordenados | |
-| `workouts` | usuario | entrenos | sin `fin` = en curso (como mucho uno) |
+| `workouts` | usuario | entrenos | sin `fin` = en curso; snapshot muscular opcional v1 al terminar |
 | `sets` | usuario | series | índice `[exerciseId+createdAt]` para la última serie de un ejercicio |
 | `notasMedida` | usuario | notas libres sobre medidas caseras que el intérprete aún no entiende | pantalla «Medidas» |
 | `pesos` | usuario | pesajes | `&fecha`: uno por día |
@@ -48,6 +48,10 @@ La versión actual del esquema es la v6; cada versión lleva un comentario con q
 `nutrientes` es un campo opcional sin índice para fibra, azúcares, sal y grasas saturadas. En alimentos propios y catálogo son gramos por 100 g (o 100 ml cuando la fuente lo indica); en entradas e ítems de plantilla es el snapshot del aporte consumido. Clave ausente significa desconocido y `0` significa conocido; no se completan registros antiguos con valores del catálogo actual. Las copias, plantillas, edición de gramos, deshacer y backups conservan estos datos. El escalado usa hasta tres decimales para no perder pequeñas cantidades de sal. Las sumas exponen su cobertura por nutriente. Como el campo es opcional y no transforma registros ni índices, se mantiene Dexie v6 y el formato de backup v2, igual que con los metadatos opcionales de platos.
 
 ## Repositorios (`features/*/data/*Repo.ts`)
+
+Gym: `Exercise.id` numérico sigue siendo la clave de rutinas y series. `catalogId`, `primaryMuscles`, `secondaryMuscles` y `equipment` son campos opcionales sin índices. El catálogo editorial vive en código, no en una tabla ni como 116 ejercicios del usuario. Al seleccionar se materializa solo esa definición, o se enlaza un antiguo por nombre/alias exacto conservando id/nombre. Los personalizados guardan músculos/equipo sin vínculo al catálogo. No hay upgrade de registros; Dexie v6/backup v2 se mantienen y la tabla `exercises` exporta/restaura los metadatos nuevos. Abrir/buscar/filtrar no escribe; recientes derivan de las series. Detalle del flujo en [Gym](features/gym.md).
+
+`Workout.muscleSnapshot` opcional v1 conserva `exerciseId`, nombre, `catalogId` opcional, `primaryMuscles` y `secondaryMuscles` por ejercicio registrado. Se guarda con `fin` en una transacción de workouts/exercises/sets; las series mantienen reps/peso y permiten recalcular. No guarda colores, niveles ni esfuerzo ficticio. Cierre repetido conserva el snapshot original; fallo revierte fin/snapshot. Sin nuevos índices/migración: Dexie v6/backup v2 incluye el campo al serializar filas completas. Sesiones antiguas sin snapshot usan asociaciones actuales en solo lectura con aviso; desconocidos guardados sin clasificación no se adivinan después. Decisión: [ADR 015](decisiones/015-mapa-muscular-de-sesion.md).
 
 Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`). Fuera de las features, solo `shared/db/settings.ts` y `shared/lib/backup.ts` lo tocan.
 

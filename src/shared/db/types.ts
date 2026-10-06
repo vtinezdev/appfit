@@ -176,6 +176,12 @@ export interface Exercise {
   nombreNorm: string
   nombre: string
   grupo: string
+  /** Vínculo opcional al catálogo incluido en la app; el id numérico sigue siendo la identidad histórica. */
+  catalogId?: string
+  /** Ausentes en registros antiguos; nunca se infieren ni escriben al leer. */
+  primaryMuscles?: string[]
+  secondaryMuscles?: string[]
+  equipment?: string[]
 }
 
 export interface Routine {
@@ -190,6 +196,20 @@ export interface Workout {
   fin?: number
   routineId?: number
   notas?: string
+  /** Clasificación semántica al finalizar. Las series siguen en sets; nunca guardar colores/niveles. */
+  muscleSnapshot?: WorkoutMuscleSnapshot
+}
+
+export interface WorkoutExerciseMuscles {
+  exerciseId: number
+  nombre: string
+  catalogId?: string
+  primaryMuscles: string[]
+  secondaryMuscles: string[]
+}
+export interface WorkoutMuscleSnapshot {
+  version: 1
+  exercises: WorkoutExerciseMuscles[]
 }
 
 export interface SetEntry {

@@ -4,6 +4,7 @@ import { db } from '../../../shared/db/db'
 import type { SetEntry } from '../../../shared/db/types'
 import { siguienteOrden, valoresNuevaSerie } from '../lib/workout'
 import * as exercisesRepo from './exercisesRepo'
+import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 
 export function todas(): Promise<SetEntry[]> {
   return db.sets.toArray()
@@ -40,6 +41,14 @@ export function agregar(workoutId: number, exerciseId: number): Promise<number> 
 export function agregarConEjercicio(workoutId: number, nombre: string): Promise<number> {
   return db.transaction('rw', db.exercises, db.sets, async () => {
     const exerciseId = await exercisesRepo.obtenerOCrear(nombre)
+    return agregar(workoutId, exerciseId)
+  })
+}
+
+/** Resolver identidad y primera serie en una sola transacción: un fallo no deja un ejercicio huérfano. */
+export function agregarSeleccion(workoutId: number, seleccion: SeleccionEjercicio): Promise<number> {
+  return db.transaction('rw', db.exercises, db.sets, async () => {
+    const exerciseId = await exercisesRepo.resolverSeleccion(seleccion)
     return agregar(workoutId, exerciseId)
   })
 }

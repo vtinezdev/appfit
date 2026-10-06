@@ -3,8 +3,10 @@ import Icon from '../../../shared/components/Icon'
 import Metric from '../../../shared/components/Metric'
 import PageHeader from '../../../shared/components/PageHeader'
 import { clockText } from '../lib/session'
+import MapaMuscular from './MapaMuscular'
+import type { ResumenMuscular } from '../lib/cargaMuscular'
 
-export interface WorkoutSummary { seconds: number; exercises: number; sets: number; volume: number }
+export interface WorkoutSummary { seconds: number; exercises: number; sets: number; volume: number; muscle?: ResumenMuscular }
 export default function WorkoutFinished({ summary, onClose }: { summary: WorkoutSummary; onClose: () => void }) {
   return <div className="space-y-section px-page pt-5">
     <PageHeader title="Sesión guardada" overline="Tu entrenamiento ya está en el historial." />
@@ -17,6 +19,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
         <Metric label="Volumen" size="title" valor={summary.volume} unidad="kg" />
       </div>
     </section>
+    {summary.muscle && <MapaMuscular summary={summary.muscle} />}
     <Button block size="lg" onClick={onClose}>Volver a Entreno<Icon name="chevron-right" size={18} /></Button>
   </div>
 }

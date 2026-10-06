@@ -59,6 +59,16 @@ colors:
   training-muted: "rgb(189 189 188)"
   training-track: "rgb(58 58 63)"
   meal-accent: "rgb(255 134 66)"
+  muscle-1: "rgb(251 225 224)"
+  dark-muscle-1: "rgb(61 31 32)"
+  muscle-2: "rgb(245 181 176)"
+  dark-muscle-2: "rgb(105 42 44)"
+  muscle-3: "rgb(230 122 114)"
+  dark-muscle-3: "rgb(153 49 51)"
+  muscle-4: "rgb(202 67 61)"
+  dark-muscle-4: "rgb(197 58 62)"
+  muscle-5: "rgb(153 34 42)"
+  dark-muscle-5: "rgb(236 74 79)"
 typography:
   hero:
     fontFamily: "'Barlow Condensed', 'Manrope', ui-sans-serif, system-ui, sans-serif"
@@ -287,6 +297,12 @@ Buttons con radio contenido y target táctil; naranja sólido reservado a la acc
 
 Sheet y ModalPage comparten títulos condensados, portal, aislamiento/foco, Escape/Atrás y retorno de foco. Tareas encadenadas esperan onExited. EmptyState explica qué falta y cómo continuar; LoadingState localizado; errores dentro de la tarea. Caret, selección de texto, scrollbars y foco usan la paleta.
 
+### Selección de ejercicios
+
+Rutinas y sesión comparten una tarea de selección: buscador siempre accesible al desplazar, dos filas de chips táctiles por músculo principal/equipamiento y resultados planos con nombre/metadatos. OR entre opciones del mismo filtro, AND entre filtros y búsqueda. Recientes solo antes de filtrar, derivados de uso real. Selección directa sin confirmación adicional; el teclado no se abre al entrar. Personalizado se crea desde el final de resultados en la misma tarea, con nombre/músculo/equipo y feedback de error recuperable. El formulario enfoca su nombre tras esa decisión explícita.
+
+No atribuir una clasificación inventada a ejercicios antiguos: los desconocidos siguen disponibles sin filtros. Datos/identidades históricas se conservan; el catálogo es una ayuda de entrada, no una sustitución del historial. Cabeceras de tarea pueden colocar el título debajo de Volver con texto ampliado; los controles conservan su tamaño y el contenido sigue desplazable.
+
 ### Atmósferas de sección
 
 Una sola capa del shell selecciona una WebP local según sección y tema resuelto. Tres escenas oscuras y tres fotografías distintas para claro, de 960×1440 px y menos de 400 KB en conjunto, precacheadas para uso offline. Imagen decorativa con alt vacío, oculta a tecnología asistiva y sin eventos de puntero. Overlay del tema, saturación moderada y fade vertical hacia el fondo de página; no parallax ni animación de fotografía. La descarga/decodificación no desplaza contenido.
@@ -302,6 +318,8 @@ Feedback 120 ms, estados 200, overlays/abanico 280 y salida 180 ms. Fin de sesi�
 Haptics opcionales según navegador: Safari/iOS no ofrece Vibration API; Android depende del soporte. No se simulan con audio. Marcas/descanso de entreno son estado de presentación en sessionStorage; no cambian IndexedDB ni backups.
 
 ## Do's and Don'ts
+
+El mapa muscular es un dato de sesión: dos siluetas SVG esquemáticas, rojo semántico de bajo a alto adaptado a claro/oscuro y naranja reservado a acciones. Cero permanece neutro. Se acompaña de niveles textuales y filas táctiles ≥44 px para consultar ejercicios; no depende del color ni de tocar zonas pequeñas. La escala compara trabajo dentro de la sesión, sin representar fatiga o recuperación. Metodología/cobertura visibles de forma proporcionada; no se animan los colores ni se introducen fotos/dependencias para esta sección.
 
 - Contraste AA en ambos temas; campos ≥16 px, controles ≥44 px.
 - Datos y unidades completos, estados honestos cuando falta información.

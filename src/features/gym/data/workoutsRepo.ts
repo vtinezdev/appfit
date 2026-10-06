@@ -1,6 +1,7 @@
 // Acceso a la tabla `workouts`. Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
 import { db } from '../../../shared/db/db'
-import type { Workout } from '../../../shared/db/types'
+import type { SetEntry, Workout } from '../../../shared/db/types'
+import { crearSnapshotMuscular } from '../lib/cargaMuscular'
 
 /** El entreno en curso (sin `fin`), si hay uno. */
 export function activo(): Promise<Workout | undefined> {
@@ -34,6 +35,16 @@ export function empezar(routineId?: number): Promise<number> {
   })
 }
 
-export async function terminar(id: number): Promise<void> {
-  await db.workouts.update(id, { fin: Date.now() })
+/** Cierre y clasificación coherentes con las series guardadas; idempotente ante un doble cierre. */
+export function terminar(id: number): Promise<{ workout: Workout; sets: SetEntry[] }> {
+  return db.transaction('rw', db.workouts, db.exercises, db.sets, async () => {
+    const workout = await db.workouts.get(id)
+    if (!workout) throw new Error('El entrenamiento ya no está disponible.')
+    const sets = await db.sets.where('workoutId').equals(id).toArray()
+    if (workout.fin !== undefined) return { workout, sets }
+    const muscleSnapshot = crearSnapshotMuscular(sets, await db.exercises.toArray())
+    const fin = Date.now()
+    await db.workouts.update(id, { fin, muscleSnapshot })
+    return { workout: { ...workout, fin, muscleSnapshot }, sets }
+  })
 }

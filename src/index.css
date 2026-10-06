@@ -108,6 +108,31 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   transition: transform var(--dur-short) var(--ease-standard), background-color var(--dur-short), opacity var(--dur-short);
 }
 .app-button:active:not(:disabled) { transform: scale(var(--motion-press)); }
+.muscle-body { max-width: var(--muscle-body-width); }
+.muscle-summary { container-type: inline-size; container-name: muscle-summary; }
+.muscle-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; }
+.muscle-level { overflow-wrap: normal; text-align: right; }
+/* Igual que las filas de nutrientes, el ancho en rem adapta el patrón al texto ampliado. */
+@container muscle-summary (max-width: 16rem) {
+  .muscle-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .muscle-name { grid-column: 1; grid-row: 1; }
+  .muscle-level { grid-column: 1; grid-row: 2; text-align: left; }
+  .muscle-chevron { grid-column: 2; grid-row: 1 / span 2; }
+}
+.muscle-outline { fill: rgb(var(--c-surface-muted)); stroke: rgb(var(--c-border-strong)); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.muscle-region { stroke: rgb(var(--c-border-strong)); stroke-width: 0.75; vector-effect: non-scaling-stroke; }
+.muscle-swatch { display: inline-block; width: var(--muscle-swatch-size); height: var(--muscle-swatch-size); border-radius: var(--radius-sm); background: rgb(var(--c-surface-muted)); border: 1px solid rgb(var(--c-border-strong)); }
+.muscle-swatch[data-level='1'] { background: rgb(var(--c-muscle-1)); }
+.muscle-swatch[data-level='2'] { background: rgb(var(--c-muscle-2)); }
+.muscle-swatch[data-level='3'] { background: rgb(var(--c-muscle-3)); }
+.muscle-swatch[data-level='4'] { background: rgb(var(--c-muscle-4)); }
+.muscle-swatch[data-level='5'] { background: rgb(var(--c-muscle-5)); }
+@media (forced-colors: active) {
+  .muscle-outline, .muscle-region { fill: Canvas !important; stroke: CanvasText; }
+  .muscle-map [data-level]:not([data-level='0']) .muscle-region { fill: Highlight !important; }
+  .muscle-swatch { background: Canvas; border-color: CanvasText; }
+  .muscle-swatch:not([data-level='0']) { background: Highlight; }
+}
 .app-field { caret-color: rgb(var(--c-accent-strong)); transition: border-color var(--dur-short), background-color var(--dur-short); }
 .app-field:focus { border-color: rgb(var(--c-accent-strong)); background: rgb(var(--c-surface)); }
 .app-tabs { isolation: isolate; }

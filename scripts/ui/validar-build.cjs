@@ -52,7 +52,27 @@ async function main() {
         })
         assert.equal(await page.locator('.app-atmosphere img').evaluate(image => image.currentSrc.endsWith('-claro.webp')), theme === 'Claro', 'foto correspondiente al tema explícito, también offline')
         if (tab === 'Nutrición') { await page.getByRole('tab', { name: 'Resumen', exact: true }).click(); await page.getByRole('radio', { name: 'Mes', exact: true }).waitFor() }
-        if (tab === 'Gym') { await page.getByRole('tab', { name: 'Progreso', exact: true }).click(); await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('1') }
+        if (tab === 'Gym') {
+          await page.getByRole('tab', { name: 'Historial', exact: true }).click()
+          await page.getByRole('list', { name: 'Entrenos terminados', exact: true }).getByRole('button').first().click()
+          const map = page.getByRole('region', { name: 'Mapa muscular', exact: true })
+          await map.getByRole('button', { name: 'Cómo se estima el trabajo', exact: true }).click()
+          await map.getByText(/Sesión antigua:/).waitFor()
+          assert.equal(await map.locator('svg.muscle-body').count(), 2, 'SVG y cálculo disponibles en primera apertura offline')
+          await page.keyboard.press('Escape')
+          await page.getByRole('dialog').waitFor({ state: 'detached' })
+          await page.getByRole('tab', { name: 'Progreso', exact: true }).click()
+          await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('1')
+          await page.getByRole('tab', { name: 'Rutinas', exact: true }).click()
+          await page.getByRole('button', { name: 'Nueva rutina', exact: true }).click()
+          await page.getByRole('button', { name: 'Añadir ejercicio', exact: true }).click()
+          const selector = page.getByRole('dialog', { name: 'Añadir ejercicio', exact: true })
+          await selector.getByRole('searchbox', { name: 'Buscar ejercicio', exact: true }).fill('jalon')
+          await selector.getByText('Jalón al pecho', { exact: true }).waitFor()
+          await page.keyboard.press('Escape'); await selector.waitFor({ state: 'detached' })
+          await page.keyboard.press('Escape')
+          await page.getByRole('dialog', { name: 'Nueva rutina', exact: true }).waitFor({ state: 'detached' })
+        }
         if (tab === 'Referencias') {
           await page.getByRole('button', { name: /Objetivos nutricionales/ }).click()
           await page.locator('[data-referencia="fibra"] button').click()
