@@ -11,7 +11,7 @@ const AMBIENTES: Record<Tab, 'inicio' | 'nutricion' | 'gym'> = {
 export default function AtmosferaApp({ tab }: { tab: Tab }) {
   const theme = useSyncExternalStore(subscribeTheme, getResolvedTheme, getResolvedTheme)
   const scene = `${AMBIENTES[tab]}${theme === 'light' ? '-claro' : ''}`
-  return <div className="app-atmosphere" aria-hidden="true" data-quiet={tab === 'referencias' || tab === 'ajustes'}>
+  return <div className="app-atmosphere" aria-hidden="true" data-scene={AMBIENTES[tab]} data-quiet={tab === 'referencias' || tab === 'ajustes'}>
     <img key={scene} src={`/images/atmosferas/${scene}.webp`} alt=""
       width={960} height={1440} decoding="async" fetchPriority={tab === 'inicio' ? 'high' : 'auto'} />
   </div>

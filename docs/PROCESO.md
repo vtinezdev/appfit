@@ -685,3 +685,15 @@ Antes de cerrar `feat/catalogo-ejercicios`, Víctor solicita mapa muscular diná
 ## 67. Publicación del catálogo y mapa muscular (2026-10-06)
 
 Víctor autoriza commit, push y merge de `feat/catalogo-ejercicios` a `master` mediante PR. Se publica conjuntamente el catálogo/selector y el mapa por sesión descritos en §§65–66, con sus tests y documentación. Se mantienen fuera del commit las carpetas locales `.agents/` y `.codex/`. La validación previa sigue en verde: 1.264 tests / 71 archivos, TypeScript/build, UI y producción offline; esta operación no cambia el código del producto.
+
+## 68. Preview opt-in de fondo largo en Gym (2026-10-06)
+
+Víctor solicita recuperar color y continuidad ambiental durante scroll, pero exige primero una prueba en Gym. En `feat/preview-fondos-gym`, `?preview=fondo-gym` activa exclusivamente el fondo de Gym oscuro: foto existente al 60% de saturación, brillo/contraste reducidos, velo menos opaco y máscara continua sobre dos radiales cálidos muy discretos a lo largo del contenido. Sin foto repetida/segunda cabecera, blur, fixed, scroll listeners, nuevas dependencias ni cambios de UI, layout, motion o datos. URL normal/otras secciones/Claro conservan su diseño. No se extiende ni publica definitivamente antes de feedback.
+
+**Verificación**: 1.267 tests / 71 archivos y TypeScript/build correctos. Contraste ≥4,5:1, Playwright 320/375/430/1440 px, misma geometría/export, preview aislada, capas y Forced Colors. Revisión inicial/una tanda/confirmación; detector sin hallazgos principales, aviso de radio preexistente fuera de alcance. Capturas reales de cuatro tramos y scroll completo en `/tmp/appfit-preview-fondos-gym`. Evidencia, parámetros, archivos y límites: [informe](historico/preview-fondos-gym-2026-10-06.md). Chromium emulado, hardware Safari/iOS/Android pendiente. Sin commit ni push.
+
+## 69. Extensión del fondo aprobado a toda AppFit (2026-10-06)
+
+Víctor aprueba la preview de Gym y pide implementarla en toda la app. Se elimina el opt-in, el shell selecciona pares de luz por sección (Inicio cobre/piedra; Nutrición oliva/arena; Gym ember/ámbar), y conserva foto/velo enmascarados de 50 rem sobre radiales estáticos por toda la longitud. Claro usa sus imágenes propias y protección clara; Referencias/Ajustes atenúan foto y luces. Sin cambio de layout, superficies, contenido, controles, motion, datos o navegación; sin nuevos assets/dependencias ni trabajo ligado al scroll.
+
+**Verificación:** 1.270 tests / 71 archivos, TypeScript/build y validación de producción offline correctos. Contraste ≥4,5:1 en ambos temas y los tres pares ambientales, incluyendo fade; recorrido aislado 320/375/430/1440 en oscuro/claro, datos/export intactos y capas/Forced Colors. Revisión conjunta y confirmación; capturas reales en `/tmp/appfit-fondos`. El script espera a Referencias antes de capturar, evitando un loading intermedio. Sin commit/push. Evidencia: [informe](historico/fondos-appfit-2026-10-06.md).
