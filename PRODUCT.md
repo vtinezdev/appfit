@@ -42,6 +42,8 @@ El mismo día solicita elegir ejercicios sin escribirlos: catálogo local de 100
 
 Antes de cerrar esa rama solicita mapa muscular al terminar y en el historial. La visualización refleja trabajo estimado desde series registradas y asociaciones del catálogo/personalizados; conserva clasificación semántica por sesión. No interpreta intensidad fisiológica, fatiga, recuperación ni riesgo. Las comparaciones semanales/mensuales quedan para una evolución posterior.
 
+Después pide y aprueba una preview de fondos largos de Gym, y autoriza extender el tratamiento a toda la app. Fotografía con color discreto, transición continua y luces ambientales durante el scroll; escenas diferenciadas en Inicio/Nutrición/Gym y lectura más tenue en Referencias/Ajustes. Se adapta a Claro/Oscuro/Sistema sin modificar layout, contenido, controles, datos ni motion.
+
 ## Evidence on Hand
 
 Código en `src/`, documentación de flujos en `docs/features/`, fixtures de prueba en `src/test/fixtures/`, fuentes e iconos locales en `public/`. Los fixtures son sintéticos y se usan exclusivamente en contextos de prueba.

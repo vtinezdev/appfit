@@ -94,10 +94,12 @@
   --c-muscle-5: 153 34 42;
   --muscle-body-width: 10rem;
   --muscle-swatch-size: 0.75rem;
-  /* La foto vive en una capa estática; las superficies conservan lectura/control propios. */
-  --atmosphere-height: 42rem;
+  /* Foto/fade sobre luces estáticas que acompañan la longitud real de la página. */
+  --atmosphere-height: 50rem;
   --atmosphere-photo-opacity: 0.72;
-  --atmosphere-photo-saturation: 0.55;
+  --atmosphere-photo-saturation: 0.6;
+  --atmosphere-photo-brightness: 0.98;
+  --atmosphere-photo-contrast: 0.96;
   --atmosphere-quiet-opacity: 0.14;
   --atmosphere-panel-opacity: 0.98;
   --atmosphere-training-opacity: 0.96;
@@ -105,6 +107,16 @@
   --atmosphere-wash-upper: 0.88;
   --atmosphere-wash-middle: 0.95;
   --atmosphere-reading-wash: 0.58;
+  --atmosphere-light-primary-opacity: 0.1;
+  --atmosphere-light-secondary-opacity: 0.07;
+  --atmosphere-quiet-light-opacity: 0.35;
+  --c-atmosphere-ember: 173 75 50;
+  --c-atmosphere-amber: 174 109 62;
+  --c-atmosphere-olive: 112 129 93;
+  --c-atmosphere-sand: 163 137 100;
+  --c-atmosphere-copper: 156 105 74;
+  --c-atmosphere-stone: 131 126 109;
+
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
@@ -144,14 +156,22 @@
   --c-muscle-3: 153 49 51;
   --c-muscle-4: 197 58 62;
   --c-muscle-5: 236 74 79;
+  --c-atmosphere-ember: 173 75 50;
+  --c-atmosphere-amber: 174 109 62;
+  --c-atmosphere-olive: 112 129 93;
+  --c-atmosphere-sand: 163 137 100;
+  --c-atmosphere-copper: 156 105 74;
+  --c-atmosphere-stone: 131 126 109;
   --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
-  --atmosphere-photo-opacity: 1;
-  --atmosphere-photo-saturation: 0.72;
+  --atmosphere-photo-opacity: 0.9;
+  --atmosphere-photo-brightness: 0.92;
   --atmosphere-quiet-opacity: 0.2;
-  --atmosphere-wash-top: 0.65;
-  --atmosphere-wash-upper: 0.7;
-  --atmosphere-wash-middle: 0.87;
+  --atmosphere-wash-top: 0.52;
+  --atmosphere-wash-upper: 0.56;
+  --atmosphere-wash-middle: 0.82;
   --atmosphere-panel-opacity: 0.96;
+  --atmosphere-light-primary-opacity: 0.16;
+  --atmosphere-light-secondary-opacity: 0.1;
 }
 /* Cabeceras de comidas: grafito y naranja legible en ambos temas.
    Contexto local: no cambia los platos, las filas ni otros paneles de la app. */

@@ -31,16 +31,40 @@ a { text-underline-offset: 0.2em; }
 /* Una escena por sección, dentro del ancho de producto y ligada al scroll normal.
    No parallax/backdrop-filter ni alturas añadidas al contenido. Si falla la imagen queda el tema. */
 .app-view[data-atmosphere] { position: relative; isolation: isolate; min-height: 100%; }
-.app-atmosphere { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.app-atmosphere {
+  --atmosphere-light-primary: var(--c-atmosphere-copper);
+  --atmosphere-light-secondary: var(--c-atmosphere-stone);
+  position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+}
+.app-atmosphere[data-scene='gym'] {
+  --atmosphere-light-primary: var(--c-atmosphere-ember);
+  --atmosphere-light-secondary: var(--c-atmosphere-amber);
+}
+.app-atmosphere[data-scene='nutricion'] {
+  --atmosphere-light-primary: var(--c-atmosphere-olive);
+  --atmosphere-light-secondary: var(--c-atmosphere-sand);
+}
+.app-atmosphere::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 26rem 52rem at 112% 52%, rgb(var(--atmosphere-light-primary) / var(--atmosphere-light-primary-opacity)), transparent 74%),
+    radial-gradient(ellipse 30rem 46rem at -28% 87%, rgb(var(--atmosphere-light-secondary) / var(--atmosphere-light-secondary-opacity)), transparent 76%);
+}
 .app-atmosphere img {
+  position: relative; z-index: 1;
   display: block; width: 100%; height: var(--atmosphere-height); object-fit: cover; object-position: center top;
-  opacity: var(--atmosphere-photo-opacity); filter: saturate(var(--atmosphere-photo-saturation));
+  opacity: var(--atmosphere-photo-opacity);
+  filter: saturate(var(--atmosphere-photo-saturation)) brightness(var(--atmosphere-photo-brightness)) contrast(var(--atmosphere-photo-contrast));
 }
 .app-atmosphere::after {
-  content: ''; position: absolute; inset: 0 0 auto; height: var(--atmosphere-height);
+  content: ''; position: absolute; inset: 0 0 auto; z-index: 2; height: var(--atmosphere-height);
   background: linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-wash-top)) 0%, rgb(var(--c-bg) / var(--atmosphere-wash-upper)) 18%, rgb(var(--c-bg) / var(--atmosphere-wash-middle)) 43%, rgb(var(--c-bg) / .97) 75%, rgb(var(--c-bg)) 100%);
 }
+.app-atmosphere img, .app-atmosphere::after {
+  mask-image: linear-gradient(rgb(var(--c-overlay)) 0%, rgb(var(--c-overlay)) 40%, transparent 100%);
+}
 .app-atmosphere[data-quiet='true'] { --atmosphere-photo-opacity: var(--atmosphere-quiet-opacity); }
+.app-atmosphere[data-quiet='true']::before { opacity: var(--atmosphere-quiet-light-opacity); }
 .app-view[data-atmosphere] .page-header, .app-view[data-atmosphere] .app-tabs {
   background: rgb(var(--c-bg) / var(--atmosphere-reading-wash));
 }

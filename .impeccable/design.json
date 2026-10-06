@@ -6,16 +6,27 @@
     "muscleMap": {
       "component": "src/features/gym/components/MapaMuscular.tsx",
       "visitorMode": "Operate",
-      "surfaces": ["WorkoutFinished", "Historial Sheet"],
+      "surfaces": [
+        "WorkoutFinished",
+        "Historial Sheet"
+      ],
       "representation": "SVG original bilateral, frontal/trasera; once grupos, sin lateralidad ni subdivisión de hombros",
       "dataTokens": {
-        "muscle-1": "rgb(251 225 224)", "dark-muscle-1": "rgb(61 31 32)",
-        "muscle-2": "rgb(245 181 176)", "dark-muscle-2": "rgb(105 42 44)",
-        "muscle-3": "rgb(230 122 114)", "dark-muscle-3": "rgb(153 49 51)",
-        "muscle-4": "rgb(202 67 61)", "dark-muscle-4": "rgb(197 58 62)",
-        "muscle-5": "rgb(153 34 42)", "dark-muscle-5": "rgb(236 74 79)"
+        "muscle-1": "rgb(251 225 224)",
+        "dark-muscle-1": "rgb(61 31 32)",
+        "muscle-2": "rgb(245 181 176)",
+        "dark-muscle-2": "rgb(105 42 44)",
+        "muscle-3": "rgb(230 122 114)",
+        "dark-muscle-3": "rgb(153 49 51)",
+        "muscle-4": "rgb(202 67 61)",
+        "dark-muscle-4": "rgb(197 58 62)",
+        "muscle-5": "rgb(153 34 42)",
+        "dark-muscle-5": "rgb(236 74 79)"
       },
-      "dimensions": { "bodyWidth": "10rem", "swatchSize": "0.75rem" },
+      "dimensions": {
+        "bodyWidth": "10rem",
+        "swatchSize": "0.75rem"
+      },
       "semantics": "rojo de datos independiente de error/destructivo; cero neutro; naranja sigue reservado a acciones",
       "scale": "relativa al máximo de la sesión; límites 10/25/50/80/100%, no intensidad fisiológica",
       "accessibility": "niveles textuales y filas >=44 px para detalle; nivel debajo del nombre al estrechar el contenedor (16rem); SVG aria-hidden, Forced Colors Canvas/Highlight",
@@ -972,16 +983,16 @@
         "ajustes"
       ],
       "rasterBytes": 332504,
-      "height": "42rem",
+      "height": "50rem",
       "photoOpacity": {
         "light": 0.72,
-        "dark": 1,
+        "dark": 0.9,
         "quietLight": 0.14,
         "quietDark": 0.2
       },
       "photoSaturation": {
-        "light": 0.55,
-        "dark": 0.72
+        "light": 0.6,
+        "dark": 0.6
       },
       "panelOpacity": {
         "light": 0.98,
@@ -990,7 +1001,7 @@
       "trainingOpacity": 0.96,
       "washTop": {
         "light": 0.76,
-        "dark": 0.65
+        "dark": 0.52
       },
       "readingWash": 0.58,
       "motion": "none",
@@ -1005,12 +1016,50 @@
       "themeSelection": "getResolvedTheme/subscribeTheme + useSyncExternalStore; una imagen según preferencia Claro/Oscuro/Sistema",
       "washUpper": {
         "light": 0.88,
-        "dark": 0.7
+        "dark": 0.56
       },
       "washMiddle": {
         "light": 0.95,
-        "dark": 0.87
-      }
+        "dark": 0.82
+      },
+      "photoBrightness": {
+        "light": 0.98,
+        "dark": 0.92
+      },
+      "photoContrast": 0.96,
+      "ambientOpacity": {
+        "light": [
+          0.1,
+          0.07
+        ],
+        "dark": [
+          0.16,
+          0.1
+        ]
+      },
+      "quietAmbientOpacity": 0.35
+    },
+    "layeredBackgrounds": {
+      "status": "approved-implemented",
+      "surface": "src/app/AtmosferaApp.tsx",
+      "activation": "normal en todas las secciones/ambos temas; sin flag ni preferencia adicional",
+      "scenes": {
+        "inicio": "copper/stone",
+        "nutricion": "olive/sand",
+        "gym": "ember/amber"
+      },
+      "ambientColors": {
+        "ember": "173 75 50",
+        "amber": "174 109 62",
+        "olive": "112 129 93",
+        "sand": "163 137 100",
+        "copper": "156 105 74",
+        "stone": "131 126 109"
+      },
+      "transition": "foto y velo comparten máscara gradual; dos radiales estáticos por toda la longitud real",
+      "performance": "una imagen ya existente; scroll natural; sin fixed, blur, animaciones/listeners ni nuevas dependencias",
+      "quiet": "Referencias/Ajustes: foto tenue y luces al 35%",
+      "scope": "solo fondo; conserva layout, contenido, superficies, controles, motion y datos"
     }
   },
   "components": [

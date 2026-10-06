@@ -69,6 +69,19 @@ colors:
   dark-muscle-4: "rgb(197 58 62)"
   muscle-5: "rgb(153 34 42)"
   dark-muscle-5: "rgb(236 74 79)"
+  atmosphere-ember: "rgb(173 75 50)"
+  atmosphere-amber: "rgb(174 109 62)"
+  atmosphere-olive: "rgb(112 129 93)"
+  atmosphere-sand: "rgb(163 137 100)"
+  atmosphere-copper: "rgb(156 105 74)"
+  atmosphere-stone: "rgb(131 126 109)"
+  dark-atmosphere-ember: "rgb(173 75 50)"
+  dark-atmosphere-amber: "rgb(174 109 62)"
+  dark-atmosphere-olive: "rgb(112 129 93)"
+  dark-atmosphere-sand: "rgb(163 137 100)"
+  dark-atmosphere-copper: "rgb(156 105 74)"
+  dark-atmosphere-stone: "rgb(131 126 109)"
+
 typography:
   hero:
     fontFamily: "'Barlow Condensed', 'Manrope', ui-sans-serif, system-ui, sans-serif"
@@ -259,7 +272,9 @@ Columna móvil centrada de máximo 512 px; margen 20 px (16 bajo 360 px), secci�
 
 Sin alturas rígidas: nombres/cifras envuelven. PageHeader redistribuye la acción con texto ampliado. Las container queries de comidas/registros mantienen la jerarquía y apilan detalles/kcal cuando falta espacio. Shell 100dvh, scroll en main, navegación 72 px más safe area. Las capas siguen visualViewport y mantienen acciones persistentes fuera del scroll.
 
-La escena ocupa una capa decorativa fuera del flujo, dentro de la columna de producto, con altura de 42 rem y scroll natural. No añade espacio ni cambia el acceso a series. En desktop no se expande una fotografía móvil a toda la pantalla. Navegación y capas temporales conservan su fondo de control.
+La escena ocupa una capa decorativa fuera del flujo, dentro de la columna de producto, con fotografía de 50 rem y scroll natural. No añade espacio ni cambia el acceso a series. En desktop no se expande una fotografía móvil a toda la pantalla. Navegación y capas temporales conservan su fondo de control.
+
+El 2026-10-06 Víctor aprueba la preview de Gym y pide extenderla a toda la app. Foto y velo comparten máscara gradual, sobre dos luces estáticas por toda la longitud de la página: cobre/piedra en Inicio, oliva/arena en Nutrición y ember/ámbar en Gym. Los colores `atmosphere-*` pertenecen solo al fondo, sin función de acento o estado. Oscuro conserva exactamente el tratamiento aprobado de Gym (60% saturación, brillo 92%, contraste 96%, velo 52/56/82%); claro utiliza sus fotografías propias y velo claro 76/88/95%. Referencias/Ajustes atenúan fotografía y luces. No requiere URL de prueba, no añade fotos/animación ni cambia la UI de contenido.
 
 ## Elevation & Depth
 
