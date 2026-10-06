@@ -30,6 +30,10 @@ Los comandos de todos los días están en `CLAUDE.md` § Comandos. Los scripts, 
 
 ## Pruebas en navegador
 
+`node scripts/ui/validar-mapa-muscular.cjs` prueba cierre real, resumen/historial/recarga, detalle, cobertura incompleta y sesión vacía con fixtures efímeros. 320/375/430 px en ambos temas, texto al 200%, Reduce Motion y Forced Colors. Comprueba targets, desbordamiento, snapshot y export intacto al leer. Capturas en `/tmp/appfit-mapa-muscular`, filtro con `APPFIT_UI_CASE`/`APPFIT_UI_OUTPUT`. `validar-build.cjs` también abre el mapa antiguo por primera vez offline y verifica export en ambos temas. Lógica/normalización y cierre transaccional/backup tienen tests junto a `cargaMuscular`, `MapaMuscular` y `mapaMuscularRepo`.
+
+`node scripts/ui/validar-catalogo-ejercicios.cjs` recorre catálogo/rutinas/sesión en 320/375/430 px claro/oscuro, 1440 claro y 375 oscuro con texto al 200%/Reduce Motion. Comprueba recientes, búsqueda/filtros combinables sin escritura, crear personalizado y reintentar fallo, cierre bloqueado al guardar, ids antiguos, orden de rutina, primera serie, recarga y backups. El caso 375 claro reduce el viewport a 430 px para simular el espacio disponible con teclado. Capturas/informe en `/tmp/appfit-catalogo-ejercicios`; `APPFIT_UI_CASE` y `APPFIT_UI_OUTPUT` filtran caso/carpeta. `validar-build.cjs` abre el selector por primera vez offline sin modificar los datos. Emulación Chromium, no hardware físico.
+
 - `npm run dev` (o la configuración `appfit-dev` de `.claude/launch.json`) y abrir **`http://appfit-test.localhost:5173`**. `localhost:5173` tiene los datos reales de Víctor: nunca se prueba ahí. Cada origen tiene su propia IndexedDB; para probar un upgrade desde cero se puede usar otro subdominio (`appfit-upgrade.localhost`).
 - Referencias 320×568, 375×812 y 430×932, claro/oscuro, sin datos/con datos/textos largos/cifras grandes. Sin scroll horizontal: `document.documentElement.scrollWidth === innerWidth`. Sin errores en consola.
 - **Open Food Facts se simula** sustituyendo `fetch` solo para `world.openfoodfacts.org` (producto completo, incompleto, 404, sin red). Nunca se llama a la API real en las pruebas.

@@ -2,19 +2,20 @@ import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as routinesRepo from '../data/routinesRepo'
-import { normalizeName } from '../../../shared/lib/text'
+import SelectorEjercicios from '../components/SelectorEjercicios'
+import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import Sheet from '../../../shared/components/Sheet'
 import Button, { IconButton } from '../../../shared/components/Button'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import ListRow from '../../../shared/components/ListRow'
 import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
-import { Input, SearchInput } from '../../../shared/components/Input'
+import { Input } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 
 export default function Rutinas() {
   const [editando, setEditando] = useState<routinesRepo.RoutineInput | null>(null)
-  const [busquedaEj, setBusquedaEj] = useState('')
+  const [seleccionando, setSeleccionando] = useState(false)
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false)
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -22,12 +23,10 @@ export default function Rutinas() {
   const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
 
   const exerciseMap = new Map((exercises ?? []).map((e) => [e.id!, e]))
-  const busquedaNorm = normalizeName(busquedaEj)
-  const resultados = exercises?.filter((e) => e.nombreNorm.includes(busquedaNorm) && !editando?.exerciseIds.includes(e.id!))
-  const existeExacto = exercises?.some((e) => e.nombreNorm === busquedaNorm)
 
   /** Abre o cierra el sheet de edición, sin arrastrar confirmaciones ni errores de la rutina anterior. */
   function abrir(draft: routinesRepo.RoutineInput | null) {
+    setSeleccionando(false)
     setConfirmandoBorrado(false)
     setError(null)
     setEditando(draft)
@@ -62,23 +61,9 @@ export default function Rutinas() {
     }
   }
 
-  async function crearEjercicioYAgregar() {
-    const nombre = busquedaEj.trim()
-    if (!nombre || !editando) return
-    setError(null)
-    try {
-      const id = await exercisesRepo.obtenerOCrear(nombre)
-      if (!editando.exerciseIds.includes(id)) setEditando({ ...editando, exerciseIds: [...editando.exerciseIds, id] })
-      setBusquedaEj('')
-    } catch {
-      setError('No se ha podido crear el ejercicio. Inténtalo de nuevo.')
-    }
-  }
-
-  function agregarEjercicio(id: number) {
-    if (!editando) return
-    setEditando({ ...editando, exerciseIds: [...editando.exerciseIds, id] })
-    setBusquedaEj('')
+  async function agregarEjercicio(value: SeleccionEjercicio) {
+    const id = await exercisesRepo.resolverSeleccion(value)
+    setEditando(previous => previous && !previous.exerciseIds.includes(id) ? { ...previous, exerciseIds: [...previous.exerciseIds, id] } : previous)
   }
 
   function quitarEjercicio(id: number) {
@@ -153,29 +138,13 @@ export default function Rutinas() {
               ))}
             </div>
 
-            <SearchInput
-              aria-label="Buscar o crear ejercicio"
-              value={busquedaEj}
-              onChange={(e) => setBusquedaEj(e.target.value)}
-              placeholder="Buscar o crear ejercicio…"
-            />
-            <div className="divide-y divide-line">
-              {resultados?.map((ex) => (
-                <ListRow tone="flat" key={ex.id} onClick={() => agregarEjercicio(ex.id!)} className="text-body">
-                  {ex.nombre}
-                </ListRow>
-              ))}
-              {busquedaEj.trim() && !existeExacto && (
-                <ListRow tone="accent" onClick={crearEjercicioYAgregar} className="text-body-sm">
-                  Crear «{busquedaEj.trim()}»
-                </ListRow>
-              )}
-            </div>
+            <Button variant="secondary" block onClick={() => setSeleccionando(true)}><Icon name="plus" size={18} />Añadir ejercicio</Button>
 
 
           </div>
         )}
       </Sheet>
+      {seleccionando && editando && <SelectorEjercicios excluir={editando.exerciseIds} onClose={() => setSeleccionando(false)} onElegir={agregarEjercicio} />}
     </div>
   )
 }

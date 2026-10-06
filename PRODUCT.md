@@ -38,6 +38,10 @@ La preview aprobada ese mismo día incorpora fondos generados con acabado fotogr
 
 El 2026-10-06 Víctor pide también una dirección fotográfica para claro, con imágenes distintas que encajen en ese tema: luz natural, materiales claros y energía deportiva contenida. La selección respeta la preferencia Claro/Oscuro/Sistema existente.
 
+El mismo día solicita elegir ejercicios sin escribirlos: catálogo local de 100–150 comunes, búsqueda, chips combinables por músculo/equipo, recientes de uso real y personalizados. Se implementan 116 definiciones con identidad estable, manteniendo rutinas/series/histórico y sin fuentes externas ni funciones futuras ficticias.
+
+Antes de cerrar esa rama solicita mapa muscular al terminar y en el historial. La visualización refleja trabajo estimado desde series registradas y asociaciones del catálogo/personalizados; conserva clasificación semántica por sesión. No interpreta intensidad fisiológica, fatiga, recuperación ni riesgo. Las comparaciones semanales/mensuales quedan para una evolución posterior.
+
 ## Evidence on Hand
 
 Código en `src/`, documentación de flujos en `docs/features/`, fixtures de prueba en `src/test/fixtures/`, fuentes e iconos locales en `public/`. Los fixtures son sintéticos y se usan exclusivamente en contextos de prueba.

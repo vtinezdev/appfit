@@ -4,14 +4,15 @@ import * as exercisesRepo from '../data/exercisesRepo'
 import * as routinesRepo from '../data/routinesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
-import type { Exercise, SetEntry, Workout } from '../../../shared/db/types'
-import { normalizeName } from '../../../shared/lib/text'
+import type { SetEntry, Workout } from '../../../shared/db/types'
+import SelectorEjercicios from '../components/SelectorEjercicios'
+import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
+import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { formatHora, formatUltimaVez, volumenSets } from '../lib/workout'
 import { formatInt } from '../../../shared/lib/format'
 import Sheet from '../../../shared/components/Sheet'
 import Button, { IconButton } from '../../../shared/components/Button'
-import ListRow from '../../../shared/components/ListRow'
-import { Input, SearchInput } from '../../../shared/components/Input'
+import { Input } from '../../../shared/components/Input'
 import Icon from '../../../shared/components/Icon'
 import Card from '../../../shared/components/Card'
 import { useAviso } from '../../../shared/hooks/useAviso'
@@ -58,7 +59,6 @@ function CampoSerie({ valor, label, decimal = false, onChange }: {
 
 export default function EntrenoActivo({ workout, onFinished }: Props) {
   const [buscandoEjercicio, setBuscandoEjercicio] = useState(false)
-  const [busqueda, setBusqueda] = useState('')
   const [session, setSession] = useState(() => readSession(workout.id!))
   const [confirmando, setConfirmando] = useState(false)
   const [guardando, setGuardando] = useState(false)
@@ -83,9 +83,6 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
   const idsRutina = routine?.exerciseIds ?? []
   const visibleIds = Array.from(new Set([...idsRutina, ...idsConSets]))
 
-  const busquedaNorm = normalizeName(busqueda)
-  const resultados = busquedaNorm ? exercises.filter((e) => e.nombreNorm.includes(busquedaNorm)) : exercises
-  const existeExacto = exercises.some((e) => e.nombreNorm === busquedaNorm)
 
   function ultimaSetDeEjercicio(exerciseId: number, excluirWorkout: boolean): SetEntry | null {
     const candidatos = allSets.filter((s) => s.exerciseId === exerciseId && (!excluirWorkout || s.workoutId !== workout.id))
@@ -132,23 +129,9 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     }
   }
 
-  async function elegirEjercicio(exercise: Exercise) {
-    setBuscandoEjercicio(false)
-    setBusqueda('')
-    await agregarSet(exercise.id!)
-  }
-
-  async function crearYElegir() {
-    const nombre = busqueda.trim()
-    if (!nombre) return
-    setBuscandoEjercicio(false)
-    setBusqueda('')
-    try {
-      setNewSet(await setsRepo.agregarConEjercicio(workout.id!, nombre))
-      haptic()
-    } catch {
-      avisarError('No se ha podido crear el ejercicio. Inténtalo de nuevo.')
-    }
+  async function elegirEjercicio(value: SeleccionEjercicio) {
+    setNewSet(await setsRepo.agregarSeleccion(workout.id!, value))
+    haptic()
   }
 
   async function terminar() {
@@ -156,11 +139,11 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     setGuardando(true)
     try {
       await Promise.all(pendingWrites.current.values())
-      const saved = await setsRepo.delWorkout(workout.id!)
-      await workoutsRepo.terminar(workout.id!)
+      const finished = await workoutsRepo.terminar(workout.id!)
+      const saved = finished.sets
       clearSession(workout.id!)
       haptic('finish')
-      onFinished({ seconds: (Date.now() - workout.inicio) / 1000, exercises: new Set(saved.map(s => s.exerciseId)).size, sets: saved.length, volume: volumenSets(saved) })
+      onFinished({ seconds: ((finished.workout.fin ?? Date.now()) - workout.inicio) / 1000, exercises: new Set(saved.map(s => s.exerciseId)).size, sets: saved.length, volume: volumenSets(saved), muscle: trabajoMuscularWorkout(finished.workout, saved, []) })
     } catch {
       setFinishError('No se ha podido terminar el entreno. Inténtalo de nuevo.')
       setConfirmando(true)
@@ -278,29 +261,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
         </div>
       </Sheet>
 
-      <Sheet open={buscandoEjercicio} onClose={() => setBuscandoEjercicio(false)} title="Añadir ejercicio">
-        <div className="space-y-3">
-          <SearchInput
-            autoFocus
-            aria-label="Buscar o crear ejercicio"
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            placeholder="Buscar o crear ejercicio…"
-          />
-          <div className="divide-y divide-line">
-            {resultados.map((ex) => (
-              <ListRow tone="flat" key={ex.id} onClick={() => elegirEjercicio(ex)}>
-                {ex.nombre}
-              </ListRow>
-            ))}
-            {busqueda.trim() && !existeExacto && (
-              <ListRow tone="accent" onClick={crearYElegir}>
-                Crear «{busqueda.trim()}»
-              </ListRow>
-            )}
-          </div>
-        </div>
-      </Sheet>
+      {buscandoEjercicio && <SelectorEjercicios onClose={() => setBuscandoEjercicio(false)} onElegir={elegirEjercicio} />}
 
       {toast}
     </div>

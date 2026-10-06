@@ -3,6 +3,39 @@
   "generatedAt": "2026-10-05T07:55:53Z",
   "title": "Design System: APPFIT",
   "extensions": {
+    "muscleMap": {
+      "component": "src/features/gym/components/MapaMuscular.tsx",
+      "visitorMode": "Operate",
+      "surfaces": ["WorkoutFinished", "Historial Sheet"],
+      "representation": "SVG original bilateral, frontal/trasera; once grupos, sin lateralidad ni subdivisión de hombros",
+      "dataTokens": {
+        "muscle-1": "rgb(251 225 224)", "dark-muscle-1": "rgb(61 31 32)",
+        "muscle-2": "rgb(245 181 176)", "dark-muscle-2": "rgb(105 42 44)",
+        "muscle-3": "rgb(230 122 114)", "dark-muscle-3": "rgb(153 49 51)",
+        "muscle-4": "rgb(202 67 61)", "dark-muscle-4": "rgb(197 58 62)",
+        "muscle-5": "rgb(153 34 42)", "dark-muscle-5": "rgb(236 74 79)"
+      },
+      "dimensions": { "bodyWidth": "10rem", "swatchSize": "0.75rem" },
+      "semantics": "rojo de datos independiente de error/destructivo; cero neutro; naranja sigue reservado a acciones",
+      "scale": "relativa al máximo de la sesión; límites 10/25/50/80/100%, no intensidad fisiológica",
+      "accessibility": "niveles textuales y filas >=44 px para detalle; nivel debajo del nombre al estrechar el contenedor (16rem); SVG aria-hidden, Forced Colors Canvas/Highlight",
+      "persistence": "snapshot semántico v1 en Workout, series originales, Dexie v6/backup v2",
+      "motion": "sin animar colores/valores; patrones de cierre y resumen existentes"
+    },
+    "exerciseSelector": {
+      "component": "src/features/gym/components/SelectorEjercicios.tsx",
+      "visitorMode": "Operate",
+      "catalogCount": 116,
+      "catalog": "src/features/gym/lib/catalogoEjercicios.ts",
+      "identity": "Exercise.id histórico + catalogId opcional; no fusionar parecidos",
+      "filters": "FilterChips: OR dentro de cada familia, AND entre músculo/equipamiento y búsqueda",
+      "recents": "seis ejercicios deduplicados según series.createdAt; solo sin filtros/búsqueda",
+      "presentation": "ModalPage; buscador fijo, filtros y lista plana desplazables; personalizado en la misma tarea",
+      "accessibility": "targets 44 px, aria-pressed, teclado/foco/capas existentes; cabecera puede envolver",
+      "keyboard": "no automático al abrir; foco explícito al crear personalizado",
+      "persistence": "campos opcionales, Dexie v6/backup v2; primera serie transaccional",
+      "motion": "patrones existentes; busy bloquea cierres durante escritura"
+    },
     "colorMeta": {
       "bg": {
         "role": "neutral",

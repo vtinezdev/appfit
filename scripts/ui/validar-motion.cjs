@@ -131,6 +131,9 @@ async function run(browser, variant) {
     await page.getByRole('spinbutton', { name: 'Repeticiones, serie 2 de Press banca', exact: true }).waitFor()
     await page.getByRole('button', { name: 'Añadir ejercicio', exact: true }).click()
     await page.getByRole('dialog', { name: 'Añadir ejercicio', exact: true }).waitFor()
+    await page.goBack(); await closed(page)
+    await page.getByRole('button', { name: 'Terminar', exact: true }).click()
+    await snapshot(page, `${variant.name}-terminar`)
     if (variant.name === '375-light') {
       // Un gesto cancelado vuelve al estado estable: no se interpreta como confirmar cierre.
       await page.waitForTimeout(350)
@@ -142,13 +145,10 @@ async function run(browser, variant) {
       await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ ...point, y: point.y + 60 }] })
       await session.send('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] })
       await page.waitForTimeout(350)
-      assert.equal(await page.getByRole('dialog', { name: 'Añadir ejercicio', exact: true }).count(), 1)
+      assert.equal(await page.getByRole('dialog', { name: 'Terminar entreno', exact: true }).count(), 1)
       assert.equal(await page.locator('.sheet-panel').evaluate(e => e.style.transform), '')
       await session.detach()
     }
-    await page.goBack(); await closed(page)
-    await page.getByRole('button', { name: 'Terminar', exact: true }).click()
-    await snapshot(page, `${variant.name}-terminar`)
     await page.getByRole('button', { name: 'Seguir entrenando', exact: true }).click()
     await closed(page)
     await page.getByRole('button', { name: 'Terminar', exact: true }).click()
