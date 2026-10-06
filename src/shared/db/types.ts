@@ -166,9 +166,32 @@ export interface Objetivos {
   grasa: number
 }
 
+export type SexoPerfil = 'hombre' | 'mujer'
+export type ActividadPerfil = 'sedentario' | 'ligero' | 'moderado' | 'activo' | 'muy-activo'
+export type ObjetivoPerfil = 'definicion' | 'mantenimiento' | 'volumen'
+export type IntensidadKcal = 200 | 300 | 400 | 500 | 600
+
+/**
+ * Datos fuente del perfil energético (dentro de `Settings`). Todo opcional para poder guardar por partes.
+ * Peso (último pesaje), edad, TMB, GET y kcal objetivo NO se guardan: se derivan al leer.
+ */
+export interface Perfil {
+  /** Las ecuaciones son binarias; el campo es el «sexo para la ecuación». */
+  sexo?: SexoPerfil
+  /** YYYY-MM-DD */
+  fechaNacimiento?: string
+  alturaCm?: number
+  actividad?: ActividadPerfil
+  objetivo?: ObjetivoPerfil
+  /** Magnitud en kcal/día; el signo lo da el objetivo y se ignora en mantenimiento. */
+  intensidadKcal?: IntensidadKcal
+}
+
 export interface Settings {
   id: number // siempre 1 (registro único)
   objetivos: Objetivos
+  /** Ausente en datos y backups anteriores a la sección Perfil. */
+  perfil?: Perfil
 }
 
 export interface Exercise {

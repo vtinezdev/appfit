@@ -3,6 +3,7 @@ import type { FuenteReferencia } from '../../../shared/lib/referenciasNutriciona
 export const AREAS_REFERENCIAS = [
   { id: 'catalogo', nombre: 'Catálogo de alimentos', resumen: 'Origen y alcance de los valores nutricionales.' },
   { id: 'objetivos', nombre: 'Objetivos nutricionales', resumen: 'Tus objetivos y las referencias de cada nutriente.' },
+  { id: 'energia', nombre: 'Energía y objetivo', resumen: 'Cómo estima Perfil tu gasto y tu objetivo diario, con fuentes.' },
   { id: 'alimentarias', nombre: 'Recomendaciones alimentarias', resumen: 'Referencias por grupos de alimentos.' },
   { id: 'datos', nombre: 'Sobre los datos', resumen: 'Cómo interpretar la información incompleta.' },
 ] as const

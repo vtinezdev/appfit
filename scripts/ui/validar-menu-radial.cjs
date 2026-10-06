@@ -40,7 +40,8 @@ async function abrir(page, actual) {
     assert.ok(rect.top >= 0 && rect.bottom <= page.viewportSize().height)
   }
   const center = medidas.rects.at(-1)
-  assert.equal(medidas.rects.length, 6, 'cinco destinos y el cierre central')
+  assert.equal(medidas.rects.length, 7, 'seis destinos y el cierre central')
+  for (const r of medidas.rects.slice(0, -1)) assert.ok(Math.abs(r.width - r.height) < 1, 'dianas circulares (alto = ancho)')
   assert.ok(medidas.rects.slice(0, -1).every(r => r.bottom < center.top))
   const origin = await page.locator('[data-nav-trigger]').boundingBox()
   assert.ok(Math.abs(center.x + center.width / 2 - origin.x - origin.width / 2) < 1)
@@ -71,11 +72,11 @@ async function futuros(page) {
     const host = document.createElement('div')
     document.body.append(host)
     const root = createRoot(host)
-    const destinos = ['Inicio', 'Nutrición', 'Gym', 'Referencias', 'Ajustes', 'Notas', 'Medidas'].map((label, i) => ({ key: `seccion-${i}`, label, icon: 'plus' }))
+    const destinos = ['Inicio', 'Nutrición', 'Gym', 'Perfil', 'Referencias', 'Ajustes', 'Notas', 'Medidas'].map((label, i) => ({ key: `seccion-${i}`, label, icon: 'plus' }))
     const cerrar = () => { root.unmount(); host.remove() }
     window.__menuFuturo = null
     root.render(React.createElement('div', { role: 'dialog', 'aria-label': 'Destinos futuros', className: 'fan-dialog', style: { '--menu-origin-x': `${innerWidth / 2}px`, '--menu-origin-y': `${innerHeight - 40}px` } },
-      React.createElement(Rueda, { destinos, actual: 'seccion-5', onClose: cerrar, onElegir: (key) => { window.__menuFuturo = key; cerrar() } })))
+      React.createElement(Rueda, { destinos, actual: 'seccion-6', onClose: cerrar, onElegir: (key) => { window.__menuFuturo = key; cerrar() } })))
   })
   const menu = page.getByRole('dialog', { name: 'Destinos futuros', exact: true })
   await menu.getByText('2 de 2', { exact: true }).waitFor()
@@ -94,7 +95,7 @@ async function futuros(page) {
   assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), 'Medidas')
   await page.keyboard.press('Space')
   await menu.waitFor({ state: 'detached' })
-  assert.equal(await page.evaluate(() => window.__menuFuturo), 'seccion-6')
+  assert.equal(await page.evaluate(() => window.__menuFuturo), 'seccion-7')
   assert.equal(await page.locator('[data-app-shell]').evaluate((el) => el.inert), false)
 }
 

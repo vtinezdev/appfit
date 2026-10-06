@@ -6,7 +6,7 @@
 
 | Pieza | Archivo | Datos |
 |---|---|---|
-| Pantalla | `InicioTab.tsx` (saludo según la hora: `lib/saludo.ts`) | lee `entriesRepo.delDia`, `getSettings`, `pesosRepo.delRango` |
+| Pantalla | `InicioTab.tsx` (saludo según la hora: `lib/saludo.ts`) | lee `entriesRepo.delDia`, `perfilRepo.objetivosVigentes` (objetivos del Perfil o manuales), `pesosRepo.delRango` |
 | Resumen de kcal y macros | `nutricion/components/ResumenNutricional` (el mismo que en Hoy) | — |
 | Entreno destacado y último resultado | `gym/components/TarjetaEntreno` | solo lectura de `workoutsRepo` y `setsRepo` |
 | Peso | `components/PesoCard`, `components/RegistrarPesoSheet`, `components/HistorialPeso` | `pesosRepo` (tabla `pesos`) |

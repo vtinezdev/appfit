@@ -59,7 +59,7 @@ export default {
         card: 'var(--space-card)',
         stack: 'var(--space-stack)',
         touch: 'var(--touch-target)',
-        'menu-item': 'var(--menu-item-size)',
+        'menu-node': 'var(--menu-node-size)',
       },
       height: { nav: 'var(--nav-height)', app: 'var(--app-height)' },
       inset: { 'nav-toast': 'var(--nav-toast)' },

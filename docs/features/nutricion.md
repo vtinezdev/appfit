@@ -96,4 +96,6 @@ Semana o mes navegables (`fechasPeriodo`, `desplazarPeriodo`, `etiquetaPeriodo`,
 
 ## Objetivos (Ajustes)
 
+Las kcal vigentes pueden venir de Perfil (`perfilRepo.objetivosVigentes`, [features/perfil.md](perfil.md)): con perfil completo y objetivo elegido, `ObjetivosAjustes` muestra las kcal en solo lectura («Calculado en Perfil», «Ir a Perfil») y los macros siguen editables (`reajustarObjetivos` sobre los vigentes; lo guardado actúa como reparto). Hoy y Resumen usan los vigentes.
+
 `lib/objetivos.ts`: kcal y macros «cuadran» si 4·P + 4·C + 9·G ≈ kcal (tolerancia de 5 kcal). Al editar las kcal, los macros se escalan manteniendo su reparto; al editar un macro, las kcal se mantienen y los otros dos se reparten el resto. «Cuadrar» arregla unos objetivos que no cuadran.

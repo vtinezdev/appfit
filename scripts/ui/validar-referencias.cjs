@@ -113,7 +113,7 @@ async function main() {
         await page.getByRole('button', { name: 'Volver a Referencias', exact: true }).click()
         await page.getByRole('button', { name: /Catálogo de alimentos/ }).waitFor()
         await capture(page, etiqueta, 'indice')
-        for (const [area, titulo] of [['catalogo', 'Catálogo de alimentos'], ['objetivos', 'Objetivos nutricionales'], ['alimentarias', 'Recomendaciones alimentarias'], ['datos', 'Sobre los datos']]) {
+        for (const [area, titulo] of [['catalogo', 'Catálogo de alimentos'], ['objetivos', 'Objetivos nutricionales'], ['energia', 'Energía y objetivo'], ['alimentarias', 'Recomendaciones alimentarias'], ['datos', 'Sobre los datos']]) {
           await page.locator(`[data-area="${area}"]`).click()
           await page.getByRole('heading', { name: titulo, exact: true }).waitFor()
           if (area === 'catalogo') {

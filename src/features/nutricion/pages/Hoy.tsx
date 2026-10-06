@@ -6,7 +6,7 @@ import * as entriesRepo from '../data/entriesRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
 import type { Comida, Entry } from '../../../shared/db/types'
 import { addDays, formatFriendly, todayISO } from '../../../shared/lib/dates'
-import { getSettings } from '../../../shared/db/settings'
+import { objetivosVigentes } from '../../perfil/data/perfilRepo'
 import AccionesComidaSheet from '../components/AccionesComidaSheet'
 import ComidaSection from '../components/ComidaSection'
 import CopiarDiaSheet from '../components/CopiarDiaSheet'
@@ -44,7 +44,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
   const nombresCortos = useLiveQuery(() => nombresAlimentosRepo.paraComida(entries ?? []), [entries]) ?? new Map()
   const entriesAyer = useLiveQuery(() => entriesRepo.delDia(ayer), [ayer])
-  const settings = useLiveQuery(() => getSettings(), [])
+  const vigentes = useLiveQuery(() => objetivosVigentes(todayISO()), [])
   const { avisar, avisarError, toast } = useAviso()
   const [copiarDia, setCopiarDia] = useState<{ fechaDestino: string } | null>(null)
   const [copiandoDia, setCopiandoDia] = useState(false)
@@ -153,9 +153,9 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
     }
   }
 
-  const cargado = entries && settings
+  const cargado = entries && vigentes
   const totales = cargado ? sumMacros(entries) : null
-  const objetivos = settings?.objetivos
+  const objetivos = vigentes
 
   const porComida = new Map<Comida, Entry[]>()
   for (const c of COMIDAS) porComida.set(c.valor, [])

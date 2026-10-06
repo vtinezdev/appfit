@@ -5,7 +5,7 @@ import Icon from '../../shared/components/Icon'
 import PageHeader from '../../shared/components/PageHeader'
 import BrandMark from '../../shared/components/BrandMark'
 import { LoadingState } from '../../shared/components/StateMessage'
-import { getSettings } from '../../shared/db/settings'
+import { objetivosVigentes } from '../perfil/data/perfilRepo'
 import { addDays, parseISODate, todayISO } from '../../shared/lib/dates'
 import { useAviso } from '../../shared/hooks/useAviso'
 import TarjetaEntreno from '../gym/components/TarjetaEntreno'
@@ -34,7 +34,7 @@ const DIAS_HISTORIAL = 365
 export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
-  const settings = useLiveQuery(() => getSettings(), [])
+  const vigentes = useLiveQuery(() => objetivosVigentes(hoy), [hoy])
   const pesos = useLiveQuery(() => pesosRepo.delRango(addDays(hoy, -DIAS_HISTORIAL), hoy), [hoy])
   const { avisar, toast } = useAviso()
   const [aperturas, setAperturas] = useState(0)
@@ -63,7 +63,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
       </div>
       {ayudaInicial}
 
-      {!entries || !settings || !pesos ? (
+      {!entries || !vigentes || !pesos ? (
         <div className="animate-fade-in-late">
           <LoadingState />
         </div>
@@ -74,7 +74,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
             integrado
             titulo="Resumen de hoy"
             totales={sumMacros(entries)}
-            objetivos={settings.objetivos}
+            objetivos={vigentes}
             footer={<Button variant="secondary" block onClick={onAnadirComida}><Icon name="plus" size={18} />Registrar comida</Button>}
             accion={
               <Button variant="ghost" size="sm" onClick={onIrANutricion}>

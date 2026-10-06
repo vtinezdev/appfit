@@ -7,13 +7,14 @@
 ## Áreas
 
 - **Catálogo de alimentos**: ANSES · CIQUAL 2025 y Open Food Facts (selección España y escaneo). Procedencia, licencias, nutrientes disponibles y limitaciones de composición/etiquetado. Solo fuentes distribuidas actualmente en `public/catalogo/manifest.json` y utilizadas por el lector. No se atribuyen datos a BEDCA/USDA.
-- **Objetivos nutricionales**: ocho referencias consultables. Calorías/P/C/G reflejan los objetivos personales actuales de Ajustes; el proyecto no documenta una fuente clínica para sus valores iniciales. Fibra, azúcares, sal y saturadas conservan los criterios anteriores, incluida la diferencia entre azúcares totales y libres. Valores y fuentes: registro central, sin nuevas metas persistidas.
+- **Objetivos nutricionales**: ocho referencias consultables. Calorías/P/C/G reflejan los objetivos vigentes (kcal de Perfil si manda, o los de Ajustes); el proyecto no documenta una fuente clínica para sus valores iniciales. Fibra, azúcares, sal y saturadas conservan los criterios anteriores, incluida la diferencia entre azúcares totales y libres. Valores y fuentes: registro central, sin nuevas metas persistidas.
+- **Energía y objetivo**: metodología de la estimación de Perfil (media de Mifflin-St Jeor y Roza-Shizgal como criterio de AppFit, factores de actividad y su procedencia sin verificar, rango de ajuste, límites de prudencia, privacidad) y lista de fuentes con DOI/URL (`perfil/lib/fuentesEnergia.ts`). `App.areaReferencias` abre esta área desde Perfil.
 - **Recomendaciones alimentarias**: estado vacío explícito hasta contar con criterios y fuentes. No se muestran ejemplos numéricos como recomendaciones.
 - **Sobre los datos**: cobertura por registros, ausencia frente a cero, sumas conocidas, snapshots que no cambian al actualizar catálogo y azúcares totales.
 
 ## Fuente común
 
-`shared/lib/referenciasNutricionales.ts` define `NutrienteId` (las ocho claves existentes), nombres, orden, tipo, valor/unidad, criterio, particularidades, fuente y mínimo/máximo opcionales. `referenciaNutricional(id, objetivos)` deriva valores de los ajustes actuales y de los mismos criterios puros que utilizan las barras. `nutricion/lib/referenciasNutrientes.ts` conserva un reexport compatible.
+`shared/lib/referenciasNutricionales.ts` define `NutrienteId` (las ocho claves existentes), nombres, orden, tipo, valor/unidad, criterio, particularidades, fuente y mínimo/máximo opcionales. `referenciaNutricional(id, objetivos, origen)` (origen `perfil` o `manual`: la referencia de kcal indica de dónde sale) deriva valores de los ajustes actuales y de los mismos criterios puros que utilizan las barras. `nutricion/lib/referenciasNutrientes.ts` conserva un reexport compatible.
 
 `ReferenciaNutrienteContenido` renderiza el mismo registro en la Sheet contextual y en los Disclosure de Objetivos nutricionales. «Ver en Referencias» cierra primero la Sheet y después abre/enfoca la referencia correspondiente mediante `App`, sin modificar la URL. Cada área tiene vuelta al índice con retorno de foco. Enlaces externos solo se consultan al pulsarlos; no se envían registros del usuario.
 

@@ -52,11 +52,11 @@ export default function RuedaNavegacion<T extends string>({ destinos, actual, vi
                   aria-label={destino.label}
                   aria-current={activa ? 'page' : undefined}
                   onClick={() => onElegir(destino.key)}
-                  className={`fan-target app-button flex w-menu-item flex-col items-center justify-center gap-1 rounded-md px-1 py-2 ${activa ? 'bg-accent text-accent-on' : 'bg-surface-elevated text-fg hover:bg-surface-muted'}`}
+                  className={`fan-target app-button flex w-menu-node flex-col items-center justify-center gap-1 rounded-pill px-1 ${activa ? 'bg-accent text-accent-on' : 'bg-surface-elevated text-fg hover:bg-surface-muted'}`}
                 >
                   <Icon name={destino.icon} size={24} />
                   <span className="w-full break-words text-center text-caption font-semibold">{destino.label}</span>
-                  {activa && <Icon name="check" size={12} className="absolute right-2 top-2" />}
+                  {activa && <Icon name="check" size={12} className="fan-check" />}
                 </button>
               </li>
             )

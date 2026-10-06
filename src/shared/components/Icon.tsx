@@ -7,6 +7,7 @@ import type { SVGProps } from 'react'
  */
 const PATHS = {
   menu: 'M4 6h16M4 12h16M4 18h16',
+  user: 'M8 8a4 4 0 1 0 8 0a4 4 0 1 0-8 0M4.5 21a7.5 7.5 0 0 1 15 0',
   home: 'M4 11l8-7 8 7M6 9.5V20h4v-5h4v5h4V9.5',
   utensils: 'M7 3v8a2 2 0 0 0 2 2v8M11 3v8a2 2 0 0 1-2 2M9 3v8M17 21V3c-2 1.5-3 4-3 7v3h3',
   sunrise: 'M3 17h18M5 21h14M6 17a6 6 0 0 1 12 0M12 3v3M4.2 8.2l2.1 2.1M19.8 8.2l-2.1 2.1M2 13h2M20 13h2',

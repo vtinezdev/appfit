@@ -31,8 +31,9 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Rutinas, historial de entrenos y gráficas de progreso por ejercicio (peso máximo, 1RM estimado, volumen).
 
 **General**
-- Un botón Menú despliega un abanico desde su propio origen para ir a Inicio, Nutrición, Gym, Referencias y Ajustes, con la sección actual marcada.
-- Referencias reúne procedencia del catálogo, objetivos nutricionales y limitaciones de datos; recomendaciones por grupos tienen su lugar preparado, sin inventar valores todavía.
+- Un botón Menú despliega un abanico desde su propio origen para ir a Inicio, Nutrición, Gym, Perfil, Referencias y Ajustes, con la sección actual marcada.
+- Perfil estima tu gasto energético diario y un objetivo de calorías (mantenimiento, definición o volumen) a partir de sexo, fecha de nacimiento, altura, peso y actividad, con ecuaciones citadas. Todo se calcula y se guarda solo en tu dispositivo; es una estimación orientativa, no una prescripción médica.
+- Referencias reúne procedencia del catálogo, objetivos nutricionales, la metodología de la estimación energética y limitaciones de datos; recomendaciones por grupos tienen su lugar preparado, sin inventar valores todavía.
 - Instalable en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
 - Copia de seguridad exportable e importable en un único archivo JSON, con confirmación antes de sustituir registros y ayuda para trasladarlos de Safari al acceso de pantalla de inicio en iPhone.
 - Tema Sistema/Claro/Oscuro seleccionable en Ajustes. Interfaz móvil coherente, controles táctiles grandes y fuente disponible offline.

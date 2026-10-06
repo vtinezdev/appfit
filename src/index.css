@@ -271,7 +271,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 .fan-dialog { position: absolute; left: var(--menu-origin-x); top: var(--menu-origin-y); width: 1px; height: 1px; }
 .fan-item {
-  position: absolute; width: var(--menu-item-size); height: var(--menu-action-height);
+  position: absolute; width: var(--menu-node-size); height: var(--menu-node-size);
   opacity: 0; pointer-events: none; transform: translate(-50%, -50%) scale(.7);
   transition: transform var(--dur-exit) var(--ease-exit), opacity var(--dur-exit);
 }
@@ -281,7 +281,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   transition-duration: var(--dur-overlay); transition-timing-function: var(--ease-standard);
   transition-delay: calc(var(--fan-index) * var(--dur-stagger));
 }
-.fan-target { position: relative; min-height: var(--menu-action-height); height: 100%; border: 1px solid rgb(var(--c-border)); }
+.fan-target { position: relative; height: 100%; border: 1px solid rgb(var(--c-border)); }
+/* Diana circular: el nodo del que nace cada destino. El check de «actual» va a las 2 en punto, dentro del círculo. */
+.fan-check { position: absolute; right: .75rem; top: .75rem; }
 .fan-target[aria-current='page'] { border-color: rgb(var(--c-accent)); }
 .fan-hub { position: absolute; transform: translate(-50%, -50%); background: rgb(var(--c-accent)); color: rgb(var(--c-on-accent)); }
 .fan-hub:active { transform: translate(-50%, -50%) scale(var(--motion-press)); }
@@ -291,7 +293,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .fan-dialog[data-compact='true'] { width: min(28rem, calc(100vw - 32px)); transform: translateX(-50%); }
 .fan-dialog[data-compact='true'] ul { position: absolute; bottom: 44px; width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; max-height: calc(var(--menu-origin-y) - env(safe-area-inset-top) - 60px); overflow-y: auto; padding: 4px; }
 .fan-dialog[data-compact='true'] .fan-item { position: static; width: auto; height: auto; transform: none !important; transition-property: opacity; }
-.fan-dialog[data-compact='true'] .fan-target { width: 100%; height: auto; }
+.fan-dialog[data-compact='true'] .fan-target { width: 100%; height: auto; min-height: var(--menu-action-height); border-radius: var(--radius-md); }
+.fan-dialog[data-compact='true'] .fan-check { right: .5rem; top: .5rem; }
 .fan-dialog[data-compact='true'] .fan-hub { left: 50%; }
 .loading-skeleton { animation: loading-breathe 1.4s ease-in-out infinite alternate; }
 @keyframes loading-breathe { to { opacity: .45; } }

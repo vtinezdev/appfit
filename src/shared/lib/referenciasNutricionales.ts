@@ -26,6 +26,7 @@ export const FUENTES_REFERENCIAS = {
 }
 const FUENTES = {
   personal: { nombre: 'Objetivos configurados en Ajustes de APPFIT' },
+  perfil: { nombre: 'Estimación energética de tu Perfil en APPFIT' },
   oms: { nombre: 'OMS · Alimentación saludable', url: FUENTES_REFERENCIAS.oms },
   sal: { nombre: 'OMS · Reducción de sal', url: FUENTES_REFERENCIAS.sal },
   ue: { nombre: 'Reglamento (UE) 1169/2011 · Anexo XIII', url: FUENTES_REFERENCIAS.ue },
@@ -54,12 +55,17 @@ export function referenciasNutrientes(kcal: number): Record<keyof NutrientesAdic
 }
 
 /** Los objetivos se reciben de Settings: nunca se sustituyen por una recomendación clínica. */
-export function referenciaNutricional(id: NutrienteId, objetivos: Objetivos): ReferenciaNutricional {
+export function referenciaNutricional(id: NutrienteId, objetivos: Objetivos, origen: 'perfil' | 'manual' = 'manual'): ReferenciaNutricional {
   const base = { id, nombre: NOMBRES_NUTRIENTES[id] }
   if (id === 'kcal' || id === 'prot' || id === 'carb' || id === 'grasa') {
-    return { ...base, valor: objetivos[id], unidad: id === 'kcal' ? 'kcal' : 'g', tipo: 'objetivo', fuente: FUENTES.personal,
-      descripcion: 'Es tu objetivo diario actual, editable en Ajustes. APPFIT mantiene el reparto de los macronutrientes al cambiar las calorías; al cambiar un macro, ajusta los otros para conservar la misma energía.',
-      particularidades: ['Los valores iniciales son un punto de partida editable. El proyecto no documenta una fuente clínica para ellos; no constituyen una recomendación individual.', 'La energía de los macros se calcula con 4 kcal/g de proteína e hidratos y 9 kcal/g de grasa.'] }
+    const delPerfil = origen === 'perfil'
+    return { ...base, valor: objetivos[id], unidad: id === 'kcal' ? 'kcal' : 'g', tipo: 'objetivo', fuente: delPerfil ? FUENTES.perfil : FUENTES.personal,
+      descripcion: delPerfil
+        ? `Es tu objetivo diario actual. Las calorías se calculan en Perfil con tus datos y el objetivo elegido${id === 'kcal' ? '' : '; los macros conservan el reparto en % de Ajustes'}. Los macros se editan en Ajustes.`
+        : 'Es tu objetivo diario actual, editable en Ajustes. APPFIT mantiene el reparto de los macronutrientes al cambiar las calorías; al cambiar un macro, ajusta los otros para conservar la misma energía.',
+      particularidades: [delPerfil
+        ? 'Es una estimación orientativa con ecuaciones poblacionales (error típico de ±10 %), no una prescripción individual. El método y las fuentes están en Referencias, Energía y objetivo.'
+        : 'Los valores iniciales son un punto de partida editable. El proyecto no documenta una fuente clínica para ellos; no constituyen una recomendación individual.', 'La energía de los macros se calcula con 4 kcal/g de proteína e hidratos y 9 kcal/g de grasa.'] }
   }
   const referencia = referenciasNutrientes(objetivos.kcal)[id]
   const comun = { ...base, valor: referencia.gramos, unidad: 'g' as const, tipo: referencia.tipo }

@@ -5,7 +5,7 @@ import { Bar, BarChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxi
 import * as entriesRepo from '../data/entriesRepo'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Disclosure from '../../../shared/components/Disclosure'
-import { getSettings } from '../../../shared/db/settings'
+import { objetivosVigentes } from '../../perfil/data/perfilRepo'
 import { desplazarPeriodo, esPeriodoActual, etiquetaPeriodo, fechasPeriodo, formatShort, todayISO } from '../../../shared/lib/dates'
 import type { PeriodoRango } from '../../../shared/lib/dates'
 import { resumenPeriodo } from '../lib/nutrition'
@@ -30,11 +30,11 @@ export default function Resumen() {
   const [fechaAncla, setFechaAncla] = useState(todayISO())
   const [dato, setDato] = useState<Dato>('kcal')
   const fechas = fechasPeriodo(rango, fechaAncla)
-  const settings = useLiveQuery(() => getSettings(), [])
+  const vigentes = useLiveQuery(() => objetivosVigentes(todayISO()), [])
   const entries = useLiveQuery(() => entriesRepo.entreFechas(fechas[0], fechas[fechas.length - 1]), [fechas.join(',')])
-  if (!entries || !settings) return <LoadingState />
+  if (!entries || !vigentes) return <LoadingState />
   const { porDia, media, diasRegistrados } = resumenPeriodo(entries, fechas, todayISO())
-  const objetivos = settings.objetivos
+  const objetivos = vigentes
   const elegido = DATOS.find(d => d.valor === dato)!
   const diasConDatos = new Set(entries.map(e => e.fecha))
   // Un día sin registro no es una ingesta de cero: tampoco debe aparecer como cero en el tooltip.
