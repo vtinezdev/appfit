@@ -108,15 +108,15 @@
   /* Foto/fade sobre luces estáticas que acompañan la longitud real de la página. */
   --atmosphere-height: 50rem;
   --atmosphere-photo-opacity: 0.72;
-  --atmosphere-photo-saturation: 0.6;
+  --atmosphere-photo-saturation: 0.85;
   --atmosphere-photo-brightness: 0.98;
   --atmosphere-photo-contrast: 0.96;
   --atmosphere-quiet-opacity: 0.14;
   --atmosphere-panel-opacity: 0.98;
   --atmosphere-training-opacity: 0.96;
-  --atmosphere-wash-top: 0.76;
-  --atmosphere-wash-upper: 0.88;
-  --atmosphere-wash-middle: 0.95;
+  --atmosphere-wash-top: 0.71;
+  --atmosphere-wash-upper: 0.86;
+  --atmosphere-wash-middle: 0.9;
   --atmosphere-reading-wash: 0.58;
   --atmosphere-reading-height: 15rem;
   --atmosphere-reading-fade: 21rem;
@@ -169,6 +169,7 @@
   --c-muscle-5: 128 183 254;
   --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
   --atmosphere-photo-opacity: 0.9;
+  --atmosphere-photo-saturation: 0.6;
   --atmosphere-photo-brightness: 0.92;
   --atmosphere-quiet-opacity: 0.2;
   --atmosphere-wash-top: 0.52;
