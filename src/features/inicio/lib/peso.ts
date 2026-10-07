@@ -42,3 +42,27 @@ export function fraseVariacion(v: number): string {
   if (v === 0) return 'Sin cambios en 7 días'
   return `${v < 0 ? '−' : '+'}${formatNumber(Math.abs(v), 1)} kg en 7 días`
 }
+
+export interface PuntoPeso {
+  fecha: string
+  kg: number
+  /** Media de los pesajes de los 7 días naturales que acaban en `fecha` (ella incluida). */
+  media: number
+}
+
+/** Ventana de la media móvil, en días naturales. */
+export const VENTANA_MEDIA_DIAS = 7
+
+/**
+ * Pesajes con su media móvil de 7 días: para cada fecha, la media de los pesajes de los 7 días naturales que
+ * acaban en ella (no de los 7 últimos pesajes). Ordenados por fecha; la media se redondea a 2 decimales.
+ */
+export function mediaMovilPeso(pesos: Pick<Peso, 'fecha' | 'kg'>[]): PuntoPeso[] {
+  const ordenados = [...pesos].sort((a, b) => (a.fecha < b.fecha ? -1 : a.fecha > b.fecha ? 1 : 0))
+  return ordenados.map((p) => {
+    const desde = addDays(p.fecha, -(VENTANA_MEDIA_DIAS - 1))
+    const ventana = ordenados.filter((q) => q.fecha >= desde && q.fecha <= p.fecha)
+    const media = ventana.reduce((a, q) => a + q.kg, 0) / ventana.length
+    return { fecha: p.fecha, kg: p.kg, media: Math.round(media * 100) / 100 }
+  })
+}

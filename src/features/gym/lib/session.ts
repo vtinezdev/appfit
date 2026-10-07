@@ -1,5 +1,7 @@
 /** Estado de interacción de la sesión: no modifica series, esquema Dexie ni copias de seguridad. */
-export interface SessionUI { completed: number[]; restSeconds: number; restEndsAt: number | null }
+export interface SessionUI { completed: number[]; restSeconds: number; restEndsAt: number | null
+  /** Duración del descanso en curso (puede venir del objetivo del ejercicio y no del global). */
+  restTotal?: number }
 export const emptySession = (): SessionUI => ({ completed: [], restSeconds: 0, restEndsAt: null })
 const key = (id: number) => `appfit:workout-ui:${id}`
 
@@ -11,6 +13,7 @@ export function readSession(id: number): SessionUI {
       completed: value.completed.filter((n: unknown) => typeof n === 'number' && Number.isSafeInteger(n) && n > 0),
       restSeconds: [0, 60, 90, 120].includes(value.restSeconds) ? value.restSeconds : 0,
       restEndsAt: typeof value.restEndsAt === 'number' && Number.isFinite(value.restEndsAt) ? value.restEndsAt : null,
+      ...(typeof value.restTotal === 'number' && value.restTotal > 0 && value.restTotal <= 3600 ? { restTotal: value.restTotal } : {}),
     }
   } catch { return emptySession() }
 }
@@ -22,4 +25,9 @@ export function remainingSeconds(endsAt: number, now = Date.now()) { return Math
 export function clockText(seconds: number) {
   const total = Math.max(0, Math.floor(seconds))
   return `${Math.floor(total / 60).toString().padStart(2, '0')}:${(total % 60).toString().padStart(2, '0')}`
+}
+
+/** Descanso tras una serie: el del objetivo del ejercicio si lo tiene; si no, el global (0 = sin temporizador). */
+export function descansoParaEjercicio(descansoObjetivo: number | undefined, global: number): number {
+  return descansoObjetivo !== undefined && descansoObjetivo > 0 ? descansoObjetivo : global
 }

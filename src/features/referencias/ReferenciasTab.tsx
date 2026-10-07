@@ -12,6 +12,7 @@ import Disclosure from '../../shared/components/Disclosure'
 import { EmptyState, LoadingState } from '../../shared/components/StateMessage'
 import ReferenciaNutrienteContenido from './components/ReferenciaNutrienteContenido'
 import EnergiaReferencias from './components/EnergiaReferencias'
+import ProteinaAguaReferencias from './components/ProteinaAguaReferencias'
 import { AREAS_REFERENCIAS, FUENTES_CATALOGO, GRUPOS_ALIMENTARIOS, RECOMENDACIONES_ALIMENTARIAS, SOBRE_LOS_DATOS, type AreaReferencias } from './lib/contenidoReferencias'
 import { formatNumber } from '../../shared/lib/format'
 
@@ -72,6 +73,7 @@ export default function ReferenciasTab({ nutrienteInicial, areaInicial }: { nutr
         })}
       </div>}
       {area === 'energia' && <EnergiaReferencias />}
+      {area === 'proteina-agua' && <ProteinaAguaReferencias />}
       {area === 'alimentarias' && (RECOMENDACIONES_ALIMENTARIAS.length === 0 ? <EmptyState icon="utensils" title="Recomendaciones aún no definidas">Todavía no hay referencias por grupos de alimentos. Se mostrarán aquí cuando sus criterios y fuentes estén definidos.</EmptyState> :
         <div className="space-y-section">{RECOMENDACIONES_ALIMENTARIAS.map(r => <section key={r.grupo} className="space-y-2">
           <h3 className="text-title font-semibold text-fg">{GRUPOS_ALIMENTARIOS.find(g => g.id === r.grupo)?.nombre}</h3>

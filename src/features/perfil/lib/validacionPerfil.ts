@@ -4,6 +4,7 @@ import type { ActividadPerfil, IntensidadKcal, ObjetivoPerfil, Perfil, SexoPerfi
 import { parseISODate, toISODate } from '../../../shared/lib/dates'
 import { round1 } from '../../../shared/lib/format'
 import { validarPeso } from '../../inicio/lib/peso'
+import { validarProteinaPorKg } from './proteina'
 
 export const SEXOS: readonly SexoPerfil[] = ['hombre', 'mujer']
 export const ACTIVIDADES: readonly ActividadPerfil[] = ['sedentario', 'ligero', 'moderado', 'activo', 'muy-activo']
@@ -82,6 +83,12 @@ export function normalizarPerfil(crudo: unknown): Perfil {
   if (objetivo) perfil.objetivo = objetivo
   const intensidad = enLista(INTENSIDADES_KCAL, c.intensidadKcal)
   if (intensidad) perfil.intensidadKcal = intensidad
+  if (typeof c.proteinaPorKgActiva === 'boolean') perfil.proteinaPorKgActiva = c.proteinaPorKgActiva
+  if (typeof c.usarGastoObservado === 'boolean') perfil.usarGastoObservado = c.usarGastoObservado
+  if (typeof c.proteinaPorKg === 'number') {
+    const g = validarProteinaPorKg(c.proteinaPorKg)
+    if (g !== null) perfil.proteinaPorKg = g
+  }
   return perfil
 }
 

@@ -15,6 +15,11 @@ export function delDia(fecha: string): Promise<Entry[]> {
   return db.entries.where('fecha').equals(fecha).toArray()
 }
 
+/** Fechas (YYYY-MM-DD) con alguna entrada, sin repetir. Solo lectura. */
+export async function fechasConRegistro(): Promise<string[]> {
+  return (await db.entries.orderBy('fecha').uniqueKeys()) as string[]
+}
+
 /** Entradas entre dos fechas YYYY-MM-DD, ambas incluidas. */
 export function entreFechas(desde: string, hasta: string): Promise<Entry[]> {
   return db.entries.where('fecha').between(desde, hasta, true, true).toArray()

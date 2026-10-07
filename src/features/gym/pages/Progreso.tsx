@@ -4,7 +4,7 @@ import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'rec
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
-import { epley1RM, pesoMaximo, volumenSets } from '../lib/workout'
+import { efectivas, epley1RM, pesoMaximo, volumenSets } from '../lib/workout'
 import { chartAxis, chartColors, chartTooltip } from '../../../shared/design/chart'
 import { Select } from '../../../shared/components/Input'
 import Metric from '../../../shared/components/Metric'
@@ -33,7 +33,7 @@ export default function Progreso() {
     .map(([workoutId, ss]) => {
       const w = workoutMap.get(workoutId)
       if (!w) return null
-      const mejores1RM = (ss ?? []).map((s) => epley1RM(s.peso, s.reps))
+      const mejores1RM = efectivas(ss ?? []).map((s) => epley1RM(s.peso, s.reps))
       return {
         fecha: new Date(w.inicio).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }),
         inicio: w.inicio,

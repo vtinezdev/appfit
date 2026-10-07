@@ -33,7 +33,9 @@ function Cadena({ e }: { e: EnergiaOk }) {
   const objetivo = e.objetivoAplicado
   return <ListGroup variante="plana" aria-label="Cálculo de tu energía diaria">
     <Fila etiqueta={`Gasto en reposo (media de ${formatNumber(METODO_TMB.ecuaciones.length)} ecuaciones)`} valor={formatNumber(e.tmb.valor)} />
-    <Fila etiqueta="Gasto diario estimado" detalle={`× ${formatNumber(e.factor, 3)} · ${nivel.etiqueta.toLowerCase()}`} valor={formatNumber(e.get)} />
+    {e.origenGet === 'observado'
+      ? <Fila etiqueta="Gasto diario observado" detalle={`En lugar del estimado (${formatNumber(Math.round(e.getEstimado))} kcal)`} valor={formatNumber(e.get)} />
+      : <Fila etiqueta="Gasto diario estimado" detalle={`× ${formatNumber(e.factor, 3)} · ${nivel.etiqueta.toLowerCase()}`} valor={formatNumber(e.get)} />}
     {objetivo && <Fila etiqueta={`Ajuste · ${ETIQUETAS_OBJETIVO[objetivo].toLowerCase()}`} valor={formatSigned(e.ajusteKcal)} />}
   </ListGroup>
 }

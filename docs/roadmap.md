@@ -11,44 +11,43 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Exportar el backup (`<a download>` con un blob) desde la PWA instalada.
 - Inicio minimalista con rueda de energía (§79): tacto de las tarjetas y del «+» del peso, y nitidez de la rueda en pantalla Retina. Probado en Edge emulado a 320/375/430 px.
 - Persistencia (§44): trasladar una copia de Safari al acceso de pantalla de inicio, cerrar/reabrir y actualizar la PWA en la misma dirección. Comprobado en Chromium con perfil persistente y modos de iOS emulados; confirmar el comportamiento del almacenamiento y del permiso en WebKit.
+- Perfil y menú de seis destinos (§74): selector de fecha nativo, campo de altura con teclado decimal (coma), Sheets con teclado y dianas circulares al tacto. Probado en Edge emulado a 320/375/430 px.
+- Mejoras funcionales (§80): recorridas en Edge emulado a 320/375/430 px en ambos temas; **sin probar en iPhone**: pitido de fin de descanso (Web Audio: iOS puede exigir un gesto previo o silenciar el audio con el interruptor), descarga de varios CSV `<a download>` desde la PWA instalada, selectores `date`/`time` nativos al editar un entreno y teclado real en los Sheets de raciones, recetas y medidas.
 
 ## Limitaciones conocidas
 
 - Ilustraciones de ejercicios: los 116 tienen ilustración propia (IA, revisadas en hoja de contactos). Pequeñas licencias del modelo aceptadas: remo en T a una mano con la barra en landmine en vez de agarre en V. Al añadir un ejercicio al catálogo hay que añadirlo a `scripts/ejercicios/ilustraciones.json` (lote nuevo o imagen suelta `ia/<slug>.png`). Ver `scripts/ejercicios/README.md`.
-- Perfil: los factores de actividad (1,2–1,9) se atribuyen a McArdle, Katch y Katch (1996) sin haber verificado la edición ni una derivación experimental; la cifra de 600 kcal/día de NICE procede de CG189 y no se ha cotejado en NG246. La media de Mifflin y Roza-Shizgal es criterio de AppFit, no un método publicado. Perfil y el nuevo menú de seis destinos no se han probado en un navegador ni en un iPhone real (Playwright no estaba instalado).
+- Perfil: los factores de actividad (1,2–1,9) se atribuyen a McArdle, Katch y Katch (1996) sin haber verificado la edición ni una derivación experimental; la cifra de 600 kcal/día de NICE procede de CG189 y no se ha cotejado en NG246. La media de Mifflin y Roza-Shizgal es criterio de AppFit, no un método publicado. Los scripts `scripts/ui/validar-*.cjs` adaptados a Perfil no se han ejecutado (rutas fijas a `/usr/bin/chromium` y al puerto 5174); el recorrido se probó con un script propio en Edge (PROCESO §74).
 - Ajustes: los campos de objetivos diarios desbordan a 375 px con texto al 200% (fila sin wrap y anchos fijos). Detectado al confirmar los fondos claros; pendiente de adaptación del formulario, sin relación con la capa fotográfica.
-- No se puede borrar un pesaje (solo se sustituye el del día).
 - Buscador e intérprete priorizan los básicos compartidos en `catalogo/preferidos.ts`; arroz, pasta y pollo sin más detalle se eligen en crudo. Si se pesa en cocido, especificarlo o usar «Cambiar». Si aún hay ruido, valorar sugerencias prioritarias con «Ver más variantes», sin fusionar alimentos por nombre.
 - Catálogo: no hay genéricos españoles (manchego, tortilla de patata…); la categoría y la detección de idioma de Open Food Facts son heurísticas (ver `scripts/catalogo/README.md`).
 - «Alimentos» ya no muestra la procedencia de cada alimento (se quitó en §38).
 - El `theme_color` del manifest es el claro; el meta de la página se adapta al tema.
+- Gasto observado (Perfil): exige 28 días con ≥ 80 % de comidas registradas y 2 pesajes por semana; usa 7.700 kcal/kg (aproximación, Hall 2008), el peso varía por agua y sal y el registro de comida suele quedarse corto. Es orientativo y no sustituye al estimado salvo que se active.
+- Proteína por kg y agua: rango 1,6–2,2 g/kg (Morton 2018, Jäger 2017) verificado con el texto de las fuentes; el objetivo de agua (2,0/1,6 L) parte de EFSA (2010) con un 20 % descontado por la humedad de los alimentos, que es criterio de AppFit y no una cifra de EFSA (el resumen de EFSA no da ese porcentaje; efsa.europa.eu rechazó la consulta directa y se leyó una copia archivada). Si sale una fuente mejor para el descuento, sustituirlo.
+- Objetivo por día: los días anteriores a esta versión no tienen snapshot y se comparan con el objetivo vigente; registrar comida de un día pasado congela el vigente de ese momento. Cambiar de peso o de Perfil no reescribe días con snapshot.
+- Récords: un ejercicio sin historial previo no genera récords; las repeticiones solo se comparan con pesos ya usados. Un entreno registrado a posteriori se compara por su fecha de inicio.
+- Raciones propias: solo de una palabra y solo en alimentos propios o del catálogo (se gestionan desde la revisión, no hay ficha del alimento del catálogo). Recetas: los ingredientes son un snapshot; no se vuelven a calcular si cambia el alimento de origen.
+- Medidas corporales y agua: sin gráficas, solo último valor, variación e historial.
 
 ## Ideas sin empezar
 
 Registro:
-- **Porciones propias por alimento** («1 rebanada de mi pan = 35 g»). Hoy solo existen las raciones fijas del intérprete.
-- **Recetas caseras**: ingredientes + peso cocinado, y registrar gramos de la receta. `Meal` está pensado para admitir un peso cocinado opcional.
+- Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.
+
+Gimnasio:
+- **Sugerencia de progresión** (doble progresión: subir el peso cuando todas las series alcanzan el máximo del rango con el mismo peso; si no, +1 rep). Aplazada: el incremento depende del ejercicio (no es 2,5 kg para todos), así que primero hay que decidir cómo se configura por ejercicio. Los objetivos de rutina ya existen; la sugerencia se mostraría como pista con «Aplicar», sin aplicarse sola.
 
 Cuerpo y objetivos:
-- Media móvil de 7 días del peso (hoy solo la variación a 7 días).
-- Proteína por g/kg de peso (p. ej. 1,6–2,2 g/kg, Iraki 2019/ISSN) en lugar de reescalar por reparto: hoy, al bajar las kcal en definición, baja también la proteína.
-- Histórico de objetivos: los días pasados de Hoy y Resumen se comparan con el objetivo vigente, no con el que había entonces (el objetivo del Perfil cambia con el peso, la edad y los datos).
-- Objetivos distintos en días de entreno y de descanso (primera integración real Gym ↔ Nutrición).
-- Agua.
+- Objetivos distintos en días de entreno y de descanso (kcal extra a hidratos): la integración Gym ↔ Nutrición se decidirá más adelante.
 - Definir recomendaciones contrastadas por grupos de alimentos y comparar raciones con el consumo real. La sección Referencias y sus tipos ya están preparados; faltan fuentes, valores y clasificación de alimentos, sin recomendaciones ficticias.
 
 Análisis:
-- TDEE adaptativo con el peso y las kcal registradas (necesita semanas de datos); sustituiría o corregiría la estimación por ecuaciones de Perfil.
-- Adherencia: % de días dentro de ±10 % del objetivo y rachas.
-- Alimentos que más kcal o proteína aportan en un periodo.
-- Exportar CSV de entradas y pesos.
+- Gráficas de agua y de medidas corporales; variación de la media de peso en Inicio.
 
 Calidad de datos:
 - Aviso de coherencia energética (kcal frente a 4·P + 4·C + 9·G) en la revisión y en Alimentos; la tubería del catálogo ya tiene uno (`calidad.ts`).
 - Alias y fusión de alimentos propios duplicados («pechuga de pollo» / «pollo, pechuga»), reasignando entradas y plantillas.
-
-Experiencia:
-- Recordatorio de backup («hace 14 días que no exportas»).
 
 Catálogo:
 - BEDCA como fuente, si AESAN/BEDCA lo autorizan (ver `scripts/catalogo/README.md`).

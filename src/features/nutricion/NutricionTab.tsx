@@ -6,6 +6,7 @@ import ViewTabs from '../../shared/components/ViewTabs'
 import { IconButton } from '../../shared/components/Button'
 import KcalRapidasSheet from './components/KcalRapidasSheet'
 import * as entriesRepo from './data/entriesRepo'
+import { congelarObjetivoDia } from '../perfil/data/objetivosDiaRepo'
 import { validarKcalRapidas, type KcalRapidasDraft } from './lib/alimentos'
 import Alimentos from './pages/Alimentos'
 import AnadirComida from './pages/AnadirComida'
@@ -93,7 +94,7 @@ export default function NutricionTab({ anadirAlAbrir = false, onVerReferencia }:
       </ViewTabs>
 
       {mostrarAnadir && (
-        <AnadirComida fecha={entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fecha} entryEditar={entryEditar} platoDestino={platoEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={cerrarAnadir} />
+        <AnadirComida fecha={entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fecha} entryEditar={entryEditar} platoDestino={platoEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={() => { void congelarObjetivoDia(entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fecha); cerrarAnadir() }} />
       )}
 
       <KcalRapidasSheet

@@ -18,21 +18,26 @@ export function delEjercicio(exerciseId: number): Promise<SetEntry[]> {
   return db.sets.where('exerciseId').equals(exerciseId).toArray()
 }
 
+/** Última serie efectiva (no de calentamiento) del ejercicio, de cualquier entreno. Solo lectura. */
+export function ultimaEfectiva(exerciseId: number): Promise<SetEntry | undefined> {
+  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento').first()
+}
+
 /**
  * Añade una serie al ejercicio dentro del entreno, repitiendo reps y peso de la última serie
  * de ese ejercicio. El `orden` se calcula dentro de la transacción: dos toques seguidos dan dos
  * series con órdenes distintos.
  */
-export function agregar(workoutId: number, exerciseId: number): Promise<number> {
+export function agregar(workoutId: number, exerciseId: number, createdAt: number = Date.now()): Promise<number> {
   return db.transaction('rw', db.sets, async () => {
     const delEntreno = await db.sets.where('workoutId').equals(workoutId).filter((s) => s.exerciseId === exerciseId).toArray()
-    const previa = await db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).last()
+    const previa = await ultimaEfectiva(exerciseId)
     return db.sets.add({
       workoutId,
       exerciseId,
       orden: siguienteOrden(delEntreno),
       ...valoresNuevaSerie(previa),
-      createdAt: Date.now(),
+      createdAt,
     })
   })
 }
@@ -46,14 +51,15 @@ export function agregarConEjercicio(workoutId: number, nombre: string): Promise<
 }
 
 /** Resolver identidad y primera serie en una sola transacción: un fallo no deja un ejercicio huérfano. */
-export function agregarSeleccion(workoutId: number, seleccion: SeleccionEjercicio): Promise<number> {
+export function agregarSeleccion(workoutId: number, seleccion: SeleccionEjercicio, createdAt: number = Date.now()): Promise<number> {
   return db.transaction('rw', db.exercises, db.sets, async () => {
     const exerciseId = await exercisesRepo.resolverSeleccion(seleccion)
-    return agregar(workoutId, exerciseId)
+    return agregar(workoutId, exerciseId, createdAt)
   })
 }
 
-export async function actualizar(id: number, patch: Partial<Pick<SetEntry, 'reps' | 'peso'>>): Promise<void> {
+/** `tipo`/`rir` con `undefined` borran el campo (serie efectiva / sin RIR). */
+export async function actualizar(id: number, patch: Partial<Pick<SetEntry, 'reps' | 'peso' | 'tipo' | 'rir'>>): Promise<void> {
   await db.sets.update(id, patch)
 }
 

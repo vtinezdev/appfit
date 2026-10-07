@@ -16,6 +16,7 @@ const PerfilTab = lazy(() => import('../features/perfil/PerfilTab'))
 export default function App() {
   const [tab, setTab] = useState<Tab>('inicio')
   const [abrirGuia, setAbrirGuia] = useState(false)
+  const [abrirCopia, setAbrirCopia] = useState(false)
   const [anadirAlAbrir, setAnadirAlAbrir] = useState(false)
   const [referenciaInicial, setReferenciaInicial] = useState<NutrienteId | undefined>(undefined)
   const [areaReferencias, setAreaReferencias] = useState<AreaReferencias | undefined>(undefined)
@@ -23,6 +24,7 @@ export default function App() {
 
   function navegar(siguiente: Tab) {
     setAbrirGuia(false)
+    setAbrirCopia(false)
     setAnadirAlAbrir(false)
     setReferenciaInicial(undefined)
     setAreaReferencias(undefined)
@@ -41,12 +43,12 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view mx-auto w-full max-w-lg pb-6">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onAnadirComida={() => irANutricion(true)} onIrAGym={() => navegar('gym')}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onAnadirComida={() => irANutricion(true)} onIrAGym={() => navegar('gym')} onExportarCopia={() => { navegar('ajustes'); setAbrirCopia(true) }}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => { navegar('ajustes'); setAbrirGuia(true) }} />} />}
         {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
         {tab === 'gym' && <GymTab />}
         {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { navegar('referencias'); setAreaReferencias('energia') }} /></Suspense>}
-        {tab === 'ajustes' && <Ajustes abrirGuia={abrirGuia} onIrAPerfil={() => navegar('perfil')} />}
+        {tab === 'ajustes' && <Ajustes abrirGuia={abrirGuia} abrirCopia={abrirCopia} onIrAPerfil={() => navegar('perfil')} />}
         {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} /></Suspense>}
         </div>
       </main>

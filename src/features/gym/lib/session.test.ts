@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, afterEach } from 'vitest'
-import { clearSession, clockText, emptySession, readSession, remainingSeconds, writeSession } from './session'
+import { clearSession, clockText, descansoParaEjercicio, emptySession, readSession, remainingSeconds, writeSession } from './session'
 afterEach(() => vi.unstubAllGlobals())
 describe('estado de interacción del entreno, independiente de los datos', () => {
   it('sin storage o con JSON inválido funciona en memoria', () => {
@@ -30,5 +30,10 @@ describe('estado de interacción del entreno, independiente de los datos', () =>
   })
   it.each([[0, '00:00'], [9, '00:09'], [90, '01:30'], [3661, '61:01'], [-1, '00:00']])('formatea %s como %s sin contar desde cero', (seconds, value) => {
     expect(clockText(seconds as number)).toBe(value)
+  })
+  it('el descanso por ejercicio manda sobre el global', () => {
+    expect(descansoParaEjercicio(150, 90)).toBe(150)
+    expect(descansoParaEjercicio(undefined, 90)).toBe(90)
+    expect(descansoParaEjercicio(0, 0)).toBe(0)
   })
 })

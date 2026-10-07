@@ -30,8 +30,8 @@ export interface TrabajoMuscular {
 }
 
 /** Serie positiva; 0 kg no inventa masa corporal. Peso relativo al máximo DEL MISMO ejercicio/sesión. */
-export function calcularCargaEjercicio(series: Pick<SetEntry, 'reps' | 'peso'>[]): CargaEjercicio {
-  const validas = series.filter(s => positivo(s.reps) > 0)
+export function calcularCargaEjercicio(series: (Pick<SetEntry, 'reps' | 'peso'> & { tipo?: SetEntry['tipo'] })[]): CargaEjercicio {
+  const validas = series.filter(s => s.tipo !== 'calentamiento' && positivo(s.reps) > 0)
   let maxPeso = 0
   for (const s of validas) maxPeso = Math.max(maxPeso, positivo(s.peso))
   const result: CargaEjercicio = { stimulus: 0, sets: validas.length, reps: 0, externalVolume: 0 }
@@ -56,9 +56,9 @@ export function crearSnapshotMuscular(series: Pick<SetEntry, 'exerciseId'>[], ej
   }) }
 }
 
-export function agregarCargaMuscular(series: Pick<SetEntry, 'exerciseId' | 'reps' | 'peso'>[], clasificaciones: WorkoutExerciseMuscles[]): TrabajoMuscular {
+export function agregarCargaMuscular(series: (Pick<SetEntry, 'exerciseId' | 'reps' | 'peso'> & { tipo?: SetEntry['tipo'] })[], clasificaciones: WorkoutExerciseMuscles[]): TrabajoMuscular {
   const muscles = Object.fromEntries(ZONAS_MUSCULARES.map(m => [m, { score: 0, exercises: [] as AporteMuscular[] }])) as TrabajoMuscular['muscles']
-  const porEjercicio = new Map<number, Pick<SetEntry, 'exerciseId' | 'reps' | 'peso'>[]>()
+  const porEjercicio = new Map<number, typeof series>()
   for (const s of series) { const arr = porEjercicio.get(s.exerciseId) ?? []; arr.push(s); porEjercicio.set(s.exerciseId, arr) }
   const clasificacion = new Map(clasificaciones.map(e => [e.exerciseId, e]))
   const result: TrabajoMuscular = { muscles, coverage: { classified: 0, total: 0, unclassifiedSets: 0 }, unclassified: [] }

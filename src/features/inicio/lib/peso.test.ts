@@ -50,3 +50,26 @@ describe('fraseVariacion', () => {
     expect(fraseVariacion(0)).toBe('Sin cambios en 7 días')
   })
 })
+
+import { mediaMovilPeso } from './peso'
+
+describe('mediaMovilPeso', () => {
+  it('promedia los pesajes de los 7 días naturales que acaban en cada fecha', () => {
+    const r = mediaMovilPeso([
+      { fecha: '2026-10-07', kg: 70 }, { fecha: '2026-10-01', kg: 72 }, { fecha: '2026-10-03', kg: 71 }, { fecha: '2026-09-20', kg: 80 },
+    ])
+    expect(r.map((p) => p.fecha)).toEqual(['2026-09-20', '2026-10-01', '2026-10-03', '2026-10-07'])
+    expect(r[0].media).toBe(80)
+    expect(r[1].media).toBe(72)
+    expect(r[2].media).toBe(71.5)
+    // el 7 de octubre: ventana 1–7 → 72, 71, 70
+    expect(r[3].media).toBe(71)
+  })
+  it('el 1 de octubre no entra en la ventana del 8', () => {
+    const r = mediaMovilPeso([{ fecha: '2026-10-01', kg: 72 }, { fecha: '2026-10-08', kg: 70 }])
+    expect(r[1].media).toBe(70)
+  })
+  it('sin pesajes devuelve vacío', () => {
+    expect(mediaMovilPeso([])).toEqual([])
+  })
+})

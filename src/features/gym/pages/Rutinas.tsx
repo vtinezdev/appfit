@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as routinesRepo from '../data/routinesRepo'
+import type { ObjetivoEjercicio } from '../../../shared/db/types'
 import SelectorEjercicios from '../components/SelectorEjercicios'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import Sheet from '../../../shared/components/Sheet'
@@ -12,12 +13,16 @@ import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
 import { Input } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
+import ObjetivoRutina from '../components/ObjetivoRutina'
+import MisEjercicios from '../components/MisEjercicios'
+import { moverElemento } from '../lib/workout'
 
 export default function Rutinas() {
   const [editando, setEditando] = useState<routinesRepo.RoutineInput | null>(null)
   const [seleccionando, setSeleccionando] = useState(false)
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false)
   const [ocupado, setOcupado] = useState(false)
+  const [misEjercicios, setMisEjercicios] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
   const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
@@ -68,7 +73,19 @@ export default function Rutinas() {
 
   function quitarEjercicio(id: number) {
     if (!editando) return
-    setEditando({ ...editando, exerciseIds: editando.exerciseIds.filter((e) => e !== id) })
+    const { [id]: _quitado, ...objetivos } = editando.objetivos ?? {}
+    setEditando({ ...editando, exerciseIds: editando.exerciseIds.filter((e) => e !== id), objetivos })
+  }
+
+  function moverEjercicio(indice: number, delta: -1 | 1) {
+    if (!editando) return
+    setEditando({ ...editando, exerciseIds: moverElemento(editando.exerciseIds, indice, delta) })
+  }
+
+  function cambiarObjetivo(id: number, objetivo: ObjetivoEjercicio | undefined) {
+    if (!editando) return
+    const { [id]: _anterior, ...resto } = editando.objetivos ?? {}
+    setEditando({ ...editando, objetivos: objetivo ? { ...resto, [id]: objetivo } : resto })
   }
 
   return (
@@ -77,6 +94,7 @@ export default function Rutinas() {
         <Icon name="plus" size={18} />
         Nueva rutina
       </Button>
+      <Button variant="subtle" block onClick={() => setMisEjercicios(true)}>Mis ejercicios</Button>
 
       {rutinas?.length === 0 && <EmptyState icon="dumbbell" title="Todavía no tienes rutinas">Crea una para empezar tus entrenos con los ejercicios ya elegidos.</EmptyState>}
       {rutinas && rutinas.length > 0 && (
@@ -130,12 +148,20 @@ export default function Rutinas() {
             /></label>
 
             <div className="space-y-1">
-              {editando.exerciseIds.map((id, i) => (
-                <div key={id} className="flex min-h-touch items-center justify-between gap-2 border-b border-line py-1">
-                  <span className="tabular text-caption text-fg-muted">{i + 1}</span><span className="min-w-0 flex-1 break-words text-body text-fg">{exerciseMap.get(id)?.nombre ?? '…'}</span>
-                  <IconButton icon="close" label={`Quitar ${exerciseMap.get(id)?.nombre ?? 'ejercicio'}`} variant="ghost" size="sm" onClick={() => quitarEjercicio(id)} />
-                </div>
-              ))}
+              {editando.exerciseIds.map((id, i) => {
+                const nombre = exerciseMap.get(id)?.nombre ?? 'ejercicio'
+                return (
+                  <div key={id} className="border-b border-line py-1">
+                    <div className="flex min-h-touch items-center justify-between gap-1">
+                      <span className="tabular w-5 shrink-0 text-caption text-fg-muted">{i + 1}</span><span className="min-w-0 flex-1 break-words text-body text-fg">{exerciseMap.get(id)?.nombre ?? '…'}</span>
+                      <IconButton icon="chevron-left" label={`Subir ${nombre}`} variant="ghost" size="sm" className="rotate-90" disabled={i === 0} onClick={() => moverEjercicio(i, -1)} />
+                      <IconButton icon="chevron-right" label={`Bajar ${nombre}`} variant="ghost" size="sm" className="rotate-90" disabled={i === editando.exerciseIds.length - 1} onClick={() => moverEjercicio(i, 1)} />
+                      <IconButton icon="close" label={`Quitar ${nombre}`} variant="ghost" size="sm" onClick={() => quitarEjercicio(id)} />
+                    </div>
+                    <ObjetivoRutina nombre={nombre} objetivo={editando.objetivos?.[id]} onChange={(o) => cambiarObjetivo(id, o)} />
+                  </div>
+                )
+              })}
             </div>
 
             <Button variant="secondary" block onClick={() => setSeleccionando(true)}><Icon name="plus" size={18} />Añadir ejercicio</Button>
@@ -144,6 +170,7 @@ export default function Rutinas() {
           </div>
         )}
       </Sheet>
+      {misEjercicios && <MisEjercicios onClose={() => setMisEjercicios(false)} />}
       {seleccionando && editando && <SelectorEjercicios excluir={editando.exerciseIds} onClose={() => setSeleccionando(false)} onElegir={agregarEjercicio} />}
     </div>
   )

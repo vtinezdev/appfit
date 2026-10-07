@@ -6,7 +6,7 @@ import * as entriesRepo from '../data/entriesRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
 import type { Comida, Entry } from '../../../shared/db/types'
 import { addDays, formatFriendly, todayISO } from '../../../shared/lib/dates'
-import { objetivosVigentes } from '../../perfil/data/perfilRepo'
+import { congelarObjetivoDia, objetivosDe } from '../../perfil/data/objetivosDiaRepo'
 import AccionesComidaSheet from '../components/AccionesComidaSheet'
 import ComidaSection from '../components/ComidaSection'
 import CopiarDiaSheet from '../components/CopiarDiaSheet'
@@ -44,7 +44,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
   const nombresCortos = useLiveQuery(() => nombresAlimentosRepo.paraComida(entries ?? []), [entries]) ?? new Map()
   const entriesAyer = useLiveQuery(() => entriesRepo.delDia(ayer), [ayer])
-  const vigentes = useLiveQuery(() => objetivosVigentes(todayISO()), [])
+  const vigentes = useLiveQuery(() => objetivosDe(fecha, todayISO()), [fecha])
   const { avisar, avisarError, toast } = useAviso()
   const [copiarDia, setCopiarDia] = useState<{ fechaDestino: string } | null>(null)
   const [copiandoDia, setCopiandoDia] = useState(false)
@@ -128,6 +128,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
     setErrorCopia(null)
     try {
       const ids = await entriesRepo.copiar({ origen: { fecha }, destino: { fecha: copiarDia.fechaDestino } })
+      void congelarObjetivoDia(copiarDia.fechaDestino)
       setCopiarDia(null)
       avisarCopia(ids)
     } catch {
@@ -145,7 +146,9 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
     if (repitiendo) return
     setRepitiendo(c)
     try {
-      avisarCopia(await entriesRepo.copiar({ origen: { fecha: ayer, comida: c }, destino: { fecha, comida: c } }))
+      const ids = await entriesRepo.copiar({ origen: { fecha: ayer, comida: c }, destino: { fecha, comida: c } })
+      void congelarObjetivoDia(fecha)
+      avisarCopia(ids)
     } catch {
       avisarError('No se ha podido repetir la comida. Inténtalo de nuevo.')
     } finally {

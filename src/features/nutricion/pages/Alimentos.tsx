@@ -3,11 +3,16 @@ import { formatInt } from '../../../shared/lib/format'
 import { useLiveQuery } from 'dexie-react-hooks'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
-import type { Meal } from '../../../shared/db/types'
+import type { Meal, Receta } from '../../../shared/db/types'
+import * as recetasRepo from '../data/recetasRepo'
+import EditorReceta from '../components/EditorReceta'
+import { por100DeReceta } from '../lib/recetas'
 import * as foodsRepo from '../data/foodsRepo'
 import * as mealsRepo from '../data/mealsRepo'
 import GestionPlantillaSheet from '../components/GestionPlantillaSheet'
 import MacroInputs from '../components/MacroInputs'
+import PorcionesAlimento from '../components/PorcionesAlimento'
+import Disclosure from '../../../shared/components/Disclosure'
 import { filtrarAlimentos } from '../lib/alimentos'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
@@ -20,11 +25,12 @@ import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
 
 type FoodDraft = foodsRepo.FoodInput & { id?: number }
-type Vista = 'alimentos' | 'plantillas'
+type Vista = 'alimentos' | 'plantillas' | 'recetas'
 
 const VISTAS: { valor: Vista; label: string }[] = [
   { valor: 'alimentos', label: 'Alimentos' },
   { valor: 'plantillas', label: 'Plantillas' },
+  { valor: 'recetas', label: 'Recetas' },
 ]
 
 export default function Alimentos() {
@@ -33,6 +39,9 @@ export default function Alimentos() {
   const [editando, setEditando] = useState<FoodDraft | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [plantillaEditando, setPlantillaEditando] = useState<Meal | null>(null)
+  const [recetaEditando, setRecetaEditando] = useState<Receta | 'nueva' | null>(null)
+  const recetas = useLiveQuery(() => recetasRepo.listar(), [])
+  const recetaDelAlimento = editando?.id !== undefined ? recetas?.find((r) => r.foodId === editando.id) : undefined
   const foods = useLiveQuery(() => foodsRepo.listar(), [])
   const plantillas = useLiveQuery(() => mealsRepo.listar(), [])
   const { avisar, toast } = useAviso()
@@ -135,6 +144,33 @@ export default function Alimentos() {
         </div>
       )}
 
+      {vista === 'recetas' && (
+        <div className="space-y-stack">
+          <Button block onClick={() => setRecetaEditando('nueva')}><Icon name="plus" size={18} />Nueva receta</Button>
+          {recetas?.length === 0 && <EmptyState icon="utensils" title="Aún no hay recetas">Crea una receta con sus ingredientes y su peso cocinado: se convierte en un alimento con los valores por 100 g.</EmptyState>}
+          {recetas && recetas.length > 0 && (
+            <ListGroup aria-label="Tus recetas">
+              {recetas.map((r) => {
+                const v = por100DeReceta(r.ingredientes, r.pesoCocinadoG)
+                return (
+                  <li key={r.id}>
+                    <ListRow onClick={() => setRecetaEditando(r)}>
+                      <div className="min-w-0 flex-1">
+                        <p className="break-words text-body font-medium text-fg">{r.nombre}</p>
+                        <p className="tabular text-caption text-fg-muted">{r.ingredientes.length} ingrediente{r.ingredientes.length === 1 ? '' : 's'} · {formatInt(r.pesoCocinadoG)} g cocinados</p>
+                      </div>
+                      <Metric size="title" align="right" valor={formatInt(v.kcal100)} unidad="kcal/100 g" />
+                    </ListRow>
+                  </li>
+                )
+              })}
+            </ListGroup>
+          )}
+        </div>
+      )}
+
+      {recetaEditando && <EditorReceta key={recetaEditando === 'nueva' ? 'nueva' : recetaEditando.id} receta={recetaEditando === 'nueva' ? undefined : recetaEditando} onClose={() => setRecetaEditando(null)} />}
+
       <Sheet open={editando !== null} onClose={() => abrir(null)} title={editando?.id ? 'Editar alimento' : 'Nuevo alimento'} footer={editando && <div className="space-y-2">            {error && <ErrorState>{error}</ErrorState>}
             <div className="flex gap-2">
               {editando.id && (
@@ -153,7 +189,10 @@ export default function Alimentos() {
               onChange={(e) => setEditando({ ...editando, nombre: e.target.value })}
               placeholder="Nombre"
             /></label>
+            {recetaDelAlimento && <p className="text-body-sm text-fg-muted">Este alimento viene de la receta «{recetaDelAlimento.nombre}». Edítala en Recetas: guardar la receta recalcula estos valores.</p>}
             <MacroInputs detallado valores={editando} onChange={(patch) => setEditando({ ...editando, ...patch })} />
+            {editando.id ? <Disclosure title="Raciones propias"><PorcionesAlimento refAlimento={`user:${editando.id}`} /></Disclosure>
+              : <p className="text-caption text-fg-muted">Guarda el alimento para poder añadirle raciones propias («rebanada», «bol»…).</p>}
 
           </div>
         )}

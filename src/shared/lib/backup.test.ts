@@ -23,7 +23,7 @@ function v1ConApiKey(apiKey: string): string {
 describe('importarBackup', () => {
   it('importa entero el backup v1 de referencia (generado con el código de la sesión 01)', async () => {
     await importarBackup(backupV1)
-    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, catalogFoods: 0, catalogSources: 0 })
+    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, catalogFoods: 0, catalogSources: 0 })
     expect((await db.foods.get(1))?.nombre).toBe('Plátano')
     expect(await db.entries.get(9)).toMatchObject({ fecha: '2026-09-28', comida: 'cena', kcal: 330, textoOriginal: 'pollo a la plancha' })
   })
@@ -58,6 +58,9 @@ describe('importarBackup', () => {
   })
 })
 
+/** Importar anota `ultimaExportacion`; para comparar ida y vuelta se ignora ese campo y la hora del export. */
+const sinFechaCopia = (b: Awaited<ReturnType<typeof exportarBackup>>) => ({ ...b, exportedAt: '', settings: b.settings.map(({ ultimaExportacion: _u, ...r }) => r) })
+
 describe('exportarBackup', () => {
   it('exportar e importar conserva platos e ingredientes en entradas y plantillas sin cambiar la versión', async () => {
     await importarBackup(backupV1)
@@ -66,7 +69,7 @@ describe('exportarBackup', () => {
     const entries = (await db.entries.bulkGet([8, 9])).map((e) => e!)
     await db.meals.add({ nombre: 'Cena', items: entries.map(({ id: _id, fecha: _fecha, comida: _comida, createdAt: _createdAt, ...item }) => item), usos: 0, usadoAt: 1, createdAt: 1 })
     const antes = await exportarBackup()
-    expect(antes.version).toBe(2)
+    expect(antes.version).toBe(3)
     await importarBackup(JSON.stringify(antes))
     const despues = await exportarBackup()
     expect(despues.entries).toEqual(antes.entries)
@@ -77,7 +80,7 @@ describe('exportarBackup', () => {
   it('exporta la versión actual sin la API key antigua', async () => {
     await importarBackup(v1ConApiKey('secreta'))
     const b = await exportarBackup()
-    expect(b.version).toBe(2)
+    expect(b.version).toBe(3)
     expect(b.dbVersion).toBe(db.verno)
     expect(b.settings[0]).not.toHaveProperty('apiKey')
     expect(JSON.stringify(b)).not.toContain('secreta')
@@ -96,7 +99,7 @@ describe('exportarBackup', () => {
     await Promise.all(db.tables.map((t) => t.clear()))
     await importarBackup(JSON.stringify(antes))
     const despues = await exportarBackup()
-    expect({ ...despues, exportedAt: '' }).toEqual({ ...antes, exportedAt: '' })
+    expect(sinFechaCopia(despues)).toEqual(sinFechaCopia(antes))
     expect(await db.pesos.count()).toBe(2)
   })
 
@@ -107,11 +110,49 @@ describe('exportarBackup', () => {
   })
 })
 
+describe('ultimaExportacion al importar', () => {
+  it('queda como exportedAt del backup, o la que trae si exportedAt no es válida', async () => {
+    const base = JSON.parse(backupV1)
+    await importarBackup(JSON.stringify({ ...base, version: 2, exportedAt: '2026-09-20T10:00:00.000Z' }))
+    expect((await db.settings.get(1))?.ultimaExportacion).toBe(Date.parse('2026-09-20T10:00:00.000Z'))
+    await importarBackup(JSON.stringify({ ...base, version: 2, exportedAt: 'no es fecha', settings: [{ ...base.settings[0], ultimaExportacion: 12345 }] }))
+    expect((await db.settings.get(1))?.ultimaExportacion).toBe(12345)
+    await importarBackup(JSON.stringify({ ...base, version: 2, exportedAt: '' }))
+    expect((await db.settings.get(1))?.ultimaExportacion).toBeUndefined()
+  })
+})
+
+describe('backup v3', () => {
+  it('ida y vuelta con las tablas nuevas', async () => {
+    await importarBackup(backupV1)
+    await db.porciones.add({ ref: 'user:1', nombre: 'rebanada', nombreNorm: 'rebanada', gramos: 30 })
+    await db.agua.add({ fecha: '2026-10-01', ml: 500 })
+    await db.medidas.add({ fecha: '2026-10-01', cintura: 80 })
+    await db.objetivosDia.add({ fecha: '2026-10-01', objetivos: { kcal: 2000, prot: 150, carb: 200, grasa: 60 }, origen: 'test' })
+    await db.recetas.add({ nombre: 'Guiso', nombreNorm: 'guiso', ingredientes: [], pesoCocinadoG: 500, foodId: 1, createdAt: 1, updatedAt: 1 })
+    const antes = await exportarBackup()
+    await Promise.all(db.tables.map((t) => t.clear()))
+    await importarBackup(JSON.stringify(antes))
+    const despues = await exportarBackup()
+    expect(sinFechaCopia(despues)).toEqual(sinFechaCopia(antes))
+    expect(await db.porciones.count()).toBe(1)
+    expect(await db.recetas.count()).toBe(1)
+  })
+
+  it('importar un v2 vacía las tablas nuevas y sigue funcionando', async () => {
+    await db.agua.add({ fecha: '2026-10-01', ml: 250 })
+    const v2 = { ...JSON.parse(backupV1), version: 2 }
+    await importarBackup(JSON.stringify(v2))
+    expect(await db.agua.count()).toBe(0)
+    expect(await db.foods.count()).toBeGreaterThan(0)
+  })
+})
+
 describe('migrarBackup', () => {
   it('lleva un v1 a v2 sin cambiar los registros', () => {
     const v1 = JSON.parse(backupV1)
     const v2 = migrarBackup(v1)
-    expect(v2).toMatchObject({ version: 2, dbVersion: 1, exportedAt: v1.exportedAt })
+    expect(v2).toMatchObject({ version: 3, dbVersion: 1, exportedAt: v1.exportedAt })
     expect(v2.entries).toEqual(v1.entries)
     expect(v2.sets).toEqual(v1.sets)
     expect(v2.meals).toEqual([])
@@ -126,7 +167,7 @@ describe('migrarBackup', () => {
   })
 
   it('rechaza backups de una versión más nueva con un mensaje claro', () => {
-    expect(() => migrarBackup({ ...JSON.parse(backupV1), version: 3 })).toThrow(/versión más nueva/)
+    expect(() => migrarBackup({ ...JSON.parse(backupV1), version: 4 })).toThrow(/versión más nueva/)
   })
 
   it('rechaza backups a los que les falta una tabla obligatoria o con forma desconocida', () => {
@@ -193,6 +234,6 @@ describe('el catálogo queda fuera de los datos del usuario', () => {
   })
 
   it('los backups v1 existentes siguen importándose (versión del formato sin cambios)', () => {
-    expect(migrarBackup(JSON.parse(backupV1)).version).toBe(2)
+    expect(migrarBackup(JSON.parse(backupV1)).version).toBe(3)
   })
 })

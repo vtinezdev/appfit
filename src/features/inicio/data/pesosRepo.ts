@@ -20,3 +20,21 @@ export function registrar(fecha: string, kg: number): Promise<void> {
 export function ultimoHasta(fecha: string): Promise<Peso | undefined> {
   return db.pesos.where('fecha').belowOrEqual(fecha).last()
 }
+
+/** Borra un pesaje y lo devuelve, para poder deshacer con `restaurar`. */
+export function borrar(id: number): Promise<Peso | undefined> {
+  return db.transaction('rw', db.pesos, async () => {
+    const peso = await db.pesos.get(id)
+    if (peso) await db.pesos.delete(id)
+    return peso
+  })
+}
+
+/** Repone un pesaje borrado con su mismo id. Si entretanto se registró otro peso ese día, no lo pisa y lanza. */
+export function restaurar(peso: Peso): Promise<void> {
+  return db.transaction('rw', db.pesos, async () => {
+    const delDia = await db.pesos.where('fecha').equals(peso.fecha).first()
+    if (delDia && delDia.id !== peso.id) throw new Error('Ya hay un pesaje de ese día.')
+    await db.pesos.put(peso)
+  })
+}

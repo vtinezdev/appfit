@@ -1,6 +1,6 @@
 import { db, TABLAS_USUARIO } from '../db/db'
 import { conDefaults } from '../db/settings'
-import type { Entry, Exercise, Food, Meal, NombreAlimento, NotaMedida, Peso, Routine, SetEntry, Settings, Workout } from '../db/types'
+import type { Agua, Entry, Exercise, Food, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Porcion, Receta, Routine, SetEntry, Settings, Workout } from '../db/types'
 
 /**
  * Formato del backup JSON. Reglas para cambiarlo:
@@ -13,13 +13,13 @@ import type { Entry, Exercise, Food, Meal, NombreAlimento, NotaMedida, Peso, Rou
  * - Cambiar la forma de los registros: sube BACKUP_VERSION y se añade el paso correspondiente en `migrarBackup`.
  *   Lo mismo si un `upgrade()` de Dexie transforma registros, porque importar se salta los upgrades.
  */
-export const BACKUP_VERSION = 2
+export const BACKUP_VERSION = 3
 
 const TABLAS_OBLIGATORIAS = ['foods', 'entries', 'settings', 'exercises', 'routines', 'workouts', 'sets'] as const
-const TABLAS_OPCIONALES = ['meals', 'notasMedida', 'pesos', 'nombresAlimentos'] as const
+const TABLAS_OPCIONALES = ['meals', 'notasMedida', 'pesos', 'nombresAlimentos', 'porciones', 'recetas', 'agua', 'objetivosDia', 'medidas'] as const
 
-export interface BackupV2 {
-  version: 2
+export interface BackupV3 {
+  version: 3
   exportedAt: string
   /** Versión del esquema de Dexie al exportar (informativo). */
   dbVersion: number
@@ -38,6 +38,12 @@ export interface BackupV2 {
   pesos?: Peso[]
   /** Opcional en backups anteriores a los nombres personalizados de alimentos. */
   nombresAlimentos?: NombreAlimento[]
+  /** Opcionales en backups anteriores a la v3 (mejoras funcionales). */
+  porciones?: Porcion[]
+  recetas?: Receta[]
+  agua?: Agua[]
+  objetivosDia?: ObjetivoDia[]
+  medidas?: Medida[]
 }
 
 /** Las tablas de datos del usuario (todas menos el catálogo). */
@@ -48,9 +54,9 @@ export class BackupError extends Error {}
 const ERROR_FORMATO = 'El archivo no tiene el formato de backup de AppFit.'
 
 /** Exporta todas las tablas en una lectura coherente. */
-export async function exportarBackup(): Promise<BackupV2> {
+export async function exportarBackup(): Promise<BackupV3> {
   return db.transaction('r', usuarioTablas(), async () => {
-    const [foods, entries, settings, exercises, routines, workouts, sets, meals, notasMedida, pesos, nombresAlimentos] = await Promise.all([
+    const [foods, entries, settings, exercises, routines, workouts, sets, meals, notasMedida, pesos, nombresAlimentos, porciones, recetas, agua, objetivosDia, medidas] = await Promise.all([
       db.foods.toArray(),
       db.entries.toArray(),
       db.settings.toArray(),
@@ -62,6 +68,11 @@ export async function exportarBackup(): Promise<BackupV2> {
       db.notasMedida.toArray(),
       db.pesos.toArray(),
       db.nombresAlimentos.toArray(),
+      db.porciones.toArray(),
+      db.recetas.toArray(),
+      db.agua.toArray(),
+      db.objetivosDia.toArray(),
+      db.medidas.toArray(),
     ])
     return {
       version: BACKUP_VERSION,
@@ -78,11 +89,16 @@ export async function exportarBackup(): Promise<BackupV2> {
       notasMedida,
       pesos,
       nombresAlimentos,
+      porciones,
+      recetas,
+      agua,
+      objetivosDia,
+      medidas,
     }
   })
 }
 
-export function descargarBackup(data: BackupV2): void {
+export function descargarBackup(data: BackupV3): void {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
@@ -95,16 +111,16 @@ export function descargarBackup(data: BackupV2): void {
 
 /**
  * Valida un backup de cualquier versión conocida y lo lleva al formato actual.
- * v1 → v2: mismas tablas y registros; solo se añaden los metadatos.
+ * v1 → v2 → v3: mismas tablas y registros; solo se añaden metadatos y las tablas nuevas (vacías si faltan).
  */
-export function migrarBackup(raw: unknown): BackupV2 {
+export function migrarBackup(raw: unknown): BackupV3 {
   if (typeof raw !== 'object' || raw === null) throw new BackupError(ERROR_FORMATO)
   const d = raw as Record<string, unknown>
   if (typeof d.version !== 'number') throw new BackupError(ERROR_FORMATO)
   if (d.version > BACKUP_VERSION) {
     throw new BackupError('Este backup es de una versión más nueva de AppFit. Actualiza la app antes de importarlo.')
   }
-  if (d.version !== 1 && d.version !== 2) throw new BackupError(ERROR_FORMATO)
+  if (d.version !== 1 && d.version !== 2 && d.version !== 3) throw new BackupError(ERROR_FORMATO)
   if (TABLAS_OBLIGATORIAS.some((t) => !Array.isArray(d[t]))) throw new BackupError(ERROR_FORMATO)
   if (TABLAS_OPCIONALES.some((t) => d[t] !== undefined && !Array.isArray(d[t]))) throw new BackupError(ERROR_FORMATO)
 
@@ -120,14 +136,19 @@ export function migrarBackup(raw: unknown): BackupV2 {
     notasMedida: (d.notasMedida as NotaMedida[] | undefined) ?? [],
     pesos: (d.pesos as Peso[] | undefined) ?? [],
     nombresAlimentos: (d.nombresAlimentos as NombreAlimento[] | undefined) ?? [],
+    porciones: (d.porciones as Porcion[] | undefined) ?? [],
+    recetas: (d.recetas as Receta[] | undefined) ?? [],
+    agua: (d.agua as Agua[] | undefined) ?? [],
+    objetivosDia: (d.objetivosDia as ObjetivoDia[] | undefined) ?? [],
+    medidas: (d.medidas as Medida[] | undefined) ?? [],
   }
   const exportedAt = typeof d.exportedAt === 'string' ? d.exportedAt : ''
 
   if (d.version === 1) {
-    return { version: 2, exportedAt, dbVersion: 1, ...tablas }
+    return { version: 3, exportedAt, dbVersion: 1, ...tablas }
   }
   return {
-    version: 2,
+    version: 3,
     exportedAt,
     dbVersion: typeof d.dbVersion === 'number' ? d.dbVersion : 1,
     ...tablas,
@@ -156,7 +177,11 @@ export async function importarBackup(json: string): Promise<void> {
       await db.table(t).bulkAdd(backup[t] ?? [])
     }
     const delBackup = backup.settings.find((s) => s.id === 1) ?? backup.settings[0]
-    await db.settings.put(conDefaults(delBackup))
+    const ajustes = conDefaults(delBackup)
+    // Importar una copia equivale a haberla exportado en su fecha: así el aviso de copia no dice «aún no has hecho una».
+    const fechaCopia = Date.parse(backup.exportedAt)
+    if (Number.isFinite(fechaCopia)) ajustes.ultimaExportacion = fechaCopia
+    await db.settings.put(ajustes)
   })
 }
 
