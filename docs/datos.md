@@ -4,7 +4,7 @@ Fuentes de verdad en el código: el esquema es `src/shared/db/db.ts`, los tipos 
 
 ## Tablas
 
-La versión actual del esquema es la v6; cada versión lleva un comentario con qué añadió.
+La versión actual del esquema es la v7; cada versión lleva un comentario con qué añadió. El backup es la v3 (`BACKUP_VERSION`); importa también v1 y v2.
 
 | Tabla | Lista | Para qué | Notas |
 |---|---|---|---|
@@ -19,12 +19,19 @@ La versión actual del esquema es la v6; cada versión lleva un comentario con q
 | `notasMedida` | usuario | notas libres sobre medidas caseras que el intérprete aún no entiende | pantalla «Medidas» |
 | `pesos` | usuario | pesajes | `&fecha`: uno por día |
 | `nombresAlimentos` | usuario | nombres cortos personales para Nutrición | clave = `FoodRef` estable (`user:<id>` o `catalog:<id>`); no cambia los nombres ni nutrientes de origen |
+| `porciones` | usuario | raciones propias por alimento («rebanada» de pan bimbo = 32 g) | `ref` = `claveRef` (`user:<id>` o `catalog:<id>`), índice `ref`; nombre de una sola palabra |
+| `recetas` | usuario | recetas caseras: snapshot de ingredientes + peso cocinado | `&nombreNorm`; `foodId` apunta al `Food` propio que la representa ([ADR 022](decisiones/022-esquema-v7-recetas-y-objetivos-por-dia.md)) |
+| `agua` | usuario | ml bebidos por día | `&fecha`; `tomas?: number[]` permite quitar la última |
+| `objetivosDia` | usuario | snapshot del objetivo (kcal y macros) de cada día | `&fecha`; solo lo escriben acciones del usuario, nunca una lectura |
+| `medidas` | usuario | medidas corporales (cm y %) | `&fecha`; todos los campos opcionales |
 | `catalogFoods` | catálogo | alimentos de referencia (CIQUAL, Open Food Facts) | id `fuente:idExterno`, estable; `*tok` multiEntry para buscar; `gtin` no único |
 | `catalogSources` | catálogo | fuentes instaladas (versión, licencia, atribución, nº de filas) | |
 
 - **`TABLAS_USUARIO`** entran en el backup, se vacían al importar y con «Borrar todos los datos».
 - **`TABLAS_CATALOGO`** se pueden volver a descargar: no entran en el backup ni se borran con «borrar todo». `db.test.ts` exige que toda tabla esté en una de las dos listas.
 - Fuentes del catálogo: `ciqual` y `offes` llegan en paquetes (`public/catalogo/`; formato en `scripts/catalogo/README.md`). `off` son los productos escaneados en directo (`version: 'live'`). Son fuentes distintas a propósito: `importarFuente` borra por versión y se llevaría los escaneados.
+
+`porciones`, `recetas`, `agua`, `objetivosDia` y `medidas` son las cinco tablas de la v7 (nuevas y vacías, sin `upgrade()`). Los campos opcionales nuevos de tablas existentes no llevan índice ni versión: `Workout.ordenEjercicios`, `Routine.objetivos`, `SetEntry.tipo` (`'calentamiento'`) y `SetEntry.rir`.
 
 `nombresAlimentos` guarda alias de presentación independientes de los nombres completos en `foods`, el catálogo y las entradas. Se vinculan por `FoodRef` para que sobrevivan a las actualizaciones del catálogo y sigan disponibles cuando se elimina un alimento referenciado por el historial. Al ser datos personales, están incluidos en los backups; los backups anteriores importan esta tabla vacía.
 
@@ -47,6 +54,12 @@ La versión actual del esquema es la v6; cada versión lleva un comentario con q
 
 `nutrientes` es un campo opcional sin índice para fibra, azúcares, sal y grasas saturadas. En alimentos propios y catálogo son gramos por 100 g (o 100 ml cuando la fuente lo indica); en entradas e ítems de plantilla es el snapshot del aporte consumido. Clave ausente significa desconocido y `0` significa conocido; no se completan registros antiguos con valores del catálogo actual. Las copias, plantillas, edición de gramos, deshacer y backups conservan estos datos. El escalado usa hasta tres decimales para no perder pequeñas cantidades de sal. Las sumas exponen su cobertura por nutriente. Como el campo es opcional y no transforma registros ni índices, se mantiene Dexie v6 y el formato de backup v2, igual que con los metadatos opcionales de platos.
 
+9. **Una receta = un `Food` propio**: `recetasRepo.crear/actualizar` mantienen en la misma transacción la receta y su alimento (valores por 100 g del peso cocinado: suma de los ingredientes entre el peso final). Un alimento con el mismo nombre → `NombreDuplicadoError`. Editar la receta actualiza el alimento; las entradas antiguas conservan su snapshot. Si el alimento se borró desde Alimentos, `actualizar` lo recrea. `recetasRepo.borrar(id, conservarAlimento)`.
+10. **Raciones propias**: nombre de una sola palabra, única por alimento (`porcionesRepo`). El parser reconoce sus formas (singular/plural) como unidad y el intérprete las usa con prioridad sobre las raciones fijas, solo si el alimento encaja con lo escrito (`elegirPorcion`).
+11. **Un registro por día** en `agua`, `objetivosDia` y `medidas` (`&fecha`). `aguaRepo.anadir` suma una toma; `medidasRepo.registrar` completa el día existente.
+12. **Objetivos por día**: `objetivosDiaRepo.congelar(fecha)` crea el snapshot si no existe (al guardar comidas de esa fecha) y `actualizarHoy` lo recalcula (registrar peso, editar Perfil o Ajustes). **Hoy se calcula siempre en vivo** (los vigentes de ahora; el snapshot de hoy se ignora al leer) y el snapshot solo manda para fechas pasadas; así un cambio que no pase por `actualizarHoy` (importar un backup, cumplir años…) nunca deja un objetivo de hoy desfasado. `congelar(hoy)` hace upsert (queda el de la última acción del día) y con fecha pasada solo crea el primero. Hoy y Resumen leen con `objetivosDe`, `objetivosMediosDe` y `objetivosPorFecha`: las lecturas no escriben. Los fallos al congelar se ignoran para no estropear la acción principal.
+13. **Entreno pasado y edición**: `workoutsRepo.crearPasado` crea un entreno ya terminado (nunca activo). Al añadir o quitar series de un entreno terminado se llama a `recalcularSnapshot`, que lo recalcula con la clasificación **actual** de los ejercicios. `descartar`/`borrar` borran el entreno y sus series en una transacción. Las series de calentamiento (`tipo`) no cuentan en volumen, récords, mapa, progreso, resumen semanal ni como «última serie» para precargar.
+
 ## Repositorios (`features/*/data/*Repo.ts`)
 
 Gym: `Exercise.id` numérico sigue siendo la clave de rutinas y series. `catalogId`, `primaryMuscles`, `secondaryMuscles` y `equipment` son campos opcionales sin índices. El catálogo editorial vive en código, no en una tabla ni como 116 ejercicios del usuario. Al seleccionar se materializa solo esa definición, o se enlaza un antiguo por nombre/alias exacto conservando id/nombre. Los personalizados guardan músculos/equipo sin vínculo al catálogo. No hay upgrade de registros; Dexie v6/backup v2 se mantienen y la tabla `exercises` exporta/restaura los metadatos nuevos. Abrir/buscar/filtrar no escribe; recientes derivan de las series. Detalle del flujo en [Gym](features/gym.md).
@@ -57,10 +70,10 @@ Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`). Fue
 
 | Feature | Repos | Tablas |
 |---|---|---|
-| nutricion | `foodsRepo`, `entriesRepo`, `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo` | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos` |
-| gym | `exercisesRepo`, `routinesRepo`, `workoutsRepo`, `setsRepo` | `exercises`, `routines`, `workouts`, `sets` |
-| inicio | `pesosRepo` (`delRango`, `registrar`, `ultimoHasta(fecha)`: último pesaje ≤ fecha, solo lectura) | `pesos` |
-| perfil | `perfilRepo` | `settings` (campo `perfil`), `pesos` (lectura) |
+| nutricion | `foodsRepo`, `entriesRepo` (`fechasConRegistro`), `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo`, `porcionesRepo`, `recetasRepo` | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos`, `porciones`, `recetas` |
+| gym | `exercisesRepo` (ejercicios propios: editar/borrar), `routinesRepo`, `workoutsRepo` (descartar, borrar, crearPasado, notas, orden), `setsRepo` | `exercises`, `routines`, `workouts`, `sets` |
+| inicio | `pesosRepo` (`delRango`, `registrar`, `borrar`/`restaurar`, `ultimoHasta(fecha)`: último pesaje ≤ fecha, solo lectura), `aguaRepo` | `pesos`, `agua` |
+| perfil | `perfilRepo` (`estadoEnergetico`, `objetivosVigentes`, `calcularVigentes`, `leerGastoObservado`), `objetivosDiaRepo`, `medidasRepo` | `settings` (campo `perfil`), `pesos` y `entries` (lectura), `objetivosDia`, `medidas` |
 
 Reglas y patrones:
 - **Lecturas sin escrituras**, para poder usarlas en `useLiveQuery`. Una búsqueda puntual (catálogo, intérprete) no usa `useLiveQuery`.
@@ -73,7 +86,9 @@ Reglas y patrones:
 
 - `getSettings()` es de **solo lectura**: completa con `DEFAULT_OBJETIVOS` lo que falte (`conDefaults`) y descarta los campos antiguos (`apiKey`, `modelo`). Así, un campo nuevo de ajustes no necesita `upgrade()`.
 - `ensureSettings()` es la única escritura al arrancar (`main.tsx`). `updateSettings()` guarda cambios en una **transacción** (lectura + `put`), porque escriben dos pantallas (Ajustes y Perfil); un campo `undefined` en el parche lo borra.
-- `Settings.perfil?: Perfil` (campo opcional, sin Dexie v7 ni cambio de `BACKUP_VERSION`): `sexo`, `fechaNacimiento` (YYYY-MM-DD), `alturaCm`, `actividad`, `objetivo`, `intensidadKcal`. Solo datos fuente: peso (último pesaje ≤ hoy), edad, IMC, TMB, GET y kcal objetivo se derivan al leer. `perfilRepo` lo sanea al leer (`normalizarPerfil`, sin escribir). Va en el backup (incluye la fecha de nacimiento) y lo borra «Borrar todos los datos». Backups antiguos importan con perfil vacío.
+- `Settings.perfil?: Perfil` (campo opcional, sin versión de esquema ni de backup propia): `sexo`, `fechaNacimiento` (YYYY-MM-DD), `alturaCm`, `actividad`, `objetivo`, `intensidadKcal`. Solo datos fuente: peso (último pesaje ≤ hoy), edad, IMC, TMB, GET y kcal objetivo se derivan al leer. `perfilRepo` lo sanea al leer (`normalizarPerfil`, sin escribir). Va en el backup (incluye la fecha de nacimiento) y lo borra «Borrar todos los datos». Backups antiguos importan con perfil vacío.
+- Campos nuevos de `Settings` (todos opcionales, sin versión): `ultimaExportacion` (ms, solo si la descarga del backup se lanzó; al importar una copia queda como su `exportedAt`, o la que traiga si no es válida, para que el aviso no diga «aún no has hecho una copia» tras trasladar datos), `recordatorioBackupPospuesto` (ms hasta los que se silencia el aviso), `recordatorioBackupDias` (por defecto 14), `barraKg` (calculadora de discos, por defecto 20), `sonidoDescanso` (por defecto sí) y `aguaObjetivoMl` (sin valor por defecto: el recomendado sale del sexo de Perfil).
+- Campos nuevos de `Perfil`: `proteinaPorKgActiva` (activa por defecto: solo `false` la desactiva), `proteinaPorKg` (1,6–2,2, por defecto 1,8) y `usarGastoObservado` (por defecto `false`). `normalizarPerfil` los sanea.
 - `hayDatosGuardados` cuenta un perfil con algún campo como dato introducido.
 
 ## Conservación y primer traslado en iPhone
@@ -86,11 +101,12 @@ Reglas y patrones:
 
 ## Backup (`shared/lib/backup.ts`)
 
-- Un único JSON con las `TABLAS_USUARIO` (nunca el catálogo). `BACKUP_VERSION` y sus reglas de cambio están en la cabecera del archivo.
+- Un único JSON con las `TABLAS_USUARIO` (nunca el catálogo), versión 3: añade `porciones`, `recetas`, `agua`, `objetivosDia` y `medidas` (opcionales: un backup v1/v2 las importa vacías). `BACKUP_VERSION` y sus reglas de cambio están en la cabecera del archivo.
 - `migrarBackup(raw)` es pura: valida y convierte cualquier versión conocida a la actual, y rechaza una versión más nueva con un mensaje claro. Las tablas de `TABLAS_OPCIONALES` (las posteriores al primer backup) pueden faltar: se importan vacías.
 - `importarBackup` **sustituye** todo en una transacción: vacía todas las tablas de usuario, también las que el backup no trae, y los ajustes pasan por `conDefaults`.
 - En Ajustes, seleccionar un archivo solo lo valida y muestra cuántos registros de comida contiene. La escritura empieza al pulsar «Importar copia». Si ya hay datos, se advierte que serán sustituidos y se puede exportar antes. Cancelar o elegir un archivo inválido no altera ningún registro. Los fallos de lectura/exportación/importación se muestran en línea.
 - Fixture de referencia para las migraciones: `src/test/fixtures/backup-v1.json`.
+- **CSV** (`shared/lib/csv.ts`, `exportarCsv.ts`): comidas, pesos, series (con fecha, ejercicio, tipo, reps, peso y RIR), agua y medidas, un archivo por tema, con `;`, coma decimal y UTF-8 con BOM, para Excel en español. Texto que empieza por `=`, `+`, `-` o `@` se prefija con `'` para que no se ejecute como fórmula. No es un formato de copia: no se importa.
 
 ## Checklist: cambiar el esquema o la forma de los datos
 

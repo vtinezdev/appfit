@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import Button from '../../../shared/components/Button'
 import { Input } from '../../../shared/components/Input'
+import NumberStepper from '../../../shared/components/NumberStepper'
+import { PROTEINA_KG_DEFECTO, PROTEINA_KG_MAX, PROTEINA_KG_MIN, PROTEINA_KG_PASO, validarProteinaPorKg } from '../lib/proteina'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import type { ActividadPerfil, IntensidadKcal, ObjetivoPerfil, Perfil, SexoPerfil } from '../../../shared/db/types'
 import { formatNumber } from '../../../shared/lib/format'
 import * as perfilRepo from '../data/perfilRepo'
+import { actualizarObjetivoHoy } from '../data/objetivosDiaRepo'
 import { calcularEnergia, ETIQUETAS_OBJETIVO, formatSigned, NIVELES_ACTIVIDAD } from '../lib/energia'
 import {
   ACTIVIDADES, ALTURA_MAX, ALTURA_MIN, INTENSIDAD_POR_DEFECTO, INTENSIDADES_KCAL, OBJETIVOS, validarAltura, validarFechaNacimiento,
@@ -28,7 +31,7 @@ interface Props {
 }
 
 const TITULOS: Record<CampoSheet, string> = {
-  sexo: 'Sexo', fechaNacimiento: 'Fecha de nacimiento', alturaCm: 'Altura', actividad: '¿Cuánto deporte haces?', objetivo: 'Objetivo',
+  sexo: 'Sexo', fechaNacimiento: 'Fecha de nacimiento', alturaCm: 'Altura', actividad: '¿Cuánto deporte haces?', objetivo: 'Objetivo', proteina: 'Proteína por kg',
 }
 
 /** Una sola Sheet con un único control por dato. Elegir una opción guarda al instante; fecha y altura tienen «Guardar». */
@@ -39,6 +42,7 @@ export default function EditarDatoSheet({ campo, open, perfil, pesoKg, hoy, onCl
   const [fecha, setFecha] = useState(perfil.fechaNacimiento ?? '')
   const [altura, setAltura] = useState(perfil.alturaCm !== undefined ? String(perfil.alturaCm) : '')
   const [objetivo, setObjetivo] = useState<ObjetivoPerfil | null>(perfil.objetivo ?? null)
+  const [gPorKg, setGPorKg] = useState(perfil.proteinaPorKg ?? PROTEINA_KG_DEFECTO)
   const [intensidad, setIntensidad] = useState<IntensidadKcal>(perfil.intensidadKcal ?? INTENSIDAD_POR_DEFECTO)
 
   async function guardar(patch: Partial<Perfil>, cerrar = true) {
@@ -48,6 +52,7 @@ export default function EditarDatoSheet({ campo, open, perfil, pesoKg, hoy, onCl
     try {
       onAntesDeGuardar()
       await perfilRepo.guardarPerfil(patch)
+      void actualizarObjetivoHoy(hoy, 'perfil')
       if (cerrar) onClose()
     } catch {
       setError('No se ha podido guardar. Inténtalo de nuevo.')
@@ -126,6 +131,18 @@ export default function EditarDatoSheet({ campo, open, perfil, pesoKg, hoy, onCl
         {previa && previa.estado !== 'ok' && <p className="text-body-sm text-fg-muted">Completa tus datos para ver el objetivo resultante.</p>}
         {previa?.estado === 'ok' && previa.avisos.map((a) => <p key={a.tipo} className="text-body-sm text-warning">{a.texto}</p>)}
         <p className="text-caption text-fg-muted">El rango (200 a 600 kcal) lo fija AppFit con la literatura como contexto; en Referencias tienes el detalle.</p>
+      </>}
+      {campo === 'proteina' && <>
+        <SegmentedControl label="Proteína por kg" valor={perfil.proteinaPorKgActiva === false ? 'no' : 'si'}
+          onChange={(v) => void guardar({ proteinaPorKgActiva: v === 'si' }, false)}
+          opciones={[{ valor: 'si', label: 'Activada' }, { valor: 'no', label: 'Desactivada' }]} />
+        {perfil.proteinaPorKgActiva !== false && <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="text-body-sm text-fg-muted">Gramos por kg</span>
+          <NumberStepper label="gramos de proteína por kg" value={gPorKg} min={PROTEINA_KG_MIN} step={PROTEINA_KG_PASO} suffix="g/kg"
+            onChange={(v) => { const g = validarProteinaPorKg(Math.min(PROTEINA_KG_MAX, v)); if (g !== null) { setGPorKg(g); void guardar({ proteinaPorKg: g }, false) } }} />
+        </div>}
+        <p className="text-body-sm text-fg-muted">Con peso registrado, la proteína del día es gramos por kg × tu peso; las kcal restantes se reparten entre hidratos y grasa con tu reparto actual. Rango {formatNumber(PROTEINA_KG_MIN, 1)}–{formatNumber(PROTEINA_KG_MAX, 1)} g/kg; por defecto {formatNumber(PROTEINA_KG_DEFECTO, 1)}.</p>
+        {pesoKg === undefined && <p className="text-body-sm text-warning">Sin peso registrado no se aplica: se usan las proteínas de Ajustes.</p>}
       </>}
       {!conBoton && textoError}
     </div>

@@ -13,12 +13,15 @@ export function obtener(id: number): Promise<Routine | undefined> {
 }
 
 /** Crea la rutina si no trae `id`, o la actualiza. Devuelve su id. */
-export async function guardar({ id, nombre, exerciseIds }: RoutineInput): Promise<number> {
+export async function guardar({ id, nombre, exerciseIds, objetivos }: RoutineInput): Promise<number> {
+  // Los objetivos solo se guardan para ejercicios que siguen en la rutina.
+  const vigentes = objetivos && Object.fromEntries(Object.entries(objetivos).filter(([k]) => exerciseIds.includes(Number(k))))
+  const conObjetivos = vigentes && Object.keys(vigentes).length > 0 ? vigentes : undefined
   if (id) {
-    await db.routines.update(id, { nombre, exerciseIds })
+    await db.routines.update(id, { nombre, exerciseIds, objetivos: conObjetivos })
     return id
   }
-  return db.routines.add({ nombre, exerciseIds })
+  return db.routines.add(conObjetivos ? { nombre, exerciseIds, objetivos: conObjetivos } : { nombre, exerciseIds })
 }
 
 /**

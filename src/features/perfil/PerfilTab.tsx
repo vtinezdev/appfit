@@ -8,9 +8,12 @@ import { useAviso } from '../../shared/hooks/useAviso'
 import * as pesosRepo from '../inicio/data/pesosRepo'
 import RegistrarPesoSheet from '../inicio/components/RegistrarPesoSheet'
 import * as perfilRepo from './data/perfilRepo'
+import { actualizarObjetivoHoy } from './data/objetivosDiaRepo'
 import DatosPerfil, { type CampoEditable } from './components/DatosPerfil'
 import EditarDatoSheet from './components/EditarDatoSheet'
 import ResultadoEnergia from './components/ResultadoEnergia'
+import GastoObservadoCard from './components/GastoObservadoCard'
+import MedidasCorporales from './components/MedidasCorporales'
 
 const PESO_POR_DEFECTO = 70
 
@@ -44,12 +47,14 @@ export default function PerfilTab({ onVerMetodo }: { onVerMetodo: () => void }) 
   async function guardarPeso(kg: number) {
     recordarObjetivo()
     await pesosRepo.registrar(hoy, kg)
+    void actualizarObjetivoHoy(hoy, 'peso')
     setPesoAbierto(false)
   }
   async function borrar() {
     try {
       const anterior = await perfilRepo.borrarPerfil()
-      avisar({ mensaje: 'Datos del perfil borrados', onDeshacer: () => perfilRepo.restaurarPerfil(anterior) })
+      void actualizarObjetivoHoy(hoy, 'perfil')
+      avisar({ mensaje: 'Datos del perfil borrados', onDeshacer: async () => { await perfilRepo.restaurarPerfil(anterior); void actualizarObjetivoHoy(hoy, 'perfil') } })
     } catch {
       avisarError('No se han podido borrar los datos del perfil.')
     }
@@ -59,7 +64,9 @@ export default function PerfilTab({ onVerMetodo }: { onVerMetodo: () => void }) 
     <PageHeader title="Perfil" overline="Tus datos para estimar tu energía diaria" />
     {!estado ? <LoadingState /> : <>
       <ResultadoEnergia perfil={estado.perfil} energia={estado.energia} onElegirObjetivo={() => editar('objetivo')} onVerMetodo={onVerMetodo} />
+      <GastoObservadoCard perfil={estado.perfil} energia={estado.energia} observado={estado.observado} hoy={hoy} />
       <DatosPerfil perfil={estado.perfil} peso={estado.peso} hoy={hoy} onEditar={editar} onBorrar={borrar} />
+      <MedidasCorporales />
       <EditarDatoSheet key={aperturas} campo={campo} open={abierto} perfil={estado.perfil} pesoKg={estado.peso?.kg} hoy={hoy}
         onClose={() => setAbierto(false)} onAntesDeGuardar={recordarObjetivo} />
       <RegistrarPesoSheet key={`peso-${aperturas}`} open={pesoAbierto} onClose={() => setPesoAbierto(false)}

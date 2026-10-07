@@ -1,3 +1,4 @@
+import { congelarObjetivoDia } from '../../perfil/data/objetivosDiaRepo'
 import { useState } from 'react'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { useLiveQuery } from 'dexie-react-hooks'
@@ -36,6 +37,7 @@ export default function AplicarPlantillaSheet({ meal, fecha, comida, onClose, on
     setError(null)
     try {
       const ids = await mealsRepo.aplicar(meal.id, { fecha, comida })
+      void congelarObjetivoDia(fecha)
       onClose()
       onAplicado(ids)
     } catch {

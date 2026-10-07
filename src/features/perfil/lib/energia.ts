@@ -97,7 +97,11 @@ export interface EnergiaOk {
   tmb: { valor: number; parciales: Record<IdEcuacion, number> }
   actividad: ActividadPerfil
   factor: number
+  /** Gasto diario usado: el estimado (TMB × factor) o, si se ha activado, el observado. */
   get: number
+  /** Gasto diario estimado por ecuaciones, siempre. */
+  getEstimado: number
+  origenGet: 'estimado' | 'observado'
   /** Objetivo elegido por la persona; `null` si todavía no lo ha elegido. */
   objetivoElegido: ObjetivoPerfil | null
   /** Objetivo aplicado: difiere del elegido si el IMC bloquea el déficit. */
@@ -124,7 +128,7 @@ export function redondearObjetivo(kcal: number): number {
 const NO_CALCULABLE_GENERICO = 'No se puede calcular con estos datos. Revisa la fecha de nacimiento, la altura y el peso.'
 
 /** Estimación completa a fecha `hoy` (YYYY-MM-DD) con el último peso conocido. No lee ni escribe nada. */
-export function calcularEnergia(perfil: Perfil, pesoKg: number | null | undefined, hoy: string): ResultadoEnergia {
+export function calcularEnergia(perfil: Perfil, pesoKg: number | null | undefined, hoy: string, gastoObservado?: number | null): ResultadoEnergia {
   const faltan = camposPendientes(perfil, pesoKg)
   if (faltan.length > 0) return { estado: 'incompleto', faltan }
   const edad = edadEn(perfil.fechaNacimiento!, hoy)
@@ -137,7 +141,10 @@ export function calcularEnergia(perfil: Perfil, pesoKg: number | null | undefine
   const datos: DatosEnergia = { sexo: perfil.sexo!, edad, alturaCm: altura, pesoKg: peso }
   const tmb = tasaMetabolicaBasal(datos)
   const factor = NIVELES_ACTIVIDAD[perfil.actividad!].factor
-  const get = tmb.valor * factor
+  const getEstimado = tmb.valor * factor
+  // El gasto observado solo sustituye al estimado si la persona lo ha activado y hay datos suficientes.
+  const usarObservado = perfil.usarGastoObservado === true && typeof gastoObservado === 'number' && Number.isFinite(gastoObservado) && gastoObservado > 0
+  const get = usarObservado ? gastoObservado : getEstimado
   const imc = peso / ((altura / 100) ** 2)
   if (![tmb.valor, get, imc].every((x) => Number.isFinite(x) && x > 0)) return { estado: 'no-calculable', motivo: NO_CALCULABLE_GENERICO }
 
@@ -173,7 +180,7 @@ export function calcularEnergia(perfil: Perfil, pesoKg: number | null | undefine
   }
 
   return {
-    estado: 'ok', datos, edad, imc, tmb, actividad: perfil.actividad!, factor, get,
+    estado: 'ok', datos, edad, imc, tmb, actividad: perfil.actividad!, factor, get, getEstimado, origenGet: usarObservado ? 'observado' : 'estimado',
     objetivoElegido: elegido, objetivoAplicado: aplicado, intensidadKcal, ajusteKcal,
     objetivoExacto, objetivoKcal: objetivoExacto === null ? null : redondearObjetivo(objetivoExacto), ritmo, avisos,
   }

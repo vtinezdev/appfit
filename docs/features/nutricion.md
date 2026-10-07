@@ -12,8 +12,10 @@
 | Catálogo en la app | `CatalogoAjustes` (en Ajustes) | `catalogo/`: `paquete`, `sincronizar`, `preferidos`, `ranking`, `erratas`, `textos` | `catalogRepo`, `hooks/buscarCatalogo` |
 | Código de barras | `EscanerCodigo` | `escaner/` (detector con carga perezosa), `off/` (`buscarProducto`, `mapearProducto`) | `catalogRepo.buscarPorGtin` / `guardarProductoOff` |
 | Plantillas | `PlantillasLista`, `AplicarPlantillaSheet`, `GestionPlantillaSheet` | `plantillas.ts` | `mealsRepo` |
-| Resumen | `pages/Resumen` (diferida, Recharts) | `nutrition.ts` (`resumenPeriodo`), `shared/lib/dates` (periodos) | `entriesRepo.entreFechas` |
-| Alimentos | `pages/Alimentos` (con pestaña Plantillas) | `alimentos.ts` (`filtrarAlimentos`) | `foodsRepo`, `mealsRepo` |
+| Resumen | `pages/Resumen` (diferida, Recharts), `components/AdherenciaResumen` | `nutrition.ts` (`resumenPeriodo`), `adherencia.ts` (adherencia, rachas, top alimentos), `shared/lib/dates` (periodos) | `entriesRepo.entreFechas` / `fechasConRegistro`, `objetivosDiaRepo` |
+| Alimentos | `pages/Alimentos` (Alimentos · Plantillas · Recetas) | `alimentos.ts` (`filtrarAlimentos`) | `foodsRepo`, `mealsRepo` |
+| Raciones propias | `components/PorcionesAlimento` (alta, lista y borrado; en el detalle del alimento y en la revisión), `components/UnidadRacion` (unidad de la cantidad: gramos o una ración) | `interprete/porciones.ts` | `porcionesRepo` |
+| Recetas | `components/EditorReceta` (ModalPage: nombre, ingredientes con el flujo de Añadir comida, peso cocinado) | `recetas.ts` (`por100DeReceta`, `ingredienteDeItem`, `validarReceta`) | `recetasRepo` |
 | Objetivos | `ObjetivosAjustes` (en Ajustes) | `objetivos.ts` | `shared/db/settings` |
 
 `NutricionTab` orquesta las vistas y los overlays: Añadir comida, la edición de una entrada y las kcal rápidas.
@@ -56,6 +58,17 @@ Cuando la revisión tiene varios alimentos, se explica que se guardarán como un
 **Entrada recomendada: un alimento por línea, con su cantidad**. Se admiten varios a la vez y `DescribirComida` muestra los fragmentos numerados con un borde lateral que se actualizan mientras escribes, antes de interpretarlos: «2 huevos fritos y una longaniza» aparece como dos bloques separados. Para registrar por tandas, «Añadir otro alimento» abre una nueva descripción dentro de la revisión; «Añadir a la revisión» incorpora sus resultados sin reemplazar los anteriores ni sus correcciones. «Cancelar añadido» conserva la revisión. Mientras se añade, Guardar queda deshabilitado. Todas las tandas se guardan juntas y su descripción original se concatena con saltos de línea; «Volver a interpretar» recupera ese texto completo (recalcula la revisión). Los platos compuestos pueden buscarse como tales; si no están en el catálogo o en tus alimentos, hay que detallar los ingredientes, sin inventar su composición.
 
 Frecuentes: `rankFrecuentes` (usos recientes, con más peso los de la misma comida; excluye las rápidas) mezcla alimentos propios y del catálogo. `foodsRepo.frecuentes` los resuelve, descarta los que ya no existen y completa con tus recientes.
+
+## Raciones propias y recetas
+
+- **Raciones propias** (tabla `porciones`): «1 rebanada de pan bimbo = 32 g». Se gestionan en el detalle del alimento propio (Alimentos, editar, «Raciones propias») y en la revisión de Añadir comida, donde «Unidad» permite elegir gramos o una ración del alimento (la cantidad pasa a ser un número de raciones) y «Raciones de este alimento» crea otras. El nombre es una sola palabra. El intérprete (`parsear(texto, formas)` + `interpretarTexto`) reconoce las formas singular y plural de las raciones como unidad (`ParteComida.unidadPropia`) y, si el alimento encaja con lo escrito, usa `cantidad × gramos` con prioridad sobre las raciones fijas; si no encaja, sigue el camino de siempre. Los alimentos del catálogo sin ficha propia no tienen pantalla de detalle: se gestionan desde la revisión.
+- **Recetas caseras** (Alimentos, Recetas): se crean con el mismo flujo de ingredientes que Añadir comida (describir o buscar, revisar cada uno) más el **peso cocinado** (por defecto el crudo; se edita). Guardar crea o actualiza el `Food` propio de la receta con la suma de los ingredientes dividida entre el peso cocinado, por 100 g; así funciona en búsqueda, frecuentes, intérprete y entradas sin tocar el invariante `foodId`/`catalogId`. Editar la receta actualiza ese alimento y las entradas antiguas conservan su snapshot. Un nombre ya usado por otro alimento da un error en línea. Borrar pide `ConfirmacionDestructiva` y permite elegir si el alimento asociado se conserva (sigue en Alimentos y en el historial) o se borra. Un nutriente adicional solo se conoce si lo conocen todos los ingredientes. En la edición de un alimento que viene de una receta se avisa de que guardar la receta recalcula sus valores.
+
+## Objetivo de cada día y Resumen
+
+Hoy usa el objetivo del día mostrado (`objetivosDiaRepo.objetivosDe(fecha)`): su snapshot si existe o, si no, los vigentes de hoy. Se congela (si no existía) al guardar comidas de esa fecha: Añadir comida, plantillas, copiar y repetir. El Resumen compara la media del periodo con la **media de los objetivos de los días con registro**. Mientras la proteína por kg esté activa y haya peso, Ajustes muestra la proteína como calculada y los demás macros la respetan (`reajustarConProteinaFija`).
+
+**Adherencia** (Resumen): % de días registrados (no futuros) con kcal a ±10 % del objetivo de ese día; los días sin registro no cuentan como fallo. **Racha**: días seguidos con alguna comida hasta hoy (o ayer, si hoy aún no hay) y la mejor de todo el historial. **Más calorías / Más proteína**: 5 alimentos del periodo agrupados por `FoodRef`, con su nombre corto; las kcal rápidas y las entradas sin referencia no entran.
 
 ## Intérprete local (`lib/interprete/`)
 

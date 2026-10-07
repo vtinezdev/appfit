@@ -128,7 +128,7 @@ Retirados: AnimatedNumber, ProgressRing (la rueda de energía de Inicio es otra 
 
 ## Patrón de borrado
 
-Series, entradas, platos y alimentos: inmediato con Deshacer, restauración existente. Rutinas/plantillas: confirmación previa. Importación/borrado global: confirmar sustitución/destrucción. Fallos de formulario en ErrorState de esa capa.
+Series, entradas, platos y alimentos: inmediato con Deshacer, restauración existente. Rutinas/plantillas y también entrenos completos y recetas: confirmación previa (`ConfirmacionDestructiva`). **Dentro de un Sheet o una ModalPage el Toast queda debajo** (z-40 frente a z-50): el «Deshacer» va entonces en una línea del propio contenido (`role="status"`, botón ghost «Deshacer»), como en el historial de peso, las raciones o Mis ejercicios. Cuando se puede, la pantalla que edita es una vista de la pestaña y no una capa, para que el Toast sea visible (detalle de entreno). Importación/borrado global: confirmar sustitución/destrucción. Fallos de formulario en ErrorState de esa capa.
 
 ## Gráficas y cifras
 

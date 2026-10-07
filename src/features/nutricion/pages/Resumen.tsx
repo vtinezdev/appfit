@@ -5,7 +5,8 @@ import { Bar, BarChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxi
 import * as entriesRepo from '../data/entriesRepo'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Disclosure from '../../../shared/components/Disclosure'
-import { objetivosVigentes } from '../../perfil/data/perfilRepo'
+import AdherenciaResumen from '../components/AdherenciaResumen'
+import { objetivosMediosDe } from '../../perfil/data/objetivosDiaRepo'
 import { desplazarPeriodo, esPeriodoActual, etiquetaPeriodo, fechasPeriodo, formatShort, todayISO } from '../../../shared/lib/dates'
 import type { PeriodoRango } from '../../../shared/lib/dates'
 import { resumenPeriodo } from '../lib/nutrition'
@@ -30,8 +31,10 @@ export default function Resumen() {
   const [fechaAncla, setFechaAncla] = useState(todayISO())
   const [dato, setDato] = useState<Dato>('kcal')
   const fechas = fechasPeriodo(rango, fechaAncla)
-  const vigentes = useLiveQuery(() => objetivosVigentes(todayISO()), [])
   const entries = useLiveQuery(() => entriesRepo.entreFechas(fechas[0], fechas[fechas.length - 1]), [fechas.join(',')])
+  // Cada día con registros usa su objetivo congelado (o el vigente); la media se compara con la media de esos objetivos.
+  const diasConRegistro = fechas.filter(f => entries?.some(e => e.fecha === f)).join(',')
+  const vigentes = useLiveQuery(() => objetivosMediosDe(diasConRegistro ? diasConRegistro.split(',') : [], todayISO()), [diasConRegistro])
   if (!entries || !vigentes) return <LoadingState />
   const { porDia, media, diasRegistrados } = resumenPeriodo(entries, fechas, todayISO())
   const objetivos = vigentes
@@ -74,6 +77,7 @@ export default function Resumen() {
             </div>
           </section>
           <section aria-label="Distribución de calorías" className="space-y-3"><SectionHeader variant="section">Reparto de macros</SectionHeader><FranjaMacros macros={media} /></section>
+          <AdherenciaResumen fechas={fechas} entries={entries} hoy={todayISO()} />
           <section aria-label="Tendencia nutricional" className="space-y-4">
             <SectionHeader variant="section">Día a día</SectionHeader>
             <SegmentedControl label="Métrica de la gráfica" size="sm" opciones={DATOS} valor={dato} onChange={setDato} />

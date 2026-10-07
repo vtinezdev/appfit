@@ -7,17 +7,30 @@ export function epley1RM(peso: number, reps: number): number {
   return Math.round(peso * (1 + reps / 30) * 10) / 10
 }
 
-export function volumenSets(sets: Pick<SetEntry, 'peso' | 'reps'>[]): number {
-  return sets.reduce((acc, s) => acc + s.peso * s.reps, 0)
+type SerieBasica = Pick<SetEntry, 'peso' | 'reps'> & { tipo?: SetEntry['tipo'] }
+
+/** Una serie es efectiva salvo que sea de calentamiento (no cuenta en volumen, récords, mapa ni progreso). */
+export function esEfectiva(s: { tipo?: SetEntry['tipo'] }): boolean {
+  return s.tipo !== 'calentamiento'
 }
 
-export function mejorSet(sets: Pick<SetEntry, 'peso' | 'reps'>[]): { peso: number; reps: number } | null {
+/** Solo las series efectivas, conservando el tipo concreto de la serie. */
+export function efectivas<T extends { tipo?: SetEntry['tipo'] }>(sets: T[]): T[] {
+  return sets.filter(esEfectiva)
+}
+
+export function volumenSets(sets: SerieBasica[]): number {
+  return efectivas(sets).reduce((acc, s) => acc + s.peso * s.reps, 0)
+}
+
+export function mejorSet(todas: SerieBasica[]): { peso: number; reps: number } | null {
+  const sets = efectivas(todas)
   if (sets.length === 0) return null
   return sets.reduce((best, s) => (epley1RM(s.peso, s.reps) > epley1RM(best.peso, best.reps) ? s : best))
 }
 
-export function pesoMaximo(sets: Pick<SetEntry, 'peso'>[]): number {
-  return sets.reduce((max, s) => Math.max(max, s.peso), 0)
+export function pesoMaximo(sets: (Pick<SetEntry, 'peso'> & { tipo?: SetEntry['tipo'] })[]): number {
+  return efectivas(sets).reduce((max, s) => Math.max(max, s.peso), 0)
 }
 
 /** Agrupa series por workoutId, útil para gráficas de progreso por sesión. */
@@ -31,7 +44,8 @@ export function agruparPorWorkout(sets: SetEntry[]): Map<number, SetEntry[]> {
   return map
 }
 
-export function formatUltimaVez(sets: Pick<SetEntry, 'peso' | 'reps'>[]): string {
+export function formatUltimaVez(todas: SerieBasica[]): string {
+  const sets = efectivas(todas)
   if (sets.length === 0) return 'Sin datos previos'
   const grupos = new Map<string, number>()
   for (const s of sets) {
@@ -83,7 +97,7 @@ const DIA_MS = 86_400_000
 /** Resumen de un entreno terminado para las tarjetas de Inicio y Gym: cuándo fue, cuánto duró, cuántos ejercicios y qué volumen movió. */
 export function resumenUltimoEntreno(
   workout: { inicio: number; fin?: number },
-  sets: Pick<SetEntry, 'exerciseId' | 'peso' | 'reps'>[],
+  sets: (Pick<SetEntry, 'exerciseId' | 'peso' | 'reps'> & { tipo?: SetEntry['tipo'] })[],
   ahora: Date = new Date(),
 ): ResumenEntreno {
   const inicio = new Date(workout.inicio)
@@ -95,7 +109,53 @@ export function resumenUltimoEntreno(
   return {
     cuando,
     duracion: workout.fin !== undefined ? formatDuracion(workout.fin - workout.inicio) : null,
-    ejercicios: new Set(sets.map((s) => s.exerciseId)).size,
+    ejercicios: new Set(efectivas(sets).map((s) => s.exerciseId)).size,
     volumen: volumenSets(sets),
   }
+}
+
+/**
+ * Orden de los ejercicios de una sesión: los de la rutina y luego los que tienen series (como hasta ahora);
+ * si hay un orden manual, manda: sus ids primero (los que sigan existiendo) y el resto detrás en su orden natural.
+ */
+export function ordenEjerciciosSesion(idsRutina: number[], idsConSeries: number[], manual?: number[]): number[] {
+  const base = Array.from(new Set([...idsRutina, ...idsConSeries]))
+  if (!manual?.length) return base
+  const baseSet = new Set(base)
+  const primeros = Array.from(new Set(manual)).filter((id) => baseSet.has(id))
+  const resto = base.filter((id) => !primeros.includes(id))
+  return [...primeros, ...resto]
+}
+
+/** Mueve el elemento `indice` una posición (`delta` -1 sube, +1 baja). Devuelve una copia; fuera de rango no cambia nada. */
+export function moverElemento<T>(lista: T[], indice: number, delta: -1 | 1): T[] {
+  const destino = indice + delta
+  if (indice < 0 || indice >= lista.length || destino < 0 || destino >= lista.length) return [...lista]
+  const copia = [...lista]
+  ;[copia[indice], copia[destino]] = [copia[destino], copia[indice]]
+  return copia
+}
+
+/** `YYYY-MM-DD` + `HH:MM` locales → ms; `null` si alguno no es válido. */
+export function combinarFechaHora(fecha: string, hora: string): number | null {
+  const f = /^(\d{4})-(\d{2})-(\d{2})$/.exec(fecha)
+  const h = /^(\d{1,2}):(\d{2})$/.exec(hora)
+  if (!f || !h) return null
+  const [y, mo, d, hh, mm] = [Number(f[1]), Number(f[2]), Number(f[3]), Number(h[1]), Number(h[2])]
+  if (mo < 1 || mo > 12 || d < 1 || d > 31 || hh > 23 || mm > 59) return null
+  const date = new Date(y, mo - 1, d, hh, mm)
+  return date.getMonth() === mo - 1 && date.getDate() === d ? date.getTime() : null
+}
+
+/** Duración en minutos enteros (mínimo 1) entre dos marcas de tiempo. */
+export function minutosEntre(inicio: number, fin: number): number {
+  return Math.max(1, Math.round((fin - inicio) / 60000))
+}
+
+/** Mensaje de error si un entreno registrado a posteriori no es válido; `null` si lo es. */
+export function validarEntrenoPasado(inicio: number | null, minutos: number, ahora: number): string | null {
+  if (inicio === null) return 'Indica una fecha y una hora válidas.'
+  if (inicio > ahora) return 'El entreno tiene que haber empezado ya. Para uno nuevo, usa «Entreno vacío».'
+  if (!Number.isFinite(minutos) || minutos < 1 || minutos > 24 * 60) return 'La duración debe estar entre 1 minuto y 24 horas.'
+  return null
 }

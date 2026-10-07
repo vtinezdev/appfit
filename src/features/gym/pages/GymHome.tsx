@@ -7,12 +7,14 @@ import ListRow from '../../../shared/components/ListRow'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import TarjetaEntreno from '../components/TarjetaEntreno'
+import RegistrarEntrenoPasado from '../components/RegistrarEntrenoPasado'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
 
 const ERROR_EMPEZAR = 'No se ha podido empezar el entreno. Inténtalo de nuevo.'
 
-export default function GymHome() {
+export default function GymHome({ onRegistrado }: { onRegistrado: (id: number) => void }) {
+  const [pasado, setPasado] = useState(0)
   const [eligiendoRutina, setEligiendoRutina] = useState(false)
   const [errorRutina, setErrorRutina] = useState<string | null>(null)
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
@@ -53,6 +55,7 @@ export default function GymHome() {
             Entreno vacío
           </Button>
           {!!rutinas?.length && <Button size="lg" block onClick={() => abrirRutinas(true)}>Desde rutina</Button>}
+          <Button variant="subtle" block onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
           {rutinas?.length === 0 && <p className="training-muted text-center text-caption">O crea una rutina en la pestaña Rutinas.</p>}
         </div>
       </section>
@@ -69,6 +72,8 @@ export default function GymHome() {
           {errorRutina && <ErrorState>{errorRutina}</ErrorState>}
         </div>
       </Sheet>
+
+      {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
 
       {toast}
     </div>

@@ -7,9 +7,10 @@ import type { Perfil, Peso } from '../../../shared/db/types'
 import { formatFriendly } from '../../../shared/lib/dates'
 import { formatNumber } from '../../../shared/lib/format'
 import { ETIQUETAS_OBJETIVO, formatSigned, NIVELES_ACTIVIDAD } from '../lib/energia'
+import { ajusteProteina, PROTEINA_KG_DEFECTO } from '../lib/proteina'
 import { edadEn, INTENSIDAD_POR_DEFECTO, perfilVacio } from '../lib/validacionPerfil'
 
-export type CampoEditable = 'sexo' | 'fechaNacimiento' | 'alturaCm' | 'peso' | 'actividad' | 'objetivo'
+export type CampoEditable = 'sexo' | 'fechaNacimiento' | 'alturaCm' | 'peso' | 'actividad' | 'objetivo' | 'proteina'
 
 interface Props {
   perfil: Perfil
@@ -26,6 +27,12 @@ function valorObjetivo(perfil: Perfil): string | null {
   return `${ETIQUETAS_OBJETIVO[perfil.objetivo]} · ${formatSigned(perfil.objetivo === 'definicion' ? -i : i)} kcal`
 }
 
+function valorProteina(perfil: Perfil, pesoKg: number | undefined): string {
+  if (perfil.proteinaPorKgActiva === false) return 'Desactivada'
+  const g = ajusteProteina(perfil, pesoKg ?? 1)?.gPorKg ?? PROTEINA_KG_DEFECTO
+  return pesoKg === undefined ? `${formatNumber(g, 1)} g/kg · falta el peso` : `${formatNumber(g, 1)} g/kg · ${formatNumber(Math.round(g * pesoKg))} g/día`
+}
+
 /** Datos fuente del perfil: cada fila abre una Sheet con un solo control. */
 export default function DatosPerfil({ perfil, peso, hoy, onEditar, onBorrar }: Props) {
   const edad = perfil.fechaNacimiento ? edadEn(perfil.fechaNacimiento, hoy) : null
@@ -36,6 +43,7 @@ export default function DatosPerfil({ perfil, peso, hoy, onEditar, onBorrar }: P
     { campo: 'peso', etiqueta: 'Peso', valor: peso ? `${formatNumber(peso.kg, 1)} kg · ${formatFriendly(peso.fecha).toLowerCase()}` : null, accion: 'Registrar' },
     { campo: 'actividad', etiqueta: '¿Cuánto deporte haces?', valor: perfil.actividad ? NIVELES_ACTIVIDAD[perfil.actividad].etiqueta : null, accion: 'Añadir' },
     { campo: 'objetivo', etiqueta: 'Objetivo', valor: valorObjetivo(perfil), accion: 'Elegir' },
+    { campo: 'proteina', etiqueta: 'Proteína por kg', valor: valorProteina(perfil, peso?.kg), accion: 'Elegir' },
   ]
   return <section aria-label="Tus datos" className="space-y-stack">
     <SectionHeader variant="section">Tus datos</SectionHeader>

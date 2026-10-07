@@ -159,6 +159,60 @@ export interface Peso {
   createdAt: number
 }
 
+/** Ración propia de un alimento («rebanada» de pan bimbo = 30 g). `ref` es un FoodRef estable (`user:<id>` | `catalog:<id>`). */
+export interface Porcion {
+  id: number
+  ref: string
+  nombre: string
+  nombreNorm: string
+  gramos: number
+}
+
+/**
+ * Receta casera. Guarda un snapshot de los ingredientes y el peso cocinado; `foodId` es el `Food` propio que
+ * la representa (valores por 100 g del peso cocinado), así funciona en búsqueda, frecuentes e intérprete.
+ */
+export interface Receta {
+  id: number
+  nombre: string
+  nombreNorm: string
+  ingredientes: MealItem[]
+  pesoCocinadoG: number
+  foodId: number
+  createdAt: number
+  updatedAt: number
+}
+
+/** Agua bebida en un día (`fecha` única). */
+export interface Agua {
+  id: number
+  fecha: string
+  /** Total del día; si hay `tomas`, es su suma. */
+  ml: number
+  /** Cada toma, en orden, para poder quitar la última. Ausente en datos importados sin detalle. */
+  tomas?: number[]
+}
+
+/** Snapshot del objetivo de un día. `origen` indica qué acción lo escribió. */
+export interface ObjetivoDia {
+  id: number
+  fecha: string
+  objetivos: Objetivos
+  origen: string
+}
+
+/** Medidas corporales de un día (cm y %). Todo opcional salvo la fecha. */
+export interface Medida {
+  id: number
+  fecha: string
+  cintura?: number
+  cadera?: number
+  pecho?: number
+  brazo?: number
+  muslo?: number
+  grasaPct?: number
+}
+
 export interface Objetivos {
   kcal: number
   prot: number
@@ -185,6 +239,11 @@ export interface Perfil {
   objetivo?: ObjetivoPerfil
   /** Magnitud en kcal/día; el signo lo da el objetivo y se ignora en mantenimiento. */
   intensidadKcal?: IntensidadKcal
+  /** Proteína por kg de peso: activa por defecto; `false` la desactiva explícitamente. */
+  proteinaPorKgActiva?: boolean
+  proteinaPorKg?: number
+  /** Usar el gasto observado (adaptativo) en lugar del estimado. */
+  usarGastoObservado?: boolean
 }
 
 export interface Settings {
@@ -192,6 +251,18 @@ export interface Settings {
   objetivos: Objetivos
   /** Ausente en datos y backups anteriores a la sección Perfil. */
   perfil?: Perfil
+  /** ms de la última exportación de copia lanzada desde Ajustes. */
+  ultimaExportacion?: number
+  /** ms hasta el que se pospone el recordatorio de copia. */
+  recordatorioBackupPospuesto?: number
+  /** Días sin copia a partir de los cuales se recuerda (por defecto 14). */
+  recordatorioBackupDias?: number
+  /** Peso de la barra para la calculadora de discos (kg, por defecto 20). */
+  barraKg?: number
+  /** Sonido al terminar el descanso (por defecto sí). */
+  sonidoDescanso?: boolean
+  /** Objetivo opcional de agua diaria (ml). */
+  aguaObjetivoMl?: number
 }
 
 export interface Exercise {
@@ -211,6 +282,15 @@ export interface Routine {
   id: number
   nombre: string
   exerciseIds: number[]
+  /** Objetivos por ejercicio (clave = exerciseId). */
+  objetivos?: Record<number, ObjetivoEjercicio>
+}
+
+export interface ObjetivoEjercicio {
+  series: number
+  repsMin: number
+  repsMax: number
+  descansoSeg?: number
 }
 
 export interface Workout {
@@ -219,6 +299,8 @@ export interface Workout {
   fin?: number
   routineId?: number
   notas?: string
+  /** Orden manual de los ejercicios de la sesión; manda sobre el derivado de las series si existe. */
+  ordenEjercicios?: number[]
   /** Clasificación semántica al finalizar. Las series siguen en sets; nunca guardar colores/niveles. */
   muscleSnapshot?: WorkoutMuscleSnapshot
 }
@@ -243,4 +325,8 @@ export interface SetEntry {
   reps: number
   peso: number
   createdAt: number
+  /** Ausente = serie efectiva. */
+  tipo?: 'calentamiento'
+  /** Repeticiones en reserva (0–5), opcional. */
+  rir?: number
 }

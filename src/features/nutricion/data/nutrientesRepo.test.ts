@@ -56,7 +56,7 @@ describe('snapshots de nutrientes adicionales', () => {
     expect(despues.meals).toEqual(antes.meals)
     expect(despues.foods).toEqual(antes.foods)
     expect(despues.foods[0].nutrientes).toEqual(catalogo.nutrientes)
-    expect(despues.version).toBe(2)
+    expect(despues.version).toBe(3)
   })
 
   it('alimentos/entradas anteriores y kcal rápidas siguen con los extras desconocidos', async () => {

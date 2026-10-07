@@ -11,6 +11,11 @@ const datos: Record<string, unknown[]> = {
   notasMedida: [{ id: 1, texto: 'Un bol son 200 g', createdAt: 1 }],
   pesos: [{ id: 1, fecha: '2026-10-01', kg: 72, createdAt: 1 }],
   nombresAlimentos: [{ id: 'catalog:ciqual:1', nombre: 'Arroz' }],
+  porciones: [{ id: 1, ref: 'user:1', nombre: 'rebanada', nombreNorm: 'rebanada', gramos: 30 }],
+  recetas: [{ id: 1, nombre: 'Guiso', nombreNorm: 'guiso', ingredientes: [], pesoCocinadoG: 400, foodId: 1, createdAt: 1, updatedAt: 1 }],
+  agua: [{ id: 1, fecha: '2026-10-01', ml: 250 }],
+  objetivosDia: [{ id: 1, fecha: '2026-10-01', objetivos: { kcal: 2000, prot: 150, carb: 200, grasa: 60 }, origen: 'test' }],
+  medidas: [{ id: 1, fecha: '2026-10-01', cintura: 80 }],
 }
 
 beforeEach(async () => {

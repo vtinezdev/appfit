@@ -1,3 +1,4 @@
+import { congelarObjetivoDia } from '../../perfil/data/objetivosDiaRepo'
 import { useState } from 'react'
 import Sheet from '../../../shared/components/Sheet'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
@@ -60,6 +61,7 @@ export default function AccionesComidaSheet({ fecha, comida, entries, plato, onC
     setError(null)
     try {
       const ids = await entriesRepo.copiar({ origen: { fecha, comida, platoId: plato?.id }, destino: { fecha: paso === 'copiar-comida' ? fecha : fechaDestino, comida: comidaDestino } })
+      if (ids.length > 0) void congelarObjetivoDia(paso === 'copiar-comida' ? fecha : fechaDestino)
       if (ids.length === 0) {
         setError('Ya no hay alimentos disponibles para copiar.')
         return

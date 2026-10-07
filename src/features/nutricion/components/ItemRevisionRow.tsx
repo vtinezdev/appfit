@@ -13,6 +13,7 @@ import { macrosPorGramos, resumenMacros } from '../lib/nutrition'
 import MacroInputs from './MacroInputs'
 import { sugerirNombreCorto } from '../lib/nombresCortos'
 import NutrientesDetalle from './NutrientesDetalle'
+import UnidadRacion from './UnidadRacion'
 
 interface Props {
   item: ItemRevision
@@ -78,6 +79,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
           <Metric valor={kcal} unidad="kcal" size="title" align="right" caption={resumenMacros(aporte)} />
         </div>
       )}
+      {!medidaPendiente(item) && !item.sinCoincidencia && <UnidadRacion item={item} onChange={onChange} />}
       {item.sinCoincidencia && <Aviso>No encontrado: busca con «Cambiar» o escribe los valores por 100 g.</Aviso>}
       {item.datosIncompletos && <Aviso>Faltan datos: completa el nombre y los valores de la etiqueta.</Aviso>}
       {item.gramosEstimados && <Aviso>Cantidad estimada: revisa los gramos.</Aviso>}

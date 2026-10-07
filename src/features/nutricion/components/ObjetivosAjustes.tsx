@@ -5,8 +5,10 @@ import { Input } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import type { Objetivos } from '../../../shared/db/types'
 import { MACROS } from '../../../shared/design/macros'
-import { formatInt } from '../../../shared/lib/format'
+import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { distribucionPCG } from '../lib/nutrition'
+import { reajustarConProteinaFija, type AjusteProteina } from '../../perfil/lib/proteina'
+
 import { cuadrarObjetivos, kcalDeMacros, objetivosCuadran, reajustarObjetivos } from '../lib/objetivos'
 
 interface Props {
@@ -15,6 +17,8 @@ interface Props {
   /** `perfil`: las kcal se calculan en Perfil y aquí son de solo lectura; los macros siguen editables. */
   origen?: 'perfil' | 'manual'
   onIrAPerfil?: () => void
+  /** Proteína calculada con g/kg × peso en Perfil: el campo es de solo lectura y los demás la respetan. */
+  proteinaPorKg?: AjusteProteina
   onGuardar: (objetivos: Objetivos) => void
 }
 
@@ -32,17 +36,18 @@ type Edicion = { campo: keyof Objetivos; texto: string; base: Objetivos }
  * Objetivos diarios siempre cuadrados (4·P + 4·C + 9·G = kcal): al cambiar las kcal los macros conservan su reparto;
  * al cambiar un macro, los otros dos se ajustan a lo que queda. Junto a cada macro, su % de las kcal.
  */
-export default function ObjetivosAjustes({ objetivos, origen = 'manual', onIrAPerfil, onGuardar }: Props) {
+export default function ObjetivosAjustes({ objetivos, origen = 'manual', onIrAPerfil, proteinaPorKg, onGuardar }: Props) {
+  const reajustar = (base: Objetivos, campo: keyof Objetivos, valor: number) => proteinaPorKg && campo !== 'prot' ? reajustarConProteinaFija(base, campo, valor) : reajustarObjetivos(base, campo, valor)
   const kcalDePerfil = origen === 'perfil'
   const [edicion, setEdicion] = useState<Edicion | null>(null)
-  const mostrados = edicion && edicion.texto !== '' ? reajustarObjetivos(edicion.base, edicion.campo, Number(edicion.texto)) : objetivos
+  const mostrados = edicion && edicion.texto !== '' ? reajustar(edicion.base, edicion.campo, Number(edicion.texto)) : objetivos
   const dist = distribucionPCG(mostrados)
   const descuadrados = !edicion && !objetivosCuadran(objetivos)
 
   function teclear(campo: keyof Objetivos, texto: string, base: Objetivos) {
     setEdicion({ campo, texto, base })
     // Un campo vacío a medio teclear no se guarda: al salir del campo se queda lo que había.
-    if (texto !== '') onGuardar(reajustarObjetivos(base, campo, Number(texto)))
+    if (texto !== '') onGuardar(reajustar(base, campo, Number(texto)))
   }
 
   return (
@@ -57,6 +62,17 @@ export default function ObjetivosAjustes({ objetivos, origen = 'manual', onIrAPe
           </div>
           <div className="flex items-center justify-between gap-3">
             <p className="text-caption text-fg-muted">Calculado en Perfil</p>
+            {onIrAPerfil && <Button variant="ghost" size="sm" className="shrink-0" onClick={onIrAPerfil}>Ir a Perfil</Button>}
+          </div>
+        </div>
+      ) : proteinaPorKg && campo === 'prot' ? (
+        <div key={campo} className="space-y-1">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-body-sm font-medium text-fg">{label}</span>
+            <span className="tabular text-body font-semibold text-fg">{formatInt(mostrados.prot)}</span>
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-caption text-fg-muted">{formatNumber(proteinaPorKg.gPorKg, 1)} g/kg × {formatNumber(proteinaPorKg.pesoKg, 1)} kg · calculada en Perfil</p>
             {onIrAPerfil && <Button variant="ghost" size="sm" className="shrink-0" onClick={onIrAPerfil}>Ir a Perfil</Button>}
           </div>
         </div>

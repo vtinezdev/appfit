@@ -68,7 +68,7 @@ export default function EnergiaReferencias() {
     </Seccion>
 
     <Seccion titulo="Cómo se usa en la app">
-      <p>Con perfil completo y objetivo elegido, las calorías de Hoy, Resumen, Inicio y Ajustes salen de Perfil y se recalculan al registrar un peso, cambiar un dato o cumplir años. Los macros conservan el reparto en % de Ajustes, por lo que al bajar las calorías baja también la proteína. Sin perfil completo siguen tus objetivos de Ajustes. No hay histórico de objetivos: los días pasados se comparan con el objetivo vigente. En Perfil se guardan solo la fecha de nacimiento, el sexo, la altura, la actividad y el objetivo; el peso sale de tus pesajes y lo demás se deriva al leer. El backup JSON incluye la fecha de nacimiento.</p>
+      <p>Con perfil completo y objetivo elegido, las calorías de Hoy, Resumen, Inicio y Ajustes salen de Perfil y se recalculan al registrar un peso, cambiar un dato o cumplir años. Los macros conservan el reparto en % de Ajustes y, si la proteína por kg está activa y hay peso, la proteína sale de gramos por kg × peso (ver «Proteína y agua»). Sin perfil completo siguen tus objetivos de Ajustes. Cada día guarda el objetivo que tenía cuando registraste comida o cambiaste tus datos ese día; los días sin registro se comparan con el objetivo vigente. En Perfil se guardan solo la fecha de nacimiento, el sexo, la altura, la actividad y el objetivo; el peso sale de tus pesajes y lo demás se deriva al leer. El backup JSON incluye la fecha de nacimiento.</p>
     </Seccion>
 
     <Seccion titulo="Fuentes">

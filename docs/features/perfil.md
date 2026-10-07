@@ -14,7 +14,11 @@
 | Validación | `lib/validacionPerfil.ts`: rangos, `edadEn`, `normalizarPerfil`, `camposPendientes` | — |
 | Objetivos vigentes | `lib/objetivosVigentes.ts` (usa `nutricion/lib/objetivos.reajustarObjetivos`) | — |
 | Fuentes | `lib/fuentesEnergia.ts`: registro de citas que pinta Referencias | — |
-| Repositorio | `data/perfilRepo.ts`: `getPerfil`, `guardarPerfil(patch)`, `borrarPerfil`/`restaurarPerfil`, `estadoEnergetico`, `objetivosVigentes` | `settings.perfil`, `pesos` |
+| Proteína por kg | `lib/proteina.ts`: `ajusteProteina`, `aplicarProteinaPorKg`, `reajustarConProteinaFija`; fila «Proteína por kg» en `DatosPerfil` y su control en `EditarDatoSheet` | `settings.perfil` |
+| Gasto observado | `lib/gastoObservado.ts`, `components/GastoObservadoCard` | `perfilRepo.leerGastoObservado` (`entries` y `pesos`) |
+| Objetivo de cada día | `lib/objetivosDia.ts`, `data/objetivosDiaRepo.ts` | tabla `objetivosDia` |
+| Medidas corporales | `lib/medidas.ts`, `components/MedidasCorporales` | `data/medidasRepo.ts` (tabla `medidas`) |
+| Repositorio | `data/perfilRepo.ts`: `getPerfil`, `guardarPerfil(patch)`, `borrarPerfil`/`restaurarPerfil`, `estadoEnergetico`, `objetivosVigentes`, `calcularVigentes` | `settings.perfil`, `pesos`, `entries` |
 
 ## Cálculo
 
@@ -22,11 +26,11 @@
 
 ## Datos
 
-Solo se guardan los datos fuente en `Settings.perfil` (todo opcional, guardado por partes): `sexo`, `fechaNacimiento` (YYYY-MM-DD), `alturaCm`, `actividad`, `objetivo`, `intensidadKcal`. El peso es el último pesaje ≤ hoy; edad, IMC, TMB, GET, ajuste y kcal objetivo se derivan al leer. `getPerfil` sanea (`normalizarPerfil`) sin escribir. Sin Dexie v7 ni cambio de `BACKUP_VERSION`; el backup incluye la fecha de nacimiento.
+Solo se guardan los datos fuente en `Settings.perfil` (todo opcional, guardado por partes): `sexo`, `fechaNacimiento` (YYYY-MM-DD), `alturaCm`, `actividad`, `objetivo`, `intensidadKcal`, `proteinaPorKgActiva`, `proteinaPorKg` y `usarGastoObservado`. El peso es el último pesaje ≤ hoy; edad, IMC, TMB, GET, ajuste y kcal objetivo se derivan al leer. `getPerfil` sanea (`normalizarPerfil`) sin escribir. Estos campos no necesitan versión de esquema ni de backup; el backup incluye la fecha de nacimiento.
 
 ## Perfil manda
 
-`perfilRepo.objetivosVigentes(hoy)` es la fuente única de objetivos: con perfil completo y objetivo elegido devuelve `{ kcal del perfil, macros reescalados conservando el reparto, origen: 'perfil' }`; si no, los manuales con `origen: 'manual'`. La leen Hoy, Resumen, Inicio, Referencias y Ajustes. En Ajustes, con origen `perfil`, las kcal son de solo lectura («Calculado en Perfil» + «Ir a Perfil») y los macros siguen editables.
+`perfilRepo.objetivosVigentes(hoy)` es la fuente única de objetivos: con perfil completo y objetivo elegido devuelve `{ kcal del perfil, macros reescalados conservando el reparto, origen: 'perfil' }`; si no, los manuales con `origen: 'manual'`. Después, si la proteína por kg está activa y hay peso, P pasa a ser g/kg × peso (`proteinaPorKg` en el resultado) y las kcal restantes se reparten entre hidratos y grasa con su reparto actual; si la proteína no cabe en las kcal, no se aplica. Lo que ven Hoy, Resumen e Inicio es el **objetivo del día** (`objetivosDiaRepo`): su snapshot o estos vigentes. Los leen también Referencias y Ajustes. En Ajustes, con origen `perfil`, las kcal son de solo lectura («Calculado en Perfil» + «Ir a Perfil») y los macros siguen editables.
 
 ## Estados
 
@@ -44,4 +48,7 @@ Solo se guardan los datos fuente en `Settings.perfil` (todo opcional, guardado p
 
 - Aviso fijo: «Estimación orientativa, no una prescripción médica» (y el texto completo en Referencias).
 - «Borrar datos del perfil» es un borrado inmediato con «Deshacer» (`useAviso`); no toca los pesajes.
-- Limitación conocida: al reescalar por reparto, la proteína baja en definición. Pendientes en `../roadmap.md`.
+- **Proteína por kg**: activada por defecto, 1,8 g/kg (rango 1,6 a 2,2, pasos de 0,1), con peso registrado. Se puede desactivar. Resuelve la antigua limitación de que la proteína bajara al reescalar kcal en definición. Fuentes (Morton 2018, Jäger 2017) y qué se verificó: Referencias, Proteína y agua.
+- **Gasto observado**: gasto = kcal medias − (pendiente de la media de peso de 7 días en kg/día × 7.700). Ventana de 28 días sin contar hoy (mínimo 21), al menos el 80 % de los días con comida registrada y 2 pesajes por semana en cada una de las 4 semanas; si no, estado «datos insuficientes» con los motivos. Se muestra junto al estimado; «Usar el observado» (desactivado por defecto) sustituye el GET en el cálculo del objetivo. Limitaciones: 7.700 kcal/kg es una aproximación (Hall 2008), el peso varía por agua y sal, el registro de comida suele quedarse corto y la regresión usa pocos puntos; es orientativo.
+- **Medidas corporales** (cintura, cadera, pecho, brazo, muslo en cm y grasa en %): «Registrar» abre una Sheet con fecha y los campos que se quieran; si ya hay un registro de ese día se completa. Muestra el último valor de cada zona y su variación respecto al anterior, y un historial con borrado inmediato y «Deshacer». Rangos de plausibilidad de entrada, no clínicos. No confundir con «Medidas caseras» de Nutrición.
+- **Objetivo de cada día**: ver `nutricion.md`. Hoy se calcula siempre en vivo; editar el perfil, registrar, borrar o restaurar un peso, y borrar o deshacer el perfil, además actualizan el snapshot de hoy (así, al pasar el día, conserva el último objetivo). Nunca se toca el de días pasados.

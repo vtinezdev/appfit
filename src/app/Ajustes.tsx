@@ -6,6 +6,7 @@ import { hayDatosGuardados } from '../shared/db/estadoDatos'
 import { formatInt } from '../shared/lib/format'
 import { todayISO } from '../shared/lib/dates'
 import * as perfilRepo from '../features/perfil/data/perfilRepo'
+import { actualizarObjetivoHoy } from '../features/perfil/data/objetivosDiaRepo'
 import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { ErrorState, LoadingState } from '../shared/components/StateMessage'
@@ -16,6 +17,10 @@ import { getThemePref, setThemePref, type ThemePref } from '../shared/design/the
 import ConfirmacionDestructiva from '../shared/components/ConfirmacionDestructiva'
 import PageHeader from '../shared/components/PageHeader'
 import SectionHeader from '../shared/components/SectionHeader'
+import { UMBRAL_BACKUP_POR_DEFECTO } from '../shared/lib/recordatorioBackup'
+import { formatAgua, objetivoAguaPorDefecto, resolverObjetivoAgua, validarObjetivoAgua } from '../features/inicio/lib/agua'
+import { Input } from '../shared/components/Input'
+import { descargarCsv, TABLAS_CSV, type TablaCsv } from '../shared/lib/exportarCsv'
 import AlmacenamientoAjustes from './AlmacenamientoAjustes'
 
 function irASeccion(seccion: HTMLElement | null) {
@@ -23,10 +28,12 @@ function irASeccion(seccion: HTMLElement | null) {
   seccion?.focus({ preventScroll: true })
 }
 
-export default function Ajustes({ abrirGuia = false, onIrAPerfil }: { abrirGuia?: boolean; onIrAPerfil?: () => void }) {
+export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPerfil }: { abrirGuia?: boolean; abrirCopia?: boolean; onIrAPerfil?: () => void }) {
   const settings = useLiveQuery(() => getSettings(), [])
   const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(todayISO()), [])
   const hayDatos = useLiveQuery(hayDatosGuardados, [])
+  const sexo = useLiveQuery(async () => (await perfilRepo.getPerfil()).sexo, [])
+  const [aguaTexto, setAguaTexto] = useState<string | null>(null)
   const [tema, setTema] = useState<ThemePref>(getThemePref)
   const [guiaAbierta, setGuiaAbierta] = useState(abrirGuia)
   const [errorBorrado, setErrorBorrado] = useState<string | null>(null)
@@ -43,7 +50,8 @@ export default function Ajustes({ abrirGuia = false, onIrAPerfil }: { abrirGuia?
 
   useEffect(() => {
     if (abrirGuia && cargados) irASeccion(guiaRef.current)
-  }, [abrirGuia, cargados])
+    else if (abrirCopia && cargados) irASeccion(backupRef.current)
+  }, [abrirGuia, abrirCopia, cargados])
 
   if (!settings || !vigentes) return <LoadingState />
 
@@ -52,8 +60,22 @@ export default function Ajustes({ abrirGuia = false, onIrAPerfil }: { abrirGuia?
     setOcupado(true)
     try {
       descargarBackup(await exportarBackup())
+      // Solo cuenta si la descarga se lanzó; un fallo al anotarlo no invalida la copia.
+      await updateSettings({ ultimaExportacion: Date.now() }).catch(() => undefined)
     } catch {
       setErrorBackup('No se ha podido exportar la copia. Vuelve a intentarlo antes de cambiar de acceso.')
+    } finally {
+      setOcupado(false)
+    }
+  }
+
+  async function exportarCsv(tabla: TablaCsv) {
+    setErrorBackup(null)
+    setOcupado(true)
+    try {
+      await descargarCsv(tabla, todayISO())
+    } catch {
+      setErrorBackup('No se ha podido exportar el CSV. Inténtalo de nuevo.')
     } finally {
       setOcupado(false)
     }
@@ -111,14 +133,48 @@ export default function Ajustes({ abrirGuia = false, onIrAPerfil }: { abrirGuia?
       <PageHeader title="Ajustes" />
 
 
-      <ObjetivosAjustes objetivos={vigentes} origen={vigentes.origen} onIrAPerfil={onIrAPerfil} onGuardar={(objetivos) => {
+      <ObjetivosAjustes objetivos={vigentes} origen={vigentes.origen} proteinaPorKg={vigentes.proteinaPorKg} onIrAPerfil={onIrAPerfil} onGuardar={(objetivos) => {
         setErrorObjetivos(null)
-        updateSettings({ objetivos }).catch(() => setErrorObjetivos('No se han podido guardar los objetivos. Inténtalo de nuevo.'))
+        updateSettings({ objetivos }).then(() => actualizarObjetivoHoy(todayISO(), 'ajustes')).catch(() => setErrorObjetivos('No se han podido guardar los objetivos. Inténtalo de nuevo.'))
       }} />
       {errorObjetivos && <ErrorState>{errorObjetivos}</ErrorState>}
       <section aria-label="Apariencia" className="space-y-stack">
         <SectionHeader variant="section">Apariencia</SectionHeader>
         <SegmentedControl label="Tema de la aplicación" opciones={[{ valor: 'system', label: 'Sistema' }, { valor: 'light', label: 'Claro' }, { valor: 'dark', label: 'Oscuro' }]} valor={tema} onChange={(v) => { setTema(v); setThemePref(v) }} />
+      </section>
+
+      <section aria-label="Agua" className="space-y-stack">
+        <SectionHeader variant="section">Agua</SectionHeader>
+        {(() => {
+          const efectivo = resolverObjetivoAgua(settings.aguaObjetivoMl, sexo)
+          const recomendado = objetivoAguaPorDefecto(sexo)
+          return <div className="space-y-2">
+            <label className="flex items-center justify-between gap-3">
+              <span className="text-body-sm font-medium text-fg">Objetivo diario (ml)</span>
+              <Input type="number" inputMode="numeric" enterKeyHint="done" className="tabular no-spin w-28 text-right" placeholder={recomendado !== null ? String(recomendado) : 'Sin objetivo'}
+                value={aguaTexto ?? (settings.aguaObjetivoMl ?? '')}
+                onChange={(e) => {
+                  setAguaTexto(e.target.value)
+                  const v = validarObjetivoAgua(Number(e.target.value))
+                  if (e.target.value !== '' && v !== null) updateSettings({ aguaObjetivoMl: v }).catch(() => setErrorObjetivos('No se ha podido guardar el objetivo de agua.'))
+                }}
+                onBlur={() => setAguaTexto(null)} />
+            </label>
+            <p className="text-caption text-fg-muted">
+              {efectivo ? (efectivo.origen === 'efsa' ? `Ahora: ${formatAgua(efectivo.ml)}, el recomendado según tu sexo en Perfil.` : `Ahora: ${formatAgua(efectivo.ml)}, el que has fijado tú.`) : 'Sin objetivo: Inicio solo muestra lo que bebes. Indica tu sexo en Perfil para ver el recomendado o escribe uno.'}
+              {' '}El recomendado parte de la ingesta adecuada de EFSA (2010) para adultos; detalles en Referencias › Proteína y agua.
+            </p>
+            {settings.aguaObjetivoMl !== undefined && <Button variant="subtle" size="sm" onClick={() => { setAguaTexto(null); updateSettings({ aguaObjetivoMl: undefined }).catch(() => setErrorObjetivos('No se ha podido guardar el objetivo de agua.')) }}>Usar el recomendado</Button>}
+          </div>
+        })()}
+      </section>
+
+      <section aria-label="Entreno" className="space-y-stack">
+        <SectionHeader variant="section">Entreno</SectionHeader>
+        <SegmentedControl label="Sonido al terminar el descanso" valor={settings.sonidoDescanso === false ? 'no' : 'si'}
+          onChange={(v) => { updateSettings({ sonidoDescanso: v === 'si' }).catch(() => setErrorObjetivos('No se ha podido guardar el ajuste. Inténtalo de nuevo.')) }}
+          opciones={[{ valor: 'si', label: 'Con sonido' }, { valor: 'no', label: 'Sin sonido' }]} />
+        <p className="text-caption text-fg-muted">Un pitido corto, solo con la app abierta: iOS no permite vibrar ni avisar en segundo plano sin notificaciones.</p>
       </section>
 
       <section ref={backupRef} tabIndex={-1} aria-label="Backup" className="scroll-mt-6 space-y-stack">
@@ -145,6 +201,22 @@ export default function Ajustes({ abrirGuia = false, onIrAPerfil }: { abrirGuia?
               }}
             />
           </div>
+          <div className="space-y-2">
+            <p className="text-body-sm text-fg-muted">
+              {settings.ultimaExportacion === undefined ? 'Todavía no has exportado ninguna copia desde este acceso.' : `Última copia exportada: ${new Date(settings.ultimaExportacion).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}.`}
+            </p>
+            <SegmentedControl label="Recordar la copia cada" size="sm" valor={String(settings.recordatorioBackupDias ?? UMBRAL_BACKUP_POR_DEFECTO)}
+              onChange={(v) => { updateSettings({ recordatorioBackupDias: Number(v), recordatorioBackupPospuesto: undefined }).catch(() => setErrorBackup('No se ha podido guardar el recordatorio.')) }}
+              opciones={[{ valor: '7', label: '7 días' }, { valor: '14', label: '14 días' }, { valor: '30', label: '30 días' }]} />
+          </div>
+          <Disclosure title="Exportar a Excel (CSV)">
+            <div className="space-y-3">
+              <p className="text-body-sm text-fg-muted">Un archivo por tema, para abrirlo en Excel o una hoja de cálculo: separado por «;», con coma decimal y en UTF-8. No sustituye a la copia de seguridad: no se puede importar de vuelta.</p>
+              <div className="grid grid-cols-2 gap-2">
+                {TABLAS_CSV.map(({ tabla, etiqueta }) => <Button key={tabla} variant="secondary" size="sm" disabled={ocupado} onClick={() => exportarCsv(tabla)}>{etiqueta}</Button>)}
+              </div>
+            </div>
+          </Disclosure>
           {backupPendiente && (
             <div role="group" aria-label="Confirmar importación" className="space-y-3">
               <p className="text-body-sm text-fg-muted">La copia contiene {formatInt(backupPendiente.comidas)} registros de comida, además de sus alimentos, entrenos y ajustes.</p>

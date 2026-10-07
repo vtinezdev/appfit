@@ -152,3 +152,17 @@ describe('límites de prudencia', () => {
     expect(Number.isFinite(r.objetivoKcal!)).toBe(true)
   })
 })
+
+describe('gasto observado', () => {
+  it('solo sustituye al estimado si está activado y hay un valor; el estimado se conserva siempre', () => {
+    const base = ok(perfil({ objetivo: 'definicion', intensidadKcal: 400 }), 80)
+    const sin = calcularEnergia(perfil({ objetivo: 'definicion', intensidadKcal: 400, usarGastoObservado: false }), 80, HOY, 3000) as EnergiaOk
+    expect(sin.origenGet).toBe('estimado')
+    expect(sin.get).toBe(base.get)
+    const con = calcularEnergia(perfil({ objetivo: 'definicion', intensidadKcal: 400, usarGastoObservado: true }), 80, HOY, 3000) as EnergiaOk
+    expect(con).toMatchObject({ origenGet: 'observado', get: 3000, getEstimado: base.get })
+    expect(con.objetivoKcal).toBe(2600)
+    const sinDatos = calcularEnergia(perfil({ usarGastoObservado: true }), 80, HOY, null) as EnergiaOk
+    expect(sinDatos.origenGet).toBe('estimado')
+  })
+})
