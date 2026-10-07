@@ -8,6 +8,7 @@ import ModalPage from '../../../shared/components/ModalPage'
 import Button from '../../../shared/components/Button'
 import FilterChips from '../../../shared/components/FilterChips'
 import { Input, SearchInput, Select } from '../../../shared/components/Input'
+import MiniaturaEjercicio from './MiniaturaEjercicio'
 import ListRow from '../../../shared/components/ListRow'
 import Icon from '../../../shared/components/Icon'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
@@ -51,6 +52,7 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [] }: 
   function fila(e: OpcionEjercicio) {
     return <li key={e.key}><ListRow tone="flat" disabled={ocupado}
       onClick={() => elegir(e.catalogId && CATALOGO_POR_ID.has(e.catalogId) ? { tipo: 'catalogo', catalogId: e.catalogId } : { tipo: 'local', id: e.localId! })}>
+      <MiniaturaEjercicio catalogId={e.catalogId} />
       <span className="min-w-0 flex-1 break-words">
         <span className="block text-body font-semibold">{e.name}</span>
         <span className="block text-caption text-fg-muted">{etiqueta(e.primaryMuscles, MUSCULOS) || 'Sin clasificar'}{e.equipment.length > 0 && ` · ${etiqueta(e.equipment, EQUIPAMIENTO)}`}{!e.catalogId && ' · Personalizado'}</span>

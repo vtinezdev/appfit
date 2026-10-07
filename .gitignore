@@ -22,3 +22,6 @@ scripts/catalogo/raw/
 
 # copias de trabajo (worktrees) de Claude Code
 .claude/worktrees/
+
+# ejercicios: originales generados con IA (pesados; se convierten a public/ejercicios/, ver scripts/ejercicios/README.md)
+scripts/ejercicios/ia/

@@ -344,3 +344,5 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   .segment-indicator, .tab-indicator, .progress-fill { transition: none; }
   .series-complete svg, .series-new, .workout-finish-mark, .loading-skeleton, .app-view, .view-arrival { animation: none !important; }
 }
+/* Miniatura de ejercicio: las fotos son de gimnasio claro; en oscuro se atenúan con --thumb-filter. */
+.ejercicio-thumb { filter: var(--thumb-filter); }

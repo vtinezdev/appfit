@@ -59,6 +59,7 @@ export default {
         card: 'var(--space-card)',
         stack: 'var(--space-stack)',
         touch: 'var(--touch-target)',
+        thumb: 'var(--thumb-size)',
         'menu-node': 'var(--menu-node-size)',
       },
       height: { nav: 'var(--nav-height)', app: 'var(--app-height)' },

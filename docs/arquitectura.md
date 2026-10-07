@@ -8,7 +8,8 @@ Estado actual del código. El porqué de las decisiones de base está en `decisi
 - La red solo se usa para:
   - descargar el catálogo de alimentos (`/catalogo/*.json`, del propio origen);
   - consultar Open Food Facts con un código de barras escaneado (solo se envía el GTIN);
-  - cargar el `.wasm` del lector de códigos (del propio origen).
+  - cargar el `.wasm` del lector de códigos (del propio origen);
+  - cargar las miniaturas de ejercicios (`/ejercicios/*.webp`, del propio origen) al abrir el selector.
 - El resto funciona sin conexión.
 
 ## Capas y dependencias
