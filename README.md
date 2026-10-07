@@ -7,7 +7,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 ## Características
 
 **Inicio**
-- Entrenamiento como acción principal, calorías/macros frente a tus objetivos y peso con evolución de los últimos 30 días e historial. Registro de comida directo desde Inicio. Identidad deportiva en grafito con un único acento naranja para actuar y para las calorías; títulos y métricas contundentes, tarjetas limpias y redondeadas, y tema claro y oscuro.
+- Pantalla minimalista con tarjetas breves: una rueda de energía con lo comido en los colores de proteína, hidratos y grasa y lo que falta en negro (si te pasas, una segunda vuelta por dentro), el entreno en curso o el último, y el peso con su variación semanal e historial. Registro de comida directo desde Inicio. Identidad deportiva en grafito con un único acento naranja para actuar y para las calorías; títulos y métricas contundentes, tarjetas limpias y redondeadas, y tema claro y oscuro.
 
 **Nutrición**
 - Añadir comidas por texto libre o con el dictado del teclado: un intérprete local entiende alimentos, cantidades y medidas caseras («2 huevos», «una lata de atún», «un vaso de leche») y los busca en tus alimentos y en un catálogo de más de 6.000 alimentos (CIQUAL y productos de marca de Open Food Facts España). Sin conexión.
@@ -16,7 +16,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Los alimentos guardados juntos aparecen como un plato desplegable, con nombre opcional, totales y edición de cada ingrediente. Platos y alimentos individuales comparten filas compactas, con nombre, cantidad/conteo, macros y kcal. «…» permite añadir ingredientes, mover, copiar y borrar el plato. Arrastrarlo desde su asa al desplegar ingredientes o usar «Mover» lo traslada completo a otra comida del día, con Deshacer. «Copiar plato» lo duplica a otra comida o día, manteniendo el original. Las comidas tienen títulos más destacados que los alimentos.
 - Nutrición simplifica automáticamente el nombre de todos los alimentos, incluidos los que añades manualmente, mientras Añadir comida conserva el nombre completo. Se puede personalizar la etiqueta sin cambiar los nombres originales ni sus nutrientes.
 - Buscador con frecuentes, plantillas de comidas, copiar una comida o un día y «kcal rápidas» para una comida fuera.
-- Resumen diario en un recuadro compartido entre Inicio y Nutrición, con calorías, objetivos y macros, separado del resto de secciones; la vista detallada incluye el desglose dentro del mismo panel.
+- Resumen diario en un recuadro con calorías, objetivos y macros, separado del resto de secciones; la vista detallada incluye el desglose dentro del mismo panel.
 - Buscador e intérprete priorizan alimentos básicos habituales («pollo» → pechuga sin piel), conservando las variantes de preparación y marca cuando las especificas.
 - Resumen semanal y mensual navegable, con gráficas frente a tus objetivos.
 - Vista detallada con consumo, barras y cobertura de fibra, azúcares, sal y saturadas. Un botón de información explica criterio y fuente y permite abrir su referencia global. Los extras también están en los detalles del alimento; los datos ausentes se distinguen de cero y las sumas incompletas se señalan.

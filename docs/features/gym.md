@@ -12,7 +12,7 @@
 | Historial | `pages/Historial`, `components/MapaMuscular` | `volumenSets`, `formatDuracion`, `lib/cargaMuscular` | `workoutsRepo.terminados`, `setsRepo` |
 | Mapa muscular de sesión | `components/MapaMuscular`, `mapaMuscularGeometria` | `lib/musculos`, `lib/cargaMuscular`: carga → agregación → normalización | `workoutsRepo.terminar`: snapshot semántico junto a fin |
 | Progreso | `pages/Progreso` (diferida, Recharts) | `epley1RM`, `pesoMaximo`, `volumenSets` | `setsRepo.delEjercicio` |
-| Tarjeta de Inicio | `components/TarjetaEntreno` (la usa `inicio/`) | `resumenUltimoEntreno` | `workoutsRepo.activo` / `ultimoTerminado`, `setsRepo.delWorkout` (solo lectura) |
+| Tarjeta del último entreno | `components/TarjetaEntreno` (`GymHome`; Inicio tiene su propia tarjeta breve, `inicio/components/AccesoEntreno`) | `resumenUltimoEntreno` | `workoutsRepo.activo` / `ultimoTerminado`, `setsRepo.delWorkout` (solo lectura) |
 
 ## Presentación
 

@@ -44,7 +44,7 @@ Dónde está cada cosa: `docs/arquitectura.md` y `docs/features/<feature>.md`.
 **UI** (identidad en `DESIGN.md`; implementación en `docs/DESIGN-SYSTEM.md`: lee la sección que toque)
 - Nada de colores, tamaños, radios ni cifras sin formato sueltos, ni emojis como iconos: tokens + primitives. Lo vigilan `shared/design/guard.test.ts` y `contrast.test.ts`.
 - Inputs a 16 px como mínimo (Safari iOS hace zoom), controles reales ≥44 px. Validar 320/375/430 px, ambos temas, contenido largo y cifras grandes; sin scroll horizontal ni acciones cubiertas.
-- Listas planas; cards para unidades reales. Métricas inmediatas, sin halo/anillo/contador animado. ViewTabs para navegar, SegmentedControl para valores. Sheets y páginas modales usan las capas compartidas (foco/inert/viewport), sin wrappers nuevos por feature.
+- Listas planas; cards para unidades reales. Métricas inmediatas, sin halo ni contador animado. ViewTabs para navegar, SegmentedControl para valores. Sheets y páginas modales usan las capas compartidas (foco/inert/viewport), sin wrappers nuevos por feature.
 - Borrados: rutinas y plantillas → confirmación previa (`ConfirmacionDestructiva`); filas sueltas (series, entradas, alimentos…) → borrado inmediato con «Deshacer» (`useAviso`). Dentro de un Sheet el Toast queda debajo: errores en línea con `ErrorState`.
 
 **Pruebas en navegador**

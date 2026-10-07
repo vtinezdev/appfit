@@ -189,7 +189,6 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
             totales={totales}
             objetivos={objetivos}
             titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`}
-            tituloVisible={false}
             controles={<SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
               opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />}
             detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" objetivoKcal={objetivos.kcal} onVerReferencia={onVerReferencia} />}

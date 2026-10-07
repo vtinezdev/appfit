@@ -26,7 +26,7 @@ export default {
       warning: c('warning'),
       destructive: { DEFAULT: c('destructive'), on: c('on-destructive') },
       // datos: significan siempre lo mismo (bg-kcal, text-protein, stroke-carbs…)
-      kcal: c('kcal'),
+      kcal: { DEFAULT: c('kcal'), rest: c('kcal-rest') }, // rest: lo que falta en la rueda de energía
       protein: c('protein'),
       carbs: c('carbs'),
       fat: c('fat'),

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Peso } from '../../../shared/db/types'
-import { puntosSparkline, tendenciaPeso, validarPeso } from './peso'
+import { fraseVariacion, tendenciaPeso, validarPeso } from './peso'
 
 const p = (fecha: string, kg: number): Peso => ({ id: 0, fecha, kg, createdAt: 0 })
 
@@ -37,23 +37,16 @@ describe('tendenciaPeso', () => {
     expect(t).toMatchObject({ actual: 71, fecha: '2026-09-20', variacion7d: 1 })
   })
 
-  it('la serie son los últimos 30 días, ordenados', () => {
-    const t = tendenciaPeso([p('2026-09-30', 71), p('2026-09-01', 72), p('2026-08-31', 99), p('2026-09-15', 71.5)], '2026-09-30')
-    expect(t?.serie30d.map((x) => x.fecha)).toEqual(['2026-09-01', '2026-09-15', '2026-09-30'])
+  it('ordena los pesajes aunque lleguen desordenados', () => {
+    const t = tendenciaPeso([p('2026-09-30', 71), p('2026-09-01', 72), p('2026-09-15', 71.5)], '2026-09-30')
+    expect(t).toMatchObject({ actual: 71, fecha: '2026-09-30', variacion7d: -0.5 })
   })
 })
 
-describe('puntosSparkline', () => {
-  it('sin valores: vacío', () => {
-    expect(puntosSparkline([], 100, 20)).toBe('')
-  })
-
-  it('un valor o todos iguales: línea horizontal a media altura', () => {
-    expect(puntosSparkline([70], 100, 20)).toBe('M0 10 L100 10')
-    expect(puntosSparkline([70, 70, 70], 100, 20)).toBe('M0 10 L100 10')
-  })
-
-  it('reparte x a intervalos iguales y pone el mayor arriba', () => {
-    expect(puntosSparkline([70, 72, 71], 100, 20)).toBe('M0 20 L50 0 L100 10')
+describe('fraseVariacion', () => {
+  it('signo menos tipográfico, un decimal y el mismo tono al subir o bajar', () => {
+    expect(fraseVariacion(-0.6)).toBe('−0,6 kg en 7 días')
+    expect(fraseVariacion(1.2)).toBe('+1,2 kg en 7 días')
+    expect(fraseVariacion(0)).toBe('Sin cambios en 7 días')
   })
 })

@@ -9,9 +9,9 @@ THESIS: Herramienta de disciplina, rendimiento y progreso. La opción 3 «Enfoca
 
 OWN-WORLD: Negro/grafito, blanco/grises y naranja intenso de acento. Saira local: títulos condensados rectos, cifras en cursiva condensada, lectura/edición a ancho normal. Superficies compactas por tono, radios contenidos, controles reconocibles; sin gaming, halo ni fotografía de relleno.
 
-STORY: Inicio propone entrenar y permite revisar consumo/peso. Nutrición muestra consumo; Referencias explica criterios/fuentes compartidos. Gym prioriza ejercicio y series. Cada acción conserva datos, navegación y recuperación existentes.
+STORY: Inicio resume el día en tarjetas breves (energía, entreno, peso) y propone registrar comida. Nutrición muestra consumo; Referencias explica criterios/fuentes compartidos. Gym prioriza ejercicio y series. Cada acción conserva datos, navegación y recuperación existentes.
 
-FIRST VIEWPORT: Saludo/fecha/marca, mensaje breve, sesión activa o acceso a elegir entrenamiento. Nutrición integrada y peso debajo. En sesión: estado/tiempo/series/volumen y primera fila editable al alcance. Menú inferior estable y abanico conectado a su origen.
+FIRST VIEWPORT: «Hoy» y fecha, tarjeta ancha de energía con rueda (ADR 021), tarjetas Entreno/Peso y Registrar comida. En sesión: estado/tiempo/series/volumen y primera fila editable al alcance. Menú inferior estable y abanico conectado a su origen.
 
 FORM: Dirección fijada por el usuario: opción 3. Seed consultado una vez, `28308d58`, índice 6; el encargo explícito prevalece. Se conserva disciplina tipográfica/claridad operativa sin adoptar topologías ajenas. Riesgo: ampliación de texto y cifras deben envolver sin reducir targets.
 
