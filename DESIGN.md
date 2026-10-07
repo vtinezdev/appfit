@@ -26,6 +26,8 @@ colors:
   dark-accent: "rgb(245 128 52)"
   kcal: "rgb(214 92 10)"
   dark-kcal: "rgb(255 132 48)"
+  kcal-rest: "rgb(22 23 26)"
+  dark-kcal-rest: "rgb(0 0 0)"
   on-accent: "rgb(255 255 255)"
   dark-on-accent: "rgb(10 11 13)"
   accent-strong: "rgb(164 58 2)"
@@ -262,7 +264,7 @@ PRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valo
 
 Jerarquía cromática de tres niveles. 1) Grafito neutro domina fondos, superficies, texto y bordes: oscuro casi negro 10/11/13 con superficies 22/23/26 y campos 34/35/39; claro marfil frío 245/244/241 con superficies blancas. 2) Un único acento naranja para actuar y, en su misma familia, para la energía del día. 3) Colores atenuados para los datos. Sistema/Claro/Oscuro siguen disponibles y las preferencias guardadas se respetan.
 
-Naranja tostado para la acción principal, el foco, la selección, la pestaña activa y el icono de la sección actual; el naranja de texto tiene contraste propio por tema y el botón sólido lleva texto blanco AA en claro y grafito en oscuro. La barra de kcal del día pertenece a la misma familia. P/C/G son índigo, turquesa y arcilla, separados entre sí ΔE ≥ 10. El mapa muscular usa una rampa del naranja. Borrar es carmín en claro (para separarse del naranja) y rojo coral en oscuro; con verde (serie hecha) son los únicos semánticos y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas; Toast utiliza su contexto inverso.
+Naranja tostado para la acción principal, el foco, la selección, la pestaña activa y el icono de la sección actual; el naranja de texto tiene contraste propio por tema y el botón sólido lleva texto blanco AA en claro y grafito en oscuro. La barra de kcal del día pertenece a la misma familia; en la rueda de energía de Inicio, lo que falta va en negro (`kcal-rest`). P/C/G son índigo, turquesa y arcilla, separados entre sí ΔE ≥ 10. El mapa muscular usa una rampa del naranja. Borrar es carmín en claro (para separarse del naranja) y rojo coral en oscuro; con verde (serie hecha) son los únicos semánticos y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas; Toast utiliza su contexto inverso.
 
 **The Acento Rule.** El naranja orienta la acción y mide la energía del día, sin sustituir superficies, texto o jerarquía. Las acciones repetidas en listas («Añadir a…», «Repetir») van en tono neutro, y las terciarias («Ver día», «Registrar») en grafito con el icono en naranja, para que el naranja sólido marque la acción principal. Los datos (peso) no usan el acento.
 
@@ -300,9 +302,9 @@ Radios amplios de la escala compartida (cards 22 px, controles 14 px); cápsula 
 
 ### Inicio
 
-Saludo/fecha y firma AppFit, con «Entrena. Registra. Avanza.». Entrenamiento protagonista: continuar la sesión activa o ir a entrenar. Si existe un último entreno, su duración/ejercicios/volumen reales aparecen subordinados a la acción en el mismo bloque.
+Minimalista ([ADR 021](docs/decisiones/021-inicio-minimalista-rueda-energia.md), elegido por Víctor el 2026-10-07 entre bocetos): «Hoy» con la fecha, tarjetas breves y una sola acción principal, Registrar comida. Sin saludo, firma, lema ni accesos que repitan destinos. La pantalla crecerá con nuevas tarjetas cuando haya funciones nuevas.
 
-Nutrición se integra en el fondo de página: kcal, objetivo, diferencia y P/C/G, Ver día y Registrar comida. Esta última acción es secundaria para no competir con entrenar. Peso mantiene registro, historial y variación neutral. Accesos rápidos Nutrición/Entreno cierran la página.
+La energía es la tarjeta ancha: una rueda con lo consumido en los colores de P/C/G, proporcional a sus kcal, y lo que falta en negro; si te pasas, el exceso da una segunda vuelta fina por dentro en el naranja de la energía, sin rojo ni alarma. Cifra, objetivo, «Quedan…» y gramos siguen en texto, inmediatos. Entreno (en curso o último real) y Peso (último pesaje y variación neutral, «+» para registrar) son tarjetas pequeñas; cada tarjeta entera abre su sección.
 
 ### Nutrición y Referencias
 

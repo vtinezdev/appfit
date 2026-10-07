@@ -1,16 +1,18 @@
 # Inicio
 
-`src/features/inicio/`. Es la pestaña por defecto: un resumen del día que compone piezas de las otras features (ver `../arquitectura.md` § Capas).
+`src/features/inicio/`. Es la pestaña por defecto: tarjetas breves del día que componen datos de las otras features (ver `../arquitectura.md` § Capas). Composición minimalista y rueda de energía: [ADR 021](../decisiones/021-inicio-minimalista-rueda-energia.md).
 
 ## Dónde está cada cosa
 
 | Pieza | Archivo | Datos |
 |---|---|---|
-| Pantalla | `InicioTab.tsx` (saludo según la hora: `lib/saludo.ts`) | lee `entriesRepo.delDia`, `perfilRepo.objetivosVigentes` (objetivos del Perfil o manuales), `pesosRepo.delRango` |
-| Resumen de kcal y macros | `nutricion/components/ResumenNutricional` (el mismo que en Hoy) | — |
-| Entreno destacado y último resultado | `gym/components/TarjetaEntreno` | solo lectura de `workoutsRepo` y `setsRepo` |
-| Peso | `components/PesoCard`, `components/RegistrarPesoSheet`, `components/HistorialPeso` | `pesosRepo` (tabla `pesos`) |
-| Lógica del peso | `lib/peso.ts`: `validarPeso` (rango y decimales admitidos), `tendenciaPeso`, `puntosSparkline` | — |
+| Pantalla | `InicioTab.tsx` | lee `entriesRepo.delDia`, `perfilRepo.objetivosVigentes` (objetivos del Perfil o manuales), `pesosRepo.delRango` |
+| Energía (rueda, objetivo, «Quedan…», gramos de P/C/G) | `components/TarjetaEnergia` | totales de `sumMacros` y objetivos vigentes |
+| Geometría de la rueda | `lib/anilloEnergia.ts`: tramos por macro, tramo `otros` y segunda vuelta | — |
+| Entreno (en curso o último terminado) | `components/AccesoEntreno` | solo lectura de `workoutsRepo` y `setsRepo`; resumen con `gym/lib/workout` |
+| Peso | `components/AccesoPeso`, `components/RegistrarPesoSheet`, `components/HistorialPeso` | `pesosRepo` (tabla `pesos`) |
+| Tarjeta pequeña común | `components/TarjetaAcceso` (etiqueta, dato, toda la tarjeta como botón y acción opcional en la esquina) | — |
+| Lógica del peso | `lib/peso.ts`: `validarPeso` (rango y decimales admitidos), `tendenciaPeso`, `fraseVariacion` | — |
 
 ## Primer inicio en iPhone
 
@@ -18,13 +20,24 @@ El shell (`app/TrasladarDatos`) muestra antes del resumen un aviso breve para a�
 
 ## Presentación y acciones
 
-Saludo/fecha/BrandMark y mensaje «Entrena. Registra. Avanza.». Primero `TarjetaEntreno destacado`: grafito, título deportivo, Ir a entrenar o Continuar y último resultado real si existe. Abre Gym para elegir rutina o entreno libre, sin inventar una programación.
+«Hoy» con la fecha debajo. Después, de arriba abajo:
 
-Después `ResumenNutricional integrado`, sin otra tarjeta: kcal y macros protagonistas, «Ver día» y «Registrar comida» secundario. Se reutilizan cálculos/slots de Hoy. Peso conserva su panel; al final hay accesos Nutrición/Entreno. El historial de peso se consulta desde «⋯»: lista completa con fechas/kg, solo lectura sobre el repositorio existente. No hay tracking de medidas corporales; «Medidas caseras» pertenece a Nutrición.
+1. **Energía** (tarjeta ancha): rueda con las kcal del día en el centro; a su lado, objetivo, frase de `fraseKcal` («Quedan 860 kcal», «250 kcal sobre el objetivo») y gramos de proteína, hidratos y grasa. Toda la tarjeta abre el día en Nutrición.
+2. **Entreno** y **Peso** (dos tarjetas pequeñas). Entreno: «En curso · Desde 18:05», el último entreno («Ayer · 52 min · 600 kg») o «Sin entrenos». Abre Gym para elegir rutina o entreno libre, sin inventar una programación. Peso: último pesaje y variación a 7 días; la tarjeta abre el historial (solo lectura) y su «+» abre el registro.
+3. **Registrar comida**: acción principal (abre Nutrición con el registro).
+
+La pantalla se irá llenando con más tarjetas a medida que haya funciones nuevas. No hay tracking de medidas corporales; «Medidas caseras» pertenece a Nutrición.
+
+## Rueda de energía
+
+- **Anillo exterior**: lo consumido hasta el objetivo, en tramos de proteína, hidratos y grasa proporcionales a sus kcal (4/4/9 kcal/g). Lo que falta va en negro (`stroke-kcal-rest`). Al alcanzar el objetivo queda lleno.
+- **Kcal sin desglose**: si las kcal del día superan a las de los macros (kcal rápidas, alimentos sin macros), la diferencia es un tramo final en `kcal`. Si las de los macros superan a las del día (redondeos), se reparte entre ellos sin pasar de lo consumido.
+- **Segunda vuelta**: el exceso sobre el objetivo se dibuja en un anillo interior fino en `kcal`, hasta una vuelta completa (= otro objetivo entero). Sin rojo: pasarse se cuenta con el mismo tono que quedarse corto.
+- **Sin objetivo**: si hay consumo, el anillo entero muestra el reparto, sin «de X kcal» ni frase.
+- SVG propio (Recharts no entra en Inicio para no cargarlo al arrancar), decorativo (`aria-hidden`): cifras, objetivo y gramos están en texto. Sin animación de llenado.
 
 ## Reglas
 
 - **Un pesaje por día**: registrar de nuevo el mismo día lo sustituye (`pesosRepo.registrar`, upsert por fecha en una transacción).
 - **Variación a 7 días**: compara el último pesaje con el último cuya fecha sea ≤ la suya − 7 días. Si no hay ninguno, no se muestra.
-- **Mini gráfica de 30 días**: SVG propio (`puntosSparkline`, los puntos se reparten por orden, no por fecha). Recharts no entra en Inicio para no cargarlo al arrancar.
 - Todavía no se puede borrar un pesaje (ver `../roadmap.md`).

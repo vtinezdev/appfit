@@ -25,6 +25,8 @@
   --c-destructive: 182 20 58;
   --c-on-destructive: 253 254 255;
   --c-kcal: 214 92 10;
+  /* Lo que falta para el objetivo en la rueda de energía de Inicio: negro, elegido por Víctor (ADR 021). */
+  --c-kcal-rest: 22 23 26;
   --c-protein: 85 77 160;
   --c-carbs: 2 113 122;
   --c-fat: 148 86 62;
@@ -152,6 +154,7 @@
   --c-accent-strong: 255 165 110;
   --c-accent-subtle: 60 36 20;
   --c-kcal: 255 132 48;
+  --c-kcal-rest: 0 0 0;
   --c-selected: 58 59 64;
   --c-on-selected: 245 247 249;
   --c-success: 107 207 157;

@@ -3,21 +3,19 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import Button from '../../shared/components/Button'
 import Icon from '../../shared/components/Icon'
 import PageHeader from '../../shared/components/PageHeader'
-import BrandMark from '../../shared/components/BrandMark'
 import { LoadingState } from '../../shared/components/StateMessage'
 import { objetivosVigentes } from '../perfil/data/perfilRepo'
 import { addDays, parseISODate, todayISO } from '../../shared/lib/dates'
 import { useAviso } from '../../shared/hooks/useAviso'
-import TarjetaEntreno from '../gym/components/TarjetaEntreno'
-import ResumenNutricional from '../nutricion/components/ResumenNutricional'
 import * as entriesRepo from '../nutricion/data/entriesRepo'
 import { sumMacros } from '../nutricion/lib/nutrition'
 import * as pesosRepo from './data/pesosRepo'
-import PesoCard from './components/PesoCard'
+import TarjetaEnergia from './components/TarjetaEnergia'
+import AccesoEntreno from './components/AccesoEntreno'
+import AccesoPeso from './components/AccesoPeso'
 import RegistrarPesoSheet from './components/RegistrarPesoSheet'
 import HistorialPeso from './components/HistorialPeso'
 import { tendenciaPeso } from './lib/peso'
-import { saludoPorHora } from './lib/saludo'
 
 interface Props {
   onIrANutricion: () => void
@@ -27,10 +25,10 @@ interface Props {
 }
 
 const PESO_POR_DEFECTO = 70
-/** Historial que se lee: de sobra para la serie de 30 días y para encontrar un pesaje de hace una semana o más. */
+/** Historial que se lee: de sobra para encontrar un pesaje de hace una semana o más. */
 const DIAS_HISTORIAL = 365
 
-/** Pantalla de arranque: lo esencial de hoy de un vistazo (resumen del día, entreno y peso). */
+/** Pantalla de arranque: tarjetas breves del día (energía, entreno y peso) y registrar comida. */
 export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
@@ -57,10 +55,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
 
   return (
     <div className="space-y-section px-page pt-5">
-      <div className="space-y-3">
-        <PageHeader overline={fechaLarga} title={saludoPorHora()} action={<BrandMark />} />
-        <p className="text-body-sm text-fg-muted">Entrena. Registra. Avanza.</p>
-      </div>
+      <PageHeader overline={fechaLarga} title="Hoy" />
       {ayudaInicial}
 
       {!entries || !vigentes || !pesos ? (
@@ -69,25 +64,14 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
         </div>
       ) : (
         <div className="space-y-section">
-          <TarjetaEntreno destacado onAbrir={onIrAGym} />
-          <ResumenNutricional
-            integrado
-            titulo="Resumen de hoy"
-            totales={sumMacros(entries)}
-            objetivos={vigentes}
-            footer={<Button variant="secondary" block onClick={onAnadirComida}><Icon name="plus" size={18} />Registrar comida</Button>}
-            accion={
-              <Button variant="ghost" size="sm" onClick={onIrANutricion}>
-                Ver día
-                <Icon name="chevron-right" size={16} />
-              </Button>
-            }
-          />
-          <PesoCard tendencia={tendencia} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
-          <div aria-label="Accesos rápidos" className="grid grid-cols-2 gap-2">
-            <Button variant="secondary" onClick={onIrANutricion}><Icon name="utensils" size={20} />Nutrición</Button>
-            <Button variant="secondary" onClick={onIrAGym}><Icon name="dumbbell" size={20} />Entreno</Button>
+          <div className="space-y-stack">
+            <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion} />
+            <div className="grid grid-cols-2 gap-stack">
+              <AccesoEntreno onAbrir={onIrAGym} />
+              <AccesoPeso tendencia={tendencia} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
+            </div>
           </div>
+          <Button size="lg" block onClick={onAnadirComida}><Icon name="plus" size={20} />Registrar comida</Button>
         </div>
       )}
 

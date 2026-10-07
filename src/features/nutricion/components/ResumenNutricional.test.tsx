@@ -1,6 +1,5 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
-import Button from '../../../shared/components/Button'
 import ResumenNutricional from './ResumenNutricional'
 import NutrientesDetalle from './NutrientesDetalle'
 
@@ -8,8 +7,8 @@ const objetivos = { kcal: 2200, prot: 150, carb: 220, grasa: 70 }
 const totales = { kcal: 113, prot: 6, carb: 9, grasa: 6 }
 
 describe('ResumenNutricional: panel diario compartido', () => {
-  it.each([false, true])('mantiene kcal, objetivos y macros en diario e Inicio (integrado: %s)', integrado => {
-    const html = renderToStaticMarkup(<ResumenNutricional totales={totales} objetivos={objetivos} integrado={integrado} />)
+  it('mantiene kcal, objetivos y macros', () => {
+    const html = renderToStaticMarkup(<ResumenNutricional totales={totales} objetivos={objetivos} />)
     expect(html).toContain('<section aria-label="Resumen del día">')
     expect(html).toContain('Quedan 2.087 kcal')
     expect(html.match(/role="progressbar"/g)).toHaveLength(4)
@@ -17,11 +16,10 @@ describe('ResumenNutricional: panel diario compartido', () => {
     expect(html).not.toContain('data-surface="inverse"')
   })
 
-  it('mantiene Ver día en la cabecera de Inicio y el título accesible', () => {
-    const html = renderToStaticMarkup(<ResumenNutricional titulo="Resumen de hoy" totales={totales} objetivos={objetivos} accion={<Button onClick={() => {}}>Ver día</Button>} />)
+  it('el título es solo el nombre accesible de la sección', () => {
+    const html = renderToStaticMarkup(<ResumenNutricional titulo="Resumen de hoy" totales={totales} objetivos={objetivos} />)
     expect(html).toContain('aria-label="Resumen de hoy"')
-    expect(html).toContain('Nutrición · hoy')
-    expect(html).toContain('Ver día</button>')
+    expect(html).not.toContain('<h2')
   })
 
   it('incluye el desglose opcional dentro de la misma tarjeta y conserva los valores desconocidos', () => {
