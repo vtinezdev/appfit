@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatCompact, formatInt, formatNumber } from './format'
+import { decimalEditable, esDecimalParcial, formatCompact, formatInt, formatNumber, leerDecimal } from './format'
 
 describe('cifras de interfaz', () => {
   it('mantiene millares y decimales españoles en métricas', () => {
@@ -15,4 +15,24 @@ describe('cifras de interfaz', () => {
     expect(formatInt(12345678)).toBe('12.345.678')
   })
   it.each([NaN, Infinity, -Infinity])('normaliza valores no finitos', n => expect(formatCompact(n)).toBe('0'))
+})
+
+describe('campos decimales', () => {
+  it('acepta la coma del teclado español y el punto, también a medio escribir', () => {
+    expect(leerDecimal('12,5')).toBe(12.5)
+    expect(leerDecimal('12.5')).toBe(12.5)
+    expect(leerDecimal('12,')).toBe(12)
+    expect(leerDecimal(',5')).toBe(0.5)
+    expect(leerDecimal('1,05')).toBe(1.05)
+    for (const t of ['', ',', ' ']) expect(leerDecimal(t)).toBeUndefined()
+  })
+  it('rechaza lo que no puede ser una cifra en curso', () => {
+    for (const t of ['12,5,', '1.2.3', '-3', '1e3', 'abc']) expect(esDecimalParcial(t)).toBe(false)
+    for (const t of ['', '12', '12,', ',5', '0,05']) expect(esDecimalParcial(t)).toBe(true)
+  })
+  it('muestra el valor editable sin millares y con coma', () => {
+    expect(decimalEditable(1234.5)).toBe('1234,5')
+    expect(decimalEditable(0)).toBe('0')
+    expect(decimalEditable(undefined)).toBe('')
+  })
 })

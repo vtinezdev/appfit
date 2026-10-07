@@ -30,3 +30,20 @@ const compactFormatter = new Intl.NumberFormat('es-ES', { notation: 'compact', m
 export function formatCompact(n: number): string {
   return compactFormatter.format(Number.isFinite(n) ? n : 0)
 }
+
+/** Texto que puede estar a medio escribir en un campo decimal: dígitos y, como mucho, una coma o un punto («», «12,», «,5»). */
+export function esDecimalParcial(texto: string): boolean {
+  return /^\d*[.,]?\d*$/.test(texto)
+}
+
+/** Valor de un campo decimal (coma o punto, como lo teclea el iPhone en español). `undefined` si aún no hay número. */
+export function leerDecimal(texto: string): number | undefined {
+  const t = texto.trim().replace(',', '.')
+  if (!esDecimalParcial(t) || !/\d/.test(t)) return undefined
+  return Number(t)
+}
+
+/** Un número tal cual se edita: sin millares y con coma decimal («1234,5»). */
+export function decimalEditable(n: number | undefined): string {
+  return n === undefined || !Number.isFinite(n) ? '' : String(n).replace('.', ',')
+}

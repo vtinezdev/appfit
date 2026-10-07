@@ -63,6 +63,15 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
     }
   }
 
+  async function quitarAgua() {
+    try {
+      const ultima = await aguaRepo.quitarUltima(hoy)
+      if (ultima !== undefined) avisar({ mensaje: `−${formatAgua(ultima)} de agua`, onDeshacer: () => aguaRepo.anadir(hoy, ultima) })
+    } catch {
+      avisarError('No se ha podido quitar el agua. Inténtalo de nuevo.')
+    }
+  }
+
   function abrirRegistro() {
     setAperturas((n) => n + 1)
     setRegistrando(true)
@@ -93,7 +102,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
               <AccesoEntreno onAbrir={onIrAGym} />
               <AccesoPeso tendencia={tendencia} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
             </div>
-            <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onAbrir={() => setAguaAbierta(true)} />
+            <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />
           </div>
           <Button size="lg" block onClick={onAnadirComida}><Icon name="plus" size={20} />Registrar comida</Button>
         </div>

@@ -1,6 +1,6 @@
 import Sheet from '../../../shared/components/Sheet'
 import { validarKcalRapidas, type KcalRapidasDraft } from '../lib/alimentos'
-import { Input } from '../../../shared/components/Input'
+import { DecimalInput, Input } from '../../../shared/components/Input'
 import Button from '../../../shared/components/Button'
 import { ErrorState } from '../../../shared/components/StateMessage'
 
@@ -40,13 +40,7 @@ export default function KcalRapidasSheet({ open, valor, onChange, onGuardar, onC
         <label className="block">
           <span className={ETIQUETA}>Calorías</span>
           <div className="relative">
-            <Input
-              type="number"
-              inputMode="decimal"
-              className="no-spin pr-14 font-semibold"
-              value={valor.kcal}
-              onChange={(e) => onChange({ kcal: Number(e.target.value) || 0 })}
-            />
+            <DecimalInput className="pr-14 font-semibold" value={valor.kcal} onChange={(n) => onChange({ kcal: n ?? 0 })} />
             <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-body-sm text-fg-subtle">kcal</span>
           </div>
         </label>
@@ -56,13 +50,7 @@ export default function KcalRapidasSheet({ open, valor, onChange, onGuardar, onC
             {MACROS.map(({ key, label }) => (
               <label key={key} className="block min-w-0">
                 <span className="mb-1 block truncate text-caption text-fg-muted">{label}</span>
-                <Input
-                  type="number"
-                  inputMode="decimal"
-                  className="no-spin"
-                  value={valor[key]}
-                  onChange={(e) => onChange({ [key]: Number(e.target.value) || 0 })}
-                />
+                <DecimalInput value={valor[key]} onChange={(n) => onChange({ [key]: n ?? 0 })} />
               </label>
             ))}
           </div>

@@ -795,3 +795,9 @@ Plan de 26 puntos ejecutado de una vez en `feat/mejoras-funcionales` (sin commit
 
 **Verificación:** tests y build en verde; recorrido en Edge emulado. Sigue sin probarse en iPhone (ver roadmap).
 
+
+## 81. Agua «−» en Inicio y decimales en los campos de nutrición (2026-10-07)
+
+Rama `feat/agua-y-decimales`. **Agua:** la tarjeta de Inicio suma un «−» junto al «+» que quita la última toma del día (`aguaRepo.quitarUltima`) con «Deshacer» (la vuelve a añadir); desactivado con 0 ml. **Decimales:** al crear un alimento sin coincidencia, los valores por 100 g no admitían decimales: el `type="number"` con valor numérico controlado devolvía `''` (o `12` con «12,0») a medio escribir y `Number(...) || 0` pisaba el campo. Nuevo `DecimalInput` (y hook `useCampoDecimal`, también en `NumberStepper`): campo de texto con teclado decimal, acepta coma o punto, conserva el borrador mientras tiene el foco y muestra el valor con coma. Aplicado a `MacroInputs` (macros y nutrientes adicionales), `KcalRapidasSheet` y todos los `NumberStepper`. Parseo puro en `shared/lib/format.ts` (`esDecimalParcial`, `leerDecimal`, `decimalEditable`) con tests.
+
+**Verificación:** tests y build en verde. Sin recorrido en navegador (Playwright no está instalado en el entorno) ni en iPhone.

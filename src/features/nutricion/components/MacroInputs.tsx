@@ -1,5 +1,5 @@
 import type { Por100 } from '../lib/alimentos'
-import { Input } from '../../../shared/components/Input'
+import { DecimalInput } from '../../../shared/components/Input'
 import { NUTRIENTES_ADICIONALES } from '../lib/nutrientes'
 interface Props {
   valores: Por100
@@ -21,22 +21,17 @@ export default function MacroInputs({ valores, onChange, detallado = false }: Pr
         {CAMPOS.map(({ key, label, aria }) => (
           <label key={key} className="block min-w-0 space-y-1">
             <span className="block text-label text-fg-muted">{label}</span>
-            <Input type="number" inputMode="decimal" min={0} step="any" aria-label={aria} className="tabular no-spin"
-              value={valores[key]} onChange={(e) => onChange({ [key]: Number(e.target.value) || 0 })} />
+            <DecimalInput aria-label={aria} className="tabular" value={valores[key]} onChange={(n) => onChange({ [key]: n ?? 0 })} />
           </label>
         ))}
         {detallado && NUTRIENTES_ADICIONALES.map(({ clave, label }) => (
           <label key={clave} className="block min-w-0 space-y-1">
             <span className="block text-label text-fg-muted">{label} (g)</span>
-            <Input type="number" inputMode="decimal" min={0} step="any" aria-label={`${label}/100g`} className="tabular no-spin"
-              placeholder="Sin datos" value={valores.nutrientes?.[clave] ?? ''}
-              onChange={(e) => {
+            <DecimalInput aria-label={`${label}/100g`} className="tabular" placeholder="Sin datos" value={valores.nutrientes?.[clave]}
+              onChange={(n) => {
                 const nutrientes = { ...valores.nutrientes }
-                const texto = e.target.value.trim()
-                const numero = Number(texto)
-                if (!texto) delete nutrientes[clave]
-                else if (Number.isFinite(numero) && numero >= 0) nutrientes[clave] = numero
-                else return
+                if (n === undefined) delete nutrientes[clave]
+                else nutrientes[clave] = n
                 onChange({ nutrientes: Object.keys(nutrientes).length ? nutrientes : undefined })
               }} />
           </label>
