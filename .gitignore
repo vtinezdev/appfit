@@ -25,3 +25,6 @@ scripts/catalogo/raw/
 
 # ejercicios: originales generados con IA (pesados; se convierten a public/ejercicios/, ver scripts/ejercicios/README.md)
 scripts/ejercicios/ia/
+
+# capturas e imágenes sueltas de Víctor (no forman parte de la app)
+images/
