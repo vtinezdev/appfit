@@ -7,7 +7,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const TONES = {
-  default: 'border border-transparent bg-surface',
+  default: 'border border-transparent bg-surface shadow-card',
   muted: 'bg-surface-muted',
 }
 

@@ -1,6 +1,6 @@
 # 017 — Paleta Cobalto y composición respirada
 
-Fecha: 2026-10-06. Estado: vigente. Sustituye la paleta de [012](012-identidad-enfocada-energica.md) (grafito + blanco + naranja) y el tono cálido de las luces de [013](013-atmosferas-fotograficas.md).
+Fecha: 2026-10-06. Estado: paleta y regla de sombras sustituidas por [020](020-acento-naranja-y-superficies-suaves.md); la composición sigue vigente. Sustituye la paleta de [012](012-identidad-enfocada-energica.md) (grafito + blanco + naranja) y el tono cálido de las luces de [013](013-atmosferas-fotograficas.md).
 
 ## Contexto
 

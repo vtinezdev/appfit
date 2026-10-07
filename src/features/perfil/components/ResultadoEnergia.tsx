@@ -31,7 +31,7 @@ function Fila({ etiqueta, detalle, valor }: { etiqueta: string; detalle?: string
 function Cadena({ e }: { e: EnergiaOk }) {
   const nivel = NIVELES_ACTIVIDAD[e.actividad]
   const objetivo = e.objetivoAplicado
-  return <ListGroup aria-label="Cálculo de tu energía diaria">
+  return <ListGroup variante="plana" aria-label="Cálculo de tu energía diaria">
     <Fila etiqueta={`Gasto en reposo (media de ${formatNumber(METODO_TMB.ecuaciones.length)} ecuaciones)`} valor={formatNumber(e.tmb.valor)} />
     <Fila etiqueta="Gasto diario estimado" detalle={`× ${formatNumber(e.factor, 3)} · ${nivel.etiqueta.toLowerCase()}`} valor={formatNumber(e.get)} />
     {objetivo && <Fila etiqueta={`Ajuste · ${ETIQUETAS_OBJETIVO[objetivo].toLowerCase()}`} valor={formatSigned(e.ajusteKcal)} />}

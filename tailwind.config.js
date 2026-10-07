@@ -66,7 +66,7 @@ export default {
       minHeight: { touch: 'var(--touch-target)', 'touch-lg': 'var(--touch-target-lg)' },
       maxHeight: { sheet: 'var(--sheet-max-height)' },
       minWidth: { touch: 'var(--touch-target)' },
-      boxShadow: { overlay: 'var(--shadow-overlay)' },
+      boxShadow: { overlay: 'var(--shadow-overlay)', card: 'var(--shadow-card)', control: 'var(--shadow-control)' },
       transitionDuration: { short: 'var(--dur-short)', normal: 'var(--dur-normal)' },
       transitionTimingFunction: { standard: 'var(--ease-standard)' },
       // Entradas discretas. Duración y distancia salen de los tokens de motion (0 con prefers-reduced-motion).

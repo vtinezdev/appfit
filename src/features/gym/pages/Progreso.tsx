@@ -10,6 +10,7 @@ import { Select } from '../../../shared/components/Input'
 import Metric from '../../../shared/components/Metric'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { formatCompact, formatInt, formatNumber } from '../../../shared/lib/format'
+import Card from '../../../shared/components/Card'
 import Disclosure from '../../../shared/components/Disclosure'
 import { EmptyState } from '../../../shared/components/StateMessage'
 
@@ -58,16 +59,16 @@ export default function Progreso() {
       {exerciseId && !datos.length && <EmptyState title="Aún sin series">Registra este ejercicio en un entreno para ver sus resultados.</EmptyState>}
       {exerciseId && ultimo && (
         <>
-          <section aria-label="Última sesión" className="space-y-5">
+          <Card><section aria-label="Última sesión" className="space-y-5">
             <Metric size="hero" label="Peso máximo · última sesión" valor={formatNumber(ultimo.pesoMax, 1)} unidad="kg" caption={ultimo.fecha} />
             <div className="grid grid-cols-2 gap-4 border-y border-line py-4">
               <Metric size="title" label="1RM estimado" valor={formatNumber(ultimo.oneRM, 1)} unidad="kg" />
               <Metric size="title" label="Volumen total" valor={formatInt(ultimo.volumen)} unidad="kg" />
             </div>
             <p className="text-caption text-fg-muted">1RM estima el peso para una repetición. El volumen suma peso × repeticiones de todas las series.</p>
-          </section>
+          </section></Card>
           {datos.length < 2 ? <p className="text-body-sm text-fg-muted">Registra otra sesión para ver la tendencia.</p> : <>
-            <section aria-label="Peso máximo y 1RM" className="space-y-4">
+            <Card><section aria-label="Peso máximo y 1RM" className="space-y-4">
               <SectionHeader variant="section">Fuerza por sesión</SectionHeader>
               <div className="flex flex-wrap gap-4 text-caption text-fg-muted">
                 <span className="flex items-center gap-2"><span aria-hidden className="h-0.5 w-4 bg-accent" />Peso máximo</span>
@@ -83,8 +84,8 @@ export default function Progreso() {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-            </section>
-            <section aria-label="Volumen por sesión" className="space-y-4">
+            </section></Card>
+            <Card><section aria-label="Volumen por sesión" className="space-y-4">
               <SectionHeader variant="section">Trabajo por sesión</SectionHeader>
               <p className="text-label text-fg-muted">Volumen total (kg)</p>
               <div role="img" aria-label="Volumen total en kg por sesión. Datos disponibles debajo.">
@@ -96,7 +97,7 @@ export default function Progreso() {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-            </section>
+            </section></Card>
           </>}
           <Disclosure title={`Ver ${datos.length} ${datos.length === 1 ? 'sesión' : 'sesiones'}`}>
             <ul className="divide-y divide-line text-body-sm">

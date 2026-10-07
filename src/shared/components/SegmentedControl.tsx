@@ -56,14 +56,14 @@ export default function SegmentedControl<T extends string>({ opciones, valor, on
     </div>
   )
   return (
-    <div ref={root} role="radiogroup" aria-label={label} className={`app-segmented relative flex min-w-0 gap-1 rounded-md bg-surface-muted p-1 ${className}`}
+    <div ref={root} role="radiogroup" aria-label={label} className={`app-segmented relative flex min-w-0 gap-1 rounded-pill bg-surface-muted p-1 ${className}`}
       style={{ '--selection-index': opciones.findIndex(o => o.valor === valor), '--selection-count': opciones.length } as CSSProperties}>
       <span aria-hidden className="segment-indicator" style={valor === null ? { opacity: 0 } : undefined} />
       {opciones.map((o, i) => (
         <button key={o.valor} type="button" role="radio" aria-checked={valor === o.valor} tabIndex={valor === o.valor || (valor === null && i === 0) ? 0 : -1}
           onClick={() => elegir(o.valor)}
           onKeyDown={(e) => teclado(e, i)}
-          className={`relative min-h-touch min-w-0 flex-auto rounded-sm px-1 font-semibold transition-colors duration-short ${size === 'sm' ? 'text-body-sm' : 'text-body-sm'} ${valor === o.valor ? 'text-selected-on' : 'text-fg-muted hover:text-fg'}`}>
+          className={`relative min-h-touch min-w-0 flex-auto rounded-pill px-1 font-semibold transition-colors duration-short ${size === 'sm' ? 'text-body-sm' : 'text-body-sm'} ${valor === o.valor ? 'text-selected-on' : 'text-fg-muted hover:text-fg'}`}>
           {o.label}
         </button>
       ))}
