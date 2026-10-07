@@ -42,6 +42,7 @@ Los valores exactos viven en `tokens.css`; no se duplican en componentes.
 | Espaciado | page 20 (16 bajo 360 px), section 32, card 20, stack 12 px; base de 4 px |
 | Radios | sm 8, md 14, lg 22, sheet 28 px; pill solo con significado (selector de valor, Menú, filtros, nodos) |
 | Interacción | touch 44, touch-lg 48 px; área real, sin pseudo elemento |
+| Miniatura | `h-thumb w-thumb` (48 px) con `rounded-md`; clase `.ejercicio-thumb` aplica `--thumb-filter` (`none` en claro, `brightness(0.85)` en oscuro) para que el fondo blanco de las ilustraciones no deslumbre. Selector de ejercicios (`MiniaturaEjercicio`) |
 | Profundidad | `shadow-card` (Card, `.training-surface`, ListGroup agrupada; `none` en oscuro), `shadow-control` (botón secundario, indicador del selector, Menú) y `shadow-overlay` para capas. Nav sin borde: sombra difusa propia |
 | Motion | feedback 120, estado 200, entrada de capa 280, salida 180, éxito 420, stagger 18 ms; desplazamiento 8 px |
 

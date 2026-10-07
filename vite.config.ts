@@ -27,6 +27,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,webp,ico,woff2}'],
+        // Las imágenes de ejercicios (~0,5 MB) tampoco: se guardan al verlas por primera vez (regla de abajo).
+        globIgnores: ['ejercicios/**'],
         // El .wasm del escáner (~1 MB) no se precachea: pesaría en cada instalación y el escáner casi siempre
         // necesita conexión (Open Food Facts). Se guarda la primera vez que se usa y después funciona sin red.
         runtimeCaching: [
@@ -34,6 +36,11 @@ export default defineConfig({
             urlPattern: ({ url }) => url.pathname.endsWith('.wasm'),
             handler: 'CacheFirst',
             options: { cacheName: 'wasm', expiration: { maxEntries: 4 } },
+          },
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith('/ejercicios/'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'ejercicios', expiration: { maxEntries: 200 } },
           },
         ],
       },

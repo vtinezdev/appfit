@@ -13,6 +13,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 
 ## Limitaciones conocidas
 
+- Ilustraciones de ejercicios: los 116 tienen ilustración propia (IA, revisadas en hoja de contactos). Pequeñas licencias del modelo aceptadas: remo en T a una mano con la barra en landmine en vez de agarre en V. Al añadir un ejercicio al catálogo hay que añadirlo a `scripts/ejercicios/ilustraciones.json` (lote nuevo o imagen suelta `ia/<slug>.png`). Ver `scripts/ejercicios/README.md`.
 - Perfil: los factores de actividad (1,2–1,9) se atribuyen a McArdle, Katch y Katch (1996) sin haber verificado la edición ni una derivación experimental; la cifra de 600 kcal/día de NICE procede de CG189 y no se ha cotejado en NG246. La media de Mifflin y Roza-Shizgal es criterio de AppFit, no un método publicado. Perfil y el nuevo menú de seis destinos no se han probado en un navegador ni en un iPhone real (Playwright no estaba instalado).
 - Ajustes: los campos de objetivos diarios desbordan a 375 px con texto al 200% (fila sin wrap y anchos fijos). Detectado al confirmar los fondos claros; pendiente de adaptación del formulario, sin relación con la capa fotográfica.
 - No se puede borrar un pesaje (solo se sustituye el del día).

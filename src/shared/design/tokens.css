@@ -65,6 +65,8 @@
   --space-stack: 0.75rem;
   --touch-target: 2.75rem;
   --touch-target-lg: 3rem;
+  --thumb-size: 3rem;
+  --thumb-filter: none;
   --sheet-max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - 1rem);
   --app-height: 100dvh;
   --nav-height: 4.5rem;
@@ -134,6 +136,7 @@
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
+  --thumb-filter: brightness(0.85);
   --c-bg: 10 11 13;
   --c-surface: 22 23 26;
   --c-surface-elevated: 30 31 35;

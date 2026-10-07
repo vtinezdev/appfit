@@ -55,6 +55,7 @@ La app no usa IA: al principio interpretaba las comidas con Gemini, pero se reti
 | Herramienta | Qué es | Por qué se usa |
 |---|---|---|
 | **Vitest** | Framework de tests automáticos. | Comprueba que los cálculos y reglas importantes (macros, 1RM, intérprete, backups…) siguen bien aunque cambie el código. |
+| **sharp** | Librería de Node para redimensionar y convertir imágenes. | Solo la usa `scripts/ejercicios/` (manual, offline) para convertir las fotos de ejercicios a WebP pequeño. No llega a la app. |
 | **fake-indexeddb** | Una IndexedDB en memoria para los tests. | Permite probar el guardado de datos y las migraciones sin abrir un navegador. No llega a la app. |
 
 ## Publicar la app
