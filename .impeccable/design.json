@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-06T12:00:00Z",
+  "generatedAt": "2026-10-07T12:00:00Z",
   "title": "Design System: APPFIT",
   "extensions": {
     "muscleMap": {
@@ -12,22 +12,22 @@
       ],
       "representation": "SVG original bilateral, frontal/trasera; once grupos, sin lateralidad ni subdivisión de hombros",
       "dataTokens": {
-        "muscle-1": "rgb(221 232 253)",
-        "dark-muscle-1": "rgb(32 46 71)",
-        "muscle-2": "rgb(178 203 249)",
-        "dark-muscle-2": "rgb(44 70 120)",
-        "muscle-3": "rgb(113 157 239)",
-        "dark-muscle-3": "rgb(59 99 176)",
-        "muscle-4": "rgb(53 109 220)",
-        "dark-muscle-4": "rgb(80 135 227)",
-        "muscle-5": "rgb(29 68 163)",
-        "dark-muscle-5": "rgb(128 183 254)"
+        "muscle-1": "rgb(253 232 216)",
+        "dark-muscle-1": "rgb(60 34 20)",
+        "muscle-2": "rgb(250 196 160)",
+        "dark-muscle-2": "rgb(104 54 24)",
+        "muscle-3": "rgb(240 146 88)",
+        "dark-muscle-3": "rgb(160 82 32)",
+        "muscle-4": "rgb(214 98 30)",
+        "dark-muscle-4": "rgb(220 116 50)",
+        "muscle-5": "rgb(160 64 6)",
+        "dark-muscle-5": "rgb(255 165 110)"
       },
       "dimensions": {
         "bodyWidth": "10rem",
         "swatchSize": "0.75rem"
       },
-      "semantics": "rampa de cobalto independiente de error/destructivo; cero neutro; el cobalto sólido sigue reservado a acciones",
+      "semantics": "rampa del acento naranja independiente de error/destructivo (carmín); cero neutro; el naranja sólido sigue reservado a acciones",
       "scale": "relativa al máximo de la sesión; límites 10/25/50/80/100%, no intensidad fisiológica",
       "accessibility": "niveles textuales y filas >=44 px para detalle; nivel debajo del nombre al estrechar el contenedor (16rem); SVG aria-hidden, Forced Colors Canvas/Highlight",
       "persistence": "snapshot semántico v1 en Workout, series originales, Dexie v6/backup v2",
@@ -1237,9 +1237,19 @@
     },
     "shadows": [
       {
+        "name": "shadow-card",
+        "value": "0 1px 2px rgb(28 24 20 / 0.04), 0 10px 28px -10px rgb(28 24 20 / 0.12)",
+        "purpose": "Cards, superficie de entreno y listas agrupadas en claro; none en oscuro (separación por tono)."
+      },
+      {
+        "name": "shadow-control",
+        "value": "0 1px 2px rgb(28 24 20 / 0.06), 0 4px 12px -4px rgb(28 24 20 / 0.12)",
+        "purpose": "Botón secundario, opción elegida del selector y botón Menú."
+      },
+      {
         "name": "shadow-overlay",
         "value": "0 -4px 24px rgb(20 20 18 / 0.12)",
-        "purpose": "Sheets y avisos flotantes en claro; sin sombra en cards o navegación."
+        "purpose": "Sheets y avisos flotantes en claro."
       },
       {
         "name": "shadow-overlay-dark",
@@ -1531,9 +1541,9 @@
   ],
   "narrative": {
     "northStar": "Enfocada y enérgica",
-    "overview": "**Creative North Star: \"Enfocada y enérgica\"**\n\nLa opción 3 aportada por el usuario fijó la dirección deportiva; desde el 2026-10-06 la paleta es Cobalto: grafito frío, cobalto para actuar y ámbar para la energía, con una composición respirada (ADR 017). AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.\n\nLa identidad nace de títulos condensados, cifras tabulares y superficies compactas; el abanico que emerge del botón Menú sigue siendo el gesto distintivo. Energía mediante contraste y jerarquía, sin neones, degradados decorativos, glassmorphism, imágenes genéricas ni movimiento constante. La implementación directa fue solicitada por el usuario.\n\nLa preview de tres pantallas aprobada incorpora atmósferas fotográficas: bienestar/fitness/nutrición en Inicio, meal prep en Nutrición y pesas/esfuerzo en Gym. Son imágenes generadas con acabado fotográfico, específicas de esta dirección. Texto, controles y datos siguen siendo interfaz real. Los degradados se permiten como integración de la foto, sin convertirse en decoración de componentes.\n\nPRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valores; tailwind.config.js sus clases; docs/DESIGN-SYSTEM.md los patrones. Este frontmatter y .impeccable/design.json documentan el código. La superficie appfit mantiene el encargo.",
+    "overview": "**Creative North Star: \"Enfocada y enérgica\"**\n\nLa opción 3 aportada por el usuario fijó la dirección deportiva; desde el 2026-10-07 la paleta es grafito neutro con un único acento naranja para actuar y medir la energía, con superficies limpias y redondeadas sobre la composición respirada de ADR 017 (ADR 020). AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.\n\nLa identidad nace de títulos condensados, cifras tabulares y superficies compactas; el abanico que emerge del botón Menú sigue siendo el gesto distintivo. Energía mediante contraste y jerarquía, sin neones, degradados decorativos, glassmorphism, imágenes genéricas ni movimiento constante. La implementación directa fue solicitada por el usuario.\n\nLa preview de tres pantallas aprobada incorpora atmósferas fotográficas: bienestar/fitness/nutrición en Inicio, meal prep en Nutrición y pesas/esfuerzo en Gym. Son imágenes generadas con acabado fotográfico, específicas de esta dirección. Texto, controles y datos siguen siendo interfaz real. Los degradados se permiten como integración de la foto, sin convertirse en decoración de componentes.\n\nPRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valores; tailwind.config.js sus clases; docs/DESIGN-SYSTEM.md los patrones. Este frontmatter y .impeccable/design.json documentan el código. La superficie appfit mantiene el encargo.",
     "keyCharacteristics": [
-      "Grafito frío, cobalto para actuar y ámbar para la energía; claro mantiene la misma identidad.",
+      "Grafito neutro y un único acento naranja para actuar y para la energía; claro mantiene la misma identidad.",
       "Saira local en tres voces: títulos condensados rectos, cifras en cursiva, lectura a ancho normal.",
       "Pocas superficies y pocas líneas: una superficie por unidad real, filas planas y color solo donde informa.",
       "Menú en abanico y motion breve que comunica estados."
@@ -1541,7 +1551,7 @@
     "rules": [
       {
         "name": "Acento",
-        "body": "El cobalto orienta acciones y el ámbar las kcal del día; ninguno sustituye superficies, texto o jerarquía.",
+        "body": "El naranja orienta la acción y mide la energía del día; no sustituye superficies, texto o jerarquía. Acciones terciarias en grafito con icono naranja.",
         "section": "colors"
       },
       {
@@ -1550,8 +1560,8 @@
         "section": "typography"
       },
       {
-        "name": "Plano por defecto",
-        "body": "Tono y espacio separan contenido; la sombra indica una capa temporal.",
+        "name": "Elevación mínima",
+        "body": "Tono y espacio separan contenido; una sombra casi imperceptible separa cards reales del fondo y la sombra marcada indica una capa temporal.",
         "section": "elevation"
       }
     ],
@@ -1559,7 +1569,7 @@
       "Contraste AA en ambos temas; campos ≥16 px, controles ≥44 px.",
       "Datos y unidades completos, estados honestos cuando falta información.",
       "Sistema común; ninguna paleta o familia exclusiva por pantalla.",
-      "Superficies compactas y separación entre tareas; profundidad solo para capas.",
+      "Cards limpias y redondeadas, separación generosa entre tareas; elevación mínima.",
       "Naranja orienta y confirma; no domina el contenido.",
       "Teclado, foco, Atrás, safe areas y Reduce Motion forman parte del producto.",
       "Sigue siendo una PWA; emulación no acredita hardware físico iOS/Android."

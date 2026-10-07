@@ -27,7 +27,7 @@ export default function ViewTabs<T extends string>({ opciones, valor, onChange, 
               elegir(opciones[next].valor)
               e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('button')[next]?.focus()
             }}
-            className={`relative min-h-touch min-w-0 flex-1 px-1 text-body-sm font-semibold transition-colors duration-short ${valor === o.valor ? 'text-fg' : 'text-fg-muted hover:text-fg'}`}>
+            className={`relative min-h-touch min-w-0 flex-1 px-1 text-body-sm font-semibold transition-colors duration-short ${valor === o.valor ? 'font-bold text-fg' : 'text-fg-muted hover:text-fg'}`}>
             {o.label}
           </button>
         ))}

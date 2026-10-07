@@ -84,7 +84,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, ay
             }
           />
           <PesoCard tendencia={tendencia} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
-          <div aria-label="Accesos rápidos" className="grid grid-cols-2 gap-2 border-t border-line pt-3">
+          <div aria-label="Accesos rápidos" className="grid grid-cols-2 gap-2">
             <Button variant="secondary" onClick={onIrANutricion}><Icon name="utensils" size={20} />Nutrición</Button>
             <Button variant="secondary" onClick={onIrAGym}><Icon name="dumbbell" size={20} />Entreno</Button>
           </div>

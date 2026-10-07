@@ -67,7 +67,7 @@ export default function PesoCard({ tendencia, onRegistrar, onVerHistorial }: Pro
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   vectorEffect="non-scaling-stroke"
-                  className="stroke-accent"
+                  className="stroke-fg-muted"
                 />
               </svg>
             )}

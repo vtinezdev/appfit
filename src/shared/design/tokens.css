@@ -1,30 +1,30 @@
-/* Valores visuales de APPFIT (Cobalto: grafito frío, cobalto para actuar, ámbar para la energía). Intención: DESIGN.md; implementación: docs/DESIGN-SYSTEM.md.
+/* Valores visuales de APPFIT (grafito neutro, un único acento naranja para actuar y para la energía del día). Intención: DESIGN.md; implementación: docs/DESIGN-SYSTEM.md.
    Canales RGB para opacidad Tailwind. Ninguna pantalla define su propia paleta. */
 :root {
   color-scheme: light;
-  --c-bg: 243 244 247;
-  --c-surface: 253 254 255;
-  --c-surface-elevated: 253 254 255;
-  --c-surface-muted: 232 234 238;
+  --c-bg: 245 244 241;
+  --c-surface: 255 255 255;
+  --c-surface-elevated: 255 255 255;
+  --c-surface-muted: 237 236 232;
   --c-overlay: 11 13 18;
-  --c-text-primary: 21 26 33;
-  --c-text-secondary: 74 80 89;
-  --c-text-tertiary: 88 93 100;
-  --c-border: 221 224 228;
-  --c-border-strong: 124 129 136;
-  --c-accent: 34 97 221;
-  --c-on-accent: 253 254 255;
-  --c-accent-strong: 30 89 205;
-  --c-accent-subtle: 227 237 255;
-  --c-selected: 253 254 255;
-  --c-on-selected: 21 26 33;
+  --c-text-primary: 22 23 26;
+  --c-text-secondary: 76 78 82;
+  --c-text-tertiary: 90 92 96;
+  --c-border: 230 228 223;
+  --c-border-strong: 128 126 122;
+  --c-accent: 200 80 0;
+  --c-on-accent: 255 255 255;
+  --c-accent-strong: 164 58 2;
+  --c-accent-subtle: 253 236 224;
+  --c-selected: 255 255 255;
+  --c-on-selected: 22 23 26;
   --c-focus: var(--c-accent-strong);
   --c-success: 3 115 74;
   --c-on-success: 253 254 255;
   --c-warning: 138 86 25;
-  --c-destructive: 183 24 36;
+  --c-destructive: 182 20 58;
   --c-on-destructive: 253 254 255;
-  --c-kcal: 201 116 5;
+  --c-kcal: 214 92 10;
   --c-protein: 85 77 160;
   --c-carbs: 2 113 122;
   --c-fat: 148 86 62;
@@ -60,8 +60,8 @@
   --fs-metric: 2.125rem;
   --lh-metric: 1.1;
   --space-page: 1.25rem;
-  --space-section: 1.5rem;
-  --space-card: 1rem;
+  --space-section: 2rem;
+  --space-card: 1.25rem;
   --space-stack: 0.75rem;
   --touch-target: 2.75rem;
   --touch-target-lg: 3rem;
@@ -75,12 +75,15 @@
   --menu-pages-width: 16.25rem;
   --menu-pages-offset: -19.375rem;
   --nav-toast: calc(var(--nav-height) + env(safe-area-inset-bottom) + 0.75rem);
-  --radius-sm: 0.375rem;
-  --radius-md: 0.625rem;
-  --radius-lg: 0.875rem;
-  --radius-sheet: 1.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.375rem;
+  --radius-sheet: 1.75rem;
   --radius-pill: 9999px;
   --shadow-overlay: 0 -4px 24px rgb(20 20 18 / 0.12);
+  /* Elevación mínima: separa cards (unidades reales) y controles elegidos del fondo; no es decoración. */
+  --shadow-card: 0 1px 2px rgb(28 24 20 / 0.04), 0 10px 28px -10px rgb(28 24 20 / 0.12);
+  --shadow-control: 0 1px 2px rgb(28 24 20 / 0.06), 0 4px 12px -4px rgb(28 24 20 / 0.12);
   --dur-short: 120ms;
   --dur-normal: 200ms;
   --dur-overlay: 280ms;
@@ -91,18 +94,18 @@
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
   --motion-shift: 0.5rem;
   --motion-press: 0.97;
-  --c-training: 25 32 41;
+  --c-training: 26 28 32;
   --c-on-training: 245 247 249;
-  --c-training-muted: 185 190 198;
-  --c-training-track: 52 59 69;
-  --c-meal-accent: 128 183 254;
+  --c-training-muted: 188 189 192;
+  --c-training-track: 54 57 63;
+  --c-meal-accent: 255 160 100;
   --c-success-subtle: 222 245 232;
-  /* Trabajo muscular relativo: rampa del cobalto, independiente del error/destructivo. */
-  --c-muscle-1: 221 232 253;
-  --c-muscle-2: 178 203 249;
-  --c-muscle-3: 113 157 239;
-  --c-muscle-4: 53 109 220;
-  --c-muscle-5: 29 68 163;
+  /* Trabajo muscular relativo: rampa del acento naranja, independiente del error/destructivo (carmín). */
+  --c-muscle-1: 253 232 216;
+  --c-muscle-2: 250 196 160;
+  --c-muscle-3: 240 146 88;
+  --c-muscle-4: 214 98 30;
+  --c-muscle-5: 160 64 6;
   --muscle-body-width: 10rem;
   --muscle-swatch-size: 0.75rem;
   /* Foto/fade sobre luces estáticas que acompañan la longitud real de la página. */
@@ -131,43 +134,46 @@
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --c-bg: 8 10 13;
-  --c-surface: 19 22 27;
-  --c-surface-elevated: 27 30 36;
-  --c-surface-muted: 31 35 41;
+  --c-bg: 10 11 13;
+  --c-surface: 22 23 26;
+  --c-surface-elevated: 30 31 35;
+  --c-surface-muted: 34 35 39;
   --c-overlay: 0 0 0;
   --c-text-primary: 245 247 249;
-  --c-text-secondary: 189 193 199;
-  --c-text-tertiary: 157 162 169;
-  --c-border: 44 49 55;
-  --c-border-strong: 112 117 124;
-  --c-accent: 85 152 249;
-  --c-on-accent: 8 10 13;
-  --c-accent-strong: 128 183 254;
-  --c-accent-subtle: 29 45 76;
-  --c-kcal: 252 180 82;
-  --c-selected: 52 56 63;
+  --c-text-secondary: 192 193 196;
+  --c-text-tertiary: 160 161 165;
+  --c-border: 44 45 50;
+  --c-border-strong: 114 116 121;
+  --c-accent: 245 128 52;
+  --c-on-accent: 10 11 13;
+  --c-accent-strong: 255 165 110;
+  --c-accent-subtle: 60 36 20;
+  --c-kcal: 255 132 48;
+  --c-selected: 58 59 64;
   --c-on-selected: 245 247 249;
   --c-success: 107 207 157;
-  --c-on-success: 8 10 13;
+  --c-on-success: 10 11 13;
   --c-warning: 239 190 114;
   --c-destructive: 244 122 121;
-  --c-on-destructive: 8 10 13;
+  --c-on-destructive: 10 11 13;
   --c-protein: 170 167 244;
   --c-carbs: 124 205 214;
   --c-fat: 219 162 140;
-  --c-training: 16 20 25;
+  --c-training: 18 19 22;
   --c-on-training: 245 247 249;
   --c-training-muted: 185 190 198;
-  --c-training-track: 45 51 60;
-  --c-meal-accent: 128 183 254;
+  --c-training-track: 48 50 55;
+  --c-meal-accent: 255 165 110;
   --c-success-subtle: 21 50 35;
-  --c-muscle-1: 32 46 71;
-  --c-muscle-2: 44 70 120;
-  --c-muscle-3: 59 99 176;
-  --c-muscle-4: 80 135 227;
-  --c-muscle-5: 128 183 254;
+  --c-muscle-1: 60 34 20;
+  --c-muscle-2: 104 54 24;
+  --c-muscle-3: 160 82 32;
+  --c-muscle-4: 220 116 50;
+  --c-muscle-5: 255 165 110;
   --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
+  /* En oscuro las cards se separan por tono. */
+  --shadow-card: none;
+  --shadow-control: 0 1px 2px rgb(0 0 0 / 0.4);
   --atmosphere-photo-opacity: 0.9;
   --atmosphere-photo-saturation: 0.6;
   --atmosphere-photo-brightness: 0.92;
@@ -186,19 +192,19 @@
 }
 /* Aviso temporal, sin obligar a usar bloques negros en las pantallas. */
 [data-surface='inverse'] {
-  --c-surface: 19 22 27;
+  --c-surface: 22 23 26;
   --c-text-primary: 245 247 249;
-  --c-text-secondary: 189 193 199;
-  --c-accent-strong: 128 183 254;
+  --c-text-secondary: 192 193 196;
+  --c-accent-strong: 255 165 110;
   --c-destructive: 244 122 121;
   --c-focus: var(--c-accent-strong);
 }
 :root[data-theme='dark'] [data-surface='inverse'] {
-  --c-surface: 253 254 255;
-  --c-text-primary: 21 26 33;
-  --c-text-secondary: 74 80 89;
-  --c-accent-strong: 30 89 205;
-  --c-destructive: 183 24 36;
+  --c-surface: 255 255 255;
+  --c-text-primary: 22 23 26;
+  --c-text-secondary: 76 78 82;
+  --c-accent-strong: 164 58 2;
+  --c-destructive: 182 20 58;
 }
 @media (max-width: 359px) {
   :root { --space-page: 1rem; }

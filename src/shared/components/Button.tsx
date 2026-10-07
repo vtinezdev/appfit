@@ -10,8 +10,8 @@ type Size = 'sm' | 'md' | 'lg'
  */
 const VARIANTS: Record<Variant, string> = {
   primary: 'bg-accent text-accent-on font-bold hover:brightness-95',
-  secondary: 'border border-line bg-surface text-fg hover:bg-surface-muted',
-  ghost: 'text-accent-strong hover:bg-accent-subtle',
+  secondary: 'border border-line/60 bg-surface text-fg shadow-control hover:bg-surface-muted',
+  ghost: 'text-fg hover:bg-surface-muted [&_svg]:text-accent-strong', // acción terciaria en grafito; solo el icono lleva el acento
   subtle: 'text-fg-muted hover:bg-surface-muted hover:text-fg', // acción repetida en listas: no compite con la principal
   destructive: 'bg-surface-muted text-destructive hover:bg-line', // acción destructiva ofrecida
   danger: 'bg-destructive text-destructive-on hover:brightness-95', // confirmación de una acción destructiva

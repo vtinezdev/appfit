@@ -40,7 +40,7 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false, destacado 
             <h2 className="break-words font-display text-display">{activo ? 'Entreno en curso' : 'Tu próxima sesión'}</h2>
             <p className="training-muted mt-2 text-body-sm">{activo ? `En curso desde ${formatHora(activo.inicio)}` : 'Elige una rutina o empieza a tu ritmo.'}</p>
           </div>
-          <Icon name="dumbbell" size={28} className="mt-1 text-accent" />
+          <Icon name="dumbbell" size={28} className="training-muted mt-1" />
         </div>
         <Button size="lg" block onClick={onAbrir}>{activo ? 'Continuar' : 'Ir a entrenar'}<Icon name="chevron-right" size={20} /></Button>
         {!activo && resumen && <div className="training-previous space-y-3 pt-3">

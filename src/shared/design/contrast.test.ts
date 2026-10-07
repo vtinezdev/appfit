@@ -178,6 +178,8 @@ const deltaE = (a: readonly number[], b: readonly number[]) => 100 * Math.hypot(
 // Jerarquía cromática: cada rol se distingue de los que comparten pantalla con él.
 describe.each([['claro', light], ['oscuro', dark]])('roles distinguibles (%s)', (_name, t) => {
   it.each([['protein', 'carbs'], ['protein', 'fat'], ['carbs', 'fat'], ['kcal', 'fat']])('%s y %s ≥ 10', (a, b) => expect(deltaE(t[a], t[b])).toBeGreaterThanOrEqual(10))
-  it('acción textual y borrar ≥ 15', () => expect(deltaE(t['accent-strong'], t.destructive)).toBeGreaterThanOrEqual(15))
-  it('kcal y acción ≥ 15', () => expect(deltaE(t.kcal, t.accent)).toBeGreaterThanOrEqual(15))
+  // Naranja y rojo son vecinos: borrar se desplaza a carmín y siempre va con texto/icono (ADR 020).
+  it('acción textual y borrar ≥ 8', () => expect(deltaE(t['accent-strong'], t.destructive)).toBeGreaterThanOrEqual(8))
+  // kcal comparte a propósito la familia del acento (ADR 020): no debe derivar hacia otro tono.
+  it('kcal pertenece a la familia del acento (≤ 10)', () => expect(deltaE(t.kcal, t.accent)).toBeLessThanOrEqual(10))
 })

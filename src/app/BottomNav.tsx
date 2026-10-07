@@ -49,7 +49,7 @@ export default function BottomNav({ tab, onChange }: Props) {
 
   function cerrar() { haptic(); close() }
   return (
-    <nav aria-label="Navegación principal" className="app-nav safe-bottom z-40 shrink-0 border-t border-line bg-bg">
+    <nav aria-label="Navegación principal" className="app-nav safe-bottom z-40 shrink-0 bg-bg">
       <div className="nav-content relative mx-auto flex h-nav max-w-lg items-center justify-center px-page">
         <span id={contextoId} className="nav-context flex items-center gap-1.5 text-caption font-semibold">
           <Icon name={actual.icon} size={16} /><span className="sr-only">Sección actual: </span><span className="min-w-0 break-words">{actual.label}</span>

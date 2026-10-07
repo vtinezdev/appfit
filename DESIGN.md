@@ -1,79 +1,79 @@
 ---
 name: APPFIT
-description: "Enfocada y respirada: grafito frío, cobalto para actuar y ámbar para la energía, en un registro móvil preciso."
+description: "Enfocada y respirada: grafito neutro, un único acento naranja para actuar y medir la energía, superficies limpias y redondeadas en un registro móvil preciso."
 colors:
-  bg: "rgb(243 244 247)"
-  dark-bg: "rgb(8 10 13)"
-  surface: "rgb(253 254 255)"
-  dark-surface: "rgb(19 22 27)"
-  surface-elevated: "rgb(253 254 255)"
-  dark-surface-elevated: "rgb(27 30 36)"
-  surface-muted: "rgb(232 234 238)"
-  dark-surface-muted: "rgb(31 35 41)"
+  bg: "rgb(245 244 241)"
+  dark-bg: "rgb(10 11 13)"
+  surface: "rgb(255 255 255)"
+  dark-surface: "rgb(22 23 26)"
+  surface-elevated: "rgb(255 255 255)"
+  dark-surface-elevated: "rgb(30 31 35)"
+  surface-muted: "rgb(237 236 232)"
+  dark-surface-muted: "rgb(34 35 39)"
   overlay: "rgb(11 13 18)"
   dark-overlay: "rgb(0 0 0)"
-  text-primary: "rgb(21 26 33)"
+  text-primary: "rgb(22 23 26)"
   dark-text-primary: "rgb(245 247 249)"
-  text-secondary: "rgb(74 80 89)"
-  dark-text-secondary: "rgb(189 193 199)"
-  text-tertiary: "rgb(88 93 100)"
-  dark-text-tertiary: "rgb(157 162 169)"
-  border: "rgb(221 224 228)"
-  dark-border: "rgb(44 49 55)"
-  border-strong: "rgb(124 129 136)"
-  dark-border-strong: "rgb(112 117 124)"
-  accent: "rgb(34 97 221)"
-  dark-accent: "rgb(85 152 249)"
-  kcal: "rgb(201 116 5)"
-  dark-kcal: "rgb(252 180 82)"
-  on-accent: "rgb(253 254 255)"
-  dark-on-accent: "rgb(8 10 13)"
-  accent-strong: "rgb(30 89 205)"
-  dark-accent-strong: "rgb(128 183 254)"
-  accent-subtle: "rgb(227 237 255)"
-  dark-accent-subtle: "rgb(29 45 76)"
-  selected: "rgb(253 254 255)"
-  dark-selected: "rgb(52 56 63)"
-  on-selected: "rgb(21 26 33)"
+  text-secondary: "rgb(76 78 82)"
+  dark-text-secondary: "rgb(192 193 196)"
+  text-tertiary: "rgb(90 92 96)"
+  dark-text-tertiary: "rgb(160 161 165)"
+  border: "rgb(230 228 223)"
+  dark-border: "rgb(44 45 50)"
+  border-strong: "rgb(128 126 122)"
+  dark-border-strong: "rgb(114 116 121)"
+  accent: "rgb(200 80 0)"
+  dark-accent: "rgb(245 128 52)"
+  kcal: "rgb(214 92 10)"
+  dark-kcal: "rgb(255 132 48)"
+  on-accent: "rgb(255 255 255)"
+  dark-on-accent: "rgb(10 11 13)"
+  accent-strong: "rgb(164 58 2)"
+  dark-accent-strong: "rgb(255 165 110)"
+  accent-subtle: "rgb(253 236 224)"
+  dark-accent-subtle: "rgb(60 36 20)"
+  selected: "rgb(255 255 255)"
+  dark-selected: "rgb(58 59 64)"
+  on-selected: "rgb(22 23 26)"
   dark-on-selected: "rgb(245 247 249)"
   success: "rgb(3 115 74)"
   dark-success: "rgb(107 207 157)"
   on-success: "rgb(253 254 255)"
-  dark-on-success: "rgb(8 10 13)"
+  dark-on-success: "rgb(10 11 13)"
   success-subtle: "rgb(222 245 232)"
   dark-success-subtle: "rgb(21 50 35)"
   warning: "rgb(138 86 25)"
   dark-warning: "rgb(239 190 114)"
-  destructive: "rgb(183 24 36)"
+  destructive: "rgb(182 20 58)"
   dark-destructive: "rgb(244 122 121)"
   on-destructive: "rgb(253 254 255)"
-  dark-on-destructive: "rgb(8 10 13)"
+  dark-on-destructive: "rgb(10 11 13)"
   protein: "rgb(85 77 160)"
   dark-protein: "rgb(170 167 244)"
   carbs: "rgb(2 113 122)"
   dark-carbs: "rgb(124 205 214)"
   fat: "rgb(148 86 62)"
   dark-fat: "rgb(219 162 140)"
-  training: "rgb(25 32 41)"
-  dark-training: "rgb(16 20 25)"
+  training: "rgb(26 28 32)"
+  dark-training: "rgb(18 19 22)"
   on-training: "rgb(245 247 249)"
   dark-on-training: "rgb(245 247 249)"
-  training-muted: "rgb(185 190 198)"
+  training-muted: "rgb(188 189 192)"
   dark-training-muted: "rgb(185 190 198)"
-  training-track: "rgb(52 59 69)"
-  dark-training-track: "rgb(45 51 60)"
-  meal-accent: "rgb(128 183 254)"
-  dark-meal-accent: "rgb(128 183 254)"
-  muscle-1: "rgb(221 232 253)"
-  dark-muscle-1: "rgb(32 46 71)"
-  muscle-2: "rgb(178 203 249)"
-  dark-muscle-2: "rgb(44 70 120)"
-  muscle-3: "rgb(113 157 239)"
-  dark-muscle-3: "rgb(59 99 176)"
-  muscle-4: "rgb(53 109 220)"
-  dark-muscle-4: "rgb(80 135 227)"
-  muscle-5: "rgb(29 68 163)"
-  dark-muscle-5: "rgb(128 183 254)"
+  training-track: "rgb(54 57 63)"
+  dark-training-track: "rgb(48 50 55)"
+  meal-accent: "rgb(255 160 100)"
+  dark-meal-accent: "rgb(255 165 110)"
+  muscle-1: "rgb(253 232 216)"
+  dark-muscle-1: "rgb(60 34 20)"
+  muscle-2: "rgb(250 196 160)"
+  dark-muscle-2: "rgb(104 54 24)"
+  muscle-3: "rgb(240 146 88)"
+  dark-muscle-3: "rgb(160 82 32)"
+  muscle-4: "rgb(214 98 30)"
+  dark-muscle-4: "rgb(220 116 50)"
+  muscle-5: "rgb(160 64 6)"
+  dark-muscle-5: "rgb(255 165 110)"
   atmosphere-cobalt: "rgb(72 104 162)"
   dark-atmosphere-cobalt: "rgb(72 104 162)"
   atmosphere-steel: "rgb(111 132 144)"
@@ -148,17 +148,17 @@ typography:
     lineHeight: 1.5
     letterSpacing: "normal"
 rounded:
-  sm: "0.375rem"
-  md: "0.625rem"
-  lg: "0.875rem"
-  sheet: "1.25rem"
+  sm: "0.5rem"
+  md: "0.875rem"
+  lg: "1.375rem"
+  sheet: "1.75rem"
   pill: "9999px"
 spacing:
   "1": "0.25rem"
   "2": "0.5rem"
   page: "1.25rem"
-  section: "1.5rem"
-  card: "1rem"
+  section: "2rem"
+  card: "1.25rem"
   stack: "0.75rem"
   touch: "2.75rem"
   touch-lg: "3rem"
@@ -250,7 +250,7 @@ components:
 
 **Creative North Star: "Enfocada y enérgica"**
 
-La opción 3 aportada por el usuario fijó la dirección deportiva: contraste, títulos condensados y métricas claras. El 2026-10-06 Víctor elige la paleta Cobalto y una composición más respirada ([ADR 017](docs/decisiones/017-paleta-cobalto-y-composicion-respirada.md)). AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.
+La opción 3 aportada por el usuario fijó la dirección deportiva: contraste, títulos condensados y métricas claras. El 2026-10-06 Víctor elige la paleta Cobalto y una composición más respirada ([ADR 017](docs/decisiones/017-paleta-cobalto-y-composicion-respirada.md)). El 2026-10-07, a partir de una referencia visual, aprueba una evolución sin rediseño: un único acento naranja, neutros sin sesgo azul, radios más amplios, más aire y una elevación mínima para las cards ([ADR 020](docs/decisiones/020-acento-naranja-y-superficies-suaves.md)). AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.
 
 La identidad nace de títulos condensados, cifras tabulares y superficies compactas; el abanico que emerge del botón Menú sigue siendo el gesto distintivo. Energía mediante contraste y jerarquía, sin neones, degradados decorativos, glassmorphism, imágenes genéricas ni movimiento constante. La implementación directa fue solicitada por el usuario.
 
@@ -260,11 +260,11 @@ PRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valo
 
 ## Colors
 
-Jerarquía cromática de cuatro niveles. 1) Grafito frío (tono 258) domina fondos, superficies, texto y bordes: oscuro casi negro 8/10/13 con superficies 19/22/27 y campos 31/35/41; claro gris azulado 243/244/247 con superficies casi blancas. 2) Cobalto para actuar. 3) Ámbar solo para la energía del día. 4) Primos atenuados de esas dos familias para los datos. Sistema/Claro/Oscuro siguen disponibles y las preferencias guardadas se respetan.
+Jerarquía cromática de tres niveles. 1) Grafito neutro domina fondos, superficies, texto y bordes: oscuro casi negro 10/11/13 con superficies 22/23/26 y campos 34/35/39; claro marfil frío 245/244/241 con superficies blancas. 2) Un único acento naranja para actuar y, en su misma familia, para la energía del día. 3) Colores atenuados para los datos. Sistema/Claro/Oscuro siguen disponibles y las preferencias guardadas se respetan.
 
-Cobalto para la acción principal, el foco, la selección, la pestaña activa y el menú; el cobalto de texto tiene contraste propio por tema. Ámbar para la barra y la cifra de kcal del día: acción y energía no comparten color. P/C/G son índigo, turquesa y arcilla (vecinos del cobalto y del ámbar), separados entre sí ΔE ≥ 10. El aviso pertenece a la familia ámbar y el mapa muscular a una rampa de cobalto. Rojo (borrar) y verde (serie hecha) son los únicos semánticos fuera de las familias y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas; Toast utiliza su contexto inverso.
+Naranja tostado para la acción principal, el foco, la selección, la pestaña activa y el icono de la sección actual; el naranja de texto tiene contraste propio por tema y el botón sólido lleva texto blanco AA en claro y grafito en oscuro. La barra de kcal del día pertenece a la misma familia. P/C/G son índigo, turquesa y arcilla, separados entre sí ΔE ≥ 10. El mapa muscular usa una rampa del naranja. Borrar es carmín en claro (para separarse del naranja) y rojo coral en oscuro; con verde (serie hecha) son los únicos semánticos y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas; Toast utiliza su contexto inverso.
 
-**The Acento Rule.** El cobalto orienta acciones y el ámbar las kcal del día; ninguno sustituye superficies, texto o jerarquía. Las acciones repetidas en listas («Añadir a…», «Repetir») van en tono neutro para que el cobalto marque la acción principal.
+**The Acento Rule.** El naranja orienta la acción y mide la energía del día, sin sustituir superficies, texto o jerarquía. Las acciones repetidas en listas («Añadir a…», «Repetir») van en tono neutro, y las terciarias («Ver día», «Registrar») en grafito con el icono en naranja, para que el naranja sólido marque la acción principal. Los datos (peso) no usan el acento.
 
 ## Typography
 
@@ -278,7 +278,7 @@ Alimentos e ingredientes van a ancho normal para reconocimiento. Reps/kg editabl
 
 ## Layout
 
-Columna móvil centrada de máximo 512 px; margen 20 px (16 bajo 360 px), sección 24 px, padding de contenido 16 px. Radios sm/md/lg/sheet de 6/10/14/20 px. Targets reales de 44 px y acciones principales de 48 px.
+Columna móvil centrada de máximo 512 px; margen 20 px (16 bajo 360 px), sección 32 px, padding de contenido 20 px. Radios sm/md/lg/sheet de 8/14/22/28 px. Targets reales de 44 px y acciones principales de 48 px.
 
 Sin alturas rígidas: nombres/cifras envuelven. PageHeader redistribuye la acción con texto ampliado. Las container queries de comidas/registros mantienen la jerarquía y apilan detalles/kcal cuando falta espacio. Shell 100dvh, scroll en main, navegación 72 px más safe area. Las capas siguen visualViewport y mantienen acciones persistentes fuera del scroll.
 
@@ -288,13 +288,13 @@ El 2026-10-06 Víctor aprueba la preview de Gym y pide extenderla a toda la app.
 
 ## Elevation & Depth
 
-Las superficies se diferencian por tono. Card conserva un borde transparente para su geometría; campos, controles y registros mantienen límites reconocibles. Sin sombras en cards/nav; la sombra compartida pertenece a capas y avisos.
+Las superficies se diferencian por tono y, en claro, por una sombra muy suave y difusa (`shadow-card`) que separa cada unidad real del fondo fotográfico; en oscuro, solo por tono. Botón secundario, indicador del selector y Menú usan una sombra de control mínima. Card conserva un borde transparente para su geometría; campos, controles y registros mantienen límites reconocibles. La barra inferior no tiene línea: una sombra difusa la separa del contenido. Las capas y avisos conservan su sombra propia.
 
-**The Plano por defecto Rule.** Tono y espacio separan contenido; la sombra indica una capa temporal.
+**The Elevación mínima Rule.** Tono y espacio separan contenido; la sombra de card es casi imperceptible y nunca decora un elemento que no sea una unidad real.
 
 ## Shapes
 
-Radios contenidos de la escala compartida, sin pastillas grandes ni halos. Pocas superficies y pocas líneas: una superficie por unidad real (panel del día, cada comida), filas planas dentro y espacio en lugar de separadores. Cabeceras de comida como títulos sobre la página, con icono y kcal neutros; plato y alimento comparten fila plana. Iconografía SVG existente, con trazo consistente.
+Radios amplios de la escala compartida (cards 22 px, controles 14 px); cápsula solo con significado (selector de valor, Menú, filtros, nodos), sin halos. Pocas superficies y pocas líneas: una superficie por unidad real (panel del día, cada comida, una lista agrupada), filas planas dentro y espacio en lugar de separadores. Cabeceras de comida como títulos sobre la página, con icono y kcal neutros; plato y alimento comparten fila plana. Iconografía SVG existente, con trazo consistente.
 
 ## Components
 
@@ -318,7 +318,7 @@ Cierre con datos realmente guardados. Progreso/estadísticas con cifras condensa
 
 ### Controles, capas y estados
 
-Buttons con radio contenido y target táctil; cobalto sólido reservado a la acción principal y variante `subtle` neutra para acciones repetidas en listas. Inputs/selects/textarea con superficie secundaria, límite reconocible y foco cobalto. ViewTabs sin carril: solo el indicador marca la vista. Badges son metadatos; ViewTabs navega y SegmentedControl elige un valor con indicador neutro.
+Buttons con radio contenido y target táctil; naranja sólido reservado a la acción principal y variante `subtle` neutra para acciones repetidas en listas. Inputs/selects/textarea con superficie secundaria, límite reconocible y foco naranja. ViewTabs sin carril: la vista activa va en negrita con una barra corta naranja. Badges son metadatos; ViewTabs navega y SegmentedControl elige un valor en una cápsula neutra elevada.
 
 Sheet y ModalPage comparten títulos condensados, portal, aislamiento/foco, Escape/Atrás y retorno de foco. Tareas encadenadas esperan onExited. EmptyState explica qué falta y cómo continuar; LoadingState localizado; errores dentro de la tarea. Caret, selección de texto, scrollbars y foco usan la paleta.
 
@@ -336,7 +336,7 @@ Cabeceras/tabs tienen protección de lectura; paneles mantienen opacidad 96% en 
 
 ### Navegación y motion
 
-Menú cerrado neutro y relleno, sin contorno; abierto, el cobalto conecta origen y destino actual. La barra inferior no lleva marca: contexto de sección y Menú. Cinco destinos de 84×68 px en abanico, órbita hasta 120 px y elevación 160 px. Check y nombres visibles; texto ampliado o poca altura activa rejilla de dos columnas. Destinos futuros se paginan.
+Menú cerrado en cápsula neutra y elevada, sin contorno; abierto, el naranja conecta origen y destino actual. El contexto de sección lleva su icono en naranja. La barra inferior no lleva marca: contexto de sección y Menú. Cinco destinos de 84×68 px en abanico, órbita hasta 120 px y elevación 160 px. Check y nombres visibles; texto ampliado o poca altura activa rejilla de dos columnas. Destinos futuros se paginan.
 
 Feedback 120 ms, estados 200, overlays/abanico 280 y salida 180 ms. Fin de sesión conserva confirmación de 420 ms. CSS/Web Animations, curvas desaceleradas sin rebote; ninguna dependencia nueva. Reduce Motion elimina desplazamientos, escala, FLIP y stagger, preservando texto/check y fundido de 80 ms. Cifras y gráficas no cuentan desde cero.
 
@@ -344,13 +344,13 @@ Haptics opcionales según navegador: Safari/iOS no ofrece Vibration API; Android
 
 ## Do's and Don'ts
 
-El mapa muscular es un dato de sesión: dos siluetas SVG esquemáticas, rampa de cobalto de bajo a alto adaptada a claro/oscuro, independiente del rojo de borrar. Cero permanece neutro. Se acompaña de niveles textuales y filas táctiles ≥44 px para consultar ejercicios; no depende del color ni de tocar zonas pequeñas. La escala compara trabajo dentro de la sesión, sin representar fatiga o recuperación. Metodología/cobertura visibles de forma proporcionada; no se animan los colores ni se introducen fotos/dependencias para esta sección.
+El mapa muscular es un dato de sesión: dos siluetas SVG esquemáticas, rampa del naranja de bajo a alto adaptada a claro/oscuro, independiente del rojo de borrar. Cero permanece neutro. Se acompaña de niveles textuales y filas táctiles ≥44 px para consultar ejercicios; no depende del color ni de tocar zonas pequeñas. La escala compara trabajo dentro de la sesión, sin representar fatiga o recuperación. Metodología/cobertura visibles de forma proporcionada; no se animan los colores ni se introducen fotos/dependencias para esta sección.
 
 - Contraste AA en ambos temas; campos ≥16 px, controles ≥44 px.
 - Datos y unidades completos, estados honestos cuando falta información.
 - Sistema común; ninguna paleta o familia exclusiva por pantalla.
 - Superficies compactas y separación entre tareas; profundidad solo para capas.
-- Cobalto orienta y confirma, ámbar mide la energía; ninguno domina el contenido.
+- El naranja orienta, confirma y mide la energía; no domina el contenido.
 - Teclado, foco, Atrás, safe areas y Reduce Motion forman parte del producto.
 - Sigue siendo una PWA; emulación no acredita hardware físico iOS/Android.
 

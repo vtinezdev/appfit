@@ -82,7 +82,8 @@ a { text-underline-offset: 0.2em; }
 }
 .app-atmosphere[data-quiet='true'] { --atmosphere-photo-opacity: var(--atmosphere-quiet-opacity); }
 .app-atmosphere[data-quiet='true']::before { opacity: var(--atmosphere-quiet-light-opacity); }
-.app-view[data-atmosphere] .app-card:not(.bg-surface-muted):not(.training-surface) {
+.app-view[data-atmosphere] .app-card:not(.bg-surface-muted):not(.training-surface),
+.app-view[data-atmosphere] .app-list-group {
   background-color: rgb(var(--c-surface) / var(--atmosphere-panel-opacity));
 }
 .app-view[data-atmosphere] .training-surface { background-color: rgb(var(--c-training) / var(--atmosphere-training-opacity)); }
@@ -174,17 +175,22 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .app-field { caret-color: rgb(var(--c-accent-strong)); transition: border-color var(--dur-short), background-color var(--dur-short); }
 .app-field:focus { border-color: rgb(var(--c-accent-strong)); background: rgb(var(--c-surface)); }
 .app-tabs { isolation: isolate; }
+/* La celda se desplaza; dentro, una barra corta y redondeada marca la vista activa. */
 .tab-indicator {
-  position: absolute; bottom: 0; left: 0; height: 2px; border-radius: var(--radius-pill);
-  width: calc(100% / var(--selection-count)); background: rgb(var(--c-accent));
+  position: absolute; bottom: 0; left: 0; height: 3px;
+  width: calc(100% / var(--selection-count));
   transform: translateX(calc(var(--selection-index) * 100%));
   transition: transform var(--dur-normal) var(--ease-standard);
+}
+.tab-indicator::after {
+  content: ""; position: absolute; inset: 0 auto 0 50%; width: 1.75rem; transform: translateX(-50%);
+  border-radius: var(--radius-pill); background: rgb(var(--c-accent));
 }
 .app-segmented { gap: 0; }
 .segment-indicator {
   position: absolute; top: 4px; bottom: 4px; left: 4px;
-  width: var(--selection-width, calc((100% - 8px) / var(--selection-count))); border-radius: var(--radius-sm);
-  background: rgb(var(--c-selected));
+  width: var(--selection-width, calc((100% - 8px) / var(--selection-count))); border-radius: var(--radius-pill);
+  background: rgb(var(--c-selected)); box-shadow: var(--shadow-control);
   transform: translateX(var(--selection-offset, calc(var(--selection-index) * 100%)));
   transition: transform var(--dur-normal) var(--ease-standard);
 }
@@ -254,12 +260,16 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 @keyframes view-arrival { from { opacity: .35; } to { opacity: 1; } }
 .menu-trigger {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 124px; height: 48px; border-radius: var(--radius-md);
-  background: rgb(var(--c-surface-muted)); color: rgb(var(--c-text-primary));
+  width: 124px; height: 48px; border-radius: var(--radius-pill);
+  background: rgb(var(--c-surface-elevated)); color: rgb(var(--c-text-primary)); box-shadow: var(--shadow-control);
   font-weight: 700; font-size: 14px;
 }
+:root[data-theme="dark"] .menu-trigger { background: rgb(var(--c-surface-muted)); }
+/* Sin línea dura: una sombra difusa separa la barra del contenido que pasa por debajo. */
+.app-nav { box-shadow: 0 -10px 30px -18px rgb(var(--c-overlay) / 0.18); }
 .nav-content { container-type: inline-size; container-name: app-nav; }
-.nav-context { position: absolute; left: var(--space-page); max-width: calc(50% - 74px); color: rgb(var(--c-text-secondary)); overflow-wrap: anywhere; flex-wrap: wrap; row-gap: 0; }
+.nav-context { position: absolute; left: var(--space-page); max-width: calc(50% - 74px); color: rgb(var(--c-text-primary)); overflow-wrap: anywhere; flex-wrap: wrap; row-gap: 0; }
+.nav-context svg { color: rgb(var(--c-accent-strong)); }
 /* El nombre sigue accesible; la cabecera de pantalla mantiene el contexto visible. */
 @container app-nav (max-width: 14rem) {
   .nav-context { width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
@@ -301,7 +311,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .training-surface {
   --c-text-primary: var(--c-on-training); --c-text-secondary: var(--c-training-muted); --c-text-tertiary: var(--c-training-muted);
   --c-accent-strong: var(--c-meal-accent); --c-focus: var(--c-meal-accent); --c-border: var(--c-training-track);
-  background: rgb(var(--c-training)); color: rgb(var(--c-on-training)); border-radius: var(--radius-lg);
+  background: rgb(var(--c-training)); color: rgb(var(--c-on-training)); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
 }
 .training-feature .training-previous { border-top: 1px solid rgb(var(--c-training-track)); }
 .series-row .app-field { font-size: var(--fs-title); font-weight: 700; background: rgb(var(--c-bg)); }
