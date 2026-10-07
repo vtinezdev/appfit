@@ -40,8 +40,8 @@ describe('presentación de nutrientes adicionales', () => {
     const valores = { kcal100: 100, prot100: 5, carb100: 10, grasa100: 4, nutrientes: { fibra: 0 } }
     const sencillo = renderToStaticMarkup(<MacroInputs valores={valores} onChange={() => {}} />)
     const detallado = renderToStaticMarkup(<MacroInputs detallado valores={valores} onChange={() => {}} />)
-    expect(sencillo.match(/type="number"/g)).toHaveLength(4)
-    expect(detallado.match(/type="number"/g)).toHaveLength(8)
+    expect(sencillo.match(/inputMode="decimal"/g)).toHaveLength(4)
+    expect(detallado.match(/inputMode="decimal"/g)).toHaveLength(8)
     expect(detallado.match(/placeholder="Sin datos"/g)).toHaveLength(4)
     expect(detallado).toContain('aria-label="Fibra/100g"')
     expect(detallado).toContain('aria-label="Grasas saturadas/100g"')

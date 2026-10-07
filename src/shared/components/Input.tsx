@@ -1,4 +1,5 @@
 import type { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import { useCampoDecimal } from '../hooks/useCampoDecimal'
 import Icon from './Icon'
 
 interface FieldProps {
@@ -16,6 +17,14 @@ function field({ tone = 'muted' }: FieldProps, tall: boolean, className: string)
 
 export function Input({ tone, className = '', ...rest }: InputHTMLAttributes<HTMLInputElement> & FieldProps) {
   return <input className={`${field({ tone }, true, className)} ${className}`} {...rest} />
+}
+
+/** Cifra con decimales (coma o punto). `onChange` recibe `undefined` mientras el campo no tenga número. */
+export function DecimalInput({ value, onChange, ...rest }: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'inputMode' | 'value' | 'onChange' | 'onFocus' | 'onBlur'> & FieldProps & {
+  value: number | undefined
+  onChange: (valor: number | undefined) => void
+}) {
+  return <Input {...rest} {...useCampoDecimal(value, onChange)} />
 }
 
 /** Buscador: mismo campo con una lupa a la izquierda. El nombre accesible es obligatorio (el placeholder no lo es). */

@@ -14,7 +14,7 @@
 | Tarjeta pequeña común | `components/TarjetaAcceso` (etiqueta, dato, toda la tarjeta como botón y acción opcional en la esquina) | — |
 | Lógica del peso | `lib/peso.ts`: `validarPeso` (rango y decimales admitidos), `tendenciaPeso`, `fraseVariacion`, `mediaMovilPeso` (media de los 7 días naturales que acaban en cada fecha) | — |
 | Gráfica del peso | `components/GraficaPeso` (Recharts, diferida desde `HistorialPeso`): pesajes y media de 7 días | — |
-| Agua | `components/AccesoAgua` (tarjeta con «+» de 250 ml), `components/AguaSheet` (250/330/500/otra, quitar la última toma, últimos 7 días), `lib/agua.ts` (objetivo, validación, formato) | `aguaRepo` (tabla `agua`) |
+| Agua | `components/AccesoAgua` (tarjeta con «−» quitar la última toma y «+» de 250 ml), `components/AguaSheet` (250/330/500/otra, quitar la última toma, últimos 7 días), `lib/agua.ts` (objetivo, validación, formato) | `aguaRepo` (tabla `agua`) |
 | Aviso de copia | `components/AvisoBackup` (banda con «Exportar ahora» y «Más tarde»), `shared/lib/recordatorioBackup.ts` | `shared/db/settings` (`ultimaExportacion`, `recordatorioBackupPospuesto`, `recordatorioBackupDias`) |
 
 ## Primer inicio en iPhone
@@ -27,7 +27,7 @@ El shell (`app/TrasladarDatos`) muestra antes del resumen un aviso breve para a�
 
 1. **Energía** (tarjeta ancha): rueda con las kcal del día en el centro; a su lado, objetivo, frase de `fraseKcal` («Quedan 860 kcal», «250 kcal sobre el objetivo») y gramos de proteína, hidratos y grasa. Toda la tarjeta abre el día en Nutrición.
 2. **Entreno** y **Peso** (dos tarjetas pequeñas). Entreno: «En curso · Desde 18:05», el último entreno («Ayer · 52 min · 600 kg») o «Sin entrenos». Abre Gym para elegir rutina o entreno libre, sin inventar una programación. Peso: último pesaje y variación a 7 días; la tarjeta abre el historial (solo lectura) y su «+» abre el registro.
-3. **Agua**: tarjeta con lo bebido hoy (y el objetivo con su barra si lo hay). El «+» suma una toma de 250 ml con «Deshacer»; la tarjeta abre una Sheet para elegir 250/330/500 ml u otra cantidad, quitar la última toma y repasar los últimos 7 días. El objetivo sale de Ajustes (lo editado manda) o, sin él, del sexo de Perfil: 2,0 L (hombre) o 1,6 L (mujer), según la ingesta adecuada de agua total de EFSA (2010) menos un 20 % por la humedad de los alimentos (criterio de AppFit; ver Referencias › Proteína y agua). Sin sexo ni ajuste no hay objetivo y solo se muestra lo bebido.
+3. **Agua**: tarjeta con lo bebido hoy (y el objetivo con su barra si lo hay). El «+» suma una toma de 250 ml y el «−» quita la última toma (desactivado a 0 ml), ambos con «Deshacer»; la tarjeta abre una Sheet para elegir 250/330/500 ml u otra cantidad, quitar la última toma y repasar los últimos 7 días. El objetivo sale de Ajustes (lo editado manda) o, sin él, del sexo de Perfil: 2,0 L (hombre) o 1,6 L (mujer), según la ingesta adecuada de agua total de EFSA (2010) menos un 20 % por la humedad de los alimentos (criterio de AppFit; ver Referencias › Proteína y agua). Sin sexo ni ajuste no hay objetivo y solo se muestra lo bebido.
 4. **Registrar comida**: acción principal (abre Nutrición con el registro).
 
 Encima de las tarjetas puede aparecer el **aviso de copia de seguridad** si hay datos y han pasado 14 días (configurable en Ajustes: 7/14/30) desde la última exportación (o nunca se exportó). «Exportar ahora» lleva a Ajustes › Copias de seguridad; «Más tarde» lo pospone 3 días. Sin notificaciones. La fecha de la última exportación se guarda solo si la descarga se lanzó.

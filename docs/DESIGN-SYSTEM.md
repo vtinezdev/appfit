@@ -90,7 +90,8 @@ Claro usa foto al 72%, saturación 85%, velo superior 71% → 86% al 18% de altu
 | Button | primary, secondary, ghost, destructive (oferta), danger (confirmación); loading deshabilita y anuncia ocupado |
 | IconButton | label obligatorio; sm/md 44 px, lg 48; sm solo reduce icono; ref de React 19 apunta al botón real |
 | Input, Textarea, Select, SearchInput | 16 px, control ≥44, borde fuerte, foco global; etiquetas visibles en formularios y nombre accesible en búsquedas |
-| NumberStepper | una escala; botones 44, campo 16, unidad y label obligatorio; Gym usa campos directos |
+| DecimalInput | cifras con decimales: campo de texto con `inputMode="decimal"` (hook `useCampoDecimal`), acepta coma o punto y, con el foco, conserva lo tecleado («12,»); `undefined` sin número. No usar `type="number"` con valor numérico controlado: vacía el campo a medio escribir |
+| NumberStepper | una escala; botones 44, campo 16 (decimal como DecimalInput), unidad y label obligatorio; Gym usa campos directos |
 | Card | default/muted; unidad real, superficie sin contorno visible por defecto; no marco obligatorio de sección |
 | ListGroup / ListRow | `agrupada` (por defecto): una sola superficie redondeada con divisores interiores; `plana` dentro de una Card o Sheet. Fila completa pulsable; tonos semánticos |
 | PageHeader / SectionHeader | pantalla 41, sección 26, Saira 900 condensada recta; contexto debajo del título y acción redistribuida al ampliar texto |

@@ -7,18 +7,28 @@ interface Props {
   ml: number
   objetivo: ObjetivoAgua | null
   onAnadir: () => void
+  onQuitar: () => void
   onAbrir: () => void
 }
 
-/** Agua del día: lo bebido (y el objetivo si lo hay). «+» suma una toma de 250 ml; la tarjeta abre más opciones. */
-export default function AccesoAgua({ ml, objetivo, onAnadir, onAbrir }: Props) {
+const BOTON = 'app-button inline-flex h-touch w-touch items-center justify-center rounded-md text-accent-strong enabled:hover:bg-surface-muted disabled:opacity-30'
+
+/**
+ * Agua del día: lo bebido (y el objetivo si lo hay). «−» quita la última toma y «+» suma una de 250 ml; la tarjeta
+ * abre más opciones.
+ */
+export default function AccesoAgua({ ml, objetivo, onAnadir, onQuitar, onAbrir }: Props) {
   return (
     <TarjetaAcceso etiqueta="Agua" onAbrir={onAbrir}
       accion={
-        <button type="button" aria-label={`Añadir ${formatAgua(AGUA_POR_DEFECTO_ML)} de agua`} onClick={onAnadir}
-          className="app-button inline-flex h-touch w-touch items-center justify-center rounded-md text-accent-strong hover:bg-surface-muted">
-          <Icon name="plus" size={20} />
-        </button>
+        <div className="flex">
+          <button type="button" aria-label="Quitar la última toma de agua" disabled={ml <= 0} onClick={onQuitar} className={BOTON}>
+            <Icon name="minus" size={20} />
+          </button>
+          <button type="button" aria-label={`Añadir ${formatAgua(AGUA_POR_DEFECTO_ML)} de agua`} onClick={onAnadir} className={BOTON}>
+            <Icon name="plus" size={20} />
+          </button>
+        </div>
       }>
       <span className="tabular flex flex-wrap items-baseline gap-x-1.5 text-fg">
         <span className="font-numeric text-heading">{formatAgua(ml)}</span>
