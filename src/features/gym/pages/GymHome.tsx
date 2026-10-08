@@ -43,7 +43,7 @@ export default function GymHome({ onRegistrado }: { onRegistrado: (id: number) =
   }
 
   return (
-    <div className="space-y-stack">
+    <div className="space-y-section">
       <section aria-label="Empezar a entrenar" className="training-surface space-y-5 p-5">
         <div className="space-y-1">
           <div className="flex items-start justify-between gap-3"><h2 className="text-display">Tu próxima sesión</h2><Icon name="dumbbell" size={28} className="training-muted mt-1" /></div>

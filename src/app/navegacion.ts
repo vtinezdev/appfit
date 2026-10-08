@@ -4,7 +4,7 @@ import type { IconName } from '../shared/components/Icon'
 export const DESTINOS = [
   { key: 'inicio', label: 'Inicio', icon: 'home' },
   { key: 'nutricion', label: 'Nutrición', icon: 'utensils' },
-  { key: 'gym', label: 'Gym', icon: 'dumbbell' },
+  { key: 'gym', label: 'Entreno', icon: 'dumbbell' }, // un solo nombre visible para la sección (título, Inicio y menú)
   { key: 'perfil', label: 'Perfil', icon: 'user' },
   { key: 'referencias', label: 'Referencias', icon: 'info' },
   { key: 'ajustes', label: 'Ajustes', icon: 'settings' },

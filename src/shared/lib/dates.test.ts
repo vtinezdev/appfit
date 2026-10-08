@@ -6,6 +6,9 @@ import {
   esPeriodoActual,
   etiquetaPeriodo,
   fechasPeriodo,
+  formatDiaMes,
+  formatFechaHora,
+  formatFechaHoraConDia,
   formatShort,
   monthDates,
   startOfMonth,
@@ -54,6 +57,13 @@ describe('formato', () => {
 
   it('formatShort', () => {
     expect(formatShort('2026-09-28')).toBe('lun 28')
+  })
+
+  it('una sola forma de fecha corta: día y mes abreviado, hora con dos cifras', () => {
+    const ts = new Date(2026, 8, 19, 8, 6).getTime()
+    expect(formatDiaMes(new Date(2026, 9, 3, 8, 21).getTime())).toBe('3 oct')
+    expect(formatFechaHora(ts)).toBe('19 sep · 08:06')
+    expect(formatFechaHoraConDia(ts)).toBe('sáb 19 sep · 08:06')
   })
 })
 

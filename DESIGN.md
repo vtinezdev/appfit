@@ -57,13 +57,15 @@ colors:
   fat: "rgb(148 86 62)"
   dark-fat: "rgb(219 162 140)"
   training: "rgb(26 28 32)"
-  dark-training: "rgb(18 19 22)"
+  dark-training: "rgb(50 51 56)"
   on-training: "rgb(245 247 249)"
   dark-on-training: "rgb(245 247 249)"
   training-muted: "rgb(188 189 192)"
   dark-training-muted: "rgb(185 190 198)"
   training-track: "rgb(54 57 63)"
-  dark-training-track: "rgb(48 50 55)"
+  dark-training-track: "rgb(76 78 84)"
+  training-border: "rgb(26 28 32)"
+  dark-training-border: "rgb(70 71 77)"
   meal-accent: "rgb(255 160 100)"
   dark-meal-accent: "rgb(255 165 110)"
   muscle-1: "rgb(253 232 216)"
@@ -243,7 +245,7 @@ components:
   series-completed:
     backgroundColor: "{colors.success}"
     textColor: "{colors.on-success}"
-    rounded: "10px"
+    rounded: "{rounded.md}"
 ---
 
 # Design System: APPFIT
@@ -252,7 +254,7 @@ components:
 
 **Creative North Star: "Enfocada y enérgica"**
 
-La opción 3 aportada por el usuario fijó la dirección deportiva: contraste, títulos condensados y métricas claras. El 2026-10-06 Víctor elige la paleta Cobalto y una composición más respirada ([ADR 017](docs/decisiones/017-paleta-cobalto-y-composicion-respirada.md)). El 2026-10-07, a partir de una referencia visual, aprueba una evolución sin rediseño: un único acento naranja, neutros sin sesgo azul, radios más amplios, más aire y una elevación mínima para las cards ([ADR 020](docs/decisiones/020-acento-naranja-y-superficies-suaves.md)). AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.
+La opción 3 aportada por el usuario fijó la dirección deportiva: contraste, títulos condensados y métricas claras. El 2026-10-06 Víctor elige la paleta Cobalto y una composición más respirada ([ADR 017](docs/decisiones/017-paleta-cobalto-y-composicion-respirada.md)). El 2026-10-07, a partir de una referencia visual, aprueba una evolución sin rediseño: un único acento naranja, neutros sin sesgo azul, radios más amplios, más aire y una elevación mínima para las cards ([ADR 020](docs/decisiones/020-acento-naranja-y-superficies-suaves.md)). AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup. El 2026-10-08, tras una auditoría visual comparada en un laboratorio con los tokens reales, aprueba un pulido de «precisión silenciosa» sin cambiar la identidad: menos marcas y líneas, una gramática por dato, el naranja solo para actuar y una tarjeta de entreno que también manda en oscuro ([ADR 024](docs/decisiones/024-precision-silenciosa.md)).
 
 La identidad nace de títulos condensados, cifras tabulares y superficies compactas; el abanico que emerge del botón Menú sigue siendo el gesto distintivo. Energía mediante contraste y jerarquía, sin neones, degradados decorativos, glassmorphism, imágenes genéricas ni movimiento constante. La implementación directa fue solicitada por el usuario.
 
@@ -264,15 +266,15 @@ PRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valo
 
 Jerarquía cromática de tres niveles. 1) Grafito neutro domina fondos, superficies, texto y bordes: oscuro casi negro 10/11/13 con superficies 22/23/26 y campos 34/35/39; claro marfil frío 245/244/241 con superficies blancas. 2) Un único acento naranja para actuar y, en su misma familia, para la energía del día. 3) Colores atenuados para los datos. Sistema/Claro/Oscuro siguen disponibles y las preferencias guardadas se respetan.
 
-Naranja tostado para la acción principal, el foco, la selección, la pestaña activa y el icono de la sección actual; el naranja de texto tiene contraste propio por tema y el botón sólido lleva texto blanco AA en claro y grafito en oscuro. La barra de kcal del día pertenece a la misma familia; en la rueda de energía de Inicio, lo que falta va en negro (`kcal-rest`). P/C/G son índigo, turquesa y arcilla, separados entre sí ΔE ≥ 10. El mapa muscular usa una rampa del naranja. Borrar es carmín en claro (para separarse del naranja) y rojo coral en oscuro; con verde (serie hecha) son los únicos semánticos y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas; Toast utiliza su contexto inverso.
+Naranja tostado para la acción principal, el foco, la selección, la pestaña activa y el icono de la sección actual; el naranja de texto tiene contraste propio por tema y el botón sólido lleva texto blanco AA en claro y grafito en oscuro. La barra de kcal del día pertenece a la misma familia; en la rueda de energía de Inicio, lo que falta va en negro (`kcal-rest`). P/C/G son índigo, turquesa y arcilla, separados entre sí ΔE ≥ 10. El mapa muscular usa una rampa del naranja. Borrar es carmín en claro (para separarse del naranja) y rojo coral en oscuro; con verde (serie hecha) son los únicos semánticos y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas (en oscuro, más claro que las cards y con borde, para seguir siendo la tarjeta principal); Toast utiliza su contexto inverso.
 
-**The Acento Rule.** El naranja orienta la acción y mide la energía del día, sin sustituir superficies, texto o jerarquía. Las acciones repetidas en listas (el «+» y Repetir de cada comida) van en tono neutro, y las terciarias («Ver día», «Registrar») en grafito con el icono en naranja, para que el naranja sólido marque la acción principal. Los datos (peso) no usan el acento.
+**The Acento Rule.** El naranja orienta la acción y mide la energía del día, sin sustituir superficies, texto o jerarquía. Las acciones repetidas en listas (el «+» y Repetir de cada comida) van en tono neutro, y las terciarias («Ver día», «Registrar») en grafito con el icono en naranja, para que el naranja sólido marque la acción principal. Las acciones de las tarjetas de Inicio («+» del peso, «−»/«+» del agua) también van en neutro, y los datos (peso, agua) no usan el acento: en Inicio el naranja queda para «Registrar comida» y la sección actual. Una sola acción naranja sólida por vista, y el primario deshabilitado es neutro: el naranja solo aparece cuando se puede actuar.
 
 ## Typography
 
 Una sola familia, Saira variable (anchura y peso), en tres voces: títulos de pantalla y operativos en negra 900 condensada al 62,5 % y recta; cifras en cursiva 800 condensada al 70 % (900 al 62,5 % en hero); nombres, lectura, botones y campos a ancho normal; etiquetas en 700 al 85 %. Archivos locales con licencia OFL, precarga y precache; la app no pide fuentes a terceros. Elegida el 2026-10-06 por Víctor entre varias direcciones («Saira recta»).
 
-Display 41, hero 56, metric 34 y heading 26 px. Title 18, body 16, body-sm 14, label 13 y caption 12 px. Display en mayúsculas; secciones y ejercicios en caja natural. Tracking entre −0,01 y −0,02 em para la voz condensada. Cifras completas e inmediatas; unidades visibles, ancho tabular y en cursiva solo cuando son métrica (`font-numeric`): las cifras de filas, totales de comida y campos quedan rectas.
+Display 41, hero 56, metric 34 y heading 26 px. Title 18, body 16, body-sm 14, label 13 y caption 12 px. Display en mayúsculas; secciones y ejercicios en caja natural. Tracking entre −0,01 y −0,02 em para la voz condensada. Cifras completas e inmediatas; unidades visibles, ancho tabular y en cursiva solo cuando son métrica (`font-numeric`): las cifras de filas, totales de comida y campos quedan rectas, y la unidad nunca hereda la cursiva de la cifra. Decimales con coma también en textos compuestos («3 × 10 · 71,25 kg») y macros siempre como «P 11 · C 57 · G 7».
 
 Alimentos e ingredientes van a ancho normal para reconocimiento. Reps/kg editables rectos a ancho normal, 18 px; todos los campos tienen al menos 16 px. No se reduce la letra para encajar contenido y no se simula una fuente deportiva con Impact.
 
@@ -296,7 +298,7 @@ Las superficies se diferencian por tono y, en claro, por una sombra muy suave y 
 
 ## Shapes
 
-Radios amplios de la escala compartida (cards 22 px, controles 14 px); cápsula solo con significado (selector de valor, Menú, filtros, nodos), sin halos. Pocas superficies y pocas líneas: una superficie por unidad real (panel del día, cada comida, una lista agrupada), filas planas dentro y espacio en lugar de separadores. Cabeceras de comida como títulos sobre la página, con icono y kcal neutros; plato y alimento comparten fila plana. Iconografía SVG existente, con trazo consistente.
+Radios amplios de la escala compartida (cards 22 px, controles 14 px); cápsula solo con significado (selector de valor, Menú, filtros, nodos), sin halos. El título de una sección va sobre su card, no dentro; dentro solo hay etiquetas de métrica y datos. Pocas superficies y pocas líneas (un desplegable no repite la línea de la lista que lo precede): una superficie por unidad real (panel del día, cada comida, una lista agrupada), filas planas dentro y espacio en lugar de separadores. Cabeceras de comida como títulos sobre la página, con icono y kcal neutros; plato y alimento comparten fila plana. Iconografía SVG existente, con trazo consistente.
 
 ## Components
 
@@ -304,7 +306,7 @@ Radios amplios de la escala compartida (cards 22 px, controles 14 px); cápsula 
 
 Minimalista ([ADR 021](docs/decisiones/021-inicio-minimalista-rueda-energia.md), elegido por Víctor el 2026-10-07 entre bocetos): «Hoy» con la fecha, tarjetas breves y una sola acción principal, Registrar comida. Sin saludo, firma, lema ni accesos que repitan destinos. La pantalla crecerá con nuevas tarjetas cuando haya funciones nuevas.
 
-La energía es la tarjeta ancha: una rueda con lo consumido en los colores de P/C/G, proporcional a sus kcal, y lo que falta en negro; si te pasas, el exceso da una segunda vuelta fina por dentro en el naranja de la energía, sin rojo ni alarma. Cifra, objetivo, «Quedan…» y gramos siguen en texto, inmediatos. Entreno (en curso o último real) y Peso (último pesaje y variación neutral, «+» para registrar) son tarjetas pequeñas; cada tarjeta entera abre su sección.
+La energía es la tarjeta ancha: una rueda con lo consumido en los colores de P/C/G, proporcional a sus kcal, y lo que falta en negro sobre un carril más fino, para que mande lo consumido; si te pasas, el exceso da una segunda vuelta fina por dentro en el naranja de la energía, sin rojo ni alarma. Cifra, objetivo, «Quedan…» y gramos siguen en texto, inmediatos. Entreno (en curso o último real) y Peso (último pesaje y variación neutral, «+» para registrar) son tarjetas pequeñas; cada tarjeta entera abre su sección.
 
 ### Nutrición y Referencias
 
@@ -314,9 +316,9 @@ Nutrición muestra qué está consumiendo el usuario y cómo va. Referencias exp
 
 ### Entrenamiento, progreso y estadísticas
 
-Rutina/estado, tiempo, volumen y series marcadas sobre grafito compacto. Ejercicios con título condensado y reps/kg en campos más oscuros. Completar conserva check, fondo de éxito y feedback; editar desmarca. Descanso opcional, confirmación de fin y Deshacer siguen disponibles.
+La sección se llama «Entreno» en toda la interfaz (su primera vista, «Empezar»). Rutina/estado, tiempo, volumen y series marcadas sobre grafito compacto. Ejercicios con título condensado y reps/kg en campos más oscuros. Completar conserva check, fondo de éxito y feedback; editar desmarca. Descanso opcional, confirmación de fin y Deshacer siguen disponibles.
 
-Cierre con datos realmente guardados. Progreso/estadísticas con cifras condensadas, gráficas con leyenda/unidades, huecos honestos y alternativas textuales. Inicio no afirma porcentajes semanales o récords no definidos.
+Cierre con datos realmente guardados. Progreso/estadísticas con cifras condensadas, gráficas con leyenda/unidades (las líneas ciñen el eje a los datos y rotulan su último valor), huecos honestos y alternativas textuales. Inicio no afirma porcentajes semanales o récords no definidos.
 
 ### Controles, capas y estados
 

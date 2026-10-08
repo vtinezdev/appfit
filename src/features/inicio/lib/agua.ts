@@ -46,7 +46,13 @@ export function validarObjetivoAgua(ml: number): number | null {
   return r >= AGUA_OBJETIVO_MIN_ML && r <= AGUA_OBJETIVO_MAX_ML ? r : null
 }
 
+/** Cifra y unidad por separado («1,5» y «L»), para dibujar la cifra como métrica y la unidad recta. */
+export function partesAgua(ml: number): { valor: string; unidad: 'L' | 'ml' } {
+  return ml >= 1000 ? { valor: formatNumber(ml / 1000, 2), unidad: 'L' } : { valor: formatNumber(ml), unidad: 'ml' }
+}
+
 /** «250 ml», «1,5 L», «2 L». */
 export function formatAgua(ml: number): string {
-  return ml >= 1000 ? `${formatNumber(ml / 1000, 2)} L` : `${formatNumber(ml)} ml`
+  const { valor, unidad } = partesAgua(ml)
+  return `${valor} ${unidad}`
 }

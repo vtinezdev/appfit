@@ -11,7 +11,7 @@ interface Props {
 
 const VARIANTES = {
   agrupada: 'app-list-group rounded-lg border border-transparent bg-surface px-3 shadow-card', // el borde solo se ve en oscuro (tokens.css)
-  plana: 'border-y border-line',
+  plana: 'app-list-flat border-y border-line', // un Disclosure que la siga no repite su línea (index.css)
 }
 
 /** Colección con divisores interiores, sin convertir cada registro en una card. */

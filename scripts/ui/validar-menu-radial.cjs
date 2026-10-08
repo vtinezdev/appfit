@@ -72,7 +72,7 @@ async function futuros(page) {
     const host = document.createElement('div')
     document.body.append(host)
     const root = createRoot(host)
-    const destinos = ['Inicio', 'Nutrición', 'Gym', 'Perfil', 'Referencias', 'Ajustes', 'Notas', 'Medidas'].map((label, i) => ({ key: `seccion-${i}`, label, icon: 'plus' }))
+    const destinos = ['Inicio', 'Nutrición', 'Entreno', 'Perfil', 'Referencias', 'Ajustes', 'Notas', 'Medidas'].map((label, i) => ({ key: `seccion-${i}`, label, icon: 'plus' }))
     const cerrar = () => { root.unmount(); host.remove() }
     window.__menuFuturo = null
     root.render(React.createElement('div', { role: 'dialog', 'aria-label': 'Destinos futuros', className: 'fan-dialog', style: { '--menu-origin-x': `${innerWidth / 2}px`, '--menu-origin-y': `${innerHeight - 40}px` } },
@@ -133,7 +133,7 @@ async function main() {
         await page.mouse.click(8, 8); await cerrado(page)
         menu = await abrir(page, 'Inicio')
         await menu.getByRole('button', { name: 'Inicio', exact: true }).focus()
-        for (const [tecla, esperado] of [['ArrowRight', 'Nutrición'], ['ArrowDown', 'Gym'], ['ArrowRight', 'Referencias'], ['ArrowRight', 'Ajustes'], ['ArrowRight', 'Inicio'], ['ArrowLeft', 'Ajustes'], ['ArrowUp', 'Referencias'], ['End', 'Ajustes'], ['Home', 'Inicio']]) {
+        for (const [tecla, esperado] of [['ArrowRight', 'Nutrición'], ['ArrowDown', 'Entreno'], ['ArrowRight', 'Referencias'], ['ArrowRight', 'Ajustes'], ['ArrowRight', 'Inicio'], ['ArrowLeft', 'Ajustes'], ['ArrowUp', 'Referencias'], ['End', 'Ajustes'], ['Home', 'Inicio']]) {
           await page.keyboard.press(tecla)
           assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), esperado)
         }
@@ -152,7 +152,7 @@ async function main() {
         await page.keyboard.press('Escape'); await cerrado(page)
         assert.equal(await page.locator('main').evaluate((el) => el.scrollTop), scroll)
         assert.equal(await page.getByRole('radio', { name: 'Vista detallada', exact: true }).getAttribute('aria-checked'), 'true')
-        for (const destino of ['Gym', 'Referencias', 'Ajustes', 'Inicio', 'Nutrición']) {
+        for (const destino of ['Entreno', 'Referencias', 'Ajustes', 'Inicio', 'Nutrición']) {
           await navegar(page, destino)
           assert.equal(await page.locator('main').evaluate((el) => el.scrollTop), 0)
           menu = await abrir(page, destino)

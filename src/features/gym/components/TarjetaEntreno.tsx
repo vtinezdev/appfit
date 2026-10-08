@@ -3,6 +3,7 @@ import Button from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
 import Metric from '../../../shared/components/Metric'
+import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState } from '../../../shared/components/StateMessage'
 import { formatInt } from '../../../shared/lib/format'
 import * as setsRepo from '../data/setsRepo'
@@ -50,18 +51,16 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
     )
   }
 
+  // El título va sobre la card, como el resto de secciones; dentro solo quedan los datos.
   return (
-    <Card>
-      <section aria-label="Último entreno" className="space-y-4">
-        <div className="flex min-h-touch items-center justify-between gap-2">
-          <h2 className="text-title text-fg">Último entreno</h2>
-          {onAbrir && (
-            <Button variant="ghost" size="sm" className="-mr-3" onClick={onAbrir}>
-              Entreno
-              <Icon name="chevron-right" size={16} />
-            </Button>
-          )}
-        </div>
+    <section aria-label="Último entreno" className="space-y-stack">
+      <SectionHeader variant="section" action={onAbrir && (
+        <Button variant="ghost" size="sm" className="-mr-3" onClick={onAbrir}>
+          Entreno
+          <Icon name="chevron-right" size={16} />
+        </Button>
+      )}>Último entreno</SectionHeader>
+      <Card className="space-y-4">
         {!resumen ? (
           <EmptyState action={onAbrir && <Button variant="secondary" block onClick={onAbrir}>Empezar entreno</Button>}>Todavía no hay un entreno terminado.</EmptyState>
         ) : (
@@ -74,7 +73,7 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
             </div>
           </>
         )}
-      </section>
-    </Card>
+      </Card>
+    </section>
   )
 }

@@ -18,7 +18,7 @@ export default function AccesoPeso({ tendencia, onRegistrar, onVerHistorial }: P
       onAbrir={onVerHistorial}
       accion={
         <button type="button" aria-label="Registrar peso" onClick={onRegistrar}
-          className="app-button inline-flex h-touch w-touch items-center justify-center rounded-md text-accent-strong hover:bg-surface-muted">
+          className="app-button inline-flex h-touch w-touch items-center justify-center rounded-md text-fg-muted hover:bg-surface-muted hover:text-fg">
           <Icon name="plus" size={20} />
         </button>
       }

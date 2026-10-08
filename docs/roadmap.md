@@ -14,6 +14,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Perfil y menú de seis destinos (§74): selector de fecha nativo, campo de altura con teclado decimal (coma), Sheets con teclado y dianas circulares al tacto. Probado en Edge emulado a 320/375/430 px.
 - Categorías e iconos (§82): sin recorrido en navegador ni en iPhone. Revisar el Diario a 320 px (columna de iconos de 44 px), la burbuja del nombre al pulsar el icono (cierre al tocar fuera en Safari) y los selectores de categoría con el teclado de iOS. El build de Cloudflare de la rama `feat/categorias-alimentos` falló como build de producción (el de `master` salió bien): revisar la configuración de builds de rama.
 - Mejoras funcionales (§80): recorridas en Edge emulado a 320/375/430 px en ambos temas; **sin probar en iPhone**: pitido de fin de descanso (Web Audio: iOS puede exigir un gesto previo o silenciar el audio con el interruptor), descarga de varios CSV `<a download>` desde la PWA instalada, selectores `date`/`time` nativos al editar un entreno y teclado real en los Sheets de raciones, recetas y medidas.
+- Pulido visual «precisión silenciosa» (§85): recorrido en Edge emulado a 320/375/430 px en ambos temas; sin probar en iPhone: nitidez del carril fino de la rueda y de la rejilla de Progreso en Retina, tacto del chevrón del plato en su nueva columna y lectura de la tarjeta de entreno en oscuro dentro del gimnasio.
 
 ## Limitaciones conocidas
 
@@ -31,6 +32,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Récords: un ejercicio sin historial previo no genera récords; las repeticiones solo se comparan con pesos ya usados. Un entreno registrado a posteriori se compara por su fecha de inicio.
 - Raciones propias: solo de una palabra y solo en alimentos propios o del catálogo (se gestionan desde la revisión, no hay ficha del alimento del catálogo). Recetas: los ingredientes son un snapshot; no se vuelven a calcular si cambia el alimento de origen.
 - Medidas corporales y agua: sin gráficas, solo último valor, variación e historial.
+- `scripts/ui/validar-rediseno.cjs` conserva selectores anteriores a la Inicio de ADR 021 (espera el saludo «Buenos/Buenas», pulsa «Registrar» e «Historial de peso») y, como el resto de `scripts/ui/`, el Chromium de `/usr/bin/chromium` y el puerto 5173. En §85 se ejecutó su matriz desde una copia adaptada fuera del repo (Edge, «Hoy», «Registrar peso», tarjeta Peso).
 
 ## Ideas sin empezar
 

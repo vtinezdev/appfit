@@ -33,7 +33,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Rutinas con objetivos por ejercicio (series, rango de repeticiones y descanso), ejercicios reordenables y ejercicios propios editables; historial de entrenos que se pueden editar, borrar o registrar a posteriori, con notas, series de calentamiento, RIR, récords personales, calculadora de discos, aviso sonoro al terminar el descanso y resumen semanal por grupo muscular; gráficas de progreso por ejercicio (peso máximo, 1RM estimado, volumen).
 
 **General**
-- Un botón Menú despliega un abanico desde su propio origen para ir a Inicio, Nutrición, Gym, Perfil, Referencias y Ajustes, con la sección actual marcada.
+- Un botón Menú despliega un abanico desde su propio origen para ir a Inicio, Nutrición, Entreno, Perfil, Referencias y Ajustes, con la sección actual marcada.
 - Perfil calcula la proteína diaria por kg de peso (1,8 g/kg por defecto, rango 1,6 a 2,2), muestra un gasto observado a partir de lo que comes y tu tendencia de peso (si hay datos suficientes) y guarda tus medidas corporales. Perfil estima tu gasto energético diario y un objetivo de calorías (mantenimiento, definición o volumen) a partir de sexo, fecha de nacimiento, altura, peso y actividad, con ecuaciones citadas. Todo se calcula y se guarda solo en tu dispositivo; es una estimación orientativa, no una prescripción médica.
 - Referencias reúne procedencia del catálogo, objetivos nutricionales, la metodología de la estimación energética, el origen de la proteína por kg y el objetivo de agua (con qué se verificó de cada fuente) y limitaciones de datos; recomendaciones por grupos tienen su lugar preparado, sin inventar valores todavía.
 - Instalable en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
@@ -41,7 +41,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Exportación a CSV (comidas, pesos, series, agua y medidas) para abrir en Excel en español.
 - Copia de seguridad exportable e importable en un único archivo JSON, con confirmación antes de sustituir registros y ayuda para trasladarlos de Safari al acceso de pantalla de inicio en iPhone.
 - Tema Sistema/Claro/Oscuro seleccionable en Ajustes. Interfaz móvil coherente, controles táctiles grandes y fuente disponible offline.
-- Atmósferas fotográficas propias de Inicio, Nutrición y Gym: escenas oscuras y fotografías de luz natural para claro, integradas con el fondo para priorizar contenido y acciones; imágenes locales disponibles offline.
+- Atmósferas fotográficas propias de Inicio, Nutrición y Entreno: escenas oscuras y fotografías de luz natural para claro, integradas con el fondo para priorizar contenido y acciones; imágenes locales disponibles offline.
 - Coste de infraestructura: **0 €**.
 
 ## Empezar

@@ -26,10 +26,10 @@ async function main() {
     await page.getByRole('group', { name: 'Confirmar importación', exact: true }).getByRole('button', { name: 'Importar copia', exact: true }).click()
     await page.getByText('Copia importada correctamente.', { exact: true }).waitFor()
     const before = await exportData(page)
-    for (const tab of ['Inicio', 'Nutrición', 'Gym', 'Ajustes']) {
+    for (const tab of ['Inicio', 'Nutrición', 'Entreno', 'Ajustes']) {
       await navegar(page, tab)
       if (tab === 'Nutrición') { await page.getByRole('tab', { name: 'Resumen', exact: true }).click(); await page.getByRole('radio', { name: 'Mes', exact: true }).waitFor() }
-      if (tab === 'Gym') { await page.getByRole('tab', { name: 'Progreso', exact: true }).click(); await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('1') }
+      if (tab === 'Entreno') { await page.getByRole('tab', { name: 'Progreso', exact: true }).click(); await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('1') }
     }
     await page.evaluate(async () => { const registration = await navigator.serviceWorker.ready; await registration.update() })
     await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
@@ -44,7 +44,7 @@ async function main() {
     assert.deepEqual(await exportData(page), before, 'recarga offline conserva todas las tablas')
     for (const theme of ['Claro', 'Oscuro']) {
       await page.getByRole('radio', { name: theme, exact: true }).click()
-      for (const tab of ['Inicio', 'Nutrición', 'Gym', 'Perfil', 'Referencias', 'Ajustes']) {
+      for (const tab of ['Inicio', 'Nutrición', 'Entreno', 'Perfil', 'Referencias', 'Ajustes']) {
         await navegar(page, tab)
         await page.waitForFunction(() => {
           const image = document.querySelector('.app-atmosphere img')
@@ -52,7 +52,7 @@ async function main() {
         })
         assert.equal(await page.locator('.app-atmosphere img').evaluate(image => image.currentSrc.endsWith('-claro.webp')), theme === 'Claro', 'foto correspondiente al tema explícito, también offline')
         if (tab === 'Nutrición') { await page.getByRole('tab', { name: 'Resumen', exact: true }).click(); await page.getByRole('radio', { name: 'Mes', exact: true }).waitFor() }
-        if (tab === 'Gym') {
+        if (tab === 'Entreno') {
           await page.getByRole('tab', { name: 'Historial', exact: true }).click()
           await page.getByRole('list', { name: 'Entrenos terminados', exact: true }).getByRole('button').first().click()
           const map = page.getByRole('region', { name: 'Mapa muscular', exact: true })

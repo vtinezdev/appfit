@@ -106,10 +106,10 @@ async function main() {
         })
         const original = await backup(page)
         const id = `${width}-${theme}`
-        for (const [label, scene] of [['Inicio', 'inicio'], ['Nutrición', 'nutricion'], ['Gym', 'gym'], ['Perfil', 'inicio'], ['Referencias', 'nutricion'], ['Ajustes', 'inicio']]) {
+        for (const [label, scene] of [['Inicio', 'inicio'], ['Nutrición', 'nutricion'], ['Entreno', 'gym'], ['Perfil', 'inicio'], ['Referencias', 'nutricion'], ['Ajustes', 'inicio']]) {
           if (label !== 'Inicio') await navegar(page, label)
           if (label === 'Perfil' || label === 'Referencias' || label === 'Ajustes') await page.getByRole('heading', { name: label, exact: true }).waitFor()
-          if (label === 'Gym') await page.getByRole('button', { name: 'Completar serie 1 de Press banca', exact: true }).waitFor()
+          if (label === 'Entreno') await page.getByRole('button', { name: 'Completar serie 1 de Press banca', exact: true }).waitFor()
           if (label === 'Nutrición') await page.locator('[data-comida="desayuno"]').waitFor()
           await page.waitForFunction(() => { const i = document.querySelector('.app-atmosphere img'); return i?.complete && i.naturalWidth > 0 })
           await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))
@@ -127,7 +127,7 @@ async function main() {
           await page.locator('.app-atmosphere').evaluate(e => e.style.removeProperty('display'))
           await page.locator('main').evaluate(e => e.scrollTo(0, 0)); await page.mouse.move(0, 0)
           await page.screenshot({ path: `${output}/${id}-${label}-superior.png`, animations: 'disabled' })
-          if (label === 'Gym') await captureScroll(page, `${id}-Gym`, width === 375)
+          if (label === 'Entreno') await captureScroll(page, `${id}-Gym`, width === 375)
           else {
             await page.locator('main').evaluate(e => e.scrollTo(0, e.scrollHeight))
             await page.screenshot({ path: `${output}/${id}-${label}-inferior.png`, animations: 'disabled' })
@@ -142,7 +142,7 @@ async function main() {
           await page.getByRole('tab', { name: sub, exact: true }).click(); await check(page)
         }
         // Menu/selector mantienen las capas; cambiar el tema sustituye una sola imagen.
-        await navegar(page, 'Gym')
+        await navegar(page, 'Entreno')
         await page.getByRole('button', { name: 'Añadir ejercicio', exact: true }).click()
         const selector = page.getByRole('dialog', { name: 'Añadir ejercicio', exact: true })
         await selector.waitFor()

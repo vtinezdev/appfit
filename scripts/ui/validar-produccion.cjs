@@ -27,10 +27,10 @@ async function main() {
   assert.deepEqual(await exportar(p),esperado)
   for (const theme of ['Claro','Oscuro']) {
    await p.getByRole('radio',{name:theme,exact:true}).click()
-   for(const tab of ['Inicio','Nutrición','Gym','Ajustes']) {
+   for(const tab of ['Inicio','Nutrición','Entreno','Ajustes']) {
     await navegar(p, tab)
     if(tab==='Nutrición') { await p.getByRole('tab',{name:'Resumen',exact:true}).click(); await p.getByRole('radio',{name:'Mes',exact:true}).waitFor() }
-    if(tab==='Gym') { await p.getByRole('tab',{name:'Progreso',exact:true}).click(); await p.getByRole('combobox',{name:'Ejercicio',exact:true}).selectOption('1'); await p.getByText('Peso máximo · última sesión',{exact:true}).waitFor() }
+    if(tab==='Entreno') { await p.getByRole('tab',{name:'Progreso',exact:true}).click(); await p.getByRole('combobox',{name:'Ejercicio',exact:true}).selectOption('1'); await p.getByText('Peso máximo · última sesión',{exact:true}).waitFor() }
     assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth===innerWidth),true)
     await p.screenshot({path:`/tmp/appfit-production-${theme}-${tab}.png`})
    }

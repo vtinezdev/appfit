@@ -833,3 +833,19 @@ Rama `feat/pie-comidas-y-cards-oscuro`. Víctor pidió que Repetir no copiase to
 - **Datos/lógica**: `entriesRepo.copiar` admite `origen.ids`; `platos.idsElegidos` traduce la selección (claves desmarcadas) a ids. Tests en `entriesRepo.test.ts`, `platos.test.ts` y `RegistroComida.test.tsx`.
 
 **Verificación:** tests y build en verde. Edge headless (Playwright de la caché de npx) en `appfit-test.localhost` con datos sintéticos (plato con nombre largo, entradas sueltas, kcal rápidas de 5 cifras), 320/375/430 claro/oscuro: sin desbordamiento ni scroll horizontal, controles del sheet ≥ 44 px, «Añadir» desactivado sin selección y solo se copian las marcadas conservando el plato. Sin probar en iPhone.
+
+## 85. Pulido visual «precisión silenciosa» (2026-10-08)
+
+Rama `feat/pie-comidas-y-cards-oscuro` (sin commit). Víctor pidió una auditoría visual para evolucionar AppFit sin rediseñarla. Se hizo con capturas reales (Edge con `playwright-core` fuera del repo, datos sintéticos en `appfit-test.localhost`) y un laboratorio en un artifact con los tokens reales, Saira y las fotografías: recreación «Actual» frente a variantes, informe y un control Sí/No/Otra por propuesta guardado en la base de datos del artifact. Marcó las quince propuestas y las variantes (P1-B, P2-B, P3-C, P4-C, P5-C, P6-C, P7-B, P8-B, P9-B, P10-B y P11–P15). Decisión: [ADR 024](decisiones/024-precision-silenciosa.md).
+
+- **Barras** (`ProgressBar`, `tramosCarril.marca`): sin marca mientras no te pasas; carril en `bg-line`.
+- **Inicio**: rueda con lo que falta en un carril de 6; a 20 rem o menos de tarjeta la rueda se centra (container query `energia`). Agua en `bg-fg-muted` con valor/unidad separados (`partesAgua`); acciones de peso y agua en neutro.
+- **Diario**: chevrón del plato en la columna del icono (`.food-record-plato`), kcal de cabecera en una línea, Repetir con el número como texto. Macros siempre con `resumenMacros` («P 11 · C 57 · G 7»).
+- **Cards**: títulos de sección fuera de la card en Perfil, Progreso y «Último entreno»; `Disclosure` sin línea duplicada tras una lista plana ni al final de una card (`.app-disclosure`, `.app-list-flat`).
+- **Entreno en oscuro**: `--c-training` 50 51 56, `--c-training-track` 76 78 84 y borde `--c-training-border`; brillo interior como las cards.
+- **Cifras**: kcal rectas en Alimentos y recetas; unidades fuera de `font-numeric` en el entreno en curso; `formatUltimaVez` con coma y grupos sin partir; fila y check de serie con `--radius-md`.
+- **Resumen**: media diaria en card con `MacroBar` y navegador sin línea. **Progreso**: `escalaAjustada` (paso 1/2/5 × 10ⁿ), `chartGrid`, rótulo del último valor y nota del eje.
+- **Nombres y fechas**: destino «Entreno» (antes «Gym»), primera vista «Empezar»; `formatDiaMes`, `formatFechaHora`, `formatFechaHoraConDia`; Historial con rutina · duración · volumen (`detalleSesion`). `scripts/ui/` navega a «Entreno».
+- **Controles**: primario deshabilitado en neutro; «Nuevo» y «Nueva receta» secundarios.
+
+**Verificación:** tests y build en verde. Edge headless en `appfit-test.localhost` con datos sintéticos: capturas de todas las secciones a 320/375/430 px en ambos temas y la matriz de `validar-rediseno.cjs` (copia adaptada: 320/375/430 × claro/oscuro × vacío/normal/extremo, 456 estados) sin desbordamiento, con controles de 44 px, campos de 16 px y sin errores de consola. Sin probar en iPhone.

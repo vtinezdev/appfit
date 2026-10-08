@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import { IconButton } from '../../../shared/components/Button'
+import Icon from '../../../shared/components/Icon'
 import Card from '../../../shared/components/Card'
 import type { Comida, Entry } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
@@ -53,7 +54,7 @@ function FilaPlato({ plato, nombresCortos, categorias, onEditar, onBorrar, onBor
   const totales = sumMacros(plato.entries)
   return (
     <li ref={setNodeRef} data-motion-id={plato.clave} data-plato-id={plato.entries[0].platoId} className={isDragging ? 'opacity-40' : ''}>
-      <RegistroComida tipo="plato" nombre={plato.nombre} icono={<IconoCategoria categoria={undefined} sinCategoria="hueco" />} detalle={`${formatInt(plato.entries.length)} ${plato.entries.length === 1 ? 'alimento' : 'alimentos'}`}
+      <RegistroComida tipo="plato" nombre={plato.nombre} detalle={`${formatInt(plato.entries.length)} ${plato.entries.length === 1 ? 'alimento' : 'alimentos'}`}
         macros={totales} aproximado={plato.entries.some(e => e.rapida)} abierto={abierto} detalleId={detalleId} onClick={() => setAbierto(!abierto)}
         accion={<IconButton icon="more" label={`Acciones del plato ${plato.nombre}`} variant="ghost" size="sm" disabled={moviendo}
           data-mover-plato={plato.entries[0].platoId} aria-haspopup="dialog" aria-expanded={acciones} aria-controls={accionesId} onClick={() => setAcciones(true)} />}>
@@ -85,15 +86,14 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
   const hayEntradas = entries.length > 0
   const comidaMinus = titulo.toLowerCase()
   const anadir = <IconButton icon="plus" variant="tonal" label={`Añadir a ${comidaMinus}`} onClick={onAnadir} />
-  // Repetir: icono con el número de alimentos del día anterior en una pastilla (decorativa: el número va en la etiqueta).
+  // Repetir: icono y, a su lado, el número de alimentos del día anterior como texto (decorativo: el número va en la etiqueta).
+  const etiquetaRepetir = `Repetir ${comidaMinus} del día anterior (${formatInt(disponiblesAyer)} ${disponiblesAyer === 1 ? 'alimento' : 'alimentos'})`
   const repetir = disponiblesAyer > 0 && (
-    <span className="relative flex shrink-0">
-      <IconButton icon="copy" variant="ghost" onClick={onRepetir} aria-haspopup="dialog"
-        label={`Repetir ${comidaMinus} del día anterior (${formatInt(disponiblesAyer)} ${disponiblesAyer === 1 ? 'alimento' : 'alimentos'})`} />
-      <span aria-hidden className="tabular pointer-events-none absolute right-0 top-0 min-w-5 rounded-pill bg-fg/10 px-1.5 text-center text-caption font-semibold text-fg">
-        {formatInt(disponiblesAyer)}
-      </span>
-    </span>
+    <button type="button" onClick={onRepetir} aria-haspopup="dialog" aria-label={etiquetaRepetir} title={etiquetaRepetir}
+      className="app-button inline-flex h-touch min-w-touch shrink-0 items-center justify-center gap-1 rounded-md pl-2.5 pr-1.5 text-fg-muted hover:bg-surface-muted hover:text-fg enabled:active:opacity-70">
+      <Icon name="copy" size={20} />
+      <span aria-hidden className="tabular text-body-sm font-semibold">{formatInt(disponiblesAyer)}</span>
+    </button>
   )
   return (
     <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section">

@@ -1,28 +1,28 @@
 # Gym
 
-`src/features/gym/`. Datos e invariantes: `../datos.md`. UI: `../DESIGN-SYSTEM.md`.
+`src/features/gym/`. En la interfaz la sección se llama «Entreno» (menú, barra inferior, título e Inicio); `gym` sigue siendo el nombre interno. Datos e invariantes: `../datos.md`. UI: `../DESIGN-SYSTEM.md`.
 
 ## Dónde está cada cosa
 
 | Área | Pantalla / componentes | Lógica pura | Datos |
 |---|---|---|---|
-| Inicio de Gym | `pages/GymHome` (entreno vacío o desde rutina) | — | `workoutsRepo.empezar` |
+| Empezar (primera vista) | `pages/GymHome` (entreno vacío o desde rutina) | — | `workoutsRepo.empezar` |
 | Entreno activo | `pages/EntrenoActivo` (diferida), `components/WorkoutClock`, `components/WorkoutFinished` | `lib/workout.ts`: `formatUltimaVez`, `formatHora`, `volumenSets`; `lib/session.ts`: marcas, descanso y relojes; y, desde `setsRepo`, `valoresNuevaSerie` y `siguienteOrden` | `setsRepo`, `exercisesRepo`, `workoutsRepo`; sessionStorage solo para presentación |
 | Rutinas | `pages/Rutinas`, `components/SelectorEjercicios` | `lib/catalogoEjercicios`, `lib/selectorEjercicios` | `routinesRepo`, `exercisesRepo.resolverSeleccion` |
-| Historial | `pages/Historial` (lista de sesiones y vista «Semanas»), `pages/DetalleEntreno` (detalle y edición), `components/MapaMuscular`, `components/ResumenSemanalGym` | `volumenSets`, `formatDuracion`, `lib/cargaMuscular`, `lib/resumenSemanal`, `lib/records` | `workoutsRepo`, `setsRepo` |
+| Historial | `pages/Historial` (lista de sesiones y vista «Semanas»), `pages/DetalleEntreno` (detalle y edición), `components/MapaMuscular`, `components/ResumenSemanalGym` | `volumenSets`, `formatDuracion`, `detalleSesion`, `lib/cargaMuscular`, `lib/resumenSemanal`, `lib/records` | `workoutsRepo`, `setsRepo`, `routinesRepo` (solo lectura) |
 | Series y panel de ejercicio | `components/PanelEjercicio` (compartido por la sesión activa y el editor), `components/MenuSerie` (tipo, RIR, discos, borrar) | `lib/discos`, `lib/workout` (`efectivas`, `ordenEjerciciosSesion`, `moverElemento`) | `setsRepo` |
 | Registrar entreno pasado | `components/RegistrarEntrenoPasado` (en `GymHome`) | `lib/workout` (`combinarFechaHora`, `validarEntrenoPasado`) | `workoutsRepo.crearPasado` |
 | Ejercicios propios | `components/MisEjercicios` (en Rutinas) | — | `exercisesRepo` (`personalizados`, `editarPersonalizado`, `borrarPersonalizado`) |
 | Objetivos de rutina | `components/ObjetivoRutina` (en el editor de rutina) | `lib/objetivos` | `routinesRepo`, `workoutsRepo.empezar` (crea las series objetivo) |
 | Mapa muscular de sesión | `components/MapaMuscular`, `mapaMuscularGeometria` | `lib/musculos`, `lib/cargaMuscular`: carga → agregación → normalización | `workoutsRepo.terminar`: snapshot semántico junto a fin |
-| Progreso | `pages/Progreso` (diferida, Recharts) | `epley1RM`, `pesoMaximo`, `volumenSets` | `setsRepo.delEjercicio` |
+| Progreso | `pages/Progreso` (diferida, Recharts) | `epley1RM`, `pesoMaximo`, `volumenSets`, `shared/design/chart` (`escalaAjustada`) | `setsRepo.delEjercicio` |
 | Tarjeta del último entreno | `components/TarjetaEntreno` (`GymHome`; Inicio tiene su propia tarjeta breve, `inicio/components/AccesoEntreno`) | `resumenUltimoEntreno` | `workoutsRepo.activo` / `ultimoTerminado`, `setsRepo.delWorkout` (solo lectura) |
 
 ## Presentación
 
-ViewTabs organiza Inicio/Rutinas/Historial/Progreso. El inicio prioriza rutina si existe y entreno libre; sin rutinas no ofrece una acción inaplicable. Inicio de Gym enfatiza «Tu próxima sesión» sin dar por programada una rutina. Entreno activo: cabecera compacta, métricas en cursiva condensada y un panel por ejercicio con nombre en título de 26 px y referencia anterior. Formularios y etiquetas van rectos a ancho normal. Cada serie tiene campos directos de reps/kg ≥44 px, cifras de 18 px/700 sobre grafito y borrado; se conserva el redondeo a dos decimales del control anterior. CampoSerie mantiene un borrador durante el foco para que las respuestas de IndexedDB no interrumpan la escritura; guarda valores válidos conforme se escriben y resuelve un campo vacío al salir.
+ViewTabs organiza Empezar/Rutinas/Historial/Progreso (no «Inicio», que se confundiría con el destino Inicio). Empezar prioriza rutina si existe y entreno libre; sin rutinas no ofrece una acción inaplicable. Enfatiza «Tu próxima sesión» sin dar por programada una rutina; debajo, «Último entreno» como título de sección sobre su card. Entreno activo: cabecera compacta, métricas en cursiva condensada y un panel por ejercicio con nombre en título de 26 px y referencia anterior («Última vez: 3 × 10 · 71,25 kg, 8 × 73,75 kg», `formatUltimaVez`, sin partir cada grupo). Las unidades (kg, «/ 3») van rectas fuera de la cifra en cursiva. Formularios y etiquetas van rectos a ancho normal. Cada serie tiene campos directos de reps/kg ≥44 px, cifras de 18 px/700 sobre grafito y borrado; se conserva el redondeo a dos decimales del control anterior. CampoSerie mantiene un borrador durante el foco para que las respuestas de IndexedDB no interrumpan la escritura; guarda valores válidos conforme se escriben y resuelve un campo vacío al salir.
 
-Rutinas: lista plana, editor con nombre visible y ejercicios numerados; guardar/error/confirmación en footer persistente. Historial: lista de fechas y detalle con métricas/tabla de series. Progreso muestra el último peso, 1RM estimado y volumen; solo dibuja tendencias con ≥2 sesiones. Peso/1RM comparten gráfica con leyenda y 1RM discontinuo, volumen se separa por unidad. Líneas rectas y datos completos desplegables para consulta sin depender del color/tooltip.
+Rutinas: lista plana, editor con nombre visible y ejercicios numerados; guardar/error/confirmación en footer persistente. Historial: cada sesión con fecha y hora («3 oct · 08:21», `formatFechaHora`) y debajo rutina, duración, volumen y notas (`detalleSesion`); el detalle se titula con `formatFechaHoraConDia` («sáb 19 sep · 08:16») y muestra métricas/tabla de series. Progreso muestra el último peso, 1RM estimado y volumen; solo dibuja tendencias con ≥2 sesiones. Peso/1RM comparten gráfica con leyenda y 1RM discontinuo, volumen se separa por unidad; cada gráfica lleva su título de sección encima de la card. El eje Y se ciñe a los datos con un paso redondo (`escalaAjustada`, sin forzar el cero; una nota dice dónde empieza), con rejilla tenue y el último valor rotulado al final de cada serie. Fechas del eje «7 oct». Líneas rectas y datos completos desplegables para consulta sin depender del color/tooltip.
 
 ## Flujos y reglas
 

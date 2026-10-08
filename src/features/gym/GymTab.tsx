@@ -35,7 +35,7 @@ export default function GymTab() {
         <ViewTabs
           label="Vistas de entrenamiento"
           opciones={[
-            { valor: 'inicio', label: 'Inicio' },
+            { valor: 'inicio', label: 'Empezar' }, // no «Inicio»: se confundiría con el destino Inicio
             { valor: 'rutinas', label: 'Rutinas' },
             { valor: 'historial', label: 'Historial' },
             { valor: 'progreso', label: 'Progreso' },

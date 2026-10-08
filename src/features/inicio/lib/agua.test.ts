@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatAgua, objetivoAguaPorDefecto, resolverObjetivoAgua, validarObjetivoAgua, validarTomaAgua } from './agua'
+import { formatAgua, objetivoAguaPorDefecto, partesAgua, resolverObjetivoAgua, validarObjetivoAgua, validarTomaAgua } from './agua'
 
 describe('objetivo de agua', () => {
   it('por defecto: 2,0 L hombres y 1,6 L mujeres (EFSA descontando alimentos); sin sexo, ninguno', () => {
@@ -34,5 +34,7 @@ describe('validaciones y formato', () => {
     expect(formatAgua(250)).toBe('250 ml')
     expect(formatAgua(1500)).toBe('1,5 L')
     expect(formatAgua(2000)).toBe('2 L')
+    expect(partesAgua(1250)).toEqual({ valor: '1,25', unidad: 'L' })
+    expect(partesAgua(0)).toEqual({ valor: '0', unidad: 'ml' })
   })
 })

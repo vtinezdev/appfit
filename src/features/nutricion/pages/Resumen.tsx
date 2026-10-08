@@ -14,11 +14,12 @@ import { resumenPeriodo } from '../lib/nutrition'
 import { IconButton } from '../../../shared/components/Button'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import { chartAxis, chartColors, chartGoalLine, chartTooltip } from '../../../shared/design/chart'
-import { MACROS } from '../../../shared/design/macros'
 import Metric from '../../../shared/components/Metric'
 import ProgressBar from '../../../shared/components/ProgressBar'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import FranjaMacros from '../components/FranjaMacros'
+import MacroBar from '../components/MacroBar'
+import Card from '../../../shared/components/Card'
 
 type Dato = 'kcal' | 'prot' | 'carb' | 'grasa'
 const DATOS = [
@@ -46,16 +47,11 @@ export default function Resumen() {
     fecha, dia: formatShort(fecha), ...porDia[i],
     ...(!diasConDatos.has(fecha) ? { kcal: null, prot: null, carb: null, grasa: null } : {}),
   }))
-  const medias = [
-    { macro: MACROS.prot, valor: media.prot, objetivo: objetivos.prot },
-    { macro: MACROS.carbs, valor: media.carb, objetivo: objetivos.carb },
-    { macro: MACROS.fat, valor: media.grasa, objetivo: objetivos.grasa },
-  ]
   return (
     <div className="space-y-section">
       <div className="space-y-3">
         <SegmentedControl label="Periodo" opciones={[{ valor: 'semana', label: 'Semana' }, { valor: 'mes', label: 'Mes' }]} valor={rango} onChange={nuevo => { setRango(nuevo); setFechaAncla(todayISO()) }} />
-        <div className="flex items-center border-b border-line">
+        <div className="flex items-center">
           <IconButton icon="chevron-left" label="Periodo anterior" variant="ghost" onClick={() => setFechaAncla(desplazarPeriodo(rango, fechaAncla, -1))} />
           <h2 aria-live="polite" className="min-w-0 flex-1 text-center text-body font-semibold capitalize text-fg">{etiquetaPeriodo(rango, fechaAncla)}</h2>
           <IconButton icon="chevron-right" label="Periodo siguiente" variant="ghost" onClick={() => setFechaAncla(desplazarPeriodo(rango, fechaAncla, 1))} disabled={esPeriodoActual(rango, fechaAncla)} />
@@ -63,19 +59,22 @@ export default function Resumen() {
       </div>
       {!diasRegistrados ? <EmptyState icon="utensils" title="Un periodo por registrar">Las medias y tendencias aparecerán cuando añadas comidas en estas fechas.</EmptyState> : (
         <>
-          <section aria-label="Media diaria" className="space-y-4">
-            <Metric size="hero" label="Media diaria" valor={formatInt(media.kcal)} unidad="kcal" caption={`${diasRegistrados} ${diasRegistrados === 1 ? 'día registrado' : 'días registrados'} · objetivo ${formatInt(objetivos.kcal)} kcal`} />
-            <ProgressBar size="lg" value={media.kcal} goal={objetivos.kcal} colorClass="bg-kcal" label="Media diaria de calorías" valueText={`${formatInt(media.kcal)} de ${formatInt(objetivos.kcal)} kcal de media`} />
-            <p className="text-caption text-fg-muted">La media incluye solo los días con registros.</p>
-          </section>
-          <section aria-label="Macros medios" className="space-y-stack">
-            <SectionHeader variant="section">Macros medios por día</SectionHeader>
-            <div className="grid grid-cols-3 gap-3">
-              {medias.map(({ macro, valor, objetivo }) => <div key={macro.short} className="min-w-0 space-y-2">
-                <Metric size="title" label={macro === MACROS.carbs ? 'Hidratos' : macro.label} valor={formatInt(valor)} unidad="g" caption={`de ${formatInt(objetivo)} g`} />
-                <ProgressBar value={valor} goal={objetivo} colorClass={macro.bg} label={macro.label} valueText={`${formatInt(valor)} de ${formatInt(objetivo)} g de media`} />
-              </div>)}
-            </div>
+          {/* El mismo panel que el Diario: kcal, barra y macros con las mismas piezas, en una card. */}
+          <section aria-label="Media diaria">
+            <Card className="space-y-3">
+              <p className="text-label text-fg-muted">Media diaria</p>
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <Metric size="hero" valor={formatInt(media.kcal)} unidad="kcal" />
+                {objetivos.kcal > 0 && <p className="tabular pb-1 text-body-sm text-fg-muted">de <strong className="font-semibold text-fg">{formatInt(objetivos.kcal)}</strong> kcal</p>}
+              </div>
+              <ProgressBar size="lg" value={media.kcal} goal={objetivos.kcal} colorClass="bg-kcal" label="Media diaria de calorías" valueText={`${formatInt(media.kcal)} de ${formatInt(objetivos.kcal)} kcal de media`} />
+              <p className="tabular text-body-sm text-fg-muted">{diasRegistrados === 1 ? 'Solo cuenta el día registrado' : `Solo cuentan los ${diasRegistrados} días registrados`}</p>
+              <div className="grid grid-cols-3 gap-3 pt-3" aria-label="Macros medios por día" role="group">
+                <MacroBar macro="prot" valor={media.prot} objetivo={objetivos.prot} />
+                <MacroBar macro="carbs" valor={media.carb} objetivo={objetivos.carb} />
+                <MacroBar macro="fat" valor={media.grasa} objetivo={objetivos.grasa} />
+              </div>
+            </Card>
           </section>
           <section aria-label="Distribución de calorías" className="space-y-3"><SectionHeader variant="section">Reparto de macros</SectionHeader><FranjaMacros macros={media} /></section>
           <AdherenciaResumen fechas={fechas} entries={entries} hoy={todayISO()} />

@@ -102,6 +102,8 @@
   --c-on-training: 245 247 249;
   --c-training-muted: 188 189 192;
   --c-training-track: 54 57 63;
+  /* Borde de la superficie de entreno: en claro, su mismo tono (no se ve); en oscuro la delimita como al resto de cards. */
+  --c-training-border: 26 28 32;
   --c-meal-accent: 255 160 100;
   --c-success-subtle: 222 245 232;
   /* Trabajo muscular relativo: rampa del acento naranja, independiente del error/destructivo (carmín). */
@@ -165,10 +167,12 @@
   --c-protein: 170 167 244;
   --c-carbs: 124 205 214;
   --c-fat: 219 162 140;
-  --c-training: 18 19 22;
+  /* Más clara que las cards (38 39 44): la tarjeta de entreno sigue siendo la principal también en oscuro. */
+  --c-training: 50 51 56;
   --c-on-training: 245 247 249;
   --c-training-muted: 185 190 198;
-  --c-training-track: 48 50 55;
+  --c-training-track: 76 78 84;
+  --c-training-border: 70 71 77;
   --c-meal-accent: 255 165 110;
   --c-success-subtle: 21 50 35;
   --c-muscle-1: 60 34 20;
@@ -209,6 +213,8 @@
   --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.05);
   border-color: rgb(var(--c-border));
 }
+/* La superficie de entreno en oscuro lleva el mismo brillo interior de 1 px que las cards. */
+:root[data-theme='dark'] .training-surface { --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.06); }
 /* Aviso temporal, sin obligar a usar bloques negros en las pantallas. */
 [data-surface='inverse'] {
   --c-surface: 22 23 26;
