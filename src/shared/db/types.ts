@@ -281,6 +281,8 @@ export interface Exercise {
   primaryMuscles?: string[]
   secondaryMuscles?: string[]
   equipment?: string[]
+  ejecucionHabitual?: ConfiguracionEjecucion
+  progresion?: PlanProgresion
 }
 
 export interface Routine {
@@ -304,8 +306,16 @@ export interface Workout {
   fin?: number
   routineId?: number
   notas?: string
+  /** Notas del ejercicio en esta sesión, independientes de las notas generales. */
+  notasEjercicios?: Record<number, string>
+  /** Modo usado al crear nuevas series; cada serie conserva su propio snapshot. */
+  cargasEjercicios?: Record<number, ConfiguracionCarga>
+  ejecucionesEjercicios?: Record<number, ConfiguracionEjecucion>
+  decisionesProgresion?: Record<number, { clave: string; decision: 'aplicada' | 'mantener' | 'descartada' }>
   /** Orden manual de los ejercicios de la sesión; manda sobre el derivado de las series si existe. */
   ordenEjercicios?: number[]
+  /** Ejercicios quitados solo de esta sesión: no modifica la rutina original. */
+  ejerciciosOmitidos?: number[]
   /** Clasificación semántica al finalizar. Las series siguen en sets; nunca guardar colores/niveles. */
   muscleSnapshot?: WorkoutMuscleSnapshot
 }
@@ -334,4 +344,31 @@ export interface SetEntry {
   tipo?: 'calentamiento'
   /** Repeticiones en reserva (0–5), opcional. */
   rir?: number
+  /** Ausente = kg externos históricos. `peso` es lastre/asistencia en esos modos. */
+  modoCarga?: ModoCarga
+  /** Masa corporal utilizada en esta sesión, nunca derivada de un pesaje posterior. */
+  pesoCorporal?: number
+  /** Ausente = ejecución histórica bilateral, agarre y tempo no especificados. */
+  ejecucion?: Ejecucion
+  kgUnilateral?: 'lado' | 'total'
+  agarre?: Agarre
+  lados?: Partial<Record<Lado, DatosLado>>
+  /** Descenso de una repetición completa, o solo fase excéntrica. */
+  soloNegativas?: boolean
+  excentricaSeg?: number
+  /** Tramos de la misma serie extendida; no son series independientes. */
+  bajadas?: TramoDropset[]
+  /** Ausente = realización desconocida en histórico. Nunca inferir de reps precargadas. */
+  realizada?: boolean
 }
+
+export type Ejecucion = 'bilateral' | 'unilateral' | 'lados'
+export type Lado = 'izquierda' | 'derecha'
+export interface DatosLado { reps: number; peso: number; rir?: number }
+export interface TramoDropset { id: string; reps: number; peso: number; lados?: Partial<Record<Lado, DatosLado>> }
+export interface Agarre { orientacion?: 'prono' | 'supino' | 'neutro'; anchura?: 'estrecho' | 'medio' | 'ancho'; accesorio?: 'barra' | 'cuerda' | 'individual' | 'maquina' }
+export interface ConfiguracionEjecucion { ejecucion: Ejecucion; kgUnilateral?: 'lado' | 'total'; agarre?: Agarre }
+export interface PlanProgresion { series: number; repsMin: number; repsMax: number; incrementoKg?: number; rirMin?: number }
+
+export type ModoCarga = 'externa' | 'corporal' | 'lastre' | 'asistencia'
+export interface ConfiguracionCarga { modo: ModoCarga; pesoCorporal?: number }

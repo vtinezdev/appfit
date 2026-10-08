@@ -1,10 +1,12 @@
+import { recomendarProgresion } from '../lib/progresion'
+import { claveComparacion, convencional, tieneReps, cambiaRealizacion } from '../lib/ejecucion'
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as routinesRepo from '../data/routinesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
-import type { SetEntry, Workout } from '../../../shared/db/types'
+import type { ConfiguracionCarga, SetEntry, Workout } from '../../../shared/db/types'
 import { getSettings } from '../../../shared/db/settings'
 import { pitar } from '../../../shared/lib/sonido'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
@@ -29,6 +31,7 @@ import { RestClock, WorkoutClock } from '../components/WorkoutClock'
 import type { WorkoutSummary } from '../components/WorkoutFinished'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import Disclosure from '../../../shared/components/Disclosure'
+import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
 
 interface Props {
   workout: Workout
@@ -38,6 +41,8 @@ interface Props {
 export default function EntrenoActivo({ workout, onFinished }: Props) {
   const [buscandoEjercicio, setBuscandoEjercicio] = useState(false)
   const [session, setSession] = useState(() => readSession(workout.id!))
+  const sessionActual = useRef(session)
+  sessionActual.current = session
   const [confirmando, setConfirmando] = useState(false)
   const [guardando, setGuardando] = useState(false)
   const [newSet, setNewSet] = useState<number | null>(null)
@@ -48,10 +53,12 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
   const [notas, setNotas] = useState(workout.notas ?? '')
   const notasGuardadas = useRef(workout.notas ?? '')
   const restConfig = useRef<HTMLDivElement>(null)
+  const confirmandoSeries = useRef(new Set<number>())
   const pendingWrites = useRef(new Map<number, Promise<void>>())
   const { avisar, avisarError, toast } = useAviso()
 
-  const currentSets = useLiveQuery(() => setsRepo.delWorkout(workout.id!), [workout.id]) ?? []
+  const seriesCargadas = useLiveQuery(() => setsRepo.delWorkout(workout.id!), [workout.id])
+  const currentSets = seriesCargadas ?? []
   const allSets = useLiveQuery(() => setsRepo.todas(), []) ?? []
   const exercises = useLiveQuery(() => exercisesRepo.listar(), []) ?? []
   const ajustes = useLiveQuery(() => getSettings(), [])
@@ -64,7 +71,17 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
 
   const idsConSets = Array.from(new Set([...currentSets].sort((a, b) => a.createdAt - b.createdAt).map((s) => s.exerciseId)))
   const idsRutina = routine?.exerciseIds ?? []
-  const visibleIds = ordenEjerciciosSesion(idsRutina, idsConSets, workout.ordenEjercicios)
+  const visibleIds = ordenEjerciciosSesion(idsRutina, idsConSets, workout.ordenEjercicios, workout.ejerciciosOmitidos)
+  const { quitarEjercicio, quitando, contenedorRef } = useQuitarEjercicio({
+    workoutId: workout.id, visibleIds, bloqueado: guardando, avisar, avisarError,
+    antesDeQuitar: async () => { await Promise.all(pendingWrites.current.values()) },
+    alQuitar: captura => {
+      const ids = new Set(captura.sets.map(s => s.id))
+      const completadas = sessionActual.current.completed.filter(id => ids.has(id))
+      setSession(previous => ({ ...previous, completed: previous.completed.filter(id => !ids.has(id)) }))
+      return () => setSession(previous => ({ ...previous, completed: [...new Set([...previous.completed, ...completadas])] }))
+    },
+  })
 
   async function guardarNotas() {
     if (notas === notasGuardadas.current) return
@@ -74,6 +91,15 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     } catch {
       avisarError('No se han podido guardar las notas. Inténtalo de nuevo.')
     }
+  }
+
+  async function guardarCarga(exerciseId: number, carga: ConfiguracionCarga) {
+    setGuardando(true)
+    try {
+      await Promise.all(pendingWrites.current.values())
+      const ids = new Set(await workoutsRepo.configurarCarga(workout.id, exerciseId, carga))
+      setSession(previous => ({ ...previous, completed: previous.completed.filter(id => !ids.has(id)) }))
+    } finally { setGuardando(false) }
   }
   // Guardado con espera: tras dejar de escribir y siempre al salir del campo.
   useEffect(() => {
@@ -120,15 +146,15 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     }
   }
 
-  async function actualizarSet(id: number, patch: Partial<Pick<SetEntry, 'reps' | 'peso' | 'tipo' | 'rir'>>) {
+  async function actualizarSet(id: number, patch: setsRepo.CambiosSerie) {
     // Cambiar el tipo o el RIR no desmarca la serie; reps y peso sí.
-    if ('reps' in patch || 'peso' in patch) setSession(previous => ({ ...previous, completed: previous.completed.filter(n => n !== id) }))
+    if (currentSets.some(s => s.id === id && cambiaRealizacion(s, patch))) setSession(previous => ({ ...previous, completed: previous.completed.filter(n => n !== id) }))
     const operation = setsRepo.actualizar(id, patch)
     pendingWrites.current.set(id, operation)
     try {
       await operation
     } catch {
-      avisarError('No se ha podido guardar la serie. Inténtalo de nuevo.')
+      avisarError('No se ha podido guardar la serie. Inténtalo de nuevo.'); throw new Error('No se ha podido guardar la serie. Inténtalo de nuevo.')
     } finally {
       if (pendingWrites.current.get(id) === operation) pendingWrites.current.delete(id)
     }
@@ -162,7 +188,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     try {
       await Promise.all(pendingWrites.current.values())
       await guardarNotas()
-      const finished = await workoutsRepo.terminar(workout.id!)
+      const finished = await workoutsRepo.terminar(workout.id!, sessionActual.current.completed)
       const saved = finished.sets
       const guardadasEfectivas = efectivas(saved)
       clearSession(workout.id!)
@@ -185,14 +211,24 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     }
   }
 
+  const completadas = currentSets.filter(s => s.realizada === true || s.realizada === undefined && session.completed.includes(s.id)).map(s => s.id)
+  useEffect(() => {
+    if (!seriesCargadas) return
+    setSession(prev => { const ids = currentSets.filter(s => s.realizada === true || s.realizada === undefined && prev.completed.includes(s.id)).map(s => s.id); return ids.join(',') === prev.completed.join(',') ? prev : { ...prev, completed: ids } })
+  }, [seriesCargadas])
   const volumen = volumenSets(currentSets)
-  const completedCount = currentSets.filter(s => session.completed.includes(s.id!)).length
+  const completedCount = completadas.length
 
   async function completar(s: SetEntry, numero: number) {
+    if (confirmandoSeries.current.has(s.id)) return
+    confirmandoSeries.current.add(s.id)
     const nombre = exerciseMap.get(s.exerciseId)?.nombre ?? 'ejercicio'
     try {
       await pendingWrites.current.get(s.id!)
-      const done = session.completed.includes(s.id!)
+      const done = sessionActual.current.completed.includes(s.id!)
+      const escritura = setsRepo.confirmar(s.id, !done)
+      pendingWrites.current.set(s.id, escritura)
+      try { await escritura } finally { if (pendingWrites.current.get(s.id) === escritura) pendingWrites.current.delete(s.id) }
       const descanso = descansoParaEjercicio(routine?.objetivos?.[s.exerciseId]?.descansoSeg, session.restSeconds)
       setSession(previous => ({
         ...previous,
@@ -203,15 +239,15 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
       haptic(done ? 'selection' : 'success')
       const que = numero > 0 ? `Serie ${numero}` : 'Calentamiento'
       setFeedback(done ? `${que} de ${nombre} pendiente` : `${que} de ${nombre} completada`)
-    } catch { avisarError('La serie no se ha guardado. Inténtalo de nuevo antes de completarla.') }
+    } catch { avisarError('La serie no se ha guardado. Inténtalo de nuevo antes de completarla.') } finally { confirmandoSeries.current.delete(s.id) }
   }
 
   return (
-    <div className="space-y-section px-page pb-16 pt-5">
+    <div ref={contenedorRef} className="space-y-section px-page pb-16 pt-5">
       <section aria-label="Entreno en curso" className="training-surface space-y-2 p-3">
         <div className="flex min-h-touch items-center justify-between gap-2">
           <div className="min-w-0"><h1 className="break-words text-heading">{routine?.nombre ?? 'Entreno libre'}</h1><p className="training-muted text-caption">En curso · {formatHora(workout.inicio)}</p></div>
-          <Button size="sm" onClick={() => { setFinishError(null); setConfirmando(true) }}>
+          <Button size="sm" disabled={quitando} onClick={() => { setFinishError(null); setConfirmando(true) }}>
             Terminar
           </Button>
         </div>
@@ -251,13 +287,18 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
           if (!ex) return null
           const sets = currentSets.filter((s) => s.exerciseId === exId).sort((a, b) => a.orden - b.orden)
           const ultimaVez = ultimaSetDeEjercicio(exId, true)
-          const historico = allSets.filter((s) => s.exerciseId === exId && s.workoutId === ultimaVez?.workoutId)
+          const base = sets.find(s => s.tipo !== 'calentamiento')
+          const historico = allSets.filter((s) => s.exerciseId === exId && s.workoutId === ultimaVez?.workoutId && (!base || claveComparacion(s) === claveComparacion(base)))
           return (
             <div key={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
                 ultimaVez={historico.length > 0 ? `Última vez: ${formatUltimaVez(historico)}` : 'Sin datos previos'}
-                objetivo={routine?.objetivos?.[exId]} completadas={session.completed} onCompletar={completar} nuevaId={newSet} bloqueado={guardando}
+                objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} nuevaId={newSet} bloqueado={guardando || quitando}
                 onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
+                onQuitar={() => quitarEjercicio(exId, ex.nombre)}
+                contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
+                  setGuardando(true); try { await Promise.all(pendingWrites.current.values()); const ids = new Set(await workoutsRepo.configurarEjecucion(workout.id, exId, c, habitual)); setSession(p => ({ ...p, completed: p.completed.filter(id => !ids.has(id)) })) } finally { setGuardando(false) }
+                }, onProgresion: async (clave, decision) => { setGuardando(true); try { await Promise.all(pendingWrites.current.values()); await workoutsRepo.decidirProgresion(workout.id, exId, clave, decision) } finally { setGuardando(false) } } }}
                 mover={visibleIds.length > 1 ? { puedeSubir: indice > 0, puedeBajar: indice < visibleIds.length - 1, onSubir: () => mover(indice, -1), onBajar: () => mover(indice, 1) } : undefined} />
             </div>
           )
@@ -266,7 +307,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
 
       <p className="text-caption text-fg-muted">Introduce reps y toca el número de serie al completarla.</p>
 
-      <Button variant="secondary" size="lg" block onClick={() => setBuscandoEjercicio(true)}>
+      <Button data-add-exercise variant="secondary" size="lg" block disabled={guardando || quitando} onClick={() => setBuscandoEjercicio(true)}>
         <Icon name="plus" size={20} />
         Añadir ejercicio
       </Button>
@@ -282,7 +323,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
         {descartando ? (
           <ConfirmacionDestructiva mensaje={`¿Descartar este entreno? Se borran sus ${currentSets.length} series y no se guarda en el historial. No se puede deshacer.`}
             confirmar="Sí, descartar" onConfirmar={descartar} onCancelar={() => setDescartando(false)} ocupado={guardando} />
-        ) : <Button variant="destructive" block onClick={() => { setFinishError(null); setDescartando(true) }}>Descartar entreno</Button>}
+        ) : <Button variant="destructive" block disabled={guardando || quitando} onClick={() => { setFinishError(null); setDescartando(true) }}>Descartar entreno</Button>}
         {!confirmando && finishError && <ErrorState>{finishError}</ErrorState>}
       </section>
 
@@ -290,7 +331,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
         <div className="space-y-4">
           {currentSets.length === 0
             ? <p className="text-body-sm text-fg-muted">No hay series registradas, así que no hay nada que guardar: al terminar se descartará este entreno.</p>
-            : <p className="text-body-sm text-fg-muted">Se guardarán las {currentSets.length} series registradas, incluidas las que no has marcado. Podrás consultar la sesión en el historial.</p>}
+            : <p className="text-body-sm text-fg-muted">Se guardarán las {currentSets.length} series registradas. Solo las marcadas constarán como realizadas; las demás quedan pendientes y no se usan para recomendar progresión.</p>}
           {finishError && <ErrorState>{finishError}</ErrorState>}
           {currentSets.length === 0
             ? <Button block size="lg" variant="danger" loading={guardando} onClick={descartar}>Descartar entreno</Button>
@@ -299,7 +340,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
         </div>
       </Sheet>
 
-      {buscandoEjercicio && <SelectorEjercicios onClose={() => setBuscandoEjercicio(false)} onElegir={elegirEjercicio} />}
+      {buscandoEjercicio && <SelectorEjercicios onClose={() => setBuscandoEjercicio(false)} onElegir={elegirEjercicio} sugerencias={exercises.filter(e => { const base = currentSets.find(s => s.exerciseId === e.id && s.tipo !== 'calentamiento') ?? [...allSets].filter(s => s.exerciseId === e.id && convencional(s)).sort((a, b) => b.createdAt - a.createdAt)[0]; return base && tieneReps(base) && recomendarProgresion(e.id, base, e.progresion ?? routine?.objetivos?.[e.id], todosWorkouts, allSets, workout.inicio).propuesta }).map(e => e.id)} />}
 
       {toast}
     </div>

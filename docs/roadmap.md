@@ -40,7 +40,7 @@ Registro:
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.
 
 Gimnasio:
-- **Sugerencia de progresión** (doble progresión: subir el peso cuando todas las series alcanzan el máximo del rango con el mismo peso; si no, +1 rep). Aplazada: el incremento depende del ejercicio (no es 2,5 kg para todos), así que primero hay que decidir cómo se configura por ejercicio. Los objetivos de rutina ya existen; la sugerencia se mostraría como pista con «Aplicar», sin aplicarse sola.
+- **Plan de mejoras de Entreno**: implementadas las diez mejoras iniciales: papelera, RIR, notas, gráficas, carga corporal, unilateral, agarres, dropsets, negativas y progresión confirmada. Alcance, orden, decisiones y ampliaciones futuras en [mejoras.md](../mejoras.md). Se validan los bloques que Víctor autoriza antes de continuar; sustituye aquí el detalle anterior de progresión para evitar planes duplicados.
 
 Cuerpo y objetivos:
 - Objetivos distintos en días de entreno y de descanso (kcal extra a hidratos): la integración Gym ↔ Nutrición se decidirá más adelante.

@@ -18,7 +18,8 @@ describe('PanelEjercicio', () => {
     expect(html).toContain('aria-label="Repeticiones, calentamiento de Press banca"')
     expect(html).toContain('aria-label="Repeticiones, serie 1 de Press banca"')
     expect(html).toContain('aria-label="Repeticiones, serie 2 de Press banca"')
-    expect(html).toContain('RIR 2')
+    expect(html).toContain('aria-label="RIR, serie 1 de Press banca"')
+    expect(html).toContain('<option value="2" selected="">2</option>')
     expect(html).toContain('Objetivo: 3 × 8–12 reps')
     expect(html).toContain('120 s de descanso')
     expect(html).toContain('Opciones de serie 1 de Press banca')
@@ -35,6 +36,14 @@ describe('PanelEjercicio', () => {
     expect(html).toContain('aria-label="Subir Press banca"')
     expect(html).toMatch(/aria-label="Subir Press banca"[^>]*disabled|disabled[^>]*aria-label="Subir Press banca"/)
     expect(renderToStaticMarkup(<PanelEjercicio {...props} sets={[]} />)).not.toContain('Subir')
+  })
+
+  it('la papelera identifica la sesión y se desactiva junto a las filas mientras hay una operación', () => {
+    const html = renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1)]} onQuitar={noop} bloqueado />)
+    expect(html).toContain('aria-label="Quitar Press banca de este entreno"')
+    expect(html).toMatch(/aria-label="Quitar Press banca de este entreno"[^>]*disabled|disabled[^>]*aria-label="Quitar Press banca de este entreno"/)
+    expect(html).toContain('data-exercise-id="1"')
+    expect(renderToStaticMarkup(<PanelEjercicio {...props} sets={[]} />)).not.toContain('Quitar Press banca')
   })
 })
 

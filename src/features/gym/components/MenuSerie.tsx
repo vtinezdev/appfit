@@ -5,7 +5,9 @@ import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { updateSettings } from '../../../shared/db/settings'
-import type { SetEntry } from '../../../shared/db/types'
+import TecnicaSerie from './TecnicaSerie'
+import type { CambiosSerie } from '../data/setsRepo'
+import type { Exercise, SetEntry } from '../../../shared/db/types'
 import { formatNumber } from '../../../shared/lib/format'
 import { BARRAS, calcularDiscos } from '../lib/discos'
 
@@ -15,21 +17,22 @@ interface Props {
   titulo: string
   serie: SetEntry
   barraKg: number
+  ejercicio?: Exercise
+  onTecnica?: (patch: CambiosSerie) => Promise<void>
   onCambiar: (patch: Pick<Partial<SetEntry>, 'tipo' | 'rir'>) => void
   onBorrar: () => void
 }
 
-const RIRS = [0, 1, 2, 3, 4, 5]
-
-/** Opciones de una serie: tipo (efectiva o calentamiento), RIR opcional, discos por lado y borrado. */
-export default function MenuSerie({ open, onClose, titulo, serie, barraKg, onCambiar, onBorrar }: Props) {
+/** Opciones secundarias; RIR se edita en la fila y discos solo corresponde a carga externa. */
+export default function MenuSerie({ open, onClose, titulo, serie, barraKg, onCambiar, onBorrar, ejercicio, onTecnica }: Props) {
+  const [tecnica, setTecnica] = useState(false)
   const [discosAbierto, setDiscosAbierto] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const discos = calcularDiscos(serie.peso, barraKg)
 
   return (
     <Sheet open={open} onClose={onClose} title={titulo}>
-      <div className="space-y-section">
+      {tecnica && ejercicio && onTecnica ? <TecnicaSerie serie={serie} ejercicio={ejercicio} onGuardar={onTecnica} onClose={onClose} /> : <div className="space-y-section">
         <div className="space-y-2">
           <SegmentedControl label="Tipo de serie" valor={serie.tipo ?? 'efectiva'}
             onChange={(v) => onCambiar({ tipo: v === 'calentamiento' ? 'calentamiento' : undefined })}
@@ -37,20 +40,7 @@ export default function MenuSerie({ open, onClose, titulo, serie, barraKg, onCam
           {serie.tipo === 'calentamiento' && <p className="text-caption text-fg-muted">No cuenta en volumen, récords, mapa muscular ni progreso.</p>}
         </div>
 
-        <div className="space-y-2">
-          <p className="text-label text-fg-muted" id="rir-titulo">Repeticiones en reserva (RIR)</p>
-          <div role="group" aria-labelledby="rir-titulo" className="grid grid-cols-3 gap-2">
-            {RIRS.map((n) => (
-              <Button key={n} variant={serie.rir === n ? 'primary' : 'secondary'} size="sm" aria-pressed={serie.rir === n} className="!px-0" onClick={() => onCambiar({ rir: n })}>{n}</Button>
-            ))}
-          </div>
-          <div className="flex items-center justify-between gap-3">
-            <p className="min-w-0 text-caption text-fg-muted">Cuántas repeticiones te habrían quedado.</p>
-            <Button variant="subtle" size="sm" disabled={serie.rir === undefined} onClick={() => onCambiar({ rir: undefined })}>Sin dato</Button>
-          </div>
-        </div>
-
-        <Disclosure title="Discos por lado" open={discosAbierto} onChange={setDiscosAbierto}>
+        {(serie.modoCarga === undefined || serie.modoCarga === 'externa') && <Disclosure title="Discos por lado" open={discosAbierto} onChange={setDiscosAbierto}>
           <div className="space-y-3">
             <SegmentedControl label="Peso de la barra" size="sm" valor={String(barraKg)}
               onChange={(v) => { updateSettings({ barraKg: Number(v) }).catch(() => setError('No se ha podido guardar la barra.')) }}
@@ -71,10 +61,11 @@ export default function MenuSerie({ open, onClose, titulo, serie, barraKg, onCam
             )}
             {error && <ErrorState>{error}</ErrorState>}
           </div>
-        </Disclosure>
+        </Disclosure>}
 
+        {ejercicio && onTecnica && <Button variant="secondary" block onClick={() => setTecnica(true)}>Ejecución, agarre y técnica</Button>}
         <Button variant="destructive" block onClick={onBorrar}>Borrar serie</Button>
-      </div>
+      </div>}
     </Sheet>
   )
 }

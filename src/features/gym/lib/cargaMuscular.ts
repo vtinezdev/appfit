@@ -1,6 +1,8 @@
+import { claveComparacion, tieneReps, repsEstimulo, volumenSerie, type SerieEjecucion } from './ejecucion'
 import type { Exercise, SetEntry, Workout, WorkoutExerciseMuscles, WorkoutMuscleSnapshot } from '../../../shared/db/types'
 import { catalogoDeLocal } from './selectorEjercicios'
 import { ZONAS_MUSCULARES, type ZonaMuscular } from './musculos'
+import { cargaExterna, modoCarga } from './carga'
 
 /** Heurística de trabajo registrado, no medida fisiológica de intensidad. */
 export const ESTIMULO_MUSCULAR = {
@@ -30,17 +32,18 @@ export interface TrabajoMuscular {
 }
 
 /** Serie positiva; 0 kg no inventa masa corporal. Peso relativo al máximo DEL MISMO ejercicio/sesión. */
-export function calcularCargaEjercicio(series: (Pick<SetEntry, 'reps' | 'peso'> & { tipo?: SetEntry['tipo'] })[]): CargaEjercicio {
-  const validas = series.filter(s => s.tipo !== 'calentamiento' && positivo(s.reps) > 0)
-  let maxPeso = 0
-  for (const s of validas) maxPeso = Math.max(maxPeso, positivo(s.peso))
+export function calcularCargaEjercicio(series: SerieEjecucion[]): CargaEjercicio {
+  const validas = series.filter(s => s.tipo !== 'calentamiento' && s.realizada !== false && tieneReps(s))
+  const maximos = new Map<string, number>()
+  for (const s of validas) if (modoCarga(s) === 'externa') maximos.set(claveComparacion(s), Math.max(maximos.get(claveComparacion(s)) ?? 0, positivo(s.peso)))
   const result: CargaEjercicio = { stimulus: 0, sets: validas.length, reps: 0, externalVolume: 0 }
   for (const s of validas) {
-    const peso = positivo(s.peso)
-    const weightFactor = peso > 0 && maxPeso > 0 ? ESTIMULO_MUSCULAR.minimumWeightFactor + (1 - ESTIMULO_MUSCULAR.minimumWeightFactor) * peso / maxPeso : 1
-    result.stimulus += Math.min(s.reps, ESTIMULO_MUSCULAR.repsCeiling) / ESTIMULO_MUSCULAR.repsReference * weightFactor
-    result.reps = sumarFinito(result.reps, s.reps)
-    result.externalVolume = sumarFinito(result.externalVolume, peso * s.reps)
+    const peso = positivo(cargaExterna(s)), maxPeso = maximos.get(claveComparacion(s)) ?? 0
+    // Las variantes corporales aportan series/reps, sin inferir esfuerzo de masa, lastre o asistencia.
+    const weightFactor = modoCarga(s) === 'externa' && peso > 0 && maxPeso > 0 ? ESTIMULO_MUSCULAR.minimumWeightFactor + (1 - ESTIMULO_MUSCULAR.minimumWeightFactor) * peso / maxPeso : 1
+    result.stimulus += repsEstimulo(s) / ESTIMULO_MUSCULAR.repsReference * weightFactor
+    result.reps = sumarFinito(result.reps, repsEstimulo(s))
+    result.externalVolume = sumarFinito(result.externalVolume, volumenSerie(s))
   }
   return result
 }
@@ -56,7 +59,7 @@ export function crearSnapshotMuscular(series: Pick<SetEntry, 'exerciseId'>[], ej
   }) }
 }
 
-export function agregarCargaMuscular(series: (Pick<SetEntry, 'exerciseId' | 'reps' | 'peso'> & { tipo?: SetEntry['tipo'] })[], clasificaciones: WorkoutExerciseMuscles[]): TrabajoMuscular {
+export function agregarCargaMuscular(series: (SerieEjecucion & Pick<SetEntry, 'exerciseId'>)[], clasificaciones: WorkoutExerciseMuscles[]): TrabajoMuscular {
   const muscles = Object.fromEntries(ZONAS_MUSCULARES.map(m => [m, { score: 0, exercises: [] as AporteMuscular[] }])) as TrabajoMuscular['muscles']
   const porEjercicio = new Map<number, typeof series>()
   for (const s of series) { const arr = porEjercicio.get(s.exerciseId) ?? []; arr.push(s); porEjercicio.set(s.exerciseId, arr) }

@@ -1,3 +1,4 @@
+import { validarPlan } from '../lib/progresion'
 // Acceso a la tabla `exercises`. Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
 import { db } from '../../../shared/db/db'
 import type { Exercise } from '../../../shared/db/types'
@@ -112,4 +113,10 @@ export function motivoNoBorrable(uso: { series: number; rutinas: number }): stri
 /** Vuelve a guardar un ejercicio borrado con su mismo id (para «Deshacer»). */
 export async function restaurar(e: Exercise): Promise<void> {
   await db.exercises.put(e)
+}
+
+/** Objetivo habitual, explícito; no modifica rutinas ni sesiones históricas. */
+export async function guardarProgresion(id: number, plan: import('../../../shared/db/types').PlanProgresion | undefined): Promise<void> {
+  if (plan) validarPlan(plan)
+  await db.exercises.update(id, { progresion: plan })
 }

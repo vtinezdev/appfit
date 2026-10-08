@@ -167,6 +167,14 @@ describe('orden de ejercicios de la sesión', () => {
   it('sin orden manual: rutina y luego series', () => {
     expect(ordenEjerciciosSesion([1, 2], [3, 1])).toEqual([1, 2, 3])
   })
+  it('la omisión manda sobre rutina, series y orden manual sin mutarlos', () => {
+    const rutina = [1, 2], series = [3, 1], manual = [3, 1, 2], omitidos = [1, 3]
+    expect(ordenEjerciciosSesion(rutina, series, manual, omitidos)).toEqual([2])
+    expect(ordenEjerciciosSesion(rutina, series, undefined, [1])).toEqual([2, 3])
+    expect(ordenEjerciciosSesion(rutina, series, manual, [1, 2, 3])).toEqual([])
+    expect(ordenEjerciciosSesion(rutina, series, manual, [])).toEqual([3, 1, 2])
+    expect([rutina, series, manual, omitidos]).toEqual([[1, 2], [3, 1], [3, 1, 2], [1, 3]])
+  })
   it('el orden manual manda, ignora ids que ya no existen y añade los nuevos al final', () => {
     expect(ordenEjerciciosSesion([1, 2], [3], [3, 9, 1])).toEqual([3, 1, 2])
     expect(ordenEjerciciosSesion([1], [2, 3], [])).toEqual([1, 2, 3])

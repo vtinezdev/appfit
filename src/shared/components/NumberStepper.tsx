@@ -16,11 +16,11 @@ export default function NumberStepper({ value, onChange, step = 1, min = 0, suff
   const campo = useCampoDecimal(value, (n) => { if (n !== undefined) onChange(clamp(n)) })
   const button = 'flex h-touch w-touch shrink-0 items-center justify-center text-fg transition-colors duration-short hover:bg-line active:bg-line disabled:opacity-30'
   return (
-    <div className="inline-flex shrink-0 items-center overflow-hidden rounded-md border border-line-strong bg-surface-muted">
+    <div className="inline-flex max-w-full shrink-0 items-center overflow-hidden rounded-md border border-line-strong bg-surface-muted">
       <button type="button" aria-label={`Reducir ${label}`} disabled={value <= min} onClick={() => onChange(clamp(value - step))} className={button}>
         <Icon name="minus" size={16} />
       </button>
-      <div className="relative w-24 shrink-0">
+      <div className="relative w-24 min-w-0">
         <input {...campo} enterKeyHint="done" aria-label={label}
           className={`tabular no-spin min-h-touch w-full bg-transparent px-2 text-center text-body font-semibold text-fg ${suffix ? 'pr-7' : ''}`} />
         {suffix && <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-caption text-fg-muted">{suffix}</span>}

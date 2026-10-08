@@ -58,8 +58,8 @@ export function csvSeries(sets: SetEntry[], workouts: Workout[], exercises: Exer
     .filter((x): x is { s: SetEntry; w: Workout } => x.w !== undefined)
     .sort((a, b) => a.w.inicio - b.w.inicio || a.s.workoutId - b.s.workoutId || a.s.createdAt - b.s.createdAt || a.s.orden - b.s.orden)
   return serializarCsv(
-    ['fecha', 'ejercicio', 'serie', 'tipo', 'reps', 'peso_kg', 'rir'],
-    filas.map(({ s, w }) => [fechaLocal(w.inicio), ejercicio.get(s.exerciseId) ?? 'Ejercicio no disponible', s.orden + 1, s.tipo === 'calentamiento' ? 'calentamiento' : 'efectiva', s.reps, s.peso, s.rir]),
+    ['fecha', 'ejercicio', 'serie', 'tipo', 'reps', 'peso_kg', 'rir', 'modo_carga', 'peso_corporal_kg', 'nota_ejercicio', 'ejecucion', 'kg_unilateral', 'agarre_json', 'solo_negativas', 'excentrica_seg', 'lados_json', 'bajadas_json', 'realizada'],
+    filas.map(({ s, w }) => [fechaLocal(w.inicio), ejercicio.get(s.exerciseId) ?? 'Ejercicio no disponible', s.orden + 1, s.tipo === 'calentamiento' ? 'calentamiento' : 'efectiva', s.reps, s.peso, s.rir, s.modoCarga ?? 'externa', s.pesoCorporal, w.notasEjercicios?.[s.exerciseId], s.ejecucion ?? 'bilateral', s.kgUnilateral, s.agarre ? JSON.stringify(s.agarre) : undefined, s.soloNegativas ? 'sí' : '', s.excentricaSeg, s.lados ? JSON.stringify(s.lados) : undefined, s.bajadas ? JSON.stringify(s.bajadas) : undefined, s.realizada === undefined ? 'desconocida' : s.realizada ? 'sí' : 'no']),
   )
 }
 
