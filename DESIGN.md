@@ -266,7 +266,7 @@ Jerarquía cromática de tres niveles. 1) Grafito neutro domina fondos, superfic
 
 Naranja tostado para la acción principal, el foco, la selección, la pestaña activa y el icono de la sección actual; el naranja de texto tiene contraste propio por tema y el botón sólido lleva texto blanco AA en claro y grafito en oscuro. La barra de kcal del día pertenece a la misma familia; en la rueda de energía de Inicio, lo que falta va en negro (`kcal-rest`). P/C/G son índigo, turquesa y arcilla, separados entre sí ΔE ≥ 10. El mapa muscular usa una rampa del naranja. Borrar es carmín en claro (para separarse del naranja) y rojo coral en oscuro; con verde (serie hecha) son los únicos semánticos y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas; Toast utiliza su contexto inverso.
 
-**The Acento Rule.** El naranja orienta la acción y mide la energía del día, sin sustituir superficies, texto o jerarquía. Las acciones repetidas en listas («Añadir a…», «Repetir») van en tono neutro, y las terciarias («Ver día», «Registrar») en grafito con el icono en naranja, para que el naranja sólido marque la acción principal. Los datos (peso) no usan el acento.
+**The Acento Rule.** El naranja orienta la acción y mide la energía del día, sin sustituir superficies, texto o jerarquía. Las acciones repetidas en listas (el «+» y Repetir de cada comida) van en tono neutro, y las terciarias («Ver día», «Registrar») en grafito con el icono en naranja, para que el naranja sólido marque la acción principal. Los datos (peso) no usan el acento.
 
 ## Typography
 
@@ -290,7 +290,7 @@ El 2026-10-06 Víctor aprueba la preview de Gym y pide extenderla a toda la app.
 
 ## Elevation & Depth
 
-Las superficies se diferencian por tono y, en claro, por una sombra muy suave y difusa (`shadow-card`) que separa cada unidad real del fondo fotográfico; en oscuro, solo por tono. Botón secundario, indicador del selector y Menú usan una sombra de control mínima. Card conserva un borde transparente para su geometría; campos, controles y registros mantienen límites reconocibles. La barra inferior no tiene línea: una sombra difusa la separa del contenido. Las capas y avisos conservan su sombra propia.
+Las superficies se diferencian por tono y, en claro, por una sombra muy suave y difusa (`shadow-card`) que separa cada unidad real del fondo fotográfico; en oscuro, por un tono claramente más claro y un borde fino (el 2026-10-08 Víctor pidió que las cards no se mimetizaran con el fondo). Botón secundario, indicador del selector y Menú usan una sombra de control mínima. Card conserva un borde transparente para su geometría; campos, controles y registros mantienen límites reconocibles. La barra inferior no tiene línea: una sombra difusa la separa del contenido. Las capas y avisos conservan su sombra propia.
 
 **The Elevación mínima Rule.** Tono y espacio separan contenido; la sombra de card es casi imperceptible y nunca decora un elemento que no sea una unidad real.
 

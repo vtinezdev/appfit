@@ -1,7 +1,6 @@
 import { useId, useState } from 'react'
-import Button, { IconButton } from '../../../shared/components/Button'
+import { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
-import Icon from '../../../shared/components/Icon'
 import type { Comida, Entry } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { sumMacros } from '../lib/nutrition'
@@ -87,19 +86,23 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
   const recibe = isOver && active?.data.current?.plato?.entries[0].comida !== comida
   const totales = sumMacros(entries)
   const hayEntradas = entries.length > 0
+  const comidaMinus = titulo.toLowerCase()
+  const anadir = <IconButton icon="plus" variant="tonal" label={`Añadir a ${comidaMinus}`} onClick={onAnadir} />
+  // Repetir: icono con el número de alimentos del día anterior en una pastilla (decorativa: el número va en la etiqueta).
   const repetir = disponiblesAyer > 0 && (
-    <Button variant="subtle" size="sm" onClick={onRepetir} disabled={ocupado}>
-      <Icon name="copy" size={16} />
-      {repitiendo ? 'Repitiendo…' : `Repetir del día anterior (${disponiblesAyer})`}
-    </Button>
+    <span className="relative flex shrink-0">
+      <IconButton icon={repitiendo ? 'loader' : 'copy'} variant="ghost" onClick={onRepetir} disabled={ocupado} aria-busy={repitiendo || undefined}
+        label={repitiendo ? `Repitiendo ${comidaMinus} del día anterior…`
+          : `Repetir ${comidaMinus} del día anterior (${formatInt(disponiblesAyer)} ${disponiblesAyer === 1 ? 'alimento' : 'alimentos'})`} />
+      {!repitiendo && <span aria-hidden className={`tabular pointer-events-none absolute right-0 top-0 min-w-5 rounded-pill bg-fg/10 px-1.5 text-center text-caption font-semibold text-fg ${ocupado ? 'opacity-30' : ''}`}>
+        {formatInt(disponiblesAyer)}
+      </span>}
+    </span>
   )
   return (
     <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section">
       <CabeceraComida comida={comida} titulo={titulo} kcal={totales.kcal} registros={entries.length} onAcciones={onAcciones} />
-      {!hayEntradas && <div className="mt-1 flex flex-wrap items-center gap-x-1">
-        <Button variant="subtle" size="sm" onClick={onAnadir}><Icon name="plus" size={16} />Añadir</Button>
-        {repetir}
-      </div>}
+      {!hayEntradas && <div className="mt-1 flex items-center justify-between gap-2 px-1">{anadir}{repetir}</div>}
       {hayEntradas && (
         <Card padded={false} className="mt-2 px-1">
           <ul ref={listRef} className="divide-y divide-line">
@@ -111,13 +114,8 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
               ),
             )}
           </ul>
-          <div className="flex flex-wrap items-center gap-x-1 border-t border-line">
-            <Button variant="subtle" size="sm" onClick={onAnadir}>
-              <Icon name="plus" size={16} />
-              Añadir a {titulo.toLowerCase()}
-            </Button>
-            {repetir}
-          </div>
+          {/* «+» alineado con los iconos de categoría; Repetir, con la papelera. */}
+          <div className="flex items-center justify-between gap-2 border-t border-line px-2 py-1">{anadir}{repetir}</div>
         </Card>
       )}
     </section>

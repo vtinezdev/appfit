@@ -816,3 +816,11 @@ Rama `feat/categorias-alimentos`. Víctor preguntó cómo cuenta el café con le
 
 **Iconos de categoría (mismo día).** Víctor pidió iconos o emojis por categoría, mostrados como icono y con el nombre al pulsarlos. Emojis no (regla de diseño y guard); 15 SVG propios por familia (`Icon` `cat-*`, contacto revisado a 48 y 20 px renderizado con sharp), mapa en `lib/iconosCategoria.ts` y `IconoCategoria` (toggletip de 44 px al lado de la fila). En Alimentos, Diario, Buscar/frecuentes y revisión sustituyen al texto de la categoría (el detalle de Buscar queda para la marca); en el Resumen se ven icono y nombre. Tests y build en verde; sin recorrido en navegador.
 
+## 83. Pie de las comidas solo con iconos y cards más claras en oscuro (2026-10-08)
+
+Víctor veía muy cargado el pie de cada comida («Añadir a desayuno» + «Repetir del día anterior (3)», que a 375 px partía en dos líneas) y, en oscuro, la card de la comida casi igual que el fondo. Antes de implementar pidió una preview (artifact con los tokens reales: cuatro opciones de acciones y cuatro de card). Eligió la fila de iconos con un «+» que se vea bien («+» sobre gris) y el tono más claro con borde fino, para toda la app.
+
+- **Comidas** (`ComidaSection`): el pie de la card y la fila de una comida vacía son «+» (`IconButton` nueva variante `tonal`, velo `fg/10` que funciona sobre página y card) a la izquierda y Repetir (`copy`, `ghost`) con el número de ayer en una pastilla `aria-hidden` a la derecha; los nombres completos van en `aria-label` («Repetir desayuno del día anterior (3 alimentos)»; «Repitiendo…» con `aria-busy` y loader). Tests en `RegistroComida.test.tsx`.
+- **Cards en oscuro** (`tokens.css`): Card default y ListGroup agrupada (no muted ni `.training-surface`) redefinen dentro superficie 38/39/44, `surface-muted`, `border`, `border-strong`, `selected` y `surface-elevated`, con borde visible y brillo interior arriba. ListGroup agrupada gana `border-transparent` para la geometría. `contrast.test.ts` añade el caso «card en oscuro».
+
+**Verificación:** tests y build en verde. Edge headless (`playwright-core` fuera del repo) en `appfit-test.localhost` con datos sintéticos, Nutrición a 375 claro/oscuro y 320 oscuro: sin scroll horizontal ni errores de consola, botones de 44 px. Sin probar en iPhone.

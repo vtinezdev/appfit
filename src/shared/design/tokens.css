@@ -196,6 +196,19 @@
   --c-atmosphere-sand: 166 141 113;
   --c-atmosphere-mist: 145 162 167;
 }
+/* En oscuro, las unidades reales (Card y ListGroup agrupada) son una capa más clara con borde fino y un leve brillo
+   arriba, para no confundirse con el fondo. Lo de dentro (filas, campos, botones tonales, divisores) se aclara con ellas.
+   La Card muted y la superficie de entreno conservan su tono propio. */
+:root[data-theme='dark'] :is(.app-card:not(.bg-surface-muted), .app-list-group):not(.training-surface) {
+  --c-surface: 38 39 44;
+  --c-surface-elevated: 46 47 52;
+  --c-surface-muted: 50 51 57;
+  --c-border: 58 59 65;
+  --c-border-strong: 132 134 139;
+  --c-selected: 72 73 79;
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.05);
+  border-color: rgb(var(--c-border));
+}
 /* Aviso temporal, sin obligar a usar bloques negros en las pantallas. */
 [data-surface='inverse'] {
   --c-surface: 22 23 26;
