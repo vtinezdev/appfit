@@ -111,8 +111,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
     void cambiarTiempos(inicio, inicio + (fin - w!.inicio))
   }
 
-  async function actualizarSerie(id: number, patch: setsRepo.CambiosSerie) {
-    try { await setsRepo.actualizar(id, patch) } catch { const mensaje = 'No se ha podido guardar la serie. Inténtalo de nuevo.'; avisarError(mensaje); throw new Error(mensaje) }
+  async function actualizarSerie(id: number, cambio: setsRepo.CambioSerie) {
+    try { await setsRepo.actualizar(id, cambio) } catch { const mensaje = 'No se ha podido guardar la serie. Inténtalo de nuevo.'; avisarError(mensaje); throw new Error(mensaje) }
   }
 
   async function agregarSerie(exerciseId: number) {
@@ -201,7 +201,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
         ) : null}
       </section>
 
-      {editando && <p className="text-caption text-fg-muted">Toca el número para confirmar que una serie se realizó. Las series antiguas siguen sin confirmar hasta que lo indiques; cambiar reps, kg o técnica requiere confirmarlas de nuevo.</p>}
+      {editando && <p className="text-caption text-fg-muted">Marca una serie con el botón de su derecha para confirmar que se realizó. Las series antiguas siguen sin confirmar hasta que lo indiques; cambiar reps, kg o técnica requiere confirmarlas de nuevo.</p>}
       {editando ? (
         <div className="space-y-stack">
           {ids.map((id, i) => {
@@ -210,7 +210,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
             return <PanelEjercicio key={id} ejercicio={ex} sets={delEntreno.filter((s) => s.exerciseId === id).sort((a, b) => a.orden - b.orden)} barraKg={ajustes?.barraKg ?? 20}
               objetivo={rutina?.objetivos?.[id]} onActualizar={actualizarSerie} onBorrar={borrarSerie} onAgregar={() => agregarSerie(id)}
               completadas={delEntreno.filter(s => s.realizada === true).map(s => s.id)} onCompletar={s => { void accion(() => setsRepo.confirmar(s.id, s.realizada !== true), 'No se ha podido confirmar la serie.') }}
-              bloqueado={ocupado || quitando} onQuitar={() => quitarEjercicio(id, ex.nombre)}
+              bloqueado={ocupado || quitando} onQuitar={() => quitarEjercicio(id, ex.nombre)} onAviso={avisar}
               contexto={{ workoutId, inicio: w.inicio, nota: w.notasEjercicios?.[id], carga: w.cargasEjercicios?.[id], onCarga: async carga => {
                 setOcupado(true)
                 try { await workoutsRepo.configurarCarga(workoutId, id, carga) }

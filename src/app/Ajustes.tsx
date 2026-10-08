@@ -175,6 +175,10 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
           onChange={(v) => { updateSettings({ sonidoDescanso: v === 'si' }).catch(() => setErrorObjetivos('No se ha podido guardar el ajuste. Inténtalo de nuevo.')) }}
           opciones={[{ valor: 'si', label: 'Con sonido' }, { valor: 'no', label: 'Sin sonido' }]} />
         <p className="text-caption text-fg-muted">Un pitido corto, solo con la app abierta: iOS no permite vibrar ni avisar en segundo plano sin notificaciones.</p>
+        <SegmentedControl label="Preguntar el RIR al completar una serie" valor={settings.rirAlCompletar === false ? 'no' : 'si'}
+          onChange={(v) => { updateSettings({ rirAlCompletar: v === 'si' }).catch(() => setErrorObjetivos('No se ha podido guardar el ajuste. Inténtalo de nuevo.')) }}
+          opciones={[{ valor: 'si', label: 'Preguntar RIR' }, { valor: 'no', label: 'No preguntar' }]} />
+        <p className="text-caption text-fg-muted">Al marcar una serie se abre el selector de repeticiones en reserva. Siempre puedes anotarlo tocando su celda.</p>
       </section>
 
       <section ref={backupRef} tabIndex={-1} aria-label="Backup" className="scroll-mt-6 space-y-stack">

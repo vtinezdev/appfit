@@ -266,6 +266,8 @@ export interface Settings {
   barraKg?: number
   /** Sonido al terminar el descanso (por defecto sí). */
   sonidoDescanso?: boolean
+  /** Abrir el selector de RIR al completar una serie (por defecto sí). */
+  rirAlCompletar?: boolean
   /** Objetivo opcional de agua diaria (ml). */
   aguaObjetivoMl?: number
 }

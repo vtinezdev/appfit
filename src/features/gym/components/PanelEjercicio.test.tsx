@@ -12,40 +12,49 @@ const s = (id: number, over: Partial<SetEntry> = {}): SetEntry => ({ id, workout
 describe('PanelEjercicio', () => {
   const props = { ejercicio: ex, barraKg: 20, onActualizar: noop, onBorrar: noop, onAgregar: noop }
 
-  it('numera las efectivas y marca el calentamiento con «C»; muestra RIR y objetivo', () => {
+  it('numera las efectivas y marca el calentamiento con «C»; RIR en su celda y objetivo', () => {
     const html = renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1, { tipo: 'calentamiento', peso: 20 }), s(2, { rir: 2 }), s(3)]}
       objetivo={{ series: 3, repsMin: 8, repsMax: 12, descansoSeg: 120 }} />)
     expect(html).toContain('aria-label="Repeticiones, calentamiento de Press banca"')
     expect(html).toContain('aria-label="Repeticiones, serie 1 de Press banca"')
     expect(html).toContain('aria-label="Repeticiones, serie 2 de Press banca"')
-    expect(html).toContain('aria-label="RIR, serie 1 de Press banca"')
-    expect(html).toContain('Aumentar RIR, serie 1 de Press banca')
-    expect(html).toContain('Reducir RIR, serie 1 de Press banca')
-    expect(html).toMatch(/<output[^>]*aria-label="RIR, serie 1 de Press banca"[^>]*>2<\/output>/)
+    expect(html).toContain('aria-label="RIR, serie 1 de Press banca: 2"')
+    expect(html).toContain('aria-label="RIR, serie 2 de Press banca: sin dato"')
+    expect(html).toContain('<span class="series-letter">C</span>')
     expect(html).toContain('Objetivo: 3 × 8–12 reps')
     expect(html).toContain('120 s de descanso')
     expect(html).toContain('Opciones de serie 1 de Press banca')
   })
 
-  it('en la sesión activa el número es un botón; en el editor no', () => {
+  it('dropset y negativas se leen en el número; las bajadas son filas editables', () => {
+    const html = renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1, { bajadas: [{ id: 'a', reps: 5, peso: 40 }] }), s(2, { soloNegativas: true, excentricaSeg: 4 })]} />)
+    expect(html).toContain('Opciones de serie 1 de Press banca (dropset)')
+    expect(html).toContain('aria-label="Kg bajada 1, serie 1 de Press banca"')
+    expect(html).toContain('Quitar bajada 1, serie 1 de Press banca')
+    expect(html).toContain('Añadir bajada')
+    expect(html).toContain('Opciones de serie 2 de Press banca (negativas)')
+    expect(html).toContain('Bajada 4 s')
+  })
+
+  it('lados separados: una fila por lado con reps, kg y RIR; el lado ausente queda vacío', () => {
+    const html = renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1, { ejecucion: 'lados', reps: 0, peso: 0, lados: { izquierda: { reps: 10, peso: 14, rir: 2 } } })]} />)
+    expect(html).toContain('aria-label="Repeticiones izquierda, serie 1 de Press banca"')
+    expect(html).toContain('aria-label="RIR izquierda, serie 1 de Press banca: 2"')
+    expect(html).toMatch(/aria-label="Repeticiones derecha, serie 1 de Press banca"[^>]*value=""/)
+  })
+
+  it('con acción de completar hay ✓ al final de la fila; sin ella, no', () => {
     const activa = renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1)]} completadas={[]} onCompletar={noop} />)
+    expect(activa).toContain('aria-label="Completar serie 1 de Press banca"')
     expect(activa).toContain('aria-pressed="false"')
-    expect(renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1)]} />)).not.toContain('aria-pressed')
+    expect(renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1)]} />)).not.toContain('Completar serie')
   })
 
-  it('los botones de mover solo aparecen con varios ejercicios y se desactivan en los extremos', () => {
-    const html = renderToStaticMarkup(<PanelEjercicio {...props} sets={[]} mover={{ puedeSubir: false, puedeBajar: true, onSubir: noop, onBajar: noop }} />)
-    expect(html).toContain('aria-label="Subir Press banca"')
-    expect(html).toMatch(/aria-label="Subir Press banca"[^>]*disabled|disabled[^>]*aria-label="Subir Press banca"/)
-    expect(renderToStaticMarkup(<PanelEjercicio {...props} sets={[]} />)).not.toContain('Subir')
-  })
-
-  it('la papelera identifica la sesión y se desactiva junto a las filas mientras hay una operación', () => {
-    const html = renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1)]} onQuitar={noop} bloqueado />)
-    expect(html).toContain('aria-label="Quitar Press banca de este entreno"')
-    expect(html).toMatch(/aria-label="Quitar Press banca de este entreno"[^>]*disabled|disabled[^>]*aria-label="Quitar Press banca de este entreno"/)
+  it('mover y quitar viven en el menú del ejercicio, desactivado durante una operación', () => {
+    const html = renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1)]} onQuitar={noop} bloqueado mover={{ puedeSubir: false, puedeBajar: true, onSubir: noop, onBajar: noop }} />)
+    expect(html).toMatch(/aria-label="Opciones de Press banca"[^>]*disabled|disabled[^>]*aria-label="Opciones de Press banca"/)
     expect(html).toContain('data-exercise-id="1"')
-    expect(renderToStaticMarkup(<PanelEjercicio {...props} sets={[]} />)).not.toContain('Quitar Press banca')
+    expect(renderToStaticMarkup(<PanelEjercicio {...props} sets={[]} />)).not.toContain('Opciones de Press banca')
   })
 })
 

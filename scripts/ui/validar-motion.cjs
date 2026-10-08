@@ -32,6 +32,8 @@ async function seed(page) {
     fixture.entries.forEach(e => { e.fecha = addDays(todayISO(), e.id <= 4 ? 0 : -1) })
     fixture.workouts.forEach(w => { w.inicio = Date.now() - 3 * 86400000; w.fin = w.inicio + 3600000 })
     await b.importarBackup(JSON.stringify(fixture))
+    // Este recorrido mide el check de la serie, no el selector de RIR que se abre al completar.
+    await (await import('/src/shared/db/settings.ts')).updateSettings({ rirAlCompletar: false })
   }, fixture)
 }
 async function closed(page) {
