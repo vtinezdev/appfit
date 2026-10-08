@@ -60,7 +60,7 @@ async function main() {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const d = await import('/src/shared/lib/dates.ts')
           const fecha = d.todayISO()
-          const item = (nombre, nutrientes) => ({ nombre, gramos: 100, kcal100: 100, prot100: 5, carb100: 20, grasa100: 0, nutrientes, fuenteSiNuevo: 'manual' })
+          const item = (nombre, nutrientes) => ({ nombre, gramos: 100, kcal100: 100, prot100: 5, carb100: 20, grasa100: 0, nutrientes, fuenteSiNuevo: 'manual', categoria: 'Otros' })
           await r.guardarComida({ fecha, comida: 'comida', nombrePlato: 'Plato de prueba', items: [item('Alimento conocido', { fibra: 0, azucares: 35, sal: 0.5, agSat: 10 }), item('Alimento parcialmente conocido', { fibra: 5, azucares: 15, sal: 1.25 })] })
           await r.anadirRapida({ fecha, comida: 'snack', nombre: 'Registro sin datos adicionales', kcal: 80, prot: 0, carb: 0, grasa: 0 })
         })

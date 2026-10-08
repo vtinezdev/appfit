@@ -59,8 +59,8 @@ async function main() {
           const d = await import('/src/shared/lib/dates.ts')
           const fecha = d.todayISO()
           const items = [
-            { nombre: 'Arroz', gramos: 4500, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, sal: 0.02, azucares: 0, agSat: 0.1 }, fuenteSiNuevo: 'manual' },
-            { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual' },
+            { nombre: 'Arroz', gramos: 4500, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, sal: 0.02, azucares: 0, agSat: 0.1 }, fuenteSiNuevo: 'manual', categoria: 'Otros' },
+            { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual', categoria: 'Otros' },
           ]
           await r.guardarComida({ fecha, comida: 'desayuno', items, nombrePlato: nombre })
           await r.guardarComida({ fecha, comida: 'desayuno', items, nombrePlato: 'Segundo desayuno' })

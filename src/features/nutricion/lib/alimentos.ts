@@ -4,6 +4,7 @@ import { addDays } from '../../../shared/lib/dates'
 import { round1 } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
 import { camposNutrientes, mismosNutrientes } from './nutrientes'
+import { esCategoriaAlimento } from './catalogo/categorias'
 import type { MedidaAmbigua } from './interprete/medidas'
 
 /** Valores nutricionales por 100 g de un alimento. */
@@ -21,6 +22,8 @@ export interface ItemGuardado extends Por100 {
   catalogId?: string
   /** `undefined`: no cambiar la preferencia; `null`: eliminarla; texto: guardar un nombre personal. */
   nombreCorto?: string | null
+  /** Categoría del alimento propio que se cree (obligatoria en ese caso: ver `foodsRepo.resolverParaGuardar`). */
+  categoria?: string
 }
 
 /** De dónde salieron los valores de un ítem de la revisión, para saber después si el usuario los ha cambiado. */
@@ -56,6 +59,8 @@ export interface ItemRevision extends Por100 {
   nombreCorto?: string
   /** Solo se persisten los cambios confirmados expresamente en la revisión. */
   nombreCortoModificado?: boolean
+  /** Categoría del alimento de origen o la elegida en la revisión (ver `creaAlimentoNuevo`). */
+  categoria?: string
 }
 
 /** Lo que el intérprete local (o «Cambiar») añade a un ítem además del alimento y los gramos. */
@@ -117,6 +122,7 @@ export function aItemGuardado(item: ItemRevision): ItemGuardado {
   }
   if (sigueSiendoDelCatalogo(item)) guardado.catalogId = item.origen.catalogId
   if (item.nombreCortoModificado) guardado.nombreCorto = item.nombreCorto?.trim() || null
+  if (esCategoriaAlimento(item.categoria)) guardado.categoria = item.categoria
   return guardado
 }
 
@@ -128,7 +134,7 @@ export function itemDesdeElegible(a: AlimentoElegible, gramos: number, extra: Ex
   const valores = valoresDe(a)
   const origen: OrigenItem = { fuente: 'manual', valores: valoresDe(valores), nombreNorm: normalizeName(a.nombre), guardado: a.ref.tipo === 'user' }
   if (a.ref.tipo === 'catalog') origen.catalogId = a.ref.id
-  return aplicarExtra({ nombre: a.nombre, gramos, ...valores, origen }, extra)
+  return aplicarExtra({ nombre: a.nombre, gramos, ...valores, origen, ...(a.categoria ? { categoria: a.categoria } : {}) }, extra)
 }
 
 /** Ítem de un alimento que no se ha encontrado: valores a 0 para que el usuario elija uno o los escriba. */
@@ -142,9 +148,12 @@ export function itemSinCoincidencia(nombre: string, gramos: number, extra: Extra
  * Ítem de un producto escaneado con datos incompletos: lo que se conoce y 0 en lo demás. Se guarda como alimento
  * propio `manual` (nunca con `catalogId`: el producto incompleto no entra en el catálogo).
  */
-export function itemDeProductoIncompleto(nombre: string, conocidos: Partial<Por100>, gramos = 100): ItemRevision {
+export function itemDeProductoIncompleto(nombre: string, conocidos: Partial<Por100>, categoria?: string, gramos = 100): ItemRevision {
   const valores: Por100 = { kcal100: 0, prot100: 0, carb100: 0, grasa100: 0, ...conocidos }
-  return { nombre, gramos, ...valoresDe(valores), origen: { fuente: 'manual', valores: valoresDe(valores), nombreNorm: normalizeName(nombre), guardado: false }, datosIncompletos: true }
+  return {
+    nombre, gramos, ...valoresDe(valores), origen: { fuente: 'manual', valores: valoresDe(valores), nombreNorm: normalizeName(nombre), guardado: false }, datosIncompletos: true,
+    ...(esCategoriaAlimento(categoria) ? { categoria } : {}),
+  }
 }
 
 /** true si el ítem no se encontró (o le faltan datos) y todavía no tiene ningún valor: no se puede guardar así. */
@@ -165,6 +174,21 @@ export function procedencia(item: ItemRevision): 'tuyo' | 'catalogo' | undefined
   if (item.origen.guardado) return 'tuyo'
   if (item.origen.catalogId !== undefined) return sigueSiendoDelCatalogo(item) ? 'catalogo' : undefined
   return undefined
+}
+
+/**
+ * true si al guardar este ítem se creará (o se podrá crear) un alimento propio nuevo: no se guarda con su `catalogId`
+ * ni es, con el mismo nombre, un alimento ya guardado. Entonces la revisión pide la categoría. Si al final el nombre
+ * coincide con otro alimento guardado, se reutiliza ese y la categoría solo rellena la suya si no tenía.
+ */
+export function creaAlimentoNuevo(item: ItemRevision): boolean {
+  if (sigueSiendoDelCatalogo(item)) return false
+  return !(item.origen.guardado && normalizeName(item.nombre) === item.origen.nombreNorm)
+}
+
+/** true si el ítem va a crear un alimento propio y todavía no tiene una categoría válida: no se puede guardar así. */
+export function faltaCategoria(item: ItemRevision): boolean {
+  return creaAlimentoNuevo(item) && !esCategoriaAlimento(item.categoria)
 }
 
 /** true si al guardar este ítem se corregirán los valores de un alimento ya guardado (para avisar en la revisión). */
@@ -207,7 +231,7 @@ export function rankFrecuentes(
 
 /**
  * Un alimento que se puede elegir para añadirlo con sus gramos: uno propio (`foods`) o uno del catálogo.
- * `detalle` es una línea secundaria opcional (la categoría del catálogo o, en un producto, su marca).
+ * `detalle` es una línea secundaria opcional (la marca de un producto; la categoría se muestra como icono).
  */
 export interface AlimentoElegible extends Por100 {
   ref: FoodRef
@@ -215,22 +239,20 @@ export interface AlimentoElegible extends Por100 {
   detalle?: string
   /** Los valores son por 100 ml (bebida de marca) en lugar de por 100 g. Las cantidades se guardan igual (ml ≈ g). */
   ml?: true
+  /** Categoría del alimento, si la tiene. La revisión la hereda (`itemDesdeElegible`). */
+  categoria?: string
 }
 
 export function elegibleDeFood(f: Food): AlimentoElegible {
-  return { ref: { tipo: 'user', id: f.id }, nombre: f.nombre, ...valoresDe(f) }
-}
-
-/** Detalle de una línea: «Marca · Categoría» en un producto de marca, la categoría en un genérico. */
-function detalleDeCatalogo(f: CatalogFood): string | undefined {
-  return f.marca ? [f.marca, f.categoria].filter(Boolean).join(' · ') : f.categoria
+  return { ref: { tipo: 'user', id: f.id }, nombre: f.nombre, ...(f.categoria ? { categoria: f.categoria } : {}), ...valoresDe(f) }
 }
 
 export function elegibleDeCatalogo(f: CatalogFood): AlimentoElegible {
   return {
     ref: { tipo: 'catalog', id: f.id },
     nombre: f.nombre,
-    detalle: detalleDeCatalogo(f),
+    ...(f.marca ? { detalle: f.marca } : {}),
+    ...(f.categoria ? { categoria: f.categoria } : {}),
     ...(f.ml ? { ml: true as const } : {}),
     ...valoresDe(f),
   }

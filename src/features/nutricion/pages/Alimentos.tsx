@@ -14,17 +14,22 @@ import MacroInputs from '../components/MacroInputs'
 import PorcionesAlimento from '../components/PorcionesAlimento'
 import Disclosure from '../../../shared/components/Disclosure'
 import { filtrarAlimentos } from '../lib/alimentos'
+import { esCategoriaAlimento } from '../lib/catalogo/categorias'
+import { categoriasPresentes, filtrarPorCategoria, sinCategoria, type FiltroCategoria } from '../lib/repartoCategorias'
+import SelectorCategoria from '../components/SelectorCategoria'
+import IconoCategoria from '../components/IconoCategoria'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import Metric from '../../../shared/components/Metric'
 import Badge from '../../../shared/components/Badge'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
-import { Input, SearchInput } from '../../../shared/components/Input'
+import { Input, SearchInput, Select } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
 
-type FoodDraft = foodsRepo.FoodInput & { id?: number }
+/** Un alimento antiguo puede no tener categoría: el formulario la pide antes de guardar. */
+type FoodDraft = Omit<foodsRepo.FoodInput, 'categoria'> & { id?: number; categoria?: string }
 type Vista = 'alimentos' | 'plantillas' | 'recetas'
 
 const VISTAS: { valor: Vista; label: string }[] = [
@@ -36,6 +41,7 @@ const VISTAS: { valor: Vista; label: string }[] = [
 export default function Alimentos() {
   const [vista, setVista] = useState<Vista>('alimentos')
   const [busqueda, setBusqueda] = useState('')
+  const [filtro, setFiltro] = useState<FiltroCategoria>('todas')
   const [editando, setEditando] = useState<FoodDraft | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [plantillaEditando, setPlantillaEditando] = useState<Meal | null>(null)
@@ -46,7 +52,13 @@ export default function Alimentos() {
   const plantillas = useLiveQuery(() => mealsRepo.listar(), [])
   const { avisar, toast } = useAviso()
 
-  const filtrados = busqueda.trim() ? foods && filtrarAlimentos(foods, busqueda, Infinity) : foods
+  const porNombre = busqueda.trim() ? foods && filtrarAlimentos(foods, busqueda, Infinity) : foods
+  const pendientes = foods ? sinCategoria(foods).length : 0
+  const presentes = foods ? categoriasPresentes(foods) : []
+  // Al clasificar el último pendiente (o vaciar una categoría), ese filtro ya no tiene opción: se vuelve a «Todas».
+  const filtroDisponible = filtro === 'todas' || (filtro === 'sin' ? pendientes > 0 : presentes.some((p) => p.categoria === filtro))
+  const filtroVigente: FiltroCategoria = filtroDisponible ? filtro : 'todas'
+  const filtrados = porNombre && filtrarPorCategoria(porNombre, filtroVigente)
 
   function abrir(draft: FoodDraft | null) {
     setError(null)
@@ -55,8 +67,9 @@ export default function Alimentos() {
 
   async function guardar() {
     if (!editando) return
-    const { nombre, kcal100, prot100, carb100, grasa100, nutrientes } = editando
-    const datos: foodsRepo.FoodInput = { nombre: nombre.trim(), kcal100, prot100, carb100, grasa100, nutrientes, fuente: 'manual' }
+    const { nombre, kcal100, prot100, carb100, grasa100, nutrientes, categoria } = editando
+    if (!esCategoriaAlimento(categoria)) return
+    const datos: foodsRepo.FoodInput = { nombre: nombre.trim(), kcal100, prot100, carb100, grasa100, nutrientes, categoria, fuente: 'manual' }
     try {
       if (editando.id) {
         await foodsRepo.actualizar(editando.id, datos)
@@ -65,7 +78,7 @@ export default function Alimentos() {
       }
       abrir(null)
     } catch (e) {
-      setError(e instanceof foodsRepo.NombreDuplicadoError ? e.message : 'No se ha podido guardar el alimento.')
+      setError(e instanceof foodsRepo.NombreDuplicadoError || e instanceof foodsRepo.CategoriaRequeridaError ? e.message : 'No se ha podido guardar el alimento.')
     }
   }
 
@@ -103,12 +116,32 @@ export default function Alimentos() {
             </Button>
           </div>
 
-          {filtrados?.length === 0 && <EmptyState icon="utensils" title={busqueda.trim() ? 'Sin coincidencias' : 'Aún no hay alimentos'}>{busqueda.trim() ? 'Prueba con otro nombre.' : 'Los alimentos que crees o edites aparecerán aquí.'}</EmptyState>}
+          {foods && foods.length > 0 && (
+            <label className="block space-y-1">
+              <span className="block text-label text-fg-muted">Filtrar por categoría</span>
+              <Select tone="surface" value={filtroVigente} onChange={(e) => setFiltro(e.target.value as FiltroCategoria)}>
+                <option value="todas">Todas las categorías</option>
+                {pendientes > 0 && <option value="sin">Sin categoría ({formatInt(pendientes)})</option>}
+                {presentes.map(({ categoria, alimentos }) => <option key={categoria} value={categoria}>{categoria} ({formatInt(alimentos)})</option>)}
+              </Select>
+            </label>
+          )}
+          {pendientes > 0 && filtroVigente !== 'sin' && (
+            <div className="flex flex-wrap items-center justify-between gap-x-3">
+              <p className="flex min-w-0 items-start gap-2 text-body-sm text-warning"><Icon name="alert" size={16} className="mt-0.5" />
+                <span className="min-w-0">{pendientes === 1 ? '1 alimento sin categoría' : `${formatInt(pendientes)} alimentos sin categoría`}</span></p>
+              <Button variant="ghost" size="sm" className="-mr-3" onClick={() => setFiltro('sin')}>Revisar</Button>
+            </div>
+          )}
+          {filtroVigente === 'sin' && <p className="text-body-sm text-fg-muted">Abre cada alimento y elige su categoría. Al guardarlo sale de esta lista y su historial pasa a contar en esa categoría.</p>}
+
+          {filtrados?.length === 0 && <EmptyState icon="utensils" title={busqueda.trim() || filtroVigente !== 'todas' ? 'Sin coincidencias' : 'Aún no hay alimentos'}>{busqueda.trim() || filtroVigente !== 'todas' ? 'Prueba con otro nombre o con otra categoría.' : 'Los alimentos que crees o edites aparecerán aquí.'}</EmptyState>}
           {filtrados && filtrados.length > 0 && (
             <ListGroup aria-label="Tus alimentos">
               {filtrados.map((f) => (
-                <li key={f.id}>
-                  <ListRow onClick={() => abrir(f)}>
+                <li key={f.id} className="-ml-2 flex items-center gap-1">
+                  <IconoCategoria categoria={f.categoria} sinCategoria="aviso" />
+                  <ListRow onClick={() => abrir(f)} className="min-w-0 flex-1">
                     <div className="min-w-0 flex-1">
                       <p className="break-words text-body font-medium text-fg">{f.nombre}</p>
                       <p className="tabular text-caption text-fg-muted">
@@ -178,7 +211,7 @@ export default function Alimentos() {
                   Borrar
                 </Button>
               )}
-              <Button onClick={guardar} disabled={!editando.nombre.trim()} className="flex-1">
+              <Button onClick={guardar} disabled={!editando.nombre.trim() || !esCategoriaAlimento(editando.categoria)} className="flex-1">
                 Guardar
               </Button>
             </div></div>}>
@@ -189,6 +222,7 @@ export default function Alimentos() {
               onChange={(e) => setEditando({ ...editando, nombre: e.target.value })}
               placeholder="Nombre"
             /></label>
+            <SelectorCategoria valor={editando.categoria} onChange={(categoria) => setEditando({ ...editando, categoria })} />
             {recetaDelAlimento && <p className="text-body-sm text-fg-muted">Este alimento viene de la receta «{recetaDelAlimento.nombre}». Edítala en Recetas: guardar la receta recalcula estos valores.</p>}
             <MacroInputs detallado valores={editando} onChange={(patch) => setEditando({ ...editando, ...patch })} />
             {editando.id ? <Disclosure title="Raciones propias"><PorcionesAlimento refAlimento={`user:${editando.id}`} /></Disclosure>

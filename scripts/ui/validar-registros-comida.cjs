@@ -55,7 +55,7 @@ async function main() {
         await page.evaluate(async nombre => {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const d = await import('/src/shared/lib/dates.ts'); const fecha = d.todayISO()
-          const item = (nombre, gramos, kcal100, prot100, carb100, grasa100) => ({ nombre, gramos, kcal100, prot100, carb100, grasa100, fuenteSiNuevo: 'manual' })
+          const item = (nombre, gramos, kcal100, prot100, carb100, grasa100) => ({ nombre, gramos, kcal100, prot100, carb100, grasa100, fuenteSiNuevo: 'manual', categoria: 'Otros' })
           await r.guardarComida({ fecha, comida: 'desayuno', nombrePlato: nombre, items: [item('Café', 100, 2, 0, 0, 0), item('Leche', 100, 90, 5, 7, 5), item('Saladas', 30, 450, 20, 50, 20)] })
           await r.guardarComida({ fecha, comida: 'desayuno', items: [item('Bizcocho', 40, 435, 5, 50, 25)] })
           await r.anadirRapida({ fecha, comida: 'snack', nombre: 'Registro rápido de prueba', kcal: 80, prot: 3, carb: 10, grasa: 3 })

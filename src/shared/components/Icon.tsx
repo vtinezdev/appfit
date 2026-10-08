@@ -2,7 +2,7 @@ import type { SVGProps } from 'react'
 
 /**
  * Iconos propios (24×24, trazo 1.75, esquinas redondeadas): no hace falta ninguna librería para ~20 iconos.
- * Solo se añaden iconos con función (navegar, actuar, indicar estado), nunca decorativos.
+ * Solo se añaden iconos con función (navegar, actuar, indicar estado o una categoría de alimento), nunca decorativos.
  * Para cambiar el grosor de todo el set: `strokeWidth` de abajo.
  */
 const PATHS = {
@@ -37,6 +37,21 @@ const PATHS = {
   alert: 'M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 7.5v5.5M12 16.25v.01',
   info: 'M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 11v5.5M12 7.75v.01',
   barcode: 'M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 8v8M10.5 8v8M13.5 8v8M17 8v8',
+  // Familias de categorías de alimento (`nutricion/lib/iconosCategoria.ts`): sustituyen al nombre, que se ve al pulsar.
+  'cat-fruta': 'M12 8c-1.5-1.2-3.6-1.5-5.1-.5C4.7 9 4.4 12.6 5.9 16c1.2 2.8 3 4.5 4.6 4.5.6 0 1-.4 1.5-.4s.9.4 1.5.4c1.6 0 3.4-1.7 4.6-4.5 1.5-3.4 1.2-7-1-8.5-1.5-1-3.6-.7-5.1.5M12 8c0-2 .8-3.5 2.5-4.5',
+  'cat-verdura': 'M14.5 9.5c-1.5-1.5-3.8-1.4-5.3.1C6.8 12 4.6 17.4 5 19c1.6.4 7-1.8 9.4-4.2 1.5-1.5 1.6-3.8.1-5.3M14.5 9.5l1-5M14.5 9.5l5-1M14.5 9.5L18 6M8.5 14.5l1.5 1.5M11 12l1 1',
+  'cat-legumbre': 'M3.5 15.5C7 9.5 14.5 6.5 20.5 8c-2 6.5-11 10.5-17 7.5zM8 14a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0M12.2 12.3a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0',
+  'cat-cereal': 'M12 21V8M12 8c-1.8-.9-2.8-2.6-2.8-4.5 1.8.4 2.8 2.3 2.8 4.5zM12 8c1.8-.9 2.8-2.6 2.8-4.5-1.8.4-2.8 2.3-2.8 4.5zM12 13c-2.3-.4-3.8-2.2-3.8-4.2 2.3.3 3.8 1.9 3.8 4.2zM12 13c2.3-.4 3.8-2.2 3.8-4.2-2.3.3-3.8 1.9-3.8 4.2zM12 18c-2.3-.4-3.8-2.2-3.8-4.2 2.3.3 3.8 1.9 3.8 4.2zM12 18c2.3-.4 3.8-2.2 3.8-4.2-2.3.3-3.8 1.9-3.8 4.2z',
+  'cat-dulce': 'M5.5 11h13l-1.7 9H7.2zM5.5 11a3 3 0 0 1 1.3-5.4A4.5 4.5 0 0 1 12 3.5a4.5 4.5 0 0 1 5.2 2.1A3 3 0 0 1 18.5 11M10 11l.4 9M14 11l-.4 9',
+  'cat-carne': 'M14.8 3.5a5.7 5.7 0 1 1-1.6 11.2L9.6 18.3M14.8 3.5a5.7 5.7 0 0 0-5.5 7.1L5.7 14.2M5.7 14.2a1.8 1.8 0 1 0-1.4 3 1.8 1.8 0 1 0 2.5 2.5 1.8 1.8 0 1 0 2.8-1.4',
+  'cat-pescado': 'M2.5 8l3 4-3 4M5.5 12c2.5-4 6-6 9.5-6 3 0 5.5 2.5 6.5 6-1 3.5-3.5 6-6.5 6-3.5 0-7-2-9.5-6zM16.5 10.5v.01M12 9c.8 2 .8 4 0 6',
+  'cat-huevo': 'M12 3c-3.6 0-6.5 5.6-6.5 10.2a6.5 6.5 0 0 0 13 0C18.5 8.6 15.6 3 12 3z',
+  'cat-lacteo': 'M9 3h6M9 3v2.5L7 8.5V21h10V8.5l-2-3V3M7 12h10',
+  'cat-grasa': 'M12 3.5c-2.5 3.5-6 7.2-6 10.8a6 6 0 0 0 12 0c0-3.6-3.5-7.3-6-10.8zM9.5 15a2.5 2.5 0 0 0 2.5 2.5',
+  'cat-bebida': 'M5.5 4h13l-1.6 16H7.1zM6.2 10h11.6M14 4l2-2',
+  'cat-alcohol': 'M7.5 3h9v4.5a4.5 4.5 0 0 1-9 0zM12 12v8.5M8.5 20.5h7M7.5 7h9',
+  'cat-snack': 'M6.5 4l1.4 1.4L9.3 4l1.4 1.4L12 4l1.4 1.4L14.8 4l1.4 1.4L17.5 4M6.8 5.5l.7 14.5h9l.7-14.5M9 14.5c1.4-2.6 4.6-3.3 6.2-1.7-1 2.6-4.2 3.7-6.2 1.7z',
+  'cat-plato': 'M3.5 12h17a8.5 8.5 0 0 1-17 0zM9 9c-.6-1.1.6-2.2 0-3.5M12 9c-.6-1.1.6-2.2 0-3.5M15 9c-.6-1.1.6-2.2 0-3.5',
 } as const
 
 export type IconName = keyof typeof PATHS

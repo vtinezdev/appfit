@@ -19,6 +19,11 @@ export interface Food {
   carb100: number
   grasa100: number
   nutrientes?: NutrientesAdicionales
+  /**
+   * Una de las categorías de `nutricion/lib/catalogo/categorias.ts`. Obligatoria al crear desde la app;
+   * ausente solo en alimentos anteriores a las categorías (se revisan a mano en Alimentos).
+   */
+  categoria?: string
   fuente: FuenteAlimento
   updatedAt: number
 }

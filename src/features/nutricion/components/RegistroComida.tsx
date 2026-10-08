@@ -14,15 +14,18 @@ interface Props {
   abierto?: boolean
   detalleId?: string
   accion: ReactNode
+  /** Columna a la izquierda de la fila (el icono de categoría o su hueco). Va fuera del botón principal. */
+  icono?: ReactNode
   children?: ReactNode
 }
 
 /** Un registro tiene la misma jerarquía, sea alimento o plato; los ingredientes son filas interiores. */
-export default function RegistroComida({ tipo, nombre, nombreOriginal, detalle, macros, aproximado, onClick, abierto, detalleId, accion, children }: Props) {
+export default function RegistroComida({ tipo, nombre, nombreOriginal, detalle, macros, aproximado, onClick, abierto, detalleId, accion, icono, children }: Props) {
   const kcal = formatInt(macros.kcal)
   // Filas planas dentro de la superficie de la comida: el agrupamiento lo da la comida, no una caja por registro.
   return <div data-registro={tipo} className="food-record min-w-0">
     <div className="flex items-center gap-1 px-2 py-1">
+      {icono}
       <button type="button" onClick={onClick} aria-expanded={abierto} aria-controls={detalleId}
         className="food-record-button min-h-touch min-w-0 flex-1 rounded-sm px-1 py-2 text-left transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted">
         <span className="food-record-name flex min-w-0 items-start gap-1">

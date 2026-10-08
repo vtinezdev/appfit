@@ -117,7 +117,7 @@ async function main() {
           const s = await import('/src/shared/db/settings.ts'); await s.ensureSettings()
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const d = await import('/src/shared/lib/dates.ts')
-          await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [{ nombre: 'Alimento de prueba', gramos: 100, kcal100: 113, prot100: 6, carb100: 9, grasa100: 6, fuenteSiNuevo: 'manual' }] })
+          await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [{ nombre: 'Alimento de prueba', gramos: 100, kcal100: 113, prot100: 6, carb100: 9, grasa100: 6, fuenteSiNuevo: 'manual', categoria: 'Otros' }] })
         })
         const antes = await backup(page)
         let menu = await abrir(page, 'Inicio')

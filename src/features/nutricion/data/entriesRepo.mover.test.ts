@@ -9,8 +9,8 @@ async function preparar() {
   const ids = await repo.guardarComida({
     fecha: '2026-10-04', comida: 'cena', nombrePlato: 'Arroz con pollo',
     items: [
-      { nombre: 'Arroz', gramos: 150, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, sal: 0 }, catalogId: 'ciqual:1', fuenteSiNuevo: 'manual' },
-      { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, nutrientes: { agSat: 1 }, fuenteSiNuevo: 'manual' },
+      { nombre: 'Arroz', gramos: 150, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, sal: 0 }, catalogId: 'ciqual:1', fuenteSiNuevo: 'manual', categoria: 'Otros' },
+      { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, nutrientes: { agSat: 1 }, fuenteSiNuevo: 'manual', categoria: 'Otros' },
     ],
   })
   const antes = await db.entries.toArray()
@@ -92,7 +92,7 @@ describe('movimiento del plato completo', () => {
 
   it('si se añaden ingredientes durante el gesto exige volver a elegir el plato', async () => {
     const { input } = await preparar()
-    await repo.guardarComida({ fecha: input.fecha, comida: input.origen, platoDestinoId: input.platoId, items: [{ nombre: 'Tomate', gramos: 50, kcal100: 20, prot100: 1, carb100: 4, grasa100: 0, fuenteSiNuevo: 'manual' }] })
+    await repo.guardarComida({ fecha: input.fecha, comida: input.origen, platoDestinoId: input.platoId, items: [{ nombre: 'Tomate', gramos: 50, kcal100: 20, prot100: 1, carb100: 4, grasa100: 0, fuenteSiNuevo: 'manual', categoria: 'Otros' }] })
     const antes = await db.entries.toArray()
     await expect(repo.moverPlato(input)).rejects.toThrow(/ha cambiado/)
     expect(await db.entries.toArray()).toEqual(antes)

@@ -96,6 +96,7 @@ async function main() {
         await page.getByRole('tab', { name: 'Alimentos', exact: true }).click()
         await page.getByRole('button', { name: 'Nuevo', exact: true }).click()
         await page.getByRole('textbox', { name: 'Nombre del alimento', exact: true }).fill('Alimento de prueba')
+        await page.getByRole('combobox', { name: 'Categoría', exact: true }).selectOption('Otros')
         for (const [name, value] of [['Kcal/100g', '100'], ['Prot/100g', '5'], ['Carb/100g', '10'], ['Grasa/100g', '4'], ['Fibra/100g', '2'], ['Azúcares/100g', '0'], ['Sal/100g', '0.15'], ['Grasas saturadas/100g', '1']]) {
           await page.getByRole('spinbutton', { name, exact: true }).fill(value)
         }

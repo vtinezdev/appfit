@@ -2,6 +2,7 @@
 // Sin acceso a disco ni a red: el CLI (`ciqual.ts`) lee/escribe; aquí solo se transforma.
 // Se ejecuta con el type stripping de Node: solo sintaxis borrable e imports con extensión `.ts`.
 import type { AlimentoCalidad } from './calidad.ts'
+import { CATEGORIAS_ALIMENTO, type CategoriaAlimento } from '../../src/features/nutricion/lib/catalogo/categorias.ts'
 
 // ───────────────────────── Tipos ─────────────────────────
 
@@ -201,40 +202,10 @@ export function localizarConstituyentes(consts: Constituyente[]): Record<ClaveLe
 
 // ───────────────────────── Categorías ─────────────────────────
 
-/** Categorías AppFit (las comparten CIQUAL y Open Food Facts). Solo sirven para ordenar y mantener: no hay filtro en la UI. */
-export const CATEGORIAS_APPFIT = [
-  'Frutas',
-  'Verduras y hortalizas',
-  'Patatas y tubérculos',
-  'Legumbres',
-  'Frutos secos y semillas',
-  'Cereales, arroz y pasta',
-  'Pan y tostadas',
-  'Cereales de desayuno y barritas',
-  'Galletas, bollería y pasteles',
-  'Carnes',
-  'Embutidos y fiambres',
-  'Pescados',
-  'Mariscos',
-  'Huevos',
-  'Leche y nata',
-  'Yogures y postres lácteos',
-  'Quesos',
-  'Bebidas vegetales',
-  'Alternativas vegetales',
-  'Aceites y grasas',
-  'Salsas y condimentos',
-  'Dulces y chocolate',
-  'Helados',
-  'Bebidas',
-  'Bebidas alcohólicas',
-  'Snacks salados',
-  'Platos preparados',
-  'Alimentos infantiles',
-  'Otros',
-] as const
+/** Categorías AppFit (las comparten CIQUAL, Open Food Facts y los alimentos propios). La lista vive en la app. */
+export const CATEGORIAS_APPFIT = CATEGORIAS_ALIMENTO
 
-export type CategoriaAppfit = (typeof CATEGORIAS_APPFIT)[number]
+export type CategoriaAppfit = CategoriaAlimento
 
 /**
  * Categoría por código de CIQUAL. Gana el más específico: sub-subgrupo (6 cifras) > subgrupo (4) > grupo (2).

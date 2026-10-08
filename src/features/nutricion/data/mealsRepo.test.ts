@@ -4,7 +4,7 @@ import * as entriesRepo from './entriesRepo'
 import * as foodsRepo from './foodsRepo'
 import * as mealsRepo from './mealsRepo'
 
-const POLLO: foodsRepo.FoodInput = { nombre: 'Pollo', kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuente: 'gemini' }
+const POLLO: foodsRepo.FoodInput = { nombre: 'Pollo', kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuente: 'gemini', categoria: 'Carnes' }
 
 beforeEach(async () => {
   await Promise.all(db.tables.map((t) => t.clear()))
@@ -66,7 +66,7 @@ describe('mealsRepo.actualizar / borrar (gestión en Alimentos)', () => {
 
 describe('mealsRepo.aplicar (A1)', () => {
   it('cada aplicación conserva sus platos y no se mezcla con las anteriores', async () => {
-    const item = { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual' as const }
+    const item = { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual' as const, categoria: 'Otros' }
     await entriesRepo.guardarComida({ fecha: '2026-10-01', comida: 'cena', items: [item, { ...item, nombre: 'Arroz' }], nombrePlato: 'Plato A' })
     await entriesRepo.guardarComida({ fecha: '2026-10-01', comida: 'cena', items: [item, { ...item, nombre: 'Patatas' }], nombrePlato: 'Plato B' })
     const entries = await entriesRepo.delDia('2026-10-01')

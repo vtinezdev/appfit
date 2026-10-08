@@ -6,13 +6,14 @@ import { normalizarGtin } from '../../../../shared/db/foodRef'
 import type { CatalogFood } from '../../../../shared/db/types'
 import * as catalogRepo from '../../data/catalogRepo'
 import type { Por100 } from '../alimentos'
+import type { CategoriaAlimento } from '../catalogo/categorias'
 import { CAMPOS_OFF, FUENTE_OFF, mapearProducto } from './mapearProducto'
 
 export const ESPERA_MAXIMA_MS = 10_000
 
 export type ResultadoProducto =
   | { tipo: 'encontrado'; food: CatalogFood }
-  | { tipo: 'incompleto'; gtin: string; nombre: string; marca?: string; valores: Partial<Por100> }
+  | { tipo: 'incompleto'; gtin: string; nombre: string; marca?: string; valores: Partial<Por100>; categoria?: CategoriaAlimento }
   | { tipo: 'no-encontrado'; gtin: string }
   | { tipo: 'codigo-invalido' }
   | { tipo: 'error'; mensaje: string }
@@ -35,6 +36,21 @@ export function mensajeErrorOff(e: unknown, enLinea: boolean): string {
   return 'No se pudo consultar Open Food Facts. Inténtalo de nuevo más tarde.'
 }
 
+/**
+ * Un producto escaneado antes de que hubiera categorías se vuelve a pedir a OFF (con conexión) para guardarlo ya
+ * clasificado. Si la consulta falla o el producto ya no está completo, sirve la copia del dispositivo.
+ */
+async function conCategoria(guardado: CatalogFood, gtin: string, deps: DependenciasProducto): Promise<CatalogFood> {
+  try {
+    const producto = mapearProducto(await deps.descargar(gtin), gtin, deps.ahora())
+    if (producto.tipo !== 'completo') return guardado
+    await deps.guardar(producto.food)
+    return producto.food
+  } catch {
+    return guardado
+  }
+}
+
 export function crearBuscadorProducto(deps: DependenciasProducto): (codigo: string) => Promise<ResultadoProducto> {
   return async (codigo) => {
     const gtin = normalizarGtin(codigo)
@@ -43,7 +59,10 @@ export function crearBuscadorProducto(deps: DependenciasProducto): (codigo: stri
       const guardados = await deps.buscarEnDispositivo(gtin)
       // Si hay varios con el mismo código (otra fuente también lo trae), primero el de OFF.
       const enDispositivo = guardados.find((f) => f.fuente === FUENTE_OFF) ?? guardados[0]
-      if (enDispositivo) return { tipo: 'encontrado', food: enDispositivo }
+      if (enDispositivo) {
+        if (enDispositivo.fuente !== FUENTE_OFF || enDispositivo.categoria || !deps.enLinea()) return { tipo: 'encontrado', food: enDispositivo }
+        return { tipo: 'encontrado', food: await conCategoria(enDispositivo, gtin, deps) }
+      }
 
       const producto = mapearProducto(await deps.descargar(gtin), gtin, deps.ahora())
       switch (producto.tipo) {
@@ -51,7 +70,7 @@ export function crearBuscadorProducto(deps: DependenciasProducto): (codigo: stri
           await deps.guardar(producto.food)
           return { tipo: 'encontrado', food: producto.food }
         case 'incompleto':
-          return { tipo: 'incompleto', gtin, nombre: producto.nombre, ...(producto.marca ? { marca: producto.marca } : {}), valores: producto.valores }
+          return { tipo: 'incompleto', gtin, nombre: producto.nombre, ...(producto.marca ? { marca: producto.marca } : {}), valores: producto.valores, ...(producto.categoria ? { categoria: producto.categoria } : {}) }
         case 'no-encontrado':
           return { tipo: 'no-encontrado', gtin }
       }

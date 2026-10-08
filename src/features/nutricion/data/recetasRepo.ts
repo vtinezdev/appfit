@@ -4,6 +4,7 @@
 import { db } from '../../../shared/db/db'
 import type { MealItem, Receta } from '../../../shared/db/types'
 import { normalizeName } from '../../../shared/lib/text'
+import { esCategoriaAlimento, type CategoriaAlimento } from '../lib/catalogo/categorias'
 import { por100DeReceta, validarReceta } from '../lib/recetas'
 import { NombreDuplicadoError } from './foodsRepo'
 
@@ -11,7 +12,12 @@ export interface RecetaInput {
   nombre: string
   ingredientes: MealItem[]
   pesoCocinadoG: number
+  /** Categoría del alimento de la receta. Se guarda solo en el `Food` (es su única fuente). */
+  categoria: CategoriaAlimento
 }
+
+/** Categoría que se propone para una receta nueva o para una cuyo alimento aún no tiene. */
+export const CATEGORIA_RECETA_POR_DEFECTO: CategoriaAlimento = 'Platos preparados'
 
 /** La receta no es válida (nombre, ingredientes o peso). El mensaje se puede mostrar tal cual. */
 export class RecetaInvalidaError extends Error {}
@@ -26,11 +32,11 @@ export function obtener(id: number): Promise<Receta | undefined> {
 
 function valoresFood(datos: RecetaInput) {
   const v = por100DeReceta(datos.ingredientes, datos.pesoCocinadoG)
-  return { kcal100: v.kcal100, prot100: v.prot100, carb100: v.carb100, grasa100: v.grasa100, ...(v.nutrientes ? { nutrientes: v.nutrientes } : {}) }
+  return { kcal100: v.kcal100, prot100: v.prot100, carb100: v.carb100, grasa100: v.grasa100, ...(v.nutrientes ? { nutrientes: v.nutrientes } : {}), categoria: datos.categoria }
 }
 
 function validar(datos: RecetaInput) {
-  const error = validarReceta(datos.nombre, datos.ingredientes, datos.pesoCocinadoG)
+  const error = validarReceta(datos.nombre, datos.ingredientes, datos.pesoCocinadoG) ?? (esCategoriaAlimento(datos.categoria) ? null : 'Elige una categoría para la receta.')
   if (error) throw new RecetaInvalidaError(error)
 }
 
@@ -47,8 +53,13 @@ export async function crear(datos: RecetaInput): Promise<number> {
   })
 }
 
+/** Categoría actual del alimento de la receta (o `undefined` si no tiene o se borró). Solo lectura. */
+export async function categoriaDe(receta: Pick<Receta, 'foodId'>): Promise<string | undefined> {
+  return (await db.foods.get(receta.foodId))?.categoria
+}
+
 /**
- * Actualiza la receta y su alimento (nombre y valores por 100 g). Las entradas ya guardadas conservan su snapshot.
+ * Actualiza la receta y su alimento (nombre, categoría y valores por 100 g). Las entradas ya guardadas conservan su snapshot.
  * Si el alimento se borró desde Alimentos, se vuelve a crear y la receta lo recupera.
  */
 export async function actualizar(id: number, datos: RecetaInput): Promise<void> {

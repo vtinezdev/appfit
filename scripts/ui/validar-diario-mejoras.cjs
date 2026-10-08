@@ -83,8 +83,8 @@ async function main() {
           const d = await import('/src/shared/lib/dates.ts')
           const fecha = d.todayISO()
           await r.guardarComida({ fecha, comida: 'cena', nombrePlato: nombre, items: [
-            { nombre: 'Arroz', gramos: 150, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, azucares: 2, sal: 0, agSat: 0.2 }, fuenteSiNuevo: 'manual' },
-            { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, nutrientes: { fibra: 0, azucares: 0, sal: 1.2, agSat: 1 }, fuenteSiNuevo: 'manual' },
+            { nombre: 'Arroz', gramos: 150, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, azucares: 2, sal: 0, agSat: 0.2 }, fuenteSiNuevo: 'manual', categoria: 'Otros' },
+            { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, nutrientes: { fibra: 0, azucares: 0, sal: 1.2, agSat: 1 }, fuenteSiNuevo: 'manual', categoria: 'Otros' },
           ] })
           await r.anadirRapida({ fecha, comida: 'desayuno', nombre: 'Alimento suelto sin datos adicionales', kcal: 80, prot: 0, carb: 0, grasa: 0 })
         }, nombre)

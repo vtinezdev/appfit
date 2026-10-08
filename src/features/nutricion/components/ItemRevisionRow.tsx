@@ -14,6 +14,8 @@ import MacroInputs from './MacroInputs'
 import { sugerirNombreCorto } from '../lib/nombresCortos'
 import NutrientesDetalle from './NutrientesDetalle'
 import UnidadRacion from './UnidadRacion'
+import SelectorCategoria from './SelectorCategoria'
+import IconoCategoria from './IconoCategoria'
 
 interface Props {
   item: ItemRevision
@@ -24,6 +26,8 @@ interface Props {
   nombreCorto?: string
   onCambioNombreCorto?: (editando: boolean) => void
   nombreCortoBloqueado?: boolean
+  /** El ítem creará un alimento propio: se muestra (y exige) su categoría. */
+  pedirCategoria?: boolean
 }
 function textoProcedencia(item: ItemRevision): string | undefined {
   switch (procedencia(item)) {
@@ -47,7 +51,7 @@ function SelectorMedida({ medida, onElegir }: { medida: MedidaAmbigua; onElegir:
   )
 }
 /** Revisión rápida: alimento completo, cantidad y aporte; edición avanzada bajo demanda. */
-export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado }: Props) {
+export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado, pedirCategoria }: Props) {
   const aporte = macrosPorGramos(item, item.gramos)
   const kcal = Math.round(aporte.kcal)
   const sinNombre = !item.nombre.trim()
@@ -66,6 +70,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
   return (
     <Card className="space-y-3">
       <div className="flex items-start justify-between gap-2">
+        {!pedirCategoria && <span className="-ml-3 -mt-2"><IconoCategoria categoria={item.categoria} /></span>}
         <div className="min-w-0 flex-1">
           <h3 className="break-words text-body font-semibold text-fg">{item.nombre || 'Alimento sin nombre'}</h3>
           {etiqueta && <p className="mt-1 text-caption text-fg-muted">{etiqueta}</p>}
@@ -80,6 +85,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
         </div>
       )}
       {!medidaPendiente(item) && !item.sinCoincidencia && <UnidadRacion item={item} onChange={onChange} />}
+      {pedirCategoria && <SelectorCategoria valor={item.categoria} onChange={(categoria) => onChange({ categoria })} />}
       {item.sinCoincidencia && <Aviso>No encontrado: busca con «Cambiar» o escribe los valores por 100 g.</Aviso>}
       {item.datosIncompletos && <Aviso>Faltan datos: completa el nombre y los valores de la etiqueta.</Aviso>}
       {item.gramosEstimados && <Aviso>Cantidad estimada: revisa los gramos.</Aviso>}

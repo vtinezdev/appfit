@@ -1,7 +1,8 @@
 // Acceso a la tabla `foods`. Con entriesRepo, mealsRepo, catalogRepo y notasMedidaRepo, es lo único de Nutrición que toca `db.*`.
 // Las funciones de lectura no escriben nunca, así que se pueden usar dentro de un useLiveQuery.
 import { db } from '../../../shared/db/db'
-import type { Comida, Food } from '../../../shared/db/types'
+import { claveRef, refDe, type FoodRef } from '../../../shared/db/foodRef'
+import type { Comida, Entry, Food } from '../../../shared/db/types'
 import { addDays } from '../../../shared/lib/dates'
 import { normalizeName } from '../../../shared/lib/text'
 import {
@@ -15,9 +16,24 @@ import {
   type ItemGuardado,
 } from '../lib/alimentos'
 import * as catalogRepo from './catalogRepo'
+import { esCategoriaAlimento, type CategoriaAlimento } from '../lib/catalogo/categorias'
 import { escalarNutrientes } from '../lib/nutrientes'
 
-export type FoodInput = Omit<Food, 'id' | 'nombreNorm' | 'updatedAt'>
+/** Al crear, la categoría es obligatoria. */
+export type FoodInput = Omit<Food, 'id' | 'nombreNorm' | 'updatedAt' | 'categoria'> & { categoria: CategoriaAlimento }
+/** Al actualizar, sin `categoria` se conserva la que tenga (p. ej. al aplicar a un alimento los valores editados en una entrada). */
+export type FoodUpdate = Omit<FoodInput, 'categoria'> & { categoria?: CategoriaAlimento }
+
+/** Un alimento propio nuevo necesita una de las categorías de la lista. El mensaje se puede mostrar tal cual. */
+export class CategoriaRequeridaError extends Error {
+  constructor(nombre: string) {
+    super(`Elige una categoría para «${nombre}».`)
+  }
+}
+
+function exigirCategoria(nombre: string, categoria: unknown): asserts categoria is CategoriaAlimento {
+  if (!esCategoriaAlimento(categoria)) throw new CategoriaRequeridaError(nombre)
+}
 
 /** Ya existe otro alimento con el mismo nombre normalizado (el índice `&nombreNorm` es único). */
 export class NombreDuplicadoError extends Error {
@@ -97,8 +113,9 @@ export async function porIds(ids: number[]): Promise<Map<number, Food>> {
   return new Map(encontrados.map((f) => [f.id, f]))
 }
 
-/** Lanza `NombreDuplicadoError` si ya hay un alimento con ese nombre. */
+/** Lanza `NombreDuplicadoError` si ya hay un alimento con ese nombre y `CategoriaRequeridaError` si falta la categoría. */
 export async function crear(datos: FoodInput): Promise<number> {
+  exigirCategoria(datos.nombre, datos.categoria)
   try {
     return await db.foods.add({ ...datos, nombreNorm: normalizeName(datos.nombre), updatedAt: Date.now() })
   } catch (e) {
@@ -107,13 +124,17 @@ export async function crear(datos: FoodInput): Promise<number> {
   }
 }
 
-/** Recalcula `nombreNorm` si cambia el nombre. Lanza `NombreDuplicadoError` si choca con otro alimento. */
-export function actualizar(id: number, datos: FoodInput): Promise<void> {
+/**
+ * Recalcula `nombreNorm` si cambia el nombre. Lanza `NombreDuplicadoError` si choca con otro alimento.
+ * Sin `categoria` conserva la actual; con ella, tiene que ser válida (`CategoriaRequeridaError`).
+ */
+export async function actualizar(id: number, { categoria, ...datos }: FoodUpdate): Promise<void> {
+  if (categoria !== undefined) exigirCategoria(datos.nombre, categoria)
   const nombreNorm = normalizeName(datos.nombre)
   return db.transaction('rw', db.foods, async () => {
     const otro = await db.foods.where('nombreNorm').equals(nombreNorm).first()
     if (otro && otro.id !== id) throw new NombreDuplicadoError(datos.nombre)
-    await db.foods.update(id, { ...datos, nombreNorm, updatedAt: Date.now() })
+    await db.foods.update(id, { ...datos, ...(categoria ? { categoria } : {}), nombreNorm, updatedAt: Date.now() })
   })
 }
 
@@ -141,18 +162,49 @@ export async function restaurar(food: Food): Promise<void> {
 
 /**
  * Devuelve el id del alimento para guardar `item`, buscándolo por nombre (ver `decidirGuardado`).
- * Se llama siempre desde dentro de una transacción de entriesRepo.
+ * Se llama siempre desde dentro de una transacción de entriesRepo. Crear exige la categoría del ítem
+ * (`CategoriaRequeridaError`); si se reutiliza o actualiza un alimento antiguo sin categoría, recibe la del ítem.
  */
 export async function resolverParaGuardar(item: ItemGuardado): Promise<number> {
   const existente = await buscarPorNombre(item.nombre)
   const valores = { kcal100: item.kcal100, prot100: item.prot100, carb100: item.carb100, grasa100: item.grasa100, nutrientes: escalarNutrientes(item.nutrientes) }
-  switch (decidirGuardado(existente, item)) {
-    case 'crear':
-      return db.foods.add({ nombreNorm: normalizeName(item.nombre), nombre: item.nombre, ...valores, fuente: item.fuenteSiNuevo, updatedAt: Date.now() })
-    case 'reutilizar':
-      return existente!.id
-    case 'actualizar':
-      await db.foods.update(existente!.id, { ...valores, fuente: 'manual', updatedAt: Date.now() })
-      return existente!.id
+  const decision = decidirGuardado(existente, item)
+  if (decision === 'crear') {
+    exigirCategoria(item.nombre, item.categoria)
+    return db.foods.add({ nombreNorm: normalizeName(item.nombre), nombre: item.nombre, ...valores, categoria: item.categoria, fuente: item.fuenteSiNuevo, updatedAt: Date.now() })
   }
+  const completarCategoria = !esCategoriaAlimento(existente!.categoria) && esCategoriaAlimento(item.categoria) ? { categoria: item.categoria } : {}
+  if (decision === 'reutilizar') {
+    if (completarCategoria.categoria) await db.foods.update(existente!.id, completarCategoria)
+  } else {
+    await db.foods.update(existente!.id, { ...valores, ...completarCategoria, fuente: 'manual', updatedAt: Date.now() })
+  }
+  return existente!.id
+}
+
+/**
+ * Categoría actual de cada alimento referenciado por las entradas, por `claveRef`: la del alimento propio o la del
+ * catálogo. No es un snapshot: cambiar la categoría de un alimento reclasifica su historial. Faltan las rápidas, los
+ * alimentos borrados y los que no tienen categoría. Solo lectura: se puede usar en un liveQuery.
+ */
+export async function categoriasDeEntradas(entries: Pick<Entry, 'foodId' | 'catalogId' | 'rapida'>[]): Promise<Map<string, string>> {
+  const refs = new Map<string, FoodRef>()
+  for (const e of entries) {
+    if (e.rapida) continue
+    try {
+      const ref = refDe(e)
+      if (ref) refs.set(claveRef(ref), ref)
+    } catch {
+      // Una entrada que incumple el invariante de `foodRef` se queda sin categoría.
+    }
+  }
+  const idsUsuario = [...refs.values()].flatMap((r) => (r.tipo === 'user' ? [r.id] : []))
+  const idsCatalogo = [...refs.values()].flatMap((r) => (r.tipo === 'catalog' ? [r.id] : []))
+  const [propios, delCatalogo] = await Promise.all([porIds(idsUsuario), catalogRepo.porIds(idsCatalogo)])
+  const categorias = new Map<string, string>()
+  for (const [clave, ref] of refs) {
+    const categoria = ref.tipo === 'user' ? propios.get(ref.id)?.categoria : delCatalogo.get(ref.id)?.categoria
+    if (categoria) categorias.set(clave, categoria)
+  }
+  return categorias
 }
