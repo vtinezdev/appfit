@@ -20,6 +20,7 @@ import { LoadingState } from '../../../shared/components/StateMessage'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import NutrientesDetalle from '../components/NutrientesDetalle'
 import MoverPlatoSheet from '../components/MoverPlatoSheet'
+import RepetirComidaSheet from '../components/RepetirComidaSheet'
 import { COMIDAS, esComida, nombreComida } from '../lib/comidas'
 import { colisionesComidas, crearCoordenadasComidas, limitarCopiaAlViewport } from '../lib/arrastrePlatos'
 import { PlatoPointerSensor } from '../lib/PlatoPointerSensor'
@@ -51,7 +52,8 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   const [copiarDia, setCopiarDia] = useState<{ fechaDestino: string } | null>(null)
   const [copiandoDia, setCopiandoDia] = useState(false)
   const [errorCopia, setErrorCopia] = useState<string | null>(null)
-  const [repitiendo, setRepitiendo] = useState<Comida | null>(null)
+  const [repetir, setRepetir] = useState<Comida | null>(null)
+  const entriesRepetir = useMemo(() => (entriesAyer ?? []).filter((e) => e.comida === repetir), [entriesAyer, repetir])
   const [accionesComida, setAccionesComida] = useState<{ comida: Comida; plato?: { id: string; nombre: string } } | null>(null)
   const [platoMover, setPlatoMover] = useState<Plato | null>(null)
   const [platoArrastrado, setPlatoArrastrado] = useState<Plato | null>(null)
@@ -144,18 +146,12 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
     avisar({ mensaje: `Plantilla «${nombre}» guardada` })
   }
 
-  async function repetirDeAyer(c: Comida) {
-    if (repitiendo) return
-    setRepitiendo(c)
-    try {
-      const ids = await entriesRepo.copiar({ origen: { fecha: ayer, comida: c }, destino: { fecha, comida: c } })
-      void congelarObjetivoDia(fecha)
-      avisarCopia(ids)
-    } catch {
-      avisarError('No se ha podido repetir la comida. Inténtalo de nuevo.')
-    } finally {
-      setRepitiendo(null)
-    }
+  /** Repetir con selección: copia las entradas elegidas de la comida del día anterior. */
+  async function repetirDeAyer(ids: number[]) {
+    if (!repetir) return
+    const nuevos = await entriesRepo.copiar({ origen: { fecha: ayer, comida: repetir, ids }, destino: { fecha, comida: repetir } })
+    void congelarObjetivoDia(fecha)
+    avisarCopia(nuevos)
   }
 
   const cargado = entries && vigentes
@@ -237,9 +233,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
                 }}
                 onAnadir={() => onAnadir(c)}
                 disponiblesAyer={porComidaAyer.get(c) ?? 0}
-                onRepetir={() => repetirDeAyer(c)}
-                ocupado={repitiendo !== null}
-                repitiendo={repitiendo === c}
+                onRepetir={() => setRepetir(c)}
               />
             ))}
           </div>
@@ -254,6 +248,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
       )}
 
       {toast}
+      <RepetirComidaSheet comida={repetir} fechaOrigen={ayer} entries={entriesRepetir} onRepetir={repetirDeAyer} onClose={() => setRepetir(null)} />
       <MoverPlatoSheet plato={platoMover} moviendo={moviendo} error={errorMover} onMover={mover} onClose={() => setPlatoMover(null)} />
 
       <CopiarDiaSheet
