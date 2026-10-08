@@ -55,7 +55,8 @@ interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 
   icon: IconName
   /** Obligatorio: es el nombre accesible y el tooltip. */
   label: string
-  variant?: 'secondary' | 'primary' | 'ghost'
+  /** `tonal`: fondo gris suave sin acento, para una acción repetida que debe verse (el «+» de cada comida). */
+  variant?: 'secondary' | 'primary' | 'ghost' | 'tonal'
   /** Zona real de 44 px para sm/md, 48 px para lg; solo cambia el tamaño del icono. */
   size?: 'sm' | 'md' | 'lg'
 }
@@ -65,7 +66,9 @@ const ICON_SIZE = { sm: 18, md: 20, lg: 24 }
 
 /** Botón solo-icono. */
 export function IconButton({ icon, label, variant = 'secondary', size = 'md', className = '', type = 'button', ...rest }: IconButtonProps) {
-  const v = variant === 'ghost' ? 'text-fg-muted hover:bg-surface-muted hover:text-fg' : VARIANTS[variant]
+  const v = variant === 'ghost' ? 'text-fg-muted hover:bg-surface-muted hover:text-fg'
+    : variant === 'tonal' ? 'bg-fg/10 text-fg hover:bg-fg/15' // velo del texto: se ve igual sobre la página que dentro de una card
+    : VARIANTS[variant]
   return (
     <button
       type={type}

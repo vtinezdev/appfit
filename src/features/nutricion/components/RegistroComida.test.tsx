@@ -17,10 +17,10 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(base.kcal).toBe(174.4)
   })
 
-  function seccion(entries: Entry[], categorias: ReadonlyMap<string, string> = new Map()) {
+  function seccion(entries: Entry[], categorias: ReadonlyMap<string, string> = new Map(), repetir: { disponiblesAyer?: number; repitiendo?: boolean } = {}) {
     return renderToStaticMarkup(<ComidaSection comida="desayuno" titulo="Desayuno" entries={entries} nombresCortos={new Map()} categorias={categorias}
       onAcciones={noop} onEditar={noop} onBorrar={noop} onBorrarPlato={noop} onEditarPlato={noop} onAccionesPlato={noop} onMoverPlato={noop}
-      moviendo={false} onAnadir={noop} disponiblesAyer={0} onRepetir={noop} ocupado={false} repitiendo={false} />)
+      moviendo={false} onAnadir={noop} disponiblesAyer={repetir.disponiblesAyer ?? 0} onRepetir={noop} ocupado={false} repitiendo={repetir.repitiendo ?? false} />)
   }
   it('plato y alimento permanecen registros independientes y las acciones se consultan bajo demanda', () => {
     const html = seccion([{ ...base, platoId: 'p', nombrePlato: 'Café + Leche' }, { ...base, id: 2, nombre: 'Leche', platoId: 'p' }, { ...base, id: 3, nombre: 'Bizcocho' }])
@@ -52,5 +52,20 @@ describe('registros de comida de una misma jerarquía', () => {
     const html = seccion([{ ...base, foodId: 3 }, { ...base, id: 2, catalogId: 'ciqual:9' }], new Map([['user:3', 'Bebidas']]))
     expect(html.match(/aria-label="Categoría: Bebidas"/g)).toHaveLength(1)
     expect(html.match(/aria-label="Categoría: /g)).toHaveLength(1)
+  })
+
+  it.each([[[] as Entry[]], [[base]]])('Añadir y Repetir son iconos con su nombre completo y el número de ayer (%#)', entries => {
+    const html = seccion(entries, new Map(), { disponiblesAyer: 3 })
+    expect(html).toContain('aria-label="Añadir a desayuno"')
+    expect(html).toContain('aria-label="Repetir desayuno del día anterior (3 alimentos)"')
+    expect(html).toMatch(/aria-hidden="true"[^>]*>3<\/span>/)
+    expect(seccion(entries, new Map(), { disponiblesAyer: 1 })).toContain('(1 alimento)')
+    expect(seccion(entries)).not.toContain('Repetir')
+  })
+  it('mientras repite, Repetir anuncia el progreso y oculta el número', () => {
+    const html = seccion([], new Map(), { disponiblesAyer: 3, repitiendo: true })
+    expect(html).toContain('aria-label="Repitiendo desayuno del día anterior…"')
+    expect(html).toContain('aria-busy="true"')
+    expect(html).not.toMatch(/>3<\/span>/)
   })
 })

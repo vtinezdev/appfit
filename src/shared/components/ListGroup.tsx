@@ -10,7 +10,7 @@ interface Props {
 }
 
 const VARIANTES = {
-  agrupada: 'app-list-group rounded-lg bg-surface px-3 shadow-card',
+  agrupada: 'app-list-group rounded-lg border border-transparent bg-surface px-3 shadow-card', // el borde solo se ve en oscuro (tokens.css)
   plana: 'border-y border-line',
 }
 

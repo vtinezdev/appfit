@@ -34,8 +34,10 @@ const rootLight = parse(block(':root {'))
 const rootDark = parse(block(":root[data-theme='dark'] {"))
 const inverseLight = parse(block("[data-surface='inverse'] {"))
 const inverseDark = parse(block(":root[data-theme='dark'] [data-surface='inverse']"))
+const cardDark = parse(block(":root[data-theme='dark'] :is(.app-card"))
 const light = resolve(rootLight)
 const dark = resolve(rootLight, rootDark)
+const cardOscura = resolve(rootLight, rootDark, cardDark)
 const inverse = resolve(rootLight, inverseLight)
 const inverseOscuro = resolve(rootLight, rootDark, inverseLight, inverseDark)
 
@@ -147,7 +149,7 @@ const TEXT_INVERSE: [string, string][] = [
   ['accent-strong', 'surface'], ['destructive', 'surface'],
 ]
 
-describe.each([['claro', light], ['oscuro', dark]])('contraste (%s)', (_name, t) => {
+describe.each([['claro', light], ['oscuro', dark], ['card en oscuro', cardOscura]])('contraste (%s)', (_name, t) => {
   it.each(TEXT)('%s sobre %s ≥ 4.5', (fg, bg) => expect(ratio(t[fg], t[bg])).toBeGreaterThanOrEqual(4.5))
   it.each(FILLS)('%s sobre surface ≥ 3 (relleno)', (k) => expect(ratio(t[k], t.surface)).toBeGreaterThanOrEqual(3))
   it.each(['protein', 'carbs', 'fat'])('%s como texto sobre todas las superficies ≥ 4.5', k => {
