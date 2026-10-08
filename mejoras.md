@@ -4,10 +4,16 @@ Plan de trabajo · 8 de octubre de 2026.
 
 Estado: implementación por pasos; implementadas las diez mejoras del alcance inicial. Validación y decisiones de ejecución en ADR 025/026. Base revisada: `master`, commit `cb1e9c5`.
 
+## Revisión visual de Víctor (8 de octubre)
+
+Según la numeración de la lista original: papelera (1), sugerencias de progresión (6) y notas (9) validadas por Víctor. Pide más claridad en las gráficas (2), carga corporal (3), unilateral (4), negativas (7), dropsets (8) y agarres (10); RIR (5) en la fila con −/+.
+
+Segunda entrega implementada, pendiente de su validación: ajustes del ejercicio bajo un desplegable con filas de tarea/estado; ejecución y agarre separados dentro del formulario; técnicas por pestañas Ejecución/Negativas/Dropset con borrador común y acciones persistentes. Progresión mantiene acceso visible propio y separa el objetivo de los criterios para subir. RIR muestra una cifra menor que reps/kg y botones −/+ en columna estrecha sin pastilla; los tres puntos comparten fila en móvil normal, con «—» distinto de 0 (reducir desde 0 lo deja sin dato). Al ampliar texto los controles se redistribuyen para conservar targets. Progreso prioriza los controles/gráficas y ofrece también repeticiones para carga externa/lastre; cálculos existentes conservados.
+
 ## Qué existe actualmente
 
 - `PanelEjercicio` comparte las filas de series entre entreno activo y edición del historial. Permite borrar una serie desde «…» y quitar el ejercicio completo mediante la papelera de su cabecera, con Deshacer.
-- Cada serie guarda repeticiones, kg, calentamiento opcional y RIR opcional de 0 a 5. El RIR se edita directamente en la fila; «—» conserva el estado sin dato.
+- Cada serie guarda repeticiones, kg, calentamiento opcional y RIR opcional de 0 a 5. El RIR se edita con −/+ directamente en la fila; «—» conserva el estado sin dato.
 - Las rutinas ya tienen número de series, rango de repeticiones y descanso por ejercicio. Al iniciarlas se precargan series con valores anteriores.
 - **Completar una serie se persiste en `SetEntry.realizada`.** Ausente = desconocida en datos antiguos; true = confirmada, false = pendiente. Al terminar se conservan también las pendientes, identificadas y excluidas del trabajo realizado. El editor permite confirmar series antiguas/pasadas sin inferirlas de la precarga.
 - Las series distinguen carga externa, corporal, lastre y asistencia, con snapshot corporal opcional. Ejecución bilateral/unilateral, lados, agarres, tempo, negativas y tramos de dropset se guardan semánticamente.
@@ -54,7 +60,7 @@ Implementada en `PanelEjercicio` para sesión activa/editor. RIR ya no se edita 
 Hacerlo visible **y editable** junto a Reps y Kg. Reutilizar el campo `SetEntry.rir`; no duplicar su almacenamiento.
 
 - Valores 0–5 y «—» para sin dato. Vacío no equivale a RIR 0.
-- Edición rápida por selector compacto; teclado y lectores de pantalla con nombre que incluya serie y ejercicio.
+- Edición rápida mediante botones −/+ compactos; teclado y lectores de pantalla con nombre que incluya serie y ejercicio.
 - «…» conserva calentamiento, discos y otras opciones secundarias.
 - A 320 px, no comprimir cinco columnas hasta hacerlas incómodas: permitir dos líneas alineadas, manteniendo RIR visible y controles ≥44 px. Validar también texto ampliado.
 - Conservar la regla actual: cambiar RIR no desmarca la serie; cambiar reps/kg sí.
@@ -75,7 +81,7 @@ Implementada como nota de cada sesión. Instrucciones permanentes separadas qued
 
 ## 4. Opciones de las gráficas
 
-Implementada con `ChartVisibility`: curvas/métricas de Progreso por tipo de carga y Consumo/Objetivo de Nutrición. Escala, tooltip y rótulos usan solo curvas visibles; ocultar todas ofrece un estado explicativo y conserva los datos textuales. Sin preferencias nuevas persistidas.
+Implementada con `ChartVisibility`: curvas/métricas de Progreso por tipo de carga (incluidas reps en externa/lastre) y Consumo/Objetivo de Nutrición. Escala, tooltip y rótulos usan solo curvas visibles; ocultar todas ofrece un estado explicativo y conserva los datos textuales. Sin preferencias nuevas persistidas.
 
 Alcance confirmado por Víctor: mostrar/ocultar curvas y métricas mediante una leyenda interactiva. Empezar por Peso máximo y 1RM en Progreso y reutilizar el patrón en las gráficas existentes con varias métricas. Mantener los tipos de gráfica y los controles de periodo actuales.
 
@@ -119,7 +125,7 @@ Se puede aplicar a todo el ejercicio en esa sesión o elegir una variante por se
 
 ## 8. Dropsets
 
-Implementadas en «… → Ejecución, agarre y técnica → Añadir bajada». Cada tramo tiene id estable, reps/kg y lados opcionales. Se puede editar o quitar una bajada; Guardar aplica el borrador completo atómicamente y Cancelar conserva el original.
+Implementadas en «… → Dropset → Añadir bajada». Cada tramo tiene id estable, reps/kg y lados opcionales. Se puede editar o quitar una bajada; Guardar aplica el borrador completo atómicamente y Cancelar conserva el original.
 
 - Una dropset cuenta como **una serie extendida**, con el volumen de todos sus tramos sumado una vez.
 - Completar, borrar y Deshacer actúan sobre la serie y todos sus tramos.

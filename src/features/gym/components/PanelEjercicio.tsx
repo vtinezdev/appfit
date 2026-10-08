@@ -2,9 +2,11 @@ import { useState } from 'react'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
-import { Input, Select } from '../../../shared/components/Input'
+import { Input } from '../../../shared/components/Input'
 import type { ConfiguracionEjecucion, Workout, ConfiguracionCarga, Exercise, ObjetivoEjercicio, SetEntry } from '../../../shared/db/types'
 import MenuSerie from './MenuSerie'
+import Disclosure from '../../../shared/components/Disclosure'
+import RirStepper from './RirStepper'
 import NotaEjercicio from './NotaEjercicio'
 import EjecucionEjercicio from './EjecucionEjercicio'
 import ProgresionEjercicio from './ProgresionEjercicio'
@@ -92,12 +94,12 @@ export default function PanelEjercicio({ ejercicio, sets, ultimaVez, objetivo, c
         )}
       </div>
       {contexto?.nota && <p className="line-clamp-1 break-words text-body-sm text-fg-muted">{contexto.nota}</p>}
-      <div className="flex flex-wrap items-center gap-1">
+      {contexto && <Disclosure title="Ajustes del ejercicio"><div className="divide-y divide-line">
       {contexto && (admiteCargaCorporal(ejercicio) || (contexto.carga && contexto.carga.modo !== 'externa') || sets.some(s => modoCarga(s) !== 'externa')) && <CargaEjercicio nombre={ejercicio.nombre} inicio={contexto.inicio} sets={sets} configuracion={contexto.carga} bloqueado={bloqueado} onGuardar={contexto.onCarga} />}
       {contexto?.onEjecucion && <EjecucionEjercicio ejercicio={ejercicio} sets={sets} configuracion={contexto.ejecucion} bloqueado={bloqueado} onGuardar={contexto.onEjecucion} />}
+      </div></Disclosure>}
       {contexto?.workout && contexto.onProgresion && <ProgresionEjercicio ejercicio={ejercicio} workout={contexto.workout} sets={sets} objetivo={objetivo} bloqueado={bloqueado} onDecidir={contexto.onProgresion} />}
-      </div>
-      <div className="space-y-2">
+      <div className="space-y-3">
         {sets.length > 0 && (
           <div className="series-row text-caption text-fg-muted" aria-hidden>
             <span className="text-center">Serie</span><span className="text-center">Reps</span><span className="text-center">Kg</span><span className="series-rir-heading text-center">RIR</span><span />
@@ -125,18 +127,15 @@ export default function PanelEjercicio({ ejercicio, sets, ultimaVez, objetivo, c
                 <div className="min-w-0 flex-1">
                   {s.ejecucion === 'lados' ? <span className="text-body-sm text-fg-muted">Por lado</span> : modoCarga(s) === 'corporal' ? <p className="break-words text-center text-body-sm text-fg-muted">Corporal</p> : <>
                     <CampoSerie disabled={bloqueado} valor={s.peso} label={`${modoCarga(s) === 'asistencia' ? 'Asistencia' : modoCarga(s) === 'lastre' ? 'Lastre' : 'Peso'} en kg, ${nombreSerie} de ${ejercicio.nombre}`} decimal onChange={(peso) => actualizar(s.id, { peso })} />
-                    {modoCarga(s) !== 'externa' && <p className="text-center text-caption text-fg-muted">{modoCarga(s) === 'asistencia' ? 'Asistencia' : 'Lastre'}</p>}
                   </>}
                 </div>
-                <label className="series-rir flex min-w-0 items-center gap-2"><span className="series-rir-label text-caption text-fg-muted">RIR</span>
-                  {s.ejecucion === 'lados' ? <span className="text-caption text-fg-muted">Por lado</span> : <Select disabled={bloqueado} aria-label={`RIR, ${nombreSerie} de ${ejercicio.nombre}`} value={s.rir ?? ''} onChange={e => actualizar(s.id, { rir: e.target.value === '' ? undefined : Number(e.target.value) })}>
-                    <option value="">—</option>{['0', '1', '2', '3', '4', '5'].map(n => <option key={n} value={n}>{n}</option>)}
-                  </Select>}
-                </label>
+                <div className="series-rir min-w-0">
+                  {s.ejecucion === 'lados' ? <span className="text-caption text-fg-muted">Por lado</span> : <RirStepper disabled={bloqueado} label={`RIR, ${nombreSerie} de ${ejercicio.nombre}`} value={s.rir} onChange={rir => onActualizar(s.id, { rir })} />}
+                </div>
                 <IconButton icon="more" label={`Opciones de ${nombreSerie} de ${ejercicio.nombre}`} variant="ghost" size="sm" disabled={bloqueado} onClick={() => setMenu(s.id)} />
               </div>
               {contextoSerie(s) && <p className="break-words text-caption text-fg-muted">{contextoSerie(s)}</p>}
-              {s.ejecucion === 'lados' && <div className="space-y-2"><p className="tabular break-words text-body-sm text-fg-muted">{describirReps(s)}</p><div className="flex flex-wrap gap-3">{(['izquierda', 'derecha'] as const).filter(l => s.lados?.[l]).map(l => <label key={l} className="flex min-w-0 flex-1 basis-24 items-center gap-2"><span className="text-caption text-fg-muted">RIR {l === 'izquierda' ? 'I' : 'D'}</span><Select disabled={bloqueado} aria-label={`RIR ${l}, ${nombreSerie} de ${ejercicio.nombre}`} value={s.lados![l]!.rir ?? ''} onChange={e => actualizar(s.id, { lados: { ...s.lados, [l]: { ...s.lados![l]!, rir: e.target.value === '' ? undefined : Number(e.target.value) } } })}><option value="">—</option>{[0, 1, 2, 3, 4, 5].map(n => <option key={n} value={n}>{n}</option>)}</Select></label>)}</div></div>}
+              {s.ejecucion === 'lados' && <div className="space-y-2"><p className="tabular break-words text-body-sm text-fg-muted">{describirReps(s)}</p><div className="flex flex-wrap gap-3">{(['izquierda', 'derecha'] as const).filter(l => s.lados?.[l]).map(l => <div key={l} className="flex min-w-0 flex-wrap items-center gap-2"><span className="text-caption text-fg-muted">RIR {l === 'izquierda' ? 'I' : 'D'}</span><RirStepper disabled={bloqueado} label={`RIR ${l}, ${nombreSerie} de ${ejercicio.nombre}`} value={s.lados![l]!.rir} onChange={rir => onActualizar(s.id, { lados: { ...s.lados, [l]: { ...s.lados![l]!, rir } } })} /></div>)}</div></div>}
               {s.bajadas?.map((b, i) => <p key={b.id} className="tabular break-words text-caption text-fg-muted">Bajada {i + 1}: {describirReps({ ...s, ...b })}{s.ejecucion !== 'lados' ? ` · ${formatearCarga({ ...s, ...b })}` : ''}</p>)}
               {(s.tipo === 'calentamiento' || modoCarga(s) !== 'externa') && (
                 <p className="tabular break-words pl-1 text-caption text-fg-muted">{[s.tipo === 'calentamiento' ? 'Calentamiento' : null, modoCarga(s) !== 'externa' ? formatearCarga(s) : null].filter(Boolean).join(' · ')}</p>

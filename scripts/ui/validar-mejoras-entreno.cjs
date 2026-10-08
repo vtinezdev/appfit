@@ -6,6 +6,21 @@ const { navegar } = require('./navegar.cjs')
 const output = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-mejoras-entreno'
 const fixture = JSON.parse(fs.readFileSync('src/test/fixtures/backup-v1.json', 'utf8'))
 fs.mkdirSync(output, { recursive: true })
+async function ajustes(panel) {
+  const boton = panel.getByRole('button', { name: 'Ajustes del ejercicio', exact: true })
+  if (await boton.getAttribute('aria-expanded') !== 'true') await boton.click()
+}
+async function cambiarRir(scope, label, valor) {
+  const grupo = scope.getByRole('group', { name: label, exact: true })
+  const output = grupo.locator('output')
+  let actual = (await output.textContent()).trim()
+  for (let pasos = 0; actual !== (valor === undefined ? '—' : String(valor)) && pasos < 12; pasos++) {
+    await grupo.getByRole('button', { name: `${actual !== '—' && (valor === undefined || Number(actual) > valor) ? 'Reducir' : 'Aumentar'} ${label}`, exact: true }).click()
+    await grupo.page().waitForTimeout(60)
+    actual = (await output.textContent()).trim()
+  }
+  assert.equal(actual, valor === undefined ? '—' : String(valor))
+}
 async function backup(page) {
   return page.evaluate(async () => {
     const { exportarBackup } = await import('/src/shared/lib/backup.ts')
@@ -27,6 +42,7 @@ async function check(page, tag) {
   await page.screenshot({ path: `${output}/${tag}.png`, animations: 'disabled' })
 }
 async function carga(page, modo, masa) {
+  await ajustes(page.locator('[data-exercise-id="1"]'))
   await page.getByRole('button', { name: 'Tipo de carga de Dominadas', exact: true }).click()
   const sheet = page.getByRole('dialog', { name: 'Carga · Dominadas', exact: true })
   await sheet.getByRole('combobox', { name: 'Tipo de carga', exact: true }).selectOption(modo)
@@ -80,10 +96,38 @@ async function main() {
         }, fixture)
         if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
         await navegar(page, 'Entreno')
-        const rir = page.getByRole('combobox', { name: 'RIR, serie 1 de Dominadas', exact: true })
-        await rir.waitFor(); assert.equal(await rir.inputValue(), '')
+        const rir = page.getByRole('group', { name: 'RIR, serie 1 de Dominadas', exact: true }).locator('output')
+        await rir.waitFor(); assert.equal(await rir.textContent(), '—')
+        if (!c.large) {
+          const alineados = await rir.evaluate(e => {
+            const row = e.closest('.series-row'), reps = row.children[1], kg = row.children[2], rir = row.children[3]
+            const centro = e => { const r = e.getBoundingClientRect(); return r.y + r.height / 2 }
+            const opciones = row.children[4]
+            return Math.abs(centro(reps) - centro(rir)) < 1 && Math.abs(centro(kg) - centro(rir)) < 1 && Math.abs(centro(opciones) - centro(reps)) < 1
+          })
+          assert.equal(alineados, true, 'Reps, Kg, RIR y opciones en la misma fila')
+          const menor = await rir.evaluate(e => {
+            const row = e.closest('.series-row'), input = row.querySelector('input')
+            return parseFloat(getComputedStyle(e).fontSize) < parseFloat(getComputedStyle(input).fontSize)
+          })
+          assert.equal(menor, true, 'RIR tiene menor tamaño de texto que reps/kg')
+        }
+        await check(page, `${tag}-fila-rir`)
+        if (tag === '375-dark') {
+          // Seis pulsaciones seguidas: — → 0 → … → 5, sin perder pasos por escrituras asíncronas.
+          await page.getByRole('button', { name: 'Aumentar RIR, serie 1 de Dominadas', exact: true }).evaluate(e => { for (let i = 0; i < 6; i++) e.click() })
+          await page.waitForFunction(async () => { const { db } = await import('/src/shared/db/db.ts'); return (await db.sets.get(1)).rir === 5 }, null, { timeout: 10000 })
+          assert.equal(await page.getByRole('button', { name: 'Aumentar RIR, serie 1 de Dominadas', exact: true }).isDisabled(), true)
+          await cambiarRir(page, 'RIR, serie 1 de Dominadas', undefined)
+          await page.waitForFunction(async () => { const { db } = await import('/src/shared/db/db.ts'); return (await db.sets.get(1)).rir === undefined }, null, { timeout: 10000 })
+          await page.evaluate(() => { window.__rirPut = IDBObjectStore.prototype.put; IDBObjectStore.prototype.put = function (...args) { if (this.name === 'sets') throw new DOMException('Fallo sintético', 'QuotaExceededError'); return window.__rirPut.apply(this, args) } })
+          await page.getByRole('button', { name: 'Aumentar RIR, serie 1 de Dominadas', exact: true }).click()
+          await page.getByText('No se ha podido guardar la serie. Inténtalo de nuevo.', { exact: true }).waitFor()
+          await page.evaluate(() => { IDBObjectStore.prototype.put = window.__rirPut })
+          assert.equal((await backup(page)).sets.find(s => s.id === 1).rir, undefined)
+        }
         await page.getByRole('button', { name: 'Completar serie 1 de Dominadas', exact: true }).click()
-        await rir.selectOption('0')
+        await cambiarRir(page, 'RIR, serie 1 de Dominadas', 0)
         assert.equal(await page.getByRole('button', { name: 'Desmarcar serie 1 de Dominadas', exact: true }).getAttribute('aria-pressed'), 'true')
         await carga(page, 'corporal')
         let data = await backup(page)
@@ -137,7 +181,7 @@ async function main() {
         await page.reload(); await navegar(page, 'Entreno')
         if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
         await page.getByRole('button', { name: 'Editar nota de Dominadas', exact: true }).waitFor()
-        assert.equal(await rir.inputValue(), '0')
+        assert.equal(await rir.textContent(), '0')
         await page.getByRole('button', { name: 'Terminar', exact: true }).click()
         await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
         await page.getByRole('heading', { name: 'Sesión guardada', exact: true }).waitFor()
@@ -147,16 +191,20 @@ async function main() {
         await page.getByRole('heading', { name: 'Dominadas', exact: true }).waitFor()
         assert.ok(await page.getByText('Agarre cómodo · pausa arriba', { exact: true }).count())
         await page.getByRole('button', { name: 'Editar', exact: true }).click()
-        await rir.selectOption('')
+        await cambiarRir(page, 'RIR, serie 1 de Dominadas', undefined)
         await page.getByRole('button', { name: 'Listo', exact: true }).click()
         assert.equal((await backup(page)).sets.find(s => s.id === 1).rir, undefined)
         await page.getByRole('button', { name: 'Historial', exact: true }).click()
         await page.getByRole('tab', { name: 'Progreso', exact: true }).click()
         await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('2')
         const sinCambios = await backup(page)
+        await page.getByRole('region', { name: 'Volumen externo por sesión', exact: true }).waitFor()
+        await page.getByRole('region', { name: 'Repeticiones por sesión', exact: true }).waitFor()
+        await check(page, `${tag}-graficas-todas`)
         await page.getByRole('button', { name: 'Peso máximo', exact: true }).click()
         await page.getByRole('button', { name: '1RM estimado', exact: true }).click()
         await page.getByRole('button', { name: 'Volumen externo', exact: true }).click()
+        await page.getByRole('button', { name: 'Repeticiones', exact: true }).click()
         await page.getByText('Selecciona una métrica', { exact: true }).waitFor()
         await page.getByRole('button', { name: '1RM estimado', exact: true }).click()
         await page.locator('.recharts-line-curve').waitFor()

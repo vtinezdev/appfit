@@ -47,16 +47,17 @@ export default function Progreso() {
   const datos = datosProgreso(sets ?? [], workouts ?? [], modo, variante).map(d => ({ ...d, fecha: formatDiaMes(d.inicio) }))
   const ultimo = datos.at(-1)
   const opciones: Partial<Record<Metrica, string>> = modo === 'externa'
-    ? { pesoMax: permiteRM?.ejecucion ? 'Peso por lado' : permiteRM?.soloNegativas ? 'Carga de negativas' : 'Peso máximo', ...(rm ? { oneRM: '1RM estimado' } : {}), volumen: 'Volumen externo' }
-    : modo === 'lastre' ? { pesoMax: 'Lastre máximo', volumen: 'Volumen de lastre' }
+    ? { pesoMax: permiteRM?.ejecucion ? 'Peso por lado' : permiteRM?.soloNegativas ? 'Carga de negativas' : 'Peso máximo', ...(rm ? { oneRM: '1RM estimado' } : {}), volumen: 'Volumen externo', reps: 'Repeticiones' }
+    : modo === 'lastre' ? { pesoMax: 'Lastre máximo', volumen: 'Volumen de lastre', reps: 'Repeticiones' }
     : modo === 'corporal' ? { reps: 'Repeticiones' } : { asistencia: 'Asistencia mínima', reps: 'Repeticiones' }
   const grupos = [
     { titulo: modo === 'asistencia' ? 'Asistencia por sesión' : 'Fuerza por sesión', unidad: 'kg', keys: ['pesoMax', 'oneRM', 'asistencia'] as Metrica[] },
     { titulo: 'Repeticiones por sesión', unidad: 'reps', keys: ['reps'] as Metrica[] },
-    { titulo: 'Trabajo externo por sesión', unidad: 'kg', keys: ['volumen'] as Metrica[] },
+    { titulo: modo === 'lastre' ? 'Volumen de lastre por sesión' : 'Volumen externo por sesión', unidad: 'kg', keys: ['volumen'] as Metrica[] },
   ]
   const principal: Metrica = modo === 'corporal' ? 'reps' : modo === 'asistencia' ? 'asistencia' : 'pesoMax'
   return <div className="space-y-section">
+    <div className="space-y-2"><SectionHeader variant="section">Gráficas por ejercicio</SectionHeader><p className="text-body-sm text-fg-muted">Consulta carga, repeticiones y volumen. Las métricas disponibles dependen del tipo de ejercicio.</p></div>
     <label className="block space-y-2"><span className="text-label text-fg-muted">Ejercicio</span>
       <Select tone="surface" aria-label="Ejercicio" value={exerciseId ?? ''} onChange={e => {
         setExerciseId(e.target.value ? Number(e.target.value) : null); setModoElegido(null); setVarianteElegida(null); setVisibles(SELECCION_INICIAL)
@@ -70,17 +71,9 @@ export default function Progreso() {
     {!exerciseId && <EmptyState icon="dumbbell" title="Sigue tu evolución">Elige un ejercicio para comparar tus sesiones.</EmptyState>}
     {!!exerciseId && !ultimo && <EmptyState title="Aún sin sesiones terminadas">Termina un entreno con este tipo de carga para comparar resultados.</EmptyState>}
     {!!exerciseId && ultimo && <>
-      <Card><section aria-label="Última sesión" className="space-y-4">
-        <Metric size="hero" label={`${opciones[principal]} · última sesión`} valor={formatNumber(ultimo[principal] ?? 0, 1)} unidad={principal === 'reps' ? 'reps' : 'kg'} caption={ultimo.fecha} />
-        {(modo === 'externa' || modo === 'lastre') && <div className="grid grid-cols-2 gap-4 border-y border-line py-4">
-          {rm && <Metric size="title" label="1RM estimado" valor={formatNumber(ultimo.oneRM ?? 0, 1)} unidad="kg" />}
-          <Metric size="title" label={opciones.volumen} valor={formatInt(ultimo.volumen)} unidad="kg" />
-        </div>}
-        <p className="text-caption text-fg-muted">{modo === 'externa' ? (rm ? '1RM estima el peso para una repetición. El volumen suma kg externos × repeticiones.' : 'Las variantes unilaterales o con tempo se comparan por separado, sin estimar 1RM. Volumen suma los lados registrados.') : modo === 'lastre' ? 'El volumen cuenta solo el lastre. No se estima 1RM con peso corporal.' : modo === 'asistencia' ? 'Menos asistencia significa menos ayuda. Compara también las repeticiones; no equivale a una medida exacta de carga efectiva.' : 'Se comparan las repeticiones. No se convierte la masa corporal en volumen ni en 1RM.'}</p>
-      </section></Card>
-      <ChartVisibility opciones={opciones as Record<Metrica, string>} seleccion={visibles} onChange={setVisibles} />
+      <ChartVisibility label="Mostrar u ocultar gráficas" opciones={opciones as Record<Metrica, string>} seleccion={visibles} onChange={setVisibles} />
       {!Object.keys(opciones).some(key => visibles.includes(key as Metrica)) ? <EmptyState title="Selecciona una métrica">Activa una opción para ver su tendencia.</EmptyState>
-        : datos.length < 2 ? <p className="text-body-sm text-fg-muted">Registra otra sesión con este tipo de carga para ver la tendencia.</p>
+        : datos.length < 2 ? <p className="text-body-sm text-fg-muted">Las gráficas aparecen a partir de dos sesiones terminadas con el mismo tipo de carga y variante. De momento puedes consultar los datos de tu última sesión.</p>
         : grupos.map(g => {
           const keys = g.keys.filter(key => opciones[key] && visibles.includes(key))
           if (!keys.length) return null
@@ -106,6 +99,14 @@ export default function Progreso() {
             </Card>
           </section>
         })}
+      <Card><section aria-label="Última sesión" className="space-y-4">
+        <Metric size="hero" label={`${opciones[principal]} · última sesión`} valor={formatNumber(ultimo[principal] ?? 0, 1)} unidad={principal === 'reps' ? 'reps' : 'kg'} caption={ultimo.fecha} />
+        {(modo === 'externa' || modo === 'lastre') && <div className="grid grid-cols-2 gap-4 border-y border-line py-4">
+          {rm && <Metric size="title" label="1RM estimado" valor={formatNumber(ultimo.oneRM ?? 0, 1)} unidad="kg" />}
+          <Metric size="title" label={opciones.volumen} valor={formatInt(ultimo.volumen)} unidad="kg" />
+        </div>}
+        <p className="text-caption text-fg-muted">{modo === 'externa' ? (rm ? '1RM estima el peso para una repetición. El volumen suma kg externos × repeticiones.' : 'Las variantes unilaterales o con tempo se comparan por separado, sin estimar 1RM. Volumen suma los lados registrados.') : modo === 'lastre' ? 'El volumen cuenta solo el lastre. No se estima 1RM con peso corporal.' : modo === 'asistencia' ? 'Menos asistencia significa menos ayuda. Compara también las repeticiones; no equivale a una medida exacta de carga efectiva.' : 'Se comparan las repeticiones. No se convierte la masa corporal en volumen ni en 1RM.'}</p>
+      </section></Card>
       <Disclosure title={`Ver ${datos.length} ${datos.length === 1 ? 'sesión' : 'sesiones'}`}>
         <ul className="divide-y divide-line text-body-sm">{datos.map(d => <li key={d.workoutId} className="space-y-1 py-3">
           <p className="tabular font-semibold text-fg">{formatFechaHora(d.inicio)}</p>
