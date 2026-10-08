@@ -31,7 +31,7 @@ async function check(page, name) {
   reports.push(name)
 }
 async function main() {
-  const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
+  const browser = await chromium.launch({ executablePath: process.env.APPFIT_CHROMIUM || '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
   const cases = [320, 375, 430].flatMap(width => ['light', 'dark'].map(theme => ({ width, theme })))
   cases.push({ width: 1440, theme: 'light' }, { width: 375, theme: 'dark', large: true })
   try {
@@ -45,7 +45,7 @@ async function main() {
         page.on('pageerror', e => errors.push(e.message))
         await page.goto('http://appfit-test.localhost:5173')
         await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
-        await page.evaluate(async data => { const { importarBackup } = await import('/src/shared/lib/backup.ts'); await importarBackup(JSON.stringify(data)) }, fixture)
+        await page.evaluate(async data => { const { importarBackup } = await import('/src/shared/lib/backup.ts'); await importarBackup(JSON.stringify(data)); await (await import('/src/shared/db/settings.ts')).updateSettings({ rirAlCompletar: false }) }, fixture)
         if (item.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
         const original = await snapshot(page)
         await navegar(page, 'Entreno')
@@ -120,16 +120,18 @@ async function main() {
         assert.equal(newSets[0].exerciseId, original.exercises.find(e => e.nombre === 'Press banca').id)
         await page.getByRole('button', { name: 'Completar serie 1 de Press banca', exact: true }).click()
         await page.getByRole('button', { name: 'Desmarcar serie 1 de Press banca', exact: true }).waitFor()
+        // Marcar persiste la realización (ADR 026); abrir el selector después no debe escribir nada más.
+        const marcada = await snapshot(page)
         await page.getByRole('button', { name: 'Añadir ejercicio', exact: true }).click()
         await selector.getByRole('heading', { name: 'Recientes', exact: true }).waitFor()
         await check(page, `${tag}-sesion`)
         await page.keyboard.press('Escape'); await selector.waitFor({ state: 'detached' })
-        assert.deepEqual(await snapshot(page), active)
+        assert.deepEqual(await snapshot(page), marcada)
         await page.reload()
         await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
         await navegar(page, 'Entreno')
         await page.getByRole('button', { name: 'Desmarcar serie 1 de Press banca', exact: true }).waitFor()
-        assert.deepEqual(await snapshot(page), active)
+        assert.deepEqual(await snapshot(page), marcada)
         assert.deepEqual(errors, [])
         console.log('PASS', tag)
       } finally { await context.close() }

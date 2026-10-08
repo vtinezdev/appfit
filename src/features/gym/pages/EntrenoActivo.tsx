@@ -146,10 +146,10 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     }
   }
 
-  async function actualizarSet(id: number, patch: setsRepo.CambiosSerie) {
+  async function actualizarSet(id: number, cambio: setsRepo.CambioSerie) {
     // Cambiar el tipo o el RIR no desmarca la serie; reps y peso sí.
-    if (currentSets.some(s => s.id === id && cambiaRealizacion(s, patch))) setSession(previous => ({ ...previous, completed: previous.completed.filter(n => n !== id) }))
-    const operation = setsRepo.actualizar(id, patch)
+    if (currentSets.some(s => s.id === id && cambiaRealizacion(s, typeof cambio === 'function' ? cambio(s) : cambio))) setSession(previous => ({ ...previous, completed: previous.completed.filter(n => n !== id) }))
+    const operation = setsRepo.actualizar(id, cambio)
     pendingWrites.current.set(id, operation)
     try {
       await operation
@@ -219,8 +219,9 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
   const volumen = volumenSets(currentSets)
   const completedCount = completadas.length
 
-  async function completar(s: SetEntry, numero: number) {
-    if (confirmandoSeries.current.has(s.id)) return
+  /** true si la serie queda marcada. */
+  async function completar(s: SetEntry, numero: number): Promise<boolean> {
+    if (confirmandoSeries.current.has(s.id)) return false
     confirmandoSeries.current.add(s.id)
     const nombre = exerciseMap.get(s.exerciseId)?.nombre ?? 'ejercicio'
     try {
@@ -239,7 +240,8 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
       haptic(done ? 'selection' : 'success')
       const que = numero > 0 ? `Serie ${numero}` : 'Calentamiento'
       setFeedback(done ? `${que} de ${nombre} pendiente` : `${que} de ${nombre} completada`)
-    } catch { avisarError('La serie no se ha guardado. Inténtalo de nuevo antes de completarla.') } finally { confirmandoSeries.current.delete(s.id) }
+      return !done
+    } catch { avisarError('La serie no se ha guardado. Inténtalo de nuevo antes de completarla.'); return false } finally { confirmandoSeries.current.delete(s.id) }
   }
 
   return (
@@ -293,9 +295,9 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
             <div key={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
                 ultimaVez={historico.length > 0 ? `Última vez: ${formatUltimaVez(historico)}` : 'Sin datos previos'}
-                objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} nuevaId={newSet} bloqueado={guardando || quitando}
+                objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
                 onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
-                onQuitar={() => quitarEjercicio(exId, ex.nombre)}
+                onQuitar={() => quitarEjercicio(exId, ex.nombre)} onAviso={avisar}
                 contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
                   setGuardando(true); try { await Promise.all(pendingWrites.current.values()); const ids = new Set(await workoutsRepo.configurarEjecucion(workout.id, exId, c, habitual)); setSession(p => ({ ...p, completed: p.completed.filter(id => !ids.has(id)) })) } finally { setGuardando(false) }
                 }, onProgresion: async (clave, decision) => { setGuardando(true); try { await Promise.all(pendingWrites.current.values()); await workoutsRepo.decidirProgresion(workout.id, exId, clave, decision) } finally { setGuardando(false) } } }}
@@ -305,7 +307,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
         })}
       </div>
 
-      <p className="text-caption text-fg-muted">Introduce reps y toca el número de serie al completarla.</p>
+      <p className="text-caption text-fg-muted">Introduce reps y kg y márcala con el botón de la derecha al terminar cada serie. El número de la serie cambia su tipo: calentamiento, dropset o negativas.</p>
 
       <Button data-add-exercise variant="secondary" size="lg" block disabled={guardando || quitando} onClick={() => setBuscandoEjercicio(true)}>
         <Icon name="plus" size={20} />

@@ -35,8 +35,13 @@ async function capture(page, tag) {
   await page.locator('[data-exercise-id="1"]').scrollIntoViewIfNeeded()
   await page.screenshot({ path: `${output}/${tag}.png`, animations: 'disabled' })
 }
+/** La papelera vive en el menú «…» del ejercicio; la acción se ejecuta al cerrarse el menú. */
+async function abrirMenu(page, label) {
+  await page.getByRole('button', { name: `Opciones de ${label}`, exact: true }).click()
+  return page.getByRole('button', { name: `Quitar ${label} de este entreno`, exact: true })
+}
 async function quitar(page, id, label) {
-  await page.getByRole('button', { name: `Quitar ${label} de este entreno`, exact: true }).click()
+  await (await abrirMenu(page, label)).click()
   await page.locator(`[data-exercise-id="${id}"]`).waitFor({ state: 'detached' })
   await page.getByRole('button', { name: 'Deshacer', exact: true }).waitFor()
 }
@@ -81,6 +86,8 @@ async function main() {
             ])
           })
         }, largo)
+        // Sin el selector de RIR al completar: este recorrido prueba la papelera.
+        await page.evaluate(async () => { const { updateSettings } = await import('/src/shared/db/settings.ts'); await updateSettings({ rirAlCompletar: false }) })
         if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
         await navegar(page, 'Entreno')
         await page.locator('[data-exercise-id="1"]').waitFor()
@@ -109,13 +116,13 @@ async function main() {
               return window.__originalPut.apply(this, args)
             }
           })
-          await page.getByRole('button', { name: `Quitar ${nombre} de este entreno`, exact: true }).click()
+          await (await abrirMenu(page, nombre)).click()
           await page.getByRole('alert').filter({ hasText: 'No se ha podido quitar el ejercicio.' }).waitFor()
           assert.deepEqual(await backup(page), before)
           assert.equal(await page.getByRole('button', { name: 'Desmarcar serie 1 de Press banca', exact: true }).getAttribute('aria-pressed'), 'true')
           await page.evaluate(() => { IDBObjectStore.prototype.put = window.__originalPut })
           // Dos llamadas en el mismo frame; una sola eliminación y un Deshacer íntegro.
-          await page.getByRole('button', { name: `Quitar ${nombre} de este entreno`, exact: true }).evaluate(b => { b.click(); b.click() })
+          await (await abrirMenu(page, nombre)).evaluate(b => { b.click(); b.click() })
           await page.locator('[data-exercise-id="1"]').waitFor({ state: 'detached' })
           await undo(page, 1)
           assert.deepEqual(await backup(page), before)

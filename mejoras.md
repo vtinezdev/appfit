@@ -2,13 +2,15 @@
 
 Plan de trabajo · 8 de octubre de 2026.
 
-Estado: implementación por pasos; implementadas las diez mejoras del alcance inicial. Validación y decisiones de ejecución en ADR 025/026. Base revisada: `master`, commit `cb1e9c5`.
+Estado: implementación por pasos; implementadas las diez mejoras del alcance inicial. Validación y decisiones de ejecución en ADR 025/026; presentación del registro en ADR 027. Base revisada: `master`, commit `cb1e9c5`.
 
 ## Revisión visual de Víctor (8 de octubre)
 
 Según la numeración de la lista original: papelera (1), sugerencias de progresión (6) y notas (9) validadas por Víctor. Pide más claridad en las gráficas (2), carga corporal (3), unilateral (4), negativas (7), dropsets (8) y agarres (10); RIR (5) en la fila con −/+.
 
 Segunda entrega implementada, pendiente de su validación: ajustes del ejercicio bajo un desplegable con filas de tarea/estado; ejecución y agarre separados dentro del formulario; técnicas por pestañas Ejecución/Negativas/Dropset con borrador común y acciones persistentes. Progresión mantiene acceso visible propio y separa el objetivo de los criterios para subir. RIR muestra una cifra menor que reps/kg y botones −/+ en columna estrecha sin pastilla; los tres puntos comparten fila en móvil normal, con «—» distinto de 0 (reducir desde 0 lo deja sin dato). Al ampliar texto los controles se redistribuyen para conservar targets. Progreso prioriza los controles/gráficas y ofrece también repeticiones para carga externa/lastre; cálculos existentes conservados.
+
+Tercera entrega ([ADR 027](docs/decisiones/027-registro-de-series-en-la-fila.md)), tras una revisión visual con opciones: Víctor elige las recomendadas y mantiene Reps · Kg. Fila tipo/número · Reps · Kg · RIR · ✓; el número cambia el tipo (C/D/N) y abre la hoja de la serie (bajada lenta, agarre de la serie, discos, borrar); bajadas y lados como filas hijas editables; RIR por selector 0–5+ que se abre al completar (ajuste en Ajustes › Entreno); variante del ejercicio con botones bajo el título y hojas sin desplegables; nota, progresión, mover y quitar en el «…» del ejercicio. Sustituye las pestañas de técnica, el RIR con −/+ y «Ajustes del ejercicio» descritos arriba y en las secciones siguientes.
 
 ## Qué existe actualmente
 

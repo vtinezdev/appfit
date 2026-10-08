@@ -32,6 +32,8 @@ async function seed(page) {
     fixture.entries.forEach(e => { e.fecha = addDays(todayISO(), e.id <= 4 ? 0 : -1) })
     fixture.workouts.forEach(w => { w.inicio = Date.now() - 3 * 86400000; w.fin = w.inicio + 3600000 })
     await b.importarBackup(JSON.stringify(fixture))
+    // Este recorrido mide el check de la serie, no el selector de RIR que se abre al completar.
+    await (await import('/src/shared/db/settings.ts')).updateSettings({ rirAlCompletar: false })
   }, fixture)
 }
 async function closed(page) {
@@ -195,7 +197,7 @@ async function run(browser, variant) {
   } finally { await context.close() }
 }
 async function main() {
-  const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
+  const browser = await chromium.launch({ executablePath: process.env.APPFIT_CHROMIUM || '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
   try {
     const variants = [320, 375, 430, 768, 1440].flatMap(width => ['light', 'dark'].map(colorScheme => ({ name: `${width}-${colorScheme}`, options: { viewport: { width, height: width === 320 ? 568 : width === 1440 ? 1000 : 812 }, colorScheme, reducedMotion: 'no-preference' } })))
     variants.push({ name: 'ios-emulado-reduce', options: { ...devices['iPhone 13'], colorScheme: 'light', reducedMotion: 'reduce', defaultBrowserType: undefined } })

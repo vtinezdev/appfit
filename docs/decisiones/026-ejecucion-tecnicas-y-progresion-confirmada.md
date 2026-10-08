@@ -1,6 +1,6 @@
 # 026 · Ejecución, técnicas y progresión confirmada
 
-Fecha: 2026-10-08. Estado: implementado.
+Fecha: 2026-10-08. Estado: implementado; la presentación (pestañas de técnica, RIR con −/+, «Ajustes del ejercicio») la sustituye [027](027-registro-de-series-en-la-fila.md).
 
 ## Decisión
 

@@ -6,20 +6,27 @@ const { navegar } = require('./navegar.cjs')
 const output = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-mejoras-entreno'
 const fixture = JSON.parse(fs.readFileSync('src/test/fixtures/backup-v1.json', 'utf8'))
 fs.mkdirSync(output, { recursive: true })
-async function ajustes(panel) {
-  const boton = panel.getByRole('button', { name: 'Ajustes del ejercicio', exact: true })
-  if (await boton.getAttribute('aria-expanded') !== 'true') await boton.click()
-}
+const MODOS = { externa: 'Carga externa', corporal: 'Peso corporal', lastre: 'Corporal \\+ lastre', asistencia: 'Corporal asistido' }
+/** RIR: la celda abre un selector de 0 a 5+; «Quitar RIR» lo deja sin dato. */
 async function cambiarRir(scope, label, valor) {
-  const grupo = scope.getByRole('group', { name: label, exact: true })
-  const output = grupo.locator('output')
-  let actual = (await output.textContent()).trim()
-  for (let pasos = 0; actual !== (valor === undefined ? '—' : String(valor)) && pasos < 12; pasos++) {
-    await grupo.getByRole('button', { name: `${actual !== '—' && (valor === undefined || Number(actual) > valor) ? 'Reducir' : 'Aumentar'} ${label}`, exact: true }).click()
-    await grupo.page().waitForTimeout(60)
-    actual = (await output.textContent()).trim()
-  }
-  assert.equal(actual, valor === undefined ? '—' : String(valor))
+  const page = scope.page ? scope.page() : scope
+  const celda = scope.getByRole('button', { name: new RegExp(`^${label}: `) })
+  await celda.click()
+  const hoja = page.locator('[role=dialog]').last()
+  if (valor === undefined) {
+    const quitar = hoja.getByRole('button', { name: 'Quitar RIR', exact: true })
+    if (await quitar.count()) await quitar.click(); else await page.keyboard.press('Escape')
+  } else await hoja.getByRole('button', { name: new RegExp(`^RIR ${valor === 5 ? '5\\+' : valor}:`) }).click()
+  await hoja.waitFor({ state: 'detached' })
+  // La celda se actualiza cuando IndexedDB notifica la escritura.
+  const esperado = valor === undefined ? 'RIR' : valor === 5 ? '5+' : String(valor)
+  for (let i = 0; i < 30 && (await celda.textContent()).trim() !== esperado; i++) await page.waitForTimeout(100)
+  assert.equal((await celda.textContent()).trim(), esperado)
+}
+/** Nota y papelera viven en el menú «…» del ejercicio. */
+async function menu(page, opcion) {
+  await page.getByRole('button', { name: 'Opciones de Dominadas', exact: true }).click()
+  await page.locator('[role=dialog]').last().getByRole('button', { name: opcion }).click()
 }
 async function backup(page) {
   return page.evaluate(async () => {
@@ -42,10 +49,9 @@ async function check(page, tag) {
   await page.screenshot({ path: `${output}/${tag}.png`, animations: 'disabled' })
 }
 async function carga(page, modo, masa) {
-  await ajustes(page.locator('[data-exercise-id="1"]'))
-  await page.getByRole('button', { name: 'Tipo de carga de Dominadas', exact: true }).click()
+  await page.getByRole('button', { name: /^Carga de Dominadas: / }).click()
   const sheet = page.getByRole('dialog', { name: 'Carga · Dominadas', exact: true })
-  await sheet.getByRole('combobox', { name: 'Tipo de carga', exact: true }).selectOption(modo)
+  await sheet.getByRole('radio', { name: new RegExp(`^${MODOS[modo]}`) }).click()
   if (masa !== undefined) await sheet.getByRole('spinbutton', { name: 'Peso corporal usado', exact: true }).fill(masa)
   await sheet.getByRole('button', { name: 'Guardar carga', exact: true }).click()
   await sheet.waitFor({ state: 'detached' })
@@ -96,8 +102,8 @@ async function main() {
         }, fixture)
         if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
         await navegar(page, 'Entreno')
-        const rir = page.getByRole('group', { name: 'RIR, serie 1 de Dominadas', exact: true }).locator('output')
-        await rir.waitFor(); assert.equal(await rir.textContent(), '—')
+        const rir = page.getByRole('button', { name: /^RIR, serie 1 de Dominadas: / })
+        await rir.waitFor(); assert.equal(await rir.textContent(), 'RIR')
         if (!c.large) {
           const alineados = await rir.evaluate(e => {
             const row = e.closest('.series-row'), reps = row.children[1], kg = row.children[2], rir = row.children[3]
@@ -114,20 +120,24 @@ async function main() {
         }
         await check(page, `${tag}-fila-rir`)
         if (tag === '375-dark') {
-          // Seis pulsaciones seguidas: — → 0 → … → 5, sin perder pasos por escrituras asíncronas.
-          await page.getByRole('button', { name: 'Aumentar RIR, serie 1 de Dominadas', exact: true }).evaluate(e => { for (let i = 0; i < 6; i++) e.click() })
+          // Selector: un valor extremo, sin dato y fallo de escritura con error en la propia hoja.
+          await cambiarRir(page, 'RIR, serie 1 de Dominadas', 5)
           await page.waitForFunction(async () => { const { db } = await import('/src/shared/db/db.ts'); return (await db.sets.get(1)).rir === 5 }, null, { timeout: 10000 })
-          assert.equal(await page.getByRole('button', { name: 'Aumentar RIR, serie 1 de Dominadas', exact: true }).isDisabled(), true)
           await cambiarRir(page, 'RIR, serie 1 de Dominadas', undefined)
           await page.waitForFunction(async () => { const { db } = await import('/src/shared/db/db.ts'); return (await db.sets.get(1)).rir === undefined }, null, { timeout: 10000 })
           await page.evaluate(() => { window.__rirPut = IDBObjectStore.prototype.put; IDBObjectStore.prototype.put = function (...args) { if (this.name === 'sets') throw new DOMException('Fallo sintético', 'QuotaExceededError'); return window.__rirPut.apply(this, args) } })
-          await page.getByRole('button', { name: 'Aumentar RIR, serie 1 de Dominadas', exact: true }).click()
-          await page.getByText('No se ha podido guardar la serie. Inténtalo de nuevo.', { exact: true }).waitFor()
+          await rir.click()
+          await page.locator('[role=dialog]').last().getByRole('button', { name: /^RIR 1:/ }).click()
+          await page.locator('[role=dialog]').last().getByText('No se ha podido guardar el RIR. Inténtalo de nuevo.', { exact: true }).waitFor()
           await page.evaluate(() => { IDBObjectStore.prototype.put = window.__rirPut })
+          await page.keyboard.press('Escape'); await page.locator('[role=dialog]').waitFor({ state: 'detached' })
           assert.equal((await backup(page)).sets.find(s => s.id === 1).rir, undefined)
         }
+        // Completar abre el selector de RIR (ajuste por defecto).
         await page.getByRole('button', { name: 'Completar serie 1 de Dominadas', exact: true }).click()
-        await cambiarRir(page, 'RIR, serie 1 de Dominadas', 0)
+        await page.locator('[role=dialog]').last().getByRole('button', { name: /^RIR 0:/ }).click()
+        await page.locator('[role=dialog]').waitFor({ state: 'detached' })
+        await page.getByRole('button', { name: 'RIR, serie 1 de Dominadas: 0', exact: true }).waitFor()
         assert.equal(await page.getByRole('button', { name: 'Desmarcar serie 1 de Dominadas', exact: true }).getAttribute('aria-pressed'), 'true')
         await carga(page, 'corporal')
         let data = await backup(page)
@@ -148,7 +158,7 @@ async function main() {
         await page.locator('[data-exercise-id="1"]').getByRole('button', { name: 'Añadir serie', exact: true }).click()
         await page.getByRole('spinbutton', { name: 'Lastre en kg, serie 2 de Dominadas', exact: true }).waitFor()
         assert.equal(await page.getByRole('spinbutton', { name: 'Lastre en kg, serie 2 de Dominadas', exact: true }).inputValue(), '10')
-        await page.getByRole('button', { name: 'Añadir nota de Dominadas', exact: true }).click()
+        await menu(page, /^Añadir nota/)
         const nota = page.getByRole('dialog', { name: 'Nota · Dominadas', exact: true })
         await nota.getByText('Controlar la bajada; agarre habitual', { exact: true }).waitFor()
         assert.equal(await nota.getByRole('textbox', { name: 'Nota de Dominadas', exact: true }).inputValue(), '', 'la nota anterior no se copia')
@@ -171,7 +181,7 @@ async function main() {
         }
         await nota.getByRole('button', { name: 'Guardar nota', exact: true }).click(); await nota.waitFor({ state: 'detached' })
         const antes = await backup(page)
-        await page.getByRole('button', { name: 'Quitar Dominadas de este entreno', exact: true }).click()
+        await menu(page, 'Quitar Dominadas de este entreno')
         await page.locator('[data-exercise-id="1"]').waitFor({ state: 'detached' })
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
         await page.locator('[data-exercise-id="1"]').waitFor()
@@ -180,7 +190,7 @@ async function main() {
         await check(page, `${tag}-activo`)
         await page.reload(); await navegar(page, 'Entreno')
         if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
-        await page.getByRole('button', { name: 'Editar nota de Dominadas', exact: true }).waitFor()
+        await page.getByRole('button', { name: /^Nota de Dominadas: / }).waitFor()
         assert.equal(await rir.textContent(), '0')
         await page.getByRole('button', { name: 'Terminar', exact: true }).click()
         await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()

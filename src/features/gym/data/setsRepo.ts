@@ -74,11 +74,14 @@ export function agregarSeleccion(workoutId: number, seleccion: SeleccionEjercici
 }
 
 export type CambiosSerie = Partial<Pick<SetEntry, 'reps' | 'peso' | 'tipo' | 'rir' | 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg' | 'bajadas'>>
+/** Un cambio calculado sobre la serie guardada: lados y bajadas se combinan dentro de la transacción, no con una copia anterior. */
+export type CambioSerie = CambiosSerie | ((actual: SetEntry) => CambiosSerie)
 /** Edición física invalida confirmación; cambiar solo RIR/tipo la conserva. */
-export function actualizar(id: number, patch: CambiosSerie): Promise<void> {
+export function actualizar(id: number, cambio: CambioSerie): Promise<void> {
   return db.transaction('rw', db.sets, async () => {
     const serie = await db.sets.get(id)
     if (!serie) throw new Error('La serie ya no está disponible.')
+    const patch = typeof cambio === 'function' ? cambio(serie) : cambio
     validarSerie({ ...serie, ...patch })
     const cambia = cambiaRealizacion(serie, patch)
     await db.sets.update(id, { ...patch, ...(cambia ? { realizada: false } : {}) })

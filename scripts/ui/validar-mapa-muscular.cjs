@@ -35,7 +35,7 @@ async function levels(page) {
   return page.getByRole('region', { name: 'Mapa muscular', exact: true }).locator('g[data-muscle]').evaluateAll(es => es.map(e => [e.dataset.muscle, e.dataset.level]))
 }
 async function main() {
-  const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
+  const browser = await chromium.launch({ executablePath: process.env.APPFIT_CHROMIUM || '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
   const cases = [320, 375, 430].flatMap(width => ['light', 'dark'].map(theme => ({ width, theme })))
   cases.push({ width: 375, theme: 'dark', large: true }, { width: 430, theme: 'light', forced: true })
   const reports = []
