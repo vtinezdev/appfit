@@ -1,6 +1,6 @@
 # 015 — Trabajo muscular estimado y clasificación histórica
 
-Fecha: 2026-10-06. Estado: vigente.
+Fecha: 2026-10-06. Estado: vigente, ampliado por [025](025-carga-corporal-y-notas-de-sesion.md) (modos de carga) y [026](026-ejecucion-tecnicas-y-progresion-confirmada.md) (lados, dropsets y series pendientes).
 
 ## Contexto
 
@@ -8,7 +8,7 @@ Víctor solicita un mapa frontal/trasero del entrenamiento terminado que use el 
 
 ## Decisión
 
-`lib/cargaMuscular` separa carga por ejercicio, participación/agregación y normalización. Todas las series registradas con reps positivas finitas cuentan, marcadas o no (las marcas siguen siendo presentación). Por serie:
+`lib/cargaMuscular` separa carga por ejercicio, participación/agregación y normalización. Todas las series registradas con reps positivas finitas cuentan, ~~marcadas o no (las marcas siguen siendo presentación)~~ salvo calentamientos y, desde [026](026-ejecucion-tecnicas-y-progresion-confirmada.md), las pendientes (`realizada: false`); las antiguas sin dato siguen contando. Por serie:
 
 `min(reps, 30) / 8 × factorPeso`
 

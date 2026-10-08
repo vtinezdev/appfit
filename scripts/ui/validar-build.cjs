@@ -13,7 +13,7 @@ async function exportData(page) {
   return normalize(JSON.parse(fs.readFileSync(await (await promise).path(), 'utf8')))
 }
 async function main() {
-  const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
+  const browser = await chromium.launch({ executablePath: process.env.APPFIT_CHROMIUM || '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
   const context = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' })
   try {
     await context.route('**/world.openfoodfacts.org/**', r => r.abort())

@@ -87,7 +87,7 @@ async function captureScroll(page, tag, chunks = false) {
   await main.evaluate(e => e.scrollTo(0, 0))
 }
 async function main() {
-  const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
+  const browser = await chromium.launch({ executablePath: process.env.APPFIT_CHROMIUM || '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
   const reports = []
   try {
     for (const width of [320, 375, 430, 1440]) for (const theme of ['dark', 'light']) {

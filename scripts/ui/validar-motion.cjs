@@ -195,7 +195,7 @@ async function run(browser, variant) {
   } finally { await context.close() }
 }
 async function main() {
-  const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
+  const browser = await chromium.launch({ executablePath: process.env.APPFIT_CHROMIUM || '/usr/bin/chromium', args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
   try {
     const variants = [320, 375, 430, 768, 1440].flatMap(width => ['light', 'dark'].map(colorScheme => ({ name: `${width}-${colorScheme}`, options: { viewport: { width, height: width === 320 ? 568 : width === 1440 ? 1000 : 812 }, colorScheme, reducedMotion: 'no-preference' } })))
     variants.push({ name: 'ios-emulado-reduce', options: { ...devices['iPhone 13'], colorScheme: 'light', reducedMotion: 'reduce', defaultBrowserType: undefined } })

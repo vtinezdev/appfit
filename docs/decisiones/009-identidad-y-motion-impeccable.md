@@ -12,7 +12,7 @@ El menú es un abanico ascendente ligado al centro medido del botón inferior, n
 
 CSS y Web Animations comparten duraciones, curvas y reducción de movimiento. `useOverlayPresence` establece una única frontera de salida; `useModalLayer` añade entradas efímeras de History para cerrar capas con Atrás sin introducir rutas ni historial de pestañas. No se añade una dependencia de animación ni un motor spring.
 
-Completar series y descansar son estado visual por workout en sessionStorage, no datos históricos. La confirmación espera escrituras; editar desmarca. Terminar guarda todas las series registradas, explica esa regla y ofrece un resumen real. IndexedDB, repositorios, cálculos y formato de backup no cambian.
+~~Completar series y descansar son estado visual por workout en sessionStorage, no datos históricos.~~ Descansar es estado visual por workout en sessionStorage; completar series se persiste desde [026](026-ejecucion-tecnicas-y-progresion-confirmada.md). La confirmación espera escrituras; editar desmarca. Terminar guarda todas las series registradas, explica esa regla y ofrece un resumen real. ~~IndexedDB, repositorios, cálculos y formato de backup no cambian.~~
 
 ## Consecuencias
 
