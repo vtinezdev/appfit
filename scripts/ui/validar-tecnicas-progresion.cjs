@@ -6,6 +6,21 @@ const { navegar } = require('./navegar.cjs')
 const output = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-tecnicas-progresion'
 const fixture = JSON.parse(fs.readFileSync('src/test/fixtures/backup-v1.json', 'utf8'))
 fs.mkdirSync(output, { recursive: true })
+async function ajustes(panel) {
+  const boton = panel.getByRole('button', { name: 'Ajustes del ejercicio', exact: true })
+  if (await boton.getAttribute('aria-expanded') !== 'true') await boton.click()
+}
+async function cambiarRir(scope, label, valor) {
+  const grupo = scope.getByRole('group', { name: label, exact: true })
+  const output = grupo.locator('output')
+  let actual = (await output.textContent()).trim()
+  for (let pasos = 0; actual !== (valor === undefined ? '—' : String(valor)) && pasos < 12; pasos++) {
+    await grupo.getByRole('button', { name: `${actual !== '—' && (valor === undefined || Number(actual) > valor) ? 'Reducir' : 'Aumentar'} ${label}`, exact: true }).click()
+    await grupo.page().waitForTimeout(60)
+    actual = (await output.textContent()).trim()
+  }
+  assert.equal(actual, valor === undefined ? '—' : String(valor))
+}
 async function datos(page) { return page.evaluate(async () => { const { exportarBackup } = await import('/src/shared/lib/backup.ts'); const b = await exportarBackup(); delete b.exportedAt; return JSON.parse(JSON.stringify(b)) }) }
 async function check(page, tag) {
   await page.evaluate(() => document.fonts.ready)
@@ -22,7 +37,7 @@ async function check(page, tag) {
 async function tecnica(panel, page) {
   await panel.getByRole('button', { name: 'Opciones de serie 1 de Dominadas', exact: true }).click()
   const sheet = page.getByRole('dialog', { name: 'Serie 1 · Dominadas', exact: true })
-  await sheet.getByRole('button', { name: 'Ejecución, agarre y técnica', exact: true }).click()
+  await sheet.getByRole('button', { name: /^Ejecución y agarre/ }).click()
   return sheet
 }
 async function main() {
@@ -64,6 +79,7 @@ async function main() {
       await navegar(page, 'Entreno')
       const panel = page.locator('[data-exercise-id="1"]')
       await panel.getByRole('heading', { name: 'Dominadas' }).waitFor()
+      await ajustes(panel)
       await panel.getByRole('button', { name: /^Ejecución y agarre/ }).click()
       let sheet = page.getByRole('dialog', { name: 'Ejecución · Dominadas', exact: true })
       await sheet.getByRole('combobox', { name: 'Ejecución', exact: true }).selectOption('unilateral')
@@ -85,15 +101,23 @@ async function main() {
       for (const [lado, reps, kg] of [['izquierda', '8', '20'], ['derecha', '6', '15']]) {
         await sheet.getByRole('textbox', { name: `Reps tramo inicial ${lado}`, exact: true }).fill(reps)
         await sheet.getByRole('textbox', { name: `Kg tramo inicial ${lado}`, exact: true }).fill(kg)
-        await sheet.getByRole('combobox', { name: `RIR tramo inicial ${lado}`, exact: true }).selectOption('1')
+        await cambiarRir(sheet, `RIR tramo inicial ${lado}`, 1)
       }
+      await sheet.getByRole('tab', { name: 'Negativas', exact: true }).click()
       await sheet.getByRole('combobox', { name: 'Fase de la repetición', exact: true }).selectOption('negativa')
       await sheet.getByRole('textbox', { name: 'Segundos de descenso', exact: true }).fill('3')
+      assert.equal(await sheet.getByRole('combobox', { name: 'Ejecución', exact: true }).count(), 0, 'las tareas no se mezclan')
+      await check(page, `${tag}-negativas`)
+      await sheet.getByRole('tab', { name: 'Dropset', exact: true }).click()
       await sheet.getByRole('button', { name: 'Añadir bajada', exact: true }).click()
       const bajada = sheet.getByRole('region', { name: 'Bajadas de dropset', exact: true })
       await bajada.getByRole('checkbox', { name: 'Izquierda registrada', exact: true }).check()
       await bajada.getByRole('textbox', { name: 'Reps bajada 1 izquierda', exact: true }).fill('6')
       await bajada.getByRole('textbox', { name: 'Kg bajada 1 izquierda', exact: true }).fill('10')
+      await sheet.getByRole('tab', { name: 'Negativas', exact: true }).click()
+      assert.equal(await sheet.getByRole('combobox', { name: 'Fase de la repetición', exact: true }).inputValue(), 'negativa')
+      assert.equal(await sheet.getByRole('textbox', { name: 'Segundos de descenso', exact: true }).inputValue(), '3', 'cambiar pestañas conserva el borrador')
+      await sheet.getByRole('tab', { name: 'Dropset', exact: true }).click()
       await check(page, `${tag}-tecnica`)
       if (tag === '375-dark') {
         await page.evaluate(async () => { const { db } = await import('/src/shared/db/db.ts'); const original = db.sets.update.bind(db.sets); db.sets.update = (...args) => { db.sets.update = original; return Promise.reject(new Error('fallo sintético')) } })
@@ -108,6 +132,7 @@ async function main() {
       assert.equal(guardada.soloNegativas, true); assert.equal(guardada.bajadas.length, 1); assert.equal(guardada.realizada, false)
       // Cancelar elimina únicamente cambios del borrador.
       sheet = await tecnica(panel, page)
+      await sheet.getByRole('tab', { name: 'Dropset', exact: true }).click()
       await sheet.getByRole('button', { name: 'Quitar bajada 1', exact: true }).click()
       await sheet.getByRole('button', { name: 'Cancelar', exact: true }).click(); await sheet.waitFor({ state: 'detached' })
       assert.deepEqual((await datos(page)).sets.find(s => s.id === 1), guardada)

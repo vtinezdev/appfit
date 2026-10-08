@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Exercise, ObjetivoEjercicio, PlanProgresion, SetEntry, Workout } from '../../../shared/db/types'
 import Button from '../../../shared/components/Button'
-import Icon from '../../../shared/components/Icon'
+import OpcionEjercicio from './OpcionEjercicio'
+import Disclosure from '../../../shared/components/Disclosure'
 import Sheet from '../../../shared/components/Sheet'
 import { DecimalInput } from '../../../shared/components/Input'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -25,11 +26,12 @@ export default function ProgresionEjercicio({ ejercicio, workout, sets, objetivo
   async function accion(f: () => Promise<void>) { setOcupado(true); setError(null); try { await f() } catch (e) { setError(e instanceof Error ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.') } finally { setOcupado(false) } }
   const campos: { key: keyof PlanProgresion; label: string }[] = [{ key: 'series', label: 'Series objetivo' }, { key: 'repsMin', label: 'Repeticiones mínimas' }, { key: 'repsMax', label: 'Repeticiones máximas' }, { key: 'incrementoKg', label: 'Incremento disponible en kg (opcional)' }, { key: 'rirMin', label: 'RIR mínimo objetivo (opcional)' }]
   return <>
-    <Button variant={p && !resuelta ? 'secondary' : 'ghost'} size="sm" disabled={bloqueado} onClick={() => { setError(null); setEditando(false); setAbierto(true) }}>{p && !resuelta && <Icon name="chevron-right" className="-rotate-90" size={16} />}{p && !resuelta ? p.texto : 'Progresión'}</Button>
+    <OpcionEjercicio titulo="Progresión" detalle={p && !resuelta ? p.texto : plan ? `${plan.series} series · ${plan.repsMin}–${plan.repsMax} reps` : 'Configurar objetivo y consultar sugerencias'} aria-label={p && !resuelta ? p.texto : `Progresión de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => { setError(null); setEditando(false); setAbierto(true) }} />
     <Sheet open={abierto} onClose={() => { if (!ocupado) setAbierto(false) }} title={`Progresión · ${ejercicio.nombre}`}><div className="space-y-section">
       {editando ? <>
         <p className="text-body-sm text-fg-muted">Este objetivo habitual se usa para las sugerencias, sin modificar tu rutina. Indica el incremento real de tu equipo; no se deduce automáticamente.</p>
-        {campos.map(c => <label key={c.key} className="block space-y-1"><span className="text-label text-fg-muted">{c.label}</span><DecimalInput aria-label={c.label} value={draft[c.key]} disabled={ocupado} onChange={valor => setDraft(d => ({ ...d, [c.key]: valor }))} /></label>)}
+        <fieldset className="space-y-3"><legend className="mb-3 text-title font-semibold">Objetivo de repeticiones</legend>{campos.slice(0, 3).map(c => <label key={c.key} className="block space-y-1"><span className="text-label text-fg-muted">{c.label}</span><DecimalInput aria-label={c.label} value={draft[c.key]} disabled={ocupado} onChange={valor => setDraft(d => ({ ...d, [c.key]: valor }))} /></label>)}</fieldset>
+        <fieldset className="space-y-3 border-t border-line pt-4"><legend className="text-title font-semibold">Criterios para subir</legend>{campos.slice(3).map(c => <label key={c.key} className="block space-y-1"><span className="text-label text-fg-muted">{c.label}</span><DecimalInput aria-label={c.label} value={draft[c.key]} disabled={ocupado} onChange={valor => setDraft(d => ({ ...d, [c.key]: valor }))} /></label>)}</fieldset>
         <Button block loading={ocupado} onClick={() => accion(async () => { await exercisesRepo.guardarProgresion(ejercicio.id, draft as PlanProgresion); setEditando(false) })}>Guardar objetivo</Button>
         {ejercicio.progresion && <Button variant="ghost" block disabled={ocupado} onClick={() => accion(async () => { await exercisesRepo.guardarProgresion(ejercicio.id, undefined); setEditando(false) })}>Usar objetivo de rutina</Button>}
         <Button variant="ghost" block disabled={ocupado} onClick={() => setEditando(false)}>Cancelar edición</Button>
@@ -41,7 +43,7 @@ export default function ProgresionEjercicio({ ejercicio, workout, sets, objetivo
             <Button variant="secondary" block disabled={ocupado} onClick={() => accion(() => onDecidir(p.clave, 'mantener'))}>Mantener mis valores</Button><Button variant="ghost" block disabled={ocupado} onClick={() => accion(() => onDecidir(p.clave, 'descartada'))}>Descartar propuesta</Button>
           </div>}
         </>}
-        <p className="text-caption text-fg-muted">Sugerencia basada en 3 sesiones confirmadas, no una garantía de capacidad. No cambia nada sin Aplicar. Calentamientos, dropsets y negativas quedan fuera. La realización desconocida del historial antiguo no se supone completada.</p>
+        <Disclosure title="Cómo se calcula la sugerencia"><p className="text-body-sm text-fg-muted">Sugerencia basada en 3 sesiones confirmadas, no una garantía de capacidad. No cambia nada sin Aplicar. Calentamientos, dropsets y negativas quedan fuera. La realización desconocida del historial antiguo no se supone completada.</p></Disclosure>
         <Button variant="secondary" block disabled={ocupado} onClick={() => { setDraft({ ...plan }); setEditando(true) }}>Configurar progresión</Button>
       </>}
       {error && <ErrorState>{error}</ErrorState>}

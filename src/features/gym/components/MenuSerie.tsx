@@ -5,7 +5,9 @@ import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { updateSettings } from '../../../shared/db/settings'
-import TecnicaSerie from './TecnicaSerie'
+import TecnicaSerie, { type SeccionTecnica } from './TecnicaSerie'
+import OpcionEjercicio from './OpcionEjercicio'
+import { contextoSerie, textoAgarre } from '../lib/ejecucion'
 import type { CambiosSerie } from '../data/setsRepo'
 import type { Exercise, SetEntry } from '../../../shared/db/types'
 import { formatNumber } from '../../../shared/lib/format'
@@ -25,14 +27,16 @@ interface Props {
 
 /** Opciones secundarias; RIR se edita en la fila y discos solo corresponde a carga externa. */
 export default function MenuSerie({ open, onClose, titulo, serie, barraKg, onCambiar, onBorrar, ejercicio, onTecnica }: Props) {
-  const [tecnica, setTecnica] = useState(false)
+  const [tecnica, setTecnica] = useState<SeccionTecnica | null>(null)
   const [discosAbierto, setDiscosAbierto] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const discos = calcularDiscos(serie.peso, barraKg)
 
+  if (tecnica && ejercicio && onTecnica) return <TecnicaSerie serie={serie} ejercicio={ejercicio} titulo={titulo} seccionInicial={tecnica} onGuardar={onTecnica} onClose={onClose} />
+
   return (
     <Sheet open={open} onClose={onClose} title={titulo}>
-      {tecnica && ejercicio && onTecnica ? <TecnicaSerie serie={serie} ejercicio={ejercicio} onGuardar={onTecnica} onClose={onClose} /> : <div className="space-y-section">
+      <div className="space-y-section">
         <div className="space-y-2">
           <SegmentedControl label="Tipo de serie" valor={serie.tipo ?? 'efectiva'}
             onChange={(v) => onCambiar({ tipo: v === 'calentamiento' ? 'calentamiento' : undefined })}
@@ -63,9 +67,13 @@ export default function MenuSerie({ open, onClose, titulo, serie, barraKg, onCam
           </div>
         </Disclosure>}
 
-        {ejercicio && onTecnica && <Button variant="secondary" block onClick={() => setTecnica(true)}>Ejecución, agarre y técnica</Button>}
+        {ejercicio && onTecnica && <div className="divide-y divide-line">
+          <OpcionEjercicio titulo="Ejecución y agarre" detalle={contextoSerie({ ejecucion: serie.ejecucion, kgUnilateral: serie.kgUnilateral, lados: serie.lados }) || textoAgarre(serie.agarre) || 'Bilateral · agarre sin especificar'} onClick={() => setTecnica('ejecucion')} />
+          <OpcionEjercicio titulo="Negativas y tempo" detalle={contextoSerie({ soloNegativas: serie.soloNegativas, excentricaSeg: serie.excentricaSeg }) || 'Repetición completa · descenso sin especificar'} onClick={() => setTecnica('negativas')} />
+          <OpcionEjercicio titulo="Dropset" detalle={serie.bajadas?.length ? `${serie.bajadas.length} bajadas registradas` : 'Añadir bajadas de carga a esta serie'} onClick={() => setTecnica('dropset')} />
+        </div>}
         <Button variant="destructive" block onClick={onBorrar}>Borrar serie</Button>
-      </div>}
+      </div>
     </Sheet>
   )
 }

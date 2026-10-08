@@ -340,24 +340,22 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .training-progress .ring-bg { --tw-ring-color: rgb(var(--c-training)); }
 .workout-summary-metrics .text-fg { color: rgb(var(--c-on-training)); }
 .workout-summary-metrics .text-fg-muted { color: rgb(var(--c-training-muted)); }
-.series-row { display: grid; grid-template-columns: 44px repeat(3, minmax(0, 1fr)) 44px; gap: 6px; align-items: center; border-radius: var(--radius-md); transition: background-color var(--dur-normal); }
-.series-rir-label { display: none; }
-.series-row[data-done='true'] { background: rgb(var(--c-success-subtle)); }
-@container (max-width: 24rem) {
-  .series-row { grid-template-columns: 44px minmax(0, 1fr) minmax(0, 1fr) 44px; }
-  .series-row > :nth-child(4) { grid-column: 2 / span 2; grid-row: 2; }
-  .series-row > :nth-child(5) { grid-column: 4; grid-row: 1; }
-  .series-rir-heading { display: none; }
-  .series-rir-label { display: inline; }
-}
-/* Con texto ampliado, conservar espacio para leer/editar valores y targets completos. */
-@container (max-width: 12rem) {
+.series-row { display: grid; grid-template-columns: var(--touch-target) repeat(2, minmax(var(--touch-target), 1fr)) calc(var(--touch-target) + var(--space-stack)) var(--touch-target); gap: calc(var(--space-stack) / 3); align-items: center; border-radius: var(--radius-md); transition: background-color var(--dur-normal); }
+.series-row .app-field { padding-inline: calc(var(--space-stack) / 3); }
+.rir-stepper { display: grid; grid-template-columns: var(--space-stack) var(--touch-target); grid-template-rows: repeat(2, var(--touch-target)); width: calc(var(--touch-target) + var(--space-stack)); }
+.rir-stepper > output { grid-column: 1; grid-row: 1 / span 2; }
+.rir-stepper > button:first-child { grid-column: 2; grid-row: 2; }
+.rir-stepper > button:last-child { grid-column: 2; grid-row: 1; }
+/* La cifra es secundaria y −/+ se apilan en una columna estrecha: todas las acciones caben en la fila sin reducir targets. */
+@media (max-width: 359px) { .exercise-panel { padding-inline: .75rem; } }
+/* Texto ampliado: los controles conservan su tamaño y el RIR ocupa su propia fila. */
+@container (max-width: 15rem) {
   .series-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .series-row > :nth-child(1) { grid-column: 1; grid-row: 1; }
   .series-row > :nth-child(5) { grid-column: 2; grid-row: 1; justify-self: end; }
   .series-row > :nth-child(2) { grid-column: 1; grid-row: 2; }
   .series-row > :nth-child(3) { grid-column: 2; grid-row: 2; }
-  .series-row > :nth-child(4) { grid-column: 1 / span 2; grid-row: 3; }
+  .series-row > :nth-child(4) { grid-column: 1 / span 2; grid-row: 3; justify-self: center; }
 }
 .series-complete { position: relative; min-width: 44px; min-height: 48px; border-radius: var(--radius-md); color: rgb(var(--c-text-secondary)); }
 .series-complete[aria-pressed='true'] { background: rgb(var(--c-success)); color: rgb(var(--c-on-success)); }
