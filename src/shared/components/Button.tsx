@@ -33,6 +33,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
 }
 
+/**
+ * Deshabilitado: atenuado, salvo el primario, que pasa a neutro (un naranja apagado parece un error de color):
+ * el naranja solo existe cuando se puede actuar. Mientras carga conserva su color.
+ */
+const DESHABILITADO = (variant: Variant) => (variant === 'primary' ? 'disabled:bg-surface-muted disabled:text-fg-subtle' : 'disabled:opacity-40')
+
 /** Botón de tarea, con altura táctil real y esquinas contenidas. */
 export default function Button({ variant = 'primary', size = 'md', block = false, loading = false, className = '', type = 'button', disabled, children, ...rest }: Props) {
   return (
@@ -40,7 +46,7 @@ export default function Button({ variant = 'primary', size = 'md', block = false
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`app-button inline-flex items-center justify-center gap-2 rounded-md py-2 enabled:active:brightness-95 ${loading ? 'opacity-70' : 'disabled:opacity-40'} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
+      className={`app-button inline-flex items-center justify-center gap-2 rounded-md py-2 enabled:active:brightness-95 ${loading ? 'opacity-70' : DESHABILITADO(variant)} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
       {...rest}
     >
       {loading && <Icon name="loader" size={18} />}

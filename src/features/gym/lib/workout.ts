@@ -1,4 +1,6 @@
 import type { SetEntry } from '../../../shared/db/types'
+import { formatDiaMes } from '../../../shared/lib/dates'
+import { formatInt, formatNumber } from '../../../shared/lib/format'
 
 /** 1RM estimado con la fórmula de Epley: peso * (1 + reps/30). */
 export function epley1RM(peso: number, reps: number): number {
@@ -53,7 +55,13 @@ export function formatUltimaVez(todas: SerieBasica[]): string {
     grupos.set(key, (grupos.get(key) ?? 0) + 1)
   }
   return Array.from(grupos.entries())
-    .map(([key, count]) => (count > 1 ? `${count}×${key.split('x')[0]} @ ${key.split('x')[1]} kg` : `${key.replace('x', '×')} kg`))
+    .map(([key, count]) => {
+      const [reps, peso] = key.split('x').map(Number)
+      const nb = '\u00a0'
+      // Espacios no separables dentro de cada grupo: «3 × 10 · 71,25 kg» no se parte entre líneas.
+      const kg = `${formatNumber(peso, 2)}${nb}kg`
+      return count > 1 ? `${formatInt(count)}${nb}×${nb}${formatInt(reps)}${nb}·${nb}${kg}` : `${formatInt(reps)}${nb}×${nb}${kg}`
+    })
     .join(', ')
 }
 
@@ -84,7 +92,7 @@ export function formatHora(ts: number): string {
 }
 
 export interface ResumenEntreno {
-  /** «Hoy», «Ayer», «Hace 3 días» o «22 sept». */
+  /** «Hoy», «Ayer», «Hace 3 días» o «22 sep». */
   cuando: string
   duracion: string | null
   ejercicios: number
@@ -105,13 +113,29 @@ export function resumenUltimoEntreno(
   const diaHoy = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()).getTime()
   const dias = Math.round((diaHoy - diaInicio) / DIA_MS)
   const cuando =
-    dias <= 0 ? 'Hoy' : dias === 1 ? 'Ayer' : dias < 7 ? `Hace ${dias} días` : inicio.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })
+    dias <= 0 ? 'Hoy' : dias === 1 ? 'Ayer' : dias < 7 ? `Hace ${dias} días` : formatDiaMes(workout.inicio)
   return {
     cuando,
     duracion: workout.fin !== undefined ? formatDuracion(workout.fin - workout.inicio) : null,
     ejercicios: new Set(efectivas(sets).map((s) => s.exerciseId)).size,
     volumen: volumenSets(sets),
   }
+}
+
+/** Línea secundaria de una sesión en el historial: «Torso · 52 min · 9.268 kg · con notas». Solo lo que existe. */
+export function detalleSesion(
+  workout: { inicio: number; fin?: number; notas?: string },
+  rutina: string | undefined,
+  sets: SerieBasica[],
+): string {
+  const volumen = volumenSets(sets)
+  const partes = [
+    rutina,
+    workout.fin !== undefined ? formatDuracion(workout.fin - workout.inicio) : null,
+    volumen > 0 ? `${formatInt(volumen)} kg` : null,
+    workout.notas ? 'con notas' : null,
+  ]
+  return partes.filter(Boolean).join(' · ') || '—'
 }
 
 /**

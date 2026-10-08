@@ -62,6 +62,11 @@ describe('contratos del sistema visual', () => {
     expect(html).toContain('disabled=""')
     expect(html).toContain('aria-busy="true"')
   })
+  it('el primario deshabilitado pasa a neutro; mientras carga conserva el acento', () => {
+    expect(renderToStaticMarkup(<Button disabled onClick={noop}>Interpretar</Button>)).toContain('disabled:bg-surface-muted')
+    expect(renderToStaticMarkup(<Button loading onClick={noop}>Guardar</Button>)).not.toContain('disabled:bg-surface-muted')
+    expect(renderToStaticMarkup(<Button variant="secondary" disabled onClick={noop}>Cancelar</Button>)).toContain('disabled:opacity-40')
+  })
   it('las métricas muestran el valor completo inmediato y con formato español', () => {
     const html = renderToStaticMarkup(<Metric valor={1234567} unidad="kg" label="Volumen" />)
     expect(html).toContain('1.234.567')
@@ -75,6 +80,11 @@ describe('contratos del sistema visual', () => {
     expect(html).toContain('aria-valuetext="300 de 200 g, 100 g sobre el objetivo"')
     expect(html).toContain('opacity-50')
     expect(html).not.toContain('destructive')
+  })
+  it('la marca del objetivo solo aparece al pasarse: por debajo, el final del carril ya es el objetivo', () => {
+    expect(renderToStaticMarkup(<ProgressBar value={300} goal={200} label="Proteína" />)).toContain('bg-goal')
+    expect(renderToStaticMarkup(<ProgressBar value={150} goal={200} label="Proteína" />)).not.toContain('bg-goal')
+    expect(renderToStaticMarkup(<ProgressBar value={200} goal={200} label="Proteína" />)).not.toContain('bg-goal')
   })
   it('el desplegable conserva relación entre control y contenido', () => {
     const html = renderToStaticMarkup(<Disclosure title="Detalles" open><p>Valores nutricionales</p></Disclosure>)

@@ -55,26 +55,28 @@ function Detalle({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo: () => void }) 
   </Disclosure>
 }
 
-/** Resultado arriba, datos debajo: esta card solo lee; la edición vive en «Tus datos». */
+/** Resultado arriba, datos debajo: esta card solo lee; la edición vive en «Tus datos». El título va sobre la card, como en el resto de secciones. */
 export default function ResultadoEnergia({ perfil, energia, onElegirObjetivo, onVerMetodo }: Props) {
-  return <Card className="space-y-stack">
+  return <section className="space-y-stack">
     <SectionHeader variant="section">Tu energía diaria</SectionHeader>
-    {energia.estado === 'incompleto' && (perfilVacio(perfil) && energia.faltan.length >= 5
-      ? <EmptyState icon="user" title="Completa tus datos para estimar tu energía diaria">Añade tu sexo, fecha de nacimiento, altura, peso y actividad. Todo se queda en este dispositivo.</EmptyState>
-      : <p className="text-body-sm text-fg-muted">Faltan: {listaCampos(energia.faltan)}.</p>)}
-    {energia.estado === 'no-calculable' && <p role="alert" className="flex items-start gap-2 text-body-sm text-warning"><Icon name="alert" size={16} className="mt-0.5" /><span className="min-w-0">{energia.motivo}</span></p>}
-    {energia.estado === 'ok' && <>
-      {energia.objetivoKcal !== null
-        ? <Metric size="hero" label="Objetivo diario" valor={energia.objetivoKcal} unidad="kcal/día"
-            caption={energia.objetivoAplicado === 'mantenimiento' && energia.objetivoElegido === 'definicion' ? 'Mantenimiento (déficit no disponible)' : ETIQUETAS_OBJETIVO[energia.objetivoAplicado!]} />
-        : <div className="space-y-3">
-            <Metric size="hero" label="Gasto diario estimado" valor={energia.get} unidad="kcal/día" />
-            <Button variant="secondary" onClick={onElegirObjetivo}>Elige tu objetivo</Button>
-          </div>}
-      <Cadena e={energia} />
-      {energia.avisos.map((a) => <p key={a.tipo} className="flex items-start gap-2 text-body-sm text-warning"><Icon name="alert" size={16} className="mt-0.5" /><span className="min-w-0">{a.texto}</span></p>)}
-      <Detalle e={energia} onVerMetodo={onVerMetodo} />
-    </>}
-    <p className="text-caption text-fg-muted">{AVISO_ORIENTATIVO}.</p>
-  </Card>
+    <Card className="space-y-stack">
+      {energia.estado === 'incompleto' && (perfilVacio(perfil) && energia.faltan.length >= 5
+        ? <EmptyState icon="user" title="Completa tus datos para estimar tu energía diaria">Añade tu sexo, fecha de nacimiento, altura, peso y actividad. Todo se queda en este dispositivo.</EmptyState>
+        : <p className="text-body-sm text-fg-muted">Faltan: {listaCampos(energia.faltan)}.</p>)}
+      {energia.estado === 'no-calculable' && <p role="alert" className="flex items-start gap-2 text-body-sm text-warning"><Icon name="alert" size={16} className="mt-0.5" /><span className="min-w-0">{energia.motivo}</span></p>}
+      {energia.estado === 'ok' && <>
+        {energia.objetivoKcal !== null
+          ? <Metric size="hero" label="Objetivo diario" valor={energia.objetivoKcal} unidad="kcal/día"
+              caption={energia.objetivoAplicado === 'mantenimiento' && energia.objetivoElegido === 'definicion' ? 'Mantenimiento (déficit no disponible)' : ETIQUETAS_OBJETIVO[energia.objetivoAplicado!]} />
+          : <div className="space-y-3">
+              <Metric size="hero" label="Gasto diario estimado" valor={energia.get} unidad="kcal/día" />
+              <Button variant="secondary" onClick={onElegirObjetivo}>Elige tu objetivo</Button>
+            </div>}
+        <Cadena e={energia} />
+        {energia.avisos.map((a) => <p key={a.tipo} className="flex items-start gap-2 text-body-sm text-warning"><Icon name="alert" size={16} className="mt-0.5" /><span className="min-w-0">{a.texto}</span></p>)}
+        <Detalle e={energia} onVerMetodo={onVerMetodo} />
+      </>}
+      <p className="text-caption text-fg-muted">{AVISO_ORIENTATIVO}.</p>
+    </Card>
+  </section>
 }

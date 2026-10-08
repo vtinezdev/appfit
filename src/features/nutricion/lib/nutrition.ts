@@ -25,9 +25,9 @@ export function macrosPorGramos(
   }
 }
 
-/** «P41 C0 G3»: proteína, carbohidratos y grasa redondeados a entero, con el formato de las filas de Hoy. */
+/** «P 41 · C 0 · G 3»: proteína, carbohidratos y grasa redondeados a entero. La única forma de escribir los macros en una línea. */
 export function resumenMacros({ prot, carb, grasa }: Pick<Macros, 'prot' | 'carb' | 'grasa'>): string {
-  return `P${formatInt(prot)} C${formatInt(carb)} G${formatInt(grasa)}`
+  return `P ${formatInt(prot)} · C ${formatInt(carb)} · G ${formatInt(grasa)}`
 }
 
 export function sumMacros(entries: Macros[]): Macros {

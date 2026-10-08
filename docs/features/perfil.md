@@ -7,7 +7,7 @@
 | Pieza | Archivo | Datos |
 |---|---|---|
 | Pantalla | `PerfilTab.tsx`: resultado arriba, datos debajo | `perfilRepo.estadoEnergetico(hoy)` (liveQuery) |
-| Resultado | `components/ResultadoEnergia.tsx`: Card «Tu energía diaria», cadena de 3 filas, avisos, Disclosure «Cómo se ha calculado» | — |
+| Resultado | `components/ResultadoEnergia.tsx`: título de sección «Tu energía diaria» sobre una Card con la cadena de 3 filas, avisos y Disclosure «Cómo se ha calculado» | — |
 | Datos | `components/DatosPerfil.tsx`: ListGroup Sexo · Fecha de nacimiento · Altura · Peso · Actividad · Objetivo; «Borrar datos del perfil» | — |
 | Edición | `components/EditarDatoSheet.tsx`: una Sheet con un control por dato. Peso reutiliza `inicio/components/RegistrarPesoSheet` y `pesosRepo.registrar` | `perfilRepo.guardarPerfil` |
 | Cálculo | `lib/energia.ts`: `ECUACIONES`, `METODO_TMB`, `NIVELES_ACTIVIDAD`, `calcularEnergia(perfil, pesoKg, hoy)` → `incompleto` · `no-calculable` · `ok` | — |
@@ -15,7 +15,7 @@
 | Objetivos vigentes | `lib/objetivosVigentes.ts` (usa `nutricion/lib/objetivos.reajustarObjetivos`) | — |
 | Fuentes | `lib/fuentesEnergia.ts`: registro de citas que pinta Referencias | — |
 | Proteína por kg | `lib/proteina.ts`: `ajusteProteina`, `aplicarProteinaPorKg`, `reajustarConProteinaFija`; fila «Proteína por kg» en `DatosPerfil` y su control en `EditarDatoSheet` | `settings.perfil` |
-| Gasto observado | `lib/gastoObservado.ts`, `components/GastoObservadoCard` | `perfilRepo.leerGastoObservado` (`entries` y `pesos`) |
+| Gasto observado | `lib/gastoObservado.ts`, `components/GastoObservadoCard` (título de sección sobre la card) | `perfilRepo.leerGastoObservado` (`entries` y `pesos`) |
 | Objetivo de cada día | `lib/objetivosDia.ts`, `data/objetivosDiaRepo.ts` | tabla `objetivosDia` |
 | Medidas corporales | `lib/medidas.ts`, `components/MedidasCorporales` | `data/medidasRepo.ts` (tabla `medidas`) |
 | Repositorio | `data/perfilRepo.ts`: `getPerfil`, `guardarPerfil(patch)`, `borrarPerfil`/`restaurarPerfil`, `estadoEnergetico`, `objetivosVigentes`, `calcularVigentes` | `settings.perfil`, `pesos`, `entries` |

@@ -41,7 +41,7 @@ export default function NutrientesDetalle({ entries, titulo = 'Nutrientes adicio
             <IconButton icon="info" label={`Información sobre ${label}`} variant="ghost" aria-haspopup="dialog" aria-controls={sheetId} aria-expanded={abierto && elegido === clave}
               onClick={() => { pendiente.current = null; setElegido(clave); setAbierto(true) }} />
           </div>
-          {valor !== undefined ? <ProgressBar value={valor} goal={referencias[clave].gramos} label={`${label}: consumo diario conocido`} valueText={`${consumo(valor)}${conocidos < total ? ', suma parcial' : ''}. ${cobertura}.`} /> : <div aria-hidden className="h-1.5 rounded-sm bg-surface-muted" />}
+          {valor !== undefined ? <ProgressBar value={valor} goal={referencias[clave].gramos} label={`${label}: consumo diario conocido`} valueText={`${consumo(valor)}${conocidos < total ? ', suma parcial' : ''}. ${cobertura}.`} /> : <div aria-hidden className="h-1.5 rounded-sm bg-line" />}
           <p className="text-caption text-fg-muted">{cobertura}</p>
         </div>
       })}

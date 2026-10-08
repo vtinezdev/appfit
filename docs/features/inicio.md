@@ -25,10 +25,10 @@ El shell (`app/TrasladarDatos`) muestra antes del resumen un aviso breve para a�
 
 «Hoy» con la fecha debajo. Después, de arriba abajo:
 
-1. **Energía** (tarjeta ancha): rueda con las kcal del día en el centro; a su lado, objetivo, frase de `fraseKcal` («Quedan 860 kcal», «250 kcal sobre el objetivo») y gramos de proteína, hidratos y grasa. Toda la tarjeta abre el día en Nutrición.
-2. **Entreno** y **Peso** (dos tarjetas pequeñas). Entreno: «En curso · Desde 18:05», el último entreno («Ayer · 52 min · 600 kg») o «Sin entrenos». Abre Gym para elegir rutina o entreno libre, sin inventar una programación. Peso: último pesaje y variación a 7 días; la tarjeta abre el historial (solo lectura) y su «+» abre el registro.
-3. **Agua**: tarjeta con lo bebido hoy (y el objetivo con su barra si lo hay). El «+» suma una toma de 250 ml y el «−» quita la última toma (desactivado a 0 ml), ambos con «Deshacer»; la tarjeta abre una Sheet para elegir 250/330/500 ml u otra cantidad, quitar la última toma y repasar los últimos 7 días. El objetivo sale de Ajustes (lo editado manda) o, sin él, del sexo de Perfil: 2,0 L (hombre) o 1,6 L (mujer), según la ingesta adecuada de agua total de EFSA (2010) menos un 20 % por la humedad de los alimentos (criterio de AppFit; ver Referencias › Proteína y agua). Sin sexo ni ajuste no hay objetivo y solo se muestra lo bebido.
-4. **Registrar comida**: acción principal (abre Nutrición con el registro).
+1. **Energía** (tarjeta ancha): rueda con las kcal del día en el centro; a su lado, objetivo, frase de `fraseKcal` («Quedan 860 kcal», «250 kcal sobre el objetivo») y gramos de proteína, hidratos y grasa. Toda la tarjeta abre el día en Nutrición. Si la rueda no cabe junto al texto (tarjeta de 20 rem o menos, p. ej. a 320 px o con texto ampliado), la rueda se centra y el texto pasa entero debajo.
+2. **Entreno** y **Peso** (dos tarjetas pequeñas). Entreno: «En curso · Desde 18:05», el último entreno («Ayer · 52 min · 600 kg») o «Sin entrenos». Abre Entreno para elegir rutina o entreno libre, sin inventar una programación. Peso: último pesaje y variación a 7 días; la tarjeta abre el historial (solo lectura) y su «+» abre el registro.
+3. **Agua**: tarjeta con lo bebido hoy (y el objetivo con su barra en grafito, como dato: no usa el acento). El «+» suma una toma de 250 ml y el «−» quita la última toma (desactivado a 0 ml), ambos con «Deshacer»; la tarjeta abre una Sheet para elegir 250/330/500 ml u otra cantidad, quitar la última toma y repasar los últimos 7 días. El objetivo sale de Ajustes (lo editado manda) o, sin él, del sexo de Perfil: 2,0 L (hombre) o 1,6 L (mujer), según la ingesta adecuada de agua total de EFSA (2010) menos un 20 % por la humedad de los alimentos (criterio de AppFit; ver Referencias › Proteína y agua). Sin sexo ni ajuste no hay objetivo y solo se muestra lo bebido.
+4. **Registrar comida**: acción principal (abre Nutrición con el registro). Es lo único naranja con masa de la pantalla: las acciones de las tarjetas («+» del peso, «−»/«+» del agua) van en tono neutro.
 
 Encima de las tarjetas puede aparecer el **aviso de copia de seguridad** si hay datos y han pasado 14 días (configurable en Ajustes: 7/14/30) desde la última exportación (o nunca se exportó). «Exportar ahora» lleva a Ajustes › Copias de seguridad; «Más tarde» lo pospone 3 días. Sin notificaciones. La fecha de la última exportación se guarda solo si la descarga se lanzó.
 
@@ -36,7 +36,7 @@ Las medidas corporales (cintura, cadera…) viven en Perfil; «Medidas caseras»
 
 ## Rueda de energía
 
-- **Anillo exterior**: lo consumido hasta el objetivo, en tramos de proteína, hidratos y grasa proporcionales a sus kcal (4/4/9 kcal/g). Lo que falta va en negro (`stroke-kcal-rest`). Al alcanzar el objetivo queda lleno.
+- **Anillo exterior**: lo consumido hasta el objetivo, en tramos de proteína, hidratos y grasa proporcionales a sus kcal (4/4/9 kcal/g). Lo que falta va en negro (`stroke-kcal-rest`) sobre un carril más fino (6 frente a 12 del viewBox), para que manden los colores de lo consumido. Al alcanzar el objetivo queda lleno.
 - **Kcal sin desglose**: si las kcal del día superan a las de los macros (kcal rápidas, alimentos sin macros), la diferencia es un tramo final en `kcal`. Si las de los macros superan a las del día (redondeos), se reparte entre ellos sin pasar de lo consumido.
 - **Segunda vuelta**: el exceso sobre el objetivo se dibuja en un anillo interior fino en `kcal`, hasta una vuelta completa (= otro objetivo entero). Sin rojo: pasarse se cuenta con el mismo tono que quedarse corto.
 - **Sin objetivo**: si hay consumo, el anillo entero muestra el reparto, sin «de X kcal» ni frase.

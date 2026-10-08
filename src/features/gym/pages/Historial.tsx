@@ -2,21 +2,30 @@ import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import ResumenSemanalGym from '../components/ResumenSemanalGym'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
+import * as routinesRepo from '../data/routinesRepo'
+import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
-import { formatDuracion } from '../lib/workout'
+import { detalleSesion } from '../lib/workout'
+import { formatFechaHora } from '../../../shared/lib/dates'
+import type { SetEntry } from '../../../shared/db/types'
 import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 
-function formatFechaHora(ts: number): string {
-  return new Date(ts).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
-}
-
-/** Lista de entrenos terminados; el detalle y la edición viven en `DetalleEntreno`. */
+/** Lista de entrenos terminados con su rutina, duración y volumen; el detalle y la edición viven en `DetalleEntreno`. */
 export default function Historial({ onAbrir }: { onAbrir: (id: number) => void }) {
   const [modo, setModo] = useState<'sesiones' | 'semanas'>('sesiones')
   const workouts = useLiveQuery(() => workoutsRepo.terminados(), [])
+  const contexto = useLiveQuery(async () => {
+    const porWorkout = new Map<number, SetEntry[]>()
+    for (const s of await setsRepo.todas()) {
+      const delWorkout = porWorkout.get(s.workoutId)
+      if (delWorkout) delWorkout.push(s)
+      else porWorkout.set(s.workoutId, [s])
+    }
+    return { rutinas: new Map((await routinesRepo.listar()).map((r) => [r.id, r.nombre])), porWorkout }
+  }, [])
   const lista = workouts ? [...workouts].reverse() : []
 
   return (
@@ -31,8 +40,10 @@ export default function Historial({ onAbrir }: { onAbrir: (id: number) => void }
             <li key={w.id}>
               <ListRow onClick={() => onAbrir(w.id)}>
                 <span className="min-w-0">
-                  <span className="block text-body font-medium text-fg">{formatFechaHora(w.inicio)}</span>
-                  <span className="tabular block text-caption text-fg-muted">{w.fin ? formatDuracion(w.fin - w.inicio) : '—'}{w.notas ? ' · con notas' : ''}</span>
+                  <span className="tabular block text-body font-medium text-fg">{formatFechaHora(w.inicio)}</span>
+                  <span className="tabular block break-words text-caption text-fg-muted">
+                    {detalleSesion(w, w.routineId !== undefined ? contexto?.rutinas.get(w.routineId) : undefined, contexto?.porWorkout.get(w.id) ?? [])}
+                  </span>
                 </span>
                 <Icon name="chevron-right" size={18} className="text-fg-subtle" />
               </ListRow>

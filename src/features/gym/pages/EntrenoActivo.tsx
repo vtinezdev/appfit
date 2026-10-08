@@ -217,8 +217,8 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
         </div>
         <div className="grid grid-cols-3 items-end gap-3">
           <div className="min-w-0"><p className="training-muted text-caption">Tiempo</p><p className="font-numeric text-heading"><WorkoutClock start={workout.inicio} /></p></div>
-          <div className="min-w-0"><p className="training-muted text-caption">Volumen</p><p className="tabular break-words font-numeric text-heading">{formatInt(volumen)} <span className="training-muted text-caption">kg</span></p></div>
-          <div className="min-w-0 text-right"><p className="training-muted text-caption">Series marcadas</p><p className="tabular font-numeric text-heading">{completedCount}<span className="training-muted text-body-sm"> / {currentSets.length}</span></p></div>
+          <div className="min-w-0"><p className="training-muted text-caption">Volumen</p><p className="tabular flex flex-wrap items-baseline gap-x-1.5"><span className="min-w-0 break-words font-numeric text-heading">{formatInt(volumen)}</span><span className="training-muted text-caption">kg</span></p></div>
+          <div className="min-w-0 text-right"><p className="training-muted text-caption">Series marcadas</p><p className="tabular flex items-baseline justify-end gap-x-1"><span className="font-numeric text-heading">{completedCount}</span><span className="training-muted text-body-sm">/ {currentSets.length}</span></p></div>
         </div>
         <div className="training-progress"><ProgressBar value={completedCount} goal={currentSets.length} label="Series completadas" valueText={`${completedCount} de ${currentSets.length} series marcadas`} /></div>
       </section>

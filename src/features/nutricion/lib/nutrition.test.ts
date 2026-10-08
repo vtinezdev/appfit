@@ -4,11 +4,11 @@ import type { Entry } from '../../../shared/db/types'
 
 describe('resumenMacros', () => {
   it('redondea a entero con el formato de Hoy', () => {
-    expect(resumenMacros({ prot: 41.4, carb: 0, grasa: 2.7 })).toBe('P41 C0 G3')
+    expect(resumenMacros({ prot: 41.4, carb: 0, grasa: 2.7 })).toBe('P 41 · C 0 · G 3')
   })
 
   it('usa separador de millares como el resto de cifras', () => {
-    expect(resumenMacros({ prot: 1200, carb: 3, grasa: 0 })).toBe('P1.200 C3 G0')
+    expect(resumenMacros({ prot: 1200, carb: 3, grasa: 0 })).toBe('P 1.200 · C 3 · G 0')
   })
 })
 

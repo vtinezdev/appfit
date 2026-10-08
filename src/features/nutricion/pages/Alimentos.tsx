@@ -14,13 +14,13 @@ import MacroInputs from '../components/MacroInputs'
 import PorcionesAlimento from '../components/PorcionesAlimento'
 import Disclosure from '../../../shared/components/Disclosure'
 import { filtrarAlimentos } from '../lib/alimentos'
+import { resumenMacros } from '../lib/nutrition'
 import { esCategoriaAlimento } from '../lib/catalogo/categorias'
 import { categoriasPresentes, filtrarPorCategoria, sinCategoria, type FiltroCategoria } from '../lib/repartoCategorias'
 import SelectorCategoria from '../components/SelectorCategoria'
 import IconoCategoria from '../components/IconoCategoria'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
-import Metric from '../../../shared/components/Metric'
 import Badge from '../../../shared/components/Badge'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
@@ -108,6 +108,7 @@ export default function Alimentos() {
               className="flex-1"
             />
             <Button
+              variant="secondary"
               size="md"
               onClick={() => abrir({ nombre: '', kcal100: 0, prot100: 0, carb100: 0, grasa100: 0, fuente: 'manual' })}
             >
@@ -145,10 +146,10 @@ export default function Alimentos() {
                     <div className="min-w-0 flex-1">
                       <p className="break-words text-body font-medium text-fg">{f.nombre}</p>
                       <p className="tabular text-caption text-fg-muted">
-                        P{formatInt(f.prot100)} C{formatInt(f.carb100)} G{formatInt(f.grasa100)} · por 100 g
+                        {resumenMacros({ prot: f.prot100, carb: f.carb100, grasa: f.grasa100 })} · por 100 g
                       </p>
                     </div>
-                    <Metric size="title" align="right" valor={formatInt(f.kcal100)} unidad="kcal" />
+                    <p className="tabular shrink-0 text-right text-fg"><span className="text-body font-semibold">{formatInt(f.kcal100)}</span> <span className="text-caption text-fg-muted">kcal</span></p>
                   </ListRow>
                 </li>
               ))}
@@ -179,7 +180,7 @@ export default function Alimentos() {
 
       {vista === 'recetas' && (
         <div className="space-y-stack">
-          <Button block onClick={() => setRecetaEditando('nueva')}><Icon name="plus" size={18} />Nueva receta</Button>
+          <Button variant="secondary" block onClick={() => setRecetaEditando('nueva')}><Icon name="plus" size={18} />Nueva receta</Button>
           {recetas?.length === 0 && <EmptyState icon="utensils" title="Aún no hay recetas">Crea una receta con sus ingredientes y su peso cocinado: se convierte en un alimento con los valores por 100 g.</EmptyState>}
           {recetas && recetas.length > 0 && (
             <ListGroup aria-label="Tus recetas">
@@ -192,7 +193,7 @@ export default function Alimentos() {
                         <p className="break-words text-body font-medium text-fg">{r.nombre}</p>
                         <p className="tabular text-caption text-fg-muted">{r.ingredientes.length} ingrediente{r.ingredientes.length === 1 ? '' : 's'} · {formatInt(r.pesoCocinadoG)} g cocinados</p>
                       </div>
-                      <Metric size="title" align="right" valor={formatInt(v.kcal100)} unidad="kcal/100 g" />
+                      <p className="tabular shrink-0 text-right text-fg"><span className="text-body font-semibold">{formatInt(v.kcal100)}</span> <span className="text-caption text-fg-muted">kcal/100 g</span></p>
                     </ListRow>
                   </li>
                 )

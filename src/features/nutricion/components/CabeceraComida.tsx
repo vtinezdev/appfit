@@ -28,8 +28,8 @@ export default function CabeceraComida({ comida, titulo, kcal, registros, onAcci
         {registros === 0 ? 'Sin registros' : `${formatInt(registros)} ${registros === 1 ? 'registro' : 'registros'}`}
       </p>
       <p className="meal-header-energy min-w-0 text-right text-fg">
-        <span className="tabular block break-words text-title font-semibold">{valor}</span>
-        <span className="block text-caption text-fg-muted">kcal</span>
+        <span className="tabular break-words text-title font-semibold">{valor}</span>
+        <span className="text-caption text-fg-muted">kcal</span>
       </p>
       <IconButton icon="more" label={`Acciones de ${titulo}`} variant="ghost" size="sm" className="meal-header-actions" onClick={onAcciones} />
     </div>

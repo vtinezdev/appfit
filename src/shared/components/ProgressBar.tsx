@@ -7,7 +7,7 @@ interface Props {
   label?: string
   valueText?: string
 }
-/** Objetivo marcado y exceso atenuado. Valor final inmediato, sin contar desde cero. */
+/** El final del carril es el objetivo; al pasarse, una marca lo sitúa dentro y el exceso va atenuado. Valor final inmediato, sin contar desde cero. */
 export default function ProgressBar({ value, goal, colorClass = 'bg-accent', size = 'md', label, valueText }: Props) {
   const t = tramosCarril(value, goal)
   const v = Number.isFinite(value) ? Math.max(value, 0) : 0
@@ -15,11 +15,11 @@ export default function ProgressBar({ value, goal, colorClass = 'bg-accent', siz
   return (
     <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={Math.round(Math.max(g, v, 1))}
       aria-valuenow={Math.round(v)} aria-valuetext={valueText} className={`relative w-full ${size === 'lg' ? 'h-2' : 'h-1.5'}`}>
-      <div className="absolute inset-0 overflow-hidden rounded-sm bg-surface-muted">
+      <div className="absolute inset-0 overflow-hidden rounded-sm bg-line">
         <div className={`progress-fill absolute inset-0 origin-left ${colorClass}`} style={{ transform: `scaleX(${t.relleno})` }} />
         {t.exceso > 0 && <div className={`absolute inset-y-0 opacity-50 ${colorClass}`} style={{ left: `${t.relleno * 100}%`, width: `${t.exceso * 100}%` }} />}
       </div>
-      {t.meta !== null && <div aria-hidden className="absolute -inset-y-0.5 w-0.5 bg-goal ring-2 ring-bg" style={{ left: `clamp(0px, calc(${t.meta * 100}% - 0.0625rem), calc(100% - 0.125rem))` }} />}
+      {t.marca !== null && <div aria-hidden className="absolute -inset-y-0.5 w-0.5 bg-goal ring-2 ring-bg" style={{ left: `clamp(0px, calc(${t.marca * 100}% - 0.0625rem), calc(100% - 0.125rem))` }} />}
     </div>
   )
 }

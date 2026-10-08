@@ -211,7 +211,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .meal-header-icon { grid-area: icon; }
 .meal-header-title { grid-area: title; overflow-wrap: anywhere; }
 .meal-header-meta { grid-area: meta; }
-.meal-header-energy { grid-area: energy; padding-left: 0.5rem; }
+.meal-header-energy { grid-area: energy; padding-left: 0.5rem; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; column-gap: 0.25rem; }
 .meal-header-energy .tabular { min-width: 0; overflow-wrap: anywhere; }
 .meal-header-actions { grid-area: actions; }
 /* La cifra completa y el texto ampliado ganan una fila, sin reducir letra/targets. */
@@ -244,10 +244,24 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .food-record-name { grid-area: name; }
 .food-record-detail { grid-area: detail; }
 .food-record-energy { grid-area: energy; }
+/* Plato: el chevrón ocupa la columna del icono de categoría (dentro del propio botón), así su nombre empieza en la misma
+   vertical que el de un alimento suelto: 0,5 rem de la fila + 2,75 rem de columna + 0,5 rem de separación. */
+.food-record-plato { padding-left: 0; grid-template-columns: var(--touch-target) minmax(0, 1fr) minmax(0, max-content); grid-template-areas: 'chevron name name' 'chevron detail energy'; }
+.food-record-chevron { grid-area: chevron; align-self: center; justify-self: center; }
 /* Texto ampliado/cifras largas se mantienen completos, sin altura fija ni reducir targets. */
 @container food-record (max-width: 14rem) {
   .food-record-button { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'name' 'detail' 'energy'; }
+  .food-record-plato { grid-template-columns: var(--touch-target) minmax(0, 1fr); grid-template-areas: 'chevron name' 'chevron detail' 'chevron energy'; }
 }
+/* Energía de Inicio: si la rueda no cabe junto al texto, se centra y el texto pasa entero debajo (no queda a un lado). */
+.energia-card { container: energia / inline-size; }
+@container energia (max-width: 20rem) {
+  .energia-cuerpo { justify-content: center; }
+  .energia-texto { flex-basis: 100%; }
+}
+/* Un desplegable no repite la línea de la lista plana o del desplegable que lo preceden, ni deja una suelta al final de una card. */
+.app-list-flat + .app-disclosure, .app-disclosure + .app-disclosure { border-top-width: 0; }
+.app-card > .app-disclosure:last-child { border-bottom-width: 0; }
 .overlay-backdrop { opacity: 0; transition: opacity var(--dur-overlay) var(--ease-standard); }
 [data-visible='true'] > .overlay-backdrop { opacity: 1; }
 [data-visible='false'] > .overlay-backdrop { transition-duration: var(--dur-exit); }
@@ -312,6 +326,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   --c-text-primary: var(--c-on-training); --c-text-secondary: var(--c-training-muted); --c-text-tertiary: var(--c-training-muted);
   --c-accent-strong: var(--c-meal-accent); --c-focus: var(--c-meal-accent); --c-border: var(--c-training-track);
   background: rgb(var(--c-training)); color: rgb(var(--c-on-training)); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+  border: 1px solid rgb(var(--c-training-border));
 }
 .series-row .app-field { font-size: var(--fs-title); font-weight: 700; background: rgb(var(--c-bg)); }
 .exercise-panel .exercise-title { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
@@ -324,9 +339,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .training-progress .ring-bg { --tw-ring-color: rgb(var(--c-training)); }
 .workout-summary-metrics .text-fg { color: rgb(var(--c-on-training)); }
 .workout-summary-metrics .text-fg-muted { color: rgb(var(--c-training-muted)); }
-.series-row { display: grid; grid-template-columns: 44px minmax(0, 1fr) minmax(0, 1fr) 44px; gap: 6px; align-items: center; border-radius: 10px; transition: background-color var(--dur-normal); }
+.series-row { display: grid; grid-template-columns: 44px minmax(0, 1fr) minmax(0, 1fr) 44px; gap: 6px; align-items: center; border-radius: var(--radius-md); transition: background-color var(--dur-normal); }
 .series-row[data-done='true'] { background: rgb(var(--c-success-subtle)); }
-.series-complete { position: relative; min-width: 44px; min-height: 48px; border-radius: 10px; color: rgb(var(--c-text-secondary)); }
+.series-complete { position: relative; min-width: 44px; min-height: 48px; border-radius: var(--radius-md); color: rgb(var(--c-text-secondary)); }
 .series-complete[aria-pressed='true'] { background: rgb(var(--c-success)); color: rgb(var(--c-on-success)); }
 .series-complete[aria-pressed='true'] svg { animation: series-confirm var(--dur-normal) var(--ease-standard); }
 .series-complete:disabled { opacity: .5; }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { epley1RM, formatDuracion, formatHora, formatUltimaVez, mejorSet, pesoMaximo, resumenUltimoEntreno, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
+import { detalleSesion, epley1RM, formatDuracion, formatHora, formatUltimaVez, mejorSet, pesoMaximo, resumenUltimoEntreno, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
 
 describe('epley1RM', () => {
   it('con 1 repetición el 1RM es el propio peso', () => {
@@ -52,7 +52,23 @@ describe('formatUltimaVez', () => {
       { reps: 8, peso: 60 },
       { reps: 8, peso: 60 },
     ])
-    expect(texto).toBe('3×8 @ 60 kg')
+    expect(texto).toBe('3\u00a0×\u00a08\u00a0·\u00a060\u00a0kg')
+  })
+
+  it('usa coma decimal y separa los grupos con coma', () => {
+    const texto = formatUltimaVez([{ reps: 10, peso: 71.25 }, { reps: 10, peso: 71.25 }, { reps: 10, peso: 71.25 }, { reps: 8, peso: 73.75 }])
+    expect(texto).toBe('3\u00a0×\u00a010\u00a0·\u00a071,25\u00a0kg, 8\u00a0×\u00a073,75\u00a0kg')
+  })
+})
+
+describe('detalleSesion', () => {
+  it('rutina, duración, volumen y notas, separados por puntos', () => {
+    const w = { inicio: 0, fin: 52 * 60_000, notas: 'Buen día' }
+    expect(detalleSesion(w, 'Torso', [{ reps: 10, peso: 60 }, { reps: 10, peso: 60, tipo: 'calentamiento' }])).toBe('Torso · 52 min · 600 kg · con notas')
+  })
+  it('omite lo que no existe y nunca queda vacío', () => {
+    expect(detalleSesion({ inicio: 0, fin: 3_600_000 }, undefined, [])).toBe('1 h')
+    expect(detalleSesion({ inicio: 0 }, undefined, [])).toBe('—')
   })
 })
 
@@ -142,7 +158,7 @@ describe('series de calentamiento', () => {
     expect(volumenSets(sets)).toBe(300)
     expect(mejorSet(sets)).toEqual({ peso: 60, reps: 5 })
     expect(pesoMaximo([{ peso: 100, tipo: 'calentamiento' as const }, { peso: 60 }])).toBe(60)
-    expect(formatUltimaVez(sets)).toBe('5×60 kg')
+    expect(formatUltimaVez(sets)).toBe('5\u00a0×\u00a060\u00a0kg')
     expect(mejorSet([{ peso: 20, reps: 10, tipo: 'calentamiento' as const }])).toBeNull()
   })
 })

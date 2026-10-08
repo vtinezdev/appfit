@@ -16,7 +16,7 @@ import PageHeader from '../../../shared/components/PageHeader'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
-import { toISODate } from '../../../shared/lib/dates'
+import { formatFechaHoraConDia, toISODate } from '../../../shared/lib/dates'
 import { formatNumber } from '../../../shared/lib/format'
 import MapaMuscular from '../components/MapaMuscular'
 import PanelEjercicio from '../components/PanelEjercicio'
@@ -26,8 +26,6 @@ import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { recordsDeEntreno } from '../lib/records'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { combinarFechaHora, efectivas, formatDuracion, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
-
-const formatFechaHora = (ts: number) => new Date(ts).toLocaleString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
 
 interface Props {
   workoutId: number
@@ -160,7 +158,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   return (
     <div className="space-y-section px-page pb-16 pt-5">
       <Button variant="ghost" size="sm" className="-ml-3" onClick={onVolver}><Icon name="arrow-left" size={18} />Historial</Button>
-      <PageHeader title={formatFechaHora(w.inicio)} overline={editando ? 'Editando entreno' : undefined}
+      <PageHeader title={formatFechaHoraConDia(w.inicio)} overline={editando ? 'Editando entreno' : undefined}
         action={editando
           ? <Button size="sm" onClick={terminarEdicion}>Listo</Button>
           : <Button variant="secondary" size="sm" onClick={() => setEditando(true)}><Icon name="pencil" size={16} />Editar</Button>} />

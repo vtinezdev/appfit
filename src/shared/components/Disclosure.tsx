@@ -7,13 +7,13 @@ interface Props {
   onChange?: (open: boolean) => void
   className?: string
 }
-/** Detalles bajo demanda; se puede controlar para abrir una guía enlazada. */
+/** Detalles bajo demanda; se puede controlar para abrir una guía enlazada. Tras una lista plana u otro desplegable no repite la línea, y al final de una card no la dibuja (index.css). */
 export default function Disclosure({ title, children, open, onChange, className = '' }: Props) {
   const [localOpen, setLocalOpen] = useState(false)
   const expanded = open ?? localOpen
   const id = useId()
   return (
-    <div className={`border-y border-line ${className}`}>
+    <div className={`app-disclosure border-y border-line ${className}`}>
       <button type="button" aria-expanded={expanded} aria-controls={id}
         onClick={() => { setLocalOpen(!expanded); onChange?.(!expanded) }}
         className="flex min-h-touch w-full items-center justify-between gap-3 py-3 text-left text-body-sm font-semibold text-fg">
