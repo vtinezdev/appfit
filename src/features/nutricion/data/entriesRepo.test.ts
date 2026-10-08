@@ -402,6 +402,20 @@ describe('entriesRepo.copiar / borrarVarias (A2)', () => {
     expect(await entriesRepo.delDia('2026-09-27')).toHaveLength(1)
   })
 
+  it('con ids copia solo esas entradas (Repetir con selección) e ignora las que ya no existen', async () => {
+    const foodId = await crearPollo()
+    await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-27', comida: 'cena', foodId, gramos: 100 })
+    const plato = await entriesRepo.guardarComida({ fecha: '2026-09-27', comida: 'cena', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }], nombrePlato: 'Mi plato' })
+    const ids = await entriesRepo.copiar({ origen: { fecha: '2026-09-27', comida: 'cena', ids: [...plato, 999] }, destino: { fecha: '2026-09-28', comida: 'cena' } })
+    const copias = (await db.entries.bulkGet(ids)).map((e) => e!)
+    expect(copias.map((e) => e.nombre)).toEqual(['Arroz', 'Pollo'])
+    expect(copias[0].platoId).toBeDefined()
+    expect(copias[0].platoId).toBe(copias[1].platoId)
+    expect(copias[0].nombrePlato).toBe('Mi plato')
+    expect(await entriesRepo.delDia('2026-09-28')).toHaveLength(2)
+    expect(await entriesRepo.copiar({ origen: { fecha: '2026-09-27', comida: 'cena', ids: [] }, destino: { fecha: '2026-09-28', comida: 'cena' } })).toEqual([])
+  })
+
   it('copia el día entero conservando la comida de cada entrada si no se especifica destino.comida', async () => {
     const foodId = await crearPollo()
     await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-27', comida: 'desayuno', foodId, gramos: 50 })

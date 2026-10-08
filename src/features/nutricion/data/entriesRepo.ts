@@ -255,23 +255,26 @@ export function deshacerMovimientoPlato(movimiento: MovimientoPlato): Promise<Mo
 }
 
 export interface CopiarInput {
-  origen: DestinoCopia & { platoId?: string }
+  origen: DestinoCopia & { platoId?: string; ids?: number[] }
   destino: DestinoCopia
 }
 
 /**
  * Copia el snapshot de las entradas del origen al destino (A2): «Copiar a otro día» (con `comida`)
  * o «Copiar el día a…» (sin `comida`, conserva la de cada entrada).
- * Con `platoId` limita el origen a ese plato; permite otra comida del mismo día. Todo o nada.
+ * Con `platoId` limita el origen a ese plato; permite otra comida del mismo día. Con `ids`, a esas entradas
+ * (Repetir con selección); las que ya no existan se ignoran. Todo o nada.
  */
 export function copiar({ origen, destino }: CopiarInput): Promise<number[]> {
   const loteId = crypto.randomUUID()
+  const ids = origen.ids && new Set(origen.ids)
   return db.transaction('rw', db.entries, async () => {
     if (copiaEsNoOp(origen, destino)) return []
     const deLaFecha = await db.entries.where('fecha').equals(origen.fecha).toArray()
     const entradas = deLaFecha.filter((e) =>
       (origen.comida === undefined || e.comida === origen.comida)
-      && (origen.platoId === undefined || e.platoId === origen.platoId),
+      && (origen.platoId === undefined || e.platoId === origen.platoId)
+      && (!ids || ids.has(e.id)),
     )
     if (entradas.length === 0) return []
     return db.entries.bulkAdd(planCopia(entradas, destino, Date.now(), loteId), { allKeys: true })

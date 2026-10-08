@@ -824,3 +824,12 @@ Víctor veía muy cargado el pie de cada comida («Añadir a desayuno» + «Repe
 - **Cards en oscuro** (`tokens.css`): Card default y ListGroup agrupada (no muted ni `.training-surface`) redefinen dentro superficie 38/39/44, `surface-muted`, `border`, `border-strong`, `selected` y `surface-elevated`, con borde visible y brillo interior arriba. ListGroup agrupada gana `border-transparent` para la geometría. `contrast.test.ts` añade el caso «card en oscuro».
 
 **Verificación:** tests y build en verde. Edge headless (`playwright-core` fuera del repo) en `appfit-test.localhost` con datos sintéticos, Nutrición a 375 claro/oscuro y 320 oscuro: sin scroll horizontal ni errores de consola, botones de 44 px. Sin probar en iPhone.
+
+## 84. Repetir con selección (2026-10-08)
+
+Rama `feat/pie-comidas-y-cards-oscuro`. Víctor pidió que Repetir no copiase toda la comida del día anterior sino que abriese una tarjeta para elegir alimentos/platos.
+
+- **UI**: Repetir abre `RepetirComidaSheet` con la comida del día anterior: un check por plato (entero, con sus ingredientes listados si tiene nombre propio) o entrada suelta, cantidad/conteo y kcal; todo marcado al abrir (repetirlo todo sigue siendo un toque más), «Desmarcar/Marcar todo», total de lo marcado y «Añadir a …» en el footer. Error en línea; al terminar, Toast «N entradas copiadas» con «Deshacer». `ComidaSection` pierde `ocupado`/`repitiendo` (el progreso va en el botón del sheet).
+- **Datos/lógica**: `entriesRepo.copiar` admite `origen.ids`; `platos.idsElegidos` traduce la selección (claves desmarcadas) a ids. Tests en `entriesRepo.test.ts`, `platos.test.ts` y `RegistroComida.test.tsx`.
+
+**Verificación:** tests y build en verde. Edge headless (Playwright de la caché de npx) en `appfit-test.localhost` con datos sintéticos (plato con nombre largo, entradas sueltas, kcal rápidas de 5 cifras), 320/375/430 claro/oscuro: sin desbordamiento ni scroll horizontal, controles del sheet ≥ 44 px, «Añadir» desactivado sin selección y solo se copian las marcadas conservando el plato. Sin probar en iPhone.

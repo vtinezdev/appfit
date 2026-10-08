@@ -30,11 +30,8 @@ interface Props {
   onAnadir: () => void
   /** Entradas de esa misma comida el día anterior: si hay, se ofrece repetirlas. */
   disponiblesAyer: number
+  /** Abre la selección de qué repetir (`RepetirComidaSheet`). */
   onRepetir: () => void
-  /** Hay una repetición en curso: bloquea los botones de repetir. */
-  ocupado: boolean
-  /** Esta comida es la que se está repitiendo (cambia el texto del botón). */
-  repitiendo: boolean
   nombresCortos: ReadonlyMap<string, string>
   /** Categoría actual de cada alimento referenciado, por `claveRef` (ver `foodsRepo.categoriasDeEntradas`). */
   categorias: ReadonlyMap<string, string>
@@ -80,7 +77,7 @@ function FilaPlato({ plato, nombresCortos, categorias, onEditar, onBorrar, onBor
 }
 
 /** Platos y entradas sueltas comparten fila; solo los ingredientes se subordinan al desplegar. */
-export default function ComidaSection({ comida, titulo, entries, nombresCortos, categorias, onAcciones, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
+export default function ComidaSection({ comida, titulo, entries, nombresCortos, categorias, onAcciones, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo, onAnadir, disponiblesAyer, onRepetir }: Props) {
   const { setNodeRef, isOver, active } = useDroppable({ id: `comida:${comida}`, data: { comida }, disabled: moviendo })
   const listRef = useListMotion<HTMLUListElement>(entries.map(e => e.id).join(','))
   const recibe = isOver && active?.data.current?.plato?.entries[0].comida !== comida
@@ -91,12 +88,11 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
   // Repetir: icono con el número de alimentos del día anterior en una pastilla (decorativa: el número va en la etiqueta).
   const repetir = disponiblesAyer > 0 && (
     <span className="relative flex shrink-0">
-      <IconButton icon={repitiendo ? 'loader' : 'copy'} variant="ghost" onClick={onRepetir} disabled={ocupado} aria-busy={repitiendo || undefined}
-        label={repitiendo ? `Repitiendo ${comidaMinus} del día anterior…`
-          : `Repetir ${comidaMinus} del día anterior (${formatInt(disponiblesAyer)} ${disponiblesAyer === 1 ? 'alimento' : 'alimentos'})`} />
-      {!repitiendo && <span aria-hidden className={`tabular pointer-events-none absolute right-0 top-0 min-w-5 rounded-pill bg-fg/10 px-1.5 text-center text-caption font-semibold text-fg ${ocupado ? 'opacity-30' : ''}`}>
+      <IconButton icon="copy" variant="ghost" onClick={onRepetir} aria-haspopup="dialog"
+        label={`Repetir ${comidaMinus} del día anterior (${formatInt(disponiblesAyer)} ${disponiblesAyer === 1 ? 'alimento' : 'alimentos'})`} />
+      <span aria-hidden className="tabular pointer-events-none absolute right-0 top-0 min-w-5 rounded-pill bg-fg/10 px-1.5 text-center text-caption font-semibold text-fg">
         {formatInt(disponiblesAyer)}
-      </span>}
+      </span>
     </span>
   )
   return (

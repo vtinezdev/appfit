@@ -17,10 +17,10 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(base.kcal).toBe(174.4)
   })
 
-  function seccion(entries: Entry[], categorias: ReadonlyMap<string, string> = new Map(), repetir: { disponiblesAyer?: number; repitiendo?: boolean } = {}) {
+  function seccion(entries: Entry[], categorias: ReadonlyMap<string, string> = new Map(), repetir: { disponiblesAyer?: number } = {}) {
     return renderToStaticMarkup(<ComidaSection comida="desayuno" titulo="Desayuno" entries={entries} nombresCortos={new Map()} categorias={categorias}
       onAcciones={noop} onEditar={noop} onBorrar={noop} onBorrarPlato={noop} onEditarPlato={noop} onAccionesPlato={noop} onMoverPlato={noop}
-      moviendo={false} onAnadir={noop} disponiblesAyer={repetir.disponiblesAyer ?? 0} onRepetir={noop} ocupado={false} repitiendo={repetir.repitiendo ?? false} />)
+      moviendo={false} onAnadir={noop} disponiblesAyer={repetir.disponiblesAyer ?? 0} onRepetir={noop} />)
   }
   it('plato y alimento permanecen registros independientes y las acciones se consultan bajo demanda', () => {
     const html = seccion([{ ...base, platoId: 'p', nombrePlato: 'Café + Leche' }, { ...base, id: 2, nombre: 'Leche', platoId: 'p' }, { ...base, id: 3, nombre: 'Bizcocho' }])
@@ -62,10 +62,8 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(seccion(entries, new Map(), { disponiblesAyer: 1 })).toContain('(1 alimento)')
     expect(seccion(entries)).not.toContain('Repetir')
   })
-  it('mientras repite, Repetir anuncia el progreso y oculta el número', () => {
-    const html = seccion([], new Map(), { disponiblesAyer: 3, repitiendo: true })
-    expect(html).toContain('aria-label="Repitiendo desayuno del día anterior…"')
-    expect(html).toContain('aria-busy="true"')
-    expect(html).not.toMatch(/>3<\/span>/)
+  it('Repetir abre la selección de qué repetir, sin copiar al pulsar', () => {
+    const boton = seccion([], new Map(), { disponiblesAyer: 3 }).match(/<button[^>]*aria-label="Repetir desayuno[^>]*>/)?.[0]
+    expect(boton).toContain('aria-haspopup="dialog"')
   })
 })
