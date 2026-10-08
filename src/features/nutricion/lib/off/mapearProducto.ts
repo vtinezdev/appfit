@@ -5,13 +5,14 @@ import type { CatalogFood } from '../../../../shared/db/types'
 import { round1 } from '../../../../shared/lib/format'
 import { normalizeName, tokenizar } from '../../../../shared/lib/text'
 import type { Por100 } from '../alimentos'
+import { categoriaDeOff, sinPrefijoIdioma, type CategoriaAlimento } from '../catalogo/categorias'
 import type { ClaveNutriente } from '../catalogo/paquete'
 import { camposNutrientes } from '../nutrientes'
 
 export const FUENTE_OFF = 'off'
 /** Los productos de OFF no vienen de un paquete versionado: se guardan tal cual llegan. */
 export const VERSION_OFF = 'live'
-export const CAMPOS_OFF = 'code,product_name,product_name_es,brands,nutriments'
+export const CAMPOS_OFF = 'code,product_name,product_name_es,brands,nutriments,categories_tags,pnns_groups_2'
 
 const KJ_POR_KCAL = 4.184
 const TOTAL_NUTRIENTES = 8
@@ -34,7 +35,7 @@ export type ProductoOff =
   /** Nombre y los cuatro valores básicos: se guarda en el catálogo y se añade como cualquier alimento. */
   | { tipo: 'completo'; food: CatalogFood }
   /** Faltan el nombre o algún valor básico: se revisa a mano y acaba como alimento propio. */
-  | { tipo: 'incompleto'; nombre: string; marca?: string; valores: Partial<Por100> }
+  | { tipo: 'incompleto'; nombre: string; marca?: string; valores: Partial<Por100>; categoria?: CategoriaAlimento }
   | { tipo: 'no-encontrado' }
 
 function esObjeto(x: unknown): x is Record<string, unknown> {
@@ -49,6 +50,16 @@ function numero(x: unknown): number | undefined {
 
 function texto(x: unknown): string | undefined {
   return typeof x === 'string' && x.trim() !== '' ? x.trim() : undefined
+}
+
+/**
+ * Categoría AppFit con las mismas reglas que la tubería del catálogo (`categories_tags`, `pnns_groups_2`, nombre).
+ * `undefined` si nada encaja: un producto completo se guarda entonces como «Otros» y uno incompleto la pide.
+ */
+function categoriaDe(p: Record<string, unknown>, nombre: string): CategoriaAlimento | undefined {
+  const etiquetas = Array.isArray(p.categories_tags) ? p.categories_tags.filter((t): t is string => typeof t === 'string').map(sinPrefijoIdioma) : []
+  const categoria = categoriaDeOff(etiquetas, texto(p.pnns_groups_2) ?? '', nombre)
+  return categoria === 'Otros' ? undefined : categoria
 }
 
 /** kcal por 100 g: `energy-kcal_100g`; si no, los kJ (`energy-kj_100g` o `energy_100g`, que OFF da en kJ) / 4,184. */
@@ -85,8 +96,9 @@ export function mapearProducto(respuesta: unknown, gtin: string, importadoAt: nu
     if (v !== undefined) nutrientes[clave] = v
   }
   const { kcal100, prot100, carb100, grasa100 } = valores
+  const categoria = categoriaDe(p, nombre ?? '')
   if (!nombre || kcal100 === undefined || prot100 === undefined || carb100 === undefined || grasa100 === undefined) {
-    return { tipo: 'incompleto', nombre: nombre ?? '', ...(marca ? { marca } : {}), valores: { ...valores, ...camposNutrientes(nutrientes) } }
+    return { tipo: 'incompleto', nombre: nombre ?? '', ...(marca ? { marca } : {}), valores: { ...valores, ...camposNutrientes(nutrientes) }, ...(categoria ? { categoria } : {}) }
   }
   const extras = Object.keys(nutrientes).length
   const food: CatalogFood = {
@@ -97,6 +109,7 @@ export function mapearProducto(respuesta: unknown, gtin: string, importadoAt: nu
     nombreNorm: normalizeName(nombre),
     tok: tokenizar([nombre, marca ?? ''].join(' ')),
     tipo: 'marca',
+    categoria: categoria ?? 'Otros',
     gtin: codigo,
     kcal100,
     prot100,

@@ -16,7 +16,9 @@ import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
 import {
   aItemGuardado,
   actualizaAlimentoGuardado,
+  creaAlimentoNuevo,
   elegibleDeCatalogo,
+  faltaCategoria,
   faltanValores,
   itemDeProductoIncompleto,
   itemDesdeElegible,
@@ -172,7 +174,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
       }
       onGuardado()
     } catch (e) {
-      setErrorGuardar(e instanceof foodsRepo.NombreDuplicadoError || e instanceof entriesRepo.PlatoNoDisponibleError ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
+      setErrorGuardar(e instanceof foodsRepo.NombreDuplicadoError || e instanceof foodsRepo.CategoriaRequeridaError || e instanceof entriesRepo.PlatoNoDisponibleError ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
     } finally {
       setGuardando(false)
     }
@@ -229,7 +231,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
       footer={items !== null && items.length > 0 && totales && (
         <div className="space-y-2">
           {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
-          <Button size="lg" block loading={guardando} onClick={guardar} disabled={anadiendo || nombreCortoEditando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))}>
+          <Button size="lg" block loading={guardando} onClick={guardar} disabled={anadiendo || nombreCortoEditando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it) || (!entryEditar && faltaCategoria(it)))}>
             {guardando ? 'Guardando…' : `${platoDestino ? 'Añadir al plato' : 'Guardar'} · ${formatInt(kcalTotales)} kcal`}
           </Button>
         </div>
@@ -304,6 +306,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                       onQuitar={entryEditar ? undefined : () => quitarItem(i)}
                       onCambiar={entryEditar ? undefined : () => setCambiando(i)}
                       aviso={actualizaAlimentoGuardado(item) ? 'Actualizará el alimento guardado en «Alimentos».' : undefined}
+                      pedirCategoria={!entryEditar && creaAlimentoNuevo(item)}
                     />
                   ))}
                 </div>
@@ -402,9 +405,9 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           setEscaneando(false)
           setGramosRapido({ alimento: elegibleDeCatalogo(food), gramos: 100 })
         }}
-        onIncompleto={({ nombre, valores }) => {
+        onIncompleto={({ nombre, valores, categoria }) => {
           setEscaneando(false)
-          abrirRevision([itemDeProductoIncompleto(nombre, valores)])
+          abrirRevision([itemDeProductoIncompleto(nombre, valores, categoria)])
         }}
         onManual={() => {
           setEscaneando(false)

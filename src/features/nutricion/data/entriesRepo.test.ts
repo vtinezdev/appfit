@@ -9,8 +9,8 @@ beforeEach(async () => {
   await Promise.all(db.tables.map((t) => t.clear()))
 })
 
-const POLLO: foodsRepo.FoodInput = { nombre: 'Pollo', kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuente: 'gemini' }
-const ARROZ: ItemGuardado = { nombre: 'Arroz', gramos: 200, kcal100: 130, prot100: 2.7, carb100: 28, grasa100: 0.3, fuenteSiNuevo: 'gemini' }
+const POLLO: foodsRepo.FoodInput = { nombre: 'Pollo', kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuente: 'gemini', categoria: 'Carnes' }
+const ARROZ: ItemGuardado = { nombre: 'Arroz', gramos: 200, kcal100: 130, prot100: 2.7, carb100: 28, grasa100: 0.3, fuenteSiNuevo: 'gemini', categoria: 'Otros' }
 
 function crearPollo(): Promise<number> {
   return foodsRepo.crear(POLLO)
@@ -24,7 +24,7 @@ describe('entriesRepo: lecturas y añadido rápido', () => {
       fecha: '2026-09-28',
       comida: 'comida',
       items: [
-        { nombre: 'Pollo', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual', catalogId: 'ciqual:36003' },
+        { nombre: 'Pollo', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual', categoria: 'Otros', catalogId: 'ciqual:36003' },
         ARROZ,
       ],
     })
@@ -211,7 +211,7 @@ describe('entriesRepo.guardarComida', () => {
     await entriesRepo.guardarComida({
       fecha: '2026-09-28',
       comida: 'cena',
-      items: [{ nombre: 'pollo', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'gemini' }],
+      items: [{ nombre: 'pollo', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'gemini', categoria: 'Otros' }],
     })
     const food = await foodsRepo.obtener(foodId)
     expect(food).toMatchObject({ nombre: 'Pollo', fuente: 'gemini', kcal100: 165 })
@@ -223,7 +223,7 @@ describe('entriesRepo.guardarComida', () => {
     await entriesRepo.guardarComida({
       fecha: '2026-09-28',
       comida: 'cena',
-      items: [{ nombre: 'Pollo', gramos: 150, kcal100: 120, prot100: 23, carb100: 0, grasa100: 2, fuenteSiNuevo: 'manual' }],
+      items: [{ nombre: 'Pollo', gramos: 150, kcal100: 120, prot100: 23, carb100: 0, grasa100: 2, fuenteSiNuevo: 'manual', categoria: 'Otros' }],
     })
     expect(await foodsRepo.obtener(foodId)).toMatchObject({ nombre: 'Pollo', fuente: 'manual', kcal100: 120 })
   })
@@ -233,7 +233,7 @@ describe('entriesRepo.guardarComida', () => {
     await entriesRepo.guardarComida({
       fecha: '2026-09-28',
       comida: 'cena',
-      items: [{ nombre: 'Pollo al curry', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'gemini' }],
+      items: [{ nombre: 'Pollo al curry', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'gemini', categoria: 'Otros' }],
     })
     expect(await foodsRepo.obtener(foodId)).toMatchObject({ nombre: 'Pollo', nombreNorm: 'pollo' })
     expect(await foodsRepo.buscarPorNombre('pollo al curry')).toBeDefined()
@@ -279,7 +279,7 @@ describe('entriesRepo.editar (P5)', () => {
 
   it('con la casilla y un nombre que ya existe, falla sin guardar nada', async () => {
     const { id } = await entradaDePollo()
-    await foodsRepo.crear({ nombre: 'Pavo', kcal100: 135, prot100: 30, carb100: 0, grasa100: 1, fuente: 'manual' })
+    await foodsRepo.crear({ nombre: 'Pavo', kcal100: 135, prot100: 30, carb100: 0, grasa100: 1, fuente: 'manual', categoria: 'Carnes' })
     await expect(
       entriesRepo.editar(id, { comida: 'cena', nombre: 'pavo', gramos: 300, kcal100: 135, prot100: 30, carb100: 0, grasa100: 1, aplicarAlAlimento: true }),
     ).rejects.toBeInstanceOf(foodsRepo.NombreDuplicadoError)

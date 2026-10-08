@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { DndContext, DragOverlay, KeyboardSensor, MeasuringStrategy, useSensor, useSensors } from '@dnd-kit/core'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as entriesRepo from '../data/entriesRepo'
+import * as foodsRepo from '../data/foodsRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
 import type { Comida, Entry } from '../../../shared/db/types'
 import { addDays, formatFriendly, todayISO } from '../../../shared/lib/dates'
@@ -43,6 +44,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   const ayer = addDays(fecha, -1)
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
   const nombresCortos = useLiveQuery(() => nombresAlimentosRepo.paraComida(entries ?? []), [entries]) ?? new Map()
+  const categorias = useLiveQuery(() => foodsRepo.categoriasDeEntradas(entries ?? []), [entries]) ?? new Map()
   const entriesAyer = useLiveQuery(() => entriesRepo.delDia(ayer), [ayer])
   const vigentes = useLiveQuery(() => objetivosDe(fecha, todayISO()), [fecha])
   const { avisar, avisarError, toast } = useAviso()
@@ -221,6 +223,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
                 titulo={label}
                 entries={porComida.get(c) ?? []}
                 nombresCortos={nombresCortos}
+                categorias={categorias}
                 onAcciones={() => setAccionesComida({ comida: c })}
                 onEditar={onEditarEntry}
                 onBorrar={(e) => borrar(e.id)}

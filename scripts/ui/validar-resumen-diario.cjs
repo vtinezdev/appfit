@@ -69,7 +69,7 @@ async function main() {
         if (estado !== 'vacio') await page.evaluate(async ({ totales, estado }) => {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const d = await import('/src/shared/lib/dates.ts')
-          await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [{ nombre: estado === 'extremo' ? 'Alimento con un nombre muy largo para comprobar el resumen y su separación del contenido del diario sin recortar los datos guardados' : 'Alimento de prueba', gramos: 100, kcal100: totales.kcal, prot100: totales.prot, carb100: totales.carb, grasa100: totales.grasa, nutrientes: { fibra: 1.2, azucares: 3, sal: 0.2, agSat: 1.1 }, fuenteSiNuevo: 'manual' }] })
+          await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [{ nombre: estado === 'extremo' ? 'Alimento con un nombre muy largo para comprobar el resumen y su separación del contenido del diario sin recortar los datos guardados' : 'Alimento de prueba', gramos: 100, kcal100: totales.kcal, prot100: totales.prot, carb100: totales.carb, grasa100: totales.grasa, nutrientes: { fibra: 1.2, azucares: 3, sal: 0.2, agSat: 1.1 }, fuenteSiNuevo: 'manual', categoria: 'Otros' }] })
         }, { totales, estado })
         const antes = await backup(page)
         const inicio = page.getByRole('region', { name: 'Resumen de hoy', exact: true })

@@ -13,8 +13,8 @@ function catalogo(idExterno: string, nombre: string): CatalogFood {
   }
 }
 
-const PLATANO: foodsRepo.FoodInput = { nombre: 'Plátano', kcal100: 89, prot100: 1.1, carb100: 22.8, grasa100: 0.3, fuente: 'manual' }
-const ARROZ: foodsRepo.FoodInput = { nombre: 'Arroz blanco', kcal100: 130, prot100: 2.7, carb100: 28, grasa100: 0.3, fuente: 'gemini' }
+const PLATANO: foodsRepo.FoodInput = { nombre: 'Plátano', kcal100: 89, prot100: 1.1, carb100: 22.8, grasa100: 0.3, fuente: 'manual', categoria: 'Frutas' }
+const ARROZ: foodsRepo.FoodInput = { nombre: 'Arroz blanco', kcal100: 130, prot100: 2.7, carb100: 28, grasa100: 0.3, fuente: 'gemini', categoria: 'Cereales, arroz y pasta' }
 
 beforeEach(async () => {
   await Promise.all(db.tables.map((t) => t.clear()))
@@ -70,7 +70,7 @@ describe('foodsRepo', () => {
   })
 
   it('resolverParaGuardar crea con la procedencia indicada si el nombre no existe', async () => {
-    const id = await foodsRepo.resolverParaGuardar({ nombre: 'Kiwi', gramos: 80, kcal100: 61, prot100: 1.1, carb100: 15, grasa100: 0.5, fuenteSiNuevo: 'manual' })
+    const id = await foodsRepo.resolverParaGuardar({ nombre: 'Kiwi', gramos: 80, kcal100: 61, prot100: 1.1, carb100: 15, grasa100: 0.5, fuenteSiNuevo: 'manual', categoria: 'Otros' })
     expect(await foodsRepo.obtener(id)).toMatchObject({ nombre: 'Kiwi', nombreNorm: 'kiwi', fuente: 'manual' })
   })
 
@@ -146,12 +146,65 @@ describe('foodsRepo.frecuentes y buscar (A3)', () => {
       { tipo: 'catalog', id: 'ciqual:13005' },
       { tipo: 'user', id: propio },
     ])
-    expect(cena[0]).toMatchObject({ nombre: 'Plátano, pulpa, crudo', detalle: 'Frutas', kcal100: 90 })
+    expect(cena[0]).toMatchObject({ nombre: 'Plátano, pulpa, crudo', categoria: 'Frutas', kcal100: 90 })
   })
 
   it('buscar encuentra sin tildes', async () => {
     await foodsRepo.crear(PLATANO)
     await foodsRepo.crear(ARROZ)
     expect((await foodsRepo.buscar('platano')).map((f) => f.nombre)).toEqual(['Plátano'])
+  })
+})
+
+describe('foodsRepo: categorías', () => {
+  it('crear exige una categoría válida', async () => {
+    await expect(foodsRepo.crear({ ...PLATANO, categoria: 'Fruta' as never })).rejects.toThrow(foodsRepo.CategoriaRequeridaError)
+    await expect(foodsRepo.crear({ ...PLATANO, categoria: undefined as never })).rejects.toThrow(foodsRepo.CategoriaRequeridaError)
+    expect(await db.foods.count()).toBe(0)
+    const id = await foodsRepo.crear(PLATANO)
+    expect((await db.foods.get(id))?.categoria).toBe('Frutas')
+  })
+
+  it('actualizar sin categoría conserva la actual; con ella, la cambia (y tiene que ser válida)', async () => {
+    const id = await foodsRepo.crear(PLATANO)
+    await foodsRepo.actualizar(id, { nombre: 'Plátano', kcal100: 90, prot100: 1, carb100: 23, grasa100: 0.3, fuente: 'manual' })
+    expect((await db.foods.get(id))?.categoria).toBe('Frutas')
+    await foodsRepo.actualizar(id, { ...PLATANO, categoria: 'Dulces y chocolate' })
+    expect((await db.foods.get(id))?.categoria).toBe('Dulces y chocolate')
+    await expect(foodsRepo.actualizar(id, { ...PLATANO, categoria: 'x' as never })).rejects.toThrow(foodsRepo.CategoriaRequeridaError)
+  })
+
+  it('un alimento antiguo sin categoría la recibe al editarlo', async () => {
+    const id = await db.foods.add({ nombre: 'Antiguo', nombreNorm: 'antiguo', kcal100: 1, prot100: 1, carb100: 1, grasa100: 1, fuente: 'manual', updatedAt: 0 })
+    await foodsRepo.actualizar(id, { nombre: 'Antiguo', kcal100: 1, prot100: 1, carb100: 1, grasa100: 1, fuente: 'manual', categoria: 'Otros' })
+    expect((await db.foods.get(id))?.categoria).toBe('Otros')
+  })
+
+  it('resolverParaGuardar: crear exige la categoría del ítem; reutilizar completa la de un alimento antiguo, sin pisar la que tenga', async () => {
+    const item = { nombre: 'Kiwi', gramos: 80, kcal100: 61, prot100: 1.1, carb100: 15, grasa100: 0.5, fuenteSiNuevo: 'manual' as const }
+    await expect(foodsRepo.resolverParaGuardar(item)).rejects.toThrow(foodsRepo.CategoriaRequeridaError)
+    const id = await foodsRepo.resolverParaGuardar({ ...item, categoria: 'Frutas' })
+    expect((await db.foods.get(id))?.categoria).toBe('Frutas')
+    expect(await foodsRepo.resolverParaGuardar({ ...item, categoria: 'Otros' })).toBe(id)
+    expect((await db.foods.get(id))?.categoria).toBe('Frutas')
+
+    const pera = { ...item, nombre: 'Pera', kcal100: 57, prot100: 0.4, carb100: 15, grasa100: 0.1 }
+    const antiguo = await db.foods.add({ nombre: 'Pera', nombreNorm: 'pera', kcal100: 57, prot100: 0.4, carb100: 15, grasa100: 0.1, fuente: 'manual', updatedAt: 0 })
+    expect(await foodsRepo.resolverParaGuardar(pera)).toBe(antiguo)
+    expect((await db.foods.get(antiguo))?.categoria).toBeUndefined()
+    await foodsRepo.resolverParaGuardar({ ...pera, categoria: 'Frutas' })
+    expect((await db.foods.get(antiguo))?.categoria).toBe('Frutas')
+  })
+
+  it('categoriasDeEntradas: la categoría actual del alimento propio o del catálogo, por referencia', async () => {
+    await catalogRepo.guardarLote([catalogo('1', 'Manzana')])
+    const pollo = await foodsRepo.crear({ nombre: 'Pollo', kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuente: 'manual', categoria: 'Carnes' })
+    const antiguo = await db.foods.add({ nombre: 'Antiguo', nombreNorm: 'antiguo', kcal100: 1, prot100: 1, carb100: 1, grasa100: 1, fuente: 'manual', updatedAt: 0 })
+    const categorias = await foodsRepo.categoriasDeEntradas([
+      { foodId: pollo }, { foodId: pollo }, { catalogId: 'ciqual:1' }, { foodId: antiguo }, { foodId: 999 }, { rapida: true }, { foodId: pollo, catalogId: 'ciqual:1' },
+    ])
+    expect(Object.fromEntries(categorias)).toEqual({ ['user:' + pollo]: 'Carnes', 'catalog:ciqual:1': 'Frutas' })
+    await foodsRepo.actualizar(pollo, { nombre: 'Pollo', kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuente: 'manual', categoria: 'Platos preparados' })
+    expect((await foodsRepo.categoriasDeEntradas([{ foodId: pollo }])).get('user:' + pollo)).toBe('Platos preparados')
   })
 })

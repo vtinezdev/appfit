@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLiveQuery } from 'dexie-react-hooks'
 import Button from '../../../shared/components/Button'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import Icon from '../../../shared/components/Icon'
@@ -15,6 +16,7 @@ import { formatInt, formatNumber } from '../../../shared/lib/format'
 import * as foodsRepo from '../data/foodsRepo'
 import * as recetasRepo from '../data/recetasRepo'
 import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
+import { esCategoriaAlimento, type CategoriaAlimento } from '../lib/catalogo/categorias'
 import { faltanValores, itemDesdeElegible, medidaPendiente, type AlimentoElegible, type ItemRevision } from '../lib/alimentos'
 import { macrosPorGramos, resumenMacros } from '../lib/nutrition'
 import { ingredienteDeItem, itemDeIngrediente, pesoCrudoTotal, por100DeReceta, validarReceta } from '../lib/recetas'
@@ -23,6 +25,7 @@ import AlimentosRapidos from './AlimentosRapidos'
 import CambiarAlimentoSheet from './CambiarAlimentoSheet'
 import DescribirComida from './DescribirComida'
 import ItemRevisionRow from './ItemRevisionRow'
+import SelectorCategoria from './SelectorCategoria'
 
 interface Props {
   /** Sin receta: se crea una nueva. */
@@ -36,6 +39,10 @@ interface Props {
  */
 export default function EditorReceta({ receta, onClose }: Props) {
   const [nombre, setNombre] = useState(receta?.nombre ?? '')
+  const [categoriaElegida, setCategoria] = useState<CategoriaAlimento | null>(null)
+  // La categoría vive en el alimento de la receta; si no tiene (o es nueva), se propone «Platos preparados».
+  const categoriaGuardada = useLiveQuery(async () => (receta ? ((await recetasRepo.categoriaDe(receta)) ?? null) : null), [receta?.foodId])
+  const categoria = categoriaElegida ?? (esCategoriaAlimento(categoriaGuardada) ? categoriaGuardada : recetasRepo.CATEGORIA_RECETA_POR_DEFECTO)
   const [items, setItems] = useState<ItemRevision[]>(() => receta?.ingredientes.map(itemDeIngrediente) ?? [])
   const [claves, setClaves] = useState<string[]>(() => items.map(() => crypto.randomUUID()))
   const [peso, setPeso] = useState<number | null>(receta?.pesoCocinadoG ?? null)
@@ -76,7 +83,7 @@ export default function EditorReceta({ receta, onClose }: Props) {
     setOcupado(true)
     setError(null)
     try {
-      const datos = { nombre, ingredientes, pesoCocinadoG: pesoCocinado }
+      const datos = { nombre, ingredientes, pesoCocinadoG: pesoCocinado, categoria }
       if (receta) await recetasRepo.actualizar(receta.id, datos)
       else await recetasRepo.crear(datos)
       onClose()
@@ -110,8 +117,11 @@ export default function EditorReceta({ receta, onClose }: Props) {
         <Button size="lg" block loading={ocupado} disabled={!!invalida || bloqueado || anadiendo && items.length === 0} onClick={guardar}>Guardar receta</Button>
       </div>}>
       <div className="space-y-section">
-        <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la receta</span>
-          <Input tone="surface" value={nombre} maxLength={80} placeholder="Por ejemplo, lentejas de la abuela" onChange={(e) => setNombre(e.target.value)} /></label>
+        <div className="space-y-3">
+          <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la receta</span>
+            <Input tone="surface" value={nombre} maxLength={80} placeholder="Por ejemplo, lentejas de la abuela" onChange={(e) => setNombre(e.target.value)} /></label>
+          <SelectorCategoria tone="surface" valor={categoria} onChange={setCategoria} />
+        </div>
 
         <section aria-label="Ingredientes" className="space-y-stack">
           <SectionHeader variant="section">{items.length === 0 ? 'Ingredientes' : `Ingredientes · ${items.length}`}</SectionHeader>

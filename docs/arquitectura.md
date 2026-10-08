@@ -52,7 +52,7 @@ src/features/referencias/ → features/referencias.md (sección global, contenid
 src/test/                setup-db.ts (fake-indexeddb, cargado como setupFiles de Vitest) y fixtures/
 public/                  iconos de la PWA, favicon.svg, fonts/ (Saira recta y cursiva, OFL) y catalogo/ (paquetes que la app descarga)
                          images/atmosferas/ (seis fondos WebP locales por sección/tema y procedencia)
-scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/README.md
+scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/README.md (solo importa de src archivos sin imports: `nutricion/lib/catalogo/categorias.ts`)
 ```
 
 ## Navegación

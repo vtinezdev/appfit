@@ -8,7 +8,7 @@ La versión actual del esquema es la v7; cada versión lleva un comentario con q
 
 | Tabla | Lista | Para qué | Notas |
 |---|---|---|---|
-| `foods` | usuario | alimentos propios («Alimentos») | identidad = `&nombreNorm` (ver invariantes); `fuente` `manual` \| `gemini` (este último solo en datos antiguos) |
+| `foods` | usuario | alimentos propios («Alimentos») | identidad = `&nombreNorm` (ver invariantes); `fuente` `manual` \| `gemini` (este último solo en datos antiguos); `categoria` opcional sin índice (invariante 14) |
 | `entries` | usuario | lo comido: una fila por ingrediente y comida del día | snapshot de gramos/macros; `platoId`/`nombrePlato` opcionales agrupan un guardado múltiple; `rapida: true` = «Kcal rápidas» (sin alimento, `gramos: 0`) |
 | `meals` | usuario | plantillas de comida | `items[]` con snapshot, referencia y agrupación opcional; `usos`/`usadoAt` para ordenar |
 | `settings` | usuario | registro único (`id: 1`) con los objetivos manuales y, opcional, el `perfil` | ver «Ajustes» |
@@ -59,6 +59,7 @@ La versión actual del esquema es la v7; cada versión lleva un comentario con q
 11. **Un registro por día** en `agua`, `objetivosDia` y `medidas` (`&fecha`). `aguaRepo.anadir` suma una toma; `medidasRepo.registrar` completa el día existente.
 12. **Objetivos por día**: `objetivosDiaRepo.congelar(fecha)` crea el snapshot si no existe (al guardar comidas de esa fecha) y `actualizarHoy` lo recalcula (registrar peso, editar Perfil o Ajustes). **Hoy se calcula siempre en vivo** (los vigentes de ahora; el snapshot de hoy se ignora al leer) y el snapshot solo manda para fechas pasadas; así un cambio que no pase por `actualizarHoy` (importar un backup, cumplir años…) nunca deja un objetivo de hoy desfasado. `congelar(hoy)` hace upsert (queda el de la última acción del día) y con fecha pasada solo crea el primero. Hoy y Resumen leen con `objetivosDe`, `objetivosMediosDe` y `objetivosPorFecha`: las lecturas no escriben. Los fallos al congelar se ignoran para no estropear la acción principal.
 13. **Entreno pasado y edición**: `workoutsRepo.crearPasado` crea un entreno ya terminado (nunca activo). Al añadir o quitar series de un entreno terminado se llama a `recalcularSnapshot`, que lo recalcula con la clasificación **actual** de los ejercicios. `descartar`/`borrar` borran el entreno y sus series en una transacción. Las series de calentamiento (`tipo`) no cuentan en volumen, récords, mapa, progreso, resumen semanal ni como «última serie» para precargar.
+14. **Categoría de los alimentos propios** ([ADR 023](decisiones/023-categorias-de-alimentos.md)): `Food.categoria` es una de las 29 de `nutricion/lib/catalogo/categorias.ts` (las mismas del catálogo). Es obligatoria al crear: `foodsRepo.crear`, `resolverParaGuardar` (rama «crear») y `recetasRepo` lanzan `CategoriaRequeridaError`/`RecetaInvalidaError` sin ella. `foodsRepo.actualizar` sin `categoria` conserva la actual (así `aplicarAlAlimento` no la toca). Los alimentos anteriores no tienen: se revisan a mano en Alimentos, y si `resolverParaGuardar` reutiliza o actualiza uno sin categoría le pone la del ítem. Campo opcional sin índice: ni versión de Dexie ni de backup. **No es un snapshot**: entradas y plantillas no la guardan; `foodsRepo.categoriasDeEntradas` la resuelve al leer por `FoodRef` (propio o catálogo), así que reclasificar un alimento reclasifica su historial. Las rápidas, los alimentos borrados y los que no tienen categoría quedan «sin categoría». La categoría de una receta vive solo en su `Food`.
 
 ## Repositorios (`features/*/data/*Repo.ts`)
 
@@ -70,7 +71,7 @@ Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`). Fue
 
 | Feature | Repos | Tablas |
 |---|---|---|
-| nutricion | `foodsRepo`, `entriesRepo` (`fechasConRegistro`), `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo`, `porcionesRepo`, `recetasRepo` | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos`, `porciones`, `recetas` |
+| nutricion | `foodsRepo` (`categoriasDeEntradas`), `entriesRepo` (`fechasConRegistro`), `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo`, `porcionesRepo`, `recetasRepo` | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos`, `porciones`, `recetas` |
 | gym | `exercisesRepo` (ejercicios propios: editar/borrar), `routinesRepo`, `workoutsRepo` (descartar, borrar, crearPasado, notas, orden), `setsRepo` | `exercises`, `routines`, `workouts`, `sets` |
 | inicio | `pesosRepo` (`delRango`, `registrar`, `borrar`/`restaurar`, `ultimoHasta(fecha)`: último pesaje ≤ fecha, solo lectura), `aguaRepo` | `pesos`, `agua` |
 | perfil | `perfilRepo` (`estadoEnergetico`, `objetivosVigentes`, `calcularVigentes`, `leerGastoObservado`), `objetivosDiaRepo`, `medidasRepo` | `settings` (campo `perfil`), `pesos` y `entries` (lectura), `objetivosDia`, `medidas` |

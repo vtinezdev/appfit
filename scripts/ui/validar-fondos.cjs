@@ -101,7 +101,7 @@ async function main() {
           const { todayISO } = await import('/src/shared/lib/dates.ts')
           for (const comida of ['desayuno', 'comida', 'cena', 'snack']) for (let i = 0; i < 3; i++) {
             await r.guardarComida({ fecha: todayISO(), comida, nombrePlato: i === 0 ? 'Pollo con arroz y verduras' : undefined,
-              items: [{ nombre: i === 0 ? 'Arroz' : i === 1 ? 'Yogur natural' : 'Manzana', gramos: 100, kcal100: 130, prot100: 4, carb100: 22, grasa100: 3, fuenteSiNuevo: 'manual' }] })
+              items: [{ nombre: i === 0 ? 'Arroz' : i === 1 ? 'Yogur natural' : 'Manzana', gramos: 100, kcal100: 130, prot100: 4, carb100: 22, grasa100: 3, fuenteSiNuevo: 'manual', categoria: 'Otros' }] })
           }
         })
         const original = await backup(page)

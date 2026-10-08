@@ -61,7 +61,7 @@ async function main() {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const d = await import('/src/shared/lib/dates.ts')
           const fecha = d.todayISO()
-          const item = (nombre, gramos, kcal100) => ({ nombre, gramos, kcal100, prot100: 0, carb100: 0, grasa100: 0, fuenteSiNuevo: 'manual' })
+          const item = (nombre, gramos, kcal100) => ({ nombre, gramos, kcal100, prot100: 0, carb100: 0, grasa100: 0, fuenteSiNuevo: 'manual', categoria: 'Otros' })
           await r.guardarComida({ fecha, comida: 'desayuno', nombrePlato: 'Tortilla francesa', items: [item('Huevos', 150, 140), item('Aceite de oliva', 10, 900)] })
           await r.anadirRapida({ fecha, comida: 'comida', nombre: 'Arroz integral', kcal: 712, prot: 0, carb: 0, grasa: 0 })
           await r.guardarComida({ fecha, comida: 'cena', nombrePlato: 'Pollo con verduras', items: [item('Pollo', 200, 165), item('Verduras', 200, 35)] })

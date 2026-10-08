@@ -65,8 +65,8 @@ async function main() {
           const c = await import('/src/features/nutricion/lib/catalogo/sincronizar.ts')
           const d = await import('/src/shared/lib/dates.ts')
           await c.sincronizarCatalogo()
-          const arroz = { nombre: 'Arroz', gramos: 150, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, sal: 0.02 }, fuenteSiNuevo: 'manual' }
-          const pollo = { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual' }
+          const arroz = { nombre: 'Arroz', gramos: 150, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, sal: 0.02 }, fuenteSiNuevo: 'manual', categoria: 'Otros' }
+          const pollo = { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual', categoria: 'Otros' }
           await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [arroz, pollo], nombrePlato: nombre })
           await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [arroz, pollo], nombrePlato: 'Otro plato' })
         }, nombre)

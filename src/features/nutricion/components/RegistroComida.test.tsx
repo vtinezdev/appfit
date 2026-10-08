@@ -17,8 +17,8 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(base.kcal).toBe(174.4)
   })
 
-  function seccion(entries: Entry[]) {
-    return renderToStaticMarkup(<ComidaSection comida="desayuno" titulo="Desayuno" entries={entries} nombresCortos={new Map()}
+  function seccion(entries: Entry[], categorias: ReadonlyMap<string, string> = new Map()) {
+    return renderToStaticMarkup(<ComidaSection comida="desayuno" titulo="Desayuno" entries={entries} nombresCortos={new Map()} categorias={categorias}
       onAcciones={noop} onEditar={noop} onBorrar={noop} onBorrarPlato={noop} onEditarPlato={noop} onAccionesPlato={noop} onMoverPlato={noop}
       moviendo={false} onAnadir={noop} disponiblesAyer={0} onRepetir={noop} ocupado={false} repitiendo={false} />)
   }
@@ -46,5 +46,11 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(html).toContain('Registro rápido')
     expect(html).toContain('≈ 174')
     expect(html).not.toContain('>0 g<')
+  })
+
+  it('cada alimento lleva el icono de su categoría actual (con el nombre accesible); sin ella, un hueco', () => {
+    const html = seccion([{ ...base, foodId: 3 }, { ...base, id: 2, catalogId: 'ciqual:9' }], new Map([['user:3', 'Bebidas']]))
+    expect(html.match(/aria-label="Categoría: Bebidas"/g)).toHaveLength(1)
+    expect(html.match(/aria-label="Categoría: /g)).toHaveLength(1)
   })
 })
