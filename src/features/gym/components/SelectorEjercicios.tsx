@@ -18,11 +18,12 @@ interface Props {
   onClose: () => void
   onElegir: (value: SeleccionEjercicio) => Promise<void>
   excluir?: number[]
+  sugerencias?: number[]
 }
 const etiqueta = (ids: string[], labels: Record<string, string>) => ids.map(id => labels[id] ?? id).join(', ')
 
 /** La misma tarea en rutinas y sesión; no abre el teclado hasta que se toca el buscador. */
-export default function SelectorEjercicios({ onClose, onElegir, excluir = [] }: Props) {
+export default function SelectorEjercicios({ onClose, onElegir, excluir = [], sugerencias = [] }: Props) {
   const locales = useLiveQuery(() => exercisesRepo.listar(), [])
   const series = useLiveQuery(() => setsRepo.todas(), [])
   const [query, setQuery] = useState('')
@@ -55,6 +56,7 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [] }: 
       <MiniaturaEjercicio catalogId={e.catalogId} />
       <span className="min-w-0 flex-1 break-words">
         <span className="block text-body font-semibold">{e.name}</span>
+        {e.localId && sugerencias.includes(e.localId) && <span className="flex items-center gap-1 text-caption text-accent-strong"><Icon name="chevron-right" className="-rotate-90" size={16} />Sugerencia de progresión disponible</span>}
         <span className="block text-caption text-fg-muted">{etiqueta(e.primaryMuscles, MUSCULOS) || 'Sin clasificar'}{e.equipment.length > 0 && ` · ${etiqueta(e.equipment, EQUIPAMIENTO)}`}{!e.catalogId && ' · Personalizado'}</span>
       </span><Icon name="plus" size={18} className="shrink-0 text-accent-strong" />
     </ListRow></li>

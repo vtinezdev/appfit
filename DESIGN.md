@@ -344,7 +344,7 @@ Menú cerrado en cápsula neutra y elevada, sin contorno; abierto, el naranja co
 
 Feedback 120 ms, estados 200, overlays/abanico 280 y salida 180 ms. Fin de sesión conserva confirmación de 420 ms. CSS/Web Animations, curvas desaceleradas sin rebote; ninguna dependencia nueva. Reduce Motion elimina desplazamientos, escala, FLIP y stagger, preservando texto/check y fundido de 80 ms. Cifras y gráficas no cuentan desde cero.
 
-Haptics opcionales según navegador: Safari/iOS no ofrece Vibration API; Android depende del soporte. No se simulan con audio. Marcas/descanso de entreno son estado de presentación en sessionStorage; no cambian IndexedDB ni backups.
+Haptics opcionales según navegador: Safari/iOS no ofrece Vibration API; Android depende del soporte. No se simulan con audio. Descanso y presentación de entreno viven en sessionStorage; la realización de cada serie se confirma explícitamente en IndexedDB y se incluye en backups. Las series antiguas conservan realización desconocida; no se inventan marcas ni sugerencias.
 
 ## Do's and Don'ts
 

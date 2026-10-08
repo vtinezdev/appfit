@@ -27,7 +27,10 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 **Gimnasio**
 - Catálogo local de 116 ejercicios con buscador, filtros combinables de músculo/equipamiento y recientes; ejercicios personalizados disponibles en rutinas y sesiones, también sin conexión.
 - Entrenos desde cero o desde una rutina, con el progreso guardado aunque cierres la app a mitad.
+- Papelera para quitar un ejercicio solo de ese entreno, con Deshacer, también al editar el historial; conserva el catálogo y la rutina original.
 - Series con repeticiones y peso, precargadas con los valores de la última vez.
+- RIR editable en la fila y notas por ejercicio de cada sesión, con la última nota como referencia. Carga corporal, lastre y asistencia separados de kg externos, con masa corporal opcional conservada en el historial.
+- Controles para mostrar/ocultar métricas de Progreso (comparadas por tipo de carga) y Consumo/Objetivo en el resumen nutricional.
 - Confirmación reversible de series, descanso opcional y resumen al terminar; las marcas son una ayuda visual de la sesión, no cambian el historial guardado.
 - Mapa muscular frontal/trasero al terminar y en el historial, con trabajo estimado a partir de series/reps/peso y músculos principales/secundarios. Escala relativa a cada sesión y detalle por grupo; no representa fatiga ni recuperación.
 - Rutinas con objetivos por ejercicio (series, rango de repeticiones y descanso), ejercicios reordenables y ejercicios propios editables; historial de entrenos que se pueden editar, borrar o registrar a posteriori, con notas, series de calentamiento, RIR, récords personales, calculadora de discos, aviso sonoro al terminar el descanso y resumen semanal por grupo muscular; gráficas de progreso por ejercicio (peso máximo, 1RM estimado, volumen).
@@ -66,3 +69,5 @@ El índice de toda la documentación (qué hay en cada documento) está en [`CLA
 ## Licencia
 
 Código bajo licencia MIT: ver [`LICENSE`](LICENSE). Los datos del catálogo tienen su propia licencia: CIQUAL (Licence Ouverte Etalab 2.0) y Open Food Facts (ODbL 1.0); detalle en [`scripts/catalogo/README.md`](scripts/catalogo/README.md). Las imágenes de referencia de ejercicios son ilustraciones propias generadas con IA o, mientras falten, fotos de [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (The Unlicense, dominio público); ver [`scripts/ejercicios/README.md`](scripts/ejercicios/README.md). Saira se distribuye con licencia OFL en `public/fonts/Saira-LICENSE.txt`. El código es público a modo de portfolio; no se esperan ni gestionan contribuciones externas.
+
+Entreno también permite ejecución unilateral con lados iguales o separados, variantes de agarre, dropsets por tramos y negativas/tempo. La progresión usa sesiones confirmadas y objetivos configurables, explica sus propuestas y requiere Aplicar para cambiar valores; el historial antiguo no se supone realizado.

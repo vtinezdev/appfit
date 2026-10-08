@@ -1,6 +1,8 @@
 import type { SetEntry } from '../../../shared/db/types'
 import { formatDiaMes } from '../../../shared/lib/dates'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
+import { claveComparacion, contextoSerie, convencional, describirReps, volumenSerie, type SerieEjecucion } from './ejecucion'
+import { cargaExterna, formatearCarga, modoCarga, type SerieCarga } from './carga'
 
 /** 1RM estimado con la fórmula de Epley: peso * (1 + reps/30). */
 export function epley1RM(peso: number, reps: number): number {
@@ -9,30 +11,30 @@ export function epley1RM(peso: number, reps: number): number {
   return Math.round(peso * (1 + reps / 30) * 10) / 10
 }
 
-type SerieBasica = Pick<SetEntry, 'peso' | 'reps'> & { tipo?: SetEntry['tipo'] }
+type SerieBasica = SerieEjecucion
 
 /** Una serie es efectiva salvo que sea de calentamiento (no cuenta en volumen, récords, mapa ni progreso). */
-export function esEfectiva(s: { tipo?: SetEntry['tipo'] }): boolean {
-  return s.tipo !== 'calentamiento'
+export function esEfectiva(s: { tipo?: SetEntry['tipo']; realizada?: boolean }): boolean {
+  return s.tipo !== 'calentamiento' && s.realizada !== false
 }
 
 /** Solo las series efectivas, conservando el tipo concreto de la serie. */
-export function efectivas<T extends { tipo?: SetEntry['tipo'] }>(sets: T[]): T[] {
+export function efectivas<T extends { tipo?: SetEntry['tipo']; realizada?: boolean }>(sets: T[]): T[] {
   return sets.filter(esEfectiva)
 }
 
 export function volumenSets(sets: SerieBasica[]): number {
-  return efectivas(sets).reduce((acc, s) => acc + s.peso * s.reps, 0)
+  return efectivas(sets).reduce((acc, s) => acc + volumenSerie(s), 0)
 }
 
 export function mejorSet(todas: SerieBasica[]): { peso: number; reps: number } | null {
-  const sets = efectivas(todas)
+  const sets = efectivas(todas).filter(s => modoCarga(s) === 'externa' && convencional(s) && !s.ejecucion && !s.excentricaSeg)
   if (sets.length === 0) return null
   return sets.reduce((best, s) => (epley1RM(s.peso, s.reps) > epley1RM(best.peso, best.reps) ? s : best))
 }
 
-export function pesoMaximo(sets: (Pick<SetEntry, 'peso'> & { tipo?: SetEntry['tipo'] })[]): number {
-  return efectivas(sets).reduce((max, s) => Math.max(max, s.peso), 0)
+export function pesoMaximo(sets: (SerieCarga & { tipo?: SetEntry['tipo'] })[]): number {
+  return efectivas(sets).reduce((max, s) => Math.max(max, cargaExterna(s)), 0)
 }
 
 /** Agrupa series por workoutId, útil para gráficas de progreso por sesión. */
@@ -49,25 +51,29 @@ export function agruparPorWorkout(sets: SetEntry[]): Map<number, SetEntry[]> {
 export function formatUltimaVez(todas: SerieBasica[]): string {
   const sets = efectivas(todas)
   if (sets.length === 0) return 'Sin datos previos'
-  const grupos = new Map<string, number>()
-  for (const s of sets) {
-    const key = `${s.reps}x${s.peso}`
-    grupos.set(key, (grupos.get(key) ?? 0) + 1)
+  const grupos = new Map<string, { serie: SerieBasica; count: number }>()
+  for (const serie of sets) {
+    const key = JSON.stringify([serie.reps, serie.peso, modoCarga(serie), serie.pesoCorporal, claveComparacion(serie), serie.lados, serie.bajadas])
+    const previo = grupos.get(key)
+    grupos.set(key, { serie, count: (previo?.count ?? 0) + 1 })
   }
-  return Array.from(grupos.entries())
-    .map(([key, count]) => {
-      const [reps, peso] = key.split('x').map(Number)
+  return Array.from(grupos.values())
+    .map(({ serie, count }) => {
+      const { reps, peso } = serie, modo = modoCarga(serie), contexto = contextoSerie(serie)
       const nb = '\u00a0'
       // Espacios no separables dentro de cada grupo: «3 × 10 · 71,25 kg» no se parte entre líneas.
-      const kg = `${formatNumber(peso, 2)}${nb}kg`
+      const kg = modo === 'externa' ? `${formatNumber(peso, 2)}${nb}kg` : formatearCarga(serie)
+      if (contexto) return [`${formatInt(count)} serie${count === 1 ? '' : 's'}`, describirReps(serie), serie.ejecucion !== 'lados' ? kg : '', contexto].filter(Boolean).join(' · ')
       return count > 1 ? `${formatInt(count)}${nb}×${nb}${formatInt(reps)}${nb}·${nb}${kg}` : `${formatInt(reps)}${nb}×${nb}${kg}`
     })
     .join(', ')
 }
 
 /** Valores por defecto de una serie nueva: repite la última serie del ejercicio o, si no hay, 8 × 20 kg. */
-export function valoresNuevaSerie(previa: Pick<SetEntry, 'peso' | 'reps'> | undefined): { reps: number; peso: number } {
-  return { reps: previa?.reps ?? 8, peso: previa?.peso ?? 20 }
+export function valoresNuevaSerie(previa: SerieEjecucion | undefined): Pick<SetEntry, 'reps' | 'peso' | 'modoCarga' | 'pesoCorporal' | 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg'> {
+  return { reps: previa?.reps ?? 8, peso: previa?.peso ?? 20,
+    ...(previa ? { ejecucion: previa.ejecucion, kgUnilateral: previa.kgUnilateral, agarre: previa.agarre, lados: previa.lados ? Object.fromEntries(Object.entries(previa.lados).map(([lado, p]) => [lado, { reps: p.reps, peso: p.peso }])) : undefined, soloNegativas: previa.soloNegativas, excentricaSeg: previa.excentricaSeg } : {}),
+    ...(previa?.modoCarga ? { modoCarga: previa.modoCarga, pesoCorporal: previa.pesoCorporal } : {}) }
 }
 
 /** `orden` de la siguiente serie: uno más que el mayor existente (no el número de series, que se repite tras borrar). */
@@ -140,10 +146,12 @@ export function detalleSesion(
 
 /**
  * Orden de los ejercicios de una sesión: los de la rutina y luego los que tienen series (como hasta ahora);
- * si hay un orden manual, manda: sus ids primero (los que sigan existiendo) y el resto detrás en su orden natural.
+ * Excluye los omitidos solo en esta sesión. Si hay un orden manual, manda: sus ids primero
+ * (los que sigan existiendo) y el resto detrás en su orden natural.
  */
-export function ordenEjerciciosSesion(idsRutina: number[], idsConSeries: number[], manual?: number[]): number[] {
-  const base = Array.from(new Set([...idsRutina, ...idsConSeries]))
+export function ordenEjerciciosSesion(idsRutina: number[], idsConSeries: number[], manual?: number[], omitidos: number[] = []): number[] {
+  const ocultos = new Set(omitidos)
+  const base = Array.from(new Set([...idsRutina, ...idsConSeries])).filter(id => !ocultos.has(id))
   if (!manual?.length) return base
   const baseSet = new Set(base)
   const primeros = Array.from(new Set(manual)).filter((id) => baseSet.has(id))

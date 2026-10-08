@@ -56,7 +56,7 @@ export const CATALOGO_EJERCICIOS: CatalogExercise[] = [
   ]),
   ...grupo('espalda', [
     'dominadas|Dominadas|corporal|biceps,antebrazo|pull ups',
-    'dominadas-asistidas|Dominadas asistidas en máquina|maquina|biceps',
+    'dominadas-asistidas|Dominadas asistidas en máquina|maquina,corporal|biceps',
     'jalon-pecho|Jalón al pecho|polea|biceps|lat pulldown',
     'jalon-neutro|Jalón con agarre neutro|polea|biceps',
     'remo-barra|Remo con barra|barra|biceps,core|bent over row',

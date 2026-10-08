@@ -20,6 +20,7 @@ import SectionHeader from '../../../shared/components/SectionHeader'
 import FranjaMacros from '../components/FranjaMacros'
 import MacroBar from '../components/MacroBar'
 import Card from '../../../shared/components/Card'
+import ChartVisibility from '../../../shared/components/ChartVisibility'
 
 type Dato = 'kcal' | 'prot' | 'carb' | 'grasa'
 const DATOS = [
@@ -32,6 +33,7 @@ export default function Resumen() {
   const [rango, setRango] = useState<PeriodoRango>('semana')
   const [fechaAncla, setFechaAncla] = useState(todayISO())
   const [dato, setDato] = useState<Dato>('kcal')
+  const [curvas, setCurvas] = useState<('consumo' | 'objetivo')[]>(['consumo', 'objetivo'])
   const fechas = fechasPeriodo(rango, fechaAncla)
   const entries = useLiveQuery(() => entriesRepo.entreFechas(fechas[0], fechas[fechas.length - 1]), [fechas.join(',')])
   // Cada día con registros usa su objetivo congelado (o el vigente); la media se compara con la media de esos objetivos.
@@ -47,6 +49,7 @@ export default function Resumen() {
     fecha, dia: formatShort(fecha), ...porDia[i],
     ...(!diasConDatos.has(fecha) ? { kcal: null, prot: null, carb: null, grasa: null } : {}),
   }))
+  const maximoGrafica = Math.max(1, curvas.includes('objetivo') ? objetivos[dato] : 0, ...chartData.map(d => curvas.includes('consumo') ? d[dato] ?? 0 : 0))
   return (
     <div className="space-y-section">
       <div className="space-y-3">
@@ -82,18 +85,20 @@ export default function Resumen() {
           <section aria-label="Tendencia nutricional" className="space-y-4">
             <SectionHeader variant="section">Día a día</SectionHeader>
             <SegmentedControl label="Métrica de la gráfica" size="sm" opciones={DATOS} valor={dato} onChange={setDato} />
-            <p className="text-label text-fg-muted">{elegido.nombre} ({elegido.unidad}) · línea de objetivo {formatInt(objetivos[dato])}</p>
+            <ChartVisibility label="Series visibles" opciones={{ consumo: 'Consumo', objetivo: 'Objetivo' }} seleccion={curvas} onChange={setCurvas} />
+            <p className="text-label text-fg-muted">{elegido.nombre} ({elegido.unidad}){curvas.includes('objetivo') ? ` · objetivo ${formatInt(objetivos[dato])}` : ''}</p>
+            {!curvas.length ? <EmptyState title="Selecciona una métrica">Activa Consumo u Objetivo para ver la gráfica.</EmptyState> :
             <div role="img" aria-label={`${elegido.nombre} por día. Los días sin registro no tienen barra. Datos disponibles debajo.`}>
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={chartData} margin={{ left: 0, right: 8, top: 12, bottom: 0 }}>
                   <XAxis dataKey="dia" {...chartAxis} minTickGap={18} />
-                  <YAxis {...chartAxis} width={56} tickFormatter={formatCompact} domain={[0, (max: number) => Math.max(max, objetivos[dato])]} />
+                  <YAxis {...chartAxis} width={56} tickFormatter={formatCompact} domain={[0, maximoGrafica]} />
                   <Tooltip {...chartTooltip} formatter={(v) => [`${formatInt(Number(v))} ${elegido.unidad}`, elegido.nombre]} />
-                  {objetivos[dato] > 0 && <ReferenceLine y={objetivos[dato]} {...chartGoalLine} />}
-                  <Bar dataKey={dato} name={elegido.nombre} fill={elegido.color} radius={[3, 3, 0, 0]} isAnimationActive={false} />
+                  {curvas.includes('objetivo') && objetivos[dato] > 0 && <ReferenceLine y={objetivos[dato]} {...chartGoalLine} />}
+                  {curvas.includes('consumo') && <Bar dataKey={dato} name={elegido.nombre} fill={elegido.color} radius={[3, 3, 0, 0]} isAnimationActive={false} />}
                 </BarChart>
               </ResponsiveContainer>
-            </div>
+            </div>}
             <Disclosure title="Ver datos del periodo">
               <ul className="divide-y divide-line text-body-sm">
                 {chartData.filter(d => d.fecha <= todayISO()).map(d => <li key={d.fecha} className="flex justify-between gap-3 py-2"><span>{d.dia}</span><span className="tabular text-fg-muted">{diasConDatos.has(d.fecha) ? `${formatInt(d[dato] ?? 0)} ${elegido.unidad}` : 'Sin registro'}</span></li>)}

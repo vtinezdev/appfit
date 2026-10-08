@@ -54,6 +54,6 @@ describe('csv por tabla', () => {
     const ex: Exercise = { id: 5, nombre: 'Press banca', nombreNorm: 'press banca', grupo: 'Pecho' }
     const s = (id: number, over: Partial<SetEntry>): SetEntry => ({ id, workoutId: 1, exerciseId: 5, orden: id - 1, reps: 8, peso: 62.5, createdAt: id, ...over })
     const csv = csvSeries([s(2, { tipo: 'calentamiento', peso: 20 }), s(1, { rir: 2 }), s(3, { workoutId: 99 })], [w], [ex])
-    expect(csv.slice(1)).toBe('fecha;ejercicio;serie;tipo;reps;peso_kg;rir\r\n2026-10-07;Press banca;1;efectiva;8;62,5;2\r\n2026-10-07;Press banca;2;calentamiento;8;20;\r\n')
+    expect(csv.slice(1)).toBe('fecha;ejercicio;serie;tipo;reps;peso_kg;rir;modo_carga;peso_corporal_kg;nota_ejercicio;ejecucion;kg_unilateral;agarre_json;solo_negativas;excentrica_seg;lados_json;bajadas_json;realizada\r\n2026-10-07;Press banca;1;efectiva;8;62,5;2;externa;;;bilateral;;;;;;;desconocida\r\n2026-10-07;Press banca;2;calentamiento;8;20;;externa;;;bilateral;;;;;;;desconocida\r\n')
   })
 })
