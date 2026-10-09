@@ -18,3 +18,7 @@ A Víctor no le acababa de gustar Inicio: saludo, firma y lema; tarjeta grafito 
 - Inicio deja de usar `TarjetaEntreno destacado`, `ResumenNutricional integrado`, `PesoCard`, `BrandMark` y la mini gráfica de peso; se retiran. El diario de Nutrición conserva su panel con barras.
 - El negro de lo que falta en oscuro (negro sobre superficie 22/23/26) es sutil a propósito: lo que debe leerse es lo consumido, que mantiene su contraste.
 - Implementación: [features/inicio.md](../features/inicio.md) y [DESIGN-SYSTEM](../DESIGN-SYSTEM.md) § Patrones de producto. Intención: [DESIGN.md](../../DESIGN.md) § Components › Inicio.
+
+## Actualización (2026-10-09, rediseño visual v2)
+
+La rueda de energía se queda como está (Víctor la prefiere a la de la maqueta). Inicio pasa a mosaico de tarjetas con dato propio: Peso con minigráfica, Agua con un vaso que se llena y el Último entreno ancho con el mapa muscular en miniatura y lo más trabajado en texto. Se quita el botón ancho «Registrar comida»: registrar está en el «+» central de la barra ([ADR 028](028-barra-de-pestanas-y-registrar.md)). Sigue sin haber saludo, rachas ni accesos que repitan destinos.

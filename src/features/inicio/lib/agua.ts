@@ -56,3 +56,9 @@ export function formatAgua(ml: number): string {
   const { valor, unidad } = partesAgua(ml)
   return `${valor} ${unidad}`
 }
+
+/** Nivel del vaso de Inicio (0–1): lo bebido frente al objetivo, lleno al alcanzarlo. Sin objetivo, vacío. */
+export function nivelVaso(ml: number, objetivo: ObjetivoAgua | null): number {
+  if (!objetivo || !(objetivo.ml > 0) || !(ml > 0)) return 0
+  return Math.min(1, ml / objetivo.ml)
+}

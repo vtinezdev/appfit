@@ -113,3 +113,13 @@ describe('snapshot semántico y sesiones antiguas', () => {
     }
   })
 })
+
+import { masTrabajados } from './cargaMuscular'
+describe('masTrabajados', () => {
+  it('solo los de nivel máximo, de más a menos y como mucho dos', () => {
+    const muscles = Object.fromEntries(ZONAS_MUSCULARES.map(m => [m, { score: { pecho: 10, espalda: 9.8, hombros: 9.7, triceps: 4 }[m as string] ?? 0 }]))
+    const levels = Object.fromEntries(ZONAS_MUSCULARES.map(m => [m, ({ pecho: 5, espalda: 5, hombros: 5, triceps: 3 } as Record<string, number>)[m] ?? 0]))
+    expect(masTrabajados({ levels, muscles } as never)).toEqual(['pecho', 'espalda'])
+    expect(masTrabajados({ levels: { ...levels, espalda: 4, hombros: 4 }, muscles } as never)).toEqual(['pecho'])
+  })
+})

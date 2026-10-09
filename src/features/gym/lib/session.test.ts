@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, afterEach } from 'vitest'
-import { clearSession, clockText, descansoParaEjercicio, emptySession, readSession, remainingSeconds, writeSession } from './session'
+import { ajustarDescanso, clearSession, clockText, descansoParaEjercicio, emptySession, readSession, remainingSeconds, writeSession } from './session'
 afterEach(() => vi.unstubAllGlobals())
 describe('estado de interacción del entreno, independiente de los datos', () => {
   it('sin storage o con JSON inválido funciona en memoria', () => {
@@ -35,5 +35,18 @@ describe('estado de interacción del entreno, independiente de los datos', () =>
     expect(descansoParaEjercicio(150, 90)).toBe(150)
     expect(descansoParaEjercicio(undefined, 90)).toBe(90)
     expect(descansoParaEjercicio(0, 0)).toBe(0)
+  })
+  it('−15/+15 mueven el deadline y la barra; sin tiempo restante el descanso termina', () => {
+    const s = { completed: [], restSeconds: 90, restEndsAt: 90000, restTotal: 90 }
+    expect(ajustarDescanso(s, 15, 0)).toEqual({ ...s, restEndsAt: 105000, restTotal: 105 })
+    expect(ajustarDescanso(s, -15, 30000)).toEqual({ ...s, restEndsAt: 75000, restTotal: 75 })
+    // Quedan 10 s y se restan 15: termina.
+    expect(ajustarDescanso(s, -15, 80000).restEndsAt).toBeNull()
+    // Sin descanso en curso no cambia nada.
+    const quieto = { ...s, restEndsAt: null }
+    expect(ajustarDescanso(quieto, 15, 0)).toBe(quieto)
+    // Sin duración guardada usa la global; la barra nunca queda por debajo de lo que falta.
+    expect(ajustarDescanso({ completed: [], restSeconds: 60, restEndsAt: 50000 }, 15, 0)).toEqual({ completed: [], restSeconds: 60, restEndsAt: 65000, restTotal: 75 })
+    expect(ajustarDescanso({ ...s, restTotal: 20 }, 15, 0).restTotal).toBe(105)
   })
 })

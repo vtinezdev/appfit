@@ -19,3 +19,7 @@ Seguir las convenciones de Strong y Hevy, que son las que conoce la mayoría:
 ## Consecuencias
 
 La cabecera pasa de unos 250 a unos 100 px y una serie normal de unos 120 a unos 56 px. Desaparecen `TecnicaSerie`, `RirStepper` y `OpcionEjercicio`. Lados y bajadas se escriben con un cambio calculado sobre la serie guardada (`setsRepo.actualizar(id, serie => cambios)`), para que dos campos editados seguidos no se pisen. No cambian tablas, índices, backup ni CSV; el único dato nuevo es el ajuste opcional `rirAlCompletar`. Ya no se puede cambiar la ejecución de una sola serie desde la interfaz (los datos antiguos con ejecución distinta se señalan bajo la serie). Las combinaciones antiguas (calentamiento + negativas, dropset + negativas) se muestran con la letra de mayor peso y una etiqueta con el resto.
+
+## Ampliación (2026-10-09, rediseño visual v2)
+
+La fila gana la columna **Anterior** entre el número y las reps: Serie · Anterior · Reps · Kg · RIR · ✓. Muestra reps × carga de la serie con el mismo orden en la última sesión terminada del ejercicio (calentamientos con calentamientos, efectivas con efectivas; lados y bajadas con su par) y sustituye a la línea «Última vez» de la cabecera, que además gana miniatura y «músculo · material». Donde no cabe como columna (paneles de menos de 20,5rem, es decir, móviles de menos de 414 px) va en una línea bajo reps y kg, para no estrechar los campos por debajo de lo legible. La serie marcada se tiñe entera de éxito con un recorrido de izquierda a derecha (directo con Reducir movimiento).

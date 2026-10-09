@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { detalleSesion, epley1RM, formatDuracion, formatHora, formatUltimaVez, mejorSet, pesoMaximo, resumenUltimoEntreno, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
+import { detalleSesion, epley1RM, formatDuracion, formatHora, mejorSet, pesoMaximo, resumenUltimoEntreno, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
 
 describe('epley1RM', () => {
   it('con 1 repetición el 1RM es el propio peso', () => {
@@ -38,26 +38,6 @@ describe('pesoMaximo', () => {
 
   it('devuelve 0 sin series', () => {
     expect(pesoMaximo([])).toBe(0)
-  })
-})
-
-describe('formatUltimaVez', () => {
-  it('indica que no hay datos previos si no hay series', () => {
-    expect(formatUltimaVez([])).toBe('Sin datos previos')
-  })
-
-  it('agrupa series repetidas iguales', () => {
-    const texto = formatUltimaVez([
-      { reps: 8, peso: 60 },
-      { reps: 8, peso: 60 },
-      { reps: 8, peso: 60 },
-    ])
-    expect(texto).toBe('3\u00a0×\u00a08\u00a0·\u00a060\u00a0kg')
-  })
-
-  it('usa coma decimal y separa los grupos con coma', () => {
-    const texto = formatUltimaVez([{ reps: 10, peso: 71.25 }, { reps: 10, peso: 71.25 }, { reps: 10, peso: 71.25 }, { reps: 8, peso: 73.75 }])
-    expect(texto).toBe('3\u00a0×\u00a010\u00a0·\u00a071,25\u00a0kg, 8\u00a0×\u00a073,75\u00a0kg')
   })
 })
 
@@ -152,13 +132,12 @@ describe('resumenUltimoEntreno', () => {
 import { efectivas, moverElemento, ordenEjerciciosSesion } from './workout'
 
 describe('series de calentamiento', () => {
-  it('no cuentan en volumen, mejor serie, peso máximo ni última vez', () => {
+  it('no cuentan en volumen, mejor serie ni peso máximo', () => {
     const sets = [{ peso: 20, reps: 10, tipo: 'calentamiento' as const }, { peso: 60, reps: 5 }]
     expect(efectivas(sets)).toHaveLength(1)
     expect(volumenSets(sets)).toBe(300)
     expect(mejorSet(sets)).toEqual({ peso: 60, reps: 5 })
     expect(pesoMaximo([{ peso: 100, tipo: 'calentamiento' as const }, { peso: 60 }])).toBe(60)
-    expect(formatUltimaVez(sets)).toBe('5\u00a0×\u00a060\u00a0kg')
     expect(mejorSet([{ peso: 20, reps: 10, tipo: 'calentamiento' as const }])).toBeNull()
   })
 })
@@ -213,5 +192,14 @@ describe('validarEntrenoPasado', () => {
     expect(validarEntrenoPasado(9000, 60, 5000)).toMatch(/empezado/)
     expect(validarEntrenoPasado(1000, 0, 5000)).toMatch(/duración/)
     expect(validarEntrenoPasado(1000, 2000, 5000)).toMatch(/duración/)
+  })
+})
+
+import { rangoSesion } from './workout'
+describe('rangoSesion', () => {
+  it('día, inicio y fin; sin fin solo el inicio', () => {
+    const inicio = new Date(2026, 9, 9, 18, 5).getTime()
+    expect(rangoSesion(inicio, new Date(2026, 9, 9, 18, 57).getTime())).toBe('vie 9 oct · 18:05 – 18:57')
+    expect(rangoSesion(inicio)).toBe('vie 9 oct · 18:05')
   })
 })

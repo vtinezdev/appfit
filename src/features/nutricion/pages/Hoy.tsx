@@ -6,8 +6,10 @@ import * as entriesRepo from '../data/entriesRepo'
 import * as foodsRepo from '../data/foodsRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
 import type { Comida, Entry } from '../../../shared/db/types'
-import { addDays, formatFriendly, todayISO } from '../../../shared/lib/dates'
-import { congelarObjetivoDia, objetivosDe } from '../../perfil/data/objetivosDiaRepo'
+import { addDays, formatFriendly, startOfWeek, todayISO, weekDates } from '../../../shared/lib/dates'
+import { congelarObjetivoDia, objetivosDe, objetivosPorFecha } from '../../perfil/data/objetivosDiaRepo'
+import SemanaKcal from '../components/SemanaKcal'
+import { semanaKcal } from '../lib/semanaKcal'
 import AccionesComidaSheet from '../components/AccionesComidaSheet'
 import ComidaSection from '../components/ComidaSection'
 import CopiarDiaSheet from '../components/CopiarDiaSheet'
@@ -48,6 +50,12 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   const categorias = useLiveQuery(() => foodsRepo.categoriasDeEntradas(entries ?? []), [entries]) ?? new Map()
   const entriesAyer = useLiveQuery(() => entriesRepo.delDia(ayer), [ayer])
   const vigentes = useLiveQuery(() => objetivosDe(fecha, todayISO()), [fecha])
+  const lunes = startOfWeek(fecha)
+  const semana = useLiveQuery(async () => {
+    const fechas = weekDates(lunes)
+    const [delaSemana, objetivosSemana] = await Promise.all([entriesRepo.entreFechas(fechas[0], fechas[6]), objetivosPorFecha(fechas, todayISO())])
+    return semanaKcal(lunes, delaSemana, objetivosSemana, todayISO())
+  }, [lunes])
   const { avisar, avisarError, toast } = useAviso()
   const [copiarDia, setCopiarDia] = useState<{ fechaDestino: string } | null>(null)
   const [copiandoDia, setCopiandoDia] = useState(false)
@@ -169,16 +177,8 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
 
   return (
     <div className="space-y-section">
-      <div className="flex items-center gap-2">
-        <div className="flex min-w-0 flex-1 items-center">
-          <IconButton icon="chevron-left" label="Día anterior" variant="ghost" onClick={() => onFechaChange(addDays(fecha, -1))} />
-          <h2 key={fecha} aria-live="polite" className={`min-w-0 flex-1 text-center text-body font-semibold text-fg first-letter:uppercase ${transicion}`}>
-            {formatFriendly(fecha)}
-          </h2>
-          <IconButton icon="chevron-right" label="Día siguiente" variant="ghost" onClick={() => onFechaChange(addDays(fecha, 1))} disabled={fecha >= todayISO()} />
-        </div>
-        <IconButton icon="more" label="Copiar el día" variant="ghost" onClick={() => { setErrorCopia(null); setCopiarDia({ fechaDestino: fecha }) }} />
-      </div>
+      <SemanaKcal fecha={fecha} hoy={todayISO()} dias={semana} onFecha={onFechaChange} transicion={transicion}
+        acciones={<IconButton icon="more" label="Copiar el día" variant="ghost" onClick={() => { setErrorCopia(null); setCopiarDia({ fechaDestino: fecha }) }} />} />
 
       {!cargado || !totales || !objetivos ? (
         <div className="animate-fade-in-late">

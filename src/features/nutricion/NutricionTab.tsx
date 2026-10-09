@@ -82,7 +82,7 @@ export default function NutricionTab({ anadirAlAbrir = false, onVerReferencia }:
 
   return (
     <div className="space-y-3 px-page pt-5">
-      <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="primary" onClick={() => { setComidaAnadir(undefined); setMostrarAnadir(true) }} />} />
+      <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="secondary" onClick={() => { setComidaAnadir(undefined); setMostrarAnadir(true) }} />} />
       <ViewTabs label="Vistas de nutrición" opciones={VISTAS} valor={vista} onChange={setVista}>
       {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} onVerReferencia={onVerReferencia} /></Suspense>}
       {vista === 'resumen' && (

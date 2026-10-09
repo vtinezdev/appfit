@@ -48,7 +48,7 @@ async function main() {
         const page = await context.newPage(); const errors = []
         page.on('pageerror', e => errors.push(e.message))
         await page.goto('http://appfit-test.localhost:5173')
-        await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
+        await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
         await page.evaluate(async () => {
           const { db } = await import('/src/shared/db/db.ts')
           const { CATALOGO_EJERCICIOS } = await import('/src/features/gym/lib/catalogoEjercicios.ts')
@@ -98,7 +98,7 @@ async function main() {
         await page.getByRole('dialog').waitFor({ state: 'detached' })
         assert.deepEqual(await backup(page), saved, 'leer historial no escribe')
         await page.reload()
-        await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
+        await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
         if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
         await navegar(page, 'Entreno')
         await page.getByRole('tab', { name: 'Historial', exact: true }).click()

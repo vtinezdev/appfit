@@ -20,7 +20,7 @@ async function main() {
     const page = await context.newPage()
     const errors = []; page.on('pageerror', e => errors.push(e.message))
     await page.goto(origin)
-    await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
+    await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
     await navegar(page, 'Ajustes')
     await page.locator('input[type=file]').setInputFiles({ name: 'synthetic.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(fixture)) })
     await page.getByRole('group', { name: 'Confirmar importación', exact: true }).getByRole('button', { name: 'Importar copia', exact: true }).click()
@@ -40,7 +40,7 @@ async function main() {
     }), true, 'las seis escenas forman parte del precache, sin depender de la caché HTTP')
     await context.setOffline(true)
     await page.reload()
-    await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
+    await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
     assert.deepEqual(await exportData(page), before, 'recarga offline conserva todas las tablas')
     for (const theme of ['Claro', 'Oscuro']) {
       await page.getByRole('radio', { name: theme, exact: true }).click()

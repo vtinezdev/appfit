@@ -1,8 +1,8 @@
 import type { SetEntry } from '../../../shared/db/types'
-import { formatDiaMes } from '../../../shared/lib/dates'
-import { formatInt, formatNumber } from '../../../shared/lib/format'
-import { claveComparacion, contextoSerie, convencional, describirReps, volumenSerie, type SerieEjecucion } from './ejecucion'
-import { cargaExterna, formatearCarga, modoCarga, type SerieCarga } from './carga'
+import { formatDiaMes, formatFechaHoraConDia } from '../../../shared/lib/dates'
+import { formatInt } from '../../../shared/lib/format'
+import { convencional, volumenSerie, type SerieEjecucion } from './ejecucion'
+import { cargaExterna, modoCarga, type SerieCarga } from './carga'
 
 /** 1RM estimado con la fórmula de Epley: peso * (1 + reps/30). */
 export function epley1RM(peso: number, reps: number): number {
@@ -48,27 +48,6 @@ export function agruparPorWorkout(sets: SetEntry[]): Map<number, SetEntry[]> {
   return map
 }
 
-export function formatUltimaVez(todas: SerieBasica[]): string {
-  const sets = efectivas(todas)
-  if (sets.length === 0) return 'Sin datos previos'
-  const grupos = new Map<string, { serie: SerieBasica; count: number }>()
-  for (const serie of sets) {
-    const key = JSON.stringify([serie.reps, serie.peso, modoCarga(serie), serie.pesoCorporal, claveComparacion(serie), serie.lados, serie.bajadas])
-    const previo = grupos.get(key)
-    grupos.set(key, { serie, count: (previo?.count ?? 0) + 1 })
-  }
-  return Array.from(grupos.values())
-    .map(({ serie, count }) => {
-      const { reps, peso } = serie, modo = modoCarga(serie), contexto = contextoSerie(serie)
-      const nb = '\u00a0'
-      // Espacios no separables dentro de cada grupo: «3 × 10 · 71,25 kg» no se parte entre líneas.
-      const kg = modo === 'externa' ? `${formatNumber(peso, 2)}${nb}kg` : formatearCarga(serie)
-      if (contexto) return [`${formatInt(count)} serie${count === 1 ? '' : 's'}`, describirReps(serie), serie.ejecucion !== 'lados' ? kg : '', contexto].filter(Boolean).join(' · ')
-      return count > 1 ? `${formatInt(count)}${nb}×${nb}${formatInt(reps)}${nb}·${nb}${kg}` : `${formatInt(reps)}${nb}×${nb}${kg}`
-    })
-    .join(', ')
-}
-
 /** Valores por defecto de una serie nueva: repite la última serie del ejercicio o, si no hay, 8 × 20 kg. */
 export function valoresNuevaSerie(previa: SerieEjecucion | undefined): Pick<SetEntry, 'reps' | 'peso' | 'modoCarga' | 'pesoCorporal' | 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg'> {
   return { reps: previa?.reps ?? 8, peso: previa?.peso ?? 20,
@@ -97,6 +76,11 @@ export function formatHora(ts: number): string {
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
 }
 
+/** Cuándo fue una sesión, de principio a fin: «vie 9 oct · 18:05 – 18:57». Sin fin, solo el inicio. */
+export function rangoSesion(inicio: number, fin?: number): string {
+  return fin === undefined ? formatFechaHoraConDia(inicio) : `${formatFechaHoraConDia(inicio)} – ${formatHora(fin)}`
+}
+
 export interface ResumenEntreno {
   /** «Hoy», «Ayer», «Hace 3 días» o «22 sep». */
   cuando: string
@@ -108,20 +92,23 @@ export interface ResumenEntreno {
 
 const DIA_MS = 86_400_000
 
+/** «Hoy», «Ayer», «Hace 3 días» o, desde una semana, «22 sep». Cuenta días naturales, no horas. */
+export function cuandoFue(ts: number, ahora: Date = new Date()): string {
+  const inicio = new Date(ts)
+  const diaInicio = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime()
+  const diaHoy = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()).getTime()
+  const dias = Math.round((diaHoy - diaInicio) / DIA_MS)
+  return dias <= 0 ? 'Hoy' : dias === 1 ? 'Ayer' : dias < 7 ? `Hace ${dias} días` : formatDiaMes(ts)
+}
+
 /** Resumen de un entreno terminado para las tarjetas de Inicio y Gym: cuándo fue, cuánto duró, cuántos ejercicios y qué volumen movió. */
 export function resumenUltimoEntreno(
   workout: { inicio: number; fin?: number },
   sets: (Pick<SetEntry, 'exerciseId' | 'peso' | 'reps'> & { tipo?: SetEntry['tipo'] })[],
   ahora: Date = new Date(),
 ): ResumenEntreno {
-  const inicio = new Date(workout.inicio)
-  const diaInicio = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime()
-  const diaHoy = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()).getTime()
-  const dias = Math.round((diaHoy - diaInicio) / DIA_MS)
-  const cuando =
-    dias <= 0 ? 'Hoy' : dias === 1 ? 'Ayer' : dias < 7 ? `Hace ${dias} días` : formatDiaMes(workout.inicio)
   return {
-    cuando,
+    cuando: cuandoFue(workout.inicio, ahora),
     duracion: workout.fin !== undefined ? formatDuracion(workout.fin - workout.inicio) : null,
     ejercicios: new Set(efectivas(sets).map((s) => s.exerciseId)).size,
     volumen: volumenSets(sets),

@@ -3,7 +3,7 @@ import { aplicarEjecucion, claveComparacion, convencional, opcionesAgarre, parte
 import { detectarRecords } from './records'
 import { datosProgreso } from './progreso'
 import { calcularCargaEjercicio } from './cargaMuscular'
-import { formatUltimaVez, volumenSets } from './workout'
+import { volumenSets } from './workout'
 import type { SetEntry } from '../../../shared/db/types'
 const serie = (patch: Partial<SetEntry> = {}): SetEntry => ({ id: 1, workoutId: 1, exerciseId: 1, orden: 0, reps: 10, peso: 20, createdAt: 1, ...patch })
 describe('ejecución semántica', () => {
@@ -73,6 +73,5 @@ describe('ejecución semántica', () => {
     expect(() => validarSerie(serie({ lados: { izquierda: { reps: -1, peso: 10 } } }))).toThrow()
     expect(() => validarSerie(serie({ bajadas: [{ id: 'x', peso: 10, reps: 8 }, { id: 'x', peso: 5, reps: 6 }] }))).toThrow()
     expect(partesTramo(serie({ ejecucion: 'lados' }))).toEqual([])
-    expect(formatUltimaVez([serie({ modoCarga: 'corporal', pesoCorporal: 75, ejecucion: 'lados', lados: { izquierda: { reps: 8, peso: 0 } } })])).toContain('Corporal · 75 kg')
   })
 })

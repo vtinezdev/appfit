@@ -141,6 +141,9 @@ const TEXT: [string, string][] = [
   ['on-success', 'success'],
   ['on-training', 'training'],
   ['training-muted', 'training'],
+  // Día entrenado del calendario: número sobre la rampa.
+  ['text-primary', 'muscle-1'], ['text-primary', 'muscle-2'], ['text-primary', 'muscle-3'],
+  ['on-muscle-4', 'muscle-4'], ['on-muscle-5', 'muscle-5'],
 ]
 const FILLS = ['kcal', 'protein', 'carbs', 'fat']
 

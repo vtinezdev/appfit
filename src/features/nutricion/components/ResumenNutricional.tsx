@@ -1,11 +1,10 @@
 import type { ReactNode } from 'react'
 import Card from '../../../shared/components/Card'
-import Metric from '../../../shared/components/Metric'
 import ProgressBar from '../../../shared/components/ProgressBar'
 import type { Objetivos } from '../../../shared/db/types'
+import { MACROS, type MacroKey } from '../../../shared/design/macros'
 import { formatInt } from '../../../shared/lib/format'
 import { fraseKcal, type Macros } from '../lib/nutrition'
-import MacroBar from './MacroBar'
 interface Props {
   totales: Macros
   objetivos: Objetivos
@@ -15,24 +14,32 @@ interface Props {
   detalle?: ReactNode
   controles?: ReactNode
 }
-/** Panel diario del diario de Nutrición: una métrica principal, macros y detalle opcional. */
+
+const CARRILES: { macro: MacroKey; nombre: string; valor: (t: Macros) => number; objetivo: (o: Objetivos) => number }[] = [
+  { macro: 'kcal', nombre: 'Energía', valor: t => t.kcal, objetivo: o => o.kcal },
+  { macro: 'prot', nombre: 'Proteína', valor: t => t.prot, objetivo: o => o.prot },
+  { macro: 'carbs', nombre: 'Hidratos', valor: t => t.carb, objetivo: o => o.carb },
+  { macro: 'fat', nombre: 'Grasa', valor: t => t.grasa, objetivo: o => o.grasa },
+]
+
+/** Panel del diario en carriles: energía y macros, cada uno con su barra hasta el objetivo y «1.340 / 2.200». */
 export default function ResumenNutricional({ totales, objetivos, titulo = 'Resumen del día', detalle, controles }: Props) {
-  const v = Math.round(totales.kcal), g = Math.round(objetivos.kcal)
   const frase = fraseKcal(totales.kcal, objetivos.kcal)
   return (
     <section aria-label={titulo}>
-      <Card className="nutrition-summary space-y-3">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <Metric size="hero" className="calorie-value" valor={v} unidad="kcal" />
-          {g > 0 && <p className="tabular pb-1 text-body-sm text-fg-muted">de <strong className="font-semibold text-fg">{formatInt(g)}</strong> kcal</p>}
-        </div>
-        <ProgressBar value={totales.kcal} goal={objetivos.kcal} size="lg" colorClass="bg-kcal" label="Calorías" valueText={`${formatInt(v)} de ${formatInt(g)} kcal. ${frase ?? ''}`} />
-        {frase && <p className="tabular text-body-sm text-fg-muted">{frase}</p>}
-        <div className="grid grid-cols-3 gap-3 pt-3">
-          <MacroBar macro="prot" valor={totales.prot} objetivo={objetivos.prot} />
-          <MacroBar macro="carbs" valor={totales.carb} objetivo={objetivos.carb} />
-          <MacroBar macro="fat" valor={totales.grasa} objetivo={objetivos.grasa} />
-        </div>
+      <Card className="nutrition-summary space-y-4">
+        {CARRILES.map(({ macro, nombre, valor, objetivo }) => {
+          const m = MACROS[macro], v = Math.round(valor(totales)), g = Math.round(objetivo(objetivos)), diff = v - g
+          return <div key={macro} className="space-y-1.5">
+            <p className="flex flex-wrap items-baseline justify-between gap-x-3">
+              <span className="text-body-sm font-semibold text-fg">{nombre}</span>
+              <span className="tabular text-body-sm"><strong className="font-semibold text-fg">{formatInt(v)}</strong>{g > 0 && <span className="text-fg-muted"> / {formatInt(g)}</span>} <span className="text-caption text-fg-muted">{m.unit}</span></span>
+            </p>
+            <ProgressBar value={valor(totales)} goal={objetivo(objetivos)} size={macro === 'kcal' ? 'lg' : 'md'} colorClass={m.bg} label={m.label}
+              valueText={`${formatInt(v)} de ${formatInt(g)} ${m.unit}${macro === 'kcal' ? `. ${frase ?? ''}` : g > 0 && diff > 0 ? `, ${formatInt(diff)} ${m.unit} sobre el objetivo` : ''}`} />
+            {macro === 'kcal' && frase && <p className="tabular text-caption text-fg-muted">{frase}</p>}
+          </div>
+        })}
         {controles}
         {detalle}
       </Card>

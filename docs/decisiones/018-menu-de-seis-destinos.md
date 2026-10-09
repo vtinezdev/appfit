@@ -1,6 +1,6 @@
 # 018 — Menú de seis destinos con dianas circulares
 
-Fecha: 2026-10-06. Estado: aceptada. Sustituye en ADR 011 la frase sobre cinco destinos amplios y paginación desde el sexto.
+Estado: **sustituida** por [ADR 028](028-barra-de-pestanas-y-registrar.md) (barra de pestañas con «+», 2026-10-09). Fecha: 2026-10-06. Estado: aceptada. Sustituye en ADR 011 la frase sobre cinco destinos amplios y paginación desde el sexto.
 
 ## Contexto
 

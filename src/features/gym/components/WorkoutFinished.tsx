@@ -2,11 +2,9 @@ import { lazy, Suspense } from 'react'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
-import Metric from '../../../shared/components/Metric'
 import { LoadingState } from '../../../shared/components/StateMessage'
-import PageHeader from '../../../shared/components/PageHeader'
 import { formatNumber } from '../../../shared/lib/format'
-import { clockText } from '../lib/session'
+import PosterSesion from './PosterSesion'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import type { ResumenMuscular } from '../lib/cargaMuscular'
 import { describirRecord, type RecordEjercicio } from '../lib/records'
@@ -15,8 +13,10 @@ import { describirRecord, type RecordEjercicio } from '../lib/records'
 const MapaMuscular = lazy(() => import('./MapaMuscular'))
 
 export interface WorkoutSummary {
-  seconds: number
-  exercises: number
+  /** Nombre de la rutina o «Entreno libre». */
+  titulo: string
+  inicio: number
+  fin: number
   sets: number
   volume: number
   muscle?: ResumenMuscular
@@ -28,19 +28,11 @@ export interface WorkoutSummary {
 export default function WorkoutFinished({ summary, onClose }: { summary: WorkoutSummary; onClose: () => void }) {
   const figura = useFiguraMapa()
   return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Sesión guardada" overline="Tu entrenamiento ya está en el historial." />
-    <section aria-label="Resumen del entrenamiento guardado" className="training-surface space-y-6 p-5">
-      <div className="workout-finish-mark flex h-14 w-14 items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="check" size={30} /></div>
-      <div><p className="training-muted text-body-sm">Tiempo de sesión</p><p className="font-numeric tabular text-hero">{clockText(summary.seconds)}</p></div>
-      <div className="grid grid-cols-3 gap-3 workout-summary-metrics">
-        <Metric label="Ejercicios" size="title" valor={summary.exercises} />
-        <Metric label="Series" size="title" valor={summary.sets} />
-        <Metric label="Volumen" size="title" valor={summary.volume} unidad="kg" />
-      </div>
-    </section>
+    <PosterSesion titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} levels={summary.muscle?.levels} figura={figura}
+      estado={<p role="status" className="flex items-center gap-2 text-label"><span className="workout-finish-mark flex h-touch w-touch items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="check" size={24} /></span>Sesión guardada en el historial</p>} />
     {!!summary.records?.length && <ListaRecords records={summary.records} nombres={summary.nombres ?? {}} />}
-    {summary.muscle && <Suspense fallback={<LoadingState />}><MapaMuscular summary={summary.muscle} figura={figura} /></Suspense>}
-    <Button block size="lg" onClick={onClose}>Volver a Entreno<Icon name="chevron-right" size={18} /></Button>
+    {summary.muscle && <Suspense fallback={<LoadingState />}><MapaMuscular summary={summary.muscle} figura={figura} figuras={false} /></Suspense>}
+    <Button variant="secondary" block size="lg" onClick={onClose}>Volver a Entreno<Icon name="chevron-right" size={18} /></Button>
   </div>
 }
 

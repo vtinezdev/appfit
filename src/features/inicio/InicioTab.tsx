@@ -1,7 +1,5 @@
 import { lazy, Suspense, useState, type ReactNode } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import Button from '../../shared/components/Button'
-import Icon from '../../shared/components/Icon'
 import PageHeader from '../../shared/components/PageHeader'
 import { LoadingState } from '../../shared/components/StateMessage'
 import { actualizarObjetivoHoy } from '../perfil/data/objetivosDiaRepo'
@@ -32,7 +30,6 @@ const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
 
 interface Props {
   onIrANutricion: () => void
-  onAnadirComida: () => void
   onIrAGym: () => void
   onExportarCopia: () => void
   ayudaInicial?: ReactNode
@@ -42,8 +39,8 @@ const PESO_POR_DEFECTO = 70
 /** Historial que se lee: de sobra para encontrar un pesaje de hace una semana o más. */
 const DIAS_HISTORIAL = 365
 
-/** Pantalla de arranque: revisión de la semana (los lunes), tarjetas breves del día (energía, entreno y peso) y registrar comida. */
-export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onExportarCopia, ayudaInicial }: Props) {
+/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, y el último entreno. Registrar está en el «+» de la barra. */
+export default function InicioTab({ onIrANutricion, onIrAGym, onExportarCopia, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -118,16 +115,13 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
           <LoadingState />
         </div>
       ) : (
-        <div className="space-y-section">
-          <div className="space-y-stack">
-            <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion} />
-            <div className="grid grid-cols-2 gap-stack">
-              <AccesoEntreno onAbrir={onIrAGym} />
-              <AccesoPeso tendencia={tendencia} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
-            </div>
+        <div className="space-y-stack">
+          <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion} />
+          <div className="grid grid-cols-2 gap-stack">
+            <AccesoPeso tendencia={tendencia} pesos={pesos} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
             <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />
           </div>
-          <Button size="lg" block onClick={onAnadirComida}><Icon name="plus" size={20} />Registrar comida</Button>
+          <AccesoEntreno onAbrir={onIrAGym} />
         </div>
       )}
 

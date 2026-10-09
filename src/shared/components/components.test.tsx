@@ -13,15 +13,13 @@ const opciones = [{ valor: 'hoy', label: 'Hoy' }, { valor: 'resumen', label: 'Re
 const noop = () => {}
 
 describe('contratos del sistema visual', () => {
-  it.each(['inicio', 'nutricion', 'gym', 'perfil', 'referencias', 'ajustes'] as Tab[])('un único botón de menú accesible en %s', tab => {
-    const html = renderToStaticMarkup(<BottomNav tab={tab} onChange={noop} />)
-    expect(html.match(/<button/g)).toHaveLength(1)
-    expect(html).toContain('aria-label="Menú"')
-    expect(html).toContain('aria-haspopup="dialog"')
-    expect(html).toContain('aria-expanded="false"')
-    expect(html).toContain('aria-controls=')
-    expect(html).toContain('Sección actual:')
-    expect(html).toContain('data-nav-trigger=')
+  it.each(['inicio', 'nutricion', 'gym', 'perfil', 'referencias', 'ajustes'] as Tab[])('barra de pestañas con «+» central y una sola sección actual en %s', tab => {
+    const html = renderToStaticMarkup(<BottomNav tab={tab} onChange={noop} onAcciones={noop} />)
+    expect(html.match(/<button/g)).toHaveLength(5)
+    for (const label of ['Inicio', 'Nutrición', 'Entreno', 'Más']) expect(html).toContain(`>${label}</span>`)
+    expect(html).toMatch(/aria-label="Registrar" aria-haspopup="dialog" aria-expanded="false" data-nav-trigger/)
+    expect(html.match(/aria-current="page"/g)).toHaveLength(1)
+    if (['perfil', 'referencias', 'ajustes'].includes(tab)) expect(html).toMatch(/aria-current="page" aria-haspopup="dialog"/)
     expect(html).not.toContain('role="dialog"')
     expect(html).not.toContain('fixed')
     expect(html).not.toContain('data-surface')

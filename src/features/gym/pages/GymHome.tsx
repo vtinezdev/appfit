@@ -50,11 +50,11 @@ export default function GymHome({ onRegistrado }: { onRegistrado: (id: number) =
           <p className="training-muted text-body-sm">Elige una rutina o empieza con los ejercicios que quieras.</p>
         </div>
         <div className="space-y-2">
-          <Button variant={rutinas?.length ? 'ghost' : 'primary'} className={rutinas?.length ? 'training-secondary' : ''} size="lg" block onClick={empezarVacio}>
+          <Button variant="ghost" className="training-secondary" size="lg" block onClick={empezarVacio}>
             <Icon name="plus" size={20} />
             Entreno vacío
           </Button>
-          {!!rutinas?.length && <Button size="lg" block onClick={() => abrirRutinas(true)}>Desde rutina</Button>}
+          {!!rutinas?.length && <Button variant="ghost" className="training-secondary" size="lg" block onClick={() => abrirRutinas(true)}>Desde rutina</Button>}
           <Button variant="subtle" block onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
           {rutinas?.length === 0 && <p className="training-muted text-center text-caption">O crea una rutina en la pestaña Rutinas.</p>}
         </div>

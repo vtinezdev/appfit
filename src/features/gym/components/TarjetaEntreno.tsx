@@ -41,7 +41,7 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
               <p className="training-muted tabular text-body-sm">En curso desde {formatHora(activo.inicio)}</p>
             </div>
             {onAbrir && (
-              <Button size="sm" onClick={onAbrir}>
+              <Button variant="ghost" className="training-secondary" size="sm" onClick={onAbrir}>
                 Continuar
               </Button>
             )}
