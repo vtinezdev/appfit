@@ -34,7 +34,7 @@ export default function AvisoBackup({ onExportar, ahora = Date.now() }: { onExpo
       {error && <ErrorState>No se ha podido posponer el aviso.</ErrorState>}
       <div className="flex gap-2">
         <Button variant="ghost" className="flex-1" onClick={masTarde}>Más tarde</Button>
-        <Button className="flex-1" onClick={onExportar}>Exportar ahora</Button>
+        <Button variant="secondary" className="flex-1" onClick={onExportar}>Exportar ahora</Button>
       </div>
     </Card>
   )

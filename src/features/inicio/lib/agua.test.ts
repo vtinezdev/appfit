@@ -38,3 +38,14 @@ describe('validaciones y formato', () => {
     expect(partesAgua(0)).toEqual({ valor: '0', unidad: 'ml' })
   })
 })
+
+import { nivelVaso } from './agua'
+describe('nivelVaso', () => {
+  it('proporción frente al objetivo, lleno al alcanzarlo y vacío sin objetivo', () => {
+    const objetivo = { ml: 2000, origen: 'ajustes' as const }
+    expect(nivelVaso(500, objetivo)).toBe(0.25)
+    expect(nivelVaso(2500, objetivo)).toBe(1)
+    expect(nivelVaso(0, objetivo)).toBe(0)
+    expect(nivelVaso(800, null)).toBe(0)
+  })
+})

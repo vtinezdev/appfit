@@ -106,3 +106,8 @@ export function trabajoMuscularWorkout(workout: Pick<Workout, 'muscleSnapshot'>,
   return { ...work, levels, legacy: workout.muscleSnapshot === undefined }
 }
 export type ResumenMuscular = ReturnType<typeof trabajoMuscularWorkout>
+
+/** Los grupos de nivel máximo de una sesión, de más a menos trabajo y como mucho `max` (para «Pecho y espalda, lo más trabajado»). */
+export function masTrabajados(r: Pick<ResumenMuscular, 'levels' | 'muscles'>, max = 2): ZonaMuscular[] {
+  return ZONAS_MUSCULARES.filter(m => r.levels[m] === 5).sort((a, b) => r.muscles[b].score - r.muscles[a].score).slice(0, max)
+}

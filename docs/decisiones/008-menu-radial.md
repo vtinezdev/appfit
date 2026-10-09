@@ -1,6 +1,6 @@
 # ADR 008 — Navegación principal en una rueda bajo demanda
 
-Estado: la rueda dentro de Sheet se sustituye por el abanico anclado de [ADR 009](009-identidad-y-motion-impeccable.md). Se conservan la lista central, la paginación y el acceso bajo demanda. El texto siguiente registra la decisión original.
+Estado: **sustituida** por [ADR 028](028-barra-de-pestanas-y-registrar.md) (barra de pestañas con «+», 2026-10-09). Estado: la rueda dentro de Sheet se sustituye por el abanico anclado de [ADR 009](009-identidad-y-motion-impeccable.md). Se conservan la lista central, la paginación y el acceso bajo demanda. El texto siguiente registra la decisión original.
 
 ## Contexto
 

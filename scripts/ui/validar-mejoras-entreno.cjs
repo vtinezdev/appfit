@@ -70,7 +70,7 @@ async function main() {
         const page = await context.newPage(), errors = []
         page.on('pageerror', e => errors.push(e.message))
         await page.goto('http://appfit-test.localhost:5173')
-        await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
+        await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
         await page.evaluate(async fixture => {
           const { importarBackup } = await import('/src/shared/lib/backup.ts')
           const { todayISO, addDays } = await import('/src/shared/lib/dates.ts')
@@ -194,7 +194,7 @@ async function main() {
         assert.equal(await rir.textContent(), '0')
         await page.getByRole('button', { name: 'Terminar', exact: true }).click()
         await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
-        await page.getByRole('heading', { name: 'Sesión guardada', exact: true }).waitFor()
+        await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
         await page.getByRole('button', { name: 'Volver a Entreno', exact: true }).click()
         await page.getByRole('tab', { name: 'Historial', exact: true }).click()
         await page.getByRole('list', { name: 'Entrenos terminados', exact: true }).getByRole('button').filter({ hasText: 'Fuerza' }).click()

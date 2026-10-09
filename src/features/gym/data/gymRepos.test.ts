@@ -74,6 +74,13 @@ describe('workoutsRepo', () => {
   })
 })
 
+describe('workoutsRepo.terminados', () => {
+  it('devuelve los terminados del más reciente al más antiguo, sin el activo', async () => {
+    await db.workouts.bulkAdd([{ id: 1, inicio: 100, fin: 200 }, { id: 2, inicio: 300, fin: 400 }, { id: 3, inicio: 50, fin: 90 }, { id: 4, inicio: 500 }])
+    expect((await workoutsRepo.terminados()).map(w => w.id)).toEqual([2, 1, 3])
+  })
+})
+
 describe('setsRepo', () => {
   async function preparar() {
     const workoutId = await workoutsRepo.empezar()

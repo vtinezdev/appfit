@@ -10,13 +10,12 @@ import Button from '../../../shared/components/Button'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import Icon from '../../../shared/components/Icon'
 import { Input, Textarea } from '../../../shared/components/Input'
-import Metric from '../../../shared/components/Metric'
 import NumberStepper from '../../../shared/components/NumberStepper'
-import PageHeader from '../../../shared/components/PageHeader'
+import PosterSesion from '../components/PosterSesion'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
-import { formatFechaHoraConDia, toISODate } from '../../../shared/lib/dates'
+import { toISODate } from '../../../shared/lib/dates'
 import { formatNumber } from '../../../shared/lib/format'
 import PanelEjercicio from '../components/PanelEjercicio'
 import SelectorEjercicios from '../components/SelectorEjercicios'
@@ -24,9 +23,10 @@ import { ListaRecords } from '../components/WorkoutFinished'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { recordsDeEntreno } from '../lib/records'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
-import { combinarFechaHora, efectivas, formatDuracion, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
+import { combinarFechaHora, efectivas, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
+import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
 import { formatearCarga } from '../lib/carga'
 
 // Diferido: la geometría de los muñecos pesa más que el resto del mapa.
@@ -92,6 +92,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   const records = recordsDeEntreno(workoutId, todosWorkouts, todasSeries)
   const nombres = Object.fromEntries(exercises.map((e) => [e.id, e.nombre]))
   const minutos = minutosEntre(w.inicio, fin)
+  const trabajo = trabajoMuscularWorkout(w, delEntreno, exercises)
 
   async function accion(f: () => Promise<unknown>, fallo: string) {
     setError(null)
@@ -164,17 +165,14 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
 
   return (
     <div ref={contenedorRef} className="space-y-section px-page pb-16 pt-5">
-      <Button variant="ghost" size="sm" disabled={quitando} className="-ml-3" onClick={onVolver}><Icon name="arrow-left" size={18} />Historial</Button>
-      <PageHeader title={formatFechaHoraConDia(w.inicio)} overline={editando ? 'Editando entreno' : undefined}
-        action={editando
-          ? <Button size="sm" disabled={quitando} onClick={terminarEdicion}>Listo</Button>
-          : <Button variant="secondary" size="sm" onClick={() => setEditando(true)}><Icon name="pencil" size={16} />Editar</Button>} />
-
-      <div className="grid grid-cols-3 gap-3 border-b border-line pb-4">
-        <Metric size="title" label="Duración" valor={formatDuracion(fin - w.inicio)} />
-        <Metric size="title" label="Series" valor={efectivas(delEntreno).length} />
-        <Metric size="title" label="Volumen" valor={formatNumber(volumenSets(delEntreno), 1)} unidad="kg" />
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="ghost" size="sm" disabled={quitando} className="-ml-3" onClick={onVolver}><Icon name="arrow-left" size={18} />Historial</Button>
+        {editando
+          ? <Button variant="secondary" size="sm" disabled={quitando} onClick={terminarEdicion}>Listo</Button>
+          : <Button variant="secondary" size="sm" onClick={() => setEditando(true)}><Icon name="pencil" size={16} />Editar</Button>}
       </div>
+      <PosterSesion titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)}
+        levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined} />
       {error && <ErrorState>{error}</ErrorState>}
 
       {editando && (
@@ -194,7 +192,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
       )}
 
       {!editando && !!records.length && <ListaRecords records={records} nombres={nombres} />}
-      {!editando && <Suspense fallback={<LoadingState />}><MapaMuscular key={w.id} summary={trabajoMuscularWorkout(w, delEntreno, exercises)} figura={figura} /></Suspense>}
+      {!editando && <Suspense fallback={<LoadingState />}><MapaMuscular key={w.id} summary={trabajo} figura={figura} figuras={false} /></Suspense>}
 
       <section aria-label="Notas del entreno" className="space-y-1">
         {editando ? (
@@ -211,7 +209,9 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
           {ids.map((id, i) => {
             const ex = exerciseMap.get(id)
             if (!ex) return null
-            return <PanelEjercicio key={id} ejercicio={ex} sets={delEntreno.filter((s) => s.exerciseId === id).sort((a, b) => a.orden - b.orden)} barraKg={ajustes?.barraKg ?? 20}
+            const series = delEntreno.filter((s) => s.exerciseId === id).sort((a, b) => a.orden - b.orden)
+            return <PanelEjercicio key={id} ejercicio={ex} sets={series} barraKg={ajustes?.barraKg ?? 20}
+              anteriores={anterioresPorSerie(series, seriesSesionAnterior(todasSeries ?? [], id, w, todosWorkouts ?? []))}
               objetivo={rutina?.objetivos?.[id]} onActualizar={actualizarSerie} onBorrar={borrarSerie} onAgregar={() => agregarSerie(id)}
               completadas={delEntreno.filter(s => s.realizada === true).map(s => s.id)} onCompletar={s => { void accion(() => setsRepo.confirmar(s.id, s.realizada !== true), 'No se ha podido confirmar la serie.') }}
               bloqueado={ocupado || quitando} onQuitar={() => quitarEjercicio(id, ex.nombre)} onAviso={avisar}

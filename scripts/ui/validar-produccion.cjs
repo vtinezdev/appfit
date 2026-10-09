@@ -23,7 +23,7 @@ async function main() {
   assert.deepEqual(await exportar(p),esperado)
   await c.close(); ({c,p}=await abrir(chromium)); assert.deepEqual(await exportar(p),esperado)
   await p.evaluate(()=>document.fonts.ready); assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Saira' && f.status==='loaded')),true)
-  await c.setOffline(true); await p.reload(); await p.getByRole('button',{name:'Menú',exact:true}).waitFor()
+  await c.setOffline(true); await p.reload(); await p.getByRole('button',{name:'Registrar',exact:true}).waitFor()
   assert.deepEqual(await exportar(p),esperado)
   for (const theme of ['Claro','Oscuro']) {
    await p.getByRole('radio',{name:theme,exact:true}).click()

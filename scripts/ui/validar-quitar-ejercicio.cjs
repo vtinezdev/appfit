@@ -64,7 +64,7 @@ async function main() {
         const page = await context.newPage(); const errors = []
         page.on('pageerror', e => errors.push(e.message))
         await page.goto('http://appfit-test.localhost:5173')
-        await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
+        await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
         await page.evaluate(async largo => {
           const { db } = await import('/src/shared/db/db.ts')
           await db.transaction('rw', db.exercises, db.routines, db.workouts, db.sets, async () => {
@@ -140,7 +140,7 @@ async function main() {
 
         await page.getByRole('button', { name: 'Terminar', exact: true }).click()
         await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
-        await page.getByRole('heading', { name: 'Sesión guardada', exact: true }).waitFor()
+        await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
         await page.getByRole('button', { name: 'Volver a Entreno', exact: true }).click()
         await page.getByRole('tab', { name: 'Historial', exact: true }).click()
         await page.getByRole('list', { name: 'Entrenos terminados', exact: true }).getByRole('button').filter({ hasText: 'Fuerza' }).click()

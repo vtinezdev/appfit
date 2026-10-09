@@ -1,6 +1,6 @@
 # Perfil
 
-`src/features/perfil/`. Sección principal (Menú → Perfil, chunk diferido) que estima el gasto y el objetivo energético diario a partir de datos personales. Decisiones y criterios: [ADR 019](../decisiones/019-perfil-y-estimacion-energetica.md); menú: [ADR 018](../decisiones/018-menu-de-seis-destinos.md). La explicación completa y las fuentes viven solo en Referencias › Energía y objetivo; Perfil enlaza.
+`src/features/perfil/`. Sección principal (Más → Perfil, chunk diferido) que estima el gasto y el objetivo energético diario a partir de datos personales. Decisiones y criterios: [ADR 019](../decisiones/019-perfil-y-estimacion-energetica.md); menú: [ADR 018](../decisiones/018-menu-de-seis-destinos.md). La explicación completa y las fuentes viven solo en Referencias › Energía y objetivo; Perfil enlaza.
 
 ## Dónde está cada cosa
 

@@ -1,5 +1,6 @@
 import { recomendarProgresion } from '../lib/progresion'
-import { claveComparacion, convencional, tieneReps, cambiaRealizacion } from '../lib/ejecucion'
+import { convencional, tieneReps, cambiaRealizacion } from '../lib/ejecucion'
+import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
@@ -16,7 +17,7 @@ import { recordsDeEntreno } from '../lib/records'
 import SelectorEjercicios from '../components/SelectorEjercicios'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
-import { efectivas, formatHora, formatUltimaVez, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
+import { efectivas, formatHora, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
 import { formatInt } from '../../../shared/lib/format'
 import Sheet from '../../../shared/components/Sheet'
 import Button from '../../../shared/components/Button'
@@ -26,7 +27,7 @@ import { useListMotion } from '../../../shared/hooks/useListMotion'
 import { haptic } from '../../../shared/design/motion'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import ProgressBar from '../../../shared/components/ProgressBar'
-import { clearSession, descansoParaEjercicio, readSession, writeSession } from '../lib/session'
+import { ajustarDescanso, clearSession, descansoParaEjercicio, readSession, writeSession } from '../lib/session'
 import { RestClock, WorkoutClock } from '../components/WorkoutClock'
 import type { WorkoutSummary } from '../components/WorkoutFinished'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -64,7 +65,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
   const ajustes = useLiveQuery(() => getSettings(), [])
   const todosWorkouts = useLiveQuery(() => workoutsRepo.listar(), []) ?? []
   const routine = useLiveQuery(() => (workout.routineId ? routinesRepo.obtener(workout.routineId) : undefined), [workout.routineId])
-  const listRef = useListMotion(`${currentSets.map(s => s.id).join(',')}|${session.restEndsAt !== null}|${restConfigOpen}`)
+  const listRef = useListMotion(`${currentSets.map(s => s.id).join(',')}|${restConfigOpen}`)
   useEffect(() => { writeSession(workout.id!, session) }, [workout.id, session])
 
   const exerciseMap = new Map(exercises.map((e) => [e.id!, e]))
@@ -131,11 +132,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     }
   }
 
-  function ultimaSetDeEjercicio(exerciseId: number, excluirWorkout: boolean): SetEntry | null {
-    const candidatos = allSets.filter((s) => s.exerciseId === exerciseId && (!excluirWorkout || s.workoutId !== workout.id))
-    if (candidatos.length === 0) return null
-    return candidatos.reduce((a, b) => (a.createdAt > b.createdAt ? a : b))
-  }
+
 
   async function agregarSet(exerciseId: number) {
     try {
@@ -196,8 +193,9 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
       const records = recordsDeEntreno(workout.id!, [...todosWorkouts.filter(w => w.id !== workout.id), finished.workout],
         [...allSets.filter(s => s.workoutId !== workout.id), ...saved])
       onFinished({
-        seconds: ((finished.workout.fin ?? Date.now()) - workout.inicio) / 1000,
-        exercises: new Set(guardadasEfectivas.map(s => s.exerciseId)).size,
+        titulo: routine?.nombre ?? 'Entreno libre',
+        inicio: workout.inicio,
+        fin: finished.workout.fin ?? Date.now(),
         sets: guardadasEfectivas.length,
         volume: volumenSets(saved),
         muscle: trabajoMuscularWorkout(finished.workout, saved, []),
@@ -244,32 +242,40 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     } catch { avisarError('La serie no se ha guardado. Inténtalo de nuevo antes de completarla.'); return false } finally { confirmandoSeries.current.delete(s.id) }
   }
 
+  const descansando = session.restEndsAt !== null
   return (
-    <div ref={contenedorRef} className="space-y-section px-page pb-16 pt-5">
-      <section aria-label="Entreno en curso" className="training-surface space-y-2 p-3">
+    <div ref={contenedorRef} className={`entreno-activo space-y-section px-page pb-16 pt-5 ${descansando ? 'descanso-activo' : ''}`}>
+      {/* Cabecera fija: rutina, tiempo, volumen, series y Terminar siguen a la vista al bajar por los ejercicios. */}
+      <section aria-label="Entreno en curso" className="training-surface workout-bar sticky top-0 z-20 space-y-2 px-3 py-2">
         <div className="flex min-h-touch items-center justify-between gap-2">
           <div className="min-w-0"><h1 className="break-words text-heading">{routine?.nombre ?? 'Entreno libre'}</h1><p className="training-muted text-caption">En curso · {formatHora(workout.inicio)}</p></div>
-          <Button size="sm" disabled={quitando} onClick={() => { setFinishError(null); setConfirmando(true) }}>
+          <Button variant="ghost" className="training-secondary" size="sm" disabled={quitando} onClick={() => { setFinishError(null); setConfirmando(true) }}>
             Terminar
           </Button>
         </div>
         <div className="grid grid-cols-3 items-end gap-3">
-          <div className="min-w-0"><p className="training-muted text-caption">Tiempo</p><p className="font-numeric text-heading"><WorkoutClock start={workout.inicio} /></p></div>
-          <div className="min-w-0"><p className="training-muted text-caption">Volumen</p><p className="tabular flex flex-wrap items-baseline gap-x-1.5"><span className="min-w-0 break-words font-numeric text-heading">{formatInt(volumen)}</span><span className="training-muted text-caption">kg</span></p></div>
-          <div className="min-w-0 text-right"><p className="training-muted text-caption">Series marcadas</p><p className="tabular flex items-baseline justify-end gap-x-1"><span className="font-numeric text-heading">{completedCount}</span><span className="training-muted text-body-sm">/ {currentSets.length}</span></p></div>
+          <div className="min-w-0"><p className="training-muted text-caption">Tiempo</p><p className="font-numeric text-title"><WorkoutClock start={workout.inicio} /></p></div>
+          <div className="min-w-0"><p className="training-muted text-caption">Volumen</p><p className="tabular flex flex-wrap items-baseline gap-x-1"><span className="min-w-0 break-words font-numeric text-title">{formatInt(volumen)}</span><span className="training-muted text-caption">kg</span></p></div>
+          <div className="min-w-0 text-right"><p className="training-muted text-caption">Series</p><p className="tabular flex items-baseline justify-end gap-x-1"><span className="font-numeric text-title">{completedCount}</span><span className="training-muted text-caption">/ {currentSets.length}</span></p></div>
         </div>
         <div className="training-progress"><ProgressBar value={completedCount} goal={currentSets.length} label="Series completadas" valueText={`${completedCount} de ${currentSets.length} series marcadas`} /></div>
       </section>
 
+      {descansando && <div className="rest-dock pointer-events-none fixed inset-x-0 z-30">
+        <div className="mx-auto max-w-lg px-page">
+          <RestClock endsAt={session.restEndsAt!} duration={session.restTotal ?? session.restSeconds}
+            onEnd={() => {
+              setSession(previous => ({ ...previous, restEndsAt: null }))
+              setFeedback('Descanso terminado. Listo para la siguiente serie.')
+              haptic('success')
+              if (ajustes?.sonidoDescanso !== false) pitar()
+            }}
+            onAjustar={delta => { setSession(previous => ajustarDescanso(previous, delta)); haptic('selection') }}
+            onSkip={() => { setSession(previous => ({ ...previous, restEndsAt: null })); setFeedback('Descanso finalizado'); haptic() }} />
+        </div>
+      </div>}
+
       <section aria-label="Descanso entre series" className="space-y-2">
-        {session.restEndsAt !== null ? <RestClock key={session.restEndsAt} endsAt={session.restEndsAt} duration={session.restTotal ?? session.restSeconds}
-          onEnd={() => {
-            setSession(previous => ({ ...previous, restEndsAt: null }))
-            setFeedback('Descanso terminado. Listo para la siguiente serie.')
-            haptic('success')
-            if (ajustes?.sonidoDescanso !== false) pitar()
-          }}
-          onSkip={() => { setSession(previous => ({ ...previous, restEndsAt: null })); setFeedback('Descanso finalizado'); haptic() }} /> :
           <div ref={restConfig}><Disclosure title={`Descanso: ${session.restSeconds ? `${session.restSeconds} s` : 'sin temporizador'}`} open={restConfigOpen} onChange={setRestConfigOpen}>
             <div className="space-y-3">
               <SegmentedControl label="Duración del descanso" size="sm" valor={String(session.restSeconds)} onChange={value => {
@@ -279,7 +285,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
               }} opciones={[{ valor: '0', label: 'No' }, { valor: '60', label: '60 s' }, { valor: '90', label: '90 s' }, { valor: '120', label: '120 s' }]} />
               <p className="text-caption text-fg-muted">Los ejercicios con descanso propio en la rutina usan ese tiempo. El aviso sonoro se ajusta en Ajustes y solo suena con la app abierta.</p>
             </div>
-          </Disclosure></div>}
+          </Disclosure></div>
       </section>
       <p role="status" className="sr-only">{feedback}</p>
 
@@ -288,13 +294,10 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
           const ex = exerciseMap.get(exId)
           if (!ex) return null
           const sets = currentSets.filter((s) => s.exerciseId === exId).sort((a, b) => a.orden - b.orden)
-          const ultimaVez = ultimaSetDeEjercicio(exId, true)
-          const base = sets.find(s => s.tipo !== 'calentamiento')
-          const historico = allSets.filter((s) => s.exerciseId === exId && s.workoutId === ultimaVez?.workoutId && (!base || claveComparacion(s) === claveComparacion(base)))
           return (
             <div key={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
-                ultimaVez={historico.length > 0 ? `Última vez: ${formatUltimaVez(historico)}` : 'Sin datos previos'}
+                anteriores={anterioresPorSerie(sets, seriesSesionAnterior(allSets, exId, workout, todosWorkouts))}
                 objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
                 onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
                 onQuitar={() => quitarEjercicio(exId, ex.nombre)} onAviso={avisar}

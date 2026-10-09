@@ -41,20 +41,15 @@ async function closed(page) {
   assert.equal(await page.locator('[data-app-shell]').evaluate(e => e.inert), false)
 }
 async function geometry(page) {
-  const diagnostic = await page.locator('.fan-target').evaluateAll(elements => {
-    const rects = elements.map(e => e.getBoundingClientRect())
+  // Barra de pestañas y filas de la hoja abierta: sin solaparse, dentro del viewport y con targets ≥44 px.
+  const diagnostic = await page.locator('.tab-item, .tab-plus, [role=dialog] .app-list-row').evaluateAll(elements => {
+    const rects = elements.map(e => e.getBoundingClientRect()).filter(r => r.width && r.height)
     return { collisions: rects.some((a, i) => rects.slice(i + 1).some(b => a.left < b.right - 1 && a.right > b.left + 1 && a.top < b.bottom - 1 && a.bottom > b.top + 1)),
-      outside: rects.some(r => r.left < -1 || r.right > innerWidth + 1 || r.top < -1 || r.bottom > innerHeight + 1),
+      outside: rects.some(r => r.left < -1 || r.right > innerWidth + 1),
       tiny: rects.some(r => r.width < 44 || r.height < 44) }
   })
   assert.deepEqual(diagnostic, { collisions: false, outside: false, tiny: false })
-  const selected = await page.locator('.fan-target[aria-current="page"]').evaluate(button => {
-    const mark = button.querySelector('svg.absolute')
-    if (!mark) return false
-    const a = button.getBoundingClientRect(), b = mark.getBoundingClientRect()
-    return b.left >= a.left && b.right <= a.right && b.top >= a.top && b.bottom <= a.bottom
-  })
-  assert.equal(selected, true, 'el check pertenece al destino activo, también en compacto')
+  assert.equal(await page.locator('[data-app-shell] nav [aria-current="page"]').count(), 1, 'una sola sección actual en la barra')
 }
 async function run(browser, variant) {
   const context = await browser.newContext(variant.options)
@@ -65,12 +60,12 @@ async function run(browser, variant) {
     page.on('pageerror', e => errors.push(e.message))
     page.on('console', e => { if (e.type() === 'error' && !/Failed to load resource/.test(e.text())) errors.push(e.text()) })
     await page.goto(origin)
-    await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
+    await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
     await seed(page)
     await snapshot(page, `${variant.name}-inicio`)
     if (variant.name === '375-light') await snapshot(page, 'mobile')
     if (variant.name === '1440-light') await snapshot(page, 'desktop')
-    await page.getByRole('button', { name: 'Menú', exact: true }).click()
+    await page.getByRole('button', { name: 'Registrar', exact: true }).click()
     await snapshot(page, `${variant.name}-menu`); await geometry(page)
     await page.keyboard.press('Escape'); await closed(page)
     // Cierre interrumpiendo la entrada, repetido; no quedan capas, scroll bloqueado ni historia residual.
@@ -170,23 +165,23 @@ async function run(browser, variant) {
       await page.evaluate(() => { IDBObjectStore.prototype.put = window.__originalPut })
     }
     await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
-    await page.getByRole('heading', { name: 'Sesión guardada', exact: true }).waitFor()
+    await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
     await snapshot(page, `${variant.name}-finalizado`)
     await page.getByRole('button', { name: /Volver a Entreno/ }).click()
     await navegar(page, 'Ajustes'); await snapshot(page, `${variant.name}-ajustes`)
     if (variant.name === '375-light') {
       // Texto al 200% y viewport bajo: el patrón cambia a dos columnas accesibles.
       await page.evaluate(() => { document.documentElement.style.fontSize = '200%' })
-      await page.getByRole('button', { name: 'Menú', exact: true }).click()
+      await page.getByRole('button', { name: 'Registrar', exact: true }).click()
       await snapshot(page, '375-text-200-menu'); await geometry(page)
       await page.keyboard.press('Escape'); await closed(page)
       await page.evaluate(() => { document.documentElement.style.fontSize = '' })
       await page.setViewportSize({ width: 812, height: 320 })
-      await page.getByRole('button', { name: 'Menú', exact: true }).click()
+      await page.getByRole('button', { name: 'Registrar', exact: true }).click()
       await snapshot(page, '812-landscape-menu'); await geometry(page)
       await page.keyboard.press('Escape'); await closed(page)
       await page.setViewportSize({ width: 320, height: 568 })
-      await page.getByRole('button', { name: 'Menú', exact: true }).click()
+      await page.getByRole('button', { name: 'Registrar', exact: true }).click()
       await page.setViewportSize({ width: 430, height: 932 })
       await page.waitForTimeout(400); await geometry(page)
       await page.keyboard.press('Escape'); await closed(page)

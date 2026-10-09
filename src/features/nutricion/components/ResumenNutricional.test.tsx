@@ -6,14 +6,16 @@ import NutrientesDetalle from './NutrientesDetalle'
 const objetivos = { kcal: 2200, prot: 150, carb: 220, grasa: 70 }
 const totales = { kcal: 113, prot: 6, carb: 9, grasa: 6 }
 
-describe('ResumenNutricional: panel diario compartido', () => {
-  it('mantiene kcal, objetivos y macros', () => {
+describe('ResumenNutricional: carriles del diario', () => {
+  it('energía y macros en carriles con «valor / objetivo»', () => {
     const html = renderToStaticMarkup(<ResumenNutricional totales={totales} objetivos={objetivos} />)
     expect(html).toContain('<section aria-label="Resumen del día">')
     expect(html).toContain('Quedan 2.087 kcal')
     expect(html.match(/role="progressbar"/g)).toHaveLength(4)
     for (const label of ['Calorías', 'Proteína', 'Carbohidratos', 'Grasa']) expect(html).toContain(`aria-label="${label}"`)
     expect(html).not.toContain('data-surface="inverse"')
+    for (const nombre of ['Energía', 'Proteína', 'Hidratos', 'Grasa']) expect(html).toContain(`>${nombre}</span>`)
+    expect(html).toContain('<strong class="font-semibold text-fg">113</strong><span class="text-fg-muted"> / 2.200</span>')
   })
 
   it('el título es solo el nombre accesible de la sección', () => {
@@ -42,7 +44,7 @@ describe('ResumenNutricional: panel diario compartido', () => {
     const html = renderToStaticMarkup(<ResumenNutricional totales={{ kcal: 0, prot: 0, carb: 0, grasa: 0 }} objetivos={{ kcal: 0, prot: 0, carb: 0, grasa: 0 }} />)
     expect(html.match(/aria-valuenow="0"/g)).toHaveLength(4)
     expect(html).not.toContain('Quedan')
-    expect(html).not.toContain('de <strong')
+    expect(html).not.toContain(' / ')
     expect(html).not.toContain('Desglose del día')
   })
 })

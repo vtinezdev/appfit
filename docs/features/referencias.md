@@ -1,6 +1,6 @@
 # Referencias
 
-`src/features/referencias/`. Sección global accesible desde Menú. Decisión: [ADR 011](../decisiones/011-consumo-y-referencias.md).
+`src/features/referencias/`. Sección global accesible desde Más (barra de pestañas). Decisión: [ADR 011](../decisiones/011-consumo-y-referencias.md).
 
 **Nutrición muestra qué está consumiendo el usuario y cómo va. Referencias explica por qué APPFIT utiliza esos valores y de dónde proceden.**
 

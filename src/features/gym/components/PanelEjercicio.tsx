@@ -17,13 +17,17 @@ import { opcionesAgarre, textoAgarre, tieneReps } from '../lib/ejecucion'
 import type { CambioSerie } from '../data/setsRepo'
 import { admiteCargaCorporal, modoCarga } from '../lib/carga'
 import { TIPOS_SERIE, cambiosBajada, cambiosLadoBajada, conBajadaRestaurada, conLado, etiquetasSerie, nuevaBajada, sinBajada, textoEjecucion, tipoSerie } from '../lib/serie'
+import type { Anterior, TextoAnterior } from '../lib/anterior'
+import { subtituloEjercicio } from '../lib/presentacionEjercicio'
+import MiniaturaEjercicio from './MiniaturaEjercicio'
 
 /** El borrador evita que una respuesta asíncrona anterior interrumpa la escritura. Sin valor (lado no registrado) queda vacío. */
-export function CampoSerie({ valor, label, decimal = false, disabled = false, onChange }: {
+export function CampoSerie({ valor, label, decimal = false, disabled = false, className = '', onChange }: {
   valor?: number
   label: string
   decimal?: boolean
   disabled?: boolean
+  className?: string
   onChange: (valor: number) => void
 }) {
   const [borrador, setBorrador] = useState<string | null>(null)
@@ -40,7 +44,7 @@ export function CampoSerie({ valor, label, decimal = false, disabled = false, on
         if (borrador === '' && valor !== undefined) onChange(0)
         setBorrador(null)
       }}
-      className="tabular no-spin text-center font-semibold"
+      className={`tabular no-spin text-center font-semibold ${className}`}
     />
   )
 }
@@ -49,8 +53,8 @@ interface Props {
   ejercicio: Exercise
   /** Series del ejercicio en esta sesión, ordenadas. */
   sets: SetEntry[]
-  /** Texto bajo el título («Última vez: …»). */
-  ultimaVez?: string
+  /** Lo que se hizo en cada serie la sesión anterior (por id de serie). Con datos aparece la columna «Anterior». */
+  anteriores?: Map<number, Anterior>
   objetivo?: ObjetivoEjercicio
   /** Series marcadas y acción de marcar. Sin ellas no hay columna ✓. Devuelve true si la serie quedó marcada. */
   completadas?: number[]
@@ -83,13 +87,21 @@ function ChipAjuste({ label, texto, apagado, disabled, onClick }: { label: strin
 
 function CeldaRir({ valor, label, disabled, onClick }: { valor?: number; label: string; disabled?: boolean; onClick: () => void }) {
   return <button type="button" aria-label={`${label}: ${valor === undefined ? 'sin dato' : valor === 5 ? '5 o más' : valor}`} disabled={disabled} onClick={onClick}
-    className={`app-button series-rir tabular min-h-touch w-full rounded-md border font-semibold transition-colors duration-short hover:bg-surface-muted disabled:opacity-40 ${valor === undefined ? 'border-dashed border-line-strong/60 text-caption text-fg-muted' : 'border-line-strong/40 text-body text-fg-muted'}`}>
+    className={`app-button celda-rir series-rir tabular min-h-touch w-full rounded-md border font-semibold transition-colors duration-short hover:bg-surface-muted disabled:opacity-40 ${valor === undefined ? 'border-dashed border-line-strong/60 text-caption text-fg-muted' : 'border-line-strong/40 text-body text-fg-muted'}`}>
     {valor === undefined ? 'RIR' : valor === 5 ? '5+' : valor}
   </button>
 }
 
+/** Columna «Anterior»: corta a la vista y completa para el lector de pantalla. Sin par, «—» (solo cuando cabe como columna). */
+function CeldaAnterior({ dato }: { dato?: TextoAnterior }) {
+  return <span className="celda-prev series-prev tabular" data-vacia={!dato}>
+    <span aria-hidden="true"><span className="series-prev-label">Anterior · </span>{dato?.texto ?? '—'}</span>
+    <span className="sr-only">{dato ? `Anterior: ${dato.etiqueta}` : 'Sin serie anterior'}</span>
+  </span>
+}
+
 /** Panel de un ejercicio con sus series; lo comparten la sesión activa y el editor de entrenos terminados. */
-export default function PanelEjercicio({ ejercicio, sets, ultimaVez, objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover }: Props) {
+export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover }: Props) {
   const actualizar = (id: number, cambio: CambioSerie) => { void Promise.resolve(onActualizar(id, cambio)).catch(() => {}) }
   const [hoja, setHoja] = useState<Hoja | null>(null)
   const despuesDelMenu = useRef<(() => void) | null>(null)
@@ -107,6 +119,8 @@ export default function PanelEjercicio({ ejercicio, sets, ultimaVez, objetivo, c
   const columnaKg = modo === 'lastre' ? 'Lastre' : modo === 'asistencia' ? 'Ayuda' : 'Kg'
   const conProgresion = !!(contexto?.workout && contexto.onProgresion)
   const menu = !!(contexto || mover || onQuitar)
+  const conAnterior = !!anteriores && anteriores.size > 0
+  const fila = conAnterior ? 'series-row con-anterior' : 'series-row'
 
   /** Fila suelta: se quita al momento y se puede deshacer en su posición. */
   async function quitarBajada(s: SetEntry, id: string, n: number) {
@@ -128,33 +142,38 @@ export default function PanelEjercicio({ ejercicio, sets, ultimaVez, objetivo, c
   }
 
   function campoKg(s: SetEntry, tramo: { peso: number }, label: string, cambio: (peso: number) => CambioSerie, ausente = false) {
-    if (modoCarga(s) === 'corporal') return <p className="break-words text-center text-caption text-fg-muted">Corporal</p>
-    return <CampoSerie disabled={bloqueado} valor={ausente ? undefined : tramo.peso} decimal label={label} onChange={peso => actualizar(s.id, cambio(peso))} />
+    if (modoCarga(s) === 'corporal') return <p className="celda-kg break-words text-center text-caption text-fg-muted">Corporal</p>
+    return <CampoSerie className="celda-kg" disabled={bloqueado} valor={ausente ? undefined : tramo.peso} decimal label={label} onChange={peso => actualizar(s.id, cambio(peso))} />
   }
 
   /** Filas hijas de un tramo con lados distintos: una por lado, en la misma rejilla. */
-  function filasLados(s: SetEntry, nombre: string, tramo: Pick<TramoDropset, 'lados'>, bajada?: { id: string; n: number }): ReactNode {
+  function filasLados(s: SetEntry, nombre: string, tramo: Pick<TramoDropset, 'lados'>, previo: Omit<Anterior, 'bajadas'> | undefined, bajada?: { id: string; n: number }): ReactNode {
     return LADOS.map(({ lado, letra, nombre: nombreLado }, i) => {
       const p = tramo.lados?.[lado]
       const que = bajada ? `bajada ${bajada.n} ${nombreLado}` : nombreLado
       const cambio = (datos: { reps?: number; peso?: number }): CambioSerie => bajada ? (a: SetEntry) => cambiosLadoBajada(a, bajada.id, lado, datos) : (a: SetEntry) => ({ lados: conLado(a.lados, lado, datos) })
-      return <div key={`${bajada?.id ?? 's'}-${lado}`} className="series-row series-child">
-        <span className="series-child-label text-label text-fg-muted" aria-hidden>{bajada ? `↓${letra}` : letra}</span>
-        <CampoSerie disabled={bloqueado} valor={p?.reps} label={`Repeticiones ${que}, ${nombre} de ${ejercicio.nombre}`} onChange={reps => actualizar(s.id, cambio({ reps }))} />
+      return <div key={`${bajada?.id ?? 's'}-${lado}`} className={`${fila} series-child`}>
+        <span className="celda-tipo series-child-label text-label text-fg-muted" aria-hidden>{bajada ? `↓${letra}` : letra}</span>
+        {conAnterior && <CeldaAnterior dato={previo?.lados[lado] ?? previo?.fila} />}
+        <CampoSerie className="celda-reps" disabled={bloqueado} valor={p?.reps} label={`Repeticiones ${que}, ${nombre} de ${ejercicio.nombre}`} onChange={reps => actualizar(s.id, cambio({ reps }))} />
         {campoKg(s, p ?? { peso: 0 }, `Kg ${que}, ${nombre} de ${ejercicio.nombre}`, peso => cambio({ peso }), !p)}
-        {bajada ? <span /> : <CeldaRir valor={p?.rir} label={`RIR ${nombreLado}, ${nombre} de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja({ rir: s.id, lado })} />}
-        {bajada && i === 0 ? <IconButton icon="close" variant="ghost" size="sm" label={`Quitar bajada ${bajada.n}, ${nombre} de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => { void quitarBajada(s, bajada.id, bajada.n) }} /> : <span />}
+        {!bajada && <CeldaRir valor={p?.rir} label={`RIR ${nombreLado}, ${nombre} de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja({ rir: s.id, lado })} />}
+        {bajada && i === 0 && <IconButton className="celda-ok" icon="close" variant="ghost" size="sm" label={`Quitar bajada ${bajada.n}, ${nombre} de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => { void quitarBajada(s, bajada.id, bajada.n) }} />}
       </div>
     })
   }
 
   return (
     <Card data-exercise-id={ejercicio.id} className="exercise-panel space-y-3">
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0 flex-1">
+      <div className="flex items-start gap-2">
+        {/* Con texto ampliado la miniatura (decorativa) pasa encima del título en lugar de estrecharlo. */}
+        <div className="flex min-w-0 flex-1 flex-wrap items-start gap-3">
+        <MiniaturaEjercicio catalogId={ejercicio.catalogId} />
+        <div className="min-w-0 flex-1 basis-32">
           <h2 tabIndex={-1} className="exercise-title break-words text-title text-fg">{ejercicio.nombre}</h2>
-          {ultimaVez && <p className="text-caption text-fg-muted">{ultimaVez}</p>}
+          <p className="break-words text-caption text-fg-muted">{subtituloEjercicio(ejercicio)}</p>
           {objetivo && <p className="tabular text-caption text-fg-muted">Objetivo: {objetivo.series} × {objetivo.repsMin === objetivo.repsMax ? objetivo.repsMin : `${objetivo.repsMin}–${objetivo.repsMax}`} reps{objetivo.descansoSeg ? ` · ${objetivo.descansoSeg} s de descanso` : ''}</p>}
+        </div>
         </div>
         {menu && <IconButton icon="more" variant="ghost" size="sm" label={`Opciones de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja('menu')} />}
       </div>
@@ -170,8 +189,8 @@ export default function PanelEjercicio({ ejercicio, sets, ultimaVez, objetivo, c
 
       <div className="space-y-2">
         {sets.length > 0 && (
-          <div className="series-row series-head text-caption text-fg-muted" aria-hidden>
-            <span className="text-center">Serie</span><span className="text-center">Reps</span><span className="text-center">{columnaKg}</span><span className="text-center">RIR</span><span />
+          <div className={`${fila} series-head text-caption text-fg-muted`} aria-hidden>
+            <span className="celda-tipo text-center">Serie</span>{conAnterior && <span className="celda-prev text-center">Anterior</span>}<span className="celda-reps text-center">Reps</span><span className="celda-kg text-center">{columnaKg}</span><span className="celda-rir text-center">RIR</span>
           </div>
         )}
         {numeradas.map(({ s, numero }) => {
@@ -181,36 +200,38 @@ export default function PanelEjercicio({ ejercicio, sets, ultimaVez, objetivo, c
           const letra = TIPOS_SERIE[tipo].letra
           const lados = s.ejecucion === 'lados'
           const etiquetas = etiquetasSerie(s, ejecucion)
+          const previo = anteriores?.get(s.id)
           return (
-            <div key={s.id} className="space-y-2" data-motion-id={s.id}>
-              <div data-done={hecha} className={`series-row ${lados ? 'series-lados' : ''} ${nuevaId === s.id ? 'series-new' : ''}`}>
-                <button type="button" className="series-type app-button tabular" disabled={bloqueado}
+            <div key={s.id} className="series-set space-y-2" data-done={hecha} data-motion-id={s.id}>
+              <div className={`${fila} ${nuevaId === s.id ? 'series-new' : ''}`}>
+                <button type="button" className="celda-tipo series-type app-button tabular" disabled={bloqueado}
                   aria-label={`Opciones de ${nombreSerie} de ${ejercicio.nombre}${tipo !== 'normal' && tipo !== 'calentamiento' ? ` (${TIPOS_SERIE[tipo].label.toLowerCase()})` : ''}`}
                   onClick={() => setHoja({ serie: s.id })}>
                   {letra ? <span className="series-letter">{letra}</span> : numero}
                 </button>
                 {lados ? <p className="series-span text-body-sm text-fg-muted">Izquierda y derecha</p> : <>
-                  <CampoSerie disabled={bloqueado} valor={s.reps} label={`Repeticiones, ${nombreSerie} de ${ejercicio.nombre}`} onChange={(reps) => actualizar(s.id, { reps })} />
+                  {conAnterior && <CeldaAnterior dato={previo?.fila} />}
+                  <CampoSerie className="celda-reps" disabled={bloqueado} valor={s.reps} label={`Repeticiones, ${nombreSerie} de ${ejercicio.nombre}`} onChange={(reps) => actualizar(s.id, { reps })} />
                   {campoKg(s, s, `${modoCarga(s) === 'asistencia' ? 'Asistencia' : modoCarga(s) === 'lastre' ? 'Lastre' : 'Peso'} en kg, ${nombreSerie} de ${ejercicio.nombre}`, peso => ({ peso }))}
                   <CeldaRir valor={s.rir} label={`RIR, ${nombreSerie} de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja({ rir: s.id })} />
                 </>}
                 {onCompletar ? (
-                  <button type="button" className="series-complete app-button"
+                  <button type="button" className="celda-ok series-complete app-button"
                     aria-label={`${hecha ? 'Desmarcar' : 'Completar'} ${nombreSerie} de ${ejercicio.nombre}`} aria-pressed={hecha}
                     disabled={!tieneReps(s) || bloqueado} title={!tieneReps(s) ? 'Introduce las repeticiones para completar la serie' : undefined}
                     onClick={() => { void completar(s, numero) }}>
                     <Icon name="check" className="mx-auto" size={20} />
                   </button>
-                ) : <span />}
+                ) : null}
               </div>
-              {lados && filasLados(s, nombreSerie, s)}
-              {s.bajadas?.map((b, i) => lados ? filasLados(s, nombreSerie, b, { id: b.id, n: i + 1 }) : (
-                <div key={b.id} className="series-row series-child">
-                  <span className="series-child-label text-label text-fg-muted" aria-hidden>↓</span>
-                  <CampoSerie disabled={bloqueado} valor={b.reps} label={`Repeticiones bajada ${i + 1}, ${nombreSerie} de ${ejercicio.nombre}`} onChange={reps => actualizar(s.id, a => cambiosBajada(a, b.id, { reps }))} />
+              {lados && filasLados(s, nombreSerie, s, previo)}
+              {s.bajadas?.map((b, i) => lados ? filasLados(s, nombreSerie, b, previo?.bajadas[i], { id: b.id, n: i + 1 }) : (
+                <div key={b.id} className={`${fila} series-child`}>
+                  <span className="celda-tipo series-child-label text-label text-fg-muted" aria-hidden>↓</span>
+                  {conAnterior && <CeldaAnterior dato={previo?.bajadas[i]?.fila} />}
+                  <CampoSerie className="celda-reps" disabled={bloqueado} valor={b.reps} label={`Repeticiones bajada ${i + 1}, ${nombreSerie} de ${ejercicio.nombre}`} onChange={reps => actualizar(s.id, a => cambiosBajada(a, b.id, { reps }))} />
                   {campoKg(s, b, `Kg bajada ${i + 1}, ${nombreSerie} de ${ejercicio.nombre}`, peso => a => cambiosBajada(a, b.id, { peso }))}
-                  <span />
-                  <IconButton icon="close" variant="ghost" size="sm" label={`Quitar bajada ${i + 1}, ${nombreSerie} de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => { void quitarBajada(s, b.id, i + 1) }} />
+                  <IconButton className="celda-ok" icon="close" variant="ghost" size="sm" label={`Quitar bajada ${i + 1}, ${nombreSerie} de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => { void quitarBajada(s, b.id, i + 1) }} />
                 </div>
               ))}
               {tipo === 'dropset' && <Button variant="ghost" size="sm" className="series-add-child" disabled={bloqueado || (s.bajadas?.length ?? 0) >= 10}

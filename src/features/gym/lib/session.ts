@@ -31,3 +31,12 @@ export function clockText(seconds: number) {
 export function descansoParaEjercicio(descansoObjetivo: number | undefined, global: number): number {
   return descansoObjetivo !== undefined && descansoObjetivo > 0 ? descansoObjetivo : global
 }
+
+/** −15/+15 del descanso en curso: mueve el deadline sin pasar de ahora. Si no queda tiempo, el descanso termina (sin aviso: lo decidió el usuario). */
+export function ajustarDescanso(s: SessionUI, deltaSeg: number, now = Date.now()): SessionUI {
+  if (s.restEndsAt === null) return s
+  const fin = s.restEndsAt + deltaSeg * 1000
+  if (fin <= now) return { ...s, restEndsAt: null }
+  const total = s.restTotal ?? s.restSeconds
+  return { ...s, restEndsAt: fin, restTotal: Math.min(3600, Math.max(total + deltaSeg, remainingSeconds(fin, now))) }
+}

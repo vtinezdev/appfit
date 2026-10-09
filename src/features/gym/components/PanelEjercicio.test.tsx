@@ -4,6 +4,7 @@ import type { Exercise, SetEntry } from '../../../shared/db/types'
 import PanelEjercicio from './PanelEjercicio'
 import { ListaRecords } from './WorkoutFinished'
 import ObjetivoRutina from './ObjetivoRutina'
+import { anterioresPorSerie } from '../lib/anterior'
 
 const noop = () => {}
 const ex: Exercise = { id: 1, nombre: 'Press banca', nombreNorm: 'press banca', grupo: 'Pecho' }
@@ -48,6 +49,28 @@ describe('PanelEjercicio', () => {
     expect(activa).toContain('aria-label="Completar serie 1 de Press banca"')
     expect(activa).toContain('aria-pressed="false"')
     expect(renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1)]} />)).not.toContain('Completar serie')
+  })
+
+  it('con sesión anterior, cada fila lleva su «Anterior» (también lados y bajadas); sin ella no hay columna', () => {
+    const anteriores = anterioresPorSerie([s(1), s(2), s(3, { bajadas: [{ id: 'a', reps: 5, peso: 40 }] })],
+      [s(10, { workoutId: 2, peso: 62.5 }), s(11, { workoutId: 2, reps: 6 }), s(12, { workoutId: 2, bajadas: [{ id: 'b', reps: 4, peso: 30 }] })])
+    const html = renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1), s(2), s(3, { bajadas: [{ id: 'a', reps: 5, peso: 40 }] })]} anteriores={anteriores} />)
+    expect(html).toContain('>Anterior</span>')
+    expect(html).toContain('Anterior: 8 repeticiones con 62,5 kg')
+    expect(html).toContain('Anterior: 6 repeticiones con 60 kg')
+    expect(html).toContain('Anterior: 4 repeticiones con 30 kg')
+    expect(html).toContain('con-anterior')
+    const sin = renderToStaticMarkup(<PanelEjercicio {...props} sets={[s(1)]} anteriores={new Map()} />)
+    expect(sin).not.toContain('Anterior')
+    expect(sin).not.toContain('con-anterior')
+  })
+
+  it('cabecera con miniatura y «músculo · material»; la serie marcada se tiñe entera', () => {
+    const html = renderToStaticMarkup(<PanelEjercicio {...props} ejercicio={{ ...ex, primaryMuscles: ['pecho'], equipment: ['barra'] }} sets={[s(1), s(2)]} completadas={[1]} onCompletar={noop} />)
+    expect(html).toContain('Pecho · barra')
+    expect(html).toMatch(/class="series-set[^"]*" data-done="true"/)
+    expect(html).toMatch(/class="series-set[^"]*" data-done="false"/)
+    expect(html).not.toContain('Última vez')
   })
 
   it('mover y quitar viven en el menú del ejercicio, desactivado durante una operación', () => {

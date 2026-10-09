@@ -30,7 +30,7 @@ async function seed(page) {
   })
 }
 async function ready(page) {
-  await page.getByRole('button', { name: 'Menú', exact: true }).waitFor()
+  await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
   await page.evaluate(() => document.fonts.ready)
 }
 async function check(page) {

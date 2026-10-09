@@ -1,5 +1,6 @@
 import { lazy, Suspense, useRef, useState } from 'react'
 import BottomNav, { type Tab } from './BottomNav'
+import AccionesRapidas from './AccionesRapidas'
 import InicioTab from '../features/inicio/InicioTab'
 import NutricionTab from '../features/nutricion/NutricionTab'
 import GymTab from '../features/gym/GymTab'
@@ -18,6 +19,7 @@ export default function App() {
   const [abrirGuia, setAbrirGuia] = useState(false)
   const [abrirCopia, setAbrirCopia] = useState(false)
   const [anadirAlAbrir, setAnadirAlAbrir] = useState(false)
+  const [acciones, setAcciones] = useState(false)
   const [referenciaInicial, setReferenciaInicial] = useState<NutrienteId | undefined>(undefined)
   const [areaReferencias, setAreaReferencias] = useState<AreaReferencias | undefined>(undefined)
   const scrollRef = useRef<HTMLElement>(null)
@@ -43,7 +45,7 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view mx-auto w-full max-w-lg pb-6">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onAnadirComida={() => irANutricion(true)} onIrAGym={() => navegar('gym')} onExportarCopia={() => { navegar('ajustes'); setAbrirCopia(true) }}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onIrAGym={() => navegar('gym')} onExportarCopia={() => { navegar('ajustes'); setAbrirCopia(true) }}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => { navegar('ajustes'); setAbrirGuia(true) }} />} />}
         {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
         {tab === 'gym' && <GymTab />}
@@ -53,7 +55,8 @@ export default function App() {
         </div>
       </main>
       </div>
-      <BottomNav tab={tab} onChange={navegar} />
+      <BottomNav tab={tab} onChange={navegar} onAcciones={() => setAcciones(true)} accionesAbiertas={acciones} />
+      <AccionesRapidas open={acciones} onClose={() => setAcciones(false)} onComida={() => irANutricion(true)} onEntreno={() => navegar('gym')} />
     </div>
   )
 }

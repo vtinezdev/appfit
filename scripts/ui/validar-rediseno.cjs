@@ -139,8 +139,10 @@ async function flujos(browser, colorScheme) {
   await page.locator('[role=dialog]:not([inert])').getByRole('button', { name: 'Guardar', exact: true }).click()
   await page.waitForFunction(() => !document.querySelector('[role=dialog]'))
   assert.ok((await backup(page)).pesos.some(p => p.kg === 75.2))
-  // Atajo de Inicio, aislamiento de capas y teclado.
-  await page.getByRole('button', { name: 'Registrar comida', exact: true }).click()
+  // Atajo del «+» de la barra, aislamiento de capas y teclado.
+  await page.getByRole('button', { name: 'Registrar', exact: true }).click()
+  await page.getByRole('dialog', { name: 'Registrar', exact: true }).getByRole('button', { name: 'Registrar comida' }).click()
+  await page.getByRole('dialog', { name: 'Registrar', exact: true }).waitFor({ state: 'detached' })
   assert.equal(await page.locator('[data-app-shell]').getAttribute('inert'), '')
   await page.getByRole('button', { name: 'Medidas que se entienden', exact: true }).click()
   assert.equal(await page.locator('[role="dialog"][inert]').count(), 1)
@@ -243,7 +245,7 @@ async function flujos(browser, colorScheme) {
   await page.getByRole('button', { name: 'Añadir ejercicio', exact: true }).click(); await validarLayout(page, tag + '-ejercicio'); await cerrar(page)
   await page.getByRole('button', { name: 'Terminar', exact: true }).click()
   await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
-  await page.getByRole('heading', { name: 'Sesión guardada', exact: true }).waitFor()
+  await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
   await validarLayout(page, tag + '-sesion-guardada')
   await page.getByRole('button', { name: 'Volver a Entreno', exact: false }).click()
   await pestaña(page, 'Historial'); await page.getByRole('list', { name: 'Entrenos terminados' }).getByRole('button').first().click(); await validarLayout(page, tag + '-entreno-detalle'); await cerrar(page)
