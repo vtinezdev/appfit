@@ -105,21 +105,21 @@
   --c-training-border: 26 28 32;
   --c-meal-accent: 255 160 100;
   --c-success-subtle: 222 245 232;
-  /* Trabajo muscular relativo: rampa del acento naranja, independiente del error/destructivo (carmín). */
-  --c-muscle-1: 253 232 216;
-  --c-muscle-2: 250 196 160;
-  --c-muscle-3: 240 146 88;
-  --c-muscle-4: 214 98 30;
-  --c-muscle-5: 160 64 6;
+  /* Trabajo muscular relativo: rampa roja, de rojo claro (menos trabajo) a rojo intenso (más). No es un aviso: el mapa siempre va con niveles en texto. */
+  --c-muscle-1: 255 214 213;
+  --c-muscle-2: 255 178 175;
+  --c-muscle-3: 251 141 135;
+  --c-muscle-4: 242 88 82;
+  --c-muscle-5: 188 25 29;
   /* Texto sobre los niveles 4 y 5 de la rampa (calendario del historial); 1–3 usan el texto normal. */
   --c-on-muscle-4: var(--c-text-primary);
   --c-on-muscle-5: 255 255 255;
-  /* Rampa sobre grafito (póster de sesión), igual en ambos temas: el nivel 1 ya se distingue del gris sin trabajo. */
-  --c-muscle-poster-1: 120 70 40;
-  --c-muscle-poster-2: 160 84 36;
-  --c-muscle-poster-3: 204 104 42;
-  --c-muscle-poster-4: 240 130 58;
-  --c-muscle-poster-5: 255 176 124;
+  /* Rampa sobre grafito (póster de sesión), igual en ambos temas: de rojo pálido a rojo intenso; el nivel 1 ya se distingue del gris sin trabajo. */
+  --c-muscle-poster-1: 233 186 186;
+  --c-muscle-poster-2: 237 154 154;
+  --c-muscle-poster-3: 241 119 116;
+  --c-muscle-poster-4: 242 84 78;
+  --c-muscle-poster-5: 240 33 33;
   --muscle-body-width: 10rem;
   --muscle-mini-height: 5.5rem;
   --vaso-width: 1.75rem;
@@ -186,18 +186,19 @@
   --c-training-border: 70 71 77;
   --c-meal-accent: 255 165 110;
   --c-success-subtle: 21 50 35;
-  --c-muscle-1: 60 34 20;
-  --c-muscle-2: 104 54 24;
-  --c-muscle-3: 160 82 32;
-  --c-muscle-4: 220 116 50;
-  --c-muscle-5: 255 165 110;
+  /* En oscuro el texto claro del calendario exige niveles 1–3 oscuros: de rojo apagado a rojo vivo. */
+  --c-muscle-1: 103 41 38;
+  --c-muscle-2: 138 54 51;
+  --c-muscle-3: 182 59 55;
+  --c-muscle-4: 214 80 74;
+  --c-muscle-5: 255 48 42;
   --c-on-muscle-4: 10 11 13;
   --c-on-muscle-5: 10 11 13;
-  --c-muscle-poster-1: 120 70 40;
-  --c-muscle-poster-2: 160 84 36;
-  --c-muscle-poster-3: 204 104 42;
-  --c-muscle-poster-4: 240 130 58;
-  --c-muscle-poster-5: 255 176 124;
+  --c-muscle-poster-1: 233 186 186;
+  --c-muscle-poster-2: 237 154 154;
+  --c-muscle-poster-3: 241 119 116;
+  --c-muscle-poster-4: 242 84 78;
+  --c-muscle-poster-5: 240 33 33;
   --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
   /* En oscuro las cards se separan por tono. */
   --shadow-card: none;

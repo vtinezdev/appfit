@@ -999,3 +999,12 @@ Víctor pidió ejecutar entero el plan aprobado ese mismo día ([histórico](his
 
 **Auditoría visual (misma sesión):** Víctor pide revisar que todo se ve bien antes del PR. Recorrido completo (Inicio, «+» y «Más», Nutrición Diario/Resumen/Alimentos, Entreno Empezar/Rutinas/Historial/detalle/edición/Progreso, entreno activo con RIR y descanso, terminar, póster, Perfil, Referencias y Ajustes) a 375 claro y oscuro, 320 claro y 430 oscuro, con hojas de contacto. Sin scroll horizontal, sin controles pequeños ni errores de consola (los únicos «recortes» detectados son textos `sr-only`). Dos ajustes: la miniatura del panel de ejercicio bajaba a su propia línea a 320 px (el título ahora pide 8 rem en lugar de 10 y solo se separa con texto ampliado) y la línea del objetivo de la semana de Nutrición se pegaba a la letra del día (la escala deja un 15 % de aire arriba).
 
+
+## 98. Mapa muscular en rojo (2026-10-09)
+
+Víctor pide que el mapa de calor corporal deje el marrón-naranja y vaya de un rojo más claro (menos trabajado) a un rojo más intenso (más trabajado).
+
+- **Solo tokens** (`shared/design/tokens.css`): `--c-muscle-1…5` en claro van de rosa pálido 255/214/213 a rojo profundo 188/25/29 y en oscuro de rojo apagado 103/41/38 a rojo vivo 255/48/42 (el número claro del calendario obliga a que los niveles 1–3 sean oscuros); `--c-muscle-poster-1…5` (póster sobre grafito, igual en ambos temas) van de rojo pálido 233/186/186 a rojo intenso 240/33/33. Calculadas en OKLCH con ΔE ≥ 6 entre niveles vecinos. La misma rampa colorea el calendario del Historial, la leyenda, la lista de grupos y el mapa en miniatura de Inicio, así que todo pasa a rojo a la vez.
+- **Rojo de borrar**: la rampa comparte familia con `destructive`; se acepta porque el mapa no es un aviso y siempre lleva niveles en texto. `DESIGN.md`, `DESIGN-SYSTEM.md`, `features/gym.md` y ADR 015 lo recogen.
+
+**Verificación:** `contrast.test.ts` en verde (texto del calendario sobre cada nivel ≥ 4,5:1 en ambos temas). `npm run test` y `npm run build` en verde. Edge con `playwright-core` fuera del repo, el Vite ya abierto en 5173 y `appfit-test.localhost` con datos sintéticos: póster al terminar, lista de grupos y calendario del Historial a 375 px en claro y oscuro. Sin prueba en iPhone. Sin commit ni push.

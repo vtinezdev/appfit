@@ -191,7 +191,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .cal-dia[data-hoy='true'] { box-shadow: 0 0 0 2px rgb(var(--c-bg)), 0 0 0 4px rgb(var(--c-text-primary)); }
 @media (forced-colors: active) { .cal-dia[data-nivel] { border: 2px solid Highlight; } }
 /* Póster de sesión (fin y detalle): título en display gigante, tres cifras con filetes y el mapa sobre grafito.
-   Sobre grafito la rampa clara se leería al revés: usa la rampa del póster, de pardo a naranja vivo, en ambos temas. */
+   Sobre grafito la rampa clara se leería al revés: usa la rampa del póster, de rojo pálido a rojo intenso, en ambos temas. */
 .poster-title { font-family: var(--font-display); font-size: var(--fs-hero); line-height: .95; font-weight: var(--fw-display); font-stretch: var(--fst-display); }
 .session-poster { --c-muscle-1: var(--c-muscle-poster-1); --c-muscle-2: var(--c-muscle-poster-2); --c-muscle-3: var(--c-muscle-poster-3); --c-muscle-4: var(--c-muscle-poster-4); --c-muscle-5: var(--c-muscle-poster-5); --muscle-body-width: 12rem; }
 .session-poster .muscle-region { fill: rgb(var(--c-training-track)); stroke: rgb(var(--c-training)); }
