@@ -15,6 +15,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Categorías e iconos (§82): sin recorrido en navegador ni en iPhone. Revisar el Diario a 320 px (columna de iconos de 44 px), la burbuja del nombre al pulsar el icono (cierre al tocar fuera en Safari) y los selectores de categoría con el teclado de iOS. El build de Cloudflare de la rama `feat/categorias-alimentos` falló como build de producción (el de `master` salió bien): revisar la configuración de builds de rama.
 - Mejoras funcionales (§80): recorridas en Edge emulado a 320/375/430 px en ambos temas; **sin probar en iPhone**: pitido de fin de descanso (Web Audio: iOS puede exigir un gesto previo o silenciar el audio con el interruptor), descarga de varios CSV `<a download>` desde la PWA instalada, selectores `date`/`time` nativos al editar un entreno y teclado real en los Sheets de raciones, recetas y medidas.
 - Pulido visual «precisión silenciosa» (§85): recorrido en Edge emulado a 320/375/430 px en ambos temas; sin probar en iPhone: nitidez del carril fino de la rueda y de la rejilla de Progreso en Retina, tacto del chevrón del plato en su nueva columna y lectura de la tarjeta de entreno en oscuro dentro del gimnasio.
+- Revisión semanal en Inicio (§95): recorrida en Edge emulado a 320/375/430 px en ambos temas y con texto al 200 %; sin probar en iPhone (tacto de «Hecho»/«Ver revisión» y página modal con safe areas).
 
 ## Limitaciones conocidas
 

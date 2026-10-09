@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { lazy, Suspense, useState, type ReactNode } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Button from '../../shared/components/Button'
 import Icon from '../../shared/components/Icon'
@@ -17,13 +17,18 @@ import AccesoPeso from './components/AccesoPeso'
 import RegistrarPesoSheet from './components/RegistrarPesoSheet'
 import HistorialPeso from './components/HistorialPeso'
 import { tendenciaPeso } from './lib/peso'
-import { getSettings } from '../../shared/db/settings'
+import { getSettings, updateSettings } from '../../shared/db/settings'
 import { getPerfil } from '../perfil/data/perfilRepo'
 import * as aguaRepo from './data/aguaRepo'
 import AccesoAgua from './components/AccesoAgua'
 import AguaSheet from './components/AguaSheet'
 import { AGUA_POR_DEFECTO_ML, formatAgua, resolverObjetivoAgua } from './lib/agua'
 import AvisoBackup from './components/AvisoBackup'
+import TarjetaRevisionSemanal from './components/TarjetaRevisionSemanal'
+import { useTarjetaRevision } from './hooks/useRevisionSemanal'
+
+// El detalle de la revisión (con récords y resumen de Gym) va en su propio chunk: no entra en el arranque de Inicio.
+const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
 
 interface Props {
   onIrANutricion: () => void
@@ -37,7 +42,7 @@ const PESO_POR_DEFECTO = 70
 /** Historial que se lee: de sobra para encontrar un pesaje de hace una semana o más. */
 const DIAS_HISTORIAL = 365
 
-/** Pantalla de arranque: tarjetas breves del día (energía, entreno y peso) y registrar comida. */
+/** Pantalla de arranque: revisión de la semana (los lunes), tarjetas breves del día (energía, entreno y peso) y registrar comida. */
 export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onExportarCopia, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
@@ -50,6 +55,8 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
   const [aperturas, setAperturas] = useState(0)
   const [registrando, setRegistrando] = useState(false)
   const [historialPeso, setHistorialPeso] = useState(false)
+  const revision = useTarjetaRevision(hoy)
+  const [revisionAbierta, setRevisionAbierta] = useState<string | null>(null)
 
   const tendencia = pesos ? tendenciaPeso(pesos, hoy) : null
   const fechaLarga = parseISODate(hoy).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
@@ -72,6 +79,15 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
     }
   }
 
+  async function cerrarRevision(lunes: string, cerradaAntes: string | undefined) {
+    try {
+      await updateSettings({ revisionSemanalCerrada: lunes })
+      avisar({ mensaje: 'Revisión cerrada hasta el lunes', onDeshacer: () => updateSettings({ revisionSemanalCerrada: cerradaAntes }) })
+    } catch {
+      avisarError('No se ha podido cerrar la revisión. Inténtalo de nuevo.')
+    }
+  }
+
   function abrirRegistro() {
     setAperturas((n) => n + 1)
     setRegistrando(true)
@@ -89,6 +105,13 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
       <PageHeader overline={fechaLarga} title="Hoy" />
       {ayudaInicial}
       <AvisoBackup onExportar={onExportarCopia} />
+      {revision && (
+        <TarjetaRevisionSemanal
+          resumen={revision}
+          onVer={() => setRevisionAbierta(revision.semana.lunes)}
+          onCerrar={() => cerrarRevision(revision.semana.lunes, revision.cerradaAntes)}
+        />
+      )}
 
       {!entries || !vigentes || !pesos ? (
         <div className="animate-fade-in-late">
@@ -119,6 +142,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
       />
       <AguaSheet open={aguaAbierta} onClose={() => setAguaAbierta(false)} hoy={hoy} objetivo={objetivoAgua ?? null} />
       {historialPeso && <HistorialPeso onClose={() => setHistorialPeso(false)} />}
+      {revisionAbierta && <Suspense fallback={null}><RevisionSemanal lunes={revisionAbierta} hoy={hoy} onClose={() => setRevisionAbierta(null)} /></Suspense>}
     </div>
   )
 }

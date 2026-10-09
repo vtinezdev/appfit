@@ -270,6 +270,8 @@ export interface Settings {
   rirAlCompletar?: boolean
   /** Objetivo opcional de agua diaria (ml). */
   aguaObjetivoMl?: number
+  /** Lunes (YYYY-MM-DD) de la última semana cuya revisión se cerró en Inicio. */
+  revisionSemanalCerrada?: string
 }
 
 export interface Exercise {
