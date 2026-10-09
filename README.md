@@ -26,7 +26,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Resumen con adherencia al objetivo de kcal (±10 %), rachas de registro y los alimentos que más kcal y proteína aportan. Cada día conserva el objetivo que tenía.
 
 **Gimnasio**
-- Catálogo local de 116 ejercicios con buscador, filtros combinables de músculo/equipamiento y recientes; ejercicios personalizados disponibles en rutinas y sesiones, también sin conexión.
+- Catálogo local de 204 ejercicios con buscador, filtros combinables de músculo/equipamiento y recientes; ejercicios personalizados disponibles en rutinas y sesiones, también sin conexión.
 - Entrenos desde cero o desde una rutina, con el progreso guardado aunque cierres la app a mitad.
 - Quitar un ejercicio solo de ese entreno desde su menú, con Deshacer, también al editar el historial; conserva el catálogo y la rutina original.
 - Series con repeticiones y peso, precargadas con los valores de la última vez.
