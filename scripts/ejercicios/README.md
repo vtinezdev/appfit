@@ -14,12 +14,12 @@ Dos orígenes, por prioridad: la **ilustración propia** del ejercicio si existe
 
 Estilo: render anatómico 3D gris con los músculos principales en naranja, fondo blanco. Se generan con ChatGPT (plan gratuito, unas pocas al día) en lotes de cuatro ejercicios por imagen.
 
-- `ilustraciones.json`: los 29 lotes fijos, cada uno con cuatro `[slug, postura en inglés, músculos a resaltar]`. Cada ejercicio del catálogo aparece una sola vez (el script falla si no). Los lotes no se reordenan: el número de lote identifica la imagen guardada.
-- `prompts.md` (generado): un prompt listo para copiar por lote, con ☐/✔ según si ya está su imagen.
+- `ilustraciones.json`: los lotes fijos (51; del 30 al 51, los 88 ejercicios añadidos el 2026-10-09), cada uno con cuatro `[slug, postura en inglés, músculos a resaltar]`. Cada ejercicio del catálogo aparece una sola vez (el script falla si no). Los lotes no se reordenan: el número de lote identifica la imagen guardada.
+- `prompts.md` y `prompts-2.md` (generados): un prompt listo para copiar por lote, con ☐/✔ según si ya está su imagen. `prompts.md` tiene la primera tanda (lotes 1–29) y `prompts-2.md` las ampliaciones (desde el 30); al final de `prompts-2.md` se copia tal cual `mapa-muscular.md`: prompts para explorar el diseño del mapa muscular (hombre y mujer), que no pasan por esta tubería.
 - `ia/` (fuera de Git, son originales pesados): `lote-NN.png|jpg|webp` es la imagen 2×2 del lote NN. Cada cuarto se recorta (menos un 2 % por borde por si hay líneas divisorias), se quita el blanco sobrante, se centra en un cuadrado con margen y se guarda como WebP calidad 78 (unos 3 KB).
 
 Flujo:
-1. Copia en ChatGPT el prompt del primer lote ☐ de `prompts.md`. Lo mejor es usar siempre la misma conversación para que el estilo no varíe.
+1. Copia en ChatGPT el prompt del primer lote ☐ de `prompts-2.md`. Lo mejor es usar siempre la misma conversación para que el estilo no varíe.
 2. Revisa las cuatro figuras: postura, agarre, máquina y músculo resaltado. Si alguna está mal, pide en el mismo chat que la corrija.
 3. Guarda la imagen como `scripts/ejercicios/ia/lote-NN.png` y ejecuta `npm run ejercicios:imagenes`.
 4. Si un solo recuadro no hay forma de arreglarlo: genera ese ejercicio solo con `--prompt <slug>` y guárdalo como `ia/<slug>.png`, que tiene prioridad sobre su recuadro del lote.

@@ -20,7 +20,7 @@ La proporción frente al músculo más trabajado de la sesión genera seis nivel
 
 `workoutsRepo.terminar` guarda `fin` y `muscleSnapshot` opcional v1 en una transacción de workouts/exercises/sets. El snapshot contiene id, nombre y músculos por ejercicio registrado; las series originales conservan reps/kg. No se almacenan colores ni niveles. Un segundo cierre es idempotente. Los campos opcionales no indexados conservan Dexie v6 y backup v2, que serializa filas completas. Leer no escribe. Sesiones antiguas se reconstruyen con las asociaciones disponibles actualmente y muestran esa limitación; no se migran ni inventan sus clasificaciones originales.
 
-`MapaMuscular` recibe datos ya calculados. SVG original esquemático bilateral, once grupos, vistas frontal/trasera y rojo semántico por tema. No deduce lateralidad ni separa porciones del hombro: ambos dibujos reflejan el mismo grupo. Detalle en filas táctiles ≥44 px y alternativa textual para no depender del color o de tocar una región pequeña. Sin dependencias/red nuevas ni animación permanente.
+`MapaMuscular` recibe datos ya calculados. SVG original esquemático bilateral, doce grupos (aductores desde el 2026-10-09), vistas frontal/trasera y rojo semántico por tema. No deduce lateralidad ni separa porciones del hombro: ambos dibujos reflejan el mismo grupo. Detalle en filas táctiles ≥44 px y alternativa textual para no depender del color o de tocar una región pequeña. Sin dependencias/red nuevas ni animación permanente.
 
 ## Evolución
 

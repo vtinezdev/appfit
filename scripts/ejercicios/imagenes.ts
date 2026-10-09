@@ -1,10 +1,10 @@
 /**
  * Genera public/ejercicios/<slug>.webp y src/features/gym/lib/ejerciciosConImagen.ts (la lista de slugs con imagen).
  * Dos orígenes, por prioridad:
- *  1. Ilustraciones propias generadas con IA (ChatGPT) a partir de prompts.md: cada lote es una imagen 2×2 con
+ *  1. Ilustraciones propias generadas con IA (ChatGPT) a partir de prompts.md y prompts-2.md: cada lote es una imagen 2×2 con
  *     cuatro ejercicios que se guarda en ia/lote-NN.(png|jpg|webp); ia/<slug>.(png|jpg|webp) sustituye a un recuadro suelto.
  *  2. free-exercise-db (Unlicense) según mapeo.json, mientras falte la ilustración.
- * También reescribe prompts.md. `--prompt <slug>` imprime el prompt de un solo ejercicio.
+ * También reescribe prompts.md (lotes 1–29) y prompts-2.md (desde el 30, con mapa-muscular.md al final). `--prompt <slug>` imprime el prompt de un solo ejercicio.
  * Idempotente: las fotos ya convertidas no se vuelven a descargar (usa --forzar para rehacerlo todo).
  * Node 24 (type stripping) + sharp. Ver README.md.
  */
@@ -73,16 +73,26 @@ function archivoIa(nombre: string): URL | null {
 }
 const hechos = lotes.map((_, i) => archivoIa(`lote-${nn(i)}`) !== null)
 const VALLA = '```'
-writeFileSync(new URL('prompts.md', aqui), [
-  '# Prompts de las ilustraciones de ejercicios',
-  'Generado por `imagenes.ts` a partir de `ilustraciones.json`: no editar a mano. Cómo usarlo: `README.md`.',
-  `Cada lote es una imagen 2×2 con cuatro ejercicios. Guarda la imagen que genere ChatGPT como \`scripts/ejercicios/ia/lote-NN.png\` (o .jpg/.webp) y ejecuta \`npm run ejercicios:imagenes\`. Hechos: ${hechos.filter(Boolean).length} de ${lotes.length}.`,
-  ...lotes.map((l, i) => [
-    `## ${hechos[i] ? '✔' : '☐'} Lote ${nn(i)} → \`lote-${nn(i)}.png\``,
-    l.map(([s], j) => `${j + 1}. ${POSICIONES[j].toLowerCase()}: ${nombres.get(s)} (\`${s}\`)`).join('\n'),
-    `${VALLA}text\n${promptLote(l)}\n${VALLA}`,
-  ].join('\n\n')),
-].join('\n\n') + '\n')
+/** prompts.md: la primera tanda (lotes 1–29, ya generada). prompts-2.md: las ampliaciones desde el lote 30 y, al final, el diseño del mapa muscular. */
+const TANDAS = [
+  { archivo: 'prompts.md', desde: 0, hasta: 29, extra: null },
+  { archivo: 'prompts-2.md', desde: 29, hasta: lotes.length, extra: 'mapa-muscular.md' },
+]
+for (const { archivo, desde, hasta, extra } of TANDAS) {
+  const indices = lotes.map((_, i) => i).slice(desde, hasta)
+  writeFileSync(new URL(archivo, aqui), [
+    `# Prompts de las ilustraciones de ejercicios (lotes ${nn(desde)}–${nn(hasta - 1)})`,
+    'Generado por `imagenes.ts` a partir de `ilustraciones.json`: no editar a mano. Cómo usarlo: `README.md`.',
+    `Cada lote es una imagen 2×2 con cuatro ejercicios. Guarda la imagen que genere ChatGPT como \`scripts/ejercicios/ia/lote-NN.png\` (o .jpg/.webp) y ejecuta \`npm run ejercicios:imagenes\`. Hechos: ${indices.filter(i => hechos[i]).length} de ${indices.length}.`,
+    ...indices.map(i => [
+      `## ${hechos[i] ? '✔' : '☐'} Lote ${nn(i)} → \`lote-${nn(i)}.png\``,
+      lotes[i].map(([s], j) => `${j + 1}. ${POSICIONES[j].toLowerCase()}: ${nombres.get(s)} (\`${s}\`)`).join('\n'),
+      `${VALLA}text\n${promptLote(lotes[i])}\n${VALLA}`,
+    ].join('\n\n')),
+    // Prompts sueltos que no son de un lote, al final y tal cual.
+    ...(extra ? [readFileSync(new URL(extra, aqui), 'utf8').replace(/\r\n/g, '\n').trim()] : []),
+  ].join('\n\n') + '\n')
+}
 
 // ── Ilustraciones IA ─────────────────────────────────────────────────────────────────────────────────────
 async function miniatura(entrada: sharp.Sharp): Promise<Buffer> {
@@ -221,5 +231,5 @@ ${conImagen.map(s => `  '${s}',`).join('\n')}
 `)
 const pendientes = lotes.map((_, i) => nn(i)).filter((_, i) => !hechos[i])
 console.log(`${conImagen.length} con imagen (${deIa.size} ilustraciones, ${conImagen.length - deIa.size} fotos), ${slugsCatalogo.length - conImagen.length} sin imagen${fallos ? `, ${fallos} fallos` : ''}`)
-console.log(pendientes.length ? `Lotes pendientes (${pendientes.length}): ${pendientes.join(', ')}. Ver scripts/ejercicios/prompts.md` : 'Todos los lotes hechos')
+console.log(pendientes.length ? `Lotes pendientes (${pendientes.length}): ${pendientes.join(', ')}. Ver scripts/ejercicios/prompts.md y prompts-2.md` : 'Todos los lotes hechos')
 if (fallos) process.exit(1)

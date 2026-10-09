@@ -18,7 +18,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 
 ## Limitaciones conocidas
 
-- Ilustraciones de ejercicios: los 116 tienen ilustración propia (IA, revisadas en hoja de contactos). Pequeñas licencias del modelo aceptadas: remo en T a una mano con la barra en landmine en vez de agarre en V. Al añadir un ejercicio al catálogo hay que añadirlo a `scripts/ejercicios/ilustraciones.json` (lote nuevo o imagen suelta `ia/<slug>.png`). Ver `scripts/ejercicios/README.md`.
+- Ilustraciones de ejercicios: los 116 originales tienen ilustración propia (IA, revisadas en hoja de contactos); los 88 añadidos el 2026-10-09 (lotes 30–51, en `prompts-2.md`) muestran el hueco con icono hasta que se generen. Pequeñas licencias del modelo aceptadas: remo en T a una mano con la barra en landmine en vez de agarre en V. Al añadir un ejercicio al catálogo hay que añadirlo a `scripts/ejercicios/ilustraciones.json` (lote nuevo o imagen suelta `ia/<slug>.png`). Ver `scripts/ejercicios/README.md`.
 - Perfil: los factores de actividad (1,2–1,9) se atribuyen a McArdle, Katch y Katch (1996) sin haber verificado la edición ni una derivación experimental; la cifra de 600 kcal/día de NICE procede de CG189 y no se ha cotejado en NG246. La media de Mifflin y Roza-Shizgal es criterio de AppFit, no un método publicado. Los scripts `scripts/ui/validar-*.cjs` adaptados a Perfil no se han ejecutado (rutas fijas a `/usr/bin/chromium` y al puerto 5174); el recorrido se probó con un script propio en Edge (PROCESO §74).
 - Ajustes: los campos de objetivos diarios desbordan a 375 px con texto al 200% (fila sin wrap y anchos fijos). Detectado al confirmar los fondos claros; pendiente de adaptación del formulario, sin relación con la capa fotográfica.
 - Buscador e intérprete priorizan los básicos compartidos en `catalogo/preferidos.ts`; arroz, pasta y pollo sin más detalle se eligen en crudo. Si se pesa en cocido, especificarlo o usar «Cambiar». Si aún hay ruido, valorar sugerencias prioritarias con «Ver más variantes», sin fusionar alimentos por nombre.
@@ -40,6 +40,7 @@ Registro:
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.
 
 Gimnasio:
+- **Nuevo muñeco del mapa muscular, versión hombre y mujer**: Víctor elegirá una de las propuestas de `scripts/ejercicios/mapa-muscular.md` (al final de `prompts-2.md`) y aportará la imagen de referencia; se redibujará como SVG en `mapaMuscularGeometria.ts` con las doce zonas. Falta decidir cómo se elige la versión (¿un ajuste?).
 - **Plan de mejoras de Entreno**: implementadas las diez mejoras iniciales: papelera, RIR, notas, gráficas, carga corporal, unilateral, agarres, dropsets, negativas y progresión confirmada. Alcance, orden, decisiones y ampliaciones futuras en [mejoras.md](../mejoras.md). Se validan los bloques que Víctor autoriza antes de continuar; sustituye aquí el detalle anterior de progresión para evitar planes duplicados.
 
 Cuerpo y objetivos:
