@@ -1,4 +1,4 @@
-# Prompts de las ilustraciones de ejercicios
+# Prompts de las ilustraciones de ejercicios (lotes 01–29)
 
 Generado por `imagenes.ts` a partir de `ilustraciones.json`: no editar a mano. Cómo usarlo: `README.md`.
 

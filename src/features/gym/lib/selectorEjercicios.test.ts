@@ -9,11 +9,14 @@ const legacy: Exercise = { id: 21, nombre: 'Press banca', nombreNorm: 'press ban
 const buscar = (q: string) => filtrarEjercicios(opciones, q, [], []).map(e => e.name)
 
 describe('catálogo editorial de ejercicios', () => {
-  it('100–150 ejercicios distintos con identidades y clasificaciones completas', () => {
+  it('100–250 ejercicios distintos con identidades y clasificaciones completas', () => {
     expect(CATALOGO_EJERCICIOS.length).toBeGreaterThanOrEqual(100)
-    expect(CATALOGO_EJERCICIOS.length).toBeLessThanOrEqual(150)
+    expect(CATALOGO_EJERCICIOS.length).toBeLessThanOrEqual(250)
     expect(new Set(CATALOGO_EJERCICIOS.map(e => e.id)).size).toBe(CATALOGO_EJERCICIOS.length)
     expect(new Set(CATALOGO_EJERCICIOS.map(e => normalizeName(e.name))).size).toBe(CATALOGO_EJERCICIOS.length)
+    // Nombre y alias identifican un único ejercicio: catalogoDeLocal enlaza registros antiguos por coincidencia exacta.
+    const nombres = CATALOGO_EJERCICIOS.flatMap(e => [e.name, ...(e.aliases ?? [])].map(normalizeName))
+    expect(new Set(nombres).size).toBe(nombres.length)
     for (const e of CATALOGO_EJERCICIOS) {
       expect(e.id).toMatch(/^appfit:[a-z0-9-]+$/)
       expect(e.primaryMuscles.length).toBeGreaterThan(0)
@@ -22,7 +25,7 @@ describe('catálogo editorial de ejercicios', () => {
       for (const m of [...e.primaryMuscles, ...e.secondaryMuscles]) expect(MUSCULOS).toHaveProperty(m)
       for (const eq of e.equipment) expect(EQUIPAMIENTO).toHaveProperty(eq)
     }
-    expect(new Set(CATALOGO_EJERCICIOS.flatMap(e => [...e.primaryMuscles, ...(e.filterGroups ?? [])])).size).toBe(12)
+    expect(new Set(CATALOGO_EJERCICIOS.flatMap(e => [...e.primaryMuscles, ...(e.filterGroups ?? [])])).size).toBe(13)
     expect(CATALOGO_EJERCICIOS.some(e => e.primaryMuscles.includes('completo'))).toBe(false)
     expect(new Set(CATALOGO_EJERCICIOS.flatMap(e => e.equipment)).size).toBe(10)
   })

@@ -8,7 +8,7 @@ Gym guardaba ejercicios por nombre normalizado y los referenciaba por `Exercise.
 
 ## Decisión
 
-116 definiciones editoriales incluidas en código con ids estables `appfit:*`, nombre, músculos principales/secundarios, equipo y alias opcionales. Se mantienen separadas de los ejercicios locales y no se instalan en IndexedDB al abrir. Al seleccionar se crea solo ese ejercicio, o se reutiliza un vínculo `catalogId`/nombre o alias exacto de un antiguo sin metadatos. No se fusionan parecidos, renumeran ids ni renombra el histórico. Personalizados no llevan `catalogId` y conservan sus propios metadatos.
+116 definiciones editoriales (204 desde el 2026-10-09, a petición de Víctor, con el grupo Aductores) incluidas en código con ids estables `appfit:*`, nombre, músculos principales/secundarios, equipo y alias opcionales. Se mantienen separadas de los ejercicios locales y no se instalan en IndexedDB al abrir. Al seleccionar se crea solo ese ejercicio, o se reutiliza un vínculo `catalogId`/nombre o alias exacto de un antiguo sin metadatos. No se fusionan parecidos, renumeran ids ni renombra el histórico. Personalizados no llevan `catalogId` y conservan sus propios metadatos.
 
 Los campos nuevos de `Exercise` son opcionales y no indexados: según las reglas de `db.ts`/`backup.ts`, no requieren cambiar Dexie v6/backup v2. Los backups existentes siguen importándose sin transformación; los nuevos exportan/restauran metadatos y personalizados. Catálogo incorporado al bundle y precache, no fuente externa ni tabla nueva. Una definición retirada deja intacto el ejercicio local y su histórico.
 

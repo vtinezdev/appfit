@@ -2,7 +2,7 @@
 export const MUSCULOS = {
   pecho: 'Pecho', espalda: 'Espalda', hombros: 'Hombros', biceps: 'Bíceps', triceps: 'Tríceps',
   antebrazo: 'Antebrazo', cuadriceps: 'Cuádriceps', isquiotibiales: 'Isquiotibiales', gluteos: 'Glúteos',
-  gemelos: 'Gemelos', core: 'Core', completo: 'Cuerpo completo',
+  aductores: 'Aductores', gemelos: 'Gemelos', core: 'Core', completo: 'Cuerpo completo',
 } as const
 export type Musculo = keyof typeof MUSCULOS
 export type ZonaMuscular = Exclude<Musculo, 'completo'>
