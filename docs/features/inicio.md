@@ -15,6 +15,7 @@
 | Lógica del peso | `lib/peso.ts`: `validarPeso` (rango y decimales admitidos), `tendenciaPeso`, `fraseVariacion`, `mediaMovilPeso` (media de los 7 días naturales que acaban en cada fecha) | — |
 | Gráfica del peso | `components/GraficaPeso` (Recharts, diferida desde `HistorialPeso`): pesajes y media de 7 días | — |
 | Agua | `components/AccesoAgua` (tarjeta con «−» quitar la última toma y «+» de 250 ml), `components/AguaSheet` (250/330/500/otra, quitar la última toma, últimos 7 días), `lib/agua.ts` (objetivo, validación, formato) | `aguaRepo` (tabla `agua`) |
+| Revisión semanal | `components/TarjetaRevisionSemanal` (tarjeta), `components/RevisionSemanal` (página modal, chunk diferido), `hooks/useRevisionSemanal` (lecturas), `lib/revisionSemanal.ts` (semanas, bloques y diferencias) | `entriesRepo`, `objetivosDiaRepo.objetivosPorFecha`, `pesosRepo`, `aguaRepo`, `workoutsRepo`, `setsRepo` y `exercisesRepo` (solo el detalle lee series y ejercicios); reutiliza `gym/lib/resumenSemanal`, `gym/lib/records`, `nutricion/lib/adherencia` y `ListaRecords` de Gym; `settings.revisionSemanalCerrada` |
 | Aviso de copia | `components/AvisoBackup` (banda con «Exportar ahora» y «Más tarde»), `shared/lib/recordatorioBackup.ts` | `shared/db/settings` (`ultimaExportacion`, `recordatorioBackupPospuesto`, `recordatorioBackupDias`) |
 
 ## Primer inicio en iPhone
@@ -30,9 +31,20 @@ El shell (`app/TrasladarDatos`) muestra antes del resumen un aviso breve para a�
 3. **Agua**: tarjeta con lo bebido hoy (y el objetivo con su barra en grafito, como dato: no usa el acento). El «+» suma una toma de 250 ml y el «−» quita la última toma (desactivado a 0 ml), ambos con «Deshacer»; la tarjeta abre una Sheet para elegir 250/330/500 ml u otra cantidad, quitar la última toma y repasar los últimos 7 días. El objetivo sale de Ajustes (lo editado manda) o, sin él, del sexo de Perfil: 2,0 L (hombre) o 1,6 L (mujer), según la ingesta adecuada de agua total de EFSA (2010) menos un 20 % por la humedad de los alimentos (criterio de AppFit; ver Referencias › Proteína y agua). Sin sexo ni ajuste no hay objetivo y solo se muestra lo bebido.
 4. **Registrar comida**: acción principal (abre Nutrición con el registro). Es lo único naranja con masa de la pantalla: las acciones de las tarjetas («+» del peso, «−»/«+» del agua) van en tono neutro.
 
+Debajo del aviso de copia, los lunes puede aparecer la **revisión semanal** (ver abajo).
+
 Encima de las tarjetas puede aparecer el **aviso de copia de seguridad** si hay datos y han pasado 14 días (configurable en Ajustes: 7/14/30) desde la última exportación (o nunca se exportó). «Exportar ahora» lleva a Ajustes › Copias de seguridad; «Más tarde» lo pospone 3 días. Sin notificaciones. La fecha de la última exportación se guarda solo si la descarga se lanzó.
 
 Las medidas corporales (cintura, cadera…) viven en Perfil; «Medidas caseras» pertenece a Nutrición.
+
+## Revisión semanal
+
+Resume la última semana cerrada (lunes-domingo) frente a la anterior, con cifras y diferencias sin juicio de valor (el mismo tono suba o baje, sin colores de bien o mal) y sin consejos.
+
+- **Cuándo sale**: desde el lunes, si la semana revisada tiene algún dato (comida, pesaje, agua o un entreno terminado) y no se ha cerrado ya. «Hecho» guarda su lunes en `settings.revisionSemanalCerrada` y la oculta hasta el lunes siguiente, con «Deshacer» en el Toast. Sin notificaciones.
+- **Tarjeta**: semana, peso medio con su cambio, kcal al día frente al objetivo y entrenos con su cambio; «Hecho» y «Ver revisión» en tono neutro (el naranja sigue siendo solo «Registrar comida»). Solo lee comidas, pesos, agua y entrenos: las series se cargan al abrir el detalle.
+- **Detalle** (página modal, con flechas de semana hasta la última cerrada): Peso (media de los pesajes de la semana y nº de pesajes; diferencia de medias solo si ambas semanas tienen pesajes), Nutrición (kcal y proteína medias de los días registrados frente a la media de los objetivos de esos días, días registrados de 7 y adherencia ±10 %, con el criterio del Resumen), Entreno (sesiones, duración, series efectivas y volumen del resumen semanal de Gym, cada uno con su cambio, y los 3 grupos con más series), Récords personales (los de los entrenos de la semana, cada uno frente a los anteriores a él; 3 visibles y «y N más») y Agua (media de los días con registro y días que llegan al objetivo vigente). Cada bloque sin datos lo dice en su sitio.
+- **Límites**: los días sin snapshot del objetivo se comparan con el vigente (como en el Resumen); el objetivo de agua no se guarda por día, así que se usa el actual. Cerrada la revisión, no hay un acceso permanente para volver a abrirla.
 
 ## Rueda de energía
 

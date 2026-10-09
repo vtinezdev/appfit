@@ -8,6 +8,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 
 **Inicio**
 - Aviso discreto cuando hace tiempo que no exportas una copia, y tarjeta de agua con su objetivo recomendado según tu sexo.
+- Revisión semanal cada lunes: peso medio, kcal y proteína frente al objetivo, adherencia, entrenos, récords y agua de la semana cerrada, comparados con la anterior y sin juicios; se cierra con «Hecho» hasta el lunes siguiente.
 - Pantalla minimalista con tarjetas breves: una rueda de energía con lo comido en los colores de proteína, hidratos y grasa y lo que falta en negro (si te pasas, una segunda vuelta por dentro), el entreno en curso o el último, y el peso con su variación semanal e historial. Registro de comida directo desde Inicio. Identidad deportiva en grafito con un único acento naranja para actuar y para las calorías; títulos y métricas contundentes, tarjetas limpias y redondeadas, y tema claro y oscuro.
 
 **Nutrición**
