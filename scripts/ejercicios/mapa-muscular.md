@@ -1,6 +1,6 @@
 ## Mapa muscular: propuestas de diseño (hombre y mujer)
 
-Para sustituir el muñeco del mapa muscular (`gym/components/mapaMuscularGeometria.ts`). Cada prompt genera una dirección de estilo con las cuatro figuras: hombre frontal, hombre trasera, mujer frontal y mujer trasera. Genera los que quieras, elige uno y pásalo como imagen de referencia: se redibuja a mano como SVG (una forma por zona), así que la imagen no se recorta ni se usa tal cual.
+Prompts con los que se generó la imagen de referencia del mapa muscular (`gym/components/mapaMuscularGeometria.ts`). Cada uno da una dirección de estilo con las cuatro figuras: hombre frontal, hombre trasera, mujer frontal y mujer trasera. Elegido el **A** (2026-10-09): su imagen es `ia/mapa-muscular.png` y `npm run ejercicios:mapa` la convierte en SVG (ver `README.md`); la imagen no se usa tal cual.
 
 Las zonas son las 13 de `lib/musculos.ts`. Hombros, antebrazo, aductores y gemelos aparecen en las dos vistas; el resto solo en una. Los colores de calor son los tokens `--c-muscle-1…5` del tema claro.
 

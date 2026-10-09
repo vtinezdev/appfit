@@ -2,9 +2,9 @@
 
 Generado por `imagenes.ts` a partir de `ilustraciones.json`: no editar a mano. Cómo usarlo: `README.md`.
 
-Cada lote es una imagen 2×2 con cuatro ejercicios. Guarda la imagen que genere ChatGPT como `scripts/ejercicios/ia/lote-NN.png` (o .jpg/.webp) y ejecuta `npm run ejercicios:imagenes`. Hechos: 0 de 22.
+Cada lote es una imagen 2×2 con cuatro ejercicios. Guarda la imagen que genere ChatGPT como `scripts/ejercicios/ia/lote-NN.png` (o .jpg/.webp) y ejecuta `npm run ejercicios:imagenes`. Hechos: 22 de 22.
 
-## ☐ Lote 30 → `lote-30.png`
+## ✔ Lote 30 → `lote-30.png`
 
 1. top left: Press inclinado en máquina (`press-inclinado-maquina`)
 2. top right: Press inclinado en multipower (`press-inclinado-smith`)
@@ -22,7 +22,7 @@ Bottom left: incline dumbbell fly: lying on a bench inclined about 30 degrees, a
 Bottom right: low-to-high cable fly: standing between the two low pulleys of a cable crossover machine, arms slightly bent, sweeping both handles up and together in front of the upper chest. Highlight in orange: upper chest.
 ```
 
-## ☐ Lote 31 → `lote-31.png`
+## ✔ Lote 31 → `lote-31.png`
 
 1. top left: Dominadas supinas (`dominadas-supinas`)
 2. top right: Jalón con agarre supino (`jalon-supino`)
@@ -40,7 +40,7 @@ Bottom left: single-arm cable pulldown: kneeling on one knee facing a high cable
 Bottom right: single-arm seated cable row: seated at a low cable row station with the feet on the platform, torso upright, pulling one D-handle to the side of the waist with one arm, the other hand resting on the thigh. Highlight in orange: latissimus dorsi and upper back.
 ```
 
-## ☐ Lote 32 → `lote-32.png`
+## ✔ Lote 32 → `lote-32.png`
 
 1. top left: Remo Pendlay (`remo-pendlay`)
 2. top right: Encogimientos con barra (`encogimientos-barra`)
@@ -58,7 +58,7 @@ Bottom left: trap bar deadlift: standing inside a hexagonal trap bar, gripping i
 Bottom right: barbell upright row: standing upright, overhand grip at shoulder width, barbell pulled up close to the body to lower-chest height with the elbows high and out to the sides. Highlight in orange: side deltoids and trapezius.
 ```
 
-## ☐ Lote 33 → `lote-33.png`
+## ✔ Lote 33 → `lote-33.png`
 
 1. top left: Press de hombros en multipower (`press-hombro-smith`)
 2. top right: Elevaciones laterales en máquina (`elevacion-lateral-maquina`)
@@ -76,7 +76,7 @@ Bottom left: reverse cable fly: standing between the two high pulleys of a cable
 Bottom right: cable front raise: standing facing away from a low cable pulley, the cable passing between the legs, raising a short straight bar with straight arms in front of the body to shoulder height. Highlight in orange: front deltoids.
 ```
 
-## ☐ Lote 34 → `lote-34.png`
+## ✔ Lote 34 → `lote-34.png`
 
 1. top left: Curl bayesiano en polea (`curl-bayesiano`)
 2. top right: Curl araña (`curl-arana`)
@@ -94,7 +94,7 @@ Bottom left: cable rope hammer curl: standing facing a low cable pulley, holding
 Bottom right: EZ-bar curl: standing, angled underhand grip on a zig-zag shaped EZ curl bar, elbows fixed at the sides, curling the bar up halfway. Highlight in orange: biceps.
 ```
 
-## ☐ Lote 35 → `lote-35.png`
+## ✔ Lote 35 → `lote-35.png`
 
 1. top left: Extensión de tríceps unilateral en polea (`extension-triceps-unilateral`)
 2. top right: Press francés con mancuernas (`press-frances-mancuernas`)
@@ -112,7 +112,7 @@ Bottom left: seated dip machine: seated upright in a triceps dip machine, grippi
 Bottom right: bench dip: hands on the edge of a flat bench behind the body, legs extended forward with the heels on the floor, body lowered with the elbows bent to 90 degrees and pointing back. Highlight in orange: triceps.
 ```
 
-## ☐ Lote 36 → `lote-36.png`
+## ✔ Lote 36 → `lote-36.png`
 
 1. top left: Sentadilla péndulo (`sentadilla-pendulo`)
 2. top right: Prensa horizontal (`prensa-horizontal`)
@@ -130,7 +130,7 @@ Bottom left: barbell lunge: barbell resting across the upper back (not on the ne
 Bottom right: sissy squat: on the balls of the feet, one hand holding a post for balance, knees pushed far forward and down toward the floor while the body leans back in a straight line from knees to head. Highlight in orange: quadriceps.
 ```
 
-## ☐ Lote 37 → `lote-37.png`
+## ✔ Lote 37 → `lote-37.png`
 
 1. top left: Curl femoral de pie en máquina (`curl-femoral-pie`)
 2. top right: Peso muerto rumano en multipower (`rumano-smith`)
@@ -148,7 +148,7 @@ Bottom left: Smith machine hip thrust: upper back resting on a flat bench placed
 Bottom right: glute kickback machine: torso supported on the chest pad, hands on the handles, one foot on the footplate, kicking that leg straight back and up. Highlight in orange: glutes.
 ```
 
-## ☐ Lote 38 → `lote-38.png`
+## ✔ Lote 38 → `lote-38.png`
 
 1. top left: Abducción de cadera en polea (`abduccion-polea`)
 2. top right: Sentadilla sumo con mancuerna (`sentadilla-sumo`)
@@ -166,7 +166,7 @@ Bottom left: standing dumbbell calf raise: balls of the feet on a raised step, a
 Bottom right: seated ab crunch machine: seated with the upper chest against the pads, hands on the handles, curling the torso forward and down. Highlight in orange: abdominals.
 ```
 
-## ☐ Lote 39 → `lote-39.png`
+## ✔ Lote 39 → `lote-39.png`
 
 1. top left: Elevaciones de rodillas en silla romana (`elevacion-rodillas-paralelas`)
 2. top right: Giros rusos (`giros-rusos`)
@@ -184,7 +184,7 @@ Bottom left: dumbbell side bend: standing upright, one dumbbell hanging in one h
 Bottom right: lying leg raise: lying on the back on the floor, hands flat at the sides, straight legs raised up to vertical. Highlight in orange: lower abdominals.
 ```
 
-## ☐ Lote 40 → `lote-40.png`
+## ✔ Lote 40 → `lote-40.png`
 
 1. top left: Aducción de cadera en máquina (`aduccion-maquina`)
 2. top right: Aducción de cadera en polea (`aduccion-polea`)
@@ -202,7 +202,7 @@ Bottom left: banded standing hip adduction: standing side-on to a resistance ban
 Bottom right: side-lying hip adduction: lying on one side on the floor, head resting on the bent lower arm, top leg bent with its foot flat on the floor in front of the knee, lifting the straight bottom leg up off the floor. Highlight in orange: inner thighs (adductors).
 ```
 
-## ☐ Lote 41 → `lote-41.png`
+## ✔ Lote 41 → `lote-41.png`
 
 1. top left: Plancha Copenhague (`plancha-copenhague`)
 2. top right: Sentadilla cosaca (`sentadilla-cosaca`)
@@ -220,7 +220,7 @@ Bottom left: dumbbell side lunge: a dumbbell in each hand, long step out to the 
 Bottom right: isometric adductor ball squeeze: lying on the back on the floor, knees bent and feet flat, squeezing a soft exercise ball between the knees. Highlight in orange: inner thighs (adductors).
 ```
 
-## ☐ Lote 42 → `lote-42.png`
+## ✔ Lote 42 → `lote-42.png`
 
 1. top left: Flexiones declinadas (`flexiones-declinadas`)
 2. top right: Press declinado con mancuernas (`press-declinado-mancuernas`)
@@ -238,7 +238,7 @@ Bottom left: lying cable fly: lying on a flat bench placed between the two low p
 Bottom right: dumbbell squeeze press: lying on a flat bench, two dumbbells held with a neutral grip and pressed firmly against each other above the mid-chest, arms bent. Highlight in orange: chest.
 ```
 
-## ☐ Lote 43 → `lote-43.png`
+## ✔ Lote 43 → `lote-43.png`
 
 1. top left: Remo Seal (`remo-seal`)
 2. top right: Remo Meadows (`remo-meadows`)
@@ -256,7 +256,7 @@ Bottom left: rack pull: standing inside a power rack, loaded barbell lifted off 
 Bottom right: plate-loaded lat pulldown machine: seated with the thighs under the pads, pulling two independent handles down from overhead to shoulder level. Highlight in orange: latissimus dorsi.
 ```
 
-## ☐ Lote 44 → `lote-44.png`
+## ✔ Lote 44 → `lote-44.png`
 
 1. top left: Press militar sentado (`press-militar-sentado`)
 2. top right: Elevaciones en Y (`elevacion-y`)
@@ -274,7 +274,7 @@ Bottom left: single-arm kettlebell overhead press: standing upright, kettlebell 
 Bottom right: resistance band lateral raise: standing on the middle of a resistance band, holding its two ends and raising both arms out to the sides to shoulder height. Highlight in orange: side deltoids.
 ```
 
-## ☐ Lote 45 → `lote-45.png`
+## ✔ Lote 45 → `lote-45.png`
 
 1. top left: Curl predicador con mancuerna (`curl-predicador-mancuerna`)
 2. top right: Curl Zottman (`curl-zottman`)
@@ -292,7 +292,7 @@ Bottom left: high cable curl: standing between the two high pulleys of a cable c
 Bottom right: TRX biceps curl: leaning back holding the TRX handles with palms up, body straight, heels on the floor, curling the hands toward the forehead. Highlight in orange: biceps.
 ```
 
-## ☐ Lote 46 → `lote-46.png`
+## ✔ Lote 46 → `lote-46.png`
 
 1. top left: Flexiones diamante (`flexiones-diamante`)
 2. top right: Patada de tríceps en polea (`patada-triceps-polea`)
@@ -310,7 +310,7 @@ Bottom left: seated triceps extension machine: seated, upper arms resting on the
 Bottom right: resistance band overhead triceps extension: standing on one end of a band, holding the other end with both hands behind the head, elbows pointing up, extending the arms overhead. Highlight in orange: triceps.
 ```
 
-## ☐ Lote 47 → `lote-47.png`
+## ✔ Lote 47 → `lote-47.png`
 
 1. top left: Sentadilla con cinturón (`belt-squat`)
 2. top right: Zancadas caminando (`zancadas-caminando`)
@@ -328,7 +328,7 @@ Bottom left: pistol squat: deep squat on one leg, the other leg held straight ou
 Bottom right: wall sit: back flat against a wall, thighs parallel to the floor, knees at 90 degrees, hands resting on the thighs. Highlight in orange: quadriceps.
 ```
 
-## ☐ Lote 48 → `lote-48.png`
+## ✔ Lote 48 → `lote-48.png`
 
 1. top left: Glute ham raise (`glute-ham-raise`)
 2. top right: Curl femoral con fitball (`curl-femoral-fitball`)
@@ -346,7 +346,7 @@ Bottom left: stiff-leg barbell deadlift: legs almost straight, hinging at the hi
 Bottom right: wrist roller: standing, arms held straight out in front at shoulder height, both hands on a short handle, twisting the wrists to roll up a cord with a small weight plate hanging from it. Highlight in orange: forearms.
 ```
 
-## ☐ Lote 49 → `lote-49.png`
+## ✔ Lote 49 → `lote-49.png`
 
 1. top left: Puente de glúteos a una pierna (`puente-unilateral`)
 2. top right: Hiperextensión para glúteo (`hiperextension-gluteo`)
@@ -364,7 +364,7 @@ Bottom left: banded clamshell: lying on one side, knees bent at 90 degrees with 
 Bottom right: quadruped donkey kick: on hands and knees, back flat, kicking one bent leg up behind with the sole of the foot facing the ceiling. Highlight in orange: glutes.
 ```
 
-## ☐ Lote 50 → `lote-50.png`
+## ✔ Lote 50 → `lote-50.png`
 
 1. top left: Hollow hold (`hollow-hold`)
 2. top right: Escaladores (`escaladores`)
@@ -382,7 +382,7 @@ Bottom left: V-up: balancing on the glutes, straight legs and straight arms rais
 Bottom right: bicycle crunch: lying on the back, hands beside the head, shoulders lifted, twisting one elbow toward the opposite bent knee while the other leg extends. Highlight in orange: abdominals and obliques.
 ```
 
-## ☐ Lote 51 → `lote-51.png`
+## ✔ Lote 51 → `lote-51.png`
 
 1. top left: Crunch en banco declinado (`crunch-declinado`)
 2. top right: Elevación de gemelos tipo burro (`gemelos-burro`)
@@ -402,7 +402,7 @@ Bottom right: sled push: leaning forward at about 45 degrees, arms extended grip
 
 ## Mapa muscular: propuestas de diseño (hombre y mujer)
 
-Para sustituir el muñeco del mapa muscular (`gym/components/mapaMuscularGeometria.ts`). Cada prompt genera una dirección de estilo con las cuatro figuras: hombre frontal, hombre trasera, mujer frontal y mujer trasera. Genera los que quieras, elige uno y pásalo como imagen de referencia: se redibuja a mano como SVG (una forma por zona), así que la imagen no se recorta ni se usa tal cual.
+Prompts con los que se generó la imagen de referencia del mapa muscular (`gym/components/mapaMuscularGeometria.ts`). Cada uno da una dirección de estilo con las cuatro figuras: hombre frontal, hombre trasera, mujer frontal y mujer trasera. Elegido el **A** (2026-10-09): su imagen es `ia/mapa-muscular.png` y `npm run ejercicios:mapa` la convierte en SVG (ver `README.md`); la imagen no se usa tal cual.
 
 Las zonas son las 13 de `lib/musculos.ts`. Hombros, antebrazo, aductores y gemelos aparecen en las dos vistas; el resto solo en una. Los colores de calor son los tokens `--c-muscle-1…5` del tema claro.
 

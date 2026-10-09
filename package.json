@@ -14,7 +14,8 @@
     "catalogo:ciqual": "node scripts/catalogo/ciqual.ts",
     "catalogo:off": "node scripts/catalogo/off.ts",
     "catalogo:validar": "node scripts/catalogo/validar.ts",
-    "ejercicios:imagenes": "node scripts/ejercicios/imagenes.ts"
+    "ejercicios:imagenes": "node scripts/ejercicios/imagenes.ts",
+    "ejercicios:mapa": "node scripts/ejercicios/mapa-muscular.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

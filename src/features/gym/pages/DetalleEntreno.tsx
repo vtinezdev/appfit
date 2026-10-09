@@ -1,5 +1,5 @@
 import { contextoSerie, describirReps } from '../lib/ejecucion'
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as routinesRepo from '../data/routinesRepo'
@@ -18,7 +18,6 @@ import { EmptyState, ErrorState, LoadingState } from '../../../shared/components
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { formatFechaHoraConDia, toISODate } from '../../../shared/lib/dates'
 import { formatNumber } from '../../../shared/lib/format'
-import MapaMuscular from '../components/MapaMuscular'
 import PanelEjercicio from '../components/PanelEjercicio'
 import SelectorEjercicios from '../components/SelectorEjercicios'
 import { ListaRecords } from '../components/WorkoutFinished'
@@ -27,7 +26,11 @@ import { recordsDeEntreno } from '../lib/records'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { combinarFechaHora, efectivas, formatDuracion, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
+import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import { formatearCarga } from '../lib/carga'
+
+// Diferido: la geometría de los muñecos pesa más que el resto del mapa.
+const MapaMuscular = lazy(() => import('../components/MapaMuscular'))
 
 interface Props {
   workoutId: number
@@ -46,6 +49,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false)
   const [buscando, setBuscando] = useState(false)
   const [ocupado, setOcupado] = useState(false)
+  const figura = useFiguraMapa()
   const [error, setError] = useState<string | null>(null)
   const { avisar, avisarError, toast } = useAviso()
 
@@ -190,7 +194,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
       )}
 
       {!editando && !!records.length && <ListaRecords records={records} nombres={nombres} />}
-      {!editando && <MapaMuscular key={w.id} summary={trabajoMuscularWorkout(w, delEntreno, exercises)} />}
+      {!editando && <Suspense fallback={<LoadingState />}><MapaMuscular key={w.id} summary={trabajoMuscularWorkout(w, delEntreno, exercises)} figura={figura} /></Suspense>}
 
       <section aria-label="Notas del entreno" className="space-y-1">
         {editando ? (

@@ -158,8 +158,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   .muscle-level { grid-column: 1; grid-row: 2; text-align: left; }
   .muscle-chevron { grid-column: 2; grid-row: 1 / span 2; }
 }
-.muscle-outline { fill: rgb(var(--c-surface-muted)); stroke: rgb(var(--c-border-strong)); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.muscle-region { stroke: rgb(var(--c-border-strong)); stroke-width: 0.75; vector-effect: non-scaling-stroke; }
+/* Formas neutras o con su nivel; el trazo del color del fondo dibuja la separación entre músculos y la silueta va encima. */
+.muscle-region { fill: rgb(var(--c-surface-muted)); stroke: rgb(var(--c-surface)); stroke-width: 1.25; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.muscle-outline { fill: none; stroke: rgb(var(--c-border-strong)); stroke-width: 1; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .muscle-swatch { display: inline-block; width: var(--muscle-swatch-size); height: var(--muscle-swatch-size); border-radius: var(--radius-sm); background: rgb(var(--c-surface-muted)); border: 1px solid rgb(var(--c-border-strong)); }
 .muscle-swatch[data-level='1'] { background: rgb(var(--c-muscle-1)); }
 .muscle-swatch[data-level='2'] { background: rgb(var(--c-muscle-2)); }
@@ -167,7 +168,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .muscle-swatch[data-level='4'] { background: rgb(var(--c-muscle-4)); }
 .muscle-swatch[data-level='5'] { background: rgb(var(--c-muscle-5)); }
 @media (forced-colors: active) {
-  .muscle-outline, .muscle-region { fill: Canvas !important; stroke: CanvasText; }
+  .muscle-region { fill: Canvas !important; stroke: CanvasText; }
+  .muscle-outline { stroke: CanvasText; }
   .muscle-map [data-level]:not([data-level='0']) .muscle-region { fill: Highlight !important; }
   .muscle-swatch { background: Canvas; border-color: CanvasText; }
   .muscle-swatch:not([data-level='0']) { background: Highlight; }

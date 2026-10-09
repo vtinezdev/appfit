@@ -1,28 +1,28 @@
 import { useId, useState } from 'react'
 import type { ResumenMuscular, NivelMuscular } from '../lib/cargaMuscular'
 import { MUSCULOS, ZONAS_MUSCULARES, type ZonaMuscular } from '../lib/musculos'
-import { SILUETA_CORPORAL, ZONAS_FRONTALES, ZONAS_TRASERAS } from './mapaMuscularGeometria'
+import { CUERPOS, VIEWBOX_CUERPO, type FiguraMapa, type VistaCuerpo } from './mapaMuscularGeometria'
 import Icon from '../../../shared/components/Icon'
 import Disclosure from '../../../shared/components/Disclosure'
 import { formatInt } from '../../../shared/lib/format'
 
 export const NIVELES_MUSCULARES: Record<NivelMuscular, string> = { 0: 'Sin trabajo registrado', 1: 'Muy bajo', 2: 'Bajo', 3: 'Moderado', 4: 'Alto', 5: 'Muy alto' }
 
-function Cuerpo({ title, regions, levels }: { title: string; regions: Partial<Record<ZonaMuscular, string[]>>; levels: ResumenMuscular['levels'] }) {
+function Cuerpo({ title, vista, levels }: { title: string; vista: VistaCuerpo; levels: ResumenMuscular['levels'] }) {
   return <figure className="min-w-0">
     <figcaption className="mb-3 text-center text-label text-fg-muted">{title}</figcaption>
-    <svg viewBox="0 0 160 355" className="muscle-body mx-auto block w-full" aria-hidden="true" focusable="false">
-      <ellipse cx="80" cy="25" rx="17" ry="20" className="muscle-outline" />
-      <path d={SILUETA_CORPORAL} className="muscle-outline" />
-      {(Object.entries(regions) as [ZonaMuscular, string[]][]).map(([id, paths]) => <g key={id} data-muscle={id} data-level={levels[id]}>
-        {paths.map((d, i) => <path key={i} d={d} className="muscle-region" style={{ fill: levels[id] ? `rgb(var(--c-muscle-${levels[id]}))` : 'rgb(var(--c-surface-muted))' }} />)}
+    <svg viewBox={VIEWBOX_CUERPO} className="muscle-body mx-auto block w-full" aria-hidden="true" focusable="false">
+      <path d={vista.detalles} className="muscle-region" />
+      {(Object.entries(vista.zonas) as [ZonaMuscular, string][]).map(([id, d]) => <g key={id} data-muscle={id} data-level={levels[id]}>
+        <path d={d} className="muscle-region" style={levels[id] ? { fill: `rgb(var(--c-muscle-${levels[id]}))` } : undefined} />
       </g>)}
+      <path d={vista.silueta} className="muscle-outline" />
     </svg>
   </figure>
 }
 
 /** Solo representación: recibe agregación/niveles ya calculados; la lista táctil ofrece el detalle accesible. */
-export default function MapaMuscular({ summary }: { summary: ResumenMuscular }) {
+export default function MapaMuscular({ summary, figura = 'hombre' }: { summary: ResumenMuscular; figura?: FiguraMapa }) {
   const [selected, setSelected] = useState<ZonaMuscular | null>(null)
   const id = useId()
   const activos = ZONAS_MUSCULARES.filter(m => summary.levels[m] > 0).sort((a, b) => summary.muscles[b].score - summary.muscles[a].score)
@@ -46,8 +46,8 @@ export default function MapaMuscular({ summary }: { summary: ResumenMuscular }) 
   return <section aria-label="Mapa muscular" className="muscle-summary space-y-stack">
     <div><h2 className="text-heading text-fg">Mapa muscular</h2><p className="text-body-sm text-fg-muted">Trabajo estimado · Comparado dentro de esta sesión</p></div>
     <div className="muscle-map grid grid-cols-2 gap-3 rounded-lg bg-surface p-3">
-      <Cuerpo title="Frontal" regions={ZONAS_FRONTALES} levels={summary.levels} />
-      <Cuerpo title="Trasera" regions={ZONAS_TRASERAS} levels={summary.levels} />
+      <Cuerpo title="Frontal" vista={CUERPOS[figura].frontal} levels={summary.levels} />
+      <Cuerpo title="Trasera" vista={CUERPOS[figura].trasera} levels={summary.levels} />
     </div>
     <div aria-label="Escala de trabajo relativo" className="flex flex-wrap items-center justify-between gap-2 text-caption text-fg-muted">
       <span>Sin trabajo registrado</span><div aria-hidden="true" className="flex gap-1">{([0, 1, 2, 3, 4, 5] as NivelMuscular[]).map(n => <span key={n} className="muscle-swatch" data-level={n} />)}</div><span>Muy alto</span>
