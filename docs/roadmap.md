@@ -41,7 +41,6 @@ Registro:
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.
 
 Gimnasio:
-- **Nuevo muñeco del mapa muscular, versión hombre y mujer**: Víctor elegirá una de las propuestas de `scripts/ejercicios/mapa-muscular.md` (al final de `prompts-2.md`) y aportará la imagen de referencia; se redibujará como SVG en `mapaMuscularGeometria.ts` con las doce zonas. Falta decidir cómo se elige la versión (¿un ajuste?).
 - **Plan de mejoras de Entreno**: implementadas las diez mejoras iniciales: papelera, RIR, notas, gráficas, carga corporal, unilateral, agarres, dropsets, negativas y progresión confirmada. Alcance, orden, decisiones y ampliaciones futuras en [mejoras.md](../mejoras.md). Se validan los bloques que Víctor autoriza antes de continuar; sustituye aquí el detalle anterior de progresión para evitar planes duplicados.
 
 Cuerpo y objetivos:

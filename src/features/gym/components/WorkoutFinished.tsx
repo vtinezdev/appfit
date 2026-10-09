@@ -1,13 +1,18 @@
+import { lazy, Suspense } from 'react'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
 import Metric from '../../../shared/components/Metric'
+import { LoadingState } from '../../../shared/components/StateMessage'
 import PageHeader from '../../../shared/components/PageHeader'
 import { formatNumber } from '../../../shared/lib/format'
 import { clockText } from '../lib/session'
-import MapaMuscular from './MapaMuscular'
+import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import type { ResumenMuscular } from '../lib/cargaMuscular'
 import { describirRecord, type RecordEjercicio } from '../lib/records'
+
+// Diferido: la geometría de los muñecos pesa más que el resto del mapa.
+const MapaMuscular = lazy(() => import('./MapaMuscular'))
 
 export interface WorkoutSummary {
   seconds: number
@@ -21,6 +26,7 @@ export interface WorkoutSummary {
 }
 
 export default function WorkoutFinished({ summary, onClose }: { summary: WorkoutSummary; onClose: () => void }) {
+  const figura = useFiguraMapa()
   return <div className="space-y-section px-page pt-5">
     <PageHeader title="Sesión guardada" overline="Tu entrenamiento ya está en el historial." />
     <section aria-label="Resumen del entrenamiento guardado" className="training-surface space-y-6 p-5">
@@ -33,7 +39,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
       </div>
     </section>
     {!!summary.records?.length && <ListaRecords records={summary.records} nombres={summary.nombres ?? {}} />}
-    {summary.muscle && <MapaMuscular summary={summary.muscle} />}
+    {summary.muscle && <Suspense fallback={<LoadingState />}><MapaMuscular summary={summary.muscle} figura={figura} /></Suspense>}
     <Button block size="lg" onClick={onClose}>Volver a Entreno<Icon name="chevron-right" size={18} /></Button>
   </div>
 }

@@ -37,3 +37,12 @@ Los originales no se suben al repositorio: si se pierden, las miniaturas ya conv
 - Para corregir una: edita la entrada, borra su `.webp` (o usa `--forzar`) y ejecuta el script.
 
 Los ejercicios personalizados no tienen imagen.
+
+## Mapa muscular
+
+`mapa-muscular.ts` (`npm run ejercicios:mapa`) genera `src/features/gym/components/mapaMuscularGeometria.ts`, los muñecos de hombre y de mujer del mapa muscular, a partir de `ia/mapa-muscular.png`: la imagen del estilo A de `mapa-muscular.md` (elegido el 2026-10-09), con las cuatro figuras en fila (hombre frontal, hombre trasera, mujer frontal, mujer trasera).
+
+- Separa fondo, líneas (blancas y contorno gris oscuro) y rellenos gris/naranja; cada relleno conexo es una forma y los píxeles de las líneas pasan a la forma más cercana, así que las formas teselan el cuerpo y el hueco entre músculos lo dibuja el trazo en la app.
+- Cada forma va a una zona de `lib/musculos.ts` si su centroide cae en uno de los rectángulos de `FIGURAS` (coordenadas de la imagen, lado izquierdo; el derecho es simétrico respecto al eje de la figura). Las que no, son detalle neutro (cabeza, cuello, manos, rodillas, pies). `cortes` añade líneas que la imagen no tenía (los tobillos de la mujer de frente).
+- Contornos simplificados y suavizados en curvas cuadráticas, con coordenadas enteras relativas en un viewBox común (unos 45 kB).
+- Los rectángulos valen solo para esta imagen. Al cambiarla, ejecuta `npm run ejercicios:mapa -- --depurar` y revisa `ia/mapa-muscular-depuracion.png`, con cada zona de un color.

@@ -348,7 +348,7 @@ Haptics opcionales según navegador: Safari/iOS no ofrece Vibration API; Android
 
 ## Do's and Don'ts
 
-El mapa muscular es un dato de sesión: dos siluetas SVG esquemáticas, rampa del naranja de bajo a alto adaptada a claro/oscuro, independiente del rojo de borrar. Cero permanece neutro. Se acompaña de niveles textuales y filas táctiles ≥44 px para consultar ejercicios; no depende del color ni de tocar zonas pequeñas. La escala compara trabajo dentro de la sesión, sin representar fatiga o recuperación. Metodología/cobertura visibles de forma proporcionada; no se animan los colores ni se introducen fotos/dependencias para esta sección.
+El mapa muscular es un dato de sesión: dos figuras SVG (frontal y trasera) en vector plano segmentado, con los músculos como formas redondeadas separadas por un hueco del color del fondo y muñeco de hombre o de mujer según Perfil, rampa del naranja de bajo a alto adaptada a claro/oscuro, independiente del rojo de borrar. Cero permanece neutro. Se acompaña de niveles textuales y filas táctiles ≥44 px para consultar ejercicios; no depende del color ni de tocar zonas pequeñas. La escala compara trabajo dentro de la sesión, sin representar fatiga o recuperación. Metodología/cobertura visibles de forma proporcionada; no se animan los colores ni se introducen fotos/dependencias para esta sección.
 
 - Contraste AA en ambos temas; campos ≥16 px, controles ≥44 px.
 - Datos y unidades completos, estados honestos cuando falta información.
