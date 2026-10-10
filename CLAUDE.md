@@ -21,7 +21,7 @@ Catálogo (`npm run catalogo:*`): `scripts/catalogo/README.md`. Despliegue y res
 src/app/            shell: App (router casero con useState, sin URLs), BottomNav, Ajustes
 src/shared/         db/ (esquema Dexie, tipos, ajustes) · lib/ (fechas, formato, texto, backup) · design/ (tokens, guard)
                     · components/ (primitives) · hooks/ (useAviso, useModalLayer)
-src/features/       inicio/ · nutricion/ · gym/ · perfil/ · referencias/ · atributos/ · ritmo/ · vitrina/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
+src/features/       inicio/ · nutricion/ · gym/ · perfil/ · referencias/ · atributos/ · ritmo/ · vitrina/ · liga/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
 src/test/           setup-db.ts (fake-indexeddb) y fixtures/
 scripts/catalogo/   tubería offline (Node, manual) que genera los paquetes de public/catalogo/
 ```
@@ -66,7 +66,7 @@ Los documentos vivos describen el estado actual y cada tema vive en uno solo. Si
 |---|---|---|
 | `docs/arquitectura.md` | capas y dependencias, mapa de carpetas, navegación, arranque, PWA/offline, red | cambian carpetas, capas, arranque o caché |
 | `docs/datos.md` | tablas, invariantes, repositorios, ajustes, backup, trampas de Dexie | cambian tablas, invariantes, repos o el backup |
-| `docs/features/nutricion.md`, `gym.md`, `inicio.md`, `perfil.md`, `referencias.md`, `atributos.md`, `ritmo.md`, `vitrina.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
+| `docs/features/nutricion.md`, `gym.md`, `inicio.md`, `perfil.md`, `referencias.md`, `atributos.md`, `ritmo.md`, `vitrina.md`, `liga.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
 | `DESIGN.md` | identidad, intención y criterios de producto | cambia la dirección visual |
 | `docs/DESIGN-SYSTEM.md` | implementación: tokens, primitives y patrones | cambian tokens, primitives o patrones |
 | `docs/desarrollo.md` | requisitos, tests, pruebas en navegador, Git/PR, despliegue, uso de Claude Code | cambian comandos, flujo de trabajo o despliegue |

@@ -16,12 +16,13 @@
 | Al terminar un entreno | `components/NuevosLogros` (en `gym/components/WorkoutFinished`) | `useVitrina` |
 | Herbario en Nutrición › Resumen | `nutricion/components/HerbarioResumen` | `foodsRepo.categoriasDeEntradas`, `settings` |
 
-## Logros (27 piezas)
+## Logros (30 piezas)
 
 | Logro | Grupo | Niveles o tipo | Fuente |
 |---|---|---|---|
 | Entrenos | Entreno | 10 · 50 · 100 · 250 | entrenos de 5 series efectivas o más (también los que no sumaron XP por el tope) |
 | Coleccionista de récords | Entreno | 5 · 15 · 30 ejercicios distintos | récords de todos los entrenos terminados |
+| Ciclos completados | Entreno | 1 · 5 · 10 ejercicios distintos | primera llegada a Élite de la [Liga](liga.md) de cada ejercicio (`liga/lib/liga.primerosCiclos`, con las pausas de Ritmo) |
 | Atlas completo | Entreno | repetible | los 12 grupos como músculo principal en una misma semana |
 | Semanas cumplidas | Constancia | 4 · 12 · 26 · 52 | hitos de Ritmo |
 | Hilo | Constancia | 4 · 12 · 26 · 52 semanas seguidas | día de presencia de la semana que alcanza el hilo |
@@ -32,7 +33,7 @@
 | Vuelta al ruedo | Oculto | repetible | entrenar tras 14 días o más sin hacerlo |
 | Descanso bien llevado | Oculto | repetible | semana cerrada cumplida con 3 días de descanso o más |
 
-- Cada nivel es una pieza y un repetible cuenta como una sola. Sin nutrición, los logros de Nutrición no aparecen: quedan 19 piezas.
+- Cada nivel es una pieza y un repetible cuenta como una sola. Sin nutrición, los logros de Nutrición no aparecen: quedan 22 piezas.
 - Los ocultos se ven como «Logro oculto · Se revela al conseguirlo».
 - Los logros conseguidos con un entreno (`workoutId`) aparecen al terminarlo en «Nuevo en la Vitrina».
 

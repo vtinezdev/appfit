@@ -7,6 +7,7 @@ import { formatNumber } from '../../../shared/lib/format'
 import PosterSesion from './PosterSesion'
 import XpSesion from '../../atributos/components/XpSesion'
 import NuevosLogros from '../../vitrina/components/NuevosLogros'
+import AscensosLiga from '../../liga/components/AscensosLiga'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import type { ResumenMuscular } from '../lib/cargaMuscular'
 import { describirRecord, type RecordEjercicio } from '../lib/records'
@@ -36,6 +37,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
       estado={<p role="status" className="flex items-center gap-2 text-label"><span className="workout-finish-mark flex h-touch w-touch items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="check" size={24} /></span>Sesión guardada en el historial</p>} />
     {!!summary.records?.length && <ListaRecords records={summary.records} nombres={summary.nombres ?? {}} />}
     {summary.workoutId !== undefined && <XpSesion workoutId={summary.workoutId} />}
+    {summary.workoutId !== undefined && <AscensosLiga workoutId={summary.workoutId} nombres={summary.nombres ?? {}} />}
     {summary.workoutId !== undefined && <NuevosLogros workoutId={summary.workoutId} />}
     {summary.muscle && <Suspense fallback={<LoadingState />}><MapaMuscular summary={summary.muscle} figura={figura} figuras={false} /></Suspense>}
     <Button variant="secondary" block size="lg" onClick={onClose}>Volver a Entreno<Icon name="chevron-right" size={18} /></Button>

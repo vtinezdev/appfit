@@ -1,7 +1,8 @@
 // Vitrina: logros, muro de récords y colecciones (Herbario y Atlas) de todo el historial. Funciones puras.
-import type { Entry, Exercise, SetEntry, Workout } from '../../../shared/db/types'
+import type { Entry, Exercise, Pausa, SetEntry, Workout } from '../../../shared/db/types'
 import { startOfWeek } from '../../../shared/lib/dates'
 import type { ResultadoAtributos } from '../../atributos/lib/atributos'
+import { calcularLigas, primerosCiclos } from '../../liga/lib/liga'
 import { herbarioPorSemana, plantasDistintas, type Planta, type SemanaHerbario } from '../../nutricion/lib/herbario'
 import { calcularAtlas, type Atlas } from './atlas'
 import { calcularLogros, type Logro } from './logros'
@@ -18,6 +19,8 @@ export interface DatosVitrina {
   /** Categoría de cada alimento referenciado (`foodsRepo.categoriasDeEntradas`). */
   categorias: ReadonlyMap<string, string>
   conNutricion: boolean
+  /** Pausas de Ritmo: congelan la Liga (ciclos completados). */
+  pausas?: readonly Pausa[]
 }
 
 export interface Herbario {
@@ -55,7 +58,8 @@ export function calcularVitrina(d: DatosVitrina): ResultadoVitrina {
     mejorSemana: semanas.reduce<SemanaHerbario | null>((m, s) => (!m || s.plantas > m.plantas ? s : m), null),
   } : null
   return {
-    logros: calcularLogros({ hoy: d.hoy, atributos: d.atributos, atlas, herbario: semanas, conNutricion: d.conNutricion }),
+    logros: calcularLogros({ hoy: d.hoy, atributos: d.atributos, atlas, herbario: semanas, conNutricion: d.conNutricion,
+      ciclos: primerosCiclos(calcularLigas({ hoy: d.hoy, workouts: terminados, sets: d.sets, pausas: d.pausas })).map(({ fecha, workoutId }) => ({ fecha, workoutId })) }),
     muro: muroRecords(terminados, d.sets),
     atlas,
     herbario,

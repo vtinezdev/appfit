@@ -33,6 +33,10 @@ import type { WorkoutSummary } from '../components/WorkoutFinished'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import Disclosure from '../../../shared/components/Disclosure'
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
+import { todayISO } from '../../../shared/lib/dates'
+import { useLigasSesion } from '../../liga/hooks/useLigasSesion'
+import { avisarElite } from '../../liga/lib/basicos'
+import { alternativas } from '../../liga/lib/alternativas'
 
 interface Props {
   workout: Workout
@@ -65,6 +69,8 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
   const ajustes = useLiveQuery(() => getSettings(), [])
   const todosWorkouts = useLiveQuery(() => workoutsRepo.listar(), []) ?? []
   const routine = useLiveQuery(() => (workout.routineId ? routinesRepo.obtener(workout.routineId) : undefined), [workout.routineId])
+  const hoy = todayISO()
+  const ligas = useLigasSesion(hoy, todosWorkouts, allSets, ajustes)
   const listRef = useListMotion(`${currentSets.map(s => s.id).join(',')}|${restConfigOpen}`)
   useEffect(() => { writeSession(workout.id!, session) }, [workout.id, session])
 
@@ -295,6 +301,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
           const ex = exerciseMap.get(exId)
           if (!ex) return null
           const sets = currentSets.filter((s) => s.exerciseId === exId).sort((a, b) => a.orden - b.orden)
+          const liga = ligas?.ligas.get(exId)
           return (
             <div key={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
@@ -305,7 +312,10 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
                 contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
                   setGuardando(true); try { await Promise.all(pendingWrites.current.values()); const ids = new Set(await workoutsRepo.configurarEjecucion(workout.id, exId, c, habitual)); setSession(p => ({ ...p, completed: p.completed.filter(id => !ids.has(id)) })) } finally { setGuardando(false) }
                 }, onProgresion: async (clave, decision) => { setGuardando(true); try { await Promise.all(pendingWrites.current.values()); await workoutsRepo.decidirProgresion(workout.id, exId, clave, decision) } finally { setGuardando(false) } } }}
-                mover={visibleIds.length > 1 ? { puedeSubir: indice > 0, puedeBajar: indice < visibleIds.length - 1, onSubir: () => mover(indice, -1), onBajar: () => mover(indice, 1) } : undefined} />
+                mover={visibleIds.length > 1 ? { puedeSubir: indice > 0, puedeBajar: indice < visibleIds.length - 1, onSubir: () => mover(indice, -1), onBajar: () => mover(indice, 1) } : undefined}
+                liga={liga && ligas ? { estado: liga, avisar: avisarElite(liga, ex, ajustes?.ligaMantener), hoy, mantenido: !!ajustes?.ligaMantener?.includes(exId),
+                  alternativas: liga.division.elite ? alternativas(ex, exercises, ligas.ligas) : [], sinRecords: ligas.sinRecords.get(exId) ?? 0,
+                  rutinas: routine?.exerciseIds.includes(exId) ? [routine] : [] } : undefined} />
             </div>
           )
         })}

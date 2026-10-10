@@ -23,3 +23,21 @@ export function resumenRutina(r: Pick<Routine, 'id' | 'exerciseIds' | 'objetivos
     ultima: hechas.length ? Math.max(...hechas) : null,
   }
 }
+
+export class ErrorSustitucion extends Error {}
+
+/**
+ * La rutina con `a` en el lugar de `de`, que hereda su objetivo (series, reps, descanso). Si `a` ya está en la rutina o
+ * `de` no, no hay nada que sustituir.
+ */
+export function sustituirEnRutina(r: Routine, de: number, a: number): Routine {
+  if (de === a) return r
+  if (!r.exerciseIds.includes(de)) throw new ErrorSustitucion('Ese ejercicio ya no está en la rutina.')
+  if (r.exerciseIds.includes(a)) throw new ErrorSustitucion('Ese ejercicio ya está en la rutina.')
+  const objetivo = r.objetivos?.[de]
+  const resto = Object.fromEntries(Object.entries(r.objetivos ?? {}).filter(([k]) => Number(k) !== de))
+  const objetivos = objetivo ? { ...resto, [a]: objetivo } : resto
+  const { objetivos: _anteriores, ...base } = r
+  const exerciseIds = r.exerciseIds.map((id) => (id === de ? a : id))
+  return Object.keys(objetivos).length ? { ...base, exerciseIds, objetivos } : { ...base, exerciseIds }
+}

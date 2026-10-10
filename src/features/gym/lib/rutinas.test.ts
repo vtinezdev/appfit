@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { resumenRutina } from './rutinas'
+import { ErrorSustitucion, resumenRutina, sustituirEnRutina } from './rutinas'
 import { cuandoFue } from './workout'
 
 describe('resumenRutina', () => {
@@ -21,5 +21,23 @@ describe('cuandoFue', () => {
     expect(cuandoFue(new Date(2026, 9, 8, 23).getTime(), ahora)).toBe('Ayer')
     expect(cuandoFue(new Date(2026, 9, 4).getTime(), ahora)).toBe('Hace 5 días')
     expect(cuandoFue(new Date(2026, 9, 2).getTime(), ahora)).toBe('2 oct')
+  })
+})
+
+describe('sustituirEnRutina', () => {
+  const r = { id: 1, nombre: 'Empuje', exerciseIds: [3, 5, 7], objetivos: { 5: { series: 4, repsMin: 8, repsMax: 10, descansoSeg: 90 }, 7: { series: 3, repsMin: 10, repsMax: 12 } } }
+
+  it('pone el nuevo en el mismo lugar con el objetivo del sustituido', () => {
+    expect(sustituirEnRutina(r, 5, 9)).toEqual({ id: 1, nombre: 'Empuje', exerciseIds: [3, 9, 7], objetivos: { 9: { series: 4, repsMin: 8, repsMax: 10, descansoSeg: 90 }, 7: { series: 3, repsMin: 10, repsMax: 12 } } })
+  })
+
+  it('sin objetivo ni objetivos que queden, la rutina no lleva objetivos', () => {
+    expect(sustituirEnRutina({ id: 2, nombre: 'B', exerciseIds: [3], objetivos: {} }, 3, 4)).toEqual({ id: 2, nombre: 'B', exerciseIds: [4] })
+  })
+
+  it('no sustituye si el nuevo ya está o el viejo ya no', () => {
+    expect(() => sustituirEnRutina(r, 5, 7)).toThrow(ErrorSustitucion)
+    expect(() => sustituirEnRutina(r, 4, 9)).toThrow(ErrorSustitucion)
+    expect(sustituirEnRutina(r, 5, 5)).toBe(r)
   })
 })
