@@ -2,7 +2,7 @@
 // acumula ni se guarda, se recalcula a partir de los registros. Así respeta la edición retroactiva, va en el backup sin
 // cambios de esquema y borrar y volver a crear no da nada.
 import type { Entry, Pausa, SetEntry, TramoPlanSemanal, Workout } from '../../../shared/db/types'
-import { diasEntre, startOfWeek, toISODate } from '../../../shared/lib/dates'
+import { startOfWeek, toISODate } from '../../../shared/lib/dates'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { acumularComparables, describirRecord, recordsFrenteA, type GruposComparables, type RecordEjercicio } from '../../gym/lib/records'
 import { esEfectiva } from '../../gym/lib/workout'
@@ -13,13 +13,16 @@ import { calcularRitmo, type ResultadoRitmo, type SemanaRitmo } from '../../ritm
 export const VERSION_REGLAS = 1
 
 export const XP = { entreno: 100, diaRegistrado: 30, diaUnaComida: 10, proteina: 20, semanaCumplida: 150, record: 25 } as const
-/** Un entreno cuenta con al menos estas series efectivas (sin calentamiento ni series marcadas como no hechas). */
-export const SERIES_MINIMAS = 6
+/**
+ * Un entreno cuenta para el plan, Ritmo y la Vitrina con al menos estas series efectivas (sin calentamiento ni series
+ * marcadas como no hechas).
+ */
+export const SERIES_MINIMAS = 5
+/** Con estas series efectivas o más, un entreno da su XP completa; con menos, la parte proporcional. */
+export const SERIES_COMPLETAS = 6
 export const RECORDS_POR_SESION = 3
 /** Proteína del día frente a su objetivo: llegar al 90 % basta (no premia comer menos). */
 export const PROPORCION_PROTEINA = 0.9
-/** Entrenos por semana que suman XP: los del plan y uno más. */
-export const ENTRENOS_EXTRA = 1
 
 export type Atributo = 'fuerza' | 'nutricion' | 'constancia'
 
@@ -35,21 +38,21 @@ interface BaseEvento {
 }
 
 export type EventoXp =
-  | BaseEvento & { tipo: 'entreno'; atributo: 'fuerza'; workoutId: number; series: number; diasDescanso: number | null; multiplicador: number }
+  | BaseEvento & { tipo: 'entreno'; atributo: 'fuerza'; workoutId: number; series: number }
   | BaseEvento & { tipo: 'record'; atributo: 'fuerza'; workoutId: number; record: RecordEjercicio }
   | BaseEvento & { tipo: 'registro'; atributo: 'nutricion'; comidas: number }
   | BaseEvento & { tipo: 'proteina'; atributo: 'nutricion'; prot: number; objetivo: number }
   | BaseEvento & { tipo: 'semana'; atributo: 'constancia'; lunes: string; estado: SemanaRitmo }
 
 /** Por qué un entreno terminado no suma XP. */
-export type MotivoSinXp = 'pocas-series' | 'otro-hoy' | 'tope-semana'
+export type MotivoSinXp = 'sin-series' | 'otro-hoy' | 'tope-semana'
 
 export interface EntrenoSinXp {
   workoutId: number
   fecha: string
   series: number
   motivo: MotivoSinXp
-  /** En `tope-semana`, cuántos entrenos suman esa semana. */
+  /** En `tope-semana`, los entrenos del plan de esa semana. */
   tope?: number
 }
 
@@ -66,7 +69,7 @@ export interface DatosAtributos {
   conNutricion: boolean
 }
 
-/** Entreno terminado con al menos 6 series efectivas, haya sumado XP o no. */
+/** Entreno terminado con al menos `SERIES_MINIMAS` series efectivas, haya sumado XP o no. */
 export interface EntrenoQueCuenta {
   workoutId: number
   fecha: string
@@ -82,7 +85,7 @@ export interface RecordDeEntreno {
 }
 
 export interface SemanaActual extends SemanaRitmo {
-  /** Entrenos que ya suman XP esta semana y cuántos pueden sumar (plan + 1). */
+  /** Entrenos del plan que ya suman XP esta semana y cuántos pueden sumar (los del plan). */
   entrenosQueSuman: number
   tope: number
 }
@@ -93,12 +96,10 @@ export interface ResultadoAtributos {
   sinXp: EntrenoSinXp[]
   total: number
   porAtributo: Record<Atributo, number>
-  /** Último día (≤ hoy) con un entreno de al menos 6 series efectivas. */
-  ultimoEntreno: string | null
   semanaActual: SemanaActual
   /** Ritmo del mismo historial (estado de cada semana, hilo, comodines): la semana cumplida sale de aquí. */
   ritmo: ResultadoRitmo
-  /** Días con un entreno de al menos 6 series efectivas y días con alguna comida (vacío si la nutrición no cuenta). */
+  /** Días con un entreno que cuenta (`SERIES_MINIMAS`) y días con alguna comida (vacío si la nutrición no cuenta). */
   diasEntreno: ReadonlySet<string>
   diasRegistro: ReadonlySet<string>
   /** En orden cronológico. */
@@ -106,10 +107,9 @@ export interface ResultadoAtributos {
   records: RecordDeEntreno[]
 }
 
-/** ×1 sin descanso (o sin entreno anterior), ×1,5 con un día sin entrenar antes y ×2 con dos o más. */
-export function multiplicadorDescanso(diasDescanso: number | null): number {
-  if (diasDescanso === null || diasDescanso <= 0) return 1
-  return diasDescanso === 1 ? 1.5 : 2
+/** XP de un entreno: completa desde `SERIES_COMPLETAS` series efectivas y proporcional por debajo (3 series, 50 XP). */
+export function xpDeEntreno(series: number): number {
+  return Math.round((XP.entreno * Math.min(Math.max(0, series), SERIES_COMPLETAS)) / SERIES_COMPLETAS)
 }
 
 const ORDEN_TIPO: Record<EventoXp['tipo'], number> = { entreno: 0, record: 1, registro: 2, proteina: 3, semana: 4 }
@@ -126,9 +126,9 @@ function agrupar<T, K>(items: readonly T[], clave: (t: T) => K): Map<K, T[]> {
 }
 
 /**
- * Toda la XP del historial hasta `hoy`, con su motivo. Entrenos: ≥ 6 series efectivas, uno por día y como mucho plan + 1
- * por semana, por el descanso acumulado; hasta 3 récords por sesión que cuenta. Nutrición (si cuenta): un día registrado
- * y la proteína al 90 % de su objetivo. Constancia: cada semana cumplida según su plan.
+ * Toda la XP del historial hasta `hoy`, con su motivo. Entrenos: proporcional a las series efectivas hasta 6, uno por día
+ * (el de más series) y, por semana, hasta completar el plan; hasta 3 récords por sesión que suma. Nutrición (si cuenta):
+ * un día registrado y la proteína al 90 % de su objetivo. Constancia: cada semana cumplida según su plan.
  */
 export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
   const terminados = d.workouts
@@ -146,11 +146,9 @@ export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
   const eventos: EventoXp[] = []
   const sinXp: EntrenoSinXp[] = []
   const diasEntreno = new Set<string>()
-  const diasConXp = new Set<string>()
-  const sumanPorSemana = new Map<string, number>()
-  let ultimoEntreno: string | null = null
   const entrenos: EntrenoQueCuenta[] = []
   const records: RecordDeEntreno[] = []
+  const sesiones: { workoutId: number; fecha: string; series: number; records: RecordEjercicio[] }[] = []
 
   for (const w of terminados) {
     if (pendientes.length && pendientes[0].inicio < w.inicio) {
@@ -162,33 +160,36 @@ export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
     const delEntreno = recordsFrenteA(propias, historial)
     for (const record of delEntreno) records.push({ workoutId: w.id, fecha: w.fecha, record })
     const series = propias.filter(esEfectiva).length
-    if (series < SERIES_MINIMAS) {
-      sinXp.push({ workoutId: w.id, fecha: w.fecha, series, motivo: 'pocas-series' })
+    sesiones.push({ workoutId: w.id, fecha: w.fecha, series, records: delEntreno })
+    if (series >= SERIES_MINIMAS) {
+      diasEntreno.add(w.fecha)
+      entrenos.push({ workoutId: w.id, fecha: w.fecha, inicio: w.inicio, series })
+    }
+  }
+
+  // Un entreno por día, el de más series (a igualdad, el primero). Por semana suman hasta completar el plan: los que
+  // cuentan para él ocupan un hueco y los cortos suman mientras quede alguno, sin ocuparlo.
+  const delPlanPorSemana = new Map<string, number>()
+  for (const [fecha, delDia] of agrupar(sesiones, (s) => s.fecha)) {
+    const mejor = delDia.reduce((a, s) => (s.series > a.series ? s : a))
+    for (const s of delDia) {
+      if (s !== mejor) sinXp.push({ workoutId: s.workoutId, fecha, series: s.series, motivo: s.series === 0 ? 'sin-series' : 'otro-hoy' })
+    }
+    if (mejor.series === 0) {
+      sinXp.push({ workoutId: mejor.workoutId, fecha, series: 0, motivo: 'sin-series' })
       continue
     }
-    const anterior = ultimoEntreno !== null && ultimoEntreno < w.fecha ? ultimoEntreno : null
-    ultimoEntreno = w.fecha
-    diasEntreno.add(w.fecha)
-    entrenos.push({ workoutId: w.id, fecha: w.fecha, inicio: w.inicio, series })
-    if (diasConXp.has(w.fecha)) {
-      sinXp.push({ workoutId: w.id, fecha: w.fecha, series, motivo: 'otro-hoy' })
+    const lunes = startOfWeek(fecha)
+    const tope = planDeSemana(d.planes, lunes).entrenos
+    const delPlan = delPlanPorSemana.get(lunes) ?? 0
+    if (delPlan >= tope) {
+      sinXp.push({ workoutId: mejor.workoutId, fecha, series: mejor.series, motivo: 'tope-semana', tope })
       continue
     }
-    const lunes = startOfWeek(w.fecha)
-    const tope = planDeSemana(d.planes, lunes).entrenos + ENTRENOS_EXTRA
-    const suman = sumanPorSemana.get(lunes) ?? 0
-    if (suman >= tope) {
-      sinXp.push({ workoutId: w.id, fecha: w.fecha, series, motivo: 'tope-semana', tope })
-      continue
-    }
-    sumanPorSemana.set(lunes, suman + 1)
-    diasConXp.add(w.fecha)
-    // El descanso cuenta los días sin entrenar desde el último entreno que cuenta como tal, haya sumado XP o no.
-    const diasDescanso = anterior === null ? null : diasEntre(anterior, w.fecha) - 1
-    const multiplicador = multiplicadorDescanso(diasDescanso)
-    eventos.push({ tipo: 'entreno', atributo: 'fuerza', fecha: w.fecha, xp: Math.round(XP.entreno * multiplicador), workoutId: w.id, series, diasDescanso, multiplicador })
-    for (const record of delEntreno.slice(0, RECORDS_POR_SESION)) {
-      eventos.push({ tipo: 'record', atributo: 'fuerza', fecha: w.fecha, xp: XP.record, workoutId: w.id, record })
+    if (mejor.series >= SERIES_MINIMAS) delPlanPorSemana.set(lunes, delPlan + 1)
+    eventos.push({ tipo: 'entreno', atributo: 'fuerza', fecha, xp: xpDeEntreno(mejor.series), workoutId: mejor.workoutId, series: mejor.series })
+    for (const record of mejor.records.slice(0, RECORDS_POR_SESION)) {
+      eventos.push({ tipo: 'record', atributo: 'fuerza', fecha, xp: XP.record, workoutId: mejor.workoutId, record })
     }
   }
 
@@ -222,7 +223,6 @@ export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
     sinXp,
     total: porAtributo.fuerza + porAtributo.nutricion + porAtributo.constancia,
     porAtributo,
-    ultimoEntreno,
     ritmo,
     entrenos,
     records,
@@ -230,8 +230,8 @@ export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
     diasRegistro,
     semanaActual: {
       ...ritmo.actual,
-      entrenosQueSuman: sumanPorSemana.get(lunesActual) ?? 0,
-      tope: planActual.entrenos + ENTRENOS_EXTRA,
+      entrenosQueSuman: delPlanPorSemana.get(lunesActual) ?? 0,
+      tope: planActual.entrenos,
     },
   }
 }
@@ -284,41 +284,37 @@ export function tituloDe(nivel: number): string {
 
 // ── Lecturas para la interfaz ──
 
-export type EstadoDescanso =
-  | { estado: 'hoy' }
+export type EstadoEntrenoHoy =
+  | { estado: 'hoy'; series: number }
   | { estado: 'tope'; tope: number }
-  | { estado: 'listo'; diasDescanso: number | null; multiplicador: number }
+  | { estado: 'listo'; quedan: number }
 
-/** Lo que valdría entrenar hoy: ya cuenta un entreno, la semana está al tope o el multiplicador por descanso. */
-export function descansoActual(r: ResultadoAtributos, hoy: string): EstadoDescanso {
-  if (r.eventos.some((e) => e.tipo === 'entreno' && e.fecha === hoy)) return { estado: 'hoy' }
-  if (r.semanaActual.entrenosQueSuman >= r.semanaActual.tope) return { estado: 'tope', tope: r.semanaActual.tope }
-  const diasDescanso = r.ultimoEntreno === null ? null : Math.max(0, diasEntre(r.ultimoEntreno, hoy) - 1)
-  return { estado: 'listo', diasDescanso, multiplicador: multiplicadorDescanso(diasDescanso) }
+/** Lo que valdría entrenar hoy: ya suma un entreno, el plan de la semana está completo o cuántos entrenos del plan quedan. */
+export function entrenoHoy(r: ResultadoAtributos, hoy: string): EstadoEntrenoHoy {
+  const deHoy = r.eventos.find((e) => e.tipo === 'entreno' && e.fecha === hoy)
+  if (deHoy?.tipo === 'entreno') return { estado: 'hoy', series: deHoy.series }
+  const { entrenosQueSuman, tope } = r.semanaActual
+  if (entrenosQueSuman >= tope) return { estado: 'tope', tope }
+  return { estado: 'listo', quedan: tope - entrenosQueSuman }
 }
 
-export function formatMultiplicador(m: number): string {
-  return `×${formatNumber(m, 1)}`
+export function textoEntrenoHoy(d: EstadoEntrenoHoy): string {
+  if (d.estado === 'hoy') {
+    return d.series >= SERIES_COMPLETAS ? 'Hoy ya suma un entreno' : `Hoy suma un entreno de ${seriesTexto(d.series)}: otro con más series lo sustituye`
+  }
+  if (d.estado === 'tope') return `Plan de la semana completo: ya suman sus ${formatInt(d.tope)} entrenos`
+  return d.quedan === 1 ? 'Queda 1 entreno del plan esta semana' : `Quedan ${formatInt(d.quedan)} entrenos del plan esta semana`
 }
 
-export function textoDescanso(d: EstadoDescanso): string {
-  if (d.estado === 'hoy') return 'Hoy ya suma un entreno'
-  if (d.estado === 'tope') return `Esta semana ya suman ${formatInt(d.tope)} entrenos`
-  if (d.diasDescanso === null) return 'Tu primer entreno sumará XP'
-  if (d.multiplicador === 1) return 'Sin descanso acumulado: el próximo entreno vale ×1'
-  return `${diasTexto(d.diasDescanso)} de descanso: el próximo entreno vale ${formatMultiplicador(d.multiplicador)}`
-}
-
-const diasTexto = (n: number) => (n === 1 ? '1 día' : `${formatInt(n)} días`)
+const seriesTexto = (n: number) => (n === 1 ? '1 serie efectiva' : `${formatInt(n)} series efectivas`)
 
 /** Título y detalle de cada XP, para explicarla. `nombres`: nombre de cada ejercicio por id. */
 export function describirEvento(e: EventoXp, nombres: Readonly<Record<number, string>>): { titulo: string; detalle: string } {
   switch (e.tipo) {
     case 'entreno': {
-      const series = `${formatInt(e.series)} series efectivas`
-      if (e.diasDescanso === null) return { titulo: 'Entreno', detalle: `${series} · primer entreno` }
-      if (e.multiplicador === 1) return { titulo: 'Entreno', detalle: `${series} · sin día de descanso antes` }
-      return { titulo: 'Entreno', detalle: `${series} · ${diasTexto(e.diasDescanso)} de descanso: ${formatMultiplicador(e.multiplicador)}` }
+      if (e.series >= SERIES_COMPLETAS) return { titulo: 'Entreno', detalle: seriesTexto(e.series) }
+      const parte = `${formatInt(e.series)} de ${formatInt(SERIES_COMPLETAS)} series efectivas`
+      return { titulo: 'Entreno', detalle: e.series >= SERIES_MINIMAS ? parte : `${parte} · no cuenta para el plan` }
     }
     case 'record':
       return { titulo: `Récord · ${nombres[e.record.exerciseId] ?? 'Ejercicio'}`, detalle: describirRecord(e.record, (n) => formatNumber(n, 2)) }
@@ -337,9 +333,9 @@ export function describirEvento(e: EventoXp, nombres: Readonly<Record<number, st
 
 /** Por qué un entreno no suma, en una frase. Con `hoy`, habla de hoy y de esta semana si el entreno es de ellas. */
 export function describirSinXp(s: EntrenoSinXp, hoy?: string): string {
-  if (s.motivo === 'pocas-series') return `${formatInt(s.series)} ${s.series === 1 ? 'serie efectiva' : 'series efectivas'}: suma a partir de ${formatInt(SERIES_MINIMAS)}`
-  if (s.motivo === 'otro-hoy') return s.fecha === hoy ? 'Hoy ya suma otro entreno' : 'Ese día ya sumaba otro entreno'
-  const tope = `${formatInt(s.tope ?? 0)} entrenos (tu plan y uno más)`
+  if (s.motivo === 'sin-series') return 'Sin series efectivas'
+  if (s.motivo === 'otro-hoy') return s.fecha === hoy ? 'Hoy suma otro entreno, el de más series' : 'Ese día sumaba otro entreno, el de más series'
+  const tope = `los ${formatInt(s.tope ?? 0)} entrenos de tu plan`
   return hoy !== undefined && startOfWeek(s.fecha) === startOfWeek(hoy) ? `Esta semana ya suman ${tope}` : `Esa semana ya sumaban ${tope}`
 }
 

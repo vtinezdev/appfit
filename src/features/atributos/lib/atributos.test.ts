@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest'
 import type { Comida, Entry, SetEntry, Workout } from '../../../shared/db/types'
 import { parseISODate } from '../../../shared/lib/dates'
 import {
-  calcularAtributos, costeNivel, describirEvento, describirSinXp, descansoActual, nivelDeXp, textoDescanso, tituloDe, xpDeSesion,
-  xpEntre, xpPorDia, type DatosAtributos, type EventoXp,
+  calcularAtributos, costeNivel, describirEvento, describirSinXp, entrenoHoy, nivelDeXp, textoEntrenoHoy, tituloDe, xpDeEntreno,
+  xpDeSesion, xpEntre, xpPorDia, type DatosAtributos, type EventoXp,
 } from './atributos'
 
 let siguienteId = 1
@@ -56,42 +56,74 @@ describe('curva de niveles y títulos', () => {
 })
 
 describe('entrenos', () => {
-  it('cuenta con 6 series efectivas: el calentamiento y las series no hechas no cuentan', () => {
-    const corto = entreno('2026-10-05', { series: 5, extra: [{ tipo: 'calentamiento' }, { realizada: false }] })
+  it('100 XP desde 6 series efectivas y la parte proporcional por debajo', () => {
+    expect([0, 1, 2, 3, 4, 5, 6, 12].map(xpDeEntreno)).toEqual([0, 17, 33, 50, 67, 83, 100, 100])
+  })
+
+  it('el calentamiento y las series no hechas no cuentan; con menos de 5 suma pero no cuenta para el plan', () => {
+    const corto = entreno('2026-10-05', { series: 4, extra: [{ tipo: 'calentamiento' }, { realizada: false }] })
     const r = calcularAtributos(datos([corto]))
+    expect(deTipo(r, 'entreno')).toEqual([expect.objectContaining({ workoutId: corto.workout.id, series: 4, xp: 67 })])
+    expect(r.entrenos).toEqual([])
+    expect(r.diasEntreno.size).toBe(0)
+    expect(describirEvento(r.eventos[0], {}).detalle).toBe('4 de 6 series efectivas · no cuenta para el plan')
+  })
+
+  it('con 5 series efectivas cuenta para el plan', () => {
+    const r = calcularAtributos(datos([entreno('2026-10-05', { series: 5 })]))
+    expect(deTipo(r, 'entreno').map((e) => e.xp)).toEqual([83])
+    expect(r.entrenos.map((e) => e.series)).toEqual([5])
+    expect(describirEvento(r.eventos[0], {}).detalle).toBe('5 de 6 series efectivas')
+  })
+
+  it('sin series efectivas no suma', () => {
+    const vacio = entreno('2026-10-05', { series: 0, extra: [{ tipo: 'calentamiento' }] })
+    const r = calcularAtributos(datos([vacio]))
     expect(r.total).toBe(0)
-    expect(r.sinXp).toEqual([{ workoutId: corto.workout.id, fecha: '2026-10-05', series: 5, motivo: 'pocas-series' }])
-    expect(describirSinXp(r.sinXp[0])).toBe('5 series efectivas: suma a partir de 6')
+    expect(r.sinXp).toEqual([{ workoutId: vacio.workout.id, fecha: '2026-10-05', series: 0, motivo: 'sin-series' }])
+    expect(describirSinXp(r.sinXp[0])).toBe('Sin series efectivas')
   })
 
-  it('el descanso acumulado multiplica: ×1 seguido, ×1,5 con un día y ×2 con dos o más', () => {
-    const r = calcularAtributos(datos([
-      entreno('2026-10-05'), // lunes: primero
-      entreno('2026-10-06'), // martes: sin descanso
-      entreno('2026-10-08'), // jueves: 1 día
-      entreno('2026-10-12'), // lunes: 3 días
-    ]))
-    expect(deTipo(r, 'entreno').map((e) => e.xp)).toEqual([100, 100, 150, 200])
-    expect(r.porAtributo.fuerza).toBe(550)
-    expect(describirEvento(r.eventos.find((e) => e.fecha === '2026-10-08')!, {}).detalle).toBe('6 series efectivas · 1 día de descanso: ×1,5')
+  it('el descanso no multiplica: cada entreno vale por sus series', () => {
+    const r = calcularAtributos(datos([entreno('2026-10-05'), entreno('2026-10-06'), entreno('2026-10-09')]))
+    expect(deTipo(r, 'entreno').map((e) => e.xp)).toEqual([100, 100, 100])
+    expect(describirEvento(r.eventos[0], {}).detalle).toBe('6 series efectivas')
   })
 
-  it('un entreno por día: el segundo no suma ni consume descanso', () => {
-    const r = calcularAtributos(datos([entreno('2026-10-05'), entreno('2026-10-07', { hora: 8 }), entreno('2026-10-07', { hora: 19 })]))
-    expect(deTipo(r, 'entreno').map((e) => e.xp)).toEqual([100, 150])
-    expect(r.sinXp.map((s) => s.motivo)).toEqual(['otro-hoy'])
-    expect(describirSinXp(r.sinXp[0], '2026-10-07')).toBe('Hoy ya suma otro entreno')
+  it('un entreno por día: suma el de más series, aunque sea el segundo', () => {
+    const corto = entreno('2026-10-07', { hora: 8, series: 3 })
+    const largo = entreno('2026-10-07', { hora: 19 })
+    const r = calcularAtributos(datos([corto, largo]))
+    expect(deTipo(r, 'entreno')).toEqual([expect.objectContaining({ workoutId: largo.workout.id, xp: 100 })])
+    expect(r.sinXp).toEqual([expect.objectContaining({ workoutId: corto.workout.id, motivo: 'otro-hoy' })])
+    expect(describirSinXp(r.sinXp[0], '2026-10-07')).toBe('Hoy suma otro entreno, el de más series')
+    const iguales = calcularAtributos(datos([entreno('2026-10-08', { hora: 8 }), entreno('2026-10-08', { hora: 19 })]))
+    expect(deTipo(iguales, 'entreno')).toHaveLength(1)
+    expect(iguales.sinXp.map((s) => s.motivo)).toEqual(['otro-hoy'])
   })
 
-  it('como mucho el plan + 1 por semana', () => {
+  it('por semana suman los entrenos del plan', () => {
     const semana = ['2026-10-05', '2026-10-06', '2026-10-07', '2026-10-08', '2026-10-09'].map((f) => entreno(f))
     const r = calcularAtributos(datos(semana))
-    expect(deTipo(r, 'entreno')).toHaveLength(4)
-    expect(r.sinXp).toEqual([expect.objectContaining({ fecha: '2026-10-09', motivo: 'tope-semana', tope: 4 })])
-    expect(describirSinXp(r.sinXp[0])).toBe('Esa semana ya sumaban 4 entrenos (tu plan y uno más)')
-    expect(describirSinXp(r.sinXp[0], '2026-10-11')).toBe('Esta semana ya suman 4 entrenos (tu plan y uno más)')
-    const conPlan = calcularAtributos(datos(semana, { planes: [{ desde: '2026-01-05', entrenos: 2, diasRegistro: 5 }] }))
-    expect(deTipo(conPlan, 'entreno')).toHaveLength(3)
+    expect(deTipo(r, 'entreno')).toHaveLength(3)
+    expect(r.sinXp).toEqual([
+      expect.objectContaining({ fecha: '2026-10-08', motivo: 'tope-semana', tope: 3 }),
+      expect.objectContaining({ fecha: '2026-10-09', motivo: 'tope-semana', tope: 3 }),
+    ])
+    expect(describirSinXp(r.sinXp[0])).toBe('Esa semana ya sumaban los 3 entrenos de tu plan')
+    expect(describirSinXp(r.sinXp[0], '2026-10-11')).toBe('Esta semana ya suman los 3 entrenos de tu plan')
+    const conPlan = calcularAtributos(datos(semana, { planes: [{ desde: '2026-01-05', entrenos: 4, diasRegistro: 5 }] }))
+    expect(deTipo(conPlan, 'entreno')).toHaveLength(4)
+  })
+
+  it('los entrenos cortos suman mientras quede plan, sin ocupar hueco', () => {
+    const r = calcularAtributos(datos([
+      entreno('2026-10-05', { series: 2 }), // corto: suma sin ocupar hueco
+      entreno('2026-10-06'), entreno('2026-10-07'), entreno('2026-10-08'), // completan el plan de 3
+      entreno('2026-10-09', { series: 2 }), // plan completo: no suma
+    ]))
+    expect(deTipo(r, 'entreno').map((e) => e.xp)).toEqual([33, 100, 100, 100])
+    expect(r.sinXp).toEqual([expect.objectContaining({ fecha: '2026-10-09', motivo: 'tope-semana' })])
   })
 
   it('ignora entrenos sin terminar y los posteriores a hoy', () => {
@@ -113,12 +145,12 @@ describe('entrenos', () => {
   })
 
   it('los récords se comparan también con entrenos que no sumaron XP', () => {
-    const r = calcularAtributos(datos([entreno('2026-10-05', { series: 3, peso: 70 }), entreno('2026-10-07', { peso: 65 })]))
+    const r = calcularAtributos(datos([entreno('2026-10-05', { hora: 8, series: 3, peso: 70 }), entreno('2026-10-05', { hora: 19 }), entreno('2026-10-07', { peso: 65 })]))
     expect(deTipo(r, 'record')).toEqual([]) // 65 kg no supera los 70 del entreno corto
   })
 
   it('un entreno que no suma tampoco da XP por sus récords', () => {
-    const r = calcularAtributos(datos([entreno('2026-10-05'), entreno('2026-10-05', { hora: 19, peso: 80 })]))
+    const r = calcularAtributos(datos([entreno('2026-10-05'), entreno('2026-10-05', { hora: 19, series: 4, peso: 80 })]))
     expect(deTipo(r, 'record')).toEqual([])
   })
 })
@@ -163,20 +195,24 @@ describe('semana cumplida', () => {
 
   it('la semana en curso informa de lo que lleva', () => {
     const r = calcularAtributos(datos(entrenos, { entries, hoy: '2026-10-08' }))
-    expect(r.semanaActual).toMatchObject({ lunes: '2026-10-05', entrenos: 2, diasRegistrados: 4, cumplida: false, entrenosQueSuman: 2, tope: 4 })
-    expect(xpEntre(r.eventos, '2026-10-05', '2026-10-11')).toBe(100 + 150 + 4 * 10)
+    expect(r.semanaActual).toMatchObject({ lunes: '2026-10-05', entrenos: 2, diasRegistrados: 4, cumplida: false, entrenosQueSuman: 2, tope: 3 })
+    expect(xpEntre(r.eventos, '2026-10-05', '2026-10-11')).toBe(2 * 100 + 4 * 10)
   })
 })
 
-describe('descanso, sesión y días', () => {
-  it('descansoActual: hoy, tope o multiplicador según los días sin entrenar', () => {
-    expect(textoDescanso(descansoActual(calcularAtributos(datos([])), '2026-10-31'))).toBe('Tu primer entreno sumará XP')
-    const r = calcularAtributos(datos([entreno('2026-10-05')], { hoy: '2026-10-08' }))
-    expect(descansoActual(r, '2026-10-08')).toEqual({ estado: 'listo', diasDescanso: 2, multiplicador: 2 })
-    expect(textoDescanso(descansoActual(r, '2026-10-08'))).toBe('2 días de descanso: el próximo entreno vale ×2')
-    expect(descansoActual(calcularAtributos(datos([entreno('2026-10-05')], { hoy: '2026-10-05' })), '2026-10-05')).toEqual({ estado: 'hoy' })
-    const semana = ['2026-10-05', '2026-10-06', '2026-10-07', '2026-10-08'].map((f) => entreno(f))
-    expect(descansoActual(calcularAtributos(datos(semana, { hoy: '2026-10-10' })), '2026-10-10')).toEqual({ estado: 'tope', tope: 4 })
+describe('hoy, sesión y días', () => {
+  it('entrenoHoy: ya suma uno, plan completo o los que quedan', () => {
+    expect(textoEntrenoHoy(entrenoHoy(calcularAtributos(datos([])), '2026-10-31'))).toBe('Quedan 3 entrenos del plan esta semana')
+    const r = calcularAtributos(datos([entreno('2026-10-05'), entreno('2026-10-06')], { hoy: '2026-10-08' }))
+    expect(entrenoHoy(r, '2026-10-08')).toEqual({ estado: 'listo', quedan: 1 })
+    expect(textoEntrenoHoy(entrenoHoy(r, '2026-10-08'))).toBe('Queda 1 entreno del plan esta semana')
+    expect(textoEntrenoHoy(entrenoHoy(calcularAtributos(datos([entreno('2026-10-05')], { hoy: '2026-10-05' })), '2026-10-05'))).toBe('Hoy ya suma un entreno')
+    expect(textoEntrenoHoy(entrenoHoy(calcularAtributos(datos([entreno('2026-10-05', { series: 3 })], { hoy: '2026-10-05' })), '2026-10-05')))
+      .toBe('Hoy suma un entreno de 3 series efectivas: otro con más series lo sustituye')
+    const semana = ['2026-10-05', '2026-10-06', '2026-10-07'].map((f) => entreno(f))
+    const llena = entrenoHoy(calcularAtributos(datos(semana, { hoy: '2026-10-10' })), '2026-10-10')
+    expect(llena).toEqual({ estado: 'tope', tope: 3 })
+    expect(textoEntrenoHoy(llena)).toBe('Plan de la semana completo: ya suman sus 3 entrenos')
   })
 
   it('xpDeSesion: XP del entreno y sus récords, y la subida de nivel', () => {
@@ -185,15 +221,15 @@ describe('descanso, sesión y días', () => {
     const r = calcularAtributos(datos([entreno('2026-10-05'), ultimo], { entries }))
     const s = xpDeSesion(r, ultimo.workout.id)
     expect(s.eventos.map((e) => e.tipo)).toEqual(['entreno', 'record', 'record'])
-    expect(s.total).toBe(150 + 50)
+    expect(s.total).toBe(100 + 50)
     expect(s.antes).toEqual({ nivel: 1, xpEnNivel: 400, xpSiguiente: 500 })
-    expect(s.despues).toEqual({ nivel: 2, xpEnNivel: 100, xpSiguiente: 530 })
-    const corto = entreno('2026-10-05', { series: 2 })
-    expect(xpDeSesion(calcularAtributos(datos([corto])), corto.workout.id)).toMatchObject({ total: 0, sinXp: { motivo: 'pocas-series' } })
+    expect(s.despues).toEqual({ nivel: 2, xpEnNivel: 50, xpSiguiente: 530 })
+    const vacio = entreno('2026-10-05', { series: 0 })
+    expect(xpDeSesion(calcularAtributos(datos([vacio])), vacio.workout.id)).toMatchObject({ total: 0, sinXp: { motivo: 'sin-series' } })
   })
 
   it('xpPorDia agrupa del más reciente al más antiguo, con los entrenos que no sumaron', () => {
-    const r = calcularAtributos(datos([entreno('2026-10-05'), entreno('2026-10-06', { series: 3 })], { entries: [comida('2026-10-05', 'cena')] }))
+    const r = calcularAtributos(datos([entreno('2026-10-05'), entreno('2026-10-06', { series: 0 })], { entries: [comida('2026-10-05', 'cena')] }))
     expect(xpPorDia(r).map((d) => [d.fecha, d.total, d.eventos.length, d.sinXp.length])).toEqual([['2026-10-06', 0, 0, 1], ['2026-10-05', 110, 2, 0]])
   })
 })

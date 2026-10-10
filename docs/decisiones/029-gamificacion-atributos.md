@@ -25,8 +25,8 @@ Tras una exploración de apps, juegos y estudios (plan y decisiones en `gaming.m
 - **Rachas autorizadas** cuando una función las necesite, siempre a partir de registros reales (no inventadas). Para el entreno, mejor semanales que diarias. El hilo de Ritmo es la única racha, y es semanal; la racha diaria de registro de Nutrición ya existía.
 - **Salvaguardas** para todo lo que venga:
   - Nada se gana ni se pierde por kcal, peso o déficit.
-  - Hay un techo en el plan: entrenar o registrar de más no suma (como mucho el plan + 1 entrenos por semana y uno por día).
-  - El descanso cuenta: multiplica el siguiente entreno (×1,5 con un día, ×2 con dos o más).
+  - Hay un techo en el plan: entrenar o registrar de más no suma (como mucho los entrenos del plan por semana y uno por día). El usuario se marca el plan y la XP de entreno llega hasta cumplirlo.
+  - Revisado el mismo día en que se publicó: el descanso ya no multiplica la XP (antes ×1,5 con un día y ×2 con dos o más) y el tope pasa de plan + 1 a plan. Víctor prefiere que el plan mande. Los entrenos cortos dan XP proporcional a sus series (100 desde 6) y cuentan para el plan desde 5.
   - Sin castigos: ni vidas, ni rojo, ni cuentas atrás.
   - Interruptores en Ajustes para ocultarlo todo y para excluir la nutrición.
   - Cada punto se explica con su porqué.

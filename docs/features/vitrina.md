@@ -20,7 +20,7 @@
 
 | Logro | Grupo | Niveles o tipo | Fuente |
 |---|---|---|---|
-| Entrenos | Entreno | 10 · 50 · 100 · 250 | entrenos de 6 series efectivas o más (también los que no sumaron XP por el tope) |
+| Entrenos | Entreno | 10 · 50 · 100 · 250 | entrenos de 5 series efectivas o más (también los que no sumaron XP por el tope) |
 | Coleccionista de récords | Entreno | 5 · 15 · 30 ejercicios distintos | récords de todos los entrenos terminados |
 | Atlas completo | Entreno | repetible | los 12 grupos como músculo principal en una misma semana |
 | Semanas cumplidas | Constancia | 4 · 12 · 26 · 52 | hitos de Ritmo |

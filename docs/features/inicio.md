@@ -18,7 +18,7 @@
 | Agua | `components/AccesoAgua` (tarjeta con vaso que se llena, `lib/agua.nivelVaso`; «−» quita la última toma y «+» suma 250 ml), `components/AguaSheet` (250/330/500/otra, quitar la última toma, últimos 7 días), `lib/agua.ts` (objetivo, validación, formato) | `aguaRepo` (tabla `agua`) |
 | Revisión semanal | `components/TarjetaRevisionSemanal` (tarjeta), `components/RevisionSemanal` (página modal, chunk diferido), `hooks/useRevisionSemanal` (lecturas), `lib/revisionSemanal.ts` (semanas, bloques y diferencias) | `entriesRepo`, `objetivosDiaRepo.objetivosPorFecha`, `pesosRepo`, `aguaRepo`, `workoutsRepo`, `setsRepo` y `exercisesRepo` (solo el detalle lee series y ejercicios); reutiliza `gym/lib/resumenSemanal`, `gym/lib/records`, `nutricion/lib/adherencia` y `ListaRecords` de Gym; `settings.revisionSemanalCerrada` |
 | Tu semana (Ritmo) | `components/AccesoSemana` | estado de `useAtributos` (lo lee `InicioTab` una vez para las dos tarjetas); `ritmo/components/DiasSemana`, `ritmo/lib/textos` |
-| Nivel (Atributos) | `components/AccesoNivel` | estado de `useAtributos` (todo el historial, solo lectura); `atributos/lib/atributos` (`nivelDeXp`, `tituloDe`, `descansoActual`) |
+| Nivel (Atributos) | `components/AccesoNivel` | estado de `useAtributos` (todo el historial, solo lectura); `atributos/lib/atributos` (`nivelDeXp`, `tituloDe`, `entrenoHoy`) |
 | Aviso de copia | `components/AvisoBackup` (banda con «Exportar ahora» y «Más tarde»), `shared/lib/recordatorioBackup.ts` | `shared/db/settings` (`ultimaExportacion`, `recordatorioBackupPospuesto`, `recordatorioBackupDias`) |
 
 ## Primer inicio en iPhone
