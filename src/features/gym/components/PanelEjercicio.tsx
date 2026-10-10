@@ -6,12 +6,16 @@ import { Input } from '../../../shared/components/Input'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import Sheet from '../../../shared/components/Sheet'
-import type { ConfiguracionEjecucion, Workout, ConfiguracionCarga, Exercise, Lado, ObjetivoEjercicio, SetEntry, TramoDropset } from '../../../shared/db/types'
+import type { ConfiguracionEjecucion, Workout, ConfiguracionCarga, Exercise, Lado, ObjetivoEjercicio, Routine, SetEntry, TramoDropset } from '../../../shared/db/types'
 import MenuSerie from './MenuSerie'
 import RirSheet from './RirSheet'
 import NotaEjercicio from './NotaEjercicio'
 import EjecucionEjercicio from './EjecucionEjercicio'
 import ProgresionEjercicio from './ProgresionEjercicio'
+import AvisoElite from '../../liga/components/AvisoElite'
+import LigaSheet from '../../liga/components/LigaSheet'
+import type { LigaEjercicio } from '../../liga/lib/liga'
+import type { Alternativa } from '../../liga/lib/alternativas'
 import CargaEjercicio, { cargaActual, textoCarga } from './CargaEjercicio'
 import { opcionesAgarre, textoAgarre, tieneReps } from '../lib/ejecucion'
 import type { CambioSerie } from '../data/setsRepo'
@@ -72,9 +76,11 @@ interface Props {
   onAviso?: (aviso: { mensaje: string; onDeshacer: () => Promise<void> }) => void
   contexto?: { workoutId: number; inicio: number; nota?: string; carga?: ConfiguracionCarga; onCarga: (carga: ConfiguracionCarga) => Promise<void>; workout?: Workout; ejecucion?: ConfiguracionEjecucion; onEjecucion?: (c: ConfiguracionEjecucion, habitual: boolean) => Promise<void>; onProgresion?: (clave: string, decision: 'aplicada' | 'mantener' | 'descartada') => Promise<void> }
   mover?: { puedeSubir: boolean; puedeBajar: boolean; onSubir: () => void; onBajar: () => void }
+  /** Liga del ejercicio antes de este entreno (sesión activa); `avisar` en Élite si no es básico ni mantenido. */
+  liga?: { estado: LigaEjercicio; avisar: boolean; hoy: string; mantenido: boolean; alternativas: Alternativa[]; sinRecords: number; rutinas: Routine[] }
 }
 
-type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | { serie: number } | { rir: number; lado?: Lado }
+type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | 'liga' | { serie: number } | { rir: number; lado?: Lado }
 const LADOS: { lado: Lado; letra: string; nombre: string }[] = [{ lado: 'izquierda', letra: 'I', nombre: 'izquierda' }, { lado: 'derecha', letra: 'D', nombre: 'derecha' }]
 
 /** Botón de ajuste del ejercicio en su cabecera: la variante común se ve sin abrir nada. */
@@ -101,7 +107,7 @@ function CeldaAnterior({ dato }: { dato?: TextoAnterior }) {
 }
 
 /** Panel de un ejercicio con sus series; lo comparten la sesión activa y el editor de entrenos terminados. */
-export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover }: Props) {
+export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga }: Props) {
   const actualizar = (id: number, cambio: CambioSerie) => { void Promise.resolve(onActualizar(id, cambio)).catch(() => {}) }
   const [hoja, setHoja] = useState<Hoja | null>(null)
   const despuesDelMenu = useRef<(() => void) | null>(null)
@@ -186,6 +192,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
       </div>}
       {conProgresion && <ProgresionEjercicio ejercicio={ejercicio} workout={contexto!.workout!} sets={sets} objetivo={objetivo} bloqueado={bloqueado}
         abierto={hoja === 'progresion'} onAbrir={() => setHoja('progresion')} onCerrar={() => setHoja(null)} onDecidir={contexto!.onProgresion!} />}
+      {liga?.avisar && <AvisoElite liga={liga.estado} nombre={ejercicio.nombre} disabled={bloqueado} onAbrir={() => setHoja('liga')} />}
 
       <div className="space-y-2">
         {sets.length > 0 && (
@@ -260,11 +267,13 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
       {contexto && hoja === 'nota' && <NotaEjercicio workoutId={contexto.workoutId} exerciseId={ejercicio.id} nombre={ejercicio.nombre} inicio={contexto.inicio} nota={contexto.nota} onClose={() => setHoja(null)} />}
       {contexto && hoja === 'carga' && <CargaEjercicio nombre={ejercicio.nombre} inicio={contexto.inicio} sets={sets} configuracion={contexto.carga} onGuardar={contexto.onCarga} onClose={() => setHoja(null)} />}
       {contexto?.onEjecucion && hoja === 'variante' && <EjecucionEjercicio open ejercicio={ejercicio} actual={ejecucion} onGuardar={contexto.onEjecucion} onClose={() => setHoja(null)} />}
+      {liga && <LigaSheet open={hoja === 'liga'} liga={liga.estado} ejercicio={ejercicio} hoy={liga.hoy} alternativas={liga.alternativas} mantenido={liga.mantenido} sinRecords={liga.sinRecords} rutinas={liga.rutinas} onClose={() => setHoja(null)} />}
       {menu && <Sheet open={hoja === 'menu'} onClose={() => setHoja(null)} title={ejercicio.nombre}
         onExited={() => { const accion = despuesDelMenu.current; despuesDelMenu.current = null; accion?.() }}>
         <ListGroup variante="plana" aria-label={`Opciones de ${ejercicio.nombre}`}>
           {contexto && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('nota'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">{contexto.nota ? 'Editar nota' : 'Añadir nota'}</span><span className="block break-words text-caption text-fg-muted">Solo de este ejercicio en esta sesión</span></span><Icon name="pencil" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {conProgresion && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('progresion'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">Progresión</span><span className="block break-words text-caption text-fg-muted">Objetivo y sugerencias</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
+          {liga && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('liga'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">Liga</span><span className="block break-words text-caption text-fg-muted">{liga.estado.division.nombre}</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeSubir} aria-label={`Subir ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onSubir)}><span className="text-body-sm font-semibold">Subir</span><Icon name="chevron-left" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeBajar} aria-label={`Bajar ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onBajar)}><span className="text-body-sm font-semibold">Bajar</span><Icon name="chevron-right" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}
           {onQuitar && <li><ListRow aria-label={`Quitar ${ejercicio.nombre} de este entreno`} onClick={() => elegirDelMenu(onQuitar)}><span className="min-w-0"><span className="block text-body-sm font-semibold text-destructive">Quitar de este entreno</span><span className="block break-words text-caption text-fg-muted">Con Deshacer; la rutina no cambia</span></span><Icon name="trash" size={18} className="shrink-0 text-destructive" /></ListRow></li>}

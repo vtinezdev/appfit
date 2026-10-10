@@ -6,6 +6,7 @@ import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import { calcularAtlas } from './atlas'
 import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, recuentoPiezas, siguienteUmbral } from './logros'
 import { describirMarca, muroRecords } from './muro'
+import { calcularVitrina } from './vitrina'
 
 let id = 1
 /** Ejercicio propio que trabaja una zona como principal (nombre inventado: no casa con el catálogo). */
@@ -71,12 +72,25 @@ describe('logros', () => {
     expect(conseguido(de('madrugador'))).toBe(false)
     expect(de('madrugador').progreso).toBe(1)
     // Entrenos I, Hilo I (4 semanas seguidas) y Descanso bien llevado (repetible: una pieza).
-    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 3, total: 4 + 3 + 1 + 4 + 4 + 3 })
+    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 3, total: 4 + 3 + 3 + 1 + 4 + 4 + 3 })
   })
 
   it('semanas cumplidas y logros del entreno con el que se consiguieron', () => {
     expect(de('semanas').progreso).toBe(3) // tres semanas con tres entrenos (sin nutrición)
     expect(logrosDeEntreno(logros, es[9].workout.id).map((n) => [n.logro.id, n.nivel])).toEqual([['entrenos', 1]])
+  })
+
+  it('ciclos completados: la primera llegada a Élite de cada ejercicio, con su entreno', () => {
+    // 16 semanas seguidas con dos ejercicios; el segundo, una semana más tarde.
+    const remo = ejercicio('espalda').id
+    const semanas = Array.from({ length: 17 }, (_, k) => entreno(addDays('2026-05-04', 7 * k), [...seis(banca, 40).slice(0, 3), ...(k > 0 ? seis(remo, 40).slice(0, 3) : [])]))
+    const v = calcularVitrina({ hoy: '2026-10-10', atributos: calcularAtributos({ hoy: '2026-10-10', workouts: semanas.map((e) => e.workout), sets: semanas.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false }),
+      workouts: semanas.map((e) => e.workout), sets: semanas.flatMap((e) => e.sets), exercises: [], entries: [], categorias: new Map(), conNutricion: false })
+    const ciclos = v.logros.find((l) => l.id === 'ciclos')!
+    expect(nivelDe(ciclos)).toBe(1)
+    expect(ciclos.niveles[0]).toEqual({ fecha: '2026-08-17', workoutId: semanas[15].workout.id })
+    expect(ciclos.progreso).toBe(2)
+    expect(ciclos.descripcion).toBe('Llegar a Élite de la Liga con 5 ejercicios distintos')
   })
 
   it('vuelta al ruedo tras 14 días o más sin entrenar', () => {

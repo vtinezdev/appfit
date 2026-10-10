@@ -280,6 +280,8 @@ export interface Settings {
   gamificacionConNutricion?: boolean
   /** Pausas declaradas de Ritmo (vacaciones, enfermedad, lesión…), ordenadas por `desde`. */
   pausas?: Pausa[]
+  /** Ejercicios (`Exercise.id`) que el usuario mantiene en Élite de la Liga: no avisan durante el entreno. */
+  ligaMantener?: number[]
 }
 
 export type TipoPausa = 'total' | 'entreno'

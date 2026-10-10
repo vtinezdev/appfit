@@ -13,6 +13,6 @@ export function useVitrina(hoy: string): EstadoVitrina | undefined {
     if (!estado.visible) return estado
     const { workouts, sets, exercises, entries } = estado.datos
     const categorias = estado.conNutricion ? await foodsRepo.categoriasDeEntradas(entries) : new Map<string, string>()
-    return { ...estado, vitrina: calcularVitrina({ hoy, atributos: estado.resultado, workouts, sets, exercises, entries, categorias, conNutricion: estado.conNutricion }) }
+    return { ...estado, vitrina: calcularVitrina({ hoy, atributos: estado.resultado, workouts, sets, exercises, entries, categorias, conNutricion: estado.conNutricion, pausas: estado.pausas }) }
   }, [hoy])
 }

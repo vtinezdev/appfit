@@ -1088,3 +1088,95 @@ Víctor pide que un entreno con menos de 6 series efectivas dé experiencia (men
 - **Textos**: `descansoActual`/`textoDescanso` pasan a `entrenoHoy`/`textoEntrenoHoy` («Quedan 2 entrenos del plan esta semana»), en Inicio y en Atributos. «Cómo se gana XP», Ajustes, Ritmo y la Vitrina toman los umbrales de las constantes.
 
 **Verificación:** `npm run test` (1.775 tests, 127 archivos) y `npm run build` en verde. Sin prueba en navegador ni en iPhone (solo cambian textos de la UI). Commit, PR y merge a petición de Víctor.
+
+## 103. Liga por ejercicio: decisiones y lógica (2026-10-10)
+
+Víctor pide planificar la Liga por ejercicio de `gaming.md` y decide: Élite a las 16 semanas (no 13), bajada gradual, variantes como el mismo ejercicio, «Mantener» en todos los ejercicios y básicos sin aviso, sin XP (solo logros) y todo dentro de Entreno (Progreso, sin destino en Más). Acepta la lista de básicos propuesta. Plan por fases en `gaming.md` y [ADR 030](decisiones/030-liga-por-ejercicio.md).
+
+- **Fase 1, solo lógica** (`src/features/liga/lib`, sin pantallas):
+  - `liga.ts`: semanas con cada ejercicio (primera sesión de la semana y último día), evolución semana a semana (sube una división; la primera semana sin él no cuenta y desde la segunda baja una; las pausas de Ritmo congelan; la semana en curso no baja), `divisionDe` (5 ligas × 3 divisiones y Élite), racha, fantasma, ascensos de un entreno y ciclos.
+  - `basicos.ts`: sentadilla, press banca, peso muerto, press militar, dominadas y remo con barra; `avisarElite`.
+- **Elegido por mí**: una semana cuenta con una serie efectiva con repeticiones (`tieneReps`, para los lados distintos); la racha la rompen dos semanas seguidas sin el ejercicio; el fantasma es el pico de las rachas anteriores, con el último día en que se alcanzó; el ascenso lo da la primera sesión de la semana por hora de inicio.
+- Documentos: `docs/features/liga.md`, ADR 030, `arquitectura.md`, `CLAUDE.md` (mapa) y `gaming.md`.
+
+**Verificación:** 22 tests nuevos; `npm run test` (1.797 tests, 128 archivos) y `npm run build` en verde. Unos 20 ms con 500 entrenos y 12.500 series en escritorio. Sin prueba en navegador: no hay interfaz. Sin commit ni push.
+
+## 104. Liga por ejercicio: Entreno › Progreso (2026-10-10)
+
+Fase 2 de la Liga, con el visto bueno de Víctor.
+
+- **Lista** (`liga/components/LigasLista`): en Progreso, sin ejercicio elegido, sustituye a «Elige un ejercicio». Grupos de Élite a Bronce (`agruparPorLiga`), cada ejercicio con su racha o «Sin hacerlo desde…» y su división; «Sin liga ahora» y «Cómo funciona la liga» en desplegables. Tocar uno lo elige en Progreso.
+- **Bloque** (`BloqueLiga`): entre la cabecera del ejercicio y la gráfica (o antes de «Aún sin sesiones terminadas»), una card con la división, la barra hacia Élite en grafito, qué pasa ahora (`textoSiguiente`), racha, pico anterior, veces en Élite y «Ver todas las ligas».
+- **Lecturas**: `liga/hooks/useLigas` (entrenos terminados, todas las series y ajustes). Con la gamificación oculta, Progreso queda como antes.
+- **Lógica nueva**: `semanasSin` y `hechaEstaSemana` en cada liga y `lib/textos.ts`.
+- **Elegido por mí**:
+  - elegir desde la lista devuelve el foco al selector de ejercicio (`Select` acepta ahora `ref`), que sube la vista y anuncia el ejercicio;
+  - en Élite el texto no repite las semanas (ya están en «Racha»); en los básicos, «Es un ejercicio básico: es habitual mantenerlo mucho tiempo», sin decir «recomendable» hasta tener fuente;
+  - mientras cargan las ligas no se muestra el estado vacío, para que no parpadee.
+- Documentos: `liga.md`, `gym.md`, `DESIGN-SYSTEM.md` (Progreso y `Select`), `arquitectura.md` y `gaming.md`.
+
+**Verificación:** `npm run test` (1.803 tests, 129 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos (seis ejercicios: dos en Élite, uno básico, uno bajando, uno con la semana de gracia y uno sin liga): 320/375/430 px en claro y oscuro, 375 con texto al 200 % y Reducir movimiento, y la gamificación oculta. 114 comprobaciones, todas bien: grupos y orden, desplegables, foco al elegir, bloque encima de la gráfica, textos de Élite, básico y bajada, volver a la lista, selector, sin scroll horizontal, botones ≥ 44 px y sin errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 105. Liga por ejercicio: entreno activo y fin de sesión (2026-10-10)
+
+Fase 3 de la Liga.
+
+- **Entreno activo**: `EntrenoActivo` calcula la liga de cada ejercicio con lo que ya lee (`liga/hooks/useLigasSesion`: solo recalcula si cambian los entrenos terminados, sus series o las pausas, no a cada toque) y la pasa a `PanelEjercicio`:
+  - en Élite y si no es básico, `AvisoElite` bajo los botones de ajuste, con la forma de la sugerencia de progresión: «Élite: llevas 17 semanas seguidas con este ejercicio»;
+  - fila «Liga» con la división en el menú «…»;
+  - `LigaSheet`: lo mismo que la card de Progreso (ahora `DetalleLiga`, compartido), «Este entreno cuenta al terminarlo» y «Cómo funciona la liga».
+- **Fin de sesión**: `AscensosLiga` entre «Experiencia» y «Nuevo en la Vitrina», con los ascensos del entreno (`ascensosDeEntreno`). Los cambios de liga y Élite van a la vista; las subidas dentro de la misma liga, en un desplegable (`ascensoDestacado`).
+- **Elegido por mí**:
+  - la liga del entreno activo es la de antes de esa sesión, y la hoja lo dice;
+  - el aviso no aparece en el editor del historial, solo en la sesión activa;
+  - en el fin de sesión, para no repetir cada lunes una fila por ejercicio, solo los cambios de liga van a la vista;
+  - icono `rank` para la Liga (la Vitrina usa `trophy`).
+- Documentos: `liga.md`, `gym.md`, `DESIGN-SYSTEM.md`, `arquitectura.md` y `gaming.md`.
+
+**Verificación:** `npm run test` (1.805 tests, 129 archivos) y `npm run build` en verde. El recorrido de §104, ampliado con un entreno activo de cinco ejercicios (uno en Élite, uno básico en Élite, uno en Diamante I sin hacer esta semana, uno bajando y uno sin liga) y su cierre, en Edge sin interfaz, 320/375/430 px en claro y oscuro y 375 con texto al 200 %: 198 comprobaciones, todas bien. Solo avisa el ejercicio en Élite que no es básico; el aviso y el menú abren la hoja; al terminar, «Entra en la liga», «Llega a Élite» y la subida de Platino III a Platino II en el desplegable, sin los ejercicios que ya contaban esa semana; sin scroll horizontal, botones ≥ 44 px y sin errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 106. Liga por ejercicio: alternativas y «Mantener» (2026-10-10)
+
+Fase 4 de la Liga.
+
+- **Alternativas** (`liga/lib/alternativas.ts`): hasta 5 ejercicios del catálogo o propios con el mismo músculo principal, sin el propio ni los que están en Élite. Orden: división más baja; a igualdad, los ya hechos alguna vez, los del mismo material y el orden del catálogo. Cada una con su estado: «Nunca lo has hecho», «Sin liga ahora» o la división.
+- **«Mantener»** (`liga/data/ligaRepo.ts`, `Settings.ligaMantener`, opcional y sin versión, como `pausas`): el ejercicio deja de avisar en el entreno; «Volver a avisar» lo deshace.
+- **Pantalla** (`components/VariarElite`, en la card de Progreso y en la hoja del entreno activo, solo en Élite):
+  - «Si te apetece variar» con las alternativas (miniatura, nombre y «Bíceps · barra · Nunca lo has hecho»);
+  - «Mantener este ejercicio» o, si ya lo está, «Volver a avisar», con su consecuencia y errores en línea;
+  - en los básicos, sin «Mantener» y con las alternativas en el desplegable «Si aun así quieres variar».
+- **Elegido por mí**:
+  - las alternativas son información, no un botón de sustituir: para cambiar, se añade el ejercicio al entreno o a la rutina (sustituir en la rutina queda como opcional de la fase 5);
+  - entre las de liga baja van primero las ya hechas alguna vez (técnica conocida) y luego las nuevas;
+  - «Mantener» no lleva Toast con Deshacer: es un interruptor y «Volver a avisar» queda en el mismo sitio;
+  - el texto de los básicos sigue siendo descriptivo; no he buscado fuente para decir «recomendable».
+- Documentos: `liga.md`, `datos.md`, `DESIGN-SYSTEM.md`, `arquitectura.md`, ADR 030 y `gaming.md`.
+
+**Verificación:** `npm run test` (1.809 tests, 131 archivos) y `npm run build` en verde. El recorrido de §105, ampliado con las alternativas (en la hoja y en Progreso), «Mantener» (se guarda `[2]` en ajustes y desaparece el aviso), «Volver a avisar» (vuelve el aviso) y el básico sin «Mantener», en Edge sin interfaz, 320/375/430 px en claro y oscuro y 375 con texto al 200 %: 254 comprobaciones, todas bien, con botones ≥ 44 px también en la hoja. Capturas revisadas: la etiqueta «Si te apetece variar» salía con estilo de título dentro de la hoja y pasó a un `h3` de etiqueta. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 107. Cumbres: decisión y motor (2026-10-10)
+
+Víctor pide afinar Cumbres sin implementarla. Se comparan alternativas a subir una montaña (Caminos, Constelaciones y Temporadas) y se hacen maquetas de Cumbres y Caminos lado a lado: https://claude.ai/artifact/7RYQxMtyxzXcNszPEynA9M (privado de Víctor).
+
+- **Decisión de Víctor**: las dos, por partes. Ahora Cumbres; Caminos cuando AppFit registre caminatas, carreras u otra actividad con distancia, y con kilómetros reales.
+- **Propuesta para Cumbres, pendiente de confirmar**: montañas reales sin plazo, del mar a la cumbre, hitos cada 1.000 m, una sola tarjeta en Inicio (en lugar de la de Nivel) y arranque al elegir la primera montaña.
+- **Motor**: Víctor no descarta la XP, pero pide alternativas de entreno y nutrición. Recogidas en `gaming.md` (XP, plan cumplido, semanas de Ritmo, fuerza real y series por grupo); recomiendo «plan cumplido». Después Víctor pregunta por recuperar los víveres: añadida la variante «etapas y víveres» (la etapa sin víveres queda preparada y se completa al registrar, sin perderse). **Víctor elige etapas y víveres**, con 800 m por semana de plan y medio víver los días con una sola comida; se implementará más adelante.
+- Documentos: `gaming.md` (sección Cumbres reescrita) y `roadmap.md`.
+
+**Verificación:** solo documentación y un artifact; sin cambios de código. Commit de la documentación de Cumbres a petición de Víctor, sin push.
+
+## 107. Liga por ejercicio: Vitrina, sin récords y «Usar» en la rutina (2026-10-10)
+
+Fase 5 y cierre de la Liga («termina lo que quede»).
+
+- **Vitrina**: logro «Ciclos completados» (Entreno, 1 · 5 · 10 ejercicios distintos que llegan a Élite), retroactivo con la fecha y el entreno de la primera llegada de cada ejercicio (`liga/lib/liga.primerosCiclos`; `LigaEjercicio.ciclos` pasa a guardar también el entreno). `calcularVitrina` recibe las pausas. 30 piezas (22 sin nutrición).
+- **Sin récords**: `liga/lib/estancamiento.sesionesSinRecord` (la detección de `gym/lib/records`, solo el ejercicio). En Élite, si no es básico ni mantenido y lleva 4 sesiones o más seguidas sin récord, el texto lo dice. En el entreno se calcula dentro de `useLigasSesion`, con la misma caché.
+- **«Usar» en la rutina**: `gym/lib/rutinas.sustituirEnRutina` (puro: mismo lugar y mismo objetivo; error si ya está) y `routinesRepo.sustituirEjercicio` (transacción sobre rutinas y ejercicios; crea el del catálogo con `resolverSeleccion`) y `restaurar`. En `VariarElite`, cada alternativa lleva «Usar» si el ejercicio está en una rutina: en el entreno, la de la sesión («Este entreno no cambia»); en Progreso, las que lo incluyen, con selector si son varias. Lo hecho, en una línea con «Deshacer» en línea.
+- **Elegido por mí**:
+  - descartado «Explorador» (logro por probar 3 ejercicios nuevos), que el plan dejaba como opcional: empujaría a cambiar por cambiar;
+  - el umbral de 4 sesiones sin récord y que el aviso de la cabecera no lo repita (solo el texto de la card y de la hoja);
+  - «Usar» no pide confirmación: es una edición con «Deshacer», no un borrado.
+- **Corregido de paso**: el README aún decía que el descanso multiplica la XP (retirado en §102).
+- Documentos: `liga.md`, `vitrina.md`, `gym.md`, `datos.md`, `DESIGN-SYSTEM.md`, `arquitectura.md`, ADR 030, `roadmap.md`, `README.md` y `gaming.md`.
+
+**Verificación:** `npm run test` (1.817 tests, 133 archivos) y `npm run build` en verde. El recorrido de §106, ampliado con una rutina en la sesión y un curl sin récords en 16 sesiones, en Edge sin interfaz, 320/375/430 px en claro y oscuro y 375 con texto al 200 %: 284 comprobaciones, todas bien. Entre ellas: el texto de sin récords; cinco «Usar» en Progreso; en la hoja, «Usar» cambia la rutina con su objetivo y «Deshacer» la devuelve; y la Vitrina muestra «Ciclos completados» con «2 de 5 ejercicios». Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.

@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import type { InputHTMLAttributes, Ref, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
 import { useCampoDecimal } from '../hooks/useCampoDecimal'
 import Icon from './Icon'
 
@@ -41,6 +41,7 @@ export function Textarea({ tone, className = '', ...rest }: TextareaHTMLAttribut
   return <textarea className={`${field({ tone }, false, className)} ${className}`} {...rest} />
 }
 
-export function Select({ tone, className = '', ...rest }: SelectHTMLAttributes<HTMLSelectElement> & FieldProps) {
+/** React 19: `ref` apunta al select real (p. ej. para devolverle el foco). */
+export function Select({ tone, className = '', ...rest }: SelectHTMLAttributes<HTMLSelectElement> & FieldProps & { ref?: Ref<HTMLSelectElement> }) {
   return <select className={`${field({ tone }, true, className)} ${className}`} {...rest} />
 }

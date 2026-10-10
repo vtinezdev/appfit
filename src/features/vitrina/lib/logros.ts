@@ -75,6 +75,8 @@ export interface DatosLogros {
   atlas: Atlas
   herbario: readonly SemanaHerbario[]
   conNutricion: boolean
+  /** Primera llegada a Élite de la Liga de cada ejercicio, en orden (`liga/lib/liga.primerosCiclos`). */
+  ciclos?: readonly Conseguido[]
 }
 
 export const UMBRALES = {
@@ -84,6 +86,7 @@ export const UMBRALES = {
   records: [5, 15, 30],
   dias: [30, 100, 200, 365],
   proteina: [30, 100, 200],
+  ciclos: [1, 5, 10],
 } as const
 
 /** Entrenos antes de las 8:00 para «Madrugador», días sin entrenar para «Vuelta al ruedo» y descansos para «Descanso bien llevado». */
@@ -114,6 +117,8 @@ export function calcularLogros(d: DatosLogros): Logro[] {
   }
   conNiveles({ id: 'records', nombre: 'Coleccionista de récords', grupo: 'entreno', unidad: 'ejercicios' }, UMBRALES.records, ejerciciosConRecord,
     (n) => `Récord personal en ${formatInt(n)} ejercicios distintos`)
+  conNiveles({ id: 'ciclos', nombre: 'Ciclos completados', grupo: 'entreno', unidad: 'ejercicios' }, UMBRALES.ciclos, [...(d.ciclos ?? [])],
+    (n) => n === 1 ? 'Llegar a Élite de la Liga con un ejercicio' : `Llegar a Élite de la Liga con ${formatInt(n)} ejercicios distintos`)
   logros.push({
     id: 'atlas', nombre: 'Atlas completo', grupo: 'entreno', niveles: [],
     descripcion: 'Los 12 grupos musculares trabajados como principal en una misma semana',
