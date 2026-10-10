@@ -9,6 +9,10 @@ import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { ListaRecords } from '../../gym/components/WorkoutFinished'
 import { formatDuracion } from '../../gym/lib/workout'
 import { useRevision } from '../hooks/useRevisionSemanal'
+import { useAtributos } from '../../atributos/hooks/useAtributos'
+import { semanaRitmo } from '../../ritmo/lib/ritmo'
+import { cifrasSemana, textoEstado, textoHilo } from '../../ritmo/lib/textos'
+import Card from '../../../shared/components/Card'
 import { formatAgua, partesAgua } from '../lib/agua'
 import { formatDiferencia, semanaARevisar, type Revision } from '../lib/revisionSemanal'
 
@@ -43,6 +47,8 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose }: P
   const [lunes, setLunes] = useState(lunesInicial)
   const ultima = semanaARevisar(hoy).lunes
   const revision = useRevision(lunes, hoy)
+  const atributos = useAtributos(hoy)
+  const ritmo = atributos?.visible ? semanaRitmo(atributos.resultado.ritmo, lunes) : undefined
   const cargada = revision?.semana.lunes === lunes ? revision : undefined
 
   return (
@@ -55,7 +61,14 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose }: P
         </div>
         {!cargada ? <LoadingState /> : !cargada.hayDatos ? (
           <EmptyState title="Sin registros esta semana">Las comidas, pesajes, entrenos y el agua de la semana aparecerán aquí.</EmptyState>
-        ) : <Contenido revision={cargada} />}
+        ) : <>
+          {ritmo && <Card tone="muted" className="space-y-1">
+            <p className="text-label text-fg-muted">Ritmo</p>
+            <p className="text-title text-fg">{textoEstado(ritmo)}</p>
+            <p className="tabular break-words text-body-sm text-fg-muted">{cifrasSemana(ritmo)} · {textoHilo(ritmo.hilo).toLocaleLowerCase('es')}</p>
+          </Card>}
+          <Contenido revision={cargada} />
+        </>}
       </div>
     </ModalPage>
   )

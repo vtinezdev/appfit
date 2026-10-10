@@ -8,6 +8,7 @@ import { todayISO } from '../shared/lib/dates'
 import * as perfilRepo from '../features/perfil/data/perfilRepo'
 import { actualizarObjetivoHoy } from '../features/perfil/data/objetivosDiaRepo'
 import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
+import AtributosAjustes from '../features/atributos/components/AtributosAjustes'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { ErrorState, LoadingState } from '../shared/components/StateMessage'
 import Button from '../shared/components/Button'
@@ -180,6 +181,8 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
           opciones={[{ valor: 'si', label: 'Preguntar RIR' }, { valor: 'no', label: 'No preguntar' }]} />
         <p className="text-caption text-fg-muted">Al marcar una serie se abre el selector de repeticiones en reserva. Siempre puedes anotarlo tocando su celda.</p>
       </section>
+
+      <AtributosAjustes settings={settings} onError={setErrorObjetivos} />
 
       <section ref={backupRef} tabIndex={-1} aria-label="Backup" className="scroll-mt-6 space-y-stack">
         <SectionHeader variant="section">Copias de seguridad</SectionHeader>

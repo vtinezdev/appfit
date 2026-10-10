@@ -22,6 +22,11 @@ export function addDays(iso: string, days: number): string {
   return toISODate(d)
 }
 
+/** Días naturales de `desde` a `hasta` (negativo si `hasta` es anterior). Redondea para no depender del cambio de hora. */
+export function diasEntre(desde: string, hasta: string): number {
+  return Math.round((parseISODate(hasta).getTime() - parseISODate(desde).getTime()) / 86_400_000)
+}
+
 /** Lunes de la semana que contiene `iso` (semana lunes-domingo). */
 export function startOfWeek(iso: string): string {
   const d = parseISODate(iso)

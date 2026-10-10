@@ -272,6 +272,39 @@ export interface Settings {
   aguaObjetivoMl?: number
   /** Lunes (YYYY-MM-DD) de la última semana cuya revisión se cerró en Inicio. */
   revisionSemanalCerrada?: string
+  /** Plan semanal por tramos (`ritmo/lib/plan.ts`). Ausente = plan por defecto. */
+  planSemanal?: TramoPlanSemanal[]
+  /** Atributos, Ritmo y Vitrina en Inicio, Más y al terminar un entreno (por defecto sí). */
+  gamificacionVisible?: boolean
+  /** La nutrición cuenta en Atributos, Ritmo y Vitrina: registro de comidas, proteína y plantas (por defecto sí). */
+  gamificacionConNutricion?: boolean
+  /** Pausas declaradas de Ritmo (vacaciones, enfermedad, lesión…), ordenadas por `desde`. */
+  pausas?: Pausa[]
+}
+
+export type TipoPausa = 'total' | 'entreno'
+export type MotivoPausa = 'vacaciones' | 'enfermedad' | 'lesion' | 'viaje' | 'otro'
+
+/** Pausa de Ritmo: congela el hilo. `total` o solo de entreno (la semana se juzga con la nutrición). */
+export interface Pausa {
+  /** Identificador estable para borrar o terminar una pausa concreta. */
+  id: string
+  /** YYYY-MM-DD, ambos incluidos. Sin `hasta`, la pausa sigue en curso. */
+  desde: string
+  hasta?: string
+  tipo: TipoPausa
+  motivo: MotivoPausa
+}
+
+/** Lo que hace «cumplida» una semana: entrenos y días con comidas registradas. */
+export interface PlanSemanal {
+  entrenos: number
+  diasRegistro: number
+}
+
+/** Plan que rige desde el lunes `desde` (YYYY-MM-DD). Las semanas anteriores al primer tramo usan el primero. */
+export interface TramoPlanSemanal extends PlanSemanal {
+  desde: string
 }
 
 export interface Exercise {

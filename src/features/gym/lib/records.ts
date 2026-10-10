@@ -23,18 +23,34 @@ export interface RecordEjercicio {
 
 const validas = (s: Serie) => esEfectiva(s) && convencional(s) && repsComparables(s) > 0 && (s.ejecucion !== 'lados' || partesTramo(s).every(p => p.peso === partesTramo(s)[0].peso)) && (modoCarga(s) === 'externa' ? s.peso > 0 : s.peso >= 0)
 
+/** Series comparables agrupadas por ejercicio y variante (clave de `claveComparacion`), con reps y kg normalizados. */
+export type GruposComparables = Map<string, Serie[]>
+
+const claveGrupo = (s: Serie) => `${s.exerciseId}:${claveComparacion(s)}`
+
+/** Añade a `grupos` las series válidas de `series`, ya normalizadas. Agrupa en su sitio: copiar arrays lo haría cuadrático. */
+export function acumularComparables(grupos: GruposComparables, series: Serie[]): GruposComparables {
+  for (const s of series.filter(validas).map(s => ({ ...s, reps: repsComparables(s), peso: s.ejecucion === 'unilateral' && s.kgUnilateral === 'total' ? s.peso : pesoComparable(s) }))) {
+    const k = claveGrupo(s)
+    const grupo = grupos.get(k)
+    if (grupo) grupo.push(s)
+    else grupos.set(k, [s])
+  }
+  return grupos
+}
+
 /**
  * Récords de una sesión frente a las series de entrenos ANTERIORES. Solo series efectivas con reps y peso positivos.
  * Un ejercicio sin historial previo no genera récords (no hay con qué comparar). Las repeticiones solo se comparan
  * con un peso que ya se había usado antes; los pesos nuevos más altos aparecen como récord de peso.
  */
 export function detectarRecords(setsSesion: Serie[], setsAnteriores: Serie[]): RecordEjercicio[] {
-  const clave = (s: Serie) => `${s.exerciseId}:${claveComparacion(s)}`
-  const previas = new Map<string, Serie[]>()
-  for (const s of setsAnteriores.filter(validas).map(s => ({ ...s, reps: repsComparables(s), peso: s.ejecucion === 'unilateral' && s.kgUnilateral === 'total' ? s.peso : pesoComparable(s) }))) previas.set(clave(s), [...(previas.get(clave(s)) ?? []), s])
-  const actuales = new Map<string, Serie[]>()
-  for (const s of setsSesion.filter(validas).map(s => ({ ...s, reps: repsComparables(s), peso: s.ejecucion === 'unilateral' && s.kgUnilateral === 'total' ? s.peso : pesoComparable(s) }))) actuales.set(clave(s), [...(actuales.get(clave(s)) ?? []), s])
+  return recordsFrenteA(setsSesion, acumularComparables(new Map(), setsAnteriores))
+}
 
+/** Como `detectarRecords`, con el historial ya agrupado (`acumularComparables`): para recorrer muchos entrenos seguidos. */
+export function recordsFrenteA(setsSesion: Serie[], previas: ReadonlyMap<string, Serie[]>): RecordEjercicio[] {
+  const actuales = acumularComparables(new Map(), setsSesion)
   const records: RecordEjercicio[] = []
   for (const [key, ahora] of actuales) {
     const exerciseId = ahora[0].exerciseId, modo = modoCarga(ahora[0])

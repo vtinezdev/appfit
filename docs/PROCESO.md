@@ -1008,3 +1008,66 @@ Víctor pide que el mapa de calor corporal deje el marrón-naranja y vaya de un 
 - **Rojo de borrar**: la rampa comparte familia con `destructive`; se acepta porque el mapa no es un aviso y siempre lleva niveles en texto. `DESIGN.md`, `DESIGN-SYSTEM.md`, `features/gym.md` y ADR 015 lo recogen.
 
 **Verificación:** `contrast.test.ts` en verde (texto del calendario sobre cada nivel ≥ 4,5:1 en ambos temas). `npm run test` y `npm run build` en verde. Edge con `playwright-core` fuera del repo, el Vite ya abierto en 5173 y `appfit-test.localhost` con datos sintéticos: póster al terminar, lista de grupos y calendario del Historial a 375 px en claro y oscuro. Sin prueba en iPhone. Sin commit ni push.
+
+## 99. Exploración de gamificación (2026-10-10)
+
+Víctor pide investigar cómo gamificar AppFit, sin implementar nada: apps y videojuegos de referencia, propuestas, reglas de progresión y un artifact para compararlas.
+
+- **Artifact** (privado de Víctor): https://claude.ai/artifact/4KYsAz8G3ss1WhV1E1no6a. Investigación de 27 apps y juegos y 11 estudios con fuentes, seis propuestas (Atributos, Liga fantasma, Tablón, Ritmo, Vitrina y Cumbres), maquetas con los tokens y piezas de AppFit, simulador de semana y evaluación con pesos.
+- **Decisión de Víctor**: Atributos, Ritmo y Vitrina; Liga fantasma reinterpretada como una liga por ejercicio y Cumbres como sistema global, por concretar; rachas autorizadas si alguna función las necesita. Recogido en `gaming.md` (raíz) y enlazado desde el roadmap.
+- Sin cambios de código ni de esquema. `DESIGN.md`, `PRODUCT.md` y ADR 021 siguen diciendo «sin rachas»: el ADR que los revise llega con la implementación.
+
+**Verificación:** el artifact se probó fuera del repo en Edge sin interfaz (perfil temporal): todas las pestañas, las 288 combinaciones de maqueta (escenario × tema × ancho) y las semanas de ejemplo del simulador, sin errores ni scroll horizontal a 1280 y 390 px. Sin commit ni push.
+
+## 100. Atributos: nivel y XP (2026-10-10)
+
+Víctor pide aplicar la parte de Atributos de `gaming.md`, solo eso por ahora (Vitrina y Ritmo después; Liga y Cumbres en otras sesiones), e implementar lo que haga falta de Ritmo.
+
+- **Decisión**: [ADR 029](decisiones/029-gamificacion-atributos.md), que recoge las salvaguardas y la autorización de rachas. `DESIGN.md`, `PRODUCT.md` y ADR 021 se actualizan en consecuencia.
+- **Lógica pura**: `features/atributos/lib/atributos.ts` (XP derivada del historial, nivel, títulos, descanso y textos) y `features/ritmo/lib/plan.ts` (plan semanal por tramos y semana cumplida), con sus tests. Los parámetros son los de `gaming.md`; los títulos que faltaban (25 Curtido, 35 Experto, 40 Maestro, 45 Referente) y «Recién llegado» para los niveles 1–4 los elijo yo. Decisiones tomadas sin preguntar, porque Víctor no las contestó: plan por defecto 3 entrenos y 5 días, XP retroactiva (todo el historial cuenta), nutrición incluida con interruptor, y las tres pantallas exploradas (tarjeta en Inicio, página en Más y bloque al terminar), sin «Maestría muscular».
+- **Datos**: solo campos opcionales de `Settings` (`planSemanal`, `gamificacionVisible`, `gamificacionConNutricion`). Sin versión de Dexie ni de backup. «Series efectivas» usa `esEfectiva`, así que el historial anterior a la confirmación de series cuenta.
+- **UI**: `AtributosTab` (Más, diferida), `inicio/components/AccesoNivel`, `atributos/components/XpSesion` bajo los récords del fin de sesión (`WorkoutSummary.workoutId`) y `AtributosAjustes` en Ajustes. Destino `atributos` en `DESTINOS`/`EN_MAS`, icono `rank` y `BottomNav.ocultos`.
+- **Rendimiento**: la primera versión tardaba unos 900 ms con un historial sintético de 500 entrenos y 12.500 series. `detectarRecords` copiaba el array en cada serie al agrupar (cuadrático). Ahora agrupa en su sitio y expone `acumularComparables`/`recordsFrenteA`, y Atributos compara con un historial que crece entreno a entreno: unos 60 ms, con el mismo resultado.
+
+**Verificación:** `npm run test` (1.744 tests, 121 archivos) y `npm run build` en verde, con el aviso conocido de chunk >500 kB (el principal mide 543 kB; la página va aparte, en 7 kB). `git diff --check` correcto. Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost`, con datos sintéticos importados con `importarBackup`. Recorrido (79 comprobaciones, todas bien): tarjeta de Inicio, página de Atributos con los desplegables y «Ver más días», y Ajustes a 320/375/430 px en claro y oscuro y a 375 con texto al 200 % y Reducir movimiento. Además: terminar un entreno que suma (+275 XP, ×2 y tres récords, «Subes al nivel 14») y otro al tope semanal, cambiar el plan (se guarda un tramo), «Solo entreno» (desaparece Nutrición), «Ocultar» (sin tarjeta ni entrada en Más) y el estado sin datos. Sin scroll horizontal, sin botones por debajo de 44 px y sin errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 101. Ritmo y Vitrina (2026-10-10)
+
+Víctor pide implementar Ritmo y Vitrina; Liga por ejercicio y Cumbres quedan para otras sesiones. Sin respuestas a las preguntas abiertas de `gaming.md`, tomo los parámetros que allí se proponían y elijo yo lo que faltaba. Todo queda recogido en el ADR 029 (ampliado) y en `docs/features/ritmo.md` y `vitrina.md`.
+
+- **Ritmo** (`features/ritmo/`):
+  - estado de cada semana (cumplida, parcial, presente o vacía);
+  - hilo semanal, comodines (1 por 4 cumplidas, máximo 2), vueltas e hitos;
+  - pausas total o de entreno, que rigen si cubren 4 días de la semana o más;
+  - tarjeta «Tu semana» en Inicio, página en Más con el calendario del año, hoja «Pausar» y sello en la revisión semanal.
+
+  Atributos toma ahora la semana cumplida de Ritmo, con las pausas incluidas.
+- **Vitrina** (`features/vitrina/`):
+  - 27 piezas retroactivas: Entrenos, Coleccionista de récords, Atlas completo, Semanas cumplidas, Hilo, Días registrados, Proteína, Herbario 30 y tres ocultos (Madrugador, Vuelta al ruedo y Descanso bien llevado);
+  - muro de récords con la mejor marca vigente;
+  - Herbario (`nutricion/lib/herbario.ts`, también en Nutrición › Resumen) y Atlas;
+  - «Nuevo en la Vitrina» al terminar un entreno.
+- **Elegido por mí**:
+  - umbrales de Hilo, Días registrados, Proteína y Coleccionista;
+  - que un entreno es siempre uno de 6 series efectivas o más, también para la presencia y los logros;
+  - la clave de planta (nombre corto en singular aproximado);
+  - los motivos de pausa, la regla de 4 días y que «Reanudar hoy» cierra la pausa ayer.
+
+  Queda fuera la proteína opcional del plan semanal.
+- **Datos**: solo `Settings.pausas` (las escribe `ritmo/data/pausasRepo` en una transacción), sin versión de Dexie ni de backup. Los interruptores pasan a llamarse `gamificacionVisible` y `gamificacionConNutricion` (no había nada publicado con el nombre anterior) y valen para los tres sistemas.
+- **Código común**:
+  - `calcularAtributos` devuelve también el Ritmo, los entrenos que cuentan y todos los récords;
+  - `leerAtributos` se comparte entre `useAtributos` y `useVitrina`;
+  - Inicio lee Atributos una vez para sus dos tarjetas;
+  - `tailwind.config.js` añade `grid-cols-13`.
+- **Arreglo**: en `RitmoTab` la hoja «Pausar» y el Toast compartían la key `1` (React avisaba de claves repetidas). La hoja usa ahora `pausar-N`.
+
+**Verificación:** `npm run test` (1.771 tests, 127 archivos) y `npm run build` en verde; el chunk principal mide 496 kB y ya no sale el aviso de >500 kB. Todo el historial sintético denso (500 entrenos, 12.500 series y 8.000 entradas) se calcula en unos 150 ms en escritorio con la Vitrina y en unos 70 ms solo con Atributos y Ritmo.
+
+Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos (alimentos con categoría, entrenos a las 7:00). 155 comprobaciones, todas bien:
+- Inicio, Atributos, Ritmo (calendario, lista de semanas y «Cómo funciona»), Vitrina (las tres vistas) y Ajustes, a 320/375/430 px en claro y oscuro y a 375 con texto al 200 % y Reducir movimiento.
+- Terminar un entreno tras 21 días sin entrenar: «Vuelta al ruedo» en «Nuevo en la Vitrina».
+- Pausar con motivo, «Reanudar hoy» y «Deshacer»; sello de Ritmo en la revisión; «Plantas distintas» en el Resumen.
+- Plan, «Solo entreno» y «Ocultar»: sin tarjetas ni destinos.
+
+Sin scroll horizontal, sin botones por debajo de 44 px y sin errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.

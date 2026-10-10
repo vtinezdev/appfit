@@ -62,6 +62,8 @@ export default {
         thumb: 'var(--thumb-size)',
       },
       height: { nav: 'var(--nav-height)', app: 'var(--app-height)' },
+      // Calendario de semanas de Ritmo: 13 semanas (un trimestre) por fila.
+      gridTemplateColumns: { 13: 'repeat(13, minmax(0, 1fr))' },
       inset: { 'nav-toast': 'var(--nav-toast)' },
       minHeight: { touch: 'var(--touch-target)', 'touch-lg': 'var(--touch-target-lg)' },
       maxHeight: { sheet: 'var(--sheet-max-height)' },

@@ -201,6 +201,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
         muscle: trabajoMuscularWorkout(finished.workout, saved, []),
         records,
         nombres: Object.fromEntries(exercises.map(e => [e.id, e.nombre])),
+        workoutId: workout.id,
       })
     } catch {
       setFinishError('No se ha podido terminar el entreno. Inténtalo de nuevo.')

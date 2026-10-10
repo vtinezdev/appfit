@@ -13,12 +13,14 @@ interface Props {
   /** El «+» central: abre las acciones rápidas. */
   onAcciones: () => void
   accionesAbiertas?: boolean
+  /** Destinos de «Más» que no se muestran (p. ej. Atributos ocultos en Ajustes). */
+  ocultos?: readonly Tab[]
 }
 
 const destino = (key: Tab) => DESTINOS.find((d) => d.key === key)!
 
 /** Barra fija: Inicio · Nutrición · [+] · Entreno · Más. «Más» abre una hoja con Perfil, Referencias y Ajustes. */
-export default function BottomNav({ tab, onChange, onAcciones, accionesAbiertas = false }: Props) {
+export default function BottomNav({ tab, onChange, onAcciones, accionesAbiertas = false, ocultos = [] }: Props) {
   const [mas, setMas] = useState(false)
   const elegido = useRef<Tab | null>(null)
   const enMas = EN_MAS.includes(tab)
@@ -54,7 +56,7 @@ export default function BottomNav({ tab, onChange, onAcciones, accionesAbiertas 
       <Sheet open={mas} onClose={() => setMas(false)} title="Más"
         onExited={() => { const key = elegido.current; elegido.current = null; if (key) onChange(key) }}>
         <ListGroup variante="plana" aria-label="Más secciones">
-          {EN_MAS.map((key) => {
+          {EN_MAS.filter((key) => !ocultos.includes(key)).map((key) => {
             const d = destino(key)
             return <li key={key}><ListRow aria-current={tab === key ? 'page' : undefined} onClick={() => { haptic(); elegido.current = key; setMas(false) }}>
               <span className="flex min-w-0 items-center gap-3"><Icon name={d.icon} size={20} className="text-fg-muted" /><span className="text-body font-semibold text-fg">{d.label}</span></span>

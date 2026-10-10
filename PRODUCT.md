@@ -25,14 +25,14 @@ Uso repetido durante entrenamientos y a lo largo del día. La conexión puede fa
 - React, TypeScript, Vite, Tailwind, Dexie, Recharts; datos locales en IndexedDB, sin backend ni cuentas.
 - Las escrituras siguen los repositorios existentes y las copias conservan el esquema actual.
 - El catálogo se descarga del propio origen; Open Food Facts recibe exclusivamente el código de barras. No se añaden servicios de red.
-- Español en interfaz y documentación. Datos reales y estados vacíos honestos; no inventar rachas, resultados, récords o recomendaciones de salud.
+- Español en interfaz y documentación. Datos reales y estados vacíos honestos; no inventar resultados, récords o recomendaciones de salud. Las rachas y la gamificación (Atributos, ADR 029) se permiten solo a partir de registros reales, con techo en el plan, sin castigos y con interruptores para ocultarlas o excluir la nutrición.
 - El encargo permite rediseñar la UI completa y añadir feedback de series/descansos cuando sea necesario para la interacción, preservando funcionalidad y registros existentes.
 
 ## Brand Commitments
 
 Nombre APPFIT, identidad deportiva, moderna, premium, limpia, energética y rápida. El usuario delega las decisiones visuales y pide un menú cuyas opciones nazcan espacialmente del botón inferior. Evitar ornamentación que compita con el entrenamiento.
 
-La referencia elegida el 2026-10-05 es «Enfocada y Enérgica»: títulos deportivos y métricas claras. El 2026-10-06 la paleta pasa a Cobalto (grafito frío, cobalto para actuar, ámbar para la energía) con una composición más respirada. El 2026-10-07, a partir de una referencia visual, evoluciona sin rediseño: grafito neutro, un único acento naranja usado con mesura, radios más amplios, más aire y una elevación mínima de las cards (ADR 020). Disciplina/rendimiento/progreso, sin estética gaming ni imágenes que no ayuden a usar el producto.
+La referencia elegida el 2026-10-05 es «Enfocada y Enérgica»: títulos deportivos y métricas claras. El 2026-10-06 la paleta pasa a Cobalto (grafito frío, cobalto para actuar, ámbar para la energía) con una composición más respirada. El 2026-10-07, a partir de una referencia visual, evoluciona sin rediseño: grafito neutro, un único acento naranja usado con mesura, radios más amplios, más aire y una elevación mínima de las cards (ADR 020). Disciplina/rendimiento/progreso, sin ornamento de videojuego ni imágenes que no ayuden a usar el producto (el nivel y la XP de Atributos usan la gramática visual de siempre).
 
 La preview aprobada ese mismo día incorpora fondos generados con acabado fotográfico propios de Inicio, Nutrición y Gym. Aportan contexto a baja intensidad, conservan la prioridad del contenido y se distribuyen localmente para funcionar offline. Referencias y Ajustes reutilizan estas escenas con menor presencia. No representan datos ni fotografías del usuario.
 
