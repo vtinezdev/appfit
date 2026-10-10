@@ -1154,17 +1154,6 @@ Fase 4 de la Liga.
 
 **Verificación:** `npm run test` (1.809 tests, 131 archivos) y `npm run build` en verde. El recorrido de §105, ampliado con las alternativas (en la hoja y en Progreso), «Mantener» (se guarda `[2]` en ajustes y desaparece el aviso), «Volver a avisar» (vuelve el aviso) y el básico sin «Mantener», en Edge sin interfaz, 320/375/430 px en claro y oscuro y 375 con texto al 200 %: 254 comprobaciones, todas bien, con botones ≥ 44 px también en la hoja. Capturas revisadas: la etiqueta «Si te apetece variar» salía con estilo de título dentro de la hoja y pasó a un `h3` de etiqueta. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
 
-## 107. Cumbres: decisión y motor (2026-10-10)
-
-Víctor pide afinar Cumbres sin implementarla. Se comparan alternativas a subir una montaña (Caminos, Constelaciones y Temporadas) y se hacen maquetas de Cumbres y Caminos lado a lado: https://claude.ai/artifact/7RYQxMtyxzXcNszPEynA9M (privado de Víctor).
-
-- **Decisión de Víctor**: las dos, por partes. Ahora Cumbres; Caminos cuando AppFit registre caminatas, carreras u otra actividad con distancia, y con kilómetros reales.
-- **Propuesta para Cumbres, pendiente de confirmar**: montañas reales sin plazo, del mar a la cumbre, hitos cada 1.000 m, una sola tarjeta en Inicio (en lugar de la de Nivel) y arranque al elegir la primera montaña.
-- **Motor**: Víctor no descarta la XP, pero pide alternativas de entreno y nutrición. Recogidas en `gaming.md` (XP, plan cumplido, semanas de Ritmo, fuerza real y series por grupo); recomiendo «plan cumplido». Después Víctor pregunta por recuperar los víveres: añadida la variante «etapas y víveres» (la etapa sin víveres queda preparada y se completa al registrar, sin perderse). **Víctor elige etapas y víveres**, con 800 m por semana de plan y medio víver los días con una sola comida; se implementará más adelante.
-- Documentos: `gaming.md` (sección Cumbres reescrita) y `roadmap.md`.
-
-**Verificación:** solo documentación y un artifact; sin cambios de código. Commit de la documentación de Cumbres a petición de Víctor, sin push.
-
 ## 107. Liga por ejercicio: Vitrina, sin récords y «Usar» en la rutina (2026-10-10)
 
 Fase 5 y cierre de la Liga («termina lo que quede»).
@@ -1180,3 +1169,14 @@ Fase 5 y cierre de la Liga («termina lo que quede»).
 - Documentos: `liga.md`, `vitrina.md`, `gym.md`, `datos.md`, `DESIGN-SYSTEM.md`, `arquitectura.md`, ADR 030, `roadmap.md`, `README.md` y `gaming.md`.
 
 **Verificación:** `npm run test` (1.817 tests, 133 archivos) y `npm run build` en verde. El recorrido de §106, ampliado con una rutina en la sesión y un curl sin récords en 16 sesiones, en Edge sin interfaz, 320/375/430 px en claro y oscuro y 375 con texto al 200 %: 284 comprobaciones, todas bien. Entre ellas: el texto de sin récords; cinco «Usar» en Progreso; en la hoja, «Usar» cambia la rutina con su objetivo y «Deshacer» la devuelve; y la Vitrina muestra «Ciclos completados» con «2 de 5 ejercicios». Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 108. Cumbres: decisión y motor (2026-10-10)
+
+Víctor pide afinar Cumbres sin implementarla. Se comparan alternativas a subir una montaña (Caminos, Constelaciones y Temporadas) y se hacen maquetas de Cumbres y Caminos lado a lado: https://claude.ai/artifact/7RYQxMtyxzXcNszPEynA9M (privado de Víctor).
+
+- **Decisión de Víctor**: las dos, por partes. Ahora Cumbres; Caminos cuando AppFit registre caminatas, carreras u otra actividad con distancia, y con kilómetros reales.
+- **Propuesta para Cumbres, pendiente de confirmar**: montañas reales sin plazo, del mar a la cumbre, hitos cada 1.000 m, una sola tarjeta en Inicio (en lugar de la de Nivel) y arranque al elegir la primera montaña.
+- **Motor**: Víctor no descarta la XP, pero pide alternativas de entreno y nutrición. Recogidas en `gaming.md` (XP, plan cumplido, semanas de Ritmo, fuerza real y series por grupo); recomiendo «plan cumplido». Después Víctor pregunta por recuperar los víveres: añadida la variante «etapas y víveres» (la etapa sin víveres queda preparada y se completa al registrar, sin perderse). **Víctor elige etapas y víveres**, con 800 m por semana de plan y medio víver los días con una sola comida; se implementará más adelante.
+- Documentos: `gaming.md` (sección Cumbres reescrita) y `roadmap.md`.
+
+**Verificación:** solo documentación y un artifact; sin cambios de código. Commit de la documentación de Cumbres en `feat/cumbres`, fusionada con la Liga en un solo PR a petición de Víctor.
