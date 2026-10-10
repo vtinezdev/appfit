@@ -1087,4 +1087,4 @@ Víctor pide que un entreno con menos de 6 series efectivas dé experiencia (men
   - un entreno sin series efectivas no suma.
 - **Textos**: `descansoActual`/`textoDescanso` pasan a `entrenoHoy`/`textoEntrenoHoy` («Quedan 2 entrenos del plan esta semana»), en Inicio y en Atributos. «Cómo se gana XP», Ajustes, Ritmo y la Vitrina toman los umbrales de las constantes.
 
-**Verificación:** `npm run test` (1.775 tests, 127 archivos) y `npm run build` en verde. Sin prueba en navegador ni en iPhone. Sin commit ni push.
+**Verificación:** `npm run test` (1.775 tests, 127 archivos) y `npm run build` en verde. Sin prueba en navegador ni en iPhone (solo cambian textos de la UI). Commit, PR y merge a petición de Víctor.
