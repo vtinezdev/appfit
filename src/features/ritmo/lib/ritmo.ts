@@ -62,7 +62,7 @@ export interface ResultadoRitmo {
 
 export interface DatosRitmo {
   hoy: string
-  /** Días con un entreno que cuenta (≥ 6 series efectivas). */
+  /** Días con un entreno que cuenta (`SERIES_MINIMAS` series efectivas o más, de Atributos). */
   diasEntreno: ReadonlySet<string>
   /** Días con alguna comida registrada; `null` si la nutrición no cuenta. */
   diasRegistro: ReadonlySet<string> | null

@@ -13,8 +13,8 @@ import { formatInt } from '../../shared/lib/format'
 import FilasXp from './components/FilasXp'
 import { useAtributos } from './hooks/useAtributos'
 import {
-  ATRIBUTOS, ENTRENOS_EXTRA, PROPORCION_PROTEINA, RECORDS_POR_SESION, SERIES_MINIMAS, TITULOS, XP,
-  descansoActual, nivelDeXp, textoDescanso, tituloDe, xpEntre, xpPorDia, type Atributo,
+  ATRIBUTOS, PROPORCION_PROTEINA, RECORDS_POR_SESION, SERIES_COMPLETAS, SERIES_MINIMAS, TITULOS, XP,
+  entrenoHoy, nivelDeXp, textoEntrenoHoy, tituloDe, xpDeEntreno, xpEntre, xpPorDia, type Atributo,
 } from './lib/atributos'
 
 /** Días de XP que se muestran de entrada y en cada «Ver más días». */
@@ -60,7 +60,7 @@ export default function AtributosTab({ onIrAAjustes }: { onIrAAjustes: () => voi
       <ProgressBar size="lg" value={n.xpEnNivel} goal={n.xpSiguiente} colorClass="bg-fg" label={`Experiencia del nivel ${n.nivel}`}
         valueText={`${formatInt(n.xpEnNivel)} de ${formatInt(n.xpSiguiente)} XP`} />
       <p className="tabular text-body-sm text-fg-muted">{formatInt(n.xpEnNivel)} de {formatInt(n.xpSiguiente)} XP para el nivel {formatInt(n.nivel + 1)} · {xpTexto(r.total)} en total</p>
-      <p className="break-words text-body-sm text-fg">{textoDescanso(descansoActual(r, hoy))}</p>
+      <p className="break-words text-body-sm text-fg">{textoEntrenoHoy(entrenoHoy(r, hoy))}</p>
     </Card>
 
     <section aria-label="Atributos" className="space-y-stack">
@@ -126,8 +126,8 @@ export default function AtributosTab({ onIrAAjustes }: { onIrAAjustes: () => voi
       <div>
         <Disclosure title="Cómo se gana XP">
           <ul className="list-disc space-y-2 pl-5 text-body-sm text-fg">
-            <li>Entreno terminado con {formatInt(SERIES_MINIMAS)} series efectivas o más: {xpTexto(XP.entreno)}, uno por día y hasta tu plan más {formatInt(ENTRENOS_EXTRA)} por semana. Los kilos y el número de series no puntúan.</li>
-            <li>Descanso: con un día sin entrenar antes, el entreno vale ×1,5; con dos o más, ×2.</li>
+            <li>Entreno terminado: {xpTexto(XP.entreno)} con {formatInt(SERIES_COMPLETAS)} series efectivas o más; con menos, la parte proporcional ({formatInt(3)} series, {xpTexto(xpDeEntreno(3))}). Los kilos no puntúan.</li>
+            <li>Suma un entreno por día (el de más series) y, cada semana, los de tu plan: con el plan completo, los demás no suman. Para el plan cuentan los de {formatInt(SERIES_MINIMAS)} series efectivas o más.</li>
             <li>Récord personal: {xpTexto(XP.record)}, hasta {formatInt(RECORDS_POR_SESION)} por sesión.</li>
             {conNutricion && <li>Día registrado: {xpTexto(XP.diaRegistrado)} con dos comidas o más ({xpTexto(XP.diaUnaComida)} con una).</li>}
             {conNutricion && <li>Proteína al {formatInt(PROPORCION_PROTEINA * 100)} % del objetivo del día o más: {xpTexto(XP.proteina)}.</li>}

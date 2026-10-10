@@ -41,7 +41,7 @@ export default function AtributosAjustes({ settings, onError }: Props) {
           opciones={OPCIONES_DIAS_REGISTRO.map((n) => ({ valor: String(n), label: String(n) }))} />
       </div>}
       <p className="text-caption text-fg-muted">
-        Tu plan decide cuándo una semana está cumplida y cuántos entrenos suman experiencia (los del plan y uno más).{' '}
+        Tu plan decide cuándo una semana está cumplida y cuántos entrenos suman experiencia (los del plan).{' '}
         {settings.planSemanal?.length ? 'Un cambio vale desde esta semana: las anteriores conservan su plan.' : 'El primer plan que elijas vale también para las semanas anteriores; después, cada cambio vale desde esa semana.'}
       </p>
     </>}

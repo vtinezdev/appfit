@@ -63,7 +63,7 @@ describe('logros', () => {
     expect(nivelDe(entrenos)).toBe(1)
     expect(entrenos.niveles[0]).toEqual({ fecha: '2026-09-28', workoutId: es[9].workout.id })
     expect(siguienteUmbral(entrenos)).toBe(50)
-    expect(entrenos.descripcion).toBe('50 entrenos de 6 series efectivas o más')
+    expect(entrenos.descripcion).toBe('50 entrenos de 5 series efectivas o más')
   })
 
   it('sin nutrición, sus logros no aparecen; los ocultos se cuentan como piezas', () => {

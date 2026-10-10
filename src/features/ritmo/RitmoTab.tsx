@@ -12,6 +12,7 @@ import { useAviso } from '../../shared/hooks/useAviso'
 import { formatFriendly, todayISO } from '../../shared/lib/dates'
 import { formatInt } from '../../shared/lib/format'
 import { useAtributos } from '../atributos/hooks/useAtributos'
+import { SERIES_MINIMAS } from '../atributos/lib/atributos'
 import CalendarioSemanas from './components/CalendarioSemanas'
 import DiasSemana from './components/DiasSemana'
 import PausarSheet from './components/PausarSheet'
@@ -75,7 +76,7 @@ export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void })
       <Card className="space-y-3">
         <p className="text-title text-fg">{s.cumplida ? ESTADOS_SEMANA.cumplida.nombre : s.estado === 'vacia' ? 'En curso' : `${ESTADOS_SEMANA[s.estado].nombre} por ahora`}</p>
         <DiasSemana lunes={s.lunes} hoy={hoy} diasEntreno={r.diasEntreno} diasRegistro={conNutricion ? r.diasRegistro : null} />
-        <p className="text-caption text-fg-muted">Círculo relleno: entreno de 6 series efectivas o más.{conNutricion ? ' Punto relleno: día con comidas registradas.' : ''}</p>
+        <p className="text-caption text-fg-muted">Círculo relleno: entreno de {formatInt(SERIES_MINIMAS)} series efectivas o más.{conNutricion ? ' Punto relleno: día con comidas registradas.' : ''}</p>
         <p className="tabular break-words text-body-sm text-fg-muted">{cifrasSemana(s)}</p>
         <p className="break-words text-body-sm text-fg">{faltaParaCumplir(s) ?? 'Plan de la semana cumplido. Entrenar o registrar de más no suma.'}</p>
       </Card>
@@ -121,7 +122,7 @@ export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void })
 
     <Disclosure title="Cómo funciona">
       <ul className="list-disc space-y-2 pl-5 text-body-sm text-fg">
-        <li>Cada semana (lunes a domingo) es cumplida con tu plan: {formatInt(plan.entrenos)} entrenos de 6 series efectivas o más{conNutricion ? ` y ${formatInt(plan.diasRegistro)} días con comidas registradas` : ''}. {conNutricion ? 'Parcial, con solo una de las dos partes. ' : ''}Presente, con al menos un entreno{conNutricion ? ` o ${formatInt(DIAS_PRESENCIA)} días registrados` : ''}. Si no, vacía.</li>
+        <li>Cada semana (lunes a domingo) es cumplida con tu plan: {formatInt(plan.entrenos)} entrenos de {formatInt(SERIES_MINIMAS)} series efectivas o más{conNutricion ? ` y ${formatInt(plan.diasRegistro)} días con comidas registradas` : ''}. {conNutricion ? 'Parcial, con solo una de las dos partes. ' : ''}Presente, con al menos un entreno{conNutricion ? ` o ${formatInt(DIAS_PRESENCIA)} días registrados` : ''}. Si no, vacía.</li>
         <li>El hilo cuenta las semanas seguidas con presencia. La semana en curso no lo rompe hasta que acaba, y los registros atrasados siempre cuentan.</li>
         <li>Ganas un comodín por cada {formatInt(SEMANAS_POR_COMODIN)} semanas cumplidas, hasta {formatInt(MAX_COMODINES)}. Se gasta solo en una semana vacía y el hilo sigue.</li>
         <li>Una semana en pausa no rompe el hilo ni gasta comodines. En una pausa de entreno, la semana se juzga solo con el registro de comidas.</li>

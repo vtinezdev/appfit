@@ -19,7 +19,7 @@
 ## Reglas
 
 - **Plan** (`Settings.planSemanal`, en Ajustes): entrenos 2–6 (por defecto 3) y días con comidas registradas 3–7 (por defecto 5). Va por tramos con su lunes: el primero vale para todo el historial y cada cambio, desde la semana en curso.
-- **Entreno** = entreno terminado con al menos 6 series efectivas, como en Atributos. Un día con varios cuenta una vez.
+- **Entreno** = entreno terminado con al menos 5 series efectivas (`SERIES_MINIMAS` de Atributos). Un día con varios cuenta una vez.
 - **Estado de cada semana** (lunes a domingo):
   - **cumplida**: entrenos ≥ plan y días registrados ≥ plan;
   - **parcial**: solo una de las dos partes (no existe sin nutrición);

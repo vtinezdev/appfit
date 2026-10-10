@@ -67,8 +67,7 @@ Nivel y experiencia (XP) de RPG. Parámetros iniciales:
 
 | Acción | XP | Tope | Por qué |
 |---|---|---|---|
-| Entreno terminado con ≥ 6 series efectivas confirmadas | 100 × descanso | 1 por día; plan + 1 por semana | Cuenta ir a entrenar; kilos y series no puntúan |
-| Descanso acumulado | ×1,5 con un día sin entrenar antes; ×2 con dos o más | Hasta ×2 | Idea del descanso de World of Warcraft: descansar hace que el siguiente entreno valga más |
+| Entreno terminado (cuenta para el plan con ≥ 5 series efectivas) | 100 con ≥ 6 series; proporcional por debajo | 1 por día; hasta completar el plan por semana | Cuenta ir a entrenar; los kilos no puntúan. Sin multiplicador por descanso (descartado el 2026-10-10: manda el plan) |
 | Día registrado (≥ 2 comidas) | 30 (10 con una sola comida) | 1 por día | El hábito que sostiene la nutrición |
 | Proteína al 90 % del objetivo | 20 | 1 por día | Objetivo concreto que no premia comer menos |
 | Semana cumplida (Ritmo) | 150 | 1 por semana | Constancia, no picos |
@@ -127,7 +126,7 @@ Preguntas abiertas:
 
 Lo explorado: cada temporada se asciende una montaña real.
 
-- **Etapas**: un entreno terminado (≥ 6 series efectivas) es una etapa, hasta el plan de la semana. La ruta se reparte según el plan: 3 entrenos × 6 semanas = 18 etapas; con 5, 30 etapas.
+- **Etapas**: un entreno terminado (≥ 5 series efectivas) es una etapa, hasta el plan de la semana. La ruta se reparte según el plan: 3 entrenos × 6 semanas = 18 etapas; con 5, 30 etapas.
 - **Víveres**: cada día registrado da uno (medio si solo hay una comida) y cada etapa gasta uno. La mochila guarda 3.
 - **Aclimatación**: como mucho 3 días seguidos de ascenso; el cuarto no sube.
 - **Refugio**: la pausa alarga la temporada.

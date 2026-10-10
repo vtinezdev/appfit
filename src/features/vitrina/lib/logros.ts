@@ -2,7 +2,7 @@
 // del historial con su fecha real (retroactivos): nada se guarda, así que borrar un registro puede retirar una pieza.
 import { diasEntre, startOfWeek } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
-import type { ResultadoAtributos } from '../../atributos/lib/atributos'
+import { SERIES_MINIMAS, type ResultadoAtributos } from '../../atributos/lib/atributos'
 import { PLANTAS_SEMANA, type SemanaHerbario } from '../../nutricion/lib/herbario'
 import { HITOS_SEMANAS } from '../../ritmo/lib/ritmo'
 import type { Atlas } from './atlas'
@@ -39,7 +39,7 @@ export interface Logro {
   progreso?: number
   unidad?: string
   oculto?: boolean
-  /** Qué pide un nivel concreto («50 entrenos de 6 series efectivas o más»). */
+  /** Qué pide un nivel concreto («50 entrenos de 5 series efectivas o más»). */
   textoNivel?: (umbral: number) => string
 }
 
@@ -104,7 +104,7 @@ export function calcularLogros(d: DatosLogros): Logro[] {
 
   // ── Entreno ──
   conNiveles({ id: 'entrenos', nombre: 'Entrenos', grupo: 'entreno', unidad: 'entrenos' }, UMBRALES.entrenos,
-    a.entrenos.map((e) => ({ fecha: e.fecha, workoutId: e.workoutId })), (n) => `${formatInt(n)} entrenos de 6 series efectivas o más`)
+    a.entrenos.map((e) => ({ fecha: e.fecha, workoutId: e.workoutId })), (n) => `${formatInt(n)} entrenos de ${formatInt(SERIES_MINIMAS)} series efectivas o más`)
   const ejerciciosConRecord: Conseguido[] = []
   const vistos = new Set<number>()
   for (const rec of a.records) {

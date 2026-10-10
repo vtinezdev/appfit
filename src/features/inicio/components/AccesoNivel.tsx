@@ -1,6 +1,6 @@
 import { formatInt } from '../../../shared/lib/format'
 import type { EstadoAtributos } from '../../atributos/hooks/useAtributos'
-import { descansoActual, nivelDeXp, textoDescanso, tituloDe } from '../../atributos/lib/atributos'
+import { entrenoHoy, nivelDeXp, textoEntrenoHoy, tituloDe } from '../../atributos/lib/atributos'
 import TarjetaAcceso from './TarjetaAcceso'
 
 /**
@@ -22,7 +22,7 @@ export default function AccesoNivel({ hoy, estado, onAbrir }: { hoy: string; est
         <span className="progress-fill absolute inset-0 origin-left bg-fg" style={{ transform: `scaleX(${n.xpEnNivel / n.xpSiguiente})` }} />
       </span>
       <span className="tabular text-body-sm text-fg-muted">{formatInt(n.xpEnNivel)} de {formatInt(n.xpSiguiente)} XP para el nivel {formatInt(n.nivel + 1)}</span>
-      <span className="break-words text-body-sm text-fg">{textoDescanso(descansoActual(r, hoy))}</span>
+      <span className="break-words text-body-sm text-fg">{textoEntrenoHoy(entrenoHoy(r, hoy))}</span>
     </TarjetaAcceso>
   )
 }

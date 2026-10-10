@@ -1071,3 +1071,20 @@ Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `a
 - Plan, «Solo entreno» y «Ocultar»: sin tarjetas ni destinos.
 
 Sin scroll horizontal, sin botones por debajo de 44 px y sin errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 102. Atributos: XP proporcional y el plan como tope (2026-10-10)
+
+Víctor pide que un entreno con menos de 6 series efectivas dé experiencia (menos, pero que dé) y que la del entreno dependa del plan que se marca, no del descanso. Elige en las preguntas: XP proporcional, contar para el plan desde 5 series, quitar el multiplicador y aplicar el umbral de 5 también a la Vitrina.
+
+- **Reglas** (`atributos/lib/atributos.ts`):
+  - `xpDeEntreno`: 100 con ≥ 6 series efectivas (`SERIES_COMPLETAS`) y `round(100 × series / 6)` por debajo.
+  - `SERIES_MINIMAS` pasa de 6 a 5: es el entreno que cuenta para el plan, Ritmo y la Vitrina.
+  - Fuera el multiplicador de descanso y `ENTRENOS_EXTRA`: el tope semanal es el plan.
+  - `VERSION_REGLAS` sigue en 1: las reglas anteriores solo estuvieron publicadas unas horas (PR #48, el mismo día) y la XP se recalcula sobre todo el historial.
+- **Elegido por mí**:
+  - si hay varios entrenos un día, suma el de más series (antes, el primero);
+  - los entrenos cortos (< 5) suman mientras quede plan, pero no ocupan hueco, para que uno corto no le quite la XP a uno que cuenta;
+  - un entreno sin series efectivas no suma.
+- **Textos**: `descansoActual`/`textoDescanso` pasan a `entrenoHoy`/`textoEntrenoHoy` («Quedan 2 entrenos del plan esta semana»), en Inicio y en Atributos. «Cómo se gana XP», Ajustes, Ritmo y la Vitrina toman los umbrales de las constantes.
+
+**Verificación:** `npm run test` (1.775 tests, 127 archivos) y `npm run build` en verde. Sin prueba en navegador ni en iPhone (solo cambian textos de la UI). Commit, PR y merge a petición de Víctor.
