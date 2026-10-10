@@ -2,7 +2,7 @@
 
 Plan de trabajo · 10 de octubre de 2026.
 
-Estado: **Atributos, Ritmo y Vitrina implementados** (10 de octubre, PROCESO §100 y §101, [ADR 029](docs/decisiones/029-gamificacion-atributos.md); estado vigente en `docs/features/atributos.md`, `ritmo.md` y `vitrina.md`, que mandan sobre este plan). Liga y Cumbres, en otras sesiones. Base revisada: rama `feat/mapa-rojo`, commit `177d3ed`.
+Estado: **Atributos, Ritmo y Vitrina implementados** (10 de octubre, PROCESO §100 y §101, [ADR 029](docs/decisiones/029-gamificacion-atributos.md); estado vigente en `docs/features/atributos.md`, `ritmo.md` y `vitrina.md`, que mandan sobre este plan). Liga, en otra sesión. Cumbres decidida (motor: etapas y víveres), por implementar; Caminos, más adelante. Base revisada: rama `feat/mapa-rojo`, commit `177d3ed`.
 
 Origen: una exploración con investigación de 27 apps y videojuegos y 11 estudios, seis propuestas, maquetas con la interfaz de AppFit, un simulador de semana y una evaluación: https://claude.ai/artifact/4KYsAz8G3ss1WhV1E1no6a (privado de Víctor; una sesión de Claude Code puede leerlo con la herramienta Artifact). Este documento es autosuficiente: recoge lo decidido y lo necesario para empezar.
 
@@ -11,7 +11,7 @@ Origen: una exploración con investigación de 27 apps y videojuegos y 11 estudi
 - Le gustan **Atributos**, **Ritmo** y **Vitrina**: se implementan.
 - **Liga fantasma** y **Cumbres** quiere implementarlas «de alguna manera», pero aún no sabe cómo:
   - **Liga, por ejercicio**: cuanto más haces un ejercicio, más subes de división. Como no es recomendable hacer siempre el mismo ejercicio, llegar a la división máxima significaría (sin ser una regla estricta) que conviene cambiarlo porque llevas mucho tiempo con él.
-  - **Cumbres, a nivel global**: la quiere como sistema general de la app; falta decidir cómo.
+  - **Cumbres, a nivel global**: la quiere como sistema general de la app. Decidido después: Cumbres ahora y Caminos cuando haya actividad con distancia (ver su sección).
 - **Rachas permitidas**: si alguna funcionalidad necesita rachas, se pueden implementar. Ver abajo.
 - **Tablón** (encargos semanales): no lo mencionó. Queda aparcado; está descrito en el artifact.
 
@@ -21,7 +21,7 @@ Origen: una exploración con investigación de 27 apps y videojuegos y 11 estudi
 | Atributos | **Implementado** con los parámetros de abajo | Probarlo con datos reales y ajustar si hace falta |
 | Vitrina | **Implementada** con 27 piezas retroactivas | Revisar el catálogo con el uso |
 | Liga fantasma | Sí, una liga por ejercicio | Qué mide, divisiones, cómo se baja y dónde se ve |
-| Cumbres | Sí, global | Cómo funciona y su relación con Atributos |
+| Cumbres | **Decidida**: etapas y víveres, 800 m por semana de plan; Caminos, en el futuro | Implementarla (más adelante) y cerrar los detalles de su sección |
 | Tablón | Aparcado | — |
 
 ### Rachas: autorizadas
@@ -40,7 +40,7 @@ Hecho con Atributos: [ADR 029](docs/decisiones/029-gamificacion-atributos.md) re
 - **Atributos** es la carrera permanente: nivel global y tres atributos que nunca bajan.
 - **Vitrina** es la memoria: hitos, récords, colecciones y, si se quiere, las divisiones de la Liga y las cumbres conseguidas.
 - **Liga por ejercicio** es un indicador propio de cada ejercicio, independiente de los demás.
-- **Cumbres** es la meta global. Atributos y Cumbres son los dos globales: hay que decidir cómo conviven (opciones en su sección) para no tener dos barras de progreso compitiendo.
+- **Cumbres** es la meta global. Atributos y Cumbres son los dos globales: para no tener dos barras de progreso compitiendo, la tarjeta de Inicio sería una sola (ver su sección).
 
 ## Ritmo (decidido)
 
@@ -122,30 +122,59 @@ Preguntas abiertas:
 6. ¿Dónde se ve: panel del ejercicio, Progreso, selector de ejercicios, Vitrina?
 7. ¿Da XP en Atributos?
 
-## Cumbres global (por concretar)
+## Cumbres (decidida; por implementar)
 
-Lo explorado: cada temporada se asciende una montaña real.
+Decisión de Víctor (10 de octubre), tras comparar con maquetas Cumbres, Caminos, Constelaciones y Temporadas (https://claude.ai/artifact/7RYQxMtyxzXcNszPEynA9M, privado de Víctor):
 
-- **Etapas**: un entreno terminado (≥ 5 series efectivas) es una etapa, hasta el plan de la semana. La ruta se reparte según el plan: 3 entrenos × 6 semanas = 18 etapas; con 5, 30 etapas.
-- **Víveres**: cada día registrado da uno (medio si solo hay una comida) y cada etapa gasta uno. La mochila guarda 3.
-- **Aclimatación**: como mucho 3 días seguidos de ascenso; el cuarto no sube.
-- **Refugio**: la pausa alarga la temporada.
-- **Sin cumbre**: queda la altitud máxima y se puede reintentar.
-- **Colección**: la cumbre pasa a «Mis cumbres».
-- **Montañas de referencia** (altitudes a verificar con fuente antes de usarlas): Aneto 3.404 m, Mulhacén 3.479 m, Teide 3.715 m, Mont Blanc 4.806 m, Kilimanjaro 5.895 m, Aconcagua 6.961 m. En el artifact, la base de la ruta (1.500 m) era ficticia.
+- **Las dos, por partes.** Ahora, **Cumbres**: se sube una montaña real tras otra.
+- **Caminos, más adelante**: rutas reales con etapas (el Camino de Santiago y otros). Queda a la espera de que AppFit registre caminatas, carreras u otra actividad con distancia; entonces avanzaría con los kilómetros reales y no con una conversión de XP. Ver «Caminos (futuro)».
+- Cumbres se diseña para que añadir los Caminos no la obligue a cambiar: al acabar un capítulo se elegiría el siguiente (una cima o un camino) y la colección sería común. La sección podría pasar a llamarse «Expediciones».
 
-Opciones para hacerla global:
+### Propuesta para Cumbres (pendiente de confirmar)
 
-- **A. Temporada sobre Ritmo** (la explorada): una montaña cada 6 semanas que se reinicia; Atributos sería la carrera permanente. Dos capas con papeles distintos.
-- **B. Cumbres como cara visual de Atributos**: la XP acumulada son metros ascendidos y cada montaña es un tramo de niveles (hacer cumbre = cambiar de tramo). Permanente y sin temporadas. Une los dos sistemas globales en uno.
-- **C. Expedición larga**: una meta de meses (p. ej., una montaña por bloque de entrenamiento hasta completar una lista), entre A y B.
+- **Una montaña por capítulo, sin plazo**: dura lo que tarde y no se puede fallar. Al llegar a la cima, la cumbre pasa a «Mis cumbres» y empieza la siguiente; lo que sobra cuenta para ella.
+- **Del mar a la cumbre**: la altitud que se ve es lo subido en ese capítulo. Solo hace falta la altitud de cada cima, con fuente (nada de bases ficticias ni datos de rutas).
+- **Hitos** cada 1.000 m y la cumbre. Una pausa de Ritmo se ve como «en el refugio», sin regla propia.
+- **Ruta sugerida**: el Techo de España (Aneto, Mulhacén, Teide) y después las Siete Cumbres. La siguiente montaña se puede cambiar por otra más alta que la altitud actual. Opcional: «tu montaña», con nombre y altitud propios.
+- **Arranque**: cuando Víctor elige la primera montaña (no retroactiva). Lo anterior cuenta solo en un total.
+- **Dónde se ve**: la tarjeta «Nivel» de Inicio pasa a ser la de la cumbre (nivel y título arriba; el perfil sustituye a la barra de XP, para no tener dos barras); una línea bajo «Experiencia» al terminar un entreno, y póster en grafito si hace cumbre; la revisión del lunes; página en Más (perfil con escala de altitud, la semana, «Mis cumbres» con el resumen de cada expedición); logros en la Vitrina («Cumbres», «Techo de España», «Siete Cumbres»). Si la cumbre llega sin entreno, la celebra Inicio al abrir la app.
+- **Descartado de la exploración**: la aclimatación (es una regla de descanso y manda el plan), los víveres que bloquean una etapa (castigo, y desaparece con «Solo entreno»), la temporada de 6 semanas que se puede fallar (cuenta atrás) y una montaña por tramo de 5 niveles (con la curva, la última tardaría unos 10 meses).
+- **Datos**: derivada, como Atributos. Solo un campo opcional de `Settings` con la fecha de inicio y las montañas elegidas.
+- **Montañas de referencia** (altitudes a verificar con fuente): Aneto 3.404 m, Mulhacén 3.479 m, Teide 3.715 m, Mont Blanc 4.806 m, Kilimanjaro 5.895 m, Aconcagua 6.961 m, Everest 8.849 m.
 
-Preguntas abiertas:
+### El motor: etapas y víveres (decidido el 10 de octubre)
 
-1. ¿Se reinicia por temporadas o es permanente?
-2. ¿Qué relación tiene con Atributos (A, B o C)?
-3. ¿Qué la hace avanzar: entrenos, semanas cumplidas o XP?
-4. ¿Montañas reales con datos verificados, o abstractas?
+El entreno hace subir y la comida abastece, sin que nada se pierda. No usa la XP: el nivel mide todo lo que se hace y la montaña, el plan con su nutrición.
+
+- **Etapas**: cada entreno que cuenta (≥ 5 series efectivas, `SERIES_MINIMAS`), hasta los del plan de la semana, es una etapa. Un día cuenta una vez. Los entrenos por encima del plan no suben.
+- **Tramo semanal: 800 m.** Una semana de plan sube 800 m, repartidos entre sus etapas: con 3 entrenos, unos 267 m cada una; con 5, 160 m. Así una montaña dura lo mismo con cualquier plan (el Teide, unas 5 semanas de plan).
+- **Víveres**: cada día con comidas registradas mete un víver en la mochila; **con una sola comida, medio**. La mochila guarda 3, así que cuenta registrar con regularidad, no acumular.
+- **Cada etapa gasta un víver.** Si no hay, la etapa **queda preparada** («1 etapa espera víveres») y se completa sola en cuanto entra uno, también con un registro atrasado. No hay plazo y no se pierde: solo se retrasa.
+- **Solo entreno** (`gamificacionConNutricion: false`): sin víveres; cada etapa sube directa.
+- **Pausa de Ritmo**: no sube ni gasta; se ve como «en el refugio».
+- **En pantalla**: la mochila («Víveres 2 de 3») y, si las hay, las etapas que esperan, en la tarjeta de Inicio, al terminar el entreno y en la página.
+- **Riesgo**: registrar solo para tener víveres. Lo acotan la mochila de 3 y que cuenta haber registrado, nunca las kcal; se mantiene el interruptor de nutrición.
+- **Derivada**: se recalcula día a día desde el historial (entrenos que cuentan, días con comidas, plan y pausas de Ritmo), como el resto. Detalles para la implementación: el orden dentro de un mismo día (entreno y comidas) y cómo se reparte el tramo cuando el plan cambia a mitad de montaña.
+- Encaja también con los Caminos del futuro: los kilómetros reales serían las etapas y la comida, los víveres.
+- Diferencias con lo explorado: sin aclimatación ni temporadas, y la etapa sin víveres espera en vez de perderse.
+
+Pendiente de decidir al implementar: si un día con la proteína al 90 % da un víver entero aunque tenga una sola comida, y confirmar la propuesta de arriba (sin plazo, del mar a la cumbre, una sola tarjeta en Inicio y arranque al elegir la primera montaña).
+
+#### Alternativas consideradas
+
+| Opción | Cómo sube | Por qué no |
+|---|---|---|
+| **XP** | 1 XP = 1 m (unos 800 m por semana) | Repetiría el número del nivel y dependería de cómo se ajuste la XP; con un plan más grande se subiría más rápido. Víctor no la descartó del todo |
+| **Plan cumplido** | Tramo semanal fijo repartido entre entrenos y días registrados del plan | Era la recomendada; etapas y víveres es la misma idea con un recurso que gestionar, que Víctor prefirió |
+| **Semanas de Ritmo** | Al cerrar la semana, según su estado | Solo se mueve una vez por semana |
+| **Fuerza real** | Cada récord personal, un escalón | Premia el rendimiento y se estanca en mesetas y descargas |
+| **Series efectivas por grupo** | Cada serie, con tope por grupo y semana | Solo entreno y roza premiar el volumen |
+
+### Caminos (futuro)
+
+- Rutas reales con etapas: Camino Francés (unos 770 km, 33 etapas), Portugués desde Oporto, Primitivo, del Norte, Inglés, Vía de la Plata… Cada pueblo final de etapa es un hito (unos 3 por semana en las maquetas) y al llegar hay póster y credencial (un sello por día con actividad).
+- **Condición**: que AppFit registre actividad con distancia (caminar, correr u otras). Un PWA no puede leer Salud de iOS: haría falta registro manual, importar un archivo (p. ej., GPX) u otra vía, y cualquier servicio externo hay que preguntarlo antes.
+- Avanzaría con los kilómetros reales. Datos que preparar: pueblos y kilómetros de cada etapa, con fuente (unas 140 filas).
 
 ## Salvaguardas (valen para todo)
 
@@ -181,7 +210,7 @@ Preguntas abiertas:
 3. **Vitrina mínima**: hitos y muro de récords, retroactivos.
 4. **Atributos**: usa Ritmo (semana cumplida) y los récords.
 5. **Liga por ejercicio**: es independiente de las demás y podría adelantarse.
-6. **Cumbres**: cuando esté decidido cómo convive con Atributos.
+6. **Cumbres**: decidida (etapas y víveres); se implementará más adelante. Caminos, cuando haya actividad con distancia.
 
 Antes de cerrar cada fase: `npm run test` y `npm run build` en verde, prueba en `appfit-test.localhost` (nunca en `localhost:5173`) a 320/375/430 px en ambos temas, y documentos vivos y `docs/PROCESO.md` al día.
 
@@ -194,5 +223,5 @@ Preguntar a Víctor:
 3. Dónde vive: tarjeta en Inicio, sección en Más, revisión del lunes.
 4. Logros retroactivos con su fecha o empezar de cero.
 5. Liga por ejercicio: las preguntas de su sección.
-6. Cumbres: opción A, B o C.
+6. Cumbres: lo pendiente de su sección (proteína y confirmar la propuesta) antes de implementarla.
 7. Nombre visible de la sección en la app.
