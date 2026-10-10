@@ -20,6 +20,8 @@ const PATHS = {
   timer: 'M9 3h6M12 3v3M18 6l2 2M12 10v4l3 2M4 14a8 8 0 1 0 16 0a8 8 0 1 0-16 0',
   scale: 'M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2M8.5 11a3.5 3.5 0 0 1 7 0M12 11l1.5-2',
   droplet: 'M12 3c-3.5 4.5-6 7.8-6 11a6 6 0 0 0 12 0c0-3.2-2.5-6.5-6-11',
+  rank: 'M6 9.5l6-5 6 5M6 14.5l6-5 6 5M6 19.5l6-5 6 5', // tres galones: nivel (Atributos)
+  calendar: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4', // Ritmo
   trophy: 'M8 3h8v6a4 4 0 0 1-8 0V3M8 5H4v3a4 4 0 0 0 4 4M16 5h4v3a4 4 0 0 1-4 4M12 13v6M8 21h8M10 19h4',
   loader: 'M12 3a9 9 0 1 0 9 9',
   'chevron-left': 'M15 5l-7 7 7 7',

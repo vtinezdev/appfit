@@ -340,7 +340,7 @@ Cabeceras/tabs tienen protección de lectura; paneles mantienen opacidad 96% en 
 
 ### Navegación y motion
 
-Barra de pestañas fija: Inicio · Nutrición · [+] · Entreno · Más ([ADR 028](docs/decisiones/028-barra-de-pestanas-y-registrar.md)). Icono y nombre visibles; la actual en texto principal con el icono en naranja. El «+» central es una cápsula naranja que abre la hoja «Registrar» (comida, entreno, peso, agua); «Más» abre una hoja con Perfil, Referencias y Ajustes. Lo que flota sobre la barra (avisos, descanso del entreno) se apoya en `--nav-dock`.
+Barra de pestañas fija: Inicio · Nutrición · [+] · Entreno · Más ([ADR 028](docs/decisiones/028-barra-de-pestanas-y-registrar.md)). Icono y nombre visibles; la actual en texto principal con el icono en naranja. El «+» central es una cápsula naranja que abre la hoja «Registrar» (comida, entreno, peso, agua); «Más» abre una hoja con Perfil, Atributos, Ritmo, Vitrina, Referencias y Ajustes. Lo que flota sobre la barra (avisos, descanso del entreno) se apoya en `--nav-dock`.
 
 Feedback 120 ms, estados 200, overlays 280 y salida 180 ms. Fin de sesión conserva confirmación de 420 ms. CSS/Web Animations, curvas desaceleradas sin rebote; ninguna dependencia nueva. Reduce Motion elimina desplazamientos, escala, FLIP y stagger, preservando texto/check y fundido de 80 ms. Cifras y gráficas no cuentan desde cero.
 
@@ -358,4 +358,4 @@ El mapa muscular es un dato de sesión: dos figuras SVG (frontal y trasera) en v
 - Teclado, foco, Atrás, safe areas y Reduce Motion forman parte del producto.
 - Sigue siendo una PWA; emulación no acredita hardware físico iOS/Android.
 
-Evitar paletas por pantalla, neones, degradados decorativos, glassmorphism y fotografías genéricas. No reducir tipografía/targets ni ocultar contenido para encajar. No inventar rachas, récords, planificación o referencias de salud.
+Evitar paletas por pantalla, neones, degradados decorativos, glassmorphism y fotografías genéricas. No reducir tipografía/targets ni ocultar contenido para encajar. No inventar récords, planificación o referencias de salud. La gamificación ([ADR 029](docs/decisiones/029-gamificacion-atributos.md)) y las rachas, cuando una función las necesite, salen solo de registros reales: nivel y XP en grafito (no en naranja), cifras inmediatas, cada punto con su porqué, sin castigos, confeti ni contadores animados.

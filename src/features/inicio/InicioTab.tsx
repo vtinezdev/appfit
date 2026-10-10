@@ -19,6 +19,9 @@ import { getSettings, updateSettings } from '../../shared/db/settings'
 import { getPerfil } from '../perfil/data/perfilRepo'
 import * as aguaRepo from './data/aguaRepo'
 import AccesoAgua from './components/AccesoAgua'
+import AccesoNivel from './components/AccesoNivel'
+import AccesoSemana from './components/AccesoSemana'
+import { useAtributos } from '../atributos/hooks/useAtributos'
 import AguaSheet from './components/AguaSheet'
 import { AGUA_POR_DEFECTO_ML, formatAgua, resolverObjetivoAgua } from './lib/agua'
 import AvisoBackup from './components/AvisoBackup'
@@ -31,6 +34,8 @@ const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
 interface Props {
   onIrANutricion: () => void
   onIrAGym: () => void
+  onIrAAtributos: () => void
+  onIrARitmo: () => void
   onExportarCopia: () => void
   ayudaInicial?: ReactNode
 }
@@ -39,8 +44,8 @@ const PESO_POR_DEFECTO = 70
 /** Historial que se lee: de sobra para encontrar un pesaje de hace una semana o más. */
 const DIAS_HISTORIAL = 365
 
-/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, y el último entreno. Registrar está en el «+» de la barra. */
-export default function InicioTab({ onIrANutricion, onIrAGym, onExportarCopia, ayudaInicial }: Props) {
+/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, el último entreno, la semana (Ritmo) y el nivel (Atributos). Registrar está en el «+» de la barra. */
+export default function InicioTab({ onIrANutricion, onIrAGym, onIrAAtributos, onIrARitmo, onExportarCopia, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -53,6 +58,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onExportarCopia, a
   const [registrando, setRegistrando] = useState(false)
   const [historialPeso, setHistorialPeso] = useState(false)
   const revision = useTarjetaRevision(hoy)
+  const atributos = useAtributos(hoy)
   const [revisionAbierta, setRevisionAbierta] = useState<string | null>(null)
 
   const tendencia = pesos ? tendenciaPeso(pesos, hoy) : null
@@ -122,6 +128,8 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onExportarCopia, a
             <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />
           </div>
           <AccesoEntreno onAbrir={onIrAGym} />
+          <AccesoSemana hoy={hoy} estado={atributos} onAbrir={onIrARitmo} />
+          <AccesoNivel hoy={hoy} estado={atributos} onAbrir={onIrAAtributos} />
         </div>
       )}
 

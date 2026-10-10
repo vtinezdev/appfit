@@ -47,6 +47,9 @@ Registro:
 Gimnasio:
 - **Plan de mejoras de Entreno**: implementadas las diez mejoras iniciales: papelera, RIR, notas, gráficas, carga corporal, unilateral, agarres, dropsets, negativas y progresión confirmada. Alcance, orden, decisiones y ampliaciones futuras en [mejoras.md](../mejoras.md). Se validan los bloques que Víctor autoriza antes de continuar; sustituye aquí el detalle anterior de progresión para evitar planes duplicados.
 
+Gamificación:
+- **Gaming** (2026-10-10): plan y decisiones en [gaming.md](../gaming.md). **Atributos, Ritmo y Vitrina implementados** (PROCESO §100 y §101, [ADR 029](decisiones/029-gamificacion-atributos.md), [atributos](features/atributos.md), [ritmo](features/ritmo.md), [vitrina](features/vitrina.md)). Quedan **Liga por ejercicio** y **Cumbres** para otras sesiones, y el Tablón aparcado. Pendiente: probarlo en el iPhone con los datos reales (rendimiento del recálculo y si la XP, la curva y los umbrales se sienten bien); la proteína opcional del plan semanal; el póster con un hito redondo al terminar; y, si Víctor quiere, la variante «Maestría muscular».
+
 Cuerpo y objetivos:
 - Objetivos distintos en días de entreno y de descanso (kcal extra a hidratos): la integración Gym ↔ Nutrición se decidirá más adelante.
 - Definir recomendaciones contrastadas por grupos de alimentos y comparar raciones con el consumo real. La sección Referencias y sus tipos ya están preparados y los alimentos ya tienen categoría (§82); faltan fuentes, valores y la correspondencia entre categorías y grupos de las guías, sin recomendaciones ficticias.

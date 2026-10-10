@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   addDays,
   comidaPorHora,
+  diasEntre,
   desplazarPeriodo,
   esPeriodoActual,
   etiquetaPeriodo,
@@ -22,6 +23,15 @@ describe('addDays', () => {
   it('cruza el cambio de mes y de año', () => {
     expect(addDays('2026-09-30', 1)).toBe('2026-10-01')
     expect(addDays('2026-01-01', -1)).toBe('2025-12-31')
+  })
+})
+
+describe('diasEntre', () => {
+  it('cuenta días naturales, también al cruzar el cambio de hora y hacia atrás', () => {
+    expect(diasEntre('2026-10-10', '2026-10-10')).toBe(0)
+    expect(diasEntre('2026-10-24', '2026-10-27')).toBe(3) // cambio de hora el 25 de octubre
+    expect(diasEntre('2026-03-28', '2026-03-30')).toBe(2) // cambio de hora el 29 de marzo
+    expect(diasEntre('2026-10-10', '2026-10-01')).toBe(-9)
   })
 })
 

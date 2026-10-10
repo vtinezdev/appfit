@@ -7,6 +7,7 @@ import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Disclosure from '../../../shared/components/Disclosure'
 import AdherenciaResumen from '../components/AdherenciaResumen'
 import CategoriasResumen from '../components/CategoriasResumen'
+import HerbarioResumen from '../components/HerbarioResumen'
 import { objetivosMediosDe } from '../../perfil/data/objetivosDiaRepo'
 import { desplazarPeriodo, esPeriodoActual, etiquetaPeriodo, fechasPeriodo, formatShort, todayISO } from '../../../shared/lib/dates'
 import type { PeriodoRango } from '../../../shared/lib/dates'
@@ -82,6 +83,7 @@ export default function Resumen() {
           <section aria-label="Distribución de calorías" className="space-y-3"><SectionHeader variant="section">Reparto de macros</SectionHeader><FranjaMacros macros={media} /></section>
           <AdherenciaResumen fechas={fechas} entries={entries} hoy={todayISO()} />
           <CategoriasResumen entries={entries} />
+          <HerbarioResumen entries={entries} semana={rango === 'semana'} />
           <section aria-label="Tendencia nutricional" className="space-y-4">
             <SectionHeader variant="section">Día a día</SectionHeader>
             <SegmentedControl label="Métrica de la gráfica" size="sm" opciones={DATOS} valor={dato} onChange={setDato} />

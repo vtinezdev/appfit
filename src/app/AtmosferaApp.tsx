@@ -4,7 +4,7 @@ import { getResolvedTheme, subscribeTheme } from '../shared/design/theme'
 
 /** Una fotografía local por ámbito. Referencias/Ajustes subordinan aún más la imagen a la lectura. */
 const AMBIENTES: Record<Tab, 'inicio' | 'nutricion' | 'gym'> = {
-  inicio: 'inicio', nutricion: 'nutricion', gym: 'gym', perfil: 'inicio', referencias: 'nutricion', ajustes: 'inicio',
+  inicio: 'inicio', nutricion: 'nutricion', gym: 'gym', perfil: 'inicio', atributos: 'inicio', ritmo: 'inicio', vitrina: 'gym', referencias: 'nutricion', ajustes: 'inicio',
 }
 
 /** Decoración fuera del flujo: no captura gestos ni contiene texto/datos del producto. */
