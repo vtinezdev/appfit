@@ -6,6 +6,7 @@ import { LoadingState } from '../../../shared/components/StateMessage'
 import { formatNumber } from '../../../shared/lib/format'
 import PosterSesion from './PosterSesion'
 import XpSesion from '../../atributos/components/XpSesion'
+import CumbreSesion from '../../cumbres/components/CumbreSesion'
 import NuevosLogros from '../../vitrina/components/NuevosLogros'
 import AscensosLiga from '../../liga/components/AscensosLiga'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
@@ -36,7 +37,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
     <PosterSesion titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} levels={summary.muscle?.levels} figura={figura}
       estado={<p role="status" className="flex items-center gap-2 text-label"><span className="workout-finish-mark flex h-touch w-touch items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="check" size={24} /></span>Sesión guardada en el historial</p>} />
     {!!summary.records?.length && <ListaRecords records={summary.records} nombres={summary.nombres ?? {}} />}
-    {summary.workoutId !== undefined && <XpSesion workoutId={summary.workoutId} />}
+    {summary.workoutId !== undefined && <XpSesion workoutId={summary.workoutId}><CumbreSesion workoutId={summary.workoutId} /></XpSesion>}
     {summary.workoutId !== undefined && <AscensosLiga workoutId={summary.workoutId} nombres={summary.nombres ?? {}} />}
     {summary.workoutId !== undefined && <NuevosLogros workoutId={summary.workoutId} />}
     {summary.muscle && <Suspense fallback={<LoadingState />}><MapaMuscular summary={summary.muscle} figura={figura} figuras={false} /></Suspense>}

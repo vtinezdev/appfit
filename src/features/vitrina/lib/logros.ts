@@ -3,15 +3,18 @@
 import { diasEntre, startOfWeek } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import { SERIES_MINIMAS, type ResultadoAtributos } from '../../atributos/lib/atributos'
+import { metrosTexto, type ResultadoCumbres } from '../../cumbres/lib/cumbres'
+import { COLECCIONES, EVEREST, type ColeccionMontana } from '../../cumbres/lib/montanas'
 import { PLANTAS_SEMANA, type SemanaHerbario } from '../../nutricion/lib/herbario'
 import { HITOS_SEMANAS } from '../../ritmo/lib/ritmo'
 import type { Atlas } from './atlas'
 
-export type GrupoLogro = 'entreno' | 'constancia' | 'nutricion' | 'oculto'
+export type GrupoLogro = 'entreno' | 'constancia' | 'cumbres' | 'nutricion' | 'oculto'
 
 export const GRUPOS_LOGRO: Record<GrupoLogro, string> = {
   entreno: 'Entreno',
   constancia: 'Constancia',
+  cumbres: 'Cumbres',
   nutricion: 'Nutrición',
   oculto: 'Ocultos',
 }
@@ -77,6 +80,8 @@ export interface DatosLogros {
   conNutricion: boolean
   /** Primera llegada a Élite de la Liga de cada ejercicio, en orden (`liga/lib/liga.primerosCiclos`). */
   ciclos?: readonly Conseguido[]
+  /** Cumbres (`null` o ausente si aún no se ha elegido la primera montaña: sus logros salen sin conseguir). */
+  cumbres?: ResultadoCumbres | null
 }
 
 export const UMBRALES = {
@@ -87,6 +92,8 @@ export const UMBRALES = {
   dias: [30, 100, 200, 365],
   proteina: [30, 100, 200],
   ciclos: [1, 5, 10],
+  cumbres: [1, 3, 6, 11],
+  metros: [10_000, 25_000, 50_000],
 } as const
 
 /** Entrenos antes de las 8:00 para «Madrugador», días sin entrenar para «Vuelta al ruedo» y descansos para «Descanso bien llevado». */
@@ -133,6 +140,27 @@ export function calcularLogros(d: DatosLogros): Logro[] {
   conNiveles({ id: 'hilo', nombre: 'Hilo', grupo: 'constancia', unidad: 'semanas seguidas' }, UMBRALES.hilo, hilo,
     (n) => `${formatInt(n)} semanas seguidas con presencia`)
 
+  // ── Cumbres ──
+  const coronadas = d.cumbres?.coronadas ?? []
+  const cumbres: Conseguido[] = coronadas.flatMap((x) => (x.cumbre ? [{ ...x.cumbre }] : []))
+  conNiveles({ id: 'cumbres', nombre: 'Cumbres', grupo: 'cumbres', unidad: 'cumbres' }, UMBRALES.cumbres, cumbres,
+    (n) => n === 1 ? 'Hacer cumbre en una montaña' : `Hacer cumbre en ${formatInt(n)} montañas`)
+  logros.push({
+    id: 'metros', nombre: 'Metros subidos', grupo: 'cumbres', unidad: 'm', umbrales: UMBRALES.metros,
+    niveles: marcasDeMetros(d.cumbres, UMBRALES.metros), progreso: d.cumbres?.metrosTotales ?? 0,
+    descripcion: textoMetros(UMBRALES.metros.find((u) => u > (d.cumbres?.metrosTotales ?? 0)) ?? UMBRALES.metros[UMBRALES.metros.length - 1]),
+    textoNivel: textoMetros,
+  })
+  for (const [id, coleccion, descripcion] of [
+    ['techo-espana', 'espana', 'Cumbre en el Aneto, el Mulhacén y el Teide'],
+    ['siete-cumbres', 'siete', 'La montaña más alta de cada continente: Puncak Jaya, Vinson, Elbrus, Kilimanjaro, Denali, Aconcagua y Everest'],
+  ] as const satisfies readonly (readonly [string, ColeccionMontana, string])[]) {
+    const { nombre, montanas } = COLECCIONES[coleccion]
+    const hechas = coronadas.filter((x) => montanas.includes(x.montana.id))
+    const completa = hechas.length >= montanas.length ? hechas[montanas.length - 1].cumbre : null
+    logros.push({ id, nombre, grupo: 'cumbres', umbrales: [montanas.length], niveles: [completa ? { ...completa } : null], progreso: hechas.length, unidad: 'cumbres', descripcion })
+  }
+
   // ── Nutrición ──
   if (d.conNutricion) {
     conNiveles({ id: 'dias', nombre: 'Días registrados', grupo: 'nutricion', unidad: 'días' }, UMBRALES.dias,
@@ -147,6 +175,19 @@ export function calcularLogros(d: DatosLogros): Logro[] {
   }
 
   // ── Ocultos ──
+  const everest = coronadas.find((x) => x.montana.id === EVEREST)?.cumbre
+  logros.push({ id: 'techo-mundo', nombre: 'Techo del mundo', grupo: 'oculto', oculto: true, umbrales: [1], niveles: [everest ? { ...everest } : null],
+    descripcion: 'Hacer cumbre en el Everest' })
+  logros.push({ id: 'paso-firme', nombre: 'Paso firme', grupo: 'oculto', oculto: true, niveles: [],
+    descripcion: 'Hacer cumbre sin ninguna semana vacía durante la expedición (las semanas en pausa no cuentan)',
+    veces: coronadas.flatMap((x) => {
+      if (!x.cumbre) return []
+      const desde = startOfWeek(x.desde)
+      const hasta = startOfWeek(x.cumbre.fecha)
+      const vacia = r.semanas.some((s) => s.lunes >= desde && s.lunes <= hasta && s.cerrada && s.estado === 'vacia' && !s.congelada)
+      return vacia ? [] : [{ ...x.cumbre }]
+    }),
+  })
   const madrugadas = a.entrenos.filter((e) => new Date(e.inicio).getHours() < MADRUGADOR.hora)
   logros.push({
     id: 'madrugador', nombre: 'Madrugador', grupo: 'oculto', oculto: true, umbrales: [MADRUGADOR.entrenos],
@@ -168,6 +209,20 @@ export function calcularLogros(d: DatosLogros): Logro[] {
     veces: r.semanas.flatMap((s) => (s.cerrada && s.cumplidaEl && 7 - (diasEntrenoPorSemana.get(s.lunes) ?? 0) >= DESCANSOS_BIEN_LLEVADOS ? [{ fecha: s.cumplidaEl }] : [])),
   })
   return logros
+}
+
+const textoMetros = (m: number) => `${metrosTexto(m)} subidos en Cumbres`
+
+/** Cuándo los metros subidos en Cumbres llegaron a cada umbral. */
+function marcasDeMetros(c: ResultadoCumbres | null | undefined, umbrales: readonly number[]): (Conseguido | null)[] {
+  const niveles: (Conseguido | null)[] = umbrales.map(() => null)
+  let total = 0
+  for (const t of c?.tramos ?? []) {
+    const antes = total
+    total += t.metros
+    umbrales.forEach((u, i) => { if (antes < u && total >= u) niveles[i] = t.workoutId === undefined ? { fecha: t.fecha } : { fecha: t.fecha, workoutId: t.workoutId } })
+  }
+  return niveles
 }
 
 /** Piezas conseguidas (niveles alcanzados más una por cada logro repetible conseguido) y piezas posibles (con un repetible = 1). */

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import Card from '../../../shared/components/Card'
 import ListGroup from '../../../shared/components/ListGroup'
 import ProgressBar from '../../../shared/components/ProgressBar'
@@ -9,9 +10,10 @@ import FilasXp from './FilasXp'
 
 /**
  * Bajo el póster al terminar un entreno: la XP que da (entreno y récords) con su porqué, o por qué no suma, y el nivel
- * con la subida si la hay. Sin contador ni celebración animada. No aparece si los atributos están ocultos.
+ * con la subida si la hay. Sin contador ni celebración animada. No aparece si los atributos están ocultos. `children`
+ * va al final de la sección (la montaña de Cumbres).
  */
-export default function XpSesion({ workoutId }: { workoutId: number }) {
+export default function XpSesion({ workoutId, children }: { workoutId: number; children?: ReactNode }) {
   const hoy = todayISO()
   const estado = useAtributos(hoy)
   if (!estado?.visible) return null
@@ -34,5 +36,6 @@ export default function XpSesion({ workoutId }: { workoutId: number }) {
         valueText={`${formatInt(n.xpEnNivel)} de ${formatInt(n.xpSiguiente)} XP`} />
       <p className="tabular text-caption text-fg-muted">{formatInt(n.xpEnNivel)} de {formatInt(n.xpSiguiente)} XP para el nivel {formatInt(n.nivel + 1)}</p>
     </Card>
+    {children}
   </section>
 }

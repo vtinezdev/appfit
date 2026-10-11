@@ -1180,3 +1180,22 @@ Víctor pide afinar Cumbres sin implementarla. Se comparan alternativas a subir 
 - Documentos: `gaming.md` (sección Cumbres reescrita) y `roadmap.md`.
 
 **Verificación:** solo documentación y un artifact; sin cambios de código. Commit de la documentación de Cumbres en `feat/cumbres`, fusionada con la Liga en un solo PR a petición de Víctor.
+
+## 109. Cumbres en prueba, con la XP como motor (2026-10-11)
+
+Víctor decide integrar Cumbres sin los víveres, solo con la XP como se planteó al principio, para probarla un tiempo y decidir después qué funcionalidades de `gaming.md` se quedan. Acepta todas las recomendaciones salvo una: **los metros que sobran al hacer cumbre se pierden**. Pide además logros de montañas.
+
+- **Motor** (`cumbres/lib/cumbres.ts`, puro): recorre los eventos de `calcularAtributos` desde `Settings.cumbres.inicio`; 1 XP = 1 m de la montaña actual; hitos cada 1.000 m con fecha y entreno; al llegar a la altitud, cumbre ese día y la siguiente empieza con la XP posterior. `ruta` guarda las elegidas y el resto sigue `MONTANAS`. Cambiar la actual solo por otra sin coronar y más alta que lo subido.
+- **Montañas** (`lib/montanas.ts`): Techo de España, Mont Blanc y Siete Cumbres (Messner), 11 en total y 58.717 m, con altitudes comprobadas (IGN, medición de 2023 del Mont Blanc, oficiales de las Siete Cumbres).
+- **Datos**: `Settings.cumbres` (`{ inicio, ruta }`, opcional y sin versión) con `data/cumbresRepo.guardar` en una transacción; todo lo demás se deriva.
+- **Pantallas**: destino Cumbres en Más (elegir la primera, montaña actual con perfil, hitos, expedición, siguientes, mis cumbres, hoja «Cambiar montaña», «Deshacer»); la tarjeta de Inicio pasa a «Nivel y cumbre» con el perfil en lugar de la barra cuando Cumbres está empezada (y celebra la cumbre durante tres días); en el fin de sesión, card «Cumbre del …» y la línea de metros dentro de «Experiencia» (`XpSesion` acepta `children`). Icono `mountain`. Ajustes nombra Cumbres en su sección.
+- **Vitrina**: grupo Cumbres (Cumbres 1 · 3 · 6 · 11, Metros subidos 10.000 · 25.000 · 50.000, Techo de España, Siete Cumbres) y ocultos Techo del mundo y Paso firme: 41 piezas (33 sin nutrición). `useVitrina` lee con `leerCumbres`.
+- **Elegido por mí**:
+  - los logros concretos y sus umbrales;
+  - el perfil es una silueta genérica (`lib/perfil.ts`) en `fg` al 20 % con lo subido en `fg`; sin datos de rutas reales;
+  - la pausa de Ritmo solo se ve («En el refugio»): la XP sigue subiendo, como en Atributos;
+  - sin Cumbres empezada, la tarjeta de Inicio es la «Nivel» de siempre y abre Atributos;
+  - en el fin de sesión, «+79 m» incluye los metros de la cumbre y los de la siguiente montaña.
+- Documentos: `features/cumbres.md` (nuevo), `vitrina.md`, `atributos.md`, `inicio.md`, `gym.md`, `datos.md`, `arquitectura.md`, `DESIGN-SYSTEM.md`, `roadmap.md`, `README.md`, `CLAUDE.md` y `gaming.md`.
+
+**Verificación:** `npm run test` (1.841 tests, 135 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos (14 semanas de entrenos): 320/375/430 px en claro y oscuro y 375 con texto al 200 %, más elegir la primera montaña con «Deshacer», el fin de sesión en ambos temas, una cumbre hecha con el entreno (card, pieza en «Nuevo en la Vitrina» y celebración en Inicio) y la gamificación oculta: 138 comprobaciones, todas bien (sin scroll horizontal, botones ≥ 44 px, sin errores de consola). Capturas revisadas: la silueta en `line` apenas se veía en claro y pasó a `fg` al 20 %; la card de la cumbre salía después de la línea de la montaña nueva y se reordenó. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.

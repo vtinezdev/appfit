@@ -11,12 +11,12 @@
 | Atlas | `lib/atlas.ts`: `gruposDeEntreno`, `calcularAtlas` | — (puro; snapshot muscular de cada entreno o la clasificación actual) |
 | Herbario | `nutricion/lib/herbario.ts`: `plantaDeEntrada`, `plantasDistintas`, `herbarioPorSemana` | — (puro; categoría con `repartoCategorias.categoriaDeEntrada`) |
 | Todo junto | `lib/vitrina.ts`: `calcularVitrina` | — |
-| Lecturas | `hooks/useVitrina.ts`: `leerAtributos` y `foodsRepo.categoriasDeEntradas` | ver [atributos.md](atributos.md) |
+| Lecturas | `hooks/useVitrina.ts`: `cumbres/hooks/useCumbres.leerCumbres` (Atributos y Cumbres) y `foodsRepo.categoriasDeEntradas` | ver [atributos.md](atributos.md) |
 | Página (Más › Vitrina) | `VitrinaTab.tsx` (diferida): `components/LogrosVista`, `RecordsVista` y `ColeccionesVista` | — |
 | Al terminar un entreno | `components/NuevosLogros` (en `gym/components/WorkoutFinished`) | `useVitrina` |
 | Herbario en Nutrición › Resumen | `nutricion/components/HerbarioResumen` | `foodsRepo.categoriasDeEntradas`, `settings` |
 
-## Logros (30 piezas)
+## Logros (41 piezas)
 
 | Logro | Grupo | Niveles o tipo | Fuente |
 |---|---|---|---|
@@ -28,12 +28,18 @@
 | Hilo | Constancia | 4 · 12 · 26 · 52 semanas seguidas | día de presencia de la semana que alcanza el hilo |
 | Días registrados | Nutrición | 30 · 100 · 200 · 365 | días con alguna comida |
 | Proteína | Nutrición | 30 · 100 · 200 | días con la proteína al 90 % del objetivo |
+| Cumbres | Cumbres | 1 · 3 · 6 · 11 montañas | cumbres de [Cumbres](cumbres.md), con su fecha y su entreno |
+| Metros subidos | Cumbres | 10.000 · 25.000 · 50.000 m | metros subidos en Cumbres (los que sobran al hacer cumbre no cuentan) |
+| Techo de España | Cumbres | 3 montañas (una pieza) | Aneto, Mulhacén y Teide; fecha de la tercera |
+| Siete Cumbres | Cumbres | 7 montañas (una pieza) | la más alta de cada continente (lista de Messner) |
 | Herbario 30 | Nutrición | repetible | 30 plantas distintas en una semana |
 | Madrugador | Oculto | 5 entrenos empezados antes de las 8:00 | |
 | Vuelta al ruedo | Oculto | repetible | entrenar tras 14 días o más sin hacerlo |
 | Descanso bien llevado | Oculto | repetible | semana cerrada cumplida con 3 días de descanso o más |
+| Techo del mundo | Oculto | una pieza | cumbre en el Everest |
+| Paso firme | Oculto | repetible | cumbre sin ninguna semana cerrada vacía durante la expedición (las congeladas por pausa no cuentan) |
 
-- Cada nivel es una pieza y un repetible cuenta como una sola. Sin nutrición, los logros de Nutrición no aparecen: quedan 22 piezas.
+- Cada nivel es una pieza y un repetible cuenta como una sola. Sin nutrición, los logros de Nutrición no aparecen: quedan 33 piezas. Los de Cumbres aparecen aunque no se haya elegido la primera montaña (sin conseguir).
 - Los ocultos se ven como «Logro oculto · Se revela al conseguirlo».
 - Los logros conseguidos con un entreno (`workoutId`) aparecen al terminarlo en «Nuevo en la Vitrina».
 
