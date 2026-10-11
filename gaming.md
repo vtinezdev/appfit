@@ -2,7 +2,7 @@
 
 Plan de trabajo · 10 de octubre de 2026.
 
-Estado: **Atributos, Ritmo y Vitrina implementados** (10 de octubre, PROCESO §100 y §101, [ADR 029](docs/decisiones/029-gamificacion-atributos.md); estado vigente en `docs/features/atributos.md`, `ritmo.md` y `vitrina.md`, que mandan sobre este plan). **Liga por ejercicio implementada** ([ADR 030](docs/decisiones/030-liga-por-ejercicio.md), PROCESO §103 a §107; estado vigente en `docs/features/liga.md`, que manda sobre este plan). Cumbres decidida (motor: etapas y víveres), por implementar; Caminos, más adelante. Base revisada: rama `feat/mapa-rojo`, commit `177d3ed`.
+Estado: **Atributos, Ritmo y Vitrina implementados** (10 de octubre, PROCESO §100 y §101, [ADR 029](docs/decisiones/029-gamificacion-atributos.md); estado vigente en `docs/features/atributos.md`, `ritmo.md` y `vitrina.md`, que mandan sobre este plan). **Liga por ejercicio implementada** ([ADR 030](docs/decisiones/030-liga-por-ejercicio.md), PROCESO §103 a §107; estado vigente en `docs/features/liga.md`, que manda sobre este plan). **Cumbres implementada en prueba con la XP como motor** (11 de octubre, PROCESO §109; estado vigente en `docs/features/cumbres.md`, que manda sobre este plan): los víveres quedan aparcados mientras Víctor la prueba y decide qué funcionalidades de este plan se quedan. Caminos, más adelante. Base revisada: rama `feat/mapa-rojo`, commit `177d3ed`.
 
 Origen: una exploración con investigación de 27 apps y videojuegos y 11 estudios, seis propuestas, maquetas con la interfaz de AppFit, un simulador de semana y una evaluación: https://claude.ai/artifact/4KYsAz8G3ss1WhV1E1no6a (privado de Víctor; una sesión de Claude Code puede leerlo con la herramienta Artifact). Este documento es autosuficiente: recoge lo decidido y lo necesario para empezar.
 
@@ -21,7 +21,7 @@ Origen: una exploración con investigación de 27 apps y videojuegos y 11 estudi
 | Atributos | **Implementado** con los parámetros de abajo | Probarlo con datos reales y ajustar si hace falta |
 | Vitrina | **Implementada** con 27 piezas retroactivas (30 con «Ciclos completados» de la Liga) | Revisar el catálogo con el uso |
 | Liga por ejercicio | **Implementada** (fases 1–5) | Probarla con datos reales y ajustar umbrales |
-| Cumbres | **Decidida**: etapas y víveres, 800 m por semana de plan; Caminos, en el futuro | Implementarla (más adelante) y cerrar los detalles de su sección |
+| Cumbres | **Implementada en prueba** con la XP (1 XP = 1 m); etapas y víveres, aparcado; Caminos, en el futuro | Probarla y decidir qué se queda |
 | Tablón | Aparcado | — |
 
 ### Rachas: autorizadas
@@ -158,7 +158,20 @@ Una liga para cada ejercicio: cuanto más tiempo seguido lo haces, más subes. L
 
 Al implementarla: ADR 030, `docs/features/liga.md` y, al día, `gym.md`, `vitrina.md`, `arquitectura.md`, `datos.md` (el campo de `Settings`) y `docs/PROCESO.md`.
 
-## Cumbres (decidida; por implementar)
+## Cumbres (implementada en prueba el 11 de octubre)
+
+**Lo implementado** (PROCESO §109, `docs/features/cumbres.md`). Víctor decidió probar primero el motor más simple, la XP, sin víveres:
+
+- 1 XP = 1 m, con toda la XP de Atributos (con «Solo entreno», solo la de entreno y semanas).
+- Arranque al elegir la primera montaña (no retroactiva); sin plazo; del mar a la cumbre; hitos cada 1.000 m.
+- **Al hacer cumbre, los metros que sobran se pierden** (Víctor lo cambió respecto a la propuesta, que los pasaba a la siguiente).
+- Ruta: Techo de España, Mont Blanc y Siete Cumbres (Messner), de menor a mayor; la actual se puede cambiar por otra sin coronar más alta que lo subido. Sin «tu montaña».
+- Una sola tarjeta en Inicio («Nivel y cumbre»), página en Más, línea y card al terminar un entreno, interruptor común de Ajustes.
+- Logros en la Vitrina: Cumbres (1 · 3 · 6 · 11), Metros subidos (10.000 · 25.000 · 50.000), Techo de España, Siete Cumbres y los ocultos Techo del mundo y Paso firme.
+- Fuera de esta prueba: la revisión del lunes y el póster en grafito de la cumbre.
+
+Lo que sigue es el plan anterior a la prueba: el motor de etapas y víveres queda aparcado, no descartado.
+
 
 Decisión de Víctor (10 de octubre), tras comparar con maquetas Cumbres, Caminos, Constelaciones y Temporadas (https://claude.ai/artifact/7RYQxMtyxzXcNszPEynA9M, privado de Víctor):
 
@@ -178,7 +191,7 @@ Decisión de Víctor (10 de octubre), tras comparar con maquetas Cumbres, Camino
 - **Datos**: derivada, como Atributos. Solo un campo opcional de `Settings` con la fecha de inicio y las montañas elegidas.
 - **Montañas de referencia** (altitudes a verificar con fuente): Aneto 3.404 m, Mulhacén 3.479 m, Teide 3.715 m, Mont Blanc 4.806 m, Kilimanjaro 5.895 m, Aconcagua 6.961 m, Everest 8.849 m.
 
-### El motor: etapas y víveres (decidido el 10 de octubre)
+### El motor: etapas y víveres (decidido el 10 de octubre; aparcado el 11 para probar antes la XP)
 
 El entreno hace subir y la comida abastece, sin que nada se pierda. No usa la XP: el nivel mide todo lo que se hace y la montaña, el plan con su nutrición.
 
@@ -246,7 +259,7 @@ Pendiente de decidir al implementar: si un día con la proteína al 90 % da un v
 3. **Vitrina mínima**: hitos y muro de récords, retroactivos.
 4. **Atributos**: usa Ritmo (semana cumplida) y los récords.
 5. **Liga por ejercicio**: decidida; fases en su sección.
-6. **Cumbres**: decidida (etapas y víveres); se implementará más adelante. Caminos, cuando haya actividad con distancia.
+6. **Cumbres**: implementada en prueba con la XP (etapas y víveres, aparcado). Caminos, cuando haya actividad con distancia.
 
 Antes de cerrar cada fase: `npm run test` y `npm run build` en verde, prueba en `appfit-test.localhost` (nunca en `localhost:5173`) a 320/375/430 px en ambos temas, y documentos vivos y `docs/PROCESO.md` al día.
 

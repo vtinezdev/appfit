@@ -274,14 +274,26 @@ export interface Settings {
   revisionSemanalCerrada?: string
   /** Plan semanal por tramos (`ritmo/lib/plan.ts`). Ausente = plan por defecto. */
   planSemanal?: TramoPlanSemanal[]
-  /** Atributos, Ritmo y Vitrina en Inicio, Más y al terminar un entreno (por defecto sí). */
+  /** Atributos, Cumbres, Ritmo y Vitrina en Inicio, Más y al terminar un entreno (por defecto sí). */
   gamificacionVisible?: boolean
-  /** La nutrición cuenta en Atributos, Ritmo y Vitrina: registro de comidas, proteína y plantas (por defecto sí). */
+  /** La nutrición cuenta en Atributos, Cumbres, Ritmo y Vitrina: registro de comidas, proteína y plantas (por defecto sí). */
   gamificacionConNutricion?: boolean
   /** Pausas declaradas de Ritmo (vacaciones, enfermedad, lesión…), ordenadas por `desde`. */
   pausas?: Pausa[]
   /** Ejercicios (`Exercise.id`) que el usuario mantiene en Élite de la Liga: no avisan durante el entreno. */
   ligaMantener?: number[]
+  /** Cumbres: desde cuándo se sube y las montañas elegidas para cada capítulo, en orden (`cumbres/lib/cumbres.ts`). */
+  cumbres?: ConfigCumbres
+}
+
+/**
+ * Cumbres: `inicio` (YYYY-MM-DD) es el día en que se eligió la primera montaña; cuenta la XP desde ese día. `ruta`, los
+ * ids de las montañas elegidas para los primeros capítulos (`cumbres/lib/montanas.ts`); los siguientes siguen la ruta
+ * sugerida.
+ */
+export interface ConfigCumbres {
+  inicio: string
+  ruta: string[]
 }
 
 export type TipoPausa = 'total' | 'entreno'

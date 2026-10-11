@@ -22,6 +22,7 @@ const PATHS = {
   droplet: 'M12 3c-3.5 4.5-6 7.8-6 11a6 6 0 0 0 12 0c0-3.2-2.5-6.5-6-11',
   rank: 'M6 9.5l6-5 6 5M6 14.5l6-5 6 5M6 19.5l6-5 6 5', // tres galones: nivel (Atributos)
   calendar: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4', // Ritmo
+  mountain: 'M2.5 19.5L9.5 7l4 7 2.5-4 5.5 9.5zM7.2 11.2l1.6 1.4 1.4-1.6 1.3 1.2', // Cumbres
   trophy: 'M8 3h8v6a4 4 0 0 1-8 0V3M8 5H4v3a4 4 0 0 0 4 4M16 5h4v3a4 4 0 0 1-4 4M12 13v6M8 21h8M10 19h4',
   loader: 'M12 3a9 9 0 1 0 9 9',
   'chevron-left': 'M15 5l-7 7 7 7',

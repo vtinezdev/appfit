@@ -1,6 +1,6 @@
 # Atributos
 
-`src/features/atributos/`. Nivel y experiencia (XP) derivados del historial: nada se acumula ni se guarda. Decisión y salvaguardas: [ADR 029](../decisiones/029-gamificacion-atributos.md). Las semanas, el plan y las pausas son de [Ritmo](ritmo.md); los logros, de la [Vitrina](vitrina.md). Plan general (Liga y Cumbres, por concretar): `gaming.md`.
+`src/features/atributos/`. Nivel y experiencia (XP) derivados del historial: nada se acumula ni se guarda. Decisión y salvaguardas: [ADR 029](../decisiones/029-gamificacion-atributos.md). Las semanas, el plan y las pausas son de [Ritmo](ritmo.md); los logros, de la [Vitrina](vitrina.md). La XP es también la que sube las montañas de [Cumbres](cumbres.md). Plan general: `gaming.md`.
 
 ## Dónde está cada cosa
 
@@ -8,10 +8,10 @@
 |---|---|---|
 | Reglas, XP, nivel, títulos y textos | `atributos/lib/atributos.ts`: `calcularAtributos`, `xpDeEntreno`, `nivelDeXp`, `costeNivel`, `tituloDe`, `entrenoHoy`, `describirEvento`, `describirSinXp`, `xpPorDia`, `xpDeSesion` | — (puro) |
 | Semana cumplida (con pausas) | `ritmo/lib/ritmo.calcularRitmo`, llamado dentro de `calcularAtributos` (devuelve `ritmo`, `entrenos` de ≥ 5 series, todos los `records` y los días de entreno y registro, que reutilizan Ritmo y Vitrina) | — (puro) |
-| Lecturas | `atributos/hooks/useAtributos.ts`: `leerAtributos` (async, también para `useVitrina`) y `useAtributos` (useLiveQuery) | `workoutsRepo.terminados`, `setsRepo.todas`, `exercisesRepo.listar`, `entriesRepo.entreFechas` (todo el historial), `objetivosDiaRepo.objetivosPorFecha`, `settings` (plan, pausas e interruptores) |
+| Lecturas | `atributos/hooks/useAtributos.ts`: `leerAtributos` (async, también para `useCumbres` y, a través de él, `useVitrina`) y `useAtributos` (useLiveQuery) | `workoutsRepo.terminados`, `setsRepo.todas`, `exercisesRepo.listar`, `entriesRepo.entreFechas` (todo el historial), `objetivosDiaRepo.objetivosPorFecha`, `settings` (plan, pausas e interruptores) |
 | Página (Más › Atributos) | `atributos/AtributosTab.tsx` (diferida), `components/FilasXp` | — |
-| Tarjeta «Nivel» de Inicio | `inicio/components/AccesoNivel` | `useAtributos` |
-| Bloque al terminar un entreno | `atributos/components/XpSesion` (lo compone `gym/components/WorkoutFinished` con `summary.workoutId`) | `useAtributos` |
+| Tarjeta «Nivel» de Inicio | `inicio/components/AccesoNivel` (con la montaña de [Cumbres](cumbres.md) si está empezada) | `cumbres/hooks/useCumbres` (que envuelve `leerAtributos`) |
+| Bloque al terminar un entreno | `atributos/components/XpSesion` (lo compone `gym/components/WorkoutFinished` con `summary.workoutId`; dentro, `cumbres/components/CumbreSesion`) | `useAtributos` |
 | Ajustes | `atributos/components/AtributosAjustes` (lo monta `app/Ajustes`) | escribe con `updateSettings`: `gamificacionVisible`, `gamificacionConNutricion`, `planSemanal` |
 
 ## Reglas (versión 1, `VERSION_REGLAS`)
@@ -37,10 +37,10 @@
 
 ## Pantallas
 
-- **Inicio**: tarjeta «Nivel» al final del mosaico, con nivel y título, una barra de XP decorativa (dentro del botón; las cifras van en texto) y lo que valdría entrenar hoy («Quedan 2 entrenos del plan esta semana», «Hoy ya suma un entreno», «Plan de la semana completo: ya suman sus 3 entrenos»). Abre Atributos.
+- **Inicio**: tarjeta «Nivel» al final del mosaico, con nivel y título, una barra de XP decorativa (dentro del botón; las cifras van en texto) y lo que valdría entrenar hoy («Quedan 2 entrenos del plan esta semana», «Hoy ya suma un entreno», «Plan de la semana completo: ya suman sus 3 entrenos»). Abre Atributos. Con Cumbres empezada pasa a «Nivel y cumbre»: el perfil de la montaña sustituye a la barra y abre Cumbres ([cumbres.md](cumbres.md)).
 - **Atributos** (Más): card con el nivel (`Metric hero`), título, barra y XP total. Debajo, los atributos en `ListGroup` con su barra; «Esta semana» (entrenos y días frente al plan, XP de la semana y lo que falta para cumplirla); «Cada día», con la XP de cada día y su porqué (14 días y «Ver más días»); y los Disclosure «Cómo se gana XP» y «Títulos». Ocultos, muestra un estado vacío con «Ir a Ajustes».
 - **Fin de sesión**: bajo los récords, «Experiencia» con la XP del entreno y de sus récords, o por qué no suma, y una card con el nivel («Subes al nivel 9» si sube). Sin animación.
-- **Ajustes › Atributos, Ritmo y Vitrina**: Mostrar/Ocultar (oculta las tarjetas de Inicio, los bloques del fin de sesión, el sello de la revisión, el Herbario del Resumen y los tres destinos de Más), Con nutrición/Solo entreno, entrenos por semana (2–6) y días con comidas por semana (3–7), con `SegmentedControl`.
+- **Ajustes › Atributos, Cumbres, Ritmo y Vitrina**: Mostrar/Ocultar (oculta las tarjetas de Inicio, los bloques del fin de sesión, el sello de la revisión, el Herbario del Resumen y los tres destinos de Más), Con nutrición/Solo entreno, entrenos por semana (2–6) y días con comidas por semana (3–7), con `SegmentedControl`.
 
 ## Rendimiento
 

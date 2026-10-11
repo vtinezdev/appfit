@@ -4,7 +4,10 @@ import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { calcularAtributos } from '../../atributos/lib/atributos'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import { calcularAtlas } from './atlas'
-import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, recuentoPiezas, siguienteUmbral } from './logros'
+import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, recuentoPiezas, siguienteUmbral, UMBRALES } from './logros'
+import type { EventoXp } from '../../atributos/lib/atributos'
+import { calcularCumbres, empezar } from '../../cumbres/lib/cumbres'
+import { MONTANAS } from '../../cumbres/lib/montanas'
 import { describirMarca, muroRecords } from './muro'
 import { calcularVitrina } from './vitrina'
 
@@ -72,7 +75,8 @@ describe('logros', () => {
     expect(conseguido(de('madrugador'))).toBe(false)
     expect(de('madrugador').progreso).toBe(1)
     // Entrenos I, Hilo I (4 semanas seguidas) y Descanso bien llevado (repetible: una pieza).
-    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 3, total: 4 + 3 + 3 + 1 + 4 + 4 + 3 })
+    // Cumbres sin empezar: sus 11 piezas, sin conseguir.
+    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 3, total: 4 + 3 + 3 + 1 + 4 + 4 + 4 + 3 + 1 + 1 + 3 + 2 })
   })
 
   it('semanas cumplidas y logros del entreno con el que se consiguieron', () => {
@@ -91,6 +95,25 @@ describe('logros', () => {
     expect(ciclos.niveles[0]).toEqual({ fecha: '2026-08-17', workoutId: semanas[15].workout.id })
     expect(ciclos.progreso).toBe(2)
     expect(ciclos.descripcion).toBe('Llegar a Élite de la Liga con 5 ejercicios distintos')
+  })
+
+  it('cumbres: niveles, metros, Techo de España y paso firme, con su fecha real', () => {
+    const ev = (fecha: string, xp: number, workoutId?: number): EventoXp => workoutId === undefined
+      ? { tipo: 'registro', atributo: 'nutricion', fecha, xp, comidas: 2 }
+      : { tipo: 'entreno', atributo: 'fuerza', fecha, xp, workoutId, series: 6 }
+    const cumbres = calcularCumbres([ev('2026-09-14', 3404), ev('2026-09-21', 3479, 999), ev('2026-09-28', 3715)], empezar('2026-09-07', 'aneto'))
+    const l = calcularLogros({ hoy: '2026-10-10', atributos, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false, cumbres })
+    const x = (idLogro: string) => l.find((y) => y.id === idLogro)!
+    expect(x('cumbres').niveles.slice(0, 2)).toEqual([{ fecha: '2026-09-14' }, { fecha: '2026-09-28' }])
+    expect(x('cumbres').descripcion).toBe('Hacer cumbre en 6 montañas')
+    expect(x('metros').niveles).toEqual([{ fecha: '2026-09-28' }, null, null])
+    expect(x('metros').progreso).toBe(10_598)
+    expect(x('techo-espana').niveles).toEqual([{ fecha: '2026-09-28' }])
+    expect(x('siete-cumbres').progreso).toBe(0)
+    expect(conseguido(x('techo-mundo'))).toBe(false)
+    expect(x('paso-firme').veces).toHaveLength(3)
+    expect(logrosDeEntreno(l, 999).map((n) => n.logro.id)).toEqual(['paso-firme'])
+    expect(UMBRALES.cumbres[UMBRALES.cumbres.length - 1]).toBe(MONTANAS.length)
   })
 
   it('vuelta al ruedo tras 14 días o más sin entrenar', () => {
