@@ -1,9 +1,10 @@
 // Vitrina: logros, muro de récords y colecciones (Herbario y Atlas) de todo el historial. Funciones puras.
 import type { Actividad, Entry, Exercise, Pausa, SetEntry, Workout } from '../../../shared/db/types'
-import { startOfWeek } from '../../../shared/lib/dates'
+import { startOfWeek, toISODate } from '../../../shared/lib/dates'
 import type { ResultadoExperiencia } from '../../experiencia/lib/experiencia'
 import type { ResultadoCumbres } from '../../cumbres/lib/cumbres'
 import type { ResultadoCaminos } from '../../caminos/lib/caminos'
+import { volumenSets } from '../../gym/lib/workout'
 import { calcularLigas, primerosCiclos } from '../../liga/lib/liga'
 import { herbarioPorSemana, plantasDistintas, type Planta, type SemanaHerbario } from '../../nutricion/lib/herbario'
 import { calcularAtlas, type Atlas } from './atlas'
@@ -64,10 +65,13 @@ export function calcularVitrina(d: DatosVitrina): ResultadoVitrina {
     semanas,
     mejorSemana: semanas.reduce<SemanaHerbario | null>((m, s) => (!m || s.plantas > m.plantas ? s : m), null),
   } : null
+  const ligas = calcularLigas({ hoy: d.hoy, workouts: terminados, sets: d.sets, pausas: d.pausas })
+  const volumenes = [...terminados].sort((a, b) => a.inicio - b.inicio)
+    .map((w) => ({ fecha: toISODate(new Date(w.inicio)), workoutId: w.id, kg: volumenSets(porWorkout.get(w.id) ?? []) }))
   return {
-    logros: calcularLogros({ hoy: d.hoy, experiencia: d.experiencia, atlas, herbario: semanas, conNutricion: d.conNutricion, cumbres: d.cumbres,
-      actividades: (d.actividades ?? []).filter((x) => !x.enCurso && x.fecha <= d.hoy), caminos: d.caminos,
-      ciclos: primerosCiclos(calcularLigas({ hoy: d.hoy, workouts: terminados, sets: d.sets, pausas: d.pausas })).map(({ fecha, workoutId }) => ({ fecha, workoutId })) }),
+    logros: calcularLogros({ hoy: d.hoy, experiencia: d.experiencia, atlas, herbario: semanas, plantas: herbario?.desdeSiempre, conNutricion: d.conNutricion,
+      cumbres: d.cumbres, actividades: (d.actividades ?? []).filter((x) => !x.enCurso && x.fecha <= d.hoy), caminos: d.caminos, ligas, volumenes,
+      ciclos: primerosCiclos(ligas).map(({ fecha, workoutId }) => ({ fecha, workoutId })) }),
     muro: muroRecords(terminados, d.sets),
     atlas,
     herbario,

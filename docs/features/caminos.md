@@ -16,7 +16,7 @@
 | Tarjeta de Inicio | `inicio/components/AccesoCamino` | `useCaminos` en `InicioTab` |
 | Tesela de Más | `app/MasAccesos` | `useCaminos` |
 | En el detalle de una actividad | `components/AvanceActividad` (lo compone `actividades/pages/DetalleActividad`) | `useCumbres`, `useCaminos` |
-| Logros | `vitrina/lib/logros.ts`, grupo «Caminos» y dos ocultos (ver [vitrina.md](vitrina.md)) | resultado de `calcularCaminos` y las actividades |
+| Logros | `vitrina/lib/logros.ts`, grupo «Caminos» y tres ocultos (ver [vitrina.md](vitrina.md)) | resultado de `calcularCaminos` y las actividades |
 
 ## Reglas
 

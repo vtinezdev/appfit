@@ -37,8 +37,8 @@ export interface Atlas {
   semanas: SemanaAtlas[]
   /** Grupos trabajados alguna vez. */
   desdeSiempre: Set<ZonaMuscular>
-  /** Ejercicios con al menos 3 sesiones, de más a menos sesiones. */
-  dominados: { exerciseId: number; sesiones: number }[]
+  /** Ejercicios con al menos 3 sesiones, de más a menos sesiones, con el entreno en que se llegó a la tercera. */
+  dominados: { exerciseId: number; sesiones: number; desde: { workoutId: number; fecha: string } }[]
 }
 
 /** Atlas de los entrenos terminados. `porWorkout`: series de cada entreno. */
@@ -46,6 +46,7 @@ export function calcularAtlas(workouts: readonly EntrenoAtlas[], porWorkout: Rea
   const semanas = new Map<string, SemanaAtlas>()
   const desdeSiempre = new Set<ZonaMuscular>()
   const sesiones = new Map<number, number>()
+  const desde = new Map<number, { workoutId: number; fecha: string }>()
   for (const w of [...workouts].filter((x) => x.fin !== undefined).sort((a, b) => a.inicio - b.inicio)) {
     const sets = porWorkout.get(w.id) ?? []
     const fecha = toISODate(new Date(w.inicio))
@@ -54,11 +55,15 @@ export function calcularAtlas(workouts: readonly EntrenoAtlas[], porWorkout: Rea
     for (const g of gruposDeEntreno(w, sets, exercises)) { semana.grupos.add(g); desdeSiempre.add(g) }
     if (semana.completa === null && semana.grupos.size === ZONAS_MUSCULARES.length) semana.completa = { workoutId: w.id, fecha }
     semanas.set(lunes, semana)
-    for (const id of new Set(sets.filter((s) => esEfectiva(s) && s.reps > 0).map((s) => s.exerciseId))) sesiones.set(id, (sesiones.get(id) ?? 0) + 1)
+    for (const id of new Set(sets.filter((s) => esEfectiva(s) && s.reps > 0).map((s) => s.exerciseId))) {
+      const n = (sesiones.get(id) ?? 0) + 1
+      sesiones.set(id, n)
+      if (n === SESIONES_DOMINADO) desde.set(id, { workoutId: w.id, fecha })
+    }
   }
   return {
     semanas: [...semanas.values()].sort((a, b) => a.lunes.localeCompare(b.lunes)),
     desdeSiempre,
-    dominados: [...sesiones].filter(([, n]) => n >= SESIONES_DOMINADO).map(([exerciseId, n]) => ({ exerciseId, sesiones: n })).sort((a, b) => b.sesiones - a.sesiones),
+    dominados: [...sesiones].filter(([, n]) => n >= SESIONES_DOMINADO).map(([exerciseId, n]) => ({ exerciseId, sesiones: n, desde: desde.get(exerciseId)! })).sort((a, b) => b.sesiones - a.sesiones),
   }
 }

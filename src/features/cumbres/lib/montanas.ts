@@ -71,6 +71,8 @@ export const COLECCIONES: Record<ColeccionMontana, { nombre: string; montanas: r
 }
 
 export const EVEREST = 'everest'
+/** La «montaña salvaje» (logro oculto de la Vitrina). */
+export const K2 = 'k2'
 
 const POR_ID = new Map(MONTANAS.map((m) => [m.id, m]))
 

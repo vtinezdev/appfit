@@ -75,10 +75,10 @@ describe('logros', () => {
     expect(logros.some((l) => l.grupo === 'nutricion')).toBe(false)
     expect(conseguido(de('madrugador'))).toBe(false)
     expect(de('madrugador').progreso).toBe(1)
-    // Entrenos I, Hilo I (4 semanas seguidas) y Descanso bien llevado (repetible: una pieza).
-    // Cumbres sin empezar: sus 17 piezas (cumbres, metros, otra vez arriba y cinco colecciones), sin conseguir. Caminos
-    // sin actividades: 16 (km, salidas, rutas, Compostela, Todos los caminos y dos ocultos).
-    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 3, total: 4 + 3 + 3 + 1 + 4 + 4 + 5 + 4 + 3 + 5 + 4 + 2 + 4 + 4 + 4 + 1 + 1 + 2 })
+    // Entrenos I, Récords batidos I, Hilo I (4 semanas seguidas) y Descanso bien llevado (repetible: una pieza). Entreno:
+    // 34 piezas; Constancia: 13; Cumbres sin empezar: 22, sin conseguir; Caminos sin actividades: 36; ocultos: 16.
+    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 4, total: 34 + 13 + 22 + 36 + 16 })
+    expect(nivelDe(de('records-batidos'))).toBe(1)
   })
 
   it('semanas cumplidas y logros del entreno con el que se consiguieron', () => {
@@ -108,7 +108,7 @@ describe('logros', () => {
     const x = (idLogro: string) => l.find((y) => y.id === idLogro)!
     expect(x('cumbres').niveles.slice(0, 2)).toEqual([{ fecha: '2026-09-14' }, { fecha: '2026-09-28' }])
     expect(x('cumbres').descripcion).toBe('Hacer 6 cumbres (repetir una montaña también cuenta)')
-    expect(x('metros').niveles).toEqual([{ fecha: '2026-09-28' }, null, null, null])
+    expect(x('metros').niveles).toEqual([{ fecha: '2026-09-28' }, null, null, null, null])
     expect(x('metros').progreso).toBe(10_598)
     expect(x('techo-espana').niveles).toEqual([{ fecha: '2026-09-28' }])
     expect(x('siete-cumbres').progreso).toBe(0)
@@ -126,7 +126,7 @@ describe('logros', () => {
     const cumbres = calcularCumbres([ev('2026-09-08', 3404), ev('2026-09-10', 3404), ev('2026-09-14', 3404)], { inicio: '2026-09-01', ruta: ['aneto', 'aneto', 'aneto'] })
     const l = calcularLogros({ hoy: '2026-10-10', experiencia, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false, cumbres })
     const x = (idLogro: string) => l.find((y) => y.id === idLogro)!
-    expect(x('repetir').niveles).toEqual([{ fecha: '2026-09-10' }, { fecha: '2026-09-14' }, null])
+    expect(x('repetir').niveles).toEqual([{ fecha: '2026-09-10' }, { fecha: '2026-09-14' }, null, null])
     expect(x('repetir').progreso).toBe(3)
     expect(x('repetir').descripcion).toBe('Hacer cumbre 5 veces en la misma montaña')
     expect(x('mas-rapido').veces).toEqual([{ fecha: '2026-09-10' }])
@@ -146,9 +146,9 @@ describe('logros de Caminos', () => {
   it('km acumulados, salidas, rutas, Compostela y los ocultos', () => {
     const experiencia = calcularExperiencia({ hoy: '2026-12-31', workouts: [], sets: [], entries: [], protObjetivo: new Map(), conNutricion: false })
     const actividades = [
-      { id: 1, fecha: '2026-10-05', inicio: 1, distanciaM: 30_000 },
-      { id: 2, fecha: '2026-10-06', inicio: 2, distanciaM: 45_000 },
-      { id: 3, fecha: '2026-10-07', inicio: 3, distanciaM: 40_000 },
+      { id: 1, tipo: 'caminar' as const, fecha: '2026-10-05', inicio: 1, distanciaM: 30_000, duracionSeg: 6 * 3600, desnivelM: 400 },
+      { id: 2, tipo: 'correr' as const, fecha: '2026-10-06', inicio: 2, distanciaM: 45_000, duracionSeg: 4 * 3600 },
+      { id: 3, tipo: 'senderismo' as const, fecha: '2026-10-07', inicio: 3, distanciaM: 40_000, duracionSeg: 9 * 3600, desnivelM: 1200 },
     ]
     const caminos = calcularCaminos(actividades, { inicio: '2026-10-05', ruta: ['ingles', 'fisterra'] }, '2026-12-31')
     const logros = calcularLogros({ hoy: '2026-12-31', experiencia, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false, actividades, caminos })
@@ -161,5 +161,76 @@ describe('logros de Caminos', () => {
     expect(conseguido(de('todos-santiago'))).toBe(false)
     expect(de('maraton').veces).toEqual([{ fecha: '2026-10-06' }])
     expect(conseguido(de('fin-del-mundo'))).toBe(false)
+    expect(de('km-corriendo')).toMatchObject({ progreso: 45, niveles: [{ fecha: '2026-10-06' }, null, null, null, null] })
+    expect(de('desnivel')).toMatchObject({ progreso: 1600, niveles: [{ fecha: '2026-10-07' }, null, null, null] })
+    expect(de('horas')).toMatchObject({ progreso: 19, niveles: [{ fecha: '2026-10-06' }, null, null, null] })
+    expect(de('distancia').niveles).toEqual([{ fecha: '2026-10-05' }, { fecha: '2026-10-05' }, { fecha: '2026-10-05' }, { fecha: '2026-10-05' }])
+    expect(de('distancia').descripcion).toBe('Una salida de 30 km o más')
+    expect(de('km-vertical').veces).toEqual([{ fecha: '2026-10-07' }])
+    expect(de('rutas-mundo')).toMatchObject({ progreso: 0, descripcion: 'Terminar Camino Inca, Milford Track, Kumano Kodo y West Highland Way' })
+  })
+})
+
+describe('logros ampliados', () => {
+  const banca = ejercicio('pecho').id
+  const sinNutricion = (es: ReturnType<typeof entreno>[], hoy = '2026-10-10') =>
+    calcularExperiencia({ hoy, workouts: es.map((e) => e.workout), sets: es.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false })
+
+  it('entreno: series, toneladas, ejercicios dominados y subir de liga', () => {
+    // Lunes, miércoles y viernes desde el 7 de septiembre: 6 series de 8 con 40…49 kg.
+    const es = Array.from({ length: 10 }, (_, i) => entreno(addDays('2026-09-07', Math.floor(i / 3) * 7 + (i % 3) * 2), seis(banca, 40 + i)))
+    const v = calcularVitrina({ hoy: '2026-10-10', experiencia: sinNutricion(es), workouts: es.map((e) => e.workout), sets: es.flatMap((e) => e.sets),
+      exercises: [], entries: [], categorias: new Map(), conNutricion: false })
+    const de = (idLogro: string) => v.logros.find((l) => l.id === idLogro)!
+    expect(de('series').progreso).toBe(60)
+    // 48 repeticiones por entreno: 1.920 kg el primero; los 10.000 kg llegan con el quinto.
+    expect(de('toneladas')).toMatchObject({ progreso: 21, unidad: 't' })
+    expect(de('toneladas').niveles[0]).toEqual({ fecha: '2026-09-16', workoutId: es[4].workout.id })
+    expect(de('dominados').progreso).toBe(1)
+    expect(de('ligas').niveles).toEqual([{ fecha: '2026-09-07', workoutId: es[0].workout.id }, { fecha: '2026-09-28', workoutId: es[9].workout.id }, null, null, null])
+    expect(de('ligas').descripcion).toBe('Llegar a Oro en la Liga con un ejercicio')
+    expect(de('racha').progreso).toBe(3) // tres semanas cumplidas seguidas; la cuarta, con un entreno, corta
+  })
+
+  it('ocultos: noctámbulo, día de récords, año nuevo, día redondo, un año después y red de seguridad', () => {
+    const remo = ejercicio('espalda').id
+    const prensa = ejercicio('cuadriceps').id
+    const tres = (peso: number) => [...seis(banca, peso).slice(0, 2), ...seis(remo, peso).slice(0, 2), ...seis(prensa, peso).slice(0, 2)]
+    const es = [
+      entreno('2026-01-01', tres(40), 22), entreno('2026-01-03', tres(50), 22),
+      ...Array.from({ length: 3 }, (_, i) => entreno(addDays('2026-01-05', i), tres(40), 23)),
+      entreno('2027-01-01', tres(40)),
+    ]
+    const experiencia = sinNutricion(es, '2027-01-10')
+    const l = calcularLogros({ hoy: '2027-01-10', experiencia, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false,
+      actividades: [{ id: 1, tipo: 'caminar', fecha: '2027-01-01', inicio: 1, distanciaM: 5000, duracionSeg: 3600 }] })
+    const de = (idLogro: string) => l.find((x) => x.id === idLogro)!
+    expect(de('noctambulo').niveles).toEqual([{ fecha: '2026-01-07', workoutId: es[4].workout.id }])
+    expect(de('dia-records').veces).toContainEqual({ fecha: '2026-01-03', workoutId: es[1].workout.id })
+    expect(de('ano-nuevo').veces).toEqual([{ fecha: '2026-01-01', workoutId: es[0].workout.id }, { fecha: '2027-01-01', workoutId: es[5].workout.id }])
+    expect(de('dia-redondo').veces).toEqual([{ fecha: '2027-01-01', workoutId: es[5].workout.id }])
+    expect(de('aniversario').niveles).toEqual([{ fecha: '2027-01-01' }])
+
+    // Cuatro semanas cumplidas dan un comodín; la quinta, vacía, lo gasta.
+    const semanas = Array.from({ length: 4 }, (_, k) => [0, 2, 4].map((dia) => entreno(addDays('2026-09-07', 7 * k + dia), seis(banca, 40)))).flat()
+    const conComodin = calcularLogros({ hoy: '2026-10-20', experiencia: sinNutricion([...semanas, entreno('2026-10-14', seis(banca, 40))], '2026-10-20'),
+      atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false })
+    expect(conComodin.find((x) => x.id === 'comodin')!.niveles).toEqual([{ fecha: '2026-10-11' }])
+    expect(conComodin.find((x) => x.id === 'racha')!.niveles[0]).toEqual({ fecha: '2026-10-02' })
+  })
+
+  it('nutrición: semanas enteras, botánica y jardín botánico', () => {
+    const dias = Array.from({ length: 9 }, (_, i) => addDays('2026-10-05', i))
+    const experiencia = calcularExperiencia({ hoy: '2026-10-20', workouts: [], sets: [], entries: dias.map((fecha) => ({ fecha, comida: 'comida' as const, prot: 10 })),
+      protObjetivo: new Map(dias.map((f) => [f, 150])), conNutricion: true })
+    const plantas = Array.from({ length: 50 }, (_, i) => ({ primera: i < 49 ? '2026-10-05' : '2026-10-09' }))
+    const l = calcularLogros({ hoy: '2026-10-20', experiencia, atlas: calcularAtlas([], new Map(), []), conNutricion: true, plantas,
+      herbario: [{ lunes: '2026-10-05', plantas: 50, treintaEl: '2026-10-06', cincuentaEl: '2026-10-09' }] })
+    const de = (idLogro: string) => l.find((x) => x.id === idLogro)!
+    expect(de('semanas-enteras').progreso).toBe(1)
+    expect(de('plantas').niveles[0]).toEqual({ fecha: '2026-10-09' })
+    expect(de('jardin').veces).toEqual([{ fecha: '2026-10-09' }])
+    // Con nutrición: 18 piezas de Nutrición y el Jardín botánico entre los ocultos.
+    expect(recuentoPiezas(l).total).toBe(34 + 13 + 22 + 36 + 16 + 18 + 1)
   })
 })
