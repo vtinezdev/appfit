@@ -1,15 +1,18 @@
-// Cumbres: se sube una montaña real tras otra con la XP de Atributos (1 XP = 1 m), desde el día en que se elige la
-// primera (gaming.md). Derivada como el resto: nada se acumula ni se guarda salvo las montañas elegidas
+// Cumbres: se sube una montaña real tras otra con la experiencia (1 XP = 1 m), desde el día en que se elige la primera
+// (gaming.md, ADR 034). Derivada como el resto: nada se acumula ni se guarda salvo las montañas elegidas
 // (`Settings.cumbres`), así que respeta la edición retroactiva. Sin plazo y sin poder fallar. Al hacer cumbre, los
-// metros que sobran no pasan a la siguiente: empieza desde el nivel del mar con la XP que llegue después.
+// metros que sobran no pasan a la siguiente: empieza desde el nivel del mar con la XP que llegue después. Las montañas
+// se pueden repetir: la ruta no se acaba.
 import type { ConfigCumbres } from '../../../shared/db/types'
 import { addDays, diasEntre } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
-import type { EventoXp } from '../../atributos/lib/atributos'
+import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { MONTANAS, montanaDe, type Montana } from './montanas'
 
 /** Un hito cada 1.000 m de altitud, además de la cumbre. */
 export const METROS_POR_HITO = 1000
+/** Montañas que se enseñan después de la actual. */
+export const SIGUIENTES = 5
 
 /** Cuándo pasó algo y, si fue con un entreno, cuál (para mostrarlo al terminarlo). */
 export interface Marca {
@@ -24,6 +27,8 @@ export interface HitoAlcanzado extends Marca {
 /** Un capítulo: una montaña, desde el nivel del mar hasta su cima. */
 export interface Expedicion {
   montana: Montana
+  /** Qué vez se sube esta montaña (1 la primera; 2 si ya se coronó una vez…). */
+  vez: number
   /** Día en que empezó: el inicio de Cumbres o el de la cumbre anterior. */
   desde: string
   /** Metros subidos (nunca más que la altitud). */
@@ -42,46 +47,63 @@ export interface TramoSubido extends Marca {
 
 export interface ResultadoCumbres {
   inicio: string
-  /** Las coronadas y, al final, la actual (si quedan montañas). */
+  /** Las coronadas y, al final, la actual. */
   expediciones: Expedicion[]
-  actual: Expedicion | null
+  actual: Expedicion
   coronadas: Expedicion[]
-  /** Montañas que vienen después de la actual, en el orden de la ruta. */
+  /** Las `SIGUIENTES` montañas que vienen después de la actual, en el orden de la ruta. */
   siguientes: Montana[]
   metrosTotales: number
   /** En orden cronológico. */
   tramos: TramoSubido[]
 }
 
-/** Ruta completa: las montañas elegidas (válidas y sin repetir) y después el resto en el orden sugerido. */
-export function rutaDe(elegidas: readonly string[]): Montana[] {
+/**
+ * Las primeras `n` montañas de la ruta: las elegidas (ids válidos, en orden y con repeticiones) y después la sugerida,
+ * que elige siempre la montaña coronada menos veces (a igualdad, la primera de `MONTANAS`). Así, primero van las que
+ * faltan y, con todas hechas, empieza otra vuelta: la ruta no se acaba.
+ */
+export function rutaDe(elegidas: readonly string[], n: number): Montana[] {
   const ruta: Montana[] = []
+  const veces = new Map<string, number>()
+  const anadir = (m: Montana) => { ruta.push(m); veces.set(m.id, (veces.get(m.id) ?? 0) + 1) }
   for (const id of elegidas) {
     const m = montanaDe(id)
-    if (m && !ruta.includes(m)) ruta.push(m)
+    if (m && ruta.length < n) anadir(m)
   }
-  return [...ruta, ...MONTANAS.filter((m) => !ruta.includes(m))]
+  while (ruta.length < n) {
+    let siguiente = MONTANAS[0]
+    for (const m of MONTANAS) if ((veces.get(m.id) ?? 0) < (veces.get(siguiente.id) ?? 0)) siguiente = m
+    anadir(siguiente)
+  }
+  return ruta
 }
 
 const workoutDe = (e: EventoXp) => (e.tipo === 'entreno' || e.tipo === 'record' ? e.workoutId : undefined)
 
 /**
- * Recorre la XP (en orden cronológico, como la devuelve `calcularAtributos`) desde el inicio: cada XP es un metro de la
- * montaña actual. Al llegar a su altitud se hace cumbre ese día y empieza la siguiente con la XP posterior. `null` si
- * aún no se ha elegido la primera montaña.
+ * Recorre la XP (en orden cronológico, como la devuelve `calcularExperiencia`) desde el inicio: cada XP es un metro de
+ * la montaña actual. Al llegar a su altitud se hace cumbre ese día y empieza la siguiente con la XP posterior. `null`
+ * si aún no se ha elegido la primera montaña.
  */
 export function calcularCumbres(eventos: readonly EventoXp[], config: ConfigCumbres | undefined): ResultadoCumbres | null {
   if (!config) return null
-  const ruta = rutaDe(config.ruta)
-  const nueva = (i: number, desde: string): Expedicion => ({ montana: ruta[i], desde, metros: 0, hitos: [], cumbre: null })
-  const expediciones = [nueva(0, config.inicio)]
-  const tramos: TramoSubido[] = []
+  // Cada XP sube como mucho una montaña (lo que sobra se pierde): no puede haber más capítulos que eventos.
+  const ruta = rutaDe(config.ruta, eventos.length + 1)
+  const veces = new Map<string, number>()
+  const nueva = (i: number, desde: string): Expedicion => {
+    const montana = ruta[i]
+    const vez = (veces.get(montana.id) ?? 0) + 1
+    veces.set(montana.id, vez)
+    return { montana, vez, desde, metros: 0, hitos: [], cumbre: null }
+  }
   let i = 0
-  let actual: Expedicion | null = expediciones[0]
+  let actual = nueva(0, config.inicio)
+  const expediciones = [actual]
+  const tramos: TramoSubido[] = []
   let metrosTotales = 0
 
   for (const e of eventos) {
-    if (!actual) break
     if (e.fecha < config.inicio || !(e.xp > 0)) continue
     const workoutId = workoutDe(e)
     const marca: Marca = workoutId === undefined ? { fecha: e.fecha } : { fecha: e.fecha, workoutId }
@@ -97,8 +119,8 @@ export function calcularCumbres(eventos: readonly EventoXp[], config: ConfigCumb
     if (actual.metros >= altitud) {
       actual.cumbre = marca
       i += 1
-      actual = i < ruta.length ? nueva(i, e.fecha) : null
-      if (actual) expediciones.push(actual)
+      actual = nueva(i, e.fecha)
+      expediciones.push(actual)
     }
   }
 
@@ -107,7 +129,7 @@ export function calcularCumbres(eventos: readonly EventoXp[], config: ConfigCumb
     expediciones,
     actual,
     coronadas: expediciones.filter((x) => x.cumbre !== null),
-    siguientes: ruta.slice(i + 1),
+    siguientes: rutaDe(config.ruta, i + 1 + SIGUIENTES).slice(i + 1),
     metrosTotales,
     tramos,
   }
@@ -120,17 +142,31 @@ export function empezar(hoy: string, montanaId: string): ConfigCumbres {
   return { inicio: hoy, ruta: [montanaId] }
 }
 
-/** Montañas por las que se puede cambiar la actual: sin coronar y más altas que lo ya subido en ella. */
+/** Montañas por las que se puede cambiar la actual: cualquier otra (también las coronadas) más alta que lo ya subido. */
 export function montanasParaCambiar(r: ResultadoCumbres): Montana[] {
-  if (!r.actual) return []
   const { actual } = r
-  return MONTANAS.filter((m) => m !== actual.montana && !r.coronadas.some((c) => c.montana === m) && m.altitud > actual.metros)
+  return MONTANAS.filter((m) => m !== actual.montana && m.altitud > actual.metros)
 }
 
 /** Cambia la montaña actual por otra (conserva lo subido). Las coronadas no cambian. `null` si no se puede. */
 export function cambiarMontana(config: ConfigCumbres, r: ResultadoCumbres, montanaId: string): ConfigCumbres | null {
   if (!montanasParaCambiar(r).some((m) => m.id === montanaId)) return null
   return { ...config, ruta: [...r.coronadas.map((c) => c.montana.id), montanaId] }
+}
+
+/** Veces que se ha coronado cada montaña. */
+export function vecesCoronada(r: ResultadoCumbres): Map<string, number> {
+  const veces = new Map<string, number>()
+  for (const x of r.coronadas) veces.set(x.montana.id, (veces.get(x.montana.id) ?? 0) + 1)
+  return veces
+}
+
+/** «1 vez», «3 veces». */
+export const vecesTexto = (n: number) => (n === 1 ? '1 vez' : `${formatInt(n)} veces`)
+
+/** Nombre de una expedición: «Aneto» la primera vez y «Aneto · 2.ª vez» al repetirla. */
+export function nombreExpedicion(x: Expedicion): string {
+  return x.vez > 1 ? `${x.montana.nombre} · ${formatInt(x.vez)}.ª vez` : x.montana.nombre
 }
 
 // ── Lecturas para la interfaz ──

@@ -121,7 +121,7 @@ Se marca **el día entero** con el botón bajo la semana del Diario («Marcar co
 Qué cambia (lógica pura en `lib/cheatDays.ts` y en cada cálculo; marcas de `cheatDaysRepo`):
 - **Fuera de las medias**: media de kcal y macros y media de objetivos del Resumen (`resumenPeriodo`), adherencia ±10 % (`calcularAdherencia` recibe las fechas sin cheat days) y el bloque de nutrición de la revisión semanal (`bloqueNutricion`, en las dos semanas que compara). Nota visible: «N cheat days fuera de la media».
 - **No rompe la racha** de registro (`fechasDeRacha`: fechas con comidas más cheat days).
-- **Sin XP de proteína** ese día (`calcularAtributos`, ver [Atributos](atributos.md)); el registro del día suma como siempre y la XP nunca resta. Vitrina y Cumbres derivan de esos eventos.
+- **Sin metros de proteína** ese día (`calcularExperiencia`, ver [experiencia](experiencia.md)); el registro del día sube como siempre y nunca se resta. Vitrina y Cumbres derivan de esos eventos.
 - La gráfica «Día a día» y «Ver datos del periodo» siguen mostrando las kcal reales del día.
 
 ## Resumen

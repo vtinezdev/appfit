@@ -1,4 +1,4 @@
-// Lecturas de Atributos (solo lectura: se usan en useLiveQuery). La XP se recalcula a partir del historial completo.
+// Lecturas de la experiencia (solo lectura: se usan en useLiveQuery). La XP se recalcula a partir del historial completo.
 import { useLiveQuery } from 'dexie-react-hooks'
 import { getSettings } from '../../../shared/db/settings'
 import type { Entry, Exercise, Pausa, PlanSemanal, SetEntry, Workout } from '../../../shared/db/types'
@@ -10,19 +10,19 @@ import * as setsRepo from '../../gym/data/setsRepo'
 import * as workoutsRepo from '../../gym/data/workoutsRepo'
 import { objetivosPorFecha } from '../../perfil/data/objetivosDiaRepo'
 import { planDeSemana } from '../../ritmo/lib/plan'
-import { calcularAtributos, type ResultadoAtributos } from '../lib/atributos'
+import { calcularExperiencia, type ResultadoExperiencia } from '../lib/experiencia'
 
 /** Primera fecha posible: las entradas se leen desde el principio del historial. */
 const DESDE_SIEMPRE = '0000-01-01'
 
-export type EstadoAtributos =
+export type EstadoExperiencia =
   | { visible: false }
   | {
     visible: true
     conNutricion: boolean
     /** Plan de la semana actual. */
     plan: PlanSemanal
-    resultado: ResultadoAtributos
+    resultado: ResultadoExperiencia
     /** Nombre de cada ejercicio por id, para los récords. */
     nombres: Record<number, string>
     pausas: Pausa[]
@@ -31,10 +31,10 @@ export type EstadoAtributos =
   }
 
 /**
- * Lee todo el historial hasta `hoy` y calcula Atributos (con su Ritmo). Ocultos en Ajustes, no lee nada más. Solo
+ * Lee todo el historial hasta `hoy` y calcula la experiencia (con su Ritmo). Oculta en Ajustes, no lee nada más. Solo
  * lectura: para usar dentro de un liveQuery.
  */
-export async function leerAtributos(hoy: string): Promise<EstadoAtributos> {
+export async function leerExperiencia(hoy: string): Promise<EstadoExperiencia> {
   const settings = await getSettings()
   if (settings.gamificacionVisible === false) return { visible: false }
   const conNutricion = settings.gamificacionConNutricion !== false
@@ -51,14 +51,14 @@ export async function leerAtributos(hoy: string): Promise<EstadoAtributos> {
     visible: true,
     conNutricion,
     plan: planDeSemana(settings.planSemanal, startOfWeek(hoy)),
-    resultado: calcularAtributos({ hoy, workouts, sets, entries, protObjetivo, cheatDays: new Set(cheatDays), planes: settings.planSemanal, pausas: settings.pausas, conNutricion }),
+    resultado: calcularExperiencia({ hoy, workouts, sets, entries, protObjetivo, cheatDays: new Set(cheatDays), planes: settings.planSemanal, pausas: settings.pausas, conNutricion }),
     nombres: Object.fromEntries(exercises.map((e) => [e.id, e.nombre])),
     pausas: settings.pausas ?? [],
     datos: { workouts, sets, exercises, entries },
   }
 }
 
-/** Atributos (y Ritmo) de todo el historial hasta `hoy`. `undefined` mientras carga. */
-export function useAtributos(hoy: string): EstadoAtributos | undefined {
-  return useLiveQuery(() => leerAtributos(hoy), [hoy])
+/** Experiencia (y Ritmo) de todo el historial hasta `hoy`. `undefined` mientras carga. */
+export function useExperiencia(hoy: string): EstadoExperiencia | undefined {
+  return useLiveQuery(() => leerExperiencia(hoy), [hoy])
 }

@@ -1,5 +1,6 @@
-// Atributos: nivel y experiencia (XP) derivados del historial (gaming.md, ADR 029). Funciones puras: la XP no se
-// acumula ni se guarda, se recalcula a partir de los registros. Así respeta la edición retroactiva, va en el backup sin
+// Experiencia (XP) derivada del historial (gaming.md, ADR 029 y 034): lo que suben los entrenos, los récords, las
+// comidas y las semanas cumplidas. Cumbres la convierte en metros (1 XP = 1 m); la interfaz no habla de XP. Funciones
+// puras: la XP no se acumula ni se guarda, se recalcula a partir de los registros. Así respeta la edición retroactiva, va en el backup sin
 // cambios de esquema y borrar y volver a crear no da nada.
 import type { Entry, Pausa, SetEntry, TramoPlanSemanal, Workout } from '../../../shared/db/types'
 import { startOfWeek, toISODate } from '../../../shared/lib/dates'
@@ -24,25 +25,17 @@ export const RECORDS_POR_SESION = 3
 /** Proteína del día frente a su objetivo: llegar al 90 % basta (no premia comer menos). */
 export const PROPORCION_PROTEINA = 0.9
 
-export type Atributo = 'fuerza' | 'nutricion' | 'constancia'
-
-export const ATRIBUTOS: Record<Atributo, { nombre: string; fuente: string }> = {
-  fuerza: { nombre: 'Fuerza', fuente: 'Entrenos y récords' },
-  nutricion: { nombre: 'Nutrición', fuente: 'Registro de comidas y proteína' },
-  constancia: { nombre: 'Constancia', fuente: 'Semanas cumplidas' },
-}
-
 interface BaseEvento {
   fecha: string
   xp: number
 }
 
 export type EventoXp =
-  | BaseEvento & { tipo: 'entreno'; atributo: 'fuerza'; workoutId: number; series: number }
-  | BaseEvento & { tipo: 'record'; atributo: 'fuerza'; workoutId: number; record: RecordEjercicio }
-  | BaseEvento & { tipo: 'registro'; atributo: 'nutricion'; comidas: number }
-  | BaseEvento & { tipo: 'proteina'; atributo: 'nutricion'; prot: number; objetivo: number }
-  | BaseEvento & { tipo: 'semana'; atributo: 'constancia'; lunes: string; estado: SemanaRitmo }
+  | BaseEvento & { tipo: 'entreno'; workoutId: number; series: number }
+  | BaseEvento & { tipo: 'record'; workoutId: number; record: RecordEjercicio }
+  | BaseEvento & { tipo: 'registro'; comidas: number }
+  | BaseEvento & { tipo: 'proteina'; prot: number; objetivo: number }
+  | BaseEvento & { tipo: 'semana'; lunes: string; estado: SemanaRitmo }
 
 /** Por qué un entreno terminado no suma XP. */
 export type MotivoSinXp = 'sin-series' | 'otro-hoy' | 'tope-semana'
@@ -56,7 +49,7 @@ export interface EntrenoSinXp {
   tope?: number
 }
 
-export interface DatosAtributos {
+export interface DatosExperiencia {
   hoy: string
   /** Entrenos terminados (los que no tienen `fin` se ignoran). */
   workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[]
@@ -92,12 +85,11 @@ export interface SemanaActual extends SemanaRitmo {
   tope: number
 }
 
-export interface ResultadoAtributos {
+export interface ResultadoExperiencia {
   /** En orden cronológico. */
   eventos: EventoXp[]
   sinXp: EntrenoSinXp[]
   total: number
-  porAtributo: Record<Atributo, number>
   semanaActual: SemanaActual
   /** Ritmo del mismo historial (estado de cada semana, hilo, comodines): la semana cumplida sale de aquí. */
   ritmo: ResultadoRitmo
@@ -132,7 +124,7 @@ function agrupar<T, K>(items: readonly T[], clave: (t: T) => K): Map<K, T[]> {
  * (el de más series) y, por semana, hasta completar el plan; hasta 3 récords por sesión que suma. Nutrición (si cuenta):
  * un día registrado y la proteína al 90 % de su objetivo (salvo en un cheat day). Constancia: cada semana cumplida según su plan.
  */
-export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
+export function calcularExperiencia(d: DatosExperiencia): ResultadoExperiencia {
   const terminados = d.workouts
     .filter((w) => w.fin !== undefined)
     .map((w) => ({ ...w, fecha: toISODate(new Date(w.inicio)) }))
@@ -189,9 +181,9 @@ export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
       continue
     }
     if (mejor.series >= SERIES_MINIMAS) delPlanPorSemana.set(lunes, delPlan + 1)
-    eventos.push({ tipo: 'entreno', atributo: 'fuerza', fecha, xp: xpDeEntreno(mejor.series), workoutId: mejor.workoutId, series: mejor.series })
+    eventos.push({ tipo: 'entreno', fecha, xp: xpDeEntreno(mejor.series), workoutId: mejor.workoutId, series: mejor.series })
     for (const record of mejor.records.slice(0, RECORDS_POR_SESION)) {
-      eventos.push({ tipo: 'record', atributo: 'fuerza', fecha, xp: XP.record, workoutId: mejor.workoutId, record })
+      eventos.push({ tipo: 'record', fecha, xp: XP.record, workoutId: mejor.workoutId, record })
     }
   }
 
@@ -200,31 +192,28 @@ export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
     for (const [fecha, delDia] of agrupar(d.entries.filter((e) => e.fecha <= d.hoy), (e) => e.fecha)) {
       diasRegistro.add(fecha)
       const comidas = new Set(delDia.map((e) => e.comida)).size
-      eventos.push({ tipo: 'registro', atributo: 'nutricion', fecha, xp: comidas >= 2 ? XP.diaRegistrado : XP.diaUnaComida, comidas })
+      eventos.push({ tipo: 'registro', fecha, xp: comidas >= 2 ? XP.diaRegistrado : XP.diaUnaComida, comidas })
       const prot = delDia.reduce((a, e) => a + (Number.isFinite(e.prot) ? e.prot : 0), 0)
       const objetivo = d.protObjetivo.get(fecha) ?? 0
       if (!d.cheatDays?.has(fecha) && objetivo > 0 && prot >= objetivo * PROPORCION_PROTEINA - 1e-9) {
-        eventos.push({ tipo: 'proteina', atributo: 'nutricion', fecha, xp: XP.proteina, prot, objetivo })
+        eventos.push({ tipo: 'proteina', fecha, xp: XP.proteina, prot, objetivo })
       }
     }
   }
 
   const ritmo = calcularRitmo({ hoy: d.hoy, diasEntreno, diasRegistro: d.conNutricion ? diasRegistro : null, planes: d.planes, pausas: d.pausas })
   for (const semana of ritmo.semanas) {
-    if (semana.cumplidaEl !== null) eventos.push({ tipo: 'semana', atributo: 'constancia', fecha: semana.cumplidaEl, xp: XP.semanaCumplida, lunes: semana.lunes, estado: semana })
+    if (semana.cumplidaEl !== null) eventos.push({ tipo: 'semana', fecha: semana.cumplidaEl, xp: XP.semanaCumplida, lunes: semana.lunes, estado: semana })
   }
 
   eventos.sort((a, b) => a.fecha.localeCompare(b.fecha) || ORDEN_TIPO[a.tipo] - ORDEN_TIPO[b.tipo])
-  const porAtributo: Record<Atributo, number> = { fuerza: 0, nutricion: 0, constancia: 0 }
-  for (const e of eventos) porAtributo[e.atributo] += e.xp
 
   const lunesActual = startOfWeek(d.hoy)
   const planActual = planDeSemana(d.planes, lunesActual)
   return {
     eventos,
     sinXp,
-    total: porAtributo.fuerza + porAtributo.nutricion + porAtributo.constancia,
-    porAtributo,
+    total: eventos.reduce((a, e) => a + e.xp, 0),
     ritmo,
     entrenos,
     records,
@@ -238,52 +227,6 @@ export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
   }
 }
 
-// ── Nivel y títulos ──
-
-/** XP para pasar del nivel `n` al `n + 1`: 500 el primero y un 6 % más cada nivel (845 en el 10, 2.709 en el 30). */
-export function costeNivel(n: number): number {
-  return Math.round(500 * 1.06 ** (n - 1))
-}
-
-export interface Nivel {
-  nivel: number
-  /** XP dentro del nivel actual y lo que cuesta llegar al siguiente. */
-  xpEnNivel: number
-  xpSiguiente: number
-}
-
-/** Nivel que corresponde a una XP total. Empieza en 1 y nunca depende de la inactividad. */
-export function nivelDeXp(total: number): Nivel {
-  let nivel = 1
-  let resto = Number.isFinite(total) ? Math.max(0, total) : 0
-  while (resto >= costeNivel(nivel)) {
-    resto -= costeNivel(nivel)
-    nivel += 1
-  }
-  return { nivel, xpEnNivel: resto, xpSiguiente: costeNivel(nivel) }
-}
-
-/** Un título cada 5 niveles. */
-export const TITULOS: readonly { desde: number; titulo: string }[] = [
-  { desde: 1, titulo: 'Recién llegado' },
-  { desde: 5, titulo: 'Novato' },
-  { desde: 10, titulo: 'Habitual' },
-  { desde: 15, titulo: 'Constante' },
-  { desde: 20, titulo: 'Sólido' },
-  { desde: 25, titulo: 'Curtido' },
-  { desde: 30, titulo: 'Veterano' },
-  { desde: 35, titulo: 'Experto' },
-  { desde: 40, titulo: 'Maestro' },
-  { desde: 45, titulo: 'Referente' },
-  { desde: 50, titulo: 'Leyenda' },
-]
-
-export function tituloDe(nivel: number): string {
-  let titulo = TITULOS[0].titulo
-  for (const t of TITULOS) if (nivel >= t.desde) titulo = t.titulo
-  return titulo
-}
-
 // ── Lecturas para la interfaz ──
 
 export type EstadoEntrenoHoy =
@@ -292,7 +235,7 @@ export type EstadoEntrenoHoy =
   | { estado: 'listo'; quedan: number }
 
 /** Lo que valdría entrenar hoy: ya suma un entreno, el plan de la semana está completo o cuántos entrenos del plan quedan. */
-export function entrenoHoy(r: ResultadoAtributos, hoy: string): EstadoEntrenoHoy {
+export function entrenoHoy(r: ResultadoExperiencia, hoy: string): EstadoEntrenoHoy {
   const deHoy = r.eventos.find((e) => e.tipo === 'entreno' && e.fecha === hoy)
   if (deHoy?.tipo === 'entreno') return { estado: 'hoy', series: deHoy.series }
   const { entrenosQueSuman, tope } = r.semanaActual
@@ -321,7 +264,7 @@ export function describirEvento(e: EventoXp, nombres: Readonly<Record<number, st
     case 'record':
       return { titulo: `Récord · ${nombres[e.record.exerciseId] ?? 'Ejercicio'}`, detalle: describirRecord(e.record, (n) => formatNumber(n, 2)) }
     case 'registro':
-      return { titulo: 'Día registrado', detalle: e.comidas >= 2 ? `${formatInt(e.comidas)} comidas` : `1 comida (con 2 o más, ${formatInt(XP.diaRegistrado)} XP)` }
+      return { titulo: 'Día registrado', detalle: e.comidas >= 2 ? `${formatInt(e.comidas)} comidas` : `1 comida (con 2 o más, ${formatInt(XP.diaRegistrado)} m)` }
     case 'proteina':
       return { titulo: 'Proteína', detalle: `${formatInt(e.prot)} de ${formatInt(e.objetivo)} g (90 % o más)` }
     case 'semana': {
@@ -349,7 +292,7 @@ export interface DiaXp {
 }
 
 /** XP agrupada por día, del más reciente al más antiguo; incluye los días con un entreno que no sumó. */
-export function xpPorDia(r: Pick<ResultadoAtributos, 'eventos' | 'sinXp'>): DiaXp[] {
+export function xpPorDia(r: Pick<ResultadoExperiencia, 'eventos' | 'sinXp'>): DiaXp[] {
   const dias = new Map<string, DiaXp>()
   const dia = (fecha: string) => {
     let d = dias.get(fecha)
@@ -370,13 +313,10 @@ export interface XpSesion {
   eventos: EventoXp[]
   total: number
   sinXp: EntrenoSinXp | null
-  antes: Nivel
-  despues: Nivel
 }
 
-/** XP de un entreno concreto (entreno y récords) y el nivel antes y después de sumarla. */
-export function xpDeSesion(r: ResultadoAtributos, workoutId: number): XpSesion {
+/** XP de un entreno concreto (entreno y récords) o por qué no suma. */
+export function xpDeSesion(r: ResultadoExperiencia, workoutId: number): XpSesion {
   const eventos = r.eventos.filter((e) => (e.tipo === 'entreno' || e.tipo === 'record') && e.workoutId === workoutId)
-  const total = eventos.reduce((a, e) => a + e.xp, 0)
-  return { eventos, total, sinXp: r.sinXp.find((s) => s.workoutId === workoutId) ?? null, antes: nivelDeXp(r.total - total), despues: nivelDeXp(r.total) }
+  return { eventos, total: eventos.reduce((a, e) => a + e.xp, 0), sinXp: r.sinXp.find((s) => s.workoutId === workoutId) ?? null }
 }

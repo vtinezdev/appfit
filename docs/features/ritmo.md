@@ -11,15 +11,15 @@
 | Pausas | `lib/pausas.ts`: `pausaDeSemana`, `pausaActiva`, `anadirPausa`, `terminarPausa`, `quitarPausa`, `validarPausa`, `describirPausa` | — (puro) |
 | Textos | `lib/textos.ts`: `cifrasSemana`, `textoHilo`, `faltaParaCumplir`, `textoEstado` | — (puro) |
 | Escrituras de pausas | `data/pausasRepo.ts`: `pausar`, `reanudar`, `borrar`, `restaurar` (devuelven las pausas de antes, para «Deshacer») | `settings.pausas` (lectura y escritura en una transacción) |
-| Lecturas | `atributos/hooks/useAtributos` (`leerAtributos`): Ritmo se calcula dentro de `calcularAtributos` (`resultado.ritmo`) | ver [atributos.md](atributos.md) |
+| Lecturas | `experiencia/hooks/useExperiencia` (`leerExperiencia`): Ritmo se calcula dentro de `calcularExperiencia` (`resultado.ritmo`) | ver [experiencia.md](experiencia.md) |
 | Página (Más › Ritmo) | `RitmoTab.tsx` (diferida), `components/DiasSemana`, `components/CalendarioSemanas`, `components/PausarSheet` | — |
-| Tarjeta «Tu semana» de Inicio | `inicio/components/AccesoSemana` | `useAtributos` (compartido con la tarjeta «Nivel» desde `InicioTab`) |
-| Sello en la revisión semanal | `inicio/components/RevisionSemanal` | `useAtributos` + `semanaRitmo` |
+| Tarjeta «Tu semana» de Inicio | `inicio/components/AccesoSemana` | `useCumbres` (compartido con la tarjeta de Cumbres desde `InicioTab`) |
+| Sello en la revisión semanal | `inicio/components/RevisionSemanal` | `useExperiencia` + `semanaRitmo` |
 
 ## Reglas
 
 - **Plan** (`Settings.planSemanal`, en Ajustes): entrenos 2–6 (por defecto 3) y días con comidas registradas 3–7 (por defecto 5). Va por tramos con su lunes: el primero vale para todo el historial y cada cambio, desde la semana en curso.
-- **Entreno** = entreno terminado con al menos 5 series efectivas (`SERIES_MINIMAS` de Atributos). Un día con varios cuenta una vez.
+- **Entreno** = entreno terminado con al menos 5 series efectivas (`SERIES_MINIMAS` de la experiencia). Un día con varios cuenta una vez.
 - **Estado de cada semana** (lunes a domingo):
   - **cumplida**: entrenos ≥ plan y días registrados ≥ plan;
   - **parcial**: solo una de las dos partes (no existe sin nutrición);
@@ -41,7 +41,7 @@
 
 ## Pantallas
 
-- **Inicio › Tu semana** (tarjeta ancha, antes de «Nivel»):
+- **Inicio › Tu semana** (tarjeta ancha, antes de la de Cumbres):
   - «Cumplida», «En pausa» o el hilo;
   - los 7 días (`DiasSemana`): círculo relleno el día con entreno y punto relleno el día con comidas; hoy subrayado y los días futuros atenuados; decorativo, con las cifras en texto;
   - «2 de 3 entrenos · 4 de 5 días registrados» y lo que falta.

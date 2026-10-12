@@ -10,12 +10,14 @@ interface Props {
   onClose: () => void
   actual: Expedicion
   opciones: readonly Montana[]
+  /** Veces que se ha coronado cada montaña (también se pueden repetir). */
+  veces: ReadonlyMap<string, number>
   /** Guarda el cambio; si falla, el error se muestra en la hoja. */
   onElegir: (m: Montana) => Promise<void>
 }
 
-/** Cambiar la montaña actual por otra sin coronar y más alta que lo ya subido, que se conserva. */
-export default function CambiarMontanaSheet({ open, onClose, actual, opciones, onElegir }: Props) {
+/** Cambiar la montaña actual por otra más alta que lo ya subido, que se conserva; también una ya coronada. */
+export default function CambiarMontanaSheet({ open, onClose, actual, opciones, veces, onElegir }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [guardando, setGuardando] = useState(false)
 
@@ -34,12 +36,12 @@ export default function CambiarMontanaSheet({ open, onClose, actual, opciones, o
   return <Sheet open={open} onClose={onClose} title="Cambiar montaña">
     <div className="space-y-stack">
       <p className="break-words text-body-sm text-fg-muted">
-        {actual.metros > 0 ? `Conservas los ${metrosTexto(actual.metros)} subidos en el ${actual.montana.nombre}. ` : ''}Solo aparecen las montañas sin coronar{actual.metros > 0 ? ' más altas que eso' : ''}.
+        {actual.metros > 0 ? `Conservas los ${metrosTexto(actual.metros)} subidos en el ${actual.montana.nombre}. ` : ''}{actual.metros > 0 ? 'Aparecen las montañas más altas que eso. ' : ''}Puedes repetir una que ya hayas coronado.
       </p>
       {error && <ErrorState>{error}</ErrorState>}
       {opciones.length === 0
         ? <p className="text-body-sm text-fg-muted">No queda otra montaña por la que cambiarla.</p>
-        : <ul className="space-y-2" aria-label="Montañas"><ListaMontanas montanas={opciones} onElegir={elegir} tone="muted" disabled={guardando} /></ul>}
+        : <ul className="space-y-2" aria-label="Montañas"><ListaMontanas montanas={opciones} veces={veces} onElegir={elegir} tone="muted" disabled={guardando} /></ul>}
     </div>
   </Sheet>
 }

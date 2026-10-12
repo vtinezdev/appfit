@@ -20,7 +20,7 @@ import { getPerfil } from '../perfil/data/perfilRepo'
 import * as aguaRepo from './data/aguaRepo'
 import AccesoAgua from './components/AccesoAgua'
 import CreatinaHoy from './components/CreatinaHoy'
-import AccesoNivel from './components/AccesoNivel'
+import AccesoCumbre from './components/AccesoCumbre'
 import AccesoSemana from './components/AccesoSemana'
 import { useCumbres } from '../cumbres/hooks/useCumbres'
 import AguaSheet from './components/AguaSheet'
@@ -35,7 +35,6 @@ const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
 interface Props {
   onIrANutricion: () => void
   onIrAGym: () => void
-  onIrAAtributos: () => void
   onIrACumbres: () => void
   onIrARitmo: () => void
   onExportarCopia: () => void
@@ -46,8 +45,8 @@ const PESO_POR_DEFECTO = 70
 /** Historial que se lee: de sobra para encontrar un pesaje de hace una semana o más. */
 const DIAS_HISTORIAL = 365
 
-/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, el último entreno, la semana (Ritmo) y el nivel (Atributos) con la montaña de Cumbres. Registrar está en el «+» de la barra. */
-export default function InicioTab({ onIrANutricion, onIrAGym, onIrAAtributos, onIrACumbres, onIrARitmo, onExportarCopia, ayudaInicial }: Props) {
+/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, el último entreno, la semana (Ritmo) y la montaña de Cumbres. Registrar está en el «+» de la barra. */
+export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrARitmo, onExportarCopia, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -60,7 +59,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrAAtributos, on
   const [registrando, setRegistrando] = useState(false)
   const [historialPeso, setHistorialPeso] = useState(false)
   const revision = useTarjetaRevision(hoy)
-  const atributos = useCumbres(hoy)
+  const gamificacion = useCumbres(hoy)
   const [revisionAbierta, setRevisionAbierta] = useState<string | null>(null)
 
   const tendencia = pesos ? tendenciaPeso(pesos, hoy) : null
@@ -131,8 +130,8 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrAAtributos, on
           </div>
           <CreatinaHoy hoy={hoy} />
           <AccesoEntreno onAbrir={onIrAGym} />
-          <AccesoSemana hoy={hoy} estado={atributos} onAbrir={onIrARitmo} />
-          <AccesoNivel hoy={hoy} estado={atributos} onAbrirAtributos={onIrAAtributos} onAbrirCumbres={onIrACumbres} />
+          <AccesoSemana hoy={hoy} estado={gamificacion} onAbrir={onIrARitmo} />
+          <AccesoCumbre hoy={hoy} estado={gamificacion} onAbrir={onIrACumbres} />
         </div>
       )}
 

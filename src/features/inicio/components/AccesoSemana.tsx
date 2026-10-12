@@ -1,4 +1,4 @@
-import type { EstadoAtributos } from '../../atributos/hooks/useAtributos'
+import type { EstadoExperiencia } from '../../experiencia/hooks/useExperiencia'
 import DiasSemana from '../../ritmo/components/DiasSemana'
 import { ESTADOS_SEMANA } from '../../ritmo/lib/ritmo'
 import { cifrasSemana, faltaParaCumplir, textoHilo } from '../../ritmo/lib/textos'
@@ -8,7 +8,7 @@ import TarjetaAcceso from './TarjetaAcceso'
  * «Tu semana» (Ritmo) en Inicio: los 7 días con entreno y registro, las cifras frente al plan, lo que falta y el hilo.
  * Toda la tarjeta abre Ritmo. No aparece si la gamificación está oculta en Ajustes.
  */
-export default function AccesoSemana({ hoy, estado, onAbrir }: { hoy: string; estado: EstadoAtributos | undefined; onAbrir: () => void }) {
+export default function AccesoSemana({ hoy, estado, onAbrir }: { hoy: string; estado: EstadoExperiencia | undefined; onAbrir: () => void }) {
   if (!estado?.visible) return null
   const r = estado.resultado
   const s = r.ritmo.actual

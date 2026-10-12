@@ -2,8 +2,8 @@
 // del historial con su fecha real (retroactivos): nada se guarda, así que borrar un registro puede retirar una pieza.
 import { diasEntre, startOfWeek } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
-import { SERIES_MINIMAS, type ResultadoAtributos } from '../../atributos/lib/atributos'
-import { metrosTexto, type ResultadoCumbres } from '../../cumbres/lib/cumbres'
+import { SERIES_MINIMAS, type ResultadoExperiencia } from '../../experiencia/lib/experiencia'
+import { diasDeExpedicion, metrosTexto, type Expedicion, type ResultadoCumbres } from '../../cumbres/lib/cumbres'
 import { COLECCIONES, EVEREST, type ColeccionMontana } from '../../cumbres/lib/montanas'
 import { PLANTAS_SEMANA, type SemanaHerbario } from '../../nutricion/lib/herbario'
 import { HITOS_SEMANAS } from '../../ritmo/lib/ritmo'
@@ -74,7 +74,7 @@ function porUmbral(umbrales: readonly number[], hechos: readonly Conseguido[]): 
 
 export interface DatosLogros {
   hoy: string
-  atributos: ResultadoAtributos
+  experiencia: ResultadoExperiencia
   atlas: Atlas
   herbario: readonly SemanaHerbario[]
   conNutricion: boolean
@@ -92,8 +92,10 @@ export const UMBRALES = {
   dias: [30, 100, 200, 365],
   proteina: [30, 100, 200],
   ciclos: [1, 5, 10],
-  cumbres: [1, 3, 6, 11],
-  metros: [10_000, 25_000, 50_000],
+  cumbres: [1, 3, 6, 11, 22],
+  metros: [10_000, 25_000, 50_000, 100_000],
+  /** Veces que se corona una misma montaña («Otra vez arriba»). */
+  repetir: [2, 3, 5],
 } as const
 
 /** Entrenos antes de las 8:00 para «Madrugador», días sin entrenar para «Vuelta al ruedo» y descansos para «Descanso bien llevado». */
@@ -103,7 +105,7 @@ export const DESCANSOS_BIEN_LLEVADOS = 3
 
 /** Todos los logros con su estado. Sin la nutrición, sus logros no aparecen. */
 export function calcularLogros(d: DatosLogros): Logro[] {
-  const { atributos: a, atlas } = d
+  const { experiencia: a, atlas } = d
   const r = a.ritmo
   const logros: Logro[] = []
   const conNiveles = (base: Omit<Logro, 'niveles' | 'descripcion'>, umbrales: readonly number[], hechos: Conseguido[], texto: (n: number) => string) => {
@@ -144,7 +146,13 @@ export function calcularLogros(d: DatosLogros): Logro[] {
   const coronadas = d.cumbres?.coronadas ?? []
   const cumbres: Conseguido[] = coronadas.flatMap((x) => (x.cumbre ? [{ ...x.cumbre }] : []))
   conNiveles({ id: 'cumbres', nombre: 'Cumbres', grupo: 'cumbres', unidad: 'cumbres' }, UMBRALES.cumbres, cumbres,
-    (n) => n === 1 ? 'Hacer cumbre en una montaña' : `Hacer cumbre en ${formatInt(n)} montañas`)
+    (n) => n === 1 ? 'Hacer cumbre en una montaña' : `Hacer ${formatInt(n)} cumbres (repetir una montaña también cuenta)`)
+  logros.push({
+    id: 'repetir', nombre: 'Otra vez arriba', grupo: 'cumbres', unidad: 'veces', umbrales: UMBRALES.repetir,
+    niveles: marcasDeRepeticion(coronadas, UMBRALES.repetir), progreso: Math.max(0, ...[...vecesPorMontana(coronadas).values()]),
+    descripcion: textoRepetir(UMBRALES.repetir.find((u) => u > Math.max(0, ...[...vecesPorMontana(coronadas).values()])) ?? UMBRALES.repetir[UMBRALES.repetir.length - 1]),
+    textoNivel: textoRepetir,
+  })
   logros.push({
     id: 'metros', nombre: 'Metros subidos', grupo: 'cumbres', unidad: 'm', umbrales: UMBRALES.metros,
     niveles: marcasDeMetros(d.cumbres, UMBRALES.metros), progreso: d.cumbres?.metrosTotales ?? 0,
@@ -154,9 +162,13 @@ export function calcularLogros(d: DatosLogros): Logro[] {
   for (const [id, coleccion, descripcion] of [
     ['techo-espana', 'espana', 'Cumbre en el Aneto, el Mulhacén y el Teide'],
     ['siete-cumbres', 'siete', 'La montaña más alta de cada continente: Puncak Jaya, Vinson, Elbrus, Kilimanjaro, Denali, Aconcagua y Everest'],
+    ['alpes', 'alpes', 'Cumbre en el Mont Blanc, el Jungfrau, el Cervino y el Monte Rosa'],
+    ['volcanes', 'volcanes', 'Cumbre en siete volcanes: Teide, Elbrus, Kilimanjaro, Fuji, Cotopaxi, Chimborazo y Ojos del Salado'],
+    ['cinco-mas-altos', 'gigantes', 'Las cinco montañas más altas del mundo: Everest, K2, Kangchenjunga, Lhotse y Makalu'],
   ] as const satisfies readonly (readonly [string, ColeccionMontana, string])[]) {
     const { nombre, montanas } = COLECCIONES[coleccion]
-    const hechas = coronadas.filter((x) => montanas.includes(x.montana.id))
+    // Montañas distintas de la colección, en el orden en que se coronaron por primera vez (repetir no suma).
+    const hechas = coronadas.filter((x) => x.vez === 1 && montanas.includes(x.montana.id))
     const completa = hechas.length >= montanas.length ? hechas[montanas.length - 1].cumbre : null
     logros.push({ id, nombre, grupo: 'cumbres', umbrales: [montanas.length], niveles: [completa ? { ...completa } : null], progreso: hechas.length, unidad: 'cumbres', descripcion })
   }
@@ -176,6 +188,10 @@ export function calcularLogros(d: DatosLogros): Logro[] {
 
   // ── Ocultos ──
   const everest = coronadas.find((x) => x.montana.id === EVEREST)?.cumbre
+  logros.push({ id: 'mas-rapido', nombre: 'Más rápido que la otra vez', grupo: 'oculto', oculto: true, niveles: [],
+    descripcion: 'Repetir una cumbre en menos días que la vez anterior en esa montaña',
+    veces: masRapidas(coronadas),
+  })
   logros.push({ id: 'techo-mundo', nombre: 'Techo del mundo', grupo: 'oculto', oculto: true, umbrales: [1], niveles: [everest ? { ...everest } : null],
     descripcion: 'Hacer cumbre en el Everest' })
   logros.push({ id: 'paso-firme', nombre: 'Paso firme', grupo: 'oculto', oculto: true, niveles: [],
@@ -212,6 +228,35 @@ export function calcularLogros(d: DatosLogros): Logro[] {
 }
 
 const textoMetros = (m: number) => `${metrosTexto(m)} subidos en Cumbres`
+const textoRepetir = (n: number) => `Hacer cumbre ${formatInt(n)} veces en la misma montaña`
+
+function vecesPorMontana(coronadas: readonly Expedicion[]): Map<string, number> {
+  const veces = new Map<string, number>()
+  for (const x of coronadas) veces.set(x.montana.id, x.vez)
+  return veces
+}
+
+/** Cuándo una misma montaña se coronó por n-ésima vez por primera vez, para cada umbral. */
+function marcasDeRepeticion(coronadas: readonly Expedicion[], umbrales: readonly number[]): (Conseguido | null)[] {
+  return umbrales.map((u) => {
+    const x = coronadas.find((c) => c.vez === u)
+    return x?.cumbre ? { ...x.cumbre } : null
+  })
+}
+
+/** Cumbres repetidas en menos días que la vez anterior en la misma montaña. */
+function masRapidas(coronadas: readonly Expedicion[]): Conseguido[] {
+  const anterior = new Map<string, number>()
+  const hechas: Conseguido[] = []
+  for (const x of coronadas) {
+    const dias = diasDeExpedicion(x)
+    if (dias === null || !x.cumbre) continue
+    const antes = anterior.get(x.montana.id)
+    if (antes !== undefined && dias < antes) hechas.push({ ...x.cumbre })
+    anterior.set(x.montana.id, dias)
+  }
+  return hechas
+}
 
 /** Cuándo los metros subidos en Cumbres llegaron a cada umbral. */
 function marcasDeMetros(c: ResultadoCumbres | null | undefined, umbrales: readonly number[]): (Conseguido | null)[] {

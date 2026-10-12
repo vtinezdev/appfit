@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import type { Exercise, SetEntry, Workout } from '../../../shared/db/types'
 import { addDays, parseISODate } from '../../../shared/lib/dates'
-import { calcularAtributos } from '../../atributos/lib/atributos'
+import { calcularExperiencia } from '../../experiencia/lib/experiencia'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import { calcularAtlas } from './atlas'
 import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, recuentoPiezas, siguienteUmbral, UMBRALES } from './logros'
-import type { EventoXp } from '../../atributos/lib/atributos'
+import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { calcularCumbres, empezar } from '../../cumbres/lib/cumbres'
 import { MONTANAS } from '../../cumbres/lib/montanas'
 import { describirMarca, muroRecords } from './muro'
@@ -58,8 +58,8 @@ describe('logros', () => {
   const banca = ejercicio('pecho').id
   /** 10 entrenos (lunes, miércoles y viernes desde el 7 de septiembre), con el peso subiendo. */
   const es = Array.from({ length: 10 }, (_, i) => entreno(addDays('2026-09-07', Math.floor(i / 3) * 7 + (i % 3) * 2), seis(banca, 40 + i), i === 9 ? 7 : 18))
-  const atributos = calcularAtributos({ hoy: '2026-10-10', workouts: es.map((e) => e.workout), sets: es.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false })
-  const logros = calcularLogros({ hoy: '2026-10-10', atributos, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false })
+  const experiencia = calcularExperiencia({ hoy: '2026-10-10', workouts: es.map((e) => e.workout), sets: es.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false })
+  const logros = calcularLogros({ hoy: '2026-10-10', experiencia, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false })
   const de = (idLogro: string) => logros.find((l) => l.id === idLogro)!
 
   it('niveles con su fecha real y el progreso hacia el siguiente', () => {
@@ -75,8 +75,8 @@ describe('logros', () => {
     expect(conseguido(de('madrugador'))).toBe(false)
     expect(de('madrugador').progreso).toBe(1)
     // Entrenos I, Hilo I (4 semanas seguidas) y Descanso bien llevado (repetible: una pieza).
-    // Cumbres sin empezar: sus 11 piezas, sin conseguir.
-    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 3, total: 4 + 3 + 3 + 1 + 4 + 4 + 4 + 3 + 1 + 1 + 3 + 2 })
+    // Cumbres sin empezar: sus 17 piezas (cumbres, metros, otra vez arriba y cinco colecciones), sin conseguir.
+    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 3, total: 4 + 3 + 3 + 1 + 4 + 4 + 5 + 4 + 3 + 5 + 4 + 2 })
   })
 
   it('semanas cumplidas y logros del entreno con el que se consiguieron', () => {
@@ -88,7 +88,7 @@ describe('logros', () => {
     // 16 semanas seguidas con dos ejercicios; el segundo, una semana más tarde.
     const remo = ejercicio('espalda').id
     const semanas = Array.from({ length: 17 }, (_, k) => entreno(addDays('2026-05-04', 7 * k), [...seis(banca, 40).slice(0, 3), ...(k > 0 ? seis(remo, 40).slice(0, 3) : [])]))
-    const v = calcularVitrina({ hoy: '2026-10-10', atributos: calcularAtributos({ hoy: '2026-10-10', workouts: semanas.map((e) => e.workout), sets: semanas.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false }),
+    const v = calcularVitrina({ hoy: '2026-10-10', experiencia: calcularExperiencia({ hoy: '2026-10-10', workouts: semanas.map((e) => e.workout), sets: semanas.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false }),
       workouts: semanas.map((e) => e.workout), sets: semanas.flatMap((e) => e.sets), exercises: [], entries: [], categorias: new Map(), conNutricion: false })
     const ciclos = v.logros.find((l) => l.id === 'ciclos')!
     expect(nivelDe(ciclos)).toBe(1)
@@ -99,14 +99,14 @@ describe('logros', () => {
 
   it('cumbres: niveles, metros, Techo de España y paso firme, con su fecha real', () => {
     const ev = (fecha: string, xp: number, workoutId?: number): EventoXp => workoutId === undefined
-      ? { tipo: 'registro', atributo: 'nutricion', fecha, xp, comidas: 2 }
-      : { tipo: 'entreno', atributo: 'fuerza', fecha, xp, workoutId, series: 6 }
+      ? { tipo: 'registro', fecha, xp, comidas: 2 }
+      : { tipo: 'entreno', fecha, xp, workoutId, series: 6 }
     const cumbres = calcularCumbres([ev('2026-09-14', 3404), ev('2026-09-21', 3479, 999), ev('2026-09-28', 3715)], empezar('2026-09-07', 'aneto'))
-    const l = calcularLogros({ hoy: '2026-10-10', atributos, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false, cumbres })
+    const l = calcularLogros({ hoy: '2026-10-10', experiencia, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false, cumbres })
     const x = (idLogro: string) => l.find((y) => y.id === idLogro)!
     expect(x('cumbres').niveles.slice(0, 2)).toEqual([{ fecha: '2026-09-14' }, { fecha: '2026-09-28' }])
-    expect(x('cumbres').descripcion).toBe('Hacer cumbre en 6 montañas')
-    expect(x('metros').niveles).toEqual([{ fecha: '2026-09-28' }, null, null])
+    expect(x('cumbres').descripcion).toBe('Hacer 6 cumbres (repetir una montaña también cuenta)')
+    expect(x('metros').niveles).toEqual([{ fecha: '2026-09-28' }, null, null, null])
     expect(x('metros').progreso).toBe(10_598)
     expect(x('techo-espana').niveles).toEqual([{ fecha: '2026-09-28' }])
     expect(x('siete-cumbres').progreso).toBe(0)
@@ -114,12 +114,28 @@ describe('logros', () => {
     expect(x('paso-firme').veces).toHaveLength(3)
     expect(logrosDeEntreno(l, 999).map((n) => n.logro.id)).toEqual(['paso-firme'])
     expect(UMBRALES.cumbres[UMBRALES.cumbres.length - 1]).toBe(MONTANAS.length)
+    expect(x('repetir').progreso).toBe(1)
+    expect(x('alpes').progreso).toBe(0)
+  })
+
+  it('repetir montaña: otra vez arriba, más rápido y las colecciones cuentan montañas distintas', () => {
+    const ev = (fecha: string, xp: number): EventoXp => ({ tipo: 'registro', fecha, xp, comidas: 2 })
+    // Aneto en 8 días, otra vez en 3 días (más rápido) y una tercera en 5 (más lento que la anterior).
+    const cumbres = calcularCumbres([ev('2026-09-08', 3404), ev('2026-09-10', 3404), ev('2026-09-14', 3404)], { inicio: '2026-09-01', ruta: ['aneto', 'aneto', 'aneto'] })
+    const l = calcularLogros({ hoy: '2026-10-10', experiencia, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false, cumbres })
+    const x = (idLogro: string) => l.find((y) => y.id === idLogro)!
+    expect(x('repetir').niveles).toEqual([{ fecha: '2026-09-10' }, { fecha: '2026-09-14' }, null])
+    expect(x('repetir').progreso).toBe(3)
+    expect(x('repetir').descripcion).toBe('Hacer cumbre 5 veces en la misma montaña')
+    expect(x('mas-rapido').veces).toEqual([{ fecha: '2026-09-10' }])
+    expect(x('cumbres').progreso).toBe(3)
+    expect(x('techo-espana').progreso).toBe(1) // el Aneto tres veces es una montaña de la colección
   })
 
   it('vuelta al ruedo tras 14 días o más sin entrenar', () => {
     const dos = [entreno('2026-09-01', seis(banca, 40)), entreno('2026-09-20', seis(banca, 40))]
-    const a = calcularAtributos({ hoy: '2026-10-10', workouts: dos.map((e) => e.workout), sets: dos.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false })
-    const l = calcularLogros({ hoy: '2026-10-10', atributos: a, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false })
+    const a = calcularExperiencia({ hoy: '2026-10-10', workouts: dos.map((e) => e.workout), sets: dos.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false })
+    const l = calcularLogros({ hoy: '2026-10-10', experiencia: a, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false })
     expect(l.find((x) => x.id === 'vuelta')!.veces).toEqual([{ fecha: '2026-09-20', workoutId: dos[1].workout.id }])
   })
 })
