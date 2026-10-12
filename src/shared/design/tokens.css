@@ -120,6 +120,13 @@
   --c-muscle-poster-3: 241 119 116;
   --c-muscle-poster-4: 242 84 78;
   --c-muscle-poster-5: 240 33 33;
+  /* Insignias de la Liga (ADR 033): metales y gemas atenuados, de relleno (≥ 3:1 sobre la superficie); siempre con el nombre en texto. Élite, en grafito. */
+  --c-liga-bronce: 148 74 40;
+  --c-liga-plata: 112 120 130;
+  --c-liga-oro: 140 112 0;
+  --c-liga-zafiro: 36 84 170;
+  --c-liga-rubi: 146 28 122;
+  --c-liga-elite: var(--c-text-primary);
   --muscle-body-width: 10rem;
   --muscle-mini-height: 5.5rem;
   --vaso-width: 1.75rem;
@@ -199,6 +206,11 @@
   --c-muscle-poster-3: 241 119 116;
   --c-muscle-poster-4: 242 84 78;
   --c-muscle-poster-5: 240 33 33;
+  --c-liga-bronce: 222 140 94;
+  --c-liga-plata: 178 186 196;
+  --c-liga-oro: 226 190 60;
+  --c-liga-zafiro: 124 164 240;
+  --c-liga-rubi: 232 124 204;
   --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
   /* En oscuro las cards se separan por tono. */
   --shadow-card: none;

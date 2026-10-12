@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { SetEntry, Workout } from '../../../shared/db/types'
 import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { agruparPorLiga, calcularLigas, divisionDe, type LigaEjercicio } from './liga'
-import { ascensoDestacado, fechaCorta, resumenLiga, textoAscenso, textoAvisoElite, textoPico, textoProgreso, textoSemanas, textoSiguiente } from './textos'
+import { ascensoDestacado, fechaCorta, resumenLiga, textoAscenso, textoAvisoElite, textoDivision, textoPico, textoProgreso, textoSemanas, textoSiguiente } from './textos'
 
 const LUNES = '2026-01-05'
 const semana = (n: number, dia = 0) => addDays(LUNES, (n - 1) * 7 + dia)
@@ -42,11 +42,17 @@ describe('textos', () => {
 
   it('qué pasa ahora, según el estado', () => {
     const hoy = semana(3, 4)
-    expect(textoSiguiente(una(hoy, [1, 2, 3]), hoy)).toBe('Esta semana ya cuenta. La próxima semana que lo hagas, Plata III.')
-    expect(textoSiguiente(una(semana(4, 1), [1, 2, 3]), semana(4, 1))).toBe('Si lo haces esta semana, sube a Plata III.')
-    expect(textoSiguiente(una(semana(5, 1), [1, 2, 3]), semana(5, 1))).toBe('Si lo haces esta semana, sube a Plata III.') // la de gracia
-    expect(textoSiguiente(una(semana(6, 1), [1, 2, 3]), semana(6, 1))).toBe(`Sin hacerlo desde el ${fechaCorta(semana(3, 2), semana(6, 1))}: baja una división por semana. Si vuelves, sube desde aquí.`)
-    expect(textoSiguiente(una(semana(12, 1), [1, 2]), semana(12, 1))).toBe(`Sin hacerlo desde el ${fechaCorta(semana(2, 2), semana(12, 1))}. Si vuelves, empieza en Bronce III.`)
+    expect(textoSiguiente(una(hoy, [1, 2, 3]), hoy)).toBe('Esta semana ya cuenta. La próxima semana que lo hagas, sube a Plata.')
+    expect(textoSiguiente(una(semana(4, 1), [1, 2, 3]), semana(4, 1))).toBe('Si lo haces esta semana, sube a Plata.')
+    expect(textoSiguiente(una(semana(5, 1), [1, 2, 3]), semana(5, 1))).toBe('Si lo haces esta semana, sube a Plata.') // la de gracia
+    expect(textoSiguiente(una(semana(4, 4), [1, 2, 3, 4]), semana(4, 4))).toBe('Esta semana ya cuenta. Te faltan 3 semanas con él para Oro.')
+    expect(textoSiguiente(una(semana(5, 1), [1, 2, 3, 4]), semana(5, 1))).toBe('Si lo haces esta semana, te quedarán 2 semanas para Oro.')
+    expect(textoSiguiente(una(semana(6, 1), [1, 2, 3]), semana(6, 1))).toBe(`Sin hacerlo desde el ${fechaCorta(semana(3, 2), semana(6, 1))}: cada semana sin él retrocede una. Si vuelves, sigue desde aquí.`)
+    expect(textoSiguiente(una(semana(12, 1), [1, 2]), semana(12, 1))).toBe(`Sin hacerlo desde el ${fechaCorta(semana(2, 2), semana(12, 1))}. Si vuelves, empieza en Bronce.`)
+  })
+
+  it('dónde está dentro de su liga', () => {
+    expect([5, 16, 0].map((p) => textoDivision(divisionDe(p)))).toEqual(['Semana 2 de 3 en Plata', 'Élite', 'Sin liga'])
   })
 
   it('Élite sugiere variar salvo en los básicos', () => {
@@ -69,7 +75,7 @@ describe('textos', () => {
     expect(resumenLiga(l, hoy)).toBe('8 semanas seguidas')
     const rota = una(semana(12, 0), [1, 2, 3, 4])
     expect(resumenLiga(rota, semana(12, 0))).toBe(`Sin hacerlo desde el ${fechaCorta(semana(4, 2), semana(12, 0))}`)
-    expect(textoPico(rota.pico!, semana(12, 0))).toBe(`Plata III · ${fechaCorta(semana(4, 2), semana(12, 0))}`)
+    expect(textoPico(rota.pico!, semana(12, 0))).toBe(`Plata · ${fechaCorta(semana(4, 2), semana(12, 0))}`)
   })
 })
 
@@ -78,10 +84,10 @@ describe('entreno activo y fin de sesión', () => {
     expect(textoAvisoElite(una(semana(18, 4), rango(1, 18)))).toBe('Élite: llevas 18 semanas seguidas con este ejercicio')
   })
 
-  it('ascensos: entrar, subir de división, cambiar de liga y llegar a Élite', () => {
+  it('ascensos: empezar, sumar una semana, cambiar de liga y llegar a Élite', () => {
     const a = (de: number, aPaso: number) => ({ exerciseId: 1, de: divisionDe(de), a: divisionDe(aPaso) })
     expect([a(0, 1), a(1, 2), a(3, 4), a(15, 16)].map(textoAscenso)).toEqual([
-      'Entra en la liga: Bronce III', 'Sube de Bronce III a Bronce II', 'Sube de Bronce I a Plata III', 'Llega a Élite: ciclo completado',
+      'Empieza en Bronce', 'Semana 2 de 3 en Bronce', 'Sube a Plata', 'Llega a Élite: ciclo completado',
     ])
     expect([a(0, 1), a(1, 2), a(3, 4), a(15, 16)].map(ascensoDestacado)).toEqual([true, false, true, true])
   })

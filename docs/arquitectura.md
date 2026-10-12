@@ -53,7 +53,7 @@ src/features/atributos/   → features/atributos.md (nivel y XP derivados del hi
 src/features/cumbres/     → features/cumbres.md (montañas que se suben con la XP)
 src/features/ritmo/       → features/ritmo.md (plan, estado de las semanas, hilo, comodines y pausas)
 src/features/vitrina/     → features/vitrina.md (logros, muro de récords, Herbario y Atlas)
-src/features/liga/        → features/liga.md (división de cada ejercicio; se ve en Entreno › Progreso)
+src/features/liga/        → features/liga.md (liga de cada ejercicio; se ve en Entreno › Progreso)
 src/test/                setup-db.ts (fake-indexeddb, cargado como setupFiles de Vitest) y fixtures/
 public/                  iconos de la PWA, favicon.svg, fonts/ (Saira recta y cursiva, OFL) y catalogo/ (paquetes que la app descarga)
                          images/atmosferas/ (seis fondos WebP locales por sección/tema y procedencia)

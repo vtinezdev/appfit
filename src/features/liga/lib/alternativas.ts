@@ -14,7 +14,7 @@ export interface Alternativa {
   catalogId?: string
   /** «Pecho · mancuernas». */
   subtitulo: string
-  /** «Nunca lo has hecho», «Sin liga ahora» o la división. */
+  /** «Nunca lo has hecho», «Sin liga ahora» o su liga. */
   estado: string
   /** Para sustituirlo en una rutina (`routinesRepo.sustituirEjercicio`). */
   seleccion: SeleccionEjercicio
@@ -27,7 +27,7 @@ function principales(e: Exercise): string[] {
 
 /**
  * Hasta `MAX_ALTERNATIVAS` ejercicios que comparten músculo principal con `e`, sin él mismo ni los que están en Élite.
- * Orden: división más baja primero; a igualdad, los ya hechos alguna vez (técnica conocida), los del mismo material y el
+ * Orden: paso más bajo primero; a igualdad, los ya hechos alguna vez (técnica conocida), los del mismo material y el
  * orden del catálogo. Sin músculo principal conocido, ninguna.
  */
 export function alternativas(e: Exercise, locales: Exercise[], ligas: ReadonlyMap<number, LigaEjercicio>): Alternativa[] {
