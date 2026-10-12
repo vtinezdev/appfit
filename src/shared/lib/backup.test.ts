@@ -23,7 +23,7 @@ function v1ConApiKey(apiKey: string): string {
 describe('importarBackup', () => {
   it('importa entero el backup v1 de referencia (generado con el código de la sesión 01)', async () => {
     await importarBackup(backupV1)
-    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, catalogFoods: 0, catalogSources: 0 })
+    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, suplementos: 0, catalogFoods: 0, catalogSources: 0 })
     expect((await db.foods.get(1))?.nombre).toBe('Plátano')
     expect(await db.entries.get(9)).toMatchObject({ fecha: '2026-09-28', comida: 'cena', kcal: 330, textoOriginal: 'pollo a la plancha' })
   })
@@ -235,5 +235,38 @@ describe('el catálogo queda fuera de los datos del usuario', () => {
 
   it('los backups v1 existentes siguen importándose (versión del formato sin cambios)', () => {
     expect(migrarBackup(JSON.parse(backupV1)).version).toBe(3)
+  })
+})
+
+describe('backup de suplementos', () => {
+  it('mantiene backup v3 y conserva marcas, configuración y otras tablas al importar', async () => {
+    await importarBackup(backupV1)
+    await db.settings.update(1, { creatina: { activa: true, dosisManualG: 4.5, inicioCarga: '2026-10-12' } })
+    await db.suplementos.bulkAdd([{ tipo: 'creatina', fecha: '2026-10-12', createdAt: 10 }, { tipo: 'otro', fecha: '2026-10-12', createdAt: 11 }])
+    const antes = await exportarBackup()
+    expect(antes.version).toBe(3)
+    expect(antes.dbVersion).toBe(8)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+  })
+  it('un backup antiguo importa suplementos vacíos y Creatina desactivada', async () => {
+    await db.settings.put({ id: 1, objetivos: { kcal: 2200, prot: 150, carb: 238, grasa: 72 }, creatina: { activa: true } })
+    await db.suplementos.add({ tipo: 'creatina', fecha: '2026-10-12', createdAt: 1 })
+    await importarBackup(backupV1)
+    expect(await db.suplementos.count()).toBe(0)
+    expect((await db.settings.get(1))?.creatina).toBeUndefined()
+  })
+  it('rechaza marcas duplicadas sin perder los registros existentes', async () => {
+    await importarBackup(backupV1)
+    const antes = await exportarBackup()
+    const mala = { ...antes, suplementos: [{ id: 1, tipo: 'creatina', fecha: '2026-10-12', createdAt: 1 }, { id: 2, tipo: 'creatina', fecha: '2026-10-12', createdAt: 2 }] }
+    await expect(importarBackup(JSON.stringify(mala))).rejects.toThrow()
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+    expect(() => migrarBackup({ ...antes, suplementos: {} })).toThrow(BackupError)
+  })
+  it('borrar todos los datos incluye suplementos', async () => {
+    await db.suplementos.add({ tipo: 'creatina', fecha: '2026-10-12', createdAt: 1 })
+    await borrarTodosLosDatos()
+    expect(await db.suplementos.count()).toBe(0)
   })
 })

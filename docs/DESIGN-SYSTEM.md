@@ -174,3 +174,9 @@ Series, entradas, platos y alimentos: inmediato con Deshacer, restauración exis
 - Input date max limita selector, no valor programático; validar también la acción.
 - ReferenceLine no amplía eje Y: dominio debe incluir objetivo.
 - Reiniciar Vite si un cambio de Tailwind deja CSS servido con utilidades anteriores. Validar también producción.
+
+### Creatina en Inicio y Ajustes
+
+`CreatinaHoy` reutiliza `TarjetaAcceso`, a todo el ancho bajo Peso/Agua: etiqueta, dosis en `heading` con gramos en `caption`, fase en `body-sm` y botón neutro «Tomada hoy» al pie, hermano del acceso. `aria-pressed` indica el estado; el icono de check en `success` confirma la marca. La hoja compartida muestra siete filas con fecha y estado explícito, sin rachas ni acento de gamificación. Errores en línea, también dentro de la hoja.
+
+`CreatinaAjustes` usa sección y switch nativo con etiqueta táctil ≥44 px; campos y textos en bloques que envuelven al ampliar texto. Dosis manual con teclado decimal, acción de guardar y carga opcional mediante botones neutros. No hay wrappers, tokens ni dependencias nuevas.

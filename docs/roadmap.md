@@ -70,7 +70,7 @@ Catálogo:
 ## Descartadas
 
 - **Todo lo que dependía de la IA** (foto de la etiqueta o del plato, «¿qué como?», cola de audio sin conexión, probar la conexión con Gemini): la IA se retiró ([ADR 006](decisiones/006-sin-ia-interprete-local.md)).
-- **Notificaciones push y recordatorios**: en iOS necesitan un servidor push, lo que rompe «sin backend».
+- **Notificaciones push y recordatorios** (incluidos los de creatina): en iOS necesitan un servidor push, lo que rompe «sin backend».
 - **Atajos de iOS y enlaces profundos** (`?texto=…`): Atajos abre Safari, que en iOS tiene un almacenamiento separado del de la PWA instalada.
 - **Compartir una foto a la app** (Web Share Target): no existe en iOS.
 - **Sincronización entre dispositivos**: requiere backend; el backup JSON cubre el cambio de móvil.

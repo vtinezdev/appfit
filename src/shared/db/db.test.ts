@@ -30,12 +30,12 @@ const meal: Omit<Meal, 'id'> = {
   items: [{ foodId: 1, nombre: 'Plátano', gramos: 100, kcal: 89, prot: 1, carb: 23, grasa: 0.3 }],
 }
 
-describe('esquema v7', () => {
-  it('instalación nueva: crea todas las tablas y los índices del catálogo, con la versión 7', async () => {
+describe('esquema v8', () => {
+  it('instalación nueva: crea todas las tablas y los índices del catálogo, con la versión 8', async () => {
     const nombre = 'appfit-instalacion-test'
     const d = new AppFitDB(nombre)
     await d.open()
-    expect(d.verno).toBe(7)
+    expect(d.verno).toBe(8)
     expect(d.tables.map((t) => t.name).sort()).toEqual([...TABLAS_USUARIO, ...TABLAS_CATALOGO].sort())
     expect(d.table('catalogFoods').schema.primKey.auto).toBe(false)
     expect(d.table('catalogFoods').schema.idxByName.tok.multi).toBe(true)
@@ -57,7 +57,7 @@ describe('esquema v7', () => {
     expect(TABLAS_USUARIO.filter((t) => (TABLAS_CATALOGO as readonly string[]).includes(t))).toEqual([])
   })
 
-  it('v2 → v7: foods, entries, meals y Gym sobreviven intactos; las tablas nuevas aparecen vacías', async () => {
+  it('v2 → v8: foods, entries, meals y Gym sobreviven intactos; las tablas nuevas aparecen vacías', async () => {
     const nombre = 'appfit-migracion-v2-test'
     const datos = JSON.parse(backupV1)
 
@@ -73,7 +73,7 @@ describe('esquema v7', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(7)
+    expect(actual.verno).toBe(8)
     // Ningún registro cambia: contenido idéntico (incluido Gym y meals).
     for (const tabla of Object.keys(ESQUEMA_V2)) expect(await actual.table(tabla).toArray(), tabla).toEqual(antes[tabla])
     expect(antes.foods).toHaveLength(datos.foods.length)
@@ -106,7 +106,7 @@ describe('esquema v7', () => {
   })
 })
 
-describe('migración v6 → v7', () => {
+describe('migración v6 → v8', () => {
   it('conserva los datos existentes y crea las tablas nuevas vacías', async () => {
     const nombre = 'appfit-migracion-v6-test'
     const v6 = new Dexie(nombre)
@@ -124,7 +124,7 @@ describe('migración v6 → v7', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(7)
+    expect(actual.verno).toBe(8)
     expect(await actual.pesos.count()).toBe(1)
     expect(await actual.nombresAlimentos.count()).toBe(1)
     expect((await actual.workouts.toArray())[0]).toMatchObject({ inicio: 5, fin: 9 })
@@ -175,7 +175,7 @@ describe('catálogo en Dexie', () => {
 })
 
 describe('migraciones de Dexie', () => {
-  it('v1 → v7: los datos existentes sobreviven y aparecen vacías las tablas nuevas', async () => {
+  it('v1 → v8: los datos existentes sobreviven y aparecen vacías las tablas nuevas', async () => {
     const nombre = 'appfit-migracion-test'
     const datos = JSON.parse(backupV1)
 
@@ -187,7 +187,7 @@ describe('migraciones de Dexie', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(7)
+    expect(actual.verno).toBe(8)
     expect(await actual.catalogFoods.count()).toBe(0)
     for (const tabla of Object.keys(ESQUEMA_V1)) {
       expect(await actual.table(tabla).count(), tabla).toBe(datos[tabla].length)
@@ -200,5 +200,41 @@ describe('migraciones de Dexie', () => {
     expect((await actual.foods.where('nombreNorm').equals('platano').first())?.id).toBe(1)
     actual.close()
     await Dexie.delete(nombre)
+  })
+})
+
+describe('migración v7 → v8 (creatina)', () => {
+  it('conserva todas las tablas antiguas y añade marcas únicas por tipo y fecha', async () => {
+    const nombre = 'appfit-creatina-migracion-test'
+    const esquemaV7 = {
+      ...ESQUEMA_V2,
+      entries: '++id, fecha, comida, foodId, catalogId, createdAt',
+      catalogFoods: '&id, *tok, gtin, fuente', catalogSources: '&id',
+      notasMedida: '++id, createdAt', pesos: '++id, &fecha', nombresAlimentos: '&id',
+      porciones: '++id, ref', recetas: '++id, &nombreNorm, foodId',
+      agua: '++id, &fecha', objetivosDia: '++id, &fecha', medidas: '++id, &fecha',
+    }
+    const anteriores = Object.keys(esquemaV7)
+    const v7 = new Dexie(nombre)
+    v7.version(7).stores(esquemaV7)
+    await v7.open()
+    const datos = JSON.parse(backupV1)
+    for (const tabla of Object.keys(ESQUEMA_V1)) await v7.table(tabla).bulkAdd(datos[tabla])
+    await v7.table('pesos').add({ fecha: '2026-10-12', kg: 80, createdAt: 1 })
+    await v7.table('agua').add({ fecha: '2026-10-12', ml: 250 })
+    const antes = Object.fromEntries(await Promise.all(anteriores.map(async t => [t, await v7.table(t).toArray()])))
+    v7.close()
+    const actual = new AppFitDB(nombre)
+    await actual.open()
+    expect(actual.verno).toBe(8)
+    for (const t of anteriores) expect(await actual.table(t).toArray(), t).toEqual(antes[t])
+    expect(await actual.suplementos.count()).toBe(0)
+    const indice = actual.backendDB().transaction('suplementos', 'readonly').objectStore('suplementos').index('[tipo+fecha]')
+    expect(indice.unique).toBe(true)
+    expect(indice.keyPath).toEqual(['tipo', 'fecha'])
+    await actual.suplementos.add({ tipo: 'creatina', fecha: '2026-10-12', createdAt: 1 })
+    await expect(actual.suplementos.add({ tipo: 'creatina', fecha: '2026-10-12', createdAt: 2 })).rejects.toThrow()
+    await actual.suplementos.add({ tipo: 'otro', fecha: '2026-10-12', createdAt: 2 })
+    actual.close(); await Dexie.delete(nombre)
   })
 })

@@ -9,6 +9,7 @@ import * as perfilRepo from '../features/perfil/data/perfilRepo'
 import { actualizarObjetivoHoy } from '../features/perfil/data/objetivosDiaRepo'
 import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
 import AtributosAjustes from '../features/atributos/components/AtributosAjustes'
+import CreatinaAjustes from '../features/inicio/components/CreatinaAjustes'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { ErrorState, LoadingState } from '../shared/components/StateMessage'
 import Button from '../shared/components/Button'
@@ -169,6 +170,8 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
           </div>
         })()}
       </section>
+
+      <CreatinaAjustes settings={settings} />
 
       <section aria-label="Entreno" className="space-y-stack">
         <SectionHeader variant="section">Entreno</SectionHeader>

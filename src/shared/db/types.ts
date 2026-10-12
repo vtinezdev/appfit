@@ -284,7 +284,13 @@ export interface Settings {
   ligaMantener?: number[]
   /** Cumbres: desde cuándo se sube y las montañas elegidas para cada capítulo, en orden (`cumbres/lib/cumbres.ts`). */
   cumbres?: ConfigCumbres
+  /** Registro opcional de creatina; ausente = desactivado. */
+  creatina?: ConfigCreatina
 }
+
+export interface ConfigCreatina { activa: boolean; dosisManualG?: number; inicioCarga?: string }
+/** Una marca por suplemento y fecha. El tipo permite ampliar el registro sin cambiar el esquema. */
+export interface Suplemento { id: number; fecha: string; tipo: string; createdAt: number }
 
 /**
  * Cumbres: `inicio` (YYYY-MM-DD) es el día en que se eligió la primera montaña; cuenta la XP desde ese día. `ruta`, los
