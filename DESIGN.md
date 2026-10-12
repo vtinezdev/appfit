@@ -332,7 +332,7 @@ Cierre con datos realmente guardados. Progreso/estadísticas con cifras condensa
 
 ### Controles, capas y estados
 
-Buttons con radio contenido y target táctil; volt sólido reservado a la acción principal y variante `subtle` neutra para acciones repetidas en listas. Inputs/selects/textarea con superficie secundaria, límite reconocible y foco en `accent-strong`. ViewTabs sin carril: la vista activa va en negrita con una barra corta en `accent-strong`. Badges son metadatos; ViewTabs navega y SegmentedControl elige un valor en una cápsula neutra elevada.
+Buttons con radio contenido y target táctil; volt sólido reservado a la acción principal y variante `subtle` neutra para acciones repetidas en listas. Inputs/selects/textarea con superficie secundaria, límite reconocible y foco en `accent-strong`. ViewTabs sin carril: la vista activa va en negrita con una barra corta en `accent-strong`; las secciones de arriba de Entreno y Nutrición van recuadradas, con la activa en una caja, para pesar más que las vistas de dentro. Badges son metadatos; ViewTabs navega y SegmentedControl elige un valor en una cápsula neutra elevada.
 
 Sheet y ModalPage comparten títulos condensados, portal, aislamiento/foco, Escape/Atrás y retorno de foco. Tareas encadenadas esperan onExited. EmptyState explica qué falta y cómo continuar; LoadingState localizado; errores dentro de la tarea. Caret, selección de texto, scrollbars y foco usan la paleta.
 

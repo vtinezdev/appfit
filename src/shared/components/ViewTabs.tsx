@@ -6,15 +6,18 @@ interface Props<T extends string> {
   valor: T
   onChange: (valor: T) => void
   label: string
+  /** `principal`: las secciones de arriba de un destino (Entreno, Nutrición), recuadradas y con más cuerpo que las vistas de dentro. */
+  nivel?: 'principal' | 'secundario'
   children: ReactNode
 }
-/** Pestañas planas de navegación, con panel asociado y teclado completo. */
-export default function ViewTabs<T extends string>({ opciones, valor, onChange, label, children }: Props<T>) {
+/** Pestañas de navegación, con panel asociado y teclado completo. */
+export default function ViewTabs<T extends string>({ opciones, valor, onChange, label, nivel = 'secundario', children }: Props<T>) {
+  const principal = nivel === 'principal'
   const id = useId()
   const elegir = (next: T) => { if (next !== valor) haptic(); onChange(next) }
   return (
     <div>
-      <div role="tablist" aria-label={label} className="app-tabs relative flex"
+      <div role="tablist" aria-label={label} className={`app-tabs relative flex ${principal ? 'app-tabs-principal rounded-md border border-line bg-surface p-1' : ''}`}
         style={{ '--selection-index': opciones.findIndex(o => o.valor === valor), '--selection-count': opciones.length } as CSSProperties}>
         <span className="tab-indicator" aria-hidden />
         {opciones.map((o, i) => (
@@ -27,7 +30,7 @@ export default function ViewTabs<T extends string>({ opciones, valor, onChange, 
               elegir(opciones[next].valor)
               e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('button')[next]?.focus()
             }}
-            className={`relative min-h-touch min-w-0 flex-1 px-1 text-body-sm font-semibold transition-colors duration-short ${valor === o.valor ? 'font-bold text-fg' : 'text-fg-muted hover:text-fg'}`}>
+            className={`relative min-h-touch min-w-0 flex-1 px-1 font-semibold transition-colors duration-short ${principal ? 'rounded-sm text-body' : 'text-body-sm'} ${valor === o.valor ? 'font-bold text-fg' : 'text-fg-muted hover:text-fg'}`}>
             {o.label}
           </button>
         ))}

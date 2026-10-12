@@ -1364,3 +1364,9 @@ Víctor pidió más logros en la Vitrina, de todos los apartados y también ocul
 - Código: `vitrina/lib/logros.ts` (ayudas `marcasAcumuladas` y `coleccion`; km y metros pasan a usarla), `lib/vitrina.ts` le pasa la Liga, el volumen de cada entreno y las plantas desde siempre; `atlas.dominados` lleva el entreno de la tercera sesión; `herbarioPorSemana` añade `cincuentaEl`; `montanas.K2`. La interfaz no cambia: más medallas en la misma rejilla.
 
 **Verificación:** `npm run test` (2.047 tests, 154 archivos) y `npm run build` en verde; tests nuevos de los logros ampliados (entreno, ocultos con comodín y racha, nutrición y actividades). Sin recorrido en navegador ni prueba en iPhone. Sin commit ni push.
+
+## 126. Secciones de arriba recuadradas en Entreno y Nutrición (2026-10-12)
+
+Víctor pidió que las secciones de arriba de Entreno (Gimnasio · Actividades) y Nutrición (Diario · Resumen · Alimentos) pesaran más que las subsecciones de debajo, quizá recuadradas. `ViewTabs` gana `nivel="principal"`: recuadro `surface` con borde `line` y `rounded-md`, etiquetas en `body` (las de dentro siguen en `body-sm`) y la activa en una caja `surface-muted` `rounded-sm` que se desliza (`.app-tabs-principal .tab-indicator` en `index.css`), con la barra de acento dentro, al pie. Sin sombra ni pill, para no confundirse con SegmentedControl. Lo usan `GymTab` y `NutricionTab`.
+
+**Verificación:** `npm run test` y `npm run build` en verde. Capturas en Edge sin interfaz con `playwright-core` fuera del repo, Vite en 5184 y `appfit-test.localhost`, Entreno (Gimnasio y Actividades) y Nutrición a 320/375/430 px en claro y oscuro: celdas de 44 px, sin scroll horizontal ni errores de consola. Sin prueba en iPhone. Sin commit ni push.
