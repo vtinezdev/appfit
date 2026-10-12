@@ -13,7 +13,7 @@ Se va de lo rápido y sin riesgo a lo que cambia el esquema. Cada punto va en su
 | 3 | [3 · Filtro «Abductores»](#3--filtro-abductores) | `feat/filtro-abductores` | no | implementada |
 | 4 | [2 · Creatina](#2--creatina) | `feat/creatina` | sí (v8) | implementada |
 | 5 | [1 · Cheat day](#1--cheat-day) | `feat/cheat-day` | sí (v9) | implementada |
-| 6 | [7 · Creador de rutinas](#7--creador-de-rutinas) | `feat/creador-rutinas` | no | pendiente |
+| 6 | [7 · Creador de rutinas](#7--creador-de-rutinas) | `feat/creador-rutinas` | no | implementada |
 | — | [6 · Uso por otras personas](#6--uso-por-otras-personas-por-afinar) | — | — | por afinar |
 
 Para todos: `npm run test` y `npm run build` en verde, pruebas en `http://appfit-test.localhost:5173` (nunca en `localhost:5173`) a 320/375/430 px y en ambos temas, entrada en `docs/PROCESO.md` y actualización de los documentos vivos indicados.

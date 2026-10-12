@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as routinesRepo from '../data/routinesRepo'
@@ -18,6 +18,9 @@ import { cuandoFue, moverElemento } from '../lib/workout'
 import { resumenRutina } from '../lib/rutinas'
 import Card from '../../../shared/components/Card'
 import MiniaturaEjercicio from '../components/MiniaturaEjercicio'
+import CreadorRutinas from '../components/CreadorRutinas'
+import ListRow from '../../../shared/components/ListRow'
+import { useAviso } from '../../../shared/hooks/useAviso'
 
 export default function Rutinas() {
   const [editando, setEditando] = useState<routinesRepo.RoutineInput | null>(null)
@@ -31,6 +34,11 @@ export default function Rutinas() {
   const workouts = useLiveQuery(() => workoutsRepo.listar(), [])
   const [empezando, setEmpezando] = useState<number | null>(null)
   const [errorEmpezar, setErrorEmpezar] = useState<string | null>(null)
+  const [crear, setCrear] = useState(false)
+  const [asistente, setAsistente] = useState(false)
+  /** Lo elegido en «Crear rutina»: se abre cuando la hoja termina de cerrarse, sin apilar capas. */
+  const siguiente = useRef<'blanco' | 'asistente' | null>(null)
+  const { avisar, toast } = useAviso()
 
   const exerciseMap = new Map((exercises ?? []).map((e) => [e.id!, e]))
 
@@ -102,9 +110,9 @@ export default function Rutinas() {
 
   return (
     <div className="space-y-stack">
-      <Button variant="secondary" block onClick={() => abrir({ nombre: '', exerciseIds: [] })}>
+      <Button variant="secondary" block aria-haspopup="dialog" onClick={() => setCrear(true)}>
         <Icon name="plus" size={18} />
-        Nueva rutina
+        Crear rutina
       </Button>
       <Button variant="subtle" block onClick={() => setMisEjercicios(true)}>Mis ejercicios</Button>
 
@@ -193,6 +201,29 @@ export default function Rutinas() {
           </div>
         )}
       </Sheet>
+      <Sheet open={crear} onClose={() => setCrear(false)} title="Crear rutina" onExited={() => {
+        if (siguiente.current === 'blanco') abrir({ nombre: '', exerciseIds: [] })
+        if (siguiente.current === 'asistente') setAsistente(true)
+        siguiente.current = null
+      }}>
+        <div className="space-y-2">
+          <ListRow tone="muted" onClick={() => { siguiente.current = 'blanco'; setCrear(false) }}>
+            <span className="min-w-0 space-y-0.5">
+              <span className="block font-medium">En blanco</span>
+              <span className="block text-caption text-fg-muted">Eliges tú el nombre, los ejercicios y sus objetivos.</span>
+            </span>
+          </ListRow>
+          <ListRow tone="muted" onClick={() => { siguiente.current = 'asistente'; setCrear(false) }}>
+            <span className="min-w-0 space-y-0.5">
+              <span className="block font-medium">Con el asistente</span>
+              <span className="block text-caption text-fg-muted">Un plan de rutinas según tus días, tiempo, material y objetivo, que puedes cambiar antes de guardar.</span>
+            </span>
+          </ListRow>
+        </div>
+      </Sheet>
+      {asistente && <CreadorRutinas onClose={() => setAsistente(false)}
+        onGuardado={(ids) => avisar({ mensaje: `${ids.length} rutinas creadas`, onDeshacer: () => routinesRepo.borrarVarias(ids) })} />}
+      {toast}
       {misEjercicios && <MisEjercicios onClose={() => setMisEjercicios(false)} />}
       {seleccionando && editando && <SelectorEjercicios excluir={editando.exerciseIds} onClose={() => setSeleccionando(false)} onElegir={agregarEjercicio} />}
     </div>

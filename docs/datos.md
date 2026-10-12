@@ -80,7 +80,7 @@ Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`). Fue
 | Feature | Repos | Tablas |
 |---|---|---|
 | nutricion | `foodsRepo` (`categoriasDeEntradas`), `entriesRepo` (`fechasConRegistro`), `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo`, `porcionesRepo`, `recetasRepo`, `cheatDaysRepo` (`entreFechas`, `todas`, `marcar`, `quitar`/`restaurar`) | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos`, `porciones`, `recetas`, `cheatDays` |
-| gym | `exercisesRepo` (ejercicios propios: editar/borrar), `routinesRepo` (sustituir un ejercicio con su objetivo y restaurar), `workoutsRepo` (descartar, borrar, crearPasado, notas, orden), `setsRepo` | `exercises`, `routines`, `workouts`, `sets` |
+| gym | `exercisesRepo` (ejercicios propios: editar/borrar), `routinesRepo` (sustituir un ejercicio con su objetivo y restaurar; `guardarPlan` del creador, en una transacción con `exercises`, y `borrarVarias`), `workoutsRepo` (descartar, borrar, crearPasado, notas, orden), `setsRepo` | `exercises`, `routines`, `workouts`, `sets` |
 | inicio | `pesosRepo` (`delRango`, `registrar`, `borrar`/`restaurar`, `ultimoHasta(fecha)`: último pesaje ≤ fecha, solo lectura), `aguaRepo`, `creatinaRepo` (`leer`, `configurar`, `empezarCarga`, `marcar`) | `pesos`, `agua`, `suplementos`, `settings.creatina` |
 | perfil | `perfilRepo` (`estadoEnergetico`, `objetivosVigentes`, `calcularVigentes`, `leerGastoObservado`), `objetivosDiaRepo`, `medidasRepo` | `settings` (campo `perfil`), `pesos` y `entries` (lectura), `objetivosDia`, `medidas` |
 

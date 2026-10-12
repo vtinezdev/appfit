@@ -64,7 +64,7 @@ async function main() {
           await page.getByRole('tab', { name: 'Progreso', exact: true }).click()
           await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('1')
           await page.getByRole('tab', { name: 'Rutinas', exact: true }).click()
-          await page.getByRole('button', { name: 'Nueva rutina', exact: true }).click()
+          await page.getByRole('button', { name: 'Crear rutina', exact: true }).click(); await page.getByRole('dialog', { name: 'Crear rutina', exact: true }).getByRole('button', { name: /^En blanco/ }).click()
           await page.getByRole('button', { name: 'Añadir ejercicio', exact: true }).click()
           const selector = page.getByRole('dialog', { name: 'Añadir ejercicio', exact: true })
           await selector.getByRole('searchbox', { name: 'Buscar ejercicio', exact: true }).fill('jalon')

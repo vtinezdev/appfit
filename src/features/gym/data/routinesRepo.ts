@@ -4,6 +4,7 @@ import type { Routine } from '../../../shared/db/types'
 import { resolverSeleccion } from './exercisesRepo'
 import { ErrorSustitucion, sustituirEnRutina } from '../lib/rutinas'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
+import { rutinasDelPlan, type PlanCreador } from '../lib/creadorRutinas'
 
 export type RoutineInput = Omit<Routine, 'id'> & { id?: number }
 
@@ -39,6 +40,35 @@ export function sustituirEjercicio(routineId: number, de: number, por: Seleccion
     await db.routines.put(sustituirEnRutina(antes, de, nuevo))
     return antes
   })
+}
+
+/**
+ * Guarda el plan del creador como rutinas normales, en una transacción: resuelve cada ejercicio (crea el del catálogo
+ * que aún no exista), quita repetidos dentro de una rutina y da a cada una un nombre libre («Torso A (2)» si ya existe).
+ * Si algo falla, no queda nada a medias. Devuelve los ids, en el orden del plan.
+ */
+export function guardarPlan(plan: PlanCreador): Promise<number[]> {
+  return db.transaction('rw', db.routines, db.exercises, async () => {
+    const existentes = (await db.routines.toArray()).map((r) => r.nombre)
+    const ids: number[] = []
+    for (const rutina of rutinasDelPlan(plan, existentes)) {
+      const exerciseIds: number[] = []
+      const objetivos: Routine['objetivos'] = {}
+      for (const { seleccion, objetivo } of rutina.ejercicios) {
+        const id = await resolverSeleccion(seleccion)
+        if (exerciseIds.includes(id)) continue
+        exerciseIds.push(id)
+        objetivos[id] = { ...objetivo }
+      }
+      ids.push(await db.routines.add({ nombre: rutina.nombre, exerciseIds, objetivos }))
+    }
+    return ids
+  })
+}
+
+/** Borra varias rutinas a la vez (deshacer lo guardado con el creador). */
+export async function borrarVarias(ids: number[]): Promise<void> {
+  await db.routines.bulkDelete(ids)
 }
 
 /** Deja la rutina como estaba (Deshacer). */
