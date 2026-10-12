@@ -62,6 +62,7 @@ export default function GymTab({ seccionInicial = 'gimnasio' }: { seccionInicial
       <PageHeader title="Entreno" />
       <ViewTabs
         label="Secciones de entreno"
+        nivel="principal"
         opciones={[{ valor: 'gimnasio', label: 'Gimnasio' }, { valor: 'actividades', label: 'Actividades' }]}
         valor={seccion}
         onChange={setSeccion}
