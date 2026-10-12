@@ -14,11 +14,11 @@ async function datos(page) {
     return JSON.parse(JSON.stringify(b))
   })
 }
-async function atributos(page) {
+async function experiencia(page) {
   return page.evaluate(async () => {
-    const { leerAtributos } = await import('/src/features/atributos/hooks/useAtributos.ts')
+    const { leerExperiencia } = await import('/src/features/experiencia/hooks/useExperiencia.ts')
     const { todayISO } = await import('/src/shared/lib/dates.ts')
-    return JSON.parse(JSON.stringify(await leerAtributos(todayISO())))
+    return JSON.parse(JSON.stringify(await leerExperiencia(todayISO())))
   })
 }
 async function ajustes(page) {
@@ -74,11 +74,11 @@ async function main() {
         await navegar(page, 'Inicio')
         const card = () => page.getByRole('button', { name: /^Creatina/ })
         await card().filter({ hasText: '4,5' }).waitFor()
-        const xp = await atributos(page)
+        const xp = await experiencia(page)
         const control = pressed => page.getByRole('button', { name: 'Tomada hoy', exact: true, ...(pressed === undefined ? {} : { pressed }) })
         await control(false).click(); await control(true).waitFor()
         assert.equal((await datos(page)).suplementos.length, 1)
-        assert.deepEqual(await atributos(page), xp, 'marcar no cambia XP ni Ritmo')
+        assert.deepEqual(await experiencia(page), xp, 'marcar no cambia XP ni Ritmo')
         await check(page, card().locator('..'), `${tag}-inicio-manual`)
         await card().click()
         let sheet = page.getByRole('dialog', { name: 'Creatina', exact: true })

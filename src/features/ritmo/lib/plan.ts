@@ -1,4 +1,4 @@
-// Plan semanal y semana cumplida: la parte de Ritmo que ya usa Atributos (gaming.md). Funciones puras.
+// Plan semanal y semana cumplida: la parte de Ritmo que usa también la experiencia (gaming.md). Funciones puras.
 import type { PlanSemanal, TipoPausa, TramoPlanSemanal } from '../../../shared/db/types'
 
 export const PLAN_POR_DEFECTO: PlanSemanal = { entrenos: 3, diasRegistro: 5 }

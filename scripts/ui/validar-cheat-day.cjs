@@ -18,9 +18,9 @@ async function datos(page) {
 }
 async function eventosNutricion(page) {
   return page.evaluate(async () => {
-    const { leerAtributos } = await import('/src/features/atributos/hooks/useAtributos.ts')
-    const estado = await leerAtributos('2026-10-15')
-    return estado.resultado.eventos.filter(e => e.atributo === 'nutricion').map(e => `${e.fecha} ${e.tipo}`)
+    const { leerExperiencia } = await import('/src/features/experiencia/hooks/useExperiencia.ts')
+    const estado = await leerExperiencia('2026-10-15')
+    return estado.resultado.eventos.filter(e => e.tipo === 'registro' || e.tipo === 'proteina').map(e => `${e.fecha} ${e.tipo}`)
   })
 }
 async function check(page, target, tag) {

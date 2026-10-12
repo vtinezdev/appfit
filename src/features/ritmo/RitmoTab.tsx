@@ -11,8 +11,8 @@ import type { Pausa } from '../../shared/db/types'
 import { useAviso } from '../../shared/hooks/useAviso'
 import { formatFriendly, todayISO } from '../../shared/lib/dates'
 import { formatInt } from '../../shared/lib/format'
-import { useAtributos } from '../atributos/hooks/useAtributos'
-import { SERIES_MINIMAS } from '../atributos/lib/atributos'
+import { useExperiencia } from '../experiencia/hooks/useExperiencia'
+import { SERIES_MINIMAS } from '../experiencia/lib/experiencia'
 import CalendarioSemanas from './components/CalendarioSemanas'
 import DiasSemana from './components/DiasSemana'
 import PausarSheet from './components/PausarSheet'
@@ -26,7 +26,7 @@ const semanasTexto = (n: number) => (n === 1 ? '1 semana' : `${formatInt(n)} sem
 /** Ritmo (en Más): la semana en curso, hilo y comodines, el calendario de semanas, hitos y pausas. */
 export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void }) {
   const hoy = todayISO()
-  const estado = useAtributos(hoy)
+  const estado = useExperiencia(hoy)
   const { avisar, avisarError, toast } = useAviso()
   const [pausando, setPausando] = useState(false)
   const [aperturas, setAperturas] = useState(0)
@@ -36,7 +36,7 @@ export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void })
     return <div className="space-y-section px-page pt-5">
       <PageHeader title="Ritmo" />
       <EmptyState title="Ritmo oculto" action={<Button variant="secondary" onClick={onIrAAjustes}>Ir a Ajustes</Button>}>
-        Lo has ocultado en Ajustes junto con Atributos y Vitrina.
+        Lo has ocultado en Ajustes junto con Cumbres y Vitrina.
       </EmptyState>
     </div>
   }

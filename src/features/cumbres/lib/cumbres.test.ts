@@ -1,33 +1,48 @@
 import { describe, expect, it } from 'vitest'
-import type { EventoXp } from '../../atributos/lib/atributos'
+import type { EventoXp } from '../../experiencia/lib/experiencia'
 import {
   calcularCumbres, cambiarMontana, cuandoFue, cumbreDeSesion, cumbreReciente, diasDeExpedicion, empezar, hitosDe,
-  metrosEntre, montanasParaCambiar, progresoTexto, rutaDe,
+  metrosEntre, montanasParaCambiar, nombreExpedicion, progresoTexto, rutaDe, SIGUIENTES, vecesCoronada,
 } from './cumbres'
 import { COLECCIONES, MONTANAS, montanaDe } from './montanas'
 import { puntoEnLadera, trazadoSilueta, yDeFraccion } from './perfil'
 
-const entreno = (fecha: string, xp: number, workoutId: number): EventoXp => ({ tipo: 'entreno', atributo: 'fuerza', fecha, xp, workoutId, series: 6 })
-const registro = (fecha: string, xp: number): EventoXp => ({ tipo: 'registro', atributo: 'nutricion', fecha, xp, comidas: 2 })
+const entreno = (fecha: string, xp: number, workoutId: number): EventoXp => ({ tipo: 'entreno', fecha, xp, workoutId, series: 6 })
+const registro = (fecha: string, xp: number): EventoXp => ({ tipo: 'registro', fecha, xp, comidas: 2 })
 
 describe('montañas', () => {
-  it('van de menor a mayor altitud, con ids únicos', () => {
-    const alt = MONTANAS.map((m) => m.altitud)
-    expect([...alt].sort((a, b) => a - b)).toEqual(alt)
+  it('cada etapa va de menor a mayor altitud (la segunda, detrás del Everest), con ids únicos', () => {
+    const everest = MONTANAS.findIndex((m) => m.id === 'everest')
+    for (const etapa of [MONTANAS.slice(0, everest + 1), MONTANAS.slice(everest + 1)]) {
+      const alt = etapa.map((m) => m.altitud)
+      expect([...alt].sort((a, b) => a - b)).toEqual(alt)
+    }
+    expect(MONTANAS.slice(0, 4).map((m) => m.id)).toEqual(['aneto', 'mulhacen', 'teide', 'mont-blanc']) // la ruta de siempre
+    expect(MONTANAS).toHaveLength(22)
     expect(new Set(MONTANAS.map((m) => m.id)).size).toBe(MONTANAS.length)
   })
 
-  it('el Techo de España tiene 3 y las Siete Cumbres, 7', () => {
+  it('colecciones: Techo de España, Siete Cumbres, Alpes, Volcanes y Los cinco más altos', () => {
     expect(COLECCIONES.espana.montanas).toEqual(['aneto', 'mulhacen', 'teide'])
     expect(COLECCIONES.siete.montanas).toHaveLength(7)
+    expect(COLECCIONES.alpes.montanas).toEqual(['mont-blanc', 'jungfrau', 'cervino', 'monte-rosa'])
+    expect(COLECCIONES.volcanes.montanas).toEqual(['teide', 'elbrus', 'kilimanjaro', 'fuji', 'cotopaxi', 'chimborazo', 'ojos-del-salado'])
+    expect(COLECCIONES.gigantes.montanas).toEqual(['everest', 'makalu', 'lhotse', 'kangchenjunga', 'k2'])
   })
 })
 
 describe('rutaDe', () => {
-  it('pone primero las elegidas y después el resto en orden, sin repetir ni ids desconocidos', () => {
-    const ruta = rutaDe(['teide', 'nada', 'teide', 'aneto']).map((m) => m.id)
-    expect(ruta.slice(0, 3)).toEqual(['teide', 'aneto', 'mulhacen'])
-    expect(ruta).toHaveLength(MONTANAS.length)
+  it('pone primero las elegidas (con repeticiones, sin ids desconocidos) y después las menos coronadas, en orden', () => {
+    expect(rutaDe(['teide', 'nada', 'aneto'], 4).map((m) => m.id)).toEqual(['teide', 'aneto', 'mulhacen', 'mont-blanc'])
+    expect(rutaDe(['aneto', 'aneto'], 3).map((m) => m.id)).toEqual(['aneto', 'aneto', 'mulhacen'])
+  })
+
+  it('no se acaba: con todas hechas empieza otra vuelta', () => {
+    const ruta = rutaDe([], MONTANAS.length * 2 + 1)
+    expect(ruta.slice(0, MONTANAS.length)).toEqual(MONTANAS)
+    expect(ruta.slice(MONTANAS.length, MONTANAS.length * 2)).toEqual(MONTANAS)
+    // Si una ya se repitió, la otra vuelta la deja para el final.
+    expect(rutaDe(['aneto', 'aneto'], MONTANAS.length + 2).slice(2).map((m) => m.id)).toEqual([...MONTANAS.slice(1).map((m) => m.id), 'mulhacen'])
   })
 })
 
@@ -38,16 +53,18 @@ describe('calcularCumbres', () => {
 
   it('1 XP = 1 m desde el día de inicio (lo anterior no cuenta)', () => {
     const r = calcularCumbres([registro('2026-10-09', 30), entreno('2026-10-10', 100, 1), registro('2026-10-10', 30)], empezar('2026-10-10', 'aneto'))!
-    expect(r.actual?.montana.id).toBe('aneto')
-    expect(r.actual?.metros).toBe(130)
+    expect(r.actual.montana.id).toBe('aneto')
+    expect(r.actual.vez).toBe(1)
+    expect(r.actual.metros).toBe(130)
     expect(r.metrosTotales).toBe(130)
     expect(r.coronadas).toEqual([])
-    expect(r.siguientes[0].id).toBe('mulhacen')
+    expect(r.siguientes.map((m) => m.id)).toEqual(['mulhacen', 'teide', 'mont-blanc', 'puncak-jaya', 'vinson'])
+    expect(r.siguientes).toHaveLength(SIGUIENTES)
   })
 
   it('marca un hito cada 1.000 m con el día y el entreno que lo pasó', () => {
     const r = calcularCumbres([registro('2026-10-10', 990), entreno('2026-10-11', 100, 7), registro('2026-10-12', 1500)], empezar('2026-10-10', 'aneto'))!
-    expect(r.actual?.hitos).toEqual([
+    expect(r.actual.hitos).toEqual([
       { fecha: '2026-10-11', workoutId: 7, metros: 1000 },
       { fecha: '2026-10-12', metros: 2000 },
     ])
@@ -62,9 +79,9 @@ describe('calcularCumbres', () => {
     expect(r.coronadas).toHaveLength(1)
     expect(r.coronadas[0].metros).toBe(3404)
     expect(r.coronadas[0].cumbre).toEqual({ fecha: '2026-10-11', workoutId: 1 })
-    expect(r.actual?.montana.id).toBe('mulhacen')
-    expect(r.actual?.desde).toBe('2026-10-11')
-    expect(r.actual?.metros).toBe(30)
+    expect(r.actual.montana.id).toBe('mulhacen')
+    expect(r.actual.desde).toBe('2026-10-11')
+    expect(r.actual.metros).toBe(30)
     expect(r.metrosTotales).toBe(3434)
     expect(r.tramos.map((t) => t.metros)).toEqual([3400, 4, 30])
   })
@@ -73,22 +90,31 @@ describe('calcularCumbres', () => {
     const r = calcularCumbres([registro('2026-10-10', 99999)], empezar('2026-10-10', 'aneto'))!
     expect(r.coronadas).toHaveLength(1)
     expect(r.coronadas[0].hitos.map((h) => h.metros)).toEqual([1000, 2000, 3000])
-    expect(r.actual?.metros).toBe(0)
+    expect(r.actual.metros).toBe(0)
   })
 
   it('sigue las montañas elegidas y después la ruta sugerida', () => {
     const r = calcularCumbres([registro('2026-10-10', 4000), registro('2026-10-11', 4000)], { inicio: '2026-10-10', ruta: ['teide'] })!
     expect(r.coronadas.map((x) => x.montana.id)).toEqual(['teide', 'aneto'])
-    expect(r.actual?.montana.id).toBe('mulhacen')
+    expect(r.actual.montana.id).toBe('mulhacen')
   })
 
-  it('con todas coronadas no queda montaña actual', () => {
+  it('con todas coronadas, la ruta vuelve a empezar y cuenta las veces', () => {
     const eventos = MONTANAS.map((m, i) => registro(`2026-11-${String(i + 1).padStart(2, '0')}`, m.altitud + 50))
-    const r = calcularCumbres(eventos, empezar('2026-11-01', 'aneto'))!
-    expect(r.coronadas).toHaveLength(MONTANAS.length)
-    expect(r.actual).toBeNull()
-    expect(r.siguientes).toEqual([])
-    expect(montanasParaCambiar(r)).toEqual([])
+    const r = calcularCumbres([...eventos, registro('2026-12-01', 3404)], empezar('2026-11-01', 'aneto'))!
+    expect(r.coronadas).toHaveLength(MONTANAS.length + 1)
+    expect(r.coronadas.at(-1)).toMatchObject({ vez: 2, cumbre: { fecha: '2026-12-01' } })
+    expect(nombreExpedicion(r.coronadas.at(-1)!)).toBe('Aneto · 2.ª vez')
+    expect(r.actual).toMatchObject({ vez: 2, metros: 0 })
+    expect(r.actual.montana.id).toBe('mulhacen')
+    expect(vecesCoronada(r).get('aneto')).toBe(2)
+    expect(vecesCoronada(r).get('mulhacen')).toBe(1)
+  })
+
+  it('repite una montaña coronada si se elige', () => {
+    const r = calcularCumbres([registro('2026-10-10', 3404), registro('2026-10-11', 3404)], { inicio: '2026-10-10', ruta: ['aneto', 'aneto'] })!
+    expect(r.coronadas.map((x) => [x.montana.id, x.vez])).toEqual([['aneto', 1], ['aneto', 2]])
+    expect(r.actual.montana.id).toBe('mulhacen')
   })
 
   it('ignora la XP nula o negativa', () => {
@@ -98,17 +124,18 @@ describe('calcularCumbres', () => {
 })
 
 describe('cambiar de montaña', () => {
-  it('solo por otra sin coronar y más alta que lo subido', () => {
+  it('por cualquier otra (también coronada) más alta que lo subido', () => {
     const config = empezar('2026-10-10', 'aneto')
     const r = calcularCumbres([registro('2026-10-10', 3404), registro('2026-10-11', 3500)], config)!
     // Coronado el Aneto, en el Mulhacén con 3.479 m (sin sobrar): ya está coronado también.
     expect(r.coronadas.map((x) => x.montana.id)).toEqual(['aneto', 'mulhacen'])
     const r2 = calcularCumbres([registro('2026-10-10', 3404), registro('2026-10-11', 3600)], { inicio: '2026-10-10', ruta: ['aneto', 'teide'] })!
-    expect(r2.actual?.metros).toBe(3600)
+    expect(r2.actual.metros).toBe(3600)
     const opciones = montanasParaCambiar(r2).map((m) => m.id)
-    expect(opciones).not.toContain('aneto')
-    expect(opciones).not.toContain('mulhacen')
+    expect(opciones).not.toContain('aneto') // más baja que lo subido
+    expect(opciones).not.toContain('teide') // la actual
     expect(opciones).toContain('mont-blanc')
+    expect(montanasParaCambiar(calcularCumbres([registro('2026-10-10', 3404)], empezar('2026-10-10', 'aneto'))!).map((m) => m.id)).toContain('aneto') // coronada: se puede repetir
   })
 
   it('conserva las coronadas y lo subido', () => {
@@ -117,16 +144,17 @@ describe('cambiar de montaña', () => {
     const nueva = cambiarMontana(config, r, 'everest')!
     expect(nueva).toEqual({ inicio: '2026-10-10', ruta: ['aneto', 'everest'] })
     const r2 = calcularCumbres([registro('2026-10-10', 3404), registro('2026-10-11', 500)], nueva)!
-    expect(r2.actual?.montana.id).toBe('everest')
-    expect(r2.actual?.metros).toBe(500)
+    expect(r2.actual.montana.id).toBe('everest')
+    expect(r2.actual.metros).toBe(500)
     expect(r2.siguientes[0].id).toBe('mulhacen')
   })
 
-  it('rechaza una montaña coronada o desconocida', () => {
+  it('rechaza la actual o una desconocida; acepta repetir una coronada', () => {
     const config = empezar('2026-10-10', 'aneto')
     const r = calcularCumbres([registro('2026-10-10', 3404)], config)!
-    expect(cambiarMontana(config, r, 'aneto')).toBeNull()
+    expect(cambiarMontana(config, r, 'mulhacen')).toBeNull()
     expect(cambiarMontana(config, r, 'nada')).toBeNull()
+    expect(cambiarMontana(config, r, 'aneto')).toEqual({ inicio: '2026-10-10', ruta: ['aneto', 'aneto'] })
   })
 })
 
@@ -151,7 +179,7 @@ describe('lecturas', () => {
 
   it('duración de la expedición y lo que subió un entreno', () => {
     expect(diasDeExpedicion(r.coronadas[0])).toBe(9)
-    expect(diasDeExpedicion(r.actual!)).toBeNull()
+    expect(diasDeExpedicion(r.actual)).toBeNull()
     const s = cumbreDeSesion(r, 4)
     expect(s.metros).toBe(54)
     expect(s.cumbres.map((x) => x.montana.id)).toEqual(['aneto'])
@@ -167,7 +195,7 @@ describe('lecturas', () => {
   })
 
   it('texto del progreso', () => {
-    expect(progresoTexto({ montana: montanaDe('teide')!, desde: '2026-10-01', metros: 2340, hitos: [], cumbre: null })).toBe('2.340 de 3.715 m')
+    expect(progresoTexto({ montana: montanaDe('teide')!, vez: 1, desde: '2026-10-01', metros: 2340, hitos: [], cumbre: null })).toBe('2.340 de 3.715 m')
   })
 })
 

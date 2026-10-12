@@ -22,7 +22,7 @@ export default function VitrinaTab({ onIrAAjustes }: { onIrAAjustes: () => void 
     return <div className="space-y-section px-page pt-5">
       <PageHeader title="Vitrina" />
       <EmptyState title="Vitrina oculta" action={<Button variant="secondary" onClick={onIrAAjustes}>Ir a Ajustes</Button>}>
-        La has ocultado en Ajustes junto con Atributos y Ritmo.
+        La has ocultado en Ajustes junto con Cumbres y Ritmo.
       </EmptyState>
     </div>
   }

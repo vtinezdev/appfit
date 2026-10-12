@@ -16,7 +16,6 @@ import { GAMIFICACION } from './navegacion'
 
 const ReferenciasTab = lazy(() => import('../features/referencias/ReferenciasTab'))
 const PerfilTab = lazy(() => import('../features/perfil/PerfilTab'))
-const AtributosTab = lazy(() => import('../features/atributos/AtributosTab'))
 const CumbresTab = lazy(() => import('../features/cumbres/CumbresTab'))
 const RitmoTab = lazy(() => import('../features/ritmo/RitmoTab'))
 const VitrinaTab = lazy(() => import('../features/vitrina/VitrinaTab'))
@@ -53,12 +52,11 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view mx-auto w-full max-w-lg pb-6">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onIrAGym={() => navegar('gym')} onIrAAtributos={() => navegar('atributos')} onIrACumbres={() => navegar('cumbres')} onIrARitmo={() => navegar('ritmo')} onExportarCopia={() => { navegar('ajustes'); setAbrirCopia(true) }}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onIrAGym={() => navegar('gym')} onIrACumbres={() => navegar('cumbres')} onIrARitmo={() => navegar('ritmo')} onExportarCopia={() => { navegar('ajustes'); setAbrirCopia(true) }}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => { navegar('ajustes'); setAbrirGuia(true) }} />} />}
         {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
         {tab === 'gym' && <GymTab />}
         {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { navegar('referencias'); setAreaReferencias('energia') }} /></Suspense>}
-        {tab === 'atributos' && <Suspense fallback={<LoadingState />}><AtributosTab onIrAAjustes={() => navegar('ajustes')} /></Suspense>}
         {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => navegar('ajustes')} /></Suspense>}
         {tab === 'ritmo' && <Suspense fallback={<LoadingState />}><RitmoTab onIrAAjustes={() => navegar('ajustes')} /></Suspense>}
         {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => navegar('ajustes')} /></Suspense>}

@@ -284,9 +284,9 @@ export interface Settings {
   revisionSemanalCerrada?: string
   /** Plan semanal por tramos (`ritmo/lib/plan.ts`). Ausente = plan por defecto. */
   planSemanal?: TramoPlanSemanal[]
-  /** Atributos, Cumbres, Ritmo y Vitrina en Inicio, Más y al terminar un entreno (por defecto sí). */
+  /** Cumbres, Ritmo y Vitrina en Inicio, Más y al terminar un entreno (por defecto sí). */
   gamificacionVisible?: boolean
-  /** La nutrición cuenta en Atributos, Cumbres, Ritmo y Vitrina: registro de comidas, proteína y plantas (por defecto sí). */
+  /** La nutrición cuenta en Cumbres, Ritmo y Vitrina: registro de comidas, proteína y plantas (por defecto sí). */
   gamificacionConNutricion?: boolean
   /** Pausas declaradas de Ritmo (vacaciones, enfermedad, lesión…), ordenadas por `desde`. */
   pausas?: Pausa[]

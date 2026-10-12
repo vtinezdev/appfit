@@ -1,6 +1,6 @@
 # 029 — Gamificación: Atributos, Ritmo, Vitrina y sus principios
 
-Fecha: 2026-10-10 (ampliado el mismo día con Ritmo y Vitrina). Estado: vigente. Revisa, solo en lo que dicen de rachas y de estética gaming, `DESIGN.md` (Do's and Don'ts), `PRODUCT.md` y [ADR 021](021-inicio-minimalista-rueda-energia.md).
+Fecha: 2026-10-10 (ampliado el mismo día con Ritmo y Vitrina). Estado: vigente salvo el nivel, los títulos y los atributos de Atributos, retirados en [ADR 034](034-cumbres-en-lugar-de-atributos.md) (las reglas de XP y las salvaguardas siguen). Revisa, solo en lo que dicen de rachas y de estética gaming, `DESIGN.md` (Do's and Don'ts), `PRODUCT.md` y [ADR 021](021-inicio-minimalista-rueda-energia.md).
 
 ## Contexto
 

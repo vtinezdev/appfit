@@ -9,7 +9,7 @@ import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { ListaRecords } from '../../gym/components/WorkoutFinished'
 import { formatDuracion } from '../../gym/lib/workout'
 import { useRevision } from '../hooks/useRevisionSemanal'
-import { useAtributos } from '../../atributos/hooks/useAtributos'
+import { useExperiencia } from '../../experiencia/hooks/useExperiencia'
 import { semanaRitmo } from '../../ritmo/lib/ritmo'
 import { cifrasSemana, textoEstado, textoHilo } from '../../ritmo/lib/textos'
 import Card from '../../../shared/components/Card'
@@ -48,8 +48,8 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose }: P
   const [lunes, setLunes] = useState(lunesInicial)
   const ultima = semanaARevisar(hoy).lunes
   const revision = useRevision(lunes, hoy)
-  const atributos = useAtributos(hoy)
-  const ritmo = atributos?.visible ? semanaRitmo(atributos.resultado.ritmo, lunes) : undefined
+  const experiencia = useExperiencia(hoy)
+  const ritmo = experiencia?.visible ? semanaRitmo(experiencia.resultado.ritmo, lunes) : undefined
   const cargada = revision?.semana.lunes === lunes ? revision : undefined
 
   return (

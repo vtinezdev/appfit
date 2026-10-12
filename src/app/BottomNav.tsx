@@ -13,7 +13,7 @@ interface Props {
   /** El «+» central: abre las acciones rápidas. */
   onAcciones: () => void
   accionesAbiertas?: boolean
-  /** Destinos de «Más» que no se muestran (p. ej. Atributos ocultos en Ajustes). */
+  /** Destinos de «Más» que no se muestran (p. ej. la gamificación oculta en Ajustes). */
   ocultos?: readonly Tab[]
 }
 

@@ -42,7 +42,7 @@ export default function CreatinaAjustes({ settings }: { settings: Settings }) {
         onChange={e => { const activa = e.target.checked; void ejecutar(() => creatinaRepo.configurar({ activa })) }} />
       Activar Creatina
     </label>
-    <p className="text-caption text-fg-muted">Dosis y registro diario en Inicio. No suma experiencia ni cuenta para rachas o logros. Desactivarla conserva tus registros.</p>
+    <p className="text-caption text-fg-muted">Dosis y registro diario en Inicio. No sube metros en Cumbres ni cuenta para rachas o logros. Desactivarla conserva tus registros.</p>
     {config?.activa && (datos === undefined ? <LoadingState /> : <div className="space-y-stack">
       <p className="text-body-sm text-fg">Mantenimiento: {formatNumber(dia.mantenimientoG, 2)} g al día.</p>
       <p className="text-caption text-fg-muted">Automática: 0,05 g/kg del último pesaje, mínimo 3 g y redondeada a 0,5 g. Sin pesaje: 3 g.</p>

@@ -17,7 +17,7 @@ interface Props {
 
 /**
  * Perfil de la montaña: silueta genérica cuya altura es la altitud de la cima, lo subido relleno desde abajo como la
- * barra de XP (`fg` sobre `fg` al 20 %) y una marca en la ladera. En la página, una línea cada 1.000 m. Sin animación.
+ * barra (`fg` sobre `fg` al 20 %) y una marca en la ladera. En la página, una línea cada 1.000 m. Sin animación.
  */
 export default function PerfilMontana({ expedicion, variante = 'pagina', decorativo = false }: Props) {
   const clip = `perfil-${useId().replace(/[^\w-]/g, '')}`

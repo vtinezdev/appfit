@@ -25,7 +25,7 @@ Uso repetido durante entrenamientos y a lo largo del día. La conexión puede fa
 - React, TypeScript, Vite, Tailwind, Dexie, Recharts; datos locales en IndexedDB, sin backend ni cuentas.
 - Las escrituras siguen los repositorios existentes y las copias conservan el esquema actual.
 - El catálogo se descarga del propio origen; Open Food Facts recibe exclusivamente el código de barras. No se añaden servicios de red.
-- Español en interfaz y documentación. Datos reales y estados vacíos honestos; no inventar resultados, récords o recomendaciones de salud. Las rachas y la gamificación (Atributos, ADR 029) se permiten solo a partir de registros reales, con techo en el plan, sin castigos y con interruptores para ocultarlas o excluir la nutrición.
+- Español en interfaz y documentación. Datos reales y estados vacíos honestos; no inventar resultados, récords o recomendaciones de salud. Las rachas y la gamificación (Cumbres, Ritmo, Vitrina y Liga; ADR 029 y 034) se permiten solo a partir de registros reales, con techo en el plan, sin castigos y con interruptores para ocultarlas o excluir la nutrición.
 - El encargo permite rediseñar la UI completa y añadir feedback de series/descansos cuando sea necesario para la interacción, preservando funcionalidad y registros existentes.
 
 ## Brand Commitments

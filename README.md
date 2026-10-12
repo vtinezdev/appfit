@@ -7,13 +7,12 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 ## Características
 
 **Inicio**
-- Atributos: nivel y experiencia (XP) con Fuerza, Nutrición y Constancia, calculados a partir de lo que registras. Cuentan ir a entrenar (hasta completar tu plan semanal), los récords, registrar comidas, llegar a la proteína y cumplir tu plan semanal; cada punto explica su porqué. Nada depende de kcal ni peso, no hay castigos y se puede ocultar o dejar sin nutrición en Ajustes.
-- Cumbres: subes montañas reales (el Techo de España, el Mont Blanc y las Siete Cumbres) con tu experiencia, a un metro por XP, desde el nivel del mar y sin plazo. Hitos cada 1.000 m, tus cumbres con su fecha, la montaña en la tarjeta de nivel de Inicio y logros en la Vitrina.
+- Cumbres: subes montañas reales con lo que entrenas: cada entreno, récord, día registrado, proteína y semana cumplida te sube metros (hasta completar tu plan semanal; entrenar de más no suma), desde el nivel del mar y sin plazo. La ruta va del Techo de España y las Siete Cumbres a volcanes, los Alpes y los gigantes del Himalaya, y se pueden repetir las montañas ya coronadas. Hitos cada 1.000 m, tus cumbres con su fecha, los metros de cada día con su porqué, la montaña en Inicio y lo que sube cada entreno al terminarlo. No se pierde nada por descansar.
 - Ritmo: cada semana es cumplida, parcial, presente o vacía frente a tu plan. El hilo cuenta las semanas seguidas con presencia, con comodines que salvan una semana vacía y pausas por vacaciones, enfermedad, lesión o viaje que lo congelan. Incluye el calendario de semanas del año, hitos, la tarjeta «Tu semana» en Inicio y el sello en la revisión del lunes.
 - Vitrina: logros con su fecha real (con niveles, repetibles y ocultos), el muro con la mejor marca de cada ejercicio, el Herbario (plantas distintas por semana, también en Nutrición › Resumen) y el Atlas (grupos trabajados y ejercicios dominados).
 - Aviso discreto cuando hace tiempo que no exportas una copia, y tarjeta de agua con su objetivo recomendado según tu sexo.
 - Revisión semanal cada lunes: peso medio, kcal y proteína frente al objetivo, adherencia, entrenos, récords y agua de la semana cerrada, comparados con la anterior y sin juicios; se cierra con «Hecho» hasta el lunes siguiente.
-- Creatina opcional: dosis automática según el último pesaje o manual, marca diaria reversible, historial de siete días y fase de carga opcional de cinco días con paso automático a mantenimiento; sin XP ni rachas.
+- Creatina opcional: dosis automática según el último pesaje o manual, marca diaria reversible, historial de siete días y fase de carga opcional de cinco días con paso automático a mantenimiento; no sube metros ni cuenta para rachas.
 - Pantalla en mosaico: una rueda de energía con lo comido en los colores de proteína, hidratos y grasa y lo que falta en negro (si te pasas, una segunda vuelta por dentro), el peso con su variación semanal y una minigráfica, el agua con un vaso que se llena hacia el objetivo y el último entreno con el mapa muscular en miniatura. Identidad deportiva en grafito con un único acento naranja para actuar y para las calorías; títulos y métricas contundentes, tarjetas limpias y redondeadas, y tema claro y oscuro.
 
 **Nutrición**
@@ -29,7 +28,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Vista detallada con consumo, barras y cobertura de fibra, azúcares, sal y saturadas. Un botón de información explica criterio y fuente y permite abrir su referencia global. Los extras también están en los detalles del alimento; los datos ausentes se distinguen de cero y las sumas incompletas se señalan.
 - Base de datos personal de alimentos, editable a mano, con raciones propias («1 rebanada de mi pan = 32 g», que el intérprete entiende) y recetas caseras (ingredientes + peso cocinado, que se convierten en un alimento).
 - Resumen con adherencia al objetivo de kcal (±10 %), rachas de registro y los alimentos que más kcal y proteína aportan. Cada día conserva el objetivo que tenía.
-- Cheat day: marca un día entero (con o sin comidas) desde el menú del Diario; queda fuera de las medias, la adherencia y la XP de proteína, no rompe la racha y avisa, sin bloquear, desde el segundo de la semana.
+- Cheat day: marca un día entero (con o sin comidas) desde el menú del Diario; queda fuera de las medias, la adherencia y los metros de proteína en Cumbres, no rompe la racha y avisa, sin bloquear, desde el segundo de la semana.
 
 **Gimnasio**
 - Catálogo local de 204 ejercicios con buscador, filtros combinables de músculo/equipamiento y recientes; ejercicios personalizados disponibles en rutinas y sesiones, también sin conexión.
@@ -47,7 +46,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Rutinas con objetivos por ejercicio (series, rango de repeticiones y descanso), ejercicios reordenables y ejercicios propios editables; historial de entrenos que se pueden editar, borrar o registrar a posteriori, con notas, series de calentamiento, RIR, récords personales, calculadora de discos, aviso sonoro al terminar el descanso y resumen semanal por grupo muscular; gráficas de progreso por ejercicio (peso máximo, 1RM estimado, volumen).
 
 **General**
-- Barra de pestañas con Inicio, Nutrición, Entreno y Más (Perfil, Atributos, Cumbres, Ritmo, Vitrina, Referencias y Ajustes), y un «+» central para registrar comida, entreno, peso o agua.
+- Barra de pestañas con Inicio, Nutrición, Entreno y Más (Perfil, Cumbres, Ritmo, Vitrina, Referencias y Ajustes), y un «+» central para registrar comida, entreno, peso o agua.
 - Perfil calcula la proteína diaria por kg de peso (1,8 g/kg por defecto, rango 1,6 a 2,2), muestra un gasto observado a partir de lo que comes y tu tendencia de peso (si hay datos suficientes) y guarda tus medidas corporales. Perfil estima tu gasto energético diario y un objetivo de calorías (mantenimiento, definición o volumen) a partir de sexo, fecha de nacimiento, altura, peso y actividad, con ecuaciones citadas. Todo se calcula y se guarda solo en tu dispositivo; es una estimación orientativa, no una prescripción médica.
 - Referencias reúne procedencia del catálogo, objetivos nutricionales, la metodología de la estimación energética, el origen de la proteína por kg y el objetivo de agua (con qué se verificó de cada fuente) y limitaciones de datos; recomendaciones por grupos tienen su lugar preparado, sin inventar valores todavía.
 - Instalable en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
