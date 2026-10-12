@@ -2,6 +2,8 @@
 
 Única lista viva de lo que falta. Cuando algo se haga, se quita de aquí (y se documenta donde toque); cuando se descarte, pasa a «Descartadas» con el motivo. Nada de esto se empieza sin que Víctor lo pida. Origen de la mayoría de ideas (con su valor y esfuerzo estimados): `historico/ideas-nutricion-v2.md`.
 
+**Plan en curso:** las mejoras acordadas el 2026-10-12 (serie hecha, pista del menú de serie, filtro de abductores, creatina, cheat day, creador de rutinas y uso por otras personas) tienen su plan y estado en [`mejoras.md`](mejoras.md).
+
 ## Pendiente de probar en el iPhone real
 
 Según los registros de sesión, sin confirmar todavía (preguntar a Víctor antes de darlo por hecho):
