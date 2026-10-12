@@ -209,12 +209,13 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
           const etiquetas = etiquetasSerie(s, ejecucion)
           const previo = anteriores?.get(s.id)
           return (
-            <div key={s.id} className="series-set space-y-2" data-done={hecha} data-motion-id={s.id}>
+            <div key={s.id} className="series-set space-y-2" data-motion-id={s.id}>
               <div className={`${fila} ${nuevaId === s.id ? 'series-new' : ''}`}>
-                <button type="button" className="celda-tipo series-type app-button tabular" disabled={bloqueado}
+                <button type="button" className="celda-tipo series-type app-button tabular" disabled={bloqueado} aria-haspopup="dialog"
                   aria-label={`Opciones de ${nombreSerie} de ${ejercicio.nombre}${tipo !== 'normal' && tipo !== 'calentamiento' ? ` (${TIPOS_SERIE[tipo].label.toLowerCase()})` : ''}`}
                   onClick={() => setHoja({ serie: s.id })}>
                   {letra ? <span className="series-letter">{letra}</span> : numero}
+                  <Icon name="chevron-down" size={12} className="series-type-chevron text-fg-muted" />
                 </button>
                 {lados ? <p className="series-span text-body-sm text-fg-muted">Izquierda y derecha</p> : <>
                   {conAnterior && <CeldaAnterior dato={previo?.fila} />}

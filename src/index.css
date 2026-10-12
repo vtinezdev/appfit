@@ -386,7 +386,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   .series-prev-label { display: none; }
 }
 .series-row .app-field { padding-inline: calc(var(--space-stack) / 3); }
-.series-type { min-height: 48px; border-radius: var(--radius-md); font-size: var(--fs-label); font-weight: 700; color: rgb(var(--c-text-secondary)); }
+.series-type { display: flex; align-items: center; justify-content: center; gap: calc(var(--space-stack) / 6); min-height: 48px; border-radius: var(--radius-md); font-size: var(--fs-label); font-weight: 700; color: rgb(var(--c-text-secondary)); }
+.series-type-chevron { width: var(--fs-caption); height: var(--fs-caption); }
 .series-type:hover { background: rgb(var(--c-surface-muted)); }
 .series-type:disabled { opacity: .5; }
 .series-letter { display: inline-grid; place-items: center; min-width: 1.75rem; height: 1.75rem; border-radius: var(--radius-sm); background: rgb(var(--c-surface-muted)); color: rgb(var(--c-text-primary)); }
@@ -396,10 +397,6 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .series-child::before { content: ''; position: absolute; left: calc(var(--touch-target) / 2); top: calc(var(--space-stack) / -2); height: calc(var(--space-stack) / 2 + var(--touch-target-lg) / 2); width: calc(var(--space-stack) * .75); border-left: 1.5px solid rgb(var(--c-border-strong) / .6); border-bottom: 1.5px solid rgb(var(--c-border-strong) / .6); border-bottom-left-radius: var(--radius-sm); pointer-events: none; }
 .series-child-label { justify-self: end; padding-right: calc(var(--space-stack) / 6); }
 .series-add-child, .series-notes { margin-left: calc(var(--touch-target) + var(--space-stack) / 2); }
-/* Serie hecha: el tinte de éxito recorre la serie (fila e hijas) de izquierda a derecha; al desmarcar se apaga. */
-.series-set { position: relative; isolation: isolate; border-radius: var(--radius-md); padding: calc(var(--space-stack) / 3); margin-inline: calc(var(--space-stack) / -3); }
-.series-set::after { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: rgb(var(--c-success-subtle)); transform-origin: left center; transform: scaleX(0); opacity: 0; transition: opacity var(--dur-short), transform 0s linear var(--dur-short); pointer-events: none; }
-.series-set[data-done='true']::after { transform: scaleX(1); opacity: 1; transition: transform var(--dur-normal) var(--ease-standard), opacity 0s; }
 @media (max-width: 359px) { .exercise-panel { padding-inline: .75rem; } }
 /* Texto ampliado: los controles conservan su tamaño; tipo y ✓ arriba, reps y kg debajo, RIR y anterior en su propia fila. */
 @container (max-width: 15rem) {
@@ -427,7 +424,6 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   .tab-plus:active { transform: none; }
   .segment-indicator, .tab-indicator, .progress-fill { transition: none; }
   .series-complete svg, .series-new, .workout-finish-mark, .loading-skeleton, .app-view, .view-arrival { animation: none !important; }
-  .series-set::after { transition: none !important; }
 }
 /* Miniatura de ejercicio: las fotos son de gimnasio claro; en oscuro se atenúan con --thumb-filter. */
 .ejercicio-thumb { filter: var(--thumb-filter); }

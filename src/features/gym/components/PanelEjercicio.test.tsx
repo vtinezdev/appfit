@@ -65,11 +65,11 @@ describe('PanelEjercicio', () => {
     expect(sin).not.toContain('con-anterior')
   })
 
-  it('cabecera con miniatura y «músculo · material»; la serie marcada se tiñe entera', () => {
+  it('cabecera con miniatura y «músculo · material»; el check indica la serie marcada', () => {
     const html = renderToStaticMarkup(<PanelEjercicio {...props} ejercicio={{ ...ex, primaryMuscles: ['pecho'], equipment: ['barra'] }} sets={[s(1), s(2)]} completadas={[1]} onCompletar={noop} />)
     expect(html).toContain('Pecho · barra')
-    expect(html).toMatch(/class="series-set[^"]*" data-done="true"/)
-    expect(html).toMatch(/class="series-set[^"]*" data-done="false"/)
+    expect(html).toMatch(/aria-label="Desmarcar serie 1 de Press banca" aria-pressed="true"/)
+    expect(html).toMatch(/aria-label="Completar serie 2 de Press banca" aria-pressed="false"/)
     expect(html).not.toContain('Última vez')
   })
 

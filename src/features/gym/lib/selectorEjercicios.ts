@@ -1,6 +1,12 @@
 import type { Exercise, SetEntry } from '../../../shared/db/types'
 import { normalizeName, tokensConsulta } from '../../../shared/lib/text'
-import { CATALOGO_EJERCICIOS, CATALOGO_POR_ID, type CatalogExercise, type Musculo, type Equipo } from './catalogoEjercicios'
+import { CATALOGO_EJERCICIOS, CATALOGO_POR_ID, MUSCULOS, type CatalogExercise, type Musculo, type Equipo } from './catalogoEjercicios'
+
+/** Opciones del selector; «abductores» agrupa ejercicios, no añade una zona anatómica. */
+export type FiltroMusculo = Musculo | 'abductores'
+export const FILTROS_MUSCULO = Object.fromEntries(Object.entries(MUSCULOS).flatMap(([id, label]) =>
+  id === 'aductores' ? [[id, label], ['abductores', 'Abductores']] : [[id, label]])) as Record<FiltroMusculo, string>
+const ABDUCTORES = new Set(['appfit:abduccion-maquina', 'appfit:abduccion-polea', 'appfit:abduccion-bandas', 'appfit:almejas'])
 
 export type SeleccionEjercicio = { tipo: 'catalogo'; catalogId: string } | { tipo: 'local'; id: number } |
   { tipo: 'personalizado'; nombre: string; musculo: Musculo; equipo: Equipo }
@@ -53,12 +59,14 @@ function unaEdicion(a: string, b: string): boolean {
   }
   return errores + (a.length - i) + (b.length - j) <= 1
 }
-export function filtrarEjercicios(opciones: OpcionEjercicio[], query: string, musculos: Musculo[], equipos: Equipo[]): OpcionEjercicio[] {
+export function filtrarEjercicios(opciones: OpcionEjercicio[], query: string, musculos: FiltroMusculo[], equipos: Equipo[]): OpcionEjercicio[] {
   const q = tokensConsulta(query)
   return opciones.flatMap(e => {
-    if (musculos.length && !musculos.some(m => e.primaryMuscles.includes(m) || e.filterGroups?.includes(m))) return []
+    const abductor = e.catalogId !== undefined && ABDUCTORES.has(e.catalogId)
+    if (musculos.length && !musculos.some(m => m === 'abductores' ? abductor : e.primaryMuscles.includes(m) || e.filterGroups?.includes(m))) return []
     if (equipos.length && !equipos.some(m => e.equipment.includes(m))) return []
-    const words = tokensConsulta([e.name, ...e.aliases].join(' '))
+    // Sinónimo solo para buscar: los alias de identidad histórica siguen siendo únicos.
+    const words = tokensConsulta([e.name, ...e.aliases, ...(abductor ? ['abductores'] : [])].join(' '))
     let score = 0
     for (const token of q) {
       if (words.some(w => w.startsWith(token))) continue
