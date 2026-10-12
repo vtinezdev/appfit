@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { CATALOGO_EJERCICIOS, EQUIPAMIENTO, MUSCULOS } from './catalogoEjercicios'
-import { catalogoDeLocal, filtrarEjercicios, opcionesEjercicios, recientesEjercicios } from './selectorEjercicios'
+import { FILTROS_MUSCULO, catalogoDeLocal, filtrarEjercicios, opcionesEjercicios, recientesEjercicios } from './selectorEjercicios'
 import type { Exercise, SetEntry } from '../../../shared/db/types'
 import { normalizeName } from '../../../shared/lib/text'
 
@@ -49,6 +49,45 @@ describe('catálogo editorial de ejercicios', () => {
 })
 
 describe('búsqueda y filtros', () => {
+  const abductores = ['appfit:abduccion-bandas', 'appfit:abduccion-maquina', 'appfit:abduccion-polea', 'appfit:almejas']
+
+  it('Abductores aparece después de Aductores y conserva los músculos anatómicos', () => {
+    const ids = Object.keys(FILTROS_MUSCULO)
+    expect(ids[ids.indexOf('aductores') + 1]).toBe('abductores')
+    expect(MUSCULOS).not.toHaveProperty('abductores')
+    const result = filtrarEjercicios(opciones, '', ['abductores'], [])
+    expect(result.map(e => e.catalogId).sort()).toEqual(abductores)
+    expect(result.every(e => e.primaryMuscles.includes('gluteos'))).toBe(true)
+  })
+  it.each(['abductor', 'abductores'])('buscar %s encuentra las cuatro abducciones como coincidencias directas', query => {
+    expect(filtrarEjercicios(opciones, query, [], []).slice(0, 4).map(e => e.catalogId).sort()).toEqual(abductores)
+  })
+  it('Abductores con otro músculo conserva OR y no duplica ejercicios', () => {
+    const result = filtrarEjercicios(opciones, '', ['abductores', 'aductores'], [])
+    const esperados = [...abductores, ...filtrarEjercicios(opciones, '', ['aductores'], []).map(e => e.catalogId)].sort()
+    expect(result.map(e => e.catalogId).sort()).toEqual(esperados)
+    expect(filtrarEjercicios(opciones, '', ['abductores', 'gluteos'], [])).toEqual(filtrarEjercicios(opciones, '', ['gluteos'], []))
+  })
+  it('Abductores combina equipamiento y consulta con AND', () => {
+    expect(filtrarEjercicios(opciones, '', ['abductores'], ['bandas']).map(e => e.catalogId).sort()).toEqual(['appfit:abduccion-bandas', 'appfit:almejas'])
+    expect(filtrarEjercicios(opciones, 'cadera', ['abductores'], ['bandas']).map(e => e.catalogId)).toEqual(['appfit:abduccion-bandas'])
+    expect(filtrarEjercicios(opciones, '', ['abductores'], ['maquina', 'polea']).map(e => e.catalogId).sort()).toEqual(['appfit:abduccion-maquina', 'appfit:abduccion-polea'])
+    expect(filtrarEjercicios(opciones, '', ['abductores'], ['barra'])).toEqual([])
+  })
+  it('no supone abducción por nombre o por pertenecer a glúteos; conserva identidad antigua', () => {
+    const personalizado: Exercise = { id: 50, nombre: 'Mi abductor', nombreNorm: 'mi abductor', grupo: 'Glúteos', primaryMuscles: ['gluteos'], equipment: ['bandas'] }
+    const antigua: Exercise = { id: 51, nombre: 'Clamshell', nombreNorm: 'clamshell', grupo: 'General' }
+    const result = filtrarEjercicios(opcionesEjercicios([personalizado, antigua]), '', ['abductores'], [])
+    expect(result.map(e => e.catalogId).sort()).toEqual(abductores)
+    expect(result.find(e => e.catalogId === 'appfit:almejas')?.localId).toBe(51)
+    expect(catalogoDeLocal({ ...antigua, nombre: 'Abductores', nombreNorm: 'abductores' })).toBeUndefined()
+  })
+  it('limpiar consulta y filtros recupera todas las opciones sin mutarlas', () => {
+    const original = structuredClone(opciones)
+    filtrarEjercicios(opciones, 'cadera', ['abductores'], ['bandas'])
+    expect(filtrarEjercicios(opciones, '', [], [])).toHaveLength(opciones.length)
+    expect(opciones).toEqual(original)
+  })
   it.each(['JALÓN', 'jalon', 'jalón', 'jalonn'])('tolera %s', q => {
     expect(buscar(q)).toContain('Jalón al pecho')
   })

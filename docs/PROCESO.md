@@ -1199,3 +1199,35 @@ Víctor decide integrar Cumbres sin los víveres, solo con la XP como se plante�
 - Documentos: `features/cumbres.md` (nuevo), `vitrina.md`, `atributos.md`, `inicio.md`, `gym.md`, `datos.md`, `arquitectura.md`, `DESIGN-SYSTEM.md`, `roadmap.md`, `README.md`, `CLAUDE.md` y `gaming.md`.
 
 **Verificación:** `npm run test` (1.841 tests, 135 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos (14 semanas de entrenos): 320/375/430 px en claro y oscuro y 375 con texto al 200 %, más elegir la primera montaña con «Deshacer», el fin de sesión en ambos temas, una cumbre hecha con el entreno (card, pieza en «Nuevo en la Vitrina» y celebración en Inicio) y la gamificación oculta: 138 comprobaciones, todas bien (sin scroll horizontal, botones ≥ 44 px, sin errores de consola). Capturas revisadas: la silueta en `line` apenas se veía en claro y pasó a `fg` al 20 %; la card de la cumbre salía después de la línea de la montaña nueva y se reordenó. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 110. Serie hecha: solo el check en verde (2026-10-12)
+
+Primera mejora del orden acordado en [mejoras.md](mejoras.md): al completar una serie, solo el botón ✓ se rellena en verde y conserva su animación de confirmación. Se elimina el tinte que recorría la fila y sus hijas para mantener la lectura de reps, kg y RIR estable.
+
+- Retirados el pseudoelemento y las reglas de estado/Reduce Motion de `.series-set`, junto con el aislamiento, radio, padding y margen negativo que necesitaba el fondo. Se conserva la agrupación de filas y su espaciado.
+- Retirado `data-done` de `PanelEjercicio`; el estado accesible y visual sigue en `aria-pressed` del check. El test existente comprueba el check marcado y desmarcado.
+- Actualizados [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md), [roadmap.md](roadmap.md), el README y el estado del plan.
+
+**Verificación:** `npm run test` (1.841 tests, 135 archivos) y `npm run build` en verde, tras restaurar las dependencias del entorno con `npm ci`. Recorrido con Chromium y datos sintéticos en `appfit-test.localhost:5173`: diez contextos (320/375/430 px en claro/oscuro, 375 con Reduce Motion en ambos temas y 375 con texto al 200 % y Reduce Motion en ambos temas). Marcar/desmarcar series normales, calentamientos, dropsets y lados cambia solo el check; el fondo, las cifras y la geometría de fila e hijas se conservan. Sin capa de tinte, sin overflow, check ≥44 px, persistencia tras recargar y sin errores de consola. Capturas revisadas e informes en `/tmp/appfit-serie-hecha-check`. Sin prueba en iPhone ni con datos reales. Sin commit, push ni despliegue.
+
+
+## 111. Pista del menú de la serie (2026-10-12)
+
+Segunda mejora del orden de [mejoras.md](mejoras.md): un chevrón descendente siempre visible junto al número o letra C/D/N indica que el botón abre las opciones de la serie.
+
+- Añadido `chevron-down` al set compartido de iconos y usado en `PanelEjercicio`. El botón conserva su nombre accesible y anuncia `aria-haspopup="dialog"`; el icono queda oculto al lector de pantalla para evitar anuncios duplicados.
+- Alineación con flex, separación derivada de `space-stack`, tamaño del chevrón con `caption` y tono `fg-muted`. Se conserva el ancho de la columna y el área táctil.
+- Actualizados [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md), [features/gym.md](features/gym.md) y el estado del plan. Corregida también la descripción antigua del tinte de la fila en Gym para reflejar la primera mejora ya implementada.
+
+**Verificación:** `npm run test` (1.841 tests, 135 archivos) y `npm run build` en verde. Recorrido en Chromium con datos sintéticos en `appfit-test.localhost:5173`: ocho contextos (320/375/430 px en claro/oscuro y 375 con texto al 200 % y Reduce Motion en ambos temas). Comprobados número, C/D/N y numeración hasta 12; chevrón visible y contenido dentro del botón, controles ≥44 px y ausencia de overflow. Apertura por clic, Enter y Espacio; cierre por Escape y retorno del foco. Abrir/cerrar conserva el backup; sin errores de consola. Semántica accesible comprobada, sin prueba con lector de pantalla real ni iPhone. Capturas revisadas e informe en `/tmp/appfit-pista-menu-serie`. Sin commit, push ni despliegue.
+
+
+## 112. Filtro de abductores (2026-10-12)
+
+Tercera mejora del orden de [mejoras.md](mejoras.md): «Abductores» aparece después de «Aductores» en el selector compartido de ejercicios, agrupando las abducciones en máquina, polea, banda y las almejas.
+
+- `selectorEjercicios` separa los filtros de los músculos anatómicos con `FiltroMusculo` y `FILTROS_MUSCULO`. La agrupación se resuelve por los cuatro `catalogId` y conserva OR entre músculos/filtros y AND con equipo y consulta. No clasifica automáticamente otros ejercicios por su nombre.
+- Buscar «abductor» o «abductores» encuentra las cuatro opciones como coincidencias directas. El sinónimo solo participa en la búsqueda: no se añade a los alias de identidad, que deben seguir siendo únicos para enlazar registros antiguos.
+- Se conservan Glúteos, los IDs, las imágenes y el catálogo existente. El formulario personalizado sigue ofreciendo solo músculos reales; no hay cambios de datos, mapa, reparto de series ni Atlas. Actualizados [features/gym.md](features/gym.md) y el estado del plan.
+
+**Verificación:** `npm run test` (1.848 tests, 135 archivos) y `npm run build` en verde. Siete casos nuevos cubren agrupación, orden, búsqueda singular/plural, combinaciones, limpiar, clasificación e identidad antigua sin mutaciones; revalidado el archivo del selector (21 tests) tras completar el campo obligatorio de sus fixtures. Recorrido en Chromium con datos sintéticos en `appfit-test.localhost:5173`: ocho contextos (320/375/430 px en claro/oscuro y 375 con texto al 200 % y Reduce Motion en ambos temas). Chip por teclado, cuatro resultados, equipo y búsqueda combinados, limpiar, búsqueda singular/plural y formulario personalizado sin nuevo músculo. Controles ≥44 px, sin overflow ni errores de consola; navegar, filtrar y cancelar conserva el backup. Capturas revisadas e informe en `/tmp/appfit-filtro-abductores`. Sin prueba en iPhone ni con datos reales. Sin commit, push ni despliegue.

@@ -3,7 +3,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as setsRepo from '../data/setsRepo'
 import { CATALOGO_POR_ID, EQUIPAMIENTO, MUSCULOS, type Equipo, type Musculo } from '../lib/catalogoEjercicios'
-import { ErrorSeleccionEjercicio, filtrarEjercicios, opcionesEjercicios, recientesEjercicios, type OpcionEjercicio, type SeleccionEjercicio } from '../lib/selectorEjercicios'
+import { ErrorSeleccionEjercicio, FILTROS_MUSCULO, filtrarEjercicios, opcionesEjercicios, recientesEjercicios, type FiltroMusculo, type OpcionEjercicio, type SeleccionEjercicio } from '../lib/selectorEjercicios'
 import ModalPage from '../../../shared/components/ModalPage'
 import Button from '../../../shared/components/Button'
 import FilterChips from '../../../shared/components/FilterChips'
@@ -27,7 +27,7 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
   const locales = useLiveQuery(() => exercisesRepo.listar(), [])
   const series = useLiveQuery(() => setsRepo.todas(), [])
   const [query, setQuery] = useState('')
-  const [musculos, setMusculos] = useState<Musculo[]>([])
+  const [musculos, setMusculos] = useState<FiltroMusculo[]>([])
   const [equipos, setEquipos] = useState<Equipo[]>([])
   const [creando, setCreando] = useState(false)
   const [nombre, setNombre] = useState('')
@@ -79,7 +79,7 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
         <SearchInput autoFocus={customOpened.current} aria-label="Buscar ejercicio" placeholder="Buscar ejercicio…" value={query} disabled={ocupado} onChange={e => setQuery(e.target.value)} />
       </div>
       <div className="space-y-3">
-        <FilterChips label="Músculo principal" opciones={MUSCULOS} seleccion={musculos} onChange={setMusculos} disabled={ocupado} />
+        <FilterChips label="Músculo principal" opciones={FILTROS_MUSCULO} seleccion={musculos} onChange={setMusculos} disabled={ocupado} />
         <FilterChips label="Equipamiento" opciones={EQUIPAMIENTO} seleccion={equipos} onChange={setEquipos} disabled={ocupado} />
         {(query || musculos.length > 0 || equipos.length > 0) && <Button variant="ghost" size="sm" disabled={ocupado} onClick={() => { setQuery(''); setMusculos([]); setEquipos([]) }}>Limpiar búsqueda y filtros</Button>}
       </div>
