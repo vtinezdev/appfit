@@ -156,6 +156,10 @@
   --atmosphere-light-primary-opacity: 0.1;
   --atmosphere-light-secondary-opacity: 0.07;
   --atmosphere-quiet-light-opacity: 0.35;
+  /* Fondos dibujados (Ajustes › Curvas/Puntos): halo volt arriba a la derecha y trazo que se desvanece hacia abajo. */
+  --atmosphere-drawn-halo: 0.2;
+  --atmosphere-contour-opacity: 0.2;
+  --atmosphere-dots-opacity: 0.14;
   --c-atmosphere-cobalt: 72 104 162;
   --c-atmosphere-steel: 111 132 144;
   --c-atmosphere-slate: 105 114 128;
@@ -232,6 +236,9 @@
   --atmosphere-panel-opacity: 0.96;
   --atmosphere-light-primary-opacity: 0.16;
   --atmosphere-light-secondary-opacity: 0.1;
+  --atmosphere-drawn-halo: 0.08;
+  --atmosphere-contour-opacity: 0.13;
+  --atmosphere-dots-opacity: 0.12;
   --c-atmosphere-cobalt: 72 104 162;
   --c-atmosphere-steel: 111 132 144;
   --c-atmosphere-slate: 105 114 128;

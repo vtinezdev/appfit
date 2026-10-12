@@ -85,6 +85,23 @@ a { text-underline-offset: 0.2em; }
 /* Fondo liso (Ajustes): sin fotografía; quedan el color del tema y las luces estáticas de la sección. */
 :root[data-fondo='liso'] .app-atmosphere img { display: none; }
 .app-atmosphere[data-quiet='true']::before { opacity: var(--atmosphere-quiet-light-opacity); }
+/* Fondos dibujados (Ajustes): sin fotografía ni luces de sección. Un halo volt arriba a la derecha y, en ::after,
+   un trazo que se desvanece hacia abajo: curvas de nivel (máscara del SVG generado por scripts/fondos/curvas.cjs)
+   o una rejilla de puntos. Son tenues por diseño (contrast.test.ts), así que sobra la franja de lectura. */
+:root:is([data-fondo='curvas'], [data-fondo='puntos']) .app-atmosphere img,
+:root:is([data-fondo='curvas'], [data-fondo='puntos']) .app-view[data-atmosphere]::before { display: none; }
+:root:is([data-fondo='curvas'], [data-fondo='puntos']) .app-atmosphere::before {
+  background: radial-gradient(ellipse 28rem 22rem at 82% -4%, rgb(var(--c-accent) / var(--atmosphere-drawn-halo)), transparent 72%);
+}
+:root:is([data-fondo='curvas'], [data-fondo='puntos']) .app-atmosphere[data-quiet='true']::after { opacity: var(--atmosphere-quiet-light-opacity); }
+:root[data-fondo='curvas'] .app-atmosphere::after {
+  background: linear-gradient(180deg, rgb(var(--c-accent-strong) / var(--atmosphere-contour-opacity)) 28%, rgb(var(--c-accent-strong) / 0) 92%);
+  mask: url('/images/fondos/curvas.svg') center top / 100% auto no-repeat;
+}
+:root[data-fondo='puntos'] .app-atmosphere::after {
+  background: radial-gradient(circle, rgb(var(--c-text-primary) / var(--atmosphere-dots-opacity)) 1.1px, transparent 1.6px) 0 0 / 1.125rem 1.125rem;
+  mask-image: radial-gradient(ellipse 120% 70% at 70% 0%, rgb(var(--c-overlay)) 20%, transparent 85%);
+}
 .app-view[data-atmosphere] .app-card:not(.bg-surface-muted):not(.training-surface),
 .app-view[data-atmosphere] .app-list-group {
   background-color: rgb(var(--c-surface) / var(--atmosphere-panel-opacity));

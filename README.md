@@ -54,6 +54,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Exportación a CSV (comidas, pesos, series, agua y medidas) para abrir en Excel en español.
 - Copia de seguridad exportable e importable en un único archivo JSON, con confirmación antes de sustituir registros y ayuda para trasladarlos de Safari al acceso de pantalla de inicio en iPhone.
 - Tema Sistema/Claro/Oscuro seleccionable en Ajustes. Interfaz móvil coherente, controles táctiles grandes y fuente disponible offline.
+- Fondo de curvas de nivel (como el mapa de una montaña) o rejilla de puntos, con un halo del acento; en Ajustes también se puede volver a las atmósferas fotográficas o a un fondo liso.
 - Atmósferas fotográficas propias de Inicio, Nutrición y Entreno: escenas oscuras y fotografías de luz natural para claro, integradas con el fondo para priorizar contenido y acciones; imágenes locales disponibles offline.
 - Coste de infraestructura: **0 €**.
 

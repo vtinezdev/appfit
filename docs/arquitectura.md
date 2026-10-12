@@ -56,7 +56,8 @@ src/features/vitrina/     → features/vitrina.md (logros, muro de récords, Her
 src/features/liga/        → features/liga.md (liga de cada ejercicio; se ve en Entreno › Progreso)
 src/test/                setup-db.ts (fake-indexeddb, cargado como setupFiles de Vitest) y fixtures/
 public/                  iconos de la PWA, favicon.svg, fonts/ (Saira recta y cursiva, OFL) y catalogo/ (paquetes que la app descarga)
-                         images/atmosferas/ (seis fondos WebP locales por sección/tema y procedencia)
+                         images/atmosferas/ (seis fondos WebP locales por sección/tema y procedencia) e images/fondos/ (curvas.svg)
+scripts/fondos/          curvas.cjs: genera public/images/fondos/curvas.svg (fondo «Curvas»)
 scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/README.md (solo importa de src archivos sin imports: `nutricion/lib/catalogo/categorias.ts`)
 ```
 
@@ -82,7 +83,7 @@ Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002]
 
 ## Arranque (`src/main.tsx`)
 
-1. `initTheme()` (Sistema/Claro/Oscuro y fondo con foto o liso, desde Ajustes, preferencias visuales en localStorage) e `initViewport()` (geometría de capas). Ver DESIGN-SYSTEM.md.
+1. `initTheme()` (Sistema/Claro/Oscuro y fondo curvas (por defecto), puntos, foto o liso, desde Ajustes, preferencias visuales en localStorage) e `initViewport()` (geometría de capas). Ver DESIGN-SYSTEM.md.
 2. `solicitarPersistencia()` (`shared/lib/almacenamiento.ts`): conserva un permiso existente o pide protección frente al borrado automático; fallos y rechazo no impiden abrir la app. Ajustes consulta el estado real y permite reintentar. No es una garantía ni una copia de seguridad.
 3. `ensureSettings()`: la **única** escritura de ajustes al arrancar (las lecturas nunca escriben; ver `datos.md`).
 4. Unos 2 s después, con el navegador ocioso y solo si hay conexión: `sincronizarCatalogo()` en segundo plano. Los errores se ignoran y se reintenta en el siguiente arranque (Ajustes permite lanzarlo a mano).

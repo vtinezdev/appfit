@@ -27,4 +27,4 @@ scripts/catalogo/raw/
 scripts/ejercicios/ia/
 
 # capturas e imágenes sueltas de Víctor (no forman parte de la app)
-images/
+/images/

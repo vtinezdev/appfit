@@ -144,7 +144,7 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
       <section aria-label="Apariencia" className="space-y-stack">
         <SectionHeader variant="section">Apariencia</SectionHeader>
         <SegmentedControl label="Tema de la aplicación" opciones={[{ valor: 'system', label: 'Sistema' }, { valor: 'light', label: 'Claro' }, { valor: 'dark', label: 'Oscuro' }]} valor={tema} onChange={(v) => { setTema(v); setThemePref(v) }} />
-        <SegmentedControl label="Fondo de las secciones" opciones={[{ valor: 'foto', label: 'Con foto' }, { valor: 'liso', label: 'Liso' }]} valor={fondo} onChange={(v) => { setFondo(v); setFondoPref(v) }} />
+        <SegmentedControl label="Fondo de las secciones" opciones={[{ valor: 'curvas', label: 'Curvas' }, { valor: 'puntos', label: 'Puntos' }, { valor: 'foto', label: 'Foto' }, { valor: 'liso', label: 'Liso' }]} valor={fondo} onChange={(v) => { setFondo(v); setFondoPref(v) }} />
       </section>
 
       <section aria-label="Agua" className="space-y-stack">
