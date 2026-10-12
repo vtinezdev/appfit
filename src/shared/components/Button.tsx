@@ -34,8 +34,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 /**
- * Deshabilitado: atenuado, salvo el primario, que pasa a neutro (un naranja apagado parece un error de color):
- * el naranja solo existe cuando se puede actuar. Mientras carga conserva su color.
+ * Deshabilitado: atenuado, salvo el primario, que pasa a neutro (un acento apagado parece un error de color):
+ * el acento solo existe cuando se puede actuar. Mientras carga conserva su color.
  */
 const DESHABILITADO = (variant: Variant) => (variant === 'primary' ? 'disabled:bg-surface-muted disabled:text-fg-subtle' : 'disabled:opacity-40')
 

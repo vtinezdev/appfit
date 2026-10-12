@@ -26,7 +26,7 @@ import { useAviso } from '../../../shared/hooks/useAviso'
 import { useListMotion } from '../../../shared/hooks/useListMotion'
 import { haptic } from '../../../shared/design/motion'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
-import ProgressBar from '../../../shared/components/ProgressBar'
+import ProgresoSeries from '../components/ProgresoSeries'
 import { ajustarDescanso, clearSession, descansoParaEjercicio, readSession, writeSession } from '../lib/session'
 import { RestClock, WorkoutClock } from '../components/WorkoutClock'
 import type { WorkoutSummary } from '../components/WorkoutFinished'
@@ -56,6 +56,8 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
   const [restConfigOpen, setRestConfigOpen] = useState(false)
   const [descartando, setDescartando] = useState(false)
   const [notas, setNotas] = useState(workout.notas ?? '')
+  /** Ejercicios con todas sus series hechas que se han desplegado a mano: los demás completos se pliegan (E3, ADR 035). */
+  const [desplegados, setDesplegados] = useState<ReadonlySet<number>>(() => new Set())
   const notasGuardadas = useRef(workout.notas ?? '')
   const restConfig = useRef<HTMLDivElement>(null)
   const confirmandoSeries = useRef(new Set<number>())
@@ -255,17 +257,20 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
       {/* Cabecera fija: rutina, tiempo, volumen, series y Terminar siguen a la vista al bajar por los ejercicios. */}
       <section aria-label="Entreno en curso" className="training-surface workout-bar sticky top-0 z-20 space-y-2 px-3 py-2">
         <div className="flex min-h-touch items-center justify-between gap-2">
-          <div className="min-w-0"><h1 className="break-words text-heading">{routine?.nombre ?? 'Entreno libre'}</h1><p className="training-muted text-caption">En curso · {formatHora(workout.inicio)}</p></div>
+          <div className="min-w-0"><h1 className="break-words text-heading">{routine?.nombre ?? 'Entreno libre'}</h1><p className="training-muted text-caption">Desde las {formatHora(workout.inicio)}</p></div>
           <Button variant="ghost" className="training-secondary" size="sm" disabled={quitando} onClick={() => { setFinishError(null); setConfirmando(true) }}>
             Terminar
           </Button>
         </div>
-        <div className="grid grid-cols-3 items-end gap-3">
-          <div className="min-w-0"><p className="training-muted text-caption">Tiempo</p><p className="font-numeric text-title"><WorkoutClock start={workout.inicio} /></p></div>
-          <div className="min-w-0"><p className="training-muted text-caption">Volumen</p><p className="tabular flex flex-wrap items-baseline gap-x-1"><span className="min-w-0 break-words font-numeric text-title">{formatInt(volumen)}</span><span className="training-muted text-caption">kg</span></p></div>
-          <div className="min-w-0 text-right"><p className="training-muted text-caption">Series</p><p className="tabular flex items-baseline justify-end gap-x-1"><span className="font-numeric text-title">{completedCount}</span><span className="training-muted text-caption">/ {currentSets.length}</span></p></div>
+        {/* El tiempo manda (es lo que se mira entre series); volumen y series, a su lado (E2, ADR 035). */}
+        <div className="flex flex-wrap items-end justify-between gap-x-3 gap-y-1">
+          <p className="min-w-0"><span className="sr-only">Tiempo: </span><span className="font-numeric text-display leading-none"><WorkoutClock start={workout.inicio} /></span></p>
+          <div className="min-w-0 text-right">
+            <p className="tabular flex flex-wrap items-baseline justify-end gap-x-1"><span className="min-w-0 break-words font-numeric text-title">{formatInt(volumen)}</span><span className="training-muted text-caption">kg</span></p>
+            <p className="tabular flex items-baseline justify-end gap-x-1"><span className="font-numeric text-title">{completedCount}</span><span className="training-muted text-caption">/ {currentSets.length} series</span></p>
+          </div>
         </div>
-        <div className="training-progress"><ProgressBar value={completedCount} goal={currentSets.length} label="Series completadas" valueText={`${completedCount} de ${currentSets.length} series marcadas`} /></div>
+        <ProgresoSeries hechas={completedCount} total={currentSets.length} />
       </section>
 
       {descansando && <div className="rest-dock pointer-events-none fixed inset-x-0 z-30">
@@ -302,6 +307,7 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
           if (!ex) return null
           const sets = currentSets.filter((s) => s.exerciseId === exId).sort((a, b) => a.orden - b.orden)
           const liga = ligas?.ligas.get(exId)
+          const completo = sets.length > 0 && sets.every((s) => completadas.includes(s.id))
           return (
             <div key={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
@@ -315,7 +321,9 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
                 mover={visibleIds.length > 1 ? { puedeSubir: indice > 0, puedeBajar: indice < visibleIds.length - 1, onSubir: () => mover(indice, -1), onBajar: () => mover(indice, 1) } : undefined}
                 liga={liga && ligas ? { estado: liga, avisar: avisarElite(liga, ex, ajustes?.ligaMantener), hoy, mantenido: !!ajustes?.ligaMantener?.includes(exId),
                   alternativas: liga.division.elite ? alternativas(ex, exercises, ligas.ligas) : [], sinRecords: ligas.sinRecords.get(exId) ?? 0,
-                  rutinas: routine?.exerciseIds.includes(exId) ? [routine] : [] } : undefined} />
+                  rutinas: routine?.exerciseIds.includes(exId) ? [routine] : [] } : undefined}
+                plegado={completo && !desplegados.has(exId)}
+                onPlegar={(plegar) => setDesplegados((previo) => { const s = new Set(previo); if (plegar) s.delete(exId); else s.add(exId); return s })} />
             </div>
           )
         })}

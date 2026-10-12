@@ -9,13 +9,15 @@ interface Props {
    * que los nombres queden alineados (Diario) y `nada` no pinta nada.
    */
   sinCategoria?: 'aviso' | 'hueco' | 'nada'
+  /** En el Diario: icono sobre una pastilla y, sin categoría, la inicial del alimento en ella en vez del hueco vacío. */
+  inicial?: string
 }
 
 /**
  * La categoría de un alimento como icono. Pulsarlo muestra su nombre en una burbuja (toggletip) que se cierra al
  * pulsar fuera, con Escape o pulsando otra vez. Es un botón propio de 44 px: va al lado de la fila, nunca dentro.
  */
-export default function IconoCategoria({ categoria, sinCategoria = 'nada' }: Props) {
+export default function IconoCategoria({ categoria, sinCategoria = 'nada', inicial }: Props) {
   const [abierto, setAbierto] = useState(false)
   const ref = useRef<HTMLSpanElement>(null)
   const id = useId()
@@ -34,14 +36,19 @@ export default function IconoCategoria({ categoria, sinCategoria = 'nada' }: Pro
 
   const icono = iconoDeCategoria(categoria)
   if (!icono && sinCategoria === 'nada') return null
-  if (!icono && sinCategoria === 'hueco') return <span aria-hidden className="h-touch w-touch shrink-0" />
+  const pastilla = inicial !== undefined
+  if (!icono && sinCategoria === 'hueco') {
+    return <span aria-hidden className="grid h-touch w-touch shrink-0 place-items-center">
+      {pastilla && <span className="icono-pastilla text-body-sm font-semibold uppercase text-fg-muted">{inicial}</span>}
+    </span>
+  }
   const nombre = icono ? categoria! : 'Sin categoría'
 
   return (
     <span ref={ref} className="relative flex shrink-0">
       <button type="button" aria-label={`Categoría: ${nombre}`} aria-expanded={abierto} aria-controls={id} onClick={() => setAbierto(!abierto)}
         className={`flex h-touch w-touch items-center justify-center rounded-md transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted ${icono ? 'text-fg-muted' : 'text-warning'}`}>
-        <Icon name={icono ?? 'alert'} size={20} />
+        {pastilla ? <span className="icono-pastilla"><Icon name={icono ?? 'alert'} size={20} /></span> : <Icon name={icono ?? 'alert'} size={20} />}
       </button>
       <span id={id} role="status"
         className={abierto ? 'absolute left-0 top-full z-10 mt-1 whitespace-nowrap rounded-sm border border-line bg-surface-elevated px-2 py-1 text-caption text-fg shadow-overlay' : 'sr-only'}>

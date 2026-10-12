@@ -26,3 +26,10 @@ export function necesitaRecordatorioBackup(
 export function posponerHasta(ahora: number, dias: number = DIAS_POSPONER_BACKUP): number {
   return ahora + dias * DIA_MS
 }
+
+/** Texto breve del aviso en Inicio: «Aún no has hecho ninguna copia» o «N días sin copia» (días completos). */
+export function textoSinCopia(ultima: number | undefined, ahora: number): string {
+  if (ultima === undefined) return 'Aún no has hecho ninguna copia'
+  const dias = Math.max(0, Math.floor((ahora - ultima) / DIA_MS))
+  return dias === 1 ? '1 día sin copia' : `${dias} días sin copia`
+}

@@ -5,6 +5,8 @@ import ComidaSection from './ComidaSection'
 import type { Entry } from '../../../shared/db/types'
 
 const noop = () => {}
+/** Texto visible sin etiquetas: las letras P/C/G van coloreadas en su propio span. */
+const texto = (html: string) => html.replace(/<[^>]+>/g, '')
 const base: Entry = { id: 1, fecha: '2026-10-04', comida: 'desayuno', nombre: 'Café', gramos: 40, kcal: 174.4, prot: 11.1, carb: 22.2, grasa: 11.3, createdAt: 1 }
 
 describe('registros de comida de una misma jerarquía', () => {
@@ -13,7 +15,8 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(html).toContain('40 g')
     expect(html).toContain('>174</span>')
     expect(html).toContain('>kcal</span>')
-    expect(html).toContain('P 11 · C 22 · G 11')
+    expect(texto(html)).toContain('P 11 · C 22 · G 11')
+    expect(html).toContain('class="font-semibold text-protein">P</span>')
     expect(base.kcal).toBe(174.4)
   })
 
@@ -30,7 +33,7 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(html).toContain('aria-haspopup="dialog"')
     expect(html).toContain('aria-label="Borrar Bizcocho"')
     expect(html).toContain('>349</span>')
-    expect(html).toContain('P 22 · C 44 · G 23')
+    expect(texto(html)).toContain('P 22 · C 44 · G 23')
     for (const accion of ['Añadir ingredientes', 'Copiar plato', 'Borrar plato']) expect(html).not.toContain(accion)
     expect(html).toMatch(/id="[^"]+" hidden="" class="border-t border-line"/)
   })

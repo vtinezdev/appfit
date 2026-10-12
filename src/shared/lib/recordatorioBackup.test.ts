@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { DIAS_POSPONER_BACKUP, necesitaRecordatorioBackup, posponerHasta } from './recordatorioBackup'
+import { DIAS_POSPONER_BACKUP, necesitaRecordatorioBackup, posponerHasta, textoSinCopia } from './recordatorioBackup'
 
 const DIA = 86_400_000
 const AHORA = 100 * DIA
@@ -22,5 +22,13 @@ describe('necesitaRecordatorioBackup', () => {
     expect(hasta - AHORA).toBe(DIAS_POSPONER_BACKUP * DIA)
     expect(necesitaRecordatorioBackup(undefined, true, AHORA + DIA, 14, hasta)).toBe(false)
     expect(necesitaRecordatorioBackup(undefined, true, hasta, 14, hasta)).toBe(true)
+  })
+})
+
+describe('textoSinCopia', () => {
+  it('sin exportación previa', () => expect(textoSinCopia(undefined, AHORA)).toBe('Aún no has hecho ninguna copia'))
+  it('cuenta días completos, en singular y plural', () => {
+    expect(textoSinCopia(AHORA - 1.5 * DIA, AHORA)).toBe('1 día sin copia')
+    expect(textoSinCopia(AHORA - 14 * DIA, AHORA)).toBe('14 días sin copia')
   })
 })

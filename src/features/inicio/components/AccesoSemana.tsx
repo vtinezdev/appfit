@@ -5,10 +5,11 @@ import { cifrasSemana, faltaParaCumplir, textoHilo } from '../../ritmo/lib/texto
 import TarjetaAcceso from './TarjetaAcceso'
 
 /**
- * «Tu semana» (Ritmo) en Inicio: los 7 días con entreno y registro, las cifras frente al plan, lo que falta y el hilo.
+ * «Tu semana» (Ritmo) en Inicio: los 7 días como anillos de kcal con la pesa de los entrenos (si la nutrición cuenta),
+ * las cifras frente al plan, lo que falta y el hilo.
  * Toda la tarjeta abre Ritmo. No aparece si la gamificación está oculta en Ajustes.
  */
-export default function AccesoSemana({ hoy, estado, onAbrir }: { hoy: string; estado: EstadoExperiencia | undefined; onAbrir: () => void }) {
+export default function AccesoSemana({ hoy, estado, anillos, onAbrir }: { hoy: string; estado: EstadoExperiencia | undefined; anillos?: ReadonlyMap<string, number>; onAbrir: () => void }) {
   if (!estado?.visible) return null
   const r = estado.resultado
   const s = r.ritmo.actual
@@ -17,7 +18,7 @@ export default function AccesoSemana({ hoy, estado, onAbrir }: { hoy: string; es
       <span className="break-words text-title text-fg">
         {s.pausa ? 'En pausa' : s.cumplida ? ESTADOS_SEMANA.cumplida.nombre : textoHilo(r.ritmo.hiloActual)}
       </span>
-      <span className="mt-1 block"><DiasSemana lunes={s.lunes} hoy={hoy} diasEntreno={r.diasEntreno} diasRegistro={estado.conNutricion ? r.diasRegistro : null} /></span>
+      <span className="mt-1 block"><DiasSemana lunes={s.lunes} hoy={hoy} diasEntreno={r.diasEntreno} diasRegistro={estado.conNutricion ? r.diasRegistro : null} anillos={estado.conNutricion ? anillos : undefined} /></span>
       <span className="tabular break-words text-body-sm text-fg-muted">{cifrasSemana(s)}</span>
       <span className="break-words text-body-sm text-fg">{faltaParaCumplir(s) ?? (s.pausa ? 'El hilo se congela mientras dure' : textoHilo(r.ritmo.hiloActual))}</span>
     </TarjetaAcceso>

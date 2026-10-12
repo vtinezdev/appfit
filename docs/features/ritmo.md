@@ -51,7 +51,7 @@
   - banda «En pausa» con «Reanudar hoy», si hay una pausa activa;
   - «Esta semana»: estado por ahora, días, cifras y lo que falta;
   - «Hilo»: cuatro `Metric` (hilo actual, mejor hilo, comodines «1 de 2» con cuánto falta para otro, semanas cumplidas y vueltas);
-  - «Semanas»: el calendario del año (`CalendarioSemanas`), en filas de 13 semanas, con leyenda, flechas de año y el desplegable con el estado de cada semana en texto;
+  - «Semanas»: el calendario del año (`CalendarioSemanas`), en filas de 13 semanas, como un mapa de calor en grafito (de vacía, gris de superficie, a cumplida, grafito sólido), con leyenda, flechas de año y el desplegable con el estado de cada semana en texto;
   - «Hitos»;
   - «Pausas», con «Pausar» y borrado inmediato con «Deshacer»;
   - el desplegable «Cómo funciona».

@@ -9,17 +9,20 @@ import { cifrasSemana, textoEstado } from '../lib/textos'
 
 const MESES_ABREV = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
 
-/** Clase de cada celda: el estado en grafito de más a menos lleno; el color nunca va solo (leyenda y lista). */
+/**
+ * Clase de cada celda, como un mapa de calor en grafito (M3, ADR 035): celdas sin borde de vacía (gris de superficie) a
+ * cumplida (grafito sólido). El color nunca va solo (leyenda y lista).
+ */
 const CELDA: Record<EstadoSemana, string> = {
-  cumplida: 'border-fg bg-fg',
-  parcial: 'border-fg-muted bg-fg-muted',
-  presente: 'border-line-strong bg-line-strong',
-  vacia: 'border-line-strong',
+  cumplida: 'bg-fg',
+  parcial: 'bg-fg/60',
+  presente: 'bg-fg/30',
+  vacia: 'bg-surface-muted',
 }
 
 function claseCelda(s: SemanaRitmo | undefined, futura: boolean): string {
-  if (futura || !s) return `border-line ${futura ? 'opacity-40' : ''}`
-  if (s.congelada || (s.pausa && s.estado === 'vacia')) return 'border-dashed border-line-strong'
+  if (futura || !s) return `bg-surface-muted ${futura ? 'opacity-40' : ''}`
+  if (s.congelada || (s.pausa && s.estado === 'vacia')) return 'border border-dashed border-line-strong'
   return CELDA[s.estado]
 }
 
@@ -60,11 +63,11 @@ export default function CalendarioSemanas({ ritmo, hoy }: { ritmo: ResultadoRitm
       </div>
       <div role="img" aria-label={`${anio}: ${formatInt(cuenta('cumplida'))} semanas cumplidas, ${formatInt(cuenta('parcial'))} parciales, ${formatInt(cuenta('presente'))} presentes y ${formatInt(cuenta('vacia'))} vacías`}
         className="grid grid-cols-13 gap-1">
-        {semanas.map((l) => <span key={l} className={`block aspect-square rounded-sm border ${claseCelda(porLunes.get(l), l > lunesActual)} ${l === lunesActual ? 'ring-2 ring-accent-strong ring-offset-2 ring-offset-surface' : ''}`} />)}
+        {semanas.map((l) => <span key={l} className={`block aspect-square rounded-sm ${claseCelda(porLunes.get(l), l > lunesActual)} ${l === lunesActual ? 'ring-2 ring-fg ring-offset-2 ring-offset-surface' : ''}`} />)}
       </div>
       <ul className="flex flex-wrap gap-x-4 gap-y-1 text-caption text-fg-muted" aria-label="Leyenda">
         {(['cumplida', 'parcial', 'presente', 'vacia'] as EstadoSemana[]).map((e) => <li key={e} className="flex items-center gap-1.5">
-          <span aria-hidden className={`block h-3 w-3 rounded-sm border ${CELDA[e]}`} />{ESTADOS_SEMANA[e].nombre}
+          <span aria-hidden className={`block h-3 w-3 rounded-sm ${CELDA[e]}`} />{ESTADOS_SEMANA[e].nombre}
         </li>)}
         <li className="flex items-center gap-1.5"><span aria-hidden className="block h-3 w-3 rounded-sm border border-dashed border-line-strong" />En pausa</li>
       </ul>

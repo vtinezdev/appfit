@@ -51,9 +51,45 @@ export function setThemePref(pref: ThemePref) {
   applyTheme(pref)
 }
 
-/** Aplica el tema al arrancar y lo mantiene sincronizado con el sistema mientras la preferencia sea 'system'. */
+/**
+ * Fondo de las secciones: con la fotografía de su atmósfera o liso (solo el color del tema y sus luces estáticas).
+ * También es una preferencia de pantalla: vive en localStorage y se aplica como `data-fondo` en <html>.
+ */
+export type FondoPref = 'foto' | 'liso'
+const KEY_FONDO = 'appfit-fondo'
+
+/** Lo guardado se interpreta así: cualquier valor desconocido (o nada) es la foto, que es el fondo por defecto. */
+export function fondoDe(valor: string | null | undefined): FondoPref {
+  return valor === 'liso' ? 'liso' : 'foto'
+}
+
+export function getFondoPref(): FondoPref {
+  try {
+    return fondoDe(localStorage.getItem(KEY_FONDO))
+  } catch {
+    return 'foto'
+  }
+}
+
+export function applyFondo(pref: FondoPref = getFondoPref()) {
+  if (pref === 'liso') document.documentElement.dataset.fondo = 'liso'
+  else delete document.documentElement.dataset.fondo
+}
+
+export function setFondoPref(pref: FondoPref) {
+  try {
+    if (pref === 'foto') localStorage.removeItem(KEY_FONDO)
+    else localStorage.setItem(KEY_FONDO, pref)
+  } catch {
+    /* sin almacenamiento: el fondo solo dura esta sesión */
+  }
+  applyFondo(pref)
+}
+
+/** Aplica el tema (y el fondo) al arrancar y lo mantiene sincronizado con el sistema mientras la preferencia sea 'system'. */
 export function initTheme() {
   applyTheme()
+  applyFondo()
   window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', () => {
     if (getThemePref() === 'system') applyTheme('system')
   })

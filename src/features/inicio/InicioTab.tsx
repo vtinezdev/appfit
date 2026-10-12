@@ -3,11 +3,12 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import PageHeader from '../../shared/components/PageHeader'
 import { LoadingState } from '../../shared/components/StateMessage'
 import { actualizarObjetivoHoy } from '../perfil/data/objetivosDiaRepo'
-import { objetivosDe } from '../perfil/data/objetivosDiaRepo'
-import { addDays, parseISODate, todayISO } from '../../shared/lib/dates'
+import { objetivosDe, objetivosPorFecha } from '../perfil/data/objetivosDiaRepo'
+import { addDays, parseISODate, startOfWeek, todayISO, weekDates } from '../../shared/lib/dates'
 import { useAviso } from '../../shared/hooks/useAviso'
 import * as entriesRepo from '../nutricion/data/entriesRepo'
 import { sumMacros } from '../nutricion/lib/nutrition'
+import { semanaKcal } from '../nutricion/lib/semanaKcal'
 import * as pesosRepo from './data/pesosRepo'
 import TarjetaEnergia from './components/TarjetaEnergia'
 import AccesoEntreno from './components/AccesoEntreno'
@@ -52,6 +53,12 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIr
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
   const pesos = useLiveQuery(() => pesosRepo.delRango(addDays(hoy, -DIAS_HISTORIAL), hoy), [hoy])
   const agua = useLiveQuery(() => aguaRepo.delDia(hoy), [hoy])
+  // Anillo de kcal de cada día de esta semana para «Tu semana».
+  const anillosSemana = useLiveQuery(async () => {
+    const fechas = weekDates(startOfWeek(hoy))
+    const [delaSemana, objetivos] = await Promise.all([entriesRepo.entreFechas(fechas[0], fechas[6]), objetivosPorFecha(fechas, hoy)])
+    return new Map(semanaKcal(hoy, delaSemana, objetivos, hoy).map((d) => [d.fecha, d.anillo]))
+  }, [hoy])
   const objetivoAgua = useLiveQuery(async () => resolverObjetivoAgua((await getSettings()).aguaObjetivoMl, (await getPerfil()).sexo), [])
   const [aguaAbierta, setAguaAbierta] = useState(false)
   const { avisar, avisarError, toast } = useAviso()
@@ -130,7 +137,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIr
           </div>
           <CreatinaHoy hoy={hoy} />
           <AccesoEntreno onAbrir={onIrAGym} />
-          <AccesoSemana hoy={hoy} estado={gamificacion} onAbrir={onIrARitmo} />
+          <AccesoSemana hoy={hoy} estado={gamificacion} anillos={anillosSemana} onAbrir={onIrARitmo} />
           <AccesoCumbre hoy={hoy} estado={gamificacion} onAbrir={onIrACumbres} />
         </div>
       )}

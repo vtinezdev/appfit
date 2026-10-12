@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
@@ -25,6 +25,8 @@ import { TIPOS_SERIE, cambiosBajada, cambiosLadoBajada, conBajadaRestaurada, con
 import type { Anterior, TextoAnterior } from '../lib/anterior'
 import { subtituloEjercicio } from '../lib/presentacionEjercicio'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
+import { volumenSets } from '../lib/workout'
+import { formatInt } from '../../../shared/lib/format'
 
 /** El borrador evita que una respuesta asíncrona anterior interrumpa la escritura. Sin valor (lado no registrado) queda vacío. */
 export function CampoSerie({ valor, label, decimal = false, disabled = false, className = '', onChange }: {
@@ -79,6 +81,12 @@ interface Props {
   mover?: { puedeSubir: boolean; puedeBajar: boolean; onSubir: () => void; onBajar: () => void }
   /** Liga del ejercicio antes de este entreno (sesión activa); `avisar` en Élite si no es básico ni mantenido. */
   liga?: { estado: LigaEjercicio; avisar: boolean; hoy: string; mantenido: boolean; alternativas: Alternativa[]; sinRecords: number; rutinas: Routine[] }
+  /**
+   * Sesión activa: con todas sus series hechas el ejercicio se pliega en una fila (miniatura, nombre, volumen y «3/3»).
+   * `plegado` lo decide la página; `onPlegar(false)` lo despliega para corregir y `onPlegar(true)` lo vuelve a plegar.
+   */
+  plegado?: boolean
+  onPlegar?: (plegar: boolean) => void
 }
 
 type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | 'liga' | { serie: number } | { rir: number; lado?: Lado }
@@ -108,7 +116,20 @@ function CeldaAnterior({ dato }: { dato?: TextoAnterior }) {
 }
 
 /** Panel de un ejercicio con sus series; lo comparten la sesión activa y el editor de entrenos terminados. */
-export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga }: Props) {
+export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga, plegado = false, onPlegar }: Props) {
+  const filaPlegada = useRef<HTMLButtonElement>(null)
+  const estabaPlegado = useRef(plegado)
+  // Al plegarse justo tras marcar la última serie, el ✓ desaparece: el foco pasa a la fila plegada en vez de perderse
+  // (con la hoja del RIR abierta, cuando se cierre: la capa modal busca `data-foco-pendiente`).
+  useLayoutEffect(() => {
+    if (plegado && !estabaPlegado.current) {
+      const activo = document.activeElement
+      if (!activo || activo === document.body) filaPlegada.current?.focus({ preventScroll: true })
+      else if (activo.closest('[role="dialog"]')) filaPlegada.current?.setAttribute('data-foco-pendiente', '')
+    }
+    estabaPlegado.current = plegado
+  }, [plegado])
+  const completo = sets.length > 0 && sets.every(s => completadas?.includes(s.id))
   const actualizar = (id: number, cambio: CambioSerie) => { void Promise.resolve(onActualizar(id, cambio)).catch(() => {}) }
   const [hoja, setHoja] = useState<Hoja | null>(null)
   const despuesDelMenu = useRef<(() => void) | null>(null)
@@ -171,7 +192,15 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
   }
 
   return (
-    <Card data-exercise-id={ejercicio.id} className="exercise-panel space-y-3">
+    <Card data-exercise-id={ejercicio.id} data-plegado={plegado || undefined} padded={!plegado} className={`exercise-panel ${plegado ? '' : 'space-y-3'}`}>
+      {plegado ? <button ref={filaPlegada} type="button" aria-expanded={false} onClick={() => onPlegar?.(false)}
+        aria-label={`${ejercicio.nombre}: ${formatInt(sets.length)} de ${formatInt(sets.length)} series hechas, ${formatInt(volumenSets(sets))} kg. Desplegar`}
+        className="app-button flex min-h-touch w-full items-center gap-3 rounded-lg p-3 text-left">
+        <MiniaturaEjercicio catalogId={ejercicio.catalogId} />
+        <span className="min-w-0 flex-1 break-words text-body font-semibold text-fg">{ejercicio.nombre}</span>
+        <span className="tabular shrink-0 text-caption text-fg-muted">{formatInt(volumenSets(sets))} kg</span>
+        <span className="tabular flex shrink-0 items-center gap-1 text-body-sm font-bold text-success"><Icon name="check" size={18} />{formatInt(sets.length)}/{formatInt(sets.length)}</span>
+      </button> : <>
       <div className="flex items-start gap-2">
         {/* Con texto ampliado la miniatura (decorativa) pasa encima del título en lugar de estrecharlo. */}
         <div className="flex min-w-0 flex-1 flex-wrap items-start gap-3">
@@ -250,10 +279,16 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
           )
         })}
       </div>
-      <Button variant="ghost" block disabled={bloqueado} onClick={onAgregar}>
-        <Icon name="plus" size={16} />
-        Añadir serie
-      </Button>
+      <div className="flex gap-2">
+        <Button variant="ghost" block disabled={bloqueado} onClick={onAgregar}>
+          <Icon name="plus" size={16} />
+          Añadir serie
+        </Button>
+        {completo && onPlegar && <Button variant="subtle" disabled={bloqueado} aria-label={`Plegar ${ejercicio.nombre}`} onClick={() => onPlegar(true)}>
+          <Icon name="chevron-down" size={16} className="rotate-180" />Plegar
+        </Button>}
+      </div>
+      </>}
 
       {abiertaSerie && (
         <MenuSerie open titulo={`${abiertaSerie.numero === null ? 'Calentamiento' : `Serie ${abiertaSerie.numero}`} · ${ejercicio.nombre}`} serie={abiertaSerie.s} ejercicio={ejercicio} base={ejecucion} barraKg={barraKg}

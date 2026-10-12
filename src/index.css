@@ -31,6 +31,7 @@ a { text-underline-offset: 0.2em; }
 .text-display, .text-heading, .font-display { font-family: var(--font-display); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
 .text-display { text-transform: uppercase; }
 .text-label { font-stretch: var(--fst-label); }
+.text-rotulo { font-stretch: var(--fst-label); text-transform: uppercase; }
 /* Después de .text-heading: una cifra con tamaño de título sigue siendo cifra. */
 .font-numeric { font-family: var(--font-numeric); font-weight: var(--fw-numeric); font-stretch: var(--fst-numeric); font-style: var(--font-style-numeric); }
 .font-numeric.text-hero { font-weight: var(--fw-numeric-hero); font-stretch: var(--fst-numeric-hero); }
@@ -81,6 +82,8 @@ a { text-underline-offset: 0.2em; }
   mask-image: linear-gradient(rgb(var(--c-overlay)) 0%, rgb(var(--c-overlay)) 40%, transparent 100%);
 }
 .app-atmosphere[data-quiet='true'] { --atmosphere-photo-opacity: var(--atmosphere-quiet-opacity); }
+/* Fondo liso (Ajustes): sin fotografía; quedan el color del tema y las luces estáticas de la sección. */
+:root[data-fondo='liso'] .app-atmosphere img { display: none; }
 .app-atmosphere[data-quiet='true']::before { opacity: var(--atmosphere-quiet-light-opacity); }
 .app-view[data-atmosphere] .app-card:not(.bg-surface-muted):not(.training-surface),
 .app-view[data-atmosphere] .app-list-group {
@@ -153,6 +156,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .mini-grafica { height: auto; overflow: visible; }
 .mini-grafica-linea { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .mini-grafica-punto { fill: rgb(var(--c-text-primary)); stroke: rgb(var(--c-surface)); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+/* Relleno plano bajo la línea (sin degradado): da cuerpo al tramo sin competir con ella. */
+.mini-grafica-area { fill: rgb(var(--c-text-primary) / .08); }
 .vaso { width: var(--vaso-width); height: auto; }
 .vaso-borde { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .vaso-agua { fill: rgb(var(--c-text-secondary) / .35); }
@@ -166,19 +171,18 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .cifras-filetes > * { min-width: 0; padding-inline: calc(var(--space-stack) * .75); }
 .cifras-filetes > :first-child { padding-left: 0; }
 .cifras-filetes > * + * { border-left: 1px solid rgb(var(--c-border)); }
-/* Semana del diario: barrita de kcal de cada día frente a la línea de su objetivo; el día elegido, resaltado y en naranja. */
-.semana-kcal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .25rem; min-height: calc(var(--semana-barra-alto) + 3.25rem); }
-.semana-dia { display: flex; width: 100%; min-height: var(--touch-target); flex-direction: column; align-items: center; gap: .25rem; padding-block: .375rem; border-radius: var(--radius-md); color: rgb(var(--c-text-secondary)); }
-.semana-dia[aria-current='date'] { background: rgb(var(--c-accent-subtle)); color: rgb(var(--c-text-primary)); }
+/* Semana del diario: el número de cada día dentro del anillo de sus kcal frente a su objetivo (N1, ADR 035).
+   El día elegido, número en grafito sólido; hoy, subrayado. */
+.semana-kcal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .25rem; }
+.semana-dia { display: flex; width: 100%; min-height: var(--touch-target); flex-direction: column; align-items: center; gap: .375rem; padding-block: .375rem; border-radius: var(--radius-md); color: rgb(var(--c-text-secondary)); }
+.semana-dia[aria-current='date'] { color: rgb(var(--c-text-primary)); }
 .semana-dia:disabled { opacity: .4; }
 .semana-letra { display: inline-flex; align-items: center; gap: .125rem; font-size: var(--fs-caption); line-height: 1; font-weight: 600; }
 /* Cheat day: destello junto a la letra, sin cambiar el alto de la columna. */
 .semana-cheat { flex-shrink: 0; color: rgb(var(--c-text-secondary)); }
-.semana-zona { position: relative; width: 100%; height: var(--semana-barra-alto); margin-top: .375rem; }
-.semana-barra { position: absolute; bottom: 0; left: 50%; width: .5rem; transform: translateX(-50%); border-radius: var(--radius-sm); background: rgb(var(--c-border-strong)); }
-.semana-dia[aria-current='date'] .semana-barra { background: rgb(var(--c-kcal)); }
-.semana-meta { position: absolute; left: 22%; right: 22%; height: 2px; transform: translateY(50%); border-radius: 1px; background: rgb(var(--c-goal) / .6); }
-.semana-num { font-size: var(--fs-body-sm); line-height: 1.2; font-weight: 700; }
+.semana-anillo { width: var(--touch-target); height: var(--touch-target); max-width: 100%; }
+.semana-num { display: grid; place-items: center; width: 1.875rem; height: 1.875rem; border-radius: var(--radius-pill); font-size: var(--fs-body-sm); line-height: 1; font-weight: 700; color: rgb(var(--c-text-primary)); }
+.semana-dia[aria-current='date'] .semana-num { background: rgb(var(--c-text-primary)); color: rgb(var(--c-bg)); }
 .semana-dia[data-hoy='true'] .semana-num { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 /* Calendario del historial: día entrenado relleno con la rampa según su volumen en el mes; hoy con anillo exterior. */
 .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .375rem; }
@@ -238,7 +242,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 .tab-indicator::after {
   content: ""; position: absolute; inset: 0 auto 0 50%; width: 1.75rem; transform: translateX(-50%);
-  border-radius: var(--radius-pill); background: rgb(var(--c-accent));
+  border-radius: var(--radius-pill); background: rgb(var(--c-accent-strong));
 }
 .app-segmented { gap: 0; }
 .segment-indicator {
@@ -294,6 +298,13 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   outline-offset: 4px;
 }
 .food-record { container-type: inline-size; container-name: food-record; }
+/* Pastilla de la columna de categoría del Diario: el icono o, sin categoría, la inicial del alimento (N2, ADR 035). */
+.icono-pastilla { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: var(--radius-md); background: rgb(var(--c-surface-muted)); }
+/* Fila que se borra deslizándola (FilaDeslizable): el botón rojo espera detrás del contenido, que es opaco. */
+.fila-deslizable { position: relative; overflow: hidden; }
+.fila-deslizable-accion { position: absolute; inset: 0 0 0 auto; width: 5.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; background: rgb(var(--c-destructive)); color: rgb(var(--c-on-destructive)); }
+.fila-deslizable-contenido { position: relative; background: rgb(var(--c-surface)); touch-action: pan-y; transition: transform var(--dur-normal) var(--ease-standard); }
+.fila-deslizable[data-arrastrando] .fila-deslizable-contenido { transition: none; }
 .food-record-button { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, max-content); grid-template-areas: 'name name' 'detail energy'; column-gap: 0.5rem; row-gap: 0.25rem; align-items: baseline; }
 .food-record-name { grid-area: name; }
 .food-record-detail { grid-area: detail; }
@@ -309,6 +320,10 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 /* Energía de Inicio: si la rueda no cabe junto al texto, se centra y el texto pasa entero debajo (no queda a un lado). */
 .energia-card { container: energia / inline-size; }
+/* Cada macro frente a su objetivo: nombre · barrita · «58/137 g». */
+.macro-fila { display: grid; grid-template-columns: minmax(4.5rem, auto) minmax(0, 1fr) auto; align-items: center; gap: var(--space-stack); }
+.macro-fila-carril { position: relative; display: block; height: .375rem; overflow: hidden; border-radius: var(--radius-sm); background: rgb(var(--c-border)); }
+.macro-fila-relleno { position: absolute; inset: 0 auto 0 0; display: block; border-radius: var(--radius-sm); }
 @container energia (max-width: 20rem) {
   .energia-cuerpo { justify-content: center; }
   .energia-texto { flex-basis: 100%; }
@@ -326,18 +341,36 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .task-layer[data-visible='false'] { transition-duration: var(--dur-exit); }
 .app-view, .view-arrival { animation: view-arrival var(--dur-short) var(--ease-standard) both; }
 @keyframes view-arrival { from { opacity: .35; } to { opacity: 1; } }
-/* Sin línea dura: una sombra difusa separa la barra del contenido que pasa por debajo. */
-.app-nav { box-shadow: 0 -10px 30px -18px rgb(var(--c-overlay) / 0.18); }
-/* Barra de pestañas: Inicio · Nutrición · [+] · Entreno · Más. La actual en texto principal con el icono en acento; el «+» es la única acción naranja sólida de la barra. */
-.tab-item { display: flex; width: 100%; min-height: var(--touch-target-lg); flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: var(--radius-md); color: rgb(var(--c-text-secondary)); font-size: var(--fs-caption); line-height: 1.2; font-weight: 600; }
-.tab-item[aria-current='page'] { color: rgb(var(--c-text-primary)); font-weight: 700; }
+/* Barra flotante (ADR 035): fuera del flujo, sobre el contenido, que pasa por debajo. Superficie sólida, sin desenfoque.
+   Una franja del fondo la separa del texto que queda detrás, como la de lectura de cabecera. */
+.app-nav {
+  position: absolute; inset: auto 0 0; z-index: 40; isolation: isolate; pointer-events: none;
+  padding: 0 var(--space-page) calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--tab-capsule-height)));
+}
+.app-nav::before { content: ''; position: absolute; inset: -1rem 0 0; z-index: -1; background: linear-gradient(to top, rgb(var(--c-bg) / .92) 40%, rgb(var(--c-bg) / 0)); }
+.tab-dock { display: flex; align-items: center; gap: .5rem; }
+/* Cápsula: Inicio · Nutrición · Entreno · Más. La actual sobre una píldora, en texto principal y con el icono en acento. */
+.tab-bar {
+  container-type: inline-size; pointer-events: auto;
+  flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .125rem;
+  height: var(--tab-capsule-height); padding: .3125rem; border-radius: var(--radius-pill);
+  background: rgb(var(--c-surface-elevated)); box-shadow: var(--shadow-float); border: 1px solid transparent;
+}
+:root[data-theme='dark'] .tab-bar { border-color: rgb(var(--c-border)); }
+.tab-item { display: flex; width: 100%; height: 100%; min-height: var(--touch-target); flex-direction: column; align-items: center; justify-content: center; gap: 1px; border-radius: var(--radius-pill); color: rgb(var(--c-text-secondary)); font-size: var(--fs-caption); line-height: 1.15; font-weight: 600; font-stretch: var(--fst-label); }
+.tab-item[aria-current='page'] { background: rgb(var(--c-surface-muted)); color: rgb(var(--c-text-primary)); font-weight: 700; }
 .tab-item[aria-current='page'] svg { color: rgb(var(--c-accent-strong)); }
-.tab-bar { container-type: inline-size; }
 .tab-label { max-width: 100%; text-align: center; }
 /* Texto muy ampliado: los nombres no caben sin partirse; quedan para el lector de pantalla y se ven los iconos. */
-@container (max-width: 18rem) { .tab-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; } }
-.tab-plus { display: grid; place-items: center; width: min(var(--tab-plus-size), 100%); aspect-ratio: 1; border-radius: var(--radius-pill); background: rgb(var(--c-accent)); color: rgb(var(--c-on-accent)); box-shadow: var(--shadow-control); transition: transform var(--dur-short) var(--ease-standard); }
+@container (max-width: 12rem) { .tab-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; } }
+/* «+»: la única acción sólida en acento de la barra, aparte y a la derecha, donde llega el pulgar. */
+.tab-plus { pointer-events: auto; flex: none; display: grid; place-items: center; width: var(--tab-capsule-height); height: var(--tab-capsule-height); border-radius: var(--radius-pill); background: rgb(var(--c-accent)); color: rgb(var(--c-on-accent)); box-shadow: var(--shadow-float); transition: transform var(--dur-short) var(--ease-standard); }
 .tab-plus:active { transform: scale(var(--motion-press)); }
+/* La vista deja sitio al final para leer lo último por encima de la barra flotante. */
+.app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--space-section)); }
+/* Hoja «Más»: teselas de progreso (Cumbres, Ritmo, Vitrina) con su dato. */
+.mas-teselas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; }
+.mas-teselas [aria-current='page'] { box-shadow: inset 0 0 0 2px rgb(var(--c-text-primary)); }
 .nutrient-row { container-type: inline-size; container-name: nutrient-row; }
 @container nutrient-row (max-width: 14rem) {
   .nutrient-values { grid-template-columns: minmax(0, 1fr); }
@@ -348,6 +381,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .training-surface {
   --c-text-primary: var(--c-on-training); --c-text-secondary: var(--c-training-muted); --c-text-tertiary: var(--c-training-muted);
   --c-accent-strong: var(--c-meal-accent); --c-focus: var(--c-meal-accent); --c-border: var(--c-training-track);
+  --c-surface-muted: var(--c-training-track);
   background: rgb(var(--c-training)); color: rgb(var(--c-on-training)); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
   border: 1px solid rgb(var(--c-training-border));
 }
@@ -367,8 +401,16 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .training-muted { color: rgb(var(--c-training-muted)); }
 .training-secondary { color: rgb(var(--c-on-training)); border: 1px solid rgb(var(--c-training-muted) / .4); }
 .training-secondary:hover, .training-secondary:active { background: rgb(var(--c-on-training) / .1); }
+/* Acción principal sobre grafito sin gastar el acento (el «+» de la barra ya lo lleva): relleno en el texto de entreno. */
+.training-primary { background: rgb(var(--c-on-training)); color: rgb(var(--c-training)); font-weight: 700; }
+.training-primary:hover, .training-primary:active { background: rgb(var(--c-on-training) / .9); }
 .training-progress { --c-surface-muted: var(--c-training-track); --c-goal: var(--c-training-muted); }
 .training-progress .ring-bg { --tw-ring-color: rgb(var(--c-training)); }
+/* Series de la sesión: un segmento por serie sobre grafito; hechas en texto de entreno. */
+.progreso-series { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 3px; height: .375rem; }
+.progreso-series > span { display: block; height: 100%; border-radius: var(--radius-pill); background: rgb(var(--c-training-track)); }
+.progreso-series > span[data-hecha] { background: rgb(var(--c-on-training)); }
+.progreso-series[data-continuo] { display: block; border-radius: var(--radius-pill); background: rgb(var(--c-training-track)); overflow: hidden; }
 .workout-summary-metrics .text-fg { color: rgb(var(--c-on-training)); }
 .workout-summary-metrics .text-fg-muted { color: rgb(var(--c-training-muted)); }
 /* Serie: tipo/número · [anterior] · reps · kg · RIR · ✓, por áreas con nombre (cada celda lleva su .celda-*).

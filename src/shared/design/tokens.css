@@ -1,32 +1,33 @@
-/* Valores visuales de APPFIT (grafito neutro, un único acento naranja para actuar y para la energía del día). Intención: DESIGN.md; implementación: docs/DESIGN-SYSTEM.md.
+/* Valores visuales de APPFIT (grafito neutro, un único acento volt —verde lima— para actuar y para la energía del día; ADR 035).
+   El volt es claro: como relleno lleva texto casi negro en ambos temas; líneas, iconos y texto sobre claro usan accent-strong. Intención: DESIGN.md; implementación: docs/DESIGN-SYSTEM.md.
    Canales RGB para opacidad Tailwind. Ninguna pantalla define su propia paleta. */
 :root {
   color-scheme: light;
-  --c-bg: 245 244 241;
+  --c-bg: 244 245 240;
   --c-surface: 255 255 255;
   --c-surface-elevated: 255 255 255;
-  --c-surface-muted: 237 236 232;
+  --c-surface-muted: 234 236 228;
   --c-overlay: 11 13 18;
-  --c-text-primary: 22 23 26;
-  --c-text-secondary: 76 78 82;
-  --c-text-tertiary: 90 92 96;
-  --c-border: 230 228 223;
-  --c-border-strong: 128 126 122;
-  --c-accent: 200 80 0;
-  --c-on-accent: 255 255 255;
-  --c-accent-strong: 164 58 2;
-  --c-accent-subtle: 253 236 224;
+  --c-text-primary: 21 23 15;
+  --c-text-secondary: 74 77 66;
+  --c-text-tertiary: 86 89 78;
+  --c-border: 226 228 218;
+  --c-border-strong: 124 127 114;
+  --c-accent: 198 244 50;
+  --c-on-accent: 10 11 9;
+  --c-accent-strong: 58 94 10;
+  --c-accent-subtle: 236 245 214;
   --c-selected: 255 255 255;
-  --c-on-selected: 22 23 26;
+  --c-on-selected: 21 23 15;
   --c-focus: var(--c-accent-strong);
   --c-success: 3 115 74;
   --c-on-success: 253 254 255;
   --c-warning: 138 86 25;
   --c-destructive: 182 20 58;
   --c-on-destructive: 253 254 255;
-  --c-kcal: 214 92 10;
+  --c-kcal: 96 150 20;
   /* Lo que falta para el objetivo en la rueda de energía de Inicio: negro, elegido por Víctor (ADR 021). */
-  --c-kcal-rest: 22 23 26;
+  --c-kcal-rest: 21 23 15;
   --c-protein: 85 77 160;
   --c-carbs: 2 113 122;
   --c-fat: 148 86 62;
@@ -59,6 +60,9 @@
   --lh-label: 1.4;
   --fs-caption: 0.75rem;
   --lh-caption: 1.5;
+  /* Rótulo de tarjeta y de métrica: versalitas pequeñas que separan «qué es» de «cuánto es». */
+  --fs-rotulo: 0.75rem;
+  --lh-rotulo: 1.3;
   --fs-metric: 2.125rem;
   --lh-metric: 1.1;
   --space-page: 1.25rem;
@@ -71,8 +75,9 @@
   --thumb-filter: none;
   --sheet-max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - 1rem);
   --app-height: 100dvh;
-  --nav-height: 4.5rem;
-  --tab-plus-size: 3.25rem;
+  /* Barra flotante: cápsula de pestañas y «+» redondo de la misma altura, con un margen inferior; --nav-height es lo que reserva. */
+  --nav-height: 4.25rem;
+  --tab-capsule-height: 3.75rem;
   /* Lo que flota sobre la barra inferior (avisos, descanso) empieza aquí. */
   --nav-dock: calc(var(--nav-height) + env(safe-area-inset-bottom) + 0.75rem);
   --nav-toast: var(--nav-dock);
@@ -87,6 +92,8 @@
   /* Elevación mínima: separa cards (unidades reales) y controles elegidos del fondo; no es decoración. */
   --shadow-card: 0 1px 2px rgb(28 24 20 / 0.04), 0 10px 28px -10px rgb(28 24 20 / 0.12);
   --shadow-control: 0 1px 2px rgb(28 24 20 / 0.06), 0 4px 12px -4px rgb(28 24 20 / 0.12);
+  /* Lo que flota sobre el contenido (la barra de pestañas): más difusa que la de las cards. */
+  --shadow-float: 0 1px 2px rgb(28 24 20 / 0.08), 0 12px 32px -12px rgb(28 24 20 / 0.32);
   --dur-short: 120ms;
   --dur-normal: 200ms;
   --dur-overlay: 280ms;
@@ -97,13 +104,13 @@
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
   --motion-shift: 0.5rem;
   --motion-press: 0.97;
-  --c-training: 26 28 32;
-  --c-on-training: 245 247 249;
-  --c-training-muted: 188 189 192;
-  --c-training-track: 54 57 63;
+  --c-training: 24 26 20;
+  --c-on-training: 245 247 240;
+  --c-training-muted: 188 190 180;
+  --c-training-track: 54 57 48;
   /* Borde de la superficie de entreno: en claro, su mismo tono (no se ve); en oscuro la delimita como al resto de cards. */
-  --c-training-border: 26 28 32;
-  --c-meal-accent: 255 160 100;
+  --c-training-border: 24 26 20;
+  --c-meal-accent: 198 244 50;
   --c-success-subtle: 222 245 232;
   /* Trabajo muscular relativo: rampa roja, de rojo claro (menos trabajo) a rojo intenso (más). No es un aviso: el mapa siempre va con niveles en texto. */
   --c-muscle-1: 255 214 213;
@@ -130,7 +137,6 @@
   --muscle-body-width: 10rem;
   --muscle-mini-height: 5.5rem;
   --vaso-width: 1.75rem;
-  --semana-barra-alto: 3rem;
   --muscle-swatch-size: 0.75rem;
   /* Foto/fade sobre luces estáticas que acompañan la longitud real de la página. */
   --atmosphere-height: 50rem;
@@ -159,25 +165,25 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
   --thumb-filter: brightness(0.85);
-  --c-bg: 10 11 13;
-  --c-surface: 22 23 26;
-  --c-surface-elevated: 30 31 35;
-  --c-surface-muted: 34 35 39;
+  --c-bg: 10 11 9;
+  --c-surface: 22 23 20;
+  --c-surface-elevated: 30 31 27;
+  --c-surface-muted: 34 36 31;
   --c-overlay: 0 0 0;
-  --c-text-primary: 245 247 249;
-  --c-text-secondary: 192 193 196;
-  --c-text-tertiary: 160 161 165;
-  --c-border: 44 45 50;
-  --c-border-strong: 114 116 121;
-  --c-accent: 245 128 52;
-  --c-on-accent: 10 11 13;
-  --c-accent-strong: 255 165 110;
-  --c-accent-subtle: 60 36 20;
-  --c-kcal: 255 132 48;
+  --c-text-primary: 244 247 238;
+  --c-text-secondary: 195 199 186;
+  --c-text-tertiary: 160 164 151;
+  --c-border: 44 46 40;
+  --c-border-strong: 114 118 106;
+  --c-accent: 198 244 50;
+  --c-on-accent: 10 11 9;
+  --c-accent-strong: 212 248 106;
+  --c-accent-subtle: 42 51 17;
+  --c-kcal: 184 232 44;
   --c-kcal-rest: 0 0 0;
-  --c-selected: 58 59 64;
-  --c-on-selected: 245 247 249;
-  --c-success: 107 207 157;
+  --c-selected: 58 60 53;
+  --c-on-selected: 244 247 238;
+  --c-success: 64 190 140;
   --c-on-success: 10 11 13;
   --c-warning: 239 190 114;
   --c-destructive: 244 122 121;
@@ -186,12 +192,12 @@
   --c-carbs: 124 205 214;
   --c-fat: 219 162 140;
   /* Más clara que las cards (38 39 44): la tarjeta de entreno sigue siendo la principal también en oscuro. */
-  --c-training: 50 51 56;
-  --c-on-training: 245 247 249;
-  --c-training-muted: 185 190 198;
-  --c-training-track: 76 78 84;
-  --c-training-border: 70 71 77;
-  --c-meal-accent: 255 165 110;
+  --c-training: 48 50 43;
+  --c-on-training: 244 247 238;
+  --c-training-muted: 185 190 176;
+  --c-training-track: 74 77 68;
+  --c-training-border: 68 71 62;
+  --c-meal-accent: 212 248 106;
   --c-success-subtle: 21 50 35;
   /* En oscuro el texto claro del calendario exige niveles 1–3 oscuros: de rojo apagado a rojo vivo. */
   --c-muscle-1: 103 41 38;
@@ -215,6 +221,7 @@
   /* En oscuro las cards se separan por tono. */
   --shadow-card: none;
   --shadow-control: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-float: 0 12px 32px -10px rgb(0 0 0 / 0.7);
   --atmosphere-photo-opacity: 0.9;
   --atmosphere-photo-saturation: 0.6;
   --atmosphere-photo-brightness: 0.92;
@@ -235,12 +242,12 @@
    arriba, para no confundirse con el fondo. Lo de dentro (filas, campos, botones tonales, divisores) se aclara con ellas.
    La Card muted y la superficie de entreno conservan su tono propio. */
 :root[data-theme='dark'] :is(.app-card:not(.bg-surface-muted), .app-list-group):not(.training-surface) {
-  --c-surface: 38 39 44;
-  --c-surface-elevated: 46 47 52;
-  --c-surface-muted: 50 51 57;
-  --c-border: 58 59 65;
-  --c-border-strong: 132 134 139;
-  --c-selected: 72 73 79;
+  --c-surface: 38 40 35;
+  --c-surface-elevated: 46 48 42;
+  --c-surface-muted: 50 52 46;
+  --c-border: 58 60 54;
+  --c-border-strong: 132 135 125;
+  --c-selected: 72 74 67;
   --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.05);
   border-color: rgb(var(--c-border));
 }
@@ -248,18 +255,18 @@
 :root[data-theme='dark'] .training-surface { --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.06); }
 /* Aviso temporal, sin obligar a usar bloques negros en las pantallas. */
 [data-surface='inverse'] {
-  --c-surface: 22 23 26;
-  --c-text-primary: 245 247 249;
-  --c-text-secondary: 192 193 196;
-  --c-accent-strong: 255 165 110;
+  --c-surface: 22 23 20;
+  --c-text-primary: 244 247 238;
+  --c-text-secondary: 195 199 186;
+  --c-accent-strong: 212 248 106;
   --c-destructive: 244 122 121;
   --c-focus: var(--c-accent-strong);
 }
 :root[data-theme='dark'] [data-surface='inverse'] {
   --c-surface: 255 255 255;
-  --c-text-primary: 22 23 26;
-  --c-text-secondary: 76 78 82;
-  --c-accent-strong: 164 58 2;
+  --c-text-primary: 21 23 15;
+  --c-text-secondary: 74 77 66;
+  --c-accent-strong: 58 94 10;
   --c-destructive: 182 20 58;
 }
 @media (max-width: 359px) {

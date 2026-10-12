@@ -15,7 +15,7 @@ import { ErrorState, LoadingState } from '../shared/components/StateMessage'
 import Button from '../shared/components/Button'
 import Disclosure from '../shared/components/Disclosure'
 import SegmentedControl from '../shared/components/SegmentedControl'
-import { getThemePref, setThemePref, type ThemePref } from '../shared/design/theme'
+import { getFondoPref, getThemePref, setFondoPref, setThemePref, type FondoPref, type ThemePref } from '../shared/design/theme'
 import ConfirmacionDestructiva from '../shared/components/ConfirmacionDestructiva'
 import PageHeader from '../shared/components/PageHeader'
 import SectionHeader from '../shared/components/SectionHeader'
@@ -37,6 +37,7 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
   const sexo = useLiveQuery(async () => (await perfilRepo.getPerfil()).sexo, [])
   const [aguaTexto, setAguaTexto] = useState<string | null>(null)
   const [tema, setTema] = useState<ThemePref>(getThemePref)
+  const [fondo, setFondo] = useState<FondoPref>(getFondoPref)
   const [guiaAbierta, setGuiaAbierta] = useState(abrirGuia)
   const [errorBorrado, setErrorBorrado] = useState<string | null>(null)
   const [errorObjetivos, setErrorObjetivos] = useState<string | null>(null)
@@ -143,6 +144,7 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
       <section aria-label="Apariencia" className="space-y-stack">
         <SectionHeader variant="section">Apariencia</SectionHeader>
         <SegmentedControl label="Tema de la aplicación" opciones={[{ valor: 'system', label: 'Sistema' }, { valor: 'light', label: 'Claro' }, { valor: 'dark', label: 'Oscuro' }]} valor={tema} onChange={(v) => { setTema(v); setThemePref(v) }} />
+        <SegmentedControl label="Fondo de las secciones" opciones={[{ valor: 'foto', label: 'Con foto' }, { valor: 'liso', label: 'Liso' }]} valor={fondo} onChange={(v) => { setFondo(v); setFondoPref(v) }} />
       </section>
 
       <section aria-label="Agua" className="space-y-stack">

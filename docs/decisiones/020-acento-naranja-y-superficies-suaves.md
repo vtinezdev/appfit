@@ -1,6 +1,6 @@
 # 020 — Acento naranja y superficies suaves
 
-Fecha: 2026-10-07. Estado: vigente. Sustituye la paleta de [017](017-paleta-cobalto-y-composicion-respirada.md) (grafito frío, cobalto y ámbar) y su regla «sin sombras en cards/nav». La composición de 017 sigue vigente.
+Fecha: 2026-10-07. Estado: vigente salvo el color del acento, que [ADR 035](035-acento-volt-y-pulido-visual.md) cambia a volt (la familia acento/energía y las superficies siguen). Sustituye la paleta de [017](017-paleta-cobalto-y-composicion-respirada.md) (grafito frío, cobalto y ámbar) y su regla «sin sombras en cards/nav». La composición de 017 sigue vigente.
 
 ## Contexto
 

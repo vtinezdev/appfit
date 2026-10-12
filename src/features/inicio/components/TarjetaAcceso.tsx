@@ -19,7 +19,7 @@ export default function TarjetaAcceso({ etiqueta, onAbrir, children, accion, pie
     <Card padded={false} className={`relative flex flex-col ${className}`}>
       <button type="button" onClick={onAbrir} className="flex w-full flex-1 flex-col gap-1 rounded-lg p-4 text-left">
         <span className={`flex w-full items-center gap-2 ${accion ? 'pr-8' : ''}`}>
-          <span className="min-w-0 flex-1 text-label text-fg-muted">{etiqueta}</span>
+          <span className="min-w-0 flex-1 text-rotulo text-fg-muted">{etiqueta}</span>
           {!accion && <Icon name="chevron-right" size={18} className="text-fg-subtle" />}
         </span>
         {children}

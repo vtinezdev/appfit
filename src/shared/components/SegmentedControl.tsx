@@ -48,7 +48,7 @@ export default function SegmentedControl<T extends string>({ opciones, valor, on
       {opciones.map((o, i) => (
         <button key={o.valor} type="button" role="radio" aria-checked={valor === o.valor} tabIndex={valor === o.valor || (valor === null && i === 0) ? 0 : -1}
           onClick={() => elegir(o.valor)} onKeyDown={(e) => teclado(e, i)}
-          className={`min-h-touch w-full min-w-0 rounded-md border px-3 py-2.5 text-left transition-colors duration-short ${valor === o.valor ? 'border-accent bg-selected text-selected-on' : 'border-line-strong bg-surface-muted text-fg hover:bg-line'}`}>
+          className={`min-h-touch w-full min-w-0 rounded-md border px-3 py-2.5 text-left transition-colors duration-short ${valor === o.valor ? 'border-accent-strong bg-selected text-selected-on' : 'border-line-strong bg-surface-muted text-fg hover:bg-line'}`}>
           <span className="block break-words text-body-sm font-semibold">{o.label}</span>
           {o.descripcion && <span className={`mt-0.5 block break-words text-caption ${valor === o.valor ? 'text-selected-on' : 'text-fg-muted'}`}>{o.descripcion}</span>}
         </button>

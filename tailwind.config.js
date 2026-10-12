@@ -42,6 +42,8 @@ export default {
       'body-sm': ['var(--fs-body-sm)', { lineHeight: 'var(--lh-body-sm)' }],
       label: ['var(--fs-label)', { lineHeight: 'var(--lh-label)', fontWeight: '700', letterSpacing: '0.04em' }],
       caption: ['var(--fs-caption)', { lineHeight: 'var(--lh-caption)' }],
+      // Rótulo de tarjeta/métrica: mayúsculas (index.css) con más tracking.
+      rotulo: ['var(--fs-rotulo)', { lineHeight: 'var(--lh-rotulo)', fontWeight: '700', letterSpacing: '0.08em' }],
       metric: ['var(--fs-metric)', { lineHeight: 'var(--lh-metric)', fontWeight: '700', letterSpacing: '0' }],
     },
     borderRadius: {
@@ -68,7 +70,7 @@ export default {
       minHeight: { touch: 'var(--touch-target)', 'touch-lg': 'var(--touch-target-lg)' },
       maxHeight: { sheet: 'var(--sheet-max-height)' },
       minWidth: { touch: 'var(--touch-target)' },
-      boxShadow: { overlay: 'var(--shadow-overlay)', card: 'var(--shadow-card)', control: 'var(--shadow-control)' },
+      boxShadow: { overlay: 'var(--shadow-overlay)', card: 'var(--shadow-card)', control: 'var(--shadow-control)', float: 'var(--shadow-float)' },
       transitionDuration: { short: 'var(--dur-short)', normal: 'var(--dur-normal)' },
       transitionTimingFunction: { standard: 'var(--ease-standard)' },
       // Entradas discretas. Duración y distancia salen de los tokens de motion (0 con prefers-reduced-motion).

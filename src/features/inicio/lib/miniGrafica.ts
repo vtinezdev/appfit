@@ -4,7 +4,12 @@ import { parseISODate } from '../../../shared/lib/dates'
 export interface MiniGrafica {
   /** Trazo SVG en un lienzo de `ancho` × `alto`. */
   d: string
+  /** La misma línea cerrada hasta la base: el relleno plano bajo ella. */
+  area: string
   ultimo: { x: number; y: number }
+  /** Pesos extremos del tramo dibujado, para rotular la escala. */
+  min: number
+  max: number
 }
 
 const DIA_MS = 86_400_000
@@ -23,5 +28,7 @@ export function miniGraficaPeso(pesos: Pick<Peso, 'fecha' | 'kg'>[], hoy: string
   const x = (v: number) => margen + ((v - t0) / (t1 - t0)) * (ancho - 2 * margen)
   const y = (kg: number) => (max === min ? alto / 2 : margen + ((max - kg) / (max - min)) * (alto - 2 * margen))
   const xy = puntos.map((p, i) => [Math.round(x(t[i]) * 10) / 10, Math.round(y(p.kg) * 10) / 10] as const)
-  return { d: xy.map(([px, py], i) => `${i ? 'L' : 'M'}${px} ${py}`).join(''), ultimo: { x: xy[xy.length - 1][0], y: xy[xy.length - 1][1] } }
+  const d = xy.map(([px, py], i) => `${i ? 'L' : 'M'}${px} ${py}`).join('')
+  const ultimo = { x: xy[xy.length - 1][0], y: xy[xy.length - 1][1] }
+  return { d, area: `${d}L${ultimo.x} ${alto}L${xy[0][0]} ${alto}Z`, ultimo, min, max }
 }

@@ -13,7 +13,13 @@ interface Props {
   disabled?: boolean
 }
 
-/** Montañas para elegir: nombre, zona (y las veces que se coronó) y altitud. Cada fila elige al tocarla. */
+/** Altitud de referencia para las barras: la montaña más alta de la Tierra. */
+const EVEREST = 8849
+
+/**
+ * Montañas para elegir: nombre, zona (y las veces que se coronó), altitud y una barra fina proporcional a ella (frente
+ * al Everest), en grafito. Cada fila elige al tocarla.
+ */
 export default function ListaMontanas({ montanas, onElegir, sugerida, veces, tone = 'plain', disabled = false }: Props) {
   return <>
     {montanas.map((m) => <li key={m.id}>
@@ -21,6 +27,9 @@ export default function ListaMontanas({ montanas, onElegir, sugerida, veces, ton
         <span className="min-w-0">
           <span className="block break-words text-body font-semibold text-fg">{m.nombre}{m.id === sugerida && <span className="ml-2 text-caption font-normal text-fg-muted">Sugerida</span>}</span>
           <span className="block break-words text-body-sm text-fg-muted">{m.zona}{veces?.has(m.id) ? ` · coronada ${vecesTexto(veces.get(m.id) ?? 0)}` : ''}</span>
+          <span aria-hidden className="mt-1.5 block h-1 w-40 max-w-full overflow-hidden rounded-sm bg-line">
+            <span className="block h-full rounded-sm bg-fg-subtle" style={{ width: `${Math.min(m.altitud / EVEREST, 1) * 100}%` }} />
+          </span>
         </span>
         <span className="tabular shrink-0 text-body-sm text-fg">{metrosTexto(m.altitud)}</span>
       </ListRow>

@@ -11,6 +11,8 @@ describe('miniGraficaPeso', () => {
     // 1 oct → x 2 (y arriba, el máximo); 7 oct → 6/8 del ancho útil; 9 oct → x 98 (y abajo, el mínimo).
     expect(g.d).toBe('M2 2L74 16L98 30')
     expect(g.ultimo).toEqual({ x: 98, y: 30 })
+    expect(g.area).toBe('M2 2L74 16L98 30L98 32L2 32Z')
+    expect([g.min, g.max]).toEqual([78, 80])
   })
   it('con el mismo peso la línea va por el centro y usa solo los últimos n', () => {
     const pesos = Array.from({ length: 20 }, (_, i) => ({ fecha: `2026-09-${String(i + 1).padStart(2, '0')}`, kg: 75 }))
