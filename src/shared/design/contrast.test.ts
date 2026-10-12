@@ -118,6 +118,19 @@ describe.each([['light', light], ['dark', dark]] as const)('lectura sobre fotogr
   })
 })
 
+// Fondos dibujados: sin franja de lectura, así que el texto suelto debe leerse sobre el píxel más cargado
+// (halo volt al máximo + trazo de la curva o del punto a su opacidad plena).
+describe.each([['light', light], ['dark', dark]] as const)('fondos dibujados (%s)', (theme, t) => {
+  const halo = over(t.accent, t.bg, atmosphere('drawn-halo', theme))
+  it.each([['curvas', 'accent-strong', 'contour-opacity'], ['puntos', 'text-primary', 'dots-opacity']])('%s', (_, trazo, opacidad) => {
+    const peor = over(t[trazo], halo, atmosphere(opacidad, theme))
+    for (const fg of ['text-primary', 'text-secondary', 'text-tertiary', 'accent-strong']) {
+      expect(ratio(t[fg], halo), `${fg} sobre el halo`).toBeGreaterThanOrEqual(4.5)
+      expect(ratio(t[fg], peor), `${fg} sobre el trazo`).toBeGreaterThanOrEqual(4.5)
+    }
+  })
+})
+
 // Texto que se lee: mínimo 4.5:1. Los colores de datos se usan como relleno de barras/gráficas (mínimo 3:1 en no-texto).
 const TEXT: [string, string][] = [
   ['text-primary', 'bg'],

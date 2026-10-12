@@ -93,6 +93,8 @@ async function main() {
     for (const width of [320, 375, 430, 1440]) for (const theme of ['dark', 'light']) {
       const context = await browser.newContext({ viewport: { width, height: width === 320 ? 568 : 812 }, colorScheme: theme, reducedMotion: 'reduce', serviceWorkers: 'block' })
       try {
+        // La foto ya no es el fondo por defecto (ADR 036): este recorrido la elige antes de cargar.
+        await context.addInitScript(() => localStorage.setItem('appfit-fondo', 'foto'))
         const page = await context.newPage(); const errors = []
         page.on('pageerror', e => errors.push(e.message))
         await page.goto('http://appfit-test.localhost:5173'); await ready(page); await seed(page)
