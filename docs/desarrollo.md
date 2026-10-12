@@ -156,3 +156,9 @@ Con Vite en 5173, `node scripts/ui/validar-cheat-day.cjs` fija el reloj en el ju
 ### Validación del creador de rutinas
 
 Con Vite en 5173, `node scripts/ui/validar-creador-rutinas.cjs` recorre siete contextos aislados en `appfit-test.localhost:5173` (320/375/430 px en claro/oscuro y 375 con texto al 200 % y Reduce Motion). Prueba «Crear rutina» → «Con el asistente», días por defecto desde Ritmo, preguntas, plan sin escribir datos, «Otra sugerencia», «Cambiar» con sugerencia y con «Elegir otro…», «Regenerar todo», guardar con nombre libre («Torso A (2)»), objetivos guardados, «Deshacer» y, en 375 claro, fallo de escritura con error en línea y reintento, y empezar un entreno con las series objetivo. Comprueba overflow y targets. Datos sintéticos; `APPFIT_UI_CASE`, `APPFIT_UI_OUTPUT` y `APPFIT_CHROMIUM` como en los demás recorridos. Informe y capturas en `/tmp/appfit-creador-rutinas`. Lógica en `gym/lib/creadorRutinas.test.ts` y guardado en `gym/data/guardarPlan.test.ts`. Sin prueba en iPhone real.
+
+
+### Validación de insignias
+
+Con Vite en 5173, `node scripts/ui/validar-insignias.cjs` prueba la Vitrina y las seis ligas de Progreso con historial sintético, el detalle de Élite y una galería de los componentes reales con todos los logros conseguidos/pendientes, nuevos logros y ascensos. Ocho contextos aislados en el origen de pruebas: 320/375/430 px en ambos temas y 375 con texto al 200 %/Reduce Motion. Comprueba ausencia de desbordamiento, SVG decorativos sin encoger, ids de recorte únicos, candados idénticos sin pistas en los ocultos y backup intacto al consultar. Capturas/informe en `/tmp/appfit-insignias`; filtros `APPFIT_UI_CASE`, `APPFIT_UI_OUTPUT`, `APPFIT_CHROMIUM`. Los colores se verifican en `shared/design/contrast.test.ts`. Emulación Chromium, sin iPhone físico.
+

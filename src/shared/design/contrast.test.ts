@@ -133,6 +133,15 @@ describe.each([['light', light], ['dark', dark]] as const)('fondos dibujados (%s
 
 // Texto que se lee: mínimo 4.5:1. Los colores de datos se usan como relleno de barras/gráficas (mínimo 3:1 en no-texto).
 const TEXT: [string, string][] = [
+  // Los pictogramas de las insignias mantienen contraste incluso en el fondo de arcilla/salvia.
+  ['expedicion-marfil', 'expedicion-bosque'],
+  ['expedicion-marfil', 'expedicion-arcilla'],
+  ['expedicion-marfil', 'expedicion-salvia'],
+  ['expedicion-bronce', 'expedicion-bosque'],
+  ['expedicion-plata', 'expedicion-bosque'],
+  ['expedicion-oro', 'expedicion-bosque'],
+  ['expedicion-zafiro', 'expedicion-bosque'],
+  ['expedicion-rubi', 'expedicion-bosque'],
   ['text-primary', 'bg'],
   ['text-primary', 'surface'],
   ['text-secondary', 'surface'],

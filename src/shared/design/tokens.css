@@ -72,6 +72,10 @@
   --touch-target: 2.75rem;
   --touch-target-lg: 3rem;
   --thumb-size: 3rem;
+  /* Como Icon, el arte conserva su tamaño nominal al ampliar solo el texto. */
+  --insignia-sm: 40px;
+  --insignia-md: 56px;
+  --insignia-lg: 80px;
   --thumb-filter: none;
   --sheet-max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - 1rem);
   --app-height: 100dvh;
@@ -165,6 +169,16 @@
   --c-atmosphere-slate: 105 114 128;
   --c-atmosphere-sand: 166 141 113;
   --c-atmosphere-mist: 145 162 167;
+  /* Arte de ligas y logros: paleta topográfica fija, independiente de los colores de acción y datos. */
+  --c-expedicion-bosque: 25 57 43;
+  --c-expedicion-arcilla: 158 69 36;
+  --c-expedicion-salvia: 54 85 61;
+  --c-expedicion-marfil: 246 240 216;
+  --c-expedicion-bronce: 210 145 98;
+  --c-expedicion-plata: 212 216 203;
+  --c-expedicion-oro: 224 181 93;
+  --c-expedicion-zafiro: 162 193 231;
+  --c-expedicion-rubi: 237 159 155;
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
@@ -244,6 +258,15 @@
   --c-atmosphere-slate: 105 114 128;
   --c-atmosphere-sand: 166 141 113;
   --c-atmosphere-mist: 145 162 167;
+  --c-expedicion-bosque: 25 57 43;
+  --c-expedicion-arcilla: 158 69 36;
+  --c-expedicion-salvia: 54 85 61;
+  --c-expedicion-marfil: 246 240 216;
+  --c-expedicion-bronce: 210 145 98;
+  --c-expedicion-plata: 212 216 203;
+  --c-expedicion-oro: 224 181 93;
+  --c-expedicion-zafiro: 162 193 231;
+  --c-expedicion-rubi: 237 159 155;
 }
 /* En oscuro, las unidades reales (Card y ListGroup agrupada) son una capa más clara con borde fino y un leve brillo
    arriba, para no confundirse con el fondo. Lo de dentro (filas, campos, botones tonales, divisores) se aclara con ellas.
