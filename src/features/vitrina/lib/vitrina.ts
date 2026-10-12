@@ -1,8 +1,9 @@
 // Vitrina: logros, muro de récords y colecciones (Herbario y Atlas) de todo el historial. Funciones puras.
-import type { Entry, Exercise, Pausa, SetEntry, Workout } from '../../../shared/db/types'
+import type { Actividad, Entry, Exercise, Pausa, SetEntry, Workout } from '../../../shared/db/types'
 import { startOfWeek } from '../../../shared/lib/dates'
 import type { ResultadoExperiencia } from '../../experiencia/lib/experiencia'
 import type { ResultadoCumbres } from '../../cumbres/lib/cumbres'
+import type { ResultadoCaminos } from '../../caminos/lib/caminos'
 import { calcularLigas, primerosCiclos } from '../../liga/lib/liga'
 import { herbarioPorSemana, plantasDistintas, type Planta, type SemanaHerbario } from '../../nutricion/lib/herbario'
 import { calcularAtlas, type Atlas } from './atlas'
@@ -24,6 +25,9 @@ export interface DatosVitrina {
   pausas?: readonly Pausa[]
   /** Cumbres, para sus logros (`null` si aún no se ha elegido la primera montaña). */
   cumbres?: ResultadoCumbres | null
+  /** Actividades terminadas y Caminos, para sus logros. */
+  actividades?: readonly Actividad[]
+  caminos?: ResultadoCaminos | null
 }
 
 export interface Herbario {
@@ -62,6 +66,7 @@ export function calcularVitrina(d: DatosVitrina): ResultadoVitrina {
   } : null
   return {
     logros: calcularLogros({ hoy: d.hoy, experiencia: d.experiencia, atlas, herbario: semanas, conNutricion: d.conNutricion, cumbres: d.cumbres,
+      actividades: (d.actividades ?? []).filter((x) => !x.enCurso && x.fecha <= d.hoy), caminos: d.caminos,
       ciclos: primerosCiclos(calcularLigas({ hoy: d.hoy, workouts: terminados, sets: d.sets, pausas: d.pausas })).map(({ fecha, workoutId }) => ({ fecha, workoutId })) }),
     muro: muroRecords(terminados, d.sets),
     atlas,

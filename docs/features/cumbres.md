@@ -19,7 +19,7 @@
 ## Reglas
 
 - **Arranque**: al elegir la primera montaña (`Settings.cumbres = { inicio: hoy, ruta: [id] }`). No es retroactiva (decisión de Víctor): cuenta la XP con fecha igual o posterior a `inicio`.
-- **Motor**: recorre la XP en orden cronológico (dentro de un día, el orden de `calcularExperiencia`: entreno, récords, registro, proteína y semana). Cada XP sube un metro de la montaña actual. Qué sube y cuánto: [experiencia.md](experiencia.md#reglas-versión-1-version_reglas). Con Solo entreno no hay metros de nutrición y se sube más despacio. Entrenar o registrar de más no sube.
+- **Motor**: recorre la XP en orden cronológico (dentro de un día, el orden de `calcularExperiencia`: entreno, récords, actividades, registro, proteína y semana). Las caminatas, carreras y rutas suben 10 m por km (ver [experiencia](experiencia.md)); sus km avanzan además los [Caminos](caminos.md), que van aparte. Cada XP sube un metro de la montaña actual. Qué sube y cuánto: [experiencia.md](experiencia.md#reglas-versión-1-version_reglas). Con Solo entreno no hay metros de nutrición y se sube más despacio. Entrenar o registrar de más no sube.
 - **Del mar a la cumbre**: la altitud que se ve es lo subido en ese capítulo. Hay un hito cada 1.000 m por debajo de la cima, con su fecha y su entreno si lo hubo.
 - **Cumbre**: al llegar a la altitud se hace cumbre ese día. **Los metros que sobran se pierden** (decisión de Víctor): la siguiente empieza desde 0 con la XP posterior, aunque sea del mismo día.
 - **Ruta** (`rutaDe`): `ruta` guarda las montañas elegidas para los primeros capítulos, en orden y con repeticiones. Después sigue la sugerida: siempre la montaña coronada menos veces y, a igualdad, la primera de `MONTANAS`. Así primero van las que faltan y, con todas coronadas, empieza otra vuelta: **la ruta no se acaba** y siempre hay montaña actual. Ids desconocidos se ignoran.
@@ -49,9 +49,9 @@ Fuentes (comprobadas el 11 y el 12 de octubre de 2026): Instituto Geográfico Na
   - sin empezar, una card con el perfil de la primera de la ruta a 0 m y la explicación, y la lista de montañas para elegir la primera (el Aneto, «Sugerida»; cada una con una barra fina de su altitud frente al Everest), con «Deshacer»;
   - empezada, una card con la montaña actual (nombre, zona, perfil accesible con las líneas de cada 1.000 m, `Metric` con los metros, lo que falta y lo subido esta semana, lo que valdría entrenar hoy y «Cambiar montaña»);
   - «Hitos» (fecha o lo que falta);
-  - «Esta semana»: entrenos y días registrados frente al plan, metros subidos y lo que falta para cumplirla (+150 m);
+  - «Esta semana»: entrenos y días registrados frente al plan, días con actividad que suman (de 3), metros subidos y lo que falta para cumplirla (+150 m);
   - «Tu expedición»: cumbres (las repetidas cuentan) con «N de 22 montañas», y metros subidos desde el inicio;
-  - «Cada día»: los metros de cada día desde el inicio con su porqué (`FilasMetros`, también los entrenos que no suben y el motivo), 14 días y «Ver más días»;
+  - «Cada día»: los metros de cada día desde el inicio con su porqué (`FilasMetros`, también los entrenos y las actividades que no suben y el motivo), 14 días y «Ver más días»;
   - «Siguientes»: las 5 próximas de la ruta, con «coronada N veces» si ya se subió;
   - «Mis cumbres»: fecha y días de cada expedición, también las repetidas;
   - el Disclosure «Cómo se sube», con las reglas, las fuentes y «Cambiar el plan en Ajustes».

@@ -8,6 +8,7 @@ import { ErrorState } from '../shared/components/StateMessage'
 import { useAviso } from '../shared/hooks/useAviso'
 import * as routinesRepo from '../features/gym/data/routinesRepo'
 import * as workoutsRepo from '../features/gym/data/workoutsRepo'
+import * as actividadesRepo from '../features/actividades/data/actividadesRepo'
 import RegistroRapido from '../features/inicio/components/RegistroRapido'
 
 interface Props {
@@ -17,6 +18,8 @@ interface Props {
   onComida: () => void
   /** Lleva a Entreno (la sesión activa, si la hay). */
   onEntreno: () => void
+  /** Lleva a Entreno › Actividades (la grabación en curso, si la hay). */
+  onActividades: () => void
 }
 
 function Accion({ icon, titulo, detalle, onClick }: { icon: IconName; titulo: string; detalle?: string; onClick: () => void }) {
@@ -28,11 +31,12 @@ function Accion({ icon, titulo, detalle, onClick }: { icon: IconName; titulo: st
 }
 
 /**
- * Hoja del «+» central: registrar comida, empezar o volver al entreno, registrar peso y añadir agua, con los flujos de
+ * Hoja del «+» central: registrar comida, empezar o volver al entreno, una actividad (Entreno › Actividades), registrar peso y añadir agua, con los flujos de
  * siempre. La acción elegida se ejecuta al terminar de cerrarse la hoja (sin apilar capas).
  */
-export default function AccionesRapidas({ open, onClose, onComida, onEntreno }: Props) {
+export default function AccionesRapidas({ open, onClose, onComida, onEntreno, onActividades }: Props) {
   const activo = useLiveQuery(() => workoutsRepo.activo(), [])
+  const grabando = useLiveQuery(() => actividadesRepo.enCurso(), [])
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
   const [paso, setPaso] = useState<'acciones' | 'rutina'>('acciones')
   const [error, setError] = useState<string | null>(null)
@@ -65,6 +69,9 @@ export default function AccionesRapidas({ open, onClose, onComida, onEntreno }: 
         {activo
           ? <Accion icon="dumbbell" titulo="Volver al entreno" detalle="Tienes una sesión en curso" onClick={() => elegir(onEntreno)} />
           : <Accion icon="dumbbell" titulo="Empezar entreno" detalle={rutinas?.length ? 'Vacío o desde una rutina' : 'Entreno vacío'} onClick={() => { if (rutinas?.length) setPaso('rutina'); else void empezar() }} />}
+        {grabando
+          ? <Accion icon="footprints" titulo="Volver a la grabación" detalle="Estás grabando una actividad" onClick={() => elegir(onActividades)} />
+          : <Accion icon="footprints" titulo="Registrar actividad" detalle="Caminar, correr o senderismo" onClick={() => elegir(onActividades)} />}
         <Accion icon="scale" titulo="Registrar peso" onClick={() => registrar('peso')} />
         <Accion icon="droplet" titulo="Añadir agua" onClick={() => registrar('agua')} />
       </ListGroup> : <div className="space-y-2">

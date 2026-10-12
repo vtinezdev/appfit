@@ -1,8 +1,9 @@
 // Lecturas de la experiencia (solo lectura: se usan en useLiveQuery). La XP se recalcula a partir del historial completo.
 import { useLiveQuery } from 'dexie-react-hooks'
 import { getSettings } from '../../../shared/db/settings'
-import type { Entry, Exercise, Pausa, PlanSemanal, SetEntry, Workout } from '../../../shared/db/types'
+import type { Actividad, Entry, Exercise, Pausa, PlanSemanal, SetEntry, Workout } from '../../../shared/db/types'
 import { startOfWeek } from '../../../shared/lib/dates'
+import * as actividadesRepo from '../../actividades/data/actividadesRepo'
 import * as cheatDaysRepo from '../../nutricion/data/cheatDaysRepo'
 import * as entriesRepo from '../../nutricion/data/entriesRepo'
 import * as exercisesRepo from '../../gym/data/exercisesRepo'
@@ -27,7 +28,7 @@ export type EstadoExperiencia =
     nombres: Record<number, string>
     pausas: Pausa[]
     /** Lo leído, para quien necesite más que la XP (Vitrina). Las entradas, vacías si la nutrición no cuenta. */
-    datos: { workouts: Workout[]; sets: SetEntry[]; exercises: Exercise[]; entries: Entry[] }
+    datos: { workouts: Workout[]; sets: SetEntry[]; exercises: Exercise[]; entries: Entry[]; actividades: Actividad[] }
   }
 
 /**
@@ -38,12 +39,13 @@ export async function leerExperiencia(hoy: string): Promise<EstadoExperiencia> {
   const settings = await getSettings()
   if (settings.gamificacionVisible === false) return { visible: false }
   const conNutricion = settings.gamificacionConNutricion !== false
-  const [workouts, sets, exercises, entries, cheatDays] = await Promise.all([
+  const [workouts, sets, exercises, entries, cheatDays, actividades] = await Promise.all([
     workoutsRepo.terminados(),
     setsRepo.todas(),
     exercisesRepo.listar(),
     conNutricion ? entriesRepo.entreFechas(DESDE_SIEMPRE, hoy) : [],
     conNutricion ? cheatDaysRepo.entreFechas(DESDE_SIEMPRE, hoy) : [],
+    actividadesRepo.terminadas(),
   ])
   const objetivos = conNutricion ? await objetivosPorFecha([...new Set(entries.map((e) => e.fecha))], hoy) : new Map()
   const protObjetivo = new Map([...objetivos].map(([fecha, o]) => [fecha, o.prot]))
@@ -51,10 +53,10 @@ export async function leerExperiencia(hoy: string): Promise<EstadoExperiencia> {
     visible: true,
     conNutricion,
     plan: planDeSemana(settings.planSemanal, startOfWeek(hoy)),
-    resultado: calcularExperiencia({ hoy, workouts, sets, entries, protObjetivo, cheatDays: new Set(cheatDays), planes: settings.planSemanal, pausas: settings.pausas, conNutricion }),
+    resultado: calcularExperiencia({ hoy, workouts, sets, entries, protObjetivo, cheatDays: new Set(cheatDays), planes: settings.planSemanal, pausas: settings.pausas, conNutricion, actividades }),
     nombres: Object.fromEntries(exercises.map((e) => [e.id, e.nombre])),
     pausas: settings.pausas ?? [],
-    datos: { workouts, sets, exercises, entries },
+    datos: { workouts, sets, exercises, entries, actividades },
   }
 }
 

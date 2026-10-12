@@ -36,7 +36,7 @@ export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void })
     return <div className="space-y-section px-page pt-5">
       <PageHeader title="Ritmo" />
       <EmptyState title="Ritmo oculto" action={<Button variant="secondary" onClick={onIrAAjustes}>Ir a Ajustes</Button>}>
-        Lo has ocultado en Ajustes junto con Cumbres y Vitrina.
+        Lo has ocultado en Ajustes junto con Cumbres, Caminos y Vitrina.
       </EmptyState>
     </div>
   }

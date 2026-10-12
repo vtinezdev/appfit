@@ -7,6 +7,7 @@ import { calcularAtlas } from './atlas'
 import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, recuentoPiezas, siguienteUmbral, UMBRALES } from './logros'
 import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { calcularCumbres, empezar } from '../../cumbres/lib/cumbres'
+import { calcularCaminos } from '../../caminos/lib/caminos'
 import { MONTANAS } from '../../cumbres/lib/montanas'
 import { describirMarca, muroRecords } from './muro'
 import { calcularVitrina } from './vitrina'
@@ -75,8 +76,9 @@ describe('logros', () => {
     expect(conseguido(de('madrugador'))).toBe(false)
     expect(de('madrugador').progreso).toBe(1)
     // Entrenos I, Hilo I (4 semanas seguidas) y Descanso bien llevado (repetible: una pieza).
-    // Cumbres sin empezar: sus 17 piezas (cumbres, metros, otra vez arriba y cinco colecciones), sin conseguir.
-    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 3, total: 4 + 3 + 3 + 1 + 4 + 4 + 5 + 4 + 3 + 5 + 4 + 2 })
+    // Cumbres sin empezar: sus 17 piezas (cumbres, metros, otra vez arriba y cinco colecciones), sin conseguir. Caminos
+    // sin actividades: 16 (km, salidas, rutas, Compostela, Todos los caminos y dos ocultos).
+    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 3, total: 4 + 3 + 3 + 1 + 4 + 4 + 5 + 4 + 3 + 5 + 4 + 2 + 4 + 4 + 4 + 1 + 1 + 2 })
   })
 
   it('semanas cumplidas y logros del entreno con el que se consiguieron', () => {
@@ -137,5 +139,27 @@ describe('logros', () => {
     const a = calcularExperiencia({ hoy: '2026-10-10', workouts: dos.map((e) => e.workout), sets: dos.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false })
     const l = calcularLogros({ hoy: '2026-10-10', experiencia: a, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false })
     expect(l.find((x) => x.id === 'vuelta')!.veces).toEqual([{ fecha: '2026-09-20', workoutId: dos[1].workout.id }])
+  })
+})
+
+describe('logros de Caminos', () => {
+  it('km acumulados, salidas, rutas, Compostela y los ocultos', () => {
+    const experiencia = calcularExperiencia({ hoy: '2026-12-31', workouts: [], sets: [], entries: [], protObjetivo: new Map(), conNutricion: false })
+    const actividades = [
+      { id: 1, fecha: '2026-10-05', inicio: 1, distanciaM: 30_000 },
+      { id: 2, fecha: '2026-10-06', inicio: 2, distanciaM: 45_000 },
+      { id: 3, fecha: '2026-10-07', inicio: 3, distanciaM: 40_000 },
+    ]
+    const caminos = calcularCaminos(actividades, { inicio: '2026-10-05', ruta: ['ingles', 'fisterra'] }, '2026-12-31')
+    const logros = calcularLogros({ hoy: '2026-12-31', experiencia, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false, actividades, caminos })
+    const de = (idLogro: string) => logros.find((l) => l.id === idLogro)!
+    expect(de('km').niveles[0]).toEqual({ fecha: '2026-10-06' }) // 75 km pasan de 50
+    expect(de('km').progreso).toBe(115)
+    expect(nivelDe(de('salidas'))).toBe(0)
+    expect(de('rutas').niveles[0]).toEqual({ fecha: '2026-10-07' }) // el Inglés (111,5 km) se termina con la tercera
+    expect(de('compostela').niveles[0]).toEqual({ fecha: '2026-10-07' })
+    expect(conseguido(de('todos-santiago'))).toBe(false)
+    expect(de('maraton').veces).toEqual([{ fecha: '2026-10-06' }])
+    expect(conseguido(de('fin-del-mundo'))).toBe(false)
   })
 })

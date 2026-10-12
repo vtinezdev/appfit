@@ -284,7 +284,7 @@ export interface Settings {
   revisionSemanalCerrada?: string
   /** Plan semanal por tramos (`ritmo/lib/plan.ts`). Ausente = plan por defecto. */
   planSemanal?: TramoPlanSemanal[]
-  /** Cumbres, Ritmo y Vitrina en Inicio, Más y al terminar un entreno (por defecto sí). */
+  /** Cumbres, Caminos, Ritmo y Vitrina en Inicio, Más y al terminar un entreno (por defecto sí). */
   gamificacionVisible?: boolean
   /** La nutrición cuenta en Cumbres, Ritmo y Vitrina: registro de comidas, proteína y plantas (por defecto sí). */
   gamificacionConNutricion?: boolean
@@ -296,6 +296,70 @@ export interface Settings {
   cumbres?: ConfigCumbres
   /** Registro opcional de creatina; ausente = desactivado. */
   creatina?: ConfigCreatina
+  /** Caminos: desde cuándo cuentan los km y las rutas elegidas para cada capítulo, en orden (`caminos/lib/caminos.ts`). */
+  caminos?: ConfigCaminos
+}
+
+/**
+ * Caminos: `inicio` (YYYY-MM-DD) es el día en que se eligió la primera ruta; cuentan los km de las actividades desde ese
+ * día. `ruta`, los ids de las rutas elegidas para los primeros capítulos (`caminos/lib/rutas.ts`).
+ */
+export interface ConfigCaminos {
+  inicio: string
+  ruta: string[]
+}
+
+/** Un lugar de una ruta propia de Caminos: nombre y, si se eligió de la lista de pueblos, su provincia y coordenadas. */
+export interface PuntoRuta {
+  nombre: string
+  provincia?: string
+  lat?: number
+  lon?: number
+}
+
+/** Ruta propia de Caminos («Tarragona – Valencia»): la salida y cada etapa con el lugar donde acaba y sus km. */
+export interface RutaPropia {
+  id: number
+  nombre: string
+  salida: PuntoRuta
+  etapas: (PuntoRuta & { km: number })[]
+  createdAt: number
+  updatedAt: number
+}
+
+export type TipoActividad = 'caminar' | 'correr' | 'senderismo'
+export type OrigenActividad = 'manual' | 'gpx' | 'gps'
+
+/** Punto del recorrido: latitud y longitud en grados (5 decimales, ~1 m) y, si se conoce, altitud en metros. */
+export type PuntoRecorrido = [lat: number, lon: number, ele?: number]
+
+/**
+ * Caminata, carrera o ruta de senderismo. Las que se graban con el GPS existen desde que empiezan (`enCurso`), para no
+ * perder el recorrido si iOS cierra la app; el resto se crean ya terminadas.
+ */
+export interface Actividad {
+  id: number
+  tipo: TipoActividad
+  /** YYYY-MM-DD local del inicio. */
+  fecha: string
+  /** ms del inicio. */
+  inicio: number
+  /** Tiempo en marcha (sin pausas), en segundos. */
+  duracionSeg: number
+  /** Metros recorridos. */
+  distanciaM: number
+  /** Desnivel positivo en metros, si se conoce. */
+  desnivelM?: number
+  origen: OrigenActividad
+  nombre?: string
+  notas?: string
+  /** Tramos continuos del recorrido (una pausa o un corte de señal lo parten), ya simplificados al terminar. */
+  recorrido?: PuntoRecorrido[][]
+  /** Grabación con GPS sin terminar. */
+  enCurso?: true
+  /** En una grabación en curso: ms desde el que corre el tramo actual (ausente si está en pausa). */
+  reanudadaEn?: number
+  createdAt: number
 }
 
 export interface ConfigCreatina { activa: boolean; dosisManualG?: number; inicioCarga?: string }

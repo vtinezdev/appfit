@@ -23,7 +23,7 @@ function v1ConApiKey(apiKey: string): string {
 describe('importarBackup', () => {
   it('importa entero el backup v1 de referencia (generado con el código de la sesión 01)', async () => {
     await importarBackup(backupV1)
-    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, suplementos: 0, cheatDays: 0, catalogFoods: 0, catalogSources: 0 })
+    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, suplementos: 0, cheatDays: 0, actividades: 0, rutasPropias: 0, catalogFoods: 0, catalogSources: 0 })
     expect((await db.foods.get(1))?.nombre).toBe('Plátano')
     expect(await db.entries.get(9)).toMatchObject({ fecha: '2026-09-28', comida: 'cena', kcal: 330, textoOriginal: 'pollo a la plancha' })
   })
@@ -245,7 +245,7 @@ describe('backup de suplementos', () => {
     await db.suplementos.bulkAdd([{ tipo: 'creatina', fecha: '2026-10-12', createdAt: 10 }, { tipo: 'otro', fecha: '2026-10-12', createdAt: 11 }])
     const antes = await exportarBackup()
     expect(antes.version).toBe(3)
-    expect(antes.dbVersion).toBe(9)
+    expect(antes.dbVersion).toBe(11)
     await importarBackup(JSON.stringify(antes))
     expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
   })
@@ -289,5 +289,40 @@ describe('backup de cheat days', () => {
     await db.cheatDays.add({ fecha: '2026-10-11', createdAt: 1 })
     await borrarTodosLosDatos()
     expect(await db.cheatDays.count()).toBe(0)
+  })
+})
+
+describe('backup de actividades', () => {
+  const actividad = { tipo: 'senderismo' as const, fecha: '2026-10-11', inicio: 1, duracionSeg: 3600, distanciaM: 8000, desnivelM: 420, origen: 'gpx' as const, recorrido: [[[43.1, -8.2, 100], [43.11, -8.21, 120]]] as [number, number, number][][], createdAt: 1 }
+  it('ida y vuelta: las actividades y su recorrido sobreviven a exportar e importar', async () => {
+    await importarBackup(backupV1)
+    await db.actividades.add(actividad)
+    const antes = await exportarBackup()
+    expect(antes.actividades).toHaveLength(1)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+  })
+  it('un backup antiguo sin actividades las deja vacías', async () => {
+    await db.actividades.add(actividad)
+    await importarBackup(backupV1)
+    expect(await db.actividades.count()).toBe(0)
+  })
+  it('borrar todos los datos incluye las actividades', async () => {
+    await db.actividades.add(actividad)
+    await borrarTodosLosDatos()
+    expect(await db.actividades.count()).toBe(0)
+  })
+})
+
+describe('backup de rutas propias', () => {
+  it('ida y vuelta, y un backup antiguo las deja vacías', async () => {
+    await importarBackup(backupV1)
+    await db.rutasPropias.add({ nombre: 'Tarragona – Valencia', salida: { nombre: 'Tarragona', lat: 41.1, lon: 1.2 }, etapas: [{ nombre: 'Valencia', km: 260 }], createdAt: 1, updatedAt: 1 })
+    const antes = await exportarBackup()
+    expect(antes.rutasPropias).toHaveLength(1)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+    await importarBackup(backupV1)
+    expect(await db.rutasPropias.count()).toBe(0)
   })
 })

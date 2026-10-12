@@ -18,7 +18,7 @@ export default function AccesoCumbre({ hoy, estado, onAbrir }: { hoy: string; es
     return (
       <TarjetaAcceso etiqueta="Cumbres" onAbrir={onAbrir}>
         <span className="break-words text-title text-fg">Elige tu primera montaña</span>
-        <span className="break-words text-body-sm text-fg-muted">Entrenos, récords{estado.conNutricion ? ', comidas' : ''} y semanas cumplidas te suben metros, desde el día en que empiezas.</span>
+        <span className="break-words text-body-sm text-fg-muted">Entrenos, récords, km andados{estado.conNutricion ? ', comidas' : ''} y semanas cumplidas te suben metros, desde el día en que empiezas.</span>
       </TarjetaAcceso>
     )
   }

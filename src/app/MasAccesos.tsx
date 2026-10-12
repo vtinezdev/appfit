@@ -2,6 +2,8 @@ import Icon from '../shared/components/Icon'
 import { todayISO } from '../shared/lib/dates'
 import { formatInt } from '../shared/lib/format'
 import { useVitrina } from '../features/vitrina/hooks/useVitrina'
+import { useCaminos } from '../features/caminos/hooks/useCaminos'
+import { formatKm } from '../features/actividades/lib/actividad'
 import { recuentoPiezas } from '../features/vitrina/lib/logros'
 import { DESTINOS, type Tab } from './navegacion'
 
@@ -15,11 +17,14 @@ interface Tesela { key: Tab; valor: string | null; unidad?: string; detalle: str
 const destino = (key: Tab) => DESTINOS.find((d) => d.key === key)!
 
 /**
- * Cumbres, Ritmo y Vitrina en la hoja «Más»: una tesela por sección con su dato vivo (metros, hilo, piezas), para ver
+ * Cumbres, Caminos, Ritmo y Vitrina en la hoja «Más»: una tesela por sección con su dato vivo (metros, km, hilo, piezas), para ver
  * cómo van sin entrar. Solo se monta con la hoja abierta: la lectura recorre todo el historial.
  */
 export default function MasAccesos({ actual: tabActual, onElegir }: Props) {
-  const estado = useVitrina(todayISO())
+  const hoy = todayISO()
+  const estado = useVitrina(hoy)
+  const caminos = useCaminos(hoy)
+  const camino = caminos?.visible ? caminos.caminos?.actual : undefined
   const listo = estado?.visible ? estado : null
   const actual = listo?.cumbres?.actual
   const piezas = listo ? recuentoPiezas(listo.vitrina.logros) : null
@@ -29,6 +34,9 @@ export default function MasAccesos({ actual: tabActual, onElegir }: Props) {
     actual
       ? { key: 'cumbres', valor: formatInt(actual.metros), unidad: 'm', detalle: actual.montana.nombre }
       : { key: 'cumbres', valor: null, detalle: listo ? 'Elige montaña' : '' },
+    camino
+      ? { key: 'caminos', valor: formatKm(camino.metros), unidad: 'km', detalle: camino.ruta.nombre }
+      : { key: 'caminos', valor: null, detalle: caminos?.visible ? 'Elige ruta' : '' },
     { key: 'ritmo', valor: hilo === undefined ? null : formatInt(hilo), unidad: hilo === 1 ? 'semana' : 'semanas', detalle: 'Hilo actual' },
     { key: 'vitrina', valor: piezas ? `${formatInt(piezas.conseguidas)}/${formatInt(piezas.total)}` : null, detalle: 'Piezas' },
   ]
