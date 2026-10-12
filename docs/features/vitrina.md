@@ -12,7 +12,7 @@
 | Herbario | `nutricion/lib/herbario.ts`: `plantaDeEntrada`, `plantasDistintas`, `herbarioPorSemana` | — (puro; categoría con `repartoCategorias.categoriaDeEntrada`) |
 | Todo junto | `lib/vitrina.ts`: `calcularVitrina` | — |
 | Lecturas | `hooks/useVitrina.ts`: `cumbres/hooks/useCumbres.leerCumbres` (experiencia y Cumbres) y `foodsRepo.categoriasDeEntradas` | ver [experiencia.md](experiencia.md) |
-| Página (Más › Vitrina) | `VitrinaTab.tsx` (diferida): `components/LogrosVista`, `RecordsVista` y `ColeccionesVista` | — |
+| Página (Más › Vitrina) | `VitrinaTab.tsx` (diferida): `components/LogrosVista` (medallas en rejilla de tres, con el anillo de lo que se lleva hacia el siguiente nivel; cada una abre su detalle en una hoja), `RecordsVista` y `ColeccionesVista` | — |
 | Al terminar un entreno | `components/NuevosLogros` (en `gym/components/WorkoutFinished`) | `useVitrina` |
 | Herbario en Nutrición › Resumen | `nutricion/components/HerbarioResumen` | `foodsRepo.categoriasDeEntradas`, `settings` |
 

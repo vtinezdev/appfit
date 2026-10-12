@@ -8,6 +8,7 @@ import { sumMacros } from '../lib/nutrition'
 import { nombreVisible } from '../lib/nombresCortos'
 import { categoriaDeEntrada } from '../lib/repartoCategorias'
 import IconoCategoria from './IconoCategoria'
+import FilaDeslizable from '../../../shared/components/FilaDeslizable'
 import { agruparPlatos, type Plato } from '../lib/platos'
 import { useDraggable, useDroppable } from '@dnd-kit/core'
 import { useListMotion } from '../../../shared/hooks/useListMotion'
@@ -38,11 +39,13 @@ interface Props {
   categorias: ReadonlyMap<string, string>
 }
 
+/** Alimento suelto o ingrediente: se borra deslizándolo a la izquierda (o con el botón que aparece), con Deshacer. */
 function FilaEntrada({ entry: e, nombreCorto, categorias, ingrediente = false, onEditar, onBorrar }: { entry: Entry; nombreCorto: string; ingrediente?: boolean } & Pick<Props, 'onEditar' | 'onBorrar' | 'categorias'>) {
-  return <li data-entry-id={e.id}><RegistroComida tipo={ingrediente ? 'ingrediente' : 'individual'} nombre={nombreCorto} nombreOriginal={e.nombre}
-    icono={<IconoCategoria categoria={categoriaDeEntrada(e, categorias)} sinCategoria="hueco" />}
-    detalle={e.rapida ? 'Registro rápido' : `${formatNumber(e.gramos, 1)} g`} macros={e} aproximado={e.rapida} onClick={() => onEditar(e)}
-    accion={<IconButton icon="trash" label={`Borrar ${e.nombre}`} variant="ghost" size="sm" onClick={() => onBorrar(e)} />} /></li>
+  return <li data-entry-id={e.id}><FilaDeslizable etiqueta={`Borrar ${e.nombre}`} onBorrar={() => onBorrar(e)}>
+    <RegistroComida tipo={ingrediente ? 'ingrediente' : 'individual'} nombre={nombreCorto} nombreOriginal={e.nombre}
+      icono={<IconoCategoria categoria={categoriaDeEntrada(e, categorias)} sinCategoria="hueco" inicial={nombreCorto.trim().charAt(0)} />}
+      detalle={e.rapida ? 'Registro rápido' : `${formatNumber(e.gramos, 1)} g`} macros={e} aproximado={e.rapida} onClick={() => onEditar(e)} accion={null} />
+  </FilaDeslizable></li>
 }
 
 function FilaPlato({ plato, nombresCortos, categorias, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'categorias' | 'onEditar' | 'onBorrar' | 'onBorrarPlato' | 'onEditarPlato' | 'onAccionesPlato' | 'onMoverPlato' | 'moviendo'>) {
@@ -110,7 +113,7 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
               ),
             )}
           </ul>
-          {/* «+» alineado con los iconos de categoría; Repetir, con la papelera. */}
+          {/* «+» alineado con los iconos de categoría; Repetir, a la derecha. */}
           <div className="flex items-center justify-between gap-2 border-t border-line px-2 py-1">{anadir}{repetir}</div>
         </Card>
       )}

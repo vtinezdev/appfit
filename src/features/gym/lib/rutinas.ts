@@ -24,6 +24,16 @@ export function resumenRutina(r: Pick<Routine, 'id' | 'exerciseIds' | 'objetivos
   }
 }
 
+/**
+ * Orden de las rutinas en Empezar: primero la que hace más que no se hace (las nunca hechas, antes), conservando el orden
+ * de la lista ante empates. No es un plan: solo la última fecha real de cada una.
+ */
+export function ordenParaEmpezar<T>(rutinas: readonly T[], ultima: (r: T) => number | null): T[] {
+  return rutinas.map((r, i) => ({ r, i, u: ultima(r) }))
+    .sort((a, b) => (a.u ?? -Infinity) - (b.u ?? -Infinity) || a.i - b.i)
+    .map(x => x.r)
+}
+
 export class ErrorSustitucion extends Error {}
 
 /**

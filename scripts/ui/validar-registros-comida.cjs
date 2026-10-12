@@ -135,7 +135,7 @@ async function main() {
         await individual.locator('.food-record-button').click()
         await page.getByRole('button', { name: 'Cancelar', exact: true }).click()
         await page.getByRole('dialog').waitFor({ state: 'detached' })
-        await individual.getByRole('button', { name: 'Borrar Bizcocho', exact: true }).click()
+        await individual.getByRole('button', { name: 'Borrar Bizcocho', exact: true }).press('Enter') // detrás de la fila (se desliza): con teclado
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
         await individual.waitFor(); assert.deepEqual(await backup(page), antes)
         await ejecutarAccionPlato(page, nombre, 'Borrar plato', desayuno)
@@ -144,7 +144,7 @@ async function main() {
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
         await trigger.waitFor(); assert.deepEqual(await backup(page), antes)
         await desplegarPlato(page, nombre, desayuno)
-        await ingredientes.getByRole('button', { name: 'Borrar Leche', exact: true }).click()
+        await ingredientes.getByRole('button', { name: 'Borrar Leche', exact: true }).press('Enter')
         await grupoBoton.locator('[data-record-quantity]').getByText('2 alimentos', { exact: true }).waitFor()
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
         assert.deepEqual(await backup(page), antes)

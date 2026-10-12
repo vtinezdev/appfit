@@ -46,7 +46,7 @@ Fuentes (comprobadas el 11 y el 12 de octubre de 2026): Instituto Geográfico Na
   - sin montaña elegida, «Cumbres» con «Elige tu primera montaña» y qué sube metros;
   - empezada, «Cumbre»: la montaña («Aneto · 2.ª vez» si se repite) con «2.340 de 3.715 m», el perfil (decorativo, dentro del botón), «Cumbre del Teide hoy / ayer / hace 2 días» durante tres días, «En el refugio» si hay pausa y lo que valdría entrenar hoy («Quedan 2 entrenos del plan esta semana», «Hoy ya suma un entreno», «Plan de la semana completo: ya suman sus 3 entrenos»).
 - **Cumbres** (Más):
-  - sin empezar, la explicación y la lista de montañas para elegir la primera (el Aneto, «Sugerida»), con «Deshacer»;
+  - sin empezar, una card con el perfil de la primera de la ruta a 0 m y la explicación, y la lista de montañas para elegir la primera (el Aneto, «Sugerida»; cada una con una barra fina de su altitud frente al Everest), con «Deshacer»;
   - empezada, una card con la montaña actual (nombre, zona, perfil accesible con las líneas de cada 1.000 m, `Metric` con los metros, lo que falta y lo subido esta semana, lo que valdría entrenar hoy y «Cambiar montaña»);
   - «Hitos» (fecha o lo que falta);
   - «Esta semana»: entrenos y días registrados frente al plan, metros subidos y lo que falta para cumplirla (+150 m);

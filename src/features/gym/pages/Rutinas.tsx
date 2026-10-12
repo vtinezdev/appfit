@@ -14,10 +14,10 @@ import { Input } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import ObjetivoRutina from '../components/ObjetivoRutina'
 import MisEjercicios from '../components/MisEjercicios'
-import { cuandoFue, moverElemento } from '../lib/workout'
+import { moverElemento } from '../lib/workout'
 import { resumenRutina } from '../lib/rutinas'
 import Card from '../../../shared/components/Card'
-import MiniaturaEjercicio from '../components/MiniaturaEjercicio'
+import { detalleRutina, MosaicoRutina } from '../components/RutinaResumen'
 import CreadorRutinas from '../components/CreadorRutinas'
 import ListRow from '../../../shared/components/ListRow'
 import { useAviso } from '../../../shared/hooks/useAviso'
@@ -121,21 +121,13 @@ export default function Rutinas() {
         <ul aria-label="Tus rutinas" className="space-y-stack">
           {rutinas.map((r) => {
             const resumen = resumenRutina(r, workouts ?? [], exerciseMap)
-            const n = r.exerciseIds.length
             return <li key={r.id}>
               <Card className="rutina-card flex flex-wrap items-center gap-3">
                 <button type="button" className="app-button flex min-h-touch min-w-0 flex-1 basis-48 items-center gap-3 text-left" aria-label={`Editar ${r.nombre}`} onClick={() => abrir(r)}>
-                  <span className="rutina-mosaico" aria-hidden="true">
-                    {resumen.miniaturas.map((c, i) => <span key={i} className="relative">
-                      <MiniaturaEjercicio catalogId={c} mosaico />
-                      {i === 3 && resumen.resto > 0 && <span className="rutina-mosaico-mas tabular">+{resumen.resto}</span>}
-                    </span>)}
-                  </span>
+                  <MosaicoRutina resumen={resumen} />
                   <span className="min-w-0">
                     <span className="block break-words text-title text-fg">{r.nombre}</span>
-                    <span className="tabular block break-words text-caption text-fg-muted">
-                      {[`${n} ejercicio${n === 1 ? '' : 's'}`, resumen.series !== null && `${resumen.series} series`, resumen.ultima !== null ? `Última: ${cuandoFue(resumen.ultima).toLowerCase()}` : 'Sin hacer todavía'].filter(Boolean).join(' · ')}
-                    </span>
+                    <span className="tabular block break-words text-caption text-fg-muted">{detalleRutina(r, resumen)}</span>
                   </span>
                 </button>
                 <Button variant="secondary" size="sm" className="ml-auto" disabled={empezando !== null} loading={empezando === r.id} aria-label={`Empezar ${r.nombre}`} onClick={() => empezar(r.id)}>Empezar</Button>

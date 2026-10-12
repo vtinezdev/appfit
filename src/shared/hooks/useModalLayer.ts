@@ -106,7 +106,11 @@ export function useModalLayer(open: boolean, panelRef: RefObject<HTMLElement | n
       if (trigger?.isConnected && !trigger.closest('[inert]')) trigger.focus({ preventScroll: true })
       else layers.at(-1)?.focus({ preventScroll: true })
       if (!layers.length && !trigger?.isConnected) {
-        document.querySelector<HTMLElement>('[data-app-shell] [aria-current="page"], [data-app-shell] [data-nav-trigger]')?.focus({ preventScroll: true })
+        // Si el control que abrió la capa se sustituyó mientras estaba abierta (p. ej. un ejercicio que se pliega), el foco
+        // va a su sustituto, marcado con `data-foco-pendiente`; si no, a la sección actual de la barra.
+        const sustituto = document.querySelector<HTMLElement>('[data-foco-pendiente]')
+        sustituto?.removeAttribute('data-foco-pendiente')
+        ;(sustituto ?? document.querySelector<HTMLElement>('[data-app-shell] [aria-current="page"], [data-app-shell] [data-nav-trigger]'))?.focus({ preventScroll: true })
       }
     }
   }, [open, panelRef])

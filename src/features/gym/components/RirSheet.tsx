@@ -27,7 +27,7 @@ export default function RirSheet({ open, titulo, valor, alCompletar, onElegir, o
         <div className="grid grid-cols-3 gap-2" role="group" aria-label="Repeticiones en reserva">
           {OPCIONES.map(o => (
             <button key={o.valor} type="button" aria-pressed={valor === o.valor} aria-label={`RIR ${o.label}: ${o.detalle}`} disabled={ocupado} onClick={() => elegir(o.valor)}
-              className={`app-button grid min-h-touch-lg place-items-center content-center rounded-md border px-1 py-2 transition-colors duration-short disabled:opacity-40 ${valor === o.valor ? 'border-accent bg-selected text-selected-on' : 'border-line-strong/50 text-fg hover:bg-surface-muted'}`}>
+              className={`app-button grid min-h-touch-lg place-items-center content-center rounded-md border px-1 py-2 transition-colors duration-short disabled:opacity-40 ${valor === o.valor ? 'border-accent-strong bg-selected text-selected-on' : 'border-line-strong/50 text-fg hover:bg-surface-muted'}`}>
               <span className="font-numeric text-title tabular">{o.label}</span>
               <span className={`text-caption ${valor === o.valor ? 'text-selected-on' : 'text-fg-muted'}`}>{o.detalle}</span>
             </button>

@@ -43,7 +43,7 @@ export default function DescribirComida({ texto, onTextoChange, onInterpretar, c
           <ol className="space-y-2">
             {partes.map((parte, i) => (
               <li key={i}>
-                <div className="flex items-start gap-3 border-l-2 border-accent bg-surface px-3 py-2.5">
+                <div className="flex items-start gap-3 border-l-2 border-accent-strong bg-surface px-3 py-2.5">
                   <span className="tabular text-caption font-semibold text-accent-strong">{formatInt(i + 1)}</span>
                   <span className="min-w-0 break-words font-medium text-fg">{parte.texto}</span>
                 </div>

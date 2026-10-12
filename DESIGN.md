@@ -1,45 +1,45 @@
 ---
 name: APPFIT
-description: "Enfocada y respirada: grafito neutro, un único acento naranja para actuar y medir la energía, superficies limpias y redondeadas en un registro móvil preciso."
+description: "Enfocada y respirada: grafito neutro, un único acento volt (verde lima) para actuar y medir la energía, superficies limpias y redondeadas en un registro móvil preciso."
 colors:
-  bg: "rgb(245 244 241)"
-  dark-bg: "rgb(10 11 13)"
+  bg: "rgb(244 245 240)"
+  dark-bg: "rgb(10 11 9)"
   surface: "rgb(255 255 255)"
-  dark-surface: "rgb(22 23 26)"
+  dark-surface: "rgb(22 23 20)"
   surface-elevated: "rgb(255 255 255)"
-  dark-surface-elevated: "rgb(30 31 35)"
-  surface-muted: "rgb(237 236 232)"
-  dark-surface-muted: "rgb(34 35 39)"
+  dark-surface-elevated: "rgb(30 31 27)"
+  surface-muted: "rgb(234 236 228)"
+  dark-surface-muted: "rgb(34 36 31)"
   overlay: "rgb(11 13 18)"
   dark-overlay: "rgb(0 0 0)"
-  text-primary: "rgb(22 23 26)"
-  dark-text-primary: "rgb(245 247 249)"
-  text-secondary: "rgb(76 78 82)"
-  dark-text-secondary: "rgb(192 193 196)"
-  text-tertiary: "rgb(90 92 96)"
-  dark-text-tertiary: "rgb(160 161 165)"
-  border: "rgb(230 228 223)"
-  dark-border: "rgb(44 45 50)"
-  border-strong: "rgb(128 126 122)"
-  dark-border-strong: "rgb(114 116 121)"
-  accent: "rgb(200 80 0)"
-  dark-accent: "rgb(245 128 52)"
-  kcal: "rgb(214 92 10)"
-  dark-kcal: "rgb(255 132 48)"
-  kcal-rest: "rgb(22 23 26)"
+  text-primary: "rgb(21 23 15)"
+  dark-text-primary: "rgb(244 247 238)"
+  text-secondary: "rgb(74 77 66)"
+  dark-text-secondary: "rgb(195 199 186)"
+  text-tertiary: "rgb(86 89 78)"
+  dark-text-tertiary: "rgb(160 164 151)"
+  border: "rgb(226 228 218)"
+  dark-border: "rgb(44 46 40)"
+  border-strong: "rgb(124 127 114)"
+  dark-border-strong: "rgb(114 118 106)"
+  accent: "rgb(198 244 50)"
+  dark-accent: "rgb(198 244 50)"
+  kcal: "rgb(96 150 20)"
+  dark-kcal: "rgb(184 232 44)"
+  kcal-rest: "rgb(21 23 15)"
   dark-kcal-rest: "rgb(0 0 0)"
-  on-accent: "rgb(255 255 255)"
-  dark-on-accent: "rgb(10 11 13)"
-  accent-strong: "rgb(164 58 2)"
-  dark-accent-strong: "rgb(255 165 110)"
-  accent-subtle: "rgb(253 236 224)"
-  dark-accent-subtle: "rgb(60 36 20)"
+  on-accent: "rgb(10 11 9)"
+  dark-on-accent: "rgb(10 11 9)"
+  accent-strong: "rgb(58 94 10)"
+  dark-accent-strong: "rgb(212 248 106)"
+  accent-subtle: "rgb(236 245 214)"
+  dark-accent-subtle: "rgb(42 51 17)"
   selected: "rgb(255 255 255)"
-  dark-selected: "rgb(58 59 64)"
-  on-selected: "rgb(22 23 26)"
-  dark-on-selected: "rgb(245 247 249)"
+  dark-selected: "rgb(58 60 53)"
+  on-selected: "rgb(21 23 15)"
+  dark-on-selected: "rgb(244 247 238)"
   success: "rgb(3 115 74)"
-  dark-success: "rgb(107 207 157)"
+  dark-success: "rgb(64 190 140)"
   on-success: "rgb(253 254 255)"
   dark-on-success: "rgb(10 11 13)"
   success-subtle: "rgb(222 245 232)"
@@ -56,28 +56,28 @@ colors:
   dark-carbs: "rgb(124 205 214)"
   fat: "rgb(148 86 62)"
   dark-fat: "rgb(219 162 140)"
-  training: "rgb(26 28 32)"
-  dark-training: "rgb(50 51 56)"
-  on-training: "rgb(245 247 249)"
-  dark-on-training: "rgb(245 247 249)"
-  training-muted: "rgb(188 189 192)"
-  dark-training-muted: "rgb(185 190 198)"
-  training-track: "rgb(54 57 63)"
-  dark-training-track: "rgb(76 78 84)"
-  training-border: "rgb(26 28 32)"
-  dark-training-border: "rgb(70 71 77)"
-  meal-accent: "rgb(255 160 100)"
-  dark-meal-accent: "rgb(255 165 110)"
-  muscle-1: "rgb(253 232 216)"
-  dark-muscle-1: "rgb(60 34 20)"
-  muscle-2: "rgb(250 196 160)"
-  dark-muscle-2: "rgb(104 54 24)"
-  muscle-3: "rgb(240 146 88)"
-  dark-muscle-3: "rgb(160 82 32)"
-  muscle-4: "rgb(214 98 30)"
-  dark-muscle-4: "rgb(220 116 50)"
-  muscle-5: "rgb(160 64 6)"
-  dark-muscle-5: "rgb(255 165 110)"
+  training: "rgb(24 26 20)"
+  dark-training: "rgb(48 50 43)"
+  on-training: "rgb(245 247 240)"
+  dark-on-training: "rgb(244 247 238)"
+  training-muted: "rgb(188 190 180)"
+  dark-training-muted: "rgb(185 190 176)"
+  training-track: "rgb(54 57 48)"
+  dark-training-track: "rgb(74 77 68)"
+  training-border: "rgb(24 26 20)"
+  dark-training-border: "rgb(68 71 62)"
+  meal-accent: "rgb(198 244 50)"
+  dark-meal-accent: "rgb(212 248 106)"
+  muscle-1: "rgb(255 214 213)"
+  dark-muscle-1: "rgb(103 41 38)"
+  muscle-2: "rgb(255 178 175)"
+  dark-muscle-2: "rgb(138 54 51)"
+  muscle-3: "rgb(251 141 135)"
+  dark-muscle-3: "rgb(182 59 55)"
+  muscle-4: "rgb(242 88 82)"
+  dark-muscle-4: "rgb(214 80 74)"
+  muscle-5: "rgb(188 25 29)"
+  dark-muscle-5: "rgb(255 48 42)"
   atmosphere-cobalt: "rgb(72 104 162)"
   dark-atmosphere-cobalt: "rgb(72 104 162)"
   atmosphere-steel: "rgb(111 132 144)"
@@ -151,6 +151,14 @@ typography:
     fontWeight: 400
     lineHeight: 1.5
     letterSpacing: "normal"
+  rotulo:
+    fontFamily: "'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "0.75rem"
+    fontWeight: 700
+    fontStretch: "85%"
+    lineHeight: 1.3
+    letterSpacing: "0.08em"
+    textTransform: uppercase
 rounded:
   sm: "0.5rem"
   md: "0.875rem"
@@ -258,23 +266,25 @@ La opción 3 aportada por el usuario fijó la dirección deportiva: contraste, t
 
 La identidad nace de títulos condensados, cifras tabulares y superficies compactas. El 2026-10-09 Víctor aprueba el rediseño visual v2 ([plan](docs/historico/plan-rediseno-visual-2026-10-09.md)): barra de pestañas con un «+» central para registrar ([ADR 028](docs/decisiones/028-barra-de-pestanas-y-registrar.md)), sustituyendo al abanico del botón Menú. Energía mediante contraste y jerarquía, sin neones, degradados decorativos, glassmorphism, imágenes genéricas ni movimiento constante. La implementación directa fue solicitada por el usuario.
 
+El 2026-10-12, tras comparar la app con WHOOP, Oura, Strava, Hevy, Strong, MacroFactor, Apple Fitness, Gentler Streak y Bevel en una propuesta con maquetas y un explorador de seis paletas, Víctor elige el **acento volt** (verde lima) y un pulido sin funciones nuevas ([ADR 035](docs/decisiones/035-acento-volt-y-pulido-visual.md)): barra flotante con el «+» aparte, una cifra protagonista por pantalla (energía en Inicio, tiempo en la sesión), anillos por día en las semanas, rótulos en versalitas, rutinas a la vista al empezar, ejercicios terminados plegados, Progreso en lista, Vitrina en medallas y fondo con foto o liso a elegir.
+
 La preview de tres pantallas aprobada incorpora atmósferas fotográficas: bienestar/fitness/nutrición en Inicio, meal prep en Nutrición y pesas/esfuerzo en Gym. Son imágenes generadas con acabado fotográfico, específicas de esta dirección. Texto, controles y datos siguen siendo interfaz real. Los degradados se permiten como integración de la foto, sin convertirse en decoración de componentes.
 
 PRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valores; tailwind.config.js sus clases; docs/DESIGN-SYSTEM.md los patrones. Este frontmatter y .impeccable/design.json documentan el código. La superficie appfit mantiene el encargo.
 
 ## Colors
 
-Jerarquía cromática de tres niveles. 1) Grafito neutro domina fondos, superficies, texto y bordes: oscuro casi negro 10/11/13 con superficies 22/23/26 y campos 34/35/39; claro marfil frío 245/244/241 con superficies blancas. 2) Un único acento naranja para actuar y, en su misma familia, para la energía del día. 3) Colores atenuados para los datos. Sistema/Claro/Oscuro siguen disponibles y las preferencias guardadas se respetan.
+Jerarquía cromática de tres niveles. 1) Grafito con un leve sesgo oliva domina fondos, superficies, texto y bordes: oscuro casi negro 10/11/9 con superficies 22/23/20 y campos 34/36/31; claro marfil 244/245/240 con superficies blancas. 2) Un único acento volt (verde lima) para actuar y, en su misma familia, para la energía del día. 3) Colores atenuados para los datos. Sistema/Claro/Oscuro siguen disponibles y las preferencias guardadas se respetan.
 
-Naranja tostado para la acción principal, el foco, la selección, la pestaña activa y el icono de la sección actual; el naranja de texto tiene contraste propio por tema y el botón sólido lleva texto blanco AA en claro y grafito en oscuro. La barra de kcal del día pertenece a la misma familia; en la rueda de energía de Inicio, lo que falta va en negro (`kcal-rest`). P/C/G son índigo, turquesa y arcilla, separados entre sí ΔE ≥ 10. El mapa muscular y el calendario de entrenos usan una rampa roja, de rojo claro (menos trabajo) a rojo intenso (más). Borrar es carmín en claro (para separarse del naranja) y rojo coral en oscuro; con verde (serie hecha) son los únicos semánticos y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas (en oscuro, más claro que las cards y con borde, para seguir siendo la tarjeta principal); Toast utiliza su contexto inverso.
+Volt (198/244/50) para la acción principal en ambos temas, siempre con texto casi negro encima: es el relleno del «+» de la barra y del primario de las capas. Como es claro, el acento de líneas, iconos, texto, foco, selección, la barra de las pestañas de vista y las curvas de Progreso es `accent-strong`: oliva oscuro en claro y lima claro en oscuro. La energía del día (`kcal`) pertenece a la misma familia (mismo tono, más oscuro en claro para rellenar sobre blanco); en la rueda de energía de Inicio, lo que falta va en negro (`kcal-rest`). P/C/G son índigo, turquesa y arcilla, separados entre sí ΔE ≥ 10. El mapa muscular y el calendario de entrenos usan una rampa roja, de rojo claro (menos trabajo) a rojo intenso (más). Borrar es carmín en claro y rojo coral en oscuro; con verde (serie hecha, separado del volt en tono y luminosidad) son los únicos semánticos y acompañan texto o iconos. Entrenamiento usa grafito legible en ambos temas (en oscuro, más claro que las cards y con borde, para seguir siendo la tarjeta principal); Toast utiliza su contexto inverso.
 
-**The Acento Rule.** El naranja orienta la acción y mide la energía del día, sin sustituir superficies, texto o jerarquía. Las acciones repetidas en listas (el «+» y Repetir de cada comida) van en tono neutro, y las terciarias («Ver día», «Registrar») en grafito con el icono en naranja, para que el naranja sólido marque la acción principal. Las acciones de las tarjetas de Inicio («+» del peso, «−»/«+» del agua) también van en neutro, y los datos (peso, agua) no usan el acento: el naranja queda para el «+» de la barra y la sección actual. Una sola acción naranja sólida por vista: como el «+» central siempre está a la vista, las acciones de cada pantalla van en neutro (secundario, o `training-secondary` sobre grafito) y solo las hojas y páginas modales, que tapan la barra, llevan su acción principal en naranja; y el primario deshabilitado es neutro: el naranja solo aparece cuando se puede actuar.
+**The Acento Rule.** El volt orienta la acción y mide la energía del día, sin sustituir superficies, texto o jerarquía; es lo más cercano al neón que admite la app, así que nunca rellena superficies ni decora. Las acciones repetidas en listas (el «+» y Repetir de cada comida) van en tono neutro, y las terciarias («Ver día», «Registrar») en grafito con el icono en el acento, para que el volt sólido marque la acción principal. Las acciones de las tarjetas de Inicio («+» del peso, «−»/«+» del agua) también van en neutro, y los datos (peso, agua) no usan el acento: el volt queda para el «+» de la barra y la sección actual. Una sola acción sólida en acento por vista: como el «+» siempre está a la vista, las acciones de cada pantalla van en neutro (secundario; sobre grafito, `training-secondary` o, para la principal, `training-primary`, relleno en el texto de entreno) y solo las hojas y páginas modales, que tapan la barra, llevan su acción principal en volt; y el primario deshabilitado es neutro: el acento solo aparece cuando se puede actuar.
 
 ## Typography
 
 Una sola familia, Saira variable (anchura y peso), en tres voces: títulos de pantalla y operativos en negra 900 condensada al 62,5 % y recta; cifras en cursiva 800 condensada al 70 % (900 al 62,5 % en hero); nombres, lectura, botones y campos a ancho normal; etiquetas en 700 al 85 %. Archivos locales con licencia OFL, precarga y precache; la app no pide fuentes a terceros. Elegida el 2026-10-06 por Víctor entre varias direcciones («Saira recta»).
 
-Display 41, hero 56, metric 34 y heading 26 px. Title 18, body 16, body-sm 14, label 13 y caption 12 px. Display en mayúsculas; secciones y ejercicios en caja natural. Tracking entre −0,01 y −0,02 em para la voz condensada. Cifras completas e inmediatas; unidades visibles, ancho tabular y en cursiva solo cuando son métrica (`font-numeric`): las cifras de filas, totales de comida y campos quedan rectas, y la unidad nunca hereda la cursiva de la cifra. Decimales con coma también en textos compuestos («3 × 10 · 71,25 kg») y macros siempre como «P 11 · C 57 · G 7».
+Display 41, hero 56, metric 34 y heading 26 px. Title 18, body 16, body-sm 14, label 13 y caption 12 px. Los rótulos de tarjeta y de métrica («ENERGÍA», «PESO», «HILO ACTUAL») van en versalitas: `rotulo`, 12 px, 700 al 85 % y tracking 0,08 em, en `fg-muted`, para separar «qué es» de «cuánto es»; las etiquetas de formulario siguen en `label`. Display en mayúsculas; secciones y ejercicios en caja natural. Tracking entre −0,01 y −0,02 em para la voz condensada. Cifras completas e inmediatas; unidades visibles, ancho tabular y en cursiva solo cuando son métrica (`font-numeric`): las cifras de filas, totales de comida y campos quedan rectas, y la unidad nunca hereda la cursiva de la cifra. Decimales con coma también en textos compuestos («3 × 10 · 71,25 kg») y macros siempre como «P 11 · C 57 · G 7».
 
 Alimentos e ingredientes van a ancho normal para reconocimiento. Reps/kg editables rectos a ancho normal, 18 px; todos los campos tienen al menos 16 px. No se reduce la letra para encajar contenido y no se simula una fuente deportiva con Impact.
 
@@ -284,7 +294,7 @@ Alimentos e ingredientes van a ancho normal para reconocimiento. Reps/kg editabl
 
 Columna móvil centrada de máximo 512 px; margen 20 px (16 bajo 360 px), sección 32 px, padding de contenido 20 px. Radios sm/md/lg/sheet de 8/14/22/28 px. Targets reales de 44 px y acciones principales de 48 px.
 
-Sin alturas rígidas: nombres/cifras envuelven. PageHeader redistribuye la acción con texto ampliado. Las container queries de comidas/registros mantienen la jerarquía y apilan detalles/kcal cuando falta espacio. Shell 100dvh, scroll en main, navegación 72 px más safe area. Las capas siguen visualViewport y mantienen acciones persistentes fuera del scroll.
+Sin alturas rígidas: nombres/cifras envuelven. PageHeader redistribuye la acción con texto ampliado. Las container queries de comidas/registros mantienen la jerarquía y apilan detalles/kcal cuando falta espacio. Shell 100dvh, scroll en main; la barra flota sobre el contenido (68 px más safe area) y la vista reserva ese alto al final. Las capas siguen visualViewport y mantienen acciones persistentes fuera del scroll.
 
 La escena ocupa una capa decorativa fuera del flujo, dentro de la columna de producto, con la fotografía quieta mientras el contenido se desplaza por encima (pedido por Víctor el 2026-10-06: al bajar se sigue viendo la foto). No añade espacio ni cambia el acceso a series. En desktop no se expande una fotografía móvil a toda la pantalla. Navegación y capas temporales conservan su fondo de control.
 
@@ -292,7 +302,7 @@ El 2026-10-06 Víctor aprueba la preview de Gym y pide extenderla a toda la app.
 
 ## Elevation & Depth
 
-Las superficies se diferencian por tono y, en claro, por una sombra muy suave y difusa (`shadow-card`) que separa cada unidad real del fondo fotográfico; en oscuro, por un tono claramente más claro y un borde fino (el 2026-10-08 Víctor pidió que las cards no se mimetizaran con el fondo). Botón secundario, indicador del selector y «+» de la barra usan una sombra de control mínima. Card conserva un borde transparente para su geometría; campos, controles y registros mantienen límites reconocibles. La barra inferior no tiene línea: una sombra difusa la separa del contenido. Las capas y avisos conservan su sombra propia.
+Las superficies se diferencian por tono y, en claro, por una sombra muy suave y difusa (`shadow-card`) que separa cada unidad real del fondo fotográfico; en oscuro, por un tono claramente más claro y un borde fino (el 2026-10-08 Víctor pidió que las cards no se mimetizaran con el fondo). Botón secundario e indicador del selector usan una sombra de control mínima; la cápsula de pestañas y el «+», que flotan sobre el contenido, una sombra difusa propia (`shadow-float`). Card conserva un borde transparente para su geometría; campos, controles y registros mantienen límites reconocibles. La barra inferior no tiene línea: su sombra y una franja del fondo la separan del contenido que pasa por debajo. Las capas y avisos conservan su sombra propia.
 
 **The Elevación mínima Rule.** Tono y espacio separan contenido; la sombra de card es casi imperceptible y nunca decora un elemento que no sea una unidad real.
 
@@ -306,23 +316,23 @@ Radios amplios de la escala compartida (cards 22 px, controles 14 px); cápsula 
 
 Minimalista ([ADR 021](docs/decisiones/021-inicio-minimalista-rueda-energia.md), elegido por Víctor el 2026-10-07 entre bocetos) y, desde el rediseño v2, en mosaico: «Hoy» con la fecha y tarjetas con dato propio. Registrar vive en el «+» de la barra. Sin saludo, firma, lema ni accesos que repitan destinos. La pantalla crecerá con nuevas tarjetas cuando haya funciones nuevas.
 
-La energía es la tarjeta ancha: una rueda con lo consumido en los colores de P/C/G, proporcional a sus kcal, y lo que falta en negro sobre un carril más fino, para que mande lo consumido; si te pasas, el exceso da una segunda vuelta fina por dentro en el naranja de la energía, sin rojo ni alarma. Cifra, objetivo, «Quedan…» y gramos siguen en texto, inmediatos. Peso (último pesaje, variación neutral y minigráfica con el último punto marcado, «+» para registrar) y Agua (cifra y un vaso que se llena hacia el objetivo, −/+) comparten fila; el Último entreno es ancho, con su rutina, cuándo, duración y volumen, el mapa muscular en miniatura y lo más trabajado en texto. Cada tarjeta entera abre su sección.
+La energía es la tarjeta ancha y la cifra protagonista de Inicio: una rueda de 160 px con lo consumido en `hero` en el centro, en los colores de P/C/G, proporcional a sus kcal, y lo que falta en negro sobre un carril más fino, para que mande lo consumido; si te pasas, el exceso da una segunda vuelta fina por dentro en el color de la energía, sin rojo ni alarma. Al lado, «Quedan» con su cifra en `metric` y el objetivo; debajo, cada macro con una barrita frente a su objetivo («58/137 g»). Peso (último pesaje, variación neutral y minigráfica con relleno plano, el último punto marcado y el máximo y el mínimo del tramo, «+» para registrar) y Agua (cifra y un vaso que se llena hacia el objetivo, −/+) comparten fila; el Último entreno es ancho, con su rutina, cuándo, duración y volumen, el mapa muscular en miniatura y lo más trabajado en texto. «Tu semana» lleva un anillo de kcal por día con una pesa dentro los días de entreno. El aviso de copia es una banda de una línea («14 días sin copia», Exportar, X = Más tarde) y la revisión semanal, una fila de tres cifras que abre el detalle (X = Hecho). Cada tarjeta entera abre su sección.
 
 ### Nutrición y Referencias
 
-El diario abre con la semana (barrita de kcal de cada día frente a su objetivo) y los carriles de energía y macros, con el selector de detalle dentro. Comidas, platos e ingredientes se distinguen por título, icono, escala y alineación. Platos y alimentos individuales son registros equivalentes; grupo con chevrón/conteo y acciones en «…». Ingredientes interiores planos y asa de arrastre al desplegar; editar/añadir/mover/copiar/borrar conservan sus flujos y Deshacer.
+El diario abre con la semana (el número de cada día dentro de un anillo de sus kcal frente a su objetivo; el elegido, en grafito sólido) y los carriles de energía y macros, con el selector de detalle dentro. Comidas, platos e ingredientes se distinguen por título, icono, escala y alineación. Platos y alimentos individuales son registros equivalentes; grupo con chevrón/conteo y acciones en «…». Cada alimento lleva a la izquierda su categoría (o su inicial) en una pastilla, y las letras P/C/G de su línea van en el color de su macro; se borra deslizando la fila a la izquierda, con «Deshacer». Ingredientes interiores planos y asa de arrastre al desplegar; editar/añadir/mover/copiar/borrar conservan sus flujos y Deshacer.
 
 Nutrición muestra qué está consumiendo el usuario y cómo va. Referencias explica por qué AppFit utiliza esos valores y de dónde proceden. Extras con consumo/barra/cobertura; info abre criterio y fuente, compartidos con Referencias. No cambian objetivos ni cálculos; recomendaciones sin fuente definida permanecen vacías.
 
 ### Entrenamiento, progreso y estadísticas
 
-La sección se llama «Entreno» en toda la interfaz (su primera vista, «Empezar»). Rutina/estado, tiempo, volumen y series marcadas sobre grafito compacto. Ejercicios con título condensado y reps/kg en campos más oscuros. Completar conserva check, fondo de éxito y feedback; editar desmarca. Descanso opcional, confirmación de fin y Deshacer siguen disponibles.
+La sección se llama «Entreno» en toda la interfaz (su primera vista, «Empezar»). Empezar enseña las rutinas: arriba, sobre grafito, la que más tiempo lleva sin hacerse (por su última fecha, no es un plan), y debajo las demás. En la sesión, el tiempo es la cifra protagonista (display) con volumen y series a su lado y un segmento por serie; los ejercicios con todas sus series hechas se pliegan en una fila con su volumen y «2/2», y se despliegan al tocarlos. Progreso abre con la lista de ejercicios, su última mejor serie y una minigráfica. Ejercicios con título condensado y reps/kg en campos más oscuros. Completar conserva check, fondo de éxito y feedback; editar desmarca. Descanso opcional, confirmación de fin y Deshacer siguen disponibles.
 
 Cierre con datos realmente guardados. Progreso/estadísticas con cifras condensadas, gráficas con leyenda/unidades (las líneas ciñen el eje a los datos y rotulan su último valor), huecos honestos y alternativas textuales. Inicio no afirma porcentajes semanales o récords no definidos.
 
 ### Controles, capas y estados
 
-Buttons con radio contenido y target táctil; naranja sólido reservado a la acción principal y variante `subtle` neutra para acciones repetidas en listas. Inputs/selects/textarea con superficie secundaria, límite reconocible y foco naranja. ViewTabs sin carril: la vista activa va en negrita con una barra corta naranja. Badges son metadatos; ViewTabs navega y SegmentedControl elige un valor en una cápsula neutra elevada.
+Buttons con radio contenido y target táctil; volt sólido reservado a la acción principal y variante `subtle` neutra para acciones repetidas en listas. Inputs/selects/textarea con superficie secundaria, límite reconocible y foco en `accent-strong`. ViewTabs sin carril: la vista activa va en negrita con una barra corta en `accent-strong`. Badges son metadatos; ViewTabs navega y SegmentedControl elige un valor en una cápsula neutra elevada.
 
 Sheet y ModalPage comparten títulos condensados, portal, aislamiento/foco, Escape/Atrás y retorno de foco. Tareas encadenadas esperan onExited. EmptyState explica qué falta y cómo continuar; LoadingState localizado; errores dentro de la tarea. Caret, selección de texto, scrollbars y foco usan la paleta.
 
@@ -340,7 +350,7 @@ Cabeceras/tabs tienen protección de lectura; paneles mantienen opacidad 96% en 
 
 ### Navegación y motion
 
-Barra de pestañas fija: Inicio · Nutrición · [+] · Entreno · Más ([ADR 028](docs/decisiones/028-barra-de-pestanas-y-registrar.md)). Icono y nombre visibles; la actual en texto principal con el icono en naranja. El «+» central es una cápsula naranja que abre la hoja «Registrar» (comida, entreno, peso, agua); «Más» abre una hoja con Perfil, Atributos, Ritmo, Vitrina, Referencias y Ajustes. Lo que flota sobre la barra (avisos, descanso del entreno) se apoya en `--nav-dock`.
+Barra de pestañas flotante ([ADR 028](docs/decisiones/028-barra-de-pestanas-y-registrar.md), [ADR 035](docs/decisiones/035-acento-volt-y-pulido-visual.md)): una cápsula sólida con Inicio · Nutrición · Entreno · Más y, aparte a la derecha, el «+» redondo en volt, que abre la hoja «Registrar» (comida, entreno, peso, agua). Icono y nombre visibles; la actual sobre una píldora, en texto principal y con el icono en el acento. «Más» abre una hoja con Cumbres, Ritmo y Vitrina en teselas con su dato (metros, hilo, piezas) y Perfil, Referencias y Ajustes en filas. Lo que flota sobre la barra (avisos, descanso del entreno) se apoya en `--nav-dock`.
 
 Feedback 120 ms, estados 200, overlays 280 y salida 180 ms. Fin de sesión conserva confirmación de 420 ms. CSS/Web Animations, curvas desaceleradas sin rebote; ninguna dependencia nueva. Reduce Motion elimina desplazamientos, escala, FLIP y stagger, preservando texto/check y fundido de 80 ms. Cifras y gráficas no cuentan desde cero.
 
@@ -354,8 +364,8 @@ El mapa muscular es un dato de sesión: dos figuras SVG (frontal y trasera) en v
 - Datos y unidades completos, estados honestos cuando falta información.
 - Sistema común; ninguna paleta o familia exclusiva por pantalla.
 - Superficies compactas y separación entre tareas; profundidad solo para capas.
-- El naranja orienta, confirma y mide la energía; no domina el contenido.
+- El volt orienta, confirma y mide la energía; no domina el contenido.
 - Teclado, foco, Atrás, safe areas y Reduce Motion forman parte del producto.
 - Sigue siendo una PWA; emulación no acredita hardware físico iOS/Android.
 
-Evitar paletas por pantalla, neones, degradados decorativos, glassmorphism y fotografías genéricas. No reducir tipografía/targets ni ocultar contenido para encajar. No inventar récords, planificación o referencias de salud. La gamificación ([ADR 029](docs/decisiones/029-gamificacion-atributos.md)) y las rachas, cuando una función las necesite, salen solo de registros reales: los metros de Cumbres en grafito (no en naranja), sin niveles ni títulos de juego de rol ([ADR 034](docs/decisiones/034-cumbres-en-lugar-de-atributos.md)), cifras inmediatas, cada punto con su porqué, sin castigos, confeti ni contadores animados. La Liga se presenta como Duolingo y no como un videojuego competitivo ([ADR 033](docs/decisiones/033-liga-sin-divisiones.md)): un nombre por liga, sin divisiones ni números romanos, frases cotidianas y una insignia con el color atenuado de su metal o gema; es el único sitio de la gamificación con color propio, y siempre va con el nombre en texto.
+Evitar paletas por pantalla, neones, degradados decorativos, glassmorphism y fotografías genéricas. No reducir tipografía/targets ni ocultar contenido para encajar. No inventar récords, planificación o referencias de salud. La gamificación ([ADR 029](docs/decisiones/029-gamificacion-atributos.md)) y las rachas, cuando una función las necesite, salen solo de registros reales: los metros de Cumbres en grafito (no en el acento), sin niveles ni títulos de juego de rol ([ADR 034](docs/decisiones/034-cumbres-en-lugar-de-atributos.md)), cifras inmediatas, cada punto con su porqué, sin castigos, confeti ni contadores animados. La Liga se presenta como Duolingo y no como un videojuego competitivo ([ADR 033](docs/decisiones/033-liga-sin-divisiones.md)): un nombre por liga, sin divisiones ni números romanos, frases cotidianas y una insignia con el color atenuado de su metal o gema; es el único sitio de la gamificación con color propio, y siempre va con el nombre en texto.

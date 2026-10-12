@@ -36,7 +36,7 @@ Excepciones conocidas:
 ```
 src/main.tsx             arranque (ver abajo)
 src/index.css            CSS global: inputs a 16 px, utilidades (.no-spin, .tabular…)
-src/app/                 App (pestañas), navegacion (destinos/Tab, EN_MAS), BottomNav (barra de pestañas), AccionesRapidas («+»), TrasladarDatos, Ajustes
+src/app/                 App (pestañas), navegacion (destinos/Tab, EN_MAS), BottomNav (barra de pestañas flotante), MasAccesos (teselas de progreso de «Más»), AccionesRapidas («+»), TrasladarDatos, Ajustes
                          AtmosferaApp (decoración local de cada destino, sin acceso a datos)
 src/shared/db/           db.ts (esquema y listas de tablas), types.ts, settings.ts, estadoDatos.ts, foodRef.ts
 src/shared/lib/          dates (fechas locales, periodos), format (formatInt/formatNumber/formatCompact), text (normalizeName, tokenizar,
@@ -64,7 +64,7 @@ scripts/catalogo/        tubería offline del catálogo → scripts/catalogo/REA
 
 Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002](decisiones/002-router-casero.md)). Las capas tienen entradas efímeras de History para que Atrás cierre la superior antes de salir de la app; no son rutas de producto.
 
-- El shell flex ocupa 100dvh. `main` posee el scroll y la barra inferior su espacio propio; el fondo fotográfico (`AtmosferaApp`) es hermano de `main`, detrás de él, y por eso no se desplaza (en táctil `main` siempre puede desplazarse 1 px y el viewport no rebota, para que el gesto nunca mueva el documento entero); ancho de lectura máximo 512 px. Navegar restablece el scroll.
+- El shell flex ocupa 100dvh. `main` posee el scroll; la barra inferior flota encima (absoluta al pie del shell) y la vista reserva su alto al final ([ADR 035](decisiones/035-acento-volt-y-pulido-visual.md)); el fondo fotográfico (`AtmosferaApp`) es hermano de `main`, detrás de él, y por eso no se desplaza (en táctil `main` siempre puede desplazarse 1 px y el viewport no rebota, para que el gesto nunca mueva el documento entero); ancho de lectura máximo 512 px. Navegar restablece el scroll.
 - `app/App.tsx`: pestaña activa (`Tab` derivado de `DESTINOS` en `navegacion.ts`): `inicio` (por defecto) · `nutricion` · `gym` · `perfil` · `cumbres` · `ritmo` · `vitrina` · `referencias` · `ajustes`. `BottomNav` es la barra de pestañas Inicio · Nutrición · «+» · Entreno · Más ([ADR 028](decisiones/028-barra-de-pestanas-y-registrar.md)); `EN_MAS` (Perfil, Cumbres, Ritmo, Vitrina, Referencias, Ajustes) se abre en una Sheet; App pasa a `BottomNav` los destinos ocultos (`ocultos`: `GAMIFICACION` si `settings.gamificacionVisible === false`). El «+» abre `app/AccionesRapidas`, que compone `gym/data/workoutsRepo` y `routinesRepo` (empezar o volver al entreno) e `inicio/components/RegistroRapido` (peso y agua), y devuelve a App las navegaciones (Añadir comida en Nutrición, Entreno). La lista central fija nombres, iconos y orden. Incorporar una pantalla requiere además conectarla en App.
 - Inicio muestra tarjetas breves (energía, entreno, peso, agua y creatina opcional) que abren su sección, y un aviso discreto de copia de seguridad si toca; Añadir comida se abre desde el «+» de la barra. El aviso de primer inicio en iOS abre Ajustes con `abrirGuia`: después de cargar, desplaza la vista y enfoca la guía abierta «Instalación y traslado de registros». La navegación habitual de la barra no activa ese salto. La guía tiene un segundo salto a Exportar/Importar, sin cambiar la URL.
 - Creatina pertenece a `inicio/`: `lib/creatina` resuelve dosis y fase, `data/creatinaRepo` lee/escribe configuración y marcas en transacciones, `CreatinaHoy` compone tarjeta/hoja y `CreatinaAjustes` se monta desde Ajustes. Su tabla no entra en los cálculos de gamificación.
@@ -82,7 +82,7 @@ Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002]
 
 ## Arranque (`src/main.tsx`)
 
-1. `initTheme()` (Sistema/Claro/Oscuro desde Ajustes, preferencia visual en localStorage) e `initViewport()` (geometría de capas). Ver DESIGN-SYSTEM.md.
+1. `initTheme()` (Sistema/Claro/Oscuro y fondo con foto o liso, desde Ajustes, preferencias visuales en localStorage) e `initViewport()` (geometría de capas). Ver DESIGN-SYSTEM.md.
 2. `solicitarPersistencia()` (`shared/lib/almacenamiento.ts`): conserva un permiso existente o pide protección frente al borrado automático; fallos y rechazo no impiden abrir la app. Ajustes consulta el estado real y permite reintentar. No es una garantía ni una copia de seguridad.
 3. `ensureSettings()`: la **única** escritura de ajustes al arrancar (las lecturas nunca escriben; ver `datos.md`).
 4. Unos 2 s después, con el navegador ocioso y solo si hay conexión: `sincronizarCatalogo()` en segundo plano. Los errores se ignoran y se reintenta en el siguiente arranque (Ajustes permite lanzarlo a mano).

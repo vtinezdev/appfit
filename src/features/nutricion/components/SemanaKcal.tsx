@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import Anillo from '../../../shared/components/Anillo'
 import { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { addDays, esPeriodoActual, formatFriendly, parseISODate } from '../../../shared/lib/dates'
@@ -21,9 +22,9 @@ interface Props {
 const fechaLarga = (iso: string) => parseISODate(iso).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
 
 /**
- * Semana arriba del diario: cada día con su barrita de kcal frente a la línea de su objetivo. El elegido va resaltado
- * y en naranja; los futuros, atenuados y sin acción; los cheat days, con un destello junto a la letra. Las flechas
- * cambian de semana conservando el día de la semana.
+ * Semana arriba del diario: el número de cada día dentro de un anillo de sus kcal frente a su objetivo. El elegido va en
+ * grafito sólido (el acento queda para actuar); los futuros, sin anillo, atenuados y sin acción; los cheat days, con un
+ * destello junto a la letra. Las flechas cambian de semana conservando el día de la semana.
  */
 export default function SemanaKcal({ fecha, hoy, dias, onFecha, acciones, nota, transicion = '' }: Props) {
   const siguiente = addDays(fecha, 7)
@@ -41,11 +42,9 @@ export default function SemanaKcal({ fecha, hoy, dias, onFecha, acciones, nota, 
         return <li key={d.fecha}>
           <button type="button" className="semana-dia app-button" aria-label={texto} aria-current={elegido ? 'date' : undefined} data-hoy={d.hoy} disabled={d.futuro} onClick={() => onFecha(d.fecha)}>
             <span className="semana-letra" aria-hidden="true">{d.letra}{d.cheat && <Icon name="sparkles" size={12} className="semana-cheat" />}</span>
-            <span className="semana-zona" aria-hidden="true">
-              {d.alto > 0 && <span className="semana-barra" style={{ height: `${Math.max(d.alto * 100, 4)}%` }} />}
-              {d.meta !== null && <span className="semana-meta" style={{ bottom: `${d.meta * 100}%` }} />}
-            </span>
-            <span className="semana-num tabular" aria-hidden="true">{d.numero}</span>
+            <Anillo fraccion={d.anillo} className="semana-anillo" trazo="stroke-kcal" carril={d.futuro ? 'stroke-transparent' : 'stroke-line'}>
+              <span className="semana-num tabular" aria-hidden="true">{d.numero}</span>
+            </Anillo>
           </button>
         </li>
       })}

@@ -55,3 +55,50 @@ export function cifrasClave(datos: SesionProgreso[], metrica: MetricaProgreso, m
     cambio: datos.length >= 2 ? valor(datos[datos.length - 1]) - valor(datos[0]) : null,
   }
 }
+
+export interface ResumenEjercicioProgreso {
+  exerciseId: number
+  modo: ModoCarga
+  metrica: MetricaProgreso
+  /** Última sesión terminada (su mejor serie y su fecha). */
+  ultima: SesionProgreso
+  /** Valores de la métrica en las últimas sesiones, de la más antigua a la más reciente (para la minigráfica). */
+  puntos: number[]
+  sesiones: number
+}
+
+/** Métrica por defecto de un modo, la misma que abre la gráfica: 1RM si se puede estimar, si no carga, ayuda o reps. */
+function metricaPorDefecto(modo: ModoCarga, datos: SesionProgreso[]): MetricaProgreso {
+  if (modo === 'externa') return datos.some(d => d.oneRM !== null) ? 'oneRM' : 'pesoMax'
+  return modo === 'lastre' ? 'pesoMax' : modo === 'asistencia' ? 'asistencia' : 'reps'
+}
+
+/**
+ * Lista de Progreso antes de elegir ejercicio: cada ejercicio con sesiones terminadas, con el mismo modo y variante que
+ * abriría su gráfica (los primeros registrados), su última mejor serie y los últimos `n` valores. Más reciente primero.
+ */
+export function resumenEjercicios(series: SetEntry[], workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[], n = 8): ResumenEjercicioProgreso[] {
+  const porEjercicio = new Map<number, SetEntry[]>()
+  for (const s of series) porEjercicio.set(s.exerciseId, [...(porEjercicio.get(s.exerciseId) ?? []), s])
+  const out: ResumenEjercicioProgreso[] = []
+  for (const [exerciseId, ss] of porEjercicio) {
+    const modo = modoCarga(ss[0])
+    const variante = ss.filter(s => modoCarga(s) === modo && !s.bajadas?.length).map(claveComparacion)[0]
+    const datos = datosProgreso(ss, workouts, modo, variante)
+    if (!datos.length) continue
+    const metrica = metricaPorDefecto(modo, datos)
+    out.push({ exerciseId, modo, metrica, ultima: datos[datos.length - 1], puntos: datos.slice(-n).map(d => d[metrica] ?? 0), sesiones: datos.length })
+  }
+  return out.sort((a, b) => b.ultima.inicio - a.ultima.inicio || a.exerciseId - b.exerciseId)
+}
+
+/** Trazo de una minigráfica en un lienzo `ancho` × `alto`, ceñido al mínimo y al máximo; null con menos de dos puntos. */
+export function trazoMini(valores: number[], ancho: number, alto: number, margen = 2): { d: string; ultimo: { x: number; y: number } } | null {
+  if (valores.length < 2) return null
+  const min = Math.min(...valores), max = Math.max(...valores)
+  const xy = valores.map((v, i) => [
+    Math.round((margen + (i / (valores.length - 1)) * (ancho - 2 * margen)) * 10) / 10,
+    Math.round((max === min ? alto / 2 : margen + ((max - v) / (max - min)) * (alto - 2 * margen)) * 10) / 10,
+  ] as const)
+  return { d: xy.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join(''), ultimo: { x: xy[xy.length - 1][0], y: xy[xy.length - 1][1] } }
+}

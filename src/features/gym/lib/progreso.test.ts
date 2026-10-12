@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cifrasClave, datosProgreso, textoMejorSerie } from './progreso'
+import { cifrasClave, datosProgreso, resumenEjercicios, textoMejorSerie, trazoMini } from './progreso'
 import type { SetEntry } from '../../../shared/db/types'
 
 const s = (id: number, over: Partial<SetEntry>): SetEntry => ({ id, workoutId: 1, exerciseId: 1, reps: 8, peso: 20, orden: id, createdAt: id, ...over })
@@ -37,5 +37,24 @@ describe('mejor serie y cifras clave', () => {
     expect(textoMejorSerie(corp[0].mejor, 'corporal')).toBe('12 reps')
     expect(cifrasClave(corp, 'reps', 'corporal')).toMatchObject({ cambio: null, oneRM: null })
     expect(cifrasClave([], 'reps', 'corporal')).toBeNull()
+  })
+})
+
+describe('lista de ejercicios de Progreso', () => {
+  const ws = [{ id: 1, inicio: 100, fin: 200 }, { id: 2, inicio: 300, fin: 400 }, { id: 3, inicio: 500 }]
+  it('cada ejercicio con sesiones terminadas, su última mejor serie y su tendencia; el más reciente primero', () => {
+    const r = resumenEjercicios([
+      s(1, { peso: 80, reps: 5 }), s(2, { workoutId: 2, peso: 85, reps: 5 }), s(3, { workoutId: 3, peso: 90, reps: 5 }),
+      s(4, { exerciseId: 2, modoCarga: 'corporal', peso: 0, reps: 10 }),
+      s(5, { exerciseId: 3, workoutId: 3, peso: 50 }),
+    ], ws)
+    expect(r.map(e => e.exerciseId)).toEqual([1, 2])
+    expect(r[0]).toMatchObject({ modo: 'externa', metrica: 'oneRM', sesiones: 2, ultima: { mejor: { peso: 85, reps: 5 } } })
+    expect(r[0].puntos).toHaveLength(2)
+    expect(r[1]).toMatchObject({ modo: 'corporal', metrica: 'reps', puntos: [10] })
+  })
+  it('trazoMini ciñe la línea a su mínimo y máximo', () => {
+    expect(trazoMini([1], 64, 24)).toBeNull()
+    expect(trazoMini([10, 20, 15], 64, 24)).toEqual({ d: 'M2 22L32 2L62 12', ultimo: { x: 62, y: 12 } })
   })
 })

@@ -8,7 +8,7 @@ interface Props {
   valueText?: string
 }
 /** El final del carril es el objetivo; al pasarse, una marca lo sitúa dentro y el exceso va atenuado. Valor final inmediato, sin contar desde cero. */
-export default function ProgressBar({ value, goal, colorClass = 'bg-accent', size = 'md', label, valueText }: Props) {
+export default function ProgressBar({ value, goal, colorClass = 'bg-accent-strong', size = 'md', label, valueText }: Props) {
   const t = tramosCarril(value, goal)
   const v = Number.isFinite(value) ? Math.max(value, 0) : 0
   const g = Number.isFinite(goal) ? Math.max(goal, 0) : 0

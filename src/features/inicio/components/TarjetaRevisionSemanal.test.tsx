@@ -19,7 +19,7 @@ const render = (r: Partial<ResumenTarjetaRevision> = {}) =>
 describe('TarjetaRevisionSemanal', () => {
   it('semana, peso medio, kcal frente al objetivo y entrenos con su cambio, sin acento ni color de juicio', () => {
     const html = render()
-    for (const t of ['5–11 oct', '79,2 kg', '−0,6 kg', '2.310', 'objetivo 2.200', '+1', 'Hecho', 'Ver revisión']) expect(html).toContain(t)
+    for (const t of ['5–11 oct', '>79,2<', 'kg de media', '−0,6 kg', '2.310', 'objetivo 2.200', '+1', 'aria-label="Hecho"', 'Ver revisión']) expect(html).toContain(t)
     expect(html).not.toContain('bg-accent')
     expect(html).not.toContain('destructive')
     expect(html.match(/<button/g)).toHaveLength(2)

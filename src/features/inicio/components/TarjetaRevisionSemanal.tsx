@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react'
-import Button from '../../../shared/components/Button'
+import { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
+import Icon from '../../../shared/components/Icon'
 import { etiquetaPeriodo } from '../../../shared/lib/dates'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import type { ResumenTarjetaRevision } from '../hooks/useRevisionSemanal'
@@ -12,48 +12,42 @@ interface Props {
   onCerrar: () => void
 }
 
-function Fila({ etiqueta, valor, detalle }: { etiqueta: string; valor: ReactNode; detalle?: string | null }) {
+function Cifra({ valor, unidad, vacio, detalle }: { valor: string | null; unidad: string; vacio: string; detalle?: string | null }) {
   return (
-    <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 py-2">
-      <dt className="text-body-sm text-fg-muted">{etiqueta}</dt>
-      <dd className="tabular flex flex-wrap items-baseline justify-end gap-x-2 text-right">
-        <span className="text-body font-semibold text-fg">{valor}</span>
-        {detalle && <span className="text-caption text-fg-muted">{detalle}</span>}
-      </dd>
-    </div>
+    <span className="flex min-w-0 flex-col">
+      {valor === null
+        ? <span className="text-body-sm font-semibold text-fg">{vacio}</span>
+        : <span className="tabular flex flex-wrap items-baseline gap-x-1 text-fg"><span className="font-numeric text-title">{valor}</span></span>}
+      <span className="break-words text-caption text-fg-muted">{unidad}</span>
+      {detalle && <span className="tabular break-words text-caption text-fg-muted">{detalle}</span>}
+    </span>
   )
 }
 
 /**
- * Revisión de la semana cerrada en Inicio: peso medio, kcal medias y entrenos, cada uno con su diferencia frente a la
- * semana anterior y sin juicio de valor. «Hecho» la oculta hasta el lunes siguiente.
+ * Revisión de la semana cerrada en Inicio, en una fila: peso medio, kcal medias y entrenos, cada uno con su diferencia
+ * frente a la semana anterior y sin juicio de valor. Toda la tarjeta abre la revisión; la X («Hecho») la oculta hasta el
+ * lunes siguiente.
  */
 export default function TarjetaRevisionSemanal({ resumen, onVer, onCerrar }: Props) {
   const { semana, peso, nutricion, sesiones, sesionesAnterior } = resumen
   return (
-    <Card role="region" aria-label="Revisión semanal" className="space-y-3">
-      <div className="space-y-0.5">
-        <p className="text-label text-fg-muted">Tu semana</p>
-        <p className="tabular text-title text-fg">{etiquetaPeriodo('semana', semana.lunes)}</p>
-        <p className="text-caption text-fg-muted">Cambios frente a la semana anterior</p>
-      </div>
-      <dl className="divide-y divide-line border-y border-line">
-        <Fila
-          etiqueta="Peso medio"
-          valor={peso.media === null ? 'Sin pesajes' : `${formatNumber(peso.media, 1)} kg`}
-          detalle={peso.diferencia === null ? null : formatDiferencia(peso.diferencia, 1, 'kg')}
-        />
-        <Fila
-          etiqueta="Kcal al día"
-          valor={nutricion.kcalMedia === null ? 'Sin registros' : formatInt(nutricion.kcalMedia)}
-          detalle={nutricion.kcalMedia !== null && nutricion.kcalObjetivo !== null ? `objetivo ${formatInt(nutricion.kcalObjetivo)}` : null}
-        />
-        <Fila etiqueta="Entrenos" valor={formatInt(sesiones)} detalle={formatDiferencia(sesiones - sesionesAnterior)} />
-      </dl>
-      <div className="flex gap-2">
-        <Button variant="ghost" className="flex-1" onClick={onCerrar}>Hecho</Button>
-        <Button variant="secondary" className="flex-1" onClick={onVer}>Ver revisión</Button>
-      </div>
+    <Card role="region" aria-label="Revisión semanal" padded={false} className="relative">
+      <button type="button" onClick={onVer} className="flex w-full flex-col gap-3 rounded-lg p-4 text-left">
+        <span className="pr-10 text-rotulo text-fg-muted">Tu semana · <span className="tabular">{etiquetaPeriodo('semana', semana.lunes)}</span></span>
+        <span className="grid w-full grid-cols-3 gap-3">
+          <Cifra valor={peso.media === null ? null : formatNumber(peso.media, 1)} unidad="kg de media" vacio="Sin pesajes"
+            detalle={peso.diferencia === null ? null : formatDiferencia(peso.diferencia, 1, 'kg')} />
+          <Cifra valor={nutricion.kcalMedia === null ? null : formatInt(nutricion.kcalMedia)} unidad="kcal al día" vacio="Sin registros"
+            detalle={nutricion.kcalMedia !== null && nutricion.kcalObjetivo !== null ? `objetivo ${formatInt(nutricion.kcalObjetivo)}` : null} />
+          <Cifra valor={formatInt(sesiones)} unidad={sesiones === 1 ? 'entreno' : 'entrenos'} vacio="" detalle={formatDiferencia(sesiones - sesionesAnterior)} />
+        </span>
+        <span className="flex w-full items-center gap-2 text-body-sm font-semibold text-fg">
+          <span className="min-w-0 flex-1">Ver revisión</span>
+          <Icon name="chevron-right" size={18} className="text-fg-subtle" />
+        </span>
+      </button>
+      <div className="absolute right-1 top-1"><IconButton icon="close" label="Hecho" variant="ghost" onClick={onCerrar} /></div>
     </Card>
   )
 }

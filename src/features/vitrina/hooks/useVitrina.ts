@@ -1,13 +1,12 @@
 // Lecturas de la Vitrina (solo lectura: se usan en useLiveQuery).
 import { useLiveQuery } from 'dexie-react-hooks'
-import type { EstadoExperiencia } from '../../experiencia/hooks/useExperiencia'
-import { leerCumbres } from '../../cumbres/hooks/useCumbres'
+import { leerCumbres, type EstadoCumbres } from '../../cumbres/hooks/useCumbres'
 import * as foodsRepo from '../../nutricion/data/foodsRepo'
 import { calcularVitrina, type ResultadoVitrina } from '../lib/vitrina'
 
-export type EstadoVitrina = { visible: false } | (Extract<EstadoExperiencia, { visible: true }> & { vitrina: ResultadoVitrina })
+export type EstadoVitrina = { visible: false } | (Extract<EstadoCumbres, { visible: true }> & { vitrina: ResultadoVitrina })
 
-/** Vitrina de todo el historial hasta `hoy` (incluye la experiencia, Ritmo y Cumbres). `undefined` mientras carga. */
+/** Vitrina de todo el historial hasta `hoy` (incluye la experiencia, Ritmo y Cumbres, también en el resultado). `undefined` mientras carga. */
 export function useVitrina(hoy: string): EstadoVitrina | undefined {
   return useLiveQuery(async (): Promise<EstadoVitrina> => {
     const estado = await leerCumbres(hoy)

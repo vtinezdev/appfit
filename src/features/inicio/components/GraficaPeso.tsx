@@ -11,7 +11,7 @@ export default function GraficaPeso({ puntos }: { puntos: PuntoPeso[] }) {
     <div className="space-y-2">
       <div className="flex flex-wrap gap-4 text-caption text-fg-muted">
         <span className="flex items-center gap-2"><span aria-hidden className="h-0.5 w-4 bg-fg-subtle" />Pesaje</span>
-        <span className="flex items-center gap-2"><span aria-hidden className="h-0.5 w-4 bg-accent" />Media de 7 días</span>
+        <span className="flex items-center gap-2"><span aria-hidden className="h-0.5 w-4 bg-accent-strong" />Media de 7 días</span>
       </div>
       <div role="img" aria-label="Pesajes en kg y media móvil de 7 días. Datos disponibles en la lista inferior.">
         <ResponsiveContainer width="100%" height={200}>

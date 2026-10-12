@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ErrorSustitucion, resumenRutina, sustituirEnRutina } from './rutinas'
+import { ErrorSustitucion, ordenParaEmpezar, resumenRutina, sustituirEnRutina } from './rutinas'
 import { cuandoFue } from './workout'
 
 describe('resumenRutina', () => {
@@ -11,6 +11,13 @@ describe('resumenRutina', () => {
   })
   it('sin objetivos ni entrenos', () => {
     expect(resumenRutina({ id: 1, exerciseIds: [1] }, [], ejercicios)).toEqual({ miniaturas: ['appfit:e1'], resto: 0, series: null, ultima: null })
+  })
+})
+
+describe('ordenParaEmpezar', () => {
+  it('primero las nunca hechas y luego la más antigua; los empates mantienen el orden', () => {
+    const ultimas: Record<string, number | null> = { A: 300, B: null, C: 100, D: null, E: 100 }
+    expect(ordenParaEmpezar(['A', 'B', 'C', 'D', 'E'], r => ultimas[r])).toEqual(['B', 'D', 'C', 'E', 'A'])
   })
 })
 

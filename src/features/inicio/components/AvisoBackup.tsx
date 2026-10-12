@@ -1,13 +1,13 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import Button from '../../../shared/components/Button'
-import Card from '../../../shared/components/Card'
+import Button, { IconButton } from '../../../shared/components/Button'
+import Icon from '../../../shared/components/Icon'
 import { hayDatosGuardados } from '../../../shared/db/estadoDatos'
 import { getSettings, updateSettings } from '../../../shared/db/settings'
-import { necesitaRecordatorioBackup, posponerHasta, UMBRAL_BACKUP_POR_DEFECTO } from '../../../shared/lib/recordatorioBackup'
+import { necesitaRecordatorioBackup, posponerHasta, textoSinCopia, UMBRAL_BACKUP_POR_DEFECTO } from '../../../shared/lib/recordatorioBackup'
 import { useState } from 'react'
 import { ErrorState } from '../../../shared/components/StateMessage'
 
-/** Aviso discreto de copia de seguridad: sin notificaciones, solo una banda en Inicio. */
+/** Aviso discreto de copia de seguridad: sin notificaciones, una banda de una línea en Inicio. Cerrarla es «Más tarde». */
 export default function AvisoBackup({ onExportar, ahora = Date.now() }: { onExportar: () => void; ahora?: number }) {
   const settings = useLiveQuery(() => getSettings(), [])
   const hayDatos = useLiveQuery(hayDatosGuardados, [])
@@ -26,16 +26,17 @@ export default function AvisoBackup({ onExportar, ahora = Date.now() }: { onExpo
   }
 
   return (
-    <Card tone="muted" role="region" aria-label="Recordatorio de copia de seguridad" className="space-y-3">
-      <div className="space-y-1">
-        <p className="text-title text-fg">{settings.ultimaExportacion === undefined ? 'Aún no has hecho una copia' : 'Toca hacer una copia'}</p>
-        <p className="text-body-sm text-fg-muted">Tus registros solo están en este móvil. Exporta una copia para no perderlos.</p>
+    <div role="region" aria-label="Recordatorio de copia de seguridad" className="space-y-2">
+      <div className="flex items-center gap-2 rounded-lg bg-surface-muted py-1 pl-3 pr-1">
+        <Icon name="download" size={20} className="shrink-0 text-fg-muted" />
+        <p className="min-w-0 flex-1">
+          <span className="block text-body-sm font-semibold text-fg">{textoSinCopia(settings.ultimaExportacion, ahora)}</span>
+          <span className="block text-caption text-fg-muted">Tus registros solo están en este móvil</span>
+        </p>
+        <Button variant="secondary" size="sm" onClick={onExportar}>Exportar</Button>
+        <IconButton icon="close" label="Más tarde" variant="ghost" onClick={masTarde} />
       </div>
       {error && <ErrorState>No se ha podido posponer el aviso.</ErrorState>}
-      <div className="flex gap-2">
-        <Button variant="ghost" className="flex-1" onClick={masTarde}>Más tarde</Button>
-        <Button variant="secondary" className="flex-1" onClick={onExportar}>Exportar ahora</Button>
-      </div>
-    </Card>
+    </div>
   )
 }

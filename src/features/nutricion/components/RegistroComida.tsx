@@ -19,6 +19,9 @@ interface Props {
   children?: ReactNode
 }
 
+/** Letras de «P · C · G» en el color de su macro: se encuentra la proteína de un vistazo sin cambiar el formato. */
+const LETRA_MACRO = ['text-protein', 'text-carbs', 'text-fat']
+
 /** Un registro tiene la misma jerarquía, sea alimento o plato; los ingredientes son filas interiores. */
 export default function RegistroComida({ tipo, nombre, nombreOriginal, detalle, macros, aproximado, onClick, abierto, detalleId, accion, icono, children }: Props) {
   const kcal = formatInt(macros.kcal)
@@ -37,7 +40,9 @@ export default function RegistroComida({ tipo, nombre, nombreOriginal, detalle, 
         <span className="food-record-detail tabular flex min-w-0 flex-wrap items-baseline gap-x-1 text-caption text-fg-muted">
           <span data-record-quantity className="min-w-0 break-words">{detalle}</span>
           <span aria-hidden>·</span>
-          <span data-record-macros className="min-w-0 break-words">{resumenMacros(macros)}</span>
+          <span data-record-macros className="min-w-0 break-words">{resumenMacros(macros).split(' · ').map((parte, i) => <span key={i}>
+            {i > 0 && ' · '}<span className={`font-semibold ${LETRA_MACRO[i]}`}>{parte.charAt(0)}</span>{parte.slice(1)}
+          </span>)}</span>
         </span>
         <span className="food-record-energy flex min-w-0 flex-wrap items-baseline justify-end gap-x-1 text-fg">
           <span data-record-kcal className="tabular min-w-0 break-words text-body font-semibold">{aproximado ? '≈ ' : ''}{kcal}</span>

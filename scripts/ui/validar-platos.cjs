@@ -143,7 +143,7 @@ async function main() {
         // Se conserva la edición/borrado del diario, incluso con un solo ingrediente.
         await page.getByRole('button', { name: new RegExp(`^${nombre} `) }).click()
         const ingredientes = page.getByRole('list', { name: `Ingredientes de ${nombre}`, exact: true })
-        await ingredientes.getByRole('button', { name: 'Borrar Pollo', exact: true }).click()
+        await ingredientes.getByRole('button', { name: 'Borrar Pollo', exact: true }).press('Enter') // detrás de la fila (se desliza): con teclado
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
         assert.deepEqual((await registros(page)).sort((a, b) => a.id - b.id), conBusqueda)
         await page.evaluate(async (platoId) => {

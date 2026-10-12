@@ -134,3 +134,13 @@ export function fraseKcal(valor: number, objetivo: number): string | null {
   if (diff < 0) return `Quedan ${formatInt(-diff)} kcal`
   return 'En el objetivo'
 }
+
+/** La misma idea que `fraseKcal` en dos piezas, para destacar la cifra: rótulo («Quedan», «Sobre el objetivo») y kcal. */
+export function restoKcal(valor: number, objetivo: number): { rotulo: string; kcal: number | null } | null {
+  const g = Math.round(objetivo)
+  if (g <= 0) return null
+  const diff = Math.round(valor) - g
+  if (diff > 0) return { rotulo: 'Sobre el objetivo', kcal: diff }
+  if (diff < 0) return { rotulo: 'Quedan', kcal: -diff }
+  return { rotulo: 'En el objetivo', kcal: null }
+}

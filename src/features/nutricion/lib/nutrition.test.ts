@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { aggregateByDate, distribucionPCG, fraseKcal, macrosPorGramos, mediaDiaria, resumenMacros, resumenPeriodo, sumMacros } from './nutrition'
+import { aggregateByDate, distribucionPCG, fraseKcal, restoKcal, macrosPorGramos, mediaDiaria, resumenMacros, resumenPeriodo, sumMacros } from './nutrition'
 import type { Entry } from '../../../shared/db/types'
 
 describe('resumenMacros', () => {
@@ -98,6 +98,15 @@ describe('fraseKcal', () => {
 
   it('sin objetivo no hay frase', () => {
     expect(fraseKcal(500, 0)).toBeNull()
+  })
+})
+
+describe('restoKcal', () => {
+  it('separa el rótulo de la cifra', () => {
+    expect(restoKcal(1888, 2200)).toEqual({ rotulo: 'Quedan', kcal: 312 })
+    expect(restoKcal(2292, 2200)).toEqual({ rotulo: 'Sobre el objetivo', kcal: 92 })
+    expect(restoKcal(2200.3, 2200)).toEqual({ rotulo: 'En el objetivo', kcal: null })
+    expect(restoKcal(500, 0)).toBeNull()
   })
 })
 

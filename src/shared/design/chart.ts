@@ -12,9 +12,9 @@ export const chartColors = {
   goal: rgb('goal'),
   axis: rgb('text-tertiary'),
   // Series de gym (no son datos nutricionales)
-  seriesPrimary: rgb('accent'),
+  seriesPrimary: rgb('accent-strong'),
   seriesSecondary: rgb('text-primary'),
-  seriesTertiary: rgb('accent'),
+  seriesTertiary: rgb('accent-strong'),
   // Texto sobre la serie principal (rótulos): la variante del acento con contraste de texto.
   seriesPrimaryText: rgb('accent-strong'),
 }

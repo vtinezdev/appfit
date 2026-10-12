@@ -91,7 +91,10 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
   if (!c || !config) {
     return <div className="space-y-section px-page pt-5">
       <PageHeader title="Cumbres" overline="Montañas reales con lo que entrenas" />
-      <p className="break-words text-body text-fg">Cada entreno, récord{conNutricion ? ', comida registrada' : ''} y semana cumplida te sube metros. Elige la primera montaña: empiezas hoy desde el nivel del mar, sin plazo.</p>
+      <Card className="space-y-3">
+        <PerfilMontana expedicion={{ montana: MONTANAS[0], metros: 0 }} variante="tarjeta" decorativo />
+        <p className="break-words text-body text-fg">Cada entreno, récord{conNutricion ? ', comida registrada' : ''} y semana cumplida te sube metros. Elige la primera montaña: empiezas hoy desde el nivel del mar, sin plazo.</p>
+      </Card>
       <section aria-label="Elige tu primera montaña" className="space-y-stack">
         <SectionHeader variant="section">Elige tu primera montaña</SectionHeader>
         <ListGroup aria-label="Montañas"><ListaMontanas montanas={MONTANAS} sugerida={MONTANAS[0].id} onElegir={empezarCon} /></ListGroup>

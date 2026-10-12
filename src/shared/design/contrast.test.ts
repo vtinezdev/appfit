@@ -184,14 +184,25 @@ const oklab = (rgb: readonly number[]) => {
   return [0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s, 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s]
 }
 const deltaE = (a: readonly number[], b: readonly number[]) => 100 * Math.hypot(...oklab(a).map((v, i) => v - oklab(b)[i]))
+/** Diferencia de tono en OKLCH, en grados (0–180). */
+const hueGap = (a: readonly number[], b: readonly number[]) => {
+  const h = (rgb: readonly number[]) => { const [, x, y] = oklab(rgb); return Math.atan2(y, x) * 180 / Math.PI }
+  const d = Math.abs(h(a) - h(b)) % 360
+  return d > 180 ? 360 - d : d
+}
 
 // Jerarquía cromática: cada rol se distingue de los que comparten pantalla con él.
 describe.each([['claro', light], ['oscuro', dark]])('roles distinguibles (%s)', (_name, t) => {
   it.each([['protein', 'carbs'], ['protein', 'fat'], ['carbs', 'fat'], ['kcal', 'fat']])('%s y %s ≥ 10', (a, b) => expect(deltaE(t[a], t[b])).toBeGreaterThanOrEqual(10))
   // Naranja y rojo son vecinos: borrar se desplaza a carmín y siempre va con texto/icono (ADR 020).
   it('acción textual y borrar ≥ 8', () => expect(deltaE(t['accent-strong'], t.destructive)).toBeGreaterThanOrEqual(8))
-  // kcal comparte a propósito la familia del acento (ADR 020): no debe derivar hacia otro tono.
-  it('kcal pertenece a la familia del acento (≤ 10)', () => expect(deltaE(t.kcal, t.accent)).toBeLessThanOrEqual(10))
+  // kcal comparte a propósito la familia del acento (ADR 020, ADR 035): mismo tono aunque en claro sea más oscuro para rellenar sobre blanco.
+  it('kcal pertenece a la familia del acento (tono a ≤ 15°)', () => expect(hueGap(t.kcal, t.accent)).toBeLessThanOrEqual(15))
+  // El volt y el verde de «serie hecha» son vecinos: el éxito se separa en tono y, como relleno, en luminosidad (ADR 035).
+  it('serie hecha se distingue del acento (tono ≥ 25°, relleno ΔE ≥ 20)', () => {
+    expect(hueGap(t.success, t.accent)).toBeGreaterThanOrEqual(25)
+    expect(deltaE(t.success, t.accent)).toBeGreaterThanOrEqual(20)
+  })
   // Cada liga se distingue de las demás y el rubí no se confunde con borrar.
   it('ligas distintas entre sí y rubí lejos de borrar (≥ 10)', () => {
     for (const [i, a] of LIGAS.entries()) for (const b of LIGAS.slice(i + 1)) expect(deltaE(t[a], t[b]), `${a} y ${b}`).toBeGreaterThanOrEqual(10)
