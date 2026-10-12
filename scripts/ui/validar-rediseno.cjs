@@ -109,7 +109,7 @@ async function matriz(browser) {
       if (sub === 'Progreso' && estado !== 'vacio') await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('1')
       await validarLayout(page, id + '-' + sub); if (sub === 'Progreso' && estado === 'extremo') { await page.getByRole('button', { name: /^Ver .*sesiones$/ }).scrollIntoViewIfNeeded(); await validarLayout(page, id + '-gym-graficas') }
     }
-    await pestaña(page, 'Rutinas'); await page.getByRole('button', { name: 'Nueva rutina', exact: true }).click(); await validarLayout(page, id + '-rutina-form'); await cerrar(page)
+    await pestaña(page, 'Rutinas'); await page.getByRole('button', { name: 'Crear rutina', exact: true }).click(); await page.getByRole('dialog', { name: 'Crear rutina', exact: true }).getByRole('button', { name: /^En blanco/ }).click(); await validarLayout(page, id + '-rutina-form'); await cerrar(page)
     await navegar(page, 'Ajustes'); await validarLayout(page, id + '-ajustes')
     for (const titulo of ['Dónde se guardan tus registros', 'Instalación y traslado de registros', 'Fuentes, licencias y mantenimiento']) { await page.getByRole('button', { name: titulo, exact: true }).click(); await validarLayout(page, id + '-' + titulo, false) }
     assert.deepEqual(errores, [], id)

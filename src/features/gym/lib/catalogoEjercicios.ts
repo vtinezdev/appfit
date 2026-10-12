@@ -6,6 +6,22 @@ export const EQUIPAMIENTO = {
   smith: 'Smith / Multipower', kettlebell: 'Kettlebell', bandas: 'Bandas', trx: 'TRX', otros: 'Otros',
 } as const
 export type Equipo = keyof typeof EQUIPAMIENTO
+/**
+ * Patrón de movimiento: con qué se rellena cada hueco de una rutina del creador (`creadorRutinas.ts`). Primero los
+ * compuestos; después, los aislamientos por grupo.
+ */
+export const PATRONES = {
+  'empuje-horizontal': 'Empuje horizontal', 'empuje-vertical': 'Empuje vertical', 'tiron-horizontal': 'Tirón horizontal',
+  'tiron-vertical': 'Tirón vertical', sentadilla: 'Sentadilla', bisagra: 'Bisagra de cadera', unilateral: 'Zancada / unilateral',
+  'pecho-aislamiento': 'Aperturas de pecho', 'hombro-lateral': 'Elevaciones laterales', 'hombro-frontal': 'Elevaciones frontales',
+  'hombro-posterior': 'Deltoides posterior', biceps: 'Bíceps', triceps: 'Tríceps', 'cuadriceps-aislamiento': 'Cuádriceps aislado',
+  femoral: 'Femoral', gluteo: 'Glúteo', aductores: 'Aductores', gemelos: 'Gemelos', core: 'Core', antebrazo: 'Antebrazo',
+  trapecio: 'Trapecio', completo: 'Cuerpo completo',
+} as const
+export type Patron = keyof typeof PATRONES
+/** `compuesto`: varias articulaciones, va primero en la sesión y con menos repeticiones; `aislamiento`, el resto. */
+export type TipoEjercicio = 'compuesto' | 'aislamiento'
+
 export interface CatalogExercise {
   id: string
   name: string
@@ -15,10 +31,13 @@ export interface CatalogExercise {
   aliases?: string[]
   /** Agrupación de búsqueda, separada de la participación anatómica. */
   filterGroups?: Musculo[]
+  tipo: TipoEjercicio
+  patron: Patron
 }
 
 /** Los ids son editoriales, no se recalculan al cambiar una etiqueta. Banco es auxiliar, no equipo principal. */
-function grupo(primary: Musculo, rows: string[]): CatalogExercise[] {
+type SinClasificar = Omit<CatalogExercise, 'tipo' | 'patron'>
+function grupo(primary: Musculo, rows: string[]): SinClasificar[] {
   return rows.map(row => {
     const [id, name, equipment, secondary = '', aliases = ''] = row.split('|')
     return { id: `appfit:${id}`, name, primaryMuscles: [primary], secondaryMuscles: secondary ? secondary.split(',') as Musculo[] : [], equipment: equipment.split(',') as Equipo[], aliases: aliases ? aliases.split(',') : [] }
@@ -39,7 +58,7 @@ const PARTICIPACION_COMPLETA: Record<string, Pick<CatalogExercise, 'primaryMuscl
   'appfit:turkish-get-up': { primaryMuscles: ['core', 'hombros'], secondaryMuscles: ['cuadriceps', 'gluteos', 'triceps'] },
 }
 
-export const CATALOGO_EJERCICIOS: CatalogExercise[] = [
+const SIN_CLASIFICAR: SinClasificar[] = [
   ...grupo('pecho', [
     'press-banca|Press banca|barra|triceps,hombros|bench press',
     'press-inclinado-barra|Press inclinado con barra|barra|triceps,hombros',
@@ -271,4 +290,71 @@ export const CATALOGO_EJERCICIOS: CatalogExercise[] = [
     'empuje-trineo|Empuje de trineo|otros|cuadriceps,gluteos,gemelos|sled push',
   ]).map(e => ({ ...e, ...PARTICIPACION_COMPLETA[e.id], filterGroups: ['completo'] as Musculo[] })),
 ]
+
+/**
+ * Patrón de cada ejercicio (slug sin `appfit:`). Dentro de cada patrón, de más a menos básico: el creador de rutinas
+ * prefiere los primeros que encajan con el material.
+ */
+const POR_PATRON: Record<Patron, string[]> = {
+  'empuje-horizontal': ['press-banca', 'press-mancuernas', 'press-inclinado-mancuernas', 'press-inclinado-barra', 'press-pecho-maquina', 'press-inclinado-maquina',
+    'flexiones', 'fondos-pecho', 'press-banca-smith', 'press-inclinado-smith', 'press-declinado-barra', 'press-declinado-mancuernas', 'press-squeeze',
+    'flexiones-declinadas', 'press-pecho-bandas'],
+  'empuje-vertical': ['press-militar', 'press-hombro-mancuernas', 'press-hombro-maquina', 'press-militar-sentado', 'press-arnold', 'press-hombro-smith',
+    'press-landmine', 'press-kettlebell'],
+  'tiron-horizontal': ['remo-barra', 'remo-polea', 'remo-mancuerna', 'remo-pecho-apoyado', 'remo-maquina', 'remo-t', 'remo-polea-unilateral', 'remo-pendlay',
+    'remo-seal', 'remo-meadows', 'remo-invertido', 'remo-trx', 'remo-bandas'],
+  'tiron-vertical': ['dominadas', 'jalon-pecho', 'jalon-neutro', 'dominadas-asistidas', 'jalon-maquina', 'dominadas-supinas', 'jalon-supino', 'jalon-unilateral',
+    'pullover-polea'],
+  sentadilla: ['sentadilla', 'prensa-piernas', 'hack-squat', 'sentadilla-frontal', 'sentadilla-goblet', 'sentadilla-smith', 'sentadilla-pendulo', 'belt-squat',
+    'prensa-horizontal', 'sentadilla-sumo', 'sentadilla-corporal', 'sentadilla-trx'],
+  bisagra: ['peso-muerto-rumano', 'peso-muerto', 'rumano-mancuernas', 'peso-muerto-trap-bar', 'peso-muerto-sumo', 'rumano-smith', 'peso-muerto-rigidas',
+    'buenos-dias', 'rumano-unilateral', 'rack-pull', 'swing-kettlebell', 'extension-lumbar'],
+  unilateral: ['sentadilla-bulgara', 'zancadas', 'zancada-inversa', 'step-up', 'zancadas-caminando', 'zancadas-barra', 'zancada-lateral', 'sentadilla-cosaca',
+    'sentadilla-pistol'],
+  'pecho-aislamiento': ['aperturas-mancuernas', 'cruce-poleas', 'pec-deck', 'aperturas-inclinadas', 'cruce-poleas-bajo', 'aperturas-polea-banco', 'pullover-mancuerna'],
+  'hombro-lateral': ['elevacion-lateral', 'elevacion-lateral-polea', 'elevacion-lateral-maquina', 'remo-menton', 'elevacion-lateral-bandas'],
+  'hombro-frontal': ['elevacion-frontal', 'elevacion-frontal-polea'],
+  'hombro-posterior': ['face-pull', 'pajaros', 'reverse-pec-deck', 'pajaros-polea', 'elevacion-y', 'separacion-bandas'],
+  biceps: ['curl-barra', 'curl-mancuernas', 'curl-martillo', 'curl-inclinado', 'curl-polea', 'curl-barra-z', 'curl-predicador', 'curl-bayesiano', 'curl-maquina',
+    'curl-concentrado', 'curl-predicador-mancuerna', 'curl-martillo-cuerda', 'curl-arana', 'curl-zottman', 'curl-polea-alta', 'curl-trx'],
+  triceps: ['extension-triceps-cuerda', 'press-frances', 'extension-triceps-cabeza', 'extension-triceps-polea-cabeza', 'fondos-triceps', 'press-cerrado',
+    'extension-triceps-barra', 'press-frances-mancuernas', 'extension-triceps-unilateral', 'fondos-maquina', 'extension-triceps-maquina', 'patada-triceps',
+    'patada-triceps-polea', 'flexiones-diamante', 'fondos-banco', 'extension-triceps-bandas'],
+  'cuadriceps-aislamiento': ['extension-cuadriceps', 'sissy-squat', 'sentadilla-pared'],
+  femoral: ['curl-femoral-tumbado', 'curl-femoral-sentado', 'curl-femoral-pie', 'curl-nordico', 'glute-ham-raise', 'curl-femoral-trx', 'curl-femoral-fitball'],
+  gluteo: ['hip-thrust', 'hip-thrust-maquina', 'hip-thrust-smith', 'puente-gluteos', 'patada-gluteo', 'patada-gluteo-maquina', 'pull-through', 'abduccion-maquina',
+    'abduccion-polea', 'puente-unilateral', 'hiperextension-gluteo', 'abduccion-bandas', 'almejas', 'patada-cuadrupedia'],
+  aductores: ['aduccion-maquina', 'aduccion-polea', 'plancha-copenhague', 'aduccion-tumbado', 'aduccion-bandas', 'aduccion-balon'],
+  gemelos: ['gemelos-maquina', 'gemelos-sentado', 'gemelos-prensa', 'gemelos-mancuernas', 'gemelos-smith', 'gemelos-burro', 'gemelos-unilateral'],
+  core: ['plancha', 'crunch-polea', 'elevacion-piernas', 'rueda-abdominal', 'pallof-press', 'dead-bug', 'plancha-lateral', 'crunch', 'crunch-maquina',
+    'elevacion-rodillas-paralelas', 'woodchop', 'crunch-inverso', 'hollow-hold', 'elevacion-piernas-tumbado', 'bird-dog', 'encogimiento-trx', 'giros-rusos',
+    'inclinacion-lateral', 'escaladores', 'navaja', 'crunch-bicicleta', 'crunch-declinado'],
+  antebrazo: ['curl-muneca', 'extension-muneca', 'curl-inverso', 'colgar-barra', 'agarre-disco', 'rodillo-muneca', 'curl-muneca-espalda'],
+  trapecio: ['encogimientos', 'encogimientos-barra'],
+  completo: ['thruster', 'farmer-walk', 'cargada-barra', 'burpee', 'turkish-get-up', 'empuje-trineo'],
+}
+/** Patrones de varias articulaciones: sus ejercicios son compuestos salvo excepción (`TIPO_PROPIO`). */
+export const PATRONES_COMPUESTOS: ReadonlySet<Patron> = new Set<Patron>(['empuje-horizontal', 'empuje-vertical', 'tiron-horizontal', 'tiron-vertical', 'sentadilla',
+  'bisagra', 'unilateral', 'completo'])
+/** Excepciones al tipo de su patrón: compuestos en un patrón de aislamiento y al revés. */
+const TIPO_PROPIO: Record<string, TipoEjercicio> = {
+  'press-cerrado': 'compuesto', 'fondos-triceps': 'compuesto', 'fondos-maquina': 'compuesto', 'fondos-banco': 'compuesto', 'flexiones-diamante': 'compuesto',
+  'hip-thrust': 'compuesto', 'hip-thrust-maquina': 'compuesto', 'hip-thrust-smith': 'compuesto', 'remo-menton': 'compuesto',
+  'pullover-polea': 'aislamiento', 'extension-lumbar': 'aislamiento',
+}
+const PATRON_DE = new Map<string, { patron: Patron; orden: number }>(Object.entries(POR_PATRON).flatMap(([patron, slugs]) => slugs.map((slug, orden) => [`appfit:${slug}`, { patron: patron as Patron, orden }] as const)))
+
+function clasificar(e: SinClasificar): CatalogExercise {
+  const c = PATRON_DE.get(e.id)
+  if (!c) throw new Error(`Ejercicio del catálogo sin patrón: ${e.id}`)
+  return { ...e, patron: c.patron, tipo: TIPO_PROPIO[e.id.slice('appfit:'.length)] ?? (PATRONES_COMPUESTOS.has(c.patron) ? 'compuesto' : 'aislamiento') }
+}
+
+export const CATALOGO_EJERCICIOS: CatalogExercise[] = SIN_CLASIFICAR.map(clasificar)
 export const CATALOGO_POR_ID = new Map(CATALOGO_EJERCICIOS.map(e => [e.id, e]))
+/** Posición del ejercicio dentro de su patrón (0 = el más básico), para ordenar las sugerencias. */
+export function ordenEnPatron(id: string): number {
+  return PATRON_DE.get(id)?.orden ?? Number.MAX_SAFE_INTEGER
+}
+/** Slugs clasificados por patrón, para comprobar en los tests que cada ejercicio tiene uno y solo uno. */
+export const SLUGS_POR_PATRON: Readonly<Record<Patron, readonly string[]>> = POR_PATRON
