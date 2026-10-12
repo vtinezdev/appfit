@@ -29,6 +29,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Vista detallada con consumo, barras y cobertura de fibra, azúcares, sal y saturadas. Un botón de información explica criterio y fuente y permite abrir su referencia global. Los extras también están en los detalles del alimento; los datos ausentes se distinguen de cero y las sumas incompletas se señalan.
 - Base de datos personal de alimentos, editable a mano, con raciones propias («1 rebanada de mi pan = 32 g», que el intérprete entiende) y recetas caseras (ingredientes + peso cocinado, que se convierten en un alimento).
 - Resumen con adherencia al objetivo de kcal (±10 %), rachas de registro y los alimentos que más kcal y proteína aportan. Cada día conserva el objetivo que tenía.
+- Cheat day: marca un día entero (con o sin comidas) desde el menú del Diario; queda fuera de las medias, la adherencia y la XP de proteína, no rompe la racha y avisa, sin bloquear, desde el segundo de la semana.
 
 **Gimnasio**
 - Catálogo local de 204 ejercicios con buscador, filtros combinables de músculo/equipamiento y recientes; ejercicios personalizados disponibles en rutinas y sesiones, también sin conexión.

@@ -4,7 +4,7 @@ Fuentes de verdad en el código: el esquema es `src/shared/db/db.ts`, los tipos 
 
 ## Tablas
 
-La versión actual del esquema es la v8; cada versión lleva un comentario con qué añadió. El backup es la v3 (`BACKUP_VERSION`); importa también v1 y v2.
+La versión actual del esquema es la v9; cada versión lleva un comentario con qué añadió. El backup es la v3 (`BACKUP_VERSION`); importa también v1 y v2.
 
 | Tabla | Lista | Para qué | Notas |
 |---|---|---|---|
@@ -25,6 +25,7 @@ La versión actual del esquema es la v8; cada versión lleva un comentario con q
 | `objetivosDia` | usuario | snapshot del objetivo (kcal y macros) de cada día | `&fecha`; solo lo escriben acciones del usuario, nunca una lectura |
 | `medidas` | usuario | medidas corporales (cm y %) | `&fecha`; todos los campos opcionales |
 | `suplementos` | usuario | marcas diarias de suplementos; actualmente creatina | `++id`, `fecha`, `&[tipo+fecha]`: una marca por tipo y día; `createdAt` |
+| `cheatDays` | usuario | días marcados como cheat day | `++id`, `&fecha`: una marca por día, con o sin comidas; `createdAt` |
 | `catalogFoods` | catálogo | alimentos de referencia (CIQUAL, Open Food Facts) | id `fuente:idExterno`, estable; `*tok` multiEntry para buscar; `gtin` no único |
 | `catalogSources` | catálogo | fuentes instaladas (versión, licencia, atribución, nº de filas) | |
 
@@ -78,7 +79,7 @@ Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`). Fue
 
 | Feature | Repos | Tablas |
 |---|---|---|
-| nutricion | `foodsRepo` (`categoriasDeEntradas`), `entriesRepo` (`fechasConRegistro`), `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo`, `porcionesRepo`, `recetasRepo` | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos`, `porciones`, `recetas` |
+| nutricion | `foodsRepo` (`categoriasDeEntradas`), `entriesRepo` (`fechasConRegistro`), `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo`, `porcionesRepo`, `recetasRepo`, `cheatDaysRepo` (`entreFechas`, `todas`, `marcar`, `quitar`/`restaurar`) | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos`, `porciones`, `recetas`, `cheatDays` |
 | gym | `exercisesRepo` (ejercicios propios: editar/borrar), `routinesRepo` (sustituir un ejercicio con su objetivo y restaurar), `workoutsRepo` (descartar, borrar, crearPasado, notas, orden), `setsRepo` | `exercises`, `routines`, `workouts`, `sets` |
 | inicio | `pesosRepo` (`delRango`, `registrar`, `borrar`/`restaurar`, `ultimoHasta(fecha)`: último pesaje ≤ fecha, solo lectura), `aguaRepo`, `creatinaRepo` (`leer`, `configurar`, `empezarCarga`, `marcar`) | `pesos`, `agua`, `suplementos`, `settings.creatina` |
 | perfil | `perfilRepo` (`estadoEnergetico`, `objetivosVigentes`, `calcularVigentes`, `leerGastoObservado`), `objetivosDiaRepo`, `medidasRepo` | `settings` (campo `perfil`), `pesos` y `entries` (lectura), `objetivosDia`, `medidas` |
@@ -109,7 +110,7 @@ Reglas y patrones:
 
 ## Backup (`shared/lib/backup.ts`)
 
-- Un único JSON con las `TABLAS_USUARIO` (nunca el catálogo), versión 3: añade `porciones`, `recetas`, `agua`, `objetivosDia` y `medidas` (opcionales: un backup v1/v2 las importa vacías); también `suplementos` es opcional, sin subir la versión del backup. `BACKUP_VERSION` y sus reglas de cambio están en la cabecera del archivo.
+- Un único JSON con las `TABLAS_USUARIO` (nunca el catálogo), versión 3: añade `porciones`, `recetas`, `agua`, `objetivosDia` y `medidas` (opcionales: un backup v1/v2 las importa vacías); también `suplementos` y `cheatDays` son opcionales, sin subir la versión del backup. `BACKUP_VERSION` y sus reglas de cambio están en la cabecera del archivo.
 - `migrarBackup(raw)` es pura: valida y convierte cualquier versión conocida a la actual, y rechaza una versión más nueva con un mensaje claro. Las tablas de `TABLAS_OPCIONALES` (las posteriores al primer backup) pueden faltar: se importan vacías.
 - `importarBackup` **sustituye** todo en una transacción: vacía todas las tablas de usuario, también las que el backup no trae, y los ajustes pasan por `conDefaults`.
 - En Ajustes, seleccionar un archivo solo lo valida y muestra cuántos registros de comida contiene. La escritura empieza al pulsar «Importar copia». Si ya hay datos, se advierte que serán sustituidos y se puede exportar antes. Cancelar o elegir un archivo inválido no altera ningún registro. Los fallos de lectura/exportación/importación se muestran en línea.
@@ -140,3 +141,7 @@ Reglas y patrones:
 Dexie v8 añade `suplementos` sin tocar versiones ni registros anteriores. `Settings.creatina` es opcional: `{ activa, dosisManualG?, inicioCarga? }`; ausente equivale a desactivada. `creatinaRepo` combina parches en transacciones para conservar los demás ajustes. Empezar la carga exige activación y un pesaje válido con fecha ≤ hoy; solo guarda su inicio. La fecha final y la dosis se derivan en `inicio/lib/creatina`; las lecturas no escriben al terminar la carga.
 
 `marcar(fecha, tomada)` es explícito e idempotente: una marca por tipo y día, sin inferir tomas anteriores. Quitarla borra solo esa marca. Desactivar conserva las marcas y la configuración. `leer` consulta el último pesaje no futuro y las marcas de creatina de los últimos siete días. La tabla y la configuración entran en el backup v3; una copia antigua sin tabla la importa vacía y deja la función desactivada. No se añade un CSV nuevo. Reglas y flujo: [Inicio](features/inicio.md#creatina).
+
+## Cheat days
+
+Dexie v9 añade `cheatDays` (`++id, &fecha`) sin tocar versiones ni registros anteriores. Un cheat day marca el día entero, haya comidas o no; las entradas de ese día no cambian. `cheatDaysRepo.marcar` es idempotente (un segundo toque no duplica) y `quitar` devuelve la marca para que `restaurar` la vuelva a poner con su id, salvo que el día ya esté marcado otra vez. La tabla entra en el backup v3 como opcional: una copia antigua la importa vacía. Quién la lee y para qué: [Nutrición](features/nutricion.md#cheat-day).

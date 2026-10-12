@@ -130,7 +130,7 @@ export default function AtributosTab({ onIrAAjustes }: { onIrAAjustes: () => voi
             <li>Suma un entreno por día (el de más series) y, cada semana, los de tu plan: con el plan completo, los demás no suman. Para el plan cuentan los de {formatInt(SERIES_MINIMAS)} series efectivas o más.</li>
             <li>Récord personal: {xpTexto(XP.record)}, hasta {formatInt(RECORDS_POR_SESION)} por sesión.</li>
             {conNutricion && <li>Día registrado: {xpTexto(XP.diaRegistrado)} con dos comidas o más ({xpTexto(XP.diaUnaComida)} con una).</li>}
-            {conNutricion && <li>Proteína al {formatInt(PROPORCION_PROTEINA * 100)} % del objetivo del día o más: {xpTexto(XP.proteina)}.</li>}
+            {conNutricion && <li>Proteína al {formatInt(PROPORCION_PROTEINA * 100)} % del objetivo del día o más: {xpTexto(XP.proteina)} (no en un cheat day).</li>}
             <li>Semana cumplida (lunes a domingo): {xpTexto(XP.semanaCumplida)}. Se cumple con {formatInt(plan.entrenos)} entrenos{conNutricion ? ` y ${formatInt(plan.diasRegistro)} días con comidas registradas` : ''}.</li>
             <li>Entrenar o registrar de más no suma. Las kcal, el peso y el déficit no dan ni quitan XP.</li>
             <li>El nivel no baja por descansar o dejarlo una temporada. La XP sale de tus registros: si borras uno, desaparece la que daba.</li>

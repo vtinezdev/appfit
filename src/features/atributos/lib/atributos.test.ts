@@ -171,6 +171,15 @@ describe('nutrición', () => {
     expect(describirEvento(r.eventos[2], {}).detalle).toBe('1 comida (con 2 o más, 30 XP)')
   })
 
+  it('un cheat day da la XP del registro pero no la de proteína', () => {
+    const entries = [comida('2026-10-05', 'desayuno', 100), comida('2026-10-05', 'cena', 100), comida('2026-10-06', 'comida', 150)]
+    const r = calcularAtributos(datos([], { entries, protObjetivo: objetivos, cheatDays: new Set(['2026-10-05']) }))
+    expect(r.eventos.map((e) => [e.fecha, e.tipo, e.xp])).toEqual([
+      ['2026-10-05', 'registro', 30], ['2026-10-06', 'registro', 10], ['2026-10-06', 'proteina', 20],
+    ])
+    expect(r.diasRegistro.has('2026-10-05')).toBe(true)
+  })
+
   it('excluida, no suma nada', () => {
     const r = calcularAtributos(datos([], { entries: [comida('2026-10-05', 'desayuno', 200)], protObjetivo: objetivos, conNutricion: false }))
     expect(r.total).toBe(0)

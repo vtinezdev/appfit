@@ -171,7 +171,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .semana-dia { display: flex; width: 100%; min-height: var(--touch-target); flex-direction: column; align-items: center; gap: .25rem; padding-block: .375rem; border-radius: var(--radius-md); color: rgb(var(--c-text-secondary)); }
 .semana-dia[aria-current='date'] { background: rgb(var(--c-accent-subtle)); color: rgb(var(--c-text-primary)); }
 .semana-dia:disabled { opacity: .4; }
-.semana-letra { font-size: var(--fs-caption); line-height: 1; font-weight: 600; }
+.semana-letra { display: inline-flex; align-items: center; gap: .125rem; font-size: var(--fs-caption); line-height: 1; font-weight: 600; }
+/* Cheat day: destello junto a la letra, sin cambiar el alto de la columna. */
+.semana-cheat { flex-shrink: 0; color: rgb(var(--c-text-secondary)); }
 .semana-zona { position: relative; width: 100%; height: var(--semana-barra-alto); margin-top: .375rem; }
 .semana-barra { position: absolute; bottom: 0; left: 50%; width: .5rem; transform: translateX(-50%); border-radius: var(--radius-sm); background: rgb(var(--c-border-strong)); }
 .semana-dia[aria-current='date'] .semana-barra { background: rgb(var(--c-kcal)); }

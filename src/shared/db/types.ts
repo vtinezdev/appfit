@@ -188,6 +188,16 @@ export interface Receta {
   updatedAt: number
 }
 
+/**
+ * Cheat day: un día entero marcado a mano (`fecha` única), con o sin comidas registradas. Queda fuera de las medias,
+ * de la adherencia y de la XP de proteína, pero no rompe la racha (`nutricion/lib/cheatDays.ts`).
+ */
+export interface CheatDay {
+  id: number
+  fecha: string
+  createdAt: number
+}
+
 /** Agua bebida en un día (`fecha` única). */
 export interface Agua {
   id: number

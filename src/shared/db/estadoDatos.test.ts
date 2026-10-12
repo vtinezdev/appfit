@@ -17,6 +17,7 @@ const datos: Record<string, unknown[]> = {
   objetivosDia: [{ id: 1, fecha: '2026-10-01', objetivos: { kcal: 2000, prot: 150, carb: 200, grasa: 60 }, origen: 'test' }],
   medidas: [{ id: 1, fecha: '2026-10-01', cintura: 80 }],
   suplementos: [{ id: 1, tipo: 'creatina', fecha: '2026-10-01', createdAt: 1 }],
+  cheatDays: [{ id: 1, fecha: '2026-10-01', createdAt: 1 }],
 }
 
 beforeEach(async () => {

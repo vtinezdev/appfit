@@ -23,7 +23,7 @@ function v1ConApiKey(apiKey: string): string {
 describe('importarBackup', () => {
   it('importa entero el backup v1 de referencia (generado con el código de la sesión 01)', async () => {
     await importarBackup(backupV1)
-    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, suplementos: 0, catalogFoods: 0, catalogSources: 0 })
+    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, suplementos: 0, cheatDays: 0, catalogFoods: 0, catalogSources: 0 })
     expect((await db.foods.get(1))?.nombre).toBe('Plátano')
     expect(await db.entries.get(9)).toMatchObject({ fecha: '2026-09-28', comida: 'cena', kcal: 330, textoOriginal: 'pollo a la plancha' })
   })
@@ -245,7 +245,7 @@ describe('backup de suplementos', () => {
     await db.suplementos.bulkAdd([{ tipo: 'creatina', fecha: '2026-10-12', createdAt: 10 }, { tipo: 'otro', fecha: '2026-10-12', createdAt: 11 }])
     const antes = await exportarBackup()
     expect(antes.version).toBe(3)
-    expect(antes.dbVersion).toBe(8)
+    expect(antes.dbVersion).toBe(9)
     await importarBackup(JSON.stringify(antes))
     expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
   })
@@ -268,5 +268,26 @@ describe('backup de suplementos', () => {
     await db.suplementos.add({ tipo: 'creatina', fecha: '2026-10-12', createdAt: 1 })
     await borrarTodosLosDatos()
     expect(await db.suplementos.count()).toBe(0)
+  })
+})
+
+describe('backup de cheat days', () => {
+  it('ida y vuelta: las marcas sobreviven a exportar e importar', async () => {
+    await importarBackup(backupV1)
+    await db.cheatDays.bulkAdd([{ fecha: '2026-10-10', createdAt: 1 }, { fecha: '2026-10-11', createdAt: 2 }])
+    const antes = await exportarBackup()
+    expect(antes.cheatDays).toHaveLength(2)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+  })
+  it('un backup antiguo sin cheatDays las deja vacías', async () => {
+    await db.cheatDays.add({ fecha: '2026-10-11', createdAt: 1 })
+    await importarBackup(backupV1)
+    expect(await db.cheatDays.count()).toBe(0)
+  })
+  it('borrar todos los datos incluye los cheat days', async () => {
+    await db.cheatDays.add({ fecha: '2026-10-11', createdAt: 1 })
+    await borrarTodosLosDatos()
+    expect(await db.cheatDays.count()).toBe(0)
   })
 })

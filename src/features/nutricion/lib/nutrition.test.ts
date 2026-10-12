@@ -119,6 +119,15 @@ describe('resumenPeriodo (P1)', () => {
     expect(r.media.kcal).toBe(1800)
   })
 
+  it('los cheat days quedan fuera de la media pero conservan sus kcal reales en porDia', () => {
+    const entries = [entry('2026-09-01', 2000), entry('2026-09-02', 4000), entry('2026-09-03', 1800)]
+    const r = resumenPeriodo(entries, mes, '2026-09-05', new Set(['2026-09-02', '2026-09-04']))
+    expect(r.diasRegistrados).toBe(2)
+    expect(r.media.kcal).toBe(1900)
+    expect(r.total.kcal).toBe(3800)
+    expect(r.porDia[1].kcal).toBe(4000)
+  })
+
   it('sin días registrados devuelve ceros', () => {
     const r = resumenPeriodo([], mes, '2026-09-10')
     expect(r.diasRegistrados).toBe(0)

@@ -64,6 +64,8 @@ export interface DatosAtributos {
   entries: Pick<Entry, 'fecha' | 'comida' | 'prot'>[]
   /** Proteína objetivo (g) de cada fecha con registro: el objetivo congelado de ese día. */
   protObjetivo: ReadonlyMap<string, number>
+  /** Cheat days: no dan XP de proteína (el registro del día sí cuenta). */
+  cheatDays?: ReadonlySet<string>
   planes?: readonly TramoPlanSemanal[]
   pausas?: readonly Pausa[]
   conNutricion: boolean
@@ -128,7 +130,7 @@ function agrupar<T, K>(items: readonly T[], clave: (t: T) => K): Map<K, T[]> {
 /**
  * Toda la XP del historial hasta `hoy`, con su motivo. Entrenos: proporcional a las series efectivas hasta 6, uno por día
  * (el de más series) y, por semana, hasta completar el plan; hasta 3 récords por sesión que suma. Nutrición (si cuenta):
- * un día registrado y la proteína al 90 % de su objetivo. Constancia: cada semana cumplida según su plan.
+ * un día registrado y la proteína al 90 % de su objetivo (salvo en un cheat day). Constancia: cada semana cumplida según su plan.
  */
 export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
   const terminados = d.workouts
@@ -201,7 +203,7 @@ export function calcularAtributos(d: DatosAtributos): ResultadoAtributos {
       eventos.push({ tipo: 'registro', atributo: 'nutricion', fecha, xp: comidas >= 2 ? XP.diaRegistrado : XP.diaUnaComida, comidas })
       const prot = delDia.reduce((a, e) => a + (Number.isFinite(e.prot) ? e.prot : 0), 0)
       const objetivo = d.protObjetivo.get(fecha) ?? 0
-      if (objetivo > 0 && prot >= objetivo * PROPORCION_PROTEINA - 1e-9) {
+      if (!d.cheatDays?.has(fecha) && objetivo > 0 && prot >= objetivo * PROPORCION_PROTEINA - 1e-9) {
         eventos.push({ tipo: 'proteina', atributo: 'nutricion', fecha, xp: XP.proteina, prot, objetivo })
       }
     }

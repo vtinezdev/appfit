@@ -17,13 +17,15 @@ export interface DiaSemanaKcal {
   meta: number | null
   futuro: boolean
   hoy: boolean
+  /** Marcado como cheat day (sus kcal se ven igual: solo se quita de las medias). */
+  cheat: boolean
 }
 
 /**
  * Franja de la semana (lunes a domingo) que contiene `fecha`: kcal de cada día frente a su objetivo (snapshot del día o,
  * sin él, el vigente: lo resuelve `objetivosPorFecha`). Barras y líneas comparten la escala del mayor valor de la semana (con un 15 % de aire).
  */
-export function semanaKcal(fecha: string, entries: Pick<Entry, 'fecha' | 'kcal'>[], objetivos: Map<string, Pick<Objetivos, 'kcal'>>, hoy: string): DiaSemanaKcal[] {
+export function semanaKcal(fecha: string, entries: Pick<Entry, 'fecha' | 'kcal'>[], objetivos: Map<string, Pick<Objetivos, 'kcal'>>, hoy: string, cheatDays: ReadonlySet<string> = new Set()): DiaSemanaKcal[] {
   const fechas = weekDates(fecha)
   const kcal = new Map<string, number>()
   for (const e of entries) kcal.set(e.fecha, (kcal.get(e.fecha) ?? 0) + (Number.isFinite(e.kcal) ? e.kcal : 0))
@@ -32,6 +34,6 @@ export function semanaKcal(fecha: string, entries: Pick<Entry, 'fecha' | 'kcal'>
   const escala = Math.max(1, ...dias.map(d => Math.max(d.kcal, d.objetivo))) * AIRE
   return dias.map(({ f, kcal, objetivo }) => {
     const d = parseISODate(f)
-    return { fecha: f, letra: LETRAS[d.getDay()], numero: d.getDate(), kcal, objetivo, alto: kcal / escala, meta: objetivo > 0 ? objetivo / escala : null, futuro: f > hoy, hoy: f === hoy }
+    return { fecha: f, letra: LETRAS[d.getDay()], numero: d.getDate(), kcal, objetivo, alto: kcal / escala, meta: objetivo > 0 ? objetivo / escala : null, futuro: f > hoy, hoy: f === hoy, cheat: cheatDays.has(f) }
   })
 }

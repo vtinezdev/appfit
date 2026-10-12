@@ -21,7 +21,7 @@
 | Entreno terminado con al menos 1 serie efectiva (`esEfectiva`: sin calentamiento ni series marcadas como no hechas) | 100 con ≥ 6 series; con menos, `round(100 × series / 6)` (17, 33, 50, 67, 83) | 1 por día (el de más series); por semana (lunes a domingo), hasta completar el plan | Fuerza |
 | Récord personal (`gym/lib/records`, frente a todos los entrenos terminados anteriores) | 25 | 3 por sesión, solo en sesiones que suman | Fuerza |
 | Día registrado | 30 con ≥ 2 comidas distintas (desayuno, comida, cena, snack); 10 con una | 1 por día | Nutrición |
-| Proteína ≥ 90 % del objetivo congelado de ese día | 20 | 1 por día | Nutrición |
+| Proteína ≥ 90 % del objetivo congelado de ese día (no en un [cheat day](nutricion.md#cheat-day)) | 20 | 1 por día | Nutrición |
 | Semana cumplida según Ritmo: entrenos (días con un entreno que cuenta) ≥ plan y días con alguna comida ≥ plan; en una pausa de entreno, solo los días | 150 | 1 por semana | Constancia |
 
 - **Entreno que cuenta** (para el plan, Ritmo y la Vitrina): ≥ 5 series efectivas (`SERIES_MINIMAS`). Los de menos dan su XP proporcional, pero no cuentan para el plan.

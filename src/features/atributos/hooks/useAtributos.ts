@@ -3,6 +3,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { getSettings } from '../../../shared/db/settings'
 import type { Entry, Exercise, Pausa, PlanSemanal, SetEntry, Workout } from '../../../shared/db/types'
 import { startOfWeek } from '../../../shared/lib/dates'
+import * as cheatDaysRepo from '../../nutricion/data/cheatDaysRepo'
 import * as entriesRepo from '../../nutricion/data/entriesRepo'
 import * as exercisesRepo from '../../gym/data/exercisesRepo'
 import * as setsRepo from '../../gym/data/setsRepo'
@@ -37,11 +38,12 @@ export async function leerAtributos(hoy: string): Promise<EstadoAtributos> {
   const settings = await getSettings()
   if (settings.gamificacionVisible === false) return { visible: false }
   const conNutricion = settings.gamificacionConNutricion !== false
-  const [workouts, sets, exercises, entries] = await Promise.all([
+  const [workouts, sets, exercises, entries, cheatDays] = await Promise.all([
     workoutsRepo.terminados(),
     setsRepo.todas(),
     exercisesRepo.listar(),
     conNutricion ? entriesRepo.entreFechas(DESDE_SIEMPRE, hoy) : [],
+    conNutricion ? cheatDaysRepo.entreFechas(DESDE_SIEMPRE, hoy) : [],
   ])
   const objetivos = conNutricion ? await objetivosPorFecha([...new Set(entries.map((e) => e.fecha))], hoy) : new Map()
   const protObjetivo = new Map([...objetivos].map(([fecha, o]) => [fecha, o.prot]))
@@ -49,7 +51,7 @@ export async function leerAtributos(hoy: string): Promise<EstadoAtributos> {
     visible: true,
     conNutricion,
     plan: planDeSemana(settings.planSemanal, startOfWeek(hoy)),
-    resultado: calcularAtributos({ hoy, workouts, sets, entries, protObjetivo, planes: settings.planSemanal, pausas: settings.pausas, conNutricion }),
+    resultado: calcularAtributos({ hoy, workouts, sets, entries, protObjetivo, cheatDays: new Set(cheatDays), planes: settings.planSemanal, pausas: settings.pausas, conNutricion }),
     nombres: Object.fromEntries(exercises.map((e) => [e.id, e.nombre])),
     pausas: settings.pausas ?? [],
     datos: { workouts, sets, exercises, entries },

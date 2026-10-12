@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { formatCompact, formatInt } from '../../../shared/lib/format'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { Bar, BarChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import * as cheatDaysRepo from '../data/cheatDaysRepo'
 import * as entriesRepo from '../data/entriesRepo'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Disclosure from '../../../shared/components/Disclosure'
@@ -12,6 +13,7 @@ import { objetivosMediosDe } from '../../perfil/data/objetivosDiaRepo'
 import { desplazarPeriodo, esPeriodoActual, etiquetaPeriodo, fechasPeriodo, formatShort, todayISO } from '../../../shared/lib/dates'
 import type { PeriodoRango } from '../../../shared/lib/dates'
 import { resumenPeriodo } from '../lib/nutrition'
+import { cheatDaysEnPeriodo, notaCheatDays } from '../lib/cheatDays'
 import { IconButton } from '../../../shared/components/Button'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import { chartAxis, chartColors, chartGoalLine, chartTooltip } from '../../../shared/design/chart'
@@ -37,11 +39,14 @@ export default function Resumen() {
   const [curvas, setCurvas] = useState<('consumo' | 'objetivo')[]>(['consumo', 'objetivo'])
   const fechas = fechasPeriodo(rango, fechaAncla)
   const entries = useLiveQuery(() => entriesRepo.entreFechas(fechas[0], fechas[fechas.length - 1]), [fechas.join(',')])
+  const cheatDays = useLiveQuery(async () => new Set(await cheatDaysRepo.entreFechas(fechas[0], fechas[fechas.length - 1])), [fechas.join(',')])
   // Cada día con registros usa su objetivo congelado (o el vigente); la media se compara con la media de esos objetivos.
-  const diasConRegistro = fechas.filter(f => entries?.some(e => e.fecha === f)).join(',')
+  // Los cheat days quedan fuera de las dos medias.
+  const diasConRegistro = cheatDays ? fechas.filter(f => !cheatDays.has(f) && entries?.some(e => e.fecha === f)).join(',') : ''
   const vigentes = useLiveQuery(() => objetivosMediosDe(diasConRegistro ? diasConRegistro.split(',') : [], todayISO()), [diasConRegistro])
-  if (!entries || !vigentes) return <LoadingState />
-  const { porDia, media, diasRegistrados } = resumenPeriodo(entries, fechas, todayISO())
+  if (!entries || !cheatDays || !vigentes) return <LoadingState />
+  const { porDia, media, diasRegistrados } = resumenPeriodo(entries, fechas, todayISO(), cheatDays)
+  const notaCheat = notaCheatDays(cheatDaysEnPeriodo(fechas, todayISO(), cheatDays))
   const objetivos = vigentes
   const elegido = DATOS.find(d => d.valor === dato)!
   const diasConDatos = new Set(entries.map(e => e.fecha))
@@ -61,7 +66,7 @@ export default function Resumen() {
           <IconButton icon="chevron-right" label="Periodo siguiente" variant="ghost" onClick={() => setFechaAncla(desplazarPeriodo(rango, fechaAncla, 1))} disabled={esPeriodoActual(rango, fechaAncla)} />
         </div>
       </div>
-      {!diasRegistrados ? <EmptyState icon="utensils" title="Un periodo por registrar">Las medias y tendencias aparecerán cuando añadas comidas en estas fechas.</EmptyState> : (
+      {!diasRegistrados ? <EmptyState icon="utensils" title="Un periodo por registrar">{notaCheat ? `Solo hay cheat days (${notaCheat}). Las medias aparecerán cuando añadas comidas en otros días.` : 'Las medias y tendencias aparecerán cuando añadas comidas en estas fechas.'}</EmptyState> : (
         <>
           {/* El mismo panel que el Diario: kcal, barra y macros con las mismas piezas, en una card. */}
           <section aria-label="Media diaria">
@@ -72,7 +77,7 @@ export default function Resumen() {
                 {objetivos.kcal > 0 && <p className="tabular pb-1 text-body-sm text-fg-muted">de <strong className="font-semibold text-fg">{formatInt(objetivos.kcal)}</strong> kcal</p>}
               </div>
               <ProgressBar size="lg" value={media.kcal} goal={objetivos.kcal} colorClass="bg-kcal" label="Media diaria de calorías" valueText={`${formatInt(media.kcal)} de ${formatInt(objetivos.kcal)} kcal de media`} />
-              <p className="tabular text-body-sm text-fg-muted">{diasRegistrados === 1 ? 'Solo cuenta el día registrado' : `Solo cuentan los ${diasRegistrados} días registrados`}</p>
+              <p className="tabular text-body-sm text-fg-muted">{diasRegistrados === 1 ? 'Solo cuenta el día registrado' : `Solo cuentan los ${diasRegistrados} días registrados`}{notaCheat && ` · ${notaCheat}`}</p>
               <div className="grid grid-cols-3 gap-3 pt-3" aria-label="Macros medios por día" role="group">
                 <MacroBar macro="prot" valor={media.prot} objetivo={objetivos.prot} />
                 <MacroBar macro="carbs" valor={media.carb} objetivo={objetivos.carb} />
@@ -81,7 +86,7 @@ export default function Resumen() {
             </Card>
           </section>
           <section aria-label="Distribución de calorías" className="space-y-3"><SectionHeader variant="section">Reparto de macros</SectionHeader><FranjaMacros macros={media} /></section>
-          <AdherenciaResumen fechas={fechas} entries={entries} hoy={todayISO()} />
+          <AdherenciaResumen fechas={fechas} entries={entries} cheatDays={cheatDays} hoy={todayISO()} />
           <CategoriasResumen entries={entries} />
           <HerbarioResumen entries={entries} semana={rango === 'semana'} />
           <section aria-label="Tendencia nutricional" className="space-y-4">
