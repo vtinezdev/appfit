@@ -53,7 +53,7 @@ Estado: completa (fases 1 a 5 de `gaming.md`). Descartado «Explorador» (logro 
   - si el ejercicio está en una rutina (en el entreno, la de la sesión; en Progreso, las que lo incluyen, con un selector si son varias), cada alternativa lleva «Usar»: la pone en su lugar con el mismo objetivo (`routinesRepo.sustituirEjercicio`, en una transacción, creando el ejercicio del catálogo si hace falta). El entreno en curso no cambia. Una línea dice qué cambió, con «Deshacer» en línea (también dentro de la hoja);
   - «Mantener este ejercicio» (secundario): deja de avisar durante el entreno; el texto pasa a «Lo mantienes en Élite: no te avisa durante el entreno» y el botón a «Volver a avisar», que lo deshace. Errores en línea;
   - en los básicos, sin «Mantener» (no avisan) y con las alternativas en el desplegable «Si aun así quieres variar».
-- **Vitrina**: el logro «Ciclos completados» (Entreno), con niveles 1 · 5 · 10 ejercicios distintos que llegan a Élite, con la fecha y el entreno de la primera llegada de cada uno; sale en «Nuevo en la Vitrina» al terminar el entreno que lo consigue.
+- **Vitrina**: el logro «Ciclos completados» (Entreno), con niveles 1 · 5 · 10 ejercicios distintos que llegan a Élite, con la fecha y el entreno de la primera llegada de cada uno; sale en «Nuevo en la Vitrina» al terminar el entreno que lo consigue. Y «Subir de liga» (Entreno), con un nivel por liga de Bronce a Rubí: la primera vez que algún ejercicio entra en ella.
 - Con la gamificación oculta en Ajustes no aparece nada de esto y Progreso queda como antes.
 
 ## Rendimiento

@@ -15,6 +15,8 @@ const PLANTA = new Set<string>(CATEGORIAS_PLANTA)
 
 /** Plantas distintas en una semana que se proponen como referencia (American Gut Project). */
 export const PLANTAS_SEMANA = 30
+/** Plantas distintas en una semana del logro oculto «Jardín botánico» de la Vitrina. */
+export const PLANTAS_JARDIN = 50
 
 export interface Planta {
   /** Nombre corto normalizado y en singular: «Tomates cherry» y «tomate» son la misma planta. */
@@ -61,19 +63,22 @@ export interface SemanaHerbario {
   plantas: number
   /** Día en que se llegó a 30 plantas distintas; `null` si no se llegó. */
   treintaEl: string | null
+  /** Día en que se llegó a `PLANTAS_JARDIN`; `null` si no se llegó. */
+  cincuentaEl: string | null
 }
 
 /** Plantas distintas de cada semana (lunes-domingo) con alguna, en orden cronológico. */
 export function herbarioPorSemana(entries: readonly EntradaPlanta[], categorias: ReadonlyMap<string, string>): SemanaHerbario[] {
-  const semanas = new Map<string, { claves: Set<string>; treintaEl: string | null }>()
+  const semanas = new Map<string, { claves: Set<string>; treintaEl: string | null; cincuentaEl: string | null }>()
   for (const e of [...entries].sort((a, b) => a.fecha.localeCompare(b.fecha))) {
     const p = plantaDeEntrada(e, categorias)
     if (!p) continue
     const lunes = startOfWeek(e.fecha)
-    const s = semanas.get(lunes) ?? { claves: new Set<string>(), treintaEl: null }
+    const s = semanas.get(lunes) ?? { claves: new Set<string>(), treintaEl: null, cincuentaEl: null }
     s.claves.add(p.clave)
     if (s.treintaEl === null && s.claves.size >= PLANTAS_SEMANA) s.treintaEl = e.fecha
+    if (s.cincuentaEl === null && s.claves.size >= PLANTAS_JARDIN) s.cincuentaEl = e.fecha
     semanas.set(lunes, s)
   }
-  return [...semanas].map(([lunes, s]) => ({ lunes, plantas: s.claves.size, treintaEl: s.treintaEl })).sort((a, b) => a.lunes.localeCompare(b.lunes))
+  return [...semanas].map(([lunes, s]) => ({ lunes, plantas: s.claves.size, treintaEl: s.treintaEl, cincuentaEl: s.cincuentaEl })).sort((a, b) => a.lunes.localeCompare(b.lunes))
 }

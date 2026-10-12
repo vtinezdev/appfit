@@ -26,8 +26,8 @@ describe('herbario', () => {
     const muchas = new Map(Array.from({ length: 30 }, (_, i) => [`catalog:p${i}`, 'Frutas']))
     const entries = Array.from({ length: 30 }, (_, i) => e(i < 15 ? '2026-10-05' : '2026-10-08', `Fruta${i}`, `p${i}`))
     expect(herbarioPorSemana([...entries, e('2026-10-12', 'Fruta', 'p0')], muchas)).toEqual([
-      { lunes: '2026-10-05', plantas: 30, treintaEl: '2026-10-08' },
-      { lunes: '2026-10-12', plantas: 1, treintaEl: null },
+      { lunes: '2026-10-05', plantas: 30, treintaEl: '2026-10-08', cincuentaEl: null },
+      { lunes: '2026-10-12', plantas: 1, treintaEl: null, cincuentaEl: null },
     ])
   })
 })
