@@ -13,6 +13,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Vitrina: logros con su fecha real (con niveles, repetibles y ocultos), el muro con la mejor marca de cada ejercicio, el Herbario (plantas distintas por semana, también en Nutrición › Resumen) y el Atlas (grupos trabajados y ejercicios dominados).
 - Aviso discreto cuando hace tiempo que no exportas una copia, y tarjeta de agua con su objetivo recomendado según tu sexo.
 - Revisión semanal cada lunes: peso medio, kcal y proteína frente al objetivo, adherencia, entrenos, récords y agua de la semana cerrada, comparados con la anterior y sin juicios; se cierra con «Hecho» hasta el lunes siguiente.
+- Creatina opcional: dosis automática según el último pesaje o manual, marca diaria reversible, historial de siete días y fase de carga opcional de cinco días con paso automático a mantenimiento; sin XP ni rachas.
 - Pantalla en mosaico: una rueda de energía con lo comido en los colores de proteína, hidratos y grasa y lo que falta en negro (si te pasas, una segunda vuelta por dentro), el peso con su variación semanal y una minigráfica, el agua con un vaso que se llena hacia el objetivo y el último entreno con el mapa muscular en miniatura. Identidad deportiva en grafito con un único acento naranja para actuar y para las calorías; títulos y métricas contundentes, tarjetas limpias y redondeadas, y tema claro y oscuro.
 
 **Nutrición**

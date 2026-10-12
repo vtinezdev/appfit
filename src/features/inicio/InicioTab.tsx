@@ -19,6 +19,7 @@ import { getSettings, updateSettings } from '../../shared/db/settings'
 import { getPerfil } from '../perfil/data/perfilRepo'
 import * as aguaRepo from './data/aguaRepo'
 import AccesoAgua from './components/AccesoAgua'
+import CreatinaHoy from './components/CreatinaHoy'
 import AccesoNivel from './components/AccesoNivel'
 import AccesoSemana from './components/AccesoSemana'
 import { useCumbres } from '../cumbres/hooks/useCumbres'
@@ -128,6 +129,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrAAtributos, on
             <AccesoPeso tendencia={tendencia} pesos={pesos} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
             <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />
           </div>
+          <CreatinaHoy hoy={hoy} />
           <AccesoEntreno onAbrir={onIrAGym} />
           <AccesoSemana hoy={hoy} estado={atributos} onAbrir={onIrARitmo} />
           <AccesoNivel hoy={hoy} estado={atributos} onAbrirAtributos={onIrAAtributos} onAbrirCumbres={onIrACumbres} />

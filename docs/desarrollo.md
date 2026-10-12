@@ -144,3 +144,7 @@ La regla de uso de agentes está en `CLAUDE.md` § Forma de trabajar. Lo que no 
 - Si Víctor nombra un agente, se le da un encargo mínimo (objetivo, alcance o `git diff`, pregunta concreta) y se traslada su informe tal cual, sin revisiones después.
 - Si la sesión está en modo plan, hay que salir antes de lanzar un agente (Shift+Tab): el agente hereda el modo plan y no podría editar.
 - Los alias `opus`/`sonnet` apuntan siempre al modelo más reciente de cada familia. `/model` en una sesión manda sobre `.claude/settings.json`; `/agents` muestra y edita los subagentes.
+
+### Validación de Creatina
+
+Con Vite en 5173, `node scripts/ui/validar-creatina.cjs` recorre ocho contextos aislados en `appfit-test.localhost:5173` (320/375/430 px en claro/oscuro y 375 con texto al 200 % y Reduce Motion). Prueba activación por defecto, sin pesaje, mínimo, dosis manual con coma e inválida, marcar/desmarcar, fallo/reintento, recarga, historial, cinco días de carga y vuelta automática, cancelación, desactivación con datos conservados, XP/Ritmo intactos al marcar y backups antiguo/nuevo. Comprueba geometría y targets de los nuevos controles. Usa datos sintéticos; `APPFIT_UI_CASE`, `APPFIT_UI_OUTPUT` y `APPFIT_CHROMIUM` siguen el patrón de los otros recorridos. Informe y capturas en `/tmp/appfit-creatina`. Migración, compatibilidad y rollback tienen tests en `shared/db/db.test.ts`, `shared/lib/backup.test.ts` e `inicio/data/creatinaRepo.test.ts`. Sin prueba en iPhone real.
