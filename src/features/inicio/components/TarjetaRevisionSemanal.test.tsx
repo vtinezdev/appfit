@@ -4,7 +4,7 @@ import type { ResumenTarjetaRevision } from '../hooks/useRevisionSemanal'
 import { semanaDe } from '../lib/revisionSemanal'
 import TarjetaRevisionSemanal from './TarjetaRevisionSemanal'
 
-const nutricion = { diasRegistrados: 6, kcalMedia: 2310, protMedia: 150, kcalObjetivo: 2200, protObjetivo: 150, adherencia: 67, diasEnRango: 4, diferenciaKcal: -40 }
+const nutricion = { diasRegistrados: 6, cheatDays: 0, kcalMedia: 2310, protMedia: 150, kcalObjetivo: 2200, protObjetivo: 150, adherencia: 67, diasEnRango: 4, diferenciaKcal: -40 }
 const base: ResumenTarjetaRevision = {
   semana: semanaDe('2026-10-05'),
   cerradaAntes: undefined,

@@ -1,6 +1,7 @@
 // Lecturas de la revisión semanal (solo lectura: se usan en useLiveQuery).
 import { useLiveQuery } from 'dexie-react-hooks'
 import { getSettings } from '../../../shared/db/settings'
+import * as cheatDaysRepo from '../../nutricion/data/cheatDaysRepo'
 import * as entriesRepo from '../../nutricion/data/entriesRepo'
 import * as exercisesRepo from '../../gym/data/exercisesRepo'
 import * as setsRepo from '../../gym/data/setsRepo'
@@ -42,12 +43,12 @@ export function useTarjetaRevision(hoy: string): ResumenTarjetaRevision | null |
       workoutsRepo.listar(),
     ])
     if (!hayDatosSemana(semana, { entries, pesos, agua, workouts })) return null
-    const objetivos = await objetivosPorFecha(semana.fechas, hoy)
+    const [objetivos, cheatDays] = await Promise.all([objetivosPorFecha(semana.fechas, hoy), cheatDaysRepo.entreFechas(anterior.lunes, semana.domingo)])
     return {
       semana,
       cerradaAntes: revisionSemanalCerrada,
       peso: bloquePeso(semana, anterior, pesos),
-      nutricion: bloqueNutricion(semana, anterior, entries, objetivos, hoy),
+      nutricion: bloqueNutricion(semana, anterior, entries, objetivos, hoy, new Set(cheatDays)),
       sesiones: entrenosDeSemana(semana, workouts).length,
       sesionesAnterior: entrenosDeSemana(anterior, workouts).length,
     }
@@ -59,8 +60,9 @@ export function useRevision(lunes: string, hoy: string): Revision | undefined {
   return useLiveQuery(async () => {
     const semana = semanaDe(lunes)
     const anterior = semanaAnterior(semana)
-    const [entries, objetivos, pesos, agua, settings, perfil, workouts, sets, exercises] = await Promise.all([
+    const [entries, cheatDays, objetivos, pesos, agua, settings, perfil, workouts, sets, exercises] = await Promise.all([
       entriesRepo.entreFechas(anterior.lunes, semana.domingo),
+      cheatDaysRepo.entreFechas(anterior.lunes, semana.domingo),
       objetivosPorFecha(semana.fechas, hoy),
       pesosRepo.delRango(anterior.lunes, semana.domingo),
       aguaRepo.entreFechas(semana.lunes, semana.domingo),
@@ -71,6 +73,6 @@ export function useRevision(lunes: string, hoy: string): Revision | undefined {
       exercisesRepo.listar(),
     ])
     const objetivoAguaMl = resolverObjetivoAgua(settings.aguaObjetivoMl, perfil.sexo)?.ml ?? null
-    return calcularRevision(lunes, { entries, objetivos, pesos, agua, objetivoAguaMl, workouts, sets, exercises }, hoy)
+    return calcularRevision(lunes, { entries, cheatDays: new Set(cheatDays), objetivos, pesos, agua, objetivoAguaMl, workouts, sets, exercises }, hoy)
   }, [lunes, hoy])
 }

@@ -1,6 +1,6 @@
 import { db, TABLAS_USUARIO } from '../db/db'
 import { conDefaults } from '../db/settings'
-import type { Agua, Entry, Exercise, Food, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Porcion, Receta, Routine, SetEntry, Settings, Suplemento, Workout } from '../db/types'
+import type { Agua, CheatDay, Entry, Exercise, Food, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Porcion, Receta, Routine, SetEntry, Settings, Suplemento, Workout } from '../db/types'
 
 /**
  * Formato del backup JSON. Reglas para cambiarlo:
@@ -16,7 +16,7 @@ import type { Agua, Entry, Exercise, Food, Meal, Medida, NombreAlimento, NotaMed
 export const BACKUP_VERSION = 3
 
 const TABLAS_OBLIGATORIAS = ['foods', 'entries', 'settings', 'exercises', 'routines', 'workouts', 'sets'] as const
-const TABLAS_OPCIONALES = ['meals', 'notasMedida', 'pesos', 'nombresAlimentos', 'porciones', 'recetas', 'agua', 'objetivosDia', 'medidas', 'suplementos'] as const
+const TABLAS_OPCIONALES = ['meals', 'notasMedida', 'pesos', 'nombresAlimentos', 'porciones', 'recetas', 'agua', 'objetivosDia', 'medidas', 'suplementos', 'cheatDays'] as const
 
 export interface BackupV3 {
   version: 3
@@ -45,6 +45,7 @@ export interface BackupV3 {
   objetivosDia?: ObjetivoDia[]
   medidas?: Medida[]
   suplementos?: Suplemento[]
+  cheatDays?: CheatDay[]
 }
 
 /** Las tablas de datos del usuario (todas menos el catálogo). */
@@ -57,7 +58,7 @@ const ERROR_FORMATO = 'El archivo no tiene el formato de backup de AppFit.'
 /** Exporta todas las tablas en una lectura coherente. */
 export async function exportarBackup(): Promise<BackupV3> {
   return db.transaction('r', usuarioTablas(), async () => {
-    const [foods, entries, settings, exercises, routines, workouts, sets, meals, notasMedida, pesos, nombresAlimentos, porciones, recetas, agua, objetivosDia, medidas, suplementos] = await Promise.all([
+    const [foods, entries, settings, exercises, routines, workouts, sets, meals, notasMedida, pesos, nombresAlimentos, porciones, recetas, agua, objetivosDia, medidas, suplementos, cheatDays] = await Promise.all([
       db.foods.toArray(),
       db.entries.toArray(),
       db.settings.toArray(),
@@ -75,6 +76,7 @@ export async function exportarBackup(): Promise<BackupV3> {
       db.objetivosDia.toArray(),
       db.medidas.toArray(),
       db.suplementos.toArray(),
+      db.cheatDays.toArray(),
     ])
     return {
       version: BACKUP_VERSION,
@@ -97,6 +99,7 @@ export async function exportarBackup(): Promise<BackupV3> {
       objetivosDia,
       medidas,
       suplementos,
+      cheatDays,
     }
   })
 }
@@ -145,6 +148,7 @@ export function migrarBackup(raw: unknown): BackupV3 {
     objetivosDia: (d.objetivosDia as ObjetivoDia[] | undefined) ?? [],
     medidas: (d.medidas as Medida[] | undefined) ?? [],
     suplementos: (d.suplementos as Suplemento[] | undefined) ?? [],
+    cheatDays: (d.cheatDays as CheatDay[] | undefined) ?? [],
   }
   const exportedAt = typeof d.exportedAt === 'string' ? d.exportedAt : ''
 

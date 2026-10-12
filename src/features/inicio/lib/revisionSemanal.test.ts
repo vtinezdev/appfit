@@ -77,8 +77,15 @@ describe('bloqueNutricion', () => {
 
   it('semana sin registros: sin medias, objetivo, adherencia ni diferencia', () => {
     expect(bloqueNutricion(SEMANA, ANTERIOR, [e('2026-09-30', 1900)], objetivos, HOY)).toEqual({
-      diasRegistrados: 0, kcalMedia: null, protMedia: null, kcalObjetivo: null, protObjetivo: null, adherencia: null, diasEnRango: 0, diferenciaKcal: null,
+      diasRegistrados: 0, cheatDays: 0, kcalMedia: null, protMedia: null, kcalObjetivo: null, protObjetivo: null, adherencia: null, diasEnRango: 0, diferenciaKcal: null,
     })
+  })
+
+  it('los cheat days quedan fuera de las medias, la adherencia y la comparación con la semana anterior', () => {
+    const entries = [e('2026-10-05', 2000, 150), e('2026-10-06', 4500, 80), e('2026-09-30', 1900), e('2026-10-01', 4000)]
+    const b = bloqueNutricion(SEMANA, ANTERIOR, entries, objetivos, HOY, new Set(['2026-10-06', '2026-10-08', '2026-10-01']))
+    // Solo cuenta el 5 oct (2000 de 2000); la semana anterior, solo el 30 sep (1900). El 8 oct es un cheat day vacío.
+    expect(b).toMatchObject({ diasRegistrados: 1, cheatDays: 2, kcalMedia: 2000, protMedia: 150, kcalObjetivo: 2000, adherencia: 100, diasEnRango: 1, diferenciaKcal: 100 })
   })
 
   it('sin objetivo de kcal no inventa uno', () => {

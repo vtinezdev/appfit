@@ -15,6 +15,7 @@ import { cifrasSemana, textoEstado, textoHilo } from '../../ritmo/lib/textos'
 import Card from '../../../shared/components/Card'
 import { formatAgua, partesAgua } from '../lib/agua'
 import { formatDiferencia, semanaARevisar, type Revision } from '../lib/revisionSemanal'
+import { notaCheatDays } from '../../nutricion/lib/cheatDays'
 
 /** Récords que se listan; el resto se resume en «y N más». */
 const RECORDS_VISIBLES = 3
@@ -90,13 +91,13 @@ function Contenido({ revision }: { revision: Revision }) {
       </Bloque>
 
       <Bloque titulo="Nutrición">
-        {nutricion.kcalMedia === null ? <EmptyState>Sin comidas registradas esta semana.</EmptyState> : (
+        {nutricion.kcalMedia === null ? <EmptyState>{nutricion.cheatDays > 0 ? `Sin comidas registradas fuera de los cheat days (${formatInt(nutricion.cheatDays)}).` : 'Sin comidas registradas esta semana.'}</EmptyState> : (
           <div className="grid grid-cols-2 gap-3">
             <Metric size="title" label="Kcal al día" valor={nutricion.kcalMedia} unidad="kcal"
               caption={unir(nutricion.kcalObjetivo !== null && `Objetivo ${formatInt(nutricion.kcalObjetivo)}`, nutricion.diferenciaKcal !== null && frenteAnterior(formatDiferencia(nutricion.diferenciaKcal, 0, 'kcal')))} />
             <Metric size="title" label="Proteína al día" valor={nutricion.protMedia ?? 0} unidad="g"
               caption={nutricion.protObjetivo !== null ? `Objetivo ${formatInt(nutricion.protObjetivo)} g` : undefined} />
-            <Metric size="title" label="Días registrados" valor={`${formatInt(nutricion.diasRegistrados)} de 7`} />
+            <Metric size="title" label="Días registrados" valor={`${formatInt(nutricion.diasRegistrados)} de 7`} caption={notaCheatDays(nutricion.cheatDays) ?? undefined} />
             {nutricion.kcalObjetivo !== null && nutricion.adherencia !== null && (
               <Metric size="title" label="En objetivo" valor={formatInt(nutricion.adherencia)} unidad="%"
                 caption={`${formatInt(nutricion.diasEnRango)} de ${formatInt(nutricion.diasRegistrados)} días a ±10 %`} />

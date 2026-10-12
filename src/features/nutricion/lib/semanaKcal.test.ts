@@ -23,4 +23,10 @@ describe('semanaKcal', () => {
     expect(semana[4]).toMatchObject({ hoy: true, futuro: false })
     expect(semana[5]).toMatchObject({ futuro: true, objetivo: 0, meta: null })
   })
+  it('marca los cheat days sin tocar sus kcal reales', () => {
+    expect(semana.every(d => !d.cheat)).toBe(true)
+    const conCheat = semanaKcal('2026-10-09', entries, objetivos, '2026-10-09', new Set(['2026-10-07', '2026-10-08']))
+    expect(conCheat.filter(d => d.cheat).map(d => d.fecha)).toEqual(['2026-10-07', '2026-10-08'])
+    expect(conCheat[2]).toMatchObject({ kcal: 2750, alto: semana[2].alto })
+  })
 })

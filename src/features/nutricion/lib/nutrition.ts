@@ -106,12 +106,12 @@ export interface ResumenPeriodo {
 
 /**
  * Resumen de un periodo. La media solo cuenta los días con al menos una entrada y fecha ≤ `hoy`:
- * los días futuros o sin registrar no bajan la media.
+ * los días futuros o sin registrar no bajan la media. Los cheat days tampoco cuentan (sí salen en `porDia`).
  */
-export function resumenPeriodo(entries: Entry[], fechas: string[], hoy: string): ResumenPeriodo {
+export function resumenPeriodo(entries: Entry[], fechas: string[], hoy: string, cheatDays: ReadonlySet<string> = new Set()): ResumenPeriodo {
   const byDate = aggregateByDate(entries)
   const porDia = macrosDeRango(entries, fechas)
-  const registrados = fechas.filter((f) => f <= hoy && byDate.has(f)).map((f) => byDate.get(f)!)
+  const registrados = fechas.filter((f) => f <= hoy && byDate.has(f) && !cheatDays.has(f)).map((f) => byDate.get(f)!)
   const total = sumMacros(registrados)
   return {
     porDia,

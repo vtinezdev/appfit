@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { DndContext, DragOverlay, KeyboardSensor, MeasuringStrategy, useSensor, useSensors } from '@dnd-kit/core'
 import { useLiveQuery } from 'dexie-react-hooks'
+import * as cheatDaysRepo from '../data/cheatDaysRepo'
 import * as entriesRepo from '../data/entriesRepo'
 import * as foodsRepo from '../data/foodsRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
@@ -12,7 +13,8 @@ import SemanaKcal from '../components/SemanaKcal'
 import { semanaKcal } from '../lib/semanaKcal'
 import AccionesComidaSheet from '../components/AccionesComidaSheet'
 import ComidaSection from '../components/ComidaSection'
-import CopiarDiaSheet from '../components/CopiarDiaSheet'
+import AccionesDiaSheet, { type PasoAccionesDia } from '../components/AccionesDiaSheet'
+import { avisoAlMarcar } from '../lib/cheatDays'
 import ResumenNutricional from '../components/ResumenNutricional'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { sumMacros } from '../lib/nutrition'
@@ -27,6 +29,8 @@ import { COMIDAS, esComida, nombreComida } from '../lib/comidas'
 import { colisionesComidas, crearCoordenadasComidas, limitarCopiaAlViewport } from '../lib/arrastrePlatos'
 import { PlatoPointerSensor } from '../lib/PlatoPointerSensor'
 import { haptic } from '../../../shared/design/motion'
+import Badge from '../../../shared/components/Badge'
+import Icon from '../../../shared/components/Icon'
 import Card from '../../../shared/components/Card'
 import { formatInt } from '../../../shared/lib/format'
 import type { NutrienteId } from '../../../shared/lib/referenciasNutricionales'
@@ -53,13 +57,15 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   const lunes = startOfWeek(fecha)
   const semana = useLiveQuery(async () => {
     const fechas = weekDates(lunes)
-    const [delaSemana, objetivosSemana] = await Promise.all([entriesRepo.entreFechas(fechas[0], fechas[6]), objetivosPorFecha(fechas, todayISO())])
-    return semanaKcal(lunes, delaSemana, objetivosSemana, todayISO())
+    const [delaSemana, objetivosSemana, cheatSemana] = await Promise.all([entriesRepo.entreFechas(fechas[0], fechas[6]), objetivosPorFecha(fechas, todayISO()), cheatDaysRepo.entreFechas(fechas[0], fechas[6])])
+    return semanaKcal(lunes, delaSemana, objetivosSemana, todayISO(), new Set(cheatSemana))
   }, [lunes])
   const { avisar, avisarError, toast } = useAviso()
-  const [copiarDia, setCopiarDia] = useState<{ fechaDestino: string } | null>(null)
+  const [accionesDia, setAccionesDia] = useState<{ paso: PasoAccionesDia; fechaDestino: string } | null>(null)
   const [copiandoDia, setCopiandoDia] = useState(false)
-  const [errorCopia, setErrorCopia] = useState<string | null>(null)
+  const [marcandoCheat, setMarcandoCheat] = useState(false)
+  const [errorDia, setErrorDia] = useState<string | null>(null)
+  const cheat = semana?.find((d) => d.fecha === fecha)?.cheat ?? false
   const [repetir, setRepetir] = useState<Comida | null>(null)
   const entriesRepetir = useMemo(() => (entriesAyer ?? []).filter((e) => e.comida === repetir), [entriesAyer, repetir])
   const [accionesComida, setAccionesComida] = useState<{ comida: Comida; plato?: { id: string; nombre: string } } | null>(null)
@@ -135,18 +141,40 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   }
 
   async function confirmarCopiarDia() {
-    if (!copiarDia || copiandoDia) return
+    if (!accionesDia || copiandoDia) return
     setCopiandoDia(true)
-    setErrorCopia(null)
+    setErrorDia(null)
     try {
-      const ids = await entriesRepo.copiar({ origen: { fecha }, destino: { fecha: copiarDia.fechaDestino } })
-      void congelarObjetivoDia(copiarDia.fechaDestino)
-      setCopiarDia(null)
+      const ids = await entriesRepo.copiar({ origen: { fecha }, destino: { fecha: accionesDia.fechaDestino } })
+      void congelarObjetivoDia(accionesDia.fechaDestino)
+      setAccionesDia(null)
       avisarCopia(ids)
     } catch {
-      setErrorCopia('No se ha podido copiar el día. Inténtalo de nuevo.')
+      setErrorDia('No se ha podido copiar el día. Inténtalo de nuevo.')
     } finally {
       setCopiandoDia(false)
+    }
+  }
+
+  /** Marca o quita el cheat day del día elegido; las dos cosas se pueden deshacer. */
+  async function alternarCheat() {
+    if (marcandoCheat || !semana) return
+    setMarcandoCheat(true)
+    setErrorDia(null)
+    try {
+      if (cheat) {
+        const marca = await cheatDaysRepo.quitar(fecha)
+        if (marca) avisar({ mensaje: 'Cheat day quitado', onDeshacer: () => cheatDaysRepo.restaurar(marca) })
+      } else {
+        const mensaje = avisoAlMarcar(fecha, semana.filter((d) => d.cheat).map((d) => d.fecha))
+        await cheatDaysRepo.marcar(fecha)
+        avisar({ mensaje, onDeshacer: () => cheatDaysRepo.quitar(fecha) })
+      }
+      setAccionesDia(null)
+    } catch {
+      setErrorDia(cheat ? 'No se ha podido quitar el cheat day. Inténtalo de nuevo.' : 'No se ha podido marcar el cheat day. Inténtalo de nuevo.')
+    } finally {
+      setMarcandoCheat(false)
     }
   }
 
@@ -178,7 +206,8 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   return (
     <div className="space-y-section">
       <SemanaKcal fecha={fecha} hoy={todayISO()} dias={semana} onFecha={onFechaChange} transicion={transicion}
-        acciones={<IconButton icon="more" label="Copiar el día" variant="ghost" onClick={() => { setErrorCopia(null); setCopiarDia({ fechaDestino: fecha }) }} />} />
+        nota={cheat && <Badge tone="accent"><Icon name="sparkles" size={12} />Cheat day · fuera de las medias</Badge>}
+        acciones={<IconButton icon="more" label="Acciones del día" variant="ghost" aria-haspopup="dialog" onClick={() => { setErrorDia(null); setAccionesDia({ paso: 'menu', fechaDestino: fecha }) }} />} />
 
       {!cargado || !totales || !objetivos ? (
         <div className="animate-fade-in-late">
@@ -251,15 +280,20 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
       <RepetirComidaSheet comida={repetir} fechaOrigen={ayer} entries={entriesRepetir} onRepetir={repetirDeAyer} onClose={() => setRepetir(null)} />
       <MoverPlatoSheet plato={platoMover} moviendo={moviendo} error={errorMover} onMover={mover} onClose={() => setPlatoMover(null)} />
 
-      <CopiarDiaSheet
-        open={copiarDia !== null}
+      <AccionesDiaSheet
+        open={accionesDia !== null}
+        paso={accionesDia?.paso ?? 'menu'}
         fechaOrigen={fecha}
-        fechaDestino={copiarDia?.fechaDestino ?? fecha}
-        onFechaDestinoChange={(f) => setCopiarDia((d) => (d ? { fechaDestino: f } : d))}
+        fechaDestino={accionesDia?.fechaDestino ?? fecha}
+        cheat={cheat}
+        onFechaDestinoChange={(f) => setAccionesDia((d) => (d ? { ...d, fechaDestino: f } : d))}
+        onIrACopiar={() => { setErrorDia(null); setAccionesDia((d) => (d ? { ...d, paso: 'copiar' } : d)) }}
         onCopiar={confirmarCopiarDia}
-        onClose={() => setCopiarDia(null)}
+        onCheat={alternarCheat}
+        onClose={() => setAccionesDia(null)}
         copiando={copiandoDia}
-        error={errorCopia}
+        marcando={marcandoCheat}
+        error={errorDia}
       />
 
       {accionesComida && (

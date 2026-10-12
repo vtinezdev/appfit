@@ -86,8 +86,10 @@ export function bloquePeso(s: Semana, anterior: Semana, pesos: Pick<Peso, 'fecha
 // ── Nutrición ──
 
 export interface BloqueNutricion {
-  /** Días con algún registro (de 7). */
+  /** Días con algún registro (de 7), sin los cheat days. */
   diasRegistrados: number
+  /** Cheat days de la semana: fuera de las medias y de la adherencia. */
+  cheatDays: number
   /** Medias de los días registrados; `null` sin días registrados. */
   kcalMedia: number | null
   protMedia: number | null
@@ -103,15 +105,16 @@ export interface BloqueNutricion {
 
 type MacrosEntrada = Pick<Entry, 'fecha' | 'kcal' | 'prot' | 'carb' | 'grasa'>
 
-function diasRegistrados(s: Semana, porDia: ReadonlyMap<string, { kcal: number }>): string[] {
-  return s.fechas.filter((f) => (porDia.get(f)?.kcal ?? 0) > 0)
+function diasRegistrados(s: Semana, porDia: ReadonlyMap<string, { kcal: number }>, cheatDays: ReadonlySet<string>): string[] {
+  return s.fechas.filter((f) => (porDia.get(f)?.kcal ?? 0) > 0 && !cheatDays.has(f))
 }
 
 const media = (valores: number[]) => (valores.length ? valores.reduce((a, b) => a + b, 0) / valores.length : null)
 
 /**
  * Kcal y proteína medias de los días registrados, frente a la media de los objetivos de esos mismos días (cada día con
- * el suyo). Un día sin registro no cuenta: ni baja la media ni es un día fuera de rango (como en el Resumen).
+ * el suyo). Un día sin registro no cuenta: ni baja la media ni es un día fuera de rango (como en el Resumen). Los cheat
+ days, tampoco (en ninguna de las dos semanas).
  */
 export function bloqueNutricion(
   s: Semana,
@@ -119,10 +122,11 @@ export function bloqueNutricion(
   entries: MacrosEntrada[],
   objetivos: ReadonlyMap<string, Objetivos>,
   hoy: string,
+  cheatDays: ReadonlySet<string> = new Set(),
 ): BloqueNutricion {
   const porDia = aggregateByDate(entries as Entry[])
-  const dias = diasRegistrados(s, porDia)
-  const diasPrevios = diasRegistrados(anterior, porDia)
+  const dias = diasRegistrados(s, porDia, cheatDays)
+  const diasPrevios = diasRegistrados(anterior, porDia, cheatDays)
   const total = sumMacros(dias.map((f) => porDia.get(f)!))
   const kcalMedia = dias.length ? total.kcal / dias.length : null
   const previa = media(diasPrevios.map((f) => porDia.get(f)!.kcal))
@@ -132,6 +136,7 @@ export function bloqueNutricion(
   const adherencia = calcularAdherencia(s.fechas, hoy, kcalPorDia, (f) => objetivos.get(f)?.kcal ?? 0)
   return {
     diasRegistrados: dias.length,
+    cheatDays: s.fechas.filter((f) => f <= hoy && cheatDays.has(f)).length,
     kcalMedia: kcalMedia === null ? null : Math.round(kcalMedia),
     protMedia: dias.length ? Math.round(total.prot / dias.length) : null,
     kcalObjetivo: objKcal ? Math.round(objKcal) : null,
@@ -200,6 +205,8 @@ export function bloqueAgua(s: Semana, agua: Pick<Agua, 'fecha' | 'ml'>[], objeti
 
 export interface DatosRevision {
   entries: MacrosEntrada[]
+  /** Cheat days de las dos semanas (fuera de las medias de nutrición). */
+  cheatDays?: ReadonlySet<string>
   objetivos: ReadonlyMap<string, Objetivos>
   pesos: Pick<Peso, 'fecha' | 'kg'>[]
   agua: Pick<Agua, 'fecha' | 'ml'>[]
@@ -229,7 +236,7 @@ export function calcularRevision(lunes: string, datos: DatosRevision, hoy: strin
     semana,
     hayDatos: hayDatosSemana(semana, datos),
     peso: bloquePeso(semana, anterior, datos.pesos),
-    nutricion: bloqueNutricion(semana, anterior, datos.entries, datos.objetivos, hoy),
+    nutricion: bloqueNutricion(semana, anterior, datos.entries, datos.objetivos, hoy, datos.cheatDays),
     entreno: bloqueEntreno(semana, anterior, datos.workouts, datos.sets, datos.exercises),
     records: recordsDeSemana(semana, datos.workouts, datos.sets),
     nombres: Object.fromEntries(datos.exercises.map((e) => [e.id, e.nombre])),

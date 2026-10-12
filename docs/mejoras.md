@@ -12,7 +12,7 @@ Se va de lo rápido y sin riesgo a lo que cambia el esquema. Cada punto va en su
 | 2 | [5 · Pista del menú de la serie](#5--pista-del-menú-de-la-serie) | `feat/pista-menu-serie` | no | implementada |
 | 3 | [3 · Filtro «Abductores»](#3--filtro-abductores) | `feat/filtro-abductores` | no | implementada |
 | 4 | [2 · Creatina](#2--creatina) | `feat/creatina` | sí (v8) | implementada |
-| 5 | [1 · Cheat day](#1--cheat-day) | `feat/cheat-day` | sí (v9) | pendiente |
+| 5 | [1 · Cheat day](#1--cheat-day) | `feat/cheat-day` | sí (v9) | implementada |
 | 6 | [7 · Creador de rutinas](#7--creador-de-rutinas) | `feat/creador-rutinas` | no | pendiente |
 | — | [6 · Uso por otras personas](#6--uso-por-otras-personas-por-afinar) | — | — | por afinar |
 
