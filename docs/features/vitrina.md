@@ -14,6 +14,7 @@
 | Lecturas | `hooks/useVitrina.ts`: `cumbres/hooks/useCumbres.leerCumbres` (experiencia, Cumbres y las actividades), `caminos/hooks/useCaminos.leerCaminos` y `foodsRepo.categoriasDeEntradas` | ver [experiencia.md](experiencia.md) |
 | Página (Más › Vitrina) | `VitrinaTab.tsx` (diferida): `components/LogrosVista` (medallas en rejilla de tres, con el anillo de lo que se lleva hacia el siguiente nivel; cada una abre su detalle en una hoja), `RecordsVista` y `ColeccionesVista` | — |
 | Al terminar un entreno | `components/NuevosLogros` (en `gym/components/WorkoutFinished`) | `useVitrina` |
+| Iconos de los 55 logros | `components/IconoLogro`, sobre `shared/components/InsigniaExpedicion` | estado derivado del logro; sin persistencia |
 | Herbario en Nutrición › Resumen | `nutricion/components/HerbarioResumen` | `foodsRepo.categoriasDeEntradas`, `settings` |
 
 ## Logros (140 piezas)
@@ -78,6 +79,8 @@
 - Nada se gana por kcal, peso corporal o déficit (salvaguarda del [ADR 029](../decisiones/029-gamificacion-atributos.md)).
 - Los ocultos se ven como «Logro oculto · Se revela al conseguirlo».
 - Los logros conseguidos con un entreno (`workoutId`) aparecen al terminarlo en «Nuevo en la Vitrina».
+
+La rejilla de medallas y la hoja de detalle conservan su navegación y anillo de progreso. Cada uno de los 55 logros tiene un pictograma topográfico propio, tanto en la lista como en «Nuevo en la Vitrina». Sus niveles comparten símbolo y mantienen el numeral en texto. La sección fija la silueta: Entreno escudo, Constancia círculo, Cumbres triángulo, Caminos placa horizontal, Nutrición cuadrado redondeado y Ocultos rombo. Los pendientes van en neutro y los conseguidos en la paleta de expedición. Todos los ocultos sin conseguir montan el mismo candado, sin símbolos ni identificadores específicos dentro del SVG; tras conseguirlos se revela su pictograma. La insignia es decorativa para el lector de pantalla, que conserva nombre, nivel, progreso y fecha. Dirección visual y tokens: [sistema visual](../DESIGN-SYSTEM.md), [ADR 038](../decisiones/038-insignias-topograficas.md).
 
 ## Muro de récords
 

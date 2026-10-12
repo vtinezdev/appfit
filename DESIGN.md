@@ -310,6 +310,8 @@ Las superficies se diferencian por tono y, en claro, por una sombra muy suave y 
 
 Radios amplios de la escala compartida (cards 22 px, controles 14 px); cápsula solo con significado (selector de valor, «+» de la barra, filtros, nodos), sin halos. El título de una sección va sobre su card, no dentro; dentro solo hay etiquetas de métrica y datos. Pocas superficies y pocas líneas (un desplegable no repite la línea de la lista que lo precede): una superficie por unidad real (panel del día, cada comida, una lista agrupada), filas planas dentro y espacio en lugar de separadores. Cabeceras de comida como títulos sobre la página, con icono y kcal neutros; plato y alimento comparten fila plana. Iconografía SVG existente, con trazo consistente.
 
+Ligas y logros usan una familia de insignias de expedición topográfica, aprobada por Víctor el 2026-10-12 ([ADR 038](docs/decisiones/038-insignias-topograficas.md)): curvas de nivel discretas, bosque, salvia, arcilla y marfil, sin volumen, brillo ni bordados. Esta paleta pertenece al arte de las insignias y no sustituye los colores de acción o datos. Las ligas comparten hexágono y se distinguen por su símbolo y ribete; Se conservan los nombres actuales (Bronce, Plata, Oro, Zafiro, Rubí y Élite) y las semanas dentro de la liga. Los logros se reconocen también por su silueta: escudo en Entreno, círculo en Constancia, triángulo en Cumbres, placa horizontal de ruta en Caminos, cuadrado redondeado en Nutrición y rombo en Ocultos. Cada logro tiene su símbolo y sus niveles lo comparten. Pendientes en neutro; ocultos sin descubrir con el mismo candado, sin pistas. Nombre, estado y progreso siempre siguen en texto.
+
 ## Components
 
 ### Inicio

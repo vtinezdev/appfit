@@ -14,6 +14,7 @@ import EjecucionEjercicio from './EjecucionEjercicio'
 import ProgresionEjercicio from './ProgresionEjercicio'
 import AvisoElite from '../../liga/components/AvisoElite'
 import LigaSheet from '../../liga/components/LigaSheet'
+import IconoLiga from '../../liga/components/IconoLiga'
 import type { LigaEjercicio } from '../../liga/lib/liga'
 import type { Alternativa } from '../../liga/lib/alternativas'
 import { textoDivision } from '../../liga/lib/textos'
@@ -310,7 +311,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
         <ListGroup variante="plana" aria-label={`Opciones de ${ejercicio.nombre}`}>
           {contexto && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('nota'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">{contexto.nota ? 'Editar nota' : 'Añadir nota'}</span><span className="block break-words text-caption text-fg-muted">Solo de este ejercicio en esta sesión</span></span><Icon name="pencil" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {conProgresion && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('progresion'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">Progresión</span><span className="block break-words text-caption text-fg-muted">Objetivo y sugerencias</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
-          {liga && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('liga'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">Liga</span><span className="block break-words text-caption text-fg-muted">{textoDivision(liga.estado.division)}</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
+          {liga && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('liga'))}><IconoLiga liga={liga.estado.division.liga} /><span className="min-w-0 flex-1"><span className="block text-body-sm font-semibold">Liga</span><span className="block break-words text-caption text-fg-muted">{textoDivision(liga.estado.division)}</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeSubir} aria-label={`Subir ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onSubir)}><span className="text-body-sm font-semibold">Subir</span><Icon name="chevron-left" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeBajar} aria-label={`Bajar ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onBajar)}><span className="text-body-sm font-semibold">Bajar</span><Icon name="chevron-right" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}
           {onQuitar && <li><ListRow aria-label={`Quitar ${ejercicio.nombre} de este entreno`} onClick={() => elegirDelMenu(onQuitar)}><span className="min-w-0"><span className="block text-body-sm font-semibold text-destructive">Quitar de este entreno</span><span className="block break-words text-caption text-fg-muted">Con Deshacer; la rutina no cambia</span></span><Icon name="trash" size={18} className="shrink-0 text-destructive" /></ListRow></li>}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Anillo from '../../../shared/components/Anillo'
-import Icon from '../../../shared/components/Icon'
+import IconoLogro from './IconoLogro'
 import Sheet from '../../../shared/components/Sheet'
 import ListGroup from '../../../shared/components/ListGroup'
 import ProgressBar from '../../../shared/components/ProgressBar'
@@ -15,10 +15,10 @@ function FilaLogro({ l }: { l: Logro }) {
   const hecho = conseguido(l)
   if (l.oculto && !hecho) {
     return <li className="flex items-center gap-3 py-3">
-      <Icon name="trophy" size={22} className="text-fg-subtle" />
+      <IconoLogro logro={l} />
       <span className="min-w-0">
-        <span className="block text-body font-medium text-fg-muted">Logro oculto</span>
-        <span className="block text-body-sm text-fg-muted">Se revela al conseguirlo</span>
+        <span className="block break-words text-body font-medium text-fg-muted">Logro oculto</span>
+        <span className="block break-words text-body-sm text-fg-muted">Se revela al conseguirlo</span>
       </span>
     </li>
   }
@@ -31,11 +31,11 @@ function FilaLogro({ l }: { l: Logro }) {
     : veces ? `${formatInt(veces)} ${veces === 1 ? 'vez' : 'veces'}` : 'Sin conseguir'
   return <li className="space-y-2 py-3">
     <div className="flex items-start gap-3">
-      <Icon name="trophy" size={22} className={hecho ? 'text-fg' : 'text-fg-subtle'} />
+      <IconoLogro logro={l} />
       <span className="min-w-0 flex-1">
         <span className="flex flex-wrap items-baseline justify-between gap-x-3">
-          <span className="break-words text-body font-semibold text-fg">{l.nombre}</span>
-          <span className="tabular text-body-sm text-fg-muted">{estado}</span>
+          <span className="min-w-0 max-w-full break-words text-body font-semibold text-fg">{l.nombre}</span>
+          <span className="tabular min-w-0 max-w-full break-words text-body-sm text-fg-muted">{estado}</span>
         </span>
         <span className="block break-words text-body-sm text-fg-muted">{l.descripcion}</span>
         {fecha && <span className="tabular block text-caption text-fg-muted">{l.umbrales && l.umbrales.length > 1 ? `Nivel ${NUMERALES[nivel - 1]}` : veces > 1 ? 'Última vez' : 'Conseguido'}: {formatFriendly(fecha)}</span>}
@@ -63,23 +63,21 @@ function progresoCorto(l: Logro): string {
 }
 
 /**
- * Medalla de un logro (M4, ADR 035): conseguida, rellena en grafito; sin conseguir, en contorno con el anillo de lo que
- * lleva hacia el siguiente nivel. Sin color: el color de la gamificación es solo de la Liga (ADR 033). Abre su detalle.
+ * Insignia topográfica de un logro (ADR 038) con el anillo de progreso al siguiente nivel.
+ * Conserva la rejilla y la hoja de detalle; un oculto sin conseguir solo revela el candado común.
  */
 function Medalla({ l, onAbrir }: { l: Logro; onAbrir: () => void }) {
   const hecho = conseguido(l)
   const oculto = l.oculto && !hecho
   const siguiente = siguienteUmbral(l)
-  const fraccion = siguiente !== null && l.progreso !== undefined && siguiente > 0 ? l.progreso / siguiente : 0
+  const fraccion = !oculto && siguiente !== null && l.progreso !== undefined && siguiente > 0 ? l.progreso / siguiente : 0
   const nombre = oculto ? 'Logro oculto' : l.nombre
   const estado = oculto ? 'Se revela al conseguirlo' : estadoCorto(l)
   return <li className="min-w-0">
     <button type="button" onClick={onAbrir} aria-haspopup="dialog" aria-label={`${nombre}: ${estado}`}
       className="app-button flex min-h-touch w-full flex-col items-center gap-1.5 rounded-md px-1 py-2 text-center hover:bg-surface-muted">
-      <Anillo fraccion={hecho && siguiente === null ? 0 : fraccion} className="h-14 w-14" trazo="stroke-fg" carril={hecho && siguiente === null ? 'stroke-transparent' : 'stroke-line'} grosor={2.5}>
-        <span className={`grid h-11 w-11 place-items-center rounded-pill ${hecho ? 'bg-fg text-bg' : 'text-fg-subtle'}`}>
-          <Icon name="trophy" size={22} />
-        </span>
+      <Anillo fraccion={hecho && siguiente === null ? 0 : fraccion} className="medalla-anillo" trazo="stroke-fg" carril={hecho && siguiente === null ? 'stroke-transparent' : 'stroke-line'} grosor={2.5}>
+        <IconoLogro logro={l} />
       </Anillo>
       <span className={`w-full break-words text-caption font-semibold leading-tight ${oculto ? 'text-fg-muted' : 'text-fg'}`}>{nombre}</span>
       <span className="tabular w-full break-words text-caption leading-tight text-fg-muted">{estado}</span>
@@ -96,9 +94,9 @@ export default function LogrosVista({ logros }: { logros: Logro[] }) {
   const [hoja, setHoja] = useState(false)
   return <div className="space-y-section">
     <p className="tabular text-body text-fg"><span className="font-numeric text-heading">{formatInt(conseguidas)}</span> de {formatInt(total)} piezas</p>
-    {grupos.map((g) => <section key={g} aria-label={GRUPOS_LOGRO[g]} className="space-y-stack">
+    {grupos.map((g) => <section key={g} aria-label={GRUPOS_LOGRO[g]} className="logros-grupo space-y-stack">
       <SectionHeader variant="section">{GRUPOS_LOGRO[g]}</SectionHeader>
-      <ul aria-label={`Logros de ${GRUPOS_LOGRO[g]}`} className="grid grid-cols-3 gap-2">
+      <ul aria-label={`Logros de ${GRUPOS_LOGRO[g]}`} className="logros-rejilla grid grid-cols-3 gap-2">
         {logros.filter((l) => l.grupo === g).map((l) => <Medalla key={l.id} l={l} onAbrir={() => { setAbierto(l); setHoja(true) }} />)}
       </ul>
     </section>)}
