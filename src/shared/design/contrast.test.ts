@@ -146,6 +146,8 @@ const TEXT: [string, string][] = [
   ['on-muscle-4', 'muscle-4'], ['on-muscle-5', 'muscle-5'],
 ]
 const FILLS = ['kcal', 'protein', 'carbs', 'fat']
+// Insignias de la Liga, de Bronce a Élite: relleno siempre acompañado del nombre de la liga.
+const LIGAS = ['liga-bronce', 'liga-plata', 'liga-oro', 'liga-zafiro', 'liga-rubi', 'liga-elite']
 
 const TEXT_INVERSE: [string, string][] = [
   ['text-primary', 'surface'], ['text-secondary', 'surface'],
@@ -155,6 +157,9 @@ const TEXT_INVERSE: [string, string][] = [
 describe.each([['claro', light], ['oscuro', dark], ['card en oscuro', cardOscura]])('contraste (%s)', (_name, t) => {
   it.each(TEXT)('%s sobre %s ≥ 4.5', (fg, bg) => expect(ratio(t[fg], t[bg])).toBeGreaterThanOrEqual(4.5))
   it.each(FILLS)('%s sobre surface ≥ 3 (relleno)', (k) => expect(ratio(t[k], t.surface)).toBeGreaterThanOrEqual(3))
+  it.each(LIGAS)('%s sobre surface y surface-muted ≥ 3 (insignia)', (k) => {
+    for (const bg of ['surface', 'surface-muted']) expect(ratio(t[k], t[bg])).toBeGreaterThanOrEqual(3)
+  })
   it.each(['protein', 'carbs', 'fat'])('%s como texto sobre todas las superficies ≥ 4.5', k => {
     for (const bg of ['bg', 'surface', 'surface-muted']) expect(ratio(t[k], t[bg])).toBeGreaterThanOrEqual(4.5)
   })
@@ -187,4 +192,9 @@ describe.each([['claro', light], ['oscuro', dark]])('roles distinguibles (%s)', 
   it('acción textual y borrar ≥ 8', () => expect(deltaE(t['accent-strong'], t.destructive)).toBeGreaterThanOrEqual(8))
   // kcal comparte a propósito la familia del acento (ADR 020): no debe derivar hacia otro tono.
   it('kcal pertenece a la familia del acento (≤ 10)', () => expect(deltaE(t.kcal, t.accent)).toBeLessThanOrEqual(10))
+  // Cada liga se distingue de las demás y el rubí no se confunde con borrar.
+  it('ligas distintas entre sí y rubí lejos de borrar (≥ 10)', () => {
+    for (const [i, a] of LIGAS.entries()) for (const b of LIGAS.slice(i + 1)) expect(deltaE(t[a], t[b]), `${a} y ${b}`).toBeGreaterThanOrEqual(10)
+    expect(deltaE(t['liga-rubi'], t.destructive)).toBeGreaterThanOrEqual(10)
+  })
 })

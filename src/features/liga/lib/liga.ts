@@ -1,39 +1,49 @@
-// Liga por ejercicio (gaming.md): cuanto más tiempo seguido se hace un ejercicio, más sube. Una división por semana con
-// el ejercicio hasta Élite; sin él, la primera semana no cuenta y desde la segunda baja una división por semana. Élite
-// sugiere, sin obligar, cambiarlo. Funciones puras: todo se deriva de los entrenos terminados y de las pausas de Ritmo.
+// Liga por ejercicio (gaming.md): cuanto más tiempo seguido se hace un ejercicio, más sube. Cada semana con el ejercicio
+// avanza un paso (cada tres, una liga) hasta Élite; sin él, la primera semana no cuenta y desde la segunda retrocede un
+// paso por semana. Élite sugiere, sin obligar, cambiarlo. Funciones puras: todo se deriva de los entrenos terminados y
+// de las pausas de Ritmo.
 import type { Pausa, SetEntry, Workout } from '../../../shared/db/types'
 import { addDays, startOfWeek, toISODate } from '../../../shared/lib/dates'
 import { tieneReps } from '../../gym/lib/ejecucion'
 import { esEfectiva } from '../../gym/lib/workout'
 import { pausaDeSemana } from '../../ritmo/lib/pausas'
 
-/** Ligas de abajo arriba; cada una con tres divisiones (III, II, I). Encima, Élite. */
-export const LIGAS = ['Bronce', 'Plata', 'Oro', 'Platino', 'Diamante'] as const
-export const DIVISIONES_POR_LIGA = 3
+/** Ligas de abajo arriba, de tres semanas cada una y sin divisiones: un nombre y su insignia (ADR 033). Encima, Élite. */
+export const LIGAS = ['Bronce', 'Plata', 'Oro', 'Zafiro', 'Rubí'] as const
+export const SEMANAS_POR_LIGA = 3
 /** Paso de Élite: 16 semanas con el ejercicio. */
-export const PASO_ELITE = LIGAS.length * DIVISIONES_POR_LIGA + 1
+export const PASO_ELITE = LIGAS.length * SEMANAS_POR_LIGA + 1
 /** Semanas seguidas sin el ejercicio que no bajan (la de gracia: rutinas A/B, una semana floja). */
 export const SEMANAS_DE_GRACIA = 1
 
-const ROMANOS = ['I', 'II', 'III'] as const
+export type NombreLiga = (typeof LIGAS)[number] | 'Élite'
 
 export interface Division {
-  /** 0 = sin liga; 1–15 las divisiones; `PASO_ELITE` = Élite. */
+  /** 0 = sin liga; 1–15 las semanas de las ligas; `PASO_ELITE` = Élite. */
   paso: number
-  liga: (typeof LIGAS)[number] | 'Élite' | null
-  /** «Oro II», «Élite» o «Sin liga». */
+  liga: NombreLiga | null
+  /** «Oro», «Élite» o «Sin liga». */
   nombre: string
+  /** Semana dentro de su liga (1–`SEMANAS_POR_LIGA`); 0 sin liga y en Élite. */
+  semana: number
   elite: boolean
 }
 
 /** División de un paso (se recorta a 0–`PASO_ELITE`). */
 export function divisionDe(paso: number): Division {
   const p = Math.max(0, Math.min(PASO_ELITE, Math.floor(paso)))
-  if (p === 0) return { paso: 0, liga: null, nombre: 'Sin liga', elite: false }
-  if (p === PASO_ELITE) return { paso: p, liga: 'Élite', nombre: 'Élite', elite: true }
-  const liga = LIGAS[Math.floor((p - 1) / DIVISIONES_POR_LIGA)]
-  const numero = ROMANOS[DIVISIONES_POR_LIGA - 1 - ((p - 1) % DIVISIONES_POR_LIGA)]
-  return { paso: p, liga, nombre: `${liga} ${numero}`, elite: false }
+  if (p === 0) return { paso: 0, liga: null, nombre: 'Sin liga', semana: 0, elite: false }
+  if (p === PASO_ELITE) return { paso: p, liga: 'Élite', nombre: 'Élite', semana: 0, elite: true }
+  const liga = LIGAS[Math.floor((p - 1) / SEMANAS_POR_LIGA)]
+  return { paso: p, liga, nombre: liga, semana: ((p - 1) % SEMANAS_POR_LIGA) + 1, elite: false }
+}
+
+/** La liga siguiente a la de un paso y cuántas semanas con el ejercicio faltan para entrar en ella (`null` en Élite). */
+export function siguienteLiga(paso: number): { liga: NombreLiga; semanas: number } | null {
+  const actual = divisionDe(paso)
+  if (actual.elite) return null
+  const inicio = actual.paso === 0 ? 1 : actual.paso - actual.semana + 1 + SEMANAS_POR_LIGA
+  return { liga: divisionDe(inicio).liga as NombreLiga, semanas: inicio - actual.paso }
 }
 
 /** Primera sesión de una semana con el ejercicio (la que sube) y el último día de esa semana con él. */
@@ -69,13 +79,13 @@ export interface LigaEjercicio {
   semanasSeguidas: number
   /** Semanas cerradas seguidas sin el ejercicio hasta hoy (sin contar las congeladas); desde la segunda, baja. */
   semanasSin: number
-  /** Ya se hizo en la semana en curso: la siguiente división llega la próxima semana con él. */
+  /** Ya se hizo en la semana en curso: el siguiente paso llega la próxima semana con él. */
   hechaEstaSemana: boolean
   /** Último día con el ejercicio. */
   ultimaFecha: string
   /** El fantasma: el pico de las rachas anteriores a la actual, o `null` si no las hubo. */
   pico: Pico | null
-  /** Cada llegada a Élite desde Diamante I: la primera sesión de esa semana. */
+  /** Cada llegada a Élite desde la última semana de Rubí: la primera sesión de esa semana. */
   ciclos: SesionSemana[]
 }
 
@@ -107,8 +117,8 @@ export function semanasPorEjercicio(workouts: readonly Workout[], sets: readonly
 }
 
 /**
- * Recorre las semanas de la primera con el ejercicio a la actual. Con el ejercicio sube una división (hasta Élite). Sin
- * él, la primera semana no cuenta y desde la segunda seguida baja una; en pausa de Ritmo se congela. La semana en
+ * Recorre las semanas de la primera con el ejercicio a la actual. Con el ejercicio avanza un paso (hasta Élite). Sin
+ * él, la primera semana no cuenta y desde la segunda seguida retrocede uno; en pausa de Ritmo se congela. La semana en
  * curso solo sube: no baja hasta que acaba.
  */
 export function evolucionLiga(exerciseId: number, hechas: ReadonlyMap<string, SesionSemana>, hoy: string, pausas?: readonly Pausa[]): LigaEjercicio | null {
@@ -174,7 +184,7 @@ export interface DatosLiga {
   pausas?: readonly Pausa[]
 }
 
-/** La liga de cada ejercicio hecho alguna vez, de la división más alta a la más baja (a igualdad, el más reciente). */
+/** La liga de cada ejercicio hecho alguna vez, del paso más alto al más bajo (a igualdad, el más reciente). */
 export function calcularLigas(d: DatosLiga): LigaEjercicio[] {
   const ligas: LigaEjercicio[] = []
   for (const [id, hechas] of semanasPorEjercicio(d.workouts, d.sets, d.hoy)) {
@@ -190,7 +200,7 @@ export interface Ascenso {
   a: Division
 }
 
-/** Divisiones que sube un entreno: las de los ejercicios cuya primera sesión de la semana es esa. */
+/** Lo que avanza un entreno: las de los ejercicios cuya primera sesión de la semana es esa. */
 export function ascensosDeEntreno(ligas: readonly LigaEjercicio[], workoutId: number): Ascenso[] {
   const ascensos: Ascenso[] = []
   for (const l of ligas) {

@@ -1276,3 +1276,12 @@ Sexta mejora del orden de [mejoras.md](mejoras.md), en `feat/creador-rutinas`, r
 Víctor no encontraba dónde marcar el cheat day: solo estaba dentro del «…» de la cabecera del Diario. Ahora hay un botón siempre visible bajo la semana, «Marcar como cheat day», que marcado pasa a «Cheat day · fuera de las medias» (`aria-pressed`) y sustituye a la etiqueta anterior; tocarlo de nuevo lo quita, con «Deshacer». El «…» conserva la acción. Patrón del botón «Tomada hoy» de Creatina; sin cambios de datos ni de reglas. Actualizados [Nutrición](features/nutricion.md#cheat-day) y `DESIGN-SYSTEM.md`.
 
 **Verificación:** `npm run test` y `npm run build` en verde. `scripts/ui/validar-cheat-day.cjs` (ahora marca el día vacío con el botón visible) en siete contextos (320/375/430 px en claro/oscuro y 375 con texto al 200 %), sin overflow, targets ≥44 px ni errores de consola; capturas revisadas. Sin prueba en iPhone.
+
+## 118. Liga sin divisiones (2026-10-12)
+
+A Víctor la Liga le parecía demasiado de videojuego (le recordaba a League of Legends) y pidió presentarla como Duolingo, conservando Élite como cima. En `feat/liga-sin-divisiones`. Decisión en [ADR 033](decisiones/033-liga-sin-divisiones.md); reglas y pantallas en [Liga](features/liga.md).
+
+- Misma mecánica (16 semanas hasta Élite, gracia, bajada, pausas, ciclos). Cinco ligas de tres semanas sin divisiones: Bronce, Plata, Oro, Zafiro y Rubí; `Division` gana `semana` (1–3) y aparece `siguienteLiga`. Textos cotidianos: «Empieza en Bronce», «Sube a Plata», «Semana 2 de 3 en Zafiro», «Mejor marca anterior», «Hace tiempo que no los haces».
+- `InsigniaLiga` (escudo con el color de la liga y medalla/gema/estrella) y `SemanasLiga` (tres puntos) en la lista, la card, el aviso de Élite y el fin de sesión. Tokens `--c-liga-*` por tema con tests de contraste (≥ 3:1) y distancia (ΔE ≥ 10 entre ligas y frente a borrar).
+
+**Verificación:** `npm run test` (1.930 tests, 141 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos (siete ejercicios en todas las situaciones): 320/375/430 px en claro y oscuro, 375 con texto al 200 % y Reducir movimiento, entreno activo con «Usar», «Mantener», menú y fin de sesión, y la gamificación oculta. 298 comprobaciones, todas bien (grupos e insignias, sin números romanos, textos de cada estado, sin scroll horizontal, botones ≥ 44 px, sin errores de consola). Capturas revisadas. Sin prueba en iPhone ni con los datos reales.

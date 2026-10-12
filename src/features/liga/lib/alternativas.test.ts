@@ -22,7 +22,7 @@ describe('alternativas', () => {
     expect(r.every((a) => a.estado === 'Nunca lo has hecho')).toBe(true)
   })
 
-  it('primero las de división más baja y, a igualdad, las ya hechas; fuera las que están en Élite', () => {
+  it('primero las de paso más bajo y, a igualdad, las ya hechas; fuera las que están en Élite', () => {
     const otros = CATALOGO_EJERCICIOS.filter((c) => c.primaryMuscles.includes(pecho) && c.id !== 'appfit:press-banca').slice(0, 3)
     const locales = [banca, ...otros.map((c, i) => ej(10 + i, { nombre: c.name, catalogId: c.id }))]
     const ligas = new Map([[1, liga(1, 16)], [10, liga(10, 16)], [11, liga(11, 0)], [12, liga(12, 5)]])

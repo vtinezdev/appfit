@@ -1,6 +1,6 @@
 # 030 — Liga por ejercicio
 
-Fecha: 2026-10-10. Estado: vigente. Amplía [ADR 029](029-gamificacion-atributos.md) (sus salvaguardas valen aquí).
+Fecha: 2026-10-10. Estado: vigente; la escalera y su presentación cambian en [ADR 033](033-liga-sin-divisiones.md). Amplía [ADR 029](029-gamificacion-atributos.md) (sus salvaguardas valen aquí).
 
 ## Contexto
 

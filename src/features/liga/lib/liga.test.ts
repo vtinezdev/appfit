@@ -4,7 +4,7 @@ import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { normalizeName } from '../../../shared/lib/text'
 import { CATALOGO_POR_ID } from '../../gym/lib/catalogoEjercicios'
 import { avisarElite, BASICOS, esBasico } from './basicos'
-import { ascensosDeEntreno, calcularLigas, ciclosCompletados, divisionDe, PASO_ELITE, type DatosLiga, type LigaEjercicio } from './liga'
+import { ascensosDeEntreno, calcularLigas, ciclosCompletados, divisionDe, PASO_ELITE, siguienteLiga, type DatosLiga, type LigaEjercicio } from './liga'
 
 /** Lunes de la semana 1. */
 const LUNES = '2026-01-05'
@@ -30,21 +30,26 @@ const ligaDe = (d: DatosLiga, exerciseId = 1): LigaEjercicio => {
   return liga
 }
 
-describe('divisiones', () => {
-  it('5 ligas de 3 divisiones y Élite a las 16 semanas', () => {
+describe('ligas', () => {
+  it('5 ligas de 3 semanas, sin divisiones, y Élite a las 16', () => {
     expect(PASO_ELITE).toBe(16)
     expect([0, 1, 2, 3, 4, 7, 10, 13, 15, 16, 30, -2].map((p) => divisionDe(p).nombre)).toEqual([
-      'Sin liga', 'Bronce III', 'Bronce II', 'Bronce I', 'Plata III', 'Oro III', 'Platino III', 'Diamante III', 'Diamante I', 'Élite', 'Élite', 'Sin liga',
+      'Sin liga', 'Bronce', 'Bronce', 'Bronce', 'Plata', 'Oro', 'Zafiro', 'Rubí', 'Rubí', 'Élite', 'Élite', 'Sin liga',
     ])
     expect(divisionDe(16)).toMatchObject({ liga: 'Élite', elite: true })
-    expect(divisionDe(8)).toMatchObject({ liga: 'Oro', elite: false })
+    expect(divisionDe(8)).toMatchObject({ liga: 'Oro', semana: 2, elite: false })
+    expect([1, 3, 4, 15].map((p) => divisionDe(p).semana)).toEqual([1, 3, 1, 3])
+    expect([0, 1, 3, 4, 13, 15].map(siguienteLiga)).toEqual([
+      { liga: 'Bronce', semanas: 1 }, { liga: 'Plata', semanas: 3 }, { liga: 'Plata', semanas: 1 }, { liga: 'Oro', semanas: 3 }, { liga: 'Élite', semanas: 3 }, { liga: 'Élite', semanas: 1 },
+    ])
+    expect(siguienteLiga(16)).toBeNull()
   })
 })
 
 describe('subir', () => {
-  it('una división por semana con el ejercicio; varias sesiones en la misma semana cuentan una', () => {
+  it('un paso por semana con el ejercicio; varias sesiones en la misma semana cuentan una', () => {
     const l = ligaDe(datos(semana(3, 6), [...semanas(1, [1, 2, 3]), entreno(semana(3, 4), [1])]))
-    expect(l.division.nombre).toBe('Bronce I')
+    expect(l.division.nombre).toBe('Bronce')
     expect(l.semanasSeguidas).toBe(3)
     expect(l.ultimaFecha).toBe(semana(3, 4))
   })
@@ -77,10 +82,10 @@ describe('bajar', () => {
     expect(d(semana(6, 0)).semanasSeguidas).toBe(0)
   })
 
-  it('baja una división por semana desde la segunda y vuelve a subir desde donde quedó', () => {
+  it('retrocede un paso por semana desde la segunda y vuelve a subir desde donde quedó', () => {
     const elite = semanas(1, rango(1, 16))
     const fuera = ligaDe(datos(semana(23, 0), elite))
-    expect(fuera.division.nombre).toBe('Platino II') // 6 semanas sin él: 5 bajadas
+    expect(fuera.division).toMatchObject({ paso: 11, nombre: 'Zafiro', semana: 2 }) // 6 semanas sin él: 5 pasos atrás
     expect(fuera.pico).toEqual({ paso: 16, fecha: semana(16, 2) })
 
     const vuelta = ligaDe(datos(semana(27, 6), [...elite, ...semanas(1, rango(23, 27))]))
@@ -146,7 +151,7 @@ describe('fantasma', () => {
   it('el pico de las rachas anteriores, con el último día en que se alcanzó', () => {
     // Racha 1: 6 semanas (Plata I); fuera 8 semanas (baja a 0); racha 2: 3 semanas.
     const l = ligaDe(datos(semana(17, 6), semanas(1, [...rango(1, 6), ...rango(15, 17)])))
-    expect(l.division.nombre).toBe('Bronce I')
+    expect(l.division.nombre).toBe('Bronce')
     expect(l.semanasSeguidas).toBe(3)
     expect(l.pico).toEqual({ paso: 6, fecha: semana(6, 2) })
   })
@@ -167,10 +172,10 @@ describe('ascensos, orden y ciclos', () => {
     const jueves = entreno(semana(16, 3), [1, 2, 3])
     const ligas = calcularLigas(datos(semana(16, 6), [...previos, ...semanas(2, [15]), lunes, jueves]))
     expect(ascensosDeEntreno(ligas, lunes.workout.id).map((a) => [a.exerciseId, a.de.nombre, a.a.nombre])).toEqual([
-      [1, 'Diamante I', 'Élite'],
-      [2, 'Bronce III', 'Bronce II'],
+      [1, 'Rubí', 'Élite'],
+      [2, 'Bronce', 'Bronce'],
     ])
-    expect(ascensosDeEntreno(ligas, jueves.workout.id).map((a) => [a.exerciseId, a.a.nombre])).toEqual([[3, 'Bronce III']])
+    expect(ascensosDeEntreno(ligas, jueves.workout.id).map((a) => [a.exerciseId, a.a.nombre])).toEqual([[3, 'Bronce']])
     const siguiente = entreno(semana(17, 2), [1])
     expect(ascensosDeEntreno(calcularLigas(datos(semana(17, 6), [...previos, lunes, siguiente])), siguiente.workout.id)).toEqual([])
   })
@@ -183,7 +188,7 @@ describe('ascensos, orden y ciclos', () => {
     expect(ascensosDeEntreno(ligas, tarde.workout.id)).toEqual([])
   })
 
-  it('de la división más alta a la más baja y, a igualdad, la más reciente; ciclos en orden de fecha', () => {
+  it('del paso más alto al más bajo y, a igualdad, la más reciente; ciclos en orden de fecha', () => {
     const ligas = calcularLigas(datos(semana(20, 6), [
       ...semanas(3, rango(1, 16)),
       ...semanas(1, rango(3, 20)),
