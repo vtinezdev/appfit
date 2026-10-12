@@ -195,3 +195,4 @@ Víctor confirma que la app la usarán **otras personas**, no solo él. Antes de
 - Revisar valores por defecto pensados para él (perfil, objetivos, rutinas…).
 - Valorar más adelante un recorrido inicial o ayudas contextuales. De momento, en el punto 5 se eligió solo el chevron.
 - Cada persona tiene sus propios datos en su móvil (no hay backend), así que no cambia la privacidad.
+- Publicación gratuita en Google Play y como PWA en iPhone: plan y requisitos en [`despliegue.md`](despliegue.md).

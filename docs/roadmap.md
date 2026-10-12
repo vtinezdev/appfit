@@ -4,6 +4,8 @@
 
 **Plan en curso:** las mejoras acordadas el 2026-10-12 (serie hecha, pista del menú de serie, filtro de abductores, creatina, cheat day, creador de rutinas y uso por otras personas) tienen su plan y estado en [`mejoras.md`](mejoras.md).
 
+**Publicación:** abrir la app a otras personas (gratis, Google Play para Android y PWA para iPhone) tiene su plan en [`despliegue.md`](despliegue.md). Va después del rediseño visual.
+
 ## Pendiente de probar en el iPhone real
 
 Según los registros de sesión, sin confirmar todavía (preguntar a Víctor antes de darlo por hecho):
