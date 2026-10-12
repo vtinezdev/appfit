@@ -100,9 +100,12 @@ async function main() {
         await check(page, page.getByRole('region', { name: 'Semana' }), `${tag}-marcado`)
 
         // Cheat day vacío (hoy): el 2.º de la semana avisa sin bloquear.
+        // Desde el botón visible bajo la semana, sin pasar por el menú.
         await dia(page, /^jueves, 15 de octubre/).click()
-        sheet = await accionesDia(page)
-        await sheet.getByRole('button', { name: /^Marcar como cheat day/ }).click()
+        const visible = page.getByRole('region', { name: 'Semana' }).getByRole('button', { name: 'Marcar como cheat day', exact: true, pressed: false })
+        await check(page, page.getByRole('region', { name: 'Semana' }), `${tag}-sin-marcar`)
+        await visible.click()
+        await page.getByRole('region', { name: 'Semana' }).getByRole('button', { name: 'Cheat day · fuera de las medias', exact: true, pressed: true }).waitFor()
         await page.getByRole('status').getByText('Es tu 2.º cheat day esta semana', { exact: true }).waitFor()
         assert.deepEqual((await datos(page)).cheatDays.map(d => d.fecha).sort(), ['2026-10-13', '2026-10-15'])
 

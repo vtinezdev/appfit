@@ -116,7 +116,7 @@ Sin IA ni red ([ADR 006](../decisiones/006-sin-ia-interprete-local.md)). `useInt
 
 ## Cheat day
 
-Se marca **el día entero** desde el «…» de la cabecera del Diario (`AccionesDiaSheet`): «Marcar como cheat day» o «Quitar cheat day». El registro es opcional: un día vacío se puede marcar y, si tiene comidas, se ven en el Diario y en la rueda de Inicio con sus kcal reales. Marcado, la cabecera muestra «Cheat day · fuera de las medias» (`Badge`) y la franja de la semana, el destello. Sin límite: desde el 2.º de la misma semana (lunes a domingo) el aviso lo dice sin bloquear («Es tu 2.º cheat day esta semana»). Marcar y quitar llevan «Deshacer»; los errores, en línea dentro de la hoja.
+Se marca **el día entero** con el botón bajo la semana del Diario («Marcar como cheat day»; marcado, «Cheat day · fuera de las medias», que lo quita) o desde el «…» de la cabecera (`AccionesDiaSheet`). El registro es opcional: un día vacío se puede marcar y, si tiene comidas, se ven en el Diario y en la rueda de Inicio con sus kcal reales. Marcado, la franja de la semana lleva un destello junto a la letra del día. Sin límite: desde el 2.º de la misma semana (lunes a domingo) el aviso lo dice sin bloquear («Es tu 2.º cheat day esta semana»). Marcar y quitar llevan «Deshacer»; los errores, en el Toast desde el botón y en línea desde la hoja.
 
 Qué cambia (lógica pura en `lib/cheatDays.ts` y en cada cálculo; marcas de `cheatDaysRepo`):
 - **Fuera de las medias**: media de kcal y macros y media de objetivos del Resumen (`resumenPeriodo`), adherencia ±10 % (`calcularAdherencia` recibe las fechas sin cheat days) y el bloque de nutrición de la revisión semanal (`bloqueNutricion`, en las dos semanas que compara). Nota visible: «N cheat days fuera de la media».

@@ -12,7 +12,7 @@ interface Props {
   onFecha: (fecha: string) => void
   /** Acciones del día a la derecha del título (copiar el día, cheat day). */
   acciones?: ReactNode
-  /** Marca del día elegido bajo el título (el cheat day). */
+  /** Bajo la semana, centrado: el control del cheat day del día elegido. */
   nota?: ReactNode
   /** Clase de transición del título al cambiar de día. */
   transicion?: string
@@ -34,7 +34,6 @@ export default function SemanaKcal({ fecha, hoy, dias, onFecha, acciones, nota, 
       <IconButton icon="chevron-right" label="Semana siguiente" variant="ghost" disabled={esPeriodoActual('semana', fecha)} onClick={() => onFecha(siguiente > hoy ? hoy : siguiente)} />
       {acciones}
     </div>
-    {nota && <div className="flex justify-center">{nota}</div>}
     <ul className="semana-kcal" aria-label="Días de la semana">
       {(dias ?? []).map(d => {
         const elegido = d.fecha === fecha
@@ -51,5 +50,6 @@ export default function SemanaKcal({ fecha, hoy, dias, onFecha, acciones, nota, 
         </li>
       })}
     </ul>
+    {nota && <div className="flex justify-center">{nota}</div>}
   </section>
 }

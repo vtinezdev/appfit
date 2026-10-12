@@ -19,7 +19,7 @@ import ResumenNutricional from '../components/ResumenNutricional'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { sumMacros } from '../lib/nutrition'
 import type { Plato } from '../lib/platos'
-import { IconButton } from '../../../shared/components/Button'
+import Button, { IconButton } from '../../../shared/components/Button'
 import { LoadingState } from '../../../shared/components/StateMessage'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import NutrientesDetalle from '../components/NutrientesDetalle'
@@ -29,7 +29,6 @@ import { COMIDAS, esComida, nombreComida } from '../lib/comidas'
 import { colisionesComidas, crearCoordenadasComidas, limitarCopiaAlViewport } from '../lib/arrastrePlatos'
 import { PlatoPointerSensor } from '../lib/PlatoPointerSensor'
 import { haptic } from '../../../shared/design/motion'
-import Badge from '../../../shared/components/Badge'
 import Icon from '../../../shared/components/Icon'
 import Card from '../../../shared/components/Card'
 import { formatInt } from '../../../shared/lib/format'
@@ -156,8 +155,11 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
     }
   }
 
-  /** Marca o quita el cheat day del día elegido; las dos cosas se pueden deshacer. */
-  async function alternarCheat() {
+  /**
+   * Marca o quita el cheat day del día elegido; las dos cosas se pueden deshacer. Desde la hoja de acciones, el error va
+   * en línea (el Toast queda debajo); desde el botón del Diario, en el Toast.
+   */
+  async function alternarCheat(desdeHoja: boolean) {
     if (marcandoCheat || !semana) return
     setMarcandoCheat(true)
     setErrorDia(null)
@@ -172,7 +174,9 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
       }
       setAccionesDia(null)
     } catch {
-      setErrorDia(cheat ? 'No se ha podido quitar el cheat day. Inténtalo de nuevo.' : 'No se ha podido marcar el cheat day. Inténtalo de nuevo.')
+      const mensaje = cheat ? 'No se ha podido quitar el cheat day. Inténtalo de nuevo.' : 'No se ha podido marcar el cheat day. Inténtalo de nuevo.'
+      if (desdeHoja) setErrorDia(mensaje)
+      else avisarError(mensaje)
     } finally {
       setMarcandoCheat(false)
     }
@@ -206,7 +210,9 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   return (
     <div className="space-y-section">
       <SemanaKcal fecha={fecha} hoy={todayISO()} dias={semana} onFecha={onFechaChange} transicion={transicion}
-        nota={cheat && <Badge tone="accent"><Icon name="sparkles" size={12} />Cheat day · fuera de las medias</Badge>}
+        nota={semana && <Button variant="secondary" size="sm" aria-pressed={cheat} disabled={marcandoCheat} onClick={() => { void alternarCheat(false) }}>
+          <Icon name="sparkles" size={18} className={cheat ? 'text-accent-strong' : 'text-fg-muted'} />{cheat ? 'Cheat day · fuera de las medias' : 'Marcar como cheat day'}
+        </Button>}
         acciones={<IconButton icon="more" label="Acciones del día" variant="ghost" aria-haspopup="dialog" onClick={() => { setErrorDia(null); setAccionesDia({ paso: 'menu', fechaDestino: fecha }) }} />} />
 
       {!cargado || !totales || !objetivos ? (
@@ -289,7 +295,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
         onFechaDestinoChange={(f) => setAccionesDia((d) => (d ? { ...d, fechaDestino: f } : d))}
         onIrACopiar={() => { setErrorDia(null); setAccionesDia((d) => (d ? { ...d, paso: 'copiar' } : d)) }}
         onCopiar={confirmarCopiarDia}
-        onCheat={alternarCheat}
+        onCheat={() => { void alternarCheat(true) }}
         onClose={() => setAccionesDia(null)}
         copiando={copiandoDia}
         marcando={marcandoCheat}
