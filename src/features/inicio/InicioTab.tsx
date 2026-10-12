@@ -23,6 +23,8 @@ import AccesoAgua from './components/AccesoAgua'
 import CreatinaHoy from './components/CreatinaHoy'
 import AccesoCumbre from './components/AccesoCumbre'
 import AccesoSemana from './components/AccesoSemana'
+import AccesoCamino from './components/AccesoCamino'
+import { useCaminos } from '../caminos/hooks/useCaminos'
 import { useCumbres } from '../cumbres/hooks/useCumbres'
 import AguaSheet from './components/AguaSheet'
 import { AGUA_POR_DEFECTO_ML, formatAgua, resolverObjetivoAgua } from './lib/agua'
@@ -37,6 +39,7 @@ interface Props {
   onIrANutricion: () => void
   onIrAGym: () => void
   onIrACumbres: () => void
+  onIrACaminos: () => void
   onIrARitmo: () => void
   onExportarCopia: () => void
   ayudaInicial?: ReactNode
@@ -46,8 +49,8 @@ const PESO_POR_DEFECTO = 70
 /** Historial que se lee: de sobra para encontrar un pesaje de hace una semana o más. */
 const DIAS_HISTORIAL = 365
 
-/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, el último entreno, la semana (Ritmo) y la montaña de Cumbres. Registrar está en el «+» de la barra. */
-export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrARitmo, onExportarCopia, ayudaInicial }: Props) {
+/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, el último entreno, la semana (Ritmo), la montaña de Cumbres y la ruta de Caminos. Registrar está en el «+» de la barra. */
+export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrACaminos, onIrARitmo, onExportarCopia, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -67,6 +70,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIr
   const [historialPeso, setHistorialPeso] = useState(false)
   const revision = useTarjetaRevision(hoy)
   const gamificacion = useCumbres(hoy)
+  const caminos = useCaminos(hoy)
   const [revisionAbierta, setRevisionAbierta] = useState<string | null>(null)
 
   const tendencia = pesos ? tendenciaPeso(pesos, hoy) : null
@@ -139,6 +143,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIr
           <AccesoEntreno onAbrir={onIrAGym} />
           <AccesoSemana hoy={hoy} estado={gamificacion} anillos={anillosSemana} onAbrir={onIrARitmo} />
           <AccesoCumbre hoy={hoy} estado={gamificacion} onAbrir={onIrACumbres} />
+          <AccesoCamino hoy={hoy} estado={caminos} onAbrir={onIrACaminos} />
         </div>
       )}
 

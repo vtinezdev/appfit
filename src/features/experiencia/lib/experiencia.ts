@@ -2,16 +2,20 @@
 // comidas y las semanas cumplidas. Cumbres la convierte en metros (1 XP = 1 m); la interfaz no habla de XP. Funciones
 // puras: la XP no se acumula ni se guarda, se recalcula a partir de los registros. Así respeta la edición retroactiva, va en el backup sin
 // cambios de esquema y borrar y volver a crear no da nada.
-import type { Entry, Pausa, SetEntry, TramoPlanSemanal, Workout } from '../../../shared/db/types'
+import type { Actividad, Entry, Pausa, SetEntry, TramoPlanSemanal, Workout } from '../../../shared/db/types'
 import { startOfWeek, toISODate } from '../../../shared/lib/dates'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
+import { kmTexto } from '../../actividades/lib/actividad'
 import { acumularComparables, describirRecord, recordsFrenteA, type GruposComparables, type RecordEjercicio } from '../../gym/lib/records'
 import { esEfectiva } from '../../gym/lib/workout'
 import { planDeSemana } from '../../ritmo/lib/plan'
 import { calcularRitmo, type ResultadoRitmo, type SemanaRitmo } from '../../ritmo/lib/ritmo'
 
-/** Versión de las reglas. Si cambian, las semanas ya cerradas deben conservar la XP de la versión con la que se ganaron. */
-export const VERSION_REGLAS = 1
+/**
+ * Versión de las reglas. Si cambian, las semanas ya cerradas deben conservar la XP de la versión con la que se ganaron.
+ * v2 añade las actividades (XP por km): antes no había actividades, así que la XP ya ganada no cambia.
+ */
+export const VERSION_REGLAS = 2
 
 export const XP = { entreno: 100, diaRegistrado: 30, diaUnaComida: 10, proteina: 20, semanaCumplida: 150, record: 25 } as const
 /**
@@ -24,6 +28,16 @@ export const SERIES_COMPLETAS = 6
 export const RECORDS_POR_SESION = 3
 /** Proteína del día frente a su objetivo: llegar al 90 % basta (no premia comer menos). */
 export const PROPORCION_PROTEINA = 0.9
+/**
+ * Caminatas, carreras y senderismo: XP por kilómetro del día, con tope diario y un máximo de días por semana (lunes a
+ * domingo), aparte del plan de entrenos. Un día cuenta con al menos `metrosMinimos`.
+ */
+export const XP_ACTIVIDAD = { porKm: 10, maxDia: 100, diasPorSemana: 3, metrosMinimos: 1000 } as const
+
+/** XP de los metros andados o corridos en un día: 10 por km, redondeada, hasta el tope diario. */
+export function xpDeActividad(distanciaM: number): number {
+  return Math.min(XP_ACTIVIDAD.maxDia, Math.round((Math.max(0, distanciaM) / 1000) * XP_ACTIVIDAD.porKm))
+}
 
 interface BaseEvento {
   fecha: string
@@ -33,6 +47,7 @@ interface BaseEvento {
 export type EventoXp =
   | BaseEvento & { tipo: 'entreno'; workoutId: number; series: number }
   | BaseEvento & { tipo: 'record'; workoutId: number; record: RecordEjercicio }
+  | BaseEvento & { tipo: 'actividad'; distanciaM: number; actividadIds: number[] }
   | BaseEvento & { tipo: 'registro'; comidas: number }
   | BaseEvento & { tipo: 'proteina'; prot: number; objetivo: number }
   | BaseEvento & { tipo: 'semana'; lunes: string; estado: SemanaRitmo }
@@ -49,6 +64,14 @@ export interface EntrenoSinXp {
   tope?: number
 }
 
+/** Un día con actividades que no suma: menos de `XP_ACTIVIDAD.metrosMinimos` o la semana ya tiene sus días. */
+export interface ActividadSinXp {
+  fecha: string
+  distanciaM: number
+  actividadIds: number[]
+  motivo: 'corta' | 'tope-semana'
+}
+
 export interface DatosExperiencia {
   hoy: string
   /** Entrenos terminados (los que no tienen `fin` se ignoran). */
@@ -62,6 +85,8 @@ export interface DatosExperiencia {
   planes?: readonly TramoPlanSemanal[]
   pausas?: readonly Pausa[]
   conNutricion: boolean
+  /** Caminatas, carreras y senderismo terminados. */
+  actividades?: readonly Pick<Actividad, 'id' | 'fecha' | 'distanciaM'>[]
 }
 
 /** Entreno terminado con al menos `SERIES_MINIMAS` series efectivas, haya sumado XP o no. */
@@ -83,12 +108,15 @@ export interface SemanaActual extends SemanaRitmo {
   /** Entrenos del plan que ya suman XP esta semana y cuántos pueden sumar (los del plan). */
   entrenosQueSuman: number
   tope: number
+  /** Días con actividades que ya suman esta semana (como mucho `XP_ACTIVIDAD.diasPorSemana`). */
+  diasActividad: number
 }
 
 export interface ResultadoExperiencia {
   /** En orden cronológico. */
   eventos: EventoXp[]
   sinXp: EntrenoSinXp[]
+  actividadesSinXp: ActividadSinXp[]
   total: number
   semanaActual: SemanaActual
   /** Ritmo del mismo historial (estado de cada semana, hilo, comodines): la semana cumplida sale de aquí. */
@@ -106,7 +134,7 @@ export function xpDeEntreno(series: number): number {
   return Math.round((XP.entreno * Math.min(Math.max(0, series), SERIES_COMPLETAS)) / SERIES_COMPLETAS)
 }
 
-const ORDEN_TIPO: Record<EventoXp['tipo'], number> = { entreno: 0, record: 1, registro: 2, proteina: 3, semana: 4 }
+const ORDEN_TIPO: Record<EventoXp['tipo'], number> = { entreno: 0, record: 1, actividad: 2, registro: 3, proteina: 4, semana: 5 }
 
 function agrupar<T, K>(items: readonly T[], clave: (t: T) => K): Map<K, T[]> {
   const m = new Map<K, T[]>()
@@ -187,6 +215,27 @@ export function calcularExperiencia(d: DatosExperiencia): ResultadoExperiencia {
     }
   }
 
+  // Actividades: los metros de cada día, en orden; por semana suman los primeros días con al menos 1 km.
+  const actividadesSinXp: ActividadSinXp[] = []
+  const diasActividadPorSemana = new Map<string, number>()
+  const porFecha = [...agrupar((d.actividades ?? []).filter((a) => a.fecha <= d.hoy), (a) => a.fecha)].sort(([a], [b]) => a.localeCompare(b))
+  for (const [fecha, delDia] of porFecha) {
+    const distanciaM = delDia.reduce((a, x) => a + (Number.isFinite(x.distanciaM) ? x.distanciaM : 0), 0)
+    const actividadIds = delDia.map((x) => x.id)
+    if (distanciaM < XP_ACTIVIDAD.metrosMinimos) {
+      actividadesSinXp.push({ fecha, distanciaM, actividadIds, motivo: 'corta' })
+      continue
+    }
+    const lunes = startOfWeek(fecha)
+    const usados = diasActividadPorSemana.get(lunes) ?? 0
+    if (usados >= XP_ACTIVIDAD.diasPorSemana) {
+      actividadesSinXp.push({ fecha, distanciaM, actividadIds, motivo: 'tope-semana' })
+      continue
+    }
+    diasActividadPorSemana.set(lunes, usados + 1)
+    eventos.push({ tipo: 'actividad', fecha, xp: xpDeActividad(distanciaM), distanciaM, actividadIds })
+  }
+
   const diasRegistro = new Set<string>()
   if (d.conNutricion) {
     for (const [fecha, delDia] of agrupar(d.entries.filter((e) => e.fecha <= d.hoy), (e) => e.fecha)) {
@@ -213,6 +262,7 @@ export function calcularExperiencia(d: DatosExperiencia): ResultadoExperiencia {
   return {
     eventos,
     sinXp,
+    actividadesSinXp,
     total: eventos.reduce((a, e) => a + e.xp, 0),
     ritmo,
     entrenos,
@@ -223,6 +273,7 @@ export function calcularExperiencia(d: DatosExperiencia): ResultadoExperiencia {
       ...ritmo.actual,
       entrenosQueSuman: delPlanPorSemana.get(lunesActual) ?? 0,
       tope: planActual.entrenos,
+      diasActividad: diasActividadPorSemana.get(lunesActual) ?? 0,
     },
   }
 }
@@ -263,6 +314,10 @@ export function describirEvento(e: EventoXp, nombres: Readonly<Record<number, st
     }
     case 'record':
       return { titulo: `Récord · ${nombres[e.record.exerciseId] ?? 'Ejercicio'}`, detalle: describirRecord(e.record, (n) => formatNumber(n, 2)) }
+    case 'actividad': {
+      const tope = e.xp >= XP_ACTIVIDAD.maxDia ? ` (tope de ${formatInt(XP_ACTIVIDAD.maxDia)} m al día)` : ''
+      return { titulo: e.actividadIds.length === 1 ? 'Actividad' : `${formatInt(e.actividadIds.length)} actividades`, detalle: `${kmTexto(e.distanciaM)} · ${formatInt(XP_ACTIVIDAD.porKm)} m por km${tope}` }
+    }
     case 'registro':
       return { titulo: 'Día registrado', detalle: e.comidas >= 2 ? `${formatInt(e.comidas)} comidas` : `1 comida (con 2 o más, ${formatInt(XP.diaRegistrado)} m)` }
     case 'proteina':
@@ -284,23 +339,32 @@ export function describirSinXp(s: EntrenoSinXp, hoy?: string): string {
   return hoy !== undefined && startOfWeek(s.fecha) === startOfWeek(hoy) ? `Esta semana ya suman ${tope}` : `Esa semana ya sumaban ${tope}`
 }
 
+/** Por qué un día con actividades no suma, en una frase. */
+export function describirActividadSinXp(s: ActividadSinXp, hoy?: string): string {
+  if (s.motivo === 'corta') return `${kmTexto(s.distanciaM)}: cuenta desde ${kmTexto(XP_ACTIVIDAD.metrosMinimos)} al día`
+  const dias = `sus ${formatInt(XP_ACTIVIDAD.diasPorSemana)} días con actividad`
+  return hoy !== undefined && startOfWeek(s.fecha) === startOfWeek(hoy) ? `Esta semana ya suman ${dias}` : `Esa semana ya sumaban ${dias}`
+}
+
 export interface DiaXp {
   fecha: string
   total: number
   eventos: EventoXp[]
   sinXp: EntrenoSinXp[]
+  actividadesSinXp: ActividadSinXp[]
 }
 
 /** XP agrupada por día, del más reciente al más antiguo; incluye los días con un entreno que no sumó. */
-export function xpPorDia(r: Pick<ResultadoExperiencia, 'eventos' | 'sinXp'>): DiaXp[] {
+export function xpPorDia(r: Pick<ResultadoExperiencia, 'eventos' | 'sinXp'> & Partial<Pick<ResultadoExperiencia, 'actividadesSinXp'>>): DiaXp[] {
   const dias = new Map<string, DiaXp>()
   const dia = (fecha: string) => {
     let d = dias.get(fecha)
-    if (!d) dias.set(fecha, (d = { fecha, total: 0, eventos: [], sinXp: [] }))
+    if (!d) dias.set(fecha, (d = { fecha, total: 0, eventos: [], sinXp: [], actividadesSinXp: [] }))
     return d
   }
   for (const e of r.eventos) { const d = dia(e.fecha); d.eventos.push(e); d.total += e.xp }
   for (const s of r.sinXp) dia(s.fecha).sinXp.push(s)
+  for (const s of r.actividadesSinXp ?? []) dia(s.fecha).actividadesSinXp.push(s)
   return [...dias.values()].sort((a, b) => b.fecha.localeCompare(a.fecha))
 }
 
@@ -313,6 +377,18 @@ export interface XpSesion {
   eventos: EventoXp[]
   total: number
   sinXp: EntrenoSinXp | null
+}
+
+export interface XpActividad {
+  /** XP del día de la actividad (la suman todas las de ese día juntas). */
+  evento: Extract<EventoXp, { tipo: 'actividad' }> | null
+  sinXp: ActividadSinXp | null
+}
+
+/** XP del día de una actividad concreta o por qué no suma. */
+export function xpDeActividadId(r: Pick<ResultadoExperiencia, 'eventos' | 'actividadesSinXp'>, actividadId: number): XpActividad {
+  const evento = r.eventos.find((e): e is Extract<EventoXp, { tipo: 'actividad' }> => e.tipo === 'actividad' && e.actividadIds.includes(actividadId)) ?? null
+  return { evento, sinXp: r.actividadesSinXp.find((s) => s.actividadIds.includes(actividadId)) ?? null }
 }
 
 /** XP de un entreno concreto (entreno y récords) o por qué no suma. */

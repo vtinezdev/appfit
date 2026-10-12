@@ -37,6 +37,12 @@ export default defineConfig({
             handler: 'CacheFirst',
             options: { cacheName: 'wasm', expiration: { maxEntries: 4 } },
           },
+          // Lugares de España (~300 KB) para las rutas propias de Caminos: solo hacen falta al crear o editar una ruta.
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith('/lugares/'),
+            handler: 'StaleWhileRevalidate',
+            options: { cacheName: 'lugares', expiration: { maxEntries: 4 } },
+          },
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/ejercicios/'),
             handler: 'CacheFirst',

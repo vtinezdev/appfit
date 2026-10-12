@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import type { Agua, CatalogFood, CheatDay, CatalogSource, Entry, Exercise, Food, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Porcion, Receta, Routine, SetEntry, Settings, Suplemento, Workout } from './types'
+import type { Actividad, Agua, CatalogFood, CheatDay, CatalogSource, Entry, Exercise, Food, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Porcion, Receta, Routine, RutaPropia, SetEntry, Settings, Suplemento, Workout } from './types'
 
 /**
  * Esquema de IndexedDB. Reglas para cambiarlo sin perder los datos del móvil:
@@ -18,7 +18,7 @@ export const TABLAS_CATALOGO = ['catalogFoods', 'catalogSources'] as const
 /** Tablas con datos del usuario: van en el backup y se vacían al importar o al borrarlo todo. */
 export const TABLAS_USUARIO = [
   'foods', 'entries', 'meals', 'settings', 'exercises', 'routines', 'workouts', 'sets', 'notasMedida', 'pesos', 'nombresAlimentos',
-  'porciones', 'recetas', 'agua', 'objetivosDia', 'medidas', 'suplementos', 'cheatDays',
+  'porciones', 'recetas', 'agua', 'objetivosDia', 'medidas', 'suplementos', 'cheatDays', 'actividades', 'rutasPropias',
 ] as const
 
 export class AppFitDB extends Dexie {
@@ -40,6 +40,8 @@ export class AppFitDB extends Dexie {
   medidas!: EntityTable<Medida, 'id'>
   suplementos!: EntityTable<Suplemento, 'id'>
   cheatDays!: EntityTable<CheatDay, 'id'>
+  actividades!: EntityTable<Actividad, 'id'>
+  rutasPropias!: EntityTable<RutaPropia, 'id'>
   catalogFoods!: EntityTable<CatalogFood, 'id'>
   catalogSources!: EntityTable<CatalogSource, 'id'>
 
@@ -102,6 +104,11 @@ export class AppFitDB extends Dexie {
     this.version(8).stores({ suplementos: '++id, fecha, &[tipo+fecha]' })
     // v9 (cheat day): tabla `cheatDays` nueva y vacía, sin upgrade(). `&fecha` es único: una marca por día.
     this.version(9).stores({ cheatDays: '++id, &fecha' })
+    // v10 (actividades): caminatas, carreras y senderismo. Tabla nueva y vacía, sin upgrade(). `fecha` para leer por
+    // rango; `inicio` para ordenar. La grabación en curso (`enCurso`) no lleva índice: hay como mucho una.
+    this.version(10).stores({ actividades: '++id, fecha, inicio' })
+    // v11 (rutas propias de Caminos): tabla nueva y vacía, sin upgrade(). Pocas filas: solo la clave.
+    this.version(11).stores({ rutasPropias: '++id' })
   }
 }
 

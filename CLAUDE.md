@@ -21,7 +21,7 @@ Catálogo (`npm run catalogo:*`): `scripts/catalogo/README.md`. Despliegue y res
 src/app/            shell: App (router casero con useState, sin URLs), BottomNav, Ajustes
 src/shared/         db/ (esquema Dexie, tipos, ajustes) · lib/ (fechas, formato, texto, backup) · design/ (tokens, guard)
                     · components/ (primitives) · hooks/ (useAviso, useModalLayer)
-src/features/       inicio/ · nutricion/ · gym/ · perfil/ · referencias/ · experiencia/ · cumbres/ · ritmo/ · vitrina/ · liga/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
+src/features/       inicio/ · nutricion/ · gym/ · actividades/ · perfil/ · referencias/ · experiencia/ · cumbres/ · caminos/ · ritmo/ · vitrina/ · liga/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
 src/test/           setup-db.ts (fake-indexeddb) y fixtures/
 scripts/catalogo/   tubería offline (Node, manual) que genera los paquetes de public/catalogo/
 ```
@@ -39,7 +39,7 @@ Dónde está cada cosa: `docs/arquitectura.md` y `docs/features/<feature>.md`.
 **Código**
 - Lógica de negocio en funciones puras con tests colocados al lado (`*.test.ts`); los componentes solo componen.
 - Imports relativos, sin alias.
-- Red: solo el catálogo del propio origen y Open Food Facts con el código de barras (nada más sale del móvil). Ningún servicio externo nuevo sin preguntar.
+- Red: solo el catálogo del propio origen y Open Food Facts con el código de barras (nada más sale del móvil; el GPS de las actividades es local y el recorrido se dibuja sin mapas). Ningún servicio externo nuevo sin preguntar.
 
 **UI** (identidad en `DESIGN.md`; implementación en `docs/DESIGN-SYSTEM.md`: lee la sección que toque)
 - Nada de colores, tamaños, radios ni cifras sin formato sueltos, ni emojis como iconos: tokens + primitives. Lo vigilan `shared/design/guard.test.ts` y `contrast.test.ts`.
@@ -66,7 +66,7 @@ Los documentos vivos describen el estado actual y cada tema vive en uno solo. Si
 |---|---|---|
 | `docs/arquitectura.md` | capas y dependencias, mapa de carpetas, navegación, arranque, PWA/offline, red | cambian carpetas, capas, arranque o caché |
 | `docs/datos.md` | tablas, invariantes, repositorios, ajustes, backup, trampas de Dexie | cambian tablas, invariantes, repos o el backup |
-| `docs/features/nutricion.md`, `gym.md`, `inicio.md`, `perfil.md`, `referencias.md`, `experiencia.md`, `cumbres.md`, `ritmo.md`, `vitrina.md`, `liga.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
+| `docs/features/nutricion.md`, `gym.md`, `actividades.md`, `inicio.md`, `perfil.md`, `referencias.md`, `experiencia.md`, `cumbres.md`, `caminos.md`, `ritmo.md`, `vitrina.md`, `liga.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
 | `DESIGN.md` | identidad, intención y criterios de producto | cambia la dirección visual |
 | `docs/DESIGN-SYSTEM.md` | implementación: tokens, primitives y patrones | cambian tokens, primitives o patrones |
 | `docs/desarrollo.md` | requisitos, tests, pruebas en navegador, Git/PR, despliegue, uso de Claude Code | cambian comandos, flujo de trabajo o despliegue |

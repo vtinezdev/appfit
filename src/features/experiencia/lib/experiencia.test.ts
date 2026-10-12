@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest'
 import type { Comida, Entry, SetEntry, Workout } from '../../../shared/db/types'
 import { parseISODate } from '../../../shared/lib/dates'
 import {
-  calcularExperiencia, describirEvento, describirSinXp, entrenoHoy, textoEntrenoHoy, xpDeEntreno,
-  xpDeSesion, xpEntre, xpPorDia, type DatosExperiencia, type EventoXp,
+  calcularExperiencia, describirActividadSinXp, describirEvento, describirSinXp, entrenoHoy, textoEntrenoHoy, xpDeActividad,
+  xpDeActividadId, xpDeEntreno, xpDeSesion, xpEntre, xpPorDia, type DatosExperiencia, type EventoXp,
 } from './experiencia'
 
 let siguienteId = 1
@@ -221,5 +221,42 @@ describe('hoy, sesión y días', () => {
   it('xpPorDia agrupa del más reciente al más antiguo, con los entrenos que no sumaron', () => {
     const r = calcularExperiencia(datos([entreno('2026-10-05'), entreno('2026-10-06', { series: 0 })], { entries: [comida('2026-10-05', 'cena')] }))
     expect(xpPorDia(r).map((d) => [d.fecha, d.total, d.eventos.length, d.sinXp.length])).toEqual([['2026-10-06', 0, 0, 1], ['2026-10-05', 110, 2, 0]])
+  })
+})
+
+describe('actividades', () => {
+  const act = (id: number, fecha: string, km: number) => ({ id, fecha, distanciaM: km * 1000 })
+
+  it('10 XP por km del día, con tope de 100', () => {
+    expect([0, 0.94, 1, 5.24, 10, 25].map((km) => xpDeActividad(km * 1000))).toEqual([0, 9, 10, 52, 100, 100])
+  })
+
+  it('suma los km de todas las actividades del día en un solo evento', () => {
+    const r = calcularExperiencia(datos([], { actividades: [act(1, '2026-10-05', 3), act(2, '2026-10-05', 2.5)] }))
+    expect(deTipo(r, 'actividad')).toEqual([expect.objectContaining({ fecha: '2026-10-05', xp: 55, distanciaM: 5500, actividadIds: [1, 2] })])
+    expect(describirEvento(deTipo(r, 'actividad')[0], {})).toEqual({ titulo: '2 actividades', detalle: '5,5 km · 10 m por km' })
+  })
+
+  it('un día cuenta desde 1 km y, por semana, los 3 primeros días; aparte del plan de entrenos', () => {
+    const actividades = [
+      act(1, '2026-10-05', 0.8), act(2, '2026-10-06', 4), act(3, '2026-10-07', 12), act(4, '2026-10-08', 2), act(5, '2026-10-09', 6),
+      act(6, '2026-10-12', 3),
+    ]
+    const r = calcularExperiencia(datos([entreno('2026-10-06'), entreno('2026-10-07'), entreno('2026-10-08')], { actividades, hoy: '2026-10-12' }))
+    expect(deTipo(r, 'actividad').map((e) => [e.fecha, e.xp])).toEqual([['2026-10-06', 40], ['2026-10-07', 100], ['2026-10-08', 20], ['2026-10-12', 30]])
+    expect(r.actividadesSinXp.map((s) => [s.fecha, s.motivo])).toEqual([['2026-10-05', 'corta'], ['2026-10-09', 'tope-semana']])
+    expect(deTipo(r, 'entreno')).toHaveLength(3)
+    expect(r.semanaActual.diasActividad).toBe(1)
+    expect(describirActividadSinXp(r.actividadesSinXp[0])).toBe('0,8 km: cuenta desde 1 km al día')
+    expect(describirActividadSinXp(r.actividadesSinXp[1], '2026-10-12')).toBe('Esa semana ya sumaban sus 3 días con actividad')
+    expect(xpDeActividadId(r, 3).evento?.xp).toBe(100)
+    expect(xpDeActividadId(r, 5).sinXp?.motivo).toBe('tope-semana')
+    expect(xpPorDia(r).find((d) => d.fecha === '2026-10-09')?.actividadesSinXp).toHaveLength(1)
+  })
+
+  it('no cuentan para Ritmo ni para la semana cumplida, y van después de los entrenos del día', () => {
+    const r = calcularExperiencia(datos([entreno('2026-10-05')], { actividades: [act(1, '2026-10-05', 5)], conNutricion: false }))
+    expect(r.diasEntreno.size).toBe(1)
+    expect(r.eventos.map((e) => e.tipo)).toEqual(['entreno', 'actividad'])
   })
 })

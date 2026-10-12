@@ -7,14 +7,19 @@ import { diasDeExpedicion, metrosTexto, type Expedicion, type ResultadoCumbres }
 import { COLECCIONES, EVEREST, type ColeccionMontana } from '../../cumbres/lib/montanas'
 import { PLANTAS_SEMANA, type SemanaHerbario } from '../../nutricion/lib/herbario'
 import { HITOS_SEMANAS } from '../../ritmo/lib/ritmo'
+import type { Actividad } from '../../../shared/db/types'
+import { kmTexto } from '../../actividades/lib/actividad'
+import type { ResultadoCaminos } from '../../caminos/lib/caminos'
+import { RUTAS } from '../../caminos/lib/rutas'
 import type { Atlas } from './atlas'
 
-export type GrupoLogro = 'entreno' | 'constancia' | 'cumbres' | 'nutricion' | 'oculto'
+export type GrupoLogro = 'entreno' | 'constancia' | 'cumbres' | 'caminos' | 'nutricion' | 'oculto'
 
 export const GRUPOS_LOGRO: Record<GrupoLogro, string> = {
   entreno: 'Entreno',
   constancia: 'Constancia',
   cumbres: 'Cumbres',
+  caminos: 'Caminos',
   nutricion: 'Nutrición',
   oculto: 'Ocultos',
 }
@@ -82,6 +87,10 @@ export interface DatosLogros {
   ciclos?: readonly Conseguido[]
   /** Cumbres (`null` o ausente si aún no se ha elegido la primera montaña: sus logros salen sin conseguir). */
   cumbres?: ResultadoCumbres | null
+  /** Actividades terminadas (caminar, correr, senderismo), para los km y las salidas. */
+  actividades?: readonly Pick<Actividad, 'id' | 'fecha' | 'inicio' | 'distanciaM'>[]
+  /** Caminos (`null` o ausente si aún no se ha elegido la primera ruta). */
+  caminos?: ResultadoCaminos | null
 }
 
 export const UMBRALES = {
@@ -96,7 +105,17 @@ export const UMBRALES = {
   metros: [10_000, 25_000, 50_000, 100_000],
   /** Veces que se corona una misma montaña («Otra vez arriba»). */
   repetir: [2, 3, 5],
+  /** Kilómetros de todas las actividades. */
+  km: [50, 250, 1000, 2500],
+  salidas: [10, 50, 100, 250],
+  /** Rutas de Caminos terminadas (repetir una también cuenta). */
+  rutas: [1, 3, 6, 12],
 } as const
+
+/** Distancia de una maratón (m): una actividad así o más larga es «Más allá de la maratón». */
+export const METROS_MARATON = 42_195
+/** Los grandes Caminos de Santiago que acaban en Santiago (Fisterra sale de allí). */
+export const CAMINOS_A_SANTIAGO = RUTAS.filter((r) => r.coleccion === 'santiago' && r.id !== 'fisterra').map((r) => r.id)
 
 /** Entrenos antes de las 8:00 para «Madrugador», días sin entrenar para «Vuelta al ruedo» y descansos para «Descanso bien llevado». */
 export const MADRUGADOR = { entrenos: 5, hora: 8 }
@@ -173,6 +192,34 @@ export function calcularLogros(d: DatosLogros): Logro[] {
     logros.push({ id, nombre, grupo: 'cumbres', umbrales: [montanas.length], niveles: [completa ? { ...completa } : null], progreso: hechas.length, unidad: 'cumbres', descripcion })
   }
 
+  // ── Caminos ──
+  const actividades = [...(d.actividades ?? [])].sort((x, y) => x.inicio - y.inicio)
+  const marcasKm: Conseguido[] = []
+  let acumulado = 0
+  for (const x of actividades) {
+    const antes = acumulado
+    acumulado += x.distanciaM
+    for (const u of UMBRALES.km) if (antes < u * 1000 && acumulado >= u * 1000) marcasKm.push({ fecha: x.fecha })
+  }
+  logros.push({
+    id: 'km', nombre: 'Kilómetros', grupo: 'caminos', unidad: 'km', umbrales: UMBRALES.km,
+    niveles: UMBRALES.km.map((_, i) => marcasKm[i] ?? null), progreso: Math.floor(acumulado / 1000),
+    descripcion: textoKm(UMBRALES.km.find((u) => u * 1000 > acumulado) ?? UMBRALES.km[UMBRALES.km.length - 1]), textoNivel: textoKm,
+  })
+  conNiveles({ id: 'salidas', nombre: 'Salidas', grupo: 'caminos', unidad: 'actividades' }, UMBRALES.salidas,
+    actividades.map((x) => ({ fecha: x.fecha })), (n) => `${formatInt(n)} caminatas, carreras o rutas`)
+  const terminadas = d.caminos?.completadas ?? []
+  conNiveles({ id: 'rutas', nombre: 'Rutas terminadas', grupo: 'caminos', unidad: 'rutas' }, UMBRALES.rutas,
+    terminadas.flatMap((x) => (x.llegada ? [{ fecha: x.llegada.fecha }] : [])),
+    (n) => n === 1 ? 'Terminar una ruta de Caminos' : `Terminar ${formatInt(n)} rutas de Caminos (repetir una también cuenta)`)
+  const aSantiago = terminadas.filter((x) => x.vez === 1 && CAMINOS_A_SANTIAGO.includes(x.ruta.id))
+  const compostela = aSantiago[0]?.llegada
+  logros.push({ id: 'compostela', nombre: 'Compostela', grupo: 'caminos', umbrales: [1], niveles: [compostela ? { fecha: compostela.fecha } : null],
+    descripcion: 'Llegar a Santiago por uno de sus Caminos' })
+  const todos = aSantiago.length >= CAMINOS_A_SANTIAGO.length ? aSantiago[CAMINOS_A_SANTIAGO.length - 1].llegada : null
+  logros.push({ id: 'todos-santiago', nombre: 'Todos los caminos', grupo: 'caminos', umbrales: [CAMINOS_A_SANTIAGO.length], niveles: [todos ? { fecha: todos.fecha } : null],
+    progreso: aSantiago.length, unidad: 'caminos', descripcion: 'Llegar a Santiago por el Inglés, el Portugués, el Primitivo, el Francés, el del Norte y la Vía de la Plata' })
+
   // ── Nutrición ──
   if (d.conNutricion) {
     conNiveles({ id: 'dias', nombre: 'Días registrados', grupo: 'nutricion', unidad: 'días' }, UMBRALES.dias,
@@ -204,6 +251,13 @@ export function calcularLogros(d: DatosLogros): Logro[] {
       return vacia ? [] : [{ ...x.cumbre }]
     }),
   })
+  const finDelMundo = terminadas.find((x) => x.ruta.id === 'fisterra')?.llegada
+  logros.push({ id: 'fin-del-mundo', nombre: 'El fin del mundo', grupo: 'oculto', oculto: true, umbrales: [1], niveles: [finDelMundo ? { fecha: finDelMundo.fecha } : null],
+    descripcion: 'Llegar a Muxía por el Camino de Fisterra' })
+  logros.push({ id: 'maraton', nombre: 'Más allá de la maratón', grupo: 'oculto', oculto: true, niveles: [],
+    descripcion: `Una actividad de ${kmTexto(METROS_MARATON)} o más`,
+    veces: actividades.filter((x) => x.distanciaM >= METROS_MARATON).map((x) => ({ fecha: x.fecha })),
+  })
   const madrugadas = a.entrenos.filter((e) => new Date(e.inicio).getHours() < MADRUGADOR.hora)
   logros.push({
     id: 'madrugador', nombre: 'Madrugador', grupo: 'oculto', oculto: true, umbrales: [MADRUGADOR.entrenos],
@@ -228,6 +282,7 @@ export function calcularLogros(d: DatosLogros): Logro[] {
 }
 
 const textoMetros = (m: number) => `${metrosTexto(m)} subidos en Cumbres`
+const textoKm = (km: number) => `${formatInt(km)} km caminando, corriendo o de senderismo`
 const textoRepetir = (n: number) => `Hacer cumbre ${formatInt(n)} veces en la misma montaña`
 
 function vecesPorMontana(coronadas: readonly Expedicion[]): Map<string, number> {

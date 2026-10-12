@@ -6,17 +6,17 @@
 
 | Pieza | Archivo | Datos |
 |---|---|---|
-| Logros | `lib/logros.ts`: `calcularLogros`, `nivelDe`, `conseguido`, `ultimaVez`, `siguienteUmbral`, `recuentoPiezas`, `logrosDeEntreno` | — (puro; usa el resultado de la [experiencia](experiencia.md), su Ritmo y Cumbres) |
+| Logros | `lib/logros.ts`: `calcularLogros`, `nivelDe`, `conseguido`, `ultimaVez`, `siguienteUmbral`, `recuentoPiezas`, `logrosDeEntreno` | — (puro; usa el resultado de la [experiencia](experiencia.md), su Ritmo, Cumbres, las actividades y Caminos) |
 | Muro de récords | `lib/muro.ts`: `muroRecords`, `describirMarca` | — (puro; reutiliza `gym/lib/records.acumularComparables`) |
 | Atlas | `lib/atlas.ts`: `gruposDeEntreno`, `calcularAtlas` | — (puro; snapshot muscular de cada entreno o la clasificación actual) |
 | Herbario | `nutricion/lib/herbario.ts`: `plantaDeEntrada`, `plantasDistintas`, `herbarioPorSemana` | — (puro; categoría con `repartoCategorias.categoriaDeEntrada`) |
 | Todo junto | `lib/vitrina.ts`: `calcularVitrina` | — |
-| Lecturas | `hooks/useVitrina.ts`: `cumbres/hooks/useCumbres.leerCumbres` (experiencia y Cumbres) y `foodsRepo.categoriasDeEntradas` | ver [experiencia.md](experiencia.md) |
+| Lecturas | `hooks/useVitrina.ts`: `cumbres/hooks/useCumbres.leerCumbres` (experiencia, Cumbres y las actividades), `caminos/hooks/useCaminos.leerCaminos` y `foodsRepo.categoriasDeEntradas` | ver [experiencia.md](experiencia.md) |
 | Página (Más › Vitrina) | `VitrinaTab.tsx` (diferida): `components/LogrosVista` (medallas en rejilla de tres, con el anillo de lo que se lleva hacia el siguiente nivel; cada una abre su detalle en una hoja), `RecordsVista` y `ColeccionesVista` | — |
 | Al terminar un entreno | `components/NuevosLogros` (en `gym/components/WorkoutFinished`) | `useVitrina` |
 | Herbario en Nutrición › Resumen | `nutricion/components/HerbarioResumen` | `foodsRepo.categoriasDeEntradas`, `settings` |
 
-## Logros (50 piezas)
+## Logros (66 piezas)
 
 | Logro | Grupo | Niveles o tipo | Fuente |
 |---|---|---|---|
@@ -36,6 +36,11 @@
 | Volcanes | Cumbres | 7 montañas (una pieza) | Teide, Elbrus, Kilimanjaro, Fuji, Cotopaxi, Chimborazo y Ojos del Salado |
 | Los cinco más altos | Cumbres | 5 montañas (una pieza) | Everest, K2, Kangchenjunga, Lhotse y Makalu |
 | Otra vez arriba | Cumbres | 2 · 3 · 5 veces la misma montaña | la primera vez que una montaña llega a ese número de cumbres |
+| Kilómetros | Caminos | 50 · 250 · 1.000 · 2.500 km | km de todas las [actividades](actividades.md) (retroactivo, desde siempre), con la fecha en que se pasa cada umbral |
+| Salidas | Caminos | 10 · 50 · 100 · 250 | actividades terminadas |
+| Rutas terminadas | Caminos | 1 · 3 · 6 · 12 | llegadas en [Caminos](caminos.md) (repetir una ruta también cuenta) |
+| Compostela | Caminos | una pieza | llegar a Santiago por uno de sus Caminos |
+| Todos los caminos | Caminos | 6 caminos (una pieza) | Inglés, Portugués, Primitivo, Francés, del Norte y Vía de la Plata (repetir no suma) |
 | Herbario 30 | Nutrición | repetible | 30 plantas distintas en una semana |
 | Madrugador | Oculto | 5 entrenos empezados antes de las 8:00 | |
 | Vuelta al ruedo | Oculto | repetible | entrenar tras 14 días o más sin hacerlo |
@@ -43,8 +48,10 @@
 | Techo del mundo | Oculto | una pieza | cumbre en el Everest |
 | Más rápido que la otra vez | Oculto | repetible | repetir una cumbre en menos días que la vez anterior en esa montaña |
 | Paso firme | Oculto | repetible | cumbre sin ninguna semana cerrada vacía durante la expedición (las congeladas por pausa no cuentan) |
+| El fin del mundo | Oculto | una pieza | terminar el Camino de Fisterra y Muxía |
+| Más allá de la maratón | Oculto | repetible | una actividad de 42,2 km o más |
 
-- Cada nivel es una pieza y un repetible cuenta como una sola. Sin nutrición, los logros de Nutrición no aparecen: quedan 42 piezas. Los de Cumbres aparecen aunque no se haya elegido la primera montaña (sin conseguir).
+- Cada nivel es una pieza y un repetible cuenta como una sola. Sin nutrición, los logros de Nutrición no aparecen: quedan 58 piezas. Los de Cumbres y Caminos aparecen aunque no se haya elegido la primera montaña o ruta (sin conseguir).
 - Los ocultos se ven como «Logro oculto · Se revela al conseguirlo».
 - Los logros conseguidos con un entreno (`workoutId`) aparecen al terminarlo en «Nuevo en la Vitrina».
 

@@ -1,8 +1,8 @@
 import { formatInt } from '../../../shared/lib/format'
-import { describirEvento, describirSinXp, type EntrenoSinXp, type EventoXp } from '../../experiencia/lib/experiencia'
+import { describirActividadSinXp, describirEvento, describirSinXp, type ActividadSinXp, type EntrenoSinXp, type EventoXp } from '../../experiencia/lib/experiencia'
 
-/** Filas `<li>` de lo que sube: qué lo dio, su porqué y cuántos metros; y los entrenos que no suben, con el motivo. */
-export default function FilasMetros({ eventos, sinXp = [], nombres, hoy }: { eventos: EventoXp[]; sinXp?: EntrenoSinXp[]; nombres: Readonly<Record<number, string>>; hoy?: string }) {
+/** Filas `<li>` de lo que sube: qué lo dio, su porqué y cuántos metros; y los entrenos y actividades que no suben, con el motivo. */
+export default function FilasMetros({ eventos, sinXp = [], actividadesSinXp = [], nombres, hoy }: { eventos: EventoXp[]; sinXp?: EntrenoSinXp[]; actividadesSinXp?: ActividadSinXp[]; nombres: Readonly<Record<number, string>>; hoy?: string }) {
   return <>
     {eventos.map((e, i) => {
       const { titulo, detalle } = describirEvento(e, nombres)
@@ -17,6 +17,10 @@ export default function FilasMetros({ eventos, sinXp = [], nombres, hoy }: { eve
     {sinXp.map((s) => <li key={`sin-${s.workoutId}`} className="py-3">
       <span className="block text-body font-medium text-fg">Entreno que no sube</span>
       <span className="tabular block break-words text-body-sm text-fg-muted">{describirSinXp(s, hoy)}</span>
+    </li>)}
+    {actividadesSinXp.map((s) => <li key={`act-${s.fecha}`} className="py-3">
+      <span className="block text-body font-medium text-fg">{s.actividadIds.length === 1 ? 'Actividad que no sube' : 'Actividades que no suben'}</span>
+      <span className="tabular block break-words text-body-sm text-fg-muted">{describirActividadSinXp(s, hoy)}</span>
     </li>)}
   </>
 }

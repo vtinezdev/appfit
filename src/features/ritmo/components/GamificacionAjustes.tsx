@@ -12,7 +12,7 @@ interface Props {
 
 const ERROR = 'No se ha podido guardar el ajuste. Inténtalo de nuevo.'
 
-/** Sección de Ajustes: mostrar u ocultar Cumbres, Ritmo y Vitrina, incluir la nutrición y el plan semanal. Cada elección se guarda al tocarla. */
+/** Sección de Ajustes: mostrar u ocultar Cumbres, Caminos, Ritmo y Vitrina, incluir la nutrición y el plan semanal. Cada elección se guarda al tocarla. */
 export default function GamificacionAjustes({ settings, onError }: Props) {
   const visibles = settings.gamificacionVisible !== false
   const conNutricion = settings.gamificacionConNutricion !== false
@@ -21,11 +21,11 @@ export default function GamificacionAjustes({ settings, onError }: Props) {
   const guardar = (patch: Partial<Omit<Settings, 'id'>>) => { updateSettings(patch).catch(() => onError(ERROR)) }
   const guardarPlan = (cambio: Partial<PlanSemanal>) => guardar({ planSemanal: cambiarPlan(settings.planSemanal, { ...plan, ...cambio }, lunes) })
 
-  return <section aria-label="Cumbres, Ritmo y Vitrina" className="space-y-stack">
-    <SectionHeader variant="section">Cumbres, Ritmo y Vitrina</SectionHeader>
-    <SegmentedControl label="Mostrar Cumbres, Ritmo y Vitrina" valor={visibles ? 'si' : 'no'} onChange={(v) => guardar({ gamificacionVisible: v === 'si' })}
+  return <section aria-label="Cumbres, Caminos, Ritmo y Vitrina" className="space-y-stack">
+    <SectionHeader variant="section">Cumbres, Caminos, Ritmo y Vitrina</SectionHeader>
+    <SegmentedControl label="Mostrar Cumbres, Caminos, Ritmo y Vitrina" valor={visibles ? 'si' : 'no'} onChange={(v) => guardar({ gamificacionVisible: v === 'si' })}
       opciones={[{ valor: 'si', label: 'Mostrar' }, { valor: 'no', label: 'Ocultar' }]} />
-    <p className="text-caption text-fg-muted">Montaña, semanas y logros en Inicio, en Más, en la revisión del lunes y al terminar un entreno. Ocultarlos no borra nada: todo sale de tus registros.</p>
+    <p className="text-caption text-fg-muted">Montaña, ruta, semanas y logros en Inicio, en Más, en la revisión del lunes y al terminar un entreno. Ocultarlos no borra nada: todo sale de tus registros.</p>
     {visibles && <>
       <SegmentedControl label="Nutrición en Cumbres, Ritmo y Vitrina" valor={conNutricion ? 'si' : 'no'} onChange={(v) => guardar({ gamificacionConNutricion: v === 'si' })}
         opciones={[{ valor: 'si', label: 'Con nutrición' }, { valor: 'no', label: 'Solo entreno' }]} />

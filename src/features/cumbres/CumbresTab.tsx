@@ -12,7 +12,7 @@ import { useAviso } from '../../shared/hooks/useAviso'
 import { addDays, formatFriendly, startOfWeek, todayISO } from '../../shared/lib/dates'
 import { formatInt } from '../../shared/lib/format'
 import {
-  entrenoHoy, PROPORCION_PROTEINA, RECORDS_POR_SESION, SERIES_COMPLETAS, SERIES_MINIMAS, textoEntrenoHoy, XP, xpDeEntreno, xpPorDia,
+  entrenoHoy, PROPORCION_PROTEINA, RECORDS_POR_SESION, SERIES_COMPLETAS, SERIES_MINIMAS, textoEntrenoHoy, XP, XP_ACTIVIDAD, xpDeEntreno, xpPorDia,
 } from '../experiencia/lib/experiencia'
 import { pausaActiva } from '../ritmo/lib/pausas'
 import CambiarMontanaSheet from './components/CambiarMontanaSheet'
@@ -55,7 +55,7 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
     return <div className="space-y-section px-page pt-5">
       <PageHeader title="Cumbres" />
       <EmptyState title="Cumbres ocultas" action={<Button variant="secondary" onClick={onIrAAjustes}>Ir a Ajustes</Button>}>
-        Las has ocultado en Ajustes junto con Ritmo y Vitrina.
+        Las has ocultado en Ajustes junto con Caminos, Ritmo y Vitrina.
       </EmptyState>
     </div>
   }
@@ -76,6 +76,7 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
       <li>Entreno terminado: {metrosTexto(XP.entreno)} con {formatInt(SERIES_COMPLETAS)} series efectivas o más; con menos, la parte proporcional ({formatInt(3)} series, {metrosTexto(xpDeEntreno(3))}). Los kilos no cuentan.</li>
       <li>Sube un entreno por día (el de más series) y, cada semana, los de tu plan: con el plan completo, los demás no suben. Para el plan cuentan los de {formatInt(SERIES_MINIMAS)} series efectivas o más.</li>
       <li>Récord personal: {metrosTexto(XP.record)}, hasta {formatInt(RECORDS_POR_SESION)} por sesión.</li>
+      <li>Caminatas, carreras y senderismo: {metrosTexto(XP_ACTIVIDAD.porKm)} por km del día, hasta {metrosTexto(XP_ACTIVIDAD.maxDia)}. Cuentan los días con {formatInt(XP_ACTIVIDAD.metrosMinimos / 1000)} km o más, como mucho {formatInt(XP_ACTIVIDAD.diasPorSemana)} por semana, aparte del plan de entrenos.</li>
       {conNutricion && <li>Día registrado: {metrosTexto(XP.diaRegistrado)} con dos comidas o más ({metrosTexto(XP.diaUnaComida)} con una).</li>}
       {conNutricion && <li>Proteína al {formatInt(PROPORCION_PROTEINA * 100)} % del objetivo del día o más: {metrosTexto(XP.proteina)} (no en un cheat day).</li>}
       <li>Semana cumplida (lunes a domingo): {metrosTexto(XP.semanaCumplida)}. Se cumple con {formatInt(plan.entrenos)} entrenos{conNutricion ? ` y ${formatInt(plan.diasRegistro)} días con comidas registradas` : ''}.</li>
@@ -93,7 +94,7 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
       <PageHeader title="Cumbres" overline="Montañas reales con lo que entrenas" />
       <Card className="space-y-3">
         <PerfilMontana expedicion={{ montana: MONTANAS[0], metros: 0 }} variante="tarjeta" decorativo />
-        <p className="break-words text-body text-fg">Cada entreno, récord{conNutricion ? ', comida registrada' : ''} y semana cumplida te sube metros. Elige la primera montaña: empiezas hoy desde el nivel del mar, sin plazo.</p>
+        <p className="break-words text-body text-fg">Cada entreno, récord, kilómetro andado{conNutricion ? ', comida registrada' : ''} y semana cumplida te sube metros. Elige la primera montaña: empiezas hoy desde el nivel del mar, sin plazo.</p>
       </Card>
       <section aria-label="Elige tu primera montaña" className="space-y-stack">
         <SectionHeader variant="section">Elige tu primera montaña</SectionHeader>
@@ -168,6 +169,10 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
             <dd className="tabular text-body font-semibold text-fg">{formatInt(semana.diasRegistrados)} de {formatInt(plan.diasRegistro)}</dd>
           </div>}
           <div className="flex flex-wrap items-baseline justify-between gap-x-3">
+            <dt className="text-body-sm text-fg-muted">Días con actividad</dt>
+            <dd className="tabular text-body font-semibold text-fg">{formatInt(semana.diasActividad)} de {formatInt(XP_ACTIVIDAD.diasPorSemana)}</dd>
+          </div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3">
             <dt className="text-body-sm text-fg-muted">Subidos</dt>
             <dd className="tabular text-body font-semibold text-fg">{metrosTexto(metrosSemana)}</dd>
           </div>
@@ -189,7 +194,7 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
     <section aria-label="Metros de cada día" className="space-y-stack">
       <SectionHeader variant="section">Cada día</SectionHeader>
       {dias.length === 0
-        ? <EmptyState>Aún no has subido nada. Termina un entreno{conNutricion ? ' o registra una comida' : ''} y aparecerá aquí con su porqué.</EmptyState>
+        ? <EmptyState>Aún no has subido nada. Termina un entreno{conNutricion ? ', registra una comida' : ''} o sal a caminar y aparecerá aquí con su porqué.</EmptyState>
         : <>
           {dias.slice(0, diasVisibles).map((d) => <section key={d.fecha} aria-label={formatFriendly(d.fecha)} className="space-y-2">
             <h3 className="flex flex-wrap items-baseline justify-between gap-x-3 px-1">
@@ -197,7 +202,7 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
               <span className="tabular text-body-sm text-fg-muted">+{metrosTexto(metrosEntre(c.tramos, d.fecha, d.fecha))}</span>
             </h3>
             <ListGroup aria-label={`Metros del ${formatFriendly(d.fecha)}`}>
-              <FilasMetros eventos={d.eventos} sinXp={d.sinXp} nombres={nombres} hoy={hoy} />
+              <FilasMetros eventos={d.eventos} sinXp={d.sinXp} actividadesSinXp={d.actividadesSinXp} nombres={nombres} hoy={hoy} />
             </ListGroup>
           </section>)}
           {dias.length > diasVisibles && <Button variant="subtle" block onClick={() => setDiasVisibles((v) => v + DIAS_POR_PAGINA)}>Ver más días</Button>}

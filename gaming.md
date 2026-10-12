@@ -2,7 +2,7 @@
 
 Plan de trabajo · 10 de octubre de 2026.
 
-Estado: **Atributos, Ritmo y Vitrina implementados** (10 de octubre, PROCESO §100 y §101, [ADR 029](docs/decisiones/029-gamificacion-atributos.md); estado vigente en `docs/features/atributos.md`, `ritmo.md` y `vitrina.md`, que mandan sobre este plan). **Liga por ejercicio implementada** ([ADR 030](docs/decisiones/030-liga-por-ejercicio.md), PROCESO §103 a §107; estado vigente en `docs/features/liga.md`, que manda sobre este plan). **Cumbres implementada en prueba con la XP como motor** (11 de octubre, PROCESO §109; estado vigente en `docs/features/cumbres.md`, que manda sobre este plan): los víveres quedan aparcados mientras Víctor la prueba y decide qué funcionalidades de este plan se quedan. Caminos, más adelante. Base revisada: rama `feat/mapa-rojo`, commit `177d3ed`.
+Estado: **Atributos, Ritmo y Vitrina implementados** (10 de octubre, PROCESO §100 y §101, [ADR 029](docs/decisiones/029-gamificacion-atributos.md); estado vigente en `docs/features/atributos.md`, `ritmo.md` y `vitrina.md`, que mandan sobre este plan). **Liga por ejercicio implementada** ([ADR 030](docs/decisiones/030-liga-por-ejercicio.md), PROCESO §103 a §107; estado vigente en `docs/features/liga.md`, que manda sobre este plan). **Cumbres implementada en prueba con la XP como motor** (11 de octubre, PROCESO §109; estado vigente en `docs/features/cumbres.md`, que manda sobre este plan): los víveres quedan aparcados mientras Víctor la prueba y decide qué funcionalidades de este plan se quedan. **Caminos implementado** (12 de octubre, PROCESO §123, [ADR 037](docs/decisiones/037-actividades-y-caminos.md); estado vigente en `docs/features/caminos.md` y `actividades.md`): en paralelo a Cumbres, con los km de las actividades; las actividades dan además XP por km. Base revisada: rama `feat/mapa-rojo`, commit `177d3ed`.
 
 Origen: una exploración con investigación de 27 apps y videojuegos y 11 estudios, seis propuestas, maquetas con la interfaz de AppFit, un simulador de semana y una evaluación: https://claude.ai/artifact/4KYsAz8G3ss1WhV1E1no6a (privado de Víctor; una sesión de Claude Code puede leerlo con la herramienta Artifact). Este documento es autosuficiente: recoge lo decidido y lo necesario para empezar.
 
@@ -21,7 +21,8 @@ Origen: una exploración con investigación de 27 apps y videojuegos y 11 estudi
 | Atributos | **Implementado** con los parámetros de abajo | Probarlo con datos reales y ajustar si hace falta |
 | Vitrina | **Implementada** con 27 piezas retroactivas (30 con «Ciclos completados» de la Liga) | Revisar el catálogo con el uso |
 | Liga por ejercicio | **Implementada** (fases 1–5) | Probarla con datos reales y ajustar umbrales |
-| Cumbres | **Implementada en prueba** con la XP (1 XP = 1 m); etapas y víveres, aparcado; Caminos, en el futuro | Probarla y decidir qué se queda |
+| Cumbres | **Implementada en prueba** con la XP (1 XP = 1 m); etapas y víveres, aparcado | Probarla y decidir qué se queda |
+| Caminos | **Implementado** en paralelo a Cumbres, con los km reales de las actividades | Probarlo en el iPhone |
 | Tablón | Aparcado | — |
 
 ### Rachas: autorizadas
@@ -219,7 +220,7 @@ Pendiente de decidir al implementar: si un día con la proteína al 90 % da un v
 | **Fuerza real** | Cada récord personal, un escalón | Premia el rendimiento y se estanca en mesetas y descargas |
 | **Series efectivas por grupo** | Cada serie, con tope por grupo y semana | Solo entreno y roza premiar el volumen |
 
-### Caminos (futuro)
+### Caminos (implementado el 12 de octubre: ver `docs/features/caminos.md`, que manda sobre esta sección)
 
 - Rutas reales con etapas: Camino Francés (unos 770 km, 33 etapas), Portugués desde Oporto, Primitivo, del Norte, Inglés, Vía de la Plata… Cada pueblo final de etapa es un hito (unos 3 por semana en las maquetas) y al llegar hay póster y credencial (un sello por día con actividad).
 - **Condición**: que AppFit registre actividad con distancia (caminar, correr u otras). Un PWA no puede leer Salud de iOS: haría falta registro manual, importar un archivo (p. ej., GPX) u otra vía, y cualquier servicio externo hay que preguntarlo antes.
