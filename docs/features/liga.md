@@ -18,7 +18,7 @@ Estado: completa (fases 1 a 5 de `gaming.md`). Descartado «Explorador» (logro 
 | Alternativas, «Usar» y «Mantener» en pantalla | `components/VariarElite` (en `BloqueLiga` y `LigaSheet`) | `ligaRepo`; `gym/data/routinesRepo.sustituirEjercicio` y `restaurar` |
 | Textos | `lib/textos.ts`: `textoSemanas`, `fechaCorta`, `resumenLiga`, `textoSemanaDeLiga`, `textoDivision`, `textoProgreso`, `textoSiguiente`, `textoPico`, `textoAvisoElite`, `textoAscenso`, `ascensoDestacado` | — (puro) |
 | Lecturas | `hooks/useLigas.ts`: `leerLigas`, `useLigas` | `workoutsRepo.terminados`, `setsRepo.todas`, `settings` (pausas e interruptor) |
-| Insignia y semanas dentro de la liga | `components/InsigniaLiga` (`InsigniaLiga`: escudo con el color `--c-liga-*` y una marca; `SemanasLiga`: tres puntos) | — |
+| Insignia y semanas dentro de la liga | `components/InsigniaLiga` (`InsigniaLiga`: hexágono topográfico con símbolo propio sobre `IconoLiga`; `SemanasLiga`: tres puntos) | — |
 | Lista y bloque en Progreso | `components/LigasLista`, `BloqueLiga` (con `DetalleLiga`), `ComoFuncionaLiga` (los compone `gym/pages/Progreso`) | `useLigas` |
 | Entreno activo | `hooks/useLigasSesion` (con lo que ya lee `EntrenoActivo`; solo recalcula si cambian los entrenos terminados, sus series o las pausas), `components/AvisoElite` y `LigaSheet` (los compone `gym/components/PanelEjercicio`) | — |
 | Fin de sesión | `components/AscensosLiga` (lo compone `gym/components/WorkoutFinished`) | `useLigas` |
@@ -59,3 +59,8 @@ Estado: completa (fases 1 a 5 de `gaming.md`). Descartado «Explorador» (logro 
 ## Rendimiento
 
 Unos 20 ms en escritorio con 500 entrenos, 12.500 series y 60 ejercicios a lo largo de tres años.
+
+
+## Iconos topográficos
+
+Las seis ligas usan hexágonos topográficos con un símbolo propio (ADR 038): Bronce chevrón, Plata doble chevrón, Oro estrella, Zafiro estrella alada, Rubí gema facetada y Élite corona. Se integran mediante `InsigniaLiga`/`IconoLiga` en Progreso, detalle y hoja, menú/aviso y ascensos. Se conservan los nombres actuales y las semanas de cada liga.

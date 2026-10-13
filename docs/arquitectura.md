@@ -4,7 +4,7 @@ Estado actual del código. El porqué de las decisiones de base está en `decisi
 
 ## Visión general
 
-- SPA estática (Vite) instalada como PWA en iOS. Todo vive en IndexedDB del dispositivo ([ADR 001](decisiones/001-pwa-local-sin-backend.md)); la cuenta es opcional y solo guarda una copia cifrada en Supabase ([ADR 038](decisiones/038-cuentas-y-copia-cifrada.md), [cuenta](features/cuenta.md)).
+- SPA estática (Vite) instalada como PWA en iOS. Todo vive en IndexedDB del dispositivo ([ADR 001](decisiones/001-pwa-local-sin-backend.md)); la cuenta es opcional y solo guarda una copia cifrada en Supabase ([ADR 039](decisiones/039-cuentas-y-copia-cifrada.md), [cuenta](features/cuenta.md)).
 - La red solo se usa para:
   - descargar el catálogo de alimentos (`/catalogo/*.json`, del propio origen);
   - consultar Open Food Facts con un código de barras escaneado (solo se envía el GTIN);

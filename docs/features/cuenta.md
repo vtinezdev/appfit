@@ -1,6 +1,6 @@
 # Cuenta y copia en la nube
 
-`src/features/cuenta/`. Cuenta opcional con copia automática y cifrada de los registros en Supabase. Los datos siguen viviendo en IndexedDB y la app funciona igual sin conexión y sin cuenta. Decisión: [ADR 038](../decisiones/038-cuentas-y-copia-cifrada.md). Es una **copia** de todo el backup, no una sincronización registro a registro: pensada para un dispositivo a la vez, con detección de conflictos.
+`src/features/cuenta/`. Cuenta opcional con copia automática y cifrada de los registros en Supabase. Los datos siguen viviendo en IndexedDB y la app funciona igual sin conexión y sin cuenta. Decisión: [ADR 039](../decisiones/039-cuentas-y-copia-cifrada.md). Es una **copia** de todo el backup, no una sincronización registro a registro: pensada para un dispositivo a la vez, con detección de conflictos.
 
 ## Dónde está cada cosa
 

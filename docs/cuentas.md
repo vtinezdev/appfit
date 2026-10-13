@@ -105,7 +105,7 @@ Una sola rama `feat/cuentas` y un PR. El esquema de Dexie de `db` **no cambia** 
 
 ## Documentación al cerrar
 
-- ADR nuevo (038) «Cuentas y copia cifrada en la nube», que **sustituye** al 001 (marcar el 001 como sustituido).
+- ADR nuevo (039) «Cuentas y copia cifrada en la nube», que **sustituye** al 001 (marcar el 001 como sustituido).
 - `CLAUDE.md`: la primera línea («sin backend») y la regla de red.
 - `arquitectura.md` (arranque, red, PWA), `datos.md` (base del dispositivo y relación con el backup), `docs/features/cuenta.md` nuevo, `README.md` (privacidad), `herramientas.md` (`supabase-js`), `desarrollo.md` (variables, SQL y pruebas con la cuenta).
 - `roadmap.md`: «Sincronización entre dispositivos» sigue descartada, pero el motivo pasa a ser la copia. Quitar de `despliegue.md` § Trabajo pendiente el punto 3 (copia más fácil).

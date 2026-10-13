@@ -1,7 +1,7 @@
-# 038 — Cuentas opcionales con copia cifrada en la nube
+# 039 — Cuentas opcionales con copia cifrada en la nube
 
 - **Estado**: vigente (desde el 2026-10-13). Sustituye al [ADR 001](001-pwa-local-sin-backend.md) en lo de «sin backend ni cuentas».
-- **Historia**: `PROCESO.md` §127; plan en `../cuentas.md`.
+- **Historia**: `PROCESO.md` §128 y §129; plan en `../cuentas.md`.
 
 ## Contexto
 
