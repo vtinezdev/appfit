@@ -24,13 +24,15 @@ import { formatAgua, objetivoAguaPorDefecto, resolverObjetivoAgua, validarObjeti
 import { Input } from '../shared/components/Input'
 import { descargarCsv, TABLAS_CSV, type TablaCsv } from '../shared/lib/exportarCsv'
 import AlmacenamientoAjustes from './AlmacenamientoAjustes'
+import CuentaAjustes from '../features/cuenta/components/CuentaAjustes'
+import { cuentaDisponible } from '../features/cuenta/servicio'
 
 function irASeccion(seccion: HTMLElement | null) {
   seccion?.scrollIntoView({ block: 'start' })
   seccion?.focus({ preventScroll: true })
 }
 
-export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPerfil }: { abrirGuia?: boolean; abrirCopia?: boolean; onIrAPerfil?: () => void }) {
+export default function Ajustes({ abrirGuia = false, abrirCopia = false, abrirCuenta = false, onIrAPerfil }: { abrirGuia?: boolean; abrirCopia?: boolean; abrirCuenta?: boolean; onIrAPerfil?: () => void }) {
   const settings = useLiveQuery(() => getSettings(), [])
   const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(todayISO()), [])
   const hayDatos = useLiveQuery(hayDatosGuardados, [])
@@ -49,12 +51,14 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
   const fileRef = useRef<HTMLInputElement>(null)
   const guiaRef = useRef<HTMLElement>(null)
   const backupRef = useRef<HTMLElement>(null)
+  const cuentaRef = useRef<HTMLElement>(null)
   const cargados = settings !== undefined
 
   useEffect(() => {
     if (abrirGuia && cargados) irASeccion(guiaRef.current)
     else if (abrirCopia && cargados) irASeccion(backupRef.current)
-  }, [abrirGuia, abrirCopia, cargados])
+    else if (abrirCuenta && cargados) irASeccion(cuentaRef.current)
+  }, [abrirGuia, abrirCopia, abrirCuenta, cargados])
 
   if (!settings || !vigentes) return <LoadingState />
 
@@ -189,6 +193,8 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
 
       <GamificacionAjustes settings={settings} onError={setErrorObjetivos} />
 
+      <CuentaAjustes ref={cuentaRef} />
+
       <section ref={backupRef} tabIndex={-1} aria-label="Backup" className="scroll-mt-6 space-y-stack">
         <SectionHeader variant="section">Copias de seguridad</SectionHeader>
         <div className="space-y-3">
@@ -265,7 +271,8 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
           <div className="space-y-2">
             <p className="text-body-sm text-fg-muted">En Android, abre el menú del navegador y elige «Instalar aplicación» o «Añadir a pantalla de inicio».</p>
             <h3 className="text-body font-semibold">¿Ya registraste comidas en Safari?</h3>
-            <p className="text-body-sm text-fg-muted">En iPhone, los registros de Safari pueden guardarse por separado. Lleva una copia al nuevo acceso:</p>
+            {cuentaDisponible && <p className="text-body-sm text-fg-muted">Con una cuenta es más fácil: crea la cuenta en Safari (Ajustes › Cuenta) y entra con ella en el nuevo acceso. Tus registros se traen solos.</p>}
+            <p className="text-body-sm text-fg-muted">{cuentaDisponible ? 'Sin cuenta, lleva' : 'En iPhone, los registros de Safari pueden guardarse por separado. Lleva'} una copia al nuevo acceso:</p>
             <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
               <li>En Safari, abre el enlace original y entra en Ajustes.</li>
               <li>Pulsa «Exportar» y guarda el archivo. Si todavía no has añadido el acceso, haz esta copia primero.</li>
@@ -303,7 +310,7 @@ export default function Ajustes({ abrirGuia = false, abrirCopia = false, onIrAPe
           {errorBorrado && <ErrorState>{errorBorrado}</ErrorState>}
         </div>
       </section>
-      <p className="border-t border-line pt-4 text-caption text-fg-muted">APPFIT · Privada y sin cuentas.<br />Nutrición y entrenos disponibles sin conexión.</p>
+      <p className="border-t border-line pt-4 text-caption text-fg-muted">APPFIT · Privada: tus registros viven en este móvil y la copia de la nube, si tienes cuenta, va cifrada.<br />Nutrición y entrenos disponibles sin conexión.</p>
     </div>
   )
 }

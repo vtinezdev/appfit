@@ -4,6 +4,8 @@
 
 **Plan en curso:** las mejoras acordadas el 2026-10-12 (serie hecha, pista del menú de serie, filtro de abductores, creatina, cheat day, creador de rutinas y uso por otras personas) tienen su plan y estado en [`mejoras.md`](mejoras.md).
 
+**Cuentas y copia en la nube:** implementadas en `feat/cuentas` ([cuenta](features/cuenta.md)); queda la prueba en iPhone real y, antes de publicar, un dominio propio para el correo (hoy sale por Brevo desde un Gmail). Estado en [`cuentas.md`](cuentas.md).
+
 **Publicación:** abrir la app a otras personas (gratis, Google Play para Android y PWA para iPhone) tiene su plan en [`despliegue.md`](despliegue.md). Va después del rediseño visual.
 
 ## Pendiente de probar en el iPhone real
@@ -86,6 +88,6 @@ Catálogo:
 - **Notificaciones push y recordatorios** (incluidos los de creatina): en iOS necesitan un servidor push, lo que rompe «sin backend».
 - **Atajos de iOS y enlaces profundos** (`?texto=…`): Atajos abre Safari, que en iOS tiene un almacenamiento separado del de la PWA instalada.
 - **Compartir una foto a la app** (Web Share Target): no existe en iOS.
-- **Sincronización entre dispositivos**: requiere backend; el backup JSON cubre el cambio de móvil.
+- **Sincronización registro a registro entre dispositivos**: exigiría pasar los ids a UUID y resolver conflictos por registro; la copia cifrada de la cuenta ([cuenta](features/cuenta.md)) cubre el cambio de móvil.
 - **Micronutrientes completos** (vitaminas, minerales): complican mucho la UI para un uso personal.
 - Fuentes de catálogo descartadas (USDA, CoFID…): `scripts/catalogo/README.md` § Fuentes.

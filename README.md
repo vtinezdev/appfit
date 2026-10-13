@@ -1,6 +1,6 @@
 # AppFit
 
-App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra comidas escribiéndolas o dictándolas (interpretadas en el propio móvil, sin IA), lleva el control de tus entrenos y de tu peso, y guarda absolutamente todo **solo en tu propio móvil**: no hay backend, ni cuentas, ni servidor que vea tus datos.
+App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra comidas escribiéndolas o dictándolas (interpretadas en el propio móvil, sin IA), lleva el control de tus entrenos y de tu peso, y guarda todo **en tu propio móvil**. Si quieres, una cuenta guarda además una copia **cifrada** en la nube para recuperarla en otro móvil: nadie más puede leerla.
 
 > Proyecto personal de uso individual: no está pensado para varios usuarios ni para publicarse en tiendas de apps.
 
@@ -73,7 +73,7 @@ Requisitos, tests, build, pruebas y despliegue en Cloudflare Workers: [`docs/des
 
 ## Privacidad
 
-No existe backend. Todos los datos (comidas, entrenos, pesos, alimentos y ajustes) se guardan exclusivamente en el IndexedDB del dispositivo donde se usa la app. Cloudflare solo sirve los archivos estáticos de la aplicación; no aloja ni ve ningún dato personal. La única conexión a terceros es la consulta a Open Food Facts al escanear un código de barras que no está en el móvil, y solo envía ese código.
+Todos los datos (comidas, entrenos, pesos, alimentos y ajustes) se guardan en el IndexedDB del dispositivo donde se usa la app. Cloudflare solo sirve los archivos estáticos de la aplicación; no aloja ni ve ningún dato personal. La cuenta es opcional: con ella, la app sube sola una copia a Supabase (servidores en la UE), cifrada en el móvil con una contraseña que solo conoce quien la usa; el servidor guarda el email y datos ilegibles. El código para entrar llega por correo a través de Brevo, que solo recibe el email. Sin cuenta, la única conexión a terceros es la consulta a Open Food Facts al escanear un código de barras que no está en el móvil, y solo envía ese código.
 
 ## Documentación
 

@@ -1371,7 +1371,6 @@ Víctor pidió que las secciones de arriba de Entreno (Gimnasio · Actividades) 
 
 **Verificación:** `npm run test` y `npm run build` en verde. Capturas en Edge sin interfaz con `playwright-core` fuera del repo, Vite en 5184 y `appfit-test.localhost`, Entreno (Gimnasio y Actividades) y Nutrición a 320/375/430 px en claro y oscuro: celdas de 44 px, sin scroll horizontal ni errores de consola. Sin prueba en iPhone. Sin commit ni push.
 
-
 ## 127. Iconos topográficos de ligas y logros (2026-10-13)
 
 Publicación autorizada por Víctor mediante commit, PR y merge. La integración se actualiza sobre master, que incorporó ligas sin divisiones (Zafiro/Rubí), Caminos y 55 logros. Se conserva la rejilla de medallas, su anillo y la hoja de detalle; cada logro recibe un símbolo topográfico y cada sección una silueta (Caminos, placa de ruta horizontal). Los 18 símbolos propuestos inicialmente se mantienen y la misma familia cubre los 37 incorporados. Criterio en [ADR 038](decisiones/038-insignias-topograficas.md); flujos en [Liga](features/liga.md) y [Vitrina](features/vitrina.md).
@@ -1379,3 +1378,25 @@ Publicación autorizada por Víctor mediante commit, PR y merge. La integración
 SVG locales con recortes únicos por instancia, tokens propios y contraste de pictogramas/fondos. Todos los ocultos sin conseguir usan el mismo candado y tampoco muestran un anillo que dé pistas. Sin nuevos servicios, dependencias o datos persistidos. Las reglas, semanas, niveles y fechas se conservan. La rejilla se adapta a texto ampliado, y la insignia mantiene su tamaño nominal.
 
 **Verificación:** `npm run test` (2.071 tests, 154 archivos) y `npm run build` (TypeScript/Vite/PWA) en verde sobre master actualizado. `scripts/ui/validar-insignias.cjs`: ocho contextos a 320/375/430 px en claro/oscuro y 375 con texto al 200 %/Reduce Motion; 55 logros, seis ligas, conseguidos/pendientes, detalle de Élite, nuevos logros y ascensos. Sin desbordamiento, recortes únicos, candados idénticos y backup intacto al consultar. Capturas/informe en `/tmp/appfit-insignias`. Chromium con datos sintéticos; sin iPhone físico.
+
+## 128. Cuentas y copia cifrada en la nube (2026-10-13)
+
+Víctor pidió poder registrarse con una cuenta donde se guarden los datos, sin exportar e importar a mano. Al abrir la app a otras personas cambia la decisión de «sin backend ni cuentas» ([ADR 039](decisiones/039-cuentas-y-copia-cifrada.md), que sustituye esa parte del 001). Eligió: copia automática (no sincronización), Supabase, entrar con email y código, y cifrado en el móvil con contraseña. Plan en `cuentas.md`. Creó el proyecto de Supabase (Irlanda, eu-west-1; Data API sin exponer tablas nuevas, RLS automática, código de 6 cifras, Site URL y Redirect URL de pruebas). En `feat/cuentas`.
+
+- `features/cuenta/`: `lib/cifrado` (DEK AES-GCM envuelta con PBKDF2 por la contraseña y por un código de recuperación, gzip + AES-GCM), `lib/huella`, `lib/decision` (vínculo y nada/subir/traer/conflicto/perdida), `lib/estado`, `lib/disparo`; `data/nube` + `nubeSupabase` (diferido), `dispositivoRepo` (base aparte `appfit-dispositivo`, DEK no exportable) y `cambiosRepo` (`storagemutated`); `copiaNube.ts` (orquestación inyectada, cola con Web Locks) y `servicio.ts` (instancia, disparadores: 15 s tras escribir, al ir a segundo plano, al volver y con red).
+- Servidor: `supabase/migrations/0001_copias.sql` con la tabla `copias` (copia y la anterior, claves envueltas), RLS de lectura propia y las funciones `subir_copia` (revisión atómica), `actualizar_claves` y `borrar_cuenta`. Config en `.env` (URL y clave publicable).
+- UI: Ajustes › Cuenta (`CuentaAjustes`, `EntrarSheet` por pasos, `ElegirCopia`, `GestionarCuenta`: contraseña, clave nueva, cerrar sesión con o sin borrar datos, borrar cuenta). Inicio: `AvisoBackup` usa la última copia en la nube y avisa sin «Más tarde» del conflicto, la copia perdida o la sesión caducada. Guía de traslado de Ajustes con el camino de la cuenta.
+
+**Verificación:** `npm run test` (2.099 tests, 161 archivos) y `npm run build` en verde (supabase-js en su propio chunk de 56 KB comprimido; el principal, 588 kB, con el aviso conocido de >500 kB). `git diff --check` correcto. `scripts/ui/validar-cuenta.cjs` en Edge sin interfaz con `playwright-core` fuera del repo, Vite en 5185, `appfit-test.localhost` y Supabase simulado: los seis casos (320/375/430 × claro/oscuro) bien, también targets, sin scroll horizontal ni errores de consola. Las plantillas del correo solo se pueden editar con SMTP propio: el correo sale por Gmail (contraseña de aplicación), con el aviso de Supabase de que no es un proveedor transaccional; antes de publicar, dominio propio y Resend o Brevo. Sin probar contra el proyecto real (falta ejecutar el SQL) ni en iPhone. Sin commit ni push.
+
+## 129. Cuentas en marcha: Supabase, correo por Brevo y Cloudflare (2026-10-13)
+
+Víctor terminó de configurar el proyecto real de la cuenta en otra sesión y pidió documentarlo, corregir un mensaje de error y llevar `feat/cuentas` a `master`. Configuración en [cuenta](features/cuenta.md) § Servidor y correo; motivos del correo en `cuentas.md` § Riesgos.
+
+- Supabase (Irlanda, eu-west-1): `0001_copias.sql` ejecutado (el alta crea la fila en `copias`), código de 6 cifras, plantillas con `{{ .Token }}`, Site URL de producción.
+- Correo: **Brevo** como SMTP propio, servicio externo nuevo. Sin SMTP propio Supabase no deja editar las plantillas (llegaba un enlace). Gmail falló («535», con bloqueo temporal de la cuenta) y Resend sin dominio solo envía a su propia cuenta. Sale desde un Gmail sin DKIM/DMARC y puede caer en spam: antes de publicar, dominio propio solo para el correo ([ADR 039](decisiones/039-cuentas-y-copia-cifrada.md)).
+- Cloudflare: las dos `VITE_SUPABASE_*` en las variables de build del Worker. `.env` pasa a `.gitignore` y se añade `.env.example`.
+- Arreglo: cuando falló el SMTP, Supabase respondió 500 en `/otp` y la app dijo «No hay conexión con la nube». auth-js da los 5xx como `AuthRetryableFetchError` (igual que sin red, pero con status ≥ 500): `traducir` los distingue y al pedir el código dice «No se ha podido enviar el código. Inténtalo más tarde.». La comprobación de `navigator.onLine` pasa a `=== false`. Test nuevo `nubeSupabase.test.ts`.
+- Al integrar `master`, que ya tenía el ADR 038 (insignias topográficas, §127), el de cuentas pasa a ser el [ADR 039](decisiones/039-cuentas-y-copia-cifrada.md).
+
+**Verificación:** `npm run test` (2.128 tests, 162 archivos, con `master` integrado) y `npm run build` en verde. `.env` ignorado por git (`git check-ignore`). Sin prueba en navegador del mensaje nuevo (el 5xx se reproduce en el test) ni en iPhone.

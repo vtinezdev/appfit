@@ -25,6 +25,15 @@ La tipografía Saira variable (recta y cursiva) se incluye como archivo local (l
 | **Dexie.js** | Una capa que simplifica mucho IndexedDB. | IndexedDB «a pelo» es muy incómoda; Dexie la hace parecida a una base de datos normal, con versiones del esquema. |
 | **dexie-react-hooks** | Conecta Dexie con React (`useLiveQuery`). | La pantalla se actualiza sola cuando cambian los datos. |
 
+## Cuenta y copia en la nube (opcional)
+
+| Herramienta | Qué es | Por qué se usa |
+|---|---|---|
+| **Supabase** | Servicio con cuentas de usuario y base de datos Postgres (plan gratuito, servidores en Irlanda, en la UE). | Guarda la copia de cada cuenta para recuperarla en otro móvil. Solo recibe la copia ya cifrada en el móvil: no puede leer los datos. |
+| **Brevo** | Servicio de envío de correo (plan gratuito, 300 correos al día). | Supabase lo usa para mandar el código de 6 cifras al entrar. Solo recibe el email y el código; la app no habla con Brevo. |
+| **@supabase/supabase-js** | La librería para hablar con Supabase desde la app. | Entrar con el código del email, mantener la sesión y subir o traer la copia. Solo se descarga si se usa la cuenta. |
+| **Web Crypto** (del navegador) | Cifrado que trae el propio navegador. | Cifra la copia con la contraseña antes de subirla, sin añadir ninguna librería. |
+
 ## Comidas sin IA
 
 La app no usa IA: al principio interpretaba las comidas con Gemini, pero se retiró (motivos en `decisiones/006-sin-ia-interprete-local.md`). Ahora un intérprete propio, escrito en TypeScript, entiende frases como «200 g de arroz y 2 huevos» y busca cada alimento en tus alimentos y en un catálogo descargado en el móvil (CIQUAL y Open Food Facts; ver `scripts/catalogo/README.md`). No necesita ninguna librería.

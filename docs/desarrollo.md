@@ -120,6 +120,7 @@ npx wrangler deploy
 - El service worker se actualiza solo (`autoUpdate`): la app instalada toma la versión nueva tras abrirla.
 - Instalar en el iPhone: abrir la URL en Safari → Compartir → «Añadir a pantalla de inicio».
 - Hacer un backup desde Ajustes antes de desplegar un cambio de esquema.
+- La cuenta usa `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` (públicas; nunca la *secret key*), que entran en el build. En local van en `.env` (copiar `.env.example`; `.env` está en `.gitignore`); en Cloudflare, en el Worker `appfit` › Settings › Builds › Variables and secrets, con los mismos valores. Sin ellas el build sale sin la sección Cuenta. Cloudflare construye desde `vtinezdev/appfit` (rama de producción `master`, `npm run build` y `npx wrangler deploy`). Un cambio del servidor va en un SQL nuevo de `supabase/migrations/` y se ejecuta a mano en el SQL Editor del proyecto antes de desplegar la app que lo usa.
 
 ## Mantener la documentación
 
@@ -148,6 +149,8 @@ La regla de uso de agentes está en `CLAUDE.md` § Forma de trabajar. Lo que no 
 ### Validación de Creatina
 
 Con Vite en 5173, `node scripts/ui/validar-creatina.cjs` recorre ocho contextos aislados en `appfit-test.localhost:5173` (320/375/430 px en claro/oscuro y 375 con texto al 200 % y Reduce Motion). Prueba activación por defecto, sin pesaje, mínimo, dosis manual con coma e inválida, marcar/desmarcar, fallo/reintento, recarga, historial, cinco días de carga y vuelta automática, cancelación, desactivación con datos conservados, XP/Ritmo intactos al marcar y backups antiguo/nuevo. Comprueba geometría y targets de los nuevos controles. Usa datos sintéticos; `APPFIT_UI_CASE`, `APPFIT_UI_OUTPUT` y `APPFIT_CHROMIUM` siguen el patrón de los otros recorridos. Informe y capturas en `/tmp/appfit-creatina`. Migración, compatibilidad y rollback tienen tests en `shared/db/db.test.ts`, `shared/lib/backup.test.ts` e `inicio/data/creatinaRepo.test.ts`. Sin prueba en iPhone real.
+
+`node scripts/ui/validar-cuenta.cjs` simula Supabase con `page.route` (nunca llama al proyecto real) y usa dos contextos efímeros como dos móviles en `appfit-test.localhost` (`APPFIT_UI_URL` cambia la dirección): crear la cuenta (contraseña corta rechazada, clave de recuperación, copia subida cifrada), «Guardar ahora», entrar en otro móvil con datos (contraseña incorrecta, resúmenes, quedarse con la nube), conflicto avisado en Inicio y resuelto quedándose con el móvil, y cerrar sesión conservando los datos. Targets de la sección, la hoja y el aviso, sin scroll horizontal ni errores de consola, en 320/375/430 px × claro/oscuro. Capturas en `/tmp/appfit-cuenta`; `APPFIT_UI_CASE`, `APPFIT_UI_OUTPUT` y `APPFIT_CHROMIUM` como en los demás. Acepta `playwright` o `playwright-core`. La lógica tiene tests con una nube en memoria (`src/test/fixtures/nubeFalsa.ts`). Lo que solo se prueba de verdad con el proyecto real y en el iPhone: el correo con el código, la RLS y las funciones SQL, y la sesión dentro de la PWA.
 
 ### Validación de Cheat day
 
