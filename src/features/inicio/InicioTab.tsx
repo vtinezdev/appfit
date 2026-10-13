@@ -42,6 +42,7 @@ interface Props {
   onIrACaminos: () => void
   onIrARitmo: () => void
   onExportarCopia: () => void
+  onRevisarCuenta: () => void
   ayudaInicial?: ReactNode
 }
 
@@ -50,7 +51,7 @@ const PESO_POR_DEFECTO = 70
 const DIAS_HISTORIAL = 365
 
 /** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, el último entreno, la semana (Ritmo), la montaña de Cumbres y la ruta de Caminos. Registrar está en el «+» de la barra. */
-export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrACaminos, onIrARitmo, onExportarCopia, ayudaInicial }: Props) {
+export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrACaminos, onIrARitmo, onExportarCopia, onRevisarCuenta, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -119,7 +120,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIr
     <div className="space-y-section px-page pt-5">
       <PageHeader overline={fechaLarga} title="Hoy" />
       {ayudaInicial}
-      <AvisoBackup onExportar={onExportarCopia} />
+      <AvisoBackup onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />
       {revision && (
         <TarjetaRevisionSemanal
           resumen={revision}

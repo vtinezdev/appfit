@@ -7,6 +7,7 @@ import { initViewport } from './shared/design/viewport.ts'
 import { ensureSettings } from './shared/db/settings.ts'
 import { solicitarPersistencia } from './shared/lib/almacenamiento.ts'
 import { sincronizarCatalogo } from './features/nutricion/lib/catalogo/sincronizar.ts'
+import { iniciarCopiaNube } from './features/cuenta/servicio.ts'
 
 initTheme()
 initViewport()
@@ -27,7 +28,10 @@ function programarSincronizacionCatalogo() {
   }, 2000)
 }
 
-ensureSettings().then(programarSincronizacionCatalogo)
+ensureSettings().then(() => {
+  programarSincronizacionCatalogo()
+  iniciarCopiaNube()
+})
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

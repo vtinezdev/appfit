@@ -31,3 +31,8 @@ scripts/ejercicios/ia/
 
 # capturas e imágenes sueltas de Víctor (no forman parte de la app)
 /images/
+
+# configuración local de Supabase (ver .env.example y docs/desarrollo.md); en Cloudflare van como variables de build
+.env
+.env.*
+!.env.example

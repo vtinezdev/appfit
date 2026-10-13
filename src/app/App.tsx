@@ -25,6 +25,7 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('inicio')
   const [abrirGuia, setAbrirGuia] = useState(false)
   const [abrirCopia, setAbrirCopia] = useState(false)
+  const [abrirCuenta, setAbrirCuenta] = useState(false)
   const [anadirAlAbrir, setAnadirAlAbrir] = useState(false)
   const [acciones, setAcciones] = useState(false)
   const [seccionEntreno, setSeccionEntreno] = useState<SeccionEntreno | undefined>(undefined)
@@ -36,6 +37,7 @@ export default function App() {
   function navegar(siguiente: Tab) {
     setAbrirGuia(false)
     setAbrirCopia(false)
+    setAbrirCuenta(false)
     setAnadirAlAbrir(false)
     setReferenciaInicial(undefined)
     setAreaReferencias(undefined)
@@ -59,7 +61,7 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view mx-auto w-full max-w-lg">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onIrAGym={() => navegar('gym')} onIrACumbres={() => navegar('cumbres')} onIrACaminos={() => navegar('caminos')} onIrARitmo={() => navegar('ritmo')} onExportarCopia={() => { navegar('ajustes'); setAbrirCopia(true) }}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onIrAGym={() => navegar('gym')} onIrACumbres={() => navegar('cumbres')} onIrACaminos={() => navegar('caminos')} onIrARitmo={() => navegar('ritmo')} onExportarCopia={() => { navegar('ajustes'); setAbrirCopia(true) }} onRevisarCuenta={() => { navegar('ajustes'); setAbrirCuenta(true) }}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => { navegar('ajustes'); setAbrirGuia(true) }} />} />}
         {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
         {tab === 'gym' && <GymTab seccionInicial={seccionEntreno} />}
@@ -68,7 +70,7 @@ export default function App() {
         {tab === 'caminos' && <Suspense fallback={<LoadingState />}><CaminosTab onIrAAjustes={() => navegar('ajustes')} onIrAActividades={() => irAEntreno('actividades')} /></Suspense>}
         {tab === 'ritmo' && <Suspense fallback={<LoadingState />}><RitmoTab onIrAAjustes={() => navegar('ajustes')} /></Suspense>}
         {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => navegar('ajustes')} /></Suspense>}
-        {tab === 'ajustes' && <Ajustes abrirGuia={abrirGuia} abrirCopia={abrirCopia} onIrAPerfil={() => navegar('perfil')} />}
+        {tab === 'ajustes' && <Ajustes abrirGuia={abrirGuia} abrirCopia={abrirCopia} abrirCuenta={abrirCuenta} onIrAPerfil={() => navegar('perfil')} />}
         {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} /></Suspense>}
         </div>
       </main>

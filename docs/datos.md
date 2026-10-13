@@ -79,7 +79,7 @@ Gym: `Exercise.id` numérico sigue siendo la clave de rutinas y series. `catalog
 
 `Workout.muscleSnapshot` opcional v1 conserva `exerciseId`, nombre, `catalogId` opcional, `primaryMuscles` y `secondaryMuscles` por ejercicio registrado. Se guarda con `fin` en una transacción de workouts/exercises/sets; las series mantienen reps/peso y permiten recalcular. No guarda colores, niveles ni esfuerzo ficticio. Cierre repetido conserva el snapshot original; fallo revierte fin/snapshot. Sin nuevos índices/migración: Dexie v6/backup v2 incluye el campo al serializar filas completas. Sesiones antiguas sin snapshot usan asociaciones actuales en solo lectura con aviso; desconocidos guardados sin clasificación no se adivinan después. Decisión: [ADR 015](decisiones/015-mapa-muscular-de-sesion.md).
 
-Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`). Fuera de las features, solo `shared/db/settings.ts` y `shared/lib/backup.ts` lo tocan.
+Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`); `cuenta/data/cambiosRepo` solo escucha sus escrituras (`storagemutated`). Fuera de las features, solo `shared/db/settings.ts` y `shared/lib/backup.ts` lo tocan.
 
 | Feature | Repos | Tablas |
 |---|---|---|
@@ -112,7 +112,7 @@ Reglas y patrones:
 - En iPhone, Safari y la PWA abierta desde el acceso de la pantalla de inicio pueden usar almacenes separados. Añadir el acceso no traslada automáticamente los registros de Safari. Si parece vacío, comprobar el enlace original en Safari y **exportar allí → importar en el acceso nuevo**. No reinstalar ni borrar los datos para intentar recuperarlos.
 - `app/TrasladarDatos` muestra un aviso breve en iOS: antes de añadir el acceso, y en el primer inicio de la PWA si no hay registros. «Ver instrucciones» abre y enfoca la guía «Primera vez en AppFit» de Ajustes, con pasos para añadir el acceso y trasladar la copia; desde allí se puede saltar a Exportar/Importar. `shared/db/estadoDatos.ts` consulta todas las tablas de usuario en solo lectura; los ajustes por defecto y el catálogo no cuentan como datos introducidos, pero los objetivos personalizados sí.
 - `shared/lib/almacenamiento.ts` consulta/solicita protección con StorageManager. Distingue permiso concedido, rechazado, API no disponible y error. No cambia de base ni elimina registros si falla o se rechaza. Ajustes muestra el acceso actual y permite reintentar la solicitud.
-- La protección depende del navegador y no sustituye a una copia exportada. Borrar los datos del sitio, cambiar de dominio/perfil o cambiar de móvil requiere recuperar esa copia; no hay sincronización entre almacenes.
+- La protección depende del navegador y no sustituye a una copia. Borrar los datos del sitio, cambiar de dominio/perfil o cambiar de móvil requiere recuperar una copia: la exportada o, con cuenta, la de la nube (entrar con la cuenta la trae). Safari y la PWA instalada cuentan como dos dispositivos.
 
 ## Backup (`shared/lib/backup.ts`)
 
@@ -121,6 +121,7 @@ Reglas y patrones:
 - `importarBackup` **sustituye** todo en una transacción: vacía todas las tablas de usuario, también las que el backup no trae, y los ajustes pasan por `conDefaults`.
 - En Ajustes, seleccionar un archivo solo lo valida y muestra cuántos registros de comida contiene. La escritura empieza al pulsar «Importar copia». Si ya hay datos, se advierte que serán sustituidos y se puede exportar antes. Cancelar o elegir un archivo inválido no altera ningún registro. Los fallos de lectura/exportación/importación se muestran en línea.
 - Fixture de referencia para las migraciones: `src/test/fixtures/backup-v1.json`.
+- **Copia en la nube** ([cuenta](features/cuenta.md)): es este mismo backup, comprimido y cifrado en el móvil, y se restaura con `importarBackup` (así que pasa por `migrarBackup`). Cambiar el formato del backup cambia también la copia. El estado de la cuenta en el dispositivo (clave, revisión, huella) vive en otra base IndexedDB, `appfit-dispositivo` (`cuenta/data/dispositivoRepo`), que no entra en el backup ni en `TABLAS_USUARIO` y no se borra con «Borrar todos los datos».
 - **CSV** (`shared/lib/csv.ts`, `exportarCsv.ts`): comidas, pesos, series (con fecha, ejercicio, tipo, reps, peso, RIR, modo de carga, snapshot corporal, nota del ejercicio, ejecución, agarre, tempo, negativas, lados/tramos JSON y realización), agua y medidas, un archivo por tema, con `;`, coma decimal y UTF-8 con BOM, para Excel en español. Texto que empieza por `=`, `+`, `-` o `@` se prefija con `'` para que no se ejecute como fórmula. No es un formato de copia: no se importa.
 
 ## Checklist: cambiar el esquema o la forma de los datos
