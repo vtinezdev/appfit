@@ -16,13 +16,29 @@ describe('persistencia ejecución, técnica y realización', () => {
   it('configura sesión/habitual sin reescribir histórico y la precarga respeta la preferencia', async () => {
     await db.workouts.put({ id: 2, inicio: 1, fin: 2 })
     await db.sets.put(s({ id: 2, workoutId: 2 }))
-    const config = { ejecucion: 'unilateral' as const, agarre: { orientacion: 'neutro' as const } }
+    const config = { ejecucion: 'lados' as const, agarre: { orientacion: 'neutro' as const } }
     expect(await workoutsRepo.configurarEjecucion(1, 1, config, true)).toEqual([1])
-    expect(await db.sets.get(1)).toMatchObject({ reps: 0, peso: 0, ejecucion: 'unilateral', realizada: false })
+    expect(await db.sets.get(1)).toMatchObject({ reps: 0, peso: 0, ejecucion: 'lados', realizada: false })
     expect((await db.sets.get(2))?.ejecucion).toBeUndefined()
     expect((await db.exercises.get(1))?.ejecucionHabitual).toEqual(config)
     const nueva = await setsRepo.agregar(1, 1)
-    expect((await db.sets.get(nueva))?.ejecucion).toBe('unilateral')
+    expect((await db.sets.get(nueva))?.ejecucion).toBe('lados')
+  })
+  it('«ambos iguales» antiguo pasa a una fila por lado conservando datos y la serie hecha', async () => {
+    await db.sets.update(1, { ejecucion: 'unilateral', kgUnilateral: 'lado', reps: 8, peso: 12, rir: 2, realizada: true })
+    await workoutsRepo.configurarEjecucion(1, 1, { ejecucion: 'unilateral' })
+    expect(await db.sets.get(1)).toMatchObject({ ejecucion: 'lados', realizada: true, lados: { izquierda: { reps: 8, peso: 12, rir: 2 }, derecha: { reps: 8, peso: 12, rir: 2 } } })
+    expect((await db.workouts.get(1))?.ejecucionesEjercicios?.[1]).toEqual({ ejecucion: 'lados' })
+  })
+  it('una sesión nueva estrena lados al copiar una serie antigua en «ambos iguales»; la misma sesión la respeta', async () => {
+    await db.workouts.put({ id: 2, inicio: 1, fin: 2 })
+    await db.sets.put(s({ id: 2, workoutId: 2, createdAt: 2, ejecucion: 'unilateral', kgUnilateral: 'total', reps: 9, peso: 30 }))
+    await db.sets.delete(1)
+    const nueva = await setsRepo.agregar(1, 1, 3)
+    expect(await db.sets.get(nueva)).toMatchObject({ ejecucion: 'lados', lados: { izquierda: { reps: 9, peso: 15 }, derecha: { reps: 9, peso: 15 } } })
+    await db.sets.put(s({ id: 3, workoutId: 2, orden: 1, createdAt: 4, ejecucion: 'unilateral', reps: 9, peso: 30 }))
+    const misma = await setsRepo.agregar(2, 1, 5)
+    expect((await db.sets.get(misma))?.ejecucion).toBe('unilateral')
   })
   it('la confirmación sobrevive a recargar y solo cambios físicos la invalidan', async () => {
     await setsRepo.confirmar(1, true)

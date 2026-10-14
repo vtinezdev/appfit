@@ -1423,3 +1423,16 @@ Víctor pidió poder salir del entreno en curso para usar el resto de la app, co
 - **Con entreno en curso**: Empezar enseña «Entreno en curso · Continuar» en lugar de las rutinas y Rutinas oculta «Empezar» (antes estas vistas nunca se veían con un entreno activo). Icono `chevron-up` nuevo; token `--mini-entreno-height`.
 
 **Verificación:** `npm run test` (2.137 tests, 165 archivos) y `npm run build` en verde. En `appfit-test.localhost:5173` (Edge con Playwright, contextos efímeros) a 375 claro y 320 oscuro: empezar vacío y desde una rutina (se abre), minimizar, Inicio con la barra sin tapar el final, volver tocándola, Rutinas sin «Empezar», nombre largo con elipsis, descanso que acaba minimizado tras recargar (aviso y `restEndsAt` a `null`, sin píldora al volver), sin scroll horizontal ni errores en consola. Sin iPhone real.
+
+## 132. Unilateral con una fila por lado (2026-10-14)
+
+Víctor pidió que al marcar un ejercicio como unilateral cada serie tenga una línea para la izquierda y otra para la derecha, repitiendo lo mismo en las dos si es igual, porque a veces un lado hace 7 reps y el otro 6.
+
+- **Variante**: Bilateral/Unilateral sin más opciones; unilateral guarda `ejecucion: 'lados'`. Se quitan «Ambos lados iguales» y «Los kg indican».
+- **Copia I → D** (`lib/serie.conLadoEspejo`, en filas, RIR y bajadas): el dato de la izquierda pasa a la derecha si la derecha está vacía o igual a lo que tenía la izquierda (funciona tecla a tecla); la derecha nunca cambia la izquierda.
+- **Datos antiguos en «ambos iguales»**: siguen en el historial; con kg por lado comparten clave de comparación con I/D (Progreso, récords y progresión no se cortan). Una configuración antigua se aplica como lados (`ejecucionVigente`); guardar la variante convierte las series de la sesión con los mismos datos, kg totales repartidos y sin perder la confirmación (`comoLados`); una sesión nueva que copia una serie así la estrena con lados (`ejecucionSerieNueva`). Sin cambio de esquema.
+- Chip de cabecera: «Unilateral» en vez de «Unilateral · cada lado».
+- **Panel con texto al 200 %**: la fila plegada y «Añadir serie» + «Plegar» se desbordaban; ahora pasan a otra línea cuando no caben (`flex-wrap`).
+- **`scripts/ui/validar-tecnicas-progresion.cjs`** puesto al día: abre el entreno con «Continuar» (desde el entreno minimizado), espera la fila plegada, lista «Entrenos terminados del mes», gráfica de área; y cubre la copia I → D y la conversión de «ambos iguales». La captura se guarda antes de comprobar, para ver el fallo.
+
+**Verificación:** `npm run test` (2.144 tests, 165 archivos) y `npm run build` en verde. `validar-tecnicas-progresion.cjs` en Edge sin interfaz con `playwright-core` fuera del repo y `appfit-test.localhost:5173`: los ocho casos (320/375/430 × claro/oscuro, 375 con texto al 200 % y 1440) bien, sin scroll horizontal, targets < 44 px ni errores de consola. Víctor lo probó también a mano en el origen de pruebas. Sin iPhone real.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { aplicarEjecucion, claveComparacion, convencional, opcionesAgarre, partesTramo, repsEstimulo, validarSerie, volumenSerie } from './ejecucion'
+import { aplicarEjecucion, claveComparacion, comoLados, convencional, vaciaRegistro, opcionesAgarre, partesTramo, repsEstimulo, validarSerie, volumenSerie } from './ejecucion'
 import { detectarRecords } from './records'
 import { datosProgreso } from './progreso'
 import { calcularCargaEjercicio } from './cargaMuscular'
@@ -41,6 +41,17 @@ describe('ejecución semántica', () => {
   it('no reinterpreta kg al cambiar ejecución y conserva datos al cambiar solo agarre', () => {
     expect(aplicarEjecucion(serie(), { ejecucion: 'unilateral' })).toMatchObject({ reps: 0, peso: 0, lados: undefined, bajadas: undefined })
     expect(aplicarEjecucion(serie(), { ejecucion: 'bilateral', agarre: { orientacion: 'neutro' } })).not.toHaveProperty('peso')
+  })
+  it('«ambos iguales» antiguo se aplica como lados sin vaciar y compara en la misma variante', () => {
+    expect(aplicarEjecucion(serie({ ejecucion: 'unilateral', rir: 1 }), { ejecucion: 'lados' })).toMatchObject({ ejecucion: 'lados', reps: 0, peso: 0, lados: { izquierda: { reps: 10, peso: 20, rir: 1 }, derecha: { reps: 10, peso: 20, rir: 1 } } })
+    expect(comoLados(serie({ ejecucion: 'unilateral', kgUnilateral: 'total', bajadas: [{ id: 'b', reps: 6, peso: 10 }] })).bajadas).toEqual([{ id: 'b', reps: 0, peso: 0, lados: { izquierda: { reps: 6, peso: 5 }, derecha: { reps: 6, peso: 5 } } }])
+    expect(aplicarEjecucion(serie(), { ejecucion: 'unilateral' })).toMatchObject({ ejecucion: 'lados', lados: undefined })
+    expect(vaciaRegistro({ ejecucion: 'unilateral' }, { ejecucion: 'lados' })).toBe(false)
+    expect(vaciaRegistro({}, { ejecucion: 'lados' })).toBe(true)
+    const lados = serie({ ejecucion: 'lados', lados: { izquierda: { reps: 10, peso: 20 }, derecha: { reps: 10, peso: 20 } } })
+    expect(claveComparacion(serie({ ejecucion: 'unilateral' }))).toBe(claveComparacion(lados))
+    expect(claveComparacion(serie({ ejecucion: 'unilateral', kgUnilateral: 'total' }))).not.toBe(claveComparacion(lados))
+    expect(volumenSerie(lados)).toBe(volumenSerie(serie({ ejecucion: 'unilateral' })))
   })
   it('solo ofrece agarres relevantes y respeta ejercicios oficiales ya diferenciados', () => {
     const ex = (id: string) => ({ id: 1, nombre: 'Ejercicio', nombreNorm: 'ejercicio', grupo: 'General', catalogId: id })

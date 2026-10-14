@@ -1,4 +1,4 @@
-import type { Agarre, ConfiguracionEjecucion, DatosLado, Exercise, SetEntry, TramoDropset } from '../../../shared/db/types'
+import type { Agarre, ConfiguracionEjecucion, DatosLado, Exercise, Lado, SetEntry, TramoDropset } from '../../../shared/db/types'
 import { modoCarga, formatearCarga } from './carga'
 import { catalogoDeLocal } from './selectorEjercicios'
 import { formatNumber } from '../../../shared/lib/format'
@@ -26,9 +26,14 @@ export function contextoSerie(s: Partial<SerieEjecucion>): string {
   const partes = [s.ejecucion === 'unilateral' ? `Ambos lados · kg ${s.kgUnilateral === 'total' ? 'totales' : 'por lado'}` : s.ejecucion === 'lados' ? `Lados separados · ${s.lados?.izquierda && s.lados?.derecha ? 'ambos registrados' : s.lados?.izquierda ? 'izquierda' : s.lados?.derecha ? 'derecha' : 'sin lados registrados'} · kg por lado` : '', textoAgarre(s.agarre), s.soloNegativas ? 'Solo negativas' : '', s.excentricaSeg ? `Descenso ${formatNumber(s.excentricaSeg)} s` : '', s.bajadas?.length ? `Dropset · ${s.bajadas.length + 1} tramos` : '']
   return partes.filter(Boolean).join(' · ')
 }
-/** Independiente del orden de propiedades; sin snapshot corporal ni reps/peso. */
+/**
+ * Independiente del orden de propiedades; sin snapshot corporal ni reps/peso. «Ambos iguales» con kg por lado
+ * equivale a registrar los dos lados: el histórico antiguo sigue en la misma curva que las filas I/D.
+ */
 export function claveComparacion(s: Partial<SerieEjecucion>): string {
-  return JSON.stringify([modoCarga(s), s.ejecucion ?? 'bilateral', s.ejecucion === 'unilateral' ? s.kgUnilateral ?? 'lado' : 'lado', s.agarre?.orientacion ?? '', s.agarre?.anchura ?? '', s.agarre?.accesorio ?? '', !!s.soloNegativas, s.excentricaSeg ?? 0, s.ejecucion === 'lados' ? Object.keys(s.lados ?? {}).sort().join(',') : ''])
+  const comoLados = s.ejecucion === 'unilateral' && s.kgUnilateral !== 'total'
+  const ejecucion = comoLados ? 'lados' : s.ejecucion ?? 'bilateral'
+  return JSON.stringify([modoCarga(s), ejecucion, s.ejecucion === 'unilateral' && !comoLados ? 'total' : 'lado', s.agarre?.orientacion ?? '', s.agarre?.anchura ?? '', s.agarre?.accesorio ?? '', !!s.soloNegativas, s.excentricaSeg ?? 0, comoLados ? 'derecha,izquierda' : s.ejecucion === 'lados' ? Object.keys(s.lados ?? {}).sort().join(',') : ''])
 }
 export function convencional(s: Partial<SerieEjecucion>): boolean { return !s.soloNegativas && !s.bajadas?.length }
 /** Datos de cada lado realmente indicado. Total en ambos iguales se reparte una sola vez. */
@@ -61,10 +66,37 @@ export function validarEjecucion(c: ConfiguracionEjecucion): void {
   if (!Object.hasOwn(EJECUCIONES, c.ejecucion) || (c.kgUnilateral && !['lado', 'total'].includes(c.kgUnilateral))) throw new Error('Selecciona una ejecución válida.')
   for (const [valor, opciones] of [[c.agarre?.orientacion, ORIENTACIONES], [c.agarre?.anchura, ANCHURAS], [c.agarre?.accesorio, ACCESORIOS]] as const) if (valor && !Object.hasOwn(opciones, valor)) throw new Error('Selecciona un agarre válido.')
 }
-export function aplicarEjecucion(s: SerieEjecucion, c: ConfiguracionEjecucion) {
-  const distinto = (s.ejecucion ?? 'bilateral') !== c.ejecucion || (s.kgUnilateral ?? 'lado') !== (c.kgUnilateral ?? 'lado')
-  return { ejecucion: c.ejecucion === 'bilateral' ? undefined : c.ejecucion, kgUnilateral: c.ejecucion === 'unilateral' ? c.kgUnilateral ?? 'lado' : undefined, agarre: c.agarre,
-    ...(distinto ? { reps: 0, peso: 0, lados: undefined, bajadas: undefined } : {}) }
+/** «Ambos lados iguales» ya no se ofrece: una configuración antigua (habitual o de sesión) se aplica como una fila por lado. */
+export function ejecucionVigente(c: ConfiguracionEjecucion): ConfiguracionEjecucion {
+  return c.ejecucion === 'unilateral' ? { ejecucion: 'lados', ...(c.agarre ? { agarre: c.agarre } : {}) } : c
+}
+/** Cambiar entre bilateral y unilateral cambia qué significan reps y kg; pasar de «ambos iguales» a cada lado no. */
+export function vaciaRegistro(s: Partial<Pick<SetEntry, 'ejecucion'>>, c: ConfiguracionEjecucion): boolean {
+  const desde = s.ejecucion ?? 'bilateral', hacia = ejecucionVigente(c).ejecucion
+  return desde !== hacia && !(desde === 'unilateral' && hacia === 'lados')
+}
+function ladosIguales(s: SerieEjecucion, t: Pick<TramoDropset, 'reps' | 'peso'>, rir?: number): Partial<Record<Lado, DatosLado>> | undefined {
+  const p: DatosLado = { reps: t.reps, peso: s.kgUnilateral === 'total' ? t.peso / 2 : t.peso, ...(rir !== undefined ? { rir } : {}) }
+  return p.reps || p.peso || rir !== undefined ? { izquierda: p, derecha: { ...p } } : undefined
+}
+/** Una serie de «ambos iguales» como filas I/D con los mismos datos; los kg totales se reparten entre los dos lados. */
+export function comoLados(s: SerieEjecucion) {
+  return { ejecucion: 'lados' as const, kgUnilateral: undefined, reps: 0, peso: 0, rir: undefined, lados: ladosIguales(s, s, s.rir),
+    bajadas: s.bajadas?.map(b => ({ id: b.id, reps: 0, peso: 0, lados: ladosIguales(s, b) })) }
+}
+export function aplicarEjecucion(s: SerieEjecucion, config: ConfiguracionEjecucion) {
+  const c = ejecucionVigente(config)
+  if (s.ejecucion === 'unilateral' && c.ejecucion === 'lados') return { ...comoLados(s), agarre: c.agarre }
+  return { ejecucion: c.ejecucion === 'bilateral' ? undefined : c.ejecucion, kgUnilateral: undefined, agarre: c.agarre,
+    ...(vaciaRegistro(s, c) ? { reps: 0, peso: 0, lados: undefined, bajadas: undefined } : {}) }
+}
+/**
+ * Ejecución que recibe una serie nueva: la de la sesión o la habitual. Sin ninguna, la copiada de otra sesión en
+ * «ambos iguales» se estrena con una fila por lado; dentro de la misma sesión se respeta lo que ya hay.
+ */
+export function ejecucionSerieNueva(config: ConfiguracionEjecucion | undefined, copiada: Partial<SerieEjecucion>, mismaSesion: boolean): ConfiguracionEjecucion | undefined {
+  if (config) return config
+  return copiada.ejecucion === 'unilateral' && !mismaSesion ? { ejecucion: 'lados', ...(copiada.agarre ? { agarre: copiada.agarre } : {}) } : undefined
 }
 export function validarSerie(s: SerieEjecucion) {
   validarEjecucion({ ejecucion: s.ejecucion ?? 'bilateral', kgUnilateral: s.kgUnilateral, agarre: s.agarre })

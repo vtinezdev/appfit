@@ -1,4 +1,4 @@
-/* Registro de series: tipo en el número, bajadas y lados como filas, RIR por selector, variante en la cabecera y progresión. Solo origen de pruebas y datos sintéticos. */
+/* Registro de series: tipo en el número, bajadas y lados como filas (la izquierda se copia en la derecha), «ambos iguales» antiguo convertido, RIR por selector, variante en la cabecera y progresión. Solo origen de pruebas y datos sintéticos. */
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const { chromium } = require('playwright')
@@ -17,12 +17,12 @@ async function check(page, tag) {
   const result = await page.evaluate(() => {
     const visible = e => e.getClientRects().length && !e.closest('[inert],[hidden]')
     return {
-      overflow: [...document.querySelectorAll('html,main,.exercise-panel,[role=dialog]')].filter(visible).filter(e => e.scrollWidth > e.clientWidth + 1).map(e => e.tagName),
+      overflow: [...document.querySelectorAll('html,main,.exercise-panel,[role=dialog]')].filter(visible).filter(e => e.scrollWidth > e.clientWidth + 1).map(e => e.dataset.exerciseId ? `panel ${e.dataset.exerciseId}` : e.tagName),
       targets: [...document.querySelectorAll('.exercise-panel button,.exercise-panel input,[role=dialog] button')].filter(visible).filter(e => { const r = e.getBoundingClientRect(); return r.width < 43.9 || r.height < 43.9 }).map(e => e.getAttribute('aria-label') || e.textContent),
     }
   })
-  assert.deepEqual(result, { overflow: [], targets: [] }, tag)
   await page.screenshot({ path: `${output}/${tag}.png`, animations: 'disabled' })
+  assert.deepEqual(result, { overflow: [], targets: [] }, tag)
 }
 const hoja = page => page.locator('[role=dialog]').last()
 async function cerrar(page) { const d = hoja(page); await page.keyboard.press('Escape'); await d.waitFor({ state: 'detached' }) }
@@ -48,15 +48,17 @@ async function main() {
           await db.exercises.bulkPut([
             { id: 1, nombre: 'Dominadas', nombreNorm: 'dominadas', grupo: 'Espalda', catalogId: 'appfit:dominadas' },
             { id: 2, nombre: 'Remo en máquina con apoyo y recorrido controlado', nombreNorm: 'remo propio', grupo: 'Espalda', primaryMuscles: ['espalda'] },
+            { id: 4, nombre: 'Curl concentrado', nombreNorm: 'curl concentrado', grupo: 'Bíceps', primaryMuscles: ['biceps'] },
             { id: 3, nombre: 'Press banca', nombreNorm: 'press banca', grupo: 'Pecho', catalogId: 'appfit:press-banca', progresion: { series: 2, repsMin: 8, repsMax: 12, incrementoKg: 2.5, rirMin: 1 } },
           ])
           const ahora = Date.now()
           await db.routines.put({ id: 1, nombre: 'Fuerza', exerciseIds: [1, 2] })
-          await db.workouts.put({ id: 1, inicio: ahora - 3600000, routineId: 1 })
+          await db.workouts.put({ id: 1, inicio: ahora - 3600000, routineId: 1, ejecucionesEjercicios: { 4: { ejecucion: 'unilateral' } } })
           await db.sets.bulkPut([
             { id: 1, workoutId: 1, exerciseId: 1, reps: 8, peso: 20, orden: 0, createdAt: ahora },
             { id: 2, workoutId: 1, exerciseId: 2, reps: 10, peso: 30, orden: 0, createdAt: ahora },
             { id: 4, workoutId: 1, exerciseId: 2, reps: 10, peso: 30, orden: 1, createdAt: ahora + 1 },
+            { id: 5, workoutId: 1, exerciseId: 4, reps: 10, peso: 12, rir: 2, ejecucion: 'unilateral', kgUnilateral: 'lado', realizada: true, orden: 0, createdAt: ahora + 2 },
           ])
           for (const id of [2, 3, 4]) {
             await db.workouts.put({ id, inicio: ahora - id * 86400000, fin: ahora - id * 86400000 + 3600000 })
@@ -66,16 +68,16 @@ async function main() {
       }, fixture)
       if (c.theme === 'light') await page.evaluate(() => { localStorage.setItem('appfit:theme', 'light'); document.documentElement.dataset.theme = 'light' })
       if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
-      await navegar(page, 'Entreno')
+      await navegar(page, 'Entreno'); await page.getByRole('button', { name: 'Continuar', exact: true }).first().click()
       const panel = page.locator('[data-exercise-id="1"]'), remo = page.locator('[data-exercise-id="2"]')
       await panel.getByRole('heading', { name: 'Dominadas' }).waitFor()
       await check(page, `${tag}-fila`)
 
-      // Variante en la cabecera: unilateral por lados y agarre con chips; vacía los valores con el nuevo significado.
+      // Variante en la cabecera: unilateral (siempre una fila por lado) y agarre con chips; vacía los valores con el nuevo significado.
       await panel.getByRole('button', { name: /^Ejecución de Dominadas:/ }).click()
       let sheet = hoja(page)
       await sheet.getByRole('radio', { name: 'Unilateral', exact: true }).click()
-      await sheet.getByRole('radio', { name: 'Cada lado', exact: true }).click()
+      assert.equal(await sheet.getByRole('radio', { name: 'Cada lado', exact: true }).count(), 0, 'unilateral ya no pregunta cómo registrar los lados')
       await sheet.getByRole('button', { name: 'Prono', exact: true }).click()
       await sheet.getByRole('button', { name: 'Ancho', exact: true }).click()
       await sheet.getByRole('checkbox', { name: /Recordar para próximas sesiones/ }).check()
@@ -86,17 +88,43 @@ async function main() {
       assert.deepEqual((await datos(page)).exercises.find(e => e.id === 1).ejecucionHabitual, { ejecucion: 'lados', agarre: { orientacion: 'prono', anchura: 'ancho' } })
       assert.ok(await panel.getByRole('button', { name: 'Agarre de Dominadas: Prono · Ancho', exact: true }).isVisible())
 
-      // Lados como filas hijas editables, con RIR propio y lado ausente vacío.
-      for (const [lado, reps, kg] of [['izquierda', '8', '10'], ['derecha', '6', '5']]) {
-        await panel.getByRole('spinbutton', { name: `Repeticiones ${lado}, serie 1 de Dominadas`, exact: true }).fill(reps)
-        await panel.getByRole('spinbutton', { name: `Kg ${lado}, serie 1 de Dominadas`, exact: true }).fill(kg)
-      }
+      // Lados como filas hijas editables: la izquierda (tecla a tecla) se copia en la derecha; la derecha propia no la arrastra.
+      const campo = (que, lado) => panel.getByRole('spinbutton', { name: `${que} ${lado}, serie 1 de Dominadas`, exact: true })
+      await campo('Repeticiones', 'izquierda').pressSequentially('12')
+      await campo('Kg', 'izquierda').fill('10')
+      s = await hasta(page, 1, s => s.lados?.derecha?.peso === 10, 'la izquierda se copia en la derecha')
+      assert.deepEqual(s.lados, { izquierda: { reps: 12, peso: 10 }, derecha: { reps: 12, peso: 10 } })
+      assert.equal(await campo('Repeticiones', 'derecha').inputValue(), '12')
+      await check(page, `${tag}-lados-copiados`)
+      await campo('Repeticiones', 'derecha').fill('6')
+      await campo('Kg', 'derecha').fill('5')
+      await hasta(page, 1, s => s.lados?.derecha?.peso === 5, 'derecha propia')
+      await campo('Kg', 'izquierda').fill('12.5')
+      s = await hasta(page, 1, s => s.lados?.izquierda?.peso === 12.5, 'izquierda sin arrastrar a la derecha distinta')
+      assert.deepEqual(s.lados, { izquierda: { reps: 12, peso: 12.5 }, derecha: { reps: 6, peso: 5 } })
+      await panel.getByRole('button', { name: 'RIR derecha, serie 1 de Dominadas: sin dato', exact: true }).click()
+      await hoja(page).getByRole('button', { name: /^RIR 2:/ }).click()
       await panel.getByRole('button', { name: 'RIR izquierda, serie 1 de Dominadas: sin dato', exact: true }).click()
       await hoja(page).getByRole('button', { name: /^RIR 1:/ }).click()
-      s = await hasta(page, 1, s => s.lados?.derecha?.peso === 5 && s.lados.izquierda?.rir === 1, 'lados')
-      assert.deepEqual(s.lados, { izquierda: { reps: 8, peso: 10, rir: 1 }, derecha: { reps: 6, peso: 5 } })
+      s = await hasta(page, 1, s => s.lados?.izquierda?.rir === 1, 'lados')
+      assert.deepEqual(s.lados, { izquierda: { reps: 12, peso: 12.5, rir: 1 }, derecha: { reps: 6, peso: 5, rir: 2 } })
+      await check(page, `${tag}-lados`)
+
+      // «Ambos iguales» de antes: una fila; al guardar la variante pasa a I/D con los mismos datos y sigue hecha.
+      const curl = page.locator('[data-exercise-id="4"]')
+      await curl.getByRole('button', { name: /^Curl concentrado: .*Desplegar$/ }).click()
+      await curl.getByRole('button', { name: 'Ejecución de Curl concentrado: Unilateral · kg por lado', exact: true }).click()
+      sheet = hoja(page)
+      assert.equal(await sheet.getByRole('radio', { name: 'Unilateral', exact: true }).isChecked(), true)
+      assert.equal(await sheet.getByText(/se vacían/).count(), 0, 'pasar a cada lado no vacía')
+      await sheet.getByRole('button', { name: 'Guardar variante', exact: true }).click(); await sheet.waitFor({ state: 'detached' })
+      s = await hasta(page, 5, s => s.ejecucion === 'lados', 'conversión de ambos iguales')
+      assert.deepEqual([s.lados, s.realizada], [{ izquierda: { reps: 10, peso: 12, rir: 2 }, derecha: { reps: 10, peso: 12, rir: 2 } }, true])
+      await curl.getByRole('button', { name: 'Ejecución de Curl concentrado: Unilateral', exact: true }).waitFor()
+      assert.equal(await curl.getByRole('spinbutton', { name: 'Repeticiones derecha, serie 1 de Curl concentrado', exact: true }).inputValue(), '10')
+      await check(page, `${tag}-convertido`)
       await panel.getByRole('button', { name: 'Completar serie 1 de Dominadas', exact: true }).click()
-      await panel.getByRole('button', { name: 'Desmarcar serie 1 de Dominadas', exact: true }).waitFor()
+      await panel.getByRole('button', { name: /^Dominadas: .*Desplegar$/ }).waitFor() // con todas sus series hechas, el ejercicio se pliega
       assert.equal(await page.locator('[role=dialog]').count(), 0, 'lados distintos: el RIR se anota por lado, sin selector global')
       await hasta(page, 1, s => s.realizada === true, 'confirmada')
 
@@ -151,8 +179,8 @@ async function main() {
       await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
       await remo.waitFor()
       assert.deepEqual(await serie(page, 2), antes)
-      await page.reload(); if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' }); await navegar(page, 'Entreno')
-      await panel.getByRole('button', { name: 'Desmarcar serie 1 de Dominadas', exact: true }).waitFor()
+      await page.reload(); if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' }); await navegar(page, 'Entreno'); await page.getByRole('button', { name: 'Continuar', exact: true }).first().click()
+      await panel.getByRole('button', { name: /^Dominadas: .*Desplegar$/ }).waitFor()
       assert.ok(await remo.getByRole('spinbutton', { name: /^Kg bajada 1, serie 1 de Remo/ }).isVisible(), 'las bajadas sobreviven a recargar')
 
       // Progresión: el aviso aparece en la cabecera solo con propuesta; Aplicar sigue siendo explícito.
@@ -179,7 +207,7 @@ async function main() {
       await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
       await page.getByRole('button', { name: 'Volver a Entreno', exact: true }).click()
       await page.getByRole('tab', { name: 'Historial', exact: true }).click()
-      await page.getByRole('list', { name: 'Entrenos terminados', exact: true }).getByRole('button').filter({ hasText: 'Fuerza' }).click()
+      await page.getByRole('list', { name: 'Entrenos terminados del mes', exact: true }).getByRole('button').filter({ hasText: 'Fuerza' }).click()
       await page.getByText('Solo negativas', { exact: false }).first().waitFor()
       await check(page, `${tag}-historial`)
       await page.getByRole('button', { name: 'Editar', exact: true }).click()
@@ -193,7 +221,7 @@ async function main() {
       await page.getByRole('button', { name: 'Historial', exact: true }).click()
       await page.getByRole('tab', { name: 'Progreso', exact: true }).click()
       await page.getByRole('combobox', { name: 'Ejercicio', exact: true }).selectOption('3')
-      await page.locator('.recharts-line-curve').first().waitFor()
+      await page.locator('.recharts-area-curve').first().waitFor()
       assert.deepEqual(errors, [], 'sin errores de navegador')
       reports.push({ tag, ok: true }); console.log(`${tag}: OK`)
     } finally { await context.close() }

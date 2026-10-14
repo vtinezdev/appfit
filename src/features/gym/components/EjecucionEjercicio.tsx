@@ -5,7 +5,7 @@ import FilterChips from '../../../shared/components/FilterChips'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
-import { ACCESORIOS, ANCHURAS, ORIENTACIONES, opcionesAgarre } from '../lib/ejecucion'
+import { ACCESORIOS, ANCHURAS, ORIENTACIONES, ejecucionVigente, opcionesAgarre, vaciaRegistro } from '../lib/ejecucion'
 
 /** Una opción por dimensión: tocar la elegida la deja sin indicar. */
 export function CamposAgarre({ ejercicio, valor, onChange, disabled }: { ejercicio: Exercise; valor?: Agarre; onChange: (a: Agarre | undefined) => void; disabled?: boolean }) {
@@ -26,19 +26,18 @@ export function CamposAgarre({ ejercicio, valor, onChange, disabled }: { ejercic
 }
 
 type Lateralidad = 'bilateral' | 'unilateral'
-type Registro = 'iguales' | 'lados'
 
 export default function EjecucionEjercicio({ open, onClose, ejercicio, actual, onGuardar }: {
   open: boolean; onClose: () => void; ejercicio: Exercise; actual: ConfiguracionEjecucion
   onGuardar: (c: ConfiguracionEjecucion, habitual: boolean) => Promise<void>
 }) {
   // Se monta al abrir: cada apertura parte de la variante vigente, sin arrastrar un borrador cancelado.
-  const [valor, setValor] = useState<ConfiguracionEjecucion>(() => structuredClone(actual))
+  const [valor, setValor] = useState<ConfiguracionEjecucion>(() => structuredClone(ejecucionVigente(actual)))
   const [habitual, setHabitual] = useState(false)
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const lateralidad: Lateralidad = valor.ejecucion === 'bilateral' ? 'bilateral' : 'unilateral'
-  const cambiaRegistro = (valor.ejecucion !== actual.ejecucion) || (valor.ejecucion === 'unilateral' && (valor.kgUnilateral ?? 'lado') !== (actual.kgUnilateral ?? 'lado'))
+  const cambiaRegistro = vaciaRegistro(actual, valor)
   async function guardar() {
     setOcupado(true); setError(null)
     try { await onGuardar(valor, habitual); onClose() } catch (e) { setError(e instanceof Error ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.') } finally { setOcupado(false) }
@@ -49,18 +48,9 @@ export default function EjecucionEjercicio({ open, onClose, ejercicio, actual, o
       <div className="space-y-section">
         <div className="space-y-3">
           <SegmentedControl label="Ejecución" valor={lateralidad}
-            onChange={(v: Lateralidad) => setValor(c => ({ ...c, ejecucion: v === 'bilateral' ? 'bilateral' : 'unilateral', kgUnilateral: v === 'bilateral' ? undefined : c.kgUnilateral }))}
+            onChange={(v: Lateralidad) => setValor(c => ({ ...c, ejecucion: v === 'bilateral' ? 'bilateral' : 'lados' }))}
             opciones={[{ valor: 'bilateral', label: 'Bilateral' }, { valor: 'unilateral', label: 'Unilateral' }]} />
-          {lateralidad === 'unilateral' && <>
-            <SegmentedControl label="Registro de los lados" valor={valor.ejecucion === 'lados' ? 'lados' : 'iguales'}
-              onChange={(v: Registro) => setValor(c => ({ ...c, ejecucion: v === 'lados' ? 'lados' : 'unilateral', kgUnilateral: v === 'lados' ? undefined : c.kgUnilateral }))}
-              opciones={[{ valor: 'iguales', label: 'Ambos lados iguales' }, { valor: 'lados', label: 'Cada lado' }]} />
-            {valor.ejecucion === 'unilateral'
-              ? <SegmentedControl label="Los kg indican" size="sm" valor={valor.kgUnilateral ?? 'lado'}
-                  onChange={(v: 'lado' | 'total') => setValor(c => ({ ...c, kgUnilateral: v }))}
-                  opciones={[{ valor: 'lado', label: 'Kg de cada lado' }, { valor: 'total', label: 'Suma de ambos' }]} />
-              : <p className="text-caption text-fg-muted">Cada serie tendrá una fila para la izquierda y otra para la derecha, con sus reps, kg y RIR.</p>}
-          </>}
+          {lateralidad === 'unilateral' && <p className="text-caption text-fg-muted">Una fila por lado, con los kg de cada lado. Lo que pongas en la izquierda se copia en la derecha hasta que cambies la derecha.</p>}
           {cambiaRegistro && <p className="text-body-sm text-fg-muted">Al guardar, las reps y kg de este ejercicio en la sesión se vacían para que los registres con el nuevo significado.</p>}
         </div>
         <CamposAgarre ejercicio={ejercicio} valor={valor.agarre} disabled={ocupado} onChange={agarre => setValor(c => ({ ...c, agarre }))} />
