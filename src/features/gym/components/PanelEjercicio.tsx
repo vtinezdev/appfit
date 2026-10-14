@@ -22,7 +22,7 @@ import CargaEjercicio, { cargaActual, textoCarga } from './CargaEjercicio'
 import { opcionesAgarre, textoAgarre, tieneReps } from '../lib/ejecucion'
 import type { CambioSerie } from '../data/setsRepo'
 import { admiteCargaCorporal, modoCarga } from '../lib/carga'
-import { TIPOS_SERIE, cambiosBajada, cambiosLadoBajada, conBajadaRestaurada, conLado, etiquetasSerie, nuevaBajada, sinBajada, textoEjecucion, tipoSerie } from '../lib/serie'
+import { TIPOS_SERIE, cambiosBajada, cambiosLadoBajada, conBajadaRestaurada, conLadoEspejo, etiquetasSerie, nuevaBajada, sinBajada, textoEjecucion, tipoSerie } from '../lib/serie'
 import type { Anterior, TextoAnterior } from '../lib/anterior'
 import { subtituloEjercicio } from '../lib/presentacionEjercicio'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
@@ -180,7 +180,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
     return LADOS.map(({ lado, letra, nombre: nombreLado }, i) => {
       const p = tramo.lados?.[lado]
       const que = bajada ? `bajada ${bajada.n} ${nombreLado}` : nombreLado
-      const cambio = (datos: { reps?: number; peso?: number }): CambioSerie => bajada ? (a: SetEntry) => cambiosLadoBajada(a, bajada.id, lado, datos) : (a: SetEntry) => ({ lados: conLado(a.lados, lado, datos) })
+      const cambio = (datos: { reps?: number; peso?: number }): CambioSerie => bajada ? (a: SetEntry) => cambiosLadoBajada(a, bajada.id, lado, datos) : (a: SetEntry) => ({ lados: conLadoEspejo(a.lados, lado, datos) })
       return <div key={`${bajada?.id ?? 's'}-${lado}`} className={`${fila} series-child`}>
         <span className="celda-tipo series-child-label text-label text-fg-muted" aria-hidden>{bajada ? `↓${letra}` : letra}</span>
         {conAnterior && <CeldaAnterior dato={previo?.lados[lado] ?? previo?.fila} />}
@@ -196,9 +196,9 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
     <Card data-exercise-id={ejercicio.id} data-plegado={plegado || undefined} padded={!plegado} className={`exercise-panel ${plegado ? '' : 'space-y-3'}`}>
       {plegado ? <button ref={filaPlegada} type="button" aria-expanded={false} onClick={() => onPlegar?.(false)}
         aria-label={`${ejercicio.nombre}: ${formatInt(sets.length)} de ${formatInt(sets.length)} series hechas, ${formatInt(volumenSets(sets))} kg. Desplegar`}
-        className="app-button flex min-h-touch w-full items-center gap-3 rounded-lg p-3 text-left">
+        className="app-button flex min-h-touch w-full flex-wrap items-center gap-3 rounded-lg p-3 text-left">
         <MiniaturaEjercicio catalogId={ejercicio.catalogId} />
-        <span className="min-w-0 flex-1 break-words text-body font-semibold text-fg">{ejercicio.nombre}</span>
+        <span className="min-w-0 flex-1 basis-32 break-words text-body font-semibold text-fg">{ejercicio.nombre}</span>
         <span className="tabular shrink-0 text-caption text-fg-muted">{formatInt(volumenSets(sets))} kg</span>
         <span className="tabular flex shrink-0 items-center gap-1 text-body-sm font-bold text-success"><Icon name="check" size={18} />{formatInt(sets.length)}/{formatInt(sets.length)}</span>
       </button> : <>
@@ -280,8 +280,8 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
           )
         })}
       </div>
-      <div className="flex gap-2">
-        <Button variant="ghost" block disabled={bloqueado} onClick={onAgregar}>
+      <div className="flex flex-wrap gap-2">
+        <Button variant="ghost" className="min-w-0 flex-1 basis-40" disabled={bloqueado} onClick={onAgregar}>
           <Icon name="plus" size={16} />
           Añadir serie
         </Button>
@@ -300,7 +300,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
         const { s, numero, lado } = abiertaRir
         const valor = lado ? s.lados?.[lado]?.rir : s.rir
         return <RirSheet open titulo={`RIR · ${numero === null || numero === undefined ? 'calentamiento' : `serie ${numero}`}${lado ? ` · ${lado}` : ''}`} valor={valor} alCompletar={preguntarRir}
-          onClose={() => setHoja(null)} onElegir={async rir => { await onActualizar(s.id, lado ? (a: SetEntry) => ({ lados: conLado(a.lados, lado, { rir }) }) : { rir }) }} />
+          onClose={() => setHoja(null)} onElegir={async rir => { await onActualizar(s.id, lado ? (a: SetEntry) => ({ lados: conLadoEspejo(a.lados, lado, { rir }) }) : { rir }) }} />
       })()}
       {contexto && hoja === 'nota' && <NotaEjercicio workoutId={contexto.workoutId} exerciseId={ejercicio.id} nombre={ejercicio.nombre} inicio={contexto.inicio} nota={contexto.nota} onClose={() => setHoja(null)} />}
       {contexto && hoja === 'carga' && <CargaEjercicio nombre={ejercicio.nombre} inicio={contexto.inicio} sets={sets} configuracion={contexto.carga} onGuardar={contexto.onCarga} onClose={() => setHoja(null)} />}

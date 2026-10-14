@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cambiosBajada, cambiosLadoBajada, cambiosTipo, conBajadaRestaurada, conLado, etiquetasSerie, nuevaBajada, sinBajada, textoEjecucion, tipoSerie } from './serie'
+import { cambiosBajada, cambiosLadoBajada, cambiosTipo, conBajadaRestaurada, conLado, conLadoEspejo, etiquetasSerie, nuevaBajada, sinBajada, textoEjecucion, tipoSerie } from './serie'
 
 const base = { reps: 8, peso: 80 }
 const id = () => 'nueva'
@@ -57,6 +57,30 @@ describe('conLado', () => {
   })
 })
 
+describe('conLadoEspejo', () => {
+  it('lo escrito en la izquierda llena la derecha vacía, también tecla a tecla', () => {
+    const uno = conLadoEspejo(undefined, 'izquierda', { reps: 1 })
+    expect(uno).toEqual({ izquierda: { reps: 1, peso: 0 }, derecha: { reps: 1, peso: 0 } })
+    const doce = conLadoEspejo(uno, 'izquierda', { reps: 12 })
+    expect(conLadoEspejo(doce, 'izquierda', { peso: 20 })).toEqual({ izquierda: { reps: 12, peso: 20 }, derecha: { reps: 12, peso: 20 } })
+  })
+  it('la derecha distinta no se pisa y la derecha nunca cambia la izquierda', () => {
+    const iguales = { izquierda: { reps: 7, peso: 20 }, derecha: { reps: 7, peso: 20 } }
+    const seis = conLadoEspejo(iguales, 'derecha', { reps: 6 })
+    expect(seis).toEqual({ izquierda: { reps: 7, peso: 20 }, derecha: { reps: 6, peso: 20 } })
+    expect(conLadoEspejo(seis, 'izquierda', { reps: 8, peso: 22.5 })).toEqual({ izquierda: { reps: 8, peso: 22.5 }, derecha: { reps: 6, peso: 22.5 } })
+  })
+  it('el RIR se copia igual y vaciar la izquierda vacía la derecha que la seguía', () => {
+    const iguales = { izquierda: { reps: 7, peso: 20 }, derecha: { reps: 7, peso: 20 } }
+    expect(conLadoEspejo(iguales, 'izquierda', { rir: 1 })).toEqual({ izquierda: { reps: 7, peso: 20, rir: 1 }, derecha: { reps: 7, peso: 20, rir: 1 } })
+    expect(conLadoEspejo({ izquierda: { reps: 7, peso: 0 }, derecha: { reps: 7, peso: 0 } }, 'izquierda', { reps: 0 })).toBeUndefined()
+  })
+  it('en una bajada también se copia de izquierda a derecha', () => {
+    const s = { reps: 0, peso: 0, ejecucion: 'lados' as const, bajadas: [{ id: 'a', reps: 0, peso: 0 }] }
+    expect(cambiosLadoBajada(s, 'a', 'izquierda', { reps: 6 }).bajadas?.[0].lados).toEqual({ izquierda: { reps: 6, peso: 0 }, derecha: { reps: 6, peso: 0 } })
+  })
+})
+
 describe('etiquetas', () => {
   const bilateral = { ejecucion: 'bilateral' as const }
   it('no repite lo que ya dicen la letra o la cabecera', () => {
@@ -76,7 +100,7 @@ describe('etiquetas', () => {
   it('textoEjecucion resume la variante', () => {
     expect(textoEjecucion({ ejecucion: 'bilateral' })).toBe('Bilateral')
     expect(textoEjecucion({ ejecucion: 'unilateral' })).toBe('Unilateral · kg por lado')
-    expect(textoEjecucion({ ejecucion: 'lados' })).toBe('Unilateral · cada lado')
+    expect(textoEjecucion({ ejecucion: 'lados' })).toBe('Unilateral')
   })
 })
 

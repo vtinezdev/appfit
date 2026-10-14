@@ -1,7 +1,7 @@
 // Acceso a la tabla `workouts`. Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
 import { db } from '../../../shared/db/db'
 import { recomendarProgresion } from '../lib/progresion'
-import { aplicarEjecucion, validarEjecucion, validarSerie, claveComparacion, convencional } from '../lib/ejecucion'
+import { aplicarEjecucion, validarEjecucion, validarSerie, claveComparacion, convencional, ejecucionSerieNueva, ejecucionVigente } from '../lib/ejecucion'
 import type { ConfiguracionEjecucion, ConfiguracionCarga, SetEntry, Workout, WorkoutExerciseMuscles } from '../../../shared/db/types'
 import { aplicarConfiguracionCarga, validarConfiguracionCarga } from '../lib/carga'
 import { toISODate } from '../../../shared/lib/dates'
@@ -55,8 +55,8 @@ async function crearSeriesObjetivo(workoutId: number, routineId: number, base = 
     const objetivo = rutina.objetivos[exerciseId]
     if (!objetivo) continue
     const valores = valoresNuevaSerie(await ultimaEfectiva(exerciseId))
-    const habitual = (await db.exercises.get(exerciseId))?.ejecucionHabitual
-    if (habitual) Object.assign(valores, aplicarEjecucion(valores, habitual))
+    const ejecucion = ejecucionSerieNueva((await db.exercises.get(exerciseId))?.ejecucionHabitual, valores, false)
+    if (ejecucion) Object.assign(valores, aplicarEjecucion(valores, ejecucion))
     if (valores.modoCarga) valores.pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(base))).last())?.kg
     for (let i = 0; i < objetivo.series; i++) {
       await db.sets.add({ workoutId, exerciseId, orden: i, ...valores, createdAt: base + orden++ })
@@ -244,8 +244,9 @@ export function terminar(id: number, confirmadas?: number[]): Promise<{ workout:
 }
 
 /** Configuración de esta sesión; el valor habitual es opt-in y nunca reescribe historial. */
-export function configurarEjecucion(workoutId: number, exerciseId: number, config: ConfiguracionEjecucion, habitual = false): Promise<number[]> {
-  validarEjecucion(config)
+export function configurarEjecucion(workoutId: number, exerciseId: number, pedida: ConfiguracionEjecucion, habitual = false): Promise<number[]> {
+  validarEjecucion(pedida)
+  const config = ejecucionVigente(pedida)
   return db.transaction('rw', db.workouts, db.sets, db.exercises, async () => {
     const w = await db.workouts.get(workoutId)
     if (!w) throw new Error('El entreno ya no está disponible.')
@@ -254,7 +255,8 @@ export function configurarEjecucion(workoutId: number, exerciseId: number, confi
     for (const s of ss) {
       const patch = aplicarEjecucion(s, config)
       if (Object.entries(patch).some(([k, v]) => JSON.stringify(s[k as keyof SetEntry]) !== JSON.stringify(v))) {
-        await db.sets.update(s.id, { ...patch, realizada: false }); ids.push(s.id)
+        // Pasar de «ambos iguales» a cada lado conserva los datos: la serie sigue hecha si lo estaba.
+        await db.sets.update(s.id, { ...patch, ...(s.ejecucion === 'unilateral' && config.ejecucion === 'lados' ? {} : { realizada: false }) }); ids.push(s.id)
       }
     }
     await db.workouts.update(workoutId, { ejecucionesEjercicios: { ...w.ejecucionesEjercicios, [exerciseId]: config } })

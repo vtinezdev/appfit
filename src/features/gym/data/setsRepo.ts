@@ -1,5 +1,5 @@
 // Acceso a la tabla `sets` (series). Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
-import { aplicarEjecucion, validarSerie, tieneReps, convencional, cambiaRealizacion } from '../lib/ejecucion'
+import { aplicarEjecucion, ejecucionSerieNueva, validarSerie, tieneReps, convencional, cambiaRealizacion } from '../lib/ejecucion'
 import Dexie from 'dexie'
 import { db } from '../../../shared/db/db'
 import type { SetEntry } from '../../../shared/db/types'
@@ -40,7 +40,7 @@ export function agregar(workoutId: number, exerciseId: number, createdAt: number
     const carga = workout?.cargasEjercicios?.[exerciseId]
     if (carga) Object.assign(valores, aplicarConfiguracionCarga(valores, carga))
     else if (valores.modoCarga && previa?.workoutId !== workoutId) valores.pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(workout?.inicio ?? createdAt))).last())?.kg
-    const ejecucion = workout?.ejecucionesEjercicios?.[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual
+    const ejecucion = ejecucionSerieNueva(workout?.ejecucionesEjercicios?.[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual, valores, previa?.workoutId === workoutId)
     if (ejecucion) Object.assign(valores, aplicarEjecucion(valores, ejecucion))
     const id = await db.sets.add({
       workoutId,

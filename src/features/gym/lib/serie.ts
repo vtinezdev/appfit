@@ -46,6 +46,22 @@ export function conLado(lados: Partial<Record<Lado, DatosLado>> | undefined, lad
   return Object.keys(resultado).length ? resultado : undefined
 }
 
+/**
+ * Lo escrito en la izquierda se copia a la derecha mientras la derecha no tenga un dato propio (vacío o igual al que
+ * tenía la izquierda). La derecha nunca cambia la izquierda: así se registra «7 y 6» sin que un lado arrastre al otro.
+ */
+export function conLadoEspejo(lados: Partial<Record<Lado, DatosLado>> | undefined, lado: Lado, datos: Partial<DatosLado>): Partial<Record<Lado, DatosLado>> | undefined {
+  const resultado = conLado(lados, lado, datos)
+  if (lado !== 'izquierda') return resultado
+  const antes = lados?.izquierda, derecha = lados?.derecha
+  const copia: Partial<DatosLado> = {}
+  for (const campo of Object.keys(datos) as (keyof DatosLado)[]) {
+    const previo = antes ? antes[campo] : campo === 'rir' ? undefined : 0
+    if (!derecha || derecha[campo] === undefined || derecha[campo] === previo) copia[campo] = datos[campo]
+  }
+  return Object.keys(copia).length ? conLado(resultado, 'derecha', copia) : resultado
+}
+
 export function cambiosBajada(s: SerieTipo, id: string, datos: Partial<Pick<TramoDropset, 'reps' | 'peso' | 'lados'>>): CambiosTecnica {
   return { bajadas: (s.bajadas ?? []).map(b => b.id === id ? { ...b, ...datos } : b) }
 }
@@ -58,7 +74,7 @@ const mismoAgarre = (a?: Agarre, b?: Agarre) => (a?.orientacion ?? '') === (b?.o
 
 /** Texto de la variante del ejercicio en la sesión, para sus botones de cabecera. */
 export function textoEjecucion(c: ConfiguracionEjecucion): string {
-  if (c.ejecucion === 'lados') return 'Unilateral · cada lado'
+  if (c.ejecucion === 'lados') return 'Unilateral'
   if (c.ejecucion === 'unilateral') return `Unilateral · kg ${c.kgUnilateral === 'total' ? 'totales' : 'por lado'}`
   return 'Bilateral'
 }
@@ -80,7 +96,7 @@ export function etiquetasSerie(s: Partial<SetEntry>, ejercicio: ConfiguracionEje
 /** Datos de un lado dentro de una bajada; la bajada que ya no existe no cambia nada. */
 export function cambiosLadoBajada(s: SerieTipo, id: string, lado: Lado, datos: Partial<DatosLado>): CambiosTecnica {
   const bajada = s.bajadas?.find(b => b.id === id)
-  return bajada ? cambiosBajada(s, id, { lados: conLado(bajada.lados, lado, datos) }) : {}
+  return bajada ? cambiosBajada(s, id, { lados: conLadoEspejo(bajada.lados, lado, datos) }) : {}
 }
 
 /** Deshacer: devuelve la bajada a su posición si sigue sin estar (un segundo Deshacer no la duplica). */
