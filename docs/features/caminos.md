@@ -70,7 +70,7 @@ Rutas entre dos lugares de España creadas por Víctor (p. ej. Tarragona – Val
   - «Siguientes»: las 5 próximas rutas;
   - «Mis caminos»: fecha de llegada, días y sellos de cada ruta terminada;
   - «Tus rutas»: tocar una la edita; «Crear ruta»;
-  - el desplegable «Cómo se avanza», con las reglas y las fuentes.
+  - la «i» de la cabecera abre «Cómo funciona Caminos» (`components/ComoSeAvanza`): qué avanza, la ruta, tus rutas y las fuentes en un desplegable.
 - **Editor de rutas** (ModalPage «Nueva ruta» / «Editar ruta»): salida y llegada con un buscador de pueblos (resultados con su provincia; elegido, «Cambiar»), «Proponer una parada cada» 15 · 25 · 40 km, una Card con `MapaRuta` y el total, las etapas (nombre, «Parada 2 · Castellón» o «Llegada», km editables y la X para quitar), «Añadir parada» con su buscador, «Volver a …» si la ruta no vuelve a la salida, una línea que dice dónde se colocan las paradas y el nombre. En el pie, errores, «Guardar ruta» y, al editar, «Borrar ruta» con confirmación (o por qué no se puede).
 - **Hoja «Cambiar de ruta»**: rutas elegibles (también las propias) con sus km y etapas; errores en línea; al elegir, se cierra con «Deshacer».
 - **Detalle de una actividad**, «Cumbres y Caminos»: lo que avanzó en la ruta («+5,24 km», «Llegaste a Betanzos», «Llegada a…») o por qué no (antes de empezar Caminos, sin ruta elegida).

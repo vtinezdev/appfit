@@ -298,6 +298,8 @@ export interface Settings {
   creatina?: ConfigCreatina
   /** Caminos: desde cuándo cuentan los km y las rutas elegidas para cada capítulo, en orden (`caminos/lib/caminos.ts`). */
   caminos?: ConfigCaminos
+  /** Pistas de primera vez ya cerradas (`shared/lib/pistas.ts`); ausente = ninguna. */
+  pistasVistas?: string[]
 }
 
 /**

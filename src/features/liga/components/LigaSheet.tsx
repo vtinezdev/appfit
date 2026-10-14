@@ -1,3 +1,4 @@
+import Disclosure from '../../../shared/components/Disclosure'
 import Sheet from '../../../shared/components/Sheet'
 import type { Exercise, Routine } from '../../../shared/db/types'
 import type { Alternativa } from '../lib/alternativas'
@@ -15,7 +16,7 @@ export default function LigaSheet({ open, liga, ejercicio, hoy, alternativas, ma
       <p className="text-caption text-fg-muted">Este entreno cuenta al terminarlo.</p>
       {liga.division.elite && <VariarElite exerciseId={ejercicio.id} nombre={ejercicio.nombre} alternativas={alternativas} basico={esBasico(ejercicio)} mantenido={mantenido}
         rutinas={rutinas} notaRutina="Este entreno no cambia." />}
-      <ComoFuncionaLiga />
+      <Disclosure title="Cómo funciona la liga"><ComoFuncionaLiga /></Disclosure>
     </div>
   </Sheet>
 }

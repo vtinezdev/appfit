@@ -10,6 +10,7 @@ import { formatNumber } from '../../../shared/lib/format'
 import * as pesosRepo from '../data/pesosRepo'
 import { actualizarObjetivoHoy } from '../../perfil/data/objetivosDiaRepo'
 import { mediaMovilPeso } from '../lib/peso'
+import NotaAmpliable from '../../../shared/components/NotaAmpliable'
 
 // Recharts va en su propio chunk: no entra en el arranque de Inicio.
 const GraficaPeso = lazy(() => import('./GraficaPeso'))
@@ -62,7 +63,7 @@ export default function HistorialPeso({ onClose }: { onClose: () => void }) {
             <>
               <Metric size="hero" label="Último registro" valor={formatNumber(lista[0].kg, 1)} unidad="kg" />
               {lista.length >= 2 && <Suspense fallback={<LoadingState />}><GraficaPeso puntos={mediaMovilPeso(lista)} /></Suspense>}
-              {lista.length >= 2 && <p className="text-caption text-fg-muted">La media de 7 días promedia los pesajes de los 7 días naturales que acaban en cada fecha: suaviza las subidas y bajadas por agua, sal o digestión.</p>}
+              {lista.length >= 2 && <NotaAmpliable resumen="La media de 7 días suaviza los cambios por agua, sal o digestión."><p>Promedia los pesajes de los 7 días naturales que acaban en cada fecha.</p></NotaAmpliable>}
               <ul className="divide-y divide-line" aria-label="Pesajes registrados">
                 {lista.map(p => <li key={p.id} className="flex min-h-touch items-center justify-between gap-3 py-1">
                   <time dateTime={p.fecha} className="text-body-sm text-fg-muted">{fechaLarga(p.fecha)}</time>

@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState, type Ref } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Button from '../../../shared/components/Button'
-import SectionHeader from '../../../shared/components/SectionHeader'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { lineaEstado } from '../lib/estado'
@@ -13,12 +12,20 @@ import GestionarCuenta from './GestionarCuenta'
 const TONO = { normal: 'text-fg-muted', aviso: 'text-warning', error: 'text-destructive' } as const
 
 /** Sección «Cuenta» de Ajustes: entrar, estado de la copia en la nube y gestión. Sin proyecto configurado no aparece. */
-export default function CuentaAjustes({ ref }: { ref?: Ref<HTMLElement> }) {
+export default function CuentaAjustes() {
   if (!cuentaDisponible) return null
-  return <Cuenta seccionRef={ref} />
+  return <Cuenta />
 }
 
-function Cuenta({ seccionRef }: { seccionRef?: Ref<HTMLElement> }) {
+/** Estado de la cuenta en una línea, para la fila del índice de Ajustes. */
+export function ResumenCuenta() {
+  const { fase, email } = useCuenta()
+  if (fase === 'cargando') return 'Comprobando…'
+  if (fase === 'sin-sesion') return 'Sin cuenta · copia cifrada opcional'
+  return email ?? 'Con cuenta'
+}
+
+function Cuenta() {
   const estado = useCuenta()
   // `n` vuelve a montar la hoja en cada apertura (empieza en el primer paso); cerrada sigue montada para animar la salida.
   const [entrar, setEntrar] = useState({ open: false, reanudar: false, n: 0 })
@@ -67,8 +74,7 @@ function Cuenta({ seccionRef }: { seccionRef?: Ref<HTMLElement> }) {
   const conCuenta = fase !== 'cargando' && fase !== 'sin-sesion' && fase !== 'sin-vincular'
 
   return (
-    <section ref={seccionRef} tabIndex={-1} aria-label="Cuenta" className="scroll-mt-6 space-y-stack">
-      <SectionHeader variant="section">Cuenta</SectionHeader>
+    <section aria-label="Cuenta" className="space-y-stack">
       <div className="space-y-3">
         {fase === 'cargando' && <p className="text-body-sm text-fg-muted">Comprobando tu cuenta…</p>}
 

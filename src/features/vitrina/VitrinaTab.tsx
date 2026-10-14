@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import Button from '../../shared/components/Button'
+import ComoFunciona from '../../shared/components/ComoFunciona'
 import PageHeader from '../../shared/components/PageHeader'
 import { EmptyState, LoadingState } from '../../shared/components/StateMessage'
 import ViewTabs from '../../shared/components/ViewTabs'
 import { todayISO } from '../../shared/lib/dates'
 import ColeccionesVista from './components/ColeccionesVista'
+import ComoFuncionaVitrina from './components/ComoFuncionaVitrina'
 import LogrosVista from './components/LogrosVista'
 import RecordsVista from './components/RecordsVista'
 import { useVitrina } from './hooks/useVitrina'
@@ -28,7 +30,7 @@ export default function VitrinaTab({ onIrAAjustes }: { onIrAAjustes: () => void 
   }
 
   return <div className="space-y-3 px-page pt-5">
-    <PageHeader title="Vitrina" overline="Lo que has conseguido, con su fecha" />
+    <PageHeader title="Vitrina" overline="Lo que has conseguido, con su fecha" action={<ComoFunciona nombre="Vitrina"><ComoFuncionaVitrina conNutricion={estado.conNutricion} /></ComoFunciona>} />
     <ViewTabs label="Vistas de la Vitrina" valor={vista} onChange={setVista}
       opciones={[{ valor: 'logros', label: 'Logros' }, { valor: 'records', label: 'Récords' }, { valor: 'colecciones', label: 'Colecciones' }]}>
       <div className="pt-4">

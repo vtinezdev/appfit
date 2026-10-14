@@ -73,7 +73,7 @@ Resume la última semana cerrada (lunes-domingo) frente a la anterior, con cifra
 
 ## Creatina
 
-Función opcional, desactivada por defecto. Ajustes › Creatina permite activarla y fijar una dosis manual de mantenimiento (gramos, con coma o punto; dejar vacío y guardar recupera la automática). Desactivar oculta la tarjeta, conservando dosis y registros. `CreatinaAjustes` y `CreatinaHoy` componen `creatinaRepo`; las fórmulas viven en `lib/creatina`.
+Función opcional, desactivada por defecto. Ajustes › Creatina permite activarla y fijar una dosis manual de mantenimiento (gramos, con coma o punto; dejar vacío y guardar recupera la automática). Desactivar oculta la tarjeta, conservando dosis y registros. Las fórmulas se explican en el desplegable «Cómo se calcula» de esa vista. `CreatinaAjustes` y `CreatinaHoy` componen `creatinaRepo`; las fórmulas viven en `lib/creatina`.
 
 Mantenimiento automático: 0,05 g/kg del último pesaje con fecha ≤ hoy, mínimo 3 g y redondeo a 0,5 g. Sin pesaje válido: 3 g. La manual sustituye a esa dosis. La carga opcional se inicia desde Ajustes, requiere pesaje y dura cinco días naturales, incluido el de inicio: 0,3 g/kg al día, repartidos en cuatro tomas. La manual solo afecta al mantenimiento. Cancelar vuelve a mantenimiento; al sexto día vuelve automáticamente, sin escrituras al leer. Si se pierde el pesaje durante una carga, se pide registrar peso para calcularla y no se inventa masa.
 

@@ -54,7 +54,7 @@
   - «Semanas»: el calendario del año (`CalendarioSemanas`), en filas de 13 semanas, como un mapa de calor en grafito (de vacía, gris de superficie, a cumplida, grafito sólido), con leyenda, flechas de año y el desplegable con el estado de cada semana en texto;
   - «Hitos»;
   - «Pausas», con «Pausar» y borrado inmediato con «Deshacer»;
-  - el desplegable «Cómo funciona».
+  - la «i» de la cabecera abre «Cómo funciona Ritmo» (`components/ComoFuncionaRitmo`): cómo se juzga cada semana (estado con su regla), el hilo y los comodines, y las pausas.
 - **Pausar** (Sheet): qué se pausa (todo o solo entreno), motivo (vacaciones, enfermedad, lesión, viaje u otro), desde y hasta (opcional). Los errores van en línea.
 - **Revisión semanal**: al principio, una card «Ritmo» con el estado de la semana revisada, sus cifras y el hilo.
 - Ocultar la gamificación en Ajustes quita la tarjeta, el sello y el destino de Más.

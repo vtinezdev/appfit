@@ -45,7 +45,7 @@ export default function CreatinaHoy({ hoy }: { hoy: string }) {
       <div className="space-y-section">
         <div className="space-y-2">
           <p className="text-body font-semibold text-fg">{dia.dosisG === undefined ? 'Registra un peso para calcular la carga.' : `${formatNumber(dia.dosisG, 2)} g hoy`} · {estado}</p>
-          {dia.carga && <p className="text-caption text-fg-muted">Reparte la dosis del día en 4 tomas. Marca «Tomada hoy» una vez al completar el día. Al sexto día pasa a mantenimiento.</p>}
+          {dia.carga && <p className="text-caption text-fg-muted">Reparte la dosis en 4 tomas y marca «Tomada hoy» al completar el día.</p>}
           {dia.terminada && <p className="text-caption text-fg-muted">Fase de carga terminada.</p>}
           {control}
           {error && <ErrorState>{error}</ErrorState>}

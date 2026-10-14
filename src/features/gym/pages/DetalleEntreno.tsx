@@ -28,6 +28,7 @@ import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
 import { formatearCarga } from '../lib/carga'
+import Pista from '../../../shared/components/Pista'
 
 // Diferido: la geometría de los muñecos pesa más que el resto del mapa.
 const MapaMuscular = lazy(() => import('../components/MapaMuscular'))
@@ -203,7 +204,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
         ) : null}
       </section>
 
-      {editando && <p className="text-caption text-fg-muted">Marca una serie con el botón de su derecha para confirmar que se realizó. Las series antiguas siguen sin confirmar hasta que lo indiques; cambiar reps, kg o técnica requiere confirmarlas de nuevo.</p>}
+      {editando && <Pista id="detalle-confirmar" />}
       {editando ? (
         <div className="space-y-stack">
           {ids.map((id, i) => {

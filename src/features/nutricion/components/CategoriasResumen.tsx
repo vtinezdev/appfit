@@ -8,6 +8,7 @@ import * as foodsRepo from '../data/foodsRepo'
 import Icon from '../../../shared/components/Icon'
 import { iconoDeCategoria } from '../lib/iconosCategoria'
 import { repartoPorCategoria, type RepartoCategoria } from '../lib/repartoCategorias'
+import NotaAmpliable from '../../../shared/components/NotaAmpliable'
 
 interface Props {
   entries: Entry[]
@@ -52,6 +53,6 @@ export default function CategoriasResumen({ entries }: Props) {
         </ListGroup>
       </Disclosure>
     )}
-    <p className="text-caption text-fg-muted">Suma del periodo, según la categoría actual de cada alimento. «Sin categoría» reúne las kcal rápidas, los alimentos borrados y los que aún no tienen categoría.</p>
+    <NotaAmpliable resumen="Según la categoría actual de cada alimento."><p>Suma del periodo. «Sin categoría» reúne las kcal rápidas, los alimentos borrados y los que aún no tienen categoría.</p></NotaAmpliable>
   </section>
 }

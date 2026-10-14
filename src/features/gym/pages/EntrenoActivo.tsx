@@ -37,6 +37,7 @@ import { todayISO } from '../../../shared/lib/dates'
 import { useLigasSesion } from '../../liga/hooks/useLigasSesion'
 import { avisarElite } from '../../liga/lib/basicos'
 import { alternativas } from '../../liga/lib/alternativas'
+import Pista from '../../../shared/components/Pista'
 
 interface Props {
   workout: Workout
@@ -295,11 +296,13 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
                 setRestConfigOpen(false)
                 requestAnimationFrame(() => restConfig.current?.querySelector('button')?.focus({ preventScroll: true }))
               }} opciones={[{ valor: '0', label: 'No' }, { valor: '60', label: '60 s' }, { valor: '90', label: '90 s' }, { valor: '120', label: '120 s' }]} />
-              <p className="text-caption text-fg-muted">Los ejercicios con descanso propio en la rutina usan ese tiempo. El aviso sonoro se ajusta en Ajustes y solo suena con la app abierta.</p>
+              <p className="text-caption text-fg-muted">Los ejercicios con descanso propio en la rutina usan ese tiempo.</p>
             </div>
           </Disclosure></div>
       </section>
       <p role="status" className="sr-only">{feedback}</p>
+
+      <Pista id="entreno-series" />
 
       <div ref={listRef} className="space-y-stack">
         {visibleIds.map((exId, indice) => {
@@ -328,8 +331,6 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
           )
         })}
       </div>
-
-      <p className="text-caption text-fg-muted">Introduce reps y kg y márcala con el botón de la derecha al terminar cada serie. El número de la serie cambia su tipo: calentamiento, dropset o negativas.</p>
 
       <Button data-add-exercise variant="secondary" size="lg" block disabled={guardando || quitando} onClick={() => setBuscandoEjercicio(true)}>
         <Icon name="plus" size={20} />

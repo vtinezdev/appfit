@@ -37,7 +37,6 @@ export default function AlmacenamientoAjustes() {
         {(persistencia === 'no-concedida' || persistencia === 'error') && (
           <Button variant="secondary" block loading={solicitando} onClick={proteger}>Proteger almacenamiento</Button>
         )}
-        <p className="text-caption text-fg-subtle">La copia exportada permite recuperar los datos si cambias de móvil o borras los datos del navegador.</p>
       </div>
       </Disclosure>
     </section>

@@ -54,7 +54,7 @@ Fuentes (comprobadas el 11 y el 12 de octubre de 2026): Instituto Geográfico Na
   - «Cada día»: los metros de cada día desde el inicio con su porqué (`FilasMetros`, también los entrenos y las actividades que no suben y el motivo), 14 días y «Ver más días»;
   - «Siguientes»: las 5 próximas de la ruta, con «coronada N veces» si ya se subió;
   - «Mis cumbres»: fecha y días de cada expedición, también las repetidas;
-  - el Disclosure «Cómo se sube», con las reglas, las fuentes y «Cambiar el plan en Ajustes».
+  - la «i» de la cabecera abre «Cómo funciona Cumbres» (`components/ComoSeSube` en `ComoFunciona`): qué sube metros como lista de reglas con su valor, qué no cuenta, límites, la ruta y las fuentes en un desplegable.
 - **Hoja «Cambiar montaña»**: montañas elegibles con altitud y, si ya se coronaron, cuántas veces; errores en línea; al elegir, se cierra con «Deshacer».
 - **Fin de sesión**, bajo los récords, la sección «Cumbres» con los metros que sube el entreno en el título («+150 m»): sus filas (entreno y récords, con su porqué) o por qué no sube; si hace cumbre, cuántos metros se quedan en la cima y una card «Cumbre del Mulhacén» con la altitud, los días que duró y la siguiente montaña; y una card con la montaña actual, su progreso y el hito que pasa. Sin montaña elegida, una línea que invita a elegirla. Sin animación.
 - **Ajustes › Cumbres, Ritmo y Vitrina**: Mostrar/Ocultar (oculta las tarjetas de Inicio, los bloques del fin de sesión, el sello de la revisión, el Herbario del Resumen y los tres destinos de Más), Con nutrición/Solo entreno y el plan semanal (`ritmo/components/GamificacionAjustes`).

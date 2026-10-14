@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Button from '../../shared/components/Button'
 import Card from '../../shared/components/Card'
+import ComoFunciona from '../../shared/components/ComoFunciona'
 import Disclosure from '../../shared/components/Disclosure'
 import ListGroup from '../../shared/components/ListGroup'
 import Metric from '../../shared/components/Metric'
@@ -13,6 +14,7 @@ import { addDays, formatFriendly, startOfWeek, todayISO } from '../../shared/lib
 import { formatInt } from '../../shared/lib/format'
 import { formatKm, kmTexto } from '../actividades/lib/actividad'
 import CambiarRutaSheet from './components/CambiarRutaSheet'
+import ComoSeAvanza from './components/ComoSeAvanza'
 import EditorRuta from './components/EditorRuta'
 import MapaRuta from './components/MapaRuta'
 import ListaRutas from './components/ListaRutas'
@@ -22,7 +24,7 @@ import { useCaminos } from './hooks/useCaminos'
 import {
   cambiarRuta, diasDeExpedicion, empezar, etapaActual, finalesDeEtapa, metrosEntre, nombreExpedicion, rutasParaCambiar, vecesTerminada, vecesTexto,
 } from './lib/caminos'
-import { FUENTE_RUTAS, metrosRuta, NOMBRE_COLECCION, NOTA_COLECCION, RUTAS, type ColeccionRuta, type Ruta } from './lib/rutas'
+import { metrosRuta, NOMBRE_COLECCION, NOTA_COLECCION, RUTAS, type ColeccionRuta, type Ruta } from './lib/rutas'
 import { esRutaPropia, idDeRutaPropia, posicionEnRutaPropia, PREFIJO, puntosDe } from './lib/rutasPropias'
 
 /** Etapas por delante que se enseñan fuera del desplegable. */
@@ -86,24 +88,14 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {
     }
   }
 
-  const comoFunciona = <Disclosure title="Cómo se avanza">
-    <ul className="list-disc space-y-2 pl-5 text-body-sm text-fg">
-      <li>Cada km de tus actividades (caminar, correr o senderismo, grabadas, importadas o a mano) es un km de la ruta. El gimnasio no avanza los Caminos: sube metros en Cumbres.</li>
-      <li>Cada etapa acaba en un lugar real (o del libro) y cada día con actividad es un sello en la credencial de la ruta.</li>
-      <li>No hay plazo ni se puede fallar: la ruta dura lo que tardes. Al llegar, los km que sobran no pasan a la siguiente.</li>
-      <li>Puedes cambiar la ruta actual por otra más larga que lo ya recorrido, también una que ya hayas hecho; con todas hechas, vuelven a empezar.</li>
-      <li>Cuenta desde el día en que eliges la primera y sale de tus actividades: si borras o cambias una, se recalcula.</li>
-      <li>Tus rutas: km en línea recta entre sus lugares con un 15 % más por las curvas del camino (o los que pongas). Lugares: GeoNames (geonames.org), CC BY 4.0.</li>
-      <li>{FUENTE_RUTAS}</li>
-    </ul>
-  </Disclosure>
+  const comoFunciona = <ComoFunciona nombre="Caminos"><ComoSeAvanza /></ComoFunciona>
 
   if (!c || !config) {
     return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Caminos" overline="Rutas reales y de ficción con tus km" />
+      <PageHeader title="Caminos" overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
       <Card className="space-y-3">
         <TrazadoCamino expedicion={{ ruta: RUTAS[0], metros: 0 }} decorativo />
-        <p className="break-words text-body text-fg">Recorre el Camino de Santiago, grandes rutas del mundo o viajes de libro con los km que caminas y corres. Elige la primera: empiezas hoy, sin plazo.</p>
+        <p className="break-words text-body text-fg">Recorre rutas reales y de libro con los km que caminas y corres. Elige la primera: empiezas hoy, sin plazo.</p>
         <Button variant="ghost" size="sm" onClick={onIrAActividades}>Ir a Actividades</Button>
       </Card>
       {tusRutas(empezarCon, true)}
@@ -112,7 +104,6 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {
         <p className="break-words text-body-sm text-fg-muted">{NOTA_COLECCION[col]}</p>
         <ListGroup aria-label={NOMBRE_COLECCION[col]}><ListaRutas rutas={RUTAS.filter((r) => r.coleccion === col)} sugerida={RUTAS[0].id} onElegir={empezarCon} /></ListGroup>
       </section>)}
-      {comoFunciona}
       {editorRuta}
       {toast}
     </div>
@@ -150,7 +141,7 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {
   }
 
   return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Caminos" overline="Rutas reales y de ficción con tus km" />
+    <PageHeader title="Caminos" overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
 
     <Card className="space-y-3">
       <div>
@@ -219,7 +210,6 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {
 
     {tusRutas((r) => abrirEditor(propiaDe(r)), false)}
 
-    {comoFunciona}
 
     {editorRuta}
     <CambiarRutaSheet key={`cambiar-${aperturas}`} open={cambiando} onClose={() => setCambiando(false)} actual={actual} opciones={opciones} veces={veces} onElegir={cambiarA} />

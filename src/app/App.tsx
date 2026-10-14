@@ -6,6 +6,7 @@ import InicioTab from '../features/inicio/InicioTab'
 import NutricionTab from '../features/nutricion/NutricionTab'
 import GymTab, { type SeccionEntreno } from '../features/gym/GymTab'
 import Ajustes from './Ajustes'
+import type { SeccionAjustes } from './seccionesAjustes'
 import TrasladarDatos from './TrasladarDatos'
 import AtmosferaApp from './AtmosferaApp'
 import { LoadingState } from '../shared/components/StateMessage'
@@ -23,9 +24,7 @@ const VitrinaTab = lazy(() => import('../features/vitrina/VitrinaTab'))
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('inicio')
-  const [abrirGuia, setAbrirGuia] = useState(false)
-  const [abrirCopia, setAbrirCopia] = useState(false)
-  const [abrirCuenta, setAbrirCuenta] = useState(false)
+  const [seccionAjustes, setSeccionAjustes] = useState<SeccionAjustes | undefined>(undefined)
   const [anadirAlAbrir, setAnadirAlAbrir] = useState(false)
   const [acciones, setAcciones] = useState(false)
   const [seccionEntreno, setSeccionEntreno] = useState<SeccionEntreno | undefined>(undefined)
@@ -35,9 +34,7 @@ export default function App() {
   const gamificacionVisible = useLiveQuery(async () => (await getSettings()).gamificacionVisible !== false, [])
 
   function navegar(siguiente: Tab) {
-    setAbrirGuia(false)
-    setAbrirCopia(false)
-    setAbrirCuenta(false)
+    setSeccionAjustes(undefined)
     setAnadirAlAbrir(false)
     setReferenciaInicial(undefined)
     setAreaReferencias(undefined)
@@ -48,6 +45,10 @@ export default function App() {
   function irAEntreno(seccion?: SeccionEntreno) {
     navegar('gym')
     setSeccionEntreno(seccion)
+  }
+  function irAAjustes(seccion?: SeccionAjustes) {
+    navegar('ajustes')
+    setSeccionAjustes(seccion)
   }
   function irANutricion(anadir = false) {
     navegar('nutricion')
@@ -61,16 +62,16 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view mx-auto w-full max-w-lg">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onIrAGym={() => navegar('gym')} onIrACumbres={() => navegar('cumbres')} onIrACaminos={() => navegar('caminos')} onIrARitmo={() => navegar('ritmo')} onExportarCopia={() => { navegar('ajustes'); setAbrirCopia(true) }} onRevisarCuenta={() => { navegar('ajustes'); setAbrirCuenta(true) }}
-          ayudaInicial={<TrasladarDatos onVerInstrucciones={() => { navegar('ajustes'); setAbrirGuia(true) }} />} />}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onIrAGym={() => navegar('gym')} onIrACumbres={() => navegar('cumbres')} onIrACaminos={() => navegar('caminos')} onIrARitmo={() => navegar('ritmo')} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')}
+          ayudaInicial={<TrasladarDatos onVerInstrucciones={() => irAAjustes('instalacion')} />} />}
         {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
         {tab === 'gym' && <GymTab seccionInicial={seccionEntreno} />}
         {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { navegar('referencias'); setAreaReferencias('energia') }} /></Suspense>}
-        {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => navegar('ajustes')} /></Suspense>}
-        {tab === 'caminos' && <Suspense fallback={<LoadingState />}><CaminosTab onIrAAjustes={() => navegar('ajustes')} onIrAActividades={() => irAEntreno('actividades')} /></Suspense>}
-        {tab === 'ritmo' && <Suspense fallback={<LoadingState />}><RitmoTab onIrAAjustes={() => navegar('ajustes')} /></Suspense>}
-        {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => navegar('ajustes')} /></Suspense>}
-        {tab === 'ajustes' && <Ajustes abrirGuia={abrirGuia} abrirCopia={abrirCopia} abrirCuenta={abrirCuenta} onIrAPerfil={() => navegar('perfil')} />}
+        {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
+        {tab === 'caminos' && <Suspense fallback={<LoadingState />}><CaminosTab onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} /></Suspense>}
+        {tab === 'ritmo' && <Suspense fallback={<LoadingState />}><RitmoTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
+        {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
+        {tab === 'ajustes' && <Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} />}
         {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} /></Suspense>}
         </div>
       </main>

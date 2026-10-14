@@ -5,6 +5,7 @@ import type { Entry } from '../../../shared/db/types'
 import { formatInt } from '../../../shared/lib/format'
 import * as foodsRepo from '../data/foodsRepo'
 import { PLANTAS_SEMANA, plantasDistintas } from '../lib/herbario'
+import NotaAmpliable from '../../../shared/components/NotaAmpliable'
 
 /** Herbario del periodo del Resumen: plantas distintas (Vitrina). No aparece si la gamificación o su nutrición están desactivadas. */
 export default function HerbarioResumen({ entries, semana }: { entries: Entry[]; semana: boolean }) {
@@ -17,6 +18,6 @@ export default function HerbarioResumen({ entries, semana }: { entries: Entry[];
     <SectionHeader variant="section">Plantas distintas</SectionHeader>
     <p className="tabular text-body text-fg"><span className="font-numeric text-heading">{formatInt(plantas.length)}</span>{semana ? ` de ${formatInt(PLANTAS_SEMANA)}` : ''}</p>
     <p className="break-words text-body-sm text-fg">{plantas.map((p) => p.nombre).join(', ')}</p>
-    <p className="text-caption text-fg-muted">Frutas, verduras, tubérculos, legumbres, frutos secos y cereales distintos del periodo, por su nombre corto. Las recetas y los platos preparados no se descomponen. Más en Vitrina › Colecciones.</p>
+    <NotaAmpliable resumen="Plantas distintas del periodo, por su nombre corto."><p>Frutas, verduras, tubérculos, legumbres, frutos secos y cereales. Las recetas y los platos preparados no se descomponen. Más en Vitrina › Colecciones.</p></NotaAmpliable>
   </section>
 }
