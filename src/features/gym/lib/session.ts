@@ -40,3 +40,8 @@ export function ajustarDescanso(s: SessionUI, deltaSeg: number, now = Date.now()
   const total = s.restTotal ?? s.restSeconds
   return { ...s, restEndsAt: fin, restTotal: Math.min(3600, Math.max(total + deltaSeg, remainingSeconds(fin, now))) }
 }
+
+/** Ids de las series marcadas: la confirmación persistida (`realizada`) manda; sin ella, la marca de la sesión. */
+export function seriesMarcadas(sets: { id: number; realizada?: boolean }[], completed: readonly number[]): number[] {
+  return sets.filter(s => s.realizada === true || s.realizada === undefined && completed.includes(s.id)).map(s => s.id)
+}

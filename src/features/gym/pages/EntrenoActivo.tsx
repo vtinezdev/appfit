@@ -20,14 +20,14 @@ import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { efectivas, formatHora, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
 import { formatInt } from '../../../shared/lib/format'
 import Sheet from '../../../shared/components/Sheet'
-import Button from '../../../shared/components/Button'
+import Button, { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { useListMotion } from '../../../shared/hooks/useListMotion'
 import { haptic } from '../../../shared/design/motion'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import ProgresoSeries from '../components/ProgresoSeries'
-import { ajustarDescanso, clearSession, descansoParaEjercicio, readSession, writeSession } from '../lib/session'
+import { ajustarDescanso, clearSession, descansoParaEjercicio, readSession, seriesMarcadas, writeSession } from '../lib/session'
 import { RestClock, WorkoutClock } from '../components/WorkoutClock'
 import type { WorkoutSummary } from '../components/WorkoutFinished'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -42,9 +42,11 @@ import Pista from '../../../shared/components/Pista'
 interface Props {
   workout: Workout
   onFinished: (summary: WorkoutSummary) => void
+  /** Deja el entreno en segundo plano (la barra del entreno en curso, sobre la navegación, lo vuelve a abrir). */
+  onMinimizar: () => void
 }
 
-export default function EntrenoActivo({ workout, onFinished }: Props) {
+export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Props) {
   const [buscandoEjercicio, setBuscandoEjercicio] = useState(false)
   const [session, setSession] = useState(() => readSession(workout.id!))
   const sessionActual = useRef(session)
@@ -219,10 +221,10 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
     }
   }
 
-  const completadas = currentSets.filter(s => s.realizada === true || s.realizada === undefined && session.completed.includes(s.id)).map(s => s.id)
+  const completadas = seriesMarcadas(currentSets, session.completed)
   useEffect(() => {
     if (!seriesCargadas) return
-    setSession(prev => { const ids = currentSets.filter(s => s.realizada === true || s.realizada === undefined && prev.completed.includes(s.id)).map(s => s.id); return ids.join(',') === prev.completed.join(',') ? prev : { ...prev, completed: ids } })
+    setSession(prev => { const ids = seriesMarcadas(currentSets, prev.completed); return ids.join(',') === prev.completed.join(',') ? prev : { ...prev, completed: ids } })
   }, [seriesCargadas])
   const volumen = volumenSets(currentSets)
   const completedCount = completadas.length
@@ -258,7 +260,8 @@ export default function EntrenoActivo({ workout, onFinished }: Props) {
       {/* Cabecera fija: rutina, tiempo, volumen, series y Terminar siguen a la vista al bajar por los ejercicios. */}
       <section aria-label="Entreno en curso" className="training-surface workout-bar sticky top-0 z-20 space-y-2 px-3 py-2">
         <div className="flex min-h-touch items-center justify-between gap-2">
-          <div className="min-w-0"><h1 className="break-words text-heading">{routine?.nombre ?? 'Entreno libre'}</h1><p className="training-muted text-caption">Desde las {formatHora(workout.inicio)}</p></div>
+          <IconButton icon="chevron-down" label="Minimizar entreno" variant="ghost" className="-ml-2" onClick={onMinimizar} />
+          <div className="min-w-0 flex-1"><h1 className="break-words text-heading">{routine?.nombre ?? 'Entreno libre'}</h1><p className="training-muted text-caption">Desde las {formatHora(workout.inicio)}</p></div>
           <Button variant="ghost" className="training-secondary" size="sm" disabled={quitando} onClick={() => { setFinishError(null); setConfirmando(true) }}>
             Terminar
           </Button>

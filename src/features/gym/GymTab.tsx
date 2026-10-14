@@ -27,7 +27,15 @@ export type SeccionEntreno = 'gimnasio' | 'actividades'
 
 const cargando = <div className="px-page pt-5"><LoadingState /></div>
 
-export default function GymTab({ seccionInicial = 'gimnasio' }: { seccionInicial?: SeccionEntreno }) {
+interface Props {
+  seccionInicial?: SeccionEntreno
+  /** Con un entreno en curso, si se ve su pantalla o la pestaña de siempre (con el entreno minimizado sobre la barra). */
+  entrenoAbierto: boolean
+  onAbrirEntreno: () => void
+  onMinimizarEntreno: () => void
+}
+
+export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, onAbrirEntreno, onMinimizarEntreno }: Props) {
   const [seccion, setSeccion] = useState<SeccionEntreno>(seccionInicial)
   const [vista, setVista] = useState<Vista>('inicio')
   const [summary, setSummary] = useState<WorkoutSummary | null>(null)
@@ -42,8 +50,8 @@ export default function GymTab({ seccionInicial = 'gimnasio' }: { seccionInicial
     return <Suspense fallback={cargando}><GrabacionActiva key={grabacion.id} actividad={grabacion} onTerminada={(id) => { setSeccion('actividades'); setDetalleActividad(id) }} /></Suspense>
   }
   if (summary) return <WorkoutFinished summary={summary} onClose={() => { setSummary(null); setVista('inicio') }} />
-  if (activeWorkout) {
-    return <Suspense fallback={cargando}><EntrenoActivo key={activeWorkout.id} workout={activeWorkout} onFinished={setSummary} /></Suspense>
+  if (activeWorkout && entrenoAbierto) {
+    return <Suspense fallback={cargando}><EntrenoActivo key={activeWorkout.id} workout={activeWorkout} onFinished={setSummary} onMinimizar={onMinimizarEntreno} /></Suspense>
   }
 
   if (detalle) return <DetalleEntreno key={detalle.id} workoutId={detalle.id} editarInicial={detalle.editar} onVolver={() => { setDetalle(null); setVista('historial') }} />
@@ -78,8 +86,8 @@ export default function GymTab({ seccionInicial = 'gimnasio' }: { seccionInicial
           valor={vista}
           onChange={setVista}
         >
-          {vista === 'inicio' && <GymHome onRegistrado={(id) => setDetalle({ id, editar: true })} />}
-          {vista === 'rutinas' && <Rutinas />}
+          {vista === 'inicio' && <GymHome enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onRegistrado={(id) => setDetalle({ id, editar: true })} />}
+          {vista === 'rutinas' && <Rutinas enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} />}
           {vista === 'historial' && <Historial onAbrir={(id) => setDetalle({ id, editar: false })} />}
           {vista === 'progreso' && (
             <Suspense fallback={<LoadingState />}>

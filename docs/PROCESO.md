@@ -1413,3 +1413,13 @@ Víctor pidió aligerar el texto de la app sin perder las explicaciones y que en
 - **Recorte**: Progreso («Toca uno…»), Copias, Catálogo, primera vez de Caminos, leyenda de Ritmo, descanso del entreno, Creatina en Inicio, intro de Ligas y la línea repetida de Almacenamiento. Avisos, errores y datos parciales siguen siempre a la vista.
 
 **Verificación:** `npm run test` (2.136 tests, 165 archivos) y `npm run build` en verde. En `appfit-test.localhost:5173` (Chrome, sin Playwright): índice y las 11 vistas de Ajustes con foco al entrar y al volver; recorrido por iframe a 320/375/430 px en claro y oscuro, con todo desplegado, sin scroll horizontal ni controles < 44 px; «Cómo funciona» de Cumbres y Ritmo; pista de Entreno activo, «Entendido» y «Volver a ver las pistas»; sin errores en consola. No probado en navegador: la hoja de Progreso (sin sesiones en el origen de pruebas) ni la pista del editor del historial. Sin iPhone real.
+
+## 131. Entreno minimizado (2026-10-14)
+
+Víctor pidió poder salir del entreno en curso para usar el resto de la app, con un resumen abajo que lleve de vuelta al tocarlo.
+
+- **Estado en App**: `entrenoAbierto` decide si Entreno enseña `EntrenoActivo`; navegar a cualquier pestaña lo pone a `false` y `abrirEntreno` (barra, «Volver al entreno» del «+», tarjeta de Inicio, empezar) a `true`. Un entreno empezado se abre siempre.
+- **Barra** (`gym/components/EntrenoMinimizado`, en el hueco `encima` de `BottomNav`): rutina, tiempo o descanso restante, series marcadas y progreso. El descanso termina ahí con vibración y pitido y queda anotado en `sessionStorage`. `WorkoutClock` comparte la cuenta atrás (`useDescansoRestante`, `RestCountdown`) y `lib/session.seriesMarcadas` (con test) sustituye el cálculo repetido de `EntrenoActivo`.
+- **Con entreno en curso**: Empezar enseña «Entreno en curso · Continuar» en lugar de las rutinas y Rutinas oculta «Empezar» (antes estas vistas nunca se veían con un entreno activo). Icono `chevron-up` nuevo; token `--mini-entreno-height`.
+
+**Verificación:** `npm run test` (2.137 tests, 165 archivos) y `npm run build` en verde. En `appfit-test.localhost:5173` (Edge con Playwright, contextos efímeros) a 375 claro y 320 oscuro: empezar vacío y desde una rutina (se abre), minimizar, Inicio con la barra sin tapar el final, volver tocándola, Rutinas sin «Empezar», nombre largo con elipsis, descanso que acaba minimizado tras recargar (aviso y `restEndsAt` a `null`, sin píldora al volver), sin scroll horizontal ni errores en consola. Sin iPhone real.
