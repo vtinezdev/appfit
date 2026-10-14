@@ -2,7 +2,6 @@ import { useState } from 'react'
 import Button from '../../../shared/components/Button'
 import Disclosure from '../../../shared/components/Disclosure'
 import { Input } from '../../../shared/components/Input'
-import SectionHeader from '../../../shared/components/SectionHeader'
 import type { Objetivos } from '../../../shared/db/types'
 import { MACROS } from '../../../shared/design/macros'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
@@ -52,7 +51,6 @@ export default function ObjetivosAjustes({ objetivos, origen = 'manual', onIrAPe
 
   return (
     <section aria-label="Objetivos diarios" className="space-y-stack">
-      <SectionHeader variant="section">Objetivos diarios</SectionHeader>
       <div className="space-y-3">
       {CAMPOS.map(({ campo, label, macro }) => kcalDePerfil && campo === 'kcal' ? (
         <div key={campo} className="space-y-1">

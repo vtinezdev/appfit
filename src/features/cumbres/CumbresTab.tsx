@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Button from '../../shared/components/Button'
 import Card from '../../shared/components/Card'
-import Disclosure from '../../shared/components/Disclosure'
+import ComoFunciona from '../../shared/components/ComoFunciona'
 import ListGroup from '../../shared/components/ListGroup'
 import Metric from '../../shared/components/Metric'
 import PageHeader from '../../shared/components/PageHeader'
@@ -12,20 +12,21 @@ import { useAviso } from '../../shared/hooks/useAviso'
 import { addDays, formatFriendly, startOfWeek, todayISO } from '../../shared/lib/dates'
 import { formatInt } from '../../shared/lib/format'
 import {
-  entrenoHoy, PROPORCION_PROTEINA, RECORDS_POR_SESION, SERIES_COMPLETAS, SERIES_MINIMAS, textoEntrenoHoy, XP, XP_ACTIVIDAD, xpDeEntreno, xpPorDia,
+  entrenoHoy, textoEntrenoHoy, XP, XP_ACTIVIDAD, xpPorDia,
 } from '../experiencia/lib/experiencia'
 import { pausaActiva } from '../ritmo/lib/pausas'
 import CambiarMontanaSheet from './components/CambiarMontanaSheet'
+import ComoSeSube from './components/ComoSeSube'
 import FilasMetros from './components/FilasMetros'
 import ListaMontanas from './components/ListaMontanas'
 import PerfilMontana from './components/PerfilMontana'
 import * as cumbresRepo from './data/cumbresRepo'
 import { useCumbres } from './hooks/useCumbres'
 import {
-  cambiarMontana, diasDeExpedicion, empezar, hitosDe, METROS_POR_HITO, metrosEntre, metrosTexto, montanasParaCambiar,
+  cambiarMontana, diasDeExpedicion, empezar, hitosDe, metrosEntre, metrosTexto, montanasParaCambiar,
   nombreExpedicion, vecesCoronada, vecesTexto,
 } from './lib/cumbres'
-import { FUENTE_ALTITUDES, MONTANAS, type Montana } from './lib/montanas'
+import { MONTANAS, type Montana } from './lib/montanas'
 
 /** Días con metros que se muestran de entrada y en cada «Ver más días». */
 const DIAS_POR_PAGINA = 14
@@ -71,27 +72,11 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
     }
   }
 
-  const comoFunciona = <Disclosure title="Cómo se sube">
-    <ul className="list-disc space-y-2 pl-5 text-body-sm text-fg">
-      <li>Entreno terminado: {metrosTexto(XP.entreno)} con {formatInt(SERIES_COMPLETAS)} series efectivas o más; con menos, la parte proporcional ({formatInt(3)} series, {metrosTexto(xpDeEntreno(3))}). Los kilos no cuentan.</li>
-      <li>Sube un entreno por día (el de más series) y, cada semana, los de tu plan: con el plan completo, los demás no suben. Para el plan cuentan los de {formatInt(SERIES_MINIMAS)} series efectivas o más.</li>
-      <li>Récord personal: {metrosTexto(XP.record)}, hasta {formatInt(RECORDS_POR_SESION)} por sesión.</li>
-      <li>Caminatas, carreras y senderismo: {metrosTexto(XP_ACTIVIDAD.porKm)} por km del día, hasta {metrosTexto(XP_ACTIVIDAD.maxDia)}. Cuentan los días con {formatInt(XP_ACTIVIDAD.metrosMinimos / 1000)} km o más, como mucho {formatInt(XP_ACTIVIDAD.diasPorSemana)} por semana, aparte del plan de entrenos.</li>
-      {conNutricion && <li>Día registrado: {metrosTexto(XP.diaRegistrado)} con dos comidas o más ({metrosTexto(XP.diaUnaComida)} con una).</li>}
-      {conNutricion && <li>Proteína al {formatInt(PROPORCION_PROTEINA * 100)} % del objetivo del día o más: {metrosTexto(XP.proteina)} (no en un cheat day).</li>}
-      <li>Semana cumplida (lunes a domingo): {metrosTexto(XP.semanaCumplida)}. Se cumple con {formatInt(plan.entrenos)} entrenos{conNutricion ? ` y ${formatInt(plan.diasRegistro)} días con comidas registradas` : ''}.</li>
-      <li>Entrenar o registrar de más no sube. Las kcal, el peso y el déficit no suben ni bajan.</li>
-      <li>Se sube del nivel del mar a la cima, con un hito cada {metrosTexto(METROS_POR_HITO)}. No hay plazo ni se puede fallar: la montaña dura lo que tardes. Al hacer cumbre, los metros que sobran no pasan a la siguiente.</li>
-      <li>La ruta va del Techo de España al Everest y sigue con volcanes, los Alpes y los gigantes del Himalaya. Puedes cambiar la actual por cualquier otra más alta que lo ya subido, también una que ya hayas coronado; con todas hechas, la ruta vuelve a empezar.</li>
-      <li>En una pausa de Ritmo estás en el refugio. Cuenta desde el día en que eliges la primera montaña y sale de tus registros: si borras uno, se recalcula.</li>
-      <li>{FUENTE_ALTITUDES}</li>
-    </ul>
-    <Button variant="ghost" size="sm" className="mt-3" onClick={onIrAAjustes}>Cambiar el plan en Ajustes</Button>
-  </Disclosure>
+  const comoFunciona = <ComoFunciona nombre="Cumbres"><ComoSeSube plan={plan} conNutricion={conNutricion} /></ComoFunciona>
 
   if (!c || !config) {
     return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Cumbres" overline="Montañas reales con lo que entrenas" />
+      <PageHeader title="Cumbres" overline="Montañas reales con lo que entrenas" action={comoFunciona} />
       <Card className="space-y-3">
         <PerfilMontana expedicion={{ montana: MONTANAS[0], metros: 0 }} variante="tarjeta" decorativo />
         <p className="break-words text-body text-fg">Cada entreno, récord, kilómetro andado{conNutricion ? ', comida registrada' : ''} y semana cumplida te sube metros. Elige la primera montaña: empiezas hoy desde el nivel del mar, sin plazo.</p>
@@ -100,7 +85,6 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
         <SectionHeader variant="section">Elige tu primera montaña</SectionHeader>
         <ListGroup aria-label="Montañas"><ListaMontanas montanas={MONTANAS} sugerida={MONTANAS[0].id} onElegir={empezarCon} /></ListGroup>
       </section>
-      {comoFunciona}
       {toast}
     </div>
   }
@@ -129,7 +113,7 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
   }
 
   return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Cumbres" overline="Montañas reales con lo que entrenas" />
+    <PageHeader title="Cumbres" overline="Montañas reales con lo que entrenas" action={comoFunciona} />
 
     <Card className="space-y-3">
       <div>
@@ -240,7 +224,6 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
         </ListGroup>}
     </section>
 
-    {comoFunciona}
 
     <CambiarMontanaSheet key={`cambiar-${aperturas}`} open={cambiando} onClose={() => setCambiando(false)} actual={actual} opciones={opciones} veces={veces} onElegir={cambiarA} />
     {toast}

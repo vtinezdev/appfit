@@ -12,6 +12,7 @@ import { desplazarPeriodo, esPeriodoActual, etiquetaPeriodo, fechasPeriodo, toda
 import { formatNumber } from '../../../shared/lib/format'
 import { resumenSemanal } from '../lib/resumenSemanal'
 import { formatDuracion } from '../lib/workout'
+import NotaAmpliable from '../../../shared/components/NotaAmpliable'
 
 /** Semanas navegables bajo el calendario: sesiones, tiempo y volumen; las series por grupo muscular, desplegables. Sin rangos recomendados. */
 export default function ResumenSemanalGym() {
@@ -48,7 +49,7 @@ export default function ResumenSemanalGym() {
                   ))}
                 </ListGroup>
               )}
-              <p className="text-caption text-fg-muted">Cada serie efectiva cuenta 1 para el músculo principal y 0,5 para los secundarios. Los calentamientos no cuentan. Son series registradas, sin objetivos recomendados.</p>
+              <NotaAmpliable resumen="Cada serie cuenta 1 al músculo principal y 0,5 a los secundarios."><p>Solo series efectivas: los calentamientos no cuentan. Son series registradas, sin objetivos recomendados.</p></NotaAmpliable>
               {resumen.sinClasificar > 0 && <p className="text-caption text-fg-muted">{resumen.sinClasificar} {resumen.sinClasificar === 1 ? 'serie' : 'series'} de ejercicios sin músculo clasificado no se reparten.</p>}
             </div>
           </Disclosure>

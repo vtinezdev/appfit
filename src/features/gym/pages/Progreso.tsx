@@ -8,6 +8,7 @@ import * as workoutsRepo from '../data/workoutsRepo'
 import * as routinesRepo from '../data/routinesRepo'
 import { cifrasClave, datosProgreso, resumenEjercicios, textoMejorSerie, trazoMini, type MetricaProgreso } from '../lib/progreso'
 import { MODOS_CARGA, modoCarga } from '../lib/carga'
+import { ayudaCifras } from '../lib/ayudaCifras'
 import type { ModoCarga } from '../../../shared/db/types'
 import { chartAxis, chartColors, chartGrid, chartTooltip, escalaAjustada } from '../../../shared/design/chart'
 import { formatDiaMes, formatFechaHora, todayISO } from '../../../shared/lib/dates'
@@ -15,7 +16,8 @@ import { Select } from '../../../shared/components/Input'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import Icon from '../../../shared/components/Icon'
-import Button from '../../../shared/components/Button'
+import Button, { IconButton } from '../../../shared/components/Button'
+import Sheet from '../../../shared/components/Sheet'
 import Metric from '../../../shared/components/Metric'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
@@ -59,6 +61,7 @@ export default function Progreso() {
   const [exerciseId, setExerciseId] = useState<number | null>(null)
   const [modoElegido, setModoElegido] = useState<ModoCarga | null>(null)
   const [varianteElegida, setVarianteElegida] = useState<string | null>(null)
+  const [ayuda, setAyuda] = useState(false)
   const [metricaElegida, setMetricaElegida] = useState<Metrica | null>(null)
   const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
   const sets = useLiveQuery(() => exerciseId ? setsRepo.delEjercicio(exerciseId) : [], [exerciseId])
@@ -105,7 +108,7 @@ export default function Progreso() {
 
   return <div className="space-y-section">
     {!exerciseId && <section aria-labelledby="progreso-lista" className="space-y-stack">
-      <div className="space-y-1"><h2 id="progreso-lista" ref={listaRef} tabIndex={-1} className="text-heading text-fg">Por ejercicio</h2><p className="text-body-sm text-fg-muted">Tu última mejor serie y cómo va. Toca uno para ver su gráfica.</p></div>
+      <h2 id="progreso-lista" ref={listaRef} tabIndex={-1} className="text-heading text-fg">Por ejercicio</h2>
       {resumenes && resumenes.length > 0 && <ListGroup aria-label="Ejercicios con sesiones">
         {resumenes.map(r => {
           const ex = nombres.get(r.exerciseId)
@@ -147,7 +150,10 @@ export default function Progreso() {
       {disponibles.length > 1 && <SegmentedControl label="Métrica de la gráfica" size="sm" valor={metrica} onChange={setMetricaElegida}
         opciones={disponibles.map(m => ({ valor: m, label: opciones[m]![1] }))} />}
       <Card className="space-y-3">
-        <Metric size="hero" label={`${nombre} · última sesión`} valor={valor(ultimo)} unidad={unidad} caption={formatDiaMes(ultimo.inicio)} />
+        <div className="flex items-start justify-between gap-2">
+          <Metric size="hero" label={`${nombre} · última sesión`} valor={valor(ultimo)} unidad={unidad} caption={formatDiaMes(ultimo.inicio)} />
+          <IconButton icon="info" label="Qué significa cada cifra" variant="ghost" aria-haspopup="dialog" className="-mr-2 -mt-2" onClick={() => setAyuda(true)} />
+        </div>
         {datos.length < 2 ? <p className="text-body-sm text-fg-muted">La gráfica aparece a partir de dos sesiones terminadas con el mismo tipo de carga y variante.</p> : <>
           <div role="img" aria-label={`${nombre} por sesión, de ${valor(datos[0])} a ${valor(ultimo)} ${unidad}. Datos de cada sesión debajo.`}>
             <ResponsiveContainer width="100%" height={200}>
@@ -169,7 +175,6 @@ export default function Progreso() {
         <div><dt className="text-caption text-fg-muted">1RM estimado</dt><dd className="tabular break-words text-body font-semibold text-fg">{cifras.oneRM === null ? '—' : `${formatNumber(cifras.oneRM, 1)} kg`}</dd><dd className="text-caption text-fg-muted">Máximo</dd></div>
         <div><dt className="text-caption text-fg-muted">Cambio</dt><dd className="tabular break-words text-body font-semibold text-fg">{cifras.cambio === null ? '—' : `${conSigno(cifras.cambio)} ${unidad}`}</dd><dd className="text-caption text-fg-muted">{corto}</dd></div>
       </dl>
-      <p className="text-caption text-fg-muted">{modo === 'externa' ? (rm ? '1RM estima el peso para una repetición (Epley). El volumen suma kg externos × repeticiones. El cambio compara la primera y la última sesión.' : 'Las variantes unilaterales o con tempo se comparan por separado, sin estimar 1RM. Volumen suma los lados registrados.') : modo === 'lastre' ? 'El volumen cuenta solo el lastre. No se estima 1RM con peso corporal.' : modo === 'asistencia' ? 'Menos asistencia significa menos ayuda. Compara también las repeticiones; no equivale a una medida exacta de carga efectiva.' : 'Se comparan las repeticiones. No se convierte la masa corporal en volumen ni en 1RM.'}</p>
       <section aria-label="Sesiones" className="space-y-stack">
         <SectionHeader variant="section">Sesiones</SectionHeader>
         <ListGroup aria-label={`Sesiones de ${ejercicio?.nombre ?? 'este ejercicio'}`}>{[...datos].reverse().map(d => <li key={d.workoutId} className="flex min-h-touch items-center justify-between gap-3 py-2">
@@ -178,6 +183,12 @@ export default function Progreso() {
           <span className="tabular shrink-0 text-right text-body font-semibold text-fg">{valor(d)} <span className="text-caption font-normal text-fg-muted">{unidad}</span></span>
         </li>)}</ListGroup>
       </section>
+      <Sheet open={ayuda} onClose={() => setAyuda(false)} title="Qué significa cada cifra">
+        <dl className="divide-y divide-line">{ayudaCifras(modo, rm).map(d => <div key={d.nombre} className="space-y-1 py-3 first:pt-0">
+          <dt className="text-body-sm font-semibold text-fg">{d.nombre}</dt>
+          <dd className="text-body-sm text-fg-muted">{d.texto}</dd>
+        </div>)}</dl>
+      </Sheet>
     </>}
   </div>
 }

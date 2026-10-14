@@ -41,10 +41,6 @@ export default function ColeccionesVista({ vitrina, nombres, hoy }: Props) {
           <p className="break-words text-body-sm text-fg">{lista(herbario.desdeSiempre.map((p) => p.nombre))}</p>
         </Disclosure>}
       </Card>
-      <p className="text-caption text-fg-muted">
-        Frutas, verduras, patatas y tubérculos, legumbres, frutos secos y semillas, y cereales, según la categoría de cada alimento y su nombre corto.
-        Las recetas y los platos preparados no se descomponen. La referencia de {formatInt(PLANTAS_SEMANA)} plantas por semana viene del American Gut Project (McDonald y col., 2018); es orientativa, no una recomendación.
-      </p>
     </section>}
 
     <section aria-label="Atlas" className="space-y-stack">
@@ -68,7 +64,6 @@ export default function ColeccionesVista({ vitrina, nombres, hoy }: Props) {
             <span className="tabular shrink-0 text-body-sm text-fg-muted">{formatInt(d.sesiones)} sesiones</span>
           </li>)}
         </ListGroup>}
-      <p className="text-caption text-fg-muted">Cuenta el músculo principal de cada ejercicio, con la clasificación guardada al terminar cada entreno.</p>
     </section>
   </div>
 }

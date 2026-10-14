@@ -1,9 +1,10 @@
+import ComoFunciona from '../../../shared/components/ComoFunciona'
 import Disclosure from '../../../shared/components/Disclosure'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import Icon from '../../../shared/components/Icon'
 import { formatInt } from '../../../shared/lib/format'
-import { agruparPorLiga, PASO_ELITE, SEMANAS_POR_LIGA, type LigaEjercicio } from '../lib/liga'
+import { agruparPorLiga, PASO_ELITE, type LigaEjercicio } from '../lib/liga'
 import { fechaCorta, resumenLiga, textoDivision } from '../lib/textos'
 import ComoFuncionaLiga from './ComoFuncionaLiga'
 import InsigniaLiga, { SemanasLiga } from './InsigniaLiga'
@@ -37,8 +38,11 @@ export default function LigasLista({ ligas, nombres, hoy, onElegir }: Props) {
   const enElite = grupos.find((g) => g.liga === 'Élite')?.ligas.length ?? 0
   return <section aria-labelledby="ligas-titulo" className="space-y-stack">
     <div className="space-y-2">
-      <h2 id="ligas-titulo" className="text-heading text-fg">Ligas</h2>
-      <p className="text-body-sm text-fg-muted">Cada semana con un ejercicio suma una; cada {formatInt(SEMANAS_POR_LIGA)} sube de liga y a las {formatInt(PASO_ELITE)} llega a Élite. Toca uno para ver su liga y sus gráficas.</p>
+      <div className="flex items-center justify-between gap-2">
+        <h2 id="ligas-titulo" className="text-heading text-fg">Ligas</h2>
+        <ComoFunciona nombre="la liga" volver="Progreso"><ComoFuncionaLiga /></ComoFunciona>
+      </div>
+      <p className="text-body-sm text-fg-muted">Cada semana con un ejercicio suma una; a las {formatInt(PASO_ELITE)} llega a Élite.</p>
       {enElite > 0 && <p className="tabular text-body-sm text-fg">{enElite === 1 ? 'Un ejercicio está' : `${formatInt(enElite)} ejercicios están`} en Élite: quizá te apetezca variar alguno.</p>}
     </div>
     {grupos.map((g) => <div key={g.liga} className="space-y-2">
@@ -54,6 +58,5 @@ export default function LigasLista({ ligas, nombres, hoy, onElegir }: Props) {
         {sinLiga.map((l) => <Fila key={l.exerciseId} l={l} nombre={nombres.get(l.exerciseId) ?? ''} hoy={hoy} onElegir={onElegir} />)}
       </ListGroup>
     </Disclosure>}
-    <ComoFuncionaLiga />
   </section>
 }

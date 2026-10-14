@@ -28,6 +28,5 @@ export default function RecordsVista({ muro, nombres }: { muro: MuroEjercicio[];
       </li>)}
     </ListGroup>
     {muro.length > visibles && <Button variant="subtle" block onClick={() => setVisibles((v) => v + POR_PAGINA)}>Ver más ejercicios</Button>}
-    <p className="text-caption text-fg-muted">Solo series efectivas de entrenos terminados. Cada variante (ejecución, agarre, técnica) y tipo de carga tiene su propia marca; el 1RM es una estimación (Epley).</p>
   </div>
 }

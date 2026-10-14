@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Button, { IconButton } from '../../shared/components/Button'
 import Card from '../../shared/components/Card'
-import Disclosure from '../../shared/components/Disclosure'
+import ComoFunciona from '../../shared/components/ComoFunciona'
 import ListGroup from '../../shared/components/ListGroup'
 import Metric from '../../shared/components/Metric'
 import PageHeader from '../../shared/components/PageHeader'
@@ -12,13 +12,13 @@ import { useAviso } from '../../shared/hooks/useAviso'
 import { formatFriendly, todayISO } from '../../shared/lib/dates'
 import { formatInt } from '../../shared/lib/format'
 import { useExperiencia } from '../experiencia/hooks/useExperiencia'
-import { SERIES_MINIMAS } from '../experiencia/lib/experiencia'
 import CalendarioSemanas from './components/CalendarioSemanas'
+import ComoFuncionaRitmo from './components/ComoFuncionaRitmo'
 import DiasSemana from './components/DiasSemana'
 import PausarSheet from './components/PausarSheet'
 import * as pausasRepo from './data/pausasRepo'
 import { describirPausa, pausaActiva } from './lib/pausas'
-import { DIAS_PRESENCIA, ESTADOS_SEMANA, MAX_COMODINES, SEMANAS_POR_COMODIN } from './lib/ritmo'
+import { ESTADOS_SEMANA, MAX_COMODINES, SEMANAS_POR_COMODIN } from './lib/ritmo'
 import { cifrasSemana, faltaParaCumplir } from './lib/textos'
 
 const semanasTexto = (n: number) => (n === 1 ? '1 semana' : `${formatInt(n)} semanas`)
@@ -63,7 +63,7 @@ export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void })
   }
 
   return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Ritmo" overline="Tu constancia semana a semana" />
+    <PageHeader title="Ritmo" overline="Tu constancia semana a semana" action={<ComoFunciona nombre="Ritmo"><ComoFuncionaRitmo plan={plan} conNutricion={conNutricion} /></ComoFunciona>} />
 
     {activa && <Card tone="muted" className="space-y-3">
       <p className="text-title text-fg">En pausa</p>
@@ -76,7 +76,7 @@ export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void })
       <Card className="space-y-3">
         <p className="text-title text-fg">{s.cumplida ? ESTADOS_SEMANA.cumplida.nombre : s.estado === 'vacia' ? 'En curso' : `${ESTADOS_SEMANA[s.estado].nombre} por ahora`}</p>
         <DiasSemana lunes={s.lunes} hoy={hoy} diasEntreno={r.diasEntreno} diasRegistro={conNutricion ? r.diasRegistro : null} />
-        <p className="text-caption text-fg-muted">Círculo relleno: entreno de {formatInt(SERIES_MINIMAS)} series efectivas o más.{conNutricion ? ' Punto relleno: día con comidas registradas.' : ''}</p>
+        <p className="text-caption text-fg-muted">Círculo relleno: entreno.{conNutricion ? ' Punto relleno: día con comidas.' : ''}</p>
         <p className="tabular break-words text-body-sm text-fg-muted">{cifrasSemana(s)}</p>
         <p className="break-words text-body-sm text-fg">{faltaParaCumplir(s) ?? 'Plan de la semana cumplido. Entrenar o registrar de más no suma.'}</p>
       </Card>
@@ -111,7 +111,7 @@ export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void })
     <section aria-label="Pausas" className="space-y-stack">
       <SectionHeader variant="section" action={!activa && <Button variant="secondary" size="sm" onClick={() => { setAperturas((n) => n + 1); setPausando(true) }}>Pausar</Button>}>Pausas</SectionHeader>
       {pausas.length === 0
-        ? <EmptyState>Sin pausas. Úsalas en vacaciones, enfermedad, lesión o viaje: la semana no rompe el hilo.</EmptyState>
+        ? <EmptyState>Sin pausas. Úsalas en vacaciones, enfermedad, lesión o viaje.</EmptyState>
         : <ListGroup aria-label="Pausas declaradas">
           {[...pausas].reverse().map((p) => <li key={p.id} className="flex items-center justify-between gap-3 py-2">
             <span className="min-w-0 break-words text-body-sm text-fg">{describirPausa(p)}</span>
@@ -119,17 +119,6 @@ export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void })
           </li>)}
         </ListGroup>}
     </section>
-
-    <Disclosure title="Cómo funciona">
-      <ul className="list-disc space-y-2 pl-5 text-body-sm text-fg">
-        <li>Cada semana (lunes a domingo) es cumplida con tu plan: {formatInt(plan.entrenos)} entrenos de {formatInt(SERIES_MINIMAS)} series efectivas o más{conNutricion ? ` y ${formatInt(plan.diasRegistro)} días con comidas registradas` : ''}. {conNutricion ? 'Parcial, con solo una de las dos partes. ' : ''}Presente, con al menos un entreno{conNutricion ? ` o ${formatInt(DIAS_PRESENCIA)} días registrados` : ''}. Si no, vacía.</li>
-        <li>El hilo cuenta las semanas seguidas con presencia. La semana en curso no lo rompe hasta que acaba, y los registros atrasados siempre cuentan.</li>
-        <li>Ganas un comodín por cada {formatInt(SEMANAS_POR_COMODIN)} semanas cumplidas, hasta {formatInt(MAX_COMODINES)}. Se gasta solo en una semana vacía y el hilo sigue.</li>
-        <li>Una semana en pausa no rompe el hilo ni gasta comodines. En una pausa de entreno, la semana se juzga solo con el registro de comidas.</li>
-        <li>Entrenar por encima del plan no suma. Descansar forma parte del plan.</li>
-      </ul>
-      <Button variant="ghost" size="sm" className="mt-3" onClick={onIrAAjustes}>Cambiar el plan en Ajustes</Button>
-    </Disclosure>
 
     <PausarSheet key={`pausar-${aperturas}`} open={pausando} hoy={hoy} onClose={() => setPausando(false)}
       onPausado={(antes) => { setPausando(false); avisar({ mensaje: 'Pausa guardada', onDeshacer: deshacer(antes) }) }} />

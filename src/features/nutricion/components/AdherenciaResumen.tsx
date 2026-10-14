@@ -10,6 +10,7 @@ import * as entriesRepo from '../data/entriesRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
 import { fechasDeRacha } from '../lib/cheatDays'
 import { agruparAlimentos, calcularAdherencia, calcularRachas, TOLERANCIA_ADHERENCIA, topAlimentos, type AlimentoTop } from '../lib/adherencia'
+import NotaAmpliable from '../../../shared/components/NotaAmpliable'
 
 interface Props {
   fechas: string[]
@@ -54,7 +55,7 @@ export default function AdherenciaResumen({ fechas, entries, cheatDays, hoy }: P
         caption={adherencia.porcentaje === null ? 'Sin días registrados' : `${adherencia.diasEnRango} de ${adherencia.diasRegistrados} días registrados`} />
       <Metric size="title" label="Racha de registro" valor={rachas.actual} unidad={rachas.actual === 1 ? 'día' : 'días'} caption={`Mejor: ${formatInt(rachas.mejor)} ${rachas.mejor === 1 ? 'día' : 'días'}`} />
     </div>
-    <p className="text-caption text-fg-muted">«En rango» es un día con registro cuyas kcal están a ±{formatInt(TOLERANCIA_ADHERENCIA * 100)} % de su objetivo. Los días sin registro no cuentan como fallo. La racha cuenta días seguidos con alguna comida registrada hasta hoy (o ayer, si hoy aún no has registrado). Los cheat days no cuentan en la adherencia y mantienen la racha.</p>
+    <NotaAmpliable resumen={`«En rango»: kcal a ±${formatInt(TOLERANCIA_ADHERENCIA * 100)} % del objetivo del día.`}><p>Los días sin registro no cuentan como fallo. La racha cuenta días seguidos con alguna comida registrada hasta hoy (o ayer, si hoy aún no has registrado). Los cheat days no cuentan en la adherencia y mantienen la racha.</p></NotaAmpliable>
     <Top titulo="Más calorías" alimentos={topAlimentos(alimentos, 'kcal')} unidad="kcal" campo="kcal" />
     <Top titulo="Más proteína" alimentos={topAlimentos(alimentos, 'prot')} unidad="g" campo="prot" />
     <p className="text-caption text-fg-muted">Agrupado por alimento; las kcal rápidas y los registros sin alimento no entran.</p>

@@ -15,7 +15,7 @@
 | Estado del dispositivo | `data/dispositivoRepo.ts`: base IndexedDB aparte `appfit-dispositivo` (DEK, revisión, huella, conflicto) | no es `db` |
 | Escrituras de la app | `data/cambiosRepo.ts`: `alCambiarDatos` (Dexie `storagemutated` filtrado a `TABLAS_USUARIO`) | `db` (solo escucha) |
 | Orquestación | `copiaNube.ts`: clase `CopiaNube` con todo inyectado; `servicio.ts`: instancia de la app, `cuentaDisponible` e `iniciarCopiaNube` (disparadores) | backup (`shared/lib/backup`) |
-| UI | `useCuenta` (`useSyncExternalStore`), `components/CuentaAjustes` (sección de Ajustes), `EntrarSheet`, `ElegirCopia`, `GestionarCuenta` | — |
+| UI | `useCuenta` (`useSyncExternalStore`), `components/CuentaAjustes` (vista «Cuenta» de Ajustes; `ResumenCuenta` es su línea en el índice), `EntrarSheet`, `ElegirCopia`, `GestionarCuenta` | — |
 | Aviso en Inicio | `inicio/components/AvisoBackup` (con cuenta en uso avisa por la copia de la nube) | — |
 | Servidor | `supabase/migrations/0001_copias.sql`: tabla `copias`, RLS, `subir_copia`, `actualizar_claves`, `borrar_cuenta` | Postgres |
 

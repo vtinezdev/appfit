@@ -103,6 +103,5 @@ export default function LogrosVista({ logros }: { logros: Logro[] }) {
     <Sheet open={hoja} onClose={() => setHoja(false)} title={abierto && !(abierto.oculto && !conseguido(abierto)) ? abierto.nombre : 'Logro oculto'}>
       {abierto && <ListGroup variante="plana" aria-label="Detalle del logro"><FilaLogro l={abierto} /></ListGroup>}
     </Sheet>
-    <p className="text-caption text-fg-muted">Cada nivel de un logro es una pieza; los repetibles cuentan una vez. Salen de tus registros con su fecha real: si borras uno, la pieza puede desaparecer.</p>
   </div>
 }
