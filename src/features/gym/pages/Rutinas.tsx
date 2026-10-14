@@ -22,7 +22,14 @@ import CreadorRutinas from '../components/CreadorRutinas'
 import ListRow from '../../../shared/components/ListRow'
 import { useAviso } from '../../../shared/hooks/useAviso'
 
-export default function Rutinas() {
+interface Props {
+  /** Hay un entreno en curso: no se ofrece empezar otro. */
+  enCurso: boolean
+  /** Abre la sesión recién empezada. */
+  onEmpezado: () => void
+}
+
+export default function Rutinas({ enCurso, onEmpezado }: Props) {
   const [editando, setEditando] = useState<routinesRepo.RoutineInput | null>(null)
   const [seleccionando, setSeleccionando] = useState(false)
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false)
@@ -42,11 +49,11 @@ export default function Rutinas() {
 
   const exerciseMap = new Map((exercises ?? []).map((e) => [e.id!, e]))
 
-  /** Empieza el entreno de la rutina; GymTab pasa solo a la sesión activa. Si ya hubiera uno activo, `empezar` lo devuelve sin crear otro. */
+  /** Empieza el entreno de la rutina y lo abre. Si ya hubiera uno activo, `empezar` lo devuelve sin crear otro. */
   async function empezar(id: number) {
     setEmpezando(id)
     setErrorEmpezar(null)
-    try { await workoutsRepo.empezar(id) } catch { setErrorEmpezar('No se ha podido empezar el entreno. Inténtalo de nuevo.') } finally { setEmpezando(null) }
+    try { await workoutsRepo.empezar(id); onEmpezado() } catch { setErrorEmpezar('No se ha podido empezar el entreno. Inténtalo de nuevo.') } finally { setEmpezando(null) }
   }
 
   /** Abre o cierra el sheet de edición, sin arrastrar confirmaciones ni errores de la rutina anterior. */
@@ -130,7 +137,7 @@ export default function Rutinas() {
                     <span className="tabular block break-words text-caption text-fg-muted">{detalleRutina(r, resumen)}</span>
                   </span>
                 </button>
-                <Button variant="secondary" size="sm" className="ml-auto" disabled={empezando !== null} loading={empezando === r.id} aria-label={`Empezar ${r.nombre}`} onClick={() => empezar(r.id)}>Empezar</Button>
+                {!enCurso && <Button variant="secondary" size="sm" className="ml-auto" disabled={empezando !== null} loading={empezando === r.id} aria-label={`Empezar ${r.nombre}`} onClick={() => empezar(r.id)}>Empezar</Button>}
               </Card>
             </li>
           })}

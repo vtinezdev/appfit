@@ -87,6 +87,8 @@
   --nav-toast: var(--nav-dock);
   /* Píldora del descanso en el entreno: los avisos y el final de la página se apartan de ella. */
   --rest-dock-height: 6rem;
+  /* Barra del entreno minimizado, encima de la cápsula: lo que reserva la vista y desde donde suben los avisos. */
+  --mini-entreno-height: 4.5rem;
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
   --radius-lg: 1.375rem;

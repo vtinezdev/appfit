@@ -34,6 +34,7 @@ const PATHS = {
   'chevron-left': 'M15 5l-7 7 7 7',
   'chevron-right': 'M9 5l7 7-7 7',
   'chevron-down': 'M5 9l7 7 7-7',
+  'chevron-up': 'M5 15l7-7 7 7',
   'arrow-left': 'M19 12H5M11 6l-6 6 6 6',
   more: 'M5 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0M17 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0',
   close: 'M6 6l12 12M18 6L6 18',

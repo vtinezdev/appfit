@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 import Icon from '../shared/components/Icon'
 import ListGroup from '../shared/components/ListGroup'
 import ListRow from '../shared/components/ListRow'
@@ -16,6 +16,8 @@ interface Props {
   accionesAbiertas?: boolean
   /** Destinos de «Más» que no se muestran (p. ej. la gamificación oculta en Ajustes). */
   ocultos?: readonly Tab[]
+  /** Lo que flota pegado encima de la cápsula (el entreno minimizado). */
+  encima?: ReactNode
 }
 
 const destino = (key: Tab) => DESTINOS.find((d) => d.key === key)!
@@ -25,7 +27,7 @@ const destino = (key: Tab) => DESTINOS.find((d) => d.key === key)!
  * el «+» redondo para registrar. Flota sobre el contenido, que pasa por debajo. «Más» abre una hoja con el progreso
  * (Cumbres, Ritmo, Vitrina) en teselas con su dato y el resto de destinos en filas.
  */
-export default function BottomNav({ tab, onChange, onAcciones, accionesAbiertas = false, ocultos = [] }: Props) {
+export default function BottomNav({ tab, onChange, onAcciones, accionesAbiertas = false, ocultos = [], encima }: Props) {
   const [mas, setMas] = useState(false)
   const elegido = useRef<Tab | null>(null)
   const enMas = EN_MAS.includes(tab)
@@ -49,6 +51,7 @@ export default function BottomNav({ tab, onChange, onAcciones, accionesAbiertas 
 
   return (
     <nav aria-label="Navegación principal" className="app-nav">
+      {encima && <div className="mx-auto max-w-lg">{encima}</div>}
       <div className="tab-dock mx-auto max-w-lg">
         <ul className="tab-bar">
           {pestana('inicio')}

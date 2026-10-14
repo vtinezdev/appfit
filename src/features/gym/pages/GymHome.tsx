@@ -20,7 +20,15 @@ const ERROR_EMPEZAR = 'No se ha podido empezar el entreno. Inténtalo de nuevo.'
  * no se hace (por su última fecha real, no es un plan); debajo, las demás con su mosaico y «Empezar». Entreno vacío y registrar uno
  * pasado quedan como acciones secundarias. Sin rutinas, la tarjeta invita a empezar en vacío.
  */
-export default function GymHome({ onRegistrado }: { onRegistrado: (id: number) => void }) {
+interface Props {
+  /** Hay un entreno en curso (minimizado): en lugar de empezar otro, se ofrece volver a él. */
+  enCurso: boolean
+  /** Abre la sesión recién empezada. */
+  onEmpezado: () => void
+  onRegistrado: (id: number) => void
+}
+
+export default function GymHome({ enCurso, onEmpezado, onRegistrado }: Props) {
   const [pasado, setPasado] = useState(0)
   const [empezando, setEmpezando] = useState<number | 'vacio' | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -38,6 +46,7 @@ export default function GymHome({ onRegistrado }: { onRegistrado: (id: number) =
     setError(null)
     try {
       await workoutsRepo.empezar(routineId)
+      onEmpezado()
     } catch {
       setError(ERROR_EMPEZAR)
     } finally {
@@ -47,6 +56,17 @@ export default function GymHome({ onRegistrado }: { onRegistrado: (id: number) =
 
   const ocupado = empezando !== null
   const nombresDe = (ids: number[]) => ids.map((id) => exerciseMap.get(id)?.nombre).filter(Boolean).slice(0, 3).join(' · ')
+
+  if (enCurso) {
+    return (
+      <div className="space-y-section">
+        <TarjetaEntreno onAbrir={onEmpezado} />
+        <Button variant="subtle" block onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
+        <TarjetaEntreno soloUltimo />
+        {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-section">

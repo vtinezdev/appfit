@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, afterEach } from 'vitest'
-import { ajustarDescanso, clearSession, clockText, descansoParaEjercicio, emptySession, readSession, remainingSeconds, writeSession } from './session'
+import { ajustarDescanso, clearSession, clockText, descansoParaEjercicio, emptySession, readSession, remainingSeconds, seriesMarcadas, writeSession } from './session'
 afterEach(() => vi.unstubAllGlobals())
 describe('estado de interacción del entreno, independiente de los datos', () => {
   it('sin storage o con JSON inválido funciona en memoria', () => {
@@ -48,5 +48,13 @@ describe('estado de interacción del entreno, independiente de los datos', () =>
     // Sin duración guardada usa la global; la barra nunca queda por debajo de lo que falta.
     expect(ajustarDescanso({ completed: [], restSeconds: 60, restEndsAt: 50000 }, 15, 0)).toEqual({ completed: [], restSeconds: 60, restEndsAt: 65000, restTotal: 75 })
     expect(ajustarDescanso({ ...s, restTotal: 20 }, 15, 0).restTotal).toBe(105)
+  })
+})
+
+describe('seriesMarcadas', () => {
+  it('la confirmación persistida manda sobre la marca de la sesión', () => {
+    const sets = [{ id: 1, realizada: true }, { id: 2, realizada: false }, { id: 3 }, { id: 4 }]
+    expect(seriesMarcadas(sets, [2, 3])).toEqual([1, 3])
+    expect(seriesMarcadas([], [1])).toEqual([])
   })
 })
