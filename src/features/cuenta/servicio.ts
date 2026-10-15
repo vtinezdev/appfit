@@ -10,8 +10,8 @@ import { ESPERA_SUBIDA_MS, INTERVALO_COMPROBACION_MS } from './lib/disparo'
  * Instancia de la copia en la nube para la app y sus disparadores. Sin `VITE_SUPABASE_URL` y
  * `VITE_SUPABASE_PUBLISHABLE_KEY` la cuenta no existe: la app funciona como siempre, solo en el dispositivo.
  */
-const URL_NUBE = import.meta.env.VITE_SUPABASE_URL
-const CLAVE_NUBE = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+export const URL_NUBE = import.meta.env.VITE_SUPABASE_URL
+export const CLAVE_NUBE = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 /** Clave de la sesión de supabase-js en localStorage. */
 export const CLAVE_SESION = 'appfit-cuenta'
 
@@ -75,6 +75,7 @@ export function iniciarCopiaNube(): void {
     if (document.visibilityState === 'hidden') {
       if (espera !== undefined) subirYa()
     } else {
+      void copiaNube.marcarActividad()
       comprobar()
     }
   })

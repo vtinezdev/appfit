@@ -6,6 +6,7 @@ export const DESTINOS = [
   { key: 'nutricion', label: 'Nutrición', icon: 'utensils' },
   { key: 'gym', label: 'Entreno', icon: 'dumbbell' }, // un solo nombre visible para la sección (título, Inicio y barra)
   { key: 'perfil', label: 'Perfil', icon: 'user' },
+  { key: 'amigos', label: 'Amigos', icon: 'users' }, // solo con cuenta configurada (ADR 040)
   { key: 'cumbres', label: 'Cumbres', icon: 'mountain' },
   { key: 'caminos', label: 'Caminos', icon: 'route' },
   { key: 'ritmo', label: 'Ritmo', icon: 'calendar' },
@@ -20,4 +21,4 @@ export type Tab = (typeof DESTINOS)[number]['key']
 /** Destinos de la gamificación: se ocultan juntos desde Ajustes. */
 export const GAMIFICACION: readonly Tab[] = ['cumbres', 'caminos', 'ritmo', 'vitrina']
 
-export const EN_MAS: readonly Tab[] = ['perfil', 'cumbres', 'caminos', 'ritmo', 'vitrina', 'referencias', 'ajustes']
+export const EN_MAS: readonly Tab[] = ['perfil', 'amigos', 'cumbres', 'caminos', 'ritmo', 'vitrina', 'referencias', 'ajustes']

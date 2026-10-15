@@ -17,6 +17,8 @@ export interface Nube {
   /** Sube si la nube sigue en `revisionBase` (0 = primera copia). Devuelve la revisión nueva, o null si hay conflicto. */
   subir(revisionBase: number, datos: string, claves?: ClavesNube): Promise<number | null>
   actualizarClaves(claves: ClavesNube): Promise<void>
+  /** Anota que la cuenta se ha usado hoy: las cuentas sin actividad en 12 meses se borran (ADR 040). */
+  marcarActividad(): Promise<void>
   borrarCuenta(): Promise<void>
 }
 

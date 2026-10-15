@@ -9,8 +9,11 @@ import { copiaNube } from '../servicio'
 
 type Accion = 'contrasena' | 'clave' | 'cerrar' | 'borrar'
 
-/** Cambiar la contraseña, nueva clave de recuperación, cerrar sesión y borrar la cuenta. */
-export default function GestionarCuenta({ onMensaje }: { onMensaje: (mensaje: string) => void }) {
+/**
+ * Cambiar la contraseña, nueva clave de recuperación, cerrar sesión y borrar la cuenta. Sin copia en este móvil
+ * (`conCopia` falso) solo quedan cerrar sesión y borrar la cuenta.
+ */
+export default function GestionarCuenta({ conCopia, onMensaje }: { conCopia: boolean; onMensaje: (mensaje: string) => void }) {
   const [accion, setAccion] = useState<Accion | null>(null)
   const [actual, setActual] = useState('')
   const [nueva, setNueva] = useState('')
@@ -97,6 +100,14 @@ export default function GestionarCuenta({ onMensaje }: { onMensaje: (mensaje: st
               </div>
             </form>
           )
+        ) : accion === 'cerrar' && !conCopia ? (
+          <div className="space-y-2" role="group" aria-label="Cerrar sesión">
+            <p className="text-body-sm text-fg-muted">Tus registros siguen en este móvil.</p>
+            <Button variant="secondary" block loading={ocupado} onClick={() => void ejecutar(async () => { await copiaNube.cerrarSesion(false); onMensaje('Has cerrado la sesión. Tus registros siguen en este móvil.') })}>
+              Cerrar sesión
+            </Button>
+            <Button variant="ghost" block disabled={ocupado} onClick={() => abrir(null)}>Cancelar</Button>
+          </div>
         ) : accion === 'cerrar' ? (
           <div className="space-y-2" role="group" aria-label="Cerrar sesión">
             <p className="text-body-sm text-fg-muted">La copia de la nube se queda. Los cambios que hagas a partir de ahora no se guardarán en ella hasta que vuelvas a entrar.</p>
@@ -110,7 +121,7 @@ export default function GestionarCuenta({ onMensaje }: { onMensaje: (mensaje: st
           </div>
         ) : accion === 'borrar' ? (
           <ConfirmacionDestructiva
-            mensaje="Se borran tu cuenta y su copia de la nube. Tus registros siguen en este móvil. No se puede deshacer."
+            mensaje="Se borran tu cuenta y, si la tiene, su copia de la nube. Tus registros siguen en este móvil. No se puede deshacer."
             confirmar="Sí, borrar la cuenta"
             ocupado={ocupado}
             onCancelar={() => abrir(null)}
@@ -118,8 +129,13 @@ export default function GestionarCuenta({ onMensaje }: { onMensaje: (mensaje: st
           />
         ) : (
           <div className="flex flex-col items-start gap-1">
-            <Button variant="ghost" size="sm" onClick={() => abrir('contrasena')}>Cambiar la contraseña</Button>
-            <Button variant="ghost" size="sm" onClick={() => abrir('clave')}>Nueva clave de recuperación</Button>
+            <p className="text-caption text-fg-muted">Si pasas 12 meses sin abrir la app con la cuenta, la cuenta y lo que guarda se borran solos. Tus registros siguen en el móvil.</p>
+            {conCopia && (
+              <>
+                <Button variant="ghost" size="sm" onClick={() => abrir('contrasena')}>Cambiar la contraseña</Button>
+                <Button variant="ghost" size="sm" onClick={() => abrir('clave')}>Nueva clave de recuperación</Button>
+              </>
+            )}
             <Button variant="ghost" size="sm" onClick={() => abrir('cerrar')}>Cerrar sesión</Button>
             <Button variant="destructive" size="sm" onClick={() => abrir('borrar')}>Borrar la cuenta</Button>
           </div>

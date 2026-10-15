@@ -6,6 +6,8 @@
 
 **Cuentas y copia en la nube:** implementadas en `feat/cuentas` ([cuenta](features/cuenta.md)); queda la prueba en iPhone real y, antes de publicar, un dominio propio para el correo (hoy sale por Brevo desde un Gmail). Estado en [`cuentas.md`](cuentas.md).
 
+**Parte social:** seguir, publicar y comentar ([ADR 040](decisiones/040-parte-social.md)), en `feat/social`. Plan y estado en [`social.md`](social.md).
+
 **Publicación:** abrir la app a otras personas (gratis, Google Play para Android y PWA para iPhone) tiene su plan en [`despliegue.md`](despliegue.md). Va después del rediseño visual.
 
 ## Pendiente de probar en el iPhone real

@@ -16,6 +16,7 @@ import { getSettings } from '../shared/db/settings'
 import * as workoutsRepo from '../features/gym/data/workoutsRepo'
 import EntrenoMinimizado from '../features/gym/components/EntrenoMinimizado'
 import { GAMIFICACION } from './navegacion'
+import { socialDisponible } from '../features/social/servicio'
 
 const ReferenciasTab = lazy(() => import('../features/referencias/ReferenciasTab'))
 const PerfilTab = lazy(() => import('../features/perfil/PerfilTab'))
@@ -23,6 +24,7 @@ const CumbresTab = lazy(() => import('../features/cumbres/CumbresTab'))
 const CaminosTab = lazy(() => import('../features/caminos/CaminosTab'))
 const RitmoTab = lazy(() => import('../features/ritmo/RitmoTab'))
 const VitrinaTab = lazy(() => import('../features/vitrina/VitrinaTab'))
+const AmigosTab = lazy(() => import('../features/social/AmigosTab'))
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('inicio')
@@ -37,6 +39,8 @@ export default function App() {
   const entrenoActivo = useLiveQuery(() => workoutsRepo.activo(), [])
   /** Si el entreno en curso ocupa Entreno. Salir de la pantalla lo minimiza; la barra sobre la navegación lo vuelve a abrir. */
   const [entrenoAbierto, setEntrenoAbierto] = useState(false)
+  // Sin proyecto de Supabase no hay cuenta, y sin cuenta no hay Amigos.
+  const ocultos: Tab[] = [...(gamificacionVisible === false ? GAMIFICACION : []), ...(socialDisponible ? [] : ['amigos' as const])]
   const entrenoMinimizado = entrenoActivo && !(tab === 'gym' && entrenoAbierto) ? entrenoActivo : undefined
 
   function navegar(siguiente: Tab) {
@@ -82,13 +86,14 @@ export default function App() {
         {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
         {tab === 'caminos' && <Suspense fallback={<LoadingState />}><CaminosTab onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} /></Suspense>}
         {tab === 'ritmo' && <Suspense fallback={<LoadingState />}><RitmoTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
+        {tab === 'amigos' && <Suspense fallback={<LoadingState />}><AmigosTab onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
         {tab === 'ajustes' && <Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} />}
         {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} /></Suspense>}
         </div>
       </main>
       </div>
-      <BottomNav tab={tab} onChange={navegar} onAcciones={() => setAcciones(true)} accionesAbiertas={acciones} ocultos={gamificacionVisible === false ? GAMIFICACION : []}
+      <BottomNav tab={tab} onChange={navegar} onAcciones={() => setAcciones(true)} accionesAbiertas={acciones} ocultos={ocultos}
         encima={entrenoMinimizado && <EntrenoMinimizado key={entrenoMinimizado.id} workout={entrenoMinimizado} onAbrir={abrirEntreno} />} />
       <AccionesRapidas open={acciones} onClose={() => setAcciones(false)} onComida={() => irANutricion(true)} onEntreno={abrirEntreno} onActividades={() => irAEntreno('actividades')} />
     </div>

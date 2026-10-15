@@ -1,4 +1,5 @@
-import { createClient, isAuthApiError, isAuthRetryableFetchError, type SupabaseClient } from '@supabase/supabase-js'
+import { isAuthApiError, isAuthRetryableFetchError } from '@supabase/supabase-js'
+import { clienteSupabase } from './clienteSupabase'
 import type { ClavesNube } from '../lib/cifrado'
 import { NubeError, type CopiaRemota, type EstadoRemoto, type Nube } from './nube'
 
@@ -35,7 +36,7 @@ export function traducir(error: unknown, falloServidor = FALLO_SERVIDOR): NubeEr
   return new NubeError(GENERICO)
 }
 
-async function intentar<T>(fn: () => Promise<{ data: T; error: unknown }>, falloServidor?: string): Promise<T> {
+export async function intentar<T>(fn: () => Promise<{ data: T; error: unknown }>, falloServidor?: string): Promise<T> {
   let resultado: { data: T; error: unknown }
   try {
     resultado = await fn()
@@ -47,9 +48,7 @@ async function intentar<T>(fn: () => Promise<{ data: T; error: unknown }>, fallo
 }
 
 export function crearNubeSupabase(url: string, clave: string): Nube {
-  const sb: SupabaseClient = createClient(url, clave, {
-    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: 'appfit-cuenta' },
-  })
+  const sb = clienteSupabase(url, clave)
 
   return {
     async enviarCodigo(email) {
@@ -79,6 +78,9 @@ export function crearNubeSupabase(url: string, clave: string): Nube {
     },
     async actualizarClaves(claves) {
       await intentar(async () => await sb.rpc('actualizar_claves', { p_claves: claves }))
+    },
+    async marcarActividad() {
+      await intentar(async () => await sb.rpc('marcar_actividad'))
     },
     async borrarCuenta() {
       await intentar(async () => await sb.rpc('borrar_cuenta'))

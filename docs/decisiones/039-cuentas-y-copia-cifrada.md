@@ -1,6 +1,6 @@
 # 039 — Cuentas opcionales con copia cifrada en la nube
 
-- **Estado**: vigente (desde el 2026-10-13). Sustituye al [ADR 001](001-pwa-local-sin-backend.md) en lo de «sin backend ni cuentas».
+- **Estado**: vigente (desde el 2026-10-13). Sustituye al [ADR 001](001-pwa-local-sin-backend.md) en lo de «sin backend ni cuentas». Lo matiza el [ADR 040](040-parte-social.md) (parte social, en implementación): la cuenta deja de ir unida a la copia, y se borran las cuentas inactivas y la copia anterior tras 7 días.
 - **Historia**: `PROCESO.md` §128 y §129; plan en `../cuentas.md`.
 
 ## Contexto

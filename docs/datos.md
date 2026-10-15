@@ -116,6 +116,8 @@ Reglas y patrones:
 
 ## Backup (`shared/lib/backup.ts`)
 
+Lo social ([Amigos](features/social.md): perfil, seguimientos, bloqueos y denuncias) vive solo en Supabase: no está en Dexie ni en el backup, y borrar los datos del móvil no lo toca.
+
 - Un único JSON con las `TABLAS_USUARIO` (nunca el catálogo), versión 3: añade `porciones`, `recetas`, `agua`, `objetivosDia` y `medidas` (opcionales: un backup v1/v2 las importa vacías); también `suplementos`, `cheatDays`, `actividades` y `rutasPropias` son opcionales, sin subir la versión del backup. `BACKUP_VERSION` y sus reglas de cambio están en la cabecera del archivo.
 - `migrarBackup(raw)` es pura: valida y convierte cualquier versión conocida a la actual, y rechaza una versión más nueva con un mensaje claro. Las tablas de `TABLAS_OPCIONALES` (las posteriores al primer backup) pueden faltar: se importan vacías.
 - `importarBackup` **sustituye** todo en una transacción: vacía todas las tablas de usuario, también las que el backup no trae, y los ajustes pasan por `conDefaults`.

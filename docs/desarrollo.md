@@ -47,6 +47,7 @@ Los recorridos `scripts/ui/validar-*.cjs` necesitan Vite en 5173 y Playwright + 
 
 - `npm run dev` (o la configuración `appfit-dev` de `.claude/launch.json`) y abrir **`http://appfit-test.localhost:5173`**. `localhost:5173` tiene los datos reales de Víctor: nunca se prueba ahí. Cada origen tiene su propia IndexedDB; para probar un upgrade desde cero se puede usar otro subdominio (`appfit-upgrade.localhost`).
 - Referencias 320×568, 375×812 y 430×932, claro/oscuro, sin datos/con datos/textos largos/cifras grandes. Sin scroll horizontal: `document.documentElement.scrollWidth === innerWidth`. Sin errores en consola.
+- **Amigos se prueba con un Supabase falso** (`scripts/ui/supabase-falso.mjs`, instrucciones en su cabecera): Vite en otro puerto (`appfit-test.localhost:5174`) con `VITE_SUPABASE_URL` apuntando a él y una sesión falsa en localStorage; nunca contra el proyecto real. El SQL se prueba aparte con `supabase/pruebas/social.sql`.
 - **Open Food Facts se simula** sustituyendo `fetch` solo para `world.openfoodfacts.org` (producto completo, incompleto, 404, sin red). Nunca se llama a la API real en las pruebas.
 - Un backup se importa por el input real de archivo (`DataTransfer` + evento `change`) y el export se captura interceptando `URL.createObjectURL`.
 - En el iPhone, la cámara del escáner necesita HTTPS: solo se puede probar tras desplegar.

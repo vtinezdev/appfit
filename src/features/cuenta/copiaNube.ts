@@ -1,4 +1,5 @@
 import type { BackupV3 } from '../../shared/lib/backup'
+import { toISODate } from '../../shared/lib/dates'
 import { crearClaves, cifrarCopia, desenvolver, descifrarCopia, envolver, generarCodigoRecuperacion, normalizarCodigo, sinExportar, type ClavesNube } from './lib/cifrado'
 import { decidirCopia, decidirVinculo, type Vinculo } from './lib/decision'
 import { huellaBackup } from './lib/huella'
@@ -6,7 +7,7 @@ import { NubeError, type CopiaRemota, type Nube } from './data/nube'
 import type { VinculoDispositivo } from './data/dispositivoRepo'
 
 /**
- * Copia automática en la nube (plan: docs/cuentas.md). Orquesta la nube, el estado del dispositivo y el backup; las
+ * Cuenta y copia automática en la nube (plan: docs/cuentas.md; la cuenta sin copia, ADR 040). Orquesta la nube, el estado del dispositivo y el backup; las
  * decisiones están en `lib/decision.ts` y el cifrado en `lib/cifrado.ts`. Todo llega inyectado para poder probarlo
  * con dos «dispositivos» en memoria.
  */
@@ -14,8 +15,11 @@ import type { VinculoDispositivo } from './data/dispositivoRepo'
 export type FaseCuenta =
   | 'cargando'
   | 'sin-sesion'
-  /** Hay sesión pero este dispositivo aún no tiene la clave (se cerró la app a mitad de entrar). */
-  | 'sin-vincular'
+  /**
+   * Hay sesión pero este dispositivo no guarda copia: no la activó (la cuenta sirve sin ella, ADR 040) o se cerró la
+   * app a mitad de entrar. Nunca sube nada; la copia se activa o se abre con `prepararVinculo`.
+   */
+  | 'sin-copia'
   | 'al-dia'
   | 'pendiente'
   | 'subiendo'
@@ -76,6 +80,8 @@ export class CopiaNube {
   private oyentes = new Set<() => void>()
   private pendiente: Pendiente | null = null
   private cola: Promise<unknown> = Promise.resolve()
+  /** Día (local) en que ya se anotó la actividad en la nube. */
+  private actividadMarcada?: string
   private readonly d: Dependencias
 
   constructor(dependencias: Dependencias) {
@@ -130,11 +136,29 @@ export class CopiaNube {
       return
     }
     if (!vinculo || vinculo.userId !== usuario.id) {
-      this.poner({ fase: 'sin-vincular', email: usuario.email }, true)
+      this.poner({ fase: 'sin-copia', email: usuario.email }, true)
+      void this.marcarActividad()
       return
     }
     this.poner({ fase: vinculo.conflicto ? 'conflicto' : 'al-dia', email: vinculo.email, ultimaCopia: vinculo.ultimaCopia }, true)
+    void this.marcarActividad()
     await this.sincronizar({ comprobarNube: true })
+  }
+
+  /**
+   * Anota en la nube que la cuenta se usa hoy, como mucho una vez al día: las cuentas sin actividad en 12 meses se
+   * borran (ADR 040). Sin sesión no hace nada; si falla (sin red), lo intenta la próxima vez.
+   */
+  async marcarActividad(): Promise<void> {
+    if (this.estado.fase === 'cargando' || this.estado.fase === 'sin-sesion') return
+    const hoy = toISODate(new Date(this.ahora()))
+    if (this.actividadMarcada === hoy) return
+    this.actividadMarcada = hoy
+    try {
+      await (await this.d.nube()).marcarActividad()
+    } catch {
+      this.actividadMarcada = undefined
+    }
   }
 
   /** Hubo una escritura: la subida llegará con la espera del disparador. */
@@ -240,6 +264,7 @@ export class CopiaNube {
     const anterior = await this.d.dispositivo.leer()
     if (anterior && anterior.userId === usuario.id) {
       this.poner({ fase: anterior.conflicto ? 'conflicto' : 'al-dia', email: usuario.email, ultimaCopia: anterior.ultimaCopia }, true)
+      void this.marcarActividad()
       void this.sincronizar({ comprobarNube: true })
       return null
     }
@@ -247,7 +272,8 @@ export class CopiaNube {
     if (anterior) await this.d.dispositivo.borrar()
     const copia = await nube.leerCopia()
     this.pendiente = { userId: usuario.id, email: usuario.email, copia }
-    this.poner({ fase: 'sin-vincular', email: usuario.email }, true)
+    this.poner({ fase: 'sin-copia', email: usuario.email }, true)
+    void this.marcarActividad()
     return { vinculo: decidirVinculo(copia !== null, await this.d.hayDatos()) }
   }
 

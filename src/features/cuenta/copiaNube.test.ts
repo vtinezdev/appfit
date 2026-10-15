@@ -14,7 +14,7 @@ class Movil {
   copia: CopiaNube
   nube: Nube
 
-  constructor(servidor: ServidorFalso) {
+  constructor(servidor: ServidorFalso, ahora?: () => number) {
     const nube = servidor.nube()
     this.nube = nube
     const dispositivo: AlmacenDispositivo = {
@@ -31,6 +31,7 @@ class Movil {
       hayDatos: async () => this.comidas.length > 0,
       borrarDatos: async () => { this.comidas = [] },
       iteraciones: 1000,
+      ahora,
     })
   }
 
@@ -50,6 +51,9 @@ class Movil {
     return this.copia.verificarCodigo(email, ServidorFalso.CODIGO)
   }
 }
+
+/** Deja terminar lo que la copia lanza sin esperar (p. ej. anotar la actividad). */
+const terminarPendientes = () => new Promise((r) => setTimeout(r))
 
 let servidor: ServidorFalso
 beforeEach(() => {
@@ -144,7 +148,7 @@ describe('entrar en otro móvil', () => {
     const b = new Movil(servidor)
     await b.entrar()
     await b.copia.sincronizar({ comprobarNube: true })
-    expect(b.fase).toBe('sin-vincular')
+    expect(b.fase).toBe('sin-copia')
     expect([...servidor.copias.values()][0].revision).toBe(1)
   })
 
@@ -204,6 +208,47 @@ describe('entrar en otro móvil', () => {
     expect(a.vinculo).toBeUndefined()
     expect(a.comidas).toEqual(['Tortilla'])
     expect(await a.entrar()).toEqual({ vinculo: 'elegir' })
+  })
+})
+
+describe('cuenta sin copia', () => {
+  it('se puede entrar sin activar la copia: hay sesión y no se sube nada', async () => {
+    const a = new Movil(servidor)
+    a.comidas = ['Tortilla']
+    expect(await a.entrar()).toEqual({ vinculo: 'crear' })
+    expect(a.fase).toBe('sin-copia')
+    expect(a.copia.leerEstado().email).toBe('victor@example.com')
+    await a.copia.sincronizar({ comprobarNube: true })
+    expect(servidor.copias.size).toBe(0)
+  })
+
+  it('al volver a abrir la app sigue con sesión y sin copia', async () => {
+    const a = new Movil(servidor)
+    await a.entrar()
+    await a.copia.iniciar()
+    expect(a.fase).toBe('sin-copia')
+    expect(a.vinculo).toBeUndefined()
+  })
+
+  it('la copia se puede activar más tarde', async () => {
+    const a = new Movil(servidor)
+    a.comidas = ['Tortilla']
+    await a.entrar()
+    a.comidas.push('Lentejas')
+    expect(await a.copia.prepararVinculo()).toEqual({ vinculo: 'crear' })
+    await a.copia.crearCopia('contraseña larga')
+    expect(a.fase).toBe('al-dia')
+    expect(servidor.copias.size).toBe(1)
+  })
+
+  it('cerrar sesión o borrar la cuenta sin copia deja los datos del móvil', async () => {
+    const a = new Movil(servidor)
+    a.comidas = ['Tortilla']
+    await a.entrar()
+    await a.copia.borrarCuenta()
+    expect(a.fase).toBe('sin-sesion')
+    expect(servidor.usuarios.size).toBe(0)
+    expect(a.comidas).toEqual(['Tortilla'])
   })
 })
 
@@ -292,6 +337,32 @@ describe('cuenta', () => {
     expect(servidor.copias.size).toBe(0)
     expect(a.comidas).toEqual(['Tortilla'])
     expect(a.fase).toBe('sin-sesion')
+  })
+
+  it('anota la actividad al entrar, como mucho una vez al día', async () => {
+    let ahora = new Date(2026, 9, 15, 9).getTime()
+    const a = new Movil(servidor, () => ahora)
+    await a.entrar()
+    await a.copia.marcarActividad()
+    await terminarPendientes()
+    expect(servidor.actividad.get('u-1')).toBe(1)
+    ahora = new Date(2026, 9, 16, 9).getTime()
+    await a.copia.marcarActividad()
+    expect(servidor.actividad.get('u-1')).toBe(2)
+  })
+
+  it('si no puede anotar la actividad, lo intenta la siguiente vez', async () => {
+    let ahora = new Date(2026, 9, 15, 9).getTime()
+    const a = new Movil(servidor, () => ahora)
+    await a.entrar()
+    await terminarPendientes()
+    ahora = new Date(2026, 9, 16, 9).getTime()
+    servidor.sinConexion = true
+    await a.copia.marcarActividad()
+    expect(servidor.actividad.get('u-1')).toBe(1)
+    servidor.sinConexion = false
+    await a.copia.marcarActividad()
+    expect(servidor.actividad.get('u-1')).toBe(2)
   })
 
   it('al arrancar sin sesión guardada no carga la nube', async () => {
