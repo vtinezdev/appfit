@@ -1,6 +1,7 @@
 import { NubeError } from '../../cuenta/data/nube'
 import { clienteSupabase } from '../../cuenta/data/clienteSupabase'
 import { traducir } from '../../cuenta/data/nubeSupabase'
+import { leerAvisos, leerComentario, leerPublicacion, POR_PAGINA, type Comentario, type PublicacionFeed } from '../lib/feed'
 import { mensajeSocial } from '../lib/mensajes'
 import type { EstadoSeguimiento, Persona } from '../lib/relacion'
 import { SocialError, type MiPerfil, type Social } from './social'
@@ -13,6 +14,8 @@ interface FilaPersona {
   sigo: EstadoSeguimiento
   me_sigue: EstadoSeguimiento
 }
+
+const publicaciones = (filas: unknown[] | null) => (filas ?? []).map(leerPublicacion).filter((p): p is PublicacionFeed => p !== null)
 
 const persona = (f: FilaPersona): Persona => ({ alias: f.alias, nombre: f.nombre, sigo: f.sigo, meSigue: f.me_sigue })
 
@@ -57,5 +60,16 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     publicar: (id, fecha, resumen) => rpc('publicar', { p_id: id, p_tipo: resumen.tipo, p_fecha: new Date(fecha).toISOString(), p_resumen: resumen }),
     borrarPublicacion: (id) => rpc('borrar_publicacion', { p_id: id }),
     denunciarPerfil: (alias, motivo, detalle) => rpc('denunciar', { p_tipo: 'perfil', p_objetivo: alias, p_motivo: motivo, p_detalle: detalle }),
+    feed: async (antes) => publicaciones(await rpc<unknown[]>('feed', { p_antes: antes, p_limite: POR_PAGINA })),
+    publicacionesDe: async (alias, antes) => publicaciones(await rpc<unknown[]>('publicaciones_de', { p_alias: alias, p_antes: antes, p_limite: POR_PAGINA })),
+    reaccionar: (id) => rpc('reaccionar', { p_id: id }),
+    quitarReaccion: (id) => rpc('quitar_reaccion', { p_id: id }),
+    comentarios: async (id) => ((await rpc<unknown[]>('comentarios_de', { p_id: id })) ?? []).map(leerComentario).filter((c): c is Comentario => c !== null),
+    comentar: (id, texto) => rpc<string>('comentar', { p_id: id, p_texto: texto }),
+    borrarComentario: (id) => rpc('borrar_comentario', { p_id: id }),
+    denunciarPublicacion: (id, motivo, detalle) => rpc('denunciar', { p_tipo: 'publicacion', p_objetivo: id, p_motivo: motivo, p_detalle: detalle }),
+    denunciarComentario: (id, motivo, detalle) => rpc('denunciar', { p_tipo: 'comentario', p_objetivo: id, p_motivo: motivo, p_detalle: detalle }),
+    avisos: async () => leerAvisos(await rpc<unknown>('avisos')),
+    marcarAvisosVistos: () => rpc('marcar_avisos_vistos'),
   }
 }

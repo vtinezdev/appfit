@@ -1,15 +1,11 @@
 import { useState } from 'react'
 import Button from '../../../shared/components/Button'
-import Campo from '../../../shared/components/Campo'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
-import { Select, Textarea } from '../../../shared/components/Input'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
-import { MOTIVOS_DENUNCIA, type MotivoDenuncia } from '../data/social'
 import { accionSeguir, nombreVisible, TEXTO_ACCION, textoRelacion, type Persona } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
-
-const DETALLE_MAX = 500
+import FormDenuncia from './FormDenuncia'
 
 interface Props {
   open: boolean
@@ -17,16 +13,18 @@ interface Props {
   onClose: () => void
   /** Algo cambió con esta persona: las listas se vuelven a leer. Con `mensaje`, la hoja se cierra y se avisa. */
   onCambio: (mensaje?: string) => void
+  /** Abre sus publicaciones (solo si la sigo): la hoja se cierra antes. */
+  onVerPublicaciones: (persona: Persona) => void
+  /** La hoja terminó de cerrarse. */
+  onExited?: () => void
 }
 
 type Paso = 'acciones' | 'bloquear' | 'denunciar' | 'denunciada'
 
 /** Una persona: seguir o dejar de seguir, responder su solicitud, quitarla de seguidores, bloquear y denunciar. */
-export default function PersonaSheet({ open, persona: inicial, onClose, onCambio }: Props) {
+export default function PersonaSheet({ open, persona: inicial, onClose, onCambio, onVerPublicaciones, onExited }: Props) {
   const [persona, setPersona] = useState(inicial)
   const [paso, setPaso] = useState<Paso>('acciones')
-  const [motivo, setMotivo] = useState<MotivoDenuncia>('acoso')
-  const [detalle, setDetalle] = useState('')
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const nombre = nombreVisible(persona)
@@ -70,11 +68,6 @@ export default function PersonaSheet({ open, persona: inicial, onClose, onCambio
     await (await cargarSocial()).bloquear(persona.alias)
     onCambio(`Has bloqueado a ${nombre}.`)
   })
-  const denunciar = () => ejecutar(async () => {
-    const texto = detalle.trim()
-    await (await cargarSocial()).denunciarPerfil(persona.alias, motivo, texto === '' ? null : texto)
-    setPaso('denunciada')
-  })
 
   function contenido() {
     switch (paso) {
@@ -90,21 +83,11 @@ export default function PersonaSheet({ open, persona: inicial, onClose, onCambio
         )
       case 'denunciar':
         return (
-          <form className="space-y-stack" onSubmit={(e) => { e.preventDefault(); void denunciar() }} noValidate>
-            <p className="text-body-sm text-fg-muted">La revisaremos. No se le dice quién la ha denunciado.</p>
-            <Campo etiqueta="Motivo">
-              <Select value={motivo} onChange={(e) => setMotivo(e.target.value as MotivoDenuncia)}>
-                {MOTIVOS_DENUNCIA.map((m) => <option key={m.valor} value={m.valor}>{m.label}</option>)}
-              </Select>
-            </Campo>
-            <Campo etiqueta="Detalle (opcional)" ayuda={`Como mucho ${DETALLE_MAX} caracteres.`}>
-              <Textarea rows={3} maxLength={DETALLE_MAX} value={detalle} onChange={(e) => setDetalle(e.target.value)} />
-            </Campo>
-            <div className="flex gap-2">
-              <Button variant="secondary" className="flex-1" disabled={ocupado} onClick={() => setPaso('acciones')}>Cancelar</Button>
-              <Button type="submit" variant="primary" className="flex-1" loading={ocupado}>Enviar</Button>
-            </div>
-          </form>
+          <FormDenuncia onCancelar={() => setPaso('acciones')}
+            onEnviar={async (motivo, detalle) => {
+              await (await cargarSocial()).denunciarPerfil(persona.alias, motivo, detalle)
+              setPaso('denunciada')
+            }} />
         )
       case 'denunciada':
         return (
@@ -133,6 +116,7 @@ export default function PersonaSheet({ open, persona: inicial, onClose, onCambio
             <div className="space-y-2">
               <Button variant={accion === 'seguir' ? 'primary' : 'secondary'} block disabled={ocupado} onClick={() => void seguir()}>{TEXTO_ACCION[accion]}</Button>
               {accion === 'seguir' && <p className="text-caption text-fg-muted">Verás lo que publica cuando te acepte.</p>}
+              {persona.sigo === 'aceptado' && <Button variant="secondary" block disabled={ocupado} onClick={() => onVerPublicaciones(persona)}>Ver sus publicaciones</Button>}
               {persona.meSigue === 'aceptado' && <Button variant="secondary" block disabled={ocupado} onClick={() => void quitar()}>Quitar de tus seguidores</Button>}
             </div>
             <div className="flex flex-col items-start gap-1">
@@ -146,7 +130,7 @@ export default function PersonaSheet({ open, persona: inicial, onClose, onCambio
   }
 
   return (
-    <Sheet open={open} onClose={onClose} title={paso === 'denunciar' ? `Denunciar a ${nombre}` : paso === 'bloquear' ? `Bloquear a ${nombre}` : nombre}>
+    <Sheet open={open} onClose={onClose} onExited={onExited} title={paso === 'denunciar' ? `Denunciar a ${nombre}` : paso === 'bloquear' ? `Bloquear a ${nombre}` : nombre}>
       <div className="space-y-stack">
         {contenido()}
         {error && <ErrorState>{error}</ErrorState>}

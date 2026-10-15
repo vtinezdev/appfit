@@ -5,6 +5,7 @@ export const DESTINOS = [
   { key: 'inicio', label: 'Inicio', icon: 'home' },
   { key: 'nutricion', label: 'Nutrición', icon: 'utensils' },
   { key: 'gym', label: 'Entreno', icon: 'dumbbell' }, // un solo nombre visible para la sección (título, Inicio y barra)
+  { key: 'social', label: 'Social', icon: 'comentario' }, // en la barra, solo con cuenta configurada (ADR 040)
   { key: 'perfil', label: 'Perfil', icon: 'user' },
   { key: 'amigos', label: 'Amigos', icon: 'users' }, // solo con cuenta configurada (ADR 040)
   { key: 'cumbres', label: 'Cumbres', icon: 'mountain' },

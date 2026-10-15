@@ -6,7 +6,7 @@
 
 **Cuentas y copia en la nube:** implementadas en `feat/cuentas` ([cuenta](features/cuenta.md)); queda la prueba en iPhone real y, antes de publicar, un dominio propio para el correo (hoy sale por Brevo desde un Gmail). Estado en [`cuentas.md`](cuentas.md).
 
-**Parte social:** seguir, publicar y comentar ([ADR 040](decisiones/040-parte-social.md)), en `feat/social`. Plan y estado en [`social.md`](social.md).
+**Parte social:** Social (feed, ánimos, comentarios, avisos) y Amigos (perfil y personas) fusionados en `master` el 2026-10-15 ([ADR 040](decisiones/040-parte-social.md), [social](features/social.md)). Pendiente antes de abrirlo a desconocidos: la fase 6 (condiciones de uso, política de privacidad con el consentimiento y los 16 años, ficha de datos de Google Play, revisión por alguien que sepa de protección de datos) y la 7 (prueba en iPhone y Android). Plan y estado en [`social.md`](social.md).
 
 **Publicación:** abrir la app a otras personas (gratis, Google Play para Android y PWA para iPhone) tiene su plan en [`despliegue.md`](despliegue.md). Va después del rediseño visual.
 
@@ -52,6 +52,13 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - `scripts/ui/validar-*.cjs` se han adaptado a la barra de pestañas (§97) sin ejecutarlos: siguen apuntando a `/usr/bin/chromium` y conservan otros selectores anteriores.
 
 ## Ideas sin empezar
+
+Social (lo siguiente que quiere Víctor, 2026-10-15; nada empezado):
+- **Mejorar el perfil**: qué se muestra de cada persona (foto o avatar, biografía, cifras), y su página con las publicaciones.
+- **Compartir logros** sueltos (Vitrina, ligas, cumbres, caminos) como publicaciones propias, no solo dentro de un entreno.
+- **Crear publicaciones** a mano (texto, sin entreno detrás).
+- **Comunidades**: grupos donde la gente interactúe sin seguirse. Cambia el modelo de privacidad (hoy solo ven tus seguidores aceptados) y la moderación: necesita decisión y ADR.
+- Otros pendientes conocidos: nombre definitivo de la reacción (hoy «Ánimo»), borrar una publicación propia desde el feed, notificaciones push (Web Push), recorridos con zona privada.
 
 Registro:
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.

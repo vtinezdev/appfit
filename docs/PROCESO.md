@@ -1470,3 +1470,24 @@ Fase 4 de [`social.md`](social.md), tras guardar las fases 1–3 en un commit.
 - **Navegador** con `scripts/ui/supabase-falso.mjs` (ya con `publicar` y `borrar_publicacion`): actividad a mano (Peñalara, 12,4 km, 812 m) publicada y borrada; entreno del historial con ligas («Empieza en Bronce») y Vitrina en la vista previa; 320 y 375 px sin scroll horizontal.
 
 **Verificación:** `npm run test` (2.175 tests, 170 archivos) y `npm run build` en verde. Víctor ejecutó `0004_publicaciones.sql` y `pruebas/social.sql` terminó en «PRUEBAS_OK» con las pruebas de publicaciones. Sin prueba con cuentas reales ni en iPhone.
+
+## 136. Feed, reacciones, comentarios y avisos en Amigos (2026-10-15)
+
+Fase 5 de [`social.md`](social.md), tras guardar la fase 4 en un commit.
+
+- **SQL** `supabase/migrations/0005_feed.sql`: tablas `reacciones` y `comentarios`; ayudantes `social_puede_ver` (autor o seguidor aceptado, sin bloqueo ni suspensión), `social_publicacion` y `social_fila`; `feed` y `publicaciones_de` paginados por `creada`; `comentarios_de`, `reaccionar`, `quitar_reaccion`, `comentar` (1–500, 100 al día), `borrar_comentario` (mío o en lo mío); `denunciar` ampliada a publicaciones y comentarios; `avisos` (solicitudes, nuevos y los 30 últimos) y `marcar_avisos_vistos`. Pruebas añadidas a `supabase/pruebas/social.sql` (feed con y sin aceptar, paginación, reacción única, comentarios, avisos y vistos, quien no sigue no ve ni interactúa, denuncias, borrar como autor, bloqueo).
+- **Lógica** (`lib/feed`, `lib/reaccion`, con tests): leer y validar filas del feed, comentarios y avisos; textos de avisos y recuentos; el nombre de la reacción en un solo sitio.
+- **UI**: Amigos pasa a «Novedades» (Avisos y feed paginado) · «Personas» (lo de antes). `PublicacionFeed` con reacción al momento y comentarios; `ComentariosSheet` (escribir, borrar con «Deshacer» o confirmación, denunciar); `AvisosSheet` (marca vistos y abre los comentarios); `PublicacionesPersona` desde «Ver sus publicaciones»; `FormDenuncia` compartido (también en la hoja de una persona); banda `AvisoAmigos` en Inicio. Iconos `llama` (reacción) y `comentario`.
+- **Navegador** con `scripts/ui/supabase-falso.mjs` (feed de ejemplo, una publicación con forma rara que se descarta y `simular_avisos`): banda de Inicio, feed, dar y quitar ánimo, comentar, borrar con Deshacer, avisos (abrir los comentarios desde uno) y publicaciones de una persona; 320 y 430 px en oscuro sin scroll horizontal. Arreglado en el recorrido: el título de la hoja de comentarios era larguísimo (pasa a «Comentarios» con la publicación debajo), los «Nuevo» desaparecían al marcar vistos con la hoja abierta y la página de una persona repetía su nombre en cada tarjeta.
+
+**Verificación:** `npm run test` (2.183 tests, 171 archivos) y `npm run build` en verde. Víctor ejecutó `0005_feed.sql` y `pruebas/social.sql` terminó en «PRUEBAS_OK» tras dos arreglos de la propia prueba: el bloque es una transacción y `now()` no avanza, así que los avisos se marcan vistos un minuto antes y la reacción va 30 s antes que el comentario. Víctor lo probó con dos cuentas reales en `appfit-test.localhost:5173` (publicar, ánimo, comentario, banda de Inicio y avisos): funciona. Sin prueba en iPhone.
+
+## 137. Social en la barra y Amigos en Más (2026-10-15)
+
+Víctor pidió separar las publicaciones de las personas: una pestaña «Social» en la barra, junto a Inicio, Nutrición, Entreno y Más, con todo lo de las publicaciones, y «Amigos» en Más para el perfil y la gente.
+
+- **Navegación**: destino `social` en `DESTINOS` (icono `comentario`), pestaña de la barra detrás de Entreno; `.tab-bar` reparte columnas solas (`grid-auto-flow: column`) y, bajo 16 rem de cápsula, estrecha los nombres para que «Nutrición» no se parta a 320 px. Sin cuenta configurada, `social` y `amigos` van en `ocultos`. Test de contrato de la barra con cinco pestañas y sin Social.
+- **`SocialTab`**: Avisos, solicitudes pendientes (lleva a Amigos), ViewTabs «Siguiendo» (feed) · «Tú» (lo mío, con `publicaciones_de` y mi alias, sin SQL nuevo); tocar a alguien abre sus publicaciones. **`AmigosTab`** vuelve a ser solo perfil y personas. La banda de Inicio lleva a Social con novedades y a Amigos con solo solicitudes. «Publicar en Social» / «Publicado en Social».
+- **Navegador** con el Supabase falso: barra a 320/375/430 en claro (todos los nombres dentro de su celda), Social «Tú» vacío, Amigos y Avisos en oscuro, sin scroll horizontal.
+
+**Verificación:** `npm run test` (2.185 tests, 171 archivos) y `npm run build` en verde. Sin probar con cuentas reales ni en iPhone.

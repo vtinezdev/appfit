@@ -13,6 +13,7 @@ Víctor quiere un componente social al estilo de Strava: tener tu cuenta, seguir
 - **Qué se puede publicar:** entrenos de gimnasio (duración, volumen, ejercicios, récords y ascensos de liga), actividades **sin el recorrido GPS** (tipo, distancia, tiempo, ritmo y desnivel), y logros y ligas (Vitrina, ciclos de Élite, cumbres). **Nunca** nutrición, peso, medidas ni perfil.
 - **Quién lo ve:** solo los **seguidores que la persona aprueba**. No hay perfiles ni publicaciones públicas.
 - **Interacción:** una reacción y comentarios de texto. La reacción se llama **«Ánimo» de forma provisional**: en el código y en la base de datos es `reacciones`, así que cambiar el nombre solo toca los textos.
+- **Dónde vive** (2026-10-15): «Social», una pestaña más de la barra (Inicio · Nutrición · Entreno · Social · Más), con las publicaciones de quienes sigues y las tuyas, los ánimos, los comentarios y los avisos; «Amigos», en «Más», con el perfil y las personas (solicitudes, seguir, bloquear). Sin cuenta configurada, ninguno de los dos aparece.
 - **Encontrar a alguien:** por su **alias exacto** o con su **código de invitación**. No hay buscador por nombre ni sugerencias.
 - **La cuenta es independiente de la copia cifrada.** Entrar con email y código basta para lo social; la copia (con su contraseña) sigue siendo opcional y aparte.
 - **Edad mínima: 16 años**, con aceptación expresa al activar lo social. Pendiente de confirmar con alguien de legal.

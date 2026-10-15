@@ -14,7 +14,7 @@ interface Props {
   /** El «+»: abre las acciones rápidas. */
   onAcciones: () => void
   accionesAbiertas?: boolean
-  /** Destinos de «Más» que no se muestran (p. ej. la gamificación oculta en Ajustes). */
+  /** Destinos que no se muestran (la gamificación oculta en Ajustes; Social y Amigos sin cuenta configurada). */
   ocultos?: readonly Tab[]
   /** Lo que flota pegado encima de la cápsula (el entreno minimizado). */
   encima?: ReactNode
@@ -23,7 +23,8 @@ interface Props {
 const destino = (key: Tab) => DESTINOS.find((d) => d.key === key)!
 
 /**
- * Barra flotante (ADR 028, revisado en ADR 035): una cápsula con Inicio · Nutrición · Entreno · Más y, aparte a la derecha,
+ * Barra flotante (ADR 028, revisado en ADR 035 y ADR 040): una cápsula con Inicio · Nutrición · Entreno · Social · Más
+ * (Social solo con cuenta configurada) y, aparte a la derecha,
  * el «+» redondo para registrar. Flota sobre el contenido, que pasa por debajo. «Más» abre una hoja con el progreso
  * (Cumbres, Ritmo, Vitrina) en teselas con su dato y el resto de destinos en filas.
  */
@@ -57,6 +58,7 @@ export default function BottomNav({ tab, onChange, onAcciones, accionesAbiertas 
           {pestana('inicio')}
           {pestana('nutricion')}
           {pestana('gym')}
+          {!ocultos.includes('social') && pestana('social')}
           <li>
             <button type="button" className="tab-item app-button" aria-current={enMas ? 'page' : undefined} aria-haspopup="dialog" aria-expanded={mas}
               onClick={() => { haptic(); elegido.current = null; setMas(true) }}>

@@ -1,4 +1,5 @@
 import { NubeError } from '../../cuenta/data/nube'
+import type { Avisos, Comentario, PublicacionFeed } from '../lib/feed'
 import type { Resumen } from '../lib/publicacion'
 import type { Persona } from '../lib/relacion'
 
@@ -33,6 +34,20 @@ export interface Social {
   publicar(id: string, fecha: number, resumen: Resumen): Promise<void>
   /** Si ya no existe, falla con «no encontrado». */
   borrarPublicacion(id: string): Promise<void>
+  /** Lo mío y de quienes sigo, lo último publicado primero. `antes`: `creada` de la última vista (o null). */
+  feed(antes: string | null): Promise<PublicacionFeed[]>
+  /** Lo de una persona que sigo (o lo mío), igual de paginado. */
+  publicacionesDe(alias: string, antes: string | null): Promise<PublicacionFeed[]>
+  reaccionar(publicacion: string): Promise<void>
+  quitarReaccion(publicacion: string): Promise<void>
+  comentarios(publicacion: string): Promise<Comentario[]>
+  /** Devuelve el id del comentario. */
+  comentar(publicacion: string, texto: string): Promise<string>
+  borrarComentario(id: string): Promise<void>
+  denunciarPublicacion(id: string, motivo: MotivoDenuncia, detalle: string | null): Promise<void>
+  denunciarComentario(id: string, motivo: MotivoDenuncia, detalle: string | null): Promise<void>
+  avisos(): Promise<Avisos>
+  marcarAvisosVistos(): Promise<void>
 }
 
 export interface MiPerfil {

@@ -373,10 +373,10 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 .app-nav::before { content: ''; position: absolute; inset: -1rem 0 0; z-index: -1; background: linear-gradient(to top, rgb(var(--c-bg) / .92) 40%, rgb(var(--c-bg) / 0)); }
 .tab-dock { display: flex; align-items: center; gap: .5rem; }
-/* Cápsula: Inicio · Nutrición · Entreno · Más. La actual sobre una píldora, en texto principal y con el icono en acento. */
+/* Cápsula: Inicio · Nutrición · Entreno · (Social ·) Más, tantas columnas como pestañas. La actual sobre una píldora, en texto principal y con el icono en acento. */
 .tab-bar {
   container-type: inline-size; pointer-events: auto;
-  flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .125rem;
+  flex: 1; min-width: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .125rem;
   height: var(--tab-capsule-height); padding: .3125rem; border-radius: var(--radius-pill);
   background: rgb(var(--c-surface-elevated)); box-shadow: var(--shadow-float); border: 1px solid transparent;
 }
@@ -386,6 +386,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .tab-item[aria-current='page'] svg { color: rgb(var(--c-accent-strong)); }
 .tab-label { max-width: 100%; text-align: center; }
 /* Texto muy ampliado: los nombres no caben sin partirse; quedan para el lector de pantalla y se ven los iconos. */
+/* Con cinco pestañas (Social) en un móvil estrecho, los nombres se estrechan para no partirse («Nutrició-n»). */
+@container (max-width: 16rem) { .tab-label { font-stretch: var(--fst-numeric); white-space: nowrap; } }
 @container (max-width: 12rem) { .tab-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; } }
 /* «+»: la única acción sólida en acento de la barra, aparte y a la derecha, donde llega el pulgar. */
 .tab-plus { pointer-events: auto; flex: none; display: grid; place-items: center; width: var(--tab-capsule-height); height: var(--tab-capsule-height); border-radius: var(--radius-pill); background: rgb(var(--c-accent)); color: rgb(var(--c-on-accent)); box-shadow: var(--shadow-float); transition: transform var(--dur-short) var(--ease-standard); }

@@ -42,7 +42,7 @@ interface Props {
 }
 
 /**
- * «Compartir con tus seguidores» al terminar un entreno o en el detalle de un entreno o una actividad: la vista
+ * «Compartir» (en Social) al terminar un entreno o en el detalle de un entreno o una actividad: la vista
  * previa de lo que se publica y «Publicar»; ya publicado, «Borrar publicación». Va dentro de `SiPuedePublicar`.
  */
 export default function Publicar({ publicacion, fecha, resumen, onAnotar }: Props) {
@@ -80,9 +80,9 @@ export default function Publicar({ publicacion, fecha, resumen, onAnotar }: Prop
 
   if (publicacion) {
     return (
-      <section aria-label="Publicado en Amigos" className="space-y-2">
+      <section aria-label="Publicado en Social" className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-          <p role="status" className="flex items-center gap-2 text-body-sm font-semibold text-fg"><Icon name="check" size={18} className="text-accent-strong" />Publicado en Amigos</p>
+          <p role="status" className="flex items-center gap-2 text-body-sm font-semibold text-fg"><Icon name="check" size={18} className="text-accent-strong" />Publicado en Social</p>
           <Button variant="subtle" size="sm" loading={ocupado} onClick={() => void borrar(publicacion)}>Borrar publicación</Button>
         </div>
         {error && <ErrorState>{error}</ErrorState>}
@@ -96,7 +96,7 @@ export default function Publicar({ publicacion, fecha, resumen, onAnotar }: Prop
       <TarjetaPublicacion resumen={resumen} fecha={fecha} />
       <p className="text-caption text-fg-muted">Lo verán las personas que te siguen. Tu nutrición, tu peso y tus medidas no se comparten{resumen.tipo === 'actividad' ? ', ni el recorrido' : ''}.</p>
       {error && <ErrorState>{error}</ErrorState>}
-      <Button variant="primary" block loading={ocupado} onClick={() => void publicar()}>Publicar en Amigos</Button>
+      <Button variant="primary" block loading={ocupado} onClick={() => void publicar()}>Publicar en Social</Button>
     </section>
   )
 }

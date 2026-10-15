@@ -21,6 +21,7 @@
 | Montaña (Cumbres) | `components/AccesoCumbre` | estado de `cumbres/hooks/useCumbres` (experiencia y Cumbres, todo el historial, solo lectura); `experiencia/lib/experiencia` (`entrenoHoy`), `cumbres/lib/cumbres` y `cumbres/components/PerfilMontana`; ver [cumbres.md](cumbres.md) |
 | Ruta (Caminos) | `components/AccesoCamino` | `caminos/hooks/useCaminos` (actividades y ajustes, solo lectura), `caminos/lib/caminos`, `caminos/components/TrazadoCamino`; ver [caminos.md](caminos.md) |
 | Aviso de copia | `components/AvisoBackup` (banda de una línea con «Exportar» y la X de «Más tarde»), `shared/lib/recordatorioBackup.ts` (`textoSinCopia`: «14 días sin copia») | `shared/db/settings` (`ultimaExportacion`, `recordatorioBackupPospuesto`, `recordatorioBackupDias`) |
+| Aviso social | `social/components/AvisoAmigos` (banda «Novedades en Social» o «Solicitudes en Amigos» con «Ver», bajo el aviso de copia, solo con algo pendiente; ver [social](social.md)) | Supabase (`avisos`) |
 
 ## Primer inicio en iPhone
 

@@ -1,4 +1,4 @@
--- Pruebas de 0003_social.sql y 0004_publicaciones.sql. Se pegan enteras en el SQL Editor y se ejecutan: no dejan nada guardado.
+-- Pruebas de 0003_social.sql, 0004_publicaciones.sql y 0005_feed.sql. Se pegan enteras en el SQL Editor y se ejecutan: no dejan nada guardado.
 --
 -- Todo va en un único bloque que, al final, lanza el error «PRUEBAS_OK»: el error deshace todo lo que hizo (usuarios
 -- de prueba incluidos). Si sale «PRUEBAS_OK», han pasado todas; si sale otro mensaje, es la prueba que falló.
@@ -10,6 +10,8 @@ declare
   beto uuid := gen_random_uuid();
   carla uuid := gen_random_uuid();
   pub uuid := gen_random_uuid();
+  pub2 uuid := gen_random_uuid();
+  com1 uuid;
   e text;
   n integer;
   v text;
@@ -157,7 +159,82 @@ begin
   assert n = 0, 'borrar mi publicación';
   begin perform public.borrar_publicacion(pub); e := null; exception when others then e := sqlerrm; end;
   assert e = 'no_encontrado', 'borrarla otra vez: ' || coalesce(e, 'sin error');
-  perform public.publicar(gen_random_uuid(), 'actividad', now(), '{"v": 1, "tipo": "actividad"}');
+  perform public.publicar(pub2, 'actividad', now(), '{"v": 1, "tipo": "actividad", "titulo": "Ruta"}');
+
+  -- Feed, reacciones, comentarios y avisos
+  perform set_config('request.jwt.claims', json_build_object('sub', beto)::text, true);
+  perform public.pedir_seguir('carla');
+  select count(*) into n from public.feed(null, 20);
+  assert n = 0, 'con la solicitud pendiente no se ve nada';
+  begin perform public.publicaciones_de('carla', null, 20); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'no_encontrado', 'ni sus publicaciones: ' || coalesce(e, 'sin error');
+  perform set_config('request.jwt.claims', json_build_object('sub', carla)::text, true);
+  perform public.responder_solicitud('beto', true);
+  select * into r from public.feed(null, 20);
+  assert r.id = pub2 and r.mia, 'cada cual ve lo suyo en el feed';
+  perform set_config('request.jwt.claims', json_build_object('sub', beto)::text, true);
+  select * into r from public.feed(null, 20);
+  assert r.id = pub2 and r.alias = 'carla' and not r.mia and r.reacciones = 0 and r.resumen ->> 'titulo' = 'Ruta', 'aceptado, Beto ve lo de Carla';
+  select count(*) into n from public.publicaciones_de('carla', null, 20);
+  assert n = 1, 'y su perfil';
+  select count(*) into n from public.feed(r.creada, 20);
+  assert n = 0, 'la página siguiente empieza después de la última vista';
+  perform public.reaccionar(pub2);
+  perform public.reaccionar(pub2);
+  select * into r from public.feed(null, 20);
+  assert r.reacciones = 1 and r.reaccione, 'una reacción por persona';
+  com1 := public.comentar(pub2, '  ¡Buena ruta!  ');
+  begin perform public.comentar(pub2, '   '); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'comentario_no_valido', 'comentario vacío: ' || coalesce(e, 'sin error');
+  begin perform public.comentar(pub2, repeat('a', 501)); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'comentario_no_valido', 'comentario largo: ' || coalesce(e, 'sin error');
+  select * into r from public.comentarios_de(pub2);
+  assert r.texto = '¡Buena ruta!' and r.mio and r.puedo_borrar, 'el comentario, sin espacios de más';
+  select * into r from public.feed(null, 20);
+  assert r.comentarios = 1, 'el feed cuenta los comentarios';
+  perform set_config('request.jwt.claims', json_build_object('sub', carla)::text, true);
+  -- Todo el bloque es una transacción y now() no avanza: los avisos se vieron «antes» para que cuenten como nuevos.
+  update public.perfiles set avisos_vistos = now() - interval '1 minute' where user_id = carla;
+  -- Y la reacción, de antes que el comentario (si no, tienen la misma hora y el orden es cualquiera).
+  update public.reacciones set creada = now() - interval '30 seconds' where publicacion = pub2;
+  assert (public.avisos() ->> 'nuevos')::int = 2, 'Carla tiene dos avisos nuevos';
+  assert jsonb_array_length(public.avisos() -> 'lista') = 2, 'con su lista';
+  assert public.avisos() -> 'lista' -> 0 ->> 'tipo' = 'comentario', 'lo más reciente primero';
+  perform public.marcar_avisos_vistos();
+  assert (public.avisos() ->> 'nuevos')::int = 0, 'vistos, ya no son nuevos';
+  select * into r from public.comentarios_de(pub2);
+  assert not r.mio and r.puedo_borrar, 'quien publica puede borrar los comentarios de lo suyo';
+  perform set_config('request.jwt.claims', json_build_object('sub', ana)::text, true);
+  begin perform public.reaccionar(pub2); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'no_encontrado', 'sin seguir no se reacciona: ' || coalesce(e, 'sin error');
+  begin perform public.comentar(pub2, 'hola'); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'no_encontrado', 'ni se comenta: ' || coalesce(e, 'sin error');
+  begin perform public.comentarios_de(pub2); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'no_encontrado', 'ni se leen los comentarios: ' || coalesce(e, 'sin error');
+  begin perform public.borrar_comentario(com1); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'no_encontrado', 'ni se borran: ' || coalesce(e, 'sin error');
+  begin perform public.denunciar('publicacion', pub2::text, 'spam', null); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'no_encontrado', 'ni se denuncia lo que no se ve: ' || coalesce(e, 'sin error');
+  perform set_config('request.jwt.claims', json_build_object('sub', beto)::text, true);
+  perform public.denunciar('publicacion', pub2::text, 'inapropiado', null);
+  perform public.denunciar('comentario', com1::text, 'otro', 'prueba');
+  select count(*) into n from public.denuncias where (objetivo = pub2 and contenido like 'carla · %') or (objetivo = com1 and contenido = 'beto · ¡Buena ruta!');
+  assert n = 2, 'las denuncias guardan lo denunciado';
+  begin perform public.denunciar('publicacion', 'no-es-un-id', 'spam', null); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'no_encontrado', 'un id que no es uuid: ' || coalesce(e, 'sin error');
+  perform set_config('request.jwt.claims', json_build_object('sub', carla)::text, true);
+  perform public.borrar_comentario(com1);
+  select count(*) into n from public.comentarios where publicacion = pub2;
+  assert n = 0, 'Carla borra el comentario de Beto en lo suyo';
+  perform public.bloquear('beto');
+  perform set_config('request.jwt.claims', json_build_object('sub', beto)::text, true);
+  select count(*) into n from public.feed(null, 20);
+  assert n = 0, 'bloqueado, deja de ver sus publicaciones';
+  perform public.quitar_reaccion(pub2);
+  select count(*) into n from public.reacciones where publicacion = pub2;
+  assert n = 0, 'quitar la reacción';
+  perform set_config('request.jwt.claims', json_build_object('sub', carla)::text, true);
+  perform public.desbloquear('beto');
 
   -- Denunciar y suspender
   perform set_config('request.jwt.claims', json_build_object('sub', beto)::text, true);
@@ -191,6 +268,8 @@ begin
   assert not has_table_privilege('authenticated', 'public.perfiles', 'select'), 'authenticated no lee perfiles';
   assert not has_table_privilege('anon', 'public.seguimientos', 'select'), 'anon no lee seguimientos';
   assert not has_table_privilege('authenticated', 'public.publicaciones', 'select'), 'authenticated no lee publicaciones';
+  assert not has_table_privilege('authenticated', 'public.comentarios', 'select'), 'authenticated no lee comentarios';
+  assert not has_function_privilege('authenticated', 'public.social_fila(uuid, uuid)', 'execute'), 'ni los ayudantes del feed';
   assert not has_function_privilege('authenticated', 'public.social_ver(uuid, uuid)', 'execute'), 'los ayudantes no se pueden llamar';
   assert not has_function_privilege('anon', 'public.mi_perfil()', 'execute'), 'sin sesión no hay funciones sociales';
   assert has_function_privilege('authenticated', 'public.pedir_seguir(text)', 'execute'), 'con sesión, sí';

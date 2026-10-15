@@ -24,7 +24,7 @@ Detalles que propuso Claude y Víctor puede cambiar:
 - **Código de invitación:** uno por persona; generar otro invalida el anterior.
 - **Límites contra abusos** en las funciones: como mucho 50 solicitudes de seguimiento y 100 comentarios al día por persona.
 
-**Navegación (decidido el 2026-10-15):** un destino «Amigos» en «Más»; el aviso en Inicio cuando haya algo nuevo llega con los avisos (fase 5). **Pendiente de decidir (Víctor):** el nombre definitivo de la reacción.
+**Navegación (decidido el 2026-10-15):** «Social» en la barra (publicaciones, ánimos, comentarios y avisos) y «Amigos» en «Más» (perfil y personas); una banda en Inicio cuando hay solicitudes (lleva a Amigos) o reacciones y comentarios nuevos (lleva a Social). **Pendiente de decidir (Víctor):** el nombre definitivo de la reacción.
 
 ## Datos en Supabase
 
@@ -47,9 +47,9 @@ Todo con `on delete cascade` desde `auth.users` y desde `publicaciones`.
 - Perfil: `crear_perfil`, `editar_perfil`, `mi_perfil`, `nuevo_codigo`.
 - Encontrar y seguir: `buscar_alias`, `buscar_codigo`, `pedir_seguir`, `responder_solicitud`, `dejar_de_seguir`, `quitar_seguidor`, `bloquear`, `desbloquear`, `seguidores`, `seguidos`, `solicitudes`.
 - Publicar: `publicar`, `borrar_publicacion`.
-- Leer: `feed(antes, limite)` y `publicaciones_de(alias, antes, limite)`, paginados por cursor de fecha, con alias, recuentos y si yo he reaccionado.
-- Interactuar: `reaccionar`, `quitar_reaccion`, `comentar`, `borrar_comentario`, `comentarios(publicacion)`.
-- Avisos y moderación: `avisos()` (lo nuevo desde `avisos_vistos`), `marcar_avisos_vistos`, `denunciar`.
+- Leer: `feed(antes, limite)` y `publicaciones_de(alias, antes, limite)`, paginados por cursor de `creada` (lo último publicado primero), con alias, recuentos y si yo he reaccionado.
+- Interactuar: `reaccionar`, `quitar_reaccion`, `comentar`, `borrar_comentario`, `comentarios_de(publicacion)`.
+- Avisos y moderación: `avisos()` (solicitudes, cuántas reacciones y comentarios nuevos desde `avisos_vistos` y los 30 últimos), `marcar_avisos_vistos`, `denunciar` (perfiles, publicaciones y comentarios).
 - Cuenta: `marcar_actividad` (una vez al día como mucho) y `borrar_cuenta`, que ya existe y borra todo en cascada.
 
 **Tareas programadas** (pg_cron, incluido en el plan gratuito; con el proyecto pausado no se ejecutan):
@@ -78,12 +78,12 @@ Todo con `on delete cascade` desde `auth.users` y desde `publicaciones`.
 | 2 | Cuenta sin copia: entrar con email y código basta; la copia se activa aparte | Claude | hecha (fase `sin-copia`; sin probar en el navegador: entrar exige un código real por correo) |
 | 3 | Perfiles y seguir: `0003_social.sql` (perfiles, seguimientos, bloqueos, denuncias y sus funciones) y la UI de perfil, buscar, código, solicitudes, bloquear y denunciar | Claude (Víctor ejecuta el SQL) | hecha; `0003_social.sql` ejecutado el 2026-10-15 y `pruebas/social.sql` pasa (PRUEBAS_OK); probada por Víctor con dos cuentas reales en `appfit-test.localhost` |
 | 4 | Publicar: `0004_publicaciones.sql`, resúmenes puros, vista previa al terminar y en el detalle, «Publicado» y borrar | Claude (Víctor ejecuta el SQL) | hecha; `0004_publicaciones.sql` ejecutado el 2026-10-15 y `pruebas/social.sql` pasa (PRUEBAS_OK) |
-| 5 | Feed, reacciones, comentarios y avisos en la app | Claude | pendiente |
+| 5 | Feed, reacciones, comentarios y avisos en la app: `0005_feed.sql`, pestaña Social en la barra, comentarios, avisos y banda en Inicio | Claude (Víctor ejecuta el SQL) | hecha; `0005_feed.sql` ejecutado el 2026-10-15, `pruebas/social.sql` pasa (PRUEBAS_OK) y Víctor lo probó con dos cuentas reales |
 | 6 | Legal y publicación: condiciones de uso, política de privacidad, ficha de datos de Play, cómo revisa Víctor las denuncias | Víctor + Claude | pendiente |
 | 7 | Prueba con dos cuentas en iPhone y Android | Víctor + Claude | pendiente |
-| 8 | Documentación (ver abajo) | Claude | pendiente |
+| 8 | Documentación (ver abajo) | Claude | hecha (al cerrar cada fase) |
 
-Una rama `feat/social`. Cada fase deja la app funcionando y con los tests en verde. Sin la configuración de Supabase, lo social no aparece, igual que la cuenta.
+Una rama `feat/social`, fusionada en `master` el 2026-10-15 con las fases 1–5 (Social en la barra y Amigos en Más). Las fases 6 y 7 siguen pendientes. Cada fase deja la app funcionando y con los tests en verde. Sin la configuración de Supabase, lo social no aparece, igual que la cuenta.
 
 ## Validación
 
