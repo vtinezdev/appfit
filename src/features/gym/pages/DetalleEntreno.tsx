@@ -20,6 +20,7 @@ import { formatNumber } from '../../../shared/lib/format'
 import PanelEjercicio from '../components/PanelEjercicio'
 import SelectorEjercicios from '../components/SelectorEjercicios'
 import { ListaRecords } from '../components/WorkoutFinished'
+import PublicarEntreno from '../components/PublicarEntreno'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { recordsDeEntreno } from '../lib/records'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
@@ -194,6 +195,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
 
       {!editando && !!records.length && <ListaRecords records={records} nombres={nombres} />}
       {!editando && <Suspense fallback={<LoadingState />}><MapaMuscular key={w.id} summary={trabajo} figura={figura} figuras={false} /></Suspense>}
+      {!editando && <PublicarEntreno workoutId={w.id} titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin}
+        series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)} records={records} nombres={nombres} />}
 
       <section aria-label="Notas del entreno" className="space-y-1">
         {editando ? (

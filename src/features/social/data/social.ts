@@ -1,3 +1,5 @@
+import { NubeError } from '../../cuenta/data/nube'
+import type { Resumen } from '../lib/publicacion'
 import type { Persona } from '../lib/relacion'
 
 /**
@@ -27,6 +29,10 @@ export interface Social {
   bloquear(alias: string): Promise<void>
   desbloquear(alias: string): Promise<void>
   denunciarPerfil(alias: string, motivo: MotivoDenuncia, detalle: string | null): Promise<void>
+  /** `id` lo genera la app: repetirlo (un reintento) no duplica. `fecha`: ms del inicio. */
+  publicar(id: string, fecha: number, resumen: Resumen): Promise<void>
+  /** Si ya no existe, falla con «no encontrado». */
+  borrarPublicacion(id: string): Promise<void>
 }
 
 export interface MiPerfil {
@@ -50,3 +56,12 @@ export const MOTIVOS_DENUNCIA: { valor: MotivoDenuncia; label: string }[] = [
   { valor: 'spam', label: 'Spam' },
   { valor: 'otro', label: 'Otro motivo' },
 ]
+
+/** Error de una función social con su clave del SQL (`no_encontrado`, `limite`…), para decidir sin mirar el texto. */
+export class SocialError extends NubeError {
+  readonly clave: string
+  constructor(mensaje: string, clave: string, tipo: NubeError['tipo'] = 'otro') {
+    super(mensaje, tipo)
+    this.clave = clave
+  }
+}

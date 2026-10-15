@@ -2,7 +2,7 @@ import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
 import { todayISO } from '../../../shared/lib/dates'
 import { useVitrina } from '../hooks/useVitrina'
-import { logrosDeEntreno, NUMERALES } from '../lib/logros'
+import { logrosDeEntreno, nombreConNivel } from '../lib/logros'
 import IconoLogro from './IconoLogro'
 
 /** Al terminar un entreno: las piezas de la Vitrina que se consiguieron con él. Nada si no hay ninguna. */
@@ -14,13 +14,13 @@ export default function NuevosLogros({ workoutId }: { workoutId: number }) {
   return <section aria-label="Nuevo en la Vitrina" className="space-y-2">
     <h2 className="flex items-center gap-2 text-heading text-fg"><Icon name="trophy" size={22} className="text-fg" />Nuevo en la Vitrina</h2>
     <ListGroup aria-label="Logros conseguidos con este entreno">
-      {nuevos.map(({ logro, nivel }) => <li key={`${logro.id}-${nivel ?? 'vez'}`} className="flex items-start gap-3 py-3">
+      {nuevos.map((nuevo) => { const { logro, nivel } = nuevo; return <li key={`${logro.id}-${nivel ?? 'vez'}`} className="flex items-start gap-3 py-3">
         <IconoLogro logro={logro} />
         <div className="min-w-0 flex-1">
-          <p className="break-words text-body font-semibold text-fg">{logro.nombre}{nivel !== null && logro.umbrales && logro.umbrales.length > 1 ? ` ${NUMERALES[nivel - 1]}` : ''}</p>
+          <p className="break-words text-body font-semibold text-fg">{nombreConNivel(nuevo)}</p>
           <p className="break-words text-body-sm text-fg-muted">{nivel !== null && logro.umbrales && logro.textoNivel ? logro.textoNivel(logro.umbrales[nivel - 1]) : logro.descripcion}</p>
         </div>
-      </li>)}
+      </li> })}
     </ListGroup>
   </section>
 }

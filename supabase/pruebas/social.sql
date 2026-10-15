@@ -1,4 +1,4 @@
--- Pruebas de 0003_social.sql. Se pegan enteras en el SQL Editor y se ejecutan: no dejan nada guardado.
+-- Pruebas de 0003_social.sql y 0004_publicaciones.sql. Se pegan enteras en el SQL Editor y se ejecutan: no dejan nada guardado.
 --
 -- Todo va en un único bloque que, al final, lanza el error «PRUEBAS_OK»: el error deshace todo lo que hizo (usuarios
 -- de prueba incluidos). Si sale «PRUEBAS_OK», han pasado todas; si sale otro mensaje, es la prueba que falló.
@@ -9,6 +9,7 @@ declare
   ana uuid := gen_random_uuid();
   beto uuid := gen_random_uuid();
   carla uuid := gen_random_uuid();
+  pub uuid := gen_random_uuid();
   e text;
   n integer;
   v text;
@@ -131,6 +132,33 @@ begin
   perform public.editar_perfil('ana', null);
   assert public.mi_perfil() ->> 'alias' = 'ana' and public.mi_perfil() ->> 'nombre' is null, 'editar alias y quitar el nombre';
 
+  -- Publicar
+  perform set_config('request.jwt.claims', json_build_object('sub', carla)::text, true);
+  perform public.publicar(pub, 'entreno', now() - interval '1 hour', '{"v": 1, "tipo": "entreno"}');
+  perform public.publicar(pub, 'entreno', now() - interval '1 hour', '{"v": 1, "tipo": "entreno"}');
+  select count(*) into n from public.publicaciones where autor = carla;
+  assert n = 1, 'publicar dos veces el mismo id no duplica';
+  begin perform public.publicar(gen_random_uuid(), 'otro', now(), '{}'); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'publicacion_no_valida', 'tipo no válido: ' || coalesce(e, 'sin error');
+  begin perform public.publicar(gen_random_uuid(), 'entreno', now(), '[1, 2]'); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'publicacion_no_valida', 'el resumen es un objeto: ' || coalesce(e, 'sin error');
+  begin perform public.publicar(gen_random_uuid(), 'entreno', now(), jsonb_build_object('t', repeat('x', 9000))); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'publicacion_no_valida', 'el resumen es pequeño: ' || coalesce(e, 'sin error');
+  begin perform public.publicar(gen_random_uuid(), 'actividad', now() + interval '3 days', '{}'); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'publicacion_no_valida', 'no se publica algo del futuro: ' || coalesce(e, 'sin error');
+  perform set_config('request.jwt.claims', json_build_object('sub', beto)::text, true);
+  begin perform public.publicar(pub, 'entreno', now(), '{}'); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'publicacion_no_valida', 'el id de otra persona no se reutiliza: ' || coalesce(e, 'sin error');
+  begin perform public.borrar_publicacion(pub); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'no_encontrado', 'no se borra lo de otra persona: ' || coalesce(e, 'sin error');
+  perform set_config('request.jwt.claims', json_build_object('sub', carla)::text, true);
+  perform public.borrar_publicacion(pub);
+  select count(*) into n from public.publicaciones where id = pub;
+  assert n = 0, 'borrar mi publicación';
+  begin perform public.borrar_publicacion(pub); e := null; exception when others then e := sqlerrm; end;
+  assert e = 'no_encontrado', 'borrarla otra vez: ' || coalesce(e, 'sin error');
+  perform public.publicar(gen_random_uuid(), 'actividad', now(), '{"v": 1, "tipo": "actividad"}');
+
   -- Denunciar y suspender
   perform set_config('request.jwt.claims', json_build_object('sub', beto)::text, true);
   begin perform public.denunciar('perfil', 'ana', 'insulto', null); e := null; exception when others then e := sqlerrm; end;
@@ -153,6 +181,8 @@ begin
   assert public.mi_perfil() is null, 'perfil borrado';
   select count(*) into n from public.seguimientos where seguidor = carla;
   assert n = 0, 'borrar el perfil borra sus seguimientos';
+  select count(*) into n from public.publicaciones where autor = carla;
+  assert n = 0, 'y sus publicaciones';
   delete from auth.users where id = beto;
   select count(*) into n from public.perfiles where user_id = beto;
   assert n = 0, 'borrar la cuenta borra el perfil';
@@ -160,6 +190,7 @@ begin
   -- Sin acceso directo a las tablas desde la app
   assert not has_table_privilege('authenticated', 'public.perfiles', 'select'), 'authenticated no lee perfiles';
   assert not has_table_privilege('anon', 'public.seguimientos', 'select'), 'anon no lee seguimientos';
+  assert not has_table_privilege('authenticated', 'public.publicaciones', 'select'), 'authenticated no lee publicaciones';
   assert not has_function_privilege('authenticated', 'public.social_ver(uuid, uuid)', 'execute'), 'los ayudantes no se pueden llamar';
   assert not has_function_privilege('anon', 'public.mi_perfil()', 'execute'), 'sin sesión no hay funciones sociales';
   assert has_function_privilege('authenticated', 'public.pedir_seguir(text)', 'execute'), 'con sesión, sí';

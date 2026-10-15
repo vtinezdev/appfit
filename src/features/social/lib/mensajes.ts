@@ -1,6 +1,6 @@
 /**
  * Los errores de las funciones sociales llegan como claves cortas (`raise exception 'alias_ocupado'` en
- * `0003_social.sql`); aquí está lo que se le dice a la persona.
+ * `supabase/migrations/`); aquí está lo que se le dice a la persona.
  */
 
 export const MENSAJES_SOCIAL: Record<string, string> = {
@@ -15,6 +15,7 @@ export const MENSAJES_SOCIAL: Record<string, string> = {
   nombre_largo: 'El nombre puede tener como mucho 40 caracteres.',
   no_encontrado: 'No hemos encontrado a esa persona.',
   limite: 'Has llegado al límite de hoy. Vuelve a intentarlo mañana.',
+  publicacion_no_valida: 'No se ha podido publicar. Inténtalo de nuevo.',
   denuncia_no_valida: 'No se ha podido enviar la denuncia. Revisa el motivo e inténtalo de nuevo.',
 }
 

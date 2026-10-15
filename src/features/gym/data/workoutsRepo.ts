@@ -121,6 +121,11 @@ export async function guardarNotas(id: number, notas: string): Promise<void> {
   await db.workouts.update(id, { notas: notas.trim() ? notas : undefined })
 }
 
+/** Anota (o quita, con `undefined`) el id de la publicación del entreno en Amigos. */
+export async function marcarPublicacion(id: number, publicacion: string | undefined): Promise<void> {
+  await db.workouts.update(id, { publicacion })
+}
+
 export async function guardarOrden(id: number, orden: number[]): Promise<void> {
   await db.workouts.update(id, { ordenEjercicios: orden })
 }

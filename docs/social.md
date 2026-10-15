@@ -6,7 +6,7 @@ Plan acordado con Víctor el 2026-10-15. Decisión y alternativas: [ADR 040](dec
 
 | Tema | Decisión |
 |---|---|
-| Qué se publica | Entrenos de gimnasio, actividades sin recorrido, logros y ligas. Nunca nutrición, peso, medidas ni perfil. |
+| Qué se publica | Entrenos de gimnasio, actividades sin recorrido, logros y ligas (los récords, cambios de liga y piezas nuevas de la Vitrina van dentro de la publicación del entreno). Nunca nutrición, peso, medidas ni perfil. |
 | Quién lo ve | Solo seguidores aprobados |
 | Interacción | Una reacción («Ánimo», nombre provisional) y comentarios |
 | Cuándo se publica | Al terminar, con vista previa y confirmación. Si no se confirma, no sale nada. |
@@ -36,7 +36,7 @@ Migraciones nuevas en `supabase/migrations/`, que Víctor ejecuta a mano en el S
 | `perfiles` | `user_id`, `alias` (único por `lower(alias)`), `nombre` (≤ 40), `codigo` de invitación (único), `acepto` (fecha de aceptación de condiciones y edad), `avisos_vistos` (fecha), `suspendido` |
 | `seguimientos` | `seguidor`, `seguido`, `estado` (`pendiente` · `aceptado`), `creado` |
 | `bloqueos` | `quien`, `bloqueado` |
-| `publicaciones` | `id` (uuid), `autor`, `tipo` (`entreno` · `actividad` · `logro`), `fecha` del registro, `creada`, `resumen` (jsonb, ≤ 4 KB), `version` del formato |
+| `publicaciones` | `id` (uuid que genera la app), `autor`, `tipo` (`entreno` · `actividad`), `fecha` del registro, `creada`, `resumen` (jsonb, objeto de ≤ 8 KB, con su versión `v`) |
 | `reacciones` | `publicacion`, `user_id`, `creada` |
 | `comentarios` | `id`, `publicacion`, `autor`, `texto` (1–500), `creado` |
 | `denuncias` | `id`, `denunciante`, `tipo` (`perfil` · `publicacion` · `comentario`), `objetivo`, `motivo`, `creada`, `revisada` |
@@ -56,13 +56,13 @@ Todo con `on delete cascade` desde `auth.users` y desde `publicaciones`.
 - Cada día: `datos_anterior = null` en las copias con más de 7 días.
 - Cada semana: borrar los usuarios sin `actividad` en 12 meses (la cascada se lleva copia, perfil y todo lo social).
 
-**Índices:** `publicaciones (autor, creada desc)`, `seguimientos (seguido, estado)`, `comentarios (publicacion, creado)`, `reacciones (publicacion)`.
+**Índices:** `publicaciones (autor, fecha desc)`, `seguimientos (seguido, estado)`, `comentarios (publicacion, creado)`, `reacciones (publicacion)`.
 
 ## Código
 
 - **`src/features/cuenta/`:** la sesión se separa de la copia (fase 2). Con sesión y sin copia en este dispositivo, la cuenta está «en uso» y lo social funciona; la copia cifrada se activa o se abre desde Ajustes › Cuenta cuando la persona quiera.
 - **`src/features/social/` nueva:**
-  - `lib/`, puro y con tests: validar alias y comentarios, crear los resúmenes publicables de un entreno, una actividad o un logro, textos y fechas relativas.
+  - `lib/`, puro y con tests: validar alias y comentarios, crear y leer los resúmenes publicables de un entreno o una actividad, textos y fechas relativas.
   - `data/social.ts`: interfaz `Social`. `data/socialSupabase.ts`: implementación con el mismo cliente de supabase-js (diferido) que la cuenta. `src/test/fixtures/socialFalso.ts`: la versión en memoria para los tests.
   - `components/` y `pages/`: crear perfil (alias, nombre, aceptación de 16+ y condiciones), buscar y código, solicitudes, seguidores y seguidos, feed, publicación con reacciones y comentarios, perfil de otra persona, bloquear y denunciar, «Publicar» con vista previa.
 - **Al terminar** (`gym/components/WorkoutFinished` y el final de una actividad): «Publicar» con la vista previa del resumen.
@@ -77,7 +77,7 @@ Todo con `on delete cascade` desde `auth.users` y desde `publicaciones`.
 | 1 | Espacio: `0002_espacio.sql` (`actividad`, `marcar_actividad`, tareas de limpieza) y la app marca la actividad al abrirse | Claude (Víctor ejecuta el SQL) | hecha; SQL ejecutado el 2026-10-15 |
 | 2 | Cuenta sin copia: entrar con email y código basta; la copia se activa aparte | Claude | hecha (fase `sin-copia`; sin probar en el navegador: entrar exige un código real por correo) |
 | 3 | Perfiles y seguir: `0003_social.sql` (perfiles, seguimientos, bloqueos, denuncias y sus funciones) y la UI de perfil, buscar, código, solicitudes, bloquear y denunciar | Claude (Víctor ejecuta el SQL) | hecha; `0003_social.sql` ejecutado el 2026-10-15 y `pruebas/social.sql` pasa (PRUEBAS_OK); probada por Víctor con dos cuentas reales en `appfit-test.localhost` |
-| 4 | Publicar: resúmenes puros, vista previa al terminar, «Publicado» en el detalle y borrar | Claude | pendiente |
+| 4 | Publicar: `0004_publicaciones.sql`, resúmenes puros, vista previa al terminar y en el detalle, «Publicado» y borrar | Claude (Víctor ejecuta el SQL) | hecha; `0004_publicaciones.sql` ejecutado el 2026-10-15 y `pruebas/social.sql` pasa (PRUEBAS_OK) |
 | 5 | Feed, reacciones, comentarios y avisos en la app | Claude | pendiente |
 | 6 | Legal y publicación: condiciones de uso, política de privacidad, ficha de datos de Play, cómo revisa Víctor las denuncias | Víctor + Claude | pendiente |
 | 7 | Prueba con dos cuentas en iPhone y Android | Víctor + Claude | pendiente |

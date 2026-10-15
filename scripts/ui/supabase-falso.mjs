@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC de 0003_social.sql y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC de 0003_social.sql, 0004_publicaciones.sql y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -22,6 +22,8 @@ const seg = new Map([
   ['jon|yo', 'aceptado'],
 ])
 const bloqueos = new Set()
+// id -> { autor, tipo, fecha, resumen }
+const publicaciones = new Map()
 
 const err = (message) => ({ status: 400, body: { code: 'P0001', message, details: null, hint: null } })
 const idDe = (alias) => [...perfiles].find(([, p]) => p.alias === String(alias).trim().toLowerCase())?.[0]
@@ -109,6 +111,20 @@ const rpc = {
   },
   desbloquear: ({ p_alias }) => { exigir(); bloqueos.delete(`${YO}|${otro(p_alias)}`); return null },
   denunciar: () => { exigir(); return null },
+  publicar: ({ p_id, p_tipo, p_fecha, p_resumen }) => {
+    exigir()
+    const previa = publicaciones.get(p_id)
+    if (previa) { if (previa.autor === YO) return null; throw err('publicacion_no_valida') }
+    if (!['entreno', 'actividad'].includes(p_tipo) || JSON.stringify(p_resumen).length > 8192) throw err('publicacion_no_valida')
+    publicaciones.set(p_id, { autor: YO, tipo: p_tipo, fecha: p_fecha, resumen: p_resumen })
+    console.log('publicado', JSON.stringify(p_resumen))
+    return null
+  },
+  borrar_publicacion: ({ p_id }) => {
+    if (publicaciones.get(p_id)?.autor !== YO) throw err('no_encontrado')
+    publicaciones.delete(p_id)
+    return null
+  },
 }
 
 http.createServer((req, res) => {

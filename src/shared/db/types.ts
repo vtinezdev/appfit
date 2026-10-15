@@ -361,6 +361,8 @@ export interface Actividad {
   enCurso?: true
   /** En una grabación en curso: ms desde el que corre el tramo actual (ausente si está en pausa). */
   reanudadaEn?: number
+  /** Id (uuid) de su publicación en Amigos, si se publicó (ADR 040). La publicación vive en el servidor. */
+  publicacion?: string
   createdAt: number
 }
 
@@ -451,6 +453,8 @@ export interface Workout {
   ejerciciosOmitidos?: number[]
   /** Clasificación semántica al finalizar. Las series siguen en sets; nunca guardar colores/niveles. */
   muscleSnapshot?: WorkoutMuscleSnapshot
+  /** Id (uuid) de su publicación en Amigos, si se publicó (ADR 040). La publicación vive en el servidor. */
+  publicacion?: string
 }
 
 export interface WorkoutExerciseMuscles {

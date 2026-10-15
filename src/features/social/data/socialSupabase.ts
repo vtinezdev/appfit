@@ -3,7 +3,7 @@ import { clienteSupabase } from '../../cuenta/data/clienteSupabase'
 import { traducir } from '../../cuenta/data/nubeSupabase'
 import { mensajeSocial } from '../lib/mensajes'
 import type { EstadoSeguimiento, Persona } from '../lib/relacion'
-import type { MiPerfil, Social } from './social'
+import { SocialError, type MiPerfil, type Social } from './social'
 
 /** Se carga con `import()` desde `social/servicio.ts`: comparte cliente (y sesión) con la cuenta. */
 
@@ -20,7 +20,7 @@ const persona = (f: FilaPersona): Persona => ({ alias: f.alias, nombre: f.nombre
 export function traducirSocial(error: unknown): NubeError {
   const e = error as { code?: string; message?: string } | null
   const mensaje = mensajeSocial(e?.message)
-  if (mensaje) return new NubeError(mensaje, e?.message === 'sin_sesion' ? 'sesion' : 'otro')
+  if (mensaje) return new SocialError(mensaje, e!.message!, e?.message === 'sin_sesion' ? 'sesion' : 'otro')
   // La función no existe: el SQL de la parte social aún no está en el servidor.
   if (e?.code === 'PGRST202') return new NubeError('Amigos aún no está disponible. Inténtalo más tarde.')
   return traducir(error)
@@ -54,6 +54,8 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     quitarSeguidor: (alias) => rpc('quitar_seguidor', { p_alias: alias }),
     bloquear: (alias) => rpc('bloquear', { p_alias: alias }),
     desbloquear: (alias) => rpc('desbloquear', { p_alias: alias }),
+    publicar: (id, fecha, resumen) => rpc('publicar', { p_id: id, p_tipo: resumen.tipo, p_fecha: new Date(fecha).toISOString(), p_resumen: resumen }),
+    borrarPublicacion: (id) => rpc('borrar_publicacion', { p_id: id }),
     denunciarPerfil: (alias, motivo, detalle) => rpc('denunciar', { p_tipo: 'perfil', p_objetivo: alias, p_motivo: motivo, p_detalle: detalle }),
   }
 }

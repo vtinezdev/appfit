@@ -6,6 +6,7 @@ describe('traducirSocial', () => {
     const error = traducirSocial({ code: 'P0001', message: 'alias_ocupado' })
     expect(error.message).toMatch(/ya lo usa otra persona/)
     expect(error.tipo).toBe('otro')
+    expect(error).toMatchObject({ clave: 'alias_ocupado' })
   })
 
   it('sin sesión pide volver a entrar', () => {

@@ -541,6 +541,11 @@ export interface NuevoLogro {
 }
 
 /** Lo que se consiguió con un entreno concreto (para el fin de sesión). */
+/** «Constancia II»: el nombre con el numeral del nivel si el logro tiene varios. */
+export function nombreConNivel({ logro, nivel }: NuevoLogro): string {
+  return nivel !== null && logro.umbrales && logro.umbrales.length > 1 ? `${logro.nombre} ${NUMERALES[nivel - 1]}` : logro.nombre
+}
+
 export function logrosDeEntreno(logros: readonly Logro[], workoutId: number): NuevoLogro[] {
   return logros.flatMap((l) => [
     ...l.niveles.flatMap((n, i) => (n?.workoutId === workoutId ? [{ logro: l, nivel: i + 1 }] : [])),

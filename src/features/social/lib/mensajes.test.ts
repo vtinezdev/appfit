@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { MENSAJES_SOCIAL, mensajeSocial } from './mensajes'
 
@@ -10,7 +10,7 @@ describe('mensajes del servidor', () => {
   })
 
   it('cada error que lanza el SQL tiene su mensaje', () => {
-    const sql = readFileSync('supabase/migrations/0003_social.sql', 'utf8')
+    const sql = readdirSync('supabase/migrations').map((f) => readFileSync(`supabase/migrations/${f}`, 'utf8')).join('\n')
     const claves = new Set([...sql.matchAll(/raise exception '([a-z_]+)'/g)].map((m) => m[1]))
     // Solo saltan si la app envía algo que nunca envía: basta el mensaje genérico.
     for (const interna of ['lista_no_valida', 'tipo_no_valido']) claves.delete(interna)

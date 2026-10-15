@@ -1,6 +1,6 @@
 # Amigos (parte social)
 
-`src/features/social/`. Perfil social, seguir con aprobación, bloquear y denunciar. Decisión: [ADR 040](../decisiones/040-parte-social.md); plan y fases pendientes (publicar, feed, reacciones y comentarios): [`../social.md`](../social.md). Necesita cuenta (no la copia cifrada) y conexión; sin el proyecto de Supabase configurado, el destino no aparece.
+`src/features/social/`. Perfil social, seguir con aprobación, bloquear, denunciar y publicar entrenos y actividades. Decisión: [ADR 040](../decisiones/040-parte-social.md); plan y fases pendientes (publicar, feed, reacciones y comentarios): [`../social.md`](../social.md). Necesita cuenta (no la copia cifrada) y conexión; sin el proyecto de Supabase configurado, el destino no aparece.
 
 ## Dónde está cada cosa
 
@@ -10,10 +10,11 @@
 | Relación | `lib/relacion.ts`: `Persona`, `nombreVisible`, `textoRelacion`, `accionSeguir`, `TEXTO_ACCION` | — (puro) |
 | Errores del servidor | `lib/mensajes.ts`: `MENSAJES_SOCIAL`, `mensajeSocial` (un test comprueba que cada `raise exception` del SQL tiene mensaje) | — (puro) |
 | Servidor | `data/social.ts` (interfaz `Social`, `MiPerfil`, `MOTIVOS_DENUNCIA`) y `data/socialSupabase.ts` (RPC, `traducirSocial`) | Supabase |
+| Publicar | `lib/publicacion.ts`: `resumenEntreno`, `resumenActividad`, `leerResumen` (valida lo que llega del servidor), `textoEjercicios`, límites `MAX_TEXTO`/`MAX_EJERCICIOS`/`MAX_LINEAS`; `components/Publicar` (`SiPuedePublicar` y el bloque «Compartir») y `TarjetaPublicacion`. Los componen `gym/components/PublicarEntreno` y `actividades/components/PublicarActividad` | `Workout.publicacion` y `Actividad.publicacion` (`workoutsRepo`/`actividadesRepo.marcarPublicacion`); Supabase |
 | Carga | `servicio.ts`: `socialDisponible` y `cargarSocial` (import diferido; comparte cliente y sesión con la cuenta a través de `cuenta/data/clienteSupabase`) | — |
 | Lecturas | `hooks/useConsulta`: lee del servidor y vuelve a leer cuando cambia una clave (un contador que sube tras cada cambio) | — |
 | Pantalla | `AmigosTab` (sin sesión, sin perfil, suspendido o con perfil), `components/CrearPerfil`, `Solicitudes`, `ListaPersonas`, `Anadir`, `PersonaSheet`, `PerfilSheet`, `NombrePersona` | — |
-| SQL | `supabase/migrations/0003_social.sql` (tablas `perfiles`, `seguimientos`, `bloqueos`, `denuncias` y sus funciones; ejecutado el 2026-10-15); pruebas en `supabase/pruebas/social.sql` | Postgres |
+| SQL | `supabase/migrations/0003_social.sql` (tablas `perfiles`, `seguimientos`, `bloqueos`, `denuncias` y sus funciones; ejecutado el 2026-10-15) y `0004_publicaciones.sql` (`publicaciones`, `publicar`, `borrar_publicacion`; ejecutado el 2026-10-15); pruebas en `supabase/pruebas/social.sql` | Postgres |
 
 ## Reglas
 
@@ -25,6 +26,8 @@
 - **Seguir**: la solicitud queda pendiente hasta que la otra persona acepta; se puede cancelar. Como mucho 50 solicitudes al día. Rechazar la borra; «Quitar de tus seguidores» también se puede hacer después.
 - **Bloquear** quita el seguimiento en los dos sentidos y deja de mostraros el uno al otro; no se avisa. Se deshace en «Tu perfil › Personas bloqueadas».
 - **Denunciar** un perfil: motivo (acoso, inapropiado, suplantación, spam, otro) y detalle opcional (500). Se guarda el alias y el nombre de ese momento. Como mucho 20 al día.
+- **Publicar** (ADR 040): solo a propósito, con la vista previa delante. El resumen de un entreno lleva título (rutina o «Entreno libre»), duración, series, volumen, ejercicios con series efectivas (en el orden de la sesión, como mucho 15), récords, cambios de liga destacados (empezar, subir, llegar a Élite) y piezas nuevas de la Vitrina (como mucho 6 de cada); el de una actividad, tipo, título, duración, distancia y desnivel, **sin el recorrido**. Textos de como mucho 60 caracteres. El id lo genera la app y se reutiliza en el reintento (el servidor no duplica); al publicar se anota en el registro local (`publicacion`, campo opcional que viaja en el backup y la copia). Como mucho 30 al día; el servidor acepta resúmenes de hasta 8 KB y quien lee los valida con `leerResumen` (versión desconocida o forma rara: no se pinta).
+- **Borrar publicación** quita la marca local; si en el servidor ya no estaba (perfil borrado, otra cuenta), también.
 - **Moderación** (Víctor, en el SQL Editor): `select * from public.denuncias where revisada is null`; suspender con `update public.perfiles set suspendido = true where alias = '…'` (no aparece ni puede hacer nada, pero ve que está suspendido y puede borrar su perfil); marcar revisada con `update public.denuncias set revisada = now() where id = …`.
 - **Errores**: claves cortas del SQL (`alias_ocupado`, `no_encontrado`, `limite`…) traducidas por `mensajeSocial`; red y sesión como la cuenta. Si el SQL aún no está en el servidor (PGRST202), «Amigos aún no está disponible». Fuera de las hojas van en un Toast o en línea; dentro, con `ErrorState`.
 
@@ -39,6 +42,7 @@
 - **Hoja de una persona** (título: nombre o alias): alias y relación, responder su solicitud, Pedir seguir / Cancelar solicitud / Dejar de seguir, Quitar de tus seguidores, Denunciar (motivo y detalle; al terminar ofrece bloquear) y Bloquear (`ConfirmacionDestructiva`; cierra la hoja y avisa con un Toast).
 - **Tu perfil** (hoja): alias y nombre con Guardar, código y «Crear código nuevo», «Personas bloqueadas» (Disclosure con Desbloquear) y «Borrar el perfil» (`ConfirmacionDestructiva`).
 - **Perfil suspendido**: estado vacío con «Tu perfil» para poder borrarlo.
+- **Compartir** (fin de un entreno, detalle de un entreno del historial y detalle de una actividad), solo con sesión y perfil sin suspender (si no, o sin conexión, no aparece): título «Compartir», la tarjeta tal como la verán (título, fecha, cifras, ejercicios, récords, ligas y Vitrina), qué no se comparte y «Publicar en Amigos». Publicado: «Publicado en Amigos» con «Borrar publicación».
 
 ## Pruebas
 
