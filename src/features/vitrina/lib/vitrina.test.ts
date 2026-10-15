@@ -4,7 +4,7 @@ import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { calcularExperiencia } from '../../experiencia/lib/experiencia'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import { calcularAtlas } from './atlas'
-import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, recuentoPiezas, siguienteUmbral, UMBRALES } from './logros'
+import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, nombreConNivel, recuentoPiezas, siguienteUmbral, UMBRALES } from './logros'
 import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { calcularCumbres, empezar } from '../../cumbres/lib/cumbres'
 import { calcularCaminos } from '../../caminos/lib/caminos'
@@ -84,6 +84,9 @@ describe('logros', () => {
   it('semanas cumplidas y logros del entreno con el que se consiguieron', () => {
     expect(de('semanas').progreso).toBe(3) // tres semanas con tres entrenos (sin nutrición)
     expect(logrosDeEntreno(logros, es[9].workout.id).map((n) => [n.logro.id, n.nivel])).toEqual([['entrenos', 1]])
+    // Con varios niveles, el nombre lleva su numeral (lo que se publica en Amigos).
+    const [nuevo] = logrosDeEntreno(logros, es[9].workout.id)
+    expect(nombreConNivel(nuevo)).toBe(`${nuevo.logro.nombre} I`)
   })
 
   it('ciclos completados: la primera llegada a Élite de cada ejercicio, con su entreno', () => {
@@ -115,6 +118,7 @@ describe('logros', () => {
     expect(conseguido(x('techo-mundo'))).toBe(false)
     expect(x('paso-firme').veces).toHaveLength(3)
     expect(logrosDeEntreno(l, 999).map((n) => n.logro.id)).toEqual(['paso-firme'])
+    expect(logrosDeEntreno(l, 999).map(nombreConNivel)).toEqual([x('paso-firme').nombre])
     expect(UMBRALES.cumbres[UMBRALES.cumbres.length - 1]).toBe(MONTANAS.length)
     expect(x('repetir').progreso).toBe(1)
     expect(x('alpes').progreso).toBe(0)

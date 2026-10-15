@@ -29,7 +29,7 @@ describe('cuentaEnUso', () => {
     expect(cuentaEnUso({ fase: 'conflicto' })).toBe(true)
     expect(cuentaEnUso({ fase: 'sin-sesion', error: 'Tu sesión ha caducado.' })).toBe(true)
     expect(cuentaEnUso({ fase: 'sin-sesion' })).toBe(false)
-    expect(cuentaEnUso({ fase: 'sin-vincular' })).toBe(false)
+    expect(cuentaEnUso({ fase: 'sin-copia' })).toBe(false)
     expect(cuentaEnUso({ fase: 'cargando' })).toBe(false)
   })
 })

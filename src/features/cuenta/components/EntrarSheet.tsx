@@ -1,5 +1,6 @@
-import { cloneElement, useCallback, useEffect, useId, useState, type FormEvent, type ReactElement } from 'react'
+import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import Button from '../../../shared/components/Button'
+import Campo from '../../../shared/components/Campo'
 import Icon from '../../../shared/components/Icon'
 import { Input } from '../../../shared/components/Input'
 import Sheet from '../../../shared/components/Sheet'
@@ -12,6 +13,7 @@ import ElegirCopia from './ElegirCopia'
 type Paso =
   | { paso: 'email' }
   | { paso: 'codigo'; email: string }
+  | { paso: 'ofrecer'; vinculo: Vinculo }
   | { paso: 'crear' }
   | { paso: 'contrasena'; vinculo: Vinculo }
   | { paso: 'recuperacion'; vinculo: Vinculo }
@@ -22,7 +24,7 @@ type Paso =
 
 interface Props {
   open: boolean
-  /** Con sesión pero sin terminar de entrar (se cerró la app a mitad): empieza mirando la nube, sin pedir el código. */
+  /** Con sesión y sin copia en este móvil: activa o abre la copia, sin pedir el código. */
   reanudar?: boolean
   onClose: () => void
   /** Al terminar, con el mensaje para Ajustes. */
@@ -30,27 +32,16 @@ interface Props {
 }
 
 const TITULOS: Record<Paso['paso'], string> = {
-  email: 'Tu cuenta', codigo: 'Revisa tu correo', crear: 'Protege tu copia', contrasena: 'Abre tu copia', recuperacion: 'Clave de recuperación',
+  email: 'Tu cuenta', codigo: 'Revisa tu correo', ofrecer: 'Has entrado', crear: 'Protege tu copia', contrasena: 'Abre tu copia', recuperacion: 'Clave de recuperación',
   'nueva-contrasena': 'Contraseña nueva', cero: 'Empezar de cero', elegir: '¿Qué datos se quedan?', clave: 'Tu clave de recuperación',
 }
 
 const mensajeDe = (e: unknown) => (e instanceof Error ? e.message : 'No se ha podido completar. Inténtalo de nuevo.')
 
-/** Etiqueta visible con su campo; la ayuda queda fuera de la etiqueta y se enlaza como descripción. */
-function Campo({ etiqueta, children, ayuda }: { etiqueta: string; children: ReactElement<{ 'aria-describedby'?: string }>; ayuda?: string }) {
-  const id = useId()
-  return (
-    <div className="space-y-1">
-      <label className="block space-y-1">
-        <span className="block text-body-sm font-medium text-fg">{etiqueta}</span>
-        {ayuda ? cloneElement(children, { 'aria-describedby': id }) : children}
-      </label>
-      {ayuda && <p id={id} className="text-caption text-fg-muted">{ayuda}</p>}
-    </div>
-  )
-}
-
-/** Entrar o crear la cuenta: email → código → contraseña (o crearla) → elegir copia si hace falta. */
+/**
+ * Entrar o crear la cuenta: email → código → ofrecer la copia cifrada (opcional) → contraseña (o crearla) → elegir
+ * copia si hace falta. Con `reanudar` empieza en la copia.
+ */
 export default function EntrarSheet({ open, reanudar = false, onClose, onTerminado }: Props) {
   const [estado, setEstado] = useState<Paso>({ paso: 'email' })
   const [email, setEmail] = useState('')
@@ -69,24 +60,33 @@ export default function EntrarSheet({ open, reanudar = false, onClose, onTermina
     setEstado(siguiente)
   }
 
-  /** Tras el código: si la cuenta ya estaba en este móvil, se termina; si no, el paso que toque. */
+  /** Tras el código: si la cuenta ya estaba en este móvil, se termina; si no, se ofrece la copia (es opcional). */
   const seguirTrasCodigo = useCallback((resultado: { vinculo: Vinculo } | null) => {
     if (!resultado) {
       onTerminado('Has vuelto a entrar. La copia sigue guardándose sola.')
       return
     }
-    ir(resultado.vinculo === 'crear' ? { paso: 'crear' } : { paso: 'contrasena', vinculo: resultado.vinculo })
+    ir({ paso: 'ofrecer', vinculo: resultado.vinculo })
   }, [onTerminado])
+
+  /** Activar la copia (cuenta sin copia) o abrirla con la contraseña (la cuenta ya tiene una). */
+  const irACopia = useCallback((vinculo: Vinculo) => {
+    ir(vinculo === 'crear' ? { paso: 'crear' } : { paso: 'contrasena', vinculo })
+  }, [])
 
   useEffect(() => {
     if (!reanudar) return
     let vivo = true
     setOcupado(true)
     copiaNube.prepararVinculo()
-      .then((r) => { if (vivo) seguirTrasCodigo(r) }, (e: unknown) => { if (vivo) setError(mensajeDe(e)) })
+      .then((r) => {
+        if (!vivo) return
+        if (r) irACopia(r.vinculo)
+        else onTerminado('La copia sigue guardándose sola.')
+      }, (e: unknown) => { if (vivo) setError(mensajeDe(e)) })
       .finally(() => { if (vivo) setOcupado(false) })
     return () => { vivo = false }
-  }, [reanudar, seguirTrasCodigo])
+  }, [reanudar, irACopia, onTerminado])
 
   async function ejecutar(fn: () => Promise<void>) {
     if (ocupado) return
@@ -169,7 +169,7 @@ export default function EntrarSheet({ open, reanudar = false, onClose, onTermina
       case 'email':
         return (
           <form className="space-y-stack" onSubmit={enviarCodigo} noValidate>
-            <p className="text-body-sm text-fg-muted">Tus registros se guardarán solos en tu cuenta, cifrados, y podrás recuperarlos en otro móvil. Te enviaremos un código de 6 cifras; si aún no tienes cuenta, se crea.</p>
+            <p className="text-body-sm text-fg-muted">Con una cuenta puedes guardar tus registros en la nube, cifrados, y recuperarlos en otro móvil. Te enviaremos un código de 6 cifras; si aún no tienes cuenta, se crea.</p>
             <Campo etiqueta="Email">
               <Input type="email" inputMode="email" autoComplete="email" autoCapitalize="none" spellCheck={false} enterKeyHint="send" value={email} onChange={(e) => setEmail(e.target.value)} />
             </Campo>
@@ -190,6 +190,18 @@ export default function EntrarSheet({ open, reanudar = false, onClose, onTermina
               <Button variant="ghost" size="sm" disabled={ocupado} onClick={() => ir({ paso: 'email' })}>Cambiar el email</Button>
             </div>
           </form>
+        )
+      case 'ofrecer':
+        return (
+          <div className="space-y-stack">
+            <p className="text-body-sm text-fg-muted">
+              {estado.vinculo === 'crear'
+                ? 'Puedes guardar tus registros solos en la nube, cifrados con una contraseña que solo conoces tú, para recuperarlos en otro móvil.'
+                : 'Tu cuenta tiene una copia cifrada de tus registros. Ábrela con tu contraseña para traerla a este móvil y que se siga guardando.'}
+            </p>
+            <Button variant="primary" block onClick={() => irACopia(estado.vinculo)}>{estado.vinculo === 'crear' ? 'Activar la copia' : 'Abrir la copia'}</Button>
+            <Button variant="secondary" block onClick={() => onTerminado('Has entrado. La copia en la nube está desactivada en este móvil: puedes activarla cuando quieras.')}>Ahora no</Button>
+          </div>
         )
       case 'crear':
         return (

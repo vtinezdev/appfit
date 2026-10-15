@@ -81,6 +81,11 @@ export function actualizar(id: number, cambios: CambiosActividad, ahora = Date.n
   })
 }
 
+/** Anota (o quita, con `undefined`) el id de la publicación de la actividad en Amigos. */
+export async function marcarPublicacion(id: number, publicacion: string | undefined): Promise<void> {
+  await db.actividades.update(id, { publicacion })
+}
+
 /** Borra una actividad y la devuelve, para «Deshacer». */
 export function borrar(id: number): Promise<Actividad | undefined> {
   return db.transaction('rw', db.actividades, async () => {

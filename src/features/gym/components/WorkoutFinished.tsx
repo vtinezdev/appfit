@@ -8,6 +8,7 @@ import PosterSesion from './PosterSesion'
 import CumbreSesion from '../../cumbres/components/CumbreSesion'
 import NuevosLogros from '../../vitrina/components/NuevosLogros'
 import AscensosLiga from '../../liga/components/AscensosLiga'
+import PublicarEntreno from './PublicarEntreno'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import type { ResumenMuscular } from '../lib/cargaMuscular'
 import { describirRecord, type RecordEjercicio } from '../lib/records'
@@ -40,6 +41,8 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
     {summary.workoutId !== undefined && <AscensosLiga workoutId={summary.workoutId} nombres={summary.nombres ?? {}} />}
     {summary.workoutId !== undefined && <NuevosLogros workoutId={summary.workoutId} />}
     {summary.muscle && <Suspense fallback={<LoadingState />}><MapaMuscular summary={summary.muscle} figura={figura} figuras={false} /></Suspense>}
+    {summary.workoutId !== undefined && <PublicarEntreno workoutId={summary.workoutId} titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin}
+      series={summary.sets} volumen={summary.volume} records={summary.records ?? []} nombres={summary.nombres ?? {}} />}
     <Button variant="secondary" block size="lg" onClick={onClose}>Volver a Entreno<Icon name="chevron-right" size={18} /></Button>
   </div>
 }

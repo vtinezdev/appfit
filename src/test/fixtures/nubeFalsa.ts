@@ -7,6 +7,8 @@ export class ServidorFalso {
   usuarios = new Map<string, string>()
   copias = new Map<string, CopiaRemota & { anterior?: string }>()
   sinConexion = false
+  /** Días marcados con `marcarActividad`, por usuario. */
+  actividad = new Map<string, number>()
   private reloj = 0
 
   /** Cada dispositivo tiene su propia sesión. */
@@ -56,6 +58,10 @@ export class ServidorFalso {
       actualizarClaves: async (claves) => {
         const c = this.copias.get(exigir())
         if (c) c.claves = claves
+      },
+      marcarActividad: async () => {
+        const id = exigir()
+        this.actividad.set(id, (this.actividad.get(id) ?? 0) + 1)
       },
       borrarCuenta: async () => {
         const id = exigir()

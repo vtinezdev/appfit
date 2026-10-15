@@ -29,6 +29,7 @@ import { useCumbres } from '../cumbres/hooks/useCumbres'
 import AguaSheet from './components/AguaSheet'
 import { AGUA_POR_DEFECTO_ML, formatAgua, resolverObjetivoAgua } from './lib/agua'
 import AvisoBackup from './components/AvisoBackup'
+import AvisoAmigos from '../social/components/AvisoAmigos'
 import TarjetaRevisionSemanal from './components/TarjetaRevisionSemanal'
 import { useTarjetaRevision } from './hooks/useRevisionSemanal'
 
@@ -43,6 +44,8 @@ interface Props {
   onIrARitmo: () => void
   onExportarCopia: () => void
   onRevisarCuenta: () => void
+  onIrAAmigos: () => void
+  onIrASocial: () => void
   ayudaInicial?: ReactNode
 }
 
@@ -51,7 +54,7 @@ const PESO_POR_DEFECTO = 70
 const DIAS_HISTORIAL = 365
 
 /** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, el último entreno, la semana (Ritmo), la montaña de Cumbres y la ruta de Caminos. Registrar está en el «+» de la barra. */
-export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrACaminos, onIrARitmo, onExportarCopia, onRevisarCuenta, ayudaInicial }: Props) {
+export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrACaminos, onIrARitmo, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -121,6 +124,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIr
       <PageHeader overline={fechaLarga} title="Hoy" />
       {ayudaInicial}
       <AvisoBackup onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />
+      <AvisoAmigos onIrAAmigos={onIrAAmigos} onIrASocial={onIrASocial} />
       {revision && (
         <TarjetaRevisionSemanal
           resumen={revision}

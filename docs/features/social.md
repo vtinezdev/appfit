@@ -1,0 +1,56 @@
+# Social y Amigos (parte social)
+
+`src/features/social/`. Perfil social, seguir con aprobación, bloquear, denunciar, publicar entrenos y actividades, y el feed con reacciones, comentarios y avisos. Decisión: [ADR 040](../decisiones/040-parte-social.md); plan y fases pendientes (publicar, feed, reacciones y comentarios): [`../social.md`](../social.md). Dos destinos: «Social» en la barra (publicaciones, ánimos, comentarios y avisos) y «Amigos» en «Más» (perfil y personas). Necesita cuenta (no la copia cifrada) y conexión; sin el proyecto de Supabase configurado, ninguno aparece.
+
+## Dónde está cada cosa
+
+| Pieza | Archivo | Datos |
+|---|---|---|
+| Alias, nombre y búsqueda | `lib/alias.ts`: `normalizarAlias`, `validarAlias`, `limpiarNombre`, `validarNombre`, `esCodigo`, `textoBusqueda` | — (puro; mismas reglas que el SQL) |
+| Relación | `lib/relacion.ts`: `Persona`, `nombreVisible`, `textoRelacion`, `accionSeguir`, `TEXTO_ACCION` | — (puro) |
+| Errores del servidor | `lib/mensajes.ts`: `MENSAJES_SOCIAL`, `mensajeSocial` (un test comprueba que cada `raise exception` del SQL tiene mensaje) | — (puro) |
+| Servidor | `data/social.ts` (interfaz `Social`, `MiPerfil`, `MOTIVOS_DENUNCIA`) y `data/socialSupabase.ts` (RPC, `traducirSocial`) | Supabase |
+| Publicar | `lib/publicacion.ts`: `resumenEntreno`, `resumenActividad`, `leerResumen` (valida lo que llega del servidor), `textoEjercicios`, límites `MAX_TEXTO`/`MAX_EJERCICIOS`/`MAX_LINEAS`; `components/Publicar` (`SiPuedePublicar` y el bloque «Compartir») y `TarjetaPublicacion`. Los componen `gym/components/PublicarEntreno` y `actividades/components/PublicarActividad` | `Workout.publicacion` y `Actividad.publicacion` (`workoutsRepo`/`actividadesRepo.marcarPublicacion`); Supabase |
+| Feed, comentarios y avisos | `lib/feed.ts`: `leerPublicacion`, `leerComentario`, `leerAvisos` (validan lo que llega), `textoAviso`, `resumenAvisos`, `validarComentario`, `POR_PAGINA` (20); `lib/reaccion.ts`: `REACCION` (el nombre provisional, «ánimo», en un solo sitio), `textoReacciones`, `textoComentarios`; `components/ListaFeed` (paginado con «Cargar más»), `PublicacionFeed`, `ComentariosSheet`, `AvisosSheet`, `PublicacionesPersona`, `FormDenuncia`, `AvisoAmigos` (banda de Inicio) | Supabase |
+| Carga | `servicio.ts`: `socialDisponible` y `cargarSocial` (import diferido; comparte cliente y sesión con la cuenta a través de `cuenta/data/clienteSupabase`) | — |
+| Lecturas | `hooks/useConsulta`: lee del servidor y vuelve a leer cuando cambia una clave (un contador que sube tras cada cambio) | — |
+| Pantalla | `SocialTab` (barra) y `AmigosTab` (Más), cada uno con sus estados sin sesión, sin perfil y suspendido; `components/CrearPerfil`, `Solicitudes`, `ListaPersonas`, `Anadir`, `PersonaSheet`, `PerfilSheet`, `NombrePersona` | — |
+| SQL | `supabase/migrations/0003_social.sql` (tablas `perfiles`, `seguimientos`, `bloqueos`, `denuncias` y sus funciones; ejecutado el 2026-10-15) `0004_publicaciones.sql` (`publicaciones`, `publicar`, `borrar_publicacion`; ejecutado el 2026-10-15) y `0005_feed.sql` (`reacciones`, `comentarios`, `feed`, `publicaciones_de`, `comentarios_de`, `reaccionar`, `quitar_reaccion`, `comentar`, `borrar_comentario`, `avisos`, `marcar_avisos_vistos`, y `denunciar` ampliada; ejecutado el 2026-10-15); pruebas en `supabase/pruebas/social.sql` | Postgres |
+
+## Reglas
+
+- **Todo por funciones** `security definer` con `auth.uid()`: las tablas tienen RLS y ningún permiso para `anon` ni `authenticated`, y los ayudantes (`social_*`) no se pueden llamar desde la app. A las personas se las identifica por su alias; nunca viajan ids.
+- **Alias**: 3–20 caracteres, minúsculas sin tildes, números, punto y guion bajo, sin empezar ni acabar en punto; único. Se guarda en minúsculas y la «@» de delante se ignora. Algunos están reservados (`appfit`, `admin`, `soporte`…). **Nombre** opcional, como mucho 40 caracteres.
+- **Perfil**: crearlo exige marcar «Tengo 16 años o más» (`acepto` guarda la fecha). Borrarlo borra seguimientos y bloqueos; la cuenta, la copia y los registros se quedan. Borrar la cuenta lo borra todo en cascada.
+- **Código de invitación**: 8 cifras hexadecimales («1A2B-3C4D»), se busca con o sin guion y sin distinguir mayúsculas. «Crear código nuevo» invalida el anterior.
+- **Buscar**: alias exacto o código. Nunca devuelve a uno mismo, perfiles suspendidos ni personas con un bloqueo de por medio (en cualquier sentido).
+- **Seguir**: la solicitud queda pendiente hasta que la otra persona acepta; se puede cancelar. Como mucho 50 solicitudes al día. Rechazar la borra; «Quitar de tus seguidores» también se puede hacer después.
+- **Bloquear** quita el seguimiento en los dos sentidos y deja de mostraros el uno al otro; no se avisa. Se deshace en «Tu perfil › Personas bloqueadas».
+- **Denunciar** un perfil: motivo (acoso, inapropiado, suplantación, spam, otro) y detalle opcional (500). Se guarda el alias y el nombre de ese momento. Como mucho 20 al día.
+- **Publicar** (ADR 040): solo a propósito, con la vista previa delante. El resumen de un entreno lleva título (rutina o «Entreno libre»), duración, series, volumen, ejercicios con series efectivas (en el orden de la sesión, como mucho 15), récords, cambios de liga destacados (empezar, subir, llegar a Élite) y piezas nuevas de la Vitrina (como mucho 6 de cada); el de una actividad, tipo, título, duración, distancia y desnivel, **sin el recorrido**. Textos de como mucho 60 caracteres. El id lo genera la app y se reutiliza en el reintento (el servidor no duplica); al publicar se anota en el registro local (`publicacion`, campo opcional que viaja en el backup y la copia). Como mucho 30 al día; el servidor acepta resúmenes de hasta 8 KB y quien lee los valida con `leerResumen` (versión desconocida o forma rara: no se pinta).
+- **Quién ve qué**: una publicación, sus reacciones y sus comentarios los ven su autor y quienes le siguen (aceptado), sin bloqueos de por medio y con el autor sin suspender. Los recuentos y los comentarios no incluyen a personas bloqueadas ni suspendidas.
+- **Feed**: lo mío y de quienes sigo, por cuándo se publicó (lo último primero), de 20 en 20. Una fila que no se puede leer (`leerPublicacion`) se descarta. Lo mío no se puede borrar desde el feed (la marca vive en el registro local): se borra desde el detalle del entreno o la actividad.
+- **Reacción** («Ánimo», provisional): una por persona y publicación, al momento (se deshace sola si falla). En lo mío solo se ve el recuento.
+- **Comentarios**: 1–500 caracteres, como mucho 100 al día, del más antiguo al más nuevo (hasta 200). Los míos se borran al momento con «Deshacer» en la hoja (vuelve a publicar el texto, con la hora de ahora); quien publica borra los de otras personas con confirmación. Se puede denunciar un comentario ajeno y la publicación de otra persona.
+- **Avisos**: reacciones y comentarios de otras personas en lo mío y solicitudes. «Nuevos» desde `avisos_vistos`; abrir «Avisos» los marca como vistos (la hoja conserva lo que se vio al abrirla). Tocar un aviso abre los comentarios de esa publicación.
+- **Borrar publicación** quita la marca local; si en el servidor ya no estaba (perfil borrado, otra cuenta), también.
+- **Moderación** (Víctor, en el SQL Editor): `select * from public.denuncias where revisada is null`; suspender con `update public.perfiles set suspendido = true where alias = '…'` (no aparece ni puede hacer nada, pero ve que está suspendido y puede borrar su perfil); marcar revisada con `update public.denuncias set revisada = now() where id = …`.
+- **Errores**: claves cortas del SQL (`alias_ocupado`, `no_encontrado`, `limite`…) traducidas por `mensajeSocial`; red y sesión como la cuenta. Si el SQL aún no está en el servidor (PGRST202), «Amigos aún no está disponible». Fuera de las hojas van en un Toast o en línea; dentro, con `ErrorState`.
+
+## Pantallas
+
+- **Social** (pestaña de la barra, icono `comentario`, `SocialTab`): sin sesión, «Entra con tu cuenta» con «Ir a Cuenta»; sin perfil o suspendido, un estado vacío con «Ir a Amigos». Con perfil: cabecera «Social» con el icono de Amigos (`users`), «Avisos» («Avisos · 3 nuevos», abre la hoja) y, si hay, «N solicitudes» (lleva a Amigos). ViewTabs «Siguiendo» (el feed: lo mío y de quienes sigo) · «Tú» (solo lo mío, sin repetir el autor). Cada publicación con quién (o «Tú»; tocarlo abre sus publicaciones), la tarjeta y un pie con la reacción (llama y recuento, `aria-pressed`) y los comentarios (bocadillo y recuento). Vacío: «Aún no hay publicaciones» con «Buscar a alguien» (lleva a Amigos).
+- **Más › Amigos** (icono `users`, `AmigosTab`), detrás de Perfil. Sin sesión: «Entra con tu cuenta» con «Ir a Cuenta» (Ajustes › Cuenta). Sin perfil: qué se comparte y qué no (nutrición, peso y medidas nunca), alias, nombre opcional, «Tengo 16 años o más» y «Crear mi perfil».
+- **Con perfil**: cabecera «Amigos» con `@alias · N solicitudes` debajo (fuera de `overline`, que pondría en mayúscula el alias) y «Tu perfil» (icono de ajustes). Si hay solicitudes, «Solicitudes» con Rechazar y Aceptar en cada fila (con poco ancho, los botones bajan bajo el nombre). Después, ViewTabs Siguiendo · Seguidores · Añadir:
+  - **Siguiendo** (con «Solicitud enviada») y **Seguidores**: filas que abren la persona.
+  - **Añadir**: card «Tu código» con Copiar y Compartir (si el navegador puede), y «Alias o código» con Buscar; el resultado lleva «Pedir seguir».
+- **Hoja de una persona** (título: nombre o alias): alias y relación, responder su solicitud, Pedir seguir / Cancelar solicitud / Dejar de seguir, «Ver sus publicaciones» si la sigo (abre una página con ellas, sin repetir su nombre en cada tarjeta), Quitar de tus seguidores, Denunciar (motivo y detalle; al terminar ofrece bloquear) y Bloquear (`ConfirmacionDestructiva`; cierra la hoja y avisa con un Toast).
+- **Tu perfil** (hoja): alias y nombre con Guardar, código y «Crear código nuevo», «Personas bloqueadas» (Disclosure con Desbloquear) y «Borrar el perfil» (`ConfirmacionDestructiva`).
+- **Perfil suspendido**: estado vacío con «Tu perfil» para poder borrarlo.
+- **Comentarios** (hoja): título de la publicación, la lista (nombre, alias, hace cuánto, texto, Borrar y Denunciar), «Tu comentario» con Enviar y «Denunciar la publicación» si no es mía.
+- **Inicio**: banda bajo el aviso de copia, solo si hay algo pendiente: «Novedades en Social» («2 solicitudes · 3 novedades», lleva a Social) si hay reacciones o comentarios nuevos, o «Solicitudes en Amigos» (lleva a Amigos) si solo hay solicitudes.
+- **Compartir** (fin de un entreno, detalle de un entreno del historial y detalle de una actividad), solo con sesión y perfil sin suspender (si no, o sin conexión, no aparece): título «Compartir», la tarjeta tal como la verán (título, fecha, cifras, ejercicios, récords, ligas y Vitrina), qué no se comparte y «Publicar en Social». Publicado: «Publicado en Social» con «Borrar publicación».
+
+## Pruebas
+
+Tests puros en `lib/` y `data/socialSupabase.test.ts`. El SQL se prueba con `supabase/pruebas/social.sql` en el SQL Editor (crea tres usuarios de prueba y lo deshace todo al acabar). En el navegador, sin el proyecto real: `scripts/ui/supabase-falso.mjs` (ver [desarrollo](../desarrollo.md) § Pruebas en navegador).

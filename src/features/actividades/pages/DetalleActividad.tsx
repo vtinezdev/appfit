@@ -12,6 +12,7 @@ import { formatFechaHoraConDia } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import AvanceActividad from '../../caminos/components/AvanceActividad'
 import HojaActividad from '../components/HojaActividad'
+import PublicarActividad from '../components/PublicarActividad'
 import PerfilAltitud from '../components/PerfilAltitud'
 import TrazadoRecorrido from '../components/TrazadoRecorrido'
 import * as actividadesRepo from '../data/actividadesRepo'
@@ -92,6 +93,8 @@ export default function DetalleActividad({ actividadId, onVolver, onBorrada }: P
       </Card>
 
       <AvanceActividad actividad={actividad} />
+
+      <PublicarActividad actividad={actividad} />
 
       <label className="block space-y-1"><span className="text-label text-fg-muted">Notas</span>
         <Textarea rows={3} value={notas ?? actividad.notas ?? ''} onChange={(e) => setNotas(e.target.value)} onBlur={() => { void guardarNotas() }} placeholder="Sensaciones, tiempo, compañía…" /></label>

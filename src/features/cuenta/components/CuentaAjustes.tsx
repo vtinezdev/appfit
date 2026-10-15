@@ -11,7 +11,7 @@ import GestionarCuenta from './GestionarCuenta'
 
 const TONO = { normal: 'text-fg-muted', aviso: 'text-warning', error: 'text-destructive' } as const
 
-/** Sección «Cuenta» de Ajustes: entrar, estado de la copia en la nube y gestión. Sin proyecto configurado no aparece. */
+/** Sección «Cuenta» de Ajustes: entrar, la copia en la nube (opcional) y gestión. Sin proyecto configurado no aparece. */
 export default function CuentaAjustes() {
   if (!cuentaDisponible) return null
   return <Cuenta />
@@ -22,6 +22,7 @@ export function ResumenCuenta() {
   const { fase, email } = useCuenta()
   if (fase === 'cargando') return 'Comprobando…'
   if (fase === 'sin-sesion') return 'Sin cuenta · copia cifrada opcional'
+  if (fase === 'sin-copia') return `${email ?? 'Con cuenta'} · sin copia`
   return email ?? 'Con cuenta'
 }
 
@@ -71,7 +72,7 @@ function Cuenta() {
 
   const { fase } = estado
   const linea = lineaEstado(estado, ahora)
-  const conCuenta = fase !== 'cargando' && fase !== 'sin-sesion' && fase !== 'sin-vincular'
+  const conCopia = fase !== 'cargando' && fase !== 'sin-sesion' && fase !== 'sin-copia'
 
   return (
     <section aria-label="Cuenta" className="space-y-stack">
@@ -80,21 +81,24 @@ function Cuenta() {
 
         {fase === 'sin-sesion' && (
           <>
-            <p className="text-body-sm text-fg-muted">Con una cuenta, tus registros se guardan solos en la nube, cifrados con una contraseña que solo conoces tú, y los recuperas en cualquier móvil. Es opcional.</p>
+            <p className="text-body-sm text-fg-muted">Con una cuenta puedes guardar tus registros solos en la nube, cifrados con una contraseña que solo conoces tú, y recuperarlos en cualquier móvil. Es opcional.</p>
             {estado.error && <ErrorState>{estado.error}</ErrorState>}
             <Button variant="primary" block onClick={() => abrirEntrar()}>{estado.email ? 'Volver a entrar' : 'Entrar o crear cuenta'}</Button>
           </>
         )}
 
-        {fase === 'sin-vincular' && (
+        {fase === 'sin-copia' && (
           <>
-            <p className="text-body-sm text-fg-muted">Has empezado a entrar como <span className="font-semibold text-fg">{estado.email}</span>. Termina para que la copia empiece a guardarse.</p>
-            <Button variant="primary" block onClick={() => abrirEntrar(true)}>Terminar de entrar</Button>
-            <Button variant="ghost" size="sm" disabled={ocupado} onClick={() => void ejecutar(() => copiaNube.cerrarSesion(false))}>Cerrar sesión</Button>
+            <div>
+              <p className="break-words text-body-sm font-semibold text-fg">{estado.email}</p>
+              <p className="text-body-sm text-fg-muted">La copia en la nube está desactivada en este móvil. Actívala para que tus registros se guarden solos, cifrados, y recuperarlos en otro móvil.</p>
+            </div>
+            <Button variant="primary" block onClick={() => abrirEntrar(true)}>Activar la copia</Button>
+            <GestionarCuenta conCopia={false} onMensaje={setMensaje} />
           </>
         )}
 
-        {conCuenta && (
+        {conCopia && (
           <>
             <div>
               <p className="break-words text-body-sm font-semibold text-fg">{estado.email}</p>
@@ -107,7 +111,7 @@ function Cuenta() {
             ) : (
               <Button variant="secondary" size="sm" loading={fase === 'subiendo'} disabled={ocupado} onClick={() => void copiaNube.sincronizar({ comprobarNube: true })}>Guardar ahora</Button>
             )}
-            <GestionarCuenta onMensaje={setMensaje} />
+            <GestionarCuenta conCopia onMensaje={setMensaje} />
           </>
         )}
 

@@ -20,6 +20,7 @@ Esta carpeta guarda un registro por sesión de trabajo. Cada vez que se cierra u
 - [`sesion-07/`](./sesion-07/) — Rediseño visual: paleta naranja/negro/blanco, superficie `ink`, primitives nuevas (PageHeader, Metric, Badge, ListGroup), barra de navegación flotante y todas las pantallas.
 - [`sesion-08/`](./sesion-08/) — Sección Perfil (estimación energética que fija el objetivo de kcal), menú de seis destinos en círculos, rama al día con `master` y PR #30.
 - [`sesion-09/`](./sesion-09/) — Categoría obligatoria en cada alimento, con iconos propios por familia, filtro y revisión en Alimentos y reparto «Por categoría» en el Resumen (PR #36).
+- [`sesion-10/`](./sesion-10/) — Parte social: Social en la barra (feed, ánimos, comentarios, avisos) y Amigos en Más (perfil, seguir, bloquear, denunciar), publicar entrenos y actividades, cuenta sin copia y limpieza de espacio en Supabase (ADR 040).
 
 ## Convención para cerrar una sesión («cierra la sesión»)
 
