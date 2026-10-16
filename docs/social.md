@@ -112,3 +112,5 @@ Una rama `feat/social`, fusionada en `master` el 2026-10-15 con las fases 1–5 
 ## Ampliación del 2026-10-16
 
 A petición de Víctor: publicaciones libres, compartir logros conseguidos, comunidades donde interactuar sin seguirse y mapa muscular del entreno compartido. Implementación y reglas actuales en [Social](features/social.md#publicaciones-libres-logros-y-comunidades); decisión en [ADR 041](decisiones/041-publicaciones-y-comunidades.md). Víctor ejecutó `0006_comunidades_y_publicaciones.sql` en el SQL Editor del proyecto real el 2026-10-16, con resultado «Success. No rows returned», antes de publicar esta versión. Las fases legales y de prueba con dispositivos físicos siguen pendientes.
+
+La creación de comunidades también permite elegir que solo publique el creador y que los demás miembros lean, comenten y den ánimo. Se preservan las comunidades existentes mediante 0007, cuya ejecución correcta en el proyecto real confirmó Víctor el 2026-10-16 antes de publicar este ajuste. Reglas y operación en [Social](features/social.md#comunidades-donde-solo-publica-su-creador).

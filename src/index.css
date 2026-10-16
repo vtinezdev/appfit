@@ -169,6 +169,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .app-button:active:not(:disabled) { transform: scale(var(--motion-press)); }
 .muscle-body { max-width: var(--muscle-body-width); }
 .muscle-mini { height: var(--muscle-mini-height); }
+.publicacion-mapa { max-width: var(--muscle-social-width); }
 /* Inicio: minigráfica del peso y vaso del agua. Datos neutros (texto atenuado), sin acento. */
 .mini-grafica { height: auto; overflow: visible; }
 .mini-grafica-linea { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
@@ -512,6 +513,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .logros-grupo { container: logros-grupo / inline-size; }
 .publicacion-tarjeta { container: publicacion / inline-size; }
 @container publicacion (max-width: 18rem) {
+  .publicacion-confirmacion [role='group'] > div { flex-direction: column; }
   .publicacion-metricas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @container publicacion (max-width: 12rem) {

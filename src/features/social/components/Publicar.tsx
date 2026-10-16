@@ -3,7 +3,7 @@ import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { useCuenta } from '../../cuenta/useCuenta'
-import { SocialError } from '../data/social'
+import { borrarPublicacion } from '../data/publicacionesRepo'
 import type { Resumen } from '../lib/publicacion'
 import { useConsulta } from '../hooks/useConsulta'
 import { cargarSocial, socialDisponible } from '../servicio'
@@ -70,12 +70,7 @@ export default function Publicar({ publicacion, fecha, resumen, onAnotar }: Prop
     await onAnotar(id)
   })
   const borrar = (pub: string) => ejecutar(async () => {
-    try {
-      await (await cargarSocial()).borrarPublicacion(pub)
-    } catch (e) {
-      // Ya no estaba (se borró el perfil, o se publicó con otra cuenta): solo queda quitar la marca.
-      if (!(e instanceof SocialError && e.clave === 'no_encontrado')) throw e
-    }
+    await borrarPublicacion(await cargarSocial(), pub)
     await onAnotar(undefined)
   })
 

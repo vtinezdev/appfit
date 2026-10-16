@@ -109,3 +109,5 @@ Por reglas, sin IA ni red ([ADR 032](../decisiones/032-creador-de-rutinas-por-re
 
 
 El resumen social del entreno incluye ahora el mapa muscular como 12 niveles 0–5, derivados de la misma función y snapshot que el detalle. `PublicarEntreno` no envía datos de Perfil para representarlo. El bloque ofrece además «Compartir en una comunidad» con destinatario y vista previa independientes; no pisa la marca local de publicación de seguidores. Reglas y migración: [Social](social.md#publicaciones-libres-logros-y-comunidades).
+
+La publicación también se puede borrar desde el feed de Social con confirmación, solo por su autor. Se conserva el registro local y se libera la marca de publicación en este dispositivo para compartirlo otra vez; las copias de comunidad no quitan la marca de seguidores.

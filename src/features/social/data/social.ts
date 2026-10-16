@@ -34,7 +34,7 @@ export interface Social {
   /** `id` lo genera la app: repetirlo (un reintento) no duplica. `fecha`: ms del inicio. */
   publicar(id: string, fecha: number, resumen: Resumen, comunidad?: string): Promise<void>
   comunidades(busqueda: string, soloMias: boolean): Promise<Comunidad[]>
-  crearComunidad(id: string, nombre: string, descripcion: string): Promise<void>
+  crearComunidad(id: string, nombre: string, descripcion: string, soloCreadorPublica?: boolean): Promise<void>
   unirseComunidad(id: string): Promise<void>
   salirComunidad(id: string): Promise<void>
   borrarComunidad(id: string): Promise<void>

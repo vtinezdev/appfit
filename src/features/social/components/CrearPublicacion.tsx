@@ -7,7 +7,7 @@ import Sheet from '../../../shared/components/Sheet'
 import { ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { useConsulta } from '../hooks/useConsulta'
 import { MAX_PUBLICACION, resumenTexto, validarPublicacion, type Resumen } from '../lib/publicacion'
-import type { Comunidad } from '../lib/comunidad'
+import { puedePublicarEnComunidad, type Comunidad } from '../lib/comunidad'
 import { cargarSocial } from '../servicio'
 import { crearIdDeEnvio } from '../lib/intento'
 import TarjetaPublicacion from './TarjetaPublicacion'
@@ -32,12 +32,13 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
   const enviando = useRef(false)
   const grupos = useConsulta(async () => (await cargarSocial()).comunidades('', true), 0)
   const destinoGrupo = comunidad ?? grupos.datos?.find(c => c.id === destino)
+  const publicables = grupos.datos?.filter(puedePublicarEnComunidad)
   const resumen = adjunto?.resumen ?? resumenTexto(texto)
 
   const enviar = async () => {
     if (enviando.current || !resumen) return
-    if (destino !== 'seguidores' && (!destinoGrupo?.unida || destinoGrupo.id !== destino)) {
-      setError('Elige una comunidad a la que te hayas unido.'); return
+    if (destino !== 'seguidores' && (!destinoGrupo || !puedePublicarEnComunidad(destinoGrupo) || destinoGrupo.id !== destino)) {
+      setError('Elige una comunidad en la que puedas publicar.'); return
     }
     enviando.current = true; setOcupado(true); setError(null)
     try {
@@ -55,7 +56,7 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
       const invalido = validarPublicacion(texto)
       if (invalido) { setError(invalido); return }
     }
-    if (!destino || (destino !== 'seguidores' && !destinoGrupo?.unida)) { setError('Elige a quién quieres publicar.'); return }
+    if (!destino || (destino !== 'seguidores' && (!destinoGrupo || !puedePublicarEnComunidad(destinoGrupo)))) { setError('Elige una comunidad en la que puedas publicar o tus seguidores.'); return }
     setPaso('vista')
   }
 
@@ -69,12 +70,12 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
           <Select aria-label="Publicar para" value={destino} onChange={e => setDestino(e.target.value)}>
             {!soloComunidades && <option value="seguidores">Tus seguidores</option>}
             {soloComunidades && <option value="">Elige una comunidad</option>}
-            {grupos.datos?.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
+            {publicables?.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
           </Select>
         </Campo>}
         {grupos.estado === 'cargando' && !comunidad && <LoadingState />}
         {grupos.estado === 'error' && !comunidad && <div className="space-y-2"><ErrorState>{grupos.error}</ErrorState><Button variant="secondary" size="sm" onClick={grupos.recargar}>Reintentar comunidades</Button></div>}
-        {soloComunidades && grupos.datos?.length === 0 && <p className="text-body-sm text-fg-muted">Únete a una comunidad desde Social para compartir aquí.</p>}
+        {soloComunidades && grupos.estado === 'listo' && publicables?.length === 0 && <p className="text-body-sm text-fg-muted">No tienes comunidades en las que puedas publicar. Únete a una que permita publicar a sus miembros o crea la tuya desde Social.</p>}
         {adjunto && <TarjetaPublicacion {...adjunto} />}
         <Button type="submit" variant="primary" block disabled={!destino}>Ver vista previa</Button>
       </form> : <>

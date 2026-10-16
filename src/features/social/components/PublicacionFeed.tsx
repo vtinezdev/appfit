@@ -6,6 +6,7 @@ import { formatInt } from '../../../shared/lib/format'
 import type { PublicacionFeed as Publicacion } from '../lib/feed'
 import { REACCION, textoComentarios, textoReacciones } from '../lib/reaccion'
 import { cargarSocial } from '../servicio'
+import { borrarPublicacion } from '../data/publicacionesRepo'
 import NombrePersona from './NombrePersona'
 import TarjetaPublicacion from './TarjetaPublicacion'
 
@@ -17,20 +18,19 @@ interface Props {
   onError: (mensaje: string) => void
   /** Falso en las publicaciones de una persona: su nombre ya es el título de la página. */
   conAutor?: boolean
-  enComunidad?: boolean
   onBorrada?: () => void
 }
 
 /** Una publicación del feed: quién, la tarjeta, la reacción (al momento, se deshace si falla) y los comentarios. */
-export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onComentarios, onError, conAutor = true, enComunidad = false, onBorrada }: Props) {
+export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onComentarios, onError, conAutor = true, onBorrada }: Props) {
   const [reaccion, setReaccion] = useState({ mia: p.reaccione, total: p.reacciones })
   const [ocupado, setOcupado] = useState(false)
   const [confirmar, setConfirmar] = useState(false)
 
   async function borrar() {
-    if (ocupado) return
+    if (ocupado || !p.mia) return
     setOcupado(true)
-    try { await (await cargarSocial()).borrarPublicacion(p.id); onBorrada?.() }
+    try { await borrarPublicacion(await cargarSocial(), p.id); onBorrada?.() }
     catch (e) { onError(e instanceof Error ? e.message : 'No se ha podido borrar.'); setOcupado(false) }
   }
 
@@ -71,9 +71,9 @@ export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onCome
       <Button variant="subtle" size="sm" aria-label={`Comentarios. ${textoComentarios(p.comentarios)}`} onClick={() => onComentarios(p)}>
         <Icon name="comentario" size={18} />{formatInt(p.comentarios)}
       </Button>
-      {p.mia && (enComunidad || p.resumen.tipo === 'texto' || p.resumen.tipo === 'logro') && <Button variant="subtle" size="sm" disabled={ocupado} onClick={() => setConfirmar(true)}>Borrar publicación</Button>}
+      {p.mia && !confirmar && <Button variant="subtle" size="sm" disabled={ocupado} onClick={() => setConfirmar(true)}>Borrar publicación</Button>}
     </div>
-    {confirmar && <ConfirmacionDestructiva mensaje="Se borrarán esta publicación, sus reacciones y comentarios. No se puede deshacer." confirmar="Borrar publicación" ocupado={ocupado} onCancelar={() => setConfirmar(false)} onConfirmar={() => void borrar()} />}
+    {confirmar && <div className="publicacion-confirmacion"><ConfirmacionDestructiva mensaje="Se borrarán esta publicación, sus reacciones y comentarios. No se puede deshacer." confirmar="Borrar publicación" ocupado={ocupado} onCancelar={() => setConfirmar(false)} onConfirmar={() => void borrar()} /></div>}
     </div>
   )
 

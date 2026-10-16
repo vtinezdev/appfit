@@ -20,7 +20,7 @@ Catálogo (`npm run catalogo:*`): `scripts/catalogo/README.md`. Despliegue y res
 ```
 src/app/            shell: App (router casero con useState, sin URLs), BottomNav, Ajustes
 src/shared/         db/ (esquema Dexie, tipos, ajustes) · lib/ (fechas, formato, texto, backup) · design/ (tokens, guard)
-                    · components/ (primitives) · hooks/ (useAviso, useModalLayer)
+                    · pwa/ (estado y aplicación de actualizaciones) · components/ (primitives) · hooks/ (useAviso, useModalLayer)
 src/features/       inicio/ · nutricion/ · gym/ · actividades/ · perfil/ · referencias/ · experiencia/ · cumbres/ · caminos/ · ritmo/ · vitrina/ · liga/ · cuenta/ · social/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
 src/test/           setup-db.ts (fake-indexeddb) y fixtures/
 scripts/catalogo/   tubería offline (Node, manual) que genera los paquetes de public/catalogo/
@@ -40,7 +40,7 @@ Dónde está cada cosa: `docs/arquitectura.md` y `docs/features/<feature>.md`.
 **Código**
 - Lógica de negocio en funciones puras con tests colocados al lado (`*.test.ts`); los componentes solo componen.
 - Imports relativos, sin alias.
-- Red: solo el catálogo del propio origen, Open Food Facts con el código de barras y, con cuenta, Supabase con la copia **ya cifrada** y, en Amigos, solo el perfil social (alias, nombre, a quién sigues) y lo que la persona publique a propósito (nada más sale en claro del móvil; el GPS de las actividades es local y el recorrido se dibuja sin mapas). Ningún servicio externo nuevo sin preguntar.
+- Red: solo los estáticos, el catálogo y los metadatos de versión del propio origen, Open Food Facts con el código de barras y, con cuenta, Supabase con la copia **ya cifrada** y, en Amigos, solo el perfil social (alias, nombre, a quién sigues) y lo que la persona publique a propósito (nada más sale en claro del móvil; el GPS de las actividades es local y el recorrido se dibuja sin mapas). Ningún servicio externo nuevo sin preguntar.
 
 **UI** (identidad en `DESIGN.md`; implementación en `docs/DESIGN-SYSTEM.md`: lee la sección que toque)
 - Nada de colores, tamaños, radios ni cifras sin formato sueltos, ni emojis como iconos: tokens + primitives. Lo vigilan `shared/design/guard.test.ts` y `contrast.test.ts`.

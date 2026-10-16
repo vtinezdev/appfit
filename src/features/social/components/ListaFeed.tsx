@@ -18,7 +18,6 @@ interface Props {
   comentariosDe?: PublicacionComentada | null
   /** Falso si todas son de la misma persona (ya se dice arriba). */
   conAutor?: boolean
-  enComunidad?: boolean
 }
 
 interface Estado {
@@ -30,7 +29,7 @@ interface Estado {
 }
 
 /** Publicaciones paginadas («Cargar más») con sus comentarios en una hoja. El feed y las de una persona. */
-export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onError, comentariosDe, conAutor = true, enComunidad = false }: Props) {
+export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onError, comentariosDe, conAutor = true }: Props) {
   const [estado, setEstado] = useState<Estado>({ items: [], fin: false, cargando: true, error: null })
   // La hoja sigue montada al cerrarse para animar la salida; `n` la vuelve a montar limpia.
   const [hoja, setHoja] = useState<{ publicacion: PublicacionComentada; open: boolean; n: number } | null>(null)
@@ -66,7 +65,7 @@ export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onEr
         <ul className="space-y-stack" aria-label="Publicaciones">
           {items.map((p) => (
             <li key={p.id}>
-              <PublicacionFeed publicacion={p} onAbrirPersona={onAbrirPersona} onError={onError} conAutor={conAutor} enComunidad={enComunidad}
+              <PublicacionFeed publicacion={p} onAbrirPersona={onAbrirPersona} onError={onError} conAutor={conAutor}
                 onBorrada={() => setEstado(e => ({ ...e, items: e.items.filter(item => item.id !== p.id) }))}
                 onComentarios={(pub) => abrirComentarios({ id: pub.id, titulo: pub.resumen.titulo, mia: pub.mia })} />
             </li>

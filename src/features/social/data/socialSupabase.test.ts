@@ -39,12 +39,14 @@ describe('destinatario y funciones de comunidad', () => {
   it('filtra comunidades mal formadas y pide solo las mías para elegir audiencia', async () => {
     const c = { id: 'grupo', nombre: 'Entreno', descripcion: '', miembros: 1, unida: true, mia: false }
     rpc.mockResolvedValueOnce({ data: [c, {}, null], error: null })
-    expect(await social().comunidades('fuerza', true)).toEqual([c])
+    expect(await social().comunidades('fuerza', true)).toEqual([{ ...c, soloCreadorPublica: false }])
     expect(rpc).toHaveBeenLastCalledWith('comunidades', { p_busqueda: 'fuerza', p_solo_mias: true })
   })
   it('mantiene los ids al reintentar crear y no pide tablas directamente', async () => {
     await social().crearComunidad('id', 'Entreno', 'Descripción')
-    expect(rpc).toHaveBeenLastCalledWith('crear_comunidad', { p_id: 'id', p_nombre: 'Entreno', p_descripcion: 'Descripción' })
+    expect(rpc).toHaveBeenLastCalledWith('crear_comunidad', { p_id: 'id', p_nombre: 'Entreno', p_descripcion: 'Descripción', p_solo_creador_publica: false })
+    await social().crearComunidad('anuncios', 'Actualizaciones', '', true)
+    expect(rpc).toHaveBeenLastCalledWith('crear_comunidad', { p_id: 'anuncios', p_nombre: 'Actualizaciones', p_descripcion: '', p_solo_creador_publica: true })
     await social().unirseComunidad('id'); expect(rpc).toHaveBeenLastCalledWith('unirse_comunidad', { p_id: 'id' })
     await social().salirComunidad('id'); expect(rpc).toHaveBeenLastCalledWith('salir_comunidad', { p_id: 'id' })
     await social().denunciarComunidad('id', 'spam', null); expect(rpc).toHaveBeenLastCalledWith('denunciar', { p_tipo: 'comunidad', p_objetivo: 'id', p_motivo: 'spam', p_detalle: null })

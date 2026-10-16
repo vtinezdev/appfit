@@ -29,6 +29,7 @@ import { Input } from '../shared/components/Input'
 import { descargarCsv, TABLAS_CSV, type TablaCsv } from '../shared/lib/exportarCsv'
 import AlmacenamientoAjustes from './AlmacenamientoAjustes'
 import CuentaAjustes, { ResumenCuenta } from '../features/cuenta/components/CuentaAjustes'
+import ActualizacionesAjustes, { ResumenActualizacion } from './ActualizacionesAjustes'
 import { cuentaDisponible } from '../features/cuenta/servicio'
 import { GRUPOS_AJUSTES, OPCIONES_FONDO, OPCIONES_TEMA, resumenAjustes, SECCIONES_AJUSTES, type SeccionAjustes } from './seccionesAjustes'
 
@@ -174,7 +175,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil }: { seccionInicia
       <Icon name={SECCIONES_AJUSTES[id].icon} size={20} className={destructiva ? 'text-destructive' : 'text-fg-muted'} />
       <span className="min-w-0 flex-1">
         <span className={`block break-words text-body font-semibold ${destructiva ? 'text-destructive' : 'text-fg'}`}>{SECCIONES_AJUSTES[id].nombre}</span>
-        <span className="block break-words text-caption text-fg-muted">{id === 'cuenta' ? <ResumenCuenta /> : resumenAjustes(id, datosResumen)}</span>
+        <span className="block break-words text-caption text-fg-muted">{id === 'cuenta' ? <ResumenCuenta /> : id === 'actualizaciones' ? <ResumenActualizacion /> : resumenAjustes(id, datosResumen)}</span>
       </span>
       <Icon name="chevron-right" size={18} className="text-fg-subtle" />
     </ListRow>
@@ -252,6 +253,8 @@ export default function Ajustes({ seccionInicial, onIrAPerfil }: { seccionInicia
         <SegmentedControl label="Fondo de las secciones" opciones={OPCIONES_FONDO} valor={fondo} onChange={(v) => { setFondo(v); setFondoPref(v) }} />
       </div>
     </div>,
+
+    actualizaciones: () => <ActualizacionesAjustes />,
 
     instalacion: () => <div className="space-y-section">
       <section aria-label="Añadir a la pantalla de inicio" className="space-y-2">

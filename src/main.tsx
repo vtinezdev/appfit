@@ -8,9 +8,11 @@ import { ensureSettings } from './shared/db/settings.ts'
 import { solicitarPersistencia } from './shared/lib/almacenamiento.ts'
 import { sincronizarCatalogo } from './features/nutricion/lib/catalogo/sincronizar.ts'
 import { iniciarCopiaNube } from './features/cuenta/servicio.ts'
+import { iniciarActualizaciones } from './shared/pwa/actualizaciones.ts'
 
 initTheme()
 initViewport()
+iniciarActualizaciones()
 void solicitarPersistencia()
 
 /**

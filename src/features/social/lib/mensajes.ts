@@ -21,6 +21,7 @@ export const MENSAJES_SOCIAL: Record<string, string> = {
   comunidad_ocupada: 'Ya hay una comunidad con ese nombre. Elige otro.',
   no_miembro: 'Únete a la comunidad para ver y compartir publicaciones.',
   creador_no_puede_salir: 'Has creado esta comunidad. Puedes borrarla desde sus opciones.',
+  solo_creador_publica: 'En esta comunidad solo puede publicar quien la creó. Puedes comentar las publicaciones.',
   denuncia_no_valida: 'No se ha podido enviar la denuncia. Revisa el motivo e inténtalo de nuevo.',
 }
 

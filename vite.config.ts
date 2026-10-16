@@ -1,12 +1,25 @@
 import react from '@vitejs/plugin-react'
 import { configDefaults, defineConfig } from 'vitest/config'
 import { VitePWA } from 'vite-plugin-pwa'
+import { randomUUID } from 'node:crypto'
+
+// La página y el fichero remoto comparten el mismo identificador, también en builds sin commit nuevo.
+const versionApp = { id: process.env.APPFIT_BUILD_ID ?? randomUUID(), fecha: new Date().toISOString() }
 
 export default defineConfig({
+  define: { __APP_VERSION__: JSON.stringify(versionApp) },
   plugins: [
     react(),
+    {
+      name: 'appfit-version',
+      generateBundle() {
+        this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify(versionApp) })
+      },
+    },
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
+      // shared/pwa/actualizaciones registra y aplica el SW al pedirlo la persona.
+      injectRegister: false,
       includeAssets: ['apple-touch-icon.png', 'favicon.svg'],
       manifest: {
         // Identidad estable entre builds; el almacenamiento sigue ligado al mismo origen.
@@ -26,6 +39,8 @@ export default defineConfig({
         ],
       },
       workbox: {
+        skipWaiting: false,
+        clientsClaim: true,
         globPatterns: ['**/*.{js,css,html,svg,png,webp,ico,woff2}'],
         // Las imágenes de ejercicios (~0,5 MB) tampoco: se guardan al verlas por primera vez (regla de abajo).
         globIgnores: ['ejercicios/**'],

@@ -44,3 +44,5 @@ En iPhone (y en Android con la TWA de Play), una web app no recibe la ubicación
 
 
 Desde el bloque de compartir también se puede enviar el resumen a una comunidad a la que se pertenezca, con vista previa. Sigue sin incluir recorrido GPS, y esa copia no sustituye la marca local de publicación para seguidores. Ver [Social](social.md#publicaciones-libres-logros-y-comunidades).
+
+La publicación también se puede borrar desde el feed de Social con confirmación, solo por su autor. Se conserva el registro local y se libera la marca de publicación en este dispositivo para compartirlo otra vez; las copias de comunidad no quitan la marca de seguidores.

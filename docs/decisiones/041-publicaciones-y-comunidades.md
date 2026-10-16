@@ -1,6 +1,6 @@
 # ADR 041 — Publicaciones libres, logros y comunidades
 
-Fecha: 2026-10-16. Estado: aceptada para implementación; migración remota pendiente de ejecutar.
+Fecha: 2026-10-16. Estado: aceptada; 0006 aplicada en el proyecto real el 2026-10-16. Ampliación 0007 aplicada en el proyecto real el 2026-10-16, según confirmación de Víctor.
 
 ## Contexto
 
@@ -20,3 +20,7 @@ Víctor pide crear publicaciones para seguidores sin depender de un entreno, com
 La pertenencia a una comunidad permite relacionarse con personas no seguidas sin cambiar los seguimientos existentes. La comprobación de acceso se hace en el servidor por publicación, también para comentarios, reacciones, denuncias y avisos. Tablas con RLS sin permisos directos y ayudantes SQL privados, igual que el modelo anterior.
 
 Se añade una migración 0006 y pruebas con rollback para las nuevas tablas, funciones, límites y cascadas. Debe ejecutarse en el proyecto real antes de publicar el frontend. Las publicaciones no forman parte de la copia cifrada; los registros locales y su backup conservan su forma. Las publicaciones de comunidad de un entreno/actividad son independientes de su marca local de publicación de seguidores. Las cuestiones legales y la prueba con cuentas y dispositivos reales del plan social siguen pendientes.
+
+## Ampliación: quién puede publicar (2026-10-16)
+
+La creación permite limitar las publicaciones al creador, manteniendo comentarios y reacciones para todos los miembros. Las comunidades anteriores, incluida Testers, conservan el modo abierto por defecto. La restricción se valida en un trigger de la tabla de publicaciones, para cubrir todos los tipos y clientes anteriores sin duplicar la lógica de validación de resúmenes. Las audiencias, membresías, bloqueos y contenido existente se conservan. El RPC anterior de creación sigue disponible con modo abierto; el nuevo recibe la elección explícita. Migración y pruebas: [Social](../features/social.md#comunidades-donde-solo-publica-su-creador).
