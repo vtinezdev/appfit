@@ -1560,3 +1560,7 @@ Víctor pide poder editar la descripción de una comunidad después de crearla. 
 **Verificación:** 2.223 tests en 175 archivos y build TypeScript/Vite/PWA correctos. `scripts/ui/validar-social.cjs` con Edge (Windows), Supabase falso y Vite en `appfit-test.localhost:5174`: ocho contextos 320/375/430 claro/oscuro y 375 con texto al 200 %/Reduce Motion, todos correctos; incluye editar la descripción propia con texto largo, petición recortada, detalle actualizado sin desbordamiento y ausencia de la opción en una comunidad ajena. `supabase/pruebas/comunidades_editar_descripcion.sql` escrita pero **no ejecutada**: no había PostgreSQL ni Docker en este equipo.
 
 Víctor ejecutó 0008 en el SQL Editor del proyecto real («Success») y pidió commit, PR y merge. Comprobación posterior: llamada anónima a `editar_descripcion_comunidad` en producción → `42501 permission denied` (el RPC existe y `anon` no puede usarlo); la suite SQL sigue sin ejecutarse.
+
+## 145. Suite SQL de 0008 en el proyecto real (2026-10-16)
+
+Víctor ejecutó `supabase/pruebas/comunidades_editar_descripcion.sql` en el SQL Editor del proyecto real y confirmó que pasa (`PRUEBAS_EDITAR_DESCRIPCION_OK`, con rollback de los usuarios sintéticos). Quedan las pruebas con cuentas reales en un iPhone físico.
