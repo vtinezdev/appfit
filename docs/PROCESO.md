@@ -1549,3 +1549,14 @@ Víctor pide crear una comunidad de actualizaciones donde solo él publique y qu
 ## 143. Migración 0007 aplicada y publicación autorizada (2026-10-16)
 
 Víctor ejecutó la query completa de 0007 en el SQL Editor del proyecto real y confirmó «Success. No rows returned». Después pidió commit, PR y merge de todo lo pendiente: mapa compartido compacto y borrado desde Social (§140), estado y aplicación de actualizaciones de la PWA (§141), y comunidades donde solo publica el creador (§142). Se actualiza el estado de la migración en los documentos vivos. Las comprobaciones finales de §142 siguen en verde (2.222 tests, build, SQL y ocho contextos de interfaz); también está verificada la actualización real de la PWA con datos conservados (§141). Las pruebas con cuentas reales de estos ajustes y un iPhone físico siguen pendientes.
+
+## 144. Editar la descripción de una comunidad (2026-10-16)
+
+Víctor pide poder editar la descripción de una comunidad después de crearla. Implementación en `feat/editar-descripcion-comunidad`, desde master con §138–143.
+
+- Detalle de comunidad: el creador ve «Editar descripción» («Añadir descripción» si está vacía), que abre un Sheet con la descripción actual, validación de 300 caracteres (`comunidad.validarDescripcionComunidad`, reutilizada por `validarComunidad`) y errores en línea. Al guardar se actualiza el detalle. Ni el nombre ni «Quién puede publicar» se editan.
+- `Social.editarDescripcionComunidad` → RPC `editar_descripcion_comunidad` en `0008_editar_descripcion_comunidad.sql`: solo el creador con perfil activo y comunidad no suspendida; recorta, idempotente, `no_encontrado`/`comunidad_no_valida`. Sin cambios en tablas, Dexie ni backup. `supabase-falso.mjs` imita el RPC.
+
+**Verificación:** 2.223 tests en 175 archivos y build TypeScript/Vite/PWA correctos. `scripts/ui/validar-social.cjs` con Edge (Windows), Supabase falso y Vite en `appfit-test.localhost:5174`: ocho contextos 320/375/430 claro/oscuro y 375 con texto al 200 %/Reduce Motion, todos correctos; incluye editar la descripción propia con texto largo, petición recortada, detalle actualizado sin desbordamiento y ausencia de la opción en una comunidad ajena. `supabase/pruebas/comunidades_editar_descripcion.sql` escrita pero **no ejecutada**: no había PostgreSQL ni Docker en este equipo.
+
+Víctor ejecutó 0008 en el SQL Editor del proyecto real («Success») y pidió commit, PR y merge. Comprobación posterior: llamada anónima a `editar_descripcion_comunidad` en producción → `42501 permission denied` (el RPC existe y `anon` no puede usarlo); la suite SQL sigue sin ejecutarse.

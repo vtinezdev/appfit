@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { leerComunidad, puedePublicarEnComunidad, validarComunidad } from './comunidad'
+import { leerComunidad, puedePublicarEnComunidad, validarComunidad, validarDescripcionComunidad } from './comunidad'
 
 describe('comunidades', () => {
   it('valida los límites antes de publicar', () => {
@@ -8,6 +8,11 @@ describe('comunidades', () => {
     expect(validarComunidad('x'.repeat(61), '')).not.toBeNull()
     expect(validarComunidad('Entreno', 'x'.repeat(301))).not.toBeNull()
     expect(validarComunidad('  Entreno  ', '')).toBeNull()
+  })
+  it('al editar solo valida la descripción, que puede quedar vacía', () => {
+    expect(validarDescripcionComunidad('')).toBeNull()
+    expect(validarDescripcionComunidad(` ${'x'.repeat(300)} `)).toBeNull()
+    expect(validarDescripcionComunidad('x'.repeat(301))).not.toBeNull()
   })
   it('descarta respuestas inválidas y elimina campos adicionales', () => {
     const c = { id: 'grupo', nombre: 'Entreno', descripcion: 'Para todos', miembros: 3, unida: true, mia: false }

@@ -37,6 +37,7 @@ export interface Social {
   crearComunidad(id: string, nombre: string, descripcion: string, soloCreadorPublica?: boolean): Promise<void>
   unirseComunidad(id: string): Promise<void>
   salirComunidad(id: string): Promise<void>
+  editarDescripcionComunidad(id: string, descripcion: string): Promise<void>
   borrarComunidad(id: string): Promise<void>
   publicacionesComunidad(id: string, antes: string | null): Promise<PublicacionFeed[]>
   denunciarComunidad(id: string, motivo: MotivoDenuncia, detalle: string | null): Promise<void>

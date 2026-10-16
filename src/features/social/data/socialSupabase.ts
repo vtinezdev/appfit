@@ -63,6 +63,7 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     crearComunidad: (id, nombre, descripcion, soloCreadorPublica = false) => rpc('crear_comunidad', { p_id: id, p_nombre: nombre, p_descripcion: descripcion, p_solo_creador_publica: soloCreadorPublica }),
     unirseComunidad: (id) => rpc('unirse_comunidad', { p_id: id }),
     salirComunidad: (id) => rpc('salir_comunidad', { p_id: id }),
+    editarDescripcionComunidad: (id, descripcion) => rpc('editar_descripcion_comunidad', { p_id: id, p_descripcion: descripcion }),
     borrarComunidad: (id) => rpc('borrar_comunidad', { p_id: id }),
     publicacionesComunidad: async (id, antes) => publicaciones(await rpc<unknown[]>('publicaciones_comunidad', { p_id: id, p_antes: antes, p_limite: POR_PAGINA })),
     denunciarComunidad: (id, motivo, detalle) => rpc('denunciar', { p_tipo: 'comunidad', p_objetivo: id, p_motivo: motivo, p_detalle: detalle }),

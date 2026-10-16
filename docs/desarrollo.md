@@ -193,3 +193,7 @@ El script sirve exclusivamente las builds locales en el puerto 5173 y navega a `
 ### Permisos de publicación de comunidades
 
 Víctor confirmó la ejecución de `supabase/migrations/0007_comunidades_solo_creador.sql` en el proyecto real el 2026-10-16 con «Success. No rows returned», después de 0006 y antes de publicar la opción «Quién puede publicar». Es una transacción completa y conserva el modo abierto de las comunidades anteriores. `supabase/pruebas/comunidades_solo_creador.sql` termina con `PRUEBAS_COMUNIDADES_SOLO_CREADOR_OK` y hace rollback. Se verifica junto a las suites sociales anteriores en PostgreSQL 17 aislado y sin datos reales. El recorrido `scripts/ui/validar-social.cjs` incluye creación restringida, publicación del creador, comentarios de miembros y exclusión de comunidades ajenas restringidas en los destinos del editor.
+
+### Descripción editable de comunidades
+
+`supabase/migrations/0008_editar_descripcion_comunidad.sql` se ejecuta tras 0007 en el SQL Editor y antes de desplegar «Editar descripción»; Víctor confirmó su ejecución en el proyecto real el 2026-10-16. Es una transacción completa y solo añade un RPC. `supabase/pruebas/comunidades_editar_descripcion.sql` termina con `PRUEBAS_EDITAR_DESCRIPCION_OK` y hace rollback. `scripts/ui/validar-social.cjs` y `supabase-falso.mjs` cubren la edición.

@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0007 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0008 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -99,6 +99,7 @@ const rpc = {
   },
   unirse_comunidad: ({p_id}) => { exigir(); if(!comunidades.has(p_id)) throw err('no_encontrado'); miembros.add(`${p_id}|${YO}`); return null },
   salir_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador===YO) throw err('creador_no_puede_salir'); miembros.delete(`${p_id}|${YO}`); return null },
+  editar_descripcion_comunidad: ({p_id,p_descripcion}) => { exigir(); const c=comunidades.get(p_id); if(c?.creador!==YO) throw err('no_encontrado'); if((p_descripcion??'').trim().length>300) throw err('comunidad_no_valida'); c.descripcion=(p_descripcion??'').trim(); return null },
   borrar_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador!==YO) throw err('no_encontrado'); comunidades.delete(p_id); for(const [id,p] of publicaciones) if(p.comunidad===p_id) publicaciones.delete(id); for(const m of miembros) if(m.startsWith(`${p_id}|`)) miembros.delete(m); return null },
   publicaciones_comunidad: ({p_id,p_antes,p_limite}) => { exigir(); if(!miembros.has(`${p_id}|${YO}`)) throw err('no_miembro'); return pagina(p=>p.comunidad===p_id && !bloq(YO,p.autor),p_antes,p_limite) },
   publicar_comunidad: ({p_id,p_tipo,p_fecha,p_resumen,p_comunidad}) => { exigir(); if(!miembros.has(`${p_comunidad}|${YO}`)) throw err('no_miembro'); if(publicaciones.has(p_id)) { if(publicaciones.get(p_id).autor===YO && publicaciones.get(p_id).comunidad===p_comunidad) return null; throw err('publicacion_no_valida') }; const c = comunidades.get(p_comunidad); if(c.solo_creador_publica && c.creador!==YO) throw err('solo_creador_publica'); publicaciones.set(p_id,{autor:YO,tipo:p_tipo,fecha:p_fecha,resumen:p_resumen,comunidad:p_comunidad,creada:new Date().toISOString()}); return null },
