@@ -6,7 +6,7 @@ import { formatInt } from '../shared/lib/format'
 import { formatAgua } from '../features/inicio/lib/agua'
 
 /** Ajustes es un índice: cada sección abre su propia vista. */
-export type SeccionAjustes = 'objetivos' | 'agua' | 'creatina' | 'entreno' | 'gamificacion' | 'apariencia' | 'instalacion' | 'cuenta' | 'copias' | 'catalogo' | 'borrar'
+export type SeccionAjustes = 'objetivos' | 'agua' | 'creatina' | 'entreno' | 'gamificacion' | 'apariencia' | 'actualizaciones' | 'instalacion' | 'cuenta' | 'copias' | 'catalogo' | 'borrar'
 
 export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: IconName }> = {
   objetivos: { nombre: 'Objetivos diarios', icon: 'flag' },
@@ -15,6 +15,7 @@ export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: I
   entreno: { nombre: 'Entreno', icon: 'dumbbell' },
   gamificacion: { nombre: 'Cumbres, Caminos, Ritmo y Vitrina', icon: 'mountain' },
   apariencia: { nombre: 'Apariencia', icon: 'moon' },
+  actualizaciones: { nombre: 'Actualizaciones', icon: 'download' },
   instalacion: { nombre: 'Primeros pasos', icon: 'sparkles' },
   cuenta: { nombre: 'Cuenta', icon: 'user' },
   copias: { nombre: 'Copias de seguridad', icon: 'download' },
@@ -26,7 +27,7 @@ export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: I
 export const GRUPOS_AJUSTES: { nombre: string; secciones: SeccionAjustes[] }[] = [
   { nombre: 'Tú', secciones: ['objetivos', 'agua', 'creatina'] },
   { nombre: 'Entreno', secciones: ['entreno', 'gamificacion'] },
-  { nombre: 'App', secciones: ['apariencia', 'instalacion'] },
+  { nombre: 'App', secciones: ['apariencia', 'actualizaciones', 'instalacion'] },
   { nombre: 'Tus datos', secciones: ['cuenta', 'copias', 'catalogo'] },
 ]
 
@@ -61,6 +62,7 @@ export function resumenAjustes(seccion: SeccionAjustes, d: DatosResumen): string
       if (s.gamificacionVisible === false) return 'Ocultos'
       return `${s.gamificacionConNutricion === false ? 'Solo entreno' : 'Con nutrición'} · ${formatInt(d.entrenosPlan)} ${d.entrenosPlan === 1 ? 'entreno' : 'entrenos'} por semana`
     case 'apariencia': return `${etiqueta(OPCIONES_TEMA, d.tema)} · Fondo ${etiqueta(OPCIONES_FONDO, d.fondo).toLowerCase()}`
+    case 'actualizaciones': return '' // Estado vivo en ResumenActualizacion.
     case 'instalacion': return 'Instalar la app, trasladar registros y pistas'
     case 'cuenta': return ''
     case 'copias': return s.ultimaExportacion === undefined ? 'Aún sin copia exportada' : `Última: ${formatDiaMes(s.ultimaExportacion)}`

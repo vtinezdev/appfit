@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC de 0003_social.sql, 0004_publicaciones.sql, 0005_feed.sql, 0006_comunidades_y_publicaciones.sql y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0007 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -34,9 +34,11 @@ publicaciones.set('p-rara', { autor: 'jon', tipo: 'entreno', fecha: hace(3000), 
 const comunidades = new Map([
   ['grupo-running', { nombre: 'Running en compañía', descripcion: 'Salidas y conversaciones de quienes corren.', creador: 'pablo' }],
   ['grupo-fuerza', { nombre: 'Entreno de fuerza', descripcion: 'Progresar juntos en el gimnasio.', creador: 'jon' }],
+  ['grupo-anuncios', { nombre: 'Actualizaciones de la comunidad', descripcion: 'Novedades del creador y comentarios de todos.', creador: 'jon', solo_creador_publica: true }],
 ])
-const miembros = new Set(['grupo-running|pablo', 'grupo-fuerza|jon'])
+const miembros = new Set(['grupo-running|pablo', 'grupo-fuerza|jon', 'grupo-anuncios|jon'])
 publicaciones.set('p-comunidad', { autor: 'pablo', comunidad: 'grupo-running', tipo: 'texto', fecha: hace(60), creada: hace(50), resumen: { v: 1, tipo: 'texto', titulo: 'Publicación', texto: '¡Bienvenidos! No hace falta seguirnos para compartir aquí.' } })
+publicaciones.set('p-anuncio', { autor: 'jon', comunidad: 'grupo-anuncios', tipo: 'texto', fecha: hace(40), creada: hace(30), resumen: { v: 1, tipo: 'texto', titulo: 'Publicación', texto: 'Estas son las novedades de la comunidad. Podéis comentarlas aquí.' } })
 const inicial = { perfiles: [...perfiles].map(([k,v]) => [k, structuredClone(v)]), seg: [...seg], publicaciones: [...publicaciones].map(([k,v]) => [k, structuredClone(v)]), comunidades: [...comunidades].map(([k,v]) => [k, structuredClone(v)]), miembros: [...miembros] }
 const reacciones = new Set(['p-lucia|jon'])
 // id -> { publicacion, autor, texto, creado }
@@ -87,19 +89,19 @@ const rpc = {
   },
   comunidades: ({ p_busqueda, p_solo_mias }) => {
     exigir()
-    return [...comunidades].filter(([id,c]) => !bloq(YO,c.creador) && (!p_solo_mias || miembros.has(`${id}|${YO}`)) && c.nombre.toLowerCase().includes((p_busqueda || '').toLowerCase())).map(([id,c]) => ({ id, nombre: c.nombre, descripcion: c.descripcion, miembros: [...miembros].filter(m=>m.startsWith(`${id}|`)).length, unida: miembros.has(`${id}|${YO}`), mia: c.creador === YO }))
+    return [...comunidades].filter(([id,c]) => !bloq(YO,c.creador) && (!p_solo_mias || miembros.has(`${id}|${YO}`)) && c.nombre.toLowerCase().includes((p_busqueda || '').toLowerCase())).map(([id,c]) => ({ id, nombre: c.nombre, descripcion: c.descripcion, miembros: [...miembros].filter(m=>m.startsWith(`${id}|`)).length, unida: miembros.has(`${id}|${YO}`), mia: c.creador === YO, solo_creador_publica: c.solo_creador_publica === true }))
   },
-  crear_comunidad: ({ p_id, p_nombre, p_descripcion }) => {
+  crear_comunidad: ({ p_id, p_nombre, p_descripcion, p_solo_creador_publica = false }) => {
     exigir()
     if (comunidades.get(p_id)?.creador === YO) return null
     if ([...comunidades.values()].some(c => c.nombre.toLowerCase() === p_nombre.toLowerCase())) throw err('comunidad_ocupada')
-    comunidades.set(p_id,{ nombre:p_nombre, descripcion:p_descripcion, creador:YO }); miembros.add(`${p_id}|${YO}`); return null
+    comunidades.set(p_id,{ nombre:p_nombre, descripcion:p_descripcion, creador:YO, solo_creador_publica: p_solo_creador_publica }); miembros.add(`${p_id}|${YO}`); return null
   },
   unirse_comunidad: ({p_id}) => { exigir(); if(!comunidades.has(p_id)) throw err('no_encontrado'); miembros.add(`${p_id}|${YO}`); return null },
   salir_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador===YO) throw err('creador_no_puede_salir'); miembros.delete(`${p_id}|${YO}`); return null },
   borrar_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador!==YO) throw err('no_encontrado'); comunidades.delete(p_id); for(const [id,p] of publicaciones) if(p.comunidad===p_id) publicaciones.delete(id); for(const m of miembros) if(m.startsWith(`${p_id}|`)) miembros.delete(m); return null },
   publicaciones_comunidad: ({p_id,p_antes,p_limite}) => { exigir(); if(!miembros.has(`${p_id}|${YO}`)) throw err('no_miembro'); return pagina(p=>p.comunidad===p_id && !bloq(YO,p.autor),p_antes,p_limite) },
-  publicar_comunidad: ({p_id,p_tipo,p_fecha,p_resumen,p_comunidad}) => { exigir(); if(!miembros.has(`${p_comunidad}|${YO}`)) throw err('no_miembro'); if(publicaciones.has(p_id)) { if(publicaciones.get(p_id).autor===YO && publicaciones.get(p_id).comunidad===p_comunidad) return null; throw err('publicacion_no_valida') }; publicaciones.set(p_id,{autor:YO,tipo:p_tipo,fecha:p_fecha,resumen:p_resumen,comunidad:p_comunidad,creada:new Date().toISOString()}); return null },
+  publicar_comunidad: ({p_id,p_tipo,p_fecha,p_resumen,p_comunidad}) => { exigir(); if(!miembros.has(`${p_comunidad}|${YO}`)) throw err('no_miembro'); if(publicaciones.has(p_id)) { if(publicaciones.get(p_id).autor===YO && publicaciones.get(p_id).comunidad===p_comunidad) return null; throw err('publicacion_no_valida') }; const c = comunidades.get(p_comunidad); if(c.solo_creador_publica && c.creador!==YO) throw err('solo_creador_publica'); publicaciones.set(p_id,{autor:YO,tipo:p_tipo,fecha:p_fecha,resumen:p_resumen,comunidad:p_comunidad,creada:new Date().toISOString()}); return null },
   marcar_actividad: () => null,
   mi_perfil: () => {
     const p = perfiles.get(YO)

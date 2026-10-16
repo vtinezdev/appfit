@@ -118,7 +118,7 @@ npm run build
 npx wrangler deploy
 ```
 
-- El service worker se actualiza solo (`autoUpdate`): la app instalada toma la versión nueva tras abrirla.
+- Las actualizaciones se descargan en segundo plano. Inicio muestra el estado y abre Ajustes › Actualizaciones, donde se puede comprobar y aplicar la versión nueva. Solo «Actualizar ahora» recarga esa página; no se fuerza la recarga de otras pestañas. Guarda antes las ediciones pendientes. Los registros guardados se conservan.
 - Instalar en el iPhone: abrir la URL en Safari → Compartir → «Añadir a pantalla de inicio».
 - Hacer un backup desde Ajustes antes de desplegar un cambio de esquema.
 - La cuenta usa `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` (públicas; nunca la *secret key*), que entran en el build. En local van en `.env` (copiar `.env.example`; `.env` está en `.gitignore`); en Cloudflare, en el Worker `appfit` › Settings › Builds › Variables and secrets, con los mismos valores. Sin ellas el build sale sin la sección Cuenta. Cloudflare construye desde `vtinezdev/appfit` (rama de producción `master`, `npm run build` y `npx wrangler deploy`). Un cambio del servidor va en un SQL nuevo de `supabase/migrations/` y se ejecuta a mano en el SQL Editor del proyecto antes de desplegar la app que lo usa.
@@ -170,6 +170,26 @@ Con Vite en 5173, `node scripts/ui/validar-insignias.cjs` prueba la Vitrina y la
 
 ### Validar la ampliación social
 
-Con `node scripts/ui/supabase-falso.mjs` en 54329 y Vite en 5174 con `VITE_SUPABASE_URL=http://127.0.0.1:54329` y `VITE_SUPABASE_PUBLISHABLE_KEY=falsa`, ejecutar `node scripts/ui/validar-social.cjs`. Usa solo `appfit-test.localhost:5174`, contextos efímeros y una sesión falsa; no entra en cuentas reales ni envía correo. Matriz 320/375/430 en claro/oscuro y 375 con texto al 200 %/Reduce Motion. `APPFIT_UI_CASE` filtra caso y `APPFIT_UI_OUTPUT` cambia `/tmp/appfit-social`. Valida texto/vista previa/reintento, comunidades de no seguidos, unirse/salir, comentarios, crear comunidad, compartir logro y mapa del entreno en seguidores/comunidad. Conserva el backup salvo la marca explícita del entreno publicado.
+Con `node scripts/ui/supabase-falso.mjs` en 54329 y Vite en 5174 con `VITE_SUPABASE_URL=http://127.0.0.1:54329` y `VITE_SUPABASE_PUBLISHABLE_KEY=falsa`, ejecutar `node scripts/ui/validar-social.cjs`. Usa solo `appfit-test.localhost:5174`, contextos efímeros y una sesión falsa; no entra en cuentas reales ni envía correo. Matriz 320/375/430 en claro/oscuro y 375 con texto al 200 %/Reduce Motion. `APPFIT_UI_CASE` filtra caso y `APPFIT_UI_OUTPUT` cambia `/tmp/appfit-social`. Valida texto/vista previa/reintento, comunidades de no seguidos, unirse/salir, comentarios, crear comunidad, compartir logro y mapa del entreno en seguidores/comunidad. Conserva el backup salvo la marca explícita del entreno publicado. Comprueba también mapa compacto, ausencia de borrado en publicaciones ajenas, confirmación/cancelación, borrado en comunidad sin tocar la marca de seguidores y borrado del entreno desde Social con reintento tras perder la respuesta; al volver al historial se puede compartir otra vez.
 
 Las pruebas reales de SQL están en `supabase/pruebas/comunidades.sql` (tras 0006, rollback completo, resultado `PRUEBAS_COMUNIDADES_OK`). Se han probado en PostgreSQL 17 local aislado junto a las migraciones sociales 0003–0006 y la suite anterior. Víctor confirmó la ejecución correcta de 0006 en el SQL Editor del proyecto real el 2026-10-16. La suite SQL nueva está verificada localmente; no se ha confirmado su ejecución en el proyecto real. No requiere acceso directo a tablas desde los clientes.
+
+### Actualizaciones visibles de la PWA
+
+Ajustes › App › Actualizaciones muestra el estado de la página abierta, la fecha de su build y la última comprobación. «App al día» requiere consultar con éxito `version.json` y que su identidad coincida; sin conexión o si falla la consulta se informa de que no se puede comprobar. El aviso pequeño de Inicio y la fila del índice de Ajustes comparten el mismo estado. «Actualizar ahora» instala/activa el SW y recarga; si falla, conserva el estado pendiente y permite reintentar.
+
+La guía de esa pantalla explica el recurso para iPhone: con conexión, comprobar y actualizar; si no termina, cerrar completamente desde el selector de aplicaciones, reabrir desde el mismo icono y esperar unos segundos. No requiere reinstalar ni borrar datos. La versión que ya estaba abierta antes de introducir esta pantalla necesita cargar esta build para mostrarla.
+
+Prueba de producción, sin cuentas reales:
+
+```bash
+APPFIT_BUILD_ID=prueba-a VITE_SUPABASE_URL='' VITE_SUPABASE_PUBLISHABLE_KEY='' npm run build -- --outDir /tmp/appfit-actualizaciones-a
+APPFIT_BUILD_ID=prueba-b VITE_SUPABASE_URL='' VITE_SUPABASE_PUBLISHABLE_KEY='' npm run build -- --outDir /tmp/appfit-actualizaciones-b
+node scripts/ui/validar-actualizaciones.cjs /tmp/appfit-actualizaciones-a /tmp/appfit-actualizaciones-b
+```
+
+El script sirve exclusivamente las builds locales en el puerto 5173 y navega a `appfit-test.localhost`; si el puerto está ocupado, no detiene el proceso que lo ocupa. Ocho contextos (320/375/430, claro/oscuro y 375 con texto al 200 %/Reduce Motion) verifican estado al día, sin conexión, fallo de consulta, actualización disponible, guía e Inicio. Después usa un perfil persistente con un fixture local: actualización real A→B con fallo/reintento de descarga, dos pestañas sin recargas ajenas y reapertura offline conservando todas las tablas. Informe/capturas en `/tmp/appfit-actualizaciones` (`APPFIT_UI_OUTPUT` para cambiarlo). `APPFIT_BUILD_ID` solo fija la identidad de prueba; en builds normales se genera una distinta automáticamente. No sustituye la prueba de instalación/actualización en un iPhone físico.
+
+### Permisos de publicación de comunidades
+
+Víctor confirmó la ejecución de `supabase/migrations/0007_comunidades_solo_creador.sql` en el proyecto real el 2026-10-16 con «Success. No rows returned», después de 0006 y antes de publicar la opción «Quién puede publicar». Es una transacción completa y conserva el modo abierto de las comunidades anteriores. `supabase/pruebas/comunidades_solo_creador.sql` termina con `PRUEBAS_COMUNIDADES_SOLO_CREADOR_OK` y hace rollback. Se verifica junto a las suites sociales anteriores en PostgreSQL 17 aislado y sin datos reales. El recorrido `scripts/ui/validar-social.cjs` incluye creación restringida, publicación del creador, comentarios de miembros y exclusión de comunidades ajenas restringidas en los destinos del editor.

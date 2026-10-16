@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import Button from '../../../shared/components/Button'
 import Campo from '../../../shared/components/Campo'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
-import { Input, Textarea } from '../../../shared/components/Input'
+import { Input, Select, Textarea } from '../../../shared/components/Input'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import Sheet from '../../../shared/components/Sheet'
@@ -10,7 +10,7 @@ import { EmptyState, ErrorState, LoadingState } from '../../../shared/components
 import ViewTabs from '../../../shared/components/ViewTabs'
 import { formatInt } from '../../../shared/lib/format'
 import { useConsulta } from '../hooks/useConsulta'
-import { MAX_NOMBRE_COMUNIDAD, MAX_DESCRIPCION_COMUNIDAD, validarComunidad, type Comunidad } from '../lib/comunidad'
+import { MAX_NOMBRE_COMUNIDAD, MAX_DESCRIPCION_COMUNIDAD, puedePublicarEnComunidad, validarComunidad, type Comunidad } from '../lib/comunidad'
 import { cargarSocial } from '../servicio'
 import { crearIdDeEnvio } from '../lib/intento'
 import CrearPublicacion from './CrearPublicacion'
@@ -44,7 +44,7 @@ export default function Comunidades({ onError }: Props) {
         {lista.estado === 'cargando' ? <LoadingState /> : lista.estado === 'error' ? <div className="space-y-2"><ErrorState>{lista.error}</ErrorState><Button variant="secondary" size="sm" onClick={lista.recargar}>Reintentar</Button></div> : !lista.datos.length ? <EmptyState title={vista === 'mias' ? 'Aún no te has unido a ninguna comunidad' : 'No hay comunidades con esa búsqueda'}>
           {vista === 'mias' ? 'Busca una en Descubrir o crea la tuya.' : 'Puedes crear la primera.'}
         </EmptyState> : <ListGroup aria-label="Lista de comunidades">{lista.datos.map(c => <li key={c.id}><ListRow onClick={() => setElegida(c)}>
-          <span className="min-w-0"><span className="block break-words text-body font-semibold text-fg">{c.nombre}</span><span className="block break-words text-body-sm text-fg-muted">{c.descripcion}</span><span className="block text-caption text-fg-muted">{formatInt(c.miembros)} {c.miembros === 1 ? 'miembro' : 'miembros'}{c.unida ? ' · Miembro' : ''}</span></span>
+          <span className="min-w-0"><span className="block break-words text-body font-semibold text-fg">{c.nombre}</span><span className="block break-words text-body-sm text-fg-muted">{c.descripcion}</span><span className="block text-caption text-fg-muted">{formatInt(c.miembros)} {c.miembros === 1 ? 'miembro' : 'miembros'}{c.unida ? ' · Miembro' : ''}{c.soloCreadorPublica ? ' · Solo publica el creador' : ''}</span></span>
         </ListRow></li>)}</ListGroup>}
       </div>
     </ViewTabs>
@@ -56,6 +56,7 @@ function CrearComunidad({ onClose, onCreada }: { onClose: () => void; onCreada: 
   const [idPara] = useState(crearIdDeEnvio)
   const [nombre, setNombre] = useState('')
   const [descripcion, setDescripcion] = useState('')
+  const [soloCreadorPublica, setSoloCreadorPublica] = useState(false)
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
   async function enviar(e: FormEvent) {
@@ -64,15 +65,21 @@ function CrearComunidad({ onClose, onCreada }: { onClose: () => void; onCreada: 
     if (invalido) { setError(invalido); return }
     setOcupado(true); setError(null)
     try {
-      const id = idPara([nombre.trim(), descripcion.trim()])
-      await (await cargarSocial()).crearComunidad(id, nombre.trim(), descripcion.trim())
-      onCreada({ id, nombre: nombre.trim(), descripcion: descripcion.trim(), miembros: 1, unida: true, mia: true }); onClose()
+      const id = idPara([nombre.trim(), descripcion.trim(), soloCreadorPublica])
+      await (await cargarSocial()).crearComunidad(id, nombre.trim(), descripcion.trim(), soloCreadorPublica)
+      onCreada({ id, nombre: nombre.trim(), descripcion: descripcion.trim(), miembros: 1, unida: true, mia: true, soloCreadorPublica }); onClose()
     } catch (e) { setError(e instanceof Error ? e.message : 'No se ha podido crear la comunidad.') } finally { setOcupado(false) }
   }
   return <Sheet open title="Crear comunidad" onClose={() => { if (!ocupado) onClose() }}>
     <form className="space-y-stack" onSubmit={enviar} noValidate>
       <Campo etiqueta="Nombre de la comunidad"><Input value={nombre} maxLength={MAX_NOMBRE_COMUNIDAD} onChange={e => setNombre(e.target.value)} /></Campo>
       <Campo etiqueta="Descripción"><Textarea rows={3} value={descripcion} maxLength={MAX_DESCRIPCION_COMUNIDAD} onChange={e => setDescripcion(e.target.value)} /></Campo>
+      <Campo etiqueta="Quién puede publicar" ayuda="Todos los miembros podrán comentar y dar ánimo.">
+        <Select value={soloCreadorPublica ? 'creador' : 'miembros'} onChange={e => setSoloCreadorPublica(e.target.value === 'creador')}>
+          <option value="miembros">Todos los miembros</option>
+          <option value="creador">Solo yo, como creador</option>
+        </Select>
+      </Campo>
       <p className="text-body-sm text-fg-muted">Cualquier persona con perfil social podrá encontrarla y unirse. Las publicaciones las verán sus miembros.</p>
       {error && <ErrorState>{error}</ErrorState>}
       <Button type="submit" variant="primary" block loading={ocupado}>Crear comunidad</Button>
@@ -103,13 +110,14 @@ function DetalleComunidad({ comunidad, onVolver, onError }: Props & { comunidad:
   return <section aria-label="Comunidad" className="space-y-stack">
     <Button variant="ghost" size="sm" onClick={onVolver}>Volver a comunidades</Button>
     <div className="space-y-1"><h2 className="break-words text-heading text-fg">{c.nombre}</h2><p className="whitespace-pre-wrap break-words text-body-sm text-fg-muted">{c.descripcion}</p><p className="text-caption text-fg-muted">{formatInt(c.miembros)} {c.miembros === 1 ? 'miembro' : 'miembros'}</p></div>
+    {c.soloCreadorPublica && <p className="text-body-sm text-fg-muted">Solo quien creó esta comunidad puede publicar. Todos los miembros pueden comentar y dar ánimo.</p>}
     {error && <ErrorState>{error}</ErrorState>}
     {c.unida ? <>
       <div className="flex flex-wrap gap-2">
-        <Button variant="secondary" aria-haspopup="dialog" onClick={() => setEditor(true)}>Crear publicación</Button>
+        {puedePublicarEnComunidad(c) && <Button variant="secondary" aria-haspopup="dialog" onClick={() => setEditor(true)}>Crear publicación</Button>}
         {!c.mia && <Button variant="subtle" loading={ocupado} onClick={() => void cambiar('salir')}>Salir de la comunidad</Button>}
       </div>
-      <ListaFeed version={`${c.id}-${version}`} enComunidad onError={onError} cargar={async antes => (await cargarSocial()).publicacionesComunidad(c.id, antes)} vacio={<EmptyState title="Aún no hay publicaciones">Comparte la primera con la comunidad.</EmptyState>} />
+      <ListaFeed version={`${c.id}-${version}`} onError={onError} cargar={async antes => (await cargarSocial()).publicacionesComunidad(c.id, antes)} vacio={<EmptyState title="Aún no hay publicaciones">{puedePublicarEnComunidad(c) ? 'Comparte la primera con la comunidad.' : 'Aquí verás las publicaciones de quien creó la comunidad.'}</EmptyState>} />
     </> : <>
       <p className="text-body-sm text-fg-muted">Únete para ver y compartir publicaciones con los miembros.</p>
       <Button variant="secondary" loading={ocupado} onClick={() => void cambiar('unirse')}>Unirme a la comunidad</Button>

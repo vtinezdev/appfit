@@ -60,7 +60,7 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     desbloquear: (alias) => rpc('desbloquear', { p_alias: alias }),
     publicar: (id, fecha, resumen, comunidad) => rpc(comunidad ? 'publicar_comunidad' : 'publicar', { p_id: id, p_tipo: resumen.tipo, p_fecha: new Date(fecha).toISOString(), p_resumen: resumen, ...(comunidad ? { p_comunidad: comunidad } : {}) }),
     comunidades: async (busqueda, soloMias) => ((await rpc<unknown[]>('comunidades', { p_busqueda: busqueda, p_solo_mias: soloMias })) ?? []).map(leerComunidad).filter((c): c is Comunidad => c !== null),
-    crearComunidad: (id, nombre, descripcion) => rpc('crear_comunidad', { p_id: id, p_nombre: nombre, p_descripcion: descripcion }),
+    crearComunidad: (id, nombre, descripcion, soloCreadorPublica = false) => rpc('crear_comunidad', { p_id: id, p_nombre: nombre, p_descripcion: descripcion, p_solo_creador_publica: soloCreadorPublica }),
     unirseComunidad: (id) => rpc('unirse_comunidad', { p_id: id }),
     salirComunidad: (id) => rpc('salir_comunidad', { p_id: id }),
     borrarComunidad: (id) => rpc('borrar_comunidad', { p_id: id }),

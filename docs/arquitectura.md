@@ -98,7 +98,7 @@ Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002]
 
 ## PWA, caché y tamaño del bundle
 
-- `vite.config.ts`: `VitePWA` con `registerType: 'autoUpdate'` (un deploy nuevo se aplica solo).
+- `vite.config.ts`: `VitePWA` en modo `prompt`, con registro explícito en `shared/pwa/actualizaciones.ts`. Descarga en segundo plano; la persona aplica la versión y recarga desde Ajustes, sin recargar otras pestañas. Decisión: [ADR 042](decisiones/042-actualizaciones-pwa-visibles.md).
 - Manifest con `id: '/'`, `start_url: '/'` y `scope: '/'` estables entre builds. Los archivos precacheados se actualizan; la base IndexedDB `appfit` conserva los registros en el mismo origen. La PWA y Safari pueden tener almacenes separados en iOS (traslado: `datos.md`).
 - El precache (`globPatterns`) incluye js/css/html/svg/png/webp/ico/woff2, incluidas las seis escenas locales. **No** incluye:
   - los `.json` del catálogo: el manifest se pide con `cache: 'no-cache'`;
@@ -114,4 +114,12 @@ Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002]
 
 `social/components/CrearPublicacion` compone texto o un resumen adjunto, audiencia y vista previa. Social y Comunidades lo reutilizan; Vitrina compone `CompartirLogro`, y el bloque de compartir de Gym/Actividades ofrece además `CompartirComunidad`. `PublicarEntreno` reutiliza `cargaMuscular.trabajoMuscularWorkout`, proyecta niveles en el resumen y `MapaPublicacion` carga las figuras musculares de forma diferida. No se añaden servicios ni persistencia local social.
 
-`social/lib/publicacion` y `comunidad` construyen/validan DTO; `data/socialSupabase` es el único adaptador a sus RPC. `0006_comunidades_y_publicaciones.sql` centraliza la visibilidad por publicación para que seguidores y comunidades queden separados también al comentar, reaccionar, denunciar o recibir avisos. La rejilla de logros conserva su navegación y solo ofrece compartir piezas alcanzadas. Operación y migración: [Social](features/social.md).
+`social/lib/publicacion` y `comunidad` construyen/validan DTO; `data/socialSupabase` es el único adaptador a sus RPC. `data/publicacionesRepo` coordina el borrado remoto con la limpieza transaccional de las marcas locales de `workouts` y `actividades`; nunca hace red dentro de una transacción Dexie. Se reutiliza en el feed y en el detalle del registro. `0006_comunidades_y_publicaciones.sql` centraliza la visibilidad por publicación para que seguidores y comunidades queden separados también al comentar, reaccionar, denunciar o recibir avisos. La rejilla de logros conserva su navegación y solo ofrece compartir piezas alcanzadas. Operación y migración: [Social](features/social.md).
+
+Las comunidades pueden limitar las publicaciones a su creador desde la creación (0007). El trigger privado `social_validar_autoria_comunidad` valida la escritura para cualquier tipo de publicación y cliente; la autorización de lectura/comentarios sigue dependiendo de pertenencia, bloqueos y suspensiones. `social/lib/comunidad.puedePublicarEnComunidad` refleja ese permiso en detalle y editor de destinos. Operación y compatibilidad: [Social](features/social.md#comunidades-donde-solo-publica-su-creador).
+
+### Estado y aplicación de actualizaciones
+
+Cada build genera `version.json` (identidad y fecha) y compila esos mismos metadatos en la página. `shared/pwa/gestorActualizaciones` compara la identidad abierta con la remota, con puertos inyectados y estado compartido en memoria (`useSyncExternalStore`). Solo una respuesta válida que coincida permite afirmar «App al día»; offline/error no lo afirman ni descartan una actualización pendiente. La consulta usa el mismo origen, `cache: no-store` y URL nueva, sin precache de metadatos. Se comprueba al arrancar, recuperar conexión, volver a la app (como mucho una vez por minuto) y cada cinco minutos mientras es visible.
+
+`shared/pwa/actualizaciones` registra `/sw.js` con `updateViaCache: none`, espera su instalación y envía `SKIP_WAITING` únicamente al actualizar a petición de la persona. Espera el cambio de controlador antes de recargar esa página; otra pestaña conserva su pantalla hasta que decida actualizar. Las descargas fallidas permiten reintentar y tienen plazos limitados. Nunca borra IndexedDB, preferencias ni todos los cachés. UI: `shared/components/AvisoActualizacion` en Inicio y `app/ActualizacionesAjustes` en Ajustes.

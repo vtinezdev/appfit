@@ -57,7 +57,7 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 
 Social (pendientes tras la ampliación del 2026-10-16):
 - **Mejorar el perfil**: qué se muestra de cada persona (foto o avatar, biografía, cifras), y su página con las publicaciones.
-- Otros pendientes conocidos: nombre definitivo de la reacción (hoy «Ánimo»), borrar también un entreno/actividad de seguidores desde el feed coordinando la marca local, notificaciones push (Web Push), recorridos con zona privada.
+- Otros pendientes conocidos: nombre definitivo de la reacción (hoy «Ánimo»), notificaciones push (Web Push), recorridos con zona privada.
 
 Registro:
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.
@@ -99,3 +99,7 @@ Catálogo:
 - **Sincronización registro a registro entre dispositivos**: exigiría pasar los ids a UUID y resolver conflictos por registro; la copia cifrada de la cuenta ([cuenta](features/cuenta.md)) cubre el cambio de móvil.
 - **Micronutrientes completos** (vitaminas, minerales): complican mucho la UI para un uso personal.
 - Fuentes de catálogo descartadas (USDA, CoFID…): `scripts/catalogo/README.md` § Fuentes.
+
+- Actualizaciones visibles: comprobar en un iPhone físico el paso de una build a otra desde Ajustes y la guía de cierre/reapertura. Pruebas automatizadas en Chromium con SW real y datos de prueba, sin WebKit físico.
+
+- Comunidades de anuncios: opción de publicación solo por su creador implementada. Víctor confirmó la ejecución correcta de 0007 en Supabase el 2026-10-16; Testers y las demás comunidades existentes conservan sus permisos. Falta probar esta opción con cuentas reales y en un iPhone físico.

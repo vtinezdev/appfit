@@ -76,6 +76,11 @@ async function main() {
         // Texto propio, vista previa y reintento después de que el servidor haya publicado pero la respuesta falle.
         await social(page)
         const principal = page.locator('main')
+        for (const titulo of ['Rodaje por el Retiro', 'Pierna pesada con nombre de rutina bastante largo']) {
+          const ajena = principal.locator('li').filter({ has: page.getByText(titulo, { exact: true }) })
+          await ajena.waitFor()
+          assert.equal(await ajena.getByRole('button', { name: 'Borrar publicación', exact: true }).count(), 0, 'solo el autor ve el borrado')
+        }
         await principal.getByRole('button', { name: 'Crear publicación', exact: true }).click()
         const editor = page.getByRole('dialog', { name: 'Crear publicación', exact: true })
         await editor.getByRole('button', { name: 'Ver vista previa', exact: true }).click()
@@ -122,12 +127,42 @@ async function main() {
         assert.equal(await principal.getByText('Mi primera publicación en la comunidad', { exact: true }).count(), 0)
         await principal.getByRole('button', { name: 'Unirme a la comunidad', exact: true }).click()
         await principal.getByRole('button', { name: 'Volver a comunidades', exact: true }).click()
+
+        // Una comunidad de anuncios ajena deja comentar, pero no crear ni compartir publicaciones.
+        await principal.getByRole('button', { name: /^Actualizaciones de la comunidad/ }).click()
+        await principal.getByRole('button', { name: 'Unirme a la comunidad', exact: true }).click()
+        const comunidadAnuncios = principal.getByRole('region', { name: 'Comunidad', exact: true })
+        await comunidadAnuncios.getByText('Estas son las novedades de la comunidad. Podéis comentarlas aquí.', { exact: true }).waitFor()
+        assert.equal(await comunidadAnuncios.getByRole('button', { name: 'Crear publicación', exact: true }).count(), 0)
+        await comunidadAnuncios.getByRole('button', { name: /^Comentarios\./ }).click()
+        const respuestas = page.getByRole('dialog', { name: 'Comentarios', exact: true })
+        await respuestas.getByRole('textbox', { name: 'Tu comentario', exact: true }).fill('Gracias por las novedades')
+        await respuestas.getByRole('button', { name: 'Enviar', exact: true }).click()
+        await respuestas.getByText('Gracias por las novedades', { exact: true }).waitFor()
+        await page.keyboard.press('Escape'); await respuestas.waitFor({ state: 'detached' })
+        await capturar(page, comunidadAnuncios, `${caso}-anuncios-miembro`)
+        await principal.getByRole('button', { name: 'Volver a comunidades', exact: true }).click()
         await principal.getByRole('button', { name: 'Crear comunidad', exact: true }).click()
         const crear = page.getByRole('dialog', { name: 'Crear comunidad', exact: true })
         await crear.getByRole('textbox', { name: 'Nombre de la comunidad', exact: true }).fill('Nuestro grupo de entreno')
         await crear.getByRole('textbox', { name: 'Descripción', exact: true }).fill('Un lugar para compartir progresos y aprender juntos.')
+        await crear.getByRole('combobox', { name: 'Quién puede publicar', exact: true }).selectOption('creador')
+        await capturar(page, crear, `${caso}-crear-solo-creador`)
+        const solicitudCreacion = page.waitForRequest(r => r.url().endsWith('/crear_comunidad'))
         await crear.getByRole('button', { name: 'Crear comunidad', exact: true }).click(); await crear.waitFor({ state: 'detached' })
+        assert.equal(JSON.parse((await solicitudCreacion).postData()).p_solo_creador_publica, true)
         await principal.getByRole('heading', { name: 'Nuestro grupo de entreno', exact: true }).waitFor()
+        await principal.getByRole('region', { name: 'Comunidad', exact: true }).getByRole('button', { name: 'Crear publicación', exact: true }).click()
+        vista = await publicarTexto(page, 'Anuncio del creador')
+        await vista.getByRole('button', { name: 'Publicar', exact: true }).click(); await vista.waitFor({ state: 'detached' })
+        await principal.getByText('Anuncio del creador', { exact: true }).waitFor()
+        // El editor global filtra comunidades ajenas restringidas, también para adjuntar entrenos/logros.
+        await principal.getByRole('button', { name: 'Crear publicación', exact: true }).first().click()
+        const destinos = page.getByRole('dialog', { name: 'Crear publicación', exact: true }).getByRole('combobox', { name: 'Publicar para', exact: true })
+        await destinos.locator('option').filter({ hasText: 'Nuestro grupo de entreno' }).waitFor({ state: 'attached' })
+        assert.equal(await destinos.locator('option[value="grupo-anuncios"]').count(), 0)
+        assert.equal(await destinos.locator('option[value="grupo-running"]').count(), 1)
+        await page.keyboard.press('Escape'); await page.getByRole('dialog', { name: 'Crear publicación', exact: true }).waitFor({ state: 'detached' })
 
         // Logro desde la Vitrina: la pieza alcanzada, su icono y el nivel concreto.
         await page.getByRole('navigation').getByRole('button', { name: 'Más', exact: true }).click()
@@ -151,6 +186,8 @@ async function main() {
         const mapa = compartirEntreno.getByRole('region', { name: 'Mapa de calor del entreno', exact: true })
         await mapa.getByText(/Pecho: Muy alto/).waitFor()
         await mapa.getByText('Frontal', { exact: true }).waitFor()
+        const tamano = await mapa.locator('svg').first().evaluate(e => ({ ancho: e.getBoundingClientRect().width, rem: parseFloat(getComputedStyle(document.documentElement).fontSize) }))
+        assert.ok(tamano.ancho <= 6 * tamano.rem, 'las figuras compartidas son compactas')
         await capturar(page, compartirEntreno, `${caso}-mapa`)
         await compartirEntreno.getByRole('button', { name: 'Compartir en una comunidad', exact: true }).click()
         compartir = page.getByRole('dialog', { name: 'Compartir', exact: true })
@@ -166,6 +203,56 @@ async function main() {
         const resumenes = envios.filter(e => e.p_tipo === 'entreno').map(e => e.p_resumen)
         assert.equal(resumenes.length, 2)
         assert.ok(resumenes.every(r => r.mapa.pecho === 5 && r.mapa.triceps > 0 && !r.mapa.peso && !r.mapa.sexo))
+
+        const marca = () => page.evaluate(async () => {
+          const { db } = await import('/src/shared/db/db.ts')
+          return (await db.workouts.get(10)).publicacion
+        })
+        const idPublicado = await marca()
+        assert.ok(idPublicado)
+        const tarjetaMapa = () => principal.locator('li').filter({ has: page.getByRole('region', { name: 'Mapa de calor del entreno', exact: true }) })
+
+        // Borrar la copia de comunidad no desvincula la publicación original de seguidores.
+        await page.getByRole('tab', { name: 'Comunidades', exact: true }).click()
+        await principal.getByRole('button', { name: /^Running en compañía/ }).click()
+        let tarjeta = tarjetaMapa()
+        await tarjeta.getByRole('button', { name: 'Borrar publicación', exact: true }).click()
+        await tarjeta.getByRole('group', { name: 'Confirmar borrado', exact: true }).getByRole('button', { name: 'Borrar publicación', exact: true }).click()
+        await tarjeta.waitFor({ state: 'detached' })
+        assert.equal(await marca(), idPublicado)
+
+        await page.getByRole('tab', { name: 'Tú', exact: true }).click()
+        tarjeta = tarjetaMapa()
+        await tarjeta.getByRole('button', { name: 'Borrar publicación', exact: true }).click()
+        let confirmacion = tarjeta.getByRole('group', { name: 'Confirmar borrado', exact: true })
+        await capturar(page, confirmacion, `${caso}-borrar-entreno`)
+        if (c.grande) {
+          const apilados = await confirmacion.getByRole('button').evaluateAll(botones => botones[1].getBoundingClientRect().top >= botones[0].getBoundingClientRect().bottom)
+          assert.ok(apilados, 'con texto ampliado las acciones de confirmación se apilan')
+        }
+        await confirmacion.getByRole('button', { name: 'Cancelar', exact: true }).click()
+        assert.equal(await marca(), idPublicado, 'cancelar conserva la publicación y la marca')
+        await tarjeta.getByRole('button', { name: 'Borrar publicación', exact: true }).click()
+        confirmacion = tarjeta.getByRole('group', { name: 'Confirmar borrado', exact: true })
+        if (caso === '375-light') {
+          await page.route('**/rest/v1/rpc/borrar_publicacion', async route => {
+            await route.fetch() // El servidor borra, pero se pierde la respuesta: el reintento debe completar la limpieza.
+            await route.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ message: 'fallo_simulado' }) })
+          })
+          await confirmacion.getByRole('button', { name: 'Borrar publicación', exact: true }).click()
+          await page.waitForFunction(() => [...document.querySelectorAll('[aria-label="Confirmar borrado"] button')].some(b => b.textContent === 'Borrar publicación' && !b.disabled))
+          assert.equal(await marca(), idPublicado, 'un fallo de red conserva la marca hasta confirmar el borrado')
+          await page.unroute('**/rest/v1/rpc/borrar_publicacion')
+        }
+        await confirmacion.getByRole('button', { name: 'Borrar publicación', exact: true }).click()
+        await tarjeta.waitFor({ state: 'detached' })
+        assert.equal(await marca(), undefined, 'el borrado desde Social libera la marca local')
+
+        // El historial conserva series y datos, y vuelve a permitir compartir el mismo entreno.
+        await navegar(page, 'Entreno')
+        await page.getByRole('tab', { name: 'Historial', exact: true }).click()
+        await page.locator('[data-sesion="10"] button').click()
+        await principal.getByRole('region', { name: 'Compartir con tus seguidores', exact: true }).getByRole('button', { name: 'Publicar en Social', exact: true }).waitFor()
         assert.deepEqual(await registros(page), antes, 'los flujos sociales no alteran los registros, salvo la marca explícita de publicación')
         assert.deepEqual(errores, [])
         informe.push({ caso, correcto: true }); console.log(`${caso}: correcto`)

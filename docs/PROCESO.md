@@ -1509,3 +1509,43 @@ La migración está preparada pero no se ha aplicado al Supabase real: debe ejec
 ## 139. Migración social aplicada y publicación autorizada (2026-10-16)
 
 Víctor ejecutó el contenido completo de `0006_comunidades_y_publicaciones.sql` en el SQL Editor del proyecto real y confirmó «Success. No rows returned». Después pidió commit, push, PR y merge de las cuatro mejoras de Social (§138). Se actualizan los documentos vivos con la migración aplicada. Las comprobaciones de §138 están en verde y la rama parte del master actual; quedan pendientes las pruebas de esta ampliación con cuentas reales y dispositivos físicos.
+
+## 140. Mapa compartido compacto y borrado desde Social (2026-10-16)
+
+Tras probar la ampliación en producción, Víctor confirma que funciona y pide reducir el mapa corporal compartido y poder borrar también los entrenos desde su publicación, con la opción visible solo al autor.
+
+- `MapaPublicacion` limita y centra las figuras con `--muscle-social-width` (12 rem), conservando las dos vistas, la escala y los niveles en texto. No cambia el mapa del detalle del entreno.
+- `PublicacionFeed` ofrece el borrado con confirmación para todas las publicaciones propias, también entrenos y actividades. El servidor conserva su comprobación de autoría. Se elimina el parámetro de audiencia que restringía esa opción y las acciones de confirmación se apilan cuando falta ancho, incluido texto al 200 %.
+- `social/data/publicacionesRepo.borrarPublicacion`, compartido por feed y detalle, borra primero en Supabase y después limpia en una transacción las marcas locales que coincidan con ese UUID, sin eliminar registros ni series. Borrar la copia de comunidad conserva la marca de seguidores; los errores de red conservan la marca y el reintento acepta `no_encontrado` para completar la limpieza si se perdió la respuesta.
+
+**Verificación:** 2.211 tests en 174 archivos y build TypeScript/Vite/PWA correctos; guard de diseño y acceso a datos repetidos tras ajustar la confirmación (47 tests). Cuatro pruebas de datos nuevas verifican conservación de registros, marcas independientes y reintentos. `scripts/ui/validar-social.cjs`: ocho contextos finales a 320/375/430 px en claro/oscuro y 375 con texto al 200 %/Reduce Motion, con mapa compacto, borrado ausente en publicaciones ajenas, cancelación, borrado de copia de comunidad, pérdida de respuesta/reintento, marca local liberada y vuelta al historial para compartir otra vez. Backup sin cambios salvo la marca de publicación; informe y capturas en `/tmp/appfit-social-compacto`. Datos sintéticos y Supabase falso; sin nueva prueba real ni iPhone físico.
+
+En `feat/social-borrado-mapa-compacto`, sin commit, push ni despliegue de este ajuste. No requiere SQL nuevo.
+
+## 141. Estado visible y actualización de la PWA desde Ajustes (2026-10-16)
+
+Víctor pide informar si la app está al día tanto en Ajustes como en un aviso pequeño de Inicio, y explicar el cierre/reapertura que hasta ahora había que repetir para recuperar la versión nueva.
+
+- Cada build compila su identidad/fecha y genera `version.json` del propio origen, fuera del precache. El gestor compartido valida la respuesta sin caché y compara la versión de esta página, no solo la descarga del SW. Distingue al día, disponible, comprobando, aplicando, falta de conexión y error. Mantiene la última comprobación y una actualización conocida aunque falle la siguiente consulta. Sin conexión no afirma que esté al día.
+- Ajustes › App › Actualizaciones muestra el estado, la fecha de la versión, la última comprobación, «Comprobar actualizaciones» y «Actualizar ahora». La guía desplegable explica cerrar completamente desde el selector del móvil y reabrir desde el mismo icono si no termina. Inicio ofrece una línea discreta con el mismo estado y acceso directo.
+- Registro explícito en `shared/pwa/actualizaciones`, Workbox `prompt`, descargas en segundo plano y activación a petición, esperando instalación y cambio de controlador antes de recargar. No recarga otras pestañas a la fuerza. La interfaz pide guardar ediciones antes de recargar. Hay reintentos y tiempos máximos; nunca se limpia IndexedDB para actualizar. Decisión y operación: [ADR 042](decisiones/042-actualizaciones-pwa-visibles.md) y [Desarrollo](desarrollo.md#actualizaciones-visibles-de-la-pwa).
+
+**Verificación:** suite completa en verde: 2.220 tests, 175 archivos (incluye el ajuste de Social de §140). Build TypeScript/Vite/PWA correcto; `version.json` fuera del precache y sin registro duplicado inyectado. `scripts/ui/validar-actualizaciones.cjs`: ocho contextos 320/375/430 en ambos temas y 375 con texto al 200 %/Reduce Motion, con estado al día, sin conexión, error de consulta, nueva versión, guía y acceso de Inicio. Dos builds locales A→B con SW real: fallo de descarga/reintento, recarga de la página que lo pide sin recargar otra pestaña, comparación de todas las tablas con un fixture y reapertura del mismo perfil sin red. Chromium puede mantener `navigator.onLine=true` al reabrir ese perfil: se verifica el fallo real de fetch y que el estado sea sin conexión o no comprobado, nunca al día. Informe/capturas en `/tmp/appfit-actualizaciones`. Sin cuentas reales ni iPhone físico.
+
+Sin commit, push ni despliegue; se conserva también el trabajo pendiente de §140. No requiere SQL ni migración local.
+
+## 142. Comunidades donde solo publica quien las creó (2026-10-16)
+
+Víctor pide crear una comunidad de actualizaciones donde solo él publique y que los miembros puedan comentar; Testers debe conservar la participación actual.
+
+- «Crear comunidad» añade «Quién puede publicar»: todos los miembros (por defecto) o solo el creador. La elección entra en el UUID de reintento. Las comunidades restringidas explican la regla en el detalle; el creador puede publicar y los demás miembros siguen leyendo, comentando y dando ánimo.
+- `Comunidad.soloCreadorPublica` y `puedePublicarEnComunidad` se usan tanto en el detalle como en todos los destinos del editor compartido, incluidos texto, entreno, actividad y logro. Una comunidad ajena restringida no se ofrece como destino. Hay mensaje comprensible si el servidor rechaza el envío de un cliente anterior.
+- `0007_comunidades_solo_creador.sql`: columna remota no nula con default false para conservar Testers y las demás comunidades existentes; RPC de creación con la elección, firma anterior de tres argumentos conservada y listado ampliado. Un trigger privado valida cualquier inserción/cambio de autor o comunidad en publicaciones. No cambia permisos de lectura/comentarios ni añade datos locales. Reglas y operación en [Social](features/social.md#comunidades-donde-solo-publica-su-creador).
+
+**Verificación:** 2.222 tests en 175 archivos y build TypeScript/Vite/PWA correctos. PostgreSQL 17 local aislado, sin red ni puertos: migraciones 0003–0007, comunidad creada antes de 0007 conservada en modo abierto, suite social anterior (`PRUEBAS_OK`), comunidades (`PRUEBAS_COMUNIDADES_OK`) y `supabase/pruebas/comunidades_solo_creador.sql` (`PRUEBAS_COMUNIDADES_SOLO_CREADOR_OK`): creador publica los cuatro tipos, miembros no publican en anuncios pero sí comentan/reaccionan, pertenencia, firma anterior, idempotencia, permisos y cascadas. Rollback de pruebas y contenedor cerrado. `scripts/ui/validar-social.cjs`: ocho contextos finales en 320/375/430 claro/oscuro y 375 con texto al 200 %/Reduce Motion; elección al crear, publicación del creador, comentarios del miembro sin botón de publicar, filtro de destinos y regresión del resto de Social (mapa, borrado y marcas locales). Backup conservado salvo la marca explícita de publicación. Informe/capturas en `/tmp/appfit-comunidades-creador`; datos sintéticos, sin cuentas reales ni iPhone físico.
+
+0007 está preparada pero pendiente de ejecutar en el Supabase real antes de desplegar. Sin commit, push ni publicación; se conserva todo el trabajo pendiente de §140–141.
+
+## 143. Migración 0007 aplicada y publicación autorizada (2026-10-16)
+
+Víctor ejecutó la query completa de 0007 en el SQL Editor del proyecto real y confirmó «Success. No rows returned». Después pidió commit, PR y merge de todo lo pendiente: mapa compartido compacto y borrado desde Social (§140), estado y aplicación de actualizaciones de la PWA (§141), y comunidades donde solo publica el creador (§142). Se actualiza el estado de la migración en los documentos vivos. Las comprobaciones finales de §142 siguen en verde (2.222 tests, build, SQL y ocho contextos de interfaz); también está verificada la actualización real de la PWA con datos conservados (§141). Las pruebas con cuentas reales de estos ajustes y un iPhone físico siguen pendientes.

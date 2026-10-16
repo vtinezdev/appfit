@@ -29,6 +29,7 @@ import { useCumbres } from '../cumbres/hooks/useCumbres'
 import AguaSheet from './components/AguaSheet'
 import { AGUA_POR_DEFECTO_ML, formatAgua, resolverObjetivoAgua } from './lib/agua'
 import AvisoBackup from './components/AvisoBackup'
+import AvisoActualizacion from '../../shared/components/AvisoActualizacion'
 import AvisoAmigos from '../social/components/AvisoAmigos'
 import TarjetaRevisionSemanal from './components/TarjetaRevisionSemanal'
 import { useTarjetaRevision } from './hooks/useRevisionSemanal'
@@ -46,6 +47,7 @@ interface Props {
   onRevisarCuenta: () => void
   onIrAAmigos: () => void
   onIrASocial: () => void
+  onRevisarActualizaciones: () => void
   ayudaInicial?: ReactNode
 }
 
@@ -54,7 +56,7 @@ const PESO_POR_DEFECTO = 70
 const DIAS_HISTORIAL = 365
 
 /** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, el último entreno, la semana (Ritmo), la montaña de Cumbres y la ruta de Caminos. Registrar está en el «+» de la barra. */
-export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrACaminos, onIrARitmo, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, ayudaInicial }: Props) {
+export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrACaminos, onIrARitmo, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -122,6 +124,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIr
   return (
     <div className="space-y-section px-page pt-5">
       <PageHeader overline={fechaLarga} title="Hoy" />
+      <AvisoActualizacion onRevisar={onRevisarActualizaciones} />
       {ayudaInicial}
       <AvisoBackup onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />
       <AvisoAmigos onIrAAmigos={onIrAAmigos} onIrASocial={onIrASocial} />
