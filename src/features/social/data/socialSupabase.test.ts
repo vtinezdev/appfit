@@ -49,6 +49,7 @@ describe('destinatario y funciones de comunidad', () => {
     expect(rpc).toHaveBeenLastCalledWith('crear_comunidad', { p_id: 'anuncios', p_nombre: 'Actualizaciones', p_descripcion: '', p_solo_creador_publica: true })
     await social().unirseComunidad('id'); expect(rpc).toHaveBeenLastCalledWith('unirse_comunidad', { p_id: 'id' })
     await social().salirComunidad('id'); expect(rpc).toHaveBeenLastCalledWith('salir_comunidad', { p_id: 'id' })
+    await social().editarDescripcionComunidad('id', 'Nueva'); expect(rpc).toHaveBeenLastCalledWith('editar_descripcion_comunidad', { p_id: 'id', p_descripcion: 'Nueva' })
     await social().denunciarComunidad('id', 'spam', null); expect(rpc).toHaveBeenLastCalledWith('denunciar', { p_tipo: 'comunidad', p_objetivo: 'id', p_motivo: 'spam', p_detalle: null })
     rpc.mockResolvedValueOnce({ error: { code: 'P0001', message: 'no_miembro' }, data: null })
     await expect(social().publicacionesComunidad('id', null)).rejects.toMatchObject({ clave: 'no_miembro' })

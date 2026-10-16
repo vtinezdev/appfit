@@ -19,6 +19,10 @@ export function puedePublicarEnComunidad(c: Comunidad): boolean {
 
 export function validarComunidad(nombre: string, descripcion: string): string | null {
   if (nombre.trim().length < 3 || nombre.trim().length > MAX_NOMBRE_COMUNIDAD) return 'El nombre debe tener entre 3 y 60 caracteres.'
+  return validarDescripcionComunidad(descripcion)
+}
+
+export function validarDescripcionComunidad(descripcion: string): string | null {
   return descripcion.trim().length > MAX_DESCRIPCION_COMUNIDAD ? `La descripción puede tener como mucho ${formatInt(MAX_DESCRIPCION_COMUNIDAD)} caracteres.` : null
 }
 

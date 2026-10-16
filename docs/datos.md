@@ -171,3 +171,5 @@ El mapa muscular compartido es una proyección de 12 niveles enteros (0–5), si
 Las comprobaciones y acciones de actualización de la PWA solo mantienen estado en memoria y consultan los estáticos del mismo origen. No añaden tablas ni campos al backup y no limpian IndexedDB; los registros guardados se conservan al activar el SW y recargar. Ver [Desarrollo](desarrollo.md#actualizaciones-visibles-de-la-pwa).
 
 `0007_comunidades_solo_creador.sql` añade únicamente la columna remota `comunidades.solo_creador_publica` (no nula, false por defecto) y el control de autoría en las escrituras de publicaciones. Las comunidades existentes conservan el modo abierto; comentarios y reacciones de miembros se mantienen. No cambia Dexie, las marcas locales de publicación ni el backup. Ver [Social](features/social.md#comunidades-donde-solo-publica-su-creador).
+
+`0008_editar_descripcion_comunidad.sql` solo añade un RPC para que el creador cambie `comunidades.descripcion`. No cambia tablas remotas, Dexie ni el backup. Ver [Social](features/social.md#editar-la-descripción-de-una-comunidad).

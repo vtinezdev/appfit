@@ -10,7 +10,7 @@ import { EmptyState, ErrorState, LoadingState } from '../../../shared/components
 import ViewTabs from '../../../shared/components/ViewTabs'
 import { formatInt } from '../../../shared/lib/format'
 import { useConsulta } from '../hooks/useConsulta'
-import { MAX_NOMBRE_COMUNIDAD, MAX_DESCRIPCION_COMUNIDAD, puedePublicarEnComunidad, validarComunidad, type Comunidad } from '../lib/comunidad'
+import { MAX_NOMBRE_COMUNIDAD, MAX_DESCRIPCION_COMUNIDAD, puedePublicarEnComunidad, validarComunidad, validarDescripcionComunidad, type Comunidad } from '../lib/comunidad'
 import { cargarSocial } from '../servicio'
 import { crearIdDeEnvio } from '../lib/intento'
 import CrearPublicacion from './CrearPublicacion'
@@ -90,6 +90,7 @@ function CrearComunidad({ onClose, onCreada }: { onClose: () => void; onCreada: 
 function DetalleComunidad({ comunidad, onVolver, onError }: Props & { comunidad: Comunidad; onVolver: () => void }) {
   const [c, setC] = useState(comunidad)
   const [editor, setEditor] = useState(false)
+  const [editarDescripcion, setEditarDescripcion] = useState(false)
   const [denunciar, setDenunciar] = useState(false)
   const [denunciada, setDenunciada] = useState(false)
   const [borrar, setBorrar] = useState(false)
@@ -110,6 +111,7 @@ function DetalleComunidad({ comunidad, onVolver, onError }: Props & { comunidad:
   return <section aria-label="Comunidad" className="space-y-stack">
     <Button variant="ghost" size="sm" onClick={onVolver}>Volver a comunidades</Button>
     <div className="space-y-1"><h2 className="break-words text-heading text-fg">{c.nombre}</h2><p className="whitespace-pre-wrap break-words text-body-sm text-fg-muted">{c.descripcion}</p><p className="text-caption text-fg-muted">{formatInt(c.miembros)} {c.miembros === 1 ? 'miembro' : 'miembros'}</p></div>
+    {c.mia && <Button variant="ghost" size="sm" aria-haspopup="dialog" onClick={() => setEditarDescripcion(true)}>{c.descripcion ? 'Editar descripción' : 'Añadir descripción'}</Button>}
     {c.soloCreadorPublica && <p className="text-body-sm text-fg-muted">Solo quien creó esta comunidad puede publicar. Todos los miembros pueden comentar y dar ánimo.</p>}
     {error && <ErrorState>{error}</ErrorState>}
     {c.unida ? <>
@@ -124,7 +126,31 @@ function DetalleComunidad({ comunidad, onVolver, onError }: Props & { comunidad:
     </>}
     {c.mia ? borrar ? <ConfirmacionDestructiva mensaje="Se borrarán esta comunidad y todas sus publicaciones, reacciones y comentarios. No se puede deshacer." confirmar="Borrar comunidad" ocupado={ocupado} onCancelar={() => setBorrar(false)} onConfirmar={() => void cambiar('borrar')} /> : <Button variant="ghost" size="sm" onClick={() => setBorrar(true)}>Borrar comunidad</Button> : <Button variant="ghost" size="sm" onClick={() => setDenunciar(true)}>Denunciar comunidad</Button>}
     {denunciada && <p role="status" className="text-body-sm text-fg-muted">Denuncia enviada. La revisaremos.</p>}
+    {editarDescripcion && <EditarDescripcion comunidad={c} onClose={() => setEditarDescripcion(false)} onGuardada={descripcion => setC(a => ({ ...a, descripcion }))} />}
     {editor && <CrearPublicacion comunidad={c} onClose={() => setEditor(false)} onPublicada={() => setVersion(v => v + 1)} />}
     {denunciar && <Sheet open title="Denunciar comunidad" onClose={() => setDenunciar(false)}><FormDenuncia onCancelar={() => setDenunciar(false)} onEnviar={async (motivo, detalle) => { await (await cargarSocial()).denunciarComunidad(c.id, motivo, detalle); setDenunciar(false); setDenunciada(true) }} /></Sheet>}
   </section>
+}
+
+function EditarDescripcion({ comunidad, onClose, onGuardada }: { comunidad: Comunidad; onClose: () => void; onGuardada: (descripcion: string) => void }) {
+  const [descripcion, setDescripcion] = useState(comunidad.descripcion)
+  const [ocupado, setOcupado] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  async function enviar(e: FormEvent) {
+    e.preventDefault(); if (ocupado) return
+    const invalido = validarDescripcionComunidad(descripcion)
+    if (invalido) { setError(invalido); return }
+    setOcupado(true); setError(null)
+    try {
+      await (await cargarSocial()).editarDescripcionComunidad(comunidad.id, descripcion.trim())
+      onGuardada(descripcion.trim()); onClose()
+    } catch (e) { setError(e instanceof Error ? e.message : 'No se ha podido guardar la descripción.') } finally { setOcupado(false) }
+  }
+  return <Sheet open title="Descripción de la comunidad" onClose={() => { if (!ocupado) onClose() }}>
+    <form className="space-y-stack" onSubmit={enviar} noValidate>
+      <Campo etiqueta="Descripción" ayuda="La verán quienes busquen la comunidad y sus miembros."><Textarea rows={4} value={descripcion} maxLength={MAX_DESCRIPCION_COMUNIDAD} onChange={e => setDescripcion(e.target.value)} /></Campo>
+      {error && <ErrorState>{error}</ErrorState>}
+      <Button type="submit" variant="primary" block loading={ocupado}>Guardar descripción</Button>
+    </form>
+  </Sheet>
 }

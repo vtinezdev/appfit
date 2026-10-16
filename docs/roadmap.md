@@ -103,3 +103,4 @@ Catálogo:
 - Actualizaciones visibles: comprobar en un iPhone físico el paso de una build a otra desde Ajustes y la guía de cierre/reapertura. Pruebas automatizadas en Chromium con SW real y datos de prueba, sin WebKit físico.
 
 - Comunidades de anuncios: opción de publicación solo por su creador implementada. Víctor confirmó la ejecución correcta de 0007 en Supabase el 2026-10-16; Testers y las demás comunidades existentes conservan sus permisos. Falta probar esta opción con cuentas reales y en un iPhone físico.
+- Descripción editable de comunidades: implementada. 0008 ejecutada en Supabase el 2026-10-16. Falta correr su suite SQL en PostgreSQL y probarla con cuentas reales.
