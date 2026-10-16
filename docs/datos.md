@@ -160,3 +160,10 @@ Dexie v9 añade `cheatDays` (`++id, &fecha`) sin tocar versiones ni registros an
 Dexie v10 añade `actividades` (`++id, fecha, inicio`) sin tocar versiones ni registros anteriores. Cada fila es una caminata, carrera o ruta de senderismo: `tipo`, `fecha` (local, del inicio), `inicio` (ms), `duracionSeg` (tiempo en marcha), `distanciaM`, `desnivelM?`, `origen`, `nombre?`, `notas?`, `recorrido?` (tramos de puntos `[lat, lon, ele?]`) y `createdAt`; mientras se graba, `enCurso` y `reanudadaEn`. La tabla entra en el backup v3 como opcional (una copia antigua la importa vacía) y con «Borrar todos los datos»; el recorrido viaja con ella, así que el backup contiene ubicaciones. No hay CSV de actividades. Flujos: [Actividades](features/actividades.md); quién las lee: la [experiencia](features/experiencia.md) (XP por km), [Caminos](features/caminos.md) y la [Vitrina](features/vitrina.md).
 
 Dexie v11 añade `rutasPropias` (`++id`), opcional en el backup v3: las [rutas propias de Caminos](features/caminos.md#rutas-propias).
+
+
+## Comunidades y nuevos resúmenes sociales
+
+La migración remota `0006_comunidades_y_publicaciones.sql` añade `comunidades`, `miembros_comunidad` y `publicaciones.comunidad`, y admite texto/logro además de entreno/actividad. Sin tablas ni versiones nuevas de Dexie o backup: estos datos viven únicamente en Supabase, bajo funciones autenticadas y sin acceso directo. Las copias de entrenos/actividades en comunidades no cambian su marca local de publicación de seguidores. Los logros siguen derivados, sin persistir ni marcar automáticamente.
+
+El mapa muscular compartido es una proyección de 12 niveles enteros (0–5), sin Perfil, coordenadas o datos de las series. La versión de resumen permanece en 1; los anteriores sin mapa se leen igual y los clientes anteriores ignoran tipos nuevos que no conocen. Reglas de acceso, límites, cascadas y operación: [Social](features/social.md#publicaciones-libres-logros-y-comunidades). La migración todavía no se ha aplicado al proyecto real.

@@ -17,6 +17,10 @@ export const MENSAJES_SOCIAL: Record<string, string> = {
   comentario_no_valido: 'El comentario tiene que tener de 1 a 500 caracteres.',
   limite: 'Has llegado al límite de hoy. Vuelve a intentarlo mañana.',
   publicacion_no_valida: 'No se ha podido publicar. Inténtalo de nuevo.',
+  comunidad_no_valida: 'Revisa el nombre y la descripción de la comunidad.',
+  comunidad_ocupada: 'Ya hay una comunidad con ese nombre. Elige otro.',
+  no_miembro: 'Únete a la comunidad para ver y compartir publicaciones.',
+  creador_no_puede_salir: 'Has creado esta comunidad. Puedes borrarla desde sus opciones.',
   denuncia_no_valida: 'No se ha podido enviar la denuncia. Revisa el motivo e inténtalo de nuevo.',
 }
 

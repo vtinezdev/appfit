@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
+import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import { formatInt } from '../../../shared/lib/format'
 import type { PublicacionFeed as Publicacion } from '../lib/feed'
 import { REACCION, textoComentarios, textoReacciones } from '../lib/reaccion'
@@ -16,12 +17,22 @@ interface Props {
   onError: (mensaje: string) => void
   /** Falso en las publicaciones de una persona: su nombre ya es el título de la página. */
   conAutor?: boolean
+  enComunidad?: boolean
+  onBorrada?: () => void
 }
 
 /** Una publicación del feed: quién, la tarjeta, la reacción (al momento, se deshace si falla) y los comentarios. */
-export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onComentarios, onError, conAutor = true }: Props) {
+export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onComentarios, onError, conAutor = true, enComunidad = false, onBorrada }: Props) {
   const [reaccion, setReaccion] = useState({ mia: p.reaccione, total: p.reacciones })
   const [ocupado, setOcupado] = useState(false)
+  const [confirmar, setConfirmar] = useState(false)
+
+  async function borrar() {
+    if (ocupado) return
+    setOcupado(true)
+    try { await (await cargarSocial()).borrarPublicacion(p.id); onBorrada?.() }
+    catch (e) { onError(e instanceof Error ? e.message : 'No se ha podido borrar.'); setOcupado(false) }
+  }
 
   async function alternar() {
     if (ocupado) return
@@ -48,7 +59,7 @@ export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onCome
       : <NombrePersona persona={p} />
 
   const pie = (
-    <div className="flex flex-wrap items-center gap-2 border-t border-line pt-3">
+    <div className="space-y-2 border-t border-line pt-3"><div className="flex flex-wrap items-center gap-2">
       {p.mia ? (
         <p className="flex min-h-touch items-center gap-1 text-body-sm text-fg-muted"><Icon name="llama" size={18} />{textoReacciones(reaccion.total)}</p>
       ) : (
@@ -60,6 +71,9 @@ export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onCome
       <Button variant="subtle" size="sm" aria-label={`Comentarios. ${textoComentarios(p.comentarios)}`} onClick={() => onComentarios(p)}>
         <Icon name="comentario" size={18} />{formatInt(p.comentarios)}
       </Button>
+      {p.mia && (enComunidad || p.resumen.tipo === 'texto' || p.resumen.tipo === 'logro') && <Button variant="subtle" size="sm" disabled={ocupado} onClick={() => setConfirmar(true)}>Borrar publicación</Button>}
+    </div>
+    {confirmar && <ConfirmacionDestructiva mensaje="Se borrarán esta publicación, sus reacciones y comentarios. No se puede deshacer." confirmar="Borrar publicación" ocupado={ocupado} onCancelar={() => setConfirmar(false)} onConfirmar={() => void borrar()} />}
     </div>
   )
 

@@ -106,3 +106,8 @@ Se ordena por la marca más reciente; muestra 15 y «Ver más ejercicios».
 ## Rendimiento
 
 Experiencia, Ritmo, Cumbres y Vitrina juntos tardan unos 150 ms en escritorio con tres años densos (500 entrenos, 12.500 series y 8.000 entradas). La Vitrina solo se calcula en su página y al terminar un entreno.
+
+
+## Compartir logros
+
+Con cuenta y perfil social activo, el detalle de una pieza conseguida ofrece «Compartir logro», también en «Nuevo en la Vitrina» al terminar un entreno. Se seleccionan seguidores o una comunidad propia y se confirma la vista previa. El resumen lleva símbolo, nombre, día real y el requisito del nivel alcanzado (no el siguiente); nunca un oculto pendiente. `CompartirLogro` compone el editor social y `social/lib/publicacion.resumenLogro` valida la pieza. No se guarda ni marca el logro en Dexie. Reglas, audiencia y migración remota: [Social](social.md#publicaciones-libres-logros-y-comunidades).

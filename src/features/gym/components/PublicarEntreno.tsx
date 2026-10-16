@@ -10,6 +10,8 @@ import { useVitrina } from '../../vitrina/hooks/useVitrina'
 import { logrosDeEntreno, nombreConNivel } from '../../vitrina/lib/logros'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
+import * as exercisesRepo from '../data/exercisesRepo'
+import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { describirRecord, type RecordEjercicio } from '../lib/records'
 import { efectivas, ordenEjerciciosSesion } from '../lib/workout'
 
@@ -37,14 +39,16 @@ function Contenido({ workoutId, titulo, inicio, fin, series, volumen, records, n
   const hoy = todayISO()
   const workout = useLiveQuery(() => workoutsRepo.obtener(workoutId), [workoutId])
   const sets = useLiveQuery(() => setsRepo.delWorkout(workoutId), [workoutId])
+  const ejercicios = useLiveQuery(() => exercisesRepo.listar(), [])
   const ligas = useLigas(hoy)
   const vitrina = useVitrina(hoy)
-  if (!workout || !sets || ligas === undefined || vitrina === undefined) return null
+  if (!workout || !sets || !ejercicios || ligas === undefined || vitrina === undefined) return null
 
   const nombre = (id: number) => nombres[id] ?? 'Ejercicio'
   const conSeries = [...new Set(efectivas([...sets].sort((a, b) => a.createdAt - b.createdAt)).map((s) => s.exerciseId))]
   const resumen = resumenEntreno({
     titulo, inicio, fin, series, volumenKg: volumen,
+    mapa: trabajoMuscularWorkout(workout, sets, ejercicios).levels,
     ejercicios: ordenEjerciciosSesion([], conSeries, workout.ordenEjercicios, workout.ejerciciosOmitidos).map(nombre),
     records: records.map((r) => ({ ejercicio: nombre(r.exerciseId), texto: describirRecord(r, (n) => formatNumber(n, 2)) })),
     ligas: ligas.visible

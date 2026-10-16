@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC de 0003_social.sql, 0004_publicaciones.sql, 0005_feed.sql y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC de 0003_social.sql, 0004_publicaciones.sql, 0005_feed.sql, 0006_comunidades_y_publicaciones.sql y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -31,6 +31,13 @@ publicaciones.set('p-lucia', { autor: 'lucia', tipo: 'actividad', fecha: hace(30
 publicaciones.set('p-jon', { autor: 'jon', tipo: 'entreno', fecha: hace(1500), creada: hace(1400), resumen: { v: 1, tipo: 'entreno', titulo: 'Pierna pesada con nombre de rutina bastante largo', duracionSeg: 4500, series: 22, volumenKg: 12850, ejercicios: ['Sentadilla', 'Peso muerto rumano', 'Prensa', 'Zancadas', 'Curl femoral'], records: [{ ejercicio: 'Sentadilla', texto: '140 kg × 3' }], ligas: [{ ejercicio: 'Peso muerto rumano', texto: 'Sube a Oro' }], logros: ['Constancia II'] } })
 publicaciones.set('p-rara', { autor: 'jon', tipo: 'entreno', fecha: hace(3000), creada: hace(2900), resumen: { v: 7, cosa: 'rara' } })
 // [publicacion, user]
+const comunidades = new Map([
+  ['grupo-running', { nombre: 'Running en compañía', descripcion: 'Salidas y conversaciones de quienes corren.', creador: 'pablo' }],
+  ['grupo-fuerza', { nombre: 'Entreno de fuerza', descripcion: 'Progresar juntos en el gimnasio.', creador: 'jon' }],
+])
+const miembros = new Set(['grupo-running|pablo', 'grupo-fuerza|jon'])
+publicaciones.set('p-comunidad', { autor: 'pablo', comunidad: 'grupo-running', tipo: 'texto', fecha: hace(60), creada: hace(50), resumen: { v: 1, tipo: 'texto', titulo: 'Publicación', texto: '¡Bienvenidos! No hace falta seguirnos para compartir aquí.' } })
+const inicial = { perfiles: [...perfiles].map(([k,v]) => [k, structuredClone(v)]), seg: [...seg], publicaciones: [...publicaciones].map(([k,v]) => [k, structuredClone(v)]), comunidades: [...comunidades].map(([k,v]) => [k, structuredClone(v)]), miembros: [...miembros] }
 const reacciones = new Set(['p-lucia|jon'])
 // id -> { publicacion, autor, texto, creado }
 const comentarios = new Map([['c1', { publicacion: 'p-jon', autor: 'lucia', texto: '¡Qué barbaridad de sentadilla!', creado: hace(1300) }]])
@@ -50,7 +57,7 @@ const pagina = (filtro, antes, limite) => [...publicaciones].filter(([, pu]) => 
   .sort((a, b) => (a[1].creada < b[1].creada ? 1 : -1)).slice(0, limite).map(([pid]) => fila(pid))
 const verPublicacion = (pid) => {
   const pu = publicaciones.get(pid)
-  if (!pu || !puedeVer(pu.autor)) throw err('no_encontrado')
+  if (!pu || bloq(YO, pu.autor) || (pu.comunidad ? !miembros.has(`${pu.comunidad}|${YO}`) : !puedeVer(pu.autor))) throw err('no_encontrado')
   return pu
 }
 
@@ -72,6 +79,27 @@ const otro = (alias) => {
 }
 
 const rpc = {
+  simular_reinicio: () => {
+    for (const [mapa, filas] of [[perfiles,inicial.perfiles],[seg,inicial.seg],[publicaciones,inicial.publicaciones],[comunidades,inicial.comunidades]]) { mapa.clear(); for (const [k,v] of filas) mapa.set(k,structuredClone(v)) }
+    miembros.clear(); for (const m of inicial.miembros) miembros.add(m)
+    bloqueos.clear(); reacciones.clear(); comentarios.clear(); avisosVistos = new Date(0).toISOString()
+    return null
+  },
+  comunidades: ({ p_busqueda, p_solo_mias }) => {
+    exigir()
+    return [...comunidades].filter(([id,c]) => !bloq(YO,c.creador) && (!p_solo_mias || miembros.has(`${id}|${YO}`)) && c.nombre.toLowerCase().includes((p_busqueda || '').toLowerCase())).map(([id,c]) => ({ id, nombre: c.nombre, descripcion: c.descripcion, miembros: [...miembros].filter(m=>m.startsWith(`${id}|`)).length, unida: miembros.has(`${id}|${YO}`), mia: c.creador === YO }))
+  },
+  crear_comunidad: ({ p_id, p_nombre, p_descripcion }) => {
+    exigir()
+    if (comunidades.get(p_id)?.creador === YO) return null
+    if ([...comunidades.values()].some(c => c.nombre.toLowerCase() === p_nombre.toLowerCase())) throw err('comunidad_ocupada')
+    comunidades.set(p_id,{ nombre:p_nombre, descripcion:p_descripcion, creador:YO }); miembros.add(`${p_id}|${YO}`); return null
+  },
+  unirse_comunidad: ({p_id}) => { exigir(); if(!comunidades.has(p_id)) throw err('no_encontrado'); miembros.add(`${p_id}|${YO}`); return null },
+  salir_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador===YO) throw err('creador_no_puede_salir'); miembros.delete(`${p_id}|${YO}`); return null },
+  borrar_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador!==YO) throw err('no_encontrado'); comunidades.delete(p_id); for(const [id,p] of publicaciones) if(p.comunidad===p_id) publicaciones.delete(id); for(const m of miembros) if(m.startsWith(`${p_id}|`)) miembros.delete(m); return null },
+  publicaciones_comunidad: ({p_id,p_antes,p_limite}) => { exigir(); if(!miembros.has(`${p_id}|${YO}`)) throw err('no_miembro'); return pagina(p=>p.comunidad===p_id && !bloq(YO,p.autor),p_antes,p_limite) },
+  publicar_comunidad: ({p_id,p_tipo,p_fecha,p_resumen,p_comunidad}) => { exigir(); if(!miembros.has(`${p_comunidad}|${YO}`)) throw err('no_miembro'); if(publicaciones.has(p_id)) { if(publicaciones.get(p_id).autor===YO && publicaciones.get(p_id).comunidad===p_comunidad) return null; throw err('publicacion_no_valida') }; publicaciones.set(p_id,{autor:YO,tipo:p_tipo,fecha:p_fecha,resumen:p_resumen,comunidad:p_comunidad,creada:new Date().toISOString()}); return null },
   marcar_actividad: () => null,
   mi_perfil: () => {
     const p = perfiles.get(YO)
@@ -144,17 +172,17 @@ const rpc = {
     exigir()
     const previa = publicaciones.get(p_id)
     if (previa) { if (previa.autor === YO) return null; throw err('publicacion_no_valida') }
-    if (!['entreno', 'actividad'].includes(p_tipo) || JSON.stringify(p_resumen).length > 8192) throw err('publicacion_no_valida')
+    if (!['entreno', 'actividad', 'texto', 'logro'].includes(p_tipo) || JSON.stringify(p_resumen).length > 8192) throw err('publicacion_no_valida')
     publicaciones.set(p_id, { autor: YO, tipo: p_tipo, fecha: p_fecha, creada: new Date().toISOString(), resumen: p_resumen })
     console.log('publicado', JSON.stringify(p_resumen))
     return null
   },
-  feed: ({ p_antes, p_limite }) => { exigir(); return pagina((pu) => puedeVer(pu.autor), p_antes, p_limite) },
+  feed: ({ p_antes, p_limite }) => { exigir(); return pagina((pu) => !pu.comunidad && puedeVer(pu.autor), p_antes, p_limite) },
   publicaciones_de: ({ p_alias, p_antes, p_limite }) => {
     exigir()
     const id = idDe(p_alias)
     if (!id || !puedeVer(id)) throw err('no_encontrado')
-    return pagina((pu) => pu.autor === id, p_antes, p_limite)
+    return pagina((pu) => !pu.comunidad && pu.autor === id, p_antes, p_limite)
   },
   reaccionar: ({ p_id }) => { exigir(); verPublicacion(p_id); reacciones.add(`${p_id}|${YO}`); return null },
   quitar_reaccion: ({ p_id }) => { exigir(); reacciones.delete(`${p_id}|${YO}`); return null },

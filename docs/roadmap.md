@@ -51,14 +51,13 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Entreno activo: la columna «Anterior» solo cabe en la fila con paneles de 20,5rem o más (móviles de 414 px en adelante); en 375/390/393 px va en una línea bajo reps y kg, para no estrechar los campos.
 - `scripts/ui/validar-*.cjs` se han adaptado a la barra de pestañas (§97) sin ejecutarlos: siguen apuntando a `/usr/bin/chromium` y conservan otros selectores anteriores.
 
+La ampliación de publicaciones libres, logros compartidos, comunidades y mapa muscular está implementada. Víctor confirmó la ejecución correcta de `0006_comunidades_y_publicaciones.sql` en el proyecto real el 2026-10-16; las pruebas con cuentas reales de esta ampliación siguen pendientes. Ver [Social](features/social.md).
+
 ## Ideas sin empezar
 
-Social (lo siguiente que quiere Víctor, 2026-10-15; nada empezado):
+Social (pendientes tras la ampliación del 2026-10-16):
 - **Mejorar el perfil**: qué se muestra de cada persona (foto o avatar, biografía, cifras), y su página con las publicaciones.
-- **Compartir logros** sueltos (Vitrina, ligas, cumbres, caminos) como publicaciones propias, no solo dentro de un entreno.
-- **Crear publicaciones** a mano (texto, sin entreno detrás).
-- **Comunidades**: grupos donde la gente interactúe sin seguirse. Cambia el modelo de privacidad (hoy solo ven tus seguidores aceptados) y la moderación: necesita decisión y ADR.
-- Otros pendientes conocidos: nombre definitivo de la reacción (hoy «Ánimo»), borrar una publicación propia desde el feed, notificaciones push (Web Push), recorridos con zona privada.
+- Otros pendientes conocidos: nombre definitivo de la reacción (hoy «Ánimo»), borrar también un entreno/actividad de seguidores desde el feed coordinando la marca local, notificaciones push (Web Push), recorridos con zona privada.
 
 Registro:
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.

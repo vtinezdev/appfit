@@ -2,6 +2,7 @@ import { NubeError } from '../../cuenta/data/nube'
 import type { Avisos, Comentario, PublicacionFeed } from '../lib/feed'
 import type { Resumen } from '../lib/publicacion'
 import type { Persona } from '../lib/relacion'
+import type { Comunidad } from '../lib/comunidad'
 
 /**
  * Lo que la app necesita del servidor para la parte social (Supabase en `socialSupabase.ts`). Todo pasa por las
@@ -31,7 +32,14 @@ export interface Social {
   desbloquear(alias: string): Promise<void>
   denunciarPerfil(alias: string, motivo: MotivoDenuncia, detalle: string | null): Promise<void>
   /** `id` lo genera la app: repetirlo (un reintento) no duplica. `fecha`: ms del inicio. */
-  publicar(id: string, fecha: number, resumen: Resumen): Promise<void>
+  publicar(id: string, fecha: number, resumen: Resumen, comunidad?: string): Promise<void>
+  comunidades(busqueda: string, soloMias: boolean): Promise<Comunidad[]>
+  crearComunidad(id: string, nombre: string, descripcion: string): Promise<void>
+  unirseComunidad(id: string): Promise<void>
+  salirComunidad(id: string): Promise<void>
+  borrarComunidad(id: string): Promise<void>
+  publicacionesComunidad(id: string, antes: string | null): Promise<PublicacionFeed[]>
+  denunciarComunidad(id: string, motivo: MotivoDenuncia, detalle: string | null): Promise<void>
   /** Si ya no existe, falla con «no encontrado». */
   borrarPublicacion(id: string): Promise<void>
   /** Lo mío y de quienes sigo, lo último publicado primero. `antes`: `creada` de la última vista (o null). */

@@ -510,6 +510,13 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 /* Las insignias conservan su tamaño con texto ampliado; la rejilla gana espacio de lectura. */
 .medalla-anillo { width: var(--insignia-lg); height: var(--insignia-lg); }
 .logros-grupo { container: logros-grupo / inline-size; }
+.publicacion-tarjeta { container: publicacion / inline-size; }
+@container publicacion (max-width: 18rem) {
+  .publicacion-metricas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container publicacion (max-width: 12rem) {
+  .publicacion-metricas { grid-template-columns: minmax(0, 1fr); }
+}
 @container logros-grupo (max-width: 18rem) {
   .logros-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

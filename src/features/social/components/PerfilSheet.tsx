@@ -119,7 +119,7 @@ export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado
 
         {borrar ? (
           <ConfirmacionDestructiva
-            mensaje="Se borran tu perfil, a quién sigues y quién te sigue. Tu cuenta, tu copia y tus registros se quedan. No se puede deshacer."
+            mensaje="Se borran tu perfil, a quién sigues y quién te sigue, tus publicaciones y las comunidades que has creado con todo su contenido. Tu cuenta, tu copia y tus registros se quedan. No se puede deshacer."
             confirmar="Sí, borrar el perfil"
             ocupado={ocupado}
             onCancelar={() => setBorrar(false)}

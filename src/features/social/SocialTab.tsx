@@ -11,11 +11,13 @@ import AvisosSheet from './components/AvisosSheet'
 import type { PublicacionComentada } from './components/ComentariosSheet'
 import ListaFeed from './components/ListaFeed'
 import PublicacionesPersona from './components/PublicacionesPersona'
+import CrearPublicacion from './components/CrearPublicacion'
+import Comunidades from './components/Comunidades'
 import type { MiPerfil } from './data/social'
 import { useConsulta } from './hooks/useConsulta'
 import { cargarSocial } from './servicio'
 
-type Vista = 'todo' | 'tu'
+type Vista = 'todo' | 'tu' | 'comunidades'
 
 interface Props {
   onIrAAmigos: () => void
@@ -34,7 +36,7 @@ export default function SocialTab({ onIrAAmigos, onIrACuenta }: Props) {
       <div className="space-y-section px-page pt-5">
         <PageHeader title="Social" />
         <EmptyState icon="comentario" title="Entra con tu cuenta" action={<Button variant="secondary" onClick={onIrACuenta}>Ir a Cuenta</Button>}>
-          Aquí verás los entrenos y las actividades que publiquen las personas que sigues, y podrás darles ánimo y comentar. Necesitas una cuenta.
+          Publicaciones, logros y comunidades. Entra con tu cuenta para participar.
         </EmptyState>
       </div>
     )
@@ -61,7 +63,7 @@ function ConCuenta({ onIrAAmigos }: { onIrAAmigos: () => void }) {
         <EmptyState icon="users" title={suspendido ? 'Perfil suspendido' : 'Crea tu perfil'} action={<Button variant="secondary" onClick={onIrAAmigos}>Ir a Amigos</Button>}>
           {suspendido
             ? 'Tu perfil se ha suspendido por una denuncia. Mientras tanto no puedes ver ni publicar nada.'
-            : 'Para ver lo que publican las personas que sigues, primero crea tu perfil en Amigos y sigue a alguien.'}
+            : 'Crea tu perfil en Amigos para publicar y unirte a comunidades.'}
         </EmptyState>
       </div>
     )
@@ -71,19 +73,22 @@ function ConCuenta({ onIrAAmigos }: { onIrAAmigos: () => void }) {
 
 function Social({ perfil, onIrAAmigos }: { perfil: MiPerfil; onIrAAmigos: () => void }) {
   const [vista, setVista] = useState<Vista>('todo')
+  const [editor, setEditor] = useState(false)
+  const [version, setVersion] = useState(0)
   const [avisosAbiertos, setAvisosAbiertos] = useState({ open: false, n: 0 })
   // Tocar un aviso cierra la hoja de avisos y, cuando termina de cerrarse, abre los comentarios.
   const siguiente = useRef<(() => void) | null>(null)
   const [comentariosDe, setComentariosDe] = useState<PublicacionComentada | null>(null)
   const [publicacionesDe, setPublicacionesDe] = useState<{ alias: string; nombre: string | null } | null>(null)
   const avisos = useConsulta(async () => (await cargarSocial()).avisos(), 0)
-  const { avisarError, toast } = useAviso()
+  const { avisarError, avisar, toast } = useAviso()
 
   const nuevos = avisos.datos?.nuevos ?? 0
   const solicitudes = avisos.datos?.solicitudes ?? perfil.solicitudes
   const vistas: { valor: Vista; label: string }[] = [
     { valor: 'todo', label: 'Siguiendo' },
     { valor: 'tu', label: 'Tú' },
+    { valor: 'comunidades', label: 'Comunidades' },
   ]
 
   return (
@@ -91,6 +96,7 @@ function Social({ perfil, onIrAAmigos }: { perfil: MiPerfil; onIrAAmigos: () => 
       <PageHeader title="Social" action={<IconButton icon="users" label="Amigos" variant="ghost" onClick={onIrAAmigos} />} />
 
       <div className="flex flex-wrap gap-2">
+        <Button variant="secondary" size="sm" aria-haspopup="dialog" onClick={() => setEditor(true)}>Crear publicación</Button>
         <Button variant="secondary" size="sm" onClick={() => setAvisosAbiertos((a) => ({ open: true, n: a.n + 1 }))}>
           <Icon name="comentario" size={18} className={nuevos > 0 ? 'text-accent-strong' : ''} />
           {nuevos > 0 ? `Avisos · ${formatInt(nuevos)} ${nuevos === 1 ? 'nuevo' : 'nuevos'}` : 'Avisos'}
@@ -104,23 +110,23 @@ function Social({ perfil, onIrAAmigos }: { perfil: MiPerfil; onIrAAmigos: () => 
 
       <ViewTabs opciones={vistas} valor={vista} onChange={setVista} label="Publicaciones">
         {vista === 'todo' ? (
-          <ListaFeed version="todo" onError={avisarError} comentariosDe={comentariosDe}
+          <ListaFeed version={`todo-${version}`} onError={avisarError} comentariosDe={comentariosDe}
             onAbrirPersona={setPublicacionesDe}
             cargar={async (antes) => (await cargarSocial()).feed(antes)}
             vacio={
               <EmptyState icon="comentario" title="Aún no hay publicaciones" action={<Button variant="secondary" onClick={onIrAAmigos}>Buscar a alguien</Button>}>
-                Aquí verás los entrenos y las actividades que publiquen las personas que sigues. Sigue a alguien desde Amigos.
+                Aquí verás las publicaciones de las personas que sigues y las tuyas.
               </EmptyState>
             } />
-        ) : (
-          <ListaFeed version="tu" onError={avisarError} conAutor={false}
+        ) : vista === 'tu' ? (
+          <ListaFeed version={`tu-${version}`} onError={avisarError} conAutor={false}
             cargar={async (antes) => (await cargarSocial()).publicacionesDe(perfil.alias, antes)}
             vacio={
               <EmptyState icon="comentario" title="Aún no has publicado nada">
-                Al terminar un entreno, o en el detalle de un entreno o de una actividad, pulsa «Publicar en Social».
+                Crea una publicación o comparte un entreno, actividad o logro.
               </EmptyState>
             } />
-        )}
+        ) : <Comunidades onError={avisarError} />}
       </ViewTabs>
 
       {avisosAbiertos.n > 0 && (
@@ -141,6 +147,7 @@ function Social({ perfil, onIrAAmigos }: { perfil: MiPerfil; onIrAAmigos: () => 
           }} />
       )}
       {publicacionesDe && <PublicacionesPersona persona={publicacionesDe} onClose={() => setPublicacionesDe(null)} />}
+      {editor && <CrearPublicacion onClose={() => setEditor(false)} onPublicada={() => { setVersion(v => v + 1); avisar({ mensaje: 'Publicación creada' }) }} />}
       {toast}
     </div>
   )

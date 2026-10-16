@@ -39,7 +39,7 @@ export function FigurasMusculares({ levels, figura = 'hombre', className = '' }:
       <Cuerpo title="Frontal" vista={CUERPOS[figura].frontal} levels={levels} />
       <Cuerpo title="Trasera" vista={CUERPOS[figura].trasera} levels={levels} />
     </div>
-    <div aria-label="Escala de trabajo relativo" className="flex items-center justify-center gap-2 text-caption text-fg-muted">
+    <div aria-label="Escala de trabajo relativo" className="flex flex-wrap items-center justify-center gap-2 text-caption text-fg-muted">
       <span>Menos</span><div aria-hidden="true" className="flex gap-1">{([1, 2, 3, 4, 5] as NivelMuscular[]).map(n => <span key={n} className="muscle-swatch" data-level={n} />)}</div><span>Más trabajo</span>
     </div>
   </div>
