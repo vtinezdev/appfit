@@ -41,3 +41,6 @@ En iPhone (y en Android con la TWA de Play), una web app no recibe la ubicación
 - Validación (`validarActividad`): distancia y duración positivas, hasta 300 km y 48 h, inicio no futuro, desnivel de 0 a 10.000 m y media de 25 km/h como mucho (más rápido casi seguro es una errata o era en bici). Una grabación que no la pasa no se guarda y sigue en curso.
 - El recorrido se guarda simplificado (como mucho 800 puntos); distancia y desnivel se calculan antes, con todos los puntos. Editar la distancia no cambia el recorrido.
 - Qué dan: XP por km en [experiencia](experiencia.md) (10 m por km del día, hasta 100 m, 3 días por semana, aparte del plan de entrenos; no cuentan para Ritmo ni para la semana cumplida) y km en [Caminos](caminos.md). No cambian los objetivos de nutrición.
+
+
+Desde el bloque de compartir también se puede enviar el resumen a una comunidad a la que se pertenezca, con vista previa. Sigue sin incluir recorrido GPS, y esa copia no sustituye la marca local de publicación para seguidores. Ver [Social](social.md#publicaciones-libres-logros-y-comunidades).

@@ -1,5 +1,8 @@
 import type { TipoActividad } from '../../../shared/db/types'
 import { formatInt } from '../../../shared/lib/format'
+import { ZONAS_MUSCULARES, type ZonaMuscular } from '../../gym/lib/musculos'
+import type { NivelMuscular } from '../../gym/lib/cargaMuscular'
+import { IDS_LOGRO, GRUPOS_LOGRO, nivelDe, type IdLogro, type GrupoLogro, type Logro } from '../../vitrina/lib/logros'
 
 /**
  * Lo que se publica de un entreno o de una actividad (ADR 040): un resumen pequeño, sin nutrición, peso, medidas ni
@@ -12,6 +15,26 @@ export const VERSION_RESUMEN = 1
 export const MAX_TEXTO = 60
 export const MAX_EJERCICIOS = 15
 export const MAX_LINEAS = 6
+export const MAX_PUBLICACION = 2000
+export const MAX_DESCRIPCION_LOGRO = 500
+export type MapaCompartido = Record<ZonaMuscular, NivelMuscular>
+
+export interface ResumenTexto {
+  v: 1
+  tipo: 'texto'
+  titulo: string
+  texto: string
+}
+
+export interface ResumenLogro {
+  v: 1
+  tipo: 'logro'
+  titulo: string
+  logroId: IdLogro
+  grupo: GrupoLogro
+  nivel: number | null
+  descripcion: string
+}
 
 /** Un récord o un cambio de liga: el ejercicio y qué consiguió («100 kg × 5», «Sube a Plata»). */
 export interface LineaLogro {
@@ -32,6 +55,8 @@ export interface ResumenEntreno {
   ligas: LineaLogro[]
   /** Piezas nuevas de la Vitrina. */
   logros: string[]
+  /** Solo niveles por zona: nunca medidas, sexo, pesos, ejercicios privados ni datos de Perfil. */
+  mapa?: MapaCompartido
 }
 
 export interface ResumenActividad {
@@ -44,7 +69,7 @@ export interface ResumenActividad {
   desnivelM: number | null
 }
 
-export type Resumen = ResumenEntreno | ResumenActividad
+export type Resumen = ResumenEntreno | ResumenActividad | ResumenTexto | ResumenLogro
 
 export type TipoPublicacion = Resumen['tipo']
 
@@ -76,11 +101,13 @@ export interface DatosEntreno {
   records: LineaLogro[]
   ligas: LineaLogro[]
   logros: string[]
+  mapa?: MapaCompartido
 }
 
 /** El resumen de un entreno: textos recortados, listas acotadas y cifras redondeadas. */
 export function resumenEntreno(d: DatosEntreno): ResumenEntreno {
   const ejercicios = [...new Set(d.ejercicios.map(texto).filter(Boolean))]
+  const mapa = leerMapa(d.mapa)
   return {
     v: VERSION_RESUMEN,
     tipo: 'entreno',
@@ -92,6 +119,7 @@ export function resumenEntreno(d: DatosEntreno): ResumenEntreno {
     records: d.records.slice(0, MAX_LINEAS).map(linea),
     ligas: d.ligas.slice(0, MAX_LINEAS).map(linea),
     logros: d.logros.map(texto).filter(Boolean).slice(0, MAX_LINEAS),
+    ...(mapa ? { mapa } : {}),
   }
 }
 
@@ -131,15 +159,59 @@ const leerLineas = (x: unknown): LineaLogro[] =>
     return ejercicio && t ? [{ ejercicio, texto: t }] : []
   }).slice(0, MAX_LINEAS)
 
+/** Copia solo zonas conocidas y niveles enteros. Un mapa mal formado no invalida una publicación antigua. */
+export function leerMapa(x: unknown): MapaCompartido | undefined {
+  if (!esObjeto(x) || !ZONAS_MUSCULARES.some((z) => Object.hasOwn(x, z))) return undefined
+  const mapa = {} as MapaCompartido
+  for (const z of ZONAS_MUSCULARES) {
+    const n = Object.hasOwn(x, z) ? x[z] : 0
+    if (typeof n !== 'number' || !Number.isInteger(n) || n < 0 || n > 5) return undefined
+    mapa[z] = n as NivelMuscular
+  }
+  return mapa
+}
+
+export function validarPublicacion(t: string): string | null {
+  if (!t.trim()) return 'Escribe tu publicación.'
+  return t.trim().length > MAX_PUBLICACION ? `Como mucho ${formatInt(MAX_PUBLICACION)} caracteres.` : null
+}
+
+export function resumenTexto(t: string): ResumenTexto | null {
+  return validarPublicacion(t) ? null : { v: 1, tipo: 'texto', titulo: 'Publicación', texto: t.trim() }
+}
+
+/** Solo permite compartir una pieza alcanzada, con el texto de ese nivel (no el del siguiente objetivo). */
+export function resumenLogro(l: Logro, nivel: number | null = nivelDe(l) || null): ResumenLogro | null {
+  if (l.umbrales) {
+    if (nivel === null || !Number.isInteger(nivel) || nivel < 1 || !l.niveles[nivel - 1]) return null
+  } else if (!l.veces?.length || nivel !== null) return null
+  return {
+    v: 1, tipo: 'logro', titulo: texto(l.nombre), logroId: l.id, grupo: l.grupo, nivel: l.umbrales && l.umbrales.length > 1 ? nivel : null,
+    descripcion: (nivel !== null && l.umbrales && l.textoNivel ? l.textoNivel(l.umbrales[nivel - 1]) : l.descripcion).slice(0, MAX_DESCRIPCION_LOGRO),
+  }
+}
+
 /** Un resumen válido de una versión conocida, o `null` (no se pinta). Recorta lo que venga de más. */
 export function leerResumen(x: unknown): Resumen | null {
   if (!esObjeto(x) || x.v !== VERSION_RESUMEN) return null
   const titulo = leerTexto(x.titulo)
+  if (titulo === null) return null
+  if (x.tipo === 'texto') {
+    if (typeof x.texto !== 'string' || validarPublicacion(x.texto)) return null
+    return { v: 1, tipo: 'texto', titulo, texto: x.texto.trim() }
+  }
+  if (x.tipo === 'logro') {
+    if (!IDS_LOGRO.includes(x.logroId as IdLogro) || !Object.hasOwn(GRUPOS_LOGRO, String(x.grupo))) return null
+    if (x.nivel !== null && (typeof x.nivel !== 'number' || !Number.isInteger(x.nivel) || x.nivel < 1 || x.nivel > 5)) return null
+    if (typeof x.descripcion !== 'string' || !x.descripcion.trim() || x.descripcion.length > MAX_DESCRIPCION_LOGRO) return null
+    return { v: 1, tipo: 'logro', titulo, logroId: x.logroId as IdLogro, grupo: x.grupo as GrupoLogro, nivel: x.nivel as number | null, descripcion: x.descripcion.trim() }
+  }
   const duracionSeg = leerCifra(x.duracionSeg)
   if (titulo === null || duracionSeg === null) return null
   if (x.tipo === 'entreno') {
     const series = leerCifra(x.series)
     const volumenKg = leerCifra(x.volumenKg)
+    const mapa = leerMapa(x.mapa)
     if (series === null || volumenKg === null) return null
     return {
       v: 1, tipo: 'entreno', titulo, duracionSeg, series, volumenKg,
@@ -147,6 +219,7 @@ export function leerResumen(x: unknown): Resumen | null {
       records: leerLineas(x.records),
       ligas: leerLineas(x.ligas),
       logros: leerTextos(x.logros, MAX_LINEAS),
+      ...(mapa ? { mapa } : {}),
     }
   }
   if (x.tipo === 'actividad') {

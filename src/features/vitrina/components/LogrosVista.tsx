@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Anillo from '../../../shared/components/Anillo'
 import IconoLogro from './IconoLogro'
+import CompartirLogro from './CompartirLogro'
 import Sheet from '../../../shared/components/Sheet'
 import ListGroup from '../../../shared/components/ListGroup'
 import ProgressBar from '../../../shared/components/ProgressBar'
@@ -101,7 +102,7 @@ export default function LogrosVista({ logros }: { logros: Logro[] }) {
       </ul>
     </section>)}
     <Sheet open={hoja} onClose={() => setHoja(false)} title={abierto && !(abierto.oculto && !conseguido(abierto)) ? abierto.nombre : 'Logro oculto'}>
-      {abierto && <ListGroup variante="plana" aria-label="Detalle del logro"><FilaLogro l={abierto} /></ListGroup>}
+      {abierto && <div className="space-y-stack"><ListGroup variante="plana" aria-label="Detalle del logro"><FilaLogro l={abierto} /></ListGroup><CompartirLogro logro={abierto} /></div>}
     </Sheet>
   </div>
 }

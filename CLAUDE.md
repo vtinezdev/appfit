@@ -1,6 +1,6 @@
 # AppFit — instrucciones para Claude Code
 
-PWA de nutrición y gimnasio de Víctor, que va a abrirse a otras personas. Los datos viven en IndexedDB (Dexie) del dispositivo y Cloudflare solo sirve estáticos; la cuenta es opcional y guarda en Supabase una copia cifrada en el móvil (`docs/features/cuenta.md`) y, si se usa Amigos, el perfil social (`docs/features/social.md`). Sin IA: las comidas se interpretan en el dispositivo (intérprete local + catálogo CIQUAL / Open Food Facts). UI, nombres de dominio en el código y documentación, en español.
+PWA de nutrición y gimnasio de Víctor, que va a abrirse a otras personas. Los datos viven en IndexedDB (Dexie) del dispositivo y Cloudflare solo sirve estáticos; la cuenta es opcional y guarda en Supabase una copia cifrada en el móvil (`docs/features/cuenta.md`) y, si se usa Social, el perfil, las publicaciones elegidas y las comunidades (`docs/features/social.md`). Sin IA: las comidas se interpretan en el dispositivo (intérprete local + catálogo CIQUAL / Open Food Facts). UI, nombres de dominio en el código y documentación, en español.
 
 Stack: Vite 8 · React 19 · TypeScript · Tailwind 3 (solo nombra tokens) · Dexie 4 + dexie-react-hooks · Recharts · vite-plugin-pwa · Vitest + fake-indexeddb. Versiones: `package.json`.
 

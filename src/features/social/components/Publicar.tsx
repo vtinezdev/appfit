@@ -8,6 +8,7 @@ import type { Resumen } from '../lib/publicacion'
 import { useConsulta } from '../hooks/useConsulta'
 import { cargarSocial, socialDisponible } from '../servicio'
 import TarjetaPublicacion from './TarjetaPublicacion'
+import { CompartirComunidad } from './CrearPublicacion'
 
 /**
  * Solo pinta lo de dentro si se puede publicar: Amigos configurado, sesión y un perfil sin suspender. Sin conexión o
@@ -86,6 +87,7 @@ export default function Publicar({ publicacion, fecha, resumen, onAnotar }: Prop
           <Button variant="subtle" size="sm" loading={ocupado} onClick={() => void borrar(publicacion)}>Borrar publicación</Button>
         </div>
         {error && <ErrorState>{error}</ErrorState>}
+        <CompartirComunidad resumen={resumen} fecha={fecha} />
       </section>
     )
   }
@@ -97,6 +99,7 @@ export default function Publicar({ publicacion, fecha, resumen, onAnotar }: Prop
       <p className="text-caption text-fg-muted">Lo verán las personas que te siguen. Tu nutrición, tu peso y tus medidas no se comparten{resumen.tipo === 'actividad' ? ', ni el recorrido' : ''}.</p>
       {error && <ErrorState>{error}</ErrorState>}
       <Button variant="primary" block loading={ocupado} onClick={() => void publicar()}>Publicar en Social</Button>
+      <CompartirComunidad resumen={resumen} fecha={fecha} />
     </section>
   )
 }

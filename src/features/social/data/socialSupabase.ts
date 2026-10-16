@@ -5,6 +5,7 @@ import { leerAvisos, leerComentario, leerPublicacion, POR_PAGINA, type Comentari
 import { mensajeSocial } from '../lib/mensajes'
 import type { EstadoSeguimiento, Persona } from '../lib/relacion'
 import { SocialError, type MiPerfil, type Social } from './social'
+import { leerComunidad, type Comunidad } from '../lib/comunidad'
 
 /** Se carga con `import()` desde `social/servicio.ts`: comparte cliente (y sesión) con la cuenta. */
 
@@ -57,7 +58,14 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     quitarSeguidor: (alias) => rpc('quitar_seguidor', { p_alias: alias }),
     bloquear: (alias) => rpc('bloquear', { p_alias: alias }),
     desbloquear: (alias) => rpc('desbloquear', { p_alias: alias }),
-    publicar: (id, fecha, resumen) => rpc('publicar', { p_id: id, p_tipo: resumen.tipo, p_fecha: new Date(fecha).toISOString(), p_resumen: resumen }),
+    publicar: (id, fecha, resumen, comunidad) => rpc(comunidad ? 'publicar_comunidad' : 'publicar', { p_id: id, p_tipo: resumen.tipo, p_fecha: new Date(fecha).toISOString(), p_resumen: resumen, ...(comunidad ? { p_comunidad: comunidad } : {}) }),
+    comunidades: async (busqueda, soloMias) => ((await rpc<unknown[]>('comunidades', { p_busqueda: busqueda, p_solo_mias: soloMias })) ?? []).map(leerComunidad).filter((c): c is Comunidad => c !== null),
+    crearComunidad: (id, nombre, descripcion) => rpc('crear_comunidad', { p_id: id, p_nombre: nombre, p_descripcion: descripcion }),
+    unirseComunidad: (id) => rpc('unirse_comunidad', { p_id: id }),
+    salirComunidad: (id) => rpc('salir_comunidad', { p_id: id }),
+    borrarComunidad: (id) => rpc('borrar_comunidad', { p_id: id }),
+    publicacionesComunidad: async (id, antes) => publicaciones(await rpc<unknown[]>('publicaciones_comunidad', { p_id: id, p_antes: antes, p_limite: POR_PAGINA })),
+    denunciarComunidad: (id, motivo, detalle) => rpc('denunciar', { p_tipo: 'comunidad', p_objetivo: id, p_motivo: motivo, p_detalle: detalle }),
     borrarPublicacion: (id) => rpc('borrar_publicacion', { p_id: id }),
     denunciarPerfil: (alias, motivo, detalle) => rpc('denunciar', { p_tipo: 'perfil', p_objetivo: alias, p_motivo: motivo, p_detalle: detalle }),
     feed: async (antes) => publicaciones(await rpc<unknown[]>('feed', { p_antes: antes, p_limite: POR_PAGINA })),

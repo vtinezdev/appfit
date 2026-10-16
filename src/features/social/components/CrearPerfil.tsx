@@ -37,14 +37,14 @@ export default function CrearPerfil({ onCreado }: { onCreado: () => void }) {
     <div className="space-y-section px-page pt-5">
       <PageHeader title="Amigos" />
       <div className="space-y-2 text-body-sm text-fg-muted">
-        <p>Sigue a otras personas y deja que te sigan. Solo verán lo que tú publiques, y solo quienes tú aceptes.</p>
-        <p>Tu nutrición, tu peso y tus medidas nunca se comparten.</p>
+        <p>Elige qué publicar para tus seguidores aprobados o para los miembros de una comunidad.</p>
+        <p>Tus comidas, tu peso corporal, tus medidas y los recorridos GPS no se publican.</p>
       </div>
       <form className="space-y-stack" onSubmit={(e) => void crear(e)} noValidate>
         <Campo etiqueta="Alias" ayuda="De 3 a 20 caracteres: letras sin tildes, números, punto o guion bajo. Te encontrarán por él.">
           <Input autoComplete="username" autoCapitalize="none" autoCorrect="off" spellCheck={false} maxLength={21} value={alias} onChange={(e) => setAlias(e.target.value)} />
         </Campo>
-        <Campo etiqueta="Nombre (opcional)" ayuda="Lo verán quienes te sigan y a quienes pidas seguir.">
+        <Campo etiqueta="Nombre (opcional)" ayuda="Lo verán quienes te sigan, a quienes pidas seguir y los miembros de las comunidades donde publiques.">
           <Input autoComplete="nickname" maxLength={NOMBRE_MAX + 10} value={nombre} onChange={(e) => setNombre(e.target.value)} />
         </Campo>
         <label className="flex min-h-touch items-center gap-3 text-body-sm text-fg">

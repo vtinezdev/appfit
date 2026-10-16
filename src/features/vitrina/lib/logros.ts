@@ -17,16 +17,19 @@ import { SESIONES_DOMINADO, type Atlas } from './atlas'
 export type GrupoLogro = 'entreno' | 'constancia' | 'cumbres' | 'caminos' | 'nutricion' | 'oculto'
 
 /** Identidades estables: al añadir un logro hay que asignar su pictograma. */
-export type IdLogro = 'entrenos' | 'series' | 'toneladas' | 'records' | 'records-batidos' | 'dominados'
-  | 'ligas' | 'ciclos' | 'atlas' | 'semanas' | 'racha' | 'hilo'
-  | 'cumbres' | 'montanas' | 'repetir' | 'metros' | 'km' | 'km-corriendo'
-  | 'desnivel' | 'horas' | 'distancia' | 'salidas' | 'rutas' | 'compostela'
-  | 'todos-santiago' | 'dias' | 'semanas-enteras' | 'proteina' | 'herbario' | 'plantas'
-  | 'mas-rapido' | 'techo-mundo' | 'montana-salvaje' | 'paso-firme' | 'fin-del-mundo' | 'maraton'
-  | 'km-vertical' | 'madrugador' | 'noctambulo' | 'vuelta' | 'descanso' | 'comodin'
-  | 'dia-records' | 'dia-redondo' | 'ano-nuevo' | 'aniversario' | 'jardin' | 'techo-espana'
-  | 'siete-cumbres' | 'alpes' | 'volcanes' | 'cinco-mas-altos' | 'rutas-mundo' | 'viajes-libro'
-  | 'fantasia'
+export const IDS_LOGRO = [
+  'entrenos', 'series', 'toneladas', 'records', 'records-batidos', 'dominados',
+  'ligas', 'ciclos', 'atlas', 'semanas', 'racha', 'hilo',
+  'cumbres', 'montanas', 'repetir', 'metros', 'km', 'km-corriendo',
+  'desnivel', 'horas', 'distancia', 'salidas', 'rutas', 'compostela',
+  'todos-santiago', 'dias', 'semanas-enteras', 'proteina', 'herbario', 'plantas',
+  'mas-rapido', 'techo-mundo', 'montana-salvaje', 'paso-firme', 'fin-del-mundo', 'maraton',
+  'km-vertical', 'madrugador', 'noctambulo', 'vuelta', 'descanso', 'comodin',
+  'dia-records', 'dia-redondo', 'ano-nuevo', 'aniversario', 'jardin', 'techo-espana',
+  'siete-cumbres', 'alpes', 'volcanes', 'cinco-mas-altos', 'rutas-mundo', 'viajes-libro',
+  'fantasia',
+] as const
+export type IdLogro = (typeof IDS_LOGRO)[number]
 
 export const GRUPOS_LOGRO: Record<GrupoLogro, string> = {
   entreno: 'Entreno',

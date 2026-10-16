@@ -166,7 +166,7 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
           </div>
         )}
         <form className="space-y-stack" onSubmit={enviar} noValidate aria-label="Escribir un comentario">
-          <Campo etiqueta="Tu comentario" ayuda={`Como mucho ${COMENTARIO_MAX} caracteres. Lo verán quien publicó y quienes le siguen.`}>
+          <Campo etiqueta="Tu comentario" ayuda={`Como mucho ${COMENTARIO_MAX} caracteres. Lo verán quienes puedan ver esta publicación.`}>
             <Textarea rows={2} maxLength={COMENTARIO_MAX} value={texto} onChange={(e) => setTexto(e.target.value)} />
           </Campo>
           <Button type="submit" variant="primary" block loading={ocupado}>Enviar</Button>

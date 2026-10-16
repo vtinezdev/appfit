@@ -166,3 +166,10 @@ Con Vite en 5173, `node scripts/ui/validar-creador-rutinas.cjs` recorre siete co
 
 Con Vite en 5173, `node scripts/ui/validar-insignias.cjs` prueba la Vitrina y las seis ligas de Progreso con historial sintético, el detalle de Élite y una galería de los componentes reales con todos los logros conseguidos/pendientes, nuevos logros y ascensos. Ocho contextos aislados en el origen de pruebas: 320/375/430 px en ambos temas y 375 con texto al 200 %/Reduce Motion. Comprueba ausencia de desbordamiento, SVG decorativos sin encoger, ids de recorte únicos, candados idénticos sin pistas en los ocultos y backup intacto al consultar. Capturas/informe en `/tmp/appfit-insignias`; filtros `APPFIT_UI_CASE`, `APPFIT_UI_OUTPUT`, `APPFIT_CHROMIUM`. Los colores se verifican en `shared/design/contrast.test.ts`. Emulación Chromium, sin iPhone físico.
 
+
+
+### Validar la ampliación social
+
+Con `node scripts/ui/supabase-falso.mjs` en 54329 y Vite en 5174 con `VITE_SUPABASE_URL=http://127.0.0.1:54329` y `VITE_SUPABASE_PUBLISHABLE_KEY=falsa`, ejecutar `node scripts/ui/validar-social.cjs`. Usa solo `appfit-test.localhost:5174`, contextos efímeros y una sesión falsa; no entra en cuentas reales ni envía correo. Matriz 320/375/430 en claro/oscuro y 375 con texto al 200 %/Reduce Motion. `APPFIT_UI_CASE` filtra caso y `APPFIT_UI_OUTPUT` cambia `/tmp/appfit-social`. Valida texto/vista previa/reintento, comunidades de no seguidos, unirse/salir, comentarios, crear comunidad, compartir logro y mapa del entreno en seguidores/comunidad. Conserva el backup salvo la marca explícita del entreno publicado.
+
+Las pruebas reales de SQL están en `supabase/pruebas/comunidades.sql` (tras 0006, rollback completo, resultado `PRUEBAS_COMUNIDADES_OK`). Se han probado en PostgreSQL 17 local aislado junto a las migraciones sociales 0003–0006 y la suite anterior. Víctor confirmó la ejecución correcta de 0006 en el SQL Editor del proyecto real el 2026-10-16. La suite SQL nueva está verificada localmente; no se ha confirmado su ejecución en el proyecto real. No requiere acceso directo a tablas desde los clientes.

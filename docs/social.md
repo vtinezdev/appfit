@@ -6,8 +6,8 @@ Plan acordado con Víctor el 2026-10-15. Decisión y alternativas: [ADR 040](dec
 
 | Tema | Decisión |
 |---|---|
-| Qué se publica | Entrenos de gimnasio, actividades sin recorrido, logros y ligas (los récords, cambios de liga y piezas nuevas de la Vitrina van dentro de la publicación del entreno). Nunca nutrición, peso, medidas ni perfil. |
-| Quién lo ve | Solo seguidores aprobados |
+| Qué se publica | Texto libre, entrenos con mapa muscular, actividades sin recorrido, logros y ligas (los récords, cambios de liga y piezas nuevas de la Vitrina van dentro de la publicación del entreno). Nunca nutrición, peso, medidas ni perfil. |
+| Quién lo ve | Seguidores aprobados o miembros de la comunidad elegida (ADR 041) |
 | Interacción | Una reacción («Ánimo», nombre provisional) y comentarios |
 | Cuándo se publica | Al terminar, con vista previa y confirmación. Si no se confirma, no sale nada. |
 | Encontrar a alguien | Alias exacto o código de invitación |
@@ -36,7 +36,9 @@ Migraciones nuevas en `supabase/migrations/`, que Víctor ejecuta a mano en el S
 | `perfiles` | `user_id`, `alias` (único por `lower(alias)`), `nombre` (≤ 40), `codigo` de invitación (único), `acepto` (fecha de aceptación de condiciones y edad), `avisos_vistos` (fecha), `suspendido` |
 | `seguimientos` | `seguidor`, `seguido`, `estado` (`pendiente` · `aceptado`), `creado` |
 | `bloqueos` | `quien`, `bloqueado` |
-| `publicaciones` | `id` (uuid que genera la app), `autor`, `tipo` (`entreno` · `actividad`), `fecha` del registro, `creada`, `resumen` (jsonb, objeto de ≤ 8 KB, con su versión `v`) |
+| `publicaciones` | `id` (uuid que genera la app), `autor`, `tipo` (`entreno` · `actividad` · `texto` · `logro`), `comunidad` opcional, `fecha` del registro, `creada`, `resumen` (jsonb, objeto de ≤ 8 KB, con su versión `v`) |
+| `comunidades` | creador, nombre único, descripción y suspensión |
+| `miembros_comunidad` | comunidad, miembro, fecha de unión |
 | `reacciones` | `publicacion`, `user_id`, `creada` |
 | `comentarios` | `id`, `publicacion`, `autor`, `texto` (1–500), `creado` |
 | `denuncias` | `id`, `denunciante`, `tipo` (`perfil` · `publicacion` · `comentario`), `objetivo`, `motivo`, `creada`, `revisada` |
@@ -106,3 +108,7 @@ Una rama `feat/social`, fusionada en `master` el 2026-10-15 con las fases 1–5 
 - **Borrado por inactividad sin correo previo:** avisar por email exigiría una función que envíe correos. De momento se explica en Ajustes y en la política de privacidad. Los datos del móvil nunca se borran.
 - **Moderación con una sola persona:** si crece, las denuncias pueden desbordar a Víctor. Las funciones permiten suspender un perfil (`suspendido`).
 - **Legal:** consentimiento, edad y política de privacidad, a revisar por alguien que sepa antes de abrirlo a desconocidos.
+
+## Ampliación del 2026-10-16
+
+A petición de Víctor: publicaciones libres, compartir logros conseguidos, comunidades donde interactuar sin seguirse y mapa muscular del entreno compartido. Implementación y reglas actuales en [Social](features/social.md#publicaciones-libres-logros-y-comunidades); decisión en [ADR 041](decisiones/041-publicaciones-y-comunidades.md). Víctor ejecutó `0006_comunidades_y_publicaciones.sql` en el SQL Editor del proyecto real el 2026-10-16, con resultado «Success. No rows returned», antes de publicar esta versión. Las fases legales y de prueba con dispositivos físicos siguen pendientes.

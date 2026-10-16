@@ -4,6 +4,7 @@ import { todayISO } from '../../../shared/lib/dates'
 import { useVitrina } from '../hooks/useVitrina'
 import { logrosDeEntreno, nombreConNivel } from '../lib/logros'
 import IconoLogro from './IconoLogro'
+import CompartirLogro from './CompartirLogro'
 
 /** Al terminar un entreno: las piezas de la Vitrina que se consiguieron con él. Nada si no hay ninguna. */
 export default function NuevosLogros({ workoutId }: { workoutId: number }) {
@@ -19,6 +20,7 @@ export default function NuevosLogros({ workoutId }: { workoutId: number }) {
         <div className="min-w-0 flex-1">
           <p className="break-words text-body font-semibold text-fg">{nombreConNivel(nuevo)}</p>
           <p className="break-words text-body-sm text-fg-muted">{nivel !== null && logro.umbrales && logro.textoNivel ? logro.textoNivel(logro.umbrales[nivel - 1]) : logro.descripcion}</p>
+          <CompartirLogro logro={logro} nivel={nivel} />
         </div>
       </li> })}
     </ListGroup>

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { leerResumen, MAX_EJERCICIOS, MAX_LINEAS, MAX_TEXTO, resumenActividad, resumenEntreno, textoEjercicios, type DatosEntreno } from './publicacion'
+import { leerResumen, leerMapa, MAX_EJERCICIOS, MAX_LINEAS, MAX_TEXTO, MAX_PUBLICACION, resumenActividad, resumenEntreno, resumenLogro, resumenTexto, validarPublicacion, textoEjercicios, type DatosEntreno } from './publicacion'
+import type { Logro } from '../../vitrina/lib/logros'
 
 const entreno = (cambios: Partial<DatosEntreno> = {}): DatosEntreno => ({
   titulo: 'Torso A',
@@ -101,5 +102,65 @@ describe('textoEjercicios', () => {
     expect(textoEjercicios(['A'])).toBe('A')
     expect(textoEjercicios(['A', 'B', 'C'])).toBe('A, B y C')
     expect(textoEjercicios(['A', 'B', 'C', 'D', 'E'])).toBe('A, B, C y 2 más')
+  })
+})
+
+describe('publicaciones libres', () => {
+  it('exige texto, respeta el límite y mantiene los párrafos', () => {
+    expect(resumenTexto(' \n ')).toBeNull()
+    expect(resumenTexto('x'.repeat(MAX_PUBLICACION + 1))).toBeNull()
+    expect(resumenTexto('x'.repeat(MAX_PUBLICACION))?.texto).toHaveLength(MAX_PUBLICACION)
+    expect(validarPublicacion('x'.repeat(MAX_PUBLICACION + 1))).toContain('2.000')
+    const r = resumenTexto('  Primera línea\n\nSegunda línea  ')
+    expect(r?.texto).toBe('Primera línea\n\nSegunda línea')
+    expect(leerResumen(r)).toEqual(r)
+  })
+  it('descarta texto remoto mal formado y elimina campos adicionales', () => {
+    expect(leerResumen({ v: 1, tipo: 'texto', titulo: 'Publicación', texto: 42 })).toBeNull()
+    expect(leerResumen({ v: 1, tipo: 'texto', titulo: 'Publicación', texto: '  ' })).toBeNull()
+    expect(leerResumen({ v: 1, tipo: 'texto', titulo: 'Publicación', texto: 'Hola', email: 'privado' })).toEqual({ v: 1, tipo: 'texto', titulo: 'Publicación', texto: 'Hola' })
+  })
+})
+
+describe('compartir un logro conseguido', () => {
+  const logro = (cambios: Partial<Logro> = {}): Logro => ({ id: 'entrenos', grupo: 'entreno', nombre: 'Entrenos', descripcion: 'El siguiente pide 100', umbrales: [10, 50, 100], niveles: [{ fecha: '2026-10-01' }, { fecha: '2026-10-15' }, null], textoNivel: n => `${n} entrenos`, ...cambios })
+  it('comparte el nivel obtenido y su requisito, no el del siguiente', () => {
+    expect(resumenLogro(logro())).toMatchObject({ nivel: 2, descripcion: '50 entrenos' })
+    expect(resumenLogro(logro(), 1)).toMatchObject({ nivel: 1, descripcion: '10 entrenos' })
+    expect(leerResumen(resumenLogro(logro()))).toEqual(resumenLogro(logro()))
+  })
+  it('no permite pendientes, ocultos sin descubrir ni niveles no alcanzados', () => {
+    expect(resumenLogro(logro(), 3)).toBeNull()
+    expect(resumenLogro(logro(), 0)).toBeNull()
+    expect(resumenLogro(logro(), 1.2)).toBeNull()
+    expect(resumenLogro(logro({ oculto: true, niveles: [null, null, null] }))).toBeNull()
+    expect(resumenLogro(logro({ umbrales: undefined, niveles: [], veces: [] }))).toBeNull()
+  })
+  it('comparte un repetible cuando se ha conseguido', () => {
+    const l = logro({ id: 'descanso', grupo: 'oculto', umbrales: undefined, niveles: [], veces: [{ fecha: '2026-10-15' }] })
+    expect(resumenLogro(l)).toMatchObject({ logroId: 'descanso', nivel: null })
+  })
+  it('una pieza sin niveles no inventa un numeral', () => {
+    expect(resumenLogro(logro({ umbrales: [1], niveles: [{ fecha: '2026-10-15' }] }))?.nivel).toBeNull()
+  })
+  it('descarta identidades, grupos y niveles remotos desconocidos', () => {
+    const r = resumenLogro(logro())!
+    for (const dato of [{ logroId: 'desconocido' }, { grupo: '__proto__' }, { nivel: 6 }, { nivel: -1 }, { nivel: '1' }, { descripcion: '' }]) expect(leerResumen({ ...r, ...dato })).toBeNull()
+  })
+})
+
+describe('mapa publicable', () => {
+  it('comparte solo niveles conocidos, sin datos de Perfil o pesos', () => {
+    const mapa = leerMapa({ pecho: 5, triceps: 3, peso: 80, sexo: 'mujer', lat: 41 })!
+    expect(mapa).toMatchObject({ pecho: 5, triceps: 3, espalda: 0 })
+    expect(Object.keys(mapa)).toHaveLength(12)
+    expect(mapa).not.toHaveProperty('peso')
+    const r = resumenEntreno(entreno({ mapa }))
+    expect(leerResumen(r)).toEqual(r)
+    expect(r.mapa).not.toBe(mapa)
+  })
+  it.each([null, [], { pecho: 6 }, { pecho: -1 }, { pecho: 1.5 }, { pecho: '5' }, { peso: 80 }])('ignora un mapa inválido: %j', mapa => {
+    expect(leerMapa(mapa)).toBeUndefined()
+    expect(leerResumen({ ...resumenEntreno(entreno()), mapa })).toEqual(resumenEntreno(entreno()))
   })
 })

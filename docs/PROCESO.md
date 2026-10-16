@@ -1491,3 +1491,21 @@ Víctor pidió separar las publicaciones de las personas: una pestaña «Social�
 - **Navegador** con el Supabase falso: barra a 320/375/430 en claro (todos los nombres dentro de su celda), Social «Tú» vacío, Amigos y Avisos en oscuro, sin scroll horizontal.
 
 **Verificación:** `npm run test` (2.185 tests, 171 archivos) y `npm run build` en verde. Sin probar con cuentas reales ni en iPhone.
+
+
+## 138. Publicaciones libres, logros, comunidades y mapa compartido (2026-10-16)
+
+Víctor pide ampliar Social para escribir publicaciones sin un entreno, compartir un logro al conseguirlo, participar en comunidades sin seguirse y ver el mapa de calor en el entreno publicado. Implementación en `feat/social-publicaciones-comunidades`, desde master con Social ya integrado. Criterio y audiencias en [ADR 041](decisiones/041-publicaciones-y-comunidades.md); contratos y flujos en [Social](features/social.md#publicaciones-libres-logros-y-comunidades).
+
+- `CrearPublicacion`: texto, destinatario y vista previa para seguidores o una comunidad elegida. La identidad del envío se conserva al reintentar y se renueva si se cambia contenido o audiencia. Nuevos tipos de resumen `texto` y `logro`, con validación al construir y leer, sin modificar Dexie ni el backup.
+- `CompartirLogro` en Vitrina y nuevos logros del entreno: solo piezas alcanzadas, con símbolo, requisito del nivel concreto y día real, sin inventar una hora ni revelar ocultos pendientes. Los entrenos llevan solo los niveles musculares conocidos, usando el cálculo/snapshot existentes. La geometría es común y no transmite datos del Perfil. Las publicaciones anteriores sin mapa siguen siendo válidas.
+- Comunidades: descubrir/buscar, crear, unirse, salir, publicar e interactuar sin seguimiento; borrar por el creador y denunciar. Los entrenos y actividades se pueden compartir allí de forma independiente, sin pisar su marca local de publicación de seguidores. La interfaz explica la audiencia y las cascadas; tarjetas y leyenda se adaptan a texto ampliado.
+- `0006_comunidades_y_publicaciones.sql`: tablas con RLS sin acceso directo, audiencias separadas por publicación y funciones autenticadas; se aplican también a comentarios, reacciones, avisos y denuncias. Cuotas compartidas e idempotencia. Pruebas con usuarios sintéticos y rollback en `supabase/pruebas/comunidades.sql`.
+
+**Verificación:** suite completa final en verde (2.207 tests, 173 archivos). Un test de simplificación GPS agotó su tiempo con navegador/build en paralelo; después pasó aislado y en la suite completa sin cambiar su código ni sus tiempos. PostgreSQL 17 local en un contenedor sin red ni puertos: migraciones sociales 0003–0006, suite social anterior (`PRUEBAS_OK`) y pruebas nuevas (`PRUEBAS_COMUNIDADES_OK`), con separación de audiencias, miembros sin seguimiento, idempotencia, cuota conjunta, bloqueos, salida, suspensiones, denuncia, cascadas, RLS y ayudantes privados; rollback y contenedor cerrado. `scripts/ui/validar-social.cjs`: ocho contextos 320/375/430 px en claro/oscuro y 375 con texto al 200 %/Reduce Motion; crear texto con vista previa, pérdida de respuesta/reintento sin duplicar, comunidad de no seguidos, comentarios, unirse/salir, crear comunidad, compartir logro y mapa del entreno para ambas audiencias. Backup intacto salvo la marca explícita de publicación del entreno. Capturas/informe en `/tmp/appfit-social`; sin datos/cuentas reales ni iPhone físico. Build TypeScript/Vite/PWA final correcto.
+
+La migración está preparada pero no se ha aplicado al Supabase real: debe ejecutarse antes de desplegar esta versión. Sin commit, push ni despliegue.
+
+## 139. Migración social aplicada y publicación autorizada (2026-10-16)
+
+Víctor ejecutó el contenido completo de `0006_comunidades_y_publicaciones.sql` en el SQL Editor del proyecto real y confirmó «Success. No rows returned». Después pidió commit, push, PR y merge de las cuatro mejoras de Social (§138). Se actualizan los documentos vivos con la migración aplicada. Las comprobaciones de §138 están en verde y la rama parte del master actual; quedan pendientes las pruebas de esta ampliación con cuentas reales y dispositivos físicos.
