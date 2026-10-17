@@ -26,9 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      NODE_PATH: ${{ runner.temp }}/appfit-qa/node_modules
       APPFIT_AUDIT_BROWSERS: chromium,firefox,webkit
-      APPFIT_UI_OUTPUT: ${{ runner.temp }}/appfit-auditoria
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -38,6 +36,7 @@ jobs:
       - run: npm ci
       - name: Herramientas de navegador fuera de las dependencias de la PWA
         run: |
+          printf '%s\n' "NODE_PATH=$RUNNER_TEMP/appfit-qa/node_modules" "APPFIT_UI_OUTPUT=$RUNNER_TEMP/appfit-auditoria" >> "$GITHUB_ENV"
           npm install --prefix "$RUNNER_TEMP/appfit-qa" --no-audit --no-fund playwright@1.62.1
           node "$RUNNER_TEMP/appfit-qa/node_modules/playwright/cli.js" install --with-deps chromium firefox webkit
       - run: npm run build
