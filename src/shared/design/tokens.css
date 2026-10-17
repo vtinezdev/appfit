@@ -69,6 +69,11 @@
   --space-section: 2rem;
   --space-card: 1.25rem;
   --space-stack: 0.75rem;
+  --content-width: 32rem;
+  --form-width: 32rem;
+  --energy-ring-size: 10rem;
+  --metric-column-min: 5rem;
+  --stepper-field-width: 6rem;
   --touch-target: 2.75rem;
   --touch-target-lg: 3rem;
   --thumb-size: 3rem;
@@ -309,6 +314,9 @@
 }
 @media (max-width: 359px) {
   :root { --space-page: 1rem; }
+}
+@media (min-width: 48rem) {
+  :root { --content-width: 48rem; --space-page: 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   :root {

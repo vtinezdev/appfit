@@ -44,7 +44,7 @@ async function main() {
         const page = await context.newPage(); const errors = []
         page.on('pageerror', e => errors.push(e.message))
         await page.goto('http://appfit-test.localhost:5173')
-        await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
+        await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
         await page.evaluate(async data => { const { importarBackup } = await import('/src/shared/lib/backup.ts'); await importarBackup(JSON.stringify(data)); await (await import('/src/shared/db/settings.ts')).updateSettings({ rirAlCompletar: false }) }, fixture)
         if (item.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
         const original = await snapshot(page)
@@ -118,6 +118,8 @@ async function main() {
         assert.equal(newSets.length, 1)
         assert.equal(newSets[0].exerciseId, original.exercises.find(e => e.nombre === 'Press banca').id)
         await page.getByRole('button', { name: 'Completar serie 1 de Press banca', exact: true }).click()
+        // Con todas sus series hechas, el panel se pliega (ADR 035); desplegar para comprobar la marca.
+        await page.locator(`[data-exercise-id="${newSets[0].exerciseId}"]`).getByRole('button', { name: /^Press banca: .*Desplegar$/ }).click()
         await page.getByRole('button', { name: 'Desmarcar serie 1 de Press banca', exact: true }).waitFor()
         // Marcar persiste la realización (ADR 026); abrir el selector después no debe escribir nada más.
         const marcada = await snapshot(page)
@@ -127,8 +129,10 @@ async function main() {
         await page.keyboard.press('Escape'); await selector.waitFor({ state: 'detached' })
         assert.deepEqual(await snapshot(page), marcada)
         await page.reload()
-        await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
+        await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
         await navegar(page, 'Entreno')
+        await page.getByRole('button', { name: 'Continuar', exact: true }).first().click()
+        await page.locator(`[data-exercise-id="${newSets[0].exerciseId}"]`).getByRole('button', { name: /^Press banca: .*Desplegar$/ }).click()
         await page.getByRole('button', { name: 'Desmarcar serie 1 de Press banca', exact: true }).waitFor()
         assert.deepEqual(await snapshot(page), marcada)
         assert.deepEqual(errors, [])

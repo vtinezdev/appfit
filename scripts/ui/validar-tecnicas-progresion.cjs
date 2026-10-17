@@ -39,7 +39,7 @@ async function main() {
       const page = await context.newPage(), errors = []
       page.on('pageerror', e => errors.push(e.message))
       await page.goto('http://appfit-test.localhost:5173')
-      await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
+      await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
       await page.evaluate(async fixture => {
         const { importarBackup } = await import('/src/shared/lib/backup.ts'); await importarBackup(JSON.stringify(fixture))
         const { db } = await import('/src/shared/db/db.ts')

@@ -89,7 +89,8 @@ async function revisar(page, nombre) {
 
 async function abrirAjustesCuenta(page) {
   await navegar(page, 'Ajustes')
-  const seccion = page.getByRole('region', { name: 'Cuenta' })
+  await page.getByRole('main').getByRole('button', { name: /^Cuenta/ }).click()
+  const seccion = page.getByRole('region', { name: 'Cuenta', exact: true }).last()
   await seccion.scrollIntoViewIfNeeded()
   return seccion
 }
@@ -105,7 +106,7 @@ async function caso(browser, { width, theme }) {
     page.on('pageerror', (e) => errores.push(e.message))
     page.on('console', (m) => { if (m.type() === 'error') errores.push(m.text()) })
     await page.goto(BASE)
-    await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
+    await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
     return { context, page }
   }
 
@@ -122,6 +123,7 @@ async function caso(browser, { width, theme }) {
   hoja = a.page.getByRole('dialog', { name: 'Revisa tu correo' })
   await hoja.getByLabel('Código').fill('123456')
   await hoja.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await a.page.getByRole('dialog', { name: 'Has entrado', exact: true }).getByRole('button', { name: 'Activar la copia', exact: true }).click()
   hoja = a.page.getByRole('dialog', { name: 'Protege tu copia' })
   await hoja.getByLabel('Contraseña', { exact: true }).fill('corta')
   await hoja.getByLabel('Repite la contraseña').fill('corta')
@@ -160,6 +162,7 @@ async function caso(browser, { width, theme }) {
   hoja = b.page.getByRole('dialog', { name: 'Revisa tu correo' })
   await hoja.getByLabel('Código').fill('123456')
   await hoja.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await b.page.getByRole('dialog', { name: 'Has entrado', exact: true }).getByRole('button', { name: 'Abrir la copia', exact: true }).click()
   hoja = b.page.getByRole('dialog', { name: 'Abre tu copia' })
   await hoja.getByLabel('Contraseña').fill('no es esta')
   await hoja.getByRole('button', { name: 'Abrir la copia' }).click()
@@ -181,7 +184,7 @@ async function caso(browser, { width, theme }) {
   await cuenta.getByRole('button', { name: 'Guardar ahora' }).click()
   for (let i = 0; i < 30 && srv.revisiones.length < 3; i++) await b.page.waitForTimeout(100)
   await anadirComida(a.page, 'Paella')
-  cuenta = a.page.getByRole('region', { name: 'Cuenta' })
+  cuenta = a.page.getByRole('region', { name: 'Cuenta', exact: true }).last()
   await cuenta.getByRole('button', { name: 'Guardar ahora' }).click()
   await cuenta.getByRole('button', { name: 'Elegir qué copia se queda' }).waitFor()
   await navegar(a.page, 'Inicio')
@@ -189,7 +192,7 @@ async function caso(browser, { width, theme }) {
   await aviso.getByText('Elige qué copia se queda').waitFor()
   await revisar(a.page, `${id}-7-aviso-inicio`)
   await aviso.getByRole('button', { name: 'Revisar' }).click()
-  cuenta = a.page.getByRole('region', { name: 'Cuenta' })
+  cuenta = a.page.getByRole('region', { name: 'Cuenta', exact: true }).last()
   await cuenta.getByRole('button', { name: 'Elegir qué copia se queda' }).click()
   hoja = a.page.getByRole('dialog', { name: '¿Qué datos se quedan?' })
   await hoja.getByRole('button', { name: 'Quedarme con este móvil' }).click()

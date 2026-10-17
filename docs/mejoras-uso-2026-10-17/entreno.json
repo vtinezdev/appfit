@@ -1,0 +1,59 @@
+[
+  {
+    "motor": "chromium",
+    "estado": "correcto",
+    "pasos": [
+      "inicio vacío y doble acción sin duplicar entrenos",
+      "búsqueda, cancelación y alta de ejercicio desde catálogo",
+      "coma, punto, edición parcial y teclado de incremento",
+      "añadir series rápidamente conserva órdenes únicos",
+      "confirmación reversible y campos incompletos",
+      "error de escritura de serie visible, rollback y reintento",
+      "cambiar pestaña, minimizar y continuar conserva series",
+      "recarga y cierre/reapertura conservan datos confirmados",
+      "borrado de serie y Deshacer recupera valores e identidad",
+      "cancelar fin mantiene activo; fallo de notas bloquea cierre y permite reintentar",
+      "historial editable conserva borrador de notas ante fallo"
+    ],
+    "version": "151.0.7922.173",
+    "capturaDecimal": "/tmp/appfit-mejoras-entreno-entrega/chromium-decimal-corregido.png"
+  },
+  {
+    "motor": "firefox",
+    "estado": "correcto",
+    "pasos": [
+      "inicio vacío y doble acción sin duplicar entrenos",
+      "búsqueda, cancelación y alta de ejercicio desde catálogo",
+      "coma, punto, edición parcial y teclado de incremento",
+      "añadir series rápidamente conserva órdenes únicos",
+      "confirmación reversible y campos incompletos",
+      "error de escritura de serie visible, rollback y reintento",
+      "cambiar pestaña, minimizar y continuar conserva series",
+      "recarga y cierre/reapertura conservan datos confirmados",
+      "borrado de serie y Deshacer recupera valores e identidad",
+      "cancelar fin mantiene activo; fallo de notas bloquea cierre y permite reintentar",
+      "historial editable conserva borrador de notas ante fallo"
+    ],
+    "version": "153.0",
+    "capturaDecimal": "/tmp/appfit-mejoras-entreno-entrega/firefox-decimal-corregido.png"
+  },
+  {
+    "motor": "webkit",
+    "estado": "correcto",
+    "pasos": [
+      "inicio vacío y doble acción sin duplicar entrenos",
+      "búsqueda, cancelación y alta de ejercicio desde catálogo",
+      "coma, punto, edición parcial y teclado de incremento",
+      "añadir series rápidamente conserva órdenes únicos",
+      "confirmación reversible y campos incompletos",
+      "error de escritura de serie visible, rollback y reintento",
+      "cambiar pestaña, minimizar y continuar conserva series",
+      "recarga y cierre/reapertura conservan datos confirmados",
+      "borrado de serie y Deshacer recupera valores e identidad",
+      "cancelar fin mantiene activo; fallo de notas bloquea cierre y permite reintentar",
+      "historial editable conserva borrador de notas ante fallo"
+    ],
+    "version": "26.5",
+    "capturaDecimal": "/tmp/appfit-mejoras-entreno-entrega/webkit-decimal-corregido.png"
+  }
+]

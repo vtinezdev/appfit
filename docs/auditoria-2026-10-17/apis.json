@@ -1,0 +1,59 @@
+[
+  {
+    "motor": "chromium",
+    "version": "151.0.7922.173",
+    "apis": {
+      "indexedDB": true,
+      "crypto": true,
+      "visualViewport": true,
+      "inert": true,
+      "ResizeObserver": true,
+      "PointerEvent": true,
+      "serviceWorker": true,
+      "persistencia": true,
+      "geolocalizacion": true,
+      "camara": true,
+      "wakeLock": true,
+      "barcodeNativo": false,
+      "webAudio": true
+    }
+  },
+  {
+    "motor": "firefox",
+    "version": "153.0",
+    "apis": {
+      "indexedDB": true,
+      "crypto": true,
+      "visualViewport": true,
+      "inert": true,
+      "ResizeObserver": true,
+      "PointerEvent": true,
+      "serviceWorker": true,
+      "persistencia": true,
+      "geolocalizacion": true,
+      "camara": true,
+      "wakeLock": true,
+      "barcodeNativo": false,
+      "webAudio": true
+    }
+  },
+  {
+    "motor": "webkit",
+    "version": "26.5",
+    "apis": {
+      "indexedDB": true,
+      "crypto": true,
+      "visualViewport": true,
+      "inert": true,
+      "ResizeObserver": true,
+      "PointerEvent": true,
+      "serviceWorker": true,
+      "persistencia": false,
+      "geolocalizacion": true,
+      "camara": true,
+      "wakeLock": true,
+      "barcodeNativo": false,
+      "webAudio": true
+    }
+  }
+]

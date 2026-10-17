@@ -1,3 +1,4 @@
+import { filtrarPorCategoria, type FiltroCategoria } from '../lib/repartoCategorias'
 import { useEffect, useRef, useState } from 'react'
 import { elegibleDeCatalogo, type AlimentoElegible } from '../lib/alimentos'
 import { buscarCatalogo } from './buscarCatalogo'
@@ -18,8 +19,9 @@ export interface BusquedaCatalogo {
  * `frecuentes` son ids de catálogo que el usuario ya ha usado: a igualdad de coincidencia van primero.
  * No usa useLiveQuery: el catálogo no cambia mientras se escribe (ver `catalogRepo`).
  */
-export function useBusquedaCatalogo(q: string, limite = 15, frecuentes: readonly string[] = []): BusquedaCatalogo {
+export function useBusquedaCatalogo(q: string, limite = 15, frecuentes: readonly string[] = [], categoria: FiltroCategoria = 'todas'): BusquedaCatalogo {
   const consulta = q.trim()
+  const clave = `${consulta}|${categoria}`
   const [ultima, setUltima] = useState<{ consulta: string; alimentos: AlimentoElegible[]; corregida?: string } | null>(null)
   // Los frecuentes llegan de una consulta viva y su identidad cambia en cada render: se lee de una ref y solo
   // su contenido (`claveFrecuentes`) relanza la búsqueda.
@@ -35,19 +37,19 @@ export function useBusquedaCatalogo(q: string, limite = 15, frecuentes: readonly
       let corregida: string | undefined
       try {
         const r = await buscarCatalogo(consulta, new Set(frecuentesRef.current))
-        alimentos = r.foods.slice(0, limite).map(elegibleDeCatalogo)
+        alimentos = filtrarPorCategoria(r.foods, categoria).slice(0, limite).map(elegibleDeCatalogo)
         corregida = r.corregida
       } catch {
         // Si la búsqueda falla, el catálogo se muestra vacío; tus alimentos siguen funcionando.
       }
-      if (vigente) setUltima({ consulta, alimentos, corregida })
+      if (vigente) setUltima({ consulta: clave, alimentos, corregida })
     }, ESPERA_MS)
     return () => {
       vigente = false
       clearTimeout(temporizador)
     }
-  }, [consulta, limite, claveFrecuentes])
+  }, [consulta, limite, claveFrecuentes, categoria, clave])
 
   if (!consulta) return { alimentos: [], pendiente: false }
-  return { alimentos: ultima?.alimentos ?? [], pendiente: ultima?.consulta !== consulta, corregida: ultima?.consulta === consulta ? ultima.corregida : undefined }
+  return { alimentos: filtrarPorCategoria(ultima?.alimentos ?? [], categoria), pendiente: ultima?.consulta !== clave, corregida: ultima?.consulta === clave ? ultima.corregida : undefined }
 }

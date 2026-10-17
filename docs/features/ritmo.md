@@ -53,3 +53,5 @@
 - **Pausar** (Sheet): qué se pausa (todo o solo entreno), motivo (vacaciones, enfermedad, lesión, viaje u otro), desde y hasta (opcional). Los errores van en línea.
 - **Revisión semanal**: al principio, una card «Ritmo» con el estado de la semana revisada, sus cifras y el hilo.
 - Ocultar la gamificación en Ajustes quita las teselas de Inicio y el sello.
+
+Al ampliar texto, los cuadros y puntos de `DiasSemana` se limitan al ancho de cada día; el selector de año de `CalendarioSemanas` sitúa el año bajo las flechas cuando hay menos de 16 rem de lectura.

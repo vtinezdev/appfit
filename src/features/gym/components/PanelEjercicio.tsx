@@ -27,29 +27,43 @@ import type { Anterior, TextoAnterior } from '../lib/anterior'
 import { subtituloEjercicio } from '../lib/presentacionEjercicio'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
 import { volumenSets } from '../lib/workout'
-import { formatInt } from '../../../shared/lib/format'
+import { cargaInusual } from '../lib/cargaInusual'
+import { decimalEditable, esDecimalParcial, formatInt, formatNumber, leerDecimal } from '../../../shared/lib/format'
 
 /** El borrador evita que una respuesta asíncrona anterior interrumpa la escritura. Sin valor (lado no registrado) queda vacío. */
-export function CampoSerie({ valor, label, decimal = false, disabled = false, className = '', onChange }: {
+export function CampoSerie({ valor, label, decimal = false, disabled = false, className = '', onChange, onTerminarEdicion }: {
   valor?: number
   label: string
   decimal?: boolean
   disabled?: boolean
   className?: string
   onChange: (valor: number) => void
+  onTerminarEdicion?: (valor: number) => void
 }) {
   const [borrador, setBorrador] = useState<string | null>(null)
   return (
-    <Input disabled={disabled} type="number" inputMode={decimal ? 'decimal' : 'numeric'} enterKeyHint={decimal ? 'done' : 'next'}
-      min={0} step={decimal ? 2.5 : 1} aria-label={label} value={borrador ?? valor ?? ''} placeholder="—"
-      onFocus={() => setBorrador(valor === undefined ? '' : String(valor))}
+    <Input disabled={disabled} type="text" role="spinbutton" inputMode={decimal ? 'decimal' : 'numeric'} enterKeyHint={decimal ? 'done' : 'next'}
+      aria-valuemin={0} aria-valuenow={leerDecimal(borrador ?? decimalEditable(valor))} aria-label={label} value={borrador ?? decimalEditable(valor)} placeholder="—"
+      onFocus={() => setBorrador(decimalEditable(valor))}
       onChange={(e) => {
-        const texto = e.target.value
+        const texto = e.target.value.trim()
+        if (!esDecimalParcial(texto)) return
         setBorrador(texto)
-        if (texto !== '') onChange(Math.round(Math.max(0, Number(texto) || 0) * 100) / 100)
+        const numero = leerDecimal(texto)
+        if (numero !== undefined) onChange(Math.round(numero * 100) / 100)
+      }}
+      onKeyDown={(e) => {
+        if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return
+        e.preventDefault()
+        const actual = leerDecimal(e.currentTarget.value) ?? valor ?? 0
+        const siguiente = Math.round(Math.max(0, actual + (e.key === 'ArrowUp' ? 1 : -1) * (decimal ? 2.5 : 1)) * 100) / 100
+        setBorrador(decimalEditable(siguiente))
+        onChange(siguiente)
       }}
       onBlur={() => {
         if (borrador === '' && valor !== undefined) onChange(0)
+        const n = leerDecimal(borrador ?? decimalEditable(valor))
+        if (n !== undefined) onTerminarEdicion?.(n)
         setBorrador(null)
       }}
       className={`tabular no-spin text-center font-semibold ${className}`}
@@ -63,6 +77,7 @@ interface Props {
   sets: SetEntry[]
   /** Lo que se hizo en cada serie la sesión anterior (por id de serie). Con datos aparece la columna «Anterior». */
   anteriores?: Map<number, Anterior>
+  referenciasCarga?: SetEntry[]
   objetivo?: ObjetivoEjercicio
   /** Series marcadas y acción de marcar. Sin ellas no hay columna ✓. Devuelve true si la serie quedó marcada. */
   completadas?: number[]
@@ -117,7 +132,7 @@ function CeldaAnterior({ dato }: { dato?: TextoAnterior }) {
 }
 
 /** Panel de un ejercicio con sus series; lo comparten la sesión activa y el editor de entrenos terminados. */
-export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga, plegado = false, onPlegar }: Props) {
+export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga, plegado = false, onPlegar }: Props) {
   const filaPlegada = useRef<HTMLButtonElement>(null)
   const estabaPlegado = useRef(plegado)
   // Al plegarse justo tras marcar la última serie, el ✓ desaparece: el foco pasa a la fila plegada en vez de perderse
@@ -130,6 +145,8 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
     }
     estabaPlegado.current = plegado
   }, [plegado])
+  const cargasRevisadas = useRef(new Set<string>())
+  const [avisoCarga, setAvisoCarga] = useState<{ peso: number; referencia: number; label: string } | null>(null)
   const completo = sets.length > 0 && sets.every(s => completadas?.includes(s.id))
   const actualizar = (id: number, cambio: CambioSerie) => { void Promise.resolve(onActualizar(id, cambio)).catch(() => {}) }
   const [hoja, setHoja] = useState<Hoja | null>(null)
@@ -172,7 +189,11 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
 
   function campoKg(s: SetEntry, tramo: { peso: number }, label: string, cambio: (peso: number) => CambioSerie, ausente = false) {
     if (modoCarga(s) === 'corporal') return <p className="celda-kg break-words text-center text-caption text-fg-muted">Corporal</p>
-    return <CampoSerie className="celda-kg" disabled={bloqueado} valor={ausente ? undefined : tramo.peso} decimal label={label} onChange={peso => actualizar(s.id, cambio(peso))} />
+    return <CampoSerie className="celda-kg" disabled={bloqueado} valor={ausente ? undefined : tramo.peso} decimal label={label} onChange={peso => { setAvisoCarga(null); actualizar(s.id, cambio(peso)) }} onTerminarEdicion={peso => {
+      if (tramo !== s) return
+      const referencia = cargaInusual(s, peso, referenciasCarga)
+      setAvisoCarga(referencia === null || cargasRevisadas.current.has(`${label}:${peso}`) ? null : { peso, referencia, label })
+    }} />
   }
 
   /** Filas hijas de un tramo con lados distintos: una por lado, en la misma rejilla. */
@@ -280,6 +301,18 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, objetivo, 
           )
         })}
       </div>
+      {avisoCarga && <aside aria-label="Revisar carga" className="space-y-2 border-t border-line pt-2">
+        <p className="text-body-sm text-warning">Revisa {formatNumber(avisoCarga.peso, 2)} kg: en la última sesión comparable usaste hasta {formatNumber(avisoCarga.referencia, 2)} kg. Puedes corregir el valor o conservarlo.</p>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="secondary" size="sm" onClick={() => { cargasRevisadas.current.add(`${avisoCarga.label}:${avisoCarga.peso}`); setAvisoCarga(null) }}>El peso es correcto</Button>
+          <Button variant="ghost" size="sm" onClick={e => {
+            const panel = e.currentTarget.closest('[data-exercise-id]')
+            const input = Array.from(panel?.querySelectorAll<HTMLInputElement>('input') ?? []).find(i => i.getAttribute('aria-label') === avisoCarga.label)
+            input?.focus(); input?.select()
+            setAvisoCarga(null)
+          }}>Corregir peso</Button>
+        </div>
+      </aside>}
       <div className="flex flex-wrap gap-2">
         <Button variant="ghost" className="min-w-0 flex-1 basis-40" disabled={bloqueado} onClick={onAgregar}>
           <Icon name="plus" size={16} />

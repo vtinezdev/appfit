@@ -1,3 +1,4 @@
+import { iniciarDiagnostico } from './shared/lib/diagnostico'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -9,9 +10,12 @@ import { solicitarPersistencia } from './shared/lib/almacenamiento.ts'
 import { sincronizarCatalogo } from './features/nutricion/lib/catalogo/sincronizar.ts'
 import { iniciarCopiaNube } from './features/cuenta/servicio.ts'
 import { iniciarActualizaciones } from './shared/pwa/actualizaciones.ts'
+import { initInstalacion } from './shared/pwa/instalacion.ts'
 
+iniciarDiagnostico()
 initTheme()
 initViewport()
+initInstalacion()
 iniciarActualizaciones()
 void solicitarPersistencia()
 

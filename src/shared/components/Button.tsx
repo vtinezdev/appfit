@@ -46,7 +46,7 @@ export default function Button({ variant = 'primary', size = 'md', block = false
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`app-button inline-flex items-center justify-center gap-2 rounded-md py-2 enabled:active:brightness-95 ${loading ? 'opacity-70' : DESHABILITADO(variant)} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
+      className={`app-button inline-flex min-w-0 max-w-full flex-wrap items-center justify-center gap-2 rounded-md py-2 enabled:active:brightness-95 ${loading ? 'opacity-70' : DESHABILITADO(variant)} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
       {...rest}
     >
       {loading && <Icon name="loader" size={18} />}

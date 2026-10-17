@@ -1,3 +1,4 @@
+import Pista from '../../../shared/components/Pista'
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Exercise, ObjetivoEjercicio, PlanProgresion, SetEntry, Workout } from '../../../shared/db/types'
@@ -32,6 +33,7 @@ export default function ProgresionEjercicio({ ejercicio, workout, sets, objetivo
       <Icon name="sparkles" size={16} className="shrink-0 text-fg-muted" /><span className="min-w-0 flex-1 break-words">{p.texto}</span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" />
     </button>}
     <Sheet open={abierto} onClose={() => { if (!ocupado) { setEditando(false); onCerrar() } }} title={`Progresión · ${ejercicio.nombre}`}><div className="space-y-section">
+      <Pista id="entreno-progresion" />
       {editando ? <>
         <p className="text-body-sm text-fg-muted">Este objetivo habitual se usa para las sugerencias, sin modificar tu rutina. Indica el incremento real de tu equipo; no se deduce automáticamente.</p>
         <fieldset className="space-y-3"><legend className="mb-3 text-title font-semibold">Objetivo de repeticiones</legend>{campos.slice(0, 3).map(c => <label key={c.key} className="block space-y-1"><span className="text-label text-fg-muted">{c.label}</span><DecimalInput aria-label={c.label} value={draft[c.key]} disabled={ocupado} onChange={valor => setDraft(d => ({ ...d, [c.key]: valor }))} /></label>)}</fieldset>

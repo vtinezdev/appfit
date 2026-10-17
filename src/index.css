@@ -24,6 +24,8 @@
 html, body, #root {
   height: 100%;
 }
+.app-content { max-width: var(--content-width); }
+.app-form { max-width: var(--form-width); }
 /* El viewport no rebota: el único scroll es el de <main>. En el root (no en body), que es donde se aplica al viewport. */
 html { scrollbar-color: rgb(var(--c-border-strong)) rgb(var(--c-bg)); overscroll-behavior: none; }
 button, a { -webkit-user-select: none; }
@@ -113,6 +115,7 @@ body {
   @apply bg-bg font-sans text-body text-fg antialiased;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
+  overflow-wrap: anywhere;
 }
 
 /* Inputs editables: 16 px como mínimo en móvil para evitar el zoom automático de iOS. */
@@ -120,6 +123,8 @@ input, select, textarea, button {
   font-size: 16px;
 }
 input, select, textarea { scroll-margin-block: 1rem; }
+/* Algunos controles nativos (fecha/select en Android) tienen un mínimo intrínseco mayor que su columna. */
+input, select, textarea { max-width: 100%; min-width: 0; }
 button, input, select, textarea { touch-action: manipulation; }
 button { overflow-wrap: anywhere; }
 button:disabled { cursor: default; }
@@ -146,6 +151,13 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   -webkit-appearance: none;
   margin: 0;
 }
+.number-stepper { width: calc(2 * var(--touch-target) + var(--stepper-field-width) + 2px); container: stepper / inline-size; }
+.number-stepper-grid { display: grid; grid-template-columns: var(--touch-target) minmax(0, 1fr) var(--touch-target); align-items: center; }
+@container stepper (max-width: 10rem) {
+  .number-stepper-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .number-stepper-field { grid-column: 1 / -1; grid-row: 1; }
+  .number-stepper-grid > button { grid-row: 2; justify-self: center; }
+}
 
 :focus-visible {
   outline: 2px solid rgb(var(--c-focus));
@@ -158,6 +170,22 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom);
+}
+.safe-inline {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+/* Rejillas ligadas al ancho de lectura: conservan espacio al ampliar texto o girar un móvil. */
+.inicio-layout { container: inicio-layout / inline-size; }
+.inicio-paneles { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-stack); container: inicio / inline-size; }
+.inicio-paneles > * { min-width: 0; }
+.inicio-registros { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-stack); }
+@container inicio (max-width: 18rem) {
+  .inicio-registros, .progreso-teselas { grid-template-columns: minmax(0, 1fr); }
+}
+@container inicio-layout (min-width: 40rem) {
+  .inicio-paneles { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .inicio-registros { grid-column: 1 / -1; }
 }
 
 /* El scroll es visible donde el navegador lo necesita; no se oculta globalmente. */
@@ -189,20 +217,40 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .cifras-filetes > * { min-width: 0; padding-inline: calc(var(--space-stack) * .75); }
 .cifras-filetes > :first-child { padding-left: 0; }
 .cifras-filetes > * + * { border-left: 1px solid rgb(var(--c-border)); }
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--metric-column-min)), 1fr)); }
 /* Semana del diario: el número de cada día dentro del anillo de sus kcal frente a su objetivo (N1, ADR 035).
    El día elegido, número en grafito sólido; hoy, subrayado. */
-.semana-kcal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .25rem; }
+.semana-kcal { width: max(100%, calc(7 * var(--touch-target) + 1.5rem)); display: grid; grid-template-columns: repeat(7, minmax(var(--touch-target), 1fr)); gap: .25rem; }
+.semana-scroll { position: relative; overflow-x: auto; padding-block: .25rem; }
+.semana-deslizar { display: none; }
+@container semana (max-width: 21rem) { .semana-deslizar { display: block; } }
+.semana-diario { container: semana / inline-size; }
+.calendario-ritmo { container: calendario-ritmo / inline-size; }
+@container calendario-ritmo (max-width: 16rem) {
+  .calendario-cabecera { flex-wrap: wrap; }
+  .calendario-cabecera p { order: 1; flex-basis: 100%; text-align: center; }
+}
+@container semana (max-width: 16rem) {
+  .semana-cabecera { flex-wrap: wrap; justify-content: space-between; }
+  .semana-cabecera h2 { order: 1; flex-basis: 100%; overflow-wrap: anywhere; }
+}
 .semana-dia { display: flex; width: 100%; min-height: var(--touch-target); flex-direction: column; align-items: center; gap: .375rem; padding-block: .375rem; border-radius: var(--radius-md); color: rgb(var(--c-text-secondary)); }
 .semana-dia[aria-current='date'] { color: rgb(var(--c-text-primary)); }
 .semana-dia:disabled { opacity: .4; }
 .semana-letra { display: inline-flex; align-items: center; gap: .125rem; font-size: var(--fs-caption); line-height: 1; font-weight: 600; }
 /* Cheat day: destello junto a la letra, sin cambiar el alto de la columna. */
 .semana-cheat { flex-shrink: 0; color: rgb(var(--c-text-secondary)); }
-.semana-anillo { width: var(--touch-target); height: var(--touch-target); max-width: 100%; }
+.semana-anillo { width: var(--touch-target); height: auto; aspect-ratio: 1; max-width: 100%; }
 .semana-num { display: grid; place-items: center; width: 1.875rem; height: 1.875rem; border-radius: var(--radius-pill); font-size: var(--fs-body-sm); line-height: 1; font-weight: 700; color: rgb(var(--c-text-primary)); }
 .semana-dia[aria-current='date'] .semana-num { background: rgb(var(--c-text-primary)); color: rgb(var(--c-bg)); }
 .semana-dia[data-hoy='true'] .semana-num { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 /* Calendario del historial: día entrenado relleno con la rampa según su volumen en el mes; hoy con anillo exterior. */
+.calendario-entrenos { container: entrenos / inline-size; }
+.cal-lista { display: none; }
+@container entrenos (max-width: 23rem) {
+  .cal-vista-mes { display: none; }
+  .cal-lista { display: block; }
+}
 .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .375rem; }
 .cal-dia { display: grid; place-items: center; width: 100%; min-height: var(--touch-target); border-radius: var(--radius-md); font-size: var(--fs-body-sm); color: rgb(var(--c-text-primary)); }
 .cal-dia[data-futuro='true'] { color: rgb(var(--c-text-tertiary)); }
@@ -250,12 +298,13 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 .app-field { caret-color: rgb(var(--c-accent-strong)); transition: border-color var(--dur-short), background-color var(--dur-short); }
 .app-field:focus { border-color: rgb(var(--c-accent-strong)); background: rgb(var(--c-surface)); }
-.app-tabs { isolation: isolate; }
+.app-tabs { isolation: isolate; overflow-x: auto; scroll-padding-inline: .25rem; }
+.app-tab { min-width: max-content; white-space: nowrap; }
 /* La celda se desplaza; dentro, una barra corta y redondeada marca la vista activa. */
 .tab-indicator {
   position: absolute; bottom: 0; left: 0; height: 3px;
-  width: calc(100% / var(--selection-count));
-  transform: translateX(calc(var(--selection-index) * 100%));
+  width: var(--selection-width);
+  transform: translateX(var(--selection-offset));
   transition: transform var(--dur-normal) var(--ease-standard);
 }
 .tab-indicator::after {
@@ -264,8 +313,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 /* Secciones de arriba: la celda activa es una caja `surface-muted` dentro del recuadro, con la misma barra. */
 .app-tabs-principal .tab-indicator {
-  top: 0.25rem; bottom: 0.25rem; left: 0.25rem; height: auto;
-  width: calc((100% - 0.5rem) / var(--selection-count));
+  top: 0.25rem; bottom: 0.25rem; left: 0; height: auto;
   border-radius: var(--radius-sm); background: rgb(var(--c-surface-muted));
 }
 .app-tabs-principal .tab-indicator::after { inset: auto auto 0.25rem 50%; height: 3px; }
@@ -345,6 +393,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 /* Energía de Inicio: si la rueda no cabe junto al texto, se centra y el texto pasa entero debajo (no queda a un lado). */
 .energia-card { container: energia / inline-size; }
+.energia-anillo { width: min(var(--energy-ring-size), 100%); }
+.energia-cifra { overflow-wrap: anywhere; text-align: center; }
+.energia-cifra > span { max-width: 100%; }
 /* Cada macro frente a su objetivo: nombre · barrita · «58/137 g». */
 .macro-fila { display: grid; grid-template-columns: minmax(4.5rem, auto) minmax(0, 1fr) auto; align-items: center; gap: var(--space-stack); }
 .macro-fila-carril { position: relative; display: block; height: .375rem; overflow: hidden; border-radius: var(--radius-sm); background: rgb(var(--c-border)); }
@@ -353,6 +404,11 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   .energia-cuerpo { justify-content: center; }
   .energia-texto { flex-basis: 100%; }
 }
+@container energia (max-width: 12rem) {
+  .energia-cifra { position: static; margin-top: var(--space-stack); }
+  .macro-fila { grid-template-columns: minmax(0, 1fr); }
+  .macro-fila > :last-child { text-align: left; overflow-wrap: anywhere; }
+}
 /* Un desplegable no repite la línea de la lista plana o del desplegable que lo preceden, ni deja una suelta al final de una card. */
 .app-list-flat + .app-disclosure, .app-disclosure + .app-disclosure { border-top-width: 0; }
 .app-card > .app-disclosure:last-child { border-bottom-width: 0; }
@@ -360,8 +416,19 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 [data-visible='true'] > .overlay-backdrop { opacity: 1; }
 [data-visible='false'] > .overlay-backdrop { transition-duration: var(--dur-exit); }
 .sheet-panel { transition: transform var(--dur-overlay) var(--ease-standard); }
+.sheet-layer { container: sheet / size; }
+@container sheet (max-height: 24rem) {
+  .sheet-panel { max-height: calc(100% - env(safe-area-inset-top)); }
+  .sheet-header > button { margin-top: 0; }
+  .sheet-panel > footer { padding-block: var(--space-stack); max-height: 50%; overflow-y: auto; }
+}
 [data-visible='false'] > .sheet-panel { transition-duration: var(--dur-exit); transition-timing-function: var(--ease-exit); }
 .task-layer { opacity: 0; transform: translateY(var(--motion-shift)); transition: opacity var(--dur-normal), transform var(--dur-overlay) var(--ease-standard); }
+.task-layer { container: task / size; }
+@container task (max-height: 24rem) {
+  .task-layer > header { max-height: 40%; overflow-y: auto; }
+  .task-layer > footer { max-height: 45%; overflow-y: auto; }
+}
 .task-layer[data-visible='true'] { opacity: 1; transform: translateY(0); }
 .task-layer[data-visible='false'] { transition-duration: var(--dur-exit); }
 .app-view, .view-arrival { animation: view-arrival var(--dur-short) var(--ease-standard) both; }
@@ -369,7 +436,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 /* Navegación (ADR 043): un botón redondo flotante abajo al centro, fuera del flujo, sobre el contenido, que pasa por debajo. */
 .app-nav {
   position: absolute; inset: auto 0 0; z-index: 40; pointer-events: none;
-  padding: 0 var(--space-page) calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton)));
+  padding: 0 max(var(--space-page), env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton))) max(var(--space-page), env(safe-area-inset-left));
 }
 .nav-boton {
   pointer-events: auto; display: grid; place-items: center; width: var(--nav-boton); height: var(--nav-boton); margin-inline: auto;
@@ -379,6 +446,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .nav-boton:active { transform: scale(var(--motion-press)); }
 /* Media luna de secciones: nace del botón, que en la capa pasa a cerrar. El fondo es el de la app casi opaco, para leer los nombres en los dos temas. */
 .arco-fondo { background: rgb(var(--c-bg) / .9); }
+.arco-layer { container: arco / size; }
 .arco-panel {
   position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton)));
   width: var(--nav-boton); height: var(--nav-boton); transform: translateX(-50%); outline: none;
@@ -405,6 +473,19 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 /* La actual, con borde (el relleno volt es del botón): sombra interior para no mover el icono. */
 .arco-destino[aria-current='page'] .arco-circulo { border-color: transparent; color: rgb(var(--c-accent-strong)); box-shadow: inset 0 0 0 2px rgb(var(--c-accent-strong)), var(--shadow-float); }
 .arco-panel .nav-boton { position: absolute; inset: 0; }
+/* En horizontal o con poco alto, la órbita se convierte en una rejilla desplazable con cierre persistente. */
+@container arco (max-height: 28rem) or (max-width: 18rem) {
+  .arco-panel {
+    display: flex; flex-direction: column; gap: var(--space-stack);
+    width: min(var(--form-width), calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right)));
+    height: auto; max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - var(--space-stack));
+  }
+  .arco-panel nav { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--space-stack); }
+  .arco-origen { position: static; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--arco-nodo)), 1fr)); gap: var(--space-stack); }
+  .arco-item, .arco-layer[data-visible='false'] .arco-item { position: static; width: auto; transform: none; }
+  .arco-destino { min-height: var(--touch-target); white-space: normal; overflow-wrap: anywhere; }
+  .arco-panel .nav-boton { position: static; flex-shrink: 0; }
+}
 /* La vista deja sitio al final para leer lo último por encima de la barra flotante. */
 .app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--space-section)); }
 /* Entreno minimizado: barra de grafito sobre la cápsula. Los avisos suben por encima y la vista reserva también su altura. */

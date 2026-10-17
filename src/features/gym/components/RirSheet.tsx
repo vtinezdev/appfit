@@ -1,3 +1,4 @@
+import Pista from '../../../shared/components/Pista'
 import { useState } from 'react'
 import Button from '../../../shared/components/Button'
 import Sheet from '../../../shared/components/Sheet'
@@ -24,6 +25,7 @@ export default function RirSheet({ open, titulo, valor, alCompletar, onElegir, o
     <Sheet open={open} onClose={() => { if (!ocupado) { setError(null); onClose() } }} title={titulo}>
       <div className="space-y-4">
         <p className="text-body-sm text-fg-muted">¿Cuántas repeticiones más podías hacer?</p>
+        <Pista id="entreno-rir" />
         <div className="grid grid-cols-3 gap-2" role="group" aria-label="Repeticiones en reserva">
           {OPCIONES.map(o => (
             <button key={o.valor} type="button" aria-pressed={valor === o.valor} aria-label={`RIR ${o.label}: ${o.detalle}`} disabled={ocupado} onClick={() => elegir(o.valor)}

@@ -2,9 +2,7 @@ import { lazy, Suspense, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import BottomNav, { type Tab } from './BottomNav'
 import InicioTab from '../features/inicio/InicioTab'
-import NutricionTab from '../features/nutricion/NutricionTab'
-import GymTab, { type SeccionEntreno } from '../features/gym/GymTab'
-import Ajustes from './Ajustes'
+import type { SeccionEntreno } from '../features/gym/GymTab'
 import type { SeccionAjustes } from './seccionesAjustes'
 import TrasladarDatos from './TrasladarDatos'
 import AtmosferaApp from './AtmosferaApp'
@@ -15,6 +13,9 @@ import * as workoutsRepo from '../features/gym/data/workoutsRepo'
 import EntrenoMinimizado from '../features/gym/components/EntrenoMinimizado'
 import { socialDisponible } from '../features/social/servicio'
 
+const NutricionTab = lazy(() => import('../features/nutricion/NutricionTab'))
+const GymTab = lazy(() => import('../features/gym/GymTab'))
+const Ajustes = lazy(() => import('./Ajustes'))
 const ReferenciasTab = lazy(() => import('../features/referencias/ReferenciasTab'))
 const PerfilTab = lazy(() => import('../features/perfil/PerfilTab'))
 const CumbresTab = lazy(() => import('../features/cumbres/CumbresTab'))
@@ -66,12 +67,12 @@ export default function App() {
       {/* El fondo vive fuera del contenedor con scroll: queda quieto mientras el contenido se desplaza. */}
       <div className="relative isolate min-h-0 flex-1">
       <AtmosferaApp tab={tab} />
-      <main ref={scrollRef} className="safe-top h-full overflow-y-auto overscroll-contain">
-        <div key={tab} data-atmosphere={tab} className="app-view mx-auto w-full max-w-lg">
+      <main ref={scrollRef} className="safe-top safe-inline h-full overflow-y-auto overscroll-contain">
+        <div key={tab} data-atmosphere={tab} className="app-view app-content mx-auto w-full">
         {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onIrAGym={abrirEntreno} onIrAProgreso={navegar} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => navegar('amigos')} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => irAAjustes('instalacion')} />} />}
-        {tab === 'nutricion' && <NutricionTab onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
-        {tab === 'gym' && <GymTab seccionInicial={seccionEntreno} entrenoAbierto={entrenoAbierto} onAbrirEntreno={() => setEntrenoAbierto(true)} onMinimizarEntreno={() => setEntrenoAbierto(false)} />}
+        {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} /></Suspense>}
+        {tab === 'gym' && <Suspense fallback={<LoadingState />}><GymTab seccionInicial={seccionEntreno} entrenoAbierto={entrenoAbierto} onAbrirEntreno={() => setEntrenoAbierto(true)} onMinimizarEntreno={() => setEntrenoAbierto(false)} /></Suspense>}
         {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { navegar('referencias'); setAreaReferencias('energia') }} /></Suspense>}
         {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
         {tab === 'caminos' && <Suspense fallback={<LoadingState />}><CaminosTab onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} /></Suspense>}
@@ -79,7 +80,7 @@ export default function App() {
         {tab === 'social' && <Suspense fallback={<LoadingState />}><SocialTab onIrAAmigos={() => navegar('amigos')} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'amigos' && <Suspense fallback={<LoadingState />}><AmigosTab onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
-        {tab === 'ajustes' && <Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} onIrAReferencias={() => navegar('referencias')} />}
+        {tab === 'ajustes' && <Suspense fallback={<LoadingState />}><Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} onIrAReferencias={() => navegar('referencias')} /></Suspense>}
         {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} /></Suspense>}
         </div>
       </main>

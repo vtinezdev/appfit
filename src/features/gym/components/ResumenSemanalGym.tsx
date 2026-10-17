@@ -32,7 +32,7 @@ export default function ResumenSemanalGym() {
         <p className="text-body-sm text-fg-muted">Sin entrenos terminados esta semana.</p>
       ) : (
         <>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="metric-grid gap-3">
             <Metric size="title" label="Sesiones" valor={resumen.sesiones} />
             <Metric size="title" label="Tiempo" valor={formatDuracion(resumen.duracionMs)} />
             <Metric size="title" label="Volumen" valor={formatNumber(resumen.volumen, 0)} unidad="kg" />

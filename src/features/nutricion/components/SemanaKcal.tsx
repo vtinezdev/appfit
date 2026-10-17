@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useLayoutEffect, useRef, type ReactNode } from 'react'
 import Anillo from '../../../shared/components/Anillo'
 import { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
@@ -28,13 +28,32 @@ const fechaLarga = (iso: string) => parseISODate(iso).toLocaleDateString('es-ES'
  */
 export default function SemanaKcal({ fecha, hoy, dias, onFecha, acciones, nota, transicion = '' }: Props) {
   const siguiente = addDays(fecha, 7)
-  return <section aria-label="Semana" className="space-y-2">
-    <div className="flex items-center gap-1">
+  const scroll = useRef<HTMLDivElement>(null)
+  const clave = dias?.map(d => d.fecha).join(',')
+  useLayoutEffect(() => {
+    const element = scroll.current
+    if (!element) return
+    const mostrar = () => {
+      const elegido = element.querySelector<HTMLButtonElement>('[aria-current="date"]')
+      if (!elegido) return
+      if (elegido.offsetLeft < element.scrollLeft) element.scrollLeft = elegido.offsetLeft
+      else if (elegido.offsetLeft + elegido.offsetWidth > element.scrollLeft + element.clientWidth) element.scrollLeft = elegido.offsetLeft + elegido.offsetWidth - element.clientWidth
+    }
+    mostrar()
+    const observer = new ResizeObserver(mostrar)
+    observer.observe(element)
+    element.querySelectorAll('button').forEach(button => observer.observe(button))
+    return () => observer.disconnect()
+  }, [fecha, clave])
+  return <section aria-label="Semana" className="semana-diario space-y-2">
+    <div className="semana-cabecera flex items-center gap-1">
       <IconButton icon="chevron-left" label="Semana anterior" variant="ghost" onClick={() => onFecha(addDays(fecha, -7))} />
       <h2 key={fecha} aria-live="polite" className={`min-w-0 flex-1 text-center text-body font-semibold text-fg first-letter:uppercase ${transicion}`}>{formatFriendly(fecha)}</h2>
       <IconButton icon="chevron-right" label="Semana siguiente" variant="ghost" disabled={esPeriodoActual('semana', fecha)} onClick={() => onFecha(siguiente > hoy ? hoy : siguiente)} />
       {acciones}
     </div>
+    <p className="semana-deslizar text-caption text-fg-muted">Desliza la semana para ver todos los días.</p>
+    <div ref={scroll} className="semana-scroll">
     <ul className="semana-kcal" aria-label="Días de la semana">
       {(dias ?? []).map(d => {
         const elegido = d.fecha === fecha
@@ -49,6 +68,7 @@ export default function SemanaKcal({ fecha, hoy, dias, onFecha, acciones, nota, 
         </li>
       })}
     </ul>
+    </div>
     {nota && <div className="flex justify-center">{nota}</div>}
   </section>
 }

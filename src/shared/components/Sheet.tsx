@@ -18,7 +18,7 @@ interface Props {
 }
 
 /**
- * Panel inferior modal. Se cierra con el backdrop, Escape o arrastrando el asa/cabecera hacia abajo.
+ * Panel inferior modal. Se cierra con el backdrop, Escape o arrastrando el asa hacia abajo.
  * Anima entrada y salida (sin animación con prefers-reduced-motion), bloquea el scroll de la página,
  * mantiene el foco dentro y lo devuelve al elemento que lo abrió.
  * Las salidas iniciadas aquí animan antes de `onClose`; open=false también anima, desmontar directamente no.
@@ -36,7 +36,7 @@ export default function Sheet({ id, open, onClose, onExited, title, children, fo
     if (wasMounted.current) { wasMounted.current = false; onExited?.() }
   }, [mounted, onExited])
 
-  // Arrastrar para cerrar: solo desde el asa y el título, para no pelear con el scroll del contenido.
+  // Arrastrar para cerrar: solo desde el asa, para no pelear con el scroll del contenido.
   const onDragStart = (e: PointerEvent) => {
     drag.current = { startY: e.clientY, dy: 0, t: Date.now() }
     e.currentTarget.setPointerCapture(e.pointerId)
@@ -69,7 +69,7 @@ export default function Sheet({ id, open, onClose, onExited, title, children, fo
 
   if (!mounted) return null
   return createPortal(
-    <div data-visible={visible} className="sheet-layer modal-viewport fixed inset-x-0 z-50 flex items-end justify-center">
+    <div data-visible={visible} className="sheet-layer modal-viewport safe-inline fixed inset-x-0 z-50 flex items-end justify-center">
       <div
         className={`overlay-backdrop absolute inset-0 bg-overlay/50 ${visible ? 'opacity-100' : 'opacity-0'}`}
         onClick={requestClose}
@@ -86,9 +86,9 @@ export default function Sheet({ id, open, onClose, onExited, title, children, fo
           visible ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
-        <div className="flex shrink-0 items-start justify-between gap-2 px-card">
+        <div className="sheet-header flex shrink-0 items-start justify-between gap-2 px-card">
           <div
-            className="min-w-0 flex-1 cursor-grab touch-none pb-3 pt-3 active:cursor-grabbing"
+            className="min-h-touch min-w-0 flex-1 cursor-grab touch-none pb-3 pt-3 active:cursor-grabbing"
             onPointerDown={onDragStart}
             onPointerMove={onDragMove}
             onPointerUp={onDragEnd}
@@ -96,11 +96,15 @@ export default function Sheet({ id, open, onClose, onExited, title, children, fo
             onLostPointerCapture={cancelDrag}
           >
             <div className="h-1 w-8 rounded-pill bg-line-strong" aria-hidden />
-            {title && <h2 id={titleId} className="mt-3 break-words text-title text-fg">{title}</h2>}
           </div>
           <IconButton icon="close" label="Cerrar" variant="ghost" className="mt-2" onClick={requestClose} />
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-card pb-card">{children}</div>
+        <div className="sheet-content min-h-0 flex-1 overflow-y-auto overscroll-contain">
+          <div className="px-card pb-card">
+            {title && <h2 id={titleId} className="mb-3 break-words text-title text-fg">{title}</h2>}
+            {children}
+          </div>
+        </div>
         {footer && <footer className="shrink-0 border-t border-line px-card py-3">{footer}</footer>}
       </div>
     </div>, document.body,

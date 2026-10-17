@@ -128,8 +128,20 @@ Qué cambia (lógica pura en `lib/cheatDays.ts` y en cada cálculo; marcas de `c
 
 Semana o mes navegables (`fechasPeriodo`, `desplazarPeriodo`, `etiquetaPeriodo`, `esPeriodoActual` en `shared/lib/dates.ts`; cambiar de mes ancla en el día 1 para no desbordar). La media diaria solo cuenta los días con alguna entrada y fecha ≤ hoy que no sean cheat days (`resumenPeriodo`); la cobertura añade «· N cheat days fuera de la media». Sin registros se muestra un estado vacío, sin gráficas ficticias. Media/objetivo, cobertura («Solo cuentan los 4 días registrados») y macros primero, en una card con las mismas piezas que el panel del Diario (`MacroBar`), y el navegador de periodo sin línea, como el de días; después una gráfica de barras con métrica seleccionable (kcal/P/C/G), unidad y línea de meta. «Ver datos del periodo» ofrece cifras textuales por fecha y señala días sin registro. FranjaMacros resume el reparto del periodo; no se repite en cada comida del diario.
 
+## Adaptación de listas y semana
+
+Las filas de Alimentos permiten pasar las kcal a otra línea cuando el texto ampliado deja poco espacio al nombre; el nombre conserva una base legible y la fila sigue siendo un único botón. Los anillos de la semana mantienen proporción cuadrada al encoger en 320 px (`.semana-anillo`, `aspect-ratio: 1`), sin deformar el SVG. Las siete columnas aún pueden dejar objetivos táctiles menores de 44 px: pendiente registrado en [roadmap](../roadmap.md), no se considera resuelto por corregir el anillo.
+
 ## Objetivos (Ajustes)
 
 Las kcal vigentes pueden venir de Perfil (`perfilRepo.objetivosVigentes`, [features/perfil.md](perfil.md)): con perfil completo y objetivo elegido, `ObjetivosAjustes` muestra las kcal en solo lectura («Calculado en Perfil», «Ir a Perfil») y los macros siguen editables (`reajustarObjetivos` sobre los vigentes; lo guardado actúa como reparto). Hoy y Resumen usan los vigentes.
 
 `lib/objetivos.ts`: kcal y macros «cuadran» si 4·P + 4·C + 9·G ≈ kcal (tolerancia de 5 kcal). Al editar las kcal, los macros se escalan manteniendo su reparto; al editar un macro, las kcal se mantienen y los otros dos se reparten el resto. «Cuadrar» arregla unos objetivos que no cuadran.
+
+## Selección y preparación al añadir comida
+
+Buscar y Cambiar alimento permiten filtrar por las categorías existentes, Todas o Sin categoría. El filtro se aplica a frecuentes, alimentos propios y candidatos de catálogo **antes** de recortar el resultado visible. Las respuestas tardías se descartan por consulta y categoría. Una categoría sin coincidencias no muestra alimentos de otra para rellenar la lista.
+
+`preparacionAlimento` destaca «En crudo» o «Ya cocinado» solo cuando el nombre lo dice explícitamente. Se muestra en resultados, revisión y hoja de cantidad, con indicación de pesar en ese estado antes de guardar. Si el nombre menciona tanto crudo como cocinado, indica «Preparación por comprobar»; no elige por la persona. No deduce la preparación de un nombre genérico ni convierte gramos o nutrientes. Se conserva el nombre completo de la variante elegida.
+
+La semana del Diario mantiene siete botones con ancho mínimo táctil dentro de una franja desplazable, con indicación de deslizar en tamaños estrechos. El día seleccionado se mantiene visible al cambiar de fecha o tamaño. El desplazamiento horizontal pertenece a esa franja; no ensancha la página.

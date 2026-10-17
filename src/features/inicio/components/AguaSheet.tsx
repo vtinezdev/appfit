@@ -1,3 +1,4 @@
+import TendenciaRegistros from '../../../shared/components/TendenciaRegistros'
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Button from '../../../shared/components/Button'
@@ -5,7 +6,7 @@ import NumberStepper from '../../../shared/components/NumberStepper'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
-import { addDays, formatFriendly } from '../../../shared/lib/dates'
+import { addDays } from '../../../shared/lib/dates'
 import * as aguaRepo from '../data/aguaRepo'
 import { AGUA_POR_DEFECTO_ML, formatAgua, OPCIONES_AGUA_ML, type ObjetivoAgua } from '../lib/agua'
 
@@ -24,7 +25,7 @@ type Eleccion = `${(typeof OPCIONES_AGUA_ML)[number]}` | 'otra'
  */
 export default function AguaSheet({ open, onClose, hoy, objetivo }: Props) {
   const hoyAgua = useLiveQuery(() => aguaRepo.delDia(hoy), [hoy])
-  const historial = useLiveQuery(() => aguaRepo.entreFechas(addDays(hoy, -6), hoy), [hoy])
+  const historial = useLiveQuery(() => aguaRepo.entreFechas(addDays(hoy, -89), hoy), [hoy])
   const [eleccion, setEleccion] = useState<Eleccion>(`${AGUA_POR_DEFECTO_ML}` as Eleccion)
   const [otra, setOtra] = useState(200)
   const [error, setError] = useState<string | null>(null)
@@ -40,8 +41,6 @@ export default function AguaSheet({ open, onClose, hoy, objetivo }: Props) {
     try { await aguaRepo.quitarUltima(hoy) } catch { setError('No se ha podido quitar la última toma.') }
   }
 
-  const dias = Array.from({ length: 7 }, (_, i) => addDays(hoy, -i))
-  const porDia = new Map((historial ?? []).map((a) => [a.fecha, a.ml]))
 
   return (
     <Sheet open={open} onClose={onClose} title="Agua">
@@ -60,16 +59,9 @@ export default function AguaSheet({ open, onClose, hoy, objetivo }: Props) {
           {error && <ErrorState>{error}</ErrorState>}
         </div>
 
-        <section aria-label="Últimos días" className="space-y-1">
-          <h3 className="text-label text-fg-muted">Últimos 7 días</h3>
-          <ul className="divide-y divide-line">
-            {dias.map((d) => (
-              <li key={d} className="flex min-h-touch items-center justify-between gap-3 text-body-sm">
-                <span className="text-fg-muted first-letter:uppercase">{formatFriendly(d)}</span>
-                <span className="tabular font-semibold text-fg">{porDia.has(d) ? formatAgua(porDia.get(d)!) : '—'}</span>
-              </li>
-            ))}
-          </ul>
+        <section aria-label="Historial de agua" className="space-y-2">
+          <h3 className="text-title text-fg">Evolución del agua</h3>
+          <TendenciaRegistros puntos={(historial ?? []).map(a => ({ fecha: a.fecha, valor: a.ml }))} unidad="ml" titulo="agua" diaria periodos={['7', '30', '90']} />
         </section>
       </div>
     </Sheet>

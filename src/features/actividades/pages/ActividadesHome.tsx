@@ -90,7 +90,7 @@ export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => 
       {!actividades || !semana ? <LoadingState /> : <>
         <section aria-label="Esta semana" className="space-y-stack">
           <SectionHeader variant="section">Esta semana</SectionHeader>
-          <Card className="grid grid-cols-3 gap-3">
+          <Card className="metric-grid gap-3">
             <Metric size="title" label="Distancia" valor={formatKm(semana.distanciaM)} unidad="km" />
             <Metric size="title" label="Tiempo" valor={duracionTexto(semana.duracionSeg)} />
             <Metric size="title" label="Salidas" valor={formatInt(semana.salidas)} />

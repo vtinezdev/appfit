@@ -73,12 +73,14 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   const { quitarEjercicio, quitando, contenedorRef } = useQuitarEjercicio({ workoutId, visibleIds: ids, bloqueado: ocupado, avisar, avisarError })
 
   async function guardarNotas() {
-    if (notas === notasGuardadas.current) return
+    if (notas === notasGuardadas.current) return true
     try {
       await workoutsRepo.guardarNotas(workoutId, notas)
       notasGuardadas.current = notas
+      return true
     } catch {
       avisarError('No se han podido guardar las notas. Inténtalo de nuevo.')
+      return false
     }
   }
 
@@ -161,7 +163,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   }
 
   async function terminarEdicion() {
-    await guardarNotas()
+    if (!await guardarNotas()) return
     setEditando(false)
   }
 
@@ -216,6 +218,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
             const series = delEntreno.filter((s) => s.exerciseId === id).sort((a, b) => a.orden - b.orden)
             return <PanelEjercicio key={id} ejercicio={ex} sets={series} barraKg={ajustes?.barraKg ?? 20}
               anteriores={anterioresPorSerie(series, seriesSesionAnterior(todasSeries ?? [], id, w, todosWorkouts ?? []))}
+              referenciasCarga={seriesSesionAnterior(todasSeries ?? [], id, w, todosWorkouts ?? [])}
               objetivo={rutina?.objetivos?.[id]} onActualizar={actualizarSerie} onBorrar={borrarSerie} onAgregar={() => agregarSerie(id)}
               completadas={delEntreno.filter(s => s.realizada === true).map(s => s.id)} onCompletar={s => { void accion(() => setsRepo.confirmar(s.id, s.realizada !== true), 'No se ha podido confirmar la serie.') }}
               bloqueado={ocupado || quitando} onQuitar={() => quitarEjercicio(id, ex.nombre)} onAviso={avisar}

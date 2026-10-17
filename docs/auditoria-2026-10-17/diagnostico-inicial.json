@@ -1,0 +1,1624 @@
+[
+  {
+    "id": "chromium-375x667-light",
+    "motor": "chromium",
+    "version": "151.0.7922.173",
+    "viewport": {
+      "width": 375,
+      "height": 667
+    },
+    "tema": "light",
+    "texto200": false,
+    "estado": "fallo",
+    "medidas": [
+      {
+        "etiqueta": "inicio",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso-teclado",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "diario",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      }
+    ],
+    "capturas": [
+      "/tmp/appfit-auditoria/chromium-375x667-light-fallo.png"
+    ],
+    "error": "locator.waitFor: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('radio', { name: 'Mes', exact: true }) to be visible\u001b[22m\n\u001b[2m    - waiting for \"http://appfit-test.localhost:5173/\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://appfit-test.localhost:5173/\"\u001b[22m\n"
+  },
+  {
+    "id": "webkit-375x667-light",
+    "motor": "webkit",
+    "version": "26.5",
+    "viewport": {
+      "width": 375,
+      "height": 667
+    },
+    "tema": "light",
+    "texto200": false,
+    "estado": "fallo",
+    "medidas": [
+      {
+        "etiqueta": "inicio",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso-teclado",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      }
+    ],
+    "capturas": [
+      "/tmp/appfit-auditoria/webkit-375x667-light-fallo.png"
+    ],
+    "error": "locator.click: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('dialog', { name: 'Secciones', exact: true }).getByRole('button', { name: 'Nutrición', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"arco-destino app-button\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m  - element was detached from the DOM, retrying\u001b[22m\n"
+  },
+  {
+    "id": "firefox-375x667-light",
+    "motor": "firefox",
+    "version": "153.0",
+    "viewport": {
+      "width": 375,
+      "height": 667
+    },
+    "tema": "light",
+    "texto200": false,
+    "estado": "hallazgos",
+    "medidas": [
+      {
+        "etiqueta": "inicio",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso-teclado",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "diario",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "resumen-nutricion",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "alimentos",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "",
+            "ancho": 335,
+            "contenido": 347,
+            "texto": "DiarioResumenAlimentosAlimentosPlantillasRecetasNuevoFiltrar por categoríaTodas las categoríasSin ca"
+          },
+          {
+            "elemento": "DIV",
+            "clase": "pt-4",
+            "ancho": 335,
+            "contenido": 347,
+            "texto": "AlimentosPlantillasRecetasNuevoFiltrar por categoríaTodas las categoríasSin categoría (4)4 alimentos"
+          },
+          {
+            "elemento": "DIV",
+            "clase": "view-arrival",
+            "ancho": 335,
+            "contenido": 347,
+            "texto": "AlimentosPlantillasRecetasNuevoFiltrar por categoríaTodas las categoríasSin categoría (4)4 alimentos"
+          },
+          {
+            "elemento": "DIV",
+            "clase": "space-y-section",
+            "ancho": 335,
+            "contenido": 347,
+            "texto": "AlimentosPlantillasRecetasNuevoFiltrar por categoríaTodas las categoríasSin categoría (4)4 alimentos"
+          },
+          {
+            "elemento": "DIV",
+            "clase": "space-y-stack",
+            "ancho": 335,
+            "contenido": 347,
+            "texto": "NuevoFiltrar por categoríaTodas las categoríasSin categoría (4)4 alimentos sin categoríaRevisarArroz"
+          },
+          {
+            "elemento": "DIV",
+            "clase": "flex flex-wrap items-center justify-between gap-x-3",
+            "ancho": 335,
+            "contenido": 347,
+            "texto": "4 alimentos sin categoríaRevisar"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "anadir-comida",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "rutinas",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "historial",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": [
+          {
+            "nombre": "martes, 13 de octubre: 1 entreno, 720 kg",
+            "ancho": 42.7166748046875,
+            "alto": 44
+          },
+          {
+            "nombre": "jueves, 15 de octubre: 1 entreno, 780 kg",
+            "ancho": 42.7166748046875,
+            "alto": 44
+          }
+        ]
+      },
+      {
+        "etiqueta": "detalle-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "editor-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-lista",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-grafica",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "flex items-start justify-between gap-2",
+            "ancho": 293,
+            "contenido": 301,
+            "texto": "1RM estimado · última sesión91kg15 oct"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "actividades",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "perfil",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "cumbres",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "caminos",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ritmo",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Récords",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Colecciones",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "referencias",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ajustes",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      }
+    ],
+    "capturas": [
+      "/tmp/appfit-auditoria/firefox-375x667-light-alimentos.png",
+      "/tmp/appfit-auditoria/firefox-375x667-light-progreso-grafica.png"
+    ],
+    "erroresJavaScript": [],
+    "red": []
+  },
+  {
+    "id": "chromium-375x667-light-texto200",
+    "motor": "chromium",
+    "version": "151.0.7922.173",
+    "viewport": {
+      "width": 375,
+      "height": 667
+    },
+    "tema": "light",
+    "texto200": true,
+    "estado": "hallazgos",
+    "medidas": [
+      {
+        "etiqueta": "inicio",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso-teclado",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "diario",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "resumen-nutricion",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "alimentos",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "min-w-0 flex-1",
+            "ancho": 19,
+            "contenido": 22,
+            "texto": "Arroz blanco cocidoP 3 · C 28 · G 0 · por 100 g"
+          },
+          {
+            "elemento": "P",
+            "clase": "break-words text-body font-medium text-fg",
+            "ancho": 19,
+            "contenido": 22,
+            "texto": "Arroz blanco cocido"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "anadir-comida",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "rutinas",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "historial",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": [
+          {
+            "nombre": "martes, 13 de octubre: 1 entreno, 720 kg",
+            "ancho": 31.859375,
+            "alto": 88
+          },
+          {
+            "nombre": "jueves, 15 de octubre: 1 entreno, 780 kg",
+            "ancho": 31.859375,
+            "alto": 88
+          }
+        ]
+      },
+      {
+        "etiqueta": "detalle-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "editor-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-lista",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-grafica",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "flex items-start justify-between gap-2",
+            "ancho": 213,
+            "contenido": 229,
+            "texto": "1RM estimado · última sesión91kg15 oct"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "actividades",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "perfil",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "cumbres",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "caminos",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ritmo",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Récords",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Colecciones",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "referencias",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ajustes",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      }
+    ],
+    "capturas": [
+      "/tmp/appfit-auditoria/chromium-375x667-light-texto200-alimentos.png",
+      "/tmp/appfit-auditoria/chromium-375x667-light-texto200-progreso-grafica.png"
+    ],
+    "erroresJavaScript": [],
+    "red": []
+  },
+  {
+    "id": "webkit-375x667-light-texto200",
+    "motor": "webkit",
+    "version": "26.5",
+    "viewport": {
+      "width": 375,
+      "height": 667
+    },
+    "tema": "light",
+    "texto200": true,
+    "estado": "hallazgos",
+    "medidas": [
+      {
+        "etiqueta": "inicio",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "INPUT",
+            "clase": "tabular no-spin min-h-touch w-full bg-transparent px-2 text-center text-body font-semibold text-fg pr-7",
+            "ancho": 117,
+            "contenido": 141,
+            "texto": ""
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso-teclado",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "INPUT",
+            "clase": "tabular no-spin min-h-touch w-full bg-transparent px-2 text-center text-body font-semibold text-fg pr-7",
+            "ancho": 117,
+            "contenido": 141,
+            "texto": ""
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "diario",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "resumen-nutricion",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "alimentos",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "anadir-comida",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "rutinas",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "historial",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": [
+          {
+            "nombre": "martes, 13 de octubre: 1 entreno, 720 kg",
+            "ancho": 31.859375,
+            "alto": 88
+          },
+          {
+            "nombre": "jueves, 15 de octubre: 1 entreno, 780 kg",
+            "ancho": 31.859375,
+            "alto": 88
+          }
+        ]
+      },
+      {
+        "etiqueta": "detalle-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "editor-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-lista",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-grafica",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "flex items-start justify-between gap-2",
+            "ancho": 213,
+            "contenido": 229,
+            "texto": "1RM estimado · última sesión91kg15 oct"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "actividades",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "perfil",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "cumbres",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "caminos",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ritmo",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Récords",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Colecciones",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "referencias",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ajustes",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      }
+    ],
+    "capturas": [
+      "/tmp/appfit-auditoria/webkit-375x667-light-texto200-peso.png",
+      "/tmp/appfit-auditoria/webkit-375x667-light-texto200-peso-teclado.png",
+      "/tmp/appfit-auditoria/webkit-375x667-light-texto200-progreso-grafica.png"
+    ],
+    "erroresJavaScript": [],
+    "red": []
+  },
+  {
+    "id": "firefox-375x667-light-texto200",
+    "motor": "firefox",
+    "version": "153.0",
+    "viewport": {
+      "width": 375,
+      "height": 667
+    },
+    "tema": "light",
+    "texto200": true,
+    "estado": "hallazgos",
+    "medidas": [
+      {
+        "etiqueta": "inicio",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso-teclado",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "diario",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "resumen-nutricion",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "alimentos",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "min-w-0 flex-1",
+            "ancho": 19,
+            "contenido": 22,
+            "texto": "Arroz blanco cocidoP 3 · C 28 · G 0 · por 100 g"
+          },
+          {
+            "elemento": "P",
+            "clase": "break-words text-body font-medium text-fg",
+            "ancho": 19,
+            "contenido": 22,
+            "texto": "Arroz blanco cocido"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "anadir-comida",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "rutinas",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "historial",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": [
+          {
+            "nombre": "martes, 13 de octubre: 1 entreno, 720 kg",
+            "ancho": 31.849990844726562,
+            "alto": 88
+          },
+          {
+            "nombre": "jueves, 15 de octubre: 1 entreno, 780 kg",
+            "ancho": 31.849990844726562,
+            "alto": 88
+          }
+        ]
+      },
+      {
+        "etiqueta": "detalle-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "editor-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-lista",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-grafica",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "flex items-start justify-between gap-2",
+            "ancho": 213,
+            "contenido": 229,
+            "texto": "1RM estimado · última sesión91kg15 oct"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "actividades",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "perfil",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "cumbres",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "caminos",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ritmo",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Récords",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Colecciones",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "referencias",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ajustes",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      }
+    ],
+    "capturas": [
+      "/tmp/appfit-auditoria/firefox-375x667-light-texto200-alimentos.png",
+      "/tmp/appfit-auditoria/firefox-375x667-light-texto200-progreso-grafica.png"
+    ],
+    "erroresJavaScript": [],
+    "red": []
+  },
+  {
+    "id": "chromium-375x667-dark-texto200",
+    "motor": "chromium",
+    "version": "151.0.7922.173",
+    "viewport": {
+      "width": 375,
+      "height": 667
+    },
+    "tema": "dark",
+    "texto200": true,
+    "estado": "hallazgos",
+    "medidas": [
+      {
+        "etiqueta": "inicio",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso-teclado",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "diario",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "resumen-nutricion",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "alimentos",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "min-w-0 flex-1",
+            "ancho": 19,
+            "contenido": 22,
+            "texto": "Arroz blanco cocidoP 3 · C 28 · G 0 · por 100 g"
+          },
+          {
+            "elemento": "P",
+            "clase": "break-words text-body font-medium text-fg",
+            "ancho": 19,
+            "contenido": 22,
+            "texto": "Arroz blanco cocido"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "anadir-comida",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "rutinas",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "historial",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": [
+          {
+            "nombre": "martes, 13 de octubre: 1 entreno, 720 kg",
+            "ancho": 31.859375,
+            "alto": 88
+          },
+          {
+            "nombre": "jueves, 15 de octubre: 1 entreno, 780 kg",
+            "ancho": 31.859375,
+            "alto": 88
+          }
+        ]
+      },
+      {
+        "etiqueta": "detalle-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "editor-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-lista",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-grafica",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "flex items-start justify-between gap-2",
+            "ancho": 213,
+            "contenido": 229,
+            "texto": "1RM estimado · última sesión91kg15 oct"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "actividades",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "perfil",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "cumbres",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "caminos",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ritmo",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Récords",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Colecciones",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "referencias",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ajustes",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      }
+    ],
+    "capturas": [
+      "/tmp/appfit-auditoria/chromium-375x667-dark-texto200-alimentos.png",
+      "/tmp/appfit-auditoria/chromium-375x667-dark-texto200-progreso-grafica.png"
+    ],
+    "erroresJavaScript": [],
+    "red": []
+  },
+  {
+    "id": "webkit-375x667-dark-texto200",
+    "motor": "webkit",
+    "version": "26.5",
+    "viewport": {
+      "width": 375,
+      "height": 667
+    },
+    "tema": "dark",
+    "texto200": true,
+    "estado": "hallazgos",
+    "medidas": [
+      {
+        "etiqueta": "inicio",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "INPUT",
+            "clase": "tabular no-spin min-h-touch w-full bg-transparent px-2 text-center text-body font-semibold text-fg pr-7",
+            "ancho": 117,
+            "contenido": 141,
+            "texto": ""
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso-teclado",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "INPUT",
+            "clase": "tabular no-spin min-h-touch w-full bg-transparent px-2 text-center text-body font-semibold text-fg pr-7",
+            "ancho": 117,
+            "contenido": 141,
+            "texto": ""
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "diario",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "resumen-nutricion",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "alimentos",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "anadir-comida",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "rutinas",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "historial",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": [
+          {
+            "nombre": "martes, 13 de octubre: 1 entreno, 720 kg",
+            "ancho": 31.859375,
+            "alto": 88
+          },
+          {
+            "nombre": "jueves, 15 de octubre: 1 entreno, 780 kg",
+            "ancho": 31.859375,
+            "alto": 88
+          }
+        ]
+      },
+      {
+        "etiqueta": "detalle-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "editor-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-lista",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-grafica",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "flex items-start justify-between gap-2",
+            "ancho": 213,
+            "contenido": 229,
+            "texto": "1RM estimado · última sesión91kg15 oct"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "actividades",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "perfil",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "cumbres",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "caminos",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ritmo",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Récords",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Colecciones",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "referencias",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ajustes",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      }
+    ],
+    "capturas": [
+      "/tmp/appfit-auditoria/webkit-375x667-dark-texto200-peso.png",
+      "/tmp/appfit-auditoria/webkit-375x667-dark-texto200-peso-teclado.png",
+      "/tmp/appfit-auditoria/webkit-375x667-dark-texto200-progreso-grafica.png"
+    ],
+    "erroresJavaScript": [],
+    "red": []
+  },
+  {
+    "id": "firefox-375x667-dark-texto200",
+    "motor": "firefox",
+    "version": "153.0",
+    "viewport": {
+      "width": 375,
+      "height": 667
+    },
+    "tema": "dark",
+    "texto200": true,
+    "estado": "hallazgos",
+    "medidas": [
+      {
+        "etiqueta": "inicio",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "peso-teclado",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "diario",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "resumen-nutricion",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "alimentos",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "min-w-0 flex-1",
+            "ancho": 19,
+            "contenido": 22,
+            "texto": "Arroz blanco cocidoP 3 · C 28 · G 0 · por 100 g"
+          },
+          {
+            "elemento": "P",
+            "clase": "break-words text-body font-medium text-fg",
+            "ancho": 19,
+            "contenido": 22,
+            "texto": "Arroz blanco cocido"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "anadir-comida",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "rutinas",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "historial",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": [
+          {
+            "nombre": "martes, 13 de octubre: 1 entreno, 720 kg",
+            "ancho": 31.849990844726562,
+            "alto": 88
+          },
+          {
+            "nombre": "jueves, 15 de octubre: 1 entreno, 780 kg",
+            "ancho": 31.849990844726562,
+            "alto": 88
+          }
+        ]
+      },
+      {
+        "etiqueta": "detalle-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "editor-entreno",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-lista",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "progreso-grafica",
+        "pagina": true,
+        "overflow": [
+          {
+            "elemento": "DIV",
+            "clase": "flex items-start justify-between gap-2",
+            "ancho": 213,
+            "contenido": 229,
+            "texto": "1RM estimado · última sesión91kg15 oct"
+          }
+        ],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "actividades",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "perfil",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "cumbres",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "caminos",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ritmo",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Récords",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "vitrina-Colecciones",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "referencias",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      },
+      {
+        "etiqueta": "ajustes",
+        "pagina": true,
+        "overflow": [],
+        "inputs": [],
+        "tacto": []
+      }
+    ],
+    "capturas": [
+      "/tmp/appfit-auditoria/firefox-375x667-dark-texto200-alimentos.png",
+      "/tmp/appfit-auditoria/firefox-375x667-dark-texto200-progreso-grafica.png"
+    ],
+    "erroresJavaScript": [],
+    "red": []
+  }
+]

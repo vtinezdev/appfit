@@ -11,9 +11,9 @@ export function sinCategoria(foods: Food[]): Food[] {
   return foods.filter((f) => !esCategoriaAlimento(f.categoria))
 }
 
-export function filtrarPorCategoria(foods: Food[], filtro: FiltroCategoria): Food[] {
+export function filtrarPorCategoria<T extends { categoria?: string }>(foods: T[], filtro: FiltroCategoria): T[] {
   if (filtro === 'todas') return foods
-  if (filtro === 'sin') return sinCategoria(foods)
+  if (filtro === 'sin') return foods.filter(f => !esCategoriaAlimento(f.categoria))
   return foods.filter((f) => f.categoria === filtro)
 }
 

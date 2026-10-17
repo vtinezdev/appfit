@@ -39,12 +39,14 @@ export default function AvisoBackup({ onExportar, onRevisarCuenta, ahora = Date.
 
   return (
     <div role="region" aria-label="Recordatorio de copia de seguridad" className="space-y-2">
-      <div className={`flex items-center gap-2 rounded-lg bg-surface-muted py-1 pl-3 ${aviso.posponible ? 'pr-1' : 'pr-2'}`}>
-        <Icon name={conCuenta ? 'alert' : 'download'} size={20} className="shrink-0 text-fg-muted" />
-        <p className="min-w-0 flex-1">
-          <span className="block text-body-sm font-semibold text-fg">{aviso.titulo}</span>
-          <span className="block text-caption text-fg-muted">{conCuenta ? 'Tu copia en la nube necesita tu atención' : 'Tus registros solo están en este móvil'}</span>
-        </p>
+      <div className={`flex flex-wrap items-center gap-2 rounded-lg bg-surface-muted py-1 pl-3 ${aviso.posponible ? 'pr-1' : 'pr-2'}`}>
+        <div className="flex min-w-0 flex-1 basis-28 items-center gap-2">
+          <Icon name={conCuenta ? 'alert' : 'download'} size={20} className="shrink-0 text-fg-muted" />
+          <p className="min-w-0 flex-1">
+            <span className="block text-body-sm font-semibold text-fg">{aviso.titulo}</span>
+            <span className="block text-caption text-fg-muted">{conCuenta ? 'Tu copia en la nube necesita tu atención' : 'Tus registros solo están en este móvil'}</span>
+          </p>
+        </div>
         {conCuenta
           ? <Button variant="secondary" size="sm" onClick={onRevisarCuenta}>Revisar</Button>
           : <Button variant="secondary" size="sm" onClick={onExportar}>Exportar</Button>}

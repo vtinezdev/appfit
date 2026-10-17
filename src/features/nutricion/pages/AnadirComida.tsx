@@ -1,3 +1,4 @@
+import PreparacionAlimento from '../components/PreparacionAlimento'
 import { useEffect, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida, Entry, Meal } from '../../../shared/db/types'
@@ -382,6 +383,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
         {gramosRapido && aporteRapido && (
           <div className="space-y-5">
             <h3 className="break-words text-title text-fg">{gramosRapido.alimento.nombre}</h3>
+            <PreparacionAlimento nombre={gramosRapido.alimento.nombre} explicar />
             <div className="text-center">
               <p className="flex items-baseline justify-center gap-1.5 text-fg">
                 <span className="tabular text-display">{formatInt(kcalRapido)}</span>

@@ -51,8 +51,8 @@ export default function TarjetaEnergia({ totales, objetivos, onAbrir }: Props) {
           <Icon name="chevron-right" size={18} className="text-fg-subtle" />
         </span>
         <span className="energia-cuerpo flex w-full flex-wrap items-center gap-5">
-          <span className="relative block h-40 w-40 shrink-0">
-            <svg viewBox="0 0 120 120" className="block h-full w-full -rotate-90" aria-hidden="true" fill="none">
+          <span className="energia-anillo relative block shrink-0">
+            <svg viewBox="0 0 120 120" className="block aspect-square w-full -rotate-90" aria-hidden="true" fill="none">
               <circle cx="60" cy="60" r={R} strokeWidth={GROSOR_RESTO} className="stroke-kcal-rest" />
               {tramos.map((t) => (
                 <circle key={t.tipo} cx="60" cy="60" r={R} strokeWidth={GROSOR} className={TRAZO[t.tipo]}
@@ -64,7 +64,7 @@ export default function TarjetaEnergia({ totales, objetivos, onAbrir }: Props) {
                   strokeDasharray={`${vuelta * CIRC_VUELTA} ${CIRC_VUELTA}`} />
               </>}
             </svg>
-            <span className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="energia-cifra absolute inset-0 flex flex-col items-center justify-center">
               <span className="tabular font-numeric text-hero text-fg">{formatInt(totales.kcal)}</span>
               <span className="text-caption text-fg-muted">kcal</span>
             </span>

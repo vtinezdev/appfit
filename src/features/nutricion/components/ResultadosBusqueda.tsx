@@ -1,3 +1,4 @@
+import { filtrarPorCategoria, type FiltroCategoria } from '../lib/repartoCategorias'
 import { useLiveQuery } from 'dexie-react-hooks'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState } from '../../../shared/components/StateMessage'
@@ -12,17 +13,18 @@ interface Props {
   busqueda: string
   onElegir: (alimento: AlimentoElegible) => void
   /** Ids de catálogo que el usuario ya ha usado: a igualdad de coincidencia salen primero. */
+  categoria?: FiltroCategoria
   frecuentes?: readonly string[]
 }
 
 const SIN_CATALOGO = 'El catálogo de alimentos aún no se ha descargado: se descarga solo al abrir la app con conexión.'
 
 /** Resultados de buscar un alimento (funciona sin conexión): primero tus alimentos y después el catálogo. */
-export default function ResultadosBusqueda({ busqueda, onElegir, frecuentes }: Props) {
+export default function ResultadosBusqueda({ busqueda, onElegir, frecuentes, categoria = 'todas' }: Props) {
   const buscando = busqueda.trim() !== ''
-  const propios = useLiveQuery(async () => (buscando ? (await foodsRepo.buscar(busqueda)).map(elegibleDeFood) : undefined), [busqueda])
+  const propios = useLiveQuery(async () => (buscando ? filtrarPorCategoria(await foodsRepo.buscar(busqueda), categoria).map(elegibleDeFood) : undefined), [busqueda, categoria])
   const enCatalogo = useLiveQuery(() => catalogRepo.contar(), [])
-  const catalogo = useBusquedaCatalogo(busqueda, undefined, frecuentes)
+  const catalogo = useBusquedaCatalogo(busqueda, undefined, frecuentes, categoria)
 
   if (!buscando) return null
 
