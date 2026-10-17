@@ -29,10 +29,10 @@ const VISTAS: { valor: Vista; label: string }[] = [
   { valor: 'alimentos', label: 'Alimentos' },
 ]
 
-export default function NutricionTab({ anadirAlAbrir = false, onVerReferencia }: { anadirAlAbrir?: boolean; onVerReferencia?: (id: NutrienteId) => void }) {
+export default function NutricionTab({ onVerReferencia }: { onVerReferencia?: (id: NutrienteId) => void }) {
   const [vista, setVista] = useState<Vista>('hoy')
   const [fecha, setFecha] = useState(todayISO())
-  const [mostrarAnadir, setMostrarAnadir] = useState(anadirAlAbrir)
+  const [mostrarAnadir, setMostrarAnadir] = useState(false)
   const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(undefined)
   const [entryEditar, setEntryEditar] = useState<Entry | undefined>(undefined)
   const [platoEditar, setPlatoEditar] = useState<Plato | undefined>(undefined)

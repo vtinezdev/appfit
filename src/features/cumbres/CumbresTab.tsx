@@ -40,7 +40,7 @@ function desdeTexto(inicio: string, hoy: string): string {
 }
 
 /**
- * Cumbres (en Más): la montaña actual con su perfil y sus hitos, la semana frente al plan, los metros de cada día con su
+ * Cumbres (desde Inicio): la montaña actual con su perfil y sus hitos, la semana frente al plan, los metros de cada día con su
  * porqué, las siguientes y las coronadas (también las repetidas).
  */
 export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void }) {

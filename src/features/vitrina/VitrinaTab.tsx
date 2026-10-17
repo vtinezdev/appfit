@@ -13,7 +13,7 @@ import { useVitrina } from './hooks/useVitrina'
 
 type Vista = 'logros' | 'records' | 'colecciones'
 
-/** Vitrina (en Más): museo personal con logros, el muro de récords y las colecciones (Herbario y Atlas). */
+/** Vitrina (desde Inicio): museo personal con logros, el muro de récords y las colecciones (Herbario y Atlas). */
 export default function VitrinaTab({ onIrAAjustes }: { onIrAAjustes: () => void }) {
   const hoy = todayISO()
   const estado = useVitrina(hoy)

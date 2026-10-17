@@ -20,7 +20,7 @@ export default function CumbreSesion({ workoutId }: { workoutId: number }) {
   if (!c) {
     return <section aria-label="Cumbres" className="space-y-2">
       <h2 className="text-heading text-fg">Cumbres</h2>
-      <p className="break-words text-body-sm text-fg-muted">Elige tu primera montaña en Más › Cumbres: desde ese día, cada entreno te sube metros.</p>
+      <p className="break-words text-body-sm text-fg-muted">Elige tu primera montaña en Inicio › Cumbres: desde ese día, cada entreno te sube metros.</p>
     </section>
   }
   const xp = xpDeSesion(estado.resultado, workoutId)

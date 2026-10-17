@@ -3,7 +3,7 @@
 // rutas elegidas (`Settings.caminos`), así que respeta la edición retroactiva. Sin plazo y sin poder fallar. Al llegar,
 // los metros que sobran no pasan a la siguiente (como en Cumbres). Las rutas se pueden repetir: no se acaban.
 import type { Actividad, ConfigCaminos } from '../../../shared/db/types'
-import { addDays, diasEntre } from '../../../shared/lib/dates'
+import { diasEntre } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import { formatKm, kmTexto } from '../../actividades/lib/actividad'
 import { metrosRuta, RUTAS, rutaDe as rutaOficial, type Ruta } from './rutas'
@@ -218,14 +218,6 @@ export function caminoDeActividad(r: ResultadoCaminos, actividadId: number): Cam
     etapas: r.expediciones.flatMap((x) => x.etapas.flatMap((m, indice) => (m?.actividadId === actividadId ? [{ expedicion: x, indice }] : []))),
     llegadas: r.expediciones.filter((x) => x.llegada?.actividadId === actividadId),
   }
-}
-
-/** Días durante los que Inicio recuerda la última llegada (hoy, ayer y anteayer). */
-export const DIAS_LLEGADA_RECIENTE = 3
-
-export function llegadaReciente(r: ResultadoCaminos, hoy: string): Expedicion | null {
-  const ultima = r.completadas[r.completadas.length - 1]
-  return ultima?.llegada && ultima.llegada.fecha >= addDays(hoy, -(DIAS_LLEGADA_RECIENTE - 1)) && ultima.llegada.fecha <= hoy ? ultima : null
 }
 
 /** «82,4 de 113,8 km». */

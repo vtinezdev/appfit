@@ -3,12 +3,11 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import PageHeader from '../../shared/components/PageHeader'
 import { LoadingState } from '../../shared/components/StateMessage'
 import { actualizarObjetivoHoy } from '../perfil/data/objetivosDiaRepo'
-import { objetivosDe, objetivosPorFecha } from '../perfil/data/objetivosDiaRepo'
-import { addDays, parseISODate, startOfWeek, todayISO, weekDates } from '../../shared/lib/dates'
+import { objetivosDe } from '../perfil/data/objetivosDiaRepo'
+import { addDays, parseISODate, todayISO } from '../../shared/lib/dates'
 import { useAviso } from '../../shared/hooks/useAviso'
 import * as entriesRepo from '../nutricion/data/entriesRepo'
 import { sumMacros } from '../nutricion/lib/nutrition'
-import { semanaKcal } from '../nutricion/lib/semanaKcal'
 import * as pesosRepo from './data/pesosRepo'
 import TarjetaEnergia from './components/TarjetaEnergia'
 import AccesoEntreno from './components/AccesoEntreno'
@@ -21,11 +20,7 @@ import { getPerfil } from '../perfil/data/perfilRepo'
 import * as aguaRepo from './data/aguaRepo'
 import AccesoAgua from './components/AccesoAgua'
 import CreatinaHoy from './components/CreatinaHoy'
-import AccesoCumbre from './components/AccesoCumbre'
-import AccesoSemana from './components/AccesoSemana'
-import AccesoCamino from './components/AccesoCamino'
-import { useCaminos } from '../caminos/hooks/useCaminos'
-import { useCumbres } from '../cumbres/hooks/useCumbres'
+import AccesoProgreso, { type DestinoProgreso } from './components/AccesoProgreso'
 import AguaSheet from './components/AguaSheet'
 import { AGUA_POR_DEFECTO_ML, formatAgua, resolverObjetivoAgua } from './lib/agua'
 import AvisoBackup from './components/AvisoBackup'
@@ -40,9 +35,8 @@ const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
 interface Props {
   onIrANutricion: () => void
   onIrAGym: () => void
-  onIrACumbres: () => void
-  onIrACaminos: () => void
-  onIrARitmo: () => void
+  /** Cumbres, Caminos, Ritmo o Vitrina, desde sus teselas. */
+  onIrAProgreso: (destino: DestinoProgreso) => void
   onExportarCopia: () => void
   onRevisarCuenta: () => void
   onIrAAmigos: () => void
@@ -55,19 +49,13 @@ const PESO_POR_DEFECTO = 70
 /** Historial que se lee: de sobra para encontrar un pesaje de hace una semana o más. */
 const DIAS_HISTORIAL = 365
 
-/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, peso y agua, el último entreno, la semana (Ritmo), la montaña de Cumbres y la ruta de Caminos. Registrar está en el «+» de la barra. */
-export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIrACaminos, onIrARitmo, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
+/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, el progreso (Cumbres, Caminos, Ritmo y Vitrina), peso y agua y el último entreno. */
+export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
   const hoy = todayISO()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
   const pesos = useLiveQuery(() => pesosRepo.delRango(addDays(hoy, -DIAS_HISTORIAL), hoy), [hoy])
   const agua = useLiveQuery(() => aguaRepo.delDia(hoy), [hoy])
-  // Anillo de kcal de cada día de esta semana para «Tu semana».
-  const anillosSemana = useLiveQuery(async () => {
-    const fechas = weekDates(startOfWeek(hoy))
-    const [delaSemana, objetivos] = await Promise.all([entriesRepo.entreFechas(fechas[0], fechas[6]), objetivosPorFecha(fechas, hoy)])
-    return new Map(semanaKcal(hoy, delaSemana, objetivos, hoy).map((d) => [d.fecha, d.anillo]))
-  }, [hoy])
   const objetivoAgua = useLiveQuery(async () => resolverObjetivoAgua((await getSettings()).aguaObjetivoMl, (await getPerfil()).sexo), [])
   const [aguaAbierta, setAguaAbierta] = useState(false)
   const { avisar, avisarError, toast } = useAviso()
@@ -75,8 +63,6 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIr
   const [registrando, setRegistrando] = useState(false)
   const [historialPeso, setHistorialPeso] = useState(false)
   const revision = useTarjetaRevision(hoy)
-  const gamificacion = useCumbres(hoy)
-  const caminos = useCaminos(hoy)
   const [revisionAbierta, setRevisionAbierta] = useState<string | null>(null)
 
   const tendencia = pesos ? tendenciaPeso(pesos, hoy) : null
@@ -143,15 +129,13 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrACumbres, onIr
       ) : (
         <div className="space-y-stack">
           <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion} />
+          <AccesoProgreso onAbrir={onIrAProgreso} />
           <div className="grid grid-cols-2 gap-stack">
             <AccesoPeso tendencia={tendencia} pesos={pesos} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
             <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />
           </div>
           <CreatinaHoy hoy={hoy} />
           <AccesoEntreno onAbrir={onIrAGym} />
-          <AccesoSemana hoy={hoy} estado={gamificacion} anillos={anillosSemana} onAbrir={onIrARitmo} />
-          <AccesoCumbre hoy={hoy} estado={gamificacion} onAbrir={onIrACumbres} />
-          <AccesoCamino hoy={hoy} estado={caminos} onAbrir={onIrACaminos} />
         </div>
       )}
 

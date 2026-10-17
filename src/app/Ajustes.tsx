@@ -37,7 +37,7 @@ import { GRUPOS_AJUSTES, OPCIONES_FONDO, OPCIONES_TEMA, resumenAjustes, SECCIONE
  * Ajustes es un índice por temas (Tú, Entreno, App, Tus datos) con el valor actual de cada sección; cada fila abre su
  * vista, con «Volver» que devuelve el foco a la fila. `seccionInicial` abre una directamente (avisos de Inicio, Cumbres…).
  */
-export default function Ajustes({ seccionInicial, onIrAPerfil }: { seccionInicial?: SeccionAjustes; onIrAPerfil?: () => void }) {
+export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias }: { seccionInicial?: SeccionAjustes; onIrAPerfil?: () => void; onIrAReferencias?: () => void }) {
   const settings = useLiveQuery(() => getSettings(), [])
   const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(todayISO()), [])
   const hayDatos = useLiveQuery(hayDatosGuardados, [])
@@ -189,6 +189,17 @@ export default function Ajustes({ seccionInicial, onIrAPerfil }: { seccionInicia
           <h2 id={`ajustes-${g.nombre}`} className="px-1 text-rotulo text-fg-muted">{g.nombre}</h2>
           <ListGroup>{g.secciones.filter((id) => id !== 'cuenta' || cuentaDisponible).map((id) => fila(id))}</ListGroup>
         </section>)}
+        {onIrAReferencias && <section aria-labelledby="ajustes-saber-mas" className="space-y-2">
+          <h2 id="ajustes-saber-mas" className="px-1 text-rotulo text-fg-muted">Saber más</h2>
+          <ListGroup><li><ListRow onClick={onIrAReferencias}>
+            <Icon name="info" size={20} className="text-fg-muted" />
+            <span className="min-w-0 flex-1">
+              <span className="block break-words text-body font-semibold text-fg">Referencias</span>
+              <span className="block break-words text-caption text-fg-muted">Nutrientes, energía y fuentes</span>
+            </span>
+            <Icon name="chevron-right" size={18} className="text-fg-subtle" />
+          </ListRow></li></ListGroup>
+        </section>}
         <ListGroup aria-label="Borrar">{fila('borrar', true)}</ListGroup>
         {mensaje && <p role="status" className="text-body-sm text-accent-strong">{mensaje}</p>}
         <p className="border-t border-line pt-4 text-caption text-fg-muted">APPFIT · Privada: tus registros viven en este móvil y la copia de la nube, si tienes cuenta, va cifrada.<br />Nutrición y entrenos disponibles sin conexión.</p>

@@ -12,9 +12,8 @@
 | Rutas propias | `lib/rutasPropias.ts`: `aRuta`, `idDeRutaPropia`/`esRutaPropia`, `validarRutaPropia`, `nombrePorDefecto`, `etapasPropuestas`, `quitarParada`, `insertarParada`, `anadirVuelta`, `mismoSitio`, `kmTotales`, `puntosDe`, `posicionEnRutaPropia`; `lib/lugares.ts`: `leerPaqueteLugares`, `buscarLugares`, `kmTramo` (`FACTOR_CAMINO`), `proponerParadas`, `indiceParaInsertar`; `data/rutasPropiasRepo.ts` (`listar`, `obtener`, `crear`, `actualizar`, `enUso`, `borrar`); `data/lugares.ts` (`cargarLugares`, descarga del propio origen) | `rutasPropias`; `public/lugares/espana.json` |
 | Editor de rutas | `components/EditorRuta` (ModalPage), `BuscadorLugar`, `MapaRuta` | — |
 | Lecturas | `hooks/useCaminos.ts`: `leerCaminos` (también para `useVitrina`) y `useCaminos` | `actividadesRepo.terminadas`, `rutasPropiasRepo.listar` y `settings` |
-| Página (Más › Caminos) | `CaminosTab.tsx` (diferida), `components/TrazadoCamino`, `ListaRutas`, `CambiarRutaSheet` | — |
-| Tarjeta de Inicio | `inicio/components/AccesoCamino` | `useCaminos` en `InicioTab` |
-| Tesela de Más | `app/MasAccesos` | `useCaminos` |
+| Página (Inicio › Caminos) | `CaminosTab.tsx` (diferida), `components/TrazadoCamino`, `ListaRutas`, `CambiarRutaSheet` | — |
+| Tesela de Inicio | `inicio/components/AccesoProgreso` | `useCaminos` |
 | En el detalle de una actividad | `components/AvanceActividad` (lo compone `actividades/pages/DetalleActividad`) | `useCumbres`, `useCaminos` |
 | Logros | `vitrina/lib/logros.ts`, grupo «Caminos» y tres ocultos (ver [vitrina.md](vitrina.md)) | resultado de `calcularCaminos` y las actividades |
 
@@ -60,9 +59,8 @@ Rutas entre dos lugares de España creadas por Víctor (p. ej. Tarragona – Val
 
 ## Pantallas
 
-- **Inicio**, tarjeta ancha tras la de Cumbres (abre Caminos): sin ruta, «Elige tu primer Camino»; empezada, «Camino»: la ruta («· 2.ª vez» si se repite) con «5,42 de 111,5 km», el trazado (decorativo), «Llegada a Santiago de Compostela hoy / ayer / hace 2 días» durante tres días y «Hacia Pontedeume: faltan 22,3 km».
-- **Más**: tesela «Caminos» con los km de la ruta actual y su nombre (sin ruta, «Elige ruta»).
-- **Caminos** (Más):
+- **Inicio**, tesela «Caminos» bajo la energía (abre Caminos): los km de la ruta actual y su nombre; sin ruta, «—» y «Elige ruta».
+- **Caminos** (desde su tesela de Inicio):
   - sin empezar, una card con el trazado de la primera ruta a 0 km, la explicación e «Ir a Actividades»; «Tus rutas» (tocar una la empieza; el lápiz de al lado la edita) con «Crear ruta»; y las rutas por colección (con qué son sus km), la primera «Sugerida», con «Deshacer»;
   - empezada, una card con la ruta (nombre, zona y salida), el trazado (en una ruta propia, `MapaRuta` con la posición) (una línea con un punto al final de cada etapa a su distancia real y la marca donde se va), `Metric` con los km, «Etapa 2 de 5: Pontedeume → Betanzos · 2,3 de 19,7 km», los km de esta semana y los sellos de la credencial, y «Cambiar de ruta»;
   - «Próximas etapas» (las tres siguientes con lo que falta) y el desplegable «Todas las etapas» con la fecha de llegada de cada una;
@@ -77,4 +75,4 @@ Rutas entre dos lugares de España creadas por Víctor (p. ej. Tarragona – Val
 
 ## Rendimiento
 
-`calcularCaminos` es lineal en las actividades desde el inicio y no depende de la experiencia. Inicio lo lee una vez; la hoja «Más» y la Vitrina hacen su propia lectura.
+`calcularCaminos` es lineal en las actividades desde el inicio y no depende de la experiencia. La tesela de Inicio y la Vitrina hacen cada una su lectura.

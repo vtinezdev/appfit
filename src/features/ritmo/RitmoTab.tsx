@@ -23,7 +23,7 @@ import { cifrasSemana, faltaParaCumplir } from './lib/textos'
 
 const semanasTexto = (n: number) => (n === 1 ? '1 semana' : `${formatInt(n)} semanas`)
 
-/** Ritmo (en Más): la semana en curso, hilo y comodines, el calendario de semanas, hitos y pausas. */
+/** Ritmo (desde Inicio): la semana en curso, hilo y comodines, el calendario de semanas, hitos y pausas. */
 export default function RitmoTab({ onIrAAjustes }: { onIrAAjustes: () => void }) {
   const hoy = todayISO()
   const estado = useExperiencia(hoy)

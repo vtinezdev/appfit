@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Actividad } from '../../../shared/db/types'
 import {
-  caminoDeActividad, calcularCaminos, cambiarRuta, diasDeExpedicion, empezar, etapaActual, finalesDeEtapa, llegadaReciente, metrosEntre,
+  caminoDeActividad, calcularCaminos, cambiarRuta, diasDeExpedicion, empezar, etapaActual, finalesDeEtapa, metrosEntre,
   nombreExpedicion, progresoTexto, rutaDe, rutasParaCambiar, vecesTerminada,
 } from './caminos'
 import { metrosRuta, RUTAS, rutaDe as rutaPorId } from './rutas'
@@ -66,8 +66,6 @@ describe('calcularCaminos', () => {
     expect(caminoDeActividad(r, a4.id)).toMatchObject({ metros: 31_500, llegadas: [x] })
     expect(caminoDeActividad(r, a3.id).etapas.map((e) => e.indice)).toEqual([1, 2])
     expect(metrosEntre(r.tramos, '2026-10-05', '2026-10-05')).toBe(30_000)
-    expect(llegadaReciente(r, '2026-10-14')).toBe(x)
-    expect(llegadaReciente(r, '2026-10-15')).toBeNull()
   })
 
   it('repetir una ruta cuenta las veces', () => {

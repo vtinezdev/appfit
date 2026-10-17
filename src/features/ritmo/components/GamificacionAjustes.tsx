@@ -24,7 +24,7 @@ export default function GamificacionAjustes({ settings, onError }: Props) {
   return <section aria-label="Cumbres, Caminos, Ritmo y Vitrina" className="space-y-stack">
     <SegmentedControl label="Mostrar Cumbres, Caminos, Ritmo y Vitrina" valor={visibles ? 'si' : 'no'} onChange={(v) => guardar({ gamificacionVisible: v === 'si' })}
       opciones={[{ valor: 'si', label: 'Mostrar' }, { valor: 'no', label: 'Ocultar' }]} />
-    <NotaAmpliable resumen="Ocultarlos no borra nada."><p>Montaña, ruta, semanas y logros salen en Inicio, en Más, en la revisión del lunes y al terminar un entreno. Todo sale de tus registros.</p></NotaAmpliable>
+    <NotaAmpliable resumen="Ocultarlos no borra nada."><p>Montaña, ruta, semanas y logros salen en Inicio, en la revisión del lunes y al terminar un entreno. Todo sale de tus registros.</p></NotaAmpliable>
     {visibles && <>
       <SegmentedControl label="Nutrición en Cumbres, Ritmo y Vitrina" valor={conNutricion ? 'si' : 'no'} onChange={(v) => guardar({ gamificacionConNutricion: v === 'si' })}
         opciones={[{ valor: 'si', label: 'Con nutrición' }, { valor: 'no', label: 'Solo entreno' }]} />

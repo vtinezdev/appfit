@@ -41,6 +41,7 @@ const PATHS = {
   'arrow-left': 'M19 12H5M11 6l-6 6 6 6',
   more: 'M5 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0M17 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0',
   close: 'M6 6l12 12M18 6L6 18',
+  secciones: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z', // el botón que abre la media luna de secciones
   plus: 'M12 5v14M5 12h14',
   minus: 'M5 12h14',
   check: 'M5 12.5l4.5 4.5L19 7.5',
