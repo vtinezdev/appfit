@@ -1,3 +1,4 @@
+import { registrarErrorDiagnostico } from '../lib/diagnostico'
 import { useCallback, useRef, useState, type ReactNode } from 'react'
 import Toast from '../components/Toast'
 
@@ -22,6 +23,7 @@ export function useAviso(): {
   const siguienteId = useRef(0)
 
   const avisar = useCallback((a: Aviso) => {
+    if (a.error) registrarErrorDiagnostico('operacion')
     siguienteId.current += 1
     setAviso({ ...a, id: siguienteId.current })
   }, [])

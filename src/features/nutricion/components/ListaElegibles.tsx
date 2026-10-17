@@ -1,3 +1,4 @@
+import PreparacionAlimento from './PreparacionAlimento'
 import { claveRef } from '../../../shared/db/foodRef'
 import ListRow from '../../../shared/components/ListRow'
 import { formatInt } from '../../../shared/lib/format'
@@ -19,6 +20,7 @@ export default function ListaElegibles({ alimentos, onElegir }: Props) {
           <ListRow tone="flat" onClick={() => onElegir(a)} className="min-w-0 flex-1 items-start">
             <span className="min-w-0 flex-1">
               <span className="block break-words text-body font-medium">{a.nombre}</span>
+              <PreparacionAlimento nombre={a.nombre} />
               <span className="tabular mt-1 block text-caption text-fg-muted">{formatInt(a.kcal100)} kcal por 100 {a.ml ? 'ml' : 'g'}</span>
               {a.detalle && <span className="block truncate text-caption text-fg-subtle">{a.detalle}</span>}
             </span>

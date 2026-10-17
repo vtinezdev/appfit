@@ -1,8 +1,9 @@
+import TendenciaRegistros from '../../../shared/components/TendenciaRegistros'
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Disclosure from '../../../shared/components/Disclosure'
-import { Input } from '../../../shared/components/Input'
+import { Input, Select } from '../../../shared/components/Input'
 import ListGroup from '../../../shared/components/ListGroup'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import Sheet from '../../../shared/components/Sheet'
@@ -12,7 +13,7 @@ import { useAviso } from '../../../shared/hooks/useAviso'
 import { parseISODate, todayISO } from '../../../shared/lib/dates'
 import { formatNumber } from '../../../shared/lib/format'
 import * as medidasRepo from '../data/medidasRepo'
-import { CAMPOS_MEDIDA, medidasDeBorrador, resumenMedidas, type BorradorMedida } from '../lib/medidas'
+import { CAMPOS_MEDIDA, medidasDeBorrador, resumenMedidas, type BorradorMedida, type CampoMedida } from '../lib/medidas'
 
 const fechaCorta = (f: string) => parseISODate(f).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
 
@@ -24,6 +25,7 @@ function textoMedida(m: Medida): string {
 export default function MedidasCorporales() {
   const medidas = useLiveQuery(() => medidasRepo.todas(), [])
   const { avisar, avisarError, toast } = useAviso()
+  const [campo, setCampo] = useState<CampoMedida>('cintura')
   const [abierta, setAbierta] = useState(false)
   const [aperturas, setAperturas] = useState(0)
   const [fecha, setFecha] = useState(todayISO())
@@ -72,13 +74,21 @@ export default function MedidasCorporales() {
     <SectionHeader variant="section" action={<Button variant="ghost" size="sm" onClick={abrir}>Registrar</Button>}>Medidas corporales</SectionHeader>
     {!hayAlguna ? <p className="text-body-sm text-fg-muted">Cintura, cadera, pecho, brazo, muslo y grasa corporal. Registra las que quieras seguir; todo se queda en este dispositivo.</p> : (
       <ListGroup aria-label="Última medida de cada zona">
-        {resumen.filter((r) => r.ultimo).map((r) => <li key={r.campo} className="flex min-h-touch items-center justify-between gap-3 py-2">
-          <span className="min-w-0"><span className="block break-words text-body text-fg">{r.etiqueta}</span><span className="block text-caption text-fg-muted">{fechaCorta(r.ultimo!.fecha)}</span></span>
-          <span className="tabular shrink-0 text-right"><span className="text-body font-semibold text-fg">{formatNumber(r.ultimo!.valor, 1)} <span className="font-normal text-fg-muted">{r.unidad}</span></span>
+        {resumen.filter((r) => r.ultimo).map((r) => <li key={r.campo} className="flex min-h-touch flex-wrap items-center justify-between gap-3 py-2">
+          <span className="min-w-0 flex-1 basis-24"><span className="block break-words text-body text-fg">{r.etiqueta}</span><span className="block text-caption text-fg-muted">{fechaCorta(r.ultimo!.fecha)}</span></span>
+          <span className="tabular min-w-0 max-w-full flex-1 basis-32 break-words text-right"><span className="text-body font-semibold text-fg">{formatNumber(r.ultimo!.valor, 1)} <span className="font-normal text-fg-muted">{r.unidad}</span></span>
             {r.variacion !== null && <span className="block text-caption text-fg-muted">{r.variacion === 0 ? 'Sin cambios' : `${r.variacion < 0 ? '−' : '+'}${formatNumber(Math.abs(r.variacion), 1)} ${r.unidad}`} desde la anterior</span>}</span>
         </li>)}
       </ListGroup>
     )}
+    {hayAlguna && <Disclosure title="Evolución de las medidas">
+      <div className="space-y-3">
+        <label className="block space-y-1"><span className="text-label text-fg-muted">Medida que quieres ver</span>
+          <Select aria-label="Medida que quieres ver" value={campo} onChange={e => setCampo(e.target.value as CampoMedida)}>{CAMPOS_MEDIDA.map(c => <option key={c.campo} value={c.campo}>{c.etiqueta} ({c.unidad})</option>)}</Select>
+        </label>
+        <TendenciaRegistros puntos={(medidas ?? []).filter(m => m[campo] !== undefined).map(m => ({ fecha: m.fecha, valor: m[campo]! }))} unidad={CAMPOS_MEDIDA.find(c => c.campo === campo)!.unidad} titulo={CAMPOS_MEDIDA.find(c => c.campo === campo)!.etiqueta.toLowerCase()} />
+      </div>
+    </Disclosure>}
     {!!medidas?.length && <Disclosure title={`Historial (${formatNumber(medidas.length)})`}>
       <ul className="divide-y divide-line" aria-label="Historial de medidas">
         {medidas.map((m) => <li key={m.id} className="flex min-h-touch items-center justify-between gap-2 py-1">

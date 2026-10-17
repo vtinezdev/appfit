@@ -55,8 +55,8 @@ export default function CalendarioSemanas({ ritmo, hoy }: { ritmo: ResultadoRitm
   const cuenta = (e: EstadoSemana) => conDatos.filter((s) => s.estado === e && (s.cerrada || e !== 'vacia')).length
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between gap-2">
+    <div className="calendario-ritmo space-y-3">
+      <div className="calendario-cabecera flex items-center justify-between gap-2">
         <IconButton icon="chevron-left" label="Año anterior" variant="ghost" disabled={anio <= primero} onClick={() => setAnio(anio - 1)} />
         <p className="tabular text-title text-fg" aria-live="polite">{anio}</p>
         <IconButton icon="chevron-right" label="Año siguiente" variant="ghost" disabled={anio >= anioActual} onClick={() => setAnio(anio + 1)} />

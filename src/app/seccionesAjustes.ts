@@ -6,7 +6,7 @@ import { formatInt } from '../shared/lib/format'
 import { formatAgua } from '../features/inicio/lib/agua'
 
 /** Ajustes es un índice: cada sección abre su propia vista. */
-export type SeccionAjustes = 'objetivos' | 'agua' | 'creatina' | 'entreno' | 'gamificacion' | 'apariencia' | 'actualizaciones' | 'instalacion' | 'cuenta' | 'copias' | 'catalogo' | 'borrar'
+export type SeccionAjustes = 'objetivos' | 'agua' | 'creatina' | 'entreno' | 'gamificacion' | 'apariencia' | 'actualizaciones' | 'instalacion' | 'cuenta' | 'copias' | 'catalogo' | 'diagnostico' | 'borrar'
 
 export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: IconName }> = {
   objetivos: { nombre: 'Objetivos diarios', icon: 'flag' },
@@ -20,6 +20,7 @@ export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: I
   cuenta: { nombre: 'Cuenta', icon: 'user' },
   copias: { nombre: 'Copias de seguridad', icon: 'download' },
   catalogo: { nombre: 'Catálogo de alimentos', icon: 'utensils' },
+  diagnostico: { nombre: 'Comunicar un problema', icon: 'info' },
   borrar: { nombre: 'Borrar registros', icon: 'trash' },
 }
 
@@ -27,7 +28,7 @@ export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: I
 export const GRUPOS_AJUSTES: { nombre: string; secciones: SeccionAjustes[] }[] = [
   { nombre: 'Tú', secciones: ['objetivos', 'agua', 'creatina'] },
   { nombre: 'Entreno', secciones: ['entreno', 'gamificacion'] },
-  { nombre: 'App', secciones: ['apariencia', 'actualizaciones', 'instalacion'] },
+  { nombre: 'App', secciones: ['apariencia', 'actualizaciones', 'instalacion', 'diagnostico'] },
   { nombre: 'Tus datos', secciones: ['cuenta', 'copias', 'catalogo'] },
 ]
 
@@ -67,6 +68,7 @@ export function resumenAjustes(seccion: SeccionAjustes, d: DatosResumen): string
     case 'cuenta': return ''
     case 'copias': return s.ultimaExportacion === undefined ? 'Aún sin copia exportada' : `Última: ${formatDiaMes(s.ultimaExportacion)}`
     case 'catalogo': return 'Fuentes, licencias y actualización'
+    case 'diagnostico': return 'Preparar y copiar un diagnóstico'
     case 'borrar': return 'Todo lo guardado en este móvil'
   }
 }

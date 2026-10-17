@@ -110,6 +110,22 @@ Por reglas, sin IA ni red ([ADR 032](../decisiones/032-creador-de-rutinas-por-re
 - **Catálogo**: `CatalogExercise.tipo` (compuesto/aislamiento) y `patron` (`PATRONES`) salen de `POR_PATRON` (cada patrón con sus ejercicios de más a menos básico) y de las excepciones de `TIPO_PROPIO`. `creadorRutinas.test.ts` comprueba que los 268 tienen uno y solo uno y que cada patrón pedido tiene ejercicios, o un sustituto con ellos, para cada material (en casa las flexiones pike cubren el empuje vertical; las aperturas, el curl y los encogimientos usan sustitutos).
 
 
+### Entrada numérica y errores de notas
+
+`CampoSerie` usa texto con teclado decimal/numérico y semántica `spinbutton`: admite coma y punto con el parser común, conserva el borrador parcial y redondea a dos decimales. Flecha arriba/abajo cambia 2,5 kg o una repetición, con mínimo cero. Evita que la localización de `type=number` descarte la coma y convierta `72,5` en `725` en Chromium.
+
+Si falla el guardado de las notas, Terminar no finaliza la sesión y Listo no cierra el editor del historial. Se conserva el borrador, se muestra el error y se permite reintentar; solo se continúa tras un guardado correcto. Regresión con fallo de IndexedDB en los tres motores: [auditoría](../auditoria-2026-10-17/INFORME.md).
+
 El resumen social del entreno incluye ahora el mapa muscular como 12 niveles 0–5, derivados de la misma función y snapshot que el detalle. `PublicarEntreno` no envía datos de Perfil para representarlo. El bloque ofrece además «Compartir en una comunidad» con destinatario y vista previa independientes; no pisa la marca local de publicación de seguidores. Reglas y migración: [Social](social.md#publicaciones-libres-logros-y-comunidades).
 
 La publicación también se puede borrar desde el feed de Social con confirmación, solo por su autor. Se conserva el registro local y se libera la marca de publicación en este dispositivo para compartirlo otra vez; las copias de comunidad no quitan la marca de seguidores.
+
+## Comodidad de registro y confianza al guardar
+
+El entreno activo muestra el estado de las escrituras de series y notas: «Guardando en este dispositivo», «Guardado en este dispositivo» o error persistente con «Reintentar guardado». `lib/guardadoLocal.ts` mantiene una cola por registro y conserva para reintento solo la última operación fallida; una respuesta antigua no sobrescribe una edición nueva. El cierre espera a la cola y no termina si quedan errores. Es estado local en memoria, independiente de la copia cifrada de la cuenta; no es una nueva sincronización ni un backup de borradores.
+
+Al terminar de editar el peso principal de una serie, `lib/cargaInusual.ts` compara con la última sesión equivalente: mismo ejercicio, modo de carga, técnica y tipo calentamiento/efectiva. Si el peso es al menos tres veces mayor o un tercio del anterior, con diferencia de al menos 20 kg, ofrece revisar o conservar. No impone máximos, modifica cifras ni interviene en la progresión. No deduce una referencia sin historial ni compara directamente lados o tramos de dropset. «El peso es correcto» recuerda esa cifra/campo mientras el panel está montado. También se ofrece al editar el historial.
+
+Las pistas reutilizan `Settings.pistasVistas`: confirmación de series, RIR al abrir su hoja y progresión al abrir la suya; se cierran con Entendido. El contenido sigue disponible en Ajustes › Primeros pasos › Ayuda para registrar un entreno, junto al restablecimiento de pistas.
+
+El calendario mensual pasa automáticamente a una lista de días entrenados cuando el contenedor tiene 23 rem o menos. Se conservan las flechas de mes, el acceso al día y las sesiones inferiores. Evita comprimir los botones por debajo de 44 px; no usa áreas superpuestas.

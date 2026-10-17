@@ -64,7 +64,7 @@ async function main() {
         const page = await context.newPage(); const errors = []
         page.on('pageerror', e => errors.push(e.message))
         await page.goto('http://appfit-test.localhost:5173')
-        await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
+        await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
         await page.evaluate(async largo => {
           const { db } = await import('/src/shared/db/db.ts')
           await db.transaction('rw', db.exercises, db.routines, db.workouts, db.sets, async () => {

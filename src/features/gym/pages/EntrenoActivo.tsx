@@ -38,6 +38,7 @@ import { useLigasSesion } from '../../liga/hooks/useLigasSesion'
 import { avisarElite } from '../../liga/lib/basicos'
 import { alternativas } from '../../liga/lib/alternativas'
 import Pista from '../../../shared/components/Pista'
+import { useGuardadoLocal } from '../hooks/useGuardadoLocal'
 
 interface Props {
   workout: Workout
@@ -62,8 +63,10 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   /** Ejercicios con todas sus series hechas que se han desplegado a mano: los demás completos se pliegan (E3, ADR 035). */
   const [desplegados, setDesplegados] = useState<ReadonlySet<number>>(() => new Set())
   const notasGuardadas = useRef(workout.notas ?? '')
+  const temporizadorNotas = useRef<ReturnType<typeof setTimeout> | null>(null)
   const restConfig = useRef<HTMLDivElement>(null)
   const confirmandoSeries = useRef(new Set<number>())
+  const { guardado, pendientes, errores } = useGuardadoLocal()
   const pendingWrites = useRef(new Map<number, Promise<void>>())
   const { avisar, avisarError, toast } = useAviso()
 
@@ -89,6 +92,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
     antesDeQuitar: async () => { await Promise.all(pendingWrites.current.values()) },
     alQuitar: captura => {
       const ids = new Set(captura.sets.map(s => s.id))
+      for (const id of ids) guardado.olvidar(`serie-${id}`)
+      guardado.olvidar(`agregar-${captura.exerciseId}`)
       const completadas = sessionActual.current.completed.filter(id => ids.has(id))
       setSession(previous => ({ ...previous, completed: previous.completed.filter(id => !ids.has(id)) }))
       return () => setSession(previous => ({ ...previous, completed: [...new Set([...previous.completed, ...completadas])] }))
@@ -96,12 +101,14 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   })
 
   async function guardarNotas() {
-    if (notas === notasGuardadas.current) return
+    if (temporizadorNotas.current !== null) { clearTimeout(temporizadorNotas.current); temporizadorNotas.current = null }
+    if (notas === notasGuardadas.current) return true
     try {
-      await workoutsRepo.guardarNotas(workout.id!, notas)
-      notasGuardadas.current = notas
+      await guardado.guardar('notas', async () => { await workoutsRepo.guardarNotas(workout.id!, notas); notasGuardadas.current = notas })
+      return true
     } catch {
       avisarError('No se han podido guardar las notas. Inténtalo de nuevo.')
+      return false
     }
   }
 
@@ -117,7 +124,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   useEffect(() => {
     if (notas === notasGuardadas.current) return
     const t = setTimeout(() => { void guardarNotas() }, 800)
-    return () => clearTimeout(t)
+    temporizadorNotas.current = t
+    return () => { clearTimeout(t); if (temporizadorNotas.current === t) temporizadorNotas.current = null }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notas])
 
@@ -147,7 +155,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
 
   async function agregarSet(exerciseId: number) {
     try {
-      setNewSet(await setsRepo.agregar(workout.id!, exerciseId))
+      await guardado.guardar(`agregar-${exerciseId}`, async () => { setNewSet(await setsRepo.agregar(workout.id!, exerciseId)) })
       haptic()
     } catch {
       avisarError('No se ha podido añadir la serie. Inténtalo de nuevo.')
@@ -157,7 +165,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   async function actualizarSet(id: number, cambio: setsRepo.CambioSerie) {
     // Cambiar el tipo o el RIR no desmarca la serie; reps y peso sí.
     if (currentSets.some(s => s.id === id && cambiaRealizacion(s, typeof cambio === 'function' ? cambio(s) : cambio))) setSession(previous => ({ ...previous, completed: previous.completed.filter(n => n !== id) }))
-    const operation = setsRepo.actualizar(id, cambio)
+    const operation = guardado.guardar(`serie-${id}`, () => setsRepo.actualizar(id, cambio))
     pendingWrites.current.set(id, operation)
     try {
       await operation
@@ -170,7 +178,9 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
 
   async function borrarSet(id: number, numero: number) {
     try {
+      await pendingWrites.current.get(id)
       const set = await setsRepo.borrar(id)
+      guardado.olvidar(`serie-${id}`)
       if (set) {
         const completed = session.completed.includes(id)
         setSession(previous => ({ ...previous, completed: previous.completed.filter(n => n !== id) }))
@@ -195,7 +205,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
     setGuardando(true)
     try {
       await Promise.all(pendingWrites.current.values())
-      await guardarNotas()
+      if (!await guardarNotas()) throw new Error('No se han podido guardar las notas.')
+      await guardado.esperar()
       const finished = await workoutsRepo.terminar(workout.id!, sessionActual.current.completed)
       const saved = finished.sets
       const guardadasEfectivas = efectivas(saved)
@@ -237,7 +248,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
     try {
       await pendingWrites.current.get(s.id!)
       const done = sessionActual.current.completed.includes(s.id!)
-      const escritura = setsRepo.confirmar(s.id, !done)
+      const escritura = guardado.guardar(`serie-${s.id}`, () => setsRepo.confirmar(s.id, !done))
       pendingWrites.current.set(s.id, escritura)
       try { await escritura } finally { if (pendingWrites.current.get(s.id) === escritura) pendingWrites.current.delete(s.id) }
       const descanso = descansoParaEjercicio(routine?.objetivos?.[s.exerciseId]?.descansoSeg, session.restSeconds)
@@ -277,8 +288,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         <ProgresoSeries hechas={completedCount} total={currentSets.length} />
       </section>
 
-      {descansando && <div className="rest-dock pointer-events-none fixed inset-x-0 z-30">
-        <div className="mx-auto max-w-lg px-page">
+      {descansando && <div className="rest-dock safe-inline pointer-events-none fixed inset-x-0 z-30">
+        <div className="app-content mx-auto px-page">
           <RestClock endsAt={session.restEndsAt!} duration={session.restTotal ?? session.restSeconds}
             onEnd={() => {
               setSession(previous => ({ ...previous, restEndsAt: null }))
@@ -305,6 +316,12 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
       </section>
       <p role="status" className="sr-only">{feedback}</p>
 
+      <section aria-label="Guardado local" className="space-y-1">
+        <p role="status" className={`text-caption ${errores ? 'text-destructive' : 'text-fg-muted'}`}>
+          {errores ? 'Hay cambios que no se han podido guardar en este dispositivo.' : guardando || pendientes || notas !== notasGuardadas.current ? 'Guardando en este dispositivo…' : 'Guardado en este dispositivo'}
+        </p>
+        {errores > 0 && <Button variant="secondary" size="sm" disabled={pendientes > 0} onClick={() => { void guardado.reintentar() }}>Reintentar guardado</Button>}
+      </section>
       <Pista id="entreno-series" />
 
       <div ref={listRef} className="space-y-stack">
@@ -318,6 +335,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
             <div key={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
                 anteriores={anterioresPorSerie(sets, seriesSesionAnterior(allSets, exId, workout, todosWorkouts))}
+                referenciasCarga={seriesSesionAnterior(allSets, exId, workout, todosWorkouts)}
                 objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
                 onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
                 onQuitar={() => quitarEjercicio(exId, ex.nombre)} onAviso={avisar}

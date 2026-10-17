@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react'
+import { registrarErrorDiagnostico } from '../lib/diagnostico'
+import { useEffect, type ReactNode } from 'react'
 import Icon, { type IconName } from './Icon'
 
 /** Estado de carga: una línea discreta, sin spinners a pantalla completa. */
@@ -41,6 +42,7 @@ export function EmptyState({ children, action, icon, title }: EmptyProps) {
 
 /** Error recuperable: explica qué hacer; el color es de aviso, sin tono alarmista. */
 export function ErrorState({ children }: { children: ReactNode }) {
+  useEffect(() => { registrarErrorDiagnostico('operacion') }, [children])
   return (
     <p role="alert" className="flex items-start gap-2 text-body-sm text-destructive">
       <Icon name="alert" size={18} className="mt-0.5" />

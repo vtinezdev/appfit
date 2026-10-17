@@ -22,8 +22,8 @@ export default function DiasSemana({ lunes, hoy, diasEntreno, diasRegistro }: Pr
         const futuro = f > hoy
         return <span key={f} className={`flex flex-col items-center gap-1 ${futuro ? 'opacity-40' : ''}`}>
           <span className={`text-caption ${f === hoy ? 'font-bold text-fg underline underline-offset-4' : 'text-fg-muted'}`}>{letra}</span>
-          <span className={`block h-4 w-4 rounded-sm border ${diasEntreno.has(f) ? 'border-fg bg-fg' : 'border-line-strong'}`} />
-          {diasRegistro && <span className={`block h-2 w-2 rounded-pill border ${diasRegistro.has(f) ? 'border-fg-muted bg-fg-muted' : 'border-line-strong'}`} />}
+          <span className={`block aspect-square w-4 max-w-full rounded-sm border ${diasEntreno.has(f) ? 'border-fg bg-fg' : 'border-line-strong'}`} />
+          {diasRegistro && <span className={`block aspect-square w-2 max-w-full rounded-pill border ${diasRegistro.has(f) ? 'border-fg-muted bg-fg-muted' : 'border-line-strong'}`} />}
         </span>
       })}
     </span>

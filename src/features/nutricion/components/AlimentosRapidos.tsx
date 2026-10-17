@@ -1,3 +1,5 @@
+import FiltroCategoriaBusqueda from './FiltroCategoriaBusqueda'
+import { filtrarPorCategoria, type FiltroCategoria } from '../lib/repartoCategorias'
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida } from '../../../shared/db/types'
@@ -31,12 +33,14 @@ const EN_LA_COMIDA: Record<Comida, string> = {
  */
 export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props) {
   const [busqueda, setBusqueda] = useState('')
+  const [categoria, setCategoria] = useState<FiltroCategoria>('todas')
   const hoy = todayISO()
   const frecuentes = useLiveQuery(() => foodsRepo.frecuentes({ comida, hoy }), [comida, hoy])
 
   if (frecuentes === undefined) return <LoadingState>Cargando alimentos…</LoadingState>
 
   // Los del catálogo que ya usas: en el ranking de la búsqueda, a igualdad de coincidencia, van primero.
+  const frecuentesFiltrados = filtrarPorCategoria(frecuentes, categoria)
   const idsCatalogo = frecuentes.flatMap((a) => (a.ref.tipo === 'catalog' ? [a.ref.id] : []))
 
   return (
@@ -53,15 +57,17 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props
         {onEscanear && <IconButton icon="barcode" label="Escanear código de barras" onClick={onEscanear} />}
       </div>
 
-      {busqueda.trim() === '' && frecuentes.length > 0 && (
+      <FiltroCategoriaBusqueda valor={categoria} onChange={setCategoria} />
+
+      {busqueda.trim() === '' && frecuentesFiltrados.length > 0 && (
         <div className="space-y-1">
           <SectionHeader variant="section">Frecuentes en {EN_LA_COMIDA[comida]}</SectionHeader>
-          <ListaElegibles alimentos={frecuentes} onElegir={onElegir} />
+          <ListaElegibles alimentos={frecuentesFiltrados} onElegir={onElegir} />
         </div>
       )}
 
-      <ResultadosBusqueda busqueda={busqueda} onElegir={onElegir} frecuentes={idsCatalogo} />
-      {!busqueda.trim() && frecuentes.length === 0 && <EmptyState title="Busca tu primer alimento" icon="search">Escribe su nombre. Los alimentos que uses aparecerán aquí para añadirlos más rápido.</EmptyState>}
+      <ResultadosBusqueda categoria={categoria} busqueda={busqueda} onElegir={onElegir} frecuentes={idsCatalogo} />
+      {!busqueda.trim() && frecuentesFiltrados.length === 0 && <EmptyState title={categoria === 'todas' ? 'Busca tu primer alimento' : 'Sin frecuentes en esta categoría'} icon="search">{categoria === 'todas' ? 'Escribe su nombre. Los alimentos que uses aparecerán aquí para añadirlos más rápido.' : 'Escribe un nombre para buscar en tus alimentos y el catálogo, o elige otra categoría.'}</EmptyState>}
     </section>
   )
 }

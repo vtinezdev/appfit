@@ -27,7 +27,7 @@ export default function BottomNav({ tab, onChange, ocultos = [], encima }: Props
 
   return (
     <nav aria-label="Navegación principal" className="app-nav">
-      {encima && <div className="mx-auto max-w-lg">{encima}</div>}
+      {encima && <div className="app-content mx-auto">{encima}</div>}
       <button type="button" className="nav-boton app-button" aria-label="Secciones" aria-haspopup="dialog" aria-expanded={arco} data-nav-trigger
         onClick={() => { haptic(); setArco(true) }}>
         <Icon name="secciones" size={24} />

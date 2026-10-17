@@ -1,6 +1,6 @@
 # AppFit
 
-App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra comidas escribiéndolas o dictándolas (interpretadas en el propio móvil, sin IA), lleva el control de tus entrenos y de tu peso, y guarda todo **en tu propio móvil**. Si quieres, una cuenta guarda además una copia **cifrada** en la nube para recuperarla en otro móvil: nadie más puede leerla.
+App personal de nutrición y gimnasio para Android, iPhone, tablet y ordenador, instalable como PWA. Registra comidas escribiéndolas o dictándolas (interpretadas en el propio móvil, sin IA), lleva el control de tus entrenos y de tu peso, y guarda todo **en tu propio móvil**. Si quieres, una cuenta guarda además una copia **cifrada** en la nube para recuperarla en otro móvil: nadie más puede leerla.
 
 > Proyecto personal de uso individual: no está pensado para varios usuarios ni para publicarse en tiendas de apps.
 
@@ -25,7 +25,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Buscador con frecuentes, plantillas de comidas, copiar una comida o un día y «kcal rápidas» para una comida fuera.
 - La semana arriba del diario, con un anillo de kcal de cada día frente a su objetivo, y el día en carriles de energía, proteína, hidratos y grasa; la vista detallada incluye el desglose dentro del mismo panel.
 - Buscador e intérprete priorizan alimentos básicos habituales («pollo» → pechuga sin piel), conservando las variantes de preparación y marca cuando las especificas.
-- Resumen semanal y mensual navegable, con gráficas frente a tus objetivos.
+- Resumen semanal y mensual navegable, con gráficas frente a tus objetivos. Búsqueda de alimentos por categoría y preparación explícita —crudo o cocinado— antes de guardar.
 - Vista detallada con consumo, barras y cobertura de fibra, azúcares, sal y saturadas. Un botón de información explica criterio y fuente y permite abrir su referencia global. Los extras también están en los detalles del alimento; los datos ausentes se distinguen de cero y las sumas incompletas se señalan.
 - Base de datos personal de alimentos, editable a mano, con raciones propias («1 rebanada de mi pan = 32 g», que el intérprete entiende) y recetas caseras (ingredientes + peso cocinado, que se convierten en un alimento).
 - Resumen con adherencia al objetivo de kcal (±10 %), rachas de registro y los alimentos que más kcal y proteína aportan. Cada día conserva el objetivo que tenía.
@@ -33,7 +33,7 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 
 **Gimnasio**
 - Catálogo local de 204 ejercicios con buscador, filtros combinables de músculo/equipamiento y recientes; ejercicios personalizados disponibles en rutinas y sesiones, también sin conexión.
-- Entrenos desde cero o desde una rutina, con el progreso guardado aunque cierres la app a mitad.
+- Entrenos desde cero o desde una rutina, con el progreso guardado aunque cierres la app a mitad. Estado de guardado local, reintento de cambios fallidos y aviso orientativo para revisar cargas muy distintas al último entreno comparable.
 - Creador de rutinas por reglas, sin IA: según tus días por semana, tiempo, material (gimnasio, mancuernas o casa), objetivo y músculos a priorizar propone un plan de varias rutinas, con cada ejercicio cambiable antes de guardarlo.
 - Quitar un ejercicio solo de ese entreno desde su menú, con Deshacer, también al editar el historial; conserva el catálogo y la rutina original.
 - Series con repeticiones y peso, precargadas con los valores de la última vez y con la columna «Anterior» (lo que hiciste en esa misma serie la sesión pasada). Cabecera fija con tiempo, volumen y series, descanso flotante con −15/+15 y el check de la serie marcada relleno en verde.
@@ -54,9 +54,12 @@ App personal de nutrición y gimnasio para iPhone, instalable como PWA. Registra
 - Social y Amigos (con cuenta): perfil con alias, seguir a otras personas con su aprobación (por alias o código de invitación), crear publicaciones de texto, compartir logros y resúmenes de entrenos con mapa muscular o actividades sin recorrido, y unirse a comunidades para compartir sin seguirse, ver lo que publican quienes sigues, darles ánimo y comentar, avisos, bloquear y denunciar.
 - Perfil calcula la proteína diaria por kg de peso (1,8 g/kg por defecto, rango 1,6 a 2,2), muestra un gasto observado a partir de lo que comes y tu tendencia de peso (si hay datos suficientes) y guarda tus medidas corporales. Perfil estima tu gasto energético diario y un objetivo de calorías (mantenimiento, definición o volumen) a partir de sexo, fecha de nacimiento, altura, peso y actividad, con ecuaciones citadas. Todo se calcula y se guarda solo en tu dispositivo; es una estimación orientativa, no una prescripción médica.
 - Referencias reúne procedencia del catálogo, objetivos nutricionales, la metodología de la estimación energética, el origen de la proteína por kg y el objetivo de agua (con qué se verificó de cada fuente) y limitaciones de datos; recomendaciones por grupos tienen su lugar preparado, sin inventar valores todavía.
-- Instalable en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
+- Diseño adaptable a móvil, tablet y ordenador, también en horizontal y con texto ampliado.
+- Instalable en Android (botón «Instalar AppFit» cuando Chrome lo permite o menú del navegador) y en iOS («Añadir a pantalla de inicio»), con icono propio y funcionamiento sin conexión (salvo al escanear un producto nuevo).
 - Gráfica del peso con media de 7 días y borrado de pesajes con «Deshacer».
+- Evolución del agua y de las medidas corporales con periodos, gráficas y tablas de los registros reales.
 - Exportación a CSV (comidas, pesos, series, agua y medidas) para abrir en Excel en español.
+- Diagnóstico revisable y copiable desde Ajustes para comunicar problemas, sin envío automático ni registros personales.
 - Copia de seguridad exportable e importable en un único archivo JSON, con confirmación antes de sustituir registros y ayuda para trasladarlos de Safari al acceso de pantalla de inicio en iPhone.
 - Tema Sistema/Claro/Oscuro seleccionable en Ajustes. Interfaz móvil coherente, controles táctiles grandes y fuente disponible offline.
 - Fondo de curvas de nivel (como el mapa de una montaña) o rejilla de puntos, con un halo del acento; en Ajustes también se puede volver a las atmósferas fotográficas o a un fondo liso.

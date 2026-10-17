@@ -39,7 +39,7 @@ export default function ArcoSecciones<K extends string>({ open, destinos, onEleg
 
   if (!mounted) return null
   return createPortal(
-    <div data-visible={visible} className="fixed inset-0 z-50">
+    <div data-visible={visible} className="arco-layer modal-viewport fixed inset-x-0 z-50">
       <div className={`overlay-backdrop arco-fondo absolute inset-0 ${visible ? 'opacity-100' : 'opacity-0'}`} onClick={close} aria-hidden />
       <div ref={panelRef} role="dialog" aria-modal="true" aria-label="Secciones" tabIndex={-1} className="arco-panel">
         <nav aria-label="Secciones">

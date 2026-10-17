@@ -1,0 +1,17 @@
+
+> appfit@0.1.0 test:ui:uso
+> node scripts/ui/validar-mejoras-uso.cjs
+
+chromium 320-light: correcto; 10 escenarios;
+chromium 375-dark-texto200: correcto; 10 escenarios;
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+firefox 320-light: correcto; 10 escenarios;
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+firefox 375-dark-texto200: fallo; 2 escenarios; Expected values to be strictly equal:
+
+10 !== 11
+
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+webkit 320-light: correcto; 10 escenarios;
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+webkit 375-dark-texto200: correcto; 10 escenarios;

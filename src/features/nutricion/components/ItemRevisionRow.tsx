@@ -1,3 +1,4 @@
+import PreparacionAlimento from './PreparacionAlimento'
 import { useId, useState } from 'react'
 import Card from '../../../shared/components/Card'
 import Disclosure from '../../../shared/components/Disclosure'
@@ -77,6 +78,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
         </div>
         {onQuitar && <IconButton icon="trash" label={`Quitar ${item.nombre || 'alimento'}`} variant="ghost" size="sm" className="-mr-2 -mt-1" onClick={() => { cancelarNombre(); onQuitar() }} />}
       </div>
+      <PreparacionAlimento nombre={item.nombre} explicar />
       {item.medida && <SelectorMedida medida={item.medida} onElegir={(g) => onChange(elegirMedida(item.medida!, g))} />}
       {!medidaPendiente(item) && (
         <div className="flex flex-wrap items-end justify-between gap-3">

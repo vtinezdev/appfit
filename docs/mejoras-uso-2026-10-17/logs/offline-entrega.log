@@ -1,0 +1,5 @@
+
+> appfit@0.1.0 test:ui:offline
+> node scripts/ui/validar-adaptacion-offline.cjs
+
+Producción: pesaje conservado, recarga offline y nueve destinos y gráfica de agua abiertos por primera vez sin conexión: correcto.

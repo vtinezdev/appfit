@@ -142,8 +142,8 @@ export default function Alimentos() {
               {filtrados.map((f) => (
                 <li key={f.id} className="-ml-2 flex items-center gap-1">
                   <IconoCategoria categoria={f.categoria} sinCategoria="aviso" />
-                  <ListRow onClick={() => abrir(f)} className="min-w-0 flex-1">
-                    <div className="min-w-0 flex-1">
+                  <ListRow onClick={() => abrir(f)} className="min-w-0 flex-1 flex-wrap">
+                    <div className="min-w-0 flex-1 basis-28">
                       <p className="break-words text-body font-medium text-fg">{f.nombre}</p>
                       <p className="tabular text-caption text-fg-muted">
                         {resumenMacros({ prot: f.prot100, carb: f.carb100, grasa: f.grasa100 })} · por 100 g

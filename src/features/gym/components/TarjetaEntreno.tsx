@@ -66,7 +66,7 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
         ) : (
           <>
             <p className="text-body-sm text-fg-muted">{resumen.cuando}</p>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="metric-grid gap-4">
               <Metric size="title" label="Duración" valor={resumen.duracion ?? '—'} />
               <Metric size="title" label="Ejercicios" valor={formatInt(resumen.ejercicios)} />
               <Metric size="title" label="Volumen" valor={formatInt(resumen.volumen)} unidad="kg" />

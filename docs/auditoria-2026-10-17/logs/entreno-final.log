@@ -1,0 +1,9 @@
+
+> appfit@0.1.0 test:ui
+> node scripts/ui/auditoria-entreno.cjs
+
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+chromium: correcto; 11 escenarios;
+firefox: correcto; 11 escenarios;
+webkit: correcto; 11 escenarios;

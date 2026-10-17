@@ -1,4 +1,4 @@
-import { useId, type CSSProperties, type ReactNode } from 'react'
+import { useId, useLayoutEffect, useRef, type ReactNode } from 'react'
 import { indicePorTecla } from '../design/selection'
 import { haptic } from '../design/motion'
 interface Props<T extends string> {
@@ -14,11 +14,29 @@ interface Props<T extends string> {
 export default function ViewTabs<T extends string>({ opciones, valor, onChange, label, nivel = 'secundario', children }: Props<T>) {
   const principal = nivel === 'principal'
   const id = useId()
+  const lista = useRef<HTMLDivElement>(null)
+  const clave = opciones.map(o => `${o.valor}:${o.label}`).join('|')
+  useLayoutEffect(() => {
+    const element = lista.current
+    if (!element) return
+    const medir = () => {
+      const selected = element.querySelector<HTMLButtonElement>('[aria-selected="true"]')
+      if (!selected) return
+      element.style.setProperty('--selection-width', `${selected.offsetWidth}px`)
+      element.style.setProperty('--selection-offset', `${selected.offsetLeft}px`)
+      if (selected.offsetLeft < element.scrollLeft) element.scrollLeft = selected.offsetLeft
+      else if (selected.offsetLeft + selected.offsetWidth > element.scrollLeft + element.clientWidth) element.scrollLeft = selected.offsetLeft + selected.offsetWidth - element.clientWidth
+    }
+    medir()
+    const observer = new ResizeObserver(medir)
+    observer.observe(element)
+    element.querySelectorAll('button').forEach(button => observer.observe(button))
+    return () => observer.disconnect()
+  }, [valor, clave])
   const elegir = (next: T) => { if (next !== valor) haptic(); onChange(next) }
   return (
     <div>
-      <div role="tablist" aria-label={label} className={`app-tabs relative flex ${principal ? 'app-tabs-principal rounded-md border border-line bg-surface p-1' : ''}`}
-        style={{ '--selection-index': opciones.findIndex(o => o.valor === valor), '--selection-count': opciones.length } as CSSProperties}>
+      <div ref={lista} role="tablist" aria-label={label} className={`app-tabs relative flex ${principal ? 'app-tabs-principal rounded-md border border-line bg-surface p-1' : ''}`}>
         <span className="tab-indicator" aria-hidden />
         {opciones.map((o, i) => (
           <button key={o.valor} type="button" id={`${id}-${o.valor}`} role="tab" aria-selected={valor === o.valor}
@@ -30,7 +48,7 @@ export default function ViewTabs<T extends string>({ opciones, valor, onChange, 
               elegir(opciones[next].valor)
               e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('button')[next]?.focus()
             }}
-            className={`relative min-h-touch min-w-0 flex-1 px-1 font-semibold transition-colors duration-short ${principal ? 'rounded-sm text-body' : 'text-body-sm'} ${valor === o.valor ? 'font-bold text-fg' : 'text-fg-muted hover:text-fg'}`}>
+            className={`app-tab relative min-h-touch flex-1 px-2 font-semibold transition-colors duration-short ${principal ? 'rounded-sm text-body' : 'text-body-sm'} ${valor === o.valor ? 'font-bold text-fg' : 'text-fg-muted hover:text-fg'}`}>
             {o.label}
           </button>
         ))}

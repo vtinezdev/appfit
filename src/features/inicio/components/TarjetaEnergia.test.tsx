@@ -35,6 +35,6 @@ describe('TarjetaEnergia', () => {
   it('toda la tarjeta es un botón y la rueda queda fuera del árbol accesible', () => {
     const html = render(0, 0, 0, 0)
     expect(html.match(/<button/g)).toHaveLength(1)
-    expect(html).toContain('<svg viewBox="0 0 120 120" class="block h-full w-full -rotate-90" aria-hidden="true"')
+    expect(html).toMatch(/<svg viewBox="0 0 120 120"[^>]*aria-hidden="true"/)
   })
 })

@@ -1,0 +1,47 @@
+{
+  "fecha": "2026-10-17",
+  "mejorasImplementadas": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "unitarios": {
+    "archivos": 186,
+    "tests": 2261,
+    "correcto": true
+  },
+  "build": {
+    "correcto": true,
+    "entradasPrecache": 110
+  },
+  "entreno": {
+    "escenarios": 33,
+    "correctos": 33
+  },
+  "interfaz": {
+    "configuraciones": 30,
+    "correctas": 30,
+    "medidas": 690,
+    "objetivosTactilesPequenos": 0
+  },
+  "uso": {
+    "configuraciones": 6,
+    "escenarios": 60,
+    "correctos": 60
+  },
+  "offline": {
+    "pesajeConservado": true,
+    "destinos": 9,
+    "graficaAguaPrimeraApertura": true
+  },
+  "limitacionPunteroFirefox": "Se usa una posición interior superior para Añadir a 375x667 al 200%; fallo del centro reproducido en HTML mínimo independiente de la app",
+  "hardwareFisico": false,
+  "workflowGitHubEjecutado": false,
+  "datosRealesModificados": false,
+  "commitPushMergeDespliegue": false
+}

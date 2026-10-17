@@ -88,7 +88,7 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado }: Props) {
       })() : (
         <section aria-label="Empezar a entrenar" className="training-surface space-y-5 p-5">
           <div className="space-y-1">
-            <div className="flex items-start justify-between gap-3"><h2 className="text-display">Tu próxima sesión</h2><Icon name="dumbbell" size={28} className="training-muted mt-1" /></div>
+            <div className="flex items-start justify-between gap-3"><h2 className="min-w-0 break-words text-display">Tu próxima sesión</h2><Icon name="dumbbell" size={28} className="training-muted mt-1" /></div>
             <p className="training-muted text-body-sm">Empieza con los ejercicios que quieras{rutinas?.length === 0 ? ' o crea una rutina en la pestaña Rutinas' : ''}.</p>
           </div>
           <Button variant="ghost" className="training-secondary" size="lg" block loading={empezando === 'vacio'} disabled={ocupado} onClick={() => empezar()}>

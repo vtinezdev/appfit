@@ -108,7 +108,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, onE
   }
 
   return (
-    <div className="space-y-section px-page pt-5">
+    <div className="inicio-layout space-y-section px-page pt-5">
       <PageHeader overline={fechaLarga} title="Hoy" />
       <AvisoActualizacion onRevisar={onRevisarActualizaciones} />
       {ayudaInicial}
@@ -127,10 +127,10 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, onE
           <LoadingState />
         </div>
       ) : (
-        <div className="space-y-stack">
+        <div className="inicio-paneles">
           <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion} />
           <AccesoProgreso onAbrir={onIrAProgreso} />
-          <div className="grid grid-cols-2 gap-stack">
+          <div className="inicio-registros">
             <AccesoPeso tendencia={tendencia} pesos={pesos} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
             <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />
           </div>

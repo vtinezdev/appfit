@@ -1,5 +1,8 @@
+import DiagnosticoAjustes from './DiagnosticoAjustes'
+import { PISTAS } from '../shared/lib/pistas'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
+import InstalarApp from '../shared/components/InstalarApp'
 import { getSettings, updateSettings } from '../shared/db/settings'
 import { borrarTodosLosDatos, descargarBackup, exportarBackup, importarBackup, migrarBackup } from '../shared/lib/backup'
 import { hayDatosGuardados } from '../shared/db/estadoDatos'
@@ -265,18 +268,28 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias 
       </div>
     </div>,
 
+    diagnostico: () => <DiagnosticoAjustes />,
+
     actualizaciones: () => <ActualizacionesAjustes />,
 
     instalacion: () => <div className="space-y-section">
       <section aria-label="Añadir a la pantalla de inicio" className="space-y-2">
         <h3 className="text-title text-fg">Añade la app a tu pantalla de inicio</h3>
+        <InstalarApp />
+        <h4 className="text-body font-semibold text-fg">Android</h4>
+        <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
+          <li>Abre el enlace de AppFit en Chrome.</li>
+          <li>Pulsa «Instalar AppFit» si aparece, o abre el menú del navegador y elige «Instalar aplicación» o «Añadir a pantalla de inicio».</li>
+          <li>Confirma la instalación y abre AppFit desde su icono.</li>
+        </ol>
+        <p className="text-body-sm text-fg-muted">Si usas otro navegador, la opción puede tener otro nombre. Instala desde el navegador donde guardaste tus registros; para cambiar de navegador o móvil, lleva una copia de seguridad.</p>
+        <h4 className="text-body font-semibold text-fg">iPhone y iPad</h4>
         <p className="text-body-sm text-fg-muted">Si ya registraste comidas en Safari, exporta primero una copia.</p>
         <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
           <li>Abre el enlace de AppFit en Safari.</li>
           <li>Pulsa «Compartir» y elige «Añadir a pantalla de inicio».</li>
           <li>Abre AppFit desde el nuevo acceso de tu pantalla de inicio.</li>
         </ol>
-        <p className="text-body-sm text-fg-muted">En Android, abre el menú del navegador y elige «Instalar aplicación» o «Añadir a pantalla de inicio».</p>
       </section>
       <section aria-label="Trasladar registros de Safari" className="space-y-2">
         <h3 className="text-title text-fg">¿Ya registraste comidas en Safari?</h3>
@@ -293,6 +306,9 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias 
       </section>
       <section aria-label="Pistas" className="space-y-2">
         <h3 className="text-title text-fg">Pistas</h3>
+        <Disclosure title="Ayuda para registrar un entreno">
+          <div className="space-y-3">{(['entreno-series', 'entreno-rir', 'entreno-progresion'] as const).map(id => <p key={id} className="text-body-sm text-fg-muted">{PISTAS[id]}</p>)}</div>
+        </Disclosure>
         <p className="text-body-sm text-fg-muted">Algunas pantallas explican cómo se usan la primera vez que entras.</p>
         <Button variant="secondary" disabled={!settings.pistasVistas?.length} onClick={() => {
           setMensaje(null)

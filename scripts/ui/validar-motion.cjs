@@ -60,7 +60,7 @@ async function run(browser, variant) {
     page.on('pageerror', e => errors.push(e.message))
     page.on('console', e => { if (e.type() === 'error' && !/Failed to load resource/.test(e.text())) errors.push(e.text()) })
     await page.goto(origin)
-    await page.getByRole('button', { name: 'Registrar', exact: true }).waitFor()
+    await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
     await seed(page)
     await snapshot(page, `${variant.name}-inicio`)
     if (variant.name === '375-light') await snapshot(page, 'mobile')

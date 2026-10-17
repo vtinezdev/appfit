@@ -3,7 +3,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const { chromium } = require('playwright')
 const { navegar } = require('./navegar.cjs')
-const BASE = 'http://appfit-test.localhost:5174'
+const BASE = process.env.APPFIT_UI_URL || 'http://appfit-test.localhost:5174'
 const API = 'http://127.0.0.1:54329/rest/v1/rpc/'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-social'
 fs.mkdirSync(salida, { recursive: true })
@@ -177,8 +177,7 @@ async function main() {
         await page.keyboard.press('Escape'); await page.getByRole('dialog', { name: 'Crear publicación', exact: true }).waitFor({ state: 'detached' })
 
         // Logro desde la Vitrina: la pieza alcanzada, su icono y el nivel concreto.
-        await page.getByRole('navigation').getByRole('button', { name: 'Más', exact: true }).click()
-        await page.getByRole('dialog', { name: 'Más', exact: true }).getByRole('button', { name: /^Vitrina\b/ }).click()
+        await navegar(page, 'Vitrina')
         await principal.getByRole('button', { name: /^Entrenos: Nivel I$/ }).click()
         const ficha = page.getByRole('dialog', { name: 'Entrenos', exact: true })
         await ficha.getByRole('button', { name: 'Compartir logro', exact: true }).click()

@@ -10,6 +10,15 @@
 
 **Publicación:** abrir la app a otras personas (gratis, Google Play para Android y PWA para iPhone) tiene su plan en [`despliegue.md`](despliegue.md). Va después del rediseño visual.
 
+## Pendientes de la auditoría de compatibilidad
+
+- [Auditoría del 17 de octubre](auditoria-2026-10-17/INFORME.md): los cinco defectos iniciales están corregidos. A06/A07 se abordan después en §154: semana desplazable con botones táctiles, calendario compacto por lista y pestañas con rótulos completos. La validación física sigue pendiente.
+- Comprobar instalación, teclado, giro/recortes, Atrás, permisos y suspensión en iPhone/Android físicos. Chromium, Firefox y WebKit Linux están probados; no sustituyen esos dispositivos. Cuenta/Social se recorrieron con dobles locales; esta auditoría no reejecutó SQL/RLS ni cuentas remotas reales. Workflow de QA incluido para PR y master; sus resultados se comprueban antes del merge.
+
+## Pendiente de probar en Android real
+
+- Adaptación de tamaños (§152): instalación desde Chrome y desde el menú, icono/recorte del lanzador, teclado real en formularios, giro con recortes laterales, botón/gesto Atrás, cámara del escáner y primera apertura offline después de instalar. La validación Chromium usa emulación Pixel 7 y viewport reducido; no sustituye al dispositivo físico.
+
 ## Pendiente de probar en el iPhone real
 
 Según los registros de sesión, sin confirmar todavía (preguntar a Víctor antes de darlo por hecho):
@@ -38,14 +47,13 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Buscador e intérprete priorizan los básicos compartidos en `catalogo/preferidos.ts`; arroz, pasta y pollo sin más detalle se eligen en crudo. Si se pesa en cocido, especificarlo o usar «Cambiar». Si aún hay ruido, valorar sugerencias prioritarias con «Ver más variantes», sin fusionar alimentos por nombre.
 - Catálogo: no hay genéricos españoles (manchego, tortilla de patata…); la categoría y la detección de idioma de Open Food Facts son heurísticas (ver `scripts/catalogo/README.md`).
 - «Alimentos» ya no muestra la procedencia de cada alimento (se quitó en §38).
-- Categorías (§82): la de un alimento del catálogo no se puede cambiar (solo la de los propios); un producto escaneado antes de las categorías sigue sin ella hasta volver a escanearlo con conexión, y sus entradas cuentan como «Sin categoría» en el Resumen. El buscador de Añadir comida no filtra por categoría (solo la lista de Alimentos). La categoría no es un snapshot: reclasificar un alimento reclasifica su historial, y uno borrado deja sus entradas sin categoría.
+- Categorías (§82): la de un alimento del catálogo no se puede cambiar (solo la de los propios); un producto escaneado antes de las categorías sigue sin ella hasta volver a escanearlo con conexión, y sus entradas cuentan como «Sin categoría» en el Resumen. Añadir comida y Cambiar alimento ya filtran por categoría (§154). La categoría no es un snapshot: reclasificar un alimento reclasifica su historial, y uno borrado deja sus entradas sin categoría.
 - El `theme_color` del manifest es el claro; el meta de la página se adapta al tema.
 - Gasto observado (Perfil): exige 28 días con ≥ 80 % de comidas registradas y 2 pesajes por semana; usa 7.700 kcal/kg (aproximación, Hall 2008), el peso varía por agua y sal y el registro de comida suele quedarse corto. Es orientativo y no sustituye al estimado salvo que se active.
 - Proteína por kg y agua: rango 1,6–2,2 g/kg (Morton 2018, Jäger 2017) verificado con el texto de las fuentes; el objetivo de agua (2,0/1,6 L) parte de EFSA (2010) con un 20 % descontado por la humedad de los alimentos, que es criterio de AppFit y no una cifra de EFSA (el resumen de EFSA no da ese porcentaje; efsa.europa.eu rechazó la consulta directa y se leyó una copia archivada). Si sale una fuente mejor para el descuento, sustituirlo.
 - Objetivo por día: los días anteriores a esta versión no tienen snapshot y se comparan con el objetivo vigente; registrar comida de un día pasado congela el vigente de ese momento. Cambiar de peso o de Perfil no reescribe días con snapshot.
 - Récords: un ejercicio sin historial previo no genera récords; las repeticiones solo se comparan con pesos ya usados. Un entreno registrado a posteriori se compara por su fecha de inicio.
 - Raciones propias: solo de una palabra y solo en alimentos propios o del catálogo (se gestionan desde la revisión, no hay ficha del alimento del catálogo). Recetas: los ingredientes son un snapshot; no se vuelven a calcular si cambia el alimento de origen.
-- Medidas corporales y agua: sin gráficas, solo último valor, variación e historial.
 - `scripts/ui/validar-rediseno.cjs` conserva selectores anteriores a la Inicio de ADR 021 (espera el saludo «Buenos/Buenas», pulsa «Registrar» e «Historial de peso») y, como el resto de `scripts/ui/`, el Chromium de `/usr/bin/chromium` y el puerto 5173. En §85 se ejecutó su matriz desde una copia adaptada fuera del repo (Edge, «Hoy», «Registrar peso», tarjeta Peso).
 
 - Entreno activo: la columna «Anterior» solo cabe en la fila con paneles de 20,5rem o más (móviles de 414 px en adelante); en 375/390/393 px va en una línea bajo reps y kg, para no estrechar los campos.
@@ -71,7 +79,7 @@ Gamificación:
 Cuerpo y objetivos:
 - Objetivos distintos en días de entreno y de descanso (kcal extra a hidratos): la integración Gym ↔ Nutrición se decidirá más adelante.
 - Definir recomendaciones contrastadas por grupos de alimentos y comparar raciones con el consumo real. La sección Referencias y sus tipos ya están preparados y los alimentos ya tienen categoría (§82); faltan fuentes, valores y la correspondencia entre categorías y grupos de las guías, sin recomendaciones ficticias.
-- Filtro por categoría en el buscador de Añadir comida y cambiar la categoría de un alimento del catálogo (una preferencia personal por `FoodRef`, como los nombres cortos).
+- Cambiar la categoría de un alimento del catálogo (una preferencia personal por `FoodRef`, como los nombres cortos). El filtro de categoría en Añadir comida está implementado (§154).
 
 Actividades y Caminos:
 - **App nativa** (p. ej. Capacitor) para grabar con el GPS en segundo plano y leer los entrenos de Apple Salud o Health Connect (caminatas y carreras del reloj con su recorrido, sin hacer nada) y los pasos de cada día, que hoy se apuntan a mano en Caminos. Exige cuenta de desarrollador de Apple, compilar en un Mac (o en la nube) y la revisión del App Store; cambia el plan de publicación ([despliegue.md](despliegue.md)).
@@ -80,7 +88,7 @@ Actividades y Caminos:
 - Rutas propias: sustituir GeoNames por el Nomenclátor del IGN (oficial) si se descarga a mano; lugares fuera de España; nombres en castellano además de los oficiales («Lérida», «Gerona») en el buscador.
 
 Análisis:
-- Gráficas de agua y de medidas corporales; variación de la media de peso en Inicio.
+- Variación de la media de peso en Inicio. Las gráficas de agua y medidas corporales están implementadas (§154).
 
 Calidad de datos:
 - Aviso de coherencia energética (kcal frente a 4·P + 4·C + 9·G) en la revisión y en Alimentos; la tubería del catálogo ya tiene uno (`calidad.ts`).
