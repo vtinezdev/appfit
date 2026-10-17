@@ -76,8 +76,8 @@ describe('logros', () => {
     expect(conseguido(de('madrugador'))).toBe(false)
     expect(de('madrugador').progreso).toBe(1)
     // Entrenos I, Récords batidos I, Hilo I (4 semanas seguidas) y Descanso bien llevado (repetible: una pieza). Entreno:
-    // 34 piezas; Constancia: 13; Cumbres sin empezar: 22, sin conseguir; Caminos sin actividades: 36; ocultos: 16.
-    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 4, total: 34 + 13 + 22 + 36 + 16 })
+    // 34 piezas; Constancia: 13; Cumbres sin empezar: 22, sin conseguir; Caminos sin actividades ni pasos: 46; ocultos: 17.
+    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 4, total: 34 + 13 + 22 + 46 + 17 })
     expect(nivelDe(de('records-batidos'))).toBe(1)
   })
 
@@ -175,6 +175,23 @@ describe('logros de Caminos', () => {
   })
 })
 
+describe('logros de pasos', () => {
+  it('pasos desde siempre, días de 10.000 y el oculto de 30.000', () => {
+    const experiencia = calcularExperiencia({ hoy: '2026-12-31', workouts: [], sets: [], entries: [], protObjetivo: new Map(), conNutricion: false })
+    const pasos = [
+      ...Array.from({ length: 9 }, (_, i) => ({ fecha: addDays('2026-10-01', i), pasos: 10_000 })),
+      { fecha: '2026-10-20', pasos: 9_999 },
+      { fecha: '2026-10-21', pasos: 31_000 },
+      { fecha: '2027-01-05', pasos: 50_000 }, // futuro: no cuenta
+    ]
+    const logros = calcularLogros({ hoy: '2026-12-31', experiencia, atlas: calcularAtlas([], new Map(), []), herbario: [], conNutricion: false, pasos })
+    const de = (idLogro: string) => logros.find((l) => l.id === idLogro)!
+    expect(de('pasos')).toMatchObject({ progreso: 130_999, niveles: [{ fecha: '2026-10-21' }, null, null, null, null], descripcion: '500.000 pasos apuntados' })
+    expect(de('dias-pasos')).toMatchObject({ nombre: 'Días de 10.000', progreso: 10, niveles: [{ fecha: '2026-10-21' }, null, null, null, null] })
+    expect(de('treinta-mil')).toMatchObject({ oculto: true, veces: [{ fecha: '2026-10-21' }] })
+  })
+})
+
 describe('logros ampliados', () => {
   const banca = ejercicio('pecho').id
   const sinNutricion = (es: ReturnType<typeof entreno>[], hoy = '2026-10-10') =>
@@ -235,6 +252,6 @@ describe('logros ampliados', () => {
     expect(de('plantas').niveles[0]).toEqual({ fecha: '2026-10-09' })
     expect(de('jardin').veces).toEqual([{ fecha: '2026-10-09' }])
     // Con nutrición: 18 piezas de Nutrición y el Jardín botánico entre los ocultos.
-    expect(recuentoPiezas(l).total).toBe(34 + 13 + 22 + 36 + 16 + 18 + 1)
+    expect(recuentoPiezas(l).total).toBe(34 + 13 + 22 + 46 + 17 + 18 + 1)
   })
 })

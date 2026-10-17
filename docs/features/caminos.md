@@ -1,6 +1,6 @@
 # Caminos
 
-`src/features/caminos/`. Rutas reales y de ficción que se recorren con los km de las [actividades](actividades.md) (caminar, correr y senderismo), una tras otra, desde el día en que se elige la primera. Funciona en paralelo a [Cumbres](cumbres.md), que sube con la XP: el gimnasio no avanza los Caminos. Se deriva del historial como el resto de la gamificación; solo se guardan el inicio y las rutas elegidas. Se oculta con la gamificación (Ajustes). Decisión: [ADR 037](../decisiones/037-actividades-y-caminos.md).
+`src/features/caminos/`. Rutas reales y de ficción que se recorren con los km de las [actividades](actividades.md) (caminar, correr y senderismo) y de los [pasos](#pasos) apuntados, una tras otra, desde el día en que se elige la primera. Funciona en paralelo a [Cumbres](cumbres.md), que sube con la XP: el gimnasio no avanza los Caminos. Se deriva del historial como el resto de la gamificación; solo se guardan el inicio, las rutas elegidas, los pasos de cada día y la zancada propia. Se oculta con la gamificación (Ajustes). Decisión: [ADR 037](../decisiones/037-actividades-y-caminos.md).
 
 ## Dónde está cada cosa
 
@@ -8,10 +8,11 @@
 |---|---|---|
 | Rutas, colecciones y fuentes | `lib/rutas.ts`: `RUTAS` (en el orden de la ruta sugerida), `NOMBRE_COLECCION`, `NOTA_COLECCION`, `metrosRuta`, `rutaDe`, `FUENTE_RUTAS` | — (puro) |
 | Motor y lecturas | `lib/caminos.ts`: `calcularCaminos`, `rutaDe`, `finalesDeEtapa`, `empezar`, `rutasParaCambiar`, `cambiarRuta`, `vecesTerminada`, `nombreExpedicion`, `etapaActual`, `metrosEntre`, `diasDeExpedicion`, `caminoDeActividad`, `llegadaReciente`, `progresoTexto` | — (puro; usa las actividades terminadas) |
-| Escritura | `data/caminosRepo.ts`: `guardar` (devuelve la anterior, para «Deshacer») | `settings.caminos` |
+| Escritura | `data/caminosRepo.ts`: `guardar` y `guardarZancada` (devuelven la anterior, para «Deshacer») | `settings.caminos`, `settings.zancadaCm` |
+| Pasos | `lib/pasos.ts`: `zancadaEstimadaCm`, `zancadaDe`, `metrosDePasos`, `leerPasos`, `validarPasos`, `validarZancada`, `aportesDePasos`, `pasosTexto`; `data/pasosRepo.ts` (`todos`, `guardar`, `borrar`, `restaurar`); `components/PasosCaminos`, `HojaPasos`, `HojaZancada` | `pasos` |
 | Rutas propias | `lib/rutasPropias.ts`: `aRuta`, `idDeRutaPropia`/`esRutaPropia`, `validarRutaPropia`, `nombrePorDefecto`, `etapasPropuestas`, `quitarParada`, `insertarParada`, `anadirVuelta`, `mismoSitio`, `kmTotales`, `puntosDe`, `posicionEnRutaPropia`; `lib/lugares.ts`: `leerPaqueteLugares`, `buscarLugares`, `kmTramo` (`FACTOR_CAMINO`), `proponerParadas`, `indiceParaInsertar`; `data/rutasPropiasRepo.ts` (`listar`, `obtener`, `crear`, `actualizar`, `enUso`, `borrar`); `data/lugares.ts` (`cargarLugares`, descarga del propio origen) | `rutasPropias`; `public/lugares/espana.json` |
 | Editor de rutas | `components/EditorRuta` (ModalPage), `BuscadorLugar`, `MapaRuta` | — |
-| Lecturas | `hooks/useCaminos.ts`: `leerCaminos` (también para `useVitrina`) y `useCaminos` | `actividadesRepo.terminadas`, `rutasPropiasRepo.listar` y `settings` |
+| Lecturas | `hooks/useCaminos.ts`: `leerCaminos` (también para `useVitrina`, que usa los pasos para sus logros) y `useCaminos` | `actividadesRepo.terminadas`, `rutasPropiasRepo.listar`, `pasosRepo.todos` y `settings` |
 | Página (Inicio › Caminos) | `CaminosTab.tsx` (diferida), `components/TrazadoCamino`, `ListaRutas`, `CambiarRutaSheet` | — |
 | Tesela de Inicio | `inicio/components/AccesoProgreso` | `useCaminos` |
 | En el detalle de una actividad | `components/AvanceActividad` (lo compone `actividades/pages/DetalleActividad`) | `useCumbres`, `useCaminos` |
@@ -20,13 +21,22 @@
 ## Reglas
 
 - **Arranque**: al elegir la primera ruta (`Settings.caminos = { inicio: hoy, ruta: [id] }`). No es retroactivo (decisión de Víctor): cuentan las actividades con fecha igual o posterior a `inicio` (también las importadas o registradas después con esas fechas).
-- **Motor**: recorre las actividades terminadas por hora de inicio; cada metro avanza la ruta actual. Todas cuentan igual (caminar, correr o senderismo) y sin tope.
-- **Etapas**: cada etapa acaba en un lugar con sus km; al pasar el final se marca con la fecha y la actividad. La credencial guarda un **sello por día** con alguna actividad que avanzó esa ruta.
+- **Motor**: recorre las actividades terminadas por hora de inicio y, detrás de las de su día, los metros de los pasos de ese día; cada metro avanza la ruta actual. Todas cuentan igual (caminar, correr o senderismo) y sin tope. En las marcas (etapas, llegadas, tramos), `actividadId: null` son los pasos.
+- **Etapas**: cada etapa acaba en un lugar con sus km; al pasar el final se marca con la fecha y la actividad. La credencial guarda un **sello por día** con alguna actividad o pasos que avanzaron esa ruta.
 - **Llegada**: al llegar al final de la ruta se marca la llegada. **Los km que sobran se pierden**, como en Cumbres: la siguiente empieza de cero con las actividades posteriores.
 - **Ruta de capítulos** (`rutaDe`): las elegidas en orden y después la sugerida, que elige siempre la ruta hecha menos veces y, a igualdad, la primera de `RUTAS`. No se acaba: con todas hechas, vuelve a empezar.
 - **Repetir**: cada capítulo sabe qué vez es («Camino Inglés · 2.ª vez»).
 - **Cambiar de ruta**: por cualquier otra más larga que lo ya recorrido, también una hecha; lo recorrido se conserva.
 - **Sin plazo** y sin poder fallar. Derivado: borrar o editar actividades recalcula etapas, sellos y llegadas.
+
+## Pasos
+
+Una web app no puede leer Apple Salud ni Health Connect, así que se apunta a mano el total del día que marca el móvil. Víctor eligió las tres reglas siguientes.
+
+- **Un total por día** (tabla `pasos`, `&fecha`), de 1 a 100.000. Se escribe con o sin punto de millares (`leerPasos`). Apuntar un día que ya tenía pasos los sustituye (la hoja lo avisa).
+- **A metros con la zancada** (`zancadaDe`): la propia (`Settings.zancadaCm`, 30–150 cm) o la estimada por el perfil, 0,415 × altura (0,413 en mujeres; sin sexo, la media; regla habitual de los podómetros, aproximación de AppFit); sin altura, 70 cm. Si se guarda la misma cifra que la estimada, no se guarda propia.
+- **Sin contar dos veces** (`aportesDePasos`): el total del móvil ya incluye las caminatas y carreras registradas, así que cada día avanza `max(0, metros de los pasos − metros de las actividades terminadas de ese día)`. 9 km de pasos y una caminata de 5 km dan 9 km, no 14.
+- Como las actividades, solo avanzan desde el inicio de Caminos y hasta hoy; los anteriores sí cuentan en los logros de pasos de la [Vitrina](vitrina.md) («Pasos», «Días de 10.000» y el oculto «Treinta mil»). No dan XP ni metros en Cumbres.
 
 ## Rutas
 
@@ -70,6 +80,8 @@ Rutas entre dos lugares de España creadas por Víctor (p. ej. Tarragona – Val
   - «Tus rutas»: tocar una la edita; «Crear ruta»;
   - la «i» de la cabecera abre «Cómo funciona Caminos» (`components/ComoSeAvanza`): qué avanza, la ruta, tus rutas y las fuentes en un desplegable.
 - **Editor de rutas** (ModalPage «Nueva ruta» / «Editar ruta»): salida y llegada con un buscador de pueblos (resultados con su provincia; elegido, «Cambiar»), «Proponer una parada cada» 15 · 25 · 40 km, una Card con `MapaRuta` y el total, las etapas (nombre, «Parada 2 · Castellón» o «Llegada», km editables y la X para quitar), «Añadir parada» con su buscador, «Volver a …» si la ruta no vuelve a la salida, una línea que dice dónde se colocan las paradas y el nombre. En el pie, errores, «Guardar ruta» y, al editar, «Borrar ruta» con confirmación (o por qué no se puede).
+- **Pasos** (empezada, tras la card de la ruta; sin empezar, al final): los 7 días más recientes con su fecha, los pasos y «≈ 8,75 km · +3,75 km sobre tus actividades», «ya contados en tus actividades» o «antes de empezar Caminos» (el resto en «Todos los días»); tocar uno lo corrige y deslizarlo lo borra con «Deshacer». «Apuntar los de hoy» (o «Cambiar los de hoy»), «Apuntar otro día» y «Zancada de 75 cm, por tu altura · Cambiar».
+- **Hoja «Apuntar pasos»** (`HojaPasos`): día (no futuro; fijo al corregir) y pasos, con los km que dan; errores en línea; al guardar, Toast con «Deshacer». **Hoja «Tu zancada»** (`HojaZancada`): cm, de dónde sale la estimada y cómo medirla; «Usar la estimada» si hay propia.
 - **Hoja «Cambiar de ruta»**: rutas elegibles (también las propias) con sus km y etapas; errores en línea; al elegir, se cierra con «Deshacer».
 - **Detalle de una actividad**, «Cumbres y Caminos»: lo que avanzó en la ruta («+5,24 km», «Llegaste a Betanzos», «Llegada a…») o por qué no (antes de empezar Caminos, sin ruta elegida).
 

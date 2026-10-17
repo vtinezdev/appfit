@@ -74,7 +74,7 @@ Cuerpo y objetivos:
 - Filtro por categoría en el buscador de Añadir comida y cambiar la categoría de un alimento del catálogo (una preferencia personal por `FoodRef`, como los nombres cortos).
 
 Actividades y Caminos:
-- **App nativa** (p. ej. Capacitor) para grabar con el GPS en segundo plano y leer los entrenos de Apple Salud o Health Connect (caminatas y carreras del reloj con su recorrido, sin hacer nada). Exige cuenta de desarrollador de Apple, compilar en un Mac (o en la nube) y la revisión del App Store; cambia el plan de publicación ([despliegue.md](despliegue.md)).
+- **App nativa** (p. ej. Capacitor) para grabar con el GPS en segundo plano y leer los entrenos de Apple Salud o Health Connect (caminatas y carreras del reloj con su recorrido, sin hacer nada) y los pasos de cada día, que hoy se apuntan a mano en Caminos. Exige cuenta de desarrollador de Apple, compilar en un Mac (o en la nube) y la revisión del App Store; cambia el plan de publicación ([despliegue.md](despliegue.md)).
 - Más rutas: Tour del Mont Blanc, Muro de Adriano, Vía Francígena, GR 11, Camino de Invierno, Camino Portugués de la Costa, Shikoku, Appalachian Trail… (al final de `RUTAS`, con su fuente), y más viajes de libro de dominio público (Viaje al centro de la Tierra, el Quijote).
 - Importar TCX y FIT además de GPX; CSV de actividades.
 - Rutas propias: sustituir GeoNames por el Nomenclátor del IGN (oficial) si se descarga a mano; lugares fuera de España; nombres en castellano además de los oficiales («Lérida», «Gerona») en el buscador.

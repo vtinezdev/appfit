@@ -11,13 +11,13 @@
 | Atlas | `lib/atlas.ts`: `gruposDeEntreno`, `calcularAtlas` (cada dominado, con el entreno de su tercera sesión) | — (puro; snapshot muscular de cada entreno o la clasificación actual) |
 | Herbario | `nutricion/lib/herbario.ts`: `plantaDeEntrada`, `plantasDistintas`, `herbarioPorSemana` (día en que se llega a 30 y a 50) | — (puro; categoría con `repartoCategorias.categoriaDeEntrada`) |
 | Todo junto | `lib/vitrina.ts`: `calcularVitrina` | — |
-| Lecturas | `hooks/useVitrina.ts`: `cumbres/hooks/useCumbres.leerCumbres` (experiencia, Cumbres y las actividades), `caminos/hooks/useCaminos.leerCaminos` y `foodsRepo.categoriasDeEntradas` | ver [experiencia.md](experiencia.md) |
+| Lecturas | `hooks/useVitrina.ts`: `cumbres/hooks/useCumbres.leerCumbres` (experiencia, Cumbres y las actividades), `caminos/hooks/useCaminos.leerCaminos` (Caminos y los pasos) y `foodsRepo.categoriasDeEntradas` | ver [experiencia.md](experiencia.md) |
 | Página (Inicio › Vitrina, desde su tesela) | `VitrinaTab.tsx` (diferida): `components/LogrosVista` (medallas en rejilla de tres, con el anillo de lo que se lleva hacia el siguiente nivel; cada una abre su detalle en una hoja), `RecordsVista` y `ColeccionesVista`; la «i» de la cabecera abre «Cómo funciona Vitrina» (`ComoFuncionaVitrina`: logros, récords y colecciones) | — |
 | Al terminar un entreno | `components/NuevosLogros` (en `gym/components/WorkoutFinished`) | `useVitrina` |
-| Iconos de los 55 logros | `components/IconoLogro`, sobre `shared/components/InsigniaExpedicion` | estado derivado del logro; sin persistencia |
+| Iconos de los 58 logros | `components/IconoLogro`, sobre `shared/components/InsigniaExpedicion` | estado derivado del logro; sin persistencia |
 | Herbario en Nutrición › Resumen | `nutricion/components/HerbarioResumen` | `foodsRepo.categoriasDeEntradas`, `settings` |
 
-## Logros (140 piezas)
+## Logros (151 piezas)
 
 | Logro | Grupo | Niveles o tipo | Fuente |
 |---|---|---|---|
@@ -57,6 +57,8 @@
 | Compostela | Caminos | una pieza | llegar a Santiago por uno de sus Caminos |
 | Todos los caminos | Caminos | 6 caminos (una pieza) | Inglés, Portugués, Primitivo, Francés, del Norte y Vía de la Plata (repetir no suma) |
 | Rutas del mundo · Viajes de libro · Fantasía | Caminos | 4 · 2 · 2 rutas (una pieza cada una) | las rutas de esa colección de `caminos/lib/rutas` (repetir no suma) |
+| Pasos | Caminos | 100.000 · 500.000 · 1.000.000 · 2.500.000 · 5.000.000 | pasos apuntados en [Caminos](caminos.md#pasos) desde siempre (no solo desde el inicio de Caminos), con el día en que se pasa cada umbral |
+| Días de 10.000 | Caminos | 10 · 30 · 100 · 250 · 365 días | días con 10.000 pasos apuntados o más |
 | Madrugador | Oculto | 5 entrenos empezados antes de las 8:00 | |
 | Noctámbulo | Oculto | 5 entrenos empezados a las 22:00 o más tarde | |
 | Vuelta al ruedo | Oculto | repetible | entrenar tras 14 días o más sin hacerlo |
@@ -73,14 +75,15 @@
 | El fin del mundo | Oculto | una pieza | terminar el Camino de Fisterra y Muxía |
 | Más allá de la maratón | Oculto | repetible | una actividad de 42,2 km o más |
 | Kilómetro vertical | Oculto | repetible | una actividad con 1.000 m de desnivel positivo o más |
+| Treinta mil | Oculto | repetible | un día con 30.000 pasos apuntados o más |
 | Jardín botánico | Oculto | repetible | 50 plantas distintas en una semana (solo con la nutrición) |
 
-- Cada nivel es una pieza y un repetible cuenta como una sola. Sin nutrición, los logros de Nutrición y el Jardín botánico no aparecen: quedan 121 piezas. Los de Cumbres y Caminos aparecen aunque no se haya elegido la primera montaña o ruta (sin conseguir).
+- Cada nivel es una pieza y un repetible cuenta como una sola. Sin nutrición, los logros de Nutrición y el Jardín botánico no aparecen: quedan 132 piezas. Los de Cumbres y Caminos aparecen aunque no se haya elegido la primera montaña o ruta (sin conseguir).
 - Nada se gana por kcal, peso corporal o déficit (salvaguarda del [ADR 029](../decisiones/029-gamificacion-atributos.md)).
 - Los ocultos se ven como «Logro oculto · Se revela al conseguirlo».
 - Los logros conseguidos con un entreno (`workoutId`) aparecen al terminarlo en «Nuevo en la Vitrina».
 
-La rejilla de medallas y la hoja de detalle conservan su navegación y anillo de progreso. Cada uno de los 55 logros tiene un pictograma topográfico propio, tanto en la lista como en «Nuevo en la Vitrina». Sus niveles comparten símbolo y mantienen el numeral en texto. La sección fija la silueta: Entreno escudo, Constancia círculo, Cumbres triángulo, Caminos placa horizontal, Nutrición cuadrado redondeado y Ocultos rombo. Los pendientes van en neutro y los conseguidos en la paleta de expedición. Todos los ocultos sin conseguir montan el mismo candado, sin símbolos ni identificadores específicos dentro del SVG; tras conseguirlos se revela su pictograma. La insignia es decorativa para el lector de pantalla, que conserva nombre, nivel, progreso y fecha. Dirección visual y tokens: [sistema visual](../DESIGN-SYSTEM.md), [ADR 038](../decisiones/038-insignias-topograficas.md).
+La rejilla de medallas y la hoja de detalle conservan su navegación y anillo de progreso. Cada uno de los 58 logros tiene un pictograma topográfico propio, tanto en la lista como en «Nuevo en la Vitrina». Sus niveles comparten símbolo y mantienen el numeral en texto. La sección fija la silueta: Entreno escudo, Constancia círculo, Cumbres triángulo, Caminos placa horizontal, Nutrición cuadrado redondeado y Ocultos rombo. Los pendientes van en neutro y los conseguidos en la paleta de expedición. Todos los ocultos sin conseguir montan el mismo candado, sin símbolos ni identificadores específicos dentro del SVG; tras conseguirlos se revela su pictograma. La insignia es decorativa para el lector de pantalla, que conserva nombre, nivel, progreso y fecha. Dirección visual y tokens: [sistema visual](../DESIGN-SYSTEM.md), [ADR 038](../decisiones/038-insignias-topograficas.md).
 
 ## Muro de récords
 
