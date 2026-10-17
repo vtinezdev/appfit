@@ -20,6 +20,7 @@ const datos: Record<string, unknown[]> = {
   cheatDays: [{ id: 1, fecha: '2026-10-01', createdAt: 1 }],
   actividades: [{ id: 1, tipo: 'caminar', fecha: '2026-10-01', inicio: 1, duracionSeg: 600, distanciaM: 1000, origen: 'manual', createdAt: 1 }],
   rutasPropias: [{ id: 1, nombre: 'Tarragona – Valencia', salida: { nombre: 'Tarragona' }, etapas: [{ nombre: 'Valencia', km: 260 }], createdAt: 1, updatedAt: 1 }],
+  pasos: [{ id: 1, fecha: '2026-10-01', pasos: 8000, createdAt: 1, updatedAt: 1 }],
 }
 
 beforeEach(async () => {

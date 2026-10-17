@@ -1,5 +1,5 @@
 // Caminos: se recorre una ruta real o de ficción tras otra con los kilómetros de las actividades (caminar, correr y
-// senderismo), desde el día en que se elige la primera. Derivado como Cumbres: nada se acumula ni se guarda salvo las
+// senderismo) y de los pasos apuntados (`pasos.ts`), desde el día en que se elige la primera. Derivado como Cumbres: nada se acumula ni se guarda salvo las
 // rutas elegidas (`Settings.caminos`), así que respeta la edición retroactiva. Sin plazo y sin poder fallar. Al llegar,
 // los metros que sobran no pasan a la siguiente (como en Cumbres). Las rutas se pueden repetir: no se acaban.
 import type { Actividad, ConfigCaminos } from '../../../shared/db/types'
@@ -11,10 +11,10 @@ import { metrosRuta, RUTAS, rutaDe as rutaOficial, type Ruta } from './rutas'
 /** Rutas que se enseñan después de la actual. */
 export const SIGUIENTES = 5
 
-/** Cuándo pasó algo y con qué actividad. */
+/** Cuándo pasó algo y con qué actividad (`null`: con los pasos de ese día). */
 export interface Marca {
   fecha: string
-  actividadId: number
+  actividadId: number | null
 }
 
 /** Un capítulo: una ruta, de la salida a la llegada. */
@@ -29,11 +29,11 @@ export interface Expedicion {
   /** Cuándo se llegó al final de cada etapa, por índice (las que faltan, sin marca). */
   etapas: (Marca | null)[]
   llegada: Marca | null
-  /** Sellos de la credencial: días con alguna actividad que avanzó en esta ruta, en orden. */
+  /** Sellos de la credencial: días con alguna actividad o pasos que avanzaron en esta ruta, en orden. */
   sellos: string[]
 }
 
-/** Metros que avanzó cada actividad (los que sobran al llegar se descartan). */
+/** Metros que avanzó cada actividad o los pasos de un día (los que sobran al llegar se descartan). */
 export interface TramoRecorrido extends Marca {
   metros: number
   /** Índice de la expedición en `expediciones`. */
@@ -81,16 +81,32 @@ export function finalesDeEtapa(r: Ruta): number[] {
 }
 
 /**
- * Recorre las actividades terminadas desde el inicio, en orden: cada metro avanza la ruta actual. Al llegar al final
- * empieza la siguiente con las actividades posteriores. `null` si aún no se ha elegido la primera ruta.
+ * Recorre las actividades terminadas desde el inicio, en orden, y los pasos de cada día después de sus actividades
+ * (`pasos`: los metros que ya dan, de `aportesDePasos`): cada metro avanza la ruta actual. Al llegar al final empieza la
+ * siguiente con lo posterior. `null` si aún no se ha elegido la primera ruta.
  */
-export function calcularCaminos(actividades: readonly Pick<Actividad, 'id' | 'fecha' | 'inicio' | 'distanciaM' | 'enCurso'>[], config: ConfigCaminos | undefined, hoy: string, propias: readonly Ruta[] = []): ResultadoCaminos | null {
+export function calcularCaminos(
+  actividades: readonly Pick<Actividad, 'id' | 'fecha' | 'inicio' | 'distanciaM' | 'enCurso'>[],
+  config: ConfigCaminos | undefined,
+  hoy: string,
+  propias: readonly Ruta[] = [],
+  pasos: readonly { fecha: string; metros: number }[] = [],
+): ResultadoCaminos | null {
   if (!config) return null
   const validas = actividades
     .filter((a) => !a.enCurso && a.fecha >= config.inicio && a.fecha <= hoy && a.distanciaM > 0)
     .sort((a, b) => a.inicio - b.inicio || a.id - b.id)
-  // Cada actividad termina como mucho una ruta (lo que sobra se pierde): no puede haber más capítulos que actividades.
-  const orden = rutaDe(config.ruta, validas.length + 1, propias)
+  const dias = pasos.filter((p) => p.fecha >= config.inicio && p.fecha <= hoy && p.metros > 0).sort((a, b) => a.fecha.localeCompare(b.fecha))
+  // Los pasos de un día van detrás de sus actividades (el día no tiene hora).
+  const avances: { marca: Marca; metros: number }[] = []
+  let d = 0
+  for (const a of validas) {
+    while (d < dias.length && dias[d].fecha < a.fecha) { avances.push({ marca: { fecha: dias[d].fecha, actividadId: null }, metros: dias[d].metros }); d++ }
+    avances.push({ marca: { fecha: a.fecha, actividadId: a.id }, metros: Math.round(a.distanciaM) })
+  }
+  for (; d < dias.length; d++) avances.push({ marca: { fecha: dias[d].fecha, actividadId: null }, metros: dias[d].metros })
+  // Cada avance termina como mucho una ruta (lo que sobra se pierde): no puede haber más capítulos que avances.
+  const orden = rutaDe(config.ruta, avances.length + 1, propias)
   const veces = new Map<string, number>()
   const nueva = (i: number, desde: string): Expedicion => {
     const ruta = orden[i]
@@ -105,19 +121,18 @@ export function calcularCaminos(actividades: readonly Pick<Actividad, 'id' | 'fe
   const tramos: TramoRecorrido[] = []
   let metrosTotales = 0
 
-  for (const a of validas) {
-    const marca: Marca = { fecha: a.fecha, actividadId: a.id }
+  for (const { marca, metros: avance } of avances) {
     const total = finales[finales.length - 1]
-    const metros = Math.min(Math.round(a.distanciaM), total - actual.metros)
+    const metros = Math.min(avance, total - actual.metros)
     actual.metros += metros
     metrosTotales += metros
     tramos.push({ ...marca, metros, expedicion: i })
-    if (actual.sellos[actual.sellos.length - 1] !== a.fecha) actual.sellos.push(a.fecha)
+    if (actual.sellos[actual.sellos.length - 1] !== marca.fecha) actual.sellos.push(marca.fecha)
     finales.forEach((fin, j) => { if (actual.etapas[j] === null && actual.metros >= fin) actual.etapas[j] = marca })
     if (actual.metros >= total) {
       actual.llegada = marca
       i += 1
-      actual = nueva(i, a.fecha)
+      actual = nueva(i, marca.fecha)
       finales = finalesDeEtapa(actual.ruta)
       expediciones.push(actual)
     }

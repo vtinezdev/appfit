@@ -1579,3 +1579,14 @@ Víctor no estaba a gusto con la cápsula de pestañas ni con el «+» grande y 
 ## 147. Orden de la media luna (2026-10-17)
 
 Víctor prefiere Perfil a la izquierda, entre Inicio y Nutrición, y Social entre Entreno y Ajustes: `EN_ARCO` pasa a Inicio · Perfil · Nutrición · Entreno · Social · Ajustes (sin cuenta configurada, Inicio · Perfil · Nutrición · Entreno · Ajustes). Solo cambia el orden; geometría, teclado y `seccionDe` siguen igual. Rama `feat/orden-arco`.
+
+## 148. Pasos en Caminos y sus logros (2026-10-17)
+
+Víctor quiere que los pasos que cuenta el móvil avancen el Camino. Una PWA no puede leer Apple Salud ni Health Connect, así que se apuntan a mano. Eligió: de cada día solo cuenta lo que pasa de las actividades registradas (el total del móvil ya las incluye), zancada estimada por la altura y ajustable, y apuntarlos en la página de Caminos. A mitad pidió también logros de pasos.
+
+- Dexie v12: tabla `pasos` (`++id, &fecha`), opcional en el backup v3; `Settings.zancadaCm`. `caminos/lib/pasos.ts` (zancada, lectura de la cifra, `aportesDePasos`) y `data/pasosRepo.ts`; `caminosRepo.guardarZancada`.
+- `calcularCaminos` recibe los metros de los pasos de cada día y los pone detrás de las actividades de ese día; sus marcas llevan `actividadId: null`. Dan etapas, sellos y llegadas; no dan XP ni metros en Cumbres.
+- Caminos › Pasos (`PasosCaminos`, `HojaPasos`, `HojaZancada`): últimos 7 días, corregir tocando, borrar deslizando con «Deshacer», «Apuntar los de hoy/otro día» y la zancada. «Cómo funciona Caminos» explica los pasos.
+- Vitrina: «Pasos» (100.000 a 5.000.000), «Días de 10.000» (10 a 365) y el oculto «Treinta mil», con pictogramas propios: 151 piezas (132 sin nutrición), 58 logros.
+
+**Verificación:** `npm run test` (2.243 tests en 179 archivos) y `npm run build` en verde. Chrome en `appfit-test.localhost:5173` (ventana de escritorio, columna móvil): apuntar 12.500 pasos (8,75 km con 70 cm), una caminata de 5 km el mismo día deja +3,75 km y la ruta en 8,75 km; zancada propia de 80 cm y «Usar la estimada»; Vitrina con las piezas nuevas; sin scroll horizontal ni errores en consola. No probados: 320/430 px, tema oscuro, texto al 200 % ni iPhone físico.

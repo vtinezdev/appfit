@@ -102,3 +102,32 @@ describe('cambiar de ruta', () => {
     expect(calcularCaminos([act('2026-10-05', 50)], nueva, HOY)!.actual).toMatchObject({ metros: 50_000 })
   })
 })
+
+describe('pasos en el motor', () => {
+  it('van detrás de las actividades de su día, dan sellos, etapas y llegadas, y solo cuentan desde el inicio', () => {
+    const a1 = act('2026-10-06', 20)
+    const a2 = act('2026-10-07', 5)
+    const pasos = [
+      { fecha: '2026-10-04', metros: 9_000 }, // antes de empezar
+      { fecha: '2026-10-05', metros: 4_000 },
+      { fecha: '2026-10-06', metros: 7_700 }, // tras a1: pasa el final de la primera etapa (27,7 km)
+      { fecha: '2026-10-08', metros: 0 },
+      { fecha: '2027-01-02', metros: 5_000 }, // futuro
+    ]
+    const r = calcularCaminos([a2, a1], empezar('2026-10-05', 'ingles'), HOY, [], pasos)!
+    expect(r.tramos.map((t) => [t.fecha, t.actividadId, t.metros])).toEqual([
+      ['2026-10-05', null, 4_000], ['2026-10-06', a1.id, 20_000], ['2026-10-06', null, 7_700], ['2026-10-07', a2.id, 5_000],
+    ])
+    expect(r.actual.etapas[0]).toEqual({ fecha: '2026-10-06', actividadId: null })
+    expect(r.actual.sellos).toEqual(['2026-10-05', '2026-10-06', '2026-10-07'])
+    expect(r.metrosTotales).toBe(36_700)
+    expect(caminoDeActividad(r, a1.id).metros).toBe(20_000)
+  })
+
+  it('unos pasos pueden terminar la ruta; lo que sobra se pierde', () => {
+    const r = calcularCaminos([act('2026-10-05', 110)], { inicio: '2026-10-05', ruta: ['ingles', 'fisterra'] }, HOY, [], [{ fecha: '2026-10-05', metros: 4_000 }])!
+    expect(r.completadas[0].llegada).toEqual({ fecha: '2026-10-05', actividadId: null })
+    expect(r.tramos.at(-1)?.metros).toBe(1_500)
+    expect(r.actual).toMatchObject({ metros: 0, desde: '2026-10-05' })
+  })
+})

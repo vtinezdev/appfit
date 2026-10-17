@@ -298,6 +298,8 @@ export interface Settings {
   creatina?: ConfigCreatina
   /** Caminos: desde cuándo cuentan los km y las rutas elegidas para cada capítulo, en orden (`caminos/lib/caminos.ts`). */
   caminos?: ConfigCaminos
+  /** Zancada propia (cm) para pasar los pasos a metros en Caminos; ausente = estimada por la altura (`caminos/lib/pasos.ts`). */
+  zancadaCm?: number
   /** Pistas de primera vez ya cerradas (`shared/lib/pistas.ts`); ausente = ninguna. */
   pistasVistas?: string[]
 }
@@ -309,6 +311,18 @@ export interface Settings {
 export interface ConfigCaminos {
   inicio: string
   ruta: string[]
+}
+
+/**
+ * Pasos de un día (`fecha` única), apuntados a mano: el total que marca el móvil. Avanzan Caminos con lo que no esté ya
+ * en las actividades de ese día (`caminos/lib/pasos.ts`).
+ */
+export interface DiaPasos {
+  id: number
+  fecha: string
+  pasos: number
+  createdAt: number
+  updatedAt: number
 }
 
 /** Un lugar de una ruta propia de Caminos: nombre y, si se eligió de la lista de pueblos, su provincia y coordenadas. */

@@ -7,7 +7,7 @@ import { diasDeExpedicion, metrosTexto, type Expedicion, type ResultadoCumbres }
 import { COLECCIONES, EVEREST, K2, MONTANAS, type ColeccionMontana } from '../../cumbres/lib/montanas'
 import { PLANTAS_JARDIN, PLANTAS_SEMANA, type Planta, type SemanaHerbario } from '../../nutricion/lib/herbario'
 import { HITOS_SEMANAS } from '../../ritmo/lib/ritmo'
-import type { Actividad } from '../../../shared/db/types'
+import type { Actividad, DiaPasos } from '../../../shared/db/types'
 import { kmTexto } from '../../actividades/lib/actividad'
 import type { ResultadoCaminos } from '../../caminos/lib/caminos'
 import { NOMBRE_COLECCION, RUTAS, type ColeccionRuta } from '../../caminos/lib/rutas'
@@ -27,7 +27,7 @@ export const IDS_LOGRO = [
   'km-vertical', 'madrugador', 'noctambulo', 'vuelta', 'descanso', 'comodin',
   'dia-records', 'dia-redondo', 'ano-nuevo', 'aniversario', 'jardin', 'techo-espana',
   'siete-cumbres', 'alpes', 'volcanes', 'cinco-mas-altos', 'rutas-mundo', 'viajes-libro',
-  'fantasia',
+  'fantasia', 'pasos', 'dias-pasos', 'treinta-mil',
 ] as const
 export type IdLogro = (typeof IDS_LOGRO)[number]
 
@@ -136,6 +136,8 @@ export interface DatosLogros {
   actividades?: readonly ActividadLogro[]
   /** Caminos (`null` o ausente si aún no se ha elegido la primera ruta). */
   caminos?: ResultadoCaminos | null
+  /** Pasos apuntados de cada día (desde siempre, no solo desde que empezó Caminos). */
+  pasos?: readonly Pick<DiaPasos, 'fecha' | 'pasos'>[]
 }
 
 export const UMBRALES = {
@@ -179,7 +181,15 @@ export const UMBRALES = {
   salidas: [10, 50, 100, 250, 500],
   /** Rutas de Caminos terminadas (repetir una también cuenta). */
   rutas: [1, 3, 6, 12],
+  /** Pasos apuntados desde siempre. */
+  pasos: [100_000, 500_000, 1_000_000, 2_500_000, 5_000_000],
+  /** Días con `PASOS_DIA_LARGO` pasos o más. */
+  diasPasos: [10, 30, 100, 250, 365],
 } as const
+
+/** Pasos de un día para «Días de 10.000» y para el oculto «Treinta mil». */
+export const PASOS_DIA_LARGO = 10_000
+export const PASOS_TREINTA_MIL = 30_000
 
 /** Distancia de una maratón (m): una actividad así o más larga es «Más allá de la maratón». */
 export const METROS_MARATON = 42_195
@@ -343,6 +353,12 @@ export function calcularLogros(d: DatosLogros): Logro[] {
       rutas.length, distintas(rutas.map((x) => x.id)))
   }
 
+  const pasos = (d.pasos ?? []).filter((x) => x.fecha <= d.hoy).sort((x, y) => x.fecha.localeCompare(y.fecha))
+  acumulado({ id: 'pasos', nombre: 'Pasos', grupo: 'caminos', unidad: 'pasos' }, UMBRALES.pasos,
+    pasos.map((x) => ({ marca: { fecha: x.fecha }, valor: x.pasos })), (n) => `${formatInt(n)} pasos apuntados`)
+  conNiveles({ id: 'dias-pasos', nombre: `Días de ${formatInt(PASOS_DIA_LARGO)}`, grupo: 'caminos', unidad: 'días' }, UMBRALES.diasPasos,
+    pasos.filter((x) => x.pasos >= PASOS_DIA_LARGO).map((x) => ({ fecha: x.fecha })), (n) => `${formatInt(n)} días con ${formatInt(PASOS_DIA_LARGO)} pasos o más`)
+
   // ── Nutrición ──
   if (d.conNutricion) {
     const diasRegistro = [...a.diasRegistro].sort()
@@ -399,6 +415,10 @@ export function calcularLogros(d: DatosLogros): Logro[] {
   logros.push({ id: 'km-vertical', nombre: 'Kilómetro vertical', grupo: 'oculto', oculto: true, niveles: [],
     descripcion: `Una actividad con ${metrosTexto(METROS_KM_VERTICAL)} de desnivel positivo o más`,
     veces: actividades.filter((x) => (x.desnivelM ?? 0) >= METROS_KM_VERTICAL).map((x) => ({ fecha: x.fecha })),
+  })
+  logros.push({ id: 'treinta-mil', nombre: 'Treinta mil', grupo: 'oculto', oculto: true, niveles: [],
+    descripcion: `Un día de ${formatInt(PASOS_TREINTA_MIL)} pasos o más`,
+    veces: pasos.filter((x) => x.pasos >= PASOS_TREINTA_MIL).map((x) => ({ fecha: x.fecha })),
   })
   const madrugadas = a.entrenos.filter((e) => new Date(e.inicio).getHours() < MADRUGADOR.hora)
   logros.push({

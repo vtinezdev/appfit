@@ -17,6 +17,7 @@ import CambiarRutaSheet from './components/CambiarRutaSheet'
 import ComoSeAvanza from './components/ComoSeAvanza'
 import EditorRuta from './components/EditorRuta'
 import MapaRuta from './components/MapaRuta'
+import PasosCaminos from './components/PasosCaminos'
 import ListaRutas from './components/ListaRutas'
 import TrazadoCamino from './components/TrazadoCamino'
 import * as caminosRepo from './data/caminosRepo'
@@ -46,8 +47,8 @@ interface Props {
 }
 
 /**
- * Caminos (desde Inicio): la ruta actual con sus etapas, la credencial, la semana, las siguientes y las terminadas. Avanza con
- * los km de las actividades (caminar, correr y senderismo) desde el día en que se elige la primera ruta.
+ * Caminos (desde Inicio): la ruta actual con sus etapas, la credencial, la semana, los pasos, las siguientes y las terminadas.
+ * Avanza con los km de las actividades (caminar, correr y senderismo) y de los pasos desde el día en que se elige la primera ruta.
  */
 export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {
   const hoy = todayISO()
@@ -79,6 +80,8 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {
     <Button variant="secondary" size="sm" onClick={() => abrirEditor()}>Crear ruta</Button>
   </section>
   const deshacer = (antes: ConfigCaminos | undefined) => () => caminosRepo.guardar(antes)
+  const pasos = <PasosCaminos hoy={hoy} inicio={config?.inicio} aportes={estado.aportes} zancada={estado.zancada} zancadaEstimada={estado.zancadaEstimada}
+    avisar={avisar} avisarError={avisarError} />
 
   async function empezarCon(r: Ruta) {
     try {
@@ -95,7 +98,7 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {
       <PageHeader title="Caminos" overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
       <Card className="space-y-3">
         <TrazadoCamino expedicion={{ ruta: RUTAS[0], metros: 0 }} decorativo />
-        <p className="break-words text-body text-fg">Recorre rutas reales y de libro con los km que caminas y corres. Elige la primera: empiezas hoy, sin plazo.</p>
+        <p className="break-words text-body text-fg">Recorre rutas reales y de libro con los km que caminas y corres, y con tus pasos. Elige la primera: empiezas hoy, sin plazo.</p>
         <Button variant="ghost" size="sm" onClick={onIrAActividades}>Ir a Actividades</Button>
       </Card>
       {tusRutas(empezarCon, true)}
@@ -104,6 +107,7 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {
         <p className="break-words text-body-sm text-fg-muted">{NOTA_COLECCION[col]}</p>
         <ListGroup aria-label={NOMBRE_COLECCION[col]}><ListaRutas rutas={RUTAS.filter((r) => r.coleccion === col)} sugerida={RUTAS[0].id} onElegir={empezarCon} /></ListGroup>
       </section>)}
+      {pasos}
       {editorRuta}
       {toast}
     </div>
@@ -160,6 +164,8 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {
       </p>
       {opciones.length > 0 && <Button variant="secondary" size="sm" onClick={() => { setAperturas((n) => n + 1); setCambiando(true) }}>Cambiar de ruta</Button>}
     </Card>
+
+    {pasos}
 
     <section aria-label="Próximas etapas" className="space-y-stack">
       <SectionHeader variant="section">Próximas etapas</SectionHeader>
