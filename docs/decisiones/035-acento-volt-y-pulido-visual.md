@@ -1,6 +1,6 @@
 # 035 — Acento volt y pulido visual
 
-Fecha: 2026-10-12. Estado: vigente. Sustituye el color del acento de [ADR 020](020-acento-naranja-y-superficies-suaves.md) (naranja) y la posición del «+» de [ADR 028](028-barra-de-pestanas-y-registrar.md). Superficies, forma, composición y el resto de ambos siguen vigentes.
+Fecha: 2026-10-12. Estado: vigente. Sustituye el color del acento de [ADR 020](020-acento-naranja-y-superficies-suaves.md) (naranja) y la posición del «+» de [ADR 028](028-barra-de-pestanas-y-registrar.md) (barra y «+» sustituidos después por [ADR 043](043-media-luna-de-secciones.md)). Superficies, forma, composición y el resto de ambos siguen vigentes.
 
 ## Contexto
 

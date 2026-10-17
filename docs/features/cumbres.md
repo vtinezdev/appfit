@@ -11,8 +11,8 @@
 | Geometría del perfil | `lib/perfil.ts`: `trazadoSilueta`, `puntoEnLadera`, `yDeFraccion` | — (puro) |
 | Escritura | `data/cumbresRepo.ts`: `guardar` (devuelve la anterior, para «Deshacer») | `settings.cumbres` |
 | Lecturas | `hooks/useCumbres.ts`: `leerCumbres` (experiencia + Cumbres; también para `useVitrina`) y `useCumbres` | `leerExperiencia` y `settings` |
-| Página (Más › Cumbres) | `CumbresTab.tsx` (diferida), `components/ListaMontanas`, `CambiarMontanaSheet`, `PerfilMontana`, `FilasMetros` | — |
-| Tarjeta de Inicio | `inicio/components/AccesoCumbre` | `useCumbres` en `InicioTab` |
+| Página (Inicio › Cumbres) | `CumbresTab.tsx` (diferida), `components/ListaMontanas`, `CambiarMontanaSheet`, `PerfilMontana`, `FilasMetros` | — |
+| Tesela de Inicio | `inicio/components/AccesoProgreso` | `useVitrina` (incluye Cumbres) |
 | Al terminar un entreno | `components/CumbreSesion` (lo compone `gym/components/WorkoutFinished`), con `FilasMetros` | `useCumbres`; `experiencia/lib/experiencia.xpDeSesion` |
 | Logros | `vitrina/lib/logros.ts`, grupo «Cumbres» y tres ocultos (ver [vitrina.md](vitrina.md)) | resultado de `calcularCumbres` |
 
@@ -42,10 +42,8 @@ Fuentes (comprobadas el 11 y el 12 de octubre de 2026): Instituto Geográfico Na
 
 ## Pantallas
 
-- **Inicio**, tarjeta ancha al final del mosaico (abre Cumbres):
-  - sin montaña elegida, «Cumbres» con «Elige tu primera montaña» y qué sube metros;
-  - empezada, «Cumbre»: la montaña («Aneto · 2.ª vez» si se repite) con «2.340 de 3.715 m», el perfil (decorativo, dentro del botón), «Cumbre del Teide hoy / ayer / hace 2 días» durante tres días, «En el refugio» si hay pausa y lo que valdría entrenar hoy («Quedan 2 entrenos del plan esta semana», «Hoy ya suma un entreno», «Plan de la semana completo: ya suman sus 3 entrenos»).
-- **Cumbres** (Más):
+- **Inicio**, tesela «Cumbres» bajo la energía (abre Cumbres): los metros de la montaña actual y su nombre; sin montaña elegida, «—» y «Elige montaña».
+- **Cumbres** (desde su tesela de Inicio):
   - sin empezar, una card con el perfil de la primera de la ruta a 0 m y la explicación, y la lista de montañas para elegir la primera (el Aneto, «Sugerida»; cada una con una barra fina de su altitud frente al Everest), con «Deshacer»;
   - empezada, una card con la montaña actual (nombre, zona, perfil accesible con las líneas de cada 1.000 m, `Metric` con los metros, lo que falta y lo subido esta semana, lo que valdría entrenar hoy y «Cambiar montaña»);
   - «Hitos» (fecha o lo que falta);
@@ -57,8 +55,8 @@ Fuentes (comprobadas el 11 y el 12 de octubre de 2026): Instituto Geográfico Na
   - la «i» de la cabecera abre «Cómo funciona Cumbres» (`components/ComoSeSube` en `ComoFunciona`): qué sube metros como lista de reglas con su valor, qué no cuenta, límites, la ruta y las fuentes en un desplegable.
 - **Hoja «Cambiar montaña»**: montañas elegibles con altitud y, si ya se coronaron, cuántas veces; errores en línea; al elegir, se cierra con «Deshacer».
 - **Fin de sesión**, bajo los récords, la sección «Cumbres» con los metros que sube el entreno en el título («+150 m»): sus filas (entreno y récords, con su porqué) o por qué no sube; si hace cumbre, cuántos metros se quedan en la cima y una card «Cumbre del Mulhacén» con la altitud, los días que duró y la siguiente montaña; y una card con la montaña actual, su progreso y el hito que pasa. Sin montaña elegida, una línea que invita a elegirla. Sin animación.
-- **Ajustes › Cumbres, Ritmo y Vitrina**: Mostrar/Ocultar (oculta las tarjetas de Inicio, los bloques del fin de sesión, el sello de la revisión, el Herbario del Resumen y los tres destinos de Más), Con nutrición/Solo entreno y el plan semanal (`ritmo/components/GamificacionAjustes`).
+- **Ajustes › Cumbres, Ritmo y Vitrina**: Mostrar/Ocultar (oculta las tarjetas de Inicio, los bloques del fin de sesión, el sello de la revisión, el Herbario del Resumen y las teselas de Inicio), Con nutrición/Solo entreno y el plan semanal (`ritmo/components/GamificacionAjustes`).
 
 ## Rendimiento
 
-`calcularCumbres` es lineal en la XP desde el inicio y va encima de `calcularExperiencia` (unos 70 ms en escritorio con 500 entrenos). Inicio lo lee una vez; el fin de sesión, como `NuevosLogros`, hace su propia lectura.
+`calcularCumbres` es lineal en la XP desde el inicio y va encima de `calcularExperiencia` (unos 70 ms en escritorio con 500 entrenos). La tesela de Inicio lo lee a través de `useVitrina`; el fin de sesión, como `NuevosLogros`, hace su propia lectura.

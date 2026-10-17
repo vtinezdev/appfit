@@ -25,7 +25,7 @@ interface Props {
 }
 
 /**
- * Social (en la barra, ADR 040): las publicaciones de quienes sigues y las tuyas, sus ánimos y comentarios, y los
+ * Social (en la media luna, ADR 040 y 043): las publicaciones de quienes sigues y las tuyas, sus ánimos y comentarios, y los
  * avisos. Las personas (seguir, solicitudes, tu perfil) están en Amigos.
  */
 export default function SocialTab({ onIrAAmigos, onIrACuenta }: Props) {

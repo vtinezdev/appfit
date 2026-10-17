@@ -21,8 +21,8 @@ import { cargarSocial } from './servicio'
 type Vista = 'siguiendo' | 'seguidores' | 'anadir'
 
 /**
- * Amigos (en Más, ADR 040): tu perfil social y las personas (solicitudes, a quién sigues, quién te sigue y añadir a
- * alguien). Las publicaciones viven en Social, en la barra. Necesita cuenta.
+ * Amigos (se abre desde Social, ADR 040 y 043): tu perfil social y las personas (solicitudes, a quién sigues, quién te sigue y añadir a
+ * alguien). Las publicaciones viven en Social. Necesita cuenta.
  */
 export default function AmigosTab({ onIrACuenta }: { onIrACuenta: () => void }) {
   const cuenta = useCuenta()

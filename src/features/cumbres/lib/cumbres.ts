@@ -4,7 +4,7 @@
 // metros que sobran no pasan a la siguiente: empieza desde el nivel del mar con la XP que llegue después. Las montañas
 // se pueden repetir: la ruta no se acaba.
 import type { ConfigCumbres } from '../../../shared/db/types'
-import { addDays, diasEntre } from '../../../shared/lib/dates'
+import { diasEntre } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { MONTANAS, montanaDe, type Montana } from './montanas'
@@ -211,15 +211,6 @@ export function cumbreDeSesion(r: ResultadoCumbres, workoutId: number): CumbreDe
     cumbres: r.expediciones.filter((x) => x.cumbre?.workoutId === workoutId),
     hitos: r.expediciones.flatMap((x) => x.hitos.filter((h) => h.workoutId === workoutId)),
   }
-}
-
-/** Días durante los que Inicio recuerda la última cumbre (hoy, ayer y anteayer). */
-export const DIAS_CUMBRE_RECIENTE = 3
-
-/** Última cumbre si fue en los últimos días (para celebrarla en Inicio aunque no llegara con un entreno). */
-export function cumbreReciente(r: ResultadoCumbres, hoy: string): Expedicion | null {
-  const ultima = r.coronadas[r.coronadas.length - 1]
-  return ultima?.cumbre && ultima.cumbre.fecha >= addDays(hoy, -(DIAS_CUMBRE_RECIENTE - 1)) && ultima.cumbre.fecha <= hoy ? ultima : null
 }
 
 /** «hoy», «ayer» o «hace 2 días». */

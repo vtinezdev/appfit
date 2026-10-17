@@ -13,21 +13,13 @@ const opciones = [{ valor: 'hoy', label: 'Hoy' }, { valor: 'resumen', label: 'Re
 const noop = () => {}
 
 describe('contratos del sistema visual', () => {
-  it.each(['inicio', 'nutricion', 'gym', 'perfil', 'referencias', 'ajustes'] as Tab[])('barra de pestañas con «+» central y una sola sección actual en %s', tab => {
-    const html = renderToStaticMarkup(<BottomNav tab={tab} onChange={noop} onAcciones={noop} />)
-    expect(html.match(/<button/g)).toHaveLength(6)
-    for (const label of ['Inicio', 'Nutrición', 'Entreno', 'Social', 'Más']) expect(html).toContain(`>${label}</span>`)
-    expect(html).toMatch(/aria-label="Registrar" aria-haspopup="dialog" aria-expanded="false" data-nav-trigger/)
-    expect(html.match(/aria-current="page"/g)).toHaveLength(1)
-    if (['perfil', 'referencias', 'ajustes'].includes(tab)) expect(html).toMatch(/aria-current="page" aria-haspopup="dialog"/)
+  it.each(['inicio', 'nutricion', 'gym', 'perfil', 'referencias', 'ajustes'] as Tab[])('navegación con un solo botón que abre las secciones en %s', tab => {
+    const html = renderToStaticMarkup(<BottomNav tab={tab} onChange={noop} />)
+    expect(html.match(/<button/g)).toHaveLength(1)
+    expect(html).toMatch(/aria-label="Secciones" aria-haspopup="dialog" aria-expanded="false" data-nav-trigger/)
     expect(html).not.toContain('role="dialog"')
     expect(html).not.toContain('fixed')
     expect(html).not.toContain('data-surface')
-  })
-  it('sin cuenta configurada, la barra no tiene Social', () => {
-    const html = renderToStaticMarkup(<BottomNav tab="inicio" onChange={noop} onAcciones={noop} ocultos={['social', 'amigos']} />)
-    expect(html.match(/<button/g)).toHaveLength(5)
-    expect(html).not.toContain('>Social</span>')
   })
   it('pestañas con panel asociado y una sola parada de teclado', () => {
     const html = renderToStaticMarkup(<ViewTabs label="Vistas de nutrición" opciones={opciones} valor="hoy" onChange={noop}><p>Datos de hoy</p></ViewTabs>)

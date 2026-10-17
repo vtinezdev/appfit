@@ -366,33 +366,45 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .task-layer[data-visible='false'] { transition-duration: var(--dur-exit); }
 .app-view, .view-arrival { animation: view-arrival var(--dur-short) var(--ease-standard) both; }
 @keyframes view-arrival { from { opacity: .35; } to { opacity: 1; } }
-/* Barra flotante (ADR 035): fuera del flujo, sobre el contenido, que pasa por debajo. Superficie sólida, sin desenfoque.
-   Una franja del fondo la separa del texto que queda detrás, como la de lectura de cabecera. */
+/* Navegación (ADR 043): un botón redondo flotante abajo al centro, fuera del flujo, sobre el contenido, que pasa por debajo. */
 .app-nav {
-  position: absolute; inset: auto 0 0; z-index: 40; isolation: isolate; pointer-events: none;
-  padding: 0 var(--space-page) calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--tab-capsule-height)));
+  position: absolute; inset: auto 0 0; z-index: 40; pointer-events: none;
+  padding: 0 var(--space-page) calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton)));
 }
-.app-nav::before { content: ''; position: absolute; inset: -1rem 0 0; z-index: -1; background: linear-gradient(to top, rgb(var(--c-bg) / .92) 40%, rgb(var(--c-bg) / 0)); }
-.tab-dock { display: flex; align-items: center; gap: .5rem; }
-/* Cápsula: Inicio · Nutrición · Entreno · (Social ·) Más, tantas columnas como pestañas. La actual sobre una píldora, en texto principal y con el icono en acento. */
-.tab-bar {
-  container-type: inline-size; pointer-events: auto;
-  flex: 1; min-width: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .125rem;
-  height: var(--tab-capsule-height); padding: .3125rem; border-radius: var(--radius-pill);
-  background: rgb(var(--c-surface-elevated)); box-shadow: var(--shadow-float); border: 1px solid transparent;
+.nav-boton {
+  pointer-events: auto; display: grid; place-items: center; width: var(--nav-boton); height: var(--nav-boton); margin-inline: auto;
+  border-radius: var(--radius-pill); background: rgb(var(--c-accent)); color: rgb(var(--c-on-accent));
+  box-shadow: var(--shadow-float); transition: transform var(--dur-short) var(--ease-standard);
 }
-:root[data-theme='dark'] .tab-bar { border-color: rgb(var(--c-border)); }
-.tab-item { display: flex; width: 100%; height: 100%; min-height: var(--touch-target); flex-direction: column; align-items: center; justify-content: center; gap: 1px; border-radius: var(--radius-pill); color: rgb(var(--c-text-secondary)); font-size: var(--fs-caption); line-height: 1.15; font-weight: 600; font-stretch: var(--fst-label); }
-.tab-item[aria-current='page'] { background: rgb(var(--c-surface-muted)); color: rgb(var(--c-text-primary)); font-weight: 700; }
-.tab-item[aria-current='page'] svg { color: rgb(var(--c-accent-strong)); }
-.tab-label { max-width: 100%; text-align: center; }
-/* Texto muy ampliado: los nombres no caben sin partirse; quedan para el lector de pantalla y se ven los iconos. */
-/* Con cinco pestañas (Social) en un móvil estrecho, los nombres se estrechan para no partirse («Nutrició-n»). */
-@container (max-width: 16rem) { .tab-label { font-stretch: var(--fst-numeric); white-space: nowrap; } }
-@container (max-width: 12rem) { .tab-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; } }
-/* «+»: la única acción sólida en acento de la barra, aparte y a la derecha, donde llega el pulgar. */
-.tab-plus { pointer-events: auto; flex: none; display: grid; place-items: center; width: var(--tab-capsule-height); height: var(--tab-capsule-height); border-radius: var(--radius-pill); background: rgb(var(--c-accent)); color: rgb(var(--c-on-accent)); box-shadow: var(--shadow-float); transition: transform var(--dur-short) var(--ease-standard); }
-.tab-plus:active { transform: scale(var(--motion-press)); }
+.nav-boton:active { transform: scale(var(--motion-press)); }
+/* Media luna de secciones: nace del botón, que en la capa pasa a cerrar. El fondo es el de la app casi opaco, para leer los nombres en los dos temas. */
+.arco-fondo { background: rgb(var(--c-bg) / .9); }
+.arco-panel {
+  position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton)));
+  width: var(--nav-boton); height: var(--nav-boton); transform: translateX(-50%); outline: none;
+}
+.arco-origen { position: absolute; left: 50%; top: 50%; }
+.arco-item {
+  position: absolute; left: 0; top: 0; width: var(--arco-nodo);
+  transform: translate(calc(var(--arco-rx) * var(--arco-x) - 50%), calc(var(--arco-ry) * var(--arco-y) - var(--arco-circulo) / 2));
+  transition: transform var(--dur-overlay) var(--ease-standard), opacity var(--dur-short);
+  transition-delay: calc(var(--dur-stagger) * var(--arco-i));
+}
+[data-visible='false'] .arco-item { opacity: 0; transform: translate(-50%, calc(var(--arco-circulo) / -2)) scale(.5); transition-delay: 0s; transition-duration: var(--dur-exit); transition-timing-function: var(--ease-exit); }
+.arco-destino {
+  display: flex; width: 100%; flex-direction: column; align-items: center; gap: .25rem;
+  color: rgb(var(--c-text-primary)); font-size: var(--fs-caption); line-height: 1.15; font-weight: 600; font-stretch: var(--fst-label); white-space: nowrap;
+}
+.arco-circulo {
+  display: grid; place-items: center; width: var(--arco-circulo); height: var(--arco-circulo); border-radius: var(--radius-pill);
+  border: 1px solid transparent; background: rgb(var(--c-surface-elevated)); box-shadow: var(--shadow-float); transition: transform var(--dur-short) var(--ease-standard);
+}
+:root[data-theme='dark'] .arco-circulo { border-color: rgb(var(--c-border)); }
+.arco-destino:active .arco-circulo { transform: scale(var(--motion-press)); }
+.arco-destino[aria-current='page'] { font-weight: 700; }
+/* La actual, con borde (el relleno volt es del botón): sombra interior para no mover el icono. */
+.arco-destino[aria-current='page'] .arco-circulo { border-color: transparent; color: rgb(var(--c-accent-strong)); box-shadow: inset 0 0 0 2px rgb(var(--c-accent-strong)), var(--shadow-float); }
+.arco-panel .nav-boton { position: absolute; inset: 0; }
 /* La vista deja sitio al final para leer lo último por encima de la barra flotante. */
 .app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--space-section)); }
 /* Entreno minimizado: barra de grafito sobre la cápsula. Los avisos suben por encima y la vista reserva también su altura. */
@@ -404,9 +416,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .entreno-minimizado:active { transform: scale(var(--motion-press)); }
 [data-mini-entreno] { --nav-toast: calc(var(--nav-dock) + var(--mini-entreno-height) + .5rem); }
 [data-mini-entreno] .app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--mini-entreno-height) + .5rem + var(--space-section)); }
-/* Hoja «Más»: teselas de progreso (Cumbres, Ritmo, Vitrina) con su dato. */
-.mas-teselas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
-.mas-teselas [aria-current='page'] { box-shadow: inset 0 0 0 2px rgb(var(--c-text-primary)); }
+/* Progreso en Inicio: teselas de Cumbres, Caminos, Ritmo y Vitrina con su dato, en 2 × 2 con el mismo hueco que el mosaico. */
+.progreso-teselas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-stack); }
 .nutrient-row { container-type: inline-size; container-name: nutrient-row; }
 @container nutrient-row (max-width: 14rem) {
   .nutrient-values { grid-template-columns: minmax(0, 1fr); }
@@ -437,7 +448,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .training-muted { color: rgb(var(--c-training-muted)); }
 .training-secondary { color: rgb(var(--c-on-training)); border: 1px solid rgb(var(--c-training-muted) / .4); }
 .training-secondary:hover, .training-secondary:active { background: rgb(var(--c-on-training) / .1); }
-/* Acción principal sobre grafito sin gastar el acento (el «+» de la barra ya lo lleva): relleno en el texto de entreno. */
+/* Acción principal sobre grafito sin gastar el acento: relleno en el texto de entreno. */
 .training-primary { background: rgb(var(--c-on-training)); color: rgb(var(--c-training)); font-weight: 700; }
 .training-primary:hover, .training-primary:active { background: rgb(var(--c-on-training) / .9); }
 .training-progress { --c-surface-muted: var(--c-training-track); --c-goal: var(--c-training-muted); }
@@ -500,8 +511,11 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   .task-layer, .sheet-panel { transform: none !important; }
   .sheet-panel { opacity: 0; transition: opacity var(--dur-exit); }
   [data-visible='true'] > .sheet-panel { opacity: 1; }
-  .tab-plus { transition: none; }
-  .tab-plus:active { transform: none; }
+  .nav-boton, .arco-circulo { transition: none; }
+  .nav-boton:active, .arco-destino:active .arco-circulo { transform: none; }
+  /* Sin desplazamiento: las secciones aparecen ya en su sitio, solo con opacidad. */
+  .arco-item { transition-property: opacity; transition-delay: 0s; }
+  [data-visible='false'] .arco-item { transform: translate(calc(var(--arco-rx) * var(--arco-x) - 50%), calc(var(--arco-ry) * var(--arco-y) - var(--arco-circulo) / 2)); }
   .segment-indicator, .tab-indicator, .progress-fill { transition: none; }
   .series-complete svg, .series-new, .workout-finish-mark, .loading-skeleton, .app-view, .view-arrival { animation: none !important; }
 }

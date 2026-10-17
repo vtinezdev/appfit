@@ -12,8 +12,8 @@
 | Textos | `lib/textos.ts`: `cifrasSemana`, `textoHilo`, `faltaParaCumplir`, `textoEstado` | — (puro) |
 | Escrituras de pausas | `data/pausasRepo.ts`: `pausar`, `reanudar`, `borrar`, `restaurar` (devuelven las pausas de antes, para «Deshacer») | `settings.pausas` (lectura y escritura en una transacción) |
 | Lecturas | `experiencia/hooks/useExperiencia` (`leerExperiencia`): Ritmo se calcula dentro de `calcularExperiencia` (`resultado.ritmo`) | ver [experiencia.md](experiencia.md) |
-| Página (Más › Ritmo) | `RitmoTab.tsx` (diferida), `components/DiasSemana`, `components/CalendarioSemanas`, `components/PausarSheet` | — |
-| Tarjeta «Tu semana» de Inicio | `inicio/components/AccesoSemana` | `useCumbres` (compartido con la tarjeta de Cumbres desde `InicioTab`) |
+| Página (Inicio › Ritmo) | `RitmoTab.tsx` (diferida), `components/DiasSemana`, `components/CalendarioSemanas`, `components/PausarSheet` | — |
+| Tesela de Inicio | `inicio/components/AccesoProgreso` | `useVitrina` (incluye Ritmo) |
 | Sello en la revisión semanal | `inicio/components/RevisionSemanal` | `useExperiencia` + `semanaRitmo` |
 
 ## Reglas
@@ -41,13 +41,8 @@
 
 ## Pantallas
 
-- **Inicio › Tu semana** (tarjeta ancha, antes de la de Cumbres):
-  - «Cumplida», «En pausa» o el hilo;
-  - los 7 días (`DiasSemana`): círculo relleno el día con entreno y punto relleno el día con comidas; hoy subrayado y los días futuros atenuados; decorativo, con las cifras en texto;
-  - «2 de 3 entrenos · 4 de 5 días registrados» y lo que falta.
-
-  Abre Ritmo.
-- **Ritmo** (Más):
+- **Inicio**, tesela «Ritmo» bajo la energía: las semanas de hilo («Hilo actual»). Abre Ritmo.
+- **Ritmo** (desde su tesela de Inicio):
   - banda «En pausa» con «Reanudar hoy», si hay una pausa activa;
   - «Esta semana»: estado por ahora, días, cifras y lo que falta;
   - «Hilo»: cuatro `Metric` (hilo actual, mejor hilo, comodines «1 de 2» con cuánto falta para otro, semanas cumplidas y vueltas);
@@ -57,4 +52,4 @@
   - la «i» de la cabecera abre «Cómo funciona Ritmo» (`components/ComoFuncionaRitmo`): cómo se juzga cada semana (estado con su regla), el hilo y los comodines, y las pausas.
 - **Pausar** (Sheet): qué se pausa (todo o solo entreno), motivo (vacaciones, enfermedad, lesión, viaje u otro), desde y hasta (opcional). Los errores van en línea.
 - **Revisión semanal**: al principio, una card «Ritmo» con el estado de la semana revisada, sus cifras y el hilo.
-- Ocultar la gamificación en Ajustes quita la tarjeta, el sello y el destino de Más.
+- Ocultar la gamificación en Ajustes quita las teselas de Inicio y el sello.

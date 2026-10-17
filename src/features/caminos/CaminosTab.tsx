@@ -46,7 +46,7 @@ interface Props {
 }
 
 /**
- * Caminos (en Más): la ruta actual con sus etapas, la credencial, la semana, las siguientes y las terminadas. Avanza con
+ * Caminos (desde Inicio): la ruta actual con sus etapas, la credencial, la semana, las siguientes y las terminadas. Avanza con
  * los km de las actividades (caminar, correr y senderismo) desde el día en que se elige la primera ruta.
  */
 export default function CaminosTab({ onIrAAjustes, onIrAActividades }: Props) {

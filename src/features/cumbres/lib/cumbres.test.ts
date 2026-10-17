@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { EventoXp } from '../../experiencia/lib/experiencia'
 import {
-  calcularCumbres, cambiarMontana, cuandoFue, cumbreDeSesion, cumbreReciente, diasDeExpedicion, empezar, hitosDe,
+  calcularCumbres, cambiarMontana, cuandoFue, cumbreDeSesion, diasDeExpedicion, empezar, hitosDe,
   metrosEntre, montanasParaCambiar, nombreExpedicion, progresoTexto, rutaDe, SIGUIENTES, vecesCoronada,
 } from './cumbres'
 import { COLECCIONES, MONTANAS, montanaDe } from './montanas'
@@ -186,9 +186,7 @@ describe('lecturas', () => {
     expect(cumbreDeSesion(r, 3)).toEqual({ metros: 100, cumbres: [], hitos: [] })
   })
 
-  it('cumbre reciente: hasta anteayer', () => {
-    expect(cumbreReciente(r, '2026-10-16')?.montana.id).toBe('aneto')
-    expect(cumbreReciente(r, '2026-10-17')).toBeNull()
+  it('cuándo fue: hoy, ayer o hace días', () => {
     expect(cuandoFue('2026-10-14', '2026-10-14')).toBe('hoy')
     expect(cuandoFue('2026-10-14', '2026-10-15')).toBe('ayer')
     expect(cuandoFue('2026-10-14', '2026-10-16')).toBe('hace 2 días')

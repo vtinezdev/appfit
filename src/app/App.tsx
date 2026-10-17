@@ -1,7 +1,6 @@
 import { lazy, Suspense, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import BottomNav, { type Tab } from './BottomNav'
-import AccionesRapidas from './AccionesRapidas'
 import InicioTab from '../features/inicio/InicioTab'
 import NutricionTab from '../features/nutricion/NutricionTab'
 import GymTab, { type SeccionEntreno } from '../features/gym/GymTab'
@@ -12,10 +11,8 @@ import AtmosferaApp from './AtmosferaApp'
 import { LoadingState } from '../shared/components/StateMessage'
 import type { NutrienteId } from '../shared/lib/referenciasNutricionales'
 import type { AreaReferencias } from '../features/referencias/lib/contenidoReferencias'
-import { getSettings } from '../shared/db/settings'
 import * as workoutsRepo from '../features/gym/data/workoutsRepo'
 import EntrenoMinimizado from '../features/gym/components/EntrenoMinimizado'
-import { GAMIFICACION } from './navegacion'
 import { socialDisponible } from '../features/social/servicio'
 
 const ReferenciasTab = lazy(() => import('../features/referencias/ReferenciasTab'))
@@ -30,23 +27,19 @@ const SocialTab = lazy(() => import('../features/social/SocialTab'))
 export default function App() {
   const [tab, setTab] = useState<Tab>('inicio')
   const [seccionAjustes, setSeccionAjustes] = useState<SeccionAjustes | undefined>(undefined)
-  const [anadirAlAbrir, setAnadirAlAbrir] = useState(false)
-  const [acciones, setAcciones] = useState(false)
   const [seccionEntreno, setSeccionEntreno] = useState<SeccionEntreno | undefined>(undefined)
   const [referenciaInicial, setReferenciaInicial] = useState<NutrienteId | undefined>(undefined)
   const [areaReferencias, setAreaReferencias] = useState<AreaReferencias | undefined>(undefined)
   const scrollRef = useRef<HTMLElement>(null)
-  const gamificacionVisible = useLiveQuery(async () => (await getSettings()).gamificacionVisible !== false, [])
   const entrenoActivo = useLiveQuery(() => workoutsRepo.activo(), [])
   /** Si el entreno en curso ocupa Entreno. Salir de la pantalla lo minimiza; la barra sobre la navegación lo vuelve a abrir. */
   const [entrenoAbierto, setEntrenoAbierto] = useState(false)
-  // Sin proyecto de Supabase no hay cuenta, y sin cuenta no hay Amigos ni Social.
-  const ocultos: Tab[] = [...(gamificacionVisible === false ? GAMIFICACION : []), ...(socialDisponible ? [] : ['amigos' as const, 'social' as const])]
+  // Sin proyecto de Supabase no hay cuenta, y sin cuenta no hay Social (ni Amigos, que se abre desde Social).
+  const ocultos: Tab[] = socialDisponible ? [] : ['social']
   const entrenoMinimizado = entrenoActivo && !(tab === 'gym' && entrenoAbierto) ? entrenoActivo : undefined
 
   function navegar(siguiente: Tab) {
     setSeccionAjustes(undefined)
-    setAnadirAlAbrir(false)
     setReferenciaInicial(undefined)
     setAreaReferencias(undefined)
     setSeccionEntreno(undefined)
@@ -67,10 +60,6 @@ export default function App() {
     navegar('ajustes')
     setSeccionAjustes(seccion)
   }
-  function irANutricion(anadir = false) {
-    navegar('nutricion')
-    setAnadirAlAbrir(anadir)
-  }
 
   return (
     <div data-app-shell data-mini-entreno={entrenoMinimizado ? '' : undefined} className="relative flex h-app flex-col bg-bg">
@@ -79,9 +68,9 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view mx-auto w-full max-w-lg">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => irANutricion()} onIrAGym={abrirEntreno} onIrACumbres={() => navegar('cumbres')} onIrACaminos={() => navegar('caminos')} onIrARitmo={() => navegar('ritmo')} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => navegar('amigos')} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onIrAGym={abrirEntreno} onIrAProgreso={navegar} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => navegar('amigos')} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => irAAjustes('instalacion')} />} />}
-        {tab === 'nutricion' && <NutricionTab anadirAlAbrir={anadirAlAbrir} onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
+        {tab === 'nutricion' && <NutricionTab onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} />}
         {tab === 'gym' && <GymTab seccionInicial={seccionEntreno} entrenoAbierto={entrenoAbierto} onAbrirEntreno={() => setEntrenoAbierto(true)} onMinimizarEntreno={() => setEntrenoAbierto(false)} />}
         {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { navegar('referencias'); setAreaReferencias('energia') }} /></Suspense>}
         {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
@@ -90,14 +79,13 @@ export default function App() {
         {tab === 'social' && <Suspense fallback={<LoadingState />}><SocialTab onIrAAmigos={() => navegar('amigos')} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'amigos' && <Suspense fallback={<LoadingState />}><AmigosTab onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
-        {tab === 'ajustes' && <Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} />}
+        {tab === 'ajustes' && <Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} onIrAReferencias={() => navegar('referencias')} />}
         {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} /></Suspense>}
         </div>
       </main>
       </div>
-      <BottomNav tab={tab} onChange={navegar} onAcciones={() => setAcciones(true)} accionesAbiertas={acciones} ocultos={ocultos}
+      <BottomNav tab={tab} onChange={navegar} ocultos={ocultos}
         encima={entrenoMinimizado && <EntrenoMinimizado key={entrenoMinimizado.id} workout={entrenoMinimizado} onAbrir={abrirEntreno} />} />
-      <AccionesRapidas open={acciones} onClose={() => setAcciones(false)} onComida={() => irANutricion(true)} onEntreno={abrirEntreno} onActividades={() => irAEntreno('actividades')} />
     </div>
   )
 }

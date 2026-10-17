@@ -12,7 +12,7 @@
 | Herbario | `nutricion/lib/herbario.ts`: `plantaDeEntrada`, `plantasDistintas`, `herbarioPorSemana` (día en que se llega a 30 y a 50) | — (puro; categoría con `repartoCategorias.categoriaDeEntrada`) |
 | Todo junto | `lib/vitrina.ts`: `calcularVitrina` | — |
 | Lecturas | `hooks/useVitrina.ts`: `cumbres/hooks/useCumbres.leerCumbres` (experiencia, Cumbres y las actividades), `caminos/hooks/useCaminos.leerCaminos` y `foodsRepo.categoriasDeEntradas` | ver [experiencia.md](experiencia.md) |
-| Página (Más › Vitrina) | `VitrinaTab.tsx` (diferida): `components/LogrosVista` (medallas en rejilla de tres, con el anillo de lo que se lleva hacia el siguiente nivel; cada una abre su detalle en una hoja), `RecordsVista` y `ColeccionesVista`; la «i» de la cabecera abre «Cómo funciona Vitrina» (`ComoFuncionaVitrina`: logros, récords y colecciones) | — |
+| Página (Inicio › Vitrina, desde su tesela) | `VitrinaTab.tsx` (diferida): `components/LogrosVista` (medallas en rejilla de tres, con el anillo de lo que se lleva hacia el siguiente nivel; cada una abre su detalle en una hoja), `RecordsVista` y `ColeccionesVista`; la «i» de la cabecera abre «Cómo funciona Vitrina» (`ComoFuncionaVitrina`: logros, récords y colecciones) | — |
 | Al terminar un entreno | `components/NuevosLogros` (en `gym/components/WorkoutFinished`) | `useVitrina` |
 | Iconos de los 55 logros | `components/IconoLogro`, sobre `shared/components/InsigniaExpedicion` | estado derivado del logro; sin persistencia |
 | Herbario en Nutrición › Resumen | `nutricion/components/HerbarioResumen` | `foodsRepo.categoriasDeEntradas`, `settings` |

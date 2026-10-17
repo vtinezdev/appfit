@@ -1,6 +1,6 @@
 # 028 — Barra de pestañas con «+» central
 
-Fecha: 2026-10-09. Estado: vigente; [ADR 035](035-acento-volt-y-pulido-visual.md) convierte la barra en una cápsula flotante con el «+» aparte, a la derecha. Sustituye [ADR 008](008-menu-radial.md) (navegación bajo demanda en una rueda) y [ADR 018](018-menu-de-seis-destinos.md) (abanico de seis destinos). Parte del rediseño visual v2.
+Fecha: 2026-10-09. Estado: **sustituida** por [ADR 043](043-media-luna-de-secciones.md) (botón de secciones con media luna, sin «+», 2026-10-17). Antes, [ADR 035](035-acento-volt-y-pulido-visual.md) convierte la barra en una cápsula flotante con el «+» aparte, a la derecha. Sustituye [ADR 008](008-menu-radial.md) (navegación bajo demanda en una rueda) y [ADR 018](018-menu-de-seis-destinos.md) (abanico de seis destinos). Parte del rediseño visual v2.
 
 ## Contexto
 

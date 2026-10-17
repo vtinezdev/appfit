@@ -11,7 +11,7 @@ interface Props {
   onAbrir: () => void
 }
 
-// Acciones de tarjeta en tono neutro: el acento queda para el «+» de la barra y la sección actual.
+// Acciones de tarjeta en tono neutro: el acento queda para la acción principal de las capas y la sección actual.
 const BOTON = 'app-button inline-flex h-touch w-touch items-center justify-center rounded-md text-fg-muted enabled:hover:bg-surface-muted enabled:hover:text-fg disabled:opacity-30'
 // Vaso de 24 × 32: boca ancha arriba, base estrecha abajo.
 const VASO = 'M3 2h18l-2.2 27a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8z'

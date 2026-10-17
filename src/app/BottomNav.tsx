@@ -1,91 +1,39 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import Icon from '../shared/components/Icon'
-import ListGroup from '../shared/components/ListGroup'
-import ListRow from '../shared/components/ListRow'
-import Sheet from '../shared/components/Sheet'
 import { haptic } from '../shared/design/motion'
-import MasAccesos from './MasAccesos'
-import { DESTINOS, EN_MAS, GAMIFICACION, type Tab } from './navegacion'
+import ArcoSecciones from './ArcoSecciones'
+import { DESTINOS, EN_ARCO, seccionDe, type Tab } from './navegacion'
 export type { Tab } from './navegacion'
 
 interface Props {
   tab: Tab
   onChange: (tab: Tab) => void
-  /** El «+»: abre las acciones rápidas. */
-  onAcciones: () => void
-  accionesAbiertas?: boolean
-  /** Destinos que no se muestran (la gamificación oculta en Ajustes; Social y Amigos sin cuenta configurada). */
+  /** Destinos que no se muestran (Social sin cuenta configurada). */
   ocultos?: readonly Tab[]
-  /** Lo que flota pegado encima de la cápsula (el entreno minimizado). */
+  /** Lo que flota pegado encima del botón (el entreno minimizado). */
   encima?: ReactNode
 }
 
 const destino = (key: Tab) => DESTINOS.find((d) => d.key === key)!
 
 /**
- * Barra flotante (ADR 028, revisado en ADR 035 y ADR 040): una cápsula con Inicio · Nutrición · Entreno · Social · Más
- * (Social solo con cuenta configurada) y, aparte a la derecha,
- * el «+» redondo para registrar. Flota sobre el contenido, que pasa por debajo. «Más» abre una hoja con el progreso
- * (Cumbres, Ritmo, Vitrina) en teselas con su dato y el resto de destinos en filas.
+ * Navegación (ADR 043): un botón redondo flotante abajo al centro abre la media luna con Inicio · Social · Nutrición · Entreno · Perfil · Ajustes
+ * (Social solo con cuenta configurada). El resto de destinos se abre desde su sección, que queda marcada (`seccionDe`).
  */
-export default function BottomNav({ tab, onChange, onAcciones, accionesAbiertas = false, ocultos = [], encima }: Props) {
-  const [mas, setMas] = useState(false)
-  const elegido = useRef<Tab | null>(null)
-  const enMas = EN_MAS.includes(tab)
-  const visibles = EN_MAS.filter((key) => !ocultos.includes(key))
-  const conTeselas = GAMIFICACION.some((key) => visibles.includes(key))
-  const filas = visibles.filter((key) => !(conTeselas && GAMIFICACION.includes(key)))
-
-  function pestana(key: Tab) {
-    const d = destino(key)
-    return <li key={key}>
-      <button type="button" className="tab-item app-button" aria-current={tab === key ? 'page' : undefined} onClick={() => { haptic(); onChange(key) }}>
-        <Icon name={d.icon} size={22} /><span className="tab-label">{d.label}</span>
-      </button>
-    </li>
-  }
-  function elegir(key: Tab) {
-    haptic()
-    elegido.current = key
-    setMas(false)
-  }
+export default function BottomNav({ tab, onChange, ocultos = [], encima }: Props) {
+  const [arco, setArco] = useState(false)
+  const actual = seccionDe(tab)
+  const enArco = EN_ARCO.filter((key) => !ocultos.includes(key)).map((key) => ({ ...destino(key), actual: actual === key }))
 
   return (
     <nav aria-label="Navegación principal" className="app-nav">
       {encima && <div className="mx-auto max-w-lg">{encima}</div>}
-      <div className="tab-dock mx-auto max-w-lg">
-        <ul className="tab-bar">
-          {pestana('inicio')}
-          {pestana('nutricion')}
-          {pestana('gym')}
-          {!ocultos.includes('social') && pestana('social')}
-          <li>
-            <button type="button" className="tab-item app-button" aria-current={enMas ? 'page' : undefined} aria-haspopup="dialog" aria-expanded={mas}
-              onClick={() => { haptic(); elegido.current = null; setMas(true) }}>
-              <Icon name="more" size={22} /><span className="tab-label">Más</span>
-            </button>
-          </li>
-        </ul>
-        <button type="button" className="tab-plus app-button" aria-label="Registrar" aria-haspopup="dialog" aria-expanded={accionesAbiertas} data-nav-trigger
-          onClick={() => { haptic(); onAcciones() }}>
-          <Icon name="plus" size={26} />
-        </button>
-      </div>
-      <Sheet open={mas} onClose={() => setMas(false)} title="Más"
-        onExited={() => { const key = elegido.current; elegido.current = null; if (key) onChange(key) }}>
-        <div className="space-y-stack">
-          {conTeselas && <MasAccesos actual={tab} onElegir={elegir} />}
-          <ListGroup variante="plana" aria-label="Más secciones">
-            {filas.map((key) => {
-              const d = destino(key)
-              return <li key={key}><ListRow aria-current={tab === key ? 'page' : undefined} onClick={() => elegir(key)}>
-                <span className="flex min-w-0 items-center gap-3"><Icon name={d.icon} size={20} className="text-fg-muted" /><span className="text-body font-semibold text-fg">{d.label}</span></span>
-                {tab === key ? <Icon name="check" size={18} label="Sección actual" className="text-accent-strong" /> : <Icon name="chevron-right" size={18} className="text-fg-subtle" />}
-              </ListRow></li>
-            })}
-          </ListGroup>
-        </div>
-      </Sheet>
+      <button type="button" className="nav-boton app-button" aria-label="Secciones" aria-haspopup="dialog" aria-expanded={arco} data-nav-trigger
+        onClick={() => { haptic(); setArco(true) }}>
+        <Icon name="secciones" size={24} />
+      </button>
+      {/* Se navega en cuanto se elige, mientras la media luna se recoge. */}
+      <ArcoSecciones open={arco} destinos={enArco} onElegir={(key) => { haptic(); onChange(key) }} onClose={() => setArco(false)} />
     </nav>
   )
 }
