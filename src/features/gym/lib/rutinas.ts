@@ -47,7 +47,9 @@ export function sustituirEnRutina(r: Routine, de: number, a: number): Routine {
   const objetivo = r.objetivos?.[de]
   const resto = Object.fromEntries(Object.entries(r.objetivos ?? {}).filter(([k]) => Number(k) !== de))
   const objetivos = objetivo ? { ...resto, [a]: objetivo } : resto
-  const { objetivos: _anteriores, ...base } = r
+  const { objetivos: _anteriores, agarres: _agarres, ...base } = r
+  const agarres = Object.fromEntries(Object.entries(r.agarres ?? {}).filter(([k]) => Number(k) !== de))
+  const conAgarres = Object.keys(agarres).length ? { agarres } : {}
   const exerciseIds = r.exerciseIds.map((id) => (id === de ? a : id))
-  return Object.keys(objetivos).length ? { ...base, exerciseIds, objetivos } : { ...base, exerciseIds }
+  return Object.keys(objetivos).length ? { ...base, exerciseIds, objetivos, ...conAgarres } : { ...base, exerciseIds, ...conAgarres }
 }

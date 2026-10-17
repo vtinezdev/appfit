@@ -26,6 +26,7 @@ import { catalogoDeLocal, opcionesEjercicios, type SeleccionEjercicio } from '..
 import { textoObjetivo } from '../lib/objetivos'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
 import SelectorEjercicios from './SelectorEjercicios'
+import { textoAgarre } from '../lib/agarres'
 
 interface Props {
   onClose: () => void
@@ -164,6 +165,7 @@ export default function CreadorRutinas({ onClose, onGuardado }: Props) {
               <MiniaturaEjercicio catalogId={e.catalogId} />
               <span className="min-w-0 flex-1 break-words">
                 <span className="block text-body font-semibold text-fg">{e.nombre}</span>
+                {e.seleccion.agarre !== undefined && <span className="block text-caption text-fg-muted">{textoAgarre(e.seleccion.agarre) || 'Agarre sin especificar'}</span>}
                 <span className="tabular block text-caption text-fg-muted">{textoObjetivo(e.objetivo)}{descanso(e.objetivo.descansoSeg)}</span>
               </span>
               <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />

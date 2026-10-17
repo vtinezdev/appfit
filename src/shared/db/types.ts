@@ -440,6 +440,8 @@ export interface Routine {
   exerciseIds: number[]
   /** Objetivos por ejercicio (clave = exerciseId). */
   objetivos?: Record<number, ObjetivoEjercicio>
+  /** Agarre elegido en esta rutina; null = sin especificar, independiente del habitual. */
+  agarres?: Record<number, Agarre | null>
 }
 
 export interface ObjetivoEjercicio {
@@ -517,7 +519,7 @@ export type Ejecucion = 'bilateral' | 'unilateral' | 'lados'
 export type Lado = 'izquierda' | 'derecha'
 export interface DatosLado { reps: number; peso: number; rir?: number }
 export interface TramoDropset { id: string; reps: number; peso: number; lados?: Partial<Record<Lado, DatosLado>> }
-export interface Agarre { orientacion?: 'prono' | 'supino' | 'neutro'; anchura?: 'estrecho' | 'medio' | 'ancho'; accesorio?: 'barra' | 'cuerda' | 'individual' | 'maquina' }
+export interface Agarre { orientacion?: 'prono' | 'supino' | 'neutro' | 'mixto'; anchura?: 'estrecho' | 'medio' | 'ancho'; accesorio?: 'barra' | 'barra-v' | 'cuerda' | 'individual' | 'maquina' }
 export interface ConfiguracionEjecucion { ejecucion: Ejecucion; kgUnilateral?: 'lado' | 'total'; agarre?: Agarre }
 export interface PlanProgresion { series: number; repsMin: number; repsMax: number; incrementoKg?: number; rirMin?: number }
 

@@ -49,13 +49,25 @@ export function empezar(routineId?: number): Promise<number> {
  */
 async function crearSeriesObjetivo(workoutId: number, routineId: number, base = Date.now()): Promise<void> {
   const rutina = await db.routines.get(routineId)
-  if (!rutina?.objetivos) return
+  if (!rutina) return
+  const ejecuciones: NonNullable<Workout['ejecucionesEjercicios']> = {}
+  for (const [key, agarre] of Object.entries(rutina.agarres ?? {})) {
+    const exerciseId = Number(key)
+    if (!rutina.exerciseIds.includes(exerciseId)) continue
+    const habitual = (await db.exercises.get(exerciseId))?.ejecucionHabitual
+    const config = { ...ejecucionVigente(habitual ?? { ejecucion: 'bilateral' }), agarre: agarre ?? undefined }
+    validarEjecucion(config)
+    ejecuciones[exerciseId] = config
+  }
+  if (Object.keys(ejecuciones).length) await db.workouts.update(workoutId, { ejecucionesEjercicios: ejecuciones })
+  if (!rutina.objetivos) return
   let orden = 0
   for (const exerciseId of rutina.exerciseIds) {
     const objetivo = rutina.objetivos[exerciseId]
     if (!objetivo) continue
-    const valores = valoresNuevaSerie(await ultimaEfectiva(exerciseId))
-    const ejecucion = ejecucionSerieNueva((await db.exercises.get(exerciseId))?.ejecucionHabitual, valores, false)
+    const config = ejecuciones[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual
+    const valores = valoresNuevaSerie(await ultimaEfectiva(exerciseId, config ? config.agarre ?? null : undefined))
+    const ejecucion = ejecucionSerieNueva(config, valores, false)
     if (ejecucion) Object.assign(valores, aplicarEjecucion(valores, ejecucion))
     if (valores.modoCarga) valores.pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(base))).last())?.kg
     for (let i = 0; i < objetivo.series; i++) {

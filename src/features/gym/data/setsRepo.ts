@@ -1,8 +1,9 @@
+import { claveAgarre } from '../lib/agarres'
 // Acceso a la tabla `sets` (series). Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
 import { aplicarEjecucion, ejecucionSerieNueva, validarSerie, tieneReps, convencional, cambiaRealizacion } from '../lib/ejecucion'
 import Dexie from 'dexie'
 import { db } from '../../../shared/db/db'
-import type { SetEntry } from '../../../shared/db/types'
+import type { Agarre, SetEntry } from '../../../shared/db/types'
 import { siguienteOrden, valoresNuevaSerie } from '../lib/workout'
 import * as exercisesRepo from './exercisesRepo'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
@@ -22,8 +23,8 @@ export function delEjercicio(exerciseId: number): Promise<SetEntry[]> {
 }
 
 /** Última serie efectiva (no de calentamiento) del ejercicio, de cualquier entreno. Solo lectura. */
-export function ultimaEfectiva(exerciseId: number): Promise<SetEntry | undefined> {
-  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && convencional(s)).first()
+export function ultimaEfectiva(exerciseId: number, agarre?: Agarre | null): Promise<SetEntry | undefined> {
+  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre))).first()
 }
 
 /**
@@ -33,14 +34,16 @@ export function ultimaEfectiva(exerciseId: number): Promise<SetEntry | undefined
  */
 export function agregar(workoutId: number, exerciseId: number, createdAt: number = Date.now()): Promise<number> {
   return db.transaction('rw', db.sets, db.workouts, db.pesos, db.exercises, async () => {
-    const delEntreno = await db.sets.where('workoutId').equals(workoutId).filter((s) => s.exerciseId === exerciseId).toArray()
-    const previa = [...delEntreno].filter(s => s.tipo !== 'calentamiento').sort((a, b) => a.orden - b.orden).at(-1) ?? await ultimaEfectiva(exerciseId)
     const workout = await db.workouts.get(workoutId)
+    const configurada = workout?.ejecucionesEjercicios?.[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual
+    const delEntreno = await db.sets.where('workoutId').equals(workoutId).filter((s) => s.exerciseId === exerciseId).toArray()
+    const previa = [...delEntreno].filter(s => s.tipo !== 'calentamiento' && (!configurada || claveAgarre(s.agarre) === claveAgarre(configurada.agarre)))
+      .sort((a, b) => a.orden - b.orden).at(-1) ?? await ultimaEfectiva(exerciseId, configurada ? configurada.agarre ?? null : undefined)
     const valores = valoresNuevaSerie(previa)
     const carga = workout?.cargasEjercicios?.[exerciseId]
     if (carga) Object.assign(valores, aplicarConfiguracionCarga(valores, carga))
     else if (valores.modoCarga && previa?.workoutId !== workoutId) valores.pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(workout?.inicio ?? createdAt))).last())?.kg
-    const ejecucion = ejecucionSerieNueva(workout?.ejecucionesEjercicios?.[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual, valores, previa?.workoutId === workoutId)
+    const ejecucion = ejecucionSerieNueva(configurada, valores, previa?.workoutId === workoutId)
     if (ejecucion) Object.assign(valores, aplicarEjecucion(valores, ejecucion))
     const id = await db.sets.add({
       workoutId,
@@ -69,6 +72,14 @@ export function agregarConEjercicio(workoutId: number, nombre: string): Promise<
 export function agregarSeleccion(workoutId: number, seleccion: SeleccionEjercicio, createdAt: number = Date.now()): Promise<number> {
   return db.transaction('rw', db.exercises, db.sets, db.workouts, db.pesos, db.exercises, async () => {
     const exerciseId = await exercisesRepo.resolverSeleccion(seleccion)
+    if (seleccion.agarre !== undefined) {
+      const workout = await db.workouts.get(workoutId)
+      if (!workout) throw new Error('El entreno ya no está disponible.')
+      const habitual = (await db.exercises.get(exerciseId))?.ejecucionHabitual
+      const base = workout.ejecucionesEjercicios?.[exerciseId] ?? habitual ?? { ejecucion: 'bilateral' as const }
+      await db.workouts.update(workoutId, { ejecucionesEjercicios: { ...workout.ejecucionesEjercicios,
+        [exerciseId]: { ...base, agarre: seleccion.agarre ?? undefined } } })
+    }
     return agregar(workoutId, exerciseId, createdAt)
   })
 }

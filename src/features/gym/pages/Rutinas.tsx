@@ -1,3 +1,5 @@
+import { CamposAgarre } from '../components/EjecucionEjercicio'
+import { admiteElegirAgarre, textoAgarre } from '../lib/agarres'
 import { useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
@@ -31,6 +33,7 @@ interface Props {
 
 export default function Rutinas({ enCurso, onEmpezado }: Props) {
   const [editando, setEditando] = useState<routinesRepo.RoutineInput | null>(null)
+  const [editandoAgarre, setEditandoAgarre] = useState<number | null>(null)
   const [seleccionando, setSeleccionando] = useState(false)
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false)
   const [ocupado, setOcupado] = useState(false)
@@ -59,6 +62,7 @@ export default function Rutinas({ enCurso, onEmpezado }: Props) {
   /** Abre o cierra el sheet de edición, sin arrastrar confirmaciones ni errores de la rutina anterior. */
   function abrir(draft: routinesRepo.RoutineInput | null) {
     setSeleccionando(false)
+    setEditandoAgarre(null)
     setConfirmandoBorrado(false)
     setError(null)
     setEditando(draft)
@@ -95,13 +99,14 @@ export default function Rutinas({ enCurso, onEmpezado }: Props) {
 
   async function agregarEjercicio(value: SeleccionEjercicio) {
     const id = await exercisesRepo.resolverSeleccion(value)
-    setEditando(previous => previous && !previous.exerciseIds.includes(id) ? { ...previous, exerciseIds: [...previous.exerciseIds, id] } : previous)
+    setEditando(previous => previous && !previous.exerciseIds.includes(id) ? { ...previous, exerciseIds: [...previous.exerciseIds, id], ...(value.agarre !== undefined ? { agarres: { ...previous.agarres, [id]: value.agarre } } : {}) } : previous)
   }
 
   function quitarEjercicio(id: number) {
     if (!editando) return
+    const { [id]: _agarre, ...agarres } = editando.agarres ?? {}
     const { [id]: _quitado, ...objetivos } = editando.objetivos ?? {}
-    setEditando({ ...editando, exerciseIds: editando.exerciseIds.filter((e) => e !== id), objetivos })
+    setEditando({ ...editando, exerciseIds: editando.exerciseIds.filter((e) => e !== id), objetivos, agarres })
   }
 
   function moverEjercicio(indice: number, delta: -1 | 1) {
@@ -188,6 +193,13 @@ export default function Rutinas({ enCurso, onEmpezado }: Props) {
                       <IconButton icon="chevron-right" label={`Bajar ${nombre}`} variant="ghost" size="sm" className="rotate-90" disabled={i === editando.exerciseIds.length - 1} onClick={() => moverEjercicio(i, 1)} />
                       <IconButton icon="close" label={`Quitar ${nombre}`} variant="ghost" size="sm" onClick={() => quitarEjercicio(id)} />
                     </div>
+                    {exerciseMap.has(id) && (admiteElegirAgarre(exerciseMap.get(id)!) || editando.agarres?.[id]) && <div className="space-y-3 py-2">
+                      <Button variant="ghost" size="sm" className="max-w-full break-words text-left" onClick={() => setEditandoAgarre(editandoAgarre === id ? null : id)} aria-expanded={editandoAgarre === id}>
+                        Agarre de {nombre}: {textoAgarre(editando.agarres?.[id]) || 'Sin especificar'}
+                      </Button>
+                      {editandoAgarre === id && <CamposAgarre ejercicio={exerciseMap.get(id)!} valor={editando.agarres?.[id] ?? undefined}
+                        onChange={agarre => setEditando({ ...editando, agarres: { ...editando.agarres, [id]: agarre ?? null } })} />}
+                    </div>}
                     <ObjetivoRutina nombre={nombre} objetivo={editando.objetivos?.[id]} onChange={(o) => cambiarObjetivo(id, o)} />
                   </div>
                 )

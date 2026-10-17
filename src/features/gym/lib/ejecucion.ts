@@ -1,27 +1,13 @@
-import type { Agarre, ConfiguracionEjecucion, DatosLado, Exercise, Lado, SetEntry, TramoDropset } from '../../../shared/db/types'
+import type { ConfiguracionEjecucion, DatosLado, Lado, SetEntry, TramoDropset } from '../../../shared/db/types'
 import { modoCarga, formatearCarga } from './carga'
-import { catalogoDeLocal } from './selectorEjercicios'
 import { formatNumber } from '../../../shared/lib/format'
 
 export type SerieEjecucion = Pick<SetEntry, 'reps' | 'peso'> & Partial<Pick<SetEntry, 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg' | 'bajadas' | 'realizada' | 'tipo' | 'modoCarga' | 'pesoCorporal' | 'rir'>>
 export const EJECUCIONES = { bilateral: 'Bilateral', unilateral: 'Unilateral · ambos iguales', lados: 'Unilateral · distinguir lados' } as const
-export const ORIENTACIONES = { prono: 'Prono', supino: 'Supino', neutro: 'Neutro' } as const
-export const ANCHURAS = { estrecho: 'Estrecho', medio: 'Medio', ancho: 'Ancho' } as const
-export const ACCESORIOS = { barra: 'Barra', cuerda: 'Cuerda', individual: 'Agarre individual', maquina: 'Agarre de máquina' } as const
+export { ORIENTACIONES, ANCHURAS, ACCESORIOS, opcionesAgarre, textoAgarre } from './agarres'
+import { ORIENTACIONES, ANCHURAS, ACCESORIOS, textoAgarre } from './agarres'
 const positivo = (n: number) => Number.isFinite(n) && n > 0 ? n : 0
 
-/** Editorial: no cambiar músculos ni inferir agarres a partir del historial. */
-export function opcionesAgarre(e: Exercise) {
-  const c = catalogoDeLocal(e), id = c?.id ?? '', equipo = c?.equipment ?? e.equipment ?? []
-  const tiron = /dominadas|jalon|remo|curl/.test(id)
-  const fijoNeutro = /jalon-neutro|curl-martillo/.test(id)
-  const accesorioFijo = /extension-triceps-cuerda|extension-triceps-barra/.test(id)
-  return { orientacion: !fijoNeutro && (tiron || !c), anchura: /dominadas|jalon|remo/.test(id) || !c,
-    accesorio: !accesorioFijo && (equipo.includes('polea') || !c) }
-}
-export function textoAgarre(a?: Agarre): string {
-  return [a?.orientacion && ORIENTACIONES[a.orientacion], a?.anchura && ANCHURAS[a.anchura], a?.accesorio && ACCESORIOS[a.accesorio]].filter(Boolean).join(' · ')
-}
 export function contextoSerie(s: Partial<SerieEjecucion>): string {
   const partes = [s.ejecucion === 'unilateral' ? `Ambos lados · kg ${s.kgUnilateral === 'total' ? 'totales' : 'por lado'}` : s.ejecucion === 'lados' ? `Lados separados · ${s.lados?.izquierda && s.lados?.derecha ? 'ambos registrados' : s.lados?.izquierda ? 'izquierda' : s.lados?.derecha ? 'derecha' : 'sin lados registrados'} · kg por lado` : '', textoAgarre(s.agarre), s.soloNegativas ? 'Solo negativas' : '', s.excentricaSeg ? `Descenso ${formatNumber(s.excentricaSeg)} s` : '', s.bajadas?.length ? `Dropset · ${s.bajadas.length + 1} tramos` : '']
   return partes.filter(Boolean).join(' · ')

@@ -9,9 +9,8 @@ const legacy: Exercise = { id: 21, nombre: 'Press banca', nombreNorm: 'press ban
 const buscar = (q: string) => filtrarEjercicios(opciones, q, [], []).map(e => e.name)
 
 describe('catálogo editorial de ejercicios', () => {
-  it('100–250 ejercicios distintos con identidades y clasificaciones completas', () => {
+  it('catálogo ampliable con identidades y clasificaciones completas', () => {
     expect(CATALOGO_EJERCICIOS.length).toBeGreaterThanOrEqual(100)
-    expect(CATALOGO_EJERCICIOS.length).toBeLessThanOrEqual(250)
     expect(new Set(CATALOGO_EJERCICIOS.map(e => e.id)).size).toBe(CATALOGO_EJERCICIOS.length)
     expect(new Set(CATALOGO_EJERCICIOS.map(e => normalizeName(e.name))).size).toBe(CATALOGO_EJERCICIOS.length)
     // Nombre y alias identifican un único ejercicio: catalogoDeLocal enlaza registros antiguos por coincidencia exacta.
@@ -27,7 +26,7 @@ describe('catálogo editorial de ejercicios', () => {
     }
     expect(new Set(CATALOGO_EJERCICIOS.flatMap(e => [...e.primaryMuscles, ...(e.filterGroups ?? [])])).size).toBe(13)
     expect(CATALOGO_EJERCICIOS.some(e => e.primaryMuscles.includes('completo'))).toBe(false)
-    expect(new Set(CATALOGO_EJERCICIOS.flatMap(e => e.equipment)).size).toBe(10)
+    expect(new Set(CATALOGO_EJERCICIOS.flatMap(e => e.equipment)).size).toBe(Object.keys(EQUIPAMIENTO).length)
   })
   it('no instala registros al abrir y no modifica datos antiguos', () => {
     const original = structuredClone(legacy)
@@ -49,6 +48,18 @@ describe('catálogo editorial de ejercicios', () => {
 })
 
 describe('búsqueda y filtros', () => {
+  it('descubre pilates y calistenia sin convertir esas disciplinas en identidades antiguas', () => {
+    const pilates = filtrarEjercicios(opciones, 'pilates', [], [])
+    expect(pilates).toHaveLength(20)
+    expect(pilates.every(e => e.catalogId?.startsWith('appfit:pilates-'))).toBe(true)
+    expect(buscar('calistenia dominadas')).toContain('Dominadas')
+    expect(buscar('calistenia anillas')).toContain('Fondos en anillas')
+    expect(filtrarEjercicios(opciones, 'calistenia', [], ['anillas'])).toHaveLength(5)
+    expect(filtrarEjercicios(opciones, 'pilates', ['espalda'], []).map(e => e.name)).toEqual(['Double leg kick de pilates', 'Swan de pilates', 'Swimming de pilates'])
+    for (const nombre of ['Pilates', 'Calistenia', 'Gimnasio']) {
+      expect(catalogoDeLocal({ ...legacy, nombre, nombreNorm: normalizeName(nombre) })).toBeUndefined()
+    }
+  })
   const abductores = ['appfit:abduccion-bandas', 'appfit:abduccion-maquina', 'appfit:abduccion-polea', 'appfit:almejas']
 
   it('Abductores aparece después de Aductores y conserva los músculos anatómicos', () => {

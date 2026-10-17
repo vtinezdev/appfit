@@ -21,6 +21,10 @@ const aqui = new URL('.', import.meta.url)
 const carpetaIa = new URL('ia/', aqui)
 const destino = new URL('../../public/ejercicios/', import.meta.url)
 const lista = new URL('../../src/features/gym/lib/ejerciciosConImagen.ts', import.meta.url)
+// Registro pequeño versionado: conserva la procedencia aunque los originales (ignorados por Git) falten.
+const registroIa = new URL('ilustraciones-convertidas.json', aqui)
+const convertidas = new Set<string>(JSON.parse(readFileSync(registroIa, 'utf8')))
+const ilustracionConservada = (slug: string) => convertidas.has(slug) && existsSync(new URL(`${slug}.webp`, destino))
 
 type Ilustracion = [slug: string, pose: string, resaltar: string]
 const mapeo: Record<string, string | null> = JSON.parse(readFileSync(new URL('mapeo.json', aqui), 'utf8'))
@@ -71,7 +75,7 @@ function archivoIa(nombre: string): URL | null {
   for (const ext of EXTENSIONES) { const u = new URL(`${nombre}.${ext}`, carpetaIa); if (existsSync(u)) return u }
   return null
 }
-const hechos = lotes.map((_, i) => archivoIa(`lote-${nn(i)}`) !== null)
+const hechos = lotes.map((lote, i) => archivoIa(`lote-${nn(i)}`) !== null || lote.every(([s]) => archivoIa(s) !== null || ilustracionConservada(s)))
 const VALLA = '```'
 /** prompts.md: la primera tanda (lotes 1–29, ya generada). prompts-2.md: las ampliaciones desde el lote 30 y, al final, el diseño del mapa muscular. */
 const TANDAS = [
@@ -186,12 +190,15 @@ for (const [i, lote] of lotes.entries()) {
   const cajas = png ? await cajasLote(png) : null
   for (const [j, [slug]] of lote.entries()) {
     const suelto = archivoIa(slug)
-    if (!suelto && !png) continue
+    if (!suelto && !png) { if (ilustracionConservada(slug)) deIa.add(slug); continue }
     try {
       const entrada = suelto ? sharp(readFileSync(suelto)) : sharp(png!).extract(cajas![j])
       writeFileSync(new URL(`${slug}.webp`, destino), await miniatura(entrada))
       deIa.add(slug)
-    } catch (e) { console.error(`Error con la ilustración de ${slug}: ${(e as Error).message}`); fallos++ }
+    } catch (e) {
+      if (ilustracionConservada(slug)) deIa.add(slug)
+      console.error(`Error con la ilustración de ${slug}: ${(e as Error).message}`); fallos++
+    }
   }
 }
 
@@ -207,6 +214,8 @@ const indice = pendientesFoto.length
   : new Set<string>()
 for (const slug of slugsCatalogo) {
   if (deIa.has(slug)) { conImagen.push(slug); continue }
+  // Una miniatura válida sigue disponible incluso sin original ni equivalente fotográfico.
+  if (!forzar && existsSync(new URL(`${slug}.webp`, destino))) { conImagen.push(slug); continue }
   const valor = mapeo[slug]
   if (!valor) continue
   if (pendientesFoto.includes(slug)) {
@@ -222,13 +231,15 @@ for (const slug of slugsCatalogo) {
   }
   conImagen.push(slug)
 }
-// Imágenes que ya no corresponden a ningún ejercicio con imagen: se borran.
-for (const f of readdirSync(destino)) if (f.endsWith('.webp') && !conImagen.includes(f.slice(0, -5))) { rmSync(new URL(f, destino)); console.log(`Borrada ${f}`) }
+// Un fallo al regenerar o la ausencia de fuente no convierte una miniatura anterior en huérfana.
+for (const slug of slugsCatalogo) if (!conImagen.includes(slug) && existsSync(new URL(`${slug}.webp`, destino))) conImagen.push(slug)
+for (const f of readdirSync(destino)) if (f.endsWith('.webp') && !nombres.has(f.slice(0, -5))) { rmSync(new URL(f, destino)); console.log(`Borrada ${f}`) }
 writeFileSync(lista, `/** Generado por scripts/ejercicios/imagenes.ts: slugs del catálogo con imagen en public/ejercicios/. No editar a mano. */
 export const EJERCICIOS_CON_IMAGEN: ReadonlySet<string> = new Set([
 ${conImagen.map(s => `  '${s}',`).join('\n')}
 ])
 `)
+writeFileSync(registroIa, JSON.stringify([...deIa].sort(), null, 2) + '\n')
 const pendientes = lotes.map((_, i) => nn(i)).filter((_, i) => !hechos[i])
 console.log(`${conImagen.length} con imagen (${deIa.size} ilustraciones, ${conImagen.length - deIa.size} fotos), ${slugsCatalogo.length - conImagen.length} sin imagen${fallos ? `, ${fallos} fallos` : ''}`)
 console.log(pendientes.length ? `Lotes pendientes (${pendientes.length}): ${pendientes.join(', ')}. Ver scripts/ejercicios/prompts.md y prompts-2.md` : 'Todos los lotes hechos')
