@@ -1,6 +1,6 @@
 # Auditoría integral de AppFit · 17 de octubre de 2026
 
-> Actualización posterior: A06 y A07 se abordan en las mejoras de uso de PROCESO §151. Este informe conserva los resultados y pendientes tal como se observaron al cerrar la auditoría.
+> Actualización posterior: A06 y A07 se abordan en las mejoras de uso de PROCESO §154. Este informe conserva los resultados y pendientes tal como se observaron al cerrar la auditoría.
 
 ## Alcance y método
 
@@ -122,7 +122,7 @@ La siguiente combinación se ejecutó completa en cada uno de los tres motores; 
 
 En cada configuración: Inicio, Registrar peso y viewport reducido, Diario, Resumen, Alimentos, Añadir comida, Rutinas, Historial, detalle, editor, Progreso en lista y gráfica, Actividades, Perfil, Cumbres, Caminos, Ritmo, Vitrina, Colecciones, Referencias y Ajustes. Se comprueban página y desbordamiento interno, inputs, apertura/cierre de capas y conservación del backup; las medidas táctiles registran también las excepciones pendientes. Los recorridos de catálogo, creador de rutinas, Cuenta y Social indicados abajo son complementarios, a 375 px oscuro, no toda esta matriz.
 
-El trabajo previo de adaptación (§149) añade 14 configuraciones Chromium con ambos temas, horizontal 812×375, Reduce Motion, navegación por teclado/Atrás y oferta de instalación simulada. Sus resultados se documentan en esa entrada; no se suman a las 30 configuraciones nuevas.
+El trabajo previo de adaptación (§152) añade 14 configuraciones Chromium con ambos temas, horizontal 812×375, Reduce Motion, navegación por teclado/Atrás y oferta de instalación simulada. Sus resultados se documentan en esa entrada; no se suman a las 30 configuraciones nuevas.
 
 ## Pruebas ejecutadas y resultado final
 

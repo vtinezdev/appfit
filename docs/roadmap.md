@@ -12,12 +12,12 @@
 
 ## Pendientes de la auditoría de compatibilidad
 
-- [Auditoría del 17 de octubre](auditoria-2026-10-17/INFORME.md): los cinco defectos iniciales están corregidos. A06/A07 se abordan después en §151: semana desplazable con botones táctiles, calendario compacto por lista y pestañas con rótulos completos. La validación física sigue pendiente.
+- [Auditoría del 17 de octubre](auditoria-2026-10-17/INFORME.md): los cinco defectos iniciales están corregidos. A06/A07 se abordan después en §154: semana desplazable con botones táctiles, calendario compacto por lista y pestañas con rótulos completos. La validación física sigue pendiente.
 - Comprobar instalación, teclado, giro/recortes, Atrás, permisos y suspensión en iPhone/Android físicos. Chromium, Firefox y WebKit Linux están probados; no sustituyen esos dispositivos. Cuenta/Social se recorrieron con dobles locales; esta auditoría no reejecutó SQL/RLS ni cuentas remotas reales. Workflow de QA preparado y validado localmente, pendiente de su primera ejecución en GitHub tras publicarlo.
 
 ## Pendiente de probar en Android real
 
-- Adaptación de tamaños (§149): instalación desde Chrome y desde el menú, icono/recorte del lanzador, teclado real en formularios, giro con recortes laterales, botón/gesto Atrás, cámara del escáner y primera apertura offline después de instalar. La validación Chromium usa emulación Pixel 7 y viewport reducido; no sustituye al dispositivo físico.
+- Adaptación de tamaños (§152): instalación desde Chrome y desde el menú, icono/recorte del lanzador, teclado real en formularios, giro con recortes laterales, botón/gesto Atrás, cámara del escáner y primera apertura offline después de instalar. La validación Chromium usa emulación Pixel 7 y viewport reducido; no sustituye al dispositivo físico.
 
 ## Pendiente de probar en el iPhone real
 
@@ -41,13 +41,13 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 
 ## Limitaciones conocidas
 
-- Ilustraciones de ejercicios: los 116 originales tienen ilustración propia (IA, revisadas en hoja de contactos); los 88 añadidos el 2026-10-09 (lotes 30–51, en `prompts-2.md`) muestran el hueco con icono hasta que se generen. Pequeñas licencias del modelo aceptadas: remo en T a una mano con la barra en landmine en vez de agarre en V. Al añadir un ejercicio al catálogo hay que añadirlo a `scripts/ejercicios/ilustraciones.json` (lote nuevo o imagen suelta `ia/<slug>.png`). Ver `scripts/ejercicios/README.md`.
+- Ilustraciones de ejercicios: las 268 definiciones actuales tienen ilustración propia (IA; lotes 1–67, con 64 altas de gimnasio/calistenia/pilates el 2026-10-17). Al añadir ejercicios se amplían `scripts/ejercicios/ilustraciones.json` y `mapeo.json`; la tubería conserva las miniaturas aunque falten los originales. Ver `scripts/ejercicios/README.md` y la [revisión del catálogo](historico/revision-ejercicios-2026-10-17.md).
 - Perfil: los factores de actividad (1,2–1,9) se atribuyen a McArdle, Katch y Katch (1996) sin haber verificado la edición ni una derivación experimental; la cifra de 600 kcal/día de NICE procede de CG189 y no se ha cotejado en NG246. La media de Mifflin y Roza-Shizgal es criterio de AppFit, no un método publicado. Los scripts `scripts/ui/validar-*.cjs` adaptados a Perfil no se han ejecutado (rutas fijas a `/usr/bin/chromium` y al puerto 5174); el recorrido se probó con un script propio en Edge (PROCESO §74).
 - Ajustes: los campos de objetivos diarios desbordan a 375 px con texto al 200% (fila sin wrap y anchos fijos). Detectado al confirmar los fondos claros; pendiente de adaptación del formulario, sin relación con la capa fotográfica.
 - Buscador e intérprete priorizan los básicos compartidos en `catalogo/preferidos.ts`; arroz, pasta y pollo sin más detalle se eligen en crudo. Si se pesa en cocido, especificarlo o usar «Cambiar». Si aún hay ruido, valorar sugerencias prioritarias con «Ver más variantes», sin fusionar alimentos por nombre.
 - Catálogo: no hay genéricos españoles (manchego, tortilla de patata…); la categoría y la detección de idioma de Open Food Facts son heurísticas (ver `scripts/catalogo/README.md`).
 - «Alimentos» ya no muestra la procedencia de cada alimento (se quitó en §38).
-- Categorías (§82): la de un alimento del catálogo no se puede cambiar (solo la de los propios); un producto escaneado antes de las categorías sigue sin ella hasta volver a escanearlo con conexión, y sus entradas cuentan como «Sin categoría» en el Resumen. Añadir comida y Cambiar alimento ya filtran por categoría (§151). La categoría no es un snapshot: reclasificar un alimento reclasifica su historial, y uno borrado deja sus entradas sin categoría.
+- Categorías (§82): la de un alimento del catálogo no se puede cambiar (solo la de los propios); un producto escaneado antes de las categorías sigue sin ella hasta volver a escanearlo con conexión, y sus entradas cuentan como «Sin categoría» en el Resumen. Añadir comida y Cambiar alimento ya filtran por categoría (§154). La categoría no es un snapshot: reclasificar un alimento reclasifica su historial, y uno borrado deja sus entradas sin categoría.
 - El `theme_color` del manifest es el claro; el meta de la página se adapta al tema.
 - Gasto observado (Perfil): exige 28 días con ≥ 80 % de comidas registradas y 2 pesajes por semana; usa 7.700 kcal/kg (aproximación, Hall 2008), el peso varía por agua y sal y el registro de comida suele quedarse corto. Es orientativo y no sustituye al estimado salvo que se active.
 - Proteína por kg y agua: rango 1,6–2,2 g/kg (Morton 2018, Jäger 2017) verificado con el texto de las fuentes; el objetivo de agua (2,0/1,6 L) parte de EFSA (2010) con un 20 % descontado por la humedad de los alimentos, que es criterio de AppFit y no una cifra de EFSA (el resumen de EFSA no da ese porcentaje; efsa.europa.eu rechazó la consulta directa y se leyó una copia archivada). Si sale una fuente mejor para el descuento, sustituirlo.
@@ -79,7 +79,7 @@ Gamificación:
 Cuerpo y objetivos:
 - Objetivos distintos en días de entreno y de descanso (kcal extra a hidratos): la integración Gym ↔ Nutrición se decidirá más adelante.
 - Definir recomendaciones contrastadas por grupos de alimentos y comparar raciones con el consumo real. La sección Referencias y sus tipos ya están preparados y los alimentos ya tienen categoría (§82); faltan fuentes, valores y la correspondencia entre categorías y grupos de las guías, sin recomendaciones ficticias.
-- Cambiar la categoría de un alimento del catálogo (una preferencia personal por `FoodRef`, como los nombres cortos). El filtro de categoría en Añadir comida está implementado (§151).
+- Cambiar la categoría de un alimento del catálogo (una preferencia personal por `FoodRef`, como los nombres cortos). El filtro de categoría en Añadir comida está implementado (§154).
 
 Actividades y Caminos:
 - **App nativa** (p. ej. Capacitor) para grabar con el GPS en segundo plano y leer los entrenos de Apple Salud o Health Connect (caminatas y carreras del reloj con su recorrido, sin hacer nada) y los pasos de cada día, que hoy se apuntan a mano en Caminos. Exige cuenta de desarrollador de Apple, compilar en un Mac (o en la nube) y la revisión del App Store; cambia el plan de publicación ([despliegue.md](despliegue.md)).
@@ -88,7 +88,7 @@ Actividades y Caminos:
 - Rutas propias: sustituir GeoNames por el Nomenclátor del IGN (oficial) si se descarga a mano; lugares fuera de España; nombres en castellano además de los oficiales («Lérida», «Gerona») en el buscador.
 
 Análisis:
-- Variación de la media de peso en Inicio. Las gráficas de agua y medidas corporales están implementadas (§151).
+- Variación de la media de peso en Inicio. Las gráficas de agua y medidas corporales están implementadas (§154).
 
 Calidad de datos:
 - Aviso de coherencia energética (kcal frente a 4·P + 4·C + 9·G) en la revisión y en Alimentos; la tubería del catálogo ya tiene uno (`calidad.ts`).

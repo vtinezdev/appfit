@@ -1,5 +1,6 @@
 // Acceso a la tabla `routines`. Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
 import { db } from '../../../shared/db/db'
+import { validarEjecucion } from '../lib/ejecucion'
 import type { Routine } from '../../../shared/db/types'
 import { resolverSeleccion } from './exercisesRepo'
 import { ErrorSustitucion, sustituirEnRutina } from '../lib/rutinas'
@@ -17,15 +18,18 @@ export function obtener(id: number): Promise<Routine | undefined> {
 }
 
 /** Crea la rutina si no trae `id`, o la actualiza. Devuelve su id. */
-export async function guardar({ id, nombre, exerciseIds, objetivos }: RoutineInput): Promise<number> {
-  // Los objetivos solo se guardan para ejercicios que siguen en la rutina.
-  const vigentes = objetivos && Object.fromEntries(Object.entries(objetivos).filter(([k]) => exerciseIds.includes(Number(k))))
-  const conObjetivos = vigentes && Object.keys(vigentes).length > 0 ? vigentes : undefined
-  if (id) {
-    await db.routines.update(id, { nombre, exerciseIds, objetivos: conObjetivos })
-    return id
-  }
-  return db.routines.add(conObjetivos ? { nombre, exerciseIds, objetivos: conObjetivos } : { nombre, exerciseIds })
+export function guardar({ id, nombre, exerciseIds, objetivos, agarres }: RoutineInput): Promise<number> {
+  return db.transaction('rw', db.routines, async () => {
+    const anterior = id ? await db.routines.get(id) : undefined
+    const vigentes = objetivos && Object.fromEntries(Object.entries(objetivos).filter(([k]) => exerciseIds.includes(Number(k))))
+    const fuente = agarres ?? anterior?.agarres
+    const elegidos = fuente && Object.fromEntries(Object.entries(fuente).filter(([k]) => exerciseIds.includes(Number(k))))
+    for (const agarre of Object.values(elegidos ?? {})) if (agarre) validarEjecucion({ ejecucion: 'bilateral', agarre })
+    const datos = { nombre, exerciseIds, objetivos: vigentes && Object.keys(vigentes).length ? vigentes : undefined,
+      ...(fuente !== undefined ? { agarres: elegidos && Object.keys(elegidos).length ? elegidos : undefined } : {}) }
+    if (id) { await db.routines.update(id, datos); return id }
+    return db.routines.add(datos)
+  })
 }
 
 /**
@@ -37,7 +41,9 @@ export function sustituirEjercicio(routineId: number, de: number, por: Seleccion
     const antes = await db.routines.get(routineId)
     if (!antes) throw new ErrorSustitucion('La rutina ya no existe.')
     const nuevo = await resolverSeleccion(por)
-    await db.routines.put(sustituirEnRutina(antes, de, nuevo))
+    const sustituida = { ...sustituirEnRutina(antes, de, nuevo) }
+    if (por.agarre !== undefined) sustituida.agarres = { ...sustituida.agarres, [nuevo]: por.agarre }
+    await db.routines.put(sustituida)
     return antes
   })
 }
@@ -54,13 +60,15 @@ export function guardarPlan(plan: PlanCreador): Promise<number[]> {
     for (const rutina of rutinasDelPlan(plan, existentes)) {
       const exerciseIds: number[] = []
       const objetivos: Routine['objetivos'] = {}
+      const agarres: NonNullable<Routine['agarres']> = {}
       for (const { seleccion, objetivo } of rutina.ejercicios) {
         const id = await resolverSeleccion(seleccion)
         if (exerciseIds.includes(id)) continue
         exerciseIds.push(id)
         objetivos[id] = { ...objetivo }
+        if (seleccion.agarre !== undefined) agarres[id] = seleccion.agarre
       }
-      ids.push(await db.routines.add({ nombre: rutina.nombre, exerciseIds, objetivos }))
+      ids.push(await db.routines.add({ nombre: rutina.nombre, exerciseIds, objetivos, ...(Object.keys(agarres).length ? { agarres } : {}) }))
     }
     return ids
   })

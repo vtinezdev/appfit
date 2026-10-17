@@ -224,7 +224,7 @@ La semana del diario reorganiza días y título bajo 16 rem de lectura. Las mét
 
 Con poco alto disponible, la cabecera y el footer de ModalPage tienen límites proporcionales y scroll propio para conservar acceso al contenido y a las acciones con teclado y texto ampliado.
 
-### Controles compactos y tendencias (§151)
+### Controles compactos y tendencias (§154)
 
 - ViewTabs mantiene los rótulos completos en una línea; si no caben, su propia franja se desplaza horizontalmente. Indicador medido sobre el botón activo con ResizeObserver; flechas/Inicio/Fin siguen seleccionando y mantienen la pestaña elegida visible. No se ocultan rótulos para hacerlos caber.
 - SemanaKcal conserva un mínimo de `--touch-target` por día dentro de `.semana-scroll`, con pista de desplazamiento y selección visible. CalendarioEntrenos cambia a lista con contenedor ≤23 rem; evita objetivos táctiles pequeños y solapamientos. Las medidas de rem acompañan al texto ampliado.

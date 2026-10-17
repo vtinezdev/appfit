@@ -9,7 +9,7 @@ Implementadas sobre el trabajo anterior, conservando los cambios pendientes del 
 | Aviso de carga para revisar/conservar | [Gimnasio](../features/gym.md#comodidad-de-registro-y-confianza-al-guardar) |
 | Categorías y preparación al elegir alimentos | [Nutrición](../features/nutricion.md#selección-y-preparación-al-añadir-comida) |
 | Pistas contextuales y ayuda recuperable | [Gimnasio](../features/gym.md#comodidad-de-registro-y-confianza-al-guardar) |
-| Pestañas con rótulos completos | [Design System](../DESIGN-SYSTEM.md#controles-compactos-y-tendencias-151) |
+| Pestañas con rótulos completos | [Design System](../DESIGN-SYSTEM.md#controles-compactos-y-tendencias-154) |
 | Evolución de agua y medidas con tabla | [Inicio](../features/inicio.md#evolución-del-agua), [Perfil](../features/perfil.md#evolución-de-las-medidas) |
 | Diagnóstico local, revisable y copiable | [Arquitectura](../arquitectura.md#diagnóstico-local-para-comunicar-problemas) |
 

@@ -1591,8 +1591,36 @@ Víctor quiere que los pasos que cuenta el móvil avancen el Camino. Una PWA no 
 
 **Verificación:** `npm run test` (2.243 tests en 179 archivos) y `npm run build` en verde. Chrome en `appfit-test.localhost:5173` (ventana de escritorio, columna móvil): apuntar 12.500 pasos (8,75 km con 70 cm), una caminata de 5 km el mismo día deja +3,75 km y la ruta en 8,75 km; zancada propia de 80 cm y «Usar la estimada»; Vitrina con las piezas nuevas; sin scroll horizontal ni errores en consola. No probados: 320/430 px, tema oscuro, texto al 200 % ni iPhone físico.
 
+## 149. Revisión muscular y ampliación del catálogo de ejercicios (2026-10-17)
 
-## 149. Tamaños de pantalla y Android (2026-10-17)
+Víctor pide revisar todos los ejercicios (especialmente las dominadas), ampliar gimnasio, calistenia y pilates, y mantener las ilustraciones anatómicas. Facilita la conversación original de ChatGPT con el prompt por lotes de cuatro. Implementación en `feat/revision-ampliacion-ejercicios`, desde `origin/master` con §148.
+
+- Revisión de las 204 definiciones: 96 listas de secundarios afinadas, 108 confirmadas. Se completan tirones, agarre, deltoides posteriores, aductores y demanda del tronco según apoyo; se retiran asociaciones incidentales de press francés y sentadilla sumo. [Auditoría completa](historico/revision-ejercicios-2026-10-17.md), con antes/después, listas sin cambios, altas y fuentes de contraste. Se mantienen los ids, nombres, alias y principales anteriores y las 12 zonas anatómicas.
+- 32 altas: 8 de gimnasio, 12 de calistenia y 12 de pilates en colchoneta. Total 236. Material Anillas propio; términos de búsqueda «pilates», «calistenia» y «gimnasio» separados de los alias de identidad. El selector sugiere esos términos en el buscador. Los nuevos movimientos se anexan a sus patrones; pike cubre ahora el empuje vertical con peso corporal en el creador.
+- 32 miniaturas WebP de 192 px generadas con el prompt original y referencia visual local, lotes 52–59; pullover en máquina e hiperextensión inversa se refinan individualmente para aclarar la mecánica de la máquina. Las 204 miniaturas anteriores permanecen idénticas byte a byte. Se conservan originales locales en `scripts/ejercicios/ia/` (ignorados por Git), prompts y metadatos en el repositorio.
+- Se corrige la tubería que podía borrar miniaturas sin original local ni equivalente fotográfico. `ilustraciones-convertidas.json` conserva la procedencia y las casillas completadas aunque falten los originales; solo se borran archivos ajenos al catálogo. Test de integración en directorio temporal: dos ejecuciones normales y otra con `--forzar` sin equivalentes, conservación de bytes/registro, pendiente honesto y eliminación de huérfana.
+- Sin migración de datos ni SQL: las sesiones nuevas resuelven el catálogo vigente, incluso con metadatos locales anteriores; los `muscleSnapshot` guardados conservan su reparto. Los entrenamientos antiguos sin snapshot siguen la clasificación vigente y la indicación de sesión antigua. Los términos editoriales no se persisten ni enlazan nombres genéricos como «Pilates».
+
+**Verificación:** `npm run test`: 2.246 tests en 180 archivos, correctos. Build TypeScript/Vite/PWA correcto. `scripts/ui/validar-catalogo-ejercicios.cjs` actualizado a la navegación por Secciones, entreno minimizado y plegado de paneles: ocho contextos Chromium efímeros en `appfit-test.localhost:5173` (320/375/430 claro/oscuro, 1440 claro y 375 oscuro con texto al 200 %/Reduce Motion), 48 estados correctos, sin desbordamientos, controles pequeños ni errores de consola. Incluye búsquedas por disciplina, filtro Anillas, decodificación de las 236 imágenes, añadir pilates a una rutina, personalizados/reintento de error, identidad y datos antiguos conservados, sesión y recarga. Capturas e informe en `/tmp/appfit-catalogo-ejercicios`. Sin prueba en dispositivo físico. No se hace commit ni push.
+
+## 150. Segunda ampliación y agarres al elegir un ejercicio (2026-10-17)
+
+Víctor pide seguir ampliando el catálogo y, durante el trabajo, elegir las modalidades de agarre al seleccionar un ejercicio. Se explica el flujo concreto (paso opcional, dimensiones compatibles, detalles fijos, persistencia por rutina y serie); se implementa sobre `feat/revision-ampliacion-ejercicios`, conservando los cambios sin commit de §149.
+
+- Otros 32 ejercicios: 12 de gimnasio, 12 de calistenia y 8 de pilates. Total 268; 20 de pilates. Lotes 60–67 con el mismo render anatómico gris/naranja; refinamientos individuales de gemelos sentado y curl femoral deslizante para corregir la zona resaltada y el apoyo de talones. Las 236 fichas e imágenes anteriores se conservan idénticas. [Listado y decisiones de la ampliación](historico/ampliacion-ejercicios-agarres-2026-10-17.md).
+- `lib/agarres.ts`: 123 perfiles asignados explícitamente a ids del catálogo. Se separan orientación/anchura/accesorio y se respetan variantes nombradas: neutro, supino, cuerda, barra, diamante, cerrado… Mixto solo en pesos muertos con barra compatibles; V neutro/estrecho; cuerda neutra sin anchura; individual sin anchura. No se ofrecen agarres neutros con barra recta. El cambio de accesorio limpia incompatibilidades del borrador, sin tocar datos anteriores.
+- `SelectorEjercicios` abre «Elegir agarre» con `CamposAgarre` si hay alternativas; el resto se añade directamente. Permite añadir sin especificar, volver conservando consulta/filtros/foco y reintentar errores sin perder la elección. Se reutiliza `ModalPage`; la clave de la página cambia al entrar/salir del paso para reiniciar su ciclo modal. No se escribe al abrir, consultar o volver.
+- `Routine.agarres?` conserva `Agarre | null` por ejercicio: omitido conserva el comportamiento anterior, null anula el habitual. El editor muestra/edita agarres; el asistente los mantiene en la selección y los muestra en el plan. Guardar filtra ejercicios retirados; sustituir limpia el agarre anterior y conserva la elección explícita nueva. No se modifica `Exercise.ejecucionHabitual` al elegir desde el catálogo.
+- Empezar rutina o crear entreno pasado copia los agarres a `Workout.ejecucionesEjercicios`, incluso sin objetivos. Las series usan `SetEntry.agarre`, y su precarga solo toma valores del agarre escogido. Selección/configuración/primera serie es transaccional y un fallo revierte todo. La clave de comparación sigue separando variantes y la sesión no reescribe el histórico ni la rutina. «Recordar» aclara que los agarres propios de una rutina tienen prioridad sobre el habitual.
+- Nuevos campos/valores opcionales, sin índices ni migración de registros: Dexie v12 y backup v3. Se comprueba round trip de rutinas/configuraciones/series y conservación de valores sin especificar; no se necesita SQL. Documentación viva y ADR 026 actualizados.
+
+**Verificación:** `npm run test`: 2.258 tests en 182 archivos correctos. `npm run build` TypeScript/Vite/PWA correcto. Doce nuevas pruebas de perfiles, combinaciones, aislamiento entre rutinas, histórico/precarga, herencia con/sin objetivos, asistente, sustitución, rollback y backup. `validar-agarres.cjs` y `validar-catalogo-ejercicios.cjs`: ocho contextos Chromium efímeros cada uno, 320/375/430 claro/oscuro, 1440 claro y 375 oscuro con texto al 200 %/Reduce Motion; 48 + 48 estados correctos, sin desbordamientos ni errores de consola, controles ≥44 px e inputs ≥16 px. Incluye elegir/restringir/volver, edición por rutina, cambio de sesión sin cambiar rutina/habitual, neutro fijo, añadir directamente sin agarres, decodificar las 268 imágenes, recarga y datos antiguos conservados. Capturas e informes en `/tmp/appfit-agarres-ui` y `/tmp/appfit-catalogo-ejercicios`. No probado en iPhone físico. Sin commit ni push.
+
+## 151. Preparación de una vista previa para probar los agarres (2026-10-17)
+
+El enlace de desarrollo `appfit-test.localhost` solo es accesible desde el entorno donde se ejecuta y no sirve para que Víctor pruebe desde su dispositivo. Víctor autoriza commit y push de `feat/revision-ampliacion-ejercicios` con los cambios de §149–150 para preparar una vista previa en Cloudflare, sin merge a `master`. Se conservan como validación los 2.258 tests, el build y los 96 estados de navegador ya comprobados; desde entonces no se ha cambiado código.
+
+## 152. Tamaños de pantalla y Android (2026-10-17)
 
 Se adapta la PWA existente a móvil, tablet y escritorio: columna compartida de 32/48 rem, mosaico de Inicio según ancho de lectura, texto largo y cifras completas, zonas seguras laterales, controles nativos acotados y rejillas que se reorganizan al ampliar texto. Semana del diario, resúmenes de entreno/actividad e indicadores/calendario de Ritmo responden al espacio disponible. La rueda de energía se limita a su contenedor y separa su cifra con texto muy ampliado.
 
@@ -1604,9 +1632,9 @@ Primeros pasos incorpora instrucciones de Android/iOS y el botón de instalació
 
 Documentación viva actualizada. Sin commits, push, despliegue, cambios de datos ni SQL. Pendiente validar instalación y teclado/cámara/gestos/recortes en Android e iOS físicos; Chromium emulado no reproduce esos dispositivos.
 
-## 150. Auditoría integral de calidad y compatibilidad (2026-10-17)
+## 153. Auditoría integral de calidad y compatibilidad (2026-10-17)
 
-Víctor solicita la auditoría completa adjunta: inventario real, uso diario, tamaños, navegadores, persistencia/PWA, UX y prevención. Se continúa sobre los cambios de adaptación de §149, sin confundirlos con hallazgos nuevos. Inventario: 1.179 archivos, 602 fuentes TS/TSX/CSS, 215 componentes/pantallas y 181 archivos de tests. Matriz y evidencias duraderas en [el informe](auditoria-2026-10-17/INFORME.md).
+Víctor solicita la auditoría completa adjunta: inventario real, uso diario, tamaños, navegadores, persistencia/PWA, UX y prevención. Se continúa sobre los cambios de adaptación de §152, sin confundirlos con hallazgos nuevos. Inventario: 1.179 archivos, 602 fuentes TS/TSX/CSS, 215 componentes/pantallas y 181 archivos de tests. Matriz y evidencias duraderas en [el informe](auditoria-2026-10-17/INFORME.md).
 
 Cinco correcciones confirmadas: CampoSerie admitía una coma que Chromium descartaba (`72,5` terminaba como `725 kg`, P1); ahora parser común y teclado decimal con borrador y flechas. El fallo de notas no impedía terminar ni salir del historial (P1); ahora se conserva el borrador y se exige guardado correcto antes de continuar. Alimentos deja envolver nombre/kcal con texto ampliado (P2), NumberStepper coloca campo y ± en filas separadas si no caben (P2), y el anillo semanal conserva proporción cuadrada al encoger (P3). Sin cambios de esquema, backup ni reglas de cálculo.
 
@@ -1614,9 +1642,9 @@ Cinco correcciones confirmadas: CampoSerie admitía una coma que Chromium descar
 
 Nuevos runners de entrenamiento, geometría y formularios; npm scripts esenciales, reparación de selectores obsoletos y workflow de GitHub Actions con tres motores y artefactos. Sin nuevas dependencias en la PWA; Playwright externo. Comandos locales comprobados y YAML válido; workflow aún sin publicar/ejecutar en GitHub. Pendientes explícitos en roadmap: targets pequeños de calendarios, lectura de pestañas al 200 % y validación física iOS/Android. Sin datos reales, commits, push, merge ni despliegue.
 
-## 151. Ocho mejoras de uso tras la auditoría (2026-10-17)
+## 154. Ocho mejoras de uso tras la auditoría (2026-10-17)
 
-Víctor autoriza implementar las recomendaciones 1–8. Se conservan todos los cambios pendientes de §149–150, sin commit, push, merge ni despliegue.
+Víctor autoriza implementar las recomendaciones 1–8. Se conservan todos los cambios pendientes de §152–150, sin commit, push, merge ni despliegue.
 
 - Diario mantiene siete días con ancho táctil y desplazamiento propio, selección visible y ayuda de deslizamiento. Calendario de entrenos pasa a lista bajo 23 rem; se conservan mes y acceso al día. ViewTabs mantiene rótulos completos en una línea con desplazamiento e indicador medido, teclado y selección visibles.
 - Entreno activo muestra estado local de series/notas y reintento de las últimas operaciones fallidas, con cola por registro y cierre bloqueado mientras haya errores. Al salir de notas cancela el guardado diferido para no repetir intentos. Borrar una serie o quitar un ejercicio elimina sus reintentos obsoletos. El estado de nube se conserva separado.

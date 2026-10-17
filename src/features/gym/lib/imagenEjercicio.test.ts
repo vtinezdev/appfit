@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { CATALOGO_POR_ID } from './catalogoEjercicios'
+import { CATALOGO_EJERCICIOS, CATALOGO_POR_ID } from './catalogoEjercicios'
 import { EJERCICIOS_CON_IMAGEN } from './ejerciciosConImagen'
 import { imagenEjercicio } from './imagenEjercicio'
 
@@ -15,6 +15,7 @@ describe('imagenEjercicio', () => {
     expect(imagenEjercicio('appfit:no-existe')).toBeNull()
   })
   it('la lista generada solo contiene ejercicios del catálogo y sus archivos existen', () => {
+    expect(EJERCICIOS_CON_IMAGEN.size).toBe(CATALOGO_EJERCICIOS.length)
     for (const slug of EJERCICIOS_CON_IMAGEN) {
       expect(CATALOGO_POR_ID.has(`appfit:${slug}`), slug).toBe(true)
       expect(existsSync(`public/ejercicios/${slug}.webp`), slug).toBe(true)

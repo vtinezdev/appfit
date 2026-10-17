@@ -85,6 +85,22 @@ describe('normalización independiente', () => {
 })
 
 describe('snapshot semántico y sesiones antiguas', () => {
+  it('afina dominadas nuevas sin reescribir su participación histórica ni los metadatos locales', () => {
+    const dominadas: Exercise = { ...local, catalogId: 'appfit:dominadas', nombre: 'Dominadas', nombreNorm: 'dominadas',
+      primaryMuscles: ['espalda'], secondaryMuscles: ['biceps', 'antebrazo'] }
+    const original = structuredClone(dominadas)
+    const antiguo = { version: 1 as const, exercises: [{ exerciseId: 1, nombre: 'Dominadas', catalogId: 'appfit:dominadas',
+      primaryMuscles: ['espalda'], secondaryMuscles: ['biceps', 'antebrazo'] }] }
+    const nuevo = crearSnapshotMuscular([set(1)], [dominadas])
+    const actual = trabajoMuscularWorkout({ muscleSnapshot: nuevo }, [set(1)], [dominadas])
+    expect(actual.muscles.espalda.score).toBe(1)
+    for (const musculo of ['biceps', 'antebrazo', 'hombros', 'core'] as const) expect(actual.muscles[musculo].score).toBe(0.5)
+    const historico = trabajoMuscularWorkout({ muscleSnapshot: antiguo }, [set(1)], [dominadas])
+    expect(historico.muscles.hombros.score).toBe(0)
+    expect(historico.muscles.core.score).toBe(0)
+    expect(dominadas).toEqual(original)
+    expect(antiguo.exercises[0].secondaryMuscles).toEqual(['biceps', 'antebrazo'])
+  })
   it('clasifica antiguo solo por nombre/alias exacto sin mutarlo', () => {
     const original = structuredClone(local)
     expect(crearSnapshotMuscular([set(1)], [local]).exercises[0]).toMatchObject({ catalogId: 'appfit:press-banca', primaryMuscles: ['pecho'] })

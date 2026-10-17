@@ -5,7 +5,7 @@ import { MUSCULOS, type Musculo } from './musculos'
 /** Material en minúscula para leerse tras el músculo («Pecho · barra»); «Otros» no aporta nada. */
 const MATERIAL: Record<Equipo, string | null> = {
   corporal: 'peso corporal', mancuernas: 'mancuernas', barra: 'barra', maquina: 'máquina', polea: 'polea',
-  smith: 'Smith', kettlebell: 'kettlebell', bandas: 'bandas', trx: 'TRX', otros: null,
+  smith: 'Smith', kettlebell: 'kettlebell', bandas: 'bandas', trx: 'TRX', anillas: 'anillas', otros: null,
 }
 
 /** «y» pasa a «e» ante un sonido /i/ («Glúteos e isquiotibiales»), salvo «hie-». */
