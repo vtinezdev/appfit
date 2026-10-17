@@ -99,6 +99,7 @@ async function caso(motor, ampliado) {
       const selector=page.getByRole('dialog',{name:'Añadir ejercicio',exact:true})
       await selector.getByRole('searchbox').fill('Press banca')
       await selector.getByRole('button').filter({has:page.getByText('Press banca',{exact:true})}).click()
+      await page.getByRole('dialog',{name:'Elegir agarre',exact:true}).getByRole('button',{name:'Añadir sin especificar agarre',exact:true}).click()
       await selector.waitFor({state:'detached'})
       const peso=page.getByLabel(/^Peso en kg, serie 1/)
       await page.evaluate(async()=>{

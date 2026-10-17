@@ -1,5 +1,7 @@
 # Mejoras de uso 1–8 · 17 de octubre de 2026
 
+> Resultados previos a integrar el catálogo ampliado de master. La integración y preparación de la publicación se registran en PROCESO §155; los checks de la PR verifican el conjunto.
+
 Implementadas sobre el trabajo anterior, conservando los cambios pendientes del árbol. Sin nuevas dependencias, esquema ni formato de backup; sin commit, push o despliegue.
 
 | Mejora | Documentación vigente |
