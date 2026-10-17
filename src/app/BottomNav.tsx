@@ -17,7 +17,7 @@ interface Props {
 const destino = (key: Tab) => DESTINOS.find((d) => d.key === key)!
 
 /**
- * Navegación (ADR 043): un botón redondo flotante abajo al centro abre la media luna con Inicio · Social · Nutrición · Entreno · Perfil · Ajustes
+ * Navegación (ADR 043): un botón redondo flotante abajo al centro abre la media luna con Inicio · Perfil · Nutrición · Entreno · Social · Ajustes
  * (Social solo con cuenta configurada). El resto de destinos se abre desde su sección, que queda marcada (`seccionDe`).
  */
 export default function BottomNav({ tab, onChange, ocultos = [], encima }: Props) {

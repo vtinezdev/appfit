@@ -19,7 +19,7 @@ export const DESTINOS = [
 export type Tab = (typeof DESTINOS)[number]['key']
 
 /** La media luna de secciones (ADR 043), de izquierda a derecha. Social solo con cuenta configurada. */
-export const EN_ARCO: readonly Tab[] = ['inicio', 'social', 'nutricion', 'gym', 'perfil', 'ajustes']
+export const EN_ARCO: readonly Tab[] = ['inicio', 'perfil', 'nutricion', 'gym', 'social', 'ajustes']
 
 /** Destinos fuera de la media luna y la sección desde la que se entra: es la que queda marcada mientras se está en ellos. */
 const DENTRO_DE: Partial<Record<Tab, Tab>> = {

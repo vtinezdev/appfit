@@ -354,7 +354,7 @@ El fondo por defecto son las curvas de nivel; en Ajustes se elige entre dos fond
 
 ### Navegación y motion
 
-Navegación flotante ([ADR 043](docs/decisiones/043-media-luna-de-secciones.md)): un solo botón redondo en volt abajo al centro que abre una media luna con Inicio · Social · Nutrición · Entreno · Perfil · Ajustes (Social, desde el [ADR 040](docs/decisiones/040-parte-social.md), solo con cuenta configurada). Cada sección, un círculo con icono y nombre debajo; la actual con borde. Amigos se abre desde Social, Referencias desde Ajustes y Cumbres, Caminos, Ritmo y Vitrina desde sus teselas de Inicio. Lo que flota sobre el botón (avisos, descanso del entreno) se apoya en `--nav-dock`.
+Navegación flotante ([ADR 043](docs/decisiones/043-media-luna-de-secciones.md)): un solo botón redondo en volt abajo al centro que abre una media luna con Inicio · Perfil · Nutrición · Entreno · Social · Ajustes (Social, desde el [ADR 040](docs/decisiones/040-parte-social.md), solo con cuenta configurada). Cada sección, un círculo con icono y nombre debajo; la actual con borde. Amigos se abre desde Social, Referencias desde Ajustes y Cumbres, Caminos, Ritmo y Vitrina desde sus teselas de Inicio. Lo que flota sobre el botón (avisos, descanso del entreno) se apoya en `--nav-dock`.
 
 Feedback 120 ms, estados 200, overlays 280 y salida 180 ms. Fin de sesión conserva confirmación de 420 ms. CSS/Web Animations, curvas desaceleradas sin rebote; ninguna dependencia nueva. Reduce Motion elimina desplazamientos, escala, FLIP y stagger, preservando texto/check y fundido de 80 ms. Cifras y gráficas no cuentan desde cero.
 
