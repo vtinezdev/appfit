@@ -5,23 +5,24 @@ import FilterChips from '../../../shared/components/FilterChips'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
-import { ACCESORIOS, ANCHURAS, ORIENTACIONES, ejecucionVigente, opcionesAgarre, vaciaRegistro } from '../lib/ejecucion'
+import { ejecucionVigente, vaciaRegistro } from '../lib/ejecucion'
+import { CAMPOS_AGARRE, perfilAgarre, cambiarAgarre, textoAgarre, type CampoAgarre } from '../lib/agarres'
 
 /** Una opción por dimensión: tocar la elegida la deja sin indicar. */
 export function CamposAgarre({ ejercicio, valor, onChange, disabled }: { ejercicio: Exercise; valor?: Agarre; onChange: (a: Agarre | undefined) => void; disabled?: boolean }) {
-  const visibles = opcionesAgarre(ejercicio)
-  const campos = [
-    { id: 'orientacion' as const, titulo: 'Orientación', opciones: ORIENTACIONES as Record<string, string> },
-    { id: 'anchura' as const, titulo: 'Anchura', opciones: ANCHURAS as Record<string, string> },
-    { id: 'accesorio' as const, titulo: 'Accesorio', opciones: ACCESORIOS as Record<string, string> },
-  ].filter(c => visibles[c.id] || valor?.[c.id])
+  const perfil = perfilAgarre(ejercicio, valor)
+  const titulos = { orientacion: 'Orientación', anchura: 'Anchura', accesorio: 'Accesorio' }
+  const fuera = valor && (Object.keys(valor) as CampoAgarre[]).some(k => !(perfil[k] as readonly string[]).includes(valor[k]!))
   return <div className="space-y-3">
-    {campos.map(c => <FilterChips key={c.id} label={c.titulo} opciones={c.opciones} disabled={disabled} seleccion={valor?.[c.id] ? [valor[c.id]!] : []}
-      onChange={sel => {
-        const siguiente: Agarre = { ...valor, [c.id]: sel.find(x => x !== valor?.[c.id]) }
-        if (!siguiente[c.id]) delete siguiente[c.id]
-        onChange(Object.keys(siguiente).length ? siguiente : undefined)
-      }} />)}
+    {(['accesorio', 'orientacion', 'anchura'] as CampoAgarre[]).filter(k => perfil[k].length).map(k => {
+      const opciones = Object.fromEntries(perfil[k].map(id => [id, (CAMPOS_AGARRE[k] as Record<string, string>)[id]]))
+      return perfil[k].length === 1 ? <p key={k} className="text-body-sm text-fg-muted">{titulos[k]}: <span className="font-semibold text-fg">{Object.values(opciones)[0]}</span> · Propio del ejercicio</p> :
+        <FilterChips<string> key={k} label={titulos[k]} opciones={opciones} disabled={disabled} seleccion={valor?.[k] ? [valor[k]!] : []}
+          onChange={sel => onChange(cambiarAgarre(ejercicio, valor, k, sel.find(x => x !== valor?.[k])))} />
+    })}
+    {perfil.orientacion.length > 1 && <p className="text-caption text-fg-muted">Prono: palmas hacia fuera. Supino: hacia ti. Neutro: palmas enfrentadas.{perfil.orientacion.includes('mixto') && ' Mixto: una mano en prono y otra en supino.'}</p>}
+    {fuera && <p className="text-body-sm text-fg-muted">Agarre anterior: {textoAgarre(valor)}. Se conserva hasta que lo cambies.</p>}
+    {valor && <Button variant="ghost" size="sm" disabled={disabled} onClick={() => onChange(undefined)}>Dejar agarre sin especificar</Button>}
   </div>
 }
 
@@ -55,6 +56,7 @@ export default function EjecucionEjercicio({ open, onClose, ejercicio, actual, o
         </div>
         <CamposAgarre ejercicio={ejercicio} valor={valor.agarre} disabled={ocupado} onChange={agarre => setValor(c => ({ ...c, agarre }))} />
         <label className="flex min-h-touch items-center gap-3 text-body-sm"><input type="checkbox" checked={habitual} disabled={ocupado} onChange={e => setHabitual(e.target.checked)} />Recordar para próximas sesiones</label>
+        {habitual && <p className="text-caption text-fg-muted">Las rutinas que tienen un agarre elegido conservarán ese agarre.</p>}
         {error && <ErrorState>{error}</ErrorState>}
       </div>
     </Sheet>

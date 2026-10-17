@@ -30,8 +30,8 @@ describe('catálogo: tipo y patrón', () => {
       sinPropios.push(`${material}:${patron}`)
       expect(SUSTITUTOS[patron].some((s) => hay(s, material)), `${material}: ${patron}`).toBe(true)
     }
-    // Lo que en casa se cubre con un sustituto: no hay press de hombros, aperturas, curl ni encogimientos sin material.
-    expect(sinPropios.sort()).toEqual(['casa:biceps', 'casa:empuje-vertical', 'casa:pecho-aislamiento', 'casa:trapecio'])
+    // Las flexiones pike cubren el empuje vertical; aperturas, curl y encogimientos siguen necesitando sustituto.
+    expect(sinPropios.sort()).toEqual(['casa:biceps', 'casa:pecho-aislamiento', 'casa:trapecio'])
   })
 })
 
@@ -114,7 +114,7 @@ describe('cambios en la vista previa', () => {
     expect(plan.dias[0].ejercicios[0].catalogId).toBe('appfit:press-banca')
     let p = plan
     const vistos = new Set<string>()
-    for (let i = 0; i < 20; i++) { p = otraSugerencia(p, 0, 0, base); vistos.add(p.dias[0].ejercicios[0].catalogId!) }
+    for (let i = 0; i < CATALOGO_EJERCICIOS.length; i++) { p = otraSugerencia(p, 0, 0, base); vistos.add(p.dias[0].ejercicios[0].catalogId!) }
     expect(vistos.has('appfit:press-banca')).toBe(true)
     const enDia = p.dias[0].ejercicios.map((e) => e.catalogId)
     expect(new Set(enDia).size).toBe(enDia.length)

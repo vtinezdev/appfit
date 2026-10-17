@@ -14,8 +14,9 @@ Dos orígenes, por prioridad: la **ilustración propia** del ejercicio si existe
 
 Estilo: render anatómico 3D gris con los músculos principales en naranja, fondo blanco. Se generan con ChatGPT (plan gratuito, unas pocas al día) en lotes de cuatro ejercicios por imagen.
 
-- `ilustraciones.json`: los lotes fijos (51; del 30 al 51, los 88 ejercicios añadidos el 2026-10-09), cada uno con cuatro `[slug, postura en inglés, músculos a resaltar]`. Cada ejercicio del catálogo aparece una sola vez (el script falla si no). Los lotes no se reordenan: el número de lote identifica la imagen guardada.
-- `prompts.md` y `prompts-2.md` (generados): un prompt listo para copiar por lote, con ☐/✔ según si ya está su imagen. `prompts.md` tiene la primera tanda (lotes 1–29) y `prompts-2.md` las ampliaciones (desde el 30); al final de `prompts-2.md` se copia tal cual `mapa-muscular.md`: prompts para explorar el diseño del mapa muscular (hombre y mujer), que no pasan por esta tubería.
+- `ilustraciones.json`: los lotes fijos (67; 52–59 incorporan la primera ampliación de 32 ejercicios y 60–67 otra tanda de 32, ambas del 2026-10-17), cada uno con cuatro `[slug, postura en inglés, músculos a resaltar]`. Cada ejercicio del catálogo aparece una sola vez (el script falla si no). Los lotes no se reordenan: el número de lote identifica la imagen guardada.
+- `prompts.md` y `prompts-2.md` (generados): un prompt listo para copiar por lote, con ☐/✔ según si están los originales o las cuatro miniaturas convertidas. `prompts.md` tiene la primera tanda (lotes 1–29) y `prompts-2.md` las ampliaciones (desde el 30); al final de `prompts-2.md` se copia tal cual `mapa-muscular.md`: prompts para explorar el diseño del mapa muscular (hombre y mujer), que no pasan por esta tubería.
+- `ilustraciones-convertidas.json`: registro generado y versionado de las miniaturas convertidas desde IA. Permite conservar imágenes y casillas completadas en un checkout sin originales. Las 268 miniaturas actuales son ilustraciones propias.
 - `ia/` (fuera de Git, son originales pesados): `lote-NN.png|jpg|webp` es la imagen 2×2 del lote NN. Cada cuarto se recorta (menos un 2 % por borde por si hay líneas divisorias), se quita el blanco sobrante, se centra en un cuadrado con margen y se guarda como WebP calidad 78 (unos 3 KB).
 
 Flujo:
@@ -24,7 +25,7 @@ Flujo:
 3. Guarda la imagen como `scripts/ejercicios/ia/lote-NN.png` y ejecuta `npm run ejercicios:imagenes`.
 4. Si un solo recuadro no hay forma de arreglarlo: genera ese ejercicio solo con `--prompt <slug>` y guárdalo como `ia/<slug>.png`, que tiene prioridad sobre su recuadro del lote.
 
-Los originales no se suben al repositorio: si se pierden, las miniaturas ya convertidas en `public/ejercicios/` siguen valiendo, pero no se pueden volver a recortar.
+Los originales no se suben al repositorio: si se pierden, las miniaturas ya convertidas en `public/ejercicios/` siguen valiendo, pero no se pueden volver a recortar. El script conserva sus bytes y procedencia y no las sustituye por fotografías al usar `--forzar`. Las miniaturas existentes sin procedencia conocida también se conservan en una ejecución normal; solo se borran las ajenas al catálogo. Una imagen nueva sin original ni equivalente fiel queda pendiente, sin inventar una foto.
 
 ## Fotos de free-exercise-db
 
@@ -46,3 +47,7 @@ Los ejercicios personalizados no tienen imagen.
 - Cada forma va a una zona de `lib/musculos.ts` si su centroide cae en uno de los rectángulos de `FIGURAS` (coordenadas de la imagen, lado izquierdo; el derecho es simétrico respecto al eje de la figura). Las que no, son detalle neutro (cabeza, cuello, manos, rodillas, pies). `cortes` añade líneas que la imagen no tenía (los tobillos de la mujer de frente).
 - Contornos simplificados y suavizados en curvas cuadráticas, con coordenadas enteras relativas en un viewBox común (unos 45 kB).
 - Los rectángulos valen solo para esta imagen. Al cambiarla, ejecuta `npm run ejercicios:mapa -- --depurar` y revisa `ia/mapa-muscular-depuracion.png`, con cada zona de un color.
+
+## Comprobación de conservación
+
+`npm run test -- scripts/ejercicios/imagenes.test.ts` ejecuta dos veces el conversor y una tercera con `--forzar` sin equivalentes fotográficos en un directorio temporal sin originales: conserva ilustraciones/fotos/miniaturas sin mapeo, mantiene el registro de IA, no inventa una imagen pendiente y elimina únicamente un archivo huérfano.

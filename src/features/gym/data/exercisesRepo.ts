@@ -1,3 +1,4 @@
+import { validarAgarreEjercicio } from '../lib/agarres'
 import { validarPlan } from '../lib/progresion'
 // Acceso a la tabla `exercises`. Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
 import { db } from '../../../shared/db/db'
@@ -30,6 +31,7 @@ export function resolverSeleccion(seleccion: SeleccionEjercicio): Promise<number
     if (seleccion.tipo === 'local') {
       const e = await db.exercises.get(seleccion.id)
       if (!e) throw new ErrorSeleccionEjercicio('El ejercicio ya no está disponible.')
+      validarAgarreEjercicio(e, seleccion.agarre)
       return e.id
     }
     if (seleccion.tipo === 'personalizado') {
@@ -41,6 +43,7 @@ export function resolverSeleccion(seleccion: SeleccionEjercicio): Promise<number
     }
     const c = CATALOGO_POR_ID.get(seleccion.catalogId)
     if (!c) throw new ErrorSeleccionEjercicio('El ejercicio no está disponible en el catálogo.')
+    validarAgarreEjercicio({ id: 0, nombre: c.name, nombreNorm: normalizeName(c.name), grupo: '', catalogId: c.id }, seleccion.agarre)
     const locales = await db.exercises.toArray()
     const previo = locales.find(e => e.catalogId === c.id) ?? locales.find(e => catalogoDeLocal(e)?.id === c.id)
     if (previo) {

@@ -1,4 +1,4 @@
-import type { Exercise, SetEntry } from '../../../shared/db/types'
+import type { Agarre, Exercise, SetEntry } from '../../../shared/db/types'
 import { normalizeName, tokensConsulta } from '../../../shared/lib/text'
 import { CATALOGO_EJERCICIOS, CATALOGO_POR_ID, MUSCULOS, type CatalogExercise, type Musculo, type Equipo } from './catalogoEjercicios'
 
@@ -8,8 +8,8 @@ export const FILTROS_MUSCULO = Object.fromEntries(Object.entries(MUSCULOS).flatM
   id === 'aductores' ? [[id, label], ['abductores', 'Abductores']] : [[id, label]])) as Record<FiltroMusculo, string>
 const ABDUCTORES = new Set(['appfit:abduccion-maquina', 'appfit:abduccion-polea', 'appfit:abduccion-bandas', 'appfit:almejas'])
 
-export type SeleccionEjercicio = { tipo: 'catalogo'; catalogId: string } | { tipo: 'local'; id: number } |
-  { tipo: 'personalizado'; nombre: string; musculo: Musculo; equipo: Equipo }
+export type SeleccionEjercicio = ({ tipo: 'catalogo'; catalogId: string } | { tipo: 'local'; id: number } |
+  { tipo: 'personalizado'; nombre: string; musculo: Musculo; equipo: Equipo }) & { agarre?: Agarre | null }
 /** Solo estos mensajes son aptos para mostrarse; los errores de almacenamiento usan feedback genérico. */
 export class ErrorSeleccionEjercicio extends Error {}
 export interface OpcionEjercicio {
@@ -19,6 +19,7 @@ export interface OpcionEjercicio {
   secondaryMuscles: string[]
   equipment: string[]
   aliases: string[]
+  searchTerms?: string[]
   filterGroups?: string[]
   localId?: number
   catalogId?: string
@@ -41,7 +42,7 @@ export function opcionesEjercicios(locales: Exercise[]): OpcionEjercicio[] {
   // Un nombre reservado por un personalizado no puede crear otra fila por el índice único existente.
   const nombresLocales = new Map(locales.map(e => [e.nombreNorm, e]))
   const oficiales = CATALOGO_EJERCICIOS.filter(c => !nombresLocales.has(normalizeName(c.name)) || asociadas.get(c.id)?.id === nombresLocales.get(normalizeName(c.name))?.id)
-    .map(c => ({ key: c.id, name: asociadas.get(c.id)?.nombre ?? c.name, primaryMuscles: c.primaryMuscles, secondaryMuscles: c.secondaryMuscles, equipment: c.equipment, aliases: [c.name, ...(c.aliases ?? [])], filterGroups: c.filterGroups, catalogId: c.id, localId: asociadas.get(c.id)?.id }))
+    .map(c => ({ key: c.id, name: asociadas.get(c.id)?.nombre ?? c.name, primaryMuscles: c.primaryMuscles, secondaryMuscles: c.secondaryMuscles, equipment: c.equipment, aliases: [c.name, ...(c.aliases ?? [])], searchTerms: c.searchTerms, filterGroups: c.filterGroups, catalogId: c.id, localId: asociadas.get(c.id)?.id }))
   const incluidas = new Set(oficiales.map(c => c.localId))
   return [...oficiales, ...locales.filter(e => !incluidas.has(e.id)).map(e => ({ key: `local:${e.id}`, name: e.nombre,
     primaryMuscles: e.primaryMuscles ?? [], secondaryMuscles: e.secondaryMuscles ?? [], equipment: e.equipment ?? [], aliases: [], localId: e.id, catalogId: e.catalogId }))]
@@ -66,7 +67,7 @@ export function filtrarEjercicios(opciones: OpcionEjercicio[], query: string, mu
     if (musculos.length && !musculos.some(m => m === 'abductores' ? abductor : e.primaryMuscles.includes(m) || e.filterGroups?.includes(m))) return []
     if (equipos.length && !equipos.some(m => e.equipment.includes(m))) return []
     // Sinónimo solo para buscar: los alias de identidad histórica siguen siendo únicos.
-    const words = tokensConsulta([e.name, ...e.aliases, ...(abductor ? ['abductores'] : [])].join(' '))
+    const words = tokensConsulta([e.name, ...e.aliases, ...(e.searchTerms ?? []), ...(abductor ? ['abductores'] : [])].join(' '))
     let score = 0
     for (const token of q) {
       if (words.some(w => w.startsWith(token))) continue

@@ -1,4 +1,7 @@
-import { useMemo, useRef, useState } from 'react'
+import type { Agarre, Exercise } from '../../../shared/db/types'
+import { admiteElegirAgarre, validarAgarreEjercicio } from '../lib/agarres'
+import { CamposAgarre } from './EjecucionEjercicio'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as setsRepo from '../data/setsRepo'
@@ -29,6 +32,8 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
   const [query, setQuery] = useState('')
   const [musculos, setMusculos] = useState<FiltroMusculo[]>([])
   const [equipos, setEquipos] = useState<Equipo[]>([])
+  const [configurando, setConfigurando] = useState<OpcionEjercicio | null>(null)
+  const [agarre, setAgarre] = useState<Agarre | undefined>(undefined)
   const [creando, setCreando] = useState(false)
   const [nombre, setNombre] = useState('')
   const [musculo, setMusculo] = useState<Musculo | ''>('')
@@ -37,6 +42,17 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
   const [ocupado, setOcupado] = useState(false)
   const pending = useRef(false)
   const customOpened = useRef(false)
+  const ultimoElegido = useRef<string | null>(null)
+  useEffect(() => {
+    if (configurando || !ultimoElegido.current) return
+    const key = ultimoElegido.current
+    ultimoElegido.current = null
+    const frame = requestAnimationFrame(() => {
+      const fila = [...document.querySelectorAll<HTMLElement>('[data-opcion-ejercicio]')].find(e => e.dataset.opcionEjercicio === key)
+      fila?.querySelector<HTMLButtonElement>('button')?.focus()
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [configurando])
   const opciones = useMemo(() => opcionesEjercicios(locales ?? []), [locales])
   const disponibles = opciones.filter(e => e.localId === undefined || !excluir.includes(e.localId))
   const resultados = filtrarEjercicios(disponibles, query, musculos, equipos)
@@ -50,9 +66,26 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
     catch (e) { setError(e instanceof ErrorSeleccionEjercicio ? e.message : 'No se ha podido añadir el ejercicio. Inténtalo de nuevo.') }
     finally { pending.current = false; setOcupado(false) }
   }
+  function comoEjercicio(e: OpcionEjercicio): Exercise {
+    return { id: e.localId ?? 0, nombre: e.name, nombreNorm: '', grupo: '', catalogId: e.catalogId,
+      primaryMuscles: e.primaryMuscles, secondaryMuscles: e.secondaryMuscles, equipment: e.equipment }
+  }
+  function seleccionDe(e: OpcionEjercicio): SeleccionEjercicio {
+    return e.catalogId && CATALOGO_POR_ID.has(e.catalogId) ? { tipo: 'catalogo', catalogId: e.catalogId } : { tipo: 'local', id: e.localId! }
+  }
+  function preparar(e: OpcionEjercicio) {
+    if (admiteElegirAgarre(comoEjercicio(e))) { ultimoElegido.current = e.key; setError(null); setAgarre(undefined); setConfigurando(e) }
+    else void elegir(seleccionDe(e))
+  }
+  async function confirmarAgarre(valor: Agarre | null) {
+    if (!configurando) return
+    try { validarAgarreEjercicio(comoEjercicio(configurando), valor) }
+    catch { setError('Elige un agarre compatible con este ejercicio.'); return }
+    await elegir({ ...seleccionDe(configurando), agarre: valor })
+  }
   function fila(e: OpcionEjercicio) {
-    return <li key={e.key}><ListRow tone="flat" disabled={ocupado}
-      onClick={() => elegir(e.catalogId && CATALOGO_POR_ID.has(e.catalogId) ? { tipo: 'catalogo', catalogId: e.catalogId } : { tipo: 'local', id: e.localId! })}>
+    return <li key={e.key} data-opcion-ejercicio={e.key}><ListRow tone="flat" disabled={ocupado}
+      onClick={() => preparar(e)}>
       <MiniaturaEjercicio catalogId={e.catalogId} />
       <span className="min-w-0 flex-1 break-words">
         <span className="block text-body font-semibold">{e.name}</span>
@@ -61,22 +94,27 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
       </span><Icon name="plus" size={18} className="shrink-0 text-accent-strong" />
     </ListRow></li>
   }
-  return <ModalPage title={creando ? 'Ejercicio personalizado' : 'Añadir ejercicio'} onClose={onClose} busy={ocupado}
-    footer={creando || error || ocupado ? <div className="space-y-2">
+  return <ModalPage key={configurando ? 'agarre' : 'catalogo'} title={configurando ? 'Elegir agarre' : creando ? 'Ejercicio personalizado' : 'Añadir ejercicio'} onClose={() => { if (configurando) { setConfigurando(null); setError(null) } else onClose() }} busy={ocupado}
+    footer={configurando || creando || error || ocupado ? <div className="space-y-2">
       {error && <ErrorState>{error}</ErrorState>}
-      {creando ? <><Button block loading={ocupado} disabled={!nombre.trim() || !musculo || !equipo}
+      {configurando ? <><Button block loading={ocupado} onClick={() => { void confirmarAgarre(agarre ?? null) }}>Añadir ejercicio</Button>
+        <Button variant="ghost" block disabled={ocupado} onClick={() => { void confirmarAgarre(null) }}>Añadir sin especificar agarre</Button></> : creando ? <><Button block loading={ocupado} disabled={!nombre.trim() || !musculo || !equipo}
         onClick={() => { if (musculo && equipo) void elegir({ tipo: 'personalizado', nombre, musculo, equipo }) }}>Crear y añadir</Button>
         <Button variant="ghost" block disabled={ocupado} onClick={() => { setCreando(false); setError(null) }}>Volver al catálogo</Button></> :
         ocupado && <p role="status" className="text-body-sm text-fg-muted">Añadiendo ejercicio…</p>}
     </div> : undefined}>
-    {creando ? <div className="space-y-section">
+    {configurando ? <div className="space-y-section">
+      <div className="flex items-center gap-3"><MiniaturaEjercicio catalogId={configurando.catalogId} /><h2 className="min-w-0 break-words text-title text-fg">{configurando.name}</h2></div>
+      <p className="text-body-sm text-fg-muted">Elige la variante que vas a usar. Puedes dejar el agarre sin especificar y cambiarlo después.</p>
+      <CamposAgarre ejercicio={comoEjercicio(configurando)} valor={agarre} onChange={setAgarre} disabled={ocupado} />
+    </div> : creando ? <div className="space-y-section">
       <p className="text-body-sm text-fg-muted">Quedará guardado en tu catálogo personal.</p>
       <label className="block space-y-2"><span className="text-label text-fg-muted">Nombre</span><Input autoFocus value={nombre} disabled={ocupado} onChange={e => setNombre(e.target.value)} /></label>
       <label className="block space-y-2"><span className="text-label text-fg-muted">Músculo principal</span><Select value={musculo} disabled={ocupado} onChange={e => setMusculo(e.target.value as Musculo)}><option value="">Selecciona un músculo</option>{Object.entries(MUSCULOS).map(([id, label]) => <option key={id} value={id}>{label}</option>)}</Select></label>
       <label className="block space-y-2"><span className="text-label text-fg-muted">Equipamiento</span><Select value={equipo} disabled={ocupado} onChange={e => setEquipo(e.target.value as Equipo)}><option value="">Selecciona equipamiento</option>{Object.entries(EQUIPAMIENTO).map(([id, label]) => <option key={id} value={id}>{label}</option>)}</Select></label>
     </div> : <div className="space-y-section">
       <div className="sticky top-0 z-10 bg-bg pb-3">
-        <SearchInput autoFocus={customOpened.current} aria-label="Buscar ejercicio" placeholder="Buscar ejercicio…" value={query} disabled={ocupado} onChange={e => setQuery(e.target.value)} />
+        <SearchInput autoFocus={customOpened.current} aria-label="Buscar ejercicio" placeholder="Nombre, pilates, calistenia…" value={query} disabled={ocupado} onChange={e => setQuery(e.target.value)} />
       </div>
       <div className="space-y-3">
         <FilterChips label="Músculo principal" opciones={FILTROS_MUSCULO} seleccion={musculos} onChange={setMusculos} disabled={ocupado} />
