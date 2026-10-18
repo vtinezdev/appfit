@@ -198,6 +198,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .muscle-body { max-width: var(--muscle-body-width); }
 .muscle-mini { height: var(--muscle-mini-height); }
 .publicacion-mapa { max-width: var(--muscle-social-width); }
+.muscle-calor { max-width: var(--muscle-calor-width); }
 /* Inicio: minigráfica del peso y vaso del agua. Datos neutros (texto atenuado), sin acento. */
 .mini-grafica { height: auto; overflow: visible; }
 .mini-grafica-linea { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
@@ -289,12 +290,17 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .muscle-swatch[data-level='3'] { background: rgb(var(--c-muscle-3)); }
 .muscle-swatch[data-level='4'] { background: rgb(var(--c-muscle-4)); }
 .muscle-swatch[data-level='5'] { background: rgb(var(--c-muscle-5)); }
+/* Mapa acumulado (ADR 046): la huella (trabajado antes, sin calor reciente) es un contorno discontinuo; el color cambia despacio solo en el antes → después. */
+[data-huella='true'] > .muscle-region { stroke: rgb(var(--c-muscle-3)); stroke-width: 1.5; stroke-dasharray: 3 2.5; }
+.muscle-swatch[data-huella='true'] { border: 1.5px dashed rgb(var(--c-muscle-3)); }
+.muscle-transicion .muscle-region { transition: fill var(--dur-calor) var(--ease-standard); }
 @media (forced-colors: active) {
   .muscle-region { fill: Canvas !important; stroke: CanvasText; }
   .muscle-outline { stroke: CanvasText; }
   .muscle-map [data-level]:not([data-level='0']) .muscle-region { fill: Highlight !important; }
   .muscle-swatch { background: Canvas; border-color: CanvasText; }
   .muscle-swatch:not([data-level='0']) { background: Highlight; }
+  [data-huella='true'] > .muscle-region { stroke: CanvasText; }
 }
 .app-field { caret-color: rgb(var(--c-accent-strong)); transition: border-color var(--dur-short), background-color var(--dur-short); }
 .app-field:focus { border-color: rgb(var(--c-accent-strong)); background: rgb(var(--c-surface)); }

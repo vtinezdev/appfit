@@ -1,5 +1,5 @@
 import { claveComparacion, contextoSerie } from '../lib/ejecucion'
-import { useRef, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import * as exercisesRepo from '../data/exercisesRepo'
@@ -23,13 +23,16 @@ import SectionHeader from '../../../shared/components/SectionHeader'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import { formatCompact, formatInt, formatNumber } from '../../../shared/lib/format'
 import Card from '../../../shared/components/Card'
-import { EmptyState } from '../../../shared/components/StateMessage'
+import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import MiniaturaEjercicio from '../components/MiniaturaEjercicio'
 import BloqueLiga from '../../liga/components/BloqueLiga'
 import LigasLista from '../../liga/components/LigasLista'
 import { useLigas } from '../../liga/hooks/useLigas'
 import { alternativas } from '../../liga/lib/alternativas'
 import { sesionesSinRecord } from '../../liga/lib/estancamiento'
+
+// Diferido: la geometría de los muñecos pesa más que el resto del mapa.
+const MapaCalor = lazy(() => import('../components/MapaCalor'))
 
 /** Rótulo del último punto de una serie, a su derecha: dónde estás sin tener que leer el eje. */
 function rotuloFinal(total: number, color: string, formato: (v: number) => string) {
@@ -53,7 +56,7 @@ function MiniLinea({ valores }: { valores: number[] }) {
 }
 
 /**
- * Sin ejercicio elegido: la lista de ejercicios con sesiones, cada uno con su última mejor serie y su minigráfica (E4,
+ * Sin ejercicio elegido: arriba el mapa muscular acumulado (ADR 046); después la lista de ejercicios con sesiones, cada uno con su última mejor serie y su minigráfica (E4,
  * ADR 035), y debajo las ligas (si la gamificación está visible). Elegido uno: su liga, una métrica con su gráfica, tres
  * cifras clave y las sesiones con su mejor serie.
  */
@@ -107,6 +110,7 @@ export default function Progreso() {
   const conLigas = !!ligas?.visible && ligas.ligas.length > 0
 
   return <div className="space-y-section">
+    {!exerciseId && <Suspense fallback={<LoadingState />}><MapaCalor /></Suspense>}
     {!exerciseId && <section aria-labelledby="progreso-lista" className="space-y-stack">
       <h2 id="progreso-lista" ref={listaRef} tabIndex={-1} className="text-heading text-fg">Por ejercicio</h2>
       {resumenes && resumenes.length > 0 && <ListGroup aria-label="Ejercicios con sesiones">

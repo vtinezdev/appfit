@@ -119,6 +119,8 @@
   --dur-overlay: 280ms;
   --dur-exit: 180ms;
   --dur-success: 420ms;
+  /* Cambio de color del mapa muscular acumulado en el antes → después al terminar un entreno (ADR 046). */
+  --dur-calor: 600ms;
   --dur-stagger: 18ms;
   --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
@@ -157,6 +159,7 @@
   --muscle-body-width: 10rem;
   --muscle-mini-height: 5.5rem;
   --muscle-social-width: 12rem;
+  --muscle-calor-width: 13rem;
   --vaso-width: 1.75rem;
   --muscle-swatch-size: 0.75rem;
   /* Foto/fade sobre luces estáticas que acompañan la longitud real de la página. */
@@ -325,7 +328,7 @@
 @media (prefers-reduced-motion: reduce) {
   :root {
     --dur-short: 80ms; --dur-normal: 80ms; --dur-overlay: 80ms;
-    --dur-exit: 80ms; --dur-success: 80ms; --dur-stagger: 0ms;
+    --dur-exit: 80ms; --dur-success: 80ms; --dur-stagger: 0ms; --dur-calor: 80ms;
     --motion-shift: 0rem; --motion-press: 1;
   }
 }

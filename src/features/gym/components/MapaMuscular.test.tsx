@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { ZONAS_MUSCULARES } from '../lib/musculos'
 import { CUERPOS } from './mapaMuscularGeometria'
-import MapaMuscular from './MapaMuscular'
+import MapaMuscular, { CuerpoMuscular, FigurasMusculares } from './MapaMuscular'
 
 describe('mapa corporal como representación de datos', () => {
   it('frontal/trasera cubren todas las zonas identificables sin usar categorías genéricas, en hombre y en mujer', () => {
@@ -34,5 +34,17 @@ describe('mapa corporal como representación de datos', () => {
     const html = renderToStaticMarkup(<MapaMuscular summary={trabajoMuscularWorkout({}, [], [])} />)
     expect(html).toContain('No hay series con repeticiones')
     expect(html).not.toMatch(/data-muscle="[^"]+" data-level="[1-5]"/)
+  })
+  it('mapa acumulado: una vista con niveles y huella, y la leyenda del contorno solo si hay huella', () => {
+    const levels = { ...trabajoMuscularWorkout({}, [], []).levels, pecho: 4 as const }
+    const vista = renderToStaticMarkup(<CuerpoMuscular vista="trasera" levels={levels} huella={{ gemelos: true }} />)
+    expect(vista).toContain(CUERPOS.hombre.trasera.silueta)
+    expect(vista).not.toContain(CUERPOS.hombre.frontal.silueta)
+    expect(vista).toContain('data-muscle="gemelos" data-level="0" data-huella="true"')
+    expect(vista).toContain('data-muscle="espalda" data-level="0" data-huella="false"')
+    expect(renderToStaticMarkup(<FigurasMusculares levels={levels} huella={{ gemelos: true }} />)).toContain('Trabajado antes')
+    const sinHuella = renderToStaticMarkup(<FigurasMusculares levels={levels} />)
+    expect(sinHuella).not.toContain('Trabajado antes')
+    expect(sinHuella).not.toContain('data-huella')
   })
 })

@@ -24,6 +24,7 @@
 Según los registros de sesión, sin confirmar todavía (preguntar a Víctor antes de darlo por hecho):
 - Rediseño completo (§51): safe areas, teclado y tacto en iOS/Android reales. Chromium cubre tamaños/temas/foco/scroll y viewport reducido, no reproduce el teclado real de WebKit.
 - Catálogo: tiempo de importación (~6.300 filas) y de búsqueda en Safari/WebKit.
+- Mapa muscular acumulado ([ADR 046](decisiones/046-mapa-muscular-acumulado.md)): tocar zonas en el móvil y lectura con datos reales; en Chromium solo se probó con fixtures.
 - Escáner: 3 productos reales (la cámara necesita HTTPS).
 - Exportar el backup (`<a download>` con un blob) desde la PWA instalada.
 - Inicio minimalista con rueda de energía (§79): tacto de las tarjetas y del «+» del peso, y nitidez de la rueda en pantalla Retina. Probado en Edge emulado a 320/375/430 px.
@@ -73,6 +74,7 @@ Registro:
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.
 
 Gimnasio:
+- Mapa muscular acumulado, fase 2 (ADR 046): periodos «4 semanas» y «Desde siempre», RIR ≥ 4 a media serie, escala personal si los avanzados acaban todo en «Muy alto» y decidir el peso de los secundarios (0,5 calienta mucho core, hombros y antebrazo) o revisar los estabilizadores del catálogo.
 - **Plan de mejoras de Entreno**: implementadas las diez mejoras iniciales: papelera, RIR, notas, gráficas, carga corporal, unilateral, agarres, dropsets, negativas y progresión confirmada. Alcance, orden, decisiones y ampliaciones futuras en [mejoras.md](../mejoras.md). Se validan los bloques que Víctor autoriza antes de continuar; sustituye aquí el detalle anterior de progresión para evitar planes duplicados.
 
 Gamificación:

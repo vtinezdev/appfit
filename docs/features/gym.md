@@ -16,7 +16,8 @@
 | Ejercicios propios | `components/MisEjercicios` (en Rutinas) | — | `exercisesRepo` (`personalizados`, `editarPersonalizado`, `borrarPersonalizado`) |
 | Objetivos de rutina | `components/ObjetivoRutina` (en el editor de rutina) | `lib/objetivos` | `routinesRepo`, `workoutsRepo.empezar` (crea las series objetivo) |
 | Mapa muscular de sesión | `components/MapaMuscular`, `mapaMuscularGeometria` | `lib/musculos`, `lib/cargaMuscular`: carga → agregación → normalización | `workoutsRepo.terminar`: snapshot semántico junto a fin |
-| Progreso | `pages/Progreso` (diferida, Recharts) | `lib/progreso` (`datosProgreso`: sesiones terminadas por modo/variante con su mejor serie; `cifrasClave`, `textoMejorSerie`; `resumenEjercicios` y `trazoMini` para la lista), `setsRepo.todas` (solo para la lista), `lib/carga`, `lib/ejecucion` (`claveComparacion`), `shared/design/chart` (`escalaAjustada`) | `setsRepo.delEjercicio`, `workoutsRepo.listar`, `exercisesRepo.listar`; la Liga, `liga/hooks/useLigas` ([liga.md](liga.md)) |
+| Mapa muscular acumulado | `components/MapaCalor` (arriba de Progreso, diferido), `components/CalorAntesDespues` (al terminar, diferido), `CuerpoMuscular`/`FigurasMusculares` con `huella` | `lib/calorMuscular`: `aportesMusculares` → `calorMuscular` (calor, nivel, huella y detalle) → `resumenCalor`, `nivelesDeCalor`, `fraseSubidas` | `hooks/useAportesMusculares` (solo lectura: `workoutsRepo.terminados`, `setsRepo.todas`, `exercisesRepo.listar`) |
+| Progreso | `pages/Progreso` (diferida, Recharts; arriba el mapa acumulado) | `lib/progreso` (`datosProgreso`: sesiones terminadas por modo/variante con su mejor serie; `cifrasClave`, `textoMejorSerie`; `resumenEjercicios` y `trazoMini` para la lista), `setsRepo.todas` (solo para la lista), `lib/carga`, `lib/ejecucion` (`claveComparacion`), `shared/design/chart` (`escalaAjustada`) | `setsRepo.delEjercicio`, `workoutsRepo.listar`, `exercisesRepo.listar`; la Liga, `liga/hooks/useLigas` ([liga.md](liga.md)) |
 | Tarjeta del último entreno | `components/TarjetaEntreno` (`GymHome`; Inicio tiene su propia tarjeta breve, `inicio/components/AccesoEntreno`) | `resumenUltimoEntreno` | `workoutsRepo.activo` / `ultimoTerminado`, `setsRepo.delWorkout` (solo lectura) |
 
 ## Presentación
@@ -87,7 +88,15 @@ El resumen final y el detalle del historial comparten `MapaMuscular` (diferido c
 
 Terminar captura clasificación/nombre por ejercicio y las series existentes permanecen intactas. El snapshot opcional sobrevive al backup y evita que una edición posterior del catálogo cambie el reparto de una sesión nueva. Los entrenos anteriores sin snapshot usan la clasificación disponible y lo explican, sin escribir ni migrar al consultar. Personalizados con un músculo concreto participan; «Cuerpo completo» sin reparto no colorea todo por defecto. Los ocho ejercicios oficiales de esa categoría mantienen el filtro mediante `filterGroups` y aportan zonas reales.
 
-Preparado para mejorar la estimación o agregar sesiones con otra normalización; no muestra esfuerzo medido, fatiga, recuperación, riesgo ni recomendaciones. No implementa mapas semanales/mensuales todavía.
+Preparado para mejorar la estimación; no muestra esfuerzo medido, fatiga, recuperación, riesgo ni recomendaciones.
+
+### Mapa acumulado
+
+Decisión y descartes: [ADR 046](../decisiones/046-mapa-muscular-acumulado.md). Arriba de Progreso (sin ejercicio elegido), `MapaCalor` enseña «Mapa muscular · Ahora»: una sola vista grande con Frontal/Trasera (SegmentedControl), la escala con «Trabajado antes», «Más calor» y «Poco o ningún calor». Tocar una zona abre una hoja con el detalle de ese grupo; «Ver detalle por músculo» abre la lista de los doce (la alternativa accesible), con la cobertura sin clasificar y «Cómo se calcula». Sin entrenos, el cuerpo neutro y «Tu mapa empieza en blanco».
+
+`lib/calorMuscular` cuenta series efectivas (sin calentamientos ni pendientes, reps > 0) de entrenos terminados: principal 1, secundario 0,5 (un músculo en las dos listas cuenta como principal), por la fecha local de inicio. Por día y músculo cuentan como mucho 10 series; `calor = Σ series × 0,5^(días/7)` en las últimas 8 semanas y `ritmo = calor × ln 2` (series/semana sostenidas). Niveles desde 0,5 · 2 · 5 · 9 · 14; huella = nivel 0 con alguna serie registrada. El detalle usa series reales (7 y 28 días, última vez, semanas con trabajo de las últimas 4, directas e indirectas y los tres ejercicios que más aportan en 28 días). Nada se guarda: editar o borrar un entreno cambia el mapa en la siguiente lectura.
+
+Al terminar un entreno, `CalorAntesDespues` (bajo el póster, sobre grafito) pinta el mapa sin y con esa sesión; pasa solo una vez de «antes» a «después» y un botón alterna. El color cambia en `--dur-calor` (600 ms, 80 ms con Reduce Motion), la única animación del mapa. Si el entreno no aporta series clasificadas, no aparece.
 
 ## Ejecución, técnicas y progresión
 
