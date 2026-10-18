@@ -54,8 +54,8 @@ export default function MapaCalor() {
       <EscalaMuscular huella={Object.values(huella).some(Boolean)} />
       {!calor.conDatos ? <p className="text-center text-body-sm text-fg-muted">Tu mapa empieza en blanco. Cada entreno que termines calienta los músculos que trabajes.</p> : <>
         <dl className="space-y-2 border-t border-line pt-3">
-          <div className="flex items-baseline justify-between gap-3"><dt className="shrink-0 text-rotulo text-fg-muted">Más calor</dt><dd className="min-w-0 break-words text-right text-body-sm font-semibold text-fg">{nombres(masCalor) || '—'}</dd></div>
-          <div className="flex items-baseline justify-between gap-3"><dt className="shrink-0 text-rotulo text-fg-muted">Poco o ningún calor</dt><dd className="min-w-0 break-words text-right text-body-sm font-semibold text-fg">{nombres(pocoCalor) || 'Ninguno'}</dd></div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1"><dt className="min-w-0 break-words text-rotulo text-fg-muted">Más calor</dt><dd className="min-w-0 flex-1 break-words text-right text-body-sm font-semibold text-fg">{nombres(masCalor) || '—'}</dd></div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1"><dt className="min-w-0 break-words text-rotulo text-fg-muted">Poco o ningún calor</dt><dd className="min-w-0 flex-1 break-words text-right text-body-sm font-semibold text-fg">{nombres(pocoCalor) || 'Ninguno'}</dd></div>
         </dl>
         <Button variant="secondary" block onClick={() => abrir(null)} aria-haspopup="dialog">Ver detalle por músculo<Icon name="chevron-right" size={18} /></Button>
       </>}
