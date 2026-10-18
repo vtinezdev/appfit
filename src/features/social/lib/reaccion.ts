@@ -5,6 +5,8 @@ import { formatInt } from '../../../shared/lib/format'
  * solo esto; el servidor la llama `reacciones`.
  */
 export const REACCION = {
+  visible: 'Ánimo',
+  activo: 'Animado',
   singular: 'ánimo',
   plural: 'ánimos',
   dar: 'Dar ánimo',

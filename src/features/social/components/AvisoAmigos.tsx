@@ -1,4 +1,5 @@
 import Button from '../../../shared/components/Button'
+import { ErrorState } from '../../../shared/components/StateMessage'
 import Icon from '../../../shared/components/Icon'
 import { useCuenta } from '../../cuenta/useCuenta'
 import { useConsulta } from '../hooks/useConsulta'
@@ -21,9 +22,14 @@ export default function AvisoAmigos(props: Props) {
 }
 
 function Banda({ onIrAAmigos, onIrASocial }: Props) {
-  const avisos = useConsulta(async () => (await cargarSocial()).avisos(), 0)
-  const texto = avisos.estado === 'listo' ? resumenAvisos(avisos.datos) : null
-  if (avisos.estado !== 'listo' || !texto) return null
+  const avisos = useConsulta(async () => {
+    const social = await cargarSocial()
+    const perfil = await social.miPerfil()
+    return perfil && !perfil.suspendido ? social.avisos() : null
+  }, 0)
+  const texto = avisos.estado === 'listo' && avisos.datos ? resumenAvisos(avisos.datos) : null
+  if (avisos.estado === 'error') return <div className="space-y-stack"><ErrorState>{navigator.onLine ? 'No se han podido cargar las novedades de Social.' : 'Necesitas conexión para cargar las novedades de Social.'}</ErrorState><Button variant="secondary" size="sm" onClick={avisos.recargar}>Reintentar</Button></div>
+  if (avisos.estado !== 'listo' || !avisos.datos || !texto) return null
   const aSocial = avisos.datos.nuevos > 0
   return (
     <div role="region" aria-label={aSocial ? 'Novedades en Social' : 'Solicitudes en Amigos'} className="flex items-center gap-2 rounded-lg bg-surface-muted py-1 pl-3 pr-2">

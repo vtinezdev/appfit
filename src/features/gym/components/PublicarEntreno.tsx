@@ -50,7 +50,7 @@ function Contenido({ workoutId, titulo, inicio, fin, series, volumen, records, n
     titulo, inicio, fin, series, volumenKg: volumen,
     mapa: trabajoMuscularWorkout(workout, sets, ejercicios).levels,
     ejercicios: ordenEjerciciosSesion([], conSeries, workout.ordenEjercicios, workout.ejerciciosOmitidos).map(nombre),
-    records: records.map((r) => ({ ejercicio: nombre(r.exerciseId), texto: describirRecord(r, (n) => formatNumber(n, 2)) })),
+    records: records.map((r) => ({ ejercicio: nombre(r.exerciseId), texto: describirRecord(r, (n) => formatNumber(n, 2)), tipo: r.tipo, modo: r.modoCarga ?? 'externa', valor: r.valor, anterior: r.anterior, ...(r.peso !== undefined ? { peso: r.peso } : {}), ...(r.variante ? { variante: r.variante } : {}) })),
     ligas: ligas.visible
       ? ascensosDeEntreno(ligas.ligas, workoutId).filter(ascensoDestacado).map((a) => ({ ejercicio: nombre(a.exerciseId), texto: textoAscenso(a) }))
       : [],

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { leerAvisos, leerComentario, leerPublicacion, resumenAvisos, textoAviso, validarComentario } from './feed'
+import { contextoPublicacion, leerPaginaComentarios, leerPaginaPublicaciones, leerAvisos, leerComentario, leerPublicacion, resumenAvisos, textoAviso, validarComentario } from './feed'
 import { resumenActividad } from './publicacion'
 import { textoComentarios, textoReacciones } from './reaccion'
 
@@ -17,6 +17,7 @@ describe('leer el feed', () => {
   it('descarta filas que no se pueden pintar', () => {
     expect(leerPublicacion({ ...fila, resumen: { v: 9 } })).toBeNull()
     expect(leerPublicacion({ ...fila, fecha: 'ayer' })).toBeNull()
+    expect(leerPublicacion({ ...fila, creada: 'ayer' })).toBeNull()
     expect(leerPublicacion({ ...fila, alias: '' })).toBeNull()
     expect(leerPublicacion(null)).toBeNull()
   })
@@ -74,5 +75,38 @@ describe('validarComentario', () => {
     expect(validarComentario('   ')).toMatch(/Escribe/)
     expect(validarComentario('a'.repeat(501))).toMatch(/500/)
     expect(validarComentario(' Bien ')).toBeNull()
+  })
+})
+
+// El cursor pertenece al transporte: no depende de lo que esta versión sepa representar.
+describe('páginas sociales', () => {
+  it('conserva la última fila cruda aunque sea de una versión desconocida', () => {
+    const filas = Array.from({ length: 20 }, (_, i) => ({ ...fila, id: `p${i}`, creada: '2026-10-15T09:00:00.123456+00:00', ...(i === 19 ? { resumen: { v: 2 } } : {}) }))
+    const pagina = leerPaginaPublicaciones(filas)
+    expect(pagina.items).toHaveLength(19)
+    expect(pagina.hayMas).toBe(true)
+    expect(pagina.cursor).toEqual({ fecha: filas[19].creada, id: 'p19' })
+    expect(pagina.descartadas).toBe(1)
+  })
+  it('una página totalmente desconocida sigue teniendo continuación', () => {
+    const pagina = leerPaginaPublicaciones(Array.from({ length: 20 }, (_, i) => ({ ...fila, id: `p${i}`, resumen: { v: 9 } })))
+    expect(pagina.items).toEqual([])
+    expect(pagina.hayMas).toBe(true)
+    expect(pagina.cursor?.id).toBe('p19')
+    expect(leerPaginaPublicaciones([])).toMatchObject({ hayMas: false, cursor: null })
+  })
+  it('un cursor corrupto produce un error recuperable', () => {
+    expect(() => leerPaginaPublicaciones([{ ...fila, creada: 'ayer' }])).toThrow('continuar')
+  })
+  it('el total de comentarios no es el tamaño de página', () => {
+    const pagina = leerPaginaComentarios({ total: 250, items: [{ id: 'c1', alias: 'ana', texto: 'Bien', creado: fila.creada }] })
+    expect(pagina.total).toBe(250)
+    expect(pagina.items).toHaveLength(1)
+    expect(() => leerPaginaComentarios([])).toThrow()
+  })
+  it('la fecha de entreno solo aparece si es de otro día', () => {
+    expect(contextoPublicacion('entreno', Date.parse(fila.creada), fila.creada)).toBeNull()
+    expect(contextoPublicacion('texto', 0, fila.creada)).toBeNull()
+    expect(contextoPublicacion('entreno', Date.parse('2026-10-01T12:00:00Z'), fila.creada)).toContain('1 de octubre')
   })
 })

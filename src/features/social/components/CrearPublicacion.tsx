@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useLayoutEffect, useRef, useState, type FormEvent } from 'react'
 import Button from '../../../shared/components/Button'
 import { formatInt } from '../../../shared/lib/format'
 import Campo from '../../../shared/components/Campo'
@@ -6,15 +6,19 @@ import { Select, Textarea } from '../../../shared/components/Input'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { useConsulta } from '../hooks/useConsulta'
-import { MAX_PUBLICACION, resumenTexto, validarPublicacion, type Resumen } from '../lib/publicacion'
+import { conNota, MAX_PUBLICACION, resumenTexto, validarPublicacion, type Resumen } from '../lib/publicacion'
 import { puedePublicarEnComunidad, type Comunidad } from '../lib/comunidad'
 import { cargarSocial } from '../servicio'
 import { crearIdDeEnvio } from '../lib/intento'
+import { seleccionarResumen, type SeleccionResumen } from '../lib/seleccion'
+import { agruparRecords } from '../lib/records'
+import SeleccionPublicacion from './SeleccionPublicacion'
+import NotaPublicacion from './NotaPublicacion'
 import TarjetaPublicacion from './TarjetaPublicacion'
 
 interface Props {
   onClose: () => void
-  onPublicada?: () => void
+  onPublicada?: (id: string) => void | Promise<void>
   adjunto?: { resumen: Resumen; fecha: number }
   comunidad?: Comunidad
   soloComunidades?: boolean
@@ -24,16 +28,28 @@ interface Props {
 export default function CrearPublicacion({ onClose, onPublicada, adjunto, comunidad, soloComunidades = false }: Props) {
   const [idPara] = useState(crearIdDeEnvio)
   const [fecha] = useState(() => Date.now())
+  const [seleccion, setSeleccion] = useState<SeleccionResumen>(() => ({ mapa: true, ejercicios: true, ligas: true, logros: true, duracion: true, volumen: true, records: adjunto?.resumen.tipo === 'entreno' ? agruparRecords(adjunto.resumen.records).map(rs => adjunto.resumen.tipo === 'entreno' ? adjunto.resumen.records.indexOf(rs[0]) : -1) : [] }))
+  const [cambioSeleccion, setCambioSeleccion] = useState(false)
+  const [nota, setNota] = useState('')
   const [texto, setTexto] = useState('')
   const [destino, setDestino] = useState(comunidad?.id ?? (soloComunidades ? '' : 'seguidores'))
   const [paso, setPaso] = useState<'editar' | 'vista'>('editar')
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [descartar, setDescartar] = useState(false)
+  const confirmacionRef = useRef<HTMLDivElement>(null)
+  const editorRef = useRef<HTMLDivElement>(null)
+  const veniaDeConfirmacion = useRef(false)
+  useLayoutEffect(() => {
+    if (descartar) confirmacionRef.current?.querySelector('button')?.focus()
+    else if (veniaDeConfirmacion.current) editorRef.current?.querySelector<HTMLElement>('textarea,select,button')?.focus()
+    veniaDeConfirmacion.current = descartar
+  }, [descartar])
   const enviando = useRef(false)
   const grupos = useConsulta(async () => (await cargarSocial()).comunidades('', true), 0)
   const destinoGrupo = comunidad ?? grupos.datos?.find(c => c.id === destino)
   const publicables = grupos.datos?.filter(puedePublicarEnComunidad)
-  const resumen = adjunto?.resumen ?? resumenTexto(texto)
+  const resumen = adjunto ? conNota(seleccionarResumen(adjunto.resumen, seleccion), nota) : resumenTexto(texto)
 
   const enviar = async () => {
     if (enviando.current || !resumen) return
@@ -43,8 +59,9 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
     enviando.current = true; setOcupado(true); setError(null)
     try {
       const fechaPublicacion = adjunto?.fecha ?? fecha
-      await (await cargarSocial()).publicar(idPara([destino, fechaPublicacion, resumen]), fechaPublicacion, resumen, destino === 'seguidores' ? undefined : destino)
-      onPublicada?.(); onClose()
+      const id=idPara([destino, fechaPublicacion, resumen])
+      await (await cargarSocial()).publicar(id, fechaPublicacion, resumen, destino === 'seguidores' ? undefined : destino)
+      await onPublicada?.(id); onClose()
     } catch (e) {
       setError(e instanceof Error ? e.message : 'No se ha podido publicar. Inténtalo de nuevo.')
     } finally { enviando.current = false; setOcupado(false) }
@@ -60,11 +77,22 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
     setPaso('vista')
   }
 
-  return <Sheet open title={paso === 'vista' ? 'Vista previa' : adjunto ? 'Compartir' : 'Crear publicación'} onClose={() => { if (!ocupado) onClose() }}>
-    <div className="space-y-stack">
+  const tieneCambios = texto.length > 0 || nota.length > 0 || cambioSeleccion || destino !== (comunidad?.id ?? (soloComunidades ? '' : 'seguidores'))
+  return <Sheet open title={descartar ? '¿Descartar los cambios?' : paso === 'vista' ? 'Vista previa' : adjunto ? 'Compartir' : 'Crear publicación'}
+    onClose={onClose} onBeforeClose={() => {
+      if (ocupado) return false
+      if (tieneCambios) { setDescartar(true); return false }
+      return true
+    }}>
+    {descartar && <div ref={confirmacionRef} className="space-y-stack">
+      <p className="text-body-sm text-fg-muted">Todavía no has publicado. Si sales, perderás lo que has escrito.</p>
+      <Button variant="secondary" block onClick={() => setDescartar(false)}>Seguir escribiendo</Button>
+      <Button variant="danger" block onClick={onClose}>Descartar</Button>
+    </div>}
+    <div ref={editorRef} className="space-y-stack" hidden={descartar}>
       {paso === 'editar' ? <form onSubmit={previsualizar} noValidate className="space-y-stack">
         {!adjunto && <Campo etiqueta="Tu publicación" ayuda={`Hasta ${formatInt(MAX_PUBLICACION)} caracteres.`}>
-          <Textarea rows={5} maxLength={MAX_PUBLICACION} value={texto} onChange={e => setTexto(e.target.value)} />
+          <Textarea rows={5} maxLength={MAX_PUBLICACION} value={texto} onChange={e => { setTexto(e.target.value); setError(null) }} />
         </Campo>}
         {comunidad ? <p className="break-words text-body font-semibold text-fg">En {comunidad.nombre}</p> : <Campo etiqueta="Publicar para">
           <Select aria-label="Publicar para" value={destino} onChange={e => setDestino(e.target.value)}>
@@ -76,12 +104,13 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
         {grupos.estado === 'cargando' && !comunidad && <LoadingState />}
         {grupos.estado === 'error' && !comunidad && <div className="space-y-2"><ErrorState>{grupos.error}</ErrorState><Button variant="secondary" size="sm" onClick={grupos.recargar}>Reintentar comunidades</Button></div>}
         {soloComunidades && grupos.estado === 'listo' && publicables?.length === 0 && <p className="text-body-sm text-fg-muted">No tienes comunidades en las que puedas publicar. Únete a una que permita publicar a sus miembros o crea la tuya desde Social.</p>}
-        {adjunto && <TarjetaPublicacion {...adjunto} />}
+        {adjunto && <><SeleccionPublicacion resumen={adjunto.resumen} valor={seleccion} onChange={s => { setSeleccion(s); setCambioSeleccion(true) }} /><NotaPublicacion valor={nota} onChange={setNota} disabled={ocupado} />{resumen && <TarjetaPublicacion resumen={resumen} fecha={adjunto.fecha} />}</>}
         <Button type="submit" variant="primary" block disabled={!destino}>Ver vista previa</Button>
       </form> : <>
         <p className="break-words text-body-sm font-semibold text-fg">{destino === 'seguidores' ? 'Para tus seguidores aprobados' : `Para los miembros de ${destinoGrupo?.nombre}`}</p>
         {resumen && <TarjetaPublicacion resumen={resumen} fecha={adjunto?.fecha ?? fecha} />}
         <p className="text-caption text-fg-muted">{destino === 'seguidores' ? 'Solo lo verán las personas que te siguen.' : 'Lo verán los miembros de esta comunidad, aunque no os sigáis.'}</p>
+        <p className="text-caption text-fg-muted">Los cambios en tu diario no actualizan esta publicación.</p>
         <Button variant="primary" block loading={ocupado} onClick={() => void enviar()}>Publicar</Button>
         <Button variant="secondary" block disabled={ocupado} onClick={() => setPaso('editar')}>Volver a editar</Button>
       </>}

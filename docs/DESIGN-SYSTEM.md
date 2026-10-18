@@ -229,3 +229,10 @@ Con poco alto disponible, la cabecera y el footer de ModalPage tienen límites p
 - ViewTabs mantiene los rótulos completos en una línea; si no caben, su propia franja se desplaza horizontalmente. Indicador medido sobre el botón activo con ResizeObserver; flechas/Inicio/Fin siguen seleccionando y mantienen la pestaña elegida visible. No se ocultan rótulos para hacerlos caber.
 - SemanaKcal conserva un mínimo de `--touch-target` por día dentro de `.semana-scroll`, con pista de desplazamiento y selección visible. CalendarioEntrenos cambia a lista con contenedor ≤23 rem; evita objetivos táctiles pequeños y solapamientos. Las medidas de rem acompañan al texto ampliado.
 - TendenciaRegistros reúne periodos y tabla; GraficaTendencia se importa solo al mostrar datos y usa tokens de chart. Agua deja huecos sin registro; las medidas muestran sus fechas reales y unidades. Sin animaciones de cifras ni interpolación de registros inventados.
+
+
+### Formularios de Sheet con descarte
+
+`Sheet.onBeforeClose` puede devolver `false` antes de iniciar la salida. Se consulta desde Cerrar, fondo, Escape, gesto y Atrás. Si Atrás ya consumió la entrada de historial, `useModalLayer` la restaura al vetarse el cierre. El editor muestra «Seguir escribiendo / Descartar» dentro de la misma capa, conserva sus controles/texto ocultos y mueve el foco a la confirmación y de vuelta al campo al continuar. `onClose` sigue notificando la salida completada; no se usa para vetar una salida que ya se animó. Una publicación enviada y la elección explícita de Descartar pueden cerrar desde su propietario.
+
+`ConfirmacionDestructiva` mide su propio ancho con un contenedor CSS: a 18 rem o menos apila las acciones, también dentro de Sheets y con texto ampliado. El patrón no depende de que el borrado se muestre dentro de una tarjeta.

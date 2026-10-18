@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import Button, { IconButton } from '../../shared/components/Button'
 import PageHeader from '../../shared/components/PageHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../shared/components/StateMessage'
@@ -10,7 +10,6 @@ import Anadir from './components/Anadir'
 import CrearPerfil from './components/CrearPerfil'
 import ListaPersonas from './components/ListaPersonas'
 import PerfilSheet from './components/PerfilSheet'
-import PersonaSheet from './components/PersonaSheet'
 import PublicacionesPersona from './components/PublicacionesPersona'
 import Solicitudes from './components/Solicitudes'
 import type { MiPerfil } from './data/social'
@@ -24,7 +23,7 @@ type Vista = 'siguiendo' | 'seguidores' | 'anadir'
  * Amigos (se abre desde Social, ADR 040 y 043): tu perfil social y las personas (solicitudes, a quién sigues, quién te sigue y añadir a
  * alguien). Las publicaciones viven en Social. Necesita cuenta.
  */
-export default function AmigosTab({ onIrACuenta }: { onIrACuenta: () => void }) {
+export default function AmigosTab({ onIrACuenta, anadirInicial = false }: { onIrACuenta: () => void; anadirInicial?: boolean }) {
   const cuenta = useCuenta()
   if (cuenta.fase === 'cargando') return <div className="px-page pt-5"><LoadingState /></div>
   if (cuenta.fase === 'sin-sesion') {
@@ -37,10 +36,10 @@ export default function AmigosTab({ onIrACuenta }: { onIrACuenta: () => void }) 
       </div>
     )
   }
-  return <ConCuenta key={cuenta.email} />
+  return <ConCuenta key={cuenta.email} anadirInicial={anadirInicial} />
 }
 
-function ConCuenta() {
+function ConCuenta({ anadirInicial }: { anadirInicial: boolean }) {
   const [version, setVersion] = useState(0)
   const perfil = useConsulta(async () => (await cargarSocial()).miPerfil(), version)
 
@@ -54,26 +53,22 @@ function ConCuenta() {
   }
   if (perfil.datos === undefined) return <div className="px-page pt-5"><LoadingState /></div>
   if (perfil.datos === null) return <CrearPerfil onCreado={() => setVersion((v) => v + 1)} />
-  return <Amigos perfil={perfil.datos} onPerfilCambiado={() => setVersion((v) => v + 1)} />
+  return <Amigos anadirInicial={anadirInicial} perfil={perfil.datos} onPerfilCambiado={() => setVersion((v) => v + 1)} />
 }
 
-function Amigos({ perfil, onPerfilCambiado }: { perfil: MiPerfil; onPerfilCambiado: () => void }) {
-  const [vista, setVista] = useState<Vista>('siguiendo')
+function Amigos({ perfil, onPerfilCambiado, anadirInicial }: { anadirInicial: boolean; perfil: MiPerfil; onPerfilCambiado: () => void }) {
+  const [vista, setVista] = useState<Vista>(anadirInicial ? 'anadir' : 'siguiendo')
   const [version, setVersion] = useState(0)
   // Las hojas siguen montadas al cerrarse (animan la salida); `n` las vuelve a montar limpias en cada apertura.
-  const [persona, setPersona] = useState<{ persona: Persona; open: boolean; n: number } | null>(null)
   const [ajustes, setAjustes] = useState({ open: false, n: 0 })
-  // «Ver sus publicaciones» se abre cuando termina de cerrarse la hoja de la persona.
-  const siguiente = useRef<(() => void) | null>(null)
   const [publicacionesDe, setPublicacionesDe] = useState<Persona | null>(null)
-  const { avisar, avisarError, toast } = useAviso()
+  const { avisarError, toast } = useAviso()
 
   const cambio = () => {
     setVersion((v) => v + 1)
     onPerfilCambiado()
   }
-  const abrir = (p: Persona) => setPersona((s) => ({ persona: p, open: true, n: (s?.n ?? 0) + 1 }))
-  const cerrar = () => setPersona((s) => (s ? { ...s, open: false } : s))
+  const abrir = (p: Persona) => setPublicacionesDe(p)
   const abrirAjustes = () => setAjustes((a) => ({ open: true, n: a.n + 1 }))
 
   const cabecera = (
@@ -107,8 +102,8 @@ function Amigos({ perfil, onPerfilCambiado }: { perfil: MiPerfil; onPerfilCambia
   }
 
   const vistas: { valor: Vista; label: string }[] = [
-    { valor: 'siguiendo', label: 'Siguiendo' },
-    { valor: 'seguidores', label: 'Seguidores' },
+    { valor: 'siguiendo', label: 'Sigues' },
+    { valor: 'seguidores', label: 'Te siguen' },
     { valor: 'anadir', label: 'Añadir' },
   ]
 
@@ -122,26 +117,7 @@ function Amigos({ perfil, onPerfilCambiado }: { perfil: MiPerfil; onPerfilCambia
           : <ListaPersonas lista={vista} version={version} onAbrir={abrir} />}
       </ViewTabs>
 
-      {persona && (
-        <PersonaSheet key={`persona-${persona.n}`} open={persona.open} persona={persona.persona} onClose={cerrar}
-          onExited={() => {
-            const fn = siguiente.current
-            siguiente.current = null
-            fn?.()
-          }}
-          onVerPublicaciones={(p) => {
-            siguiente.current = () => setPublicacionesDe(p)
-            cerrar()
-          }}
-          onCambio={(mensaje) => {
-            cambio()
-            if (mensaje) {
-              cerrar()
-              avisar({ mensaje })
-            }
-          }} />
-      )}
-      {publicacionesDe && <PublicacionesPersona persona={publicacionesDe} onClose={() => setPublicacionesDe(null)} />}
+      {publicacionesDe && <PublicacionesPersona persona={publicacionesDe} onCambio={cambio} onClose={() => setPublicacionesDe(null)} />}
       {hojaPerfil}
       {toast}
     </div>

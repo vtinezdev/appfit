@@ -8,7 +8,7 @@ import { limpiarNombre, NOMBRE_MAX, normalizarAlias, validarAlias, validarNombre
 import { cargarSocial } from '../servicio'
 
 /** Primera vez en Amigos: alias, nombre opcional y la confirmación de edad (ADR 040). */
-export default function CrearPerfil({ onCreado }: { onCreado: () => void }) {
+export default function CrearPerfil({ onCreado, titulo = 'Amigos' }: { onCreado: () => void; titulo?: string }) {
   const [alias, setAlias] = useState('')
   const [nombre, setNombre] = useState('')
   const [acepto, setAcepto] = useState(false)
@@ -35,7 +35,7 @@ export default function CrearPerfil({ onCreado }: { onCreado: () => void }) {
 
   return (
     <div className="space-y-section px-page pt-5">
-      <PageHeader title="Amigos" />
+      <PageHeader title={titulo} />
       <div className="space-y-2 text-body-sm text-fg-muted">
         <p>Elige qué publicar para tus seguidores aprobados o para los miembros de una comunidad.</p>
         <p>Tus comidas, tu peso corporal, tus medidas y los recorridos GPS no se publican.</p>

@@ -1,14 +1,21 @@
 import { useState } from 'react'
 import Button from '../../../shared/components/Button'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
+import ModalPage from '../../../shared/components/ModalPage'
+import ListaFeed from './ListaFeed'
+import { EmptyState } from '../../../shared/components/StateMessage'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { accionSeguir, nombreVisible, TEXTO_ACCION, textoRelacion, type Persona } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
+import PerfilDeportivo from './PerfilDeportivo'
 import FormDenuncia from './FormDenuncia'
 
 interface Props {
   open: boolean
+  comoPagina?: boolean
+  comunidad?: string
+  volver?: string
   persona: Persona
   onClose: () => void
   /** Algo cambió con esta persona: las listas se vuelven a leer. Con `mensaje`, la hoja se cierra y se avisa. */
@@ -22,7 +29,7 @@ interface Props {
 type Paso = 'acciones' | 'bloquear' | 'denunciar' | 'denunciada'
 
 /** Una persona: seguir o dejar de seguir, responder su solicitud, quitarla de seguidores, bloquear y denunciar. */
-export default function PersonaSheet({ open, persona: inicial, onClose, onCambio, onVerPublicaciones, onExited }: Props) {
+export default function PersonaSheet({ open, persona: inicial, onClose, onCambio, onVerPublicaciones, onExited, comoPagina = false, comunidad, volver = 'Amigos' }: Props) {
   const [persona, setPersona] = useState(inicial)
   const [paso, setPaso] = useState<Paso>('acciones')
   const [ocupado, setOcupado] = useState(false)
@@ -116,7 +123,7 @@ export default function PersonaSheet({ open, persona: inicial, onClose, onCambio
             <div className="space-y-2">
               <Button variant={accion === 'seguir' ? 'primary' : 'secondary'} block disabled={ocupado} onClick={() => void seguir()}>{TEXTO_ACCION[accion]}</Button>
               {accion === 'seguir' && <p className="text-caption text-fg-muted">Verás lo que publica cuando te acepte.</p>}
-              {persona.sigo === 'aceptado' && <Button variant="secondary" block disabled={ocupado} onClick={() => onVerPublicaciones(persona)}>Ver sus publicaciones</Button>}
+              {!comoPagina && persona.sigo === 'aceptado' && <Button variant="secondary" block disabled={ocupado} onClick={() => onVerPublicaciones(persona)}>Ver sus publicaciones</Button>}
               {persona.meSigue === 'aceptado' && <Button variant="secondary" block disabled={ocupado} onClick={() => void quitar()}>Quitar de tus seguidores</Button>}
             </div>
             <div className="flex flex-col items-start gap-1">
@@ -129,12 +136,14 @@ export default function PersonaSheet({ open, persona: inicial, onClose, onCambio
     }
   }
 
-  return (
-    <Sheet open={open} onClose={onClose} onExited={onExited} title={paso === 'denunciar' ? `Denunciar a ${nombre}` : paso === 'bloquear' ? `Bloquear a ${nombre}` : nombre}>
-      <div className="space-y-stack">
-        {contenido()}
-        {error && <ErrorState>{error}</ErrorState>}
-      </div>
-    </Sheet>
-  )
+  const titulo = paso === 'denunciar' ? `Denunciar a ${nombre}` : paso === 'bloquear' ? `Bloquear a ${nombre}` : nombre
+  const cuerpo = <div className="space-y-stack">
+    {paso === 'acciones' && <PerfilDeportivo key={`${persona.sigo}-${persona.meSigue}`} alias={persona.alias} comunidad={comunidad} />}
+    {contenido()}
+    {error && <ErrorState>{error}</ErrorState>}
+    {comoPagina && paso === 'acciones' && (comunidad || persona.sigo === 'aceptado') && <ListaFeed version={`${persona.alias}-${persona.sigo}-${comunidad}`} conAutor={false} onError={setError}
+      cargar={async antes => (await cargarSocial()).publicacionesDe(persona.alias, antes, comunidad)} vacio={<EmptyState>Aún no ha publicado nada para esta audiencia.</EmptyState>} />}
+  </div>
+  return comoPagina ? <ModalPage title={titulo} onClose={onClose} closeLabel={volver}>{cuerpo}</ModalPage>
+    : <Sheet open={open} onClose={onClose} onExited={onExited} title={titulo}>{cuerpo}</Sheet>
 }

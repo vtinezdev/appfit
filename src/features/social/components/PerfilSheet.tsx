@@ -11,6 +11,7 @@ import type { MiPerfil } from '../data/social'
 import { useConsulta } from '../hooks/useConsulta'
 import { limpiarNombre, NOMBRE_MAX, normalizarAlias, validarAlias, validarNombre } from '../lib/alias'
 import { cargarSocial } from '../servicio'
+import EditarPerfilDeportivo from './EditarPerfilDeportivo'
 import NombrePersona from './NombrePersona'
 
 interface Props {
@@ -27,12 +28,15 @@ interface Props {
 export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado }: Props) {
   const [alias, setAlias] = useState(perfil.alias)
   const [nombre, setNombre] = useState(perfil.nombre ?? '')
+  const [cerrarComunidad, setCerrarComunidad] = useState<{ id: string; nombre: string } | null>(null)
   const [borrar, setBorrar] = useState(false)
   const [version, setVersion] = useState(0)
   const [mensaje, setMensaje] = useState<string | null>(null)
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const bloqueados = useConsulta(async () => (await cargarSocial()).personas('bloqueados'), version)
+  const propias = useConsulta(async () => (await cargarSocial()).comunidadesPropias(), version)
+  const silenciados = useConsulta(async () => perfil.suspendido ? [] : (await cargarSocial()).silenciados(), version)
+  const bloqueados = useConsulta(async () => perfil.suspendido ? [] : (await cargarSocial()).personas('bloqueados'), version)
 
   async function ejecutar(fn: () => Promise<string | void>) {
     if (ocupado) return
@@ -95,6 +99,7 @@ export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado
           <Button type="submit" variant="secondary" block disabled={ocupado}>Guardar</Button>
         </form>
 
+        {!perfil.suspendido && <Disclosure title="Perfil deportivo"><EditarPerfilDeportivo alias={perfil.alias} /></Disclosure>}
         <div className="space-y-2">
           <p className="text-body-sm font-medium text-fg">Código de invitación</p>
           <p className="text-body-sm text-fg-muted">Tu código es <span className="font-semibold tabular text-fg">{perfil.codigo}</span>. Si lo has compartido con quien no querías, crea otro: el anterior dejará de servir.</p>
@@ -117,9 +122,17 @@ export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado
                 )}
         </Disclosure>
 
+        <Disclosure title="Personas silenciadas">
+          {silenciados.estado === 'error' ? <ErrorState>{silenciados.error}</ErrorState> : silenciados.datos?.length ? <ul className="divide-y divide-line">{silenciados.datos.map(p => <li key={p.alias} className="flex flex-wrap items-center justify-between gap-2"><NombrePersona persona={p} /><Button variant="subtle" disabled={ocupado} onClick={() => void ejecutar(async () => { await (await cargarSocial()).silenciar(p.alias, false); setVersion(v => v + 1) })}>Dejar de silenciar</Button></li>)}</ul> : <EmptyState>No has silenciado a nadie.</EmptyState>}
+        </Disclosure>
+        <Disclosure title="Comunidades que has creado">
+          <p className="text-body-sm text-fg-muted">Transfiere desde Social › Comunidades o cierra antes de borrar tu perfil. Puedes cerrarlas también si tu perfil está suspendido.</p>
+          {propias.estado === 'error' ? <div className="space-y-2"><ErrorState>{propias.error}</ErrorState><Button variant="secondary" onClick={propias.recargar}>Reintentar comunidades</Button></div> : propias.estado === 'cargando' ? <LoadingState /> : cerrarComunidad ? <ConfirmacionDestructiva mensaje={`Se cerrará ${cerrarComunidad.nombre} y se borrarán todas sus publicaciones, reacciones y comentarios. No se puede deshacer.`} confirmar="Cerrar comunidad" ocupado={ocupado} onCancelar={() => setCerrarComunidad(null)} onConfirmar={() => void ejecutar(async () => { await (await cargarSocial()).borrarComunidad(cerrarComunidad.id); setCerrarComunidad(null); setVersion(v => v + 1) })} />
+            : propias.datos.length ? <ul className="divide-y divide-line">{propias.datos.map(c => <li className="space-y-1 py-2" key={c.id}><p className="break-words text-body-sm text-fg">{c.nombre}</p><Button variant="destructive" size="sm" disabled={ocupado} onClick={() => setCerrarComunidad(c)}>Cerrar {c.nombre}</Button></li>)}</ul> : <EmptyState>No tienes comunidades pendientes de transferir o cerrar.</EmptyState>}
+        </Disclosure>
         {borrar ? (
           <ConfirmacionDestructiva
-            mensaje="Se borran tu perfil, a quién sigues y quién te sigue, tus publicaciones y las comunidades que has creado con todo su contenido. Tu cuenta, tu copia y tus registros se quedan. No se puede deshacer."
+            mensaje="Se borran tu perfil, a quién sigues y quién te sigue, y tus publicaciones. Primero debes transferir o cerrar las comunidades que has creado. Tu cuenta, tu copia y tus registros se quedan. No se puede deshacer."
             confirmar="Sí, borrar el perfil"
             ocupado={ocupado}
             onCancelar={() => setBorrar(false)}

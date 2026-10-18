@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import Button, { IconButton } from '../../shared/components/Button'
 import Icon from '../../shared/components/Icon'
 import PageHeader from '../../shared/components/PageHeader'
@@ -7,6 +7,10 @@ import ViewTabs from '../../shared/components/ViewTabs'
 import { useAviso } from '../../shared/hooks/useAviso'
 import { formatInt } from '../../shared/lib/format'
 import { useCuenta } from '../cuenta/useCuenta'
+import ModalPage from '../../shared/components/ModalPage'
+import PrimerosPasosSocial from './components/PrimerosPasosSocial'
+import CrearPerfil from './components/CrearPerfil'
+import PerfilSheet from './components/PerfilSheet'
 import AvisosSheet from './components/AvisosSheet'
 import type { PublicacionComentada } from './components/ComentariosSheet'
 import ListaFeed from './components/ListaFeed'
@@ -17,10 +21,13 @@ import type { MiPerfil } from './data/social'
 import { useConsulta } from './hooks/useConsulta'
 import { cargarSocial } from './servicio'
 
+const DetalleEntreno = lazy(() => import('../gym/pages/DetalleEntreno'))
+
 type Vista = 'todo' | 'tu' | 'comunidades'
 
 interface Props {
-  onIrAAmigos: () => void
+  onIrAAmigos: (anadir?: boolean) => void
+  onIrAGym: () => void
   onIrACuenta: () => void
 }
 
@@ -28,7 +35,7 @@ interface Props {
  * Social (en la media luna, ADR 040 y 043): las publicaciones de quienes sigues y las tuyas, sus ánimos y comentarios, y los
  * avisos. Las personas (seguir, solicitudes, tu perfil) están en Amigos.
  */
-export default function SocialTab({ onIrAAmigos, onIrACuenta }: Props) {
+export default function SocialTab({ onIrAAmigos, onIrACuenta, onIrAGym }: Props) {
   const cuenta = useCuenta()
   if (cuenta.fase === 'cargando') return <div className="px-page pt-5"><LoadingState /></div>
   if (cuenta.fase === 'sin-sesion') {
@@ -41,10 +48,10 @@ export default function SocialTab({ onIrAAmigos, onIrACuenta }: Props) {
       </div>
     )
   }
-  return <ConCuenta key={cuenta.email} onIrAAmigos={onIrAAmigos} />
+  return <ConCuenta key={cuenta.email} onIrAAmigos={onIrAAmigos} onIrAGym={onIrAGym} />
 }
 
-function ConCuenta({ onIrAAmigos }: { onIrAAmigos: () => void }) {
+function ConCuenta({ onIrAAmigos, onIrAGym }: Pick<Props, 'onIrAAmigos' | 'onIrAGym'>) {
   const perfil = useConsulta(async () => (await cargarSocial()).miPerfil(), 0)
   if (perfil.estado === 'error' && perfil.datos === undefined) {
     return (
@@ -55,12 +62,13 @@ function ConCuenta({ onIrAAmigos }: { onIrAAmigos: () => void }) {
     )
   }
   if (perfil.datos === undefined) return <div className="px-page pt-5"><LoadingState /></div>
-  if (perfil.datos === null || perfil.datos.suspendido) {
+  if (perfil.datos === null) return <CrearPerfil titulo="Social" onCreado={perfil.recargar} />
+  if (perfil.datos.suspendido) {
     const suspendido = perfil.datos?.suspendido === true
     return (
       <div className="space-y-section px-page pt-5">
         <PageHeader title="Social" />
-        <EmptyState icon="users" title={suspendido ? 'Perfil suspendido' : 'Crea tu perfil'} action={<Button variant="secondary" onClick={onIrAAmigos}>Ir a Amigos</Button>}>
+        <EmptyState icon="users" title={suspendido ? 'Perfil suspendido' : 'Crea tu perfil'} action={<Button variant="secondary" onClick={() => onIrAAmigos()}>Ir a Amigos</Button>}>
           {suspendido
             ? 'Tu perfil se ha suspendido por una denuncia. Mientras tanto no puedes ver ni publicar nada.'
             : 'Crea tu perfil en Amigos para publicar y unirte a comunidades.'}
@@ -68,10 +76,13 @@ function ConCuenta({ onIrAAmigos }: { onIrAAmigos: () => void }) {
       </div>
     )
   }
-  return <Social perfil={perfil.datos} onIrAAmigos={onIrAAmigos} />
+  return <Social perfil={perfil.datos} onIrAAmigos={onIrAAmigos} onIrAGym={onIrAGym} onPerfilCambiado={perfil.recargar} />
 }
 
-function Social({ perfil, onIrAAmigos }: { perfil: MiPerfil; onIrAAmigos: () => void }) {
+function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props, 'onIrAAmigos' | 'onIrAGym'> & { perfil: MiPerfil; onPerfilCambiado: () => void }) {
+  const [ajustes, setAjustes] = useState(false)
+  const [entreno, setEntreno] = useState<number | null>(null)
+  const [descubrir, setDescubrir] = useState(0)
   const [vista, setVista] = useState<Vista>('todo')
   const [editor, setEditor] = useState(false)
   const [version, setVersion] = useState(0)
@@ -80,7 +91,7 @@ function Social({ perfil, onIrAAmigos }: { perfil: MiPerfil; onIrAAmigos: () => 
   const siguiente = useRef<(() => void) | null>(null)
   const [comentariosDe, setComentariosDe] = useState<PublicacionComentada | null>(null)
   const [publicacionesDe, setPublicacionesDe] = useState<{ alias: string; nombre: string | null } | null>(null)
-  const avisos = useConsulta(async () => (await cargarSocial()).avisos(), 0)
+  const avisos = useConsulta(async () => (await cargarSocial()).avisos(), 0, true)
   const { avisarError, avisar, toast } = useAviso()
 
   const nuevos = avisos.datos?.nuevos ?? 0
@@ -93,28 +104,25 @@ function Social({ perfil, onIrAAmigos }: { perfil: MiPerfil; onIrAAmigos: () => 
 
   return (
     <div className="space-y-section px-page pt-5">
-      <PageHeader title="Social" action={<IconButton icon="users" label="Amigos" variant="ghost" onClick={onIrAAmigos} />} />
+      <PageHeader title="Social" action={<IconButton icon="users" label="Amigos" variant="ghost" onClick={() => onIrAAmigos()} />} />
 
+      <Button variant="ghost" size="sm" onClick={() => setAjustes(true)}>Tu perfil</Button>
+      <PrimerosPasosSocial version={version} onCodigo={() => onIrAAmigos(true)} onComunidades={() => { setDescubrir(v => v + 1); setVista('comunidades') }} onEntreno={id => id ? setEntreno(id) : onIrAGym()} onError={avisarError} />
       <div className="flex flex-wrap gap-2">
         <Button variant="secondary" size="sm" aria-haspopup="dialog" onClick={() => setEditor(true)}>Crear publicación</Button>
         <Button variant="secondary" size="sm" onClick={() => setAvisosAbiertos((a) => ({ open: true, n: a.n + 1 }))}>
           <Icon name="comentario" size={18} className={nuevos > 0 ? 'text-accent-strong' : ''} />
-          {nuevos > 0 ? `Avisos · ${formatInt(nuevos)} ${nuevos === 1 ? 'nuevo' : 'nuevos'}` : 'Avisos'}
+          {nuevos > 0 ? `Avisos · ${formatInt(nuevos)} ${nuevos === 1 ? 'nuevo' : 'nuevos'}` : solicitudes > 0 ? `Avisos · ${formatInt(solicitudes)} solicitudes` : 'Avisos'}
         </Button>
-        {solicitudes > 0 && (
-          <Button variant="secondary" size="sm" onClick={onIrAAmigos}>
-            <Icon name="users" size={18} className="text-accent-strong" />{`${formatInt(solicitudes)} ${solicitudes === 1 ? 'solicitud' : 'solicitudes'}`}
-          </Button>
-        )}
       </div>
 
       <ViewTabs opciones={vistas} valor={vista} onChange={setVista} label="Publicaciones">
         {vista === 'todo' ? (
-          <ListaFeed version={`todo-${version}`} onError={avisarError} comentariosDe={comentariosDe}
+          <ListaFeed ocultarSilenciadas version={`todo-${version}`} onError={avisarError} comentariosDe={comentariosDe}
             onAbrirPersona={setPublicacionesDe}
             cargar={async (antes) => (await cargarSocial()).feed(antes)}
             vacio={
-              <EmptyState icon="comentario" title="Aún no hay publicaciones" action={<Button variant="secondary" onClick={onIrAAmigos}>Buscar a alguien</Button>}>
+              <EmptyState icon="comentario" title="Aún no hay publicaciones" action={<Button variant="secondary" onClick={() => onIrAAmigos()}>Buscar a alguien</Button>}>
                 Aquí verás las publicaciones de las personas que sigues y las tuyas.
               </EmptyState>
             } />
@@ -126,11 +134,11 @@ function Social({ perfil, onIrAAmigos }: { perfil: MiPerfil; onIrAAmigos: () => 
                 Crea una publicación o comparte un entreno, actividad o logro.
               </EmptyState>
             } />
-        ) : <Comunidades onError={avisarError} />}
+        ) : <Comunidades onCambio={() => setVersion(v => v + 1)} key={descubrir} descubrirInicial={descubrir > 0} onError={avisarError} />}
       </ViewTabs>
 
       {avisosAbiertos.n > 0 && (
-        <AvisosSheet key={`avisos-${avisosAbiertos.n}`} open={avisosAbiertos.open} lista={avisos.datos?.lista ?? []}
+        <AvisosSheet key={`avisos-${avisosAbiertos.n}`} open={avisosAbiertos.open} consulta={avisos} onReintentar={avisos.recargar} onAmigos={() => onIrAAmigos()}
           onClose={() => setAvisosAbiertos((a) => ({ ...a, open: false }))}
           onExited={() => {
             const fn = siguiente.current
@@ -140,14 +148,17 @@ function Social({ perfil, onIrAAmigos }: { perfil: MiPerfil; onIrAAmigos: () => 
           onVistos={avisos.recargar}
           onAbrir={(aviso) => {
             siguiente.current = () => {
+              if (aviso.tipo === 'aceptada') { setPublicacionesDe({ alias: aviso.alias, nombre: aviso.nombre }); return }
               setVista('todo')
-              setComentariosDe({ id: aviso.publicacion, titulo: aviso.titulo, mia: true })
+              setComentariosDe({ id: aviso.publicacion, titulo: aviso.titulo, mia: aviso.mia ?? true })
             }
             setAvisosAbiertos((a) => ({ ...a, open: false }))
           }} />
       )}
-      {publicacionesDe && <PublicacionesPersona persona={publicacionesDe} onClose={() => setPublicacionesDe(null)} />}
+      {publicacionesDe && <PublicacionesPersona onCambio={() => { setVersion(v => v + 1); avisos.recargar() }} persona={publicacionesDe} volver="Social" onClose={() => setPublicacionesDe(null)} />}
       {editor && <CrearPublicacion onClose={() => setEditor(false)} onPublicada={() => { setVersion(v => v + 1); avisar({ mensaje: 'Publicación creada' }) }} />}
+      {ajustes && <PerfilSheet open perfil={perfil} onClose={() => setAjustes(false)} onCambio={onPerfilCambiado} onBorrado={onPerfilCambiado} />}
+      {entreno !== null && <ModalPage title="Tu último entreno" closeLabel="Social" onClose={() => setEntreno(null)}><Suspense fallback={<LoadingState />}><DetalleEntreno workoutId={entreno} onVolver={() => setEntreno(null)} /></Suspense></ModalPage>}
       {toast}
     </div>
   )

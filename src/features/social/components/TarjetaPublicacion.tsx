@@ -1,4 +1,8 @@
-import type { ReactNode } from 'react'
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import Button from '../../../shared/components/Button'
+import Disclosure from '../../../shared/components/Disclosure'
+import RecordsPublicacion from './RecordsPublicacion'
+import { contextoPublicacion } from '../lib/feed'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
 import Metric from '../../../shared/components/Metric'
@@ -16,6 +20,7 @@ interface Props {
   fecha: number
   /** Quién lo publicó (en el feed); sin él, es la vista previa de lo propio. */
   autor?: ReactNode
+  creada?: string
   /** Debajo de todo (reacciones y comentarios en el feed). */
   pie?: ReactNode
 }
@@ -33,18 +38,47 @@ function Lineas({ titulo, icono, lineas }: { titulo: string; icono?: 'trophy'; l
 }
 
 /** Un entreno o una actividad publicados: lo que ven los seguidores (y la vista previa antes de publicar). */
-export default function TarjetaPublicacion({ resumen: r, fecha, autor, pie }: Props) {
+function TextoExpandible({ texto, previa, nota = false }: { texto: string; previa: boolean; nota?: boolean }) {
+  const [abierto, setAbierto] = useState(false)
+  const parrafo = useRef<HTMLParagraphElement>(null)
+  const [largo, setLargo] = useState(false)
+  useLayoutEffect(() => {
+    const el=parrafo.current
+    if(!el || previa || abierto) return
+    const medir=()=>setLargo(el.scrollHeight>el.clientHeight+1)
+    medir()
+    const observer=new ResizeObserver(medir)
+    observer.observe(el)
+    return ()=>observer.disconnect()
+  }, [texto,previa,abierto])
+  return <div><p ref={parrafo} className={`whitespace-pre-wrap break-words text-body text-fg ${!previa && !abierto ? nota ? 'line-clamp-4' : 'line-clamp-6' : ''}`}>{texto}</p>
+    {!previa && largo && <Button variant="subtle" size="sm" aria-expanded={abierto} onClick={() => setAbierto(!abierto)}>{abierto ? 'Menos' : 'Más'}</Button>}
+  </div>
+}
+
+export default function TarjetaPublicacion({ resumen: r, fecha, autor, pie, creada }: Props) {
+  const [detalle, setDetalle] = useState(false)
+  const previa = !creada
   // Los logros solo guardan el día: no inventar una hora de obtención ni desplazarlo al cambiar de zona horaria.
   const dia = new Date(fecha).toISOString().slice(0, 10)
-  const contexto = r.tipo === 'logro' ? `Conseguido: ${formatFriendly(dia)}` : r.tipo === 'actividad' ? `${NOMBRE_TIPO[r.actividad]} · ${formatFechaHoraConDia(fecha)}` : formatFechaHoraConDia(fecha)
+  const contexto = r.tipo === 'logro' ? `Conseguido: ${formatFriendly(dia)}` : creada ? contextoPublicacion(r.tipo, fecha, creada) : r.tipo === 'texto' ? null : formatFechaHoraConDia(fecha)
+  const detalles = () => r.tipo === 'entreno' && <div className="space-y-stack">
+    {r.ejercicios.length > 0 && <p className="break-words text-body-sm text-fg-muted">{textoEjercicios(r.ejercicios, r.ejercicios.length)}</p>}
+    {r.mapa && <MapaPublicacion mapa={r.mapa} />}
+    <RecordsPublicacion resumen={r} detalle />
+    <Lineas titulo="Ligas" lineas={r.ligas} />
+    {r.logros.length > 0 && <div className="space-y-1"><p className="text-label text-fg-muted">Nuevo en la Vitrina</p><p className="break-words text-body-sm text-fg">{r.logros.join(' · ')}</p></div>}
+  </div>
   return (
-    <Card className="publicacion-tarjeta space-y-4">
+    <Card className="publicacion-tarjeta space-y-3">
       <div className="space-y-1">
         {autor}
-        <p className="break-words text-title text-fg">{r.titulo}</p>
-        <p className="text-caption text-fg-muted first-letter:uppercase">{contexto}</p>
+        {r.tipo !== 'texto' && <><p className="text-rotulo text-fg-muted">{r.tipo === 'entreno' ? 'ENTRENO' : r.tipo === 'logro' ? 'LOGRO' : `ACTIVIDAD · ${NOMBRE_TIPO[r.actividad].toLocaleUpperCase('es')}`}</p>
+        <p className="break-words text-heading text-fg">{r.titulo}</p></>}
+        {contexto && <p className="text-caption text-fg-muted first-letter:uppercase">{contexto}</p>}
       </div>
-      {r.tipo === 'texto' && <p className="whitespace-pre-wrap break-words text-body text-fg">{r.texto}</p>}
+      {r.tipo === 'texto' && <TextoExpandible texto={r.texto} previa={previa} />}
+      {r.tipo !== 'texto' && r.nota && <TextoExpandible texto={r.nota} previa={previa} nota />}
       {r.tipo === 'logro' && <div className="flex items-start gap-3">
         <IconoLogro logro={{ id: r.logroId, grupo: r.grupo, nombre: r.titulo, descripcion: r.descripcion, niveles: [{ fecha: dia }] }} />
         <div className="min-w-0 space-y-1">
@@ -54,32 +88,22 @@ export default function TarjetaPublicacion({ resumen: r, fecha, autor, pie }: Pr
       </div>}
       {r.tipo === 'entreno' ? (
         <div className="publicacion-metricas grid grid-cols-3 gap-3">
-          <Metric size="title" label="Duración" valor={duracionTexto(r.duracionSeg)} />
+          {r.duracionSeg !== undefined && <Metric size="title" label="Duración" valor={duracionTexto(r.duracionSeg)} />}
           <Metric size="title" label="Series" valor={formatInt(r.series)} />
-          <Metric size="title" label="Volumen" valor={formatInt(r.volumenKg)} unidad="kg" />
+          {r.volumenKg !== undefined && <Metric size="title" label="Volumen" valor={formatInt(r.volumenKg)} unidad="kg" />}
         </div>
       ) : r.tipo === 'actividad' ? (
         <div className="publicacion-metricas grid grid-cols-2 gap-3">
           <Metric size="title" label="Distancia" valor={formatKm(r.distanciaM)} unidad="km" />
-          <Metric size="title" label="Duración" valor={duracionTexto(r.duracionSeg)} />
-          <Metric size="title" label="Ritmo" valor={formatRitmo(ritmoSegPorKm(r.duracionSeg, r.distanciaM))} />
+          {r.duracionSeg !== undefined && <Metric size="title" label="Duración" valor={duracionTexto(r.duracionSeg)} />}
+          {r.duracionSeg !== undefined && <Metric size="title" label="Ritmo" valor={formatRitmo(ritmoSegPorKm(r.duracionSeg, r.distanciaM))} />}
           {r.desnivelM !== null && <Metric size="title" label="Desnivel +" valor={formatInt(r.desnivelM)} unidad="m" />}
         </div>
       ) : null}
-      {r.tipo === 'entreno' && (
-        <>
-          {r.ejercicios.length > 0 && <p className="break-words text-body-sm text-fg-muted">{textoEjercicios(r.ejercicios)}</p>}
-          {r.mapa && <MapaPublicacion mapa={r.mapa} />}
-          <Lineas titulo="Récords" icono="trophy" lineas={r.records} />
-          <Lineas titulo="Ligas" lineas={r.ligas} />
-          {r.logros.length > 0 && (
-            <div className="space-y-1">
-              <p className="text-label text-fg-muted">Nuevo en la Vitrina</p>
-              <p className="break-words text-body-sm text-fg">{r.logros.join(' · ')}</p>
-            </div>
-          )}
-        </>
-      )}
+      {r.tipo === 'entreno' && <>
+        <RecordsPublicacion resumen={r} />
+        {previa ? detalles() : <Disclosure title="Ver detalle" open={detalle} onChange={setDetalle}>{detalle && detalles()}</Disclosure>}
+      </>}
       {pie}
     </Card>
   )

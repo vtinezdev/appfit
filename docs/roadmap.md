@@ -63,10 +63,10 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 
 ## Ideas sin empezar
 
-Social (pendientes tras la ampliación del 2026-10-16):
-- **Plan de mejoras de Social** (2026-10-18): [social-mejoras.md](social-mejoras.md) une las auditorías de Codex y Claude Code en cuatro fases (fiabilidad, claridad, conversación e identidad, apuestas a validar), con las decisiones pendientes. Sin implementar.
-- **Mejorar el perfil**: qué se muestra de cada persona (foto o avatar, biografía, cifras), y su página con las publicaciones. Concretado en F2-7 del plan de mejoras de Social.
-- Otros pendientes conocidos: nombre definitivo de la reacción (hoy «Ánimo»), notificaciones push (Web Push), recorridos con zona privada.
+Social:
+- [Plan consolidado de mejoras](social-mejoras.md): fases 0–1 y mejoras autorizadas de fase 2 implementadas. Víctor confirma SQL 0009–0013 en el proyecto real (2026-10-18), con campos opcionales desactivados. [Social](features/social.md) documenta los flujos; tareas con 6–8 personas, dos cuentas e iPhone/Android pendientes antes de abrir el siguiente piloto.
+- Omitir duración/volumen: lector preparado, escritura desactivada hasta completar la actualización de lectores anteriores. Perfil deportivo sin imágenes, reacciones privadas, respuestas, silencios y gestión de comunidades implementados.
+- Filtros por tipo requieren datos de volumen. Ocultación automática requiere capacidad de moderación; se conserva revisión manual. Fase 3 (semana en compañía, rutinas reutilizables, semana de Ritmo, enlaces/QR, expediciones y push) pendiente de sus pilotos, decisiones y bloqueos técnicos. No hay agregados nuevos del diario ni servicio de push.
 
 Registro:
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.

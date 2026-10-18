@@ -26,6 +26,7 @@ const AmigosTab = lazy(() => import('../features/social/AmigosTab'))
 const SocialTab = lazy(() => import('../features/social/SocialTab'))
 
 export default function App() {
+  const [anadirAmigo, setAnadirAmigo] = useState(false)
   const [tab, setTab] = useState<Tab>('inicio')
   const [seccionAjustes, setSeccionAjustes] = useState<SeccionAjustes | undefined>(undefined)
   const [seccionEntreno, setSeccionEntreno] = useState<SeccionEntreno | undefined>(undefined)
@@ -48,6 +49,10 @@ export default function App() {
     setTab(siguiente)
     scrollRef.current?.scrollTo({ top: 0 })
   }
+  function abrirAmigos(anadir = false) {
+    navegar('amigos')
+    setAnadirAmigo(anadir)
+  }
   function irAEntreno(seccion?: SeccionEntreno) {
     navegar('gym')
     setSeccionEntreno(seccion)
@@ -69,7 +74,7 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top safe-inline h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view app-content mx-auto w-full">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onIrAGym={abrirEntreno} onIrAProgreso={navegar} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => navegar('amigos')} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onIrAGym={abrirEntreno} onIrAProgreso={navegar} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => abrirAmigos()} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => irAAjustes('instalacion')} />} />}
         {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} /></Suspense>}
         {tab === 'gym' && <Suspense fallback={<LoadingState />}><GymTab seccionInicial={seccionEntreno} entrenoAbierto={entrenoAbierto} onAbrirEntreno={() => setEntrenoAbierto(true)} onMinimizarEntreno={() => setEntrenoAbierto(false)} /></Suspense>}
@@ -77,8 +82,8 @@ export default function App() {
         {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
         {tab === 'caminos' && <Suspense fallback={<LoadingState />}><CaminosTab onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} /></Suspense>}
         {tab === 'ritmo' && <Suspense fallback={<LoadingState />}><RitmoTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
-        {tab === 'social' && <Suspense fallback={<LoadingState />}><SocialTab onIrAAmigos={() => navegar('amigos')} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
-        {tab === 'amigos' && <Suspense fallback={<LoadingState />}><AmigosTab onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
+        {tab === 'social' && <Suspense fallback={<LoadingState />}><SocialTab onIrAAmigos={abrirAmigos} onIrAGym={abrirEntreno} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
+        {tab === 'amigos' && <Suspense fallback={<LoadingState />}><AmigosTab anadirInicial={anadirAmigo} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
         {tab === 'ajustes' && <Suspense fallback={<LoadingState />}><Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} onIrAReferencias={() => navegar('referencias')} /></Suspense>}
         {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} /></Suspense>}

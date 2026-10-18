@@ -3,6 +3,7 @@
  * Las vistas se guardan en `Settings.pistasVistas`; «Volver a ver las pistas» (Ajustes › Primeros pasos) las borra.
  */
 export const PISTAS = {
+  'social-primeros-pasos': 'Comparte tu código, únete a una comunidad o comparte tu último entreno.',
   'entreno-series': 'Marca cada serie con el botón de su derecha al terminarla. Toca su número para hacerla de calentamiento, dropset o negativas.',
   'entreno-rir': 'RIR significa repeticiones en reserva: cuántas más crees que podrías haber hecho. 0 es llegar al fallo; sin dato no significa 0. Puedes cerrar esta hoja sin anotarlo.',
   'entreno-progresion': 'La progresión usa tus series confirmadas para sugerir el siguiente objetivo. Puedes aceptar, mantenerlo o ajustarlo; una sugerencia no cambia por sí sola lo que has realizado.',
