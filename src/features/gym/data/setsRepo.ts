@@ -27,6 +27,11 @@ export function ultimaEfectiva(exerciseId: number, agarre?: Agarre | null): Prom
   return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre))).first()
 }
 
+/** La última serie de calentamiento del ejercicio (con ese agarre, si se indica). */
+export function ultimoCalentamiento(exerciseId: number, agarre?: Agarre | null): Promise<SetEntry | undefined> {
+  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo === 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre))).first()
+}
+
 /**
  * Añade una serie al ejercicio dentro del entreno, repitiendo reps y peso de la última serie
  * de ese ejercicio. El `orden` se calcula dentro de la transacción: dos toques seguidos dan dos

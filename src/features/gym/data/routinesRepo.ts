@@ -5,7 +5,8 @@ import type { Routine } from '../../../shared/db/types'
 import { resolverSeleccion } from './exercisesRepo'
 import { ErrorSustitucion, sustituirEnRutina } from '../lib/rutinas'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
-import { rutinasDelPlan, type PlanCreador } from '../lib/creadorRutinas'
+import { nombreLibre, rutinasDelPlan, type PlanCreador } from '../lib/creadorRutinas'
+import { rutinaDesdeEntreno } from '../lib/repetirEntreno'
 
 export type RoutineInput = Omit<Routine, 'id'> & { id?: number }
 
@@ -73,6 +74,24 @@ export function guardarPlan(plan: PlanCreador): Promise<number[]> {
     return ids
   })
 }
+
+/**
+ * Guarda como rutina nueva lo que se hizo en un entreno terminado (`rutinaDesdeEntreno`), con un nombre libre frente a
+ * las rutinas que ya existen. Devuelve su id, para «Deshacer» con `borrar`.
+ */
+export function guardarDesdeEntreno(workoutId: number, nombre: string): Promise<number> {
+  return db.transaction('rw', db.routines, db.workouts, db.sets, async () => {
+    const w = await db.workouts.get(workoutId)
+    if (!w || w.fin === undefined) throw new Error('Ese entreno ya no está disponible.')
+    const rutina = rutinaDesdeEntreno(w, await db.sets.where('workoutId').equals(workoutId).toArray())
+    if (!rutina.exerciseIds.length) throw new RutinaVacia('Este entreno no tiene ejercicios que guardar.')
+    for (const agarre of Object.values(rutina.agarres ?? {})) if (agarre) validarEjecucion({ ejecucion: 'bilateral', agarre })
+    const libre = nombreLibre(nombre.trim() || 'Rutina', (await db.routines.toArray()).map((r) => r.nombre))
+    return db.routines.add({ nombre: libre, ...rutina })
+  })
+}
+
+export class RutinaVacia extends Error {}
 
 /** Borra varias rutinas a la vez (deshacer lo guardado con el creador). */
 export async function borrarVarias(ids: number[]): Promise<void> {

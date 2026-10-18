@@ -205,6 +205,27 @@ describe('entrenos: descartar, pasado, edición', () => {
     expect(sets.map((x) => [x.reps, x.peso, x.orden])).toEqual([[6, 50, 0], [6, 50, 1], [6, 50, 2]])
   })
 
+  it('los calentamientos del objetivo van antes, con el último calentamiento del ejercicio', async () => {
+    const ex = await exercisesRepo.obtenerOCrear('Press')
+    const previo = await workoutsRepo.crearPasado({ inicio: 1, fin: 2 })
+    const cal = await setsRepo.agregar(previo, ex, 5)
+    await setsRepo.actualizar(cal, { reps: 12, peso: 30, tipo: 'calentamiento' })
+    const s = await setsRepo.agregar(previo, ex, 6)
+    await setsRepo.actualizar(s, { reps: 6, peso: 50 })
+    const rid = await routinesRepo.guardar({ nombre: 'Empuje', exerciseIds: [ex], objetivos: { [ex]: { series: 2, repsMin: 6, repsMax: 10, calentamientos: 2 } } })
+    const sets = await setsRepo.delWorkout(await workoutsRepo.empezar(rid))
+    expect(sets.sort((a, b) => a.orden - b.orden).map((x) => [x.tipo, x.reps, x.peso, x.orden])).toEqual([
+      ['calentamiento', 12, 30, 0], ['calentamiento', 12, 30, 1], [undefined, 6, 50, 2], [undefined, 6, 50, 3],
+    ])
+  })
+
+  it('sin calentamiento previo, el del objetivo usa las cifras de la efectiva', async () => {
+    const ex = await exercisesRepo.obtenerOCrear('Remo')
+    const rid = await routinesRepo.guardar({ nombre: 'Tirón', exerciseIds: [ex], objetivos: { [ex]: { series: 1, repsMin: 8, repsMax: 8, calentamientos: 1 } } })
+    const sets = await setsRepo.delWorkout(await workoutsRepo.empezar(rid))
+    expect(sets.sort((a, b) => a.orden - b.orden).map((x) => [x.tipo, x.reps, x.peso])).toEqual([['calentamiento', 8, 20], [undefined, 8, 20]])
+  })
+
   it('una serie de calentamiento no se usa para precargar la siguiente', async () => {
     const w = await workoutsRepo.empezar()
     const ex = await exercisesRepo.obtenerOCrear('Press')
@@ -254,5 +275,74 @@ describe('ejercicios personalizados', () => {
     const borrado = await exercisesRepo.borrarPersonalizado(a)
     await exercisesRepo.restaurar(borrado)
     expect(await db.exercises.get(a)).toBeDefined()
+  })
+})
+
+describe('repetir un entreno y guardarlo como rutina', () => {
+  async function entrenoHecho() {
+    const press = await exercisesRepo.obtenerOCrear('Press')
+    const remo = await exercisesRepo.obtenerOCrear('Remo')
+    const id = await workoutsRepo.crearPasado({ inicio: 1_000, fin: 4_000 })
+    const r = await setsRepo.agregar(id, remo, 10)
+    await setsRepo.actualizar(r, { reps: 10, peso: 40, rir: 2 })
+    const c = await setsRepo.agregar(id, press, 11)
+    await setsRepo.actualizar(c, { reps: 12, peso: 20, tipo: 'calentamiento' })
+    const p1 = await setsRepo.agregar(id, press, 12)
+    await setsRepo.actualizar(p1, { reps: 8, peso: 60 })
+    const p2 = await setsRepo.agregar(id, press, 13)
+    await setsRepo.actualizar(p2, { reps: 6, peso: 60 })
+    await workoutsRepo.guardarOrden(id, [press, remo])
+    await workoutsRepo.guardarNotas(id, 'Buen día')
+    return { id, press, remo }
+  }
+
+  it('repetir empieza un entreno activo con los ejercicios, el orden y las cifras de ese día', async () => {
+    const { id, press, remo } = await entrenoHecho()
+    const nuevo = await workoutsRepo.repetir(id)
+    const w = await db.workouts.get(nuevo)
+    expect(w?.fin).toBeUndefined()
+    expect(w?.notas).toBeUndefined()
+    expect(w?.ordenEjercicios).toEqual([press, remo])
+    const sets = (await setsRepo.delWorkout(nuevo)).sort((a, b) => a.createdAt - b.createdAt)
+    expect(sets.map((s) => [s.exerciseId, s.orden, s.tipo, s.reps, s.peso, s.rir, s.realizada])).toEqual([
+      [press, 0, 'calentamiento', 12, 20, undefined, undefined], [press, 1, undefined, 8, 60, undefined, undefined],
+      [press, 2, undefined, 6, 60, undefined, undefined], [remo, 0, undefined, 10, 40, undefined, undefined],
+    ])
+    expect(await setsRepo.delWorkout(id)).toHaveLength(4)
+  })
+
+  it('repetir con un entreno en curso devuelve ese y no crea otro', async () => {
+    const { id } = await entrenoHecho()
+    const activo = await workoutsRepo.empezar()
+    expect(await workoutsRepo.repetir(id)).toBe(activo)
+    expect(await setsRepo.delWorkout(activo)).toHaveLength(0)
+  })
+
+  it('repetir conserva la rutina si existe y omite lo que la rutina tiene y ese día no se hizo', async () => {
+    const { id, press, remo } = await entrenoHecho()
+    const curl = await exercisesRepo.obtenerOCrear('Curl')
+    const rid = await routinesRepo.guardar({ nombre: 'Torso', exerciseIds: [press, remo, curl] })
+    await db.workouts.update(id, { routineId: rid })
+    const w = await db.workouts.get(await workoutsRepo.repetir(id))
+    expect(w).toMatchObject({ routineId: rid, ejerciciosOmitidos: [curl] })
+  })
+
+  it('repetir un entreno que ya no existe falla sin crear nada', async () => {
+    await expect(workoutsRepo.repetir(999)).rejects.toThrow()
+    expect(await db.workouts.count()).toBe(0)
+  })
+
+  it('guardar como rutina crea una rutina con los ejercicios y objetivos de ese día y un nombre libre', async () => {
+    const { id, press, remo } = await entrenoHecho()
+    await routinesRepo.guardar({ nombre: 'Torso', exerciseIds: [] })
+    const rid = await routinesRepo.guardarDesdeEntreno(id, ' Torso ')
+    expect(await routinesRepo.obtener(rid)).toEqual({ id: rid, nombre: 'Torso (2)', exerciseIds: [press, remo],
+      objetivos: { [press]: { series: 2, repsMin: 6, repsMax: 8, calentamientos: 1 }, [remo]: { series: 1, repsMin: 10, repsMax: 10 } } })
+  })
+
+  it('guardar como rutina un entreno sin series no crea nada', async () => {
+    const id = await workoutsRepo.crearPasado({ inicio: 1_000, fin: 4_000 })
+    await expect(routinesRepo.guardarDesdeEntreno(id, 'Vacía')).rejects.toBeInstanceOf(routinesRepo.RutinaVacia)
+    expect(await db.routines.count()).toBe(0)
   })
 })
