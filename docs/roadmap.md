@@ -64,7 +64,8 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 ## Ideas sin empezar
 
 Social (pendientes tras la ampliación del 2026-10-16):
-- **Mejorar el perfil**: qué se muestra de cada persona (foto o avatar, biografía, cifras), y su página con las publicaciones.
+- **Plan de mejoras de Social** (2026-10-18): [social-mejoras.md](social-mejoras.md) une las auditorías de Codex y Claude Code en cuatro fases (fiabilidad, claridad, conversación e identidad, apuestas a validar), con las decisiones pendientes. Sin implementar.
+- **Mejorar el perfil**: qué se muestra de cada persona (foto o avatar, biografía, cifras), y su página con las publicaciones. Concretado en F2-7 del plan de mejoras de Social.
 - Otros pendientes conocidos: nombre definitivo de la reacción (hoy «Ánimo»), notificaciones push (Web Push), recorridos con zona privada.
 
 Registro:
