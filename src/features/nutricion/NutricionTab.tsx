@@ -87,7 +87,7 @@ export default function NutricionTab({ onVerReferencia }: { onVerReferencia?: (i
       {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} onVerReferencia={onVerReferencia} /></Suspense>}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>
-          <Resumen />
+          <Resumen onVerReferencia={onVerReferencia} />
         </Suspense>
       )}
       {vista === 'alimentos' && <Alimentos />}

@@ -1728,3 +1728,13 @@ Víctor pide un mapa de calor muscular que evolucione con los entrenos y, antes 
 - `MapaMuscular`: `Cuerpo` con título opcional, `huella` y `onZona`; `EscalaMuscular`, `CuerpoMuscular`; `FigurasMusculares` acepta `huella`. CSS `[data-huella]`, `.muscle-calor` y `.muscle-transicion` (Forced Colors incluido); tokens `--muscle-calor-width` y `--dur-calor`.
 
 **Verificación:** `npm run test`: 2.340 de 2.341 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), igual que antes del cambio. `npm run build` correcto. En Chrome (`appfit-test.localhost:5173`) con fixtures: estado vacío, mapa con huella, Frontal/Trasera, hoja de detalle y lista, cierre real de un entreno con el antes → después, tema oscuro y 316 px en un iframe (sin desbordamiento ni botones bajo 44 px), sin errores de consola; fixtures borrados al terminar. No se probó en un móvil real ni a 375/430 px exactos (la ventana no se dejó redimensionar).
+
+## 163. Vista detallada en el Resumen de Nutrición (2026-10-19)
+
+Víctor pide poder ver en el resumen semanal la vista detallada que ya tenía el Diario. El Resumen (semana y mes) gana el selector «Vista sencilla / Vista detallada» dentro de la card «Media diaria».
+
+- `lib/nutrientes.ts`: `mediaNutrientes(entries, fechas, hoy, cheatDays)`, con el criterio de días de `resumenPeriodo`; lo conocido de cada nutriente entre los días que cuentan y la cobertura por alimento. Tipo `ResumenNutriente`.
+- `NutrientesDetalle`: prop `mediaDiaria` (sustituye a la suma de `entries`; etiquetas «media diaria conocida» / «media parcial»; 1 decimal, 2 bajo 1 g).
+- `pages/Resumen`: selector y bloque «Media diaria de nutrientes»; recibe `onVerReferencia` desde `NutricionTab` para «Ver en Referencias».
+
+**Verificación:** tests nuevos en `nutrientes.test.ts` y `NutrientesDetalle.test.tsx`. `npm run test`: 2.342 de 2.343 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), también sin el cambio. `npm run build` correcto. En Chrome (`appfit-test.localhost:5173`) con fixtures (cobertura parcial, kcal rápidas): media correcta, 316 px en un iframe sin desbordamiento, sin errores de consola; fixtures borrados. No se probó en móvil real ni a 375/430 px exactos.

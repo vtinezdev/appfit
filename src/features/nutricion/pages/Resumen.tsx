@@ -22,6 +22,9 @@ import ProgressBar from '../../../shared/components/ProgressBar'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import FranjaMacros from '../components/FranjaMacros'
 import MacroBar from '../components/MacroBar'
+import NutrientesDetalle from '../components/NutrientesDetalle'
+import { mediaNutrientes } from '../lib/nutrientes'
+import type { NutrienteId } from '../../../shared/lib/referenciasNutricionales'
 import Card from '../../../shared/components/Card'
 import ChartVisibility from '../../../shared/components/ChartVisibility'
 
@@ -32,10 +35,12 @@ const DATOS = [
   { valor: 'carb' as const, label: 'Hidratos', nombre: 'Carbohidratos', color: chartColors.carbs, unidad: 'g' },
   { valor: 'grasa' as const, label: 'Grasa', nombre: 'Grasa', color: chartColors.fat, unidad: 'g' },
 ]
-export default function Resumen() {
+export default function Resumen({ onVerReferencia }: { onVerReferencia?: (id: NutrienteId) => void }) {
   const [rango, setRango] = useState<PeriodoRango>('semana')
   const [fechaAncla, setFechaAncla] = useState(todayISO())
   const [dato, setDato] = useState<Dato>('kcal')
+  // Como en el Diario: empieza en sencilla y se conserva al cambiar de periodo.
+  const [detalle, setDetalle] = useState<'sencilla' | 'detallada'>('sencilla')
   const [curvas, setCurvas] = useState<('consumo' | 'objetivo')[]>(['consumo', 'objetivo'])
   const fechas = fechasPeriodo(rango, fechaAncla)
   const entries = useLiveQuery(() => entriesRepo.entreFechas(fechas[0], fechas[fechas.length - 1]), [fechas.join(',')])
@@ -83,6 +88,9 @@ export default function Resumen() {
                 <MacroBar macro="carbs" valor={media.carb} objetivo={objetivos.carb} />
                 <MacroBar macro="fat" valor={media.grasa} objetivo={objetivos.grasa} />
               </div>
+              <SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
+                opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />
+              {detalle === 'detallada' && <NutrientesDetalle entries={entries} mediaDiaria={mediaNutrientes(entries, fechas, todayISO(), cheatDays)} titulo="Media diaria de nutrientes" objetivoKcal={objetivos.kcal} onVerReferencia={onVerReferencia} />}
             </Card>
           </section>
           <section aria-label="Distribución de calorías" className="space-y-3"><SectionHeader variant="section">Reparto de macros</SectionHeader><FranjaMacros macros={media} /></section>

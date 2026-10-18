@@ -27,6 +27,17 @@ describe('presentación de nutrientes adicionales', () => {
     expect(alimento).not.toContain('Información sobre')
   })
 
+  it('la media diaria de un periodo sustituye a la suma y se nombra como media', () => {
+    const entries = [{ nutrientes: { fibra: 99 } }]
+    const mediaDiaria = [{ clave: 'fibra' as const, label: 'Fibra', valor: 12.5, conocidos: 2, total: 3 }]
+    const html = renderToStaticMarkup(<NutrientesDetalle objetivoKcal={2000} entries={entries} mediaDiaria={mediaDiaria} titulo="Media diaria de nutrientes" />)
+    expect(html).toContain('12,5 g')
+    expect(html).not.toContain('99 g')
+    expect(html).toContain('Fibra: media diaria conocida')
+    expect(html).toContain('media parcial')
+    expect(html).toContain('Información disponible en 2 de 3 alimentos')
+  })
+
   it('los valores parciales y desconocidos se distinguen de cero', () => {
     const html = renderToStaticMarkup(<NutrientesDetalle entries={[{ nutrientes: { fibra: 2.5, sal: 0 } }, {}]} />)
     expect(html).toContain('2,5 g')
