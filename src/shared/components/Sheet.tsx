@@ -15,6 +15,8 @@ interface Props {
   children: ReactNode
   /** Acciones persistentes en formularios largos; fuera del scroll del contenido. */
   footer?: ReactNode
+  /** Devuelve false para conservar la capa (p. ej. confirmar el descarte de un formulario). */
+  onBeforeClose?: () => boolean
 }
 
 /**
@@ -23,8 +25,13 @@ interface Props {
  * mantiene el foco dentro y lo devuelve al elemento que lo abrió.
  * Las salidas iniciadas aquí animan antes de `onClose`; open=false también anima, desmontar directamente no.
  */
-export default function Sheet({ id, open, onClose, onExited, title, children, footer }: Props) {
-  const { mounted, visible, close: requestClose } = useOverlayPresence(open, onClose)
+export default function Sheet({ id, open, onClose, onExited, title, children, footer, onBeforeClose }: Props) {
+  const { mounted, visible, close } = useOverlayPresence(open, onClose)
+  const requestClose = () => {
+    if (onBeforeClose?.() === false) return false
+    close()
+    return true
+  }
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
   const drag = useRef<{ startY: number; dy: number; t: number } | null>(null)

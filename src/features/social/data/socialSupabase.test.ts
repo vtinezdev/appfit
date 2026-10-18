@@ -55,3 +55,22 @@ describe('destinatario y funciones de comunidad', () => {
     await expect(social().publicacionesComunidad('id', null)).rejects.toMatchObject({ clave: 'no_miembro' })
   })
 })
+
+
+describe('contratos de las nuevas RPC', () => {
+  beforeEach(() => rpc.mockResolvedValue({ data: [], error: null }))
+  const social = () => crearSocialSupabase('https://appfit-pruebas.invalid', 'publica-falsa')
+  it('envía el cursor completo sin redondear microsegundos y mantiene el ámbito de comunidad', async () => {
+    const antes={ fecha: '2026-10-18T10:00:00.123456+00:00', id: 'uuid-ultimo' }
+    await social().feed(antes)
+    expect(rpc).toHaveBeenLastCalledWith('feed',{p_antes:antes.fecha,p_antes_id:antes.id,p_limite:20})
+    await social().publicacionesDe('ana',antes,'grupo')
+    expect(rpc).toHaveBeenLastCalledWith('publicaciones_persona_comunidad',{p_alias:'ana',p_comunidad:'grupo',p_antes:antes.fecha,p_antes_id:antes.id,p_limite:20})
+  })
+  it('una respuesta lleva un objetivo explícito y el perfil solo lo elegido', async () => {
+    await social().comentar('pub','Hola','raiz')
+    expect(rpc).toHaveBeenLastCalledWith('comentar_respuesta',{p_id:'pub',p_texto:'Hola',p_respuesta:'raiz'})
+    await social().editarPerfilDeportivo('Fuerza',['fuerza'],['logro'],null)
+    expect(rpc).toHaveBeenLastCalledWith('editar_perfil_deportivo',{p_bio:'Fuerza',p_disciplinas:['fuerza'],p_destacados:['logro'],p_avatar:null})
+  })
+})

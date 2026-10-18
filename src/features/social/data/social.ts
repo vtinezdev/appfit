@@ -1,5 +1,5 @@
 import { NubeError } from '../../cuenta/data/nube'
-import type { Avisos, Comentario, PublicacionFeed } from '../lib/feed'
+import type { Avisos, CursorSocial, PaginaComentarios, PaginaSocial, PublicacionFeed } from '../lib/feed'
 import type { Resumen } from '../lib/publicacion'
 import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
@@ -39,22 +39,33 @@ export interface Social {
   salirComunidad(id: string): Promise<void>
   editarDescripcionComunidad(id: string, descripcion: string): Promise<void>
   borrarComunidad(id: string): Promise<void>
-  publicacionesComunidad(id: string, antes: string | null): Promise<PublicacionFeed[]>
+  publicacionesComunidad(id: string, antes: CursorSocial | null): Promise<PaginaSocial<PublicacionFeed>>
   denunciarComunidad(id: string, motivo: MotivoDenuncia, detalle: string | null): Promise<void>
   /** Si ya no existe, falla con «no encontrado». */
   borrarPublicacion(id: string): Promise<void>
   /** Lo mío y de quienes sigo, lo último publicado primero. `antes`: `creada` de la última vista (o null). */
-  feed(antes: string | null): Promise<PublicacionFeed[]>
+  feed(antes: CursorSocial | null): Promise<PaginaSocial<PublicacionFeed>>
   /** Lo de una persona que sigo (o lo mío), igual de paginado. */
-  publicacionesDe(alias: string, antes: string | null): Promise<PublicacionFeed[]>
+  publicacionesDe(alias: string, antes: CursorSocial | null, comunidad?: string): Promise<PaginaSocial<PublicacionFeed>>
   reaccionar(publicacion: string): Promise<void>
   quitarReaccion(publicacion: string): Promise<void>
-  comentarios(publicacion: string): Promise<Comentario[]>
+  comentarios(publicacion: string, antes?: CursorSocial | null): Promise<PaginaComentarios>
   /** Devuelve el id del comentario. */
-  comentar(publicacion: string, texto: string): Promise<string>
+  comentar(publicacion: string, texto: string, respuesta?: string): Promise<string>
   borrarComentario(id: string): Promise<void>
   denunciarPublicacion(id: string, motivo: MotivoDenuncia, detalle: string | null): Promise<void>
   denunciarComentario(id: string, motivo: MotivoDenuncia, detalle: string | null): Promise<void>
+  animos(publicacion: string, antes?: CursorSocial | null): Promise<PaginaSocial<{ id: string; alias: string; nombre: string | null }>>
+  silenciar(alias: string, silenciar: boolean): Promise<void>
+  silenciados(): Promise<{ alias: string; nombre: string | null }[]>
+  novedadesComunidades(): Promise<Record<string, number>>
+  verComunidad(id: string): Promise<void>
+  comunidadesPropias(): Promise<{ id: string; nombre: string }[]>
+  gestionComunidad(id: string): Promise<GestionComunidad>
+  gestionarComunidad(id: string, accion: 'transferir' | 'nombrar' | 'revocar' | 'expulsar' | 'reglas' | 'bienvenida', alias?: string, texto?: string): Promise<void>
+  perfilDeportivo(alias: string, comunidad?: string): Promise<PerfilDeportivo>
+  editarPerfilDeportivo(bio: string, disciplinas: string[], destacados: string[], avatar: string | null): Promise<void>
+  capacidades(): Promise<{ camposOpcionales: boolean }>
   avisos(): Promise<Avisos>
   marcarAvisosVistos(): Promise<void>
 }
@@ -89,3 +100,7 @@ export class SocialError extends NubeError {
     this.clave = clave
   }
 }
+
+export interface GestionComunidad { modera: boolean; creador: boolean; reglas: string; bienvenida: string; miembros: { alias: string; nombre: string | null; moderador: boolean; creador: boolean; yo?: boolean }[] }
+
+export interface PerfilDeportivo { alias: string; nombre: string | null; bio: string; disciplinas: string[]; destacados: { id: string; resumen: Resumen }[]; avatar: Resumen | null; avatarId: string | null; publicadas: number }

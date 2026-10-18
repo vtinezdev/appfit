@@ -10,6 +10,8 @@ declare
   publicacion uuid := gen_random_uuid(); propia uuid := gen_random_uuid(); comentario uuid;
   tipo text; e text; r record; n integer;
   texto jsonb := '{"v":1,"tipo":"texto","titulo":"Novedades","texto":"Nueva actualización disponible"}';
+  entreno jsonb := '{"v":1,"tipo":"entreno","titulo":"Entreno","duracionSeg":60,"series":3,"volumenKg":100,"ejercicios":[],"records":[],"ligas":[],"logros":[]}';
+  actividad jsonb := '{"v":1,"tipo":"actividad","actividad":"correr","titulo":"Carrera","duracionSeg":60,"distanciaM":100,"desnivelM":null}';
   logro jsonb := '{"v":1,"tipo":"logro","titulo":"Entrenos","logroId":"entrenos","grupo":"entreno","nivel":1,"descripcion":"10 entrenos"}';
 begin
   insert into auth.users(id, email, aud, role, created_at, updated_at)
@@ -30,7 +32,7 @@ begin
   begin perform public.crear_comunidad(gen_random_uuid(), 'Nula de prueba', '', null); e := null; exception when others then e := sqlerrm; end;
   assert e = 'comunidad_no_valida', 'La elección no admite null';
   for tipo in select unnest(array['texto', 'entreno', 'actividad', 'logro']) loop
-    perform public.publicar_comunidad(gen_random_uuid(), tipo, now(), case when tipo = 'logro' then logro else texto || jsonb_build_object('tipo', tipo) end, anuncios);
+    perform public.publicar_comunidad(gen_random_uuid(), tipo, now(), case tipo when 'logro' then logro when 'entreno' then entreno when 'actividad' then actividad else texto end, anuncios);
   end loop;
   perform public.publicar_comunidad(publicacion, 'texto', now(), texto, anuncios);
   perform public.publicar_comunidad(publicacion, 'texto', now(), texto, anuncios);
@@ -43,7 +45,7 @@ begin
   select count(*) into n from public.publicaciones_comunidad(anuncios, null, 20); assert n = 5, 'Puede leer todos los anuncios sin seguir a la creadora';
   for tipo in select unnest(array['texto', 'entreno', 'actividad', 'logro']) loop
     begin
-      perform public.publicar_comunidad(gen_random_uuid(), tipo, now(), case when tipo = 'logro' then logro else texto || jsonb_build_object('tipo', tipo) end, anuncios);
+      perform public.publicar_comunidad(gen_random_uuid(), tipo, now(), case tipo when 'logro' then logro when 'entreno' then entreno when 'actividad' then actividad else texto end, anuncios);
       e := null;
     exception when others then e := sqlerrm; end;
     assert e = 'solo_creador_publica', 'No puede publicar otro miembro, en ningún tipo ni desde clientes anteriores';

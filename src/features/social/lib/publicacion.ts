@@ -1,3 +1,5 @@
+import { ordenarRecords } from './records'
+import type { ModoCarga } from '../../../shared/db/types'
 import type { TipoActividad } from '../../../shared/db/types'
 import { formatInt } from '../../../shared/lib/format'
 import { ZONAS_MUSCULARES, type ZonaMuscular } from '../../gym/lib/musculos'
@@ -15,6 +17,7 @@ export const VERSION_RESUMEN = 1
 export const MAX_TEXTO = 60
 export const MAX_EJERCICIOS = 15
 export const MAX_LINEAS = 6
+export const MAX_NOTA = 280
 export const MAX_PUBLICACION = 2000
 export const MAX_DESCRIPCION_LOGRO = 500
 export type MapaCompartido = Record<ZonaMuscular, NivelMuscular>
@@ -26,7 +29,9 @@ export interface ResumenTexto {
   texto: string
 }
 
-export interface ResumenLogro {
+interface ConNota { nota?: string }
+
+export interface ResumenLogro extends ConNota {
   v: 1
   tipo: 'logro'
   titulo: string
@@ -40,18 +45,26 @@ export interface ResumenLogro {
 export interface LineaLogro {
   ejercicio: string
   texto: string
+  tipo?: 'peso' | '1rm' | 'reps' | 'asistencia'
+  modo?: ModoCarga
+  valor?: number
+  anterior?: number
+  peso?: number
+  variante?: string
 }
 
-export interface ResumenEntreno {
+export interface ResumenEntreno extends ConNota {
   v: 1
   tipo: 'entreno'
   /** Nombre de la rutina o «Entreno libre». */
   titulo: string
-  duracionSeg: number
+  duracionSeg?: number
   series: number
-  volumenKg: number
+  volumenKg?: number
   ejercicios: string[]
   records: LineaLogro[]
+  recordsTotal?: number
+  recordsEjercicios?: number
   ligas: LineaLogro[]
   /** Piezas nuevas de la Vitrina. */
   logros: string[]
@@ -59,12 +72,12 @@ export interface ResumenEntreno {
   mapa?: MapaCompartido
 }
 
-export interface ResumenActividad {
+export interface ResumenActividad extends ConNota {
   v: 1
   tipo: 'actividad'
   actividad: TipoActividad
   titulo: string
-  duracionSeg: number
+  duracionSeg?: number
   distanciaM: number
   desnivelM: number | null
 }
@@ -88,7 +101,12 @@ const texto = (t: string) => {
   return limpio.length > MAX_TEXTO ? `${limpio.slice(0, MAX_TEXTO - 1)}…` : limpio
 }
 const cifra = (n: number) => (Number.isFinite(n) && n > 0 ? Math.round(n) : 0)
-const linea = (l: LineaLogro): LineaLogro => ({ ejercicio: texto(l.ejercicio), texto: texto(l.texto) })
+const linea = (l: LineaLogro): LineaLogro => ({ ejercicio: texto(l.ejercicio), texto: texto(l.texto),
+  ...(l.tipo && l.modo && l.valor !== undefined && l.anterior !== undefined ? {
+    tipo: l.tipo, modo: l.modo, valor: l.valor, anterior: l.anterior,
+    ...(l.peso !== undefined ? { peso: l.peso } : {}), ...(l.variante ? { variante: texto(l.variante) } : {}),
+  } : {}),
+})
 
 export interface DatosEntreno {
   titulo: string
@@ -108,6 +126,7 @@ export interface DatosEntreno {
 export function resumenEntreno(d: DatosEntreno): ResumenEntreno {
   const ejercicios = [...new Set(d.ejercicios.map(texto).filter(Boolean))]
   const mapa = leerMapa(d.mapa)
+  const records = ordenarRecords(d.records)
   return {
     v: VERSION_RESUMEN,
     tipo: 'entreno',
@@ -116,7 +135,9 @@ export function resumenEntreno(d: DatosEntreno): ResumenEntreno {
     series: cifra(d.series),
     volumenKg: cifra(d.volumenKg),
     ejercicios: ejercicios.slice(0, MAX_EJERCICIOS),
-    records: d.records.slice(0, MAX_LINEAS).map(linea),
+    records: records.slice(0, MAX_LINEAS).map(linea),
+    recordsTotal: records.length,
+    recordsEjercicios: new Set(records.map(r => r.ejercicio)).size,
     ligas: d.ligas.slice(0, MAX_LINEAS).map(linea),
     logros: d.logros.map(texto).filter(Boolean).slice(0, MAX_LINEAS),
     ...(mapa ? { mapa } : {}),
@@ -156,7 +177,17 @@ const leerLineas = (x: unknown): LineaLogro[] =>
     if (!esObjeto(l)) return []
     const ejercicio = leerTexto(l.ejercicio)
     const t = leerTexto(l.texto)
-    return ejercicio && t ? [{ ejercicio, texto: t }] : []
+    if (!ejercicio || !t) return []
+    const estructurado = ['peso', '1rm', 'reps', 'asistencia'].includes(String(l.tipo))
+      && ['externa', 'corporal', 'lastre', 'asistencia'].includes(String(l.modo))
+      && typeof l.valor === 'number' && Number.isFinite(l.valor) && l.valor >= 0
+      && typeof l.anterior === 'number' && Number.isFinite(l.anterior) && l.anterior >= 0
+      && (l.peso === undefined || (typeof l.peso === 'number' && Number.isFinite(l.peso) && l.peso >= 0))
+      && (l.variante === undefined || (typeof l.variante === 'string' && !!l.variante.trim()))
+    return [linea({ ejercicio, texto: t, ...(estructurado ? {
+      tipo: l.tipo as LineaLogro['tipo'], modo: l.modo as ModoCarga, valor: l.valor as number, anterior: l.anterior as number,
+      ...(l.peso !== undefined ? { peso: l.peso as number } : {}), ...(l.variante ? { variante: l.variante as string } : {}),
+    } : {}) })]
   }).slice(0, MAX_LINEAS)
 
 /** Copia solo zonas conocidas y niveles enteros. Un mapa mal formado no invalida una publicación antigua. */
@@ -196,6 +227,8 @@ export function leerResumen(x: unknown): Resumen | null {
   if (!esObjeto(x) || x.v !== VERSION_RESUMEN) return null
   const titulo = leerTexto(x.titulo)
   if (titulo === null) return null
+  if (x.nota !== undefined && (typeof x.nota !== 'string' || !x.nota.trim() || x.nota.length > MAX_NOTA)) return null
+  const nota = typeof x.nota === 'string' ? { nota: x.nota.trim() } : {}
   if (x.tipo === 'texto') {
     if (typeof x.texto !== 'string' || validarPublicacion(x.texto)) return null
     return { v: 1, tipo: 'texto', titulo, texto: x.texto.trim() }
@@ -204,19 +237,21 @@ export function leerResumen(x: unknown): Resumen | null {
     if (!IDS_LOGRO.includes(x.logroId as IdLogro) || !Object.hasOwn(GRUPOS_LOGRO, String(x.grupo))) return null
     if (x.nivel !== null && (typeof x.nivel !== 'number' || !Number.isInteger(x.nivel) || x.nivel < 1 || x.nivel > 5)) return null
     if (typeof x.descripcion !== 'string' || !x.descripcion.trim() || x.descripcion.length > MAX_DESCRIPCION_LOGRO) return null
-    return { v: 1, tipo: 'logro', titulo, logroId: x.logroId as IdLogro, grupo: x.grupo as GrupoLogro, nivel: x.nivel as number | null, descripcion: x.descripcion.trim() }
+    return { v: 1, tipo: 'logro', ...nota, titulo, logroId: x.logroId as IdLogro, grupo: x.grupo as GrupoLogro, nivel: x.nivel as number | null, descripcion: x.descripcion.trim() }
   }
-  const duracionSeg = leerCifra(x.duracionSeg)
+  const duracionSeg = x.duracionSeg === undefined ? undefined : leerCifra(x.duracionSeg)
   if (titulo === null || duracionSeg === null) return null
   if (x.tipo === 'entreno') {
     const series = leerCifra(x.series)
-    const volumenKg = leerCifra(x.volumenKg)
+    const volumenKg = x.volumenKg === undefined ? undefined : leerCifra(x.volumenKg)
     const mapa = leerMapa(x.mapa)
     if (series === null || volumenKg === null) return null
     return {
-      v: 1, tipo: 'entreno', titulo, duracionSeg, series, volumenKg,
+      v: 1, tipo: 'entreno', ...nota, titulo, ...(duracionSeg !== undefined ? { duracionSeg } : {}), series, ...(volumenKg !== undefined ? { volumenKg } : {}),
       ejercicios: leerTextos(x.ejercicios, MAX_EJERCICIOS),
       records: leerLineas(x.records),
+      ...(Number.isSafeInteger(x.recordsTotal) && (x.recordsTotal as number) >= leerLineas(x.records).length ? { recordsTotal: x.recordsTotal as number } : {}),
+      ...(Number.isSafeInteger(x.recordsEjercicios) && (x.recordsEjercicios as number) >= 0 ? { recordsEjercicios: x.recordsEjercicios as number } : {}),
       ligas: leerLineas(x.ligas),
       logros: leerTextos(x.logros, MAX_LINEAS),
       ...(mapa ? { mapa } : {}),
@@ -225,7 +260,7 @@ export function leerResumen(x: unknown): Resumen | null {
   if (x.tipo === 'actividad') {
     const distanciaM = leerCifra(x.distanciaM)
     if (distanciaM === null || !TIPOS_ACTIVIDAD.includes(x.actividad as TipoActividad)) return null
-    return { v: 1, tipo: 'actividad', actividad: x.actividad as TipoActividad, titulo, duracionSeg, distanciaM, desnivelM: leerCifra(x.desnivelM) || null }
+    return { v: 1, tipo: 'actividad', ...nota, actividad: x.actividad as TipoActividad, titulo, ...(duracionSeg !== undefined ? { duracionSeg } : {}), distanciaM, desnivelM: leerCifra(x.desnivelM) || null }
   }
   return null
 }
@@ -237,4 +272,12 @@ export function textoEjercicios(ejercicios: string[], visibles = 3): string {
   }
   const resto = ejercicios.length - visibles
   return `${ejercicios.slice(0, visibles).join(', ')} y ${formatInt(resto)} más`
+}
+
+/** La nota se incorpora solo al resumen elegido para este envío; cada copia conserva la suya. */
+export function conNota(resumen: Resumen, nota: string): Resumen {
+  if (resumen.tipo === 'texto') return resumen
+  const { nota: anterior, ...base } = resumen
+  void anterior
+  return nota.trim() ? { ...base, nota: nota.trim().slice(0, MAX_NOTA) } : base
 }

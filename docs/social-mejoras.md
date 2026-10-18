@@ -2,7 +2,24 @@
 
 Plan de trabajo · 18 de octubre de 2026.
 
-**Estado:** sin implementar. Nada está decidido todavía: las mejoras marcadas con **[DECIDIR]** esperan una respuesta de Víctor antes de programarse. Las demás se pueden implementar en el orden propuesto cuando Víctor lo autorice.
+**Estado (2026-10-18):** implementadas las fases 0 y 1 y las mejoras autorizadas de fase 2. Víctor confirma la ejecución correcta de 0009–0013 en Supabase SQL Editor, una por una, antes de publicar el cliente; `campos_opcionales` permanece desactivado. Pendiente de validar con personas/cuentas/dispositivos reales. La fase 3 conserva sus pilotos y bloqueos. El detalle vigente de código y datos está en [features/social.md](features/social.md).
+
+| Bloque | Estado |
+|---|---|
+| F0-1–F0-6 | Implementado: confirmación, páginas crudas/cursor compuesto, comentarios con total, validación cerrada, errores de avisos y borrador protegido |
+| F1-1–F1-11 | Implementado: tiempo/contexto, tarjeta compacta, récords resumidos y nota confirmados, refresco, acciones, reacción visible, primeros pasos y persona común |
+| F2-1–F2-3 | Implementado: avisos ampliados/agrupados, respuestas a raíz e identidades de ánimo solo para autor |
+| F2-4 | Compositor común y selección implementados. Lector de duración/volumen omitidos preparado; interruptores y escritura desactivados por 0013 hasta actualizar lectores anteriores |
+| F2-5 | Variante mínima confirmada e implementada: novedades por comunidad, sin mezclar audiencias en Siguiendo |
+| F2-6–F2-7 | Implementado: silencios reversibles y perfil deportivo elegido |
+| F2-8 | Revisión manual confirmada; ocultación automática pendiente de capacidad real, sin umbral inventado |
+| F2-9 | Transferencia, delegación, retirada/expulsión, reglas/bienvenida y resolución previa al borrar perfil implementadas. Bloquear al creador conserva el comportamiento anterior |
+| F2-10 | Pendiente de medir volumen suficiente; no se añaden filtros sin esos datos |
+| F3-1–F3-6 | Pendientes de validación/piloto, ids estables, router o servicio según cada propuesta; no implementados |
+
+Víctor ha confirmado el resumen recomendado (sin 1RM nuevo; reps solo al mayor peso de su variante/modo), nota de 280 sin edición y por copia, Ánimo, Sigues/Te siguen, privacidad de reacciones y mínimo de novedades de comunidades. Confirma moderación manual y transferir/cerrar antes de borrar perfil. Las marcas **[DECIDIR]** del texto de origen se resuelven por este registro; las decisiones de fase 3 y apertura siguen pendientes.
+
+**Validación automática local:** 2.291 tests en 191 archivos, build correcto, seis suites SQL y ocho escenarios móviles correctos. Las seis suites SQL se ejecutaron solo en PostgreSQL temporal; la aplicación de las migraciones al proyecto real está confirmada por Víctor. La publicación del cliente se verifica mediante los checks de la PR y el despliegue de Cloudflare. Compatibilidad y gobierno: [ADR 044](decisiones/044-control-social-y-compatibilidad.md).
 
 **Base revisada:** `master` en `63a51ba`. El código social (`src/features/social`, `supabase/`, `src/features/gym/lib/records.ts`) es idéntico al de `9a856b8` y `6fb3569`, las revisiones que analizaron las dos auditorías de origen.
 
@@ -41,7 +58,7 @@ Este documento es autosuficiente: recoge todo lo que hace falta para implementar
   - Añadir una entrada a `docs/PROCESO.md`.
   - Un ADR solo si cambia una decisión de los ADR 040/041; por ejemplo, F2-8, F3-1 o F3-6.
 
-## Estado actual en una página
+## Estado auditado antes de estos cambios
 
 | Pieza | Dónde | Lo relevante para este plan |
 |---|---|---|
@@ -186,7 +203,7 @@ Casi todo en el cliente.
   - `gym/components/PublicarEntreno.tsx`: pasar el `RecordEjercicio` además del texto.
   - `TarjetaPublicacion.tsx`: sustituir `Lineas` para récords.
 - **Tests:** un ejercicio con 4 récords → 1 línea + «+3»; 7 récords → total 7 aunque se guarden 6; publicación antigua sin campos; modos corporal, lastre y asistencia; decimales con coma.
-- **[DECIDIR]:**
+- **Decidido por Víctor:** 1RM fuera de Social y reps al mayor peso de la misma variante/modo. Preguntas del plan de origen:
   - ¿El 1RM estimado sale en Social o se queda en Progreso? Es un cálculo (Epley), no una serie levantada.
   - ¿Se publican los récords de repeticiones con pesos más bajos o solo el del peso más alto?
 - **Más adelante:** que el autor elija en la vista previa qué récords destacar, con el principal de cada ejercicio por defecto. Va con F2-4.
@@ -200,7 +217,7 @@ Casi todo en el cliente.
   - En la tarjeta, la nota va tras el título, en `text-body`, con «Más» si pasa de 4 líneas.
 - **Moderación:** se denuncia con el flujo de denunciar publicación que ya existe.
 - **Depende de:** F0-2 y F0-4.
-- **[DECIDIR]:** longitud (propuesta: 280), si se puede editar tras publicar (propuesta: no en esta fase) y si va también en las copias de comunidad (propuesta: sí, cada copia con su nota).
+- **Confirmado por Víctor:** 280 caracteres, sin edición tras publicar y nota independiente por copia de comunidad.
 
 ### F1-6 · Refrescar el feed sin perder la posición (Codex A07) · P0
 
@@ -293,7 +310,7 @@ Necesita migraciones y suites SQL.
 - **Qué hacer:**
   - En lo mío, «Ánimo de Lucía y 3 personas más» encima del pie; al tocarlo, la lista (RPC nueva, solo para el autor).
   - En lo ajeno, solo el recuento.
-- **[DECIDIR]:** ¿solo el autor ve quién reaccionó? (propuesta: sí).
+- **Confirmado por Víctor:** solo el autor ve quién reaccionó.
 
 ### F2-4 · Elegir qué se comparte (compositor único, Codex B03) · P1
 
@@ -413,25 +430,27 @@ Solo tras las fases anteriores y con un piloto.
 
 Chocan con el ADR 040, con la regla «sin castigos» de `DESIGN.md` o con la capacidad de moderación actual. Más detalle en Codex § 3.3 y D01–D06.
 
-## Decisiones pendientes de Víctor
+## Registro de decisiones y pendientes de Víctor
 
 | Decisión | Afecta a | Propuesta |
 |---|---|---|
 | Para qué es Social: apoyo y constancia, o también rendimiento | Todo | Apoyo y constancia |
 | A quién se abre primero | F2-8, F2-9 | Amistades y grupos pequeños |
-| ¿1RM estimado en Social? ¿Récords de reps con pesos bajos? | F1-4 | 1RM fuera; solo el récord principal de cada ejercicio a la vista |
-| Nota: longitud, edición y copias de comunidad | F1-5 | 280; sin edición; sí en cada copia |
-| Nombres de pestañas y de la reacción | F1-8, F1-10 | Mantener «Ánimo»; «Sigues / Te siguen» en Amigos |
-| Quién ve quién reaccionó | F2-3 | Solo el autor |
-| Comunidades en el feed: mínima o completa | F2-5 | Empezar por la mínima |
-| Umbral de ocultación por denuncias y capacidad de revisión | F2-8 | Por definir |
-| Comunidad sin creador | F2-9 | Transferir antes de borrar el perfil |
+| ¿1RM estimado en Social? ¿Récords de reps con pesos bajos? | F1-4 | Confirmado: 1RM fuera; reps al mayor peso; principal de cada ejercicio a la vista |
+| Nota: longitud, edición y copias de comunidad | F1-5 | Confirmado: 280; sin edición; sí en cada copia |
+| Nombres de pestañas y de la reacción | F1-8, F1-10 | Confirmado: mantener «Ánimo»; «Sigues / Te siguen» en Amigos |
+| Quién ve quién reaccionó | F2-3 | Confirmado: solo el autor |
+| Comunidades en el feed: mínima o completa | F2-5 | Confirmado: mínima |
+| Umbral de ocultación por denuncias y capacidad de revisión | F2-8 | Confirmado: revisión manual mientras no haya capacidad real; sin umbral automático |
+| Comunidad sin creador | F2-9 | Confirmado: transferir o cerrar antes de borrar el perfil |
 | Qué cuenta en la semana en compañía | F3-1 | Sesiones confirmadas del plan semanal de Ritmo |
 | Push y su servicio de envío | F3-6 | Después de F2-1 y F2-2 |
 | Cómo medir sin analítica | Validación | Recuentos agregados en el SQL Editor y entrevistas |
 | Liga con descenso frente al «sin castigos» de `DESIGN.md`; `PRODUCT.md` aún dice «sin backend ni cuentas» | Coherencia de docs | Decidir y corregir el documento que no refleje la intención |
 
 ## Validación
+
+Recorrido reproducible y comprobaciones manuales pendientes: [pruebas/social-mejoras.md](pruebas/social-mejoras.md).
 
 - **Por bloque:** tests puros, suite SQL con rollback, `scripts/ui/validar-social.cjs` ampliado con `supabase-falso.mjs` (320/375/430 px, claro y oscuro, texto largo, cifras grandes) y prueba con dos cuentas reales y en iPhone físico antes de dar por cerrado.
 - **Tareas de uso** (antes de la fase 2), con 6–8 personas, incluidas principiantes y alguien que no quiera Social: crear perfil sin exponer medidas, invitar, aprobar, publicar a una audiencia, explicar qué se envía, dar ánimo, volver desde una persona y corregir un error.

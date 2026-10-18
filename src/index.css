@@ -607,8 +607,11 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .medalla-anillo { width: var(--insignia-lg); height: var(--insignia-lg); }
 .logros-grupo { container: logros-grupo / inline-size; }
 .publicacion-tarjeta { container: publicacion / inline-size; }
+.confirmacion-destructiva { container: confirmacion / inline-size; }
+@container confirmacion (max-width: 18rem) {
+  .confirmacion-destructiva > div { flex-direction: column; }
+}
 @container publicacion (max-width: 18rem) {
-  .publicacion-confirmacion [role='group'] > div { flex-direction: column; }
   .publicacion-metricas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @container publicacion (max-width: 12rem) {

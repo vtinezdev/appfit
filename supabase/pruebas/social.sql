@@ -136,8 +136,8 @@ begin
 
   -- Publicar
   perform set_config('request.jwt.claims', json_build_object('sub', carla)::text, true);
-  perform public.publicar(pub, 'entreno', now() - interval '1 hour', '{"v": 1, "tipo": "entreno"}');
-  perform public.publicar(pub, 'entreno', now() - interval '1 hour', '{"v": 1, "tipo": "entreno"}');
+  perform public.publicar(pub, 'entreno', now() - interval '1 hour', '{"v":1,"tipo":"entreno","titulo":"Entreno","duracionSeg":60,"series":3,"volumenKg":100,"ejercicios":[],"records":[],"ligas":[],"logros":[]}');
+  perform public.publicar(pub, 'entreno', now() - interval '1 hour', '{"v":1,"tipo":"entreno","titulo":"Entreno","duracionSeg":60,"series":3,"volumenKg":100,"ejercicios":[],"records":[],"ligas":[],"logros":[]}');
   select count(*) into n from public.publicaciones where autor = carla;
   assert n = 1, 'publicar dos veces el mismo id no duplica';
   begin perform public.publicar(gen_random_uuid(), 'otro', now(), '{}'); e := null; exception when others then e := sqlerrm; end;
@@ -159,7 +159,7 @@ begin
   assert n = 0, 'borrar mi publicación';
   begin perform public.borrar_publicacion(pub); e := null; exception when others then e := sqlerrm; end;
   assert e = 'no_encontrado', 'borrarla otra vez: ' || coalesce(e, 'sin error');
-  perform public.publicar(pub2, 'actividad', now(), '{"v": 1, "tipo": "actividad", "titulo": "Ruta"}');
+  perform public.publicar(pub2, 'actividad', now(), '{"v":1,"tipo":"actividad","actividad":"caminar","titulo":"Ruta","duracionSeg":60,"distanciaM":100,"desnivelM":null}');
 
   -- Feed, reacciones, comentarios y avisos
   perform set_config('request.jwt.claims', json_build_object('sub', beto)::text, true);

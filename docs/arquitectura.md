@@ -130,3 +130,8 @@ Cada build genera `version.json` (identidad y fecha) y compila esos mismos metad
 Ajustes › Comunicar un problema (`app/DiagnosticoAjustes`) prepara un texto revisable y copiable con versión/build, user agent, idioma, tamaño del viewport, conexión declarada, modo navegador/pantalla de inicio y categoría/fecha del último error de esta sesión. Los pasos se escriben expresamente. No hay envío automático ni servicio nuevo.
 
 `shared/lib/diagnostico` se inicia en `main` y escucha errores no controlados; `useAviso` y `ErrorState` registran los errores recuperables. Se conserva **solo la categoría y la fecha en memoria**, sin mensaje, stack, URL, cuenta, registros ni coordenadas. No se persiste, no entra en el backup y no recoge sesiones anteriores. Clipboard falla de forma recuperable con instrucciones para copiar manualmente el texto visible.
+
+
+### Lectura y composición de Social
+
+Las RPC de feed usan cursor compuesto sobre filas crudas: una versión de resumen desconocida no cierra la paginación. Comentarios separa total visible de página cargada. El compositor común prepara cada JSON antes de enviarlo a una audiencia; la marca local solo apunta a la copia de seguidores. Identidad deportiva, silencios y gestión de comunidades siguen en Supabase con RLS y RPC cerradas; no añaden tablas Dexie ni servicios. `visibilitychange` comprueba novedades como máximo una vez por minuto y no mantiene sondeo ni realtime. La omisión de cifras se activa después de actualizar lectores, mediante capacidad de servidor. Detalle y migraciones en [Social](features/social.md).

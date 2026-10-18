@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0008 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0012 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -9,6 +9,11 @@
 import http from 'node:http'
 
 const YO = 'yo'
+const silencios = new Set()
+const vistosComunidad = new Map()
+const deportivos = new Map()
+const moderadores = new Set()
+const idsAnimos = new Map()
 const perfiles = new Map([
   ['lucia', { alias: 'lucia.run', nombre: 'Lucía Martín', codigo: 'A1B2-C3D4', suspendido: false }],
   ['pablo', { alias: 'pablo_gym', nombre: null, codigo: 'B2C3-D4E5', suspendido: false }],
@@ -55,8 +60,9 @@ const fila = (pid) => {
     reaccione: reacciones.has(`${pid}|${YO}`), mia: pu.autor === YO,
   }
 }
-const pagina = (filtro, antes, limite) => [...publicaciones].filter(([, pu]) => filtro(pu) && (!antes || pu.creada < antes))
-  .sort((a, b) => (a[1].creada < b[1].creada ? 1 : -1)).slice(0, limite).map(([pid]) => fila(pid))
+const modera = (id) => comunidades.get(id)?.creador===YO || moderadores.has(`${id}|${YO}`)
+const pagina = (filtro, antes, limite, antesId) => [...publicaciones].filter(([id, pu]) => filtro(pu) && (!antes || pu.creada < antes || (pu.creada === antes && id < antesId)))
+  .sort((a, b) => b[1].creada.localeCompare(a[1].creada) || b[0].localeCompare(a[0])).slice(0, limite).map(([pid]) => fila(pid))
 const verPublicacion = (pid) => {
   const pu = publicaciones.get(pid)
   if (!pu || bloq(YO, pu.autor) || (pu.comunidad ? !miembros.has(`${pu.comunidad}|${YO}`) : !puedeVer(pu.autor))) throw err('no_encontrado')
@@ -82,6 +88,7 @@ const otro = (alias) => {
 
 const rpc = {
   simular_reinicio: () => {
+    silencios.clear(); vistosComunidad.clear(); deportivos.clear(); moderadores.clear(); idsAnimos.clear()
     for (const [mapa, filas] of [[perfiles,inicial.perfiles],[seg,inicial.seg],[publicaciones,inicial.publicaciones],[comunidades,inicial.comunidades]]) { mapa.clear(); for (const [k,v] of filas) mapa.set(k,structuredClone(v)) }
     miembros.clear(); for (const m of inicial.miembros) miembros.add(m)
     bloqueos.clear(); reacciones.clear(); comentarios.clear(); avisosVistos = new Date(0).toISOString()
@@ -100,8 +107,8 @@ const rpc = {
   unirse_comunidad: ({p_id}) => { exigir(); if(!comunidades.has(p_id)) throw err('no_encontrado'); miembros.add(`${p_id}|${YO}`); return null },
   salir_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador===YO) throw err('creador_no_puede_salir'); miembros.delete(`${p_id}|${YO}`); return null },
   editar_descripcion_comunidad: ({p_id,p_descripcion}) => { exigir(); const c=comunidades.get(p_id); if(c?.creador!==YO) throw err('no_encontrado'); if((p_descripcion??'').trim().length>300) throw err('comunidad_no_valida'); c.descripcion=(p_descripcion??'').trim(); return null },
-  borrar_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador!==YO) throw err('no_encontrado'); comunidades.delete(p_id); for(const [id,p] of publicaciones) if(p.comunidad===p_id) publicaciones.delete(id); for(const m of miembros) if(m.startsWith(`${p_id}|`)) miembros.delete(m); return null },
-  publicaciones_comunidad: ({p_id,p_antes,p_limite}) => { exigir(); if(!miembros.has(`${p_id}|${YO}`)) throw err('no_miembro'); return pagina(p=>p.comunidad===p_id && !bloq(YO,p.autor),p_antes,p_limite) },
+  borrar_comunidad: ({p_id}) => { if(!perfiles.has(YO))throw err('sin_perfil'); if(comunidades.get(p_id)?.creador!==YO) throw err('no_encontrado'); comunidades.delete(p_id); for(const [id,p] of publicaciones) if(p.comunidad===p_id) publicaciones.delete(id); for(const m of miembros) if(m.startsWith(`${p_id}|`)) miembros.delete(m); return null },
+  publicaciones_comunidad: ({p_id,p_antes,p_limite,p_antes_id}) => { exigir(); if(!miembros.has(`${p_id}|${YO}`)) throw err('no_miembro'); return pagina(p=>p.comunidad===p_id && !bloq(YO,p.autor),p_antes,p_limite,p_antes_id) },
   publicar_comunidad: ({p_id,p_tipo,p_fecha,p_resumen,p_comunidad}) => { exigir(); if(!miembros.has(`${p_comunidad}|${YO}`)) throw err('no_miembro'); if(publicaciones.has(p_id)) { if(publicaciones.get(p_id).autor===YO && publicaciones.get(p_id).comunidad===p_comunidad) return null; throw err('publicacion_no_valida') }; const c = comunidades.get(p_comunidad); if(c.solo_creador_publica && c.creador!==YO) throw err('solo_creador_publica'); publicaciones.set(p_id,{autor:YO,tipo:p_tipo,fecha:p_fecha,resumen:p_resumen,comunidad:p_comunidad,creada:new Date().toISOString()}); return null },
   marcar_actividad: () => null,
   mi_perfil: () => {
@@ -125,6 +132,7 @@ const rpc = {
   },
   nuevo_codigo: () => { exigir(); perfiles.get(YO).codigo = '1234-ABCD'; return '1234-ABCD' },
   borrar_perfil: () => {
+    if([...comunidades.values()].some(c=>c.creador===YO))throw err('comunidades_pendientes')
     perfiles.delete(YO)
     for (const k of [...seg.keys()]) if (k.split('|').includes(YO)) seg.delete(k)
     return null
@@ -180,13 +188,14 @@ const rpc = {
     console.log('publicado', JSON.stringify(p_resumen))
     return null
   },
-  feed: ({ p_antes, p_limite }) => { exigir(); return pagina((pu) => !pu.comunidad && puedeVer(pu.autor), p_antes, p_limite) },
-  publicaciones_de: ({ p_alias, p_antes, p_limite }) => {
+  feed: ({ p_antes, p_limite, p_antes_id }) => { exigir(); return pagina((pu) => !pu.comunidad && puedeVer(pu.autor) && !silencios.has(pu.autor), p_antes, p_limite, p_antes_id) },
+  publicaciones_de: ({ p_alias, p_antes, p_limite, p_antes_id }) => {
     exigir()
     const id = idDe(p_alias)
     if (!id || !puedeVer(id)) throw err('no_encontrado')
-    return pagina((pu) => !pu.comunidad && pu.autor === id, p_antes, p_limite)
+    return pagina((pu) => !pu.comunidad && pu.autor === id, p_antes, p_limite, p_antes_id)
   },
+  publicaciones_persona_comunidad: ({ p_alias, p_comunidad, p_antes, p_antes_id, p_limite }) => { exigir(); if(!miembros.has(`${p_comunidad}|${YO}`)) throw err('no_miembro'); return pagina(p => p.comunidad === p_comunidad && p.autor === idDe(p_alias) && !bloq(YO,p.autor), p_antes, p_limite, p_antes_id) },
   reaccionar: ({ p_id }) => { exigir(); verPublicacion(p_id); reacciones.add(`${p_id}|${YO}`); return null },
   quitar_reaccion: ({ p_id }) => { exigir(); reacciones.delete(`${p_id}|${YO}`); return null },
   comentarios_de: ({ p_id }) => {
@@ -194,8 +203,13 @@ const rpc = {
     const pu = verPublicacion(p_id)
     return [...comentarios].filter(([, c]) => c.publicacion === p_id).map(([id, c]) => {
       const pe = perfiles.get(c.autor)
-      return { id, alias: pe.alias, nombre: pe.nombre, texto: c.texto, creado: c.creado, mio: c.autor === YO, puedo_borrar: c.autor === YO || pu.autor === YO }
+      return { id, alias: pe.alias, nombre: pe.nombre, texto: c.texto, creado: c.creado, mio: c.autor === YO, puedo_borrar: c.autor === YO || pu.autor === YO || modera(pu.comunidad), respuesta_a: c.respuesta_a ?? null, respuesta_alias: c.respuesta_a ? perfiles.get(comentarios.get(c.respuesta_a)?.autor)?.alias : null }
     })
+  },
+  comentarios_pagina: ({ p_id, p_antes, p_antes_id, p_limite }) => {
+    const todos = rpc.comentarios_de({ p_id })
+    return { total: todos.length, items: todos.filter(c => !p_antes || c.creado < p_antes || (c.creado === p_antes && c.id < p_antes_id))
+      .sort((a,b) => b.creado.localeCompare(a.creado) || b.id.localeCompare(a.id)).slice(0,p_limite) }
   },
   comentar: ({ p_id, p_texto }) => {
     exigir()
@@ -206,9 +220,29 @@ const rpc = {
     comentarios.set(id, { publicacion: p_id, autor: YO, texto, creado: new Date().toISOString() })
     return id
   },
+  comentar_respuesta: ({p_id,p_texto,p_respuesta}) => {
+    if(p_respuesta) { const padre=comentarios.get(p_respuesta); if(!padre || padre.publicacion!==p_id || padre.respuesta_a || bloq(YO,padre.autor)) throw err('no_encontrado') }
+    const id=rpc.comentar({p_id,p_texto}); comentarios.get(id).respuesta_a=p_respuesta; return id
+  },
+  animos_de: ({p_id,p_antes,p_antes_id,p_limite}) => {
+    exigir(); if(verPublicacion(p_id).autor!==YO) throw err('no_encontrado')
+    return [...reacciones].map(k=>k.split('|')).filter(([pid,id])=>pid===p_id && !bloq(YO,id)).map(([,id])=>{const clave=`${p_id}|${id}`;if(!idsAnimos.has(clave))idsAnimos.set(clave,crypto.randomUUID());return {id:idsAnimos.get(clave),alias:perfiles.get(id).alias,nombre:perfiles.get(id).nombre,creada:publicaciones.get(p_id).creada}})
+      .filter(p=>!p_antes || p.creada<p_antes || (p.creada===p_antes&&p.id<p_antes_id)).sort((a,b)=>b.creada.localeCompare(a.creada)||b.id.localeCompare(a.id)).slice(0,p_limite)
+  },
+  silenciar: ({p_alias,p_silenciar}) => { exigir(); const id=otro(p_alias); if(p_silenciar)silencios.add(id);else silencios.delete(id);return null },
+  silenciados: () => { exigir();return [...silencios].map(id=>({alias:perfiles.get(id).alias,nombre:perfiles.get(id).nombre})) },
+  novedades_comunidades: () => { exigir();return Object.fromEntries([...comunidades.keys()].filter(id=>miembros.has(`${id}|${YO}`)).map(id=>[id,[...publicaciones.values()].filter(p=>p.comunidad===id&&p.autor!==YO&&p.creada>(vistosComunidad.get(id)??'')).length])) },
+  ver_comunidad: ({p_id})=>{exigir();if(!miembros.has(`${p_id}|${YO}`))throw err('no_miembro');vistosComunidad.set(p_id,new Date().toISOString());return null},
+  comunidades_propias: () => { if(!perfiles.has(YO))throw err('sin_perfil');return [...comunidades].filter(([,c])=>c.creador===YO).map(([id,c])=>({id,nombre:c.nombre})) },
+  simular_suspension: () => { perfiles.get(YO).suspendido=true;return null },
+  gestion_comunidad: ({p_id})=>{exigir();const c=comunidades.get(p_id);if(!c||bloq(YO,c.creador))throw err('no_encontrado');const creador=c.creador===YO;return {modera:modera(p_id),creador,reglas:c.reglas??'',bienvenida:c.bienvenida??'',miembros:modera(p_id)?[...perfiles].filter(([id])=>miembros.has(`${p_id}|${id}`)).map(([id,p])=>({alias:p.alias,nombre:p.nombre,creador:c.creador===id,moderador:moderadores.has(`${p_id}|${id}`),yo:id===YO})):[]}},
+  gestionar_comunidad: ({p_id,p_accion,p_alias,p_texto})=>{exigir();const c=comunidades.get(p_id);if(!c||!modera(p_id)||(p_accion!=='expulsar'&&c.creador!==YO))throw err('no_encontrado');if(p_accion==='reglas'||p_accion==='bienvenida')c[p_accion]=p_texto;else{const id=otro(p_alias);if(!miembros.has(`${p_id}|${id}`)||id===YO||id===c.creador)throw err('no_encontrado');if(p_accion==='transferir'){c.creador=id;moderadores.delete(`${p_id}|${id}`)}else if(p_accion==='expulsar')miembros.delete(`${p_id}|${id}`);else if(p_accion==='nombrar')moderadores.add(`${p_id}|${id}`);else if(p_accion==='revocar')moderadores.delete(`${p_id}|${id}`)}return null},
+  social_capacidades: () => { exigir(); return { camposOpcionales: true } },
+  perfil_deportivo: ({p_alias,p_comunidad})=>{exigir();const id=idDe(p_alias);if(!id||bloq(YO,id))throw err('no_encontrado');if(p_comunidad&&!miembros.has(`${p_comunidad}|${YO}`))throw err('no_miembro');const pe=perfiles.get(id),de=deportivos.get(id)??{bio:'',disciplinas:[],destacados:[],avatarId:null};const visibles=[...publicaciones].filter(([,p])=>p.autor===id&&(p_comunidad?p.comunidad===p_comunidad:!p.comunidad&&puedeVer(id)));return {...de,alias:pe.alias,nombre:pe.nombre,publicadas:visibles.length,destacados:visibles.filter(([pid])=>de.destacados.includes(pid)).map(([id,p])=>({id,resumen:p.resumen})),avatar:visibles.find(([pid])=>pid===de.avatarId)?.[1].resumen??null}},
+  editar_perfil_deportivo: ({p_bio,p_disciplinas,p_destacados,p_avatar})=>{exigir();if(p_bio.length>160||p_disciplinas.length>3||p_destacados.length>3)throw err('perfil_deportivo_no_valido');deportivos.set(YO,{bio:p_bio,disciplinas:p_disciplinas,destacados:p_destacados,avatarId:p_avatar});return null},
   borrar_comentario: ({ p_id }) => {
     const c = comentarios.get(p_id)
-    if (!c || (c.autor !== YO && publicaciones.get(c.publicacion)?.autor !== YO)) throw err('no_encontrado')
+    if (!c || (c.autor !== YO && publicaciones.get(c.publicacion)?.autor !== YO && !modera(publicaciones.get(c.publicacion)?.comunidad))) throw err('no_encontrado')
     comentarios.delete(p_id)
     return null
   },
@@ -218,20 +252,32 @@ const rpc = {
     const lista = [
       ...[...reacciones].map((r) => r.split('|')).filter(([pid, u]) => mias.has(pid) && u !== YO).map(([pid, u]) => ({ tipo: 'reaccion', alias: perfiles.get(u).alias, nombre: perfiles.get(u).nombre, publicacion: pid, titulo: publicaciones.get(pid).resumen.titulo, texto: null, creado: publicaciones.get(pid).creada })),
       ...[...comentarios.values()].filter((c) => mias.has(c.publicacion) && c.autor !== YO).map((c) => ({ tipo: 'comentario', alias: perfiles.get(c.autor).alias, nombre: perfiles.get(c.autor).nombre, publicacion: c.publicacion, titulo: publicaciones.get(c.publicacion).resumen.titulo, texto: c.texto.slice(0, 120), creado: c.creado })),
-    ].map((a) => ({ ...a, nuevo: a.creado > avisosVistos })).sort((a, b) => (a.creado < b.creado ? 1 : -1)).slice(0, 30)
-    return { solicitudes: [...seg].filter(([k, v]) => k.endsWith(`|${YO}`) && v === 'pendiente').length, nuevos: lista.filter((a) => a.nuevo).length, lista }
+    ].filter(a=>!bloq(YO,idDe(a.alias))).map((a) => ({ ...a, nuevo: a.creado > avisosVistos })).sort((a, b) => (a.creado < b.creado ? 1 : -1))
+    return { solicitudes: [...seg].filter(([k, v]) => k.endsWith(`|${YO}`) && v === 'pendiente').length, nuevos: lista.filter((a) => a.nuevo).length, lista: lista.slice(0,30) }
   },
   marcar_avisos_vistos: () => { exigir(); avisosVistos = new Date().toISOString(); return null },
   // Para probar los avisos: Lucía comenta y Jon da ánimo en lo último que publiqué (POST /rest/v1/rpc/simular_avisos).
+  simular_comentarios_largos: ({p_id}) => {
+    verPublicacion(p_id);for(const [id,c] of comentarios)if(c.publicacion===p_id)comentarios.delete(id)
+    const creado=new Date().toISOString()
+    for(let i=1;i<=250;i++)comentarios.set(`qa-comentario-${String(i).padStart(3,'0')}`,{publicacion:p_id,autor:'jon',texto:`Comentario de prueba ${i}`,creado})
+    return null
+  },
+  simular_paginas_desconocidas: () => {
+    const creada=new Date().toISOString()
+    for(let i=0;i<45;i++)publicaciones.set(`qa-pagina-${String(i).padStart(2,'0')}`,{autor:'jon',tipo:'texto',fecha:creada,creada,resumen:i>=25?{v:99}:{v:1,tipo:'texto',titulo:'Publicación',texto:`Publicación accesible ${i}`}})
+    return null
+  },
+  simular_publicacion_nueva: () => { const id=crypto.randomUUID(),creada=new Date().toISOString();publicaciones.set(id,{autor:'jon',tipo:'texto',fecha:creada,creada,resumen:{v:1,tipo:'texto',titulo:'Publicación',texto:'Nueva publicación para comprobar el refresco'}});return id },
   simular_avisos: () => {
-    const ultima = [...publicaciones].filter(([, pu]) => pu.autor === YO).sort((a, b) => (a[1].creada < b[1].creada ? 1 : -1))[0]
+    const ultima = [...publicaciones].filter(([, pu]) => pu.autor === YO).sort((a, b) => b[1].creada.localeCompare(a[1].creada) || b[0].localeCompare(a[0]))[0]
     if (!ultima) throw err('no_encontrado')
     reacciones.add(`${ultima[0]}|jon`)
     comentarios.set(`c-sim-${Date.now()}`, { publicacion: ultima[0], autor: 'lucia', texto: '¡Muy bien! ¿Repetimos el sábado?', creado: new Date().toISOString() })
     return null
   },
   borrar_publicacion: ({ p_id }) => {
-    if (publicaciones.get(p_id)?.autor !== YO) throw err('no_encontrado')
+    if (publicaciones.get(p_id)?.autor !== YO && !modera(publicaciones.get(p_id)?.comunidad)) throw err('no_encontrado')
     publicaciones.delete(p_id)
     return null
   },

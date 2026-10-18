@@ -1,93 +1,112 @@
-# Social y Amigos (parte social)
+# Social y Amigos
 
-`src/features/social/`. Perfil social, seguir con aprobación, bloquear, denunciar, publicar texto, entrenos con mapa muscular, actividades y logros, y participar en comunidades, y el feed con reacciones, comentarios y avisos. Decisiones: [ADR 040](../decisiones/040-parte-social.md) y [ADR 041](../decisiones/041-publicaciones-y-comunidades.md); plan y estado de las fases: [`../social.md`](../social.md). Dos destinos: «Social» en la media luna (publicaciones, ánimos, comentarios y avisos) y «Amigos» (perfil y personas), que se abre desde Social. Necesita cuenta (no la copia cifrada) y conexión; sin el proyecto de Supabase configurado, ninguno aparece.
+`src/features/social/`. Social reúne publicaciones elegidas, ánimos, comentarios, avisos y comunidades; Amigos reúne seguimientos y solicitudes. Requiere cuenta y conexión, pero no activar la copia cifrada. Sin Supabase configurado no aparece. Decisiones: [ADR 040](../decisiones/040-parte-social.md), [041](../decisiones/041-publicaciones-y-comunidades.md) y [044](../decisiones/044-control-social-y-compatibilidad.md). Alcance y decisiones de las mejoras: [social-mejoras.md](../social-mejoras.md).
 
-## Dónde está cada cosa
+**Estado del servidor:** Víctor confirmó 0003–0005 el 2026-10-15 y 0006–0008 el 2026-10-16. El 2026-10-18 confirma la ejecución correcta de **0009–0013**, una por una en el SQL Editor del proyecto real, antes de publicar este cliente. `campos_opcionales` permanece desactivado. Las seis suites SQL se han probado en PostgreSQL aislado; las pruebas con cuentas reales y dispositivos físicos siguen pendientes.
 
-| Pieza | Archivo | Datos |
-|---|---|---|
-| Alias, nombre y búsqueda | `lib/alias.ts`: `normalizarAlias`, `validarAlias`, `limpiarNombre`, `validarNombre`, `esCodigo`, `textoBusqueda` | — (puro; mismas reglas que el SQL) |
-| Relación | `lib/relacion.ts`: `Persona`, `nombreVisible`, `textoRelacion`, `accionSeguir`, `TEXTO_ACCION` | — (puro) |
-| Errores del servidor | `lib/mensajes.ts`: `MENSAJES_SOCIAL`, `mensajeSocial` (un test comprueba que cada `raise exception` del SQL tiene mensaje) | — (puro) |
-| Servidor | `data/social.ts` (interfaz `Social`, `MiPerfil`, `MOTIVOS_DENUNCIA`) y `data/socialSupabase.ts` (RPC, `traducirSocial`) | Supabase |
-| Publicar | `lib/publicacion.ts`: `resumenEntreno`, `resumenActividad`, `leerResumen` (valida lo que llega del servidor), `textoEjercicios`, límites `MAX_TEXTO`/`MAX_EJERCICIOS`/`MAX_LINEAS`; `components/Publicar` (`SiPuedePublicar` y el bloque «Compartir») y `TarjetaPublicacion`. Los componen `gym/components/PublicarEntreno` y `actividades/components/PublicarActividad` | `Workout.publicacion` y `Actividad.publicacion` (`workoutsRepo`/`actividadesRepo.marcarPublicacion`); Supabase |
-| Feed, comentarios y avisos | `lib/feed.ts`: `leerPublicacion`, `leerComentario`, `leerAvisos` (validan lo que llega), `textoAviso`, `resumenAvisos`, `validarComentario`, `POR_PAGINA` (20); `lib/reaccion.ts`: `REACCION` (el nombre provisional, «ánimo», en un solo sitio), `textoReacciones`, `textoComentarios`; `components/ListaFeed` (paginado con «Cargar más»), `PublicacionFeed`, `ComentariosSheet`, `AvisosSheet`, `PublicacionesPersona`, `FormDenuncia`, `AvisoAmigos` (banda de Inicio) | Supabase |
-| Carga | `servicio.ts`: `socialDisponible` y `cargarSocial` (import diferido; comparte cliente y sesión con la cuenta a través de `cuenta/data/clienteSupabase`) | — |
-| Lecturas | `hooks/useConsulta`: lee del servidor y vuelve a leer cuando cambia una clave (un contador que sube tras cada cambio) | — |
-| Pantalla | `SocialTab` (media luna) y `AmigosTab` (desde Social), cada uno con sus estados sin sesión, sin perfil y suspendido; `components/CrearPerfil`, `Solicitudes`, `ListaPersonas`, `Anadir`, `PersonaSheet`, `PerfilSheet`, `NombrePersona` | — |
-| SQL | `supabase/migrations/0003_social.sql` (tablas `perfiles`, `seguimientos`, `bloqueos`, `denuncias` y sus funciones; ejecutado el 2026-10-15) `0004_publicaciones.sql` (`publicaciones`, `publicar`, `borrar_publicacion`; ejecutado el 2026-10-15) y `0005_feed.sql` (`reacciones`, `comentarios`, `feed`, `publicaciones_de`, `comentarios_de`, `reaccionar`, `quitar_reaccion`, `comentar`, `borrar_comentario`, `avisos`, `marcar_avisos_vistos`, y `denunciar` ampliada; ejecutado el 2026-10-15); pruebas en `supabase/pruebas/social.sql` | Postgres |
+## Código y datos
 
-## Reglas
+| Pieza | Dónde |
+|---|---|
+| Contrato y RPC | `data/social.ts`, `data/socialSupabase.ts`, `servicio.ts` |
+| Validación y construcción de resúmenes v1 | `lib/publicacion.ts` |
+| Selección explícita de lo compartido | `lib/seleccion.ts`, `components/SeleccionPublicacion` |
+| Récords públicos, agrupación y formato | `lib/records.ts`, `components/RecordsPublicacion` |
+| Lectores de páginas, comentarios y avisos | `lib/feed.ts`; textos de reacción en `lib/reaccion.ts` |
+| Editor para los cuatro tipos y ambos destinos | `components/CrearPublicacion`, `NotaPublicacion`; `Publicar` abre el editor desde entrenos/actividades y gestiona su marca local |
+| Tarjeta y acciones | `TarjetaPublicacion`, `PublicacionFeed`, `AnimosPublicacion`, `FormDenuncia` |
+| Listas, comentarios y avisos | `ListaFeed`, `ComentariosSheet`, `AvisosSheet`, `AvisoAmigos`, `hooks/useConsulta` |
+| Identidad y relaciones | `PublicacionesPersona` carga la persona y compone `PersonaSheet` como página; `PerfilDeportivo`, `EditarPerfilDeportivo`, `PerfilSheet` |
+| Primeros pasos | `PrimerosPasosSocial`; preferencia existente `Settings.pistasVistas` |
+| Comunidades | `Comunidades`, `GestionarComunidad`, `lib/comunidad.ts` |
+| Borrado y marcas locales | `data/publicacionesRepo.ts`, `gym/data/workoutsRepo`, `actividades/data/actividadesRepo` |
 
-- **Todo por funciones** `security definer` con `auth.uid()`: las tablas tienen RLS y ningún permiso para `anon` ni `authenticated`, y los ayudantes (`social_*`) no se pueden llamar desde la app. A las personas se las identifica por su alias; nunca viajan ids.
-- **Alias**: 3–20 caracteres, minúsculas sin tildes, números, punto y guion bajo, sin empezar ni acabar en punto; único. Se guarda en minúsculas y la «@» de delante se ignora. Algunos están reservados (`appfit`, `admin`, `soporte`…). **Nombre** opcional, como mucho 40 caracteres.
-- **Perfil**: borrarlo elimina también las comunidades que se han creado con todo su contenido, publicaciones y membresías. Crearlo exige marcar «Tengo 16 años o más» (`acepto` guarda la fecha). Borrarlo borra seguimientos y bloqueos; la cuenta, la copia y los registros se quedan. Borrar la cuenta lo borra todo en cascada.
-- **Código de invitación**: 8 cifras hexadecimales («1A2B-3C4D»), se busca con o sin guion y sin distinguir mayúsculas. «Crear código nuevo» invalida el anterior.
-- **Buscar**: alias exacto o código. Nunca devuelve a uno mismo, perfiles suspendidos ni personas con un bloqueo de por medio (en cualquier sentido).
-- **Seguir**: la solicitud queda pendiente hasta que la otra persona acepta; se puede cancelar. Como mucho 50 solicitudes al día. Rechazar la borra; «Quitar de tus seguidores» también se puede hacer después.
-- **Bloquear** quita el seguimiento en los dos sentidos y deja de mostraros el uno al otro; no se avisa. Se deshace en «Tu perfil › Personas bloqueadas».
-- **Denunciar** un perfil: motivo (acoso, inapropiado, suplantación, spam, otro) y detalle opcional (500). Se guarda el alias y el nombre de ese momento. Como mucho 20 al día.
-- **Publicar** (ADR 040): solo a propósito, con la vista previa delante. El resumen de un entreno lleva título (rutina o «Entreno libre»), duración, series, volumen, ejercicios con series efectivas (en el orden de la sesión, como mucho 15), récords, cambios de liga destacados (empezar, subir, llegar a Élite) y piezas nuevas de la Vitrina (como mucho 6 de cada); el de una actividad, tipo, título, duración, distancia y desnivel, **sin el recorrido**. Textos de como mucho 60 caracteres. El id lo genera la app y se reutiliza en el reintento (el servidor no duplica); al publicar se anota en el registro local (`publicacion`, campo opcional que viaja en el backup y la copia). Como mucho 30 al día; el servidor acepta resúmenes de hasta 8 KB y quien lee los valida con `leerResumen` (versión desconocida o forma rara: no se pinta).
-- **Audiencias separadas**: una publicación para seguidores y sus interacciones las ven el autor y sus seguidores aprobados. Una publicación de comunidad solo la ven sus miembros, aunque no sigan al autor. No aparece en el feed Siguiendo ni en las publicaciones de su perfil. Unirse no abre las publicaciones privadas de los miembros. Bloqueos y suspensiones se aplican a publicaciones, comentarios y recuentos; bloquear al creador oculta su comunidad. Salir revoca el acceso, también a los comentarios de publicaciones propias, sin borrar el contenido ya compartido.
-- **Feed**: lo mío y de quienes sigo, por cuándo se publicó (lo último primero), de 20 en 20. Una fila que no se puede leer (`leerPublicacion`) se descarta. Todas mis publicaciones (texto, logro, entreno y actividad) se pueden borrar desde su feed, con confirmación porque se eliminan sus comentarios y reacciones. La opción solo aparece al autor; el servidor también comprueba la autoría. `data/publicacionesRepo.borrarPublicacion` borra en Supabase y después limpia, en una transacción local, las marcas de entrenos/actividades que coincidan con ese UUID, conservando registros y series. Las copias de comunidad tienen otro UUID y no quitan la marca de seguidores. Si falla la red, conserva la marca; un reintento acepta que la publicación ya no exista.
-- **Reacción** («Ánimo», provisional): una por persona y publicación, al momento (se deshace sola si falla). En lo mío solo se ve el recuento.
-- **Comentarios**: 1–500 caracteres, como mucho 100 al día, del más antiguo al más nuevo (hasta 200). Los míos se borran al momento con «Deshacer» en la hoja (vuelve a publicar el texto, con la hora de ahora); quien publica borra los de otras personas con confirmación. Se puede denunciar un comentario ajeno y la publicación de otra persona.
-- **Avisos**: reacciones y comentarios de otras personas en lo mío y solicitudes. «Nuevos» desde `avisos_vistos`; abrir «Avisos» los marca como vistos (la hoja conserva lo que se vio al abrirla). Tocar un aviso abre los comentarios de esa publicación.
-- **Borrar publicación** quita la marca local; si en el servidor ya no estaba (perfil borrado, otra cuenta), también.
-- **Moderación** (Víctor, en el SQL Editor): `select * from public.denuncias where revisada is null`; suspender con `update public.perfiles set suspendido = true where alias = '…'` (no aparece ni puede hacer nada, pero ve que está suspendido y puede borrar su perfil); marcar revisada con `update public.denuncias set revisada = now() where id = …`.
-- **Errores**: claves cortas del SQL (`alias_ocupado`, `no_encontrado`, `limite`…) traducidas por `mensajeSocial`; red y sesión como la cuenta. Si el SQL aún no está en el servidor (PGRST202), «Amigos aún no está disponible». Fuera de las hojas van en un Toast o en línea; dentro, con `ErrorState`.
+Solo los repositorios tocan Dexie. Las tablas sociales están en Supabase, con RLS y sin acceso directo para clientes. Las operaciones pasan por RPC `security definer`, `search_path = ''`, `auth.uid()` y comprobaciones de perfil, bloqueo, suspensión y audiencia. Los ayudantes privados no tienen permiso de ejecución para clientes. Viajan alias y UUID de publicaciones, comentarios, comunidades y reacciones; **no UUID de usuarios**.
 
-## Pantallas
+El diario, los recorridos GPS, la nutrición, el peso corporal y las medidas siguen en el dispositivo. La copia opcional de cuenta sigue cifrada. No hay imágenes subidas, analítica, sondeo continuo ni servicio externo añadido.
 
-- **Social** (media luna, icono `comentario`, `SocialTab`): sin sesión, «Entra con tu cuenta» con «Ir a Cuenta»; sin perfil o suspendido, un estado vacío con «Ir a Amigos». Con perfil: cabecera «Social» con el icono de Amigos (`users`), «Avisos» («Avisos · 3 nuevos», abre la hoja) y, si hay, «N solicitudes» (lleva a Amigos). «Crear publicación» abre un editor de texto con destinatario y vista previa. ViewTabs «Siguiendo» (el feed: lo mío y de quienes sigo) · «Tú» (solo lo mío, sin repetir el autor) · «Comunidades» (mis grupos y descubrimiento). Cada publicación con quién (o «Tú»; tocarlo abre sus publicaciones), la tarjeta y un pie con la reacción (llama y recuento, `aria-pressed`) y los comentarios (bocadillo y recuento). Vacío: «Aún no hay publicaciones» con «Buscar a alguien» (lleva a Amigos).
-- **Social › Amigos** (icono `users` de la cabecera de Social, `AmigosTab`; la media luna marca Social). Sin sesión: «Entra con tu cuenta» con «Ir a Cuenta» (Ajustes › Cuenta). Sin perfil: qué se comparte y qué no (nutrición, peso y medidas nunca), alias, nombre opcional, «Tengo 16 años o más» y «Crear mi perfil».
-- **Con perfil**: cabecera «Amigos» con `@alias · N solicitudes` debajo (fuera de `overline`, que pondría en mayúscula el alias) y «Tu perfil» (icono de ajustes). Si hay solicitudes, «Solicitudes» con Rechazar y Aceptar en cada fila (con poco ancho, los botones bajan bajo el nombre). Después, ViewTabs Siguiendo · Seguidores · Añadir:
-  - **Siguiendo** (con «Solicitud enviada») y **Seguidores**: filas que abren la persona.
-  - **Añadir**: card «Tu código» con Copiar y Compartir (si el navegador puede), y «Alias o código» con Buscar; el resultado lleva «Pedir seguir».
-- **Hoja de una persona** (título: nombre o alias): alias y relación, responder su solicitud, Pedir seguir / Cancelar solicitud / Dejar de seguir, «Ver sus publicaciones» si la sigo (abre una página con ellas, sin repetir su nombre en cada tarjeta), Quitar de tus seguidores, Denunciar (motivo y detalle; al terminar ofrece bloquear) y Bloquear (`ConfirmacionDestructiva`; cierra la hoja y avisa con un Toast).
-- **Tu perfil** (hoja): alias y nombre con Guardar, código y «Crear código nuevo», «Personas bloqueadas» (Disclosure con Desbloquear) y «Borrar el perfil» (`ConfirmacionDestructiva`).
-- **Perfil suspendido**: estado vacío con «Tu perfil» para poder borrarlo.
-- **Comentarios** (hoja): título de la publicación, la lista (nombre, alias, hace cuánto, texto, Borrar y Denunciar), «Tu comentario» con Enviar y «Denunciar la publicación» si no es mía.
-- **Inicio**: banda bajo el aviso de copia, solo si hay algo pendiente: «Novedades en Social» («2 solicitudes · 3 novedades», lleva a Social) si hay reacciones o comentarios nuevos, o «Solicitudes en Amigos» (lleva a Amigos) si solo hay solicitudes.
-- **Compartir** (fin de un entreno, detalle de un entreno del historial y detalle de una actividad), solo con sesión y perfil sin suspender (si no, o sin conexión, no aparece): título «Compartir», la tarjeta tal como la verán (título, fecha, cifras, ejercicios, récords, ligas y Vitrina), qué no se comparte y «Publicar en Social». Publicado: «Publicado en Social» con «Borrar publicación».
+## Perfiles y relaciones
 
-## Pruebas
+El alias es exacto, único, de 3–20 caracteres (`a-z`, números, punto y guion bajo), sin punto inicial/final; el nombre es opcional, hasta 40. Se confirma tener al menos 16 años al crear el perfil. El código revocable tiene ocho cifras hexadecimales y se acepta con/sin guion. No hay sugerencias abiertas de desconocidos.
 
-Tests puros en `lib/` y `data/socialSupabase.test.ts`. El SQL se prueba con `supabase/pruebas/social.sql` en el SQL Editor (crea tres usuarios de prueba y lo deshace todo al acabar). En el navegador, sin el proyecto real: `scripts/ui/supabase-falso.mjs` (ver [desarrollo](../desarrollo.md) § Pruebas en navegador).
+Seguir requiere aprobación; cancelar, dejar de seguir y quitar seguidores siguen disponibles. Bloquear elimina ambos seguimientos, impide verse y no avisa al bloqueado. Silenciar solo retira a esa persona de Siguiendo: conserva seguimiento y acceso explícito, y se deshace en Tu perfil › Personas silenciadas. Las comunidades mantienen su audiencia independiente.
 
-## Publicaciones libres, logros y comunidades
+El perfil deportivo contiene solo biografía elegida (160 caracteres), hasta tres disciplinas y hasta tres logros propios ya publicados. El avatar es el monograma o la insignia de un logro propio publicado; no se suben imágenes. «Así te ven tus seguidores aprobados» previsualiza la selección. Las cifras se rotulan como publicaciones compartidas, no como historial total. Desde una comunidad, los logros/avatar privados de seguidores no se muestran aunque el visitante siga al autor. La denuncia de perfil conserva también biografía y disciplinas.
 
-Ampliación del 2026-10-16. `0006_comunidades_y_publicaciones.sql` se ejecuta después de 0005, antes de desplegar esta versión de la app; probada localmente y ejecutada por Víctor en el proyecto real el 2026-10-16 (SQL Editor: «Success. No rows returned»). No cambia Dexie ni el formato de backup. Las tablas nuevas son `comunidades` y `miembros_comunidad`; `publicaciones.comunidad` es null para seguidores y una FK para comunidades. Todas tienen RLS y siguen sin acceso directo desde clientes.
+Borrar el perfil exige **transferir o cerrar primero sus comunidades**. Tu perfil permite cerrar las comunidades propias también estando suspendido, con inventario exclusivo y confirmación de cascada, sin recuperar acceso al feed. Después elimina relaciones, publicaciones y membresías, conservando cuenta y diario. La eliminación completa de cuenta y el mantenimiento administrativo conservan su cascada anterior, explicada en el flujo de Cuenta; esta implementación cambia la API explícita de borrar perfil.
 
-- **Texto**: «Crear publicación» en Social permite hasta 2.000 caracteres, conserva párrafos y exige una vista previa. Se eligen seguidores aprobados o una comunidad a la que ya se pertenezca. `CrearPublicacion` conserva el UUID al reintentar; el servidor impide cambiar de audiencia reutilizando un id. Cuota conjunta de 30 publicaciones al día para los cuatro tipos y ambas audiencias.
-- **Logros**: «Compartir logro» en el detalle de una pieza conseguida de la Vitrina y en los nuevos logros al terminar un entreno. `CompartirLogro`/`resumenLogro` comprueban que el nivel se ha alcanzado; comparten símbolo, nombre, nivel y requisito de esa pieza, nunca el del siguiente objetivo. Un oculto sin conseguir no ofrece compartir. Se pueden compartir también logros de Nutrición elegidos expresamente, sin publicar registros de comidas o cantidades consumidas. No hay publicación automática ni marca en Dexie; cada publicación independiente se gestiona desde su feed.
-- **Mapa muscular**: `PublicarEntreno` calcula los niveles con `trabajoMuscularWorkout`, usando el snapshot de la sesión o la clasificación disponible en sesiones antiguas. `resumenEntreno` copia solo 12 zonas y niveles enteros 0–5; `MapaPublicacion` muestra frontal/trasera, leyenda y niveles textuales con la geometría común, sin enviar sexo ni datos de Perfil. No se envían coordenadas, medidas, scores ni aportes de series. Los resúmenes anteriores sin mapa siguen siendo válidos; un mapa remoto inválido se omite sin perder la publicación.
-- **Compartir en comunidad**: el bloque de compartir del entreno o actividad permite publicar allí por separado, incluso si ya se publicó para seguidores. La marca local `publicacion` sigue representando únicamente la publicación original de seguidores; las copias de comunidad no la pisan. Cada envío tiene destinatario y vista previa explícitos.
-- **Comunidades**: `components/Comunidades` ofrece «Mis comunidades» y «Descubrir», búsqueda por nombre, crear, unirse y salir. Cualquier perfil activo puede descubrirlas y unirse, sin seguir a sus miembros. Dentro hay publicaciones, ánimos, comentarios, compartir y denuncias como en Social. El autor se muestra sin enlazar su feed privado. Cada comunidad tiene nombre único sin distinguir mayúsculas (3–60 caracteres), descripción opcional hasta 300, y como mucho cinco creaciones al día por persona. El catálogo devuelve hasta 100 coincidencias, ordenadas por nombre; la búsqueda permite localizar otras. Su creador se une automáticamente y puede borrarla con confirmación, eliminando todo su contenido. No puede salir dejando la comunidad sin creador.
-- **Moderación**: se pueden denunciar comunidades con el formulario existente. El operador puede suspenderlas (`comunidades.suspendida`) o suspender perfiles; las comunidades de un creador suspendido dejan de mostrarse. No se avisa a la persona denunciada. Se mantienen los límites y las reglas de denuncias.
+<a id="publicaciones-libres-logros-y-comunidades"></a>
 
-`Social` añade `comunidades`, `crearComunidad`, `unirseComunidad`, `salirComunidad`, `editarDescripcionComunidad`, `borrarComunidad`, `publicacionesComunidad` y `denunciarComunidad`; `publicar` acepta un destino opcional y conserva la firma RPC anterior para seguidores. La migración añade ayudantes privados para comprobar cada publicación y actualiza las lecturas, comentarios, reacciones, avisos y denuncias existentes sin abrir las tablas. Los ids de personas siguen sin viajar al cliente; comunidades y publicaciones sí se identifican por UUID.
+## Publicaciones
 
-### Validación de la ampliación
+Cuatro tipos, siempre por decisión de la persona y con vista previa:
 
-Tests de constructores/lectores de resúmenes, logros pendientes/conseguidos, niveles, texto, mapa y RPC en `social/lib` y `data/socialSupabase.test.ts`. `supabase/pruebas/comunidades.sql` crea usuarios sintéticos, comprueba separación de audiencias, acceso sin seguimiento tras unirse, reintentos, cuota compartida, bloqueos, suspensiones, salida, denuncias, cascadas, RLS y permisos de funciones, y hace rollback. Se ejecuta en PostgreSQL local aislado además de la suite social anterior (`PRUEBAS_OK`), sin proyecto real.
+- Texto de hasta 2.000 caracteres, con párrafos y sin título genérico en la tarjeta.
+- Entreno: título, series, duración y volumen, ejercicios efectivos en su orden (hasta 15), récords, ligas destacadas, piezas de Vitrina (hasta seis por lista) y mapa opcional de doce zonas con niveles enteros 0–5.
+- Actividad: caminar, correr o senderismo; título, duración, distancia y desnivel, sin recorrido.
+- Logro alcanzado de Vitrina: identidad, grupo, nivel y requisito del nivel conseguido. No se publica automáticamente ni se envía el siguiente objetivo.
 
-`scripts/ui/validar-social.cjs`, con Vite en `appfit-test.localhost:5174` y `supabase-falso.mjs` en 54329, recorre publicaciones, reintento tras pérdida de respuesta, comunidades de no seguidos, comentarios, creación de una comunidad, compartir un logro y el mapa compacto del entreno para ambas audiencias y el borrado desde el feed (solo autor, cancelación, reintento tras pérdida de respuesta y marca local liberada sin borrar registros). Datos y sesión sintéticos; scripts y resultados no sustituyen una prueba con dos cuentas reales ni iPhone físico.
+Entrenos, actividades y logros admiten nota opcional de 280 caracteres, sin edición posterior. Cada copia tiene su propia nota. El compositor permite elegir audiencia, mapa, ejercicios, récords concretos, ligas y Vitrina. Los récords principales de cada ejercicio se seleccionan por defecto. La vista previa muestra todo el envío y recuerda que cambiar el diario no actualiza la publicación.
 
-### Comunidades donde solo publica su creador
+El UUID de envío se conserva al reintentar el mismo contenido/destino. Cambiar contenido o audiencia genera otro intento; el servidor nunca cambia una publicación previa reutilizando su UUID. Seguidores y comunidad son copias independientes. Solo la publicación para seguidores anota `Workout.publicacion`/`Actividad.publicacion`; copiar en una comunidad no pisa esa marca.
 
-Al crear una comunidad se elige «Quién puede publicar»: «Todos los miembros» (por defecto) o «Solo yo, como creador». La segunda sirve para novedades/actualizaciones: todos sus miembros pueden leer, comentar y dar ánimo, pero solo quien la creó puede enviar publicaciones de cualquier tipo. No se cambia la pertenencia abierta ni se necesita seguir al creador.
+**Compatibilidad:** sigue `v: 1`. Nota, metadatos de récord y totales son opcionales. Los lectores antiguos ignoran esos campos adicionales. Omitir duración/volumen requiere una secuencia distinta porque los lectores antiguos los exigen: 0013 instala el lector nuevo y deja `social_configuracion.campos_opcionales = false`. El compositor no ofrece esos interruptores y el servidor rechaza la omisión hasta completar la actualización de los lectores. Solo entonces el administrador activa:
 
-`Comunidad.soloCreadorPublica` y `puedePublicarEnComunidad` gobiernan el botón del detalle y los destinos del editor compartido (texto, entreno, actividad y logro). El creador sigue pudiendo publicar en su propia comunidad restringida. Las comunidades ajenas restringidas no aparecen como destino, y las vacías explican quién publicará en ellas.
+```sql
+update public.social_configuracion set campos_opcionales = true where id;
+```
 
-Migración **0007_comunidades_solo_creador.sql**, tras 0006 y antes de desplegar esta versión. Añade `comunidades.solo_creador_publica` con `default false`, por lo que Testers y las demás comunidades existentes conservan sus permisos y contenido. Un trigger privado valida cada inserción/cambio de autor o comunidad en `publicaciones`, y el RPC de creación recibe la elección. La firma anterior de tres argumentos se conserva para clientes anteriores; el listado mantiene los argumentos y añade el permiso a sus filas. Comentarios, reacciones y reglas de lectura no se restringen por esta elección. No hay cambio de permisos después de crear la comunidad en esta versión.
+El campo omitido se elimina del JSON, sin enviarlo oculto ni sustituirlo por cero. Cero real sigue siendo cero. No activar la opción durante el primer despliegue. El servidor valida claves permitidas, tipos, listas, mapa, nota y cifras; límite global de resumen 8 KB.
 
-Pruebas: `supabase/pruebas/comunidades_solo_creador.sql` (usuarios sintéticos y rollback, resultado `PRUEBAS_COMUNIDADES_SOLO_CREADOR_OK`), suites SQL anteriores y `scripts/ui/validar-social.cjs` (crear con la opción, creador publicando, miembro comentando sin publicar y filtro de destinos). Víctor confirmó la ejecución de 0007 en el SQL Editor del proyecto real el 2026-10-16 con «Success. No rows returned». La suite SQL está verificada localmente; no se ha confirmado su ejecución en el proyecto real.
+### Récords
 
-### Editar la descripción de una comunidad
+Progreso conserva su cálculo y todos sus récords. Social excluye nuevos 1RM estimados y récords de repeticiones a pesos menores dentro de la misma variante/modo. Orden principal: peso/lastre, reps al mayor peso, menos asistencia, 1RM de publicaciones antiguas. Se guarda primero un récord de cada ejercicio y luego los secundarios, con total de récords/ejercicios antes del corte de seis.
 
-Quien creó una comunidad ve «Editar descripción» («Añadir descripción» si está vacía) bajo su nombre en el detalle. Abre un Sheet con la descripción actual; se puede cambiar o dejar vacía (hasta 300 caracteres, validado con `comunidad.validarDescripcionComunidad`) y los errores se muestran en línea. Al guardar, el detalle se actualiza sin recargar. El nombre y «Quién puede publicar» no se editan. Los miembros y quienes no pertenecen no ven la opción.
+Los campos estructurados son `tipo`, `modo`, `valor`, `anterior`, `peso?`, `variante?`; se conserva `{ejercicio,texto}` para lectores anteriores. Se formatea con coma decimal y mejora. Los registros antiguos se agrupan por nombre sin intentar extraer cifras de su texto. El compositor puede seleccionar los récords disponibles; al hacerlo, los totales describen la selección publicada.
 
-Migración **0008_editar_descripcion_comunidad.sql**, tras 0007 y antes de desplegar esta versión: añade el RPC `editar_descripcion_comunidad(p_id, p_descripcion)`, solo para `authenticated`. Actualiza únicamente si quien llama es el creador, su perfil está activo y la comunidad no está suspendida; si no, `no_encontrado`. Guarda la descripción recortada y es idempotente; superar el límite devuelve `comunidad_no_valida`. No cambia tablas, Dexie ni backup.
+## Feed, interacción y avisos
 
-Pruebas: `supabase/pruebas/comunidades_editar_descripcion.sql` (usuarios sintéticos y rollback, resultado `PRUEBAS_EDITAR_DESCRIPCION_OK`; Víctor la ejecutó en el SQL Editor del proyecto real el 2026-10-16 y pasó), `data/socialSupabase.test.ts`, `lib/comunidad.test.ts` y `scripts/ui/validar-social.cjs` (editar la propia, ausencia en una ajena). Víctor confirmó la ejecución de 0008 en el SQL Editor del proyecto real el 2026-10-16 con «Success»; una llamada anónima al RPC en producción devuelve `42501` (existe y está cerrada a `anon`).
+El feed ordena por publicación (`creada`), no por fecha de sesión. La cabecera lleva `<time>` con fecha completa accesible y texto relativo; la fecha del entreno/actividad aparece si fue otro día. El logro conserva su día real de obtención.
+
+La tarjeta muestra rótulo, título, nota, métricas y récord principal. Ejercicios, mapa, detalle de récords, ligas y Vitrina están bajo «Ver detalle»; el mapa no se monta hasta abrirlo. Texto y notas largos tienen «Más». La vista previa queda desplegada.
+
+Páginas de veinte con cursor compuesto `(creada,id)` sobre la última fila **cruda**, aun si el lector descarta su resumen. Una página completamente desconocida avanza automáticamente; los descartes muestran un aviso de actualización. Se conservan las firmas SQL anteriores. «Actualizar» comprueba novedades y las incorpora al tocar la banda; conserva la posición de la publicación anterior. Al recuperar visibilidad se comprueba como mucho una vez por minuto, sin intervalos de sondeo. Los avisos también se releen al volver.
+
+«Ánimo · N» / «Animado · N» mantienen icono, estado pulsado y reversión si falla la red. Solo el autor puede consultar identidades, mediante RPC paginada de reacciones. Los demás ven solo el recuento. «Más acciones» abre un Sheet: borrar lo propio, denunciar o silenciar lo ajeno; el moderador de comunidad puede retirar contenido. Los borrados de publicación **siempre** piden confirmación, también desde el detalle. El reintento tolera una respuesta perdida y limpia exclusivamente la marca local de ese UUID; nunca borra series ni el diario.
+
+Comentarios de hasta 500 caracteres, cuota de 100 al día. Se cargan los últimos veinte y «Ver comentarios anteriores», ordenados cronológicamente en pantalla, con cursor `(creado,id)`. El total procede del servidor, no del tamaño cargado. Las respuestas se dirigen a un comentario raíz, con un solo nivel. Salir de una comunidad, bloquear o suspender revoca los mismos accesos que en publicaciones. Borrar un comentario propio ofrece Deshacer (nuevo comentario con la hora actual); borrar uno ajeno en una publicación propia o moderada requiere confirmación.
+
+Avisos: ánimo/comentario en lo propio, respuesta directa, solicitud aceptada y nueva publicación del creador en una comunidad de anuncios. Se agrupan por tipo/publicación y personas; las solicitudes se muestran arriba. El contador de nuevos considera todos los eventos visibles, aunque la lista muestre treinta grupos. Tocar una aceptación abre la persona; el resto abre los comentarios con la autoría adecuada. Error, desconexión y vacío son estados distintos, con reintento; Inicio tampoco oculta silenciosamente un fallo de lectura. No hay suscripción automática a todo un hilo.
+
+Cuotas existentes: 50 solicitudes, 30 publicaciones, 100 comentarios, 20 denuncias y cinco comunidades creadas por persona/día. Publicaciones a seguidores y comunidades comparten cuota.
+
+<a id="comunidades-donde-solo-publica-su-creador"></a>
+<a id="editar-la-descripción-de-una-comunidad"></a>
+
+## Pantallas y comunidades
+
+Social permite crear el perfil en el mismo contexto. Cabecera: Amigos, Tu perfil, Crear publicación y una entrada de Avisos con solicitudes. Los primeros pasos abren Añadir para compartir código, Descubrir comunidades y el último entreno real (o Entreno si falta). Se marcan según seguidores, membresía y publicación local. Se pueden cerrar; se guarda `social-primeros-pasos` en `pistasVistas`, sin esquema nuevo ni escritura de entrenamiento.
+
+Amigos usa «Sigues / Te siguen / Añadir». Nombre de persona en Amigos, feed y comunidades abre una página común con identidad y acciones de relación. La vuelta dice el origen y conserva la pantalla subyacente. En contexto de comunidad la lista de publicaciones se consulta con una RPC específica, limitada a ese grupo.
+
+Comunidades sigue separado de Siguiendo. Nombre único (3–60), descripción hasta 300 editable por su creador, reglas hasta 1.000 y bienvenida hasta 500 fijadas en el detalle, también antes de unirse. Listado con «N nuevas» desde última visita, filtrado por bloqueos y suspensiones. Unirse permite leer sin seguir a sus miembros; salir revoca lectura e interacción. Bloquear al creador sigue ocultando su comunidad, como antes.
+
+La política «Todos los miembros» / «Solo creador» se fija al crear; los miembros siempre pueden comentar y dar ánimo. El creador puede nombrar/revocar moderadores, transferir a un miembro activo o cerrar la comunidad. Los moderadores retiran publicaciones/comentarios y expulsan miembros; no transfieren ni cambian reglas. La expulsión quita la membresía actual; no constituye una prohibición permanente de volver a unirse. Un moderador no expulsa a otro moderador. El creador no puede salir sin transferir o cerrar.
+
+Denuncias continúan con revisión manual, sin ocultación por umbral ni aviso al denunciado. Gestión administrativa: consultar `denuncias where revisada is null`; suspender perfil/comunidad; marcar `revisada`. Antes de abrir a desconocidos siguen pendientes las condiciones, privacidad y revisión legal de las fases originales.
+
+## SQL y verificación
+
+| Migración | Cambio |
+|---|---|
+| 0009 | Cursores compuestos, comentarios paginados/total, validación cerrada y publicaciones de persona en comunidad |
+| 0010 | Respuestas, avisos ampliados, identidades de ánimo privadas, silencios y novedades de comunidades |
+| 0011 | Moderadores, transferencia, reglas/bienvenida y requisito previo al borrado de perfil |
+| 0012 | Perfil deportivo elegido y snapshot de denuncia |
+| 0013 | Lector de cifras opcionales y activación posterior de su escritura |
+
+`node scripts/sql/validar-social.mjs` crea PostgreSQL 17 efímero en Docker, carga las trece migraciones y las seis suites, y elimina el contenedor. Sustituye solo `auth.users`/`auth.uid()` y omite la programación pg_cron de 0002: no valida correo ni tareas de mantenimiento. Las suites nuevas `mejoras_social.sql` y `social_conversacion_control.sql` también se pueden ejecutar en SQL Editor y revierten sus usuarios sintéticos con `PRUEBAS_OK`.
+
+Tests puros y de contrato en `social/lib` y `data/socialSupabase.test.ts`. `scripts/ui/validar-social.cjs` usa únicamente `appfit-test.localhost:5174` y Supabase falso en 54329; prueba 320/375/430 px, ambos temas y texto al 200 %, composición, notas por copia, mapa plegado, borrado/cancelación/reintento, borrador con Escape/Cerrar/fondo/Atrás, errores de avisos, refresco y paginación de 250 comentarios/páginas desconocidas.
+
+Siguen pendientes las tareas con 6–8 personas, dos cuentas reales e iPhone/Android físicos; recorrido y condiciones de despliegue en [validación](../pruebas/social-mejoras.md). Las apuestas de fase 3, filtros por tipo sin datos de volumen, ocultación automática y push no se activan con esta entrega.

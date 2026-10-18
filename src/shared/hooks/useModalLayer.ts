@@ -5,7 +5,7 @@ const layers: HTMLElement[] = []
 let previousOverflow = ''
 let previousInert = false
 let layerSequence = 0
-const historyLayers = new Map<HTMLElement, { id: number; close: () => void }>()
+const historyLayers = new Map<HTMLElement, { id: number; close: () => void | boolean }>()
 let historyListening = false
 let historyBackPending = false
 let historyPushQueue: (() => void)[] = []
@@ -23,7 +23,7 @@ function settleHistory() {
   queue.forEach(push => push())
 }
 
-function registerHistory(panel: HTMLElement, close: () => void) {
+function registerHistory(panel: HTMLElement, close: () => void | boolean) {
   if (!historyListening) {
     historyListening = true
     window.addEventListener('popstate', () => {
@@ -34,7 +34,10 @@ function registerHistory(panel: HTMLElement, close: () => void) {
       }
       const top = layers.at(-1)
       const layer = top && historyLayers.get(top)
-      if (layer && history.state?.appfitOverlay !== layer.id) layer.close()
+      if (layer && history.state?.appfitOverlay !== layer.id && layer.close() === false) {
+        // Atrás ya consumió la entrada: restaurarla si el formulario pide seguir en la misma capa.
+        try { history.pushState({ ...history.state, appfitOverlay: layer.id }, '') } catch { /* History opcional. */ }
+      }
     })
   }
   const id = ++layerSequence
@@ -55,7 +58,7 @@ function syncLayers() {
 }
 
 /** Foco, Escape, aislamiento y retorno compartidos por sheets y páginas modales. */
-export function useModalLayer(open: boolean, panelRef: RefObject<HTMLElement | null>, onClose: () => void) {
+export function useModalLayer(open: boolean, panelRef: RefObject<HTMLElement | null>, onClose: () => void | boolean) {
   const closeRef = useRef(onClose)
   const triggerRef = useRef<HTMLElement | null>(null)
   if (open && !triggerRef.current) triggerRef.current = document.activeElement as HTMLElement | null

@@ -20,7 +20,7 @@ describe('resumen de un entreno', () => {
     expect(resumenEntreno(entreno())).toEqual({
       v: 1, tipo: 'entreno', titulo: 'Torso A', duracionSeg: 3920, series: 18, volumenKg: 8433,
       ejercicios: ['Press banca', 'Remo con barra'],
-      records: [{ ejercicio: 'Press banca', texto: '100 kg × 5' }],
+      records: [{ ejercicio: 'Press banca', texto: '100 kg × 5' }], recordsTotal: 1, recordsEjercicios: 1,
       ligas: [{ ejercicio: 'Remo con barra', texto: 'Sube a Plata' }],
       logros: ['Constancia II'],
     })

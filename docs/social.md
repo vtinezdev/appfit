@@ -2,6 +2,8 @@
 
 Plan acordado con Víctor el 2026-10-15. Decisión y alternativas: [ADR 040](decisiones/040-parte-social.md). Es un plan, no la fuente de verdad: lo implementado se documenta en sus documentos vivos (`arquitectura.md`, `datos.md`, `docs/features/social.md`, `docs/features/cuenta.md`…) y aquí solo cambia el estado. Cuando esté hecho, este archivo pasa a `docs/historico/`.
 
+Las mejoras posteriores autorizadas el 2026-10-18 se siguen en [social-mejoras.md](social-mejoras.md), con compatibilidad y gobierno en ADR 044. Las migraciones 0009–0013 están preparadas localmente y aún no confirmadas en producción. Este documento conserva el plan original; las reglas vigentes están en [Social](features/social.md).
+
 ## Lo acordado
 
 | Tema | Decisión |
