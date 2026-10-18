@@ -613,9 +613,39 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 }
 @container publicacion (max-width: 18rem) {
   .publicacion-metricas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Al pasar a dos columnas, la tercera cifra empieza fila: sin filete a la izquierda. */
+  .publicacion-metricas.cifras-filetes > :nth-child(odd) { border-left: 0; padding-left: 0; }
 }
 @container publicacion (max-width: 12rem) {
   .publicacion-metricas { grid-template-columns: minmax(0, 1fr); }
+  .publicacion-metricas.cifras-filetes > * { border-left: 0; padding-left: 0; }
+}
+
+/* Social (rediseño): avatar con monograma o insignia (Avatar.tsx); el tamaño sigue al texto como el resto de la fila. */
+.app-avatar { width: var(--avatar-md); height: var(--avatar-md); line-height: 1; letter-spacing: .02em; }
+.app-avatar-sm { width: var(--avatar-sm); height: var(--avatar-sm); }
+.app-avatar-lg { width: var(--avatar-lg); height: var(--avatar-lg); }
+.app-avatar-insignia { display: inline-flex; flex-shrink: 0; }
+.app-avatar-insignia .app-insignia { width: 100% !important; height: 100% !important; }
+/* Caras apiladas de quién te animó: un aro del color de la tarjeta las separa. */
+.avatar-apilado { box-shadow: 0 0 0 2px rgb(var(--c-surface)); }
+/* Tipo del aviso sobre la cara (llama, comentario, check). */
+.aviso-tipo { width: 1.25rem; height: 1.25rem; }
+/* Contador de la campana: pegado a la esquina, sin tapar el icono. */
+.contador-avisos { top: .25rem; right: .125rem; min-width: 1.125rem; height: 1.125rem; box-shadow: 0 0 0 2px rgb(var(--c-bg)); }
+/* «N publicaciones nuevas» queda a la vista al bajar por el feed. */
+.feed-novedades { top: .5rem; }
+/* Logro como medalla: las curvas de nivel del fondo por defecto, muy tenues, detrás de la insignia. Decorativas. */
+.logro-medalla::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: rgb(var(--c-text-primary) / .09);
+  mask: url('/images/fondos/curvas.svg') center / cover no-repeat;
+}
+@media (forced-colors: active) { .logro-medalla::before { display: none; } }
+/* Dar ánimo: un pulso breve en la llama, solo al marcarlo y nunca con Reduce Motion. */
+@keyframes animo-pulso { 0% { transform: scale(.8); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .animo-pulso { animation: animo-pulso var(--dur-normal) var(--ease-standard); }
 }
 @container logros-grupo (max-width: 18rem) {
   .logros-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }

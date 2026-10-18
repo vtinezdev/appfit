@@ -1,5 +1,5 @@
 import { formatInt } from '../../../shared/lib/format'
-import { leerResumen, type Resumen } from './publicacion'
+import { leerResumen, type Resumen, type ResumenLogro } from './publicacion'
 import { REACCION } from './reaccion'
 
 /**
@@ -104,6 +104,33 @@ export function leerComentario(x: unknown): Comentario | null {
   const creado = ms(x.creado)
   if (!id || !alias || !t || creado === null) return null
   return { id, alias, nombre: texto(x.nombre), texto: t, creado, mio: x.mio === true, puedoBorrar: x.puedo_borrar === true, ...(texto(x.respuesta_a) && texto(x.respuesta_alias) ? { respuestaA: x.respuesta_a as string, respuestaAlias: x.respuesta_alias as string } : {}) }
+}
+
+/** Vista previa del último comentario de una publicación (feed). */
+export interface VistaComentario { alias: string; nombre: string | null; texto: string }
+
+/** `ultimos_comentarios` (0014): por id de publicación. Lo que no se pueda pintar se descarta. */
+export function leerUltimosComentarios(x: unknown): Record<string, VistaComentario> {
+  if (!esObjeto(x)) return {}
+  const salida: Record<string, VistaComentario> = {}
+  for (const [id, c] of Object.entries(x)) {
+    if (!esObjeto(c)) continue
+    const alias = texto(c.alias)
+    const t = texto(c.texto)
+    if (alias && t) salida[id] = { alias, nombre: texto(c.nombre), texto: t }
+  }
+  return salida
+}
+
+/** `avatares_social` (0014): por alias, el logro elegido como avatar. Solo valen resúmenes de logro válidos. */
+export function leerAvatares(x: unknown): Record<string, ResumenLogro> {
+  if (!esObjeto(x)) return {}
+  const salida: Record<string, ResumenLogro> = {}
+  for (const [alias, r] of Object.entries(x)) {
+    const resumen = leerResumen(r)
+    if (resumen?.tipo === 'logro') salida[alias] = resumen
+  }
+  return salida
 }
 
 /** La continuación depende de la página original, incluso si todos sus resúmenes son desconocidos. */

@@ -1,15 +1,18 @@
-import { useEffect, useState, type FormEvent } from 'react'
-import Button from '../../../shared/components/Button'
-import Campo from '../../../shared/components/Campo'
+import { useEffect, useId, useState, type FormEvent } from 'react'
+import Button, { IconButton } from '../../../shared/components/Button'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import { Textarea } from '../../../shared/components/Input'
 import Sheet from '../../../shared/components/Sheet'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { haceCuanto } from '../../cuenta/lib/estado'
+import { useAvatares } from '../hooks/useAvatares'
 import { COMENTARIO_MAX, validarComentario, type Comentario, type CursorSocial } from '../lib/feed'
+import { hilosComentarios } from '../lib/presentacion'
+import type { ResumenLogro } from '../lib/publicacion'
+import { nombreVisible } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
+import AvatarPersona from './AvatarPersona'
 import FormDenuncia from './FormDenuncia'
-import NombrePersona from './NombrePersona'
 
 export interface PublicacionComentada {
   id: string
@@ -25,6 +28,8 @@ interface Props {
   /** Cuántos comentarios hay ahora (para el recuento del feed). */
   onRecuento: (n: number) => void
   onExited?: () => void
+  /** Comunidad de la publicación: los avatares se piden en su contexto. */
+  comunidad?: string
 }
 
 type Modo =
@@ -37,7 +42,8 @@ type Modo =
  * Los comentarios de una publicación: leer, escribir, borrar (los míos, al momento y con «Deshacer»; los de otras
  * personas en lo mío, con confirmación) y denunciar un comentario o la publicación.
  */
-export default function ComentariosSheet({ open, publicacion, onClose, onRecuento, onExited }: Props) {
+export default function ComentariosSheet({ open, publicacion, onClose, onRecuento, onExited, comunidad }: Props) {
+  const idCampo = useId()
   const [lista, setLista] = useState<Comentario[] | null>(null)
   const [cursor, setCursor] = useState<CursorSocial | null>(null)
   const [hayMas, setHayMas] = useState(false)
@@ -50,6 +56,9 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
   const [errorCarga, setErrorCarga] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [vuelta, setVuelta] = useState(0)
+  const logros = useAvatares((lista ?? []).map(c => c.alias), comunidad)
+  // Responder lleva al campo del pie, que ya dice a quién se responde.
+  useEffect(() => { if (respuesta) document.getElementById(idCampo)?.focus() }, [respuesta, idCampo])
 
   useEffect(() => {
     let vivo = true
@@ -126,6 +135,8 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
     releer()
   })
 
+  const pedirBorrar = (c: Comentario) => { if (c.mio) void borrar(c); else setModo({ modo: 'borrar', comentario: c }) }
+
   function contenido() {
     if (modo.modo === 'denunciar') {
       return (
@@ -159,29 +170,21 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
       )
     }
     return (
-      <div className="space-y-section">
+      <div className="space-y-stack">
         <p className="break-words text-body-sm text-fg-muted">{publicacion.titulo}</p>
         {hayMas && <Button variant="secondary" block loading={leyendo} onClick={() => void anteriores()}>Ver comentarios anteriores</Button>}
         {lista === null ? (error ? null : <LoadingState />) : lista.length === 0 ? (
           <EmptyState>Aún no hay comentarios. Escribe el primero.</EmptyState>
         ) : (
-          <ul className="divide-y divide-line border-y border-line">
-            {lista.map((c) => (
-              <li key={c.id} className="space-y-1 py-3">
-                <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-                  <NombrePersona persona={c} />
-                  <span className="text-caption text-fg-muted">{haceCuanto(c.creado, Date.now())}</span>
-                </div>
-                {c.respuestaAlias && <p className="text-caption text-fg-muted">Respuesta a @{c.respuestaAlias}</p>}
-                <p className="whitespace-pre-wrap break-words text-body-sm text-fg">{c.texto}</p>
-                <div className="flex flex-wrap gap-1">
-                  {!c.respuestaA && <Button variant="subtle" size="sm" disabled={ocupado} onClick={() => setRespuesta(c)}>Responder a @{c.alias}</Button>}
-                  {c.puedoBorrar && (
-                    <Button variant="subtle" size="sm" disabled={ocupado}
-                      onClick={() => (c.mio ? void borrar(c) : setModo({ modo: 'borrar', comentario: c }))}>Borrar</Button>
-                  )}
-                  {!c.mio && <Button variant="subtle" size="sm" disabled={ocupado} onClick={() => setModo({ modo: 'denunciar', tipo: 'comentario', id: c.id })}>Denunciar</Button>}
-                </div>
+          <ul className="space-y-4" aria-label="Comentarios">
+            {hilosComentarios(lista).map(({ raiz, respuestas, suelta }) => (
+              <li key={raiz.id} className="space-y-3">
+                <FilaComentario c={raiz} logro={logros[raiz.alias]} suelta={suelta} ocupado={ocupado} onResponder={setRespuesta}
+                  onBorrar={pedirBorrar} onDenunciar={c => setModo({ modo: 'denunciar', tipo: 'comentario', id: c.id })} />
+                {respuestas.length > 0 && <ul className="space-y-3 border-l-2 border-line pl-3" aria-label={`Respuestas a ${nombreVisible(raiz)}`}>
+                  {respuestas.map(c => <li key={c.id}><FilaComentario c={c} logro={logros[c.alias]} ocupado={ocupado}
+                    onBorrar={pedirBorrar} onDenunciar={v => setModo({ modo: 'denunciar', tipo: 'comentario', id: v.id })} /></li>)}
+                </ul>}
               </li>
             ))}
           </ul>
@@ -192,32 +195,71 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
             <Button variant="ghost" size="sm" disabled={ocupado} onClick={() => void deshacer(borrado)}>Deshacer</Button>
           </div>
         )}
-        <form className="space-y-stack" onSubmit={enviar} noValidate aria-label="Escribir un comentario">
-          {respuesta && <div className="space-y-1"><p role="status" className="text-body-sm text-fg-muted">Respondiendo a @{respuesta.alias}</p><Button variant="subtle" size="sm" onClick={() => setRespuesta(null)}>Cancelar respuesta</Button></div>}
-          <Campo etiqueta="Tu comentario" ayuda={`Como mucho ${COMENTARIO_MAX} caracteres. Lo verán quienes puedan ver esta publicación.`}>
-            <Textarea rows={2} maxLength={COMENTARIO_MAX} value={texto} onChange={(e) => setTexto(e.target.value)} />
-          </Campo>
-          <Button type="submit" variant="primary" block loading={ocupado} disabled={leyendo}>Enviar</Button>
-        </form>
+        <p className="text-caption text-fg-muted">Lo verán quienes puedan ver esta publicación.</p>
         {!publicacion.mia && (
-          <Button variant="ghost" size="sm" disabled={ocupado} onClick={() => setModo({ modo: 'denunciar', tipo: 'publicacion', id: publicacion.id })}>Denunciar la publicación</Button>
+          <Button variant="ghost" size="sm" className="-ml-3" disabled={ocupado} onClick={() => setModo({ modo: 'denunciar', tipo: 'publicacion', id: publicacion.id })}>Denunciar la publicación</Button>
         )}
       </div>
     )
   }
+
+  // El campo vive en el pie de la hoja: siempre a mano aunque haya muchos comentarios.
+  const formulario = modo.modo === 'lista' && <form className="space-y-2" onSubmit={enviar} noValidate aria-label="Escribir un comentario">
+    {error && !errorCarga && <ErrorState>{error}</ErrorState>}
+    {respuesta && <div className="flex flex-wrap items-center justify-between gap-x-2">
+      <p role="status" className="min-w-0 break-words text-body-sm text-fg-muted">Respondiendo a @{respuesta.alias}</p>
+      <Button variant="subtle" size="sm" className="-mr-3" onClick={() => setRespuesta(null)}>Cancelar respuesta</Button>
+    </div>}
+    <div className="flex items-end gap-2">
+      <label htmlFor={idCampo} className="sr-only">Tu comentario (como mucho {COMENTARIO_MAX} caracteres)</label>
+      <Textarea id={idCampo} rows={1} maxLength={COMENTARIO_MAX} placeholder={respuesta ? `Responde a @${respuesta.alias}` : 'Escribe un comentario'} className="comentario-campo min-w-0 flex-1" value={texto} onChange={(e) => setTexto(e.target.value)} />
+      <IconButton type="submit" icon={ocupado ? 'loader' : 'enviar'} label="Enviar comentario" variant="primary" disabled={ocupado || leyendo} aria-busy={ocupado || undefined} />
+    </div>
+  </form>
 
   const titulos: Record<Modo['modo'], string> = {
     lista: 'Comentarios', denunciar: 'Denunciar', denunciada: 'Denuncia enviada', borrar: 'Borrar comentario',
   }
 
   return (
-    <Sheet open={open} onClose={onClose} onExited={onExited} title={titulos[modo.modo]}>
+    <Sheet open={open} onClose={onClose} onExited={onExited} title={titulos[modo.modo]} footer={formulario || undefined}>
       <div className="space-y-stack">
         {contenido()}
-        {error && modo.modo !== 'denunciar' && <div className="space-y-stack"><ErrorState>{error}</ErrorState>
+        {error && modo.modo !== 'denunciar' && (errorCarga || modo.modo !== 'lista') && <div className="space-y-stack"><ErrorState>{error}</ErrorState>
           {errorCarga && <Button variant="secondary" onClick={lista === null ? releer : () => void anteriores()}>Reintentar</Button>}
         </div>}
       </div>
     </Sheet>
   )
+}
+
+interface FilaProps {
+  c: Comentario
+  logro?: ResumenLogro
+  /** Respuesta cuyo original no está a la vista. */
+  suelta?: boolean
+  ocupado: boolean
+  /** Solo los comentarios raíz admiten respuesta (un nivel). */
+  onResponder?: (c: Comentario) => void
+  onBorrar: (c: Comentario) => void
+  onDenunciar: (c: Comentario) => void
+}
+
+const ACCION = 'app-button min-h-touch rounded-md px-2 text-caption font-semibold text-fg-muted hover:text-fg disabled:opacity-40'
+
+/** Un comentario: cara, nombre y hora en una línea, el texto y sus acciones en texto (cada una de 44 px de alto). */
+function FilaComentario({ c, logro, suelta = false, ocupado, onResponder, onBorrar, onDenunciar }: FilaProps) {
+  return <div className="flex items-start gap-3">
+    <AvatarPersona persona={c} logro={logro} tamano="sm" />
+    <div className="min-w-0 flex-1">
+      <p className="break-words text-body-sm"><span className="font-semibold text-fg">{nombreVisible(c)}</span> <span className="text-caption text-fg-muted">· {haceCuanto(c.creado, Date.now())}</span></p>
+      {suelta && c.respuestaAlias && <p className="text-caption text-fg-muted">Respuesta a @{c.respuestaAlias}</p>}
+      <p className="whitespace-pre-wrap break-words text-body-sm text-fg">{c.texto}</p>
+      <div className="-ml-2 flex flex-wrap">
+        {onResponder && !c.respuestaA && <button type="button" className={ACCION} aria-label={`Responder a @${c.alias}`} disabled={ocupado} onClick={() => onResponder(c)}>Responder</button>}
+        {c.puedoBorrar && <button type="button" className={ACCION} aria-label={`Borrar el comentario de @${c.alias}`} disabled={ocupado} onClick={() => onBorrar(c)}>Borrar</button>}
+        {!c.mio && <button type="button" className={ACCION} aria-label={`Denunciar el comentario de @${c.alias}`} disabled={ocupado} onClick={() => onDenunciar(c)}>Denunciar</button>}
+      </div>
+    </div>
+  </div>
 }

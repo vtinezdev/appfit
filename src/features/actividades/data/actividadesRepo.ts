@@ -12,6 +12,11 @@ export function terminadas(): Promise<Actividad[]> {
   return db.actividades.orderBy('inicio').reverse().filter((a) => !a.enCurso).toArray()
 }
 
+/** La última actividad terminada (la de `inicio` más reciente), si hay alguna. */
+export function ultimaTerminada(): Promise<Actividad | undefined> {
+  return db.actividades.orderBy('inicio').reverse().filter((a) => !a.enCurso).first()
+}
+
 /** Actividades terminadas con fecha entre `desde` y `hasta` (YYYY-MM-DD, ambas incluidas). */
 export function entreFechas(desde: string, hasta: string): Promise<Actividad[]> {
   return db.actividades.where('fecha').between(desde, hasta, true, true).filter((a) => !a.enCurso).toArray()

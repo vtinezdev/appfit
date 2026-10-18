@@ -1,6 +1,6 @@
 import { NubeError } from '../../cuenta/data/nube'
-import type { Avisos, CursorSocial, PaginaComentarios, PaginaSocial, PublicacionFeed } from '../lib/feed'
-import type { Resumen } from '../lib/publicacion'
+import type { Avisos, CursorSocial, PaginaComentarios, PaginaSocial, PublicacionFeed, VistaComentario } from '../lib/feed'
+import type { Resumen, ResumenLogro } from '../lib/publicacion'
 import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
 
@@ -68,6 +68,13 @@ export interface Social {
   capacidades(): Promise<{ camposOpcionales: boolean }>
   avisos(): Promise<Avisos>
   marcarAvisosVistos(): Promise<void>
+  /**
+   * El logro elegido como avatar de cada alias que se pueda ver (0014). Sin esa migración en el servidor devuelve `{}`:
+   * la app pinta el monograma. Desde una comunidad, solo lo publicado en ella.
+   */
+  avatares(alias: string[], comunidad?: string): Promise<Record<string, ResumenLogro>>
+  /** El último comentario visible de cada publicación (0014), para la vista previa del feed; sin 0014, `{}`. */
+  ultimosComentarios(ids: string[]): Promise<Record<string, VistaComentario>>
 }
 
 export interface MiPerfil {

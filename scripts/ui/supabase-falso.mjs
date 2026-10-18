@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0012 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0014 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -35,6 +35,10 @@ const hace = (min) => new Date(Date.now() - min * 60_000).toISOString()
 publicaciones.set('p-lucia', { autor: 'lucia', tipo: 'actividad', fecha: hace(300), creada: hace(240), resumen: { v: 1, tipo: 'actividad', actividad: 'correr', titulo: 'Rodaje por el Retiro', duracionSeg: 2700, distanciaM: 8400, desnivelM: 45 } })
 publicaciones.set('p-jon', { autor: 'jon', tipo: 'entreno', fecha: hace(1500), creada: hace(1400), resumen: { v: 1, tipo: 'entreno', titulo: 'Pierna pesada con nombre de rutina bastante largo', duracionSeg: 4500, series: 22, volumenKg: 12850, ejercicios: ['Sentadilla', 'Peso muerto rumano', 'Prensa', 'Zancadas', 'Curl femoral'], records: [{ ejercicio: 'Sentadilla', texto: '140 kg × 3' }], ligas: [{ ejercicio: 'Peso muerto rumano', texto: 'Sube a Oro' }], logros: ['Constancia II'] } })
 publicaciones.set('p-rara', { autor: 'jon', tipo: 'entreno', fecha: hace(3000), creada: hace(2900), resumen: { v: 7, cosa: 'rara' } })
+// Logro de Jon elegido como avatar (0012/0014): en el feed se ve su insignia en lugar del monograma.
+publicaciones.set('p-logro-jon', { autor: 'jon', tipo: 'logro', fecha: hace(4000), creada: hace(3900), resumen: { v: 1, tipo: 'logro', titulo: 'Entrenos', logroId: 'entrenos', grupo: 'entreno', nivel: 2, descripcion: '50 entrenos terminados' } })
+const deportivoJon = () => ({ bio: 'Fuerza tres días y monte los domingos.', disciplinas: ['fuerza', 'senderismo'], destacados: ['p-logro-jon'], avatarId: 'p-logro-jon' })
+deportivos.set('jon', deportivoJon())
 // [publicacion, user]
 const comunidades = new Map([
   ['grupo-running', { nombre: 'Running en compañía', descripcion: 'Salidas y conversaciones de quienes corren.', creador: 'pablo' }],
@@ -88,7 +92,7 @@ const otro = (alias) => {
 
 const rpc = {
   simular_reinicio: () => {
-    silencios.clear(); vistosComunidad.clear(); deportivos.clear(); moderadores.clear(); idsAnimos.clear()
+    silencios.clear(); vistosComunidad.clear(); deportivos.clear(); deportivos.set('jon', deportivoJon()); moderadores.clear(); idsAnimos.clear()
     for (const [mapa, filas] of [[perfiles,inicial.perfiles],[seg,inicial.seg],[publicaciones,inicial.publicaciones],[comunidades,inicial.comunidades]]) { mapa.clear(); for (const [k,v] of filas) mapa.set(k,structuredClone(v)) }
     miembros.clear(); for (const m of inicial.miembros) miembros.add(m)
     bloqueos.clear(); reacciones.clear(); comentarios.clear(); avisosVistos = new Date(0).toISOString()
@@ -256,6 +260,25 @@ const rpc = {
     return { solicitudes: [...seg].filter(([k, v]) => k.endsWith(`|${YO}`) && v === 'pendiente').length, nuevos: lista.filter((a) => a.nuevo).length, lista: lista.slice(0,30) }
   },
   marcar_avisos_vistos: () => { exigir(); avisosVistos = new Date().toISOString(); return null },
+  // 0014: avatar (logro elegido) de quien se puede ver y último comentario visible de cada publicación.
+  avatares_social: ({ p_alias, p_comunidad }) => {
+    exigir(); if (p_comunidad && !miembros.has(`${p_comunidad}|${YO}`)) throw err('no_miembro')
+    return Object.fromEntries((p_alias ?? []).slice(0, 60).flatMap((alias) => {
+      const id = idDe(alias), pid = id && deportivos.get(id)?.avatarId, pu = pid && publicaciones.get(pid)
+      if (!pu || bloq(YO, id) || pu.tipo !== 'logro' || (p_comunidad ? pu.comunidad !== p_comunidad : pu.comunidad || !puedeVer(id))) return []
+      return [[perfiles.get(id).alias, pu.resumen]]
+    }))
+  },
+  ultimos_comentarios: ({ p_ids }) => {
+    exigir()
+    return Object.fromEntries((p_ids ?? []).slice(0, 30).flatMap((pid) => {
+      try { verPublicacion(pid) } catch { return [] }
+      const c = [...comentarios.values()].filter((c) => c.publicacion === pid && !bloq(YO, c.autor)).sort((a, b) => b.creado.localeCompare(a.creado))[0]
+      if (!c) return []
+      const pe = perfiles.get(c.autor)
+      return [[pid, { alias: pe.alias, nombre: pe.nombre, texto: c.texto.slice(0, 140) }]]
+    }))
+  },
   // Para probar los avisos: Lucía comenta y Jon da ánimo en lo último que publiqué (POST /rest/v1/rpc/simular_avisos).
   simular_comentarios_largos: ({p_id}) => {
     verPublicacion(p_id);for(const [id,c] of comentarios)if(c.publicacion===p_id)comentarios.delete(id)

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mismaRaiz, normalizeName, singular, tokenizar, tokensConsulta } from './text'
+import { iniciales, mismaRaiz, normalizeName, singular, tokenizar, tokensConsulta } from './text'
 
 describe('normalizeName', () => {
   it('quita espacios sobrantes, mayúsculas y tildes', () => {
@@ -63,5 +63,25 @@ describe('mismaRaiz', () => {
     expect(mismaRaiz('pan', 'panceta')).toBe(false)
     expect(mismaRaiz('pera', 'perla')).toBe(false)
     expect(mismaRaiz('te', 'tea')).toBe(false)
+  })
+})
+
+describe('iniciales', () => {
+  it('toma la inicial de las dos primeras palabras de un nombre', () => {
+    expect(iniciales('Laura Gómez')).toBe('LG')
+    expect(iniciales('María Fernández de la Torre Ruiz')).toBe('MF')
+    expect(iniciales('Madrugadores de Valencia')).toBe('MV')
+    expect(iniciales('De la Torre')).toBe('TO')
+  })
+  it('separa alias por punto, guion o guion bajo y quita la arroba', () => {
+    expect(iniciales('@pablo_gym')).toBe('PG')
+    expect(iniciales('lucia.run')).toBe('LR')
+    expect(iniciales('jon')).toBe('JO')
+    expect(iniciales('jon_92')).toBe('J9')
+  })
+  it('conserva letras con tilde, eñe y otros alfabetos y nunca queda vacío', () => {
+    expect(iniciales('ñandú')).toBe('ÑA')
+    expect(iniciales('Ωmega fit')).toBe('ΩF')
+    expect(iniciales('¡¡ !!')).toBe('?')
   })
 })

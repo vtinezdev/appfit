@@ -1,6 +1,5 @@
 import { lazy, Suspense, useRef, useState } from 'react'
 import Button, { IconButton } from '../../shared/components/Button'
-import Icon from '../../shared/components/Icon'
 import PageHeader from '../../shared/components/PageHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../shared/components/StateMessage'
 import ViewTabs from '../../shared/components/ViewTabs'
@@ -10,7 +9,9 @@ import { useCuenta } from '../cuenta/useCuenta'
 import ModalPage from '../../shared/components/ModalPage'
 import PrimerosPasosSocial from './components/PrimerosPasosSocial'
 import CrearPerfil from './components/CrearPerfil'
-import PerfilSheet from './components/PerfilSheet'
+import MiPerfilPagina from './components/MiPerfilPagina'
+import AvatarPersona from './components/AvatarPersona'
+import Compositor from './components/Compositor'
 import AvisosSheet from './components/AvisosSheet'
 import type { PublicacionComentada } from './components/ComentariosSheet'
 import ListaFeed from './components/ListaFeed'
@@ -18,12 +19,13 @@ import PublicacionesPersona from './components/PublicacionesPersona'
 import CrearPublicacion from './components/CrearPublicacion'
 import Comunidades from './components/Comunidades'
 import type { MiPerfil } from './data/social'
+import { reiniciarAvatares, useAvatares } from './hooks/useAvatares'
 import { useConsulta } from './hooks/useConsulta'
 import { cargarSocial } from './servicio'
 
 const DetalleEntreno = lazy(() => import('../gym/pages/DetalleEntreno'))
 
-type Vista = 'todo' | 'tu' | 'comunidades'
+type Vista = 'todo' | 'comunidades'
 
 interface Props {
   onIrAAmigos: (anadir?: boolean) => void
@@ -33,7 +35,7 @@ interface Props {
 
 /**
  * Social (en la media luna, ADR 040 y 043): las publicaciones de quienes sigues y las tuyas, sus ánimos y comentarios, y los
- * avisos. Las personas (seguir, solicitudes, tu perfil) están en Amigos.
+ * avisos. Cabecera con Avisos, Amigos y tu perfil (con tus publicaciones); las personas (seguir, solicitudes) están en Amigos.
  */
 export default function SocialTab({ onIrAAmigos, onIrACuenta, onIrAGym }: Props) {
   const cuenta = useCuenta()
@@ -80,12 +82,13 @@ function ConCuenta({ onIrAAmigos, onIrAGym }: Pick<Props, 'onIrAAmigos' | 'onIrA
 }
 
 function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props, 'onIrAAmigos' | 'onIrAGym'> & { perfil: MiPerfil; onPerfilCambiado: () => void }) {
-  const [ajustes, setAjustes] = useState(false)
+  const [miPerfil, setMiPerfil] = useState(false)
   const [entreno, setEntreno] = useState<number | null>(null)
   const [descubrir, setDescubrir] = useState(0)
   const [vista, setVista] = useState<Vista>('todo')
   const [editor, setEditor] = useState(false)
   const [version, setVersion] = useState(0)
+  const [comprobar, setComprobar] = useState(0)
   const [avisosAbiertos, setAvisosAbiertos] = useState({ open: false, n: 0 })
   // Tocar un aviso cierra la hoja de avisos y, cuando termina de cerrarse, abre los comentarios.
   const siguiente = useRef<(() => void) | null>(null)
@@ -93,47 +96,53 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
   const [publicacionesDe, setPublicacionesDe] = useState<{ alias: string; nombre: string | null } | null>(null)
   const avisos = useConsulta(async () => (await cargarSocial()).avisos(), 0, true)
   const { avisarError, avisar, toast } = useAviso()
+  // Cada visita a Social vuelve a pedir los avatares, antes de que se pinte la primera lista.
+  useState(reiniciarAvatares)
+  const logros = useAvatares([perfil.alias])
 
   const nuevos = avisos.datos?.nuevos ?? 0
   const solicitudes = avisos.datos?.solicitudes ?? perfil.solicitudes
+  const pendientes = nuevos + solicitudes
+  const etiquetaAvisos = ['Avisos', nuevos > 0 && `${formatInt(nuevos)} ${nuevos === 1 ? 'nuevo' : 'nuevos'}`, solicitudes > 0 && `${formatInt(solicitudes)} ${solicitudes === 1 ? 'solicitud' : 'solicitudes'}`].filter(Boolean).join(', ')
   const vistas: { valor: Vista; label: string }[] = [
     { valor: 'todo', label: 'Siguiendo' },
-    { valor: 'tu', label: 'Tú' },
     { valor: 'comunidades', label: 'Comunidades' },
   ]
+  const cambiarVista = (v: Vista) => {
+    // Volver a tocar Siguiendo comprueba si hay publicaciones nuevas.
+    if (v === vista && v === 'todo') setComprobar(n => n + 1)
+    setVista(v)
+  }
 
   return (
     <div className="space-y-section px-page pt-5">
-      <PageHeader title="Social" action={<IconButton icon="users" label="Amigos" variant="ghost" onClick={() => onIrAAmigos()} />} />
+      <PageHeader title="Social" action={<div className="flex items-center gap-1">
+        <span className="relative">
+          <IconButton icon="campana" label={etiquetaAvisos} variant="ghost" aria-haspopup="dialog" onClick={() => setAvisosAbiertos((a) => ({ open: true, n: a.n + 1 }))} />
+          {pendientes > 0 && <span aria-hidden className="contador-avisos pointer-events-none absolute flex items-center justify-center rounded-pill bg-fg px-1 text-caption font-bold tabular-nums text-bg">{pendientes > 99 ? '99+' : formatInt(pendientes)}</span>}
+        </span>
+        <IconButton icon="users" label="Amigos" variant="ghost" onClick={() => onIrAAmigos()} />
+        <button type="button" aria-label="Tu perfil" className="app-button flex h-touch w-touch items-center justify-center rounded-pill" onClick={() => setMiPerfil(true)}>
+          <AvatarPersona persona={perfil} logro={logros[perfil.alias]} tamano="sm" />
+        </button>
+      </div>} />
 
-      <Button variant="ghost" size="sm" onClick={() => setAjustes(true)}>Tu perfil</Button>
       <PrimerosPasosSocial version={version} onCodigo={() => onIrAAmigos(true)} onComunidades={() => { setDescubrir(v => v + 1); setVista('comunidades') }} onEntreno={id => id ? setEntreno(id) : onIrAGym()} onError={avisarError} />
-      <div className="flex flex-wrap gap-2">
-        <Button variant="secondary" size="sm" aria-haspopup="dialog" onClick={() => setEditor(true)}>Crear publicación</Button>
-        <Button variant="secondary" size="sm" onClick={() => setAvisosAbiertos((a) => ({ open: true, n: a.n + 1 }))}>
-          <Icon name="comentario" size={18} className={nuevos > 0 ? 'text-accent-strong' : ''} />
-          {nuevos > 0 ? `Avisos · ${formatInt(nuevos)} ${nuevos === 1 ? 'nuevo' : 'nuevos'}` : solicitudes > 0 ? `Avisos · ${formatInt(solicitudes)} solicitudes` : 'Avisos'}
-        </Button>
-      </div>
 
-      <ViewTabs opciones={vistas} valor={vista} onChange={setVista} label="Publicaciones">
+      <ViewTabs opciones={vistas} valor={vista} onChange={cambiarVista} label="Publicaciones">
         {vista === 'todo' ? (
-          <ListaFeed ocultarSilenciadas version={`todo-${version}`} onError={avisarError} comentariosDe={comentariosDe}
-            onAbrirPersona={setPublicacionesDe}
-            cargar={async (antes) => (await cargarSocial()).feed(antes)}
-            vacio={
-              <EmptyState icon="comentario" title="Aún no hay publicaciones" action={<Button variant="secondary" onClick={() => onIrAAmigos()}>Buscar a alguien</Button>}>
-                Aquí verás las publicaciones de las personas que sigues y las tuyas.
-              </EmptyState>
-            } />
-        ) : vista === 'tu' ? (
-          <ListaFeed version={`tu-${version}`} onError={avisarError} conAutor={false}
-            cargar={async (antes) => (await cargarSocial()).publicacionesDe(perfil.alias, antes)}
-            vacio={
-              <EmptyState icon="comentario" title="Aún no has publicado nada">
-                Crea una publicación o comparte un entreno, actividad o logro.
-              </EmptyState>
-            } />
+          <div className="space-y-stack">
+            <Compositor persona={perfil} logro={logros[perfil.alias]} onEscribir={() => setEditor(true)}
+              onPublicada={() => { setVersion(v => v + 1); avisar({ mensaje: 'Publicación creada' }) }} />
+            <ListaFeed ocultarSilenciadas version={`todo-${version}`} onError={avisarError} comentariosDe={comentariosDe} comprobarSenal={comprobar}
+              onAbrirPersona={setPublicacionesDe}
+              cargar={async (antes) => (await cargarSocial()).feed(antes)}
+              vacio={
+                <EmptyState icon="comentario" title="Aún no hay publicaciones" action={<Button variant="secondary" onClick={() => onIrAAmigos()}>Buscar a alguien</Button>}>
+                  Aquí verás las publicaciones de las personas que sigues y las tuyas.
+                </EmptyState>
+              } />
+          </div>
         ) : <Comunidades onCambio={() => setVersion(v => v + 1)} key={descubrir} descubrirInicial={descubrir > 0} onError={avisarError} />}
       </ViewTabs>
 
@@ -157,7 +166,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
       )}
       {publicacionesDe && <PublicacionesPersona onCambio={() => { setVersion(v => v + 1); avisos.recargar() }} persona={publicacionesDe} volver="Social" onClose={() => setPublicacionesDe(null)} />}
       {editor && <CrearPublicacion onClose={() => setEditor(false)} onPublicada={() => { setVersion(v => v + 1); avisar({ mensaje: 'Publicación creada' }) }} />}
-      {ajustes && <PerfilSheet open perfil={perfil} onClose={() => setAjustes(false)} onCambio={onPerfilCambiado} onBorrado={onPerfilCambiado} />}
+      {miPerfil && <MiPerfilPagina perfil={perfil} onClose={() => { setMiPerfil(false); setVersion(v => v + 1) }} onPerfilCambiado={onPerfilCambiado} onError={avisarError} />}
       {entreno !== null && <ModalPage title="Tu último entreno" closeLabel="Social" onClose={() => setEntreno(null)}><Suspense fallback={<LoadingState />}><DetalleEntreno workoutId={entreno} onVolver={() => setEntreno(null)} onRepetido={() => { setEntreno(null); onIrAGym() }} /></Suspense></ModalPage>}
       {toast}
     </div>

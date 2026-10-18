@@ -63,6 +63,9 @@ function Amigos({ perfil, onPerfilCambiado, anadirInicial }: { anadirInicial: bo
   const [ajustes, setAjustes] = useState({ open: false, n: 0 })
   const [publicacionesDe, setPublicacionesDe] = useState<Persona | null>(null)
   const { avisarError, toast } = useAviso()
+  // Las dos listas a la vez: sus recuentos van en las pestañas.
+  const siguiendo = useConsulta(async () => (await cargarSocial()).personas('siguiendo'), `siguiendo-${version}`)
+  const seguidores = useConsulta(async () => (await cargarSocial()).personas('seguidores'), `seguidores-${version}`)
 
   const cambio = () => {
     setVersion((v) => v + 1)
@@ -101,9 +104,10 @@ function Amigos({ perfil, onPerfilCambiado, anadirInicial }: { anadirInicial: bo
     )
   }
 
+  const cuenta = (n: number | undefined) => (n === undefined ? '' : ` · ${formatInt(n)}`)
   const vistas: { valor: Vista; label: string }[] = [
-    { valor: 'siguiendo', label: 'Sigues' },
-    { valor: 'seguidores', label: 'Te siguen' },
+    { valor: 'siguiendo', label: `Sigues${cuenta(siguiendo.datos?.length)}` },
+    { valor: 'seguidores', label: `Te siguen${cuenta(seguidores.datos?.length)}` },
     { valor: 'anadir', label: 'Añadir' },
   ]
 
@@ -114,7 +118,7 @@ function Amigos({ perfil, onPerfilCambiado, anadirInicial }: { anadirInicial: bo
       <ViewTabs opciones={vistas} valor={vista} onChange={setVista} label="Amigos">
         {vista === 'anadir'
           ? <Anadir codigo={perfil.codigo} onAbrir={abrir} onCambio={cambio} />
-          : <ListaPersonas lista={vista} version={version} onAbrir={abrir} />}
+          : <ListaPersonas lista={vista} consulta={vista === 'siguiendo' ? siguiendo : seguidores} onAbrir={abrir} onCambio={cambio} onError={avisarError} />}
       </ViewTabs>
 
       {publicacionesDe && <PublicacionesPersona persona={publicacionesDe} onCambio={cambio} onClose={() => setPublicacionesDe(null)} />}

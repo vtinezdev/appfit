@@ -9,6 +9,7 @@ import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { textoBusqueda } from '../lib/alias'
 import { textoRelacion, type Persona } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
+import AvatarPersona from './AvatarPersona'
 import NombrePersona from './NombrePersona'
 
 interface Props {
@@ -61,14 +62,14 @@ export default function Anadir({ codigo, onAbrir, onCambio }: Props) {
   return (
     <div className="space-y-section">
       <Card className="space-y-3">
-        <p className="text-label text-fg-muted">Tu código</p>
-        <p className="break-all font-numeric text-metric tabular text-fg">{codigo}</p>
-        <p className="text-body-sm text-fg-muted">Pásalo a quien quieras que te siga: con él te encuentra aunque no sepa tu alias.</p>
+        <p className="text-rotulo text-fg-muted">Tu código</p>
+        <p className="break-all font-numeric text-hero tabular text-fg">{codigo}</p>
+        <p className="text-body-sm text-fg-muted">Pásalo a quien quieras que te siga: con él te encuentra aunque no sepa tu alias. Puedes cambiarlo en Tu perfil.</p>
         <div className="flex flex-wrap gap-2">
-          <Button variant="secondary" size="sm" onClick={() => {
+          <Button variant="secondary" size="sm" className="flex-1 basis-32" onClick={() => {
             navigator.clipboard?.writeText(codigo).then(() => setCopiado(true), () => setError('No se ha podido copiar. Apúntalo a mano.'))
           }}><Icon name={copiado ? 'check' : 'copy'} size={18} />{copiado ? 'Copiado' : 'Copiar'}</Button>
-          {compartir && <Button variant="secondary" size="sm" onClick={() => { navigator.share({ text: invitacion }).catch(() => undefined) }}>Compartir</Button>}
+          {compartir && <Button variant="secondary" size="sm" className="flex-1 basis-32" onClick={() => { navigator.share({ text: invitacion }).catch(() => undefined) }}><Icon name="compartir" size={18} />Compartir</Button>}
         </div>
         {copiado && <p role="status" className="sr-only">Código copiado.</p>}
       </Card>
@@ -88,7 +89,8 @@ export default function Anadir({ codigo, onAbrir, onCambio }: Props) {
           <ListGroup aria-label="Resultado de la búsqueda">
             {resultados.map((p) => (
               <li key={p.alias} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2">
-                <button type="button" className="app-button min-h-touch min-w-0 grow basis-48 text-left" onClick={() => onAbrir(p)}>
+                <button type="button" className="app-button flex min-h-touch min-w-0 grow basis-48 items-center gap-3 rounded-md text-left" onClick={() => onAbrir(p)}>
+                  <AvatarPersona persona={p} tamano="sm" />
                   <NombrePersona persona={p} detalle={textoRelacion(p)} />
                 </button>
                 {p.sigo === 'no' && <Button variant="primary" size="sm" className="ml-auto" disabled={ocupado} onClick={() => void pedir(p)}>Pedir seguir</Button>}

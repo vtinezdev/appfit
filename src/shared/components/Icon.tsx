@@ -10,6 +10,9 @@ const PATHS = {
   user: 'M8 8a4 4 0 1 0 8 0a4 4 0 1 0-8 0M4.5 21a7.5 7.5 0 0 1 15 0',
   llama: 'M12 21c-3.9 0-7-2.9-7-6.6 0-2.8 1.6-4.6 3.3-6.4.4 1.6 1.2 2.7 2.4 3.3C10.6 8 11.6 5.2 14 3c.5 3 2.3 4.6 3.6 6.3 1 1.3 1.4 2.8 1.4 4.3C19 17.9 15.9 21 12 21z', // reacción de Amigos
   comentario: 'M4 5h16v11H10l-5 4v-4H4z',
+  campana: 'M6 16V10a6 6 0 0 1 12 0v6l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0', // avisos de Social
+  enviar: 'M4 12l16-8-6 16-2.5-6.5zM11.5 13.5L20 4', // enviar un comentario
+  compartir: 'M12 15V4M7.5 8.5L12 4l4.5 4.5M5 13v6h14v-6', // hoja de compartir del sistema
   users: 'M5.5 8a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0-7 0M2.5 20a6.5 6.5 0 0 1 13 0M15.5 4.8a3.5 3.5 0 0 1 0 6.4M17.5 13.9a6.5 6.5 0 0 1 4 6.1',
   home: 'M4 11l8-7 8 7M6 9.5V20h4v-5h4v5h4V9.5',
   utensils: 'M7 3v8a2 2 0 0 0 2 2v8M11 3v8a2 2 0 0 1-2 2M9 3v8M17 21V3c-2 1.5-3 4-3 7v3h3',
