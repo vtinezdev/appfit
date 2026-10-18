@@ -74,3 +74,27 @@ describe('contratos de las nuevas RPC', () => {
     expect(rpc).toHaveBeenLastCalledWith('editar_perfil_deportivo',{p_bio:'Fuerza',p_disciplinas:['fuerza'],p_destacados:['logro'],p_avatar:null})
   })
 })
+
+describe('lecturas del rediseño (0014)', () => {
+  beforeEach(() => { rpc.mockReset() })
+  const social = () => crearSocialSupabase('https://appfit-pruebas.invalid', 'publica-falsa')
+  it('pide avatares y vistas previas en una sola llamada, sin llamar con listas vacías', async () => {
+    rpc.mockResolvedValue({ data: {}, error: null })
+    expect(await social().avatares([])).toEqual({})
+    expect(await social().ultimosComentarios([])).toEqual({})
+    expect(rpc).not.toHaveBeenCalled()
+    await social().avatares(['ana', 'beto'], 'grupo')
+    expect(rpc).toHaveBeenLastCalledWith('avatares_social', { p_alias: ['ana', 'beto'], p_comunidad: 'grupo' })
+    await social().ultimosComentarios(['p1'])
+    expect(rpc).toHaveBeenLastCalledWith('ultimos_comentarios', { p_ids: ['p1'] })
+  })
+  it('sin 0014 en el servidor no falla: monograma y sin vista previa', async () => {
+    rpc.mockResolvedValue({ data: null, error: { code: 'PGRST202', message: 'Could not find the function public.avatares_social' } })
+    expect(await social().avatares(['ana'])).toEqual({})
+    expect(await social().ultimosComentarios(['p1'])).toEqual({})
+  })
+  it('otros errores sí llegan, traducidos', async () => {
+    rpc.mockResolvedValue({ data: null, error: { code: 'P0001', message: 'no_miembro' } })
+    await expect(social().avatares(['ana'], 'grupo')).rejects.toMatchObject({ clave: 'no_miembro' })
+  })
+})

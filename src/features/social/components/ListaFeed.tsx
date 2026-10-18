@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import Button from '../../../shared/components/Button'
-import { ErrorState, LoadingState } from '../../../shared/components/StateMessage'
-import { type CursorSocial, type PaginaSocial, type PublicacionFeed as Publicacion } from '../lib/feed'
+import Card from '../../../shared/components/Card'
+import Icon from '../../../shared/components/Icon'
+import { ErrorState } from '../../../shared/components/StateMessage'
+import { formatInt } from '../../../shared/lib/format'
+import { useAvatares } from '../hooks/useAvatares'
+import { type CursorSocial, type PaginaSocial, type PublicacionFeed as Publicacion, type VistaComentario } from '../lib/feed'
+import { cargarSocial } from '../servicio'
 import ComentariosSheet, { type PublicacionComentada } from './ComentariosSheet'
 import PublicacionFeed from './PublicacionFeed'
 
@@ -20,6 +25,10 @@ interface Props {
   conAutor?: boolean
   ocultarSilenciadas?: boolean
   puedoModerar?: boolean
+  /** Comunidad de la lista: los avatares se piden en su contexto (lo publicado para seguidores no se ve ahí). */
+  comunidad?: string
+  /** Al cambiar, comprueba si hay novedades (volver a tocar la pestaña activa). */
+  comprobarSenal?: number
 }
 
 interface Estado {
@@ -33,7 +42,7 @@ interface Estado {
 }
 
 /** Publicaciones paginadas («Cargar más») con sus comentarios en una hoja. El feed y las de una persona. */
-export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onError, comentariosDe, conAutor = true, ocultarSilenciadas = false, puedoModerar = false }: Props) {
+export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onError, comentariosDe, conAutor = true, ocultarSilenciadas = false, puedoModerar = false, comunidad, comprobarSenal }: Props) {
   const [estado, setEstado] = useState<Estado>({ items: [], cursor: null, descartadas: 0, fin: false, cargando: true, error: null })
   // La hoja sigue montada al cerrarse para animar la salida; `n` la vuelve a montar limpia.
   const [hoja, setHoja] = useState<{ publicacion: PublicacionComentada; open: boolean; n: number } | null>(null)
@@ -65,7 +74,8 @@ export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onEr
       }
       pagina={...pagina,descartadas}
       if (actual !== generacion.current) return
-      setNuevas(pagina)
+      // Sin publicaciones nuevas no hay nada que anunciar: solo se refrescan recuentos de lo que ya se ve.
+      setNuevas(pagina.items.some(p => !itemsActuales.current.some(v => v.id === p.id)) ? pagina : null)
       setEstado(e => ({ ...e, error: null, descartadas: Math.max(e.descartadas, pagina.descartadas), items: e.items.map(p => pagina.items.find(v => v.id === p.id) ?? p) }))
     } catch (e) {
       if (actual === generacion.current) {
@@ -75,6 +85,13 @@ export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onEr
     } finally { comprobacion.current = false; setComprobando(false) }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [version])
+  const primeraSenal = useRef(comprobarSenal)
+  useEffect(() => {
+    if (comprobarSenal === primeraSenal.current) return
+    void comprobar()
+    // Solo la señal: `comprobar` cambia con la versión y ya lee de cero.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comprobarSenal])
   useEffect(() => {
     const volver = () => { if (document.visibilityState === 'visible' && Date.now() - ultimaComprobacion.current >= 60_000) void comprobar() }
     document.addEventListener('visibilitychange', volver)
@@ -141,15 +158,22 @@ export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onEr
   const recuento = (id: string, n: number) => setEstado((e) => ({ ...e, items: e.items.map((p) => (p.id === id && p.comentarios !== n ? { ...p, comentarios: n } : p)) }))
 
   const { items, cursor, descartadas, fin, cargando, error } = estado
+  const logros = useAvatares(conAutor ? items.map(p => p.alias) : [], comunidad)
+  const vistas = useVistasComentarios(items)
+  const nNuevas = nuevas ? nuevas.items.filter(p => !items.some(v => v.id === p.id)).length : 0
   return (
-    <div ref={contenedor} className="space-y-stack">
-      <Button variant="subtle" size="sm" loading={comprobando} disabled={cargando} onClick={() => void comprobar()}>Actualizar</Button>
-      {nuevas && <Button variant="secondary" block onClick={incorporar}>{nuevas.items.filter(p => !items.some(v => v.id === p.id)).length > 0 ? `${nuevas.items.filter(p => !items.some(v => v.id === p.id)).length} publicaciones nuevas` : 'Lista actualizada'}</Button>}
-      {items.length === 0 && cargando ? <LoadingState /> : items.length === 0 && !error ? vacio : (
+    <div ref={contenedor} className="space-y-stack" aria-busy={comprobando || undefined}>
+      {nuevas && nNuevas > 0 && <div className="feed-novedades sticky z-10 flex justify-center">
+        <button type="button" className="app-button inline-flex min-h-touch items-center gap-2 rounded-pill bg-fg px-4 text-body-sm font-semibold text-bg shadow-float" onClick={incorporar}>
+          <Icon name="chevron-up" size={18} />{nNuevas === 1 ? '1 publicación nueva' : `${formatInt(nNuevas)} publicaciones nuevas`}
+        </button>
+      </div>}
+      {items.length === 0 && cargando ? <EsqueletoFeed /> : items.length === 0 && !error ? vacio : (
         <ul className="space-y-stack" aria-label="Publicaciones">
           {items.map((p) => (
             <li key={p.id}>
               <PublicacionFeed puedoModerar={puedoModerar} publicacion={p} onAbrirPersona={onAbrirPersona} onError={onError} conAutor={conAutor}
+                logro={logros[p.alias]} ultimoComentario={vistas[p.id]}
                 onSilenciada={ocultarSilenciadas ? alias => setEstado(e => ({ ...e, items: e.items.filter(p => p.alias !== alias) })) : undefined}
                 onBorrada={() => setEstado(e => ({ ...e, items: e.items.filter(item => item.id !== p.id) }))}
                 onComentarios={(pub) => abrirComentarios({ id: pub.id, titulo: pub.resumen.titulo, mia: pub.mia })} />
@@ -168,10 +192,45 @@ export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onEr
         <Button variant="secondary" block loading={cargando} onClick={() => void pagina(cursor, false)}>Cargar más</Button>
       )}
       {hoja && (
-        <ComentariosSheet key={`comentarios-${hoja.n}`} open={hoja.open} publicacion={hoja.publicacion}
+        <ComentariosSheet key={`comentarios-${hoja.n}`} open={hoja.open} publicacion={hoja.publicacion} comunidad={comunidad}
           onClose={() => setHoja((h) => (h ? { ...h, open: false } : h))}
           onRecuento={(n) => recuento(hoja.publicacion.id, n)} />
       )}
     </div>
   )
+}
+
+/** Carga con la forma de la tarjeta (sin pulso con Reduce Motion: `.loading-skeleton`). */
+function EsqueletoFeed() {
+  return <div role="status" className="space-y-stack">
+    <span className="sr-only">Cargando publicaciones…</span>
+    {[0, 1].map(i => <Card key={i} aria-hidden className="loading-skeleton space-y-3">
+      <div className="flex items-center gap-3"><span className="app-avatar rounded-pill bg-surface-muted" /><span className="flex-1 space-y-2"><span className="block h-3 w-1/2 rounded-sm bg-surface-muted" /><span className="block h-3 w-1/3 rounded-sm bg-surface-muted" /></span></div>
+      <div className="h-5 w-2/3 rounded-sm bg-surface-muted" />
+      <div className="grid grid-cols-3 gap-3"><div className="h-8 rounded-sm bg-surface-muted" /><div className="h-8 rounded-sm bg-surface-muted" /><div className="h-8 rounded-sm bg-surface-muted" /></div>
+    </Card>)}
+  </div>
+}
+
+/** El último comentario de lo que se ve con comentarios, pedido una vez por página. Sin 0014 o si falla, nada. */
+function useVistasComentarios(items: Publicacion[]): Record<string, VistaComentario> {
+  const [vistas, setVistas] = useState<Record<string, VistaComentario>>({})
+  const pedidas = useRef(new Map<string, number>())
+  const montada = useRef(true)
+  useEffect(() => { montada.current = true; return () => { montada.current = false } }, [])
+  const faltan = items.filter(p => p.comentarios > 0 && pedidas.current.get(p.id) !== p.comentarios)
+  const firma = faltan.map(p => `${p.id}:${p.comentarios}`).join('|')
+  useEffect(() => {
+    if (!faltan.length) return
+    const lote = faltan.slice(0, 30)
+    for (const p of lote) pedidas.current.set(p.id, p.comentarios)
+    // Una respuesta que llega tarde sigue valiendo: cada lote es independiente.
+    cargarSocial().then(s => s.ultimosComentarios(lote.map(p => p.id))).then(
+      nuevas => { if (montada.current) setVistas(v => ({ ...v, ...nuevas })) },
+      () => undefined,
+    )
+    // `faltan` se recalcula en cada render; lo que decide cuándo pedir es su contenido.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firma])
+  return vistas
 }

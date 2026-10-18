@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { contextoPublicacion, leerPaginaComentarios, leerPaginaPublicaciones, leerAvisos, leerComentario, leerPublicacion, resumenAvisos, textoAviso, validarComentario } from './feed'
+import { contextoPublicacion, leerAvatares, leerUltimosComentarios, leerPaginaComentarios, leerPaginaPublicaciones, leerAvisos, leerComentario, leerPublicacion, resumenAvisos, textoAviso, validarComentario } from './feed'
 import { resumenActividad } from './publicacion'
 import { textoComentarios, textoReacciones } from './reaccion'
 
@@ -108,5 +108,18 @@ describe('páginas sociales', () => {
     expect(contextoPublicacion('entreno', Date.parse(fila.creada), fila.creada)).toBeNull()
     expect(contextoPublicacion('texto', 0, fila.creada)).toBeNull()
     expect(contextoPublicacion('entreno', Date.parse('2026-10-01T12:00:00Z'), fila.creada)).toContain('1 de octubre')
+  })
+})
+
+describe('lecturas del rediseño (0014)', () => {
+  it('vista previa del último comentario: descarta lo que no se puede pintar', () => {
+    expect(leerUltimosComentarios({ p1: { alias: 'beto', nombre: null, texto: '¡Bien!' }, p2: { alias: '', texto: 'x' }, p3: 'raro' }))
+      .toEqual({ p1: { alias: 'beto', nombre: null, texto: '¡Bien!' } })
+    expect(leerUltimosComentarios(null)).toEqual({})
+  })
+  it('avatares: solo resúmenes de logro válidos', () => {
+    const logro = { v: 1, tipo: 'logro', titulo: 'Entrenos', logroId: 'entrenos', grupo: 'entreno', nivel: 1, descripcion: '10 entrenos' }
+    expect(leerAvatares({ ana: logro, beto: resumen, carla: { ...logro, logroId: 'inventado' } })).toEqual({ ana: logro })
+    expect(leerAvatares([])).toEqual({})
   })
 })

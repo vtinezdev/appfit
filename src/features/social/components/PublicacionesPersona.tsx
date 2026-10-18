@@ -4,10 +4,10 @@ import { ErrorState, LoadingState } from '../../../shared/components/StateMessag
 import { useConsulta } from '../hooks/useConsulta'
 import { nombreVisible, type Persona } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
-import PersonaSheet from './PersonaSheet'
+import PaginaPersona from './PaginaPersona'
 
 interface Props { persona: Pick<Persona, 'alias' | 'nombre'>; comunidad?: string; volver?: string; onClose: () => void; onCambio?: () => void }
-/** Una vista común desde Amigos, Social y comunidades, con su ámbito y su origen de vuelta. */
+/** Carga a la persona (relación actual) y abre su página común desde Amigos, Social y comunidades, con su ámbito y su origen de vuelta. */
 export default function PublicacionesPersona({ persona, comunidad, volver = 'Amigos', onClose, onCambio }: Props) {
   const consulta = useConsulta(async () => {
     const personas=await(await cargarSocial()).buscar(persona.alias)
@@ -18,5 +18,5 @@ export default function PublicacionesPersona({ persona, comunidad, volver = 'Ami
   if(!consulta.datos) return <ModalPage title={nombreVisible(persona)} onClose={onClose} closeLabel={volver}>
     {consulta.estado==='error'?<div className="space-y-stack"><ErrorState>{consulta.error}</ErrorState><Button variant="secondary" onClick={consulta.recargar}>Reintentar</Button></div>:<LoadingState />}
   </ModalPage>
-  return <PersonaSheet open comoPagina comunidad={comunidad} volver={volver} persona={consulta.datos} onClose={onClose} onVerPublicaciones={()=>undefined} onCambio={mensaje=>{onCambio?.(); if(mensaje)onClose()}} />
+  return <PaginaPersona comunidad={comunidad} volver={volver} persona={consulta.datos} onClose={onClose} onCambio={mensaje=>{onCambio?.(); if(mensaje)onClose()}} />
 }

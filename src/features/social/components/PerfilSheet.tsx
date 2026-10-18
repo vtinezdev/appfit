@@ -22,10 +22,12 @@ interface Props {
   onCambio: () => void
   /** El perfil ya no existe. */
   onBorrado: () => void
+  /** «Editar perfil» desde tu página de perfil; «Tu perfil» desde Amigos. */
+  titulo?: string
 }
 
 /** «Tu perfil»: alias y nombre, código de invitación nuevo, personas bloqueadas y borrar el perfil. */
-export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado }: Props) {
+export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado, titulo = 'Tu perfil' }: Props) {
   const [alias, setAlias] = useState(perfil.alias)
   const [nombre, setNombre] = useState(perfil.nombre ?? '')
   const [cerrarComunidad, setCerrarComunidad] = useState<{ id: string; nombre: string } | null>(null)
@@ -87,7 +89,7 @@ export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado
   const lista = bloqueados.datos ?? []
 
   return (
-    <Sheet open={open} onClose={onClose} title="Tu perfil">
+    <Sheet open={open} onClose={onClose} title={titulo}>
       <div className="space-y-section">
         <form className="space-y-stack" onSubmit={guardar} noValidate aria-label="Alias y nombre">
           <Campo etiqueta="Alias" ayuda="Si lo cambias, el anterior queda libre para otra persona.">

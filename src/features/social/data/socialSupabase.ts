@@ -1,7 +1,7 @@
 import { NubeError } from '../../cuenta/data/nube'
 import { clienteSupabase } from '../../cuenta/data/clienteSupabase'
 import { traducir } from '../../cuenta/data/nubeSupabase'
-import { leerAvisos, leerPaginaSocial, leerPaginaComentarios, leerPaginaPublicaciones, POR_PAGINA, type CursorSocial } from '../lib/feed'
+import { leerAvatares, leerAvisos, leerPaginaSocial, leerPaginaComentarios, leerPaginaPublicaciones, leerUltimosComentarios, POR_PAGINA, type CursorSocial } from '../lib/feed'
 import { mensajeSocial } from '../lib/mensajes'
 import type { EstadoSeguimiento, Persona } from '../lib/relacion'
 import { SocialError, type MiPerfil, type Social } from './social'
@@ -42,6 +42,19 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     }
     if (resultado.error) throw traducirSocial(resultado.error)
     return resultado.data as T
+  }
+
+  /** Lecturas añadidas después (0014): si la función aún no está en el servidor, `null` en lugar de un error. */
+  async function opcional(funcion: string, args: Record<string, unknown>): Promise<unknown> {
+    let resultado: { data: unknown; error: unknown }
+    try {
+      resultado = await sb.rpc(funcion, args)
+    } catch (e) {
+      throw traducirSocial(e)
+    }
+    if ((resultado.error as { code?: string } | null)?.code === 'PGRST202') return null
+    if (resultado.error) throw traducirSocial(resultado.error)
+    return resultado.data
   }
 
   return {
@@ -94,5 +107,7 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     capacidades: () => rpc('social_capacidades'),
     avisos: async () => leerAvisos(await rpc<unknown>('avisos')),
     marcarAvisosVistos: () => rpc('marcar_avisos_vistos'),
+    avatares: async (alias, comunidad) => alias.length ? leerAvatares(await opcional('avatares_social', { p_alias: alias, p_comunidad: comunidad ?? null })) : {},
+    ultimosComentarios: async (ids) => ids.length ? leerUltimosComentarios(await opcional('ultimos_comentarios', { p_ids: ids })) : {},
   }
 }

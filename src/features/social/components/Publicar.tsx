@@ -91,7 +91,7 @@ export default function Publicar({ publicacion, fecha, resumen, onAnotar }: Prop
       <h2 className="text-heading text-fg">Compartir</h2>
       <p className="text-body-sm text-fg-muted">Elige qué compartir y para quién. Verás una vista previa antes de publicar.</p>
       <Button variant="primary" block onClick={() => setEditor(true)}>Publicar en Social</Button>
-      {editor && <CrearPublicacion adjunto={{ resumen, fecha }} onClose={() => setEditor(false)} onPublicada={onAnotar} />}
+      {editor && <CrearPublicacion adjunto={{ resumen, fecha }} onClose={() => setEditor(false)} onPublicada={(id, comunidad) => comunidad ? undefined : onAnotar(id)} />}
       <CompartirComunidad resumen={resumen} fecha={fecha} />
     </section>
   )

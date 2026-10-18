@@ -51,6 +51,7 @@ describe('actividades terminadas', () => {
     await repo.crear(base, ahora)
     await repo.empezarGrabacion('correr', ahora)
     expect(await repo.terminadas()).toHaveLength(1)
+    expect((await repo.ultimaTerminada())?.tipo).toBe('caminar')
     expect(await repo.entreFechas('2026-10-01', '2026-10-31')).toHaveLength(1)
     expect((await repo.enCurso())?.tipo).toBe('correr')
   })

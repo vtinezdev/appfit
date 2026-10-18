@@ -18,7 +18,8 @@ import TarjetaPublicacion from './TarjetaPublicacion'
 
 interface Props {
   onClose: () => void
-  onPublicada?: (id: string) => void | Promise<void>
+  /** `comunidad`: la copia fue para un grupo (no anota el registro: solo la de seguidores lo marca como publicado). */
+  onPublicada?: (id: string, comunidad?: string) => void | Promise<void>
   adjunto?: { resumen: Resumen; fecha: number }
   comunidad?: Comunidad
   soloComunidades?: boolean
@@ -61,7 +62,7 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
       const fechaPublicacion = adjunto?.fecha ?? fecha
       const id=idPara([destino, fechaPublicacion, resumen])
       await (await cargarSocial()).publicar(id, fechaPublicacion, resumen, destino === 'seguidores' ? undefined : destino)
-      await onPublicada?.(id); onClose()
+      await onPublicada?.(id, destino === 'seguidores' ? undefined : destino); onClose()
     } catch (e) {
       setError(e instanceof Error ? e.message : 'No se ha podido publicar. Inténtalo de nuevo.')
     } finally { enviando.current = false; setOcupado(false) }
