@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { Entry, Food } from '../../../shared/db/types'
 import { aItemGuardado, elegibleDeFood, itemDesdeElegible, mismosValores, por100DesdeEntrada, procedencia } from './alimentos'
 import { macrosPorGramos } from './nutrition'
-import { camposNutrientes, escalarNutrientes, resumenNutrientes } from './nutrientes'
+import { camposNutrientes, escalarNutrientes, mediaNutrientes, resumenNutrientes } from './nutrientes'
 import { entradasDesdePlantilla, itemConGramos, itemsDesdeEntradas, planCopia, resolverItemsPlantilla } from './plantillas'
 
 const valores = { kcal100: 100, prot100: 5, carb100: 10, grasa100: 4 }
@@ -25,6 +25,23 @@ describe('nutrientes adicionales', () => {
     expect(resumen[2]).toMatchObject({ valor: undefined, conocidos: 0, total: 3 })
     expect(resumenNutrientes([]).every((n) => n.valor === 0 && n.total === 0)).toBe(true)
     expect(resumenNutrientes([{}]).every((n) => n.valor === undefined)).toBe(true)
+  })
+
+  it('la media del periodo reparte lo conocido entre los días registrados, sin futuros ni cheat days', () => {
+    const semana = ['2026-10-05', '2026-10-06', '2026-10-07', '2026-10-08', '2026-10-09', '2026-10-10', '2026-10-11']
+    const entries = [
+      { fecha: '2026-10-05', nutrientes: { fibra: 20, sal: 4 } },
+      { fecha: '2026-10-05', nutrientes: { fibra: 10 } },
+      { fecha: '2026-10-06', nutrientes: { fibra: 30 } },
+      { fecha: '2026-10-07', nutrientes: { fibra: 90, sal: 9 } }, // cheat day
+      { fecha: '2026-10-08' },
+      { fecha: '2026-10-10', nutrientes: { fibra: 50 } }, // futuro
+    ]
+    const [fibra, azucares, sal] = mediaNutrientes(entries, semana, '2026-10-09', new Set(['2026-10-07']))
+    expect(fibra).toMatchObject({ valor: 20, conocidos: 3, total: 4 })
+    expect(azucares).toMatchObject({ valor: undefined, conocidos: 0, total: 4 })
+    expect(sal.valor).toBeCloseTo(4 / 3)
+    expect(mediaNutrientes([], semana, '2026-10-09').every((n) => n.valor === 0 && n.total === 0)).toBe(true)
   })
 
   it('conserva los nutrientes entre alimento, revisión, guardado y edición por gramos', () => {
