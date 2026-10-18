@@ -7,7 +7,8 @@ import { aplicarConfiguracionCarga, validarConfiguracionCarga } from '../lib/car
 import { toISODate } from '../../../shared/lib/dates'
 import { crearSnapshotMuscular } from '../lib/cargaMuscular'
 import { valoresNuevaSerie } from '../lib/workout'
-import { ultimaEfectiva } from './setsRepo'
+import { ultimaEfectiva, ultimoCalentamiento } from './setsRepo'
+import { ejerciciosDelEntreno, seriesParaRepetir } from '../lib/repetirEntreno'
 
 /** El entreno en curso (sin `fin`), si hay uno. */
 export function activo(): Promise<Workout | undefined> {
@@ -45,7 +46,8 @@ export function empezar(routineId?: number): Promise<number> {
 
 /**
  * Crea las series objetivo de cada ejercicio de la rutina que tenga objetivos, precargadas con los últimos
- * valores efectivos del ejercicio (o 8 × 20 kg). Va dentro de la transacción de quien la llama.
+ * valores efectivos del ejercicio (o 8 × 20 kg). Los calentamientos del objetivo van antes, con los valores del último
+ * calentamiento del ejercicio (o los de la efectiva, si nunca se hizo uno). Va dentro de la transacción de quien la llama.
  */
 async function crearSeriesObjetivo(workoutId: number, routineId: number, base = Date.now()): Promise<void> {
   const rutina = await db.routines.get(routineId)
@@ -66,14 +68,56 @@ async function crearSeriesObjetivo(workoutId: number, routineId: number, base = 
     const objetivo = rutina.objetivos[exerciseId]
     if (!objetivo) continue
     const config = ejecuciones[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual
-    const valores = valoresNuevaSerie(await ultimaEfectiva(exerciseId, config ? config.agarre ?? null : undefined))
-    const ejecucion = ejecucionSerieNueva(config, valores, false)
-    if (ejecucion) Object.assign(valores, aplicarEjecucion(valores, ejecucion))
-    if (valores.modoCarga) valores.pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(base))).last())?.kg
-    for (let i = 0; i < objetivo.series; i++) {
-      await db.sets.add({ workoutId, exerciseId, orden: i, ...valores, createdAt: base + orden++ })
+    const agarre = config ? config.agarre ?? null : undefined
+    const efectiva = await ultimaEfectiva(exerciseId, agarre)
+    const calentamiento = objetivo.calentamientos ? (await ultimoCalentamiento(exerciseId, agarre)) ?? efectiva : undefined
+    const pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(base))).last())?.kg
+    const valoresDe = (previa: SetEntry | undefined) => {
+      const valores = valoresNuevaSerie(previa)
+      const ejecucion = ejecucionSerieNueva(config, valores, false)
+      if (ejecucion) Object.assign(valores, aplicarEjecucion(valores, ejecucion))
+      if (valores.modoCarga) valores.pesoCorporal = pesoCorporal
+      return valores
+    }
+    let i = 0
+    for (let c = 0; c < (objetivo.calentamientos ?? 0); c++) {
+      await db.sets.add({ workoutId, exerciseId, orden: i++, ...valoresDe(calentamiento), tipo: 'calentamiento', createdAt: base + orden++ })
+    }
+    const valores = valoresDe(efectiva)
+    for (let n = 0; n < objetivo.series; n++) {
+      await db.sets.add({ workoutId, exerciseId, orden: i++, ...valores, createdAt: base + orden++ })
     }
   }
+}
+
+/**
+ * Empieza un entreno nuevo igual que uno terminado: mismos ejercicios, orden y series (con sus cifras, sin marcar), la
+ * misma configuración de carga y ejecución, y su rutina si aún existe (los ejercicios que la rutina tenga ahora y ese día
+ * no se hicieron quedan omitidos). Como `empezar`, si ya hay uno en curso devuelve ese sin crear otro.
+ */
+export function repetir(workoutId: number): Promise<number> {
+  return db.transaction('rw', db.workouts, db.routines, db.sets, db.pesos, async () => {
+    const enCurso = await db.workouts.filter((w) => w.fin === undefined).first()
+    if (enCurso) return enCurso.id
+    const origen = await db.workouts.get(workoutId)
+    if (!origen || origen.fin === undefined) throw new Error('Ese entreno ya no está disponible.')
+    const sets = await db.sets.where('workoutId').equals(workoutId).toArray()
+    const inicio = Date.now()
+    const pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(inicio))).last())?.kg
+    const orden = ejerciciosDelEntreno(origen, sets)
+    const rutina = origen.routineId !== undefined ? await db.routines.get(origen.routineId) : undefined
+    const omitidos = rutina?.exerciseIds.filter(id => !orden.includes(id)) ?? []
+    const cargas = origen.cargasEjercicios && Object.fromEntries(Object.entries(origen.cargasEjercicios).filter(([k]) => orden.includes(Number(k)))
+      .map(([k, c]) => [k, c.modo !== 'externa' && pesoCorporal !== undefined ? { ...c, pesoCorporal } : c]))
+    const ejecuciones = origen.ejecucionesEjercicios && Object.fromEntries(Object.entries(origen.ejecucionesEjercicios).filter(([k]) => orden.includes(Number(k))))
+    const nuevo: Omit<Workout, 'id'> = { inicio, ...(rutina ? { routineId: rutina.id } : {}),
+      ...(orden.length ? { ordenEjercicios: orden } : {}), ...(omitidos.length ? { ejerciciosOmitidos: omitidos } : {}),
+      ...(cargas && Object.keys(cargas).length ? { cargasEjercicios: cargas } : {}),
+      ...(ejecuciones && Object.keys(ejecuciones).length ? { ejecucionesEjercicios: ejecuciones } : {}) }
+    const id = await db.workouts.add(nuevo as Workout)
+    await db.sets.bulkAdd(seriesParaRepetir(origen, sets, pesoCorporal).map((s, i) => ({ ...s, workoutId: id, createdAt: inicio + i })) as SetEntry[])
+    return id
+  })
 }
 
 /** Borra un entreno (en curso o terminado) y todas sus series, todo o nada. */

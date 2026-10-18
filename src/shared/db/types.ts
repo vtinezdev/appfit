@@ -449,6 +449,8 @@ export interface ObjetivoEjercicio {
   repsMin: number
   repsMax: number
   descansoSeg?: number
+  /** Series de calentamiento antes de las efectivas (1–5); ausente = ninguna. */
+  calentamientos?: number
 }
 
 export interface Workout {

@@ -33,7 +33,7 @@ App personal de nutrición y gimnasio para Android, iPhone, tablet y ordenador, 
 
 **Gimnasio**
 - Catálogo local de 204 ejercicios con buscador, filtros combinables de músculo/equipamiento y recientes; ejercicios personalizados disponibles en rutinas y sesiones, también sin conexión.
-- Entrenos desde cero o desde una rutina, con el progreso guardado aunque cierres la app a mitad. Estado de guardado local, reintento de cambios fallidos y aviso orientativo para revisar cargas muy distintas al último entreno comparable.
+- Entrenos desde cero, desde una rutina o repitiendo el de otro día (mismos ejercicios, series y cifras), con el progreso guardado aunque cierres la app a mitad. Cualquier entreno del historial se puede guardar como rutina, con sus series, repeticiones y calentamientos como objetivo. Estado de guardado local, reintento de cambios fallidos y aviso orientativo para revisar cargas muy distintas al último entreno comparable.
 - Creador de rutinas por reglas, sin IA: según tus días por semana, tiempo, material (gimnasio, mancuernas o casa), objetivo y músculos a priorizar propone un plan de varias rutinas, con cada ejercicio cambiable antes de guardarlo.
 - Quitar un ejercicio solo de ese entreno desde su menú, con Deshacer, también al editar el historial; conserva el catálogo y la rutina original.
 - Series con repeticiones y peso, precargadas con los valores de la última vez y con la columna «Anterior» (lo que hiciste en esa misma serie la sesión pasada). Cabecera fija con tiempo, volumen y series, descanso flotante con −15/+15 y el check de la serie marcada relleno en verde.

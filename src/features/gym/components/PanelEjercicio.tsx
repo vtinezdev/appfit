@@ -28,6 +28,7 @@ import { subtituloEjercicio } from '../lib/presentacionEjercicio'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
 import { volumenSets } from '../lib/workout'
 import { cargaInusual } from '../lib/cargaInusual'
+import { textoCalentamientos, textoObjetivo } from '../lib/objetivos'
 import { decimalEditable, esDecimalParcial, formatInt, formatNumber, leerDecimal } from '../../../shared/lib/format'
 
 /** El borrador evita que una respuesta asíncrona anterior interrumpa la escritura. Sin valor (lado no registrado) queda vacío. */
@@ -230,7 +231,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
         <div className="min-w-0 flex-1 basis-32">
           <h2 tabIndex={-1} className="exercise-title break-words text-title text-fg">{ejercicio.nombre}</h2>
           <p className="break-words text-caption text-fg-muted">{subtituloEjercicio(ejercicio)}</p>
-          {objetivo && <p className="tabular text-caption text-fg-muted">Objetivo: {objetivo.series} × {objetivo.repsMin === objetivo.repsMax ? objetivo.repsMin : `${objetivo.repsMin}–${objetivo.repsMax}`} reps{objetivo.descansoSeg ? ` · ${objetivo.descansoSeg} s de descanso` : ''}</p>}
+          {objetivo && <p className="tabular text-caption text-fg-muted">Objetivo: {textoObjetivo(objetivo)} reps{objetivo.calentamientos ? ` · ${textoCalentamientos(objetivo)}` : ''}{objetivo.descansoSeg ? ` · ${objetivo.descansoSeg} s de descanso` : ''}</p>}
         </div>
         </div>
         {menu && <IconButton icon="more" variant="ghost" size="sm" label={`Opciones de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja('menu')} />}

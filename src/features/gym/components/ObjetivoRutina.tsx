@@ -3,7 +3,7 @@ import Disclosure from '../../../shared/components/Disclosure'
 import NumberStepper from '../../../shared/components/NumberStepper'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import type { ObjetivoEjercicio } from '../../../shared/db/types'
-import { DESCANSOS_SEG, OBJETIVO_POR_DEFECTO, REPS_MAX, SERIES_MAX, SERIES_MIN, sanearObjetivo, textoObjetivo } from '../lib/objetivos'
+import { CALENTAMIENTOS_MAX, DESCANSOS_SEG, OBJETIVO_POR_DEFECTO, REPS_MAX, SERIES_MAX, SERIES_MIN, sanearObjetivo, textoCalentamientos, textoObjetivo } from '../lib/objetivos'
 
 interface Props {
   nombre: string
@@ -11,13 +11,15 @@ interface Props {
   onChange: (objetivo: ObjetivoEjercicio | undefined) => void
 }
 
-/** Objetivo de un ejercicio dentro de la rutina: series, rango de repeticiones y descanso propio (opcional). */
+/** Objetivo de un ejercicio dentro de la rutina: calentamientos y series, rango de repeticiones y descanso propio (opcional). */
 export default function ObjetivoRutina({ nombre, objetivo, onChange }: Props) {
   const cambiar = (patch: Partial<ObjetivoEjercicio>) => objetivo && onChange(sanearObjetivo({ ...objetivo, ...patch }))
   return (
-    <Disclosure title={objetivo ? `Objetivo: ${textoObjetivo(objetivo)} reps` : 'Sin objetivo'}>
+    <Disclosure title={objetivo ? `Objetivo: ${[`${textoObjetivo(objetivo)} reps`, textoCalentamientos(objetivo)].filter(Boolean).join(' · ')}` : 'Sin objetivo'}>
       {objetivo ? (
         <div className="space-y-3">
+          <div className="flex items-center justify-between gap-3"><span className="text-body-sm text-fg-muted">Calentamiento</span>
+            <NumberStepper label={`series de calentamiento de ${nombre}`} min={0} value={objetivo.calentamientos ?? 0} onChange={(v) => cambiar({ calentamientos: Math.min(CALENTAMIENTOS_MAX, v) })} /></div>
           <div className="flex items-center justify-between gap-3"><span className="text-body-sm text-fg-muted">Series</span>
             <NumberStepper label={`series de ${nombre}`} min={SERIES_MIN} value={objetivo.series} onChange={(v) => cambiar({ series: Math.min(SERIES_MAX, v) })} /></div>
           <div className="flex items-center justify-between gap-3"><span className="text-body-sm text-fg-muted">Reps mínimas</span>

@@ -1693,3 +1693,14 @@ Validación automática final: **2.291 tests en 191 archivos y build TypeScript/
 Víctor ejecuta a mano 0009–0013 en Supabase SQL Editor y confirma «Success. No rows returned» para cada una antes de autorizar commit, PR y merge con checks en verde. La migración 0013 crea `campos_opcionales = false`; no se activa la omisión de duración/volumen. Las suites SQL siguen verificadas únicamente en PostgreSQL temporal, sin atribuirlas al proyecto real.
 
 Se publica desde `feat/social-mejoras`, integrando la base `origin/master` con el plan documental de la PR #81 ya fusionado. Los resultados locales de §158 se conservan y el workflow comprueba tests/build y regresiones de navegador de la revisión publicada. El estado de CI y Cloudflare se consulta en la PR y en el commit de integración antes de dar por publicado el cliente. Pruebas con cuentas reales, participantes e iPhone/Android físicos pendientes.
+
+## 160. Repetir un entreno y guardarlo como rutina (2026-10-18)
+
+Víctor pide repetir el entreno de un día anterior (eligiendo el día en algún sitio) y guardar un entreno como rutina con los ejercicios hechos. Decide: repetir copia las cifras de ese día; la rutina toma de objetivo las series y el rango de reps de ese día **y también los calentamientos**. Rama `feat/repetir-entreno-y-rutina-desde-entreno`; antes se borraron las 15 ramas locales ya fusionadas.
+
+- `lib/repetirEntreno`: orden de ejercicios del detalle, series hechas (sin pendientes salvo que no haya otras), series a repetir (sin RIR ni marca; masa corporal al último pesaje) y rutina desde un entreno.
+- `workoutsRepo.repetir` (transacción, nunca dos activos; conserva la rutina si existe y omite lo que esta tenga y ese día no se hizo) y `routinesRepo.guardarDesdeEntreno` (nombre libre, error si no hay ejercicios).
+- UI: «Repetir un entreno» en Empezar (hoja con los entrenos terminados por día) y «Volver a hacerlo» en el detalle del historial («Repetir este entreno» y «Guardar como rutina», con Deshacer). También desde el detalle que abre Social.
+- `ObjetivoEjercicio.calentamientos?` (1–5, opcional, sin versión de esquema ni de backup): stepper «Calentamiento» en el objetivo de la rutina, texto en el objetivo del panel y series de calentamiento al empezar la rutina, con las cifras del último calentamiento del ejercicio.
+
+**Verificación:** `npm run test`: 2.308 de 2.309 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (crear un symlink de directorio exige permisos), igual que antes del cambio. `npm run build` correcto. Recorrido Playwright con Edge en `appfit-test.localhost:5173` y fixtures (320/375/430 claro/oscuro y 1440): elegir día, sesión con las cifras copiadas, guardar como rutina «Torso (2)» con sus objetivos y repetir desde el detalle; sin scroll horizontal, controles <44 px ni errores de consola. Sin dispositivo físico. Sin commit ni push.

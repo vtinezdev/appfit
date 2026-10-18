@@ -158,7 +158,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
       {publicacionesDe && <PublicacionesPersona onCambio={() => { setVersion(v => v + 1); avisos.recargar() }} persona={publicacionesDe} volver="Social" onClose={() => setPublicacionesDe(null)} />}
       {editor && <CrearPublicacion onClose={() => setEditor(false)} onPublicada={() => { setVersion(v => v + 1); avisar({ mensaje: 'Publicación creada' }) }} />}
       {ajustes && <PerfilSheet open perfil={perfil} onClose={() => setAjustes(false)} onCambio={onPerfilCambiado} onBorrado={onPerfilCambiado} />}
-      {entreno !== null && <ModalPage title="Tu último entreno" closeLabel="Social" onClose={() => setEntreno(null)}><Suspense fallback={<LoadingState />}><DetalleEntreno workoutId={entreno} onVolver={() => setEntreno(null)} /></Suspense></ModalPage>}
+      {entreno !== null && <ModalPage title="Tu último entreno" closeLabel="Social" onClose={() => setEntreno(null)}><Suspense fallback={<LoadingState />}><DetalleEntreno workoutId={entreno} onVolver={() => setEntreno(null)} onRepetido={() => { setEntreno(null); onIrAGym() }} /></Suspense></ModalPage>}
       {toast}
     </div>
   )

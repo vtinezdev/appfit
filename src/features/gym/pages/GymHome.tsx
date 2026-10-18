@@ -8,6 +8,7 @@ import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
 import TarjetaEntreno from '../components/TarjetaEntreno'
 import RegistrarEntrenoPasado from '../components/RegistrarEntrenoPasado'
+import RepetirEntreno from '../components/RepetirEntreno'
 import { detalleRutina, MosaicoRutina } from '../components/RutinaResumen'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { ordenParaEmpezar, resumenRutina } from '../lib/rutinas'
@@ -17,8 +18,8 @@ const ERROR_EMPEZAR = 'No se ha podido empezar el entreno. Inténtalo de nuevo.'
 
 /**
  * Empezar (E1, ADR 035): las rutinas a la vista, sin abrir otra hoja. Arriba, sobre grafito, la que hace más tiempo que
- * no se hace (por su última fecha real, no es un plan); debajo, las demás con su mosaico y «Empezar». Entreno vacío y registrar uno
- * pasado quedan como acciones secundarias. Sin rutinas, la tarjeta invita a empezar en vacío.
+ * no se hace (por su última fecha real, no es un plan); debajo, las demás con su mosaico y «Empezar». Entreno vacío, registrar uno
+ * pasado y repetir uno terminado quedan como acciones secundarias. Sin rutinas, la tarjeta invita a empezar en vacío.
  */
 interface Props {
   /** Hay un entreno en curso (minimizado): en lugar de empezar otro, se ofrece volver a él. */
@@ -30,6 +31,7 @@ interface Props {
 
 export default function GymHome({ enCurso, onEmpezado, onRegistrado }: Props) {
   const [pasado, setPasado] = useState(0)
+  const [repetir, setRepetir] = useState(0)
   const [empezando, setEmpezando] = useState<number | 'vacio' | null>(null)
   const [error, setError] = useState<string | null>(null)
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
@@ -55,6 +57,8 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado }: Props) {
   }
 
   const ocupado = empezando !== null
+  const hayTerminados = (workouts ?? []).some((w) => w.fin !== undefined)
+  const botonRepetir = hayTerminados && <Button variant="subtle" className="flex-1 basis-40" disabled={ocupado} onClick={() => setRepetir((n) => n + 1)}>Repetir un entreno</Button>
   const nombresDe = (ids: number[]) => ids.map((id) => exerciseMap.get(id)?.nombre).filter(Boolean).slice(0, 3).join(' · ')
 
   if (enCurso) {
@@ -122,14 +126,18 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado }: Props) {
             Entreno vacío
           </Button>
           <Button variant="subtle" className="flex-1 basis-40" onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
+          {botonRepetir}
         </div>
       </section>}
-      {!primera && <Button variant="subtle" block onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>}
+      {!primera && <div className="flex flex-wrap gap-2">
+        <Button variant="subtle" className="flex-1 basis-40" onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
+        {botonRepetir}
+      </div>}
 
       <TarjetaEntreno soloUltimo />
 
       {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
-
+      {repetir > 0 && <RepetirEntreno key={repetir} open onClose={() => setRepetir(0)} onRepetido={onEmpezado} />}
     </div>
   )
 }

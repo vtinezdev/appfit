@@ -54,7 +54,10 @@ export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, on
     return <Suspense fallback={cargando}><EntrenoActivo key={activeWorkout.id} workout={activeWorkout} onFinished={setSummary} onMinimizar={onMinimizarEntreno} /></Suspense>
   }
 
-  if (detalle) return <DetalleEntreno key={detalle.id} workoutId={detalle.id} editarInicial={detalle.editar} onVolver={() => { setDetalle(null); setVista('historial') }} />
+  if (detalle) {
+    return <DetalleEntreno key={detalle.id} workoutId={detalle.id} editarInicial={detalle.editar} onVolver={() => { setDetalle(null); setVista('historial') }}
+      onRepetido={() => { setDetalle(null); setVista('inicio'); onAbrirEntreno() }} />
+  }
   if (detalleActividad !== null) {
     return <>
       <Suspense fallback={cargando}>

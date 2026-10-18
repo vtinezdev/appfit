@@ -15,12 +15,13 @@ import PosterSesion from '../components/PosterSesion'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
-import { toISODate } from '../../../shared/lib/dates'
+import { formatDiaMes, toISODate } from '../../../shared/lib/dates'
 import { formatNumber } from '../../../shared/lib/format'
 import PanelEjercicio from '../components/PanelEjercicio'
 import SelectorEjercicios from '../components/SelectorEjercicios'
 import { ListaRecords } from '../components/WorkoutFinished'
 import PublicarEntreno from '../components/PublicarEntreno'
+import GuardarComoRutina from '../components/GuardarComoRutina'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { recordsDeEntreno } from '../lib/records'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
@@ -39,6 +40,8 @@ interface Props {
   /** Abrir directamente en modo edición (entreno registrado a posteriori). */
   editarInicial?: boolean
   onVolver: () => void
+  /** Se ha empezado un entreno igual a este: abre la sesión. */
+  onRepetido: () => void
 }
 
 /**
@@ -46,10 +49,12 @@ interface Props {
  * pestaña (no un Sheet) para que el «Deshacer» de las series sea visible. Al añadir o quitar series se recalcula el
  * `muscleSnapshot` con la clasificación actual de los ejercicios.
  */
-export default function DetalleEntreno({ workoutId, editarInicial = false, onVolver }: Props) {
+export default function DetalleEntreno({ workoutId, editarInicial = false, onVolver, onRepetido }: Props) {
   const [editando, setEditando] = useState(editarInicial)
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false)
   const [buscando, setBuscando] = useState(false)
+  const [guardandoRutina, setGuardandoRutina] = useState(0)
+  const [repitiendo, setRepitiendo] = useState(false)
   const [ocupado, setOcupado] = useState(false)
   const figura = useFiguraMapa()
   const [error, setError] = useState<string | null>(null)
@@ -61,6 +66,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   const todosWorkouts = useLiveQuery(() => workoutsRepo.listar(), [])
   const todasSeries = useLiveQuery(() => setsRepo.todas(), [])
   const ajustes = useLiveQuery(() => getSettings(), [])
+  const enCurso = useLiveQuery(() => workoutsRepo.activo(), [])
   const w = workout?.id === workoutId ? workout.w : undefined
   const rutina = useLiveQuery(() => (w?.routineId ? routinesRepo.obtener(w.routineId) : undefined), [w?.routineId])
   const delEntreno = sets?.id === workoutId ? sets.s : undefined
@@ -162,6 +168,19 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
     }
   }
 
+  async function repetir() {
+    if (repitiendo) return
+    setRepitiendo(true)
+    setError(null)
+    try {
+      await workoutsRepo.repetir(workoutId)
+      onRepetido()
+    } catch {
+      setError('No se ha podido empezar el entreno. Inténtalo de nuevo.')
+      setRepitiendo(false)
+    }
+  }
+
   async function terminarEdicion() {
     if (!await guardarNotas()) return
     setEditando(false)
@@ -199,6 +218,16 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
       {!editando && <Suspense fallback={<LoadingState />}><MapaMuscular key={w.id} summary={trabajo} figura={figura} figuras={false} /></Suspense>}
       {!editando && <PublicarEntreno workoutId={w.id} titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin}
         series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)} records={records} nombres={nombres} />}
+      {!editando && ids.length > 0 && (
+        <section aria-label="Volver a hacerlo" className="space-y-stack">
+          <SectionHeader>Volver a hacerlo</SectionHeader>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="secondary" className="flex-1 basis-40" loading={repitiendo} disabled={!!enCurso || ocupado} onClick={repetir}>Repetir este entreno</Button>
+            <Button variant="subtle" className="flex-1 basis-40" disabled={ocupado} onClick={() => setGuardandoRutina((n) => n + 1)}>Guardar como rutina</Button>
+          </div>
+          {enCurso && <p className="text-caption text-fg-muted">Tienes un entreno en curso: termínalo para repetir este.</p>}
+        </section>
+      )}
 
       <section aria-label="Notas del entreno" className="space-y-1">
         {editando ? (
@@ -280,6 +309,9 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
       </section>
 
       {buscando && <SelectorEjercicios onClose={() => setBuscando(false)} onElegir={elegirEjercicio} />}
+      {guardandoRutina > 0 && <GuardarComoRutina key={guardandoRutina} open onClose={() => setGuardandoRutina(0)} workoutId={workoutId} ejercicios={ids.length}
+        nombreInicial={rutina?.nombre ?? `Entreno del ${formatDiaMes(w.inicio)}`}
+        onGuardada={(id, nombre) => avisar({ mensaje: `Rutina «${nombre}» guardada`, onDeshacer: () => routinesRepo.borrar(id) })} />}
       {toast}
     </div>
   )
