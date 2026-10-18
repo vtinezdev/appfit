@@ -8,16 +8,21 @@ import { formatInt } from '../../../shared/lib/format'
 
 export const NIVELES_MUSCULARES: Record<NivelMuscular, string> = { 0: 'Sin trabajo registrado', 1: 'Muy bajo', 2: 'Bajo', 3: 'Moderado', 4: 'Alto', 5: 'Muy alto' }
 
-function Cuerpo({ title, vista, levels }: { title: string; vista: VistaCuerpo; levels: ResumenMuscular['levels'] }) {
+type Huella = Partial<Record<ZonaMuscular, boolean>>
+
+/** Una vista del cuerpo. `huella`: contorno de lo trabajado sin calor reciente (mapa acumulado). `onZona`: tocar una zona es un atajo; la alternativa accesible es una lista. */
+function Cuerpo({ title, vista, levels, huella, onZona, className = 'mx-auto block w-full' }: { title?: string; vista: VistaCuerpo; levels: ResumenMuscular['levels']; huella?: Huella; onZona?: (m: ZonaMuscular) => void; className?: string }) {
+  const svg = <svg viewBox={VIEWBOX_CUERPO} className={`muscle-body ${className}`} aria-hidden="true" focusable="false">
+    <path d={vista.detalles} className="muscle-region" />
+    {(Object.entries(vista.zonas) as [ZonaMuscular, string][]).map(([id, d]) => <g key={id} data-muscle={id} data-level={levels[id]} {...(huella ? { 'data-huella': !!huella[id] } : {})}>
+      <path d={d} className={`muscle-region ${onZona ? 'cursor-pointer' : ''}`} style={levels[id] ? { fill: `rgb(var(--c-muscle-${levels[id]}))` } : undefined} onClick={onZona && (() => onZona(id))} />
+    </g>)}
+    <path d={vista.silueta} className="muscle-outline" />
+  </svg>
+  if (!title) return svg
   return <figure className="min-w-0">
     <figcaption className="mb-3 text-center text-label text-fg-muted">{title}</figcaption>
-    <svg viewBox={VIEWBOX_CUERPO} className="muscle-body mx-auto block w-full" aria-hidden="true" focusable="false">
-      <path d={vista.detalles} className="muscle-region" />
-      {(Object.entries(vista.zonas) as [ZonaMuscular, string][]).map(([id, d]) => <g key={id} data-muscle={id} data-level={levels[id]}>
-        <path d={d} className="muscle-region" style={levels[id] ? { fill: `rgb(var(--c-muscle-${levels[id]}))` } : undefined} />
-      </g>)}
-      <path d={vista.silueta} className="muscle-outline" />
-    </svg>
+    {svg}
   </figure>
 }
 
@@ -32,17 +37,28 @@ export function MiniMapa({ levels, figura = 'hombre' }: { levels: ResumenMuscula
   </span>
 }
 
+/** Leyenda de la rampa; con `huella`, también el contorno de lo trabajado antes. */
+export function EscalaMuscular({ huella = false }: { huella?: boolean }) {
+  return <div aria-label="Escala de trabajo relativo" className="flex flex-wrap items-center justify-center gap-2 text-caption text-fg-muted">
+    <span>Menos</span><div aria-hidden="true" className="flex gap-1">{([1, 2, 3, 4, 5] as NivelMuscular[]).map(n => <span key={n} className="muscle-swatch" data-level={n} />)}</div><span>Más trabajo</span>
+    {huella && <span className="flex items-center gap-2"><span aria-hidden="true" className="muscle-swatch" data-level={0} data-huella="true" />Trabajado antes</span>}
+  </div>
+}
+
 /** Las dos vistas juntas y la leyenda de la rampa. El detalle accesible está en la lista de `MapaMuscular`, no en el color. */
-export function FigurasMusculares({ levels, figura = 'hombre', className = '' }: { levels: ResumenMuscular['levels']; figura?: FiguraMapa; className?: string }) {
+export function FigurasMusculares({ levels, figura = 'hombre', huella, className = '' }: { levels: ResumenMuscular['levels']; figura?: FiguraMapa; huella?: Huella; className?: string }) {
   return <div className={`space-y-stack ${className}`}>
     <div className="muscle-map grid grid-cols-2 gap-3">
-      <Cuerpo title="Frontal" vista={CUERPOS[figura].frontal} levels={levels} />
-      <Cuerpo title="Trasera" vista={CUERPOS[figura].trasera} levels={levels} />
+      <Cuerpo title="Frontal" vista={CUERPOS[figura].frontal} levels={levels} huella={huella} />
+      <Cuerpo title="Trasera" vista={CUERPOS[figura].trasera} levels={levels} huella={huella} />
     </div>
-    <div aria-label="Escala de trabajo relativo" className="flex flex-wrap items-center justify-center gap-2 text-caption text-fg-muted">
-      <span>Menos</span><div aria-hidden="true" className="flex gap-1">{([1, 2, 3, 4, 5] as NivelMuscular[]).map(n => <span key={n} className="muscle-swatch" data-level={n} />)}</div><span>Más trabajo</span>
-    </div>
+    <EscalaMuscular huella={!!huella && Object.values(huella).some(Boolean)} />
   </div>
+}
+
+/** Una sola vista, más grande (mapa acumulado de Progreso). */
+export function CuerpoMuscular({ vista, levels, figura = 'hombre', huella, onZona }: { vista: 'frontal' | 'trasera'; levels: ResumenMuscular['levels']; figura?: FiguraMapa; huella?: Huella; onZona?: (m: ZonaMuscular) => void }) {
+  return <div className="muscle-map"><Cuerpo vista={CUERPOS[figura][vista]} levels={levels} huella={huella} onZona={onZona} className="muscle-calor mx-auto block w-full" /></div>
 }
 
 /**

@@ -1,6 +1,6 @@
 # 015 — Trabajo muscular estimado y clasificación histórica
 
-Fecha: 2026-10-06. Estado: vigente, ampliado por [025](025-carga-corporal-y-notas-de-sesion.md) (modos de carga) y [026](026-ejecucion-tecnicas-y-progresion-confirmada.md) (lados, dropsets y series pendientes).
+Fecha: 2026-10-06. Estado: vigente, ampliado por [025](025-carga-corporal-y-notas-de-sesion.md) (modos de carga), [026](026-ejecucion-tecnicas-y-progresion-confirmada.md) (lados, dropsets y series pendientes) y [046](046-mapa-muscular-acumulado.md) (mapa acumulado en el tiempo).
 
 ## Contexto
 
@@ -24,6 +24,6 @@ La proporción frente al músculo más trabajado de la sesión genera seis nivel
 
 ## Evolución
 
-Los snapshots y las series permiten recalcular con otra fórmula/escala sin perder el registro. La agregación expone score, aportes, reps y volumen externo por grupo. Otra normalización sería necesaria para comparaciones temporales; RPE/RIR/1RM/esfuerzo se incorporarán a la función de carga cuando haya datos fiables. No se implementan mapas semanales/mensuales, equilibrio ni recuperación ahora.
+Los snapshots y las series permiten recalcular con otra fórmula/escala sin perder el registro. La agregación expone score, aportes, reps y volumen externo por grupo. Otra normalización sería necesaria para comparaciones temporales; RPE/RIR/1RM/esfuerzo se incorporarán a la función de carga cuando haya datos fiables. El mapa en el tiempo llegó con el [ADR 046](046-mapa-muscular-acumulado.md), con su propia escala absoluta; equilibrio y recuperación siguen fuera.
 
 Flujo: [Gym](../features/gym.md). Datos: [Datos](../datos.md). UI: [DESIGN-SYSTEM](../DESIGN-SYSTEM.md).
