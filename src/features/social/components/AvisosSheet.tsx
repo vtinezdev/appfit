@@ -26,7 +26,7 @@ interface Props {
   onExited?: () => void
 }
 
-const ICONO: Record<Aviso['tipo'], IconName> = { reaccion: 'llama', comentario: 'comentario', respuesta: 'comentario', aceptada: 'check', comunidad: 'users' }
+const ICONO: Record<Aviso['tipo'], IconName> = { reaccion: 'llama', comentario: 'comentario', respuesta: 'comentario', aceptada: 'check', comunidad: 'users', anadido: 'users' }
 
 /**
  * Solicitudes y, por días, reacciones, comentarios y novedades en lo mío, con los nuevos marcados. Se vuelve a leer al

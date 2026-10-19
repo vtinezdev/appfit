@@ -14,6 +14,7 @@ import PublicacionesPersona from './components/PublicacionesPersona'
 import Solicitudes from './components/Solicitudes'
 import type { MiPerfil } from './data/social'
 import { useConsulta } from './hooks/useConsulta'
+import { reiniciarAdmin } from './hooks/useAdmin'
 import type { Persona } from './lib/relacion'
 import { cargarSocial } from './servicio'
 
@@ -59,6 +60,8 @@ function ConCuenta({ anadirInicial }: { anadirInicial: boolean }) {
 function Amigos({ perfil, onPerfilCambiado, anadirInicial }: { anadirInicial: boolean; perfil: MiPerfil; onPerfilCambiado: () => void }) {
   const [vista, setVista] = useState<Vista>(anadirInicial ? 'anadir' : 'siguiendo')
   const [version, setVersion] = useState(0)
+  // Como en Social: al entrar se vuelve a preguntar si es administrador (puede haber cambiado de cuenta).
+  useState(reiniciarAdmin)
   // Las hojas siguen montadas al cerrarse (animan la salida); `n` las vuelve a montar limpias en cada apertura.
   const [ajustes, setAjustes] = useState({ open: false, n: 0 })
   const [publicacionesDe, setPublicacionesDe] = useState<Persona | null>(null)

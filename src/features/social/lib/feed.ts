@@ -52,12 +52,14 @@ export interface Comentario {
 }
 
 export interface Aviso {
-  tipo: 'reaccion' | 'comentario' | 'respuesta' | 'aceptada' | 'comunidad'
+  /** `anadido`: un administrador me metió en una comunidad (`comunidad`, su id; `titulo`, su nombre). */
+  tipo: 'reaccion' | 'comentario' | 'respuesta' | 'aceptada' | 'comunidad' | 'anadido'
   personas?: number
   mia?: boolean
   alias: string
   nombre: string | null
   publicacion: string
+  comunidad?: string
   /** Título de la publicación. */
   titulo: string
   /** Los comentarios, su comienzo. */
@@ -163,12 +165,14 @@ export function leerPaginaComentarios(x: unknown): PaginaComentarios {
 export function leerAvisos(x: unknown): Avisos {
   if (!esObjeto(x)) return { solicitudes: 0, nuevos: 0, lista: [] }
   const lista = (Array.isArray(x.lista) ? x.lista : []).flatMap((a): Aviso[] => {
-    if (!esObjeto(a) || !['reaccion','comentario','respuesta','aceptada','comunidad'].includes(String(a.tipo))) return []
+    if (!esObjeto(a) || !['reaccion','comentario','respuesta','aceptada','comunidad','anadido'].includes(String(a.tipo))) return []
     const alias = texto(a.alias)
     const publicacion = texto(a.publicacion)
     const creado = ms(a.creado)
     if (!alias || (!publicacion && a.tipo !== 'aceptada') || creado === null) return []
-    return [{ tipo: a.tipo as Aviso['tipo'], alias, nombre: texto(a.nombre), publicacion: publicacion ?? '', titulo: texto(a.titulo) ?? 'tu publicación', texto: texto(a.texto), creado, nuevo: a.nuevo === true, ...(a.personas !== undefined ? { personas: entero(a.personas) } : {}), ...(typeof a.mia === 'boolean' ? { mia: a.mia } : {}) }]
+    // En «anadido» el servidor manda el id de la comunidad en `publicacion`.
+    const anadido = a.tipo === 'anadido'
+    return [{ tipo: a.tipo as Aviso['tipo'], alias, nombre: texto(a.nombre), publicacion: anadido ? '' : publicacion ?? '', ...(anadido ? { comunidad: publicacion! } : {}), titulo: texto(a.titulo) ?? 'tu publicación', texto: texto(a.texto), creado, nuevo: a.nuevo === true, ...(a.personas !== undefined ? { personas: entero(a.personas) } : {}), ...(typeof a.mia === 'boolean' ? { mia: a.mia } : {}) }]
   })
   return { solicitudes: entero(x.solicitudes), nuevos: entero(x.nuevos), lista }
 }
@@ -178,6 +182,7 @@ export function textoAviso(a: Aviso): string {
   if (a.tipo === 'aceptada') return 'Aceptó tu solicitud de seguimiento'
   if (a.tipo === 'respuesta') return `Respondió a tu comentario en ${a.titulo}`
   if (a.tipo === 'comunidad') return `Publicó en ${a.titulo}`
+  if (a.tipo === 'anadido') return `Te añadió a la comunidad ${a.titulo}`
   return a.tipo === 'reaccion' ? `${REACCION.aviso[0].toUpperCase()}${REACCION.aviso.slice(1)} en ${a.titulo}` : `Comentó en ${a.titulo}`
 }
 

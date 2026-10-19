@@ -1,11 +1,12 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0015 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0017 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
 //
 // y en http://appfit-test.localhost:5174, una sesión falsa en localStorage (clave `appfit-cuenta`, con `expires_at`
-// futuro y un `user`) antes de recargar. No sustituye a supabase/pruebas/social.sql, que prueba el SQL de verdad.
+// futuro y un `user`) antes de recargar. Tras `simular_admin` con `{ p_admin: true }`, la sesión es de un
+// administrador (0017): ve Moderación con cuatro denuncias de ejemplo y puede borrar, suspender y añadir a comunidades. No sustituye a supabase/pruebas/social.sql, que prueba el SQL de verdad.
 import http from 'node:http'
 
 const YO = 'yo'
@@ -13,6 +14,9 @@ const silencios = new Set()
 const vistosComunidad = new Map()
 const deportivos = new Map()
 const moderadores = new Set()
+let ADMIN = false
+// comunidad|miembro -> quién le añadió (0017).
+const anadidos = new Map()
 const idsAnimos = new Map()
 const perfiles = new Map([
   ['lucia', { alias: 'lucia.run', nombre: 'Lucía Martín', codigo: 'A1B2-C3D4', suspendido: false }],
@@ -67,7 +71,7 @@ const fila = (pid) => {
     reaccione: reacciones.has(`${pid}|${YO}`), mia: pu.autor === YO,
   }
 }
-const modera = (id) => comunidades.get(id)?.creador===YO || moderadores.has(`${id}|${YO}`)
+const modera = (id) => ADMIN || comunidades.get(id)?.creador===YO || moderadores.has(`${id}|${YO}`)
 const pagina = (filtro, antes, limite, antesId) => [...publicaciones].filter(([id, pu]) => filtro(pu) && (!antes || pu.creada < antes || (pu.creada === antes && id < antesId)))
   .sort((a, b) => b[1].creada.localeCompare(a[1].creada) || b[0].localeCompare(a[0])).slice(0, limite).map(([pid]) => fila(pid))
 const verPublicacion = (pid) => {
@@ -93,11 +97,19 @@ const otro = (alias) => {
   return id
 }
 
+const denunciasFalsas = [
+  { id: 4, tipo: 'publicacion', objetivo: 'p-jon', creada: hace(30), denuncias: 2, motivos: ['acoso', 'spam'], detalles: ['Publica lo mismo cada día y responde mal a quien comenta.'], contenido: 'jon_92 · {}' },
+  { id: 3, tipo: 'comentario', objetivo: 'c-denunciado', creada: hace(90), denuncias: 1, motivos: ['inapropiado'], detalles: [], contenido: 'lucia.run · ¡Qué barbaridad de sentadilla!' },
+  { id: 2, tipo: 'perfil', objetivo: 'maria', creada: hace(600), denuncias: 3, motivos: ['suplantacion'], detalles: ['Usa la foto y el nombre de otra persona.', 'Se hace pasar por una entrenadora conocida.'], contenido: 'maria.fernandez.trail · María Fernández de la Torre Ruiz' },
+  { id: 1, tipo: 'comunidad', objetivo: 'grupo-running', creada: hace(3000), denuncias: 1, motivos: ['spam'], detalles: [], contenido: 'Running en compañía · Salidas y conversaciones de quienes corren.' },
+]
+
 const rpc = {
   simular_reinicio: () => {
     silencios.clear(); vistosComunidad.clear(); deportivos.clear(); deportivos.set('jon', deportivoJon()); avataresCatalogo.clear(); avataresCatalogo.set('lucia', 'paisaje.cumbre'); moderadores.clear(); idsAnimos.clear()
     for (const [mapa, filas] of [[perfiles,inicial.perfiles],[seg,inicial.seg],[publicaciones,inicial.publicaciones],[comunidades,inicial.comunidades]]) { mapa.clear(); for (const [k,v] of filas) mapa.set(k,structuredClone(v)) }
     miembros.clear(); for (const m of inicial.miembros) miembros.add(m)
+    anadidos.clear(); ADMIN = false; for (const d of denunciasFalsas) d.revisada = false
     bloqueos.clear(); reacciones.clear(); comentarios.clear(); avisosVistos = new Date(0).toISOString()
     return null
   },
@@ -268,6 +280,7 @@ const rpc = {
     const lista = [
       ...[...reacciones].map((r) => r.split('|')).filter(([pid, u]) => mias.has(pid) && u !== YO).map(([pid, u]) => ({ tipo: 'reaccion', alias: perfiles.get(u).alias, nombre: perfiles.get(u).nombre, publicacion: pid, titulo: publicaciones.get(pid).resumen.titulo, texto: null, creado: publicaciones.get(pid).creada })),
       ...[...comentarios.values()].filter((c) => mias.has(c.publicacion) && c.autor !== YO).map((c) => ({ tipo: 'comentario', alias: perfiles.get(c.autor).alias, nombre: perfiles.get(c.autor).nombre, publicacion: c.publicacion, titulo: publicaciones.get(c.publicacion).resumen.titulo, texto: c.texto.slice(0, 120), creado: c.creado })),
+      ...[...anadidos].filter(([k]) => k.endsWith(`|${YO}`) && miembros.has(k)).map(([k, v]) => ({ tipo: 'anadido', alias: perfiles.get(v.por).alias, nombre: perfiles.get(v.por).nombre, publicacion: k.split('|')[0], titulo: comunidades.get(k.split('|')[0]).nombre, texto: null, creado: v.creado })),
     ].filter(a=>!bloq(YO,idDe(a.alias))).map((a) => ({ ...a, nuevo: a.creado > avisosVistos })).sort((a, b) => (a.creado < b.creado ? 1 : -1))
     return { solicitudes: [...seg].filter(([k, v]) => k.endsWith(`|${YO}`) && v === 'pendiente').length, nuevos: lista.filter((a) => a.nuevo).length, lista: lista.slice(0,30) }
   },
@@ -327,6 +340,55 @@ const rpc = {
     comentarios.set(`c-sim-${Date.now()}`, { publicacion: ultima[0], autor: 'lucia', texto: '¡Muy bien! ¿Repetimos el sábado?', creado: new Date().toISOString() })
     return null
   },
+  // 0017: administración. Las denuncias de ejemplo se calculan con lo que existe ahora.
+  soy_admin: () => ADMIN,
+  // El comentario denunciado se crea aquí: simular_reinicio vacía los comentarios.
+  simular_admin: ({ p_admin }) => {
+    ADMIN = p_admin === true
+    if (ADMIN) comentarios.set('c-denunciado', { publicacion: 'p-jon', autor: 'lucia', texto: '¡Qué barbaridad de sentadilla!', creado: hace(100) })
+    return null
+  },
+  admin_denuncias: () => {
+    if (!ADMIN) throw err('no_encontrado')
+    return denunciasFalsas.filter(d => !d.revisada).map(d => {
+      const autor = d.tipo === 'perfil' ? d.objetivo : d.tipo === 'publicacion' ? publicaciones.get(d.objetivo)?.autor : d.tipo === 'comentario' ? comentarios.get(d.objetivo)?.autor : comunidades.get(d.objetivo)?.creador
+      const vigente = d.tipo === 'perfil' ? perfiles.has(d.objetivo) : d.tipo === 'publicacion' ? publicaciones.has(d.objetivo) : d.tipo === 'comentario' ? comentarios.has(d.objetivo) : comunidades.has(d.objetivo)
+      return { id: d.id, tipo: d.tipo, creada: d.creada, denuncias: d.denuncias, motivos: d.motivos, detalles: d.detalles, contenido: d.contenido,
+        autor: autor ? perfiles.get(autor)?.alias ?? null : null, autorSuspendido: Boolean(autor && perfiles.get(autor)?.suspendido), vigente,
+        resumen: d.tipo === 'publicacion' ? publicaciones.get(d.objetivo)?.resumen ?? null : null, texto: d.tipo === 'comentario' ? comentarios.get(d.objetivo)?.texto ?? null : null }
+    })
+  },
+  admin_resolver_denuncia: ({ p_id, p_accion }) => {
+    const d = denunciasFalsas.find(x => x.id === p_id && !x.revisada)
+    if (!ADMIN || !d) throw err('no_encontrado')
+    if (p_accion === 'borrar') { if (d.tipo === 'publicacion') publicaciones.delete(d.objetivo); else if (d.tipo === 'comentario') comentarios.delete(d.objetivo); else throw err('accion_no_valida') }
+    else if (p_accion === 'suspender') {
+      const autor = d.tipo === 'perfil' ? d.objetivo : d.tipo === 'publicacion' ? publicaciones.get(d.objetivo)?.autor : d.tipo === 'comentario' ? comentarios.get(d.objetivo)?.autor : comunidades.get(d.objetivo)?.creador
+      if (!autor || autor === YO) throw err('no_encontrado')
+      perfiles.get(autor).suspendido = true; perfiles.get(autor).suspendidoDesde = new Date().toISOString()
+    } else if (p_accion !== 'descartar') throw err('accion_no_valida')
+    d.revisada = true
+    return null
+  },
+  admin_suspender: ({ p_alias, p_suspender }) => {
+    const id = ADMIN && idDe(p_alias)
+    if (!id || id === YO || perfiles.get(id).suspendido === p_suspender) throw err('no_encontrado')
+    perfiles.get(id).suspendido = p_suspender; perfiles.get(id).suspendidoDesde = p_suspender ? new Date().toISOString() : undefined
+    return null
+  },
+  admin_suspendidos: () => {
+    if (!ADMIN) throw err('no_encontrado')
+    return [...perfiles.values()].filter(p => p.suspendido).map(p => ({ alias: p.alias, nombre: p.nombre, desde: p.suspendidoDesde ?? null, con_perfil: true }))
+  },
+  anadir_a_comunidad: ({ p_id, p_alias }) => {
+    const id = ADMIN && idDe(p_alias)
+    if (!id || id === YO || !comunidades.has(p_id) || perfiles.get(id).suspendido) throw err('no_encontrado')
+    if (miembros.has(`${p_id}|${id}`)) throw err('ya_miembro')
+    miembros.add(`${p_id}|${id}`); anadidos.set(`${p_id}|${id}`, { por: YO, creado: new Date().toISOString() })
+    return null
+  },
+  // Para ver el aviso «te añadió»: Jon me mete en Entreno de fuerza.
+  simular_anadido: () => { miembros.add(`grupo-fuerza|${YO}`); anadidos.set(`grupo-fuerza|${YO}`, { por: 'jon', creado: new Date().toISOString() }); return null },
   borrar_publicacion: ({ p_id }) => {
     if (publicaciones.get(p_id)?.autor !== YO && !modera(publicaciones.get(p_id)?.comunidad)) throw err('no_encontrado')
     publicaciones.delete(p_id)

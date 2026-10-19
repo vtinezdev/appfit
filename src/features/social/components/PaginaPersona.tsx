@@ -6,6 +6,7 @@ import Sheet from '../../../shared/components/Sheet'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { accionSeguir, nombreVisible, textoRelacion, type Persona } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
+import { useAdmin } from '../hooks/useAdmin'
 import FormDenuncia from './FormDenuncia'
 import ListaFeed from './ListaFeed'
 import PerfilDeportivo from './PerfilDeportivo'
@@ -19,7 +20,7 @@ interface Props {
   onCambio: (mensaje?: string) => void
 }
 
-type Paso = 'menu' | 'bloquear' | 'denunciar' | 'denunciada'
+type Paso = 'menu' | 'bloquear' | 'denunciar' | 'denunciada' | 'suspender'
 
 /**
  * Una persona, como página común desde Amigos, Social y comunidades: su perfil deportivo, la acción de la relación que
@@ -33,6 +34,8 @@ export default function PaginaPersona({ persona: inicial, onClose, onCambio, com
   const [error, setError] = useState<string | null>(null)
   const nombre = nombreVisible(persona)
   const accion = accionSeguir(persona)
+  // Solo el administrador (0017) ve «Suspender perfil».
+  const admin = useAdmin()
 
   async function ejecutar(fn: () => Promise<void>) {
     if (ocupado) return
@@ -75,6 +78,10 @@ export default function PaginaPersona({ persona: inicial, onClose, onCambio, com
     await (await cargarSocial()).bloquear(persona.alias)
     onCambio(`Has bloqueado a ${nombre}.`)
   })
+  const suspender = () => ejecutar(async () => {
+    await (await cargarSocial()).suspender(persona.alias, true)
+    onCambio(`Has suspendido a ${nombre}.`)
+  })
 
   const relacion = <div className="space-y-stack">
     {persona.meSigue === 'pendiente' && (
@@ -95,6 +102,9 @@ export default function PaginaPersona({ persona: inicial, onClose, onCambio, com
       case 'bloquear':
         return <ConfirmacionDestructiva mensaje={`${nombre} y tú dejaréis de seguiros y no podréis encontraros. No se le avisa. Puedes desbloquear desde tu perfil.`}
           confirmar="Sí, bloquear" ocupado={ocupado} onCancelar={() => setMenu({ open: true, paso: 'menu' })} onConfirmar={() => void bloquear()} />
+      case 'suspender':
+        return <ConfirmacionDestructiva mensaje={`${nombre} dejará de ver Social y Amigos, y sus publicaciones, comentarios y comunidades dejarán de verse. Puedes readmitirle desde Moderación.`}
+          confirmar="Suspender perfil" ocupado={ocupado} onCancelar={() => setMenu({ open: true, paso: 'menu' })} onConfirmar={() => void suspender()} />
       case 'denunciar':
         return <FormDenuncia onCancelar={() => setMenu({ open: true, paso: 'menu' })} onEnviar={async (motivo, detalle) => {
           await (await cargarSocial()).denunciarPerfil(persona.alias, motivo, detalle)
@@ -113,10 +123,11 @@ export default function PaginaPersona({ persona: inicial, onClose, onCambio, com
           {persona.meSigue === 'aceptado' && <Button variant="secondary" block disabled={ocupado} onClick={() => void quitar()}>Quitar de tus seguidores</Button>}
           <Button variant="secondary" block disabled={ocupado} onClick={() => { setError(null); setMenu({ open: true, paso: 'denunciar' }) }}>Denunciar</Button>
           <Button variant="destructive" block disabled={ocupado} onClick={() => { setError(null); setMenu({ open: true, paso: 'bloquear' }) }}>Bloquear</Button>
+          {admin && <Button variant="destructive" block disabled={ocupado} onClick={() => { setError(null); setMenu({ open: true, paso: 'suspender' }) }}>Suspender perfil</Button>}
         </div>
     }
   }
-  const tituloMenu = menu.paso === 'denunciar' ? `Denunciar a ${nombre}` : menu.paso === 'bloquear' ? `Bloquear a ${nombre}` : menu.paso === 'denunciada' ? 'Denuncia enviada' : nombre
+  const tituloMenu = menu.paso === 'denunciar' ? `Denunciar a ${nombre}` : menu.paso === 'bloquear' ? `Bloquear a ${nombre}` : menu.paso === 'suspender' ? `Suspender a ${nombre}` : menu.paso === 'denunciada' ? 'Denuncia enviada' : nombre
 
   return <ModalPage title={nombre} onClose={onClose} closeLabel={volver}>
     <div className="space-y-section">

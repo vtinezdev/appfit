@@ -188,7 +188,8 @@ function DetalleComunidad({ comunidad, onVolver, onError, onCambio }: Props & { 
         {error && <ErrorState>{error}</ErrorState>}
       </div>
     </Sheet>
-    {tarea === 'gestionar' && gestion.datos && <GestionarComunidad id={c.id} gestion={gestion.datos} onClose={() => setTarea(null)} onCambio={() => { onVolver() }} />}
+    {tarea === 'gestionar' && gestion.datos && <GestionarComunidad id={c.id} gestion={gestion.datos} onClose={() => setTarea(null)} onCambio={() => { onVolver() }}
+      onAnadido={() => { setC(a => ({ ...a, miembros: a.miembros + 1 })); setVersion(v => v + 1); onCambio?.() }} />}
     {persona && <PublicacionesPersona onCambio={() => setVersion(v => v + 1)} persona={persona} comunidad={c.id} volver={c.nombre} onClose={() => setPersona(null)} />}
     {tarea === 'editar' && <EditarDescripcion comunidad={c} onClose={() => setTarea(null)} onGuardada={descripcion => setC(a => ({ ...a, descripcion }))} />}
     {editor && <CrearPublicacion comunidad={c} onClose={() => setEditor(false)} onPublicada={() => setVersion(v => v + 1)} />}
