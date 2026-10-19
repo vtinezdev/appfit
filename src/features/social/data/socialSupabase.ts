@@ -8,6 +8,7 @@ import { SocialError, type MiPerfil, type PerfilDeportivo, type Social } from '.
 import { leerLogrosDestacados } from '../lib/destacados'
 import { leerComunidad, type Comunidad } from '../lib/comunidad'
 import { leerDenuncias, leerSuspendidos } from '../lib/moderacion'
+import { leerAvataresExclusivos } from '../lib/avatar'
 
 /** Se carga con `import()` desde `social/servicio.ts`: comparte cliente (y sesión) con la cuenta. */
 
@@ -135,6 +136,7 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     },
     // Sin 0015 en el servidor: no es que Amigos falte, solo esta función.
     editarAvatar: avatar => escritura('editar_avatar', { p_avatar: avatar }, 'Los avatares nuevos aún no están disponibles. Inténtalo más tarde.'),
+    misAvataresExclusivos: async () => leerAvataresExclusivos(await opcional('mis_avatares_exclusivos', {})),
     ultimosComentarios: async (ids) => ids.length ? leerUltimosComentarios(await opcional('ultimos_comentarios', { p_ids: ids })) : {},
     // Sin 0017, nadie es administrador.
     soyAdmin: async () => (await opcional('soy_admin', {})) === true,

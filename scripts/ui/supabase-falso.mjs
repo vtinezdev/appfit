@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0018 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0019 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -15,6 +15,8 @@ const vistosComunidad = new Map()
 const deportivos = new Map()
 const moderadores = new Set()
 let ADMIN = false
+// Permiso exclusivo de la cuenta sintética: independiente del alias y del rol de administrador.
+let EXCLUSIVO = false
 // comunidad|miembro -> quién le añadió (0017).
 const anadidos = new Map()
 const idsAnimos = new Map()
@@ -106,6 +108,7 @@ const denunciasFalsas = [
 
 const rpc = {
   simular_reinicio: () => {
+    EXCLUSIVO = false
     silencios.clear(); vistosComunidad.clear(); deportivos.clear(); deportivos.set('jon', deportivoJon()); avataresCatalogo.clear(); avataresCatalogo.set('lucia', 'paisaje.cumbre'); moderadores.clear(); idsAnimos.clear()
     for (const [mapa, filas] of [[perfiles,inicial.perfiles],[seg,inicial.seg],[publicaciones,inicial.publicaciones],[comunidades,inicial.comunidades]]) { mapa.clear(); for (const [k,v] of filas) mapa.set(k,structuredClone(v)) }
     miembros.clear(); for (const m of inicial.miembros) miembros.add(m)
@@ -302,17 +305,20 @@ const rpc = {
     const anteriores = rpc.avatares_social(args)
     for (const alias of args.p_alias ?? []) {
       const id = idDe(alias), a = id && avataresCatalogo.get(id)
-      if (a && !bloq(YO, id)) anteriores[perfiles.get(id).alias] = a
+      if (a && !bloq(YO, id) && (a !== 'exclusivo.tinez' || (id === YO && EXCLUSIVO))) anteriores[perfiles.get(id).alias] = a
     }
     return anteriores
   },
   editar_avatar: ({ p_avatar }) => {
     exigir()
-    if (p_avatar !== null && !/^(disciplina\.[a-z-]+\.[a-z-]+|paisaje\.[a-z-]+|logro\.[a-z-]+\.[a-z-]+)$/.test(p_avatar)) throw err('avatar_no_valido')
+    if (p_avatar !== null && !/^(disciplina\.[a-z-]+\.[a-z-]+|paisaje\.[a-z-]+|logro\.[a-z-]+\.[a-z-]+|exclusivo\.tinez)$/.test(p_avatar)) throw err('avatar_no_valido')
+    if (p_avatar === 'exclusivo.tinez' && !EXCLUSIVO) throw err('avatar_no_disponible')
     if (p_avatar === null) avataresCatalogo.delete(YO); else avataresCatalogo.set(YO, p_avatar)
     const de = deportivos.get(YO); if (de) deportivos.set(YO, { ...de, avatarId: null })
     return null
   },
+  mis_avatares_exclusivos: () => { exigir(); return EXCLUSIVO ? ['exclusivo.tinez'] : [] },
+  simular_avatar_exclusivo: ({ p_permiso }) => { EXCLUSIVO = p_permiso === true; return null },
   ultimos_comentarios: ({ p_ids }) => {
     exigir()
     return Object.fromEntries((p_ids ?? []).slice(0, 30).flatMap((pid) => {

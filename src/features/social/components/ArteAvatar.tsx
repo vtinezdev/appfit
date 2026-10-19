@@ -225,7 +225,7 @@ const PAISAJES: Record<PaisajeAvatar, ReactNode> = {
   </>,
 }
 
-export default function ArteAvatar({ avatar }: { avatar: Exclude<Avatar, { tipo: 'logro' }> }) {
+export default function ArteAvatar({ avatar }: { avatar: Extract<Avatar, { tipo: 'disciplina' | 'paisaje' }> }) {
   return <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false" className="block h-full w-full">
     {avatar.tipo === 'disciplina' ? <Disciplina disciplina={avatar.disciplina} tono={avatar.tono} /> : PAISAJES[avatar.paisaje]}
   </svg>

@@ -3,13 +3,16 @@ import type { ResumenLogro } from './publicacion'
 
 /**
  * Avatar de catálogo de Social (0015): una disciplina sobre un tono, un paisaje o un logro de la Vitrina. El servidor guarda
- * solo su identificador (`disciplina.pesas.bosque`, `paisaje.cumbre`, `logro.cumbres.cumbres`); no hay imágenes. Un
+ * solo su identificador (`disciplina.pesas.bosque`, `paisaje.cumbre`, `logro.cumbres.cumbres`, `exclusivo.tinez`). Un
  * identificador que esta versión no conoce se pinta como el monograma.
  */
 export type Avatar =
   | { tipo: 'disciplina'; disciplina: DisciplinaAvatar; tono: TonoAvatar }
   | { tipo: 'paisaje'; paisaje: PaisajeAvatar }
   | { tipo: 'logro'; logro: IdLogro; grupo: GrupoLogro }
+  | AvatarExclusivo
+
+export type AvatarExclusivo = { tipo: 'exclusivo'; id: 'tinez' }
 
 export const DISCIPLINAS_AVATAR = [
   { id: 'pesas', nombre: 'Pesas' },
@@ -85,6 +88,7 @@ const LOGROS = new Set<string>(IDS_LOGRO)
 export function idAvatar(a: Avatar): string {
   if (a.tipo === 'disciplina') return `disciplina.${a.disciplina}.${a.tono}`
   if (a.tipo === 'paisaje') return `paisaje.${a.paisaje}`
+  if (a.tipo === 'exclusivo') return `exclusivo.${a.id}`
   return `logro.${a.grupo}.${a.logro}`
 }
 
@@ -95,8 +99,15 @@ export function leerAvatar(x: unknown): Avatar | null {
   if (resto.length) return null
   if (tipo === 'disciplina' && DISCIPLINAS.has(a) && b !== undefined && TONOS.has(b)) return { tipo, disciplina: a as DisciplinaAvatar, tono: b as TonoAvatar }
   if (tipo === 'paisaje' && PAISAJES.has(a) && b === undefined) return { tipo, paisaje: a as PaisajeAvatar }
+  if (tipo === 'exclusivo' && a === 'tinez' && b === undefined) return { tipo, id: a }
   if (tipo === 'logro' && Object.hasOwn(GRUPOS_LOGRO, a) && b !== undefined && LOGROS.has(b)) return { tipo, logro: b as IdLogro, grupo: a as GrupoLogro }
   return null
+}
+
+/** Permisos de 0019: solo identificadores exclusivos conocidos, sin duplicados. No concede permisos por alias o rol. */
+export function leerAvataresExclusivos(x: unknown): AvatarExclusivo[] {
+  if (!Array.isArray(x)) return []
+  return [...new Set(x)].map(leerAvatar).filter((a): a is AvatarExclusivo => a?.tipo === 'exclusivo')
 }
 
 /** El avatar de antes (0012/0014): la publicación de un logro. Se pinta igual que un logro de catálogo. */
@@ -111,6 +122,7 @@ export function nombreAvatar(a: Avatar | null, logros: readonly Pick<Logro, 'id'
   if (!a) return 'Tus iniciales'
   if (a.tipo === 'disciplina') return `${DISCIPLINAS_AVATAR.find(d => d.id === a.disciplina)!.nombre} · ${TONOS_AVATAR.find(t => t.id === a.tono)!.nombre}`
   if (a.tipo === 'paisaje') return `Paisaje · ${PAISAJES_AVATAR.find(p => p.id === a.paisaje)!.nombre}`
+  if (a.tipo === 'exclusivo') return 'Tinez · Exclusivo'
   return `Logro · ${logros.find(l => l.id === a.logro)?.nombre ?? GRUPOS_LOGRO[a.grupo]}`
 }
 
@@ -135,9 +147,10 @@ export function logrosPorGrupo(logros: readonly Logro[]): { grupo: GrupoLogro; n
 
 /**
  * ¿Puede elegirlo? Disciplinas siempre; paisajes y logros, si la Vitrina los da por conseguidos. Si no hay Vitrina
- * (desactivada), solo disciplinas.
+ * (desactivada), solo disciplinas. Los exclusivos necesitan el permiso que devuelve el servidor (0019).
  */
-export function avatarDisponible(a: Avatar, logros: readonly Logro[]): boolean {
+export function avatarDisponible(a: Avatar, logros: readonly Logro[], exclusivos: readonly AvatarExclusivo[] = []): boolean {
+  if (a.tipo === 'exclusivo') return exclusivos.some(e => mismoAvatar(a, e))
   if (a.tipo === 'disciplina') return true
   if (a.tipo === 'paisaje') return estadoPaisajes(logros).some(p => p.id === a.paisaje && p.desbloqueado)
   const l = logros.find(x => x.id === a.logro)
