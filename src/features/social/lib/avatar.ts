@@ -22,6 +22,19 @@ export const DISCIPLINAS_AVATAR = [
   { id: 'padel', nombre: 'Pádel' },
   { id: 'futbol', nombre: 'Fútbol' },
   { id: 'ruta', nombre: 'Ruta' },
+  { id: 'calistenia', nombre: 'Calistenia' },
+  { id: 'yoga', nombre: 'Yoga' },
+  { id: 'pilates', nombre: 'Pilates' },
+  { id: 'boxeo', nombre: 'Boxeo' },
+  { id: 'escalada', nombre: 'Escalada' },
+  { id: 'tenis', nombre: 'Tenis' },
+  { id: 'baloncesto', nombre: 'Baloncesto' },
+  { id: 'remo', nombre: 'Remo' },
+  { id: 'esqui', nombre: 'Esquí' },
+  { id: 'surf', nombre: 'Surf' },
+  { id: 'baile', nombre: 'Baile' },
+  { id: 'comba', nombre: 'Comba' },
+  { id: 'snowboard', nombre: 'Snowboard' },
 ] as const
 export type DisciplinaAvatar = (typeof DISCIPLINAS_AVATAR)[number]['id']
 
@@ -47,6 +60,18 @@ export const PAISAJES_AVATAR = [
   { id: 'lago', nombre: 'Lago', logro: 'rutas' },
   { id: 'dunas', nombre: 'Dunas', logro: 'pasos' },
   { id: 'mar', nombre: 'Mar', logro: 'distancia' },
+  { id: 'cascada', nombre: 'Cascada', logro: 'desnivel' },
+  { id: 'acantilado', nombre: 'Acantilado', logro: 'horas' },
+  { id: 'glaciar', nombre: 'Glaciar', logro: 'montanas' },
+  { id: 'aurora', nombre: 'Aurora', logro: 'racha' },
+  { id: 'amanecer', nombre: 'Amanecer', logro: 'entrenos' },
+  { id: 'valle', nombre: 'Valle', logro: 'km' },
+  { id: 'canon', nombre: 'Cañón', logro: 'metros' },
+  { id: 'isla', nombre: 'Isla', logro: 'distancia' },
+  { id: 'faro', nombre: 'Faro', logro: 'rutas' },
+  { id: 'sendero', nombre: 'Sendero', logro: 'salidas' },
+  { id: 'lluvia', nombre: 'Lluvia', logro: 'hilo' },
+  { id: 'colinas', nombre: 'Colinas', logro: 'dias-pasos' },
 ] as const satisfies readonly { id: string; nombre: string; logro: IdLogro }[]
 export type PaisajeAvatar = (typeof PAISAJES_AVATAR)[number]['id']
 

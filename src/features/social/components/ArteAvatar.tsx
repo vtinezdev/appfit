@@ -19,6 +19,19 @@ const TRAZOS: Record<DisciplinaAvatar, string> = {
   padel: 'M8.5 9a5.5 5.5 0 1 0 11 0a5.5 5.5 0 1 0-11 0M10.1 12.9L5 19M4 18l2 2M12.5 7.5v.01M15.5 7.5v.01M14 10.5v.01',
   futbol: 'M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 8l3.3 2.4-1.3 3.9h-4l-1.3-3.9zM12 3v5M15.3 10.4l5-1.5M14 14.3l3 4.2M10 14.3l-3 4.2M8.7 10.4l-5-1.5',
   ruta: 'M3.5 18.5a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0M15.5 5.5a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0M8.5 18.5h8a3 3 0 0 0 0-6h-9a3 3 0 0 1 0-6h8',
+  calistenia: 'M3 21V3M21 21V3M3 5h18M10 9a2 2 0 1 0 4 0a2 2 0 1 0-4 0M6 5l2 7 4 2 4-2 2-7M12 14v7M9 15v5a3 3 0 0 0 6 0v-5',
+  yoga: 'M10 4.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0M4 14q3 0 3.5-3a4.5 4.5 0 0 1 9 0q.5 3 3.5 3M9 14v2l7 4q5 1 4-2-1-2-5-1l-7 3q-5 1-4-2 1-2 5-1M15 14v2',
+  pilates: 'M1.5 16.5a1.8 1.8 0 1 0 3.6 0a1.8 1.8 0 1 0-3.6 0M6.7 17l.3-2 8.8-4.4q1.7-.9 2.2 1.1l2.1 6.3H22M7 17.5h6M1 21h22',
+  boxeo: 'M8.5 20v-4.2C5 14 3.8 11 4.8 9.5q.8-1.3 2.5 0l1.2 2V6q0-3 3-3H16q4 0 4 4v4q0 4-4 6v3zM8.5 17H16',
+  escalada: 'M7 8a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0-3.4 0M9 11l-2.5 3-3-1M9 11l4-2 3-6M9 11l2 5M11 16l4-3 2.5 4M11 16l-3 6M15 2l3-1 1 3-2 1M1.5 12l2-.8 1 2-1.7 1.1zM16 17l3-1 1 2.5-3 1zM6 22l3-.7.8 1.7M16 10l2-.7.7 1.8-1.8.8M5 4l2-.7.6 1.7-2 .8',
+  tenis: 'M10 5c3-4 7-3 9 0s0 7-3 9-6 1-7-2 0-5 1-7zM9.5 13.5L4 20M3 19l2 2M12 5l5 5M10 8l5 5M11 11l5-6M19 18a2 2 0 1 0 4 0a2 2 0 1 0-4 0',
+  baloncesto: 'M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M3 12h18M12 3v18M6 5C10 9 10 15 6 19M18 5C14 9 14 15 18 19',
+  remo: 'M10 4a2 2 0 1 0 4 0a2 2 0 1 0-4 0M7 12l3-4h4l3 4M4 13h16l-3 3H7zM9 10l-7 7M15 10l7 7M1 18l2 2M21 20l2-2M4 21q2-2 4 0t4 0 4 0 4 0',
+  esqui: 'M13 3a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0-3.4 0M13 6l-4 5 4 4-4 4M9 11l-3 4-2 3M13 6l3 4 4 1M10 10l-3 2-3-1M4 11l-2 7M20 11l-4 9M3 19l16 2q2 .3 3-1M1 21l17 2q2 .3 3-1',
+  surf: 'M9 3q-5 7-4 15h8Q14 9 9 3zM9 3v15M2 20q3-2 6 0t6 0M12 18q4-9 9-6-5 1-2 5 3 4-2 5M4 23q2-2 4 0t4 0',
+  baile: 'M12 4a1.8 1.8 0 1 0 3.6 0a1.8 1.8 0 1 0-3.6 0M13 8l-2 6M13 8l-6 1-4-2M13 8l4-3 2-4M11 14l-5 2 4 3M11 14l3 3-1 6',
+  comba: 'M10.4 7a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0M12 10v5M12 10l-4 4-3-1M12 10l4 4 3-1M12 15l-3 3 1 2M12 15l3 3-1 3M5 13C0-4 24-4 19 13M4.7 12.5v2M19.3 12.5v2M9 23h6',
+  snowboard: 'M14 5a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0M14.3 4.3l4.4 1.3M14 8l-4.5 1-5 1-1 1M14 8l4 3 3 1M11 9l-3 3 4 3-2 2M8 12l6.5 2 1 4.5M8.5 16.7l-1 1.6 3 1 .7-1.9zM14.5 18l-.7 2 3 1 .7-2.1zM3 16q-2-1-1 1l17 6q3 1 3-2l-1-1-3 .3-12-4.3zM1 20l17 6',
 }
 
 /** Las curvas de nivel de las insignias (InsigniaExpedicion), a escala del avatar. */
@@ -26,10 +39,16 @@ const CURVAS = 'M-8 27C14 30 12 4 31 4S46 34 69 26 86 4 108 13M-7 35C18 39 17 10
 
 function Disciplina({ disciplina, tono }: { disciplina: DisciplinaAvatar; tono: TonoAvatar }) {
   const tinta = c(tono === 'oro' ? 'bosque' : 'marfil')
+  // Las figuras con equipo necesitan más espacio que los pictogramas originales.
+  const detallada = ['pilates', 'escalada', 'esqui', 'comba', 'snowboard'].includes(disciplina)
   return <>
     <rect width="40" height="40" fill={c(tono)} />
+    {disciplina === 'escalada' && <g fill={tinta}>
+      <path d="M27 0H40V40H24L30 17Z" opacity=".07" />
+      <path d="M30 17L40 27V40H24Z" opacity=".06" />
+    </g>}
     <path d={CURVAS} transform="scale(.4)" fill="none" stroke={tinta} strokeWidth="2" opacity=".22" />
-    <path d={TRAZOS[disciplina]} transform="translate(9 9) scale(.9167)" fill="none" stroke={tinta} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d={TRAZOS[disciplina]} transform={detallada ? 'translate(6 6) scale(1.1667)' : 'translate(9 9) scale(.9167)'} fill="none" stroke={tinta} strokeWidth={detallada ? 1.6 : 2.2} strokeLinecap="round" strokeLinejoin="round" />
   </>
 }
 
@@ -75,6 +94,87 @@ const PAISAJES: Record<PaisajeAvatar, ReactNode> = {
     <rect width="40" height="40" fill={c('bronce')} /><circle cx="20" cy="24" r="8.5" fill={c('oro')} />
     <rect y="24" width="40" height="16" fill={c('cobalto')} />
     <path d="M7 29h8M23 29h10M11 33.5h6M21 33.5h8" stroke={c('marfil')} strokeWidth="1.3" strokeLinecap="round" />
+  </>,
+  cascada: <>
+    <rect width="40" height="40" fill={c('plata')} />
+    <path d="M0 8L10 11 16 17V40H0ZM40 8L30 11 24 17V40H40Z" fill={c('bosque')} />
+    <path d="M10 11L16 17V31L10 27ZM30 11L24 17V31L30 27Z" fill={c('salvia')} />
+    <path d="M16 17H24V31L40 35V40H0V35L16 31Z" fill={c('zafiro')} />
+    <path d="M10 35h6M22 37h6" stroke={c('marfil')} strokeWidth="1.3" strokeLinecap="round" />
+  </>,
+  acantilado: <>
+    <rect width="40" height="40" fill={c('zafiro')} /><rect y="23" width="40" height="17" fill={c('cobalto')} />
+    <path d="M0 9L13 12 15 20 20 26 24 40H0Z" fill={c('arcilla')} />
+    <path d="M0 9L11 11 13 25 19 40H0Z" fill={c('bronce')} />
+    <path d="M28 28h4M31 32h4" stroke={c('marfil')} strokeWidth="1.3" strokeLinecap="round" />
+  </>,
+  glaciar: <>
+    <rect width="40" height="40" fill={c('plata')} />
+    <path d="M0 19L8 14 15 16 21 9 28 16 32 14 40 20V29H0Z" fill={c('marfil')} />
+    <path d="M0 22L8 17 15 20 21 14 28 21 32 18 40 23V31H0Z" fill={c('zafiro')} />
+    <path d="M8 17L10 29H16L15 20ZM28 21L30 29H35L32 18Z" fill={c('marfil')} opacity=".3" />
+    <rect y="29" width="40" height="11" fill={c('cobalto')} />
+    <path d="M5 33h6M23 36h7" stroke={c('marfil')} strokeWidth="1.3" strokeLinecap="round" />
+  </>,
+  aurora: <>
+    <rect width="40" height="40" fill={c('bosque')} />
+    <path d="M12-2H19Q17 7 26 14T29 27Q37 17 28 8T26-2Z" fill={c('salvia')} />
+    <path d="M-2 9Q10 15 17 15T22 28Q20 22 13 22T-2 17Z" fill={c('oro')} />
+    <path d="M5 9h.01M29 5h.01M34 16h.01M9 27h.01" stroke={c('marfil')} strokeWidth="1.1" strokeLinecap="round" />
+    <path d="M-2 40V33Q8 36 19 31T42 33V40Z" fill={c('marfil')} />
+  </>,
+  amanecer: <>
+    <rect width="40" height="40" fill={c('rubi')} /><circle cx="22" cy="21" r="8" fill={c('oro')} />
+    <path d="M-2 28L10 20 18 25 29 19 42 26V40H-2Z" fill={c('salvia')} />
+    <path d="M-2 34Q19 27 42 34V40H-2Z" fill={c('bosque')} />
+  </>,
+  valle: <>
+    <rect width="40" height="40" fill={c('zafiro')} />
+    <path d="M14 20L18 17 20 17.7 23 14.5 28 19 25 18.5 23 19.5 21 18.2 19 19.5 17.5 19Z" fill={c('marfil')} />
+    <path d="M-2 7L8 12 11 19 20 28 29 17 33 12 42 7V40H-2Z" fill={c('salvia')} />
+    <path d="M-2 10L4 15 9 27 14 31 0 36ZM42 10L36 15 32 27 26 31 40 36Z" fill={c('bosque')} />
+    <path d="M-2 40V34Q20 25 42 34V40Z" fill={c('salvia')} />
+    <path d="M20 28Q24 29 22 31Q20 32 25 34L34 40H24Q29 37 23 34T20 31Q23 29 20 28Z" fill={c('cobalto')} />
+    <path d="M26 37h3" stroke={c('marfil')} strokeWidth="1.2" strokeLinecap="round" />
+  </>,
+  canon: <>
+    <rect width="40" height="40" fill={c('oro')} />
+    <path d="M0 5L12 9 14 19 17 25 18 40H0ZM40 5L30 9 27 19 24 25 23 40H40Z" fill={c('bronce')} />
+    <path d="M0 5L10 8 12 20 15 26 14 40H0ZM40 5L32 9 30 20 27 25 27 40H40Z" fill={c('arcilla')} />
+    <path d="M18 29H23L22 32 24 35 27 40H13L18 35 20 32Z" fill={c('zafiro')} />
+  </>,
+  isla: <>
+    <rect width="40" height="40" fill={c('zafiro')} /><rect y="28" width="40" height="12" fill={c('cobalto')} />
+    <path d="M11 28Q21 20 30 28Z" fill={c('marfil')} />
+    <path d="M23 25Q23 19 21 16M21 16Q15 12 13 17Q18 15 21 16Q18 18 18 22Q21 19 21 16Q25 17 28 21Q28 16 21 16Q21 11 26 11Q23 10 21 16" fill={c('bosque')} stroke={c('bosque')} strokeWidth="1.2" strokeLinejoin="round" />
+    <path d="M6 32h7M16 35h5M28 33h5" stroke={c('marfil')} strokeWidth="1.3" strokeLinecap="round" />
+  </>,
+  faro: <>
+    <rect width="40" height="40" fill={c('zafiro')} /><rect y="28" width="40" height="12" fill={c('cobalto')} />
+    <path d="M0 28L15 24 23 27 28 35 0 39Z" fill={c('bosque')} />
+    <path d="M12 25L13 12H19L20 25Z" fill={c('marfil')} /><path d="M11 12L16 7 21 12Z" fill={c('arcilla')} />
+    <path d="M15 15h2v3H15Z" fill={c('bosque')} />
+    <path d="M29 31h5M16 37h7" stroke={c('marfil')} strokeWidth="1.3" strokeLinecap="round" />
+  </>,
+  sendero: <>
+    <rect width="40" height="40" fill={c('plata')} />
+    <path d="M-2 21Q6 17 15 21Q29 9 42 18V40H-2Z" fill={c('salvia')} />
+    <path d="M-2 20Q11 16 24 27L42 33V40H-2Z" fill={c('bosque')} />
+    <path d="M-2 40V33Q20 24 42 29V40Z" fill={c('salvia')} />
+    <path d="M21 21Q31 23 24 26L17 29Q10 32 19 35L25 40H8Q17 37 12 34Q7 30 20 27L25 25Q29 23 21 21Z" fill={c('bronce')} />
+  </>,
+  lluvia: <>
+    <rect width="40" height="40" fill={c('zafiro')} />
+    <path d="M12 17a4 4 0 0 1 1-7 5 5 0 0 1 9-2 4 4 0 0 1 5 3 3 3 0 0 1 0 6Z" fill={c('plata')} />
+    <path d="M13 21l-3 6M20 21l-3 6M27 21l-3 6" stroke={c('cobalto')} strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M-2 40V31Q8 27 19 32Q30 25 42 31V40Z" fill={c('salvia')} />
+    <path d="M-2 40V33Q10 28 29 40Z" fill={c('bosque')} />
+  </>,
+  colinas: <>
+    <rect width="40" height="40" fill={c('marfil')} /><circle cx="28" cy="11" r="4.5" fill={c('oro')} />
+    <path d="M-2 25Q8 17 21 25Q32 19 42 24V40H-2Z" fill={c('salvia')} />
+    <path d="M-2 40V33Q14 19 42 32V40Z" fill={c('bosque')} />
+    <path d="M-2 40Q21 26 42 28V40Z" fill={c('arcilla')} />
   </>,
 }
 

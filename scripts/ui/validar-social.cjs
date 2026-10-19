@@ -345,13 +345,16 @@ async function main() {
         await formPerfil.getByRole('textbox',{name:'Biografía deportiva',exact:true}).fill('Entrenamos con calma, aprendemos y nos apoyamos. '.repeat(3))
         await formPerfil.getByRole('checkbox',{name:'Fuerza',exact:true}).check()
         await formPerfil.getByRole('checkbox',{name:'Correr',exact:true}).check()
-        await formPerfil.getByRole('checkbox',{name:'Entrenos',exact:true}).check()
+        await formPerfil.getByRole('button',{name:/^(Elegir|Cambiar) logros destacados$/}).click()
+        const hojaDestacados=page.getByRole('dialog',{name:'Logros destacados',exact:true})
+        await hojaDestacados.getByRole('button',{name:'Entrenos',exact:true}).click()
+        await hojaDestacados.getByRole('button',{name:'Hecho',exact:true}).click();await hojaDestacados.waitFor({state:'detached'})
         // Avatar de catálogo (0015): la hoja enseña paisajes (con lo que pide cada uno), disciplinas con su color y logros.
         await formPerfil.getByRole('button',{name:'Cambiar avatar',exact:true}).click()
         const hojaAvatar=page.getByRole('dialog',{name:'Avatar',exact:true})
         await hojaAvatar.getByRole('tab',{name:'Paisajes',exact:true}).click()
         await hojaAvatar.getByRole('list',{name:'Paisajes',exact:true}).getByRole('button').first().waitFor()
-        assert.equal(await hojaAvatar.getByRole('list',{name:'Paisajes',exact:true}).getByRole('button').count(),8)
+        assert.equal(await hojaAvatar.getByRole('list',{name:'Paisajes',exact:true}).getByRole('button').count(),20)
         // Sin cumbres ni salidas, los paisajes siguen bloqueados: tocarlos no cambia la elección.
         const pista=hojaAvatar.getByRole('button',{name:/^Pista /})
         assert.equal(await pista.getAttribute('aria-disabled'),'true')
