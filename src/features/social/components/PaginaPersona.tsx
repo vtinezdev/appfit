@@ -67,7 +67,8 @@ export default function PaginaPersona({ persona: inicial, onClose, onCambio, com
   })
   const responder = (aceptar: boolean) => ejecutar(async () => {
     await (await cargarSocial()).responderSolicitud(persona.alias, aceptar)
-    cambiar({ meSigue: aceptar ? 'aceptado' : 'no' })
+    // Aceptar hace que os sigáis los dos (0018): también la sigo yo.
+    cambiar(aceptar ? { meSigue: 'aceptado', sigo: 'aceptado' } : { meSigue: 'no' })
   })
   const quitar = () => ejecutar(async () => {
     await (await cargarSocial()).quitarSeguidor(persona.alias)
@@ -86,14 +87,15 @@ export default function PaginaPersona({ persona: inicial, onClose, onCambio, com
   const relacion = <div className="space-y-stack">
     {persona.meSigue === 'pendiente' && (
       <div className="space-y-2 rounded-md bg-surface-muted p-3 text-left">
-        <p className="text-body-sm text-fg">Quiere seguirte: verá lo que publiques.</p>
+        <p className="text-body-sm text-fg">Quiere seguirte. Si aceptas, os seguiréis los dos y cada uno verá lo que publique el otro.</p>
         <div className="flex gap-2">
           <Button variant="secondary" className="flex-1" disabled={ocupado} onClick={() => void responder(false)}>Rechazar</Button>
           <Button variant="primary" className="flex-1" disabled={ocupado} onClick={() => void responder(true)}>Aceptar</Button>
         </div>
       </div>
     )}
-    {accion === 'seguir' && <div className="space-y-1"><Button variant={persona.meSigue === 'pendiente' ? 'secondary' : 'primary'} block disabled={ocupado} onClick={() => void seguir()}>Pedir seguir</Button><p className="text-caption text-fg-muted">Verás lo que publica cuando te acepte.</p></div>}
+    {/* Con su solicitud pendiente, aceptarla ya os hace seguiros: no hace falta pedirlo aparte. */}
+    {accion === 'seguir' && persona.meSigue !== 'pendiente' && <div className="space-y-1"><Button variant="primary" block disabled={ocupado} onClick={() => void seguir()}>Pedir seguir</Button><p className="text-caption text-fg-muted">Cuando te acepte, os seguiréis los dos.</p></div>}
     {accion === 'cancelar' && <Button variant="secondary" block disabled={ocupado} onClick={() => void seguir()}>Cancelar solicitud</Button>}
   </div>
 
