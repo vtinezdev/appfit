@@ -1729,9 +1729,19 @@ Víctor pide un mapa de calor muscular que evolucione con los entrenos y, antes 
 
 **Verificación:** `npm run test`: 2.340 de 2.341 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), igual que antes del cambio. `npm run build` correcto. En Chrome (`appfit-test.localhost:5173`) con fixtures: estado vacío, mapa con huella, Frontal/Trasera, hoja de detalle y lista, cierre real de un entreno con el antes → después, tema oscuro y 316 px en un iframe (sin desbordamiento ni botones bajo 44 px), sin errores de consola; fixtures borrados al terminar. No se probó en un móvil real ni a 375/430 px exactos (la ventana no se dejó redimensionar).
 
+## 163. Vista detallada en el Resumen de Nutrición (2026-10-19)
+
+Víctor pide poder ver en el resumen semanal la vista detallada que ya tenía el Diario. El Resumen (semana y mes) gana el selector «Vista sencilla / Vista detallada» dentro de la card «Media diaria».
+
+- `lib/nutrientes.ts`: `mediaNutrientes(entries, fechas, hoy, cheatDays)`, con el criterio de días de `resumenPeriodo`; lo conocido de cada nutriente entre los días que cuentan y la cobertura por alimento. Tipo `ResumenNutriente`.
+- `NutrientesDetalle`: prop `mediaDiaria` (sustituye a la suma de `entries`; etiquetas «media diaria conocida» / «media parcial»; 1 decimal, 2 bajo 1 g).
+- `pages/Resumen`: selector y bloque «Media diaria de nutrientes»; recibe `onVerReferencia` desde `NutricionTab` para «Ver en Referencias».
+
+**Verificación:** tests nuevos en `nutrientes.test.ts` y `NutrientesDetalle.test.tsx`. `npm run test`: 2.342 de 2.343 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), también sin el cambio. `npm run build` correcto. En Chrome (`appfit-test.localhost:5173`) con fixtures (cobertura parcial, kcal rápidas): media correcta, 316 px en un iframe sin desbordamiento, sin errores de consola; fixtures borrados. No se probó en móvil real ni a 375/430 px exactos.
+
 ## 164. Logros destacados visibles al editar el perfil (2026-10-19)
 
-Víctor pide que en «Editar perfil» los logros que se pueden destacar se vean, sin que muchos ocupen toda la página. (Numerada 164 porque otra sesión tiene abierta la 163, «Vista detallada en el Resumen de Nutrición».)
+Víctor pide que en «Editar perfil» los logros que se pueden destacar se vean, sin que muchos ocupen toda la página.
 
 - `components/ElegirDestacados`: en el formulario, tres huecos con la medalla de cada destacado o «Libre» y «Elegir/Cambiar logros destacados»; la hoja enseña todos los logros publicados en rejilla de medallas (`aria-pressed`, marca de elegido, deshabilitados al llegar a tres), «N de 3 elegidos», «Buscar en publicaciones anteriores» con su error en la hoja y «Hecho».
 - Después pide poder mostrar u ocultar los logros que aún no se pueden destacar: en la hoja, «Solo compartidos / Todos mis logros». Con «Todos», tres grupos: «Compartidos · se pueden destacar» (los únicos elegibles), «Conseguidos sin compartir» («Compártelos desde Vitrina para poder destacarlos») y «Sin conseguir» (insignia pendiente; los ocultos, con candado). Se leen de Vitrina (`useVitrina`) solo al elegir «Todos».
