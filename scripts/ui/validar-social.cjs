@@ -360,7 +360,7 @@ async function main() {
         const hojaAvatar=page.getByRole('dialog',{name:'Avatar',exact:true})
         await hojaAvatar.getByRole('tab',{name:'Paisajes',exact:true}).click()
         await hojaAvatar.getByRole('list',{name:'Paisajes',exact:true}).getByRole('button').first().waitFor()
-        assert.equal(await hojaAvatar.getByRole('list',{name:'Paisajes',exact:true}).getByRole('button').count(),8)
+        assert.equal(await hojaAvatar.getByRole('list',{name:'Paisajes',exact:true}).getByRole('button').count(),20)
         // Sin cumbres ni salidas, los paisajes siguen bloqueados: tocarlos no cambia la elección.
         const pista=hojaAvatar.getByRole('button',{name:/^Pista /})
         assert.equal(await pista.getAttribute('aria-disabled'),'true')

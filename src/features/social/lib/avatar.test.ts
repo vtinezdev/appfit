@@ -20,13 +20,21 @@ describe('identificador del avatar', () => {
 
   it('todo el catálogo cabe en el formato que admite el servidor', () => {
     const formato = /^(disciplina\.[a-z-]+\.[a-z-]+|paisaje\.[a-z-]+|logro\.[a-z-]+\.[a-z-]+)$/
-    for (const d of DISCIPLINAS_AVATAR) for (const t of TONOS_AVATAR) expect(idAvatar({ tipo: 'disciplina', disciplina: d.id, tono: t.id })).toMatch(formato)
-    for (const p of PAISAJES_AVATAR) expect(idAvatar({ tipo: 'paisaje', paisaje: p.id })).toMatch(formato)
+    const catalogo: Avatar[] = [
+      ...DISCIPLINAS_AVATAR.flatMap(d => TONOS_AVATAR.map(t => ({ tipo: 'disciplina' as const, disciplina: d.id, tono: t.id }))),
+      ...PAISAJES_AVATAR.map(p => ({ tipo: 'paisaje' as const, paisaje: p.id })),
+    ]
+    expect(new Set(catalogo.map(idAvatar)).size).toBe(catalogo.length)
+    for (const a of catalogo) {
+      expect(idAvatar(a)).toMatch(formato)
+      expect(idAvatar(a).length).toBeLessThanOrEqual(64)
+      expect(leerAvatar(idAvatar(a))).toEqual(a)
+    }
   })
 
   it.each([
     null, 42, '', 'paisaje', 'paisaje.atlantida', 'paisaje.cumbre.oro', 'disciplina.pesas', 'disciplina.pesas.rosa',
-    'disciplina.yoga.bosque', 'logro.entreno', 'logro.entreno.inventado', 'logro.constructor.entrenos', 'logro.toString.entrenos',
+    'disciplina.inventada.bosque', 'logro.entreno', 'logro.entreno.inventado', 'logro.constructor.entrenos', 'logro.toString.entrenos',
     'foto.https://ejemplo.com/cara.png', `paisaje.${'x'.repeat(80)}`,
   ])('lo desconocido es monograma: %s', x => expect(leerAvatar(x)).toBeNull())
 
@@ -75,6 +83,18 @@ describe('desbloqueos', () => {
     expect(avatarDisponible({ tipo: 'logro', logro: 'noctambulo', grupo: 'oculto' }, vitrina)).toBe(true)
     expect(avatarDisponible({ tipo: 'logro', logro: 'atlas', grupo: 'entreno' }, vitrina)).toBe(false)
     expect(avatarDisponible({ tipo: 'logro', logro: 'maraton', grupo: 'oculto' }, vitrina)).toBe(false)
+  })
+
+  it('las disciplinas no requieren Vitrina y cada paisaje se gana con su logro', () => {
+    for (const d of DISCIPLINAS_AVATAR) for (const t of TONOS_AVATAR) {
+      expect(avatarDisponible({ tipo: 'disciplina', disciplina: d.id, tono: t.id }, [])).toBe(true)
+    }
+    for (const p of PAISAJES_AVATAR) {
+      const a: Avatar = { tipo: 'paisaje', paisaje: p.id }
+      expect(avatarDisponible(a, [])).toBe(false)
+      expect(avatarDisponible(a, [logro(p.logro, 'caminos', false)])).toBe(false)
+      expect(avatarDisponible(a, [logro(p.logro, 'caminos', true)])).toBe(true)
+    }
   })
 
   it('agrupa los logros por sección en el orden de la Vitrina', () => {

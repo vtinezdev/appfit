@@ -2,7 +2,7 @@
 
 `src/features/social/`. Social reúne publicaciones elegidas, ánimos, comentarios, avisos y comunidades; Amigos reúne seguimientos y solicitudes. Requiere cuenta y conexión, pero no activar la copia cifrada. Sin Supabase configurado no aparece. Decisiones: [ADR 040](../decisiones/040-parte-social.md), [041](../decisiones/041-publicaciones-y-comunidades.md), [044](../decisiones/044-control-social-y-compatibilidad.md) y [045](../decisiones/045-rediseno-visual-de-social.md) (rediseño visual) [047](../decisiones/047-avatares-de-catalogo.md) (avatares de catálogo) y [048](../decisiones/048-logros-destacados-sin-publicar.md) (logros destacados sin publicar y «Editar perfil»). Alcance y decisiones de las mejoras: [social-mejoras.md](../social-mejoras.md).
 
-**Estado del servidor:** Víctor confirmó 0003–0005 el 2026-10-15 y 0006–0008 el 2026-10-16. El 2026-10-18 confirma la ejecución correcta de **0009–0013**, una por una en el SQL Editor del proyecto real, antes de publicar este cliente. El mismo día confirma también **0014** (rediseño: avatares y vista previa del último comentario) con «Success. No rows returned». Es aditiva: un cliente sin ella sigue funcionando con monograma y sin vista previa. El 2026-10-19 confirma **0015** (avatares de catálogo) con «Success. No rows returned»; también es aditiva: sin ella, el cliente nuevo lee los avatares de 0014 y «Guardar perfil deportivo» con un avatar nuevo avisa de que aún no están disponibles. El mismo día confirma **0016** (logros destacados sin publicar) con «Success. No rows returned»; también es aditiva: sin ella, el perfil se lee (los destacados salen de las publicaciones de antes), pero «Guardar perfil» avisa de que los logros destacados nuevos aún no están disponibles. `campos_opcionales` permanece desactivado. Las siete suites SQL se han probado en PostgreSQL aislado (la de 0014, en PGlite); las pruebas con cuentas reales y dispositivos físicos siguen pendientes.
+**Estado del servidor:** Víctor confirmó 0003–0005 el 2026-10-15 y 0006–0008 el 2026-10-16. El 2026-10-18 confirma la ejecución correcta de **0009–0013**, una por una en el SQL Editor del proyecto real, antes de publicar este cliente. El mismo día confirma también **0014** (rediseño: avatares y vista previa del último comentario) con «Success. No rows returned». Es aditiva: un cliente sin ella sigue funcionando con monograma y sin vista previa. El 2026-10-19 confirma **0015** (avatares de catálogo) con «Success. No rows returned»; también es aditiva: sin ella, el cliente nuevo lee los avatares de 0014 y «Guardar perfil» con un avatar nuevo avisa de que aún no están disponibles. El mismo día confirma **0016** (logros destacados sin publicar) con «Success. No rows returned»; también es aditiva: sin ella, el perfil se lee (los destacados salen de las publicaciones de antes), pero «Guardar perfil» avisa de que los logros destacados nuevos aún no están disponibles. `campos_opcionales` permanece desactivado. Las siete suites SQL se han probado en PostgreSQL aislado (la de 0014, en PGlite); las pruebas con cuentas reales y dispositivos físicos siguen pendientes.
 
 ## Código y datos
 
@@ -101,9 +101,26 @@ Denuncias continúan con revisión manual, sin ocultación por umbral ni aviso a
 
 La cara de cada persona es su monograma en grafito o lo que elija de un catálogo ([ADR 047](../decisiones/047-avatares-de-catalogo.md)), en tres colecciones con la paleta fija de la Vitrina:
 
-- **Disciplinas** (`DISCIPLINAS_AVATAR`): diez pictogramas de línea (pesas, kettlebell, carrera, caminar, montaña, bici, natación, pádel, fútbol y ruta) sobre uno de seis fondos (`TONOS_AVATAR`: bosque, arcilla, salvia, cobalto, magenta y oro) con curvas de nivel. Siempre disponibles.
-- **Paisajes** (`PAISAJES_AVATAR`): Cumbre, Volcán, Noche, Pista, Bosque, Lago, Dunas y Mar. Cada uno se desbloquea con el primer nivel de un logro de la Vitrina (Cumbres, Metros subidos, Semanas cumplidas, Kilómetros corriendo, Salidas, Rutas terminadas, Pasos y Larga distancia); `estadoPaisajes` da el estado y el texto de lo que pide.
+- **Disciplinas** (`DISCIPLINAS_AVATAR`): 23 pictogramas de línea sobre uno de seis fondos (`TONOS_AVATAR`: bosque, arcilla, salvia, cobalto, magenta y oro) con curvas de nivel: 138 combinaciones, siempre disponibles. A pesas, kettlebell, carrera, caminar, montaña, bici, natación, pádel, fútbol y ruta se suman calistenia, yoga, pilates, boxeo, escalada, tenis, baloncesto, remo, esquí, surf, baile, comba y snowboard. Pilates muestra el puente sobre colchoneta; escalada, presas sobre una pared con relieve del mismo tono; esquí, persona con dos esquís y bastones; comba, una persona saltando; snowboard, descenso con casco, botas y fijaciones sobre una sola tabla.
+- **Paisajes** (`PAISAJES_AVATAR`): 20 escenas. A Cumbre, Volcán, Noche, Pista, Bosque, Lago, Dunas y Mar se añaden Cascada, Acantilado, Glaciar, Aurora, Amanecer, Valle, Cañón, Isla, Faro, Sendero, Lluvia y Colinas. Valle combina laderas altas y río azul; Sendero conserva las colinas suaves y el camino de tierra. Cada uno se desbloquea con el primer nivel de un logro de la Vitrina; `estadoPaisajes` da el estado y el texto de lo que pide.
 - **Logros**: cualquier logro conseguido de la Vitrina, publicado o no, con su insignia. Los ocultos sin conseguir salen como «Logro oculto».
+
+Los paisajes nuevos reutilizan logros existentes, sin umbrales nuevos:
+
+| Paisaje | Logro que lo desbloquea (primer nivel) |
+|---|---|
+| Cascada | Desnivel positivo |
+| Acantilado | Horas en marcha |
+| Glaciar | Montañas distintas |
+| Aurora | En racha |
+| Amanecer | Entrenos |
+| Valle | Kilómetros |
+| Cañón | Metros subidos |
+| Isla | Larga distancia |
+| Faro | Rutas terminadas |
+| Sendero | Salidas |
+| Lluvia | Hilo |
+| Colinas | Días de 10.000 pasos |
 
 Se elige en Editar perfil: la cara actual, su nombre («Pádel · Oro») y «Cambiar avatar» abren la hoja «Avatar» (`ElegirAvatar`). La hoja tiene la vista previa grande, «Usar mis iniciales» y las pestañas Paisajes · Disciplinas · Logros. Las disciplinas llevan encima el color de fondo. Lo bloqueado se ve apagado, con lo que pide, y no se puede elegir. Sin Vitrina (desactivada en Ajustes) solo quedan las disciplinas. La elección se guarda con «Guardar perfil»: primero `editar_avatar` y, si falla, no se toca nada más; «Así te ven» la previsualiza.
 
