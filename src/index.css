@@ -611,6 +611,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 
 /* Las insignias conservan su tamaño con texto ampliado; la rejilla gana espacio de lectura. */
 .medalla-anillo { width: var(--insignia-lg); height: var(--insignia-lg); }
+/* Hueco libre de los logros destacados del perfil: del tamaño de una insignia mediana. */
+.destacado-hueco { display: block; width: var(--insignia-md); height: var(--insignia-md); }
 .logros-grupo { container: logros-grupo / inline-size; }
 .publicacion-tarjeta { container: publicacion / inline-size; }
 .confirmacion-destructiva { container: confirmacion / inline-size; }

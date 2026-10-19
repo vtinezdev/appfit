@@ -1739,6 +1739,16 @@ Víctor pide poder ver en el resumen semanal la vista detallada que ya tenía el
 
 **Verificación:** tests nuevos en `nutrientes.test.ts` y `NutrientesDetalle.test.tsx`. `npm run test`: 2.342 de 2.343 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), también sin el cambio. `npm run build` correcto. En Chrome (`appfit-test.localhost:5173`) con fixtures (cobertura parcial, kcal rápidas): media correcta, 316 px en un iframe sin desbordamiento, sin errores de consola; fixtures borrados. No se probó en móvil real ni a 375/430 px exactos.
 
+## 164. Logros destacados visibles al editar el perfil (2026-10-19)
+
+Víctor pide que en «Editar perfil» los logros que se pueden destacar se vean, sin que muchos ocupen toda la página.
+
+- `components/ElegirDestacados`: en el formulario, tres huecos con la medalla de cada destacado o «Libre» y «Elegir/Cambiar logros destacados»; la hoja enseña todos los logros publicados en rejilla de medallas (`aria-pressed`, marca de elegido, deshabilitados al llegar a tres), «N de 3 elegidos», «Buscar en publicaciones anteriores» con su error en la hoja y «Hecho».
+- Después pide poder mostrar u ocultar los logros que aún no se pueden destacar: en la hoja, «Solo compartidos / Todos mis logros». Con «Todos», tres grupos: «Compartidos · se pueden destacar» (los únicos elegibles), «Conseguidos sin compartir» («Compártelos desde Vitrina para poder destacarlos») y «Sin conseguir» (insignia pendiente; los ocultos, con candado). Se leen de Vitrina (`useVitrina`) solo al elegir «Todos».
+- `lib/destacados`: `logrosElegibles` (antes en línea en `EditarPerfilDeportivo`), `alternarDestacado` (tope de tres) y `logrosNoElegibles`. `MedallaPublicada` sale de `CabeceraPerfil` para reutilizar la insignia de un logro publicado. CSS `.destacado-hueco`.
+
+**Verificación:** tests nuevos en `lib/destacados.test.ts` y `components/ElegirDestacados.test.tsx`. `npm run test`: 2.345 de 2.346 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), igual que antes. `npm run build` correcto. En Chrome (`appfit-test.localhost:5174` con el Supabase falso y 14 logros publicados): huecos vacíos, hoja con la rejilla a 375 px en un iframe (sin desbordamiento ni botones bajo 44 px), elegir tres deja los demás deshabilitados, «Hecho» devuelve los tres con su medalla y «Guardar perfil deportivo» los guarda; con 13 entrenos de prueba y tres logros compartidos, «Todos mis logros» separa 3 compartidos, 5 conseguidos sin compartir y 50 sin conseguir, sin desbordamiento; servidores de prueba parados al terminar. Sin probar en móvil real.
+
 ## 165. Avatares de catálogo en Social (2026-10-19)
 
 Víctor plantea fotos de perfil para Social. Se descartan (moderación de imágenes, datos biométricos y revisión legal pendiente) a favor de un catálogo, porque el problema era reconocer a la gente: con el monograma en grafito, dos personas con las mismas iniciales tienen la misma cara. Se le enseñan cinco estilos maquetados y tres maneras de juntar los dos que elige (disciplinas y paisajes). Elige disciplinas a color junto a los paisajes, con el fondo de la disciplina a elegir, paisajes que se desbloquean y todos los logros conseguidos ([ADR 047](decisiones/047-avatares-de-catalogo.md)).
