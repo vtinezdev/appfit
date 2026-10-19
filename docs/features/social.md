@@ -101,9 +101,26 @@ Denuncias continúan con revisión manual, sin ocultación por umbral ni aviso a
 
 La cara de cada persona es su monograma en grafito o lo que elija de un catálogo ([ADR 047](../decisiones/047-avatares-de-catalogo.md)), en tres colecciones con la paleta fija de la Vitrina:
 
-- **Disciplinas** (`DISCIPLINAS_AVATAR`): diez pictogramas de línea (pesas, kettlebell, carrera, caminar, montaña, bici, natación, pádel, fútbol y ruta) sobre uno de seis fondos (`TONOS_AVATAR`: bosque, arcilla, salvia, cobalto, magenta y oro) con curvas de nivel. Siempre disponibles.
-- **Paisajes** (`PAISAJES_AVATAR`): Cumbre, Volcán, Noche, Pista, Bosque, Lago, Dunas y Mar. Cada uno se desbloquea con el primer nivel de un logro de la Vitrina (Cumbres, Metros subidos, Semanas cumplidas, Kilómetros corriendo, Salidas, Rutas terminadas, Pasos y Larga distancia); `estadoPaisajes` da el estado y el texto de lo que pide.
+- **Disciplinas** (`DISCIPLINAS_AVATAR`): 23 pictogramas de línea sobre uno de seis fondos (`TONOS_AVATAR`: bosque, arcilla, salvia, cobalto, magenta y oro) con curvas de nivel: 138 combinaciones, siempre disponibles. A pesas, kettlebell, carrera, caminar, montaña, bici, natación, pádel, fútbol y ruta se suman calistenia, yoga, pilates, boxeo, escalada, tenis, baloncesto, remo, esquí, surf, baile, comba y snowboard. Pilates muestra el puente sobre colchoneta; escalada, presas sobre una pared con relieve del mismo tono; esquí, persona con dos esquís y bastones; comba, una persona saltando; snowboard, descenso con casco, botas y fijaciones sobre una sola tabla.
+- **Paisajes** (`PAISAJES_AVATAR`): 20 escenas. A Cumbre, Volcán, Noche, Pista, Bosque, Lago, Dunas y Mar se añaden Cascada, Acantilado, Glaciar, Aurora, Amanecer, Valle, Cañón, Isla, Faro, Sendero, Lluvia y Colinas. Valle combina laderas altas y río azul; Sendero conserva las colinas suaves y el camino de tierra. Cada uno se desbloquea con el primer nivel de un logro de la Vitrina; `estadoPaisajes` da el estado y el texto de lo que pide.
 - **Logros**: cualquier logro conseguido de la Vitrina, publicado o no, con su insignia. Los ocultos sin conseguir salen como «Logro oculto».
+
+Los paisajes nuevos reutilizan logros existentes, sin umbrales nuevos:
+
+| Paisaje | Logro que lo desbloquea (primer nivel) |
+|---|---|
+| Cascada | Desnivel positivo |
+| Acantilado | Horas en marcha |
+| Glaciar | Montañas distintas |
+| Aurora | En racha |
+| Amanecer | Entrenos |
+| Valle | Kilómetros |
+| Cañón | Metros subidos |
+| Isla | Larga distancia |
+| Faro | Rutas terminadas |
+| Sendero | Salidas |
+| Lluvia | Hilo |
+| Colinas | Días de 10.000 pasos |
 
 Se elige en Editar perfil › Perfil deportivo: la cara actual, su nombre («Pádel · Oro») y «Cambiar avatar» abren la hoja «Avatar» (`ElegirAvatar`). La hoja tiene la vista previa grande, «Usar mis iniciales» y las pestañas Paisajes · Disciplinas · Logros. Las disciplinas llevan encima el color de fondo. Lo bloqueado se ve apagado, con lo que pide, y no se puede elegir. Sin Vitrina (desactivada en Ajustes) solo quedan las disciplinas. La elección se guarda con «Guardar perfil deportivo»: primero `editar_avatar` y, si falla, no se toca nada más; «Así te ven» la previsualiza.
 
