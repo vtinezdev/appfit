@@ -4,6 +4,7 @@ import type { Resumen, ResumenLogro } from '../lib/publicacion'
 import type { Avatar } from '../lib/avatar'
 import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
+import type { AccionDenuncia, Denuncia, Suspendido } from '../lib/moderacion'
 
 /**
  * Lo que la app necesita del servidor para la parte social (Supabase en `socialSupabase.ts`). Todo pasa por las
@@ -80,6 +81,20 @@ export interface Social {
   editarAvatar(avatar: string | null): Promise<void>
   /** El último comentario visible de cada publicación (0014), para la vista previa del feed; sin 0014, `{}`. */
   ultimosComentarios(ids: string[]): Promise<Record<string, VistaComentario>>
+
+  // --- Administración (0017). Solo responde a quien está en `administradores`; para el resto, `no_encontrado`. ---
+  // Borrar publicaciones y comentarios de cualquiera usa `borrarPublicacion` y `borrarComentario`; expulsar, `gestionarComunidad`.
+  /** Si soy administrador. Sin 0017, `false`: la app no enseña nada de administración. */
+  soyAdmin(): Promise<boolean>
+  /** Denuncias sin revisar, una por lo denunciado, las más recientes primero. */
+  denuncias(): Promise<Denuncia[]>
+  /** Resuelve todas las denuncias de lo mismo que `id`. */
+  resolverDenuncia(id: number, accion: AccionDenuncia): Promise<void>
+  /** Suspender (`true`) o readmitir (`false`) un perfil por su alias. */
+  suspender(alias: string, suspender: boolean): Promise<void>
+  suspendidos(): Promise<Suspendido[]>
+  /** Mete a alguien en una comunidad; le llega un aviso. */
+  anadirAComunidad(comunidad: string, alias: string): Promise<void>
 }
 
 export interface MiPerfil {

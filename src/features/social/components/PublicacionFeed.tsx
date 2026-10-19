@@ -14,6 +14,7 @@ import { REACCION, textoComentarios, textoReacciones } from '../lib/reaccion'
 import { nombreVisible } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
 import { borrarPublicacion } from '../data/publicacionesRepo'
+import { useAdmin } from '../hooks/useAdmin'
 import AnimosPublicacion from './AnimosPublicacion'
 import AvatarPersona from './AvatarPersona'
 import TarjetaPublicacion from './TarjetaPublicacion'
@@ -47,9 +48,11 @@ export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onCome
   const [confirmar, setConfirmar] = useState(false)
   // Sube al dar ánimo (no al cargar): reinicia el pulso de la llama.
   const [pulso, setPulso] = useState(0)
+  // El administrador puede borrar cualquier publicación (0017); en una comunidad que modera, como «Retirar».
+  const admin = useAdmin()
 
   async function borrar() {
-    if (ocupado || (!p.mia && !puedoModerar)) return
+    if (ocupado || (!p.mia && !puedoModerar && !admin)) return
     setOcupado(true)
     try { await borrarPublicacion(await cargarSocial(), p.id); onBorrada?.() }
     catch (e) { setError(e instanceof Error ? e.message : 'No se ha podido borrar.'); setOcupado(false) }
@@ -121,13 +124,14 @@ export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onCome
     <TarjetaPublicacion resumen={p.resumen} fecha={p.fecha} creada={p.creada} cabecera={cabecera} acciones={botones} pie={pie} />
     <Sheet open={acciones} onClose={() => setAcciones(false)} title={confirmar ? 'Borrar publicación' : denunciar ? 'Denunciar publicación' : 'Más acciones'}>
       <div className="space-y-stack">
-        {confirmar ? <ConfirmacionDestructiva mensaje="Se borrarán esta publicación, sus reacciones y comentarios. No se puede deshacer." confirmar="Borrar publicación" ocupado={ocupado} onCancelar={() => setConfirmar(false)} onConfirmar={() => void borrar()} />
+        {confirmar ? <ConfirmacionDestructiva mensaje={p.mia || puedoModerar ? 'Se borrarán esta publicación, sus reacciones y comentarios. No se puede deshacer.' : `Se borrarán la publicación de @${p.alias}, sus reacciones y comentarios para todos. No se puede deshacer.`} confirmar="Borrar publicación" ocupado={ocupado} onCancelar={() => setConfirmar(false)} onConfirmar={() => void borrar()} />
           : denunciar ? <FormDenuncia onCancelar={() => setDenunciar(false)} onEnviar={async (motivo, detalle) => {
             await (await cargarSocial()).denunciarPublicacion(p.id, motivo, detalle)
             setDenunciar(false); setDenunciada(true)
           }} /> : denunciada ? <p role="status" className="text-body-sm text-fg">Gracias. Revisaremos la denuncia.</p>
           : p.mia ? <Button variant="destructive" block onClick={() => setConfirmar(true)}>Borrar publicación</Button>
-          : <>{puedoModerar && <Button variant="destructive" block onClick={() => setConfirmar(true)}>Retirar de la comunidad</Button>}<Button variant="secondary" block onClick={() => setDenunciar(true)}>Denunciar publicación</Button>
+          : <>{puedoModerar ? <Button variant="destructive" block onClick={() => setConfirmar(true)}>Retirar de la comunidad</Button>
+            : admin && <Button variant="destructive" block onClick={() => setConfirmar(true)}>Borrar publicación</Button>}<Button variant="secondary" block onClick={() => setDenunciar(true)}>Denunciar publicación</Button>
             <Button variant="secondary" block loading={ocupado} onClick={async () => {
               setOcupado(true)
               try { await (await cargarSocial()).silenciar(p.alias, true); setAcciones(false); onSilenciada?.(p.alias) }

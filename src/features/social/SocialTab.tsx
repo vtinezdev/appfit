@@ -18,8 +18,10 @@ import ListaFeed from './components/ListaFeed'
 import PublicacionesPersona from './components/PublicacionesPersona'
 import CrearPublicacion from './components/CrearPublicacion'
 import Comunidades from './components/Comunidades'
+import Moderacion from './components/Moderacion'
 import type { MiPerfil } from './data/social'
 import { reiniciarAvatares, useAvatares } from './hooks/useAvatares'
+import { reiniciarAdmin, useAdmin } from './hooks/useAdmin'
 import { useConsulta } from './hooks/useConsulta'
 import { cargarSocial } from './servicio'
 
@@ -83,6 +85,7 @@ function ConCuenta({ onIrAAmigos, onIrAGym }: Pick<Props, 'onIrAAmigos' | 'onIrA
 
 function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props, 'onIrAAmigos' | 'onIrAGym'> & { perfil: MiPerfil; onPerfilCambiado: () => void }) {
   const [miPerfil, setMiPerfil] = useState(false)
+  const [moderacion, setModeracion] = useState(false)
   const [entreno, setEntreno] = useState<number | null>(null)
   const [descubrir, setDescubrir] = useState(0)
   const [vista, setVista] = useState<Vista>('todo')
@@ -98,6 +101,9 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
   const { avisarError, avisar, toast } = useAviso()
   // Cada visita a Social vuelve a pedir los avatares, antes de que se pinte la primera lista.
   useState(reiniciarAvatares)
+  // También se vuelve a preguntar si es administrador: solo quien lo es ve Moderación y sus acciones.
+  useState(reiniciarAdmin)
+  const admin = useAdmin()
   const avatares = useAvatares([perfil.alias])
 
   const nuevos = avisos.datos?.nuevos ?? 0
@@ -121,6 +127,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
           <IconButton icon="campana" label={etiquetaAvisos} variant="ghost" aria-haspopup="dialog" onClick={() => setAvisosAbiertos((a) => ({ open: true, n: a.n + 1 }))} />
           {pendientes > 0 && <span aria-hidden className="contador-avisos pointer-events-none absolute flex items-center justify-center rounded-pill bg-fg px-1 text-caption font-bold tabular-nums text-bg">{pendientes > 99 ? '99+' : formatInt(pendientes)}</span>}
         </span>
+        {admin && <IconButton icon="escudo" label="Moderación" variant="ghost" onClick={() => setModeracion(true)} />}
         <IconButton icon="users" label="Amigos" variant="ghost" onClick={() => onIrAAmigos()} />
         <button type="button" aria-label="Tu perfil" className="app-button flex h-touch w-touch items-center justify-center rounded-pill" onClick={() => setMiPerfil(true)}>
           <AvatarPersona persona={perfil} avatar={avatares[perfil.alias]} tamano="sm" />
@@ -158,6 +165,8 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
           onAbrir={(aviso) => {
             siguiente.current = () => {
               if (aviso.tipo === 'aceptada') { setPublicacionesDe({ alias: aviso.alias, nombre: aviso.nombre }); return }
+              // Abre Mis comunidades (vuelta a montar: la lista se relee con la nueva).
+              if (aviso.tipo === 'anadido') { setDescubrir(d => (d > 0 ? 0 : d - 1)); setVista('comunidades'); return }
               setVista('todo')
               setComentariosDe({ id: aviso.publicacion, titulo: aviso.titulo, mia: aviso.mia ?? true })
             }
@@ -166,6 +175,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
       )}
       {publicacionesDe && <PublicacionesPersona onCambio={() => { setVersion(v => v + 1); avisos.recargar() }} persona={publicacionesDe} volver="Social" onClose={() => setPublicacionesDe(null)} />}
       {editor && <CrearPublicacion onClose={() => setEditor(false)} onPublicada={() => { setVersion(v => v + 1); avisar({ mensaje: 'Publicación creada' }) }} />}
+      {moderacion && <Moderacion onClose={() => setModeracion(false)} onCambio={() => { setVersion(v => v + 1); avisos.recargar() }} />}
       {miPerfil && <MiPerfilPagina perfil={perfil} onClose={() => { setMiPerfil(false); setVersion(v => v + 1) }} onPerfilCambiado={onPerfilCambiado} onError={avisarError} />}
       {entreno !== null && <ModalPage title="Tu último entreno" closeLabel="Social" onClose={() => setEntreno(null)}><Suspense fallback={<LoadingState />}><DetalleEntreno workoutId={entreno} onVolver={() => setEntreno(null)} onRepetido={() => { setEntreno(null); onIrAGym() }} /></Suspense></ModalPage>}
       {toast}

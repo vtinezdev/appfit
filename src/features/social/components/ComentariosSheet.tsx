@@ -6,6 +6,7 @@ import Sheet from '../../../shared/components/Sheet'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { haceCuanto } from '../../cuenta/lib/estado'
 import { useAvatares } from '../hooks/useAvatares'
+import { useAdmin } from '../hooks/useAdmin'
 import { COMENTARIO_MAX, validarComentario, type Comentario, type CursorSocial } from '../lib/feed'
 import { hilosComentarios } from '../lib/presentacion'
 import type { Avatar } from '../lib/avatar'
@@ -57,6 +58,8 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
   const [error, setError] = useState<string | null>(null)
   const [vuelta, setVuelta] = useState(0)
   const avatares = useAvatares((lista ?? []).map(c => c.alias), comunidad)
+  // El administrador puede borrar cualquier comentario (0017), con confirmación, como los ajenos en lo propio.
+  const admin = useAdmin()
   // Responder lleva al campo del pie, que ya dice a quién se responde.
   useEffect(() => { if (respuesta) document.getElementById(idCampo)?.focus() }, [respuesta, idCampo])
 
@@ -161,7 +164,7 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
     if (modo.modo === 'borrar') {
       return (
         <ConfirmacionDestructiva
-          mensaje={`Se borra el comentario de @${modo.comentario.alias} en tu publicación. No se puede deshacer.`}
+          mensaje={`Se borra el comentario de @${modo.comentario.alias}${publicacion.mia ? ' en tu publicación' : ' para todos'}. No se puede deshacer.`}
           confirmar="Sí, borrar el comentario"
           ocupado={ocupado}
           onCancelar={() => setModo({ modo: 'lista' })}
@@ -179,10 +182,10 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
           <ul className="space-y-4" aria-label="Comentarios">
             {hilosComentarios(lista).map(({ raiz, respuestas, suelta }) => (
               <li key={raiz.id} className="space-y-3">
-                <FilaComentario c={raiz} avatar={avatares[raiz.alias]} suelta={suelta} ocupado={ocupado} onResponder={setRespuesta}
+                <FilaComentario c={raiz} admin={admin} avatar={avatares[raiz.alias]} suelta={suelta} ocupado={ocupado} onResponder={setRespuesta}
                   onBorrar={pedirBorrar} onDenunciar={c => setModo({ modo: 'denunciar', tipo: 'comentario', id: c.id })} />
                 {respuestas.length > 0 && <ul className="space-y-3 border-l-2 border-line pl-3" aria-label={`Respuestas a ${nombreVisible(raiz)}`}>
-                  {respuestas.map(c => <li key={c.id}><FilaComentario c={c} avatar={avatares[c.alias]} ocupado={ocupado}
+                  {respuestas.map(c => <li key={c.id}><FilaComentario c={c} admin={admin} avatar={avatares[c.alias]} ocupado={ocupado}
                     onBorrar={pedirBorrar} onDenunciar={v => setModo({ modo: 'denunciar', tipo: 'comentario', id: v.id })} /></li>)}
                 </ul>}
               </li>
@@ -235,6 +238,8 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
 
 interface FilaProps {
   c: Comentario
+  /** Administrador: puede borrar cualquier comentario. */
+  admin: boolean
   avatar?: Avatar | null
   /** Respuesta cuyo original no está a la vista. */
   suelta?: boolean
@@ -248,7 +253,7 @@ interface FilaProps {
 const ACCION = 'app-button min-h-touch rounded-md px-2 text-caption font-semibold text-fg-muted hover:text-fg disabled:opacity-40'
 
 /** Un comentario: cara, nombre y hora en una línea, el texto y sus acciones en texto (cada una de 44 px de alto). */
-function FilaComentario({ c, avatar, suelta = false, ocupado, onResponder, onBorrar, onDenunciar }: FilaProps) {
+function FilaComentario({ c, admin, avatar, suelta = false, ocupado, onResponder, onBorrar, onDenunciar }: FilaProps) {
   return <div className="flex items-start gap-3">
     <AvatarPersona persona={c} avatar={avatar} tamano="sm" />
     <div className="min-w-0 flex-1">
@@ -257,7 +262,7 @@ function FilaComentario({ c, avatar, suelta = false, ocupado, onResponder, onBor
       <p className="whitespace-pre-wrap break-words text-body-sm text-fg">{c.texto}</p>
       <div className="-ml-2 flex flex-wrap">
         {onResponder && !c.respuestaA && <button type="button" className={ACCION} aria-label={`Responder a @${c.alias}`} disabled={ocupado} onClick={() => onResponder(c)}>Responder</button>}
-        {c.puedoBorrar && <button type="button" className={ACCION} aria-label={`Borrar el comentario de @${c.alias}`} disabled={ocupado} onClick={() => onBorrar(c)}>Borrar</button>}
+        {(c.puedoBorrar || admin) && <button type="button" className={ACCION} aria-label={`Borrar el comentario de @${c.alias}`} disabled={ocupado} onClick={() => onBorrar(c)}>Borrar</button>}
         {!c.mio && <button type="button" className={ACCION} aria-label={`Denunciar el comentario de @${c.alias}`} disabled={ocupado} onClick={() => onDenunciar(c)}>Denunciar</button>}
       </div>
     </div>

@@ -59,6 +59,15 @@ describe('avisos', () => {
     expect(resumenAvisos({ solicitudes: 1, nuevos: 3 })).toBe('1 solicitud · 3 novedades')
     expect(resumenAvisos({ solicitudes: 2, nuevos: 1 })).toBe('2 solicitudes · 1 novedad')
   })
+
+  it('añadido a una comunidad: el id viaja en `publicacion` y se lee como comunidad', () => {
+    const [anadido] = leerAvisos({ lista: [
+      { tipo: 'anadido', alias: 'tinez', nombre: 'Tinez', publicacion: 'g1', titulo: 'Fuerza', creado: '2026-10-19T09:00:00Z', nuevo: true },
+      { tipo: 'anadido', alias: 'tinez', publicacion: null, titulo: 'Sin id', creado: '2026-10-19T09:00:00Z' },
+    ] }).lista
+    expect(anadido).toMatchObject({ tipo: 'anadido', alias: 'tinez', publicacion: '', comunidad: 'g1', titulo: 'Fuerza', nuevo: true })
+    expect(textoAviso(anadido)).toBe('Te añadió a la comunidad Fuerza')
+  })
 })
 
 describe('textos de la reacción y los comentarios', () => {

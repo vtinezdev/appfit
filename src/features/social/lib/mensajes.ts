@@ -25,6 +25,8 @@ export const MENSAJES_SOCIAL: Record<string, string> = {
   comunidades_pendientes: 'Antes de borrar tu perfil, transfiere o cierra las comunidades que has creado desde Social › Comunidades.',
   creador_no_puede_salir: 'Has creado esta comunidad. Puedes borrarla desde sus opciones.',
   solo_creador_publica: 'En esta comunidad solo puede publicar quien la creó. Puedes comentar las publicaciones.',
+  ya_miembro: 'Esa persona ya es miembro de la comunidad.',
+  accion_no_valida: 'Esa acción no se puede hacer con esta denuncia.',
   denuncia_no_valida: 'No se ha podido enviar la denuncia. Revisa el motivo e inténtalo de nuevo.',
 }
 

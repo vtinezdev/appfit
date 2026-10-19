@@ -128,3 +128,25 @@ describe('lecturas del rediseño (0014)', () => {
     await expect(social().avatares(['ana'], 'grupo')).rejects.toMatchObject({ clave: 'no_miembro' })
   })
 })
+
+describe('administración (0017)', () => {
+  beforeEach(() => { rpc.mockReset() })
+  const social = () => crearSocialSupabase('https://appfit-pruebas.invalid', 'publica-falsa')
+  it('sin 0017 nadie es administrador, sin error', async () => {
+    rpc.mockResolvedValue({ data: null, error: { code: 'PGRST202', message: 'Could not find the function public.soy_admin' } })
+    expect(await social().soyAdmin()).toBe(false)
+    rpc.mockResolvedValue({ data: true, error: null })
+    expect(await social().soyAdmin()).toBe(true)
+    expect(rpc).toHaveBeenLastCalledWith('soy_admin', {})
+  })
+  it('las acciones llevan alias e ids de denuncia, nunca UUID de personas', async () => {
+    rpc.mockResolvedValue({ data: null, error: null })
+    await social().resolverDenuncia(7, 'suspender'); expect(rpc).toHaveBeenLastCalledWith('admin_resolver_denuncia', { p_id: 7, p_accion: 'suspender' })
+    await social().suspender('beto', false); expect(rpc).toHaveBeenLastCalledWith('admin_suspender', { p_alias: 'beto', p_suspender: false })
+    await social().anadirAComunidad('grupo', 'beto'); expect(rpc).toHaveBeenLastCalledWith('anadir_a_comunidad', { p_id: 'grupo', p_alias: 'beto' })
+    rpc.mockResolvedValue({ data: [{ alias: 'beto', nombre: null, desde: null, con_perfil: false }], error: null })
+    expect(await social().suspendidos()).toEqual([{ alias: 'beto', nombre: null, desde: null, conPerfil: false }])
+    rpc.mockResolvedValue({ data: null, error: { code: 'P0001', message: 'ya_miembro' } })
+    await expect(social().anadirAComunidad('grupo', 'beto')).rejects.toMatchObject({ clave: 'ya_miembro', message: 'Esa persona ya es miembro de la comunidad.' })
+  })
+})
