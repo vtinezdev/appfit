@@ -635,6 +635,27 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .app-avatar-lg { width: var(--avatar-lg); height: var(--avatar-lg); }
 .app-avatar-insignia { display: inline-flex; flex-shrink: 0; }
 .app-avatar-insignia .app-insignia { width: 100% !important; height: 100% !important; }
+/* Hoja «Avatar»: cada opción del catálogo con la cara al tamaño de una insignia mediana; la elegida, con el anillo del foco. */
+.avatar-opcion-cara { display: inline-flex; width: var(--insignia-md); height: var(--insignia-md); flex-shrink: 0; }
+.avatar-opcion-cara .app-insignia { width: 100% !important; height: 100% !important; }
+.avatar-opcion[aria-pressed='true'] .avatar-opcion-cara { outline: 2px solid rgb(var(--c-accent-strong)); outline-offset: 2px; border-radius: var(--radius-pill); }
+.avatar-opcion[aria-disabled='true'] { cursor: default; }
+/* Paisaje sin desbloquear: el mismo dibujo, apagado; lo que pide va en texto debajo. */
+.avatar-opcion-bloqueada { filter: grayscale(1); opacity: .45; }
+/* Muestras del color de fondo de las disciplinas (paleta fija de la Vitrina). */
+.avatar-tono-muestra { display: block; width: var(--avatar-sm); height: var(--avatar-sm); }
+.avatar-tono[aria-pressed='true'] .avatar-tono-muestra { outline: 2px solid rgb(var(--c-accent-strong)); outline-offset: 2px; }
+.avatar-tono-bosque { background: rgb(var(--c-expedicion-bosque)); }
+.avatar-tono-arcilla { background: rgb(var(--c-expedicion-arcilla)); }
+.avatar-tono-salvia { background: rgb(var(--c-expedicion-salvia)); }
+.avatar-tono-cobalto { background: rgb(var(--c-expedicion-cobalto)); }
+.avatar-tono-magenta { background: rgb(var(--c-expedicion-magenta)); }
+.avatar-tono-oro { background: rgb(var(--c-expedicion-oro)); }
+/* Con el texto ampliado, dos columnas para que los nombres no se partan a media palabra. */
+.avatar-catalogo { container: avatar-catalogo / inline-size; }
+@container avatar-catalogo (max-width: 16rem) {
+  .avatar-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 /* Caras apiladas de quién te animó: un aro del color de la tarjeta las separa. */
 .avatar-apilado { box-shadow: 0 0 0 2px rgb(var(--c-surface)); }
 /* Tipo del aviso sobre la cara (llama, comentario, check). */

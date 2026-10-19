@@ -98,7 +98,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
   const { avisarError, avisar, toast } = useAviso()
   // Cada visita a Social vuelve a pedir los avatares, antes de que se pinte la primera lista.
   useState(reiniciarAvatares)
-  const logros = useAvatares([perfil.alias])
+  const avatares = useAvatares([perfil.alias])
 
   const nuevos = avisos.datos?.nuevos ?? 0
   const solicitudes = avisos.datos?.solicitudes ?? perfil.solicitudes
@@ -123,7 +123,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
         </span>
         <IconButton icon="users" label="Amigos" variant="ghost" onClick={() => onIrAAmigos()} />
         <button type="button" aria-label="Tu perfil" className="app-button flex h-touch w-touch items-center justify-center rounded-pill" onClick={() => setMiPerfil(true)}>
-          <AvatarPersona persona={perfil} logro={logros[perfil.alias]} tamano="sm" />
+          <AvatarPersona persona={perfil} avatar={avatares[perfil.alias]} tamano="sm" />
         </button>
       </div>} />
 
@@ -132,7 +132,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
       <ViewTabs opciones={vistas} valor={vista} onChange={cambiarVista} label="Publicaciones">
         {vista === 'todo' ? (
           <div className="space-y-stack">
-            <Compositor persona={perfil} logro={logros[perfil.alias]} onEscribir={() => setEditor(true)}
+            <Compositor persona={perfil} avatar={avatares[perfil.alias]} onEscribir={() => setEditor(true)}
               onPublicada={() => { setVersion(v => v + 1); avisar({ mensaje: 'Publicación creada' }) }} />
             <ListaFeed ocultarSilenciadas version={`todo-${version}`} onError={avisarError} comentariosDe={comentariosDe} comprobarSenal={comprobar}
               onAbrirPersona={setPublicacionesDe}

@@ -1,6 +1,7 @@
 import { NubeError } from '../../cuenta/data/nube'
 import type { Avisos, CursorSocial, PaginaComentarios, PaginaSocial, PublicacionFeed, VistaComentario } from '../lib/feed'
-import type { Resumen, ResumenLogro } from '../lib/publicacion'
+import type { Resumen } from '../lib/publicacion'
+import type { Avatar } from '../lib/avatar'
 import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
 
@@ -69,10 +70,13 @@ export interface Social {
   avisos(): Promise<Avisos>
   marcarAvisosVistos(): Promise<void>
   /**
-   * El logro elegido como avatar de cada alias que se pueda ver (0014). Sin esa migración en el servidor devuelve `{}`:
-   * la app pinta el monograma. Desde una comunidad, solo lo publicado en ella.
+   * El avatar de cada alias: el de catálogo (0015) donde se vea su nombre o, si no tiene, el logro publicado que eligió
+   * antes con la visibilidad de esa publicación (0014; desde una comunidad, solo lo publicado en ella). Sin 0015 se
+   * leen solo los de 0014; sin ninguna de las dos, `{}`: la app pinta el monograma.
    */
-  avatares(alias: string[], comunidad?: string): Promise<Record<string, ResumenLogro>>
+  avatares(alias: string[], comunidad?: string): Promise<Record<string, Avatar>>
+  /** Cambia mi avatar de catálogo (`null`: mis iniciales); deja de usarse el logro publicado que hubiera elegido antes. */
+  editarAvatar(avatar: string | null): Promise<void>
   /** El último comentario visible de cada publicación (0014), para la vista previa del feed; sin 0014, `{}`. */
   ultimosComentarios(ids: string[]): Promise<Record<string, VistaComentario>>
 }

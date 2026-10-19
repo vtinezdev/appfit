@@ -9,7 +9,7 @@ import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDest
 import { formatInt } from '../../../shared/lib/format'
 import type { PublicacionFeed as Publicacion, VistaComentario } from '../lib/feed'
 import { etiquetaPublicacion } from '../lib/presentacion'
-import type { ResumenLogro } from '../lib/publicacion'
+import type { Avatar } from '../lib/avatar'
 import { REACCION, textoComentarios, textoReacciones } from '../lib/reaccion'
 import { nombreVisible } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
@@ -30,13 +30,13 @@ interface Props {
   puedoModerar?: boolean
   onSilenciada?: (alias: string) => void
   /** Avatar del autor, si se puede ver. */
-  logro?: ResumenLogro
+  avatar?: Avatar | null
   /** Último comentario (vista previa), si el servidor la ofrece. */
   ultimoComentario?: VistaComentario
 }
 
 /** Una publicación del feed: quién, la tarjeta, el ánimo (al momento, se deshace si falla) y los comentarios. */
-export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onComentarios, onError, conAutor = true, onBorrada, onSilenciada, puedoModerar = false, logro, ultimoComentario }: Props) {
+export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onComentarios, onError, conAutor = true, onBorrada, onSilenciada, puedoModerar = false, avatar, ultimoComentario }: Props) {
   const [reaccion, setReaccion] = useState({ mia: p.reaccione, total: p.reacciones })
   useEffect(() => setReaccion({ mia: p.reaccione, total: p.reacciones }), [p.reaccione, p.reacciones])
   const [ocupado, setOcupado] = useState(false)
@@ -79,7 +79,7 @@ export default function PublicacionFeed({ publicacion: p, onAbrirPersona, onCome
   const contexto = <span className="block break-words text-caption text-fg-muted first-letter:uppercase">{etiqueta && `${etiqueta} · `}{hora}</span>
   const nombre = p.mia ? 'Tú' : nombreVisible(p)
   const identidad = <span className="flex min-w-0 items-center gap-3">
-    <AvatarPersona persona={p} logro={logro} />
+    <AvatarPersona persona={p} avatar={avatar} />
     <span className="min-w-0"><span className="block break-words text-body font-semibold text-fg">{nombre}</span>{contexto}</span>
   </span>
   // Con el texto ampliado, «…» baja a su propia línea en lugar de estrechar el nombre.

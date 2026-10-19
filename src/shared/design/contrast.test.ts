@@ -142,6 +142,9 @@ const TEXT: [string, string][] = [
   ['expedicion-oro', 'expedicion-bosque'],
   ['expedicion-zafiro', 'expedicion-bosque'],
   ['expedicion-rubi', 'expedicion-bosque'],
+  // Trazo marfil de los avatares de disciplina sobre sus fondos propios.
+  ['expedicion-marfil', 'expedicion-cobalto'],
+  ['expedicion-marfil', 'expedicion-magenta'],
   ['text-primary', 'bg'],
   ['text-primary', 'surface'],
   ['text-secondary', 'surface'],

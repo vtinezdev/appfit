@@ -107,7 +107,22 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     capacidades: () => rpc('social_capacidades'),
     avisos: async () => leerAvisos(await rpc<unknown>('avisos')),
     marcarAvisosVistos: () => rpc('marcar_avisos_vistos'),
-    avatares: async (alias, comunidad) => alias.length ? leerAvatares(await opcional('avatares_social', { p_alias: alias, p_comunidad: comunidad ?? null })) : {},
+    avatares: async (alias, comunidad) => {
+      if (!alias.length) return {}
+      const args = { p_alias: alias, p_comunidad: comunidad ?? null }
+      return leerAvatares(await opcional('avatares_perfil', args) ?? await opcional('avatares_social', args))
+    },
+    editarAvatar: async avatar => {
+      let resultado: { data: unknown; error: unknown }
+      try {
+        resultado = await sb.rpc('editar_avatar', { p_avatar: avatar })
+      } catch (e) {
+        throw traducirSocial(e)
+      }
+      // Sin 0015 en el servidor: no es que Amigos falte, solo esta función.
+      if ((resultado.error as { code?: string } | null)?.code === 'PGRST202') throw new NubeError('Los avatares nuevos aún no están disponibles. Inténtalo más tarde.')
+      if (resultado.error) throw traducirSocial(resultado.error)
+    },
     ultimosComentarios: async (ids) => ids.length ? leerUltimosComentarios(await opcional('ultimos_comentarios', { p_ids: ids })) : {},
   }
 }

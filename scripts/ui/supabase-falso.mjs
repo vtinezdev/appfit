@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0014 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0015 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -39,6 +39,8 @@ publicaciones.set('p-rara', { autor: 'jon', tipo: 'entreno', fecha: hace(3000), 
 publicaciones.set('p-logro-jon', { autor: 'jon', tipo: 'logro', fecha: hace(4000), creada: hace(3900), resumen: { v: 1, tipo: 'logro', titulo: 'Entrenos', logroId: 'entrenos', grupo: 'entreno', nivel: 2, descripcion: '50 entrenos terminados' } })
 const deportivoJon = () => ({ bio: 'Fuerza tres días y monte los domingos.', disciplinas: ['fuerza', 'senderismo'], destacados: ['p-logro-jon'], avatarId: 'p-logro-jon' })
 deportivos.set('jon', deportivoJon())
+// user -> identificador del catálogo (0015).
+const avataresCatalogo = new Map([['lucia', 'paisaje.cumbre']])
 // [publicacion, user]
 const comunidades = new Map([
   ['grupo-running', { nombre: 'Running en compañía', descripcion: 'Salidas y conversaciones de quienes corren.', creador: 'pablo' }],
@@ -92,7 +94,7 @@ const otro = (alias) => {
 
 const rpc = {
   simular_reinicio: () => {
-    silencios.clear(); vistosComunidad.clear(); deportivos.clear(); deportivos.set('jon', deportivoJon()); moderadores.clear(); idsAnimos.clear()
+    silencios.clear(); vistosComunidad.clear(); deportivos.clear(); deportivos.set('jon', deportivoJon()); avataresCatalogo.clear(); avataresCatalogo.set('lucia', 'paisaje.cumbre'); moderadores.clear(); idsAnimos.clear()
     for (const [mapa, filas] of [[perfiles,inicial.perfiles],[seg,inicial.seg],[publicaciones,inicial.publicaciones],[comunidades,inicial.comunidades]]) { mapa.clear(); for (const [k,v] of filas) mapa.set(k,structuredClone(v)) }
     miembros.clear(); for (const m of inicial.miembros) miembros.add(m)
     bloqueos.clear(); reacciones.clear(); comentarios.clear(); avisosVistos = new Date(0).toISOString()
@@ -268,6 +270,22 @@ const rpc = {
       if (!pu || bloq(YO, id) || pu.tipo !== 'logro' || (p_comunidad ? pu.comunidad !== p_comunidad : pu.comunidad || !puedeVer(id))) return []
       return [[perfiles.get(id).alias, pu.resumen]]
     }))
+  },
+  // 0015: avatar de catálogo (se ve donde se vea el alias) y, si no hay, el logro de 0014. Lucía tiene un paisaje.
+  avatares_perfil: (args) => {
+    const anteriores = rpc.avatares_social(args)
+    for (const alias of args.p_alias ?? []) {
+      const id = idDe(alias), a = id && avataresCatalogo.get(id)
+      if (a && !bloq(YO, id)) anteriores[perfiles.get(id).alias] = a
+    }
+    return anteriores
+  },
+  editar_avatar: ({ p_avatar }) => {
+    exigir()
+    if (p_avatar !== null && !/^(disciplina\.[a-z-]+\.[a-z-]+|paisaje\.[a-z-]+|logro\.[a-z-]+\.[a-z-]+)$/.test(p_avatar)) throw err('avatar_no_valido')
+    if (p_avatar === null) avataresCatalogo.delete(YO); else avataresCatalogo.set(YO, p_avatar)
+    const de = deportivos.get(YO); if (de) deportivos.set(YO, { ...de, avatarId: null })
+    return null
   },
   ultimos_comentarios: ({ p_ids }) => {
     exigir()
