@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { formatInt } from '../../../shared/lib/format'
-import { leerResumen } from '../lib/publicacion'
+import { leerResumen, type ResumenLogro } from '../lib/publicacion'
 import { nombreVisible } from '../lib/relacion'
 import { useConsulta } from '../hooks/useConsulta'
 import { cargarSocial } from '../servicio'
@@ -20,6 +20,11 @@ interface CabeceraProps {
   relacion?: string | null
   /** El botón de la relación o «Editar perfil», bajo las cifras. */
   acciones?: ReactNode
+}
+
+/** La insignia de un logro publicado (la publicación guarda su id, grupo y nombre, no el progreso). */
+export function MedallaPublicada({ resumen }: { resumen: ResumenLogro }) {
+  return <IconoLogro alcanzado logro={{ id: resumen.logroId, grupo: resumen.grupo, nombre: resumen.titulo, descripcion: resumen.descripcion, niveles: [] }} />
 }
 
 /**
@@ -50,7 +55,7 @@ export function CabeceraPerfil({ persona, perfil, relacion, acciones }: Cabecera
       <h2 className="text-rotulo text-fg-muted">Logros destacados</h2>
       <ul className="flex flex-wrap justify-center gap-4">
         {destacados.map(({ id, r }) => <li key={id} className="flex w-24 min-w-0 flex-col items-center gap-2 text-center">
-          <IconoLogro alcanzado logro={{ id: r.logroId, grupo: r.grupo, nombre: r.titulo, descripcion: r.descripcion, niveles: [] }} />
+          <MedallaPublicada resumen={r} />
           <span className="break-words text-caption text-fg">{r.titulo}</span>
         </li>)}
       </ul>
