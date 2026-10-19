@@ -1815,3 +1815,14 @@ Víctor quiere que una sola solicitud baste para seguirse los dos: si una person
 - Documentado en [Social](features/social.md), roadmap y README. Víctor ejecuta 0018 en el proyecto real el mismo día («Success. No rows returned»); falta probarlo con dos cuentas.
 
 **Verificación:** `npm run test`: 2.393 de 2.394 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), como antes. `npm run build` correcto. SQL: sin Docker, las dieciocho migraciones y las once suites pasan en PGlite fuera del proyecto; la suite nueva falla sin 0018. Recorrido de navegador con Edge, playwright-core fuera del proyecto y Supabase falso en `appfit-test.localhost:5174` (320/375/430 px, claro y oscuro): aceptar desde la página de la persona y desde la fila de Solicitudes deja «Os seguís» y a la persona en Sigues, sin scroll horizontal ni errores.
+
+## 171. Mapa muscular de progreso (2026-10-19)
+
+Víctor quiere que el mapa global cueste en torno a un año en llegar al máximo, con Básico (rojo), Intermedio (verde) y Avanzado (morado), y más adelante una versión de cinco años. Se planifica antes de tocar código: se simula el modelo con planes del creador de rutinas (2–6 días, catálogo real, 100/85/70 % de asistencia, vacaciones y paradas de 1 a 12 meses) y se le enseñan tres paletas en una página privada. Elige bajada gradual, la paleta A y que en oscuro también vaya de claro a oscuro.
+
+- [ADR 051](decisiones/051-mapa-muscular-de-progreso.md) sustituye al calor del ADR 046: semanas completas (10 series en grupos grandes, 6 en pequeños; lo indirecto, como mucho media semana), nueve niveles desde 1 · 3 · 6 · 10 · 16 · 23 · 30 · 39 · 48, dos semanas de gracia y una menos por cada semana sin trabajo después, pausas de Ritmo que no restan y memoria muscular (doble por debajo del máximo alcanzado).
+- `gym/lib/progresoMuscular` (con `aportesMusculares`, que sale de `calorMuscular`, borrado) y sus tests; `MapaProgreso` y `ProgresoSesion` sustituyen a `MapaCalor` y `CalorAntesDespues`; `MapaMuscular` gana `escala="progreso"` y `EscalaProgreso`. Tokens `--c-progreso-1…9` y `--c-progreso-poster-1…9`, `--dur-progreso` y `--muscle-progreso-width`; `contrast.test.ts` vigila la rampa. Sin cambios de Dexie ni del backup.
+- Documentado en Gym, DESIGN-SYSTEM, DESIGN, arquitectura, roadmap (versión de cinco años; gemelos fuera de los planes cortos del creador) y README.
+
+**Verificación:** `npm run test`: todo en verde salvo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), como antes. `npm run build` correcto. Recorrido con Edge y Playwright fuera del proyecto en `appfit-test.localhost:5173` con 34 semanas sintéticas (320 claro, 375 oscuro, 430 claro y 375 con texto al 200 %): mapa, lista, detalle y final del entreno sin scroll horizontal, desbordes, controles de menos de 44 px ni errores de consola. El texto al 200 % desbordaba «Semana completa» en el final; la fila ahora baja de línea.
+
