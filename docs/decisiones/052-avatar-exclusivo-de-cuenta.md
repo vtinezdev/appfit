@@ -1,4 +1,4 @@
-# 051 · Avatar exclusivo de una cuenta
+# 052 · Avatar exclusivo de una cuenta
 
 2026-10-19 · Aceptada. Víctor quiere usar su retrato con corona solo en su cuenta `tinez`.
 

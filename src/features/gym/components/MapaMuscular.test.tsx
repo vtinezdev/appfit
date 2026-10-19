@@ -35,16 +35,21 @@ describe('mapa corporal como representación de datos', () => {
     expect(html).toContain('No hay series con repeticiones')
     expect(html).not.toMatch(/data-muscle="[^"]+" data-level="[1-5]"/)
   })
-  it('mapa acumulado: una vista con niveles y huella, y la leyenda del contorno solo si hay huella', () => {
-    const levels = { ...trabajoMuscularWorkout({}, [], []).levels, pecho: 4 as const }
+  it('mapa de progreso: una vista con la rampa de nueve niveles y huella, y la leyenda del contorno solo si hay huella', () => {
+    const levels = { ...trabajoMuscularWorkout({}, [], []).levels, espalda: 8, gluteos: 4 }
     const vista = renderToStaticMarkup(<CuerpoMuscular vista="trasera" levels={levels} huella={{ gemelos: true }} />)
     expect(vista).toContain(CUERPOS.hombre.trasera.silueta)
     expect(vista).not.toContain(CUERPOS.hombre.frontal.silueta)
+    expect(vista).toContain('fill:rgb(var(--c-progreso-8))')
     expect(vista).toContain('data-muscle="gemelos" data-level="0" data-huella="true"')
-    expect(vista).toContain('data-muscle="espalda" data-level="0" data-huella="false"')
-    expect(renderToStaticMarkup(<FigurasMusculares levels={levels} huella={{ gemelos: true }} />)).toContain('Trabajado antes')
-    const sinHuella = renderToStaticMarkup(<FigurasMusculares levels={levels} />)
-    expect(sinHuella).not.toContain('Trabajado antes')
+    expect(vista).toContain('data-muscle="espalda" data-level="8" data-huella="false"')
+    const figuras = renderToStaticMarkup(<FigurasMusculares levels={levels} escala="progreso" huella={{ gemelos: true }} />)
+    expect(figuras).toContain('Nivel perdido')
+    expect(figuras).toContain('Avanzado')
+    const sinHuella = renderToStaticMarkup(<FigurasMusculares levels={levels} escala="progreso" />)
+    expect(sinHuella).not.toContain('Nivel perdido')
     expect(sinHuella).not.toContain('data-huella')
+    // La sesión sigue con su rampa roja relativa.
+    expect(renderToStaticMarkup(<FigurasMusculares levels={{ ...levels, espalda: 5 }} />)).toContain('fill:rgb(var(--c-muscle-5))')
   })
 })

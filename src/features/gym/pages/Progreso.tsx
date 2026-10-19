@@ -32,7 +32,7 @@ import { alternativas } from '../../liga/lib/alternativas'
 import { sesionesSinRecord } from '../../liga/lib/estancamiento'
 
 // Diferido: la geometría de los muñecos pesa más que el resto del mapa.
-const MapaCalor = lazy(() => import('../components/MapaCalor'))
+const MapaProgreso = lazy(() => import('../components/MapaProgreso'))
 
 /** Rótulo del último punto de una serie, a su derecha: dónde estás sin tener que leer el eje. */
 function rotuloFinal(total: number, color: string, formato: (v: number) => string) {
@@ -110,7 +110,7 @@ export default function Progreso() {
   const conLigas = !!ligas?.visible && ligas.ligas.length > 0
 
   return <div className="space-y-section">
-    {!exerciseId && <Suspense fallback={<LoadingState />}><MapaCalor /></Suspense>}
+    {!exerciseId && <Suspense fallback={<LoadingState />}><MapaProgreso /></Suspense>}
     {!exerciseId && <section aria-labelledby="progreso-lista" className="space-y-stack">
       <h2 id="progreso-lista" ref={listaRef} tabIndex={-1} className="text-heading text-fg">Por ejercicio</h2>
       {resumenes && resumenes.length > 0 && <ListGroup aria-label="Ejercicios con sesiones">
