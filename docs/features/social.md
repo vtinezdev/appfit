@@ -105,6 +105,8 @@ La cara de cada persona es su monograma en grafito o lo que elija de un catálog
 - **Paisajes** (`PAISAJES_AVATAR`): 20 escenas. A Cumbre, Volcán, Noche, Pista, Bosque, Lago, Dunas y Mar se añaden Cascada, Acantilado, Glaciar, Aurora, Amanecer, Valle, Cañón, Isla, Faro, Sendero, Lluvia y Colinas. Valle combina laderas altas y río azul; Sendero conserva las colinas suaves y el camino de tierra. Cada uno se desbloquea con el primer nivel de un logro de la Vitrina; `estadoPaisajes` da el estado y el texto de lo que pide.
 - **Logros**: cualquier logro conseguido de la Vitrina, publicado o no, con su insignia. Los ocultos sin conseguir salen como «Logro oculto».
 
+Calistenia muestra a una persona suspendida de la barra, con brazos y piernas separados. Esquí conserva dos esquís y dos bastones; Snowboard, el descenso con casco, gafas, botas y fijaciones sobre una sola tabla. Remo distingue a la persona, el casco de la barca, dos remos con sus palas y el agua. Estos cuatro dibujos usan piezas vectoriales separadas en `ArteAvatar` (coordenadas 100 × 100) para conservar la postura y evitar que el equipo se funda con el cuerpo a tamaño de avatar; las demás disciplinas conservan los trazos de 24 × 24.
+
 Los paisajes nuevos reutilizan logros existentes, sin umbrales nuevos:
 
 | Paisaje | Logro que lo desbloquea (primer nivel) |
