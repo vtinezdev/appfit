@@ -29,7 +29,7 @@ interface Props {
 /** A quién sigues (con las solicitudes enviadas) o quién te sigue, con su cara y «Seguir» en la fila si aún no la sigues. */
 export default function ListaPersonas({ lista, consulta, onAbrir, onCambio, onError }: Props) {
   const [ocupada, setOcupada] = useState<string | null>(null)
-  const logros = useAvatares((consulta.datos ?? []).map(p => p.alias))
+  const avatares = useAvatares((consulta.datos ?? []).map(p => p.alias))
 
   async function pedir(p: Persona) {
     setOcupada(p.alias)
@@ -49,7 +49,7 @@ export default function ListaPersonas({ lista, consulta, onAbrir, onCambio, onEr
         <li key={p.alias} className="flex flex-wrap items-center gap-x-2">
           <ListRow className="min-w-0 flex-1 basis-48" onClick={() => onAbrir(p)}>
             <span className="flex min-w-0 items-center gap-3">
-              <AvatarPersona persona={p} logro={logros[p.alias]} tamano="sm" />
+              <AvatarPersona persona={p} avatar={avatares[p.alias]} tamano="sm" />
               <NombrePersona persona={p} detalle={textoRelacion(p)} />
             </span>
             {p.sigo !== 'no' && <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />}

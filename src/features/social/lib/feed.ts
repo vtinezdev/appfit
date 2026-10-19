@@ -1,5 +1,6 @@
 import { formatInt } from '../../../shared/lib/format'
-import { leerResumen, type Resumen, type ResumenLogro } from './publicacion'
+import { leerResumen, type Resumen } from './publicacion'
+import { avatarDeResumen, leerAvatar, type Avatar } from './avatar'
 import { REACCION } from './reaccion'
 
 /**
@@ -122,13 +123,17 @@ export function leerUltimosComentarios(x: unknown): Record<string, VistaComentar
   return salida
 }
 
-/** `avatares_social` (0014): por alias, el logro elegido como avatar. Solo valen resúmenes de logro válidos. */
-export function leerAvatares(x: unknown): Record<string, ResumenLogro> {
+/**
+ * `avatares_perfil` (0015) o `avatares_social` (0014): por alias, el identificador del catálogo (texto) o el resumen del
+ * logro publicado que se eligió antes. Lo que no se pueda pintar se descarta (monograma).
+ */
+export function leerAvatares(x: unknown): Record<string, Avatar> {
   if (!esObjeto(x)) return {}
-  const salida: Record<string, ResumenLogro> = {}
+  const salida: Record<string, Avatar> = {}
   for (const [alias, r] of Object.entries(x)) {
-    const resumen = leerResumen(r)
-    if (resumen?.tipo === 'logro') salida[alias] = resumen
+    const resumen = typeof r === 'string' ? null : leerResumen(r)
+    const avatar = typeof r === 'string' ? leerAvatar(r) : resumen?.tipo === 'logro' ? avatarDeResumen(resumen) : null
+    if (avatar) salida[alias] = avatar
   }
   return salida
 }

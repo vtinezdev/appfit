@@ -24,7 +24,7 @@ export default function Solicitudes({ version, onAbrir, onCambio, onError, varia
   const consulta = useConsulta(async () => (await cargarSocial()).personas('solicitudes'), version)
   const [ocupada, setOcupada] = useState<string | null>(null)
   const lista = consulta.datos ?? []
-  const logros = useAvatares(lista.map(p => p.alias))
+  const avatares = useAvatares(lista.map(p => p.alias))
   if (lista.length === 0) return null
 
   async function responder(alias: string, aceptar: boolean) {
@@ -43,7 +43,7 @@ export default function Solicitudes({ version, onAbrir, onCambio, onError, varia
     <li key={p.alias} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2">
       {/* Con poco ancho, los botones pasan debajo en lugar de estrujar el nombre. */}
       <button type="button" className="app-button flex min-h-touch min-w-0 grow basis-48 items-center gap-3 rounded-md text-left" onClick={() => onAbrir(p)}>
-        <AvatarPersona persona={p} logro={logros[p.alias]} tamano="sm" />
+        <AvatarPersona persona={p} avatar={avatares[p.alias]} tamano="sm" />
         <NombrePersona persona={p} detalle="Quiere seguirte" />
       </button>
       <div className="ml-auto flex gap-1">

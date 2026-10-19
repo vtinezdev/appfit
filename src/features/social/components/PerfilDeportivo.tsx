@@ -9,6 +9,8 @@ import IconoLogro from '../../vitrina/components/IconoLogro'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import Button from '../../../shared/components/Button'
 import AvatarPersona from './AvatarPersona'
+import { useAvatares } from '../hooks/useAvatares'
+import { avatarDeResumen, type Avatar } from '../lib/avatar'
 
 export const DISCIPLINAS = { fuerza: 'Fuerza', caminar: 'Caminar', correr: 'Correr', senderismo: 'Senderismo' }
 
@@ -20,20 +22,26 @@ interface CabeceraProps {
   relacion?: string | null
   /** El botón de la relación o «Editar perfil», bajo las cifras. */
   acciones?: ReactNode
+  /** El avatar que se enseña tal cual («Así te ven»); sin él, el que se lee del servidor (`useAvatares`). */
+  avatar?: Avatar | null
+  /** Desde una comunidad, los avatares se leen en su contexto. */
+  comunidad?: string
 }
 
 /**
  * La cabecera de un perfil (el de otra persona o «Así te ven»): insignia o monograma grande, nombre, alias y relación,
  * biografía, disciplinas, dos cifras (solo lo compartido, no el historial) y los logros destacados como medallas.
  */
-export function CabeceraPerfil({ persona, perfil, relacion, acciones }: CabeceraProps) {
-  const avatar = perfil ? leerResumen(perfil.avatar) : null
+export function CabeceraPerfil({ persona, perfil, relacion, acciones, avatar, comunidad }: CabeceraProps) {
+  const leido = useAvatares(avatar === undefined ? [persona.alias] : [], comunidad)[persona.alias]
+  const anterior = perfil ? leerResumen(perfil.avatar) : null
+  const visto = avatar !== undefined ? avatar : leido ?? (anterior?.tipo === 'logro' ? avatarDeResumen(anterior) : null)
   const segunda = [persona.nombre && `@${persona.alias}`, relacion].filter(Boolean).join(' · ')
   const disciplinas = (perfil?.disciplinas ?? []).map(d => DISCIPLINAS[d as keyof typeof DISCIPLINAS]).filter(Boolean)
   const destacados = (perfil?.destacados ?? []).flatMap(p => { const r = leerResumen(p.resumen); return r?.tipo === 'logro' ? [{ id: p.id, r }] : [] })
   return <div className="space-y-section">
     <div className="flex flex-col items-center gap-3 text-center">
-      <AvatarPersona persona={persona} logro={avatar?.tipo === 'logro' ? avatar : undefined} tamano="lg" />
+      <AvatarPersona persona={persona} avatar={visto} tamano="lg" />
       <div className="min-w-0 max-w-full">
         <p className="break-words text-heading text-fg">{nombreVisible(persona)}</p>
         {segunda && <p className="break-words text-body-sm text-fg-muted">{segunda}</p>}
@@ -62,7 +70,7 @@ export function CabeceraPerfil({ persona, perfil, relacion, acciones }: Cabecera
 export default function PerfilDeportivo({ persona, comunidad, relacion, acciones }: Omit<CabeceraProps, 'perfil'> & { comunidad?: string }) {
   const consulta = useConsulta(async () => (await cargarSocial()).perfilDeportivo(persona.alias, comunidad), `${persona.alias}-${comunidad}`)
   return <div className="space-y-stack">
-    <CabeceraPerfil persona={persona} perfil={consulta.datos} relacion={relacion} acciones={acciones} />
+    <CabeceraPerfil persona={persona} perfil={consulta.datos} relacion={relacion} acciones={acciones} comunidad={comunidad} />
     {consulta.estado === 'error' && <div className="space-y-2"><ErrorState>{consulta.error}</ErrorState><Button variant="secondary" size="sm" onClick={consulta.recargar}>Reintentar perfil</Button></div>}
   </div>
 }

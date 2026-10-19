@@ -158,7 +158,7 @@ export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onEr
   const recuento = (id: string, n: number) => setEstado((e) => ({ ...e, items: e.items.map((p) => (p.id === id && p.comentarios !== n ? { ...p, comentarios: n } : p)) }))
 
   const { items, cursor, descartadas, fin, cargando, error } = estado
-  const logros = useAvatares(conAutor ? items.map(p => p.alias) : [], comunidad)
+  const avatares = useAvatares(conAutor ? items.map(p => p.alias) : [], comunidad)
   const vistas = useVistasComentarios(items)
   const nNuevas = nuevas ? nuevas.items.filter(p => !items.some(v => v.id === p.id)).length : 0
   return (
@@ -173,7 +173,7 @@ export default function ListaFeed({ cargar, version, vacio, onAbrirPersona, onEr
           {items.map((p) => (
             <li key={p.id}>
               <PublicacionFeed puedoModerar={puedoModerar} publicacion={p} onAbrirPersona={onAbrirPersona} onError={onError} conAutor={conAutor}
-                logro={logros[p.alias]} ultimoComentario={vistas[p.id]}
+                avatar={avatares[p.alias]} ultimoComentario={vistas[p.id]}
                 onSilenciada={ocultarSilenciadas ? alias => setEstado(e => ({ ...e, items: e.items.filter(p => p.alias !== alias) })) : undefined}
                 onBorrada={() => setEstado(e => ({ ...e, items: e.items.filter(item => item.id !== p.id) }))}
                 onComentarios={(pub) => abrirComentarios({ id: pub.id, titulo: pub.resumen.titulo, mia: pub.mia })} />
