@@ -14,7 +14,7 @@ import { CabeceraPerfil, DISCIPLINAS } from './PerfilDeportivo'
 import ElegirDestacados from './ElegirDestacados'
 import { destacadosAlDia } from '../lib/destacados'
 import ElegirAvatar from './ElegirAvatar'
-import { idAvatar, mismoAvatar, type Avatar } from '../lib/avatar'
+import { idAvatar, mismoAvatar, type Avatar, type AvatarExclusivo } from '../lib/avatar'
 
 interface Props {
   alias: string
@@ -26,14 +26,14 @@ interface Props {
 export default function EditarPerfilDeportivo({ alias, onGuardado }: Props) {
   const consulta = useConsulta(async () => {
     const s=await cargarSocial()
-    const [perfil,avatares]=await Promise.all([s.perfilDeportivo(alias),s.avatares([alias])])
-    return { perfil,avatar:avatares[alias]??null }
+    const [perfil,avatares,exclusivos]=await Promise.all([s.perfilDeportivo(alias),s.avatares([alias]),s.misAvataresExclusivos().catch(() => [])])
+    return { perfil,avatar:avatares[alias]??null,exclusivos }
   },alias)
   if(consulta.estado==='error') return <div className="space-y-2"><ErrorState>{consulta.error}</ErrorState><Button variant="secondary" onClick={consulta.recargar}>Reintentar perfil deportivo</Button></div>
   if(!consulta.datos) return <LoadingState />
-  return <Formulario key={alias} inicial={consulta.datos.perfil} avatarInicial={consulta.datos.avatar} onGuardado={onGuardado} />
+  return <Formulario key={alias} inicial={consulta.datos.perfil} avatarInicial={consulta.datos.avatar} exclusivos={consulta.datos.exclusivos} onGuardado={onGuardado} />
 }
-function Formulario({ inicial, avatarInicial, onGuardado }: { inicial: PerfilDeportivo; avatarInicial: Avatar | null; onGuardado: () => void }) {
+function Formulario({ inicial, avatarInicial, exclusivos, onGuardado }: { inicial: PerfilDeportivo; avatarInicial: Avatar | null; exclusivos: AvatarExclusivo[]; onGuardado: () => void }) {
   const [bio,setBio]=useState(inicial.bio)
   const [disciplinas,setDisciplinas]=useState(inicial.disciplinas)
   const [elegidos,setElegidos]=useState(inicial.logros)
@@ -54,7 +54,7 @@ function Formulario({ inicial, avatarInicial, onGuardado }: { inicial: PerfilDep
     } catch(e) { setError(e instanceof Error ? e.message : 'No se ha podido guardar.'); setOcupado(false) }
   }
   return <form className="space-y-section" aria-label="Perfil deportivo" onSubmit={e => { e.preventDefault(); void guardar() }}>
-    <ElegirAvatar persona={inicial} avatar={avatar} onChange={setAvatar} vitrina={vitrina} />
+    <ElegirAvatar persona={inicial} avatar={avatar} onChange={setAvatar} vitrina={vitrina} exclusivos={exclusivos} />
     <Campo etiqueta="Biografía deportiva" ayuda="Hasta 160 caracteres."><Textarea rows={3} maxLength={160} value={bio} onChange={e=>setBio(e.target.value)} /></Campo>
     <fieldset className="space-y-1"><legend className="text-label text-fg-muted">Disciplinas · Hasta tres</legend>{Object.entries(DISCIPLINAS).map(([id,label])=><label key={id} className="flex min-h-touch items-center gap-2 text-body-sm text-fg"><input type="checkbox" className="h-5 w-5 accent-accent" checked={disciplinas.includes(id)} disabled={!disciplinas.includes(id)&&disciplinas.length>=3} onChange={e=>setDisciplinas(ds=>e.target.checked?[...ds,id]:ds.filter(d=>d!==id))}/>{label}</label>)}</fieldset>
     <ElegirDestacados vitrina={vitrina} destacados={logros} onChange={setElegidos} />

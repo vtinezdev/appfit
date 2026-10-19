@@ -8,7 +8,8 @@ import { formatInt } from '../../../shared/lib/format'
 import IconoLogro from '../../vitrina/components/IconoLogro'
 import type { EstadoVitrina } from '../../vitrina/hooks/useVitrina'
 import { conseguido, type Logro } from '../../vitrina/lib/logros'
-import { DISCIPLINAS_AVATAR, estadoPaisajes, logrosPorGrupo, mismoAvatar, nombreAvatar, TONO_INICIAL, TONOS_AVATAR, type Avatar, type TonoAvatar } from '../lib/avatar'
+import { DISCIPLINAS_AVATAR, estadoPaisajes, logrosPorGrupo, mismoAvatar, nombreAvatar, TONO_INICIAL, TONOS_AVATAR, type Avatar, type AvatarExclusivo, type TonoAvatar } from '../lib/avatar'
+import { imagenAvatarExclusivo } from '../lib/imagenAvatarExclusivo'
 import ArteAvatar from './ArteAvatar'
 import AvatarPersona from './AvatarPersona'
 
@@ -21,6 +22,7 @@ interface Props {
   persona: { alias: string; nombre: string | null }
   avatar: Avatar | null
   onChange: (avatar: Avatar | null) => void
+  exclusivos: AvatarExclusivo[]
 }
 
 interface PropsElegir extends Props {
@@ -32,9 +34,9 @@ interface PropsElegir extends Props {
  * «Avatar» del perfil deportivo: en el formulario, la cara actual y «Cambiar avatar»; el catálogo entero (paisajes,
  * disciplinas y logros, con lo que falta por desbloquear) se elige en una hoja. Se guarda con «Guardar perfil».
  */
-export default function ElegirAvatar({ persona, avatar, onChange, vitrina: estado }: PropsElegir) {
+export default function ElegirAvatar({ persona, avatar, onChange, vitrina: estado, exclusivos }: PropsElegir) {
   const [abierta, setAbierta] = useState(false)
-  // Sin Vitrina (desactivada en Ajustes) no hay paisajes ni logros que desbloquear: solo disciplinas.
+  // Sin Vitrina (desactivada en Ajustes) no hay paisajes ni logros que desbloquear; los exclusivos dependen de la cuenta.
   const logros = estado?.visible ? estado.vitrina.logros : []
   return <div className="space-y-2">
     <p className="text-label text-fg-muted">Avatar</p>
@@ -44,12 +46,12 @@ export default function ElegirAvatar({ persona, avatar, onChange, vitrina: estad
     </div>
     <Button variant="secondary" block aria-haspopup="dialog" onClick={() => setAbierta(true)}>Cambiar avatar<Icon name="chevron-right" size={18} /></Button>
     <Sheet open={abierta} onClose={() => setAbierta(false)} title="Avatar" footer={<Button block onClick={() => setAbierta(false)}>Hecho</Button>}>
-      <Catalogo persona={persona} avatar={avatar} onChange={onChange} estado={estado === undefined ? 'cargando' : estado.visible ? 'lista' : 'sin-vitrina'} logros={logros} />
+      <Catalogo persona={persona} avatar={avatar} onChange={onChange} exclusivos={exclusivos} estado={estado === undefined ? 'cargando' : estado.visible ? 'lista' : 'sin-vitrina'} logros={logros} />
     </Sheet>
   </div>
 }
 
-function Catalogo({ persona, avatar, onChange, estado, logros }: Props & { estado: 'cargando' | 'lista' | 'sin-vitrina'; logros: Logro[] }) {
+function Catalogo({ persona, avatar, onChange, exclusivos, estado, logros }: Props & { estado: 'cargando' | 'lista' | 'sin-vitrina'; logros: Logro[] }) {
   const [pestana, setPestana] = useState<Pestana>(avatar?.tipo === 'paisaje' ? 'paisajes' : avatar?.tipo === 'logro' ? 'logros' : 'disciplinas')
   const [tono, setTono] = useState<TonoAvatar>(avatar?.tipo === 'disciplina' ? avatar.tono : TONO_INICIAL)
   const elegirTono = (t: TonoAvatar) => {
@@ -60,6 +62,10 @@ function Catalogo({ persona, avatar, onChange, estado, logros }: Props & { estad
   const paisajes = estadoPaisajes(logros)
   const grupos = logrosPorGrupo(logros)
   const conseguidos = logros.filter(conseguido).length
+  const personales = exclusivos.flatMap(a => {
+    const imagen = imagenAvatarExclusivo(a)
+    return imagen ? [{ avatar: a, imagen }] : []
+  })
 
   return <div className="avatar-catalogo space-y-stack">
     <div className="flex items-center gap-3">
@@ -72,6 +78,14 @@ function Catalogo({ persona, avatar, onChange, estado, logros }: Props & { estad
     <Button variant="ghost" size="sm" aria-pressed={avatar === null} onClick={() => onChange(null)}>
       {avatar === null && <Icon name="check" size={18} />}Usar mis iniciales
     </Button>
+
+    {personales.length > 0 && <section className="space-y-2" aria-label="Tus avatares exclusivos">
+      <h3 className="text-rotulo text-fg-muted">Solo para ti</h3>
+      <Rejilla etiqueta="Tus avatares exclusivos">
+        {personales.map(({ avatar: a, imagen }) => <Opcion key={a.id} nombre={nombreAvatar(a)} elegido={elegido(a)} onElegir={() => onChange(a)}
+          cara={<img src={imagen} alt="" className="h-full w-full object-cover" />} circular />)}
+      </Rejilla>
+    </section>}
 
     <ViewTabs opciones={PESTANAS} valor={pestana} onChange={setPestana} label="Tipo de avatar">
       {pestana === 'disciplinas' && <div className="space-y-stack">

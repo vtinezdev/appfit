@@ -22,6 +22,7 @@ export const MENSAJES_SOCIAL: Record<string, string> = {
   no_miembro: 'Únete a la comunidad para ver y compartir publicaciones.',
   perfil_deportivo_no_valido: 'Revisa la biografía, las disciplinas y los logros destacados de tu perfil.',
   avatar_no_valido: 'Ese avatar no está en el catálogo. Elige otro.',
+  avatar_no_disponible: 'Este avatar es exclusivo de otra cuenta. Elige otro.',
   comunidades_pendientes: 'Antes de borrar tu perfil, transfiere o cierra las comunidades que has creado desde Social › Comunidades.',
   creador_no_puede_salir: 'Has creado esta comunidad. Puedes borrarla desde sus opciones.',
   solo_creador_publica: 'En esta comunidad solo puede publicar quien la creó. Puedes comentar las publicaciones.',

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Logro } from '../../vitrina/lib/logros'
-import { avatarDeResumen, avatarDisponible, DISCIPLINAS_AVATAR, estadoPaisajes, idAvatar, leerAvatar, logrosPorGrupo, mismoAvatar, nombreAvatar, PAISAJES_AVATAR, TONOS_AVATAR, type Avatar } from './avatar'
+import { avatarDeResumen, avatarDisponible, DISCIPLINAS_AVATAR, estadoPaisajes, idAvatar, leerAvatar, leerAvataresExclusivos, logrosPorGrupo, mismoAvatar, nombreAvatar, PAISAJES_AVATAR, TONOS_AVATAR, type Avatar } from './avatar'
 
 const logro = (id: Logro['id'], grupo: Logro['grupo'], hecho: boolean, extra: Partial<Logro> = {}): Logro => ({
   id, grupo, nombre: id, descripcion: `Descripción de ${id}`, niveles: [hecho ? { fecha: '2026-10-01' } : null], ...extra,
@@ -12,6 +12,7 @@ describe('identificador del avatar', () => {
       { tipo: 'disciplina', disciplina: 'padel', tono: 'magenta' },
       { tipo: 'paisaje', paisaje: 'cumbre' },
       { tipo: 'logro', logro: 'records-batidos', grupo: 'entreno' },
+      { tipo: 'exclusivo', id: 'tinez' },
     ]
     for (const a of avatares) expect(leerAvatar(idAvatar(a))).toEqual(a)
     expect(idAvatar(avatares[0])).toBe('disciplina.padel.magenta')
@@ -19,10 +20,11 @@ describe('identificador del avatar', () => {
   })
 
   it('todo el catálogo cabe en el formato que admite el servidor', () => {
-    const formato = /^(disciplina\.[a-z-]+\.[a-z-]+|paisaje\.[a-z-]+|logro\.[a-z-]+\.[a-z-]+)$/
+    const formato = /^(disciplina\.[a-z-]+\.[a-z-]+|paisaje\.[a-z-]+|logro\.[a-z-]+\.[a-z-]+|exclusivo\.tinez)$/
     const catalogo: Avatar[] = [
       ...DISCIPLINAS_AVATAR.flatMap(d => TONOS_AVATAR.map(t => ({ tipo: 'disciplina' as const, disciplina: d.id, tono: t.id }))),
       ...PAISAJES_AVATAR.map(p => ({ tipo: 'paisaje' as const, paisaje: p.id })),
+      { tipo: 'exclusivo', id: 'tinez' },
     ]
     expect(new Set(catalogo.map(idAvatar)).size).toBe(catalogo.length)
     for (const a of catalogo) {
@@ -36,6 +38,7 @@ describe('identificador del avatar', () => {
     null, 42, '', 'paisaje', 'paisaje.atlantida', 'paisaje.cumbre.oro', 'disciplina.pesas', 'disciplina.pesas.rosa',
     'disciplina.inventada.bosque', 'logro.entreno', 'logro.entreno.inventado', 'logro.constructor.entrenos', 'logro.toString.entrenos',
     'foto.https://ejemplo.com/cara.png', `paisaje.${'x'.repeat(80)}`,
+    'exclusivo.otro', 'exclusivo.tinez.oro', 'exclusivo.Tinez', 'exclusivo.tinez ',
   ])('lo desconocido es monograma: %s', x => expect(leerAvatar(x)).toBeNull())
 
   it('el logro publicado de antes se pinta como un logro de catálogo', () => {
@@ -52,6 +55,7 @@ describe('identificador del avatar', () => {
 
   it('nombre legible', () => {
     expect(nombreAvatar(null)).toBe('Tus iniciales')
+    expect(nombreAvatar({ tipo: 'exclusivo', id: 'tinez' })).toBe('Tinez · Exclusivo')
     expect(nombreAvatar({ tipo: 'disciplina', disciplina: 'natacion', tono: 'cobalto' })).toBe('Natación · Cobalto')
     expect(nombreAvatar({ tipo: 'paisaje', paisaje: 'volcan' })).toBe('Paisaje · Volcán')
     expect(nombreAvatar({ tipo: 'logro', logro: 'cumbres', grupo: 'cumbres' }, [{ id: 'cumbres', nombre: 'Cumbres' }])).toBe('Logro · Cumbres')
@@ -60,6 +64,14 @@ describe('identificador del avatar', () => {
 })
 
 describe('desbloqueos', () => {
+  it('el exclusivo solo se puede elegir con el permiso del servidor, aunque sea visible para cualquiera', () => {
+    const a = { tipo: 'exclusivo', id: 'tinez' } as const
+    expect(leerAvatar('exclusivo.tinez')).toEqual(a)
+    expect(avatarDisponible(a, [])).toBe(false)
+    expect(avatarDisponible(a, [], [a])).toBe(true)
+    expect(leerAvataresExclusivos(['exclusivo.tinez', null, 'paisaje.cumbre', 'exclusivo.otro', 'exclusivo.tinez'])).toEqual([a])
+    for (const x of [null, {}, 'exclusivo.tinez', [null, 'disciplina.pesas.oro']]) expect(leerAvataresExclusivos(x)).toEqual([])
+  })
   const vitrina = [
     logro('cumbres', 'cumbres', true, { umbrales: [1, 3], niveles: [{ fecha: '2026-10-01' }, null], textoNivel: n => `Corona ${n} cumbre` }),
     logro('salidas', 'caminos', false, { umbrales: [10, 50], niveles: [null, null], textoNivel: n => `${n} salidas` }),

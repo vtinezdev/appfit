@@ -89,6 +89,17 @@ describe('contratos de las nuevas RPC', () => {
 describe('lecturas del rediseño (0014)', () => {
   beforeEach(() => { rpc.mockReset() })
   const social = () => crearSocialSupabase('https://appfit-pruebas.invalid', 'publica-falsa')
+  it('consulta solo los exclusivos de mi cuenta; sin 0019 no ofrece ninguno', async () => {
+    rpc.mockResolvedValue({ data: null, error: { code: 'PGRST202' } })
+    expect(await social().misAvataresExclusivos()).toEqual([])
+    expect(rpc).toHaveBeenLastCalledWith('mis_avatares_exclusivos', {})
+    rpc.mockResolvedValue({ data: ['exclusivo.tinez', 'exclusivo.desconocido', 'paisaje.cumbre'], error: null })
+    expect(await social().misAvataresExclusivos()).toEqual([{ tipo: 'exclusivo', id: 'tinez' }])
+    rpc.mockResolvedValue({ data: { tinez: 'exclusivo.tinez' }, error: null })
+    expect(await social().avatares(['tinez'])).toEqual({ tinez: { tipo: 'exclusivo', id: 'tinez' } })
+    rpc.mockResolvedValue({ data: null, error: { code: 'P0001', message: 'avatar_no_disponible' } })
+    await expect(social().editarAvatar('exclusivo.tinez')).rejects.toMatchObject({ clave: 'avatar_no_disponible', message: 'Este avatar es exclusivo de otra cuenta. Elige otro.' })
+  })
   it('pide avatares y vistas previas en una sola llamada, sin llamar con listas vacías', async () => {
     rpc.mockResolvedValue({ data: {}, error: null })
     expect(await social().avatares([])).toEqual({})

@@ -1,7 +1,7 @@
 import { NubeError } from '../../cuenta/data/nube'
 import type { Avisos, CursorSocial, PaginaComentarios, PaginaSocial, PublicacionFeed, VistaComentario } from '../lib/feed'
 import type { Resumen, ResumenLogro } from '../lib/publicacion'
-import type { Avatar } from '../lib/avatar'
+import type { Avatar, AvatarExclusivo } from '../lib/avatar'
 import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
 import type { AccionDenuncia, Denuncia, Suspendido } from '../lib/moderacion'
@@ -79,6 +79,8 @@ export interface Social {
   avatares(alias: string[], comunidad?: string): Promise<Record<string, Avatar>>
   /** Cambia mi avatar de catálogo (`null`: mis iniciales); deja de usarse el logro publicado que hubiera elegido antes. */
   editarAvatar(avatar: string | null): Promise<void>
+  /** Exclusivos concedidos a mi cuenta (0019); sin esa migración, ninguno. No depende del alias ni de ser administrador. */
+  misAvataresExclusivos(): Promise<AvatarExclusivo[]>
   /** El último comentario visible de cada publicación (0014), para la vista previa del feed; sin 0014, `{}`. */
   ultimosComentarios(ids: string[]): Promise<Record<string, VistaComentario>>
 
