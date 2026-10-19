@@ -7,8 +7,10 @@ import type { Avatar, DisciplinaAvatar, PaisajeAvatar, TonoAvatar } from '../lib
  */
 const c = (nombre: string) => `rgb(var(--c-expedicion-${nombre}))`
 
+type DisciplinaConFigura = 'calistenia' | 'esqui' | 'snowboard' | 'remo'
+
 /** Trazo de 24 × 24, como el de los iconos de la app (Icon), centrado en el círculo. */
-const TRAZOS: Record<DisciplinaAvatar, string> = {
+const TRAZOS: Record<Exclude<DisciplinaAvatar, DisciplinaConFigura>, string> = {
   pesas: 'M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11',
   kettlebell: 'M6.5 15a5.5 5.5 0 1 0 11 0a5.5 5.5 0 1 0-11 0M8.7 10.6V7.5a3.3 3.3 0 0 1 6.6 0v3.1',
   carrera: 'M13.2 4.5a1.8 1.8 0 1 0 3.6 0a1.8 1.8 0 1 0-3.6 0M13.5 8l-2 5.5M13.5 8l-4 2-2.5-.5M13.5 8l2.5 2.5 2.5-1.5M11.5 13.5l3 2.5-1 4.5M11.5 13.5l-2 3-4 .5',
@@ -19,19 +21,60 @@ const TRAZOS: Record<DisciplinaAvatar, string> = {
   padel: 'M8.5 9a5.5 5.5 0 1 0 11 0a5.5 5.5 0 1 0-11 0M10.1 12.9L5 19M4 18l2 2M12.5 7.5v.01M15.5 7.5v.01M14 10.5v.01',
   futbol: 'M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 8l3.3 2.4-1.3 3.9h-4l-1.3-3.9zM12 3v5M15.3 10.4l5-1.5M14 14.3l3 4.2M10 14.3l-3 4.2M8.7 10.4l-5-1.5',
   ruta: 'M3.5 18.5a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0M15.5 5.5a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0M8.5 18.5h8a3 3 0 0 0 0-6h-9a3 3 0 0 1 0-6h8',
-  calistenia: 'M3 21V3M21 21V3M3 5h18M10 9a2 2 0 1 0 4 0a2 2 0 1 0-4 0M6 5l2 7 4 2 4-2 2-7M12 14v7M9 15v5a3 3 0 0 0 6 0v-5',
   yoga: 'M10 4.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0M4 14q3 0 3.5-3a4.5 4.5 0 0 1 9 0q.5 3 3.5 3M9 14v2l7 4q5 1 4-2-1-2-5-1l-7 3q-5 1-4-2 1-2 5-1M15 14v2',
   pilates: 'M1.5 16.5a1.8 1.8 0 1 0 3.6 0a1.8 1.8 0 1 0-3.6 0M6.7 17l.3-2 8.8-4.4q1.7-.9 2.2 1.1l2.1 6.3H22M7 17.5h6M1 21h22',
   boxeo: 'M8.5 20v-4.2C5 14 3.8 11 4.8 9.5q.8-1.3 2.5 0l1.2 2V6q0-3 3-3H16q4 0 4 4v4q0 4-4 6v3zM8.5 17H16',
   escalada: 'M7 8a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0-3.4 0M9 11l-2.5 3-3-1M9 11l4-2 3-6M9 11l2 5M11 16l4-3 2.5 4M11 16l-3 6M15 2l3-1 1 3-2 1M1.5 12l2-.8 1 2-1.7 1.1zM16 17l3-1 1 2.5-3 1zM6 22l3-.7.8 1.7M16 10l2-.7.7 1.8-1.8.8M5 4l2-.7.6 1.7-2 .8',
   tenis: 'M10 5c3-4 7-3 9 0s0 7-3 9-6 1-7-2 0-5 1-7zM9.5 13.5L4 20M3 19l2 2M12 5l5 5M10 8l5 5M11 11l5-6M19 18a2 2 0 1 0 4 0a2 2 0 1 0-4 0',
   baloncesto: 'M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M3 12h18M12 3v18M6 5C10 9 10 15 6 19M18 5C14 9 14 15 18 19',
-  remo: 'M10 4a2 2 0 1 0 4 0a2 2 0 1 0-4 0M7 12l3-4h4l3 4M4 13h16l-3 3H7zM9 10l-7 7M15 10l7 7M1 18l2 2M21 20l2-2M4 21q2-2 4 0t4 0 4 0 4 0',
-  esqui: 'M13 3a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0-3.4 0M13 6l-4 5 4 4-4 4M9 11l-3 4-2 3M13 6l3 4 4 1M10 10l-3 2-3-1M4 11l-2 7M20 11l-4 9M3 19l16 2q2 .3 3-1M1 21l17 2q2 .3 3-1',
   surf: 'M9 3q-5 7-4 15h8Q14 9 9 3zM9 3v15M2 20q3-2 6 0t6 0M12 18q4-9 9-6-5 1-2 5 3 4-2 5M4 23q2-2 4 0t4 0',
   baile: 'M12 4a1.8 1.8 0 1 0 3.6 0a1.8 1.8 0 1 0-3.6 0M13 8l-2 6M13 8l-6 1-4-2M13 8l4-3 2-4M11 14l-5 2 4 3M11 14l3 3-1 6',
   comba: 'M10.4 7a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0M12 10v5M12 10l-4 4-3-1M12 10l4 4 3-1M12 15l-3 3 1 2M12 15l3 3-1 3M5 13C0-4 24-4 19 13M4.7 12.5v2M19.3 12.5v2M9 23h6',
-  snowboard: 'M14 5a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0M14.3 4.3l4.4 1.3M14 8l-4.5 1-5 1-1 1M14 8l4 3 3 1M11 9l-3 3 4 3-2 2M8 12l6.5 2 1 4.5M8.5 16.7l-1 1.6 3 1 .7-1.9zM14.5 18l-.7 2 3 1 .7-2.1zM3 16q-2-1-1 1l17 6q3 1 3-2l-1-1-3 .3-12-4.3zM1 20l17 6',
+}
+
+/**
+ * Figuras en 100 × 100: sus piezas separadas conservan postura y equipo al reducirlas.
+ * El relleno del grupo es el fondo elegido, para que botas, cuerpo y tabla no se crucen entre sí.
+ */
+const FIGURAS: Record<DisciplinaConFigura, ReactNode> = {
+  calistenia: <g fill="none">
+    <path d="M27 79V25M73 79V25M27 29H73" />
+    <circle cx="50" cy="39" r="4.5" />
+    <path d="M35 29L40 45Q50 57 60 45L65 29" />
+    <path d="M44 52V72Q44 80 50 80T56 72V52M50 65V79" />
+  </g>,
+  esqui: <g transform="translate(4 -1) scale(.92)">
+    <g fill="none" strokeWidth="2.2">
+      <path d="M29 55L13 64M25 56L28 62M73 51L59 83" />
+      <path d="M21 78L73 85Q79 86 82 81M14 83L70 91Q77 92 81 87" strokeWidth="3" />
+    </g>
+    <circle cx="64" cy="29" r="5" />
+    <path d="M46 37Q49 34 53 38L62 44 73 48 71 52 59 49 51 44 45 52 54 58Q58 61 54 66L41 81 33 79 44 64 35 57Q31 53 35 48Z" />
+    <path d="M37 56L28 64 21 77 28 78 39 65M39 44L32 54 28 57" fill="none" />
+  </g>,
+  snowboard: <>
+    <path d="M8 60L84 88" fill="none" strokeWidth="2" />
+    <path d="M24 60Q20 58 21 63Q21 67 27 70L74 85Q80 87 83 81L81 78 76 80 30 65Q28 61 24 60Z" />
+    <path d="M59 40L49 38 35 38 27 42Q24 43 25 46L28 49 42 45 48 46 41 54Q39 57 42 60L51 66 48 70 54 72 61 64Q63 61 60 59L53 54 64 57 67 72 74 74 73 54 64 46 74 49 80 52Q84 53 85 49L83 46 68 40Z" />
+    <path d="M59 28Q58 21 65 21Q73 21 75 28L74 34Q74 40 68 42Q62 41 60 35Z" />
+    <path d="M59 28L74 32M60 32L64 33 66 37 71 37 74 33" fill="none" strokeWidth="2.2" />
+    <path d="M47 66L45 71Q44 73 47 74L55 77 58 73 55 68ZM66 69L64 76 74 80 77 76 74 71Z" />
+    <path d="M47 71L54 73M67 74L74 76" fill="none" strokeWidth="2" />
+    <path d="M17 53L19 56M13 59L15 60M21 48L22 49" fill="none" strokeWidth="2.2" />
+  </>,
+  remo: <>
+    <circle cx="50" cy="28" r="5.5" />
+    <path d="M46 39Q50 37 54 39L57 52H43Z" />
+    <path d="M46 40L39 46 32 48M54 40L61 46 68 48" fill="none" />
+    <path d="M27 53H73L65 63Q50 68 35 63Z" />
+    <path d="M38 44L19 65M62 44L81 65" fill="none" strokeWidth="2.8" />
+    <path d="M12 65L18 59 25 66 19 73ZM75 66L82 59 88 65 81 73Z" fill="currentColor" stroke="none" />
+    <path d="M22 76Q27 72 32 76T42 76 52 76 62 76 72 76 82 76M29 83Q34 79 39 83T49 83 59 83 69 83" fill="none" strokeWidth="2.2" />
+  </>,
+}
+
+function tieneFigura(disciplina: DisciplinaAvatar): disciplina is DisciplinaConFigura {
+  return Object.hasOwn(FIGURAS, disciplina)
 }
 
 /** Las curvas de nivel de las insignias (InsigniaExpedicion), a escala del avatar. */
@@ -40,7 +83,7 @@ const CURVAS = 'M-8 27C14 30 12 4 31 4S46 34 69 26 86 4 108 13M-7 35C18 39 17 10
 function Disciplina({ disciplina, tono }: { disciplina: DisciplinaAvatar; tono: TonoAvatar }) {
   const tinta = c(tono === 'oro' ? 'bosque' : 'marfil')
   // Las figuras con equipo necesitan más espacio que los pictogramas originales.
-  const detallada = ['pilates', 'escalada', 'esqui', 'comba', 'snowboard'].includes(disciplina)
+  const detallada = ['pilates', 'escalada', 'comba'].includes(disciplina)
   return <>
     <rect width="40" height="40" fill={c(tono)} />
     {disciplina === 'escalada' && <g fill={tinta}>
@@ -48,7 +91,11 @@ function Disciplina({ disciplina, tono }: { disciplina: DisciplinaAvatar; tono: 
       <path d="M30 17L40 27V40H24Z" opacity=".06" />
     </g>}
     <path d={CURVAS} transform="scale(.4)" fill="none" stroke={tinta} strokeWidth="2" opacity=".22" />
-    <path d={TRAZOS[disciplina]} transform={detallada ? 'translate(6 6) scale(1.1667)' : 'translate(9 9) scale(.9167)'} fill="none" stroke={tinta} strokeWidth={detallada ? 1.6 : 2.2} strokeLinecap="round" strokeLinejoin="round" />
+    {tieneFigura(disciplina)
+      ? <svg width="40" height="40" viewBox="0 0 100 100" fill={c(tono)} stroke={tinta} color={tinta} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">
+        {FIGURAS[disciplina]}
+      </svg>
+      : <path d={TRAZOS[disciplina]} transform={detallada ? 'translate(6 6) scale(1.1667)' : 'translate(9 9) scale(.9167)'} fill="none" stroke={tinta} strokeWidth={detallada ? 1.6 : 2.2} strokeLinecap="round" strokeLinejoin="round" />}
   </>
 }
 
