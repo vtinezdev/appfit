@@ -245,14 +245,16 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .semana-num { display: grid; place-items: center; width: 1.875rem; height: 1.875rem; border-radius: var(--radius-pill); font-size: var(--fs-body-sm); line-height: 1; font-weight: 700; color: rgb(var(--c-text-primary)); }
 .semana-dia[aria-current='date'] .semana-num { background: rgb(var(--c-text-primary)); color: rgb(var(--c-bg)); }
 .semana-dia[data-hoy='true'] .semana-num { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
-/* Calendario del historial: día entrenado relleno con la rampa según su volumen en el mes; hoy con anillo exterior. */
+/* Calendario del historial: día entrenado relleno con la rampa según su volumen en el mes; hoy con anillo exterior.
+   Rejilla de días mientras cada día quepa con su objetivo táctil (7 × 44 px + huecos = 20 rem: móviles de 360 px o más);
+   más estrecho (320 px o texto ampliado) pasa a lista. */
 .calendario-entrenos { container: entrenos / inline-size; }
 .cal-lista { display: none; }
-@container entrenos (max-width: 23rem) {
+@container entrenos (width < 20rem) {
   .cal-vista-mes { display: none; }
   .cal-lista { display: block; }
 }
-.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .375rem; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .125rem; }
 .cal-dia { display: grid; place-items: center; width: 100%; min-height: var(--touch-target); border-radius: var(--radius-md); font-size: var(--fs-body-sm); color: rgb(var(--c-text-primary)); }
 .cal-dia[data-futuro='true'] { color: rgb(var(--c-text-tertiary)); }
 .cal-dia[data-nivel] { font-weight: 700; }

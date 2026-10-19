@@ -12,7 +12,7 @@
 
 ## Pendientes de la auditoría de compatibilidad
 
-- [Auditoría del 17 de octubre](auditoria-2026-10-17/INFORME.md): los cinco defectos iniciales están corregidos. A06/A07 se abordan después en §154: semana desplazable con botones táctiles, calendario compacto por lista y pestañas con rótulos completos. La validación física sigue pendiente.
+- [Auditoría del 17 de octubre](auditoria-2026-10-17/INFORME.md): los cinco defectos iniciales están corregidos. A06/A07 se abordan después en §154: semana desplazable con botones táctiles, calendario compacto por lista (desde §173, solo por debajo de 360 px o con texto ampliado) y pestañas con rótulos completos. La validación física sigue pendiente.
 - Comprobar instalación, teclado, giro/recortes, Atrás, permisos y suspensión en iPhone/Android físicos. Chromium, Firefox y WebKit Linux están probados; no sustituyen esos dispositivos. Cuenta/Social se recorrieron con dobles locales; esta auditoría no reejecutó SQL/RLS ni cuentas remotas reales. Workflow de QA incluido para PR y master; sus resultados se comprueban antes del merge.
 
 ## Pendiente de probar en Android real

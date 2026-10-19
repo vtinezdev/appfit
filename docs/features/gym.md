@@ -140,4 +140,4 @@ Al terminar de editar el peso principal de una serie, `lib/cargaInusual.ts` comp
 
 Las pistas reutilizan `Settings.pistasVistas`: confirmación de series, RIR al abrir su hoja y progresión al abrir la suya; se cierran con Entendido. El contenido sigue disponible en Ajustes › Primeros pasos › Ayuda para registrar un entreno, junto al restablecimiento de pistas.
 
-El calendario mensual pasa automáticamente a una lista de días entrenados cuando el contenedor tiene 23 rem o menos. Se conservan las flechas de mes, el acceso al día y las sesiones inferiores. Evita comprimir los botones por debajo de 44 px; no usa áreas superpuestas.
+El calendario mensual se ve como rejilla mientras cada día mida al menos 44 px (contenedor de 20 rem o más: móviles de 360 px en adelante, con huecos de 2 px). Más estrecho (320 px o texto ampliado) pasa a una lista de días entrenados. Se conservan las flechas de mes, el acceso al día y las sesiones inferiores; no usa áreas superpuestas.
