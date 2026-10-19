@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0017 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0018 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -184,7 +184,10 @@ const rpc = {
     exigir()
     const k = `${otro(p_alias)}|${YO}`
     if (seg.get(k) !== 'pendiente') throw err('no_encontrado')
-    if (p_aceptar) seg.set(k, 'aceptado'); else seg.delete(k)
+    if (!p_aceptar) { seg.delete(k); return null }
+    // Como 0018: aceptar hace que os sigáis los dos.
+    seg.set(k, 'aceptado')
+    seg.set(`${YO}|${otro(p_alias)}`, 'aceptado')
     return null
   },
   quitar_seguidor: ({ p_alias }) => { exigir(); seg.delete(`${otro(p_alias)}|${YO}`); return null },

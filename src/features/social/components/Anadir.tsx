@@ -64,7 +64,7 @@ export default function Anadir({ codigo, onAbrir, onCambio }: Props) {
       <Card className="space-y-3">
         <p className="text-rotulo text-fg-muted">Tu código</p>
         <p className="break-all font-numeric text-hero tabular text-fg">{codigo}</p>
-        <p className="text-body-sm text-fg-muted">Pásalo a quien quieras que te siga: con él te encuentra aunque no sepa tu alias. Puedes cambiarlo en Tu perfil.</p>
+        <p className="text-body-sm text-fg-muted">Pásalo a quien quieras: con él te encuentra aunque no sepa tu alias y, cuando aceptes su solicitud, os seguiréis los dos. Puedes cambiarlo en Tu perfil.</p>
         <div className="flex flex-wrap gap-2">
           <Button variant="secondary" size="sm" className="flex-1 basis-32" onClick={() => {
             navigator.clipboard?.writeText(codigo).then(() => setCopiado(true), () => setError('No se ha podido copiar. Apúntalo a mano.'))

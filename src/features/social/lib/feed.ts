@@ -179,7 +179,7 @@ export function leerAvisos(x: unknown): Avisos {
 
 /** «Te dio ánimo en Torso A» o «Comentó en Torso A». */
 export function textoAviso(a: Aviso): string {
-  if (a.tipo === 'aceptada') return 'Aceptó tu solicitud de seguimiento'
+  if (a.tipo === 'aceptada') return 'Aceptó tu solicitud: ahora os seguís'
   if (a.tipo === 'respuesta') return `Respondió a tu comentario en ${a.titulo}`
   if (a.tipo === 'comunidad') return `Publicó en ${a.titulo}`
   if (a.tipo === 'anadido') return `Te añadió a la comunidad ${a.titulo}`
