@@ -1,6 +1,6 @@
 import { NubeError } from '../../cuenta/data/nube'
 import type { Avisos, CursorSocial, PaginaComentarios, PaginaSocial, PublicacionFeed, VistaComentario } from '../lib/feed'
-import type { Resumen } from '../lib/publicacion'
+import type { Resumen, ResumenLogro } from '../lib/publicacion'
 import type { Avatar } from '../lib/avatar'
 import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
@@ -65,7 +65,8 @@ export interface Social {
   gestionComunidad(id: string): Promise<GestionComunidad>
   gestionarComunidad(id: string, accion: 'transferir' | 'nombrar' | 'revocar' | 'expulsar' | 'reglas' | 'bienvenida', alias?: string, texto?: string): Promise<void>
   perfilDeportivo(alias: string, comunidad?: string): Promise<PerfilDeportivo>
-  editarPerfilDeportivo(bio: string, disciplinas: string[], destacados: string[], avatar: string | null): Promise<void>
+  /** Biografía, disciplinas y hasta tres medallas de logros conseguidos (0016); no toca el avatar. */
+  guardarPerfilDeportivo(bio: string, disciplinas: string[], logros: ResumenLogro[]): Promise<void>
   capacidades(): Promise<{ camposOpcionales: boolean }>
   avisos(): Promise<Avisos>
   marcarAvisosVistos(): Promise<void>
@@ -114,4 +115,5 @@ export class SocialError extends NubeError {
 
 export interface GestionComunidad { modera: boolean; creador: boolean; reglas: string; bienvenida: string; miembros: { alias: string; nombre: string | null; moderador: boolean; creador: boolean; yo?: boolean }[] }
 
-export interface PerfilDeportivo { alias: string; nombre: string | null; bio: string; disciplinas: string[]; destacados: { id: string; resumen: Resumen }[]; avatar: Resumen | null; avatarId: string | null; publicadas: number }
+/** `logros`: los destacados (`lib/destacados.leerLogrosDestacados`). `avatar`: el logro publicado elegido antes de 0015. */
+export interface PerfilDeportivo { alias: string; nombre: string | null; bio: string; disciplinas: string[]; logros: ResumenLogro[]; avatar: Resumen | null; publicadas: number }

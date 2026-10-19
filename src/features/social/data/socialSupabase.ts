@@ -4,7 +4,8 @@ import { traducir } from '../../cuenta/data/nubeSupabase'
 import { leerAvatares, leerAvisos, leerPaginaSocial, leerPaginaComentarios, leerPaginaPublicaciones, leerUltimosComentarios, POR_PAGINA, type CursorSocial } from '../lib/feed'
 import { mensajeSocial } from '../lib/mensajes'
 import type { EstadoSeguimiento, Persona } from '../lib/relacion'
-import { SocialError, type MiPerfil, type Social } from './social'
+import { SocialError, type MiPerfil, type PerfilDeportivo, type Social } from './social'
+import { leerLogrosDestacados } from '../lib/destacados'
 import { leerComunidad, type Comunidad } from '../lib/comunidad'
 
 /** Se carga con `import()` desde `social/servicio.ts`: comparte cliente (y sesión) con la cuenta. */
@@ -15,6 +16,9 @@ interface FilaPersona {
   sigo: EstadoSeguimiento
   me_sigue: EstadoSeguimiento
 }
+
+/** `perfil_deportivo` tal cual: con 0016 trae `logros`; antes, solo `destacados` (publicaciones). */
+type PerfilServidor = Omit<PerfilDeportivo, 'logros'> & { logros?: unknown; destacados?: unknown; avatarId?: unknown }
 
 const argumentosPagina = (antes: CursorSocial | null) => ({ p_antes: antes?.fecha ?? null, p_antes_id: antes?.id ?? null, p_limite: POR_PAGINA })
 
@@ -55,6 +59,18 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     if ((resultado.error as { code?: string } | null)?.code === 'PGRST202') return null
     if (resultado.error) throw traducirSocial(resultado.error)
     return resultado.data
+  }
+
+  /** Escrituras añadidas después (0015, 0016): si la función aún no está en el servidor, un error propio, no «Amigos falta». */
+  async function escritura(funcion: string, args: Record<string, unknown>, sinFuncion: string): Promise<void> {
+    let resultado: { data: unknown; error: unknown }
+    try {
+      resultado = await sb.rpc(funcion, args)
+    } catch (e) {
+      throw traducirSocial(e)
+    }
+    if ((resultado.error as { code?: string } | null)?.code === 'PGRST202') throw new NubeError(sinFuncion)
+    if (resultado.error) throw traducirSocial(resultado.error)
   }
 
   return {
@@ -102,8 +118,12 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     comunidadesPropias: () => rpc('comunidades_propias'),
     gestionComunidad: id => rpc('gestion_comunidad', { p_id: id }),
     gestionarComunidad: (id, accion, alias, texto = '') => rpc('gestionar_comunidad', { p_id: id, p_accion: accion, p_alias: alias ?? null, p_texto: texto }),
-    perfilDeportivo: (alias, comunidad) => rpc('perfil_deportivo', { p_alias: alias, p_comunidad: comunidad ?? null }),
-    editarPerfilDeportivo: (bio, disciplinas, destacados, avatar) => rpc('editar_perfil_deportivo', { p_bio: bio, p_disciplinas: disciplinas, p_destacados: destacados, p_avatar: avatar }),
+    perfilDeportivo: async (alias, comunidad) => {
+      const { logros, destacados, avatarId: _, ...perfil } = await rpc<PerfilServidor>('perfil_deportivo', { p_alias: alias, p_comunidad: comunidad ?? null })
+      return { ...perfil, logros: leerLogrosDestacados({ logros, destacados }) }
+    },
+    guardarPerfilDeportivo: (bio, disciplinas, logros) => escritura('guardar_perfil_deportivo', { p_bio: bio, p_disciplinas: disciplinas, p_logros: logros },
+      'Los logros destacados nuevos aún no están disponibles. Inténtalo más tarde.'),
     capacidades: () => rpc('social_capacidades'),
     avisos: async () => leerAvisos(await rpc<unknown>('avisos')),
     marcarAvisosVistos: () => rpc('marcar_avisos_vistos'),
@@ -112,17 +132,8 @@ export function crearSocialSupabase(url: string, clave: string): Social {
       const args = { p_alias: alias, p_comunidad: comunidad ?? null }
       return leerAvatares(await opcional('avatares_perfil', args) ?? await opcional('avatares_social', args))
     },
-    editarAvatar: async avatar => {
-      let resultado: { data: unknown; error: unknown }
-      try {
-        resultado = await sb.rpc('editar_avatar', { p_avatar: avatar })
-      } catch (e) {
-        throw traducirSocial(e)
-      }
-      // Sin 0015 en el servidor: no es que Amigos falte, solo esta función.
-      if ((resultado.error as { code?: string } | null)?.code === 'PGRST202') throw new NubeError('Los avatares nuevos aún no están disponibles. Inténtalo más tarde.')
-      if (resultado.error) throw traducirSocial(resultado.error)
-    },
+    // Sin 0015 en el servidor: no es que Amigos falte, solo esta función.
+    editarAvatar: avatar => escritura('editar_avatar', { p_avatar: avatar }, 'Los avatares nuevos aún no están disponibles. Inténtalo más tarde.'),
     ultimosComentarios: async (ids) => ids.length ? leerUltimosComentarios(await opcional('ultimos_comentarios', { p_ids: ids })) : {},
   }
 }

@@ -76,7 +76,7 @@ function Amigos({ perfil, onPerfilCambiado, anadirInicial }: { anadirInicial: bo
 
   const cabecera = (
     <div>
-      <PageHeader title="Amigos" action={<IconButton icon="settings" label="Tu perfil" variant="ghost" onClick={abrirAjustes} />} />
+      <PageHeader title="Amigos" action={<IconButton icon="settings" label="Ajustes del perfil" variant="ghost" aria-haspopup="dialog" onClick={abrirAjustes} />} />
       {/* Fuera de `overline`, que pone en mayúscula la primera letra y cambiaría el alias. */}
       <p className="mt-1 break-words text-body-sm text-fg-muted">
         @{perfil.alias}{perfil.solicitudes > 0 && ` · ${formatInt(perfil.solicitudes)} ${perfil.solicitudes === 1 ? 'solicitud' : 'solicitudes'}`}
@@ -96,7 +96,7 @@ function Amigos({ perfil, onPerfilCambiado, anadirInicial }: { anadirInicial: bo
     return (
       <div className="space-y-section px-page pt-5">
         {cabecera}
-        <EmptyState icon="users" title="Perfil suspendido" action={<Button variant="secondary" onClick={abrirAjustes}>Tu perfil</Button>}>
+        <EmptyState icon="users" title="Perfil suspendido" action={<Button variant="secondary" onClick={abrirAjustes}>Ajustes del perfil</Button>}>
           Tu perfil se ha suspendido por una denuncia. Mientras tanto no puedes seguir a nadie ni aparecer en las búsquedas.
         </EmptyState>
         {hojaPerfil}

@@ -28,7 +28,7 @@ interface CabeceraProps {
   comunidad?: string
 }
 
-/** La insignia de un logro publicado (la publicación guarda su id, grupo y nombre, no el progreso). */
+/** La insignia de un logro publicado o destacado (se guarda su id, grupo y nombre, no el progreso). */
 export function MedallaPublicada({ resumen }: { resumen: ResumenLogro }) {
   return <IconoLogro alcanzado logro={{ id: resumen.logroId, grupo: resumen.grupo, nombre: resumen.titulo, descripcion: resumen.descripcion, niveles: [] }} />
 }
@@ -43,7 +43,7 @@ export function CabeceraPerfil({ persona, perfil, relacion, acciones, avatar, co
   const visto = avatar !== undefined ? avatar : leido ?? (anterior?.tipo === 'logro' ? avatarDeResumen(anterior) : null)
   const segunda = [persona.nombre && `@${persona.alias}`, relacion].filter(Boolean).join(' · ')
   const disciplinas = (perfil?.disciplinas ?? []).map(d => DISCIPLINAS[d as keyof typeof DISCIPLINAS]).filter(Boolean)
-  const destacados = (perfil?.destacados ?? []).flatMap(p => { const r = leerResumen(p.resumen); return r?.tipo === 'logro' ? [{ id: p.id, r }] : [] })
+  const destacados = perfil?.logros ?? []
   return <div className="space-y-section">
     <div className="flex flex-col items-center gap-3 text-center">
       <AvatarPersona persona={persona} avatar={visto} tamano="lg" />
@@ -62,7 +62,7 @@ export function CabeceraPerfil({ persona, perfil, relacion, acciones, avatar, co
     {destacados.length > 0 && <section aria-label="Logros destacados" className="space-y-3">
       <h2 className="text-rotulo text-fg-muted">Logros destacados</h2>
       <ul className="flex flex-wrap justify-center gap-4">
-        {destacados.map(({ id, r }) => <li key={id} className="flex w-24 min-w-0 flex-col items-center gap-2 text-center">
+        {destacados.map(r => <li key={r.logroId} className="flex w-24 min-w-0 flex-col items-center gap-2 text-center">
           <MedallaPublicada resumen={r} />
           <span className="break-words text-caption text-fg">{r.titulo}</span>
         </li>)}

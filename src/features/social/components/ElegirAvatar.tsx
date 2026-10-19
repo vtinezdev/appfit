@@ -5,9 +5,8 @@ import Sheet from '../../../shared/components/Sheet'
 import ViewTabs from '../../../shared/components/ViewTabs'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import { formatInt } from '../../../shared/lib/format'
-import { todayISO } from '../../../shared/lib/dates'
 import IconoLogro from '../../vitrina/components/IconoLogro'
-import { useVitrina } from '../../vitrina/hooks/useVitrina'
+import type { EstadoVitrina } from '../../vitrina/hooks/useVitrina'
 import { conseguido, type Logro } from '../../vitrina/lib/logros'
 import { DISCIPLINAS_AVATAR, estadoPaisajes, logrosPorGrupo, mismoAvatar, nombreAvatar, TONO_INICIAL, TONOS_AVATAR, type Avatar, type TonoAvatar } from '../lib/avatar'
 import ArteAvatar from './ArteAvatar'
@@ -24,13 +23,17 @@ interface Props {
   onChange: (avatar: Avatar | null) => void
 }
 
+interface PropsElegir extends Props {
+  /** La Vitrina del dispositivo, para saber qué está desbloqueado (`undefined` mientras carga). */
+  vitrina: EstadoVitrina | undefined
+}
+
 /**
  * «Avatar» del perfil deportivo: en el formulario, la cara actual y «Cambiar avatar»; el catálogo entero (paisajes,
- * disciplinas y logros, con lo que falta por desbloquear) se elige en una hoja. Se guarda con «Guardar perfil deportivo».
+ * disciplinas y logros, con lo que falta por desbloquear) se elige en una hoja. Se guarda con «Guardar perfil».
  */
-export default function ElegirAvatar({ persona, avatar, onChange }: Props) {
+export default function ElegirAvatar({ persona, avatar, onChange, vitrina: estado }: PropsElegir) {
   const [abierta, setAbierta] = useState(false)
-  const estado = useVitrina(todayISO())
   // Sin Vitrina (desactivada en Ajustes) no hay paisajes ni logros que desbloquear: solo disciplinas.
   const logros = estado?.visible ? estado.vitrina.logros : []
   return <div className="space-y-2">
@@ -63,7 +66,7 @@ function Catalogo({ persona, avatar, onChange, estado, logros }: Props & { estad
       <AvatarPersona persona={persona} avatar={avatar} tamano="lg" />
       <div className="min-w-0 flex-1 space-y-1">
         <p className="break-words text-body font-semibold text-fg" aria-live="polite">{nombreAvatar(avatar, logros)}</p>
-        <p className="text-caption text-fg-muted">Se guarda con «Guardar perfil deportivo». Lo ve cualquiera que vea tu nombre en Social.</p>
+        <p className="text-caption text-fg-muted">Se guarda con «Guardar perfil». Lo ve cualquiera que vea tu nombre en Social.</p>
       </div>
     </div>
     <Button variant="ghost" size="sm" aria-pressed={avatar === null} onClick={() => onChange(null)}>

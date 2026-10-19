@@ -11,7 +11,6 @@ import type { MiPerfil } from '../data/social'
 import { useConsulta } from '../hooks/useConsulta'
 import { limpiarNombre, NOMBRE_MAX, normalizarAlias, validarAlias, validarNombre } from '../lib/alias'
 import { cargarSocial } from '../servicio'
-import EditarPerfilDeportivo from './EditarPerfilDeportivo'
 import NombrePersona from './NombrePersona'
 
 interface Props {
@@ -22,12 +21,13 @@ interface Props {
   onCambio: () => void
   /** El perfil ya no existe. */
   onBorrado: () => void
-  /** «Editar perfil» desde tu página de perfil; «Tu perfil» desde Amigos. */
-  titulo?: string
 }
 
-/** «Tu perfil»: alias y nombre, código de invitación nuevo, personas bloqueadas y borrar el perfil. */
-export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado, titulo = 'Tu perfil' }: Props) {
+/**
+ * «Ajustes del perfil» (el «…» de tu perfil y el engranaje de Amigos): alias y nombre, código de invitación, personas
+ * bloqueadas y silenciadas, comunidades creadas y borrar el perfil. Lo que ven los demás se edita en «Editar perfil».
+ */
+export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado }: Props) {
   const [alias, setAlias] = useState(perfil.alias)
   const [nombre, setNombre] = useState(perfil.nombre ?? '')
   const [cerrarComunidad, setCerrarComunidad] = useState<{ id: string; nombre: string } | null>(null)
@@ -89,7 +89,7 @@ export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado
   const lista = bloqueados.datos ?? []
 
   return (
-    <Sheet open={open} onClose={onClose} title={titulo}>
+    <Sheet open={open} onClose={onClose} title="Ajustes del perfil">
       <div className="space-y-section">
         <form className="space-y-stack" onSubmit={guardar} noValidate aria-label="Alias y nombre">
           <Campo etiqueta="Alias" ayuda="Si lo cambias, el anterior queda libre para otra persona.">
@@ -101,7 +101,6 @@ export default function PerfilSheet({ open, perfil, onClose, onCambio, onBorrado
           <Button type="submit" variant="secondary" block disabled={ocupado}>Guardar</Button>
         </form>
 
-        {!perfil.suspendido && <Disclosure title="Perfil deportivo"><EditarPerfilDeportivo alias={perfil.alias} /></Disclosure>}
         <div className="space-y-2">
           <p className="text-body-sm font-medium text-fg">Código de invitación</p>
           <p className="text-body-sm text-fg-muted">Tu código es <span className="font-semibold tabular text-fg">{perfil.codigo}</span>. Si lo has compartido con quien no querías, crea otro: el anterior dejará de servir.</p>
