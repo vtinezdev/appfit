@@ -62,8 +62,8 @@ export default function MapaProgreso() {
       <EscalaProgreso huella={Object.values(huella).some(Boolean)} />
       {!progreso.conDatos ? <p className="text-center text-body-sm text-fg-muted">Tu mapa empieza en blanco. Cada semana que trabajes un músculo lo acerca al siguiente nivel; llegar a Avanzado III lleva en torno a un año.</p> : <>
         <dl className="space-y-2 border-t border-line pt-3">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1"><dt className="min-w-0 break-words text-rotulo text-fg-muted">Más avanzado</dt><dd className="min-w-0 flex-1 break-words text-right text-body-sm font-semibold text-fg">{nombres(masAvanzados) || '—'}</dd></div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1"><dt className="min-w-0 break-words text-rotulo text-fg-muted">Por desarrollar</dt><dd className="min-w-0 flex-1 break-words text-right text-body-sm font-semibold text-fg">{nombres(porDesarrollar) || '—'}</dd></div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1"><dt className="min-w-0 break-words text-rotulo text-fg-muted">Más avanzado</dt><dd className="min-w-0 grow break-words text-right text-body-sm font-semibold text-fg">{nombres(masAvanzados) || '—'}</dd></div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1"><dt className="min-w-0 break-words text-rotulo text-fg-muted">Por desarrollar</dt><dd className="min-w-0 grow break-words text-right text-body-sm font-semibold text-fg">{nombres(porDesarrollar) || '—'}</dd></div>
         </dl>
         <Button variant="secondary" block onClick={() => abrir(null)} aria-haspopup="dialog">Ver detalle por músculo<Icon name="chevron-right" size={18} /></Button>
       </>}
