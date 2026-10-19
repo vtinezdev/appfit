@@ -11,13 +11,14 @@ import { duracionTexto, formatKm, tituloActividad } from '../../actividades/lib/
 import * as workoutsRepo from '../../gym/data/workoutsRepo'
 import { useResumenDeEntreno } from '../../gym/hooks/useResumenEntreno'
 import { sugerenciaCompartir } from '../lib/presentacion'
-import { resumenActividad, type Resumen, type ResumenLogro } from '../lib/publicacion'
+import { resumenActividad, type Resumen } from '../lib/publicacion'
+import type { Avatar } from '../lib/avatar'
 import AvatarPersona from './AvatarPersona'
 import CrearPublicacion from './CrearPublicacion'
 
 interface Props {
   persona: { alias: string; nombre: string | null }
-  logro?: ResumenLogro
+  avatar?: Avatar | null
   /** Abre el editor de una publicación de texto. */
   onEscribir: () => void
   /** Se publicó la sugerencia: el feed se vuelve a leer. */
@@ -28,12 +29,12 @@ interface Props {
  * Arriba del feed: escribir algo y, si lo último que registraste (entreno o actividad de los últimos siete días) no está
  * compartido, compartirlo con sus cifras ya puestas. Publicar abre el mismo editor con vista previa de siempre.
  */
-export default function Compositor({ persona, logro, onEscribir, onPublicada }: Props) {
+export default function Compositor({ persona, avatar, onEscribir, onPublicada }: Props) {
   const ultimos = useLiveQuery(async () => ({ entreno: await workoutsRepo.ultimoTerminado() ?? null, actividad: await actividadesRepo.ultimaTerminada() ?? null }), [])
   const cual = ultimos ? sugerenciaCompartir(ultimos.entreno ?? undefined, ultimos.actividad ?? undefined, Date.now()) : null
   return <Card className="space-y-3">
     <div className="flex items-center gap-3">
-      <AvatarPersona persona={persona} logro={logro} />
+      <AvatarPersona persona={persona} avatar={avatar} />
       <button type="button" aria-haspopup="dialog" onClick={onEscribir}
         className="app-button flex min-h-touch min-w-0 flex-1 items-center rounded-md bg-surface-muted px-4 py-2 text-left text-body text-fg-muted hover:bg-line">
         Comparte algo con tus seguidores

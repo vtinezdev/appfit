@@ -199,6 +199,9 @@
   --c-expedicion-oro: 224 181 93;
   --c-expedicion-zafiro: 162 193 231;
   --c-expedicion-rubi: 237 159 155;
+  /* Fondos de los avatares de disciplina de Social, con trazo marfil (fijos, como el resto de la paleta). */
+  --c-expedicion-cobalto: 36 84 170;
+  --c-expedicion-magenta: 146 28 122;
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
@@ -287,6 +290,8 @@
   --c-expedicion-oro: 224 181 93;
   --c-expedicion-zafiro: 162 193 231;
   --c-expedicion-rubi: 237 159 155;
+  --c-expedicion-cobalto: 36 84 170;
+  --c-expedicion-magenta: 146 28 122;
 }
 /* En oscuro, las unidades reales (Card y ListGroup agrupada) son una capa más clara con borde fino y un leve brillo
    arriba, para no confundirse con el fondo. Lo de dentro (filas, campos, botones tonales, divisores) se aclara con ellas.

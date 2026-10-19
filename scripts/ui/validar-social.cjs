@@ -7,6 +7,9 @@ const BASE = process.env.APPFIT_UI_URL || 'http://appfit-test.localhost:5174'
 const API = 'http://127.0.0.1:54329/rest/v1/rpc/'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-social'
 fs.mkdirSync(salida, { recursive: true })
+// Cada caso prueba otro color de fondo.
+const TONOS_PRUEBA = [['Magenta', 'magenta'], ['Cobalto', 'cobalto'], ['Oro', 'oro'], ['Salvia', 'salvia'], ['Arcilla', 'arcilla'], ['Bosque', 'bosque']]
+let tonoPrueba = 0
 const jwt = p => [JSON.stringify({ alg: 'HS256', typ: 'JWT' }), JSON.stringify(p)].map(s => Buffer.from(s).toString('base64url')).join('.') + '.firma'
 
 async function capturar(page, target, nombre) {
@@ -343,16 +346,39 @@ async function main() {
         await formPerfil.getByRole('checkbox',{name:'Fuerza',exact:true}).check()
         await formPerfil.getByRole('checkbox',{name:'Correr',exact:true}).check()
         await formPerfil.getByRole('checkbox',{name:'Entrenos',exact:true}).check()
-        const logroPublicado=envios.find(e=>e.p_tipo==='logro')
-        await formPerfil.getByRole('combobox',{name:'Avatar',exact:true}).selectOption(logroPublicado.p_id)
+        // Avatar de catálogo (0015): la hoja enseña paisajes (con lo que pide cada uno), disciplinas con su color y logros.
+        await formPerfil.getByRole('button',{name:'Cambiar avatar',exact:true}).click()
+        const hojaAvatar=page.getByRole('dialog',{name:'Avatar',exact:true})
+        await hojaAvatar.getByRole('tab',{name:'Paisajes',exact:true}).click()
+        await hojaAvatar.getByRole('list',{name:'Paisajes',exact:true}).getByRole('button').first().waitFor()
+        assert.equal(await hojaAvatar.getByRole('list',{name:'Paisajes',exact:true}).getByRole('button').count(),8)
+        // Sin cumbres ni salidas, los paisajes siguen bloqueados: tocarlos no cambia la elección.
+        const pista=hojaAvatar.getByRole('button',{name:/^Pista /})
+        assert.equal(await pista.getAttribute('aria-disabled'),'true')
+        await pista.click({force:true});assert.equal(await pista.getAttribute('aria-pressed'),'false')
+        await capturar(page,hojaAvatar,`${caso}-avatar-paisajes`)
+        await hojaAvatar.getByRole('tab',{name:'Logros',exact:true}).click()
+        await hojaAvatar.getByText(/^\d+ de \d+ conseguidos\.$/).waitFor()
+        await capturar(page,hojaAvatar,`${caso}-avatar-logros`)
+        await hojaAvatar.getByRole('tab',{name:'Disciplinas',exact:true}).click()
+        const [tonoNombre,tonoId]=TONOS_PRUEBA[tonoPrueba++%TONOS_PRUEBA.length]
+        await hojaAvatar.getByRole('button',{name:'Pádel',exact:true}).click()
+        await hojaAvatar.getByRole('button',{name:tonoNombre,exact:true}).click()
+        assert.equal(await hojaAvatar.getByRole('button',{name:'Pádel',exact:true}).getAttribute('aria-pressed'),'true')
+        await hojaAvatar.getByText(`Pádel · ${tonoNombre}`,{exact:true}).waitFor()
+        await capturar(page,hojaAvatar,`${caso}-avatar-disciplinas`)
+        await hojaAvatar.getByRole('button',{name:'Hecho',exact:true}).click();await hojaAvatar.waitFor({state:'detached'})
+        await formPerfil.getByText(`Pádel · ${tonoNombre}`,{exact:true}).waitFor()
         await formPerfil.getByRole('button',{name:'Así te ven tus seguidores aprobados',exact:true}).click()
+        const guardaAvatar=page.waitForRequest(r=>r.url().endsWith('/editar_avatar'))
         await formPerfil.getByRole('button',{name:'Guardar perfil deportivo',exact:true}).click()
+        assert.deepEqual(JSON.parse((await guardaAvatar).postData()),{p_avatar:`disciplina.padel.${tonoId}`})
         await formPerfil.getByText('Perfil deportivo guardado.',{exact:true}).waitFor()
         await capturar(page,perfil,`${caso}-perfil-deportivo`)
         await page.keyboard.press('Escape');await perfil.waitFor({state:'detached'})
-        // La página de tu perfil ya muestra la insignia elegida y la biografía.
+        // La página de tu perfil ya muestra el avatar elegido y la biografía.
         await miPerfil.getByText(/^Entrenamos con calma/).waitFor()
-        await miPerfil.locator('.app-avatar-insignia').first().waitFor()
+        await miPerfil.locator('.app-avatar-lg svg').first().waitFor()
         await page.keyboard.press('Escape');await miPerfil.waitFor({state:'detached'})
         // Reglas y bienvenida se editan por el creador y se fijan en el detalle.
         await principal.getByRole('tab',{name:'Comunidades',exact:true}).click()

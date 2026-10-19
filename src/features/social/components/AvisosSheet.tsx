@@ -44,7 +44,7 @@ export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, on
     if (consulta.estado === 'listo' && releida.current && instantanea === null) setInstantanea(consulta.datos.lista)
   }, [consulta, instantanea])
   const lista = instantanea ?? consulta.datos?.lista ?? []
-  const logros = useAvatares(lista.filter(a => a.tipo !== 'comunidad').map(a => a.alias))
+  const avatares = useAvatares(lista.filter(a => a.tipo !== 'comunidad').map(a => a.alias))
   const hayNuevos = lista.some((a) => a.nuevo)
   useEffect(() => {
     if (!open || !hayNuevos || instantanea === null) return
@@ -70,7 +70,7 @@ export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, on
                   <li key={`${a.tipo}-${a.publicacion}-${a.alias}-${a.creado}-${i}`}>
                     <button type="button" className="app-button flex min-h-touch w-full items-start gap-3 rounded-md py-3 text-left hover:bg-surface-muted" onClick={() => onAbrir(a)}>
                       <span className="relative mt-0.5 shrink-0">
-                        <AvatarPersona persona={a} logro={a.tipo !== 'comunidad' ? logros[a.alias] : undefined} tamano="sm" />
+                        <AvatarPersona persona={a} avatar={a.tipo !== 'comunidad' ? avatares[a.alias] : undefined} tamano="sm" />
                         <span aria-hidden className="aviso-tipo absolute -bottom-1 -right-1 flex items-center justify-center rounded-pill bg-surface-elevated text-accent-strong shadow-control">
                           <Icon name={ICONO[a.tipo]} size={12} className={a.tipo === 'reaccion' ? 'fill-current' : ''} />
                         </span>

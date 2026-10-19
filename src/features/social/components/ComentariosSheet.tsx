@@ -8,7 +8,7 @@ import { haceCuanto } from '../../cuenta/lib/estado'
 import { useAvatares } from '../hooks/useAvatares'
 import { COMENTARIO_MAX, validarComentario, type Comentario, type CursorSocial } from '../lib/feed'
 import { hilosComentarios } from '../lib/presentacion'
-import type { ResumenLogro } from '../lib/publicacion'
+import type { Avatar } from '../lib/avatar'
 import { nombreVisible } from '../lib/relacion'
 import { cargarSocial } from '../servicio'
 import AvatarPersona from './AvatarPersona'
@@ -56,7 +56,7 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
   const [errorCarga, setErrorCarga] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [vuelta, setVuelta] = useState(0)
-  const logros = useAvatares((lista ?? []).map(c => c.alias), comunidad)
+  const avatares = useAvatares((lista ?? []).map(c => c.alias), comunidad)
   // Responder lleva al campo del pie, que ya dice a quién se responde.
   useEffect(() => { if (respuesta) document.getElementById(idCampo)?.focus() }, [respuesta, idCampo])
 
@@ -179,10 +179,10 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
           <ul className="space-y-4" aria-label="Comentarios">
             {hilosComentarios(lista).map(({ raiz, respuestas, suelta }) => (
               <li key={raiz.id} className="space-y-3">
-                <FilaComentario c={raiz} logro={logros[raiz.alias]} suelta={suelta} ocupado={ocupado} onResponder={setRespuesta}
+                <FilaComentario c={raiz} avatar={avatares[raiz.alias]} suelta={suelta} ocupado={ocupado} onResponder={setRespuesta}
                   onBorrar={pedirBorrar} onDenunciar={c => setModo({ modo: 'denunciar', tipo: 'comentario', id: c.id })} />
                 {respuestas.length > 0 && <ul className="space-y-3 border-l-2 border-line pl-3" aria-label={`Respuestas a ${nombreVisible(raiz)}`}>
-                  {respuestas.map(c => <li key={c.id}><FilaComentario c={c} logro={logros[c.alias]} ocupado={ocupado}
+                  {respuestas.map(c => <li key={c.id}><FilaComentario c={c} avatar={avatares[c.alias]} ocupado={ocupado}
                     onBorrar={pedirBorrar} onDenunciar={v => setModo({ modo: 'denunciar', tipo: 'comentario', id: v.id })} /></li>)}
                 </ul>}
               </li>
@@ -235,7 +235,7 @@ export default function ComentariosSheet({ open, publicacion, onClose, onRecuent
 
 interface FilaProps {
   c: Comentario
-  logro?: ResumenLogro
+  avatar?: Avatar | null
   /** Respuesta cuyo original no está a la vista. */
   suelta?: boolean
   ocupado: boolean
@@ -248,9 +248,9 @@ interface FilaProps {
 const ACCION = 'app-button min-h-touch rounded-md px-2 text-caption font-semibold text-fg-muted hover:text-fg disabled:opacity-40'
 
 /** Un comentario: cara, nombre y hora en una línea, el texto y sus acciones en texto (cada una de 44 px de alto). */
-function FilaComentario({ c, logro, suelta = false, ocupado, onResponder, onBorrar, onDenunciar }: FilaProps) {
+function FilaComentario({ c, avatar, suelta = false, ocupado, onResponder, onBorrar, onDenunciar }: FilaProps) {
   return <div className="flex items-start gap-3">
-    <AvatarPersona persona={c} logro={logro} tamano="sm" />
+    <AvatarPersona persona={c} avatar={avatar} tamano="sm" />
     <div className="min-w-0 flex-1">
       <p className="break-words text-body-sm"><span className="font-semibold text-fg">{nombreVisible(c)}</span> <span className="text-caption text-fg-muted">· {haceCuanto(c.creado, Date.now())}</span></p>
       {suelta && c.respuestaAlias && <p className="text-caption text-fg-muted">Respuesta a @{c.respuestaAlias}</p>}

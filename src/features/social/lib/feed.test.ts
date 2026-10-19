@@ -117,9 +117,17 @@ describe('lecturas del rediseño (0014)', () => {
       .toEqual({ p1: { alias: 'beto', nombre: null, texto: '¡Bien!' } })
     expect(leerUltimosComentarios(null)).toEqual({})
   })
-  it('avatares: solo resúmenes de logro válidos', () => {
+  it('avatares: logros publicados de antes (0014) y catálogo (0015); lo demás, monograma', () => {
     const logro = { v: 1, tipo: 'logro', titulo: 'Entrenos', logroId: 'entrenos', grupo: 'entreno', nivel: 1, descripcion: '10 entrenos' }
-    expect(leerAvatares({ ana: logro, beto: resumen, carla: { ...logro, logroId: 'inventado' } })).toEqual({ ana: logro })
+    expect(leerAvatares({
+      ana: logro, beto: resumen, carla: { ...logro, logroId: 'inventado' },
+      dani: 'paisaje.cumbre', eva: 'disciplina.bici.oro', fran: 'paisaje.inventado', gema: 'logro.oculto.noctambulo',
+    })).toEqual({
+      ana: { tipo: 'logro', logro: 'entrenos', grupo: 'entreno' },
+      dani: { tipo: 'paisaje', paisaje: 'cumbre' },
+      eva: { tipo: 'disciplina', disciplina: 'bici', tono: 'oro' },
+      gema: { tipo: 'logro', logro: 'noctambulo', grupo: 'oculto' },
+    })
     expect(leerAvatares([])).toEqual({})
   })
 })
