@@ -70,8 +70,19 @@ describe('contratos de las nuevas RPC', () => {
   it('una respuesta lleva un objetivo explícito y el perfil solo lo elegido', async () => {
     await social().comentar('pub','Hola','raiz')
     expect(rpc).toHaveBeenLastCalledWith('comentar_respuesta',{p_id:'pub',p_texto:'Hola',p_respuesta:'raiz'})
-    await social().editarPerfilDeportivo('Fuerza',['fuerza'],['logro'],null)
-    expect(rpc).toHaveBeenLastCalledWith('editar_perfil_deportivo',{p_bio:'Fuerza',p_disciplinas:['fuerza'],p_destacados:['logro'],p_avatar:null})
+  })
+  it('perfil deportivo: guarda las medallas elegidas y las lee con 0016 o, sin ella, de las publicaciones', async () => {
+    const logro = { v: 1, tipo: 'logro', titulo: 'Entrenos', logroId: 'entrenos', grupo: 'entreno', nivel: 2, descripcion: '50 entrenos' } as const
+    rpc.mockResolvedValue({ data: null, error: null })
+    await social().guardarPerfilDeportivo('Fuerza',['fuerza'],[logro])
+    expect(rpc).toHaveBeenLastCalledWith('guardar_perfil_deportivo',{p_bio:'Fuerza',p_disciplinas:['fuerza'],p_logros:[logro]})
+    const base = { alias: 'ana', nombre: null, bio: '', disciplinas: [], avatar: null, avatarId: null, publicadas: 3 }
+    rpc.mockResolvedValue({ data: { ...base, logros: [logro], destacados: [] }, error: null })
+    expect(await social().perfilDeportivo('ana')).toEqual({ alias: 'ana', nombre: null, bio: '', disciplinas: [], avatar: null, publicadas: 3, logros: [logro] })
+    rpc.mockResolvedValue({ data: { ...base, destacados: [{ id: 'p', resumen: { ...logro, nota: 'Por fin' } }] }, error: null })
+    expect((await social().perfilDeportivo('ana')).logros).toEqual([logro])
+    rpc.mockResolvedValue({ data: null, error: { code: 'PGRST202', message: 'Could not find the function public.guardar_perfil_deportivo' } })
+    await expect(social().guardarPerfilDeportivo('', [], [])).rejects.toThrow('Los logros destacados nuevos aún no están disponibles')
   })
 })
 

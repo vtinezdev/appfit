@@ -37,7 +37,8 @@ publicaciones.set('p-jon', { autor: 'jon', tipo: 'entreno', fecha: hace(1500), c
 publicaciones.set('p-rara', { autor: 'jon', tipo: 'entreno', fecha: hace(3000), creada: hace(2900), resumen: { v: 7, cosa: 'rara' } })
 // Logro de Jon elegido como avatar (0012/0014): en el feed se ve su insignia en lugar del monograma.
 publicaciones.set('p-logro-jon', { autor: 'jon', tipo: 'logro', fecha: hace(4000), creada: hace(3900), resumen: { v: 1, tipo: 'logro', titulo: 'Entrenos', logroId: 'entrenos', grupo: 'entreno', nivel: 2, descripcion: '50 entrenos terminados' } })
-const deportivoJon = () => ({ bio: 'Fuerza tres días y monte los domingos.', disciplinas: ['fuerza', 'senderismo'], destacados: ['p-logro-jon'], avatarId: 'p-logro-jon' })
+// Con 0016 sus destacados son medallas guardadas en el perfil, no publicaciones.
+const deportivoJon = () => ({ bio: 'Fuerza tres días y monte los domingos.', disciplinas: ['fuerza', 'senderismo'], destacados: [], logros: [publicaciones.get('p-logro-jon').resumen], avatarId: 'p-logro-jon' })
 deportivos.set('jon', deportivoJon())
 // user -> identificador del catálogo (0015).
 const avataresCatalogo = new Map([['lucia', 'paisaje.cumbre']])
@@ -244,8 +245,17 @@ const rpc = {
   gestion_comunidad: ({p_id})=>{exigir();const c=comunidades.get(p_id);if(!c||bloq(YO,c.creador))throw err('no_encontrado');const creador=c.creador===YO;return {modera:modera(p_id),creador,reglas:c.reglas??'',bienvenida:c.bienvenida??'',miembros:modera(p_id)?[...perfiles].filter(([id])=>miembros.has(`${p_id}|${id}`)).map(([id,p])=>({alias:p.alias,nombre:p.nombre,creador:c.creador===id,moderador:moderadores.has(`${p_id}|${id}`),yo:id===YO})):[]}},
   gestionar_comunidad: ({p_id,p_accion,p_alias,p_texto})=>{exigir();const c=comunidades.get(p_id);if(!c||!modera(p_id)||(p_accion!=='expulsar'&&c.creador!==YO))throw err('no_encontrado');if(p_accion==='reglas'||p_accion==='bienvenida')c[p_accion]=p_texto;else{const id=otro(p_alias);if(!miembros.has(`${p_id}|${id}`)||id===YO||id===c.creador)throw err('no_encontrado');if(p_accion==='transferir'){c.creador=id;moderadores.delete(`${p_id}|${id}`)}else if(p_accion==='expulsar')miembros.delete(`${p_id}|${id}`);else if(p_accion==='nombrar')moderadores.add(`${p_id}|${id}`);else if(p_accion==='revocar')moderadores.delete(`${p_id}|${id}`)}return null},
   social_capacidades: () => { exigir(); return { camposOpcionales: true } },
-  perfil_deportivo: ({p_alias,p_comunidad})=>{exigir();const id=idDe(p_alias);if(!id||bloq(YO,id))throw err('no_encontrado');if(p_comunidad&&!miembros.has(`${p_comunidad}|${YO}`))throw err('no_miembro');const pe=perfiles.get(id),de=deportivos.get(id)??{bio:'',disciplinas:[],destacados:[],avatarId:null};const visibles=[...publicaciones].filter(([,p])=>p.autor===id&&(p_comunidad?p.comunidad===p_comunidad:!p.comunidad&&puedeVer(id)));return {...de,alias:pe.alias,nombre:pe.nombre,publicadas:visibles.length,destacados:visibles.filter(([pid])=>de.destacados.includes(pid)).map(([id,p])=>({id,resumen:p.resumen})),avatar:visibles.find(([pid])=>pid===de.avatarId)?.[1].resumen??null}},
+  perfil_deportivo: ({p_alias,p_comunidad})=>{exigir();const id=idDe(p_alias);if(!id||bloq(YO,id))throw err('no_encontrado');if(p_comunidad&&!miembros.has(`${p_comunidad}|${YO}`))throw err('no_miembro');const pe=perfiles.get(id),de=deportivos.get(id)??{bio:'',disciplinas:[],destacados:[],logros:[],avatarId:null};const visibles=[...publicaciones].filter(([,p])=>p.autor===id&&(p_comunidad?p.comunidad===p_comunidad:!p.comunidad&&puedeVer(id)));return {...de,alias:pe.alias,nombre:pe.nombre,publicadas:visibles.length,destacados:visibles.filter(([pid])=>de.destacados.includes(pid)).map(([id,p])=>({id,resumen:p.resumen})),avatar:visibles.find(([pid])=>pid===de.avatarId)?.[1].resumen??null}},
   editar_perfil_deportivo: ({p_bio,p_disciplinas,p_destacados,p_avatar})=>{exigir();if(p_bio.length>160||p_disciplinas.length>3||p_destacados.length>3)throw err('perfil_deportivo_no_valido');deportivos.set(YO,{bio:p_bio,disciplinas:p_disciplinas,destacados:p_destacados,avatarId:p_avatar});return null},
+  // 0016: hasta tres medallas de logro distintas, sin publicar.
+  guardar_perfil_deportivo: ({ p_bio, p_disciplinas, p_logros }) => {
+    exigir()
+    const ids = p_logros.map(l => l?.logroId)
+    if (p_bio.length > 160 || p_disciplinas.length > 3 || p_logros.length > 3 || new Set(ids).size !== ids.length || p_logros.some(l => l?.tipo !== 'logro' || 'nota' in l)) throw err('perfil_deportivo_no_valido')
+    const de = deportivos.get(YO) ?? { avatarId: null }
+    deportivos.set(YO, { ...de, bio: p_bio.trim(), disciplinas: p_disciplinas, logros: p_logros, destacados: [] })
+    return null
+  },
   borrar_comentario: ({ p_id }) => {
     const c = comentarios.get(p_id)
     if (!c || (c.autor !== YO && publicaciones.get(c.publicacion)?.autor !== YO && !modera(publicaciones.get(c.publicacion)?.comunidad))) throw err('no_encontrado')

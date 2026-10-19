@@ -15,7 +15,6 @@ async function abrirEditor(page) {
   await page.getByRole('main').getByRole('button', { name: 'Tu perfil', exact: true }).click()
   await page.getByRole('dialog', { name: 'Tu perfil', exact: true }).getByRole('button', { name: 'Editar perfil', exact: true }).click()
   const perfil = page.getByRole('dialog', { name: 'Editar perfil', exact: true })
-  await perfil.getByRole('button', { name: 'Perfil deportivo', exact: true }).click()
   const form = perfil.getByRole('form', { name: 'Perfil deportivo', exact: true })
   await form.getByRole('button', { name: 'Cambiar avatar', exact: true }).waitFor()
   return form
@@ -23,9 +22,10 @@ async function abrirEditor(page) {
 
 async function guardar(page, form, id) {
   const envio = page.waitForRequest(r => r.url().endsWith('/editar_avatar'))
-  await form.getByRole('button', { name: 'Guardar perfil deportivo', exact: true }).click()
+  await form.getByRole('button', { name: 'Guardar perfil', exact: true }).click()
   assert.deepEqual(JSON.parse((await envio).postData()), { p_avatar: id })
-  await form.getByText('Perfil deportivo guardado.', { exact: true }).waitFor()
+  // Guardar cierra «Editar perfil».
+  await page.getByRole('dialog', { name: 'Editar perfil', exact: true }).waitFor({ state: 'detached' })
 }
 
 async function comprobar(hoja) {

@@ -4,58 +4,65 @@ import Campo from '../../../shared/components/Campo'
 import Disclosure from '../../../shared/components/Disclosure'
 import { Textarea } from '../../../shared/components/Input'
 import { ErrorState, LoadingState } from '../../../shared/components/StateMessage'
+import { todayISO } from '../../../shared/lib/dates'
+import { useVitrina } from '../../vitrina/hooks/useVitrina'
 import type { PerfilDeportivo } from '../data/social'
 import { useConsulta } from '../hooks/useConsulta'
-import type { CursorSocial, PublicacionFeed } from '../lib/feed'
 import { cargarSocial } from '../servicio'
 import { olvidarAvatares } from '../hooks/useAvatares'
 import { CabeceraPerfil, DISCIPLINAS } from './PerfilDeportivo'
 import ElegirDestacados from './ElegirDestacados'
-import { logrosElegibles } from '../lib/destacados'
+import { destacadosAlDia } from '../lib/destacados'
 import ElegirAvatar from './ElegirAvatar'
 import { idAvatar, mismoAvatar, type Avatar } from '../lib/avatar'
 
-export default function EditarPerfilDeportivo({ alias }: { alias: string }) {
+interface Props {
+  alias: string
+  /** Guardado: quien lo abrió cierra la hoja y vuelve a leer el perfil. */
+  onGuardado: () => void
+}
+
+/** «Editar perfil»: avatar, biografía, disciplinas y logros destacados, con la vista previa de cómo te ven. */
+export default function EditarPerfilDeportivo({ alias, onGuardado }: Props) {
   const consulta = useConsulta(async () => {
     const s=await cargarSocial()
-    const [perfil,pagina,avatares]=await Promise.all([s.perfilDeportivo(alias),s.publicacionesDe(alias,null),s.avatares([alias])])
-    return { perfil,pagina,avatar:avatares[alias]??null }
+    const [perfil,avatares]=await Promise.all([s.perfilDeportivo(alias),s.avatares([alias])])
+    return { perfil,avatar:avatares[alias]??null }
   },alias)
   if(consulta.estado==='error') return <div className="space-y-2"><ErrorState>{consulta.error}</ErrorState><Button variant="secondary" onClick={consulta.recargar}>Reintentar perfil deportivo</Button></div>
   if(!consulta.datos) return <LoadingState />
-  return <Formulario key={alias} inicial={consulta.datos.perfil} avatarInicial={consulta.datos.avatar} publicaciones={consulta.datos.pagina.items} cursorInicial={consulta.datos.pagina.cursor} hayMasInicial={consulta.datos.pagina.hayMas} />
+  return <Formulario key={alias} inicial={consulta.datos.perfil} avatarInicial={consulta.datos.avatar} onGuardado={onGuardado} />
 }
-function Formulario({ inicial, avatarInicial, publicaciones, cursorInicial, hayMasInicial }: { inicial: PerfilDeportivo; avatarInicial: Avatar | null; publicaciones: PublicacionFeed[]; cursorInicial: CursorSocial | null; hayMasInicial: boolean }) {
+function Formulario({ inicial, avatarInicial, onGuardado }: { inicial: PerfilDeportivo; avatarInicial: Avatar | null; onGuardado: () => void }) {
   const [bio,setBio]=useState(inicial.bio)
   const [disciplinas,setDisciplinas]=useState(inicial.disciplinas)
-  const [destacados,setDestacados]=useState(inicial.destacados)
+  const [elegidos,setElegidos]=useState(inicial.logros)
   const [avatar,setAvatar]=useState(avatarInicial)
-  const [lista,setLista]=useState(publicaciones)
-  const [cursor,setCursor]=useState(cursorInicial)
-  const [hayMas,setHayMas]=useState(hayMasInicial)
   const [ocupado,setOcupado]=useState(false)
   const [error,setError]=useState<string|null>(null)
-  const [guardado,setGuardado]=useState(false)
-  const logros = logrosElegibles(inicial, lista)
-  async function ejecutar(fn:()=>Promise<void>) {
+  // Una sola lectura de la Vitrina para el avatar y los destacados; los elegidos se guardan con su nivel de ahora.
+  const vitrina=useVitrina(todayISO())
+  const logros=destacadosAlDia(elegidos,vitrina?.visible?vitrina.vitrina.logros:[])
+  async function guardar() {
     if(ocupado) return
-    setOcupado(true); setError(null); setGuardado(false)
-    try { await fn() } catch(e) { setError(e instanceof Error ? e.message : 'No se ha podido guardar.') }
-    finally { setOcupado(false) }
+    setOcupado(true); setError(null)
+    try {
+      // El avatar de catálogo primero: si falla, no se toca nada.
+      const s=await cargarSocial()
+      if(!mismoAvatar(avatar,avatarInicial)) await s.editarAvatar(avatar?idAvatar(avatar):null)
+      await s.guardarPerfilDeportivo(bio,disciplinas,logros); olvidarAvatares(); onGuardado()
+    } catch(e) { setError(e instanceof Error ? e.message : 'No se ha podido guardar.'); setOcupado(false) }
   }
-  return <form className="space-y-stack" aria-label="Perfil deportivo" onSubmit={e => { e.preventDefault(); void ejecutar(async()=>{
-      // El avatar de catálogo primero: si falla, no se toca nada. Elegido uno, el logro publicado de antes deja de usarse.
-      const s=await cargarSocial(), cambia=!mismoAvatar(avatar,avatarInicial)
-      if(cambia) await s.editarAvatar(avatar?idAvatar(avatar):null)
-      await s.editarPerfilDeportivo(bio,disciplinas,destacados.map(p=>p.id),cambia?null:inicial.avatarId); olvidarAvatares(); setGuardado(true) }) }}>
-    <Campo etiqueta="Biografía deportiva" ayuda="Hasta 160 caracteres. La verán las personas con las que te relacionas en Social."><Textarea rows={3} maxLength={160} value={bio} onChange={e=>setBio(e.target.value)} /></Campo>
+  return <form className="space-y-section" aria-label="Perfil deportivo" onSubmit={e => { e.preventDefault(); void guardar() }}>
+    <ElegirAvatar persona={inicial} avatar={avatar} onChange={setAvatar} vitrina={vitrina} />
+    <Campo etiqueta="Biografía deportiva" ayuda="Hasta 160 caracteres."><Textarea rows={3} maxLength={160} value={bio} onChange={e=>setBio(e.target.value)} /></Campo>
     <fieldset className="space-y-1"><legend className="text-label text-fg-muted">Disciplinas · Hasta tres</legend>{Object.entries(DISCIPLINAS).map(([id,label])=><label key={id} className="flex min-h-touch items-center gap-2 text-body-sm text-fg"><input type="checkbox" className="h-5 w-5 accent-accent" checked={disciplinas.includes(id)} disabled={!disciplinas.includes(id)&&disciplinas.length>=3} onChange={e=>setDisciplinas(ds=>e.target.checked?[...ds,id]:ds.filter(d=>d!==id))}/>{label}</label>)}</fieldset>
-    <ElegirDestacados logros={logros} destacados={destacados} onChange={setDestacados} hayMas={hayMas}
-      onCargarMas={async()=>{const p=await(await cargarSocial()).publicacionesDe(inicial.alias,cursor);setLista(ls=>[...ls,...p.items]);setCursor(p.cursor);setHayMas(p.hayMas)}} />
-    <ElegirAvatar persona={inicial} avatar={avatar} onChange={setAvatar} />
-    <Disclosure title="Así te ven tus seguidores aprobados"><CabeceraPerfil persona={inicial} perfil={{...inicial,bio,disciplinas,destacados}} avatar={avatar} /></Disclosure>
-    <p className="text-caption text-fg-muted">En comunidades solo se muestran los logros publicados para esa comunidad. Tu nutrición, tus medidas y tu peso corporal siguen en tu diario.</p>
-    <Button type="submit" variant="secondary" block loading={ocupado}>Guardar perfil deportivo</Button>
-    {error&&<ErrorState>{error}</ErrorState>}{guardado&&<p role="status" className="text-body-sm text-accent-strong">Perfil deportivo guardado.</p>}
+    <ElegirDestacados vitrina={vitrina} destacados={logros} onChange={setElegidos} />
+    <div className="space-y-stack">
+      <Disclosure title="Así te ven"><CabeceraPerfil persona={inicial} perfil={{...inicial,bio,disciplinas,logros}} avatar={avatar} /></Disclosure>
+      <p className="text-caption text-fg-muted">Biografía, disciplinas y logros destacados los ven las personas con las que te relacionas en Social y quienes comparten comunidad contigo, aunque no hayas publicado esos logros. Tu nutrición, tus medidas y tu peso corporal siguen en tu diario.</p>
+      <Button type="submit" block loading={ocupado}>Guardar perfil</Button>
+      {error&&<ErrorState>{error}</ErrorState>}
+    </div>
   </form>
 }
