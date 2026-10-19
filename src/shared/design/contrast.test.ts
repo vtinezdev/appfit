@@ -234,3 +234,17 @@ describe.each([['claro', light], ['oscuro', dark]])('roles distinguibles (%s)', 
     expect(deltaE(t['liga-rubi'], t.destructive)).toBeGreaterThanOrEqual(10)
   })
 })
+
+// Mapa de progreso (ADR 051): nueve niveles en tres tramos que se oscurecen de uno a otro en ambos temas, para que el orden
+// se lea también sin distinguir colores; cada nivel se separa del anterior y del gris sin nivel, y el verde no se confunde con el volt.
+const PROGRESO = [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `progreso-${n}`)
+describe.each([['claro', light, 'progreso'], ['oscuro', dark, 'progreso'], ['card en oscuro', cardOscura, 'progreso'], ['grafito (claro)', light, 'progreso-poster'], ['grafito (oscuro)', dark, 'progreso-poster']] as const)('rampa de progreso (%s)', (_name, t, prefijo) => {
+  const rampa = PROGRESO.map((k) => t[k.replace('progreso', prefijo)])
+  const fondo = prefijo === 'progreso' ? t['surface-muted'] : t['training-track']
+  it('la luminosidad baja de nivel en nivel', () => rampa.slice(1).forEach((c, i) => expect(oklab(c)[0], `nivel ${i + 2}`).toBeLessThan(oklab(rampa[i])[0])))
+  it('cada nivel se separa del anterior (ΔE ≥ 6) y del gris sin nivel (ΔE ≥ 9)', () => rampa.forEach((c, i) => {
+    if (i) expect(deltaE(c, rampa[i - 1]), `nivel ${i + 1}`).toBeGreaterThanOrEqual(6)
+    expect(deltaE(c, fondo), `nivel ${i + 1} sobre el fondo`).toBeGreaterThanOrEqual(9)
+  }))
+  it('Intermedio se aleja del volt (tono ≥ 25°)', () => rampa.slice(3, 6).forEach((c) => expect(hueGap(c, t.accent)).toBeGreaterThanOrEqual(25)))
+})

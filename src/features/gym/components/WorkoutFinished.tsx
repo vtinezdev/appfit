@@ -15,7 +15,7 @@ import { describirRecord, type RecordEjercicio } from '../lib/records'
 
 // Diferido: la geometría de los muñecos pesa más que el resto del mapa.
 const MapaMuscular = lazy(() => import('./MapaMuscular'))
-const CalorAntesDespues = lazy(() => import('./CalorAntesDespues'))
+const ProgresoSesion = lazy(() => import('./ProgresoSesion'))
 
 export interface WorkoutSummary {
   /** Nombre de la rutina o «Entreno libre». */
@@ -37,7 +37,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
   return <div className="space-y-section px-page pt-5">
     <PosterSesion titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} levels={summary.muscle?.levels} figura={figura}
       estado={<p role="status" className="flex items-center gap-2 text-label"><span className="workout-finish-mark flex h-touch w-touch items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="check" size={24} /></span>Sesión guardada en el historial</p>} />
-    {summary.workoutId !== undefined && <Suspense fallback={null}><CalorAntesDespues workoutId={summary.workoutId} figura={figura} /></Suspense>}
+    {summary.workoutId !== undefined && <Suspense fallback={null}><ProgresoSesion workoutId={summary.workoutId} figura={figura} /></Suspense>}
     {!!summary.records?.length && <ListaRecords records={summary.records} nombres={summary.nombres ?? {}} />}
     {summary.workoutId !== undefined && <CumbreSesion workoutId={summary.workoutId} />}
     {summary.workoutId !== undefined && <AscensosLiga workoutId={summary.workoutId} nombres={summary.nombres ?? {}} />}

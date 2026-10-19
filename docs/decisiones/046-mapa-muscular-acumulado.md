@@ -1,6 +1,6 @@
 # ADR 046 · Mapa muscular acumulado («calor con huella»)
 
-Estado: aceptado, 2026-10-19. Amplía el [ADR 015](015-mapa-muscular-de-sesion.md), que dejaba fuera los mapas en el tiempo.
+Estado: sustituido por el [ADR 051](051-mapa-muscular-de-progreso.md) (mapa de progreso) el mismo día. Amplía el [ADR 015](015-mapa-muscular-de-sesion.md), que dejaba fuera los mapas en el tiempo.
 
 Víctor pide un mapa del cuerpo que evolucione con los entrenos: neutro al principio, que se caliente con el trabajo y que motive a volver. Se le presenta una propuesta privada («Mapa de calor muscular»): diagnóstico del repositorio, referencias (Hevy, Fitbod, JEFIT, Alpha Progression, Get Strong, MuscleWiki y estudios sobre volumen), cinco modelos de cálculo, cuatro representaciones y cinco ubicaciones, con un prototipo sobre la geometría y los tokens reales. Elige el modelo recomendado, el bloque en Progreso del diseño A con la figura de una sola vista y selector Frontal/Trasera del diseño B, el detalle al tocar un músculo y el antes → después al terminar el entreno.
 

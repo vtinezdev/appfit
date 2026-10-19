@@ -198,7 +198,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .muscle-body { max-width: var(--muscle-body-width); }
 .muscle-mini { height: var(--muscle-mini-height); }
 .publicacion-mapa { max-width: var(--muscle-social-width); }
-.muscle-calor { max-width: var(--muscle-calor-width); }
+.muscle-progreso { max-width: var(--muscle-progreso-width); }
 /* Inicio: minigráfica del peso y vaso del agua. Datos neutros (texto atenuado), sin acento. */
 .mini-grafica { height: auto; overflow: visible; }
 .mini-grafica-linea { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
@@ -266,7 +266,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 /* Póster de sesión (fin y detalle): título en display gigante, tres cifras con filetes y el mapa sobre grafito.
    Sobre grafito la rampa clara se leería al revés: usa la rampa del póster, de rojo pálido a rojo intenso, en ambos temas. */
 .poster-title { font-family: var(--font-display); font-size: var(--fs-hero); line-height: .95; font-weight: var(--fw-display); font-stretch: var(--fst-display); }
-.session-poster { --c-muscle-1: var(--c-muscle-poster-1); --c-muscle-2: var(--c-muscle-poster-2); --c-muscle-3: var(--c-muscle-poster-3); --c-muscle-4: var(--c-muscle-poster-4); --c-muscle-5: var(--c-muscle-poster-5); --muscle-body-width: 12rem; }
+.session-poster { --c-muscle-1: var(--c-muscle-poster-1); --c-muscle-2: var(--c-muscle-poster-2); --c-muscle-3: var(--c-muscle-poster-3); --c-muscle-4: var(--c-muscle-poster-4); --c-muscle-5: var(--c-muscle-poster-5); --muscle-body-width: 12rem;
+  --c-progreso-1: var(--c-progreso-poster-1); --c-progreso-2: var(--c-progreso-poster-2); --c-progreso-3: var(--c-progreso-poster-3); --c-progreso-4: var(--c-progreso-poster-4); --c-progreso-5: var(--c-progreso-poster-5); --c-progreso-6: var(--c-progreso-poster-6); --c-progreso-7: var(--c-progreso-poster-7); --c-progreso-8: var(--c-progreso-poster-8); --c-progreso-9: var(--c-progreso-poster-9); }
 .session-poster .muscle-region { fill: rgb(var(--c-training-track)); stroke: rgb(var(--c-training)); }
 .session-poster .muscle-outline { stroke: rgb(var(--c-training-muted) / .5); }
 .session-poster .muscle-swatch { border-color: rgb(var(--c-training-muted) / .5); }
@@ -290,10 +291,20 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .muscle-swatch[data-level='3'] { background: rgb(var(--c-muscle-3)); }
 .muscle-swatch[data-level='4'] { background: rgb(var(--c-muscle-4)); }
 .muscle-swatch[data-level='5'] { background: rgb(var(--c-muscle-5)); }
-/* Mapa acumulado (ADR 046): la huella (trabajado antes, sin calor reciente) es un contorno discontinuo; el color cambia despacio solo en el antes → después. */
-[data-huella='true'] > .muscle-region { stroke: rgb(var(--c-muscle-3)); stroke-width: 1.5; stroke-dasharray: 3 2.5; }
-.muscle-swatch[data-huella='true'] { border: 1.5px dashed rgb(var(--c-muscle-3)); }
-.muscle-transicion .muscle-region { transition: fill var(--dur-calor) var(--ease-standard); }
+/* Mapa de progreso (ADR 051): nueve niveles en tres tramos; la huella (llegó a un nivel y lo perdió) es un contorno discontinuo;
+   el color cambia despacio solo en el antes → después. */
+.muscle-swatch[data-escala='progreso'][data-level='1'] { background: rgb(var(--c-progreso-1)); }
+.muscle-swatch[data-escala='progreso'][data-level='2'] { background: rgb(var(--c-progreso-2)); }
+.muscle-swatch[data-escala='progreso'][data-level='3'] { background: rgb(var(--c-progreso-3)); }
+.muscle-swatch[data-escala='progreso'][data-level='4'] { background: rgb(var(--c-progreso-4)); }
+.muscle-swatch[data-escala='progreso'][data-level='5'] { background: rgb(var(--c-progreso-5)); }
+.muscle-swatch[data-escala='progreso'][data-level='6'] { background: rgb(var(--c-progreso-6)); }
+.muscle-swatch[data-escala='progreso'][data-level='7'] { background: rgb(var(--c-progreso-7)); }
+.muscle-swatch[data-escala='progreso'][data-level='8'] { background: rgb(var(--c-progreso-8)); }
+.muscle-swatch[data-escala='progreso'][data-level='9'] { background: rgb(var(--c-progreso-9)); }
+[data-huella='true'] > .muscle-region { stroke: rgb(var(--c-progreso-3)); stroke-width: 1.5; stroke-dasharray: 3 2.5; }
+.muscle-swatch[data-huella='true'] { border: 1.5px dashed rgb(var(--c-progreso-3)); }
+.muscle-transicion .muscle-region { transition: fill var(--dur-progreso) var(--ease-standard); }
 @media (forced-colors: active) {
   .muscle-region { fill: Canvas !important; stroke: CanvasText; }
   .muscle-outline { stroke: CanvasText; }

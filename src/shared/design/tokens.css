@@ -119,8 +119,8 @@
   --dur-overlay: 280ms;
   --dur-exit: 180ms;
   --dur-success: 420ms;
-  /* Cambio de color del mapa muscular acumulado en el antes → después al terminar un entreno (ADR 046). */
-  --dur-calor: 600ms;
+  /* Cambio de color del mapa de progreso en el antes → después al terminar un entreno (ADR 051). */
+  --dur-progreso: 600ms;
   --dur-stagger: 18ms;
   --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
@@ -149,6 +149,27 @@
   --c-muscle-poster-3: 241 119 116;
   --c-muscle-poster-4: 242 84 78;
   --c-muscle-poster-5: 240 33 33;
+  /* Progreso muscular (ADR 051): Básico en rojo, Intermedio en verde esmeralda (lejos del volt) y Avanzado en morado, tres niveles
+     cada uno. La luminosidad baja de nivel en nivel en ambos temas, así que el orden se lee también sin distinguir colores; siempre con el nombre del nivel en texto. */
+  --c-progreso-1: 255 195 192;
+  --c-progreso-2: 247 149 143;
+  --c-progreso-3: 239 95 85;
+  --c-progreso-4: 49 157 100;
+  --c-progreso-5: 0 128 83;
+  --c-progreso-6: 0 99 67;
+  --c-progreso-7: 93 38 149;
+  --c-progreso-8: 69 7 126;
+  --c-progreso-9: 46 1 94;
+  /* Progreso sobre grafito (al terminar un entreno), igual en ambos temas: la rampa del tema oscuro. */
+  --c-progreso-poster-1: 255 220 217;
+  --c-progreso-poster-2: 255 174 168;
+  --c-progreso-poster-3: 255 122 110;
+  --c-progreso-poster-4: 88 180 127;
+  --c-progreso-poster-5: 1 159 104;
+  --c-progreso-poster-6: 0 133 90;
+  --c-progreso-poster-7: 127 75 177;
+  --c-progreso-poster-8: 104 35 172;
+  --c-progreso-poster-9: 76 6 145;
   /* Insignias de la Liga (ADR 033): metales y gemas atenuados, de relleno (≥ 3:1 sobre la superficie); siempre con el nombre en texto. Élite, en grafito. */
   --c-liga-bronce: 148 74 40;
   --c-liga-plata: 112 120 130;
@@ -159,7 +180,7 @@
   --muscle-body-width: 10rem;
   --muscle-mini-height: 5.5rem;
   --muscle-social-width: 12rem;
-  --muscle-calor-width: 13rem;
+  --muscle-progreso-width: 13rem;
   --vaso-width: 1.75rem;
   --muscle-swatch-size: 0.75rem;
   /* Foto/fade sobre luces estáticas que acompañan la longitud real de la página. */
@@ -253,6 +274,25 @@
   --c-muscle-poster-3: 241 119 116;
   --c-muscle-poster-4: 242 84 78;
   --c-muscle-poster-5: 240 33 33;
+  /* En oscuro, de rosa pálido a morado intenso: el último nivel se separa del gris por su croma. */
+  --c-progreso-1: 255 220 217;
+  --c-progreso-2: 255 174 168;
+  --c-progreso-3: 255 122 110;
+  --c-progreso-4: 88 180 127;
+  --c-progreso-5: 1 159 104;
+  --c-progreso-6: 0 133 90;
+  --c-progreso-7: 127 75 177;
+  --c-progreso-8: 104 35 172;
+  --c-progreso-9: 76 6 145;
+  --c-progreso-poster-1: 255 220 217;
+  --c-progreso-poster-2: 255 174 168;
+  --c-progreso-poster-3: 255 122 110;
+  --c-progreso-poster-4: 88 180 127;
+  --c-progreso-poster-5: 1 159 104;
+  --c-progreso-poster-6: 0 133 90;
+  --c-progreso-poster-7: 127 75 177;
+  --c-progreso-poster-8: 104 35 172;
+  --c-progreso-poster-9: 76 6 145;
   --c-liga-bronce: 222 140 94;
   --c-liga-plata: 178 186 196;
   --c-liga-oro: 226 190 60;
@@ -333,7 +373,7 @@
 @media (prefers-reduced-motion: reduce) {
   :root {
     --dur-short: 80ms; --dur-normal: 80ms; --dur-overlay: 80ms;
-    --dur-exit: 80ms; --dur-success: 80ms; --dur-stagger: 0ms; --dur-calor: 80ms;
+    --dur-exit: 80ms; --dur-success: 80ms; --dur-stagger: 0ms; --dur-progreso: 80ms;
     --motion-shift: 0rem; --motion-press: 1;
   }
 }
