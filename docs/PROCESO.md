@@ -1857,3 +1857,15 @@ Víctor encuentra la publicación de un entreno con mucho texto y poco visual: e
 - Tamaño: el caso extremo del test de `resumenEntreno` pasa de 6,1 KB a 7,2 KB (umbral del test de 7.000 a 8.000 bytes). Midiendo además nota de 280 caracteres, mapa y récords estructurados con variante, el máximo teórico ya superaba los 8 KB del servidor antes de este cambio (9,4 KB) y ahora llega a 10,5 KB; un entreno real de seis ejercicios con imágenes, dos récords y dos insignias ocupa unos 0,8 KB. Queda anotado en el roadmap.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Las veinte migraciones y las trece suites SQL pasan en un PostgreSQL 16 local temporal (sin Docker en la sesión; mismo procedimiento que `scripts/sql/validar-social.mjs`). `scripts/ui/validar-social.cjs`, adaptado a la tarjeta nueva, correcto en sus ocho casos (320/375/430 claro/oscuro y 375 al 200 %) con Chromium de Playwright y el Supabase falso. Las capturas de diseño se hicieron con una página temporal de vista previa, ya borrada. Víctor ejecuta 0020 en el SQL Editor del proyecto real (2026-10-20) con éxito.
+
+## 175. Récords al tocar el ejercicio (2026-10-20)
+
+Tras §174, Víctor ve que el número de récords junto a «Ejercicios» ya los anuncia y pide quitar el marcador «4 récords en 4 ejercicios» de la tarjeta: la marca de cada récord se ve al tocar el ejercicio que la tiene.
+
+- `EjerciciosPublicacion`: los ejercicios con trofeo son botones (`aria-expanded`) que abren debajo del mosaico sus récords (`RecordsPublicacion`, ahora solo la lista de un ejercicio: anterior, marca y mejora). `TarjetaPublicacion` deja de pintar récords plegada.
+- `resumenEntreno` guarda `catalogIds` siempre que haya ejercicios, también toda `null`: un entreno solo con ejercicios propios iba en texto y sus récords no se podían abrir. Las publicaciones sin `catalogIds` (anteriores a §174) enseñan sus récords bajo la línea de ejercicios.
+- `scripts/ui/validar-social.cjs` comprueba que la tarjeta no tiene la región de récords y que tocar el ejercicio enseña su marca.
+
+- Víctor prefiere que al tocar el ejercicio se vea solo la subida de peso, sin la marca anterior ni los récords de repeticiones: `mejorasDePeso` (peso, lastre y asistencia, por ejercicio y variante) decide el trofeo, el recuento junto a «Ejercicios» y lo que se abre («Press banca ▲ +5 kg»).
+
+**Verificación:** `npm run test` y `npm run build` correctos; `validar-social.cjs` correcto en sus ocho casos con el Supabase falso. Capturas de la tarjeta a 320 oscuro y 375 claro con una página temporal de vista previa, ya borrada; sin desbordamiento horizontal.

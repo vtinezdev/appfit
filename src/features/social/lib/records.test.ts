@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { agruparRecords, formatoRecord, ordenarRecords, recordsSocial } from './records'
+import { agruparRecords, formatoRecord, mejorasDePeso, ordenarRecords, recordsSocial } from './records'
 import { conNota, leerResumen, resumenActividad, resumenEntreno, type LineaLogro } from './publicacion'
 
 const record: LineaLogro = { ejercicio: 'Press banca', texto: 'Peso máximo: 85 kg', tipo: 'peso', modo: 'externa', valor: 85, anterior: 82.5 }
@@ -52,4 +52,22 @@ it('el resumen máximo con metadatos y nota respeta los 8 KB del servidor', () =
   }),'é'.repeat(280))
   // JSONB añade un espacio tras cada separador. Estos fixtures no contienen separadores en el texto.
   expect(new TextEncoder().encode(JSON.stringify(maximo).replace(/[,:]/g,'$& ')).length).toBeLessThanOrEqual(8192)
+})
+
+describe('mejoras de peso del mosaico', () => {
+  it('solo peso, lastre y asistencia, por ejercicio y variante; sin repeticiones ni récords sin cifras', () => {
+    const m = mejorasDePeso([
+      { ejercicio: 'Press banca', texto: '65 kg', tipo: 'peso', modo: 'externa', valor: 65, anterior: 60 },
+      { ejercicio: 'Press banca', texto: '60 kg × 8', tipo: 'reps', modo: 'externa', valor: 8, anterior: 6, peso: 60 },
+      { ejercicio: 'Fondos', texto: '+12,5 kg', tipo: 'peso', modo: 'lastre', valor: 12.5, anterior: 10, variante: 'Paralelas' },
+      { ejercicio: 'Dominadas', texto: '20 kg', tipo: 'asistencia', modo: 'asistencia', valor: 20, anterior: 25 },
+      { ejercicio: 'Flexiones', texto: '20 reps', tipo: 'reps', modo: 'corporal', valor: 20, anterior: 18 },
+      { ejercicio: 'Sentadilla', texto: '120 kg × 3' },
+    ])
+    expect(Object.fromEntries(m)).toEqual({
+      'Press banca': [{ mejora: '+5 kg' }],
+      Fondos: [{ variante: 'Paralelas', mejora: '+2,5 kg' }],
+      Dominadas: [{ mejora: '−5 kg de asistencia' }],
+    })
+  })
 })
