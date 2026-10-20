@@ -1880,3 +1880,13 @@ Víctor no quiere que se pueda elegir qué partes de un entreno se comparten: o 
 - Documentado en Social, datos y ADR 053; el ADR 044 conserva la compatibilidad de lectura de cifras omitidas.
 
 **Verificación:** `npm run test` y `npm run build` correctos; `validar-social.cjs` correcto en sus ocho casos con el Supabase falso.
+
+## 177. Ficha de un entreno más visual (2026-10-20)
+
+Víctor ve la ficha de un entreno del historial muy cargada de texto: los récords repetían el ejercicio en cada fila y cada ejercicio era una tabla con «Realizada» en todas las series. Elige, sobre una maqueta, récords agrupados por ejercicio en cifras y series como pastillas con el detalle plegado.
+
+- `lib/records`: cada récord lleva `setId`, la serie que lo marca. `lib/fichaEntreno` (con test): `recordsPorEjercicio`, `seriesConRecord`, `partesRecord` (rótulo, cifra y mejora), `pastillaSerie` (carga corta × reps, por lados I/D) y `resumenEjercicio`.
+- `components/RecordsSesion` sustituye a `ListaRecords` en el fin del entreno, el detalle del historial y la revisión semanal (con `total` y miniaturas: `WorkoutSummary.catalogIds`, `Revision.catalogIds`).
+- `components/EjercicioSesion` y `LeyendaSeries`: miniatura, resumen, pastillas con su estado y tabla plegada (RIR solo si hay). «Ejercicios» sube justo debajo de los récords; mapa, Compartir y «Volver a hacerlo» quedan después. La edición no cambia.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Navegador en `appfit-test.localhost` con datos sintéticos (calentamiento, pendiente, dropset, lados, nombre largo, cifras grandes): 320/375/430 px en claro y oscuro sin scroll horizontal, sin botones por debajo de 44 px, miniaturas cargadas y sin errores de consola.

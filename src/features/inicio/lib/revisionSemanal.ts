@@ -225,6 +225,8 @@ export interface Revision {
   records: RecordEjercicio[]
   /** Nombre de cada ejercicio (por id), para los récords. */
   nombres: Record<number, string>
+  /** Ejercicio del catálogo de cada id, para las miniaturas de los récords. */
+  catalogIds: Record<number, string | undefined>
   agua: BloqueAgua
 }
 
@@ -240,6 +242,7 @@ export function calcularRevision(lunes: string, datos: DatosRevision, hoy: strin
     entreno: bloqueEntreno(semana, anterior, datos.workouts, datos.sets, datos.exercises),
     records: recordsDeSemana(semana, datos.workouts, datos.sets),
     nombres: Object.fromEntries(datos.exercises.map((e) => [e.id, e.nombre])),
+    catalogIds: Object.fromEntries(datos.exercises.map((e) => [e.id, e.catalogId])),
     agua: bloqueAgua(semana, datos.agua, datos.objetivoAguaMl),
   }
 }

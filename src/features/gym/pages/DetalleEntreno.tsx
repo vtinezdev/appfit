@@ -1,4 +1,3 @@
-import { contextoSerie, describirReps } from '../lib/ejecucion'
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
@@ -16,20 +15,21 @@ import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { formatDiaMes, toISODate } from '../../../shared/lib/dates'
-import { formatNumber } from '../../../shared/lib/format'
+import { formatInt } from '../../../shared/lib/format'
 import PanelEjercicio from '../components/PanelEjercicio'
 import SelectorEjercicios from '../components/SelectorEjercicios'
-import { ListaRecords } from '../components/WorkoutFinished'
+import RecordsSesion from '../components/RecordsSesion'
+import EjercicioSesion, { LeyendaSeries } from '../components/EjercicioSesion'
 import PublicarEntreno from '../components/PublicarEntreno'
 import GuardarComoRutina from '../components/GuardarComoRutina'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { recordsDeEntreno } from '../lib/records'
+import { seriesConRecord } from '../lib/fichaEntreno'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { combinarFechaHora, efectivas, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
-import { formatearCarga } from '../lib/carga'
 import Pista from '../../../shared/components/Pista'
 
 // Diferido: la geometría de los muñecos pesa más que el resto del mapa.
@@ -101,6 +101,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   const exerciseMap = new Map(exercises.map((e) => [e.id, e]))
   const records = recordsDeEntreno(workoutId, todosWorkouts, todasSeries)
   const nombres = Object.fromEntries(exercises.map((e) => [e.id, e.nombre]))
+  const catalogIds = Object.fromEntries(exercises.map((e) => [e.id, e.catalogId]))
+  const conRecord = seriesConRecord(records)
   const minutos = minutosEntre(w.inicio, fin)
   const trabajo = trabajoMuscularWorkout(w, delEntreno, exercises)
 
@@ -214,18 +216,18 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
         </section>
       )}
 
-      {!editando && !!records.length && <ListaRecords records={records} nombres={nombres} />}
-      {!editando && <Suspense fallback={<LoadingState />}><MapaMuscular key={w.id} summary={trabajo} figura={figura} figuras={false} /></Suspense>}
-      {!editando && <PublicarEntreno workoutId={w.id} titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin}
-        series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)} records={records} nombres={nombres} />}
-      {!editando && ids.length > 0 && (
-        <section aria-label="Volver a hacerlo" className="space-y-stack">
-          <SectionHeader>Volver a hacerlo</SectionHeader>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" className="flex-1 basis-40" loading={repitiendo} disabled={!!enCurso || ocupado} onClick={repetir}>Repetir este entreno</Button>
-            <Button variant="subtle" className="flex-1 basis-40" disabled={ocupado} onClick={() => setGuardandoRutina((n) => n + 1)}>Guardar como rutina</Button>
-          </div>
-          {enCurso && <p className="text-caption text-fg-muted">Tienes un entreno en curso: termínalo para repetir este.</p>}
+      {!editando && !!records.length && <RecordsSesion records={records} nombres={nombres} catalogIds={catalogIds} />}
+      {!editando && (
+        <section aria-label="Ejercicios" className="space-y-stack">
+          <SectionHeader variant="section">Ejercicios <span className="tabular text-body text-fg-muted">{formatInt(ids.length)}</span></SectionHeader>
+          <LeyendaSeries calentamiento={delEntreno.some(s => s.tipo === 'calentamiento')} pendiente={delEntreno.some(s => s.realizada === false)}
+            record={delEntreno.some(s => conRecord.has(s.id))} />
+          {ids.length > 0
+            ? <ul className="space-y-stack">
+              {ids.map((id) => <li key={id}><EjercicioSesion ejercicio={exerciseMap.get(id)} records={conRecord} nota={w.notasEjercicios?.[id]}
+                series={delEntreno.filter((s) => s.exerciseId === id).sort((a, b) => a.orden - b.orden)} /></li>)}
+            </ul>
+            : <EmptyState>Sin ejercicios registrados.</EmptyState>}
         </section>
       )}
 
@@ -239,7 +241,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
       </section>
 
       {editando && <Pista id="detalle-confirmar" />}
-      {editando ? (
+      {editando && (
         <div className="space-y-stack">
           {ids.map((id, i) => {
             const ex = exerciseMap.get(id)
@@ -260,45 +262,20 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
           })}
           <Button data-add-exercise variant="secondary" size="lg" block disabled={ocupado || quitando} onClick={() => setBuscando(true)}><Icon name="plus" size={20} />Añadir ejercicio</Button>
         </div>
-      ) : (
-        <div className="space-y-section">
-          {ids.map((id) => {
-            const series = delEntreno.filter((s) => s.exerciseId === id).sort((a, b) => a.orden - b.orden)
-            let n = 0
-            return (
-              <section key={id} aria-label={exerciseMap.get(id)?.nombre ?? 'Ejercicio'} className="space-y-2">
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h2 className="min-w-0 break-words text-title text-fg">{exerciseMap.get(id)?.nombre ?? '…'}</h2>
-                  <span className="tabular text-caption text-fg-muted">{formatNumber(volumenSets(series), 1)} kg</span>
-                </div>
-                <table className="tabular w-full table-fixed break-words text-body-sm">
-                  <thead>
-                    <tr className="text-left text-label text-fg-muted">
-                      <th className="w-16 pb-1 font-semibold">Serie</th>
-                      <th className="pb-1 text-right font-semibold">Reps</th>
-                      <th className="pb-1 text-right font-semibold">Carga</th>
-                      <th className="w-16 pb-1 text-right font-semibold">RIR</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-line">
-                    {series.map((s) => (
-                      <tr key={s.id}>
-                        <td className="py-1.5 text-fg-muted">{s.tipo === 'calentamiento' ? 'C' : ++n}<span className="block text-caption">{s.realizada === true ? 'Realizada' : s.realizada === false ? 'Pendiente' : 'Sin confirmar'}</span></td>
-                        <td className="py-1.5 text-right text-fg">{describirReps(s)}</td>
-                        <td className="py-1.5 text-right font-semibold text-fg">{s.ejecucion === 'lados' ? 'Por lado' : formatearCarga(s)}</td>
-                        <td className="py-1.5 text-right text-fg-muted">{s.rir ?? '—'}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {series.filter(s => contextoSerie(s)).map(s => <div key={s.id} className="space-y-1 text-caption text-fg-muted"><p>{contextoSerie(s)}</p>{s.ejecucion === 'lados' && <p>{Object.entries(s.lados ?? {}).map(([l, p]) => `${l}: RIR ${p.rir ?? '—'}`).join(' · ')}</p>}{s.bajadas?.map((b, i) => <p key={b.id}>Bajada {i + 1}: {describirReps({ ...s, ...b })}{s.ejecucion !== 'lados' ? ` · ${formatearCarga({ ...s, ...b })}` : ''}</p>)}</div>)}
-                {w.notasEjercicios?.[id] && <p className="whitespace-pre-wrap break-words text-body-sm text-fg-muted">{w.notasEjercicios[id]}</p>}
-                {series.some((s) => s.tipo === 'calentamiento') && <p className="text-caption text-fg-muted">C = calentamiento (no cuenta en volumen).</p>}
-              </section>
-            )
-          })}
-          {ids.length === 0 && <EmptyState>Sin ejercicios registrados.</EmptyState>}
-        </div>
+      )}
+
+      {!editando && <Suspense fallback={<LoadingState />}><MapaMuscular key={w.id} summary={trabajo} figura={figura} figuras={false} /></Suspense>}
+      {!editando && <PublicarEntreno workoutId={w.id} titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin}
+        series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)} records={records} nombres={nombres} />}
+      {!editando && ids.length > 0 && (
+        <section aria-label="Volver a hacerlo" className="space-y-stack">
+          <SectionHeader>Volver a hacerlo</SectionHeader>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="secondary" className="flex-1 basis-40" loading={repitiendo} disabled={!!enCurso || ocupado} onClick={repetir}>Repetir este entreno</Button>
+            <Button variant="subtle" className="flex-1 basis-40" disabled={ocupado} onClick={() => setGuardandoRutina((n) => n + 1)}>Guardar como rutina</Button>
+          </div>
+          {enCurso && <p className="text-caption text-fg-muted">Tienes un entreno en curso: termínalo para repetir este.</p>}
+        </section>
       )}
 
       <section aria-label="Borrar entreno" className="space-y-2 border-t border-line pt-3">

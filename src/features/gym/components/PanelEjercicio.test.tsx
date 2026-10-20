@@ -2,7 +2,8 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import type { Exercise, SetEntry } from '../../../shared/db/types'
 import PanelEjercicio from './PanelEjercicio'
-import { ListaRecords } from './WorkoutFinished'
+import RecordsSesion from './RecordsSesion'
+import EjercicioSesion from './EjercicioSesion'
 import ObjetivoRutina from './ObjetivoRutina'
 import { anterioresPorSerie } from '../lib/anterior'
 
@@ -90,9 +91,25 @@ describe('ObjetivoRutina y récords', () => {
     expect(con).toContain('Quitar objetivo')
   })
 
-  it('lista los récords con el nombre del ejercicio', () => {
-    const html = renderToStaticMarkup(<ListaRecords records={[{ exerciseId: 1, tipo: 'peso', valor: 105, anterior: 100 }]} nombres={{ 1: 'Press banca' }} />)
-    expect(html).toContain('Press banca')
-    expect(html).toContain('Peso máximo: 105 kg')
+  it('agrupa los récords por ejercicio, cada uno como cifra con su mejora', () => {
+    const html = renderToStaticMarkup(<RecordsSesion records={[{ exerciseId: 1, tipo: 'peso', valor: 105, anterior: 100 }, { exerciseId: 1, tipo: '1rm', valor: 122.5, anterior: 116.67 }]} nombres={{ 1: 'Press banca' }} />)
+    expect(html.match(/Press banca/g)).toHaveLength(1)
+    expect(html).toContain('Peso máximo')
+    expect(html).toContain('105 kg')
+    expect(html).toContain('+5 kg')
+    expect(html).toContain('2<span class="sr-only"> récords</span>')
+  })
+
+  it('ficha de un ejercicio terminado: pastillas con su estado y detalle plegado', () => {
+    const series = [s(1, { tipo: 'calentamiento', peso: 40, reps: 10, realizada: true }), s(2, { realizada: true, rir: 2 }), s(3, { peso: 65, realizada: true }), s(4, { realizada: false })]
+    const html = renderToStaticMarkup(<EjercicioSesion ejercicio={ex} series={series} records={new Set([3])} nota="Codo izquierdo" />)
+    expect(html).toContain('2 de 3 series')
+    expect(html).toContain('Calentamiento: </span><span class="min-w-0">40 kg × 10')
+    expect(html).toContain('Récord: </span><span class="min-w-0">65 kg × 8')
+    expect(html).toContain('Pendiente: </span><span class="min-w-0">60 kg × 8')
+    expect(html).toContain('aria-expanded="false"')
+    expect(html).toMatch(/<div id="[^"]+" hidden=""/)
+    expect(html).toContain('Codo izquierdo')
+    expect(html).toContain('>RIR<')
   })
 })
