@@ -6,7 +6,7 @@ import { Select, Textarea } from '../../../shared/components/Input'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { useConsulta } from '../hooks/useConsulta'
-import { conNota, MAX_PUBLICACION, resumenTexto, validarPublicacion, type Resumen } from '../lib/publicacion'
+import { conNota, MAX_PUBLICACION, resumenTexto, sinImagenes, validarPublicacion, type Resumen } from '../lib/publicacion'
 import { puedePublicarEnComunidad, type Comunidad } from '../lib/comunidad'
 import { cargarSocial } from '../servicio'
 import { crearIdDeEnvio } from '../lib/intento'
@@ -50,7 +50,12 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
   const grupos = useConsulta(async () => (await cargarSocial()).comunidades('', true), 0)
   const destinoGrupo = comunidad ?? grupos.datos?.find(c => c.id === destino)
   const publicables = grupos.datos?.filter(puedePublicarEnComunidad)
-  const resumen = adjunto ? conNota(seleccionarResumen(adjunto.resumen, seleccion), nota) : resumenTexto(texto)
+  const capacidades = useConsulta(async () => (await cargarSocial()).capacidades(), 0)
+  const elegido = adjunto && seleccionarResumen(adjunto.resumen, seleccion)
+  // La vista previa enseña exactamente lo que se envía: sin la capacidad (o mientras se consulta), sin imágenes.
+  const resumen = elegido ? conNota(capacidades.datos?.imagenesPublicacion ? elegido : sinImagenes(elegido), nota) : resumenTexto(texto)
+  // Un entreno espera a saber si caben sus imágenes; si la consulta falla, sigue sin ellas.
+  const esperandoCapacidades = !!adjunto && capacidades.estado === 'cargando' && !capacidades.datos
 
   const enviar = async () => {
     if (enviando.current || !resumen) return
@@ -106,7 +111,7 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
         {grupos.estado === 'error' && !comunidad && <div className="space-y-2"><ErrorState>{grupos.error}</ErrorState><Button variant="secondary" size="sm" onClick={grupos.recargar}>Reintentar comunidades</Button></div>}
         {soloComunidades && grupos.estado === 'listo' && publicables?.length === 0 && <p className="text-body-sm text-fg-muted">No tienes comunidades en las que puedas publicar. Únete a una que permita publicar a sus miembros o crea la tuya desde Social.</p>}
         {adjunto && <><SeleccionPublicacion resumen={adjunto.resumen} valor={seleccion} onChange={s => { setSeleccion(s); setCambioSeleccion(true) }} /><NotaPublicacion valor={nota} onChange={setNota} disabled={ocupado} />{resumen && <TarjetaPublicacion resumen={resumen} fecha={adjunto.fecha} />}</>}
-        <Button type="submit" variant="primary" block disabled={!destino}>Ver vista previa</Button>
+        <Button type="submit" variant="primary" block disabled={!destino || esperandoCapacidades}>Ver vista previa</Button>
       </form> : <>
         <p className="break-words text-body-sm font-semibold text-fg">{destino === 'seguidores' ? 'Para tus seguidores aprobados' : `Para los miembros de ${destinoGrupo?.nombre}`}</p>
         {resumen && <TarjetaPublicacion resumen={resumen} fecha={adjunto?.fecha ?? fecha} />}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { leerResumen, leerMapa, MAX_EJERCICIOS, MAX_LINEAS, MAX_TEXTO, MAX_PUBLICACION, resumenActividad, resumenEntreno, resumenLogro, resumenTexto, validarPublicacion, textoEjercicios, type DatosEntreno } from './publicacion'
+import { leerResumen, leerMapa, sinImagenes, MAX_EJERCICIOS, MAX_LINEAS, MAX_TEXTO, MAX_PUBLICACION, resumenActividad, resumenEntreno, resumenLogro, resumenTexto, validarPublicacion, textoEjercicios, type DatosEntreno } from './publicacion'
 import type { Logro } from '../../vitrina/lib/logros'
 
 const entreno = (cambios: Partial<DatosEntreno> = {}): DatosEntreno => ({
@@ -43,8 +43,34 @@ describe('resumen de un entreno', () => {
       records: Array.from({ length: 12 }, () => ({ ejercicio: 'é'.repeat(100), texto: 'é'.repeat(100) })),
       ligas: Array.from({ length: 12 }, () => ({ ejercicio: 'é'.repeat(100), texto: 'é'.repeat(100) })),
       logros: Array.from({ length: 12 }, () => 'é'.repeat(100)),
+      catalogIds: Array.from({ length: 30 }, () => `appfit:${'a'.repeat(40)}`),
+      insignias: Array.from({ length: 12 }, () => ({ id: 'cinco-mas-altos', grupo: 'constancia', nivel: 5 })),
     }))
-    expect(new TextEncoder().encode(JSON.stringify(maximo)).length).toBeLessThan(7_000)
+    expect(maximo.catalogIds).toHaveLength(MAX_EJERCICIOS)
+    expect(maximo.insignias).toHaveLength(MAX_LINEAS)
+    // Las imágenes del catálogo y las insignias suman ~1 KB a este caso extremo; sigue por debajo de 8 KB.
+    expect(new TextEncoder().encode(JSON.stringify(maximo)).length).toBeLessThan(8_000)
+  })
+
+  it('imagen del catálogo por ejercicio, alineada tras quitar repetidos; nunca la de un ejercicio propio', () => {
+    const r = resumenEntreno(entreno({ catalogIds: ['appfit:press-banca', undefined, 'appfit:otro'] }))
+    expect(r.catalogIds).toEqual(['appfit:press-banca', null])
+    expect(resumenEntreno(entreno({ catalogIds: [undefined, 'off:123', 'https://x.y/a.webp'] }))).not.toHaveProperty('catalogIds')
+    expect(resumenEntreno(entreno())).not.toHaveProperty('catalogIds')
+  })
+
+  it('insignia de cada logro nuevo, solo si todas son válidas', () => {
+    expect(resumenEntreno(entreno({ insignias: [{ id: 'semanas', grupo: 'constancia', nivel: 2 }] })).insignias).toEqual([{ id: 'semanas', grupo: 'constancia', nivel: 2 }])
+    expect(resumenEntreno(entreno({ insignias: [{ id: 'nada' as never, grupo: 'constancia', nivel: 2 }] }))).not.toHaveProperty('insignias')
+    expect(resumenEntreno(entreno({ insignias: [] }))).not.toHaveProperty('insignias')
+  })
+
+  it('sin la capacidad del servidor se envía sin imágenes ni insignias', () => {
+    const r = resumenEntreno(entreno({ catalogIds: ['appfit:press-banca'], insignias: [{ id: 'semanas', grupo: 'constancia', nivel: 2 }] }))
+    const sin = sinImagenes(r)
+    expect(sin).not.toHaveProperty('catalogIds')
+    expect(sin).not.toHaveProperty('insignias')
+    expect(sin).toEqual({ ...resumenEntreno(entreno()) })
   })
 
   it('sin título ni cifras válidas no se rompe', () => {
@@ -93,6 +119,19 @@ describe('leer un resumen del servidor', () => {
     expect(r?.tipo === 'entreno' && r.logros).toHaveLength(MAX_LINEAS)
     expect(r?.titulo).toHaveLength(MAX_TEXTO)
     expect(r).not.toHaveProperty('extra')
+  })
+
+  it('lee imágenes e insignias solo si siguen alineadas con su lista', () => {
+    const base = { v: 1, tipo: 'entreno', titulo: 'Torso', series: 3, ejercicios: ['Press', 'Remo'], records: [], ligas: [], logros: ['Semanas'] }
+    expect(leerResumen({ ...base, catalogIds: ['appfit:press-banca', null], insignias: [{ id: 'semanas', grupo: 'constancia', nivel: null }] }))
+      .toMatchObject({ catalogIds: ['appfit:press-banca', null], insignias: [{ id: 'semanas', grupo: 'constancia', nivel: null }] })
+    // Una entrada descartada desalinea la lista: se ignoran las imágenes antes que pintar la de otro ejercicio.
+    const desalineado = leerResumen({ ...base, ejercicios: ['Press', 42, 'Remo'], catalogIds: ['appfit:press-banca', null, 'appfit:remo-barra'] })
+    expect(desalineado).toMatchObject({ ejercicios: ['Press', 'Remo'] })
+    expect(desalineado).not.toHaveProperty('catalogIds')
+    expect(leerResumen({ ...base, catalogIds: ['javascript:alert(1)', 'appfit:remo-barra'] })).toMatchObject({ catalogIds: [null, 'appfit:remo-barra'] })
+    expect(leerResumen({ ...base, insignias: [{ id: 'semanas', grupo: 'constancia', nivel: 9 }] })).not.toHaveProperty('insignias')
+    expect(leerResumen({ ...base, insignias: [] })).not.toHaveProperty('insignias')
   })
 })
 

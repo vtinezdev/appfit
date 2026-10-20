@@ -45,15 +45,20 @@ export function useResumenEntreno(d: DatosPublicarEntreno | undefined): { workou
 
   const nombre = (exerciseId: number) => d.nombres[exerciseId] ?? 'Ejercicio'
   const conSeries = [...new Set(efectivas([...sets].sort((a, b) => a.createdAt - b.createdAt)).map((s) => s.exerciseId))]
+  const orden = ordenEjerciciosSesion([], conSeries, workout.ordenEjercicios, workout.ejerciciosOmitidos)
+  const catalogo = new Map(ejercicios.map((e) => [e.id, e.catalogId]))
+  const nuevos = vitrina.visible ? logrosDeEntreno(vitrina.vitrina.logros, d.workoutId) : []
   const resumen = resumenEntreno({
     titulo: d.titulo, inicio: d.inicio, fin: d.fin, series: d.series, volumenKg: d.volumen,
     mapa: trabajoMuscularWorkout(workout, sets, ejercicios).levels,
-    ejercicios: ordenEjerciciosSesion([], conSeries, workout.ordenEjercicios, workout.ejerciciosOmitidos).map(nombre),
+    ejercicios: orden.map(nombre),
+    catalogIds: orden.map((id) => catalogo.get(id)),
     records: d.records.map((r) => ({ ejercicio: nombre(r.exerciseId), texto: describirRecord(r, (n) => formatNumber(n, 2)), tipo: r.tipo, modo: r.modoCarga ?? 'externa', valor: r.valor, anterior: r.anterior, ...(r.peso !== undefined ? { peso: r.peso } : {}), ...(r.variante ? { variante: r.variante } : {}) })),
     ligas: ligas.visible
       ? ascensosDeEntreno(ligas.ligas, d.workoutId).filter(ascensoDestacado).map((a) => ({ ejercicio: nombre(a.exerciseId), texto: textoAscenso(a) }))
       : [],
-    logros: vitrina.visible ? logrosDeEntreno(vitrina.vitrina.logros, d.workoutId).map(nombreConNivel) : [],
+    logros: nuevos.map(nombreConNivel),
+    insignias: nuevos.map(({ logro, nivel }) => ({ id: logro.id, grupo: logro.grupo, nivel })),
   })
   return { workout, resumen }
 }

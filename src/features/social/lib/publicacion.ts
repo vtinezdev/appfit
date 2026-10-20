@@ -62,14 +62,24 @@ export interface ResumenEntreno extends ConNota {
   series: number
   volumenKg?: number
   ejercicios: string[]
+  /** Paralelo a `ejercicios`: el ejercicio del catálogo de la app (para su imagen) o `null` si es propio. */
+  catalogIds?: (string | null)[]
   records: LineaLogro[]
   recordsTotal?: number
   recordsEjercicios?: number
   ligas: LineaLogro[]
   /** Piezas nuevas de la Vitrina. */
   logros: string[]
+  /** Paralelo a `logros`: qué insignia pintar. Las publicaciones antiguas no lo llevan y se quedan en texto. */
+  insignias?: InsigniaPublicada[]
   /** Solo niveles por zona: nunca medidas, sexo, pesos, ejercicios privados ni datos de Perfil. */
   mapa?: MapaCompartido
+}
+
+export interface InsigniaPublicada {
+  id: IdLogro
+  grupo: GrupoLogro
+  nivel: number | null
 }
 
 export interface ResumenActividad extends ConNota {
@@ -100,6 +110,14 @@ const texto = (t: string) => {
   const limpio = t.trim().replace(/\s+/g, ' ')
   return limpio.length > MAX_TEXTO ? `${limpio.slice(0, MAX_TEXTO - 1)}…` : limpio
 }
+/** Solo ejercicios del catálogo de la app: su id es público y la imagen sale del propio origen. */
+const CATALOG_ID = /^appfit:[a-z0-9-]{1,40}$/
+const catalogId = (x: unknown): string | null => (typeof x === 'string' && CATALOG_ID.test(x) ? x : null)
+const insignia = (x: unknown): InsigniaPublicada | null => {
+  if (!esObjeto(x) || !IDS_LOGRO.includes(x.id as IdLogro) || !Object.hasOwn(GRUPOS_LOGRO, String(x.grupo))) return null
+  if (x.nivel !== null && (typeof x.nivel !== 'number' || !Number.isInteger(x.nivel) || x.nivel < 1 || x.nivel > 5)) return null
+  return { id: x.id as IdLogro, grupo: x.grupo as GrupoLogro, nivel: x.nivel as number | null }
+}
 const cifra = (n: number) => (Number.isFinite(n) && n > 0 ? Math.round(n) : 0)
 const linea = (l: LineaLogro): LineaLogro => ({ ejercicio: texto(l.ejercicio), texto: texto(l.texto),
   ...(l.tipo && l.modo && l.valor !== undefined && l.anterior !== undefined ? {
@@ -116,15 +134,26 @@ export interface DatosEntreno {
   series: number
   volumenKg: number
   ejercicios: string[]
+  /** Paralelo a `ejercicios`. */
+  catalogIds?: (string | undefined)[]
   records: LineaLogro[]
   ligas: LineaLogro[]
   logros: string[]
+  /** Paralelo a `logros`. */
+  insignias?: InsigniaPublicada[]
   mapa?: MapaCompartido
 }
 
 /** El resumen de un entreno: textos recortados, listas acotadas y cifras redondeadas. */
 export function resumenEntreno(d: DatosEntreno): ResumenEntreno {
-  const ejercicios = [...new Set(d.ejercicios.map(texto).filter(Boolean))]
+  const porNombre = new Map<string, string | null>()
+  d.ejercicios.forEach((e, i) => {
+    const nombre = texto(e)
+    if (nombre && !porNombre.has(nombre)) porNombre.set(nombre, catalogId(d.catalogIds?.[i]))
+  })
+  const ejercicios = [...porNombre.keys()].slice(0, MAX_EJERCICIOS)
+  const catalogIds = ejercicios.map(e => porNombre.get(e) ?? null)
+  const logros = d.logros.map((l, i) => ({ nombre: texto(l), insignia: insignia(d.insignias?.[i]) })).filter(l => l.nombre).slice(0, MAX_LINEAS)
   const mapa = leerMapa(d.mapa)
   const records = ordenarRecords(d.records)
   return {
@@ -134,12 +163,14 @@ export function resumenEntreno(d: DatosEntreno): ResumenEntreno {
     duracionSeg: cifra((d.fin - d.inicio) / 1000),
     series: cifra(d.series),
     volumenKg: cifra(d.volumenKg),
-    ejercicios: ejercicios.slice(0, MAX_EJERCICIOS),
+    ejercicios,
+    ...(catalogIds.some(Boolean) ? { catalogIds } : {}),
     records: records.slice(0, MAX_LINEAS).map(linea),
     recordsTotal: records.length,
     recordsEjercicios: new Set(records.map(r => r.ejercicio)).size,
     ligas: d.ligas.slice(0, MAX_LINEAS).map(linea),
-    logros: d.logros.map(texto).filter(Boolean).slice(0, MAX_LINEAS),
+    logros: logros.map(l => l.nombre),
+    ...(logros.length && logros.every(l => l.insignia) ? { insignias: logros.map(l => l.insignia!) } : {}),
     ...(mapa ? { mapa } : {}),
   }
 }
@@ -246,14 +277,22 @@ export function leerResumen(x: unknown): Resumen | null {
     const volumenKg = x.volumenKg === undefined ? undefined : leerCifra(x.volumenKg)
     const mapa = leerMapa(x.mapa)
     if (series === null || volumenKg === null) return null
+    const ejercicios = leerTextos(x.ejercicios, MAX_EJERCICIOS)
+    // Las listas paralelas solo valen si ninguna entrada se descartó: si no, se desalinean.
+    const alineada = (lista: unknown, base: unknown, n: number) => Array.isArray(lista) && Array.isArray(base) && lista.length === n && base.length === n
+    const catalogIds = alineada(x.catalogIds, x.ejercicios, ejercicios.length) ? (x.catalogIds as unknown[]).map(catalogId) : []
+    const logros = leerTextos(x.logros, MAX_LINEAS)
+    const insignias = alineada(x.insignias, x.logros, logros.length) ? (x.insignias as unknown[]).map(insignia) : []
     return {
       v: 1, tipo: 'entreno', ...nota, titulo, ...(duracionSeg !== undefined ? { duracionSeg } : {}), series, ...(volumenKg !== undefined ? { volumenKg } : {}),
-      ejercicios: leerTextos(x.ejercicios, MAX_EJERCICIOS),
+      ejercicios,
+      ...(catalogIds.some(Boolean) ? { catalogIds } : {}),
       records: leerLineas(x.records),
       ...(Number.isSafeInteger(x.recordsTotal) && (x.recordsTotal as number) >= leerLineas(x.records).length ? { recordsTotal: x.recordsTotal as number } : {}),
       ...(Number.isSafeInteger(x.recordsEjercicios) && (x.recordsEjercicios as number) >= 0 ? { recordsEjercicios: x.recordsEjercicios as number } : {}),
       ligas: leerLineas(x.ligas),
-      logros: leerTextos(x.logros, MAX_LINEAS),
+      logros,
+      ...(insignias.length && insignias.every(Boolean) ? { insignias: insignias as InsigniaPublicada[] } : {}),
       ...(mapa ? { mapa } : {}),
     }
   }
@@ -272,6 +311,14 @@ export function textoEjercicios(ejercicios: string[], visibles = 3): string {
   }
   const resto = ejercicios.length - visibles
   return `${ejercicios.slice(0, visibles).join(', ')} y ${formatInt(resto)} más`
+}
+
+/** Sin 0020 el servidor rechaza las claves nuevas: se envía sin imágenes ni insignias (la tarjeta cae a texto). */
+export function sinImagenes(resumen: Resumen): Resumen {
+  if (resumen.tipo !== 'entreno') return resumen
+  const { catalogIds, insignias, ...base } = resumen
+  void catalogIds; void insignias
+  return base
 }
 
 /** La nota se incorpora solo al resumen elegido para este envío; cada copia conserva la suya. */
