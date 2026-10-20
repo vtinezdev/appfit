@@ -124,9 +124,9 @@ export default function EditorRutina({ inicial, onClose, onBorrada }: Props) {
             const nombre = exerciseMap.get(id)?.nombre ?? 'ejercicio'
             return (
               <div key={id} className="border-b border-line py-1">
-                <div className="flex min-h-touch items-center justify-between gap-2">
+                <div className="flex min-h-touch flex-wrap items-center justify-between gap-2">
                   <MiniaturaEjercicio catalogId={exerciseMap.get(id)?.catalogId} />
-                  <span className="min-w-0 flex-1 break-words text-body text-fg"><span className="tabular text-caption text-fg-muted">{i + 1}. </span>{exerciseMap.get(id)?.nombre ?? '…'}</span>
+                  <span className="min-w-0 flex-1 basis-24 break-words text-body text-fg"><span className="tabular text-caption text-fg-muted">{i + 1}. </span>{exerciseMap.get(id)?.nombre ?? '…'}</span>
                   <IconButton icon="chevron-left" label={`Subir ${nombre}`} variant="ghost" size="sm" className="rotate-90" disabled={i === 0} onClick={() => moverEjercicio(i, -1)} />
                   <IconButton icon="chevron-right" label={`Bajar ${nombre}`} variant="ghost" size="sm" className="rotate-90" disabled={i === editando.exerciseIds.length - 1} onClick={() => moverEjercicio(i, 1)} />
                   <IconButton icon="close" label={`Quitar ${nombre}`} variant="ghost" size="sm" onClick={() => quitarEjercicio(id)} />

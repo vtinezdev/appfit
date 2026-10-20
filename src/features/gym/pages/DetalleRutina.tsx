@@ -96,16 +96,16 @@ export default function DetalleRutina({ routineId, enCurso, onVolver, onEmpezado
       </div>
 
       <section aria-label={r.nombre} className="training-surface session-poster space-y-5 p-5">
-        <div className="flex items-start gap-3">
-          <div className="min-w-0 flex-1 space-y-1">
+        <div className="flex flex-wrap items-start gap-3">
+          <div className="min-w-0 flex-1 basis-32 space-y-1">
             <p className="training-muted text-rotulo">{cuandoRutina(resumen.ultima)}</p>
-            <h1 className="poster-title break-words">{r.nombre}</h1>
+            <h1 className="poster-title">{r.nombre}</h1>
           </div>
           {musculos.principales.length > 0 && <span className="rutina-mapa"><Suspense fallback={<span className="muscle-mini" />}><MiniMapa levels={musculos.levels} figura={figura} /></Suspense></span>}
         </div>
-        <dl className="cifras-filetes grid grid-cols-3">
+        <dl className={`cifras-filetes grid ${resumen.series === null ? 'grid-cols-2' : 'grid-cols-3'}`}>
           <div className="min-w-0"><dt className="training-muted text-caption">Ejercicios</dt><dd className="font-numeric text-heading tabular">{formatInt(ids.length)}</dd></div>
-          <div className="min-w-0"><dt className="training-muted text-caption">Series</dt><dd className="font-numeric text-heading tabular">{resumen.series === null ? '—' : formatInt(resumen.series)}</dd></div>
+          {resumen.series !== null && <div className="min-w-0"><dt className="training-muted text-caption">Series</dt><dd className="font-numeric text-heading tabular">{formatInt(resumen.series)}</dd></div>}
           <div className="min-w-0"><dt className="training-muted text-caption">Hecha</dt><dd className="tabular"><span className="font-numeric text-heading">{formatInt(sesiones.total)}</span> <span className="training-muted text-caption">{sesiones.total === 1 ? 'vez' : 'veces'}</span></dd></div>
         </dl>
         {!enCurso && <Button variant="ghost" size="lg" block className="training-primary" loading={empezando} onClick={empezar}>
@@ -129,12 +129,12 @@ export default function DetalleRutina({ routineId, enCurso, onVolver, onEmpezado
             const calentamientos = objetivo && textoCalentamientos(objetivo)
             const agarre = textoAgarre(r.agarres?.[id])
             return <li key={id}>
-              <Card padded={false} className="flex items-start gap-3 px-4 py-3">
+              <Card padded={false} className="flex flex-wrap items-start gap-3 px-4 py-3">
                 <span className="relative shrink-0">
                   <MiniaturaEjercicio catalogId={ex.catalogId} />
                   <span aria-hidden className="tabular absolute -left-1.5 -top-1.5 flex h-6 w-6 items-center justify-center rounded-pill bg-fg text-caption font-bold text-bg">{i + 1}</span>
                 </span>
-                <span className="min-w-0 flex-1 space-y-1.5">
+                <span className="min-w-0 flex-1 basis-32 space-y-1.5">
                   <span className="block break-words text-title text-fg"><span className="sr-only">{i + 1}. </span>{ex.nombre}</span>
                   <span className="flex flex-wrap gap-1.5">
                     <Badge>{objetivo ? `${textoObjetivo(objetivo)} reps` : 'Sin objetivo'}</Badge>

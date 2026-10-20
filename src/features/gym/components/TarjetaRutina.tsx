@@ -45,8 +45,8 @@ export default function TarjetaRutina({ rutina, resumen, musculos, miniaturas, f
   const tira = tiraMiniaturas(miniaturas)
   return <Card padded={false} className="overflow-hidden">
     <button type="button" onClick={onAbrir} className="app-button flex w-full flex-col gap-3 px-card pt-card text-left">
-      <span className="flex w-full items-start gap-3">
-        <span className="min-w-0 flex-1 space-y-1">
+      <span className="flex w-full flex-wrap items-start gap-3">
+        <span className="min-w-0 flex-1 basis-32 space-y-1">
           <span className="block text-rotulo text-fg-muted">{cuandoRutina(resumen.ultima)}</span>
           <span className="block break-words text-heading text-fg">{rutina.nombre}</span>
           {musculos.principales.length > 0 && <span className="block pt-1"><EtiquetasMusculos musculos={musculos.principales} max={3} /></span>}

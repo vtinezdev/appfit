@@ -64,9 +64,9 @@ export default function EjercicioSesion({ ejercicio, series, records, nota }: Pr
   let n = 0
   return <Card padded={false} className="overflow-hidden">
     <button type="button" aria-expanded={abierto} aria-controls={id} onClick={() => setAbierto(!abierto)}
-      className="flex min-h-touch w-full items-center gap-3 px-card py-3 text-left">
+      className="flex min-h-touch w-full flex-wrap items-center gap-3 px-card py-3 text-left">
       <MiniaturaEjercicio catalogId={ejercicio?.catalogId} />
-      <span className="min-w-0 flex-1">
+      <span className="min-w-0 flex-1 basis-32">
         <span className="block break-words text-title text-fg">{nombre}</span>
         <span className="tabular block break-words text-body-sm text-fg-muted">{resumenEjercicio(series)}</span>
       </span>
