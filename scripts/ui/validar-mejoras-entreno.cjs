@@ -193,7 +193,7 @@ async function main() {
         await page.getByRole('button', { name: /^Nota de Dominadas: / }).waitFor()
         assert.equal(await rir.textContent(), '0')
         await page.getByRole('button', { name: 'Terminar', exact: true }).click()
-        await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
+        await page.getByRole('button', { name: /^(Guardar y terminar|Guardar solo las marcadas|Guardar sin marcar)$/ }).click()
         await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
         await page.getByRole('button', { name: 'Volver a Entreno', exact: true }).click()
         await page.getByRole('tab', { name: 'Historial', exact: true }).click()

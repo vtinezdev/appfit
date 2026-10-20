@@ -244,7 +244,7 @@ async function flujos(browser, colorScheme) {
   assert.equal(await page.getByRole('spinbutton', { name: 'Peso en kg, serie 1 de Press banca', exact: true }).inputValue(), '72.5')
   await page.getByRole('button', { name: 'Añadir ejercicio', exact: true }).click(); await validarLayout(page, tag + '-ejercicio'); await cerrar(page)
   await page.getByRole('button', { name: 'Terminar', exact: true }).click()
-  await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
+  await page.getByRole('button', { name: /^(Guardar y terminar|Guardar solo las marcadas|Guardar sin marcar)$/ }).click()
   await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
   await validarLayout(page, tag + '-sesion-guardada')
   await page.getByRole('button', { name: 'Volver a Entreno', exact: false }).click()

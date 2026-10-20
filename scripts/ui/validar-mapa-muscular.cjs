@@ -72,7 +72,7 @@ async function main() {
         if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
         await navegar(page, 'Entreno')
         await page.getByRole('button', { name: 'Terminar', exact: true }).click()
-        await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
+        await page.getByRole('button', { name: /^(Guardar y terminar|Guardar solo las marcadas|Guardar sin marcar)$/ }).click()
         const map = page.getByRole('region', { name: 'Mapa muscular', exact: true })
         await map.waitFor()
         await map.evaluate(e => e.scrollIntoView({ block: 'start' }))

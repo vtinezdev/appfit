@@ -1,7 +1,7 @@
 // Acceso a la tabla `workouts`. Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
 import { db } from '../../../shared/db/db'
 import { recomendarProgresion } from '../lib/progresion'
-import { aplicarEjecucion, validarEjecucion, validarSerie, claveComparacion, convencional, ejecucionSerieNueva, ejecucionVigente } from '../lib/ejecucion'
+import { aplicarEjecucion, validarEjecucion, validarSerie, claveComparacion, convencional, ejecucionSerieNueva, ejecucionVigente, tieneReps } from '../lib/ejecucion'
 import type { ConfiguracionEjecucion, ConfiguracionCarga, SetEntry, Workout, WorkoutExerciseMuscles } from '../../../shared/db/types'
 import { aplicarConfiguracionCarga, validarConfiguracionCarga } from '../lib/carga'
 import { toISODate } from '../../../shared/lib/dates'
@@ -285,8 +285,11 @@ export function obtener(id: number): Promise<Workout | undefined> {
   return db.workouts.get(id)
 }
 
-/** Cierre y clasificación coherentes con las series guardadas; idempotente ante un doble cierre. */
-export function terminar(id: number, confirmadas?: number[]): Promise<{ workout: Workout; sets: SetEntry[] }> {
+/**
+ * Cierre y clasificación coherentes con las series guardadas; idempotente ante un doble cierre. Con `marcarTodas`
+ * (lo elige la persona al terminar, nunca se infiere) también quedan hechas las no marcadas que tengan repeticiones.
+ */
+export function terminar(id: number, confirmadas?: number[], marcarTodas = false): Promise<{ workout: Workout; sets: SetEntry[] }> {
   return db.transaction('rw', db.workouts, db.exercises, db.sets, async () => {
     const workout = await db.workouts.get(id)
     if (!workout) throw new Error('El entrenamiento ya no está disponible.')
@@ -294,8 +297,9 @@ export function terminar(id: number, confirmadas?: number[]): Promise<{ workout:
     if (workout.fin !== undefined) return { workout, sets }
     if (confirmadas) {
       const ids = new Set(confirmadas)
-      for (const s of sets) await db.sets.update(s.id, { realizada: ids.has(s.id) })
-      sets = sets.map(s => ({ ...s, realizada: ids.has(s.id) }))
+      const hecha = (s: SetEntry) => ids.has(s.id) || marcarTodas && tieneReps(s)
+      for (const s of sets) await db.sets.update(s.id, { realizada: hecha(s) })
+      sets = sets.map(s => ({ ...s, realizada: hecha(s) }))
     }
     const muscleSnapshot = crearSnapshotMuscular(sets, await db.exercises.toArray())
     const fin = Date.now()

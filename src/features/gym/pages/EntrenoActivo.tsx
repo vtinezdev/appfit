@@ -17,7 +17,7 @@ import { recordsDeEntreno } from '../lib/records'
 import SelectorEjercicios from '../components/SelectorEjercicios'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
-import { efectivas, formatHora, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
+import { efectivas, formatHora, moverElemento, ordenEjerciciosSesion, seriesSinMarcar, volumenSets } from '../lib/workout'
 import { formatInt } from '../../../shared/lib/format'
 import Sheet from '../../../shared/components/Sheet'
 import Button, { IconButton } from '../../../shared/components/Button'
@@ -54,6 +54,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   sessionActual.current = session
   const [confirmando, setConfirmando] = useState(false)
   const [guardando, setGuardando] = useState(false)
+  /** Al terminar: si se ha elegido «Marcar todas y terminar» (para el spinner del botón pulsado). */
+  const [marcandoTodas, setMarcandoTodas] = useState(false)
   const [newSet, setNewSet] = useState<number | null>(null)
   const [feedback, setFeedback] = useState('')
   const [finishError, setFinishError] = useState<string | null>(null)
@@ -200,14 +202,15 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
     haptic()
   }
 
-  async function terminar() {
+  async function terminar(marcarTodas = false) {
     if (guardando) return
     setGuardando(true)
+    setMarcandoTodas(marcarTodas)
     try {
       await Promise.all(pendingWrites.current.values())
       if (!await guardarNotas()) throw new Error('No se han podido guardar las notas.')
       await guardado.esperar()
-      const finished = await workoutsRepo.terminar(workout.id!, sessionActual.current.completed)
+      const finished = await workoutsRepo.terminar(workout.id!, sessionActual.current.completed, marcarTodas)
       const saved = finished.sets
       const guardadasEfectivas = efectivas(saved)
       clearSession(workout.id!)
@@ -239,6 +242,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   }, [seriesCargadas])
   const volumen = volumenSets(currentSets)
   const completedCount = completadas.length
+  const sinMarcar = seriesSinMarcar(currentSets, completadas)
 
   /** true si la serie queda marcada. */
   async function completar(s: SetEntry, numero: number): Promise<boolean> {
@@ -377,11 +381,23 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         <div className="space-y-4">
           {currentSets.length === 0
             ? <p className="text-body-sm text-fg-muted">No hay series registradas, así que no hay nada que guardar: al terminar se descartará este entreno.</p>
-            : <p className="text-body-sm text-fg-muted">Se guardarán las {currentSets.length} series registradas. Solo las marcadas constarán como realizadas; las demás quedan pendientes y no se usan para recomendar progresión.</p>}
+            : sinMarcar.confirmables.length > 0
+              // Sin el tic, el entreno se guardaría sin volumen: se avisa y marcar todas es la salida principal.
+              ? <div className="space-y-2">
+                  <p className="flex items-start gap-2 text-body font-semibold text-warning"><Icon name="alert" size={20} className="mt-0.5" />
+                    <span className="min-w-0">{completedCount === 0 ? 'No has marcado ninguna serie como hecha.' : `Te faltan ${currentSets.length - completedCount} de ${currentSets.length} series por marcar.`}</span></p>
+                  <p className="text-body-sm text-fg-muted">Las series sin marcar se guardan como pendientes: no suman volumen ni cuentan para récords ni progreso.{sinMarcar.sinReps > 0 && ' Las que no tienen repeticiones se quedan pendientes igualmente.'}</p>
+                </div>
+              : <p className="text-body-sm text-fg-muted">Se guardarán las {currentSets.length} series registradas. Solo las marcadas constarán como realizadas; las demás quedan pendientes y no se usan para recomendar progresión.</p>}
           {finishError && <ErrorState>{finishError}</ErrorState>}
           {currentSets.length === 0
             ? <Button block size="lg" variant="danger" loading={guardando} onClick={descartar}>Descartar entreno</Button>
-            : <Button block size="lg" loading={guardando} onClick={terminar}>Guardar y terminar</Button>}
+            : sinMarcar.confirmables.length > 0
+              ? <>
+                  <Button block size="lg" loading={guardando && marcandoTodas} disabled={guardando} onClick={() => terminar(true)}>Marcar todas y terminar</Button>
+                  <Button variant="secondary" block loading={guardando && !marcandoTodas} disabled={guardando} onClick={() => terminar()}>{completedCount === 0 ? 'Guardar sin marcar' : 'Guardar solo las marcadas'}</Button>
+                </>
+              : <Button block size="lg" loading={guardando} onClick={() => terminar()}>Guardar y terminar</Button>}
           <Button variant="ghost" block disabled={guardando} onClick={() => setConfirmando(false)}>Seguir entrenando</Button>
         </div>
       </Sheet>

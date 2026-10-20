@@ -203,7 +203,7 @@ async function main() {
       await hoja(page).getByRole('button', { name: /^RIR 2:/ }).click()
       await press.getByRole('button', { name: 'Desmarcar serie 1 de Press banca', exact: true }).waitFor()
       await page.getByRole('button', { name: 'Terminar', exact: true }).click()
-      await page.getByRole('dialog', { name: 'Terminar entreno', exact: true }).getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
+      await page.getByRole('dialog', { name: 'Terminar entreno', exact: true }).getByRole('button', { name: /^(Guardar y terminar|Guardar solo las marcadas|Guardar sin marcar)$/ }).click()
       await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
       await page.getByRole('button', { name: 'Volver a Entreno', exact: true }).click()
       await page.getByRole('tab', { name: 'Historial', exact: true }).click()

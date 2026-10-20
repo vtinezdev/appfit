@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { detalleSesion, epley1RM, formatDuracion, formatHora, mejorSet, pesoMaximo, resumenUltimoEntreno, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
+import { detalleSesion, epley1RM, formatDuracion, formatHora, mejorSet, pesoMaximo, resumenUltimoEntreno, seriesSinMarcar, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
 
 describe('epley1RM', () => {
   it('con 1 repetición el 1RM es el propio peso', () => {
@@ -201,5 +201,21 @@ describe('rangoSesion', () => {
     const inicio = new Date(2026, 9, 9, 18, 5).getTime()
     expect(rangoSesion(inicio, new Date(2026, 9, 9, 18, 57).getTime())).toBe('vie 9 oct · 18:05 – 18:57')
     expect(rangoSesion(inicio)).toBe('vie 9 oct · 18:05')
+  })
+})
+
+describe('seriesSinMarcar', () => {
+  it('separa las no marcadas que se pueden dar por hechas de las que no tienen repeticiones', () => {
+    const sets = [
+      { id: 1, peso: 60, reps: 8 },
+      { id: 2, peso: 60, reps: 8 },
+      { id: 3, peso: 60, reps: 0 },
+      { id: 4, peso: 0, reps: 0, ejecucion: 'lados' as const, lados: { izquierda: { reps: 10, peso: 12 } } },
+    ]
+    expect(seriesSinMarcar(sets, [1])).toEqual({ confirmables: [2, 4], sinReps: 1 })
+  })
+
+  it('con todas marcadas no queda nada que marcar', () => {
+    expect(seriesSinMarcar([{ id: 1, peso: 60, reps: 8 }], [1])).toEqual({ confirmables: [], sinReps: 0 })
   })
 })

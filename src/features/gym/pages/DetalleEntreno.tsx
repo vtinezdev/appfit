@@ -25,7 +25,7 @@ import GuardarComoRutina from '../components/GuardarComoRutina'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { recordsDeEntreno } from '../lib/records'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
-import { combinarFechaHora, efectivas, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
+import { combinarFechaHora, efectivas, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, seriesSinMarcar, volumenSets } from '../lib/workout'
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
@@ -103,6 +103,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   const nombres = Object.fromEntries(exercises.map((e) => [e.id, e.nombre]))
   const minutos = minutosEntre(w.inicio, fin)
   const trabajo = trabajoMuscularWorkout(w, delEntreno, exercises)
+  // Las que se guardaron sin el tic (`realizada: false`) no suman: se ofrece marcarlas de una vez.
+  const pendientes = seriesSinMarcar(delEntreno, delEntreno.filter(s => s.realizada !== false).map(s => s.id)).confirmables
 
   async function accion(f: () => Promise<unknown>, fallo: string) {
     setError(null)
@@ -148,6 +150,14 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   async function elegirEjercicio(value: SeleccionEjercicio) {
     await setsRepo.agregarSeleccion(workoutId, value, w!.inicio)
     await workoutsRepo.recalcularSnapshot(workoutId)
+  }
+
+  async function marcarPendientes() {
+    const ids = pendientes
+    await accion(async () => {
+      await setsRepo.confirmarVarias(ids, true)
+      avisar({ mensaje: ids.length === 1 ? 'Serie marcada como realizada' : `${ids.length} series marcadas como realizadas`, onDeshacer: () => setsRepo.confirmarVarias(ids, false) })
+    }, 'No se han podido marcar las series. Inténtalo de nuevo.')
   }
 
   async function mover(indice: number, delta: -1 | 1) {
@@ -197,6 +207,13 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
       <PosterSesion titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)}
         levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined} />
       {error && <ErrorState>{error}</ErrorState>}
+      {!editando && pendientes.length > 0 && (
+        <section aria-label="Series sin marcar" className="space-y-2">
+          <p className="flex items-start gap-2 text-body-sm text-warning"><Icon name="alert" size={18} className="mt-0.5" />
+            <span className="min-w-0">{pendientes.length === 1 ? 'Una serie se guardó sin marcar como hecha' : `${pendientes.length} series se guardaron sin marcar como hechas`}: no suman volumen ni cuentan para récords ni progreso. Si las hiciste, márcalas.</span></p>
+          <Button variant="secondary" size="sm" disabled={ocupado} onClick={marcarPendientes}>{pendientes.length === 1 ? 'Marcarla como realizada' : 'Marcar todas como realizadas'}</Button>
+        </section>
+      )}
 
       {editando && (
         <section aria-label="Horario del entreno" className="space-y-3">

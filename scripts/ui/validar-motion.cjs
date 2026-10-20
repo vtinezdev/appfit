@@ -157,13 +157,13 @@ async function run(browser, variant) {
           return window.__originalPut.apply(this, args)
         }
       })
-      await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
+      await page.getByRole('button', { name: /^(Guardar y terminar|Guardar solo las marcadas|Guardar sin marcar)$/ }).click()
       await page.getByRole('alert').filter({ hasText: 'No se ha podido terminar el entreno.' }).waitFor()
       assert.deepEqual(await backup(page), beforeFailure, 'el error conserva sesión activa y registros')
-      assert.equal(await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).isDisabled(), false)
+      assert.equal(await page.getByRole('button', { name: /^(Guardar y terminar|Guardar solo las marcadas|Guardar sin marcar)$/ }).isDisabled(), false)
       await page.evaluate(() => { IDBObjectStore.prototype.put = window.__originalPut })
     }
-    await page.getByRole('button', { name: 'Guardar y terminar', exact: true }).click()
+    await page.getByRole('button', { name: /^(Guardar y terminar|Guardar solo las marcadas|Guardar sin marcar)$/ }).click()
     await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
     await snapshot(page, `${variant.name}-finalizado`)
     await page.getByRole('button', { name: /Volver a Entreno/ }).click()

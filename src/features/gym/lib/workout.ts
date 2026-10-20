@@ -1,7 +1,7 @@
 import type { SetEntry } from '../../../shared/db/types'
 import { formatDiaMes, formatFechaHoraConDia } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
-import { convencional, volumenSerie, type SerieEjecucion } from './ejecucion'
+import { convencional, tieneReps, volumenSerie, type SerieEjecucion } from './ejecucion'
 import { cargaExterna, modoCarga, type SerieCarga } from './carga'
 
 /** 1RM estimado con la fórmula de Epley: peso * (1 + reps/30). */
@@ -21,6 +21,17 @@ export function esEfectiva(s: { tipo?: SetEntry['tipo']; realizada?: boolean }):
 /** Solo las series efectivas, conservando el tipo concreto de la serie. */
 export function efectivas<T extends { tipo?: SetEntry['tipo']; realizada?: boolean }>(sets: T[]): T[] {
   return sets.filter(esEfectiva)
+}
+
+/**
+ * Series que no están en `marcadas`: las que tienen repeticiones se pueden dar por hechas de una vez («Marcar todas»);
+ * las que no, se quedan pendientes. Sirve en la sesión activa (marcadas = las del tic) y en el historial
+ * (marcadas = las que no están pendientes).
+ */
+export function seriesSinMarcar<T extends SerieBasica & { id: number }>(sets: T[], marcadas: readonly number[]): { confirmables: number[]; sinReps: number } {
+  const sin = sets.filter(s => !marcadas.includes(s.id))
+  const confirmables = sin.filter(tieneReps).map(s => s.id)
+  return { confirmables, sinReps: sin.length - confirmables.length }
 }
 
 export function volumenSets(sets: SerieBasica[]): number {
