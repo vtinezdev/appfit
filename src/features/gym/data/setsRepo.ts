@@ -112,6 +112,13 @@ export function confirmar(id: number, realizada: boolean): Promise<void> {
   })
 }
 
+/** `confirmar` de varias series a la vez, todo o nada (marcar en el historial las que quedaron pendientes, y deshacerlo). */
+export function confirmarVarias(ids: number[], realizada: boolean): Promise<void> {
+  return db.transaction('rw', db.sets, async () => {
+    for (const id of ids) await confirmar(id, realizada)
+  })
+}
+
 /** Borra la serie y la devuelve, para poder deshacer con `restaurar`. */
 export function borrar(id: number): Promise<SetEntry | undefined> {
   return db.transaction('rw', db.sets, async () => {

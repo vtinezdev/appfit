@@ -1902,3 +1902,15 @@ Víctor pide que «Repetir» y «Guardar como rutina» salgan arriba del todo en
 - La CI («navegador») falló con el texto al 200 %: la cabecera de cada ejercicio de la ficha dejaba el nombre en 5 px. Las cabeceras con miniatura (ficha de entreno, tarjeta y ficha de rutina, editor) ahora saltan de línea (`flex-wrap` y `basis-*` en el texto); la ficha de rutina sin objetivos quita la cifra de series en vez de «—» y su título hereda `overflow-wrap: anywhere`. `auditoria-interfaz.cjs` siembra una rutina y mide también su ficha (24 pantallas). Los botones de «Repetir»/«Guardar como rutina» se apilan en móvil.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Navegador en `appfit-test.localhost` con datos sintéticos (rutina sin ejercicios, nombre largo, ejercicio propio sin imagen, cifras grandes): lista, ficha, editor, entreno abierto desde la ficha y vuelta, y Empezar a 320/375/430 px en claro y oscuro, sin scroll horizontal, sin botones por debajo de 44 px y sin errores de consola.
+
+## 179. Aviso al terminar con series sin marcar (2026-10-20)
+
+Víctor cuenta que hay conocidos que no dan al tic de las series y terminan entrenos con cero ejercicios y cero volumen (las no marcadas se guardan como pendientes). Pide un aviso al terminar, o que el tic no haga falta. Se mantiene el tic, porque registrar no es hacer (las rutinas precargan series con los últimos valores y contarlas sin confirmar inventaría volumen y progresión), pero deja de hacer falta tocarlo serie a serie:
+
+- `lib/workout.seriesSinMarcar`: las no marcadas con repeticiones (se pueden dar por hechas) y cuántas no tienen.
+- Hoja «Terminar entreno»: si hay series sin marcar con repeticiones, aviso en `text-warning` («No has marcado ninguna serie como hecha» / «Te faltan 3 de 12 series por marcar») y «Marcar todas y terminar» como primario; «Guardar solo las marcadas» («Guardar sin marcar» sin ninguna) como secundario. Con todo marcado sigue «Guardar y terminar». `workoutsRepo.terminar` acepta `marcarTodas`.
+- Detalle del historial: con series pendientes, aviso bajo el póster y «Marcar todas como realizadas» (`setsRepo.confirmarVarias`, todo o nada) con «Deshacer», para arreglar los entrenos ya guardados así.
+- La pista de primera vez del entreno dice que al terminar se pueden marcar todas.
+- Los recorridos `scripts/ui/*.cjs` que pulsaban «Guardar y terminar» aceptan también «Guardar solo las marcadas»/«Guardar sin marcar», para conservar lo que hacían.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido propio con Playwright (Chromium) en `appfit-test.localhost:5173` y datos sintéticos, a 320 claro/oscuro, 375 oscuro, 430 claro y 375 con texto al 200 %: aviso con y sin series marcadas, «Marcar todas y terminar» deja hechas las que tienen reps y pendiente la de 0 reps (resumen con 1.260 kg), y en el historial un entreno a 0 kg pasa a 960 kg al marcar y vuelve con «Deshacer»; sin scroll horizontal, targets ≥44 px ni errores de consola. `validar-tecnicas-progresion.cjs` y `validar-quitar-ejercicio.cjs` fallan antes de llegar a Terminar, igual en `master`; no se tocan aquí. Sin prueba en iPhone.

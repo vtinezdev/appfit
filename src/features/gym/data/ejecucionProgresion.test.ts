@@ -67,6 +67,22 @@ describe('persistencia ejecución, técnica y realización', () => {
     expect(fin.sets.map(s => s.realizada)).toEqual([true, false])
     expect((await workoutsRepo.terminar(1, [2])).sets.map(s => s.realizada)).toEqual([true, false])
   })
+  it('«Marcar todas y terminar» da por hechas las no marcadas con repeticiones; las que no tienen siguen pendientes', async () => {
+    await db.sets.put(s({ id: 2, orden: 1 }))
+    await db.sets.put(s({ id: 3, orden: 2, reps: 0 }))
+    const fin = await workoutsRepo.terminar(1, [], true)
+    expect(fin.sets.map(s => s.realizada)).toEqual([true, true, false])
+    expect((await db.sets.toArray()).map(s => s.realizada)).toEqual([true, true, false])
+  })
+  it('marca varias series del historial todo o nada y se puede deshacer', async () => {
+    await db.sets.bulkPut([s({ realizada: false }), s({ id: 2, orden: 1, realizada: false }), s({ id: 3, orden: 2, reps: 0, realizada: false })])
+    await expect(setsRepo.confirmarVarias([1, 2, 3], true)).rejects.toThrow()
+    expect((await db.sets.toArray()).map(s => s.realizada)).toEqual([false, false, false])
+    await setsRepo.confirmarVarias([1, 2], true)
+    expect((await db.sets.toArray()).map(s => s.realizada)).toEqual([true, true, false])
+    await setsRepo.confirmarVarias([1, 2], false)
+    expect((await db.sets.toArray()).map(s => s.realizada)).toEqual([false, false, false])
+  })
   it('borra/restaura serie extendida y ejercicio con toda la semántica y backup opcional', async () => {
     await workoutsRepo.configurarEjecucion(1, 1, { ejecucion: 'lados' })
     const campos = { lados: { izquierda: { reps: 8, peso: 20, rir: 1 } }, soloNegativas: true, excentricaSeg: 3, bajadas: [{ id: 'b', peso: 0, reps: 0, lados: { izquierda: { reps: 6, peso: 15 } } }] }
