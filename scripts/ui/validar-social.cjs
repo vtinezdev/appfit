@@ -328,20 +328,18 @@ async function main() {
         await page.getByRole('tab', { name: 'Historial', exact: true }).click()
         await page.locator('[data-sesion="10"] button').click()
         await principal.getByRole('region', { name: 'Compartir con tus seguidores', exact: true }).getByRole('button', { name: 'Publicar en Social', exact: true }).waitFor()
-        // El lector preparado diferencia una cifra omitida de cero (capacidad habilitada solo en el doble).
+        // Se comparte todo o nada: sin casillas para quitar partes del resumen.
         await principal.getByRole('region',{name:'Compartir con tus seguidores',exact:true}).getByRole('button',{name:'Publicar en Social',exact:true}).click()
         let editorEntreno=page.getByRole('dialog',{name:'Compartir',exact:true})
-        await editorEntreno.getByRole('checkbox',{name:'Volumen',exact:true}).uncheck()
-        await editorEntreno.getByRole('checkbox',{name:'Duración',exact:true}).uncheck()
-        await editorEntreno.getByRole('checkbox',{name:'Mapa muscular',exact:true}).uncheck()
+        assert.equal(await editorEntreno.getByRole('checkbox').count(),0,'sin filtros de lo compartido')
+        assert.equal(await editorEntreno.getByText('Mostrar en este resumen',{exact:true}).count(),0)
         await editorEntreno.getByRole('button',{name:'Ver vista previa',exact:true}).click()
         vista=page.getByRole('dialog',{name:'Vista previa',exact:true})
-        assert.equal(await vista.getByText('Volumen',{exact:true}).count(),0)
-        assert.equal(await vista.getByText('Duración',{exact:true}).count(),0)
-        assert.equal(await vista.getByRole('img',{name:/^Mapa muscular/}).count(),0)
+        await vista.getByText('Volumen',{exact:true}).waitFor()
+        await vista.getByRole('img',{name:/^Mapa muscular/}).waitFor()
         await vista.getByRole('button',{name:'Publicar',exact:true}).click();await vista.waitFor({state:'detached'})
         const ultimoEntreno=envios.filter(e=>e.p_tipo==='entreno').at(-1).p_resumen
-        assert.ok(!Object.hasOwn(ultimoEntreno,'volumenKg')&&!Object.hasOwn(ultimoEntreno,'duracionSeg')&&!Object.hasOwn(ultimoEntreno,'mapa'))
+        assert.ok(Object.hasOwn(ultimoEntreno,'volumenKg')&&Object.hasOwn(ultimoEntreno,'duracionSeg')&&Object.hasOwn(ultimoEntreno,'mapa'),'se envía el resumen entero')
         // Perfil elegido y vista previa sin imágenes ni datos del diario.
         await social(page)
         await principal.getByRole('button',{name:'Tu perfil',exact:true}).click()

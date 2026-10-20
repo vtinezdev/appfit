@@ -1869,3 +1869,14 @@ Tras §174, Víctor ve que el número de récords junto a «Ejercicios» ya los 
 - Víctor prefiere que al tocar el ejercicio se vea solo la subida de peso, sin la marca anterior ni los récords de repeticiones: `mejorasDePeso` (peso, lastre y asistencia, por ejercicio y variante) decide el trofeo, el recuento junto a «Ejercicios» y lo que se abre («Press banca ▲ +5 kg»).
 
 **Verificación:** `npm run test` y `npm run build` correctos; `validar-social.cjs` correcto en sus ocho casos con el Supabase falso. Capturas de la tarjeta a 320 oscuro y 375 claro con una página temporal de vista previa, ya borrada; sin desbordamiento horizontal.
+
+## 176. Compartir un entreno entero, sin filtros (2026-10-20)
+
+Víctor no quiere que se pueda elegir qué partes de un entreno se comparten: o se comparte todo o no se comparte. Decisión en [ADR 053](decisiones/053-compartir-todo-o-nada.md).
+
+- Se borran `social/lib/seleccion.ts` (con su test) y `components/SeleccionPublicacion`. `CrearPublicacion` publica `adjunto.resumen` tal cual (más la nota y, sin 0020, sin imágenes); ya no cuenta un cambio de selección como borrador sin guardar.
+- Van todos los récords que caben en el resumen (hasta seis), no solo el principal de cada ejercicio como hacía la selección por defecto.
+- `scripts/ui/validar-social.cjs`: el editor no tiene casillas ni «Mostrar en este resumen», y el envío lleva duración, volumen y mapa.
+- Documentado en Social, datos y ADR 053; el ADR 044 conserva la compatibilidad de lectura de cifras omitidas.
+
+**Verificación:** `npm run test` y `npm run build` correctos; `validar-social.cjs` correcto en sus ocho casos con el Supabase falso.
