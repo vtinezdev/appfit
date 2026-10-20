@@ -68,7 +68,8 @@ export interface Social {
   perfilDeportivo(alias: string, comunidad?: string): Promise<PerfilDeportivo>
   /** Biografía, disciplinas y hasta tres medallas de logros conseguidos (0016); no toca el avatar. */
   guardarPerfilDeportivo(bio: string, disciplinas: string[], logros: ResumenLogro[]): Promise<void>
-  capacidades(): Promise<{ camposOpcionales: boolean }>
+  /** `imagenesPublicacion`: el servidor admite imágenes e insignias en el resumen (0020); sin ella no se envían. */
+  capacidades(): Promise<{ camposOpcionales: boolean; imagenesPublicacion?: boolean }>
   avisos(): Promise<Avisos>
   marcarAvisosVistos(): Promise<void>
   /**

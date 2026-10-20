@@ -8,9 +8,10 @@ import { duracionTexto, formatKm, formatRitmo, ritmoSegPorKm } from '../../activ
 import IconoLogro from '../../vitrina/components/IconoLogro'
 import { GRUPOS_LOGRO, NUMERALES } from '../../vitrina/lib/logros'
 import { etiquetaPublicacion, textoMasTrabajado } from '../lib/presentacion'
-import { textoEjercicios, type LineaLogro, type Resumen, type ResumenEntreno, type ResumenLogro } from '../lib/publicacion'
-import MapaPublicacion from './MapaPublicacion'
+import type { LineaLogro, Resumen, ResumenEntreno, ResumenLogro } from '../lib/publicacion'
+import EjerciciosPublicacion from './EjerciciosPublicacion'
 import RecordsPublicacion from './RecordsPublicacion'
+import VitrinaPublicacion from './VitrinaPublicacion'
 
 // Diferido como en Inicio: la geometría de los muñecos no entra con el feed.
 const MiniMapa = lazy(() => import('../../gym/components/MapaMuscular').then(m => ({ default: m.MiniMapa })))
@@ -100,13 +101,19 @@ function Medalla({ r, dia }: { r: ResumenLogro; dia: string }) {
   </div>
 }
 
-/** Mapa muscular en miniatura, a la vista (el «mapa» del gimnasio), con lo más trabajado en texto. */
-function MasTrabajado({ r }: { r: ResumenEntreno }) {
+/**
+ * El vistazo del entreno: el mapa muscular en miniatura a la izquierda y, a la derecha, lo nuevo de la Vitrina (o, si
+ * no hay, lo más trabajado). El mapa ya enseña los músculos: el texto solo cuando no hay logros que ocupen su sitio.
+ */
+function Vistazo({ r, dia, verTodas }: { r: ResumenEntreno; dia: string; verTodas?: () => void }) {
   const texto = textoMasTrabajado(r.mapa)
-  if (!r.mapa || !texto) return null
-  return <div className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-md bg-surface-muted px-3 py-2">
-    <Suspense fallback={<span className="muscle-mini" />}><MiniMapa levels={r.mapa} /></Suspense>
-    <p className="min-w-0 flex-1 basis-32"><span className="block text-body-sm font-semibold text-fg">Más trabajado</span><span className="block break-words text-caption text-fg-muted">{texto}</span></p>
+  const mapa = r.mapa && texto ? r.mapa : undefined
+  if (!mapa && !r.logros.length) return null
+  return <div className="flex flex-wrap items-center gap-x-4 gap-y-3 rounded-md bg-surface-muted px-3 py-3">
+    {mapa && <span role="img" aria-label={`Mapa muscular. Más trabajado: ${texto}`} className="flex"><Suspense fallback={<span className="muscle-mini" />}><MiniMapa levels={mapa} /></Suspense></span>}
+    {r.logros.length
+      ? <div className="min-w-0 flex-1 basis-32"><VitrinaPublicacion resumen={r} dia={dia} verTodas={verTodas} vistazo /></div>
+      : <p className="min-w-0 flex-1 basis-32"><span className="block text-body-sm font-semibold text-fg">Más trabajado</span><span className="block break-words text-caption text-fg-muted">{texto}</span></p>}
   </div>
 }
 
@@ -118,15 +125,14 @@ export default function TarjetaPublicacion({ resumen: r, fecha, cabecera, creada
   // Los logros solo guardan el día: no inventar una hora de obtención ni desplazarlo al cambiar de zona horaria.
   const dia = new Date(fecha).toISOString().slice(0, 10)
   const etiqueta = etiquetaPublicacion(r, fecha, creada)
-  const hayDetalle = r.tipo === 'entreno' && (r.ejercicios.length > 0 || !!r.mapa || r.records.length > 0 || r.ligas.length > 0 || r.logros.length > 0)
-  const detalles = () => r.tipo === 'entreno' && <div className="space-y-stack">
-    {r.ejercicios.length > 0 && <p className="break-words text-body-sm text-fg-muted">{textoEjercicios(r.ejercicios, r.ejercicios.length)}</p>}
-    {r.mapa && <MapaPublicacion mapa={r.mapa} />}
-    <RecordsPublicacion resumen={r} detalle />
-    <Lineas titulo="Ligas" lineas={r.ligas} />
-    {r.logros.length > 0 && <div className="space-y-1"><p className="text-label text-fg-muted">Nuevo en la Vitrina</p><p className="break-words text-body-sm text-fg">{r.logros.join(' · ')}</p></div>}
-  </div>
+  // Lo que solo está al desplegar: los ejercicios, las ligas y los nombres de lo nuevo en la Vitrina.
+  const hayDetalle = r.tipo === 'entreno' && (r.ejercicios.length > 0 || r.ligas.length > 0 || r.logros.length > 0)
   const verDetalle = !previa && hayDetalle
+  const detalles = () => r.tipo === 'entreno' && <div className="space-y-stack">
+    <EjerciciosPublicacion resumen={r} />
+    <Lineas titulo="Ligas" lineas={r.ligas} />
+    <VitrinaPublicacion resumen={r} dia={dia} />
+  </div>
   return (
     <Card className="publicacion-tarjeta space-y-3">
       {cabecera ?? (etiqueta && <p className="text-caption text-fg-muted first-letter:uppercase">{r.tipo === 'logro' ? etiqueta : `${etiqueta} · ${formatFechaHoraConDia(fecha)}`}</p>)}
@@ -136,7 +142,7 @@ export default function TarjetaPublicacion({ resumen: r, fecha, cabecera, creada
       {r.tipo === 'logro' && <Medalla r={r} dia={dia} />}
       <Cifras cifras={cifrasDe(r)} />
       {r.tipo === 'actividad' && r.desnivelM !== null && <p className="tabular text-caption text-fg-muted">Desnivel positivo: {formatInt(r.desnivelM)} m</p>}
-      {r.tipo === 'entreno' && <><MasTrabajado r={r} /><RecordsPublicacion resumen={r} /></>}
+      {r.tipo === 'entreno' && <><Vistazo r={r} dia={dia} verTodas={verDetalle ? () => setDetalle(true) : undefined} /><RecordsPublicacion resumen={r} /></>}
       {previa && hayDetalle && detalles()}
       {verDetalle && detalle && <div id={idDetalle}>{detalles()}</div>}
       {(acciones || verDetalle) && <div className="-mx-2 flex flex-wrap items-center gap-1 border-t border-line pt-1">

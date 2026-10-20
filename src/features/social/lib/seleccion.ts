@@ -8,11 +8,12 @@ export function seleccionarResumen(resumen: Resumen, seleccion: SeleccionResumen
   const base=seleccion.duracion ? resumen : sinDuracion
   void duracionSeg
   if(resumen.tipo==='actividad') return base as Resumen
-  const { mapa,volumenKg,...resto }=base as typeof resumen
+  const { mapa,volumenKg,catalogIds,insignias,...resto }=base as typeof resumen
   const records=resumen.records.filter((_,i)=>seleccion.records.includes(i))
   return {...resto,
     ...(seleccion.mapa && mapa ? {mapa}:{}),...(seleccion.volumen && volumenKg!==undefined?{volumenKg}:{}),
     ejercicios:seleccion.ejercicios?resumen.ejercicios:[], records,recordsTotal:records.length,recordsEjercicios:new Set(records.map(r=>r.ejercicio)).size,
-    ligas:seleccion.ligas?resumen.ligas:[],logros:seleccion.logros?resumen.logros:[],
+    ...(seleccion.ejercicios && catalogIds ? {catalogIds}:{}),
+    ligas:seleccion.ligas?resumen.ligas:[],logros:seleccion.logros?resumen.logros:[],...(seleccion.logros && insignias ? {insignias}:{}),
   }
 }
