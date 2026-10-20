@@ -218,7 +218,7 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .rutina-mosaico > :only-child { grid-column: span 2; grid-row: span 2; }
 .rutina-mosaico > :first-child:nth-last-child(2), .rutina-mosaico > :nth-child(2):last-child { grid-row: span 2; }
 .rutina-mosaico > :nth-child(3):last-child { grid-column: span 2; }
-.rutina-mapa { --muscle-mini-height: 8rem; flex-shrink: 0; } /* Mapa de la cabecera de una rutina: más grande que en las tarjetas. */
+.rutina-mapa { --muscle-mini-height: min(8rem, 40vw); flex-shrink: 0; } /* Mapa de la cabecera de una rutina: más grande que en las tarjetas, sin pasar del ancho con el texto ampliado. */
 .rutina-mosaico-mas { position: absolute; inset: 0; display: grid; place-items: center; background: rgb(var(--c-overlay) / .55); color: rgb(var(--c-on-training)); font-size: var(--fs-caption); font-weight: 700; }
 /* Cifras separadas por filetes (póster de sesión, cifras clave de Progreso). Sobre grafito, --c-border ya es el carril de entreno. */
 .cifras-filetes > * { min-width: 0; padding-inline: calc(var(--space-stack) * .75); }
