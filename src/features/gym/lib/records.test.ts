@@ -38,6 +38,11 @@ describe('recordsDeEntreno', () => {
     expect(recordsDeEntreno(1, workouts, sets)).toEqual([])
     expect(recordsDeEntreno(99, workouts, sets)).toEqual([])
   })
+  it('señala la serie que marca cada récord', () => {
+    const r = recordsDeEntreno(2, workouts, [sets[0], { id: 21, workoutId: 2, ...s(1, 100, 10) }, { id: 22, workoutId: 2, ...s(1, 105, 3) }])
+    expect(r.find((x) => x.tipo === 'peso')?.setId).toBe(22)
+    expect(r.find((x) => x.tipo === '1rm')?.setId).toBe(21)
+  })
   it('describe cada tipo', () => {
     const f = (n: number) => String(n)
     expect(describirRecord({ exerciseId: 1, tipo: 'peso', valor: 110, anterior: 100 }, f)).toBe('Peso máximo: 110 kg (antes 100)')

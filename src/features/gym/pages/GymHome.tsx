@@ -4,12 +4,14 @@ import * as exercisesRepo from '../data/exercisesRepo'
 import * as routinesRepo from '../data/routinesRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import Button from '../../../shared/components/Button'
-import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
 import TarjetaEntreno from '../components/TarjetaEntreno'
 import RegistrarEntrenoPasado from '../components/RegistrarEntrenoPasado'
 import RepetirEntreno from '../components/RepetirEntreno'
-import { detalleRutina, MosaicoRutina } from '../components/RutinaResumen'
+import { MosaicoRutina } from '../components/RutinaResumen'
+import TarjetaRutina from '../components/TarjetaRutina'
+import { useFiguraMapa } from '../hooks/useFiguraMapa'
+import { musculosRutina } from '../lib/fichaRutina'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { ordenParaEmpezar, resumenRutina } from '../lib/rutinas'
 import { cuandoFue } from '../lib/workout'
@@ -27,9 +29,11 @@ interface Props {
   /** Abre la sesión recién empezada. */
   onEmpezado: () => void
   onRegistrado: (id: number) => void
+  /** Abre la ficha de una rutina. */
+  onAbrirRutina: (id: number) => void
 }
 
-export default function GymHome({ enCurso, onEmpezado, onRegistrado }: Props) {
+export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRutina }: Props) {
   const [pasado, setPasado] = useState(0)
   const [repetir, setRepetir] = useState(0)
   const [empezando, setEmpezando] = useState<number | 'vacio' | null>(null)
@@ -37,6 +41,7 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado }: Props) {
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
   const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
   const workouts = useLiveQuery(() => workoutsRepo.listar(), [])
+  const figura = useFiguraMapa()
 
   const exerciseMap = new Map((exercises ?? []).map((e) => [e.id!, e]))
   const resumenes = new Map((rutinas ?? []).map((r) => [r.id, resumenRutina(r, workouts ?? [], exerciseMap)]))
@@ -106,19 +111,11 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado }: Props) {
 
       {primera && <section aria-label="Más rutinas y otras formas de empezar" className="space-y-stack">
         {resto.length > 0 && <ul aria-label="Otras rutinas" className="space-y-stack">
-          {resto.map((r) => {
-            const resumen = resumenes.get(r.id)!
-            return <li key={r.id}>
-              <Card padded={false} className="flex flex-wrap items-center gap-3 p-4">
-                <MosaicoRutina resumen={resumen} />
-                <span className="min-w-0 flex-1 basis-32">
-                  <span className="block break-words text-title text-fg">{r.nombre}</span>
-                  <span className="tabular block break-words text-caption text-fg-muted">{detalleRutina(r, resumen)}</span>
-                </span>
-                <Button variant="secondary" size="sm" className="ml-auto" loading={empezando === r.id} disabled={ocupado} aria-label={`Empezar ${r.nombre}`} onClick={() => empezar(r.id)}>Empezar</Button>
-              </Card>
-            </li>
-          })}
+          {resto.map((r) => <li key={r.id}>
+            <TarjetaRutina rutina={r} resumen={resumenes.get(r.id)!} musculos={musculosRutina(r, exercises ?? [])} figura={figura}
+              miniaturas={r.exerciseIds.filter(id => exerciseMap.has(id)).map(id => exerciseMap.get(id)?.catalogId)} onAbrir={() => onAbrirRutina(r.id)}
+              empezar={{ onEmpezar: () => empezar(r.id), loading: empezando === r.id, disabled: ocupado }} />
+          </li>)}
         </ul>}
         <div className="flex flex-wrap gap-2">
           <Button variant="ghost" className="flex-1 basis-40" loading={empezando === 'vacio'} disabled={ocupado} onClick={() => empezar()}>

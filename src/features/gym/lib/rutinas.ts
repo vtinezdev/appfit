@@ -5,7 +5,7 @@ export interface ResumenRutina {
   miniaturas: (string | undefined)[]
   /** Ejercicios que no caben en el mosaico («+N»). */
   resto: number
-  /** Suma de las series objetivo; null si ningún ejercicio tiene objetivo. */
+  /** Suma de las series objetivo; null si algún ejercicio no tiene objetivo (la suma engañaría) o no hay ejercicios. */
   series: number | null
   /** Inicio del último entreno terminado con esta rutina. */
   ultima: number | null
@@ -19,7 +19,7 @@ export function resumenRutina(r: Pick<Routine, 'id' | 'exerciseIds' | 'objetivos
   return {
     miniaturas: ids.slice(0, 4).map(id => ejercicios.get(id)?.catalogId),
     resto: Math.max(0, ids.length - 4),
-    series: objetivos.length ? objetivos.reduce((a, b) => a + b, 0) : null,
+    series: objetivos.length && objetivos.length === ids.length ? objetivos.reduce((a, b) => a + b, 0) : null,
     ultima: hechas.length ? Math.max(...hechas) : null,
   }
 }

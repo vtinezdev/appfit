@@ -6,7 +6,7 @@ import ModalPage from '../../../shared/components/ModalPage'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import { addDays, etiquetaPeriodo } from '../../../shared/lib/dates'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
-import { ListaRecords } from '../../gym/components/WorkoutFinished'
+import RecordsSesion from '../../gym/components/RecordsSesion'
 import { formatDuracion } from '../../gym/lib/workout'
 import { useRevision } from '../hooks/useRevisionSemanal'
 import { useExperiencia } from '../../experiencia/hooks/useExperiencia'
@@ -135,7 +135,7 @@ function Contenido({ revision }: { revision: Revision }) {
 
       {actual.sesiones > 0 && (records.length ? (
         <div className="space-y-2">
-          <ListaRecords records={records.slice(0, RECORDS_VISIBLES)} nombres={revision.nombres} />
+          <RecordsSesion records={records.slice(0, RECORDS_VISIBLES)} total={records.length} nombres={revision.nombres} catalogIds={revision.catalogIds} />
           {records.length > RECORDS_VISIBLES && <p className="text-caption text-fg-muted">y {formatInt(records.length - RECORDS_VISIBLES)} más</p>}
         </div>
       ) : (
