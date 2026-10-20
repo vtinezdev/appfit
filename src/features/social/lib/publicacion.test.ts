@@ -19,7 +19,7 @@ describe('resumen de un entreno', () => {
   it('cifras redondeadas y ejercicios sin repetir', () => {
     expect(resumenEntreno(entreno())).toEqual({
       v: 1, tipo: 'entreno', titulo: 'Torso A', duracionSeg: 3920, series: 18, volumenKg: 8433,
-      ejercicios: ['Press banca', 'Remo con barra'],
+      ejercicios: ['Press banca', 'Remo con barra'], catalogIds: [null, null],
       records: [{ ejercicio: 'Press banca', texto: '100 kg × 5' }], recordsTotal: 1, recordsEjercicios: 1,
       ligas: [{ ejercicio: 'Remo con barra', texto: 'Sube a Plata' }],
       logros: ['Constancia II'],
@@ -55,8 +55,9 @@ describe('resumen de un entreno', () => {
   it('imagen del catálogo por ejercicio, alineada tras quitar repetidos; nunca la de un ejercicio propio', () => {
     const r = resumenEntreno(entreno({ catalogIds: ['appfit:press-banca', undefined, 'appfit:otro'] }))
     expect(r.catalogIds).toEqual(['appfit:press-banca', null])
-    expect(resumenEntreno(entreno({ catalogIds: [undefined, 'off:123', 'https://x.y/a.webp'] }))).not.toHaveProperty('catalogIds')
-    expect(resumenEntreno(entreno())).not.toHaveProperty('catalogIds')
+    // Solo ejercicios propios: la lista va igual, toda `null`, para que la tarjeta sea de mosaico y no de texto.
+    expect(resumenEntreno(entreno({ catalogIds: [undefined, 'off:123', 'https://x.y/a.webp'] })).catalogIds).toEqual([null, null])
+    expect(resumenEntreno(entreno({ ejercicios: [] }))).not.toHaveProperty('catalogIds')
   })
 
   it('insignia de cada logro nuevo, solo si todas son válidas', () => {
@@ -70,7 +71,9 @@ describe('resumen de un entreno', () => {
     const sin = sinImagenes(r)
     expect(sin).not.toHaveProperty('catalogIds')
     expect(sin).not.toHaveProperty('insignias')
-    expect(sin).toEqual({ ...resumenEntreno(entreno()) })
+    const { catalogIds, ...base } = resumenEntreno(entreno())
+    void catalogIds
+    expect(sin).toEqual(base)
   })
 
   it('sin título ni cifras válidas no se rompe', () => {

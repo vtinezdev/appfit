@@ -164,7 +164,8 @@ export function resumenEntreno(d: DatosEntreno): ResumenEntreno {
     series: cifra(d.series),
     volumenKg: cifra(d.volumenKg),
     ejercicios,
-    ...(catalogIds.some(Boolean) ? { catalogIds } : {}),
+    // También todo `null` (solo ejercicios propios): marca la publicación como de mosaico, no de texto.
+    ...(ejercicios.length ? { catalogIds } : {}),
     records: records.slice(0, MAX_LINEAS).map(linea),
     recordsTotal: records.length,
     recordsEjercicios: new Set(records.map(r => r.ejercicio)).size,
@@ -286,7 +287,7 @@ export function leerResumen(x: unknown): Resumen | null {
     return {
       v: 1, tipo: 'entreno', ...nota, titulo, ...(duracionSeg !== undefined ? { duracionSeg } : {}), series, ...(volumenKg !== undefined ? { volumenKg } : {}),
       ejercicios,
-      ...(catalogIds.some(Boolean) ? { catalogIds } : {}),
+      ...(catalogIds.length ? { catalogIds } : {}),
       records: leerLineas(x.records),
       ...(Number.isSafeInteger(x.recordsTotal) && (x.recordsTotal as number) >= leerLineas(x.records).length ? { recordsTotal: x.recordsTotal as number } : {}),
       ...(Number.isSafeInteger(x.recordsEjercicios) && (x.recordsEjercicios as number) >= 0 ? { recordsEjercicios: x.recordsEjercicios as number } : {}),

@@ -10,7 +10,6 @@ import { GRUPOS_LOGRO, NUMERALES } from '../../vitrina/lib/logros'
 import { etiquetaPublicacion, textoMasTrabajado } from '../lib/presentacion'
 import type { LineaLogro, Resumen, ResumenEntreno, ResumenLogro } from '../lib/publicacion'
 import EjerciciosPublicacion from './EjerciciosPublicacion'
-import RecordsPublicacion from './RecordsPublicacion'
 import VitrinaPublicacion from './VitrinaPublicacion'
 
 // Diferido como en Inicio: la geometría de los muñecos no entra con el feed.
@@ -142,7 +141,7 @@ export default function TarjetaPublicacion({ resumen: r, fecha, cabecera, creada
       {r.tipo === 'logro' && <Medalla r={r} dia={dia} />}
       <Cifras cifras={cifrasDe(r)} />
       {r.tipo === 'actividad' && r.desnivelM !== null && <p className="tabular text-caption text-fg-muted">Desnivel positivo: {formatInt(r.desnivelM)} m</p>}
-      {r.tipo === 'entreno' && <><Vistazo r={r} dia={dia} verTodas={verDetalle ? () => setDetalle(true) : undefined} /><RecordsPublicacion resumen={r} /></>}
+      {r.tipo === 'entreno' && <Vistazo r={r} dia={dia} verTodas={verDetalle ? () => setDetalle(true) : undefined} />}
       {previa && hayDetalle && detalles()}
       {verDetalle && detalle && <div id={idDetalle}>{detalles()}</div>}
       {(acciones || verDetalle) && <div className="-mx-2 flex flex-wrap items-center gap-1 border-t border-line pt-1">

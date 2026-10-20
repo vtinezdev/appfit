@@ -22,6 +22,21 @@ export function ordenarRecords(records: LineaLogro[]): LineaLogro[] {
   return [...grupos.map(rs => rs[0]), ...grupos.flatMap(rs => rs.slice(1))]
 }
 
+/**
+ * Lo que enseña el mosaico de Ejercicios: solo las subidas de peso (o de lastre, o menos asistencia), por ejercicio.
+ * Las de repeticiones y los 1RM se quedan fuera; los récords sin cifras (publicaciones antiguas) también.
+ */
+export function mejorasDePeso(records: LineaLogro[]): Map<string, { variante?: string; mejora: string }[]> {
+  const porEjercicio = new Map<string, { variante?: string; mejora: string }[]>()
+  for (const r of records) {
+    if ((r.tipo !== 'peso' && r.tipo !== 'asistencia') || r.valor === undefined || r.anterior === undefined) continue
+    const { mejora } = formatoRecord(r)
+    const linea = { ...(r.variante ? { variante: r.variante } : {}), mejora: r.tipo === 'asistencia' ? `${mejora} de asistencia` : mejora }
+    porEjercicio.set(r.ejercicio, [...(porEjercicio.get(r.ejercicio) ?? []), linea])
+  }
+  return porEjercicio
+}
+
 export function formatoRecord(r: LineaLogro): { ahora: string; antes: string; mejora: string } {
   if (!r.tipo || r.valor === undefined || r.anterior === undefined) return { ahora: r.texto, antes: '', mejora: '' }
   const n = (v: number) => formatNumber(v, 2)
