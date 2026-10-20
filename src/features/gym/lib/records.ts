@@ -4,7 +4,7 @@ import { epley1RM, esEfectiva } from './workout'
 import { modoCarga } from './carga'
 import type { ModoCarga } from '../../../shared/db/types'
 
-type Serie = SerieEjecucion & Pick<SetEntry, 'exerciseId'>
+type Serie = SerieEjecucion & Pick<SetEntry, 'exerciseId'> & Partial<Pick<SetEntry, 'id'>>
 
 export type TipoRecord = 'peso' | '1rm' | 'reps' | 'asistencia'
 
@@ -19,12 +19,16 @@ export interface RecordEjercicio {
   peso?: number
   modoCarga?: ModoCarga
   variante?: string
+  /** Serie de la sesión que marca el récord (si las series traen `id`): la ficha del entreno la señala. */
+  setId?: number
 }
 
 const validas = (s: Serie) => esEfectiva(s) && convencional(s) && repsComparables(s) > 0 && (s.ejecucion !== 'lados' || partesTramo(s).every(p => p.peso === partesTramo(s)[0].peso)) && (modoCarga(s) === 'externa' ? s.peso > 0 : s.peso >= 0)
 
 /** Series comparables agrupadas por ejercicio y variante (clave de `claveComparacion`), con reps y kg normalizados. */
 export type GruposComparables = Map<string, Serie[]>
+
+const deSerie = (s: Serie | undefined) => (s?.id !== undefined ? { setId: s.id } : {})
 
 const claveGrupo = (s: Serie) => `${s.exerciseId}:${claveComparacion(s)}`
 
@@ -59,19 +63,19 @@ export function recordsFrenteA(setsSesion: Serie[], previas: ReadonlyMap<string,
     if (!antes?.length) continue
     const maxPesoAntes = Math.max(...antes.map((s) => s.peso))
     const maxPesoAhora = Math.max(...ahora.map((s) => s.peso))
-    if ((modo === 'externa' || modo === 'lastre') && maxPesoAhora > maxPesoAntes) records.push({ exerciseId, tipo: 'peso', valor: maxPesoAhora, anterior: maxPesoAntes, ...contexto })
+    if ((modo === 'externa' || modo === 'lastre') && maxPesoAhora > maxPesoAntes) records.push({ exerciseId, tipo: 'peso', valor: maxPesoAhora, anterior: maxPesoAntes, ...contexto, ...deSerie(ahora.find(s => s.peso === maxPesoAhora)) })
 
     if (modo === 'externa' && !ahora[0].ejecucion && !ahora[0].excentricaSeg) {
       const max1rmAntes = Math.max(...antes.map((s) => epley1RM(s.peso, s.reps)))
       const max1rmAhora = Math.max(...ahora.map((s) => epley1RM(s.peso, s.reps)))
-      if (max1rmAhora > max1rmAntes) records.push({ exerciseId, tipo: '1rm', valor: max1rmAhora, anterior: max1rmAntes, ...contexto })
+      if (max1rmAhora > max1rmAntes) records.push({ exerciseId, tipo: '1rm', valor: max1rmAhora, anterior: max1rmAntes, ...contexto, ...deSerie(ahora.find(s => epley1RM(s.peso, s.reps) === max1rmAhora)) })
     }
     if (modo === 'asistencia') {
       const minima = Math.min(...antes.map(s => s.peso))
       const reps = Math.max(...antes.filter(s => s.peso === minima).map(s => s.reps))
       const comparable = ahora.filter(s => s.reps >= reps)
       const nueva = comparable.length ? Math.min(...comparable.map(s => s.peso)) : minima
-      if (nueva < minima) records.push({ exerciseId, tipo: 'asistencia', valor: nueva, anterior: minima, ...contexto })
+      if (nueva < minima) records.push({ exerciseId, tipo: 'asistencia', valor: nueva, anterior: minima, ...contexto, ...deSerie(comparable.find(s => s.peso === nueva)) })
     }
 
     const repsAntesPorPeso = new Map<number, number>()
@@ -80,7 +84,7 @@ export function recordsFrenteA(setsSesion: Serie[], previas: ReadonlyMap<string,
     for (const s of ahora) repsAhoraPorPeso.set(s.peso, Math.max(repsAhoraPorPeso.get(s.peso) ?? 0, s.reps))
     for (const [peso, reps] of [...repsAhoraPorPeso].sort((a, b) => b[0] - a[0])) {
       const previo = repsAntesPorPeso.get(peso)
-      if (previo !== undefined && reps > previo) records.push({ exerciseId, tipo: 'reps', valor: reps, anterior: previo, peso, ...contexto })
+      if (previo !== undefined && reps > previo) records.push({ exerciseId, tipo: 'reps', valor: reps, anterior: previo, peso, ...contexto, ...deSerie(ahora.find(s => s.peso === peso && s.reps === reps)) })
     }
   }
   return records

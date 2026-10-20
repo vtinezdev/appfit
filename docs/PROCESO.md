@@ -1880,3 +1880,25 @@ Víctor no quiere que se pueda elegir qué partes de un entreno se comparten: o 
 - Documentado en Social, datos y ADR 053; el ADR 044 conserva la compatibilidad de lectura de cifras omitidas.
 
 **Verificación:** `npm run test` y `npm run build` correctos; `validar-social.cjs` correcto en sus ocho casos con el Supabase falso.
+
+## 177. Ficha de un entreno más visual (2026-10-20)
+
+Víctor ve la ficha de un entreno del historial muy cargada de texto: los récords repetían el ejercicio en cada fila y cada ejercicio era una tabla con «Realizada» en todas las series. Elige, sobre una maqueta, récords agrupados por ejercicio en cifras y series como pastillas con el detalle plegado.
+
+- `lib/records`: cada récord lleva `setId`, la serie que lo marca. `lib/fichaEntreno` (con test): `recordsPorEjercicio`, `seriesConRecord`, `partesRecord` (rótulo, cifra y mejora), `pastillaSerie` (carga corta × reps, por lados I/D) y `resumenEjercicio`.
+- `components/RecordsSesion` sustituye a `ListaRecords` en el fin del entreno, el detalle del historial y la revisión semanal (con `total` y miniaturas: `WorkoutSummary.catalogIds`, `Revision.catalogIds`).
+- `components/EjercicioSesion` y `LeyendaSeries`: miniatura, resumen, pastillas con su estado y tabla plegada (RIR solo si hay). «Ejercicios» sube justo debajo de los récords; mapa, Compartir y «Volver a hacerlo» quedan después. La edición no cambia.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Navegador en `appfit-test.localhost` con datos sintéticos (calentamiento, pendiente, dropset, lados, nombre largo, cifras grandes): 320/375/430 px en claro y oscuro sin scroll horizontal, sin botones por debajo de 44 px, miniaturas cargadas y sin errores de consola.
+
+## 178. Rutinas más visuales y ficha de rutina (2026-10-20)
+
+Víctor pide que «Repetir» y «Guardar como rutina» salgan arriba del todo en la ficha de un entreno y que las rutinas guardadas se vean más bonitas, con más imágenes. Aprueba sobre maqueta la tarjeta nueva y una ficha para cada rutina.
+
+- `DetalleEntreno`: «Repetir entreno» (primario, `play`) y «Guardar como rutina» van justo debajo de la cabecera, antes del póster; el botón de volver dice «Rutina» si se abrió desde una ficha de rutina.
+- `components/TarjetaRutina` (Rutinas y «Otras rutinas» de Empezar): rótulo de cuándo, nombre, tres músculos principales con su muestra, `MiniMapa`, rejilla de cinco miniaturas y «Empezar». `lib/fichaRutina` (con test): `musculosRutina`, `tiraMiniaturas`, `cifrasRutina`, `sesionesRutina`, `ultimaVezEjercicios`. `resumenRutina.series` ya no suma si algún ejercicio no tiene objetivo («6 series» con dos objetivos engañaba).
+- `pages/DetalleRutina`, vista de `GymTab`: cabecera de grafito con mapa, cifras y «Empezar», músculos, ejercicios con objetivo y última serie, últimas sesiones (abren su entreno y vuelven a la ficha) y «Borrar rutina».
+- El editor sale de `Rutinas` a `components/EditorRutina` (misma hoja, con miniaturas), usado desde la ficha y desde «Crear rutina › En blanco». `RutinaResumen` pierde `detalleRutina`.
+- La CI («navegador») falló con el texto al 200 %: la cabecera de cada ejercicio de la ficha dejaba el nombre en 5 px. Las cabeceras con miniatura (ficha de entreno, tarjeta y ficha de rutina, editor) ahora saltan de línea (`flex-wrap` y `basis-*` en el texto); la ficha de rutina sin objetivos quita la cifra de series en vez de «—» y su título hereda `overflow-wrap: anywhere`. `auditoria-interfaz.cjs` siembra una rutina y mide también su ficha (24 pantallas). Los botones de «Repetir»/«Guardar como rutina» se apilan en móvil.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Navegador en `appfit-test.localhost` con datos sintéticos (rutina sin ejercicios, nombre largo, ejercicio propio sin imagen, cifras grandes): lista, ficha, editor, entreno abierto desde la ficha y vuelta, y Empezar a 320/375/430 px en claro y oscuro, sin scroll horizontal, sin botones por debajo de 44 px y sin errores de consola.

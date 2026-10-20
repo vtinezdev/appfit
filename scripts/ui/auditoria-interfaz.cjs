@@ -28,6 +28,11 @@ async function motor(nombre) {
         // Dexie actualiza la UI. Recargar aquí cancelaba descargas del catálogo del arranque y contaminaba el
         // diagnóstico WebKit con errores de recursos de la página que se estaba destruyendo.
         await page.getByText('72,5',{exact:true}).waitFor()
+        // Una rutina con los ejercicios sembrados, para medir su tarjeta en Rutinas y su ficha.
+        await page.evaluate(async () => {
+          const { db } = await import('/src/shared/db/db.ts')
+          await db.routines.put({ nombre:'Rutina de auditoría con un nombre bastante largo', exerciseIds:(await db.exercises.toArray()).map(e => e.id).slice(0, 6) })
+        })
         if(c.grande) await page.addStyleTag({ content:'html { font-size:200%; }' })
         const antes = await datos(page)
         async function medir(label) {
@@ -68,6 +73,11 @@ async function motor(nombre) {
         await navegar(page,'Entreno')
         await page.getByRole('tab', { name:'Rutinas',exact:true }).click()
         await medir('rutinas')
+        await page.getByRole('list', { name:'Tus rutinas',exact:true }).getByRole('button').first().click()
+        await page.getByRole('region', { name:'Ejercicios',exact:true }).waitFor()
+        await medir('ficha-rutina')
+        await page.getByRole('button', { name:'Rutinas',exact:true }).click()
+        await page.getByRole('list', { name:'Tus rutinas',exact:true }).waitFor()
         await page.getByRole('tab', { name:'Historial',exact:true }).click()
         const lista = page.getByRole('list', { name:'Entrenos terminados del mes',exact:true })
         await lista.getByRole('button').first().waitFor()

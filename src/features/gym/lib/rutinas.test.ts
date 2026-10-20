@@ -7,10 +7,12 @@ describe('resumenRutina', () => {
   it('mosaico de cuatro, «+N», series objetivo y último entreno terminado', () => {
     const r = { id: 7, exerciseIds: [1, 2, 3, 4, 5, 6, 99], objetivos: { 1: { series: 3, repsMin: 8, repsMax: 10 }, 5: { series: 4, repsMin: 6, repsMax: 8 } } }
     const workouts = [{ routineId: 7, inicio: 100, fin: 200 }, { routineId: 7, inicio: 500, fin: 600 }, { routineId: 7, inicio: 900 }, { routineId: 8, inicio: 1000, fin: 1100 }]
-    expect(resumenRutina(r, workouts, ejercicios)).toEqual({ miniaturas: ['appfit:e1', 'appfit:e2', undefined, 'appfit:e4'], resto: 2, series: 7, ultima: 500 })
+    expect(resumenRutina(r, workouts, ejercicios)).toEqual({ miniaturas: ['appfit:e1', 'appfit:e2', undefined, 'appfit:e4'], resto: 2, series: null, ultima: 500 })
   })
-  it('sin objetivos ni entrenos', () => {
+  it('sin objetivos ni entrenos; series solo si todos los ejercicios tienen objetivo', () => {
     expect(resumenRutina({ id: 1, exerciseIds: [1] }, [], ejercicios)).toEqual({ miniaturas: ['appfit:e1'], resto: 0, series: null, ultima: null })
+    const conObjetivos = { id: 1, exerciseIds: [1, 5, 99], objetivos: { 1: { series: 3, repsMin: 8, repsMax: 10 }, 5: { series: 4, repsMin: 6, repsMax: 8 } } }
+    expect(resumenRutina(conObjetivos, [], ejercicios).series).toBe(7)
   })
 })
 
