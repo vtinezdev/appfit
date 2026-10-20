@@ -10,7 +10,6 @@
 |---|---|
 | Contrato y RPC | `data/social.ts`, `data/socialSupabase.ts`, `servicio.ts` |
 | Validación y construcción de resúmenes v1 | `lib/publicacion.ts` |
-| Selección explícita de lo compartido | `lib/seleccion.ts`, `components/SeleccionPublicacion` |
 | Récords públicos, agrupación y formato | `lib/records.ts`, `components/RecordsPublicacion` |
 | Lectores de páginas, comentarios, avisos, avatares y vistas previas | `lib/feed.ts`; textos de reacción en `lib/reaccion.ts` |
 | Presentación: etiqueta («Entreno · hace 2 h»), lo más trabajado, avisos por día, hilos de comentarios y qué sugerir compartir | `lib/presentacion.ts` |
@@ -49,11 +48,11 @@ Cuatro tipos, siempre por decisión de la persona y con vista previa:
 - Actividad: caminar, correr o senderismo; título, duración, distancia y desnivel, sin recorrido.
 - Logro alcanzado de Vitrina: identidad, grupo, nivel y requisito del nivel conseguido. No se publica automáticamente ni se envía el siguiente objetivo.
 
-Entrenos, actividades y logros admiten nota opcional de 280 caracteres, sin edición posterior. Cada copia tiene su propia nota. El compositor permite elegir audiencia, mapa, ejercicios, récords concretos, ligas y Vitrina. Los récords principales de cada ejercicio se seleccionan por defecto. La vista previa muestra todo el envío y recuerda que cambiar el diario no actualiza la publicación.
+Entrenos, actividades y logros admiten nota opcional de 280 caracteres, sin edición posterior. Cada copia tiene su propia nota. El compositor permite elegir audiencia y nota, pero no qué partes van: un entreno o una actividad se comparte entero o no se comparte ([ADR 053](../decisiones/053-compartir-todo-o-nada.md)). La vista previa muestra todo el envío y recuerda que cambiar el diario no actualiza la publicación.
 
 El UUID de envío se conserva al reintentar el mismo contenido/destino. Cambiar contenido o audiencia genera otro intento; el servidor nunca cambia una publicación previa reutilizando su UUID. Seguidores y comunidad son copias independientes. Solo la publicación para seguidores anota `Workout.publicacion`/`Actividad.publicacion`; copiar en una comunidad no pisa esa marca, tampoco cuando se elige una comunidad en «Publicar para» del editor de un entreno o actividad.
 
-**Compatibilidad:** sigue `v: 1`. Nota, metadatos de récord, totales, `catalogIds` e `insignias` son opcionales. El servidor solo acepta las dos últimas desde 0020, que anuncia `imagenesPublicacion` en `social_capacidades`; sin ella el editor las quita (`sinImagenes`) antes de la vista previa y del envío, así que 0020 puede ejecutarse antes o después de desplegar. Al leer, cada lista paralela se descarta entera si no tiene el largo de la suya o si se descartó alguna entrada de la base, para no pintar la imagen de otro ejercicio; sin ellas, la tarjeta vuelve al texto. Los lectores antiguos ignoran esos campos adicionales. Omitir duración/volumen requiere una secuencia distinta porque los lectores antiguos los exigen: 0013 instala el lector nuevo y deja `social_configuracion.campos_opcionales = false`. El compositor no ofrece esos interruptores y el servidor rechaza la omisión hasta completar la actualización de los lectores. Solo entonces el administrador activa:
+**Compatibilidad:** sigue `v: 1`. Nota, metadatos de récord, totales, `catalogIds` e `insignias` son opcionales. El servidor solo acepta las dos últimas desde 0020, que anuncia `imagenesPublicacion` en `social_capacidades`; sin ella el editor las quita (`sinImagenes`) antes de la vista previa y del envío, así que 0020 puede ejecutarse antes o después de desplegar. Al leer, cada lista paralela se descarta entera si no tiene el largo de la suya o si se descartó alguna entrada de la base, para no pintar la imagen de otro ejercicio; sin ellas, la tarjeta vuelve al texto. Los lectores antiguos ignoran esos campos adicionales. Omitir duración/volumen requiere una secuencia distinta porque los lectores antiguos los exigen: 0013 instala el lector nuevo y deja `social_configuracion.campos_opcionales = false`. El compositor ya no ofrece omitir nada (ADR 053); el lector sigue aceptando publicaciones antiguas sin esas cifras. Si se quisiera volver a escribirlas, el servidor rechaza la omisión hasta que el administrador active:
 
 ```sql
 update public.social_configuracion set campos_opcionales = true where id;

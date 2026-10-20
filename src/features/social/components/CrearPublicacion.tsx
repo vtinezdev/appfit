@@ -10,9 +10,6 @@ import { conNota, MAX_PUBLICACION, resumenTexto, sinImagenes, validarPublicacion
 import { puedePublicarEnComunidad, type Comunidad } from '../lib/comunidad'
 import { cargarSocial } from '../servicio'
 import { crearIdDeEnvio } from '../lib/intento'
-import { seleccionarResumen, type SeleccionResumen } from '../lib/seleccion'
-import { agruparRecords } from '../lib/records'
-import SeleccionPublicacion from './SeleccionPublicacion'
 import NotaPublicacion from './NotaPublicacion'
 import TarjetaPublicacion from './TarjetaPublicacion'
 
@@ -29,8 +26,6 @@ interface Props {
 export default function CrearPublicacion({ onClose, onPublicada, adjunto, comunidad, soloComunidades = false }: Props) {
   const [idPara] = useState(crearIdDeEnvio)
   const [fecha] = useState(() => Date.now())
-  const [seleccion, setSeleccion] = useState<SeleccionResumen>(() => ({ mapa: true, ejercicios: true, ligas: true, logros: true, duracion: true, volumen: true, records: adjunto?.resumen.tipo === 'entreno' ? agruparRecords(adjunto.resumen.records).map(rs => adjunto.resumen.tipo === 'entreno' ? adjunto.resumen.records.indexOf(rs[0]) : -1) : [] }))
-  const [cambioSeleccion, setCambioSeleccion] = useState(false)
   const [nota, setNota] = useState('')
   const [texto, setTexto] = useState('')
   const [destino, setDestino] = useState(comunidad?.id ?? (soloComunidades ? '' : 'seguidores'))
@@ -51,7 +46,8 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
   const destinoGrupo = comunidad ?? grupos.datos?.find(c => c.id === destino)
   const publicables = grupos.datos?.filter(puedePublicarEnComunidad)
   const capacidades = useConsulta(async () => (await cargarSocial()).capacidades(), 0)
-  const elegido = adjunto && seleccionarResumen(adjunto.resumen, seleccion)
+  // Un entreno o una actividad se comparte entero o no se comparte: sin elegir qué partes van.
+  const elegido = adjunto?.resumen
   // La vista previa enseña exactamente lo que se envía: sin la capacidad (o mientras se consulta), sin imágenes.
   const resumen = elegido ? conNota(capacidades.datos?.imagenesPublicacion ? elegido : sinImagenes(elegido), nota) : resumenTexto(texto)
   // Un entreno espera a saber si caben sus imágenes; si la consulta falla, sigue sin ellas.
@@ -83,7 +79,7 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
     setPaso('vista')
   }
 
-  const tieneCambios = texto.length > 0 || nota.length > 0 || cambioSeleccion || destino !== (comunidad?.id ?? (soloComunidades ? '' : 'seguidores'))
+  const tieneCambios = texto.length > 0 || nota.length > 0 || destino !== (comunidad?.id ?? (soloComunidades ? '' : 'seguidores'))
   return <Sheet open title={descartar ? '¿Descartar los cambios?' : paso === 'vista' ? 'Vista previa' : adjunto ? 'Compartir' : 'Crear publicación'}
     onClose={onClose} onBeforeClose={() => {
       if (ocupado) return false
@@ -110,7 +106,7 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
         {grupos.estado === 'cargando' && !comunidad && <LoadingState />}
         {grupos.estado === 'error' && !comunidad && <div className="space-y-2"><ErrorState>{grupos.error}</ErrorState><Button variant="secondary" size="sm" onClick={grupos.recargar}>Reintentar comunidades</Button></div>}
         {soloComunidades && grupos.estado === 'listo' && publicables?.length === 0 && <p className="text-body-sm text-fg-muted">No tienes comunidades en las que puedas publicar. Únete a una que permita publicar a sus miembros o crea la tuya desde Social.</p>}
-        {adjunto && <><SeleccionPublicacion resumen={adjunto.resumen} valor={seleccion} onChange={s => { setSeleccion(s); setCambioSeleccion(true) }} /><NotaPublicacion valor={nota} onChange={setNota} disabled={ocupado} />{resumen && <TarjetaPublicacion resumen={resumen} fecha={adjunto.fecha} />}</>}
+        {adjunto && <><NotaPublicacion valor={nota} onChange={setNota} disabled={ocupado} />{resumen && <TarjetaPublicacion resumen={resumen} fecha={adjunto.fecha} />}</>}
         <Button type="submit" variant="primary" block disabled={!destino || esperandoCapacidades}>Ver vista previa</Button>
       </form> : <>
         <p className="break-words text-body-sm font-semibold text-fg">{destino === 'seguidores' ? 'Para tus seguidores aprobados' : `Para los miembros de ${destinoGrupo?.nombre}`}</p>
