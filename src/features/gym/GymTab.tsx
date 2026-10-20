@@ -11,6 +11,7 @@ import GymHome from './pages/GymHome'
 import Rutinas from './pages/Rutinas'
 import Historial from './pages/Historial'
 import DetalleEntreno from './pages/DetalleEntreno'
+import DetalleRutina from './pages/DetalleRutina'
 import WorkoutFinished, { type WorkoutSummary } from './components/WorkoutFinished'
 
 // Progreso lleva Recharts: se carga aparte para no inflar el arranque de la app.
@@ -40,6 +41,8 @@ export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, on
   const [vista, setVista] = useState<Vista>('inicio')
   const [summary, setSummary] = useState<WorkoutSummary | null>(null)
   const [detalle, setDetalle] = useState<{ id: number; editar: boolean } | null>(null)
+  /** Ficha de rutina abierta; un entreno abierto desde ella vuelve a ella. */
+  const [rutina, setRutina] = useState<number | null>(null)
   const [detalleActividad, setDetalleActividad] = useState<number | null>(null)
   const activeWorkout = useLiveQuery(() => workoutsRepo.activo(), [])
   const grabacion = useLiveQuery(() => actividadesRepo.enCurso(), [])
@@ -55,8 +58,13 @@ export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, on
   }
 
   if (detalle) {
-    return <DetalleEntreno key={detalle.id} workoutId={detalle.id} editarInicial={detalle.editar} onVolver={() => { setDetalle(null); setVista('historial') }}
-      onRepetido={() => { setDetalle(null); setVista('inicio'); onAbrirEntreno() }} />
+    return <DetalleEntreno key={detalle.id} workoutId={detalle.id} editarInicial={detalle.editar} volverA={rutina !== null ? 'Rutina' : 'Historial'}
+      onVolver={() => { setDetalle(null); if (rutina === null) setVista('historial') }}
+      onRepetido={() => { setDetalle(null); setRutina(null); setVista('inicio'); onAbrirEntreno() }} />
+  }
+  if (rutina !== null) {
+    return <DetalleRutina key={rutina} routineId={rutina} enCurso={!!activeWorkout} onVolver={() => setRutina(null)}
+      onEmpezado={() => { setRutina(null); setVista('inicio'); onAbrirEntreno() }} onAbrirEntreno={(id) => setDetalle({ id, editar: false })} />
   }
   if (detalleActividad !== null) {
     return <>
@@ -89,8 +97,8 @@ export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, on
           valor={vista}
           onChange={setVista}
         >
-          {vista === 'inicio' && <GymHome enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onRegistrado={(id) => setDetalle({ id, editar: true })} />}
-          {vista === 'rutinas' && <Rutinas enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} />}
+          {vista === 'inicio' && <GymHome enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onRegistrado={(id) => setDetalle({ id, editar: true })} onAbrirRutina={setRutina} />}
+          {vista === 'rutinas' && <Rutinas enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onAbrirRutina={setRutina} />}
           {vista === 'historial' && <Historial onAbrir={(id) => setDetalle({ id, editar: false })} />}
           {vista === 'progreso' && (
             <Suspense fallback={<LoadingState />}>

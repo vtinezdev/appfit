@@ -1890,3 +1890,14 @@ Víctor ve la ficha de un entreno del historial muy cargada de texto: los récor
 - `components/EjercicioSesion` y `LeyendaSeries`: miniatura, resumen, pastillas con su estado y tabla plegada (RIR solo si hay). «Ejercicios» sube justo debajo de los récords; mapa, Compartir y «Volver a hacerlo» quedan después. La edición no cambia.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Navegador en `appfit-test.localhost` con datos sintéticos (calentamiento, pendiente, dropset, lados, nombre largo, cifras grandes): 320/375/430 px en claro y oscuro sin scroll horizontal, sin botones por debajo de 44 px, miniaturas cargadas y sin errores de consola.
+
+## 178. Rutinas más visuales y ficha de rutina (2026-10-20)
+
+Víctor pide que «Repetir» y «Guardar como rutina» salgan arriba del todo en la ficha de un entreno y que las rutinas guardadas se vean más bonitas, con más imágenes. Aprueba sobre maqueta la tarjeta nueva y una ficha para cada rutina.
+
+- `DetalleEntreno`: «Repetir entreno» (primario, `play`) y «Guardar como rutina» van justo debajo de la cabecera, antes del póster; el botón de volver dice «Rutina» si se abrió desde una ficha de rutina.
+- `components/TarjetaRutina` (Rutinas y «Otras rutinas» de Empezar): rótulo de cuándo, nombre, tres músculos principales con su muestra, `MiniMapa`, rejilla de cinco miniaturas y «Empezar». `lib/fichaRutina` (con test): `musculosRutina`, `tiraMiniaturas`, `cifrasRutina`, `sesionesRutina`, `ultimaVezEjercicios`. `resumenRutina.series` ya no suma si algún ejercicio no tiene objetivo («6 series» con dos objetivos engañaba).
+- `pages/DetalleRutina`, vista de `GymTab`: cabecera de grafito con mapa, cifras y «Empezar», músculos, ejercicios con objetivo y última serie, últimas sesiones (abren su entreno y vuelven a la ficha) y «Borrar rutina».
+- El editor sale de `Rutinas` a `components/EditorRutina` (misma hoja, con miniaturas), usado desde la ficha y desde «Crear rutina › En blanco». `RutinaResumen` pierde `detalleRutina`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Navegador en `appfit-test.localhost` con datos sintéticos (rutina sin ejercicios, nombre largo, ejercicio propio sin imagen, cifras grandes): lista, ficha, editor, entreno abierto desde la ficha y vuelta, y Empezar a 320/375/430 px en claro y oscuro, sin scroll horizontal, sin botones por debajo de 44 px y sin errores de consola.

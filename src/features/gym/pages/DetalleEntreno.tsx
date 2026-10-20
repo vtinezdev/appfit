@@ -39,6 +39,8 @@ interface Props {
   workoutId: number
   /** Abrir directamente en modo edición (entreno registrado a posteriori). */
   editarInicial?: boolean
+  /** Texto del botón de volver: de dónde se ha abierto («Historial» o «Rutina»). */
+  volverA?: string
   onVolver: () => void
   /** Se ha empezado un entreno igual a este: abre la sesión. */
   onRepetido: () => void
@@ -49,7 +51,7 @@ interface Props {
  * pestaña (no un Sheet) para que el «Deshacer» de las series sea visible. Al añadir o quitar series se recalcula el
  * `muscleSnapshot` con la clasificación actual de los ejercicios.
  */
-export default function DetalleEntreno({ workoutId, editarInicial = false, onVolver, onRepetido }: Props) {
+export default function DetalleEntreno({ workoutId, editarInicial = false, volverA = 'Historial', onVolver, onRepetido }: Props) {
   const [editando, setEditando] = useState(editarInicial)
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false)
   const [buscando, setBuscando] = useState(false)
@@ -94,7 +96,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
     return <div className="px-page pt-5"><LoadingState /></div>
   }
   if (!w || w.fin === undefined) {
-    return <div className="space-y-3 px-page pt-5"><Button variant="ghost" size="sm" className="-ml-3" onClick={onVolver}><Icon name="arrow-left" size={18} />Historial</Button><EmptyState>Este entreno ya no está disponible.</EmptyState></div>
+    return <div className="space-y-3 px-page pt-5"><Button variant="ghost" size="sm" className="-ml-3" onClick={onVolver}><Icon name="arrow-left" size={18} />{volverA}</Button><EmptyState>Este entreno ya no está disponible.</EmptyState></div>
   }
 
   const fin = w.fin
@@ -191,11 +193,20 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
   return (
     <div ref={contenedorRef} className="space-y-section px-page pb-16 pt-5">
       <div className="flex items-center justify-between gap-2">
-        <Button variant="ghost" size="sm" disabled={quitando} className="-ml-3" onClick={onVolver}><Icon name="arrow-left" size={18} />Historial</Button>
+        <Button variant="ghost" size="sm" disabled={quitando} className="-ml-3" onClick={onVolver}><Icon name="arrow-left" size={18} />{volverA}</Button>
         {editando
           ? <Button variant="secondary" size="sm" disabled={quitando} onClick={terminarEdicion}>Listo</Button>
           : <Button variant="secondary" size="sm" onClick={() => setEditando(true)}><Icon name="pencil" size={16} />Editar</Button>}
       </div>
+      {!editando && ids.length > 0 && (
+        <section aria-label="Volver a hacerlo" className="space-y-2">
+          <div className="flex flex-wrap gap-2">
+            <Button className="flex-1 basis-40" loading={repitiendo} disabled={!!enCurso || ocupado} onClick={repetir}><Icon name="play" size={18} />Repetir entreno</Button>
+            <Button variant="secondary" className="flex-1 basis-40" disabled={ocupado} onClick={() => setGuardandoRutina((n) => n + 1)}><Icon name="plus" size={18} />Guardar como rutina</Button>
+          </div>
+          {enCurso && <p className="text-caption text-fg-muted">Tienes un entreno en curso: termínalo para repetir este.</p>}
+        </section>
+      )}
       <PosterSesion titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)}
         levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined} />
       {error && <ErrorState>{error}</ErrorState>}
@@ -267,17 +278,6 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, onVol
       {!editando && <Suspense fallback={<LoadingState />}><MapaMuscular key={w.id} summary={trabajo} figura={figura} figuras={false} /></Suspense>}
       {!editando && <PublicarEntreno workoutId={w.id} titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin}
         series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)} records={records} nombres={nombres} />}
-      {!editando && ids.length > 0 && (
-        <section aria-label="Volver a hacerlo" className="space-y-stack">
-          <SectionHeader>Volver a hacerlo</SectionHeader>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" className="flex-1 basis-40" loading={repitiendo} disabled={!!enCurso || ocupado} onClick={repetir}>Repetir este entreno</Button>
-            <Button variant="subtle" className="flex-1 basis-40" disabled={ocupado} onClick={() => setGuardandoRutina((n) => n + 1)}>Guardar como rutina</Button>
-          </div>
-          {enCurso && <p className="text-caption text-fg-muted">Tienes un entreno en curso: termínalo para repetir este.</p>}
-        </section>
-      )}
-
       <section aria-label="Borrar entreno" className="space-y-2 border-t border-line pt-3">
         {confirmandoBorrado ? (
           <ConfirmacionDestructiva mensaje="¿Borrar este entreno y todas sus series? No se puede deshacer." confirmar="Sí, borrar"
