@@ -211,8 +211,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
       {!editando && ids.length > 0 && (
         <section aria-label="Volver a hacerlo" className="space-y-2">
           <div className="flex flex-wrap gap-2">
-            <Button className="flex-1 basis-40" loading={repitiendo} disabled={!!enCurso || ocupado} onClick={repetir}><Icon name="play" size={18} />Repetir entreno</Button>
-            <Button variant="secondary" className="flex-1 basis-40" disabled={ocupado} onClick={() => setGuardandoRutina((n) => n + 1)}><Icon name="plus" size={18} />Guardar como rutina</Button>
+            <Button className="flex-1 basis-48" loading={repitiendo} disabled={!!enCurso || ocupado} onClick={repetir}><Icon name="play" size={18} />Repetir entreno</Button>
+            <Button variant="secondary" className="flex-1 basis-48" disabled={ocupado} onClick={() => setGuardandoRutina((n) => n + 1)}><Icon name="plus" size={18} />Guardar como rutina</Button>
           </div>
           {enCurso && <p className="text-caption text-fg-muted">Tienes un entreno en curso: termínalo para repetir este.</p>}
         </section>
