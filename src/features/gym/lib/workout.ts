@@ -185,7 +185,7 @@ export function minutosEntre(inicio: number, fin: number): number {
 /** Mensaje de error si un entreno registrado a posteriori no es válido; `null` si lo es. */
 export function validarEntrenoPasado(inicio: number | null, minutos: number, ahora: number): string | null {
   if (inicio === null) return 'Indica una fecha y una hora válidas.'
-  if (inicio > ahora) return 'El entreno tiene que haber empezado ya. Para uno nuevo, usa «Entreno vacío».'
+  if (inicio > ahora) return 'El entreno tiene que haber empezado ya. Para uno nuevo, usa «Empezar entreno».'
   if (!Number.isFinite(minutos) || minutos < 1 || minutos > 24 * 60) return 'La duración debe estar entre 1 minuto y 24 horas.'
   return null
 }

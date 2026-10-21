@@ -94,7 +94,7 @@ async function caso(motor, ampliado) {
     })
     await comprobar('estado local y reintento recuperan el valor tras un fallo de escritura',async()=>{
       await navegar(page,'Entreno'); await page.getByRole('tab',{name:'Empezar',exact:true}).click()
-      await page.getByRole('button',{name:'Entreno vacío',exact:true}).click()
+      await page.getByRole('button',{name:'Empezar entreno',exact:true}).click()
       await page.getByRole('button',{name:'Añadir ejercicio',exact:true}).click()
       const selector=page.getByRole('dialog',{name:'Añadir ejercicio',exact:true})
       await selector.getByRole('searchbox').fill('Press banca')

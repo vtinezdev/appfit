@@ -9,9 +9,8 @@ import TarjetaEntreno from '../components/TarjetaEntreno'
 import RegistrarEntrenoPasado from '../components/RegistrarEntrenoPasado'
 import RepetirEntreno from '../components/RepetirEntreno'
 import { MosaicoRutina } from '../components/RutinaResumen'
-import TarjetaRutina from '../components/TarjetaRutina'
-import { useFiguraMapa } from '../hooks/useFiguraMapa'
-import { musculosRutina } from '../lib/fichaRutina'
+import ListGroup from '../../../shared/components/ListGroup'
+import SectionHeader from '../../../shared/components/SectionHeader'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { ordenParaEmpezar, resumenRutina } from '../lib/rutinas'
 import { cuandoFue } from '../lib/workout'
@@ -19,9 +18,10 @@ import { cuandoFue } from '../lib/workout'
 const ERROR_EMPEZAR = 'No se ha podido empezar el entreno. Inténtalo de nuevo.'
 
 /**
- * Empezar (E1, ADR 035): las rutinas a la vista, sin abrir otra hoja. Arriba, sobre grafito, la que hace más tiempo que
- * no se hace (por su última fecha real, no es un plan); debajo, las demás con su mosaico y «Empezar». Entreno vacío, registrar uno
- * pasado y repetir uno terminado quedan como acciones secundarias. Sin rutinas, la tarjeta invita a empezar en vacío.
+ * Empezar (E1, ADR 035): arriba, sobre grafito, «Tu entreno» con las formas de empezar sin rutina: «Empezar entreno»
+ * (vacío, la principal), repetir uno terminado y registrar uno pasado. Debajo, las rutinas en filas del mismo alto
+ * (mosaico, nombre en dos líneas como mucho y cuándo se hizo), de la que más tiempo lleva sin hacerse a la más reciente
+ * (su última fecha real, no un plan), con «Empezar».
  */
 interface Props {
   /** Hay un entreno en curso (minimizado): en lugar de empezar otro, se ofrece volver a él. */
@@ -41,12 +41,10 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
   const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
   const workouts = useLiveQuery(() => workoutsRepo.listar(), [])
-  const figura = useFiguraMapa()
 
   const exerciseMap = new Map((exercises ?? []).map((e) => [e.id!, e]))
   const resumenes = new Map((rutinas ?? []).map((r) => [r.id, resumenRutina(r, workouts ?? [], exerciseMap)]))
   const ordenadas = rutinas && exercises && workouts ? ordenParaEmpezar(rutinas, (r) => resumenes.get(r.id)?.ultima ?? null) : []
-  const [primera, ...resto] = ordenadas
 
   async function empezar(routineId?: number) {
     setEmpezando(routineId ?? 'vacio')
@@ -63,8 +61,6 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
 
   const ocupado = empezando !== null
   const hayTerminados = (workouts ?? []).some((w) => w.fin !== undefined)
-  const botonRepetir = hayTerminados && <Button variant="subtle" className="flex-1 basis-40" disabled={ocupado} onClick={() => setRepetir((n) => n + 1)}>Repetir un entreno</Button>
-  const nombresDe = (ids: number[]) => ids.map((id) => exerciseMap.get(id)?.nombre).filter(Boolean).slice(0, 3).join(' · ')
 
   if (enCurso) {
     return (
@@ -79,57 +75,45 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
 
   return (
     <div className="space-y-section">
-      {primera ? (() => {
-        const resumen = resumenes.get(primera.id)!
-        return <section aria-label="Empezar a entrenar" className="training-surface space-y-4 p-5">
-          <div className="flex items-start gap-3">
-            <div className="min-w-0 flex-1 space-y-1">
-              <p className="training-muted text-rotulo">{resumen.ultima === null ? 'Sin hacer todavía' : `Última vez: ${cuandoFue(resumen.ultima).toLowerCase()}`}</p>
-              <h2 className="break-words text-display">{primera.nombre}</h2>
-              {nombresDe(primera.exerciseIds) && <p className="training-muted break-words text-body-sm">{nombresDe(primera.exerciseIds)}</p>}
-            </div>
-            <MosaicoRutina resumen={resumen} />
-          </div>
-          <Button variant="ghost" size="lg" block className="training-primary" loading={empezando === primera.id} disabled={ocupado} onClick={() => empezar(primera.id)}>
-            Empezar {primera.nombre}
-          </Button>
-        </section>
-      })() : (
-        <section aria-label="Empezar a entrenar" className="training-surface space-y-5 p-5">
-          <div className="space-y-1">
-            <div className="flex items-start justify-between gap-3"><h2 className="min-w-0 break-words text-display">Tu próxima sesión</h2><Icon name="dumbbell" size={28} className="training-muted mt-1" /></div>
+      <section aria-labelledby="empezar-entreno" className="training-surface space-y-5 p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 space-y-1">
+            <h2 id="empezar-entreno" className="break-words text-display">Tu entreno</h2>
             <p className="training-muted text-body-sm">Empieza con los ejercicios que quieras{rutinas?.length === 0 ? ' o crea una rutina en la pestaña Rutinas' : ''}.</p>
           </div>
-          <Button variant="ghost" className="training-secondary" size="lg" block loading={empezando === 'vacio'} disabled={ocupado} onClick={() => empezar()}>
-            <Icon name="plus" size={20} />
-            Entreno vacío
-          </Button>
-        </section>
-      )}
+          <Icon name="dumbbell" size={28} className="training-muted mt-1 shrink-0" />
+        </div>
+        <Button variant="ghost" size="lg" block className="training-primary" loading={empezando === 'vacio'} disabled={ocupado} onClick={() => empezar()}>
+          <Icon name="play" size={20} />
+          Empezar entreno
+        </Button>
+        <div className="flex flex-wrap gap-2">
+          {hayTerminados && <Button variant="ghost" className="training-secondary flex-1 basis-40" disabled={ocupado} onClick={() => setRepetir((n) => n + 1)}>Repetir un entreno</Button>}
+          <Button variant="ghost" className="training-secondary flex-1 basis-40" disabled={ocupado} onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
+        </div>
+      </section>
 
       {error && <ErrorState>{error}</ErrorState>}
 
-      {primera && <section aria-label="Más rutinas y otras formas de empezar" className="space-y-stack">
-        {resto.length > 0 && <ul aria-label="Otras rutinas" className="space-y-stack">
-          {resto.map((r) => <li key={r.id}>
-            <TarjetaRutina rutina={r} resumen={resumenes.get(r.id)!} musculos={musculosRutina(r, exercises ?? [])} figura={figura}
-              miniaturas={r.exerciseIds.filter(id => exerciseMap.has(id)).map(id => exerciseMap.get(id)?.catalogId)} onAbrir={() => onAbrirRutina(r.id)}
-              empezar={{ onEmpezar: () => empezar(r.id), loading: empezando === r.id, disabled: ocupado }} />
-          </li>)}
-        </ul>}
-        <div className="flex flex-wrap gap-2">
-          <Button variant="ghost" className="flex-1 basis-40" loading={empezando === 'vacio'} disabled={ocupado} onClick={() => empezar()}>
-            <Icon name="plus" size={18} />
-            Entreno vacío
-          </Button>
-          <Button variant="subtle" className="flex-1 basis-40" onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
-          {botonRepetir}
-        </div>
+      {ordenadas.length > 0 && <section aria-labelledby="rutinas-empezar" className="space-y-stack">
+        <SectionHeader variant="section"><span id="rutinas-empezar">Rutinas</span></SectionHeader>
+        <ListGroup aria-label="Rutinas">
+          {ordenadas.map((r) => {
+            const resumen = resumenes.get(r.id)!
+            return <li key={r.id} className="flex items-center gap-2">
+              <button type="button" onClick={() => onAbrirRutina(r.id)} className="app-button flex min-h-touch min-w-0 flex-1 items-center gap-3 py-3 text-left">
+                <MosaicoRutina resumen={resumen} />
+                {/* Mismo alto en todas: el nombre reserva dos líneas (y no pasa de ellas); el nombre entero sigue en el botón. */}
+                <span className="rutina-fila-texto min-w-0 flex-1">
+                  <span className="line-clamp-2 break-words text-body font-semibold text-fg">{r.nombre}</span>
+                  <span className="block truncate text-caption text-fg-muted">{resumen.ultima === null ? 'Sin hacer' : cuandoFue(resumen.ultima)}</span>
+                </span>
+              </button>
+              <Button variant="secondary" size="sm" className="shrink-0" aria-label={`Empezar ${r.nombre}`} loading={empezando === r.id} disabled={ocupado} onClick={() => empezar(r.id)}>Empezar</Button>
+            </li>
+          })}
+        </ListGroup>
       </section>}
-      {!primera && <div className="flex flex-wrap gap-2">
-        <Button variant="subtle" className="flex-1 basis-40" onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
-        {botonRepetir}
-      </div>}
 
       <TarjetaEntreno soloUltimo />
 
