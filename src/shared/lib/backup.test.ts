@@ -23,7 +23,7 @@ function v1ConApiKey(apiKey: string): string {
 describe('importarBackup', () => {
   it('importa entero el backup v1 de referencia (generado con el código de la sesión 01)', async () => {
     await importarBackup(backupV1)
-    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, suplementos: 0, cheatDays: 0, actividades: 0, rutasPropias: 0, pasos: 0, catalogFoods: 0, catalogSources: 0 })
+    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, suplementos: 0, cheatDays: 0, actividades: 0, rutasPropias: 0, pasos: 0, gimnasios: 0, catalogFoods: 0, catalogSources: 0 })
     expect((await db.foods.get(1))?.nombre).toBe('Plátano')
     expect(await db.entries.get(9)).toMatchObject({ fecha: '2026-09-28', comida: 'cena', kcal: 330, textoOriginal: 'pollo a la plancha' })
   })
@@ -245,7 +245,7 @@ describe('backup de suplementos', () => {
     await db.suplementos.bulkAdd([{ tipo: 'creatina', fecha: '2026-10-12', createdAt: 10 }, { tipo: 'otro', fecha: '2026-10-12', createdAt: 11 }])
     const antes = await exportarBackup()
     expect(antes.version).toBe(3)
-    expect(antes.dbVersion).toBe(12)
+    expect(antes.dbVersion).toBe(13)
     await importarBackup(JSON.stringify(antes))
     expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
   })
@@ -324,6 +324,22 @@ describe('backup de rutas propias', () => {
     expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
     await importarBackup(backupV1)
     expect(await db.rutasPropias.count()).toBe(0)
+  })
+})
+
+describe('backup de gimnasios', () => {
+  it('ida y vuelta con el gimnasio de entrenos y series, y un backup antiguo los deja vacíos', async () => {
+    await importarBackup(backupV1)
+    const gimnasioId = await db.gimnasios.add({ nombre: 'Gym Playa', nombreNorm: 'gym playa' } as never)
+    const workoutId = await db.workouts.add({ inicio: 1, fin: 2, gimnasioId } as never)
+    await db.sets.add({ workoutId, exerciseId: 1, orden: 0, reps: 10, peso: 50, createdAt: 1, gimnasioId } as never)
+    const antes = await exportarBackup()
+    expect(antes.gimnasios).toHaveLength(1)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+    expect((await db.sets.where('workoutId').equals(workoutId).first())?.gimnasioId).toBe(gimnasioId)
+    await importarBackup(backupV1)
+    expect(await db.gimnasios.count()).toBe(0)
   })
 })
 

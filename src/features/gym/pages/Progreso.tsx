@@ -1,16 +1,18 @@
-import { claveComparacion, contextoSerie } from '../lib/ejecucion'
+import { contextoSerie } from '../lib/ejecucion'
 import { lazy, Suspense, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { Area, AreaChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import * as routinesRepo from '../data/routinesRepo'
-import { cifrasClave, datosProgreso, resumenEjercicios, textoMejorSerie, trazoMini, type MetricaProgreso } from '../lib/progreso'
+import * as gimnasiosRepo from '../data/gimnasiosRepo'
+import { nombresGimnasios, textoGimnasio } from '../lib/gimnasios'
+import { MAX_LINEAS_GIMNASIO, cifrasClave, claveVariante, datosProgreso, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, textoMejorSerie, trazoMini, type MetricaProgreso } from '../lib/progreso'
 import { MODOS_CARGA, modoCarga } from '../lib/carga'
 import { ayudaCifras } from '../lib/ayudaCifras'
-import type { ModoCarga } from '../../../shared/db/types'
-import { chartAxis, chartColors, chartGrid, chartTooltip, escalaAjustada } from '../../../shared/design/chart'
+import type { ModoCarga, SetEntry } from '../../../shared/db/types'
+import { chartAxis, chartColors, chartDashGimnasios, chartGrid, chartTooltip, escalaAjustada } from '../../../shared/design/chart'
 import { formatDiaMes, formatFechaHora, todayISO } from '../../../shared/lib/dates'
 import { Select } from '../../../shared/components/Input'
 import ListGroup from '../../../shared/components/ListGroup'
@@ -46,6 +48,16 @@ type Metrica = MetricaProgreso
 const unidadDe = (m: Metrica) => (m === 'reps' ? 'reps' : 'kg')
 const conSigno = (v: number) => `${v > 0 ? '+' : v < 0 ? '−' : ''}${formatNumber(Math.abs(v), 1)}`
 
+const TODOS = 'todos'
+const claveGimnasio = (id: number | undefined) => (id === undefined ? 'habitual' : String(id))
+
+/** Muestra de la línea de un gimnasio en la leyenda: su color y su trazo. */
+function MuestraLinea({ i }: { i: number }) {
+  return <svg viewBox="0 0 24 8" className="h-2 w-6 shrink-0" aria-hidden="true" focusable="false">
+    <line x1={1} y1={4} x2={23} y2={4} stroke={chartColors.gimnasios[i]} strokeWidth={2} strokeDasharray={chartDashGimnasios[i]} strokeLinecap="round" />
+  </svg>
+}
+
 /** Minigráfica de una fila de la lista: la métrica por defecto en las últimas sesiones. Decorativa (el texto da la cifra). */
 function MiniLinea({ valores }: { valores: number[] }) {
   const t = trazoMini(valores, 64, 24)
@@ -64,6 +76,7 @@ export default function Progreso() {
   const [exerciseId, setExerciseId] = useState<number | null>(null)
   const [modoElegido, setModoElegido] = useState<ModoCarga | null>(null)
   const [varianteElegida, setVarianteElegida] = useState<string | null>(null)
+  const [gimnasioElegido, setGimnasioElegido] = useState<string>(TODOS)
   const [ayuda, setAyuda] = useState(false)
   const [metricaElegida, setMetricaElegida] = useState<Metrica | null>(null)
   const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
@@ -73,16 +86,29 @@ export default function Progreso() {
   const listaRef = useRef<HTMLHeadingElement>(null)
   const workouts = useLiveQuery(() => workoutsRepo.listar(), [])
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
+  const gimnasios = useLiveQuery(async () => nombresGimnasios(await gimnasiosRepo.listar()), [])
   const hoy = todayISO()
   const ligas = useLigas(hoy)
   const selectorRef = useRef<HTMLSelectElement>(null)
   const modos = [...new Set((sets ?? []).map(modoCarga))]
   const modo = modoElegido && modos.includes(modoElegido) ? modoElegido : modos[0] ?? 'externa'
-  const variantes = [...new Map((sets ?? []).filter(s => modoCarga(s) === modo && !s.bajadas?.length).map(s => [claveComparacion(s), s])).entries()]
+  // El gimnasio no es variante: es otra dimensión de la gráfica (una línea por gimnasio, o solo uno).
+  const variantes = [...new Map((sets ?? []).filter(s => modoCarga(s) === modo && !s.bajadas?.length).map(s => [claveVariante(s), s])).entries()]
   const variante = varianteElegida && variantes.some(([key]) => key === varianteElegida) ? varianteElegida : variantes[0]?.[0]
   const permiteRM = variantes.find(([key]) => key === variante)?.[1]
+  const textoVariante = (s: SetEntry) => contextoSerie({ ...s, gimnasioId: undefined }) || 'Bilateral · sin agarre ni tempo especificados'
   const rm = !permiteRM?.ejecucion && !permiteRM?.excentricaSeg && !permiteRM?.soloNegativas && modo === 'externa'
-  const datos = datosProgreso(sets ?? [], workouts ?? [], modo, variante).map(d => ({ ...d, fecha: formatDiaMes(d.inicio) }))
+  const deTodos = datosProgreso(sets ?? [], workouts ?? [], modo, variante).map(d => ({ ...d, fecha: formatDiaMes(d.inicio) }))
+  // Orden fijo (habitual primero): decide el color de cada gimnasio, que no cambia al filtrar.
+  const conSesiones = gimnasiosConSesiones(deTodos)
+  const variosGimnasios = conSesiones.length > 1
+  const gimnasioActual = variosGimnasios && conSesiones.some(id => claveGimnasio(id) === gimnasioElegido) ? gimnasioElegido : TODOS
+  const todosLosGimnasios = variosGimnasios && gimnasioActual === TODOS
+  const indiceGimnasio = conSesiones.findIndex(id => claveGimnasio(id) === gimnasioActual)
+  const datos = gimnasioActual === TODOS ? deTodos : deTodos.filter(d => claveGimnasio(d.gimnasioId) === gimnasioActual)
+  const lineas = todosLosGimnasios ? conSesiones.slice(0, MAX_LINEAS_GIMNASIO) : []
+  const nombreGimnasio = (id: number | undefined) => textoGimnasio(id, gimnasios)
+  const colorUnico = indiceGimnasio > 0 && indiceGimnasio < MAX_LINEAS_GIMNASIO ? chartColors.gimnasios[indiceGimnasio] : chartColors.seriesPrimary
   const ultimo = datos.at(-1)
   // Nombre completo (títulos, lista, lector de pantalla) y corto (selector segmentado). 1RM primero cuando existe.
   const opciones: Partial<Record<Metrica, [string, string]>> = modo === 'externa'
@@ -93,11 +119,14 @@ export default function Progreso() {
   const metrica = metricaElegida && disponibles.includes(metricaElegida) ? metricaElegida : disponibles[0]
   const [nombre, corto] = opciones[metrica] ?? ['', '']
   const unidad = unidadDe(metrica)
-  const cifras = cifrasClave(datos, metrica, modo)
+  const calculadas = cifrasClave(datos, metrica, modo)
+  // Con todos los gimnasios, el cambio entre la primera y la última sesión mezclaría máquinas distintas: se pide elegir uno.
+  const cifras = calculadas && todosLosGimnasios ? { ...calculadas, cambio: null } : calculadas
+  const filas = todosLosGimnasios ? filasPorGimnasio(datos, metrica, lineas) : datos
   const ejercicio = exercises?.find(e => e.id === exerciseId)
-  const escala = escalaAjustada(datos.map(d => d[metrica] ?? 0))
+  const escala = escalaAjustada(datos.filter(d => !todosLosGimnasios || lineas.includes(d.gimnasioId)).map(d => d[metrica] ?? 0))
   const valor = (d: (typeof datos)[number]) => formatNumber(d[metrica] ?? 0, 1)
-  const elegir = (id: number | null) => { setExerciseId(id); setModoElegido(null); setVarianteElegida(null); setMetricaElegida(null) }
+  const elegir = (id: number | null) => { setExerciseId(id); setModoElegido(null); setVarianteElegida(null); setMetricaElegida(null); setGimnasioElegido(TODOS) }
   // Elegir desde la lista o volver a ella lleva el foco arriba (al selector o al título de la lista): anuncia y sube la vista.
   const elegirYEnfocar = (id: number | null) => { elegir(id); requestAnimationFrame(() => (id === null ? listaRef.current : selectorRef.current)?.focus()) }
   const resumenes = !exerciseId && todasLasSeries && workouts ? resumenEjercicios(todasLasSeries, workouts) : undefined
@@ -139,7 +168,12 @@ export default function Progreso() {
       <Select aria-label="Tipo de carga en Progreso" value={modo} onChange={e => { setModoElegido(e.target.value as ModoCarga); setVarianteElegida(null) }}>
         {modos.map(id => <option key={id} value={id}>{MODOS_CARGA[id]}</option>)}
       </Select></label>}
-    {!!exerciseId && variantes.length > 1 && <label className="block space-y-2"><span className="text-label text-fg-muted">Ejecución, agarre y tempo</span><Select aria-label="Variante en Progreso" value={variante} onChange={e => setVarianteElegida(e.target.value)}>{variantes.map(([key, s]) => <option key={key} value={key}>{contextoSerie(s) || 'Bilateral · sin agarre ni tempo especificados'}</option>)}</Select></label>}
+    {!!exerciseId && variantes.length > 1 && <label className="block space-y-2"><span className="text-label text-fg-muted">Variante</span><Select aria-label="Variante en Progreso" value={variante} onChange={e => setVarianteElegida(e.target.value)}>{variantes.map(([key, s]) => <option key={key} value={key}>{textoVariante(s)}</option>)}</Select></label>}
+    {!!exerciseId && variosGimnasios && <label className="block space-y-2"><span className="text-label text-fg-muted">Gimnasio</span>
+      <Select aria-label="Gimnasio en Progreso" value={gimnasioActual} onChange={e => setGimnasioElegido(e.target.value)}>
+        <option value={TODOS}>Todos los gimnasios</option>
+        {conSesiones.map(id => <option key={claveGimnasio(id)} value={claveGimnasio(id)}>{nombreGimnasio(id)}</option>)}
+      </Select></label>}
     {!exerciseId && conLigas && ligas.visible && exercises && <LigasLista ligas={ligas.ligas} nombres={new Map(exercises.map(e => [e.id, e.nombre]))} hoy={hoy} onElegir={elegirYEnfocar} />}
     {!exerciseId && resumenes?.length === 0 && <EmptyState icon="dumbbell" title="Sigue tu evolución">Termina un entreno y aquí verás cada ejercicio con su mejor serie y cómo va.</EmptyState>}
     {!!exerciseId && !ultimo && bloqueLiga}
@@ -155,19 +189,41 @@ export default function Progreso() {
         opciones={disponibles.map(m => ({ valor: m, label: opciones[m]![1] }))} />}
       <Card className="space-y-3">
         <div className="flex items-start justify-between gap-2">
-          <Metric size="hero" label={`${nombre} · última sesión`} valor={valor(ultimo)} unidad={unidad} caption={formatDiaMes(ultimo.inicio)} />
+          <Metric size="hero" label={`${nombre} · última sesión`} valor={valor(ultimo)} unidad={unidad} caption={`${formatDiaMes(ultimo.inicio)}${todosLosGimnasios ? ` · ${nombreGimnasio(ultimo.gimnasioId)}` : ''}`} />
           <IconButton icon="info" label="Qué significa cada cifra" variant="ghost" aria-haspopup="dialog" className="-mr-2 -mt-2" onClick={() => setAyuda(true)} />
         </div>
-        {datos.length < 2 ? <p className="text-body-sm text-fg-muted">La gráfica aparece a partir de dos sesiones terminadas con el mismo tipo de carga y variante.</p> : <>
+        {datos.length < 2 ? <p className="text-body-sm text-fg-muted">La gráfica aparece a partir de dos sesiones terminadas con el mismo tipo de carga y variante.</p> : todosLosGimnasios ? <>
+          <div role="img" aria-label={`${nombre} por sesión en cada gimnasio: ${lineas.map(id => `${nombreGimnasio(id)}, ${valor(datos.filter(d => d.gimnasioId === id).at(-1)!)} ${unidad} en su última sesión`).join('; ')}. Datos de cada sesión debajo.`}>
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart data={filas} margin={{ left: 0, right: 12, top: 8, bottom: 0 }}>
+                <CartesianGrid {...chartGrid} /><XAxis dataKey="fecha" {...chartAxis} minTickGap={20} />
+                <YAxis {...chartAxis} width={56} tickFormatter={formatCompact} domain={escala.dominio} ticks={escala.marcas} />
+                <Tooltip {...chartTooltip} formatter={v => `${formatNumber(Number(v), 1)} ${unidad}`} />
+                {lineas.map((id, i) => <Line key={claveGimnasio(id)} type="linear" dataKey={`g${i}`} name={nombreGimnasio(id)} connectNulls stroke={chartColors.gimnasios[i]} strokeWidth={2}
+                  strokeDasharray={chartDashGimnasios[i]} dot={datos.length < 15 ? { r: 3, fill: chartColors.gimnasios[i], strokeWidth: 0 } : false} isAnimationActive={false} />)}
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          {/* Leyenda con la última cifra de cada gimnasio: el color y el trazo nunca van solos. */}
+          <ul aria-label="Gimnasios de la gráfica" className="space-y-1">{lineas.map((id, i) => {
+            const ult = datos.filter(d => d.gimnasioId === id).at(-1)!
+            return <li key={claveGimnasio(id)} className="flex min-w-0 items-center gap-2 text-caption">
+              <MuestraLinea i={i} /><span className="min-w-0 flex-1 break-words text-fg">{nombreGimnasio(id)}</span>
+              <span className="tabular shrink-0 text-fg-muted">{valor(ult)} {unidad} · {formatDiaMes(ult.inicio)}</span>
+            </li>
+          })}</ul>
+          {conSesiones.length > lineas.length && <p className="text-caption text-fg-muted">La gráfica muestra {formatInt(lineas.length)} gimnasios. Elige otro en «Gimnasio» para ver su línea.</p>}
+          {escala.dominio[0] > 0 && <p className="tabular text-caption text-fg-muted">El eje empieza en {formatNumber(escala.dominio[0])} {unidad}.</p>}
+        </> : <>
           <div role="img" aria-label={`${nombre} por sesión, de ${valor(datos[0])} a ${valor(ultimo)} ${unidad}. Datos de cada sesión debajo.`}>
             <ResponsiveContainer width="100%" height={200}>
               <AreaChart data={datos} margin={{ left: 0, right: Math.max(40, 12 + 7 * valor(ultimo).length), top: 8, bottom: 0 }}>
                 <CartesianGrid {...chartGrid} /><XAxis dataKey="fecha" {...chartAxis} minTickGap={20} />
                 <YAxis {...chartAxis} width={56} tickFormatter={formatCompact} domain={escala.dominio} ticks={escala.marcas} />
                 <Tooltip {...chartTooltip} formatter={v => `${formatNumber(Number(v), 1)} ${unidad}`} />
-                <Area type="linear" dataKey={metrica} name={nombre} stroke={chartColors.seriesPrimary} strokeWidth={2} fill={chartColors.seriesPrimary} fillOpacity={0.12}
-                  baseValue={escala.dominio[0]} dot={datos.length < 15 ? { r: 3, fill: chartColors.seriesPrimary } : false} isAnimationActive={false}
-                  label={rotuloFinal(datos.length, chartColors.seriesPrimaryText, v => formatNumber(v, 1))} />
+                <Area type="linear" dataKey={metrica} name={nombre} stroke={colorUnico} strokeWidth={2} fill={colorUnico} fillOpacity={0.12}
+                  baseValue={escala.dominio[0]} dot={datos.length < 15 ? { r: 3, fill: colorUnico } : false} isAnimationActive={false}
+                  label={rotuloFinal(datos.length, colorUnico === chartColors.seriesPrimary ? chartColors.seriesPrimaryText : chartColors.seriesSecondary, v => formatNumber(v, 1))} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -175,15 +231,15 @@ export default function Progreso() {
         </>}
       </Card>
       <dl aria-label="Cifras clave" className="cifras-filetes grid grid-cols-3">
-        <div><dt className="text-caption text-fg-muted">Mejor serie</dt><dd className="tabular break-words text-body font-semibold text-fg">{textoMejorSerie(cifras.mejor, modo)}</dd><dd className="tabular text-caption text-fg-muted">{formatDiaMes(cifras.mejor.inicio)}</dd></div>
+        <div><dt className="text-caption text-fg-muted">Mejor serie</dt><dd className="tabular break-words text-body font-semibold text-fg">{textoMejorSerie(cifras.mejor, modo)}</dd><dd className="tabular break-words text-caption text-fg-muted">{formatDiaMes(cifras.mejor.inicio)}{todosLosGimnasios ? ` · ${nombreGimnasio(datos.find(d => d.inicio === cifras.mejor.inicio)?.gimnasioId)}` : ''}</dd></div>
         <div><dt className="text-caption text-fg-muted">1RM estimado</dt><dd className="tabular break-words text-body font-semibold text-fg">{cifras.oneRM === null ? '—' : `${formatNumber(cifras.oneRM, 1)} kg`}</dd><dd className="text-caption text-fg-muted">Máximo</dd></div>
-        <div><dt className="text-caption text-fg-muted">Cambio</dt><dd className="tabular break-words text-body font-semibold text-fg">{cifras.cambio === null ? '—' : `${conSigno(cifras.cambio)} ${unidad}`}</dd><dd className="text-caption text-fg-muted">{corto}</dd></div>
+        <div><dt className="text-caption text-fg-muted">Cambio</dt><dd className="tabular break-words text-body font-semibold text-fg">{cifras.cambio === null ? '—' : `${conSigno(cifras.cambio)} ${unidad}`}</dd><dd className="text-caption text-fg-muted">{todosLosGimnasios ? 'Elige un gimnasio' : corto}</dd></div>
       </dl>
       <section aria-label="Sesiones" className="space-y-stack">
         <SectionHeader variant="section">Sesiones</SectionHeader>
         <ListGroup aria-label={`Sesiones de ${ejercicio?.nombre ?? 'este ejercicio'}`}>{[...datos].reverse().map(d => <li key={d.workoutId} className="flex min-h-touch items-center justify-between gap-3 py-2">
           <span className="min-w-0"><span className="tabular block text-body font-medium text-fg">{formatFechaHora(d.inicio)}</span>
-            <span className="tabular block break-words text-caption text-fg-muted">Mejor serie: {textoMejorSerie(d.mejor, modo)}</span></span>
+            <span className="tabular block break-words text-caption text-fg-muted">Mejor serie: {textoMejorSerie(d.mejor, modo)}{todosLosGimnasios ? ` · ${nombreGimnasio(d.gimnasioId)}` : ''}</span></span>
           <span className="tabular shrink-0 text-right text-body font-semibold text-fg">{valor(d)} <span className="text-caption font-normal text-fg-muted">{unidad}</span></span>
         </li>)}</ListGroup>
       </section>

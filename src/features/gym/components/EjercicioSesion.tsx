@@ -96,8 +96,9 @@ export default function EjercicioSesion({ ejercicio, series, records, nota }: Pr
           </tr>)}
         </tbody>
       </table>
-      {series.filter(s => contextoSerie(s)).map(s => <div key={s.id} className="space-y-1 text-caption text-fg-muted">
-        <p>{contextoSerie(s)}</p>
+      {/* El gimnasio ya lo dice el póster de la sesión: aquí solo la ejecución, el agarre y la técnica. */}
+      {series.filter(s => contextoSerie({ ...s, gimnasioId: undefined })).map(s => <div key={s.id} className="space-y-1 text-caption text-fg-muted">
+        <p>{contextoSerie({ ...s, gimnasioId: undefined })}</p>
         {s.ejecucion === 'lados' && conRir && <p>{Object.entries(s.lados ?? {}).map(([l, p]) => `${l}: RIR ${p.rir ?? '—'}`).join(' · ')}</p>}
         {s.bajadas?.map((b, i) => <p key={b.id}>Bajada {i + 1}: {describirReps({ ...s, ...b })}{s.ejecucion !== 'lados' ? ` · ${formatearCarga({ ...s, ...b })}` : ''}</p>)}
       </div>)}

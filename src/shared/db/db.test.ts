@@ -35,7 +35,7 @@ describe('esquema v11', () => {
     const nombre = 'appfit-instalacion-test'
     const d = new AppFitDB(nombre)
     await d.open()
-    expect(d.verno).toBe(12)
+    expect(d.verno).toBe(13)
     expect(d.tables.map((t) => t.name).sort()).toEqual([...TABLAS_USUARIO, ...TABLAS_CATALOGO].sort())
     expect(d.table('catalogFoods').schema.primKey.auto).toBe(false)
     expect(d.table('catalogFoods').schema.idxByName.tok.multi).toBe(true)
@@ -73,7 +73,7 @@ describe('esquema v11', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(12)
+    expect(actual.verno).toBe(13)
     // Ningún registro cambia: contenido idéntico (incluido Gym y meals).
     for (const tabla of Object.keys(ESQUEMA_V2)) expect(await actual.table(tabla).toArray(), tabla).toEqual(antes[tabla])
     expect(antes.foods).toHaveLength(datos.foods.length)
@@ -124,7 +124,7 @@ describe('migración v6 → v11', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(12)
+    expect(actual.verno).toBe(13)
     expect(await actual.pesos.count()).toBe(1)
     expect(await actual.nombresAlimentos.count()).toBe(1)
     expect((await actual.workouts.toArray())[0]).toMatchObject({ inicio: 5, fin: 9 })
@@ -187,7 +187,7 @@ describe('migraciones de Dexie', () => {
 
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(12)
+    expect(actual.verno).toBe(13)
     expect(await actual.catalogFoods.count()).toBe(0)
     for (const tabla of Object.keys(ESQUEMA_V1)) {
       expect(await actual.table(tabla).count(), tabla).toBe(datos[tabla].length)
@@ -226,7 +226,7 @@ describe('migración v7 → v11 (creatina)', () => {
     v7.close()
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(12)
+    expect(actual.verno).toBe(13)
     for (const t of anteriores) expect(await actual.table(t).toArray(), t).toEqual(antes[t])
     expect(await actual.suplementos.count()).toBe(0)
     const indice = actual.backendDB().transaction('suplementos', 'readonly').objectStore('suplementos').index('[tipo+fecha]')
@@ -262,7 +262,7 @@ describe('migración v8 → v11 (cheat day)', () => {
     v8.close()
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(12)
+    expect(actual.verno).toBe(13)
     for (const t of anteriores) expect(await actual.table(t).toArray(), t).toEqual(antes[t])
     expect(await actual.cheatDays.count()).toBe(0)
     await actual.cheatDays.add({ fecha: '2026-10-11', createdAt: 1 })
@@ -294,7 +294,7 @@ describe('migración v9 → v11 (actividades)', () => {
     v9.close()
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(12)
+    expect(actual.verno).toBe(13)
     for (const t of anteriores) expect(await actual.table(t).toArray(), t).toEqual(antes[t])
     expect(await actual.actividades.count()).toBe(0)
     await actual.actividades.add({ tipo: 'caminar', fecha: '2026-10-12', inicio: 1, duracionSeg: 600, distanciaM: 1000, origen: 'manual', createdAt: 1 })
@@ -323,7 +323,7 @@ describe('migración v10 → v11 (rutas propias)', () => {
     v10.close()
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(12)
+    expect(actual.verno).toBe(13)
     expect(await actual.actividades.toArray()).toEqual(antes)
     expect(await actual.rutasPropias.count()).toBe(0)
     actual.close(); await Dexie.delete(nombre)
@@ -350,11 +350,43 @@ describe('migración v11 → v12 (pasos)', () => {
     v11.close()
     const actual = new AppFitDB(nombre)
     await actual.open()
-    expect(actual.verno).toBe(12)
+    expect(actual.verno).toBe(13)
     expect(await actual.rutasPropias.toArray()).toEqual(antes)
     expect(await actual.pasos.count()).toBe(0)
     await actual.pasos.add({ fecha: '2026-10-12', pasos: 8000, createdAt: 1, updatedAt: 1 })
     await expect(actual.pasos.add({ fecha: '2026-10-12', pasos: 9000, createdAt: 2, updatedAt: 2 })).rejects.toThrow()
+    actual.close(); await Dexie.delete(nombre)
+  })
+})
+
+describe('migración v12 → v13 (gimnasios)', () => {
+  it('conserva entrenos y series en el habitual y añade gimnasios vacía, con nombres únicos', async () => {
+    const nombre = 'appfit-gimnasios-migracion-test'
+    const esquemaV12 = {
+      ...ESQUEMA_V2,
+      entries: '++id, fecha, comida, foodId, catalogId, createdAt',
+      catalogFoods: '&id, *tok, gtin, fuente', catalogSources: '&id',
+      notasMedida: '++id, createdAt', pesos: '++id, &fecha', nombresAlimentos: '&id',
+      porciones: '++id, ref', recetas: '++id, &nombreNorm, foodId',
+      agua: '++id, &fecha', objetivosDia: '++id, &fecha', medidas: '++id, &fecha',
+      suplementos: '++id, fecha, &[tipo+fecha]', cheatDays: '++id, &fecha', actividades: '++id, fecha, inicio', rutasPropias: '++id',
+      pasos: '++id, &fecha',
+    }
+    const v12 = new Dexie(nombre)
+    v12.version(12).stores(esquemaV12)
+    await v12.open()
+    const workoutId = await v12.table('workouts').add({ inicio: 1, fin: 2 })
+    await v12.table('sets').add({ workoutId, exerciseId: 1, orden: 0, reps: 10, peso: 50, createdAt: 1 })
+    const [workouts, sets] = [await v12.table('workouts').toArray(), await v12.table('sets').toArray()]
+    v12.close()
+    const actual = new AppFitDB(nombre)
+    await actual.open()
+    expect(actual.verno).toBe(13)
+    expect(await actual.workouts.toArray()).toEqual(workouts)
+    expect(await actual.sets.toArray()).toEqual(sets)
+    expect(await actual.gimnasios.count()).toBe(0)
+    await actual.gimnasios.add({ nombre: 'Gym Playa', nombreNorm: 'gym playa' } as never)
+    await expect(actual.gimnasios.add({ nombre: 'GYM PLAYA', nombreNorm: 'gym playa' } as never)).rejects.toThrow()
     actual.close(); await Dexie.delete(nombre)
   })
 })

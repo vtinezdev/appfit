@@ -16,16 +16,31 @@ function mejorDe<T extends MejorSerie>(series: T[], modo: ModoCarga): T {
   return series.reduce((m, s) => (mejorQue(s, m, modo) ? s : m))
 }
 
-/** Solo sesiones terminadas y series del mismo modo; asistencia no invierte la progresión. */
-export function datosProgreso(series: SetEntry[], workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[], modo: ModoCarga, variante?: string) {
+/** Variante de una serie para Progreso: ejecución, agarre y técnica, sin el gimnasio (que es otra dimensión de la gráfica). */
+export function claveVariante(s: Parameters<typeof claveComparacion>[0]): string {
+  return claveComparacion({ ...s, gimnasioId: undefined })
+}
+
+/** Gimnasio de una sesión: el del entreno o, en datos sin él, el snapshot de sus series. `undefined` = habitual. */
+const gimnasioDe = (w: Pick<Workout, 'gimnasioId'>, ss: SetEntry[]) => w.gimnasioId ?? ss.find(s => s.gimnasioId !== undefined)?.gimnasioId
+
+/** Filtro de gimnasio de Progreso: sin él, todos; `{ gimnasioId: undefined }`, solo el habitual. */
+export type FiltroGimnasioProgreso = { gimnasioId?: number }
+
+/**
+ * Solo sesiones terminadas y series del mismo modo y variante; asistencia no invierte la progresión. Cada sesión dice su
+ * gimnasio (`gimnasioId`, ausente en el habitual) y `gimnasio` filtra uno (ADR 054).
+ */
+export function datosProgreso(series: SetEntry[], workouts: Pick<Workout, 'id' | 'inicio' | 'fin' | 'gimnasioId'>[], modo: ModoCarga, variante?: string, gimnasio?: FiltroGimnasioProgreso) {
   const sesiones = new Map(workouts.filter(w => w.fin !== undefined).map(w => [w.id, w]))
   const grupos = new Map<number, SetEntry[]>()
-  for (const s of efectivas(series).filter(s => repsComparables(s) > 0 && !s.bajadas?.length && modoCarga(s) === modo && claveComparacion(s) === (variante ?? claveComparacion({ modoCarga: modo })))) {
+  for (const s of efectivas(series).filter(s => repsComparables(s) > 0 && !s.bajadas?.length && modoCarga(s) === modo && claveVariante(s) === (variante ?? claveComparacion({ modoCarga: modo })))) {
     if (!sesiones.has(s.workoutId)) continue
     grupos.set(s.workoutId, [...(grupos.get(s.workoutId) ?? []), s])
   }
-  return [...grupos].map(([workoutId, ss]) => ({
+  return [...grupos].filter(([workoutId, ss]) => !gimnasio || gimnasioDe(sesiones.get(workoutId)!, ss) === gimnasio.gimnasioId).map(([workoutId, ss]) => ({
     workoutId, inicio: sesiones.get(workoutId)!.inicio,
+    ...(gimnasioDe(sesiones.get(workoutId)!, ss) !== undefined ? { gimnasioId: gimnasioDe(sesiones.get(workoutId)!, ss) } : {}),
     pesoMax: Math.max(...ss.map(pesoComparable)),
     oneRM: modo === 'externa' && !ss[0].ejecucion && !ss[0].excentricaSeg && !ss[0].soloNegativas ? Math.max(...ss.map(s => epley1RM(s.peso, s.reps))) : null,
     asistencia: modo === 'asistencia' ? Math.min(...ss.map(pesoComparable)) : null,
@@ -35,6 +50,30 @@ export function datosProgreso(series: SetEntry[], workouts: Pick<Workout, 'id' |
 }
 export type SesionProgreso = ReturnType<typeof datosProgreso>[number]
 export type MetricaProgreso = 'pesoMax' | 'oneRM' | 'volumen' | 'reps' | 'asistencia'
+
+/** Como mucho tantas líneas en «Todos»: más colores ya no se distinguen (el resto se ve eligiendo su gimnasio). */
+export const MAX_LINEAS_GIMNASIO = 4
+
+/**
+ * Gimnasios con sesiones, en orden fijo: el habitual primero y después por id. El orden decide el color de cada línea,
+ * así que un gimnasio conserva el suyo aunque se filtre otro.
+ */
+export function gimnasiosConSesiones(datos: readonly Pick<SesionProgreso, 'gimnasioId'>[]): (number | undefined)[] {
+  const ids = new Set(datos.map(d => d.gimnasioId))
+  // `sort` deja siempre los `undefined` al final: el habitual se pone delante a mano.
+  return [...(ids.has(undefined) ? [undefined] : []), ...[...ids].filter((id): id is number => id !== undefined).sort((x, y) => x - y)]
+}
+
+/**
+ * Filas para la gráfica de «Todos»: una por sesión, con el valor de la métrica solo en la columna de su gimnasio
+ * (`g0`, `g1`…, en el orden de `gimnasios`). Las líneas unen las sesiones de cada gimnasio saltando las de los demás.
+ */
+export function filasPorGimnasio<T extends Pick<SesionProgreso, 'gimnasioId' | MetricaProgreso>>(datos: readonly T[], metrica: MetricaProgreso, gimnasios: readonly (number | undefined)[]): (T & Record<string, unknown>)[] {
+  return datos.map(d => {
+    const i = gimnasios.indexOf(d.gimnasioId)
+    return i < 0 ? { ...d } : { ...d, [`g${i}`]: d[metrica] ?? 0 }
+  })
+}
 
 /** «100 kg × 5», «+10 kg × 6» (lastre), «−20 kg × 8» (ayuda) o «12 reps» (corporal). */
 export function textoMejorSerie(m: MejorSerie, modo: ModoCarga): string {
@@ -77,14 +116,16 @@ function metricaPorDefecto(modo: ModoCarga, datos: SesionProgreso[]): MetricaPro
  * Lista de Progreso antes de elegir ejercicio: cada ejercicio con sesiones terminadas, con el mismo modo y variante que
  * abriría su gráfica (los primeros registrados), su última mejor serie y los últimos `n` valores. Más reciente primero.
  */
-export function resumenEjercicios(series: SetEntry[], workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[], n = 8): ResumenEjercicioProgreso[] {
+export function resumenEjercicios(series: SetEntry[], workouts: Pick<Workout, 'id' | 'inicio' | 'fin' | 'gimnasioId'>[], n = 8): ResumenEjercicioProgreso[] {
   const porEjercicio = new Map<number, SetEntry[]>()
   for (const s of series) porEjercicio.set(s.exerciseId, [...(porEjercicio.get(s.exerciseId) ?? []), s])
   const out: ResumenEjercicioProgreso[] = []
   for (const [exerciseId, ss] of porEjercicio) {
     const modo = modoCarga(ss[0])
-    const variante = ss.filter(s => modoCarga(s) === modo && !s.bajadas?.length).map(claveComparacion)[0]
-    const datos = datosProgreso(ss, workouts, modo, variante)
+    const variante = ss.filter(s => modoCarga(s) === modo && !s.bajadas?.length).map(claveVariante)[0]
+    // Una sola línea: la del habitual si hay sesiones allí; si no, la del primer gimnasio (las máquinas no se mezclan).
+    const todas = datosProgreso(ss, workouts, modo, variante)
+    const datos = todas.filter(d => d.gimnasioId === gimnasiosConSesiones(todas)[0])
     if (!datos.length) continue
     const metrica = metricaPorDefecto(modo, datos)
     out.push({ exerciseId, modo, metrica, ultima: datos[datos.length - 1], puntos: datos.slice(-n).map(d => d[metrica] ?? 0), sesiones: datos.length })

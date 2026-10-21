@@ -7,7 +7,8 @@ import { aplicarConfiguracionCarga, validarConfiguracionCarga } from '../lib/car
 import { toISODate } from '../../../shared/lib/dates'
 import { crearSnapshotMuscular } from '../lib/cargaMuscular'
 import { valoresNuevaSerie } from '../lib/workout'
-import { ultimaEfectiva, ultimoCalentamiento } from './setsRepo'
+import { previaEnGimnasio, ultimaEfectiva, ultimoCalentamiento } from './setsRepo'
+import { dependeDeMaquina, gimnasioDeSerie, sinKg } from '../lib/gimnasios'
 import { ejerciciosDelEntreno, seriesParaRepetir } from '../lib/repetirEntreno'
 
 /** El entreno en curso (sin `fin`), si hay uno. */
@@ -34,12 +35,12 @@ export function listar(): Promise<Workout[]> {
  * Si ya hay uno en curso devuelve ese: comprobar y crear van en la misma transacción,
  * así que un doble toque no deja dos entrenos activos.
  */
-export function empezar(routineId?: number): Promise<number> {
+export function empezar(routineId?: number, gimnasioId?: number): Promise<number> {
   return db.transaction('rw', db.workouts, db.routines, db.sets, db.pesos, db.exercises, async () => {
     const enCurso = await db.workouts.filter((w) => w.fin === undefined).first()
     if (enCurso) return enCurso.id
-    const id = await db.workouts.add(routineId === undefined ? { inicio: Date.now() } : { inicio: Date.now(), routineId })
-    if (routineId !== undefined) await crearSeriesObjetivo(id, routineId)
+    const id = await db.workouts.add({ inicio: Date.now(), ...(routineId !== undefined ? { routineId } : {}), ...(gimnasioId !== undefined ? { gimnasioId } : {}) } as Workout)
+    if (routineId !== undefined) await crearSeriesObjetivo(id, routineId, Date.now(), gimnasioId)
     return id
   })
 }
@@ -47,9 +48,10 @@ export function empezar(routineId?: number): Promise<number> {
 /**
  * Crea las series objetivo de cada ejercicio de la rutina que tenga objetivos, precargadas con los últimos
  * valores efectivos del ejercicio (o 8 × 20 kg). Los calentamientos del objetivo van antes, con los valores del último
- * calentamiento del ejercicio (o los de la efectiva, si nunca se hizo uno). Va dentro de la transacción de quien la llama.
+ * calentamiento del ejercicio (o los de la efectiva, si nunca se hizo uno). En otro gimnasio, los ejercicios de máquina toman
+ * los valores de ese gimnasio, o los del habitual sin kg si allí nunca se hicieron. Va dentro de la transacción de quien la llama.
  */
-async function crearSeriesObjetivo(workoutId: number, routineId: number, base = Date.now()): Promise<void> {
+async function crearSeriesObjetivo(workoutId: number, routineId: number, base = Date.now(), gimnasioId?: number): Promise<void> {
   const rutina = await db.routines.get(routineId)
   if (!rutina) return
   const ejecuciones: NonNullable<Workout['ejecucionesEjercicios']> = {}
@@ -69,11 +71,13 @@ async function crearSeriesObjetivo(workoutId: number, routineId: number, base = 
     if (!objetivo) continue
     const config = ejecuciones[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual
     const agarre = config ? config.agarre ?? null : undefined
-    const efectiva = await ultimaEfectiva(exerciseId, agarre)
-    const calentamiento = objetivo.calentamientos ? (await ultimoCalentamiento(exerciseId, agarre)) ?? efectiva : undefined
+    const efectiva = await previaEnGimnasio(exerciseId, gimnasioId, g => ultimaEfectiva(exerciseId, agarre, g))
+    const delCalentamiento = objetivo.calentamientos ? await previaEnGimnasio(exerciseId, gimnasioId, g => ultimoCalentamiento(exerciseId, agarre, g)) : undefined
+    const calentamiento = delCalentamiento?.previa ? delCalentamiento : efectiva
     const pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(base))).last())?.kg
-    const valoresDe = (previa: SetEntry | undefined) => {
-      const valores = valoresNuevaSerie(previa)
+    const valoresDe = ({ previa, sinKg: vaciar, gimnasioId }: Awaited<ReturnType<typeof previaEnGimnasio>>) => {
+      const valores: Partial<SetEntry> & ReturnType<typeof valoresNuevaSerie> = vaciar ? sinKg(valoresNuevaSerie(previa)) : valoresNuevaSerie(previa)
+      if (gimnasioId !== undefined) valores.gimnasioId = gimnasioId
       const ejecucion = ejecucionSerieNueva(config, valores, false)
       if (ejecucion) Object.assign(valores, aplicarEjecucion(valores, ejecucion))
       if (valores.modoCarga) valores.pesoCorporal = pesoCorporal
@@ -113,7 +117,8 @@ export function repetir(workoutId: number): Promise<number> {
     const nuevo: Omit<Workout, 'id'> = { inicio, ...(rutina ? { routineId: rutina.id } : {}),
       ...(orden.length ? { ordenEjercicios: orden } : {}), ...(omitidos.length ? { ejerciciosOmitidos: omitidos } : {}),
       ...(cargas && Object.keys(cargas).length ? { cargasEjercicios: cargas } : {}),
-      ...(ejecuciones && Object.keys(ejecuciones).length ? { ejecucionesEjercicios: ejecuciones } : {}) }
+      ...(ejecuciones && Object.keys(ejecuciones).length ? { ejecucionesEjercicios: ejecuciones } : {}),
+      ...(origen.gimnasioId !== undefined ? { gimnasioId: origen.gimnasioId } : {}) }
     const id = await db.workouts.add(nuevo as Workout)
     await db.sets.bulkAdd(seriesParaRepetir(origen, sets, pesoCorporal).map((s, i) => ({ ...s, workoutId: id, createdAt: inicio + i })) as SetEntry[])
     return id
@@ -137,12 +142,13 @@ export class TiempoEntrenoInvalido extends Error {}
  * Registra un entreno pasado ya terminado. Nunca crea un entreno activo (tiene `fin`), así que no interfiere
  * con el invariante «como mucho uno activo». Con rutina, crea sus series objetivo como al empezar.
  */
-export function crearPasado(datos: { inicio: number; fin: number; routineId?: number }): Promise<number> {
+export function crearPasado(datos: { inicio: number; fin: number; routineId?: number; gimnasioId?: number }): Promise<number> {
   if (!(datos.fin > datos.inicio)) throw new TiempoEntrenoInvalido('El entreno debe terminar después de empezar.')
   return db.transaction('rw', db.workouts, db.routines, db.sets, db.exercises, db.pesos, async () => {
-    const base: Omit<Workout, 'id'> = { inicio: datos.inicio, fin: datos.fin, ...(datos.routineId !== undefined ? { routineId: datos.routineId } : {}) }
+    const base: Omit<Workout, 'id'> = { inicio: datos.inicio, fin: datos.fin, ...(datos.routineId !== undefined ? { routineId: datos.routineId } : {}),
+      ...(datos.gimnasioId !== undefined ? { gimnasioId: datos.gimnasioId } : {}) }
     const id = await db.workouts.add(base as Workout)
-    if (datos.routineId !== undefined) await crearSeriesObjetivo(id, datos.routineId, datos.inicio)
+    if (datos.routineId !== undefined) await crearSeriesObjetivo(id, datos.routineId, datos.inicio, datos.gimnasioId)
     await recalcularEn(id)
     return id
   })
@@ -305,6 +311,46 @@ export function terminar(id: number, confirmadas?: number[], marcarTodas = false
     const fin = Date.now()
     await db.workouts.update(id, { fin, muscleSnapshot })
     return { workout: { ...workout, fin, muscleSnapshot }, sets }
+  })
+}
+
+/**
+ * Cambia el gimnasio de un entreno, en curso o del historial (ADR 054). Las series de ejercicios de máquina pasan a llevar el
+ * nuevo `gimnasioId`. Las realizadas conservan cifras y marca: se hicieron allí, solo se había elegido mal el gimnasio. En un
+ * entreno en curso, las pendientes se vuelven a precargar con las cifras de ese gimnasio, o sin kg si allí nunca se hizo el
+ * ejercicio. Devuelve los ids de las series cuyas cifras cambiaron.
+ */
+export function cambiarGimnasio(workoutId: number, gimnasioId: number | undefined): Promise<number[]> {
+  return db.transaction('rw', db.workouts, db.sets, db.exercises, db.gimnasios, async () => {
+    const w = await db.workouts.get(workoutId)
+    if (!w) throw new Error('El entreno ya no está disponible.')
+    if (gimnasioId !== undefined && !(await db.gimnasios.get(gimnasioId))) throw new Error('Ese gimnasio ya no está disponible.')
+    if (w.gimnasioId === gimnasioId) return []
+    const sets = await db.sets.where('workoutId').equals(workoutId).toArray()
+    const cambios: { id: number; patch: Partial<SetEntry> }[] = []
+    // Las previas se buscan antes de reestampar: las series de esta sesión aún llevan el gimnasio anterior y no cuentan.
+    for (const exerciseId of new Set(sets.map(s => s.exerciseId))) {
+      const ejercicio = await db.exercises.get(exerciseId)
+      if (!dependeDeMaquina(ejercicio)) continue
+      for (const s of sets.filter(x => x.exerciseId === exerciseId)) {
+        const patch: Partial<SetEntry> = { gimnasioId: gimnasioDeSerie(gimnasioId, ejercicio) }
+        if (w.fin === undefined && s.realizada !== true) {
+          const buscar = s.tipo === 'calentamiento' ? ultimoCalentamiento : ultimaEfectiva
+          const { previa, sinKg: vaciar } = await previaEnGimnasio(exerciseId, gimnasioId, g => buscar(exerciseId, s.agarre ?? null, g))
+          if (previa && !vaciar && previa.ejecucion === s.ejecucion) Object.assign(patch, { reps: previa.reps, peso: previa.peso, ...(s.lados && previa.lados ? { lados: valoresNuevaSerie(previa).lados } : {}) })
+          else if (previa || gimnasioId !== undefined) Object.assign(patch, sinKg({ peso: s.peso, ...(s.lados ? { lados: s.lados } : {}) }))
+        }
+        cambios.push({ id: s.id, patch })
+      }
+    }
+    await db.workouts.update(workoutId, { gimnasioId })
+    const cifras: number[] = []
+    for (const { id, patch } of cambios) {
+      const antes = sets.find(s => s.id === id)!
+      await db.sets.update(id, patch)
+      if (['reps', 'peso', 'lados'].some(k => k in patch && JSON.stringify(antes[k as keyof SetEntry]) !== JSON.stringify(patch[k as keyof SetEntry]))) cifras.push(id)
+    }
+    return cifras
   })
 }
 

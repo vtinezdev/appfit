@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import type { Actividad, Agua, CatalogFood, CheatDay, CatalogSource, Entry, Exercise, Food, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Porcion, Receta, Routine, DiaPasos, RutaPropia, SetEntry, Settings, Suplemento, Workout } from './types'
+import type { Actividad, Agua, CatalogFood, CheatDay, CatalogSource, Entry, Exercise, Food, Gimnasio, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Porcion, Receta, Routine, DiaPasos, RutaPropia, SetEntry, Settings, Suplemento, Workout } from './types'
 
 /**
  * Esquema de IndexedDB. Reglas para cambiarlo sin perder los datos del móvil:
@@ -18,7 +18,7 @@ export const TABLAS_CATALOGO = ['catalogFoods', 'catalogSources'] as const
 /** Tablas con datos del usuario: van en el backup y se vacían al importar o al borrarlo todo. */
 export const TABLAS_USUARIO = [
   'foods', 'entries', 'meals', 'settings', 'exercises', 'routines', 'workouts', 'sets', 'notasMedida', 'pesos', 'nombresAlimentos',
-  'porciones', 'recetas', 'agua', 'objetivosDia', 'medidas', 'suplementos', 'cheatDays', 'actividades', 'rutasPropias', 'pasos',
+  'porciones', 'recetas', 'agua', 'objetivosDia', 'medidas', 'suplementos', 'cheatDays', 'actividades', 'rutasPropias', 'pasos', 'gimnasios',
 ] as const
 
 export class AppFitDB extends Dexie {
@@ -43,6 +43,7 @@ export class AppFitDB extends Dexie {
   actividades!: EntityTable<Actividad, 'id'>
   rutasPropias!: EntityTable<RutaPropia, 'id'>
   pasos!: EntityTable<DiaPasos, 'id'>
+  gimnasios!: EntityTable<Gimnasio, 'id'>
   catalogFoods!: EntityTable<CatalogFood, 'id'>
   catalogSources!: EntityTable<CatalogSource, 'id'>
 
@@ -112,6 +113,9 @@ export class AppFitDB extends Dexie {
     this.version(11).stores({ rutasPropias: '++id' })
     // v12 (pasos para Caminos): tabla nueva y vacía, sin upgrade(). `&fecha` es único: un total por día.
     this.version(12).stores({ pasos: '++id, &fecha' })
+    // v13 (gimnasios): tabla nueva y vacía, sin upgrade(). `&nombreNorm` evita dos gimnasios con el mismo nombre.
+    // `workouts.gimnasioId` y `sets.gimnasioId` son opcionales sin índice: el histórico queda en el habitual.
+    this.version(13).stores({ gimnasios: '++id, &nombreNorm' })
   }
 }
 

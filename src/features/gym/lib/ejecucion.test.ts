@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { aplicarEjecucion, claveComparacion, comoLados, convencional, vaciaRegistro, opcionesAgarre, partesTramo, repsEstimulo, validarSerie, volumenSerie } from './ejecucion'
+import { aplicarEjecucion, claveComparacion, comoLados, contextoSerie, convencional, vaciaRegistro, opcionesAgarre, partesTramo, repsEstimulo, validarSerie, volumenSerie } from './ejecucion'
 import { detectarRecords } from './records'
 import { datosProgreso } from './progreso'
 import { calcularCargaEjercicio } from './cargaMuscular'
@@ -84,5 +84,18 @@ describe('ejecución semántica', () => {
     expect(() => validarSerie(serie({ lados: { izquierda: { reps: -1, peso: 10 } } }))).toThrow()
     expect(() => validarSerie(serie({ bajadas: [{ id: 'x', peso: 10, reps: 8 }, { id: 'x', peso: 5, reps: 6 }] }))).toThrow()
     expect(partesTramo(serie({ ejecucion: 'lados' }))).toEqual([])
+  })
+  it('el gimnasio separa la clave solo si la serie lo trae: la del habitual no cambia', () => {
+    // Clave fijada: las decisiones de progresión guardadas la contienen y no deben invalidarse.
+    expect(claveComparacion(serie())).toBe('["externa","bilateral","lado","","","",false,0,""]')
+    expect(claveComparacion(serie({ gimnasioId: 2 }))).toBe('["externa","bilateral","lado","","","",false,0,"",2]')
+    expect(claveComparacion(serie({ gimnasioId: 2 }))).not.toBe(claveComparacion(serie({ gimnasioId: 3 })))
+  })
+  it('el contexto nombra el gimnasio de la serie', () => {
+    const nombres = new Map([[2, 'Gym Playa']])
+    expect(contextoSerie(serie({ gimnasioId: 2 }), nombres)).toBe('Gym Playa')
+    expect(contextoSerie(serie({ gimnasioId: 2, excentricaSeg: 3 }), nombres)).toBe('Descenso 3 s · Gym Playa')
+    expect(contextoSerie(serie({ gimnasioId: 2 }))).toBe('Otro gimnasio')
+    expect(contextoSerie(serie())).toBe('')
   })
 })

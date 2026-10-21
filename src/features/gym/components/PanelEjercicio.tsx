@@ -104,13 +104,15 @@ interface Props {
    */
   plegado?: boolean
   onPlegar?: (plegar: boolean) => void
+  /** Primera vez de una máquina en otro gimnasio: qué buscar (`lib/gimnasios.notaPrimeraVez`). */
+  notaGimnasio?: string
 }
 
 type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | 'liga' | { serie: number } | { rir: number; lado?: Lado }
 const LADOS: { lado: Lado; letra: string; nombre: string }[] = [{ lado: 'izquierda', letra: 'I', nombre: 'izquierda' }, { lado: 'derecha', letra: 'D', nombre: 'derecha' }]
 
-/** Botón de ajuste del ejercicio en su cabecera: la variante común se ve sin abrir nada. */
-function ChipAjuste({ label, texto, apagado, disabled, onClick }: { label: string; texto: string; apagado?: boolean; disabled?: boolean; onClick: () => void }) {
+/** Botón de ajuste del ejercicio en su cabecera: la variante común se ve sin abrir nada. También el del gimnasio de la sesión. */
+export function ChipAjuste({ label, texto, apagado, disabled, onClick }: { label: string; texto: string; apagado?: boolean; disabled?: boolean; onClick: () => void }) {
   return <button type="button" aria-label={`${label}: ${texto}`} disabled={disabled} onClick={onClick}
     className={`app-button inline-flex min-h-touch max-w-full items-center gap-1 rounded-pill bg-surface-muted px-3 text-body-sm font-semibold hover:bg-line disabled:opacity-40 ${apagado ? 'text-fg-muted' : 'text-fg'}`}>
     <span className="min-w-0 truncate">{texto}</span><Icon name="chevron-right" size={16} className="shrink-0 rotate-90 text-fg-muted" />
@@ -133,7 +135,7 @@ function CeldaAnterior({ dato }: { dato?: TextoAnterior }) {
 }
 
 /** Panel de un ejercicio con sus series; lo comparten la sesión activa y el editor de entrenos terminados. */
-export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga, plegado = false, onPlegar }: Props) {
+export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga, plegado = false, onPlegar, notaGimnasio }: Props) {
   const filaPlegada = useRef<HTMLButtonElement>(null)
   const estabaPlegado = useRef(plegado)
   // Al plegarse justo tras marcar la última serie, el ✓ desaparece: el foco pasa a la fila plegada en vez de perderse
@@ -243,6 +245,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
         {contexto.onEjecucion && <ChipAjuste label={`Ejecución de ${ejercicio.nombre}`} texto={textoEjecucion(ejecucion)} disabled={bloqueado} onClick={() => setHoja('variante')} />}
         {contexto.onEjecucion && conAgarre && <ChipAjuste label={`Agarre de ${ejercicio.nombre}`} texto={textoAgarre(ejecucion.agarre) || 'Agarre'} apagado={!ejecucion.agarre} disabled={bloqueado} onClick={() => setHoja('variante')} />}
       </div>}
+      {notaGimnasio && <p className="break-words text-caption text-fg-muted">{notaGimnasio}</p>}
       {conProgresion && <ProgresionEjercicio ejercicio={ejercicio} workout={contexto!.workout!} sets={sets} objetivo={objetivo} bloqueado={bloqueado}
         abierto={hoja === 'progresion'} onAbrir={() => setHoja('progresion')} onCerrar={() => setHoja(null)} onDecidir={contexto!.onProgresion!} />}
       {liga?.avisar && <AvisoElite liga={liga.estado} nombre={ejercicio.nombre} disabled={bloqueado} onAbrir={() => setHoja('liga')} />}

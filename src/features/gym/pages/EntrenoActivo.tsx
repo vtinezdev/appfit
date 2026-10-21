@@ -1,6 +1,9 @@
 import { recomendarProgresion } from '../lib/progresion'
 import { convencional, tieneReps, cambiaRealizacion } from '../lib/ejecucion'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
+import { gimnasioDeSerie, nombresGimnasios, notaPrimeraVez, primeraVez, textoGimnasio } from '../lib/gimnasios'
+import * as gimnasiosRepo from '../data/gimnasiosRepo'
+import { ChipGimnasio } from '../components/GimnasioSheet'
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
@@ -78,6 +81,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   const exercises = useLiveQuery(() => exercisesRepo.listar(), []) ?? []
   const ajustes = useLiveQuery(() => getSettings(), [])
   const todosWorkouts = useLiveQuery(() => workoutsRepo.listar(), []) ?? []
+  const gimnasios = useLiveQuery(async () => nombresGimnasios(await gimnasiosRepo.listar()), [])
   const routine = useLiveQuery(() => (workout.routineId ? routinesRepo.obtener(workout.routineId) : undefined), [workout.routineId])
   const hoy = todayISO()
   const ligas = useLigasSesion(hoy, todosWorkouts, allSets, ajustes)
@@ -112,6 +116,16 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
       avisarError('No se han podido guardar las notas. Inténtalo de nuevo.')
       return false
     }
+  }
+
+  /** Las series realizadas conservan sus cifras; las pendientes de máquinas se vuelven a precargar (ADR 054). */
+  async function cambiarGimnasio(gimnasioId: number | undefined) {
+    setGuardando(true)
+    try {
+      await Promise.all(pendingWrites.current.values())
+      const cambiadas = await workoutsRepo.cambiarGimnasio(workout.id, gimnasioId)
+      setFeedback(cambiadas.length ? `Gimnasio cambiado. ${cambiadas.length === 1 ? 'Se ha actualizado 1 serie pendiente' : `Se han actualizado ${cambiadas.length} series pendientes`}.` : 'Gimnasio cambiado.')
+    } finally { setGuardando(false) }
   }
 
   async function guardarCarga(exerciseId: number, carga: ConfiguracionCarga) {
@@ -307,6 +321,9 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         </div>
       </div>}
 
+      <section aria-label="Gimnasio" className="flex flex-wrap items-center gap-2">
+        <ChipGimnasio gimnasioId={workout.gimnasioId} disabled={guardando || quitando} onElegir={cambiarGimnasio} />
+      </section>
       <section aria-label="Descanso entre series" className="space-y-2">
           <div ref={restConfig}><Disclosure title={`Descanso: ${session.restSeconds ? `${session.restSeconds} s` : 'sin temporizador'}`} open={restConfigOpen} onChange={setRestConfigOpen}>
             <div className="space-y-3">
@@ -336,11 +353,13 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
           const sets = currentSets.filter((s) => s.exerciseId === exId).sort((a, b) => a.orden - b.orden)
           const liga = ligas?.ligas.get(exId)
           const completo = sets.length > 0 && sets.every((s) => completadas.includes(s.id))
+          const nuevaMaquina = primeraVez(allSets, ex, workout)
           return (
             <div key={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
-                anteriores={anterioresPorSerie(sets, seriesSesionAnterior(allSets, exId, workout, todosWorkouts))}
-                referenciasCarga={seriesSesionAnterior(allSets, exId, workout, todosWorkouts)}
+                notaGimnasio={nuevaMaquina && notaPrimeraVez(textoGimnasio(workout.gimnasioId, gimnasios), nuevaMaquina.habitual)}
+                anteriores={anterioresPorSerie(sets, seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex)))}
+                referenciasCarga={seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex))}
                 objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
                 onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
                 onQuitar={() => quitarEjercicio(exId, ex.nombre)} onAviso={avisar}

@@ -58,6 +58,7 @@ export function recordsFrenteA(setsSesion: Serie[], previas: ReadonlyMap<string,
   const records: RecordEjercicio[] = []
   for (const [key, ahora] of actuales) {
     const exerciseId = ahora[0].exerciseId, modo = modoCarga(ahora[0])
+    // Sin nombres de gimnasio: la variante dice «Otro gimnasio» y así puede publicarse en Amigos sin delatar dónde se entrena.
     const contexto = { ...(modo === 'externa' ? {} : { modoCarga: modo }), ...(contextoSerie(ahora[0]) ? { variante: contextoSerie(ahora[0]) } : {}) }
     const antes = previas.get(key)
     if (!antes?.length) continue

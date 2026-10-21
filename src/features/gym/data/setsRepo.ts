@@ -9,6 +9,7 @@ import * as exercisesRepo from './exercisesRepo'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { aplicarConfiguracionCarga } from '../lib/carga'
 import { toISODate } from '../../../shared/lib/dates'
+import { dependeDeMaquina, enGimnasio, sinKg } from '../lib/gimnasios'
 
 export function todas(): Promise<SetEntry[]> {
   return db.sets.toArray()
@@ -22,15 +23,33 @@ export function delEjercicio(exerciseId: number): Promise<SetEntry[]> {
   return db.sets.where('exerciseId').equals(exerciseId).toArray()
 }
 
-/** Última serie efectiva (no de calentamiento) del ejercicio, de cualquier entreno. Solo lectura. */
-export function ultimaEfectiva(exerciseId: number, agarre?: Agarre | null): Promise<SetEntry | undefined> {
-  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre))).first()
+/** Filtro de gimnasio: sin él, cualquiera; `{ gimnasioId: undefined }`, solo el habitual (ADR 054). */
+export type FiltroGimnasio = { gimnasioId?: number }
+
+/** Última serie efectiva (no de calentamiento) del ejercicio, de cualquier entreno (o de ese gimnasio). Solo lectura. */
+export function ultimaEfectiva(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio): Promise<SetEntry | undefined> {
+  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId))).first()
 }
 
-/** La última serie de calentamiento del ejercicio (con ese agarre, si se indica). */
-export function ultimoCalentamiento(exerciseId: number, agarre?: Agarre | null): Promise<SetEntry | undefined> {
-  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo === 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre))).first()
+/** La última serie de calentamiento del ejercicio (con ese agarre y en ese gimnasio, si se indican). */
+export function ultimoCalentamiento(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio): Promise<SetEntry | undefined> {
+  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo === 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId))).first()
 }
+
+/**
+ * La serie de la que copiar valores en una sesión de `gimnasioId`. Si el ejercicio depende de la máquina, solo cuenta
+ * ese gimnasio; si allí nunca se hizo, sirve la del habitual sin kg (`sinKg`). El resto comparte historial.
+ * Devuelve también el `gimnasioId` que llevará la serie nueva. Va dentro de la transacción de quien la llama.
+ */
+export async function previaEnGimnasio(exerciseId: number, gimnasioId: number | undefined, buscar: (gimnasio?: FiltroGimnasio) => Promise<SetEntry | undefined>): Promise<{ previa?: SetEntry; sinKg: boolean; gimnasioId?: number }> {
+  const ejercicio = await db.exercises.get(exerciseId)
+  if (!dependeDeMaquina(ejercicio)) return { previa: await buscar(), sinKg: false }
+  const propia = await buscar({ gimnasioId })
+  if (propia || gimnasioId === undefined) return { previa: propia, sinKg: false, gimnasioId }
+  const habitual = await buscar({ gimnasioId: undefined })
+  return { previa: habitual, sinKg: !!habitual, gimnasioId }
+}
+
 
 /**
  * Añade una serie al ejercicio dentro del entreno, repitiendo reps y peso de la última serie
@@ -42,9 +61,11 @@ export function agregar(workoutId: number, exerciseId: number, createdAt: number
     const workout = await db.workouts.get(workoutId)
     const configurada = workout?.ejecucionesEjercicios?.[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual
     const delEntreno = await db.sets.where('workoutId').equals(workoutId).filter((s) => s.exerciseId === exerciseId).toArray()
-    const previa = [...delEntreno].filter(s => s.tipo !== 'calentamiento' && (!configurada || claveAgarre(s.agarre) === claveAgarre(configurada.agarre)))
-      .sort((a, b) => a.orden - b.orden).at(-1) ?? await ultimaEfectiva(exerciseId, configurada ? configurada.agarre ?? null : undefined)
-    const valores = valoresNuevaSerie(previa)
+    const enSesion = [...delEntreno].filter(s => s.tipo !== 'calentamiento' && (!configurada || claveAgarre(s.agarre) === claveAgarre(configurada.agarre)))
+      .sort((a, b) => a.orden - b.orden).at(-1)
+    const gimnasio = await previaEnGimnasio(exerciseId, workout?.gimnasioId, g => ultimaEfectiva(exerciseId, configurada ? configurada.agarre ?? null : undefined, g))
+    const previa = enSesion ?? gimnasio.previa
+    const valores = enSesion || !gimnasio.sinKg ? valoresNuevaSerie(previa) : sinKg(valoresNuevaSerie(previa))
     const carga = workout?.cargasEjercicios?.[exerciseId]
     if (carga) Object.assign(valores, aplicarConfiguracionCarga(valores, carga))
     else if (valores.modoCarga && previa?.workoutId !== workoutId) valores.pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(workout?.inicio ?? createdAt))).last())?.kg
@@ -55,6 +76,7 @@ export function agregar(workoutId: number, exerciseId: number, createdAt: number
       exerciseId,
       orden: siguienteOrden(delEntreno),
       ...valores,
+      ...(gimnasio.gimnasioId !== undefined ? { gimnasioId: gimnasio.gimnasioId } : {}),
       createdAt,
     })
     if (workout?.ejerciciosOmitidos?.includes(exerciseId)) {

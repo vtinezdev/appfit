@@ -7,6 +7,7 @@ import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import TarjetaEntreno from '../components/TarjetaEntreno'
 import RegistrarEntrenoPasado from '../components/RegistrarEntrenoPasado'
+import { ChipGimnasio } from '../components/GimnasioSheet'
 import RepetirEntreno from '../components/RepetirEntreno'
 import { MosaicoRutina } from '../components/RutinaResumen'
 import ListGroup from '../../../shared/components/ListGroup'
@@ -21,7 +22,8 @@ const ERROR_EMPEZAR = 'No se ha podido empezar el entreno. Inténtalo de nuevo.'
  * Empezar (E1, ADR 035): arriba, sobre grafito, «Tu entreno» con las formas de empezar sin rutina: «Empezar entreno»
  * (vacío, la principal), repetir uno terminado y registrar uno pasado. Debajo, las rutinas en filas del mismo alto
  * (mosaico, nombre en dos líneas como mucho y cuándo se hizo), de la que más tiempo lleva sin hacerse a la más reciente
- * (su última fecha real, no un plan), con «Empezar».
+ * (su última fecha real, no un plan), con «Empezar». El chip de gimnasio vale para empezar y registrar; siempre parte del
+ * habitual, para no dejar elegido uno de fuera al volver a casa (ADR 054). Repetir conserva el del entreno repetido.
  */
 interface Props {
   /** Hay un entreno en curso (minimizado): en lugar de empezar otro, se ofrece volver a él. */
@@ -38,6 +40,7 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
   const [repetir, setRepetir] = useState(0)
   const [empezando, setEmpezando] = useState<number | 'vacio' | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [gimnasio, setGimnasio] = useState<number | undefined>(undefined)
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
   const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
   const workouts = useLiveQuery(() => workoutsRepo.listar(), [])
@@ -50,7 +53,7 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
     setEmpezando(routineId ?? 'vacio')
     setError(null)
     try {
-      await workoutsRepo.empezar(routineId)
+      await workoutsRepo.empezar(routineId, gimnasio)
       onEmpezado()
     } catch {
       setError(ERROR_EMPEZAR)
@@ -68,7 +71,7 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
         <TarjetaEntreno onAbrir={onEmpezado} />
         <Button variant="subtle" block onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
         <TarjetaEntreno soloUltimo />
-        {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
+        {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open gimnasioId={gimnasio} onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
       </div>
     )
   }
@@ -83,6 +86,7 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
           </div>
           <Icon name="dumbbell" size={28} className="training-muted mt-1 shrink-0" />
         </div>
+        <ChipGimnasio gimnasioId={gimnasio} disabled={ocupado} onElegir={async id => setGimnasio(id)} />
         <Button variant="ghost" size="lg" block className="training-primary" loading={empezando === 'vacio'} disabled={ocupado} onClick={() => empezar()}>
           <Icon name="play" size={20} />
           Empezar entreno
@@ -117,7 +121,7 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
 
       <TarjetaEntreno soloUltimo />
 
-      {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
+      {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open gimnasioId={gimnasio} onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
       {repetir > 0 && <RepetirEntreno key={repetir} open onClose={() => setRepetir(0)} onRepetido={onEmpezado} />}
     </div>
   )

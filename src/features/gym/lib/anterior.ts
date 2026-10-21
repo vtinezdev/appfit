@@ -48,13 +48,17 @@ export function anterioresPorSerie(actuales: SetEntry[], previas: SetEntry[]): M
   return resultado
 }
 
-/** Series del ejercicio en la última sesión terminada que empezó antes que `actual` (sirve para la sesión activa y para editar una pasada). */
-export function seriesSesionAnterior(todas: SetEntry[], exerciseId: number, actual: Pick<Workout, 'id' | 'inicio'>, workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[]): SetEntry[] {
-  const conEjercicio = new Set(todas.filter(s => s.exerciseId === exerciseId).map(s => s.workoutId))
+/**
+ * Series del ejercicio en la última sesión terminada que empezó antes que `actual` (sirve para la sesión activa y para editar
+ * una pasada). Solo las del gimnasio indicado (`gimnasioDeSerie`; sin él, el habitual): una máquina de otro gimnasio no es referencia.
+ */
+export function seriesSesionAnterior(todas: SetEntry[], exerciseId: number, actual: Pick<Workout, 'id' | 'inicio'>, workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[], gimnasioId?: number): SetEntry[] {
+  const delEjercicio = todas.filter(s => s.exerciseId === exerciseId && s.gimnasioId === gimnasioId)
+  const conEjercicio = new Set(delEjercicio.map(s => s.workoutId))
   let previo: Pick<Workout, 'id' | 'inicio'> | undefined
   for (const w of workouts) {
     if (w.id === actual.id || w.fin === undefined || w.inicio >= actual.inicio || !conEjercicio.has(w.id)) continue
     if (!previo || w.inicio > previo.inicio) previo = w
   }
-  return previo ? todas.filter(s => s.exerciseId === exerciseId && s.workoutId === previo.id) : []
+  return previo ? delEjercicio.filter(s => s.workoutId === previo.id) : []
 }
