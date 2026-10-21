@@ -1991,3 +1991,22 @@ Víctor entrenó en otro gimnasio y los kg de las máquinas no coincidían con l
 
 **Verificación:** `npm run test` (202 archivos, 2.506 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs` en 320/375/430 px claro y oscuro con datos sintéticos en `appfit-test.localhost:5173`: sin overflow, controles de menos de 44 px ni errores de consola. Capturas revisadas de la hoja, el entreno activo, el póster y Progreso, más Empezar a 320 px en ambos temas. Sin prueba en iPhone.
 
+## 185. Progreso con una línea por gimnasio (2026-10-21)
+
+Víctor quiere ver en la misma gráfica (por ejemplo, la de press banca) la progresión en cada gimnasio y poder elegir entre todos, solo uno o solo el otro ([ADR 054](decisiones/054-historial-por-gimnasio.md)).
+
+- `lib/progreso`:
+  - `claveVariante`: la variante sin el gimnasio.
+  - `datosProgreso`: da el gimnasio de cada sesión (el del entreno, o el snapshot de sus series) y admite un filtro opcional.
+  - `gimnasiosConSesiones`: el habitual primero y después por id; ese orden fija el color.
+  - `filasPorGimnasio`: las filas para dibujar las líneas.
+  - La minigráfica de la lista usa el habitual o el primer gimnasio.
+- `pages/Progreso`:
+  - El selector «Variante» ya no lista gimnasios.
+  - Selector nuevo «Gimnasio», solo con sesiones en más de uno, con «Todos los gimnasios» por defecto: un `LineChart` con una línea por gimnasio (hasta 4) y una leyenda con la última cifra de cada uno.
+  - Con «Todos», el gimnasio aparece en la última sesión, en la mejor serie y en cada fila de Sesiones, y el «Cambio» pide elegir uno.
+  - Con un gimnasio elegido, su área se dibuja en su color.
+- `shared/design/chart`: `chartColors.gimnasios` (acento, proteína, grasa, hidratos) y `chartDashGimnasios`. El orden pasa el validador de paletas en separación con daltonismo, separación con visión normal y contraste, en ambos temas. Las otras dos comprobaciones (banda de luminosidad y croma mínimo) fallan por los valores de los tokens de la marca; por eso cada línea lleva además trazo y leyenda.
+
+**Verificación:** `npm run test` (202 archivos, 2.508 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs`, ampliado con el selector, las dos líneas con leyenda y el filtro de cada gimnasio, pasa en 320/375/430 px en claro y oscuro. Capturas de press banca con nueve sesiones en dos gimnasios a 320/375 px en ambos temas, sin overflow ni errores. Sin prueba en iPhone.
+

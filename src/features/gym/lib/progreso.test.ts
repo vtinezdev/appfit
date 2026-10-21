@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cifrasClave, datosProgreso, resumenEjercicios, textoMejorSerie, trazoMini } from './progreso'
+import { cifrasClave, datosProgreso, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, textoMejorSerie, trazoMini } from './progreso'
 import type { SetEntry } from '../../../shared/db/types'
 
 const s = (id: number, over: Partial<SetEntry>): SetEntry => ({ id, workoutId: 1, exerciseId: 1, reps: 8, peso: 20, orden: id, createdAt: id, ...over })
@@ -56,6 +56,21 @@ describe('lista de ejercicios de Progreso', () => {
   it('la tendencia de la lista es la del habitual aunque la primera sesión fuera en otro gimnasio', () => {
     const r = resumenEjercicios([s(1, { peso: 150, reps: 5, gimnasioId: 4 }), s(2, { workoutId: 2, peso: 85, reps: 5 })], ws)
     expect(r[0]).toMatchObject({ sesiones: 1, ultima: { mejor: { peso: 85 } } })
+  })
+  it('cada sesión dice su gimnasio (del entreno) y se puede filtrar uno; la variante no depende del gimnasio', () => {
+    const wsG = [{ id: 1, inicio: 100, fin: 200 }, { id: 2, inicio: 300, fin: 400, gimnasioId: 7 }, { id: 3, inicio: 500, fin: 600, gimnasioId: 3 }]
+    const series = [s(1, { peso: 100, reps: 5 }), s(2, { workoutId: 2, peso: 60, reps: 5, gimnasioId: 7 }), s(3, { workoutId: 3, peso: 102.5, reps: 5 })]
+    const todos = datosProgreso(series, wsG, 'externa')
+    expect(todos.map(d => [d.workoutId, d.gimnasioId])).toEqual([[1, undefined], [2, 7], [3, 3]])
+    expect(datosProgreso(series, wsG, 'externa', undefined, { gimnasioId: undefined }).map(d => d.workoutId)).toEqual([1])
+    expect(datosProgreso(series, wsG, 'externa', undefined, { gimnasioId: 7 }).map(d => d.pesoMax)).toEqual([60])
+    expect(gimnasiosConSesiones(todos)).toEqual([undefined, 3, 7])
+  })
+  it('filasPorGimnasio pone el valor de cada sesión en la columna de su gimnasio', () => {
+    const datos = [{ gimnasioId: undefined, pesoMax: 100, oneRM: null, volumen: 1, reps: 5, asistencia: null }, { gimnasioId: 7, pesoMax: 60, oneRM: null, volumen: 1, reps: 5, asistencia: null }]
+    const filas = filasPorGimnasio(datos, 'pesoMax', [undefined, 7])
+    expect([filas[0].g0, filas[0].g1, filas[1].g0, filas[1].g1]).toEqual([100, undefined, undefined, 60])
+    expect(filasPorGimnasio(datos, 'pesoMax', [undefined])[1].g0).toBeUndefined()
   })
   it('trazoMini ciñe la línea a su mínimo y máximo', () => {
     expect(trazoMini([1], 64, 24)).toBeNull()

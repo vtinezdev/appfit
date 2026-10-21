@@ -17,7 +17,16 @@ export const chartColors = {
   seriesTertiary: rgb('accent-strong'),
   // Texto sobre la serie principal (rótulos): la variante del acento con contraste de texto.
   seriesPrimaryText: rgb('accent-strong'),
+  /**
+   * Una línea por gimnasio en Progreso (ADR 054), en este orden fijo: el habitual con el acento. Orden validado con
+   * el validador de paletas (separación con daltonismo y visión normal, contraste ≥ 3:1) en ambos temas. Cada línea
+   * lleva además su trazo (`chartDashGimnasios`) y la leyenda la nombra: el color nunca va solo.
+   */
+  gimnasios: [rgb('accent-strong'), rgb('protein'), rgb('fat'), rgb('carbs')],
 }
+
+/** Trazo de cada línea de gimnasio, en el mismo orden que `chartColors.gimnasios`. */
+export const chartDashGimnasios = [undefined, '6 4', '2 3', '8 3 2 3'] as const
 
 export const chartAxis = { stroke: chartColors.axis, fontSize: 12, tickLine: false, axisLine: false } as const
 
