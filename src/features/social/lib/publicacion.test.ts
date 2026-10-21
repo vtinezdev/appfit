@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { leerResumen, leerMapa, sinImagenes, MAX_EJERCICIOS, MAX_LINEAS, MAX_TEXTO, MAX_PUBLICACION, resumenActividad, resumenEntreno, resumenLogro, resumenTexto, validarPublicacion, textoEjercicios, type DatosEntreno } from './publicacion'
+import { bytesResumen, conNota, leerResumen, leerMapa, sinDetalles, sinImagenes, MAX_BYTES_RESUMEN, MAX_EJERCICIOS, MAX_LINEAS, MAX_NOTA, MAX_SERIES, MAX_TEXTO, MAX_PUBLICACION, resumenActividad, resumenEntreno, resumenLogro, resumenTexto, validarPublicacion, textoEjercicios, type DatosEntreno } from './publicacion'
 import type { Logro } from '../../vitrina/lib/logros'
 
 const entreno = (cambios: Partial<DatosEntreno> = {}): DatosEntreno => ({
@@ -10,7 +10,7 @@ const entreno = (cambios: Partial<DatosEntreno> = {}): DatosEntreno => ({
   volumenKg: 8432.6,
   ejercicios: ['Press banca', 'Remo con barra', 'Press banca'],
   records: [{ ejercicio: 'Press banca', texto: '100 kg × 5' }],
-  ligas: [{ ejercicio: 'Remo con barra', texto: 'Sube a Plata' }],
+  detalles: [{ liga: 'Bronce', series: ['100 kg × 5'], records: [{ serie: 0, mejora: '+5 kg' }] }, { liga: 'Plata', cambio: 'Sube a Plata' }, {}],
   logros: ['Constancia II'],
   ...cambios,
 })
@@ -21,7 +21,8 @@ describe('resumen de un entreno', () => {
       v: 1, tipo: 'entreno', titulo: 'Torso A', duracionSeg: 3920, series: 18, volumenKg: 8433,
       ejercicios: ['Press banca', 'Remo con barra'], catalogIds: [null, null],
       records: [{ ejercicio: 'Press banca', texto: '100 kg × 5' }], recordsTotal: 1, recordsEjercicios: 1,
-      ligas: [{ ejercicio: 'Remo con barra', texto: 'Sube a Plata' }],
+      ligas: [],
+      detalles: [{ liga: 'Bronce', series: ['100 kg × 5'], records: [{ serie: 0, mejora: '+5 kg' }] }, { liga: 'Plata', cambio: 'Sube a Plata' }],
       logros: ['Constancia II'],
     })
   })
@@ -41,7 +42,6 @@ describe('resumen de un entreno', () => {
       titulo: 'é'.repeat(100),
       ejercicios: Array.from({ length: 30 }, (_, i) => `${i}${'é'.repeat(100)}`),
       records: Array.from({ length: 12 }, () => ({ ejercicio: 'é'.repeat(100), texto: 'é'.repeat(100) })),
-      ligas: Array.from({ length: 12 }, () => ({ ejercicio: 'é'.repeat(100), texto: 'é'.repeat(100) })),
       logros: Array.from({ length: 12 }, () => 'é'.repeat(100)),
       catalogIds: Array.from({ length: 30 }, () => `appfit:${'a'.repeat(40)}`),
       insignias: Array.from({ length: 12 }, () => ({ id: 'cinco-mas-altos', grupo: 'constancia', nivel: 5 })),
@@ -50,6 +50,34 @@ describe('resumen de un entreno', () => {
     expect(maximo.insignias).toHaveLength(MAX_LINEAS)
     // Las imágenes del catálogo y las insignias suman ~1 KB a este caso extremo; sigue por debajo de 8 KB.
     expect(new TextEncoder().encode(JSON.stringify(maximo)).length).toBeLessThan(8_000)
+  })
+
+  it('los detalles entran mientras quepan, con la nota más larga, en los 8 KB del servidor', () => {
+    const largo = 'é'.repeat(100)
+    const detalle = { liga: 'Zafiro' as const, cambio: largo, series: Array.from({ length: 30 }, () => largo), records: Array.from({ length: 30 }, (_, serie) => ({ serie, mejora: largo })) }
+    const maximo = resumenEntreno(entreno({
+      titulo: largo,
+      ejercicios: Array.from({ length: 30 }, (_, i) => `${i}${largo}`),
+      catalogIds: Array.from({ length: 30 }, () => `appfit:${'a'.repeat(40)}`),
+      records: Array.from({ length: 12 }, (_, i) => ({ ejercicio: `${i}${largo}`, texto: largo, tipo: 'peso' as const, modo: 'externa' as const, valor: 100, anterior: 95, variante: largo })),
+      logros: Array.from({ length: 12 }, () => largo),
+      insignias: Array.from({ length: 12 }, () => ({ id: 'cinco-mas-altos', grupo: 'constancia', nivel: 5 })),
+      detalles: Array.from({ length: 30 }, () => detalle),
+    }))
+    const detalles = maximo.detalles ?? []
+    expect(detalles).toHaveLength(MAX_EJERCICIOS)
+    // Cuando ya no caben las series, solo la liga; al final, nada.
+    expect(detalles.some(d => !d.series && d.liga)).toBe(true)
+    expect(detalles.at(-1)).toEqual({})
+    expect(bytesResumen(conNota(maximo, '€'.repeat(MAX_NOTA)))).toBeLessThanOrEqual(MAX_BYTES_RESUMEN)
+    // Un entreno real cabe entero: 10 ejercicios de 5 series, con récords y nota.
+    const real = resumenEntreno(entreno({
+      ejercicios: Array.from({ length: 10 }, (_, i) => `Extensión de cuádriceps ${i}`),
+      catalogIds: Array.from({ length: 10 }, () => 'appfit:extension-cuadriceps'),
+      detalles: Array.from({ length: 10 }, () => ({ liga: 'Bronce' as const, cambio: 'Empieza en Bronce', series: Array.from({ length: 5 }, () => 'I 22,5 kg × 10 · D 22,5 kg × 9'), records: [{ serie: 4, mejora: '+2,5 kg' }] })),
+    }))
+    expect(real.detalles?.every(d => d.series?.length === 5 && d.records?.length === 1)).toBe(true)
+    expect(resumenEntreno(entreno({ detalles: [{ series: Array.from({ length: 20 }, () => '1 kg × 1') }] })).detalles?.[0].series).toHaveLength(MAX_SERIES)
   })
 
   it('imagen del catálogo por ejercicio, alineada tras quitar repetidos; nunca la de un ejercicio propio', () => {
@@ -74,6 +102,14 @@ describe('resumen de un entreno', () => {
     const { catalogIds, ...base } = resumenEntreno(entreno())
     void catalogIds
     expect(sin).toEqual(base)
+  })
+
+  it('sin detalles en el servidor, los cambios de liga vuelven a su lista de texto y las series se quedan fuera', () => {
+    const r = resumenEntreno(entreno())
+    const sin = sinDetalles(r)
+    expect(sin).not.toHaveProperty('detalles')
+    expect(sin).toMatchObject({ ligas: [{ ejercicio: 'Remo con barra', texto: 'Sube a Plata' }] })
+    expect(sinDetalles(resumenEntreno(entreno({ detalles: undefined })))).toEqual(resumenEntreno(entreno({ detalles: undefined })))
   })
 
   it('sin título ni cifras válidas no se rompe', () => {
@@ -122,6 +158,16 @@ describe('leer un resumen del servidor', () => {
     expect(r?.tipo === 'entreno' && r.logros).toHaveLength(MAX_LINEAS)
     expect(r?.titulo).toHaveLength(MAX_TEXTO)
     expect(r).not.toHaveProperty('extra')
+  })
+
+  it('lee los detalles alineados y descarta campo a campo lo que no encaja', () => {
+    const base = { v: 1, tipo: 'entreno', titulo: 'Torso', series: 3, ejercicios: ['Press', 'Remo'], records: [], ligas: [], logros: [] }
+    expect(leerResumen({ ...base, detalles: [
+      { liga: 'Diamante', cambio: '', series: ['80 kg × 8', 3, '82,5 kg × 7'], records: [{ serie: 1, mejora: '+2,5 kg' }, { serie: 5, mejora: '+1 kg' }, { serie: 0 }] },
+      'nada',
+    ] })).toMatchObject({ detalles: [{ series: ['80 kg × 8', '82,5 kg × 7'], records: [{ serie: 1, mejora: '+2,5 kg' }] }, {}] })
+    expect(leerResumen({ ...base, detalles: [{ liga: 'Élite' }] })).not.toHaveProperty('detalles')
+    expect(leerResumen({ ...base, detalles: [{ liga: 'Élite', cambio: 'Llega a Élite' }, {}] })).toMatchObject({ detalles: [{ liga: 'Élite', cambio: 'Llega a Élite' }, {}] })
   })
 
   it('lee imágenes e insignias solo si siguen alineadas con su lista', () => {

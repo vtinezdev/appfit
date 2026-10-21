@@ -4,7 +4,7 @@ import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { normalizeName } from '../../../shared/lib/text'
 import { CATALOGO_POR_ID } from '../../gym/lib/catalogoEjercicios'
 import { avisarElite, BASICOS, esBasico } from './basicos'
-import { ascensosDeEntreno, calcularLigas, ciclosCompletados, divisionDe, PASO_ELITE, siguienteLiga, type DatosLiga, type LigaEjercicio } from './liga'
+import { ascensosDeEntreno, calcularLigas, ciclosCompletados, divisionDe, divisionEnSemana, PASO_ELITE, siguienteLiga, type DatosLiga, type LigaEjercicio } from './liga'
 
 /** Lunes de la semana 1. */
 const LUNES = '2026-01-05'
@@ -178,6 +178,15 @@ describe('ascensos, orden y ciclos', () => {
     expect(ascensosDeEntreno(ligas, jueves.workout.id).map((a) => [a.exerciseId, a.a.nombre])).toEqual([[3, 'Bronce']])
     const siguiente = entreno(semana(17, 2), [1])
     expect(ascensosDeEntreno(calcularLigas(datos(semana(17, 6), [...previos, lunes, siguiente])), siguiente.workout.id)).toEqual([])
+  })
+
+  it('la liga de la semana de un entreno pasado, aunque después haya bajado', () => {
+    // Cuatro semanas seguidas (Plata) y luego cuatro sin él: hoy ha vuelto a Bronce.
+    const liga = ligaDe(datos(semana(9, 6), semanas(1, rango(1, 4))))
+    expect(liga.division.nombre).toBe('Bronce')
+    expect(divisionEnSemana(liga, semana(2))?.nombre).toBe('Bronce')
+    expect(divisionEnSemana(liga, semana(4))?.nombre).toBe('Plata')
+    expect(divisionEnSemana(liga, addDays(LUNES, -7))).toBeNull()
   })
 
   it('una sesión registrada después pero más temprana en la semana pasa a ser la que sube', () => {

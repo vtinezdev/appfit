@@ -6,7 +6,7 @@ import { Select, Textarea } from '../../../shared/components/Input'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { useConsulta } from '../hooks/useConsulta'
-import { conNota, MAX_PUBLICACION, resumenTexto, sinImagenes, validarPublicacion, type Resumen } from '../lib/publicacion'
+import { conNota, MAX_PUBLICACION, resumenTexto, sinDetalles, sinImagenes, validarPublicacion, type Resumen } from '../lib/publicacion'
 import { puedePublicarEnComunidad, type Comunidad } from '../lib/comunidad'
 import { cargarSocial } from '../servicio'
 import { crearIdDeEnvio } from '../lib/intento'
@@ -48,8 +48,9 @@ export default function CrearPublicacion({ onClose, onPublicada, adjunto, comuni
   const capacidades = useConsulta(async () => (await cargarSocial()).capacidades(), 0)
   // Un entreno o una actividad se comparte entero o no se comparte: sin elegir qué partes van.
   const elegido = adjunto?.resumen
-  // La vista previa enseña exactamente lo que se envía: sin la capacidad (o mientras se consulta), sin imágenes.
-  const resumen = elegido ? conNota(capacidades.datos?.imagenesPublicacion ? elegido : sinImagenes(elegido), nota) : resumenTexto(texto)
+  // La vista previa enseña exactamente lo que se envía: sin la capacidad (o mientras se consulta), sin imágenes ni detalles.
+  const conImagenes = elegido && (capacidades.datos?.imagenesPublicacion ? elegido : sinImagenes(elegido))
+  const resumen = conImagenes ? conNota(capacidades.datos?.detallesEjercicio ? conImagenes : sinDetalles(conImagenes), nota) : resumenTexto(texto)
   // Un entreno espera a saber si caben sus imágenes; si la consulta falla, sigue sin ellas.
   const esperandoCapacidades = !!adjunto && capacidades.estado === 'cargando' && !capacidades.datos
 

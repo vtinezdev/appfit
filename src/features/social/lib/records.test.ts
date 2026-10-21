@@ -3,7 +3,7 @@ import { agruparRecords, formatoRecord, mejorasDePeso, ordenarRecords, recordsSo
 import { conNota, leerResumen, resumenActividad, resumenEntreno, type LineaLogro } from './publicacion'
 
 const record: LineaLogro = { ejercicio: 'Press banca', texto: 'Peso máximo: 85 kg', tipo: 'peso', modo: 'externa', valor: 85, anterior: 82.5 }
-const datos = { titulo: 'Torso', inicio: 0, fin: 60000, series: 5, volumenKg: 100, ejercicios: ['Press banca'], records: [record], ligas: [], logros: [] }
+const datos = { titulo: 'Torso', inicio: 0, fin: 60000, series: 5, volumenKg: 100, ejercicios: ['Press banca'], records: [record], logros: [] }
 
 describe('récords públicos', () => {
   it('deja el 1RM y las reps a pesos menores en Progreso', () => {
@@ -48,7 +48,7 @@ it('el resumen máximo con metadatos y nota respeta los 8 KB del servidor', () =
   const largo='é'.repeat(60)
   const maximo=conNota(resumenEntreno({ ...datos, titulo:largo, ejercicios:Array.from({length:15},(_,i)=>`${i}${largo}`),
     records:Array.from({length:6},(_,i)=>({...record,ejercicio:`${i}${largo}`,texto:largo,variante:largo})),
-    ligas:Array.from({length:6},()=>({ejercicio:largo,texto:largo})),logros:Array.from({length:6},()=>largo),
+    detalles:Array.from({length:15},()=>({liga:'Bronce' as const,cambio:largo,series:Array.from({length:12},()=>largo)})),logros:Array.from({length:6},()=>largo),
   }),'é'.repeat(280))
   // JSONB añade un espacio tras cada separador. Estos fixtures no contienen separadores en el texto.
   expect(new TextEncoder().encode(JSON.stringify(maximo).replace(/[,:]/g,'$& ')).length).toBeLessThanOrEqual(8192)

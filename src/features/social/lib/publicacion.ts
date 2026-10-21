@@ -3,6 +3,7 @@ import type { ModoCarga } from '../../../shared/db/types'
 import type { TipoActividad } from '../../../shared/db/types'
 import { formatInt } from '../../../shared/lib/format'
 import { ZONAS_MUSCULARES, type ZonaMuscular } from '../../gym/lib/musculos'
+import { LIGAS, type NombreLiga } from '../../liga/lib/liga'
 import type { NivelMuscular } from '../../gym/lib/cargaMuscular'
 import { IDS_LOGRO, GRUPOS_LOGRO, nivelDe, type IdLogro, type GrupoLogro, type Logro } from '../../vitrina/lib/logros'
 
@@ -17,9 +18,14 @@ export const VERSION_RESUMEN = 1
 export const MAX_TEXTO = 60
 export const MAX_EJERCICIOS = 15
 export const MAX_LINEAS = 6
+export const MAX_SERIES = 12
 export const MAX_NOTA = 280
 export const MAX_PUBLICACION = 2000
 export const MAX_DESCRIPCION_LOGRO = 500
+/** Lo que admite `publicaciones.resumen` (0004_publicaciones.sql). */
+export const MAX_BYTES_RESUMEN = 8192
+/** El resumen se publica después con una nota opcional (`conNota`): se le guarda sitio de sobra. */
+const BYTES_SIN_NOTA = MAX_BYTES_RESUMEN - (MAX_NOTA * 3 + 20)
 export type MapaCompartido = Record<ZonaMuscular, NivelMuscular>
 
 export interface ResumenTexto {
@@ -67,13 +73,28 @@ export interface ResumenEntreno extends ConNota {
   records: LineaLogro[]
   recordsTotal?: number
   recordsEjercicios?: number
+  /** Publicaciones antiguas: los cambios de liga en texto. Las nuevas lo llevan vacío y la liga va en `detalles`. */
   ligas: LineaLogro[]
+  /** Paralelo a `ejercicios`: lo que se ve al tocar cada uno. Las publicaciones antiguas no lo llevan. */
+  detalles?: DetalleEjercicio[]
   /** Piezas nuevas de la Vitrina. */
   logros: string[]
   /** Paralelo a `logros`: qué insignia pintar. Las publicaciones antiguas no lo llevan y se quedan en texto. */
   insignias?: InsigniaPublicada[]
   /** Solo niveles por zona: nunca medidas, sexo, pesos, ejercicios privados ni datos de Perfil. */
   mapa?: MapaCompartido
+}
+
+/** Un ejercicio desplegado en la publicación. Todo opcional: lo que no cabía en los 8 KB se queda fuera. */
+export interface DetalleEjercicio {
+  /** La liga con la que quedó el ejercicio en la semana del entreno. */
+  liga?: NombreLiga
+  /** Solo si cambió de liga con este entreno: «Empieza en Bronce», «Sube a Plata»… */
+  cambio?: string
+  /** Series hechas, como en la ficha del entreno: «80 kg × 8». */
+  series?: string[]
+  /** Series que batieron un récord de carga: su índice en `series` y cuánto subió («+5 kg»). */
+  records?: { serie: number; mejora: string }[]
 }
 
 export interface InsigniaPublicada {
@@ -137,26 +158,36 @@ export interface DatosEntreno {
   /** Paralelo a `ejercicios`. */
   catalogIds?: (string | undefined)[]
   records: LineaLogro[]
-  ligas: LineaLogro[]
+  /** Paralelo a `ejercicios`. */
+  detalles?: DetalleEjercicio[]
   logros: string[]
   /** Paralelo a `logros`. */
   insignias?: InsigniaPublicada[]
   mapa?: MapaCompartido
 }
 
-/** El resumen de un entreno: textos recortados, listas acotadas y cifras redondeadas. */
+/** Lo que ocupa en el servidor, por lo alto: JSONB añade un espacio tras cada `,` y `:` (aquí también dentro de los textos). */
+export const bytesResumen = (r: Resumen): number => new TextEncoder().encode(JSON.stringify(r).replace(/[,:]/g, '$& ')).length
+
+/**
+ * El resumen de un entreno: textos recortados, listas acotadas y cifras redondeadas. Los detalles de los ejercicios
+ * entran en orden mientras quepan en los 8 KB del servidor (con sitio para la nota): primero completos, si no, solo la
+ * liga; lo que no cabe se queda vacío y la tarjeta enseña lo demás.
+ */
 export function resumenEntreno(d: DatosEntreno): ResumenEntreno {
-  const porNombre = new Map<string, string | null>()
+  // Primera aparición de cada nombre: sus listas paralelas salen de ese índice.
+  const porNombre = new Map<string, number>()
   d.ejercicios.forEach((e, i) => {
     const nombre = texto(e)
-    if (nombre && !porNombre.has(nombre)) porNombre.set(nombre, catalogId(d.catalogIds?.[i]))
+    if (nombre && !porNombre.has(nombre)) porNombre.set(nombre, i)
   })
   const ejercicios = [...porNombre.keys()].slice(0, MAX_EJERCICIOS)
-  const catalogIds = ejercicios.map(e => porNombre.get(e) ?? null)
+  const catalogIds = ejercicios.map(e => catalogId(d.catalogIds?.[porNombre.get(e)!]))
+  const detalles: DetalleEjercicio[] | undefined = d.detalles && ejercicios.map(() => ({}))
   const logros = d.logros.map((l, i) => ({ nombre: texto(l), insignia: insignia(d.insignias?.[i]) })).filter(l => l.nombre).slice(0, MAX_LINEAS)
   const mapa = leerMapa(d.mapa)
   const records = ordenarRecords(d.records)
-  return {
+  const resumen: ResumenEntreno = {
     v: VERSION_RESUMEN,
     tipo: 'entreno',
     titulo: texto(d.titulo) || 'Entreno',
@@ -169,11 +200,21 @@ export function resumenEntreno(d: DatosEntreno): ResumenEntreno {
     records: records.slice(0, MAX_LINEAS).map(linea),
     recordsTotal: records.length,
     recordsEjercicios: new Set(records.map(r => r.ejercicio)).size,
-    ligas: d.ligas.slice(0, MAX_LINEAS).map(linea),
+    ligas: [],
+    ...(detalles ? { detalles } : {}),
     logros: logros.map(l => l.nombre),
     ...(logros.length && logros.every(l => l.insignia) ? { insignias: logros.map(l => l.insignia!) } : {}),
     ...(mapa ? { mapa } : {}),
   }
+  detalles?.forEach((_, i) => {
+    const completo = leerDetalle(d.detalles?.[porNombre.get(ejercicios[i])!])
+    const soloLiga = { ...(completo.liga ? { liga: completo.liga } : {}), ...(completo.cambio ? { cambio: completo.cambio } : {}) }
+    for (const opcion of [completo, soloLiga, {}]) {
+      detalles[i] = opcion
+      if (bytesResumen(resumen) <= BYTES_SIN_NOTA) return
+    }
+  })
+  return resumen
 }
 
 export interface DatosActividad {
@@ -221,6 +262,26 @@ const leerLineas = (x: unknown): LineaLogro[] =>
       ...(l.peso !== undefined ? { peso: l.peso as number } : {}), ...(l.variante ? { variante: l.variante as string } : {}),
     } : {}) })]
   }).slice(0, MAX_LINEAS)
+
+export const NOMBRES_LIGA: readonly NombreLiga[] = [...LIGAS, 'Élite']
+
+/** Un detalle de ejercicio limpio: lo que no encaja se descarta campo a campo, sin invalidar la publicación. */
+export function leerDetalle(x: unknown): DetalleEjercicio {
+  if (!esObjeto(x)) return {}
+  const cambio = leerTexto(x.cambio)
+  const series = leerTextos(x.series, MAX_SERIES)
+  const records = (Array.isArray(x.records) ? x.records : []).flatMap((r) => {
+    const mejora = esObjeto(r) ? leerTexto(r.mejora) : null
+    return esObjeto(r) && mejora && Number.isInteger(r.serie) && (r.serie as number) >= 0 && (r.serie as number) < series.length
+      ? [{ serie: r.serie as number, mejora }] : []
+  }).slice(0, MAX_SERIES)
+  return {
+    ...(NOMBRES_LIGA.includes(x.liga as NombreLiga) ? { liga: x.liga as NombreLiga } : {}),
+    ...(cambio ? { cambio } : {}),
+    ...(series.length ? { series } : {}),
+    ...(records.length ? { records } : {}),
+  }
+}
 
 /** Copia solo zonas conocidas y niveles enteros. Un mapa mal formado no invalida una publicación antigua. */
 export function leerMapa(x: unknown): MapaCompartido | undefined {
@@ -284,6 +345,7 @@ export function leerResumen(x: unknown): Resumen | null {
     const catalogIds = alineada(x.catalogIds, x.ejercicios, ejercicios.length) ? (x.catalogIds as unknown[]).map(catalogId) : []
     const logros = leerTextos(x.logros, MAX_LINEAS)
     const insignias = alineada(x.insignias, x.logros, logros.length) ? (x.insignias as unknown[]).map(insignia) : []
+    const detalles = alineada(x.detalles, x.ejercicios, ejercicios.length) ? (x.detalles as unknown[]).map(leerDetalle) : []
     return {
       v: 1, tipo: 'entreno', ...nota, titulo, ...(duracionSeg !== undefined ? { duracionSeg } : {}), series, ...(volumenKg !== undefined ? { volumenKg } : {}),
       ejercicios,
@@ -292,6 +354,7 @@ export function leerResumen(x: unknown): Resumen | null {
       ...(Number.isSafeInteger(x.recordsTotal) && (x.recordsTotal as number) >= leerLineas(x.records).length ? { recordsTotal: x.recordsTotal as number } : {}),
       ...(Number.isSafeInteger(x.recordsEjercicios) && (x.recordsEjercicios as number) >= 0 ? { recordsEjercicios: x.recordsEjercicios as number } : {}),
       ligas: leerLineas(x.ligas),
+      ...(detalles.length ? { detalles } : {}),
       logros,
       ...(insignias.length && insignias.every(Boolean) ? { insignias: insignias as InsigniaPublicada[] } : {}),
       ...(mapa ? { mapa } : {}),
@@ -320,6 +383,22 @@ export function sinImagenes(resumen: Resumen): Resumen {
   const { catalogIds, insignias, ...base } = resumen
   void catalogIds; void insignias
   return base
+}
+
+/**
+ * Sin 0021 el servidor rechaza `detalles`: se envía sin ellos y los cambios de liga vuelven a su lista de texto, que la
+ * tarjeta enseña al tocar cada ejercicio. Las series no tienen otro sitio y se quedan fuera.
+ */
+export function sinDetalles(resumen: Resumen): Resumen {
+  if (resumen.tipo !== 'entreno' || !resumen.detalles) return resumen
+  const { detalles, ...base } = resumen
+  const sin: ResumenEntreno = { ...base, ligas: [] }
+  for (const [i, d] of detalles.entries()) {
+    if (!d.cambio || sin.ligas.length >= MAX_LINEAS) continue
+    const ligas = [...sin.ligas, { ejercicio: resumen.ejercicios[i], texto: d.cambio }]
+    if (bytesResumen({ ...sin, ligas }) <= BYTES_SIN_NOTA) sin.ligas = ligas
+  }
+  return sin
 }
 
 /** La nota se incorpora solo al resumen elegido para este envío; cada copia conserva la suya. */

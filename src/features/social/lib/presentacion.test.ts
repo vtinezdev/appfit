@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import type { Comentario } from './feed'
-import { agruparPorPeriodo, etiquetaPublicacion, hilosComentarios, sugerenciaCompartir, textoMasTrabajado } from './presentacion'
+import { agruparPorPeriodo, etiquetaPublicacion, hilosComentarios, panelEjercicio, sugerenciaCompartir, textoMasTrabajado } from './presentacion'
 import { resumenActividad, resumenTexto, type MapaCompartido, type ResumenEntreno, type ResumenLogro } from './publicacion'
 
 const entreno: ResumenEntreno = { v: 1, tipo: 'entreno', titulo: 'Pierna', series: 12, ejercicios: [], records: [], ligas: [], logros: [] }
@@ -72,5 +72,20 @@ describe('sugerenciaCompartir', () => {
   it('nada con más de una semana o sin registros', () => {
     expect(sugerenciaCompartir({ inicio: ahora - 8 * 24 * hora }, undefined, ahora)).toBeNull()
     expect(sugerenciaCompartir(undefined, undefined, ahora)).toBeNull()
+  })
+})
+
+describe('panelEjercicio', () => {
+  const record = { ejercicio: 'Press banca', texto: '100 kg', tipo: 'peso' as const, modo: 'externa' as const, valor: 100, anterior: 95 }
+  it('la liga, las series y el récord en la suya', () => {
+    const r: ResumenEntreno = { ...entreno, ejercicios: ['Press banca', 'Remo'], records: [record],
+      detalles: [{ liga: 'Plata', cambio: 'Sube a Plata', series: ['95 kg × 5', '100 kg × 5'], records: [{ serie: 1, mejora: '+5 kg' }] }, {}] }
+    expect(panelEjercicio(r, 0)).toEqual({ liga: 'Plata', cambio: 'Sube a Plata', series: [{ texto: '95 kg × 5', mejora: null }, { texto: '100 kg × 5', mejora: '+5 kg' }], mejoras: [] })
+    expect(panelEjercicio(r, 1)).toBeNull()
+  })
+  it('publicaciones antiguas: la liga de su línea de texto y las subidas aparte', () => {
+    const r: ResumenEntreno = { ...entreno, ejercicios: ['Press banca', 'Remo'], records: [record], ligas: [{ ejercicio: 'Remo', texto: 'Llega a Élite: ciclo completado' }] }
+    expect(panelEjercicio(r, 0)).toEqual({ liga: null, cambio: null, series: [], mejoras: [{ mejora: '+5 kg' }] })
+    expect(panelEjercicio(r, 1)).toMatchObject({ liga: 'Élite', cambio: 'Llega a Élite: ciclo completado' })
   })
 })

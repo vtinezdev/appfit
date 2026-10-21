@@ -91,3 +91,25 @@ export function resumenEjercicio(series: SerieEjecucion[]): string {
   return [hechas === total ? plural(total, 'serie', 'series') : `${formatInt(hechas)} de ${plural(total, 'serie', 'series')}`,
     volumen > 0 ? `${formatInt(volumen)} kg` : ''].filter(Boolean).join(' · ')
 }
+
+export interface SeriesPublicables {
+  /** Series efectivas en su orden, como en la ficha: «80 kg × 8». */
+  series: string[]
+  /** Las que marcan un récord de peso (o de lastre, o menos asistencia): su índice en `series` y cuánto mejora. */
+  records: { serie: number; mejora: string }[]
+}
+
+/**
+ * Las series de un ejercicio tal como se publican en Social: sin calentamientos ni las no hechas. Como en el mosaico de
+ * la publicación, solo las subidas de carga cuentan como récord; las de repeticiones y los 1RM se quedan en la ficha.
+ */
+export function seriesPublicables(series: (SerieEjecucion & Pick<SetEntry, 'id' | 'orden'>)[], records: RecordEjercicio[]): SeriesPublicables {
+  const hechas = efectivas([...series].sort((a, b) => a.orden - b.orden))
+  return {
+    series: hechas.map(s => pastillaSerie(s).texto),
+    records: hechas.flatMap((s, serie) => {
+      const r = records.find(r => r.setId === s.id && (r.tipo === 'peso' || r.tipo === 'asistencia'))
+      return r ? [{ serie, mejora: r.tipo === 'asistencia' ? `${partesRecord(r).mejora} de asistencia` : partesRecord(r).mejora }] : []
+    }),
+  }
+}

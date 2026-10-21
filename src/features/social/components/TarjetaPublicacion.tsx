@@ -124,12 +124,13 @@ export default function TarjetaPublicacion({ resumen: r, fecha, cabecera, creada
   // Los logros solo guardan el día: no inventar una hora de obtención ni desplazarlo al cambiar de zona horaria.
   const dia = new Date(fecha).toISOString().slice(0, 10)
   const etiqueta = etiquetaPublicacion(r, fecha, creada)
-  // Lo que solo está al desplegar: los ejercicios, las ligas y los nombres de lo nuevo en la Vitrina.
+  // Lo que solo está al desplegar: los ejercicios (con su liga y sus series) y los nombres de lo nuevo en la Vitrina.
   const hayDetalle = r.tipo === 'entreno' && (r.ejercicios.length > 0 || r.ligas.length > 0 || r.logros.length > 0)
   const verDetalle = !previa && hayDetalle
   const detalles = () => r.tipo === 'entreno' && <div className="space-y-stack">
     <EjerciciosPublicacion resumen={r} />
-    <Lineas titulo="Ligas" lineas={r.ligas} />
+    {/* Con mosaico, la liga se ve al tocar cada ejercicio; las publicaciones de texto siguen con su lista. */}
+    {!r.catalogIds && <Lineas titulo="Ligas" lineas={r.ligas} />}
     <VitrinaPublicacion resumen={r} dia={dia} />
   </div>
   return (

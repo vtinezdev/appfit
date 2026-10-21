@@ -1,8 +1,10 @@
 import { ETIQUETA_TIPO } from '../../actividades/lib/actividad'
 import { MUSCULOS, ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import { unir } from '../../gym/lib/presentacionEjercicio'
+import type { NombreLiga } from '../../liga/lib/liga'
 import { contextoPublicacion, type Comentario } from './feed'
-import type { MapaCompartido, Resumen } from './publicacion'
+import { NOMBRES_LIGA, type MapaCompartido, type Resumen, type ResumenEntreno } from './publicacion'
+import { mejorasDePeso } from './records'
 
 /**
  * Cómo se presenta lo social (rediseño de Social, docs/features/social.md): textos y agrupaciones derivados de lo que
@@ -91,4 +93,30 @@ export function sugerenciaCompartir(
   const elegido = ultimo === 'entreno' ? entreno! : actividad!
   if (elegido.publicacion || ahora - elegido.inicio > SEMANA_MS) return null
   return ultimo
+}
+
+export interface PanelEjercicio {
+  liga: NombreLiga | null
+  /** «Sube a Plata»; en las publicaciones antiguas, su línea de liga tal cual. */
+  cambio: string | null
+  series: { texto: string; mejora: string | null }[]
+  /** Subidas de carga que no se pueden señalar en una serie (publicaciones sin series): van aparte, como antes. */
+  mejoras: { variante?: string; mejora: string }[]
+}
+
+/**
+ * Lo que se ve al tocar el ejercicio `i` del mosaico: su liga, sus series y en cuál batió récord. Las publicaciones
+ * antiguas no traen `detalles`: la liga sale de su línea de texto y los récords, de las subidas de carga. `null` si no
+ * hay nada que enseñar.
+ */
+export function panelEjercicio(r: ResumenEntreno, i: number): PanelEjercicio | null {
+  const ejercicio = r.ejercicios[i]
+  const d = r.detalles?.[i] ?? {}
+  const antigua = r.ligas.find(l => l.ejercicio === ejercicio)?.texto
+  const liga = d.liga ?? NOMBRES_LIGA.find(n => antigua?.includes(n)) ?? null
+  const cambio = d.cambio ?? antigua ?? null
+  const series = (d.series ?? []).map((texto, j) => ({ texto, mejora: d.records?.find(x => x.serie === j)?.mejora ?? null }))
+  const mejoras = series.some(s => s.mejora) ? [] : mejorasDePeso(r.records).get(ejercicio) ?? []
+  if (!liga && !cambio && !series.length && !mejoras.length) return null
+  return { liga, cambio, series, mejoras }
 }
