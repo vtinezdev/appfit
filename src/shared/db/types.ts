@@ -301,6 +301,8 @@ export interface Settings {
   caminos?: ConfigCaminos
   /** Zancada propia (cm) para pasar los pasos a metros en Caminos; ausente = estimada por la altura (`caminos/lib/pasos.ts`). */
   zancadaCm?: number
+  /** Nombre del gimnasio habitual («Basic-Fit Centro»); ausente = «Gimnasio habitual» (ADR 054, `gym/lib/gimnasios.textoGimnasio`). */
+  nombreGimnasioHabitual?: string
   /** Pistas de primera vez ya cerradas (`shared/lib/pistas.ts`); ausente = ninguna. */
   pistasVistas?: string[]
 }

@@ -157,5 +157,6 @@ El calendario mensual se ve como rejilla mientras cada día mida al menos 44 px 
   
   La minigráfica de la lista usa el habitual, o el primer gimnasio si nunca se hizo allí. Los récords dicen «Otro gimnasio» (así se publican en Amigos sin delatar dónde se entrena); la Vitrina, que es local, nombra el gimnasio.
 - **Cambiar de gimnasio a mitad** (`workoutsRepo.cambiarGimnasio`): reestampa las series de máquinas; las realizadas conservan cifras y marca (se hicieron allí) y, en curso, las pendientes se vuelven a precargar con las de ese gimnasio o sin kg. En el historial solo cambia la etiqueta.
-- **Historial**: el póster añade el gimnasio tras la fecha si no es el habitual; la tabla de cada ejercicio no lo repite.
+- **Historial**: cada fila de «Sesiones del mes» empieza por su gimnasio («Basic-Fit Centro · Torso · 52 min · 9.268 kg», `detalleSesion` con el nombre) y el póster lo pone tras la fecha, también el habitual. La tabla de cada ejercicio no lo repite.
+- **Nombre del habitual**: en `GimnasioSheet`, con «Gimnasio habitual» elegido, el mismo bloque «Nombre» que los demás, pero sin «Borrar» (`gimnasiosRepo.renombrarHabitual`, `Settings.nombreGimnasioHabitual`). Vacío vuelve a «Gimnasio habitual», y no puede repetir el nombre de otro gimnasio, ni otro el suyo. `hooks/useNombresGimnasio` da el nombre de cada gimnasio, el del habitual incluido, al chip, la nota de primera vez, el historial, el detalle y Progreso. Los récords siguen diciendo «Otro gimnasio».
 

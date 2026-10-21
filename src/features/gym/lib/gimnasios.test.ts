@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { SetEntry } from '../../../shared/db/types'
-import { dependeDeMaquina, enGimnasio, gimnasioDeSerie, nombresGimnasios, notaPrimeraVez, primeraVez, sinKg, textoGimnasio, validarNombreGimnasio } from './gimnasios'
+import { dependeDeMaquina, enGimnasio, gimnasioDeSerie, nombresGimnasios, notaPrimeraVez, primeraVez, sinKg, textoGimnasio, validarNombreGimnasio, validarNombreHabitual } from './gimnasios'
 
 describe('dependeDeMaquina', () => {
   it('máquina, polea y smith dependen del gimnasio; barra, mancuernas y corporal no', () => {
@@ -30,6 +30,21 @@ describe('gimnasioDeSerie y enGimnasio', () => {
     expect(enGimnasio({ gimnasioId: 2 }, undefined)).toBe(false)
     expect(enGimnasio({ gimnasioId: 2 }, 2)).toBe(true)
     expect(enGimnasio({}, 2)).toBe(false)
+  })
+})
+
+describe('nombre del habitual', () => {
+  it('se muestra si se puso; vacío vuelve a «Gimnasio habitual»', () => {
+    expect(textoGimnasio(undefined, new Map(), 'Basic-Fit Centro')).toBe('Basic-Fit Centro')
+    expect(textoGimnasio(undefined, new Map(), '  ')).toBe('Gimnasio habitual')
+    expect(textoGimnasio(2, new Map([[2, 'Gym Playa']]), 'Basic-Fit Centro')).toBe('Gym Playa')
+  })
+  it('no repite el nombre de otro gimnasio, ni otro gimnasio el suyo', () => {
+    expect(validarNombreHabitual('  Basic-Fit   Centro ', [])).toBe('Basic-Fit Centro')
+    expect(validarNombreHabitual('   ', [])).toBeUndefined()
+    expect(() => validarNombreHabitual('gym playa', [{ nombreNorm: 'gym playa' }])).toThrow('otro gimnasio')
+    expect(() => validarNombreHabitual('x'.repeat(41), [])).toThrow('40')
+    expect(() => validarNombreGimnasio('BASIC-FIT centro', [], undefined, 'Basic-Fit Centro')).toThrow('habitual')
   })
 })
 

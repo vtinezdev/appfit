@@ -30,8 +30,8 @@ import { combinarFechaHora, efectivas, formatHora, minutosEntre, moverElemento, 
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
-import { gimnasioDeSerie, nombresGimnasios, textoGimnasio } from '../lib/gimnasios'
-import * as gimnasiosRepo from '../data/gimnasiosRepo'
+import { gimnasioDeSerie } from '../lib/gimnasios'
+import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { ChipGimnasio } from '../components/GimnasioSheet'
 import Pista from '../../../shared/components/Pista'
 
@@ -72,7 +72,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
   const todasSeries = useLiveQuery(() => setsRepo.todas(), [])
   const ajustes = useLiveQuery(() => getSettings(), [])
   const enCurso = useLiveQuery(() => workoutsRepo.activo(), [])
-  const gimnasios = useLiveQuery(async () => nombresGimnasios(await gimnasiosRepo.listar()), [])
+  const nombreGimnasio = useNombresGimnasio()
   const w = workout?.id === workoutId ? workout.w : undefined
   const rutina = useLiveQuery(() => (w?.routineId ? routinesRepo.obtener(w.routineId) : undefined), [w?.routineId])
   const delEntreno = sets?.id === workoutId ? sets.s : undefined
@@ -223,7 +223,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
       )}
       <PosterSesion titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)}
         levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined}
-        gimnasio={w.gimnasioId !== undefined ? textoGimnasio(w.gimnasioId, gimnasios) : undefined} />
+        gimnasio={nombreGimnasio(w.gimnasioId)} />
       {error && <ErrorState>{error}</ErrorState>}
       {!editando && pendientes.length > 0 && (
         <section aria-label="Series sin marcar" className="space-y-2">

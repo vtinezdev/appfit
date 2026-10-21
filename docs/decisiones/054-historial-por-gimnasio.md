@@ -12,6 +12,8 @@
 
 **Progreso por gimnasio.** Víctor pidió ver en la misma gráfica la progresión de cada gimnasio y poder elegir uno o todos. En Progreso, el gimnasio de cada sesión es una dimensión aparte de la variante; se toma el del entreno, así que vale también para la barra. «Todos» dibuja una línea por gimnasio con color y trazo fijos (el habitual con el acento; colores validados para daltonismo en ambos temas) y una leyenda. Elegir uno muestra solo su línea, con su mismo color. Hay un solo eje: las líneas comparten unidades (kg o reps).
 
+**Nombre del habitual e historial.** El habitual puede llevar nombre («Basic-Fit Centro»), guardado en los ajustes porque sigue sin fila en `gimnasios`. El historial nombra el gimnasio de cada entreno, también el del habitual.
+
 **Privacidad.** Los nombres de gimnasio no salen del móvil: los récords dicen «Otro gimnasio», y así se publican en Amigos sin delatar dónde se entrena. La Vitrina y Progreso, que son locales, sí los nombran.
 
 **Descartado por ahora.** Un factor de conversión estimado entre máquinas (la relación entre sus 1RM estimados): las curvas de resistencia difieren y la relación cambia con el rango de repeticiones. Elegir por ejercicio si depende de la máquina: el equipo del catálogo basta para el caso real y evita otro ajuste.

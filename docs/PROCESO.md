@@ -2025,3 +2025,14 @@ A Víctor no le gustaban los desplegables de Progreso cuando un ejercicio tiene 
 
 **Verificación:** `npm run test` (202 archivos, 2.511 pruebas) y `npm run build` correctos. `validar-variantes-progreso.cjs` en 320/375/430 px en claro y oscuro y a 375 px con texto al 200 %. `validar-gimnasios.cjs` y los recorridos del job «navegador» de la CI (`test:ui`, `test:ui:responsive`, `test:ui:uso`, `auditoria-datos`, `test:ui:offline`) pasan en Chromium. Firefox y WebKit no se han probado aquí. Sin prueba en iPhone.
 
+## 188. Gimnasio en cada entreno del historial y nombre del habitual (2026-10-21)
+
+Víctor quiere ver en el historial en qué gimnasio entrenó exactamente cada día. Eligió nombrarlo en todas las filas, también el habitual, poder poner nombre al habitual y no tener filtro por gimnasio.
+
+- Datos: el ajuste opcional `Settings.nombreGimnasioHabitual`, sin cambio de esquema ni de backup. `gimnasiosRepo.nombreHabitual` y `renombrarHabitual`. `validarNombreHabitual` impide repetir el nombre de otro gimnasio y `validarNombreGimnasio` impide que otro gimnasio repita el del habitual.
+- `lib/gimnasios.textoGimnasio` acepta el nombre del habitual. El hook nuevo `hooks/useNombresGimnasio` sustituye las lecturas repetidas de nombres en el chip, el entreno activo, el detalle y Progreso.
+- `lib/workout.detalleSesion` pone el gimnasio delante en cada fila del historial. El póster del detalle lo nombra siempre.
+- `GimnasioSheet`: con el habitual elegido, el bloque «Nombre» con «Guardar nombre» (sin «Borrar»); la opción y el chip muestran el nombre puesto.
+
+**Verificación:** `npm run test` (202 archivos, 2.514 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs` ampliado (nombrar el habitual desde la hoja, el chip con el nombre, cada fila del historial con su gimnasio y Progreso con el nombre) pasa en 320/375/430 px en claro y oscuro. Capturas de la lista a 320 px en claro y 375 px en oscuro. Sin prueba en iPhone.
+
