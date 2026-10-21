@@ -1991,7 +1991,7 @@ Víctor entrenó en otro gimnasio y los kg de las máquinas no coincidían con l
 
 **Verificación:** `npm run test` (202 archivos, 2.506 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs` en 320/375/430 px claro y oscuro con datos sintéticos en `appfit-test.localhost:5173`: sin overflow, controles de menos de 44 px ni errores de consola. Capturas revisadas de la hoja, el entreno activo, el póster y Progreso, más Empezar a 320 px en ambos temas. Sin prueba en iPhone.
 
-## 185. Progreso con una línea por gimnasio (2026-10-21)
+## 186. Progreso con una línea por gimnasio (2026-10-21)
 
 Víctor quiere ver en la misma gráfica (por ejemplo, la de press banca) la progresión en cada gimnasio y poder elegir entre todos, solo uno o solo el otro ([ADR 054](decisiones/054-historial-por-gimnasio.md)).
 
