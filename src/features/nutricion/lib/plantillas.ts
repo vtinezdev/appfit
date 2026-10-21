@@ -97,7 +97,7 @@ export interface DestinoPlantilla {
  * Prepara las entradas a insertar al aplicar una plantilla (A1): resuelve cada ítem (ver
  * `resolverItemsPlantilla`) y les da la fecha/comida de destino, `createdAt` nuevo y sin id.
  */
-export function entradasDesdePlantilla(meal: Meal, foodsById: Map<number, Food>, destino: DestinoPlantilla, ahora: number, loteId: string): Omit<Entry, 'id'>[] {
+export function entradasDesdePlantilla<T extends Pick<Meal, 'items'>>(meal: T, foodsById: Map<number, Food>, destino: DestinoPlantilla, ahora: number, loteId: string): Omit<Entry, 'id'>[] {
   return renovarPlatos(resolverItemsPlantilla(meal.items, foodsById), loteId).map((item) => ({
     fecha: destino.fecha,
     comida: destino.comida,

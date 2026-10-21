@@ -1,6 +1,7 @@
 import Button, { IconButton } from '../../../shared/components/Button'
 import { Textarea } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
+import Icon from '../../../shared/components/Icon'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { formatInt } from '../../../shared/lib/format'
 import { parsear } from '../lib/interprete/parsear'
@@ -13,22 +14,24 @@ interface Props {
   error: string | null
   /** Abre «Medidas» (qué medidas caseras se entienden). */
   onVerMedidas: () => void
+  onEscanear?: () => void
+  titulo?: string
   /** Texto de la acción al añadir a una revisión que ya tiene alimentos. */
   accion?: string
 }
 
 /** Texto libre (escrito o dictado con el micrófono del teclado) que se interpreta en el dispositivo, sin conexión. */
-export default function DescribirComida({ texto, onTextoChange, onInterpretar, cargando, error, onVerMedidas, accion = 'Interpretar' }: Props) {
+export default function DescribirComida({ texto, onTextoChange, onInterpretar, cargando, error, onVerMedidas, onEscanear, titulo = '¿Qué has comido?', accion = 'Interpretar' }: Props) {
   const partes = parsear(texto)
   return (
-    <section aria-label="Describir comida" className="space-y-stack">
+    <section aria-label="Añadir alimentos por escrito" className="space-y-stack">
       <SectionHeader variant="section" action={<IconButton icon="info" label="Medidas que se entienden" variant="ghost" size="sm" onClick={onVerMedidas} />}>
-        Describir comida
+        {titulo}
       </SectionHeader>
       <p className="text-body-sm text-fg-muted">
         Un alimento por línea, con su cantidad. Puedes escribir varios juntos.
       </p>
-      <label className="block space-y-2"><span className="text-label text-fg-muted">¿Qué has comido?</span><Textarea
+      <label className="block space-y-2"><span className="text-label text-fg-muted">Alimentos y cantidades</span><Textarea
         tone="surface"
         aria-label="Describe lo que has comido"
         value={texto}
@@ -55,6 +58,10 @@ export default function DescribirComida({ texto, onTextoChange, onInterpretar, c
       <Button onClick={onInterpretar} disabled={partes.length === 0} loading={cargando} block>
         {cargando ? 'Interpretando…' : accion}
       </Button>
+      {onEscanear && <Button variant="secondary" block onClick={onEscanear} disabled={cargando}>
+        <Icon name="barcode" size={20} />
+        Escanear producto
+      </Button>}
       {error && <ErrorState>{error}</ErrorState>}
     </section>
   )

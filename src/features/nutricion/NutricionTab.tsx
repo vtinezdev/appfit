@@ -33,6 +33,7 @@ export default function NutricionTab({ onVerReferencia }: { onVerReferencia?: (i
   const [vista, setVista] = useState<Vista>('hoy')
   const [fecha, setFecha] = useState(todayISO())
   const [mostrarAnadir, setMostrarAnadir] = useState(false)
+  const [creandoTipica, setCreandoTipica] = useState(false)
   const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(undefined)
   const [entryEditar, setEntryEditar] = useState<Entry | undefined>(undefined)
   const [platoEditar, setPlatoEditar] = useState<Plato | undefined>(undefined)
@@ -43,6 +44,7 @@ export default function NutricionTab({ onVerReferencia }: { onVerReferencia?: (i
 
   function cerrarAnadir() {
     setMostrarAnadir(false)
+    setCreandoTipica(false)
     setEntryEditar(undefined)
     setPlatoEditar(undefined)
     setComidaAnadir(undefined)
@@ -84,7 +86,7 @@ export default function NutricionTab({ onVerReferencia }: { onVerReferencia?: (i
     <div className="space-y-3 px-page pt-5">
       <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="secondary" onClick={() => { setComidaAnadir(undefined); setMostrarAnadir(true) }} />} />
       <ViewTabs label="Vistas de nutrición" nivel="principal" opciones={VISTAS} valor={vista} onChange={setVista}>
-      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} onVerReferencia={onVerReferencia} /></Suspense>}
+      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} onCrearTipica={comida => { setComidaAnadir(comida); setCreandoTipica(true); setMostrarAnadir(true) }} onVerReferencia={onVerReferencia} /></Suspense>}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>
           <Resumen onVerReferencia={onVerReferencia} />
@@ -94,7 +96,7 @@ export default function NutricionTab({ onVerReferencia }: { onVerReferencia?: (i
       </ViewTabs>
 
       {mostrarAnadir && (
-        <AnadirComida fecha={entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fecha} entryEditar={entryEditar} platoDestino={platoEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={() => { void congelarObjetivoDia(entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fecha); cerrarAnadir() }} />
+        <AnadirComida soloTipica={creandoTipica} fecha={entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fecha} entryEditar={entryEditar} platoDestino={platoEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={() => { if (!creandoTipica) void congelarObjetivoDia(entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fecha); cerrarAnadir() }} />
       )}
 
       <KcalRapidasSheet

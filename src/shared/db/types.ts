@@ -137,7 +137,7 @@ export interface MealItem extends AgrupacionPlato {
   rapida?: true
 }
 
-/** Plantilla de comida («mi desayuno de siempre»). Las recetas (A7) añadirán más adelante un peso cocinado opcional. */
+/** Comida típica guardada manualmente; conserva el formato histórico de las plantillas de `meals`. */
 export interface Meal {
   id: number
   nombre: string

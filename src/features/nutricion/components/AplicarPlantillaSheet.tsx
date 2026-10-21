@@ -14,7 +14,7 @@ import { ErrorState } from '../../../shared/components/StateMessage'
 const LABELS: Record<Comida, string> = { desayuno: 'Desayuno', comida: 'Comida', cena: 'Cena', snack: 'Snack' }
 
 interface Props {
-  meal: Meal
+  meal: Pick<Meal, 'nombre' | 'items'> & { id?: number }
   fecha: string
   comida: Comida
   onClose: () => void
@@ -24,7 +24,7 @@ interface Props {
 /** Vista previa (con los valores actuales de cada alimento) y confirmación al usar una plantilla (A1). */
 export default function AplicarPlantillaSheet({ meal, fecha, comida, onClose, onAplicado }: Props) {
   const foodIds = meal.items.map((it) => it.foodId).filter((id): id is number => id !== undefined)
-  const foodsById = useLiveQuery(() => foodsRepo.porIds(foodIds), [meal.id])
+  const foodsById = useLiveQuery(() => foodsRepo.porIds(foodIds), [meal.id, JSON.stringify(meal.items)])
   const resueltos = foodsById ? resolverItemsPlantilla(meal.items, foodsById) : null
   const total = resueltos ? sumMacros(resueltos) : null
   const kcalTotal = total ? Math.round(total.kcal) : 0
@@ -36,19 +36,22 @@ export default function AplicarPlantillaSheet({ meal, fecha, comida, onClose, on
     setAplicando(true)
     setError(null)
     try {
-      const ids = await mealsRepo.aplicar(meal.id, { fecha, comida })
+      const ids = meal.id === undefined
+        ? await mealsRepo.aplicarSugerencia(meal.items, { fecha, comida })
+        : await mealsRepo.aplicar(meal.id, { fecha, comida })
+      if (ids.length === 0) { setError('Esta comida ya no está disponible. Vuelve a elegirla.'); return }
       void congelarObjetivoDia(fecha)
       onClose()
       onAplicado(ids)
     } catch {
-      setError('No se ha podido aplicar la plantilla. Inténtalo de nuevo.')
+      setError('No se ha podido añadir la comida típica. Inténtalo de nuevo.')
     } finally {
       setAplicando(false)
     }
   }
 
   return (
-    <Sheet open onClose={onClose} title="Usar plantilla" footer={<div className="space-y-3">
+    <Sheet open onClose={onClose} title="Añadir comida típica" footer={<div className="space-y-3">
       {total && <div className="flex flex-wrap items-baseline justify-between gap-2">
         <span className="text-label text-fg-muted">Total</span>
         <span className="tabular break-words text-title text-fg">{formatInt(kcalTotal)} <span className="text-caption text-fg-muted">kcal</span></span>

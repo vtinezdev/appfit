@@ -8,6 +8,7 @@ import { macrosPorGramos } from '../lib/nutrition'
 import { copiaEsNoOp, planCopia, type DestinoCopia } from '../lib/plantillas'
 import * as foodsRepo from './foodsRepo'
 import * as nombresAlimentosRepo from './nombresAlimentosRepo'
+import * as mealsRepo from './mealsRepo'
 import { escalarNutrientes } from '../lib/nutrientes'
 import { esComida } from '../lib/comidas'
 
@@ -31,6 +32,7 @@ export interface GuardarComidaInput {
   items: ItemGuardado[]
   textoOriginal?: string
   nombrePlato?: string
+  guardarComoTipica?: boolean
   /** Añade al plato existente de esta fecha/comida, sin reescribir sus ingredientes. */
   platoDestinoId?: string
 }
@@ -54,11 +56,12 @@ export class PlatoCambiadoError extends Error {
  * Varios ingredientes del mismo guardado comparten un plato, con identidad independiente de otros guardados.
  * Con destino explícito se valida y conserva el plato existente dentro de la transacción.
  * Un ítem con `catalogId` referencia el catálogo y no crea ni toca ningún alimento propio.
+ * Con `guardarComoTipica` también guarda una plantilla con los snapshots de las nuevas entradas.
  * Todo o nada: si falla un alimento, no se guarda ninguno.
  */
-export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato, platoDestinoId }: GuardarComidaInput): Promise<number[]> {
+export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato, platoDestinoId, guardarComoTipica = false }: GuardarComidaInput): Promise<number[]> {
   const createdAt = Date.now()
-  return db.transaction('rw', db.foods, db.entries, db.nombresAlimentos, async () => {
+  return db.transaction('rw', db.foods, db.entries, db.nombresAlimentos, db.meals, async () => {
     let agrupacion: Pick<Entry, 'platoId' | 'nombrePlato'> = items.length > 1
       ? { platoId: crypto.randomUUID(), ...(nombrePlato?.trim() ? { nombrePlato: nombrePlato.trim() } : {}) }
       : {}
@@ -86,6 +89,10 @@ export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato
           ...agrupacion,
         }),
       )
+    }
+    if (guardarComoTipica && ids.length > 0) {
+      const entries = (await db.entries.bulkGet(ids)).filter((e): e is Entry => e !== undefined)
+      await mealsRepo.crearDesdeEntradas({ nombre: nombrePlato?.trim() || [...new Set(items.map(it => it.nombre))].join(' + '), comida, entries })
     }
     return ids
   })
@@ -257,15 +264,18 @@ export function deshacerMovimientoPlato(movimiento: MovimientoPlato): Promise<Mo
 export interface CopiarInput {
   origen: DestinoCopia & { platoId?: string; ids?: number[] }
   destino: DestinoCopia
+  /** La copia individual de un ingrediente se registra suelta, sin heredar el nombre de todo su plato. */
+  separarIngredientes?: boolean
 }
 
 /**
  * Copia el snapshot de las entradas del origen al destino (A2): «Copiar a otro día» (con `comida`)
  * o «Copiar el día a…» (sin `comida`, conserva la de cada entrada).
  * Con `platoId` limita el origen a ese plato; permite otra comida del mismo día. Con `ids`, a esas entradas
- * (Repetir con selección); las que ya no existan se ignoran. Todo o nada.
+ * seleccionadas; las que ya no existan se ignoran. `separarIngredientes` elimina la agrupación solo en las copias.
+ * Todo o nada.
  */
-export function copiar({ origen, destino }: CopiarInput): Promise<number[]> {
+export function copiar({ origen, destino, separarIngredientes = false }: CopiarInput): Promise<number[]> {
   const loteId = crypto.randomUUID()
   const ids = origen.ids && new Set(origen.ids)
   return db.transaction('rw', db.entries, async () => {
@@ -277,7 +287,8 @@ export function copiar({ origen, destino }: CopiarInput): Promise<number[]> {
       && (!ids || ids.has(e.id)),
     )
     if (entradas.length === 0) return []
-    return db.entries.bulkAdd(planCopia(entradas, destino, Date.now(), loteId), { allKeys: true })
+    const copias = planCopia(entradas, destino, Date.now(), loteId)
+    return db.entries.bulkAdd(separarIngredientes ? copias.map(e => ({ ...e, platoId: undefined, nombrePlato: undefined })) : copias, { allKeys: true })
   })
 }
 

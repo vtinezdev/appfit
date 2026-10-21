@@ -3,11 +3,12 @@ export type FinDeslizar = 'cerrar' | 'abrir' | 'borrar'
 
 /**
  * Al soltar: más allá del 60 % del ancho de la fila, borra (deslizar hasta el final); más allá de la mitad del botón,
- * deja el botón «Borrar» a la vista; si no, vuelve a su sitio. `dx` es negativo hacia la izquierda.
+ * deja las acciones a la vista; si no, vuelve a su sitio. Con `borradoDirecto=false`, solo abre o cierra.
+ * `dx` es negativo hacia la izquierda.
  */
-export function finDeslizar(dx: number, anchoFila: number, anchoAccion: number): FinDeslizar {
+export function finDeslizar(dx: number, anchoFila: number, anchoAccion: number, borradoDirecto = true): FinDeslizar {
   const recorrido = -dx
-  if (anchoFila > 0 && recorrido >= anchoFila * 0.6) return 'borrar'
+  if (borradoDirecto && anchoFila > 0 && recorrido >= anchoFila * 0.6) return 'borrar'
   if (recorrido >= anchoAccion / 2) return 'abrir'
   return 'cerrar'
 }

@@ -125,8 +125,8 @@ async function main() {
         assert.deepEqual(await registros(page), hoy)
 
         await ejecutarAccionPlato(page, nombre, 'Copiar plato', desayuno)
-        await page.getByRole('button', { name: 'Guardar como plantilla…', exact: true }).click()
-        await page.getByLabel('Nombre de la plantilla', { exact: true }).fill('Solo este plato')
+        await page.getByRole('button', { name: 'Marcar como comida típica…', exact: true }).click()
+        await page.getByLabel('Nombre de la comida típica', { exact: true }).fill('Solo este plato')
         await page.getByRole('button', { name: 'Guardar', exact: true }).click()
         await page.waitForFunction(() => !document.querySelector('[role="dialog"]'))
         const plantilla = await page.evaluate(async () => { const r = await import('/src/features/nutricion/data/mealsRepo.ts'); return (await r.listar())[0] })

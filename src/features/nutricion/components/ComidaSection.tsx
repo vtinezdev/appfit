@@ -1,5 +1,5 @@
 import { useId, useState } from 'react'
-import { IconButton } from '../../../shared/components/Button'
+import Button, { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import Card from '../../../shared/components/Card'
 import type { Comida, Entry } from '../../../shared/db/types'
@@ -23,6 +23,7 @@ interface Props {
   onAcciones: () => void
   onEditar: (entry: Entry) => void
   onBorrar: (entry: Entry) => void
+  onCopiarEntrada: (entry: Entry) => void
   onBorrarPlato: (plato: Plato) => void
   onEditarPlato: (plato: Plato) => void
   onAccionesPlato: (plato: Plato) => void
@@ -30,25 +31,25 @@ interface Props {
   moviendo: boolean
   /** «Añadir a desayuno»: abre Añadir comida con esta comida preseleccionada. */
   onAnadir: () => void
-  /** Entradas de esa misma comida el día anterior: si hay, se ofrece repetirlas. */
-  disponiblesAyer: number
-  /** Abre la selección de qué repetir (`RepetirComidaSheet`). */
-  onRepetir: () => void
+  /** Abre las combinaciones habituales de esta comida, incluso si no hay registros hoy. */
+  onTipicas: () => void
+  tipicasAbiertas?: boolean
+  tipicasId?: string
   nombresCortos: ReadonlyMap<string, string>
   /** Categoría actual de cada alimento referenciado, por `claveRef` (ver `foodsRepo.categoriasDeEntradas`). */
   categorias: ReadonlyMap<string, string>
 }
 
-/** Alimento suelto o ingrediente: se borra deslizándolo a la izquierda (o con el botón que aparece), con Deshacer. */
-function FilaEntrada({ entry: e, nombreCorto, categorias, ingrediente = false, onEditar, onBorrar }: { entry: Entry; nombreCorto: string; ingrediente?: boolean } & Pick<Props, 'onEditar' | 'onBorrar' | 'categorias'>) {
-  return <li data-entry-id={e.id}><FilaDeslizable etiqueta={`Borrar ${e.nombre}`} onBorrar={() => onBorrar(e)}>
+/** Alimento suelto o ingrediente: deslizar ofrece Copiar y Borrar, accesibles también con teclado. */
+function FilaEntrada({ entry: e, nombreCorto, categorias, ingrediente = false, onEditar, onBorrar, onCopiarEntrada }: { entry: Entry; nombreCorto: string; ingrediente?: boolean } & Pick<Props, 'onEditar' | 'onBorrar' | 'onCopiarEntrada' | 'categorias'>) {
+  return <li data-entry-id={e.id}><FilaDeslizable etiqueta={`Borrar ${e.nombre}`} onBorrar={() => onBorrar(e)} accionCopiar={{ etiqueta: `Copiar ${e.nombre}`, onCopiar: () => onCopiarEntrada(e) }}>
     <RegistroComida tipo={ingrediente ? 'ingrediente' : 'individual'} nombre={nombreCorto} nombreOriginal={e.nombre}
       icono={<IconoCategoria categoria={categoriaDeEntrada(e, categorias)} sinCategoria="hueco" inicial={nombreCorto.trim().charAt(0)} />}
       detalle={e.rapida ? 'Registro rápido' : `${formatNumber(e.gramos, 1)} g`} macros={e} aproximado={e.rapida} onClick={() => onEditar(e)} accion={null} />
   </FilaDeslizable></li>
 }
 
-function FilaPlato({ plato, nombresCortos, categorias, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'categorias' | 'onEditar' | 'onBorrar' | 'onBorrarPlato' | 'onEditarPlato' | 'onAccionesPlato' | 'onMoverPlato' | 'moviendo'>) {
+function FilaPlato({ plato, nombresCortos, categorias, onEditar, onBorrar, onCopiarEntrada, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'categorias' | 'onEditar' | 'onBorrar' | 'onCopiarEntrada' | 'onBorrarPlato' | 'onEditarPlato' | 'onAccionesPlato' | 'onMoverPlato' | 'moviendo'>) {
   const [abierto, setAbierto] = useState(false)
   const [acciones, setAcciones] = useState(false)
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, isDragging } = useDraggable({ id: plato.clave, data: { plato }, disabled: moviendo })
@@ -64,7 +65,7 @@ function FilaPlato({ plato, nombresCortos, categorias, onEditar, onBorrar, onBor
         <div id={detalleId} hidden={!abierto} className="border-t border-line">
         <ul aria-label={`Ingredientes de ${plato.nombre}`} className="divide-y divide-line px-1">
           {plato.entries.map((e) => (
-            <FilaEntrada key={e.id} entry={e} ingrediente nombreCorto={nombreVisible(e, nombresCortos)} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} />
+            <FilaEntrada key={e.id} entry={e} ingrediente nombreCorto={nombreVisible(e, nombresCortos)} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} onCopiarEntrada={onCopiarEntrada} />
           ))}
         </ul>
         <div className="flex items-center gap-1 border-t border-line px-2 py-1">
@@ -81,7 +82,7 @@ function FilaPlato({ plato, nombresCortos, categorias, onEditar, onBorrar, onBor
 }
 
 /** Platos y entradas sueltas comparten fila; solo los ingredientes se subordinan al desplegar. */
-export default function ComidaSection({ comida, titulo, entries, nombresCortos, categorias, onAcciones, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo, onAnadir, disponiblesAyer, onRepetir }: Props) {
+export default function ComidaSection({ comida, titulo, entries, nombresCortos, categorias, onAcciones, onEditar, onBorrar, onCopiarEntrada, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo, onAnadir, onTipicas, tipicasAbiertas = false, tipicasId }: Props) {
   const { setNodeRef, isOver, active } = useDroppable({ id: `comida:${comida}`, data: { comida }, disabled: moviendo })
   const listRef = useListMotion<HTMLUListElement>(entries.map(e => e.id).join(','))
   const recibe = isOver && active?.data.current?.plato?.entries[0].comida !== comida
@@ -89,32 +90,26 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
   const hayEntradas = entries.length > 0
   const comidaMinus = titulo.toLowerCase()
   const anadir = <IconButton icon="plus" variant="tonal" label={`Añadir a ${comidaMinus}`} onClick={onAnadir} />
-  // Repetir: icono y, a su lado, el número de alimentos del día anterior como texto (decorativo: el número va en la etiqueta).
-  const etiquetaRepetir = `Repetir ${comidaMinus} del día anterior (${formatInt(disponiblesAyer)} ${disponiblesAyer === 1 ? 'alimento' : 'alimentos'})`
-  const repetir = disponiblesAyer > 0 && (
-    <button type="button" onClick={onRepetir} aria-haspopup="dialog" aria-label={etiquetaRepetir} title={etiquetaRepetir}
-      className="app-button inline-flex h-touch min-w-touch shrink-0 items-center justify-center gap-1 rounded-md pl-2.5 pr-1.5 text-fg-muted hover:bg-surface-muted hover:text-fg enabled:active:opacity-70">
-      <Icon name="copy" size={20} />
-      <span aria-hidden className="tabular text-body-sm font-semibold">{formatInt(disponiblesAyer)}</span>
-    </button>
-  )
+  const tipicas = <Button variant="subtle" size="sm" onClick={onTipicas} aria-haspopup="dialog" aria-expanded={tipicasAbiertas} aria-controls={tipicasAbiertas ? tipicasId : undefined} aria-label={`Comidas típicas de ${comidaMinus}`}>
+    <Icon name="utensils" size={18} />Típicas<Icon name="chevron-down" size={16} />
+  </Button>
   return (
     <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section">
       <CabeceraComida comida={comida} titulo={titulo} kcal={totales.kcal} registros={entries.length} onAcciones={onAcciones} />
-      {!hayEntradas && <div className="mt-1 flex items-center justify-between gap-2 px-1">{anadir}{repetir}</div>}
+      {!hayEntradas && <div className="mt-1 flex items-center justify-between gap-2 px-1">{anadir}{tipicas}</div>}
       {hayEntradas && (
         <Card padded={false} className="mt-2 px-1">
           <ul ref={listRef} className="divide-y divide-line">
             {agruparPlatos(entries, (entry) => nombreVisible(entry, nombresCortos)).map((plato) =>
               plato.agrupado ? (
-                <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} onEditarPlato={onEditarPlato} onAccionesPlato={onAccionesPlato} onMoverPlato={onMoverPlato} moviendo={moviendo} />
+                <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} onCopiarEntrada={onCopiarEntrada} onBorrarPlato={onBorrarPlato} onEditarPlato={onEditarPlato} onAccionesPlato={onAccionesPlato} onMoverPlato={onMoverPlato} moviendo={moviendo} />
               ) : (
-                <FilaEntrada key={plato.clave} entry={plato.entries[0]} nombreCorto={nombreVisible(plato.entries[0], nombresCortos)} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} />
+                <FilaEntrada key={plato.clave} entry={plato.entries[0]} nombreCorto={nombreVisible(plato.entries[0], nombresCortos)} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} onCopiarEntrada={onCopiarEntrada} />
               ),
             )}
           </ul>
-          {/* «+» alineado con los iconos de categoría; Repetir, a la derecha. */}
-          <div className="flex items-center justify-between gap-2 border-t border-line px-2 py-1">{anadir}{repetir}</div>
+          {/* «+» alineado con los iconos de categoría; comidas típicas, a la derecha. */}
+          <div className="flex items-center justify-between gap-2 border-t border-line px-2 py-1">{anadir}{tipicas}</div>
         </Card>
       )}
     </section>

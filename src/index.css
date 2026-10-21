@@ -401,9 +401,12 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .food-record { container-type: inline-size; container-name: food-record; }
 /* Pastilla de la columna de categoría del Diario: el icono o, sin categoría, la inicial del alimento (N2, ADR 035). */
 .icono-pastilla { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: var(--radius-md); background: rgb(var(--c-surface-muted)); }
-/* Fila que se borra deslizándola (FilaDeslizable): el botón rojo espera detrás del contenido, que es opaco. */
+/* Las acciones esperan detrás del contenido opaco y se revelan al deslizar o recibir foco. */
 .fila-deslizable { position: relative; overflow: hidden; }
-.fila-deslizable-accion { position: absolute; inset: 0 0 0 auto; width: 5.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; background: rgb(var(--c-destructive)); color: rgb(var(--c-on-destructive)); }
+.fila-deslizable-acciones { position: absolute; inset: 0 0 0 auto; width: min(5.5rem, 100%); display: flex; }
+.fila-deslizable[data-con-copia] .fila-deslizable-acciones { width: min(11rem, 100%); }
+.fila-deslizable-accion { min-width: var(--touch-target); flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; background: rgb(var(--c-destructive)); color: rgb(var(--c-on-destructive)); }
+.fila-deslizable-copiar { background: rgb(var(--c-surface-muted)); color: rgb(var(--c-text-primary)); }
 .fila-deslizable-contenido { position: relative; background: rgb(var(--c-surface)); touch-action: pan-y; transition: transform var(--dur-normal) var(--ease-standard); }
 .fila-deslizable[data-arrastrando] .fila-deslizable-contenido { transition: none; }
 .food-record-button { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, max-content); grid-template-areas: 'name name' 'detail energy'; column-gap: 0.5rem; row-gap: 0.25rem; align-items: baseline; }

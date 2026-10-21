@@ -133,7 +133,7 @@ export default function EditorReceta({ receta, onClose }: Props) {
           ))}
           {anadiendo ? (
             <div className="space-y-3">
-              <ViewTabs label="Cómo añadir ingredientes" opciones={[{ valor: 'describir', label: 'Describir' }, { valor: 'buscar', label: 'Buscar' }]} valor={metodo} onChange={setMetodo}>
+              <ViewTabs label="Cómo añadir ingredientes" opciones={[{ valor: 'describir', label: 'Escribir' }, { valor: 'buscar', label: 'Buscar' }]} valor={metodo} onChange={setMetodo}>
                 {metodo === 'describir'
                   ? <DescribirComida texto={texto} onTextoChange={setTexto} onInterpretar={interpretar} cargando={local.cargando} error={local.error} onVerMedidas={() => setVerMedidas(true)} accion="Añadir a la receta" />
                   : <AlimentosRapidos comida="comida" onElegir={(alimento) => setGramos({ alimento, gramos: 100 })} />}
