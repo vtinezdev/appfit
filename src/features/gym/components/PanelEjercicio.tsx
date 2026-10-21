@@ -8,6 +8,7 @@ import ListRow from '../../../shared/components/ListRow'
 import Sheet from '../../../shared/components/Sheet'
 import type { ConfiguracionEjecucion, Workout, ConfiguracionCarga, Exercise, Lado, ObjetivoEjercicio, Routine, SetEntry, TramoDropset } from '../../../shared/db/types'
 import MenuSerie from './MenuSerie'
+import ChipAjuste from './ChipAjuste'
 import RirSheet from './RirSheet'
 import NotaEjercicio from './NotaEjercicio'
 import EjecucionEjercicio from './EjecucionEjercicio'
@@ -111,13 +112,6 @@ interface Props {
 type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | 'liga' | { serie: number } | { rir: number; lado?: Lado }
 const LADOS: { lado: Lado; letra: string; nombre: string }[] = [{ lado: 'izquierda', letra: 'I', nombre: 'izquierda' }, { lado: 'derecha', letra: 'D', nombre: 'derecha' }]
 
-/** Botón de ajuste del ejercicio en su cabecera: la variante común se ve sin abrir nada. También el del gimnasio de la sesión. */
-export function ChipAjuste({ label, texto, apagado, disabled, onClick }: { label: string; texto: string; apagado?: boolean; disabled?: boolean; onClick: () => void }) {
-  return <button type="button" aria-label={`${label}: ${texto}`} disabled={disabled} onClick={onClick}
-    className={`app-button inline-flex min-h-touch max-w-full items-center gap-1 rounded-pill bg-surface-muted px-3 text-body-sm font-semibold hover:bg-line disabled:opacity-40 ${apagado ? 'text-fg-muted' : 'text-fg'}`}>
-    <span className="min-w-0 truncate">{texto}</span><Icon name="chevron-right" size={16} className="shrink-0 rotate-90 text-fg-muted" />
-  </button>
-}
 
 function CeldaRir({ valor, label, disabled, onClick }: { valor?: number; label: string; disabled?: boolean; onClick: () => void }) {
   return <button type="button" aria-label={`${label}: ${valor === undefined ? 'sin dato' : valor === 5 ? '5 o más' : valor}`} disabled={disabled} onClick={onClick}

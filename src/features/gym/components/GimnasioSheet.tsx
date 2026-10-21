@@ -8,7 +8,7 @@ import { ErrorState } from '../../../shared/components/StateMessage'
 import Pista from '../../../shared/components/Pista'
 import * as gimnasiosRepo from '../data/gimnasiosRepo'
 import { LONGITUD_MAXIMA_NOMBRE, nombresGimnasios, textoGimnasio } from '../lib/gimnasios'
-import { ChipAjuste } from './PanelEjercicio'
+import ChipAjuste from './ChipAjuste'
 
 const HABITUAL = 'habitual'
 const clave = (id: number | undefined) => (id === undefined ? HABITUAL : String(id))

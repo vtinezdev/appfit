@@ -135,8 +135,10 @@ async function main() {
         await page.getByRole('tab', { name: 'Progreso', exact: true }).click()
         await page.getByRole('button', { name: /^Prensa/ }).first().click()
         // Una sola variante (el gimnasio ya no lo es): selector de gimnasio con «Todos» y una línea por gimnasio con su leyenda.
+        // Con un nombre largo, el selector de la tarjeta de la gráfica es un desplegable; con nombres cortos, segmentos.
         assert.equal(await page.getByRole('combobox', { name: 'Variante en Progreso', exact: true }).count(), 0)
         const gimnasio = page.getByRole('combobox', { name: 'Gimnasio en Progreso', exact: true })
+        await gimnasio.locator('option').nth(2).waitFor({ state: 'attached' })
         assert.deepEqual(await gimnasio.locator('option').allTextContents(), ['Todos los gimnasios', 'Gimnasio habitual', 'Gym Playa del Arenal con nombre largo'])
         const leyenda = page.getByRole('list', { name: 'Gimnasios de la gráfica', exact: true })
         assert.equal(await leyenda.getByRole('listitem').count(), 2)
