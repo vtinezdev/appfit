@@ -162,7 +162,7 @@ export async function restaurar(food: Food): Promise<void> {
 
 /**
  * Devuelve el id del alimento para guardar `item`, buscándolo por nombre (ver `decidirGuardado`).
- * Se llama siempre desde dentro de una transacción de entriesRepo. Crear exige la categoría del ítem
+ * Se llama siempre desde dentro de una transacción de entriesRepo o mealsRepo. Crear exige la categoría del ítem
  * (`CategoriaRequeridaError`); si se reutiliza o actualiza un alimento antiguo sin categoría, recibe la del ítem.
  */
 export async function resolverParaGuardar(item: ItemGuardado): Promise<number> {

@@ -89,7 +89,7 @@ export default function CatalogoAjustes() {
         </div>
       ) : (
         <ConfirmacionDestructiva
-          mensaje="¿Borrar el catálogo? No afecta a tus alimentos, comidas ni plantillas. Se volverá a descargar al abrir la app con conexión; los productos escaneados se volverán a consultar al escanearlos."
+          mensaje="¿Borrar el catálogo? No afecta a tus alimentos, registros ni comidas típicas. Se volverá a descargar al abrir la app con conexión; los productos escaneados se volverán a consultar al escanearlos."
           confirmar="Sí, borrar"
           onConfirmar={borrar}
           onCancelar={() => setConfirmandoBorrado(false)}

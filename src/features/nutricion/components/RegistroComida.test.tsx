@@ -20,10 +20,10 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(base.kcal).toBe(174.4)
   })
 
-  function seccion(entries: Entry[], categorias: ReadonlyMap<string, string> = new Map(), repetir: { disponiblesAyer?: number } = {}) {
+  function seccion(entries: Entry[], categorias: ReadonlyMap<string, string> = new Map(), tipicasAbiertas = false) {
     return renderToStaticMarkup(<ComidaSection comida="desayuno" titulo="Desayuno" entries={entries} nombresCortos={new Map()} categorias={categorias}
-      onAcciones={noop} onEditar={noop} onBorrar={noop} onBorrarPlato={noop} onEditarPlato={noop} onAccionesPlato={noop} onMoverPlato={noop}
-      moviendo={false} onAnadir={noop} disponiblesAyer={repetir.disponiblesAyer ?? 0} onRepetir={noop} />)
+      onAcciones={noop} onEditar={noop} onBorrar={noop} onCopiarEntrada={noop} onBorrarPlato={noop} onEditarPlato={noop} onAccionesPlato={noop} onMoverPlato={noop}
+      moviendo={false} onAnadir={noop} onTipicas={noop} tipicasAbiertas={tipicasAbiertas} tipicasId="selector-tipicas" />)
   }
   it('plato y alimento permanecen registros independientes y las acciones se consultan bajo demanda', () => {
     const html = seccion([{ ...base, platoId: 'p', nombrePlato: 'Café + Leche' }, { ...base, id: 2, nombre: 'Leche', platoId: 'p' }, { ...base, id: 3, nombre: 'Bizcocho' }])
@@ -32,6 +32,8 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(html).toContain('aria-label="Acciones del plato Café + Leche"')
     expect(html).toContain('aria-haspopup="dialog"')
     expect(html).toContain('aria-label="Borrar Bizcocho"')
+    expect(html).toContain('aria-label="Copiar Bizcocho"')
+    expect(html).toContain('aria-label="Copiar Leche"')
     expect(html).toContain('>349</span>')
     expect(texto(html)).toContain('P 22 · C 44 · G 23')
     for (const accion of ['Añadir ingredientes', 'Copiar plato', 'Borrar plato']) expect(html).not.toContain(accion)
@@ -47,6 +49,7 @@ describe('registros de comida de una misma jerarquía', () => {
   it('un registro rápido mantiene aproximación, sin inventar gramos', () => {
     const html = seccion([{ ...base, gramos: 0, rapida: true }])
     expect(html).toContain('Registro rápido')
+    expect(html).toContain('aria-label="Copiar Café"')
     expect(html).toContain('≈ 174')
     expect(html).not.toContain('>0 g<')
   })
@@ -57,16 +60,17 @@ describe('registros de comida de una misma jerarquía', () => {
     expect(html.match(/aria-label="Categoría: /g)).toHaveLength(1)
   })
 
-  it.each([[[] as Entry[]], [[base]]])('Añadir y Repetir son iconos con su nombre completo y el número de ayer (%#)', entries => {
-    const html = seccion(entries, new Map(), { disponiblesAyer: 3 })
+  it.each([[[] as Entry[]], [[base]]])('Añadir y comidas típicas están disponibles con y sin registros (%#)', entries => {
+    const html = seccion(entries)
     expect(html).toContain('aria-label="Añadir a desayuno"')
-    expect(html).toContain('aria-label="Repetir desayuno del día anterior (3 alimentos)"')
-    expect(html).toMatch(/aria-hidden="true"[^>]*>3<\/span>/)
-    expect(seccion(entries, new Map(), { disponiblesAyer: 1 })).toContain('(1 alimento)')
-    expect(seccion(entries)).not.toContain('Repetir')
+    expect(html).toContain('aria-label="Comidas típicas de desayuno"')
+    expect(texto(html)).toContain('Típicas')
+    expect(html).not.toContain('Repetir')
   })
-  it('Repetir abre la selección de qué repetir, sin copiar al pulsar', () => {
-    const boton = seccion([], new Map(), { disponiblesAyer: 3 }).match(/<button[^>]*aria-label="Repetir desayuno[^>]*>/)?.[0]
+  it('comidas típicas anuncia el selector abierto y su relación con el panel', () => {
+    const boton = seccion([], new Map(), true).match(/<button[^>]*aria-label="Comidas típicas de desayuno[^>]*>/)?.[0]
     expect(boton).toContain('aria-haspopup="dialog"')
+    expect(boton).toContain('aria-expanded="true"')
+    expect(boton).toContain('aria-controls="selector-tipicas"')
   })
 })

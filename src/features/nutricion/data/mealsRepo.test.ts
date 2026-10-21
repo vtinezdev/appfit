@@ -3,6 +3,7 @@ import { db } from '../../../shared/db/db'
 import * as entriesRepo from './entriesRepo'
 import * as foodsRepo from './foodsRepo'
 import * as mealsRepo from './mealsRepo'
+import type { ItemGuardado } from '../lib/alimentos'
 
 const POLLO: foodsRepo.FoodInput = { nombre: 'Pollo', kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuente: 'gemini', categoria: 'Carnes' }
 
@@ -46,6 +47,67 @@ describe('mealsRepo.crearDesdeEntradas (A1)', () => {
   })
 })
 
+describe('mealsRepo.crearDesdeItems', () => {
+  it('guarda una sugerencia con sus snapshots y referencias sin registrar comida ni crear alimentos', async () => {
+    const items = [{ nombre: 'Yogur', gramos: 125, kcal: 75, prot: 5, carb: 6, grasa: 2, catalogId: 'off:123', nutrientes: { sal: 0.12 }, platoId: 'bol', nombrePlato: 'Mi bol' }, { nombre: 'Avena', gramos: 40, kcal: 150, prot: 5, carb: 25, grasa: 3, foodId: 999, platoId: 'bol', nombrePlato: 'Mi bol' }]
+    const id = await mealsRepo.crearDesdeItems({ nombre: '  Mi desayuno fijo  ', comida: 'desayuno', items })
+    expect(await mealsRepo.obtener(id)).toMatchObject({ nombre: 'Mi desayuno fijo', comida: 'desayuno', items, usos: 0 })
+    expect(await db.entries.count()).toBe(0)
+    expect(await db.foods.count()).toBe(0)
+    expect(await db.objetivosDia.count()).toBe(0)
+    items[0]!.nutrientes!.sal = 9
+    expect((await mealsRepo.obtener(id))!.items[0]!.nutrientes!.sal).toBe(0.12)
+  })
+
+  it('rechaza nombres y cantidades inválidas; admite registros rápidos sin gramos', async () => {
+    const item = { nombre: 'Fuera de casa', gramos: 0, kcal: 500, prot: 20, carb: 30, grasa: 20 }
+    await expect(mealsRepo.crearDesdeItems({ nombre: 'Vacía', items: [] })).rejects.toThrow()
+    await expect(mealsRepo.crearDesdeItems({ nombre: 'Sin cantidad', items: [item] })).rejects.toThrow()
+    await expect(mealsRepo.crearDesdeItems({ nombre: '', items: [{ ...item, rapida: true }] })).rejects.toThrow()
+    const id = await mealsRepo.crearDesdeItems({ nombre: 'Comida fuera', items: [{ ...item, rapida: true }] })
+    expect((await mealsRepo.obtener(id))!.items[0]!.rapida).toBe(true)
+    expect(await db.meals.count()).toBe(1)
+  })
+})
+
+describe('mealsRepo.crearDesdeRevision', () => {
+  const pollo: ItemGuardado = { ...POLLO, gramos: 150, fuenteSiNuevo: 'manual', nutrientes: { fibra: 2, sal: 0.2 } }
+
+  it('guarda referencias, cantidades y nutrientes sin registrar comidas ni objetivos diarios', async () => {
+    const id = await mealsRepo.crearDesdeRevision({ nombre: '  Mi comida  ', comida: 'comida', items: [pollo, { ...pollo, nombre: 'Arroz de catálogo', catalogId: 'ciqual:1', gramos: 50 }] })
+    const meal = (await mealsRepo.obtener(id))!
+    expect(meal).toMatchObject({ nombre: 'Mi comida', comida: 'comida', usos: 0 })
+    expect(meal.items[0]).toMatchObject({ foodId: expect.any(Number), gramos: 150, kcal: 247.5, nutrientes: { fibra: 3, sal: 0.3 } })
+    expect(meal.items[0].catalogId).toBeUndefined()
+    expect(meal.items[1]).toMatchObject({ catalogId: 'ciqual:1', gramos: 50, kcal: 82.5 })
+    expect(meal.items[1].foodId).toBeUndefined()
+    expect(meal.items[0].platoId).toBe(meal.items[1].platoId)
+    expect(meal.items[0].nombrePlato).toBe('Mi comida')
+    expect(await db.foods.count()).toBe(1)
+    expect(await db.entries.count()).toBe(0)
+    expect(await db.objetivosDia.count()).toBe(0)
+    const ids = await mealsRepo.aplicar(id, { fecha: '2026-10-21', comida: 'cena' })
+    expect(ids).toHaveLength(2)
+    expect((await entriesRepo.delDia('2026-10-21')).map(e => e.kcal)).toEqual([247.5, 82.5])
+  })
+
+  it('revierte los alimentos y nombres personales si falla cualquier ingrediente', async () => {
+    await expect(mealsRepo.crearDesdeRevision({ nombre: 'Mi comida', comida: 'comida', items: [{ ...pollo, nombreCorto: 'Pollo habitual' }, { ...pollo, nombre: 'Sin categoría', categoria: undefined }] })).rejects.toThrow(foodsRepo.CategoriaRequeridaError)
+    expect(await db.meals.count()).toBe(0)
+    expect(await db.foods.count()).toBe(0)
+    expect(await db.nombresAlimentos.count()).toBe(0)
+    expect(await db.entries.count()).toBe(0)
+  })
+
+  it('rechaza una plantilla sin nombre, vacía o con cantidades inválidas', async () => {
+    for (const datos of [{ nombre: '', items: [pollo] }, { nombre: 'Vacía', items: [] }, { nombre: 'Sin cantidad', items: [{ ...pollo, gramos: 0 }] }]) {
+      await expect(mealsRepo.crearDesdeRevision({ ...datos, comida: 'comida' })).rejects.toThrow()
+    }
+    expect(await db.meals.count()).toBe(0)
+    expect(await db.foods.count()).toBe(0)
+  })
+})
+
 describe('mealsRepo.actualizar / borrar (gestión en Alimentos)', () => {
   it('actualizar renombra y/o reemplaza los ítems', async () => {
     const { entries } = await crearComidaDePollo()
@@ -65,6 +127,18 @@ describe('mealsRepo.actualizar / borrar (gestión en Alimentos)', () => {
 })
 
 describe('mealsRepo.aplicar (A1)', () => {
+  it('aplicar una sugerencia conserva referencias, nutrientes y platos sin crear una plantilla', async () => {
+    const items = [{ nombre: 'Yogur', gramos: 125, kcal: 75, prot: 5, carb: 6, grasa: 2, catalogId: 'off:123', nutrientes: { sal: 0.12 }, platoId: 'original', nombrePlato: 'Mi bol' }, { nombre: 'Avena', gramos: 40, kcal: 150, prot: 5, carb: 25, grasa: 3, foodId: 999, platoId: 'original', nombrePlato: 'Mi bol' }]
+    const a = await mealsRepo.aplicarSugerencia(items, { fecha: '2026-10-21', comida: 'desayuno' })
+    const b = await mealsRepo.aplicarSugerencia(items, { fecha: '2026-10-21', comida: 'desayuno' })
+    const entries = (await db.entries.bulkGet([...a, ...b])).map(e => e!)
+    expect(entries.map(e => e.kcal)).toEqual([75, 150, 75, 150])
+    expect(entries[0]).toMatchObject({ catalogId: 'off:123', nutrientes: { sal: 0.12 }, nombrePlato: 'Mi bol' })
+    expect(entries[0].platoId).toBe(entries[1].platoId)
+    expect(entries[0].platoId).not.toBe(entries[2].platoId)
+    expect(await db.meals.count()).toBe(0)
+  })
+
   it('cada aplicación conserva sus platos y no se mezcla con las anteriores', async () => {
     const item = { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual' as const, categoria: 'Otros' }
     await entriesRepo.guardarComida({ fecha: '2026-10-01', comida: 'cena', items: [item, { ...item, nombre: 'Arroz' }], nombrePlato: 'Plato A' })

@@ -17,6 +17,42 @@ function crearPollo(): Promise<number> {
 }
 
 describe('entriesRepo: lecturas y añadido rápido', () => {
+  it('copiar un ingrediente lo registra suelto y conserva snapshot, referencia y nutrientes, sin alterar su plato', async () => {
+    const origen = { fecha: '2026-10-21', comida: 'desayuno' as const }
+    const ids = await entriesRepo.guardarComida({ ...origen, nombrePlato: 'Mi bol', items: [ARROZ, { ...ARROZ, nombre: 'Leche', gramos: 150, catalogId: 'ciqual:leche', nutrientes: { sal: 0.05 } }] })
+    const antes = await entriesRepo.delDia(origen.fecha)
+    const copiados = await entriesRepo.copiar({ origen: { ...origen, ids: [ids[1]] }, destino: { fecha: origen.fecha, comida: 'cena' }, separarIngredientes: true })
+    const copia = (await db.entries.get(copiados[0]!))!
+    expect(copiados).toHaveLength(1)
+    expect(copia).toMatchObject({ nombre: 'Leche', comida: 'cena', catalogId: 'ciqual:leche', gramos: 150, nutrientes: { sal: 0.075 } })
+    expect(copia.platoId).toBeUndefined()
+    expect(copia.nombrePlato).toBeUndefined()
+    expect(copia.foodId).toBeUndefined()
+    expect(copia.kcal).toBe(antes[1]!.kcal)
+    expect(await db.entries.bulkGet(ids)).toEqual(antes)
+    await entriesRepo.borrarVarias(copiados)
+    expect(await entriesRepo.delDia(origen.fecha)).toEqual(antes)
+  })
+
+  it('guardar como típica crea a la vez la comida y su plantilla, con los mismos snapshots', async () => {
+    const ids = await entriesRepo.guardarComida({ fecha: '2026-10-21', comida: 'desayuno', nombrePlato: 'Mi bol', guardarComoTipica: true, items: [ARROZ, { ...ARROZ, nombre: 'Leche', gramos: 150, catalogId: 'ciqual:leche', nutrientes: { sal: 0.05 } }] })
+    const meal = (await db.meals.toArray())[0]!
+    const entries = (await db.entries.bulkGet(ids)).map(e => e!)
+    expect(meal).toMatchObject({ nombre: 'Mi bol', comida: 'desayuno', usos: 0 })
+    expect(meal.items.map(it => [it.foodId, it.catalogId, it.gramos, it.kcal, it.nutrientes, it.platoId])).toEqual(entries.map(it => [it.foodId, it.catalogId, it.gramos, it.kcal, it.nutrientes, it.platoId]))
+    expect(await db.objetivosDia.count()).toBe(0)
+  })
+
+  it('fallar al marcar como típica revierte también las entradas y los alimentos', async () => {
+    const fallo = vi.spyOn(db.meals, 'add').mockRejectedValueOnce(new Error('No se puede guardar'))
+    try {
+      await expect(entriesRepo.guardarComida({ fecha: '2026-10-21', comida: 'desayuno', guardarComoTipica: true, items: [ARROZ] })).rejects.toThrow('No se puede guardar')
+      expect(await db.entries.count()).toBe(0)
+      expect(await db.foods.count()).toBe(0)
+      expect(await db.meals.count()).toBe(0)
+    } finally { fallo.mockRestore() }
+  })
+
   it('guardarComida: un ítem con catalogId referencia el catálogo sin crear ni tocar alimentos propios', async () => {
     const foodId = await crearPollo()
     const antes = await foodsRepo.obtener(foodId)

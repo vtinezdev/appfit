@@ -8,6 +8,11 @@ describe('finDeslizar', () => {
     expect(finDeslizar(-210, 340, 88)).toBe('borrar')
   })
   it('hacia la derecha nunca abre ni borra', () => expect(finDeslizar(120, 340, 88)).toBe('cerrar'))
+  it('con varias acciones un deslizamiento largo solo revela las opciones', () => {
+    expect(finDeslizar(-210, 340, 88, false)).toBe('abrir')
+    expect(finDeslizar(-400, 340, 88, false)).toBe('abrir')
+    expect(finDeslizar(-20, 340, 88, false)).toBe('cerrar')
+  })
 })
 
 describe('desplazamientoFila', () => {

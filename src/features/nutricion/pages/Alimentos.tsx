@@ -1,14 +1,18 @@
 import { useState } from 'react'
+import { comidaPorHora, todayISO } from '../../../shared/lib/dates'
+import AnadirComida from './AnadirComida'
 import { formatInt } from '../../../shared/lib/format'
 import { useLiveQuery } from 'dexie-react-hooks'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
-import type { Meal, Receta } from '../../../shared/db/types'
+import type { Comida, Receta } from '../../../shared/db/types'
 import * as recetasRepo from '../data/recetasRepo'
 import EditorReceta from '../components/EditorReceta'
 import { por100DeReceta } from '../lib/recetas'
 import * as foodsRepo from '../data/foodsRepo'
-import * as mealsRepo from '../data/mealsRepo'
+import ComidasTipicas from '../components/ComidasTipicas'
+import { COMIDAS } from '../lib/comidas'
+import type { ComidaTipica } from '../lib/comidasTipicas'
 import GestionPlantillaSheet from '../components/GestionPlantillaSheet'
 import MacroInputs from '../components/MacroInputs'
 import PorcionesAlimento from '../components/PorcionesAlimento'
@@ -21,7 +25,6 @@ import SelectorCategoria from '../components/SelectorCategoria'
 import IconoCategoria from '../components/IconoCategoria'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
-import Badge from '../../../shared/components/Badge'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import { Input, SearchInput, Select } from '../../../shared/components/Input'
@@ -30,11 +33,11 @@ import { useAviso } from '../../../shared/hooks/useAviso'
 
 /** Un alimento antiguo puede no tener categoría: el formulario la pide antes de guardar. */
 type FoodDraft = Omit<foodsRepo.FoodInput, 'categoria'> & { id?: number; categoria?: string }
-type Vista = 'alimentos' | 'plantillas' | 'recetas'
+type Vista = 'alimentos' | 'tipicas' | 'recetas'
 
 const VISTAS: { valor: Vista; label: string }[] = [
   { valor: 'alimentos', label: 'Alimentos' },
-  { valor: 'plantillas', label: 'Plantillas' },
+  { valor: 'tipicas', label: 'Típicas' },
   { valor: 'recetas', label: 'Recetas' },
 ]
 
@@ -44,12 +47,13 @@ export default function Alimentos() {
   const [filtro, setFiltro] = useState<FiltroCategoria>('todas')
   const [editando, setEditando] = useState<FoodDraft | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [plantillaEditando, setPlantillaEditando] = useState<Meal | null>(null)
+  const [tipicaEditando, setTipicaEditando] = useState<ComidaTipica | null>(null)
+  const [creandoTipica, setCreandoTipica] = useState(false)
+  const [comidaTipicas, setComidaTipicas] = useState<Comida>(() => comidaPorHora())
   const [recetaEditando, setRecetaEditando] = useState<Receta | 'nueva' | null>(null)
   const recetas = useLiveQuery(() => recetasRepo.listar(), [])
   const recetaDelAlimento = editando?.id !== undefined ? recetas?.find((r) => r.foodId === editando.id) : undefined
   const foods = useLiveQuery(() => foodsRepo.listar(), [])
-  const plantillas = useLiveQuery(() => mealsRepo.listar(), [])
   const { avisar, toast } = useAviso()
 
   const porNombre = busqueda.trim() ? foods && filtrarAlimentos(foods, busqueda, Infinity) : foods
@@ -158,23 +162,11 @@ export default function Alimentos() {
         </div>
       )}
 
-      {vista === 'plantillas' && (
+      {vista === 'tipicas' && (
         <div className="space-y-stack">
-          {plantillas?.length === 0 && <EmptyState icon="copy" title="Aún no hay plantillas">Guarda una comida como plantilla desde el menú «⋯» de Hoy.</EmptyState>}
-          {plantillas && plantillas.length > 0 && (
-            <ListGroup aria-label="Plantillas">
-              {plantillas.map((m) => (
-                <li key={m.id}>
-                  <ListRow onClick={() => setPlantillaEditando(m)}>
-                    <span className="line-clamp-2 min-w-0 flex-1 text-body-sm font-medium text-fg">{m.nombre}</span>
-                    <Badge>
-                      {m.items.length} alimento{m.items.length === 1 ? '' : 's'}
-                    </Badge>
-                  </ListRow>
-                </li>
-              ))}
-            </ListGroup>
-          )}
+          <SegmentedControl label="Comida habitual" opciones={COMIDAS} valor={comidaTipicas} onChange={setComidaTipicas} />
+          <p className="text-body-sm text-fg-muted">Toca una comida típica para cambiar su nombre o cantidades. Puedes guardar una sugerencia para tenerla siempre a mano.</p>
+          <ComidasTipicas enSelector comida={comidaTipicas} fecha={todayISO()} onElegir={setTipicaEditando} onCrear={() => setCreandoTipica(true)} />
         </div>
       )}
 
@@ -233,9 +225,11 @@ export default function Alimentos() {
         )}
       </Sheet>
 
-      {plantillaEditando && (
-        <GestionPlantillaSheet meal={plantillaEditando} onClose={() => setPlantillaEditando(null)} onBorrada={() => setPlantillaEditando(null)} />
+      {tipicaEditando && (
+        <GestionPlantillaSheet key={tipicaEditando.id ?? tipicaEditando.clave} meal={tipicaEditando} comida={comidaTipicas} onClose={() => setTipicaEditando(null)} onBorrada={() => setTipicaEditando(null)} />
       )}
+
+      {creandoTipica && <AnadirComida soloTipica comidaInicial={comidaTipicas} fecha={todayISO()} onClose={() => setCreandoTipica(false)} onGuardado={() => { setCreandoTipica(false); avisar({ mensaje: 'Comida típica guardada' }) }} />}
 
       {toast}
     </div>

@@ -18,7 +18,7 @@ Registrar y consultar datos propios de nutrición y fuerza con rapidez, también
 
 ## Operating Context
 
-Uso repetido durante entrenamientos y a lo largo del día. La conexión puede faltar, el teclado ocupa espacio y una sesión puede interrumpirse. Inicio resume nutrición, entrenamiento y peso; Nutrición ofrece registro, búsqueda, plantillas e históricos; Gym ofrece rutinas, sesiones e indicadores de progreso.
+Uso repetido durante entrenamientos y a lo largo del día. La conexión puede faltar, el teclado ocupa espacio y una sesión puede interrumpirse. Inicio resume nutrición, entrenamiento y peso; Nutrición ofrece registro, búsqueda, comidas típicas e históricos; Gym ofrece rutinas, sesiones e indicadores de progreso.
 
 ## Capabilities and Constraints
 
