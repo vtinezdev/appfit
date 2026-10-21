@@ -59,7 +59,7 @@ async function main() {
         const errores = []
         page.on('pageerror', (e) => errores.push(e.message))
         await page.goto(ORIGEN)
-        await page.getByRole('heading', { name: /Buenos|Buenas/ }).waitFor()
+        await page.getByRole('navigation', { name: 'Navegación principal' }).waitFor()
         await page.evaluate(async (nombre) => {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const c = await import('/src/features/nutricion/lib/catalogo/sincronizar.ts')
@@ -97,7 +97,7 @@ async function main() {
         const editor = page.getByRole('button', { name: /^Editar / }).first()
         if (await editor.getAttribute('aria-expanded') === 'false') await editor.click()
         await page.getByRole('button', { name: 'Detalles del alimento', exact: true }).click()
-        await page.getByRole('spinbutton', { name: 'Fibra/100g', exact: true }).waitFor()
+        await page.getByLabel('Fibra/100g', { exact: true }).waitFor()
         await page.getByRole('button', { name: 'Añadir otro alimento', exact: true }).click()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('30 g de queso')
         await page.getByRole('button', { name: 'Añadir a la revisión', exact: true }).click()
@@ -118,7 +118,7 @@ async function main() {
         await page.getByRole('tab', { name: 'Buscar', exact: true }).click()
         await page.getByRole('searchbox', { name: 'Buscar en tus alimentos y en el catálogo' }).fill('Arroz')
         await page.getByRole('button', { name: /^Arroz 130 kcal/ }).first().click()
-        await page.getByRole('spinbutton', { name: 'gramos', exact: true }).fill('25')
+        await page.getByRole('dialog', { name: 'Cantidad', exact: true }).getByLabel('gramos', { exact: true }).fill('25')
         await page.getByRole('button', { name: 'Revisar alimento', exact: true }).click()
         assert.deepEqual(await registros(page), conNuevos)
         await layout(page)
