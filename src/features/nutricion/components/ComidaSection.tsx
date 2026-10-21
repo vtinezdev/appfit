@@ -2,6 +2,7 @@ import { useId, useState } from 'react'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import Card from '../../../shared/components/Card'
+import { MACROS } from '../../../shared/design/macros'
 import type { Comida, Entry } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { sumMacros } from '../lib/nutrition'
@@ -31,7 +32,7 @@ interface Props {
   moviendo: boolean
   /** «Añadir a desayuno»: abre Añadir comida con esta comida preseleccionada. */
   onAnadir: () => void
-  /** Abre las combinaciones habituales de esta comida, incluso si no hay registros hoy. */
+  /** Abre la colección compartida de típicas con esta comida como destino. */
   onTipicas: () => void
   tipicasAbiertas?: boolean
   tipicasId?: string
@@ -58,7 +59,7 @@ function FilaPlato({ plato, nombresCortos, categorias, onEditar, onBorrar, onCop
   const totales = sumMacros(plato.entries)
   return (
     <li ref={setNodeRef} data-motion-id={plato.clave} data-plato-id={plato.entries[0].platoId} className={isDragging ? 'opacity-40' : ''}>
-      <RegistroComida tipo="plato" nombre={plato.nombre} detalle={`${formatInt(plato.entries.length)} ${plato.entries.length === 1 ? 'alimento' : 'alimentos'}`}
+      <RegistroComida tipo="plato" nombre={plato.nombre} detalle={`${formatInt(plato.entries.length)} ${plato.entries.length === 1 ? 'ingrediente' : 'ingredientes'}`}
         macros={totales} aproximado={plato.entries.some(e => e.rapida)} abierto={abierto} detalleId={detalleId} onClick={() => setAbierto(!abierto)}
         accion={<IconButton icon="more" label={`Acciones del plato ${plato.nombre}`} variant="ghost" size="sm" disabled={moviendo}
           data-mover-plato={plato.entries[0].platoId} aria-haspopup="dialog" aria-expanded={acciones} aria-controls={accionesId} onClick={() => setAcciones(true)} />}>
@@ -89,17 +90,16 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
   const totales = sumMacros(entries)
   const hayEntradas = entries.length > 0
   const comidaMinus = titulo.toLowerCase()
-  const anadir = <IconButton icon="plus" variant="tonal" label={`Añadir a ${comidaMinus}`} onClick={onAnadir} />
-  const tipicas = <Button variant="subtle" size="sm" onClick={onTipicas} aria-haspopup="dialog" aria-expanded={tipicasAbiertas} aria-controls={tipicasAbiertas ? tipicasId : undefined} aria-label={`Comidas típicas de ${comidaMinus}`}>
-    <Icon name="utensils" size={18} />Típicas<Icon name="chevron-down" size={16} />
+  const anadir = <Button variant="subtle" size="sm" className="meal-add bg-surface-muted" aria-label={`Añadir a ${comidaMinus}`} onClick={onAnadir}><Icon name="plus" size={18} />Añadir</Button>
+  const tipicas = <Button variant="subtle" size="sm" className="ml-auto" onClick={onTipicas} aria-haspopup="dialog" aria-expanded={tipicasAbiertas} aria-controls={tipicasAbiertas ? tipicasId : undefined} aria-label={`Comidas típicas de ${comidaMinus}`}>
+    Típicas<Icon name="chevron-down" size={16} />
   </Button>
   return (
-    <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section">
-      <CabeceraComida comida={comida} titulo={titulo} kcal={totales.kcal} registros={entries.length} onAcciones={onAcciones} />
-      {!hayEntradas && <div className="mt-1 flex items-center justify-between gap-2 px-1">{anadir}{tipicas}</div>}
-      {hayEntradas && (
-        <Card padded={false} className="mt-2 px-1">
-          <ul ref={listRef} className="divide-y divide-line">
+    <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section rounded-lg">
+      <Card padded={false} className="meal-card">
+        <CabeceraComida comida={comida} titulo={titulo} kcal={totales.kcal} registros={entries.length} onAcciones={onAcciones} />
+        {hayEntradas ? <>
+          <ul ref={listRef} className="divide-y divide-line px-1">
             {agruparPlatos(entries, (entry) => nombreVisible(entry, nombresCortos)).map((plato) =>
               plato.agrupado ? (
                 <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} onCopiarEntrada={onCopiarEntrada} onBorrarPlato={onBorrarPlato} onEditarPlato={onEditarPlato} onAccionesPlato={onAccionesPlato} onMoverPlato={onMoverPlato} moviendo={moviendo} />
@@ -108,10 +108,15 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
               ),
             )}
           </ul>
-          {/* «+» alineado con los iconos de categoría; comidas típicas, a la derecha. */}
-          <div className="flex items-center justify-between gap-2 border-t border-line px-2 py-1">{anadir}{tipicas}</div>
-        </Card>
-      )}
+          <dl aria-label={`Macros de ${comidaMinus}`} className="meal-macros flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 pb-3 pt-2">
+            {[{ macro: MACROS.prot, valor: totales.prot }, { macro: MACROS.carbs, valor: totales.carb }, { macro: MACROS.fat, valor: totales.grasa }].map(({ macro, valor }) => <div key={macro.short} className="flex min-w-0 flex-wrap items-baseline gap-x-1 text-caption">
+              <dt className="flex items-center gap-1"><span aria-hidden className={`h-1 w-1 shrink-0 rounded-pill ${macro.bg}`} /><span className="sr-only">{macro.label}</span><span aria-hidden className="font-semibold text-fg-muted">{macro.short}</span></dt>
+              <dd className="tabular min-w-0 break-words font-semibold text-fg">{formatInt(valor)} <span className="font-normal text-fg-muted">g</span></dd>
+            </div>)}
+          </dl>
+        </> : <p className="px-4 py-3 text-caption text-fg-muted">Sin alimentos todavía.</p>}
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-3 py-2">{anadir}{tipicas}</div>
+      </Card>
     </section>
   )
 }

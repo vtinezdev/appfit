@@ -18,7 +18,7 @@ async function registros(page) {
 async function geometria(page, selector = '.meal-header') {
   return page.locator(selector).evaluateAll(headers => headers.map(header => {
     const bounds = header.getBoundingClientRect()
-    const content = [...header.querySelectorAll('h2,p,.meal-header-energy,button')]
+    const content = [...header.querySelectorAll('h2,p,.meal-header-energy,button')].filter(e => !e.classList.contains('sr-only'))
     const rects = content.map(e => e.getBoundingClientRect())
     return {
       titulo: header.querySelector('h2').textContent,
@@ -56,7 +56,7 @@ async function main() {
         page.on('pageerror', e => errores.push(e.message))
         await context.route('**/world.openfoodfacts.org/**', route => route.abort())
         await page.goto(ORIGEN)
-        await page.getByRole('heading', { name: /Buenos|Buenas/ }).waitFor()
+        await page.getByRole('navigation', { name: 'Navegación principal' }).waitFor()
         await page.evaluate(async () => {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const d = await import('/src/shared/lib/dates.ts')
@@ -86,8 +86,9 @@ async function main() {
           const total = entradas.reduce((sum, e) => sum + e.kcal, 0)
           const formatted = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0 }).format(total)
           assert.equal(await header.locator('h2').textContent(), titulo)
-          assert.equal(await header.locator('.meal-header-meta').textContent(), entradas.length ? `${entradas.length} ${entradas.length === 1 ? 'registro' : 'registros'}` : 'Sin registros')
-          assert.equal(await header.locator('.meal-header-energy .tabular').textContent(), formatted)
+          assert.equal(await header.locator('.sr-only').textContent(), entradas.length ? `${entradas.length} ${entradas.length === 1 ? 'registro' : 'registros'}` : 'Sin registros')
+          if (entradas.length) assert.equal(await header.locator('.meal-header-energy .tabular').textContent(), formatted)
+          else assert.equal(await header.locator('.meal-header-energy').count(), 0)
           const more = header.getByRole('button', { name: `Acciones de ${titulo}`, exact: true })
           await more.click()
           const dialog = page.getByRole('dialog', { name: 'Acciones', exact: true })
@@ -97,7 +98,7 @@ async function main() {
           await dialog.waitFor({ state: 'detached' })
           await assert.doesNotReject(() => more.evaluate(el => { if (document.activeElement !== el) throw Error('Foco no restaurado') }))
         }
-        await page.locator('[data-comida="snack"]').getByRole('button', { name: 'Añadir', exact: true }).click()
+        await page.locator('[data-comida="snack"]').getByRole('button', { name: 'Añadir a snack', exact: true }).click()
         const anadir = page.getByRole('dialog').last()
         await anadir.waitFor()
         await page.keyboard.press('Escape')
@@ -114,6 +115,7 @@ async function main() {
           const host = document.createElement('div')
           host.id = 'cabeceras-extremas'
           host.className = 'mx-auto w-full max-w-app space-y-3 px-page py-section'
+          host.style.cssText = 'position:fixed;inset:0;z-index:100;overflow:auto;background:rgb(var(--c-bg))'
           document.body.append(host)
           const root = (dom.default ?? dom).createRoot(host)
           root.render(React.createElement(Cabecera, { comida: 'desayuno', titulo: 'Desayuno después del entrenamiento matutino', kcal: 123456789, registros: 1234, onAcciones: () => { host.dataset.accion = 'true' } }))

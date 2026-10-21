@@ -237,7 +237,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
               const destino = over?.data.current?.comida
               if (plato && esComida(destino)) void mover(plato, destino)
             }}>
-          <div className={`space-y-8 ${transicion}`}>
+          <div data-comidas-diario className={`space-y-4 ${transicion}`}>
             {COMIDAS.map(({ valor: c, label }) => (
               <ComidaSection
                 key={c}
