@@ -1969,3 +1969,14 @@ A Víctor no le gustaba que Entreno abriera con una rutina en grande («Empezar 
 - Con un entreno en curso no cambia nada. El aviso de `validarEntrenoPasado` y los recorridos `validar-mejoras-uso`/`auditoria-entreno` usan «Empezar entreno».
 
 **Verificación:** `npm run test` y `npm run build` correctos. Capturas propias con datos sintéticos en `appfit-test.localhost:5173` a 320 oscuro, 375 y 430 claro, 375 con texto al 200 % y sin rutinas: filas de 90 px (180 px al 200 %; la segunda y la tercera suman la línea divisoria de 1 px), sin scroll horizontal, sin controles de menos de 44 px ni errores de consola. Sin prueba en iPhone.
+
+## 184. Recorridos de platos al día (2026-10-21)
+
+`validar-platos.cjs` y `validar-copia-platos.cjs` fallaban ya antes de §180–§183: esperaban elementos que la app ya no tiene. Se ponen al día sin cambiar lo que comprueban:
+
+- Ambos esperan a la navegación principal en lugar del saludo «Buenos/Buenas…» de Inicio, que ya no existe.
+- `validar-copia-platos`: el día anterior se elige en la rejilla «Días de la semana» (el botón anterior al de hoy o, si hoy es lunes, el domingo tras «Semana anterior»), tras esperar a que esté pintado; antes había un botón «Día anterior».
+- `validar-platos`: los campos de fibra («Fibra/100g») y de gramos son de texto con teclado decimal, no `spinbutton`; se buscan por su etiqueta (los gramos, dentro de la hoja «Cantidad»).
+
+**Verificación:** los dos recorridos, correctos en sus seis casos (320/375/430 px, claro/oscuro) en `appfit-test.localhost:5173` con datos sintéticos. La rama de «hoy es lunes» no se ha ejecutado (hoy es miércoles). `npm run test` y `npm run build` correctos.
+

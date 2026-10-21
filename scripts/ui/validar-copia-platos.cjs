@@ -53,7 +53,7 @@ async function main() {
         const errores = []
         page.on('pageerror', (e) => errores.push(e.message))
         await page.goto(ORIGEN)
-        await page.getByRole('heading', { name: /Buenos|Buenas/ }).waitFor()
+        await page.getByRole('navigation', { name: 'Navegación principal' }).waitFor()
         const fechas = await page.evaluate(async (nombre) => {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const d = await import('/src/shared/lib/dates.ts')
@@ -150,7 +150,15 @@ async function main() {
         assert.deepEqual(await registros(page), actuales)
 
         // En el histórico, «mismo día» es el día seleccionado, no hoy.
-        await page.getByRole('button', { name: 'Día anterior', exact: true }).click()
+        // El día anterior en la rejilla de la semana (si hoy es lunes, en la semana anterior).
+        const dias = page.getByRole('list', { name: 'Días de la semana', exact: true }).getByRole('button')
+        await page.getByRole('list', { name: 'Días de la semana', exact: true }).locator('[aria-current="date"]').waitFor()
+        const hoyEn = await dias.evaluateAll((botones) => botones.findIndex((b) => b.getAttribute('aria-current') === 'date'))
+        if (hoyEn > 0) await dias.nth(hoyEn - 1).click()
+        else {
+          await page.getByRole('button', { name: 'Semana anterior', exact: true }).click()
+          await dias.nth(6).click()
+        }
         await ejecutarAccionPlato(page, nombre, 'Copiar plato', page.getByRole('region', { name: 'Snack', exact: true }))
         await page.getByRole('button', { name: 'Copiar a otra comida…', exact: true }).click()
         await page.getByRole('radio', { name: 'Cena', exact: true }).click()
