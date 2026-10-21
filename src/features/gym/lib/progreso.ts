@@ -1,6 +1,7 @@
 import { claveComparacion, repsComparables, pesoComparable } from './ejecucion'
 import type { ModoCarga, SetEntry, Workout } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
+import { formatDiaMes } from '../../../shared/lib/dates'
 import { modoCarga } from './carga'
 import { efectivas, epley1RM, volumenSets } from './workout'
 
@@ -131,6 +132,65 @@ export function resumenEjercicios(series: SetEntry[], workouts: Pick<Workout, 'i
     out.push({ exerciseId, modo, metrica, ultima: datos[datos.length - 1], puntos: datos.slice(-n).map(d => d[metrica] ?? 0), sesiones: datos.length })
   }
   return out.sort((a, b) => b.ultima.inicio - a.ultima.inicio || a.exerciseId - b.exerciseId)
+}
+
+export interface ResumenVariante {
+  /** Clave de la variante (`claveVariante`): la que filtra `datosProgreso`. */
+  clave: string
+  /** Una serie de la variante, para nombrarla (`contextoSerie`) y saber si admite 1RM. */
+  serie: SetEntry
+  sesiones: number
+  gimnasios: number
+  /** Métrica de su tarjeta: la que abriría su gráfica. */
+  metrica: MetricaProgreso
+  /** La mejor marca de esa métrica en todas sus sesiones (con asistencia, la menor ayuda). */
+  mejor: number
+  /** Últimos `n` valores de su línea principal (el habitual o, si no hay, el primer gimnasio), para la minigráfica. */
+  puntos: number[]
+  /** Cambio de la línea principal entre su primera y su última sesión; null con una sola. */
+  cambio: number | null
+  /** Primera sesión de la línea principal (desde cuándo se mide el cambio). */
+  desde: number
+  ultima: number
+}
+
+/**
+ * Tarjetas de variante de Progreso: cada variante del modo con sesiones terminadas, de la que más sesiones tiene a la que
+ * menos (a igualdad, la más reciente primero). La tendencia usa una sola línea para no mezclar máquinas de gimnasios distintos.
+ */
+export function resumenVariantes(series: SetEntry[], workouts: Pick<Workout, 'id' | 'inicio' | 'fin' | 'gimnasioId'>[], modo: ModoCarga, n = 8): ResumenVariante[] {
+  const representantes = new Map<string, SetEntry>()
+  for (const s of series) if (modoCarga(s) === modo && !s.bajadas?.length && !representantes.has(claveVariante(s))) representantes.set(claveVariante(s), s)
+  const out: ResumenVariante[] = []
+  for (const [clave, serie] of representantes) {
+    const todos = datosProgreso(series, workouts, modo, clave)
+    if (!todos.length) continue
+    const metrica = metricaPorDefecto(modo, todos)
+    const gimnasios = gimnasiosConSesiones(todos)
+    const linea = todos.filter(d => d.gimnasioId === gimnasios[0])
+    const valores = todos.map(d => d[metrica] ?? 0)
+    const deLinea = linea.map(d => d[metrica] ?? 0)
+    out.push({ clave, serie, sesiones: todos.length, gimnasios: gimnasios.length, metrica,
+      mejor: metrica === 'asistencia' ? Math.min(...valores) : Math.max(...valores),
+      puntos: deLinea.slice(-n), cambio: deLinea.length >= 2 ? deLinea[deLinea.length - 1] - deLinea[0] : null,
+      desde: linea[0].inicio, ultima: todos[todos.length - 1].inicio })
+  }
+  return out.sort((a, b) => b.sesiones - a.sesiones || b.ultima - a.ultima)
+}
+
+/** Unidad corta de la cifra de cada métrica en su tarjeta. */
+export const UNIDAD_TARJETA: Record<MetricaProgreso, string> = { oneRM: 'kg 1RM', pesoMax: 'kg', volumen: 'kg', reps: 'reps', asistencia: 'kg de ayuda' }
+
+/**
+ * Texto de la tendencia de una variante («+12 kg desde 3 jun») y si es una mejora: con asistencia mejora al bajar.
+ * Con una sola sesión, sin tendencia (`mejora` null).
+ */
+export function tendenciaVariante(v: Pick<ResumenVariante, 'cambio' | 'metrica' | 'desde'>): { texto: string; mejora: boolean | null } {
+  if (v.cambio === null) return { texto: 'Una sesión en su gimnasio', mejora: null }
+  const unidad = v.metrica === 'reps' ? 'reps' : 'kg'
+  if (Math.abs(v.cambio) < 0.05) return { texto: `Sin cambios desde el ${formatDiaMes(v.desde)}`, mejora: null }
+  const signo = v.cambio > 0 ? '+' : '−'
+  return { texto: `${signo}${formatNumber(Math.abs(v.cambio), 1)} ${unidad} desde el ${formatDiaMes(v.desde)}`, mejora: v.metrica === 'asistencia' ? v.cambio < 0 : v.cambio > 0 }
 }
 
 /** Trazo de una minigráfica en un lienzo `ancho` × `alto`, ceñido al mínimo y al máximo; null con menos de dos puntos. */

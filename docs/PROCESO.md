@@ -2010,3 +2010,18 @@ Víctor quiere ver en la misma gráfica (por ejemplo, la de press banca) la prog
 
 **Verificación:** `npm run test` (202 archivos, 2.508 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs`, ampliado con el selector, las dos líneas con leyenda y el filtro de cada gimnasio, pasa en 320/375/430 px en claro y oscuro. Capturas de press banca con nueve sesiones en dos gimnasios a 320/375 px en ambos temas, sin overflow ni errores. Sin prueba en iPhone.
 
+## 187. Progreso: tarjetas de variante (2026-10-21)
+
+A Víctor no le gustaban los desplegables de Progreso cuando un ejercicio tiene varias variantes o agarres. Vio cuatro alternativas en maquetas (chips, tarjetas, todas las variantes en una gráfica y una línea-resumen) y eligió la recomendada: tarjetas de variante, chip para el tipo de carga y el gimnasio junto a la gráfica.
+
+- `lib/progreso`: `resumenVariantes` da una tarjeta por variante con sesiones terminadas (sesiones, gimnasios, métrica por defecto, mejor marca, puntos y cambio de su línea principal), ordenadas por sesiones. `tendenciaVariante` da el texto y si mejora (con asistencia, bajar es mejorar). `UNIDAD_TARJETA` da la unidad de cada métrica.
+- `components/TarjetasVariante`: carrusel horizontal (`.carrusel-variantes`, `.tarjeta-variante` en `index.css`, con desplazamiento dentro de su caja) de botones con `aria-pressed`, nombre, sesiones, mejor marca, minigráfica y tendencia.
+- `components/ChipAjuste`: sale de `PanelEjercicio` a su propio archivo (lo usan el panel, `GimnasioSheet` y Progreso) para que Progreso no cargue el panel entero.
+- `pages/Progreso`:
+  - La cabecera del ejercicio sube debajo del selector «Ejercicio».
+  - Los desplegables «Comparar el mismo tipo de carga» y «Variante» desaparecen. El tipo de carga pasa a un chip que abre una hoja, solo con más de un tipo; las variantes, a tarjetas, solo con más de una.
+  - El gimnasio pasa dentro de la tarjeta de la gráfica: segmentos si caben y un desplegable si no. Una variante de un solo gimnasio lo dice cuando el ejercicio tiene sesiones en otros.
+- `validar-mejoras-entreno.cjs` usa el chip del tipo de carga y `validar-gimnasios.cjs` espera a las opciones del desplegable antes de leerlas. Nuevo recorrido: `validar-variantes-progreso.cjs`.
+
+**Verificación:** `npm run test` (202 archivos, 2.511 pruebas) y `npm run build` correctos. `validar-variantes-progreso.cjs` en 320/375/430 px en claro y oscuro y a 375 px con texto al 200 %. `validar-gimnasios.cjs` y los recorridos del job «navegador» de la CI (`test:ui`, `test:ui:responsive`, `test:ui:uso`, `auditoria-datos`, `test:ui:offline`) pasan en Chromium. Firefox y WebKit no se han probado aquí. Sin prueba en iPhone.
+

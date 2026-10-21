@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { cifrasClave, datosProgreso, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, textoMejorSerie, trazoMini } from './progreso'
+import { epley1RM } from './workout'
+import { cifrasClave, datosProgreso, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, resumenVariantes, tendenciaVariante, textoMejorSerie, trazoMini } from './progreso'
 import type { SetEntry } from '../../../shared/db/types'
 
 const s = (id: number, over: Partial<SetEntry>): SetEntry => ({ id, workoutId: 1, exerciseId: 1, reps: 8, peso: 20, orden: id, createdAt: id, ...over })
@@ -75,5 +76,35 @@ describe('lista de ejercicios de Progreso', () => {
   it('trazoMini ciñe la línea a su mínimo y máximo', () => {
     expect(trazoMini([1], 64, 24)).toBeNull()
     expect(trazoMini([10, 20, 15], 64, 24)).toEqual({ d: 'M2 22L32 2L62 12', ultimo: { x: 62, y: 12 } })
+  })
+})
+
+describe('tarjetas de variante', () => {
+  const ws = [{ id: 1, inicio: 100, fin: 200 }, { id: 2, inicio: 300, fin: 400 }, { id: 3, inicio: 500, fin: 600, gimnasioId: 7 }, { id: 4, inicio: 700, fin: 800 }, { id: 5, inicio: 900 }]
+  const neutro = { orientacion: 'neutro' as const }
+  it('una tarjeta por variante con sesiones terminadas, la de más sesiones primero', () => {
+    const r = resumenVariantes([
+      s(1, { peso: 60, reps: 5, agarre: neutro }), s(2, { workoutId: 2, peso: 65, reps: 5, agarre: neutro }), s(3, { workoutId: 3, peso: 50, reps: 5, agarre: neutro, gimnasioId: 7 }),
+      s(4, { workoutId: 4, peso: 40, reps: 8 }),
+      s(5, { workoutId: 5, peso: 99, reps: 1, agarre: { orientacion: 'prono' } }),
+    ], ws, 'externa')
+    expect(r.map(v => [v.serie.agarre?.orientacion, v.sesiones, v.gimnasios])).toEqual([['neutro', 3, 2], [undefined, 1, 1]])
+    // La tendencia es la del habitual (60 → 65 kg × 5); la mejor marca, de cualquier gimnasio.
+    expect(r[0]).toMatchObject({ metrica: 'oneRM', cambio: epley1RM(65, 5) - epley1RM(60, 5), desde: 100, ultima: 500 })
+    expect(r[0].puntos).toHaveLength(2)
+    expect(r[1]).toMatchObject({ cambio: null, puntos: [epley1RM(40, 8)] })
+  })
+  it('con asistencia la mejor marca es la menor ayuda', () => {
+    const r = resumenVariantes([s(1, { modoCarga: 'asistencia', peso: 30 }), s(2, { workoutId: 2, modoCarga: 'asistencia', peso: 20 })], ws, 'asistencia')
+    expect(r[0]).toMatchObject({ metrica: 'asistencia', mejor: 20, cambio: -10 })
+  })
+  it('tendencia con signo, unidad y si mejora (con asistencia, bajar es mejorar)', () => {
+    const desde = new Date(2026, 5, 3).getTime()
+    expect(tendenciaVariante({ cambio: 12, metrica: 'oneRM', desde })).toEqual({ texto: '+12 kg desde el 3 jun', mejora: true })
+    expect(tendenciaVariante({ cambio: -2.5, metrica: 'pesoMax', desde })).toEqual({ texto: '−2,5 kg desde el 3 jun', mejora: false })
+    expect(tendenciaVariante({ cambio: -5, metrica: 'asistencia', desde }).mejora).toBe(true)
+    expect(tendenciaVariante({ cambio: 2, metrica: 'reps', desde }).texto).toBe('+2 reps desde el 3 jun')
+    expect(tendenciaVariante({ cambio: 0, metrica: 'oneRM', desde })).toEqual({ texto: 'Sin cambios desde el 3 jun', mejora: null })
+    expect(tendenciaVariante({ cambio: null, metrica: 'oneRM', desde }).mejora).toBeNull()
   })
 })
