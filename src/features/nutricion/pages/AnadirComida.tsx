@@ -1,14 +1,14 @@
 import PreparacionAlimento from '../components/PreparacionAlimento'
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida, Entry } from '../../../shared/db/types'
-import { comidaPorHora } from '../../../shared/lib/dates'
+import { comidaPorHora, formatFriendly } from '../../../shared/lib/dates'
 import ModalPage from '../../../shared/components/ModalPage'
 import ViewTabs from '../../../shared/components/ViewTabs'
 import Icon from '../../../shared/components/Icon'
 import NumberStepper from '../../../shared/components/NumberStepper'
 import SectionHeader from '../../../shared/components/SectionHeader'
-import SegmentedControl from '../../../shared/components/SegmentedControl'
+import Disclosure from '../../../shared/components/Disclosure'
 import Sheet from '../../../shared/components/Sheet'
 import * as entriesRepo from '../data/entriesRepo'
 import * as mealsRepo from '../data/mealsRepo'
@@ -35,10 +35,11 @@ import {
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import type { Plato } from '../lib/platos'
 import { normalizeName } from '../../../shared/lib/text'
-import { COMIDAS } from '../lib/comidas'
+import { COMIDAS, nombreComida } from '../lib/comidas'
 import { macrosPorGramos, resumenMacros, sumMacros } from '../lib/nutrition'
 import AplicarPlantillaSheet from '../components/AplicarPlantillaSheet'
 import ComidasTipicas from '../components/ComidasTipicas'
+import ComidasTipicasSheet from '../components/ComidasTipicasSheet'
 import type { ComidaTipica } from '../lib/comidasTipicas'
 import DescribirComida from '../components/DescribirComida'
 import ItemRevisionRow from '../components/ItemRevisionRow'
@@ -48,7 +49,7 @@ import CambiarAlimentoSheet from '../components/CambiarAlimentoSheet'
 import EscanerCodigo from '../components/EscanerCodigo'
 import Medidas from './Medidas'
 import Button from '../../../shared/components/Button'
-import { Input } from '../../../shared/components/Input'
+import { Input, Select } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 
 interface Props {
@@ -80,6 +81,8 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const [nombrePlato, setNombrePlato] = useState('')
   const [nombreTipica, setNombreTipica] = useState('')
   const [creandoTipica, setCreandoTipica] = useState(false)
+  const [verTipicas, setVerTipicas] = useState(false)
+  const tipicasId = useId()
   const [tipicaCreada, setTipicaCreada] = useState(false)
   const [guardarComoTipica, setGuardarComoTipica] = useState(false)
   const [tipicaElegida, setTipicaElegida] = useState<ComidaTipica | null>(null)
@@ -165,7 +168,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
     setErrorGuardar(null)
     try {
       if (soloTipica) {
-        await mealsRepo.crearDesdeRevision({ nombre: nombreTipica, comida, items: items.map(aItemGuardado) })
+        await mealsRepo.crearDesdeRevision({ nombre: nombreTipica, items: items.map(aItemGuardado) })
       } else if (entryEditar?.id) {
         const { nombre, gramos, kcal100, prot100, carb100, grasa100, nutrientes } = items[0]
         await entriesRepo.editar(entryEditar.id, {
@@ -239,19 +242,19 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const kcalRapido = aporteRapido ? Math.round(aporteRapido.kcal) : 0
 
   return (
-    <ModalPage title={soloTipica ? 'Nueva comida típica' : entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose}
+    <ModalPage title={soloTipica ? 'Nueva comida típica' : entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose} busy={guardando}
       footer={items !== null && items.length > 0 && totales && (
         <div className="space-y-2">
+          {!soloTipica && <p className="flex flex-wrap justify-between gap-x-3 text-caption text-fg-muted"><span>{formatInt(items.length)} {items.length === 1 ? 'alimento' : 'alimentos'}</span><span>{nombreComida(comida)} · {formatFriendly(fecha)}</span></p>}
           {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
           <Button size="lg" block loading={guardando} onClick={guardar} disabled={(soloTipica && !nombreTipica.trim()) || anadiendo || nombreCortoEditando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it) || (!entryEditar && faltaCategoria(it)))}>
-            {guardando ? 'Guardando…' : `${soloTipica ? 'Guardar comida típica' : platoDestino ? 'Añadir al plato' : 'Guardar'} · ${formatInt(kcalTotales)} kcal`}
+            {guardando ? 'Guardando…' : `${soloTipica ? 'Guardar comida típica' : platoDestino ? 'Añadir al plato' : entryEditar ? 'Guardar cambios' : `Añadir a ${nombreComida(comida).toLowerCase()}`} · ${formatInt(kcalTotales)} kcal`}
           </Button>
         </div>
       )}>
       <div className="space-y-5">
         {soloTipica && <div className="space-y-stack">
           <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la comida típica</span><Input tone="surface" value={nombreTipica} onChange={e => setNombreTipica(e.target.value)} placeholder="Por ejemplo, mi desayuno habitual" /></label>
-          <p className="text-body-sm text-fg-muted">Guarda un alimento o varios ingredientes para un plato habitual. No se añade nada al diario.</p>
         </div>}
         {platoDestino ? (
           <section aria-label="Plato actual" className="space-y-2">
@@ -268,22 +271,25 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
               </ul>
             </details>
           </section>
-        ) : <SegmentedControl label="Comida del día" opciones={COMIDAS} valor={comida} onChange={setComida} />}
+        ) : !soloTipica && <div className="flex flex-wrap items-center justify-between gap-3">
+          <label className="flex min-w-0 items-center gap-2"><Icon name="utensils" size={20} className="shrink-0 text-fg-muted" /><Select aria-label="Comida del día" value={comida} onChange={e => setComida(e.target.value as Comida)} className="w-auto max-w-full" tone="surface">{COMIDAS.map(c => <option key={c.valor} value={c.valor}>{c.label}</option>)}</Select></label>
+          <p className="text-caption text-fg-muted">{formatFriendly(fecha)}</p>
+        </div>}
 
           {items === null && (
             <ViewTabs label="Cómo añadir comida" opciones={[
-              { valor: 'describir', label: 'Escribir' },
-              { valor: 'buscar', label: 'Buscar' },
-            ]} valor={metodo} onChange={setMetodo}>
+              { valor: 'describir', label: 'Escribir', icon: 'pencil' },
+              { valor: 'buscar', label: 'Buscar', icon: 'search' },
+            ]} valor={metodo} onChange={setMetodo} accion={<Button variant="subtle" size="sm" disabled={local.cargando} onClick={() => setEscaneando(true)} aria-label="Escanear producto"><Icon name="barcode" size={18} />Escanear</Button>}>
               <div className="space-y-section">
                 {metodo === 'describir' && <>
-                  <DescribirComida texto={texto} onTextoChange={setTexto} onInterpretar={interpretar} cargando={local.cargando} error={local.error} onVerMedidas={() => setVerMedidas(true)} onEscanear={() => setEscaneando(true)} titulo={soloTipica ? '¿Qué sueles comer?' : undefined} />
+                  <DescribirComida texto={texto} onTextoChange={setTexto} onInterpretar={interpretar} cargando={local.cargando} error={local.error} onVerMedidas={() => setVerMedidas(true)} titulo={soloTipica ? '¿Qué sueles comer?' : undefined} />
                   {!platoDestino && !soloTipica && <>
                     {tipicaCreada && <p role="status" className="text-body-sm text-fg-muted">Comida típica guardada. Ya la tienes a mano.</p>}
-                    <ComidasTipicas comida={comida} fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} />
+                    <ComidasTipicas fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} onVerTodas={() => setVerTipicas(true)} />
                   </>}
                 </>}
-                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => { setErrorRapido(null); setGramosRapido({ alimento, gramos: 100 }) }} onEscanear={() => setEscaneando(true)} />}
+                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => { setErrorRapido(null); setGramosRapido({ alimento, gramos: 100 }) }} />}
                 {!platoDestino && !soloTipica && <div className="border-t border-line pt-3">
                   <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}>Solo registrar calorías</Button>
                 </div>}
@@ -293,32 +299,15 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
 
           {items !== null && totales && (
             <div className="animate-fade-in space-y-section">
-              {!entryEditar && !platoDestino && !soloTipica && items.length > 1 && (
-                <div className="space-y-2">
-                  <label htmlFor="nombre-plato" className="block text-caption text-fg-muted">Nombre del plato (opcional)</label>
-                  <Input id="nombre-plato" tone="surface" value={nombrePlato} onChange={(e) => setNombrePlato(e.target.value)} placeholder="Por ejemplo, huevos con longaniza" aria-describedby="ayuda-plato" />
-                  <p id="ayuda-plato" className="text-body-sm text-fg-muted">Un solo plato. Podrás desplegar sus ingredientes en Nutrición.</p>
-                </div>
-              )}
               <section aria-label={items.length === 1 ? 'Alimento' : 'Alimentos'} className="space-y-1">
-                <SectionHeader
-                  variant="section"
-                  action={
-                    items.length > 1 ? (
-                      <span className="tabular text-caption text-fg-subtle" title="Proteína, carbohidratos y grasa en gramos">
-                        {resumenMacros(totales)}
-                      </span>
-                    ) : undefined
-                  }
-                >
-                  {items.length === 1 ? 'Alimento' : `Alimentos · ${items.length}`}
-                </SectionHeader>
-                <div className="space-y-stack">
+                <SectionHeader variant="section">{items.length === 1 ? 'Alimento' : `Alimentos · ${formatInt(items.length)}`}</SectionHeader>
+                <div className="divide-y divide-line overflow-hidden rounded-lg border border-line bg-surface">
                   {items.length === 0 && <EmptyState title="La revisión está vacía">Añade otro alimento o vuelve a interpretar tu descripción.</EmptyState>}
                   {items.map((item, i) => (
                     <ItemRevisionRow
                       key={clavesItems[i]}
                       item={item}
+                      editarInicial={!!entryEditar}
                       onChange={(patch) => actualizarItem(i, patch)}
                       nombreCorto={item.nombreCortoModificado ? item.nombreCorto : nombresGuardadosRevision?.get(i) ?? item.nombreCorto}
                       onCambioNombreCorto={setNombreCortoEditando}
@@ -331,6 +320,10 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                   ))}
                 </div>
               </section>
+              <div className="space-y-1">
+                <p className="flex flex-wrap items-baseline justify-between gap-3"><span className="text-body-sm text-fg-muted">Total de la comida</span><span className="tabular text-title font-semibold text-fg">{formatInt(kcalTotales)} <span className="text-caption font-normal text-fg-muted">kcal</span></span></p>
+                <p className="tabular text-caption text-fg-muted">{resumenMacros(totales)}</p>
+              </div>
               {entryEditar && alimentoDeLaEntrada && (
                 <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg-muted">
                   <input type="checkbox" checked={aplicarAlAlimento} onChange={(e) => setAplicarAlAlimento(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
@@ -341,6 +334,13 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                 <input type="checkbox" checked={guardarComoTipica} onChange={e => setGuardarComoTipica(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
                 <span className="min-w-0">Guardar como comida típica</span>
               </label>}
+              {!entryEditar && !platoDestino && !soloTipica && items.length > 1 && (
+                <Disclosure title={nombrePlato.trim() ? `Plato: ${nombrePlato.trim()}` : 'Poner nombre al plato'}>
+                  <label htmlFor="nombre-plato" className="block text-caption text-fg-muted">Nombre del plato (opcional)</label>
+                  <Input id="nombre-plato" tone="surface" value={nombrePlato} onChange={(e) => setNombrePlato(e.target.value)} placeholder="Por ejemplo, huevos con longaniza" aria-describedby="ayuda-plato" />
+                  <p id="ayuda-plato" className="mt-2 text-caption text-fg-muted">Agrupa estos alimentos en el diario.</p>
+                </Disclosure>
+              )}
               {!entryEditar && (
                 <div className="space-y-3">
                   {anadiendo ? (
@@ -386,7 +386,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                       }}
                     >
                       <Icon name="arrow-left" size={16} />
-                      Volver a interpretar
+                      Editar descripción
                     </Button>
                     <Button variant="ghost" size="sm" className="-mr-3" onClick={() => setVerMedidas(true)}>
                       <Icon name="info" size={16} />
@@ -449,6 +449,8 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
       />
 
       {verMedidas && <Medidas onClose={() => setVerMedidas(false)} />}
+
+      {verTipicas && <ComidasTipicasSheet id={tipicasId} comida={comida} fecha={fecha} onClose={() => setVerTipicas(false)} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} />}
 
       {creandoTipica && <AnadirComida soloTipica fecha={fecha} comidaInicial={comida} onClose={() => setCreandoTipica(false)} onGuardado={() => { setCreandoTipica(false); setTipicaCreada(true) }} />}
 

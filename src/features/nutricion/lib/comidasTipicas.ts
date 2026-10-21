@@ -1,4 +1,4 @@
-import type { Comida, Entry, Meal, MealItem } from '../../../shared/db/types'
+import type { Entry, Meal, MealItem } from '../../../shared/db/types'
 import { claveRef, refDe } from '../../../shared/db/foodRef'
 import { addDays } from '../../../shared/lib/dates'
 import { normalizeName } from '../../../shared/lib/text'
@@ -26,22 +26,28 @@ export function claveCombinacion(items: readonly MealItem[]): string {
   }))].sort())
 }
 
-/** Una combinación por comida y día, incluyendo alimentos registrados por separado. No escribe datos. */
-export function comidasTipicas({ entries, plantillas, comida, fecha }: { entries: Entry[]; plantillas: Meal[]; comida: Comida; fecha: string }): ComidaTipica[] {
+/** Combinaciones de cada comida/día, disponibles en cualquier destino. Cada fecha cuenta una sola vez. No escribe datos. */
+export function comidasTipicas({ entries, plantillas, fecha }: { entries: Entry[]; plantillas: Meal[]; fecha: string }): ComidaTipica[] {
   const desde = addDays(fecha, -(VENTANA_TIPICAS - 1))
   const porDia = new Map<string, Entry[]>()
-  for (const entry of entries) {
-    if (entry.comida !== comida || entry.fecha < desde || entry.fecha > fecha) continue
-    const dia = porDia.get(entry.fecha) ?? []
+  for (const entry of [...entries].sort((a, b) => b.fecha.localeCompare(a.fecha) || b.createdAt - a.createdAt || b.id - a.id)) {
+    if (entry.fecha < desde || entry.fecha > fecha) continue
+    const claveDia = `${entry.fecha}:${entry.comida}`
+    const dia = porDia.get(claveDia) ?? []
     dia.push(entry)
-    porDia.set(entry.fecha, dia)
+    porDia.set(claveDia, dia)
   }
   const repetidas = new Map<string, ComidaTipica>()
-  for (const [dia, entradas] of [...porDia].sort(([a], [b]) => b.localeCompare(a))) {
+  const fechas = new Map<string, Set<string>>()
+  for (const entradas of porDia.values()) {
+    const dia = entradas[0].fecha
     const items = itemsDesdeEntradas([...entradas].sort((a, b) => a.createdAt - b.createdAt || a.id - b.id))
     const clave = claveCombinacion(items)
     const anterior = repetidas.get(clave)
-    if (anterior) anterior.dias += 1
+    const dias = fechas.get(clave) ?? new Set<string>()
+    dias.add(dia)
+    fechas.set(clave, dias)
+    if (anterior) anterior.dias = dias.size
     else {
       const nombresPlato = new Set(items.map(it => it.nombrePlato?.trim()).filter(Boolean))
       const unPlato = items[0]?.platoId && items.every(it => it.platoId === items[0].platoId)
@@ -51,7 +57,7 @@ export function comidasTipicas({ entries, plantillas, comida, fecha }: { entries
   const resultado: ComidaTipica[] = []
   const guardadas = new Set<string>()
   for (const meal of [...plantillas].sort((a, b) => b.usadoAt - a.usadoAt || b.id - a.id)) {
-    if ((meal.comida && meal.comida !== comida) || meal.items.length === 0) continue
+    if (meal.items.length === 0) continue
     const clave = claveCombinacion(meal.items)
     guardadas.add(clave)
     // Las variantes que el usuario guardó con nombres o cantidades distintos siguen siendo accesibles.

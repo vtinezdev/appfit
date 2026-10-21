@@ -141,6 +141,7 @@ export interface MealItem extends AgrupacionPlato {
 export interface Meal {
   id: number
   nombre: string
+  /** Origen histórico opcional; no limita los destinos ni filtra las comidas típicas. */
   comida?: Comida
   items: MealItem[]
   usos: number

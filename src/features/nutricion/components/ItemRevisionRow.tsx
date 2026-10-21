@@ -1,13 +1,13 @@
 import PreparacionAlimento from './PreparacionAlimento'
 import { useId, useState } from 'react'
-import Card from '../../../shared/components/Card'
 import Disclosure from '../../../shared/components/Disclosure'
 import Metric from '../../../shared/components/Metric'
-import Button, { IconButton } from '../../../shared/components/Button'
+import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { Input, Select } from '../../../shared/components/Input'
 import NumberStepper from '../../../shared/components/NumberStepper'
-import { faltanValores, medidaPendiente, procedencia, type ItemRevision } from '../lib/alimentos'
+import { faltaCategoria, faltanValores, medidaPendiente, procedencia, type ItemRevision } from '../lib/alimentos'
+import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { etiquetaFuente } from '../lib/catalogo/textos'
 import { elegirMedida, preguntaMedida, textoOpcionMedida, type MedidaAmbigua } from '../lib/interprete/medidas'
 import { macrosPorGramos, resumenMacros } from '../lib/nutrition'
@@ -29,6 +29,7 @@ interface Props {
   nombreCortoBloqueado?: boolean
   /** El ítem creará un alimento propio: se muestra (y exige) su categoría. */
   pedirCategoria?: boolean
+  editarInicial?: boolean
 }
 function textoProcedencia(item: ItemRevision): string | undefined {
   switch (procedencia(item)) {
@@ -52,11 +53,14 @@ function SelectorMedida({ medida, onElegir }: { medida: MedidaAmbigua; onElegir:
   )
 }
 /** Revisión rápida: alimento completo, cantidad y aporte; edición avanzada bajo demanda. */
-export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado, pedirCategoria }: Props) {
+export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado, pedirCategoria, editarInicial = false }: Props) {
   const aporte = macrosPorGramos(item, item.gramos)
   const kcal = Math.round(aporte.kcal)
   const sinNombre = !item.nombre.trim()
-  const requiereDatos = sinNombre || faltanValores(item) || !!item.sinCoincidencia || !!item.datosIncompletos
+  const requiereDatos = sinNombre || faltanValores(item) || !!item.sinCoincidencia || !!item.datosIncompletos || (!!pedirCategoria && faltaCategoria(item))
+  const [editando, setEditando] = useState(editarInicial)
+  const abierto = editando || requiereDatos || medidaPendiente(item)
+  const editorId = useId()
   const [detalles, setDetalles] = useState(requiereDatos)
   const propuesta = sugerirNombreCorto(item.nombre)
   const idNombreCorto = useId()
@@ -69,14 +73,27 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
     cancelarNombre()
   }
   return (
-    <Card className="space-y-3">
-      <div className="flex items-start justify-between gap-2">
-        {!pedirCategoria && <span className="-ml-3 -mt-2"><IconoCategoria categoria={item.categoria} /></span>}
-        <div className="min-w-0 flex-1">
-          <h3 className="break-words text-body font-semibold text-fg">{item.nombre || 'Alimento sin nombre'}</h3>
-          {etiqueta && <p className="mt-1 text-caption text-fg-muted">{etiqueta}</p>}
-        </div>
-        {onQuitar && <IconButton icon="trash" label={`Quitar ${item.nombre || 'alimento'}`} variant="ghost" size="sm" className="-mr-2 -mt-1" onClick={() => { cancelarNombre(); onQuitar() }} />}
+    <div className="min-w-0 px-3 py-2">
+      <div className="flex items-center gap-2">
+        <IconoCategoria categoria={item.categoria} sinCategoria="hueco" inicial={(item.nombre || '?').slice(0, 1)} />
+        <button type="button" aria-label={`Editar ${item.nombre || 'alimento'}`} aria-expanded={abierto} aria-controls={editorId}
+          onClick={() => { if (!requiereDatos && !medidaPendiente(item)) { cancelarNombre(); setEditando(!abierto) } }}
+          className="flex min-h-touch min-w-0 flex-1 items-center gap-2 py-2 text-left text-fg">
+          <span className="min-w-0 flex-1">
+            <span className="block break-words text-body font-semibold">{item.nombre || 'Alimento sin nombre'}</span>
+            <span className="mt-1 inline-block max-w-full break-words rounded-sm bg-surface-muted px-2 py-1 text-caption text-fg-muted">{medidaPendiente(item) ? 'Elige la cantidad' : `${formatNumber(item.gramos, 1)} g`}</span>
+          </span>
+          <span className="tabular min-w-0 break-words text-right text-body-sm font-semibold">{formatInt(kcal)}<span className="block text-caption font-normal text-fg-muted">kcal</span></span>
+          <Icon name="chevron-right" size={18} className={`shrink-0 text-fg-subtle ${abierto ? 'rotate-90' : ''}`} />
+        </button>
+      </div>
+      {item.gramosEstimados && <div className="py-2"><Aviso>Cantidad estimada: revisa los gramos.</Aviso></div>}
+      {aviso && <div className="py-2"><Aviso>{aviso}</Aviso></div>}
+      {!abierto && <PreparacionAlimento nombre={item.nombre} />}
+      <div id={editorId} hidden={!abierto} className="space-y-3 border-t border-line pt-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {etiqueta && <p className="text-caption text-fg-muted">{etiqueta}</p>}
+        {onQuitar && <Button variant="subtle" size="sm" onClick={() => { cancelarNombre(); onQuitar() }} aria-label={`Quitar ${item.nombre || 'alimento'}`}><Icon name="trash" size={18} />Quitar</Button>}
       </div>
       <PreparacionAlimento nombre={item.nombre} explicar />
       {item.medida && <SelectorMedida medida={item.medida} onElegir={(g) => onChange(elegirMedida(item.medida!, g))} />}
@@ -90,8 +107,6 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
       {pedirCategoria && <SelectorCategoria valor={item.categoria} onChange={(categoria) => onChange({ categoria })} />}
       {item.sinCoincidencia && <Aviso>No encontrado: busca con «Cambiar» o escribe los valores por 100 g.</Aviso>}
       {item.datosIncompletos && <Aviso>Faltan datos: completa el nombre y los valores de la etiqueta.</Aviso>}
-      {item.gramosEstimados && <Aviso>Cantidad estimada: revisa los gramos.</Aviso>}
-      {aviso && <Aviso>{aviso}</Aviso>}
       {onCambiar && <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { cancelarNombre(); onCambiar() }} aria-label={`Cambiar ${item.nombre || 'alimento'}`}>Cambiar alimento</Button>}
       <Disclosure title="Detalles del alimento" open={detalles || requiereDatos} onChange={(open) => { setDetalles(open); if (!open) cancelarNombre() }}>
         <div className="space-y-4">
@@ -117,6 +132,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
           </div>
         </div>
       </Disclosure>
-    </Card>
+      </div>
+    </div>
   )
 }

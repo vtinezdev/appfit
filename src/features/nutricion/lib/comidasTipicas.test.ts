@@ -12,7 +12,7 @@ function desayuno(dia: string, gramos = 40): Entry[] {
 function plantilla(patch: Partial<Meal> = {}): Meal {
   return { id: 1, nombre: 'Mi desayuno', comida: 'desayuno', items: desayuno(fecha), usos: 0, usadoAt: 1, createdAt: 1, ...patch }
 }
-const detectar = (entries: Entry[], plantillas: Meal[] = []) => comidasTipicas({ entries, plantillas, comida: 'desayuno', fecha })
+const detectar = (entries: Entry[], plantillas: Meal[] = []) => comidasTipicas({ entries, plantillas, fecha })
 
 describe('comidas típicas', () => {
   it('requiere tres días y cuenta juntos los alimentos añadidos por separado; usa las últimas cantidades', () => {
@@ -26,8 +26,8 @@ describe('comidas típicas', () => {
     expect(tipica.nombre).toBe('Avena + Leche')
   })
 
-  it('limita a los últimos treinta días incluidos, a la comida elegida y nunca mira fechas futuras', () => {
-    const entries = [...desayuno('2026-09-21'), ...desayuno('2026-09-22'), ...desayuno('2026-10-20'), ...desayuno('2026-10-22'), ...desayuno('2026-10-18').map(e => ({ ...e, comida: 'cena' as const }))]
+  it('limita a los últimos treinta días incluidos y nunca mira fechas futuras', () => {
+    const entries = [...desayuno('2026-09-21'), ...desayuno('2026-09-22'), ...desayuno('2026-10-20'), ...desayuno('2026-10-22')]
     expect(detectar(entries)).toEqual([])
     entries.push(...desayuno(fecha))
     expect(detectar(entries)[0]).toMatchObject({ dias: 3, ultimaFecha: fecha })
@@ -47,11 +47,31 @@ describe('comidas típicas', () => {
     const guardada = plantilla({ nombre: 'Mi desayuno favorito' })
     expect(detectar(entries, [guardada])).toMatchObject([{ id: 1, nombre: guardada.nombre, origen: 'marcada', dias: 3 }])
     expect(detectar([], [guardada])).toHaveLength(1)
-    expect(detectar([], [plantilla({ comida: 'cena' }), plantilla({ items: [] })])).toEqual([])
+    expect(detectar([], [plantilla({ comida: 'cena' }), plantilla({ items: [] })])).toMatchObject([{ id: 1, origen: 'marcada' }])
     expect(detectar([], [plantilla({ comida: undefined })])).toHaveLength(1)
     const variantes = detectar(entries, [guardada, plantilla({ id: 2, nombre: 'Más reciente', usadoAt: 20 })])
     expect(variantes.map(it => it.id)).toEqual([2, 1])
     expect(new Set(variantes.map(it => it.clave)).size).toBe(2)
+  })
+
+  it('reconoce la misma combinación entre comidas, sin sumar dos veces una fecha ni mezclar sus ingredientes', () => {
+    const entries = [
+      ...desayuno('2026-10-18'),
+      ...desayuno('2026-10-18').map(e => ({ ...e, comida: 'cena' as const, createdAt: 2 })),
+      ...desayuno('2026-10-19').map(e => ({ ...e, comida: 'comida' as const })),
+      entrada('2026-10-19', { comida: 'cena', foodId: 3, nombre: 'Yogur' }),
+    ]
+    expect(detectar(entries)).toEqual([])
+    entries.push(...desayuno(fecha, 60).map(e => ({ ...e, comida: 'snack' as const })))
+    const [tipica] = detectar(entries)
+    expect(tipica).toMatchObject({ dias: 3, ultimaFecha: fecha, nombre: 'Avena + Leche' })
+    expect(tipica.items.map(it => it.gramos)).toEqual([60, 200])
+  })
+
+  it('si se repite en varias comidas del último día conserva las cantidades de la más reciente', () => {
+    const entries = [15, 17, 21].flatMap(dia => desayuno(`2026-10-${dia}`))
+    entries.push(...desayuno(fecha, 80).map(e => ({ ...e, comida: 'cena' as const, createdAt: 3 })))
+    expect(detectar(entries)).toMatchObject([{ dias: 3, items: [{ gramos: 80 }, { gramos: 200 }] }])
   })
 
   it('ordena las automáticas por días y luego recencia, conserva platos y no muta el historial', () => {

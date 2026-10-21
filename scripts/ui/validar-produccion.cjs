@@ -37,8 +37,8 @@ async function main() {
   }
   await navegar(p, 'Nutrición'); await p.getByRole('button',{name:'Añadir comida',exact:true}).click()
   await p.getByRole('textbox',{name:'Describe lo que has comido'}).fill('un plátano y 125 g de yogur')
-  await p.getByRole('button',{name:'Interpretar',exact:true}).click(); await p.getByRole('button',{name:'Detalles del alimento',exact:true}).nth(1).waitFor()
-  await p.getByRole('button',{name:/^Guardar ·/}).click(); await p.waitForFunction(()=>!document.querySelector('[role=dialog]'))
+  await p.getByRole('button',{name:/^Revisar \d+ alimentos?$/,exact:true}).click(); await p.getByRole('button',{name:/^Editar /}).nth(1).waitFor()
+  await p.getByRole('button',{name:/^(?:Añadir a (?:desayuno|comida|cena|snack)|Guardar cambios) ·/}).click(); await p.waitForFunction(()=>!document.querySelector('[role=dialog]'))
   const registrados=await exportar(p); assert.equal(registrados.entries.length,esperado.entries.length+2)
   await p.reload(); assert.deepEqual(await exportar(p),registrados)
   assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Saira' && f.status==='loaded')),true)

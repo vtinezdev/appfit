@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { formatInt } from '../../../shared/lib/format'
 import NumberStepper from '../../../shared/components/NumberStepper'
 import Sheet from '../../../shared/components/Sheet'
-import type { Comida, Meal, MealItem } from '../../../shared/db/types'
+import type { Meal, MealItem } from '../../../shared/db/types'
 import * as mealsRepo from '../data/mealsRepo'
 import { por100DesdeEntrada, type Por100 } from '../lib/alimentos'
 import { itemConGramos, itemsConGramosValidos } from '../lib/plantillas'
@@ -13,7 +13,6 @@ import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 
 interface Props {
   meal: Pick<Meal, 'nombre' | 'items'> & { id?: number }
-  comida?: Comida
   onClose: () => void
   onBorrada: () => void
 }
@@ -29,7 +28,7 @@ interface ItemEnEdicion {
  * (recalcula sus macros desde los valores por 100 g fijados al abrir el sheet, sin tocar el
  * alimento en vivo), quitar alimentos o borrar la plantilla entera.
  */
-export default function GestionPlantillaSheet({ meal, comida, onClose, onBorrada }: Props) {
+export default function GestionPlantillaSheet({ meal, onClose, onBorrada }: Props) {
   const [nombre, setNombre] = useState(meal.nombre)
   const [entradas, setEntradas] = useState<ItemEnEdicion[]>(() =>
     meal.items.map((item) => ({ item, por100: por100DesdeEntrada(item) })),
@@ -55,7 +54,7 @@ export default function GestionPlantillaSheet({ meal, comida, onClose, onBorrada
     setGuardando(true)
     setError(null)
     try {
-      if (meal.id === undefined) await mealsRepo.crearDesdeItems({ nombre, comida, items })
+      if (meal.id === undefined) await mealsRepo.crearDesdeItems({ nombre, items })
       else await mealsRepo.actualizar(meal.id, { nombre: nombre.trim(), items })
       onClose()
     } catch {

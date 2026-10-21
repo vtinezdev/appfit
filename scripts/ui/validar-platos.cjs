@@ -85,7 +85,7 @@ async function main() {
         await page.getByText('Ver ingredientes actuales (2)', { exact: true }).click()
         await layout(page)
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('50 g de tomate')
-        await page.getByRole('button', { name: 'Interpretar', exact: true }).click()
+        await page.getByRole('button', { name: /^Revisar \d+ alimentos?$/, exact: true }).click()
         await page.getByRole('button', { name: /^Añadir al plato ·/ }).waitFor()
         await page.getByRole('button', { name: 'Cancelar', exact: true }).click()
         assert.deepEqual(await registros(page), antes, 'cancelar no guarda')
@@ -93,7 +93,9 @@ async function main() {
         // Dos tandas se añaden al mismo plato; detalles siguen mostrando extras.
         await editar()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('50 g de tomate')
-        await page.getByRole('button', { name: 'Interpretar', exact: true }).click()
+        await page.getByRole('button', { name: /^Revisar \d+ alimentos?$/, exact: true }).click()
+        const editor = page.getByRole('button', { name: /^Editar / }).first()
+        if (await editor.getAttribute('aria-expanded') === 'false') await editor.click()
         await page.getByRole('button', { name: 'Detalles del alimento', exact: true }).click()
         await page.getByRole('spinbutton', { name: 'Fibra/100g', exact: true }).waitFor()
         await page.getByRole('button', { name: 'Añadir otro alimento', exact: true }).click()
@@ -131,7 +133,7 @@ async function main() {
         // El escáner no ofrece un guardado rápido fuera del plato.
         await editar()
         await page.getByRole('tab', { name: 'Buscar', exact: true }).click()
-        await page.getByRole('button', { name: 'Escanear código de barras', exact: true }).click()
+        await page.getByRole('button', { name: 'Escanear producto', exact: true }).click()
         await page.getByRole('textbox', { name: 'O escribe el código', exact: true }).fill('3017620422003')
         await page.getByRole('dialog', { name: 'Escanear producto', exact: true }).getByRole('button', { name: 'Buscar', exact: true }).click()
         await page.getByRole('button', { name: 'Escribir valores', exact: true }).waitFor()
@@ -156,7 +158,7 @@ async function main() {
         await editar()
         await page.getByText('Ver ingredientes actuales (1)', { exact: true }).waitFor()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('20 g de tomate')
-        await page.getByRole('button', { name: 'Interpretar', exact: true }).click()
+        await page.getByRole('button', { name: /^Revisar \d+ alimentos?$/, exact: true }).click()
         await cerrarGuardado(page)
         const reducido = await registros(page)
         assert.equal(reducido.filter((e) => e.platoId === platoId).length, 2)
@@ -167,7 +169,7 @@ async function main() {
         await navegar(page, 'Nutrición')
         await editar()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('10 g de tomate')
-        await page.getByRole('button', { name: 'Interpretar', exact: true }).click()
+        await page.getByRole('button', { name: /^Revisar \d+ alimentos?$/, exact: true }).click()
         await page.getByRole('button', { name: /^Añadir al plato ·/ }).waitFor()
         // Si otra acción elimina el destino mientras se revisa, no se recrea silenciosamente.
         await page.evaluate(async (platoId) => {
