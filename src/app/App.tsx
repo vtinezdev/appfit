@@ -68,7 +68,7 @@ export default function App() {
   }
 
   return (
-    <div data-app-shell data-mini-entreno={entrenoMinimizado ? '' : undefined} className="relative flex h-app flex-col bg-bg">
+    <div data-app-shell data-mini-entreno={entrenoMinimizado ? '' : undefined} className="app-shell fixed inset-x-0 flex h-app flex-col bg-bg">
       {/* El fondo vive fuera del contenedor con scroll: queda quieto mientras el contenido se desplaza. */}
       <div className="relative isolate min-h-0 flex-1">
       <AtmosferaApp tab={tab} />

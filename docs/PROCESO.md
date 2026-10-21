@@ -1914,3 +1914,11 @@ Víctor cuenta que hay conocidos que no dan al tic de las series y terminan entr
 - Los recorridos `scripts/ui/*.cjs` que pulsaban «Guardar y terminar» aceptan también «Guardar solo las marcadas»/«Guardar sin marcar», para conservar lo que hacían.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Recorrido propio con Playwright (Chromium) en `appfit-test.localhost:5173` y datos sintéticos, a 320 claro/oscuro, 375 oscuro, 430 claro y 375 con texto al 200 %: aviso con y sin series marcadas, «Marcar todas y terminar» deja hechas las que tienen reps y pendiente la de 0 reps (resumen con 1.260 kg), y en el historial un entreno a 0 kg pasa a 960 kg al marcar y vuelve con «Deshacer»; sin scroll horizontal, targets ≥44 px ni errores de consola. `validar-tecnicas-progresion.cjs` y `validar-quitar-ejercicio.cjs` fallan antes de llegar a Terminar, igual en `master`; no se tocan aquí. Sin prueba en iPhone.
+
+## 180. Pantalla cortada a media altura con el teclado en iOS (2026-10-21)
+
+Víctor mandó capturas de dos iPhone: a veces, al enfocar un campo (series del entreno, buscador de Amigos), la app se veía solo en la franja de arriba, con el botón de secciones en medio y el resto vacío hasta el teclado. Causa: iOS no encoge el viewport de layout al abrir el teclado, desplaza el área visible (`visualViewport.offsetTop`) para enseñar el campo. El shell medía ya el alto visible, pero seguía en el flujo, pegado arriba del documento; si iOS desplazaba (campo en la mitad baja), se veía su parte inferior y debajo nada. Solo pasaba «a veces» porque depende de dónde está el campo.
+
+- El shell (`App`) pasa a `fixed` con `.app-shell` (`top: var(--viewport-top)`), como ya hacían las capas con `.modal-viewport`; `viewport.ts` ya publicaba ese desplazamiento.
+
+**Verificación:** `npm run test` (2.450 tests) y `npm run build` en verde. En Chromium (`appfit-test.localhost:5173`, 375×812) se simuló el teclado de iOS fijando un visible de 490 px desplazado 300 px: el shell ocupa 300–790 y el botón queda a su pie (antes, 0–490). Sin scroll horizontal. Sin prueba en iPhone: Chromium no reproduce el teclado de WebKit.

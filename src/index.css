@@ -130,7 +130,10 @@ button { overflow-wrap: anywhere; }
 button:disabled { cursor: default; }
 input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 
-/* Geometría del área visible, incluido el teclado cuando el navegador expone visualViewport. */
+/* Geometría del área visible, incluido el teclado cuando el navegador expone visualViewport.
+   iOS no encoge el viewport de layout al abrir el teclado: lo desplaza (offsetTop). Un shell en el flujo
+   quedaría arriba del documento, cortado a media pantalla; por eso shell y capas siguen también el desplazamiento. */
+.app-shell { top: var(--viewport-top, 0px); }
 .modal-viewport {
   top: var(--viewport-top, 0px);
   height: var(--viewport-height, 100dvh);
