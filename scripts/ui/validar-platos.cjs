@@ -37,7 +37,7 @@ async function comprobarTotales(page, entries, platoId) {
   const ingredientes = entries.filter((e) => e.platoId === platoId)
   const formato = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0 })
   const cabecera = page.getByRole('button', { name: new RegExp(`^${nombre} `) })
-  await cabecera.locator('[data-record-quantity]').getByText(`${ingredientes.length} ${ingredientes.length === 1 ? 'alimento' : 'alimentos'}`, { exact: true }).waitFor()
+  await cabecera.locator('[data-record-quantity]').getByText(`${ingredientes.length} ${ingredientes.length === 1 ? 'ingrediente' : 'ingredientes'}`, { exact: true }).waitFor()
   assert.equal(await cabecera.locator('[data-record-kcal]').innerText(), formato.format(ingredientes.reduce((s, e) => s + e.kcal, 0)))
   const fibra = entries.filter((e) => e.nutrientes?.fibra !== undefined)
   const valor = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 3 }).format(fibra.reduce((s, e) => s + e.nutrientes.fibra, 0))

@@ -51,7 +51,7 @@ async function main() {
         const errores = []; page.on('pageerror', e => errores.push(e.message))
         await context.route('**/world.openfoodfacts.org/**', r => r.abort())
         await page.goto(origen)
-        await page.getByRole('heading', { name: /Buenos|Buenas/ }).waitFor()
+        await page.getByRole('navigation', { name: 'Navegación principal' }).waitFor()
         await page.evaluate(async nombre => {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const d = await import('/src/shared/lib/dates.ts'); const fecha = d.todayISO()
@@ -60,6 +60,8 @@ async function main() {
           await r.guardarComida({ fecha, comida: 'desayuno', items: [item('Bizcocho', 40, 435, 5, 50, 25)] })
           await r.anadirRapida({ fecha, comida: 'snack', nombre: 'Registro rápido de prueba', kcal: 80, prot: 3, carb: 10, grasa: 3 })
           await r.guardarComida({ fecha, comida: 'cena', nombrePlato: 'Un conjunto con nombre muy largo para comprobar que no se recorta la descripción ni desaparecen sus cifras', items: [item('Ingrediente de cantidad grande', 999999, 100, 10, 50, 20), item('Otro ingrediente', 100, 100, 10, 50, 20)] })
+          const { congelarObjetivoDia } = await import('/src/features/perfil/data/objetivosDiaRepo.ts')
+          await congelarObjetivoDia(fecha) // Como al registrar esa comida desde la interfaz.
         }, nombre)
         const antes = await backup(page)
         await navegar(page, 'Nutrición')
@@ -73,10 +75,11 @@ async function main() {
         const estadoProtegido = await page.evaluate(() => ({ cabecera: document.querySelector('[data-comida="desayuno"] .meal-header').outerHTML, resumen: document.querySelector('.nutrition-summary').outerHTML, nav: document.querySelector('.app-nav').outerHTML }))
         assert.equal(await grupoBoton.getAttribute('aria-expanded'), 'false')
         assert.equal(await grupoBoton.locator('[data-record-kcal]').innerText(), '227')
-        assert.equal(await grupoBoton.locator('[data-record-macros]').innerText(), 'P 11 · C 22 · G 11')
+        assert.equal(await grupoBoton.locator('[data-record-macros]').count(), 0)
         assert.equal(await individual.locator('[data-record-quantity]').innerText(), '40 g')
         assert.equal(await individual.locator('[data-record-kcal]').innerText(), '174')
-        assert.equal(await individual.locator('[data-record-macros]').innerText(), 'P 2 · C 20 · G 10')
+        assert.equal(await individual.locator('[data-record-macros]').count(), 0)
+        assert.deepEqual(await desayuno.locator('.meal-macros dd').allTextContents(), ['13 g', '42 g', '21 g'])
         for (const accion of ['Añadir ingredientes a', 'Mover plato', 'Copiar plato', 'Borrar plato']) assert.equal(await page.getByRole('button', { name: `${accion} ${nombre}`, exact: true }).count(), 0)
         assert.equal(await page.getByRole('button', { name: `Arrastrar plato ${nombre}`, exact: true }).count(), 0)
         const estilo = await desayuno.locator('[data-registro="plato"],[data-registro="individual"]').evaluateAll(es => es.map(e => {
@@ -135,7 +138,7 @@ async function main() {
         await individual.locator('.food-record-button').click()
         await page.getByRole('button', { name: 'Cancelar', exact: true }).click()
         await page.getByRole('dialog').waitFor({ state: 'detached' })
-        await individual.getByRole('button', { name: 'Borrar Bizcocho', exact: true }).press('Enter') // detrás de la fila (se desliza): con teclado
+        await individual.locator('xpath=ancestor::li[@data-entry-id][1]').getByRole('button', { name: 'Borrar Bizcocho', exact: true }).press('Enter') // detrás de la fila (se desliza): con teclado
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
         await individual.waitFor(); assert.deepEqual(await backup(page), antes)
         await ejecutarAccionPlato(page, nombre, 'Borrar plato', desayuno)
@@ -145,7 +148,7 @@ async function main() {
         await trigger.waitFor(); assert.deepEqual(await backup(page), antes)
         await desplegarPlato(page, nombre, desayuno)
         await ingredientes.getByRole('button', { name: 'Borrar Leche', exact: true }).press('Enter')
-        await grupoBoton.locator('[data-record-quantity]').getByText('2 alimentos', { exact: true }).waitFor()
+        await grupoBoton.locator('[data-record-quantity]').getByText('2 ingredientes', { exact: true }).waitFor()
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
         assert.deepEqual(await backup(page), antes)
         await grupoBoton.click()
