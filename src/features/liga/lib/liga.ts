@@ -210,6 +210,15 @@ export function ascensosDeEntreno(ligas: readonly LigaEjercicio[], workoutId: nu
   return ascensos
 }
 
+/**
+ * La liga con la que quedó un ejercicio en la semana que empieza el lunes `lunes`: la de un entreno pasado, no la de
+ * hoy (que pudo bajar después). `null` si esa semana aún no había empezado con él.
+ */
+export function divisionEnSemana(l: LigaEjercicio, lunes: string): Division | null {
+  const semana = l.semanas.find((s) => s.lunes === lunes)
+  return semana ? divisionDe(semana.despues) : null
+}
+
 export interface Ciclo {
   exerciseId: number
   fecha: string

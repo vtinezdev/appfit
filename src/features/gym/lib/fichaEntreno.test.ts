@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { partesRecord, pastillaSerie, recordsPorEjercicio, resumenEjercicio, seriesConRecord } from './fichaEntreno'
+import { partesRecord, pastillaSerie, recordsPorEjercicio, resumenEjercicio, seriesConRecord, seriesPublicables } from './fichaEntreno'
 import type { RecordEjercicio } from './records'
 
 const record = (r: Partial<RecordEjercicio>): RecordEjercicio => ({ exerciseId: 1, tipo: 'peso', valor: 82.5, anterior: 80, ...r })
@@ -66,5 +66,26 @@ describe('resumenEjercicio', () => {
     expect(resumenEjercicio([{ peso: 0, reps: 12, modoCarga: 'corporal' }])).toBe('1 serie')
     expect(resumenEjercicio([{ peso: 20, reps: 10, tipo: 'calentamiento' }])).toBe('Solo calentamiento')
     expect(resumenEjercicio([])).toBe('Sin series')
+  })
+})
+
+describe('seriesPublicables', () => {
+  it('series hechas en su orden, sin calentamientos ni pendientes', () => {
+    const series = [
+      { id: 3, orden: 2, peso: 82.5, reps: 7 },
+      { id: 1, orden: 0, peso: 40, reps: 10, tipo: 'calentamiento' as const },
+      { id: 2, orden: 1, peso: 80, reps: 8 },
+      { id: 4, orden: 3, peso: 82.5, reps: 6, realizada: false },
+    ]
+    expect(seriesPublicables(series, [])).toEqual({ series: ['80 kg × 8', '82,5 kg × 7'], records: [] })
+  })
+  it('marca la serie del récord de carga; las reps y el 1RM no', () => {
+    const series = [{ id: 1, orden: 0, peso: 80, reps: 8 }, { id: 2, orden: 1, peso: 82.5, reps: 7 }, { id: 3, orden: 2, peso: 20, reps: 8, modoCarga: 'asistencia' as const }]
+    expect(seriesPublicables(series, [
+      record({ setId: 1, tipo: 'reps', valor: 8, anterior: 6, peso: 80 }),
+      record({ setId: 2, tipo: '1rm', valor: 102, anterior: 100 }),
+      record({ setId: 2 }),
+      record({ setId: 3, tipo: 'asistencia', valor: 20, anterior: 25, modoCarga: 'asistencia' }),
+    ]).records).toEqual([{ serie: 1, mejora: '+2,5 kg' }, { serie: 2, mejora: '−5 kg de asistencia' }])
   })
 })

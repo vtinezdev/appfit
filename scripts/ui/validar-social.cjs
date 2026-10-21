@@ -258,11 +258,14 @@ async function main() {
         await miPerfil.getByRole('button', { name: 'Detalle', exact: true }).first().click()
         const ejerciciosPublicados = miPerfil.getByRole('region', { name: 'Ejercicios', exact: true }).first()
         await ejerciciosPublicados.waitFor()
-        // Los récords ya no van en la tarjeta: se ven al tocar el ejercicio con trofeo.
+        // Los récords y las ligas ya no van en la tarjeta: se ven al tocar el ejercicio, con sus series.
         assert.equal(await miPerfil.getByRole('region', { name: 'Récords', exact: true }).count(), 0)
-        await ejerciciosPublicados.getByRole('button', { name: 'Press de prueba: ver récord', exact: true }).click()
-        await ejerciciosPublicados.getByRole('list', { name: 'Récord de Press de prueba', exact: true }).getByText('+1 kg', { exact: true }).waitFor()
-        assert.equal(await ejerciciosPublicados.getByText(/Antes:|49 kg/).count(), 0, 'solo la subida de peso')
+        assert.equal(await miPerfil.getByText('Ligas', { exact: true }).count(), 0, 'sin lista de ligas')
+        await ejerciciosPublicados.getByRole('button', { name: 'Press de prueba: ver detalle', exact: true }).click()
+        const panelEjercicio = ejerciciosPublicados.getByRole('region', { name: 'Press de prueba', exact: true })
+        await panelEjercicio.getByRole('list', { name: 'Series', exact: true }).getByText('Récord: +1 kg', { exact: true }).waitFor()
+        assert.equal(await ejerciciosPublicados.getByText(/Antes:/).count(), 0, 'solo la subida, sin el peso anterior')
+        assert.equal(await panelEjercicio.getByText('49 kg × 8', { exact: true }).count(), 5, 'cada serie hecha')
         await capturar(page, ejerciciosPublicados, `${caso}-record-ejercicio`)
         await page.keyboard.press('Escape'); await miPerfil.waitFor({ state: 'detached' })
         const resumenes = envios.filter(e => e.p_tipo === 'entreno').map(e => e.p_resumen)

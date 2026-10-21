@@ -1922,3 +1922,16 @@ Víctor mandó capturas de dos iPhone: a veces, al enfocar un campo (series del 
 - El shell (`App`) pasa a `fixed` con `.app-shell` (`top: var(--viewport-top)`), como ya hacían las capas con `.modal-viewport`; `viewport.ts` ya publicaba ese desplazamiento.
 
 **Verificación:** `npm run test` (2.450 tests) y `npm run build` en verde. En Chromium (`appfit-test.localhost:5173`, 375×812) se simuló el teclado de iOS fijando un visible de 490 px desplazado 300 px: el shell ocupa 300–790 y el botón queda a su pie (antes, 0–490). Sin scroll horizontal. Sin prueba en iPhone: Chromium no reproduce el teclado de WebKit.
+
+## 181. Liga y series al tocar un ejercicio publicado (2026-10-21)
+
+A Víctor no le gustaba la lista de texto «Ligas · Empieza en Bronce» de la publicación de un entreno. Tras una preview aprobada, la liga pasa a verse como insignia y solo dentro del ejercicio: al tocar cualquier ejercicio del mosaico se despliega, como ya pasaba con el récord, un panel con la insignia y el texto de su liga, cada serie (reps y peso) y la subida del récord en la serie que lo batió. El trofeo de récord sigue en la miniatura; la liga no se pinta en la imagen (lo pidió así).
+
+- Resumen (`social/lib/publicacion`): `detalles`, paralela a `ejercicios`, con `liga`, `cambio`, `series` y `records` por ejercicio; `ligas` queda vacía en lo nuevo. Entran en orden mientras quepan en los 8 KB del servidor con sitio para la nota (`bytesResumen`); el peor caso anterior (con imágenes, insignias y nota) ya pasaba de 8 KB y ahora cabe, porque las líneas de liga en texto ya no se escriben. `leerDetalle` limpia campo a campo lo que llega.
+- Datos: `gym/lib/fichaEntreno.seriesPublicables` (series efectivas como en la ficha y récords de carga por serie) y `liga/lib/liga.divisionEnSemana` (la liga de la semana del entreno, no la de hoy). Los junta `useResumenEntreno`.
+- Tarjeta: `PanelEjercicioPublicacion` con `presentacion.panelEjercicio`, que en publicaciones anteriores saca la liga de su línea de texto. Las publicaciones de solo texto conservan su lista de ligas.
+- Servidor: `0021_social_detalles_ejercicio.sql` valida `detalles` y anuncia `detallesEjercicio`; sin ella el editor envía sin detalles (`sinDetalles`, los cambios de liga vuelven a `ligas`). **Pendiente de ejecutar en el proyecto real**; puede ir antes o después del despliegue. Suite `supabase/pruebas/social_detalles_ejercicio.sql`.
+- Privacidad: las series con su peso salen ahora del móvil, solo dentro de lo que la persona elige publicar (Víctor lo aprobó en la preview).
+
+**Verificación:** `npm run test` (2458) y `npm run build` correctos. Migraciones 0001–0021 y las catorce suites SQL en PostgreSQL 16 local temporal (Docker no estaba disponible), todas correctas. `scripts/ui/validar-social.cjs` con el Supabase falso, los ocho casos (320/375/430 claro/oscuro y 375 con texto al 200 %) correctos, con el panel nuevo comprobado; a 200 % la cabecera y las filas del panel saltan de línea en vez de desbordar. Capturas propias a 320 oscuro, 375 y 430 claro de una publicación de ejemplo con seis ejercicios: sin scroll horizontal ni errores de consola. Sin prueba en iPhone.
+

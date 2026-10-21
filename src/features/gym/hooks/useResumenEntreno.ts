@@ -1,9 +1,9 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Workout } from '../../../shared/db/types'
-import { todayISO } from '../../../shared/lib/dates'
+import { startOfWeek, toISODate, todayISO } from '../../../shared/lib/dates'
 import { formatNumber } from '../../../shared/lib/format'
 import { useLigas } from '../../liga/hooks/useLigas'
-import { ascensosDeEntreno } from '../../liga/lib/liga'
+import { ascensosDeEntreno, divisionEnSemana } from '../../liga/lib/liga'
 import { ascensoDestacado, textoAscenso } from '../../liga/lib/textos'
 import { resumenEntreno, type ResumenEntreno } from '../../social/lib/publicacion'
 import { useVitrina } from '../../vitrina/hooks/useVitrina'
@@ -13,6 +13,7 @@ import * as routinesRepo from '../data/routinesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
+import { seriesPublicables } from '../lib/fichaEntreno'
 import { describirRecord, recordsDeEntreno, type RecordEjercicio } from '../lib/records'
 import { efectivas, ordenEjerciciosSesion, volumenSets } from '../lib/workout'
 
@@ -30,8 +31,8 @@ export interface DatosPublicarEntreno {
 }
 
 /**
- * El resumen publicable de un entreno: junta récords, cambios de liga, piezas nuevas de la Vitrina, ejercicios y el
- * mapa muscular. `undefined` mientras carga. Solo lee.
+ * El resumen publicable de un entreno: junta récords, piezas nuevas de la Vitrina, ejercicios (con su liga en la semana
+ * del entreno, si cambió y sus series) y el mapa muscular. `undefined` mientras carga. Solo lee.
  */
 export function useResumenEntreno(d: DatosPublicarEntreno | undefined): { workout: Workout; resumen: ResumenEntreno } | undefined {
   const hoy = todayISO()
@@ -48,15 +49,21 @@ export function useResumenEntreno(d: DatosPublicarEntreno | undefined): { workou
   const orden = ordenEjerciciosSesion([], conSeries, workout.ordenEjercicios, workout.ejerciciosOmitidos)
   const catalogo = new Map(ejercicios.map((e) => [e.id, e.catalogId]))
   const nuevos = vitrina.visible ? logrosDeEntreno(vitrina.vitrina.logros, d.workoutId) : []
+  const lunes = startOfWeek(toISODate(new Date(workout.inicio)))
+  const ascensos = new Map(ligas.visible ? ascensosDeEntreno(ligas.ligas, d.workoutId).filter(ascensoDestacado).map((a) => [a.exerciseId, a]) : [])
   const resumen = resumenEntreno({
     titulo: d.titulo, inicio: d.inicio, fin: d.fin, series: d.series, volumenKg: d.volumen,
     mapa: trabajoMuscularWorkout(workout, sets, ejercicios).levels,
     ejercicios: orden.map(nombre),
     catalogIds: orden.map((id) => catalogo.get(id)),
     records: d.records.map((r) => ({ ejercicio: nombre(r.exerciseId), texto: describirRecord(r, (n) => formatNumber(n, 2)), tipo: r.tipo, modo: r.modoCarga ?? 'externa', valor: r.valor, anterior: r.anterior, ...(r.peso !== undefined ? { peso: r.peso } : {}), ...(r.variante ? { variante: r.variante } : {}) })),
-    ligas: ligas.visible
-      ? ascensosDeEntreno(ligas.ligas, d.workoutId).filter(ascensoDestacado).map((a) => ({ ejercicio: nombre(a.exerciseId), texto: textoAscenso(a) }))
-      : [],
+    detalles: orden.map((id) => {
+      const liga = ligas.visible ? ligas.porEjercicio.get(id) : undefined
+      const division = liga ? divisionEnSemana(liga, lunes) : null
+      const ascenso = ascensos.get(id)
+      const { series, records } = seriesPublicables(sets.filter((s) => s.exerciseId === id), d.records.filter((r) => r.exerciseId === id))
+      return { ...(division?.liga ? { liga: division.liga } : {}), ...(ascenso ? { cambio: textoAscenso(ascenso) } : {}), series, records }
+    }),
     logros: nuevos.map(nombreConNivel),
     insignias: nuevos.map(({ logro, nivel }) => ({ id: logro.id, grupo: logro.grupo, nivel })),
   })
