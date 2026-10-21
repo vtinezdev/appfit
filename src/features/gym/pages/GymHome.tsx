@@ -9,18 +9,19 @@ import TarjetaEntreno from '../components/TarjetaEntreno'
 import RegistrarEntrenoPasado from '../components/RegistrarEntrenoPasado'
 import RepetirEntreno from '../components/RepetirEntreno'
 import { MosaicoRutina } from '../components/RutinaResumen'
-import { cuandoRutina } from '../components/TarjetaRutina'
 import ListGroup from '../../../shared/components/ListGroup'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { ordenParaEmpezar, resumenRutina } from '../lib/rutinas'
+import { cuandoFue } from '../lib/workout'
 
 const ERROR_EMPEZAR = 'No se ha podido empezar el entreno. Inténtalo de nuevo.'
 
 /**
- * Empezar (E1, ADR 035): arriba, sobre grafito, «Empezar entreno» con las formas de empezar sin rutina: entreno vacío
- * (principal), repetir uno terminado y registrar uno pasado. Debajo, las rutinas en pequeño (mosaico, nombre y cuándo se
- * hizo), de la que más tiempo lleva sin hacerse a la más reciente (su última fecha real, no un plan), con «Empezar».
+ * Empezar (E1, ADR 035): arriba, sobre grafito, «Tu entreno» con las formas de empezar sin rutina: «Empezar entreno»
+ * (vacío, la principal), repetir uno terminado y registrar uno pasado. Debajo, las rutinas en filas del mismo alto
+ * (mosaico, nombre en dos líneas como mucho y cuándo se hizo), de la que más tiempo lleva sin hacerse a la más reciente
+ * (su última fecha real, no un plan), con «Empezar».
  */
 interface Props {
   /** Hay un entreno en curso (minimizado): en lugar de empezar otro, se ofrece volver a él. */
@@ -77,14 +78,14 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
       <section aria-labelledby="empezar-entreno" className="training-surface space-y-5 p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 space-y-1">
-            <h2 id="empezar-entreno" className="break-words text-display">Empezar entreno</h2>
+            <h2 id="empezar-entreno" className="break-words text-display">Tu entreno</h2>
             <p className="training-muted text-body-sm">Empieza con los ejercicios que quieras{rutinas?.length === 0 ? ' o crea una rutina en la pestaña Rutinas' : ''}.</p>
           </div>
           <Icon name="dumbbell" size={28} className="training-muted mt-1 shrink-0" />
         </div>
         <Button variant="ghost" size="lg" block className="training-primary" loading={empezando === 'vacio'} disabled={ocupado} onClick={() => empezar()}>
-          <Icon name="plus" size={20} />
-          Entreno vacío
+          <Icon name="play" size={20} />
+          Empezar entreno
         </Button>
         <div className="flex flex-wrap gap-2">
           {hayTerminados && <Button variant="ghost" className="training-secondary flex-1 basis-40" disabled={ocupado} onClick={() => setRepetir((n) => n + 1)}>Repetir un entreno</Button>}
@@ -102,9 +103,10 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
             return <li key={r.id} className="flex items-center gap-2">
               <button type="button" onClick={() => onAbrirRutina(r.id)} className="app-button flex min-h-touch min-w-0 flex-1 items-center gap-3 py-3 text-left">
                 <MosaicoRutina resumen={resumen} />
-                <span className="min-w-0 flex-1">
-                  <span className="block break-words text-body font-semibold text-fg">{r.nombre}</span>
-                  <span className="block text-caption text-fg-muted">{cuandoRutina(resumen.ultima)}</span>
+                {/* Mismo alto en todas: el nombre reserva dos líneas (y no pasa de ellas); el nombre entero sigue en el botón. */}
+                <span className="rutina-fila-texto min-w-0 flex-1">
+                  <span className="line-clamp-2 break-words text-body font-semibold text-fg">{r.nombre}</span>
+                  <span className="block truncate text-caption text-fg-muted">{resumen.ultima === null ? 'Sin hacer' : cuandoFue(resumen.ultima)}</span>
                 </span>
               </button>
               <Button variant="secondary" size="sm" className="shrink-0" aria-label={`Empezar ${r.nombre}`} loading={empezando === r.id} disabled={ocupado} onClick={() => empezar(r.id)}>Empezar</Button>

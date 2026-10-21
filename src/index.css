@@ -217,10 +217,14 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .vaso-borde { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .vaso-agua { fill: rgb(var(--c-text-secondary) / .35); }
 /* Rutina: mosaico 2 × 2 con las miniaturas de sus cuatro primeros ejercicios; «+N» sobre la cuarta. */
-.rutina-mosaico { display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 2px; width: calc(var(--thumb-size) + 1rem); height: calc(var(--thumb-size) + 1rem); flex-shrink: 0; border-radius: var(--radius-md); overflow: hidden; background: rgb(var(--c-surface-muted)); }
+.rutina-mosaico { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 2px; width: calc(var(--thumb-size) + 1rem); height: calc(var(--thumb-size) + 1rem); flex-shrink: 0; border-radius: var(--radius-md); overflow: hidden; background: rgb(var(--c-surface-muted)); }
+/* Ninguna miniatura estira el mosaico (con tres, la ancha de abajo lo hacía más alto). */
+.rutina-mosaico > * { min-width: 0; min-height: 0; }
 .rutina-mosaico > :only-child { grid-column: span 2; grid-row: span 2; }
 .rutina-mosaico > :first-child:nth-last-child(2), .rutina-mosaico > :nth-child(2):last-child { grid-row: span 2; }
 .rutina-mosaico > :nth-child(3):last-child { grid-column: span 2; }
+/* Fila de rutina en Empezar: el texto reserva dos líneas de nombre y una de fecha, para que todas midan lo mismo. */
+.rutina-fila-texto { display: flex; flex-direction: column; justify-content: center; min-height: calc(2 * var(--fs-body) * var(--lh-body) + var(--fs-caption) * var(--lh-caption)); }
 .rutina-mapa { --muscle-mini-height: min(8rem, 40vw); flex-shrink: 0; } /* Mapa de la cabecera de una rutina: más grande que en las tarjetas, sin pasar del ancho con el texto ampliado. */
 .rutina-mosaico-mas { position: absolute; inset: 0; display: grid; place-items: center; background: rgb(var(--c-overlay) / .55); color: rgb(var(--c-on-training)); font-size: var(--fs-caption); font-weight: 700; }
 /* Cifras separadas por filetes (póster de sesión, cifras clave de Progreso). Sobre grafito, --c-border ya es el carril de entreno. */

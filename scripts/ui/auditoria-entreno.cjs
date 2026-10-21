@@ -29,7 +29,7 @@ async function caso(nombre) {
     }
     await comprobar('inicio vacío y doble acción sin duplicar entrenos', async () => {
       await navegar(page,'Entreno')
-      await page.getByRole('button',{name:'Entreno vacío',exact:true}).evaluate(e => {e.click();e.click()})
+      await page.getByRole('button',{name:'Empezar entreno',exact:true}).evaluate(e => {e.click();e.click()})
       await page.getByRole('button',{name:'Añadir ejercicio',exact:true}).waitFor()
       assert.equal((await datos(page)).workouts.filter(w=>w.fin===undefined).length,1)
     })
