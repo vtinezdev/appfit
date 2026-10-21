@@ -307,7 +307,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias 
       <section aria-label="Pistas" className="space-y-2">
         <h3 className="text-title text-fg">Pistas</h3>
         <Disclosure title="Ayuda para registrar un entreno">
-          <div className="space-y-3">{(['entreno-series', 'entreno-rir', 'entreno-progresion'] as const).map(id => <p key={id} className="text-body-sm text-fg-muted">{PISTAS[id]}</p>)}</div>
+          <div className="space-y-3">{(['entreno-series', 'entreno-rir', 'entreno-progresion', 'entreno-gimnasio'] as const).map(id => <p key={id} className="text-body-sm text-fg-muted">{PISTAS[id]}</p>)}</div>
         </Disclosure>
         <p className="text-body-sm text-fg-muted">Algunas pantallas explican cómo se usan la primera vez que entras.</p>
         <Button variant="secondary" disabled={!settings.pistasVistas?.length} onClick={() => {

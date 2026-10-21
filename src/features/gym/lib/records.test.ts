@@ -26,6 +26,13 @@ describe('detectarRecords', () => {
   it('un ejercicio por separado de otro', () => {
     expect(detectarRecords([s(2, 500, 5)], [s(1, 100, 5)])).toEqual([])
   })
+  it('una máquina de otro gimnasio no compite con la del habitual, sino con la de ese gimnasio', () => {
+    const fuera = (peso: number, gimnasioId: number) => ({ ...s(1, peso, 5), gimnasioId })
+    expect(detectarRecords([fuera(150, 2)], [s(1, 100, 5)])).toEqual([])
+    expect(detectarRecords([s(1, 105, 5)], [fuera(150, 2), s(1, 100, 5)]).map(x => x.tipo)).toEqual(['peso', '1rm'])
+    expect(detectarRecords([fuera(160, 2)], [fuera(150, 2)])[0]).toMatchObject({ tipo: 'peso', valor: 160, anterior: 150, variante: 'Otro gimnasio' })
+    expect(detectarRecords([fuera(160, 3)], [fuera(150, 2)])).toEqual([])
+  })
 })
 
 import { describirRecord, recordsDeEntreno } from './records'

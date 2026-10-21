@@ -1980,3 +1980,14 @@ A Víctor no le gustaba que Entreno abriera con una rutina en grande («Empezar 
 
 **Verificación:** los dos recorridos, correctos en sus seis casos (320/375/430 px, claro/oscuro) en `appfit-test.localhost:5173` con datos sintéticos. La rama de «hoy es lunes» no se ha ejecutado (hoy es miércoles). `npm run test` y `npm run build` correctos.
 
+## 185. Gimnasios: historial de máquinas por gimnasio (2026-10-21)
+
+Víctor entrenó en otro gimnasio y los kg de las máquinas no coincidían con los de su gimnasio habitual. De las soluciones propuestas eligió separar el historial por máquina (solo máquinas, poleas y smith), registrar el RIR (ya existía) y que lo hecho fuera no ensucie los récords del habitual, con gimnasios con nombre y, la primera vez, reps del habitual sin kg. Decisión en [ADR 054](decisiones/054-historial-por-gimnasio.md).
+
+- Datos: Dexie v13 con la tabla `gimnasios` (`&nombreNorm`), `Workout.gimnasioId` y el snapshot `SetEntry.gimnasioId`, solo en ejercicios de máquina fuera del habitual. Opcional en el backup v3, sin `upgrade()`.
+- `lib/gimnasios`: qué depende de la máquina, qué gimnasio lleva la serie, la nota de primera vez y la validación de nombres. `claveComparacion` añade el gimnasio solo si la serie lo trae (la clave del habitual queda idéntica, con test que la fija), y con eso Anterior, récords, progresión, Progreso, Liga, Experiencia y Vitrina separan cada máquina por gimnasio.
+- Repos: `gimnasiosRepo`, `setsRepo.previaEnGimnasio` (en `agregar` y en las series objetivo) y `workoutsRepo.cambiarGimnasio`. Las realizadas conservan cifras y marca, a diferencia de lo previsto en el plan (desmarcarlas): se hicieron allí, solo se había elegido mal el gimnasio. `empezar`, `crearPasado` y `repetir` llevan el gimnasio.
+- UI: `GimnasioSheet` con `ChipGimnasio` en Empezar, entreno activo y edición del historial; nota de primera vez en `PanelEjercicio`; gimnasio en el póster; «Variante» en Progreso, que abre en el habitual. Los récords dicen «Otro gimnasio» para no delatar el sitio al publicarlos. Pista `entreno-gimnasio`, también en Ajustes › Primeros pasos.
+
+**Verificación:** `npm run test` (202 archivos, 2.506 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs` en 320/375/430 px claro y oscuro con datos sintéticos en `appfit-test.localhost:5173`: sin overflow, controles de menos de 44 px ni errores de consola. Capturas revisadas de la hoja, el entreno activo, el póster y Progreso, más Empezar a 320 px en ambos temas. Sin prueba en iPhone.
+

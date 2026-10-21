@@ -83,7 +83,10 @@ export function resumenEjercicios(series: SetEntry[], workouts: Pick<Workout, 'i
   const out: ResumenEjercicioProgreso[] = []
   for (const [exerciseId, ss] of porEjercicio) {
     const modo = modoCarga(ss[0])
-    const variante = ss.filter(s => modoCarga(s) === modo && !s.bajadas?.length).map(claveComparacion)[0]
+    // La del habitual antes que la de otro gimnasio, aunque la primera vez fuera fuera.
+    const candidatas = ss.filter(s => modoCarga(s) === modo && !s.bajadas?.length)
+    const primera = candidatas.find(s => s.gimnasioId === undefined) ?? candidatas[0]
+    const variante = primera && claveComparacion(primera)
     const datos = datosProgreso(ss, workouts, modo, variante)
     if (!datos.length) continue
     const metrica = metricaPorDefecto(modo, datos)

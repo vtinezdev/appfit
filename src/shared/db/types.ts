@@ -474,6 +474,15 @@ export interface Workout {
   muscleSnapshot?: WorkoutMuscleSnapshot
   /** Id (uuid) de su publicación en Amigos, si se publicó (ADR 040). La publicación vive en el servidor. */
   publicacion?: string
+  /** Gimnasio donde se entrenó; ausente = el habitual (ADR 054). */
+  gimnasioId?: number
+}
+
+/** Gimnasio distinto del habitual. El habitual no tiene fila: es la ausencia de `gimnasioId`. */
+export interface Gimnasio {
+  id: number
+  nombre: string
+  nombreNorm: string
 }
 
 export interface WorkoutExerciseMuscles {
@@ -516,6 +525,8 @@ export interface SetEntry {
   bajadas?: TramoDropset[]
   /** Ausente = realización desconocida en histórico. Nunca inferir de reps precargadas. */
   realizada?: boolean
+  /** Snapshot del gimnasio de la sesión, solo en ejercicios que dependen de la máquina y fuera del habitual (ADR 054). */
+  gimnasioId?: number
 }
 
 export type Ejecucion = 'bilateral' | 'unilateral' | 'lados'

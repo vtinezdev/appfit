@@ -30,6 +30,9 @@ import { combinarFechaHora, efectivas, formatHora, minutosEntre, moverElemento, 
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
+import { gimnasioDeSerie, nombresGimnasios, textoGimnasio } from '../lib/gimnasios'
+import * as gimnasiosRepo from '../data/gimnasiosRepo'
+import { ChipGimnasio } from '../components/GimnasioSheet'
 import Pista from '../../../shared/components/Pista'
 
 // Diferido: la geometría de los muñecos pesa más que el resto del mapa.
@@ -69,6 +72,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
   const todasSeries = useLiveQuery(() => setsRepo.todas(), [])
   const ajustes = useLiveQuery(() => getSettings(), [])
   const enCurso = useLiveQuery(() => workoutsRepo.activo(), [])
+  const gimnasios = useLiveQuery(async () => nombresGimnasios(await gimnasiosRepo.listar()), [])
   const w = workout?.id === workoutId ? workout.w : undefined
   const rutina = useLiveQuery(() => (w?.routineId ? routinesRepo.obtener(w.routineId) : undefined), [w?.routineId])
   const delEntreno = sets?.id === workoutId ? sets.s : undefined
@@ -218,7 +222,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
         </section>
       )}
       <PosterSesion titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)}
-        levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined} />
+        levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined}
+        gimnasio={w.gimnasioId !== undefined ? textoGimnasio(w.gimnasioId, gimnasios) : undefined} />
       {error && <ErrorState>{error}</ErrorState>}
       {!editando && pendientes.length > 0 && (
         <section aria-label="Series sin marcar" className="space-y-2">
@@ -240,6 +245,10 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span className="text-body-sm text-fg-muted">Duración</span>
             <NumberStepper label="duración en minutos" suffix="min" min={1} step={5} value={minutos} onChange={(m) => { void cambiarTiempos(w.inicio, w.inicio + m * 60000) }} />
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="text-body-sm text-fg-muted">Gimnasio</span>
+            <ChipGimnasio gimnasioId={w.gimnasioId} disabled={ocupado} onElegir={async id => { await workoutsRepo.cambiarGimnasio(workoutId, id) }} />
           </div>
         </section>
       )}
@@ -276,8 +285,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
             if (!ex) return null
             const series = delEntreno.filter((s) => s.exerciseId === id).sort((a, b) => a.orden - b.orden)
             return <PanelEjercicio key={id} ejercicio={ex} sets={series} barraKg={ajustes?.barraKg ?? 20}
-              anteriores={anterioresPorSerie(series, seriesSesionAnterior(todasSeries ?? [], id, w, todosWorkouts ?? []))}
-              referenciasCarga={seriesSesionAnterior(todasSeries ?? [], id, w, todosWorkouts ?? [])}
+              anteriores={anterioresPorSerie(series, seriesSesionAnterior(todasSeries ?? [], id, w, todosWorkouts ?? [], gimnasioDeSerie(w.gimnasioId, ex)))}
+              referenciasCarga={seriesSesionAnterior(todasSeries ?? [], id, w, todosWorkouts ?? [], gimnasioDeSerie(w.gimnasioId, ex))}
               objetivo={rutina?.objetivos?.[id]} onActualizar={actualizarSerie} onBorrar={borrarSerie} onAgregar={() => agregarSerie(id)}
               completadas={delEntreno.filter(s => s.realizada === true).map(s => s.id)} onCompletar={s => { void accion(() => setsRepo.confirmar(s.id, s.realizada !== true), 'No se ha podido confirmar la serie.') }}
               bloqueado={ocupado || quitando} onQuitar={() => quitarEjercicio(id, ex.nombre)} onAviso={avisar}

@@ -14,10 +14,12 @@ interface Props {
   open: boolean
   onClose: () => void
   onRegistrado: (id: number) => void
+  /** Gimnasio elegido en Empezar; ausente = el habitual. */
+  gimnasioId?: number
 }
 
 /** Crea un entreno ya terminado (fecha, hora, duración y rutina opcional) y abre su editor. */
-export default function RegistrarEntrenoPasado({ open, onClose, onRegistrado }: Props) {
+export default function RegistrarEntrenoPasado({ open, onClose, onRegistrado, gimnasioId }: Props) {
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
   const [fecha, setFecha] = useState(() => toISODate(new Date()))
   const [hora, setHora] = useState(() => formatHora(Date.now() - 3600_000))
@@ -34,7 +36,7 @@ export default function RegistrarEntrenoPasado({ open, onClose, onRegistrado }: 
     setOcupado(true)
     setError(null)
     try {
-      const id = await workoutsRepo.crearPasado({ inicio: inicio!, fin: inicio! + minutos * 60000, routineId: rutina ? Number(rutina) : undefined })
+      const id = await workoutsRepo.crearPasado({ inicio: inicio!, fin: inicio! + minutos * 60000, routineId: rutina ? Number(rutina) : undefined, gimnasioId })
       onClose()
       onRegistrado(id)
     } catch {

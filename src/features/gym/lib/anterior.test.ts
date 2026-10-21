@@ -54,4 +54,11 @@ describe('seriesSesionAnterior', () => {
     expect(seriesSesionAnterior(todas, 1, { id: 2, inicio: 300 }, workouts).map(x => x.id)).toEqual([1])
     expect(seriesSesionAnterior(todas, 9, { id: 3, inicio: 500 }, workouts)).toEqual([])
   })
+  it('solo cuenta sesiones del mismo gimnasio', () => {
+    const workouts = [{ id: 1, inicio: 100, fin: 200 }, { id: 2, inicio: 300, fin: 400 }, { id: 3, inicio: 500 }]
+    const todas = [s(1, { workoutId: 1 }), s(2, { workoutId: 2, gimnasioId: 7 }), s(3, { workoutId: 3, gimnasioId: 7 })]
+    expect(seriesSesionAnterior(todas, 1, { id: 3, inicio: 500 }, workouts, 7).map(x => x.id)).toEqual([2])
+    expect(seriesSesionAnterior(todas, 1, { id: 3, inicio: 500 }, workouts).map(x => x.id)).toEqual([1])
+    expect(seriesSesionAnterior(todas, 1, { id: 3, inicio: 500 }, workouts, 8)).toEqual([])
+  })
 })

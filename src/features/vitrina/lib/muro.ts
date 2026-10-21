@@ -46,7 +46,7 @@ function mejor(series: SerieMuro[], valor: (s: SerieMuro) => number, fechaDe: (s
  * 1RM estimado (bilateral con carga externa, sin tempo), repeticiones con el peso corporal y la menor asistencia.
  * De la marca más reciente a la más antigua.
  */
-export function muroRecords(workouts: readonly Pick<Workout, 'id' | 'inicio' | 'fin'>[], sets: readonly SetEntry[]): MuroEjercicio[] {
+export function muroRecords(workouts: readonly Pick<Workout, 'id' | 'inicio' | 'fin'>[], sets: readonly SetEntry[], gimnasios?: ReadonlyMap<number, string>): MuroEjercicio[] {
   const fechaDe = new Map(workouts.filter((w) => w.fin !== undefined).map((w) => [w.id, toISODate(new Date(w.inicio))]))
   const grupos = acumularComparables(new Map(), sets.filter((s) => fechaDe.has(s.workoutId)))
   const fecha = (s: SerieMuro) => fechaDe.get(s.workoutId) ?? ''
@@ -62,7 +62,7 @@ export function muroRecords(workouts: readonly Pick<Workout, 'id' | 'inicio' | '
     if (modo === 'corporal') add('reps', mejor(ss, (s) => s.reps, fecha))
     if (modo === 'asistencia') add('asistencia', mejor(ss, (s) => s.peso, fecha, true))
     if (!marcas.length) continue
-    const variante = contextoSerie(primera)
+    const variante = contextoSerie(primera, gimnasios)
     muro.push({ exerciseId: primera.exerciseId, modo, ...(variante ? { variante } : {}), marcas, ultima: marcas.reduce((a, m) => (m.fecha > a ? m.fecha : a), '') })
   }
   return muro.sort((a, b) => b.ultima.localeCompare(a.ultima) || a.exerciseId - b.exerciseId)

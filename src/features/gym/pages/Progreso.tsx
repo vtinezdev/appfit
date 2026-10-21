@@ -6,10 +6,12 @@ import * as exercisesRepo from '../data/exercisesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import * as routinesRepo from '../data/routinesRepo'
+import * as gimnasiosRepo from '../data/gimnasiosRepo'
+import { nombresGimnasios } from '../lib/gimnasios'
 import { cifrasClave, datosProgreso, resumenEjercicios, textoMejorSerie, trazoMini, type MetricaProgreso } from '../lib/progreso'
 import { MODOS_CARGA, modoCarga } from '../lib/carga'
 import { ayudaCifras } from '../lib/ayudaCifras'
-import type { ModoCarga } from '../../../shared/db/types'
+import type { ModoCarga, SetEntry } from '../../../shared/db/types'
 import { chartAxis, chartColors, chartGrid, chartTooltip, escalaAjustada } from '../../../shared/design/chart'
 import { formatDiaMes, formatFechaHora, todayISO } from '../../../shared/lib/dates'
 import { Select } from '../../../shared/components/Input'
@@ -73,14 +75,21 @@ export default function Progreso() {
   const listaRef = useRef<HTMLHeadingElement>(null)
   const workouts = useLiveQuery(() => workoutsRepo.listar(), [])
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
+  const gimnasios = useLiveQuery(async () => nombresGimnasios(await gimnasiosRepo.listar()), [])
   const hoy = todayISO()
   const ligas = useLigas(hoy)
   const selectorRef = useRef<HTMLSelectElement>(null)
   const modos = [...new Set((sets ?? []).map(modoCarga))]
   const modo = modoElegido && modos.includes(modoElegido) ? modoElegido : modos[0] ?? 'externa'
+  // Las del habitual primero: la gráfica abre en ellas aunque haya sesiones en otros gimnasios.
   const variantes = [...new Map((sets ?? []).filter(s => modoCarga(s) === modo && !s.bajadas?.length).map(s => [claveComparacion(s), s])).entries()]
+    .sort(([, a], [, b]) => Number(a.gimnasioId !== undefined) - Number(b.gimnasioId !== undefined))
   const variante = varianteElegida && variantes.some(([key]) => key === varianteElegida) ? varianteElegida : variantes[0]?.[0]
   const permiteRM = variantes.find(([key]) => key === variante)?.[1]
+  // Con máquinas de otros gimnasios en la lista, la del habitual lo dice para distinguirlas.
+  const conGimnasios = variantes.some(([, s]) => s.gimnasioId !== undefined)
+  const textoVariante = (s: SetEntry) => [contextoSerie({ ...s, gimnasioId: undefined }) || 'Bilateral · sin agarre ni tempo especificados',
+    s.gimnasioId !== undefined ? contextoSerie({ gimnasioId: s.gimnasioId }, gimnasios) : conGimnasios ? 'Gimnasio habitual' : ''].filter(Boolean).join(' · ')
   const rm = !permiteRM?.ejecucion && !permiteRM?.excentricaSeg && !permiteRM?.soloNegativas && modo === 'externa'
   const datos = datosProgreso(sets ?? [], workouts ?? [], modo, variante).map(d => ({ ...d, fecha: formatDiaMes(d.inicio) }))
   const ultimo = datos.at(-1)
@@ -139,7 +148,7 @@ export default function Progreso() {
       <Select aria-label="Tipo de carga en Progreso" value={modo} onChange={e => { setModoElegido(e.target.value as ModoCarga); setVarianteElegida(null) }}>
         {modos.map(id => <option key={id} value={id}>{MODOS_CARGA[id]}</option>)}
       </Select></label>}
-    {!!exerciseId && variantes.length > 1 && <label className="block space-y-2"><span className="text-label text-fg-muted">Ejecución, agarre y tempo</span><Select aria-label="Variante en Progreso" value={variante} onChange={e => setVarianteElegida(e.target.value)}>{variantes.map(([key, s]) => <option key={key} value={key}>{contextoSerie(s) || 'Bilateral · sin agarre ni tempo especificados'}</option>)}</Select></label>}
+    {!!exerciseId && variantes.length > 1 && <label className="block space-y-2"><span className="text-label text-fg-muted">Variante</span><Select aria-label="Variante en Progreso" value={variante} onChange={e => setVarianteElegida(e.target.value)}>{variantes.map(([key, s]) => <option key={key} value={key}>{textoVariante(s)}</option>)}</Select></label>}
     {!exerciseId && conLigas && ligas.visible && exercises && <LigasLista ligas={ligas.ligas} nombres={new Map(exercises.map(e => [e.id, e.nombre]))} hoy={hoy} onElegir={elegirYEnfocar} />}
     {!exerciseId && resumenes?.length === 0 && <EmptyState icon="dumbbell" title="Sigue tu evolución">Termina un entreno y aquí verás cada ejercicio con su mejor serie y cómo va.</EmptyState>}
     {!!exerciseId && !ultimo && bloqueLiga}

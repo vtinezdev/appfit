@@ -4,7 +4,7 @@ Fuentes de verdad en el código: el esquema es `src/shared/db/db.ts`, los tipos 
 
 ## Tablas
 
-La versión actual del esquema es la v12; cada versión lleva un comentario con qué añadió. El backup es la v3 (`BACKUP_VERSION`); importa también v1 y v2.
+La versión actual del esquema es la v13; cada versión lleva un comentario con qué añadió. El backup es la v3 (`BACKUP_VERSION`); importa también v1 y v2.
 
 | Tabla | Lista | Para qué | Notas |
 |---|---|---|---|
@@ -14,8 +14,8 @@ La versión actual del esquema es la v12; cada versión lleva un comentario con 
 | `settings` | usuario | registro único (`id: 1`) con los objetivos manuales y, opcional, el `perfil` | ver «Ajustes» |
 | `exercises` | usuario | ejercicios | `&nombreNorm` |
 | `routines` | usuario | rutinas: `exerciseIds[]` ordenados | |
-| `workouts` | usuario | entrenos | sin `fin` = en curso; snapshot muscular opcional v1 al terminar |
-| `sets` | usuario | series | índice `[exerciseId+createdAt]` para la última serie de un ejercicio |
+| `workouts` | usuario | entrenos | sin `fin` = en curso; snapshot muscular opcional v1 al terminar; `gimnasioId` opcional (sin él, el habitual; invariante 18) |
+| `sets` | usuario | series | índice `[exerciseId+createdAt]` para la última serie de un ejercicio; `gimnasioId` opcional, snapshot solo en máquinas fuera del habitual (invariante 18) |
 | `notasMedida` | usuario | notas libres sobre medidas caseras que el intérprete aún no entiende | pantalla «Medidas» |
 | `pesos` | usuario | pesajes | `&fecha`: uno por día |
 | `nombresAlimentos` | usuario | nombres cortos personales para Nutrición | clave = `FoodRef` estable (`user:<id>` o `catalog:<id>`); no cambia los nombres ni nutrientes de origen |
@@ -29,6 +29,7 @@ La versión actual del esquema es la v12; cada versión lleva un comentario con 
 | `actividades` | usuario | caminatas, carreras y rutas de senderismo | `++id, fecha, inicio`; `origen` `manual` \| `gpx` \| `gps`; `recorrido` opcional ya simplificado; sin `enCurso` = terminada (invariante 15) |
 | `rutasPropias` | usuario | rutas propias de Caminos («Tarragona – Valencia») | `++id`; `salida` y `etapas` (nombre, provincia y coordenadas opcionales, km por etapa); no se borra una ruta del viaje (invariante 16) |
 | `pasos` | usuario | pasos de cada día, apuntados a mano para Caminos | `++id`, `&fecha`: un total por día; `pasos` entero de 1 a 100.000; `createdAt`, `updatedAt` (invariante 17) |
+| `gimnasios` | usuario | gimnasios distintos del habitual («Gym Playa») | `++id`, `&nombreNorm`; el habitual no tiene fila (invariante 18) |
 | `catalogFoods` | catálogo | alimentos de referencia (CIQUAL, Open Food Facts) | id `fuente:idExterno`, estable; `*tok` multiEntry para buscar; `gtin` no único |
 | `catalogSources` | catálogo | fuentes instaladas (versión, licencia, atribución, nº de filas) | |
 
@@ -76,6 +77,7 @@ La copia individual desde un alimento deslizado usa `origen.ids: [id]` y `separa
 15. **Actividades** ([ADR 037](decisiones/037-actividades-y-caminos.md)): como mucho una grabación con GPS en curso (`enCurso: true`); `actividadesRepo.empezarGrabacion` es transaccional y devuelve la que ya exista. La grabación existe en la tabla desde que empieza y se guarda cada 10 s, al pausar y al salir de la app (`guardarGrabacion`: puntos, distancia, segundos en marcha de los tramos cerrados y `reanudadaEn`, ausente en pausa), para no perderla si iOS cierra la PWA. Las lecturas (`terminadas`, `ultimaTerminada`, `entreFechas`) nunca devuelven la que está en curso. `crear`, `actualizar` y `terminarGrabacion` validan con `actividades/lib/actividad.validarActividad` (distancia y duración positivas, hasta 300 km y 48 h, sin futuro, media ≤ 25 km/h) y recalculan `fecha` (local) desde `inicio`. El recorrido se guarda simplificado (`geo.simplificarRecorrido`: como mucho 800 puntos, 5 decimales y altitud entera); la distancia y el desnivel se calculan antes, con todos los puntos. Nada de la ubicación sale del móvil.
 16. **Rutas propias**: `rutasPropiasRepo.crear`/`actualizar` validan con `caminos/lib/rutasPropias.validarRutaPropia` y redondean los km a un decimal. Su id en `Settings.caminos.ruta` es `propia:<id>`; `borrar` lee los ajustes en la misma transacción y lanza `RutaEnUso` si la ruta está ahí (en curso o terminada), para no cambiar lo recorrido. Un id de una ruta que ya no existe se ignora al leer.
 17. **Pasos**: un total por día (`&fecha`). `pasosRepo.guardar` valida con `caminos/lib/pasos.validarPasos`, sustituye el del día y devuelve el anterior; `borrar` devuelve la fila y `restaurar(fecha, anterior)` deja el día como estaba («Deshacer» de ambos). Los metros no se guardan: se derivan con la zancada (`Settings.zancadaCm` o la estimada por el perfil) al leer.
+18. **Gimnasios** ([ADR 054](decisiones/054-historial-por-gimnasio.md)): el habitual es la ausencia de `gimnasioId`. `Workout.gimnasioId` dice dónde se entrenó y `SetEntry.gimnasioId` es un snapshot que solo llevan las series de ejercicios que dependen de la máquina (`gym/lib/gimnasios.dependeDeMaquina`: equipo `maquina`, `polea` o `smith`, o sin equipo) en otro gimnasio; barra, mancuernas y peso corporal nunca lo llevan. `claveComparacion` solo lo añade si existe, así que la clave del habitual (guardada en `decisionesProgresion`) no cambia. `workoutsRepo.cambiarGimnasio` reestampa las series en una transacción: las realizadas conservan cifras y marca y, en curso, las pendientes se vuelven a precargar. `gimnasiosRepo.borrar` solo borra uno que ningún entreno use; los nombres no salen del móvil (los récords dicen «Otro gimnasio»).
 
 ## Repositorios (`features/*/data/*Repo.ts`)
 
@@ -92,7 +94,7 @@ Son lo único de las features que importa `db` (`shared/db/acceso.test.ts`); `cu
 | Feature | Repos | Tablas |
 |---|---|---|
 | nutricion | `foodsRepo` (`categoriasDeEntradas`), `entriesRepo` (`fechasConRegistro`), `mealsRepo`, `catalogRepo`, `notasMedidaRepo`, `nombresAlimentosRepo`, `porcionesRepo`, `recetasRepo`, `cheatDaysRepo` (`entreFechas`, `todas`, `marcar`, `quitar`/`restaurar`) | `foods`, `entries`, `meals`, `catalog*`, `notasMedida`, `nombresAlimentos`, `porciones`, `recetas`, `cheatDays` |
-| gym | `exercisesRepo` (ejercicios propios: editar/borrar), `routinesRepo` (sustituir un ejercicio con su objetivo y restaurar; `guardarPlan` del creador, en una transacción con `exercises`, y `borrarVarias`; `guardarDesdeEntreno`, rutina nueva con lo hecho en un entreno), `workoutsRepo` (descartar, borrar, crearPasado, `repetir` un entreno terminado como sesión nueva, notas, orden), `setsRepo` | `exercises`, `routines`, `workouts`, `sets` |
+| gym | `exercisesRepo` (ejercicios propios: editar/borrar), `routinesRepo` (sustituir un ejercicio con su objetivo y restaurar; `guardarPlan` del creador, en una transacción con `exercises`, y `borrarVarias`; `guardarDesdeEntreno`, rutina nueva con lo hecho en un entreno), `workoutsRepo` (descartar, borrar, crearPasado, `repetir` un entreno terminado como sesión nueva, notas, orden), `setsRepo`, `gimnasiosRepo` (`listar`, `crear`, `renombrar`, `enUso`, `borrar`); `workoutsRepo.cambiarGimnasio`; `setsRepo.previaEnGimnasio` | `exercises`, `routines`, `workouts`, `sets`, `gimnasios` |
 | inicio | `pesosRepo` (`delRango`, `registrar`, `borrar`/`restaurar`, `ultimoHasta(fecha)`: último pesaje ≤ fecha, solo lectura), `aguaRepo`, `creatinaRepo` (`leer`, `configurar`, `empezarCarga`, `marcar`) | `pesos`, `agua`, `suplementos`, `settings.creatina` |
 | actividades | `actividadesRepo` (`terminadas`, `ultimaTerminada`, `entreFechas`, `enCurso`, `crear`, `actualizar`, `borrar`/`restaurar`, `empezarGrabacion`, `guardarGrabacion`, `terminarGrabacion`, `descartarGrabacion`) | `actividades` |
 | caminos | `caminosRepo` (`guardar` y `guardarZancada`, devuelven la anterior para «Deshacer»), `rutasPropiasRepo` (`listar`, `obtener`, `crear`, `actualizar`, `enUso`, `borrar`), `pasosRepo` (`todos`, `guardar`, `borrar`, `restaurar`) | `settings.caminos`, `settings.zancadaCm`, `rutasPropias`, `pasos` |
@@ -126,7 +128,7 @@ Reglas y patrones:
 
 Lo social ([Amigos](features/social.md): perfil, seguimientos, bloqueos, denuncias y publicaciones) vive solo en Supabase: no está en Dexie ni en el backup, y borrar los datos del móvil no lo toca. Del lado local solo queda `Workout.publicacion` / `Actividad.publicacion` (uuid de la publicación, campo opcional sin índice ni versión de esquema), que sí viaja en el backup. Al borrar una publicación desde Social, `social/data/publicacionesRepo.ts` quita las marcas locales que coincidan con su UUID en una transacción de `workouts` y `actividades`, sin borrar los registros ni sus series. Una copia de comunidad no modifica la marca de seguidores.
 
-- Un único JSON con las `TABLAS_USUARIO` (nunca el catálogo), versión 3: añade `porciones`, `recetas`, `agua`, `objetivosDia` y `medidas` (opcionales: un backup v1/v2 las importa vacías); también `suplementos`, `cheatDays`, `actividades`, `rutasPropias` y `pasos` son opcionales, sin subir la versión del backup. `BACKUP_VERSION` y sus reglas de cambio están en la cabecera del archivo.
+- Un único JSON con las `TABLAS_USUARIO` (nunca el catálogo), versión 3: añade `porciones`, `recetas`, `agua`, `objetivosDia` y `medidas` (opcionales: un backup v1/v2 las importa vacías); también `suplementos`, `cheatDays`, `actividades`, `rutasPropias`, `pasos` y `gimnasios` son opcionales, sin subir la versión del backup. `BACKUP_VERSION` y sus reglas de cambio están en la cabecera del archivo.
 - `migrarBackup(raw)` es pura: valida y convierte cualquier versión conocida a la actual, y rechaza una versión más nueva con un mensaje claro. Las tablas de `TABLAS_OPCIONALES` (las posteriores al primer backup) pueden faltar: se importan vacías.
 - `importarBackup` **sustituye** todo en una transacción: vacía todas las tablas de usuario, también las que el backup no trae, y los ajustes pasan por `conDefaults`.
 - En Ajustes, seleccionar un archivo solo lo valida y muestra cuántos registros de comida contiene. La escritura empieza al pulsar «Importar copia». Si ya hay datos, se advierte que serán sustituidos y se puede exportar antes. Cancelar o elegir un archivo inválido no altera ningún registro. Los fallos de lectura/exportación/importación se muestran en línea.
@@ -170,6 +172,8 @@ Dexie v10 añade `actividades` (`++id, fecha, inicio`) sin tocar versiones ni re
 Dexie v11 añade `rutasPropias` (`++id`), opcional en el backup v3: las [rutas propias de Caminos](features/caminos.md#rutas-propias).
 
 Dexie v12 añade `pasos` (`++id, &fecha`), opcional en el backup v3 y con «Borrar todos los datos»: los [pasos de Caminos](features/caminos.md#pasos).
+
+Dexie v13 añade `gimnasios` (`++id, &nombreNorm`), opcional en el backup v3 y con «Borrar todos los datos»: los [gimnasios de Entreno](features/gym.md#gimnasios) (invariante 18). Sin `upgrade()`: todo el histórico queda en el habitual.
 
 
 ## Comunidades y nuevos resúmenes sociales

@@ -2,24 +2,27 @@ import type { ConfiguracionEjecucion, DatosLado, Lado, SetEntry, TramoDropset } 
 import { modoCarga, formatearCarga } from './carga'
 import { formatNumber } from '../../../shared/lib/format'
 
-export type SerieEjecucion = Pick<SetEntry, 'reps' | 'peso'> & Partial<Pick<SetEntry, 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg' | 'bajadas' | 'realizada' | 'tipo' | 'modoCarga' | 'pesoCorporal' | 'rir'>>
+export type SerieEjecucion = Pick<SetEntry, 'reps' | 'peso'> & Partial<Pick<SetEntry, 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg' | 'bajadas' | 'realizada' | 'tipo' | 'modoCarga' | 'pesoCorporal' | 'rir' | 'gimnasioId'>>
 export const EJECUCIONES = { bilateral: 'Bilateral', unilateral: 'Unilateral · ambos iguales', lados: 'Unilateral · distinguir lados' } as const
 export { ORIENTACIONES, ANCHURAS, ACCESORIOS, opcionesAgarre, textoAgarre } from './agarres'
 import { ORIENTACIONES, ANCHURAS, ACCESORIOS, textoAgarre } from './agarres'
+import { textoGimnasio } from './gimnasios'
 const positivo = (n: number) => Number.isFinite(n) && n > 0 ? n : 0
 
-export function contextoSerie(s: Partial<SerieEjecucion>): string {
-  const partes = [s.ejecucion === 'unilateral' ? `Ambos lados · kg ${s.kgUnilateral === 'total' ? 'totales' : 'por lado'}` : s.ejecucion === 'lados' ? `Lados separados · ${s.lados?.izquierda && s.lados?.derecha ? 'ambos registrados' : s.lados?.izquierda ? 'izquierda' : s.lados?.derecha ? 'derecha' : 'sin lados registrados'} · kg por lado` : '', textoAgarre(s.agarre), s.soloNegativas ? 'Solo negativas' : '', s.excentricaSeg ? `Descenso ${formatNumber(s.excentricaSeg)} s` : '', s.bajadas?.length ? `Dropset · ${s.bajadas.length + 1} tramos` : '']
+/** `gimnasios`: nombres por id; sin él (o sin el nombre, si se borró) se muestra «Otro gimnasio». */
+export function contextoSerie(s: Partial<SerieEjecucion>, gimnasios?: ReadonlyMap<number, string>): string {
+  const partes = [s.ejecucion === 'unilateral' ? `Ambos lados · kg ${s.kgUnilateral === 'total' ? 'totales' : 'por lado'}` : s.ejecucion === 'lados' ? `Lados separados · ${s.lados?.izquierda && s.lados?.derecha ? 'ambos registrados' : s.lados?.izquierda ? 'izquierda' : s.lados?.derecha ? 'derecha' : 'sin lados registrados'} · kg por lado` : '', textoAgarre(s.agarre), s.soloNegativas ? 'Solo negativas' : '', s.excentricaSeg ? `Descenso ${formatNumber(s.excentricaSeg)} s` : '', s.bajadas?.length ? `Dropset · ${s.bajadas.length + 1} tramos` : '', s.gimnasioId !== undefined ? textoGimnasio(s.gimnasioId, gimnasios) : '']
   return partes.filter(Boolean).join(' · ')
 }
 /**
  * Independiente del orden de propiedades; sin snapshot corporal ni reps/peso. «Ambos iguales» con kg por lado
  * equivale a registrar los dos lados: el histórico antiguo sigue en la misma curva que las filas I/D.
+ * El gimnasio solo se añade si la serie lo trae: la clave del habitual no cambia (las decisiones de progresión la guardan).
  */
 export function claveComparacion(s: Partial<SerieEjecucion>): string {
   const comoLados = s.ejecucion === 'unilateral' && s.kgUnilateral !== 'total'
   const ejecucion = comoLados ? 'lados' : s.ejecucion ?? 'bilateral'
-  return JSON.stringify([modoCarga(s), ejecucion, s.ejecucion === 'unilateral' && !comoLados ? 'total' : 'lado', s.agarre?.orientacion ?? '', s.agarre?.anchura ?? '', s.agarre?.accesorio ?? '', !!s.soloNegativas, s.excentricaSeg ?? 0, comoLados ? 'derecha,izquierda' : s.ejecucion === 'lados' ? Object.keys(s.lados ?? {}).sort().join(',') : ''])
+  return JSON.stringify([modoCarga(s), ejecucion, s.ejecucion === 'unilateral' && !comoLados ? 'total' : 'lado', s.agarre?.orientacion ?? '', s.agarre?.anchura ?? '', s.agarre?.accesorio ?? '', !!s.soloNegativas, s.excentricaSeg ?? 0, comoLados ? 'derecha,izquierda' : s.ejecucion === 'lados' ? Object.keys(s.lados ?? {}).sort().join(',') : '', ...(s.gimnasioId !== undefined ? [s.gimnasioId] : [])])
 }
 export function convencional(s: Partial<SerieEjecucion>): boolean { return !s.soloNegativas && !s.bajadas?.length }
 /** Datos de cada lado realmente indicado. Total en ambos iguales se reparte una sola vez. */

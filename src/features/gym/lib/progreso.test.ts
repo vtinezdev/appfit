@@ -53,6 +53,10 @@ describe('lista de ejercicios de Progreso', () => {
     expect(r[0].puntos).toHaveLength(2)
     expect(r[1]).toMatchObject({ modo: 'corporal', metrica: 'reps', puntos: [10] })
   })
+  it('la tendencia de la lista es la del habitual aunque la primera sesión fuera en otro gimnasio', () => {
+    const r = resumenEjercicios([s(1, { peso: 150, reps: 5, gimnasioId: 4 }), s(2, { workoutId: 2, peso: 85, reps: 5 })], ws)
+    expect(r[0]).toMatchObject({ sesiones: 1, ultima: { mejor: { peso: 85 } } })
+  })
   it('trazoMini ciñe la línea a su mínimo y máximo', () => {
     expect(trazoMini([1], 64, 24)).toBeNull()
     expect(trazoMini([10, 20, 15], 64, 24)).toEqual({ d: 'M2 22L32 2L62 12', ultimo: { x: 62, y: 12 } })

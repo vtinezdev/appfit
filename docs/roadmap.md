@@ -25,6 +25,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Rediseño completo (§51): safe areas, teclado y tacto en iOS/Android reales. Chromium cubre tamaños/temas/foco/scroll y viewport reducido, no reproduce el teclado real de WebKit.
 - Catálogo: tiempo de importación (~6.300 filas) y de búsqueda en Safari/WebKit.
 - Mapa muscular de progreso ([ADR 051](decisiones/051-mapa-muscular-de-progreso.md)): tocar zonas en el móvil y lectura con datos reales; en Chromium (Edge) solo se probó con fixtures.
+- Gimnasios (ADR 054): elegir y crear gimnasios, nota de primera vez y teclado del nombre en la hoja; probado en Chromium a 320/375/430 px en ambos temas.
 - Escáner: 3 productos reales (la cámara necesita HTTPS).
 - Exportar el backup (`<a download>` con un blob) desde la PWA instalada.
 - Inicio minimalista con rueda de energía (§79): tacto de las tarjetas y del «+» del peso, y nitidez de la rueda en pantalla Retina. Probado en Edge emulado a 320/375/430 px.
@@ -79,6 +80,7 @@ Registro:
 
 Gimnasio:
 - Mapa muscular de progreso (ADR 051): versión extendida de unos cinco años (tramos por encima de Avanzado III) cuando alguien llegue al máximo; es retroactiva porque todo se deriva del historial. Observar con datos reales si las dosis de los grupos pequeños (6 series) son justas.
+- **Gimnasios** ([ADR 054](decisiones/054-historial-por-gimnasio.md)): implementado el historial de máquinas por gimnasio. Ideas que se dejaron fuera: un factor de conversión estimado entre la máquina de un gimnasio y la del habitual (relación de 1RM estimados) y marcar ejercicios concretos como «depende de la máquina» o no, en vez de deducirlo del equipo.
 - Creador de rutinas: con 2 y 3 días por semana y sesiones de 45–60 min, el hueco de gemelos queda fuera del tiempo y el grupo no progresa en el mapa (simulación del ADR 051). Valorar meterlo antes o avisarlo.
 - **Plan de mejoras de Entreno**: implementadas las diez mejoras iniciales: papelera, RIR, notas, gráficas, carga corporal, unilateral, agarres, dropsets, negativas y progresión confirmada. Alcance, orden, decisiones y ampliaciones futuras en [mejoras.md](../mejoras.md). Se validan los bloques que Víctor autoriza antes de continuar; sustituye aquí el detalle anterior de progresión para evitar planes duplicados.
 
