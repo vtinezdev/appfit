@@ -126,14 +126,16 @@ export function resumenUltimoEntreno(
   }
 }
 
-/** Línea secundaria de una sesión en el historial: «Torso · 52 min · 9.268 kg · con notas». Solo lo que existe. */
+/** Línea secundaria de una sesión en el historial: «Basic-Fit Centro · Torso · 52 min · 9.268 kg · con notas». Solo lo que existe. */
 export function detalleSesion(
   workout: { inicio: number; fin?: number; notas?: string },
   rutina: string | undefined,
   sets: SerieBasica[],
+  gimnasio?: string,
 ): string {
   const volumen = volumenSets(sets)
   const partes = [
+    gimnasio,
     rutina,
     workout.fin !== undefined ? formatDuracion(workout.fin - workout.inicio) : null,
     volumen > 0 ? `${formatInt(volumen)} kg` : null,

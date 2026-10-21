@@ -45,6 +45,7 @@ describe('detalleSesion', () => {
   it('rutina, duración, volumen y notas, separados por puntos', () => {
     const w = { inicio: 0, fin: 52 * 60_000, notas: 'Buen día' }
     expect(detalleSesion(w, 'Torso', [{ reps: 10, peso: 60 }, { reps: 10, peso: 60, tipo: 'calentamiento' }])).toBe('Torso · 52 min · 600 kg · con notas')
+    expect(detalleSesion(w, 'Torso', [{ reps: 10, peso: 60 }], 'Gym Playa')).toBe('Gym Playa · Torso · 52 min · 600 kg · con notas')
   })
   it('omite lo que no existe y nunca queda vacío', () => {
     expect(detalleSesion({ inicio: 0, fin: 3_600_000 }, undefined, [])).toBe('1 h')

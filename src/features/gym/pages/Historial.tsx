@@ -7,6 +7,7 @@ import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import { calendarioMes, type DiaCalendario } from '../lib/calendarioEntrenos'
 import { detalleSesion, volumenSets } from '../lib/workout'
+import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { formatFechaHora, monthDates, todayISO, toISODate } from '../../../shared/lib/dates'
 import type { SetEntry } from '../../../shared/db/types'
 import Icon from '../../../shared/components/Icon'
@@ -22,6 +23,7 @@ import { EmptyState, LoadingState } from '../../../shared/components/StateMessag
 export default function Historial({ onAbrir }: { onAbrir: (id: number) => void }) {
   const [mes, setMes] = useState(todayISO)
   const workouts = useLiveQuery(() => workoutsRepo.terminados(), [])
+  const nombreGimnasio = useNombresGimnasio()
   const contexto = useLiveQuery(async () => {
     const porWorkout = new Map<number, SetEntry[]>()
     for (const s of await setsRepo.todas()) {
@@ -60,7 +62,7 @@ export default function Historial({ onAbrir }: { onAbrir: (id: number) => void }
                   <span className="min-w-0">
                     <span className="tabular block text-body font-medium text-fg">{formatFechaHora(w.inicio)}</span>
                     <span className="tabular block break-words text-caption text-fg-muted">
-                      {detalleSesion(w, w.routineId !== undefined ? contexto?.rutinas.get(w.routineId) : undefined, contexto?.porWorkout.get(w.id) ?? [])}
+                      {detalleSesion(w, w.routineId !== undefined ? contexto?.rutinas.get(w.routineId) : undefined, contexto?.porWorkout.get(w.id) ?? [], nombreGimnasio(w.gimnasioId))}
                     </span>
                   </span>
                   <Icon name="chevron-right" size={18} className="text-fg-subtle" />

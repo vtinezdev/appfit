@@ -128,3 +128,15 @@ describe('series en otro gimnasio', () => {
     expect((await db.sets.where('workoutId').equals(w).first())?.gimnasioId).toBe(playa)
   })
 })
+
+describe('nombre del gimnasio habitual', () => {
+  it('se guarda en los ajustes, vacío lo quita y no choca con otros gimnasios', async () => {
+    await gimnasiosRepo.crear('Gym Playa')
+    await gimnasiosRepo.renombrarHabitual('  Basic-Fit Centro ')
+    expect(await gimnasiosRepo.nombreHabitual()).toBe('Basic-Fit Centro')
+    await expect(gimnasiosRepo.renombrarHabitual('gym playa')).rejects.toThrow('otro gimnasio')
+    await expect(gimnasiosRepo.crear('basic-fit centro')).rejects.toThrow('habitual')
+    await gimnasiosRepo.renombrarHabitual('')
+    expect(await gimnasiosRepo.nombreHabitual()).toBeUndefined()
+  })
+})

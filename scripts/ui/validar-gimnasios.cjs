@@ -125,9 +125,23 @@ async function main() {
         }, [segundo.id, playa])
         await page.evaluate(async id => { const workoutsRepo = await import('/src/features/gym/data/workoutsRepo.ts'); await workoutsRepo.descartar(id) }, segundo.id)
 
-        // Historial: el póster nombra el gimnasio. Progreso abre en el habitual y ofrece la variante de Gym Playa.
+        // Nombre del habitual desde la misma hoja: sale en el chip, en cada fila del historial y en el póster.
+        await page.getByRole('button', { name: 'Gimnasio: Gimnasio habitual', exact: true }).click()
+        const hoja = page.getByRole('dialog', { name: 'Gimnasio', exact: true })
+        await hoja.getByRole('textbox', { name: 'Nombre', exact: true }).fill('Basic-Fit Centro')
+        await hoja.getByRole('button', { name: 'Guardar nombre', exact: true }).click()
+        await hoja.getByRole('radio', { name: /^Basic-Fit Centro/ }).waitFor()
+        await hoja.getByRole('button', { name: 'Cancelar', exact: true }).click()
+        await page.getByRole('button', { name: 'Gimnasio: Basic-Fit Centro', exact: true }).waitFor()
+
+        // Historial: cada fila empieza por su gimnasio y el póster lo nombra. Progreso abre en el habitual y ofrece Gym Playa.
         await page.getByRole('tab', { name: 'Historial', exact: true }).click()
-        await page.getByRole('list', { name: 'Entrenos terminados del mes', exact: true }).getByRole('button').first().click()
+        const filas = page.getByRole('list', { name: 'Entrenos terminados del mes', exact: true }).getByRole('button')
+        await filas.first().filter({ hasText: 'Gym Playa del Arenal con nombre largo · Pierna y pecho' }).waitFor()
+        await filas.nth(1).filter({ hasText: 'Basic-Fit Centro · Pierna y pecho' }).waitFor()
+        await capture(page, `${tag}-historial-lista`)
+        await geometry(page, `${tag}-historial-lista`)
+        await filas.first().click()
         await page.getByText(/· Gym Playa del Arenal con nombre largo$/).waitFor()
         await capture(page, `${tag}-historial`)
         await geometry(page, `${tag}-historial`)
@@ -139,7 +153,7 @@ async function main() {
         assert.equal(await page.getByRole('combobox', { name: 'Variante en Progreso', exact: true }).count(), 0)
         const gimnasio = page.getByRole('combobox', { name: 'Gimnasio en Progreso', exact: true })
         await gimnasio.locator('option').nth(2).waitFor({ state: 'attached' })
-        assert.deepEqual(await gimnasio.locator('option').allTextContents(), ['Todos los gimnasios', 'Gimnasio habitual', 'Gym Playa del Arenal con nombre largo'])
+        assert.deepEqual(await gimnasio.locator('option').allTextContents(), ['Todos los gimnasios', 'Basic-Fit Centro', 'Gym Playa del Arenal con nombre largo'])
         const leyenda = page.getByRole('list', { name: 'Gimnasios de la gráfica', exact: true })
         assert.equal(await leyenda.getByRole('listitem').count(), 2)
         assert.equal(await page.locator('.recharts-line').count(), 2)
@@ -148,7 +162,7 @@ async function main() {
         await gimnasio.selectOption({ label: 'Gym Playa del Arenal con nombre largo' })
         await leyenda.waitFor({ state: 'detached' })
         assert.equal(await page.getByRole('list', { name: 'Sesiones de Prensa', exact: true }).getByRole('listitem').count(), 1)
-        await gimnasio.selectOption({ label: 'Gimnasio habitual' })
+        await gimnasio.selectOption({ label: 'Basic-Fit Centro' })
         assert.equal(await page.getByRole('list', { name: 'Sesiones de Prensa', exact: true }).getByRole('listitem').count(), 1)
         await capture(page, `${tag}-progreso`)
         await geometry(page, `${tag}-progreso`)

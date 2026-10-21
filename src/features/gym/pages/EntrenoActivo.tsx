@@ -1,8 +1,8 @@
 import { recomendarProgresion } from '../lib/progresion'
 import { convencional, tieneReps, cambiaRealizacion } from '../lib/ejecucion'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
-import { gimnasioDeSerie, nombresGimnasios, notaPrimeraVez, primeraVez, textoGimnasio } from '../lib/gimnasios'
-import * as gimnasiosRepo from '../data/gimnasiosRepo'
+import { gimnasioDeSerie, notaPrimeraVez, primeraVez } from '../lib/gimnasios'
+import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { ChipGimnasio } from '../components/GimnasioSheet'
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
@@ -81,7 +81,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   const exercises = useLiveQuery(() => exercisesRepo.listar(), []) ?? []
   const ajustes = useLiveQuery(() => getSettings(), [])
   const todosWorkouts = useLiveQuery(() => workoutsRepo.listar(), []) ?? []
-  const gimnasios = useLiveQuery(async () => nombresGimnasios(await gimnasiosRepo.listar()), [])
+  const nombreGimnasio = useNombresGimnasio()
   const routine = useLiveQuery(() => (workout.routineId ? routinesRepo.obtener(workout.routineId) : undefined), [workout.routineId])
   const hoy = todayISO()
   const ligas = useLigasSesion(hoy, todosWorkouts, allSets, ajustes)
@@ -357,7 +357,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
           return (
             <div key={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
-                notaGimnasio={nuevaMaquina && notaPrimeraVez(textoGimnasio(workout.gimnasioId, gimnasios), nuevaMaquina.habitual)}
+                notaGimnasio={nuevaMaquina && notaPrimeraVez(nombreGimnasio(workout.gimnasioId), nuevaMaquina.habitual)}
                 anteriores={anterioresPorSerie(sets, seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex)))}
                 referenciasCarga={seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex))}
                 objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}

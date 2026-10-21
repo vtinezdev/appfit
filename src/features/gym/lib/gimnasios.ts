@@ -26,8 +26,9 @@ export function enGimnasio(s: Pick<SetEntry, 'gimnasioId'>, gimnasioId: number |
   return (s.gimnasioId ?? undefined) === gimnasioId
 }
 
-export function textoGimnasio(id: number | undefined, nombres?: ReadonlyMap<number, string>): string {
-  if (id === undefined) return 'Gimnasio habitual'
+/** Nombre de un gimnasio: el del habitual si se le puso (`Settings.nombreGimnasioHabitual`), o «Otro gimnasio» si se borró. */
+export function textoGimnasio(id: number | undefined, nombres?: ReadonlyMap<number, string>, habitual?: string): string {
+  if (id === undefined) return habitual?.trim() || 'Gimnasio habitual'
   return nombres?.get(id) ?? 'Otro gimnasio'
 }
 
@@ -36,14 +37,24 @@ export function nombresGimnasios(gimnasios: readonly Pick<Gimnasio, 'id' | 'nomb
 }
 
 /** Nombre limpio y su forma normalizada. Lanza con un mensaje para la persona si no vale o ya existe otro igual. */
-export function validarNombreGimnasio(nombre: string, existentes: readonly Pick<Gimnasio, 'id' | 'nombreNorm'>[], propio?: number): { nombre: string; nombreNorm: string } {
+export function validarNombreGimnasio(nombre: string, existentes: readonly Pick<Gimnasio, 'id' | 'nombreNorm'>[], propio?: number, habitual?: string): { nombre: string; nombreNorm: string } {
   const limpio = nombre.trim().replace(/\s+/g, ' ')
   if (!limpio) throw new Error('Escribe un nombre para el gimnasio.')
   if (limpio.length > LONGITUD_MAXIMA_NOMBRE) throw new Error(`El nombre admite hasta ${LONGITUD_MAXIMA_NOMBRE} caracteres.`)
   const nombreNorm = normalizeName(limpio)
   if (nombreNorm === normalizeName('habitual') || nombreNorm === normalizeName('gimnasio habitual')) throw new Error('«Habitual» ya es tu gimnasio de siempre.')
+  if (habitual && normalizeName(habitual) === nombreNorm) throw new Error('Ese es el nombre de tu gimnasio habitual.')
   if (existentes.some(g => g.nombreNorm === nombreNorm && g.id !== propio)) throw new Error('Ya tienes un gimnasio con ese nombre.')
   return { nombre: limpio, nombreNorm }
+}
+
+/** Nombre limpio del habitual, o undefined si se deja vacío (vuelve a «Gimnasio habitual»). No puede repetir el de otro gimnasio. */
+export function validarNombreHabitual(nombre: string, otros: readonly Pick<Gimnasio, 'nombreNorm'>[]): string | undefined {
+  const limpio = nombre.trim().replace(/\s+/g, ' ')
+  if (!limpio) return undefined
+  if (limpio.length > LONGITUD_MAXIMA_NOMBRE) throw new Error(`El nombre admite hasta ${LONGITUD_MAXIMA_NOMBRE} caracteres.`)
+  if (otros.some(g => g.nombreNorm === normalizeName(limpio))) throw new Error('Ya tienes otro gimnasio con ese nombre.')
+  return limpio
 }
 
 /**

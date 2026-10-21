@@ -5,8 +5,7 @@ import * as exercisesRepo from '../data/exercisesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import * as routinesRepo from '../data/routinesRepo'
-import * as gimnasiosRepo from '../data/gimnasiosRepo'
-import { nombresGimnasios, textoGimnasio } from '../lib/gimnasios'
+import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { MAX_LINEAS_GIMNASIO, cifrasClave, datosProgreso, resumenVariantes, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, textoMejorSerie, trazoMini, type MetricaProgreso } from '../lib/progreso'
 import { MODOS_CARGA, modoCarga } from '../lib/carga'
 import { ayudaCifras } from '../lib/ayudaCifras'
@@ -88,7 +87,7 @@ export default function Progreso() {
   const listaRef = useRef<HTMLHeadingElement>(null)
   const workouts = useLiveQuery(() => workoutsRepo.listar(), [])
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
-  const gimnasios = useLiveQuery(async () => nombresGimnasios(await gimnasiosRepo.listar()), [])
+  const nombreGimnasio = useNombresGimnasio()
   const hoy = todayISO()
   const ligas = useLigas(hoy)
   const selectorRef = useRef<HTMLSelectElement>(null)
@@ -111,8 +110,7 @@ export default function Progreso() {
   const indiceGimnasio = conSesiones.findIndex(id => claveGimnasio(id) === gimnasioActual)
   const datos = gimnasioActual === TODOS ? deTodos : deTodos.filter(d => claveGimnasio(d.gimnasioId) === gimnasioActual)
   const lineas = todosLosGimnasios ? conSesiones.slice(0, MAX_LINEAS_GIMNASIO) : []
-  const nombreGimnasio = (id: number | undefined) => textoGimnasio(id, gimnasios)
-  const opcionesGimnasio = [{ valor: TODOS, label: 'Todos' }, ...conSesiones.map(id => ({ valor: claveGimnasio(id), label: id === undefined ? 'Habitual' : nombreGimnasio(id) }))]
+  const opcionesGimnasio = [{ valor: TODOS, label: 'Todos' }, ...conSesiones.map(id => ({ valor: claveGimnasio(id), label: id === undefined && nombreGimnasio(undefined) === 'Gimnasio habitual' ? 'Habitual' : nombreGimnasio(id) }))]
   // Pocos gimnasios y nombres cortos: segmentos sobre la gráfica. Si no caben, un desplegable.
   const gimnasioEnSegmentos = opcionesGimnasio.length <= 3 && opcionesGimnasio.every(o => o.label.length <= 12)
   const colorUnico = indiceGimnasio > 0 && indiceGimnasio < MAX_LINEAS_GIMNASIO ? chartColors.gimnasios[indiceGimnasio] : chartColors.seriesPrimary

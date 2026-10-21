@@ -7,7 +7,8 @@ import { Input } from '../../../shared/components/Input'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import Pista from '../../../shared/components/Pista'
 import * as gimnasiosRepo from '../data/gimnasiosRepo'
-import { LONGITUD_MAXIMA_NOMBRE, nombresGimnasios, textoGimnasio } from '../lib/gimnasios'
+import { LONGITUD_MAXIMA_NOMBRE } from '../lib/gimnasios'
+import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import ChipAjuste from './ChipAjuste'
 
 const HABITUAL = 'habitual'
@@ -17,19 +18,21 @@ const mensaje = (e: unknown, otro: string) => (e instanceof Error && e.message ?
 /** Chip con el gimnasio de la sesión; al tocarlo abre `GimnasioSheet`. */
 export function ChipGimnasio({ gimnasioId, disabled, onElegir }: { gimnasioId?: number; disabled?: boolean; onElegir: (id: number | undefined) => Promise<void> }) {
   const [abierto, setAbierto] = useState(false)
-  const nombres = useLiveQuery(async () => nombresGimnasios(await gimnasiosRepo.listar()), [])
+  const nombreGimnasio = useNombresGimnasio()
   return <>
-    <ChipAjuste label="Gimnasio" texto={textoGimnasio(gimnasioId, nombres)} apagado={gimnasioId === undefined} disabled={disabled} onClick={() => setAbierto(true)} />
+    <ChipAjuste label="Gimnasio" texto={nombreGimnasio(gimnasioId)} apagado={gimnasioId === undefined} disabled={disabled} onClick={() => setAbierto(true)} />
     {abierto && <GimnasioSheet actual={gimnasioId} onElegir={onElegir} onClose={() => setAbierto(false)} />}
   </>
 }
 
 /**
  * Elegir dónde se entrena (ADR 054): el habitual o uno guardado con nombre, y añadir, renombrar o borrar gimnasios.
+ * El habitual también se puede nombrar (sin nombre, «Gimnasio habitual»), pero no borrar.
  * Se monta al abrir: parte siempre del gimnasio vigente.
  */
 export default function GimnasioSheet({ actual, onElegir, onClose }: { actual?: number; onElegir: (id: number | undefined) => Promise<void>; onClose: () => void }) {
   const gimnasios = useLiveQuery(() => gimnasiosRepo.listar(), [])
+  const habitual = useLiveQuery(async () => ({ nombre: await gimnasiosRepo.nombreHabitual() }), [])
   const [elegido, setElegido] = useState(clave(actual))
   const [nuevo, setNuevo] = useState('')
   const [nombre, setNombre] = useState<string | null>(null)
@@ -46,7 +49,13 @@ export default function GimnasioSheet({ actual, onElegir, onClose }: { actual?: 
   }
   const usar = () => accion(async () => { await onElegir(seleccion?.id); onClose() }, 'No se ha podido cambiar el gimnasio. Inténtalo de nuevo.')
   const anadir = () => accion(async () => { const id = await gimnasiosRepo.crear(nuevo); setNuevo(''); setBorrado(null); setElegido(String(id)) }, 'No se ha podido añadir el gimnasio.')
-  const renombrar = () => accion(async () => { if (seleccion && nombre !== null) { await gimnasiosRepo.renombrar(seleccion.id, nombre); setNombre(null) } }, 'No se ha podido renombrar.')
+  const renombrar = () => accion(async () => {
+    if (nombre === null) return
+    if (seleccion) await gimnasiosRepo.renombrar(seleccion.id, nombre)
+    else if (elegido === HABITUAL) await gimnasiosRepo.renombrarHabitual(nombre)
+    setNombre(null)
+  }, 'No se ha podido renombrar.')
+  const nombreActual = seleccion?.nombre ?? habitual?.nombre ?? ''
   const borrar = () => accion(async () => {
     if (!seleccion) return
     await gimnasiosRepo.borrar(seleccion.id)
@@ -60,18 +69,19 @@ export default function GimnasioSheet({ actual, onElegir, onClose }: { actual?: 
       <div className="space-y-section">
         <Pista id="entreno-gimnasio" />
         {gimnasios && <SegmentedControl variante="vertical" label="Dónde entrenas" valor={elegido} onChange={v => { setElegido(v); setNombre(null); setError(null) }}
-          opciones={[{ valor: HABITUAL, label: 'Gimnasio habitual', descripcion: 'Donde entrenas siempre' },
+          opciones={[{ valor: HABITUAL, label: habitual?.nombre ?? 'Gimnasio habitual', descripcion: habitual?.nombre ? 'Tu gimnasio habitual' : 'Donde entrenas siempre' },
             ...gimnasios.map(g => ({ valor: String(g.id), label: g.nombre, descripcion: 'Sus máquinas llevan historial propio' }))]} />}
         {borrado && <p role="status" className="flex flex-wrap items-center gap-x-2 text-body-sm text-fg-muted">«{borrado}» borrado.
           <Button variant="ghost" size="sm" disabled={ocupado} onClick={deshacer}>Deshacer</Button></p>}
-        {seleccion && <section aria-label={`Editar ${seleccion.nombre}`} className="space-y-2">
+        {(seleccion || (elegido === HABITUAL && habitual)) && <section aria-label={`Editar ${seleccion?.nombre ?? 'gimnasio habitual'}`} className="space-y-2">
           <label className="block space-y-2"><span className="text-label text-fg-muted">Nombre</span>
-            <Input value={nombre ?? seleccion.nombre} maxLength={LONGITUD_MAXIMA_NOMBRE} disabled={ocupado} onChange={e => setNombre(e.target.value)} /></label>
+            <Input value={nombre ?? nombreActual} maxLength={LONGITUD_MAXIMA_NOMBRE} placeholder={seleccion ? undefined : 'Por ejemplo, Basic-Fit Centro'} disabled={ocupado} onChange={e => setNombre(e.target.value)} /></label>
           <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" size="sm" disabled={ocupado || nombre === null || nombre.trim() === seleccion.nombre} onClick={renombrar}>Guardar nombre</Button>
-            {enUso === false && <Button variant="ghost" size="sm" disabled={ocupado} onClick={borrar}>Borrar gimnasio</Button>}
+            <Button variant="secondary" size="sm" disabled={ocupado || nombre === null || nombre.trim() === nombreActual} onClick={renombrar}>Guardar nombre</Button>
+            {seleccion && enUso === false && <Button variant="ghost" size="sm" disabled={ocupado} onClick={borrar}>Borrar gimnasio</Button>}
           </div>
-          {enUso && <p className="text-caption text-fg-muted">Tiene entrenos registrados: puedes renombrarlo, pero no borrarlo.</p>}
+          {seleccion && enUso && <p className="text-caption text-fg-muted">Tiene entrenos registrados: puedes renombrarlo, pero no borrarlo.</p>}
+          {!seleccion && <p className="text-caption text-fg-muted">Sale en el historial y en Progreso. Déjalo vacío para volver a «Gimnasio habitual».</p>}
         </section>}
         <section aria-label="Añadir gimnasio" className="space-y-2">
           <label className="block space-y-2"><span className="text-label text-fg-muted">Añadir gimnasio</span>
