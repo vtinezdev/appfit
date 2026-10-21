@@ -63,7 +63,7 @@ export function crearDesdeItems({ nombre, comida, items }: { nombre: string; com
 }
 
 /** Crea una plantilla directamente desde la revisión, sin escribir entradas en el diario. Todo o nada. */
-export function crearDesdeRevision({ nombre, comida, items }: { nombre: string; comida: Comida; items: ItemGuardado[] }): Promise<number> {
+export function crearDesdeRevision({ nombre, comida, items }: { nombre: string; comida?: Comida; items: ItemGuardado[] }): Promise<number> {
   if (!nombre.trim() || items.length === 0 || items.some(it => !it.nombre.trim() || !Number.isFinite(it.gramos) || it.gramos <= 0)) {
     return Promise.reject(new Error('Indica un nombre y añade alimentos con cantidades válidas.'))
   }

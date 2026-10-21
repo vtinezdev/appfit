@@ -19,7 +19,7 @@ export default function ComidasTipicasSheet({ id, comida, fecha, onClose, onEleg
   const [abierto, setAbierto] = useState(true)
   const pendiente = useRef<ComidaTipica | null>(null)
   const crearPendiente = useRef(false)
-  return <Sheet id={id} open={abierto} title={`Comidas típicas de ${nombreComida(comida).toLowerCase()}`} onClose={onClose}
+  return <Sheet id={id} open={abierto} title="Comidas típicas" onClose={onClose}
     onExited={() => {
       const tipica = pendiente.current
       pendiente.current = null
@@ -29,6 +29,7 @@ export default function ComidasTipicasSheet({ id, comida, fecha, onClose, onEleg
         else onCrear()
       }
     }}>
-    <ComidasTipicas enSelector comida={comida} fecha={fecha} onElegir={tipica => { pendiente.current = tipica; setAbierto(false) }} onCrear={() => { crearPendiente.current = true; setAbierto(false) }} />
+    <p className="mb-3 text-body-sm text-fg-muted">Añadir a {nombreComida(comida).toLowerCase()}</p>
+    <ComidasTipicas enSelector fecha={fecha} onElegir={tipica => { pendiente.current = tipica; setAbierto(false) }} onCrear={() => { crearPendiente.current = true; setAbierto(false) }} />
   </Sheet>
 }
