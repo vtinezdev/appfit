@@ -4,7 +4,7 @@ import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { calcularExperiencia } from '../../experiencia/lib/experiencia'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import { calcularAtlas } from './atlas'
-import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, nombreConNivel, recuentoPiezas, siguienteUmbral, UMBRALES } from './logros'
+import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, nombreConNivel, proximosLogros, recuentoPiezas, siguienteUmbral, UMBRALES, type Logro } from './logros'
 import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { calcularCumbres, empezar } from '../../cumbres/lib/cumbres'
 import { calcularCaminos } from '../../caminos/lib/caminos'
@@ -253,5 +253,29 @@ describe('logros ampliados', () => {
     expect(de('jardin').veces).toEqual([{ fecha: '2026-10-09' }])
     // Con nutrición: 18 piezas de Nutrición y el Jardín botánico entre los ocultos.
     expect(recuentoPiezas(l).total).toBe(34 + 13 + 22 + 46 + 17 + 18 + 1)
+  })
+})
+
+describe('próximos logros', () => {
+  const logro = (id: Logro['id'], umbrales: number[] | undefined, nivel: number, progreso: number | undefined, extra: Partial<Logro> = {}): Logro => ({
+    id, nombre: id, grupo: 'entreno', descripcion: '', umbrales,
+    niveles: (umbrales ?? []).map((_, i) => (i < nivel ? { fecha: '2026-10-01' } : null)), progreso, ...extra,
+  })
+  it('elige los que están más cerca de su siguiente umbral, con su progreso real', () => {
+    const logros = [
+      logro('entrenos', [10, 50], 1, 45), // 90 % del nivel II
+      logro('series', [250, 1000], 0, 50), // 20 %
+      logro('toneladas', [10, 100], 1, 90), // 90 %, falta más que en entrenos (10 frente a 5)
+      logro('records', [5, 15], 0, 4), // 80 %
+      logro('dominados', [5], 1, 7), // completo: sin siguiente umbral
+      logro('ligas', [5, 10], 0, 0), // sin empezar
+      logro('atlas', undefined, 0, undefined, { veces: [] }), // repetible
+    ]
+    expect(proximosLogros(logros).map((l) => l.id)).toEqual(['entrenos', 'toneladas', 'records'])
+    expect(proximosLogros(logros, 10).map((l) => l.id)).toEqual(['entrenos', 'toneladas', 'records', 'series'])
+  })
+  it('nunca muestra un oculto sin conseguir, aunque esté cerca', () => {
+    const madrugador = logro('madrugador', [5], 0, 4, { grupo: 'oculto', oculto: true })
+    expect(proximosLogros([madrugador])).toEqual([])
   })
 })

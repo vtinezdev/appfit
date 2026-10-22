@@ -12,25 +12,34 @@ const COMPLETO: Perfil = { sexo: 'hombre', fechaNacimiento: '1996-10-06', altura
 const PESO: Peso = { id: 1, fecha: '2026-10-05', kg: 80, createdAt: 1 }
 
 function resultado(perfil: Perfil, kg: number | null) {
-  return renderToStaticMarkup(<ResultadoEnergia perfil={perfil} energia={calcularEnergia(perfil, kg, HOY)} onElegirObjetivo={noop} onVerMetodo={noop} />)
+  return renderToStaticMarkup(<ResultadoEnergia energia={calcularEnergia(perfil, kg, HOY)} onElegirObjetivo={noop} onVerMetodo={noop} onCompletar={noop} />)
 }
 function datos(perfil: Perfil, peso?: Peso) {
   return renderToStaticMarkup(<DatosPerfil perfil={perfil} peso={peso} hoy={HOY} onEditar={noop} onBorrar={noop} />)
 }
 
 describe('resultado de energía por estados', () => {
-  it('perfil vacío: estado vacío sin cifras', () => {
+  it('perfil vacío: bloque compacto con los cinco datos y la acción del primero, sin cifras', () => {
     const html = resultado({}, null)
-    expect(html).toContain('Completa tus datos para estimar tu energía diaria')
+    expect(html).toContain('Completa tu perfil')
+    expect(html).toContain('0 de 5 datos')
+    expect(html).toContain('Faltan: sexo, fecha de nacimiento, altura, peso y actividad.')
+    expect(html).toContain('Indicar sexo')
+    expect(html.match(/<button/g)).toHaveLength(1)
     expect(html).not.toContain('kcal/día')
+    expect(html).not.toContain('Tu energía diaria')
   })
-  it('incompleto: lista lo que falta', () => {
+  it('incompleto: lista lo que falta y ofrece el siguiente', () => {
     const html = resultado({ ...COMPLETO, alturaCm: undefined, actividad: undefined }, 80)
+    expect(html).toContain('3 de 5 datos')
     expect(html).toContain('Faltan: altura y actividad.')
+    expect(html).toContain('Añadir altura')
     expect(html).not.toContain('kcal/día')
   })
   it('sin pesaje pide el peso', () => {
-    expect(resultado(COMPLETO, null)).toContain('Faltan: peso.')
+    const html = resultado(COMPLETO, null)
+    expect(html).toContain('Falta: peso.')
+    expect(html).toContain('Registrar peso')
   })
   it('completo sin objetivo: gasto diario y «Elige tu objetivo»', () => {
     const html = resultado({ ...COMPLETO, objetivo: undefined }, 80)

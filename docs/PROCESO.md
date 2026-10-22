@@ -2067,3 +2067,16 @@ Víctor quiere ver en el historial en qué gimnasio entrenó exactamente cada d�
 
 **Verificación:** `npm run test` (202 archivos, 2.514 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs` ampliado (nombrar el habitual desde la hoja, el chip con el nombre, cada fila del historial con su gimnasio y Progreso con el nombre) pasa en 320/375/430 px en claro y oscuro. Capturas de la lista a 320 px en claro y 375 px en oscuro. Sin prueba en iPhone.
 
+## 189. Perfil compacto, requisitos del gasto observado, primeros pasos y próximos logros (2026-10-22)
+
+Víctor pide terminar las cuatro mejoras aprobadas que quedaron en pausa en [el plan de auditoría](plan-auditoria-2026-10-22.md) (UI-06/07/09/10), conservando la gráfica de peso, el vaso de agua y las tarjetas integradas de comidas. Rama `feat/mejoras-ui-pendientes` desde `master`, sin commit ni push.
+
+- UI-06: `ResultadoEnergia` muestra, con el perfil incompleto, solo el bloque `PerfilIncompleto` («Completa tu perfil», «N de 5 datos», qué falta y un botón para el primer dato pendiente). Reutiliza `editar` de `PerfilTab`, que abre `EditarDatoSheet` o `RegistrarPesoSheet`; al guardar, el botón pasa al siguiente. `CAMPOS_ENERGIA` en `validacionPerfil`. `GastoObservadoCard` acepta `plegado` y se pinta en un Disclosure mientras el perfil está incompleto. Sin aviso orientativo en ese bloque: no hay estimación.
+- UI-07: `calcularGastoObservado` devuelve también `diasMin` y `semanas` (pesajes de cada semana) con los mismos registros que deciden el cálculo; `semanasCumplidas` cuenta las que llegan al mínimo. La card muestra «Días con comidas» y «Semanas con pesajes» con cifras, barra y cuatro pastillas de semana; la fórmula, los requisitos y sus límites, en el Disclosure. Sin cambios de fórmula, criterios, ventana ni selector.
+- UI-09: `PrimerosPasosSocial` plegado al entrar, con «Primeros pasos · 1 de 3», barra y X persistente; al ampliar, los tres pasos con su estado. `social/lib/primerosPasos` cuenta los hechos y no da cifra mientras no llega lo remoto. El plegado no se guarda.
+- UI-10: `proximosLogros` (hasta tres, por fracción del siguiente umbral) y el bloque «Próximos logros» de `LogrosVista`, antes del catálogo; cada fila abre la hoja de detalle existente. Excluye ocultos sin conseguir, repetibles, completos y los que van a cero.
+- Con texto al 200 %, la X de primeros pasos y la columna de cada próximo logro bajan de línea en vez de partir palabras.
+- Recorrido nuevo `validar-mejoras-pendientes.cjs`, añadido al workflow de QA (allí sin Social, que necesita el Supabase falso). Documentos vivos: Perfil, Social, Vitrina, desarrollo, roadmap y plan.
+
+**Verificación:** `npm run test` (207 archivos, 2.537 pruebas) y `npm run build` correctos. `validar-mejoras-pendientes.cjs` correcto en ocho configuraciones de Chromium (320/375/430 claro/oscuro y 375 al 200 % claro/oscuro), con Social contra el Supabase falso. `validar-social.cjs` y `validar-pulido-auditoria.cjs` correctos a 375 claro (y el segundo también al 200 %). Capturas revisadas en ambos temas y al 200 %. Pendiente previo, sin tocar: con texto al 200 % a 375 px, la fila «Gasto diario estimado» de la card del resultado parte «moderado» y las pestañas de Social se recortan. Sin dispositivo físico ni Firefox/WebKit locales.
+

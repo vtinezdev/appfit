@@ -11,7 +11,24 @@ export const DIAS_VENTANA_MIN = 21
 export const FRACCION_REGISTRO_MIN = 0.8
 export const PESAJES_SEMANA_MIN = 2
 
-export interface GastoObservadoOk {
+/** Pesajes de una semana de la ventana (la 1 es la más antigua). */
+export interface SemanaPesajes {
+  desde: string
+  hasta: string
+  pesajes: number
+}
+
+/** Progreso hacia los mínimos, con las cifras de los registros reales (lo mismo que decide si se calcula). */
+export interface RequisitosGasto {
+  dias: number
+  diasRegistrados: number
+  /** Días con comida que hacen falta (80 % de la ventana, redondeado hacia arriba). */
+  diasMin: number
+  pesajes: number
+  semanas: SemanaPesajes[]
+}
+
+export interface GastoObservadoOk extends RequisitosGasto {
   estado: 'ok'
   /** kcal/día redondeadas a 10. */
   gasto: number
@@ -19,15 +36,9 @@ export interface GastoObservadoOk {
   kcalMedia: number
   /** Variación de la media de peso (kg por semana; negativa = bajando). */
   kgSemana: number
-  dias: number
-  diasRegistrados: number
-  pesajes: number
 }
-export interface GastoObservadoInsuficiente {
+export interface GastoObservadoInsuficiente extends RequisitosGasto {
   estado: 'insuficiente'
-  dias: number
-  diasRegistrados: number
-  pesajes: number
   /** Qué falta, en lenguaje llano. */
   motivos: string[]
 }
@@ -59,6 +70,11 @@ function diasEntre(desde: string, hasta: string): number {
   return Math.round((Date.UTC(yb, mb - 1, db) - Date.UTC(ya, ma - 1, da)) / 86_400_000)
 }
 
+/** Semanas de la ventana con los pesajes mínimos. */
+export function semanasCumplidas(r: RequisitosGasto): number {
+  return r.semanas.filter((s) => s.pesajes >= PESAJES_SEMANA_MIN).length
+}
+
 export function calcularGastoObservado({ hoy, kcalPorDia, pesos, dias = DIAS_VENTANA }: EntradaGasto): GastoObservado {
   const n = Math.max(DIAS_VENTANA_MIN, Math.floor(dias))
   const fin = addDays(hoy, -1)
@@ -70,17 +86,17 @@ export function calcularGastoObservado({ hoy, kcalPorDia, pesos, dias = DIAS_VEN
   const motivos: string[] = []
   const minDias = Math.ceil(n * FRACCION_REGISTRO_MIN)
   if (registrados.length < minDias) motivos.push(`Faltan comidas registradas: ${registrados.length} de ${n} días, y hacen falta al menos ${minDias}.`)
-  const semanas = Math.floor(n / 7)
-  const flojas = Array.from({ length: semanas }, (_, s) => {
+  const semanas: SemanaPesajes[] = Array.from({ length: Math.floor(n / 7) }, (_, s) => {
     const desde = addDays(inicio, s * 7)
     const hasta = addDays(desde, 6)
-    return pesosVentana.filter((p) => p.fecha >= desde && p.fecha <= hasta).length
-  }).filter((c) => c < PESAJES_SEMANA_MIN).length
-  if (flojas > 0) motivos.push(`Faltan pesajes: hacen falta al menos ${PESAJES_SEMANA_MIN} por semana durante ${semanas} semanas seguidas.`)
+    return { desde, hasta, pesajes: pesosVentana.filter((p) => p.fecha >= desde && p.fecha <= hasta).length }
+  })
+  const flojas = semanas.filter((s) => s.pesajes < PESAJES_SEMANA_MIN).length
+  if (flojas > 0) motivos.push(`Faltan pesajes: hacen falta al menos ${PESAJES_SEMANA_MIN} por semana durante ${semanas.length} semanas seguidas.`)
 
   // La media móvil usa también los pesajes de la semana anterior a la ventana, para que la primera media sea completa.
   const puntos = mediaMovilPeso(pesos).filter((p) => p.fecha >= inicio && p.fecha <= fin).map((p) => ({ x: diasEntre(inicio, p.fecha), y: p.media }))
-  const base = { dias: n, diasRegistrados: registrados.length, pesajes: pesosVentana.length }
+  const base: RequisitosGasto = { dias: n, diasRegistrados: registrados.length, diasMin: minDias, pesajes: pesosVentana.length, semanas }
   const kgDia = pendiente(puntos)
   if (motivos.length === 0 && kgDia === null) motivos.push('No hay variación de fechas en los pesajes para calcular una tendencia.')
   if (motivos.length > 0 || kgDia === null) return { estado: 'insuficiente', ...base, motivos }

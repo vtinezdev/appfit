@@ -64,8 +64,8 @@ export default function PerfilTab({ onVerMetodo }: { onVerMetodo: () => void }) 
   return <div className="space-y-section px-page pt-5">
     <PageHeader title="Perfil" overline="Tus datos para estimar tu energía diaria" />
     {!estado ? <LoadingState /> : <>
-      <ResultadoEnergia perfil={estado.perfil} energia={estado.energia} onElegirObjetivo={() => editar('objetivo')} onVerMetodo={onVerMetodo} />
-      <GastoObservadoCard perfil={estado.perfil} energia={estado.energia} observado={estado.observado} hoy={hoy} />
+      <ResultadoEnergia energia={estado.energia} onElegirObjetivo={() => editar('objetivo')} onVerMetodo={onVerMetodo} onCompletar={editar} />
+      <GastoObservadoCard perfil={estado.perfil} energia={estado.energia} observado={estado.observado} hoy={hoy} plegado={estado.energia.estado === 'incompleto'} />
       <DatosPerfil perfil={estado.perfil} peso={estado.peso} hoy={hoy} onEditar={editar} onBorrar={borrar} />
       <MedidasCorporales />
       <EditarDatoSheet key={aperturas} campo={campo} open={abierto} perfil={estado.perfil} pesoKg={estado.peso?.kg} hoy={hoy}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { addDays } from '../../../shared/lib/dates'
-import { calcularGastoObservado, pendiente } from './gastoObservado'
+import { calcularGastoObservado, pendiente, semanasCumplidas } from './gastoObservado'
 
 const HOY = '2026-10-29'
 const INICIO = addDays(HOY, -28)
@@ -64,5 +64,21 @@ describe('calcularGastoObservado', () => {
   it('el día en curso no cuenta y la ventana nunca baja de 21 días', () => {
     const r = calcularGastoObservado({ hoy: HOY, ...datos(2500, 75, 0), dias: 10 })
     expect(r).toMatchObject({ dias: 21 })
+  })
+  it('desglosa los requisitos con las cifras reales: 23 de 28 días y pesajes de cada una de las 4 semanas', () => {
+    const kcalPorDia = new Map(dias(28).slice(0, 18).map((f) => [f, 2000] as const))
+    // Semana 1: 2 pesajes; semana 2: 1; semana 3: 0; semana 4: 3. Uno de la semana anterior y uno de hoy no cuentan.
+    const pesos = [-3, 0, 3, 8, 21, 23, 25, 28].map((i) => ({ fecha: addDays(INICIO, i), kg: 75 }))
+    const r = calcularGastoObservado({ hoy: HOY, kcalPorDia, pesos })
+    expect(r).toMatchObject({ estado: 'insuficiente', dias: 28, diasRegistrados: 18, diasMin: 23, pesajes: 6 })
+    expect(r.semanas.map((s) => s.pesajes)).toEqual([2, 1, 0, 3])
+    expect(r.semanas[0]).toMatchObject({ desde: INICIO, hasta: addDays(INICIO, 6) })
+    expect(r.semanas[3].hasta).toBe(addDays(HOY, -1))
+    expect(semanasCumplidas(r)).toBe(2)
+  })
+  it('con todos los mínimos el resultado conserva el desglose', () => {
+    const r = calcularGastoObservado({ hoy: HOY, ...datos(2500, 75, 0) })
+    expect(r).toMatchObject({ estado: 'ok', diasMin: 23 })
+    expect(semanasCumplidas(r)).toBe(4)
   })
 })
