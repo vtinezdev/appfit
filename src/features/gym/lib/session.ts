@@ -45,3 +45,15 @@ export function ajustarDescanso(s: SessionUI, deltaSeg: number, now = Date.now()
 export function seriesMarcadas(sets: { id: number; realizada?: boolean }[], completed: readonly number[]): number[] {
   return sets.filter(s => s.realizada === true || s.realizada === undefined && completed.includes(s.id)).map(s => s.id)
 }
+
+/**
+ * Adónde ir al completar un ejercicio: el primero después de `actual`, en el orden de la sesión (y si no, antes) con
+ * alguna serie sin marcar o sin series todavía (está en la sesión para hacerse). `null` si no queda ninguno.
+ */
+export function siguienteEjercicioPendiente(visibleIds: readonly number[], sets: readonly { id: number; exerciseId: number }[],
+  completadas: readonly number[], actual: number): number | null {
+  const hechas = new Set(completadas)
+  const pendiente = (exId: number) => { const suyas = sets.filter(s => s.exerciseId === exId); return !suyas.length || suyas.some(s => !hechas.has(s.id)) }
+  const i = visibleIds.indexOf(actual)
+  return [...visibleIds.slice(i + 1), ...visibleIds.slice(0, Math.max(i, 0))].find(id => id !== actual && pendiente(id)) ?? null
+}
