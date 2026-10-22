@@ -1,10 +1,15 @@
-import type { Por100 } from '../lib/alimentos'
+import { coherenciaEnergetica, type Por100 } from '../lib/alimentos'
+import Button from '../../../shared/components/Button'
+import Icon from '../../../shared/components/Icon'
+import { formatInt } from '../../../shared/lib/format'
 import { DecimalInput } from '../../../shared/components/Input'
 import { NUTRIENTES_ADICIONALES } from '../lib/nutrientes'
 interface Props {
   valores: Por100
   onChange: (patch: Partial<Por100>) => void
   detallado?: boolean
+  /** Avisa si las kcal no cuadran con los macros y ofrece calcularlas (solo alimentos propios o valores editados). */
+  coherencia?: boolean
 }
 const CAMPOS: { key: Exclude<keyof Por100, 'nutrientes'>; label: string; aria: string }[] = [
   { key: 'kcal100', label: 'Calorías', aria: 'Kcal/100g' },
@@ -13,7 +18,8 @@ const CAMPOS: { key: Exclude<keyof Por100, 'nutrientes'>; label: string; aria: s
   { key: 'grasa100', label: 'Grasa (g)', aria: 'Grasa/100g' },
 ]
 /** Un formulario nutricional común, legible incluso en móviles de 320 px. */
-export default function MacroInputs({ valores, onChange, detallado = false }: Props) {
+export default function MacroInputs({ valores, onChange, detallado = false, coherencia = false }: Props) {
+  const incoherente = coherencia ? coherenciaEnergetica(valores) : null
   return (
     <fieldset className="min-w-0">
       <legend className="mb-2 text-label text-fg-muted">Valores por 100 g</legend>
@@ -37,6 +43,15 @@ export default function MacroInputs({ valores, onChange, detallado = false }: Pr
           </label>
         ))}
       </div>
+      {incoherente && (
+        <div role="status" className="mt-3 space-y-2">
+          <p className="flex items-start gap-2 text-body-sm text-warning">
+            <Icon name="alert" size={16} className="mt-0.5 shrink-0" />
+            <span className="min-w-0">Con estos macros salen unas {formatInt(incoherente.esperadas)} kcal, no {formatInt(valores.kcal100)}. Revisa la etiqueta: la fibra, los polialcoholes o el alcohol solo explican diferencias pequeñas.</span>
+          </p>
+          <Button variant="secondary" size="sm" onClick={() => onChange({ kcal100: incoherente.esperadas })}>Calcular kcal desde los macros</Button>
+        </div>
+      )}
       {detallado && <p className="mt-2 text-caption text-fg-muted">Deja vacío lo desconocido. El valor 0 indica que el alimento no lo contiene.</p>}
     </fieldset>
   )
