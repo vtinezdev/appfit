@@ -11,7 +11,7 @@ import * as routinesRepo from '../data/routinesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import type { ConfiguracionCarga, SetEntry, Workout } from '../../../shared/db/types'
-import { getSettings } from '../../../shared/db/settings'
+import { getSettings, updateSettings } from '../../../shared/db/settings'
 import { pitar } from '../../../shared/lib/sonido'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import PanelEjercicio from '../components/PanelEjercicio'
@@ -42,6 +42,9 @@ import { avisarElite } from '../../liga/lib/basicos'
 import { alternativas } from '../../liga/lib/alternativas'
 import Pista from '../../../shared/components/Pista'
 import { useGuardadoLocal } from '../hooks/useGuardadoLocal'
+import DescansoSugerido from '../components/DescansoSugerido'
+import { CATALOGO_POR_ID } from '../lib/catalogoEjercicios'
+import { descansoSugerido, PISTA_DESCANSO, proponerDescanso, textoDescanso } from '../lib/descansoSugerido'
 
 /** Con el teclado abierto (un campo con foco) la pantalla no se mueve sola. */
 const escribiendo = () => !!document.activeElement?.matches('input, textarea, select, [contenteditable="true"]')
@@ -68,6 +71,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   const [restConfigOpen, setRestConfigOpen] = useState(false)
   const [descartando, setDescartando] = useState(false)
   const [notas, setNotas] = useState(workout.notas ?? '')
+  /** Propuesta de descanso bajo el ejercicio de la primera serie marcada sin temporizador (ENT-14). */
+  const [sugerencia, setSugerencia] = useState<{ exId: number; segundos: number } | null>(null)
   /** Ejercicios con todas sus series hechas que se han desplegado a mano: los demás completos se pliegan (E3, ADR 035). */
   const [desplegados, setDesplegados] = useState<ReadonlySet<number>>(() => new Set())
   const notasGuardadas = useRef(workout.notas ?? '')
@@ -297,7 +302,10 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         restTotal: done ? previous.restTotal : descanso > 0 ? descanso : undefined,
       }))
       haptic(done ? 'selection' : 'success')
-      if (!done && !escribiendo()) {
+      // La propuesta de descanso sale bajo este ejercicio: si se propone, no se baja al siguiente para que se vea.
+      const proponer = !done && !sugerencia && proponerDescanso(sessionActual.current.restSeconds, routine?.objetivos?.[s.exerciseId]?.descansoSeg, ajustes?.pistasVistas)
+      if (proponer) setSugerencia({ exId: s.exerciseId, segundos: descansoSugerido(exerciseMap.get(s.exerciseId)?.catalogId) })
+      if (!done && !proponer && !escribiendo()) {
         const marcadas = [...seriesMarcadas(currentSets, sessionActual.current.completed), s.id!]
         const suyas = currentSets.filter(x => x.exerciseId === s.exerciseId)
         const siguiente = suyas.every(x => marcadas.includes(x.id)) ? siguienteEjercicioPendiente(visibleIds, currentSets, marcadas, s.exerciseId) : null
@@ -307,6 +315,19 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
       setFeedback(done ? `${que} de ${nombre} pendiente` : `${que} de ${nombre} completada`)
       return !done
     } catch { avisarError('La serie no se ha guardado. Inténtalo de nuevo antes de completarla.'); return false } finally { confirmandoSeries.current.delete(s.id) }
+  }
+
+  /** «Sí» fija el descanso de la sesión y lo empieza a contar ya, tras la serie recién marcada; las dos respuestas cierran la propuesta para siempre. */
+  function responderDescanso(si: boolean) {
+    if (!sugerencia) return
+    const segundos = sugerencia.segundos
+    if (si) {
+      setSession(previous => ({ ...previous, restSeconds: segundos, restEndsAt: Date.now() + segundos * 1000, restTotal: segundos }))
+      setFeedback(`Descanso de ${textoDescanso(segundos)} entre series`)
+    }
+    setSugerencia(null)
+    // Un fallo al guardar solo hace que la propuesta vuelva a salir en otro entreno: no merece un error.
+    updateSettings({ pistasVistas: [...new Set([...(ajustes?.pistasVistas ?? []), PISTA_DESCANSO])].sort() }).catch(() => undefined)
   }
 
   const descansando = session.restEndsAt !== null
@@ -397,6 +418,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
                   rutinas: routine?.exerciseIds.includes(exId) ? [routine] : [] } : undefined}
                 plegado={completo && !desplegados.has(exId)}
                 onPlegar={(plegar) => setDesplegados((previo) => { const s = new Set(previo); if (plegar) s.delete(exId); else s.add(exId); return s })} />
+              {sugerencia?.exId === exId && session.restSeconds === 0 && <DescansoSugerido segundos={sugerencia.segundos} ejercicio={ex.nombre}
+                compuesto={CATALOGO_POR_ID.get(ex.catalogId ?? '')?.tipo === 'compuesto'} onSi={() => responderDescanso(true)} onNo={() => responderDescanso(false)} />}
             </div>
           )
         })}
