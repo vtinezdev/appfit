@@ -65,6 +65,8 @@ jobs:
           npm run test:ui
           npm run test:ui:responsive
           npm run test:ui:uso
+          node scripts/ui/validar-correcciones-auditoria.cjs
+          node scripts/ui/validar-pulido-auditoria.cjs
           node scripts/ui/auditoria-datos.cjs
           npm run test:ui:offline
       - uses: actions/upload-artifact@v4

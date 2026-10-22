@@ -12,6 +12,7 @@ import type { AreaReferencias } from '../features/referencias/lib/contenidoRefer
 import * as workoutsRepo from '../features/gym/data/workoutsRepo'
 import EntrenoMinimizado from '../features/gym/components/EntrenoMinimizado'
 import { socialDisponible } from '../features/social/servicio'
+import { useHoy } from '../shared/hooks/useHoy'
 
 const NutricionTab = lazy(() => import('../features/nutricion/NutricionTab'))
 const GymTab = lazy(() => import('../features/gym/GymTab'))
@@ -26,6 +27,8 @@ const AmigosTab = lazy(() => import('../features/social/AmigosTab'))
 const SocialTab = lazy(() => import('../features/social/SocialTab'))
 
 export default function App() {
+  // Actualiza también las pantallas derivadas de la fecha al volver después de medianoche.
+  useHoy()
   const [anadirAmigo, setAnadirAmigo] = useState(false)
   const [tab, setTab] = useState<Tab>('inicio')
   const [seccionAjustes, setSeccionAjustes] = useState<SeccionAjustes | undefined>(undefined)

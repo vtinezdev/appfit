@@ -257,7 +257,7 @@ async function main() {
         }
 
         // Consumo/cobertura sin metodología permanente; el detalle consulta la referencia común.
-        await page.getByRole('radio', { name: 'Vista detallada', exact: true }).click()
+        await page.getByRole('button', { name: 'Ver detalle nutricional', exact: true }).click()
         const desglose = page.getByRole('region', { name: 'Desglose del día', exact: true })
         assert.equal(await desglose.getByRole('progressbar').count(), 4)
         assert.doesNotMatch(await desglose.innerText(), /Mín\.|Máx\.|sin máximo|Referencias diarias y fuentes/)

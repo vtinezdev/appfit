@@ -1,13 +1,13 @@
 // Lecturas de la Vitrina (solo lectura: se usan en useLiveQuery).
 import { useLiveQuery } from 'dexie-react-hooks'
 import { leerCumbres, type EstadoCumbres } from '../../cumbres/hooks/useCumbres'
-import { leerCaminos } from '../../caminos/hooks/useCaminos'
+import { leerCaminos, type EstadoCaminos } from '../../caminos/hooks/useCaminos'
 import * as foodsRepo from '../../nutricion/data/foodsRepo'
 import * as gimnasiosRepo from '../../gym/data/gimnasiosRepo'
 import { nombresGimnasios } from '../../gym/lib/gimnasios'
 import { calcularVitrina, type ResultadoVitrina } from '../lib/vitrina'
 
-export type EstadoVitrina = { visible: false } | (Extract<EstadoCumbres, { visible: true }> & { vitrina: ResultadoVitrina })
+export type EstadoVitrina = { visible: false } | (Extract<EstadoCumbres, { visible: true }> & { vitrina: ResultadoVitrina; caminos: EstadoCaminos })
 
 /** Vitrina de todo el historial hasta `hoy` (incluye la experiencia, Ritmo, Cumbres y Caminos; los tres primeros, también en el resultado). `undefined` mientras carga. */
 export function useVitrina(hoy: string): EstadoVitrina | undefined {
@@ -17,7 +17,7 @@ export function useVitrina(hoy: string): EstadoVitrina | undefined {
     const { workouts, sets, exercises, entries, actividades } = estado.datos
     const categorias = estado.conNutricion ? await foodsRepo.categoriasDeEntradas(entries) : new Map<string, string>()
     const gimnasios = nombresGimnasios(await gimnasiosRepo.listar())
-    return { ...estado, vitrina: calcularVitrina({ hoy, experiencia: estado.resultado, workouts, sets, exercises, entries, categorias, conNutricion: estado.conNutricion, pausas: estado.pausas, cumbres: estado.cumbres, actividades,
+    return { ...estado, caminos, vitrina: calcularVitrina({ hoy, experiencia: estado.resultado, workouts, sets, exercises, entries, categorias, conNutricion: estado.conNutricion, pausas: estado.pausas, cumbres: estado.cumbres, actividades,
       caminos: caminos.visible ? caminos.caminos : null, pasos: caminos.visible ? caminos.pasos : [], gimnasios }) }
   }, [hoy])
 }

@@ -36,14 +36,14 @@ function cuando(dias: number | null) {
  * Mapa muscular de progreso (ADR 051), arriba de Progreso: una vista del cuerpo con Frontal/Trasera, los grupos más avanzados
  * y los que más pueden crecer y, en una hoja, el detalle de cada grupo (tocando la figura o desde «Ver detalle por músculo»).
  */
-export default function MapaProgreso() {
+export default function MapaProgreso({ onIrAEjercicios }: { onIrAEjercicios: () => void }) {
   const datos = useAportesMusculares()
   const figura = useFiguraMapa()
   const [vista, setVista] = useState<'frontal' | 'trasera'>('frontal')
   const [hoja, setHoja] = useState<{ abierta: boolean; musculo: ZonaMuscular | null }>({ abierta: false, musculo: null })
-  const cabecera = <div className="flex items-baseline justify-between gap-3">
+  const cabecera = <div className="flex flex-wrap items-baseline justify-between gap-3">
     <h2 id="mapa-progreso" className="text-heading text-fg">Mapa muscular</h2>
-    <span className="text-caption text-fg-muted">Progreso</span>
+    <Button variant="subtle" size="sm" onClick={onIrAEjercicios}>Ir a ejercicios<Icon name="chevron-down" size={18} /></Button>
   </div>
   if (!datos) return <section aria-labelledby="mapa-progreso" className="space-y-stack">{cabecera}<LoadingState /></section>
 

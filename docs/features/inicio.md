@@ -4,6 +4,8 @@
 
 ## Dónde está cada cosa
 
+El día se actualiza con `useHoy` al cruzar medianoche y al volver a la app. Los handlers de registro de agua, peso y creatina leen la fecha actual al actuar; Deshacer conserva la fecha de la acción original. Las teselas de progreso reutilizan Caminos desde el resultado de `useVitrina`, sin una segunda suscripción. Se conserva el diseño actual de peso (minigráfica) y agua (vaso).
+
 | Pieza | Archivo | Datos |
 |---|---|---|
 | Pantalla | `InicioTab.tsx` | lee `entriesRepo.delDia`, `objetivosDiaRepo.objetivosDe` (el objetivo de hoy: snapshot o vigentes), `pesosRepo.delRango`, `aguaRepo.delDia` |

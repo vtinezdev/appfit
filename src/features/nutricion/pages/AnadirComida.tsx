@@ -1,5 +1,5 @@
 import PreparacionAlimento from '../components/PreparacionAlimento'
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida, Entry } from '../../../shared/db/types'
 import { comidaPorHora, formatFriendly } from '../../../shared/lib/dates'
@@ -51,6 +51,7 @@ import Medidas from './Medidas'
 import Button from '../../../shared/components/Button'
 import { Input, Select } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
+import { revisionModificada } from '../lib/borradorComida'
 
 interface Props {
   fecha: string
@@ -106,6 +107,26 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const [escaneando, setEscaneando] = useState(false)
   const [verMedidas, setVerMedidas] = useState(false)
   const local = useInterpretarLocal()
+  const [descartar, setDescartar] = useState(false)
+  const confirmacionRef = useRef<HTMLDivElement>(null)
+  const editorRef = useRef<HTMLDivElement>(null)
+  const focoAnterior = useRef<HTMLElement | null>(null)
+  const confirmacionAnterior = useRef(false)
+  const itemInicial = useRef(entryEditar ? itemDesdeEntrada(entryEditar) : undefined)
+  const ocupado = guardando || guardandoRapido || guardandoRapida || local.cargando
+  const tieneCambios = entryEditar && itemInicial.current
+    ? comida !== entryEditar.comida || aplicarAlAlimento || revisionModificada(items?.[0], itemInicial.current)
+    : !!(texto.trim() || textoOriginal || items?.length || nombrePlato.trim() || nombreTipica.trim())
+
+  useLayoutEffect(() => {
+    if (descartar) confirmacionRef.current?.querySelector('button')?.focus()
+    else if (confirmacionAnterior.current) {
+      const foco = focoAnterior.current
+      if (foco?.isConnected && editorRef.current?.contains(foco)) foco.focus({ preventScroll: true })
+      else editorRef.current?.querySelector<HTMLElement>('textarea,input,select,button')?.focus({ preventScroll: true })
+    }
+    confirmacionAnterior.current = descartar
+  }, [descartar])
 
   const claveRevision = items
     ? JSON.stringify(items.map((item) => [item.nombre, item.origen.nombreNorm, item.origen.catalogId, item.origen.guardado]))
@@ -242,8 +263,14 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const kcalRapido = aporteRapido ? Math.round(aporteRapido.kcal) : 0
 
   return (
-    <ModalPage title={soloTipica ? 'Nueva comida típica' : entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose} busy={guardando}
-      footer={items !== null && items.length > 0 && totales && (
+    <ModalPage title={descartar ? '¿Descartar los cambios?' : soloTipica ? 'Nueva comida típica' : entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose} busy={ocupado}
+      onBeforeClose={() => {
+        if (!tieneCambios) return true
+        if (!descartar) focoAnterior.current = document.activeElement as HTMLElement | null
+        setDescartar(true)
+        return false
+      }}
+      footer={!descartar && items !== null && items.length > 0 && totales && (
         <div className="space-y-2">
           {!soloTipica && <p className="flex flex-wrap justify-between gap-x-3 text-caption text-fg-muted"><span>{formatInt(items.length)} {items.length === 1 ? 'alimento' : 'alimentos'}</span><span>{nombreComida(comida)} · {formatFriendly(fecha)}</span></p>}
           {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
@@ -252,7 +279,12 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           </Button>
         </div>
       )}>
-      <div className="space-y-5">
+      {descartar && <div ref={confirmacionRef} className="space-y-stack">
+        <p className="text-body-sm text-fg-muted">Todavía no has guardado. Si sales, perderás los cambios de esta comida.</p>
+        <Button variant="secondary" block onClick={() => setDescartar(false)}>Seguir editando</Button>
+        <Button variant="danger" block onClick={onClose}>Descartar</Button>
+      </div>}
+      <div ref={editorRef} hidden={descartar} className="space-y-5">
         {soloTipica && <div className="space-y-stack">
           <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la comida típica</span><Input tone="surface" value={nombreTipica} onChange={e => setNombreTipica(e.target.value)} placeholder="Por ejemplo, mi desayuno habitual" /></label>
         </div>}

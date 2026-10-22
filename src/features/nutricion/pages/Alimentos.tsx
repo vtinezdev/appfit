@@ -96,8 +96,9 @@ export default function Alimentos() {
 
   return (
     <div className="space-y-section">
-      <SegmentedControl label="Tu biblioteca" opciones={VISTAS} valor={vista} onChange={setVista} />
+      <SegmentedControl label="Mis alimentos" opciones={VISTAS} valor={vista} onChange={setVista} />
 
+      <p className="text-body-sm text-fg-muted">{vista === 'alimentos' ? 'Ingredientes y productos con sus valores nutricionales.' : vista === 'tipicas' ? 'Tus combinaciones, listas para añadir a cualquier comida.' : 'Platos con ingredientes y valores calculados.'}</p>
       {vista === 'alimentos' && (
         <div className="space-y-stack">
           <div className="flex items-center gap-2">

@@ -3,6 +3,7 @@
  * Las vistas se guardan en `Settings.pistasVistas`; «Volver a ver las pistas» (Ajustes › Primeros pasos) las borra.
  */
 export const PISTAS = {
+  'nutricion-deslizar': 'Desliza un alimento a la izquierda para copiar o borrar.',
   'social-primeros-pasos': 'Comparte tu código, únete a una comunidad o comparte tu último entreno.',
   'entreno-series': 'Marca cada serie con el botón de su derecha al terminarla; si se te pasa, al terminar el entreno puedes marcar todas de una vez. Toca su número para hacerla de calentamiento, dropset o negativas.',
   'entreno-rir': 'RIR significa repeticiones en reserva: cuántas más crees que podrías haber hecho. 0 es llegar al fallo; sin dato no significa 0. Puedes cerrar esta hoja sin anotarlo.',

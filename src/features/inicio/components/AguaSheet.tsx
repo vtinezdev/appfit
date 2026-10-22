@@ -6,7 +6,7 @@ import NumberStepper from '../../../shared/components/NumberStepper'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
-import { addDays } from '../../../shared/lib/dates'
+import { addDays, todayISO } from '../../../shared/lib/dates'
 import * as aguaRepo from '../data/aguaRepo'
 import { AGUA_POR_DEFECTO_ML, formatAgua, OPCIONES_AGUA_ML, type ObjetivoAgua } from '../lib/agua'
 
@@ -34,11 +34,11 @@ export default function AguaSheet({ open, onClose, hoy, objetivo }: Props) {
 
   async function anadir() {
     setError(null)
-    try { await aguaRepo.anadir(hoy, ml) } catch { setError('No se ha podido añadir el agua. Comprueba la cantidad (1–5.000 ml).') }
+    try { await aguaRepo.anadir(todayISO(), ml) } catch { setError('No se ha podido añadir el agua. Comprueba la cantidad (1–5.000 ml).') }
   }
   async function quitar() {
     setError(null)
-    try { await aguaRepo.quitarUltima(hoy) } catch { setError('No se ha podido quitar la última toma.') }
+    try { await aguaRepo.quitarUltima(todayISO()) } catch { setError('No se ha podido quitar la última toma.') }
   }
 
 

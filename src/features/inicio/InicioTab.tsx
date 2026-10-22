@@ -28,6 +28,7 @@ import AvisoActualizacion from '../../shared/components/AvisoActualizacion'
 import AvisoAmigos from '../social/components/AvisoAmigos'
 import TarjetaRevisionSemanal from './components/TarjetaRevisionSemanal'
 import { useTarjetaRevision } from './hooks/useRevisionSemanal'
+import { useHoy } from '../../shared/hooks/useHoy'
 
 // El detalle de la revisión (con récords y resumen de Gym) va en su propio chunk: no entra en el arranque de Inicio.
 const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
@@ -51,7 +52,7 @@ const DIAS_HISTORIAL = 365
 
 /** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, el progreso (Cumbres, Caminos, Ritmo y Vitrina), peso y agua y el último entreno. */
 export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
-  const hoy = todayISO()
+  const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
   const pesos = useLiveQuery(() => pesosRepo.delRango(addDays(hoy, -DIAS_HISTORIAL), hoy), [hoy])
@@ -69,18 +70,20 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, onE
   const fechaLarga = parseISODate(hoy).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
 
   async function anadirAgua() {
+    const fecha = todayISO()
     try {
-      await aguaRepo.anadir(hoy, AGUA_POR_DEFECTO_ML)
-      avisar({ mensaje: `+${formatAgua(AGUA_POR_DEFECTO_ML)} de agua`, onDeshacer: () => aguaRepo.quitarUltima(hoy) })
+      await aguaRepo.anadir(fecha, AGUA_POR_DEFECTO_ML)
+      avisar({ mensaje: `+${formatAgua(AGUA_POR_DEFECTO_ML)} de agua`, onDeshacer: () => aguaRepo.quitarUltima(fecha) })
     } catch {
       avisarError('No se ha podido añadir el agua. Inténtalo de nuevo.')
     }
   }
 
   async function quitarAgua() {
+    const fecha = todayISO()
     try {
-      const ultima = await aguaRepo.quitarUltima(hoy)
-      if (ultima !== undefined) avisar({ mensaje: `−${formatAgua(ultima)} de agua`, onDeshacer: () => aguaRepo.anadir(hoy, ultima) })
+      const ultima = await aguaRepo.quitarUltima(fecha)
+      if (ultima !== undefined) avisar({ mensaje: `−${formatAgua(ultima)} de agua`, onDeshacer: () => aguaRepo.anadir(fecha, ultima) })
     } catch {
       avisarError('No se ha podido quitar el agua. Inténtalo de nuevo.')
     }
@@ -101,8 +104,9 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, onE
   }
 
   async function guardarPeso(kg: number) {
-    await pesosRepo.registrar(hoy, kg)
-    void actualizarObjetivoHoy(hoy, 'peso')
+    const fecha = todayISO()
+    await pesosRepo.registrar(fecha, kg)
+    void actualizarObjetivoHoy(fecha, 'peso')
     setRegistrando(false)
     avisar({ mensaje: 'Peso registrado' })
   }

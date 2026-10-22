@@ -11,13 +11,19 @@ interface Props {
   footer?: ReactNode
   closeLabel?: string
   busy?: boolean
+  /** Se consulta antes de salir, también desde Escape/Atrás. */
+  onBeforeClose?: () => boolean
 }
 /** Tarea a pantalla completa, con contenido desplazable y acción final fuera del scroll. */
-export default function ModalPage({ title, onClose, children, footer, closeLabel = 'Volver', busy = false }: Props) {
+export default function ModalPage({ title, onClose, children, footer, closeLabel = 'Volver', busy = false, onBeforeClose }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
   const { mounted, visible, close: requestClose } = useOverlayPresence(true, onClose)
-  const close = () => { if (!busy) requestClose() }
+  const close = () => {
+    if (busy || onBeforeClose?.() === false) return false
+    requestClose()
+    return true
+  }
   useModalLayer(mounted, panelRef, close)
   if (!mounted) return null
   return createPortal(

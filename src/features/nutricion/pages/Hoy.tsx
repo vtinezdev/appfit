@@ -7,7 +7,7 @@ import * as entriesRepo from '../data/entriesRepo'
 import * as foodsRepo from '../data/foodsRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
 import type { Comida, Entry } from '../../../shared/db/types'
-import { formatFriendly, startOfWeek, todayISO, weekDates } from '../../../shared/lib/dates'
+import { formatFriendly, startOfWeek, weekDates } from '../../../shared/lib/dates'
 import { congelarObjetivoDia, objetivosDe, objetivosPorFecha } from '../../perfil/data/objetivosDiaRepo'
 import SemanaKcal from '../components/SemanaKcal'
 import { semanaKcal } from '../lib/semanaKcal'
@@ -21,7 +21,7 @@ import { sumMacros } from '../lib/nutrition'
 import type { Plato } from '../lib/platos'
 import Button, { IconButton } from '../../../shared/components/Button'
 import { LoadingState } from '../../../shared/components/StateMessage'
-import SegmentedControl from '../../../shared/components/SegmentedControl'
+import Pista from '../../../shared/components/Pista'
 import NutrientesDetalle from '../components/NutrientesDetalle'
 import MoverPlatoSheet from '../components/MoverPlatoSheet'
 import ComidasTipicasSheet from '../components/ComidasTipicasSheet'
@@ -35,6 +35,7 @@ import Icon from '../../../shared/components/Icon'
 import Card from '../../../shared/components/Card'
 import { formatInt } from '../../../shared/lib/format'
 import type { NutrienteId } from '../../../shared/lib/referenciasNutricionales'
+import { useHoy } from '../../../shared/hooks/useHoy'
 
 interface Props {
   fecha: string
@@ -49,17 +50,17 @@ interface Props {
 
 
 export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir, onCrearTipica, onVerReferencia }: Props) {
-  const [detalle, setDetalle] = useState<'sencilla' | 'detallada'>('sencilla')
+  const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
   const nombresCortos = useLiveQuery(() => nombresAlimentosRepo.paraComida(entries ?? []), [entries]) ?? new Map()
   const categorias = useLiveQuery(() => foodsRepo.categoriasDeEntradas(entries ?? []), [entries]) ?? new Map()
-  const vigentes = useLiveQuery(() => objetivosDe(fecha, todayISO()), [fecha])
+  const vigentes = useLiveQuery(() => objetivosDe(fecha, hoy), [fecha, hoy])
   const lunes = startOfWeek(fecha)
   const semana = useLiveQuery(async () => {
     const fechas = weekDates(lunes)
-    const [delaSemana, objetivosSemana, cheatSemana] = await Promise.all([entriesRepo.entreFechas(fechas[0], fechas[6]), objetivosPorFecha(fechas, todayISO()), cheatDaysRepo.entreFechas(fechas[0], fechas[6])])
-    return semanaKcal(lunes, delaSemana, objetivosSemana, todayISO(), new Set(cheatSemana))
-  }, [lunes])
+    const [delaSemana, objetivosSemana, cheatSemana] = await Promise.all([entriesRepo.entreFechas(fechas[0], fechas[6]), objetivosPorFecha(fechas, hoy), cheatDaysRepo.entreFechas(fechas[0], fechas[6])])
+    return semanaKcal(lunes, delaSemana, objetivosSemana, hoy, new Set(cheatSemana))
+  }, [lunes, hoy])
   const { avisar, avisarError, toast } = useAviso()
   const [accionesDia, setAccionesDia] = useState<{ paso: PasoAccionesDia; fechaDestino: string } | null>(null)
   const [copiandoDia, setCopiandoDia] = useState(false)
@@ -200,10 +201,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
 
   return (
     <div className="space-y-section">
-      <SemanaKcal fecha={fecha} hoy={todayISO()} dias={semana} onFecha={onFechaChange} transicion={transicion}
-        nota={semana && <Button variant="secondary" size="sm" aria-pressed={cheat} disabled={marcandoCheat} onClick={() => { void alternarCheat(false) }}>
-          <Icon name="sparkles" size={18} className={cheat ? 'text-accent-strong' : 'text-fg-muted'} />{cheat ? 'Cheat day · fuera de las medias' : 'Marcar como cheat day'}
-        </Button>}
+      <SemanaKcal fecha={fecha} hoy={hoy} dias={semana} onFecha={onFechaChange} transicion={transicion}
         acciones={<IconButton icon="more" label="Acciones del día" variant="ghost" aria-haspopup="dialog" onClick={() => { setErrorDia(null); setAccionesDia({ paso: 'menu', fechaDestino: fecha }) }} />} />
 
       {!cargado || !totales || !objetivos ? (
@@ -216,11 +214,10 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
             totales={totales}
             objetivos={objetivos}
             titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`}
-            controles={<SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
-              opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />}
-            detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" objetivoKcal={objetivos.kcal} onVerReferencia={onVerReferencia} />}
+            detalle={<NutrientesDetalle entries={entries} titulo="Desglose del día" objetivoKcal={objetivos.kcal} onVerReferencia={onVerReferencia} />}
           />
 
+          {entries.length > 0 && <Pista id="nutricion-deslizar" compacta />}
           <DndContext key={fecha} sensors={sensors} collisionDetection={colisionesComidas} measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
             accessibility={{ restoreFocus: true, screenReaderInstructions: { draggable: 'Para mover el plato, pulsa Espacio o Enter, usa las flechas entre comidas y vuelve a pulsar para soltar. Escape cancela. También puedes usar Mover en el menú de acciones del plato.' },
               announcements: {
@@ -275,6 +272,9 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
         </>
       )}
 
+      {semana && <Button variant="subtle" size="sm" aria-pressed={cheat} disabled={marcandoCheat} onClick={() => { void alternarCheat(false) }}>
+        <Icon name="sparkles" size={18} className={cheat ? 'text-accent-strong' : 'text-fg-muted'} />{cheat ? 'Cheat day · fuera de las medias' : 'Marcar como cheat day'}
+      </Button>}
       {toast}
       {comidaTipicas && <ComidasTipicasSheet key={`${fecha}-${comidaTipicas}`} id={tipicasId} comida={comidaTipicas} fecha={fecha} onClose={() => setComidaTipicas(null)} onElegir={tipica => setTipicaElegida({ comida: comidaTipicas, tipica, fecha })} onCrear={() => onCrearTipica(comidaTipicas)} />}
       {tipicaElegida && <AplicarPlantillaSheet meal={tipicaElegida.tipica} comida={tipicaElegida.comida} fecha={tipicaElegida.fecha} onClose={() => setTipicaElegida(null)} onAplicado={ids => {
