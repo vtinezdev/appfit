@@ -1,0 +1,227 @@
+# Carril A · Entreno, Social y actividades
+
+Estado y orden de los pasos del carril A. Reglas comunes, reparto de carpetas, cruces y decisiones: [README](README.md). **Este archivo solo lo edita la sesión del carril A.**
+
+Dueño de: `src/features/gym/`, `liga/`, `actividades/`, `social/`, `supabase/`, `scripts/ejercicios/`, `public/ejercicios/` y sus documentos (`docs/features/gym.md`, `liga.md`, `actividades.md`, `social.md`, `docs/social-mejoras.md`). **No toca `src/shared/` ni `src/app/`**: lo que necesite de ahí lo usa tal cual; si hiciera falta cambiarlo, es un cruce con B.
+
+Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media sesión), **M** (una sesión), **L** (una o dos sesiones), **XL** (varias sesiones, con decisiones y piloto).
+
+## Resumen
+
+| Paso | ID | Mejora | Tamaño | Depende de | Estado |
+|---|---|---|---|---|---|
+| A1 | REN-02 | Recortar el resumen social a 8 KB | S | — | Pendiente |
+| A2 | ENT-15 | Avance automático al siguiente ejercicio | S | — | Pendiente |
+| A3 | ENT-14 | Descanso sugerido según el tipo de ejercicio | S | — | Pendiente |
+| A4 | GAM-07 | «Hace N días» tras un parón | S | — | Pendiente |
+| A5 | ENT-04 | Historial del ejercicio sin salir de la sesión | M | — | Pendiente |
+| A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Pendiente |
+| A7 | ENT-05 | Calentamiento en rampa | M | — | Pendiente |
+| A8 | PRO-03 | Tendencia de series por músculo | M | — | Pendiente |
+| A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Pendiente |
+| A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Pendiente |
+| A11 | REN-04 | Importar TCX (y FIT después) | M | — | Pendiente |
+| A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Pendiente |
+| A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Pendiente |
+| A14 | SOC-01 | Semana en compañía | XL | — | Pendiente |
+| A15 | SOC-03 | Expediciones de comunidad | XL | A14 | Pendiente |
+| A-X1 | NAV-02 | «Volver» en Amigos (cruce) | S | B4 | Pendiente |
+| A-X2 | GAM-04 | Línea de la meta en la gráfica (cruce) | S | B13 | Pendiente |
+
+---
+
+### [ ] A1 · REN-02 · Recortar el resumen social a 8 KB
+
+- **Tamaño:** S · **Rama:** `feat/a-resumen-8kb`
+- **Para la persona:** cualquier entreno se puede publicar; hoy uno muy largo falla con «publicación no válida» (`docs/roadmap.md`, Limitaciones).
+- **Cómo:**
+  1. En `social/lib/publicacion.ts` ya existen `bytesResumen` y `MAX_BYTES_RESUMEN` (8.192). Añadir una función pura `recortarResumen(r)` que, mientras `bytesResumen(r) > MAX_BYTES_RESUMEN`, quite por este orden: `detalles` de series de los últimos ejercicios, `insignias` y `logros` sobrantes, récords secundarios (conservando uno por ejercicio), `catalogIds` de los ejercicios que se recortan y, como último recurso, ejercicios del final con su total («y N más»). Las listas paralelas (`ejercicios`/`catalogIds`/`detalles`, `logros`/`insignias`) se recortan siempre juntas: los lectores descartan una lista entera si no tiene el largo de la suya.
+  2. Llamarla al final de `resumenEntreno` y también después de `conNota` (la nota cuenta).
+  3. Si ni así cabe (no debería), el compositor ya muestra el error del servidor; no se envía nada roto.
+- **Datos:** sin cambios de esquema, backup ni SQL.
+- **Tests:** en `publicacion.test.ts`, el caso máximo del roadmap (15 ejercicios con nombres de 60 caracteres con tildes, 6 récords con variante, 6 ligas, 6 logros, nota de 280 y mapa) queda ≤ 8.192 bytes, conserva el orden y las listas paralelas tienen el mismo largo; un entreno normal no cambia.
+- **Navegador:** publicar el entreno máximo contra el Supabase falso (`scripts/ui/supabase-falso.mjs`) y ver la vista previa.
+- **Documentos:** `docs/features/social.md` (límite y recorte) y quitar la limitación de `docs/roadmap.md`. De paso (DOC-01), en `docs/features/gym.md` corregir el enlace roto a `atributos.md` (la experiencia está en `experiencia.md`).
+
+### [ ] A2 · ENT-15 · Avance automático al siguiente ejercicio
+
+- **Tamaño:** S · **Rama:** `feat/a-avance-automatico`
+- **Para la persona:** al marcar la última serie de un ejercicio, la pantalla sube sola al siguiente que tiene series pendientes.
+- **Cómo:**
+  1. Función pura `siguienteEjercicioPendiente(visibleIds, sets, completadas, actual)` en `gym/lib/session.ts`: el primer ejercicio después del actual (y si no, antes) con alguna serie sin marcar.
+  2. En `gym/pages/EntrenoActivo.tsx`, dentro de `completar`, cuando la serie marcada completa su ejercicio: buscar el panel del siguiente (añadir `data-ejercicio={exId}` al `div` que envuelve cada `PanelEjercicio`) y `scrollIntoView({ block: 'start' })` tras el plegado. Que la cabecera fija no lo tape: `scroll-margin-top` con la altura de la cabecera (variable CSS local de la página, sin token nuevo).
+  3. No mover si el foco está en un campo de texto (teclado abierto) ni si se desmarca. Con Reduce Motion, salto sin animación (`matchMedia`).
+  4. Sin interruptor en Ajustes (es `src/app/`, de B). Si Víctor lo quiere desactivable, se añade después como cruce.
+- **Datos:** ninguno.
+- **Tests:** `session.test.ts` para la función pura (último ejercicio, todos completos, ejercicios sin series, orden manual).
+- **Navegador:** sesión con 3 ejercicios a 320/375/430 px; con el teclado simulado (viewport reducido) no salta; con Reduce Motion, salto directo.
+- **Documentos:** `docs/features/gym.md` § Entreno activo.
+
+### [ ] A3 · ENT-14 · Descanso sugerido según el tipo de ejercicio
+
+- **Tamaño:** S · **Rama:** `feat/a-descanso-sugerido`
+- **Para la persona:** quien entrena sin temporizador recibe una vez la pregunta «¿Quieres un descanso de 2 min entre series?» al marcar su primera serie.
+- **Cómo:**
+  1. El tiempo sale del tipo del ejercicio en el catálogo, con los mismos valores que el creador (`gym/lib/creadorRutinas.ts`, `OBJETIVOS_POR_TIPO`: 120 s compuesto, 90 s aislamiento). Función pura `descansoSugerido(ejercicio)` en `gym/lib/session.ts`.
+  2. Componente `gym/components/DescansoSugerido.tsx` (banda en línea, no Sheet) que aparece en `EntrenoActivo` si `session.restSeconds === 0`, el ejercicio no tiene `descansoSeg` en la rutina y `Settings.pistasVistas` no incluye `'entreno-descanso'`. «Sí» pone `restSeconds` de la sesión; «No, gracias» lo cierra. En los dos casos se guarda `'entreno-descanso'` en `pistasVistas` con `updateSettings` (no hace falta tocar `shared/lib/pistas.ts`: el campo es una lista de cadenas y «Volver a ver las pistas» la vacía entera).
+- **Decidir (D8):** una sola vez en general (propuesto) o una vez por ejercicio.
+- **Datos:** ningún campo nuevo.
+- **Tests:** función pura y un test de componente (aparece, «Sí» fija el descanso, no vuelve a salir).
+- **Navegador:** primera serie de una sesión sin descanso; segunda sesión, ya no sale.
+- **Documentos:** `docs/features/gym.md` § Descanso.
+
+### [ ] A4 · GAM-07 · «Hace N días» tras un parón
+
+- **Tamaño:** S · **Rama:** `feat/a-tras-paron`
+- **Para la persona:** si un ejercicio lleva 14 días o más sin hacerse, su panel lo dice («Hace 18 días de tu última sesión con este ejercicio») junto a la columna «Anterior», para que la persona decida la carga. Sin porcentajes de reducción (serían una recomendación sin fuente).
+- **Cómo:** función pura `diasDesdeUltimaSesion(exerciseId, workouts, sets, inicioActual)` en `gym/lib/anterior.ts` (reutiliza `seriesSesionAnterior`); umbral 14 días, el mismo que el logro «Vuelta al ruedo» (`vitrina/lib/logros.ts`, `DIAS_VUELTA_AL_RUEDO`; importarlo, no copiarlo). Línea `text-caption` neutra bajo el subtítulo de `PanelEjercicio`, solo en la sesión activa.
+- **Datos:** ninguno.
+- **Tests:** la función con 13, 14 y 40 días, sin historial y con el entreno anterior sin terminar.
+- **Navegador:** fixture con un ejercicio hecho hace 20 días.
+- **Documentos:** `docs/features/gym.md` § Anterior.
+
+### [ ] A5 · ENT-04 · Historial del ejercicio sin salir de la sesión
+
+- **Tamaño:** M · **Rama:** `feat/a-historial-ejercicio`
+- **Para la persona:** en el menú «…» del ejercicio, «Historial y récords» enseña las 5 últimas sesiones, el récord vigente de cada tipo y una minigráfica, sin minimizar el entreno.
+- **Cómo:**
+  1. Lógica pura en `gym/lib/progreso.ts`: `historialEjercicio(series, workouts, exerciseId, antesDe)` con las 5 últimas sesiones terminadas comparables (fecha, mejor serie con `textoMejorSerie`, RIR medio si hay) y los valores para `trazoMini` (8 sesiones). Récords vigentes con `gym/lib/records` (`acumularComparables`). Desde ADR 054 `claveComparacion` separa las máquinas por gimnasio: el historial enseña el gimnasio del entreno en curso y lo dice («En Gimnasio Centro»), con los nombres de `hooks/useNombresGimnasio`.
+  2. `gym/components/HistorialEjercicioSheet.tsx` (Sheet compartida, solo lectura). La minigráfica es el SVG de `trazoMini`, **sin Recharts** (no debe entrar en la sesión).
+  3. Fila nueva en el menú de `PanelEjercicio.tsx` (entre «Progresión» y «Liga»). Se abre en `onExited` del menú, como el resto de acciones.
+  4. Datos: ya están en `EntrenoActivo` (`allSets`, `todosWorkouts`); pasarlos en `contexto`, sin lecturas nuevas.
+- **Datos:** ninguno.
+- **Tests:** la función pura (variantes y modos de carga no se mezclan, pendientes y calentamientos fuera, ejercicio sin historial).
+- **Navegador:** 320/375/430 px en los dos temas; texto al 200 %.
+- **Documentos:** `docs/features/gym.md` § Menú del ejercicio.
+
+### [ ] A6 · ENT-01 · Sustituir un ejercicio durante la sesión
+
+- **Tamaño:** M · **Rama:** `feat/a-sustituir-ejercicio`
+- **Para la persona:** «Sustituir» en el menú del ejercicio propone 5 alternativas (mismo músculo principal, las ya hechas y del mismo material primero, con su última vez) y «Buscar otro…». Al elegir, las series sin marcar pasan al nuevo ejercicio; las marcadas se quedan. Deshacer en el aviso.
+- **Cómo:**
+  1. Alternativas: reutilizar `liga/lib/alternativas.ts` (`alternativas(e, locales, ligas)`), que hoy solo se calcula en Élite. Ojo: excluye los ejercicios en Élite; para sustituir conviene una variante que no los excluya (parámetro opcional `incluirElite`). Añadir «Última vez: 3 × 10 · 40 kg» con `seriesSesionAnterior`.
+  2. Escritura nueva en `gym/data/workoutsRepo.ts`: `sustituirEnSesion(workoutId, de, seleccion)` en **una transacción** (`workouts`, `sets`, `exercises`): resuelve el ejercicio nuevo (como `exercisesRepo.resolverSeleccion`), cambia `exerciseId` de las series de `de` no realizadas; reps del objetivo; kg del último uso efectivo del nuevo o los de `valoresNuevaSerie` si nunca se hizo; sin RIR. Si `de` se queda sin series y viene de la rutina, lo añade a `ejerciciosOmitidos`. En `ordenEjercicios` pone el nuevo en el sitio de `de`. Devuelve una captura para deshacer (patrón de `quitarEjercicio`/`restaurarEjercicio`). Si no hay pendientes, añade el nuevo con una serie.
+  3. Casilla «Cambiar también en la rutina» (sin marcar por defecto) → `routinesRepo.sustituirEjercicio` (ya existe, transaccional).
+  4. UI: `gym/components/SustituirEjercicioSheet.tsx`; «Buscar otro…» abre el `SelectorEjercicios` tras cerrar la hoja (`onExited`). Bloqueo de toques duplicados y espera de escrituras pendientes, como `useQuitarEjercicio`.
+  5. Las marcas de sesión (`session.completed`) de las series movidas se conservan: no cambian sus ids.
+  6. Historial por gimnasio (ADR 054, `gym/lib/gimnasios`): las series movidas recalculan su `gimnasioId` según si el ejercicio nuevo depende de la máquina, y los kg salen de `setsRepo.previaEnGimnasio`, como en `agregar`.
+- **Datos:** sin campos nuevos. Récords, liga y mapa siguen saliendo de `exerciseId` de cada serie.
+- **Tests:** `workoutsRepo` con fake-indexeddb: mueve solo las pendientes, deshacer restaura ids/orden/omitidos, fallo a mitad no deja nada a medias; alternativas con y sin Élite.
+- **Navegador:** sustituir con 2 de 3 series hechas, deshacer, recargar; con rutina marcada, comprobar la rutina.
+- **Documentos:** `docs/features/gym.md` (menú del ejercicio y repositorio) y `docs/features/liga.md` (la función de alternativas se usa también fuera de Élite).
+
+### [ ] A7 · ENT-05 · Calentamiento en rampa
+
+- **Tamaño:** M · **Rama:** `feat/a-calentamiento-rampa`
+- **Para la persona:** al empezar una rutina con calentamientos, sus cargas suben hacia la primera serie efectiva, redondeadas a discos reales.
+- **Cómo:**
+  1. Función pura `rampaCalentamiento(cargaEfectiva, n, barraKg)` en `gym/lib/discos.ts` (o un `lib/calentamiento.ts` nuevo) que reparte porcentajes crecientes y redondea con la calculadora de discos existente. Solo carga externa bilateral; en corporal, lastre o asistencia se queda como hoy.
+  2. En `workoutsRepo.empezar`, donde se crean las series de calentamiento, usar la rampa en lugar de copiar el último calentamiento cuando la carga efectiva propuesta haya cambiado. Reps: las del último calentamiento o, si no hay, las del objetivo.
+  3. Explicación en la ayuda del propio ejercicio (`gym/lib/ayudaCifras.ts` o la hoja de la serie): «Criterio de AppFit, no un método publicado». Llevarlo a Referencias sería un cruce con B; solo si Víctor lo pide.
+- **Decidir (D7):** los porcentajes (propuesta: 1 calentamiento 60 %; 2 → 50 y 75 %; 3 → barra vacía, 55 y 80 %).
+- **Datos:** ninguno nuevo.
+- **Tests:** la función (redondeo, mínimos, barra de 15/10 kg) y `empezar` con y sin historial.
+- **Navegador:** rutina con 2 calentamientos en press banca.
+- **Documentos:** `docs/features/gym.md` § Objetivos de rutina.
+
+### [ ] A8 · PRO-03 · Tendencia de series por músculo
+
+- **Tamaño:** M · **Rama:** `feat/a-tendencia-musculo`
+- **Para la persona:** en el detalle de un músculo del mapa de progreso, barras de las últimas 8 semanas con la dosis de AppFit marcada y la semana actual distinguida.
+- **Cómo:** `gym/lib/progresoMuscular.ts` ya calcula crédito por semana y músculo; exponer `seriesPorSemana(aportes, musculo, semanas = 8)` (directas e indirectas × 0,5). Componente SVG propio en la hoja de detalle de `MapaProgreso` (sin Recharts), línea de dosis (10 o 6), etiquetas de semana («6 oct») y tabla accesible alternativa.
+- **Datos:** ninguno.
+- **Tests:** la función (semanas vacías, semana en curso, pausas).
+- **Navegador:** detalle de pecho y de gemelos; 320 px y texto al 200 %.
+- **Documentos:** `docs/features/gym.md` § Mapa de progreso.
+
+### [ ] A9 · ENT-10 · Fin de sesión ordenado por momentos
+
+- **Tamaño:** L · **Rama:** `feat/a-fin-sesion`
+- **Para la persona:** al terminar, arriba el póster con una franja «Hoy» de hasta tres hitos; debajo, bloques plegables con su resumen en una línea (Récords · Cuerpo · Cumbres y ligas · Vitrina); «Compartir» y «Volver a Entreno» siempre al final de la vista.
+- **Cómo:**
+  1. Lógica pura `hitosDeSesion(...)` en `gym/lib/fichaEntreno.ts`: récords (`summary.records`), subidas de nivel muscular (de `ProgresoSesion`/`progresoMuscular`), cumbre o metros (`cumbres/lib/cumbres.cumbreDeSesion`), cambios de liga (`liga/lib/liga.ascensosDeEntreno`) y piezas nuevas (`vitrina/lib/logros.logrosDeEntreno`). Todas son funciones puras: se importan, no se modifican.
+  2. `gym/components/WorkoutFinished.tsx`: reordenar. El póster lleva la franja «Hoy» (componente nuevo `HitosSesion` en `gym/components`). Los bloques se envuelven en `Disclosure` (primitive existente) con su resumen en el título; solo uno abierto. Un solo muñeco: `ProgresoSesion` (con su antes → después de 600 ms) sustituye a las figuras del póster cuando aporta; la lista y metodología de `MapaMuscular` pasan al bloque «Cuerpo».
+  3. `CumbreSesion`, `NuevosLogros` (de B) se usan tal cual dentro de los bloques; no se editan. `AscensosLiga` es de A y sí se puede ajustar.
+  4. **Cruce X4 (opcional):** si B8 (almacén derivado) ya está en `master`, que los tres bloques lean de él en lugar de recalcular cada uno; si no, se queda como hoy y se anota aquí.
+  5. Nada de confeti ni contadores animados (`DESIGN.md`).
+- **Decidir (D9):** qué hitos entran en la franja y en qué orden (propuesta: récords, subida muscular, cumbre, liga, logros; máximo tres).
+- **Datos:** ninguno.
+- **Tests:** `hitosDeSesion` (sin hitos, más de tres, gamificación oculta) y test de componente de los plegables.
+- **Navegador:** terminar un entreno con récord y subida de nivel; con la gamificación oculta; 320 px y Reduce Motion. `scripts/ui/validar-mapa-muscular.cjs` sigue en verde.
+- **Documentos:** `docs/features/gym.md` § Récords y fin de sesión; `docs/DESIGN-SYSTEM.md` solo en su apartado de Entreno.
+
+### [ ] A10 · ENT-11 · Póster del entreno como imagen
+
+- **Tamaño:** L · **Rama:** `feat/a-poster-imagen`
+- **Para la persona:** «Guardar imagen» y «Compartir…» en el póster del fin de sesión y del detalle del historial; sin cuenta, por WhatsApp o Instagram.
+- **Cómo:**
+  1. Utilidad `gym/lib/exportarImagen.ts`: recibe un SVG en texto, lo pinta en un `canvas` de 1080 × 1350 y devuelve un `Blob` PNG. Saira se incrusta como `@font-face` con data URI leída de `/fonts/` (mismo origen, sin red externa). Pensada para reutilizarse (cruce X3 con B).
+  2. `gym/components/PosterImagen.tsx`: compone el póster en SVG con los colores resueltos del tema (no variables CSS: el canvas no las entiende) y el mapa.
+  3. Compartir: `navigator.share({ files })` si `navigator.canShare` lo admite; si no, descarga con `<a download>` (ya se usa para el backup).
+  4. Solo datos del entreno (título, fecha, duración, volumen, series, mapa, récords). Nada del perfil.
+- **Datos:** ninguno.
+- **Tests:** la composición del SVG es pura y testeable (textos, escapes, colores por tema); la conversión a PNG se prueba en navegador.
+- **Navegador:** Chromium (descarga) y, en móvil real, la hoja de compartir. Dejar anotado en el roadmap que falta iPhone.
+- **Documentos:** `docs/features/gym.md`; avisar en `docs/arquitectura.md` (párrafo de Entreno) de que la utilidad existe para otros carriles.
+
+### [ ] A11 · REN-04 · Importar TCX (y FIT después)
+
+- **Tamaño:** M · **Rama:** `feat/a-importar-tcx`
+- **Para la persona:** en Actividades, «Importar» acepta archivos `.tcx` además de `.gpx`.
+- **Cómo:** `actividades/lib/tcx.ts`, parser sin DOM ni librerías como `gpx.ts` (Trackpoints con tiempo, posición y altitud; `DistanceMeters` si viene). Reutiliza `geo.ts` y `resumirGpx` adaptado. El input de archivo acepta las dos extensiones. **FIT** es binario: va en otro paso solo si Víctor lo pide (necesitaría un parser propio o una dependencia aprobada).
+- **Datos:** ninguno (`origen` sigue siendo `'gpx'`, o `'tcx'` si se amplía `OrigenActividad`: eso es `shared/db/types.ts`, de B; mejor mantener `'gpx'` con el nombre de la fuente en `nombre` y decidirlo con Víctor).
+- **Tests:** archivos TCX reales anonimizados de Garmin y Strava en `src/test/fixtures/`.
+- **Documentos:** `docs/features/actividades.md`; quitar la línea de `docs/roadmap.md`.
+
+### [ ] A12 · ENT-09 · Fichas de técnica de los ejercicios
+
+- **Tamaño:** L, por lotes · **Rama:** `feat/a-fichas-ejercicio` (y `-lote-2`, `-lote-3`…)
+- **Para la persona:** botón «i» en el selector y en la cabecera del panel que abre la ficha: ilustración grande, muñeco con músculos principales y secundarios, 3 claves de ejecución, 2 errores comunes, material, alternativas y, si hay datos, la última vez y el récord.
+- **Cómo:**
+  1. Datos editoriales aparte del catálogo para no engordar el arranque: `gym/lib/fichasEjercicios.ts` (`Record<catalogId, { claves: string[]; errores: string[] }>`), cargado con `import()` al abrir la ficha.
+  2. `gym/components/FichaEjercicio.tsx` (ModalPage). Muñeco con `MapaMuscular` en modo «ejercicio» (principal = nivel alto, secundario = medio). Alternativas con la función de A6.
+  3. Ilustración a 384 px: ampliar la tubería `scripts/ejercicios/` para generar una segunda resolución (precache no; `CacheFirst` como las miniaturas).
+  4. Primer lote: los 40 ejercicios más usados (los básicos de `liga/lib/basicos.ts` y los de los patrones principales del creador). Ejercicios sin ficha: la ficha sale igual, sin claves.
+  5. Test que vigile que cada `catalogId` de las fichas existe en el catálogo.
+- **Decidir (D10):** quién revisa los textos y con qué fuentes (sin fuente, se presentan como «claves de AppFit», como el resto de criterios).
+- **Documentos:** `docs/features/gym.md` y `scripts/ejercicios/README.md`.
+
+### [ ] A13 · SOC-02 · Compartir una rutina para guardarla
+
+- **Tamaño:** L · **Rama:** `feat/a-rutina-compartida` (+ migración `0022_…`)
+- **Para la persona:** publicar la estructura de una rutina (ejercicios, series, rangos, descansos, calentamientos); quien la ve pulsa «Guardar en mis rutinas», revisa y la guarda con sus propias cargas.
+- **Cómo:** plan F3-2 de `docs/social-mejoras.md`. Tipo de resumen nuevo `rutina` en `social/lib/publicacion.ts` con `catalogIds` (ya existen desde 0020). Orden de despliegue de siempre: primero el **lector** (los clientes viejos descartan el tipo sin romper la paginación) y después la migración del validador del servidor. «Guardar en mis rutinas» escribe con `routinesRepo.guardar`; los ejercicios propios sin `catalogId` piden elegir uno del catálogo (`SelectorEjercicios`).
+- **Decidir (D11):** ADR para lo que sale del móvil (la estructura de la rutina; nunca cargas) y si va antes o después de la fase 6 legal.
+- **Tests:** construir, validar y leer el resumen; guardar en rutinas con fake-indexeddb; SQL en `supabase/pruebas/`.
+- **Documentos:** `docs/features/social.md`, `docs/social-mejoras.md` (F3-2 hecho), ADR nuevo.
+
+### [ ] A14 · SOC-01 · Semana en compañía
+
+- **Tamaño:** XL, con piloto · **Rama:** varias (`feat/a-companeros-lector`, `feat/a-companeros-sql`, `feat/a-companeros-ui`)
+- **Para la persona:** dos o tres personas aceptan acompañarse una semana; cada una cuenta contra su plan de Ritmo y ve a las demás («Laura · 2 de 3») con un «Ánimo» desde la fila. Sin ranking ni castigos.
+- **Cómo:** plan F3-1 de `docs/social-mejoras.md`. El agregado se calcula en el móvil con `ritmo/lib/ritmo` (lectura, sin modificarlo): sesiones que cuentan / objetivo de la semana, compartido a propósito. Tablas y RPC nuevas con RLS en una migración; invitación, aceptación, pausa y salida sin reproche.
+- **Decidir (D11):** ADR (cambia lo que sale del móvil), qué cuenta como sesión, zona horaria, y piloto de 3–4 semanas con parejas.
+- **Documentos:** ADR nuevo, `docs/features/social.md`, `docs/social-mejoras.md`.
+
+### [ ] A15 · SOC-03 · Expediciones de comunidad
+
+- **Tamaño:** XL · **Depende de:** A14 validado en piloto
+- **Para la persona:** una comunidad recorre junta una ruta de Caminos («Camino Francés · 412 de 764 km») con lo que cada miembro aporta a propósito, con tope por persona y semana y sin ranking interno.
+- **Cómo:** plan F3-5. Rutas y etapas de `caminos/lib/rutas.ts` (lectura). Agregado autodeclarado como en A14.
+- **Decidir (D11).**
+
+---
+
+## Cruces
+
+### [ ] A-X1 · NAV-02 · «Volver» en Amigos
+
+- **Tamaño:** S · **Depende de:** B4 en `master` (prop `volver` de `PageHeader`).
+- **Cómo:** `social/AmigosTab.tsx` recibe una prop `onVolver` y pasa `volver={{ etiqueta: 'Social', onVolver }}` a su `PageHeader`. Excepción pactada a la regla de carpetas: este paso puede cambiar **solo** la línea de `src/app/App.tsx` que monta `AmigosTab` para pasarle `onVolver={() => navegar('social')}`.
+- **Documentos:** `docs/features/social.md`.
+
+### [ ] A-X2 · GAM-04 · Línea de la meta en la gráfica del ejercicio
+
+- **Tamaño:** S · **Depende de:** B13 en `master` (metas en `Settings` y su lógica pura).
+- **Cómo:** en `gym/pages/Progreso.tsx` (desde §187 con tarjetas de variante y selector de gimnasio), si hay una meta de récord para el ejercicio elegido y la métrica coincide, `ReferenceLine` discontinua con su cifra y fecha, y una fila «Meta: 100 kg antes del 31 dic» bajo la cifra principal. Solo lectura de la meta (la escribe B).
+- **Documentos:** `docs/features/gym.md` § Progreso.
