@@ -16,7 +16,7 @@ import ProteinaAguaReferencias from './components/ProteinaAguaReferencias'
 import { AREAS_REFERENCIAS, FUENTES_CATALOGO, GRUPOS_ALIMENTARIOS, RECOMENDACIONES_ALIMENTARIAS, SOBRE_LOS_DATOS, type AreaReferencias } from './lib/contenidoReferencias'
 import { formatNumber } from '../../shared/lib/format'
 
-export default function ReferenciasTab({ nutrienteInicial, areaInicial }: { nutrienteInicial?: NutrienteId; areaInicial?: AreaReferencias }) {
+export default function ReferenciasTab({ nutrienteInicial, areaInicial, salida }: { nutrienteInicial?: NutrienteId; areaInicial?: AreaReferencias; salida?: { etiqueta: string; onVolver: () => void } }) {
   const [area, setArea] = useState<AreaReferencias | null>(areaInicial ?? (nutrienteInicial ? 'objetivos' : null))
   const [abierto, setAbierto] = useState<NutrienteId | null>(nutrienteInicial ?? null)
   const vigentes = useLiveQuery(() => objetivosVigentes(todayISO()), [])
@@ -42,7 +42,7 @@ export default function ReferenciasTab({ nutrienteInicial, areaInicial }: { nutr
   }
   const nombre = AREAS_REFERENCIAS.find(a => a.id === area)?.nombre
   return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Referencias" overline="Criterios y procedencia de los datos." />
+    <PageHeader title="Referencias" overline="Criterios y procedencia de los datos." volver={salida} />
     {!area ? <div ref={indexRef}>
       <ListGroup aria-label="Áreas de referencias">
         {AREAS_REFERENCIAS.map(a => <li key={a.id}><ListRow data-area={a.id} onClick={() => { setArea(a.id); setEnfocarTitulo(true) }}>

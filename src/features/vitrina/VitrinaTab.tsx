@@ -14,7 +14,8 @@ import { useVitrina } from './hooks/useVitrina'
 type Vista = 'logros' | 'records' | 'colecciones'
 
 /** Vitrina (desde Inicio): museo personal con logros, el muro de récords y las colecciones (Herbario y Atlas). */
-export default function VitrinaTab({ onIrAAjustes }: { onIrAAjustes: () => void }) {
+export default function VitrinaTab({ onIrAAjustes, onVolver }: { onIrAAjustes: () => void; onVolver?: () => void }) {
+  const volver = onVolver ? { etiqueta: 'Inicio', onVolver } : undefined
   const hoy = todayISO()
   const estado = useVitrina(hoy)
   const [vista, setVista] = useState<Vista>('logros')
@@ -22,7 +23,7 @@ export default function VitrinaTab({ onIrAAjustes }: { onIrAAjustes: () => void 
   if (!estado) return <div className="px-page pt-5"><LoadingState /></div>
   if (!estado.visible) {
     return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Vitrina" />
+      <PageHeader title="Vitrina" volver={volver} />
       <EmptyState title="Vitrina oculta" action={<Button variant="secondary" onClick={onIrAAjustes}>Ir a Ajustes</Button>}>
         La has ocultado en Ajustes junto con Cumbres, Caminos y Ritmo.
       </EmptyState>
@@ -30,7 +31,7 @@ export default function VitrinaTab({ onIrAAjustes }: { onIrAAjustes: () => void 
   }
 
   return <div className="space-y-3 px-page pt-5">
-    <PageHeader title="Vitrina" overline="Lo que has conseguido, con su fecha" action={<ComoFunciona nombre="Vitrina"><ComoFuncionaVitrina conNutricion={estado.conNutricion} /></ComoFunciona>} />
+    <PageHeader title="Vitrina" volver={volver} overline="Lo que has conseguido, con su fecha" action={<ComoFunciona nombre="Vitrina"><ComoFuncionaVitrina conNutricion={estado.conNutricion} /></ComoFunciona>} />
     <ViewTabs label="Vistas de la Vitrina" valor={vista} onChange={setVista}
       opciones={[{ valor: 'logros', label: 'Logros' }, { valor: 'records', label: 'Récords' }, { valor: 'colecciones', label: 'Colecciones' }]}>
       <div className="pt-4">

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import Icon, { type IconName } from '../../../shared/components/Icon'
 import { todayISO } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
@@ -13,9 +14,20 @@ interface Tesela { key: DestinoProgreso; label: string; icon: IconName; valor: s
  * Progreso en Inicio, bajo la energía: Cumbres, Caminos, Ritmo y Vitrina en 2 × 2, una tesela por sección con su dato vivo
  * (metros, km, hilo, piezas) para ver cómo van sin entrar; tocarla abre la sección. No se pinta con la gamificación oculta en Ajustes.
  */
-export default function AccesoProgreso({ onAbrir }: { onAbrir: (destino: DestinoProgreso) => void }) {
+export default function AccesoProgreso({ onAbrir, enfocar }: { onAbrir: (destino: DestinoProgreso) => void; enfocar?: DestinoProgreso }) {
   const hoy = todayISO()
   const estado = useVitrina(hoy)
+  const lista = useRef<HTMLUListElement>(null)
+  const listo = !!estado?.visible
+  // Al volver de una sección con «‹ Inicio», el foco regresa a su tesela (una vez, cuando ya está pintada).
+  useEffect(() => {
+    if (!enfocar || !listo) return
+    const boton = lista.current?.querySelector<HTMLButtonElement>(`[data-destino="${enfocar}"]`)
+    boton?.focus({ preventScroll: true })
+    // Tras pintar el resto de Inicio (avisos, energía), para que no la desplacen después.
+    const id = requestAnimationFrame(() => boton?.scrollIntoView({ block: 'center' }))
+    return () => cancelAnimationFrame(id)
+  }, [enfocar, listo])
   if (!estado?.visible) return null
   const caminos = estado.caminos
   const camino = caminos?.visible ? caminos.caminos?.actual : undefined
@@ -35,9 +47,9 @@ export default function AccesoProgreso({ onAbrir }: { onAbrir: (destino: Destino
   ]
 
   return (
-    <ul className="progreso-teselas" aria-label="Tu progreso">
+    <ul ref={lista} className="progreso-teselas" aria-label="Tu progreso">
       {teselas.map((t) => <li key={t.key} className="min-w-0">
-        <button type="button" onClick={() => onAbrir(t.key)}
+        <button type="button" data-destino={t.key} onClick={() => onAbrir(t.key)}
           className="app-button app-card flex h-full min-h-touch-lg w-full flex-col items-start gap-1 rounded-lg border border-transparent bg-surface p-3 text-left shadow-card">
           <span className="flex w-full flex-col items-start gap-1 text-fg-muted">
             <Icon name={t.icon} size={18} className="shrink-0" />

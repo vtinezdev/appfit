@@ -43,7 +43,8 @@ function desdeTexto(inicio: string, hoy: string): string {
  * Cumbres (desde Inicio): la montaña actual con su perfil y sus hitos, la semana frente al plan, los metros de cada día con su
  * porqué, las siguientes y las coronadas (también las repetidas).
  */
-export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void }) {
+export default function CumbresTab({ onIrAAjustes, onVolver }: { onIrAAjustes: () => void; onVolver?: () => void }) {
+  const volver = onVolver ? { etiqueta: 'Inicio', onVolver } : undefined
   const hoy = todayISO()
   const estado = useCumbres(hoy)
   const { avisar, avisarError, toast } = useAviso()
@@ -54,7 +55,7 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
   if (!estado) return <div className="px-page pt-5"><LoadingState /></div>
   if (!estado.visible) {
     return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Cumbres" />
+      <PageHeader title="Cumbres" volver={volver} />
       <EmptyState title="Cumbres ocultas" action={<Button variant="secondary" onClick={onIrAAjustes}>Ir a Ajustes</Button>}>
         Las has ocultado en Ajustes junto con Caminos, Ritmo y Vitrina.
       </EmptyState>
@@ -76,7 +77,7 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
 
   if (!c || !config) {
     return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Cumbres" overline="Montañas reales con lo que entrenas" action={comoFunciona} />
+      <PageHeader title="Cumbres" volver={volver} overline="Montañas reales con lo que entrenas" action={comoFunciona} />
       <Card className="space-y-3">
         <PerfilMontana expedicion={{ montana: MONTANAS[0], metros: 0 }} variante="tarjeta" decorativo />
         <p className="break-words text-body text-fg">Cada entreno, récord, kilómetro andado{conNutricion ? ', comida registrada' : ''} y semana cumplida te sube metros. Elige la primera montaña: empiezas hoy desde el nivel del mar, sin plazo.</p>
@@ -113,7 +114,7 @@ export default function CumbresTab({ onIrAAjustes }: { onIrAAjustes: () => void 
   }
 
   return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Cumbres" overline="Montañas reales con lo que entrenas" action={comoFunciona} />
+    <PageHeader title="Cumbres" volver={volver} overline="Montañas reales con lo que entrenas" action={comoFunciona} />
 
     <Card className="space-y-3">
       <div>
