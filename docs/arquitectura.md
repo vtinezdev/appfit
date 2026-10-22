@@ -92,9 +92,13 @@ Router casero con `useState`, sin rutas URL ni historial de pestañas ([ADR 002]
 
 1. `initTheme()` (Sistema/Claro/Oscuro y fondo curvas (por defecto), puntos, foto o liso, desde Ajustes, preferencias visuales en localStorage) e `initViewport()` (geometría de capas). Ver DESIGN-SYSTEM.md.
 2. `solicitarPersistencia()` (`shared/lib/almacenamiento.ts`): conserva un permiso existente o pide protección frente al borrado automático; fallos y rechazo no impiden abrir la app. Ajustes consulta el estado real y permite reintentar. No es una garantía ni una copia de seguridad.
-3. `ensureSettings()`: la **única** escritura de ajustes al arrancar (las lecturas nunca escriben; ver `datos.md`).
+3. `app/Arranque` espera a `shared/db/arranque.prepararDatos()` (apertura explícita + `ensureSettings()`) antes de montar App. `ensureSettings()` sigue siendo la **única** escritura de ajustes al arrancar. Si falla, `FalloAplicacion` permite reintentar o recargar sin borrar registros; el rechazo no queda sin manejar.
 4. Unos 2 s después, con el navegador ocioso y solo si hay conexión: `sincronizarCatalogo()` en segundo plano. Los errores se ignoran y se reintenta en el siguiente arranque (Ajustes permite lanzarlo a mano).
 5. Tras `ensureSettings()`, `iniciarCopiaNube()` (`features/cuenta/servicio.ts`): sin proyecto configurado no hace nada; sin sesión guardada no descarga supabase-js; con la cuenta vinculada comprueba la nube y deja puestos los disparadores de subida ([cuenta](features/cuenta.md)).
+
+`main` monta `LimiteErrores` alrededor del arranque: un fallo de lectura/render o de un chunk muestra una salida con «Recargar AppFit», sin guardar mensajes ni stacks. No sustituye al manejo local de errores de escritura. `shared/lib/diaActual` y `hooks/useHoy` comparten una suscripción a medianoche local, foco, pageshow y visibilidad; App vuelve a renderizar las vistas dependientes del día. Inicio y Diario se suscriben además explícitamente; los registros inmediatos de agua/peso/creatina resuelven la fecha al actuar. Una fecha histórica elegida y el destino de una tarea ya abierta no se sustituyen por «hoy».
+
+`useVitrina` expone también el estado de Caminos que ya calcula internamente: las teselas de Inicio lo reutilizan en vez de iniciar una segunda lectura/cálculo. No añade caché persistida ni cambia cálculos de gamificación.
 
 ## PWA, caché y tamaño del bundle
 

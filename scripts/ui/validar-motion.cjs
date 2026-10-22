@@ -88,7 +88,7 @@ async function run(browser, variant) {
     await page.getByRole('tab', { name: 'Resumen', exact: true }).click()
     await page.getByRole('radio', { name: 'Mes', exact: true }).waitFor()
     await snapshot(page, `${variant.name}-estadisticas`)
-    await page.getByRole('tab', { name: 'Alimentos', exact: true }).click()
+    await page.getByRole('tab', { name: 'Mis alimentos', exact: true }).click()
     await snapshot(page, `${variant.name}-alimentos`)
     await navegar(page, 'Entreno'); await snapshot(page, `${variant.name}-entreno`)
     await page.getByRole('button', { name: 'Empezar Full body', exact: true }).click()

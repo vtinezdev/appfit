@@ -137,10 +137,10 @@ async function main() {
           assert.deepEqual(await backup(page), original, 'fondos/navegación/scroll no escriben registros')
         }
         await navegar(page, 'Nutrición')
-        await page.getByRole('radio', { name: 'Vista detallada', exact: true }).click()
+        await page.getByRole('button', { name: 'Ver detalle nutricional', exact: true }).click()
         await check(page)
         await page.screenshot({ path: `${output}/${id}-nutrientes.png`, animations: 'disabled' })
-        for (const sub of ['Resumen', 'Alimentos', 'Diario']) {
+        for (const sub of ['Resumen', 'Mis alimentos', 'Diario']) {
           await page.getByRole('tab', { name: sub, exact: true }).click(); await check(page)
         }
         // Menu/selector mantienen las capas; cambiar el tema sustituye una sola imagen.

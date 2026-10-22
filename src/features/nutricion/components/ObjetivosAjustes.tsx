@@ -75,9 +75,9 @@ export default function ObjetivosAjustes({ objetivos, origen = 'manual', onIrAPe
           </div>
         </div>
       ) : (
-        <label key={campo} className="flex items-center justify-between gap-3">
+        <label key={campo} className="flex flex-wrap items-center justify-between gap-3">
           <span className="text-body-sm font-medium text-fg">{label}</span>
-          <span className="flex items-center gap-3">
+          <span className="flex max-w-full flex-wrap items-center gap-3">
             {campo !== 'kcal' && (
               <span className="tabular flex w-12 items-center justify-end gap-1 text-caption text-fg-muted"><span aria-hidden className={`h-1.5 w-1.5 shrink-0 rounded-pill ${macro.bg}`} />{dist[campo]} %</span>
             )}

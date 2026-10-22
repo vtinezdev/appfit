@@ -45,9 +45,10 @@ export default function PerfilTab({ onVerMetodo }: { onVerMetodo: () => void }) 
   function recordarObjetivo() { esperando.current = { antes: kcal } }
 
   async function guardarPeso(kg: number) {
+    const fecha = todayISO()
     recordarObjetivo()
-    await pesosRepo.registrar(hoy, kg)
-    void actualizarObjetivoHoy(hoy, 'peso')
+    await pesosRepo.registrar(fecha, kg)
+    void actualizarObjetivoHoy(fecha, 'peso')
     setPesoAbierto(false)
   }
   async function borrar() {

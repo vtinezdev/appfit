@@ -4,7 +4,7 @@ import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
-import { addDays, formatFriendly } from '../../../shared/lib/dates'
+import { addDays, formatFriendly, todayISO } from '../../../shared/lib/dates'
 import { formatNumber } from '../../../shared/lib/format'
 import * as creatinaRepo from '../data/creatinaRepo'
 import { diaCreatina } from '../lib/creatina'
@@ -23,7 +23,7 @@ export default function CreatinaHoy({ hoy }: { hoy: string }) {
   async function cambiar(tomada: boolean) {
     if (enCurso.current) return
     enCurso.current = true; setOcupado(true); setError(null)
-    try { await creatinaRepo.marcar(hoy, tomada) }
+    try { await creatinaRepo.marcar(todayISO(), tomada) }
     catch { setError('No se ha podido guardar la toma. Inténtalo de nuevo.') }
     finally { enCurso.current = false; setOcupado(false) }
   }

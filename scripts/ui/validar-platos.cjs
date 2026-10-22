@@ -88,6 +88,8 @@ async function main() {
         await page.getByRole('button', { name: /^Revisar \d+ alimentos?$/, exact: true }).click()
         await page.getByRole('button', { name: /^Añadir al plato ·/ }).waitFor()
         await page.getByRole('button', { name: 'Cancelar', exact: true }).click()
+        await page.getByRole('dialog', { name: '¿Descartar los cambios?', exact: true }).getByRole('button', { name: 'Descartar', exact: true }).click()
+        await page.getByRole('dialog').waitFor({ state: 'detached' })
         assert.deepEqual(await registros(page), antes, 'cancelar no guarda')
 
         // Dos tandas se añaden al mismo plato; detalles siguen mostrando extras.
@@ -109,7 +111,7 @@ async function main() {
         assert.equal(conNuevos.filter((e) => e.platoId === platoId).length, 4)
         assert.ok(conNuevos.filter((e) => e.platoId === platoId).every((e) => e.nombrePlato === nombre))
         assert.deepEqual(conNuevos.filter((e) => antes.some((a) => a.id === e.id)), antes, 'snapshots anteriores intactos')
-        await page.getByRole('radio', { name: 'Vista detallada', exact: true }).click()
+        await page.getByRole('button', { name: 'Ver detalle nutricional', exact: true }).click()
         await page.getByRole('region', { name: 'Desglose del día', exact: true }).getByText('Fibra', { exact: true }).waitFor()
         await comprobarTotales(page, conNuevos, platoId)
 
@@ -141,6 +143,8 @@ async function main() {
         await page.getByRole('button', { name: 'Escribir valores', exact: true }).click()
         await page.getByRole('textbox', { name: 'Nombre del alimento', exact: true }).waitFor()
         await page.getByRole('button', { name: 'Cancelar', exact: true }).click()
+        await page.getByRole('dialog', { name: '¿Descartar los cambios?', exact: true }).getByRole('button', { name: 'Descartar', exact: true }).click()
+        await page.getByRole('dialog').waitFor({ state: 'detached' })
         assert.deepEqual(await registros(page), conBusqueda)
 
         // Se conserva la edición/borrado del diario, incluso con un solo ingrediente.
@@ -182,6 +186,8 @@ async function main() {
         assert.deepEqual(await registros(page), antes.filter((e) => e.platoId !== platoId))
         await layout(page)
         await page.getByRole('button', { name: 'Cancelar', exact: true }).click()
+        await page.getByRole('dialog', { name: '¿Descartar los cambios?', exact: true }).getByRole('button', { name: 'Descartar', exact: true }).click()
+        await page.getByRole('dialog').waitFor({ state: 'detached' })
         assert.deepEqual(errores, [])
         resultados.push({ width, colorScheme, correcto: true })
         console.log(`Platos: ${width} px, ${colorScheme}: correcto`)

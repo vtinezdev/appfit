@@ -104,8 +104,8 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
         <ListGroup aria-label="Rutinas">
           {ordenadas.map((r) => {
             const resumen = resumenes.get(r.id)!
-            return <li key={r.id} className="flex items-center gap-2">
-              <button type="button" onClick={() => onAbrirRutina(r.id)} className="app-button flex min-h-touch min-w-0 flex-1 items-center gap-3 py-3 text-left">
+            return <li key={r.id} className="flex flex-wrap items-center gap-2">
+              <button type="button" onClick={() => onAbrirRutina(r.id)} className="app-button flex min-h-touch min-w-0 flex-1 basis-48 items-center gap-3 py-3 text-left">
                 <MosaicoRutina resumen={resumen} />
                 {/* Mismo alto en todas: el nombre reserva dos líneas (y no pasa de ellas); el nombre entero sigue en el botón. */}
                 <span className="rutina-fila-texto min-w-0 flex-1">
@@ -113,7 +113,7 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
                   <span className="block truncate text-caption text-fg-muted">{resumen.ultima === null ? 'Sin hacer' : cuandoFue(resumen.ultima)}</span>
                 </span>
               </button>
-              <Button variant="secondary" size="sm" className="shrink-0" aria-label={`Empezar ${r.nombre}`} loading={empezando === r.id} disabled={ocupado} onClick={() => empezar(r.id)}>Empezar</Button>
+              <Button variant="secondary" size="sm" className="ml-auto shrink-0" aria-label={`Empezar ${r.nombre}`} loading={empezando === r.id} disabled={ocupado} onClick={() => empezar(r.id)}>Empezar</Button>
             </li>
           })}
         </ListGroup>

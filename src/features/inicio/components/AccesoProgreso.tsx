@@ -2,7 +2,6 @@ import Icon, { type IconName } from '../../../shared/components/Icon'
 import { todayISO } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import { useVitrina } from '../../vitrina/hooks/useVitrina'
-import { useCaminos } from '../../caminos/hooks/useCaminos'
 import { formatKm } from '../../actividades/lib/actividad'
 import { recuentoPiezas } from '../../vitrina/lib/logros'
 
@@ -17,8 +16,8 @@ interface Tesela { key: DestinoProgreso; label: string; icon: IconName; valor: s
 export default function AccesoProgreso({ onAbrir }: { onAbrir: (destino: DestinoProgreso) => void }) {
   const hoy = todayISO()
   const estado = useVitrina(hoy)
-  const caminos = useCaminos(hoy)
   if (!estado?.visible) return null
+  const caminos = estado.caminos
   const camino = caminos?.visible ? caminos.caminos?.actual : undefined
   const actual = estado.cumbres?.actual
   const piezas = recuentoPiezas(estado.vitrina.logros)

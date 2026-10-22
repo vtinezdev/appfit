@@ -144,7 +144,7 @@ export default function Progreso() {
   const conLigas = !!ligas?.visible && ligas.ligas.length > 0
 
   return <div className="space-y-section">
-    {!exerciseId && <Suspense fallback={<LoadingState />}><MapaProgreso /></Suspense>}
+    {!exerciseId && <Suspense fallback={<LoadingState />}><MapaProgreso onIrAEjercicios={() => { listaRef.current?.scrollIntoView({ block: 'start' }); listaRef.current?.focus({ preventScroll: true }) }} /></Suspense>}
     {!exerciseId && <section aria-labelledby="progreso-lista" className="space-y-stack">
       <h2 id="progreso-lista" ref={listaRef} tabIndex={-1} className="text-heading text-fg">Por ejercicio</h2>
       {resumenes && resumenes.length > 0 && <ListGroup aria-label="Ejercicios con sesiones">

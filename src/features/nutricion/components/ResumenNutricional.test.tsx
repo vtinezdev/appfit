@@ -6,16 +6,19 @@ import NutrientesDetalle from './NutrientesDetalle'
 const objetivos = { kcal: 2200, prot: 150, carb: 220, grasa: 70 }
 const totales = { kcal: 113, prot: 6, carb: 9, grasa: 6 }
 
-describe('ResumenNutricional: carriles del diario', () => {
-  it('energía y macros en carriles con «valor / objetivo»', () => {
+describe('ResumenNutricional: diario compacto', () => {
+  it('conserva calorías, diferencia y cuatro barras con nombres accesibles', () => {
     const html = renderToStaticMarkup(<ResumenNutricional totales={totales} objetivos={objetivos} />)
     expect(html).toContain('<section aria-label="Resumen del día">')
     expect(html).toContain('Quedan 2.087 kcal')
+    expect(html).toContain('>Quedan</p>')
+    expect(html).toContain('>2.087</span>')
     expect(html.match(/role="progressbar"/g)).toHaveLength(4)
     for (const label of ['Calorías', 'Proteína', 'Carbohidratos', 'Grasa']) expect(html).toContain(`aria-label="${label}"`)
     expect(html).not.toContain('data-surface="inverse"')
-    for (const nombre of ['Energía', 'Proteína', 'Hidratos', 'Grasa']) expect(html).toContain(`>${nombre}</span>`)
-    expect(html).toContain('<strong class="font-semibold text-fg">113</strong><span class="text-fg-muted"> / 2.200</span>')
+    for (const nombre of ['Proteína', 'Hidratos', 'Grasa']) expect(html).toContain(`>${nombre}</p>`)
+    expect(html).toContain('>113</span>')
+    expect(html).toContain('Objetivo 2.200 kcal')
   })
 
   it('el título es solo el nombre accesible de la sección', () => {
@@ -29,7 +32,9 @@ describe('ResumenNutricional: carriles del diario', () => {
     expect(html).toContain('aria-label="Desglose del día"')
     expect(html).toContain('Parcial · 1 de 2 alimentos')
     expect(html).toContain('Sin datos')
-    expect(html).toContain('</section></div></section>')
+    expect(html).toContain('Ver detalle nutricional')
+    expect(html).toContain('aria-expanded="false"')
+    expect(html).toContain('hidden=""')
   })
 
   it('conserva el exceso en texto y en las barras, sin tratarlo como error', () => {

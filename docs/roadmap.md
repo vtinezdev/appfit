@@ -12,6 +12,8 @@
 
 ## Pendientes de la auditoría de compatibilidad
 
+- **Auditoría del 21–22 de octubre:** AF-01–05 corregidos y regresión AF-07 incorporada; quedan el perfilado de rendimiento AF-06, la validación física y UI-06/07/09/10. UI-02/03/04/05/08 implementadas; pausa solicitada tras el primer bloque visual. Estado y alcance en [plan-auditoria-2026-10-22.md](plan-auditoria-2026-10-22.md). Inicio conserva la gráfica de peso y el vaso; el área ya se llama «Mis alimentos»; el Perfil pendiente debe ser más compacto.
+
 - [Auditoría del 17 de octubre](auditoria-2026-10-17/INFORME.md): los cinco defectos iniciales están corregidos. A06/A07 se abordan después en §154: semana desplazable con botones táctiles, calendario compacto por lista (desde §173, solo por debajo de 360 px o con texto ampliado) y pestañas con rótulos completos. La validación física sigue pendiente.
 - Comprobar instalación, teclado, giro/recortes, Atrás, permisos y suspensión en iPhone/Android físicos. Chromium, Firefox y WebKit Linux están probados; no sustituyen esos dispositivos. Cuenta/Social se recorrieron con dobles locales; esta auditoría no reejecutó SQL/RLS ni cuentas remotas reales. Workflow de QA incluido para PR y master; sus resultados se comprueban antes del merge.
 
@@ -45,7 +47,6 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 
 - Ilustraciones de ejercicios: las 268 definiciones actuales tienen ilustración propia (IA; lotes 1–67, con 64 altas de gimnasio/calistenia/pilates el 2026-10-17). Al añadir ejercicios se amplían `scripts/ejercicios/ilustraciones.json` y `mapeo.json`; la tubería conserva las miniaturas aunque falten los originales. Ver `scripts/ejercicios/README.md` y la [revisión del catálogo](historico/revision-ejercicios-2026-10-17.md).
 - Perfil: los factores de actividad (1,2–1,9) se atribuyen a McArdle, Katch y Katch (1996) sin haber verificado la edición ni una derivación experimental; la cifra de 600 kcal/día de NICE procede de CG189 y no se ha cotejado en NG246. La media de Mifflin y Roza-Shizgal es criterio de AppFit, no un método publicado. Los scripts `scripts/ui/validar-*.cjs` adaptados a Perfil no se han ejecutado (rutas fijas a `/usr/bin/chromium` y al puerto 5174); el recorrido se probó con un script propio en Edge (PROCESO §74).
-- Ajustes: los campos de objetivos diarios desbordan a 375 px con texto al 200% (fila sin wrap y anchos fijos). Detectado al confirmar los fondos claros; pendiente de adaptación del formulario, sin relación con la capa fotográfica.
 - Buscador e intérprete priorizan los básicos compartidos en `catalogo/preferidos.ts`; arroz, pasta y pollo sin más detalle se eligen en crudo. Si se pesa en cocido, especificarlo o usar «Cambiar». Si aún hay ruido, valorar sugerencias prioritarias con «Ver más variantes», sin fusionar alimentos por nombre.
 - Catálogo: no hay genéricos españoles (manchego, tortilla de patata…); la categoría y la detección de idioma de Open Food Facts son heurísticas (ver `scripts/catalogo/README.md`).
 - «Alimentos» ya no muestra la procedencia de cada alimento (se quitó en §38).
