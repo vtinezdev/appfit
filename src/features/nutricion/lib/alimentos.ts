@@ -298,11 +298,13 @@ export function filtrarAlimentos(foods: Food[], q: string, limite = 20): Food[] 
 }
 
 /**
- * Umbrales del aviso de coherencia energética, los mismos que la tubería del catálogo (`scripts/catalogo/calidad.ts`):
- * avisa si |kcal − esperadas| > max(15 kcal, 20 % de las kcal declaradas).
+ * Umbrales del aviso de coherencia energética: avisa si |kcal − esperadas| > max(30 kcal, 25 % de las kcal escritas),
+ * es decir, solo con un descuadre notorio (una cifra mal tecleada, kcal de otra ración, macros de otro producto). El
+ * redondeo de la etiqueta, la fibra o los polialcoholes no llegan. Más holgados que los de la tubería del catálogo
+ * (`scripts/catalogo/calidad.ts`, 15 kcal y 20 %), que sirven para su informe, no para la persona.
  */
-export const COHERENCIA_KCAL_MIN = 15
-export const COHERENCIA_REL = 0.2
+export const COHERENCIA_KCAL_MIN = 30
+export const COHERENCIA_REL = 0.25
 
 /**
  * Compara las kcal por 100 g con las que salen de los macros (Atwater, Reglamento UE 1169/2011: 4·P + 4·C + 9·G, más
