@@ -2085,3 +2085,16 @@ Víctor pide terminar las cuatro mejoras aprobadas que quedaron en pausa en [el 
 Tras dos loops de investigación (auditoría del código y de los documentos, y comparación con Hevy, Strong, Fitbod, MacroFactor, Cronometer, MyFitnessPal, Nike Training Club, Strava, Duolingo y Gentler Streak), Víctor elige 33 de las 60 propuestas del dashboard de evolución. Se ordenan de más simples a más complejas y se reparten en dos carriles para dos sesiones de Claude Code en cuentas distintas: A (Entreno, Social y actividades) y B (Inicio, Nutrición, navegación y progreso), con carpetas de cada uno, reglas para los archivos compartidos (`PROCESO.md`, roadmap, versiones de Dexie, migraciones de Supabase), cruces planificados y 13 decisiones pendientes. Plan en `docs/plan-evolucion/`; enlace en `docs/roadmap.md`.
 
 Durante la auditoría se detectaron documentos vivos que contradicen el código (paso B1 y parte de A1). No se ha cambiado código.
+
+## 192. Tendencia de peso en Inicio (2026-10-22)
+
+Paso B2 (NUT-06) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-tendencia-peso` desde `master`. Tras una vista previa con capturas, Víctor eligió que Peso ocupe su fila entera en el móvil (como ya pasaba por debajo de 18 rem) en lugar de compartirla con Agua.
+
+- `inicio/lib/peso.ts`: `mediaSemanaPeso` (la media de 7 días en el último pesaje y cuántos pesajes entran), `ritmoSemanal` (pendiente por mínimos cuadrados de la media móvil en los últimos 21 días, en kg/semana, con ≥ 4 pesajes que abarquen ≥ 14 días; si no, `null`) y `fraseRitmo` («−0,4 kg/sem», «Estable»).
+- `AccesoPeso`: la media como cifra principal («kg · media 7 días») con al menos 2 pesajes en esa semana; debajo, el ritmo (o la variación a 7 días de siempre si no hay ritmo) y «Último: 80,2 kg» en `caption`. Con un solo pesaje en la semana, el último pesaje y «La media sale con 2 pesajes en 7 días». Tono neutro, sin acento.
+- `index.css`: `.inicio-registros` en una columna; lado a lado solo desde 40 rem de lectura.
+
+**Verificación:** `npm run test` (208 archivos, 2.554 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con pesajes sintéticos (5 semanas con ruido, cifras de 280 kg, dos pesajes y ninguno) a 320/375/430 px en claro y oscuro, 375 px con texto al 200 % en ambos temas y 768 px: sin scroll horizontal ni desbordes, controles ≥ 44 px, Peso a todo el ancho en móvil y junto a Agua en tablet, sin errores de consola. Sin dispositivo físico.
+
+Si se fusiona después de la §191, `DESIGN.md` § Inicio choca en el mismo párrafo: se conservan los dos cambios.
+

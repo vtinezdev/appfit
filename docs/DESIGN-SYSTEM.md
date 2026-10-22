@@ -223,7 +223,7 @@ La creación de comunidad incluye un Select «Quién puede publicar» y la ayuda
 
 `interactive-widget=resizes-content` permite que Chrome Android ajuste el área de contenido al teclado. `safe-inline` protege el contenido y las capas de los recortes laterales en horizontal; navegación conserva también la zona segura inferior. Campos nativos acotados al ancho disponible y botones con texto que envuelve.
 
-Inicio usa container queries: con al menos 40 rem de lectura, energía y progreso comparten fila; Peso/Agua ocupan la siguiente. Bajo 18 rem de lectura, Peso/Agua y las teselas de progreso se apilan. La rueda de energía no excede su contenedor y, bajo 12 rem, su cifra pasa debajo y los macros se apilan, conservando el tamaño del texto.
+Inicio usa container queries: con al menos 40 rem de lectura, energía y progreso comparten fila y Peso/Agua ocupan la siguiente, lado a lado. Por debajo, Peso y Agua tienen cada una su fila entera. Bajo 18 rem de lectura, las teselas de progreso se apilan. La rueda de energía no excede su contenedor y, bajo 12 rem, su cifra pasa debajo y los macros se apilan, conservando el tamaño del texto.
 
 La capa de secciones también sigue el viewport visible. Bajo 28 rem de alto o 18 rem de ancho de su contenedor, la órbita pasa a una rejilla adaptable con scroll y cierre persistente; los umbrales responden al texto ampliado. Conserva foco, Escape y Atrás de `useModalLayer`.
 
