@@ -113,7 +113,7 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
           <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre completo</span>
             <Input aria-label="Nombre del alimento" aria-invalid={sinNombre} placeholder="Nombre del alimento" value={item.nombre} onChange={(e) => onChange({ nombre: e.target.value })} />
           </label>
-          <MacroInputs detallado valores={item} onChange={onChange} />
+          <MacroInputs detallado coherencia={procedencia(item) !== 'catalogo'} valores={item} onChange={onChange} />
           {!medidaPendiente(item) && <NutrientesDetalle entries={[aporte]} titulo="Aporte de la cantidad indicada" />}
           <div className="space-y-2 border-t border-line pt-3">
             <p className="text-body-sm text-fg-muted">En Nutrición: <strong className="font-semibold text-fg">{nombreCorto ?? propuesta}</strong></p>
