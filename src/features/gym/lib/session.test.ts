@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, afterEach } from 'vitest'
-import { ajustarDescanso, clearSession, clockText, descansoParaEjercicio, emptySession, readSession, remainingSeconds, seriesMarcadas, siguienteEjercicioPendiente, writeSession } from './session'
+import { ajustarDescanso, clearSession, clockText, descansoHabitual, descansoParaEjercicio, emptySession, guardarDescansoHabitual, readSession, remainingSeconds, seriesMarcadas, siguienteEjercicioPendiente, writeSession } from './session'
 afterEach(() => vi.unstubAllGlobals())
 describe('estado de interacción del entreno, independiente de los datos', () => {
   it('sin storage o con JSON inválido funciona en memoria', () => {
@@ -22,6 +22,29 @@ describe('estado de interacción del entreno, independiente de los datos', () =>
     expect(readSession(2)).toEqual(emptySession())
     clearSession(1)
     expect(readSession(1)).toEqual(emptySession())
+  })
+  it('un entreno nuevo empieza con el último descanso elegido en este dispositivo', () => {
+    const sesiones = new Map<string, string>()
+    const locales = new Map<string, string>()
+    const almacen = (m: Map<string, string>) => ({ getItem: (k: string) => m.get(k) ?? null, setItem: (k: string, v: string) => m.set(k, v), removeItem: (k: string) => m.delete(k) })
+    vi.stubGlobal('sessionStorage', almacen(sesiones))
+    vi.stubGlobal('localStorage', almacen(locales))
+    expect(readSession(1).restSeconds).toBe(0)
+    guardarDescansoHabitual(120)
+    expect(readSession(2)).toEqual({ ...emptySession(), restSeconds: 120 })
+    // Un entreno ya en curso conserva el suyo.
+    writeSession(1, { ...emptySession(), restSeconds: 60 })
+    expect(readSession(1).restSeconds).toBe(60)
+    // «No» (0) o un valor que no ofrece el selector lo olvidan; uno raro guardado se ignora.
+    guardarDescansoHabitual(0)
+    expect(descansoHabitual()).toBe(0)
+    guardarDescansoHabitual(45)
+    expect(locales.size).toBe(0)
+    locales.set('appfit:descanso-habitual', 'mucho')
+    expect(descansoHabitual()).toBe(0)
+    vi.stubGlobal('localStorage', { getItem: () => { throw new Error('bloqueado') }, setItem: () => { throw new Error('bloqueado') }, removeItem: () => { throw new Error('bloqueado') } })
+    expect(descansoHabitual()).toBe(0)
+    expect(() => guardarDescansoHabitual(90)).not.toThrow()
   })
   it('el descanso usa tiempo real, no ticks acumulados', () => {
     expect(remainingSeconds(90000, 0)).toBe(90)

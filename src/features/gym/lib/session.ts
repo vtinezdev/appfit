@@ -4,18 +4,36 @@ export interface SessionUI { completed: number[]; restSeconds: number; restEndsA
   restTotal?: number }
 export const emptySession = (): SessionUI => ({ completed: [], restSeconds: 0, restEndsAt: null })
 const key = (id: number) => `appfit:workout-ui:${id}`
+const DESCANSOS = [0, 60, 90, 120]
+const CLAVE_HABITUAL = 'appfit:descanso-habitual'
+
+/**
+ * El último descanso elegido (en «Descanso» o al aceptar la propuesta), con el que empieza cada entreno nuevo. Preferencia
+ * de este dispositivo, como el tema: vive en localStorage, fuera del backup. Sin storage o con un valor raro, sin temporizador.
+ */
+export function descansoHabitual(): number {
+  try { const v = Number(localStorage.getItem(CLAVE_HABITUAL)); return DESCANSOS.includes(v) ? v : 0 } catch { return 0 }
+}
+export function guardarDescansoHabitual(segundos: number) {
+  try {
+    if (segundos > 0 && DESCANSOS.includes(segundos)) localStorage.setItem(CLAVE_HABITUAL, String(segundos))
+    else localStorage.removeItem(CLAVE_HABITUAL)
+  } catch { /* Sin storage, cada entreno empieza sin temporizador, como antes. */ }
+}
+/** Un entreno sin estado guardado empieza con el descanso habitual. */
+const sesionNueva = (): SessionUI => ({ ...emptySession(), restSeconds: descansoHabitual() })
 
 export function readSession(id: number): SessionUI {
   try {
     const value = JSON.parse(sessionStorage.getItem(key(id)) ?? 'null')
-    if (!value || !Array.isArray(value.completed)) return emptySession()
+    if (!value || !Array.isArray(value.completed)) return sesionNueva()
     return {
       completed: value.completed.filter((n: unknown) => typeof n === 'number' && Number.isSafeInteger(n) && n > 0),
-      restSeconds: [0, 60, 90, 120].includes(value.restSeconds) ? value.restSeconds : 0,
+      restSeconds: DESCANSOS.includes(value.restSeconds) ? value.restSeconds : 0,
       restEndsAt: typeof value.restEndsAt === 'number' && Number.isFinite(value.restEndsAt) ? value.restEndsAt : null,
       ...(typeof value.restTotal === 'number' && value.restTotal > 0 && value.restTotal <= 3600 ? { restTotal: value.restTotal } : {}),
     }
-  } catch { return emptySession() }
+  } catch { return sesionNueva() }
 }
 export function writeSession(id: number, value: SessionUI) {
   try { sessionStorage.setItem(key(id), JSON.stringify(value)) } catch { /* Sin storage, la interacción continúa en memoria. */ }

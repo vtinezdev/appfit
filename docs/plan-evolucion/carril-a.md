@@ -12,7 +12,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 |---|---|---|---|---|---|
 | A1 | REN-02 | Recortar el resumen social a 8 KB | S | — | Hecho (2026-10-22) |
 | A2 | ENT-15 | Avance automático al siguiente ejercicio | S | — | Hecho (2026-10-22) |
-| A3 | ENT-14 | Descanso sugerido según el tipo de ejercicio | S | — | Pendiente |
+| A3 | ENT-14 | Descanso sugerido según el tipo de ejercicio | S | — | Hecho (2026-10-22) |
 | A4 | GAM-07 | «Hace N días» tras un parón | S | — | Descartado (2026-10-23) |
 | A5 | ENT-04 | Historial del ejercicio sin salir de la sesión | M | — | Pendiente |
 | A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Pendiente |
@@ -61,7 +61,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** sesión con 3 ejercicios a 320/375/430 px; con el teclado simulado (viewport reducido) no salta; con Reduce Motion, salto directo.
 - **Documentos:** `docs/features/gym.md` § Entreno activo.
 
-### [ ] A3 · ENT-14 · Descanso sugerido según el tipo de ejercicio
+### [x] A3 · ENT-14 · Descanso sugerido según el tipo de ejercicio
+
+> **Hecho (2026-10-22, PROCESO §194, PR pendiente).** D8: una sola vez en general. Al ver la preview salió que cada entreno empezaba sin temporizador, así que un «Sí» solo valía para esa sesión; Víctor elige recordar el último descanso elegido en el dispositivo (localStorage, fuera del backup), sin cruce con B. Los ejercicios propios reciben 90 s. La función vive en `lib/descansoSugerido.ts` y no en `session.ts` para no meter el catálogo en la barra del entreno minimizado.
 
 - **Tamaño:** S · **Rama:** `feat/a-descanso-sugerido`
 - **Para la persona:** quien entrena sin temporizador recibe una vez la pregunta «¿Quieres un descanso de 2 min entre series?» al marcar su primera serie.

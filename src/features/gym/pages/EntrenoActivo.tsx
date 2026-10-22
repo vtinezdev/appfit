@@ -30,7 +30,7 @@ import { useListMotion } from '../../../shared/hooks/useListMotion'
 import { haptic, reduceMotion } from '../../../shared/design/motion'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import ProgresoSeries from '../components/ProgresoSeries'
-import { ajustarDescanso, clearSession, descansoParaEjercicio, readSession, seriesMarcadas, siguienteEjercicioPendiente, writeSession } from '../lib/session'
+import { ajustarDescanso, clearSession, descansoParaEjercicio, guardarDescansoHabitual, readSession, seriesMarcadas, siguienteEjercicioPendiente, writeSession } from '../lib/session'
 import { RestClock, WorkoutClock } from '../components/WorkoutClock'
 import type { WorkoutSummary } from '../components/WorkoutFinished'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -317,12 +317,13 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
     } catch { avisarError('La serie no se ha guardado. Inténtalo de nuevo antes de completarla.'); return false } finally { confirmandoSeries.current.delete(s.id) }
   }
 
-  /** «Sí» fija el descanso de la sesión y lo empieza a contar ya, tras la serie recién marcada; las dos respuestas cierran la propuesta para siempre. */
+  /** «Sí» fija el descanso de la sesión (y de las siguientes) y lo empieza a contar ya, tras la serie recién marcada; las dos respuestas cierran la propuesta para siempre. */
   function responderDescanso(si: boolean) {
     if (!sugerencia) return
     const segundos = sugerencia.segundos
     if (si) {
       setSession(previous => ({ ...previous, restSeconds: segundos, restEndsAt: Date.now() + segundos * 1000, restTotal: segundos }))
+      guardarDescansoHabitual(segundos)
       setFeedback(`Descanso de ${textoDescanso(segundos)} entre series`)
     }
     setSugerencia(null)
@@ -375,6 +376,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
             <div className="space-y-3">
               <SegmentedControl label="Duración del descanso" size="sm" valor={String(session.restSeconds)} onChange={value => {
                 setSession(previous => ({ ...previous, restSeconds: Number(value), restEndsAt: null }))
+                guardarDescansoHabitual(Number(value))
                 setRestConfigOpen(false)
                 requestAnimationFrame(() => restConfig.current?.querySelector('button')?.focus({ preventScroll: true }))
               }} opciones={[{ valor: '0', label: 'No' }, { valor: '60', label: '60 s' }, { valor: '90', label: '90 s' }, { valor: '120', label: '120 s' }]} />
