@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { IconButton } from '../../../shared/components/Button'
+import Button, { IconButton } from '../../../shared/components/Button'
 import Disclosure from '../../../shared/components/Disclosure'
 import ListGroup from '../../../shared/components/ListGroup'
 import { addDays, startOfWeek } from '../../../shared/lib/dates'
@@ -35,6 +35,12 @@ function semanasDelAnio(anio: number): string[] {
   return res
 }
 
+/**
+ * Semanas con revisión que ver: cerradas (ni la actual ni las futuras) y con algún entreno o día con comidas. Una semana
+ * «vacía» por debajo del umbral de presencia (un solo día con comidas) también tiene revisión.
+ */
+export const conRevision = (s: SemanaRitmo) => s.cerrada && (s.entrenos > 0 || (s.diasRegistrados ?? 0) > 0)
+
 const etiquetaSemana = (lunes: string) => {
   const [, m, d] = lunes.split('-').map(Number)
   return `Semana del ${d} ${MESES_ABREV[m - 1]}`
@@ -42,9 +48,10 @@ const etiquetaSemana = (lunes: string) => {
 
 /**
  * Calendario de semanas de un año (Ritmo): una celda por semana, en filas de 13 (un trimestre). Hoy la semana en curso
- * lleva anillo. Decorativo; la lista desplegable da el estado de cada semana en texto.
+ * lleva anillo. Decorativo; la lista desplegable da el estado de cada semana en texto y, en las cerradas con algo
+ * registrado, «Ver revisión» (`onVerRevision`), que abre su revisión semanal.
  */
-export default function CalendarioSemanas({ ritmo, hoy }: { ritmo: ResultadoRitmo; hoy: string }) {
+export default function CalendarioSemanas({ ritmo, hoy, onVerRevision }: { ritmo: ResultadoRitmo; hoy: string; onVerRevision?: (lunes: string) => void }) {
   const anioActual = Number(hoy.slice(0, 4))
   const primero = ritmo.semanas.length ? Number(ritmo.semanas[0].lunes.slice(0, 4)) : anioActual
   const [anio, setAnio] = useState(anioActual)
@@ -79,6 +86,8 @@ export default function CalendarioSemanas({ ritmo, hoy }: { ritmo: ResultadoRitm
               <span className="text-body-sm text-fg">{textoEstado(s)}</span>
             </p>
             <p className="tabular text-caption text-fg-muted">{cifrasSemana(s)}{s.hilo > 0 ? ` · hilo ${formatInt(s.hilo)}` : ''}</p>
+            {onVerRevision && conRevision(s) && <Button variant="ghost" size="sm" className="-ml-3" aria-label={`Ver revisión de la ${etiquetaSemana(s.lunes).toLowerCase()}`}
+              onClick={() => onVerRevision(s.lunes)}>Ver revisión</Button>}
           </li>)}
         </ListGroup>
       </Disclosure>}

@@ -26,6 +26,8 @@ interface Props {
   lunes: string
   hoy: string
   onClose: () => void
+  /** Destino del botón de cerrar (por defecto «Inicio»; desde Ritmo, «Ritmo»). */
+  closeLabel?: string
 }
 
 function Bloque({ titulo, children }: { titulo: string; children: ReactNode }) {
@@ -44,7 +46,7 @@ const unir = (...partes: (string | null | false)[]) => partes.filter(Boolean).jo
  * Revisión de una semana cerrada (lunes-domingo) frente a la anterior: peso, nutrición, entreno, récords y agua.
  * Cifras y diferencias sin juicio de valor; cada bloque sin datos lo dice en su sitio.
  */
-export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose }: Props) {
+export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose, closeLabel = 'Inicio' }: Props) {
   const [lunes, setLunes] = useState(lunesInicial)
   const ultima = semanaARevisar(hoy).lunes
   const revision = useRevision(lunes, hoy)
@@ -53,7 +55,7 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose }: P
   const cargada = revision?.semana.lunes === lunes ? revision : undefined
 
   return (
-    <ModalPage title="Revisión semanal" closeLabel="Inicio" onClose={onClose}>
+    <ModalPage title="Revisión semanal" closeLabel={closeLabel} onClose={onClose}>
       <div className="space-y-section">
         <div className="flex items-center justify-between gap-2">
           <IconButton icon="chevron-left" label="Semana anterior" variant="ghost" onClick={() => setLunes(addDays(lunes, -7))} />

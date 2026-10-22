@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import Button, { IconButton } from '../../shared/components/Button'
 import Card from '../../shared/components/Card'
 import ComoFunciona from '../../shared/components/ComoFunciona'
@@ -21,6 +21,8 @@ import { describirPausa, pausaActiva } from './lib/pausas'
 import { ESTADOS_SEMANA, MAX_COMODINES, SEMANAS_POR_COMODIN } from './lib/ritmo'
 import { cifrasSemana, faltaParaCumplir } from './lib/textos'
 
+const RevisionSemanal = lazy(() => import('../inicio/components/RevisionSemanal'))
+
 const semanasTexto = (n: number) => (n === 1 ? '1 semana' : `${formatInt(n)} semanas`)
 
 /** Ritmo (desde Inicio): la semana en curso, hilo y comodines, el calendario de semanas, hitos y pausas. */
@@ -31,6 +33,8 @@ export default function RitmoTab({ onIrAAjustes, onVolver }: { onIrAAjustes: () 
   const { avisar, avisarError, toast } = useAviso()
   const [pausando, setPausando] = useState(false)
   const [aperturas, setAperturas] = useState(0)
+  /** Lunes de la semana cuya revisión está abierta (la misma de Inicio, aunque allí ya se cerrara). */
+  const [revision, setRevision] = useState<string | null>(null)
 
   if (!estado) return <div className="px-page pt-5"><LoadingState /></div>
   if (!estado.visible) {
@@ -96,7 +100,7 @@ export default function RitmoTab({ onIrAAjustes, onVolver }: { onIrAAjustes: () 
 
     <section aria-label="Semanas" className="space-y-stack">
       <SectionHeader variant="section">Semanas</SectionHeader>
-      <Card><CalendarioSemanas ritmo={ritmo} hoy={hoy} /></Card>
+      <Card><CalendarioSemanas ritmo={ritmo} hoy={hoy} onVerRevision={setRevision} /></Card>
     </section>
 
     <section aria-label="Hitos" className="space-y-stack">
@@ -123,6 +127,7 @@ export default function RitmoTab({ onIrAAjustes, onVolver }: { onIrAAjustes: () 
 
     <PausarSheet key={`pausar-${aperturas}`} open={pausando} hoy={hoy} onClose={() => setPausando(false)}
       onPausado={(antes) => { setPausando(false); avisar({ mensaje: 'Pausa guardada', onDeshacer: deshacer(antes) }) }} />
+    {revision && <Suspense fallback={null}><RevisionSemanal lunes={revision} hoy={hoy} closeLabel="Ritmo" onClose={() => setRevision(null)} /></Suspense>}
     {toast}
   </div>
 }
