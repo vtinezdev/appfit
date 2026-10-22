@@ -2080,3 +2080,8 @@ Víctor pide terminar las cuatro mejoras aprobadas que quedaron en pausa en [el 
 
 **Verificación:** `npm run test` (207 archivos, 2.537 pruebas) y `npm run build` correctos. `validar-mejoras-pendientes.cjs` correcto en ocho configuraciones de Chromium (320/375/430 claro/oscuro y 375 al 200 % claro/oscuro), con Social contra el Supabase falso. `validar-social.cjs` y `validar-pulido-auditoria.cjs` correctos a 375 claro (y el segundo también al 200 %). Capturas revisadas en ambos temas y al 200 %. Pendiente previo, sin tocar: con texto al 200 % a 375 px, la fila «Gasto diario estimado» de la card del resultado parte «moderado» y las pestañas de Social se recortan. Sin dispositivo físico ni Firefox/WebKit locales.
 
+## 190. Plan de evolución en dos carriles (2026-10-22)
+
+Tras dos loops de investigación (auditoría del código y de los documentos, y comparación con Hevy, Strong, Fitbod, MacroFactor, Cronometer, MyFitnessPal, Nike Training Club, Strava, Duolingo y Gentler Streak), Víctor elige 33 de las 60 propuestas del dashboard de evolución. Se ordenan de más simples a más complejas y se reparten en dos carriles para dos sesiones de Claude Code en cuentas distintas: A (Entreno, Social y actividades) y B (Inicio, Nutrición, navegación y progreso), con carpetas de cada uno, reglas para los archivos compartidos (`PROCESO.md`, roadmap, versiones de Dexie, migraciones de Supabase), cruces planificados y 13 decisiones pendientes. Plan en `docs/plan-evolucion/`; enlace en `docs/roadmap.md`.
+
+Durante la auditoría se detectaron documentos vivos que contradicen el código (paso B1 y parte de A1). No se ha cambiado código.
