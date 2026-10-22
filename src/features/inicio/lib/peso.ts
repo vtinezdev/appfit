@@ -1,5 +1,5 @@
 import type { Peso } from '../../../shared/db/types'
-import { addDays } from '../../../shared/lib/dates'
+import { addDays, diasEntre } from '../../../shared/lib/dates'
 import { formatNumber, round1 } from '../../../shared/lib/format'
 
 export const PESO_MIN = 20
@@ -65,4 +65,54 @@ export function mediaMovilPeso(pesos: Pick<Peso, 'fecha' | 'kg'>[]): PuntoPeso[]
     const media = ventana.reduce((a, q) => a + q.kg, 0) / ventana.length
     return { fecha: p.fecha, kg: p.kg, media: Math.round(media * 100) / 100 }
   })
+}
+
+/** Pesajes que necesita la media de 7 días para sustituir al último pesaje como cifra principal. */
+export const PESAJES_MEDIA = 2
+
+/**
+ * Media de 7 días en la fecha del último pesaje (hasta `hoy`) y cuántos pesajes entran en ella. Con menos de
+ * `PESAJES_MEDIA` la media sería el propio pesaje: la tarjeta sigue enseñando el último. `null` sin pesajes.
+ */
+export function mediaSemanaPeso(pesos: Pick<Peso, 'fecha' | 'kg'>[], hoy: string): { media: number; pesajes: number } | null {
+  const hasta = pesos.filter((p) => p.fecha <= hoy)
+  const puntos = mediaMovilPeso(hasta)
+  const ultimo = puntos[puntos.length - 1]
+  if (!ultimo) return null
+  const desde = addDays(ultimo.fecha, -(VENTANA_MEDIA_DIAS - 1))
+  return { media: round1(ultimo.media), pesajes: puntos.filter((p) => p.fecha >= desde).length }
+}
+
+/** Tramo del ritmo semanal, en días naturales que acaban en `hoy`. */
+export const DIAS_RITMO = 21
+/** Mínimos para dar un ritmo: pesajes en el tramo y días entre el primero y el último. */
+export const PESAJES_RITMO = 4
+export const SPAN_RITMO_DIAS = 14
+
+/**
+ * Ritmo del peso en kg por semana: pendiente (regresión lineal por mínimos cuadrados) de la media móvil de 7 días
+ * en los últimos 21 días. Solo con ≥ 4 pesajes que abarquen ≥ 14 días; si no, `null`. Redondeado a 0,1.
+ */
+export function ritmoSemanal(pesos: Pick<Peso, 'fecha' | 'kg'>[], hoy: string): number | null {
+  const desde = addDays(hoy, -(DIAS_RITMO - 1))
+  const tramo = mediaMovilPeso(pesos.filter((p) => p.fecha <= hoy)).filter((p) => p.fecha >= desde)
+  if (tramo.length < PESAJES_RITMO) return null
+  if (diasEntre(tramo[0].fecha, tramo[tramo.length - 1].fecha) < SPAN_RITMO_DIAS) return null
+  const xs = tramo.map((p) => diasEntre(desde, p.fecha))
+  const mx = xs.reduce((a, x) => a + x, 0) / xs.length
+  const my = tramo.reduce((a, p) => a + p.media, 0) / tramo.length
+  let num = 0
+  let den = 0
+  tramo.forEach((p, i) => {
+    num += (xs[i] - mx) * (p.media - my)
+    den += (xs[i] - mx) ** 2
+  })
+  const r = round1((num / den) * 7)
+  return r === 0 ? 0 : r
+}
+
+/** «−0,3 kg/sem» (signo menos tipográfico) o «Estable» si no llega a 0,1 kg por semana. Mismo tono suba o baje. */
+export function fraseRitmo(kgSemana: number): string {
+  if (kgSemana === 0) return 'Estable'
+  return `${kgSemana < 0 ? '−' : '+'}${formatNumber(Math.abs(kgSemana), 1)} kg/sem`
 }
