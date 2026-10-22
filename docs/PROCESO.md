@@ -2109,9 +2109,18 @@ Paso B2 (NUT-06) del [plan de evolución](plan-evolucion/carril-b.md). Rama `fea
 
 **Verificación:** `npm run test` (208 archivos, 2.554 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con pesajes sintéticos (5 semanas con ruido, cifras de 280 kg, dos pesajes y ninguno) a 320/375/430 px en claro y oscuro, 375 px con texto al 200 % en ambos temas y 768 px: sin scroll horizontal ni desbordes, controles ≥ 44 px, Peso a todo el ancho en móvil y junto a Agua en tablet, sin errores de consola. Sin dispositivo físico.
 
+## 193. Aviso de coherencia energética (2026-10-22)
+
+Paso B3 (NUT-09) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-coherencia-kcal` desde `master`. Tras una vista previa con capturas, Víctor pide que solo avise con un descuadre notorio y que el aviso vaya donde Claude lo pondría: bajo los cuatro campos principales y sin aparecer mientras se teclea.
+
+- `nutricion/lib/alimentos.coherenciaEnergetica`: kcal esperadas con Atwater (4·P + 4·C + 9·G, más 2·fibra si se conoce). Avisa si la diferencia supera a la vez 30 kcal y el 25 % de las kcal escritas; `null` sin macros. Umbral más holgado que el de `scripts/catalogo/calidad.ts` (15 kcal y 20 %), que es para el informe del catálogo.
+- `MacroInputs` (prop `coherencia`): el aviso en `text-warning` con «Calcular kcal desde los macros» entre los cuatro campos principales y los extras; se oculta mientras un campo está enfocado. Lo usan «Detalles del alimento» de la revisión (salvo alimentos del catálogo sin tocar) y el formulario de Alimentos (salvo alimentos de una receta). No bloquea guardar.
+
+**Verificación:** `npm run test` (209 archivos, 2.565 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost`: descuadre pequeño sin aviso, sin aviso con el campo enfocado, aviso al salir entre la grasa y la fibra, «Calcular» deja 295 kcal y quita el aviso, guardar, y aviso en la revisión de Añadir comida con un alimento no encontrado; a 320/375/430 px en claro y oscuro y 375 px con texto al 200 %, sin scroll horizontal, botón ≥ 44 px y sin errores de consola. Sin dispositivo físico.
+
 ## 194. «Volver» en las secciones anidadas (2026-10-22)
 
-Paso B4 (NAV-02) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-volver` desde `master`. Tras una vista previa con capturas, Víctor elige que Referencias vuelva a donde se abrió (Ajustes, Nutrición o Perfil) en lugar de siempre a Ajustes. Si la §193 (B3) aún no está en `master` al fusionar, esta pasa a ser la 193.
+Paso B4 (NAV-02) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-volver` desde `master`. Tras una vista previa con capturas, Víctor elige que Referencias vuelva a donde se abrió (Ajustes, Nutrición o Perfil) en lugar de siempre a Ajustes.
 
 - `shared/components/PageHeader`: prop opcional `volver` (`{ etiqueta, onVolver }`) que pinta encima del título un Button ghost `sm` con `arrow-left`, como el «Volver» de `DetalleRutina`.
 - Cumbres, Caminos, Ritmo y Vitrina reciben `onVolver` → «‹ Inicio»; `ReferenciasTab` recibe `salida`. `App` recuerda el origen de Referencias (`origenReferencias`; etiqueta, destino y foco en `app/volver.retornoDeReferencias`) y lo que recupera el foco (`focoVuelta`): la tesela en `AccesoProgreso` (`InicioTab.enfocarProgreso`, la enfoca y la centra tras pintar Inicio) o la fila Referencias en `Ajustes` (`enfocarReferencias`). La media luna lo borra. Atrás del sistema no cambia.

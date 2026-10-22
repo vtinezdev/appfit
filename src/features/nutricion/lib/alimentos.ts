@@ -296,3 +296,24 @@ export function filtrarAlimentos(foods: Food[], q: string, limite = 20): Food[] 
     )
     .slice(0, limite)
 }
+
+/**
+ * Umbrales del aviso de coherencia energética: avisa si |kcal − esperadas| > max(30 kcal, 25 % de las kcal escritas),
+ * es decir, solo con un descuadre notorio (una cifra mal tecleada, kcal de otra ración, macros de otro producto). El
+ * redondeo de la etiqueta, la fibra o los polialcoholes no llegan. Más holgados que los de la tubería del catálogo
+ * (`scripts/catalogo/calidad.ts`, 15 kcal y 20 %), que sirven para su informe, no para la persona.
+ */
+export const COHERENCIA_KCAL_MIN = 30
+export const COHERENCIA_REL = 0.25
+
+/**
+ * Compara las kcal por 100 g con las que salen de los macros (Atwater, Reglamento UE 1169/2011: 4·P + 4·C + 9·G, más
+ * 2·fibra si se conoce; el alcohol, 7 kcal/g, no se registra). Devuelve las kcal esperadas (redondeadas) si no cuadran;
+ * `null` si cuadran o si no hay macros con los que comparar (solo se escribieron las kcal).
+ */
+export function coherenciaEnergetica(p: Por100): { esperadas: number } | null {
+  if (p.prot100 <= 0 && p.carb100 <= 0 && p.grasa100 <= 0) return null
+  const esperadas = 4 * p.prot100 + 4 * p.carb100 + 9 * p.grasa100 + 2 * (p.nutrientes?.fibra ?? 0)
+  const diferencia = Math.abs(p.kcal100 - esperadas)
+  return diferencia > Math.max(COHERENCIA_KCAL_MIN, COHERENCIA_REL * p.kcal100) ? { esperadas: Math.round(esperadas) } : null
+}

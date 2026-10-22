@@ -12,7 +12,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 |---|---|---|---|---|---|
 | B1 | DOC-01 | Poner al día los documentos vivos | S | — | Hecho (2026-10-22) |
 | B2 | NUT-06 | Tendencia de peso en Inicio | S | — | Hecho (2026-10-22) |
-| B3 | NUT-09 | Aviso de coherencia energética | S | — | Pendiente |
+| B3 | NUT-09 | Aviso de coherencia energética | S | — | Hecho (2026-10-22) |
 | B4 | NAV-02 | «Volver» en las secciones anidadas | S | — | Hecho (2026-10-22) |
 | B5 | PRO-02 | Revisiones semanales desde Ritmo | S | — | Pendiente |
 | B6 | NUT-03 | Registrar comida desde Inicio | M | — | Pendiente |
@@ -52,9 +52,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** 320/375/430 px, los dos temas; tarjetas Peso/Agua apiladas por debajo de 18 rem.
 - **Documentos:** `docs/features/inicio.md` § Peso y quitar la línea de `docs/roadmap.md` (Análisis).
 
-### [ ] B3 · NUT-09 · Aviso de coherencia energética
+### [x] B3 · NUT-09 · Aviso de coherencia energética
 
-- **Tamaño:** S · **Rama:** `feat/b-coherencia-kcal`
+- **Tamaño:** S · **Rama:** `feat/b-coherencia-kcal` · **Hecho:** 2026-10-22 (PR #122). Víctor eligió, tras la vista previa, avisar solo con descuadres notorios (> 30 kcal y > 25 %), bajo los cuatro campos principales y sin un campo enfocado.
 - **Para la persona:** al crear o corregir un alimento propio, si las kcal no cuadran con los macros, un aviso en línea lo dice y ofrece «Calcular kcal desde los macros». No bloquea.
 - **Cómo:**
   1. Función pura `coherenciaEnergetica({ kcal100, prot100, carb100, grasa100 })` en `nutricion/lib/alimentos.ts`: compara con 4·P + 4·C + 9·G y avisa si la diferencia supera el 15 % y 20 kcal (la fibra, los polialcoholes y el alcohol explican diferencias pequeñas; el texto lo dice). La tubería del catálogo tiene una comprobación parecida (`scripts/catalogo/calidad.ts`): revisar sus umbrales para no contradecirlos.
@@ -64,7 +64,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] B4 · NAV-02 · «Volver» en las secciones anidadas
 
-- **Tamaño:** S · **Rama:** `feat/b-volver` · **Hecho:** 2026-10-22 (PR pendiente). Víctor eligió, tras la vista previa, que Referencias vuelva a donde se abrió («‹ Ajustes», «‹ Nutrición» o «‹ Perfil»). Ya puede hacerse el cruce A-X1.
+- **Tamaño:** S · **Rama:** `feat/b-volver` · **Hecho:** 2026-10-22 (PR #123). Víctor eligió, tras la vista previa, que Referencias vuelva a donde se abrió («‹ Ajustes», «‹ Nutrición» o «‹ Perfil»). Ya puede hacerse el cruce A-X1.
 - **Para la persona:** Cumbres, Caminos, Ritmo y Vitrina tienen «‹ Inicio» y Referencias «‹ Ajustes»; al volver, el foco regresa a la tesela o fila de origen.
 - **Cómo:**
   1. `shared/components/PageHeader.tsx`: prop opcional `volver?: { etiqueta: string; onVolver: () => void }` que pinta un botón de 44 px encima del título (patrón de «Volver» de `DetalleRutina`/`DetalleEntreno`, sin componente nuevo).

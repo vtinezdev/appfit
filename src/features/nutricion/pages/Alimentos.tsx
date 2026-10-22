@@ -215,7 +215,7 @@ export default function Alimentos() {
             /></label>
             <SelectorCategoria valor={editando.categoria} onChange={(categoria) => setEditando({ ...editando, categoria })} />
             {recetaDelAlimento && <p className="text-body-sm text-fg-muted">Este alimento viene de la receta «{recetaDelAlimento.nombre}». Edítala en Recetas: guardar la receta recalcula estos valores.</p>}
-            <MacroInputs detallado valores={editando} onChange={(patch) => setEditando({ ...editando, ...patch })} />
+            <MacroInputs detallado coherencia={!recetaDelAlimento} valores={editando} onChange={(patch) => setEditando({ ...editando, ...patch })} />
             {editando.id ? <Disclosure title="Raciones propias"><PorcionesAlimento refAlimento={`user:${editando.id}`} /></Disclosure>
               : <p className="text-caption text-fg-muted">Guarda el alimento para poder añadirle raciones propias («rebanada», «bol»…).</p>}
 
