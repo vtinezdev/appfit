@@ -47,7 +47,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A2 · ENT-15 · Avance automático al siguiente ejercicio
 
-> **Hecho (2026-10-22, PROCESO §193, PR pendiente).** Decisiones de Víctor: un ejercicio sin series cuenta como pendiente (si está en la sesión es para hacerlo); con la hoja del RIR, baja por detrás; sin interruptor en Ajustes.
+> **Hecho (2026-10-22, PROCESO §193, PR #120).** Decisiones de Víctor: un ejercicio sin series cuenta como pendiente (si está en la sesión es para hacerlo); con la hoja del RIR, baja por detrás; sin interruptor en Ajustes.
 
 - **Tamaño:** S · **Rama:** `feat/a-avance-automatico`
 - **Para la persona:** al marcar la última serie de un ejercicio, la pantalla sube sola al siguiente que tiene series pendientes.
