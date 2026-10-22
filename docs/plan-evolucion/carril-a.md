@@ -32,7 +32,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A1 · REN-02 · Recortar el resumen social a 8 KB
 
-> **Hecho (2026-10-22, PROCESO §195, PR pendiente).** El recorte ya existía desde §181 (los detalles entran mientras caben) y el peor caso medido cabe: 8.156 bytes. Víctor elige la versión reducida: sin `recortarResumen` (nunca se activaría), con un test del peor caso en las tres variantes (completo, sin imágenes, sin detalles) y la limitación fuera del roadmap.
+> **Hecho (2026-10-22, PROCESO §195, PR #118).** El recorte ya existía desde §181 (los detalles entran mientras caben) y el peor caso medido cabe: 8.156 bytes. Víctor elige la versión reducida: sin `recortarResumen` (nunca se activaría), con un test del peor caso en las tres variantes (completo, sin imágenes, sin detalles) y la limitación fuera del roadmap.
 
 - **Tamaño:** S · **Rama:** `feat/a-resumen-8kb`
 - **Para la persona:** cualquier entreno se puede publicar; hoy uno muy largo falla con «publicación no válida» (`docs/roadmap.md`, Limitaciones).
