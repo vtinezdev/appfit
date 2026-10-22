@@ -557,6 +557,24 @@ export function recuentoPiezas(logros: readonly Logro[]): { conseguidas: number;
   return { conseguidas, total }
 }
 
+export const PROXIMOS_LOGROS = 3
+
+/**
+ * Logros más cerca de su siguiente nivel (fracción del umbral, y a igualdad lo que menos falta). Solo los que ya llevan
+ * algo de progreso y tienen un umbral por delante; nunca un oculto sin conseguir. No añade umbrales ni reglas.
+ */
+export function proximosLogros(logros: readonly Logro[], n = PROXIMOS_LOGROS): Logro[] {
+  return logros
+    .flatMap((l) => {
+      const siguiente = siguienteUmbral(l)
+      if ((l.oculto && !conseguido(l)) || siguiente === null || siguiente <= 0 || l.progreso === undefined || l.progreso <= 0 || l.progreso >= siguiente) return []
+      return [{ l, fraccion: l.progreso / siguiente, falta: siguiente - l.progreso }]
+    })
+    .sort((a, b) => b.fraccion - a.fraccion || a.falta - b.falta)
+    .slice(0, n)
+    .map((x) => x.l)
+}
+
 export interface NuevoLogro {
   logro: Logro
   /** Nivel conseguido (1…) o `null` en un repetible. */

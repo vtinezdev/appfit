@@ -97,6 +97,9 @@ export function perfilVacio(perfil: Perfil | undefined): boolean {
 }
 
 /** Lo que falta para poder estimar el gasto, en el orden de la pantalla. El objetivo no hace falta para el gasto. */
+/** Datos imprescindibles para estimar la energía, en el orden en que se piden. */
+export const CAMPOS_ENERGIA = ['sexo', 'fechaNacimiento', 'alturaCm', 'peso', 'actividad'] as const satisfies readonly CampoPerfil[]
+
 export function camposPendientes(perfil: Perfil, pesoKg: number | null | undefined): CampoPerfil[] {
   const faltan: CampoPerfil[] = []
   if (!perfil.sexo) faltan.push('sexo')

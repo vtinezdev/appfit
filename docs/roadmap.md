@@ -12,7 +12,7 @@
 
 ## Pendientes de la auditoría de compatibilidad
 
-- **Auditoría del 21–22 de octubre:** AF-01–05 corregidos y regresión AF-07 incorporada; quedan el perfilado de rendimiento AF-06, la validación física y UI-06/07/09/10. UI-02/03/04/05/08 implementadas; pausa solicitada tras el primer bloque visual. Estado y alcance en [plan-auditoria-2026-10-22.md](plan-auditoria-2026-10-22.md). Inicio conserva la gráfica de peso y el vaso; el área ya se llama «Mis alimentos»; el Perfil pendiente debe ser más compacto.
+- **Auditoría del 21–22 de octubre:** AF-01–05 corregidos y regresión AF-07 incorporada; quedan el perfilado de rendimiento AF-06 y la validación física. Las nueve mejoras visuales aprobadas (UI-02 a UI-10) están implementadas; UI-01 sigue descartada. Estado y alcance en [plan-auditoria-2026-10-22.md](plan-auditoria-2026-10-22.md).
 
 - [Auditoría del 17 de octubre](auditoria-2026-10-17/INFORME.md): los cinco defectos iniciales están corregidos. A06/A07 se abordan después en §154: semana desplazable con botones táctiles, calendario compacto por lista (desde §173, solo por debajo de 360 px o con texto ampliado) y pestañas con rótulos completos. La validación física sigue pendiente.
 - Comprobar instalación, teclado, giro/recortes, Atrás, permisos y suspensión en iPhone/Android físicos. Chromium, Firefox y WebKit Linux están probados; no sustituyen esos dispositivos. Cuenta/Social se recorrieron con dobles locales; esta auditoría no reejecutó SQL/RLS ni cuentas remotas reales. Workflow de QA incluido para PR y master; sus resultados se comprueban antes del merge.
@@ -69,7 +69,7 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 
 Social:
 - [Plan consolidado de mejoras](social-mejoras.md): fases 0–1 y mejoras autorizadas de fase 2 implementadas. Víctor confirma SQL 0009–0013 en el proyecto real (2026-10-18), con campos opcionales desactivados. [Social](features/social.md) documenta los flujos; tareas con 6–8 personas, dos cuentas e iPhone/Android pendientes antes de abrir el siguiente piloto.
-- Rediseño visual ([ADR 045](decisiones/045-rediseno-visual-de-social.md)) implementado. Víctor confirma `0014_social_rediseno.sql` en el proyecto real (2026-10-18). La lista de primeros pasos con progreso (P15 de la propuesta) quedó sin elegir.
+- Rediseño visual ([ADR 045](decisiones/045-rediseno-visual-de-social.md)) implementado. Víctor confirma `0014_social_rediseno.sql` en el proyecto real (2026-10-18). La lista de primeros pasos con progreso (P15 de la propuesta) se implementa compacta y plegada con UI-09 (2026-10-22).
 - Avatares de catálogo ([ADR 047](decisiones/047-avatares-de-catalogo.md)) implementados: Víctor confirma `0015_social_avatares.sql` en el proyecto real (2026-10-19); falta probarlo con dos cuentas reales.
 - Administración desde la app ([ADR 049](decisiones/049-administracion-de-social.md)) implementada: Víctor ejecuta `0017_social_administracion.sql` en el proyecto real y se nombra administrador (`tinez`) el 2026-10-19; falta probarlo en el móvil y con una segunda cuenta. Pendiente, si hace falta: suspender o cerrar una comunidad desde Moderación (hoy, SQL o suspender a su creador) y avisar a quien denunció.
 - Seguimiento mutuo al aceptar ([ADR 050](decisiones/050-seguimiento-mutuo-al-aceptar.md)) implementado: Víctor ejecuta `0018_social_seguimiento_mutuo.sql` en el proyecto real (2026-10-19); falta probarlo con dos cuentas.

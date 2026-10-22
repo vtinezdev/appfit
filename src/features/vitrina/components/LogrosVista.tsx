@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Anillo from '../../../shared/components/Anillo'
+import Icon from '../../../shared/components/Icon'
 import IconoLogro from './IconoLogro'
 import CompartirLogro from './CompartirLogro'
 import Sheet from '../../../shared/components/Sheet'
@@ -9,7 +10,7 @@ import SectionHeader from '../../../shared/components/SectionHeader'
 import { formatFriendly } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import {
-  conseguido, GRUPOS_LOGRO, nivelDe, NUMERALES, recuentoPiezas, siguienteUmbral, ultimaVez, type GrupoLogro, type Logro,
+  conseguido, GRUPOS_LOGRO, nivelDe, NUMERALES, proximosLogros, recuentoPiezas, siguienteUmbral, ultimaVez, type GrupoLogro, type Logro,
 } from '../lib/logros'
 
 function FilaLogro({ l }: { l: Logro }) {
@@ -86,6 +87,29 @@ function Medalla({ l, onAbrir }: { l: Logro; onAbrir: () => void }) {
   </li>
 }
 
+/** Un logro cerca de su siguiente nivel: insignia, nombre, cifras y barra. Toda la fila abre el detalle (el botón la cubre). */
+function Proximo({ l, onAbrir }: { l: Logro; onAbrir: () => void }) {
+  const siguiente = siguienteUmbral(l)
+  if (siguiente === null || l.progreso === undefined) return null
+  const nivel = l.umbrales && l.umbrales.length > 1 ? ` · nivel ${NUMERALES[nivelDe(l)]}` : ''
+  const cifras = `${formatInt(l.progreso)} de ${formatInt(siguiente)} ${l.unidad ?? ''}`.trim()
+  // Con texto grande la columna baja bajo la insignia en vez de partir palabras.
+  return <li className="relative flex flex-wrap items-center gap-x-3 gap-y-2 py-2">
+    <IconoLogro logro={l} />
+    <div className="min-w-0 flex-1 basis-40 space-y-1">
+      <button type="button" onClick={onAbrir} aria-haspopup="dialog" aria-label={`${l.nombre}${nivel}: ${cifras}`}
+        className="app-button flex min-h-touch w-full items-center justify-between gap-3 text-left after:absolute after:inset-0 after:rounded-md">
+        <span className="min-w-0">
+          <span className="block break-words text-body-sm font-semibold text-fg">{l.nombre}{nivel}</span>
+          <span className="tabular block break-words text-caption text-fg-muted">{cifras}</span>
+        </span>
+        <Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" />
+      </button>
+      <ProgressBar value={l.progreso} goal={siguiente} colorClass="bg-fg" label={`${l.nombre}: progreso`} valueText={cifras} />
+    </div>
+  </li>
+}
+
 /** Logros por grupo en medallas; cada una abre su detalle (lo conseguido con su fecha y el progreso al siguiente nivel). */
 export default function LogrosVista({ logros }: { logros: Logro[] }) {
   const { conseguidas, total } = recuentoPiezas(logros)
@@ -93,12 +117,18 @@ export default function LogrosVista({ logros }: { logros: Logro[] }) {
   // El logro se conserva al cerrar: la hoja anima su salida con su contenido.
   const [abierto, setAbierto] = useState<Logro | null>(null)
   const [hoja, setHoja] = useState(false)
+  const proximos = proximosLogros(logros)
+  const abrir = (l: Logro) => { setAbierto(l); setHoja(true) }
   return <div className="space-y-section">
     <p className="tabular text-body text-fg"><span className="font-numeric text-heading">{formatInt(conseguidas)}</span> de {formatInt(total)} piezas</p>
+    {proximos.length > 0 && <section aria-label="Próximos logros" className="space-y-stack">
+      <SectionHeader variant="section">Próximos logros</SectionHeader>
+      <ListGroup aria-label="Logros cerca del siguiente nivel">{proximos.map((l) => <Proximo key={l.id} l={l} onAbrir={() => abrir(l)} />)}</ListGroup>
+    </section>}
     {grupos.map((g) => <section key={g} aria-label={GRUPOS_LOGRO[g]} className="logros-grupo space-y-stack">
       <SectionHeader variant="section">{GRUPOS_LOGRO[g]}</SectionHeader>
       <ul aria-label={`Logros de ${GRUPOS_LOGRO[g]}`} className="logros-rejilla grid grid-cols-3 gap-2">
-        {logros.filter((l) => l.grupo === g).map((l) => <Medalla key={l.id} l={l} onAbrir={() => { setAbierto(l); setHoja(true) }} />)}
+        {logros.filter((l) => l.grupo === g).map((l) => <Medalla key={l.id} l={l} onAbrir={() => abrir(l)} />)}
       </ul>
     </section>)}
     <Sheet open={hoja} onClose={() => setHoja(false)} title={abierto && !(abierto.oculto && !conseguido(abierto)) ? abierto.nombre : 'Logro oculto'}>

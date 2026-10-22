@@ -5,20 +5,39 @@ import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
 import Metric from '../../../shared/components/Metric'
 import SectionHeader from '../../../shared/components/SectionHeader'
-import { EmptyState } from '../../../shared/components/StateMessage'
 import { formatNumber } from '../../../shared/lib/format'
 import {
   AVISO_ORIENTATIVO, ECUACIONES, ETIQUETAS_OBJETIVO, formatSigned, formulaSustituida, KCAL_POR_KG, METODO_TMB, NIVELES_ACTIVIDAD, SUELO_KCAL,
   type EnergiaOk, type ResultadoEnergia,
 } from '../lib/energia'
-import { listaCampos, perfilVacio } from '../lib/validacionPerfil'
-import type { Perfil } from '../../../shared/db/types'
+import { CAMPOS_ENERGIA, listaCampos, type CampoPerfil } from '../lib/validacionPerfil'
 
 interface Props {
-  perfil: Perfil
   energia: ResultadoEnergia
   onElegirObjetivo: () => void
   onVerMetodo: () => void
+  /** Abre el editor del dato que falta (el mismo que la fila de «Tus datos»). */
+  onCompletar: (campo: CampoPerfil) => void
+}
+
+const ACCION_CAMPO: Partial<Record<CampoPerfil, string>> = {
+  sexo: 'Indicar sexo', fechaNacimiento: 'Añadir fecha de nacimiento', alturaCm: 'Añadir altura', peso: 'Registrar peso', actividad: 'Elegir actividad',
+}
+
+/** Perfil incompleto: un bloque pequeño con lo que falta y una acción para el siguiente dato, sin cifras. */
+function PerfilIncompleto({ faltan, onCompletar }: { faltan: CampoPerfil[]; onCompletar: (campo: CampoPerfil) => void }) {
+  const siguiente = faltan[0]
+  const total = CAMPOS_ENERGIA.length
+  return <section aria-labelledby="perfil-incompleto">
+    <Card className="space-y-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3">
+        <h2 id="perfil-incompleto" className="min-w-0 break-words text-body font-semibold text-fg">Completa tu perfil</h2>
+        <span className="tabular text-body-sm text-fg-muted">{formatNumber(total - faltan.length)} de {formatNumber(total)} datos</span>
+      </div>
+      <p className="text-body-sm text-fg-muted">{faltan.length === 1 ? 'Falta' : 'Faltan'}: {listaCampos(faltan)}. Con ellos se estima tu energía diaria.</p>
+      {siguiente && <Button variant="primary" size="sm" onClick={() => onCompletar(siguiente)}>{ACCION_CAMPO[siguiente]}<Icon name="chevron-right" size={16} /></Button>}
+    </Card>
+  </section>
 }
 
 function Fila({ etiqueta, detalle, valor }: { etiqueta: string; detalle?: string; valor: string }) {
@@ -56,13 +75,11 @@ function Detalle({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo: () => void }) 
 }
 
 /** Resultado arriba, datos debajo: esta card solo lee; la edición vive en «Tus datos». El título va sobre la card, como en el resto de secciones. */
-export default function ResultadoEnergia({ perfil, energia, onElegirObjetivo, onVerMetodo }: Props) {
+export default function ResultadoEnergia({ energia, onElegirObjetivo, onVerMetodo, onCompletar }: Props) {
+  if (energia.estado === 'incompleto') return <PerfilIncompleto faltan={energia.faltan} onCompletar={onCompletar} />
   return <section className="space-y-stack">
     <SectionHeader variant="section">Tu energía diaria</SectionHeader>
     <Card className="space-y-stack">
-      {energia.estado === 'incompleto' && (perfilVacio(perfil) && energia.faltan.length >= 5
-        ? <EmptyState icon="user" title="Completa tus datos para estimar tu energía diaria">Añade tu sexo, fecha de nacimiento, altura, peso y actividad. Todo se queda en este dispositivo.</EmptyState>
-        : <p className="text-body-sm text-fg-muted">Faltan: {listaCampos(energia.faltan)}.</p>)}
       {energia.estado === 'no-calculable' && <p role="alert" className="flex items-start gap-2 text-body-sm text-warning"><Icon name="alert" size={16} className="mt-0.5" /><span className="min-w-0">{energia.motivo}</span></p>}
       {energia.estado === 'ok' && <>
         {energia.objetivoKcal !== null
