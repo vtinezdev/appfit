@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { SetEntry } from '../../../shared/db/types'
-import { anterioresPorSerie, seriesSesionAnterior, textoAnterior } from './anterior'
+import { anterioresPorSerie, diasDesdeUltimaSesion, seriesSesionAnterior, textoAnterior, trasParon } from './anterior'
 
 const s = (id: number, over: Partial<SetEntry> = {}): SetEntry => ({ id, workoutId: 1, exerciseId: 1, orden: id, reps: 8, peso: 60, createdAt: id, ...over })
 
@@ -60,5 +60,31 @@ describe('seriesSesionAnterior', () => {
     expect(seriesSesionAnterior(todas, 1, { id: 3, inicio: 500 }, workouts, 7).map(x => x.id)).toEqual([2])
     expect(seriesSesionAnterior(todas, 1, { id: 3, inicio: 500 }, workouts).map(x => x.id)).toEqual([1])
     expect(seriesSesionAnterior(todas, 1, { id: 3, inicio: 500 }, workouts, 8)).toEqual([])
+  })
+})
+
+describe('días desde la última sesión con el ejercicio (tras un parón)', () => {
+  const dia = (d: number, h = 18) => new Date(2026, 9, d, h).getTime()
+  const serie = (id: number, workoutId: number, exerciseId = 1, gimnasioId?: number) => ({ id, workoutId, exerciseId, reps: 8, peso: 50, orden: 0, createdAt: id, ...(gimnasioId ? { gimnasioId } : {}) }) as SetEntry
+  const actual = { id: 9, inicio: dia(30) }
+
+  it('cuenta días naturales hasta la última sesión terminada anterior; avisa con la pausa de «Vuelta al ruedo»', () => {
+    const conUna = (d: number) => diasDesdeUltimaSesion([serie(1, 1)], 1, actual, [{ id: 1, inicio: dia(d), fin: dia(d, 19) }, actual])
+    // 13 y 14 días sin hacerlo (14 y 15 de distancia): avisa desde 14 sin hacerlo, como el logro.
+    expect(conUna(16)).toBe(14)
+    expect(trasParon(conUna(16))).toBe(false)
+    expect(conUna(15)).toBe(15)
+    expect(trasParon(conUna(15))).toBe(true)
+    expect(diasDesdeUltimaSesion([serie(1, 1)], 1, { id: 9, inicio: dia(20) }, [{ id: 1, inicio: new Date(2026, 8, 10, 18).getTime(), fin: 1 }])).toBe(40)
+  })
+
+  it('la más reciente, en cualquier gimnasio; sin historial o con el entreno anterior sin terminar, nada', () => {
+    const workouts = [{ id: 1, inicio: dia(1), fin: dia(1, 19) }, { id: 2, inicio: dia(20), fin: dia(20, 19) }, { id: 3, inicio: dia(25) }, actual]
+    expect(diasDesdeUltimaSesion([serie(1, 1), serie(2, 2, 1, 7)], 1, actual, workouts)).toBe(10)
+    expect(diasDesdeUltimaSesion([serie(1, 3)], 1, actual, workouts)).toBeNull()
+    expect(diasDesdeUltimaSesion([serie(1, 1, 2)], 1, actual, workouts)).toBeNull()
+    expect(trasParon(null)).toBe(false)
+    // Las del propio entreno y las posteriores no cuentan.
+    expect(diasDesdeUltimaSesion([serie(1, 9)], 1, actual, workouts)).toBeNull()
   })
 })

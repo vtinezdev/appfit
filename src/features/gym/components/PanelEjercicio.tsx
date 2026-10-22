@@ -107,6 +107,8 @@ interface Props {
   onPlegar?: (plegar: boolean) => void
   /** Primera vez de una máquina en otro gimnasio: qué buscar (`lib/gimnasios.notaPrimeraVez`). */
   notaGimnasio?: string
+  /** Solo en la sesión activa y tras un parón (`lib/anterior.trasParon`): días desde la última sesión con el ejercicio. */
+  diasSinHacer?: number
 }
 
 type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | 'liga' | { serie: number } | { rir: number; lado?: Lado }
@@ -129,7 +131,7 @@ function CeldaAnterior({ dato }: { dato?: TextoAnterior }) {
 }
 
 /** Panel de un ejercicio con sus series; lo comparten la sesión activa y el editor de entrenos terminados. */
-export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga, plegado = false, onPlegar, notaGimnasio }: Props) {
+export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga, plegado = false, onPlegar, notaGimnasio, diasSinHacer }: Props) {
   const filaPlegada = useRef<HTMLButtonElement>(null)
   const estabaPlegado = useRef(plegado)
   // Al plegarse justo tras marcar la última serie, el ✓ desaparece: el foco pasa a la fila plegada en vez de perderse
@@ -227,6 +229,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
         <div className="min-w-0 flex-1 basis-32">
           <h2 tabIndex={-1} className="exercise-title break-words text-title text-fg">{ejercicio.nombre}</h2>
           <p className="break-words text-caption text-fg-muted">{subtituloEjercicio(ejercicio)}</p>
+          {diasSinHacer !== undefined && <p className="tabular text-caption text-fg-muted">Hace {formatInt(diasSinHacer)} días de tu última sesión con este ejercicio</p>}
           {objetivo && <p className="tabular text-caption text-fg-muted">Objetivo: {textoObjetivo(objetivo)} reps{objetivo.calentamientos ? ` · ${textoCalentamientos(objetivo)}` : ''}{objetivo.descansoSeg ? ` · ${objetivo.descansoSeg} s de descanso` : ''}</p>}
         </div>
         </div>

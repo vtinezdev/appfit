@@ -1,5 +1,7 @@
 import type { Lado, SetEntry, Workout } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
+import { diasEntre, toISODate } from '../../../shared/lib/dates'
+import { DIAS_VUELTA_AL_RUEDO } from '../../vitrina/lib/logros'
 import { modoCarga } from './carga'
 
 /** Lo que se hizo en la serie equivalente de la sesión anterior: corto para la columna y completo para el lector de pantalla. */
@@ -62,3 +64,20 @@ export function seriesSesionAnterior(todas: SetEntry[], exerciseId: number, actu
   }
   return previo ? delEjercicio.filter(s => s.workoutId === previo.id) : []
 }
+
+/**
+ * Días naturales desde la última sesión terminada con el ejercicio (en cualquier gimnasio: una pausa lo es aunque cambie
+ * la máquina) hasta la de `actual`, o `null` si no hay ninguna anterior. Sirve para avisar tras un parón (GAM-07).
+ */
+export function diasDesdeUltimaSesion(todas: SetEntry[], exerciseId: number, actual: Pick<Workout, 'id' | 'inicio'>, workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[]): number | null {
+  const conEjercicio = new Set(todas.filter(s => s.exerciseId === exerciseId).map(s => s.workoutId))
+  let ultimo: number | undefined
+  for (const w of workouts) {
+    if (w.id === actual.id || w.fin === undefined || w.inicio >= actual.inicio || !conEjercicio.has(w.id)) continue
+    if (ultimo === undefined || w.inicio > ultimo) ultimo = w.inicio
+  }
+  return ultimo === undefined ? null : diasEntre(toISODate(new Date(ultimo)), toISODate(new Date(actual.inicio)))
+}
+
+/** Si toca avisar: la misma pausa que el logro «Vuelta al ruedo» (días sin hacerlo entre una sesión y otra). */
+export const trasParon = (dias: number | null): dias is number => dias !== null && dias - 1 >= DIAS_VUELTA_AL_RUEDO

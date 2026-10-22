@@ -1,6 +1,6 @@
 import { recomendarProgresion } from '../lib/progresion'
 import { convencional, tieneReps, cambiaRealizacion } from '../lib/ejecucion'
-import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
+import { anterioresPorSerie, diasDesdeUltimaSesion, seriesSesionAnterior, trasParon } from '../lib/anterior'
 import { gimnasioDeSerie, notaPrimeraVez, primeraVez } from '../lib/gimnasios'
 import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { ChipGimnasio } from '../components/GimnasioSheet'
@@ -354,10 +354,12 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
           const liga = ligas?.ligas.get(exId)
           const completo = sets.length > 0 && sets.every((s) => completadas.includes(s.id))
           const nuevaMaquina = primeraVez(allSets, ex, workout)
+          const dias = diasDesdeUltimaSesion(allSets, exId, workout, todosWorkouts)
           return (
             <div key={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
                 notaGimnasio={nuevaMaquina && notaPrimeraVez(nombreGimnasio(workout.gimnasioId), nuevaMaquina.habitual)}
+                diasSinHacer={trasParon(dias) ? dias : undefined}
                 anteriores={anterioresPorSerie(sets, seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex)))}
                 referenciasCarga={seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex))}
                 objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
