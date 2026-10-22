@@ -2109,3 +2109,14 @@ Paso B2 (NUT-06) del [plan de evolución](plan-evolucion/carril-b.md). Rama `fea
 
 **Verificación:** `npm run test` (208 archivos, 2.554 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con pesajes sintéticos (5 semanas con ruido, cifras de 280 kg, dos pesajes y ninguno) a 320/375/430 px en claro y oscuro, 375 px con texto al 200 % en ambos temas y 768 px: sin scroll horizontal ni desbordes, controles ≥ 44 px, Peso a todo el ancho en móvil y junto a Agua en tablet, sin errores de consola. Sin dispositivo físico.
 
+## 194. «Volver» en las secciones anidadas (2026-10-22)
+
+Paso B4 (NAV-02) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-volver` desde `master`. Tras una vista previa con capturas, Víctor elige que Referencias vuelva a donde se abrió (Ajustes, Nutrición o Perfil) en lugar de siempre a Ajustes. Si la §193 (B3) aún no está en `master` al fusionar, esta pasa a ser la 193.
+
+- `shared/components/PageHeader`: prop opcional `volver` (`{ etiqueta, onVolver }`) que pinta encima del título un Button ghost `sm` con `arrow-left`, como el «Volver» de `DetalleRutina`.
+- Cumbres, Caminos, Ritmo y Vitrina reciben `onVolver` → «‹ Inicio»; `ReferenciasTab` recibe `salida`. `App` recuerda el origen de Referencias (`origenReferencias`; etiqueta, destino y foco en `app/volver.retornoDeReferencias`) y lo que recupera el foco (`focoVuelta`): la tesela en `AccesoProgreso` (`InicioTab.enfocarProgreso`, la enfoca y la centra tras pintar Inicio) o la fila Referencias en `Ajustes` (`enfocarReferencias`). La media luna lo borra. Atrás del sistema no cambia.
+- Amigos (carril A) queda para el cruce A-X1, que ya puede usar `PageHeader.volver`.
+- Documentos: ADR 043 § Consecuencias, `arquitectura.md` § Navegación, `DESIGN-SYSTEM.md` (PageHeader), `DESIGN.md`, y las features de Referencias, Cumbres, Caminos, Ritmo y Vitrina.
+
+**Verificación:** `npm run test` (209 archivos, 2.557 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost`: ida y vuelta por las cuatro teselas (el foco y la tesela a la vista al volver) y Ajustes › Referencias › «‹ Ajustes» (foco en la fila), a 320/375/430 px en claro y oscuro y 375 px con texto al 200 %: botón ≥ 44 px, sin scroll horizontal ni errores de consola. Sin dispositivo físico.
+

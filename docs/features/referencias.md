@@ -1,6 +1,6 @@
 # Referencias
 
-`src/features/referencias/`. Sección global: Ajustes › Saber más › Referencias, y los enlaces de Nutrición y Perfil. Decisión: [ADR 011](../decisiones/011-consumo-y-referencias.md).
+`src/features/referencias/`. Sección global: Ajustes › Saber más › Referencias, y los enlaces de Nutrición y Perfil. «‹ Ajustes», «‹ Nutrición» o «‹ Perfil» encima del título vuelve a donde se abrió (desde Ajustes, con el foco en la fila Referencias). Decisión: [ADR 011](../decisiones/011-consumo-y-referencias.md).
 
 **Nutrición muestra qué está consumiendo el usuario y cómo va. Referencias explica por qué APPFIT utiliza esos valores y de dónde proceden.**
 

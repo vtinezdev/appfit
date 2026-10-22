@@ -4,6 +4,7 @@ import BottomNav, { type Tab } from './BottomNav'
 import InicioTab from '../features/inicio/InicioTab'
 import type { SeccionEntreno } from '../features/gym/GymTab'
 import type { SeccionAjustes } from './seccionesAjustes'
+import { retornoDeReferencias, type OrigenReferencias } from './volver'
 import TrasladarDatos from './TrasladarDatos'
 import AtmosferaApp from './AtmosferaApp'
 import { LoadingState } from '../shared/components/StateMessage'
@@ -26,9 +27,6 @@ const RitmoTab = lazy(() => import('../features/ritmo/RitmoTab'))
 const VitrinaTab = lazy(() => import('../features/vitrina/VitrinaTab'))
 const AmigosTab = lazy(() => import('../features/social/AmigosTab'))
 const SocialTab = lazy(() => import('../features/social/SocialTab'))
-
-type OrigenReferencias = 'ajustes' | 'nutricion' | 'perfil'
-const ETIQUETA_ORIGEN: Record<OrigenReferencias, string> = { ajustes: 'Ajustes', nutricion: 'Nutrición', perfil: 'Perfil' }
 
 export default function App() {
   // Actualiza también las pantallas derivadas de la fecha al volver después de medianoche.
@@ -87,9 +85,10 @@ export default function App() {
     navegar('inicio')
     setFocoVuelta(desde)
   }
+  const retornoReferencias = retornoDeReferencias(origenReferencias)
   function volverDeReferencias() {
-    navegar(origenReferencias)
-    if (origenReferencias === 'ajustes') setFocoVuelta('referencias')
+    navegar(retornoReferencias.tab)
+    if (retornoReferencias.enfocarFila) setFocoVuelta('referencias')
   }
 
   return (
@@ -111,7 +110,7 @@ export default function App() {
         {tab === 'amigos' && <Suspense fallback={<LoadingState />}><AmigosTab anadirInicial={anadirAmigo} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => irAAjustes('gamificacion')} onVolver={() => volverAInicio('vitrina')} /></Suspense>}
         {tab === 'ajustes' && <Suspense fallback={<LoadingState />}><Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} onIrAReferencias={() => abrirReferencias('ajustes')} enfocarReferencias={focoVuelta === 'referencias'} /></Suspense>}
-        {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} salida={{ etiqueta: ETIQUETA_ORIGEN[origenReferencias], onVolver: volverDeReferencias }} /></Suspense>}
+        {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} salida={{ etiqueta: retornoReferencias.etiqueta, onVolver: volverDeReferencias }} /></Suspense>}
         </div>
       </main>
       </div>

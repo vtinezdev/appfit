@@ -20,7 +20,7 @@ La app ya tuvo navegación bajo demanda ([ADR 008](008-menu-radial.md), [ADR 018
 
 - Registrar comida desde otra sección pasa de dos toques a tres (botón → Nutrición → «+» de la comida). Si se echa de menos, se puede recuperar como acceso en Inicio sin volver a la barra.
 - Inicio pierde el detalle de las tarjetas anchas (los días de la semana con sus anillos, el perfil de la montaña, el trazado de la ruta, la cumbre o llegada de los últimos tres días y lo que vale entrenar hoy); sigue en cada sección. `cumbreReciente` y `llegadaReciente` se retiran con ellas.
-- Amigos, Referencias y las cuatro secciones de progreso no tienen «Volver»: se regresa con la media luna.
+- Amigos, Referencias y las cuatro secciones de progreso no tenían «Volver»: se regresaba con la media luna. Desde el 2026-10-22 (plan de evolución, paso B4) Cumbres, Caminos, Ritmo y Vitrina tienen «‹ Inicio» y Referencias vuelve a donde se abrió («‹ Ajustes», «‹ Nutrición» o «‹ Perfil»), con `PageHeader.volver`; al volver, el foco regresa a la tesela o a la fila de origen. Amigos lo recibe en el cruce A-X1 del carril A.
 - `data-nav-trigger` es el botón de secciones: el foco vuelve a él al cerrar capas cuyo disparador desapareció.
 - `--tab-capsule-height`, `.tab-bar`, `.tab-item` y `.tab-plus` desaparecen; `scripts/ui/navegar.cjs` recorre la media luna. Los recorridos antiguos que medían `.tab-item`/`.tab-plus` (`validar-referencias`, `validar-motion`, `validar-rediseno`) quedan desfasados hasta que se toquen.
 - Añadir un destino nuevo: a `DESTINOS` y, si no va en la media luna, a `DENTRO_DE` con su sección (lo exige `navegacion.test.ts`); un séptimo destino en la media luna exige revisar `arco.test.ts` a 320 px.

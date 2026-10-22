@@ -13,7 +13,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B1 | DOC-01 | Poner al día los documentos vivos | S | — | Hecho (2026-10-22) |
 | B2 | NUT-06 | Tendencia de peso en Inicio | S | — | Hecho (2026-10-22) |
 | B3 | NUT-09 | Aviso de coherencia energética | S | — | Pendiente |
-| B4 | NAV-02 | «Volver» en las secciones anidadas | S | — | Pendiente |
+| B4 | NAV-02 | «Volver» en las secciones anidadas | S | — | Hecho (2026-10-22) |
 | B5 | PRO-02 | Revisiones semanales desde Ritmo | S | — | Pendiente |
 | B6 | NUT-03 | Registrar comida desde Inicio | M | — | Pendiente |
 | B7 | GAM-01 | Teselas de progreso con la semana | M | — | Pendiente |
@@ -62,9 +62,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Tests:** la función (cuadra, no cuadra, alcohol, valores a cero).
 - **Documentos:** `docs/features/nutricion.md`; quitar la línea de `docs/roadmap.md` (Calidad de datos).
 
-### [ ] B4 · NAV-02 · «Volver» en las secciones anidadas
+### [x] B4 · NAV-02 · «Volver» en las secciones anidadas
 
-- **Tamaño:** S · **Rama:** `feat/b-volver`
+- **Tamaño:** S · **Rama:** `feat/b-volver` · **Hecho:** 2026-10-22 (PR pendiente). Víctor eligió, tras la vista previa, que Referencias vuelva a donde se abrió («‹ Ajustes», «‹ Nutrición» o «‹ Perfil»). Ya puede hacerse el cruce A-X1.
 - **Para la persona:** Cumbres, Caminos, Ritmo y Vitrina tienen «‹ Inicio» y Referencias «‹ Ajustes»; al volver, el foco regresa a la tesela o fila de origen.
 - **Cómo:**
   1. `shared/components/PageHeader.tsx`: prop opcional `volver?: { etiqueta: string; onVolver: () => void }` que pinta un botón de 44 px encima del título (patrón de «Volver» de `DetalleRutina`/`DetalleEntreno`, sin componente nuevo).
