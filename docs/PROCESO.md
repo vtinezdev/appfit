@@ -2086,6 +2086,19 @@ Tras dos loops de investigación (auditoría del código y de los documentos, y 
 
 Durante la auditoría se detectaron documentos vivos que contradicen el código (paso B1 y parte de A1). No se ha cambiado código.
 
+## 191. Documentos vivos al día (2026-10-22)
+
+Paso B1 (DOC-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `docs/b-documentos-vivos` desde `master`; solo documentación, manda el código.
+
+- `docs/features/nutricion.md`: desde Inicio, la tarjeta de energía abre Nutrición, no Añadir comida.
+- `DESIGN.md`: § Inicio sin «Tu semana» (retirada por el ADR 043) y con las teselas de Progreso y el orden actual; § Entrenamiento, Empezar con «Tu entreno» arriba y las rutinas debajo (PR #107).
+- `PRODUCT.md`: cuenta opcional con copia cifrada y Social, apertura a otras personas y sin la mención a Atributos.
+- `docs/features/ritmo.md`: el enlace roto a `atributos.md` pasa a la experiencia. `cumbres.md`, `experiencia.md` y `vitrina.md` ya no lo tenían; el de `gym.md` es del carril A (A1).
+- `docs/features/vitrina.md` § Rendimiento: la Vitrina también se calcula en Inicio y en el perfil deportivo de Social.
+- `docs/features/inicio.md`: Progreso ya no lee `useCaminos`; Caminos sale del resultado de `useVitrina`.
+
+**Verificación:** sin cambios de código; `npm run test` (207 archivos, 2.537 pruebas) y `npm run build` correctos.
+
 ## 192. Tendencia de peso en Inicio (2026-10-22)
 
 Paso B2 (NUT-06) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-tendencia-peso` desde `master`. Tras una vista previa con capturas, Víctor eligió que Peso ocupe su fila entera en el móvil (como ya pasaba por debajo de 18 rem) en lugar de compartirla con Agua.
@@ -2095,6 +2108,4 @@ Paso B2 (NUT-06) del [plan de evolución](plan-evolucion/carril-b.md). Rama `fea
 - `index.css`: `.inicio-registros` en una columna; lado a lado solo desde 40 rem de lectura.
 
 **Verificación:** `npm run test` (208 archivos, 2.554 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con pesajes sintéticos (5 semanas con ruido, cifras de 280 kg, dos pesajes y ninguno) a 320/375/430 px en claro y oscuro, 375 px con texto al 200 % en ambos temas y 768 px: sin scroll horizontal ni desbordes, controles ≥ 44 px, Peso a todo el ancho en móvil y junto a Agua en tablet, sin errores de consola. Sin dispositivo físico.
-
-Si se fusiona después de la §191, `DESIGN.md` § Inicio choca en el mismo párrafo: se conservan los dos cambios.
 

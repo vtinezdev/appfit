@@ -10,7 +10,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 | Paso | ID | Mejora | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| B1 | DOC-01 | Poner al día los documentos vivos | S | — | Pendiente |
+| B1 | DOC-01 | Poner al día los documentos vivos | S | — | Hecho (2026-10-22) |
 | B2 | NUT-06 | Tendencia de peso en Inicio | S | — | Hecho (2026-10-22) |
 | B3 | NUT-09 | Aviso de coherencia energética | S | — | Pendiente |
 | B4 | NAV-02 | «Volver» en las secciones anidadas | S | — | Pendiente |
@@ -30,9 +30,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ---
 
-### [ ] B1 · DOC-01 · Poner al día los documentos vivos
+### [x] B1 · DOC-01 · Poner al día los documentos vivos
 
-- **Tamaño:** S · **Rama:** `docs/b-documentos-vivos`
+- **Tamaño:** S · **Rama:** `docs/b-documentos-vivos` · **Hecho:** 2026-10-22 (PR #117)
 - **Qué corregir** (comprobado en la auditoría; manda el código):
   1. `docs/features/nutricion.md`, § Añadir comida: dice «Inicio abre este flujo directamente»; hoy la tarjeta de energía solo abre Nutrición (`inicio/components/TarjetaEnergia.tsx`).
   2. `DESIGN.md`: § Inicio describe «Tu semana» con anillos por día (retirada por ADR 043) y § Entrenamiento dice que Empezar pone arriba la rutina que más tiempo lleva sin hacerse (desde la PR #107 es «Empezar entreno» vacío, con las rutinas debajo).
@@ -43,7 +43,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] B2 · NUT-06 · Tendencia de peso en Inicio
 
-- **Tamaño:** S · **Rama:** `feat/b-tendencia-peso` · **Hecho:** 2026-10-22 (PR pendiente). Víctor eligió, tras la vista previa, que Peso ocupe su fila entera en el móvil.
+- **Tamaño:** S · **Rama:** `feat/b-tendencia-peso` · **Hecho:** 2026-10-22 (PR #119). Víctor eligió, tras la vista previa, que Peso ocupe su fila entera en el móvil.
 - **Para la persona:** la tarjeta Peso enseña la media de 7 días como cifra principal y el ritmo («−0,3 kg/sem»), con el último pesaje en pequeño. Con pocos pesajes, se queda como hoy y lo dice.
 - **Cómo:**
   1. En `inicio/lib/peso.ts` ya existe `mediaMovilPeso`. Añadir `ritmoSemanal(pesos, hoy)`: pendiente (regresión lineal) de la media móvil en los últimos 21 días, en kg/semana, solo con ≥ 4 pesajes que abarquen ≥ 14 días; si no, `null`.

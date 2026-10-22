@@ -1,6 +1,6 @@
 # Ritmo
 
-`src/features/ritmo/`. Constancia semanal con el descanso dentro: estado de cada semana, hilo (racha de semanas con presencia), comodines, vueltas, hitos y pausas. Todo se deriva de los registros, del plan semanal y de las pausas declaradas. Decisión y salvaguardas: [ADR 029](../decisiones/029-gamificacion-atributos.md). Atributos toma de aquí la «semana cumplida» ([atributos.md](atributos.md)); los hitos son también logros de la [Vitrina](vitrina.md).
+`src/features/ritmo/`. Constancia semanal con el descanso dentro: estado de cada semana, hilo (racha de semanas con presencia), comodines, vueltas, hitos y pausas. Todo se deriva de los registros, del plan semanal y de las pausas declaradas. Decisión y salvaguardas: [ADR 029](../decisiones/029-gamificacion-atributos.md). La [experiencia](experiencia.md) toma de aquí la «semana cumplida»; los hitos son también logros de la [Vitrina](vitrina.md).
 
 ## Dónde está cada cosa
 
