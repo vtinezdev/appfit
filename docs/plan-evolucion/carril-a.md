@@ -63,7 +63,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A3 · ENT-14 · Descanso sugerido según el tipo de ejercicio
 
-> **Hecho (2026-10-22, PROCESO §194, PR pendiente).** D8: una sola vez en general. Al ver la preview salió que cada entreno empezaba sin temporizador, así que un «Sí» solo valía para esa sesión; Víctor elige recordar el último descanso elegido en el dispositivo (localStorage, fuera del backup), sin cruce con B. Los ejercicios propios reciben 90 s. La función vive en `lib/descansoSugerido.ts` y no en `session.ts` para no meter el catálogo en la barra del entreno minimizado.
+> **Hecho (2026-10-22, PROCESO §194, PR #121).** D8: una sola vez en general. Al ver la preview salió que cada entreno empezaba sin temporizador, así que un «Sí» solo valía para esa sesión; Víctor elige recordar el último descanso elegido en el dispositivo (localStorage, fuera del backup), sin cruce con B. Los ejercicios propios reciben 90 s. La función vive en `lib/descansoSugerido.ts` y no en `session.ts` para no meter el catálogo en la barra del entreno minimizado.
 
 - **Tamaño:** S · **Rama:** `feat/a-descanso-sugerido`
 - **Para la persona:** quien entrena sin temporizador recibe una vez la pregunta «¿Quieres un descanso de 2 min entre series?» al marcar su primera serie.
