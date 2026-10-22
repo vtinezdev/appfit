@@ -109,7 +109,7 @@ Se ordena por la marca más reciente; muestra 15 y «Ver más ejercicios».
 
 ## Rendimiento
 
-Experiencia, Ritmo, Cumbres y Vitrina juntos tardan unos 150 ms en escritorio con tres años densos (500 entrenos, 12.500 series y 8.000 entradas). La Vitrina solo se calcula en su página y al terminar un entreno.
+Experiencia, Ritmo, Cumbres y Vitrina juntos tardan unos 150 ms en escritorio con tres años densos (500 entrenos, 12.500 series y 8.000 entradas). La Vitrina se calcula en su página, al terminar un entreno, en las teselas de Progreso de Inicio (`AccesoProgreso`, que toma también Caminos de su resultado) y en Social al editar el perfil deportivo (`EditarPerfilDeportivo`, que pasa el resultado a la elección de destacados y avatar).
 
 
 ## Compartir logros

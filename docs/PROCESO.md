@@ -2085,3 +2085,17 @@ Víctor pide terminar las cuatro mejoras aprobadas que quedaron en pausa en [el 
 Tras dos loops de investigación (auditoría del código y de los documentos, y comparación con Hevy, Strong, Fitbod, MacroFactor, Cronometer, MyFitnessPal, Nike Training Club, Strava, Duolingo y Gentler Streak), Víctor elige 33 de las 60 propuestas del dashboard de evolución. Se ordenan de más simples a más complejas y se reparten en dos carriles para dos sesiones de Claude Code en cuentas distintas: A (Entreno, Social y actividades) y B (Inicio, Nutrición, navegación y progreso), con carpetas de cada uno, reglas para los archivos compartidos (`PROCESO.md`, roadmap, versiones de Dexie, migraciones de Supabase), cruces planificados y 13 decisiones pendientes. Plan en `docs/plan-evolucion/`; enlace en `docs/roadmap.md`.
 
 Durante la auditoría se detectaron documentos vivos que contradicen el código (paso B1 y parte de A1). No se ha cambiado código.
+
+## 191. Documentos vivos al día (2026-10-22)
+
+Paso B1 (DOC-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `docs/b-documentos-vivos` desde `master`; solo documentación, manda el código.
+
+- `docs/features/nutricion.md`: desde Inicio, la tarjeta de energía abre Nutrición, no Añadir comida.
+- `DESIGN.md`: § Inicio sin «Tu semana» (retirada por el ADR 043) y con las teselas de Progreso y el orden actual; § Entrenamiento, Empezar con «Tu entreno» arriba y las rutinas debajo (PR #107).
+- `PRODUCT.md`: cuenta opcional con copia cifrada y Social, apertura a otras personas y sin la mención a Atributos.
+- `docs/features/ritmo.md`: el enlace roto a `atributos.md` pasa a la experiencia. `cumbres.md`, `experiencia.md` y `vitrina.md` ya no lo tenían; el de `gym.md` es del carril A (A1).
+- `docs/features/vitrina.md` § Rendimiento: la Vitrina también se calcula en Inicio y en el perfil deportivo de Social.
+- `docs/features/inicio.md`: Progreso ya no lee `useCaminos`; Caminos sale del resultado de `useVitrina`.
+
+**Verificación:** sin cambios de código; `npm run test` (207 archivos, 2.537 pruebas) y `npm run build` correctos.
+
