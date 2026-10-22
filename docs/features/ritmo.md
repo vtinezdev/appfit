@@ -42,7 +42,7 @@
 ## Pantallas
 
 - **Inicio**, tesela «Ritmo» bajo la energía: las semanas de hilo («Hilo actual»). Abre Ritmo.
-- **Ritmo** (desde su tesela de Inicio):
+- **Ritmo** (desde su tesela de Inicio; «‹ Inicio» vuelve con el foco en la tesela):
   - banda «En pausa» con «Reanudar hoy», si hay una pausa activa;
   - «Esta semana»: estado por ahora, días, cifras y lo que falta;
   - «Hilo»: cuatro `Metric` (hilo actual, mejor hilo, comodines «1 de 2» con cuánto falta para otro, semanas cumplidas y vueltas);

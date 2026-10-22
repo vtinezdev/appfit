@@ -38,9 +38,10 @@ import { GRUPOS_AJUSTES, OPCIONES_FONDO, OPCIONES_TEMA, resumenAjustes, SECCIONE
 
 /**
  * Ajustes es un índice por temas (Tú, Entreno, App, Tus datos) con el valor actual de cada sección; cada fila abre su
- * vista, con «Volver» que devuelve el foco a la fila. `seccionInicial` abre una directamente (avisos de Inicio, Cumbres…).
+ * vista, con «Volver» que devuelve el foco a la fila. `seccionInicial` abre una directamente (avisos de Inicio, Cumbres…);
+ * `enfocarReferencias` devuelve el foco a la fila Referencias al volver de ella.
  */
-export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias }: { seccionInicial?: SeccionAjustes; onIrAPerfil?: () => void; onIrAReferencias?: () => void }) {
+export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias, enfocarReferencias = false }: { seccionInicial?: SeccionAjustes; onIrAPerfil?: () => void; onIrAReferencias?: () => void; enfocarReferencias?: boolean }) {
   const settings = useLiveQuery(() => getSettings(), [])
   const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(todayISO()), [])
   const hayDatos = useLiveQuery(hayDatosGuardados, [])
@@ -49,6 +50,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias 
   const [enfocarTitulo, setEnfocarTitulo] = useState(seccionInicial !== undefined)
   /** Fila del índice que recupera el foco al volver de su sección. */
   const [volverA, setVolverA] = useState<SeccionAjustes | null>(null)
+  const [focoReferencias, setFocoReferencias] = useState(enfocarReferencias)
   const [aguaTexto, setAguaTexto] = useState<string | null>(null)
   const [tema, setTema] = useState<ThemePref>(getThemePref)
   const [fondo, setFondo] = useState<FondoPref>(getFondoPref)
@@ -75,6 +77,11 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias 
     indiceRef.current?.querySelector<HTMLButtonElement>(`[data-seccion="${volverA}"]`)?.focus()
     setVolverA(null)
   }, [seccion, volverA])
+  useEffect(() => {
+    if (!focoReferencias || !cargados || seccion !== null) return
+    indiceRef.current?.querySelector<HTMLButtonElement>('[data-fila="referencias"]')?.focus()
+    setFocoReferencias(false)
+  }, [focoReferencias, cargados, seccion])
 
   if (!settings || !vigentes) return <LoadingState />
 
@@ -194,7 +201,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias 
         </section>)}
         {onIrAReferencias && <section aria-labelledby="ajustes-saber-mas" className="space-y-2">
           <h2 id="ajustes-saber-mas" className="px-1 text-rotulo text-fg-muted">Saber más</h2>
-          <ListGroup><li><ListRow onClick={onIrAReferencias}>
+          <ListGroup><li><ListRow data-fila="referencias" onClick={onIrAReferencias}>
             <Icon name="info" size={20} className="text-fg-muted" />
             <span className="min-w-0 flex-1">
               <span className="block break-words text-body font-semibold text-fg">Referencias</span>

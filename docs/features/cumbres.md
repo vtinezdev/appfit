@@ -43,7 +43,7 @@ Fuentes (comprobadas el 11 y el 12 de octubre de 2026): Instituto Geográfico Na
 ## Pantallas
 
 - **Inicio**, tesela «Cumbres» bajo la energía (abre Cumbres): los metros de la montaña actual y su nombre; sin montaña elegida, «—» y «Elige montaña».
-- **Cumbres** (desde su tesela de Inicio):
+- **Cumbres** (desde su tesela de Inicio; «‹ Inicio» vuelve con el foco en la tesela):
   - sin empezar, una card con el perfil de la primera de la ruta a 0 m y la explicación, y la lista de montañas para elegir la primera (el Aneto, «Sugerida»; cada una con una barra fina de su altitud frente al Everest), con «Deshacer»;
   - empezada, una card con la montaña actual (nombre, zona, perfil accesible con las líneas de cada 1.000 m, `Metric` con los metros, lo que falta y lo subido esta semana, lo que valdría entrenar hoy y «Cambiar montaña»);
   - «Hitos» (fecha o lo que falta);

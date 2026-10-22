@@ -38,6 +38,8 @@ interface Props {
   onIrAGym: () => void
   /** Cumbres, Caminos, Ritmo o Vitrina, desde sus teselas. */
   onIrAProgreso: (destino: DestinoProgreso) => void
+  /** Tesela de progreso que recupera el foco al volver de su sección. */
+  enfocarProgreso?: DestinoProgreso
   onExportarCopia: () => void
   onRevisarCuenta: () => void
   onIrAAmigos: () => void
@@ -51,7 +53,7 @@ const PESO_POR_DEFECTO = 70
 const DIAS_HISTORIAL = 365
 
 /** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, el progreso (Cumbres, Caminos, Ritmo y Vitrina), peso y agua y el último entreno. */
-export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
+export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
   const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -133,7 +135,7 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, onE
       ) : (
         <div className="inicio-paneles">
           <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion} />
-          <AccesoProgreso onAbrir={onIrAProgreso} />
+          <AccesoProgreso onAbrir={onIrAProgreso} enfocar={enfocarProgreso} />
           <div className="inicio-registros">
             <AccesoPeso tendencia={tendencia} pesos={pesos} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
             <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />

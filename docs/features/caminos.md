@@ -70,7 +70,7 @@ Rutas entre dos lugares de España creadas por Víctor (p. ej. Tarragona – Val
 ## Pantallas
 
 - **Inicio**, tesela «Caminos» bajo la energía (abre Caminos): los km de la ruta actual y su nombre; sin ruta, «—» y «Elige ruta».
-- **Caminos** (desde su tesela de Inicio):
+- **Caminos** (desde su tesela de Inicio; «‹ Inicio» vuelve con el foco en la tesela):
   - sin empezar, una card con el trazado de la primera ruta a 0 km, la explicación e «Ir a Actividades»; «Tus rutas» (tocar una la empieza; el lápiz de al lado la edita) con «Crear ruta»; y las rutas por colección (con qué son sus km), la primera «Sugerida», con «Deshacer»;
   - empezada, una card con la ruta (nombre, zona y salida), el trazado (en una ruta propia, `MapaRuta` con la posición) (una línea con un punto al final de cada etapa a su distancia real y la marca donde se va), `Metric` con los km, «Etapa 2 de 5: Pontedeume → Betanzos · 2,3 de 19,7 km», los km de esta semana y los sellos de la credencial, y «Cambiar de ruta»;
   - «Próximas etapas» (las tres siguientes con lo que falta) y el desplegable «Todas las etapas» con la fecha de llegada de cada una;

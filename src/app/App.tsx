@@ -4,11 +4,13 @@ import BottomNav, { type Tab } from './BottomNav'
 import InicioTab from '../features/inicio/InicioTab'
 import type { SeccionEntreno } from '../features/gym/GymTab'
 import type { SeccionAjustes } from './seccionesAjustes'
+import { retornoDeReferencias, type OrigenReferencias } from './volver'
 import TrasladarDatos from './TrasladarDatos'
 import AtmosferaApp from './AtmosferaApp'
 import { LoadingState } from '../shared/components/StateMessage'
 import type { NutrienteId } from '../shared/lib/referenciasNutricionales'
 import type { AreaReferencias } from '../features/referencias/lib/contenidoReferencias'
+import type { DestinoProgreso } from '../features/inicio/components/AccesoProgreso'
 import * as workoutsRepo from '../features/gym/data/workoutsRepo'
 import EntrenoMinimizado from '../features/gym/components/EntrenoMinimizado'
 import { socialDisponible } from '../features/social/servicio'
@@ -35,6 +37,10 @@ export default function App() {
   const [seccionEntreno, setSeccionEntreno] = useState<SeccionEntreno | undefined>(undefined)
   const [referenciaInicial, setReferenciaInicial] = useState<NutrienteId | undefined>(undefined)
   const [areaReferencias, setAreaReferencias] = useState<AreaReferencias | undefined>(undefined)
+  /** De dónde se abrió Referencias, para su «Volver». */
+  const [origenReferencias, setOrigenReferencias] = useState<OrigenReferencias>('ajustes')
+  /** Lo que recupera el foco tras un «Volver» (la tesela de Inicio o la fila Referencias de Ajustes). */
+  const [focoVuelta, setFocoVuelta] = useState<DestinoProgreso | 'referencias' | undefined>(undefined)
   const scrollRef = useRef<HTMLElement>(null)
   const entrenoActivo = useLiveQuery(() => workoutsRepo.activo(), [])
   /** Si el entreno en curso ocupa Entreno. Salir de la pantalla lo minimiza; la barra sobre la navegación lo vuelve a abrir. */
@@ -49,6 +55,7 @@ export default function App() {
     setAreaReferencias(undefined)
     setSeccionEntreno(undefined)
     setEntrenoAbierto(false)
+    setFocoVuelta(undefined)
     setTab(siguiente)
     scrollRef.current?.scrollTo({ top: 0 })
   }
@@ -69,6 +76,20 @@ export default function App() {
     navegar('ajustes')
     setSeccionAjustes(seccion)
   }
+  function abrirReferencias(origen: OrigenReferencias) {
+    navegar('referencias')
+    setOrigenReferencias(origen)
+  }
+  /** «‹ Inicio» de Cumbres, Caminos, Ritmo y Vitrina: vuelve con el foco en su tesela. */
+  function volverAInicio(desde: DestinoProgreso) {
+    navegar('inicio')
+    setFocoVuelta(desde)
+  }
+  const retornoReferencias = retornoDeReferencias(origenReferencias)
+  function volverDeReferencias() {
+    navegar(retornoReferencias.tab)
+    if (retornoReferencias.enfocarFila) setFocoVuelta('referencias')
+  }
 
   return (
     <div data-app-shell data-mini-entreno={entrenoMinimizado ? '' : undefined} className="app-shell fixed inset-x-0 flex h-app flex-col bg-bg">
@@ -77,19 +98,19 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top safe-inline h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view app-content mx-auto w-full">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onIrAGym={abrirEntreno} onIrAProgreso={navegar} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => abrirAmigos()} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onIrAGym={abrirEntreno} onIrAProgreso={navegar} enfocarProgreso={focoVuelta === 'referencias' ? undefined : focoVuelta} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => abrirAmigos()} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => irAAjustes('instalacion')} />} />}
-        {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab onVerReferencia={id => { navegar('referencias'); setReferenciaInicial(id) }} /></Suspense>}
+        {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab onVerReferencia={id => { abrirReferencias('nutricion'); setReferenciaInicial(id) }} /></Suspense>}
         {tab === 'gym' && <Suspense fallback={<LoadingState />}><GymTab seccionInicial={seccionEntreno} entrenoAbierto={entrenoAbierto} onAbrirEntreno={() => setEntrenoAbierto(true)} onMinimizarEntreno={() => setEntrenoAbierto(false)} /></Suspense>}
-        {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { navegar('referencias'); setAreaReferencias('energia') }} /></Suspense>}
-        {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
-        {tab === 'caminos' && <Suspense fallback={<LoadingState />}><CaminosTab onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} /></Suspense>}
-        {tab === 'ritmo' && <Suspense fallback={<LoadingState />}><RitmoTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
+        {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { abrirReferencias('perfil'); setAreaReferencias('energia') }} /></Suspense>}
+        {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => irAAjustes('gamificacion')} onVolver={() => volverAInicio('cumbres')} /></Suspense>}
+        {tab === 'caminos' && <Suspense fallback={<LoadingState />}><CaminosTab onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} onVolver={() => volverAInicio('caminos')} /></Suspense>}
+        {tab === 'ritmo' && <Suspense fallback={<LoadingState />}><RitmoTab onIrAAjustes={() => irAAjustes('gamificacion')} onVolver={() => volverAInicio('ritmo')} /></Suspense>}
         {tab === 'social' && <Suspense fallback={<LoadingState />}><SocialTab onIrAAmigos={abrirAmigos} onIrAGym={abrirEntreno} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'amigos' && <Suspense fallback={<LoadingState />}><AmigosTab anadirInicial={anadirAmigo} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
-        {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => irAAjustes('gamificacion')} /></Suspense>}
-        {tab === 'ajustes' && <Suspense fallback={<LoadingState />}><Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} onIrAReferencias={() => navegar('referencias')} /></Suspense>}
-        {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} /></Suspense>}
+        {tab === 'vitrina' && <Suspense fallback={<LoadingState />}><VitrinaTab onIrAAjustes={() => irAAjustes('gamificacion')} onVolver={() => volverAInicio('vitrina')} /></Suspense>}
+        {tab === 'ajustes' && <Suspense fallback={<LoadingState />}><Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} onIrAReferencias={() => abrirReferencias('ajustes')} enfocarReferencias={focoVuelta === 'referencias'} /></Suspense>}
+        {tab === 'referencias' && <Suspense fallback={<LoadingState />}><ReferenciasTab nutrienteInicial={referenciaInicial} areaInicial={areaReferencias} salida={{ etiqueta: retornoReferencias.etiqueta, onVolver: volverDeReferencias }} /></Suspense>}
         </div>
       </main>
       </div>

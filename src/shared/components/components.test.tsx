@@ -8,6 +8,7 @@ import ProgressBar from './ProgressBar'
 import SegmentedControl from './SegmentedControl'
 import ViewTabs from './ViewTabs'
 import Disclosure from './Disclosure'
+import PageHeader from './PageHeader'
 
 const opciones = [{ valor: 'hoy', label: 'Hoy' }, { valor: 'resumen', label: 'Resumen' }]
 const noop = () => {}
@@ -87,5 +88,13 @@ describe('contratos del sistema visual', () => {
     expect(html).toContain(`id="${id}"`)
     expect(html).toContain('aria-expanded="true"')
     expect(html).not.toContain('hidden=""')
+  })
+  it('la cabecera solo lleva «Volver» en las secciones anidadas, encima del título y con target real', () => {
+    const sin = renderToStaticMarkup(<PageHeader title="Inicio" />)
+    expect(sin).not.toContain('<button')
+    const con = renderToStaticMarkup(<PageHeader title="Cumbres" volver={{ etiqueta: 'Inicio', onVolver: noop }} />)
+    expect(con.match(/<button/g)).toHaveLength(1)
+    expect(con).toMatch(/<button[^>]*min-h-touch[^>]*>.*Inicio<\/button>/)
+    expect(con.indexOf('Inicio</button>')).toBeLessThan(con.indexOf('<h1'))
   })
 })
