@@ -10,7 +10,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 | Paso | ID | Mejora | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| B1 | DOC-01 | Poner al día los documentos vivos | S | — | Pendiente |
+| B1 | DOC-01 | Poner al día los documentos vivos | S | — | Hecho (2026-10-22) |
 | B2 | NUT-06 | Tendencia de peso en Inicio | S | — | Pendiente |
 | B3 | NUT-09 | Aviso de coherencia energética | S | — | Pendiente |
 | B4 | NAV-02 | «Volver» en las secciones anidadas | S | — | Pendiente |
@@ -30,9 +30,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ---
 
-### [ ] B1 · DOC-01 · Poner al día los documentos vivos
+### [x] B1 · DOC-01 · Poner al día los documentos vivos
 
-- **Tamaño:** S · **Rama:** `docs/b-documentos-vivos`
+- **Tamaño:** S · **Rama:** `docs/b-documentos-vivos` · **Hecho:** 2026-10-22 (PR pendiente)
 - **Qué corregir** (comprobado en la auditoría; manda el código):
   1. `docs/features/nutricion.md`, § Añadir comida: dice «Inicio abre este flujo directamente»; hoy la tarjeta de energía solo abre Nutrición (`inicio/components/TarjetaEnergia.tsx`).
   2. `DESIGN.md`: § Inicio describe «Tu semana» con anillos por día (retirada por ADR 043) y § Entrenamiento dice que Empezar pone arriba la rutina que más tiempo lleva sin hacerse (desde la PR #107 es «Empezar entreno» vacío, con las rutinas debajo).
