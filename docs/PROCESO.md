@@ -2462,3 +2462,11 @@ Víctor ejecuta `supabase/migrations/0023_social_semana_ritmo.sql` y `0024_socia
 - Documentos: `features/gym.md`, `datos.md`, `mejoras.md`, roadmap (el panel a 200 %, visto al probar) y el carril A (A21 y la tanda 6).
 
 **Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: unir press banca y remo, la serie 1 del press baja al remo sin descanso, la del remo empieza el descanso y vuelve al press, separar desde el menú, y en la rutina «Superserie con Remo con barra» guarda `[[1, 2]]`; sin scroll horizontal ni errores de consola. Con el texto al 200 % el panel se estrecha igual que sin superserie (anotado en el roadmap).
+
+## 222. Entreno activo con letra grande (2026-10-23)
+
+**Qué:** con el texto al 200 % a 375 px, el nombre de la rutina en la cabecera de la sesión y el nombre y el grupo de cada ejercicio se estrechaban hasta partirse letra a letra (visto al probar A21; ya pasaba antes). Ahora «Terminar», la ficha y el menú del ejercicio bajan de línea antes de estrechar el nombre.
+
+**Cómo:** en `EntrenoActivo`, la fila de la cabecera hace `flex-wrap` con el bloque del nombre en `basis-24` y «Terminar» en `ml-auto`; en `PanelEjercicio`, la fila de la cabecera hace `flex-wrap`, el bloque de miniatura y nombre lleva `basis-32` y los dos botones van juntos en `ml-auto`. Con letra normal a 320, 375 y 430 px queda como antes. Documentos: el carril A y el roadmap (sale la línea que lo anotaba).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 y 375 px con texto normal y al 200 %: la cabecera y los paneles se leen enteros y con letra normal no cambian; sin scroll horizontal.

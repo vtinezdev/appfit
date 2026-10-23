@@ -245,9 +245,10 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
         <span className="tabular shrink-0 text-caption text-fg-muted">{formatInt(volumenSets(sets))} kg</span>
         <span className="tabular flex shrink-0 items-center gap-1 text-body-sm font-bold text-success"><Icon name="check" size={18} />{formatInt(sets.length)}/{formatInt(sets.length)}</span>
       </button> : <>
-      <div className="flex items-start gap-2">
+      {/* Con texto ampliado, la ficha y el menú bajan de línea antes de estrechar el nombre. */}
+      <div className="flex flex-wrap items-start gap-2">
         {/* Con texto ampliado la miniatura (decorativa) pasa encima del título en lugar de estrecharlo. */}
-        <div className="flex min-w-0 flex-1 flex-wrap items-start gap-3">
+        <div className="flex min-w-0 flex-1 basis-32 flex-wrap items-start gap-3">
         <MiniaturaEjercicio catalogId={ejercicio.catalogId} />
         <div className="min-w-0 flex-1 basis-32">
           <h2 tabIndex={-1} className="exercise-title break-words text-title text-fg">{ejercicio.nombre}</h2>
@@ -255,8 +256,10 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
           {objetivo && <p className="tabular text-caption text-fg-muted">Objetivo: {textoObjetivo(objetivo)} reps{objetivo.calentamientos ? ` · ${textoCalentamientos(objetivo)}` : ''}{objetivo.descansoSeg ? ` · ${objetivo.descansoSeg} s de descanso` : ''}</p>}
         </div>
         </div>
-        {conFicha && <IconButton icon="info" variant="ghost" size="sm" label={`Ficha de ${ejercicio.nombre}`} onClick={() => setFicha(true)} />}
-        {menu && <IconButton icon="more" variant="ghost" size="sm" label={`Opciones de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja('menu')} />}
+        {(conFicha || menu) && <div className="ml-auto flex shrink-0 items-start gap-2">
+          {conFicha && <IconButton icon="info" variant="ghost" size="sm" label={`Ficha de ${ejercicio.nombre}`} onClick={() => setFicha(true)} />}
+          {menu && <IconButton icon="more" variant="ghost" size="sm" label={`Opciones de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja('menu')} />}
+        </div>}
       </div>
       {contexto?.nota && <button type="button" disabled={bloqueado} onClick={() => setHoja('nota')} aria-label={`Nota de ${ejercicio.nombre}: ${contexto.nota}`}
         className="block min-h-touch w-full text-left"><span className="line-clamp-2 break-words text-body-sm text-fg-muted">{contexto.nota}</span></button>}

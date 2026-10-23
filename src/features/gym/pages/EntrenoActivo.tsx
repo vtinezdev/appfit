@@ -433,10 +433,11 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
     <div ref={contenedorRef} className={`entreno-activo space-y-section px-page pb-16 pt-5 ${descansando ? 'descanso-activo' : ''}`}>
       {/* Cabecera fija: rutina, tiempo, volumen, series y Terminar siguen a la vista al bajar por los ejercicios. */}
       <section ref={cabecera} aria-label="Entreno en curso" className="training-surface workout-bar sticky top-0 z-20 space-y-2 px-3 py-2">
-        <div className="flex min-h-touch items-center justify-between gap-2">
+        {/* Con texto ampliado, «Terminar» baja de línea antes de estrechar el nombre de la rutina. */}
+        <div className="flex min-h-touch flex-wrap items-center justify-between gap-2">
           <IconButton icon="chevron-down" label="Minimizar entreno" variant="ghost" className="-ml-2" onClick={onMinimizar} />
-          <div className="min-w-0 flex-1"><h1 className="break-words text-heading">{routine?.nombre ?? 'Entreno libre'}</h1><p className="training-muted text-caption">Desde las {formatHora(workout.inicio)}</p></div>
-          <Button variant="ghost" className="training-secondary" size="sm" disabled={quitando} onClick={() => { setFinishError(null); setConfirmando(true) }}>
+          <div className="min-w-0 flex-1 basis-24"><h1 className="break-words text-heading">{routine?.nombre ?? 'Entreno libre'}</h1><p className="training-muted text-caption">Desde las {formatHora(workout.inicio)}</p></div>
+          <Button variant="ghost" className="training-secondary ml-auto" size="sm" disabled={quitando} onClick={() => { setFinishError(null); setConfirmando(true) }}>
             Terminar
           </Button>
         </div>

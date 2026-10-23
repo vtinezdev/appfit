@@ -63,7 +63,6 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Raciones propias: solo de una palabra y solo en alimentos propios o del catálogo (se gestionan desde la revisión, no hay ficha del alimento del catálogo). Recetas: los ingredientes son un snapshot; no se vuelven a calcular si cambia el alimento de origen.
 - `scripts/ui/validar-rediseno.cjs` conserva selectores anteriores a la Inicio de ADR 021 (espera el saludo «Buenos/Buenas», pulsa «Registrar» e «Historial de peso») y, como el resto de `scripts/ui/`, el Chromium de `/usr/bin/chromium` y el puerto 5173. En §85 se ejecutó su matriz desde una copia adaptada fuera del repo (Edge, «Hoy», «Registrar peso», tarjeta Peso).
 
-- Entreno activo con el texto al 200 % a 375 px: en la cabecera del panel de un ejercicio, el nombre y el grupo se estrechan hasta partirse letra a letra (la miniatura y los dos botones de 44 px se quedan en la misma fila). Visto al probar A21; ya pasaba antes.
 - Entreno activo: la columna «Anterior» solo cabe en la fila con paneles de 20,5rem o más (móviles de 414 px en adelante); en 375/390/393 px va en una línea bajo reps y kg, para no estrechar los campos.
 - `scripts/ui/validar-*.cjs` se han adaptado a la barra de pestañas (§97) sin ejecutarlos: siguen apuntando a `/usr/bin/chromium` y conservan otros selectores anteriores.
 
