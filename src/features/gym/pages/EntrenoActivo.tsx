@@ -27,10 +27,10 @@ import Button, { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { useListMotion } from '../../../shared/hooks/useListMotion'
-import { haptic } from '../../../shared/design/motion'
+import { haptic, reduceMotion } from '../../../shared/design/motion'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import ProgresoSeries from '../components/ProgresoSeries'
-import { ajustarDescanso, clearSession, descansoParaEjercicio, readSession, seriesMarcadas, writeSession } from '../lib/session'
+import { ajustarDescanso, clearSession, descansoParaEjercicio, readSession, seriesMarcadas, siguienteEjercicioPendiente, writeSession } from '../lib/session'
 import { RestClock, WorkoutClock } from '../components/WorkoutClock'
 import type { WorkoutSummary } from '../components/WorkoutFinished'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -42,6 +42,9 @@ import { avisarElite } from '../../liga/lib/basicos'
 import { alternativas } from '../../liga/lib/alternativas'
 import Pista from '../../../shared/components/Pista'
 import { useGuardadoLocal } from '../hooks/useGuardadoLocal'
+
+/** Con el teclado abierto (un campo con foco) la pantalla no se mueve sola. */
+const escribiendo = () => !!document.activeElement?.matches('input, textarea, select, [contenteditable="true"]')
 
 interface Props {
   workout: Workout
@@ -70,6 +73,9 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   const notasGuardadas = useRef(workout.notas ?? '')
   const temporizadorNotas = useRef<ReturnType<typeof setTimeout> | null>(null)
   const restConfig = useRef<HTMLDivElement>(null)
+  const cabecera = useRef<HTMLElement>(null)
+  /** Al completar un ejercicio, el siguiente pendiente al que bajar (`n` repite el salto aunque sea el mismo). */
+  const [irA, setIrA] = useState<{ exId: number; n: number } | null>(null)
   const confirmandoSeries = useRef(new Set<number>())
   const { guardado, pendientes, errores } = useGuardadoLocal()
   const pendingWrites = useRef(new Map<number, Promise<void>>())
@@ -255,6 +261,19 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
     if (!seriesCargadas) return
     setSession(prev => { const ids = seriesMarcadas(currentSets, prev.completed); return ids.join(',') === prev.completed.join(',') ? prev : { ...prev, completed: ids } })
   }, [seriesCargadas])
+  // Tras el plegado del ejercicio completado: el siguiente queda justo bajo la cabecera fija (ENT-15).
+  useEffect(() => {
+    if (!irA) return
+    const marco = requestAnimationFrame(() => {
+      const destino = contenedorRef.current?.querySelector<HTMLElement>(`[data-ejercicio="${irA.exId}"]`)
+      if (!destino || escribiendo()) return
+      const barra = cabecera.current
+      const fija = barra && getComputedStyle(barra).position === 'sticky'
+      destino.style.scrollMarginTop = fija ? `calc(${barra.getBoundingClientRect().height}px + var(--space-stack))` : ''
+      destino.scrollIntoView({ block: 'start', behavior: reduceMotion() ? 'instant' : 'smooth' })
+    })
+    return () => cancelAnimationFrame(marco)
+  }, [irA, contenedorRef])
   const volumen = volumenSets(currentSets)
   const completedCount = completadas.length
   const sinMarcar = seriesSinMarcar(currentSets, completadas)
@@ -278,6 +297,12 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         restTotal: done ? previous.restTotal : descanso > 0 ? descanso : undefined,
       }))
       haptic(done ? 'selection' : 'success')
+      if (!done && !escribiendo()) {
+        const marcadas = [...seriesMarcadas(currentSets, sessionActual.current.completed), s.id!]
+        const suyas = currentSets.filter(x => x.exerciseId === s.exerciseId)
+        const siguiente = suyas.every(x => marcadas.includes(x.id)) ? siguienteEjercicioPendiente(visibleIds, currentSets, marcadas, s.exerciseId) : null
+        if (siguiente !== null) setIrA(previo => ({ exId: siguiente, n: (previo?.n ?? 0) + 1 }))
+      }
       const que = numero > 0 ? `Serie ${numero}` : 'Calentamiento'
       setFeedback(done ? `${que} de ${nombre} pendiente` : `${que} de ${nombre} completada`)
       return !done
@@ -288,7 +313,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   return (
     <div ref={contenedorRef} className={`entreno-activo space-y-section px-page pb-16 pt-5 ${descansando ? 'descanso-activo' : ''}`}>
       {/* Cabecera fija: rutina, tiempo, volumen, series y Terminar siguen a la vista al bajar por los ejercicios. */}
-      <section aria-label="Entreno en curso" className="training-surface workout-bar sticky top-0 z-20 space-y-2 px-3 py-2">
+      <section ref={cabecera} aria-label="Entreno en curso" className="training-surface workout-bar sticky top-0 z-20 space-y-2 px-3 py-2">
         <div className="flex min-h-touch items-center justify-between gap-2">
           <IconButton icon="chevron-down" label="Minimizar entreno" variant="ghost" className="-ml-2" onClick={onMinimizar} />
           <div className="min-w-0 flex-1"><h1 className="break-words text-heading">{routine?.nombre ?? 'Entreno libre'}</h1><p className="training-muted text-caption">Desde las {formatHora(workout.inicio)}</p></div>
@@ -355,7 +380,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
           const completo = sets.length > 0 && sets.every((s) => completadas.includes(s.id))
           const nuevaMaquina = primeraVez(allSets, ex, workout)
           return (
-            <div key={exId}>
+            <div key={exId} data-ejercicio={exId}>
               <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
                 notaGimnasio={nuevaMaquina && notaPrimeraVez(nombreGimnasio(workout.gimnasioId), nuevaMaquina.habitual)}
                 anteriores={anterioresPorSerie(sets, seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex)))}
