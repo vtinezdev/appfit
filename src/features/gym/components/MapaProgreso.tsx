@@ -20,6 +20,7 @@ import {
 } from '../lib/progresoMuscular'
 import { MUSCULOS, ZONAS_MUSCULARES, type ZonaMuscular } from '../lib/musculos'
 import { CuerpoMuscular, EscalaProgreso } from './MapaMuscular'
+import TendenciaSemanasMusculo from './TendenciaSemanasMusculo'
 
 const series = (n: number) => `${formatNumber(n, 1)} ${n === 1 ? 'serie' : 'series'}`
 function nivelTexto(m: ProgresoMusculo) {
@@ -83,7 +84,7 @@ function ContenidoHoja({ progreso, musculo, onMusculo }: { progreso: ProgresoMus
   }
   if (musculo) return <div ref={inicio} tabIndex={-1} className="space-y-stack outline-none">
     <Button variant="ghost" size="sm" className="-ml-2" onClick={() => cambiar(null)}><Icon name="chevron-left" size={18} />Todos los grupos</Button>
-    <DetalleMusculo m={progreso.musculos[musculo]} />
+    <DetalleMusculo m={progreso.musculos[musculo]} nombre={MUSCULOS[musculo]} />
   </div>
 
   const orden = [...ZONAS_MUSCULARES].sort((a, b) => progreso.musculos[b].semanas - progreso.musculos[a].semanas || MUSCULOS[a].localeCompare(MUSCULOS[b], 'es'))
@@ -107,7 +108,7 @@ function ContenidoHoja({ progreso, musculo, onMusculo }: { progreso: ProgresoMus
   </div>
 }
 
-function DetalleMusculo({ m }: { m: ProgresoMusculo }) {
+function DetalleMusculo({ m, nombre }: { m: ProgresoMusculo; nombre: string }) {
   const desde = m.nivel === 0 ? 0 : PROGRESO_MUSCULAR.umbrales[m.nivel - 1]
   const { series: semana, dosis } = m.semanaActual
   return <div className="space-y-stack">
@@ -127,6 +128,7 @@ function DetalleMusculo({ m }: { m: ProgresoMusculo }) {
       <Metric size="title" label="28 días" valor={formatNumber(m.series28, 1)} unidad={m.series28 === 1 ? 'serie' : 'series'} />
       <Metric size="title" label="Última vez" valor={cuando(m.diasDesde)} />
     </div>
+    <TendenciaSemanasMusculo semanas={m.ultimasSemanas} dosis={dosis} musculo={nombre.toLowerCase()} />
     <dl className="divide-y divide-line border-y border-line">
       <div className="flex min-h-touch items-center justify-between gap-3 py-2"><dt className="text-body-sm text-fg-muted">Nivel más alto</dt><dd className="text-right text-body-sm font-semibold text-fg">{nombreNivel(m.nivelMaximo)}</dd></div>
       <div className="flex min-h-touch items-center justify-between gap-3 py-2"><dt className="text-body-sm text-fg-muted">Directas · indirectas (28 días)</dt><dd className="tabular text-right text-body-sm font-semibold text-fg">{formatNumber(m.directas28, 1)} · {formatNumber(m.indirectas28, 1)}</dd></div>

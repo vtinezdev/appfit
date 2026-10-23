@@ -88,7 +88,13 @@ export interface ProgresoMusculo {
   diasDesde: number | null
   /** Ejercicios que más aportan en 28 días, de más a menos (como mucho 3). */
   ejercicios: { exerciseId: number; nombre: string; rol: 'principal' | 'secundario'; series: number }[]
+  /** Las últimas `SEMANAS_TENDENCIA` semanas, de la más antigua a la en curso (PRO-03). */
+  ultimasSemanas: SemanaMusculo[]
 }
+/** Una semana (lunes YYYY-MM-DD) con las series que cuentan, como «Esta semana»: directas e indirectas hasta su tope. */
+export interface SemanaMusculo { lunes: string; series: number; pausa: boolean }
+/** Semanas de la gráfica de tendencia del detalle de un músculo. */
+export const SEMANAS_TENDENCIA = 8
 export interface ProgresoMuscular {
   musculos: Record<ZonaMuscular, ProgresoMusculo>
   /** Hay alguna serie clasificada, de cuando sea. */
@@ -218,6 +224,11 @@ function calcularMusculo(musculo: ZonaMuscular, aportes: AporteMuscular[], hoy: 
     semanaActual,
     series7, series28, directas28, indirectas28: series28 - directas28, diasDesde,
     ejercicios: [...ejercicios.values()].sort((a, b) => b.series - a.series || a.nombre.localeCompare(b.nombre, 'es')).slice(0, 3),
+    ultimasSemanas: Array.from({ length: SEMANAS_TENDENCIA }, (_, i) => {
+      const lunes = addDays(lunesHoy, -7 * (SEMANAS_TENDENCIA - 1 - i))
+      const s = porSemana.get(lunes)
+      return { lunes, series: s ? seriesQueCuentan(s.directas, s.indirectas, dosis) : 0, pausa: enPausa(lunes) }
+    }),
   }
 }
 
