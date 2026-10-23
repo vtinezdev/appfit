@@ -33,6 +33,16 @@ describe('alternativas', () => {
     expect(r.some((a) => a.catalogId === otros[2].id)).toBe(false)
   })
 
+  it('para sustituir en la sesión: también los de Élite y primero los ya hechos, aunque vayan más avanzados', () => {
+    const otros = CATALOGO_EJERCICIOS.filter((c) => c.primaryMuscles.includes(pecho) && c.id !== 'appfit:press-banca').slice(0, 3)
+    const locales = [banca, ...otros.map((c, i) => ej(10 + i, { nombre: c.name, catalogId: c.id }))]
+    const ligas = new Map([[10, liga(10, 16)], [12, liga(12, 5)]])
+    const r = alternativas(banca, locales, ligas, { sustituir: true, hechos: new Set([10, 12]) })
+    expect(r.slice(0, 2).map((a) => a.catalogId)).toEqual([otros[0].id, otros[2].id])
+    expect(r[0].seleccion).toEqual({ tipo: 'local', id: 10 })
+    expect(r).toHaveLength(MAX_ALTERNATIVAS)
+  })
+
   it('un ejercicio propio usa sus músculos; sin músculo conocido no hay alternativas', () => {
     const propio = ej(2, { nombre: 'Zzz empuje', primaryMuscles: [pecho] })
     expect(alternativas(propio, [propio], new Map()).length).toBe(MAX_ALTERNATIVAS)

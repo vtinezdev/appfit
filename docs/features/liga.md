@@ -11,7 +11,7 @@ Estado: completa (fases 1 a 5 de `gaming.md`). Descartado «Explorador» (logro 
 | Semanas con cada ejercicio, evolución, liga de cada paso, fantasma, ascensos de un entreno y ciclos | `lib/liga.ts`: `semanasPorEjercicio`, `evolucionLiga`, `calcularLigas`, `divisionDe`, `siguienteLiga`, `ascensosDeEntreno`, `ciclosCompletados` | — (puro; usa `gym/lib/workout.esEfectiva`, `gym/lib/ejecucion.tieneReps` y `ritmo/lib/pausas.pausaDeSemana`) |
 | Básicos y aviso de Élite | `lib/basicos.ts`: `BASICOS`, `esBasico`, `avisarElite` | — (puro; `gym/lib/selectorEjercicios.catalogoDeLocal`) |
 | Grupos de la lista | `lib/liga.ts`: `agruparPorLiga` | — (puro) |
-| Alternativas en Élite | `lib/alternativas.ts`: `alternativas`, `MAX_ALTERNATIVAS` | — (puro; `gym/lib/selectorEjercicios.opcionesEjercicios`, `gym/lib/presentacionEjercicio`) |
+| Alternativas en Élite (y para sustituir en la sesión, [Gym](gym.md)) | `lib/alternativas.ts`: `alternativas`, `MAX_ALTERNATIVAS`; con `{ sustituir: true, hechos }` no excluye Élite y ordena por ya hechos, mismo material y catálogo | — (puro; `gym/lib/selectorEjercicios.opcionesEjercicios`, `gym/lib/presentacionEjercicio`) |
 | «Mantener» | `data/ligaRepo.ts`: `mantener`, `volverAAvisar` | `settings.ligaMantener` (lectura y escritura en una transacción) |
 | Sesiones sin récord | `lib/estancamiento.ts`: `sesionesSinRecord`, `SESIONES_SIN_RECORD` (4) | — (puro; `gym/lib/records`) |
 | Ciclos para la Vitrina | `lib/liga.ts`: `ciclosCompletados`, `primerosCiclos` (los usa `vitrina/lib/vitrina`) | — (puro) |

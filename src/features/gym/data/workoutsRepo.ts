@@ -2,14 +2,18 @@
 import { db } from '../../../shared/db/db'
 import { recomendarProgresion } from '../lib/progresion'
 import { aplicarEjecucion, validarEjecucion, validarSerie, claveComparacion, convencional, ejecucionSerieNueva, ejecucionVigente, tieneReps } from '../lib/ejecucion'
-import type { ConfiguracionEjecucion, ConfiguracionCarga, SetEntry, Workout, WorkoutExerciseMuscles } from '../../../shared/db/types'
+import type { ConfiguracionEjecucion, ConfiguracionCarga, Routine, SetEntry, Workout, WorkoutExerciseMuscles } from '../../../shared/db/types'
 import { aplicarConfiguracionCarga, validarConfiguracionCarga } from '../lib/carga'
 import { toISODate } from '../../../shared/lib/dates'
 import { crearSnapshotMuscular } from '../lib/cargaMuscular'
-import { valoresNuevaSerie } from '../lib/workout'
+import { ordenEjerciciosSesion, siguienteOrden, valoresNuevaSerie } from '../lib/workout'
 import { previaEnGimnasio, ultimaEfectiva, ultimoCalentamiento } from './setsRepo'
 import { dependeDeMaquina, gimnasioDeSerie, sinKg } from '../lib/gimnasios'
 import { ejerciciosDelEntreno, seriesParaRepetir } from '../lib/repetirEntreno'
+import { ordenTrasSustituir } from '../lib/sustituir'
+import * as exercisesRepo from './exercisesRepo'
+import { sustituirEjercicio as sustituirEnRutinaRepo } from './routinesRepo'
+import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 
 /** El entreno en curso (sin `fin`), si hay uno. */
 export function activo(): Promise<Workout | undefined> {
@@ -402,5 +406,85 @@ export function decidirProgresion(workoutId: number, exerciseId: number, clave: 
       }
     }
     await db.workouts.update(workoutId, { decisionesProgresion: { ...w.decisionesProgresion, [exerciseId]: { clave, decision } } })
+  })
+}
+
+/** Lo necesario para deshacer una sustitución: las series movidas tal cual estaban, las creadas y el orden y la rutina de antes. */
+export interface Sustitucion {
+  workoutId: number
+  de: number
+  nuevo: number
+  movidas: SetEntry[]
+  creadas: number[]
+  orden: Pick<Workout, 'ordenEjercicios' | 'ejerciciosOmitidos'>
+  rutina?: Routine
+}
+
+/**
+ * Sustituye un ejercicio en plena sesión (ENT-01), en una transacción: las series sin hacer de `de` pasan al ejercicio
+ * elegido conservando su id, su orden relativo, su tipo de calentamiento y sus reps; los kg salen de la última vez del
+ * nuevo en este gimnasio (`previaEnGimnasio`, como al añadir una serie; sin historial allí, sin kg), sin RIR ni técnicas
+ * del anterior. Las hechas se quedan. Si no quedaba ninguna sin hacer, el nuevo empieza con una serie. El nuevo ocupa el
+ * sitio de `de` (o va detrás si este conserva series); si `de` era de la rutina y se queda sin series, se omite en esta
+ * sesión. Con `tambienRutina`, la rutina también cambia (`routinesRepo.sustituirEjercicio`). Devuelve la captura para deshacer.
+ */
+export function sustituirEnSesion(workoutId: number, de: number, seleccion: SeleccionEjercicio, tambienRutina = false): Promise<Sustitucion> {
+  return db.transaction('rw', [db.workouts, db.sets, db.exercises, db.pesos, db.routines], async () => {
+    const w = await db.workouts.get(workoutId)
+    if (!w || w.fin !== undefined) throw new Error('El entreno ya no está en curso.')
+    const nuevo = await exercisesRepo.resolverSeleccion(seleccion)
+    if (nuevo === de) throw new Error('Es el mismo ejercicio.')
+    const rutinaAntes = w.routineId !== undefined ? await db.routines.get(w.routineId) : undefined
+    const sets = await db.sets.where('workoutId').equals(workoutId).toArray()
+    const delAnterior = sets.filter(s => s.exerciseId === de).sort((a, b) => a.orden - b.orden)
+    const movidas = delAnterior.filter(s => s.realizada !== true)
+    const ejercicio = await db.exercises.get(nuevo)
+    const configurada = w.ejecucionesEjercicios?.[nuevo] ?? ejercicio?.ejecucionHabitual
+    const carga = w.cargasEjercicios?.[nuevo]
+    const pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(w.inicio))).last())?.kg
+    let orden = siguienteOrden(sets.filter(s => s.exerciseId === nuevo))
+    /** Valores de una serie del nuevo ejercicio, como `setsRepo.agregar`, con las reps de la que sustituye. */
+    async function valores(calentamiento: boolean, reps?: number) {
+      const buscar = calentamiento ? ultimoCalentamiento : ultimaEfectiva
+      const g = await previaEnGimnasio(nuevo, w!.gimnasioId, f => buscar(nuevo, configurada ? configurada.agarre ?? null : undefined, f))
+      const v: Partial<SetEntry> = g.sinKg ? sinKg(valoresNuevaSerie(g.previa)) : valoresNuevaSerie(g.previa)
+      if (reps && reps > 0) v.reps = reps
+      if (carga) Object.assign(v, aplicarConfiguracionCarga(v as SetEntry, carga))
+      else if (v.modoCarga) v.pesoCorporal = pesoCorporal
+      const ejecucion = ejecucionSerieNueva(configurada, v, false)
+      if (ejecucion) Object.assign(v, aplicarEjecucion(v as SetEntry, ejecucion))
+      return { ...v, ...(g.gimnasioId !== undefined ? { gimnasioId: g.gimnasioId } : {}) }
+    }
+    for (const s of movidas) {
+      await db.sets.put({ id: s.id, workoutId, exerciseId: nuevo, orden: orden++, createdAt: s.createdAt,
+        ...(s.tipo === 'calentamiento' ? { tipo: 'calentamiento' as const } : {}), ...(await valores(s.tipo === 'calentamiento', s.reps)) } as SetEntry)
+    }
+    const creadas: number[] = []
+    if (!movidas.length) creadas.push(await db.sets.add({ workoutId, exerciseId: nuevo, orden, createdAt: Date.now(), ...(await valores(false)) } as SetEntry))
+    const deSigue = delAnterior.length > movidas.length
+    let rutina: Routine | undefined
+    if (tambienRutina && rutinaAntes?.exerciseIds.includes(de)) rutina = await sustituirEnRutinaRepo(rutinaAntes.id!, de, seleccion)
+    const idsRutina = (await (w.routineId !== undefined ? db.routines.get(w.routineId) : undefined))?.exerciseIds ?? []
+    const conSeries = [...new Set([...sets].sort((a, b) => a.createdAt - b.createdAt).map(s => s.exerciseId))]
+    const visibles = ordenEjerciciosSesion(rutinaAntes?.exerciseIds ?? [], conSeries, w.ordenEjercicios, w.ejerciciosOmitidos)
+    const omitir = !deSigue && idsRutina.includes(de)
+    const omitidos = [...(w.ejerciciosOmitidos ?? []).filter(id => id !== nuevo), ...(omitir ? [de] : [])]
+    await db.workouts.update(workoutId, {
+      ordenEjercicios: ordenTrasSustituir(visibles, de, nuevo, deSigue),
+      ejerciciosOmitidos: omitidos.length ? omitidos : undefined,
+    })
+    return { workoutId, de, nuevo, movidas, creadas, orden: { ordenEjercicios: w.ordenEjercicios, ejerciciosOmitidos: w.ejerciciosOmitidos }, ...(rutina ? { rutina } : {}) }
+  })
+}
+
+/** Deshace `sustituirEnSesion`: las series vuelven al ejercicio anterior con sus ids y valores, y el orden y la rutina a los de antes. */
+export function deshacerSustitucion(c: Sustitucion): Promise<void> {
+  return db.transaction('rw', db.workouts, db.sets, db.routines, async () => {
+    const w = await db.workouts.get(c.workoutId)
+    if (!w) throw new Error('El entreno ya no está disponible.')
+    await db.sets.bulkDelete(c.creadas)
+    await db.sets.bulkPut(c.movidas)
+    await db.workouts.update(c.workoutId, { ordenEjercicios: c.orden.ordenEjercicios, ejerciciosOmitidos: c.orden.ejerciciosOmitidos })
+    if (c.rutina) await db.routines.put(c.rutina)
   })
 }

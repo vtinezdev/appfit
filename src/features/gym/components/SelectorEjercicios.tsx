@@ -22,11 +22,14 @@ interface Props {
   onElegir: (value: SeleccionEjercicio) => Promise<void>
   excluir?: number[]
   sugerencias?: number[]
+  /** Para sustituir uno en la sesión (ENT-01): el título y el verbo de los botones. Por defecto, «Añadir ejercicio». */
+  titulo?: string
+  verbo?: 'Añadir' | 'Sustituir'
 }
 const etiqueta = (ids: string[], labels: Record<string, string>) => ids.map(id => labels[id] ?? id).join(', ')
 
 /** La misma tarea en rutinas y sesión; no abre el teclado hasta que se toca el buscador. */
-export default function SelectorEjercicios({ onClose, onElegir, excluir = [], sugerencias = [] }: Props) {
+export default function SelectorEjercicios({ onClose, onElegir, excluir = [], sugerencias = [], titulo = 'Añadir ejercicio', verbo = 'Añadir' }: Props) {
   const locales = useLiveQuery(() => exercisesRepo.listar(), [])
   const series = useLiveQuery(() => setsRepo.todas(), [])
   const [query, setQuery] = useState('')
@@ -63,7 +66,7 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
     if (pending.current) return
     pending.current = true; setOcupado(true); setError(null)
     try { await onElegir(value); onClose() }
-    catch (e) { setError(e instanceof ErrorSeleccionEjercicio ? e.message : 'No se ha podido añadir el ejercicio. Inténtalo de nuevo.') }
+    catch (e) { setError(e instanceof ErrorSeleccionEjercicio ? e.message : `No se ha podido ${verbo.toLowerCase()} el ejercicio. Inténtalo de nuevo.`) }
     finally { pending.current = false; setOcupado(false) }
   }
   function comoEjercicio(e: OpcionEjercicio): Exercise {
@@ -94,12 +97,12 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
       </span><Icon name="plus" size={18} className="shrink-0 text-accent-strong" />
     </ListRow></li>
   }
-  return <ModalPage key={configurando ? 'agarre' : 'catalogo'} title={configurando ? 'Elegir agarre' : creando ? 'Ejercicio personalizado' : 'Añadir ejercicio'} onClose={() => { if (configurando) { setConfigurando(null); setError(null) } else onClose() }} busy={ocupado}
+  return <ModalPage key={configurando ? 'agarre' : 'catalogo'} title={configurando ? 'Elegir agarre' : creando ? 'Ejercicio personalizado' : titulo} onClose={() => { if (configurando) { setConfigurando(null); setError(null) } else onClose() }} busy={ocupado}
     footer={configurando || creando || error || ocupado ? <div className="space-y-2">
       {error && <ErrorState>{error}</ErrorState>}
-      {configurando ? <><Button block loading={ocupado} onClick={() => { void confirmarAgarre(agarre ?? null) }}>Añadir ejercicio</Button>
-        <Button variant="ghost" block disabled={ocupado} onClick={() => { void confirmarAgarre(null) }}>Añadir sin especificar agarre</Button></> : creando ? <><Button block loading={ocupado} disabled={!nombre.trim() || !musculo || !equipo}
-        onClick={() => { if (musculo && equipo) void elegir({ tipo: 'personalizado', nombre, musculo, equipo }) }}>Crear y añadir</Button>
+      {configurando ? <><Button block loading={ocupado} onClick={() => { void confirmarAgarre(agarre ?? null) }}>{verbo === 'Añadir' ? 'Añadir ejercicio' : verbo}</Button>
+        <Button variant="ghost" block disabled={ocupado} onClick={() => { void confirmarAgarre(null) }}>{verbo} sin especificar agarre</Button></> : creando ? <><Button block loading={ocupado} disabled={!nombre.trim() || !musculo || !equipo}
+        onClick={() => { if (musculo && equipo) void elegir({ tipo: 'personalizado', nombre, musculo, equipo }) }}>Crear y {verbo.toLowerCase()}</Button>
         <Button variant="ghost" block disabled={ocupado} onClick={() => { setCreando(false); setError(null) }}>Volver al catálogo</Button></> :
         ocupado && <p role="status" className="text-body-sm text-fg-muted">Añadiendo ejercicio…</p>}
     </div> : undefined}>
