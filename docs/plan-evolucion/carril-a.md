@@ -14,7 +14,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A2 | ENT-15 | Avance automático al siguiente ejercicio | S | — | Hecho (2026-10-22) |
 | A3 | ENT-14 | Descanso sugerido según el tipo de ejercicio | S | — | Hecho (2026-10-22) |
 | A4 | GAM-07 | «Hace N días» tras un parón | S | — | Descartado (2026-10-23) |
-| A5 | ENT-04 | Historial del ejercicio sin salir de la sesión | M | — | Pendiente |
+| A5 | ENT-04 | Historial del ejercicio sin salir de la sesión | M | — | Hecho (2026-10-23) |
 | A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Pendiente |
 | A7 | ENT-05 | Calentamiento en rampa | M | — | Pendiente |
 | A8 | PRO-03 | Tendencia de series por músculo | M | — | Pendiente |
@@ -88,7 +88,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** fixture con un ejercicio hecho hace 20 días.
 - **Documentos:** `docs/features/gym.md` § Anterior.
 
-### [ ] A5 · ENT-04 · Historial del ejercicio sin salir de la sesión
+### [x] A5 · ENT-04 · Historial del ejercicio sin salir de la sesión
+
+> **Hecho (2026-10-23, PROCESO §199, PR pendiente).** Víctor lo aprobó en la página de previews A5–A9. El grupo comparable es el de los récords (`records.claveGrupo`, exportada), así que historial y récords usan el mismo criterio de variante y gimnasio.
 
 - **Tamaño:** M · **Rama:** `feat/a-historial-ejercicio`
 - **Para la persona:** en el menú «…» del ejercicio, «Historial y récords» enseña las 5 últimas sesiones, el récord vigente de cada tipo y una minigráfica, sin minimizar el entreno.

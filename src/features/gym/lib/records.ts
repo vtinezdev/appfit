@@ -30,7 +30,8 @@ export type GruposComparables = Map<string, Serie[]>
 
 const deSerie = (s: Serie | undefined) => (s?.id !== undefined ? { setId: s.id } : {})
 
-const claveGrupo = (s: Serie) => `${s.exerciseId}:${claveComparacion(s)}`
+/** Clave del grupo comparable de una serie: ejercicio y variante (con el gimnasio de las máquinas, ADR 054). */
+export const claveGrupo = (s: Pick<Serie, 'exerciseId'> & Partial<SerieEjecucion>) => `${s.exerciseId}:${claveComparacion(s)}`
 
 /** Añade a `grupos` las series válidas de `series`, ya normalizadas. Agrupa en su sitio: copiar arrays lo haría cuadrático. */
 export function acumularComparables(grupos: GruposComparables, series: Serie[]): GruposComparables {

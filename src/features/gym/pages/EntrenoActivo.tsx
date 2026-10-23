@@ -1,7 +1,7 @@
 import { recomendarProgresion } from '../lib/progresion'
 import { convencional, tieneReps, cambiaRealizacion } from '../lib/ejecucion'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
-import { gimnasioDeSerie, notaPrimeraVez, primeraVez } from '../lib/gimnasios'
+import { dependeDeMaquina, gimnasioDeSerie, notaPrimeraVez, primeraVez } from '../lib/gimnasios'
 import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { ChipGimnasio } from '../components/GimnasioSheet'
 import { useEffect, useRef, useState } from 'react'
@@ -413,7 +413,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
                 objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
                 onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
                 onQuitar={() => quitarEjercicio(exId, ex.nombre)} onAviso={avisar}
-                contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
+                contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], historial: { sets: allSets, workouts: todosWorkouts, gimnasio: dependeDeMaquina(ex) ? nombreGimnasio(workout.gimnasioId) : undefined }, carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
                   setGuardando(true); try { await Promise.all(pendingWrites.current.values()); const ids = new Set(await workoutsRepo.configurarEjecucion(workout.id, exId, c, habitual)); setSession(p => ({ ...p, completed: p.completed.filter(id => !ids.has(id)) })) } finally { setGuardando(false) }
                 }, onProgresion: async (clave, decision) => { setGuardando(true); try { await Promise.all(pendingWrites.current.values()); await workoutsRepo.decidirProgresion(workout.id, exId, clave, decision) } finally { setGuardando(false) } } }}
                 mover={visibleIds.length > 1 ? { puedeSubir: indice > 0, puedeBajar: indice < visibleIds.length - 1, onSubir: () => mover(indice, -1), onBajar: () => mover(indice, 1) } : undefined}
