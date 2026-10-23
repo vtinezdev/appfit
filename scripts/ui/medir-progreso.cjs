@@ -13,6 +13,10 @@ const REPETICIONES = 5
 
 async function main() {
   const browser = await chromium.launch({ executablePath: process.env.APPFIT_CHROMIUM || undefined, args: ['--no-sandbox', '--host-resolver-rules=MAP appfit-test.localhost 127.0.0.1'] })
+  try { await medir(browser) } finally { await browser.close() }
+}
+
+async function medir(browser) {
   const context = await browser.newContext({ timezoneId: 'Europe/Madrid', serviceWorkers: 'block' })
   const page = await context.newPage()
   await page.goto(ORIGEN)
@@ -73,6 +77,7 @@ async function main() {
     const { leerCumbres } = await import('/src/features/cumbres/hooks/useCumbres.ts')
     const { leerCaminos } = await import('/src/features/caminos/hooks/useCaminos.ts')
     const { leerVitrina } = await import('/src/features/vitrina/hooks/useVitrina.ts')
+    const hoy = '2026-10-23'
     const { crearAlmacenProgreso } = await import('/src/features/experiencia/hooks/useProgreso.ts')
     // Con el lector compartido: n pantallas se suscriben a la vez a un almacén nuevo y se espera a que llegue el resultado.
     const pantallas = (almacen, n) => new Promise((ok) => {
@@ -82,7 +87,6 @@ async function main() {
     })
     const yaCalculado = crearAlmacenProgreso(leerVitrina, 60_000)
     await pantallas(yaCalculado, 1)
-    const hoy = '2026-10-23'
     const casos = {
       'experiencia (Ritmo, revisión semanal)': () => leerExperiencia(hoy),
       'Cumbres': () => leerCumbres(hoy),
@@ -103,6 +107,5 @@ async function main() {
     return res
   }, REPETICIONES)
   console.log(JSON.stringify({ cpu: `${CPU}×`, datos: resumen, medianaMs: tiempos }, null, 2))
-  await browser.close()
 }
 main().catch((e) => { console.error(e); process.exitCode = 1 })
