@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { bytesResumen, conNota, leerResumen, leerMapa, sinDetalles, sinImagenes, MAX_BYTES_RESUMEN, MAX_EJERCICIOS, MAX_LINEAS, MAX_NOTA, MAX_SERIES, MAX_TEXTO, MAX_PUBLICACION, resumenActividad, resumenEntreno, resumenLogro, resumenTexto, validarPublicacion, textoEjercicios, type DatosEntreno } from './publicacion'
+import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import type { Logro } from '../../vitrina/lib/logros'
 
 const entreno = (cambios: Partial<DatosEntreno> = {}): DatosEntreno => ({
@@ -78,6 +79,36 @@ describe('resumen de un entreno', () => {
     }))
     expect(real.detalles?.every(d => d.series?.length === 5 && d.records?.length === 1)).toBe(true)
     expect(resumenEntreno(entreno({ detalles: [{ series: Array.from({ length: 20 }, () => '1 kg × 1') }] })).detalles?.[0].series).toHaveLength(MAX_SERIES)
+  })
+
+  it('el entreno más largo posible cabe en los 8 KB con la nota más larga, con y sin imágenes ni detalles', () => {
+    // «€» ocupa tres bytes: peor que las tildes. Todos los textos y listas al máximo, cifras grandes y mapa completo.
+    const largo = '€'.repeat(100)
+    const maximo = resumenEntreno(entreno({
+      titulo: largo,
+      fin: Date.UTC(2026, 9, 16, 18, 0),
+      series: 99_999,
+      volumenKg: 9_999_999,
+      ejercicios: Array.from({ length: 30 }, (_, i) => `${i}${largo}`),
+      catalogIds: Array.from({ length: 30 }, () => `appfit:${'a'.repeat(40)}`),
+      records: Array.from({ length: 12 }, (_, i) => ({ ejercicio: `${i}${largo}`, texto: largo, tipo: '1rm' as const, modo: 'asistencia' as const, valor: 123.456789, anterior: 99.123456, peso: 123.456789, variante: largo })),
+      detalles: Array.from({ length: 30 }, () => ({ liga: 'Oro' as const, cambio: largo, series: Array.from({ length: 30 }, () => largo), records: [{ serie: 0, mejora: largo }] })),
+      logros: Array.from({ length: 12 }, () => largo),
+      insignias: Array.from({ length: 12 }, () => ({ id: 'cinco-mas-altos', grupo: 'constancia', nivel: 5 })),
+      mapa: Object.fromEntries(ZONAS_MUSCULARES.map(z => [z, 5])) as DatosEntreno['mapa'],
+    }))
+    const nota = '€'.repeat(MAX_NOTA)
+    for (const r of [maximo, sinImagenes(maximo), sinDetalles(maximo), sinDetalles(sinImagenes(maximo))]) {
+      const enviado = conNota(r, nota)
+      expect(bytesResumen(enviado)).toBeLessThanOrEqual(MAX_BYTES_RESUMEN)
+      // Lo que se envía se lee entero: las listas paralelas conservan el largo de la suya.
+      expect(leerResumen(enviado)).toEqual(enviado)
+    }
+    expect(maximo.ejercicios).toHaveLength(MAX_EJERCICIOS)
+    expect(maximo.catalogIds).toHaveLength(MAX_EJERCICIOS)
+    expect(maximo.detalles).toHaveLength(MAX_EJERCICIOS)
+    expect(maximo.insignias).toHaveLength(maximo.logros.length)
+    expect(maximo.ejercicios[0].startsWith('0')).toBe(true)
   })
 
   it('imagen del catálogo por ejercicio, alineada tras quitar repetidos; nunca la de un ejercicio propio', () => {

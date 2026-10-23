@@ -2129,3 +2129,12 @@ Paso B4 (NAV-02) del [plan de evolución](plan-evolucion/carril-b.md). Rama `fea
 
 **Verificación:** `npm run test` (209 archivos, 2.557 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost`: ida y vuelta por las cuatro teselas (el foco y la tesela a la vista al volver) y Ajustes › Referencias › «‹ Ajustes» (foco en la fila), a 320/375/430 px en claro y oscuro y 375 px con texto al 200 %: botón ≥ 44 px, sin scroll horizontal ni errores de consola. Sin dispositivo físico.
 
+## 195. El resumen social de un entreno siempre cabe en los 8 KB (A1 · REN-02, 2026-10-22)
+
+Primer paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). Rama `feat/a-resumen-8kb` desde `master`.
+
+- Al medir, la limitación del roadmap («el resumen al máximo supera los 8 KB») ya no se cumplía: desde §181, `resumenEntreno` mete los `detalles` solo mientras el resumen cabe con la nota más larga, y sin ellos los topes de textos y listas lo dejan en unos 5,6 KB. Peor caso (todos los textos al máximo con «€», de tres bytes; 15 ejercicios con imagen, 6 récords con variante y peso, 6 logros con insignia, cambios de liga, mapa completo y nota de 280): 8.156 bytes con todo, 6.973 sin imágenes (servidor sin 0020) y 7.984 sin detalles (sin 0021).
+- Víctor elige la versión reducida: no se añade `recortarResumen`, que nunca llegaría a ejecutarse. Test nuevo en `social/lib/publicacion.test.ts` con ese peor caso en las cuatro combinaciones de `sinImagenes`/`sinDetalles` y la nota más larga: ≤ 8.192 bytes y `leerResumen` lo devuelve igual (listas paralelas alineadas). Comprobado que falla si se sube `MAX_TEXTO`.
+- Documentos: limitación fuera de `docs/roadmap.md`, peor caso en `docs/features/social.md` y, de paso (DOC-01), el enlace roto a `atributos.md` de `docs/features/gym.md` apunta a `experiencia.md`.
+
+Sin cambios de código de la app, esquema, backup ni SQL; nada que probar en navegador.
