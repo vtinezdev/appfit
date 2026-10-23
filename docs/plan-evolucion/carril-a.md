@@ -35,7 +35,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A21 | ENT-17 | Superseries | L | — | Hecho (2026-10-23) |
 | A22 | SOC-07 | Moderar comunidades desde la app | M | — | Hecho (2026-10-23) |
 | A23 | ENT-18 | Hito redondo en el póster | M | A10 | Hecho (2026-10-23) |
-| A24 | ACT-01 | Tus mejores marcas en Actividades | M | — | Pendiente |
+| A24 | ACT-01 | Tus mejores marcas en Actividades | M | — | Hecho (2026-10-23) |
 | A25 | ENT-19 | Nota fija por ejercicio y gimnasio | M | — | Descartado (2026-10-23) |
 | A26 | ENT-20 | Rest-pause | M | — | Descartado (2026-10-23) |
 | A27 | ENT-21 | «Depende de la máquina», a mano | S | — | Descartado (2026-10-23) |
@@ -346,7 +346,9 @@ Víctor decide en la página de previews de los cinco siguientes (A19–A23): im
 
 Víctor decide en la página de previews A24–A28: implementar A24 (mejor ritmo en salidas de 5 km o más; todas las actividades juntas) y A28 (guardar la hora de cada punto desde ahora), y descartar A25 (nota fija), A26 (rest-pause) y A27 («depende de la máquina» a mano).
 
-### [ ] A24 · ACT-01 · Tus mejores marcas en Actividades
+### [x] A24 · ACT-01 · Tus mejores marcas en Actividades
+
+> **Hecho (2026-10-23, PROCESO §224).** Se deriva al leer, sin datos nuevos. El aviso al guardar sale al registrar a mano o importar; al terminar una grabación se abre su detalle, que lleva la insignia de la marca. «Tu salida más larga» solo aparece si hay otra salida con la que compararla, y un empate no bate la marca.
 
 - **Tamaño:** M · **Rama:** `feat/a-mejores-marcas`
 - **Decisiones de Víctor:** el mejor ritmo cuenta salidas de 5 km o más; todas las actividades juntas, sin separar por tipo.

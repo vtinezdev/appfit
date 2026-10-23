@@ -14,10 +14,12 @@ import { formatFechaHora, todayISO } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import HojaActividad from '../components/HojaActividad'
 import HojaGrabar from '../components/HojaGrabar'
+import MejoresMarcas from '../components/MejoresMarcas'
 import TrazadoRecorrido from '../components/TrazadoRecorrido'
 import * as actividadesRepo from '../data/actividadesRepo'
 import { cifrasActividad, duracionTexto, formatKm, nombreMes, porMes, resumenSemana, tituloActividad } from '../lib/actividad'
 import { valoresIniciales, type ValoresActividad } from '../lib/formulario'
+import { marcasBatidas, mensajeConMarcas } from '../lib/marcas'
 import { GpxError, MAX_BYTES_GPX } from '../lib/gpx'
 import { leerArchivoActividad, type FormatoActividad } from '../lib/importar'
 
@@ -26,8 +28,8 @@ type Hoja =
   | { tipo: 'gpx'; n: number; inicial: ValoresActividad; recorrido: PuntoRecorrido[][]; archivo: string; formato: FormatoActividad }
 
 /**
- * Actividades (Entreno › Actividades): grabar con el GPS, importar un GPX, TCX o FIT o registrar a mano; la semana y el historial
- * por meses. Cada fila abre su detalle y se borra deslizándola, con «Deshacer».
+ * Actividades (Entreno › Actividades): grabar con el GPS, importar un GPX, TCX o FIT o registrar a mano; tus mejores marcas, la
+ * semana y el historial por meses. Al guardar una que bate una marca, el aviso lo dice. Cada fila abre su detalle y se borra deslizándola, con «Deshacer».
  */
 export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => void }) {
   const hoy = todayISO()
@@ -89,6 +91,8 @@ export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => 
       {errorArchivo && <ErrorState>{errorArchivo}</ErrorState>}
 
       {!actividades || !semana ? <LoadingState /> : <>
+        <MejoresMarcas actividades={actividades} onAbrir={onAbrir} />
+
         <section aria-label="Esta semana" className="space-y-stack">
           <SectionHeader variant="section">Esta semana</SectionHeader>
           <Card className="metric-grid gap-3">
@@ -126,17 +130,19 @@ export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => 
         intro="Para una salida que no grabaste. Los km cuentan para Cumbres y tu Camino."
         inicial={hoja.inicial}
         onGuardar={async (datos) => {
+          const batidas = marcasBatidas(actividades ?? [], datos)
           await actividadesRepo.crear({ ...datos, origen: 'manual' })
           setHojaAbierta(false)
-          avisar({ mensaje: 'Actividad guardada' })
+          avisar({ mensaje: mensajeConMarcas('Actividad guardada', batidas) })
         }} />}
       {hoja?.tipo === 'gpx' && <HojaActividad key={hoja.n} open={hojaAbierta} onClose={() => setHojaAbierta(false)} titulo={`Importar ${hoja.formato}`} accion="Guardar actividad"
         intro={`Datos de «${hoja.archivo}». Revísalos antes de guardar.`}
         inicial={hoja.inicial} recorrido={hoja.recorrido.length ? hoja.recorrido : undefined}
         onGuardar={async (datos) => {
+          const batidas = marcasBatidas(actividades ?? [], datos)
           await actividadesRepo.crear({ ...datos, origen: 'gpx', recorrido: hoja.recorrido })
           setHojaAbierta(false)
-          avisar({ mensaje: 'Actividad importada' })
+          avisar({ mensaje: mensajeConMarcas('Actividad importada', batidas) })
         }} />}
       <HojaGrabar key={aperturasGrabar} open={grabar} onClose={() => setGrabar(false)}
         onEmpezar={(tipo) => { actividadesRepo.empezarGrabacion(tipo).catch(() => avisarError('No se ha podido empezar a grabar. Inténtalo de nuevo.')) }} />
