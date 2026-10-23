@@ -73,6 +73,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   const [notas, setNotas] = useState(workout.notas ?? '')
   /** Propuesta de descanso bajo el ejercicio de la primera serie marcada sin temporizador (ENT-14). */
   const [sugerencia, setSugerencia] = useState<{ exId: number; segundos: number } | null>(null)
+  /** Ya propuesto en esta sesión: un ref, porque varias series marcadas seguidas terminan de guardarse con estado viejo. */
+  const propuesto = useRef(false)
   /** Ejercicios con todas sus series hechas que se han desplegado a mano: los demás completos se pliegan (E3, ADR 035). */
   const [desplegados, setDesplegados] = useState<ReadonlySet<number>>(() => new Set())
   const notasGuardadas = useRef(workout.notas ?? '')
@@ -303,8 +305,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
       }))
       haptic(done ? 'selection' : 'success')
       // La propuesta de descanso sale bajo este ejercicio: si se propone, no se baja al siguiente para que se vea.
-      const proponer = !done && !sugerencia && proponerDescanso(sessionActual.current.restSeconds, routine?.objetivos?.[s.exerciseId]?.descansoSeg, ajustes?.pistasVistas)
-      if (proponer) setSugerencia({ exId: s.exerciseId, segundos: descansoSugerido(exerciseMap.get(s.exerciseId)?.catalogId) })
+      const proponer = !done && !propuesto.current && proponerDescanso(sessionActual.current.restSeconds, routine?.objetivos?.[s.exerciseId]?.descansoSeg, ajustes?.pistasVistas)
+      if (proponer) { propuesto.current = true; setSugerencia({ exId: s.exerciseId, segundos: descansoSugerido(exerciseMap.get(s.exerciseId)?.catalogId) }) }
       if (!done && !proponer && !escribiendo()) {
         const marcadas = [...seriesMarcadas(currentSets, sessionActual.current.completed), s.id!]
         const suyas = currentSets.filter(x => x.exerciseId === s.exerciseId)
