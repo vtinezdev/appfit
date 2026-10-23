@@ -49,7 +49,7 @@ src/shared/hooks/        useModalLayer, useOverlayPresence y useListMotion (capa
 src/features/inicio/     → features/inicio.md
 src/features/nutricion/  → features/nutricion.md
 src/features/gym/        → features/gym.md
-src/features/actividades/ → features/actividades.md (caminar, correr y senderismo: a mano, GPX y GPS; vive en Entreno › Actividades)
+src/features/actividades/ → features/actividades.md (caminar, correr y senderismo: a mano, GPX/TCX y GPS; vive en Entreno › Actividades)
 src/features/perfil/      → features/perfil.md (estimación energética, objetivos vigentes)
 src/features/referencias/ → features/referencias.md (sección global, contenido compartido, catálogo y futuros grupos)
 src/features/experiencia/ → features/experiencia.md (XP derivada del historial: el motor de la gamificación, sin pantalla)
