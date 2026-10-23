@@ -2172,3 +2172,15 @@ Tercer paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). R
 - Al juntarse con el avance automático (§197): si la serie marcada propone el descanso, la sesión no baja al siguiente ejercicio, para que la banda se vea. «Ya propuesto» va en un ref: con varias series marcadas seguidas, la escritura de la primera termina con el estado de un render anterior y se proponía dos veces (y no se bajaba).
 
 **Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright de preview (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 claro con la hoja del RIR: la banda sale tras la primera serie y no se duplica con la segunda; «Sí» deja «Descanso: 120 s» con la cuenta atrás en marcha; «No, gracias» la cierra sin temporizador; el siguiente entreno no vuelve a preguntar y empieza con 120 s; sin scroll horizontal, botones de 44 px y sin errores en consola. Sin dispositivo físico.
+
+## 200. La semana en las teselas de progreso (2026-10-23)
+
+Paso B7 (GAM-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-teselas-semana` desde `master`, sin fusionar (Víctor pide trabajar en ramas y fusionar más adelante). El número de esta entrada se ajusta al fusionar si choca con las de otras ramas abiertas (B6, #126, también lleva una entrada propia).
+
+- `inicio/lib/progresoSemana.ts`: textos cortos de la semana para cada tesela (metros, km, Ritmo y piezas nuevas), con espacios duros entre cifra y unidad. `vitrina/lib/logros.piezasDesde`: niveles alcanzados desde el lunes y repetibles conseguidos por primera vez.
+- `AccesoProgreso`: una línea más por tesela, tras un `border-line`, en caption grafito; en Ritmo, siete puntos decorativos de los días con entreno. Todo del mismo resultado de `useVitrina`.
+- **Fallo antiguo corregido:** la regla de container query que apilaba las teselas iba antes que la regla base de `.progreso-teselas` en `index.css` y nunca se aplicaba; con texto al 200 % las palabras se partían. Ahora va después. Tras ver las capturas, Víctor elige el umbral de 17,5 rem: 2 × 2 a 320 px con texto normal y una columna con texto ampliado.
+- Documentos: `inicio.md`, `DESIGN.md` y `DESIGN-SYSTEM.md`.
+
+**Verificación:** `npm run test` (213 archivos, 2.591 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con el reloj el viernes 23 de octubre, montaña y ruta elegidas y entrenos y paseos sintéticos (una semana a medias y otra sin nada aún), a 320/375/430 px en claro y oscuro y 375 px con texto al 200 % en ambos temas: 2 × 2 salvo con texto ampliado (una columna), sin scroll horizontal ni texto cortado, sin errores de consola. Sin dispositivo físico.
+
