@@ -74,14 +74,22 @@ jobs:
             }
           })().catch(error => { console.error(error); process.exitCode = 1 })
           NODE
-          npm run test:ui
-          npm run test:ui:responsive
-          npm run test:ui:uso
-          node scripts/ui/validar-correcciones-auditoria.cjs
-          node scripts/ui/validar-pulido-auditoria.cjs
-          node scripts/ui/validar-mejoras-pendientes.cjs
-          node scripts/ui/auditoria-datos.cjs
-          npm run test:ui:offline
+          # Si un recorrido falla, su final queda como anotación del trabajo: se lee en la PR sin descargar el log.
+          paso() {
+            local registro="$RUNNER_TEMP/appfit-paso.log" estado
+            "$@" 2>&1 | tee "$registro" && return 0
+            estado=${PIPESTATUS[0]}
+            echo "::error title=Falla en ${*//:/%3A}::$(tail -n 60 "$registro" | cut -c1-400 | sed 's/%/%25/g; s/\r/%0D/g' | sed ':a;N;$!ba;s/\n/%0A/g')"
+            return "$estado"
+          }
+          paso npm run test:ui
+          paso npm run test:ui:responsive
+          paso npm run test:ui:uso
+          paso node scripts/ui/validar-correcciones-auditoria.cjs
+          paso node scripts/ui/validar-pulido-auditoria.cjs
+          paso node scripts/ui/validar-mejoras-pendientes.cjs
+          paso node scripts/ui/auditoria-datos.cjs
+          paso npm run test:ui:offline
       - uses: actions/upload-artifact@v4
         if: always()
         with:
