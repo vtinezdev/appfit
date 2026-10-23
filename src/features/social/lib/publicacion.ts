@@ -8,7 +8,7 @@ import type { NivelMuscular } from '../../gym/lib/cargaMuscular'
 import { IDS_LOGRO, GRUPOS_LOGRO, nivelDe, type IdLogro, type GrupoLogro, type Logro } from '../../vitrina/lib/logros'
 
 /**
- * Lo que se publica de un entreno, una actividad o una rutina (ADR 040 y 055): un resumen pequeño, sin nutrición, peso, medidas ni
+ * Lo que se publica de un entreno, una actividad, una rutina o una semana (ADR 040, 055 y 056): un resumen pequeño, sin nutrición, peso, medidas ni
  * recorrido GPS. Se crea aquí, la persona lo ve antes de publicarlo y se guarda tal cual en `publicaciones.resumen`.
  * Al leer los de otras personas, `leerResumen` lo valida: lo que llega del servidor no es de fiar.
  */
@@ -136,7 +136,30 @@ export interface ResumenRutina extends ConNota {
   ejercicios: EjercicioRutinaPublicado[]
 }
 
-export type Resumen = ResumenEntreno | ResumenActividad | ResumenTexto | ResumenLogro | ResumenRutina
+/**
+ * Tu semana de Ritmo (ADR 056): «semana» (los siete días con o sin entreno que cuenta, entrenos frente al plan e hilo),
+ * «retomando» (como mucho los entrenos de la semana) o «pausa» (nada más). Nunca kcal, peso ni días registrados.
+ */
+export type EstadoSemanaPublicada = 'semana' | 'retomando' | 'pausa'
+export interface ResumenSemana extends ConNota {
+  v: 1
+  tipo: 'semana'
+  /** «Semana cumplida», «2 de 3 entrenos», «Estoy retomando» o «En pausa». */
+  titulo: string
+  /** Lunes de la semana (YYYY-MM-DD). */
+  lunes: string
+  estado: EstadoSemanaPublicada
+  /** Solo en «semana»: de lunes a domingo, si ese día hubo un entreno que cuenta. */
+  dias?: boolean[]
+  /** En «semana» y, opcional, en «retomando». */
+  entrenos?: number
+  /** Solo en «semana»: entrenos del plan de Ritmo de esa semana. */
+  objetivo?: number
+  /** Solo en «semana»: semanas seguidas del hilo de Ritmo. */
+  hilo?: number
+}
+
+export type Resumen = ResumenEntreno | ResumenActividad | ResumenTexto | ResumenLogro | ResumenRutina | ResumenSemana
 
 export type TipoPublicacion = Resumen['tipo']
 
@@ -296,6 +319,37 @@ export function resumenRutinaCompartida(d: DatosRutina): ResumenRutina {
   return { v: VERSION_RESUMEN, tipo: 'rutina', titulo: texto(d.nombre) || 'Rutina', ejercicios }
 }
 
+export const MAX_HILO = 520
+const LUNES = /^\d{4}-\d{2}-\d{2}$/
+const entre = (n: unknown, min: number, max: number): n is number => typeof n === 'number' && Number.isInteger(n) && n >= min && n <= max
+
+/** Título de una semana publicada: lo que se lee primero en la tarjeta. */
+export function tituloSemana(estado: EstadoSemanaPublicada, entrenos?: number, objetivo?: number): string {
+  if (estado === 'retomando') return 'Estoy retomando'
+  if (estado === 'pausa') return 'En pausa'
+  if (objetivo !== undefined && entrenos !== undefined && entrenos >= objetivo) return 'Semana cumplida'
+  return `${formatInt(entrenos ?? 0)} de ${formatInt(objetivo ?? 0)} ${objetivo === 1 ? 'entreno' : 'entrenos'}`
+}
+
+export type DatosSemana =
+  | { estado: 'semana'; lunes: string; dias: readonly boolean[]; entrenos: number; objetivo: number; hilo: number }
+  | { estado: 'retomando'; lunes: string; entrenos?: number }
+  | { estado: 'pausa'; lunes: string }
+
+/** El resumen de la semana con las cifras acotadas; en «retomando» y «pausa», nada de plan ni hilo. */
+export function resumenSemana(d: DatosSemana): ResumenSemana {
+  const acotar = (n: number, max: number) => Math.min(max, Math.max(0, Math.round(n)))
+  if (d.estado === 'semana') {
+    const entrenos = acotar(d.entrenos, 7), objetivo = Math.max(1, acotar(d.objetivo, 7))
+    return { v: VERSION_RESUMEN, tipo: 'semana', titulo: tituloSemana('semana', entrenos, objetivo), lunes: d.lunes, estado: 'semana',
+      dias: Array.from({ length: 7 }, (_, i) => !!d.dias[i]), entrenos, objetivo, hilo: acotar(d.hilo, MAX_HILO) }
+  }
+  if (d.estado === 'retomando') {
+    return { v: VERSION_RESUMEN, tipo: 'semana', titulo: tituloSemana('retomando'), lunes: d.lunes, estado: 'retomando', ...(d.entrenos ? { entrenos: acotar(d.entrenos, 7) } : {}) }
+  }
+  return { v: VERSION_RESUMEN, tipo: 'semana', titulo: tituloSemana('pausa'), lunes: d.lunes, estado: 'pausa' }
+}
+
 // --- Leer lo que llega del servidor ---
 
 const esObjeto = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null && !Array.isArray(x)
@@ -417,6 +471,21 @@ export function leerResumen(x: unknown): Resumen | null {
       ...(insignias.length && insignias.every(Boolean) ? { insignias: insignias as InsigniaPublicada[] } : {}),
       ...(mapa ? { mapa } : {}),
     }
+  }
+  if (x.tipo === 'semana') {
+    if (typeof x.lunes !== 'string' || !LUNES.test(x.lunes) || !['semana', 'retomando', 'pausa'].includes(String(x.estado))) return null
+    if (x.estado === 'semana') {
+      if (!Array.isArray(x.dias) || x.dias.length !== 7 || !x.dias.every(d => typeof d === 'boolean')
+        || !entre(x.entrenos, 0, 7) || !entre(x.objetivo, 1, 7) || !entre(x.hilo, 0, MAX_HILO)) return null
+      return { v: 1, tipo: 'semana', ...nota, titulo: tituloSemana('semana', x.entrenos, x.objetivo), lunes: x.lunes, estado: 'semana', dias: x.dias as boolean[], entrenos: x.entrenos, objetivo: x.objetivo, hilo: x.hilo }
+    }
+    if (x.dias !== undefined || x.objetivo !== undefined || x.hilo !== undefined) return null
+    if (x.estado === 'retomando') {
+      if (x.entrenos !== undefined && !entre(x.entrenos, 0, 7)) return null
+      return { v: 1, tipo: 'semana', ...nota, titulo: tituloSemana('retomando'), lunes: x.lunes, estado: 'retomando', ...(x.entrenos ? { entrenos: x.entrenos as number } : {}) }
+    }
+    if (x.entrenos !== undefined) return null
+    return { v: 1, tipo: 'semana', ...nota, titulo: tituloSemana('pausa'), lunes: x.lunes, estado: 'pausa' }
   }
   if (x.tipo === 'rutina') {
     // Una entrada mal formada invalida la rutina entera: guardarla a medias cambiaría lo que se compartió.

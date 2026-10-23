@@ -2365,3 +2365,17 @@ Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla
 - Documentos: `features/actividades.md`, `arquitectura.md`, `datos.md`, `README.md`, roadmap y el carril A.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: un FIT cortado da un error en línea; uno sintético de 5,04 km abre «Importar FIT» con 27 min y 48 m de desnivel de la sesión y se guarda como importada, de tipo correr y con su recorrido; sin scroll horizontal ni errores de consola. **Sin probar con un .fit real de un reloj.**
+
+## 215. Compartir tu semana de Ritmo (A18 · SOC-04, 2026-10-23)
+
+**Qué:** en el compositor de Social, «Tu semana» («2 de 3 entrenos») con «Compartir»: una hoja deja elegir «Mi semana» (los siete días, entrenos frente al plan e hilo), «Estoy retomando» o «En pausa», con la vista previa, y abre el editor de siempre. Víctor lo aprobó en las previews con «Estoy retomando» y antes de A14. Decisión en [ADR 056](decisiones/056-compartir-la-semana-de-ritmo.md); plan F3-3.
+
+**Cómo:**
+- `social/lib/publicacion.ts`: tipo `semana` (`ResumenSemana`, tres estados), `resumenSemana`, `tituloSemana` y su lector, que rehace el título y descarta lo que no encaja con el estado. `etiquetaPublicacion` dice «Semana»; `social.capacidades` admite `semanaRitmo`.
+- `social/lib/semana.ts`: `opcionesSemana` desde el resultado de Ritmo (`useVitrina`, solo lectura); sin Ritmo (gamificación oculta) solo «retomando» sin cifras y «pausa».
+- `social/components/CompartirSemana` en `Compositor` (solo con la capacidad) y los siete días en `TarjetaPublicacion`.
+- `supabase/migrations/0023_social_semana_ritmo.sql` y `supabase/pruebas/social_semana_ritmo.sql`; el Supabase falso acepta el tipo y Lucía comparte su semana.
+- Tests: `semana.test.ts` (opciones, títulos, cifras acotadas, nada de nutrición y lector estricto).
+- Documentos: ADR 056, `features/social.md`, `social-mejoras.md` (F3-3 hecho), roadmap y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las 23 migraciones y las 16 suites SQL pasan en PostgreSQL 16 local temporal. Playwright con el Supabase falso a 375 claro («Mi semana»), 320 oscuro («Estoy retomando»), 430 oscuro («En pausa») y 375 con texto al 200 %: la fila «Tu semana · 2 de 3 entrenos», la hoja con su vista previa, el envío (`tipo: 'semana'`, sin kcal, peso ni días registrados) y la tarjeta de Lucía con sus días; sin scroll horizontal ni errores de consola. **Pendiente de Víctor:** ejecutar 0023 después de desplegar.

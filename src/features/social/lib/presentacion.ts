@@ -19,6 +19,7 @@ export function etiquetaPublicacion(r: Resumen, fecha: number, creada?: string):
   if (r.tipo === 'texto') return null
   if (r.tipo === 'logro') return 'Logro'
   if (r.tipo === 'rutina') return 'Rutina'
+  if (r.tipo === 'semana') return 'Semana'
   const otroDia = creada ? contextoPublicacion(r.tipo, fecha, creada) : null
   if (otroDia) return otroDia
   return r.tipo === 'entreno' ? 'Entreno' : ETIQUETA_TIPO[r.actividad]

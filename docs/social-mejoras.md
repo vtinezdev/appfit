@@ -398,7 +398,9 @@ Solo tras las fases anteriores y con un piloto.
 - **Bloqueo:** hoy el resumen solo lleva nombres de ejercicio. Hacen falta ids estables del catálogo (no los numéricos locales) y un tratamiento para los ejercicios personalizados (sin equivalente: elegir uno al revisar).
 - **Encaje:** escribir la copia local pasa por los repos de `gym/data`.
 
-### F3-3 · Compartir la semana de Ritmo o «estoy retomando» (Codex B02, C04) · P2
+### F3-3 · Compartir la semana de Ritmo o «estoy retomando» (Codex B02, C04) · P2 · Hecho
+
+> **Hecho (2026-10-23, A18, [ADR 056](decisiones/056-compartir-la-semana-de-ritmo.md), migración 0023).** Tipo `semana` con tres estados («semana», «retomando», «pausa»), desde «Tu semana» en el compositor de Social. Detalle en [social](features/social.md#publicaciones).
 
 - **Idea:** nuevo tipo de resumen «semana»: días entrenados frente al plan e hilo de semanas, sin kcal ni peso. Opción «Estoy retomando» o «En pausa» sin motivo.
 - **Reglas:** nunca automático y sin «semana fallida».

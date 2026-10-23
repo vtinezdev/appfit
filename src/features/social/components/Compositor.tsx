@@ -14,6 +14,7 @@ import { sugerenciaCompartir } from '../lib/presentacion'
 import { resumenActividad, type Resumen } from '../lib/publicacion'
 import type { Avatar } from '../lib/avatar'
 import AvatarPersona from './AvatarPersona'
+import CompartirSemana from './CompartirSemana'
 import CrearPublicacion from './CrearPublicacion'
 
 interface Props {
@@ -27,7 +28,8 @@ interface Props {
 
 /**
  * Arriba del feed: escribir algo y, si lo último que registraste (entreno o actividad de los últimos siete días) no está
- * compartido, compartirlo con sus cifras ya puestas. Publicar abre el mismo editor con vista previa de siempre.
+ * compartido, compartirlo con sus cifras ya puestas; y «Tu semana» de Ritmo (ADR 056). Publicar abre el mismo editor con
+ * vista previa de siempre.
  */
 export default function Compositor({ persona, avatar, onEscribir, onPublicada }: Props) {
   const ultimos = useLiveQuery(async () => ({ entreno: await workoutsRepo.ultimoTerminado() ?? null, actividad: await actividadesRepo.ultimaTerminada() ?? null }), [])
@@ -42,6 +44,7 @@ export default function Compositor({ persona, avatar, onEscribir, onPublicada }:
     </div>
     {cual === 'entreno' && ultimos?.entreno && <SugerenciaEntreno workoutId={ultimos.entreno.id} onPublicada={onPublicada} />}
     {cual === 'actividad' && ultimos?.actividad && <SugerenciaActividad actividad={ultimos.actividad} onPublicada={onPublicada} />}
+    <CompartirSemana onPublicada={onPublicada} />
   </Card>
 }
 
