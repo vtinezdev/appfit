@@ -14,6 +14,7 @@ import { ordenTrasSustituir } from '../lib/sustituir'
 import * as exercisesRepo from './exercisesRepo'
 import { sustituirEjercicio as sustituirEnRutinaRepo } from './routinesRepo'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
+import { superseriesDe, type ConSuperseries, type Superserie } from '../lib/superseries'
 
 /** El entreno en curso (sin `fin`), si hay uno. */
 export function activo(): Promise<Workout | undefined> {
@@ -43,7 +44,9 @@ export function empezar(routineId?: number, gimnasioId?: number): Promise<number
   return db.transaction('rw', db.workouts, db.routines, db.sets, db.pesos, db.exercises, async () => {
     const enCurso = await db.workouts.filter((w) => w.fin === undefined).first()
     if (enCurso) return enCurso.id
-    const id = await db.workouts.add({ inicio: Date.now(), ...(routineId !== undefined ? { routineId } : {}), ...(gimnasioId !== undefined ? { gimnasioId } : {}) } as Workout)
+    // Las superseries de la rutina (A21) pasan a la sesión, donde se pueden cambiar sin tocar la rutina.
+    const pares = routineId !== undefined ? superseriesDe(await db.routines.get(routineId)) : []
+    const id = await db.workouts.add({ inicio: Date.now(), ...(routineId !== undefined ? { routineId } : {}), ...(gimnasioId !== undefined ? { gimnasioId } : {}), ...(pares.length ? { superseries: pares } : {}) } as Workout & ConSuperseries)
     if (routineId !== undefined) await crearSeriesObjetivo(id, routineId, Date.now(), gimnasioId)
     return id
   })
@@ -123,7 +126,8 @@ export function repetir(workoutId: number): Promise<number> {
       ...(cargas && Object.keys(cargas).length ? { cargasEjercicios: cargas } : {}),
       ...(ejecuciones && Object.keys(ejecuciones).length ? { ejecucionesEjercicios: ejecuciones } : {}),
       ...(origen.gimnasioId !== undefined ? { gimnasioId: origen.gimnasioId } : {}) }
-    const id = await db.workouts.add(nuevo as Workout)
+    const pares = superseriesDe(origen).filter(p => orden.includes(p[0]) && orden.includes(p[1]))
+    const id = await db.workouts.add({ ...nuevo, ...(pares.length ? { superseries: pares } : {}) } as Workout)
     await db.sets.bulkAdd(seriesParaRepetir(origen, sets, pesoCorporal).map((s, i) => ({ ...s, workoutId: id, createdAt: inicio + i })) as SetEntry[])
     return id
   })
@@ -416,7 +420,7 @@ export interface Sustitucion {
   nuevo: number
   movidas: SetEntry[]
   creadas: number[]
-  orden: Pick<Workout, 'ordenEjercicios' | 'ejerciciosOmitidos'>
+  orden: Pick<Workout, 'ordenEjercicios' | 'ejerciciosOmitidos'> & ConSuperseries
   rutina?: Routine
 }
 
@@ -469,11 +473,14 @@ export function sustituirEnSesion(workoutId: number, de: number, seleccion: Sele
     const visibles = ordenEjerciciosSesion(rutinaAntes?.exerciseIds ?? [], conSeries, w.ordenEjercicios, w.ejerciciosOmitidos)
     const omitir = !deSigue && idsRutina.includes(de)
     const omitidos = [...(w.ejerciciosOmitidos ?? []).filter(id => id !== nuevo), ...(omitir ? [de] : [])]
+    // Si el nuevo ocupa el sitio del anterior, también ocupa su sitio en la superserie (A21).
+    const pares = superseriesDe(w)
     await db.workouts.update(workoutId, {
       ordenEjercicios: ordenTrasSustituir(visibles, de, nuevo, deSigue),
       ejerciciosOmitidos: omitidos.length ? omitidos : undefined,
+      ...(!deSigue && pares.some(p => p.includes(de)) ? { superseries: pares.map(p => p.map(id => (id === de ? nuevo : id)) as unknown as Superserie) } : {}),
     })
-    return { workoutId, de, nuevo, movidas, creadas, orden: { ordenEjercicios: w.ordenEjercicios, ejerciciosOmitidos: w.ejerciciosOmitidos }, ...(rutina ? { rutina } : {}) }
+    return { workoutId, de, nuevo, movidas, creadas, orden: { ordenEjercicios: w.ordenEjercicios, ejerciciosOmitidos: w.ejerciciosOmitidos, superseries: pares.length ? pares : undefined }, ...(rutina ? { rutina } : {}) }
   })
 }
 
@@ -484,7 +491,16 @@ export function deshacerSustitucion(c: Sustitucion): Promise<void> {
     if (!w) throw new Error('El entreno ya no está disponible.')
     await db.sets.bulkDelete(c.creadas)
     await db.sets.bulkPut(c.movidas)
-    await db.workouts.update(c.workoutId, { ordenEjercicios: c.orden.ordenEjercicios, ejerciciosOmitidos: c.orden.ejerciciosOmitidos })
+    await db.workouts.update(c.workoutId, { ordenEjercicios: c.orden.ordenEjercicios, ejerciciosOmitidos: c.orden.ejerciciosOmitidos, ...{ superseries: c.orden.superseries } })
     if (c.rutina) await db.routines.put(c.rutina)
+  })
+}
+
+/** Las superseries de la sesión (A21): las que se unan o separen en el entreno; la rutina no cambia. */
+export function guardarSuperseries(workoutId: number, pares: Superserie[]): Promise<void> {
+  return db.transaction('rw', db.workouts, async () => {
+    const w = await db.workouts.get(workoutId)
+    if (!w || w.fin !== undefined) throw new Error('El entreno ya no está en curso.')
+    await db.workouts.update(workoutId, { ...{ superseries: pares.length ? pares : undefined } })
   })
 }

@@ -1,4 +1,5 @@
 import type { Exercise, Routine, Workout } from '../../../shared/db/types'
+import { superseriesDe, type Superserie } from './superseries'
 
 export interface ResumenRutina {
   /** `catalogId` (o ausente) de los cuatro primeros ejercicios, para el mosaico de miniaturas. */
@@ -51,5 +52,8 @@ export function sustituirEnRutina(r: Routine, de: number, a: number): Routine {
   const agarres = Object.fromEntries(Object.entries(r.agarres ?? {}).filter(([k]) => Number(k) !== de))
   const conAgarres = Object.keys(agarres).length ? { agarres } : {}
   const exerciseIds = r.exerciseIds.map((id) => (id === de ? a : id))
-  return Object.keys(objetivos).length ? { ...base, exerciseIds, objetivos, ...conAgarres } : { ...base, exerciseIds, ...conAgarres }
+  // La superserie (A21) sigue al ejercicio: el nuevo ocupa su sitio en el par.
+  const pares = superseriesDe(r)
+  const conPares = pares.length ? { superseries: pares.map(p => p.map(id => (id === de ? a : id)) as unknown as Superserie) } : {}
+  return (Object.keys(objetivos).length ? { ...base, exerciseIds, objetivos, ...conAgarres, ...conPares } : { ...base, exerciseIds, ...conAgarres, ...conPares }) as Routine
 }

@@ -101,6 +101,11 @@ interface Props {
   onQuitar?: () => void
   /** Sesión activa: «Sustituir» en el menú (ENT-01); la hoja y la escritura las lleva la página. */
   onSustituir?: () => void
+  /**
+   * Sesión activa (A21): unir con el siguiente en superserie o separarlo. `con`, el nombre del otro ejercicio; sin
+   * `onUnir` ni `unida` (último ejercicio, o el siguiente ya está en otra), no sale en el menú.
+   */
+  superserie?: { con: string; unida: boolean; onUnir?: () => void; onSeparar: () => void }
   /** Aviso con Deshacer al quitar una bajada (Toast de la página). */
   onAviso?: (aviso: { mensaje: string; onDeshacer: () => Promise<void> }) => void
   contexto?: { workoutId: number; inicio: number; nota?: string; carga?: ConfiguracionCarga; onCarga: (carga: ConfiguracionCarga) => Promise<void>; workout?: Workout; ejecucion?: ConfiguracionEjecucion; onEjecucion?: (c: ConfiguracionEjecucion, habitual: boolean) => Promise<void>; onProgresion?: (clave: string, decision: 'aplicada' | 'mantener' | 'descartada') => Promise<void>
@@ -139,7 +144,7 @@ function CeldaAnterior({ dato }: { dato?: TextoAnterior }) {
 }
 
 /** Panel de un ejercicio con sus series; lo comparten la sesión activa y el editor de entrenos terminados. */
-export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onSustituir, onAviso, contexto, mover, liga, plegado = false, onPlegar, notaGimnasio }: Props) {
+export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onSustituir, superserie, onAviso, contexto, mover, liga, plegado = false, onPlegar, notaGimnasio }: Props) {
   const filaPlegada = useRef<HTMLButtonElement>(null)
   const estabaPlegado = useRef(plegado)
   // Al plegarse justo tras marcar la última serie, el ✓ desaparece: el foco pasa a la fila plegada en vez de perderse
@@ -181,7 +186,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
   const modo = cargaActual(sets, contexto?.carga).modo
   const columnaKg = modo === 'lastre' ? 'Lastre' : modo === 'asistencia' ? 'Ayuda' : 'Kg'
   const conProgresion = !!(contexto?.workout && contexto.onProgresion)
-  const menu = !!(contexto || mover || onQuitar || onSustituir)
+  const menu = !!(contexto || mover || onQuitar || onSustituir || superserie)
   const conAnterior = !!anteriores && anteriores.size > 0
   const fila = conAnterior ? 'series-row con-anterior' : 'series-row'
 
@@ -367,6 +372,8 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
           {conProgresion && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('progresion'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">Progresión</span><span className="block break-words text-caption text-fg-muted">Objetivo y sugerencias</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {contexto?.historial && <li><ListRow onClick={() => elegirDelMenu(abrirHistorial)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Historial y récords</span><span className="block break-words text-caption text-fg-muted">Últimas sesiones, récords y gráfica</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {onSustituir && <li><ListRow onClick={() => elegirDelMenu(onSustituir)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Sustituir</span><span className="block break-words text-caption text-fg-muted">Las series sin marcar pasan a otro ejercicio</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
+          {superserie?.unida && <li><ListRow onClick={() => elegirDelMenu(superserie.onSeparar)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Separar de la superserie</span><span className="block break-words text-caption text-fg-muted">Con {superserie.con}; cada uno vuelve a su descanso</span></span><Icon name="close" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
+          {superserie && !superserie.unida && superserie.onUnir && <li><ListRow onClick={() => elegirDelMenu(superserie.onUnir!)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Unir en superserie con el siguiente</span><span className="block break-words text-caption text-fg-muted">{superserie.con} · una serie de cada y descanso al terminar la ronda</span></span><Icon name="plus" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {liga && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('liga'))}><IconoLiga liga={liga.estado.division.liga} /><span className="min-w-0 flex-1"><span className="block text-body-sm font-semibold">Liga</span><span className="block break-words text-caption text-fg-muted">{textoDivision(liga.estado.division)}</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeSubir} aria-label={`Subir ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onSubir)}><span className="text-body-sm font-semibold">Subir</span><Icon name="chevron-left" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeBajar} aria-label={`Bajar ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onBajar)}><span className="text-body-sm font-semibold">Bajar</span><Icon name="chevron-right" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}

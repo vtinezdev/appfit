@@ -16,6 +16,7 @@ import SelectorEjercicios from './SelectorEjercicios'
 import { admiteElegirAgarre, textoAgarre } from '../lib/agarres'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { moverElemento } from '../lib/workout'
+import { separar, superserieDe, superseriesDe, superseriesValidas, unirConSiguiente } from '../lib/superseries'
 
 interface Props {
   /** Rutina que se edita (con `id`) o borrador de una nueva. */
@@ -78,6 +79,13 @@ export default function EditorRutina({ inicial, onClose, onBorrada }: Props) {
     setEditando({ ...editando, exerciseIds: editando.exerciseIds.filter((e) => e !== id), objetivos, agarres })
   }
 
+  // Superseries (A21): las que siguen juntas en este orden; al guardar se quitan las que no.
+  const pares = superseriesValidas(superseriesDe(editando), editando.exerciseIds)
+  function alternarSuperserie(id: number) {
+    const unida = superserieDe(pares, id)?.[0] === id
+    setEditando({ ...editando, superseries: unida ? separar(pares, editando.exerciseIds, id) : unirConSiguiente(pares, editando.exerciseIds, id) ?? pares })
+  }
+
   function moverEjercicio(indice: number, delta: -1 | 1) {
     setEditando({ ...editando, exerciseIds: moverElemento(editando.exerciseIds, indice, delta) })
   }
@@ -122,8 +130,12 @@ export default function EditorRutina({ inicial, onClose, onBorrada }: Props) {
         <div className="space-y-1">
           {editando.exerciseIds.map((id, i) => {
             const nombre = exerciseMap.get(id)?.nombre ?? 'ejercicio'
+            const siguiente = editando.exerciseIds[i + 1]
+            const unidaConSiguiente = superserieDe(pares, id)?.[0] === id
+            const libre = siguiente !== undefined && !superserieDe(pares, id) && !superserieDe(pares, siguiente)
+            const nombreSiguiente = exerciseMap.get(siguiente)?.nombre ?? 'el siguiente'
             return (
-              <div key={id} className="border-b border-line py-1">
+              <div key={id} className={`border-b border-line py-1 ${superserieDe(pares, id) ? 'border-l-4 border-l-accent pl-2' : ''}`}>
                 <div className="flex min-h-touch flex-wrap items-center justify-between gap-2">
                   <MiniaturaEjercicio catalogId={exerciseMap.get(id)?.catalogId} />
                   <span className="min-w-0 flex-1 basis-24 break-words text-body text-fg"><span className="tabular text-caption text-fg-muted">{i + 1}. </span>{exerciseMap.get(id)?.nombre ?? '…'}</span>
@@ -139,6 +151,9 @@ export default function EditorRutina({ inicial, onClose, onBorrada }: Props) {
                     onChange={agarre => setEditando({ ...editando, agarres: { ...editando.agarres, [id]: agarre ?? null } })} />}
                 </div>}
                 <ObjetivoRutina nombre={nombre} objetivo={editando.objetivos?.[id]} onChange={(o) => cambiarObjetivo(id, o)} />
+                {(unidaConSiguiente || libre) && <Button variant="ghost" size="sm" className="max-w-full break-words text-left" aria-pressed={unidaConSiguiente} onClick={() => alternarSuperserie(id)}>
+                  <Icon name={unidaConSiguiente ? 'check' : 'plus'} size={16} />{unidaConSiguiente ? `En superserie con ${nombreSiguiente}` : `Superserie con ${nombreSiguiente}`}
+                </Button>}
               </div>
             )
           })}
