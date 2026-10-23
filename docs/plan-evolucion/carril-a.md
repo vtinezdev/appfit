@@ -90,7 +90,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A5 · ENT-04 · Historial del ejercicio sin salir de la sesión
 
-> **Hecho (2026-10-23, PROCESO §199, PR pendiente).** Víctor lo aprobó en la página de previews A5–A9. El grupo comparable es el de los récords (`records.claveGrupo`, exportada), así que historial y récords usan el mismo criterio de variante y gimnasio.
+> **Hecho (2026-10-23, PROCESO §199, PR #125).** Víctor lo aprobó en la página de previews A5–A9. El grupo comparable es el de los récords (`records.claveGrupo`, exportada), así que historial y récords usan el mismo criterio de variante y gimnasio.
 
 - **Tamaño:** M · **Rama:** `feat/a-historial-ejercicio`
 - **Para la persona:** en el menú «…» del ejercicio, «Historial y récords» enseña las 5 últimas sesiones, el récord vigente de cada tipo y una minigráfica, sin minimizar el entreno.
