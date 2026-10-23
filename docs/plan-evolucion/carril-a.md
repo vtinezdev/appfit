@@ -30,6 +30,11 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A16 | ENT-16 | Gemelos en el asistente de rutinas | S | — | Hecho (2026-10-23) |
 | A17 | REN-04 | Importar FIT | M | A11 | Hecho (2026-10-23) |
 | A18 | SOC-04 | Compartir tu semana de Ritmo | M | A13 | Hecho (2026-10-23) |
+| A19 | SOC-05 | Avisos de la semana en compañía | M | A14 | Pendiente |
+| A20 | SOC-06 | Invitación por enlace o QR | L | — | Descartado (2026-10-23) |
+| A21 | ENT-17 | Superseries | L | — | Pendiente |
+| A22 | SOC-07 | Moderar comunidades desde la app | M | — | Pendiente |
+| A23 | ENT-18 | Hito redondo en el póster | M | A10 | Hecho (2026-10-23) |
 
 ---
 
@@ -287,3 +292,36 @@ Víctor aprueba en la página de previews de los cinco siguientes tres mejoras d
 - **Tamaño:** M · **Rama:** `feat/a-semana-ritmo` (+ migración `0023_…`)
 - **Decisión de Víctor:** con la opción «Estoy retomando» / «En pausa»; antes de A14, para probar el formato.
 - **Cómo:** plan F3-3 de `docs/social-mejoras.md`. Tipo de resumen nuevo `semana` (días hechos frente al plan, hilo de semanas o el estado), calculado con `ritmo/lib/ritmo` (lectura); lector primero y migración del validador después, como A13. ADR corto.
+
+## Tanda 5 (2026-10-23)
+
+Víctor decide en la página de previews de los cinco siguientes (A19–A23): implementar A19, A21, A22 y A23, y descartar A20. Orden: A23, A19, A22 y A21.
+
+### [ ] A19 · SOC-05 · Avisos de la semana en compañía
+
+- **Tamaño:** M · **Rama:** `feat/a-avisos-compania` (+ migración `0025_…`)
+- **Decisión de Víctor:** avisan la invitación y el ánimo.
+- **Cómo:** `social_eventos` y `avisos` con dos tipos nuevos; la invitación arriba de Avisos con «Aceptar»/«Rechazar» y en el contador; el ánimo entre los avisos del día. Pausar o salir nunca avisa.
+
+### [-] A20 · SOC-06 · Invitación por enlace o QR
+
+> **Descartado (2026-10-23).** Víctor lo descarta en las previews (F3-4 de `social-mejoras.md`). Se sigue invitando con el código.
+
+### [ ] A21 · ENT-17 · Superseries
+
+- **Tamaño:** L · **Rama:** `feat/a-superseries`
+- **Decisiones de Víctor:** en la sesión y en la rutina; de dos ejercicios; descanso al terminar la ronda.
+- **Cómo:** campo opcional en el entreno y la rutina (sin índice ni versión nueva de Dexie); orden de la ronda en `gym/lib/session`; récords, liga y mapa no cambian.
+
+### [ ] A22 · SOC-07 · Moderar comunidades desde la app
+
+- **Tamaño:** M · **Rama:** `feat/a-moderar-comunidades` (+ migración `0026_…`)
+- **Decisión de Víctor:** avisar a quien denunció, sin detalles.
+- **Cómo:** en el panel Moderación, suspender (reversible) o cerrar una comunidad denunciada; aviso «Revisamos tu denuncia y hemos actuado».
+
+### [x] A23 · ENT-18 · Hito redondo en el póster
+
+> **Hecho (2026-10-23, PROCESO §218).** Víctor elige los números de entrenos: 10, 25, 50, 100, 250, 500 y 1.000. Cuentan todos los entrenos terminados por su inicio (no los del logro «Entrenos» de la Vitrina, que pide un mínimo de series). Solo al terminar, no en el historial: allí el número cambiaría si se registra después un entreno anterior.
+
+- **Tamaño:** M · **Rama:** `feat/a-hito-poster`
+- **Cómo:** `gym/lib/fichaEntreno.hitoDeEntrenos` y `textoDesde`, `hooks/useHitoEntrenos`; la cifra encima del título en `PosterSesion` y en `posterImagen.svgPoster`.

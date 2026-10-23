@@ -2417,3 +2417,11 @@ Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla
 ## 217. Migraciones 0023 y 0024 ejecutadas (A18 y A14, 2026-10-23)
 
 Víctor ejecuta `supabase/migrations/0023_social_semana_ritmo.sql` y `0024_social_semana_compania.sql` en el SQL Editor del proyecto real, después de fusionar la app que las lee (#141 y #142). Desde ahora `social_capacidades` anuncia `semanaRitmo` y `semanaCompania`: aparecen «Tu semana» en el compositor y «Semana en compañía» arriba de Siguiendo. Se actualizan el estado del servidor en `features/social.md`, el carril A y el roadmap. Sin cambios de código. Queda el piloto de 3–4 semanas con parejas.
+
+## 218. Hito redondo en el póster (A23 · ENT-18, 2026-10-23)
+
+**Qué:** al terminar el entreno nº 10, 25, 50, 100, 250, 500 o 1.000, el póster lleva encima del título la cifra grande con «entrenos terminados» y «Desde el 3 mar» (el primero). También va en la imagen del póster. Víctor lo aprobó en las previews de los cinco siguientes, con esos números; en la misma página descarta A20 (enlace o QR).
+
+**Cómo:** `gym/lib/fichaEntreno.hitoDeEntrenos` (posición entre los terminados por inicio y id) y `textoDesde` (con el año si no es el actual), con tests; `hooks/useHitoEntrenos` lee `workoutsRepo.terminados`; `PosterSesion` y `PosterImagen` reciben `hito` y `posterImagen.svgPoster` lo dibuja encima del título. Solo en `WorkoutFinished`. Documentos: `features/gym.md`, roadmap, `social-mejoras.md` (F3-4 descartado) y el carril A (filas y decisiones de A19–A23).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` con 49 entrenos terminados sembrados a 375 claro, 320 oscuro y 375 con texto al 200 % (el nº 50 lleva «50 entrenos terminados · Desde el 3 mar»; a 200 % el texto baja bajo la cifra), 430 oscuro con el nº 51 (sin hito) y la imagen descargada con la cifra encima del título; sin scroll horizontal ni errores de consola.

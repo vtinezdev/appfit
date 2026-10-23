@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { partesRecord, pastillaSerie, recordsPorEjercicio, resumenEjercicio, seriesConRecord, seriesPublicables } from './fichaEntreno'
+import { hitoDeEntrenos, partesRecord, pastillaSerie, recordsPorEjercicio, resumenEjercicio, seriesConRecord, seriesPublicables, textoDesde } from './fichaEntreno'
 import type { RecordEjercicio } from './records'
 
 const record = (r: Partial<RecordEjercicio>): RecordEjercicio => ({ exerciseId: 1, tipo: 'peso', valor: 82.5, anterior: 80, ...r })
@@ -87,5 +87,34 @@ describe('seriesPublicables', () => {
       record({ setId: 2 }),
       record({ setId: 3, tipo: 'asistencia', valor: 20, anterior: 25, modoCarga: 'asistencia' }),
     ]).records).toEqual([{ serie: 1, mejora: '+2,5 kg' }, { serie: 2, mejora: '−5 kg de asistencia' }])
+  })
+})
+
+describe('hitoDeEntrenos', () => {
+  const DIA = 86_400_000
+  const entrenos = (n: number) => Array.from({ length: n }, (_, i) => ({ id: 100 + i, inicio: 1_700_000_000_000 + i * DIA }))
+
+  it('solo en los números redondos, contando por el inicio', () => {
+    const w = entrenos(50)
+    expect(hitoDeEntrenos(w, 109)).toEqual({ numero: 10, desde: w[0].inicio })
+    expect(hitoDeEntrenos(w, 149)).toEqual({ numero: 50, desde: w[0].inicio })
+    expect(hitoDeEntrenos(w, 110)).toBeNull()
+    expect(hitoDeEntrenos(w, 999)).toBeNull()
+    // Desordenados y con un entreno registrado a posteriori con fecha anterior: cuenta su lugar en el tiempo.
+    const otro = [...w].reverse().concat({ id: 1, inicio: w[0].inicio - DIA })
+    expect(hitoDeEntrenos(otro, 108)).toEqual({ numero: 10, desde: w[0].inicio - DIA })
+    expect(hitoDeEntrenos(otro, 109)).toBeNull()
+  })
+
+  it('a igual inicio decide el id, y todos los hitos hasta 1.000', () => {
+    expect(hitoDeEntrenos([...entrenos(9), { id: 99, inicio: entrenos(9)[8].inicio }], 109 - 1)).toEqual(expect.objectContaining({ numero: 10 }))
+    const w = entrenos(1000)
+    expect(w.filter(x => hitoDeEntrenos(w, x.id)).map(x => hitoDeEntrenos(w, x.id)!.numero)).toEqual([10, 25, 50, 100, 250, 500, 1000])
+  })
+
+  it('«Desde el…», con el año si no es este', () => {
+    const marzo = new Date(2026, 2, 3, 18).getTime()
+    expect(textoDesde(marzo, new Date(2026, 9, 23).getTime())).toBe('Desde el 3 mar')
+    expect(textoDesde(marzo, new Date(2027, 0, 2).getTime())).toBe('Desde el 3 mar de 2026')
   })
 })

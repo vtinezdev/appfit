@@ -4,7 +4,7 @@ import Icon from '../../../shared/components/Icon'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { formatInt } from '../../../shared/lib/format'
 import { compartirImagen, cssFuentesIncrustadas, descargarImagen, puedeCompartirArchivos, svgAPng } from '../lib/exportarImagen'
-import type { HitoSesion } from '../lib/fichaEntreno'
+import { textoDesde, type HitoEntrenos, type HitoSesion } from '../lib/fichaEntreno'
 import type { ZonaMuscular } from '../lib/musculos'
 import { ALTO_POSTER, ANCHO_POSTER, nombreArchivoPoster, svgPoster, type ColoresPoster } from '../lib/posterImagen'
 import { formatDuracion, rangoSesion } from '../lib/workout'
@@ -19,6 +19,8 @@ interface Props {
   gimnasio?: string
   /** La franja «Hoy» del póster (al terminar) o los récords del entreno (en el historial). */
   hoy: HitoSesion[]
+  /** Al terminar el entreno nº 10, 25, 50… (A23). */
+  hito?: HitoEntrenos | null
   levels?: Partial<Record<ZonaMuscular, number>>
   figura?: FiguraMapa
 }
@@ -38,7 +40,7 @@ function coloresDelTema(): ColoresPoster {
  * cifras, «Hoy» y el muñeco, y «Hecho con AppFit» al pie. Sin cuenta ni red: «Compartir…» abre la hoja del móvil y solo
  * aparece donde se pueden compartir archivos; si no, se descarga.
  */
-export default function PosterImagen({ titulo, inicio, fin, series, volumen, gimnasio, hoy, levels, figura = 'hombre' }: Props) {
+export default function PosterImagen({ titulo, inicio, fin, series, volumen, gimnasio, hoy, hito, levels, figura = 'hombre' }: Props) {
   const [ocupado, setOcupado] = useState<'guardar' | 'compartir' | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [compartible] = useState(puedeCompartirArchivos)
@@ -50,6 +52,7 @@ export default function PosterImagen({ titulo, inicio, fin, series, volumen, gim
       fecha: `${rangoSesion(inicio, fin)}${gimnasio ? ` · ${gimnasio}` : ''}`,
       cifras: [{ rotulo: 'Duración', valor: formatDuracion(fin - inicio) }, { rotulo: 'Volumen', valor: formatInt(volumen), unidad: 'kg' }, { rotulo: 'Series', valor: formatInt(series) }],
       hoy,
+      ...(hito ? { hito: { cifra: formatInt(hito.numero), texto: 'entrenos terminados', desde: textoDesde(hito.desde, Date.now()) } } : {}),
       ...(levels ? { muneco: { levels, cuerpo: CUERPOS[figura], viewBox: VIEWBOX_CUERPO } } : {}),
     }, coloresDelTema(), css)
     return svgAPng(svg, ANCHO_POSTER, ALTO_POSTER)

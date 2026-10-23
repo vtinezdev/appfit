@@ -18,6 +18,7 @@ import PublicarEntreno from './PublicarEntreno'
 import BloqueSesion from './BloqueSesion'
 import HitosSesion from './HitosSesion'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
+import { useHitoEntrenos } from '../hooks/useHitoEntrenos'
 import { useProgresoSesion } from '../hooks/useProgresoSesion'
 import type { ResumenMuscular } from '../lib/cargaMuscular'
 import { hitosDeSesion, resumenCuerpo, resumenCumbresLigas, resumenRecords, type DatosHitos } from '../lib/fichaEntreno'
@@ -61,6 +62,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
   const hoy = todayISO()
   const id = summary.workoutId
   const progreso = useProgresoSesion(id)
+  const hito = useHitoEntrenos(id)
   const vitrina = useVitrina(hoy)
   const ligas = useLigas(hoy)
   const nombres = summary.nombres ?? {}
@@ -96,8 +98,8 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
     <PosterSesion titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} levels={summary.muscle?.levels} figura={figura}
       estado={<p role="status" className="flex items-center gap-2 text-label"><span className="workout-finish-mark flex h-touch w-touch items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="check" size={24} /></span>Sesión guardada en el historial</p>}
       hoy={hitos.length ? <HitosSesion hitos={hitos} /> : undefined}
-      figuras={progreso ? <Suspense fallback={<div className="poster-map-reserva" />}><FigurasProgresoSesion progreso={progreso} figura={figura} /></Suspense> : undefined} />
-    <PosterImagen titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} hoy={hitos} levels={summary.muscle?.levels} figura={figura} />
+      hito={hito} figuras={progreso ? <Suspense fallback={<div className="poster-map-reserva" />}><FigurasProgresoSesion progreso={progreso} figura={figura} /></Suspense> : undefined} />
+    <PosterImagen titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} hoy={hitos} hito={hito} levels={summary.muscle?.levels} figura={figura} />
     {bloques.length > 0 && <div>
       {bloques.map(b => <BloqueSesion key={b.clave} titulo={b.titulo} resumen={b.resumen} abierto={abierto === b.clave} onCambiar={a => setAbierto(a ? b.clave : null)}>
         {b.clave === 'records' && <RecordsSesion records={records} nombres={nombres} catalogIds={summary.catalogIds} sinTitulo />}

@@ -41,6 +41,15 @@ describe('svgPoster', () => {
 })
 
 describe('textos del póster', () => {
+  it('el entreno redondo lleva su cifra encima del título; sin él, nada', () => {
+    const con = svgPoster({ ...datos, hito: { cifra: '50', texto: 'entrenos terminados', desde: 'Desde el 3 mar' } }, claro)
+    expect(con).toContain('>50<')
+    expect(con).toContain('entrenos terminados')
+    expect(con).toContain('Desde el 3 mar')
+    expect(con.indexOf('>50<')).toBeLessThan(con.indexOf(datos.titulo.split(' ')[0]))
+    expect(svgPoster(datos, claro)).not.toContain('entrenos terminados')
+  })
+
   it('parte por palabras, corta las larguísimas y termina con «…» lo que no cabe', () => {
     expect(partirLineas('Torso A', 22, 2)).toEqual(['Torso A'])
     expect(partirLineas('uno dos tres cuatro', 8, 2)).toEqual(['uno dos', 'tres…'])
