@@ -29,6 +29,10 @@ export const MENSAJES_SOCIAL: Record<string, string> = {
   ya_miembro: 'Esa persona ya es miembro de la comunidad.',
   accion_no_valida: 'Esa acción no se puede hacer con esta denuncia.',
   denuncia_no_valida: 'No se ha podido enviar la denuncia. Revisa el motivo e inténtalo de nuevo.',
+  no_mutuos: 'Solo puedes invitar a quien os seguís mutuamente, también con quien ya está en el grupo.',
+  compania_llena: 'El grupo ya tiene tres personas.',
+  limite_companias: 'Esa persona o tú ya estáis en cinco grupos.',
+  semana_no_valida: 'No se ha podido contar tu semana. Inténtalo más tarde.',
 }
 
 /** Mensaje de una clave del servidor, o `null` si no es una de las suyas. */

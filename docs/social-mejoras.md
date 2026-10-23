@@ -15,7 +15,9 @@ Plan de trabajo · 18 de octubre de 2026.
 | F2-8 | Revisión manual confirmada; ocultación automática pendiente de capacidad real, sin umbral inventado |
 | F2-9 | Transferencia, delegación, retirada/expulsión, reglas/bienvenida y resolución previa al borrar perfil implementadas. Bloquear al creador conserva el comportamiento anterior |
 | F2-10 | Pendiente de medir volumen suficiente; no se añaden filtros sin esos datos |
-| F3-1–F3-6 | Pendientes de validación/piloto, ids estables, router o servicio según cada propuesta; no implementados |
+| F3-1 | Implementado (A14, ADR 057, migración 0024); falta el piloto de 3–4 semanas |
+| F3-2–F3-3 | Hechos (A13 y A18) |
+| F3-4–F3-6 | Pendientes de router o servicio según cada propuesta; no implementados |
 
 Víctor ha confirmado el resumen recomendado (sin 1RM nuevo; reps solo al mayor peso de su variante/modo), nota de 280 sin edición y por copia, Ánimo, Sigues/Te siguen, privacidad de reacciones y mínimo de novedades de comunidades. Confirma moderación manual y transferir/cerrar antes de borrar perfil. Las marcas **[DECIDIR]** del texto de origen se resuelven por este registro; las decisiones de fase 3 y apertura siguen pendientes.
 
@@ -377,7 +379,9 @@ Necesita migraciones y suites SQL.
 
 Solo tras las fases anteriores y con un piloto.
 
-### F3-1 · Semana en compañía (Codex C01) · P2, piloto
+### F3-1 · Semana en compañía (Codex C01) · P2, piloto · Implementado
+
+> **Implementado (2026-10-23, A14, [ADR 057](decisiones/057-semana-en-compania.md), migración 0024).** Decisiones de Víctor (D11): cada uno contra su plan de Ritmo de esa semana, de lunes a domingo en su hora local, grupos de 2 o 3 personas que os seguís mutuamente y semana tras semana hasta que alguien pausa o sale. Sin porcentaje: «2 de 3» o «Semana cumplida». Detalle en [social](features/social.md#semana-en-compañía). Falta el piloto de 3–4 semanas con parejas que organiza Víctor.
 
 - **Idea:** dos personas aceptan una semana; cada una cuenta contra su propio plan (Ritmo). Cumplimiento = `100 × min(sesiones que cuentan / objetivo acordado, 1)`: 2/2 y 4/4 valen lo mismo y entrenar de más no da ventaja.
 - **Reglas:**

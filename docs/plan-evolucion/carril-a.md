@@ -23,7 +23,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A11 | REN-04 | Importar TCX (y FIT después) | M | — | Hecho (2026-10-23) |
 | A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Hecho (2026-10-23) |
 | A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Hecho (2026-10-23) |
-| A14 | SOC-01 | Semana en compañía | XL | — | Pendiente |
+| A14 | SOC-01 | Semana en compañía | XL | — | Hecho (piloto pendiente) |
 | A15 | SOC-03 | Expediciones de comunidad | XL | A14 | Pendiente |
 | A-X1 | NAV-02 | «Volver» en Amigos (cruce) | S | B4 | Hecho (2026-10-23) |
 | A-X2 | GAM-04 | Línea de la meta en la gráfica (cruce) | S | B13 | Pendiente |
@@ -224,7 +224,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Tests:** construir, validar y leer el resumen; guardar en rutinas con fake-indexeddb; SQL en `supabase/pruebas/`.
 - **Documentos:** `docs/features/social.md`, `docs/social-mejoras.md` (F3-2 hecho), ADR nuevo.
 
-### [ ] A14 · SOC-01 · Semana en compañía
+### [x] A14 · SOC-01 · Semana en compañía
+
+> **Hecho (2026-10-23, PROCESO §216, [ADR 057](../decisiones/057-semana-en-compania.md), migración 0024).** Con las decisiones D11 de Víctor (su plan de Ritmo, lunes–domingo local, mutuos en grupos de 2 o 3, continua hasta pausa o salida). Una sola PR en lugar de tres: lector, SQL e interfaz van juntos porque la tarjeta solo aparece cuando el servidor anuncia `semanaCompania`. Sin avisos nuevos (las invitaciones y los ánimos se ven al abrir Social). **Pendiente de Víctor:** ejecutar 0024 después de desplegar y organizar el piloto de 3–4 semanas con parejas.
 
 - **Tamaño:** XL, con piloto · **Rama:** varias (`feat/a-companeros-lector`, `feat/a-companeros-sql`, `feat/a-companeros-ui`)
 - **Para la persona:** dos o tres personas aceptan acompañarse una semana; cada una cuenta contra su plan de Ritmo y ve a las demás («Laura · 2 de 3») con un «Ánimo» desde la fila. Sin ranking ni castigos.

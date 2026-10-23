@@ -4,6 +4,7 @@ import type { Resumen, ResumenLogro } from '../lib/publicacion'
 import type { Avatar, AvatarExclusivo } from '../lib/avatar'
 import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
+import type { Companias } from '../lib/compania'
 import type { AccionDenuncia, Denuncia, Suspendido } from '../lib/moderacion'
 
 /**
@@ -72,8 +73,9 @@ export interface Social {
    * `imagenesPublicacion`: el servidor admite imágenes e insignias en el resumen (0020); `detallesEjercicio`, la liga y
    * las series de cada ejercicio (0021). Sin ellas no se envían. `rutinaCompartida`: acepta publicaciones de rutina
    * (0022); sin ella no se ofrece compartir una rutina. `semanaRitmo`: acepta publicaciones de semana (0023).
+   * `semanaCompania`: existe la semana en compañía (0024); sin ella no aparece.
    */
-  capacidades(): Promise<{ camposOpcionales: boolean; imagenesPublicacion?: boolean; detallesEjercicio?: boolean; rutinaCompartida?: boolean; semanaRitmo?: boolean }>
+  capacidades(): Promise<{ camposOpcionales: boolean; imagenesPublicacion?: boolean; detallesEjercicio?: boolean; rutinaCompartida?: boolean; semanaRitmo?: boolean; semanaCompania?: boolean }>
   avisos(): Promise<Avisos>
   marcarAvisosVistos(): Promise<void>
   /**
@@ -102,6 +104,18 @@ export interface Social {
   suspendidos(): Promise<Suspendido[]>
   /** Mete a alguien en una comunidad; le llega un aviso. */
   anadirAComunidad(comunidad: string, alias: string): Promise<void>
+
+  // --- Semana en compañía (0024, ADR 057). Grupos de 2 o 3 personas que os seguís mutuamente. ---
+  /** Mis grupos (cada miembro con su estado y su semana) y las invitaciones que me esperan. */
+  companias(): Promise<Companias>
+  /** Invita a alguien; con un `compania` nuevo (lo genera la app) crea el grupo contigo dentro. Repetirla no duplica. */
+  invitarCompania(compania: string, alias: string): Promise<void>
+  responderCompania(compania: string, aceptar: boolean): Promise<void>
+  pausarCompania(compania: string, pausa: boolean): Promise<void>
+  salirCompania(compania: string): Promise<void>
+  /** Tu semana de Ritmo (lunes local, entrenos que cuentan y del plan). Sin grupo no se guarda y devuelve `false`. */
+  subirSemanaCompania(lunes: string, hechas: number, objetivo: number): Promise<boolean>
+  animarCompanero(compania: string, alias: string, lunes: string, animar: boolean): Promise<void>
 }
 
 export interface MiPerfil {

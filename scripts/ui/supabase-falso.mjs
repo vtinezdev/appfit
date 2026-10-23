@@ -1,5 +1,7 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0023 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0024 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// `simular_companias` crea un grupo de semana en compañía con Jon y una invitación de Lucía (0024);
+// `simular_aceptar_compania`, que quien invitaste acepte.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -20,6 +22,16 @@ let EXCLUSIVO = false
 // comunidad|miembro -> quién le añadió (0017).
 const anadidos = new Map()
 const idsAnimos = new Map()
+// Semana en compañía (0024): grupo -> { miembros: Map(user -> { estado, por }), animos: Set('de|para|lunes') }; user -> semana.
+const companias = new Map()
+const semanasCompania = new Map()
+const lunesHoy = () => { const d = new Date(); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` }
+const fueraDeCompania = (gid, id) => {
+  const g = companias.get(gid)
+  g.miembros.delete(id)
+  for (const a of g.animos) if (a.split('|').slice(0, 2).includes(id)) g.animos.delete(a)
+  if (g.miembros.size < 2 || ![...g.miembros.values()].some(m => m.estado !== 'invitado')) companias.delete(gid)
+}
 const perfiles = new Map([
   ['lucia', { alias: 'lucia.run', nombre: 'Lucía Martín', codigo: 'A1B2-C3D4', suspendido: false }],
   ['pablo', { alias: 'pablo_gym', nombre: null, codigo: 'B2C3-D4E5', suspendido: false }],
@@ -116,6 +128,7 @@ const rpc = {
     miembros.clear(); for (const m of inicial.miembros) miembros.add(m)
     anadidos.clear(); ADMIN = false; for (const d of denunciasFalsas) d.revisada = false
     bloqueos.clear(); reacciones.clear(); comentarios.clear(); avisosVistos = new Date(0).toISOString()
+    companias.clear(); semanasCompania.clear()
     return null
   },
   comunidades: ({ p_busqueda, p_solo_mias }) => {
@@ -264,7 +277,7 @@ const rpc = {
   simular_suspension: () => { perfiles.get(YO).suspendido=true;return null },
   gestion_comunidad: ({p_id})=>{exigir();const c=comunidades.get(p_id);if(!c||bloq(YO,c.creador))throw err('no_encontrado');const creador=c.creador===YO;return {modera:modera(p_id),creador,reglas:c.reglas??'',bienvenida:c.bienvenida??'',miembros:modera(p_id)?[...perfiles].filter(([id])=>miembros.has(`${p_id}|${id}`)).map(([id,p])=>({alias:p.alias,nombre:p.nombre,creador:c.creador===id,moderador:moderadores.has(`${p_id}|${id}`),yo:id===YO})):[]}},
   gestionar_comunidad: ({p_id,p_accion,p_alias,p_texto})=>{exigir();const c=comunidades.get(p_id);if(!c||!modera(p_id)||(p_accion!=='expulsar'&&c.creador!==YO))throw err('no_encontrado');if(p_accion==='reglas'||p_accion==='bienvenida')c[p_accion]=p_texto;else{const id=otro(p_alias);if(!miembros.has(`${p_id}|${id}`)||id===YO||id===c.creador)throw err('no_encontrado');if(p_accion==='transferir'){c.creador=id;moderadores.delete(`${p_id}|${id}`)}else if(p_accion==='expulsar')miembros.delete(`${p_id}|${id}`);else if(p_accion==='nombrar')moderadores.add(`${p_id}|${id}`);else if(p_accion==='revocar')moderadores.delete(`${p_id}|${id}`)}return null},
-  social_capacidades: () => { exigir(); return { camposOpcionales: true, imagenesPublicacion: true, detallesEjercicio: true, rutinaCompartida: true, semanaRitmo: true } },
+  social_capacidades: () => { exigir(); return { camposOpcionales: true, imagenesPublicacion: true, detallesEjercicio: true, rutinaCompartida: true, semanaRitmo: true, semanaCompania: true } },
   perfil_deportivo: ({p_alias,p_comunidad})=>{exigir();const id=idDe(p_alias);if(!id||bloq(YO,id))throw err('no_encontrado');if(p_comunidad&&!miembros.has(`${p_comunidad}|${YO}`))throw err('no_miembro');const pe=perfiles.get(id),de=deportivos.get(id)??{bio:'',disciplinas:[],destacados:[],logros:[],avatarId:null};const visibles=[...publicaciones].filter(([,p])=>p.autor===id&&(p_comunidad?p.comunidad===p_comunidad:!p.comunidad&&puedeVer(id)));return {...de,alias:pe.alias,nombre:pe.nombre,publicadas:visibles.length,destacados:visibles.filter(([pid])=>de.destacados.includes(pid)).map(([id,p])=>({id,resumen:p.resumen})),avatar:visibles.find(([pid])=>pid===de.avatarId)?.[1].resumen??null}},
   editar_perfil_deportivo: ({p_bio,p_disciplinas,p_destacados,p_avatar})=>{exigir();if(p_bio.length>160||p_disciplinas.length>3||p_destacados.length>3)throw err('perfil_deportivo_no_valido');deportivos.set(YO,{bio:p_bio,disciplinas:p_disciplinas,destacados:p_destacados,avatarId:p_avatar});return null},
   // 0016: hasta tres medallas de logro distintas, sin publicar.
@@ -321,6 +334,73 @@ const rpc = {
   },
   mis_avatares_exclusivos: () => { exigir(); return EXCLUSIVO ? ['exclusivo.tinez'] : [] },
   simular_avatar_exclusivo: ({ p_permiso }) => { EXCLUSIVO = p_permiso === true; return null },
+  companias: () => {
+    exigir()
+    const persona = (id) => ({ alias: perfiles.get(id).alias, nombre: perfiles.get(id).nombre })
+    const grupos = [], invitaciones = []
+    for (const [gid, g] of companias) {
+      const mio = g.miembros.get(YO)
+      if (!mio) continue
+      if (mio.estado === 'invitado') invitaciones.push({ id: gid, de: perfiles.get(mio.por)?.alias ?? null, miembros: [...g.miembros].filter(([id, m]) => id !== YO && m.estado !== 'invitado').map(([id]) => persona(id)) })
+      else grupos.push({ id: gid, miembros: [...g.miembros].sort(([a], [b]) => (a !== YO) - (b !== YO)).map(([id, m]) => ({ ...persona(id), yo: id === YO, estado: m.estado, semana: m.estado === 'activo' ? semanasCompania.get(id) ?? null : null })),
+        animos: [...g.animos].map((a) => { const [de, para, lunes] = a.split('|'); return { de: perfiles.get(de).alias, para: perfiles.get(para).alias, lunes } }) })
+    }
+    return { grupos, invitaciones }
+  },
+  invitar_compania: ({ p_compania, p_alias }) => {
+    exigir()
+    const id = otro(p_alias)
+    const g = companias.get(p_compania) ?? { miembros: new Map([[YO, { estado: 'activo' }]]), animos: new Set() }
+    if (!g.miembros.has(YO) || g.miembros.get(YO).estado === 'invitado') throw err('no_encontrado')
+    if (g.miembros.has(id)) return null
+    if (seg.get(`${YO}|${id}`) !== 'aceptado' || seg.get(`${id}|${YO}`) !== 'aceptado' || bloq(YO, id)) throw err('no_mutuos')
+    if (g.miembros.size >= 3) throw err('compania_llena')
+    g.miembros.set(id, { estado: 'invitado', por: YO }); companias.set(p_compania, g)
+    return null
+  },
+  responder_compania: ({ p_compania, p_aceptar }) => {
+    exigir()
+    const m = companias.get(p_compania)?.miembros.get(YO)
+    if (m?.estado !== 'invitado') throw err('no_encontrado')
+    if (p_aceptar) m.estado = 'activo'; else fueraDeCompania(p_compania, YO)
+    return null
+  },
+  pausar_compania: ({ p_compania, p_pausa }) => {
+    exigir()
+    const m = companias.get(p_compania)?.miembros.get(YO)
+    if (!m || m.estado === 'invitado') throw err('no_encontrado')
+    m.estado = p_pausa ? 'pausa' : 'activo'
+    return null
+  },
+  salir_compania: ({ p_compania }) => { exigir(); if (!companias.get(p_compania)?.miembros.has(YO)) throw err('no_encontrado'); fueraDeCompania(p_compania, YO); return null },
+  subir_semana_compania: ({ p_lunes, p_hechas, p_objetivo }) => {
+    exigir()
+    if (![...companias.values()].some((g) => ['activo', 'pausa'].includes(g.miembros.get(YO)?.estado))) return false
+    semanasCompania.set(YO, { lunes: p_lunes, hechas: p_hechas, objetivo: p_objetivo })
+    return true
+  },
+  animar_companero: ({ p_compania, p_alias, p_lunes, p_animar }) => {
+    exigir()
+    const id = otro(p_alias), g = companias.get(p_compania)
+    if (!g || [YO, id].some((x) => !g.miembros.has(x) || g.miembros.get(x).estado === 'invitado')) throw err('no_encontrado')
+    const k = `${YO}|${id}|${p_lunes}`
+    if (p_animar) g.animos.add(k); else g.animos.delete(k)
+    return null
+  },
+  simular_companias: () => {
+    companias.clear(); semanasCompania.clear()
+    const lunes = lunesHoy()
+    companias.set('7d1f0c1e-0000-4000-8000-00000000c0a1', { miembros: new Map([[YO, { estado: 'activo' }], ['jon', { estado: 'activo' }]]), animos: new Set([`jon|${YO}|${lunes}`]) })
+    semanasCompania.set('jon', { lunes, hechas: 2, objetivo: 3 })
+    seg.set(`lucia|${YO}`, 'aceptado')
+    companias.set('7d1f0c1e-0000-4000-8000-00000000c0a2', { miembros: new Map([['lucia', { estado: 'activo' }], [YO, { estado: 'invitado', por: 'lucia' }]]), animos: new Set() })
+    semanasCompania.set('lucia', { lunes, hechas: 3, objetivo: 3 })
+    return null
+  },
+  simular_aceptar_compania: () => {
+    for (const g of companias.values()) for (const [id, m] of g.miembros) if (id !== YO && m.estado === 'invitado') { m.estado = 'activo'; semanasCompania.set(id, { lunes: lunesHoy(), hechas: 1, objetivo: 4 }) }
+    return null
+  },
   ultimos_comentarios: ({ p_ids }) => {
     exigir()
     return Object.fromEntries((p_ids ?? []).slice(0, 30).flatMap((pid) => {
