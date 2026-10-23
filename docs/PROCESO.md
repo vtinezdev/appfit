@@ -2269,3 +2269,17 @@ Paso A9 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprob
 - Documentos: `features/gym.md`, `arquitectura.md` (párrafo de Entreno), `roadmap.md` (falta iPhone) y el carril A.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro (con `navigator.canShare`/`share` simulados), 430 oscuro y 375 con texto al 200 %: al terminar y desde el historial, «Guardar imagen» descarga un PNG de 1080 × 1350 (`appfit-torso-a-<día>.png`, ~200 KB) con la letra de la app; «Compartir…» solo aparece con la hoja de compartir y le pasa el PNG; botones de 44 px, sin scroll horizontal ni errores de consola. Imágenes revisadas en claro y oscuro. Sin probar en iPhone (hoja de compartir real).
+
+## 207. Fichas de técnica de los ejercicios (A12 · ENT-09, 2026-10-23)
+
+**Qué:** un botón «i» («Ficha de …») en la cabecera del panel del ejercicio (sesión e historial en edición) y en cada fila del buscador abre la ficha del ejercicio del catálogo: imagen, músculos, material y tipo, el muñeco (principales altos, secundarios medios), tres claves de ejecución y dos errores comunes, tu última vez y tus récords si lo has hecho, y alternativas del mismo músculo que abren su propia ficha. Víctor lo aprobó con cambios en la página de previews A10–A14: los textos los redacto yo (sin fuente citada, como «claves de AppFit») y van todos los ejercicios de una vez.
+
+**Cómo:**
+- `gym/lib/fichas/*.ts` (pecho, espalda, hombros, brazos, piernas, caderaGemelos, core): 268 fichas `{ claves: [3], errores: [2] }` por id sin «appfit:». `gym/lib/fichasEjercicios.ts` las junta en `FICHAS`; solo se carga con `import()` al abrir una ficha.
+- `gym/lib/fichaTecnica.ts` (puro): `nivelesFicha` (5 principales, 3 secundarios, «Cuerpo completo» no pinta) y `textoMusculosFicha` («Pecho; también tríceps y hombros», con «e» delante de «i»).
+- `gym/components/FichaEjercicio` (ModalPage diferida desde `PanelEjercicio` y `SelectorEjercicios`): historial con `progreso.historialEjercicio` (solo si es del ejercicio que se ve: al cambiar de alternativa la consulta anterior dura un instante), alternativas con `liga/lib/alternativas` en modo sustituir; al abrir una alternativa vuelve arriba.
+- `SelectorEjercicios`: cada fila lleva su «i»; con texto muy ampliado el botón pasa debajo (`flex-wrap`, `basis-48`) para no estrechar la fila.
+- Tests: `fichasEjercicios.test.ts` (todas las fichas son del catálogo, ninguna falta ni se repite entre grupos, tres y dos frases de hasta 130 caracteres) y `fichaTecnica.test.ts`.
+- Documentos: `features/gym.md`, `scripts/ejercicios/README.md`, `roadmap.md` (revisión de los textos y la imagen de 384 px) y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: la ficha de press banca desde el panel (3 claves, 2 errores, última vez y récords, cuatro alternativas), saltar a «Press inclinado con barra» desde sus alternativas, cerrar y abrir la de «Hip thrust con barra» desde el buscador, que sigue abierto al cerrarla; controles de 44 px, sin scroll horizontal ni errores de consola. Al probar apareció un fallo (abrir una alternativa sin historial rompía la pantalla) y se corrigió. **Pendiente:** revisión de los textos por Víctor y la ilustración de 384 px.

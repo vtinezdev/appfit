@@ -39,6 +39,8 @@ Los originales no se suben al repositorio: si se pierden, las miniaturas ya conv
 
 Los ejercicios personalizados no tienen imagen.
 
+La ficha de técnica (ENT-09, `gym/components/FichaEjercicio`) enseña la misma miniatura a 160 px. Una segunda resolución de 384 px para la ficha queda pendiente: hay que recortarla de los originales de `ia/`, que no se suben al repositorio (ver [roadmap](../../docs/roadmap.md)).
+
 ## Mapa muscular
 
 `mapa-muscular.ts` (`npm run ejercicios:mapa`) genera `src/features/gym/components/mapaMuscularGeometria.ts`, los muñecos de hombre y de mujer del mapa muscular, a partir de `ia/mapa-muscular.png`: la imagen del estilo A de `mapa-muscular.md` (elegido el 2026-10-09), con las cuatro figuras en fila (hombre frontal, hombre trasera, mujer frontal, mujer trasera).

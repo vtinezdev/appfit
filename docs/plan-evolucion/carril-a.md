@@ -21,7 +21,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Hecho (2026-10-23) |
 | A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Hecho (2026-10-23) |
 | A11 | REN-04 | Importar TCX (y FIT después) | M | — | Hecho (2026-10-23) |
-| A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Pendiente |
+| A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Hecho (2026-10-23) |
 | A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Hecho (2026-10-23) |
 | A14 | SOC-01 | Semana en compañía | XL | — | Pendiente |
 | A15 | SOC-03 | Expediciones de comunidad | XL | A14 | Pendiente |
@@ -195,7 +195,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Tests:** archivos TCX reales anonimizados de Garmin y Strava en `src/test/fixtures/`.
 - **Documentos:** `docs/features/actividades.md`; quitar la línea de `docs/roadmap.md`.
 
-### [ ] A12 · ENT-09 · Fichas de técnica de los ejercicios
+### [x] A12 · ENT-09 · Fichas de técnica de los ejercicios
+
+> **Hecho (2026-10-23, PROCESO §207).** Víctor lo aprobó con cambios en la página de previews A10–A14 (D10): textos redactados por mí («claves de AppFit», él los revisa) y un solo lote con **todos** los ejercicios (268), no los 40 más usados. Los textos van por grupo muscular en `gym/lib/fichas/` y `fichasEjercicios.ts` los junta. **Pendiente:** la ilustración a 384 px (los originales de `scripts/ejercicios/ia/` no están en el repositorio); la ficha usa la miniatura de 192 px. El botón del buscador pasa debajo de la fila con letra muy grande para no estrecharla.
 
 - **Tamaño:** L, por lotes · **Rama:** `feat/a-fichas-ejercicio` (y `-lote-2`, `-lote-3`…)
 - **Para la persona:** botón «i» en el selector y en la cabecera del panel que abre la ficha: ilustración grande, muñeco con músculos principales y secundarios, 3 claves de ejecución, 2 errores comunes, material, alternativas y, si hay datos, la última vez y el récord.
