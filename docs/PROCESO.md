@@ -2195,3 +2195,15 @@ Paso A6 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprob
 - Tests: `sustituirEnSesion.test.ts` (solo pasan las pendientes con sus reps y los kg del nuevo, deshacer exacto, sin hechas se omite el anterior, con todo hecho se crea una serie, también en la rutina con su objetivo, del catálogo, mismo ejercicio y fallo a mitad sin nada a medias), `sustituir.test.ts` y el modo sustituir en `alternativas.test.ts`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: cinco alternativas con su última vez, las 2 series pendientes pasan con 32 kg y el orden queda [1, 4, 2, 3], «Deshacer» deja la copia de seguridad idéntica; a 375, además, la casilla de la rutina (rutina [5, 2, 3] con el objetivo y deshacer), «Buscar otro…» con el agarre y el caso con todo hecho. Sin scroll horizontal, botones de 44 px y sin errores en consola. Sin dispositivo físico.
+
+## 201. La prueba del navegador deja de colgarse en la instalación (CI, 2026-10-23)
+
+Desde el 22 de octubre por la tarde, el job `navegador` de `.github/workflows/qa.yml` se quedaba en «Herramientas de navegador…» (`playwright install --with-deps chromium firefox webkit`) hasta que GitHub lo cancelaba a los 25 minutos; las ejecuciones que llegaban a probar pasaban, y en local los 8 recorridos del job pasan. Coincide con el aviso de GitHub de que `ubuntu-latest` pasa a Ubuntu 26 desde el 19 de octubre. Víctor elige arreglar el workflow (compartido por los dos carriles). Rama `ci/navegadores-cache`.
+
+- Los dos jobs, en `ubuntu-24.04` fijo.
+- Caché de `~/.cache/ms-playwright` con `actions/cache` (clave: Playwright 1.62.1 e imagen).
+- Descarga de navegadores (`install`) y paquetes del sistema (`install-deps`) en pasos separados, con `timeout 180` y tres intentos cada uno. La primera versión (un solo paso con `--with-deps`, 6 minutos y un reintento) se colgó una vez y el reintento murió al momento: `timeout` solo corta a Node y el apt que lanzó con sudo seguía vivo con el bloqueo. Ahora se corta y se limpia antes de reintentar.
+- Cada recorrido del job pasa por `paso()`, que si falla publica el final de su salida como anotación (`::error`): desde aquí no se pueden descargar ni el log ni las evidencias.
+- `docs/desarrollo.md` (workflow de QA).
+
+**Verificación:** YAML válido; el propio workflow de la PR es la prueba (las PR usan el de su rama).
