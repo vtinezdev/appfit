@@ -49,7 +49,7 @@ App personal de nutrición y gimnasio para Android, iPhone, tablet y ordenador, 
 - Rutinas con objetivos por ejercicio (series, rango de repeticiones y descanso), ejercicios reordenables y ejercicios propios editables; historial de entrenos que se pueden editar, borrar o registrar a posteriori, con notas, series de calentamiento, RIR, récords personales, calculadora de discos, aviso sonoro al terminar el descanso y resumen semanal por grupo muscular; gráficas de progreso por ejercicio (peso máximo, 1RM estimado, volumen).
 
 **Actividades** (Entreno › Actividades)
-- Caminar, correr y senderismo: a mano, importando el GPX o el TCX de tu reloj, Strava o Wikiloc, o grabando con el GPS del móvil (con la pantalla encendida: una web app no recibe la ubicación en segundo plano). Recorrido dibujado sin mapas, distancia, duración, ritmo, desnivel y perfil de altitud. La ubicación no sale del móvil.
+- Caminar, correr y senderismo: a mano, importando el GPX, TCX o FIT de tu reloj, Strava o Wikiloc, o grabando con el GPS del móvil (con la pantalla encendida: una web app no recibe la ubicación en segundo plano). Recorrido dibujado sin mapas, distancia, duración, ritmo, desnivel y perfil de altitud. La ubicación no sale del móvil.
 
 **General**
 - Un botón flotante abajo al centro que abre una media luna con Inicio, Social (con cuenta, y Amigos dentro), Nutrición, Entreno, Perfil y Ajustes (con Referencias). Cumbres, Caminos, Ritmo y Vitrina se abren desde sus teselas en Inicio.

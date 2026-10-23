@@ -21,7 +21,7 @@ import { valoresIniciales } from '../lib/formulario'
 
 const ORIGEN: Record<Actividad['origen'], string> = {
   manual: 'Registrada a mano',
-  gpx: 'Importada de un archivo (GPX o TCX)',
+  gpx: 'Importada de un archivo (GPX, TCX o FIT)',
   gps: 'Grabada con el GPS del móvil',
 }
 

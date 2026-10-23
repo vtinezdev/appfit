@@ -97,6 +97,6 @@ describe('resumirArchivoActividad', () => {
     expect(esTcx(GARMIN)).toBe(true)
     expect(resumirArchivoActividad(GARMIN).distanciaM).toBe(2000)
     expect(resumirArchivoActividad('<gpx><trk><trkseg><trkpt lat="1" lon="2"/><trkpt lat="1.01" lon="2"/></trkseg></trk></gpx>').distanciaM).toBe(1112)
-    expect(() => resumirArchivoActividad('{"no": "xml"}')).toThrow('ni un TCX')
+    expect(() => resumirArchivoActividad('{"no": "xml"}')).toThrow('ni un FIT')
   })
 })
