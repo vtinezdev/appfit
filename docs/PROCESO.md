@@ -2283,3 +2283,7 @@ Paso A9 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprob
 - Documentos: `features/gym.md`, `scripts/ejercicios/README.md`, `roadmap.md` (revisión de los textos y la imagen de 384 px) y el carril A.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: la ficha de press banca desde el panel (3 claves, 2 errores, última vez y récords, cuatro alternativas), saltar a «Press inclinado con barra» desde sus alternativas, cerrar y abrir la de «Hip thrust con barra» desde el buscador, que sigue abierto al cerrarla; controles de 44 px, sin scroll horizontal ni errores de consola. Al probar apareció un fallo (abrir una alternativa sin historial rompía la pantalla) y se corrigió. **Pendiente:** revisión de los textos por Víctor y la ilustración de 384 px.
+
+## 208. Migración 0022 ejecutada (A13, 2026-10-23)
+
+Víctor ejecuta `supabase/migrations/0022_social_rutina_compartida.sql` en el SQL Editor del proyecto real con «Success», después de fusionar la app que lee el tipo `rutina` (#134). Desde ahora `social_capacidades` anuncia `rutinaCompartida` y la ficha de una rutina ofrece «Compartir rutina». Se actualizan el estado del servidor en `features/social.md`, el carril A y el roadmap. Sin cambios de código.
