@@ -113,3 +113,80 @@ export function seriesPublicables(series: (SerieEjecucion & Pick<SetEntry, 'id' 
     }),
   }
 }
+
+// --- Fin de sesión ordenado por momentos (ENT-10) ---
+
+export type TipoHito = 'record' | 'cuerpo' | 'cumbre' | 'liga' | 'logro'
+export interface HitoSesion { tipo: TipoHito; etiqueta: string; texto: string }
+/** Lo que pasó en la sesión, ya con nombres: récords en su orden, grupos que suben, Cumbres, cambios de liga y piezas nuevas. */
+export interface DatosHitos {
+  records: RecordEjercicio[]
+  nombres: Record<number, string>
+  subidas: { musculo: string; nivel: string }[]
+  /** Metros que sube el entreno y cimas que corona; `null` sin Cumbres (sin montaña elegida o gamificación oculta). */
+  cumbre: { metros: number; cimas: string[] } | null
+  /** Solo los cambios de liga destacados («Sube a Plata»). */
+  ligas: { exerciseId: number; texto: string }[]
+  logros: string[]
+}
+
+/** Hitos que caben en la franja «Hoy» del póster. */
+export const MAX_HITOS = 3
+const ETIQUETA: Record<TipoHito, string> = { record: 'Récord', cuerpo: 'Cuerpo', cumbre: 'Cumbres', liga: 'Liga', logro: 'Vitrina' }
+const PRIORIDAD_RECORD: Record<RecordEjercicio['tipo'], number> = { peso: 0, asistencia: 1, reps: 2, '1rm': 3 }
+
+/**
+ * Hasta `MAX_HITOS` hitos para la franja «Hoy» (D9: récords, subida muscular, cumbre, liga y logros, en ese orden). Primero
+ * uno de cada tipo en ese orden, para que tres récords no tapen una cima o una liga; si sobra sitio, más del mismo orden.
+ * Los récords van de uno por ejercicio (el de peso antes que el 1RM, que suele acompañarlo) y después el resto.
+ */
+export function hitosDeSesion(d: DatosHitos, max = MAX_HITOS): HitoSesion[] {
+  const nombre = (id: number) => d.nombres[id] ?? 'Ejercicio'
+  const ordenados = [...d.records].sort((a, b) => PRIORIDAD_RECORD[a.tipo] - PRIORIDAD_RECORD[b.tipo])
+  const primeros = recordsPorEjercicio(d.records).map(g => ordenados.find(r => r.exerciseId === g.exerciseId)!)
+  const records = [...primeros, ...ordenados.filter(r => !primeros.includes(r))].map(r => {
+    const p = partesRecord(r)
+    return `${nombre(r.exerciseId)} · ${p.rotulo}: ${p.valor} (${p.mejora})`
+  })
+  const cumbre = !d.cumbre ? [] : d.cumbre.cimas.length ? d.cumbre.cimas.map(c => `Cumbre del ${c}`) : d.cumbre.metros > 0 ? [`+${formatInt(d.cumbre.metros)} m de subida`] : []
+  const grupos: [TipoHito, string[]][] = [
+    ['record', records],
+    ['cuerpo', d.subidas.map(s => `${s.musculo} sube a ${s.nivel}`)],
+    ['cumbre', cumbre],
+    ['liga', d.ligas.map(l => `${nombre(l.exerciseId)} · ${l.texto}`)],
+    ['logro', d.logros],
+  ]
+  const hitos: HitoSesion[] = []
+  for (let vuelta = 0; hitos.length < max && grupos.some(([, t]) => t.length > vuelta); vuelta++) {
+    for (const [tipo, textos] of grupos) {
+      if (hitos.length >= max) break
+      const texto = vuelta === 0 ? textos[0] : textos.slice(1)[vuelta - 1]
+      if (texto) hitos.push({ tipo, etiqueta: ETIQUETA[tipo], texto })
+    }
+  }
+  return hitos
+}
+
+/** «6 récords en 3 ejercicios», «1 récord en Press banca». */
+export function resumenRecords(records: RecordEjercicio[], nombres: Record<number, string>): string {
+  const ejercicios = recordsPorEjercicio(records)
+  const cuantos = plural(records.length, 'récord', 'récords')
+  return ejercicios.length === 1 ? `${cuantos} en ${nombres[ejercicios[0].exerciseId] ?? 'un ejercicio'}` : `${cuantos} en ${formatInt(ejercicios.length)} ejercicios`
+}
+
+/** «Pecho sube a Básico II», «Pecho sube a Básico II y 2 más» o, sin subidas, «5 grupos trabajados». */
+export function resumenCuerpo(subidas: { musculo: string; nivel: string }[], trabajados: number): string {
+  if (subidas.length) return `${subidas[0].musculo} sube a ${subidas[0].nivel}${subidas.length > 1 ? ` y ${formatInt(subidas.length - 1)} más` : ''}`
+  return trabajados === 1 ? '1 grupo trabajado' : `${formatInt(trabajados)} grupos trabajados`
+}
+
+/** Una línea para «Cumbres y ligas»: lo que sube y lo que cambia de liga; sin nada, lo dice. */
+export function resumenCumbresLigas(cumbre: DatosHitos['cumbre'], ligas: DatosHitos['ligas'], sumanSemana: number, nombres: Record<number, string>, conCumbres: boolean): string {
+  const partes: string[] = []
+  if (!conCumbres) partes.push('Elige tu primera montaña')
+  else if (cumbre?.cimas.length) partes.push(`Cumbre del ${cumbre.cimas[0]}`)
+  else if (cumbre && cumbre.metros > 0) partes.push(`+${formatInt(cumbre.metros)} m`)
+  if (ligas.length) partes.push(ligas.length === 1 ? `${nombres[ligas[0].exerciseId] ?? 'Ejercicio'} · ${ligas[0].texto}` : `${formatInt(ligas.length)} cambios de liga`)
+  else if (sumanSemana > 0) partes.push(sumanSemana === 1 ? '1 ejercicio suma una semana' : `${formatInt(sumanSemana)} ejercicios suman una semana`)
+  return partes.length ? partes.join(' · ') : 'Este entreno no sube metros'
+}
