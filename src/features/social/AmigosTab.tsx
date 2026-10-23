@@ -24,40 +24,47 @@ type Vista = 'siguiendo' | 'seguidores' | 'anadir'
  * Amigos (se abre desde Social, ADR 040 y 043): tu perfil social y las personas (solicitudes, a quién sigues, quién te sigue y añadir a
  * alguien). Las publicaciones viven en Social. Necesita cuenta.
  */
-export default function AmigosTab({ onIrACuenta, anadirInicial = false }: { onIrACuenta: () => void; anadirInicial?: boolean }) {
+export default function AmigosTab({ onIrACuenta, anadirInicial = false, onVolver }: {
+  onIrACuenta: () => void; anadirInicial?: boolean
+  /** Amigos se abre desde Social: «‹ Social» encima del título (NAV-02). */
+  onVolver?: () => void
+}) {
+  const volver = onVolver ? { etiqueta: 'Social', onVolver } : undefined
   const cuenta = useCuenta()
   if (cuenta.fase === 'cargando') return <div className="px-page pt-5"><LoadingState /></div>
   if (cuenta.fase === 'sin-sesion') {
     return (
       <div className="space-y-section px-page pt-5">
-        <PageHeader title="Amigos" />
+        <PageHeader title="Amigos" volver={volver} />
         <EmptyState icon="users" title="Entra con tu cuenta" action={<Button variant="secondary" onClick={onIrACuenta}>Ir a Cuenta</Button>}>
           Para seguir a otras personas y que te sigan necesitas una cuenta. Tus registros siguen siendo solo tuyos: los demás solo verán lo que publiques.
         </EmptyState>
       </div>
     )
   }
-  return <ConCuenta key={cuenta.email} anadirInicial={anadirInicial} />
+  return <ConCuenta key={cuenta.email} anadirInicial={anadirInicial} volver={volver} />
 }
 
-function ConCuenta({ anadirInicial }: { anadirInicial: boolean }) {
+type Volver = { etiqueta: string; onVolver: () => void } | undefined
+
+function ConCuenta({ anadirInicial, volver }: { anadirInicial: boolean; volver: Volver }) {
   const [version, setVersion] = useState(0)
   const perfil = useConsulta(async () => (await cargarSocial()).miPerfil(), version)
 
   if (perfil.estado === 'error' && perfil.datos === undefined) {
     return (
       <div className="space-y-section px-page pt-5">
-        <PageHeader title="Amigos" />
+        <PageHeader title="Amigos" volver={volver} />
         <div className="space-y-3"><ErrorState>{perfil.error}</ErrorState><Button variant="secondary" size="sm" onClick={perfil.recargar}>Reintentar</Button></div>
       </div>
     )
   }
   if (perfil.datos === undefined) return <div className="px-page pt-5"><LoadingState /></div>
   if (perfil.datos === null) return <CrearPerfil onCreado={() => setVersion((v) => v + 1)} />
-  return <Amigos anadirInicial={anadirInicial} perfil={perfil.datos} onPerfilCambiado={() => setVersion((v) => v + 1)} />
+  return <Amigos anadirInicial={anadirInicial} volver={volver} perfil={perfil.datos} onPerfilCambiado={() => setVersion((v) => v + 1)} />
 }
 
-function Amigos({ perfil, onPerfilCambiado, anadirInicial }: { anadirInicial: boolean; perfil: MiPerfil; onPerfilCambiado: () => void }) {
+function Amigos({ perfil, onPerfilCambiado, anadirInicial, volver }: { anadirInicial: boolean; volver: Volver; perfil: MiPerfil; onPerfilCambiado: () => void }) {
   const [vista, setVista] = useState<Vista>(anadirInicial ? 'anadir' : 'siguiendo')
   const [version, setVersion] = useState(0)
   // Como en Social: al entrar se vuelve a preguntar si es administrador (puede haber cambiado de cuenta).
@@ -79,7 +86,7 @@ function Amigos({ perfil, onPerfilCambiado, anadirInicial }: { anadirInicial: bo
 
   const cabecera = (
     <div>
-      <PageHeader title="Amigos" action={<IconButton icon="settings" label="Ajustes del perfil" variant="ghost" aria-haspopup="dialog" onClick={abrirAjustes} />} />
+      <PageHeader title="Amigos" volver={volver} action={<IconButton icon="settings" label="Ajustes del perfil" variant="ghost" aria-haspopup="dialog" onClick={abrirAjustes} />} />
       {/* Fuera de `overline`, que pone en mayúscula la primera letra y cambiaría el alias. */}
       <p className="mt-1 break-words text-body-sm text-fg-muted">
         @{perfil.alias}{perfil.solicitudes > 0 && ` · ${formatInt(perfil.solicitudes)} ${perfil.solicitudes === 1 ? 'solicitud' : 'solicitudes'}`}

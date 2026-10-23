@@ -2337,3 +2337,11 @@ Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla
 - Documentos: `experiencia.md`, `vitrina.md`, `cumbres.md` y `caminos.md` (§ Rendimiento y lecturas) y `arquitectura.md`.
 
 **Verificación:** `npm run test` (215 archivos, 2.600 pruebas, con `master` al día) y `npm run build` correctos. En navegador (`appfit-test.localhost`) pasan `auditoria-entreno` (incluye el fin de sesión), `auditoria-interfaz` (24 pantallas), `validar-mejoras-pendientes` (Vitrina), `validar-pulido-auditoria` y `validar-mejoras-uso`, y los recorridos propios de las teselas de Inicio y de Ritmo › Semanas. `validar-insignias.cjs` no pasa ni en `master`: aún busca el botón «Más» de la barra anterior al ADR 043 (pendiente, sin tocar). Sin dispositivo físico.
+
+## 212. «Volver» en Amigos (A-X1 · NAV-02, 2026-10-23)
+
+**Qué:** Amigos, que se abre desde Social, tiene «‹ Social» encima del título, como las secciones de progreso tienen «‹ Inicio» (B4). Víctor lo aprobó en la página de previews de los cinco siguientes, junto con A14 (con sus decisiones), y tres pasos nuevos del roadmap del carril A que se añaden al plan: A16 (gemelos en el asistente), A17 (importar FIT) y A18 (compartir la semana de Ritmo).
+
+**Cómo:** `social/AmigosTab` recibe `onVolver` y pasa `volver={{ etiqueta: 'Social', onVolver }}` a sus tres `PageHeader` (sin sesión, error y normal). En `app/App.tsx`, solo la línea que monta `AmigosTab` (cruce pactado). Documentos: `features/social.md`, `arquitectura.md` (navegación) y el carril A con los pasos nuevos.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright con el Supabase falso en `appfit-test.localhost:5175` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: el botón «Social» (44 px) vuelve a Social; sin scroll horizontal ni errores de consola.
