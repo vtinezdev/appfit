@@ -41,15 +41,32 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-1.62.1-${{ runner.os }}-ubuntu-24.04
       - name: Herramientas de navegador fuera de las dependencias de la PWA
-        timeout-minutes: 14
         run: |
           printf '%s\n' "NODE_PATH=$RUNNER_TEMP/appfit-qa/node_modules" "APPFIT_UI_OUTPUT=$RUNNER_TEMP/appfit-auditoria" >> "$GITHUB_ENV"
           npm install --prefix "$RUNNER_TEMP/appfit-qa" --no-audit --no-fund playwright@1.62.1
-          # Una descarga o un apt colgados fallan en 6 minutos y se reintentan una vez, en vez de agotar el tiempo del trabajo.
-          for intento in 1 2; do
-            timeout 360 node "$RUNNER_TEMP/appfit-qa/node_modules/playwright/cli.js" install --with-deps chromium firefox webkit && exit 0
-            echo "La instalación de los navegadores no terminó (intento $intento)."
+      # Descarga de navegadores y paquetes del sistema van por separado, cada una con su límite y tres intentos: una
+      # descarga o un apt colgados fallan en minutos, dicen en qué fase y no agotan el tiempo del trabajo.
+      - name: Navegadores de Playwright
+        timeout-minutes: 12
+        run: |
+          for intento in 1 2 3; do
+            timeout 180 node "$RUNNER_TEMP/appfit-qa/node_modules/playwright/cli.js" install chromium firefox webkit && exit 0
+            echo "::warning title=Navegadores de Playwright::La descarga no terminó (intento $intento)."
           done
+          echo "::error title=Navegadores de Playwright::La descarga no terminó en tres intentos."
+          exit 1
+      - name: Paquetes del sistema para los navegadores
+        timeout-minutes: 12
+        run: |
+          for intento in 1 2 3; do
+            timeout 180 node "$RUNNER_TEMP/appfit-qa/node_modules/playwright/cli.js" install-deps chromium firefox webkit && exit 0
+            echo "::warning title=Paquetes del sistema::apt no terminó (intento $intento)."
+            # `timeout` solo corta a Node: el apt que lanzó (con sudo) sigue vivo con el bloqueo. Se corta y se limpia.
+            sudo pkill -9 -x apt-get || true; sudo pkill -9 -x dpkg || true
+            sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/cache/apt/archives/lock /var/lib/apt/lists/lock
+            sudo dpkg --configure -a || true
+          done
+          echo "::error title=Paquetes del sistema::apt no terminó en tres intentos."
           exit 1
       - run: npm run build
       - name: Entrenamiento, responsive, formularios y producción offline

@@ -2202,7 +2202,8 @@ Desde el 22 de octubre por la tarde, el job `navegador` de `.github/workflows/qa
 
 - Los dos jobs, en `ubuntu-24.04` fijo.
 - Caché de `~/.cache/ms-playwright` con `actions/cache` (clave: Playwright 1.62.1 e imagen).
-- La instalación, con `timeout 360` y un reintento; el paso, con 14 minutos como mucho: un cuelgue falla rápido y con un mensaje claro.
+- Descarga de navegadores (`install`) y paquetes del sistema (`install-deps`) en pasos separados, con `timeout 180` y tres intentos cada uno. La primera versión (un solo paso con `--with-deps`, 6 minutos y un reintento) se colgó una vez y el reintento murió al momento: `timeout` solo corta a Node y el apt que lanzó con sudo seguía vivo con el bloqueo. Ahora se corta y se limpia antes de reintentar.
+- Cada recorrido del job pasa por `paso()`, que si falla publica el final de su salida como anotación (`::error`): desde aquí no se pueden descargar ni el log ni las evidencias.
 - `docs/desarrollo.md` (workflow de QA).
 
 **Verificación:** YAML válido; el propio workflow de la PR es la prueba (las PR usan el de su rama).
