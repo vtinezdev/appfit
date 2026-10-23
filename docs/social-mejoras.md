@@ -390,7 +390,9 @@ Solo tras las fases anteriores y con un piloto.
 - **Validación:** 3–4 semanas con parejas de niveles distintos: ¿quieren repetir?, ¿hubo presión?
 - **[DECIDIR]:** qué sesión cuenta, cómo se fija el objetivo y la zona horaria.
 
-### F3-2 · Rutina reutilizable (Codex B05) · P2
+### F3-2 · Rutina reutilizable (Codex B05) · P2 · Hecho
+
+> **Hecho (2026-10-23, A13, [ADR 055](decisiones/055-rutina-compartida.md), migración 0022).** Tipo de publicación `rutina` con `catalogId` por ejercicio (`null` si es propio, y quien la guarda elige otro) y «Guardar en mis rutinas». Detalle en [social](features/social.md#publicaciones).
 
 - **Idea:** compartir la estructura de una rutina (ejercicios, series y rangos, descansos); quien la recibe la revisa y la guarda en sus rutinas con sus cargas. Nunca se copian marcas ajenas.
 - **Bloqueo:** hoy el resumen solo lleva nombres de ejercicio. Hacen falta ids estables del catálogo (no los numéricos locales) y un tratamiento para los ejercicios personalizados (sin equivalente: elegir uno al revisar).

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { lazy, Suspense, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
@@ -29,10 +29,14 @@ import { TIPOS_SERIE, cambiosBajada, cambiosLadoBajada, conBajadaRestaurada, con
 import type { Anterior, TextoAnterior } from '../lib/anterior'
 import { subtituloEjercicio } from '../lib/presentacionEjercicio'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
+import { CATALOGO_POR_ID } from '../lib/catalogoEjercicios'
 import { volumenSets } from '../lib/workout'
 import { cargaInusual } from '../lib/cargaInusual'
 import { textoCalentamientos, textoObjetivo } from '../lib/objetivos'
 import { decimalEditable, esDecimalParcial, formatInt, formatNumber, leerDecimal } from '../../../shared/lib/format'
+
+// La ficha (con sus textos y el muñeco) solo se carga al abrirla.
+const FichaEjercicio = lazy(() => import('./FichaEjercicio'))
 
 /** El borrador evita que una respuesta asíncrona anterior interrumpa la escritura. Sin valor (lado no registrado) queda vacío. */
 export function CampoSerie({ valor, label, decimal = false, disabled = false, className = '', onChange, onTerminarEdicion }: {
@@ -153,6 +157,8 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
   const completo = sets.length > 0 && sets.every(s => completadas?.includes(s.id))
   const actualizar = (id: number, cambio: CambioSerie) => { void Promise.resolve(onActualizar(id, cambio)).catch(() => {}) }
   const [hoja, setHoja] = useState<Hoja | null>(null)
+  const [ficha, setFicha] = useState(false)
+  const conFicha = !!ejercicio.catalogId && CATALOGO_POR_ID.has(ejercicio.catalogId)
   const despuesDelMenu = useRef<(() => void) | null>(null)
   /** Se calcula al abrir y se conserva mientras la hoja se cierra (no cambia bajo el dedo si se marca una serie). */
   const [historial, setHistorial] = useState<HistorialEjercicio | null>(null)
@@ -244,6 +250,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
           {objetivo && <p className="tabular text-caption text-fg-muted">Objetivo: {textoObjetivo(objetivo)} reps{objetivo.calentamientos ? ` · ${textoCalentamientos(objetivo)}` : ''}{objetivo.descansoSeg ? ` · ${objetivo.descansoSeg} s de descanso` : ''}</p>}
         </div>
         </div>
+        {conFicha && <IconButton icon="info" variant="ghost" size="sm" label={`Ficha de ${ejercicio.nombre}`} onClick={() => setFicha(true)} />}
         {menu && <IconButton icon="more" variant="ghost" size="sm" label={`Opciones de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja('menu')} />}
       </div>
       {contexto?.nota && <button type="button" disabled={bloqueado} onClick={() => setHoja('nota')} aria-label={`Nota de ${ejercicio.nombre}: ${contexto.nota}`}
@@ -352,6 +359,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
       {contexto?.onEjecucion && hoja === 'variante' && <EjecucionEjercicio open ejercicio={ejercicio} actual={ejecucion} onGuardar={contexto.onEjecucion} onClose={() => setHoja(null)} />}
       {contexto?.historial && <HistorialEjercicioSheet open={hoja === 'historial'} onClose={() => setHoja(null)} nombre={ejercicio.nombre} historial={historial} gimnasio={contexto.historial.gimnasio} />}
       {liga && <LigaSheet open={hoja === 'liga'} liga={liga.estado} ejercicio={ejercicio} hoy={liga.hoy} alternativas={liga.alternativas} mantenido={liga.mantenido} sinRecords={liga.sinRecords} rutinas={liga.rutinas} onClose={() => setHoja(null)} />}
+      {ficha && ejercicio.catalogId && <Suspense fallback={null}><FichaEjercicio catalogId={ejercicio.catalogId} onClose={() => setFicha(false)} /></Suspense>}
       {menu && <Sheet open={hoja === 'menu'} onClose={() => setHoja(null)} title={ejercicio.nombre}
         onExited={() => { const accion = despuesDelMenu.current; despuesDelMenu.current = null; accion?.() }}>
         <ListGroup variante="plana" aria-label={`Opciones de ${ejercicio.nombre}`}>

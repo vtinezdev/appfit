@@ -15,6 +15,7 @@ import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { formatFechaHoraConDia } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
+import CompartirRutina from '../components/CompartirRutina'
 import EditorRutina from '../components/EditorRutina'
 import MiniaturaEjercicio from '../components/MiniaturaEjercicio'
 import { cuandoRutina, EtiquetasMusculos } from '../components/TarjetaRutina'
@@ -41,7 +42,8 @@ interface Props {
 
 /**
  * Ficha de una rutina guardada: cabecera de grafito con el mapa de lo que trabaja, cifras y «Empezar»; sus músculos,
- * sus ejercicios con el objetivo y la última serie hecha, y sus últimas sesiones. «Editar» abre la hoja de edición.
+ * sus ejercicios con el objetivo y la última serie hecha, y sus últimas sesiones. «Editar» abre la hoja de edición;
+ * «Compartir rutina» (con Amigos) publica su estructura.
  */
 export default function DetalleRutina({ routineId, enCurso, onVolver, onEmpezado, onAbrirEntreno }: Props) {
   const [editando, setEditando] = useState(0)
@@ -168,6 +170,8 @@ export default function DetalleRutina({ routineId, enCurso, onVolver, onEmpezado
           </li>)}
         </ListGroup>
       </section>}
+
+      <CompartirRutina rutina={r} ejercicios={exerciseMap} />
 
       <section aria-label="Borrar rutina" className="space-y-2 border-t border-line pt-3">
         {confirmandoBorrado ? (

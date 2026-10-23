@@ -1,14 +1,17 @@
 import { useEffect, useRef } from 'react'
 import Icon, { type IconName } from '../../../shared/components/Icon'
-import { todayISO } from '../../../shared/lib/dates'
+import { addDays, startOfWeek, todayISO } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import { useVitrina } from '../../vitrina/hooks/useVitrina'
 import { formatKm } from '../../actividades/lib/actividad'
-import { recuentoPiezas } from '../../vitrina/lib/logros'
+import { piezasDesde, recuentoPiezas } from '../../vitrina/lib/logros'
+import { metrosEntre as metrosSubidos } from '../../cumbres/lib/cumbres'
+import { metrosEntre as metrosRecorridos } from '../../caminos/lib/caminos'
+import { textoKmSemana, textoMetrosSemana, textoPiezasSemana, textoRitmoSemana } from '../lib/progresoSemana'
 
 export type DestinoProgreso = 'cumbres' | 'caminos' | 'ritmo' | 'vitrina'
 
-interface Tesela { key: DestinoProgreso; label: string; icon: IconName; valor: string | null; unidad?: string; detalle: string }
+interface Tesela { key: DestinoProgreso; label: string; icon: IconName; valor: string | null; unidad?: string; detalle: string; semana?: string }
 
 /**
  * Progreso en Inicio, bajo la energía: Cumbres, Caminos, Ritmo y Vitrina en 2 × 2, una tesela por sección con su dato vivo
@@ -30,20 +33,24 @@ export default function AccesoProgreso({ onAbrir, enfocar }: { onAbrir: (destino
   }, [enfocar, listo])
   if (!estado?.visible) return null
   const caminos = estado.caminos
-  const camino = caminos?.visible ? caminos.caminos?.actual : undefined
+  const resultadoCaminos = caminos?.visible ? caminos.caminos : null
+  const camino = resultadoCaminos?.actual
   const actual = estado.cumbres?.actual
   const piezas = recuentoPiezas(estado.vitrina.logros)
   const hilo = estado.resultado.ritmo.hiloActual
+  const lunes = startOfWeek(hoy)
+  const semanaRitmo = estado.resultado.ritmo.actual
+  const diasEntreno = estado.resultado.diasEntreno
 
   const teselas: Tesela[] = [
     actual
-      ? { key: 'cumbres', label: 'Cumbres', icon: 'mountain', valor: formatInt(actual.metros), unidad: 'm', detalle: actual.montana.nombre }
+      ? { key: 'cumbres', label: 'Cumbres', icon: 'mountain', valor: formatInt(actual.metros), unidad: 'm', detalle: actual.montana.nombre, semana: textoMetrosSemana(metrosSubidos(estado.cumbres!.tramos, lunes, hoy)) }
       : { key: 'cumbres', label: 'Cumbres', icon: 'mountain', valor: null, detalle: 'Elige montaña' },
     camino
-      ? { key: 'caminos', label: 'Caminos', icon: 'route', valor: formatKm(camino.metros), unidad: 'km', detalle: camino.ruta.nombre }
+      ? { key: 'caminos', label: 'Caminos', icon: 'route', valor: formatKm(camino.metros), unidad: 'km', detalle: camino.ruta.nombre, semana: textoKmSemana(metrosRecorridos(resultadoCaminos!.tramos, lunes, hoy)) }
       : { key: 'caminos', label: 'Caminos', icon: 'route', valor: null, detalle: caminos?.visible ? 'Elige ruta' : '' },
-    { key: 'ritmo', label: 'Ritmo', icon: 'calendar', valor: formatInt(hilo), unidad: hilo === 1 ? 'semana' : 'semanas', detalle: 'Hilo actual' },
-    { key: 'vitrina', label: 'Vitrina', icon: 'trophy', valor: `${formatInt(piezas.conseguidas)}/${formatInt(piezas.total)}`, detalle: 'Piezas' },
+    { key: 'ritmo', label: 'Ritmo', icon: 'calendar', valor: formatInt(hilo), unidad: hilo === 1 ? 'semana' : 'semanas', detalle: 'Hilo actual', semana: textoRitmoSemana(semanaRitmo) },
+    { key: 'vitrina', label: 'Vitrina', icon: 'trophy', valor: `${formatInt(piezas.conseguidas)}/${formatInt(piezas.total)}`, detalle: 'Piezas', semana: textoPiezasSemana(piezasDesde(estado.vitrina.logros, lunes)) },
   ]
 
   return (
@@ -59,6 +66,16 @@ export default function AccesoProgreso({ onAbrir, enfocar }: { onAbrir: (destino
             {t.valor !== null ? <><span className="font-numeric text-heading">{t.valor}</span>{t.unidad && <span className="text-caption text-fg-muted">{t.unidad}</span>}</> : <span className="text-body-sm text-fg-muted">—</span>}
           </span>
           {t.detalle && <span className="w-full break-words text-caption text-fg-muted">{t.detalle}</span>}
+          {t.semana && <span className="mt-auto flex w-full flex-col gap-1 border-t border-line pt-2">
+            {/* Los siete días de Ritmo, decorativos: el texto de al lado ya dice lo mismo. */}
+            {t.key === 'ritmo' && <span aria-hidden="true" className="flex gap-1">
+              {[0, 1, 2, 3, 4, 5, 6].map((i) => {
+                const f = addDays(lunes, i)
+                return <span key={f} className={`block h-2 w-2 rounded-pill ${diasEntreno.has(f) ? 'bg-fg' : 'border border-line-strong'} ${f > hoy ? 'opacity-40' : ''}`} />
+              })}
+            </span>}
+            <span className="tabular break-words text-caption text-fg">{t.semana}</span>
+          </span>}
         </button>
       </li>)}
     </ul>
