@@ -21,10 +21,14 @@ interface Props {
   estado?: ReactNode
   /** Nombre del gimnasio si no es el habitual: va tras la fecha. */
   gimnasio?: string
+  /** Al terminar: la franja «Hoy» bajo las cifras (ENT-10). */
+  hoy?: ReactNode
+  /** Al terminar: el muñeco del progreso muscular, en lugar de las figuras de `levels`. */
+  figuras?: ReactNode
 }
 
 /** Póster de una sesión: lo comparten el fin del entreno y el detalle del historial. Datos reales, sin récords ni rachas inventados. */
-export default function PosterSesion({ titulo, inicio, fin, series, volumen, levels, figura, estado, gimnasio }: Props) {
+export default function PosterSesion({ titulo, inicio, fin, series, volumen, levels, figura, estado, gimnasio, hoy, figuras }: Props) {
   return <section aria-label="Resumen de la sesión" className="training-surface session-poster space-y-5 p-5">
     {estado}
     <div className="space-y-1">
@@ -36,6 +40,7 @@ export default function PosterSesion({ titulo, inicio, fin, series, volumen, lev
       <div className="min-w-0"><dt className="training-muted text-caption">Volumen</dt><dd className="tabular"><span className="break-words font-numeric text-heading">{formatInt(volumen)}</span> <span className="training-muted text-caption">kg</span></dd></div>
       <div className="min-w-0"><dt className="training-muted text-caption">Series</dt><dd className="font-numeric text-heading tabular">{formatInt(series)}</dd></div>
     </dl>
-    {levels && <Suspense fallback={<div className="poster-map-reserva" />}><FigurasMusculares levels={levels} figura={figura} /></Suspense>}
+    {hoy}
+    {figuras ?? (levels && <Suspense fallback={<div className="poster-map-reserva" />}><FigurasMusculares levels={levels} figura={figura} /></Suspense>)}
   </section>
 }

@@ -18,7 +18,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Hecho (2026-10-23) |
 | A7 | ENT-05 | Calentamiento en rampa | M | — | Descartado (2026-10-23) |
 | A8 | PRO-03 | Tendencia de series por músculo | M | — | Hecho (2026-10-23) |
-| A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Pendiente |
+| A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Hecho (2026-10-23) |
 | A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Pendiente |
 | A11 | REN-04 | Importar TCX (y FIT después) | M | — | Pendiente |
 | A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Pendiente |
@@ -150,7 +150,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** detalle de pecho y de gemelos; 320 px y texto al 200 %.
 - **Documentos:** `docs/features/gym.md` § Mapa de progreso.
 
-### [ ] A9 · ENT-10 · Fin de sesión ordenado por momentos
+### [x] A9 · ENT-10 · Fin de sesión ordenado por momentos
+
+> **Hecho (2026-10-23, PROCESO §202, PR pendiente).** Aprobado por Víctor en la página de previews A5–A9. D9: hitos en el orden récords, subida muscular, cumbre, liga y logros (primero uno de cada tipo y, si sobra sitio, más); sale abierto el primer bloque con contenido. **Cruce X4 no hecho:** B8 (cálculo derivado único) aún no está en `master`; la página lee Cumbres/Vitrina y Ligas una vez para hitos y resúmenes, y los bloques de B (que calculan lo suyo) solo se montan al abrirlos. `scripts/ui/validar-mapa-muscular.cjs` ya fallaba en `master` antes de este paso (no conoce el entreno minimizado ni el póster): queda como tarea aparte.
 
 - **Tamaño:** L · **Rama:** `feat/a-fin-sesion`
 - **Para la persona:** al terminar, arriba el póster con una franja «Hoy» de hasta tres hitos; debajo, bloques plegables con su resumen en una línea (Récords · Cuerpo · Cumbres y ligas · Vitrina); «Compartir» y «Volver a Entreno» siempre al final de la vista.
