@@ -28,7 +28,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A-X1 | NAV-02 | «Volver» en Amigos (cruce) | S | B4 | Hecho (2026-10-23) |
 | A-X2 | GAM-04 | Línea de la meta en la gráfica (cruce) | S | B13 | Pendiente |
 | A16 | ENT-16 | Gemelos en el asistente de rutinas | S | — | Hecho (2026-10-23) |
-| A17 | REN-04 | Importar FIT | M | A11 | Pendiente |
+| A17 | REN-04 | Importar FIT | M | A11 | Hecho (2026-10-23) |
 | A18 | SOC-04 | Compartir tu semana de Ritmo | M | A13 | Pendiente |
 
 ---
@@ -270,7 +270,9 @@ Víctor aprueba en la página de previews de los cinco siguientes tres mejoras d
 - **Decisión de Víctor:** siempre un ejercicio de gemelos a la semana (3 series), aunque alargue un poco la sesión.
 - **Cómo:** en `gym/lib/creadorRutinas`, tras repartir, si ningún día trae gemelos se añade uno en el día de pierna (o de cuerpo completo) con menos series. Test de todas las combinaciones.
 
-### [ ] A17 · REN-04 · Importar FIT
+### [x] A17 · REN-04 · Importar FIT
+
+> **Hecho (2026-10-23, PROCESO §214).** Lector propio en `actividades/lib/fit.ts`; `lib/importar.ts` elige el formato. Sin probar con un .fit real de un reloj: los tests y el recorrido usan archivos sintéticos.
 
 - **Tamaño:** M · **Rama:** `feat/a-importar-fit`
 - **Decisión de Víctor:** lector propio, sin dependencias.

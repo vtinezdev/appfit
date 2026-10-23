@@ -26,7 +26,7 @@ La versión actual del esquema es la v13; cada versión lleva un comentario con 
 | `medidas` | usuario | medidas corporales (cm y %) | `&fecha`; todos los campos opcionales |
 | `suplementos` | usuario | marcas diarias de suplementos; actualmente creatina | `++id`, `fecha`, `&[tipo+fecha]`: una marca por tipo y día; `createdAt` |
 | `cheatDays` | usuario | días marcados como cheat day | `++id`, `&fecha`: una marca por día, con o sin comidas; `createdAt` |
-| `actividades` | usuario | caminatas, carreras y rutas de senderismo | `++id, fecha, inicio`; `origen` `manual` \| `gpx` (importada de un GPX o un TCX) \| `gps`; `recorrido` opcional ya simplificado; sin `enCurso` = terminada (invariante 15) |
+| `actividades` | usuario | caminatas, carreras y rutas de senderismo | `++id, fecha, inicio`; `origen` `manual` \| `gpx` (importada de un GPX, TCX o FIT) \| `gps`; `recorrido` opcional ya simplificado; sin `enCurso` = terminada (invariante 15) |
 | `rutasPropias` | usuario | rutas propias de Caminos («Tarragona – Valencia») | `++id`; `salida` y `etapas` (nombre, provincia y coordenadas opcionales, km por etapa); no se borra una ruta del viaje (invariante 16) |
 | `pasos` | usuario | pasos de cada día, apuntados a mano para Caminos | `++id`, `&fecha`: un total por día; `pasos` entero de 1 a 100.000; `createdAt`, `updatedAt` (invariante 17) |
 | `gimnasios` | usuario | gimnasios distintos del habitual («Gym Playa») | `++id`, `&nombreNorm`; el habitual no tiene fila (invariante 18) |

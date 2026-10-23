@@ -19,14 +19,14 @@ import * as actividadesRepo from '../data/actividadesRepo'
 import { cifrasActividad, duracionTexto, formatKm, nombreMes, porMes, resumenSemana, tituloActividad } from '../lib/actividad'
 import { valoresIniciales, type ValoresActividad } from '../lib/formulario'
 import { GpxError, MAX_BYTES_GPX } from '../lib/gpx'
-import { esTcx, resumirArchivoActividad } from '../lib/tcx'
+import { leerArchivoActividad, type FormatoActividad } from '../lib/importar'
 
 type Hoja =
   | { tipo: 'manual'; n: number; inicial: ValoresActividad }
-  | { tipo: 'gpx'; n: number; inicial: ValoresActividad; recorrido: PuntoRecorrido[][]; archivo: string; formato: 'GPX' | 'TCX' }
+  | { tipo: 'gpx'; n: number; inicial: ValoresActividad; recorrido: PuntoRecorrido[][]; archivo: string; formato: FormatoActividad }
 
 /**
- * Actividades (Entreno › Actividades): grabar con el GPS, importar un GPX o un TCX o registrar a mano; la semana y el historial
+ * Actividades (Entreno › Actividades): grabar con el GPS, importar un GPX, TCX o FIT o registrar a mano; la semana y el historial
  * por meses. Cada fila abre su detalle y se borra deslizándola, con «Deshacer».
  */
 export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => void }) {
@@ -47,11 +47,10 @@ export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => 
     setErrorArchivo(null)
     if (f.size > MAX_BYTES_GPX) { setErrorArchivo('El archivo es demasiado grande para una sola actividad.'); return }
     try {
-      const xml = await f.text()
-      const r = resumirArchivoActividad(xml)
+      const { formato, resumen: r } = leerArchivoActividad(new Uint8Array(await f.arrayBuffer()))
       setHojaAbierta(true)
       setHoja({
-        tipo: 'gpx', n: Date.now(), archivo: f.name, formato: esTcx(xml) ? 'TCX' : 'GPX', recorrido: r.recorrido,
+        tipo: 'gpx', n: Date.now(), archivo: f.name, formato, recorrido: r.recorrido,
         inicial: valoresIniciales({ tipo: r.tipo, inicio: r.inicio, duracionSeg: r.duracionSeg ?? 0, distanciaM: r.distanciaM, desnivelM: r.desnivelM, nombre: r.nombre }),
       })
     } catch (err) {
@@ -82,10 +81,10 @@ export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => 
           <Icon name="locate" size={20} />Grabar con el GPS
         </Button>
         <div className="flex flex-wrap gap-2">
-          <Button variant="ghost" className="training-secondary flex-1 basis-40" onClick={() => archivo.current?.click()}><Icon name="upload" size={18} />Importar GPX o TCX</Button>
+          <Button variant="ghost" className="training-secondary flex-1 basis-40" onClick={() => archivo.current?.click()}><Icon name="upload" size={18} />Importar GPX, TCX o FIT</Button>
           <Button variant="ghost" className="training-secondary flex-1 basis-40" onClick={() => { setHoja({ tipo: 'manual', n: Date.now(), inicial: valoresIniciales() }); setHojaAbierta(true) }}><Icon name="pencil" size={18} />Registrar a mano</Button>
         </div>
-        <input ref={archivo} type="file" accept=".gpx,.tcx,application/gpx+xml,application/vnd.garmin.tcx+xml,application/xml,text/xml" className="sr-only" tabIndex={-1} aria-hidden onChange={leerArchivo} />
+        <input ref={archivo} type="file" accept=".gpx,.tcx,.fit,application/gpx+xml,application/vnd.garmin.tcx+xml,application/vnd.ant.fit,application/xml,text/xml,application/octet-stream" className="sr-only" tabIndex={-1} aria-hidden onChange={leerArchivo} />
       </section>
       {errorArchivo && <ErrorState>{errorArchivo}</ErrorState>}
 
@@ -100,7 +99,7 @@ export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => 
         </section>
 
         {meses.length === 0
-          ? <EmptyState icon="footprints" title="Aún no hay actividades">Graba una salida, importa el GPX o el TCX de tu reloj o de Strava, o apúntala a mano.</EmptyState>
+          ? <EmptyState icon="footprints" title="Aún no hay actividades">Graba una salida, importa el GPX, TCX o FIT de tu reloj o de Strava, o apúntala a mano.</EmptyState>
           : meses.map((m) => <section key={m.mes} aria-label={nombreMes(`${m.mes}-01`)} className="space-y-stack">
             <SectionHeader variant="section">{nombreMes(`${m.mes}-01`)}</SectionHeader>
             <ListGroup aria-label={`Actividades de ${nombreMes(`${m.mes}-01`).toLowerCase()}`}>

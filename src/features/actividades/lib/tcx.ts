@@ -87,5 +87,5 @@ export function resumirTcx(xml: string): ResumenGpx {
 export function resumirArchivoActividad(xml: string): ResumenGpx {
   if (esTcx(xml)) return resumirTcx(xml)
   if (/<(?:[\w-]+:)?gpx\b/.test(xml)) return resumirGpx(parsearGpx(xml))
-  throw new GpxError('El archivo no es un GPX ni un TCX.')
+  throw new GpxError('El archivo no es un GPX, un TCX ni un FIT.')
 }

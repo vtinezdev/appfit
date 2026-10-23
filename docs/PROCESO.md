@@ -2353,3 +2353,15 @@ Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla
 **Cómo:** `gym/lib/creadorRutinas.generarPlan` termina con `conGemelos`: si ningún día trae gemelos, elige uno con `elegir('gemelos', …)` (material y semilla como el resto) y lo añade con `SERIES_GEMELOS` = 3 al día de pierna o cuerpo completo con menos series, ordenado como aislamiento. Tests: el de completitud cuenta ese ejercicio de más y uno nuevo exige gemelos en todas las combinaciones (días × material × objetivo × tiempo), en un día de pierna o completo. Documentos: `features/gym.md` § Creador, roadmap (sale la línea) y el carril A.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 375 claro (3 días, 45 min), 320 oscuro (2 días, 60 min) y 430 oscuro (4 días, 45 min): el plan muestra «Elevación de gemelos de pie en máquina» y la rutina guardada la lleva con 3 series; sin errores de consola.
+
+## 214. Importar FIT (A17 · REN-04, 2026-10-23)
+
+**Qué:** «Importar GPX, TCX o FIT»: el mismo botón y la misma hoja aceptan también el formato binario de los relojes (Garmin, Coros, Wahoo, Suunto). Víctor elige en las previews un lector propio, sin dependencias.
+
+**Cómo:**
+- `actividades/lib/fit.ts`: `esFit` (cabecera «.FIT») y `resumirFit`, que recorre los mensajes (definiciones en ambas arquitecturas, campos de desarrollador saltados, cabeceras de hora comprimida, valores no válidos ignorados, sin comprobar el CRC) y usa `session`, `lap`, `sport` y `record`. Devuelve el mismo `ResumenGpx` que GPX y TCX, con el recorrido partido en las pausas de más de dos minutos y pasando por `resumirGpx`.
+- `actividades/lib/importar.ts`: `leerArchivoActividad(bytes)` elige FIT por la cabecera y GPX o TCX por el contenido; `ActividadesHome` lee el archivo como bytes y titula la hoja con el formato. El detalle dice «Importada de un archivo (GPX, TCX o FIT)».
+- Tests: `fit.test.ts` con un escritor FIT mínimo dentro del test (sesión, vueltas, solo puntos, cinta sin posiciones, big endian, hora comprimida, archivos dañados y la elección de formato).
+- Documentos: `features/actividades.md`, `arquitectura.md`, `datos.md`, `README.md`, roadmap y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: un FIT cortado da un error en línea; uno sintético de 5,04 km abre «Importar FIT» con 27 min y 48 m de desnivel de la sesión y se guarda como importada, de tipo correr y con su recorrido; sin scroll horizontal ni errores de consola. **Sin probar con un .fit real de un reloj.**
