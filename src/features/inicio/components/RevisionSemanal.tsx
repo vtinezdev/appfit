@@ -16,6 +16,10 @@ import Card from '../../../shared/components/Card'
 import { formatAgua, partesAgua } from '../lib/agua'
 import { formatDiferencia, semanaARevisar, type Revision } from '../lib/revisionSemanal'
 import { notaCheatDays } from '../../nutricion/lib/cheatDays'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { getSettings } from '../../../shared/db/settings'
+import type { Settings } from '../../../shared/db/types'
+import { moduloActivo } from '../../../shared/lib/modulos'
 
 /** Récords que se listan; el resto se resume en «y N más». */
 const RECORDS_VISIBLES = 3
@@ -53,6 +57,7 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose, clo
   const experiencia = useExperiencia(hoy)
   const ritmo = experiencia?.visible ? semanaRitmo(experiencia.resultado.ritmo, lunes) : undefined
   const cargada = revision?.semana.lunes === lunes ? revision : undefined
+  const settings = useLiveQuery(() => getSettings(), [])
 
   return (
     <ModalPage title="Revisión semanal" closeLabel={closeLabel} onClose={onClose}>
@@ -70,19 +75,21 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose, clo
             <p className="text-title text-fg">{textoEstado(ritmo)}</p>
             <p className="tabular break-words text-body-sm text-fg-muted">{cifrasSemana(ritmo)} · {textoHilo(ritmo.hilo).toLocaleLowerCase('es')}</p>
           </Card>}
-          <Contenido revision={cargada} />
+          <Contenido revision={cargada} modulos={settings} />
         </>}
       </div>
     </ModalPage>
   )
 }
 
-function Contenido({ revision }: { revision: Revision }) {
+/** Sin los bloques de los módulos ocultos en «Lo que usas» (B9): Entreno y Récords van con el gimnasio. */
+function Contenido({ revision, modulos }: { revision: Revision; modulos?: Pick<Settings, 'modulos'> }) {
+  const ver = (m: Parameters<typeof moduloActivo>[1]) => moduloActivo(modulos, m)
   const { peso, nutricion, entreno, records, agua } = revision
   const { actual, anterior } = entreno
   return (
     <>
-      <Bloque titulo="Peso">
+      {ver('peso') && <Bloque titulo="Peso">
         {peso.media === null ? <EmptyState>Sin pesajes esta semana.</EmptyState> : (
           <div className="grid grid-cols-2 gap-3">
             <Metric size="title" label="Peso medio" valor={formatNumber(peso.media, 1)} unidad="kg"
@@ -90,9 +97,9 @@ function Contenido({ revision }: { revision: Revision }) {
             <Metric size="title" label="Pesajes" valor={peso.pesajes} caption="de 7 días" />
           </div>
         )}
-      </Bloque>
+      </Bloque>}
 
-      <Bloque titulo="Nutrición">
+      {ver('nutricion') && <Bloque titulo="Nutrición">
         {nutricion.kcalMedia === null ? <EmptyState>{nutricion.cheatDays > 0 ? `Sin comidas registradas fuera de los cheat days (${formatInt(nutricion.cheatDays)}).` : 'Sin comidas registradas esta semana.'}</EmptyState> : (
           <div className="grid grid-cols-2 gap-3">
             <Metric size="title" label="Kcal al día" valor={nutricion.kcalMedia} unidad="kcal"
@@ -106,9 +113,9 @@ function Contenido({ revision }: { revision: Revision }) {
             )}
           </div>
         )}
-      </Bloque>
+      </Bloque>}
 
-      <Bloque titulo="Entreno">
+      {ver('gym') && <Bloque titulo="Entreno">
         {actual.sesiones === 0 ? <EmptyState>{anterior.sesiones > 0 ? `Sin entrenos esta semana (${formatInt(anterior.sesiones)} la anterior).` : 'Sin entrenos esta semana.'}</EmptyState> : (
           <>
             <div className="grid grid-cols-2 gap-3">
@@ -133,9 +140,9 @@ function Contenido({ revision }: { revision: Revision }) {
             )}
           </>
         )}
-      </Bloque>
+      </Bloque>}
 
-      {actual.sesiones > 0 && (records.length ? (
+      {ver('gym') && actual.sesiones > 0 && (records.length ? (
         <div className="space-y-2">
           <RecordsSesion records={records.slice(0, RECORDS_VISIBLES)} total={records.length} nombres={revision.nombres} catalogIds={revision.catalogIds} />
           {records.length > RECORDS_VISIBLES && <p className="text-caption text-fg-muted">y {formatInt(records.length - RECORDS_VISIBLES)} más</p>}
@@ -144,7 +151,7 @@ function Contenido({ revision }: { revision: Revision }) {
         <Bloque titulo="Récords personales"><EmptyState>Sin récords esta semana.</EmptyState></Bloque>
       ))}
 
-      <Bloque titulo="Agua">
+      {ver('agua') && <Bloque titulo="Agua">
         {agua.mediaMl === null ? <EmptyState>Sin agua registrada esta semana.</EmptyState> : (
           <div className="grid grid-cols-2 gap-3">
             <Metric size="title" label="Agua al día" valor={partesAgua(agua.mediaMl).valor} unidad={partesAgua(agua.mediaMl).unidad}
@@ -154,7 +161,7 @@ function Contenido({ revision }: { revision: Revision }) {
             )}
           </div>
         )}
-      </Bloque>
+      </Bloque>}
     </>
   )
 }

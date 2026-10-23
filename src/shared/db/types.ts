@@ -305,6 +305,10 @@ export interface Settings {
   nombreGimnasioHabitual?: string
   /** Pistas de primera vez ya cerradas (`shared/lib/pistas.ts`); ausente = ninguna. */
   pistasVistas?: string[]
+  /** Módulos activables (B9, `shared/lib/modulos.ts`): `false` lo oculta; ausente = activo. Ocultar no borra datos. */
+  modulos?: Partial<Record<'nutricion' | 'gym' | 'actividades' | 'agua' | 'peso', boolean>>
+  /** Orden de las tarjetas de Inicio (`TarjetaInicio`); ausente o incompleto = el de siempre para las que falten. */
+  ordenInicio?: string[]
 }
 
 /**

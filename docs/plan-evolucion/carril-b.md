@@ -1,6 +1,6 @@
 # Carril B · Inicio, Nutrición, navegación y progreso
 
-Estado y orden de los pasos del carril B. Reglas comunes, reparto de carpetas, cruces y decisiones: [README](README.md). **Este archivo solo lo edita la sesión del carril B.**
+Estado y orden de los pasos del carril B. Reglas comunes, reparto de carpetas, cruces y decisiones: [README](README.md). **Este archivo solo lo edita la sesión del carril B.** Desde el 2026-10-24 (B9–B16) los carriles A y B los lleva la misma sesión, a petición de Víctor: los cruces entre carpetas de A y de B se resuelven en el mismo paso.
 
 Dueño de: `src/features/inicio/`, `nutricion/`, `perfil/`, `ritmo/`, `cumbres/`, `caminos/`, `vitrina/`, `experiencia/`, `referencias/`, `cuenta/`, `src/app/`, `src/shared/` y los documentos generales (`DESIGN.md`, `PRODUCT.md`, `docs/DESIGN-SYSTEM.md`, `docs/arquitectura.md`, `docs/datos.md`, ADR y los `docs/features/` de esas features). Es el único carril que crea versiones de Dexie y toca el backup. **No toca `gym/`, `liga/`, `actividades/` ni `social/`**: los usa tal cual; si hiciera falta cambiarlos, es un cruce con A.
 
@@ -18,7 +18,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B6 | NUT-03 | Registrar comida desde Inicio | M | — | Hecho (2026-10-23) |
 | B7 | GAM-01 | Teselas de progreso con la semana | M | — | Hecho (2026-10-23) |
 | B8 | REN-01 | Un único cálculo derivado | L | — | Hecho (2026-10-23) |
-| B9 | GLO-02 | Módulos activables | L | B7 | Pendiente |
+| B9 | GLO-02 | Módulos activables | L | B7 | Hecho (2026-10-24) |
 | B10 | NUT-05 | «Cerrar el día» | M | — | Pendiente |
 | B11 | PRO-01 | Lecturas cruzadas de entreno y nutrición | L | B2 | Pendiente |
 | B12 | GAM-02 | Un solo destino «Progreso» | L | B4, B7 | Pendiente |
@@ -27,6 +27,8 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B15 | GAM-03 | Tu mes y tu año en AppFit | L | B8 (A10 para la imagen) | Pendiente |
 | B16 | NUT-04 | Comidas planificadas y lista de la compra | XL | — (versión 14 de Dexie) | Pendiente |
 | B17 | PRO-04 | Fotos de progreso privadas | XL | B16 (por la versión de Dexie) | Pendiente |
+
+**Decisiones de Víctor en las previews B9–B16 (2026-10-24):** B9, los cinco módulos (Nutrición, Gimnasio, Actividades, Agua y Peso) y, sin Nutrición, la gamificación cuenta solo el entreno · B10, un chip en Buscar junto a las categorías · B11, al final de la revisión semanal · B12, «Progreso» también en la media luna · B13, los tres tipos de meta (récord de un ejercicio, km de un mes y semanas cumplidas) y, al cumplirla, una pieza en la Vitrina · B14, implementar · B15, con imagen para compartir · B16, sin planificar días pasados (solo hoy y días futuros).
 
 ---
 
@@ -121,7 +123,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Tests:** el resultado del lector compartido coincide con el de las funciones actuales sobre los mismos datos; varias suscripciones calculan una sola vez.
 - **Documentos:** `docs/features/experiencia.md`, `vitrina.md`, `cumbres.md` y `caminos.md` (§ Rendimiento), `docs/arquitectura.md`.
 
-### [ ] B9 · GLO-02 · Módulos activables
+### [x] B9 · GLO-02 · Módulos activables
+
+> **Hecho (2026-10-24, PROCESO §227).** Víctor decide en las previews B9–B16 los cinco módulos y que, sin Nutrición, la gamificación cuente solo el entreno. Desde esta tanda, el carril B lo lleva la misma sesión que el A, así que también se ocultan las secciones de Entreno (gimnasio o actividades) sin cruce. Los interruptores son `SegmentedControl` («Usar …» / «Ocultar»), como el resto de Ajustes. La revisión semanal quita los bloques de los módulos ocultos.
 
 - **Tamaño:** L · **Rama:** `feat/b-modulos`
 - **Para la persona:** Ajustes › «Lo que usas»: interruptores para Nutrición, Gimnasio, Actividades, Agua y Peso, con su consecuencia escrita, y «Ordenar Inicio» con flechas. Ocultar nunca borra datos.

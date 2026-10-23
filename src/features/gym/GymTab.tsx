@@ -4,6 +4,8 @@ import ViewTabs from '../../shared/components/ViewTabs'
 import { lazy, Suspense, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useAviso } from '../../shared/hooks/useAviso'
+import { getSettings } from '../../shared/db/settings'
+import { moduloActivo } from '../../shared/lib/modulos'
 import * as workoutsRepo from './data/workoutsRepo'
 import * as actividadesRepo from '../actividades/data/actividadesRepo'
 import { tituloActividad } from '../actividades/lib/actividad'
@@ -47,6 +49,11 @@ export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, on
   const activeWorkout = useLiveQuery(() => workoutsRepo.activo(), [])
   const grabacion = useLiveQuery(() => actividadesRepo.enCurso(), [])
   const { avisar, toast } = useAviso()
+  const settings = useLiveQuery(() => getSettings(), [])
+  // Con el gimnasio o las actividades ocultos en «Lo que usas» (B9), Entreno enseña solo el otro, sin pestañas.
+  const conGimnasio = moduloActivo(settings, 'gym')
+  const conActividades = moduloActivo(settings, 'actividades')
+  const visible: SeccionEntreno = !conGimnasio ? 'actividades' : !conActividades ? 'gimnasio' : seccion
 
   // La grabación con GPS va primero: es la que no puede esperar.
   if (grabacion) {
@@ -76,38 +83,42 @@ export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, on
     </>
   }
 
+  const vistaGimnasio = (
+    <ViewTabs
+      label="Vistas de entrenamiento"
+      opciones={[
+        { valor: 'inicio', label: 'Empezar' }, // no «Inicio»: se confundiría con el destino Inicio
+        { valor: 'rutinas', label: 'Rutinas' },
+        { valor: 'historial', label: 'Historial' },
+        { valor: 'progreso', label: 'Progreso' },
+      ]}
+      valor={vista}
+      onChange={setVista}
+    >
+      {vista === 'inicio' && <GymHome enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onRegistrado={(id) => setDetalle({ id, editar: true })} onAbrirRutina={setRutina} />}
+      {vista === 'rutinas' && <Rutinas enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onAbrirRutina={setRutina} />}
+      {vista === 'historial' && <Historial onAbrir={(id) => setDetalle({ id, editar: false })} />}
+      {vista === 'progreso' && (
+        <Suspense fallback={<LoadingState />}>
+          <Progreso />
+        </Suspense>
+      )}
+    </ViewTabs>
+  )
+  const vistaActividades = <Suspense fallback={<LoadingState />}><ActividadesHome onAbrir={setDetalleActividad} /></Suspense>
+
   return (
     <div className="space-y-3 px-page pt-5">
       <PageHeader title="Entreno" />
-      <ViewTabs
+      {conGimnasio && conActividades ? <ViewTabs
         label="Secciones de entreno"
         nivel="principal"
         opciones={[{ valor: 'gimnasio', label: 'Gimnasio' }, { valor: 'actividades', label: 'Actividades' }]}
-        valor={seccion}
+        valor={visible}
         onChange={setSeccion}
       >
-        {seccion === 'gimnasio' && <ViewTabs
-          label="Vistas de entrenamiento"
-          opciones={[
-            { valor: 'inicio', label: 'Empezar' }, // no «Inicio»: se confundiría con el destino Inicio
-            { valor: 'rutinas', label: 'Rutinas' },
-            { valor: 'historial', label: 'Historial' },
-            { valor: 'progreso', label: 'Progreso' },
-          ]}
-          valor={vista}
-          onChange={setVista}
-        >
-          {vista === 'inicio' && <GymHome enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onRegistrado={(id) => setDetalle({ id, editar: true })} onAbrirRutina={setRutina} />}
-          {vista === 'rutinas' && <Rutinas enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onAbrirRutina={setRutina} />}
-          {vista === 'historial' && <Historial onAbrir={(id) => setDetalle({ id, editar: false })} />}
-          {vista === 'progreso' && (
-            <Suspense fallback={<LoadingState />}>
-              <Progreso />
-            </Suspense>
-          )}
-        </ViewTabs>}
-        {seccion === 'actividades' && <Suspense fallback={<LoadingState />}><ActividadesHome onAbrir={setDetalleActividad} /></Suspense>}
-      </ViewTabs>
+        {visible === 'gimnasio' ? vistaGimnasio : vistaActividades}
+      </ViewTabs> : visible === 'gimnasio' ? vistaGimnasio : vistaActividades}
       {toast}
     </div>
   )

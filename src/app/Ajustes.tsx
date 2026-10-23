@@ -12,6 +12,7 @@ import * as perfilRepo from '../features/perfil/data/perfilRepo'
 import { actualizarObjetivoHoy } from '../features/perfil/data/objetivosDiaRepo'
 import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
 import GamificacionAjustes from '../features/ritmo/components/GamificacionAjustes'
+import ModulosAjustes from './ModulosAjustes'
 import { planDeSemana } from '../features/ritmo/lib/plan'
 import CreatinaAjustes from '../features/inicio/components/CreatinaAjustes'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
@@ -218,6 +219,8 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
   }
 
   const contenido: Record<SeccionAjustes, () => ReactNode> = {
+    modulos: () => <ModulosAjustes settings={settings} onError={setErrorAjuste} />,
+
     objetivos: () => <ObjetivosAjustes objetivos={vigentes} origen={vigentes.origen} proteinaPorKg={vigentes.proteinaPorKg} onIrAPerfil={onIrAPerfil} onGuardar={(objetivos) => {
       setErrorAjuste(null)
       updateSettings({ objetivos }).then(() => actualizarObjetivoHoy(todayISO(), 'ajustes')).catch(() => setErrorAjuste('No se han podido guardar los objetivos. Inténtalo de nuevo.'))
