@@ -170,7 +170,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A10 · ENT-11 · Póster del entreno como imagen
 
-> **Hecho (2026-10-23, PROCESO §206).** Víctor lo aprobó en la página de previews A10–A14: la imagen lleva cifras, muñeco y la franja «Hoy», con «Hecho con AppFit» al pie (sin dominio). `svgPoster` recibe la geometría del muñeco (`CUERPOS[figura]`) en lugar de importarla, para que `lib/` no dependa de `components/`. En el historial, «Hoy» son los récords del entreno. Falta probar en iPhone la hoja de compartir (anotado en el roadmap).
+> **Hecho (2026-10-23, PROCESO §206, PR #135).** Víctor lo aprobó en la página de previews A10–A14: la imagen lleva cifras, muñeco y la franja «Hoy», con «Hecho con AppFit» al pie (sin dominio). `svgPoster` recibe la geometría del muñeco (`CUERPOS[figura]`) en lugar de importarla, para que `lib/` no dependa de `components/`. En el historial, «Hoy» son los récords del entreno. Falta probar en iPhone la hoja de compartir (anotado en el roadmap).
 
 - **Tamaño:** L · **Rama:** `feat/a-poster-imagen`
 - **Para la persona:** «Guardar imagen» y «Compartir…» en el póster del fin de sesión y del detalle del historial; sin cuenta, por WhatsApp o Instagram.
