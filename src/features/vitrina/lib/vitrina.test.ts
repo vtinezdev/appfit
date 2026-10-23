@@ -4,7 +4,7 @@ import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { calcularExperiencia } from '../../experiencia/lib/experiencia'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import { calcularAtlas } from './atlas'
-import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, nombreConNivel, proximosLogros, recuentoPiezas, siguienteUmbral, UMBRALES, type Logro } from './logros'
+import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, nombreConNivel, piezasDesde, proximosLogros, recuentoPiezas, siguienteUmbral, UMBRALES, type Logro } from './logros'
 import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { calcularCumbres, empezar } from '../../cumbres/lib/cumbres'
 import { calcularCaminos } from '../../caminos/lib/caminos'
@@ -279,3 +279,25 @@ describe('próximos logros', () => {
     expect(proximosLogros([madrugador])).toEqual([])
   })
 })
+
+describe('piezasDesde', () => {
+  const logro = (extra: Partial<Logro>): Logro => ({ id: 'entrenos', nombre: 'X', grupo: 'entreno', descripcion: '', niveles: [], ...extra } as Logro)
+  const lunes = '2026-10-19'
+
+  it('cuenta los niveles alcanzados desde el lunes, no los anteriores ni los pendientes', () => {
+    const l = logro({ umbrales: [1, 5, 10], niveles: [{ fecha: '2026-10-02' }, { fecha: '2026-10-19' }, null] })
+    expect(piezasDesde([l], lunes)).toBe(1)
+  })
+
+  it('un repetible es pieza nueva solo si su primera vez es de esta semana', () => {
+    const nuevo = logro({ niveles: [], veces: [{ fecha: '2026-10-21' }, { fecha: '2026-10-22' }] })
+    const viejo = logro({ niveles: [], veces: [{ fecha: '2026-09-01' }, { fecha: '2026-10-21' }] })
+    expect(piezasDesde([nuevo, viejo], lunes)).toBe(1)
+  })
+
+  it('sin nada desde el lunes, 0', () => {
+    expect(piezasDesde([logro({ umbrales: [1], niveles: [{ fecha: '2026-10-18' }] })], lunes)).toBe(0)
+    expect(piezasDesde([], lunes)).toBe(0)
+  })
+})
+

@@ -184,9 +184,6 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .inicio-paneles > * { min-width: 0; }
 /* Peso y Agua: cada una con su fila entera en el móvil (Peso lleva media, ritmo y minigráfica); lado a lado desde 40 rem. */
 .inicio-registros { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-stack); }
-@container inicio (max-width: 18rem) {
-  .progreso-teselas { grid-template-columns: minmax(0, 1fr); }
-}
 @container inicio-layout (min-width: 40rem) {
   .inicio-paneles { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .inicio-registros { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -541,6 +538,11 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 [data-mini-entreno] .app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--mini-entreno-height) + .5rem + var(--space-section)); }
 /* Progreso en Inicio: teselas de Cumbres, Caminos, Ritmo y Vitrina con su dato, en 2 × 2 con el mismo hueco que el mosaico. */
 .progreso-teselas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-stack); }
+/* Con texto ampliado, una columna (a 320 px con texto normal, 18 rem justos, siguen en 2 × 2). Va después de la regla base
+   para poder pisarla: antes estaba delante y nunca se aplicaba. */
+@container inicio (max-width: 17.5rem) {
+  .progreso-teselas { grid-template-columns: minmax(0, 1fr); }
+}
 .nutrient-row { container-type: inline-size; container-name: nutrient-row; }
 @container nutrient-row (max-width: 14rem) {
   .nutrient-values { grid-template-columns: minmax(0, 1fr); }

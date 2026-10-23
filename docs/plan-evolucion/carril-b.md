@@ -16,7 +16,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B4 | NAV-02 | «Volver» en las secciones anidadas | S | — | Hecho (2026-10-22) |
 | B5 | PRO-02 | Revisiones semanales desde Ritmo | S | — | Hecho (2026-10-23) |
 | B6 | NUT-03 | Registrar comida desde Inicio | M | — | Hecho (2026-10-23) |
-| B7 | GAM-01 | Teselas de progreso con la semana | M | — | Pendiente |
+| B7 | GAM-01 | Teselas de progreso con la semana | M | — | Hecho (2026-10-23) |
 | B8 | REN-01 | Un único cálculo derivado | L | — | Pendiente |
 | B9 | GLO-02 | Módulos activables | L | B7 | Pendiente |
 | B10 | NUT-05 | «Cerrar el día» | M | — | Pendiente |
@@ -96,9 +96,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** a las 8:00, 14:00 y 21:00 simuladas; 320 px con texto al 200 %; Deshacer.
 - **Documentos:** `docs/features/inicio.md`, `docs/features/nutricion.md`, `DESIGN.md` § Inicio.
 
-### [ ] B7 · GAM-01 · Teselas de progreso con la semana
+### [x] B7 · GAM-01 · Teselas de progreso con la semana
 
-- **Tamaño:** M · **Rama:** `feat/b-teselas-semana`
+- **Tamaño:** M · **Rama:** `feat/b-teselas-semana` · **Hecho:** 2026-10-23 (PR pendiente, sin fusionar). Corrige de paso la regla que apilaba las teselas (nunca se aplicaba); Víctor elige 2 × 2 a 320 px y apilar solo con texto ampliado.
 - **Para la persona:** cada tesela de Inicio añade una línea con la semana: Cumbres «+620 m esta semana», Caminos «+12,4 km», Ritmo «2 de 3 entrenos · falta 1» con siete puntos, Vitrina «2 nuevas».
 - **Cómo:** solo lecturas de lo que `useVitrina`/`useCaminos` ya devuelven:
   1. Cumbres: `cumbres/lib/cumbres.metrosEntre(tramos, lunes, hoy)`. Caminos: su equivalente en `caminos/lib/caminos.ts`. Ritmo: semana actual del resultado de Ritmo con `ritmo/lib/textos` (`cifrasSemana`, `faltaParaCumplir`). Vitrina: función nueva `piezasDesde(logros, lunes)` en `vitrina/lib/logros.ts`.
