@@ -30,7 +30,7 @@ interface Props {
   onExited?: () => void
 }
 
-const ICONO: Record<Aviso['tipo'], IconName> = { reaccion: 'llama', comentario: 'comentario', respuesta: 'comentario', aceptada: 'check', comunidad: 'users', anadido: 'users', animo_compania: 'llama' }
+const ICONO: Record<Aviso['tipo'], IconName> = { reaccion: 'llama', comentario: 'comentario', respuesta: 'comentario', aceptada: 'check', comunidad: 'users', anadido: 'users', animo_compania: 'llama', denuncia: 'escudo' }
 
 /**
  * Solicitudes y, por días, reacciones, comentarios y novedades en lo mío, con los nuevos marcados. Se vuelve a leer al
@@ -48,7 +48,7 @@ export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, on
     if (consulta.estado === 'listo' && releida.current && instantanea === null) setInstantanea(consulta.datos.lista)
   }, [consulta, instantanea])
   const lista = instantanea ?? consulta.datos?.lista ?? []
-  const avatares = useAvatares(lista.filter(a => a.tipo !== 'comunidad').map(a => a.alias))
+  const avatares = useAvatares(lista.filter(a => a.tipo !== 'comunidad' && a.tipo !== 'denuncia').map(a => a.alias))
   const hayNuevos = lista.some((a) => a.nuevo)
   useEffect(() => {
     if (!open || !hayNuevos || instantanea === null) return
@@ -75,13 +75,16 @@ export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, on
                   <li key={`${a.tipo}-${a.publicacion}-${a.alias}-${a.creado}-${i}`}>
                     <button type="button" className="app-button flex min-h-touch w-full items-start gap-3 rounded-md py-3 text-left hover:bg-surface-muted" onClick={() => onAbrir(a)}>
                       <span className="relative mt-0.5 shrink-0">
-                        <AvatarPersona persona={a} avatar={a.tipo !== 'comunidad' ? avatares[a.alias] : undefined} tamano="sm" />
-                        <span aria-hidden className="aviso-tipo absolute -bottom-1 -right-1 flex items-center justify-center rounded-pill bg-surface-elevated text-accent-strong shadow-control">
+                        {/* La revisión de una denuncia no tiene persona: la firma la moderación de AppFit. */}
+                        {a.tipo === 'denuncia'
+                          ? <span aria-hidden className="app-avatar app-avatar-sm inline-flex shrink-0 items-center justify-center rounded-pill bg-surface-muted text-fg-muted"><Icon name="escudo" size={16} /></span>
+                          : <AvatarPersona persona={a} avatar={a.tipo !== 'comunidad' ? avatares[a.alias] : undefined} tamano="sm" />}
+                        {a.tipo !== 'denuncia' && <span aria-hidden className="aviso-tipo absolute -bottom-1 -right-1 flex items-center justify-center rounded-pill bg-surface-elevated text-accent-strong shadow-control">
                           <Icon name={ICONO[a.tipo]} size={12} className={a.tipo === 'reaccion' || a.tipo === 'animo_compania' ? 'fill-current' : ''} />
-                        </span>
+                        </span>}
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="block break-words text-body-sm text-fg"><span className="font-semibold">{nombreVisible(a)}{(a.personas ?? 1) > 1 ? ` y ${(a.personas ?? 1) - 1} más` : ''}</span> · {textoAviso(a)}</span>
+                        <span className="block break-words text-body-sm text-fg">{a.tipo === 'denuncia' ? textoAviso(a) : <><span className="font-semibold">{nombreVisible(a)}{(a.personas ?? 1) > 1 ? ` y ${(a.personas ?? 1) - 1} más` : ''}</span> · {textoAviso(a)}</>}</span>
                         {a.texto && <span className="block break-words text-caption text-fg-muted">«{a.texto}»</span>}
                         <span className="block text-caption text-fg-muted">{haceCuanto(a.creado, Date.now())}</span>
                       </span>

@@ -82,6 +82,12 @@ describe('avisos', () => {
     expect(resumenAvisos({ solicitudes: 1, nuevos: 2, invitaciones: 2 })).toBe('1 solicitud · 2 invitaciones · 2 novedades')
     expect(leerAvisos({ solicitudes: 1, nuevos: 0, lista: [] }).invitaciones).toBe(0)
   })
+
+  it('denuncia en la que se actuó: sin persona ni objetivo (0026)', () => {
+    const [d] = leerAvisos({ lista: [{ tipo: 'denuncia', alias: null, publicacion: null, creado: '2026-10-23T09:00:00Z', nuevo: true }, { tipo: 'denuncia', creado: 'x' }] }).lista
+    expect(d).toMatchObject({ tipo: 'denuncia', alias: '', publicacion: '', nuevo: true })
+    expect(textoAviso(d)).toBe('Revisamos tu denuncia y hemos actuado. Gracias por avisar.')
+  })
 })
 
 describe('textos de la reacción y los comentarios', () => {

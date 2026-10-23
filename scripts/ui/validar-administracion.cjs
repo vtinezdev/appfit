@@ -15,7 +15,7 @@ const jwt = p => [JSON.stringify({ alg: 'HS256', typ: 'JWT' }), JSON.stringify(p
 async function comprobar(capa) {
   const g = await capa.evaluate(e => ({
     ancho: e.clientWidth, contenido: e.scrollWidth, derecha: e.getBoundingClientRect().right, ventana: innerWidth,
-    pequenos: [...e.querySelectorAll('button, input')].filter(n => n.offsetParent).map(n => n.getBoundingClientRect()).filter(r => r.height < 44 || r.width < 44).length,
+    pequenos: [...e.querySelectorAll('button, input')].filter(n => n.offsetParent).map(n => n.getBoundingClientRect()).filter(r => r.height < 43.5 || r.width < 43.5).length, // Con medio píxel de margen: las posiciones fraccionarias dan 43,9999.
   }))
   assert.ok(g.contenido <= g.ancho + 1 && g.derecha <= g.ventana + 1, 'sin desbordamiento')
   assert.equal(g.pequenos, 0, 'controles de 44 px')
@@ -102,7 +102,7 @@ async function main() {
         await comprobar(mod)
         await page.screenshot({ path: `${salida}/${caso}-suspendidos.png`, animations: 'disabled' })
         await mod.getByRole('button', { name: 'Readmitir a @maria.fernandez.trail', exact: true }).click()
-        await mod.getByText('Nadie está suspendido', { exact: true }).waitFor()
+        await mod.getByText('Ningún perfil suspendido', { exact: true }).waitFor()
         await mod.getByRole('button', { name: 'Social', exact: true }).click()
         await mod.waitFor({ state: 'detached' })
 

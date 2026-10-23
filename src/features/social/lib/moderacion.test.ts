@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { accionesDenuncia, describirDenuncia, leerDenuncias, leerSuspendidos, textoMotivos, type Denuncia } from './moderacion'
+import { accionesDenuncia, describirDenuncia, leerComunidadesSuspendidas, leerDenuncias, leerSuspendidos, textoMotivos, type Denuncia } from './moderacion'
 
 const base = { id: 7, creada: '2026-10-19T10:00:00+00:00', denuncias: 2, motivos: ['acoso', 'spam'], detalles: ['Me insulta', null], contenido: '', autor: 'beto', autorSuspendido: false, vigente: true, resumen: null, texto: null }
 const texto = { v: 1, tipo: 'texto', titulo: 'Hola', texto: 'Hola a todos' }
@@ -41,7 +41,8 @@ describe('accionesDenuncia', () => {
     expect(accionesDenuncia(d({ tipo: 'publicacion' }))).toEqual(['borrar', 'suspender', 'descartar'])
     expect(accionesDenuncia(d({ tipo: 'comentario', vigente: false }))).toEqual(['suspender', 'descartar'])
     expect(accionesDenuncia(d({ tipo: 'perfil', autorSuspendido: true }))).toEqual(['descartar'])
-    expect(accionesDenuncia(d({ tipo: 'comunidad' }))).toEqual(['suspender', 'descartar'])
+    expect(accionesDenuncia(d({ tipo: 'comunidad' }))).toEqual(['suspender_comunidad', 'cerrar', 'suspender', 'descartar'])
+    expect(accionesDenuncia(d({ tipo: 'comunidad', vigente: false }))).toEqual(['suspender', 'descartar'])
     expect(accionesDenuncia(d({ tipo: 'perfil', autor: null, vigente: false }))).toEqual(['descartar'])
   })
   it('nombra los motivos', () => {
@@ -53,5 +54,12 @@ describe('leerSuspendidos', () => {
   it('con y sin perfil', () => {
     expect(leerSuspendidos([{ alias: 'beto', nombre: null, desde: '2026-10-19T10:00:00Z', con_perfil: false }, { alias: 'ana', nombre: 'Ana', desde: null, con_perfil: true }, { nombre: 'x' }]))
       .toEqual([{ alias: 'beto', nombre: null, desde: Date.parse('2026-10-19T10:00:00Z'), conPerfil: false }, { alias: 'ana', nombre: 'Ana', desde: null, conPerfil: true }])
+  })
+})
+
+describe('leerComunidadesSuspendidas', () => {
+  it('id y nombre; lo demás se descarta', () => {
+    expect(leerComunidadesSuspendidas([{ id: 'g1', nombre: 'Running' }, { id: 'g2' }, null])).toEqual([{ id: 'g1', nombre: 'Running' }])
+    expect(leerComunidadesSuspendidas(null)).toEqual([])
   })
 })

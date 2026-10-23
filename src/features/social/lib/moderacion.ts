@@ -7,7 +7,8 @@ import { leerResumen, type Resumen } from './publicacion'
  */
 
 export type TipoDenuncia = 'perfil' | 'publicacion' | 'comentario' | 'comunidad'
-export type AccionDenuncia = 'borrar' | 'suspender' | 'descartar'
+/** `suspender_comunidad` y `cerrar`: solo con una comunidad que sigue existiendo (0026). */
+export type AccionDenuncia = 'borrar' | 'suspender' | 'suspender_comunidad' | 'cerrar' | 'descartar'
 
 export interface Denuncia {
   /** La última denuncia de lo mismo: resolverla resuelve todas. */
@@ -120,13 +121,22 @@ export function textoMotivos(d: Pick<Denuncia, 'motivos'>): string {
 }
 
 /**
- * Lo que se puede hacer: borrar lo que sigue existiendo (publicación o comentario), suspender a su autor si tiene perfil
- * activo y descartar siempre. Una comunidad no se borra desde aquí: se gestiona desde Comunidades.
+ * Lo que se puede hacer: borrar lo que sigue existiendo (publicación o comentario), suspender o cerrar una comunidad que
+ * sigue existiendo (0026), suspender a su autor si tiene perfil activo y descartar siempre.
  */
 export function accionesDenuncia(d: Denuncia): AccionDenuncia[] {
   const acciones: AccionDenuncia[] = []
   if (d.vigente && (d.tipo === 'publicacion' || d.tipo === 'comentario')) acciones.push('borrar')
+  if (d.vigente && d.tipo === 'comunidad') acciones.push('suspender_comunidad', 'cerrar')
   if (d.autor && !d.autorSuspendido) acciones.push('suspender')
   acciones.push('descartar')
   return acciones
+}
+
+export interface ComunidadSuspendida { id: string; nombre: string }
+
+/** Las comunidades suspendidas (0026), para reactivarlas; sin 0026, ninguna. */
+export function leerComunidadesSuspendidas(x: unknown): ComunidadSuspendida[] {
+  if (!Array.isArray(x)) return []
+  return x.flatMap(c => esObjeto(c) && texto(c.id) && texto(c.nombre) ? [{ id: c.id as string, nombre: c.nombre as string }] : [])
 }

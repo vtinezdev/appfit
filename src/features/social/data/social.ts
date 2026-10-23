@@ -5,7 +5,7 @@ import type { Avatar, AvatarExclusivo } from '../lib/avatar'
 import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
 import type { Companias } from '../lib/compania'
-import type { AccionDenuncia, Denuncia, Suspendido } from '../lib/moderacion'
+import type { AccionDenuncia, ComunidadSuspendida, Denuncia, Suspendido } from '../lib/moderacion'
 
 /**
  * Lo que la app necesita del servidor para la parte social (Supabase en `socialSupabase.ts`). Todo pasa por las
@@ -104,6 +104,9 @@ export interface Social {
   suspendidos(): Promise<Suspendido[]>
   /** Mete a alguien en una comunidad; le llega un aviso. */
   anadirAComunidad(comunidad: string, alias: string): Promise<void>
+  /** Comunidades suspendidas desde una denuncia (0026); sin 0026, ninguna. */
+  comunidadesSuspendidas(): Promise<ComunidadSuspendida[]>
+  reactivarComunidad(id: string): Promise<void>
 
   // --- Semana en compañía (0024, ADR 057). Grupos de 2 o 3 personas que os seguís mutuamente. ---
   /** Mis grupos (cada miembro con su estado y su semana) y las invitaciones que me esperan. */

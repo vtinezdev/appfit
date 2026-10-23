@@ -2438,3 +2438,15 @@ Víctor ejecuta `supabase/migrations/0023_social_semana_ritmo.sql` y `0024_socia
 - Documentos: `features/social.md`, ADR 057 (los avisos llegan con A19) y el carril A.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Las 25 migraciones y las 18 suites SQL pasan en PostgreSQL 16 local temporal. Playwright con el Supabase falso a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: la banda de Inicio («2 solicitudes · 1 invitación · 1 novedad»), la campana («Avisos, 1 nuevo, 2 solicitudes, 1 invitación»), la invitación arriba de Avisos y el ánimo de Jon; aceptar quita la invitación del contador y tocar el ánimo lleva a la tarjeta con el grupo de Lucía; sin scroll horizontal ni errores de consola. **Pendiente de Víctor:** ejecutar 0025.
+
+## 220. Moderar comunidades desde la app (A22 · SOC-07, 2026-10-23)
+
+**Qué:** en el panel Moderación, una denuncia de comunidad ofrece «Suspender comunidad» (deja de verse para todos y se reactiva desde Suspendidos) y «Cerrar comunidad» (se borra con sus publicaciones y miembros), con confirmación. Cuando se actúa sobre cualquier denuncia, quien denunció recibe «Revisamos tu denuncia y hemos actuado. Gracias por avisar.», sin decir qué ni a quién; descartar no avisa. Víctor lo aprobó en las previews («avisar: sí, sin detalles»).
+
+**Cómo:**
+- `supabase/migrations/0026_social_moderar_comunidades.sql`: `denuncias.actuada`, acciones `suspender_comunidad` y `cerrar` en `admin_resolver_denuncia`, `admin_comunidades_suspendidas`, `admin_reactivar_comunidad` y el evento `denuncia` en `social_eventos`; prueba en `supabase/pruebas/social_moderar_comunidades.sql`.
+- `social/lib/moderacion` (acciones y `leerComunidadesSuspendidas`, con tests), el contrato y el adaptador, `components/Moderacion` (botones, `textosConfirmacion`, lista de comunidades suspendidas con «Reactivar»; «Ningún perfil suspendido»), `lib/feed` (aviso `denuncia` sin persona, con test) y `AvisosSheet` (escudo en lugar de la cara).
+- Supabase falso: las acciones, la lista, reactivar y `simular_denuncia_actuada`. `scripts/ui/validar-administracion.cjs`: el texto vacío nuevo y medio píxel de margen en la medida de 44 px (las posiciones fraccionarias daban 43,9999).
+- Documentos: `features/social.md` (Administración, Feed y 0026), ADR 049 (actualización), roadmap y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las 26 migraciones y las 19 suites SQL pasan en PostgreSQL 16 local temporal. Playwright con el Supabase falso a 375 claro y 430 oscuro (suspender, la lista y «Reactivar») y 320 oscuro y 375 con texto al 200 % (cerrar), y el aviso de la denuncia en Avisos; `validar-administracion.cjs` correcto en sus 8 casos (contra Vite en 5175). Sin scroll horizontal ni errores de consola. **Pendiente de Víctor:** ejecutar 0026.

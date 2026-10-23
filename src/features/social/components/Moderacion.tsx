@@ -20,9 +20,26 @@ type Vista = 'denuncias' | 'suspendidos'
 /** Lo que hay que confirmar antes de hacerlo: borrar o suspender desde una denuncia, o suspender por alias. */
 type Confirmacion = { denuncia: Denuncia; accion: Exclude<AccionDenuncia, 'descartar'> } | { alias: string }
 
+/** Título, mensaje y botón de la confirmación de cada acción sobre una denuncia. */
+function textosConfirmacion(d: Denuncia, accion: Exclude<AccionDenuncia, 'descartar'>): { titulo: string; mensaje: string; boton: string } {
+  switch (accion) {
+    case 'borrar': return { titulo: d.tipo === 'publicacion' ? 'Borrar publicación' : 'Borrar comentario', boton: 'Borrar',
+      mensaje: `Se borrará ${d.tipo === 'publicacion' ? 'la publicación, con sus ánimos y comentarios,' : 'el comentario'} para todos. No se puede deshacer.` }
+    case 'suspender_comunidad': return { titulo: 'Suspender comunidad', boton: 'Suspender comunidad',
+      mensaje: 'La comunidad dejará de verse para todos, también para sus miembros. Podrás reactivarla desde Suspendidos.' }
+    case 'cerrar': return { titulo: 'Cerrar comunidad', boton: 'Cerrar comunidad',
+      mensaje: 'Se borrará la comunidad con sus publicaciones y sus miembros, para todos. No se puede deshacer.' }
+    case 'suspender': return { titulo: 'Suspender perfil', boton: 'Suspender perfil',
+      mensaje: `@${d.autor} dejará de ver Social y Amigos, y lo suyo dejará de verse. Podrás readmitirlo desde Suspendidos.` }
+  }
+}
+
+const HECHO: Record<AccionDenuncia, string> = { borrar: 'Borrado.', suspender: '', suspender_comunidad: 'Comunidad suspendida.', cerrar: 'Comunidad cerrada.', descartar: 'Denuncia descartada.' }
+
 /**
- * Moderación (solo administradores, 0017): las denuncias sin revisar con lo denunciado y sus acciones, y los perfiles
- * suspendidos para readmitirlos. Borrar y suspender piden confirmación; descartar y readmitir no destruyen nada.
+ * Moderación (solo administradores, 0017): las denuncias sin revisar con lo denunciado y sus acciones, y los perfiles y
+ * las comunidades suspendidos para readmitirlos (0026). Borrar, suspender y cerrar piden confirmación; descartar,
+ * readmitir y reactivar no destruyen nada. Al actuar, quien denunció recibe un aviso sin detalles (0026).
  */
 export default function Moderacion({ onClose, onCambio }: { onClose: () => void; onCambio: () => void }) {
   const [vista, setVista] = useState<Vista>('denuncias')
@@ -34,6 +51,7 @@ export default function Moderacion({ onClose, onCambio }: { onClose: () => void;
   const [alias, setAlias] = useState('')
   const denuncias = useConsulta(async () => (await cargarSocial()).denuncias(), `d-${version}`)
   const suspendidos = useConsulta(async () => (await cargarSocial()).suspendidos(), `s-${version}`)
+  const comunidades = useConsulta(async () => (await cargarSocial()).comunidadesSuspendidas(), `c-${version}`)
 
   async function ejecutar(fn: () => Promise<void>, mensaje: string) {
     if (ocupado) return
@@ -46,7 +64,8 @@ export default function Moderacion({ onClose, onCambio }: { onClose: () => void;
     finally { setOcupado(false) }
   }
   const resolver = (d: Denuncia, accion: AccionDenuncia) => ejecutar(async () => { await (await cargarSocial()).resolverDenuncia(d.id, accion) },
-    accion === 'borrar' ? 'Borrado.' : accion === 'suspender' ? `@${d.autor} queda suspendido.` : 'Denuncia descartada.')
+    accion === 'suspender' ? `@${d.autor} queda suspendido.` : HECHO[accion])
+  const reactivar = (id: string, nombre: string) => ejecutar(async () => { await (await cargarSocial()).reactivarComunidad(id) }, `${nombre} vuelve a verse.`)
   const suspender = (a: string, si: boolean) => ejecutar(async () => { await (await cargarSocial()).suspender(a, si) },
     si ? `@${a} queda suspendido.` : `@${a} vuelve a tener acceso.`)
   const confirmar = (datos: Confirmacion) => { setError(null); setConfirmacion({ open: true, datos }) }
@@ -59,12 +78,9 @@ export default function Moderacion({ onClose, onCambio }: { onClose: () => void;
   }
 
   const datos = confirmacion.datos
-  const mensajeConfirmacion = !datos ? '' : 'alias' in datos
-    ? `@${datos.alias} dejará de ver Social y Amigos, y sus publicaciones, comentarios y comunidades dejarán de verse. Podrás readmitirlo desde aquí.`
-    : datos.accion === 'borrar'
-      ? `Se borrará ${datos.denuncia.tipo === 'publicacion' ? 'la publicación, con sus ánimos y comentarios,' : 'el comentario'} para todos. No se puede deshacer.`
-      : `@${datos.denuncia.autor} dejará de ver Social y Amigos, y lo suyo dejará de verse. Podrás readmitirlo desde Suspendidos.`
-  const botonConfirmacion = datos && !('alias' in datos) && datos.accion === 'borrar' ? 'Borrar' : 'Suspender perfil'
+  const textos = !datos ? null : 'alias' in datos
+    ? { titulo: 'Suspender perfil', boton: 'Suspender perfil', mensaje: `@${datos.alias} dejará de ver Social y Amigos, y sus publicaciones, comentarios y comunidades dejarán de verse. Podrás readmitirlo desde aquí.` }
+    : textosConfirmacion(datos.denuncia, datos.accion)
 
   return <ModalPage title="Moderación" closeLabel="Social" onClose={onClose} busy={ocupado}>
     <div className="space-y-stack">
@@ -86,7 +102,7 @@ export default function Moderacion({ onClose, onCambio }: { onClose: () => void;
           </form>
           {suspendidos.estado === 'error' && !suspendidos.datos ? <div className="space-y-2"><ErrorState>{suspendidos.error}</ErrorState><Button variant="secondary" size="sm" onClick={suspendidos.recargar}>Reintentar</Button></div>
             : !suspendidos.datos ? <LoadingState />
-              : suspendidos.datos.length === 0 ? <EmptyState title="Nadie está suspendido" />
+              : suspendidos.datos.length === 0 ? <EmptyState title="Ningún perfil suspendido" />
                 : <ul className="divide-y divide-line" aria-label="Perfiles suspendidos">
                   {suspendidos.datos.map(s => <li key={s.alias} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-3">
                     <span className="min-w-0 flex-1 basis-40">
@@ -96,13 +112,23 @@ export default function Moderacion({ onClose, onCambio }: { onClose: () => void;
                     <Button variant="secondary" size="sm" disabled={ocupado} aria-label={`Readmitir a @${s.alias}`} onClick={() => void suspender(s.alias, false)}>Readmitir</Button>
                   </li>)}
                 </ul>}
+          {(comunidades.datos?.length ?? 0) > 0 && <section aria-labelledby="comunidades-suspendidas" className="space-y-1">
+            <h3 id="comunidades-suspendidas" className="text-rotulo text-fg-muted">Comunidades suspendidas</h3>
+            <ul className="divide-y divide-line">
+              {comunidades.datos!.map(c => <li key={c.id} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-3">
+                <span className="min-w-0 flex-1 basis-40 break-words text-body font-semibold text-fg">{c.nombre}</span>
+                <Button variant="secondary" size="sm" disabled={ocupado} aria-label={`Reactivar ${c.nombre}`} onClick={() => void reactivar(c.id, c.nombre)}>Reactivar</Button>
+              </li>)}
+            </ul>
+          </section>}
+          {comunidades.estado === 'error' && <ErrorState>{comunidades.error}</ErrorState>}
         </div>}
       </ViewTabs>
     </div>
     <Sheet open={confirmacion.open} onClose={() => setConfirmacion(c => ({ ...c, open: false }))} onBeforeClose={() => !ocupado}
-      title={datos && !('alias' in datos) && datos.accion === 'borrar' ? (datos.denuncia.tipo === 'publicacion' ? 'Borrar publicación' : 'Borrar comentario') : 'Suspender perfil'}>
+      title={textos?.titulo ?? ''}>
       <div className="space-y-stack">
-        <ConfirmacionDestructiva mensaje={mensajeConfirmacion} confirmar={botonConfirmacion} ocupado={ocupado}
+        <ConfirmacionDestructiva mensaje={textos?.mensaje ?? ''} confirmar={textos?.boton ?? ''} ocupado={ocupado}
           onCancelar={() => setConfirmacion(c => ({ ...c, open: false }))}
           onConfirmar={() => { if (!datos) return; if ('alias' in datos) void suspender(datos.alias, true).then(() => setAlias('')); else void resolver(datos.denuncia, datos.accion) }} />
         {error && <ErrorState>{error}</ErrorState>}
@@ -124,6 +150,8 @@ function FilaDenuncia({ d, ocupado, onAccion }: { d: Denuncia; ocupado: boolean;
     {estado && <p className="text-caption text-fg-muted">{estado}</p>}
     <div className="-ml-1 flex flex-wrap gap-1">
       {acciones.includes('borrar') && <Button variant="destructive" size="sm" disabled={ocupado} onClick={() => onAccion('borrar')}>Borrar</Button>}
+      {acciones.includes('suspender_comunidad') && <Button variant="destructive" size="sm" disabled={ocupado} onClick={() => onAccion('suspender_comunidad')}>Suspender comunidad</Button>}
+      {acciones.includes('cerrar') && <Button variant="destructive" size="sm" disabled={ocupado} onClick={() => onAccion('cerrar')}>Cerrar comunidad</Button>}
       {acciones.includes('suspender') && <Button variant="destructive" size="sm" disabled={ocupado} onClick={() => onAccion('suspender')}>Suspender a @{d.autor}</Button>}
       <Button variant="subtle" size="sm" disabled={ocupado} onClick={() => onAccion('descartar')}>Descartar</Button>
     </div>

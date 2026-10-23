@@ -11,6 +11,8 @@ Víctor, como creador de la app, quiere un perfil con más permisos que el resto
 - **Suspender es duradero.** Se reutiliza `perfiles.suspendido` (todo lo de esa persona deja de verse) y se anota en `vetados`, que sobrevive a borrar el perfil: con esa cuenta no se puede crear otro. Readmitir quita ambas marcas. No se puede suspender a un administrador ni a uno mismo.
 - **Sin UUID de personas.** Las acciones viajan con alias e ids de denuncia; el panel agrupa las denuncias por objetivo y resolver una resuelve todas las de lo mismo.
 
-Descartado por ahora: feed global, borrar o suspender comunidades desde la app (siguen en el SQL Editor o con «Gestionar» y suspender a su creador), y avisar a la persona suspendida o a quien denunció.
+Descartado por ahora: feed global y avisar a la persona suspendida.
+
+**Actualización (2026-10-23, A22, migración 0026):** Víctor aprueba suspender o cerrar desde el panel una comunidad denunciada (suspender se deshace desde Suspendidos) y avisar a quien denunció, sin detalles («Revisamos tu denuncia y hemos actuado»), cuando se actúa; descartar no avisa.
 
 Implementación y flujos: [Social](../features/social.md#administración).
