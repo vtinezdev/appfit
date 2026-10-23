@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   pruebas-y-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
       - run: npm run build
 
   navegador:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     env:
       APPFIT_AUDIT_BROWSERS: chromium,firefox,webkit
@@ -34,11 +34,23 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # Los navegadores de Playwright se guardan entre ejecuciones: la clave cambia con la versión y con la imagen del sistema.
+      - name: Caché de los navegadores de Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-1.62.1-${{ runner.os }}-ubuntu-24.04
       - name: Herramientas de navegador fuera de las dependencias de la PWA
+        timeout-minutes: 14
         run: |
           printf '%s\n' "NODE_PATH=$RUNNER_TEMP/appfit-qa/node_modules" "APPFIT_UI_OUTPUT=$RUNNER_TEMP/appfit-auditoria" >> "$GITHUB_ENV"
           npm install --prefix "$RUNNER_TEMP/appfit-qa" --no-audit --no-fund playwright@1.62.1
-          node "$RUNNER_TEMP/appfit-qa/node_modules/playwright/cli.js" install --with-deps chromium firefox webkit
+          # Una descarga o un apt colgados fallan en 6 minutos y se reintentan una vez, en vez de agotar el tiempo del trabajo.
+          for intento in 1 2; do
+            timeout 360 node "$RUNNER_TEMP/appfit-qa/node_modules/playwright/cli.js" install --with-deps chromium firefox webkit && exit 0
+            echo "La instalación de los navegadores no terminó (intento $intento)."
+          done
+          exit 1
       - run: npm run build
       - name: Entrenamiento, responsive, formularios y producción offline
         shell: bash
