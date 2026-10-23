@@ -29,7 +29,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A-X2 | GAM-04 | Línea de la meta en la gráfica (cruce) | S | B13 | Pendiente |
 | A16 | ENT-16 | Gemelos en el asistente de rutinas | S | — | Hecho (2026-10-23) |
 | A17 | REN-04 | Importar FIT | M | A11 | Hecho (2026-10-23) |
-| A18 | SOC-04 | Compartir tu semana de Ritmo | M | A13 | Pendiente |
+| A18 | SOC-04 | Compartir tu semana de Ritmo | M | A13 | Hecho (2026-10-23) |
 
 ---
 
@@ -278,7 +278,9 @@ Víctor aprueba en la página de previews de los cinco siguientes tres mejoras d
 - **Decisión de Víctor:** lector propio, sin dependencias.
 - **Cómo:** `actividades/lib/fit.ts` lee el binario (cabecera, mensajes de definición y de datos; `record`, `lap`, `session` y `sport`) y devuelve el mismo `ResumenGpx` que GPX y TCX; `resumirArchivoActividad` lo elige por la cabecera `.FIT`. Tests con archivos sintéticos construidos en el test.
 
-### [ ] A18 · SOC-04 · Compartir tu semana de Ritmo
+### [x] A18 · SOC-04 · Compartir tu semana de Ritmo
+
+> **Hecho (2026-10-23, PROCESO §215, [ADR 056](../decisiones/056-compartir-la-semana-de-ritmo.md), migración 0023).** El punto de entrada es el compositor de Social («Tu semana»), no Ritmo, que es del carril B. Con la gamificación oculta solo se ofrecen «Estoy retomando» (sin cifras) y «En pausa». **Víctor ejecuta 0023 en el SQL Editor después de desplegar la app.**
 
 - **Tamaño:** M · **Rama:** `feat/a-semana-ritmo` (+ migración `0023_…`)
 - **Decisión de Víctor:** con la opción «Estoy retomando» / «En pausa»; antes de A14, para probar el formato.

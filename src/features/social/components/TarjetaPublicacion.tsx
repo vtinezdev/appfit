@@ -8,7 +8,7 @@ import { duracionTexto, formatKm, formatRitmo, ritmoSegPorKm } from '../../activ
 import IconoLogro from '../../vitrina/components/IconoLogro'
 import { GRUPOS_LOGRO, NUMERALES } from '../../vitrina/lib/logros'
 import { etiquetaPublicacion, textoMasTrabajado } from '../lib/presentacion'
-import { textoEjercicios, type LineaLogro, type Resumen, type ResumenEntreno, type ResumenLogro, type ResumenRutina } from '../lib/publicacion'
+import { textoEjercicios, type LineaLogro, type Resumen, type ResumenEntreno, type ResumenLogro, type ResumenRutina, type ResumenSemana } from '../lib/publicacion'
 import EjerciciosPublicacion from './EjerciciosPublicacion'
 import VitrinaPublicacion from './VitrinaPublicacion'
 import MiniaturaEjercicio from '../../gym/components/MiniaturaEjercicio'
@@ -80,6 +80,10 @@ function cifrasDe(r: Resumen): { label: string; valor: string; unidad?: string }
     { label: 'Series', valor: formatInt(r.series) },
     ...(r.volumenKg !== undefined ? [{ label: 'Volumen', valor: formatInt(r.volumenKg), unidad: 'kg' }] : []),
   ]
+  if (r.tipo === 'semana') {
+    if (r.estado !== 'semana') return []
+    return [{ label: 'Entrenos', valor: `${formatInt(r.entrenos ?? 0)} de ${formatInt(r.objetivo ?? 0)}` }, { label: 'Hilo', valor: formatInt(r.hilo ?? 0), unidad: r.hilo === 1 ? 'semana' : 'semanas' }]
+  }
   if (r.tipo === 'rutina') {
     const series = r.ejercicios.every(e => e.series !== undefined) ? r.ejercicios.reduce((n, e) => n + (e.series ?? 0), 0) : null
     return [{ label: 'Ejercicios', valor: formatInt(r.ejercicios.length) }, ...(series !== null ? [{ label: 'Series', valor: formatInt(series) }] : [])]
@@ -122,6 +126,20 @@ function Vistazo({ r, dia, verTodas }: { r: ResumenEntreno; dia: string; verToda
       ? <div className="min-w-0 flex-1 basis-32"><VitrinaPublicacion resumen={r} dia={dia} verTodas={verTodas} vistazo /></div>
       : <p className="min-w-0 flex-1 basis-32"><span className="block text-body-sm font-semibold text-fg">Más trabajado</span><span className="block break-words text-caption text-fg-muted">{texto}</span></p>}
   </div>
+}
+
+const DIAS_SEMANA = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+
+/** Los siete días de una semana compartida: rellenos los que tuvieron un entreno que cuenta (ADR 056). */
+function DiasSemana({ r }: { r: ResumenSemana }) {
+  if (r.estado !== 'semana' || !r.dias) return r.estado === 'retomando' && r.entrenos ? <p className="tabular text-body-sm text-fg-muted">{`${formatInt(r.entrenos)} ${r.entrenos === 1 ? 'entreno' : 'entrenos'} esta semana`}</p> : null
+  return <ol aria-label="Días de la semana" className="grid grid-cols-7 gap-1">
+    {r.dias.map((hecho, i) => <li key={i} className="grid justify-items-center gap-1">
+      <span aria-hidden className={`block h-6 w-6 rounded-pill ${hecho ? 'bg-accent' : 'border border-line-strong'}`} />
+      <span aria-hidden className="text-caption text-fg-muted">{DIAS_SEMANA[i][0] === 'M' && i === 2 ? 'X' : DIAS_SEMANA[i][0]}</span>
+      <span className="sr-only">{`${DIAS_SEMANA[i]}: ${hecho ? 'entreno' : 'sin entreno'}`}</span>
+    </li>)}
+  </ol>
 }
 
 /** Los ejercicios de una rutina compartida en orden, con su imagen del catálogo y su objetivo. */
@@ -174,7 +192,8 @@ export default function TarjetaPublicacion({ resumen: r, fecha, cabecera, creada
   return (
     <Card className="publicacion-tarjeta space-y-3">
       {cabecera ?? (etiqueta && <p className="text-caption text-fg-muted first-letter:uppercase">{r.tipo === 'logro' ? etiqueta : `${etiqueta} · ${formatFechaHoraConDia(fecha)}`}</p>)}
-      {(r.tipo === 'entreno' || r.tipo === 'actividad' || r.tipo === 'rutina') && <p className="break-words text-heading text-fg">{r.titulo}</p>}
+      {(r.tipo === 'entreno' || r.tipo === 'actividad' || r.tipo === 'rutina' || r.tipo === 'semana') && <p className="break-words text-heading text-fg">{r.titulo}</p>}
+      {r.tipo === 'semana' && <DiasSemana r={r} />}
       {r.tipo === 'texto' && <TextoExpandible texto={r.texto} previa={previa} />}
       {r.tipo !== 'texto' && r.nota && <TextoExpandible texto={r.nota} previa={previa} nota />}
       {r.tipo === 'logro' && <Medalla r={r} dia={dia} />}
