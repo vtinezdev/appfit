@@ -46,7 +46,7 @@
   - banda «En pausa» con «Reanudar hoy», si hay una pausa activa;
   - «Esta semana»: estado por ahora, días, cifras y lo que falta;
   - «Hilo»: cuatro `Metric` (hilo actual, mejor hilo, comodines «1 de 2» con cuánto falta para otro, semanas cumplidas y vueltas);
-  - «Semanas»: el calendario del año (`CalendarioSemanas`), en filas de 13 semanas, como un mapa de calor en grafito (de vacía, gris de superficie, a cumplida, grafito sólido), con leyenda, flechas de año y el desplegable con el estado de cada semana en texto;
+  - «Semanas»: el calendario del año (`CalendarioSemanas`), en filas de 13 semanas, como un mapa de calor en grafito (de vacía, gris de superficie, a cumplida, grafito sólido), con leyenda, flechas de año y el desplegable con el estado de cada semana en texto. En el desplegable, cada semana cerrada con algún entreno o día con comidas (`lib/ritmo.tieneRevision`) es una fila entera con chevrón que abre su revisión semanal (`inicio/components/RevisionSemanal`, diferida, con «← Ritmo» y las flechas de semana), aunque en Inicio ya se cerrara; la actual, las futuras y las que no tienen nada son texto. Al cerrarla el foco vuelve a la fila. Las celdas del calendario siguen siendo decorativas (demasiado pequeñas para tocarlas);
   - «Hitos»;
   - «Pausas», con «Pausar» y borrado inmediato con «Deshacer»;
   - la «i» de la cabecera abre «Cómo funciona Ritmo» (`components/ComoFuncionaRitmo`): cómo se juzga cada semana (estado con su regla), el hilo y los comodines, y las pausas.

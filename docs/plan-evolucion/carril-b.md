@@ -14,7 +14,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B2 | NUT-06 | Tendencia de peso en Inicio | S | — | Hecho (2026-10-22) |
 | B3 | NUT-09 | Aviso de coherencia energética | S | — | Hecho (2026-10-22) |
 | B4 | NAV-02 | «Volver» en las secciones anidadas | S | — | Hecho (2026-10-22) |
-| B5 | PRO-02 | Revisiones semanales desde Ritmo | S | — | Pendiente |
+| B5 | PRO-02 | Revisiones semanales desde Ritmo | S | — | Hecho (2026-10-23) |
 | B6 | NUT-03 | Registrar comida desde Inicio | M | — | Pendiente |
 | B7 | GAM-01 | Teselas de progreso con la semana | M | — | Pendiente |
 | B8 | REN-01 | Un único cálculo derivado | L | — | Pendiente |
@@ -74,9 +74,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** `scripts/ui/navegar.cjs` sigue funcionando; Atrás del sistema igual que antes.
 - **Documentos:** ADR 043 § Consecuencias (ya hay «Volver»), `docs/arquitectura.md` § Navegación, `docs/DESIGN-SYSTEM.md` (PageHeader).
 
-### [ ] B5 · PRO-02 · Revisiones semanales desde Ritmo
+### [x] B5 · PRO-02 · Revisiones semanales desde Ritmo
 
-- **Tamaño:** S · **Rama:** `feat/b-revisiones-ritmo`
+- **Tamaño:** S · **Rama:** `feat/b-revisiones-ritmo` · **Hecho:** 2026-10-23 (PR pendiente). Víctor eligió, tras dos vistas previas, que la fila entera de la semana abra su revisión (con chevrón) en lugar de un botón «Ver revisión»; sin botones en las celdas.
 - **Para la persona:** en Ritmo › Semanas, cada semana cerrada con datos tiene «Ver revisión», que abre la misma revisión semanal de Inicio, aunque ya se haya cerrado.
 - **Cómo:** `ritmo/components/CalendarioSemanas.tsx` (hoy `{ ritmo, hoy }`) recibe `onVerRevision(lunes)`; el botón va en la lista de estados por semana (el desplegable textual), que ya es accesible, y opcionalmente en cada celda. `RitmoTab` monta `inicio/components/RevisionSemanal` con `React.lazy` (`{ lunes, hoy, onClose }`); la propia revisión ya navega por semanas.
 - **Tests:** el calendario llama a `onVerRevision` con el lunes correcto; semanas futuras o vacías sin botón.

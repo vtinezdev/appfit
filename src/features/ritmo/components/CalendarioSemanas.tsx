@@ -6,7 +6,7 @@ import Disclosure from '../../../shared/components/Disclosure'
 import ListGroup from '../../../shared/components/ListGroup'
 import { addDays, startOfWeek } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
-import { ESTADOS_SEMANA, type EstadoSemana, type ResultadoRitmo, type SemanaRitmo } from '../lib/ritmo'
+import { ESTADOS_SEMANA, tieneRevision, type EstadoSemana, type ResultadoRitmo, type SemanaRitmo } from '../lib/ritmo'
 import { cifrasSemana, textoEstado } from '../lib/textos'
 
 const MESES_ABREV = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
@@ -36,12 +36,6 @@ function semanasDelAnio(anio: number): string[] {
   for (; lunes.startsWith(String(anio)); lunes = addDays(lunes, 7)) res.push(lunes)
   return res
 }
-
-/**
- * Semanas con revisión que ver: cerradas (ni la actual ni las futuras) y con algún entreno o día con comidas. Una semana
- * «vacía» por debajo del umbral de presencia (un solo día con comidas) también tiene revisión.
- */
-export const conRevision = (s: SemanaRitmo) => s.cerrada && (s.entrenos > 0 || (s.diasRegistrados ?? 0) > 0)
 
 const etiquetaSemana = (lunes: string) => {
   const [, m, d] = lunes.split('-').map(Number)
@@ -91,7 +85,7 @@ export default function CalendarioSemanas({ ritmo, hoy, onVerRevision }: { ritmo
               <span className="tabular block text-caption text-fg-muted">{cifrasSemana(s)}{s.hilo > 0 ? ` · hilo\u00a0${formatInt(s.hilo)}` : ''}</span>
             </span>
             return <li key={s.lunes}>
-              {onVerRevision && conRevision(s)
+              {onVerRevision && tieneRevision(s)
                 ? <ListRow aria-label={`${etiquetaSemana(s.lunes)}, ${textoEstado(s)}. Ver revisión`} onClick={() => onVerRevision(s.lunes)}>
                     {contenido}<Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
                   </ListRow>
