@@ -11,7 +11,7 @@
 | Atlas | `lib/atlas.ts`: `gruposDeEntreno`, `calcularAtlas` (cada dominado, con el entreno de su tercera sesión) | — (puro; snapshot muscular de cada entreno o la clasificación actual) |
 | Herbario | `nutricion/lib/herbario.ts`: `plantaDeEntrada`, `plantasDistintas`, `herbarioPorSemana` (día en que se llega a 30 y a 50) | — (puro; categoría con `repartoCategorias.categoriaDeEntrada`) |
 | Todo junto | `lib/vitrina.ts`: `calcularVitrina` | — |
-| Lecturas | `hooks/useVitrina.ts`: `cumbres/hooks/useCumbres.leerCumbres` (experiencia, Cumbres y las actividades), `caminos/hooks/useCaminos.leerCaminos` (Caminos y los pasos) y `foodsRepo.categoriasDeEntradas` | ver [experiencia.md](experiencia.md) |
+| Lecturas | `hooks/leerVitrina.ts`: `cumbres/hooks/leerCumbres` (experiencia, Cumbres y las actividades), `caminos/hooks/leerCaminos` (Caminos y los pasos) y `foodsRepo.categoriasDeEntradas`; es la lectura del lector compartido (`experiencia/hooks/useProgreso`), del que `hooks/useVitrina.ts` toma el resultado entero | ver [experiencia.md](experiencia.md) |
 | Página (Inicio › Vitrina, desde su tesela; «‹ Inicio» vuelve con el foco en ella) | `VitrinaTab.tsx` (diferida): `components/LogrosVista` (bajo el recuento, «Próximos logros»; después, medallas en rejilla de tres, con el anillo de lo que se lleva hacia el siguiente nivel; cada una abre su detalle en una hoja), `RecordsVista` y `ColeccionesVista`; la «i» de la cabecera abre «Cómo funciona Vitrina» (`ComoFuncionaVitrina`: logros, récords y colecciones) | — |
 | Al terminar un entreno | `components/NuevosLogros` (en `gym/components/WorkoutFinished`) | `useVitrina` |
 | Iconos de los 58 logros | `components/IconoLogro`, sobre `shared/components/InsigniaExpedicion` | estado derivado del logro; sin persistencia |
@@ -109,7 +109,7 @@ Se ordena por la marca más reciente; muestra 15 y «Ver más ejercicios».
 
 ## Rendimiento
 
-Experiencia, Ritmo, Cumbres y Vitrina juntos tardan unos 150 ms en escritorio con tres años densos (500 entrenos, 12.500 series y 8.000 entradas). La Vitrina se calcula en su página, al terminar un entreno, en las teselas de Progreso de Inicio (`AccesoProgreso`, que toma también Caminos de su resultado) y en Social al editar el perfil deportivo (`EditarPerfilDeportivo`, que pasa el resultado a la elección de destacados y avatar).
+Experiencia, Ritmo, Cumbres, Caminos y Vitrina juntos tardan ~1,3 s con tres años densos y la CPU ralentizada 4× (cifras y lector compartido: [experiencia.md](experiencia.md) § Rendimiento); se calculan una sola vez por día para todas las pantallas que los usan. La Vitrina se calcula en su página, al terminar un entreno, en las teselas de Progreso de Inicio (`AccesoProgreso`, que toma también Caminos de su resultado) y en Social al editar el perfil deportivo (`EditarPerfilDeportivo`, que pasa el resultado a la elección de destacados y avatar).
 
 
 ## Compartir logros
