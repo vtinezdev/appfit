@@ -2,8 +2,9 @@
 import { db } from '../../../shared/db/db'
 import type { Actividad, PuntoRecorrido, TipoActividad } from '../../../shared/db/types'
 import { fechaDe, validarActividad } from '../lib/actividad'
-import { desnivelPositivo, simplificarRecorrido } from '../lib/geo'
+import { desnivelPositivo } from '../lib/geo'
 import { segundosEnMarcha, type EstadoGrabacion } from '../lib/grabacion'
+import { simplificarConTiempos, tiemposDesde, tiemposValidos, type ConTiempos } from '../lib/parciales'
 
 export class ActividadInvalida extends Error {}
 
@@ -31,20 +32,23 @@ export function obtener(id: number): Promise<Actividad | undefined> {
   return db.actividades.get(id)
 }
 
-export type NuevaActividad = Pick<Actividad, 'tipo' | 'inicio' | 'duracionSeg' | 'distanciaM' | 'origen'> & Partial<Pick<Actividad, 'desnivelM' | 'nombre' | 'notas' | 'recorrido'>>
+export type NuevaActividad = Pick<Actividad, 'tipo' | 'inicio' | 'duracionSeg' | 'distanciaM' | 'origen'> & Partial<Pick<Actividad, 'desnivelM' | 'nombre' | 'notas' | 'recorrido'>> & ConTiempos
 
 function limpiarTexto(s: string | undefined): string | undefined {
   const t = s?.trim()
   return t ? t : undefined
 }
 
-/** Guarda una actividad ya terminada (a mano o importada). El recorrido se simplifica antes de guardarlo. */
+/**
+ * Guarda una actividad ya terminada (a mano o importada). El recorrido se simplifica antes de guardarlo, con la hora de
+ * los puntos que quedan si el archivo la traía (A28).
+ */
 export async function crear(datos: NuevaActividad, ahora = Date.now()): Promise<number> {
   const error = validarActividad(datos, ahora)
   if (error) throw new ActividadInvalida(error)
   const nombre = limpiarTexto(datos.nombre)
   const notas = limpiarTexto(datos.notas)
-  const recorrido = datos.recorrido ? simplificarRecorrido(datos.recorrido) : []
+  const { recorrido, tiempos } = datos.recorrido ? simplificarConTiempos(datos.recorrido, datos.tiempos) : { recorrido: [], tiempos: undefined }
   const actividad: Omit<Actividad, 'id'> = {
     tipo: datos.tipo,
     fecha: fechaDe(datos.inicio),
@@ -57,6 +61,7 @@ export async function crear(datos: NuevaActividad, ahora = Date.now()): Promise<
     ...(nombre ? { nombre } : {}),
     ...(notas ? { notas } : {}),
     ...(recorrido.length ? { recorrido } : {}),
+    ...(recorrido.length && tiempos ? { tiempos } : {}),
   }
   return db.actividades.add(actividad as Actividad)
 }
@@ -117,6 +122,7 @@ export function empezarGrabacion(tipo: TipoActividad, ahora = Date.now()): Promi
     if (actual) return actual.id
     const nueva: Omit<Actividad, 'id'> = {
       tipo, fecha: fechaDe(ahora), inicio: ahora, duracionSeg: 0, distanciaM: 0, origen: 'gps', recorrido: [[]], enCurso: true, reanudadaEn: ahora, createdAt: ahora,
+      ...{ tiempos: [[]] },
     }
     return db.actividades.add(nueva as Actividad)
   })
@@ -124,7 +130,11 @@ export function empezarGrabacion(tipo: TipoActividad, ahora = Date.now()): Promi
 
 /** Estado de la grabación guardado en la actividad en curso. */
 export function estadoDe(a: Actividad): EstadoGrabacion {
-  return { tramos: a.recorrido?.length ? a.recorrido : [[]], distanciaM: a.distanciaM, segundosCerrados: a.duracionSeg, reanudadaEn: a.reanudadaEn }
+  const tramos = a.recorrido?.length ? a.recorrido : [[]]
+  const { tiempos } = a as Actividad & ConTiempos
+  const e: EstadoGrabacion = { tramos, distanciaM: a.distanciaM, segundosCerrados: a.duracionSeg, reanudadaEn: a.reanudadaEn }
+  if (tiemposValidos(tramos, tiempos)) e.horas = tiempos.map((t) => t.map((s) => a.inicio + s * 1000))
+  return e
 }
 
 /** Guarda el estado de la grabación (puntos, distancia, tiempo y pausa). */
@@ -132,7 +142,9 @@ export async function guardarGrabacion(id: number, e: EstadoGrabacion): Promise<
   await db.transaction('rw', db.actividades, async () => {
     const a = await db.actividades.get(id)
     if (!a?.enCurso) return
-    const siguiente: Actividad = { ...a, recorrido: e.tramos, distanciaM: e.distanciaM, duracionSeg: e.segundosCerrados }
+    const tiempos = e.horas ? tiemposDesde(e.horas, a.inicio) : undefined
+    const siguiente: Actividad & ConTiempos = { ...a, recorrido: e.tramos, distanciaM: e.distanciaM, duracionSeg: e.segundosCerrados, ...{ tiempos } }
+    if (!tiempos) delete siguiente.tiempos
     if (e.reanudadaEn === undefined) delete siguiente.reanudadaEn
     else siguiente.reanudadaEn = e.reanudadaEn
     await db.actividades.put(siguiente)
@@ -150,8 +162,10 @@ export function terminarGrabacion(id: number, e: EstadoGrabacion, datos: { tipo:
   return db.transaction('rw', db.actividades, async () => {
     const a = await db.actividades.get(id)
     if (!a?.enCurso) throw new ActividadInvalida('La grabación ya no está disponible.')
-    const tramos: PuntoRecorrido[][] = e.tramos.filter((t) => t.length > 0)
-    const terminada: Actividad = {
+    const conPuntos = e.tramos.map((_, i) => i).filter((i) => e.tramos[i].length > 0)
+    const tramos: PuntoRecorrido[][] = conPuntos.map((i) => e.tramos[i])
+    const horas = e.horas?.length === e.tramos.length ? conPuntos.map((i) => e.horas![i]) : undefined
+    const terminada: Actividad & ConTiempos = {
       ...a,
       tipo: datos.tipo,
       duracionSeg: Math.round(segundosEnMarcha(e, ahora)),
@@ -163,9 +177,12 @@ export function terminarGrabacion(id: number, e: EstadoGrabacion, datos: { tipo:
     if (error) throw new ActividadInvalida(error)
     const desnivel = desnivelPositivo(tramos, UMBRAL_DESNIVEL_GPS)
     if (desnivel !== undefined) terminada.desnivelM = desnivel
-    const recorrido = simplificarRecorrido(tramos)
-    if (recorrido.length) terminada.recorrido = recorrido
-    else delete terminada.recorrido
+    const { recorrido, tiempos } = simplificarConTiempos(tramos, horas ? tiemposDesde(horas, a.inicio) : undefined)
+    delete terminada.tiempos
+    if (recorrido.length) {
+      terminada.recorrido = recorrido
+      if (tiempos) terminada.tiempos = tiempos
+    } else delete terminada.recorrido
     const nombre = limpiarTexto(datos.nombre)
     if (nombre) terminada.nombre = nombre
     await db.actividades.put(terminada)

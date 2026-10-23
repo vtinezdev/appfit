@@ -61,12 +61,14 @@ describe('resumirGpx', () => {
     expect(r.inicio).toBe(Date.parse('2026-10-10T07:00:00Z'))
     expect(r.tipo).toBe('correr')
     expect(r.recorrido[0][1]).toEqual([42.881, -8.54, 110])
+    expect(r.tiempos).toEqual([[0, 30, 60], [600, 640]])
   })
 
   it('sin horas no hay duración ni inicio', () => {
     const r = resumirGpx(parsearGpx('<gpx><trk><trkseg><trkpt lat="1" lon="2"/><trkpt lat="1.01" lon="2"/></trkseg></trk></gpx>'))
     expect(r.duracionSeg).toBeUndefined()
     expect(r.inicio).toBeUndefined()
+    expect(r.tiempos).toBeUndefined()
   })
 })
 

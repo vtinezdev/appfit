@@ -65,6 +65,7 @@ describe('resumirTcx', () => {
     expect(r.nombre).toBe('Series en el Retiro & vuelta')
     expect(r.recorrido).toHaveLength(2)
     expect(r.recorrido[0][0]).toEqual([40.4, -3.7, 650])
+    expect(r.tiempos?.map((x) => x.length)).toEqual(r.recorrido.map((x) => x.length))
     expect(r.desnivelM).toBe(20)
   })
 

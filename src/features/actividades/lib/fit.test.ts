@@ -55,6 +55,8 @@ describe('resumirFit', () => {
     const r = resumirFit(reloj())
     expect(r).toMatchObject({ tipo: 'correr', inicio: Date.parse('2026-10-18T08:30:00Z'), duracionSeg: 1191, distanciaM: 1000, desnivelM: 35 })
     expect(r.recorrido).toHaveLength(2)
+    expect(r.tiempos?.map((x) => x.length)).toEqual(r.recorrido.map((x) => x.length))
+    expect(r.tiempos?.[0][0]).toBe(0)
     expect(r.recorrido[0][0][0]).toBeCloseTo(40.4, 5)
     expect(r.recorrido[0][0][2]).toBeCloseTo(650, 5)
   })

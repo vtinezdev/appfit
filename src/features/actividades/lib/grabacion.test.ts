@@ -52,4 +52,21 @@ describe('grabación', () => {
     expect(e.tramos).toHaveLength(2)
     expect(e.distanciaM - antes).toBeCloseTo(11.1, 0) // lo de la pausa no se une
   })
+
+  it('apunta la hora de cada punto aceptado, tramo a tramo (A28)', () => {
+    let { e } = con([lectura(0), lectura(1, { precision: 80 }), lectura(2)])
+    expect(e.horas).toEqual([[1000, 21_000]])
+    e = reanudar(pausar(e, 30_000), 600_000)
+    e = con([lectura(40), lectura(41)], e).e
+    expect(e.horas).toEqual([[1000, 21_000], [401_000, 411_000]])
+    expect(e.horas!.map((h) => h.length)).toEqual(e.tramos.map((t) => t.length))
+  })
+
+  it('una grabación empezada antes de A28 sigue sin horas', () => {
+    const vieja: EstadoGrabacion = { tramos: [[]], distanciaM: 0, segundosCerrados: 0, reanudadaEn: 0 }
+    const { e } = con([lectura(0), lectura(1)], vieja)
+    expect(e.tramos[0]).toHaveLength(2)
+    expect(e.horas).toBeUndefined()
+    expect(reanudar(pausar(e, 1), 2).horas).toBeUndefined()
+  })
 })

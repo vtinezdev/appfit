@@ -47,19 +47,36 @@ function aMetros(p: PuntoRecorrido, lat0: number): [number, number] {
   return [p[1] * RAD * RADIO_TIERRA * Math.cos(lat0 * RAD), p[0] * RAD * RADIO_TIERRA]
 }
 
-function distanciaASegmento(p: [number, number], a: [number, number], b: [number, number]): number {
-  const dx = b[0] - a[0]
-  const dy = b[1] - a[1]
-  const largo2 = dx * dx + dy * dy
-  const t = largo2 === 0 ? 0 : Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / largo2))
-  return Math.hypot(p[0] - (a[0] + t * dx), p[1] - (a[1] + t * dy))
+/** Distancia de `p` al segmento `a`–`b`, en 2 o 3 dimensiones (la tercera, el tiempo pasado a metros; ver `rdp`). */
+function distanciaASegmento(p: readonly number[], a: readonly number[], b: readonly number[]): number {
+  let largo2 = 0
+  let proy = 0
+  for (let k = 0; k < a.length; k++) {
+    const d = b[k] - a[k]
+    largo2 += d * d
+    proy += (p[k] - a[k]) * d
+  }
+  const t = largo2 === 0 ? 0 : Math.max(0, Math.min(1, proy / largo2))
+  let suma = 0
+  for (let k = 0; k < a.length; k++) {
+    const d = p[k] - (a[k] + t * (b[k] - a[k]))
+    suma += d * d
+  }
+  return Math.sqrt(suma)
 }
 
-/** Ramer-Douglas-Peucker iterativo: conserva los puntos que se separan más de `toleranciaM` de la línea simplificada. */
-function rdp(puntos: readonly PuntoRecorrido[], toleranciaM: number): PuntoRecorrido[] {
-  if (puntos.length <= 2) return [...puntos]
+/**
+ * Ramer-Douglas-Peucker iterativo: conserva los puntos que se separan más de `toleranciaM` de la línea simplificada.
+ * Con la hora de cada punto (A28), el tiempo cuenta como una tercera coordenada en metros (a la velocidad media del
+ * tramo): así se conservan también los puntos donde cambia el ritmo, aunque el camino siga recto.
+ */
+function rdp(puntos: readonly PuntoRecorrido[], toleranciaM: number, tiempos?: readonly number[]): number[] {
+  if (puntos.length <= 2) return puntos.map((_, i) => i)
   const lat0 = puntos[0][0]
-  const m = puntos.map((p) => aMetros(p, lat0))
+  const plano = puntos.map((p) => aMetros(p, lat0))
+  const duracion = tiempos ? tiempos[tiempos.length - 1] - tiempos[0] : 0
+  const velocidad = duracion > 0 ? distanciaRecorrido([puntos]) / duracion : 0
+  const m: number[][] = velocidad > 0 && tiempos ? plano.map((p, i) => [p[0], p[1], (tiempos[i] - tiempos[0]) * velocidad]) : plano
   const conservar = new Uint8Array(puntos.length)
   conservar[0] = 1
   conservar[puntos.length - 1] = 1
@@ -77,10 +94,11 @@ function rdp(puntos: readonly PuntoRecorrido[], toleranciaM: number): PuntoRecor
       pila.push([ini, indice], [indice, fin])
     }
   }
-  return puntos.filter((_, i) => conservar[i] === 1)
+  const indices: number[] = []
+  conservar.forEach((c, i) => { if (c === 1) indices.push(i) })
+  return indices
 }
 
-/** Puntos que se guardan como mucho de un recorrido: unos 15 KB en el backup. */
 export const MAX_PUNTOS = 800
 
 /** Redondea a 5 decimales (~1 m) y la altitud a metros enteros. */
@@ -91,19 +109,28 @@ export function redondearPunto(p: PuntoRecorrido): PuntoRecorrido {
 }
 
 /**
- * Recorrido para guardar: simplificado (desde 2 m de tolerancia, que se dobla hasta caber en `MAX_PUNTOS`) y
- * redondeado. Los tramos de menos de dos puntos se descartan. La distancia y el desnivel se calculan antes, con todos
- * los puntos.
+ * Índices de los puntos que se conservan al simplificar (desde 2 m de tolerancia, que se dobla hasta caber en `max`), por
+ * tramo válido (de dos puntos o más; los demás se descartan). Sirve para quedarse con la hora de esos mismos puntos; con
+ * `tiempos` (misma forma que `tramos`), conserva también los cambios de ritmo.
  */
-export function simplificarRecorrido(tramos: readonly (readonly PuntoRecorrido[])[], max = MAX_PUNTOS): PuntoRecorrido[][] {
-  const validos = tramos.filter((t) => t.length >= 2)
+export function indicesSimplificados(tramos: readonly (readonly PuntoRecorrido[])[], max = MAX_PUNTOS, tiempos?: readonly (readonly number[])[]): { tramo: number; indices: number[] }[] {
+  const validos = tramos.map((t, tramo) => ({ t, tramo })).filter(({ t }) => t.length >= 2)
   let tolerancia = 2
-  let resultado = validos.map((t) => rdp(t, tolerancia))
+  const simplificar = () => validos.map(({ t, tramo }) => rdp(t, tolerancia, tiempos?.[tramo]))
+  let resultado = simplificar()
   while (resultado.reduce((a, t) => a + t.length, 0) > max && tolerancia < 100_000) {
     tolerancia *= 2
-    resultado = validos.map((t) => rdp(t, tolerancia))
+    resultado = simplificar()
   }
-  return resultado.map((t) => t.map(redondearPunto))
+  return resultado.map((indices, i) => ({ tramo: validos[i].tramo, indices }))
+}
+
+/**
+ * Recorrido para guardar: simplificado (`indicesSimplificados`) y redondeado. Los tramos de menos de dos puntos se
+ * descartan. La distancia y el desnivel se calculan antes, con todos los puntos.
+ */
+export function simplificarRecorrido(tramos: readonly (readonly PuntoRecorrido[])[], max = MAX_PUNTOS): PuntoRecorrido[][] {
+  return indicesSimplificados(tramos, max).map(({ tramo, indices }) => indices.map((i) => redondearPunto(tramos[tramo][i])))
 }
 
 export interface Trazado {

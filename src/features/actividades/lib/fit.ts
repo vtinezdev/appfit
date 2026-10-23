@@ -168,5 +168,6 @@ export function resumirFit(bytes: Uint8Array): ResumenGpx {
     distanciaM,
     ...(desnivelM !== undefined ? { desnivelM } : {}),
     recorrido: base?.recorrido ?? [],
+    ...(base?.tiempos ? { tiempos: base.tiempos } : {}),
   }
 }

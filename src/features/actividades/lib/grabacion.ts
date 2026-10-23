@@ -33,10 +33,15 @@ export interface EstadoGrabacion {
   reanudadaEn?: number
   /** ms de la última lectura aceptada (para descartar saltos); se pierde al recargar. */
   ultimaT?: number
+  /**
+   * Hora (ms) de cada punto, con la misma forma que `tramos` (A28: parciales por km). Ausente en una grabación empezada
+   * antes de A28: entonces no se apunta y esa actividad queda sin parciales.
+   */
+  horas?: number[][]
 }
 
 export function empezarGrabacion(ahora: number): EstadoGrabacion {
-  return { tramos: [[]], distanciaM: 0, segundosCerrados: 0, reanudadaEn: ahora }
+  return { tramos: [[]], horas: [[]], distanciaM: 0, segundosCerrados: 0, reanudadaEn: ahora }
 }
 
 export type MotivoDescarte = 'pausa' | 'precision' | 'quieto' | 'salto'
@@ -55,7 +60,13 @@ export function anadirLectura(e: EstadoGrabacion, l: Lectura): { estado: EstadoG
     if (e.ultimaT !== undefined && l.t > e.ultimaT && suma / ((l.t - e.ultimaT) / 1000) > VELOCIDAD_MAXIMA_MS) return { estado: e, descarte: 'salto' }
   }
   const tramos = e.tramos.length ? [...e.tramos.slice(0, -1), [...tramo, punto]] : [[punto]]
-  return { estado: { ...e, tramos, distanciaM: e.distanciaM + suma, ultimaT: l.t } }
+  const horas = e.horas && e.horas.length === e.tramos.length
+    ? (e.horas.length ? [...e.horas.slice(0, -1), [...e.horas[e.horas.length - 1], l.t]] : [[l.t]])
+    : undefined
+  const estado: EstadoGrabacion = { ...e, tramos, distanciaM: e.distanciaM + suma, ultimaT: l.t }
+  if (horas) estado.horas = horas
+  else delete estado.horas
+  return { estado }
 }
 
 /** Segundos en marcha hasta `ahora`. */
@@ -72,7 +83,14 @@ export function pausar(e: EstadoGrabacion, ahora: number): EstadoGrabacion {
 export function reanudar(e: EstadoGrabacion, ahora: number): EstadoGrabacion {
   if (e.reanudadaEn !== undefined) return e
   const ultimo = e.tramos[e.tramos.length - 1]
-  return { ...e, tramos: ultimo && ultimo.length === 0 ? e.tramos : [...e.tramos, []], reanudadaEn: ahora, ultimaT: undefined }
+  const nuevo = !(ultimo && ultimo.length === 0)
+  return {
+    ...e,
+    tramos: nuevo ? [...e.tramos, []] : e.tramos,
+    ...(e.horas ? { horas: nuevo ? [...e.horas, []] : e.horas } : {}),
+    reanudadaEn: ahora,
+    ultimaT: undefined,
+  }
 }
 
 export const enPausa = (e: Pick<EstadoGrabacion, 'reanudadaEn'>) => e.reanudadaEn === undefined
