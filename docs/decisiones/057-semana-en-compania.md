@@ -20,7 +20,7 @@ Solo el agregado de tu semana: el lunes, los entrenos que cuentan (0–7) y los 
 - Aceptar antes de participar. La invitación se acepta o se rechaza; rechazar no avisa a nadie.
 - Pausa y salida sin reproche y sin avisos. En pausa sigues en el grupo con un estado neutro y sin cifras. Si al salir queda una sola persona, o nadie que haya aceptado, el grupo se cierra.
 - Plan sin entrenos: estado neutro («Sin entrenos en su plan»), sin cifras.
-- «Ánimo»: uno por persona y semana, que solo ve el grupo. No hay avisos nuevos: las invitaciones y los ánimos se ven al abrir Social.
+- «Ánimo»: uno por persona y semana, que solo ve el grupo. Al principio no había avisos; desde A19 (0025, decisión de Víctor) la invitación cuenta en la campana como una solicitud y el ánimo llega a Avisos. Pausar, salir o bloquear siguen sin avisar.
 - Límites: 5 grupos por persona y 20 invitaciones al día. Bloquear a alguien te saca de los grupos que compartís; borrar el perfil, de todos.
 - Sin premios ni puntos.
 
@@ -37,4 +37,4 @@ Lector antes que escritor, como [055](055-rutina-compartida.md) y [056](056-comp
 - Un objetivo acordado entre todos, la semana de quien crea el grupo, invitar a cualquiera que sigas o grupos de hasta 4, y semanas sueltas que se renuevan: Víctor eligió las opciones de arriba.
 - Porcentaje, ranking o «semana fallida»: van contra «sin castigos» (`DESIGN.md`).
 - Subir la semana en segundo plano o desde Inicio: no hay sondeo ni tareas en segundo plano, e Inicio es del carril B. Basta con abrir Social.
-- Avisos de invitación y de ánimo: amplían `social_eventos` y el contador de avisos. Se deciden con el piloto.
+- Avisos de invitación y de ánimo: aplazados al principio; Víctor los aprueba antes del piloto (A19, 0025).

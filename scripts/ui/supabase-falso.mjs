@@ -302,8 +302,11 @@ const rpc = {
       ...[...reacciones].map((r) => r.split('|')).filter(([pid, u]) => mias.has(pid) && u !== YO).map(([pid, u]) => ({ tipo: 'reaccion', alias: perfiles.get(u).alias, nombre: perfiles.get(u).nombre, publicacion: pid, titulo: publicaciones.get(pid).resumen.titulo, texto: null, creado: publicaciones.get(pid).creada })),
       ...[...comentarios.values()].filter((c) => mias.has(c.publicacion) && c.autor !== YO).map((c) => ({ tipo: 'comentario', alias: perfiles.get(c.autor).alias, nombre: perfiles.get(c.autor).nombre, publicacion: c.publicacion, titulo: publicaciones.get(c.publicacion).resumen.titulo, texto: c.texto.slice(0, 120), creado: c.creado })),
       ...[...anadidos].filter(([k]) => k.endsWith(`|${YO}`) && miembros.has(k)).map(([k, v]) => ({ tipo: 'anadido', alias: perfiles.get(v.por).alias, nombre: perfiles.get(v.por).nombre, publicacion: k.split('|')[0], titulo: comunidades.get(k.split('|')[0]).nombre, texto: null, creado: v.creado })),
+      // 0025: ánimos en tu semana de la semana en compañía, uno por grupo con cuántas personas.
+      ...[...companias].flatMap(([gid, g]) => { const de = [...g.animos].map(a => a.split('|')).filter(([, para]) => para === YO); return de.length ? [{ tipo: 'animo_compania', alias: perfiles.get(de.at(-1)[0]).alias, nombre: perfiles.get(de.at(-1)[0]).nombre, publicacion: gid, titulo: '', texto: null, creado: g.animosCreado ?? hace(30), personas: new Set(de.map(([d]) => d)).size }] : [] }),
     ].filter(a=>!bloq(YO,idDe(a.alias))).map((a) => ({ ...a, nuevo: a.creado > avisosVistos })).sort((a, b) => (a.creado < b.creado ? 1 : -1))
-    return { solicitudes: [...seg].filter(([k, v]) => k.endsWith(`|${YO}`) && v === 'pendiente').length, nuevos: lista.filter((a) => a.nuevo).length, lista: lista.slice(0,30) }
+    return { solicitudes: [...seg].filter(([k, v]) => k.endsWith(`|${YO}`) && v === 'pendiente').length, nuevos: lista.filter((a) => a.nuevo).length, lista: lista.slice(0,30),
+      companias: [...companias.values()].filter((g) => g.miembros.get(YO)?.estado === 'invitado').length }
   },
   marcar_avisos_vistos: () => { exigir(); avisosVistos = new Date().toISOString(); return null },
   // 0014: avatar (logro elegido) de quien se puede ver y último comentario visible de cada publicación.

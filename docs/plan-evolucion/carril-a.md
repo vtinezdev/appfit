@@ -30,7 +30,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A16 | ENT-16 | Gemelos en el asistente de rutinas | S | — | Hecho (2026-10-23) |
 | A17 | REN-04 | Importar FIT | M | A11 | Hecho (2026-10-23) |
 | A18 | SOC-04 | Compartir tu semana de Ritmo | M | A13 | Hecho (2026-10-23) |
-| A19 | SOC-05 | Avisos de la semana en compañía | M | A14 | Pendiente |
+| A19 | SOC-05 | Avisos de la semana en compañía | M | A14 | Hecho (2026-10-23) |
 | A20 | SOC-06 | Invitación por enlace o QR | L | — | Descartado (2026-10-23) |
 | A21 | ENT-17 | Superseries | L | — | Pendiente |
 | A22 | SOC-07 | Moderar comunidades desde la app | M | — | Pendiente |
@@ -231,7 +231,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A14 · SOC-01 · Semana en compañía
 
-> **Hecho (2026-10-23, PROCESO §216, [ADR 057](../decisiones/057-semana-en-compania.md), migración 0024).** Con las decisiones D11 de Víctor (su plan de Ritmo, lunes–domingo local, mutuos en grupos de 2 o 3, continua hasta pausa o salida). Una sola PR en lugar de tres: lector, SQL e interfaz van juntos porque la tarjeta solo aparece cuando el servidor anuncia `semanaCompania`. Sin avisos nuevos (las invitaciones y los ánimos se ven al abrir Social). Víctor ejecutó 0024 en el SQL Editor el 2026-10-23. **Pendiente de Víctor:** organizar el piloto de 3–4 semanas con parejas.
+> **Hecho (2026-10-23, PROCESO §216, [ADR 057](../decisiones/057-semana-en-compania.md), migración 0024).** Con las decisiones D11 de Víctor (su plan de Ritmo, lunes–domingo local, mutuos en grupos de 2 o 3, continua hasta pausa o salida). Una sola PR en lugar de tres: lector, SQL e interfaz van juntos porque la tarjeta solo aparece cuando el servidor anuncia `semanaCompania`. Sin avisos al principio; los añade A19. Víctor ejecutó 0024 en el SQL Editor el 2026-10-23. **Pendiente de Víctor:** organizar el piloto de 3–4 semanas con parejas.
 
 - **Tamaño:** XL, con piloto · **Rama:** varias (`feat/a-companeros-lector`, `feat/a-companeros-sql`, `feat/a-companeros-ui`)
 - **Para la persona:** dos o tres personas aceptan acompañarse una semana; cada una cuenta contra su plan de Ritmo y ve a las demás («Laura · 2 de 3») con un «Ánimo» desde la fila. Sin ranking ni castigos.
@@ -297,7 +297,9 @@ Víctor aprueba en la página de previews de los cinco siguientes tres mejoras d
 
 Víctor decide en la página de previews de los cinco siguientes (A19–A23): implementar A19, A21, A22 y A23, y descartar A20. Orden: A23, A19, A22 y A21.
 
-### [ ] A19 · SOC-05 · Avisos de la semana en compañía
+### [x] A19 · SOC-05 · Avisos de la semana en compañía
+
+> **Hecho (2026-10-23, PROCESO §219, migración 0025).** Las invitaciones no son eventos sino un recuento aparte (`avisos().companias`), como las solicitudes: cuentan hasta responderlas y salen arriba de Avisos con «Aceptar»/«Rechazar». El ánimo sí es un evento (`animo_compania`), agrupado por grupo. **Pendiente de Víctor:** ejecutar 0025.
 
 - **Tamaño:** M · **Rama:** `feat/a-avisos-compania` (+ migración `0025_…`)
 - **Decisión de Víctor:** avisan la invitación y el ánimo.

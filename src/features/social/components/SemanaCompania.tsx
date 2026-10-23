@@ -21,6 +21,10 @@ interface Props {
   /** Ir a Amigos (para seguir a alguien cuando aún no hay con quién). */
   onAmigos: () => void
   onError: (mensaje: string) => void
+  /** Sube cuando algo de fuera (aceptar desde Avisos) cambia los grupos: la tarjeta se vuelve a leer. */
+  version?: number
+  /** Se respondió una invitación desde la tarjeta: el contador de Avisos se vuelve a leer (A19). */
+  onRespondida?: () => void
 }
 
 /**
@@ -34,13 +38,13 @@ export default function SemanaCompania(props: Props) {
   return <ConCompania {...props} />
 }
 
-function ConCompania({ onAmigos, onError }: Props) {
+function ConCompania({ onAmigos, onError, version: externa = 0, onRespondida }: Props) {
   const [hoy] = useState(todayISO)
   const lunes = startOfWeek(hoy)
   const vitrina = useVitrina(hoy)
   const local = vitrina && 'resultado' in vitrina ? semanaPropia(vitrina.resultado.ritmo) : null
   const [version, setVersion] = useState(0)
-  const consulta = useConsulta(async () => (await cargarSocial()).companias(), version, true)
+  const consulta = useConsulta(async () => (await cargarSocial()).companias(), `${externa}-${version}`, true)
   // Copia local para pintar el ánimo al momento; vuelve a la del servidor en cuanto llega otra lectura.
   const [copia, setCopia] = useState<{ de: Companias; datos: Companias } | null>(null)
   const datos = copia && copia.de === consulta.datos ? copia.datos : consulta.datos
@@ -78,7 +82,7 @@ function ConCompania({ onAmigos, onError }: Props) {
         <Button variant="secondary" size="sm" className="ml-auto" aria-haspopup="dialog" onClick={() => abrirInvitar()}>Empezar</Button>
       </div>
     ) : <h2 className="text-body-sm font-semibold text-fg">Semana en compañía</h2>}
-    {datos.invitaciones.map(i => <Invitacion key={i.id} invitacion={i} avatares={avatares} onRespondida={recargar} />)}
+    {datos.invitaciones.map(i => <Invitacion key={i.id} invitacion={i} avatares={avatares} onRespondida={() => { recargar(); onRespondida?.() }} />)}
     {datos.grupos.map(g => <Grupo key={g.id} grupo={g} lunes={lunes} local={local} sinRitmo={vitrina !== undefined && !local} avatares={avatares}
       onAnimar={(para, dar) => void animar(g, para, dar)} onInvitar={() => abrirInvitar(g)} onCambio={recargar} />)}
     {invitar && <InvitarSheet key={invitar.n} grupo={invitar.grupo} onClose={() => setInvitar(null)} onAmigos={onAmigos} onInvitado={recargar} />}
@@ -175,7 +179,8 @@ function OpcionesGrupo({ open, grupo: g, enPausa, onClose, onInvitar, onCambio }
   </Sheet>
 }
 
-function Invitacion({ invitacion: i, avatares, onRespondida }: { invitacion: InvitacionCompania; avatares: ReturnType<typeof useAvatares>; onRespondida: () => void }) {
+/** Una invitación con «Rechazar» y «Aceptar»: en la tarjeta y arriba de Avisos (A19, sin el filete de separación). */
+export function Invitacion({ invitacion: i, avatares, onRespondida, filete = true }: { invitacion: InvitacionCompania; avatares: ReturnType<typeof useAvatares>; onRespondida: () => void; filete?: boolean }) {
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const quien = i.miembros.find(m => m.alias === i.de) ?? i.miembros[0]
@@ -185,7 +190,7 @@ function Invitacion({ invitacion: i, avatares, onRespondida }: { invitacion: Inv
     try { await (await cargarSocial()).responderCompania(i.id, aceptar); onRespondida() }
     catch (e) { setError(e instanceof Error ? e.message : 'No se ha podido responder.'); setOcupado(false) }
   }
-  return <div className="space-y-2 border-t border-line pt-3">
+  return <div className={`space-y-2 ${filete ? 'border-t border-line pt-3' : ''}`}>
     <div className="flex items-center gap-3">
       <AvatarPersona persona={quien} avatar={avatares[quien.alias]} tamano="sm" />
       <p className="min-w-0 flex-1">
@@ -196,8 +201,9 @@ function Invitacion({ invitacion: i, avatares, onRespondida }: { invitacion: Inv
     <p className="text-caption text-fg-muted">{QUE_SE_COMPARTE}</p>
     {error && <ErrorState>{error}</ErrorState>}
     <div className="flex flex-wrap gap-2">
-      <Button variant="secondary" size="sm" className="flex-1" disabled={ocupado} onClick={() => void responder(false)}>Rechazar</Button>
-      <Button size="sm" className="flex-1" disabled={ocupado} onClick={() => void responder(true)}>Aceptar</Button>
+      {/* Con letra grande se apilan antes de partir las palabras. */}
+      <Button variant="secondary" size="sm" className="flex-1 basis-28" disabled={ocupado} onClick={() => void responder(false)}>Rechazar</Button>
+      <Button size="sm" className="flex-1 basis-28" disabled={ocupado} onClick={() => void responder(true)}>Aceptar</Button>
     </div>
   </div>
 }

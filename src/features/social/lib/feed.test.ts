@@ -45,7 +45,7 @@ describe('avisos', () => {
     })
     expect(a.solicitudes).toBe(1)
     expect(a.lista.map((x) => [x.tipo, x.titulo])).toEqual([['comentario', 'Torso A'], ['reaccion', 'tu publicación']])
-    expect(leerAvisos('nada')).toEqual({ solicitudes: 0, nuevos: 0, lista: [] })
+    expect(leerAvisos('nada')).toEqual({ solicitudes: 0, nuevos: 0, invitaciones: 0, lista: [] })
   })
 
   it('textos', () => {
@@ -67,6 +67,20 @@ describe('avisos', () => {
     ] }).lista
     expect(anadido).toMatchObject({ tipo: 'anadido', alias: 'tinez', publicacion: '', comunidad: 'g1', titulo: 'Fuerza', nuevo: true })
     expect(textoAviso(anadido)).toBe('Te añadió a la comunidad Fuerza')
+  })
+
+  it('semana en compañía: las invitaciones cuentan aparte y el ánimo lleva el id del grupo (0025)', () => {
+    const a = leerAvisos({ solicitudes: 0, nuevos: 1, companias: 2, lista: [
+      { tipo: 'animo_compania', alias: 'jon', nombre: 'Jon', publicacion: 'g1', titulo: '', creado: '2026-10-23T09:00:00Z', nuevo: true, personas: 2 },
+      { tipo: 'animo_compania', alias: 'jon', publicacion: null, creado: '2026-10-23T09:00:00Z' },
+    ] })
+    expect(a.invitaciones).toBe(2)
+    expect(a.lista).toHaveLength(1)
+    expect(a.lista[0]).toMatchObject({ tipo: 'animo_compania', publicacion: '', compania: 'g1', personas: 2 })
+    expect(textoAviso(a.lista[0])).toBe('Ánimo en tu semana en compañía')
+    expect(resumenAvisos({ solicitudes: 0, nuevos: 0, invitaciones: 1 })).toBe('1 invitación')
+    expect(resumenAvisos({ solicitudes: 1, nuevos: 2, invitaciones: 2 })).toBe('1 solicitud · 2 invitaciones · 2 novedades')
+    expect(leerAvisos({ solicitudes: 1, nuevos: 0, lista: [] }).invitaciones).toBe(0)
   })
 })
 
