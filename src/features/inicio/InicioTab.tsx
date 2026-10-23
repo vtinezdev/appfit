@@ -10,7 +10,7 @@ import * as entriesRepo from '../nutricion/data/entriesRepo'
 import { sumMacros } from '../nutricion/lib/nutrition'
 import * as pesosRepo from './data/pesosRepo'
 import TarjetaEnergia from './components/TarjetaEnergia'
-import RegistroRapido from './components/RegistroRapido'
+import AnadirComidaAhora from './components/AnadirComidaAhora'
 import type { Comida } from '../../shared/db/types'
 import AccesoEntreno from './components/AccesoEntreno'
 import AccesoPeso from './components/AccesoPeso'
@@ -139,7 +139,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
       ) : (
         <div className="inicio-paneles">
           <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion}
-            pie={<RegistroRapido hoy={hoy} onAnadir={onAnadirComida} avisar={avisar} avisarError={avisarError} />} />
+            pie={<AnadirComidaAhora onAnadir={onAnadirComida} />} />
           <AccesoProgreso onAbrir={onIrAProgreso} enfocar={enfocarProgreso} />
           <div className="inicio-registros">
             <AccesoPeso tendencia={tendencia} pesos={pesos} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />

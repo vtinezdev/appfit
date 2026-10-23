@@ -1,4 +1,4 @@
-import type { Comida, Entry, Meal, MealItem } from '../../../shared/db/types'
+import type { Entry, Meal, MealItem } from '../../../shared/db/types'
 import { claveRef, refDe } from '../../../shared/db/foodRef'
 import { addDays } from '../../../shared/lib/dates'
 import { normalizeName } from '../../../shared/lib/text'
@@ -26,13 +26,6 @@ export function claveCombinacion(items: readonly MealItem[]): string {
   }))].sort())
 }
 
-/** Nombre de una combinación: el del plato si es uno solo con nombre; si no, sus alimentos unidos con «+». */
-function nombreCombinacion(items: readonly MealItem[]): string {
-  const nombresPlato = new Set(items.map(it => it.nombrePlato?.trim()).filter(Boolean))
-  const unPlato = items[0]?.platoId && items.every(it => it.platoId === items[0].platoId)
-  return unPlato && nombresPlato.size === 1 ? [...nombresPlato][0]! : [...new Set(items.map(it => it.nombre))].join(' + ')
-}
-
 /** Combinaciones de cada comida/día, disponibles en cualquier destino. Cada fecha cuenta una sola vez. No escribe datos. */
 export function comidasTipicas({ entries, plantillas, fecha }: { entries: Entry[]; plantillas: Meal[]; fecha: string }): ComidaTipica[] {
   const desde = addDays(fecha, -(VENTANA_TIPICAS - 1))
@@ -55,7 +48,11 @@ export function comidasTipicas({ entries, plantillas, fecha }: { entries: Entry[
     dias.add(dia)
     fechas.set(clave, dias)
     if (anterior) anterior.dias = dias.size
-    else repetidas.set(clave, { clave, nombre: nombreCombinacion(items), items, origen: 'historial', dias: 1, ultimaFecha: dia })
+    else {
+      const nombresPlato = new Set(items.map(it => it.nombrePlato?.trim()).filter(Boolean))
+      const unPlato = items[0]?.platoId && items.every(it => it.platoId === items[0].platoId)
+      repetidas.set(clave, { clave, nombre: unPlato && nombresPlato.size === 1 ? [...nombresPlato][0]! : [...new Set(items.map(it => it.nombre))].join(' + '), items, origen: 'historial', dias: 1, ultimaFecha: dia })
+    }
   }
   const resultado: ComidaTipica[] = []
   const guardadas = new Set<string>()
@@ -71,46 +68,3 @@ export function comidasTipicas({ entries, plantillas, fecha }: { entries: Entry[
   }
   return resultado
 }
-
-/** «Lo de siempre» de Inicio: días hacia atrás que se miran y días en que debe repetirse la combinación. */
-export const VENTANA_LO_DE_SIEMPRE = 7
-export const DIAS_LO_DE_SIEMPRE = 3
-
-export interface LoDeSiempre {
-  nombre: string
-  /** Los de la aparición más reciente, listos para `mealsRepo.aplicarSugerencia`. */
-  items: MealItem[]
-  /** kcal de la aparición más reciente (orientativas: al aplicarla se recalculan con los valores actuales). */
-  kcal: number
-  dias: number
-}
-
-/**
- * La combinación que más se repite en `comida` en los 7 días anteriores a `fecha` (ella no cuenta), si aparece al menos
- * 3 días; a igualdad, la más reciente. `null` si no la hay o si `fecha` ya tiene algo en esa comida. No escribe datos.
- */
-export function loDeSiempre(entries: Entry[], fecha: string, comida: Comida): LoDeSiempre | null {
-  if (entries.some(e => e.fecha === fecha && e.comida === comida)) return null
-  const desde = addDays(fecha, -VENTANA_LO_DE_SIEMPRE)
-  const porDia = new Map<string, Entry[]>()
-  for (const e of entries) {
-    if (e.comida !== comida || e.fecha < desde || e.fecha >= fecha) continue
-    porDia.set(e.fecha, [...(porDia.get(e.fecha) ?? []), e])
-  }
-  const grupos = new Map<string, { dias: number; ultima: string; entradas: Entry[] }>()
-  for (const [dia, entradas] of porDia) {
-    const ordenadas = [...entradas].sort((a, b) => a.createdAt - b.createdAt || a.id - b.id)
-    const clave = claveCombinacion(itemsDesdeEntradas(ordenadas))
-    const g = grupos.get(clave)
-    if (!g) grupos.set(clave, { dias: 1, ultima: dia, entradas: ordenadas })
-    else {
-      g.dias++
-      if (dia > g.ultima) { g.ultima = dia; g.entradas = ordenadas }
-    }
-  }
-  const mejor = [...grupos.values()].filter(g => g.dias >= DIAS_LO_DE_SIEMPRE).sort((a, b) => b.dias - a.dias || b.ultima.localeCompare(a.ultima))[0]
-  if (!mejor) return null
-  const items = itemsDesdeEntradas(mejor.entradas)
-  return { nombre: nombreCombinacion(items), items, kcal: Math.round(mejor.entradas.reduce((t, e) => t + e.kcal, 0)), dias: mejor.dias }
-}
-

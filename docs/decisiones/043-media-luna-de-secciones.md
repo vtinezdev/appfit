@@ -18,7 +18,7 @@ La app ya tuvo navegación bajo demanda ([ADR 008](008-menu-radial.md), [ADR 018
 
 ## Consecuencias
 
-- Registrar comida desde otra sección pasa de dos toques a tres (botón → Nutrición → «+» de la comida). Si se echa de menos, se puede recuperar como acceso en Inicio sin volver a la barra.
+- Registrar comida desde otra sección pasa de dos toques a tres (botón → Nutrición → «+» de la comida). Si se echa de menos, se puede recuperar como acceso en Inicio sin volver a la barra. Se recupera el 2026-10-23 (plan de evolución, paso B6, decisión D1): al pie de la tarjeta de energía, «+ Añadir desayuno» (la comida según la hora) abre Añadir comida en esa comida; es un botón neutro, hermano del de la tarjeta. Víctor descarta «Lo de siempre» (añadir en un toque la combinación que más se repite).
 - Inicio pierde el detalle de las tarjetas anchas (los días de la semana con sus anillos, el perfil de la montaña, el trazado de la ruta, la cumbre o llegada de los últimos tres días y lo que vale entrenar hoy); sigue en cada sección. `cumbreReciente` y `llegadaReciente` se retiran con ellas.
 - Amigos, Referencias y las cuatro secciones de progreso no tenían «Volver»: se regresaba con la media luna. Desde el 2026-10-22 (plan de evolución, paso B4) Cumbres, Caminos, Ritmo y Vitrina tienen «‹ Inicio» y Referencias vuelve a donde se abrió («‹ Ajustes», «‹ Nutrición» o «‹ Perfil»), con `PageHeader.volver`; al volver, el foco regresa a la tesela o a la fila de origen. Amigos lo recibe en el cruce A-X1 del carril A.
 - `data-nav-trigger` es el botón de secciones: el foco vuelve a él al cerrar capas cuyo disparador desapareció.
