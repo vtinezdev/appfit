@@ -109,8 +109,12 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
 
   const nuevos = avisos.datos?.nuevos ?? 0
   const solicitudes = avisos.datos?.solicitudes ?? perfil.solicitudes
-  const pendientes = nuevos + solicitudes
-  const etiquetaAvisos = ['Avisos', nuevos > 0 && `${formatInt(nuevos)} ${nuevos === 1 ? 'nuevo' : 'nuevos'}`, solicitudes > 0 && `${formatInt(solicitudes)} ${solicitudes === 1 ? 'solicitud' : 'solicitudes'}`].filter(Boolean).join(', ')
+  // Las invitaciones de la semana en compañía cuentan como las solicitudes hasta responderlas (A19).
+  const invitaciones = avisos.datos?.invitaciones ?? 0
+  const pendientes = nuevos + solicitudes + invitaciones
+  const etiquetaAvisos = ['Avisos', nuevos > 0 && `${formatInt(nuevos)} ${nuevos === 1 ? 'nuevo' : 'nuevos'}`, solicitudes > 0 && `${formatInt(solicitudes)} ${solicitudes === 1 ? 'solicitud' : 'solicitudes'}`,
+    invitaciones > 0 && `${formatInt(invitaciones)} ${invitaciones === 1 ? 'invitación' : 'invitaciones'}`].filter(Boolean).join(', ')
+  const [versionCompania, setVersionCompania] = useState(0)
   const vistas: { valor: Vista; label: string }[] = [
     { valor: 'todo', label: 'Siguiendo' },
     { valor: 'comunidades', label: 'Comunidades' },
@@ -140,7 +144,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
       <ViewTabs opciones={vistas} valor={vista} onChange={cambiarVista} label="Publicaciones">
         {vista === 'todo' ? (
           <div className="space-y-stack">
-            <SemanaCompania onAmigos={() => onIrAAmigos()} onError={avisarError} />
+            <SemanaCompania version={versionCompania} onRespondida={avisos.recargar} onAmigos={() => onIrAAmigos()} onError={avisarError} />
             <Compositor persona={perfil} avatar={avatares[perfil.alias]} onEscribir={() => setEditor(true)}
               onPublicada={() => { setVersion(v => v + 1); avisar({ mensaje: 'Publicación creada' }) }} />
             <ListaFeed ocultarSilenciadas version={`todo-${version}`} onError={avisarError} comentariosDe={comentariosDe} comprobarSenal={comprobar}
@@ -157,6 +161,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
 
       {avisosAbiertos.n > 0 && (
         <AvisosSheet key={`avisos-${avisosAbiertos.n}`} open={avisosAbiertos.open} consulta={avisos} onReintentar={avisos.recargar} onAmigos={() => onIrAAmigos()}
+          onCompania={() => setVersionCompania(v => v + 1)}
           onClose={() => setAvisosAbiertos((a) => ({ ...a, open: false }))}
           onExited={() => {
             const fn = siguiente.current
@@ -169,6 +174,8 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
               if (aviso.tipo === 'aceptada') { setPublicacionesDe({ alias: aviso.alias, nombre: aviso.nombre }); return }
               // Abre Mis comunidades (vuelta a montar: la lista se relee con la nueva).
               if (aviso.tipo === 'anadido') { setDescubrir(d => (d > 0 ? 0 : d - 1)); setVista('comunidades'); return }
+              // El ánimo de la semana en compañía: su tarjeta está arriba de Siguiendo.
+              if (aviso.tipo === 'animo_compania') { setVista('todo'); setVersionCompania(v => v + 1); window.scrollTo({ top: 0 }); return }
               setVista('todo')
               setComentariosDe({ id: aviso.publicacion, titulo: aviso.titulo, mia: aviso.mia ?? true })
             }

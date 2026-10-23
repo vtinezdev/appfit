@@ -52,14 +52,18 @@ export interface Comentario {
 }
 
 export interface Aviso {
-  /** `anadido`: un administrador me metió en una comunidad (`comunidad`, su id; `titulo`, su nombre). */
-  tipo: 'reaccion' | 'comentario' | 'respuesta' | 'aceptada' | 'comunidad' | 'anadido'
+  /**
+   * `anadido`: un administrador me metió en una comunidad (`comunidad`, su id; `titulo`, su nombre). `animo_compania`:
+   * alguien de un grupo de la semana en compañía me dio ánimo (`compania`, el id del grupo; 0025).
+   */
+  tipo: 'reaccion' | 'comentario' | 'respuesta' | 'aceptada' | 'comunidad' | 'anadido' | 'animo_compania'
   personas?: number
   mia?: boolean
   alias: string
   nombre: string | null
   publicacion: string
   comunidad?: string
+  compania?: string
   /** Título de la publicación. */
   titulo: string
   /** Los comentarios, su comienzo. */
@@ -73,6 +77,8 @@ export interface Avisos {
   solicitudes: number
   /** Reacciones y comentarios nuevos desde la última vez que se vieron. */
   nuevos: number
+  /** Invitaciones de la semana en compañía sin responder (0025): cuentan como las solicitudes. */
+  invitaciones: number
   lista: Aviso[]
 }
 
@@ -163,18 +169,19 @@ export function leerPaginaComentarios(x: unknown): PaginaComentarios {
 }
 
 export function leerAvisos(x: unknown): Avisos {
-  if (!esObjeto(x)) return { solicitudes: 0, nuevos: 0, lista: [] }
+  if (!esObjeto(x)) return { solicitudes: 0, nuevos: 0, invitaciones: 0, lista: [] }
   const lista = (Array.isArray(x.lista) ? x.lista : []).flatMap((a): Aviso[] => {
-    if (!esObjeto(a) || !['reaccion','comentario','respuesta','aceptada','comunidad','anadido'].includes(String(a.tipo))) return []
+    if (!esObjeto(a) || !['reaccion','comentario','respuesta','aceptada','comunidad','anadido','animo_compania'].includes(String(a.tipo))) return []
     const alias = texto(a.alias)
     const publicacion = texto(a.publicacion)
     const creado = ms(a.creado)
     if (!alias || (!publicacion && a.tipo !== 'aceptada') || creado === null) return []
     // En «anadido» el servidor manda el id de la comunidad en `publicacion`.
-    const anadido = a.tipo === 'anadido'
-    return [{ tipo: a.tipo as Aviso['tipo'], alias, nombre: texto(a.nombre), publicacion: anadido ? '' : publicacion ?? '', ...(anadido ? { comunidad: publicacion! } : {}), titulo: texto(a.titulo) ?? 'tu publicación', texto: texto(a.texto), creado, nuevo: a.nuevo === true, ...(a.personas !== undefined ? { personas: entero(a.personas) } : {}), ...(typeof a.mia === 'boolean' ? { mia: a.mia } : {}) }]
+    // Y en «animo_compania», el del grupo.
+    const anadido = a.tipo === 'anadido', compania = a.tipo === 'animo_compania'
+    return [{ tipo: a.tipo as Aviso['tipo'], alias, nombre: texto(a.nombre), publicacion: anadido || compania ? '' : publicacion ?? '', ...(anadido ? { comunidad: publicacion! } : {}), ...(compania ? { compania: publicacion! } : {}), titulo: texto(a.titulo) ?? 'tu publicación', texto: texto(a.texto), creado, nuevo: a.nuevo === true, ...(a.personas !== undefined ? { personas: entero(a.personas) } : {}), ...(typeof a.mia === 'boolean' ? { mia: a.mia } : {}) }]
   })
-  return { solicitudes: entero(x.solicitudes), nuevos: entero(x.nuevos), lista }
+  return { solicitudes: entero(x.solicitudes), nuevos: entero(x.nuevos), invitaciones: entero(x.companias), lista }
 }
 
 /** «Te dio ánimo en Torso A» o «Comentó en Torso A». */
@@ -183,13 +190,15 @@ export function textoAviso(a: Aviso): string {
   if (a.tipo === 'respuesta') return `Respondió a tu comentario en ${a.titulo}`
   if (a.tipo === 'comunidad') return `Publicó en ${a.titulo}`
   if (a.tipo === 'anadido') return `Te añadió a la comunidad ${a.titulo}`
+  if (a.tipo === 'animo_compania') return 'Ánimo en tu semana en compañía'
   return a.tipo === 'reaccion' ? `${REACCION.aviso[0].toUpperCase()}${REACCION.aviso.slice(1)} en ${a.titulo}` : `Comentó en ${a.titulo}`
 }
 
-/** «2 solicitudes · 3 novedades», o `null` si no hay nada pendiente. */
-export function resumenAvisos(a: Pick<Avisos, 'solicitudes' | 'nuevos'>): string | null {
+/** «2 solicitudes · 1 invitación · 3 novedades», o `null` si no hay nada pendiente. */
+export function resumenAvisos(a: Pick<Avisos, 'solicitudes' | 'nuevos'> & Partial<Pick<Avisos, 'invitaciones'>>): string | null {
   const partes: string[] = []
   if (a.solicitudes > 0) partes.push(`${formatInt(a.solicitudes)} ${a.solicitudes === 1 ? 'solicitud' : 'solicitudes'}`)
+  if (a.invitaciones) partes.push(`${formatInt(a.invitaciones)} ${a.invitaciones === 1 ? 'invitación' : 'invitaciones'}`)
   if (a.nuevos > 0) partes.push(`${formatInt(a.nuevos)} ${a.nuevos === 1 ? 'novedad' : 'novedades'}`)
   return partes.length > 0 ? partes.join(' · ') : null
 }

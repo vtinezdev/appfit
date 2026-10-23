@@ -12,8 +12,8 @@ interface Props {
 }
 
 /**
- * Banda de Inicio cuando hay algo pendiente: reacciones o comentarios nuevos (lleva a Social) o solo solicitudes
- * (lleva a Amigos). Sin cuenta configurada, sin sesión, sin perfil o sin conexión no aparece.
+ * Banda de Inicio cuando hay algo pendiente: reacciones o comentarios nuevos o invitaciones de la semana en compañía
+ * (lleva a Social) o solo solicitudes (lleva a Amigos). Sin cuenta configurada, sin sesión, sin perfil o sin conexión no aparece.
  */
 export default function AvisoAmigos(props: Props) {
   const { fase, email } = useCuenta()
@@ -30,7 +30,7 @@ function Banda({ onIrAAmigos, onIrASocial }: Props) {
   const texto = avisos.estado === 'listo' && avisos.datos ? resumenAvisos(avisos.datos) : null
   if (avisos.estado === 'error') return <div className="space-y-stack"><ErrorState>{navigator.onLine ? 'No se han podido cargar las novedades de Social.' : 'Necesitas conexión para cargar las novedades de Social.'}</ErrorState><Button variant="secondary" size="sm" onClick={avisos.recargar}>Reintentar</Button></div>
   if (avisos.estado !== 'listo' || !avisos.datos || !texto) return null
-  const aSocial = avisos.datos.nuevos > 0
+  const aSocial = avisos.datos.nuevos > 0 || avisos.datos.invitaciones > 0
   return (
     <div role="region" aria-label={aSocial ? 'Novedades en Social' : 'Solicitudes en Amigos'} className="flex items-center gap-2 rounded-lg bg-surface-muted py-1 pl-3 pr-2">
       <Icon name={aSocial ? 'comentario' : 'users'} size={20} className="shrink-0 text-fg-muted" />

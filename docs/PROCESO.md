@@ -2425,3 +2425,16 @@ Víctor ejecuta `supabase/migrations/0023_social_semana_ritmo.sql` y `0024_socia
 **Cómo:** `gym/lib/fichaEntreno.hitoDeEntrenos` (posición entre los terminados por inicio y id) y `textoDesde` (con el año si no es el actual), con tests; `hooks/useHitoEntrenos` lee `workoutsRepo.terminados`; `PosterSesion` y `PosterImagen` reciben `hito` y `posterImagen.svgPoster` lo dibuja encima del título. Solo en `WorkoutFinished`. Documentos: `features/gym.md`, roadmap, `social-mejoras.md` (F3-4 descartado) y el carril A (filas y decisiones de A19–A23).
 
 **Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` con 49 entrenos terminados sembrados a 375 claro, 320 oscuro y 375 con texto al 200 % (el nº 50 lleva «50 entrenos terminados · Desde el 3 mar»; a 200 % el texto baja bajo la cifra), 430 oscuro con el nº 51 (sin hito) y la imagen descargada con la cifra encima del título; sin scroll horizontal ni errores de consola.
+
+## 219. Avisos de la semana en compañía (A19 · SOC-05, 2026-10-23)
+
+**Qué:** la invitación de la semana en compañía cuenta en la campana de Social y en la banda de Inicio como una solicitud («1 invitación») y sale arriba de la hoja de Avisos con «Aceptar» y «Rechazar»; el ánimo de alguien del grupo llega como aviso del día y lleva a la tarjeta. Pausar, salir o bloquear nunca avisan. Víctor lo aprobó en las previews (invitación y ánimo).
+
+**Cómo:**
+- `supabase/migrations/0025_social_avisos_compania.sql`: `social_eventos` con `animo_compania` y `avisos` con el recuento `companias`; prueba en `supabase/pruebas/social_avisos_compania.sql`.
+- `social/lib/feed`: `Avisos.invitaciones`, el tipo `animo_compania` (con `compania`), su texto y `resumenAvisos` con las invitaciones; tests en `feed.test.ts`.
+- `AvisosSheet` (sección «Semana en compañía» con el `Invitacion` exportado de `SemanaCompania`), `SocialTab` (contador, etiqueta, tocar el ánimo y releer la tarjeta), `AvisoAmigos` (a Social también con invitaciones) y `SemanaCompania` (`version` y `onRespondida`; botones que se apilan con letra grande).
+- Supabase falso: `avisos` con `companias` y el ánimo de cada grupo.
+- Documentos: `features/social.md`, ADR 057 (los avisos llegan con A19) y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las 25 migraciones y las 18 suites SQL pasan en PostgreSQL 16 local temporal. Playwright con el Supabase falso a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: la banda de Inicio («2 solicitudes · 1 invitación · 1 novedad»), la campana («Avisos, 1 nuevo, 2 solicitudes, 1 invitación»), la invitación arriba de Avisos y el ánimo de Jon; aceptar quita la invitación del contador y tocar el ánimo lleva a la tarjeta con el grupo de Lucía; sin scroll horizontal ni errores de consola. **Pendiente de Víctor:** ejecutar 0025.

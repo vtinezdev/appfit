@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import Button from '../../../shared/components/Button'
 import type { Consulta } from '../hooks/useConsulta'
 import Solicitudes from './Solicitudes'
+import { Invitacion } from './SemanaCompania'
+import { useConsulta } from '../hooks/useConsulta'
 import Icon, { type IconName } from '../../../shared/components/Icon'
 import Sheet from '../../../shared/components/Sheet'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
@@ -23,16 +25,18 @@ interface Props {
   onAbrir: (aviso: Aviso) => void
   /** Se marcaron como vistos: el recuento se vuelve a leer. */
   onVistos: () => void
+  /** Se aceptó o rechazó una invitación de la semana en compañía (A19): Social vuelve a leer su tarjeta. */
+  onCompania?: () => void
   onExited?: () => void
 }
 
-const ICONO: Record<Aviso['tipo'], IconName> = { reaccion: 'llama', comentario: 'comentario', respuesta: 'comentario', aceptada: 'check', comunidad: 'users', anadido: 'users' }
+const ICONO: Record<Aviso['tipo'], IconName> = { reaccion: 'llama', comentario: 'comentario', respuesta: 'comentario', aceptada: 'check', comunidad: 'users', anadido: 'users', animo_compania: 'llama' }
 
 /**
  * Solicitudes y, por días, reacciones, comentarios y novedades en lo mío, con los nuevos marcados. Se vuelve a leer al
  * abrirla y, cuando llega, pasan a vistos (la lista conserva sus marcas de «nuevo» mientras está abierta).
  */
-export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, onClose, onAbrir, onVistos, onExited }: Props) {
+export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, onClose, onAbrir, onVistos, onCompania, onExited }: Props) {
   const [version, setVersion] = useState(0)
   const [error, setError] = useState<string | null>(null)
   // La lista de cuando se abrió, ya releída: al marcarlos vistos, el padre la vuelve a leer y los «nuevo» desaparecerían.
@@ -57,6 +61,7 @@ export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, on
   return (
     <Sheet open={open} onClose={onClose} onExited={onExited} title="Avisos">
       <div className="space-y-stack">
+        {(consulta.datos?.invitaciones ?? 0) > 0 && <InvitacionesCompania version={version} onCambio={() => { setVersion(v => v + 1); onVistos(); onCompania?.() }} />}
         <Solicitudes variante="hoja" version={version} onAbrir={onAmigos} onCambio={() => { setVersion(v => v + 1); onVistos() }} onError={setError} />
         {error && <ErrorState>{error}</ErrorState>}
         {consulta.estado === 'error' && <div className="space-y-stack"><ErrorState>{navigator.onLine ? consulta.error : 'Necesitas conexión para cargar los avisos.'}</ErrorState><Button variant="secondary" block onClick={onReintentar}>Reintentar</Button></div>}
@@ -72,7 +77,7 @@ export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, on
                       <span className="relative mt-0.5 shrink-0">
                         <AvatarPersona persona={a} avatar={a.tipo !== 'comunidad' ? avatares[a.alias] : undefined} tamano="sm" />
                         <span aria-hidden className="aviso-tipo absolute -bottom-1 -right-1 flex items-center justify-center rounded-pill bg-surface-elevated text-accent-strong shadow-control">
-                          <Icon name={ICONO[a.tipo]} size={12} className={a.tipo === 'reaccion' ? 'fill-current' : ''} />
+                          <Icon name={ICONO[a.tipo]} size={12} className={a.tipo === 'reaccion' || a.tipo === 'animo_compania' ? 'fill-current' : ''} />
                         </span>
                       </span>
                       <span className="min-w-0 flex-1">
@@ -90,4 +95,19 @@ export default function AvisosSheet({ open, consulta, onReintentar, onAmigos, on
       </div>
     </Sheet>
   )
+}
+
+/** Arriba de Avisos, las invitaciones de la semana en compañía que esperan respuesta (A19), como las solicitudes. */
+function InvitacionesCompania({ version, onCambio }: { version: number; onCambio: () => void }) {
+  const consulta = useConsulta(async () => (await cargarSocial()).companias(), version)
+  const invitaciones = consulta.datos?.invitaciones ?? []
+  const avatares = useAvatares(invitaciones.flatMap(i => i.miembros.map(m => m.alias)))
+  if (consulta.estado === 'error') return <ErrorState>{consulta.error}</ErrorState>
+  if (!invitaciones.length) return null
+  return <section aria-label="Semana en compañía" className="space-y-2">
+    <h3 className="text-rotulo text-fg-muted">Semana en compañía</h3>
+    <ul className="divide-y divide-line">
+      {invitaciones.map(i => <li key={i.id} className="py-3"><Invitacion invitacion={i} avatares={avatares} filete={false} onRespondida={onCambio} /></li>)}
+    </ul>
+  </section>
 }
