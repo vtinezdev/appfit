@@ -2471,6 +2471,6 @@ Víctor ejecuta `supabase/migrations/0023_social_semana_ritmo.sql` y `0024_socia
 
 **Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 y 375 px con texto normal y al 200 %: la cabecera y los paneles se leen enteros y con letra normal no cambian; sin scroll horizontal.
 
-## 223. Migración 0025 ejecutada y decisiones A29–A33 (2026-10-23)
+## 223. Migraciones 0025 y 0026 ejecutadas y decisiones A29–A33 (2026-10-23)
 
-Víctor ejecuta `supabase/migrations/0025_social_avisos_compania.sql` en el SQL Editor del proyecto real con «Success», después de fusionar A19 (#145): la invitación de la semana en compañía cuenta en la campana y en la banda de Inicio y el ánimo llega a Avisos. En la página de previews A29–A33 decide implementar A29 (series por tiempo: catálogo y a mano, sin liga) y descartar A30–A33. Se actualizan `features/social.md` y el carril A. Sin cambios de código; 0026 sigue pendiente.
+Víctor ejecuta `supabase/migrations/0025_social_avisos_compania.sql` en el SQL Editor del proyecto real con «Success», después de fusionar A19 (#145): la invitación de la semana en compañía cuenta en la campana y en la banda de Inicio y el ánimo llega a Avisos. En la página de previews A29–A33 decide implementar A29 (series por tiempo: catálogo y a mano, sin liga) y descartar A30–A33. Se actualizan `features/social.md` y el carril A. Sin cambios de código. Después, el mismo día, ejecuta también `0026_social_moderar_comunidades.sql` con «Success» (A22, #146): una comunidad denunciada se suspende o se cierra desde Moderación y quien denunció recibe el aviso cuando se actúa; se actualizan `features/social.md`, el carril A y el roadmap.

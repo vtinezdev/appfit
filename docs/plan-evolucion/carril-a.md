@@ -329,7 +329,7 @@ Víctor decide en la página de previews de los cinco siguientes (A19–A23): im
 
 ### [x] A22 · SOC-07 · Moderar comunidades desde la app
 
-> **Hecho (2026-10-23, PROCESO §220, migración 0026).** Sin casilla «Avisar»: se avisa siempre que se actúa (borrar, suspender o cerrar) y nunca al descartar. Las comunidades suspendidas se reactivan desde Suspendidos. **Pendiente de Víctor:** ejecutar 0026.
+> **Hecho (2026-10-23, PROCESO §220, migración 0026).** Sin casilla «Avisar»: se avisa siempre que se actúa (borrar, suspender o cerrar) y nunca al descartar. Las comunidades suspendidas se reactivan desde Suspendidos. Víctor ejecutó 0026 en el SQL Editor el 2026-10-23 («Success»).
 
 - **Tamaño:** M · **Rama:** `feat/a-moderar-comunidades` (+ migración `0026_…`)
 - **Decisión de Víctor:** avisar a quien denunció, sin detalles.
