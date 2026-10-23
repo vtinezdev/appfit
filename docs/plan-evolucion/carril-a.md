@@ -20,7 +20,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A8 | PRO-03 | Tendencia de series por músculo | M | — | Hecho (2026-10-23) |
 | A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Hecho (2026-10-23) |
 | A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Pendiente |
-| A11 | REN-04 | Importar TCX (y FIT después) | M | — | Pendiente |
+| A11 | REN-04 | Importar TCX (y FIT después) | M | — | Hecho (2026-10-23) |
 | A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Pendiente |
 | A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Pendiente |
 | A14 | SOC-01 | Semana en compañía | XL | — | Pendiente |
@@ -182,7 +182,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** Chromium (descarga) y, en móvil real, la hoja de compartir. Dejar anotado en el roadmap que falta iPhone.
 - **Documentos:** `docs/features/gym.md`; avisar en `docs/arquitectura.md` (párrafo de Entreno) de que la utilidad existe para otros carriles.
 
-### [ ] A11 · REN-04 · Importar TCX (y FIT después)
+### [x] A11 · REN-04 · Importar TCX (y FIT después)
+
+> **Hecho (2026-10-23, PROCESO §204, PR #133).** Víctor lo aprobó en la página de previews A10–A14: se guarda como importada (`origen: 'gpx'`, sin cambiar datos) y se prueba con archivos sintéticos (Garmin con vueltas y GPS, y cinta sin posiciones) en `tcx.test.ts`. Distancia y tiempo salen de las vueltas del dispositivo. FIT queda en el roadmap.
 
 - **Tamaño:** M · **Rama:** `feat/a-importar-tcx`
 - **Para la persona:** en Actividades, «Importar» acepta archivos `.tcx` además de `.gpx`.

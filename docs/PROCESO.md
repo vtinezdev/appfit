@@ -2230,3 +2230,14 @@ Paso A9 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprob
 - Cruce X4 no hecho: B8 aún no está en `master`.
 
 **Verificación:** `npm run test` y `npm run build` correctos; `npm run test:ui` (`auditoria-entreno.cjs`) correcto. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial y una montaña elegida, a 375 claro, 320 oscuro, 430 oscuro, 375 con texto al 200 % y Reduce Motion, sin gamificación y en un primer entreno: «Hoy» con récord, cumbre y pieza nueva (sin gamificación, tres récords; primer entreno, cumbre, liga y pieza), un solo muñeco, como mucho un bloque abierto (Récords con récords; Cuerpo sin ellos), abrir otro cierra el anterior, «Volver a Entreno» el último, sin scroll horizontal ni errores. `scripts/ui/validar-mapa-muscular.cjs` falla igual en `master` antes de este cambio (no pulsa «Continuar» del entreno minimizado y espera las figuras en la sección del mapa, que desde el rediseño del póster no las lleva): no se ha tocado y queda propuesto como tarea aparte. Sin dispositivo físico.
+
+## 204. Importar TCX además de GPX (A11 · REN-04, 2026-10-23)
+
+**Qué:** en Entreno › Actividades, «Importar GPX o TCX» acepta también los TCX de Garmin Connect, Polar, Coros o una cinta, con la misma hoja de revisión (titulada «Importar TCX»). Víctor lo aprobó en la página de previews A10–A14: se guarda como importada (`origen: 'gpx'`, sin cambiar datos) y se prueba con archivos sintéticos.
+
+**Cómo:**
+- `actividades/lib/tcx.ts`: `resumirTcx` con las herramientas de `gpx.ts` (ahora exporta `ETIQUETA`, `valor`, `atributo` y `texto`). Lee la primera `<Activity>`: distancia y tiempo de sus vueltas (`DistanceMeters`, `TotalTimeSeconds`) o, si faltan, de sus puntos; inicio del `<Id>`; nombre de sus `<Notes>`; tipo de `Sport` con `sugerirTipo`; recorrido y desnivel de los puntos con posición, pasando por `resumirGpx`. Sin posiciones (cinta) devuelve el recorrido vacío. `resumirArchivoActividad` elige GPX o TCX por el contenido.
+- `ActividadesHome`: el input acepta `.tcx`, el título de la hoja dice el formato y una cinta abre la hoja sin trazado. `DetalleActividad` dice «Importada de un archivo (GPX o TCX)».
+- Tests: `tcx.test.ts` (Garmin con dos vueltas y GPS, cinta sin posiciones, sin totales de vuelta, tipo por velocidad, errores y la elección por contenido).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: TCX roto con error en línea y sin escribir, Garmin sintético de 5,04 km (25:50, nombre, desnivel y trazado), cinta de 5,2 km sin trazado, las dos guardadas con `origen: 'gpx'` y el detalle; sin scroll horizontal, controles de 44 px y sin errores de consola. Sin probar con archivos reales ni en iPhone (Archivos).
