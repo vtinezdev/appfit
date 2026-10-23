@@ -15,7 +15,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B3 | NUT-09 | Aviso de coherencia energética | S | — | Hecho (2026-10-22) |
 | B4 | NAV-02 | «Volver» en las secciones anidadas | S | — | Hecho (2026-10-22) |
 | B5 | PRO-02 | Revisiones semanales desde Ritmo | S | — | Hecho (2026-10-23) |
-| B6 | NUT-03 | Registrar comida desde Inicio | M | — | Pendiente |
+| B6 | NUT-03 | Registrar comida desde Inicio | M | — | Hecho (2026-10-23) |
 | B7 | GAM-01 | Teselas de progreso con la semana | M | — | Hecho (2026-10-23) |
 | B8 | REN-01 | Un único cálculo derivado | L | — | Pendiente |
 | B9 | GLO-02 | Módulos activables | L | B7 | Pendiente |
@@ -82,9 +82,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Tests:** el calendario llama a `onVerRevision` con el lunes correcto; semanas futuras o vacías sin botón.
 - **Documentos:** `docs/features/ritmo.md`, `docs/features/inicio.md` (quitar «no hay un acceso permanente») y `docs/arquitectura.md` (nueva composición ritmo → inicio).
 
-### [ ] B6 · NUT-03 · Registrar comida desde Inicio
+### [x] B6 · NUT-03 · Registrar comida desde Inicio
 
-- **Tamaño:** M · **Rama:** `feat/b-registro-inicio`
+- **Tamaño:** M · **Rama:** `feat/b-registro-inicio` · **Hecho:** 2026-10-23 (PR pendiente). **D1 resuelta:** tras la vista previa, Víctor aprueba «+ Añadir desayuno» y descarta «Lo de siempre». Anotado en el ADR 043.
 - **Para la persona:** al pie de la tarjeta de energía, «+ Añadir desayuno» (la comida según la hora) abre Añadir comida ya en esa comida y, si hay una combinación que se repite, «Lo de siempre · 520 kcal» la añade en un toque con Deshacer.
 - **Cómo:**
   1. Lógica pura `loDeSiempre(entries, fecha, comida)` en `nutricion/lib/comidasTipicas.ts`: en los 7 días anteriores, la combinación (misma `claveCombinacion`) más repetida en **esa** comida, si aparece ≥ 3 días; devuelve sus ítems (los de la aparición más reciente, con `itemsDesdeEntradas`), nombre y kcal. `null` si hoy ya hay algo en esa comida. Lectura en `comidasTipicasRepo` (solo lee).

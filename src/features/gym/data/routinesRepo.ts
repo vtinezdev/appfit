@@ -1,9 +1,10 @@
 // Acceso a la tabla `routines`. Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
 import { db } from '../../../shared/db/db'
 import { validarEjecucion } from '../lib/ejecucion'
-import type { Routine } from '../../../shared/db/types'
+import type { ObjetivoEjercicio, Routine } from '../../../shared/db/types'
 import { resolverSeleccion } from './exercisesRepo'
 import { ErrorSustitucion, sustituirEnRutina } from '../lib/rutinas'
+import { sanearObjetivo } from '../lib/objetivos'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { nombreLibre, rutinasDelPlan, type PlanCreador } from '../lib/creadorRutinas'
 import { rutinaDesdeEntreno } from '../lib/repetirEntreno'
@@ -72,6 +73,26 @@ export function guardarPlan(plan: PlanCreador): Promise<number[]> {
       ids.push(await db.routines.add({ nombre: rutina.nombre, exerciseIds, objetivos, ...(Object.keys(agarres).length ? { agarres } : {}) }))
     }
     return ids
+  })
+}
+
+/**
+ * Guarda una rutina compartida por otra persona (ADR 055) como rutina nueva: un nombre libre frente a las existentes y
+ * cada ejercicio elegido con su objetivo, sin repetir. Devuelve su id. Lanza `RutinaVacia` sin ejercicios.
+ */
+export function guardarCompartida(nombre: string, ejercicios: { seleccion: SeleccionEjercicio; objetivo?: ObjetivoEjercicio }[]): Promise<number> {
+  return db.transaction('rw', db.routines, db.exercises, async () => {
+    const exerciseIds: number[] = []
+    const objetivos: NonNullable<Routine['objetivos']> = {}
+    for (const { seleccion, objetivo } of ejercicios) {
+      const id = await resolverSeleccion(seleccion)
+      if (exerciseIds.includes(id)) continue
+      exerciseIds.push(id)
+      if (objetivo) objetivos[id] = sanearObjetivo(objetivo)
+    }
+    if (!exerciseIds.length) throw new RutinaVacia('Elige al menos un ejercicio para guardar la rutina.')
+    const libre = nombreLibre(nombre.trim() || 'Rutina', (await db.routines.toArray()).map((r) => r.nombre))
+    return db.routines.add({ nombre: libre, exerciseIds, ...(Object.keys(objetivos).length ? { objetivos } : {}) })
   })
 }
 

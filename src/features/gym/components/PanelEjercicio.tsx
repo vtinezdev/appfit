@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { lazy, Suspense, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
@@ -29,10 +29,14 @@ import { TIPOS_SERIE, cambiosBajada, cambiosLadoBajada, conBajadaRestaurada, con
 import type { Anterior, TextoAnterior } from '../lib/anterior'
 import { subtituloEjercicio } from '../lib/presentacionEjercicio'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
+import { CATALOGO_POR_ID } from '../lib/catalogoEjercicios'
 import { volumenSets } from '../lib/workout'
 import { cargaInusual } from '../lib/cargaInusual'
 import { textoCalentamientos, textoObjetivo } from '../lib/objetivos'
 import { decimalEditable, esDecimalParcial, formatInt, formatNumber, leerDecimal } from '../../../shared/lib/format'
+
+// La ficha (con sus textos y el muñeco) solo se carga al abrirla.
+const FichaEjercicio = lazy(() => import('./FichaEjercicio'))
 
 /** El borrador evita que una respuesta asíncrona anterior interrumpa la escritura. Sin valor (lado no registrado) queda vacío. */
 export function CampoSerie({ valor, label, decimal = false, disabled = false, className = '', onChange, onTerminarEdicion }: {
@@ -95,6 +99,8 @@ interface Props {
   onBorrar: (id: number, numero: number) => void
   onAgregar: () => void
   onQuitar?: () => void
+  /** Sesión activa: «Sustituir» en el menú (ENT-01); la hoja y la escritura las lleva la página. */
+  onSustituir?: () => void
   /** Aviso con Deshacer al quitar una bajada (Toast de la página). */
   onAviso?: (aviso: { mensaje: string; onDeshacer: () => Promise<void> }) => void
   contexto?: { workoutId: number; inicio: number; nota?: string; carga?: ConfiguracionCarga; onCarga: (carga: ConfiguracionCarga) => Promise<void>; workout?: Workout; ejecucion?: ConfiguracionEjecucion; onEjecucion?: (c: ConfiguracionEjecucion, habitual: boolean) => Promise<void>; onProgresion?: (clave: string, decision: 'aplicada' | 'mantener' | 'descartada') => Promise<void>
@@ -133,7 +139,7 @@ function CeldaAnterior({ dato }: { dato?: TextoAnterior }) {
 }
 
 /** Panel de un ejercicio con sus series; lo comparten la sesión activa y el editor de entrenos terminados. */
-export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onAviso, contexto, mover, liga, plegado = false, onPlegar, notaGimnasio }: Props) {
+export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onSustituir, onAviso, contexto, mover, liga, plegado = false, onPlegar, notaGimnasio }: Props) {
   const filaPlegada = useRef<HTMLButtonElement>(null)
   const estabaPlegado = useRef(plegado)
   // Al plegarse justo tras marcar la última serie, el ✓ desaparece: el foco pasa a la fila plegada en vez de perderse
@@ -151,6 +157,8 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
   const completo = sets.length > 0 && sets.every(s => completadas?.includes(s.id))
   const actualizar = (id: number, cambio: CambioSerie) => { void Promise.resolve(onActualizar(id, cambio)).catch(() => {}) }
   const [hoja, setHoja] = useState<Hoja | null>(null)
+  const [ficha, setFicha] = useState(false)
+  const conFicha = !!ejercicio.catalogId && CATALOGO_POR_ID.has(ejercicio.catalogId)
   const despuesDelMenu = useRef<(() => void) | null>(null)
   /** Se calcula al abrir y se conserva mientras la hoja se cierra (no cambia bajo el dedo si se marca una serie). */
   const [historial, setHistorial] = useState<HistorialEjercicio | null>(null)
@@ -173,7 +181,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
   const modo = cargaActual(sets, contexto?.carga).modo
   const columnaKg = modo === 'lastre' ? 'Lastre' : modo === 'asistencia' ? 'Ayuda' : 'Kg'
   const conProgresion = !!(contexto?.workout && contexto.onProgresion)
-  const menu = !!(contexto || mover || onQuitar)
+  const menu = !!(contexto || mover || onQuitar || onSustituir)
   const conAnterior = !!anteriores && anteriores.size > 0
   const fila = conAnterior ? 'series-row con-anterior' : 'series-row'
 
@@ -242,6 +250,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
           {objetivo && <p className="tabular text-caption text-fg-muted">Objetivo: {textoObjetivo(objetivo)} reps{objetivo.calentamientos ? ` · ${textoCalentamientos(objetivo)}` : ''}{objetivo.descansoSeg ? ` · ${objetivo.descansoSeg} s de descanso` : ''}</p>}
         </div>
         </div>
+        {conFicha && <IconButton icon="info" variant="ghost" size="sm" label={`Ficha de ${ejercicio.nombre}`} onClick={() => setFicha(true)} />}
         {menu && <IconButton icon="more" variant="ghost" size="sm" label={`Opciones de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja('menu')} />}
       </div>
       {contexto?.nota && <button type="button" disabled={bloqueado} onClick={() => setHoja('nota')} aria-label={`Nota de ${ejercicio.nombre}: ${contexto.nota}`}
@@ -350,12 +359,14 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
       {contexto?.onEjecucion && hoja === 'variante' && <EjecucionEjercicio open ejercicio={ejercicio} actual={ejecucion} onGuardar={contexto.onEjecucion} onClose={() => setHoja(null)} />}
       {contexto?.historial && <HistorialEjercicioSheet open={hoja === 'historial'} onClose={() => setHoja(null)} nombre={ejercicio.nombre} historial={historial} gimnasio={contexto.historial.gimnasio} />}
       {liga && <LigaSheet open={hoja === 'liga'} liga={liga.estado} ejercicio={ejercicio} hoy={liga.hoy} alternativas={liga.alternativas} mantenido={liga.mantenido} sinRecords={liga.sinRecords} rutinas={liga.rutinas} onClose={() => setHoja(null)} />}
+      {ficha && ejercicio.catalogId && <Suspense fallback={null}><FichaEjercicio catalogId={ejercicio.catalogId} onClose={() => setFicha(false)} /></Suspense>}
       {menu && <Sheet open={hoja === 'menu'} onClose={() => setHoja(null)} title={ejercicio.nombre}
         onExited={() => { const accion = despuesDelMenu.current; despuesDelMenu.current = null; accion?.() }}>
         <ListGroup variante="plana" aria-label={`Opciones de ${ejercicio.nombre}`}>
           {contexto && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('nota'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">{contexto.nota ? 'Editar nota' : 'Añadir nota'}</span><span className="block break-words text-caption text-fg-muted">Solo de este ejercicio en esta sesión</span></span><Icon name="pencil" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {conProgresion && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('progresion'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">Progresión</span><span className="block break-words text-caption text-fg-muted">Objetivo y sugerencias</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {contexto?.historial && <li><ListRow onClick={() => elegirDelMenu(abrirHistorial)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Historial y récords</span><span className="block break-words text-caption text-fg-muted">Últimas sesiones, récords y gráfica</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
+          {onSustituir && <li><ListRow onClick={() => elegirDelMenu(onSustituir)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Sustituir</span><span className="block break-words text-caption text-fg-muted">Las series sin marcar pasan a otro ejercicio</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {liga && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('liga'))}><IconoLiga liga={liga.estado.division.liga} /><span className="min-w-0 flex-1"><span className="block text-body-sm font-semibold">Liga</span><span className="block break-words text-caption text-fg-muted">{textoDivision(liga.estado.division)}</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeSubir} aria-label={`Subir ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onSubir)}><span className="text-body-sm font-semibold">Subir</span><Icon name="chevron-left" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeBajar} aria-label={`Bajar ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onBajar)}><span className="text-body-sm font-semibold">Bajar</span><Icon name="chevron-right" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}
