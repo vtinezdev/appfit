@@ -2413,3 +2413,7 @@ Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla
   - «Pausar mi semana» → «En pausa», y «Salir del grupo» con confirmación cierra el grupo.
   - Sin scroll horizontal ni errores de consola.
 - **Pendiente de Víctor:** ejecutar 0024 después de desplegar, probar con dos cuentas reales y organizar el piloto de 3–4 semanas.
+
+## 217. Migraciones 0023 y 0024 ejecutadas (A18 y A14, 2026-10-23)
+
+Víctor ejecuta `supabase/migrations/0023_social_semana_ritmo.sql` y `0024_social_semana_compania.sql` en el SQL Editor del proyecto real, después de fusionar la app que las lee (#141 y #142). Desde ahora `social_capacidades` anuncia `semanaRitmo` y `semanaCompania`: aparecen «Tu semana» en el compositor y «Semana en compañía» arriba de Siguiendo. Se actualizan el estado del servidor en `features/social.md`, el carril A y el roadmap. Sin cambios de código. Queda el piloto de 3–4 semanas con parejas.

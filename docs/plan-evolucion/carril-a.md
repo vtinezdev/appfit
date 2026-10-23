@@ -226,7 +226,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A14 · SOC-01 · Semana en compañía
 
-> **Hecho (2026-10-23, PROCESO §216, [ADR 057](../decisiones/057-semana-en-compania.md), migración 0024).** Con las decisiones D11 de Víctor (su plan de Ritmo, lunes–domingo local, mutuos en grupos de 2 o 3, continua hasta pausa o salida). Una sola PR en lugar de tres: lector, SQL e interfaz van juntos porque la tarjeta solo aparece cuando el servidor anuncia `semanaCompania`. Sin avisos nuevos (las invitaciones y los ánimos se ven al abrir Social). **Pendiente de Víctor:** ejecutar 0024 después de desplegar y organizar el piloto de 3–4 semanas con parejas.
+> **Hecho (2026-10-23, PROCESO §216, [ADR 057](../decisiones/057-semana-en-compania.md), migración 0024).** Con las decisiones D11 de Víctor (su plan de Ritmo, lunes–domingo local, mutuos en grupos de 2 o 3, continua hasta pausa o salida). Una sola PR en lugar de tres: lector, SQL e interfaz van juntos porque la tarjeta solo aparece cuando el servidor anuncia `semanaCompania`. Sin avisos nuevos (las invitaciones y los ánimos se ven al abrir Social). Víctor ejecutó 0024 en el SQL Editor el 2026-10-23. **Pendiente de Víctor:** organizar el piloto de 3–4 semanas con parejas.
 
 - **Tamaño:** XL, con piloto · **Rama:** varias (`feat/a-companeros-lector`, `feat/a-companeros-sql`, `feat/a-companeros-ui`)
 - **Para la persona:** dos o tres personas aceptan acompañarse una semana; cada una cuenta contra su plan de Ritmo y ve a las demás («Laura · 2 de 3») con un «Ánimo» desde la fila. Sin ranking ni castigos.
@@ -282,7 +282,7 @@ Víctor aprueba en la página de previews de los cinco siguientes tres mejoras d
 
 ### [x] A18 · SOC-04 · Compartir tu semana de Ritmo
 
-> **Hecho (2026-10-23, PROCESO §215, [ADR 056](../decisiones/056-compartir-la-semana-de-ritmo.md), migración 0023).** El punto de entrada es el compositor de Social («Tu semana»), no Ritmo, que es del carril B. Con la gamificación oculta solo se ofrecen «Estoy retomando» (sin cifras) y «En pausa». **Víctor ejecuta 0023 en el SQL Editor después de desplegar la app.**
+> **Hecho (2026-10-23, PROCESO §215, [ADR 056](../decisiones/056-compartir-la-semana-de-ritmo.md), migración 0023).** El punto de entrada es el compositor de Social («Tu semana»), no Ritmo, que es del carril B. Con la gamificación oculta solo se ofrecen «Estoy retomando» (sin cifras) y «En pausa». **Víctor ejecutó 0023 en el SQL Editor el 2026-10-23, después de desplegar la app.**
 
 - **Tamaño:** M · **Rama:** `feat/a-semana-ritmo` (+ migración `0023_…`)
 - **Decisión de Víctor:** con la opción «Estoy retomando» / «En pausa»; antes de A14, para probar el formato.
