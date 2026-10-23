@@ -2,6 +2,7 @@
  * Mide cuánto tardan las lecturas derivadas de la gamificación (experiencia, Cumbres, Caminos y Vitrina) con un historial
  * sintético de 3 años (500 entrenos, 12.500 series, 8.000 entradas, 300 actividades y 600 días con pasos), en Chromium con
  * la CPU ralentizada 4× (aprox. un móvil medio). Solo en el origen de pruebas, en un contexto efímero: no toca datos reales.
+ * Compara las lecturas sueltas de siempre con el lector compartido (`experiencia/hooks/useProgreso`, REN-01).
  * Uso: node scripts/ui/medir-progreso.cjs   (con `npm run dev` en 5173; APPFIT_CHROMIUM opcional; APPFIT_CPU=1 sin ralentizar)
  */
 const { chromium } = require('playwright')
@@ -72,7 +73,15 @@ async function main() {
     const { leerCumbres } = await import('/src/features/cumbres/hooks/useCumbres.ts')
     const { leerCaminos } = await import('/src/features/caminos/hooks/useCaminos.ts')
     const { leerVitrina } = await import('/src/features/vitrina/hooks/useVitrina.ts')
-    const compartido = await import('/src/features/experiencia/hooks/useProgreso.ts').catch(() => null)
+    const { crearAlmacenProgreso } = await import('/src/features/experiencia/hooks/useProgreso.ts')
+    // Con el lector compartido: n pantallas se suscriben a la vez a un almacén nuevo y se espera a que llegue el resultado.
+    const pantallas = (almacen, n) => new Promise((ok) => {
+      const soltar = []
+      for (let i = 0; i < n; i++) soltar.push(almacen.suscribir(hoy, () => { if (almacen.valor(hoy)) { soltar.forEach((s) => s()); ok() } }))
+      if (almacen.valor(hoy)) { soltar.forEach((s) => s()); ok() }
+    })
+    const yaCalculado = crearAlmacenProgreso(leerVitrina, 60_000)
+    await pantallas(yaCalculado, 1)
     const hoy = '2026-10-23'
     const casos = {
       'experiencia (Ritmo, revisión semanal)': () => leerExperiencia(hoy),
@@ -80,7 +89,8 @@ async function main() {
       'Caminos': () => leerCaminos(hoy),
       'Vitrina (Inicio, VitrinaTab)': () => leerVitrina(hoy),
       'Fin de sesión (Cumbres + 2 × Vitrina)': () => Promise.all([leerCumbres(hoy), leerVitrina(hoy), leerVitrina(hoy)]),
-      ...(compartido ? { 'Lector compartido (una vez para todo)': () => compartido.leerProgreso(hoy) } : {}),
+      'Fin de sesión con el lector compartido (3 pantallas, 1 cálculo)': () => pantallas(crearAlmacenProgreso(leerVitrina, 0), 3),
+      'Volver a otra sección dentro del margen (ya calculado)': () => pantallas(yaCalculado, 1),
     }
     const res = {}
     for (const [nombre, f] of Object.entries(casos)) {
