@@ -1,4 +1,5 @@
-import type { SetEntry } from '../../../shared/db/types'
+import type { SetEntry, Workout } from '../../../shared/db/types'
+import { formatDiaMes } from '../../../shared/lib/dates'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { modoCarga } from './carga'
 import { describirReps, type SerieEjecucion } from './ejecucion'
@@ -189,4 +190,31 @@ export function resumenCumbresLigas(cumbre: DatosHitos['cumbre'], ligas: DatosHi
   if (ligas.length) partes.push(ligas.length === 1 ? `${nombres[ligas[0].exerciseId] ?? 'Ejercicio'} · ${ligas[0].texto}` : `${formatInt(ligas.length)} cambios de liga`)
   else if (sumanSemana > 0) partes.push(sumanSemana === 1 ? '1 ejercicio suma una semana' : `${formatInt(sumanSemana)} ejercicios suman una semana`)
   return partes.length ? partes.join(' · ') : 'Este entreno no sube metros'
+}
+
+/** Entrenos redondos que celebra el póster al terminar (A23). */
+export const HITOS_ENTRENOS = [10, 25, 50, 100, 250, 500, 1000] as const
+
+export interface HitoEntrenos {
+  /** Cuántos entrenos terminados llevas con este (10, 25, 50…). */
+  numero: number
+  /** Inicio del primero. */
+  desde: number
+}
+
+/**
+ * Si el entreno `id` es el nº 10, 25, 50, 100, 250, 500 o 1.000 de los terminados (por su inicio, y a igual inicio por
+ * su id), el número y el inicio del primero; si no, `null`. Cuenta todos los terminados, como el historial.
+ */
+export function hitoDeEntrenos(terminados: Pick<Workout, 'id' | 'inicio'>[], id: number): HitoEntrenos | null {
+  const orden = [...terminados].sort((a, b) => a.inicio - b.inicio || a.id - b.id)
+  const numero = orden.findIndex(w => w.id === id) + 1
+  if (!(HITOS_ENTRENOS as readonly number[]).includes(numero)) return null
+  return { numero, desde: orden[0].inicio }
+}
+
+/** «Desde el 3 mar» (con el año si no es el de `ahora`: «desde el 3 mar de 2025»). */
+export function textoDesde(desde: number, ahora: number): string {
+  const anio = new Date(desde).getFullYear()
+  return `Desde el ${formatDiaMes(desde)}${anio !== new Date(ahora).getFullYear() ? ` de ${anio}` : ''}`
 }

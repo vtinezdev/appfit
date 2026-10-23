@@ -29,6 +29,8 @@ export interface DatosPosterImagen {
   fecha: string
   cifras: CifraPoster[]
   hoy: HitoSesion[]
+  /** El entreno nº 10, 25, 50…: la cifra y su texto encima del título (A23). */
+  hito?: { cifra: string; texto: string; desde: string }
   /** Niveles del mapa de la sesión y la geometría del muñeco (`CUERPOS[figura]`, con su `viewBox`); sin ellos, sin muñeco. */
   muneco?: { levels: Partial<Record<ZonaMuscular, number>>; cuerpo: { frontal: VistaCuerpo; trasera: VistaCuerpo }; viewBox: string }
 }
@@ -100,6 +102,15 @@ function muneco({ levels, cuerpo, viewBox }: NonNullable<DatosPosterImagen['mune
 export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): string {
   const partes: string[] = [`<rect width="${ANCHO_POSTER}" height="${ALTO_POSTER}" fill="${rgb(c.fondo)}"/>`]
   let y = MARGEN
+  if (d.hito) {
+    y += 96
+    partes.push(texto(MARGEN, y, d.hito.cifra, 120, c.acento, LETRA.cifra))
+    // La cifra en cursiva estrecha mide unos 52 px por dígito a 120 px.
+    const x = MARGEN + d.hito.cifra.length * 52 + 28
+    partes.push(texto(x, y - 40, d.hito.texto, 40, c.texto, LETRA.texto.replace('500', '700')))
+    partes.push(texto(x, y, d.hito.desde, 30, c.tenue, LETRA.texto))
+    y += 24
+  }
   for (const linea of partirLineas(d.titulo, 22, 2)) {
     y += 104
     partes.push(texto(MARGEN, y, linea, 112, c.texto, LETRA.titulo))

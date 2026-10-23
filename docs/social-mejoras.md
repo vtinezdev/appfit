@@ -17,7 +17,8 @@ Plan de trabajo · 18 de octubre de 2026.
 | F2-10 | Pendiente de medir volumen suficiente; no se añaden filtros sin esos datos |
 | F3-1 | Implementado (A14, ADR 057, migración 0024); falta el piloto de 3–4 semanas |
 | F3-2–F3-3 | Hechos (A13 y A18) |
-| F3-4–F3-6 | Pendientes de router o servicio según cada propuesta; no implementados |
+| F3-4 | Descartado por Víctor (2026-10-23, A20) |
+| F3-5–F3-6 | Pendientes de piloto o servicio según cada propuesta; no implementados |
 
 Víctor ha confirmado el resumen recomendado (sin 1RM nuevo; reps solo al mayor peso de su variante/modo), nota de 280 sin edición y por copia, Ánimo, Sigues/Te siguen, privacidad de reacciones y mínimo de novedades de comunidades. Confirma moderación manual y transferir/cerrar antes de borrar perfil. Las marcas **[DECIDIR]** del texto de origen se resuelven por este registro; las decisiones de fase 3 y apertura siguen pendientes.
 
@@ -410,7 +411,9 @@ Solo tras las fases anteriores y con un piloto.
 - **Reglas:** nunca automático y sin «semana fallida».
 - **Formato:** tipo nuevo en v1. Las apps antiguas lo descartarían, así que requiere F0-2 y desplegar antes el lector.
 
-### F3-4 · Invitación por enlace o QR (Codex B04) · P3
+### F3-4 · Invitación por enlace o QR (Codex B04) · P3 · Descartado
+
+> **Descartado (2026-10-23, A20).** Víctor lo descarta en las previews de los cinco siguientes; se sigue invitando con el código.
 
 - **Idea:** enlace revocable que propone «Pedir seguir»; QR para el gimnasio; el código se mantiene.
 - **Bloqueo:** la app no tiene rutas por URL (`src/app/App.tsx`, router con `useState`). Hay que resolver el enlace al abrir y probar Safari frente a la PWA instalada.

@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ReactNode } from 'react'
 import { formatInt } from '../../../shared/lib/format'
 import type { ResumenMuscular } from '../lib/cargaMuscular'
+import { textoDesde, type HitoEntrenos } from '../lib/fichaEntreno'
 import { formatDuracion, rangoSesion } from '../lib/workout'
 import type { FiguraMapa } from './mapaMuscularGeometria'
 
@@ -25,12 +26,19 @@ interface Props {
   hoy?: ReactNode
   /** Al terminar: el muñeco del progreso muscular, en lugar de las figuras de `levels`. */
   figuras?: ReactNode
+  /** Al terminar el entreno nº 10, 25, 50…: la cifra encima del título (A23). */
+  hito?: HitoEntrenos | null
 }
 
 /** Póster de una sesión: lo comparten el fin del entreno y el detalle del historial. Datos reales, sin récords ni rachas inventados. */
-export default function PosterSesion({ titulo, inicio, fin, series, volumen, levels, figura, estado, gimnasio, hoy, figuras }: Props) {
+export default function PosterSesion({ titulo, inicio, fin, series, volumen, levels, figura, estado, gimnasio, hoy, figuras, hito }: Props) {
   return <section aria-label="Resumen de la sesión" className="training-surface session-poster space-y-5 p-5">
     {estado}
+    {hito && <p className="flex flex-wrap items-baseline gap-x-3">
+      <span className="whitespace-nowrap font-numeric text-hero tabular text-accent-strong">{formatInt(hito.numero)}</span>
+      <span className="min-w-0 flex-1 basis-40 break-words text-body-sm font-semibold">entrenos terminados
+        <span className="training-muted block text-caption font-normal">{textoDesde(hito.desde, Date.now())}</span></span>
+    </p>}
     <div className="space-y-1">
       <h1 className="poster-title break-words">{titulo}</h1>
       <p className="training-muted tabular break-words text-body-sm">{rangoSesion(inicio, fin)}{gimnasio ? ` · ${gimnasio}` : ''}</p>
