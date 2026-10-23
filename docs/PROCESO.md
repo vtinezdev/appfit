@@ -2207,3 +2207,13 @@ Desde el 22 de octubre por la tarde, el job `navegador` de `.github/workflows/qa
 - `docs/desarrollo.md` (workflow de QA).
 
 **Verificación:** YAML válido; el propio workflow de la PR es la prueba (las PR usan el de su rama).
+
+## 202. Tendencia de series por músculo (A8 · PRO-03, 2026-10-23)
+
+Paso A8 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9 (que también descartó A7, el calentamiento en rampa). Rama `feat/a-tendencia-musculo` desde `master`.
+
+- `gym/lib/progresoMuscular`: `ProgresoMusculo.ultimasSemanas` (`SemanaMusculo`: lunes, series que cuentan y si está en pausa de Ritmo) con las `SEMANAS_TENDENCIA` (8) últimas semanas hasta la en curso. Sale del mismo `porSemana` de `calcularMusculo`, así que la última barra es «Esta semana» (directas e indirectas hasta su tope).
+- `gym/components/TendenciaSemanasMusculo` en el detalle de un músculo de `MapaProgreso`, bajo las tres cifras: barras SVG (sin Recharts), línea discontinua de la dosis, la semana en curso en el acento; cifras y día del lunes en una rejilla de texto alineada con las barras (el mes, en el pie) y una tabla `sr-only`. Sin series en las 8 semanas, no se dibuja.
+- Tests en `progresoMuscular.test.ts`: lunes y series de 8 semanas (con hueco y semana en curso), tope de lo indirecto, coincidencia con «Esta semana», sin series y semanas en pausa.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: pecho con 8 barras (6, 9, 6, 6, 9, 6, 6 y 3, la última igual que «Esta semana 3/10»), 8 columnas y 8 filas en la tabla, sin scroll horizontal ni errores; gemelos sin series, sin gráfica. Al 200 % las fechas completas se partían a media palabra: se dejó solo el día bajo cada barra. Sin dispositivo físico.

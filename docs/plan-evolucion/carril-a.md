@@ -16,8 +16,8 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A4 | GAM-07 | «Hace N días» tras un parón | S | — | Descartado (2026-10-23) |
 | A5 | ENT-04 | Historial del ejercicio sin salir de la sesión | M | — | Hecho (2026-10-23) |
 | A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Hecho (2026-10-23) |
-| A7 | ENT-05 | Calentamiento en rampa | M | — | Pendiente |
-| A8 | PRO-03 | Tendencia de series por músculo | M | — | Pendiente |
+| A7 | ENT-05 | Calentamiento en rampa | M | — | Descartado (2026-10-23) |
+| A8 | PRO-03 | Tendencia de series por músculo | M | — | Hecho (2026-10-23) |
 | A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Pendiente |
 | A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Pendiente |
 | A11 | REN-04 | Importar TCX (y FIT después) | M | — | Pendiente |
@@ -122,7 +122,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** sustituir con 2 de 3 series hechas, deshacer, recargar; con rutina marcada, comprobar la rutina.
 - **Documentos:** `docs/features/gym.md` (menú del ejercicio y repositorio) y `docs/features/liga.md` (la función de alternativas se usa también fuera de Élite).
 
-### [ ] A7 · ENT-05 · Calentamiento en rampa
+### [-] A7 · ENT-05 · Calentamiento en rampa
+
+> **Descartado por Víctor (2026-10-23)** en la página de previews A5–A9 (hoy 20 y 20 kg; propuesta 40 y 62,5 kg antes de 82,5). No se implementa.
 
 - **Tamaño:** M · **Rama:** `feat/a-calentamiento-rampa`
 - **Para la persona:** al empezar una rutina con calentamientos, sus cargas suben hacia la primera serie efectiva, redondeadas a discos reales.
@@ -136,7 +138,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** rutina con 2 calentamientos en press banca.
 - **Documentos:** `docs/features/gym.md` § Objetivos de rutina.
 
-### [ ] A8 · PRO-03 · Tendencia de series por músculo
+### [x] A8 · PRO-03 · Tendencia de series por músculo
+
+> **Hecho (2026-10-23, PROCESO §202, PR #128).** Aprobado por Víctor en la página de previews A5–A9. Las semanas salen de `calcularMusculo` (campo `ultimasSemanas`), el mismo cálculo que «Esta semana», en lugar de una función aparte. Bajo cada barra, solo el día del lunes (con letra al 200 % las fechas completas se partían).
 
 - **Tamaño:** M · **Rama:** `feat/a-tendencia-musculo`
 - **Para la persona:** en el detalle de un músculo del mapa de progreso, barras de las últimas 8 semanas con la dosis de AppFit marcada y la semana actual distinguida.

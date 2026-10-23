@@ -3,7 +3,7 @@ import type { Exercise, Pausa, SetEntry, Workout, WorkoutExerciseMuscles } from 
 import { addDays, parseISODate } from '../../../shared/lib/dates'
 import {
   aportesMusculares, fraseSubidas, MAXIMO_PROGRESO, musculosDelEntreno, nivelesDeProgreso, nivelProgreso, nombreNivel, progresoMuscular,
-  PROGRESO_MUSCULAR, resumenProgreso, subidasDeNivel, textoEstado, textoSemana,
+  PROGRESO_MUSCULAR, resumenProgreso, SEMANAS_TENDENCIA, subidasDeNivel, textoEstado, textoSemana,
 } from './progresoMuscular'
 
 const BANCA: WorkoutExerciseMuscles = { exerciseId: 1, nombre: 'Press banca', primaryMuscles: ['pecho'], secondaryMuscles: ['triceps', 'hombros'] }
@@ -189,6 +189,27 @@ describe('progreso muscular', () => {
     const vacio = mapa([], L0)
     const muchos = mapa([entreno(L0, [[BANCA, 10], [CURL, 6], [{ exerciseId: 5, nombre: 'Sentadilla', primaryMuscles: ['cuadriceps', 'gluteos'], secondaryMuscles: [] }, 10]])], domingo(0))
     expect(fraseSubidas(vacio, muchos)).toMatch(/ y 1 más\.$/)
+  })
+
+  it('últimas 8 semanas por músculo: las series que cuentan, la en curso al final y las semanas vacías a 0', () => {
+    // 12 semanas: 10 series de banca (pecho directas; tríceps y hombros indirectas a 0,5) salvo un hueco en la semana 9.
+    const entrenos = [...semanas(L0, 9, [[BANCA, 10]]), ...semanas(addDays(L0, 70), 2, [[BANCA, 4]])]
+    const p = mapa(entrenos, addDays(L0, 11 * 7 + 1))
+    const pecho = p.musculos.pecho.ultimasSemanas
+    expect(pecho).toHaveLength(SEMANAS_TENDENCIA)
+    expect(pecho.map(s => s.lunes)).toEqual(Array.from({ length: 8 }, (_, i) => addDays(L0, (4 + i) * 7)))
+    expect(pecho.map(s => s.series)).toEqual([10, 10, 10, 10, 10, 0, 4, 0])
+    // Lo indirecto cuenta con su tope (la mitad de la dosis), igual que «Esta semana».
+    expect(p.musculos.triceps.ultimasSemanas[0].series).toBe(Math.min(5, 6 * PROGRESO_MUSCULAR.topeIndirecto))
+    expect(p.musculos.pecho.ultimasSemanas.at(-1)!.series).toBe(p.musculos.pecho.semanaActual.series)
+    // Sin series nunca: 8 semanas a 0.
+    expect(p.musculos.gemelos.ultimasSemanas.every(s => s.series === 0 && !s.pausa)).toBe(true)
+  })
+
+  it('las semanas en pausa de Ritmo se marcan', () => {
+    const pausas: Pausa[] = [{ id: 'p', desde: addDays(L0, 70), tipo: 'entreno', motivo: 'lesion' }]
+    const p = mapa(semanas(L0, 10, [[BANCA, 10]]), addDays(L0, 11 * 7 + 1), { pausas })
+    expect(p.musculos.pecho.ultimasSemanas.map(s => s.pausa)).toEqual([false, false, false, false, false, false, true, true])
   })
 
   it('músculos de un entreno, de más a menos series', () => {
