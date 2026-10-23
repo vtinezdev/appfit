@@ -316,7 +316,7 @@ Víctor decide en la página de previews de los cinco siguientes (A19–A23): im
 
 ### [x] A21 · ENT-17 · Superseries
 
-> **Hecho (2026-10-23, PROCESO §221).** El campo `superseries` no se añade a `shared/db/types.ts`: lo declara `gym/lib/superseries` y lo escriben solo los repos de gym (regla del carril). Los calentamientos quedan fuera de la ronda. El filete de la sección es superior para no estrechar los paneles. **Aparte:** con el texto al 200 % a 375 px, el título y el grupo del panel de un ejercicio ya se partían letra a letra antes de A21; queda anotado en el roadmap.
+> **Hecho (2026-10-23, PROCESO §221).** El campo `superseries` no se añade a `shared/db/types.ts`: lo declara `gym/lib/superseries` y lo escriben solo los repos de gym (regla del carril). Los calentamientos quedan fuera de la ronda. El filete de la sección es superior para no estrechar los paneles. **Aparte:** con el texto al 200 % a 375 px, el título y el grupo del panel de un ejercicio (y el nombre de la rutina en la cabecera de la sesión) ya se partían letra a letra antes de A21; se arregla en PROCESO §222.
 
 - **Tamaño:** L · **Rama:** `feat/a-superseries`
 - **Decisiones de Víctor:** en la sesión y en la rutina; de dos ejercicios; descanso al terminar la ronda.
