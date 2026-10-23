@@ -30,7 +30,7 @@ const VISTAS: { valor: Vista; label: string }[] = [
   { valor: 'alimentos', label: 'Mis alimentos' },
 ]
 
-export default function NutricionTab({ onVerReferencia }: { onVerReferencia?: (id: NutrienteId) => void }) {
+export default function NutricionTab({ onVerReferencia, anadirInicial }: { onVerReferencia?: (id: NutrienteId) => void; /** Abre Añadir comida en esa comida al montar (desde Inicio). */ anadirInicial?: Comida }) {
   const [vista, setVista] = useState<Vista>('hoy')
   const hoy = useHoy()
   const [fechaElegida, setFechaElegida] = useState<string | null>(null)
@@ -38,9 +38,9 @@ export default function NutricionTab({ onVerReferencia }: { onVerReferencia?: (i
   const setFecha = (nueva: string) => setFechaElegida(nueva === hoy ? null : nueva)
   // El destino de una tarea ya abierta queda fijado aunque se cruce medianoche.
   const [fechaAnadir, setFechaAnadir] = useState(todayISO())
-  const [mostrarAnadir, setMostrarAnadir] = useState(false)
+  const [mostrarAnadir, setMostrarAnadir] = useState(anadirInicial !== undefined)
   const [creandoTipica, setCreandoTipica] = useState(false)
-  const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(undefined)
+  const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(anadirInicial)
   const [entryEditar, setEntryEditar] = useState<Entry | undefined>(undefined)
   const [platoEditar, setPlatoEditar] = useState<Plato | undefined>(undefined)
   const [rapidaEditar, setRapidaEditar] = useState<Entry | null>(null)

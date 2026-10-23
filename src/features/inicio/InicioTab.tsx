@@ -10,6 +10,8 @@ import * as entriesRepo from '../nutricion/data/entriesRepo'
 import { sumMacros } from '../nutricion/lib/nutrition'
 import * as pesosRepo from './data/pesosRepo'
 import TarjetaEnergia from './components/TarjetaEnergia'
+import AnadirComidaAhora from './components/AnadirComidaAhora'
+import type { Comida } from '../../shared/db/types'
 import AccesoEntreno from './components/AccesoEntreno'
 import AccesoPeso from './components/AccesoPeso'
 import RegistrarPesoSheet from './components/RegistrarPesoSheet'
@@ -35,6 +37,8 @@ const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
 
 interface Props {
   onIrANutricion: () => void
+  /** Abre Añadir comida en Nutrición, ya en esa comida. */
+  onAnadirComida: (comida: Comida) => void
   onIrAGym: () => void
   /** Cumbres, Caminos, Ritmo o Vitrina, desde sus teselas. */
   onIrAProgreso: (destino: DestinoProgreso) => void
@@ -53,7 +57,7 @@ const PESO_POR_DEFECTO = 70
 const DIAS_HISTORIAL = 365
 
 /** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, el progreso (Cumbres, Caminos, Ritmo y Vitrina), peso y agua y el último entreno. */
-export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
+export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
   const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
@@ -134,7 +138,8 @@ export default function InicioTab({ onIrANutricion, onIrAGym, onIrAProgreso, enf
         </div>
       ) : (
         <div className="inicio-paneles">
-          <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion} />
+          <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion}
+            pie={<AnadirComidaAhora onAnadir={onAnadirComida} />} />
           <AccesoProgreso onAbrir={onIrAProgreso} enfocar={enfocarProgreso} />
           <div className="inicio-registros">
             <AccesoPeso tendencia={tendencia} pesos={pesos} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />

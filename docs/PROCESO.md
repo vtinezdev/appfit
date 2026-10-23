@@ -2287,3 +2287,14 @@ Paso A9 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprob
 ## 208. Migración 0022 ejecutada (A13, 2026-10-23)
 
 Víctor ejecuta `supabase/migrations/0022_social_rutina_compartida.sql` en el SQL Editor del proyecto real con «Success», después de fusionar la app que lee el tipo `rutina` (#134). Desde ahora `social_capacidades` anuncia `rutinaCompartida` y la ficha de una rutina ofrece «Compartir rutina». Se actualizan el estado del servidor en `features/social.md`, el carril A y el roadmap. Sin cambios de código.
+
+## 209. Añadir comida desde Inicio (2026-10-23)
+
+Paso B6 (NUT-03) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-registro-inicio` desde `master`. La vista previa (capturas a las 8:00, 14:00 y 21:00 simuladas) llevaba dos acciones al pie de la tarjeta de energía: «+ Añadir desayuno» y «Lo de siempre» (la combinación repetida al menos 3 de los últimos 7 días, en un toque con Deshacer). Víctor aprueba la primera y descarta la segunda (decisión D1); su lógica no se queda en el código. Se anota en el ADR 043 § Consecuencias, que ya preveía recuperar este acceso.
+
+- `inicio/components/AnadirComidaAhora`: Button secundario `sm` a todo el ancho con «+ Añadir desayuno/comida/cena/snack» según `comidaPorHora`, en el pie nuevo de `TarjetaEnergia` (`pie`, hermano de su botón). Neutro, sin acento.
+- `InicioTab.onAnadirComida` → `App.anadirInicial` (se borra al navegar) → `NutricionTab.anadirInicial`, que abre Añadir comida en esa comida al montar.
+- Tests: la etiqueta según la hora y que el pie va fuera del botón de la tarjeta.
+- Documentos: ADR 043, `inicio.md`, `nutricion.md`, `DESIGN.md`, `DESIGN-SYSTEM.md` y `arquitectura.md`.
+
+**Verificación:** `npm run test` (212 archivos, 2.576 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con el reloj fijado a las 8:00, 14:00 y 21:00: la etiqueta cambia con la hora y Añadir comida abre en esa comida, a 320/375/430 px en claro y oscuro y con texto al 200 % a 375 y 320 px; sin scroll horizontal ni texto cortado, botón ≥ 44 px, sin errores de consola. Sin dispositivo físico.

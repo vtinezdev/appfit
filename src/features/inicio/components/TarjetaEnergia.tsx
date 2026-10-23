@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
 import type { Objetivos } from '../../../shared/db/types'
@@ -11,6 +12,8 @@ interface Props {
   objetivos: Objetivos
   /** Abre el día en Nutrición. */
   onAbrir: () => void
+  /** Acciones al pie (registrar), hermanas del botón de la tarjeta, nunca dentro. */
+  pie?: ReactNode
 }
 
 /** Geometría del SVG (viewBox 120): anillo exterior de consumo y anillo interior fino para la segunda vuelta. */
@@ -37,7 +40,7 @@ const MACROS_HOY = [
  * proporcional a sus kcal, y lo que falta en negro sobre un carril más fino; si te pasas, el exceso da una segunda vuelta
  * por dentro). Al lado, lo que queda como segunda cifra; debajo, cada macro frente a su objetivo. Toda la tarjeta abre el día.
  */
-export default function TarjetaEnergia({ totales, objetivos, onAbrir }: Props) {
+export default function TarjetaEnergia({ totales, objetivos, onAbrir, pie }: Props) {
   const { tramos, vuelta } = anilloEnergia(totales, objetivos.kcal)
   const meta = Math.round(objetivos.kcal)
   const resto = restoKcal(totales.kcal, objetivos.kcal)
@@ -93,6 +96,7 @@ export default function TarjetaEnergia({ totales, objetivos, onAbrir }: Props) {
           })}
         </span>
       </button>
+      {pie}
     </Card>
   )
 }
