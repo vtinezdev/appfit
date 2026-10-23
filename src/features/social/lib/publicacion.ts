@@ -1,5 +1,5 @@
 import { ordenarRecords } from './records'
-import type { ModoCarga } from '../../../shared/db/types'
+import type { ModoCarga, ObjetivoEjercicio } from '../../../shared/db/types'
 import type { TipoActividad } from '../../../shared/db/types'
 import { formatInt } from '../../../shared/lib/format'
 import { ZONAS_MUSCULARES, type ZonaMuscular } from '../../gym/lib/musculos'
@@ -8,7 +8,7 @@ import type { NivelMuscular } from '../../gym/lib/cargaMuscular'
 import { IDS_LOGRO, GRUPOS_LOGRO, nivelDe, type IdLogro, type GrupoLogro, type Logro } from '../../vitrina/lib/logros'
 
 /**
- * Lo que se publica de un entreno o de una actividad (ADR 040): un resumen pequeño, sin nutrición, peso, medidas ni
+ * Lo que se publica de un entreno, una actividad o una rutina (ADR 040 y 055): un resumen pequeño, sin nutrición, peso, medidas ni
  * recorrido GPS. Se crea aquí, la persona lo ve antes de publicarlo y se guarda tal cual en `publicaciones.resumen`.
  * Al leer los de otras personas, `leerResumen` lo valida: lo que llega del servidor no es de fiar.
  */
@@ -113,7 +113,30 @@ export interface ResumenActividad extends ConNota {
   desnivelM: number | null
 }
 
-export type Resumen = ResumenEntreno | ResumenActividad | ResumenTexto | ResumenLogro
+/**
+ * Un ejercicio de una rutina compartida (ADR 055): nombre, imagen del catálogo y su objetivo. Nunca cargas, marcas,
+ * agarres ni notas. Sin objetivo en la rutina, solo el nombre.
+ */
+export interface EjercicioRutinaPublicado {
+  nombre: string
+  /** El ejercicio del catálogo de la app, o `null` si es propio de quien la comparte (quien la guarda elige otro). */
+  catalogId: string | null
+  series?: number
+  repsMin?: number
+  repsMax?: number
+  descansoSeg?: number
+  calentamientos?: number
+}
+
+export interface ResumenRutina extends ConNota {
+  v: 1
+  tipo: 'rutina'
+  /** Nombre de la rutina. */
+  titulo: string
+  ejercicios: EjercicioRutinaPublicado[]
+}
+
+export type Resumen = ResumenEntreno | ResumenActividad | ResumenTexto | ResumenLogro | ResumenRutina
 
 export type TipoPublicacion = Resumen['tipo']
 
@@ -238,6 +261,41 @@ export function resumenActividad(d: DatosActividad): ResumenActividad {
   }
 }
 
+export interface DatosRutina {
+  nombre: string
+  ejercicios: { nombre: string; catalogId?: string; objetivo?: ObjetivoEjercicio }[]
+}
+
+/** Límites del objetivo que se publica y se acepta (los de `gym/lib/objetivos`, con margen para rutinas antiguas). */
+const LIMITES_OBJETIVO = { series: [1, 20], repsMin: [1, 100], repsMax: [1, 100], descansoSeg: [15, 900], calentamientos: [1, 5] } as const
+
+/** El objetivo publicado, o nada si alguna cifra no encaja (entonces viaja solo el nombre). */
+function objetivoPublicado(o: Partial<Record<keyof typeof LIMITES_OBJETIVO, unknown>> | undefined): Omit<EjercicioRutinaPublicado, 'nombre' | 'catalogId'> {
+  if (!o) return {}
+  const entero = (k: keyof typeof LIMITES_OBJETIVO) => {
+    const n = o[k]
+    const [min, max] = LIMITES_OBJETIVO[k]
+    return typeof n === 'number' && Number.isInteger(n) && n >= min && n <= max ? n : null
+  }
+  const [series, repsMin, repsMax] = [entero('series'), entero('repsMin'), entero('repsMax')]
+  if (series === null || repsMin === null || repsMax === null || repsMin > repsMax) return {}
+  const descansoSeg = entero('descansoSeg')
+  const calentamientos = entero('calentamientos')
+  return { series, repsMin, repsMax, ...(descansoSeg !== null ? { descansoSeg } : {}), ...(calentamientos !== null ? { calentamientos } : {}) }
+}
+
+/** El resumen de una rutina para compartirla: su estructura, nunca cargas. Como mucho `MAX_EJERCICIOS`, sin repetir. */
+export function resumenRutinaCompartida(d: DatosRutina): ResumenRutina {
+  const vistos = new Set<string>()
+  const ejercicios = d.ejercicios.flatMap((e) => {
+    const nombre = texto(e.nombre)
+    if (!nombre || vistos.has(nombre)) return []
+    vistos.add(nombre)
+    return [{ nombre, catalogId: catalogId(e.catalogId), ...objetivoPublicado(e.objetivo) }]
+  }).slice(0, MAX_EJERCICIOS)
+  return { v: VERSION_RESUMEN, tipo: 'rutina', titulo: texto(d.nombre) || 'Rutina', ejercicios }
+}
+
 // --- Leer lo que llega del servidor ---
 
 const esObjeto = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null && !Array.isArray(x)
@@ -359,6 +417,19 @@ export function leerResumen(x: unknown): Resumen | null {
       ...(insignias.length && insignias.every(Boolean) ? { insignias: insignias as InsigniaPublicada[] } : {}),
       ...(mapa ? { mapa } : {}),
     }
+  }
+  if (x.tipo === 'rutina') {
+    // Una entrada mal formada invalida la rutina entera: guardarla a medias cambiaría lo que se compartió.
+    if (!Array.isArray(x.ejercicios) || x.ejercicios.length < 1 || x.ejercicios.length > MAX_EJERCICIOS) return null
+    const ejercicios: EjercicioRutinaPublicado[] = []
+    for (const e of x.ejercicios) {
+      const nombre = esObjeto(e) ? leerTexto(e.nombre) : null
+      if (!esObjeto(e) || !nombre || (e.catalogId !== null && catalogId(e.catalogId) === null)) return null
+      const objetivo = objetivoPublicado(e)
+      if ((e.series !== undefined || e.repsMin !== undefined || e.repsMax !== undefined) && objetivo.series === undefined) return null
+      ejercicios.push({ nombre, catalogId: catalogId(e.catalogId), ...objetivo })
+    }
+    return { v: 1, tipo: 'rutina', ...nota, titulo, ejercicios }
   }
   if (x.tipo === 'actividad') {
     const distanciaM = leerCifra(x.distanciaM)

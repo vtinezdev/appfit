@@ -10,6 +10,7 @@ import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDest
 import Icon from '../../../shared/components/Icon'
 import { Input, Textarea } from '../../../shared/components/Input'
 import NumberStepper from '../../../shared/components/NumberStepper'
+import PosterImagen from '../components/PosterImagen'
 import PosterSesion from '../components/PosterSesion'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
@@ -24,7 +25,7 @@ import PublicarEntreno from '../components/PublicarEntreno'
 import GuardarComoRutina from '../components/GuardarComoRutina'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { recordsDeEntreno } from '../lib/records'
-import { seriesConRecord } from '../lib/fichaEntreno'
+import { hitosDeSesion, seriesConRecord } from '../lib/fichaEntreno'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { combinarFechaHora, efectivas, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, seriesSinMarcar, volumenSets } from '../lib/workout'
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
@@ -224,6 +225,9 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
       <PosterSesion titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)}
         levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined}
         gimnasio={nombreGimnasio(w.gimnasioId)} />
+      {!editando && <PosterImagen titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length}
+        volumen={volumenSets(delEntreno)} gimnasio={nombreGimnasio(w.gimnasioId)} levels={trabajo.levels} figura={figura}
+        hoy={hitosDeSesion({ records, nombres, subidas: [], cumbre: null, ligas: [], logros: [] })} />}
       {error && <ErrorState>{error}</ErrorState>}
       {!editando && pendientes.length > 0 && (
         <section aria-label="Series sin marcar" className="space-y-2">

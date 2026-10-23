@@ -12,17 +12,17 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 |---|---|---|---|---|---|
 | A1 | REN-02 | Recortar el resumen social a 8 KB | S | — | Hecho (2026-10-22) |
 | A2 | ENT-15 | Avance automático al siguiente ejercicio | S | — | Hecho (2026-10-22) |
-| A3 | ENT-14 | Descanso sugerido según el tipo de ejercicio | S | — | Pendiente |
+| A3 | ENT-14 | Descanso sugerido según el tipo de ejercicio | S | — | Hecho (2026-10-22) |
 | A4 | GAM-07 | «Hace N días» tras un parón | S | — | Descartado (2026-10-23) |
-| A5 | ENT-04 | Historial del ejercicio sin salir de la sesión | M | — | Pendiente |
-| A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Pendiente |
-| A7 | ENT-05 | Calentamiento en rampa | M | — | Pendiente |
-| A8 | PRO-03 | Tendencia de series por músculo | M | — | Pendiente |
-| A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Pendiente |
-| A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Pendiente |
-| A11 | REN-04 | Importar TCX (y FIT después) | M | — | Pendiente |
-| A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Pendiente |
-| A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Pendiente |
+| A5 | ENT-04 | Historial del ejercicio sin salir de la sesión | M | — | Hecho (2026-10-23) |
+| A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Hecho (2026-10-23) |
+| A7 | ENT-05 | Calentamiento en rampa | M | — | Descartado (2026-10-23) |
+| A8 | PRO-03 | Tendencia de series por músculo | M | — | Hecho (2026-10-23) |
+| A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Hecho (2026-10-23) |
+| A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Hecho (2026-10-23) |
+| A11 | REN-04 | Importar TCX (y FIT después) | M | — | Hecho (2026-10-23) |
+| A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Hecho (2026-10-23) |
+| A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Hecho (2026-10-23) |
 | A14 | SOC-01 | Semana en compañía | XL | — | Pendiente |
 | A15 | SOC-03 | Expediciones de comunidad | XL | A14 | Pendiente |
 | A-X1 | NAV-02 | «Volver» en Amigos (cruce) | S | B4 | Pendiente |
@@ -61,7 +61,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** sesión con 3 ejercicios a 320/375/430 px; con el teclado simulado (viewport reducido) no salta; con Reduce Motion, salto directo.
 - **Documentos:** `docs/features/gym.md` § Entreno activo.
 
-### [ ] A3 · ENT-14 · Descanso sugerido según el tipo de ejercicio
+### [x] A3 · ENT-14 · Descanso sugerido según el tipo de ejercicio
+
+> **Hecho (2026-10-22, PROCESO §198, PR #121).** D8: una sola vez en general. Al ver la preview salió que cada entreno empezaba sin temporizador, así que un «Sí» solo valía para esa sesión; Víctor elige recordar el último descanso elegido en el dispositivo (localStorage, fuera del backup), sin cruce con B. Los ejercicios propios reciben 90 s. La función vive en `lib/descansoSugerido.ts` y no en `session.ts` para no meter el catálogo en la barra del entreno minimizado.
 
 - **Tamaño:** S · **Rama:** `feat/a-descanso-sugerido`
 - **Para la persona:** quien entrena sin temporizador recibe una vez la pregunta «¿Quieres un descanso de 2 min entre series?» al marcar su primera serie.
@@ -86,7 +88,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** fixture con un ejercicio hecho hace 20 días.
 - **Documentos:** `docs/features/gym.md` § Anterior.
 
-### [ ] A5 · ENT-04 · Historial del ejercicio sin salir de la sesión
+### [x] A5 · ENT-04 · Historial del ejercicio sin salir de la sesión
+
+> **Hecho (2026-10-23, PROCESO §199, PR #125).** Víctor lo aprobó en la página de previews A5–A9. El grupo comparable es el de los récords (`records.claveGrupo`, exportada), así que historial y récords usan el mismo criterio de variante y gimnasio.
 
 - **Tamaño:** M · **Rama:** `feat/a-historial-ejercicio`
 - **Para la persona:** en el menú «…» del ejercicio, «Historial y récords» enseña las 5 últimas sesiones, el récord vigente de cada tipo y una minigráfica, sin minimizar el entreno.
@@ -100,7 +104,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** 320/375/430 px en los dos temas; texto al 200 %.
 - **Documentos:** `docs/features/gym.md` § Menú del ejercicio.
 
-### [ ] A6 · ENT-01 · Sustituir un ejercicio durante la sesión
+### [x] A6 · ENT-01 · Sustituir un ejercicio durante la sesión
+
+> **Hecho (2026-10-23, PROCESO §200, PR #127).** Aprobado por Víctor en la página de previews A5–A9: «Cambiar también en la rutina» sin marcar por defecto y, con todo hecho, el nuevo entra con una serie. Las series movidas conservan sus reps (no las del objetivo) y toman los kg de la última vez del nuevo. `SelectorEjercicios` admite `titulo` y `verbo` para decir «Sustituir».
 
 - **Tamaño:** M · **Rama:** `feat/a-sustituir-ejercicio`
 - **Para la persona:** «Sustituir» en el menú del ejercicio propone 5 alternativas (mismo músculo principal, las ya hechas y del mismo material primero, con su última vez) y «Buscar otro…». Al elegir, las series sin marcar pasan al nuevo ejercicio; las marcadas se quedan. Deshacer en el aviso.
@@ -116,7 +122,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** sustituir con 2 de 3 series hechas, deshacer, recargar; con rutina marcada, comprobar la rutina.
 - **Documentos:** `docs/features/gym.md` (menú del ejercicio y repositorio) y `docs/features/liga.md` (la función de alternativas se usa también fuera de Élite).
 
-### [ ] A7 · ENT-05 · Calentamiento en rampa
+### [-] A7 · ENT-05 · Calentamiento en rampa
+
+> **Descartado por Víctor (2026-10-23)** en la página de previews A5–A9 (hoy 20 y 20 kg; propuesta 40 y 62,5 kg antes de 82,5). No se implementa.
 
 - **Tamaño:** M · **Rama:** `feat/a-calentamiento-rampa`
 - **Para la persona:** al empezar una rutina con calentamientos, sus cargas suben hacia la primera serie efectiva, redondeadas a discos reales.
@@ -130,7 +138,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** rutina con 2 calentamientos en press banca.
 - **Documentos:** `docs/features/gym.md` § Objetivos de rutina.
 
-### [ ] A8 · PRO-03 · Tendencia de series por músculo
+### [x] A8 · PRO-03 · Tendencia de series por músculo
+
+> **Hecho (2026-10-23, PROCESO §202, PR #128).** Aprobado por Víctor en la página de previews A5–A9. Las semanas salen de `calcularMusculo` (campo `ultimasSemanas`), el mismo cálculo que «Esta semana», en lugar de una función aparte. Bajo cada barra, solo el día del lunes (con letra al 200 % las fechas completas se partían).
 
 - **Tamaño:** M · **Rama:** `feat/a-tendencia-musculo`
 - **Para la persona:** en el detalle de un músculo del mapa de progreso, barras de las últimas 8 semanas con la dosis de AppFit marcada y la semana actual distinguida.
@@ -140,7 +150,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** detalle de pecho y de gemelos; 320 px y texto al 200 %.
 - **Documentos:** `docs/features/gym.md` § Mapa de progreso.
 
-### [ ] A9 · ENT-10 · Fin de sesión ordenado por momentos
+### [x] A9 · ENT-10 · Fin de sesión ordenado por momentos
+
+> **Hecho (2026-10-23, PROCESO §203, PR #129).** Aprobado por Víctor en la página de previews A5–A9. D9: hitos en el orden récords, subida muscular, cumbre, liga y logros (primero uno de cada tipo y, si sobra sitio, más); sale abierto el primer bloque con contenido. **Cruce X4 no hecho:** B8 (cálculo derivado único) aún no está en `master`; la página lee Cumbres/Vitrina y Ligas una vez para hitos y resúmenes, y los bloques de B (que calculan lo suyo) solo se montan al abrirlos. `scripts/ui/validar-mapa-muscular.cjs` ya fallaba en `master` antes de este paso (no conoce el entreno minimizado ni el póster): queda como tarea aparte.
 
 - **Tamaño:** L · **Rama:** `feat/a-fin-sesion`
 - **Para la persona:** al terminar, arriba el póster con una franja «Hoy» de hasta tres hitos; debajo, bloques plegables con su resumen en una línea (Récords · Cuerpo · Cumbres y ligas · Vitrina); «Compartir» y «Volver a Entreno» siempre al final de la vista.
@@ -156,7 +168,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** terminar un entreno con récord y subida de nivel; con la gamificación oculta; 320 px y Reduce Motion. `scripts/ui/validar-mapa-muscular.cjs` sigue en verde.
 - **Documentos:** `docs/features/gym.md` § Récords y fin de sesión; `docs/DESIGN-SYSTEM.md` solo en su apartado de Entreno.
 
-### [ ] A10 · ENT-11 · Póster del entreno como imagen
+### [x] A10 · ENT-11 · Póster del entreno como imagen
+
+> **Hecho (2026-10-23, PROCESO §206, PR #135).** Víctor lo aprobó en la página de previews A10–A14: la imagen lleva cifras, muñeco y la franja «Hoy», con «Hecho con AppFit» al pie (sin dominio). `svgPoster` recibe la geometría del muñeco (`CUERPOS[figura]`) en lugar de importarla, para que `lib/` no dependa de `components/`. En el historial, «Hoy» son los récords del entreno. Falta probar en iPhone la hoja de compartir (anotado en el roadmap).
 
 - **Tamaño:** L · **Rama:** `feat/a-poster-imagen`
 - **Para la persona:** «Guardar imagen» y «Compartir…» en el póster del fin de sesión y del detalle del historial; sin cuenta, por WhatsApp o Instagram.
@@ -170,7 +184,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** Chromium (descarga) y, en móvil real, la hoja de compartir. Dejar anotado en el roadmap que falta iPhone.
 - **Documentos:** `docs/features/gym.md`; avisar en `docs/arquitectura.md` (párrafo de Entreno) de que la utilidad existe para otros carriles.
 
-### [ ] A11 · REN-04 · Importar TCX (y FIT después)
+### [x] A11 · REN-04 · Importar TCX (y FIT después)
+
+> **Hecho (2026-10-23, PROCESO §204, PR #133).** Víctor lo aprobó en la página de previews A10–A14: se guarda como importada (`origen: 'gpx'`, sin cambiar datos) y se prueba con archivos sintéticos (Garmin con vueltas y GPS, y cinta sin posiciones) en `tcx.test.ts`. Distancia y tiempo salen de las vueltas del dispositivo. FIT queda en el roadmap.
 
 - **Tamaño:** M · **Rama:** `feat/a-importar-tcx`
 - **Para la persona:** en Actividades, «Importar» acepta archivos `.tcx` además de `.gpx`.
@@ -179,7 +195,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Tests:** archivos TCX reales anonimizados de Garmin y Strava en `src/test/fixtures/`.
 - **Documentos:** `docs/features/actividades.md`; quitar la línea de `docs/roadmap.md`.
 
-### [ ] A12 · ENT-09 · Fichas de técnica de los ejercicios
+### [x] A12 · ENT-09 · Fichas de técnica de los ejercicios
+
+> **Hecho (2026-10-23, PROCESO §207, PR #136).** Víctor lo aprobó con cambios en la página de previews A10–A14 (D10): textos redactados por mí («claves de AppFit», él los revisa) y un solo lote con **todos** los ejercicios (268), no los 40 más usados. Los textos van por grupo muscular en `gym/lib/fichas/` y `fichasEjercicios.ts` los junta. **Pendiente:** la ilustración a 384 px (los originales de `scripts/ejercicios/ia/` no están en el repositorio); la ficha usa la miniatura de 192 px. El botón del buscador pasa debajo de la fila con letra muy grande para no estrecharla.
 
 - **Tamaño:** L, por lotes · **Rama:** `feat/a-fichas-ejercicio` (y `-lote-2`, `-lote-3`…)
 - **Para la persona:** botón «i» en el selector y en la cabecera del panel que abre la ficha: ilustración grande, muñeco con músculos principales y secundarios, 3 claves de ejecución, 2 errores comunes, material, alternativas y, si hay datos, la última vez y el récord.
@@ -192,7 +210,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Decidir (D10):** quién revisa los textos y con qué fuentes (sin fuente, se presentan como «claves de AppFit», como el resto de criterios).
 - **Documentos:** `docs/features/gym.md` y `scripts/ejercicios/README.md`.
 
-### [ ] A13 · SOC-02 · Compartir una rutina para guardarla
+### [x] A13 · SOC-02 · Compartir una rutina para guardarla
+
+> **Hecho (2026-10-23, PROCESO §205, PR #134, [ADR 055](../decisiones/055-rutina-compartida.md), migración 0022).** Víctor lo aprobó en la página de previews A10–A14 («ahora, con su ADR y la migración 0022»). Cada ejercicio lleva su `catalogId` (`null` si es propio); al guardar, los propios se eligen del buscador o se quitan. «Compartir rutina» solo aparece cuando el servidor anuncia `rutinaCompartida`: Víctor ejecutó 0022 en el SQL Editor el 2026-10-23 («Success»).
 
 - **Tamaño:** L · **Rama:** `feat/a-rutina-compartida` (+ migración `0022_…`)
 - **Para la persona:** publicar la estructura de una rutina (ejercicios, series, rangos, descansos, calentamientos); quien la ve pulsa «Guardar en mis rutinas», revisa y la guarda con sus propias cargas.

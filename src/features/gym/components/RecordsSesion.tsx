@@ -12,16 +12,18 @@ interface Props {
   total?: number
   nombres: Record<number, string>
   catalogIds?: Record<number, string | undefined>
+  /** Dentro de un bloque plegable que ya lo titula (fin de sesión, ENT-10): sin el encabezado propio. */
+  sinTitulo?: boolean
 }
 
 /** Récords personales de un entreno frente a los anteriores: una card por ejercicio y cada récord como cifra con su mejora. */
-export default function RecordsSesion({ records, total = records.length, nombres, catalogIds = {} }: Props) {
+export default function RecordsSesion({ records, total = records.length, nombres, catalogIds = {}, sinTitulo = false }: Props) {
   return <section aria-label="Récords personales" className="space-y-stack">
-    <h2 className="flex items-center gap-2 text-heading text-fg">
+    {!sinTitulo && <h2 className="flex items-center gap-2 text-heading text-fg">
       <Icon name="trophy" size={22} className="shrink-0 text-accent-strong" />
       <span className="min-w-0 break-words">Récords personales</span>
       <Badge tone="accent">{formatInt(total)}<span className="sr-only"> {total === 1 ? 'récord' : 'récords'}</span></Badge>
-    </h2>
+    </h2>}
     <ul aria-label="Récords conseguidos" className="space-y-stack">
       {recordsPorEjercicio(records).map(({ exerciseId, records: delEjercicio }) => <li key={exerciseId}>
         <Card className="space-y-3">

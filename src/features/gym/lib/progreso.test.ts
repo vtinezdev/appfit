@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { epley1RM } from './workout'
-import { cifrasClave, datosProgreso, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, resumenVariantes, tendenciaVariante, textoMejorSerie, trazoMini } from './progreso'
+import { cifrasClave, datosProgreso, historialEjercicio, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, resumenVariantes, tendenciaVariante, textoMejorSerie, trazoMini } from './progreso'
 import type { SetEntry } from '../../../shared/db/types'
 
 const s = (id: number, over: Partial<SetEntry>): SetEntry => ({ id, workoutId: 1, exerciseId: 1, reps: 8, peso: 20, orden: id, createdAt: id, ...over })
@@ -106,5 +106,55 @@ describe('tarjetas de variante', () => {
     expect(tendenciaVariante({ cambio: 2, metrica: 'reps', desde }).texto).toBe('+2 reps desde el 3 jun')
     expect(tendenciaVariante({ cambio: 0, metrica: 'oneRM', desde })).toEqual({ texto: 'Sin cambios desde el 3 jun', mejora: null })
     expect(tendenciaVariante({ cambio: null, metrica: 'oneRM', desde }).mejora).toBeNull()
+  })
+})
+
+describe('historial del ejercicio en la sesión', () => {
+  // Siete sesiones terminadas de press banca (ejercicio 1), una sin terminar, la actual (99) y una posterior.
+  const ws = [...Array.from({ length: 7 }, (_, i) => ({ id: 10 + i, inicio: 1000 * (i + 1), fin: 1000 * (i + 1) + 500 })),
+    { id: 30, inicio: 7500 }, { id: 99, inicio: 9000 }, { id: 40, inicio: 9500, fin: 9900 }]
+  const series = [
+    ...ws.slice(0, 7).flatMap((w, i) => [
+      s(100 + i * 10, { workoutId: w.id, peso: 20, reps: 12, tipo: 'calentamiento' }),
+      s(101 + i * 10, { workoutId: w.id, peso: 60 + i * 2.5, reps: 8, rir: 2 }),
+      s(102 + i * 10, { workoutId: w.id, peso: 60 + i * 2.5, reps: 7, rir: 1 }),
+      s(103 + i * 10, { workoutId: w.id, peso: 200, reps: 8, realizada: false }),
+    ]),
+    s(300, { workoutId: 30, peso: 300 }), s(400, { workoutId: 40, peso: 400 }), s(990, { workoutId: 99, peso: 500 }),
+    // Otras variantes y modos del mismo ejercicio, y otro ejercicio: no se mezclan.
+    s(500, { workoutId: 16, peso: 90, ejecucion: 'unilateral' }), s(501, { workoutId: 16, peso: 0, reps: 20, modoCarga: 'corporal' }), s(502, { workoutId: 16, exerciseId: 2, peso: 150 }),
+  ]
+
+  it('las 5 últimas sesiones comparables, la más reciente primero, sin calentamientos, pendientes ni la sesión en curso', () => {
+    const h = historialEjercicio(series, ws, { exerciseId: 1 }, 9000)!
+    expect(h.total).toBe(7)
+    expect(h.sesiones.map(x => x.workoutId)).toEqual([16, 15, 14, 13, 12])
+    expect(h.sesiones[0]).toEqual({ workoutId: 16, inicio: 7000, mejor: { peso: 75, reps: 8 }, series: 2, rirMedio: 1.5 })
+    expect(h.puntos).toHaveLength(7)
+    expect(h.mide).toBe('Mejor 1RM estimado')
+    expect(h.puntos.at(-1)).toBe(epley1RM(75, 8))
+    expect(historialEjercicio(series, ws, { exerciseId: 1 }, 9000, 5, 3)!.puntos).toEqual([epley1RM(70, 8), epley1RM(72.5, 8), epley1RM(75, 8)])
+  })
+
+  it('récords vigentes: peso máximo, 1RM y reps con el peso de la serie de referencia', () => {
+    const h = historialEjercicio(series, ws, { exerciseId: 1, peso: 72.5 }, 9000)!
+    expect(h.records).toEqual([
+      { etiqueta: 'Peso máximo', texto: '75 kg × 8', inicio: 7000 },
+      { etiqueta: '1RM estimado', texto: '95 kg', inicio: 7000 },
+      { etiqueta: 'Más reps con 72,5 kg', texto: '8 reps', inicio: 6000 },
+    ])
+    // Un peso que nunca se usó no da récord de reps.
+    expect(historialEjercicio(series, ws, { exerciseId: 1, peso: 80 }, 9000)!.records.map(r => r.etiqueta)).toEqual(['Peso máximo', '1RM estimado'])
+  })
+
+  it('variantes, modos y gimnasios de máquina no se mezclan; sin historial comparable, null', () => {
+    const unilateral = historialEjercicio(series, ws, { exerciseId: 1, ejecucion: 'unilateral' }, 9000)!
+    expect(unilateral.sesiones.map(x => x.mejor)).toEqual([{ peso: 90, reps: 8 }])
+    expect(unilateral.records.map(r => r.etiqueta)).toEqual(['Peso máximo'])
+    const corporal = historialEjercicio(series, ws, { exerciseId: 1, modoCarga: 'corporal' }, 9000)!
+    expect(corporal.records).toEqual([{ etiqueta: 'Más repeticiones', texto: '20 reps', inicio: 7000 }])
+    expect(historialEjercicio(series, ws, { exerciseId: 1, gimnasioId: 7 }, 9000)).toBeNull()
+    expect(historialEjercicio(series, ws, { exerciseId: 3 }, 9000)).toBeNull()
+    expect(historialEjercicio(series, ws, { exerciseId: 1 }, 1000)).toBeNull()
   })
 })

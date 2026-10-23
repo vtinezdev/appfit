@@ -1,7 +1,7 @@
 import { recomendarProgresion } from '../lib/progresion'
 import { convencional, tieneReps, cambiaRealizacion } from '../lib/ejecucion'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
-import { gimnasioDeSerie, notaPrimeraVez, primeraVez } from '../lib/gimnasios'
+import { dependeDeMaquina, gimnasioDeSerie, notaPrimeraVez, primeraVez } from '../lib/gimnasios'
 import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { ChipGimnasio } from '../components/GimnasioSheet'
 import { useEffect, useRef, useState } from 'react'
@@ -11,7 +11,7 @@ import * as routinesRepo from '../data/routinesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import type { ConfiguracionCarga, SetEntry, Workout } from '../../../shared/db/types'
-import { getSettings } from '../../../shared/db/settings'
+import { getSettings, updateSettings } from '../../../shared/db/settings'
 import { pitar } from '../../../shared/lib/sonido'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import PanelEjercicio from '../components/PanelEjercicio'
@@ -30,7 +30,7 @@ import { useListMotion } from '../../../shared/hooks/useListMotion'
 import { haptic, reduceMotion } from '../../../shared/design/motion'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import ProgresoSeries from '../components/ProgresoSeries'
-import { ajustarDescanso, clearSession, descansoParaEjercicio, readSession, seriesMarcadas, siguienteEjercicioPendiente, writeSession } from '../lib/session'
+import { ajustarDescanso, clearSession, descansoParaEjercicio, guardarDescansoHabitual, readSession, seriesMarcadas, siguienteEjercicioPendiente, writeSession } from '../lib/session'
 import { RestClock, WorkoutClock } from '../components/WorkoutClock'
 import type { WorkoutSummary } from '../components/WorkoutFinished'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -40,8 +40,13 @@ import { todayISO } from '../../../shared/lib/dates'
 import { useLigasSesion } from '../../liga/hooks/useLigasSesion'
 import { avisarElite } from '../../liga/lib/basicos'
 import { alternativas } from '../../liga/lib/alternativas'
+import SustituirEjercicioSheet, { type OpcionSustituir } from '../components/SustituirEjercicioSheet'
+import { textoUltimaVez } from '../lib/sustituir'
 import Pista from '../../../shared/components/Pista'
 import { useGuardadoLocal } from '../hooks/useGuardadoLocal'
+import DescansoSugerido from '../components/DescansoSugerido'
+import { CATALOGO_POR_ID } from '../lib/catalogoEjercicios'
+import { descansoSugerido, PISTA_DESCANSO, proponerDescanso, textoDescanso } from '../lib/descansoSugerido'
 
 /** Con el teclado abierto (un campo con foco) la pantalla no se mueve sola. */
 const escribiendo = () => !!document.activeElement?.matches('input, textarea, select, [contenteditable="true"]')
@@ -55,6 +60,13 @@ interface Props {
 
 export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Props) {
   const [buscandoEjercicio, setBuscandoEjercicio] = useState(false)
+  /** Sustituir (ENT-01): la hoja abierta, sus alternativas calculadas al abrir y, tras «Buscar otro…», el buscador. */
+  const [sustituir, setSustituir] = useState<{ exId: number; opciones: OpcionSustituir[]; abierta: boolean } | null>(null)
+  const [buscarSustituto, setBuscarSustituto] = useState<{ exId: number; tambienRutina: boolean } | null>(null)
+  const despuesDeSustituir = useRef<(() => void) | null>(null)
+  const sustituyendoAhora = useRef(false)
+  const [sustituyendo, setSustituyendo] = useState(false)
+  const [errorSustituir, setErrorSustituir] = useState<string | null>(null)
   const [session, setSession] = useState(() => readSession(workout.id!))
   const sessionActual = useRef(session)
   sessionActual.current = session
@@ -68,6 +80,10 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   const [restConfigOpen, setRestConfigOpen] = useState(false)
   const [descartando, setDescartando] = useState(false)
   const [notas, setNotas] = useState(workout.notas ?? '')
+  /** Propuesta de descanso bajo el ejercicio de la primera serie marcada sin temporizador (ENT-14). */
+  const [sugerencia, setSugerencia] = useState<{ exId: number; segundos: number } | null>(null)
+  /** Ya propuesto en esta sesión: un ref, porque varias series marcadas seguidas terminan de guardarse con estado viejo. */
+  const propuesto = useRef(false)
   /** Ejercicios con todas sus series hechas que se han desplegado a mano: los demás completos se pliegan (E3, ADR 035). */
   const [desplegados, setDesplegados] = useState<ReadonlySet<number>>(() => new Set())
   const notasGuardadas = useRef(workout.notas ?? '')
@@ -217,6 +233,43 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
     }
   }
 
+  function abrirSustituir(exId: number) {
+    const ex = exerciseMap.get(exId)
+    if (!ex) return
+    const terminados = new Map(todosWorkouts.filter(w => w.fin !== undefined).map(w => [w.id, w.inicio]))
+    const hechos = new Set(allSets.filter(s => terminados.has(s.workoutId)).map(s => s.exerciseId))
+    const opciones = alternativas(ex, exercises, ligas?.ligas ?? new Map(), { sustituir: true, hechos }).map(a => {
+      const localId = a.seleccion.tipo === 'local' ? a.seleccion.id : undefined
+      const previas = localId === undefined ? [] : seriesSesionAnterior(allSets, localId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, exerciseMap.get(localId)))
+      return { ...a, ultimaVez: textoUltimaVez(previas, previas.length ? terminados.get(previas[0].workoutId) : undefined, Date.now()) }
+    })
+    setErrorSustituir(null)
+    setSustituir({ exId, opciones, abierta: true })
+  }
+
+  /** Una sola sustitución a la vez y tras las escrituras pendientes; «Deshacer» devuelve series, orden y rutina. */
+  async function hacerSustitucion(de: number, seleccion: SeleccionEjercicio, nombreNuevo: string, tambienRutina: boolean): Promise<boolean> {
+    if (sustituyendoAhora.current || guardando || quitando) return false
+    sustituyendoAhora.current = true
+    setSustituyendo(true); setErrorSustituir(null)
+    try {
+      await Promise.all(pendingWrites.current.values())
+      await guardado.esperar()
+      const captura = await workoutsRepo.sustituirEnSesion(workout.id!, de, seleccion, tambienRutina)
+      for (const s of captura.movidas) guardado.olvidar(`serie-${s.id}`)
+      haptic()
+      setFeedback(`${exerciseMap.get(de)?.nombre ?? 'Ejercicio'} sustituido por ${nombreNuevo}`)
+      avisar({ mensaje: `${exerciseMap.get(de)?.nombre ?? 'Ejercicio'} → ${nombreNuevo}`, onDeshacer: async () => {
+        if (sustituyendoAhora.current) throw new Error('Hay otra operación en curso.')
+        sustituyendoAhora.current = true
+        try { await workoutsRepo.deshacerSustitucion(captura); haptic() } finally { sustituyendoAhora.current = false }
+      } })
+      return true
+    } catch {
+      return false
+    } finally { sustituyendoAhora.current = false; setSustituyendo(false) }
+  }
+
   async function elegirEjercicio(value: SeleccionEjercicio) {
     setNewSet(await setsRepo.agregarSeleccion(workout.id!, value))
     haptic()
@@ -297,7 +350,10 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         restTotal: done ? previous.restTotal : descanso > 0 ? descanso : undefined,
       }))
       haptic(done ? 'selection' : 'success')
-      if (!done && !escribiendo()) {
+      // La propuesta de descanso sale bajo este ejercicio: si se propone, no se baja al siguiente para que se vea.
+      const proponer = !done && !propuesto.current && proponerDescanso(sessionActual.current.restSeconds, routine?.objetivos?.[s.exerciseId]?.descansoSeg, ajustes?.pistasVistas)
+      if (proponer) { propuesto.current = true; setSugerencia({ exId: s.exerciseId, segundos: descansoSugerido(exerciseMap.get(s.exerciseId)?.catalogId) }) }
+      if (!done && !proponer && !escribiendo()) {
         const marcadas = [...seriesMarcadas(currentSets, sessionActual.current.completed), s.id!]
         const suyas = currentSets.filter(x => x.exerciseId === s.exerciseId)
         const siguiente = suyas.every(x => marcadas.includes(x.id)) ? siguienteEjercicioPendiente(visibleIds, currentSets, marcadas, s.exerciseId) : null
@@ -307,6 +363,20 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
       setFeedback(done ? `${que} de ${nombre} pendiente` : `${que} de ${nombre} completada`)
       return !done
     } catch { avisarError('La serie no se ha guardado. Inténtalo de nuevo antes de completarla.'); return false } finally { confirmandoSeries.current.delete(s.id) }
+  }
+
+  /** «Sí» fija el descanso de la sesión (y de las siguientes) y lo empieza a contar ya, tras la serie recién marcada; las dos respuestas cierran la propuesta para siempre. */
+  function responderDescanso(si: boolean) {
+    if (!sugerencia) return
+    const segundos = sugerencia.segundos
+    if (si) {
+      setSession(previous => ({ ...previous, restSeconds: segundos, restEndsAt: Date.now() + segundos * 1000, restTotal: segundos }))
+      guardarDescansoHabitual(segundos)
+      setFeedback(`Descanso de ${textoDescanso(segundos)} entre series`)
+    }
+    setSugerencia(null)
+    // Un fallo al guardar solo hace que la propuesta vuelva a salir en otro entreno: no merece un error.
+    updateSettings({ pistasVistas: [...new Set([...(ajustes?.pistasVistas ?? []), PISTA_DESCANSO])].sort() }).catch(() => undefined)
   }
 
   const descansando = session.restEndsAt !== null
@@ -354,6 +424,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
             <div className="space-y-3">
               <SegmentedControl label="Duración del descanso" size="sm" valor={String(session.restSeconds)} onChange={value => {
                 setSession(previous => ({ ...previous, restSeconds: Number(value), restEndsAt: null }))
+                guardarDescansoHabitual(Number(value))
                 setRestConfigOpen(false)
                 requestAnimationFrame(() => restConfig.current?.querySelector('button')?.focus({ preventScroll: true }))
               }} opciones={[{ valor: '0', label: 'No' }, { valor: '60', label: '60 s' }, { valor: '90', label: '90 s' }, { valor: '120', label: '120 s' }]} />
@@ -387,8 +458,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
                 referenciasCarga={seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex))}
                 objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
                 onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
-                onQuitar={() => quitarEjercicio(exId, ex.nombre)} onAviso={avisar}
-                contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
+                onQuitar={() => quitarEjercicio(exId, ex.nombre)} onSustituir={() => abrirSustituir(exId)} onAviso={avisar}
+                contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], historial: { sets: allSets, workouts: todosWorkouts, gimnasio: dependeDeMaquina(ex) ? nombreGimnasio(workout.gimnasioId) : undefined }, carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
                   setGuardando(true); try { await Promise.all(pendingWrites.current.values()); const ids = new Set(await workoutsRepo.configurarEjecucion(workout.id, exId, c, habitual)); setSession(p => ({ ...p, completed: p.completed.filter(id => !ids.has(id)) })) } finally { setGuardando(false) }
                 }, onProgresion: async (clave, decision) => { setGuardando(true); try { await Promise.all(pendingWrites.current.values()); await workoutsRepo.decidirProgresion(workout.id, exId, clave, decision) } finally { setGuardando(false) } } }}
                 mover={visibleIds.length > 1 ? { puedeSubir: indice > 0, puedeBajar: indice < visibleIds.length - 1, onSubir: () => mover(indice, -1), onBajar: () => mover(indice, 1) } : undefined}
@@ -397,6 +468,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
                   rutinas: routine?.exerciseIds.includes(exId) ? [routine] : [] } : undefined}
                 plegado={completo && !desplegados.has(exId)}
                 onPlegar={(plegar) => setDesplegados((previo) => { const s = new Set(previo); if (plegar) s.delete(exId); else s.add(exId); return s })} />
+              {sugerencia?.exId === exId && session.restSeconds === 0 && <DescansoSugerido segundos={sugerencia.segundos} ejercicio={ex.nombre}
+                compuesto={CATALOGO_POR_ID.get(ex.catalogId ?? '')?.tipo === 'compuesto'} onSi={() => responderDescanso(true)} onNo={() => responderDescanso(false)} />}
             </div>
           )
         })}
@@ -447,6 +520,27 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         </div>
       </Sheet>
 
+      {sustituir && exerciseMap.get(sustituir.exId) && (() => {
+        const de = exerciseMap.get(sustituir.exId)!
+        const suyas = currentSets.filter(s => s.exerciseId === de.id)
+        return <SustituirEjercicioSheet open={sustituir.abierta} nombre={de.nombre} opciones={sustituir.opciones}
+          pendientes={suyas.filter(s => !completadas.includes(s.id)).length} hechas={suyas.filter(s => completadas.includes(s.id)).length}
+          rutina={routine?.exerciseIds.includes(de.id) ? routine.nombre : undefined} ocupado={sustituyendo} error={errorSustituir}
+          onClose={() => setSustituir(s => s && { ...s, abierta: false })}
+          onExited={() => { setSustituir(null); const accion = despuesDeSustituir.current; despuesDeSustituir.current = null; accion?.() }}
+          onElegir={async (seleccion, tambienRutina) => {
+            const nombre = sustituir.opciones.find(o => o.seleccion === seleccion)?.nombre ?? 'otro ejercicio'
+            if (await hacerSustitucion(de.id, seleccion, nombre, tambienRutina)) setSustituir(s => s && { ...s, abierta: false })
+            else setErrorSustituir('No se ha podido sustituir el ejercicio. Inténtalo de nuevo.')
+          }}
+          onBuscar={tambienRutina => { despuesDeSustituir.current = () => setBuscarSustituto({ exId: de.id, tambienRutina }); setSustituir(s => s && { ...s, abierta: false }) }} />
+      })()}
+      {buscarSustituto && <SelectorEjercicios titulo={`Sustituir ${exerciseMap.get(buscarSustituto.exId)?.nombre ?? 'ejercicio'}`} verbo="Sustituir" excluir={[buscarSustituto.exId]}
+        onClose={() => setBuscarSustituto(null)} onElegir={async value => {
+          const nombre = value.tipo === 'local' ? exerciseMap.get(value.id)?.nombre ?? 'otro ejercicio' : value.tipo === 'catalogo' ? CATALOGO_POR_ID.get(value.catalogId)?.name ?? 'otro ejercicio' : value.nombre
+          // Si falla, el buscador sigue abierto con el error en línea.
+          if (!await hacerSustitucion(buscarSustituto.exId, value, nombre, buscarSustituto.tambienRutina)) throw new Error('No se ha podido sustituir el ejercicio.')
+        }} />}
       {buscandoEjercicio && <SelectorEjercicios onClose={() => setBuscandoEjercicio(false)} onElegir={elegirEjercicio} sugerencias={exercises.filter(e => { const base = currentSets.find(s => s.exerciseId === e.id && s.tipo !== 'calentamiento') ?? [...allSets].filter(s => s.exerciseId === e.id && convencional(s)).sort((a, b) => b.createdAt - a.createdAt)[0]; return base && tieneReps(base) && recomendarProgresion(e.id, base, e.progresion ?? routine?.objetivos?.[e.id], todosWorkouts, allSets, workout.inicio).propuesta }).map(e => e.id)} />}
 
       {toast}

@@ -1,14 +1,14 @@
 import type { Agarre, Exercise } from '../../../shared/db/types'
 import { admiteElegirAgarre, validarAgarreEjercicio } from '../lib/agarres'
 import { CamposAgarre } from './EjecucionEjercicio'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as setsRepo from '../data/setsRepo'
 import { CATALOGO_POR_ID, EQUIPAMIENTO, MUSCULOS, type Equipo, type Musculo } from '../lib/catalogoEjercicios'
 import { ErrorSeleccionEjercicio, FILTROS_MUSCULO, filtrarEjercicios, opcionesEjercicios, recientesEjercicios, type FiltroMusculo, type OpcionEjercicio, type SeleccionEjercicio } from '../lib/selectorEjercicios'
 import ModalPage from '../../../shared/components/ModalPage'
-import Button from '../../../shared/components/Button'
+import Button, { IconButton } from '../../../shared/components/Button'
 import FilterChips from '../../../shared/components/FilterChips'
 import { Input, SearchInput, Select } from '../../../shared/components/Input'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
@@ -17,16 +17,25 @@ import Icon from '../../../shared/components/Icon'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { formatInt } from '../../../shared/lib/format'
 
+// La ficha solo se carga al abrirla.
+const FichaEjercicio = lazy(() => import('./FichaEjercicio'))
+
 interface Props {
   onClose: () => void
   onElegir: (value: SeleccionEjercicio) => Promise<void>
   excluir?: number[]
   sugerencias?: number[]
+  /**
+   * Para sustituir uno en la sesión (ENT-01) o elegir el de una rutina compartida (ADR 055): el título y el verbo de los
+   * botones. Por defecto, «Añadir ejercicio».
+   */
+  titulo?: string
+  verbo?: 'Añadir' | 'Sustituir' | 'Elegir'
 }
 const etiqueta = (ids: string[], labels: Record<string, string>) => ids.map(id => labels[id] ?? id).join(', ')
 
 /** La misma tarea en rutinas y sesión; no abre el teclado hasta que se toca el buscador. */
-export default function SelectorEjercicios({ onClose, onElegir, excluir = [], sugerencias = [] }: Props) {
+export default function SelectorEjercicios({ onClose, onElegir, excluir = [], sugerencias = [], titulo = 'Añadir ejercicio', verbo = 'Añadir' }: Props) {
   const locales = useLiveQuery(() => exercisesRepo.listar(), [])
   const series = useLiveQuery(() => setsRepo.todas(), [])
   const [query, setQuery] = useState('')
@@ -35,6 +44,7 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
   const [configurando, setConfigurando] = useState<OpcionEjercicio | null>(null)
   const [agarre, setAgarre] = useState<Agarre | undefined>(undefined)
   const [creando, setCreando] = useState(false)
+  const [ficha, setFicha] = useState<string | null>(null)
   const [nombre, setNombre] = useState('')
   const [musculo, setMusculo] = useState<Musculo | ''>('')
   const [equipo, setEquipo] = useState<Equipo | ''>('')
@@ -63,7 +73,7 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
     if (pending.current) return
     pending.current = true; setOcupado(true); setError(null)
     try { await onElegir(value); onClose() }
-    catch (e) { setError(e instanceof ErrorSeleccionEjercicio ? e.message : 'No se ha podido añadir el ejercicio. Inténtalo de nuevo.') }
+    catch (e) { setError(e instanceof ErrorSeleccionEjercicio ? e.message : `No se ha podido ${verbo.toLowerCase()} el ejercicio. Inténtalo de nuevo.`) }
     finally { pending.current = false; setOcupado(false) }
   }
   function comoEjercicio(e: OpcionEjercicio): Exercise {
@@ -84,7 +94,7 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
     await elegir({ ...seleccionDe(configurando), agarre: valor })
   }
   function fila(e: OpcionEjercicio) {
-    return <li key={e.key} data-opcion-ejercicio={e.key}><ListRow tone="flat" disabled={ocupado}
+    return <li key={e.key} data-opcion-ejercicio={e.key} className="flex flex-wrap items-center justify-end gap-x-1"><ListRow tone="flat" disabled={ocupado} className="min-w-0 flex-1 basis-48"
       onClick={() => preparar(e)}>
       <MiniaturaEjercicio catalogId={e.catalogId} />
       <span className="min-w-0 flex-1 break-words">
@@ -92,14 +102,14 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
         {e.localId && sugerencias.includes(e.localId) && <span className="flex items-center gap-1 text-caption text-accent-strong"><Icon name="chevron-right" className="-rotate-90" size={16} />Sugerencia de progresión disponible</span>}
         <span className="block text-caption text-fg-muted">{etiqueta(e.primaryMuscles, MUSCULOS) || 'Sin clasificar'}{e.equipment.length > 0 && ` · ${etiqueta(e.equipment, EQUIPAMIENTO)}`}{!e.catalogId && ' · Personalizado'}</span>
       </span><Icon name="plus" size={18} className="shrink-0 text-accent-strong" />
-    </ListRow></li>
+    </ListRow>{e.catalogId && CATALOGO_POR_ID.has(e.catalogId) && <IconButton icon="info" variant="ghost" size="sm" label={`Ficha de ${e.name}`} onClick={() => setFicha(e.catalogId!)} />}</li>
   }
-  return <ModalPage key={configurando ? 'agarre' : 'catalogo'} title={configurando ? 'Elegir agarre' : creando ? 'Ejercicio personalizado' : 'Añadir ejercicio'} onClose={() => { if (configurando) { setConfigurando(null); setError(null) } else onClose() }} busy={ocupado}
+  return <><ModalPage key={configurando ? 'agarre' : 'catalogo'} title={configurando ? 'Elegir agarre' : creando ? 'Ejercicio personalizado' : titulo} onClose={() => { if (configurando) { setConfigurando(null); setError(null) } else onClose() }} busy={ocupado}
     footer={configurando || creando || error || ocupado ? <div className="space-y-2">
       {error && <ErrorState>{error}</ErrorState>}
-      {configurando ? <><Button block loading={ocupado} onClick={() => { void confirmarAgarre(agarre ?? null) }}>Añadir ejercicio</Button>
-        <Button variant="ghost" block disabled={ocupado} onClick={() => { void confirmarAgarre(null) }}>Añadir sin especificar agarre</Button></> : creando ? <><Button block loading={ocupado} disabled={!nombre.trim() || !musculo || !equipo}
-        onClick={() => { if (musculo && equipo) void elegir({ tipo: 'personalizado', nombre, musculo, equipo }) }}>Crear y añadir</Button>
+      {configurando ? <><Button block loading={ocupado} onClick={() => { void confirmarAgarre(agarre ?? null) }}>{verbo === 'Añadir' ? 'Añadir ejercicio' : verbo}</Button>
+        <Button variant="ghost" block disabled={ocupado} onClick={() => { void confirmarAgarre(null) }}>{verbo} sin especificar agarre</Button></> : creando ? <><Button block loading={ocupado} disabled={!nombre.trim() || !musculo || !equipo}
+        onClick={() => { if (musculo && equipo) void elegir({ tipo: 'personalizado', nombre, musculo, equipo }) }}>Crear y {verbo.toLowerCase()}</Button>
         <Button variant="ghost" block disabled={ocupado} onClick={() => { setCreando(false); setError(null) }}>Volver al catálogo</Button></> :
         ocupado && <p role="status" className="text-body-sm text-fg-muted">Añadiendo ejercicio…</p>}
     </div> : undefined}>
@@ -132,4 +142,5 @@ export default function SelectorEjercicios({ onClose, onElegir, excluir = [], su
       <Button variant="ghost" block disabled={ocupado} onClick={() => { customOpened.current = true; setNombre(query.trim()); setError(null); setCreando(true) }}><Icon name="plus" size={18} />Crear ejercicio personalizado</Button>
     </div>}
   </ModalPage>
+  {ficha && <Suspense fallback={null}><FichaEjercicio catalogId={ficha} onClose={() => setFicha(null)} /></Suspense>}</>
 }

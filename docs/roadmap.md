@@ -32,6 +32,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Gimnasios (ADR 054): elegir y crear gimnasios, nota de primera vez y teclado del nombre en la hoja; probado en Chromium a 320/375/430 px en ambos temas.
 - Escáner: 3 productos reales (la cámara necesita HTTPS).
 - Exportar el backup (`<a download>` con un blob) desde la PWA instalada.
+- Póster como imagen (ENT-11): «Compartir…» con la hoja de compartir de iOS (WhatsApp, Instagram) y «Guardar imagen» desde la PWA instalada; la letra incrustada en el PNG en Safari. Probado en Chromium (descarga y `navigator.share` simulado) a 320/375/430 px en ambos temas.
 - Inicio minimalista con rueda de energía (§79): tacto de las tarjetas y del «+» del peso, y nitidez de la rueda en pantalla Retina. Probado en Edge emulado a 320/375/430 px.
 - Persistencia (§44): trasladar una copia de Safari al acceso de pantalla de inicio, cerrar/reabrir y actualizar la PWA en la misma dirección. Comprobado en Chromium con perfil persistente y modos de iOS emulados; confirmar el comportamiento del almacenamiento y del permiso en WebKit.
 - Perfil (§74): selector de fecha nativo, campo de altura con teclado decimal (coma) y Sheets con teclado. Probado en Edge emulado a 320/375/430 px.
@@ -47,6 +48,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 
 ## Limitaciones conocidas
 
+- Fichas de técnica (ENT-09, A12): los textos de los 268 ejercicios los redactó AppFit sin fuente citada y están pendientes de la revisión de Víctor; la imagen de la ficha es la miniatura de 192 px ampliada a 160 px, falta la de 384 px (necesita los originales de `scripts/ejercicios/ia/`).
 - Ilustraciones de ejercicios: las 268 definiciones actuales tienen ilustración propia (IA; lotes 1–67, con 64 altas de gimnasio/calistenia/pilates el 2026-10-17). Al añadir ejercicios se amplían `scripts/ejercicios/ilustraciones.json` y `mapeo.json`; la tubería conserva las miniaturas aunque falten los originales. Ver `scripts/ejercicios/README.md` y la [revisión del catálogo](historico/revision-ejercicios-2026-10-17.md).
 - Perfil: los factores de actividad (1,2–1,9) se atribuyen a McArdle, Katch y Katch (1996) sin haber verificado la edición ni una derivación experimental; la cifra de 600 kcal/día de NICE procede de CG189 y no se ha cotejado en NG246. La media de Mifflin y Roza-Shizgal es criterio de AppFit, no un método publicado. Los scripts `scripts/ui/validar-*.cjs` adaptados a Perfil no se han ejecutado (rutas fijas a `/usr/bin/chromium` y al puerto 5174); el recorrido se probó con un script propio en Edge (PROCESO §74).
 - Buscador e intérprete priorizan los básicos compartidos en `catalogo/preferidos.ts`; arroz, pasta y pollo sin más detalle se eligen en crudo. Si se pesa en cocido, especificarlo o usar «Cambiar». Si aún hay ruido, valorar sugerencias prioritarias con «Ver más variantes», sin fusionar alimentos por nombre.
@@ -75,7 +77,7 @@ Social:
 - Administración desde la app ([ADR 049](decisiones/049-administracion-de-social.md)) implementada: Víctor ejecuta `0017_social_administracion.sql` en el proyecto real y se nombra administrador (`tinez`) el 2026-10-19; falta probarlo en el móvil y con una segunda cuenta. Pendiente, si hace falta: suspender o cerrar una comunidad desde Moderación (hoy, SQL o suspender a su creador) y avisar a quien denunció.
 - Seguimiento mutuo al aceptar ([ADR 050](decisiones/050-seguimiento-mutuo-al-aceptar.md)) implementado: Víctor ejecuta `0018_social_seguimiento_mutuo.sql` en el proyecto real (2026-10-19); falta probarlo con dos cuentas.
 - Omitir duración/volumen: lector preparado, escritura desactivada hasta completar la actualización de lectores anteriores. Perfil deportivo sin imágenes, reacciones privadas, respuestas, silencios y gestión de comunidades implementados.
-- Filtros por tipo requieren datos de volumen. Ocultación automática requiere capacidad de moderación; se conserva revisión manual. Fase 3 (semana en compañía, rutinas reutilizables, semana de Ritmo, enlaces/QR, expediciones y push) pendiente de sus pilotos, decisiones y bloqueos técnicos. No hay agregados nuevos del diario ni servicio de push.
+- Filtros por tipo requieren datos de volumen. Ocultación automática requiere capacidad de moderación; se conserva revisión manual. Fase 3 (semana en compañía, semana de Ritmo, enlaces/QR, expediciones y push) pendiente de sus pilotos, decisiones y bloqueos técnicos; las rutinas reutilizables ya están (A13, ADR 055, con 0022 ejecutada el 2026-10-23). No hay agregados nuevos del diario ni servicio de push.
 
 Registro:
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.
@@ -97,7 +99,7 @@ Cuerpo y objetivos:
 Actividades y Caminos:
 - **App nativa** (p. ej. Capacitor) para grabar con el GPS en segundo plano y leer los entrenos de Apple Salud o Health Connect (caminatas y carreras del reloj con su recorrido, sin hacer nada) y los pasos de cada día, que hoy se apuntan a mano en Caminos. Exige cuenta de desarrollador de Apple, compilar en un Mac (o en la nube) y la revisión del App Store; cambia el plan de publicación ([despliegue.md](despliegue.md)).
 - Más rutas: Tour del Mont Blanc, Muro de Adriano, Vía Francígena, GR 11, Camino de Invierno, Camino Portugués de la Costa, Shikoku, Appalachian Trail… (al final de `RUTAS`, con su fuente), y más viajes de libro de dominio público (Viaje al centro de la Tierra, el Quijote).
-- Importar TCX y FIT además de GPX; CSV de actividades.
+- Importar FIT además de GPX y TCX; CSV de actividades.
 - Rutas propias: sustituir GeoNames por el Nomenclátor del IGN (oficial) si se descarga a mano; lugares fuera de España; nombres en castellano además de los oficiales («Lérida», «Gerona») en el buscador.
 
 Calidad de datos:

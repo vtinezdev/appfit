@@ -2160,7 +2160,135 @@ Segundo paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). 
 
 **Verificación:** `npm run test` (207 archivos, 2.541 pruebas) y `npm run build` correctos. Recorrido Playwright de preview (fuera del repo) en `appfit-test.localhost:5173`, a 375 claro, 320 oscuro, 430 oscuro y 375 con Reduce Motion, dos veces seguidas: el siguiente queda a 12 px bajo la cabecera (a 0 px del borde a 320, con la cabecera estática), también al cerrar la hoja del RIR; desmarcar y escribir en un campo no mueven la página; sin scroll horizontal ni errores en consola. Entre el toque y el movimiento pasan unos 300 ms (la escritura de la serie). Sin dispositivo físico: falta probarlo en iPhone.
 
-## 198. Añadir comida desde Inicio (2026-10-23)
+## 198. Descanso sugerido y descanso habitual (A3 · ENT-14, 2026-10-22)
+
+Tercer paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). Rama `feat/a-descanso-sugerido` desde `master`. Víctor aprueba la preview (capturas a 320/375/430 px) y el texto de la banda.
+
+- `gym/lib/descansoSugerido`: `descansoSugerido(catalogId)` con los valores de hipertrofia del creador (`OBJETIVOS_POR_TIPO`: 120 s compuesto, 90 s aislamiento; propio o desconocido, 90 s), `proponerDescanso(restSeconds, descansoRutina, pistasVistas)` y `textoDescanso` («2 min», «90 s»). Aparte de `session.ts`, que también importa la barra del entreno minimizado, para no arrastrar el catálogo.
+- `gym/components/DescansoSugerido`: banda en línea (no Sheet) bajo el ejercicio de la serie marcada, con «No, gracias» y «Sí, 2 min». En `EntrenoActivo`, «Sí» fija `restSeconds` y empieza la cuenta atrás en ese momento; las dos respuestas guardan `entreno-descanso` en `Settings.pistasVistas` (sin tocar `shared/lib/pistas`). D8: una sola vez en general.
+- La preview destapó que cada entreno empezaba «sin temporizador» (el descanso vive por workout en sessionStorage): un «Sí» solo valía para esa sesión y la pregunta ya no volvía. Víctor elige recordarlo en el dispositivo: `session.descansoHabitual`/`guardarDescansoHabitual` (localStorage `appfit:descanso-habitual`, como las preferencias del tema; fuera del backup) dan el descanso con el que empieza un entreno sin estado guardado; lo guardan el selector de Descanso y el «Sí». Llevarlo a `Settings` (con backup) sería un cruce con B.
+- Tests: `descansoSugerido.test.ts` (tipos, propio, condiciones, texto) y el descanso habitual en `session.test.ts` (entreno nuevo, uno en curso conserva el suyo, «No» lo olvida, valores raros y storage bloqueado).
+
+- Al juntarse con el avance automático (§197): si la serie marcada propone el descanso, la sesión no baja al siguiente ejercicio, para que la banda se vea. «Ya propuesto» va en un ref: con varias series marcadas seguidas, la escritura de la primera termina con el estado de un render anterior y se proponía dos veces (y no se bajaba).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright de preview (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 claro con la hoja del RIR: la banda sale tras la primera serie y no se duplica con la segunda; «Sí» deja «Descanso: 120 s» con la cuenta atrás en marcha; «No, gracias» la cierra sin temporizador; el siguiente entreno no vuelve a preguntar y empieza con 120 s; sin scroll horizontal, botones de 44 px y sin errores en consola. Sin dispositivo físico.
+
+## 199. Historial y récords del ejercicio sin salir de la sesión (A5 · ENT-04, 2026-10-23)
+
+Paso A5 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9 (pantallas reales con la parte nueva en maqueta). Rama `feat/a-historial-ejercicio` desde `master`.
+
+- `gym/lib/progreso.historialEjercicio(series, workouts, referencia, antesDe)`: sesiones terminadas antes del entreno en curso del mismo grupo comparable que la serie de referencia (la primera efectiva del ejercicio en la sesión). El grupo es el de los récords: `records.claveGrupo`, ahora exportada (ejercicio, modo, variante y gimnasio de las máquinas). Devuelve las 5 últimas sesiones (mejor serie, nº de series y RIR medio), 8 puntos para la minigráfica (`mide` dice cuál: 1RM estimado, peso o lastre máximo, menor ayuda o reps) y los récords vigentes con la fecha en que se lograron.
+- `gym/components/HistorialEjercicioSheet`: hoja de solo lectura con la minigráfica SVG (`trazoMini`, las clases `mini-grafica` de Progreso; sin Recharts), «Últimas sesiones» y «Récords vigentes»; en ejercicios de máquina, «En <gimnasio>». Sin historial comparable, un texto lo dice.
+- `PanelEjercicio`: fila «Historial y récords» en el menú «…» (entre Progresión y Liga) cuando llega `contexto.historial`, que solo pasa `EntrenoActivo` (con `allSets` y `todosWorkouts`, sin lecturas nuevas). El cálculo se hace al abrir y se conserva mientras la hoja se cierra.
+- Tests en `progreso.test.ts`: sesiones (orden, máximo 5, calentamientos, pendientes, en curso, sin terminar y posteriores fuera), puntos, récords vigentes y reps con el peso de referencia, variantes, modos y gimnasios separados, sin historial.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: cinco sesiones, récords con fecha, sin scroll horizontal, botones de 44 px, sin errores en consola, y consultar la hoja no cambia la copia de seguridad. Con otra ejecución sale el estado vacío. Sin dispositivo físico.
+
+## 200. Sustituir un ejercicio durante la sesión (A6 · ENT-01, 2026-10-23)
+
+Paso A6 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9 con dos decisiones: «Cambiar también en la rutina» sin marcar por defecto y, si ya estaban todas hechas, el nuevo entra con una serie. Rama `feat/a-sustituir-ejercicio` desde `master`.
+
+- `liga/lib/alternativas`: opción `{ sustituir: true, hechos }` (no excluye Élite; primero los ya hechos, los del mismo material y el orden del catálogo). Élite sigue igual.
+- `gym/lib/sustituir`: `ordenTrasSustituir` (el nuevo en el sitio del anterior, o detrás si este conserva series) y `textoUltimaVez` («3 × 10 · 32 kg, hace 23 días» o «Nunca»).
+- `workoutsRepo.sustituirEnSesion(workoutId, de, seleccion, tambienRutina)` en una transacción (`workouts`, `sets`, `exercises`, `pesos`, `routines`): resuelve el ejercicio (crea el del catálogo si hace falta), pasa las series sin hacer conservando id, orden relativo, calentamiento y reps, con los kg de la última vez del nuevo en el gimnasio (`previaEnGimnasio`, carga y ejecución configuradas, peso corporal), sin RIR ni técnica; con todo hecho, añade una serie; reordena, omite el anterior si es de la rutina y se queda sin series, quita el nuevo de omitidos y, con la casilla, cambia la rutina (`routinesRepo.sustituirEjercicio`). Devuelve la captura para `deshacerSustitucion`.
+- `components/SustituirEjercicioSheet` y, en `EntrenoActivo`, «Sustituir» en el menú del ejercicio, la hoja (alternativas calculadas al abrir con su última vez), «Buscar otro…» (al cerrarse la hoja, `SelectorEjercicios` con `titulo` «Sustituir …», `verbo` «Sustituir» y sin el propio; un fallo queda en línea en el buscador) y el aviso con «Deshacer». Una sola sustitución a la vez y tras las escrituras pendientes.
+- Tests: `sustituirEnSesion.test.ts` (solo pasan las pendientes con sus reps y los kg del nuevo, deshacer exacto, sin hechas se omite el anterior, con todo hecho se crea una serie, también en la rutina con su objetivo, del catálogo, mismo ejercicio y fallo a mitad sin nada a medias), `sustituir.test.ts` y el modo sustituir en `alternativas.test.ts`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: cinco alternativas con su última vez, las 2 series pendientes pasan con 32 kg y el orden queda [1, 4, 2, 3], «Deshacer» deja la copia de seguridad idéntica; a 375, además, la casilla de la rutina (rutina [5, 2, 3] con el objetivo y deshacer), «Buscar otro…» con el agarre y el caso con todo hecho. Sin scroll horizontal, botones de 44 px y sin errores en consola. Sin dispositivo físico.
+
+## 201. La prueba del navegador deja de colgarse en la instalación (CI, 2026-10-23)
+
+Desde el 22 de octubre por la tarde, el job `navegador` de `.github/workflows/qa.yml` se quedaba en «Herramientas de navegador…» (`playwright install --with-deps chromium firefox webkit`) hasta que GitHub lo cancelaba a los 25 minutos; las ejecuciones que llegaban a probar pasaban, y en local los 8 recorridos del job pasan. Coincide con el aviso de GitHub de que `ubuntu-latest` pasa a Ubuntu 26 desde el 19 de octubre. Víctor elige arreglar el workflow (compartido por los dos carriles). Rama `ci/navegadores-cache`.
+
+- Los dos jobs, en `ubuntu-24.04` fijo.
+- Caché de `~/.cache/ms-playwright` con `actions/cache` (clave: Playwright 1.62.1 e imagen).
+- Descarga de navegadores (`install`) y paquetes del sistema (`install-deps`) en pasos separados, con `timeout 180` y tres intentos cada uno. La primera versión (un solo paso con `--with-deps`, 6 minutos y un reintento) se colgó una vez y el reintento murió al momento: `timeout` solo corta a Node y el apt que lanzó con sudo seguía vivo con el bloqueo. Ahora se corta y se limpia antes de reintentar.
+- Cada recorrido del job pasa por `paso()`, que si falla publica el final de su salida como anotación (`::error`): desde aquí no se pueden descargar ni el log ni las evidencias.
+- `docs/desarrollo.md` (workflow de QA).
+
+**Verificación:** YAML válido; el propio workflow de la PR es la prueba (las PR usan el de su rama).
+
+## 202. Tendencia de series por músculo (A8 · PRO-03, 2026-10-23)
+
+Paso A8 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9 (que también descartó A7, el calentamiento en rampa). Rama `feat/a-tendencia-musculo` desde `master`.
+
+- `gym/lib/progresoMuscular`: `ProgresoMusculo.ultimasSemanas` (`SemanaMusculo`: lunes, series que cuentan y si está en pausa de Ritmo) con las `SEMANAS_TENDENCIA` (8) últimas semanas hasta la en curso. Sale del mismo `porSemana` de `calcularMusculo`, así que la última barra es «Esta semana» (directas e indirectas hasta su tope).
+- `gym/components/TendenciaSemanasMusculo` en el detalle de un músculo de `MapaProgreso`, bajo las tres cifras: barras SVG (sin Recharts), línea discontinua de la dosis, la semana en curso en el acento; cifras y día del lunes en una rejilla de texto alineada con las barras (el mes, en el pie) y una tabla `sr-only`. Sin series en las 8 semanas, no se dibuja.
+- Tests en `progresoMuscular.test.ts`: lunes y series de 8 semanas (con hueco y semana en curso), tope de lo indirecto, coincidencia con «Esta semana», sin series y semanas en pausa.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: pecho con 8 barras (6, 9, 6, 6, 9, 6, 6 y 3, la última igual que «Esta semana 3/10»), 8 columnas y 8 filas en la tabla, sin scroll horizontal ni errores; gemelos sin series, sin gráfica. Al 200 % las fechas completas se partían a media palabra: se dejó solo el día bajo cada barra. Sin dispositivo físico.
+
+## 203. Fin de sesión ordenado por momentos (A9 · ENT-10, 2026-10-23)
+
+Paso A9 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9. D9: hitos en el orden récords, subida muscular, cumbre, liga y logros; abierto, el primer bloque con contenido. Rama `feat/a-fin-sesion` desde `master`.
+
+- `gym/lib/fichaEntreno`: `hitosDeSesion` (como mucho `MAX_HITOS` = 3; primero uno de cada tipo en el orden de D9 para que tres récords no tapen una cima o una liga y, si sobra sitio, más; los récords, uno por ejercicio y el de peso antes que el 1RM) y los resúmenes de una línea `resumenRecords`, `resumenCuerpo` y `resumenCumbresLigas`. Tests en `hitosSesion.test.ts`.
+- `gym/hooks/useProgresoSesion` (antes/después, subidas y grupos trabajados) y `components/ProgresoSesion` partido en `FigurasProgresoSesion` (el único muñeco, dentro del póster, con su antes → después) y `SemanaProgresoSesion` (bloque «Cuerpo»).
+- `PosterSesion` admite `hoy` (franja `HitosSesion`) y `figuras` (sustituyen a las de `levels`); el detalle del historial no cambia. `RecordsSesion` admite `sinTitulo`.
+- `components/BloqueSesion`: plegable con título y resumen (clases de `Disclosure`), controlado y con el contenido montado solo al abrirlo.
+- `WorkoutFinished` lee una vez la Vitrina (que trae Cumbres) y las Ligas para hitos y resúmenes; Récords · Cuerpo · Cumbres y ligas · Vitrina, solo uno abierto (el primero con contenido; Cumbres y ligas y Vitrina, solo con la gamificación visible); «Compartir» y «Volver a Entreno» al final. Los componentes de Cumbres y Vitrina (carril B) se usan tal cual.
+- Cruce X4 no hecho: B8 aún no está en `master`.
+
+**Verificación:** `npm run test` y `npm run build` correctos; `npm run test:ui` (`auditoria-entreno.cjs`) correcto. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial y una montaña elegida, a 375 claro, 320 oscuro, 430 oscuro, 375 con texto al 200 % y Reduce Motion, sin gamificación y en un primer entreno: «Hoy» con récord, cumbre y pieza nueva (sin gamificación, tres récords; primer entreno, cumbre, liga y pieza), un solo muñeco, como mucho un bloque abierto (Récords con récords; Cuerpo sin ellos), abrir otro cierra el anterior, «Volver a Entreno» el último, sin scroll horizontal ni errores. `scripts/ui/validar-mapa-muscular.cjs` falla igual en `master` antes de este cambio (no pulsa «Continuar» del entreno minimizado y espera las figuras en la sección del mapa, que desde el rediseño del póster no las lleva): no se ha tocado y queda propuesto como tarea aparte. Sin dispositivo físico.
+
+## 204. Importar TCX además de GPX (A11 · REN-04, 2026-10-23)
+
+**Qué:** en Entreno › Actividades, «Importar GPX o TCX» acepta también los TCX de Garmin Connect, Polar, Coros o una cinta, con la misma hoja de revisión (titulada «Importar TCX»). Víctor lo aprobó en la página de previews A10–A14: se guarda como importada (`origen: 'gpx'`, sin cambiar datos) y se prueba con archivos sintéticos.
+
+**Cómo:**
+- `actividades/lib/tcx.ts`: `resumirTcx` con las herramientas de `gpx.ts` (ahora exporta `ETIQUETA`, `valor`, `atributo` y `texto`). Lee la primera `<Activity>`: distancia y tiempo de sus vueltas (`DistanceMeters`, `TotalTimeSeconds`) o, si faltan, de sus puntos; inicio del `<Id>`; nombre de sus `<Notes>`; tipo de `Sport` con `sugerirTipo`; recorrido y desnivel de los puntos con posición, pasando por `resumirGpx`. Sin posiciones (cinta) devuelve el recorrido vacío. `resumirArchivoActividad` elige GPX o TCX por el contenido.
+- `ActividadesHome`: el input acepta `.tcx`, el título de la hoja dice el formato y una cinta abre la hoja sin trazado. `DetalleActividad` dice «Importada de un archivo (GPX o TCX)».
+- Tests: `tcx.test.ts` (Garmin con dos vueltas y GPS, cinta sin posiciones, sin totales de vuelta, tipo por velocidad, errores y la elección por contenido).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: TCX roto con error en línea y sin escribir, Garmin sintético de 5,04 km (25:50, nombre, desnivel y trazado), cinta de 5,2 km sin trazado, las dos guardadas con `origen: 'gpx'` y el detalle; sin scroll horizontal, controles de 44 px y sin errores de consola. Sin probar con archivos reales ni en iPhone (Archivos).
+
+## 205. Compartir una rutina para guardarla (A13 · SOC-02, 2026-10-23)
+
+**Qué:** desde la ficha de una rutina, «Compartir rutina» publica su estructura en Social (ejercicios, series, repeticiones, descansos y calentamientos; nunca cargas) y quien la ve pulsa «Guardar en mis rutinas», revisa nombre y ejercicios y la guarda como suya. Víctor lo aprobó en la página de previews A10–A14: ahora, con ADR y la migración 0022. Decisión en [ADR 055](decisiones/055-rutina-compartida.md); plan F3-2 de `social-mejoras.md`.
+
+**Cómo:**
+- `social/lib/publicacion.ts`: tipo `rutina` (`ResumenRutina`, `EjercicioRutinaPublicado`), `resumenRutinaCompartida` (sin repetir, hasta 15, `catalogId` solo del catálogo de la app y objetivo solo si encaja en los límites) y su lector en `leerResumen`, que descarta la rutina entera si una entrada está mal. `etiquetaPublicacion` dice «Rutina» y `social.capacidades` admite `rutinaCompartida`.
+- `gym/lib/rutinaCompartida.ts`: de una rutina al resumen (`datosRutinaCompartida`) y del resumen a las filas de la hoja (`filasRutinaCompartida`: los del catálogo ya elegidos, los propios o desconocidos por elegir), `objetivoCompartido` (con `sanearObjetivo`) y `textoEjercicioCompartido`.
+- `routinesRepo.guardarCompartida(nombre, ejercicios)`: en una transacción (`routines`, `exercises`), resuelve cada selección con `resolverSeleccion`, sin repetir, con nombre libre y sin series.
+- `gym/components/CompartirRutina` (en `DetalleRutina`, solo con Amigos y la capacidad) abre `CrearPublicacion`; `TarjetaPublicacion` pinta la rutina (cifras, nombres y, al desplegar, cada ejercicio con su imagen y objetivo) y «Guardar en mis rutinas», que abre `gym/components/GuardarRutinaCompartida` (diferida) con «Elegir/Cambiar» en `SelectorEjercicios` (`verbo` «Elegir») y «Quitar».
+- `supabase/migrations/0022_social_rutina_compartida.sql` (tipo en `publicaciones_tipo_check`, validación en `social_resumen_valido`, `rutinaCompartida` en `social_capacidades`) y `supabase/pruebas/social_rutina_compartida.sql`. El Supabase falso acepta el tipo y Jon comparte una rutina con un ejercicio propio.
+- Tests: `rutinaCompartida.test.ts`, `guardarCompartida.test.ts` (reutiliza ejercicios, nombre libre, sin repetir, vacía y fallo sin nada a medias) y el bloque de rutina en `publicacion.test.ts` (topes, peor caso con nota en 8 KB y lector estricto).
+- Documentos: ADR 055, `features/social.md`, `features/gym.md`, `social-mejoras.md` (F3-2 hecho), `roadmap.md` y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las 22 migraciones y las 15 suites SQL pasan en un PostgreSQL 16 local temporal (sin Docker en este entorno; mismo procedimiento que `scripts/sql/validar-social.mjs`). Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5175` con el Supabase falso, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: compartir desde la ficha (el envío lleva `tipo: 'rutina'`, los `catalogId` y ninguna carga), la tarjeta de Jon desplegada, «Guardar» sin elegir el propio (error en línea), elegir «Remo sentado en polea» con su agarre sin especificar, quitar uno y guardar (rutina con 3 ejercicios y el objetivo de press banca intacto); sin scroll horizontal, controles de 44 px, inputs de 16 px y sin errores de consola. **Pendiente de Víctor:** ejecutar 0022 en el SQL Editor después de desplegar.
+
+## 206. Póster del entreno como imagen (A10 · ENT-11, 2026-10-23)
+
+**Qué:** bajo el póster, al terminar un entreno y en su detalle del historial, «Guardar imagen» y, en el móvil, «Compartir…» (la hoja del sistema: WhatsApp, Instagram…). La imagen es un PNG de 1080 × 1350 con título, fecha, cifras, «Hoy» y el muñeco, y «Hecho con AppFit» al pie; nada del perfil, sin cuenta ni red. Víctor lo aprobó en la página de previews A10–A14 (cifras, muñeco y «Hoy»; pie «Hecho con AppFit»).
+
+**Cómo:**
+- `gym/lib/posterImagen.ts` (puro): `svgPoster(datos, colores, css)` compone el SVG con los colores de los tokens ya resueltos (tripletes «r g b») y la geometría del muñeco que le pasan; título en dos líneas como mucho, «Hoy» en dos por hito, `partirLineas` estima la anchura por caracteres. `escaparXml` y `nombreArchivoPoster` («appfit-torso-a-2026-10-09.png»).
+- `gym/lib/exportarImagen.ts` (navegador, reutilizable, cruce X3): `cssFuentesIncrustadas` (Saira normal y cursiva de `/fonts/` como data URI, una vez por sesión), `svgAPng` (imagen → canvas → PNG), `puedeCompartirArchivos`, `compartirImagen` (cancelar no es error) y `descargarImagen`.
+- `gym/components/PosterImagen`: lee los colores del tema que se ve, carga la geometría diferida y ofrece los dos botones; error en línea. En `WorkoutFinished` usa los hitos de la franja; en `DetalleEntreno`, los récords del entreno con `hitosDeSesion`.
+- Tests: `posterImagen.test.ts` (tamaño, textos y colores, escapes y título largo, muñeco por niveles, sin «Hoy» ni niveles, CSS dentro, cortes de línea y nombre del archivo).
+- Documentos: `features/gym.md`, `arquitectura.md` (párrafo de Entreno), `roadmap.md` (falta iPhone) y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro (con `navigator.canShare`/`share` simulados), 430 oscuro y 375 con texto al 200 %: al terminar y desde el historial, «Guardar imagen» descarga un PNG de 1080 × 1350 (`appfit-torso-a-<día>.png`, ~200 KB) con la letra de la app; «Compartir…» solo aparece con la hoja de compartir y le pasa el PNG; botones de 44 px, sin scroll horizontal ni errores de consola. Imágenes revisadas en claro y oscuro. Sin probar en iPhone (hoja de compartir real).
+
+## 207. Fichas de técnica de los ejercicios (A12 · ENT-09, 2026-10-23)
+
+**Qué:** un botón «i» («Ficha de …») en la cabecera del panel del ejercicio (sesión e historial en edición) y en cada fila del buscador abre la ficha del ejercicio del catálogo: imagen, músculos, material y tipo, el muñeco (principales altos, secundarios medios), tres claves de ejecución y dos errores comunes, tu última vez y tus récords si lo has hecho, y alternativas del mismo músculo que abren su propia ficha. Víctor lo aprobó con cambios en la página de previews A10–A14: los textos los redacto yo (sin fuente citada, como «claves de AppFit») y van todos los ejercicios de una vez.
+
+**Cómo:**
+- `gym/lib/fichas/*.ts` (pecho, espalda, hombros, brazos, piernas, caderaGemelos, core): 268 fichas `{ claves: [3], errores: [2] }` por id sin «appfit:». `gym/lib/fichasEjercicios.ts` las junta en `FICHAS`; solo se carga con `import()` al abrir una ficha.
+- `gym/lib/fichaTecnica.ts` (puro): `nivelesFicha` (5 principales, 3 secundarios, «Cuerpo completo» no pinta) y `textoMusculosFicha` («Pecho; también tríceps y hombros», con «e» delante de «i»).
+- `gym/components/FichaEjercicio` (ModalPage diferida desde `PanelEjercicio` y `SelectorEjercicios`): historial con `progreso.historialEjercicio` (solo si es del ejercicio que se ve: al cambiar de alternativa la consulta anterior dura un instante), alternativas con `liga/lib/alternativas` en modo sustituir; al abrir una alternativa vuelve arriba.
+- `SelectorEjercicios`: cada fila lleva su «i»; con texto muy ampliado el botón pasa debajo (`flex-wrap`, `basis-48`) para no estrechar la fila.
+- Tests: `fichasEjercicios.test.ts` (todas las fichas son del catálogo, ninguna falta ni se repite entre grupos, tres y dos frases de hasta 130 caracteres) y `fichaTecnica.test.ts`.
+- Documentos: `features/gym.md`, `scripts/ejercicios/README.md`, `roadmap.md` (revisión de los textos y la imagen de 384 px) y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: la ficha de press banca desde el panel (3 claves, 2 errores, última vez y récords, cuatro alternativas), saltar a «Press inclinado con barra» desde sus alternativas, cerrar y abrir la de «Hip thrust con barra» desde el buscador, que sigue abierto al cerrarla; controles de 44 px, sin scroll horizontal ni errores de consola. Al probar apareció un fallo (abrir una alternativa sin historial rompía la pantalla) y se corrigió. **Pendiente:** revisión de los textos por Víctor y la ilustración de 384 px.
+
+## 208. Migración 0022 ejecutada (A13, 2026-10-23)
+
+Víctor ejecuta `supabase/migrations/0022_social_rutina_compartida.sql` en el SQL Editor del proyecto real con «Success», después de fusionar la app que lee el tipo `rutina` (#134). Desde ahora `social_capacidades` anuncia `rutinaCompartida` y la ficha de una rutina ofrece «Compartir rutina». Se actualizan el estado del servidor en `features/social.md`, el carril A y el roadmap. Sin cambios de código.
+
+## 209. Añadir comida desde Inicio (2026-10-23)
 
 Paso B6 (NUT-03) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-registro-inicio` desde `master`. La vista previa (capturas a las 8:00, 14:00 y 21:00 simuladas) llevaba dos acciones al pie de la tarjeta de energía: «+ Añadir desayuno» y «Lo de siempre» (la combinación repetida al menos 3 de los últimos 7 días, en un toque con Deshacer). Víctor aprueba la primera y descarta la segunda (decisión D1); su lógica no se queda en el código. Se anota en el ADR 043 § Consecuencias, que ya preveía recuperar este acceso.
 

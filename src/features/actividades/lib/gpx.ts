@@ -23,14 +23,14 @@ export interface Gpx {
 /** Archivo más grande que se acepta (un GPX de un día entero con un punto por segundo ronda los 10 MB). */
 export const MAX_BYTES_GPX = 25 * 1024 * 1024
 
-const ETIQUETA = (nombre: string) => `(?:[\\w-]+:)?${nombre}`
+export const ETIQUETA = (nombre: string) => `(?:[\\w-]+:)?${nombre}`
 const RE_TRKSEG = new RegExp(`<${ETIQUETA('trkseg')}\\b[^>]*>([\\s\\S]*?)</${ETIQUETA('trkseg')}>`, 'g')
 const RE_RTE = new RegExp(`<${ETIQUETA('rte')}\\b[^>]*>([\\s\\S]*?)</${ETIQUETA('rte')}>`, 'g')
 const rePunto = (nombre: string) => new RegExp(`<${ETIQUETA(nombre)}\\b([^>]*?)(?:/>|>([\\s\\S]*?)</${ETIQUETA(nombre)}>)`, 'g')
-const valor = (xml: string, nombre: string) => new RegExp(`<${ETIQUETA(nombre)}\\b[^>]*>([\\s\\S]*?)</${ETIQUETA(nombre)}>`).exec(xml)?.[1]
-const atributo = (attrs: string, nombre: string) => new RegExp(`\\b${nombre}\\s*=\\s*["']([^"']+)["']`).exec(attrs)?.[1]
+export const valor = (xml: string, nombre: string) => new RegExp(`<${ETIQUETA(nombre)}\\b[^>]*>([\\s\\S]*?)</${ETIQUETA(nombre)}>`).exec(xml)?.[1]
+export const atributo = (attrs: string, nombre: string) => new RegExp(`\\b${nombre}\\s*=\\s*["']([^"']+)["']`).exec(attrs)?.[1]
 
-function texto(s: string | undefined): string | undefined {
+export function texto(s: string | undefined): string | undefined {
   if (s === undefined) return undefined
   const limpio = s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&')

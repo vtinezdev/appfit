@@ -30,7 +30,7 @@ const enteroDe = (texto: string) => {
   return Number.isFinite(n) ? n : 0
 }
 
-/** Formulario de una actividad: a mano, revisión de un GPX y edición. Montar con `key` para empezar de cero. */
+/** Formulario de una actividad: a mano, revisión de un archivo importado y edición. Montar con `key` para empezar de cero. */
 export default function HojaActividad({ open, onClose, titulo, intro, inicial, recorrido, accion, onGuardar }: Props) {
   const [v, setV] = useState<ValoresActividad>(inicial)
   const [error, setError] = useState<string | null>(null)
