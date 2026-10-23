@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { CATALOGO_EJERCICIOS, CATALOGO_POR_ID, PATRONES, SLUGS_POR_PATRON, type Patron } from './catalogoEjercicios'
 import {
-  DIAS_CREADOR, DURACIONES, MATERIALES, OBJETIVOS_POR_TIPO, REPARTOS, SUSTITUTOS, cambiarEjercicio, ejerciciosPorSesion, encajaMaterial, generarPlan, huecosDelDia,
+  DIAS_CREADOR, DURACIONES, MATERIALES, OBJETIVOS_POR_TIPO, REPARTOS, SERIES_GEMELOS, SUSTITUTOS, cambiarEjercicio, ejerciciosPorSesion, encajaMaterial, generarPlan, huecosDelDia,
   nombreLibre, otraSugerencia, rutinasDelPlan, sugerenciasCambio, type Material, type ObjetivoCreador, type RespuestasCreador,
 } from './creadorRutinas'
 
@@ -43,18 +43,35 @@ describe('generarPlan', () => {
       const etiqueta = `${dias} días, ${material}, ${objetivo}, ${duracion} min`
       expect(plan.dias.map((d) => d.nombre), etiqueta).toEqual(REPARTOS[dias].dias.map((d) => d.nombre))
       for (const d of plan.dias) {
-        expect(d.ejercicios.length, `${etiqueta}: ${d.nombre}`).toBe(ejerciciosPorSesion(duracion, objetivo))
+        // El de gemelos que se añade cuando el reparto no deja sitio (ENT-16) va de más.
+        const extra = d.ejercicios.filter((e) => e.patron === 'gemelos' && e.objetivo.series === SERIES_GEMELOS && !REPARTOS[dias].dias.find((p) => p.nombre === d.nombre)!.huecos.slice(0, ejerciciosPorSesion(duracion, objetivo)).includes('gemelos'))
+        expect(d.ejercicios.length - extra.length, `${etiqueta}: ${d.nombre}`).toBe(ejerciciosPorSesion(duracion, objetivo))
         expect(new Set(d.ejercicios.map((e) => e.catalogId)).size).toBe(d.ejercicios.length)
         for (const e of d.ejercicios) {
           const c = CATALOGO_POR_ID.get(e.catalogId!)!
           expect(encajaMaterial(c, material), `${etiqueta}: ${c.id}`).toBe(true)
-          expect(e.objetivo).toEqual(OBJETIVOS_POR_TIPO[objetivo][c.tipo])
+          expect(e.objetivo).toEqual(extra.includes(e) ? { ...OBJETIVOS_POR_TIPO[objetivo][c.tipo], series: SERIES_GEMELOS } : OBJETIVOS_POR_TIPO[objetivo][c.tipo])
         }
         // Compuestos primero.
         const tipos = d.ejercicios.map((e) => e.tipo)
         expect(tipos.indexOf('aislamiento') === -1 || tipos.lastIndexOf('compuesto') < tipos.indexOf('aislamiento'), `${etiqueta}: ${d.nombre}`).toBe(true)
       }
     }
+  })
+
+  it('siempre hay gemelos: si el reparto no les deja sitio, uno de 3 series en el día de pierna o completo con menos series', () => {
+    for (const dias of DIAS_CREADOR) for (const material of MATERIALES_TODOS) for (const objetivo of OBJETIVOS) for (const duracion of DURACIONES) {
+      const plan = generarPlan({ ...base, dias, material, objetivo, duracion }, 0)
+      const gemelos = plan.dias.flatMap((d) => d.ejercicios.filter((e) => CATALOGO_POR_ID.get(e.catalogId!)!.primaryMuscles.includes('gemelos')).map((e) => ({ d, e })))
+      expect(gemelos.length, `${dias} días, ${material}, ${objetivo}, ${duracion} min`).toBeGreaterThan(0)
+      expect(gemelos.reduce((n, g) => n + g.e.objetivo.series, 0)).toBeGreaterThanOrEqual(Math.min(SERIES_GEMELOS, OBJETIVOS_POR_TIPO[objetivo].aislamiento.series))
+      for (const { d } of gemelos) expect(['pierna', 'completo']).toContain(d.enfoque)
+    }
+    // 3 días de 45 min: va al día completo con menos series, como aislamiento al final.
+    const plan = generarPlan({ ...base, dias: 3, duracion: 45 }, 0)
+    const dia = plan.dias.find((d) => d.ejercicios.some((e) => e.patron === 'gemelos'))!
+    expect(dia.ejercicios.at(-1)).toMatchObject({ patron: 'gemelos', objetivo: { series: SERIES_GEMELOS } })
+    expect(plan.dias.filter((d) => d.ejercicios.some((e) => e.patron === 'gemelos'))).toHaveLength(1)
   })
 
   it('número de ejercicios según el tiempo y el objetivo', () => {

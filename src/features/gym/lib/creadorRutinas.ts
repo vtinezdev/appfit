@@ -229,7 +229,30 @@ export function generarPlan(r: RespuestasCreador, semilla = 0, ctx: ContextoCrea
     for (const id of enDia) usados.add(id)
     return { nombre: plantilla.nombre, enfoque: plantilla.enfoque, ejercicios: ordenarSesion(ejercicios) }
   })
-  return { reparto: reparto.nombre, dias }
+  return { reparto: reparto.nombre, dias: conGemelos(dias, r, usados, azar, ctx) }
+}
+
+/** Series del ejercicio de gemelos que se añade cuando el reparto no deja sitio para ninguno. */
+export const SERIES_GEMELOS = 3
+const trabajaGemelos = (e: EjercicioPlan) => !!e.catalogId && !!CATALOGO_POR_ID.get(e.catalogId)?.primaryMuscles.includes('gemelos')
+
+/**
+ * Con poco tiempo o pocos días el hueco de gemelos se queda fuera y ese grupo no progresa nunca (ENT-16). Si ningún día
+ * los trae, se añade un ejercicio de gemelos con `SERIES_GEMELOS` series al día de pierna (o de cuerpo completo) con
+ * menos series: alarga un poco esa sesión, que es lo que eligió Víctor. Sin ejercicio de gemelos con ese material, nada.
+ */
+function conGemelos(dias: PlanCreador['dias'], r: RespuestasCreador, usados: ReadonlySet<string>, azar: (() => number) | null, ctx: ContextoCreador): PlanCreador['dias'] {
+  if (dias.some((d) => d.ejercicios.some(trabajaGemelos))) return dias
+  const series = (d: PlanCreador['dias'][number]) => d.ejercicios.reduce((n, e) => n + e.objetivo.series, 0)
+  const candidatos = dias.map((d, i) => ({ d, i })).filter(({ d }) => d.enfoque === 'pierna' || d.enfoque === 'completo')
+  const destino = candidatos.sort((a, b) => series(a.d) - series(b.d) || a.i - b.i)[0]
+  if (!destino) return dias
+  const enDia = new Set(destino.d.ejercicios.flatMap((e) => (e.catalogId ? [e.catalogId] : [])))
+  const e = elegir('gemelos', enDia, usados, r, azar, ctx)
+  if (!e || !e.primaryMuscles.includes('gemelos')) return dias
+  const plan = aPlan(e, 'gemelos', r.objetivo, ctx)
+  const nuevo = { ...plan, objetivo: { ...plan.objetivo, series: SERIES_GEMELOS } }
+  return dias.map((d, i) => (i === destino.i ? { ...d, ejercicios: ordenarSesion([...d.ejercicios, nuevo]) } : d))
 }
 
 function conEjercicio(plan: PlanCreador, dia: number, indice: number, nuevo: EjercicioPlan): PlanCreador {
