@@ -11,9 +11,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | Paso | ID | Mejora | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | A1 | REN-02 | Recortar el resumen social a 8 KB | S | — | Hecho (2026-10-22) |
-| A2 | ENT-15 | Avance automático al siguiente ejercicio | S | — | Pendiente |
+| A2 | ENT-15 | Avance automático al siguiente ejercicio | S | — | Hecho (2026-10-22) |
 | A3 | ENT-14 | Descanso sugerido según el tipo de ejercicio | S | — | Pendiente |
-| A4 | GAM-07 | «Hace N días» tras un parón | S | — | Pendiente |
+| A4 | GAM-07 | «Hace N días» tras un parón | S | — | Descartado (2026-10-23) |
 | A5 | ENT-04 | Historial del ejercicio sin salir de la sesión | M | — | Pendiente |
 | A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Pendiente |
 | A7 | ENT-05 | Calentamiento en rampa | M | — | Pendiente |
@@ -45,7 +45,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** publicar el entreno máximo contra el Supabase falso (`scripts/ui/supabase-falso.mjs`) y ver la vista previa.
 - **Documentos:** `docs/features/social.md` (límite y recorte) y quitar la limitación de `docs/roadmap.md`. De paso (DOC-01), en `docs/features/gym.md` corregir el enlace roto a `atributos.md` (la experiencia está en `experiencia.md`).
 
-### [ ] A2 · ENT-15 · Avance automático al siguiente ejercicio
+### [x] A2 · ENT-15 · Avance automático al siguiente ejercicio
+
+> **Hecho (2026-10-22, PROCESO §197, PR #120).** Decisiones de Víctor: un ejercicio sin series cuenta como pendiente (si está en la sesión es para hacerlo); con la hoja del RIR, baja por detrás; sin interruptor en Ajustes.
 
 - **Tamaño:** S · **Rama:** `feat/a-avance-automatico`
 - **Para la persona:** al marcar la última serie de un ejercicio, la pantalla sube sola al siguiente que tiene series pendientes.
@@ -72,7 +74,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** primera serie de una sesión sin descanso; segunda sesión, ya no sale.
 - **Documentos:** `docs/features/gym.md` § Descanso.
 
-### [ ] A4 · GAM-07 · «Hace N días» tras un parón
+### [-] A4 · GAM-07 · «Hace N días» tras un parón
+
+> **Descartado por Víctor (2026-10-23)** tras ver la preview (la línea «Hace 20 días de tu última sesión con este ejercicio» bajo el subtítulo del panel). No se implementa.
 
 - **Tamaño:** S · **Rama:** `feat/a-tras-paron`
 - **Para la persona:** si un ejercicio lleva 14 días o más sin hacerse, su panel lo dice («Hace 18 días de tu última sesión con este ejercicio») junto a la columna «Anterior», para que la persona decida la carga. Sin porcentajes de reducción (serían una recomendación sin fuente).

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, afterEach } from 'vitest'
-import { ajustarDescanso, clearSession, clockText, descansoParaEjercicio, emptySession, readSession, remainingSeconds, seriesMarcadas, writeSession } from './session'
+import { ajustarDescanso, clearSession, clockText, descansoParaEjercicio, emptySession, readSession, remainingSeconds, seriesMarcadas, siguienteEjercicioPendiente, writeSession } from './session'
 afterEach(() => vi.unstubAllGlobals())
 describe('estado de interacción del entreno, independiente de los datos', () => {
   it('sin storage o con JSON inválido funciona en memoria', () => {
@@ -56,5 +56,35 @@ describe('seriesMarcadas', () => {
     const sets = [{ id: 1, realizada: true }, { id: 2, realizada: false }, { id: 3 }, { id: 4 }]
     expect(seriesMarcadas(sets, [2, 3])).toEqual([1, 3])
     expect(seriesMarcadas([], [1])).toEqual([])
+  })
+})
+
+describe('siguiente ejercicio pendiente al completar uno', () => {
+  // Ejercicios 10, 20, 30 y 40 con dos series cada uno (ids 101, 102, 201…); el 30 incluye un calentamiento (300).
+  const sets = [10, 20, 30, 40].flatMap(e => [{ id: e * 10 + 1, exerciseId: e }, { id: e * 10 + 2, exerciseId: e }]).concat({ id: 300, exerciseId: 30 })
+  const orden = [10, 20, 30, 40]
+
+  it('el siguiente en el orden de la sesión con alguna serie sin marcar', () => {
+    expect(siguienteEjercicioPendiente(orden, sets, [101, 102], 10)).toBe(20)
+    expect(siguienteEjercicioPendiente(orden, sets, [101, 102, 201, 202], 10)).toBe(30)
+    // El calentamiento también cuenta: con solo las efectivas hechas, el 30 sigue pendiente.
+    expect(siguienteEjercicioPendiente(orden, sets, [201, 202, 301, 302], 20)).toBe(30)
+  })
+
+  it('desde el último vuelve a los anteriores; con todo hecho, ninguno', () => {
+    expect(siguienteEjercicioPendiente(orden, sets, [401, 402, 101, 102], 40)).toBe(20)
+    const todas = sets.map(s => s.id)
+    expect(siguienteEjercicioPendiente(orden, sets, todas, 40)).toBeNull()
+    expect(siguienteEjercicioPendiente([10], sets, [101, 102], 10)).toBeNull()
+  })
+
+  it('un ejercicio sin series todavía cuenta como pendiente', () => {
+    expect(siguienteEjercicioPendiente([10, 50, 20], sets, [101, 102], 10)).toBe(50)
+  })
+
+  it('sigue el orden manual de la sesión, no el de creación', () => {
+    expect(siguienteEjercicioPendiente([30, 10, 40, 20], sets, [101, 102, 401, 402], 10)).toBe(20)
+    // Un ejercicio que ya no está en la sesión: se busca desde el principio.
+    expect(siguienteEjercicioPendiente(orden, sets, [101, 102], 99)).toBe(20)
   })
 })

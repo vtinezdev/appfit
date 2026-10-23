@@ -2150,7 +2150,17 @@ Paso B5 (PRO-02) del [plan de evolución](plan-evolucion/carril-b.md). Rama `fea
 
 **Verificación:** `npm run test` (211 archivos, 2.573 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con entrenos y pesajes sintéticos en las últimas semanas: desplegable, seis filas con revisión, abrir la de la semana del 12 oct (12–18 oct, «← Ritmo») y volver con el foco en la fila, a 320/375/430 px en claro y oscuro y 375 px con texto al 200 %: filas ≥ 44 px, sin scroll horizontal ni errores de consola. Sin dispositivo físico.
 
-## 197. Añadir comida desde Inicio (2026-10-23)
+## 197. Avance automático al siguiente ejercicio (A2 · ENT-15, 2026-10-22)
+
+Segundo paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). Rama `feat/a-avance-automatico` desde `master`. Víctor aprueba la preview (GIF y capturas a 320/375 px) antes de abrir la PR.
+
+- `gym/lib/session.siguienteEjercicioPendiente(visibleIds, sets, completadas, actual)`: el primer ejercicio después del actual, en el orden de la sesión (también el manual), con alguna serie sin marcar (los calentamientos cuentan) o sin series todavía; si no, el primero antes; `null` si no queda ninguno. Víctor decide que un ejercicio sin series cuenta: si se ha añadido es para hacerlo.
+- `EntrenoActivo`: en `completar`, cuando la serie marcada completa su ejercicio, guarda el destino; tras el plegado (`requestAnimationFrame`), `scrollIntoView({ block: 'start' })` sobre el `div[data-ejercicio]` del panel, con `scroll-margin-top` = altura de la cabecera fija + `--space-stack`, o 0 si la cabecera es estática (contenedor ≤ 20 rem). No se mueve al desmarcar, con un campo enfocado ni sin destino; con Reduce Motion, `behavior: 'instant'`. Con la hoja del RIR abierta baja por detrás (la capa modal restaura el foco con `preventScroll`), como pidió Víctor. Sin opción en Ajustes (sería un cruce con B).
+- Tests: cuatro casos nuevos en `session.test.ts` (orden, calentamientos, vuelta atrás, todo hecho, sin series, orden manual, ejercicio fuera de la sesión).
+
+**Verificación:** `npm run test` (207 archivos, 2.541 pruebas) y `npm run build` correctos. Recorrido Playwright de preview (fuera del repo) en `appfit-test.localhost:5173`, a 375 claro, 320 oscuro, 430 oscuro y 375 con Reduce Motion, dos veces seguidas: el siguiente queda a 12 px bajo la cabecera (a 0 px del borde a 320, con la cabecera estática), también al cerrar la hoja del RIR; desmarcar y escribir en un campo no mueven la página; sin scroll horizontal ni errores en consola. Entre el toque y el movimiento pasan unos 300 ms (la escritura de la serie). Sin dispositivo físico: falta probarlo en iPhone.
+
+## 198. Añadir comida desde Inicio (2026-10-23)
 
 Paso B6 (NUT-03) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-registro-inicio` desde `master`. La vista previa (capturas a las 8:00, 14:00 y 21:00 simuladas) llevaba dos acciones al pie de la tarjeta de energía: «+ Añadir desayuno» y «Lo de siempre» (la combinación repetida al menos 3 de los últimos 7 días, en un toque con Deshacer). Víctor aprueba la primera y descarta la segunda (decisión D1); su lógica no se queda en el código. Se anota en el ADR 043 § Consecuencias, que ya preveía recuperar este acceso.
 
@@ -2160,4 +2170,3 @@ Paso B6 (NUT-03) del [plan de evolución](plan-evolucion/carril-b.md). Rama `fea
 - Documentos: ADR 043, `inicio.md`, `nutricion.md`, `DESIGN.md`, `DESIGN-SYSTEM.md` y `arquitectura.md`.
 
 **Verificación:** `npm run test` (212 archivos, 2.576 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con el reloj fijado a las 8:00, 14:00 y 21:00: la etiqueta cambia con la hora y Añadir comida abre en esa comida, a 320/375/430 px en claro y oscuro y con texto al 200 % a 375 y 320 px; sin scroll horizontal ni texto cortado, botón ≥ 44 px, sin errores de consola. Sin dispositivo físico.
-
