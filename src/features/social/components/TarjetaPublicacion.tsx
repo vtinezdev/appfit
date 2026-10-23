@@ -8,12 +8,16 @@ import { duracionTexto, formatKm, formatRitmo, ritmoSegPorKm } from '../../activ
 import IconoLogro from '../../vitrina/components/IconoLogro'
 import { GRUPOS_LOGRO, NUMERALES } from '../../vitrina/lib/logros'
 import { etiquetaPublicacion, textoMasTrabajado } from '../lib/presentacion'
-import type { LineaLogro, Resumen, ResumenEntreno, ResumenLogro } from '../lib/publicacion'
+import { textoEjercicios, type LineaLogro, type Resumen, type ResumenEntreno, type ResumenLogro, type ResumenRutina } from '../lib/publicacion'
 import EjerciciosPublicacion from './EjerciciosPublicacion'
 import VitrinaPublicacion from './VitrinaPublicacion'
+import MiniaturaEjercicio from '../../gym/components/MiniaturaEjercicio'
+import { textoEjercicioCompartido } from '../../gym/lib/rutinaCompartida'
 
 // Diferido como en Inicio: la geometría de los muñecos no entra con el feed.
 const MiniMapa = lazy(() => import('../../gym/components/MapaMuscular').then(m => ({ default: m.MiniMapa })))
+// Solo al pulsar «Guardar en mis rutinas»: el buscador de ejercicios no entra con el feed.
+const GuardarRutinaCompartida = lazy(() => import('../../gym/components/GuardarRutinaCompartida'))
 
 interface Props {
   resumen: Resumen
@@ -76,6 +80,10 @@ function cifrasDe(r: Resumen): { label: string; valor: string; unidad?: string }
     { label: 'Series', valor: formatInt(r.series) },
     ...(r.volumenKg !== undefined ? [{ label: 'Volumen', valor: formatInt(r.volumenKg), unidad: 'kg' }] : []),
   ]
+  if (r.tipo === 'rutina') {
+    const series = r.ejercicios.every(e => e.series !== undefined) ? r.ejercicios.reduce((n, e) => n + (e.series ?? 0), 0) : null
+    return [{ label: 'Ejercicios', valor: formatInt(r.ejercicios.length) }, ...(series !== null ? [{ label: 'Series', valor: formatInt(series) }] : [])]
+  }
   if (r.tipo === 'actividad') {
     const ritmo = r.duracionSeg !== undefined ? ritmoSegPorKm(r.duracionSeg, r.distanciaM) : null
     return [
@@ -116,6 +124,36 @@ function Vistazo({ r, dia, verTodas }: { r: ResumenEntreno; dia: string; verToda
   </div>
 }
 
+/** Los ejercicios de una rutina compartida en orden, con su imagen del catálogo y su objetivo. */
+function EjerciciosRutina({ r }: { r: ResumenRutina }) {
+  return <section aria-label="Ejercicios" className="space-y-2">
+    <h3 className="text-label text-fg-muted">Ejercicios</h3>
+    <ol className="space-y-2">
+      {r.ejercicios.map((e, i) => {
+        const objetivo = textoEjercicioCompartido(e)
+        return <li key={`${e.nombre}-${i}`} className="flex items-center gap-3">
+          <MiniaturaEjercicio catalogId={e.catalogId ?? undefined} />
+          <span className="min-w-0 flex-1">
+            <span className="block break-words text-body-sm font-semibold text-fg"><span className="sr-only">{i + 1}. </span>{e.nombre}</span>
+            {objetivo && <span className="tabular block break-words text-caption text-fg-muted">{objetivo}</span>}
+          </span>
+        </li>
+      })}
+    </ol>
+  </section>
+}
+
+/** «Guardar en mis rutinas» bajo una rutina compartida: abre la revisión y, ya guardada, lo dice en la tarjeta. */
+function GuardarRutina({ r }: { r: ResumenRutina }) {
+  const [abierta, setAbierta] = useState(false)
+  const [guardada, setGuardada] = useState<string | null>(null)
+  return <div className="space-y-2">
+    <Button variant="secondary" block aria-haspopup="dialog" onClick={() => setAbierta(true)}><Icon name="plus" size={18} />Guardar en mis rutinas</Button>
+    {guardada && <p role="status" className="flex items-center gap-2 break-words text-body-sm font-semibold text-fg"><Icon name="check" size={18} className="text-accent-strong" />Guardada en tus rutinas como «{guardada}»</p>}
+    {abierta && <Suspense fallback={null}><GuardarRutinaCompartida resumen={r} onClose={() => setAbierta(false)} onGuardada={(nombre) => { setAbierta(false); setGuardada(nombre) }} /></Suspense>}
+  </div>
+}
+
 /** Una publicación: lo que ven seguidores o miembros (y la vista previa antes de publicar). */
 export default function TarjetaPublicacion({ resumen: r, fecha, cabecera, creada, acciones, pie }: Props) {
   const [detalle, setDetalle] = useState(false)
@@ -125,9 +163,9 @@ export default function TarjetaPublicacion({ resumen: r, fecha, cabecera, creada
   const dia = new Date(fecha).toISOString().slice(0, 10)
   const etiqueta = etiquetaPublicacion(r, fecha, creada)
   // Lo que solo está al desplegar: los ejercicios (con su liga y sus series) y los nombres de lo nuevo en la Vitrina.
-  const hayDetalle = r.tipo === 'entreno' && (r.ejercicios.length > 0 || r.ligas.length > 0 || r.logros.length > 0)
+  const hayDetalle = (r.tipo === 'entreno' && (r.ejercicios.length > 0 || r.ligas.length > 0 || r.logros.length > 0)) || r.tipo === 'rutina'
   const verDetalle = !previa && hayDetalle
-  const detalles = () => r.tipo === 'entreno' && <div className="space-y-stack">
+  const detalles = () => r.tipo === 'rutina' ? <EjerciciosRutina r={r} /> : r.tipo === 'entreno' && <div className="space-y-stack">
     <EjerciciosPublicacion resumen={r} />
     {/* Con mosaico, la liga se ve al tocar cada ejercicio; las publicaciones de texto siguen con su lista. */}
     {!r.catalogIds && <Lineas titulo="Ligas" lineas={r.ligas} />}
@@ -136,15 +174,17 @@ export default function TarjetaPublicacion({ resumen: r, fecha, cabecera, creada
   return (
     <Card className="publicacion-tarjeta space-y-3">
       {cabecera ?? (etiqueta && <p className="text-caption text-fg-muted first-letter:uppercase">{r.tipo === 'logro' ? etiqueta : `${etiqueta} · ${formatFechaHoraConDia(fecha)}`}</p>)}
-      {(r.tipo === 'entreno' || r.tipo === 'actividad') && <p className="break-words text-heading text-fg">{r.titulo}</p>}
+      {(r.tipo === 'entreno' || r.tipo === 'actividad' || r.tipo === 'rutina') && <p className="break-words text-heading text-fg">{r.titulo}</p>}
       {r.tipo === 'texto' && <TextoExpandible texto={r.texto} previa={previa} />}
       {r.tipo !== 'texto' && r.nota && <TextoExpandible texto={r.nota} previa={previa} nota />}
       {r.tipo === 'logro' && <Medalla r={r} dia={dia} />}
       <Cifras cifras={cifrasDe(r)} />
       {r.tipo === 'actividad' && r.desnivelM !== null && <p className="tabular text-caption text-fg-muted">Desnivel positivo: {formatInt(r.desnivelM)} m</p>}
       {r.tipo === 'entreno' && <Vistazo r={r} dia={dia} verTodas={verDetalle ? () => setDetalle(true) : undefined} />}
+      {r.tipo === 'rutina' && !previa && !detalle && <p className="break-words text-body-sm text-fg-muted">{textoEjercicios(r.ejercicios.map(e => e.nombre))}</p>}
       {previa && hayDetalle && detalles()}
       {verDetalle && detalle && <div id={idDetalle}>{detalles()}</div>}
+      {r.tipo === 'rutina' && !previa && <GuardarRutina r={r} />}
       {(acciones || verDetalle) && <div className="-mx-2 flex flex-wrap items-center gap-1 border-t border-line pt-1">
         {acciones}
         {verDetalle && <Button variant="subtle" size="sm" className="ml-auto px-3" aria-expanded={detalle} aria-controls={detalle ? idDetalle : undefined} onClick={() => setDetalle(!detalle)}>

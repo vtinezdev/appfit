@@ -22,9 +22,12 @@ interface Props {
   onElegir: (value: SeleccionEjercicio) => Promise<void>
   excluir?: number[]
   sugerencias?: number[]
-  /** Para sustituir uno en la sesión (ENT-01): el título y el verbo de los botones. Por defecto, «Añadir ejercicio». */
+  /**
+   * Para sustituir uno en la sesión (ENT-01) o elegir el de una rutina compartida (ADR 055): el título y el verbo de los
+   * botones. Por defecto, «Añadir ejercicio».
+   */
   titulo?: string
-  verbo?: 'Añadir' | 'Sustituir'
+  verbo?: 'Añadir' | 'Sustituir' | 'Elegir'
 }
 const etiqueta = (ids: string[], labels: Record<string, string>) => ids.map(id => labels[id] ?? id).join(', ')
 
