@@ -32,6 +32,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Gimnasios (ADR 054): elegir y crear gimnasios, nota de primera vez y teclado del nombre en la hoja; probado en Chromium a 320/375/430 px en ambos temas.
 - Escáner: 3 productos reales (la cámara necesita HTTPS).
 - Exportar el backup (`<a download>` con un blob) desde la PWA instalada.
+- Póster como imagen (ENT-11): «Compartir…» con la hoja de compartir de iOS (WhatsApp, Instagram) y «Guardar imagen» desde la PWA instalada; la letra incrustada en el PNG en Safari. Probado en Chromium (descarga y `navigator.share` simulado) a 320/375/430 px en ambos temas.
 - Inicio minimalista con rueda de energía (§79): tacto de las tarjetas y del «+» del peso, y nitidez de la rueda en pantalla Retina. Probado en Edge emulado a 320/375/430 px.
 - Persistencia (§44): trasladar una copia de Safari al acceso de pantalla de inicio, cerrar/reabrir y actualizar la PWA en la misma dirección. Comprobado en Chromium con perfil persistente y modos de iOS emulados; confirmar el comportamiento del almacenamiento y del permiso en WebKit.
 - Perfil (§74): selector de fecha nativo, campo de altura con teclado decimal (coma) y Sheets con teclado. Probado en Edge emulado a 320/375/430 px.

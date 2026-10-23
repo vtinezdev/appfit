@@ -19,7 +19,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A7 | ENT-05 | Calentamiento en rampa | M | — | Descartado (2026-10-23) |
 | A8 | PRO-03 | Tendencia de series por músculo | M | — | Hecho (2026-10-23) |
 | A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Hecho (2026-10-23) |
-| A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Pendiente |
+| A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Hecho (2026-10-23) |
 | A11 | REN-04 | Importar TCX (y FIT después) | M | — | Hecho (2026-10-23) |
 | A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Pendiente |
 | A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Hecho (2026-10-23) |
@@ -168,7 +168,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** terminar un entreno con récord y subida de nivel; con la gamificación oculta; 320 px y Reduce Motion. `scripts/ui/validar-mapa-muscular.cjs` sigue en verde.
 - **Documentos:** `docs/features/gym.md` § Récords y fin de sesión; `docs/DESIGN-SYSTEM.md` solo en su apartado de Entreno.
 
-### [ ] A10 · ENT-11 · Póster del entreno como imagen
+### [x] A10 · ENT-11 · Póster del entreno como imagen
+
+> **Hecho (2026-10-23, PROCESO §206, PR #135).** Víctor lo aprobó en la página de previews A10–A14: la imagen lleva cifras, muñeco y la franja «Hoy», con «Hecho con AppFit» al pie (sin dominio). `svgPoster` recibe la geometría del muñeco (`CUERPOS[figura]`) en lugar de importarla, para que `lib/` no dependa de `components/`. En el historial, «Hoy» son los récords del entreno. Falta probar en iPhone la hoja de compartir (anotado en el roadmap).
 
 - **Tamaño:** L · **Rama:** `feat/a-poster-imagen`
 - **Para la persona:** «Guardar imagen» y «Compartir…» en el póster del fin de sesión y del detalle del historial; sin cuenta, por WhatsApp o Instagram.
