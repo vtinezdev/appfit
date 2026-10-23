@@ -25,7 +25,7 @@ import { leerArchivoActividad, type FormatoActividad } from '../lib/importar'
 
 type Hoja =
   | { tipo: 'manual'; n: number; inicial: ValoresActividad }
-  | { tipo: 'gpx'; n: number; inicial: ValoresActividad; recorrido: PuntoRecorrido[][]; archivo: string; formato: FormatoActividad }
+  | { tipo: 'gpx'; n: number; inicial: ValoresActividad; recorrido: PuntoRecorrido[][]; tiempos?: number[][]; archivo: string; formato: FormatoActividad }
 
 /**
  * Actividades (Entreno › Actividades): grabar con el GPS, importar un GPX, TCX o FIT o registrar a mano; tus mejores marcas, la
@@ -52,7 +52,7 @@ export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => 
       const { formato, resumen: r } = leerArchivoActividad(new Uint8Array(await f.arrayBuffer()))
       setHojaAbierta(true)
       setHoja({
-        tipo: 'gpx', n: Date.now(), archivo: f.name, formato, recorrido: r.recorrido,
+        tipo: 'gpx', n: Date.now(), archivo: f.name, formato, recorrido: r.recorrido, tiempos: r.tiempos,
         inicial: valoresIniciales({ tipo: r.tipo, inicio: r.inicio, duracionSeg: r.duracionSeg ?? 0, distanciaM: r.distanciaM, desnivelM: r.desnivelM, nombre: r.nombre }),
       })
     } catch (err) {
@@ -140,7 +140,7 @@ export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => 
         inicial={hoja.inicial} recorrido={hoja.recorrido.length ? hoja.recorrido : undefined}
         onGuardar={async (datos) => {
           const batidas = marcasBatidas(actividades ?? [], datos)
-          await actividadesRepo.crear({ ...datos, origen: 'gpx', recorrido: hoja.recorrido })
+          await actividadesRepo.crear({ ...datos, origen: 'gpx', recorrido: hoja.recorrido, tiempos: hoja.tiempos })
           setHojaAbierta(false)
           avisar({ mensaje: mensajeConMarcas('Actividad importada', batidas) })
         }} />}

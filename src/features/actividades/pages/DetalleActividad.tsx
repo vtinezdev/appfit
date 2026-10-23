@@ -13,6 +13,7 @@ import { formatFechaHoraConDia } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import AvanceActividad from '../../caminos/components/AvanceActividad'
 import HojaActividad from '../components/HojaActividad'
+import Parciales from '../components/Parciales'
 import PublicarActividad from '../components/PublicarActividad'
 import PerfilAltitud from '../components/PerfilAltitud'
 import TrazadoRecorrido from '../components/TrazadoRecorrido'
@@ -34,7 +35,7 @@ interface Props {
   onBorrada: (a: Actividad) => void
 }
 
-/** Una actividad: sus marcas (A24), recorrido, cifras, altitud, lo que subió en Cumbres y avanzó en Caminos, notas, editar y borrar. */
+/** Una actividad: sus marcas (A24), recorrido, cifras, altitud, parciales por km, lo que subió en Cumbres y avanzó en Caminos, notas, editar y borrar. */
 export default function DetalleActividad({ actividadId, onVolver, onBorrada }: Props) {
   const a = useLiveQuery(async () => (await actividadesRepo.obtener(actividadId)) ?? null, [actividadId])
   const todas = useLiveQuery(() => actividadesRepo.terminadas(), [])
@@ -98,6 +99,8 @@ export default function DetalleActividad({ actividadId, onVolver, onBorrada }: P
         {actividad.recorrido?.length ? <PerfilAltitud recorrido={actividad.recorrido} /> : null}
         <p className="break-words text-caption text-fg-muted">{ORIGEN[actividad.origen]}</p>
       </Card>
+
+      <Parciales actividad={actividad} />
 
       <AvanceActividad actividad={actividad} />
 

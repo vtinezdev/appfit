@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { db } from '../../../shared/db/db'
-import { anadirLectura, pausar } from '../lib/grabacion'
+import { anadirLectura, pausar, reanudar } from '../lib/grabacion'
+import type { ConTiempos } from '../lib/parciales'
 import * as repo from './actividadesRepo'
 
 beforeEach(async () => {
@@ -28,6 +29,15 @@ describe('actividades terminadas', () => {
     const recta = Array.from({ length: 100 }, (_, i): [number, number] => [42.88 + i * 0.0001, -8.54])
     const id = await repo.crear({ ...base, origen: 'gpx', recorrido: [recta] }, ahora)
     expect((await repo.obtener(id))?.recorrido?.[0]).toHaveLength(2)
+  })
+
+  it('guarda la hora de los puntos que quedan al simplificar, si el archivo la trae (A28)', async () => {
+    const recta = Array.from({ length: 100 }, (_, i): [number, number] => [42.88 + i * 0.0001, -8.54])
+    const tiempos = [recta.map((_, i) => i * 3)]
+    const id = await repo.crear({ ...base, origen: 'gpx', recorrido: [recta], tiempos }, ahora)
+    expect(((await repo.obtener(id)) as ConTiempos).tiempos).toEqual([[0, 297]])
+    const sinHoras = await repo.crear({ ...base, origen: 'gpx', recorrido: [recta] }, ahora)
+    expect(await repo.obtener(sinHoras)).not.toHaveProperty('tiempos')
   })
 
   it('actualiza, recalcula la fecha y quita el desnivel vacío', async () => {
@@ -80,6 +90,22 @@ describe('grabación', () => {
     expect(a).toMatchObject({ tipo: 'senderismo', nombre: 'Monte Pedroso', duracionSeg: 900, desnivelM: 20, origen: 'gps' })
     expect(a.distanciaM).toBeGreaterThan(1600)
     expect(a.recorrido?.[0]).toHaveLength(2) // una recta
+  })
+
+  it('guarda la hora de cada punto, la recupera al recargar y al terminar la simplifica con el recorrido (A28)', async () => {
+    const id = await repo.empezarGrabacion('correr', ahora)
+    let e = repo.estadoDe((await repo.obtener(id))!)
+    for (let i = 0; i < 10; i++) e = anadirLectura(e, { lat: 42.88 + i * 0.0005, lon: -8.54, precision: 5, t: ahora + 2000 + i * 15_000 }).estado
+    e = reanudar(pausar(e, ahora + 150_000), ahora + 400_000)
+    for (let i = 0; i < 10; i++) e = anadirLectura(e, { lat: 42.89 + i * 0.0005, lon: -8.54, precision: 5, t: ahora + 401_000 + i * 15_000 }).estado
+    await repo.guardarGrabacion(id, e)
+    const guardada = (await repo.obtener(id)) as Parameters<typeof repo.estadoDe>[0] & ConTiempos
+    expect(guardada.tiempos?.[0].slice(0, 2)).toEqual([2, 17])
+    expect(repo.estadoDe(guardada).horas).toEqual(e.horas)
+    await repo.terminarGrabacion(id, repo.estadoDe(guardada), { tipo: 'correr' }, ahora + 560_000)
+    const a = (await repo.obtener(id)) as ConTiempos & { recorrido?: unknown[][] }
+    expect(a.recorrido?.map((t) => t.length)).toEqual([2, 2])
+    expect(a.tiempos).toEqual([[2, 137], [401, 536]])
   })
 
   it('sin distancia no se puede terminar y sigue en curso', async () => {

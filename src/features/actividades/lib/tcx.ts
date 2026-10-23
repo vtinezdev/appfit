@@ -80,6 +80,7 @@ export function resumirTcx(xml: string): ResumenGpx {
     distanciaM,
     ...(desnivelM !== undefined ? { desnivelM } : {}),
     recorrido: base?.recorrido ?? [],
+    ...(base?.tiempos ? { tiempos: base.tiempos } : {}),
   }
 }
 

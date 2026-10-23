@@ -39,7 +39,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A25 | ENT-19 | Nota fija por ejercicio y gimnasio | M | — | Descartado (2026-10-23) |
 | A26 | ENT-20 | Rest-pause | M | — | Descartado (2026-10-23) |
 | A27 | ENT-21 | «Depende de la máquina», a mano | S | — | Descartado (2026-10-23) |
-| A28 | ACT-02 | Parciales por km | M-L | — | Pendiente |
+| A28 | ACT-02 | Parciales por km | M-L | — | Hecho (2026-10-23) |
 | A29 | ENT-22 | Series por tiempo | L | — | Pendiente |
 | A30 | ENT-23 | Progresión de cada lado | M | — | Descartado (2026-10-23) |
 | A31 | SOC-08 | Superseries en la rutina compartida | M | A21 | Descartado (2026-10-23) |
@@ -366,7 +366,9 @@ Víctor decide en la página de previews A24–A28: implementar A24 (mejor ritmo
 
 > **Descartado (2026-10-23).** Víctor lo descarta en las previews A24–A28; sigue deduciéndose del material.
 
-### [ ] A28 · ACT-02 · Parciales por km
+### [x] A28 · ACT-02 · Parciales por km
+
+> **Hecho (2026-10-23, PROCESO §225).** El campo es `Actividad.tiempos` (segundos desde el primer punto, paralelo al recorrido), declarado en `actividades/lib/parciales`. Al probarlo salió que simplificar el recorrido borraba los cambios de ritmo en las rectas: la simplificación con hora usa el tiempo como tercera coordenada. Una grabación empezada antes de actualizar queda sin parciales.
 
 - **Tamaño:** M-L · **Rama:** `feat/a-parciales-km`
 - **Decisión de Víctor:** guardar la hora de cada punto desde ahora (las actividades anteriores no tienen parciales).

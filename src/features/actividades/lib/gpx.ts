@@ -2,6 +2,7 @@
 // funciona igual en los tests (Node). Solo se leen los puntos del track (o de la ruta), su altitud y su hora.
 import type { PuntoRecorrido, TipoActividad } from '../../../shared/db/types'
 import { desnivelPositivo, distanciaRecorrido } from './geo'
+import { tiemposDesde } from './parciales'
 
 export class GpxError extends Error {}
 
@@ -79,6 +80,8 @@ export interface ResumenGpx {
   distanciaM: number
   desnivelM?: number
   recorrido: PuntoRecorrido[][]
+  /** Segundos de cada punto del recorrido desde el primero, si todos traen hora (A28: parciales por km). */
+  tiempos?: number[][]
 }
 
 const aRecorrido = (t: PuntoGpx[]): PuntoRecorrido[] => t.map((p) => (p.ele === undefined ? [p.lat, p.lon] : [p.lat, p.lon, p.ele]))
@@ -112,6 +115,7 @@ export function resumirGpx(gpx: Gpx): ResumenGpx {
   }
   const inicio = gpx.tramos.flat().find((p) => p.t !== undefined)?.t
   const duracionSeg = conHoras ? Math.round(duracion / 1000) : undefined
+  const tiempos = inicio !== undefined ? tiemposDesde(gpx.tramos.map((t) => t.map((p) => p.t)), inicio) : undefined
   return {
     ...(gpx.nombre ? { nombre: gpx.nombre } : {}),
     tipo: sugerirTipo(gpx.tipo, distanciaM, duracionSeg, desnivelM),
@@ -120,5 +124,6 @@ export function resumirGpx(gpx: Gpx): ResumenGpx {
     distanciaM,
     ...(desnivelM !== undefined ? { desnivelM } : {}),
     recorrido,
+    ...(tiempos ? { tiempos } : {}),
   }
 }
