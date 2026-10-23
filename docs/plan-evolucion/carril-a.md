@@ -10,7 +10,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 | Paso | ID | Mejora | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| A1 | REN-02 | Recortar el resumen social a 8 KB | S | — | Pendiente |
+| A1 | REN-02 | Recortar el resumen social a 8 KB | S | — | Hecho (2026-10-22) |
 | A2 | ENT-15 | Avance automático al siguiente ejercicio | S | — | Pendiente |
 | A3 | ENT-14 | Descanso sugerido según el tipo de ejercicio | S | — | Pendiente |
 | A4 | GAM-07 | «Hace N días» tras un parón | S | — | Pendiente |
@@ -30,7 +30,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ---
 
-### [ ] A1 · REN-02 · Recortar el resumen social a 8 KB
+### [x] A1 · REN-02 · Recortar el resumen social a 8 KB
+
+> **Hecho (2026-10-22, PROCESO §195, PR #118).** El recorte ya existía desde §181 (los detalles entran mientras caben) y el peor caso medido cabe: 8.156 bytes. Víctor elige la versión reducida: sin `recortarResumen` (nunca se activaría), con un test del peor caso en las tres variantes (completo, sin imágenes, sin detalles) y la limitación fuera del roadmap.
 
 - **Tamaño:** S · **Rama:** `feat/a-resumen-8kb`
 - **Para la persona:** cualquier entreno se puede publicar; hoy uno muy largo falla con «publicación no válida» (`docs/roadmap.md`, Limitaciones).
