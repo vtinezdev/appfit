@@ -2184,6 +2184,18 @@ Paso A5 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprob
 
 **Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: cinco sesiones, récords con fecha, sin scroll horizontal, botones de 44 px, sin errores en consola, y consultar la hoja no cambia la copia de seguridad. Con otra ejecución sale el estado vacío. Sin dispositivo físico.
 
+## 200. Sustituir un ejercicio durante la sesión (A6 · ENT-01, 2026-10-23)
+
+Paso A6 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9 con dos decisiones: «Cambiar también en la rutina» sin marcar por defecto y, si ya estaban todas hechas, el nuevo entra con una serie. Rama `feat/a-sustituir-ejercicio` desde `master`.
+
+- `liga/lib/alternativas`: opción `{ sustituir: true, hechos }` (no excluye Élite; primero los ya hechos, los del mismo material y el orden del catálogo). Élite sigue igual.
+- `gym/lib/sustituir`: `ordenTrasSustituir` (el nuevo en el sitio del anterior, o detrás si este conserva series) y `textoUltimaVez` («3 × 10 · 32 kg, hace 23 días» o «Nunca»).
+- `workoutsRepo.sustituirEnSesion(workoutId, de, seleccion, tambienRutina)` en una transacción (`workouts`, `sets`, `exercises`, `pesos`, `routines`): resuelve el ejercicio (crea el del catálogo si hace falta), pasa las series sin hacer conservando id, orden relativo, calentamiento y reps, con los kg de la última vez del nuevo en el gimnasio (`previaEnGimnasio`, carga y ejecución configuradas, peso corporal), sin RIR ni técnica; con todo hecho, añade una serie; reordena, omite el anterior si es de la rutina y se queda sin series, quita el nuevo de omitidos y, con la casilla, cambia la rutina (`routinesRepo.sustituirEjercicio`). Devuelve la captura para `deshacerSustitucion`.
+- `components/SustituirEjercicioSheet` y, en `EntrenoActivo`, «Sustituir» en el menú del ejercicio, la hoja (alternativas calculadas al abrir con su última vez), «Buscar otro…» (al cerrarse la hoja, `SelectorEjercicios` con `titulo` «Sustituir …», `verbo` «Sustituir» y sin el propio; un fallo queda en línea en el buscador) y el aviso con «Deshacer». Una sola sustitución a la vez y tras las escrituras pendientes.
+- Tests: `sustituirEnSesion.test.ts` (solo pasan las pendientes con sus reps y los kg del nuevo, deshacer exacto, sin hechas se omite el anterior, con todo hecho se crea una serie, también en la rutina con su objetivo, del catálogo, mismo ejercicio y fallo a mitad sin nada a medias), `sustituir.test.ts` y el modo sustituir en `alternativas.test.ts`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: cinco alternativas con su última vez, las 2 series pendientes pasan con 32 kg y el orden queda [1, 4, 2, 3], «Deshacer» deja la copia de seguridad idéntica; a 375, además, la casilla de la rutina (rutina [5, 2, 3] con el objetivo y deshacer), «Buscar otro…» con el agarre y el caso con todo hecho. Sin scroll horizontal, botones de 44 px y sin errores en consola. Sin dispositivo físico.
+
 ## 201. Un único cálculo de la gamificación (2026-10-23)
 
 Paso B8 (REN-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `perf/b-calculo-derivado` desde `master`, sin fusionar (el número de esta entrada se ajusta al fusionar si choca con las de otras ramas abiertas).
@@ -2211,4 +2223,3 @@ Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla
 - Documentos: `experiencia.md`, `vitrina.md`, `cumbres.md` y `caminos.md` (§ Rendimiento y lecturas) y `arquitectura.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos (cifras abajo). En navegador (`appfit-test.localhost`) pasan `auditoria-entreno` (incluye el fin de sesión), `auditoria-interfaz` (24 pantallas), `validar-mejoras-pendientes` (Vitrina), `validar-pulido-auditoria` y `validar-mejoras-uso`, y los recorridos propios de las teselas de Inicio y de Ritmo › Semanas. `validar-insignias.cjs` no pasa ni en `master`: aún busca el botón «Más» de la barra anterior al ADR 043 (pendiente, sin tocar). Sin dispositivo físico.
-

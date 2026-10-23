@@ -15,7 +15,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A3 | ENT-14 | Descanso sugerido según el tipo de ejercicio | S | — | Hecho (2026-10-22) |
 | A4 | GAM-07 | «Hace N días» tras un parón | S | — | Descartado (2026-10-23) |
 | A5 | ENT-04 | Historial del ejercicio sin salir de la sesión | M | — | Hecho (2026-10-23) |
-| A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Pendiente |
+| A6 | ENT-01 | Sustituir un ejercicio durante la sesión | M | — | Hecho (2026-10-23) |
 | A7 | ENT-05 | Calentamiento en rampa | M | — | Pendiente |
 | A8 | PRO-03 | Tendencia de series por músculo | M | — | Pendiente |
 | A9 | ENT-10 | Fin de sesión ordenado por momentos | L | (B8, opcional) | Pendiente |
@@ -104,7 +104,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** 320/375/430 px en los dos temas; texto al 200 %.
 - **Documentos:** `docs/features/gym.md` § Menú del ejercicio.
 
-### [ ] A6 · ENT-01 · Sustituir un ejercicio durante la sesión
+### [x] A6 · ENT-01 · Sustituir un ejercicio durante la sesión
+
+> **Hecho (2026-10-23, PROCESO §200, PR #127).** Aprobado por Víctor en la página de previews A5–A9: «Cambiar también en la rutina» sin marcar por defecto y, con todo hecho, el nuevo entra con una serie. Las series movidas conservan sus reps (no las del objetivo) y toman los kg de la última vez del nuevo. `SelectorEjercicios` admite `titulo` y `verbo` para decir «Sustituir».
 
 - **Tamaño:** M · **Rama:** `feat/a-sustituir-ejercicio`
 - **Para la persona:** «Sustituir» en el menú del ejercicio propone 5 alternativas (mismo músculo principal, las ya hechas y del mismo material primero, con su última vez) y «Buscar otro…». Al elegir, las series sin marcar pasan al nuevo ejercicio; las marcadas se quedan. Deshacer en el aviso.
