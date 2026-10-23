@@ -140,7 +140,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A8 · PRO-03 · Tendencia de series por músculo
 
-> **Hecho (2026-10-23, PROCESO §201, PR pendiente).** Aprobado por Víctor en la página de previews A5–A9. Las semanas salen de `calcularMusculo` (campo `ultimasSemanas`), el mismo cálculo que «Esta semana», en lugar de una función aparte. Bajo cada barra, solo el día del lunes (con letra al 200 % las fechas completas se partían).
+> **Hecho (2026-10-23, PROCESO §201, PR #128).** Aprobado por Víctor en la página de previews A5–A9. Las semanas salen de `calcularMusculo` (campo `ultimasSemanas`), el mismo cálculo que «Esta semana», en lugar de una función aparte. Bajo cada barra, solo el día del lunes (con letra al 200 % las fechas completas se partían).
 
 - **Tamaño:** M · **Rama:** `feat/a-tendencia-musculo`
 - **Para la persona:** en el detalle de un músculo del mapa de progreso, barras de las últimas 8 semanas con la dosis de AppFit marcada y la semana actual distinguida.
