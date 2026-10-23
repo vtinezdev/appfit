@@ -2138,3 +2138,14 @@ Primer paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). R
 - Documentos: limitación fuera de `docs/roadmap.md`, peor caso en `docs/features/social.md` y, de paso (DOC-01), el enlace roto a `atributos.md` de `docs/features/gym.md` apunta a `experiencia.md`.
 
 Sin cambios de código de la app, esquema, backup ni SQL; nada que probar en navegador.
+
+## 196. Revisiones semanales desde Ritmo (2026-10-23)
+
+Paso B5 (PRO-02) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-revisiones-ritmo` desde `master`. Primera vista previa con un botón «Ver revisión» en cada semana; Víctor pide ver la alternativa que recomienda Claude (la fila entera con chevrón, como el resto de listas) y la elige.
+
+- `ritmo/lib/ritmo.tieneRevision`: semana cerrada con algún entreno o día con comidas (una «vacía» con un día registrado también; la actual y las futuras, no).
+- `CalendarioSemanas` (prop `onVerRevision`): en el desplegable «Semanas de …», esas semanas son un `ListRow` con chevrón y nombre accesible «Semana del 12 oct, Presente. Ver revisión»; el resto, texto alineado con ellas. «hilo 6» sin partirse.
+- `RitmoTab` monta `inicio/components/RevisionSemanal` con `React.lazy`; `RevisionSemanal` acepta `closeLabel` («Ritmo»). Abrirla desde Ritmo no toca `revisionSemanalCerrada`.
+- Documentos: `ritmo.md`, `inicio.md` (ya hay acceso permanente) y `arquitectura.md` (composición ritmo → inicio).
+
+**Verificación:** `npm run test` (211 archivos, 2.573 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con entrenos y pesajes sintéticos en las últimas semanas: desplegable, seis filas con revisión, abrir la de la semana del 12 oct (12–18 oct, «← Ritmo») y volver con el foco en la fila, a 320/375/430 px en claro y oscuro y 375 px con texto al 200 %: filas ≥ 44 px, sin scroll horizontal ni errores de consola. Sin dispositivo físico.

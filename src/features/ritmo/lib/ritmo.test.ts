@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Pausa } from '../../../shared/db/types'
 import { addDays } from '../../../shared/lib/dates'
-import { calcularRitmo, estadoDeSemana, type DatosRitmo } from './ritmo'
+import { calcularRitmo, estadoDeSemana, tieneRevision, type DatosRitmo } from './ritmo'
 
 /** Lunes de la semana `n` a partir del 7 de septiembre de 2026. */
 const lunes = (n: number) => addDays('2026-09-07', 7 * n)
@@ -90,3 +90,28 @@ describe('calcularRitmo', () => {
     expect(r.actual).toMatchObject({ lunes: '2026-10-05', estado: 'vacia', cerrada: false, hilo: 0 })
   })
 })
+
+describe('tieneRevision', () => {
+  it('semanas cerradas con algún entreno o día con comidas, aunque no lleguen a presentes', () => {
+    const r = calcularRitmo(datos([semana(0), semana(1, { entrenos: 0, registro: 1 }), vacia(), semana(3, { entrenos: 1, registro: 0 })]))
+    expect(r.semanas.map((s) => [s.lunes, s.estado, tieneRevision(s)])).toEqual([
+      [lunes(0), 'cumplida', true],
+      [lunes(1), 'vacia', true],
+      [lunes(2), 'vacia', false],
+      [lunes(3), 'presente', true],
+      [lunes(4), 'vacia', false],
+    ])
+  })
+
+  it('la semana en curso no tiene revisión aunque ya tenga registros', () => {
+    const r = calcularRitmo({ ...datos([semana(0)]), hoy: addDays(lunes(0), 5) })
+    expect(r.actual.entrenos).toBe(3)
+    expect(tieneRevision(r.actual)).toBe(false)
+  })
+
+  it('sin nutrición (diasRegistrados null) solo cuentan los entrenos', () => {
+    expect(tieneRevision({ cerrada: true, entrenos: 0, diasRegistrados: null })).toBe(false)
+    expect(tieneRevision({ cerrada: true, entrenos: 1, diasRegistrados: null })).toBe(true)
+  })
+})
+

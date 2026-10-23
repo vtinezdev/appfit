@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { IconButton } from '../../../shared/components/Button'
+import Icon from '../../../shared/components/Icon'
+import ListRow from '../../../shared/components/ListRow'
 import Disclosure from '../../../shared/components/Disclosure'
 import ListGroup from '../../../shared/components/ListGroup'
 import { addDays, startOfWeek } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
-import { ESTADOS_SEMANA, type EstadoSemana, type ResultadoRitmo, type SemanaRitmo } from '../lib/ritmo'
+import { ESTADOS_SEMANA, tieneRevision, type EstadoSemana, type ResultadoRitmo, type SemanaRitmo } from '../lib/ritmo'
 import { cifrasSemana, textoEstado } from '../lib/textos'
 
 const MESES_ABREV = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
@@ -42,9 +44,10 @@ const etiquetaSemana = (lunes: string) => {
 
 /**
  * Calendario de semanas de un año (Ritmo): una celda por semana, en filas de 13 (un trimestre). Hoy la semana en curso
- * lleva anillo. Decorativo; la lista desplegable da el estado de cada semana en texto.
+ * lleva anillo. Decorativo; la lista desplegable da el estado de cada semana en texto; en las cerradas con algo
+ * registrado, la fila entera abre su revisión semanal (`onVerRevision`), con chevrón.
  */
-export default function CalendarioSemanas({ ritmo, hoy }: { ritmo: ResultadoRitmo; hoy: string }) {
+export default function CalendarioSemanas({ ritmo, hoy, onVerRevision }: { ritmo: ResultadoRitmo; hoy: string; onVerRevision?: (lunes: string) => void }) {
   const anioActual = Number(hoy.slice(0, 4))
   const primero = ritmo.semanas.length ? Number(ritmo.semanas[0].lunes.slice(0, 4)) : anioActual
   const [anio, setAnio] = useState(anioActual)
@@ -73,13 +76,22 @@ export default function CalendarioSemanas({ ritmo, hoy }: { ritmo: ResultadoRitm
       </ul>
       {conDatos.length > 0 && <Disclosure title={`Semanas de ${anio}`}>
         <ListGroup variante="plana" aria-label={`Semanas de ${anio}`}>
-          {[...conDatos].reverse().map((s) => <li key={s.lunes} className="py-2">
-            <p className="flex flex-wrap items-baseline justify-between gap-x-3">
-              <span className="text-body-sm font-semibold text-fg">{etiquetaSemana(s.lunes)}</span>
-              <span className="text-body-sm text-fg">{textoEstado(s)}</span>
-            </p>
-            <p className="tabular text-caption text-fg-muted">{cifrasSemana(s)}{s.hilo > 0 ? ` · hilo ${formatInt(s.hilo)}` : ''}</p>
-          </li>)}
+          {[...conDatos].reverse().map((s) => {
+            const contenido = <span className="min-w-0 flex-1">
+              <span className="flex flex-wrap items-baseline justify-between gap-x-3">
+                <span className="text-body-sm font-semibold text-fg">{etiquetaSemana(s.lunes)}</span>
+                <span className="text-body-sm text-fg">{textoEstado(s)}</span>
+              </span>
+              <span className="tabular block text-caption text-fg-muted">{cifrasSemana(s)}{s.hilo > 0 ? ` · hilo\u00a0${formatInt(s.hilo)}` : ''}</span>
+            </span>
+            return <li key={s.lunes}>
+              {onVerRevision && tieneRevision(s)
+                ? <ListRow aria-label={`${etiquetaSemana(s.lunes)}, ${textoEstado(s)}. Ver revisión`} onClick={() => onVerRevision(s.lunes)}>
+                    {contenido}<Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
+                  </ListRow>
+                : <div className="flex px-1 py-2">{contenido}</div>}
+            </li>
+          })}
         </ListGroup>
       </Disclosure>}
     </div>

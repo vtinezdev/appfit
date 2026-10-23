@@ -158,3 +158,12 @@ export function calcularRitmo(d: DatosRitmo): ResultadoRitmo {
 export function semanaRitmo(r: ResultadoRitmo, lunes: string): SemanaRitmo | undefined {
   return r.semanas.find((s) => s.lunes === lunes)
 }
+
+/**
+ * Si una semana tiene revisión semanal que abrir desde Ritmo: cerrada (ni la actual ni las futuras) y con algún entreno
+ * o día con comidas. Una semana «vacía» por debajo del umbral de presencia (un solo día con comidas) también la tiene.
+ */
+export function tieneRevision(s: Pick<SemanaRitmo, 'cerrada' | 'entrenos' | 'diasRegistrados'>): boolean {
+  return s.cerrada && (s.entrenos > 0 || (s.diasRegistrados ?? 0) > 0)
+}
+
