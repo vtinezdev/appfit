@@ -212,7 +212,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A13 · SOC-02 · Compartir una rutina para guardarla
 
-> **Hecho (2026-10-23, PROCESO §205, PR #134, [ADR 055](../decisiones/055-rutina-compartida.md), migración 0022).** Víctor lo aprobó en la página de previews A10–A14 («ahora, con su ADR y la migración 0022»). Cada ejercicio lleva su `catalogId` (`null` si es propio); al guardar, los propios se eligen del buscador o se quitan. «Compartir rutina» solo aparece cuando el servidor anuncia `rutinaCompartida`: **Víctor ejecuta 0022 en el SQL Editor después de desplegar la app.**
+> **Hecho (2026-10-23, PROCESO §205, PR #134, [ADR 055](../decisiones/055-rutina-compartida.md), migración 0022).** Víctor lo aprobó en la página de previews A10–A14 («ahora, con su ADR y la migración 0022»). Cada ejercicio lleva su `catalogId` (`null` si es propio); al guardar, los propios se eligen del buscador o se quitan. «Compartir rutina» solo aparece cuando el servidor anuncia `rutinaCompartida`: Víctor ejecutó 0022 en el SQL Editor el 2026-10-23 («Success»).
 
 - **Tamaño:** L · **Rama:** `feat/a-rutina-compartida` (+ migración `0022_…`)
 - **Para la persona:** publicar la estructura de una rutina (ejercicios, series, rangos, descansos, calentamientos); quien la ve pulsa «Guardar en mis rutinas», revisa y la guarda con sus propias cargas.
