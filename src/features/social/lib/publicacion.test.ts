@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { bytesResumen, conNota, leerResumen, leerMapa, sinDetalles, sinImagenes, MAX_BYTES_RESUMEN, MAX_EJERCICIOS, MAX_LINEAS, MAX_NOTA, MAX_SERIES, MAX_TEXTO, MAX_PUBLICACION, resumenActividad, resumenEntreno, resumenLogro, resumenTexto, validarPublicacion, textoEjercicios, type DatosEntreno } from './publicacion'
+import { bytesResumen, conNota, leerResumen, leerMapa, sinDetalles, sinImagenes, MAX_BYTES_RESUMEN, MAX_EJERCICIOS, MAX_LINEAS, MAX_NOTA, MAX_SERIES, MAX_TEXTO, MAX_PUBLICACION, resumenActividad, resumenEntreno, resumenLogro, resumenRutinaCompartida, resumenTexto, validarPublicacion, textoEjercicios, type DatosEntreno } from './publicacion'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import type { Logro } from '../../vitrina/lib/logros'
 
@@ -156,6 +156,44 @@ describe('resumen de una actividad', () => {
     expect(resumenActividad({ tipo: 'senderismo', titulo: 'Peñalara', duracionSeg: 10_800.4, distanciaM: 12_345.6, desnivelM: 812.3 }))
       .toEqual({ v: 1, tipo: 'actividad', actividad: 'senderismo', titulo: 'Peñalara', duracionSeg: 10_800, distanciaM: 12_346, desnivelM: 812 })
     expect(resumenActividad({ tipo: 'correr', titulo: 'Carrera', duracionSeg: 1800, distanciaM: 5000 }).desnivelM).toBeNull()
+  })
+})
+
+describe('resumen de una rutina', () => {
+  const ejercicio = (i: number) => ({ nombre: `Ejercicio ${i}`, catalogId: 'appfit:press-banca', objetivo: { series: 3, repsMin: 8, repsMax: 12, descansoSeg: 90 } })
+
+  it('solo la estructura: nombres, catálogo y objetivo; sin repetir y como mucho los ejercicios de un entreno', () => {
+    const r = resumenRutinaCompartida({ nombre: '  Pierna   pesada ', ejercicios: [
+      { nombre: 'Sentadilla', catalogId: 'appfit:sentadilla', objetivo: { series: 5, repsMin: 5, repsMax: 5 } },
+      { nombre: 'Sentadilla', catalogId: 'appfit:sentadilla' },
+      { nombre: 'Prensa casera', catalogId: 'local:3', objetivo: { series: 3, repsMin: 12, repsMax: 8 } },
+      ...Array.from({ length: 20 }, (_, i) => ejercicio(i)),
+    ] })
+    expect(r.titulo).toBe('Pierna pesada')
+    expect(r.ejercicios).toHaveLength(MAX_EJERCICIOS)
+    expect(r.ejercicios[0]).toEqual({ nombre: 'Sentadilla', catalogId: 'appfit:sentadilla', series: 5, repsMin: 5, repsMax: 5 })
+    // Un id que no es del catálogo no sale del móvil; un objetivo imposible, tampoco.
+    expect(r.ejercicios[1]).toEqual({ nombre: 'Prensa casera', catalogId: null })
+  })
+
+  it('el más largo posible cabe en el servidor con la nota', () => {
+    const r = resumenRutinaCompartida({ nombre: '€'.repeat(80), ejercicios: Array.from({ length: MAX_EJERCICIOS }, (_, i) => ({
+      nombre: `${i}${'€'.repeat(80)}`, catalogId: `appfit:${'a'.repeat(40)}`, objetivo: { series: 10, repsMin: 100, repsMax: 100, descansoSeg: 900, calentamientos: 5 } })) })
+    expect(bytesResumen(conNota(r, '€'.repeat(MAX_NOTA)))).toBeLessThanOrEqual(MAX_BYTES_RESUMEN)
+  })
+
+  it('al leerla, una entrada mal formada la descarta entera; los clientes viejos no la conocen', () => {
+    const r = resumenRutinaCompartida({ nombre: 'Torso', ejercicios: [ejercicio(1), { nombre: 'Propio' }] })
+    expect(leerResumen(conNota(r, 'Mi rutina de verano'))).toEqual({ ...r, nota: 'Mi rutina de verano' })
+    const mal = (cambio: object) => leerResumen({ ...r, ejercicios: [{ ...r.ejercicios[0], ...cambio }] })
+    expect(mal({ catalogId: 'otra:cosa' })).toBeNull()
+    expect(mal({ repsMin: 13 })).toBeNull()
+    expect(mal({ series: 3.5 })).toBeNull()
+    expect(mal({ nombre: ' ' })).toBeNull()
+    expect(leerResumen({ ...r, ejercicios: [] })).toBeNull()
+    expect(leerResumen({ ...r, ejercicios: Array.from({ length: MAX_EJERCICIOS + 1 }, () => r.ejercicios[0]) })).toBeNull()
+    // Un descanso fuera de rango se ignora sin invalidar: el resto del objetivo vale.
+    expect(mal({ descansoSeg: 5000 })?.tipo).toBe('rutina')
   })
 })
 

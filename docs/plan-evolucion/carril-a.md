@@ -22,7 +22,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A10 | ENT-11 | Póster del entreno como imagen | L | A9 | Pendiente |
 | A11 | REN-04 | Importar TCX (y FIT después) | M | — | Hecho (2026-10-23) |
 | A12 | ENT-09 | Fichas de técnica de los ejercicios | L | A6 | Pendiente |
-| A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Pendiente |
+| A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Hecho (2026-10-23) |
 | A14 | SOC-01 | Semana en compañía | XL | — | Pendiente |
 | A15 | SOC-03 | Expediciones de comunidad | XL | A14 | Pendiente |
 | A-X1 | NAV-02 | «Volver» en Amigos (cruce) | S | B4 | Pendiente |
@@ -206,7 +206,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Decidir (D10):** quién revisa los textos y con qué fuentes (sin fuente, se presentan como «claves de AppFit», como el resto de criterios).
 - **Documentos:** `docs/features/gym.md` y `scripts/ejercicios/README.md`.
 
-### [ ] A13 · SOC-02 · Compartir una rutina para guardarla
+### [x] A13 · SOC-02 · Compartir una rutina para guardarla
+
+> **Hecho (2026-10-23, PROCESO §205, PR #134, [ADR 055](../decisiones/055-rutina-compartida.md), migración 0022).** Víctor lo aprobó en la página de previews A10–A14 («ahora, con su ADR y la migración 0022»). Cada ejercicio lleva su `catalogId` (`null` si es propio); al guardar, los propios se eligen del buscador o se quitan. «Compartir rutina» solo aparece cuando el servidor anuncia `rutinaCompartida`: **Víctor ejecuta 0022 en el SQL Editor después de desplegar la app.**
 
 - **Tamaño:** L · **Rama:** `feat/a-rutina-compartida` (+ migración `0022_…`)
 - **Para la persona:** publicar la estructura de una rutina (ejercicios, series, rangos, descansos, calentamientos); quien la ve pulsa «Guardar en mis rutinas», revisa y la guarda con sus propias cargas.

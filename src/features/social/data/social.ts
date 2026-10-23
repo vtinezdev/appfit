@@ -70,9 +70,10 @@ export interface Social {
   guardarPerfilDeportivo(bio: string, disciplinas: string[], logros: ResumenLogro[]): Promise<void>
   /**
    * `imagenesPublicacion`: el servidor admite imágenes e insignias en el resumen (0020); `detallesEjercicio`, la liga y
-   * las series de cada ejercicio (0021). Sin ellas no se envían.
+   * las series de cada ejercicio (0021). Sin ellas no se envían. `rutinaCompartida`: acepta publicaciones de rutina
+   * (0022); sin ella no se ofrece compartir una rutina.
    */
-  capacidades(): Promise<{ camposOpcionales: boolean; imagenesPublicacion?: boolean; detallesEjercicio?: boolean }>
+  capacidades(): Promise<{ camposOpcionales: boolean; imagenesPublicacion?: boolean; detallesEjercicio?: boolean; rutinaCompartida?: boolean }>
   avisos(): Promise<Avisos>
   marcarAvisosVistos(): Promise<void>
   /**

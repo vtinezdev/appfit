@@ -1,5 +1,5 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0021 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0022 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -40,6 +40,7 @@ const publicaciones = new Map()
 const hace = (min) => new Date(Date.now() - min * 60_000).toISOString()
 publicaciones.set('p-lucia', { autor: 'lucia', tipo: 'actividad', fecha: hace(300), creada: hace(240), resumen: { v: 1, tipo: 'actividad', actividad: 'correr', titulo: 'Rodaje por el Retiro', duracionSeg: 2700, distanciaM: 8400, desnivelM: 45 } })
 publicaciones.set('p-jon', { autor: 'jon', tipo: 'entreno', fecha: hace(1500), creada: hace(1400), resumen: { v: 1, tipo: 'entreno', titulo: 'Pierna pesada con nombre de rutina bastante largo', duracionSeg: 4500, series: 22, volumenKg: 12850, ejercicios: ['Sentadilla', 'Peso muerto rumano', 'Prensa', 'Zancadas', 'Curl femoral'], records: [{ ejercicio: 'Sentadilla', texto: '140 kg × 3' }], ligas: [{ ejercicio: 'Peso muerto rumano', texto: 'Sube a Oro' }], logros: ['Constancia II'] } })
+publicaciones.set('p-rutina-jon', { autor: 'jon', tipo: 'rutina', fecha: hace(900), creada: hace(900), resumen: { v: 1, tipo: 'rutina', titulo: 'Torso para la montaña', nota: 'La que hago los martes. Ajustad las cargas a vuestro nivel.', ejercicios: [{ nombre: 'Press banca', catalogId: 'appfit:press-banca', series: 4, repsMin: 6, repsMax: 8, descansoSeg: 120, calentamientos: 2 }, { nombre: 'Remo con barra', catalogId: 'appfit:remo-barra', series: 4, repsMin: 8, repsMax: 10, descansoSeg: 90 }, { nombre: 'Máquina de remo de mi gimnasio', catalogId: null, series: 3, repsMin: 10, repsMax: 12 }, { nombre: 'Face pull', catalogId: 'appfit:face-pull' }] } })
 publicaciones.set('p-rara', { autor: 'jon', tipo: 'entreno', fecha: hace(3000), creada: hace(2900), resumen: { v: 7, cosa: 'rara' } })
 // Logro de Jon elegido como avatar (0012/0014): en el feed se ve su insignia en lugar del monograma.
 publicaciones.set('p-logro-jon', { autor: 'jon', tipo: 'logro', fecha: hace(4000), creada: hace(3900), resumen: { v: 1, tipo: 'logro', titulo: 'Entrenos', logroId: 'entrenos', grupo: 'entreno', nivel: 2, descripcion: '50 entrenos terminados' } })
@@ -208,7 +209,7 @@ const rpc = {
     exigir()
     const previa = publicaciones.get(p_id)
     if (previa) { if (previa.autor === YO) return null; throw err('publicacion_no_valida') }
-    if (!['entreno', 'actividad', 'texto', 'logro'].includes(p_tipo) || JSON.stringify(p_resumen).length > 8192) throw err('publicacion_no_valida')
+    if (!['entreno', 'actividad', 'texto', 'logro', 'rutina'].includes(p_tipo) || p_resumen?.tipo !== p_tipo || JSON.stringify(p_resumen).length > 8192) throw err('publicacion_no_valida')
     publicaciones.set(p_id, { autor: YO, tipo: p_tipo, fecha: p_fecha, creada: new Date().toISOString(), resumen: p_resumen })
     console.log('publicado', JSON.stringify(p_resumen))
     return null
@@ -262,7 +263,7 @@ const rpc = {
   simular_suspension: () => { perfiles.get(YO).suspendido=true;return null },
   gestion_comunidad: ({p_id})=>{exigir();const c=comunidades.get(p_id);if(!c||bloq(YO,c.creador))throw err('no_encontrado');const creador=c.creador===YO;return {modera:modera(p_id),creador,reglas:c.reglas??'',bienvenida:c.bienvenida??'',miembros:modera(p_id)?[...perfiles].filter(([id])=>miembros.has(`${p_id}|${id}`)).map(([id,p])=>({alias:p.alias,nombre:p.nombre,creador:c.creador===id,moderador:moderadores.has(`${p_id}|${id}`),yo:id===YO})):[]}},
   gestionar_comunidad: ({p_id,p_accion,p_alias,p_texto})=>{exigir();const c=comunidades.get(p_id);if(!c||!modera(p_id)||(p_accion!=='expulsar'&&c.creador!==YO))throw err('no_encontrado');if(p_accion==='reglas'||p_accion==='bienvenida')c[p_accion]=p_texto;else{const id=otro(p_alias);if(!miembros.has(`${p_id}|${id}`)||id===YO||id===c.creador)throw err('no_encontrado');if(p_accion==='transferir'){c.creador=id;moderadores.delete(`${p_id}|${id}`)}else if(p_accion==='expulsar')miembros.delete(`${p_id}|${id}`);else if(p_accion==='nombrar')moderadores.add(`${p_id}|${id}`);else if(p_accion==='revocar')moderadores.delete(`${p_id}|${id}`)}return null},
-  social_capacidades: () => { exigir(); return { camposOpcionales: true, imagenesPublicacion: true, detallesEjercicio: true } },
+  social_capacidades: () => { exigir(); return { camposOpcionales: true, imagenesPublicacion: true, detallesEjercicio: true, rutinaCompartida: true } },
   perfil_deportivo: ({p_alias,p_comunidad})=>{exigir();const id=idDe(p_alias);if(!id||bloq(YO,id))throw err('no_encontrado');if(p_comunidad&&!miembros.has(`${p_comunidad}|${YO}`))throw err('no_miembro');const pe=perfiles.get(id),de=deportivos.get(id)??{bio:'',disciplinas:[],destacados:[],logros:[],avatarId:null};const visibles=[...publicaciones].filter(([,p])=>p.autor===id&&(p_comunidad?p.comunidad===p_comunidad:!p.comunidad&&puedeVer(id)));return {...de,alias:pe.alias,nombre:pe.nombre,publicadas:visibles.length,destacados:visibles.filter(([pid])=>de.destacados.includes(pid)).map(([id,p])=>({id,resumen:p.resumen})),avatar:visibles.find(([pid])=>pid===de.avatarId)?.[1].resumen??null}},
   editar_perfil_deportivo: ({p_bio,p_disciplinas,p_destacados,p_avatar})=>{exigir();if(p_bio.length>160||p_disciplinas.length>3||p_destacados.length>3)throw err('perfil_deportivo_no_valido');deportivos.set(YO,{bio:p_bio,disciplinas:p_disciplinas,destacados:p_destacados,avatarId:p_avatar});return null},
   // 0016: hasta tres medallas de logro distintas, sin publicar.
