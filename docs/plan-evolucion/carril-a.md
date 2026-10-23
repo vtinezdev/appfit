@@ -197,7 +197,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A12 · ENT-09 · Fichas de técnica de los ejercicios
 
-> **Hecho (2026-10-23, PROCESO §207).** Víctor lo aprobó con cambios en la página de previews A10–A14 (D10): textos redactados por mí («claves de AppFit», él los revisa) y un solo lote con **todos** los ejercicios (268), no los 40 más usados. Los textos van por grupo muscular en `gym/lib/fichas/` y `fichasEjercicios.ts` los junta. **Pendiente:** la ilustración a 384 px (los originales de `scripts/ejercicios/ia/` no están en el repositorio); la ficha usa la miniatura de 192 px. El botón del buscador pasa debajo de la fila con letra muy grande para no estrecharla.
+> **Hecho (2026-10-23, PROCESO §207, PR #136).** Víctor lo aprobó con cambios en la página de previews A10–A14 (D10): textos redactados por mí («claves de AppFit», él los revisa) y un solo lote con **todos** los ejercicios (268), no los 40 más usados. Los textos van por grupo muscular en `gym/lib/fichas/` y `fichasEjercicios.ts` los junta. **Pendiente:** la ilustración a 384 px (los originales de `scripts/ejercicios/ia/` no están en el repositorio); la ficha usa la miniatura de 192 px. El botón del buscador pasa debajo de la fila con letra muy grande para no estrecharla.
 
 - **Tamaño:** L, por lotes · **Rama:** `feat/a-fichas-ejercicio` (y `-lote-2`, `-lote-3`…)
 - **Para la persona:** botón «i» en el selector y en la cabecera del panel que abre la ficha: ilustración grande, muñeco con músculos principales y secundarios, 3 claves de ejecución, 2 errores comunes, material, alternativas y, si hay datos, la última vez y el récord.
