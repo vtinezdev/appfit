@@ -25,8 +25,11 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A13 | SOC-02 | Compartir una rutina para guardarla | L | — | Hecho (2026-10-23) |
 | A14 | SOC-01 | Semana en compañía | XL | — | Pendiente |
 | A15 | SOC-03 | Expediciones de comunidad | XL | A14 | Pendiente |
-| A-X1 | NAV-02 | «Volver» en Amigos (cruce) | S | B4 | Pendiente |
+| A-X1 | NAV-02 | «Volver» en Amigos (cruce) | S | B4 | Hecho (2026-10-23) |
 | A-X2 | GAM-04 | Línea de la meta en la gráfica (cruce) | S | B13 | Pendiente |
+| A16 | ENT-16 | Gemelos en el asistente de rutinas | S | — | Pendiente |
+| A17 | REN-04 | Importar FIT | M | A11 | Pendiente |
+| A18 | SOC-04 | Compartir tu semana de Ritmo | M | A13 | Pendiente |
 
 ---
 
@@ -240,7 +243,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ## Cruces
 
-### [ ] A-X1 · NAV-02 · «Volver» en Amigos
+### [x] A-X1 · NAV-02 · «Volver» en Amigos
+
+> **Hecho (2026-10-23, PROCESO §212).** Víctor lo aprobó en la página de previews de los cinco siguientes. «‹ Social» sale también en Amigos sin sesión y con error; la línea de `App.tsx` es la única del cruce.
 
 - **Tamaño:** S · **Depende de:** B4 en `master` (prop `volver` de `PageHeader`).
 - **Cómo:** `social/AmigosTab.tsx` recibe una prop `onVolver` y pasa `volver={{ etiqueta: 'Social', onVolver }}` a su `PageHeader`. Excepción pactada a la regla de carpetas: este paso puede cambiar **solo** la línea de `src/app/App.tsx` que monta `AmigosTab` para pasarle `onVolver={() => navegar('social')}`.
@@ -251,3 +256,26 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Tamaño:** S · **Depende de:** B13 en `master` (metas en `Settings` y su lógica pura).
 - **Cómo:** en `gym/pages/Progreso.tsx` (desde §187 con tarjetas de variante y selector de gimnasio), si hay una meta de récord para el ejercicio elegido y la métrica coincide, `ReferenceLine` discontinua con su cifra y fecha, y una fila «Meta: 100 kg antes del 31 dic» bajo la cifra principal. Solo lectura de la meta (la escribe B).
 - **Documentos:** `docs/features/gym.md` § Progreso.
+
+## Pasos añadidos (2026-10-23)
+
+Víctor aprueba en la página de previews de los cinco siguientes tres mejoras del roadmap de este carril que no estaban en el plan, además de A14 (sus decisiones D11: objetivo = su propio plan de Ritmo de esa semana; semana de lunes a domingo en la hora local de cada uno; solo personas que os seguís mutuamente, grupos de 2 o 3; continua semana tras semana hasta que alguien pausa o sale) y A-X1. Orden: A16, A17, A18 y después A14.
+
+### [ ] A16 · ENT-16 · Gemelos en el asistente de rutinas
+
+- **Tamaño:** S · **Rama:** `feat/a-creador-gemelos`
+- **Problema:** con sesiones de 45 min el asistente nunca propone gemelos, y con 2–3 días solo a 75 min (simulado con todas las combinaciones de `generarPlan`).
+- **Decisión de Víctor:** siempre un ejercicio de gemelos a la semana (3 series), aunque alargue un poco la sesión.
+- **Cómo:** en `gym/lib/creadorRutinas`, tras repartir, si ningún día trae gemelos se añade uno en el día de pierna (o de cuerpo completo) con menos series. Test de todas las combinaciones.
+
+### [ ] A17 · REN-04 · Importar FIT
+
+- **Tamaño:** M · **Rama:** `feat/a-importar-fit`
+- **Decisión de Víctor:** lector propio, sin dependencias.
+- **Cómo:** `actividades/lib/fit.ts` lee el binario (cabecera, mensajes de definición y de datos; `record`, `lap`, `session` y `sport`) y devuelve el mismo `ResumenGpx` que GPX y TCX; `resumirArchivoActividad` lo elige por la cabecera `.FIT`. Tests con archivos sintéticos construidos en el test.
+
+### [ ] A18 · SOC-04 · Compartir tu semana de Ritmo
+
+- **Tamaño:** M · **Rama:** `feat/a-semana-ritmo` (+ migración `0023_…`)
+- **Decisión de Víctor:** con la opción «Estoy retomando» / «En pausa»; antes de A14, para probar el formato.
+- **Cómo:** plan F3-3 de `docs/social-mejoras.md`. Tipo de resumen nuevo `semana` (días hechos frente al plan, hilo de semanas o el estado), calculado con `ritmo/lib/ritmo` (lectura); lector primero y migración del validador después, como A13. ADR corto.
