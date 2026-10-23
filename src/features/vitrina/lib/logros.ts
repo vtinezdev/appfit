@@ -557,6 +557,19 @@ export function recuentoPiezas(logros: readonly Logro[]): { conseguidas: number;
   return { conseguidas, total }
 }
 
+/**
+ * Piezas nuevas desde `desde` (incluido), con la misma cuenta que `recuentoPiezas`: cada nivel alcanzado desde entonces
+ * y cada repetible conseguido por primera vez desde entonces (repetirlo no es una pieza nueva).
+ */
+export function piezasDesde(logros: readonly Logro[], desde: string): number {
+  let n = 0
+  for (const l of logros) {
+    if (l.umbrales) n += l.niveles.filter((x) => x !== null && x.fecha >= desde).length
+    else if (l.veces?.length && [...l.veces].map((v) => v.fecha).sort()[0] >= desde) n += 1
+  }
+  return n
+}
+
 export const PROXIMOS_LOGROS = 3
 
 /**
