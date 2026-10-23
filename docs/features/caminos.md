@@ -12,7 +12,7 @@
 | Pasos | `lib/pasos.ts`: `zancadaEstimadaCm`, `zancadaDe`, `metrosDePasos`, `leerPasos`, `validarPasos`, `validarZancada`, `aportesDePasos`, `pasosTexto`; `data/pasosRepo.ts` (`todos`, `guardar`, `borrar`, `restaurar`); `components/PasosCaminos`, `HojaPasos`, `HojaZancada` | `pasos` |
 | Rutas propias | `lib/rutasPropias.ts`: `aRuta`, `idDeRutaPropia`/`esRutaPropia`, `validarRutaPropia`, `nombrePorDefecto`, `etapasPropuestas`, `quitarParada`, `insertarParada`, `anadirVuelta`, `mismoSitio`, `kmTotales`, `puntosDe`, `posicionEnRutaPropia`; `lib/lugares.ts`: `leerPaqueteLugares`, `buscarLugares`, `kmTramo` (`FACTOR_CAMINO`), `proponerParadas`, `indiceParaInsertar`; `data/rutasPropiasRepo.ts` (`listar`, `obtener`, `crear`, `actualizar`, `enUso`, `borrar`); `data/lugares.ts` (`cargarLugares`, descarga del propio origen) | `rutasPropias`; `public/lugares/espana.json` |
 | Editor de rutas | `components/EditorRuta` (ModalPage), `BuscadorLugar`, `MapaRuta` | — |
-| Lecturas | `hooks/useCaminos.ts`: `leerCaminos` (también para `useVitrina`, que usa los pasos para sus logros) y `useCaminos` | `actividadesRepo.terminadas`, `rutasPropiasRepo.listar`, `pasosRepo.todos` y `settings` |
+| Lecturas | `hooks/leerCaminos.ts`: `leerCaminos` (también para `leerVitrina`, que usa los pasos para sus logros); `hooks/useCaminos.ts`: `useCaminos`, su parte del lector compartido (`experiencia/hooks/useProgreso`) | `actividadesRepo.terminadas`, `rutasPropiasRepo.listar`, `pasosRepo.todos` y `settings` |
 | Página (Inicio › Caminos) | `CaminosTab.tsx` (diferida), `components/TrazadoCamino`, `ListaRutas`, `CambiarRutaSheet` | — |
 | Tesela de Inicio | `inicio/components/AccesoProgreso` | `useCaminos` |
 | En el detalle de una actividad | `components/AvanceActividad` (lo compone `actividades/pages/DetalleActividad`) | `useCumbres`, `useCaminos` |
@@ -87,4 +87,4 @@ Rutas entre dos lugares de España creadas por Víctor (p. ej. Tarragona – Val
 
 ## Rendimiento
 
-`calcularCaminos` es lineal en las actividades desde el inicio y no depende de la experiencia. La tesela de Inicio y la Vitrina hacen cada una su lectura.
+`calcularCaminos` es lineal en las actividades desde el inicio y no depende de la experiencia. Se lee dentro del lector compartido de la gamificación, una vez por día para la tesela de Inicio, la página, la Vitrina y `AvanceActividad` ([experiencia.md](experiencia.md) § Rendimiento).

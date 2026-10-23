@@ -10,7 +10,7 @@
 | Motor y lecturas | `lib/cumbres.ts`: `calcularCumbres`, `rutaDe`, `SIGUIENTES`, `empezar`, `montanasParaCambiar`, `cambiarMontana`, `vecesCoronada`, `nombreExpedicion`, `metrosEntre`, `hitosDe`, `diasDeExpedicion`, `cumbreDeSesion`, `cumbreReciente`, `cuandoFue`, `progresoTexto` | — (puro; usa los `eventos` de `calcularExperiencia`) |
 | Geometría del perfil | `lib/perfil.ts`: `trazadoSilueta`, `puntoEnLadera`, `yDeFraccion` | — (puro) |
 | Escritura | `data/cumbresRepo.ts`: `guardar` (devuelve la anterior, para «Deshacer») | `settings.cumbres` |
-| Lecturas | `hooks/useCumbres.ts`: `leerCumbres` (experiencia + Cumbres; también para `useVitrina`) y `useCumbres` | `leerExperiencia` y `settings` |
+| Lecturas | `hooks/leerCumbres.ts`: `leerCumbres` (experiencia + Cumbres; también para `leerVitrina`); `hooks/useCumbres.ts`: `useCumbres`, su parte del lector compartido (`experiencia/hooks/useProgreso`) | `leerExperiencia` y `settings` |
 | Página (Inicio › Cumbres) | `CumbresTab.tsx` (diferida), `components/ListaMontanas`, `CambiarMontanaSheet`, `PerfilMontana`, `FilasMetros` | — |
 | Tesela de Inicio | `inicio/components/AccesoProgreso` | `useVitrina` (incluye Cumbres) |
 | Al terminar un entreno | `components/CumbreSesion` (lo compone `gym/components/WorkoutFinished`), con `FilasMetros` | `useCumbres`; `experiencia/lib/experiencia.xpDeSesion` |
@@ -59,4 +59,4 @@ Fuentes (comprobadas el 11 y el 12 de octubre de 2026): Instituto Geográfico Na
 
 ## Rendimiento
 
-`calcularCumbres` es lineal en la XP desde el inicio y va encima de `calcularExperiencia` (unos 70 ms en escritorio con 500 entrenos). La tesela de Inicio lo lee a través de `useVitrina`; el fin de sesión, como `NuevosLogros`, hace su propia lectura.
+`calcularCumbres` es lineal en la XP desde el inicio y va encima de `calcularExperiencia` (unos 70 ms en escritorio con 500 entrenos). La tesela de Inicio, la página, el fin de sesión (`CumbreSesion`, `NuevosLogros`) y `AvanceActividad` comparten un solo cálculo a través del lector compartido ([experiencia.md](experiencia.md) § Rendimiento).
