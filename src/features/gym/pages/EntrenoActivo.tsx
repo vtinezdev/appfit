@@ -40,6 +40,8 @@ import { todayISO } from '../../../shared/lib/dates'
 import { useLigasSesion } from '../../liga/hooks/useLigasSesion'
 import { avisarElite } from '../../liga/lib/basicos'
 import { alternativas } from '../../liga/lib/alternativas'
+import SustituirEjercicioSheet, { type OpcionSustituir } from '../components/SustituirEjercicioSheet'
+import { textoUltimaVez } from '../lib/sustituir'
 import Pista from '../../../shared/components/Pista'
 import { useGuardadoLocal } from '../hooks/useGuardadoLocal'
 import DescansoSugerido from '../components/DescansoSugerido'
@@ -58,6 +60,13 @@ interface Props {
 
 export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Props) {
   const [buscandoEjercicio, setBuscandoEjercicio] = useState(false)
+  /** Sustituir (ENT-01): la hoja abierta, sus alternativas calculadas al abrir y, tras «Buscar otro…», el buscador. */
+  const [sustituir, setSustituir] = useState<{ exId: number; opciones: OpcionSustituir[]; abierta: boolean } | null>(null)
+  const [buscarSustituto, setBuscarSustituto] = useState<{ exId: number; tambienRutina: boolean } | null>(null)
+  const despuesDeSustituir = useRef<(() => void) | null>(null)
+  const sustituyendoAhora = useRef(false)
+  const [sustituyendo, setSustituyendo] = useState(false)
+  const [errorSustituir, setErrorSustituir] = useState<string | null>(null)
   const [session, setSession] = useState(() => readSession(workout.id!))
   const sessionActual = useRef(session)
   sessionActual.current = session
@@ -222,6 +231,43 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
     } catch {
       avisarError('No se ha podido borrar la serie. Inténtalo de nuevo.')
     }
+  }
+
+  function abrirSustituir(exId: number) {
+    const ex = exerciseMap.get(exId)
+    if (!ex) return
+    const terminados = new Map(todosWorkouts.filter(w => w.fin !== undefined).map(w => [w.id, w.inicio]))
+    const hechos = new Set(allSets.filter(s => terminados.has(s.workoutId)).map(s => s.exerciseId))
+    const opciones = alternativas(ex, exercises, ligas?.ligas ?? new Map(), { sustituir: true, hechos }).map(a => {
+      const localId = a.seleccion.tipo === 'local' ? a.seleccion.id : undefined
+      const previas = localId === undefined ? [] : seriesSesionAnterior(allSets, localId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, exerciseMap.get(localId)))
+      return { ...a, ultimaVez: textoUltimaVez(previas, previas.length ? terminados.get(previas[0].workoutId) : undefined, Date.now()) }
+    })
+    setErrorSustituir(null)
+    setSustituir({ exId, opciones, abierta: true })
+  }
+
+  /** Una sola sustitución a la vez y tras las escrituras pendientes; «Deshacer» devuelve series, orden y rutina. */
+  async function hacerSustitucion(de: number, seleccion: SeleccionEjercicio, nombreNuevo: string, tambienRutina: boolean): Promise<boolean> {
+    if (sustituyendoAhora.current || guardando || quitando) return false
+    sustituyendoAhora.current = true
+    setSustituyendo(true); setErrorSustituir(null)
+    try {
+      await Promise.all(pendingWrites.current.values())
+      await guardado.esperar()
+      const captura = await workoutsRepo.sustituirEnSesion(workout.id!, de, seleccion, tambienRutina)
+      for (const s of captura.movidas) guardado.olvidar(`serie-${s.id}`)
+      haptic()
+      setFeedback(`${exerciseMap.get(de)?.nombre ?? 'Ejercicio'} sustituido por ${nombreNuevo}`)
+      avisar({ mensaje: `${exerciseMap.get(de)?.nombre ?? 'Ejercicio'} → ${nombreNuevo}`, onDeshacer: async () => {
+        if (sustituyendoAhora.current) throw new Error('Hay otra operación en curso.')
+        sustituyendoAhora.current = true
+        try { await workoutsRepo.deshacerSustitucion(captura); haptic() } finally { sustituyendoAhora.current = false }
+      } })
+      return true
+    } catch {
+      return false
+    } finally { sustituyendoAhora.current = false; setSustituyendo(false) }
   }
 
   async function elegirEjercicio(value: SeleccionEjercicio) {
@@ -412,7 +458,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
                 referenciasCarga={seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex))}
                 objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
                 onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
-                onQuitar={() => quitarEjercicio(exId, ex.nombre)} onAviso={avisar}
+                onQuitar={() => quitarEjercicio(exId, ex.nombre)} onSustituir={() => abrirSustituir(exId)} onAviso={avisar}
                 contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], historial: { sets: allSets, workouts: todosWorkouts, gimnasio: dependeDeMaquina(ex) ? nombreGimnasio(workout.gimnasioId) : undefined }, carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
                   setGuardando(true); try { await Promise.all(pendingWrites.current.values()); const ids = new Set(await workoutsRepo.configurarEjecucion(workout.id, exId, c, habitual)); setSession(p => ({ ...p, completed: p.completed.filter(id => !ids.has(id)) })) } finally { setGuardando(false) }
                 }, onProgresion: async (clave, decision) => { setGuardando(true); try { await Promise.all(pendingWrites.current.values()); await workoutsRepo.decidirProgresion(workout.id, exId, clave, decision) } finally { setGuardando(false) } } }}
@@ -474,6 +520,27 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         </div>
       </Sheet>
 
+      {sustituir && exerciseMap.get(sustituir.exId) && (() => {
+        const de = exerciseMap.get(sustituir.exId)!
+        const suyas = currentSets.filter(s => s.exerciseId === de.id)
+        return <SustituirEjercicioSheet open={sustituir.abierta} nombre={de.nombre} opciones={sustituir.opciones}
+          pendientes={suyas.filter(s => !completadas.includes(s.id)).length} hechas={suyas.filter(s => completadas.includes(s.id)).length}
+          rutina={routine?.exerciseIds.includes(de.id) ? routine.nombre : undefined} ocupado={sustituyendo} error={errorSustituir}
+          onClose={() => setSustituir(s => s && { ...s, abierta: false })}
+          onExited={() => { setSustituir(null); const accion = despuesDeSustituir.current; despuesDeSustituir.current = null; accion?.() }}
+          onElegir={async (seleccion, tambienRutina) => {
+            const nombre = sustituir.opciones.find(o => o.seleccion === seleccion)?.nombre ?? 'otro ejercicio'
+            if (await hacerSustitucion(de.id, seleccion, nombre, tambienRutina)) setSustituir(s => s && { ...s, abierta: false })
+            else setErrorSustituir('No se ha podido sustituir el ejercicio. Inténtalo de nuevo.')
+          }}
+          onBuscar={tambienRutina => { despuesDeSustituir.current = () => setBuscarSustituto({ exId: de.id, tambienRutina }); setSustituir(s => s && { ...s, abierta: false }) }} />
+      })()}
+      {buscarSustituto && <SelectorEjercicios titulo={`Sustituir ${exerciseMap.get(buscarSustituto.exId)?.nombre ?? 'ejercicio'}`} verbo="Sustituir" excluir={[buscarSustituto.exId]}
+        onClose={() => setBuscarSustituto(null)} onElegir={async value => {
+          const nombre = value.tipo === 'local' ? exerciseMap.get(value.id)?.nombre ?? 'otro ejercicio' : value.tipo === 'catalogo' ? CATALOGO_POR_ID.get(value.catalogId)?.name ?? 'otro ejercicio' : value.nombre
+          // Si falla, el buscador sigue abierto con el error en línea.
+          if (!await hacerSustitucion(buscarSustituto.exId, value, nombre, buscarSustituto.tambienRutina)) throw new Error('No se ha podido sustituir el ejercicio.')
+        }} />}
       {buscandoEjercicio && <SelectorEjercicios onClose={() => setBuscandoEjercicio(false)} onElegir={elegirEjercicio} sugerencias={exercises.filter(e => { const base = currentSets.find(s => s.exerciseId === e.id && s.tipo !== 'calentamiento') ?? [...allSets].filter(s => s.exerciseId === e.id && convencional(s)).sort((a, b) => b.createdAt - a.createdAt)[0]; return base && tieneReps(base) && recomendarProgresion(e.id, base, e.progresion ?? routine?.objetivos?.[e.id], todosWorkouts, allSets, workout.inicio).propuesta }).map(e => e.id)} />}
 
       {toast}
