@@ -9,6 +9,7 @@ import { leerLogrosDestacados } from '../lib/destacados'
 import { leerComunidad, type Comunidad } from '../lib/comunidad'
 import { leerDenuncias, leerSuspendidos } from '../lib/moderacion'
 import { leerAvataresExclusivos } from '../lib/avatar'
+import { leerCompanias } from '../lib/compania'
 
 /** Se carga con `import()` desde `social/servicio.ts`: comparte cliente (y sesión) con la cuenta. */
 
@@ -145,5 +146,12 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     suspender: (alias, suspender) => rpc('admin_suspender', { p_alias: alias, p_suspender: suspender }),
     suspendidos: async () => leerSuspendidos(await rpc<unknown>('admin_suspendidos')),
     anadirAComunidad: (comunidad, alias) => rpc('anadir_a_comunidad', { p_id: comunidad, p_alias: alias }),
+    companias: async () => leerCompanias(await rpc<unknown>('companias')),
+    invitarCompania: (compania, alias) => rpc('invitar_compania', { p_compania: compania, p_alias: alias }),
+    responderCompania: (compania, aceptar) => rpc('responder_compania', { p_compania: compania, p_aceptar: aceptar }),
+    pausarCompania: (compania, pausa) => rpc('pausar_compania', { p_compania: compania, p_pausa: pausa }),
+    salirCompania: (compania) => rpc('salir_compania', { p_compania: compania }),
+    subirSemanaCompania: async (lunes, hechas, objetivo) => (await rpc<boolean>('subir_semana_compania', { p_lunes: lunes, p_hechas: hechas, p_objetivo: objetivo })) === true,
+    animarCompanero: (compania, alias, lunes, animar) => rpc('animar_companero', { p_compania: compania, p_alias: alias, p_lunes: lunes, p_animar: animar }),
   }
 }

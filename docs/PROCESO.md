@@ -2379,3 +2379,37 @@ Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla
 - Documentos: ADR 056, `features/social.md`, `social-mejoras.md` (F3-3 hecho), roadmap y el carril A.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Las 23 migraciones y las 16 suites SQL pasan en PostgreSQL 16 local temporal. Playwright con el Supabase falso a 375 claro («Mi semana»), 320 oscuro («Estoy retomando»), 430 oscuro («En pausa») y 375 con texto al 200 %: la fila «Tu semana · 2 de 3 entrenos», la hoja con su vista previa, el envío (`tipo: 'semana'`, sin kcal, peso ni días registrados) y la tarjeta de Lucía con sus días; sin scroll horizontal ni errores de consola. **Pendiente de Víctor:** ejecutar 0023 después de desplegar.
+
+## 216. Semana en compañía (A14 · SOC-01, 2026-10-23)
+
+**Qué:** grupos de 2 o 3 personas que os seguís mutuamente, que se acompañan semana tras semana cada una contra su plan de Ritmo. Arriba de Siguiendo, una tarjeta muestra cómo va cada una («2 de 3», «Semana cumplida», «En pausa»), con «Ánimo» por persona y semana, las invitaciones con Aceptar y Rechazar, e invitar, pausar o salir sin reproche. Víctor lo aprobó en las previews con sus decisiones D11. Decisión en [ADR 057](decisiones/057-semana-en-compania.md); plan F3-1.
+
+**Cómo:**
+- `supabase/migrations/0024_social_semana_compania.sql`: cuatro tablas con RLS (`companias`, `companeros`, `companeros_semana` y `companeros_animos`) y siete RPC.
+  - Invitar exige seguimiento mutuo con todo el grupo y sin bloqueos, como mucho 3 personas, 5 grupos por persona y 20 invitaciones al día.
+  - La semana solo se guarda dentro de un grupo y se borra al salir del último.
+  - Los triggers cierran el grupo cuando queda una persona y sacan de los grupos compartidos a quien bloquea.
+  - `semanaCompania` en `social_capacidades`.
+  - Prueba: `supabase/pruebas/social_semana_compania.sql`.
+- `social/lib/compania.ts`, todo puro con tests en `compania.test.ts`:
+  - el lector tolerante;
+  - el estado de cada persona, sin porcentaje, con la semana ajena válida solo si es la tuya;
+  - tu semana desde Ritmo y cuándo subirla;
+  - los ánimos y a quién invitar.
+- `social/data`: el contrato y el adaptador (`companias`, `invitarCompania`…); los errores nuevos en `lib/mensajes`.
+- `social/components/SemanaCompania`: se monta en `SocialTab` arriba del compositor, solo con la capacidad. Incluye la fila vacía, la invitación, los grupos, «Tu grupo» y la hoja de invitar. Sube tu semana al abrir Social si cambió.
+- Supabase falso: las RPC, `simular_companias` y `simular_aceptar_compania`. Sin grupos al empezar, para no cambiar los otros recorridos.
+- Una sola PR, no las tres del plan: la tarjeta no aparece hasta que el servidor la anuncia.
+- Documentos: ADR 057, `features/social.md` (§ Semana en compañía y 0024), `social-mejoras.md` (F3-1 implementado), `arquitectura.md`, `README.md`, roadmap y el carril A.
+
+**Verificación:**
+- `npm run test` y `npm run build` correctos.
+- Las 24 migraciones y las 17 suites SQL pasan en PostgreSQL 16 local temporal.
+- Playwright con el Supabase falso a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %:
+  - «Empezar» → solo Jon (Lucía no te sigue) → «Invitación enviada».
+  - Se sube tu semana una vez, con solo lunes, entrenos y plan (`2 de 3`).
+  - Cuando Jon acepta, «1 de 4» y la llama `aria-pressed`.
+  - La invitación de Lucía con «Ánimo de Jon», «Aceptar» y su «Semana cumplida».
+  - «Pausar mi semana» → «En pausa», y «Salir del grupo» con confirmación cierra el grupo.
+  - Sin scroll horizontal ni errores de consola.
+- **Pendiente de Víctor:** ejecutar 0024 después de desplegar, probar con dos cuentas reales y organizar el piloto de 3–4 semanas.

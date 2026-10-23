@@ -12,6 +12,7 @@ import CrearPerfil from './components/CrearPerfil'
 import MiPerfilPagina from './components/MiPerfilPagina'
 import AvatarPersona from './components/AvatarPersona'
 import Compositor from './components/Compositor'
+import SemanaCompania from './components/SemanaCompania'
 import AvisosSheet from './components/AvisosSheet'
 import type { PublicacionComentada } from './components/ComentariosSheet'
 import ListaFeed from './components/ListaFeed'
@@ -139,6 +140,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
       <ViewTabs opciones={vistas} valor={vista} onChange={cambiarVista} label="Publicaciones">
         {vista === 'todo' ? (
           <div className="space-y-stack">
+            <SemanaCompania onAmigos={() => onIrAAmigos()} onError={avisarError} />
             <Compositor persona={perfil} avatar={avatares[perfil.alias]} onEscribir={() => setEditor(true)}
               onPublicada={() => { setVersion(v => v + 1); avisar({ mensaje: 'Publicación creada' }) }} />
             <ListaFeed ocultarSilenciadas version={`todo-${version}`} onError={avisarError} comentariosDe={comentariosDe} comprobarSenal={comprobar}
