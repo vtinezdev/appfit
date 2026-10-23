@@ -31,6 +31,7 @@ import { haptic, reduceMotion } from '../../../shared/design/motion'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import ProgresoSeries from '../components/ProgresoSeries'
 import { ajustarDescanso, clearSession, descansoParaEjercicio, guardarDescansoHabitual, readSession, seriesMarcadas, siguienteEjercicioPendiente, writeSession } from '../lib/session'
+import { bloquesSesion, separar, siguienteEnRonda, sinDescanso, superserieDe, superseriesDe, superseriesValidas, unirConSiguiente, type Superserie } from '../lib/superseries'
 import { RestClock, WorkoutClock } from '../components/WorkoutClock'
 import type { WorkoutSummary } from '../components/WorkoutFinished'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -115,6 +116,11 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   const idsConSets = Array.from(new Set([...currentSets].sort((a, b) => a.createdAt - b.createdAt).map((s) => s.exerciseId)))
   const idsRutina = routine?.exerciseIds ?? []
   const visibleIds = ordenEjerciciosSesion(idsRutina, idsConSets, workout.ordenEjercicios, workout.ejerciciosOmitidos)
+  // Superseries de la sesión (A21): solo las que siguen juntas en este orden.
+  const pares = superseriesValidas(superseriesDe(workout), visibleIds)
+  async function cambiarSuperseries(nuevos: Superserie[]) {
+    try { await workoutsRepo.guardarSuperseries(workout.id!, nuevos) } catch { avisarError('No se ha podido guardar la superserie. Inténtalo de nuevo.') }
+  }
   const { quitarEjercicio, quitando, contenedorRef } = useQuitarEjercicio({
     workoutId: workout.id, visibleIds, bloqueado: guardando, avisar, avisarError,
     antesDeQuitar: async () => { await Promise.all(pendingWrites.current.values()) },
@@ -342,7 +348,9 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
       const escritura = guardado.guardar(`serie-${s.id}`, () => setsRepo.confirmar(s.id, !done))
       pendingWrites.current.set(s.id, escritura)
       try { await escritura } finally { if (pendingWrites.current.get(s.id) === escritura) pendingWrites.current.delete(s.id) }
-      const descanso = descansoParaEjercicio(routine?.objetivos?.[s.exerciseId]?.descansoSeg, session.restSeconds)
+      // En una superserie (A21), tras el primero se pasa al segundo sin descanso: se descansa al terminar la ronda.
+      const enRonda = !done && s.tipo !== 'calentamiento' && sinDescanso(pares, currentSets, [...seriesMarcadas(currentSets, sessionActual.current.completed), s.id!], s.exerciseId)
+      const descanso = enRonda ? 0 : descansoParaEjercicio(routine?.objetivos?.[s.exerciseId]?.descansoSeg, session.restSeconds)
       setSession(previous => ({
         ...previous,
         completed: done ? previous.completed.filter(id => id !== s.id) : [...previous.completed, s.id!],
@@ -351,12 +359,13 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
       }))
       haptic(done ? 'selection' : 'success')
       // La propuesta de descanso sale bajo este ejercicio: si se propone, no se baja al siguiente para que se vea.
-      const proponer = !done && !propuesto.current && proponerDescanso(sessionActual.current.restSeconds, routine?.objetivos?.[s.exerciseId]?.descansoSeg, ajustes?.pistasVistas)
+      const proponer = !done && !enRonda && !propuesto.current && proponerDescanso(sessionActual.current.restSeconds, routine?.objetivos?.[s.exerciseId]?.descansoSeg, ajustes?.pistasVistas)
       if (proponer) { propuesto.current = true; setSugerencia({ exId: s.exerciseId, segundos: descansoSugerido(exerciseMap.get(s.exerciseId)?.catalogId) }) }
       if (!done && !proponer && !escribiendo()) {
         const marcadas = [...seriesMarcadas(currentSets, sessionActual.current.completed), s.id!]
         const suyas = currentSets.filter(x => x.exerciseId === s.exerciseId)
-        const siguiente = suyas.every(x => marcadas.includes(x.id)) ? siguienteEjercicioPendiente(visibleIds, currentSets, marcadas, s.exerciseId) : null
+        const siguiente = (s.tipo !== 'calentamiento' ? siguienteEnRonda(pares, currentSets, marcadas, s.exerciseId) : null)
+          ?? (suyas.every(x => marcadas.includes(x.id)) ? siguienteEjercicioPendiente(visibleIds, currentSets, marcadas, s.exerciseId) : null)
         if (siguiente !== null) setIrA(previo => ({ exId: siguiente, n: (previo?.n ?? 0) + 1 }))
       }
       const que = numero > 0 ? `Serie ${numero}` : 'Calentamiento'
@@ -380,6 +389,46 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   }
 
   const descansando = session.restEndsAt !== null
+  /** El panel de un ejercicio de la sesión, suelto o dentro de su superserie. */
+  const panel = (exId: number) => {
+    const indice = visibleIds.indexOf(exId)
+    const ex = exerciseMap.get(exId)
+    if (!ex) return null
+    const par = superserieDe(pares, exId)
+    const siguienteId = visibleIds[indice + 1]
+    const superserie = par
+      ? { con: exerciseMap.get(par[0] === exId ? par[1] : par[0])?.nombre ?? 'el otro ejercicio', unida: true, onSeparar: () => void cambiarSuperseries(separar(pares, visibleIds, exId)) }
+      : siguienteId !== undefined && !superserieDe(pares, siguienteId)
+        ? { con: exerciseMap.get(siguienteId)?.nombre ?? 'el siguiente', unida: false, onUnir: () => void cambiarSuperseries(unirConSiguiente(pares, visibleIds, exId) ?? pares), onSeparar: () => undefined }
+        : undefined
+    const sets = currentSets.filter((s) => s.exerciseId === exId).sort((a, b) => a.orden - b.orden)
+    const liga = ligas?.ligas.get(exId)
+    const completo = sets.length > 0 && sets.every((s) => completadas.includes(s.id))
+    const nuevaMaquina = primeraVez(allSets, ex, workout)
+    return (
+      <div key={exId} data-ejercicio={exId}>
+        <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
+          notaGimnasio={nuevaMaquina && notaPrimeraVez(nombreGimnasio(workout.gimnasioId), nuevaMaquina.habitual)}
+          anteriores={anterioresPorSerie(sets, seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex)))}
+          referenciasCarga={seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex))}
+          objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
+          onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
+          onQuitar={() => quitarEjercicio(exId, ex.nombre)} onSustituir={() => abrirSustituir(exId)} superserie={superserie} onAviso={avisar}
+          contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], historial: { sets: allSets, workouts: todosWorkouts, gimnasio: dependeDeMaquina(ex) ? nombreGimnasio(workout.gimnasioId) : undefined }, carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
+            setGuardando(true); try { await Promise.all(pendingWrites.current.values()); const ids = new Set(await workoutsRepo.configurarEjecucion(workout.id, exId, c, habitual)); setSession(p => ({ ...p, completed: p.completed.filter(id => !ids.has(id)) })) } finally { setGuardando(false) }
+          }, onProgresion: async (clave, decision) => { setGuardando(true); try { await Promise.all(pendingWrites.current.values()); await workoutsRepo.decidirProgresion(workout.id, exId, clave, decision) } finally { setGuardando(false) } } }}
+          mover={visibleIds.length > 1 ? { puedeSubir: indice > 0, puedeBajar: indice < visibleIds.length - 1, onSubir: () => mover(indice, -1), onBajar: () => mover(indice, 1) } : undefined}
+          liga={liga && ligas ? { estado: liga, avisar: avisarElite(liga, ex, ajustes?.ligaMantener), hoy, mantenido: !!ajustes?.ligaMantener?.includes(exId),
+            alternativas: liga.division.elite ? alternativas(ex, exercises, ligas.ligas) : [], sinRecords: ligas.sinRecords.get(exId) ?? 0,
+            rutinas: routine?.exerciseIds.includes(exId) ? [routine] : [] } : undefined}
+          plegado={completo && !desplegados.has(exId)}
+          onPlegar={(plegar) => setDesplegados((previo) => { const s = new Set(previo); if (plegar) s.delete(exId); else s.add(exId); return s })} />
+        {sugerencia?.exId === exId && session.restSeconds === 0 && <DescansoSugerido segundos={sugerencia.segundos} ejercicio={ex.nombre}
+          compuesto={CATALOGO_POR_ID.get(ex.catalogId ?? '')?.tipo === 'compuesto'} onSi={() => responderDescanso(true)} onNo={() => responderDescanso(false)} />}
+      </div>
+    )
+  }
+
   return (
     <div ref={contenedorRef} className={`entreno-activo space-y-section px-page pb-16 pt-5 ${descansando ? 'descanso-activo' : ''}`}>
       {/* Cabecera fija: rutina, tiempo, volumen, series y Terminar siguen a la vista al bajar por los ejercicios. */}
@@ -443,36 +492,12 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
       <Pista id="entreno-series" />
 
       <div ref={listRef} className="space-y-stack">
-        {visibleIds.map((exId, indice) => {
-          const ex = exerciseMap.get(exId)
-          if (!ex) return null
-          const sets = currentSets.filter((s) => s.exerciseId === exId).sort((a, b) => a.orden - b.orden)
-          const liga = ligas?.ligas.get(exId)
-          const completo = sets.length > 0 && sets.every((s) => completadas.includes(s.id))
-          const nuevaMaquina = primeraVez(allSets, ex, workout)
-          return (
-            <div key={exId} data-ejercicio={exId}>
-              <PanelEjercicio ejercicio={ex} sets={sets} barraKg={ajustes?.barraKg ?? 20}
-                notaGimnasio={nuevaMaquina && notaPrimeraVez(nombreGimnasio(workout.gimnasioId), nuevaMaquina.habitual)}
-                anteriores={anterioresPorSerie(sets, seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex)))}
-                referenciasCarga={seriesSesionAnterior(allSets, exId, workout, todosWorkouts, gimnasioDeSerie(workout.gimnasioId, ex))}
-                objetivo={routine?.objetivos?.[exId]} completadas={completadas} onCompletar={completar} preguntarRir={ajustes?.rirAlCompletar !== false} nuevaId={newSet} bloqueado={guardando || quitando}
-                onActualizar={actualizarSet} onBorrar={borrarSet} onAgregar={() => agregarSet(exId)}
-                onQuitar={() => quitarEjercicio(exId, ex.nombre)} onSustituir={() => abrirSustituir(exId)} onAviso={avisar}
-                contexto={{ workoutId: workout.id, inicio: workout.inicio, nota: workout.notasEjercicios?.[exId], historial: { sets: allSets, workouts: todosWorkouts, gimnasio: dependeDeMaquina(ex) ? nombreGimnasio(workout.gimnasioId) : undefined }, carga: workout.cargasEjercicios?.[exId], onCarga: carga => guardarCarga(exId, carga), workout, ejecucion: workout.ejecucionesEjercicios?.[exId], onEjecucion: async (c, habitual) => {
-                  setGuardando(true); try { await Promise.all(pendingWrites.current.values()); const ids = new Set(await workoutsRepo.configurarEjecucion(workout.id, exId, c, habitual)); setSession(p => ({ ...p, completed: p.completed.filter(id => !ids.has(id)) })) } finally { setGuardando(false) }
-                }, onProgresion: async (clave, decision) => { setGuardando(true); try { await Promise.all(pendingWrites.current.values()); await workoutsRepo.decidirProgresion(workout.id, exId, clave, decision) } finally { setGuardando(false) } } }}
-                mover={visibleIds.length > 1 ? { puedeSubir: indice > 0, puedeBajar: indice < visibleIds.length - 1, onSubir: () => mover(indice, -1), onBajar: () => mover(indice, 1) } : undefined}
-                liga={liga && ligas ? { estado: liga, avisar: avisarElite(liga, ex, ajustes?.ligaMantener), hoy, mantenido: !!ajustes?.ligaMantener?.includes(exId),
-                  alternativas: liga.division.elite ? alternativas(ex, exercises, ligas.ligas) : [], sinRecords: ligas.sinRecords.get(exId) ?? 0,
-                  rutinas: routine?.exerciseIds.includes(exId) ? [routine] : [] } : undefined}
-                plegado={completo && !desplegados.has(exId)}
-                onPlegar={(plegar) => setDesplegados((previo) => { const s = new Set(previo); if (plegar) s.delete(exId); else s.add(exId); return s })} />
-              {sugerencia?.exId === exId && session.restSeconds === 0 && <DescansoSugerido segundos={sugerencia.segundos} ejercicio={ex.nombre}
-                compuesto={CATALOGO_POR_ID.get(ex.catalogId ?? '')?.tipo === 'compuesto'} onSi={() => responderDescanso(true)} onNo={() => responderDescanso(false)} />}
-            </div>
-          )
-        })}
+        {bloquesSesion(visibleIds, pares).map(bloque => bloque.length === 2
+          ? <section key={`superserie-${bloque[0]}`} aria-label={`Superserie: ${bloque.map(id => exerciseMap.get(id)?.nombre ?? 'ejercicio').join(' y ')}`} className="superserie space-y-stack border-t-4 border-accent pt-2">
+              <p className="flex flex-wrap items-center gap-x-2"><span className="rounded-pill bg-accent px-2 text-caption font-semibold text-accent-on">Superserie</span><span className="text-caption text-fg-muted">Una serie de cada · descanso al terminar la ronda</span></p>
+              {bloque.map(panel)}
+            </section>
+          : panel(bloque[0]))}
       </div>
 
       <Button data-add-exercise variant="secondary" size="lg" block disabled={guardando || quitando} onClick={() => setBuscandoEjercicio(true)}>

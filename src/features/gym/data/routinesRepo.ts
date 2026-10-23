@@ -8,8 +8,10 @@ import { sanearObjetivo } from '../lib/objetivos'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { nombreLibre, rutinasDelPlan, type PlanCreador } from '../lib/creadorRutinas'
 import { rutinaDesdeEntreno } from '../lib/repetirEntreno'
+import { superseriesValidas, type ConSuperseries } from '../lib/superseries'
 
-export type RoutineInput = Omit<Routine, 'id'> & { id?: number }
+/** Con las superseries (A21), un campo del registro que el tipo de `shared` no declara. */
+export type RoutineInput = Omit<Routine, 'id'> & ConSuperseries & { id?: number }
 
 export function listar(): Promise<Routine[]> {
   return db.routines.toArray()
@@ -20,7 +22,7 @@ export function obtener(id: number): Promise<Routine | undefined> {
 }
 
 /** Crea la rutina si no trae `id`, o la actualiza. Devuelve su id. */
-export function guardar({ id, nombre, exerciseIds, objetivos, agarres }: RoutineInput): Promise<number> {
+export function guardar({ id, nombre, exerciseIds, objetivos, agarres, superseries }: RoutineInput): Promise<number> {
   return db.transaction('rw', db.routines, async () => {
     const anterior = id ? await db.routines.get(id) : undefined
     const vigentes = objetivos && Object.fromEntries(Object.entries(objetivos).filter(([k]) => exerciseIds.includes(Number(k))))
@@ -28,7 +30,9 @@ export function guardar({ id, nombre, exerciseIds, objetivos, agarres }: Routine
     const elegidos = fuente && Object.fromEntries(Object.entries(fuente).filter(([k]) => exerciseIds.includes(Number(k))))
     for (const agarre of Object.values(elegidos ?? {})) if (agarre) validarEjecucion({ ejecucion: 'bilateral', agarre })
     const datos = { nombre, exerciseIds, objetivos: vigentes && Object.keys(vigentes).length ? vigentes : undefined,
-      ...(fuente !== undefined ? { agarres: elegidos && Object.keys(elegidos).length ? elegidos : undefined } : {}) }
+      ...(fuente !== undefined ? { agarres: elegidos && Object.keys(elegidos).length ? elegidos : undefined } : {}),
+      // Solo los pares que siguen juntos en este orden; sin ninguno, el campo se quita.
+      ...(superseries !== undefined ? { superseries: superseriesValidas(superseries, exerciseIds).length ? superseriesValidas(superseries, exerciseIds) : undefined } : {}) }
     if (id) { await db.routines.update(id, datos); return id }
     return db.routines.add(datos)
   })

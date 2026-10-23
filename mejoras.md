@@ -133,7 +133,7 @@ Implementadas en «… → Dropset → Añadir bajada». Cada tramo tiene id est
 - Completar, borrar y Deshacer actúan sobre la serie y todos sus tramos.
 - No genera récords convencionales ni recomendaciones de doble progresión; no se mezcla en sus curvas.
 - El mapa usa un único techo de reps para la serie extendida, sin tratar cada bajada como una serie independiente ni inventar un aumento fisiológico.
-- Rest-pause y superseries quedan fuera del alcance inicial.
+- Rest-pause y superseries quedan fuera del alcance inicial. Después: superseries de dos ejercicios hechas en A21 (`docs/features/gym.md`); rest-pause descartado por Víctor (A26).
 
 ## 9. Negativas y descenso lento
 
@@ -181,4 +181,4 @@ Cada implementación termina con tests, TypeScript/build, revisión visual móvi
 
 Las diez mejoras iniciales están implementadas. No se asigna un incremento ni RIR universal: se configura por ejercicio según tu equipo y objetivo. Negativas permite ambas interpretaciones y agarres ofrece opciones pertinentes, sin obligarte a usarlas.
 
-Quedan fuera: anatomía lateral, progresión independiente de cada lado, instrucciones permanentes separadas de la nota de sesión, superseries/rest-pause y asesoramiento de recuperación o seguridad. Son ampliaciones, no bloqueos de esta entrega.
+Quedan fuera: anatomía lateral, progresión independiente de cada lado, instrucciones permanentes separadas de la nota de sesión (descartadas en A25), rest-pause (descartado en A26) y asesoramiento de recuperación o seguridad. Son ampliaciones, no bloqueos de esta entrega.

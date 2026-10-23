@@ -32,9 +32,14 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A18 | SOC-04 | Compartir tu semana de Ritmo | M | A13 | Hecho (2026-10-23) |
 | A19 | SOC-05 | Avisos de la semana en compañía | M | A14 | Hecho (2026-10-23) |
 | A20 | SOC-06 | Invitación por enlace o QR | L | — | Descartado (2026-10-23) |
-| A21 | ENT-17 | Superseries | L | — | Pendiente |
+| A21 | ENT-17 | Superseries | L | — | Hecho (2026-10-23) |
 | A22 | SOC-07 | Moderar comunidades desde la app | M | — | Hecho (2026-10-23) |
 | A23 | ENT-18 | Hito redondo en el póster | M | A10 | Hecho (2026-10-23) |
+| A24 | ACT-01 | Tus mejores marcas en Actividades | M | — | Pendiente |
+| A25 | ENT-19 | Nota fija por ejercicio y gimnasio | M | — | Descartado (2026-10-23) |
+| A26 | ENT-20 | Rest-pause | M | — | Descartado (2026-10-23) |
+| A27 | ENT-21 | «Depende de la máquina», a mano | S | — | Descartado (2026-10-23) |
+| A28 | ACT-02 | Parciales por km | M-L | — | Pendiente |
 
 ---
 
@@ -309,7 +314,9 @@ Víctor decide en la página de previews de los cinco siguientes (A19–A23): im
 
 > **Descartado (2026-10-23).** Víctor lo descarta en las previews (F3-4 de `social-mejoras.md`). Se sigue invitando con el código.
 
-### [ ] A21 · ENT-17 · Superseries
+### [x] A21 · ENT-17 · Superseries
+
+> **Hecho (2026-10-23, PROCESO §221).** El campo `superseries` no se añade a `shared/db/types.ts`: lo declara `gym/lib/superseries` y lo escriben solo los repos de gym (regla del carril). Los calentamientos quedan fuera de la ronda. El filete de la sección es superior para no estrechar los paneles. **Aparte:** con el texto al 200 % a 375 px, el título y el grupo del panel de un ejercicio ya se partían letra a letra antes de A21; queda anotado en el roadmap.
 
 - **Tamaño:** L · **Rama:** `feat/a-superseries`
 - **Decisiones de Víctor:** en la sesión y en la rutina; de dos ejercicios; descanso al terminar la ronda.
@@ -329,3 +336,31 @@ Víctor decide en la página de previews de los cinco siguientes (A19–A23): im
 
 - **Tamaño:** M · **Rama:** `feat/a-hito-poster`
 - **Cómo:** `gym/lib/fichaEntreno.hitoDeEntrenos` y `textoDesde`, `hooks/useHitoEntrenos`; la cifra encima del título en `PosterSesion` y en `posterImagen.svgPoster`.
+
+## Tanda 6 (2026-10-23)
+
+Víctor decide en la página de previews A24–A28: implementar A24 (mejor ritmo en salidas de 5 km o más; todas las actividades juntas) y A28 (guardar la hora de cada punto desde ahora), y descartar A25 (nota fija), A26 (rest-pause) y A27 («depende de la máquina» a mano).
+
+### [ ] A24 · ACT-01 · Tus mejores marcas en Actividades
+
+- **Tamaño:** M · **Rama:** `feat/a-mejores-marcas`
+- **Decisiones de Víctor:** el mejor ritmo cuenta salidas de 5 km o más; todas las actividades juntas, sin separar por tipo.
+- **Cómo:** puro en `actividades/lib` a partir de las actividades guardadas (solo lectura); bloque arriba de Actividades y aviso al guardar una que bate una marca.
+
+### [-] A25 · ENT-19 · Nota fija por ejercicio y gimnasio
+
+> **Descartado (2026-10-23).** Víctor lo descarta en las previews A24–A28.
+
+### [-] A26 · ENT-20 · Rest-pause
+
+> **Descartado (2026-10-23).** Víctor lo descarta en las previews A24–A28.
+
+### [-] A27 · ENT-21 · «Depende de la máquina», a mano
+
+> **Descartado (2026-10-23).** Víctor lo descarta en las previews A24–A28; sigue deduciéndose del material.
+
+### [ ] A28 · ACT-02 · Parciales por km
+
+- **Tamaño:** M-L · **Rama:** `feat/a-parciales-km`
+- **Decisión de Víctor:** guardar la hora de cada punto desde ahora (las actividades anteriores no tienen parciales).
+- **Cómo:** la hora de cada punto en el recorrido de las grabaciones e importaciones nuevas (campo opcional del punto, declarado en `actividades/lib`, sin tocar `shared`); parciales puros en `actividades/lib` y la tabla en el detalle.

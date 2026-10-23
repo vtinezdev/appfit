@@ -2450,3 +2450,15 @@ Víctor ejecuta `supabase/migrations/0023_social_semana_ritmo.sql` y `0024_socia
 - Documentos: `features/social.md` (Administración, Feed y 0026), ADR 049 (actualización), roadmap y el carril A.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Las 26 migraciones y las 19 suites SQL pasan en PostgreSQL 16 local temporal. Playwright con el Supabase falso a 375 claro y 430 oscuro (suspender, la lista y «Reactivar») y 320 oscuro y 375 con texto al 200 % (cerrar), y el aviso de la denuncia en Avisos; `validar-administracion.cjs` correcto en sus 8 casos (contra Vite en 5175). Sin scroll horizontal ni errores de consola. **Pendiente de Víctor:** ejecutar 0026.
+
+## 221. Superseries (A21 · ENT-17, 2026-10-23)
+
+**Qué:** dos ejercicios seguidos se unen en superserie desde el menú del ejercicio en la sesión o desde el editor de rutinas. Se alternan serie a serie: al marcar una serie del primero no empieza el descanso y la sesión baja al segundo; al marcar la del segundo empieza el descanso y vuelve al primero. Víctor lo aprobó en las previews (en la sesión y en la rutina, de dos ejercicios, descanso al terminar la ronda). En la misma tanda decidió A24 y A28 (implementar) y descartó A25, A26 y A27.
+
+**Cómo:**
+- `gym/lib/superseries.ts`: lector, validez (seguidos, en su orden, sin repetir), unir y separar, bloques de la sesión, la ronda (`siguienteEnRonda`) y el descanso (`sinDescanso`), sin calentamientos; tests en `superseries.test.ts`.
+- Datos: campo opcional `superseries` en rutinas y entrenos, declarado en `gym/lib` (`ConSuperseries`) y escrito solo por `routinesRepo.guardar` y `workoutsRepo` (`empezar` lo copia de la rutina, `guardarSuperseries`, `repetir`, `sustituirEnSesion` y su deshacer); `lib/rutinas.sustituirEnRutina` lo mantiene. Sin versión de Dexie. Tests con fake-indexeddb en `data/superseries.test.ts`, también por la copia.
+- `EntrenoActivo`: sección «Superserie» con filete superior, avance y descanso de la ronda; `PanelEjercicio.superserie` en el menú; `EditorRutina` con «Superserie con…».
+- Documentos: `features/gym.md`, `datos.md`, `mejoras.md`, roadmap (el panel a 200 %, visto al probar) y el carril A (A21 y la tanda 6).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: unir press banca y remo, la serie 1 del press baja al remo sin descanso, la del remo empieza el descanso y vuelve al press, separar desde el menú, y en la rutina «Superserie con Remo con barra» guarda `[[1, 2]]`; sin scroll horizontal ni errores de consola. Con el texto al 200 % el panel se estrecha igual que sin superserie (anotado en el roadmap).
