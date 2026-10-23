@@ -10,6 +10,8 @@ import type { ConfiguracionEjecucion, Workout, ConfiguracionCarga, Exercise, Lad
 import MenuSerie from './MenuSerie'
 import ChipAjuste from './ChipAjuste'
 import RirSheet from './RirSheet'
+import HistorialEjercicioSheet from './HistorialEjercicioSheet'
+import { historialEjercicio, type HistorialEjercicio } from '../lib/progreso'
 import NotaEjercicio from './NotaEjercicio'
 import EjecucionEjercicio from './EjecucionEjercicio'
 import ProgresionEjercicio from './ProgresionEjercicio'
@@ -95,7 +97,9 @@ interface Props {
   onQuitar?: () => void
   /** Aviso con Deshacer al quitar una bajada (Toast de la página). */
   onAviso?: (aviso: { mensaje: string; onDeshacer: () => Promise<void> }) => void
-  contexto?: { workoutId: number; inicio: number; nota?: string; carga?: ConfiguracionCarga; onCarga: (carga: ConfiguracionCarga) => Promise<void>; workout?: Workout; ejecucion?: ConfiguracionEjecucion; onEjecucion?: (c: ConfiguracionEjecucion, habitual: boolean) => Promise<void>; onProgresion?: (clave: string, decision: 'aplicada' | 'mantener' | 'descartada') => Promise<void> }
+  contexto?: { workoutId: number; inicio: number; nota?: string; carga?: ConfiguracionCarga; onCarga: (carga: ConfiguracionCarga) => Promise<void>; workout?: Workout; ejecucion?: ConfiguracionEjecucion; onEjecucion?: (c: ConfiguracionEjecucion, habitual: boolean) => Promise<void>; onProgresion?: (clave: string, decision: 'aplicada' | 'mantener' | 'descartada') => Promise<void>
+    /** Sesión activa: lo que ya tiene cargado para «Historial y récords» (ENT-04); `gimnasio`, solo en ejercicios de máquina. */
+    historial?: { sets: SetEntry[]; workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[]; gimnasio?: string } }
   mover?: { puedeSubir: boolean; puedeBajar: boolean; onSubir: () => void; onBajar: () => void }
   /** Liga del ejercicio antes de este entreno (sesión activa); `avisar` en Élite si no es básico ni mantenido. */
   liga?: { estado: LigaEjercicio; avisar: boolean; hoy: string; mantenido: boolean; alternativas: Alternativa[]; sinRecords: number; rutinas: Routine[] }
@@ -109,7 +113,7 @@ interface Props {
   notaGimnasio?: string
 }
 
-type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | 'liga' | { serie: number } | { rir: number; lado?: Lado }
+type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | 'historial' | 'liga' | { serie: number } | { rir: number; lado?: Lado }
 const LADOS: { lado: Lado; letra: string; nombre: string }[] = [{ lado: 'izquierda', letra: 'I', nombre: 'izquierda' }, { lado: 'derecha', letra: 'D', nombre: 'derecha' }]
 
 
@@ -148,6 +152,14 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
   const actualizar = (id: number, cambio: CambioSerie) => { void Promise.resolve(onActualizar(id, cambio)).catch(() => {}) }
   const [hoja, setHoja] = useState<Hoja | null>(null)
   const despuesDelMenu = useRef<(() => void) | null>(null)
+  /** Se calcula al abrir y se conserva mientras la hoja se cierra (no cambia bajo el dedo si se marca una serie). */
+  const [historial, setHistorial] = useState<HistorialEjercicio | null>(null)
+  function abrirHistorial() {
+    if (!contexto?.historial) return
+    const referencia = sets.find(s => s.tipo !== 'calentamiento') ?? sets[0] ?? { exerciseId: ejercicio.id }
+    setHistorial(historialEjercicio(contexto.historial.sets, contexto.historial.workouts, referencia, contexto.inicio))
+    setHoja('historial')
+  }
   // Las series de calentamiento no se numeran: se marcan con «C».
   let efectivas = 0
   const numeradas = sets.map((s) => ({ s, numero: s.tipo === 'calentamiento' ? null : ++efectivas }))
@@ -336,12 +348,14 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
       {contexto && hoja === 'nota' && <NotaEjercicio workoutId={contexto.workoutId} exerciseId={ejercicio.id} nombre={ejercicio.nombre} inicio={contexto.inicio} nota={contexto.nota} onClose={() => setHoja(null)} />}
       {contexto && hoja === 'carga' && <CargaEjercicio nombre={ejercicio.nombre} inicio={contexto.inicio} sets={sets} configuracion={contexto.carga} onGuardar={contexto.onCarga} onClose={() => setHoja(null)} />}
       {contexto?.onEjecucion && hoja === 'variante' && <EjecucionEjercicio open ejercicio={ejercicio} actual={ejecucion} onGuardar={contexto.onEjecucion} onClose={() => setHoja(null)} />}
+      {contexto?.historial && <HistorialEjercicioSheet open={hoja === 'historial'} onClose={() => setHoja(null)} nombre={ejercicio.nombre} historial={historial} gimnasio={contexto.historial.gimnasio} />}
       {liga && <LigaSheet open={hoja === 'liga'} liga={liga.estado} ejercicio={ejercicio} hoy={liga.hoy} alternativas={liga.alternativas} mantenido={liga.mantenido} sinRecords={liga.sinRecords} rutinas={liga.rutinas} onClose={() => setHoja(null)} />}
       {menu && <Sheet open={hoja === 'menu'} onClose={() => setHoja(null)} title={ejercicio.nombre}
         onExited={() => { const accion = despuesDelMenu.current; despuesDelMenu.current = null; accion?.() }}>
         <ListGroup variante="plana" aria-label={`Opciones de ${ejercicio.nombre}`}>
           {contexto && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('nota'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">{contexto.nota ? 'Editar nota' : 'Añadir nota'}</span><span className="block break-words text-caption text-fg-muted">Solo de este ejercicio en esta sesión</span></span><Icon name="pencil" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {conProgresion && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('progresion'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">Progresión</span><span className="block break-words text-caption text-fg-muted">Objetivo y sugerencias</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
+          {contexto?.historial && <li><ListRow onClick={() => elegirDelMenu(abrirHistorial)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Historial y récords</span><span className="block break-words text-caption text-fg-muted">Últimas sesiones, récords y gráfica</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {liga && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('liga'))}><IconoLiga liga={liga.estado.division.liga} /><span className="min-w-0 flex-1"><span className="block text-body-sm font-semibold">Liga</span><span className="block break-words text-caption text-fg-muted">{textoDivision(liga.estado.division)}</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeSubir} aria-label={`Subir ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onSubir)}><span className="text-body-sm font-semibold">Subir</span><Icon name="chevron-left" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}
           {mover && <li><ListRow disabled={!mover.puedeBajar} aria-label={`Bajar ${ejercicio.nombre}`} onClick={() => elegirDelMenu(mover.onBajar)}><span className="text-body-sm font-semibold">Bajar</span><Icon name="chevron-right" size={18} className="shrink-0 rotate-90 text-fg-muted" /></ListRow></li>}

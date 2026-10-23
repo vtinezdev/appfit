@@ -2173,6 +2173,17 @@ Tercer paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). R
 
 **Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright de preview (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 claro con la hoja del RIR: la banda sale tras la primera serie y no se duplica con la segunda; «Sí» deja «Descanso: 120 s» con la cuenta atrás en marcha; «No, gracias» la cierra sin temporizador; el siguiente entreno no vuelve a preguntar y empieza con 120 s; sin scroll horizontal, botones de 44 px y sin errores en consola. Sin dispositivo físico.
 
+## 199. Historial y récords del ejercicio sin salir de la sesión (A5 · ENT-04, 2026-10-23)
+
+Paso A5 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9 (pantallas reales con la parte nueva en maqueta). Rama `feat/a-historial-ejercicio` desde `master`.
+
+- `gym/lib/progreso.historialEjercicio(series, workouts, referencia, antesDe)`: sesiones terminadas antes del entreno en curso del mismo grupo comparable que la serie de referencia (la primera efectiva del ejercicio en la sesión). El grupo es el de los récords: `records.claveGrupo`, ahora exportada (ejercicio, modo, variante y gimnasio de las máquinas). Devuelve las 5 últimas sesiones (mejor serie, nº de series y RIR medio), 8 puntos para la minigráfica (`mide` dice cuál: 1RM estimado, peso o lastre máximo, menor ayuda o reps) y los récords vigentes con la fecha en que se lograron.
+- `gym/components/HistorialEjercicioSheet`: hoja de solo lectura con la minigráfica SVG (`trazoMini`, las clases `mini-grafica` de Progreso; sin Recharts), «Últimas sesiones» y «Récords vigentes»; en ejercicios de máquina, «En <gimnasio>». Sin historial comparable, un texto lo dice.
+- `PanelEjercicio`: fila «Historial y récords» en el menú «…» (entre Progresión y Liga) cuando llega `contexto.historial`, que solo pasa `EntrenoActivo` (con `allSets` y `todosWorkouts`, sin lecturas nuevas). El cálculo se hace al abrir y se conserva mientras la hoja se cierra.
+- Tests en `progreso.test.ts`: sesiones (orden, máximo 5, calentamientos, pendientes, en curso, sin terminar y posteriores fuera), puntos, récords vigentes y reps con el peso de referencia, variantes, modos y gimnasios separados, sin historial.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: cinco sesiones, récords con fecha, sin scroll horizontal, botones de 44 px, sin errores en consola, y consultar la hoja no cambia la copia de seguridad. Con otra ejecución sale el estado vacío. Sin dispositivo físico.
+
 ## 200. La semana en las teselas de progreso (2026-10-23)
 
 Paso B7 (GAM-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-teselas-semana` desde `master`, sin fusionar (Víctor pide trabajar en ramas y fusionar más adelante). El número de esta entrada se ajusta al fusionar si choca con las de otras ramas abiertas (B6, #126, también lleva una entrada propia).
@@ -2183,4 +2194,3 @@ Paso B7 (GAM-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `fea
 - Documentos: `inicio.md`, `DESIGN.md` y `DESIGN-SYSTEM.md`.
 
 **Verificación:** `npm run test` (213 archivos, 2.591 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con el reloj el viernes 23 de octubre, montaña y ruta elegidas y entrenos y paseos sintéticos (una semana a medias y otra sin nada aún), a 320/375/430 px en claro y oscuro y 375 px con texto al 200 % en ambos temas: 2 × 2 salvo con texto ampliado (una columna), sin scroll horizontal ni texto cortado, sin errores de consola. Sin dispositivo físico.
-
