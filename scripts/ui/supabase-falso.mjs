@@ -1,7 +1,7 @@
 // Supabase falso para probar Amigos en el navegador sin el proyecto real ni códigos por correo (docs/desarrollo.md).
-// Imita las RPC sociales 0003–0024 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
+// Imita las RPC sociales 0003–0026 y marcar_actividad, en memoria, con cuatro personas y dos solicitudes de ejemplo.
 // `simular_companias` crea un grupo de semana en compañía con Jon y una invitación de Lucía (0024);
-// `simular_aceptar_compania`, que quien invitaste acepte.
+// `simular_aceptar_compania`, que quien invitaste acepte. `simular_denuncia_actuada`: se actuó sobre una denuncia tuya (0026).
 //
 //   node scripts/ui/supabase-falso.mjs
 //   VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npx vite --port 5174 --strictPort --host 127.0.0.1
@@ -24,6 +24,8 @@ const anadidos = new Map()
 const idsAnimos = new Map()
 // Semana en compañía (0024): grupo -> { miembros: Map(user -> { estado, por }), animos: Set('de|para|lunes') }; user -> semana.
 const companias = new Map()
+// 0026: cuándo se actuó sobre una denuncia mía (aviso sin detalles).
+let denunciaActuada = null
 const semanasCompania = new Map()
 const lunesHoy = () => { const d = new Date(); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` }
 const fueraDeCompania = (gid, id) => {
@@ -128,12 +130,12 @@ const rpc = {
     miembros.clear(); for (const m of inicial.miembros) miembros.add(m)
     anadidos.clear(); ADMIN = false; for (const d of denunciasFalsas) d.revisada = false
     bloqueos.clear(); reacciones.clear(); comentarios.clear(); avisosVistos = new Date(0).toISOString()
-    companias.clear(); semanasCompania.clear()
+    companias.clear(); semanasCompania.clear(); denunciaActuada = null
     return null
   },
   comunidades: ({ p_busqueda, p_solo_mias }) => {
     exigir()
-    return [...comunidades].filter(([id,c]) => !bloq(YO,c.creador) && (!p_solo_mias || miembros.has(`${id}|${YO}`)) && c.nombre.toLowerCase().includes((p_busqueda || '').toLowerCase())).map(([id,c]) => ({ id, nombre: c.nombre, descripcion: c.descripcion, miembros: [...miembros].filter(m=>m.startsWith(`${id}|`)).length, unida: miembros.has(`${id}|${YO}`), mia: c.creador === YO, solo_creador_publica: c.solo_creador_publica === true }))
+    return [...comunidades].filter(([id,c]) => !c.suspendida && !bloq(YO,c.creador) && (!p_solo_mias || miembros.has(`${id}|${YO}`)) && c.nombre.toLowerCase().includes((p_busqueda || '').toLowerCase())).map(([id,c]) => ({ id, nombre: c.nombre, descripcion: c.descripcion, miembros: [...miembros].filter(m=>m.startsWith(`${id}|`)).length, unida: miembros.has(`${id}|${YO}`), mia: c.creador === YO, solo_creador_publica: c.solo_creador_publica === true }))
   },
   crear_comunidad: ({ p_id, p_nombre, p_descripcion, p_solo_creador_publica = false }) => {
     exigir()
@@ -302,6 +304,7 @@ const rpc = {
       ...[...reacciones].map((r) => r.split('|')).filter(([pid, u]) => mias.has(pid) && u !== YO).map(([pid, u]) => ({ tipo: 'reaccion', alias: perfiles.get(u).alias, nombre: perfiles.get(u).nombre, publicacion: pid, titulo: publicaciones.get(pid).resumen.titulo, texto: null, creado: publicaciones.get(pid).creada })),
       ...[...comentarios.values()].filter((c) => mias.has(c.publicacion) && c.autor !== YO).map((c) => ({ tipo: 'comentario', alias: perfiles.get(c.autor).alias, nombre: perfiles.get(c.autor).nombre, publicacion: c.publicacion, titulo: publicaciones.get(c.publicacion).resumen.titulo, texto: c.texto.slice(0, 120), creado: c.creado })),
       ...[...anadidos].filter(([k]) => k.endsWith(`|${YO}`) && miembros.has(k)).map(([k, v]) => ({ tipo: 'anadido', alias: perfiles.get(v.por).alias, nombre: perfiles.get(v.por).nombre, publicacion: k.split('|')[0], titulo: comunidades.get(k.split('|')[0]).nombre, texto: null, creado: v.creado })),
+      ...(denunciaActuada ? [{ tipo: 'denuncia', alias: null, nombre: null, publicacion: null, titulo: '', texto: null, creado: denunciaActuada }] : []),
       // 0025: ánimos en tu semana de la semana en compañía, uno por grupo con cuántas personas.
       ...[...companias].flatMap(([gid, g]) => { const de = [...g.animos].map(a => a.split('|')).filter(([, para]) => para === YO); return de.length ? [{ tipo: 'animo_compania', alias: perfiles.get(de.at(-1)[0]).alias, nombre: perfiles.get(de.at(-1)[0]).nombre, publicacion: gid, titulo: '', texto: null, creado: g.animosCreado ?? hace(30), personas: new Set(de.map(([d]) => d)).size }] : [] }),
     ].filter(a=>!bloq(YO,idDe(a.alias))).map((a) => ({ ...a, nuevo: a.creado > avisosVistos })).sort((a, b) => (a.creado < b.creado ? 1 : -1))
@@ -456,6 +459,11 @@ const rpc = {
     const d = denunciasFalsas.find(x => x.id === p_id && !x.revisada)
     if (!ADMIN || !d) throw err('no_encontrado')
     if (p_accion === 'borrar') { if (d.tipo === 'publicacion') publicaciones.delete(d.objetivo); else if (d.tipo === 'comentario') comentarios.delete(d.objetivo); else throw err('accion_no_valida') }
+    else if (p_accion === 'suspender_comunidad' || p_accion === 'cerrar') {
+      if (d.tipo !== 'comunidad') throw err('accion_no_valida')
+      if (p_accion === 'cerrar') { comunidades.delete(d.objetivo); for (const m of [...miembros]) if (m.startsWith(`${d.objetivo}|`)) miembros.delete(m) }
+      else if (comunidades.has(d.objetivo)) comunidades.get(d.objetivo).suspendida = true
+    }
     else if (p_accion === 'suspender') {
       const autor = d.tipo === 'perfil' ? d.objetivo : d.tipo === 'publicacion' ? publicaciones.get(d.objetivo)?.autor : d.tipo === 'comentario' ? comentarios.get(d.objetivo)?.autor : comunidades.get(d.objetivo)?.creador
       if (!autor || autor === YO) throw err('no_encontrado')
@@ -470,6 +478,16 @@ const rpc = {
     perfiles.get(id).suspendido = p_suspender; perfiles.get(id).suspendidoDesde = p_suspender ? new Date().toISOString() : undefined
     return null
   },
+  admin_comunidades_suspendidas: () => {
+    if (!ADMIN) throw err('no_encontrado')
+    return [...comunidades].filter(([, c]) => c.suspendida).map(([id, c]) => ({ id, nombre: c.nombre }))
+  },
+  admin_reactivar_comunidad: ({ p_id }) => {
+    if (!ADMIN || !comunidades.get(p_id)?.suspendida) throw err('no_encontrado')
+    comunidades.get(p_id).suspendida = false
+    return null
+  },
+  simular_denuncia_actuada: () => { denunciaActuada = new Date().toISOString(); return null },
   admin_suspendidos: () => {
     if (!ADMIN) throw err('no_encontrado')
     return [...perfiles.values()].filter(p => p.suspendido).map(p => ({ alias: p.alias, nombre: p.nombre, desde: p.suspendidoDesde ?? null, con_perfil: true }))

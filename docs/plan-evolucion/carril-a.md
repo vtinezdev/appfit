@@ -33,7 +33,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A19 | SOC-05 | Avisos de la semana en compañía | M | A14 | Hecho (2026-10-23) |
 | A20 | SOC-06 | Invitación por enlace o QR | L | — | Descartado (2026-10-23) |
 | A21 | ENT-17 | Superseries | L | — | Pendiente |
-| A22 | SOC-07 | Moderar comunidades desde la app | M | — | Pendiente |
+| A22 | SOC-07 | Moderar comunidades desde la app | M | — | Hecho (2026-10-23) |
 | A23 | ENT-18 | Hito redondo en el póster | M | A10 | Hecho (2026-10-23) |
 
 ---
@@ -315,7 +315,9 @@ Víctor decide en la página de previews de los cinco siguientes (A19–A23): im
 - **Decisiones de Víctor:** en la sesión y en la rutina; de dos ejercicios; descanso al terminar la ronda.
 - **Cómo:** campo opcional en el entreno y la rutina (sin índice ni versión nueva de Dexie); orden de la ronda en `gym/lib/session`; récords, liga y mapa no cambian.
 
-### [ ] A22 · SOC-07 · Moderar comunidades desde la app
+### [x] A22 · SOC-07 · Moderar comunidades desde la app
+
+> **Hecho (2026-10-23, PROCESO §220, migración 0026).** Sin casilla «Avisar»: se avisa siempre que se actúa (borrar, suspender o cerrar) y nunca al descartar. Las comunidades suspendidas se reactivan desde Suspendidos. **Pendiente de Víctor:** ejecutar 0026.
 
 - **Tamaño:** M · **Rama:** `feat/a-moderar-comunidades` (+ migración `0026_…`)
 - **Decisión de Víctor:** avisar a quien denunció, sin detalles.

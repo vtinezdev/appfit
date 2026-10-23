@@ -174,6 +174,8 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
               if (aviso.tipo === 'aceptada') { setPublicacionesDe({ alias: aviso.alias, nombre: aviso.nombre }); return }
               // Abre Mis comunidades (vuelta a montar: la lista se relee con la nueva).
               if (aviso.tipo === 'anadido') { setDescubrir(d => (d > 0 ? 0 : d - 1)); setVista('comunidades'); return }
+              // La revisión de una denuncia no lleva a ningún sitio (no dice qué se hizo).
+              if (aviso.tipo === 'denuncia') return
               // El ánimo de la semana en compañía: su tarjeta está arriba de Siguiendo.
               if (aviso.tipo === 'animo_compania') { setVista('todo'); setVersionCompania(v => v + 1); window.scrollTo({ top: 0 }); return }
               setVista('todo')

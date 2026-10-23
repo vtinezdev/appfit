@@ -54,9 +54,10 @@ export interface Comentario {
 export interface Aviso {
   /**
    * `anadido`: un administrador me metió en una comunidad (`comunidad`, su id; `titulo`, su nombre). `animo_compania`:
-   * alguien de un grupo de la semana en compañía me dio ánimo (`compania`, el id del grupo; 0025).
+   * alguien de un grupo de la semana en compañía me dio ánimo (`compania`, el id del grupo; 0025). `denuncia`: se actuó
+   * sobre algo que denuncié (0026), sin persona ni objetivo.
    */
-  tipo: 'reaccion' | 'comentario' | 'respuesta' | 'aceptada' | 'comunidad' | 'anadido' | 'animo_compania'
+  tipo: 'reaccion' | 'comentario' | 'respuesta' | 'aceptada' | 'comunidad' | 'anadido' | 'animo_compania' | 'denuncia'
   personas?: number
   mia?: boolean
   alias: string
@@ -171,10 +172,11 @@ export function leerPaginaComentarios(x: unknown): PaginaComentarios {
 export function leerAvisos(x: unknown): Avisos {
   if (!esObjeto(x)) return { solicitudes: 0, nuevos: 0, invitaciones: 0, lista: [] }
   const lista = (Array.isArray(x.lista) ? x.lista : []).flatMap((a): Aviso[] => {
-    if (!esObjeto(a) || !['reaccion','comentario','respuesta','aceptada','comunidad','anadido','animo_compania'].includes(String(a.tipo))) return []
+    if (!esObjeto(a) || !['reaccion','comentario','respuesta','aceptada','comunidad','anadido','animo_compania','denuncia'].includes(String(a.tipo))) return []
+    const creado = ms(a.creado)
+    if (a.tipo === 'denuncia') return creado === null ? [] : [{ tipo: 'denuncia', alias: '', nombre: null, publicacion: '', titulo: '', texto: null, creado, nuevo: a.nuevo === true }]
     const alias = texto(a.alias)
     const publicacion = texto(a.publicacion)
-    const creado = ms(a.creado)
     if (!alias || (!publicacion && a.tipo !== 'aceptada') || creado === null) return []
     // En «anadido» el servidor manda el id de la comunidad en `publicacion`.
     // Y en «animo_compania», el del grupo.
@@ -191,6 +193,7 @@ export function textoAviso(a: Aviso): string {
   if (a.tipo === 'comunidad') return `Publicó en ${a.titulo}`
   if (a.tipo === 'anadido') return `Te añadió a la comunidad ${a.titulo}`
   if (a.tipo === 'animo_compania') return 'Ánimo en tu semana en compañía'
+  if (a.tipo === 'denuncia') return 'Revisamos tu denuncia y hemos actuado. Gracias por avisar.'
   return a.tipo === 'reaccion' ? `${REACCION.aviso[0].toUpperCase()}${REACCION.aviso.slice(1)} en ${a.titulo}` : `Comentó en ${a.titulo}`
 }
 
