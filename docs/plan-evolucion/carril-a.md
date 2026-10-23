@@ -40,7 +40,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A26 | ENT-20 | Rest-pause | M | — | Descartado (2026-10-23) |
 | A27 | ENT-21 | «Depende de la máquina», a mano | S | — | Descartado (2026-10-23) |
 | A28 | ACT-02 | Parciales por km | M-L | — | Hecho (2026-10-23) |
-| A29 | ENT-22 | Series por tiempo | L | — | Pendiente |
+| A29 | ENT-22 | Series por tiempo | L | — | Hecho (2026-10-23) |
 | A30 | ENT-23 | Progresión de cada lado | M | — | Descartado (2026-10-23) |
 | A31 | SOC-08 | Superseries en la rutina compartida | M | A21 | Descartado (2026-10-23) |
 | A32 | ACT-03 | Exportar una actividad a GPX | M | — | Descartado (2026-10-23) |
@@ -378,7 +378,9 @@ Víctor decide en la página de previews A24–A28: implementar A24 (mejor ritmo
 
 Víctor decide en la página de previews A29–A33: implementar A29 y descartar A30 (progresión de cada lado), A31 (superseries en la rutina compartida), A32 (exportar GPX) y A33 (pausa automática). A15 sigue esperando al piloto de A14.
 
-### [ ] A29 · ENT-22 · Series por tiempo
+### [x] A29 · ENT-22 · Series por tiempo
+
+> **Hecho (2026-10-23, PROCESO §226).** El objetivo del contador es el máximo del objetivo de la rutina leído en segundos o, sin él, lo de la vez anterior. «Parar y guardar» marca la serie. El récord de «más tiempo» sale al terminar la sesión, pero no se publica en Social: el servidor solo admite los tipos de récord de siempre. En lugar del «+10 s» de la preview hay «Reiniciar». Queda pendiente que el editor de objetivos diga «s» en lugar de «reps» para estos ejercicios.
 
 - **Tamaño:** L · **Rama:** `feat/a-series-tiempo`
 - **Decisiones de Víctor:** por tiempo son los ejercicios del catálogo que lo son (plancha, colgarse…) y cualquiera que se marque a mano; sin liga, porque no hay carga que comparar.

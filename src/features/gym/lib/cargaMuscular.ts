@@ -1,4 +1,5 @@
 import { claveComparacion, tieneReps, repsEstimulo, volumenSerie, type SerieEjecucion } from './ejecucion'
+import { segundosDe, tieneDatos } from './tiempo'
 import type { Exercise, SetEntry, Workout, WorkoutExerciseMuscles, WorkoutMuscleSnapshot } from '../../../shared/db/types'
 import { catalogoDeLocal } from './selectorEjercicios'
 import { ZONAS_MUSCULARES, type ZonaMuscular } from './musculos'
@@ -33,7 +34,7 @@ export interface TrabajoMuscular {
 
 /** Serie positiva; 0 kg no inventa masa corporal. Peso relativo al máximo DEL MISMO ejercicio/sesión. */
 export function calcularCargaEjercicio(series: SerieEjecucion[]): CargaEjercicio {
-  const validas = series.filter(s => s.tipo !== 'calentamiento' && s.realizada !== false && tieneReps(s))
+  const validas = series.filter(s => s.tipo !== 'calentamiento' && s.realizada !== false && tieneDatos(s, tieneReps(s)))
   const maximos = new Map<string, number>()
   for (const s of validas) if (modoCarga(s) === 'externa') maximos.set(claveComparacion(s), Math.max(maximos.get(claveComparacion(s)) ?? 0, positivo(s.peso)))
   const result: CargaEjercicio = { stimulus: 0, sets: validas.length, reps: 0, externalVolume: 0 }
@@ -41,7 +42,9 @@ export function calcularCargaEjercicio(series: SerieEjecucion[]): CargaEjercicio
     const peso = positivo(cargaExterna(s)), maxPeso = maximos.get(claveComparacion(s)) ?? 0
     // Las variantes corporales aportan series/reps, sin inferir esfuerzo de masa, lastre o asistencia.
     const weightFactor = modoCarga(s) === 'externa' && peso > 0 && maxPeso > 0 ? ESTIMULO_MUSCULAR.minimumWeightFactor + (1 - ESTIMULO_MUSCULAR.minimumWeightFactor) * peso / maxPeso : 1
-    result.stimulus += repsEstimulo(s) / ESTIMULO_MUSCULAR.repsReference * weightFactor
+    // Una serie por tiempo (A29) cuenta como una serie de referencia: no tiene repeticiones con que medirla.
+    const porTiempo = !tieneReps(s) && segundosDe(s) > 0
+    result.stimulus += (porTiempo ? ESTIMULO_MUSCULAR.repsReference : repsEstimulo(s)) / ESTIMULO_MUSCULAR.repsReference * weightFactor
     result.reps = sumarFinito(result.reps, repsEstimulo(s))
     result.externalVolume = sumarFinito(result.externalVolume, volumenSerie(s))
   }

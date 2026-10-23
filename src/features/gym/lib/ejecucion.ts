@@ -91,6 +91,8 @@ export function validarSerie(s: SerieEjecucion) {
   validarEjecucion({ ejecucion: s.ejecucion ?? 'bilateral', kgUnilateral: s.kgUnilateral, agarre: s.agarre })
   const valido = (p: DatosLado) => Number.isFinite(p.reps) && p.reps >= 0 && p.reps <= 10000 && Number.isFinite(p.peso) && p.peso >= 0 && p.peso <= 100000 && (p.rir === undefined || Number.isInteger(p.rir) && p.rir >= 0 && p.rir <= 5)
   if (!valido(s) || s.excentricaSeg !== undefined && (!Number.isFinite(s.excentricaSeg) || s.excentricaSeg <= 0 || s.excentricaSeg > 120)) throw new Error('Revisa repeticiones, kg, RIR y segundos (1–120).')
+  const segundos = (s as { segundos?: number }).segundos
+  if (segundos !== undefined && (!Number.isInteger(segundos) || segundos < 0 || segundos > 3600)) throw new Error('Revisa los segundos (0–3600).')
   if ((s.bajadas?.length ?? 0) > 10 || new Set(s.bajadas?.map(b => b.id)).size !== (s.bajadas?.length ?? 0)) throw new Error('Máximo 10 bajadas, con identificadores distintos.')
   for (const t of [s, ...(s.bajadas ?? [])]) {
     if (!valido(t) || Object.values(t.lados ?? {}).some(p => !valido(p))) throw new Error('Revisa los datos de cada tramo y lado.')
@@ -99,6 +101,7 @@ export function validarSerie(s: SerieEjecucion) {
 
 /** RIR por lado cambia esfuerzo anotado, no la ejecución física ya confirmada. */
 export function cambiaRealizacion(s: SerieEjecucion, patch: Partial<SerieEjecucion>): boolean {
-  const fisico = (x: SerieEjecucion) => JSON.stringify([x.reps, x.peso, x.ejecucion ?? 'bilateral', x.kgUnilateral ?? 'lado', x.agarre?.orientacion ?? '', x.agarre?.anchura ?? '', x.agarre?.accesorio ?? '', x.soloNegativas ?? false, x.excentricaSeg, Object.entries(x.lados ?? {}).sort().map(([l, p]) => [l, p.reps, p.peso]), x.bajadas?.map(b => [b.id, b.reps, b.peso, Object.entries(b.lados ?? {}).sort().map(([l, p]) => [l, p.reps, p.peso])]) ?? []])
+  // `segundos`: series por tiempo (A29, `lib/tiempo`).
+  const fisico = (x: SerieEjecucion) => JSON.stringify([x.reps, (x as { segundos?: number }).segundos ?? 0, x.peso, x.ejecucion ?? 'bilateral', x.kgUnilateral ?? 'lado', x.agarre?.orientacion ?? '', x.agarre?.anchura ?? '', x.agarre?.accesorio ?? '', x.soloNegativas ?? false, x.excentricaSeg, Object.entries(x.lados ?? {}).sort().map(([l, p]) => [l, p.reps, p.peso]), x.bajadas?.map(b => [b.id, b.reps, b.peso, Object.entries(b.lados ?? {}).sort().map(([l, p]) => [l, p.reps, p.peso])]) ?? []])
   return fisico(s) !== fisico({ ...s, ...patch })
 }

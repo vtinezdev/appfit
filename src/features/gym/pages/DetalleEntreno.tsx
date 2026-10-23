@@ -294,6 +294,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
               objetivo={rutina?.objetivos?.[id]} onActualizar={actualizarSerie} onBorrar={borrarSerie} onAgregar={() => agregarSerie(id)}
               completadas={delEntreno.filter(s => s.realizada === true).map(s => s.id)} onCompletar={s => { void accion(() => setsRepo.confirmar(s.id, s.realizada !== true), 'No se ha podido confirmar la serie.') }}
               bloqueado={ocupado || quitando} onQuitar={() => quitarEjercicio(id, ex.nombre)} onAviso={avisar}
+              sonido={ajustes?.sonidoDescanso !== false} onPorTiempo={(porTiempo) => { void accion(() => exercisesRepo.guardarPorTiempo(id, porTiempo), 'No se ha podido cambiar.') }}
               contexto={{ workoutId, inicio: w.inicio, nota: w.notasEjercicios?.[id], carga: w.cargasEjercicios?.[id], onCarga: async carga => {
                 setOcupado(true)
                 try { await workoutsRepo.configurarCarga(workoutId, id, carga) }
