@@ -9,6 +9,7 @@ import TrasladarDatos from './TrasladarDatos'
 import AtmosferaApp from './AtmosferaApp'
 import { LoadingState } from '../shared/components/StateMessage'
 import type { NutrienteId } from '../shared/lib/referenciasNutricionales'
+import type { Comida } from '../shared/db/types'
 import type { AreaReferencias } from '../features/referencias/lib/contenidoReferencias'
 import type { DestinoProgreso } from '../features/inicio/components/AccesoProgreso'
 import * as workoutsRepo from '../features/gym/data/workoutsRepo'
@@ -36,6 +37,8 @@ export default function App() {
   const [seccionAjustes, setSeccionAjustes] = useState<SeccionAjustes | undefined>(undefined)
   const [seccionEntreno, setSeccionEntreno] = useState<SeccionEntreno | undefined>(undefined)
   const [referenciaInicial, setReferenciaInicial] = useState<NutrienteId | undefined>(undefined)
+  /** Comida con la que Nutrición abre Añadir comida (el «Añadir …» de Inicio). */
+  const [anadirInicial, setAnadirInicial] = useState<Comida | undefined>(undefined)
   const [areaReferencias, setAreaReferencias] = useState<AreaReferencias | undefined>(undefined)
   /** De dónde se abrió Referencias, para su «Volver». */
   const [origenReferencias, setOrigenReferencias] = useState<OrigenReferencias>('ajustes')
@@ -52,6 +55,7 @@ export default function App() {
   function navegar(siguiente: Tab) {
     setSeccionAjustes(undefined)
     setReferenciaInicial(undefined)
+    setAnadirInicial(undefined)
     setAreaReferencias(undefined)
     setSeccionEntreno(undefined)
     setEntrenoAbierto(false)
@@ -98,9 +102,9 @@ export default function App() {
       <AtmosferaApp tab={tab} />
       <main ref={scrollRef} className="safe-top safe-inline h-full overflow-y-auto overscroll-contain">
         <div key={tab} data-atmosphere={tab} className="app-view app-content mx-auto w-full">
-        {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onIrAGym={abrirEntreno} onIrAProgreso={navegar} enfocarProgreso={focoVuelta === 'referencias' ? undefined : focoVuelta} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => abrirAmigos()} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
+        {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onAnadirComida={c => { navegar('nutricion'); setAnadirInicial(c) }} onIrAGym={abrirEntreno} onIrAProgreso={navegar} enfocarProgreso={focoVuelta === 'referencias' ? undefined : focoVuelta} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => abrirAmigos()} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => irAAjustes('instalacion')} />} />}
-        {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab onVerReferencia={id => { abrirReferencias('nutricion'); setReferenciaInicial(id) }} /></Suspense>}
+        {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab anadirInicial={anadirInicial} onVerReferencia={id => { abrirReferencias('nutricion'); setReferenciaInicial(id) }} /></Suspense>}
         {tab === 'gym' && <Suspense fallback={<LoadingState />}><GymTab seccionInicial={seccionEntreno} entrenoAbierto={entrenoAbierto} onAbrirEntreno={() => setEntrenoAbierto(true)} onMinimizarEntreno={() => setEntrenoAbierto(false)} /></Suspense>}
         {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { abrirReferencias('perfil'); setAreaReferencias('energia') }} /></Suspense>}
         {tab === 'cumbres' && <Suspense fallback={<LoadingState />}><CumbresTab onIrAAjustes={() => irAAjustes('gamificacion')} onVolver={() => volverAInicio('cumbres')} /></Suspense>}
