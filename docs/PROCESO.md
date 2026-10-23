@@ -2345,3 +2345,11 @@ Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla
 **Cómo:** `social/AmigosTab` recibe `onVolver` y pasa `volver={{ etiqueta: 'Social', onVolver }}` a sus tres `PageHeader` (sin sesión, error y normal). En `app/App.tsx`, solo la línea que monta `AmigosTab` (cruce pactado). Documentos: `features/social.md`, `arquitectura.md` (navegación) y el carril A con los pasos nuevos.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Playwright con el Supabase falso en `appfit-test.localhost:5175` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: el botón «Social» (44 px) vuelve a Social; sin scroll horizontal ni errores de consola.
+
+## 213. Gemelos siempre en el asistente de rutinas (A16 · ENT-16, 2026-10-23)
+
+**Qué:** con sesiones de 45 min, o con 2–3 días y 60 min, el asistente no proponía ningún ejercicio de gemelos y ese grupo no podía progresar en el mapa (el roadmap solo lo apuntaba para 2–3 días). Víctor elige en las previews que siempre haya uno, de 3 series, aunque alargue un poco la sesión.
+
+**Cómo:** `gym/lib/creadorRutinas.generarPlan` termina con `conGemelos`: si ningún día trae gemelos, elige uno con `elegir('gemelos', …)` (material y semilla como el resto) y lo añade con `SERIES_GEMELOS` = 3 al día de pierna o cuerpo completo con menos series, ordenado como aislamiento. Tests: el de completitud cuenta ese ejercicio de más y uno nuevo exige gemelos en todas las combinaciones (días × material × objetivo × tiempo), en un día de pierna o completo. Documentos: `features/gym.md` § Creador, roadmap (sale la línea) y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 375 claro (3 días, 45 min), 320 oscuro (2 días, 60 min) y 430 oscuro (4 días, 45 min): el plan muestra «Elevación de gemelos de pie en máquina» y la rutina guardada la lleva con 3 series; sin errores de consola.

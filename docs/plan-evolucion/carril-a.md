@@ -27,7 +27,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A15 | SOC-03 | Expediciones de comunidad | XL | A14 | Pendiente |
 | A-X1 | NAV-02 | «Volver» en Amigos (cruce) | S | B4 | Hecho (2026-10-23) |
 | A-X2 | GAM-04 | Línea de la meta en la gráfica (cruce) | S | B13 | Pendiente |
-| A16 | ENT-16 | Gemelos en el asistente de rutinas | S | — | Pendiente |
+| A16 | ENT-16 | Gemelos en el asistente de rutinas | S | — | Hecho (2026-10-23) |
 | A17 | REN-04 | Importar FIT | M | A11 | Pendiente |
 | A18 | SOC-04 | Compartir tu semana de Ritmo | M | A13 | Pendiente |
 
@@ -261,7 +261,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 Víctor aprueba en la página de previews de los cinco siguientes tres mejoras del roadmap de este carril que no estaban en el plan, además de A14 (sus decisiones D11: objetivo = su propio plan de Ritmo de esa semana; semana de lunes a domingo en la hora local de cada uno; solo personas que os seguís mutuamente, grupos de 2 o 3; continua semana tras semana hasta que alguien pausa o sale) y A-X1. Orden: A16, A17, A18 y después A14.
 
-### [ ] A16 · ENT-16 · Gemelos en el asistente de rutinas
+### [x] A16 · ENT-16 · Gemelos en el asistente de rutinas
+
+> **Hecho (2026-10-23, PROCESO §213).** `conGemelos` en `generarPlan`; el test recorre todas las combinaciones de días, material, objetivo y tiempo.
 
 - **Tamaño:** S · **Rama:** `feat/a-creador-gemelos`
 - **Problema:** con sesiones de 45 min el asistente nunca propone gemelos, y con 2–3 días solo a 75 min (simulado con todas las combinaciones de `generarPlan`).
