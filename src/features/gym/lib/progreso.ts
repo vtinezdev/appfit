@@ -4,6 +4,8 @@ import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { formatDiaMes } from '../../../shared/lib/dates'
 import { modoCarga } from './carga'
 import { efectivas, epley1RM, volumenSets } from './workout'
+import { acumularComparables, claveGrupo } from './records'
+import type { SerieEjecucion } from './ejecucion'
 
 export interface MejorSerie { peso: number; reps: number }
 
@@ -202,4 +204,81 @@ export function trazoMini(valores: number[], ancho: number, alto: number, margen
     Math.round((max === min ? alto / 2 : margen + ((max - v) / (max - min)) * (alto - 2 * margen)) * 10) / 10,
   ] as const)
   return { d: xy.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join(''), ultimo: { x: xy[xy.length - 1][0], y: xy[xy.length - 1][1] } }
+}
+
+export interface SesionHistorial { workoutId: number; inicio: number; mejor: MejorSerie; series: number; rirMedio: number | null }
+export interface RecordVigente { etiqueta: string; texto: string; inicio: number }
+export interface HistorialEjercicio {
+  modo: ModoCarga
+  /** Las últimas sesiones terminadas, la más reciente primero (como mucho `n`). */
+  sesiones: SesionHistorial[]
+  /** Valores para la minigráfica (1RM, carga, ayuda o reps según el modo), de la más antigua a la más reciente. */
+  puntos: number[]
+  /** Qué miden los puntos: «Mejor 1RM estimado», «Peso máximo», «Lastre máximo», «Menor ayuda» o «Más repeticiones». */
+  mide: string
+  total: number
+  records: RecordVigente[]
+}
+
+/**
+ * Historial de un ejercicio para consultarlo sin salir de la sesión (ENT-04): las sesiones terminadas antes de `antesDe`
+ * comparables con `referencia` (mismo ejercicio, modo de carga, variante y, en máquinas, gimnasio: `records.claveGrupo`),
+ * su mejor serie, cuántas series y el RIR medio; los valores de la minigráfica y los récords vigentes de cada tipo.
+ * Calentamientos y series sin hacer quedan fuera, como en los récords. `null` sin ninguna sesión comparable.
+ */
+export function historialEjercicio(series: SetEntry[], workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[], referencia: Pick<SetEntry, 'exerciseId'> & Partial<SerieEjecucion>, antesDe: number, n = 5, nPuntos = 8): HistorialEjercicio | null {
+  const terminadas = new Map(workouts.filter(w => w.fin !== undefined && w.inicio < antesDe).map(w => [w.id, w.inicio]))
+  const previas = series.filter(s => s.exerciseId === referencia.exerciseId && terminadas.has(s.workoutId))
+  const grupo = (acumularComparables(new Map(), previas).get(claveGrupo(referencia)) ?? []) as (SetEntry & MejorSerie)[]
+  if (!grupo.length) return null
+  const modo = modoCarga(grupo[0])
+  const conRM = modo === 'externa' && !grupo[0].ejecucion && !grupo[0].excentricaSeg
+  const porSesion = new Map<number, (SetEntry & MejorSerie)[]>()
+  for (const s of grupo) porSesion.set(s.workoutId, [...(porSesion.get(s.workoutId) ?? []), s])
+  const todas = [...porSesion].map(([workoutId, ss]) => {
+    const rirs = ss.map(s => s.rir).filter((r): r is number => typeof r === 'number')
+    return { workoutId, inicio: terminadas.get(workoutId)!, ss, mejor: mejorDe(ss.map(s => ({ peso: s.peso, reps: s.reps })), modo), series: ss.length,
+      rirMedio: rirs.length ? rirs.reduce((a, b) => a + b, 0) / rirs.length : null }
+  }).sort((a, b) => a.inicio - b.inicio || a.workoutId - b.workoutId)
+  const valor = (ss: MejorSerie[]) => modo === 'corporal' ? Math.max(...ss.map(s => s.reps)) : modo === 'asistencia' ? Math.min(...ss.map(s => s.peso))
+    : conRM ? Math.max(...ss.map(s => epley1RM(s.peso, s.reps))) : Math.max(...ss.map(s => s.peso))
+  return {
+    modo,
+    sesiones: todas.slice(-n).reverse().map(({ ss, ...s }) => { void ss; return s }),
+    puntos: todas.slice(-nPuntos).map(s => valor(s.ss)),
+    mide: modo === 'corporal' ? 'Más repeticiones' : modo === 'asistencia' ? 'Menor ayuda' : modo === 'lastre' ? 'Lastre máximo' : conRM ? 'Mejor 1RM estimado' : 'Peso máximo',
+    total: todas.length,
+    records: recordsVigentes(todas, modo, conRM, referencia.peso),
+  }
+}
+
+/** El récord vigente de cada tipo y la primera sesión en que se logró; las reps, con el peso de la serie de referencia si ya se usó. */
+function recordsVigentes(sesiones: { inicio: number; ss: MejorSerie[] }[], modo: ModoCarga, conRM: boolean, pesoReferencia?: number): RecordVigente[] {
+  const series = sesiones.flatMap(s => s.ss.map(x => ({ ...x, inicio: s.inicio })))
+  const primera = (cumple: (x: MejorSerie) => boolean) => series.find(cumple)!.inicio
+  const kg = (n: number) => `${formatNumber(n, 2)} kg`
+  const out: RecordVigente[] = []
+  if (modo === 'corporal') {
+    const reps = Math.max(...series.map(s => s.reps))
+    return [{ etiqueta: 'Más repeticiones', texto: `${formatInt(reps)} reps`, inicio: primera(s => s.reps === reps) }]
+  }
+  if (modo === 'asistencia') {
+    const minima = Math.min(...series.map(s => s.peso))
+    const reps = Math.max(...series.filter(s => s.peso === minima).map(s => s.reps))
+    out.push({ etiqueta: 'Menos ayuda', texto: textoMejorSerie({ peso: minima, reps }, modo), inicio: primera(s => s.peso === minima && s.reps === reps) })
+  } else {
+    const maximo = Math.max(...series.map(s => s.peso))
+    const reps = Math.max(...series.filter(s => s.peso === maximo).map(s => s.reps))
+    out.push({ etiqueta: modo === 'lastre' ? 'Lastre máximo' : 'Peso máximo', texto: textoMejorSerie({ peso: maximo, reps }, modo), inicio: primera(s => s.peso === maximo && s.reps === reps) })
+    if (conRM) {
+      const rm = Math.max(...series.map(s => epley1RM(s.peso, s.reps)))
+      out.push({ etiqueta: '1RM estimado', texto: kg(rm), inicio: primera(s => epley1RM(s.peso, s.reps) === rm) })
+    }
+  }
+  if (pesoReferencia !== undefined && series.some(s => s.peso === pesoReferencia)) {
+    const reps = Math.max(...series.filter(s => s.peso === pesoReferencia).map(s => s.reps))
+    const con = modo === 'lastre' ? `+${kg(pesoReferencia)}` : modo === 'asistencia' ? `${kg(pesoReferencia)} de ayuda` : kg(pesoReferencia)
+    out.push({ etiqueta: `Más reps con ${con}`, texto: `${formatInt(reps)} reps`, inicio: primera(s => s.peso === pesoReferencia && s.reps === reps) })
+  }
+  return out
 }
