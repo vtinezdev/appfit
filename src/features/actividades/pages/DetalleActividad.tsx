@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
+import Badge from '../../../shared/components/Badge'
 import Button from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
@@ -18,6 +19,7 @@ import TrazadoRecorrido from '../components/TrazadoRecorrido'
 import * as actividadesRepo from '../data/actividadesRepo'
 import { duracionTexto, formatKm, formatRitmo, formatVelocidad, kmTexto, NOMBRE_TIPO, ritmoSegPorKm, tituloActividad } from '../lib/actividad'
 import { valoresIniciales } from '../lib/formulario'
+import { FRASE_MARCA, marcasDe } from '../lib/marcas'
 
 const ORIGEN: Record<Actividad['origen'], string> = {
   manual: 'Registrada a mano',
@@ -32,9 +34,10 @@ interface Props {
   onBorrada: (a: Actividad) => void
 }
 
-/** Una actividad: recorrido, cifras, altitud, lo que subió en Cumbres y avanzó en Caminos, notas, editar y borrar. */
+/** Una actividad: sus marcas (A24), recorrido, cifras, altitud, lo que subió en Cumbres y avanzó en Caminos, notas, editar y borrar. */
 export default function DetalleActividad({ actividadId, onVolver, onBorrada }: Props) {
   const a = useLiveQuery(async () => (await actividadesRepo.obtener(actividadId)) ?? null, [actividadId])
+  const todas = useLiveQuery(() => actividadesRepo.terminadas(), [])
   const [editando, setEditando] = useState(false)
   const [aperturas, setAperturas] = useState(0)
   const [notas, setNotas] = useState<string | null>(null)
@@ -47,6 +50,7 @@ export default function DetalleActividad({ actividadId, onVolver, onBorrada }: P
 
   const actividad = a
   const ritmo = ritmoSegPorKm(actividad.duracionSeg, actividad.distanciaM)
+  const marcas = todas ? marcasDe(todas, actividad.id) : []
 
   async function guardarNotas() {
     if (notas === null || notas === (actividad.notas ?? '')) return
@@ -78,6 +82,9 @@ export default function DetalleActividad({ actividadId, onVolver, onBorrada }: P
         <Button variant="secondary" size="sm" onClick={() => { setAperturas((n) => n + 1); setEditando(true) }}><Icon name="pencil" size={16} />Editar</Button>
       </div>
       <PageHeader title={tituloActividad(actividad)} overline={`${NOMBRE_TIPO[actividad.tipo]} · ${formatFechaHoraConDia(actividad.inicio)}`} />
+      {marcas.length > 0 && <ul aria-label="Marcas" className="flex flex-wrap gap-2">
+        {marcas.map((m) => <li key={m}><Badge tone="accent"><Icon name="trophy" size={14} />{FRASE_MARCA[m]}</Badge></li>)}
+      </ul>}
       {error && <ErrorState>{error}</ErrorState>}
 
       <Card className="space-y-4">
