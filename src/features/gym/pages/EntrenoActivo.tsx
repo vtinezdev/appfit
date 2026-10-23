@@ -17,6 +17,7 @@ import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDest
 import PanelEjercicio from '../components/PanelEjercicio'
 import { Textarea } from '../../../shared/components/Input'
 import { recordsDeEntreno } from '../lib/records'
+import { recordsTiempo } from '../lib/tiempo'
 import SelectorEjercicios from '../components/SelectorEjercicios'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
@@ -307,6 +308,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         nombres: Object.fromEntries(exercises.map(e => [e.id, e.nombre])),
         catalogIds: Object.fromEntries(exercises.map(e => [e.id, e.catalogId])),
         workoutId: workout.id,
+        recordsTiempo: recordsTiempo(saved, allSets.filter(s => s.workoutId !== workout.id)),
       })
     } catch {
       setFinishError('No se ha podido terminar el entreno. Inténtalo de nuevo.')
@@ -421,6 +423,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
           liga={liga && ligas ? { estado: liga, avisar: avisarElite(liga, ex, ajustes?.ligaMantener), hoy, mantenido: !!ajustes?.ligaMantener?.includes(exId),
             alternativas: liga.division.elite ? alternativas(ex, exercises, ligas.ligas) : [], sinRecords: ligas.sinRecords.get(exId) ?? 0,
             rutinas: routine?.exerciseIds.includes(exId) ? [routine] : [] } : undefined}
+          sonido={ajustes?.sonidoDescanso !== false} onPorTiempo={(porTiempo) => { exercisesRepo.guardarPorTiempo(exId, porTiempo).catch(() => avisarError('No se ha podido cambiar. Inténtalo de nuevo.')) }}
           plegado={completo && !desplegados.has(exId)}
           onPlegar={(plegar) => setDesplegados((previo) => { const s = new Set(previo); if (plegar) s.delete(exId); else s.add(exId); return s })} />
         {sugerencia?.exId === exId && session.restSeconds === 0 && <DescansoSugerido segundos={sugerencia.segundos} ejercicio={ex.nombre}

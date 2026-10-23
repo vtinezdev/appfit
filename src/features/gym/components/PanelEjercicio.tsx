@@ -10,6 +10,8 @@ import type { ConfiguracionEjecucion, Workout, ConfiguracionCarga, Exercise, Lad
 import MenuSerie from './MenuSerie'
 import ChipAjuste from './ChipAjuste'
 import RirSheet from './RirSheet'
+import CronoSerie from './CronoSerie'
+import { esPorTiempo, formatSegundos, mejorTiempo, objetivoSegundos, segundosDe, segundosLargo, segundosValidos, tieneDatos, type ConPorTiempo } from '../lib/tiempo'
 import HistorialEjercicioSheet from './HistorialEjercicioSheet'
 import { historialEjercicio, type HistorialEjercicio } from '../lib/progreso'
 import NotaEjercicio from './NotaEjercicio'
@@ -122,9 +124,13 @@ interface Props {
   onPlegar?: (plegar: boolean) => void
   /** Primera vez de una máquina en otro gimnasio: qué buscar (`lib/gimnasios.notaPrimeraVez`). */
   notaGimnasio?: string
+  /** Series por tiempo (A29): marcar el ejercicio a mano como «por tiempo» o «por repeticiones». */
+  onPorTiempo?: (porTiempo: boolean) => void
+  /** El contador de una serie por tiempo pita al llegar al objetivo si el descanso pita. */
+  sonido?: boolean
 }
 
-type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | 'historial' | 'liga' | { serie: number } | { rir: number; lado?: Lado }
+type Hoja = 'menu' | 'nota' | 'carga' | 'variante' | 'progresion' | 'historial' | 'liga' | { serie: number } | { rir: number; lado?: Lado } | { crono: number }
 const LADOS: { lado: Lado; letra: string; nombre: string }[] = [{ lado: 'izquierda', letra: 'I', nombre: 'izquierda' }, { lado: 'derecha', letra: 'D', nombre: 'derecha' }]
 
 
@@ -144,7 +150,7 @@ function CeldaAnterior({ dato }: { dato?: TextoAnterior }) {
 }
 
 /** Panel de un ejercicio con sus series; lo comparten la sesión activa y el editor de entrenos terminados. */
-export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onSustituir, superserie, onAviso, contexto, mover, liga, plegado = false, onPlegar, notaGimnasio }: Props) {
+export default function PanelEjercicio({ ejercicio, sets, anteriores, referenciasCarga = [], objetivo, completadas, onCompletar, preguntarRir = false, nuevaId, bloqueado, barraKg, onActualizar, onBorrar, onAgregar, onQuitar, onSustituir, superserie, onAviso, contexto, mover, liga, plegado = false, onPlegar, notaGimnasio, onPorTiempo, sonido = true }: Props) {
   const filaPlegada = useRef<HTMLButtonElement>(null)
   const estabaPlegado = useRef(plegado)
   // Al plegarse justo tras marcar la última serie, el ✓ desaparece: el foco pasa a la fila plegada en vez de perderse
@@ -179,14 +185,19 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
   const nombreDe = (numero: number | null) => numero === null ? 'calentamiento' : `serie ${numero}`
   const abiertaSerie = typeof hoja === 'object' && hoja && 'serie' in hoja ? numeradas.find(n => n.s.id === hoja.serie) : undefined
   const abiertaRir = typeof hoja === 'object' && hoja && 'rir' in hoja ? { ...numeradas.find(n => n.s.id === hoja.rir), lado: hoja.lado } : undefined
+  const abiertaCrono = typeof hoja === 'object' && hoja && 'crono' in hoja ? numeradas.find(n => n.s.id === hoja.crono) : undefined
+  /** Segundos de la serie equivalente de la sesión anterior (la n.ª efectiva con la n.ª efectiva). */
+  const anteriorSegundos = (numero: number | null) => numero === null ? 0 : segundosDe(referenciasCarga.filter(r => r.tipo !== 'calentamiento' && r.realizada !== false)[numero - 1] ?? {})
   const ejecucion: ConfiguracionEjecucion = contexto?.ejecucion ?? { ejecucion: sets[0]?.ejecucion ?? 'bilateral', kgUnilateral: sets[0]?.kgUnilateral, agarre: sets[0]?.agarre }
   const conCarga = contexto && (admiteCargaCorporal(ejercicio) || (contexto.carga && contexto.carga.modo !== 'externa') || sets.some(s => modoCarga(s) !== 'externa'))
   const agarres = opcionesAgarre(ejercicio)
   const conAgarre = agarres.orientacion || agarres.anchura || agarres.accesorio || !!ejecucion.agarre
   const modo = cargaActual(sets, contexto?.carga).modo
   const columnaKg = modo === 'lastre' ? 'Lastre' : modo === 'asistencia' ? 'Ayuda' : 'Kg'
-  const conProgresion = !!(contexto?.workout && contexto.onProgresion)
-  const menu = !!(contexto || mover || onQuitar || onSustituir || superserie)
+  const porTiempo = esPorTiempo(ejercicio as Exercise & ConPorTiempo)
+  const totalSegundos = sets.reduce((n, s) => n + segundosDe(s), 0)
+  const conProgresion = !porTiempo && !!(contexto?.workout && contexto.onProgresion)
+  const menu = !!(contexto || mover || onQuitar || onSustituir || superserie || onPorTiempo)
   const conAnterior = !!anteriores && anteriores.size > 0
   const fila = conAnterior ? 'series-row con-anterior' : 'series-row'
 
@@ -206,7 +217,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
     const hecha = completadas?.includes(s.id) ?? false
     const resultado = await onCompletar(s, numero ?? 0)
     // Se pregunta al marcar (no al desmarcar) y solo si la serie aún no tiene RIR.
-    if (resultado === true && !hecha && preguntarRir && s.tipo !== 'calentamiento' && s.ejecucion !== 'lados' && s.rir === undefined) setHoja({ rir: s.id })
+    if (resultado === true && !hecha && preguntarRir && !porTiempo && s.tipo !== 'calentamiento' && s.ejecucion !== 'lados' && s.rir === undefined) setHoja({ rir: s.id })
   }
 
   function campoKg(s: SetEntry, tramo: { peso: number }, label: string, cambio: (peso: number) => CambioSerie, ausente = false) {
@@ -238,11 +249,11 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
   return (
     <Card data-exercise-id={ejercicio.id} data-plegado={plegado || undefined} padded={!plegado} className={`exercise-panel ${plegado ? '' : 'space-y-3'}`}>
       {plegado ? <button ref={filaPlegada} type="button" aria-expanded={false} onClick={() => onPlegar?.(false)}
-        aria-label={`${ejercicio.nombre}: ${formatInt(sets.length)} de ${formatInt(sets.length)} series hechas, ${formatInt(volumenSets(sets))} kg. Desplegar`}
+        aria-label={`${ejercicio.nombre}: ${formatInt(sets.length)} de ${formatInt(sets.length)} series hechas, ${porTiempo ? segundosLargo(totalSegundos) : `${formatInt(volumenSets(sets))} kg`}. Desplegar`}
         className="app-button flex min-h-touch w-full flex-wrap items-center gap-3 rounded-lg p-3 text-left">
         <MiniaturaEjercicio catalogId={ejercicio.catalogId} />
         <span className="min-w-0 flex-1 basis-32 break-words text-body font-semibold text-fg">{ejercicio.nombre}</span>
-        <span className="tabular shrink-0 text-caption text-fg-muted">{formatInt(volumenSets(sets))} kg</span>
+        <span className="tabular shrink-0 text-caption text-fg-muted">{porTiempo ? formatSegundos(totalSegundos) : `${formatInt(volumenSets(sets))} kg`}</span>
         <span className="tabular flex shrink-0 items-center gap-1 text-body-sm font-bold text-success"><Icon name="check" size={18} />{formatInt(sets.length)}/{formatInt(sets.length)}</span>
       </button> : <>
       {/* Con texto ampliado, la ficha y el menú bajan de línea antes de estrechar el nombre. */}
@@ -253,7 +264,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
         <div className="min-w-0 flex-1 basis-32">
           <h2 tabIndex={-1} className="exercise-title break-words text-title text-fg">{ejercicio.nombre}</h2>
           <p className="break-words text-caption text-fg-muted">{subtituloEjercicio(ejercicio)}</p>
-          {objetivo && <p className="tabular text-caption text-fg-muted">Objetivo: {textoObjetivo(objetivo)} reps{objetivo.calentamientos ? ` · ${textoCalentamientos(objetivo)}` : ''}{objetivo.descansoSeg ? ` · ${objetivo.descansoSeg} s de descanso` : ''}</p>}
+          {objetivo && <p className="tabular text-caption text-fg-muted">Objetivo: {textoObjetivo(objetivo)} {porTiempo ? 's' : 'reps'}{objetivo.calentamientos ? ` · ${textoCalentamientos(objetivo)}` : ''}{objetivo.descansoSeg ? ` · ${objetivo.descansoSeg} s de descanso` : ''}</p>}
         </div>
         </div>
         {(conFicha || menu) && <div className="ml-auto flex shrink-0 items-start gap-2">
@@ -276,7 +287,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
       <div className="space-y-2">
         {sets.length > 0 && (
           <div className={`${fila} series-head text-caption text-fg-muted`} aria-hidden>
-            <span className="celda-tipo text-center">Serie</span>{conAnterior && <span className="celda-prev text-center">Anterior</span>}<span className="celda-reps text-center">Reps</span><span className="celda-kg text-center">{columnaKg}</span><span className="celda-rir text-center">RIR</span>
+            <span className="celda-tipo text-center">Serie</span>{conAnterior && <span className="celda-prev text-center">Anterior</span>}<span className="celda-reps text-center">{porTiempo ? 'Seg' : 'Reps'}</span><span className="celda-kg text-center">{columnaKg}</span><span className="celda-rir text-center">{porTiempo ? '' : 'RIR'}</span>
           </div>
         )}
         {numeradas.map(({ s, numero }) => {
@@ -284,7 +295,8 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
           const hecha = completadas?.includes(s.id) ?? false
           const tipo = tipoSerie(s)
           const letra = TIPOS_SERIE[tipo].letra
-          const lados = s.ejecucion === 'lados'
+          // Por tiempo (A29), una sola fila: segundos, kg y el contador.
+          const lados = s.ejecucion === 'lados' && !porTiempo
           const etiquetas = etiquetasSerie(s, ejecucion)
           const previo = anteriores?.get(s.id)
           return (
@@ -296,7 +308,12 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
                   {letra ? <span className="series-letter">{letra}</span> : numero}
                   <Icon name="chevron-down" size={12} className="series-type-chevron text-fg-muted" />
                 </button>
-                {lados ? <p className="series-span text-body-sm text-fg-muted">Izquierda y derecha</p> : <>
+                {porTiempo ? <>
+                  {conAnterior && <CeldaAnterior dato={previo?.fila} />}
+                  <CampoSerie className="celda-reps" disabled={bloqueado} valor={segundosDe(s) || undefined} label={`Segundos, ${nombreSerie} de ${ejercicio.nombre}`} onChange={(n) => actualizar(s.id, { segundos: segundosValidos(n) })} />
+                  {campoKg(s, s, `${modoCarga(s) === 'asistencia' ? 'Asistencia' : modoCarga(s) === 'lastre' ? 'Lastre' : 'Peso'} en kg, ${nombreSerie} de ${ejercicio.nombre}`, peso => ({ peso }))}
+                  <IconButton className="celda-rir" icon="timer" variant="secondary" size="sm" label={`Contador, ${nombreSerie} de ${ejercicio.nombre}`} disabled={bloqueado} onClick={() => setHoja({ crono: s.id })} />
+                </> : lados ? <p className="series-span text-body-sm text-fg-muted">Izquierda y derecha</p> : <>
                   {conAnterior && <CeldaAnterior dato={previo?.fila} />}
                   <CampoSerie className="celda-reps" disabled={bloqueado} valor={s.reps} label={`Repeticiones, ${nombreSerie} de ${ejercicio.nombre}`} onChange={(reps) => actualizar(s.id, { reps })} />
                   {campoKg(s, s, `${modoCarga(s) === 'asistencia' ? 'Asistencia' : modoCarga(s) === 'lastre' ? 'Lastre' : 'Peso'} en kg, ${nombreSerie} de ${ejercicio.nombre}`, peso => ({ peso }))}
@@ -305,7 +322,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
                 {onCompletar ? (
                   <button type="button" className="celda-ok series-complete app-button"
                     aria-label={`${hecha ? 'Desmarcar' : 'Completar'} ${nombreSerie} de ${ejercicio.nombre}`} aria-pressed={hecha}
-                    disabled={!tieneReps(s) || bloqueado} title={!tieneReps(s) ? 'Introduce las repeticiones para completar la serie' : undefined}
+                    disabled={!tieneDatos(s, tieneReps(s)) || bloqueado} title={!tieneDatos(s, tieneReps(s)) ? (porTiempo ? 'Introduce los segundos para completar la serie' : 'Introduce las repeticiones para completar la serie') : undefined}
                     onClick={() => { void completar(s, numero) }}>
                     <Icon name="check" className="mx-auto" size={20} />
                   </button>
@@ -362,6 +379,18 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
         return <RirSheet open titulo={`RIR · ${numero === null || numero === undefined ? 'calentamiento' : `serie ${numero}`}${lado ? ` · ${lado}` : ''}`} valor={valor} alCompletar={preguntarRir}
           onClose={() => setHoja(null)} onElegir={async rir => { await onActualizar(s.id, lado ? (a: SetEntry) => ({ lados: conLadoEspejo(a.lados, lado, { rir }) }) : { rir }) }} />
       })()}
+      {abiertaCrono && (() => {
+        const { s, numero } = abiertaCrono
+        const anterior = anteriorSegundos(numero)
+        return <CronoSerie open titulo={`${ejercicio.nombre} · ${numero === null ? 'calentamiento' : `serie ${numero}`}`} sonido={sonido}
+          objetivo={objetivoSegundos(objetivo, anterior)} anterior={anterior || undefined}
+          mejor={contexto?.historial ? mejorTiempo(contexto.historial.sets.filter(h => h.workoutId !== contexto.workoutId), ejercicio.id) || undefined : undefined}
+          onClose={() => setHoja(null)}
+          onGuardar={async segundos => {
+            await onActualizar(s.id, { segundos })
+            if (onCompletar && !(completadas?.includes(s.id) ?? false) && segundos > 0) await completar({ ...s, ...{ segundos } }, numero)
+          }} />
+      })()}
       {contexto && hoja === 'nota' && <NotaEjercicio workoutId={contexto.workoutId} exerciseId={ejercicio.id} nombre={ejercicio.nombre} inicio={contexto.inicio} nota={contexto.nota} onClose={() => setHoja(null)} />}
       {contexto && hoja === 'carga' && <CargaEjercicio nombre={ejercicio.nombre} inicio={contexto.inicio} sets={sets} configuracion={contexto.carga} onGuardar={contexto.onCarga} onClose={() => setHoja(null)} />}
       {contexto?.onEjecucion && hoja === 'variante' && <EjecucionEjercicio open ejercicio={ejercicio} actual={ejecucion} onGuardar={contexto.onEjecucion} onClose={() => setHoja(null)} />}
@@ -374,6 +403,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
           {contexto && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('nota'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">{contexto.nota ? 'Editar nota' : 'Añadir nota'}</span><span className="block break-words text-caption text-fg-muted">Solo de este ejercicio en esta sesión</span></span><Icon name="pencil" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {conProgresion && <li><ListRow onClick={() => elegirDelMenu(() => setHoja('progresion'))}><span className="min-w-0"><span className="block text-body-sm font-semibold">Progresión</span><span className="block break-words text-caption text-fg-muted">Objetivo y sugerencias</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {contexto?.historial && <li><ListRow onClick={() => elegirDelMenu(abrirHistorial)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Historial y récords</span><span className="block break-words text-caption text-fg-muted">Últimas sesiones, récords y gráfica</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
+          {onPorTiempo && <li><ListRow onClick={() => elegirDelMenu(() => onPorTiempo(!porTiempo))}><span className="min-w-0"><span className="block text-body-sm font-semibold">{porTiempo ? 'Contar por repeticiones' : 'Contar por tiempo'}</span><span className="block break-words text-caption text-fg-muted">{porTiempo ? 'Vuelve a apuntar repeticiones' : 'Para planchas o isométricos: segundos en lugar de repeticiones'}</span></span><Icon name="timer" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {onSustituir && <li><ListRow onClick={() => elegirDelMenu(onSustituir)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Sustituir</span><span className="block break-words text-caption text-fg-muted">Las series sin marcar pasan a otro ejercicio</span></span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {superserie?.unida && <li><ListRow onClick={() => elegirDelMenu(superserie.onSeparar)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Separar de la superserie</span><span className="block break-words text-caption text-fg-muted">Con {superserie.con}; cada uno vuelve a su descanso</span></span><Icon name="close" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}
           {superserie && !superserie.unida && superserie.onUnir && <li><ListRow onClick={() => elegirDelMenu(superserie.onUnir!)}><span className="min-w-0"><span className="block text-body-sm font-semibold">Unir en superserie con el siguiente</span><span className="block break-words text-caption text-fg-muted">{superserie.con} · una serie de cada y descanso al terminar la ronda</span></span><Icon name="plus" size={18} className="shrink-0 text-fg-muted" /></ListRow></li>}

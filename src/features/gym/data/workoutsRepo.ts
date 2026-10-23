@@ -2,6 +2,7 @@
 import { db } from '../../../shared/db/db'
 import { recomendarProgresion } from '../lib/progresion'
 import { aplicarEjecucion, validarEjecucion, validarSerie, claveComparacion, convencional, ejecucionSerieNueva, ejecucionVigente, tieneReps } from '../lib/ejecucion'
+import { esPorTiempo, tieneDatos, valoresPorTiempo } from '../lib/tiempo'
 import type { ConfiguracionEjecucion, ConfiguracionCarga, Routine, SetEntry, Workout, WorkoutExerciseMuscles } from '../../../shared/db/types'
 import { aplicarConfiguracionCarga, validarConfiguracionCarga } from '../lib/carga'
 import { toISODate } from '../../../shared/lib/dates'
@@ -76,7 +77,8 @@ async function crearSeriesObjetivo(workoutId: number, routineId: number, base = 
   for (const exerciseId of rutina.exerciseIds) {
     const objetivo = rutina.objetivos[exerciseId]
     if (!objetivo) continue
-    const config = ejecuciones[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual
+    const ejercicio = await db.exercises.get(exerciseId)
+    const config = ejecuciones[exerciseId] ?? ejercicio?.ejecucionHabitual
     const agarre = config ? config.agarre ?? null : undefined
     const efectiva = await previaEnGimnasio(exerciseId, gimnasioId, g => ultimaEfectiva(exerciseId, agarre, g))
     const delCalentamiento = objetivo.calentamientos ? await previaEnGimnasio(exerciseId, gimnasioId, g => ultimoCalentamiento(exerciseId, agarre, g)) : undefined
@@ -88,6 +90,7 @@ async function crearSeriesObjetivo(workoutId: number, routineId: number, base = 
       const ejecucion = ejecucionSerieNueva(config, valores, false)
       if (ejecucion) Object.assign(valores, aplicarEjecucion(valores, ejecucion))
       if (valores.modoCarga) valores.pesoCorporal = pesoCorporal
+      if (ejercicio && esPorTiempo(ejercicio)) Object.assign(valores, valoresPorTiempo(previa))
       return valores
     }
     let i = 0
@@ -311,7 +314,7 @@ export function terminar(id: number, confirmadas?: number[], marcarTodas = false
     if (workout.fin !== undefined) return { workout, sets }
     if (confirmadas) {
       const ids = new Set(confirmadas)
-      const hecha = (s: SetEntry) => ids.has(s.id) || marcarTodas && tieneReps(s)
+      const hecha = (s: SetEntry) => ids.has(s.id) || marcarTodas && tieneDatos(s, tieneReps(s))
       for (const s of sets) await db.sets.update(s.id, { realizada: hecha(s) })
       sets = sets.map(s => ({ ...s, realizada: hecha(s) }))
     }
@@ -457,6 +460,7 @@ export function sustituirEnSesion(workoutId: number, de: number, seleccion: Sele
       else if (v.modoCarga) v.pesoCorporal = pesoCorporal
       const ejecucion = ejecucionSerieNueva(configurada, v, false)
       if (ejecucion) Object.assign(v, aplicarEjecucion(v as SetEntry, ejecucion))
+      if (ejercicio && esPorTiempo(ejercicio)) Object.assign(v, valoresPorTiempo(g.previa))
       return { ...v, ...(g.gimnasioId !== undefined ? { gimnasioId: g.gimnasioId } : {}) }
     }
     for (const s of movidas) {

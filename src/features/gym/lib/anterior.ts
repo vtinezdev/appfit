@@ -1,6 +1,7 @@
 import type { Lado, SetEntry, Workout } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { modoCarga } from './carga'
+import { segundosDe, textoAnteriorTiempo } from './tiempo'
 
 /** Lo que se hizo en la serie equivalente de la sesión anterior: corto para la columna y completo para el lector de pantalla. */
 export interface TextoAnterior { texto: string; etiqueta: string }
@@ -21,6 +22,8 @@ export function textoAnterior(s: SerieCarga, reps: number, peso: number): TextoA
 }
 
 function tramo(s: SetEntry, t: Pick<SetEntry, 'reps' | 'peso' | 'lados'>): TramoAnterior {
+  // Serie por tiempo (A29): «45 s», sin lados.
+  if (t === s && segundosDe(s) > 0 && !(s.reps > 0)) return { fila: textoAnteriorTiempo(s, segundosDe(s), s.peso), lados: {} }
   const lados: TramoAnterior['lados'] = {}
   for (const lado of ['izquierda', 'derecha'] as const) {
     const p = t.lados?.[lado]

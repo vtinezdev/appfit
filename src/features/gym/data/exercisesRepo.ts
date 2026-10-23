@@ -123,3 +123,9 @@ export async function guardarProgresion(id: number, plan: import('../../../share
   if (plan) validarPlan(plan)
   await db.exercises.update(id, { progresion: plan })
 }
+
+/** Series por tiempo (A29): marca el ejercicio a mano como «por tiempo» (`true`) o «por repeticiones» (`false`, también
+ * para uno del catálogo que lo es). Las series ya guardadas no cambian. */
+export async function guardarPorTiempo(id: number, porTiempo: boolean): Promise<void> {
+  await db.exercises.update(id, { ...{ porTiempo } })
+}

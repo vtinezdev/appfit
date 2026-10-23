@@ -26,6 +26,8 @@ import { MUSCULOS } from '../lib/musculos'
 import { nombreNivel } from '../lib/progresoMuscular'
 import type { RecordEjercicio } from '../lib/records'
 import RecordsSesion from './RecordsSesion'
+import ListGroup from '../../../shared/components/ListGroup'
+import { formatSegundos, resumenRecordsTiempo, type RecordTiempo } from '../lib/tiempo'
 
 // Diferido: la geometría de los muñecos pesa más que el resto del mapa.
 const MapaMuscular = lazy(() => import('./MapaMuscular'))
@@ -49,6 +51,8 @@ export interface WorkoutSummary {
   catalogIds?: Record<number, string | undefined>
   /** Para mostrar los metros que sube el entreno (Cumbres). */
   workoutId?: number
+  /** Récords de «más tiempo» de las series por tiempo (A29). */
+  recordsTiempo?: RecordTiempo[]
 }
 
 /**
@@ -67,6 +71,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
   const ligas = useLigas(hoy)
   const nombres = summary.nombres ?? {}
   const records = summary.records ?? []
+  const tiempos = summary.recordsTiempo ?? []
   const gamificacion = vitrina?.visible === true
 
   const subidas = (progreso?.subidas ?? []).map(m => ({ musculo: MUSCULOS[m], nivel: nombreNivel(progreso!.despues.musculos[m].nivel) }))
@@ -83,7 +88,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
 
   // Qué bloques hay y cuáles tienen algo que contar (el primero de estos sale abierto).
   const bloques: { clave: Bloque; titulo: string; resumen: string; contenido: boolean }[] = [
-    ...(records.length ? [{ clave: 'records' as const, titulo: 'Récords', resumen: resumenRecords(records, nombres), contenido: true }] : []),
+    ...(records.length || tiempos.length ? [{ clave: 'records' as const, titulo: 'Récords', resumen: records.length ? resumenRecords(records, nombres) : resumenRecordsTiempo(tiempos, nombres), contenido: true }] : []),
     ...(progreso || summary.muscle ? [{ clave: 'cuerpo' as const, titulo: 'Cuerpo', resumen: resumenCuerpo(subidas, progreso?.trabajados.length ?? 0), contenido: true }] : []),
     ...(gamificacion && id !== undefined ? [{ clave: 'cumbres' as const, titulo: 'Cumbres y ligas',
       resumen: resumenCumbresLigas(datos.cumbre, datos.ligas, ascensos.length - datos.ligas.length, nombres, !!cumbres), contenido: !!enCumbre?.metros || ascensos.length > 0 }] : []),
@@ -102,7 +107,16 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
     <PosterImagen titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} hoy={hitos} hito={hito} levels={summary.muscle?.levels} figura={figura} />
     {bloques.length > 0 && <div>
       {bloques.map(b => <BloqueSesion key={b.clave} titulo={b.titulo} resumen={b.resumen} abierto={abierto === b.clave} onCambiar={a => setAbierto(a ? b.clave : null)}>
-        {b.clave === 'records' && <RecordsSesion records={records} nombres={nombres} catalogIds={summary.catalogIds} sinTitulo />}
+        {b.clave === 'records' && <>
+          {records.length > 0 && <RecordsSesion records={records} nombres={nombres} catalogIds={summary.catalogIds} sinTitulo />}
+          {tiempos.length > 0 && <ListGroup aria-label="Récords de tiempo">
+            {tiempos.map(r => <li key={r.exerciseId} className="flex min-h-touch flex-wrap items-center gap-x-3 gap-y-1 py-2">
+              <span className="min-w-0 flex-1 basis-32 break-words text-body font-semibold text-fg">{nombres[r.exerciseId] ?? 'Ejercicio'}</span>
+              <span className="tabular text-body text-fg">Más tiempo: {formatSegundos(r.segundos)}</span>
+              <span className="tabular text-caption text-accent-strong">antes {formatSegundos(r.anterior)}</span>
+            </li>)}
+          </ListGroup>}
+        </>}
         {b.clave === 'cuerpo' && <Suspense fallback={<LoadingState />}>
           {progreso && <SemanaProgresoSesion progreso={progreso} />}
           {summary.muscle && <MapaMuscular summary={summary.muscle} figura={figura} figuras={false} />}

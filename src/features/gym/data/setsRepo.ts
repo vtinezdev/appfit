@@ -1,6 +1,7 @@
 import { claveAgarre } from '../lib/agarres'
 // Acceso a la tabla `sets` (series). Las funciones de lectura no escriben: se pueden usar en un useLiveQuery.
 import { aplicarEjecucion, ejecucionSerieNueva, validarSerie, tieneReps, convencional, cambiaRealizacion } from '../lib/ejecucion'
+import { esPorTiempo, tieneDatos, valoresPorTiempo, type ConSegundos } from '../lib/tiempo'
 import Dexie from 'dexie'
 import { db } from '../../../shared/db/db'
 import type { Agarre, SetEntry } from '../../../shared/db/types'
@@ -59,7 +60,8 @@ export async function previaEnGimnasio(exerciseId: number, gimnasioId: number | 
 export function agregar(workoutId: number, exerciseId: number, createdAt: number = Date.now()): Promise<number> {
   return db.transaction('rw', db.sets, db.workouts, db.pesos, db.exercises, async () => {
     const workout = await db.workouts.get(workoutId)
-    const configurada = workout?.ejecucionesEjercicios?.[exerciseId] ?? (await db.exercises.get(exerciseId))?.ejecucionHabitual
+    const ejercicio = await db.exercises.get(exerciseId)
+    const configurada = workout?.ejecucionesEjercicios?.[exerciseId] ?? ejercicio?.ejecucionHabitual
     const delEntreno = await db.sets.where('workoutId').equals(workoutId).filter((s) => s.exerciseId === exerciseId).toArray()
     const enSesion = [...delEntreno].filter(s => s.tipo !== 'calentamiento' && (!configurada || claveAgarre(s.agarre) === claveAgarre(configurada.agarre)))
       .sort((a, b) => a.orden - b.orden).at(-1)
@@ -71,6 +73,7 @@ export function agregar(workoutId: number, exerciseId: number, createdAt: number
     else if (valores.modoCarga && previa?.workoutId !== workoutId) valores.pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(workout?.inicio ?? createdAt))).last())?.kg
     const ejecucion = ejecucionSerieNueva(configurada, valores, previa?.workoutId === workoutId)
     if (ejecucion) Object.assign(valores, aplicarEjecucion(valores, ejecucion))
+    if (ejercicio && esPorTiempo(ejercicio)) Object.assign(valores, valoresPorTiempo(previa))
     const id = await db.sets.add({
       workoutId,
       exerciseId,
@@ -111,7 +114,7 @@ export function agregarSeleccion(workoutId: number, seleccion: SeleccionEjercici
   })
 }
 
-export type CambiosSerie = Partial<Pick<SetEntry, 'reps' | 'peso' | 'tipo' | 'rir' | 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg' | 'bajadas'>>
+export type CambiosSerie = Partial<Pick<SetEntry, 'reps' | 'peso' | 'tipo' | 'rir' | 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg' | 'bajadas'>> & ConSegundos
 /** Un cambio calculado sobre la serie guardada: lados y bajadas se combinan dentro de la transacción, no con una copia anterior. */
 export type CambioSerie = CambiosSerie | ((actual: SetEntry) => CambiosSerie)
 /** Edición física invalida confirmación; cambiar solo RIR/tipo la conserva. */
@@ -129,7 +132,7 @@ export function confirmar(id: number, realizada: boolean): Promise<void> {
   return db.transaction('rw', db.sets, async () => {
     const s = await db.sets.get(id)
     if (s) validarSerie(s)
-    if (!s || realizada && !tieneReps(s)) throw new Error('Introduce las repeticiones antes de confirmar.')
+    if (!s || realizada && !tieneDatos(s, tieneReps(s))) throw new Error('Introduce las repeticiones antes de confirmar.')
     await db.sets.update(id, { realizada })
   })
 }
