@@ -106,7 +106,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] A6 · ENT-01 · Sustituir un ejercicio durante la sesión
 
-> **Hecho (2026-10-23, PROCESO §200, PR pendiente).** Aprobado por Víctor en la página de previews A5–A9: «Cambiar también en la rutina» sin marcar por defecto y, con todo hecho, el nuevo entra con una serie. Las series movidas conservan sus reps (no las del objetivo) y toman los kg de la última vez del nuevo. `SelectorEjercicios` admite `titulo` y `verbo` para decir «Sustituir».
+> **Hecho (2026-10-23, PROCESO §200, PR #127).** Aprobado por Víctor en la página de previews A5–A9: «Cambiar también en la rutina» sin marcar por defecto y, con todo hecho, el nuevo entra con una serie. Las series movidas conservan sus reps (no las del objetivo) y toman los kg de la última vez del nuevo. `SelectorEjercicios` admite `titulo` y `verbo` para decir «Sustituir».
 
 - **Tamaño:** M · **Rama:** `feat/a-sustituir-ejercicio`
 - **Para la persona:** «Sustituir» en el menú del ejercicio propone 5 alternativas (mismo músculo principal, las ya hechas y del mismo material primero, con su última vez) y «Buscar otro…». Al elegir, las series sin marcar pasan al nuevo ejercicio; las marcadas se quedan. Deshacer en el aviso.
