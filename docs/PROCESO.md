@@ -2183,3 +2183,32 @@ Paso A5 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprob
 - Tests en `progreso.test.ts`: sesiones (orden, máximo 5, calentamientos, pendientes, en curso, sin terminar y posteriores fuera), puntos, récords vigentes y reps con el peso de referencia, variantes, modos y gimnasios separados, sin historial.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: cinco sesiones, récords con fecha, sin scroll horizontal, botones de 44 px, sin errores en consola, y consultar la hoja no cambia la copia de seguridad. Con otra ejecución sale el estado vacío. Sin dispositivo físico.
+
+## 201. Un único cálculo de la gamificación (2026-10-23)
+
+Paso B8 (REN-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `perf/b-calculo-derivado` desde `master`, sin fusionar (el número de esta entrada se ajusta al fusionar si choca con las de otras ramas abiertas).
+
+**Medir primero.** `scripts/ui/medir-progreso.cjs` (nuevo) siembra en el origen de pruebas un historial sintético y determinista de 3 años (500 entrenos, 12.500 series, 8.000 entradas, 300 actividades y 600 días con pasos) y mide la mediana de 5 lecturas en Chromium con la CPU ralentizada 4×:
+
+| Lectura | Antes | Después |
+|---|---|---|
+| Leer series, entrenos y entradas (solo IndexedDB) | ~0,5 s | igual |
+| Calcular la experiencia (sin leer) | ~0,56 s | igual |
+| Experiencia (Ritmo, revisión semanal) | 1,1–1,7 s | igual (compartida) |
+| Cumbres | 1,1–1,2 s | igual (compartida) |
+| Caminos | 55–65 ms | igual (compartida) |
+| Vitrina (Inicio, VitrinaTab) | 1,3–1,4 s | igual (compartida) |
+| Fin de sesión (Cumbres + 2 × Vitrina) | 3,7–3,8 s | **~1,0 s** |
+| Volver a otra sección (ya calculado) | otra lectura completa | **0 ms** |
+
+Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla lo repetía.
+
+- `experiencia/hooks/useProgreso.ts`: lector compartido. `crearAlmacenProgreso(leerVitrina)` mantiene una sola suscripción `liveQuery` de Dexie por día mientras haya pantallas que la usen y la libera 30 s (`MARGEN_MS`) después de la última; `useProgreso(hoy)` la reparte con `useSyncExternalStore`. Solo lee.
+- `useExperiencia`, `useCumbres`, `useCaminos` y `useVitrina` toman su parte (`hooks/selectoresProgreso.ts`, mismo objeto: sin renders de más) con la misma firma: quien los usa, también en el carril A, no cambia.
+- Las lecturas pasan a archivos propios sin React (`experiencia/hooks/leerExperiencia.ts`, `cumbres/hooks/leerCumbres.ts`, `caminos/hooks/leerCaminos.ts`, `vitrina/hooks/leerVitrina.ts`, este último con la lectura que antes iba dentro de `useVitrina`), para no crear ciclos entre módulos; los `use*.ts` las reexportan.
+- Ritmo y la revisión semanal calculan también la Vitrina (unos 0,1 s más) a cambio de compartirla. Sin Web Worker: con esto, el primer cálculo (~1,3 s a 4×) es el único que queda.
+- Tests: el almacén (varias pantallas, un cálculo; un cálculo por día; el margen; recalcular al cambiar los datos) y que los selectores dan lo mismo que las lecturas de siempre con fake-indexeddb.
+- Documentos: `experiencia.md`, `vitrina.md`, `cumbres.md` y `caminos.md` (§ Rendimiento y lecturas) y `arquitectura.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos (cifras abajo). En navegador (`appfit-test.localhost`) pasan `auditoria-entreno` (incluye el fin de sesión), `auditoria-interfaz` (24 pantallas), `validar-mejoras-pendientes` (Vitrina), `validar-pulido-auditoria` y `validar-mejoras-uso`, y los recorridos propios de las teselas de Inicio y de Ritmo › Semanas. `validar-insignias.cjs` no pasa ni en `master`: aún busca el botón «Más» de la barra anterior al ADR 043 (pendiente, sin tocar). Sin dispositivo físico.
+

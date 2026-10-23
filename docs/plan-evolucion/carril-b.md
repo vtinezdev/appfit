@@ -17,7 +17,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B5 | PRO-02 | Revisiones semanales desde Ritmo | S | — | Hecho (2026-10-23) |
 | B6 | NUT-03 | Registrar comida desde Inicio | M | — | Pendiente |
 | B7 | GAM-01 | Teselas de progreso con la semana | M | — | Pendiente |
-| B8 | REN-01 | Un único cálculo derivado | L | — | Pendiente |
+| B8 | REN-01 | Un único cálculo derivado | L | — | Hecho (2026-10-23) |
 | B9 | GLO-02 | Módulos activables | L | B7 | Pendiente |
 | B10 | NUT-05 | «Cerrar el día» | M | — | Pendiente |
 | B11 | PRO-01 | Lecturas cruzadas de entreno y nutrición | L | B2 | Pendiente |
@@ -107,9 +107,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** 320 px (teselas apiladas), texto al 200 %, gamificación oculta.
 - **Documentos:** `docs/features/inicio.md` § Progreso.
 
-### [ ] B8 · REN-01 · Un único cálculo derivado
+### [x] B8 · REN-01 · Un único cálculo derivado
 
-- **Tamaño:** L · **Rama:** `perf/b-calculo-derivado`
+- **Tamaño:** L · **Rama:** `perf/b-calculo-derivado` · **Hecho:** 2026-10-23 (PR pendiente, sin fusionar). Lector compartido: `experiencia/hooks/useProgreso` (para el cruce X4 de A). Sin Web Worker.
 - **Para la persona:** Inicio y el fin de sesión más rápidos, sobre todo con años de datos.
 - **Ya hecho en `master`:** la auditoría (AF-06) quitó la lectura duplicada de Caminos en Inicio; `AccesoProgreso` solo usa `useVitrina`. Queda el perfilado, el triple cálculo del fin de sesión y que cada hook recalcule por su cuenta.
 - **Cómo:**
