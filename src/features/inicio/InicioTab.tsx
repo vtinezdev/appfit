@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, type ReactNode } from 'react'
+import { Fragment, lazy, Suspense, useState, type ReactNode } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import PageHeader from '../../shared/components/PageHeader'
 import { LoadingState } from '../../shared/components/StateMessage'
@@ -31,6 +31,7 @@ import AvisoAmigos from '../social/components/AvisoAmigos'
 import TarjetaRevisionSemanal from './components/TarjetaRevisionSemanal'
 import { useTarjetaRevision } from './hooks/useRevisionSemanal'
 import { useHoy } from '../../shared/hooks/useHoy'
+import { moduloActivo, tarjetasInicio, type TarjetaInicio } from '../../shared/lib/modulos'
 
 // El detalle de la revisión (con récords y resumen de Gym) va en su propio chunk: no entra en el arranque de Inicio.
 const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
@@ -63,6 +64,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
   const vigentes = useLiveQuery(() => objetivosDe(hoy, hoy), [hoy])
   const pesos = useLiveQuery(() => pesosRepo.delRango(addDays(hoy, -DIAS_HISTORIAL), hoy), [hoy])
   const agua = useLiveQuery(() => aguaRepo.delDia(hoy), [hoy])
+  const settings = useLiveQuery(() => getSettings(), [])
   const objetivoAgua = useLiveQuery(async () => resolverObjetivoAgua((await getSettings()).aguaObjetivoMl, (await getPerfil()).sexo), [])
   const [aguaAbierta, setAguaAbierta] = useState(false)
   const { avisar, avisarError, toast } = useAviso()
@@ -117,6 +119,20 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
     avisar({ mensaje: 'Peso registrado' })
   }
 
+  function tarjeta(t: TarjetaInicio): ReactNode {
+    switch (t) {
+      case 'energia': return <TarjetaEnergia totales={sumMacros(entries ?? [])} objetivos={vigentes!} onAbrir={onIrANutricion}
+        pie={<AnadirComidaAhora onAnadir={onAnadirComida} />} />
+      case 'progreso': return <AccesoProgreso onAbrir={onIrAProgreso} enfocar={enfocarProgreso} sinCaminos={!moduloActivo(settings, 'actividades')} />
+      case 'registros': return <div className="inicio-registros">
+        {moduloActivo(settings, 'peso') && <AccesoPeso tendencia={tendencia} pesos={pesos ?? []} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />}
+        {moduloActivo(settings, 'agua') && <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />}
+      </div>
+      case 'creatina': return <CreatinaHoy hoy={hoy} />
+      case 'entreno': return <AccesoEntreno onAbrir={onIrAGym} />
+    }
+  }
+
   return (
     <div className="inicio-layout space-y-section px-page pt-5">
       <PageHeader overline={fechaLarga} title="Hoy" />
@@ -127,26 +143,20 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
       {revision && (
         <TarjetaRevisionSemanal
           resumen={revision}
+          modulos={settings}
           onVer={() => setRevisionAbierta(revision.semana.lunes)}
           onCerrar={() => cerrarRevision(revision.semana.lunes, revision.cerradaAntes)}
         />
       )}
 
-      {!entries || !vigentes || !pesos ? (
+      {!entries || !vigentes || !pesos || !settings ? (
         <div className="animate-fade-in-late">
           <LoadingState />
         </div>
       ) : (
         <div className="inicio-paneles">
-          <TarjetaEnergia totales={sumMacros(entries)} objetivos={vigentes} onAbrir={onIrANutricion}
-            pie={<AnadirComidaAhora onAnadir={onAnadirComida} />} />
-          <AccesoProgreso onAbrir={onIrAProgreso} enfocar={enfocarProgreso} />
-          <div className="inicio-registros">
-            <AccesoPeso tendencia={tendencia} pesos={pesos} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />
-            <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />
-          </div>
-          <CreatinaHoy hoy={hoy} />
-          <AccesoEntreno onAbrir={onIrAGym} />
+          {/* En el orden de Ajustes › «Lo que usas» y sin las de los módulos ocultos (B9). */}
+          {tarjetasInicio(settings).map((t) => <Fragment key={t}>{tarjeta(t)}</Fragment>)}
         </div>
       )}
 

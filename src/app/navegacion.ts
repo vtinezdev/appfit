@@ -1,4 +1,6 @@
 import type { IconName } from '../shared/components/Icon'
+import type { Settings } from '../shared/db/types'
+import { moduloActivo } from '../shared/lib/modulos'
 
 /** Una sola lista para la media luna y el tipo de destino. */
 export const DESTINOS = [
@@ -33,3 +35,15 @@ const DENTRO_DE: Partial<Record<Tab, Tab>> = {
 
 /** La sección de la media luna que corresponde a un destino. */
 export const seccionDe = (tab: Tab): Tab => DENTRO_DE[tab] ?? tab
+
+/**
+ * Destinos de la media luna que no se muestran: Social sin cuenta configurada (ADR 040) y los módulos apagados (B9).
+ * Entreno se queda mientras quede el gimnasio o las actividades.
+ */
+export function destinosOcultos(s: Pick<Settings, 'modulos'> | undefined, social: boolean): Tab[] {
+  const ocultos: Tab[] = []
+  if (!social) ocultos.push('social')
+  if (!moduloActivo(s, 'nutricion')) ocultos.push('nutricion')
+  if (!moduloActivo(s, 'gym') && !moduloActivo(s, 'actividades')) ocultos.push('gym')
+  return ocultos
+}

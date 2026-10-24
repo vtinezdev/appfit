@@ -16,6 +16,8 @@ import * as workoutsRepo from '../features/gym/data/workoutsRepo'
 import EntrenoMinimizado from '../features/gym/components/EntrenoMinimizado'
 import { socialDisponible } from '../features/social/servicio'
 import { useHoy } from '../shared/hooks/useHoy'
+import { getSettings } from '../shared/db/settings'
+import { destinosOcultos } from './navegacion'
 
 const NutricionTab = lazy(() => import('../features/nutricion/NutricionTab'))
 const GymTab = lazy(() => import('../features/gym/GymTab'))
@@ -48,8 +50,10 @@ export default function App() {
   const entrenoActivo = useLiveQuery(() => workoutsRepo.activo(), [])
   /** Si el entreno en curso ocupa Entreno. Salir de la pantalla lo minimiza; la barra sobre la navegación lo vuelve a abrir. */
   const [entrenoAbierto, setEntrenoAbierto] = useState(false)
-  // Sin proyecto de Supabase no hay cuenta, y sin cuenta no hay Social (ni Amigos, que se abre desde Social).
-  const ocultos: Tab[] = socialDisponible ? [] : ['social']
+  const settings = useLiveQuery(() => getSettings(), [])
+  // Sin proyecto de Supabase no hay cuenta, y sin cuenta no hay Social (ni Amigos, que se abre desde Social). Los módulos
+  // apagados en Ajustes (B9) tampoco salen.
+  const ocultos: Tab[] = destinosOcultos(settings, socialDisponible)
   const entrenoMinimizado = entrenoActivo && !(tab === 'gym' && entrenoAbierto) ? entrenoActivo : undefined
 
   function navegar(siguiente: Tab) {

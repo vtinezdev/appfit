@@ -28,7 +28,7 @@
 - **Actividades** (desde la versión 2, sin efecto en la XP ya ganada porque antes no había actividades): no cuentan para el plan, Ritmo ni la semana cumplida. Un día con menos de 1 km o por encima de los 3 de la semana no suma y explica por qué (`actividadesSinXp`, `describirActividadSinXp`). `xpDeActividadId` da la XP del día de una actividad para su detalle; `semanaActual.diasActividad`, los días que ya suman esta semana.
 - El descanso no multiplica la XP.
 - La semana cumplida se apunta el día en que se cumple. Los registros atrasados cuentan siempre, porque todo se recalcula.
-- Con «Solo entreno» (`gamificacionConNutricion: false`) no hay XP de nutrición y la semana se cumple solo con los entrenos.
+- Con «Solo entreno» (`gamificacionConNutricion: false`), o con Nutrición oculta en Ajustes › «Lo que usas» (B9, `shared/lib/modulos.conNutricionEfectiva`, derivado al leer), no hay XP de nutrición y la semana se cumple solo con los entrenos.
 - Si se borra un registro, desaparece la XP que daba.
 - Plan (`Settings.planSemanal`): tramos `{ desde, entrenos, diasRegistro }`. Cada semana usa el último tramo con `desde` ≤ su lunes, y las anteriores al primero usan el primero. Cambiar el plan sustituye o añade el tramo de la semana en curso: las semanas pasadas conservan el suyo.
 

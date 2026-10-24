@@ -3,6 +3,7 @@ import SegmentedControl from '../../../shared/components/SegmentedControl'
 import { updateSettings } from '../../../shared/db/settings'
 import type { PlanSemanal, Settings } from '../../../shared/db/types'
 import { startOfWeek, todayISO } from '../../../shared/lib/dates'
+import { conNutricionEfectiva, moduloActivo } from '../../../shared/lib/modulos'
 import { cambiarPlan, OPCIONES_DIAS_REGISTRO, OPCIONES_ENTRENOS, planDeSemana } from '../../ritmo/lib/plan'
 
 interface Props {
@@ -15,7 +16,9 @@ const ERROR = 'No se ha podido guardar el ajuste. Inténtalo de nuevo.'
 /** Sección de Ajustes: mostrar u ocultar Cumbres, Caminos, Ritmo y Vitrina, incluir la nutrición y el plan semanal. Cada elección se guarda al tocarla. */
 export default function GamificacionAjustes({ settings, onError }: Props) {
   const visibles = settings.gamificacionVisible !== false
-  const conNutricion = settings.gamificacionConNutricion !== false
+  const conNutricion = conNutricionEfectiva(settings)
+  // Con Nutrición apagada en «Lo que usas» (B9) cuenta solo el entreno, sin tocar este ajuste.
+  const nutricionApagada = !moduloActivo(settings, 'nutricion')
   const lunes = startOfWeek(todayISO())
   const plan = planDeSemana(settings.planSemanal, lunes)
   const guardar = (patch: Partial<Omit<Settings, 'id'>>) => { updateSettings(patch).catch(() => onError(ERROR)) }
@@ -26,8 +29,10 @@ export default function GamificacionAjustes({ settings, onError }: Props) {
       opciones={[{ valor: 'si', label: 'Mostrar' }, { valor: 'no', label: 'Ocultar' }]} />
     <NotaAmpliable resumen="Ocultarlos no borra nada."><p>Montaña, ruta, semanas y logros salen en Inicio, en la revisión del lunes y al terminar un entreno. Todo sale de tus registros.</p></NotaAmpliable>
     {visibles && <>
-      <SegmentedControl label="Nutrición en Cumbres, Ritmo y Vitrina" valor={conNutricion ? 'si' : 'no'} onChange={(v) => guardar({ gamificacionConNutricion: v === 'si' })}
-        opciones={[{ valor: 'si', label: 'Con nutrición' }, { valor: 'no', label: 'Solo entreno' }]} />
+      {nutricionApagada
+        ? <p className="text-body-sm text-fg-muted">Nutrición está apagada en «Lo que usas»: cuenta solo el entreno.</p>
+        : <SegmentedControl label="Nutrición en Cumbres, Ritmo y Vitrina" valor={conNutricion ? 'si' : 'no'} onChange={(v) => guardar({ gamificacionConNutricion: v === 'si' })}
+          opciones={[{ valor: 'si', label: 'Con nutrición' }, { valor: 'no', label: 'Solo entreno' }]} />}
       <NotaAmpliable resumen="Las kcal y el peso nunca cuentan."><p>Con nutrición, registrar comidas y llegar a la proteína suben metros y cuentan para la semana; la Vitrina añade sus logros y el Herbario.</p></NotaAmpliable>
       <div className="space-y-2">
         <p className="text-body-sm font-medium text-fg">Entrenos por semana</p>

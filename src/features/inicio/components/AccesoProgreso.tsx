@@ -17,7 +17,9 @@ interface Tesela { key: DestinoProgreso; label: string; icon: IconName; valor: s
  * Progreso en Inicio, bajo la energía: Cumbres, Caminos, Ritmo y Vitrina en 2 × 2, una tesela por sección con su dato vivo
  * (metros, km, hilo, piezas) para ver cómo van sin entrar; tocarla abre la sección. No se pinta con la gamificación oculta en Ajustes.
  */
-export default function AccesoProgreso({ onAbrir, enfocar }: { onAbrir: (destino: DestinoProgreso) => void; enfocar?: DestinoProgreso }) {
+export default function AccesoProgreso({ onAbrir, enfocar, sinCaminos = false }: { onAbrir: (destino: DestinoProgreso) => void; enfocar?: DestinoProgreso
+  /** Con Actividades oculta en «Lo que usas» (B9), Caminos no sale. */
+  sinCaminos?: boolean }) {
   const hoy = todayISO()
   const estado = useVitrina(hoy)
   const lista = useRef<HTMLUListElement>(null)
@@ -42,7 +44,7 @@ export default function AccesoProgreso({ onAbrir, enfocar }: { onAbrir: (destino
   const semanaRitmo = estado.resultado.ritmo.actual
   const diasEntreno = estado.resultado.diasEntreno
 
-  const teselas: Tesela[] = [
+  const todas: Tesela[] = [
     actual
       ? { key: 'cumbres', label: 'Cumbres', icon: 'mountain', valor: formatInt(actual.metros), unidad: 'm', detalle: actual.montana.nombre, semana: textoMetrosSemana(metrosSubidos(estado.cumbres!.tramos, lunes, hoy)) }
       : { key: 'cumbres', label: 'Cumbres', icon: 'mountain', valor: null, detalle: 'Elige montaña' },
@@ -52,6 +54,7 @@ export default function AccesoProgreso({ onAbrir, enfocar }: { onAbrir: (destino
     { key: 'ritmo', label: 'Ritmo', icon: 'calendar', valor: formatInt(hilo), unidad: hilo === 1 ? 'semana' : 'semanas', detalle: 'Hilo actual', semana: textoRitmoSemana(semanaRitmo) },
     { key: 'vitrina', label: 'Vitrina', icon: 'trophy', valor: `${formatInt(piezas.conseguidas)}/${formatInt(piezas.total)}`, detalle: 'Piezas', semana: textoPiezasSemana(piezasDesde(estado.vitrina.logros, lunes)) },
   ]
+  const teselas = sinCaminos ? todas.filter((t) => t.key !== 'caminos') : todas
 
   return (
     <ul ref={lista} className="progreso-teselas" aria-label="Tu progreso">
