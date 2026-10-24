@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { lazy, Suspense, useState, type ReactNode } from 'react'
 import { IconButton } from '../../../shared/components/Button'
 import ListGroup from '../../../shared/components/ListGroup'
 import Metric from '../../../shared/components/Metric'
@@ -8,7 +8,7 @@ import { addDays, etiquetaPeriodo } from '../../../shared/lib/dates'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import RecordsSesion from '../../gym/components/RecordsSesion'
 import { formatDuracion } from '../../gym/lib/workout'
-import { useRevision } from '../hooks/useRevisionSemanal'
+import { useRevision, useSemanasCruzadas } from '../hooks/useRevisionSemanal'
 import { useExperiencia } from '../../experiencia/hooks/useExperiencia'
 import { semanaRitmo } from '../../ritmo/lib/ritmo'
 import { cifrasSemana, textoEstado, textoHilo } from '../../ritmo/lib/textos'
@@ -43,6 +43,9 @@ function Bloque({ titulo, children }: { titulo: string; children: ReactNode }) {
   )
 }
 
+// Recharts solo se carga al llegar a «Tus 8 semanas».
+const LecturasCruzadas = lazy(() => import('./LecturasCruzadas'))
+
 const frenteAnterior = (diferencia: string) => `${diferencia} frente a la anterior`
 const unir = (...partes: (string | null | false)[]) => partes.filter(Boolean).join(' · ')
 
@@ -58,6 +61,7 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose, clo
   const ritmo = experiencia?.visible ? semanaRitmo(experiencia.resultado.ritmo, lunes) : undefined
   const cargada = revision?.semana.lunes === lunes ? revision : undefined
   const settings = useLiveQuery(() => getSettings(), [])
+  const cruzadas = useSemanasCruzadas(lunes, hoy)
 
   return (
     <ModalPage title="Revisión semanal" closeLabel={closeLabel} onClose={onClose}>
@@ -76,6 +80,9 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose, clo
             <p className="tabular break-words text-body-sm text-fg-muted">{cifrasSemana(ritmo)} · {textoHilo(ritmo.hilo).toLocaleLowerCase('es')}</p>
           </Card>}
           <Contenido revision={cargada} modulos={settings} />
+          {/* «Tus 8 semanas» (B11): al final, con la gráfica en su propio trozo. */}
+          {cruzadas && <Suspense fallback={null}><LecturasCruzadas semanas={cruzadas}
+            usa={{ nutricion: moduloActivo(settings, 'nutricion'), gym: moduloActivo(settings, 'gym'), peso: moduloActivo(settings, 'peso') }} /></Suspense>}
         </>}
       </div>
     </ModalPage>
