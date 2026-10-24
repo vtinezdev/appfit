@@ -96,7 +96,7 @@ Cada una aparece también, como **Decidir**, en el paso que la necesita. Se resu
 | D9 | A9 · ENT-10 | Qué hitos van en la franja «Hoy» del póster y en qué orden. |
 | D10 | A12 · ENT-09 | Quién revisa los textos de técnica y con qué fuentes; por qué ejercicios se empieza. |
 | D11 | A13–A15 · SOC | ADR para lo que sale del móvil, migraciones, y si van antes o después de la fase 6 legal de Social. |
-| D12 | B16 · NUT-04 | Comidas planificadas en días futuros: cómo cuentan en medias, rachas, XP y objetivos congelados. |
+| D12 | B16 · NUT-04 | Comidas planificadas en días futuros: cómo cuentan en medias, rachas, XP y objetivos congelados. **Decidida (2026-10-24):** no cuentan en nada hasta «Lo he comido» (tabla aparte, ADR 059) y no se planifican días pasados. |
 | D13 | B17 · PRO-04 | Fotos dentro o fuera del backup y de la copia cifrada; límite de tamaño. |
 
 ## Fuera de los carriles

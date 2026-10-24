@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import type { Actividad, Agua, CatalogFood, CheatDay, CatalogSource, Entry, Exercise, Food, Gimnasio, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Porcion, Receta, Routine, DiaPasos, RutaPropia, SetEntry, Settings, Suplemento, Workout } from './types'
+import type { Actividad, Agua, CatalogFood, CheatDay, CatalogSource, Entry, Exercise, Food, Gimnasio, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Planificada, Porcion, Receta, Routine, DiaPasos, RutaPropia, SetEntry, Settings, Suplemento, Workout } from './types'
 
 /**
  * Esquema de IndexedDB. Reglas para cambiarlo sin perder los datos del móvil:
@@ -19,6 +19,7 @@ export const TABLAS_CATALOGO = ['catalogFoods', 'catalogSources'] as const
 export const TABLAS_USUARIO = [
   'foods', 'entries', 'meals', 'settings', 'exercises', 'routines', 'workouts', 'sets', 'notasMedida', 'pesos', 'nombresAlimentos',
   'porciones', 'recetas', 'agua', 'objetivosDia', 'medidas', 'suplementos', 'cheatDays', 'actividades', 'rutasPropias', 'pasos', 'gimnasios',
+  'planificadas',
 ] as const
 
 export class AppFitDB extends Dexie {
@@ -44,6 +45,7 @@ export class AppFitDB extends Dexie {
   rutasPropias!: EntityTable<RutaPropia, 'id'>
   pasos!: EntityTable<DiaPasos, 'id'>
   gimnasios!: EntityTable<Gimnasio, 'id'>
+  planificadas!: EntityTable<Planificada, 'id'>
   catalogFoods!: EntityTable<CatalogFood, 'id'>
   catalogSources!: EntityTable<CatalogSource, 'id'>
 
@@ -116,6 +118,9 @@ export class AppFitDB extends Dexie {
     // v13 (gimnasios): tabla nueva y vacía, sin upgrade(). `&nombreNorm` evita dos gimnasios con el mismo nombre.
     // `workouts.gimnasioId` y `sets.gimnasioId` son opcionales sin índice: el histórico queda en el habitual.
     this.version(13).stores({ gimnasios: '++id, &nombreNorm' })
+    // v14 (comidas planificadas, B16): tabla nueva y vacía, sin upgrade(). `fecha` para leer por día y por rango.
+    // Va aparte de `entries` para que medias, rachas, típicas, objetivo congelado y Herbario no la vean (ADR 059).
+    this.version(14).stores({ planificadas: '++id, fecha' })
   }
 }
 

@@ -122,6 +122,12 @@ export interface Entry extends AgrupacionPlato {
   rapida?: true
 }
 
+/**
+ * Comida planificada (B16): la misma foto que una entrada, en su tabla aparte para que ningún cálculo la cuente sin
+ * querer. Solo hoy y días futuros; «Lo he comido» la pasa a `entries`.
+ */
+export type Planificada = Omit<Entry, 'textoOriginal'>
+
 /** Alimento de una plantilla. Guarda un snapshot de respaldo por si el alimento se borra (o si es una entrada rápida). */
 export interface MealItem extends AgrupacionPlato {
   foodId?: number

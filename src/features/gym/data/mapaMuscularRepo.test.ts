@@ -67,7 +67,7 @@ describe('cierre de sesión y persistencia semántica muscular', () => {
     expect(restored.sets).toEqual(original.sets)
     expect(trabajoMuscularWorkout(restored.workouts[0], restored.sets, []).levels).toEqual(trabajoMuscularWorkout(result.workout, result.sets, []).levels)
     expect(restored.version).toBe(3)
-    expect(db.verno).toBe(13)
+    expect(db.verno).toBe(14)
   })
   it('cierre antiguo sin snapshot se mantiene intacto; lectura no escribe', async () => {
     const id = await preparar()

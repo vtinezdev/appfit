@@ -23,6 +23,7 @@ import Button, { IconButton } from '../../../shared/components/Button'
 import { LoadingState } from '../../../shared/components/StateMessage'
 import Pista from '../../../shared/components/Pista'
 import NutrientesDetalle from '../components/NutrientesDetalle'
+import Planificadas from '../components/Planificadas'
 import MoverPlatoSheet from '../components/MoverPlatoSheet'
 import ComidasTipicasSheet from '../components/ComidasTipicasSheet'
 import AplicarPlantillaSheet from '../components/AplicarPlantillaSheet'
@@ -271,6 +272,8 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
           </DndContext>
         </>
       )}
+
+      {fecha === hoy && <Planificadas hoy={hoy} avisar={avisar} avisarError={avisarError} />}
 
       {semana && <Button variant="subtle" size="sm" aria-pressed={cheat} disabled={marcandoCheat} onClick={() => { void alternarCheat(false) }}>
         <Icon name="sparkles" size={18} className={cheat ? 'text-accent-strong' : 'text-fg-muted'} />{cheat ? 'Cheat day · fuera de las medias' : 'Marcar como cheat day'}

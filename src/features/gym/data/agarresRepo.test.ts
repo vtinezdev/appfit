@@ -100,6 +100,6 @@ describe('agarres por selección, rutina y sesión', () => {
     expect(after.workouts).toEqual(before.workouts)
     expect(after.sets).toEqual(before.sets)
     expect(after.version).toBe(3)
-    expect(db.verno).toBe(13)
+    expect(db.verno).toBe(14)
   })
 })

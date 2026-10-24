@@ -13,6 +13,7 @@
 | Código de barras | `EscanerCodigo` | `escaner/` (detector con carga perezosa), `off/` (`buscarProducto`, `mapearProducto`) | `catalogRepo.buscarPorGtin` / `guardarProductoOff` |
 | Comidas típicas | `ComidasTipicas` (bajo Escribir), `ComidasTipicasSheet` (desde el pie de cada comida del diario y Ver todas en el registro), `AplicarPlantillaSheet`, `GestionPlantillaSheet` | `comidasTipicas.ts` (identidad, ventana, ranking y deduplicación) | `comidasTipicasRepo` (lectura), `entriesRepo.guardarComida`, `mealsRepo.aplicar` / `aplicarSugerencia` |
 | Resumen | `pages/Resumen` (diferida, Recharts), `components/AdherenciaResumen`, `components/CategoriasResumen`, `components/HerbarioResumen` | `nutrition.ts` (`resumenPeriodo`), `adherencia.ts` (adherencia, rachas, top alimentos), `cheatDays.ts`, `repartoCategorias.ts` (`repartoPorCategoria`), `herbario.ts` (plantas distintas, también para la Vitrina), `shared/lib/dates` (periodos) | `entriesRepo.entreFechas` / `fechasConRegistro`, `cheatDaysRepo`, `objetivosDiaRepo`, `foodsRepo.categoriasDeEntradas` |
+| Comidas planificadas (B16) | `components/Planificadas` (al pie del Diario de hoy, con `PlanificarSheet` y `ListaCompraSheet`) | `planificadas.ts` (días planificables, agrupación, `listaCompra`, `textoListaCompra`) | `planificadasRepo`, `comidasTipicasRepo.listar`, `objetivosDiaRepo.congelarObjetivoDia` |
 | Mis alimentos | `pages/Alimentos` (Alimentos · Típicas · Recetas), `components/SelectorCategoria` | `alimentos.ts` (`filtrarAlimentos`), `repartoCategorias.ts` (filtro y pendientes) | `foodsRepo`, `mealsRepo` |
 | Categorías | `SelectorCategoria` (Alimentos, revisión, recetas) | `catalogo/categorias.ts` (lista de 29, `esCategoriaAlimento`, `categoriaDeOff`; sin imports: la comparte la tubería del catálogo), `alimentos.ts` (`creaAlimentoNuevo`, `faltaCategoria`) | `foodsRepo.categoriasDeEntradas` |
 | Raciones propias | `components/PorcionesAlimento` (alta, lista y borrado; en el detalle del alimento y en la revisión), `components/UnidadRacion` (unidad de la cantidad: gramos o una ración) | `interprete/porciones.ts` | `porcionesRepo` |
@@ -134,6 +135,15 @@ Sin IA ni red ([ADR 006](../decisiones/006-sin-ia-interprete-local.md)). `useInt
 - La persistencia de las guardadas conserva la tabla `meals`, el tipo `Meal` y el formato histórico de las plantillas, sin migraciones ni cambios de backup. Las funciones puras devuelven objetos nuevos y propagan `catalogId`.
 - `planCopia` prepara las entradas copiadas: mismo snapshot, `createdAt` nuevo y sin id. Sin comida de destino cada entrada conserva la suya.
 - `resolverItemsPlantilla` usa los valores actuales del alimento si su referencia propia sigue existiendo, o su snapshot si no. Vista previa y guardado comparten la resolución. Una guardada eliminada mientras la vista previa está abierta muestra un error al confirmar, sin cerrar ni congelar objetivos.
+
+## Comidas planificadas y lista de la compra
+
+B16, [ADR 059](../decisiones/059-comidas-planificadas-en-tabla-aparte.md). Al pie del Diario, solo cuando el día elegido es hoy, la sección «Planificadas» enseña lo colocado para hoy y los próximos días, agrupado por día y comida («Hoy · Comida», «Mañana · Cena»), en tono apagado y **fuera de los totales**: el resumen, la semana y las comidas del Diario no lo cuentan.
+
+- **Planificar**: hoja con el día (hoy y los siete siguientes; nunca días pasados, decisión de Víctor), la comida (`SegmentedControl`) y la lista de comidas típicas; tocar una la coloca (con «Deshacer»). Se usan las típicas porque ya resuelven alimento, cantidades y platos.
+- **Lo he comido** (solo en las de hoy, o de un día pasado que quedó sin marcar): pasa esa comida a `entries` en una transacción, congela el objetivo del día y ofrece «Deshacer», que devuelve las planificadas.
+- **Quitar** (X): borrado inmediato de la comida planificada, con «Deshacer».
+- **Lista de la compra**: hoja con «Hoy y mañana», «4 días» o «Semana»; suma los gramos por alimento (por su referencia o, sin ella, por el nombre), sin las kcal rápidas, ordenada por nombre. «Copiar lista» deja un texto «- Arroz: 350 g» por línea en el portapapeles; si no se puede copiar, el error va en línea.
 
 ## Cheat day
 
