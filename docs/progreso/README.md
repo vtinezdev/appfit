@@ -21,6 +21,7 @@ Esta carpeta guarda un registro por sesión de trabajo. Cada vez que se cierra u
 - [`sesion-08/`](./sesion-08/) — Sección Perfil (estimación energética que fija el objetivo de kcal), menú de seis destinos en círculos, rama al día con `master` y PR #30.
 - [`sesion-09/`](./sesion-09/) — Categoría obligatoria en cada alimento, con iconos propios por familia, filtro y revisión en Alimentos y reparto «Por categoría» en el Resumen (PR #36).
 - [`sesion-10/`](./sesion-10/) — Parte social: Social en la barra (feed, ánimos, comentarios, avisos) y Amigos en Más (perfil, seguir, bloquear, denunciar), publicar entrenos y actividades, cuenta sin copia y limpieza de espacio en Supabase (ADR 040).
+- [`sesion-11/`](./sesion-11/) — Plan de evolución: carril A completo salvo A15 (espera el piloto de A14) y carril B de B9 a B16 (módulos, Progreso, metas, calendario, tu mes, comidas planificadas); queda B17, pendiente de la decisión D13.
 
 ## Convención para cerrar una sesión («cierra la sesión»)
 
