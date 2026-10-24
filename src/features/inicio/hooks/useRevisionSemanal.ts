@@ -11,6 +11,8 @@ import { getPerfil } from '../../perfil/data/perfilRepo'
 import * as aguaRepo from '../data/aguaRepo'
 import * as pesosRepo from '../data/pesosRepo'
 import { resolverObjetivoAgua } from '../lib/agua'
+import { addDays } from '../../../shared/lib/dates'
+import { SEMANAS_CRUZADAS, semanasCruzadas, type SemanaCruzada } from '../lib/lecturasCruzadas'
 import {
   bloqueNutricion, bloquePeso, calcularRevision, debeMostrarRevision, entrenosDeSemana, hayDatosSemana, semanaAnterior, semanaARevisar, semanaDe,
   type BloqueNutricion, type BloquePeso, type Revision, type Semana,
@@ -74,5 +76,26 @@ export function useRevision(lunes: string, hoy: string): Revision | undefined {
     ])
     const objetivoAguaMl = resolverObjetivoAgua(settings.aguaObjetivoMl, perfil.sexo)?.ml ?? null
     return calcularRevision(lunes, { entries, cheatDays: new Set(cheatDays), objetivos, pesos, agua, objetivoAguaMl, workouts, sets, exercises }, hoy)
+  }, [lunes, hoy])
+}
+
+/**
+ * «Tus 8 semanas» (B11): las 8 semanas que acaban en la de `lunes`, para las lecturas cruzadas del final de la revisión.
+ * `undefined` mientras carga.
+ */
+export function useSemanasCruzadas(lunes: string, hoy: string): SemanaCruzada[] | undefined {
+  return useLiveQuery(async () => {
+    const desde = addDays(lunes, -7 * (SEMANAS_CRUZADAS - 1))
+    const hasta = addDays(lunes, 6)
+    const fechas = Array.from({ length: SEMANAS_CRUZADAS * 7 }, (_, i) => addDays(desde, i))
+    const [entries, cheatDays, objetivos, pesos, workouts, sets] = await Promise.all([
+      entriesRepo.entreFechas(desde, hasta),
+      cheatDaysRepo.entreFechas(desde, hasta),
+      objetivosPorFecha(fechas, hoy),
+      pesosRepo.delRango(desde, hasta),
+      workoutsRepo.listar(),
+      setsRepo.todas(),
+    ])
+    return semanasCruzadas(lunes, { entries, cheatDays: new Set(cheatDays), objetivos, pesos, workouts, sets }, hoy)
   }, [lunes, hoy])
 }

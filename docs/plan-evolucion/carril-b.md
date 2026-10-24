@@ -20,7 +20,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B8 | REN-01 | Un único cálculo derivado | L | — | Hecho (2026-10-23) |
 | B9 | GLO-02 | Módulos activables | L | B7 | Hecho (2026-10-24) |
 | B10 | NUT-05 | «Cerrar el día» | M | — | Hecho (2026-10-24) |
-| B11 | PRO-01 | Lecturas cruzadas de entreno y nutrición | L | B2 | Pendiente |
+| B11 | PRO-01 | Lecturas cruzadas de entreno y nutrición | L | B2 | Hecho (2026-10-24) |
 | B12 | GAM-02 | Un solo destino «Progreso» | L | B4, B7 | Pendiente |
 | B13 | GAM-04 | Metas personales | L | B12 | Pendiente |
 | B14 | PRO-06 | Calendario único de registros | L | B12 | Pendiente |
@@ -151,7 +151,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Tests:** la función (sin objetivo, objetivo cumplido, kcal agotadas, alimento sin proteína).
 - **Documentos:** `docs/features/nutricion.md`.
 
-### [ ] B11 · PRO-01 · Lecturas cruzadas de entreno y nutrición
+### [x] B11 · PRO-01 · Lecturas cruzadas de entreno y nutrición
+
+> **Hecho (2026-10-24, PROCESO §229).** Va al final de la revisión semanal, como decidió Víctor, con tres frases: proteína y récords, entrenos y kcal, y peso. Las frases respetan los módulos de B9.
 
 - **Tamaño:** L · **Rama:** `feat/b-lecturas-cruzadas`
 - **Para la persona:** «Tus 8 semanas»: peso medio y kcal medias por semana en la misma gráfica (dos ejes rotulados) y frases descriptivas como «Semanas con la proteína en objetivo: 5 de 8 · récords en esas semanas: 9; en las otras: 2». Nunca causas.
