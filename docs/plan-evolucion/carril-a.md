@@ -26,7 +26,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | A14 | SOC-01 | Semana en compañía | XL | — | Hecho (piloto pendiente) |
 | A15 | SOC-03 | Expediciones de comunidad | XL | A14 | Pendiente |
 | A-X1 | NAV-02 | «Volver» en Amigos (cruce) | S | B4 | Hecho (2026-10-23) |
-| A-X2 | GAM-04 | Línea de la meta en la gráfica (cruce) | S | B13 | Pendiente |
+| A-X2 | GAM-04 | Línea de la meta en la gráfica (cruce) | S | B13 | Hecho (2026-10-24) |
 | A16 | ENT-16 | Gemelos en el asistente de rutinas | S | — | Hecho (2026-10-23) |
 | A17 | REN-04 | Importar FIT | M | A11 | Hecho (2026-10-23) |
 | A18 | SOC-04 | Compartir tu semana de Ritmo | M | A13 | Hecho (2026-10-23) |
@@ -268,7 +268,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Cómo:** `social/AmigosTab.tsx` recibe una prop `onVolver` y pasa `volver={{ etiqueta: 'Social', onVolver }}` a su `PageHeader`. Excepción pactada a la regla de carpetas: este paso puede cambiar **solo** la línea de `src/app/App.tsx` que monta `AmigosTab` para pasarle `onVolver={() => navegar('social')}`.
 - **Documentos:** `docs/features/social.md`.
 
-### [ ] A-X2 · GAM-04 · Línea de la meta en la gráfica del ejercicio
+### [x] A-X2 · GAM-04 · Línea de la meta en la gráfica del ejercicio
+
+> **Hecho (2026-10-24, con B13, PROCESO §231).** La meta solo sale en el peso máximo con carga externa. Con todos los gimnasios a la vez no se dibuja la línea, pero se ve la fila «Meta: …».
 
 - **Tamaño:** S · **Depende de:** B13 en `master` (metas en `Settings` y su lógica pura).
 - **Cómo:** en `gym/pages/Progreso.tsx` (desde §187 con tarjetas de variante y selector de gimnasio), si hay una meta de récord para el ejercicio elegido y la métrica coincide, `ReferenceLine` discontinua con su cifra y fecha, y una fila «Meta: 100 kg antes del 31 dic» bajo la cifra principal. Solo lectura de la meta (la escribe B).

@@ -27,7 +27,7 @@ export const IDS_LOGRO = [
   'km-vertical', 'madrugador', 'noctambulo', 'vuelta', 'descanso', 'comodin',
   'dia-records', 'dia-redondo', 'ano-nuevo', 'aniversario', 'jardin', 'techo-espana',
   'siete-cumbres', 'alpes', 'volcanes', 'cinco-mas-altos', 'rutas-mundo', 'viajes-libro',
-  'fantasia', 'pasos', 'dias-pasos', 'treinta-mil',
+  'fantasia', 'pasos', 'dias-pasos', 'treinta-mil', 'meta',
 ] as const
 export type IdLogro = (typeof IDS_LOGRO)[number]
 
@@ -138,6 +138,8 @@ export interface DatosLogros {
   caminos?: ResultadoCaminos | null
   /** Pasos apuntados de cada día (desde siempre, no solo desde que empezó Caminos). */
   pasos?: readonly Pick<DiaPasos, 'fecha' | 'pasos'>[]
+  /** Cada meta personal cumplida (B13, `lib/metas.metasCumplidas`), para «Meta cumplida». */
+  metas?: readonly Conseguido[]
 }
 
 export const UMBRALES = {
@@ -448,6 +450,8 @@ export function calcularLogros(d: DatosLogros): Logro[] {
     veces: r.semanas.flatMap((s) => (s.cerrada && s.cumplidaEl && 7 - (diasEntrenoPorSemana.get(s.lunes) ?? 0) >= DESCANSOS_BIEN_LLEVADOS ? [{ fecha: s.cumplidaEl }] : [])),
   })
   const conComodin = r.semanas.find((s) => s.comodin)
+  // Metas personales (B13): repetible, una pieza la primera vez.
+  logros.push({ id: 'meta', nombre: 'Meta cumplida', grupo: 'constancia', niveles: [], veces: [...(d.metas ?? [])], descripcion: 'Cumplir una de tus metas de Progreso' })
   logros.push({ id: 'comodin', nombre: 'Red de seguridad', grupo: 'oculto', oculto: true, umbrales: [1],
     niveles: [conComodin ? { fecha: addDays(conComodin.lunes, 6) } : null], descripcion: 'Salvar el hilo con un comodín' })
   const conRecords = new Map<number, Set<number>>()

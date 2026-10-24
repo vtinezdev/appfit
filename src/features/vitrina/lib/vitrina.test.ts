@@ -76,8 +76,9 @@ describe('logros', () => {
     expect(conseguido(de('madrugador'))).toBe(false)
     expect(de('madrugador').progreso).toBe(1)
     // Entrenos I, Récords batidos I, Hilo I (4 semanas seguidas) y Descanso bien llevado (repetible: una pieza). Entreno:
-    // 34 piezas; Constancia: 13; Cumbres sin empezar: 22, sin conseguir; Caminos sin actividades ni pasos: 46; ocultos: 17.
-    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 4, total: 34 + 13 + 22 + 46 + 17 })
+    // 34 piezas; Constancia: 14 (con «Meta cumplida», B13); Cumbres sin empezar: 22, sin conseguir; Caminos sin actividades
+    // ni pasos: 46; ocultos: 17.
+    expect(recuentoPiezas(logros)).toEqual({ conseguidas: 4, total: 34 + 14 + 22 + 46 + 17 })
     expect(nivelDe(de('records-batidos'))).toBe(1)
   })
 
@@ -197,6 +198,16 @@ describe('logros ampliados', () => {
   const sinNutricion = (es: ReturnType<typeof entreno>[], hoy = '2026-10-10') =>
     calcularExperiencia({ hoy, workouts: es.map((e) => e.workout), sets: es.flatMap((e) => e.sets), entries: [], protObjetivo: new Map(), conNutricion: false })
 
+  it('«Meta cumplida» (B13): repetible, una pieza la primera vez', () => {
+    const es = [entreno('2026-10-05', seis(banca, 40))]
+    const base = { hoy: '2026-10-10', experiencia: sinNutricion(es), workouts: es.map((e) => e.workout), sets: es.flatMap((e) => e.sets), exercises: [], entries: [], categorias: new Map(), conNutricion: false }
+    const sin = calcularVitrina(base).logros.find((l) => l.id === 'meta')!
+    expect(conseguido(sin)).toBe(false)
+    const con = calcularVitrina({ ...base, metas: [{ fecha: '2026-10-05' }, { fecha: '2026-10-08' }] })
+    expect(con.logros.find((l) => l.id === 'meta')!.veces).toEqual([{ fecha: '2026-10-05' }, { fecha: '2026-10-08' }])
+    expect(recuentoPiezas(con.logros).conseguidas - recuentoPiezas(calcularVitrina(base).logros).conseguidas).toBe(1)
+  })
+
   it('entreno: series, toneladas, ejercicios dominados y subir de liga', () => {
     // Lunes, miércoles y viernes desde el 7 de septiembre: 6 series de 8 con 40…49 kg.
     const es = Array.from({ length: 10 }, (_, i) => entreno(addDays('2026-09-07', Math.floor(i / 3) * 7 + (i % 3) * 2), seis(banca, 40 + i)))
@@ -252,7 +263,7 @@ describe('logros ampliados', () => {
     expect(de('plantas').niveles[0]).toEqual({ fecha: '2026-10-09' })
     expect(de('jardin').veces).toEqual([{ fecha: '2026-10-09' }])
     // Con nutrición: 18 piezas de Nutrición y el Jardín botánico entre los ocultos.
-    expect(recuentoPiezas(l).total).toBe(34 + 13 + 22 + 46 + 17 + 18 + 1)
+    expect(recuentoPiezas(l).total).toBe(34 + 14 + 22 + 46 + 17 + 18 + 1)
   })
 })
 

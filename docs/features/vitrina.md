@@ -19,7 +19,7 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 | Iconos de los 58 logros | `components/IconoLogro`, sobre `shared/components/InsigniaExpedicion` | estado derivado del logro; sin persistencia |
 | Herbario en Nutrición › Resumen | `nutricion/components/HerbarioResumen` | `foodsRepo.categoriasDeEntradas`, `settings` |
 
-## Logros (151 piezas)
+## Logros (152 piezas)
 
 | Logro | Grupo | Niveles o tipo | Fuente |
 |---|---|---|---|
@@ -35,6 +35,7 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 | Semanas cumplidas | Constancia | 4 · 12 · 26 · 52 | hitos de Ritmo |
 | En racha | Constancia | 4 · 8 · 16 · 26 semanas cumplidas seguidas | semanas de Ritmo; las que están en pausa y la actual sin cumplir no cortan |
 | Hilo | Constancia | 4 · 12 · 26 · 52 · 104 semanas seguidas | día de presencia de la semana que alcanza el hilo |
+| Meta cumplida | Constancia | repetible | cada meta personal cumplida (B13, `lib/metas.metasCumplidas`) |
 | Días registrados | Nutrición | 30 · 100 · 200 · 365 · 500 | días con alguna comida |
 | Semanas enteras | Nutrición | 4 · 12 · 26 · 52 | semanas con comidas los siete días (fecha del séptimo) |
 | Proteína | Nutrición | 30 · 100 · 200 · 365 | días con la proteína al 90 % del objetivo |
@@ -87,6 +88,10 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 - Los logros conseguidos con un entreno (`workoutId`) aparecen al terminarlo en «Nuevo en la Vitrina».
 
 La rejilla de medallas y la hoja de detalle conservan su navegación y anillo de progreso. Cada uno de los 58 logros tiene un pictograma topográfico propio, tanto en la lista como en «Nuevo en la Vitrina». Sus niveles comparten símbolo y mantienen el numeral en texto. La sección fija la silueta: Entreno escudo, Constancia círculo, Cumbres triángulo, Caminos placa horizontal, Nutrición cuadrado redondeado y Ocultos rombo. Los pendientes van en neutro y los conseguidos en la paleta de expedición. Todos los ocultos sin conseguir montan el mismo candado, sin símbolos ni identificadores específicos dentro del SVG; tras conseguirlos se revela su pictograma. La insignia es decorativa para el lector de pantalla, que conserva nombre, nivel, progreso y fecha. Dirección visual y tokens: [sistema visual](../DESIGN-SYSTEM.md), [ADR 038](../decisiones/038-insignias-topograficas.md).
+
+## Metas personales (B13)
+
+En Progreso › Semana (`components/MetasVista`, sobre Ritmo): «Metas» con «Nueva meta» y, por cada una, su título («Sentadilla 100 kg», «80 km en noviembre», «12 semanas cumplidas»), «77,5 de 90 kg», el plazo y la barra. Tres tipos, como decidió Víctor: el récord de un ejercicio (la mejor carga de sus series efectivas con repeticiones en entrenos terminados; tiene que superar lo ya levantado), los km de un mes (este o uno de los dos siguientes; el plazo es su último día) y las semanas cumplidas de Ritmo desde la semana en que se crea. Nunca de peso corporal (ADR 029). El plazo es opcional; si pasa sin cumplirla queda «Sin cumplir» con «¿Cambiar fecha?», en gris y sin cuenta atrás. Al cumplirla: «Cumplida el 12 oct» y la pieza repetible «Meta cumplida» (decisión de Víctor). Borrar es inmediato, con «Deshacer». Solo se guarda la meta (`Settings.metas`, `data/metasRepo`: crear, editar, borrar y restaurar en transacción); el estado se deriva en `leerVitrina` (`lib/metas.estadoMetas`), que lo devuelve en `EstadoVitrina.metas`. `metaDeEjercicio` da la meta de récord vigente de un ejercicio a la gráfica de Entreno › Progreso (cruce A-X2).
 
 ## Muro de récords
 

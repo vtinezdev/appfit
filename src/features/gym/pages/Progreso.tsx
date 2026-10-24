@@ -1,6 +1,6 @@
 import { lazy, Suspense, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { Area, AreaChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { Area, AreaChart, CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
@@ -10,7 +10,9 @@ import { MAX_LINEAS_GIMNASIO, cifrasClave, datosProgreso, resumenVariantes, fila
 import { MODOS_CARGA, modoCarga } from '../lib/carga'
 import { ayudaCifras } from '../lib/ayudaCifras'
 import type { ModoCarga } from '../../../shared/db/types'
-import { chartAxis, chartColors, chartDashGimnasios, chartGrid, chartTooltip, escalaAjustada } from '../../../shared/design/chart'
+import { chartAxis, chartColors, chartDashGimnasios, chartGoalLine, chartGrid, chartTooltip, escalaAjustada } from '../../../shared/design/chart'
+import { getSettings } from '../../../shared/db/settings'
+import { estadoMetas, metaDeEjercicio } from '../../vitrina/lib/metas'
 import { formatDiaMes, formatFechaHora, todayISO } from '../../../shared/lib/dates'
 import { Select } from '../../../shared/components/Input'
 import ListGroup from '../../../shared/components/ListGroup'
@@ -89,6 +91,8 @@ export default function Progreso() {
   const rutinas = useLiveQuery(() => routinesRepo.listar(), [])
   const nombreGimnasio = useNombresGimnasio()
   const hoy = todayISO()
+  // Metas de récord (B13): la vigente del ejercicio se dibuja en la gráfica del peso máximo (cruce A-X2).
+  const metasGuardadas = useLiveQuery(async () => (await getSettings()).metas ?? [], [])
   const ligas = useLigas(hoy)
   const selectorRef = useRef<HTMLSelectElement>(null)
   const modos = [...new Set((sets ?? []).map(modoCarga))]
@@ -129,7 +133,12 @@ export default function Progreso() {
   const cifras = calculadas && todosLosGimnasios ? { ...calculadas, cambio: null } : calculadas
   const filas = todosLosGimnasios ? filasPorGimnasio(datos, metrica, lineas) : datos
   const ejercicio = exercises?.find(e => e.id === exerciseId)
-  const escala = escalaAjustada(datos.filter(d => !todosLosGimnasios || lineas.includes(d.gimnasioId)).map(d => d[metrica] ?? 0))
+  const metaRecord = exerciseId && metasGuardadas
+    ? metaDeEjercicio(estadoMetas(metasGuardadas.filter(m => m.tipo === 'record' && m.exerciseId === exerciseId), { workouts: workouts ?? [], sets: sets ?? [], actividades: [], semanas: [], nombres: new Map() }, hoy), exerciseId)
+    : undefined
+  // Solo en el peso máximo con carga externa, que es lo que mide una meta de récord.
+  const meta = metaRecord && metrica === 'pesoMax' && modo === 'externa' ? metaRecord : undefined
+  const escala = escalaAjustada([...datos.filter(d => !todosLosGimnasios || lineas.includes(d.gimnasioId)).map(d => d[metrica] ?? 0), ...(meta && !todosLosGimnasios ? [meta.valor] : [])])
   const valor = (d: (typeof datos)[number]) => formatNumber(d[metrica] ?? 0, 1)
   const elegir = (id: number | null) => { setExerciseId(id); setModoElegido(null); setVarianteElegida(null); setMetricaElegida(null); setGimnasioElegido(TODOS); setHojaCarga(false) }
   // Elegir desde la lista o volver a ella lleva el foco arriba (al selector o al título de la lista): anuncia y sube la vista.
@@ -198,6 +207,7 @@ export default function Progreso() {
             <Select aria-label="Gimnasio en Progreso" value={gimnasioActual} onChange={e => setGimnasioElegido(e.target.value)}>
               {opcionesGimnasio.map(o => <option key={o.valor} value={o.valor}>{o.valor === TODOS ? 'Todos los gimnasios' : o.valor === 'habitual' ? nombreGimnasio(undefined) : o.label}</option>)}
             </Select></label>)}
+        {meta && <p className="tabular text-body-sm text-fg">Meta: {formatNumber(meta.valor, 2)} kg{meta.fecha ? ` antes del ${formatDiaMes(new Date(`${meta.fecha}T12:00:00`).getTime())}` : ''}</p>}
         {otrasVariantesEnOtroGimnasio && <p className="text-caption text-fg-muted">Todas las sesiones de esta variante son de {nombreGimnasio(conSesiones[0])}.</p>}
         {datos.length < 2 ? <p className="text-body-sm text-fg-muted">La gráfica aparece a partir de dos sesiones terminadas con el mismo tipo de carga y variante.</p> : todosLosGimnasios ? <>
           <div role="img" aria-label={`${nombre} por sesión en cada gimnasio: ${lineas.map(id => `${nombreGimnasio(id)}, ${valor(datos.filter(d => d.gimnasioId === id).at(-1)!)} ${unidad} en su última sesión`).join('; ')}. Datos de cada sesión debajo.`}>
@@ -222,7 +232,7 @@ export default function Progreso() {
           {conSesiones.length > lineas.length && <p className="text-caption text-fg-muted">La gráfica muestra {formatInt(lineas.length)} gimnasios. Elige otro en «Gimnasio» para ver su línea.</p>}
           {escala.dominio[0] > 0 && <p className="tabular text-caption text-fg-muted">El eje empieza en {formatNumber(escala.dominio[0])} {unidad}.</p>}
         </> : <>
-          <div role="img" aria-label={`${nombre} por sesión, de ${valor(datos[0])} a ${valor(ultimo)} ${unidad}. Datos de cada sesión debajo.`}>
+          <div role="img" aria-label={`${nombre} por sesión, de ${valor(datos[0])} a ${valor(ultimo)} ${unidad}${meta ? `; la línea discontinua es tu meta de ${formatNumber(meta.valor, 2)} kg` : ''}. Datos de cada sesión debajo.`}>
             <ResponsiveContainer width="100%" height={200}>
               <AreaChart data={datos} margin={{ left: 0, right: Math.max(40, 12 + 7 * valor(ultimo).length), top: 8, bottom: 0 }}>
                 <CartesianGrid {...chartGrid} /><XAxis dataKey="fecha" {...chartAxis} minTickGap={20} />
@@ -231,6 +241,7 @@ export default function Progreso() {
                 <Area type="linear" dataKey={metrica} name={nombre} stroke={colorUnico} strokeWidth={2} fill={colorUnico} fillOpacity={0.12}
                   baseValue={escala.dominio[0]} dot={datos.length < 15 ? { r: 3, fill: colorUnico } : false} isAnimationActive={false}
                   label={rotuloFinal(datos.length, colorUnico === chartColors.seriesPrimary ? chartColors.seriesPrimaryText : chartColors.seriesSecondary, v => formatNumber(v, 1))} />
+                {meta && <ReferenceLine y={meta.valor} {...chartGoalLine} label={{ value: `Meta ${formatNumber(meta.valor, 1)}`, position: 'insideTopLeft', fill: chartColors.axis, fontSize: 12 }} />}
               </AreaChart>
             </ResponsiveContainer>
           </div>

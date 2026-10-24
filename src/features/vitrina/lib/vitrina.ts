@@ -33,6 +33,8 @@ export interface DatosVitrina {
   pasos?: readonly Pick<DiaPasos, 'fecha' | 'pasos'>[]
   /** Nombres de los gimnasios, para las marcas de máquinas de otro gimnasio. */
   gimnasios?: ReadonlyMap<number, string>
+  /** Metas cumplidas (B13), para «Meta cumplida». */
+  metas?: readonly { fecha: string }[]
 }
 
 export interface Herbario {
@@ -75,7 +77,7 @@ export function calcularVitrina(d: DatosVitrina): ResultadoVitrina {
   return {
     logros: calcularLogros({ hoy: d.hoy, experiencia: d.experiencia, atlas, herbario: semanas, plantas: herbario?.desdeSiempre, conNutricion: d.conNutricion,
       cumbres: d.cumbres, actividades: (d.actividades ?? []).filter((x) => !x.enCurso && x.fecha <= d.hoy), caminos: d.caminos, pasos: d.pasos, ligas, volumenes,
-      ciclos: primerosCiclos(ligas).map(({ fecha, workoutId }) => ({ fecha, workoutId })) }),
+      ciclos: primerosCiclos(ligas).map(({ fecha, workoutId }) => ({ fecha, workoutId })), metas: d.metas }),
     muro: muroRecords(terminados, d.sets, d.gimnasios),
     atlas,
     herbario,
