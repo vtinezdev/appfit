@@ -109,3 +109,10 @@ Oreja y pie de cerdo: CIQUAL solo demi-sel, no crudo ni hervido natural.
 Intestinos, pulmones, bazo y páncreas: sin equivalencia confirmada en CIQUAL.
 Lengua de cerdo: CIQUAL 40205 cruda, no estofada.
 Callos de vacuno: CIQUAL 40502 crudos y platos preparados con salsa, no hervidos solos.
+
+Ampliación exclusivamente tradicional, 2026-10-24:
+Pipirrana de Cazorla y trampó mallorquín: búsquedas por pipirrana/trampo/trempo
+sin coincidencias en nombres.csv FR/EN, traducciones.csv ni paquete ES2.
+Búsqueda de ingredientes EN/FR encuentra 20240 Piperade basquaise, préemballée:
+es una preparación cocinada/envasada, no una ensalada cruda. No se equipara.
+Ambas nuevas recetas usan las verduras crudas y conservan íntegros todos los jugos.

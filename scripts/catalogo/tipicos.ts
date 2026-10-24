@@ -14,6 +14,7 @@ const off = JSON.parse(leer(join(salida, manifest.fuentes.find((f: { id: string 
 const version = process.argv[2] ?? '2026-10-24'
 const recetas = JSON.parse(leer(join(datos, 'recetas.json'))) as Receta[]
 const directos = leerDirectos(leer(join(datos, 'directos.csv')))
+const referencias = JSON.parse(leer(join(datos, 'referencias-tradicionales.json'))) as { referencias: unknown[] }
 const informe = join(aqui, 'informes/tipicos.txt')
 mkdirSync(dirname(informe), { recursive: true })
 try {
@@ -25,9 +26,11 @@ try {
     `Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).`,
     `Vía 2 (directos): ${r.directos}; excluidos por energía: ${r.excluidos.join(', ') || 'ninguno'}`,
     `Vía 3 (recetas): ${r.recetas}; total: ${r.paquete.filas.length}`,
-    'Alcance pendiente: objetivo 300–500 NO alcanzado; no se rellenan huecos con equivalentes dudosos.',
+    `Ampliación solicitada: 500 adicionales, exclusivamente tradicionales españoles. Añadidos frente al lote inicial de 45: ${r.paquete.filas.length - 45}; pendientes: ${Math.max(0, 545 - r.paquete.filas.length)}.`,
+    `Referencias RAG localizadas: ${referencias.referencias.length}; NO cuentan como filas publicadas.`,
+    'Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.',
     'USDA SR Legacy April 2018 descargado de fdc.nal.usda.gov (CC0). XML CIQUAL compo no descargado completo dentro del plazo; no se publica es3.',
-    'Revisar Víctor: formulaciones AppFit y pesos finales de diseño (no pesadas experimentales).',
+    'Revisar Víctor: las 25 recetas iniciales tienen pesos de diseño y referencia general sin correspondencia individual verificada. Las 2 nuevas son mezclas crudas con referencia individual y balance de masa íntegro.',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',

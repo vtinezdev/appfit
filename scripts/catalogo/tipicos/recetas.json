@@ -831,5 +831,67 @@
         "gramos": 1
       }
     ]
+  },
+  {
+    "id": "pipirrana-cazorla",
+    "nombre": "Pipirrana de Cazorla, cruda",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://cazorla.es/turismo/recetario/ (consultada 2026-10-24). Gramajes netos: formulación AppFit. Mezcla cruda sin colar ni escurrir: incorporar íntegros todos los ingredientes, incluidos sus jugos. Peso final del lote definido por balance de masa, suma exacta de los ingredientes. Sin evaporación, absorción ni factores de rendimiento o retención. Aceite y sal explícitos. No se copian valores nutricionales de la referencia.",
+    "pesoFinalG": 1330,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 90
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "trampo-mallorquin",
+    "nombre": "Trampó mallorquín, crudo",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://gastronomia.illesbalears.travel/es/producto-local/iconos-gastronomicos/producto-coca-de-trampo (consultada 2026-10-24). Gramajes netos: formulación AppFit. Mezcla cruda sin colar ni escurrir: incorporar íntegros todos los ingredientes, incluidos sus jugos. Peso final del lote definido por balance de masa, suma exacta de los ingredientes. Sin evaporación, absorción ni factores de rendimiento o retención. Aceite y sal explícitos. No se copian valores nutricionales de la referencia.",
+    "pesoFinalG": 995,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
   }
 ]

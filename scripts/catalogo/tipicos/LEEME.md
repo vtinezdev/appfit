@@ -5,7 +5,7 @@ Ejecutar `npm run catalogo:tipicos` (versión fija 2026-10-24) o
 vive en tipicosLib.ts; el CLI solo coordina archivos y el manifest.
 
 Este lote NO cumple todavía el volumen solicitado de 300–500 entradas.
-Incluye 20 directos USDA y 25 recetas. No se equiparan quesos con DOP, piezas
+Incluye 20 directos USDA y 27 recetas. La ampliación solicitada de 500 alimentos adicionales sigue pendiente. No se equiparan quesos con DOP, piezas
 ibéricas ni embutidos regionales a productos parecidos de otros países.
 `sin-fuente.json` contiene pendientes, no afirmaciones de que no exista ninguna
 fuente posible. `auditoria-ciqual.txt` documenta búsquedas iniciales y equivalencias.
@@ -38,7 +38,7 @@ por absorción de aceite ni por escurrido. No hay factores USDA de retención.
 La energía/macros se suman antes de dividir por peso final y redondear a un decimal.
 Los extras solo se publican si todos los ingredientes tienen ese dato.
 
-**Revisión de Víctor necesaria:** los pesos finales son objetivos de formulación,
+**Revisión de Víctor necesaria para las 25 recetas iniciales:** los pesos finales son objetivos de formulación,
 no mediciones experimentales. Contrastarlos pesando lotes antes de considerar
 este conjunto una tabla representativa. Las recetas no son promedios analíticos
 nacionales y no representan todas las variantes domésticas. No se ha verificado
@@ -59,3 +59,20 @@ El manifest con una tercera fuente invalida las expectativas de dos tests de
 src/ que enumeran exactamente CIQUAL/OFF. No se modifican por la restricción
 expresa del encargo. Claude Code debe adaptar esas expectativas al integrar.
 La documentación viva y docs/PROCESO.md quedan para Claude Code, según el encargo.
+
+## Ampliación exclusivamente tradicional española
+
+Se incorporan pipirrana de Cazorla y trampó mallorquín, con referencias
+individuales de turismo institucional y gramajes AppFit. Son mezclas crudas
+que retienen íntegros ingredientes y jugos: el peso final es la suma exacta
+de los gramajes. No se extrapola este balance a platos que evaporan agua,
+se escurren o absorben aceite.
+
+`referencias-tradicionales.json` registra 251 enlaces localizados en los
+14 índices del Legado Gastronómico de la Real Academia de Gastronomía.
+Son referencias pendientes, NO 251 alimentos nuevos ni recetas calculadas.
+Hay variantes, platos ya existentes y preparaciones que necesitan fuentes
+específicas para sus ingredientes. El número de enlaces no cuenta para
+el objetivo de 500. Las referencias culinarias no se usan como tablas
+nutricionales. El repertorio de Spain.info tiene 363 referencias y también
+necesita deduplicación y revisión individual; no se asume que sean todas nuevas.
