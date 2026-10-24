@@ -13,7 +13,8 @@
     "test": "vitest run",
     "catalogo:ciqual": "node scripts/catalogo/ciqual.ts",
     "catalogo:off": "node scripts/catalogo/off.ts",
-    "catalogo:validar": "node scripts/catalogo/validar.ts"
+    "catalogo:validar": "node scripts/catalogo/validar.ts",
+    "catalogo:tipicos": "node scripts/catalogo/tipicos.ts"
   },
   "dependencies": {
     "barcode-detector": "^3.2.2",

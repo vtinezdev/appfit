@@ -154,7 +154,7 @@ describe('paquetes publicados en public/catalogo', () => {
   }
 
   it('hay al menos CIQUAL y la selección de OFF España', () => {
-    expect(manifest.fuentes.map((f) => f.id).sort()).toEqual(['ciqual', 'offes'])
+    expect(manifest.fuentes.map((f) => f.id).sort()).toEqual(['ciqual', 'offes', 'tipicos'])
   })
 
   for (const fuente of ['ciqual', 'offes']) {
@@ -189,6 +189,6 @@ describe('paquetes publicados en public/catalogo', () => {
   it('validarCatalogoPublicado (el CLI de `npm run catalogo:validar`) da 0 problemas', () => {
     const r = validarCatalogoPublicado()
     expect(r.filter((x) => x.errores > 0).map((x) => x.linea)).toEqual([])
-    expect(r).toHaveLength(2)
+    expect(r).toHaveLength(manifest.fuentes.length)
   })
 })

@@ -188,8 +188,8 @@ code;nombre_es;alias
 6123;Vacuno, costillar, estofado o hervido;
 6130;Vacuno, entraña (hampe), cruda;
 6131;Vacuno, entraña (hampe), a la plancha;
-6140;Vacuno, carrillera, cruda;
-6141;Vacuno, carrillera, estofada o hervida;
+6140;Vacuno, carrillera, cruda;Carrillada de vacuno, cruda
+6141;Vacuno, carrillera, estofada o hervida;Carrillada de vacuno, estofada o hervida
 6151;Vacuno, morcillo, hervido;
 6160;Vacuno, tapa, cruda;
 6161;Vacuno, tapa, a la plancha;
@@ -2733,7 +2733,7 @@ code;nombre_es;alias
 28477;Cerdo, paletilla, descarnada, desgrasada, deshuesada, cruda;
 28479;Cerdo, pecho en chuleta, sin vientre, crudo;
 28480;Cerdo, asado de filete con solomillo, crudo;
-28501;Panceta al natural, cruda;beicon|bacon
+28501;Panceta al natural, cruda;beicon|bacon|Panceta fresca, cruda
 28502;Pecho de cerdo en salazón, ahumado, crudo;
 28503;Bresaola;
 28504;Panceta al natural, cocida;beicon|bacon
@@ -2754,7 +2754,7 @@ code;nombre_es;alias
 28811;Jamón de Bayona;
 28812;Jamón seco;
 28844;Jamón seco de Parma;
-28845;Jamón seco Serrano;
+28845;Jamón seco Serrano;Jamón serrano
 28850;Coppa;
 28858;Panceta o pecho enrollado seco;
 28860;Carne de los Grisones;

@@ -1,0 +1,85 @@
+Típicos 2026-10-24 · CIQUAL 2025-es2
+Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
+Vía 2 (directos): 20; excluidos por energía: ninguno
+Vía 3 (recetas): 25; total: 45
+Alcance pendiente: objetivo 300–500 NO alcanzado; no se rellenan huecos con equivalentes dudosos.
+USDA SR Legacy April 2018 descargado de fdc.nal.usda.gov (CC0). XML CIQUAL compo no descargado completo dentro del plazo; no se publica es3.
+Revisar Víctor: formulaciones AppFit y pesos finales de diseño (no pesadas experimentales).
+Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.
+
+AVISOS calidad.ts:
+
+DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):
+offes: tortilla-patatas-con-cebolla → 8480000808950 Tortilla De Patatas Con Cebolla (casi)
+
+SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):
+sin fuente: morro de cerdo cocido
+sin fuente: carrillada de cerdo
+sin fuente: secreto ibérico
+sin fuente: presa ibérica
+sin fuente: pluma ibérica
+sin fuente: lagarto ibérico
+sin fuente: torreznos
+sin fuente: chicharrones
+sin fuente: papada de cerdo cocida
+sin fuente: rabo de toro
+sin fuente: callos a la madrileña
+sin fuente: criadillas
+sin fuente: chorizo fresco
+sin fuente: salchichón español
+sin fuente: lomo embuchado
+sin fuente: sobrasada
+sin fuente: fuet
+sin fuente: cecina
+sin fuente: morcilla de Burgos
+sin fuente: morcilla de cebolla
+sin fuente: butifarra
+sin fuente: botillo
+sin fuente: jamón ibérico de bellota
+sin fuente: cabeza de jabalí
+sin fuente: manchego semicurado
+sin fuente: manchego curado
+sin fuente: manchego viejo
+sin fuente: tetilla
+sin fuente: cabrales
+sin fuente: idiazábal
+sin fuente: mahón
+sin fuente: torta del Casar
+sin fuente: queso fresco de Burgos
+sin fuente: San Simón
+sin fuente: majorero
+sin fuente: zamorano
+sin fuente: cocido madrileño
+sin fuente: fabada
+sin fuente: paella valenciana
+sin fuente: paella de marisco
+sin fuente: arroz negro
+sin fuente: fideuá
+sin fuente: croquetas de jamón
+sin fuente: croquetas de pollo
+sin fuente: patatas bravas
+sin fuente: pulpo a feira
+sin fuente: albóndigas en salsa
+sin fuente: ensaladilla rusa
+sin fuente: empanada gallega
+sin fuente: flamenquín
+sin fuente: marmitako
+sin fuente: migas
+sin fuente: sopa castellana
+sin fuente: pimientos de Padrón fritos
+sin fuente: boquerones en vinagre
+sin fuente: mollete
+sin fuente: picos
+sin fuente: regañás
+sin fuente: churros
+sin fuente: porras
+sin fuente: torrijas
+sin fuente: magdalenas tradicionales
+sin fuente: ensaimada
+sin fuente: roscón
+sin fuente: polvorones
+sin fuente: mantecados
+sin fuente: turrón duro español
+sin fuente: turrón blando español
+sin fuente: crema catalana
+sin fuente: leche frita

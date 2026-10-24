@@ -1,0 +1,835 @@
+[
+  {
+    "id": "tortilla-patatas-sin-cebolla",
+    "nombre": "Tortilla de patatas, sin cebolla, cuajada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 800
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "tortilla-patatas-con-cebolla",
+    "nombre": "Tortilla de patatas, con cebolla, cuajada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1200,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 800
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 250
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "salmorejo-casero",
+    "nombre": "Salmorejo, casero, crudo",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1250,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "gazpacho-casero",
+    "nombre": "Gazpacho, casero, crudo",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1800,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20019",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 250
+      }
+    ]
+  },
+  {
+    "id": "ajoblanco-casero",
+    "nombre": "Ajoblanco, casero, crudo",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1300,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 200
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 800
+      }
+    ]
+  },
+  {
+    "id": "pisto-manchego",
+    "nombre": "Pisto manchego, guisado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20020",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "escalivada",
+    "nombre": "Escalivada, asada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "20053",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "patatas-a-lo-pobre",
+    "nombre": "Patatas a lo pobre, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "porrusalda",
+    "nombre": "Porrusalda, hervida",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1800,
+    "ingredientes": [
+      {
+        "ciqual": "20039",
+        "gramos": 600
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 600
+      }
+    ]
+  },
+  {
+    "id": "garbanzos-espinacas",
+    "nombre": "Garbanzos con espinacas, guisados",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1500,
+    "ingredientes": [
+      {
+        "ciqual": "20516",
+        "gramos": 350
+      },
+      {
+        "ciqual": "20059",
+        "gramos": 600
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11042",
+        "gramos": 2
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 900
+      }
+    ]
+  },
+  {
+    "id": "lentejas-verduras",
+    "nombre": "Lentejas con verduras, estofadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2200,
+    "ingredientes": [
+      {
+        "ciqual": "20359",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1600
+      }
+    ]
+  },
+  {
+    "id": "alubias-blancas-verduras",
+    "nombre": "Alubias blancas con verduras, guisadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2200,
+    "ingredientes": [
+      {
+        "ciqual": "20501",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1700
+      }
+    ]
+  },
+  {
+    "id": "arroz-marisco",
+    "nombre": "Arroz con marisco, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1800,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 400
+      },
+      {
+        "ciqual": "10001",
+        "gramos": 250
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 250
+      },
+      {
+        "ciqual": "10026",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.2
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1100
+      }
+    ]
+  },
+  {
+    "id": "arroz-pollo-conejo",
+    "nombre": "Arroz con pollo y conejo, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1900,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 400
+      },
+      {
+        "ciqual": "36003",
+        "gramos": 400
+      },
+      {
+        "ciqual": "34001",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20061",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.2
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1100
+      }
+    ]
+  },
+  {
+    "id": "bacalao-pil-pil",
+    "nombre": "Bacalao al pil-pil, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "26043",
+        "gramos": 800
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 180
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11088",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "merluza-romana",
+    "nombre": "Merluza a la romana, frita",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 100
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "calamares-romana",
+    "nombre": "Calamares a la romana, fritos",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "10001",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 120
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "boquerones-fritos",
+    "nombre": "Boquerones, enharinados, fritos",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "26079",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "patatas-importancia",
+    "nombre": "Patatas a la importancia, guisadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1700,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 150
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 600
+      }
+    ]
+  },
+  {
+    "id": "huevos-rotos",
+    "nombre": "Huevos rotos con patatas, fritos",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 900
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 90
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "arroz-leche-casero",
+    "nombre": "Arroz con leche, casero, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1400,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 1200
+      },
+      {
+        "ciqual": "9100",
+        "gramos": 150
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 120
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "flan-huevo-casero",
+    "nombre": "Flan de huevo, casero, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 600
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 300
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "natillas-caseras",
+    "nombre": "Natillas, caseras, cocidas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 200
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "tarta-santiago",
+    "nombre": "Tarta de Santiago, horneada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 300
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 300
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 300
+      }
+    ]
+  },
+  {
+    "id": "compota-manzana",
+    "nombre": "Compota de manzana, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "13396",
+        "gramos": 1200
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 80
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  }
+]
