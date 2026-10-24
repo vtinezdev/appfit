@@ -24,7 +24,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B12 | GAM-02 | Un solo destino «Progreso» | L | B4, B7 | Hecho (2026-10-24) |
 | B13 | GAM-04 | Metas personales | L | B12 | Hecho (2026-10-24) |
 | B14 | PRO-06 | Calendario único de registros | L | B12 | Hecho (2026-10-24) |
-| B15 | GAM-03 | Tu mes y tu año en AppFit | L | B8 (A10 para la imagen) | Pendiente |
+| B15 | GAM-03 | Tu mes y tu año en AppFit | L | B8 (A10 para la imagen) | Hecho (2026-10-24) |
 | B16 | NUT-04 | Comidas planificadas y lista de la compra | XL | — (versión 14 de Dexie) | Pendiente |
 | B17 | PRO-04 | Fotos de progreso privadas | XL | B16 (por la versión de Dexie) | Pendiente |
 
@@ -199,7 +199,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Cruce opcional:** abrir el detalle de un entreno desde fuera de Entreno necesita una prop nueva en `gym/GymTab` (de A). Primera versión sin ese enlace; si se quiere, se pide a A.
 - **Documentos:** documento de la vista de Progreso y `docs/arquitectura.md`.
 
-### [ ] B15 · GAM-03 · Tu mes y tu año en AppFit
+### [x] B15 · GAM-03 · Tu mes y tu año en AppFit
+
+> **Hecho (2026-10-24, PROCESO §233).** Con imagen para compartir, como decidió Víctor; el SVG es propio y reutiliza la utilidad del póster. En lugar del «músculo que más subió» sale «lo más trabajado» (el grupo con más series del periodo), porque el progreso muscular es semanal.
 
 - **Tamaño:** L · **Rama:** `feat/b-tu-mes`
 - **Para la persona:** los primeros días de cada mes, una tarjeta cerrable en Inicio, «Tu octubre», que abre un resumen en grafito (entrenos, toneladas, récords, metros, km, días registrados, plantas distintas, el músculo que más subió). En enero, «Tu 2026». Todo local.

@@ -311,6 +311,8 @@ export interface Settings {
   ordenInicio?: string[]
   /** Metas personales (B13, `vitrina/lib/metas.ts`); su estado (progreso, cumplida) se deriva al leer, nunca se guarda. */
   metas?: Meta[]
+  /** «Tu mes» / «Tu año» (B15): clave (YYYY-MM o YYYY) del último resumen cerrado en Inicio; ausente = ninguno. */
+  resumenMesCerrado?: string
 }
 
 /**

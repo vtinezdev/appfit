@@ -584,6 +584,8 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 @container (max-width: 14rem) { .nutrition-macros { grid-template-columns: 1fr; } }
 .sheet-panel h2, .task-layer header h1 { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
 .training-muted { color: rgb(var(--c-training-muted)); }
+/* Filete entre cifras sobre grafito («Tu mes», B15). */
+.training-filete { border-top: 1px solid rgb(var(--c-training-track)); }
 .training-secondary { color: rgb(var(--c-on-training)); border: 1px solid rgb(var(--c-training-muted) / .4); }
 .training-secondary:hover, .training-secondary:active { background: rgb(var(--c-on-training) / .1); }
 /* Acción principal sobre grafito sin gastar el acento: relleno en el texto de entreno. */
