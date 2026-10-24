@@ -22,6 +22,7 @@ const datos: Record<string, unknown[]> = {
   rutasPropias: [{ id: 1, nombre: 'Tarragona – Valencia', salida: { nombre: 'Tarragona' }, etapas: [{ nombre: 'Valencia', km: 260 }], createdAt: 1, updatedAt: 1 }],
   pasos: [{ id: 1, fecha: '2026-10-01', pasos: 8000, createdAt: 1, updatedAt: 1 }],
   gimnasios: [{ id: 1, nombre: 'Gym Playa', nombreNorm: 'gym playa' }],
+  planificadas: [{ id: 1, fecha: '2026-10-02', comida: 'comida', nombre: 'Arroz', gramos: 100, kcal: 130, prot: 2.7, carb: 28, grasa: 0.3, createdAt: 1 }],
 }
 
 beforeEach(async () => {

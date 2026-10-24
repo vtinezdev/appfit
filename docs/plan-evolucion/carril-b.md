@@ -25,7 +25,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B13 | GAM-04 | Metas personales | L | B12 | Hecho (2026-10-24) |
 | B14 | PRO-06 | Calendario único de registros | L | B12 | Hecho (2026-10-24) |
 | B15 | GAM-03 | Tu mes y tu año en AppFit | L | B8 (A10 para la imagen) | Hecho (2026-10-24) |
-| B16 | NUT-04 | Comidas planificadas y lista de la compra | XL | — (versión 14 de Dexie) | Pendiente |
+| B16 | NUT-04 | Comidas planificadas y lista de la compra | XL | — (versión 14 de Dexie) | Hecho (2026-10-24) |
 | B17 | PRO-04 | Fotos de progreso privadas | XL | B16 (por la versión de Dexie) | Pendiente |
 
 **Decisiones de Víctor en las previews B9–B16 (2026-10-24):** B9, los cinco módulos (Nutrición, Gimnasio, Actividades, Agua y Peso) y, sin Nutrición, la gamificación cuenta solo el entreno · B10, un chip en Buscar junto a las categorías · B11, al final de la revisión semanal · B12, «Progreso» también en la media luna · B13, los tres tipos de meta (récord de un ejercicio, km de un mes y semanas cumplidas) y, al cumplirla, una pieza en la Vitrina · B14, implementar · B15, con imagen para compartir · B16, sin planificar días pasados (solo hoy y días futuros).
@@ -208,7 +208,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Cómo:** lógica pura `vitrina/lib/tuPeriodo.ts` sobre el resultado del lector compartido (B8) y `gym/lib/progresoMuscular` (lectura). Tarjeta en Inicio los días 1–7; `Settings.resumenMesCerrado?: string` (mes cerrado). Página modal con secciones verticales (sin carrusel ni dependencia nueva). Imagen compartible con la utilidad de A10 (`gym/lib/exportarImagen.ts`, cruce X3) si ya está en `master`; si no, sin imagen.
 - **Documentos:** `docs/features/inicio.md`, `vitrina.md`.
 
-### [ ] B16 · NUT-04 · Comidas planificadas y lista de la compra
+### [x] B16 · NUT-04 · Comidas planificadas y lista de la compra
+
+> **Hecho (2026-10-24, PROCESO §234; [ADR 059](../decisiones/059-comidas-planificadas-en-tabla-aparte.md)).** D12: sin días pasados (solo hoy y los siete siguientes), como decidió Víctor; atenuadas y fuera de todos los totales, medias, rachas, XP y objetivos congelados porque viven en su tabla. Como el Diario no abre días futuros, lo planificado se ve agrupado por día al pie del Diario de hoy, con «Planificar» (desde las comidas típicas), «Lo he comido», quitar con «Deshacer» y la lista de la compra copiable.
 
 - **Tamaño:** XL · **Rama:** `feat/b-planificadas` (+ versión 14 de Dexie)
 - **Para la persona:** en los días futuros del Diario se pueden colocar comidas típicas como «planificadas» (no cuentan hasta pulsar «Lo he comido») y sacar de lo planificado una lista de la compra copiable.

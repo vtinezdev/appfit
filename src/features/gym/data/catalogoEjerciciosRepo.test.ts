@@ -15,7 +15,7 @@ describe('identidad, persistencia y compatibilidad del catálogo Gym', () => {
     const id = await exercisesRepo.resolverSeleccion(seleccion)
     expect(await db.exercises.get(id)).toMatchObject({ catalogId: 'appfit:press-banca', primaryMuscles: ['pecho'], secondaryMuscles: ['triceps', 'hombros'], equipment: ['barra'] })
     expect(await db.exercises.count()).toBe(1)
-    expect(db.verno).toBe(13)
+    expect(db.verno).toBe(14)
   })
   it('dos selecciones simultáneas reutilizan el mismo ejercicio', async () => {
     const [a, b] = await Promise.all([exercisesRepo.resolverSeleccion(seleccion), exercisesRepo.resolverSeleccion(seleccion)])
