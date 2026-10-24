@@ -3,10 +3,11 @@
 const DENTRO = {
   Amigos: ['Social', (page) => page.getByRole('main').getByRole('button', { name: 'Amigos', exact: true }).first()],
   Referencias: ['Ajustes', (page) => page.getByRole('main').getByRole('button', { name: /^Referencias/ })],
-  Cumbres: ['Inicio', (page) => page.getByRole('list', { name: 'Tu progreso' }).getByRole('button', { name: /^Cumbres/ })],
-  Caminos: ['Inicio', (page) => page.getByRole('list', { name: 'Tu progreso' }).getByRole('button', { name: /^Caminos/ })],
-  Ritmo: ['Inicio', (page) => page.getByRole('list', { name: 'Tu progreso' }).getByRole('button', { name: /^Ritmo/ })],
-  Vitrina: ['Inicio', (page) => page.getByRole('list', { name: 'Tu progreso' }).getByRole('button', { name: /^Vitrina/ })],
+  // Progreso (B12): las cuatro son pestañas de un destino de la media luna; Ritmo va en la pestaña Semana.
+  Cumbres: ['Progreso', (page) => page.getByRole('main').getByRole('tab', { name: 'Cumbres', exact: true })],
+  Caminos: ['Progreso', (page) => page.getByRole('main').getByRole('tab', { name: 'Caminos', exact: true })],
+  Ritmo: ['Progreso', (page) => page.getByRole('main').getByRole('tab', { name: 'Semana', exact: true })],
+  Vitrina: ['Progreso', (page) => page.getByRole('main').getByRole('tab', { name: 'Vitrina', exact: true })],
 }
 async function navegar(page, nombre) {
   const [seccion, entrar] = DENTRO[nombre] ?? [nombre]

@@ -21,7 +21,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B9 | GLO-02 | Módulos activables | L | B7 | Hecho (2026-10-24) |
 | B10 | NUT-05 | «Cerrar el día» | M | — | Hecho (2026-10-24) |
 | B11 | PRO-01 | Lecturas cruzadas de entreno y nutrición | L | B2 | Hecho (2026-10-24) |
-| B12 | GAM-02 | Un solo destino «Progreso» | L | B4, B7 | Pendiente |
+| B12 | GAM-02 | Un solo destino «Progreso» | L | B4, B7 | Hecho (2026-10-24) |
 | B13 | GAM-04 | Metas personales | L | B12 | Pendiente |
 | B14 | PRO-06 | Calendario único de registros | L | B12 | Pendiente |
 | B15 | GAM-03 | Tu mes y tu año en AppFit | L | B8 (A10 para la imagen) | Pendiente |
@@ -161,7 +161,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Decidir (D5):** dónde vive (propuesto: al final de la revisión semanal) y la redacción.
 - **Documentos:** `docs/features/inicio.md` § Revisión semanal.
 
-### [ ] B12 · GAM-02 · Un solo destino «Progreso»
+### [x] B12 · GAM-02 · Un solo destino «Progreso»
+
+> **Hecho (2026-10-24, PROCESO §230, ADR 058).** Víctor lo quiere también en la media luna. Para que quepan siete secciones a 320 px, la media luna sube a 210 px y sus extremos pasan a 174°/6°. La feature nueva es `progreso/`. Ritmo va en la pestaña Semana, debajo de lo de esta semana en Cumbres, Caminos y Vitrina. Rama real: `feat/b-progreso`.
 
 - **Tamaño:** L · **Rama:** `feat/b-destino-progreso`
 - **Para la persona:** las teselas abren «Progreso» con pestañas Semana · Cumbres · Caminos · Vitrina y «‹ Inicio». La pestaña Semana reúne Ritmo, lo subido y recorrido esta semana y las piezas nuevas; el calendario de semanas abre las revisiones (B5).

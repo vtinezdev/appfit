@@ -28,7 +28,7 @@ describe('posicionesArco', () => {
     }
   })
 
-  it.each([5, 6])('con %i secciones, a 320 px ninguna pisa a otra ni al botón ni sale de la pantalla', (n) => {
+  it.each([5, 6, 7])('con %i secciones, a 320 px ninguna pisa a otra ni al botón ni sale de la pantalla', (n) => {
     const todas = cajas(n)
     const boton = 30 // radio del botón central (60 px)
     for (const [i, a] of todas.entries()) {

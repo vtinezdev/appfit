@@ -26,8 +26,11 @@ const RevisionSemanal = lazy(() => import('../inicio/components/RevisionSemanal'
 const semanasTexto = (n: number) => (n === 1 ? '1 semana' : `${formatInt(n)} semanas`)
 
 /** Ritmo (desde Inicio): la semana en curso, hilo y comodines, el calendario de semanas, hitos y pausas. */
-export default function RitmoTab({ onIrAAjustes, onVolver }: { onIrAAjustes: () => void; onVolver?: () => void }) {
-  const volver = onVolver ? { etiqueta: 'Inicio', onVolver } : undefined
+export default function RitmoTab({ onIrAAjustes, onVolver, incrustada = false }: { onIrAAjustes: () => void; onVolver?: () => void
+  /** Como pestaña de Progreso (B12): sin márgenes de página ni título visible. */
+  incrustada?: boolean }) {
+  const volver = onVolver && !incrustada ? { etiqueta: 'Inicio', onVolver } : undefined
+  const marco = incrustada ? '' : 'px-page pt-5'
   const hoy = todayISO()
   const estado = useExperiencia(hoy)
   const { avisar, avisarError, toast } = useAviso()
@@ -36,10 +39,10 @@ export default function RitmoTab({ onIrAAjustes, onVolver }: { onIrAAjustes: () 
   /** Lunes de la semana cuya revisión está abierta (la misma de Inicio, aunque allí ya se cerrara). */
   const [revision, setRevision] = useState<string | null>(null)
 
-  if (!estado) return <div className="px-page pt-5"><LoadingState /></div>
+  if (!estado) return <div className={marco}><LoadingState /></div>
   if (!estado.visible) {
-    return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Ritmo" volver={volver} />
+    return <div className={`space-y-section ${marco}`}>
+      <PageHeader incrustada={incrustada} title="Ritmo" volver={volver} />
       <EmptyState title="Ritmo oculto" action={<Button variant="secondary" onClick={onIrAAjustes}>Ir a Ajustes</Button>}>
         Lo has ocultado en Ajustes junto con Cumbres, Caminos y Vitrina.
       </EmptyState>
@@ -67,8 +70,8 @@ export default function RitmoTab({ onIrAAjustes, onVolver }: { onIrAAjustes: () 
     }
   }
 
-  return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Ritmo" volver={volver} overline="Tu constancia semana a semana" action={<ComoFunciona nombre="Ritmo"><ComoFuncionaRitmo plan={plan} conNutricion={conNutricion} /></ComoFunciona>} />
+  return <div className={`space-y-section ${marco}`}>
+    <PageHeader incrustada={incrustada} title="Ritmo" volver={volver} overline="Tu constancia semana a semana" action={<ComoFunciona nombre="Ritmo"><ComoFuncionaRitmo plan={plan} conNutricion={conNutricion} /></ComoFunciona>} />
 
     {activa && <Card tone="muted" className="space-y-3">
       <p className="text-title text-fg">En pausa</p>

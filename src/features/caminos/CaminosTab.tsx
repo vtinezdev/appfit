@@ -46,14 +46,17 @@ interface Props {
   onIrAActividades: () => void
   /** «‹ Inicio» en la cabecera. */
   onVolver?: () => void
+  /** Como pestaña de Progreso (B12): sin márgenes de página ni título visible. */
+  incrustada?: boolean
 }
 
 /**
  * Caminos (desde Inicio): la ruta actual con sus etapas, la credencial, la semana, los pasos, las siguientes y las terminadas.
  * Avanza con los km de las actividades (caminar, correr y senderismo) y de los pasos desde el día en que se elige la primera ruta.
  */
-export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver }: Props) {
-  const volver = onVolver ? { etiqueta: 'Inicio', onVolver } : undefined
+export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, incrustada = false }: Props) {
+  const volver = onVolver && !incrustada ? { etiqueta: 'Inicio', onVolver } : undefined
+  const marco = incrustada ? '' : 'px-page pt-5'
   const hoy = todayISO()
   const estado = useCaminos(hoy)
   const { avisar, avisarError, toast } = useAviso()
@@ -61,10 +64,10 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver }:
   const [aperturas, setAperturas] = useState(0)
   const [editor, setEditor] = useState<{ ruta?: RutaPropia; n: number } | null>(null)
 
-  if (!estado) return <div className="px-page pt-5"><LoadingState /></div>
+  if (!estado) return <div className={marco}><LoadingState /></div>
   if (!estado.visible) {
-    return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Caminos" volver={volver} />
+    return <div className={`space-y-section ${marco}`}>
+      <PageHeader incrustada={incrustada} title="Caminos" volver={volver} />
       <EmptyState title="Caminos ocultos" action={<Button variant="secondary" onClick={onIrAAjustes}>Ir a Ajustes</Button>}>
         Los has ocultado en Ajustes junto con Cumbres, Ritmo y Vitrina.
       </EmptyState>
@@ -97,8 +100,8 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver }:
   const comoFunciona = <ComoFunciona nombre="Caminos"><ComoSeAvanza /></ComoFunciona>
 
   if (!c || !config) {
-    return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Caminos" volver={volver} overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
+    return <div className={`space-y-section ${marco}`}>
+      <PageHeader incrustada={incrustada} title="Caminos" volver={volver} overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
       <Card className="space-y-3">
         <TrazadoCamino expedicion={{ ruta: RUTAS[0], metros: 0 }} decorativo />
         <p className="break-words text-body text-fg">Recorre rutas reales y de libro con los km que caminas y corres, y con tus pasos. Elige la primera: empiezas hoy, sin plazo.</p>
@@ -147,8 +150,8 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver }:
     </li>
   }
 
-  return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Caminos" volver={volver} overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
+  return <div className={`space-y-section ${marco}`}>
+    <PageHeader incrustada={incrustada} title="Caminos" volver={volver} overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
 
     <Card className="space-y-3">
       <div>

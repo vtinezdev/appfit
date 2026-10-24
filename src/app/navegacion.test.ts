@@ -5,10 +5,11 @@ describe('seccionDe', () => {
   it('todo destino cae en una sección de la media luna', () => {
     for (const { key } of DESTINOS) expect(EN_ARCO).toContain(seccionDe(key))
   })
-  it('Amigos va con Social, Referencias con Ajustes y el progreso con Inicio', () => {
+  it('Amigos va con Social y Referencias con Ajustes; Progreso es una sección (B12)', () => {
     expect(seccionDe('amigos')).toBe('social')
     expect(seccionDe('referencias')).toBe('ajustes')
-    for (const tab of ['cumbres', 'caminos', 'ritmo', 'vitrina'] as const) expect(seccionDe(tab)).toBe('inicio')
+    expect(seccionDe('progreso')).toBe('progreso')
+    expect(EN_ARCO).toContain('progreso')
     expect(seccionDe('nutricion')).toBe('nutricion')
   })
 })
@@ -23,5 +24,8 @@ describe('destinosOcultos', () => {
     expect(destinosOcultos({ modulos: { gym: false } }, true)).toEqual([])
     expect(destinosOcultos({ modulos: { actividades: false } }, true)).toEqual([])
     expect(destinosOcultos({ modulos: { gym: false, actividades: false } }, true)).toEqual(['gym'])
+  })
+  it('Progreso sale con Cumbres, Caminos, Ritmo y Vitrina ocultos', () => {
+    expect(destinosOcultos({ gamificacionVisible: false }, true)).toEqual(['progreso'])
   })
 })

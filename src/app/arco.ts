@@ -6,7 +6,7 @@ export const ARCO = {
   /** Órbita horizontal mínima (px), la de 320 px de ancho: `--arco-rx`. */
   rxMinimo: 124,
   /** Elevación (px): `--arco-ry`. */
-  ry: 170,
+  ry: 210,
   /** Caja de cada sección (px): `--arco-nodo` de ancho, con el círculo de 48 px (`--arco-circulo`) y el nombre debajo. */
   ancho: 56,
   /** Del centro del círculo hacia arriba y hacia abajo, con el nombre. */
@@ -15,8 +15,8 @@ export const ARCO = {
 } as const
 
 /** Ángulos extremos (grados): los extremos quedan a los lados del botón, algo por encima, como en el boceto. */
-const DESDE = 168
-const HASTA = 12
+const DESDE = 174
+const HASTA = 6
 
 /**
  * Puntos de la media luna en unidades de órbita, de izquierda a derecha (orden de lectura y de teclado):
