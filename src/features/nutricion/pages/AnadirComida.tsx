@@ -2,7 +2,8 @@ import PreparacionAlimento from '../components/PreparacionAlimento'
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida, Entry } from '../../../shared/db/types'
-import { comidaPorHora, formatFriendly } from '../../../shared/lib/dates'
+import { comidaPorHora, formatFriendly, todayISO } from '../../../shared/lib/dates'
+import { objetivosDe } from '../../perfil/data/objetivosDiaRepo'
 import ModalPage from '../../../shared/components/ModalPage'
 import ViewTabs from '../../../shared/components/ViewTabs'
 import Icon from '../../../shared/components/Icon'
@@ -18,6 +19,7 @@ import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
 import {
   aItemGuardado,
   actualizaAlimentoGuardado,
+  faltaDelDia,
   creaAlimentoNuevo,
   elegibleDeCatalogo,
   faltaCategoria,
@@ -107,6 +109,11 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const [escaneando, setEscaneando] = useState(false)
   const [verMedidas, setVerMedidas] = useState(false)
   const local = useInterpretarLocal()
+  // «Cerrar el día» (B10): lo que falta de proteína y kcal frente al objetivo del día, para el chip de Buscar.
+  const falta = useLiveQuery(async () => {
+    const [delDia, objetivo] = await Promise.all([entriesRepo.delDia(fecha), objetivosDe(fecha, todayISO())])
+    return faltaDelDia(sumMacros(delDia), objetivo)
+  }, [fecha])
   const [descartar, setDescartar] = useState(false)
   const confirmacionRef = useRef<HTMLDivElement>(null)
   const editorRef = useRef<HTMLDivElement>(null)
@@ -321,7 +328,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                     <ComidasTipicas fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} onVerTodas={() => setVerTipicas(true)} />
                   </>}
                 </>}
-                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => { setErrorRapido(null); setGramosRapido({ alimento, gramos: 100 }) }} />}
+                {metodo === 'buscar' && <AlimentosRapidos comida={comida} falta={falta ?? null} onElegir={(alimento, gramos) => { setErrorRapido(null); setGramosRapido({ alimento, gramos: gramos ?? 100 }) }} />}
                 {!platoDestino && !soloTipica && <div className="border-t border-line pt-3">
                   <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}>Solo registrar calorías</Button>
                 </div>}

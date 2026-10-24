@@ -19,7 +19,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B7 | GAM-01 | Teselas de progreso con la semana | M | — | Hecho (2026-10-23) |
 | B8 | REN-01 | Un único cálculo derivado | L | — | Hecho (2026-10-23) |
 | B9 | GLO-02 | Módulos activables | L | B7 | Hecho (2026-10-24) |
-| B10 | NUT-05 | «Cerrar el día» | M | — | Pendiente |
+| B10 | NUT-05 | «Cerrar el día» | M | — | Hecho (2026-10-24) |
 | B11 | PRO-01 | Lecturas cruzadas de entreno y nutrición | L | B2 | Pendiente |
 | B12 | GAM-02 | Un solo destino «Progreso» | L | B4, B7 | Pendiente |
 | B13 | GAM-04 | Metas personales | L | B12 | Pendiente |
@@ -140,7 +140,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Navegador:** cada combinación principal (solo gym, solo nutrición, todo); 320 px.
 - **Documentos:** `docs/arquitectura.md`, `docs/datos.md` (ajustes), `docs/features/inicio.md`, `experiencia.md`.
 
-### [ ] B10 · NUT-05 · «Cerrar el día»
+### [x] B10 · NUT-05 · «Cerrar el día»
+
+> **Hecho (2026-10-24, PROCESO §228).** Es un chip en Buscar, como decidió Víctor. Las propuestas salen de los frecuentes (hasta cinco), entre 10 y 400 g. Si un alimento no llega a cubrir la proteína sin pasarse, se propone lo que más se acerca.
 
 - **Tamaño:** M · **Rama:** `feat/b-cerrar-dia`
 - **Para la persona:** en Añadir comida › Buscar, si falta proteína, el chip «Encajan con lo que te falta» ordena tus alimentos frecuentes por proteína por kcal y propone la cantidad que cubre lo que falta sin pasar de las kcal que quedan.
