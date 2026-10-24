@@ -30,10 +30,11 @@ const VISTAS: { valor: Vista; label: string }[] = [
   { valor: 'alimentos', label: 'Mis alimentos' },
 ]
 
-export default function NutricionTab({ onVerReferencia, anadirInicial }: { onVerReferencia?: (id: NutrienteId) => void; /** Abre Añadir comida en esa comida al montar (desde Inicio). */ anadirInicial?: Comida }) {
+export default function NutricionTab({ onVerReferencia, anadirInicial, fechaInicial }: { onVerReferencia?: (id: NutrienteId) => void; /** Abre Añadir comida en esa comida al montar (desde Inicio). */ anadirInicial?: Comida
+  /** Abre el diario en ese día (el «Ver en Nutrición» del calendario de Progreso, B14). */ fechaInicial?: string }) {
   const [vista, setVista] = useState<Vista>('hoy')
   const hoy = useHoy()
-  const [fechaElegida, setFechaElegida] = useState<string | null>(null)
+  const [fechaElegida, setFechaElegida] = useState<string | null>(fechaInicial ?? null)
   const fecha = fechaElegida ?? hoy
   const setFecha = (nueva: string) => setFechaElegida(nueva === hoy ? null : nueva)
   // El destino de una tarea ya abierta queda fijado aunque se cruce medianoche.

@@ -23,7 +23,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B11 | PRO-01 | Lecturas cruzadas de entreno y nutrición | L | B2 | Hecho (2026-10-24) |
 | B12 | GAM-02 | Un solo destino «Progreso» | L | B4, B7 | Hecho (2026-10-24) |
 | B13 | GAM-04 | Metas personales | L | B12 | Hecho (2026-10-24) |
-| B14 | PRO-06 | Calendario único de registros | L | B12 | Pendiente |
+| B14 | PRO-06 | Calendario único de registros | L | B12 | Hecho (2026-10-24) |
 | B15 | GAM-03 | Tu mes y tu año en AppFit | L | B8 (A10 para la imagen) | Pendiente |
 | B16 | NUT-04 | Comidas planificadas y lista de la compra | XL | — (versión 14 de Dexie) | Pendiente |
 | B17 | PRO-04 | Fotos de progreso privadas | XL | B16 (por la versión de Dexie) | Pendiente |
@@ -189,7 +189,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Decidir (D4):** tipos de meta (nunca peso corporal, salvaguarda del ADR 029) y si da pieza en la Vitrina.
 - **Documentos:** `docs/features/vitrina.md`, `docs/datos.md` (ajustes).
 
-### [ ] B14 · PRO-06 · Calendario único de registros
+### [x] B14 · PRO-06 · Calendario único de registros
+
+> **Hecho (2026-10-24, PROCESO §232).** Se abre desde la cabecera de Progreso: con cinco pestañas no cabían a 320 px. «Ver en Nutrición» abre el diario en ese día. Sin enlace al detalle del entreno.
 
 - **Tamaño:** L · **Rama:** `feat/b-calendario`
 - **Para la persona:** en Progreso, «Calendario»: el mes con iconos por día (entreno, actividad, comidas, peso) y una hoja del día con todo.
