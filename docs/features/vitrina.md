@@ -2,6 +2,8 @@
 
 `src/features/vitrina/` (y el Herbario en `src/features/nutricion/lib/herbario.ts`). Museo personal: logros con niveles, repetibles u ocultos, el muro de récords y las colecciones Herbario y Atlas. Se deriva del historial con la fecha real de cada pieza (retroactiva) y no guarda nada: borrar un registro puede retirar una pieza. Decisión: [ADR 029](../decisiones/029-gamificacion-atributos.md); logros de repetir montaña y nuevas colecciones de Cumbres: [ADR 034](../decisiones/034-cumbres-en-lugar-de-atributos.md).
 
+Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve como la pestaña Vitrina de Progreso (`features/progreso/ProgresoTab`, en la media luna), montada con `incrustada`; la tesela de Inicio abre esa pestaña con «‹ Inicio».
+
 ## Dónde está cada cosa
 
 | Pieza | Archivo | Datos |
@@ -110,7 +112,6 @@ Se ordena por la marca más reciente; muestra 15 y «Ver más ejercicios».
 ## Rendimiento
 
 Experiencia, Ritmo, Cumbres, Caminos y Vitrina juntos tardan ~1,3 s con tres años densos y la CPU ralentizada 4× (cifras y lector compartido: [experiencia.md](experiencia.md) § Rendimiento); se calculan una sola vez por día para todas las pantallas que los usan. La Vitrina se calcula en su página, al terminar un entreno, en las teselas de Progreso de Inicio (`AccesoProgreso`, que toma también Caminos de su resultado) y en Social al editar el perfil deportivo (`EditarPerfilDeportivo`, que pasa el resultado a la elección de destacados y avatar).
-
 
 ## Compartir logros
 

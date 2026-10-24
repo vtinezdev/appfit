@@ -2,6 +2,8 @@
 
 `src/features/caminos/`. Rutas reales y de ficción que se recorren con los km de las [actividades](actividades.md) (caminar, correr y senderismo) y de los [pasos](#pasos) apuntados, una tras otra, desde el día en que se elige la primera. Funciona en paralelo a [Cumbres](cumbres.md), que sube con la XP: el gimnasio no avanza los Caminos. Se deriva del historial como el resto de la gamificación; solo se guardan el inicio, las rutas elegidas, los pasos de cada día y la zancada propia. Se oculta con la gamificación (Ajustes). Decisión: [ADR 037](../decisiones/037-actividades-y-caminos.md).
 
+Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve como la pestaña Caminos (sin Actividades no sale) de Progreso (`features/progreso/ProgresoTab`, en la media luna), montada con `incrustada`; la tesela de Inicio abre esa pestaña con «‹ Inicio».
+
 ## Dónde está cada cosa
 
 | Pieza | Archivo | Datos |

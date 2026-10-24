@@ -10,10 +10,24 @@ interface Props {
   action?: ReactNode
   /** Secciones anidadas (Cumbres desde Inicio, Referencias desde Ajustes…): «‹ Inicio» encima del título. */
   volver?: { etiqueta: string; onVolver: () => void }
+  /**
+   * Vista dentro de otra página con pestañas (Progreso, B12): el título lo dice ya la pestaña, así que queda para el
+   * lector de pantalla; se ven el contexto y la acción. Sin «Volver».
+   */
+  incrustada?: boolean
 }
 
 /** Cabecera deportiva: título display y contexto. Una por pestaña. */
-export default function PageHeader({ title, overline, action, volver }: Props) {
+export default function PageHeader({ title, overline, action, volver, incrustada = false }: Props) {
+  if (incrustada) return (
+    <header className="flex min-h-touch flex-wrap items-center justify-between gap-3">
+      <div className="min-w-0 flex-1">
+        <h2 className="sr-only">{title}</h2>
+        {overline && <p className="text-body-sm text-fg-muted first-letter:uppercase">{overline}</p>}
+      </div>
+      {action && <div className="shrink-0">{action}</div>}
+    </header>
+  )
   return (
     <header className="page-header flex min-h-touch flex-wrap items-center justify-between gap-3">
       {volver && <div className="w-full">

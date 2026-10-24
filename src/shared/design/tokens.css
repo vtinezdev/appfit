@@ -93,7 +93,7 @@
   --nav-boton: 3.75rem;
   /* Media luna de secciones (ADR 043; geometría en app/arco.ts): órbita horizontal (124 px a 320 px, hasta 144), elevación y nodo. */
   --arco-rx: min(9rem, calc(50vw - 2.25rem));
-  --arco-ry: 10.625rem;
+  --arco-ry: 13.125rem; /* 210 px: con Progreso caben siete secciones a 320 px (B12) */
   --arco-nodo: 3.5rem;
   --arco-circulo: 3rem;
   /* Lo que flota sobre la barra inferior (avisos, descanso) empieza aquí. */

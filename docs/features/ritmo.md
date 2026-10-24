@@ -2,6 +2,8 @@
 
 `src/features/ritmo/`. Constancia semanal con el descanso dentro: estado de cada semana, hilo (racha de semanas con presencia), comodines, vueltas, hitos y pausas. Todo se deriva de los registros, del plan semanal y de las pausas declaradas. Decisión y salvaguardas: [ADR 029](../decisiones/029-gamificacion-atributos.md). La [experiencia](experiencia.md) toma de aquí la «semana cumplida»; los hitos son también logros de la [Vitrina](vitrina.md).
 
+Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve como la pestaña Semana, debajo de lo de esta semana en Cumbres, Caminos y Vitrina de Progreso (`features/progreso/ProgresoTab`, en la media luna), montada con `incrustada`; la tesela de Inicio abre esa pestaña con «‹ Inicio».
+
 ## Dónde está cada cosa
 
 | Pieza | Archivo | Datos |

@@ -43,8 +43,11 @@ function desdeTexto(inicio: string, hoy: string): string {
  * Cumbres (desde Inicio): la montaña actual con su perfil y sus hitos, la semana frente al plan, los metros de cada día con su
  * porqué, las siguientes y las coronadas (también las repetidas).
  */
-export default function CumbresTab({ onIrAAjustes, onVolver }: { onIrAAjustes: () => void; onVolver?: () => void }) {
-  const volver = onVolver ? { etiqueta: 'Inicio', onVolver } : undefined
+export default function CumbresTab({ onIrAAjustes, onVolver, incrustada = false }: { onIrAAjustes: () => void; onVolver?: () => void
+  /** Como pestaña de Progreso (B12): sin márgenes de página ni título visible. */
+  incrustada?: boolean }) {
+  const volver = onVolver && !incrustada ? { etiqueta: 'Inicio', onVolver } : undefined
+  const marco = incrustada ? '' : 'px-page pt-5'
   const hoy = todayISO()
   const estado = useCumbres(hoy)
   const { avisar, avisarError, toast } = useAviso()
@@ -52,10 +55,10 @@ export default function CumbresTab({ onIrAAjustes, onVolver }: { onIrAAjustes: (
   const [aperturas, setAperturas] = useState(0)
   const [diasVisibles, setDiasVisibles] = useState(DIAS_POR_PAGINA)
 
-  if (!estado) return <div className="px-page pt-5"><LoadingState /></div>
+  if (!estado) return <div className={marco}><LoadingState /></div>
   if (!estado.visible) {
-    return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Cumbres" volver={volver} />
+    return <div className={`space-y-section ${marco}`}>
+      <PageHeader incrustada={incrustada} title="Cumbres" volver={volver} />
       <EmptyState title="Cumbres ocultas" action={<Button variant="secondary" onClick={onIrAAjustes}>Ir a Ajustes</Button>}>
         Las has ocultado en Ajustes junto con Caminos, Ritmo y Vitrina.
       </EmptyState>
@@ -76,8 +79,8 @@ export default function CumbresTab({ onIrAAjustes, onVolver }: { onIrAAjustes: (
   const comoFunciona = <ComoFunciona nombre="Cumbres"><ComoSeSube plan={plan} conNutricion={conNutricion} /></ComoFunciona>
 
   if (!c || !config) {
-    return <div className="space-y-section px-page pt-5">
-      <PageHeader title="Cumbres" volver={volver} overline="Montañas reales con lo que entrenas" action={comoFunciona} />
+    return <div className={`space-y-section ${marco}`}>
+      <PageHeader incrustada={incrustada} title="Cumbres" volver={volver} overline="Montañas reales con lo que entrenas" action={comoFunciona} />
       <Card className="space-y-3">
         <PerfilMontana expedicion={{ montana: MONTANAS[0], metros: 0 }} variante="tarjeta" decorativo />
         <p className="break-words text-body text-fg">Cada entreno, récord, kilómetro andado{conNutricion ? ', comida registrada' : ''} y semana cumplida te sube metros. Elige la primera montaña: empiezas hoy desde el nivel del mar, sin plazo.</p>
@@ -113,8 +116,8 @@ export default function CumbresTab({ onIrAAjustes, onVolver }: { onIrAAjustes: (
     avisar({ mensaje: `Ahora subes el ${m.nombre}`, onDeshacer: deshacer(antes) })
   }
 
-  return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Cumbres" volver={volver} overline="Montañas reales con lo que entrenas" action={comoFunciona} />
+  return <div className={`space-y-section ${marco}`}>
+    <PageHeader incrustada={incrustada} title="Cumbres" volver={volver} overline="Montañas reales con lo que entrenas" action={comoFunciona} />
 
     <Card className="space-y-3">
       <div>
