@@ -309,6 +309,26 @@ export interface Settings {
   modulos?: Partial<Record<'nutricion' | 'gym' | 'actividades' | 'agua' | 'peso', boolean>>
   /** Orden de las tarjetas de Inicio (`TarjetaInicio`); ausente o incompleto = el de siempre para las que falten. */
   ordenInicio?: string[]
+  /** Metas personales (B13, `vitrina/lib/metas.ts`); su estado (progreso, cumplida) se deriva al leer, nunca se guarda. */
+  metas?: Meta[]
+}
+
+/**
+ * Meta personal (B13): un récord de un ejercicio (kg), los km de un mes o semanas cumplidas de Ritmo. Nunca de peso
+ * corporal (ADR 029). `fecha` es el plazo opcional (YYYY-MM-DD); en `km-mes` el plazo es el final de `mes` (YYYY-MM).
+ */
+export interface Meta {
+  id: string
+  tipo: 'record' | 'km-mes' | 'semanas'
+  /** Solo en `record`. */
+  exerciseId?: number
+  /** Kg (`record`), km (`km-mes`) o semanas (`semanas`). */
+  valor: number
+  /** Solo en `km-mes`. */
+  mes?: string
+  fecha?: string
+  /** Día en que se creó (YYYY-MM-DD): cuenta lo conseguido desde entonces. */
+  creada: string
 }
 
 /**

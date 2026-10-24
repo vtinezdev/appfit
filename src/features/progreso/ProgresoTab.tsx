@@ -18,6 +18,7 @@ const CumbresTab = lazy(() => import('../cumbres/CumbresTab'))
 const CaminosTab = lazy(() => import('../caminos/CaminosTab'))
 const RitmoTab = lazy(() => import('../ritmo/RitmoTab'))
 const VitrinaTab = lazy(() => import('../vitrina/VitrinaTab'))
+const MetasVista = lazy(() => import('../vitrina/components/MetasVista'))
 
 const NOMBRES: Record<VistaProgreso, string> = { semana: 'Semana', cumbres: 'Cumbres', caminos: 'Caminos', vitrina: 'Vitrina' }
 
@@ -50,7 +51,7 @@ function EstaSemana() {
 
 /**
  * Progreso (B12, ADR 058): un solo destino con pestañas Semana · Cumbres · Caminos · Vitrina. La pestaña Semana reúne lo de
- * esta semana y Ritmo (con su calendario, que abre las revisiones). Las páginas de siempre se montan como vistas
+ * esta semana, las metas (B13) y Ritmo (con su calendario, que abre las revisiones). Las páginas de siempre se montan como vistas
  * (`incrustada`). Sin Actividades (B9), Caminos no sale.
  */
 export default function ProgresoTab({ vistaInicial = 'semana', onVolver, onIrAAjustes, onIrAActividades }: Props) {
@@ -62,9 +63,9 @@ export default function ProgresoTab({ vistaInicial = 'semana', onVolver, onIrAAj
   return (
     <div className="space-y-3 px-page pt-5">
       <PageHeader title="Progreso" volver={onVolver ? { etiqueta: 'Inicio', onVolver } : undefined} />
-      <ViewTabs label="Vistas de progreso" nivel="principal" opciones={vistas.map((v) => ({ valor: v, label: NOMBRES[v] }))} valor={vista} onChange={setVista}>
+      <ViewTabs label="Vistas de progreso" opciones={vistas.map((v) => ({ valor: v, label: NOMBRES[v] }))} valor={vista} onChange={setVista}>
         <Suspense fallback={<LoadingState />}>
-          {vista === 'semana' && <div className="space-y-section"><EstaSemana /><RitmoTab incrustada onIrAAjustes={onIrAAjustes} /></div>}
+          {vista === 'semana' && <div className="space-y-section"><EstaSemana /><MetasVista /><RitmoTab incrustada onIrAAjustes={onIrAAjustes} /></div>}
           {vista === 'cumbres' && <CumbresTab incrustada onIrAAjustes={onIrAAjustes} />}
           {vista === 'caminos' && <CaminosTab incrustada onIrAAjustes={onIrAAjustes} onIrAActividades={onIrAActividades} />}
           {vista === 'vitrina' && <VitrinaTab incrustada onIrAAjustes={onIrAAjustes} />}

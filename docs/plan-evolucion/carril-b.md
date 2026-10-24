@@ -22,7 +22,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 | B10 | NUT-05 | «Cerrar el día» | M | — | Hecho (2026-10-24) |
 | B11 | PRO-01 | Lecturas cruzadas de entreno y nutrición | L | B2 | Hecho (2026-10-24) |
 | B12 | GAM-02 | Un solo destino «Progreso» | L | B4, B7 | Hecho (2026-10-24) |
-| B13 | GAM-04 | Metas personales | L | B12 | Pendiente |
+| B13 | GAM-04 | Metas personales | L | B12 | Hecho (2026-10-24) |
 | B14 | PRO-06 | Calendario único de registros | L | B12 | Pendiente |
 | B15 | GAM-03 | Tu mes y tu año en AppFit | L | B8 (A10 para la imagen) | Pendiente |
 | B16 | NUT-04 | Comidas planificadas y lista de la compra | XL | — (versión 14 de Dexie) | Pendiente |
@@ -175,7 +175,9 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 - **Decidir (D3):** cambia el ADR 043 (ADR nuevo) y si «Progreso» va en la media luna o solo desde Inicio.
 - **Documentos:** ADR nuevo, `docs/arquitectura.md` § Navegación, `docs/features/cumbres.md`, `caminos.md`, `ritmo.md`, `vitrina.md`, `inicio.md`, `DESIGN.md`.
 
-### [ ] B13 · GAM-04 · Metas personales
+### [x] B13 · GAM-04 · Metas personales
+
+> **Hecho (2026-10-24, PROCESO §231), con el cruce A-X2 en el mismo paso.** Víctor eligió los tres tipos de meta y que cada una cumplida dé pieza. Una meta de récord tiene que superar lo ya levantado. En las de km de un mes, el plazo es el final del mes. Las pestañas de Progreso pasan al nivel secundario para que quepan las cuatro a 320 px.
 
 - **Tamaño:** L · **Rama:** `feat/b-metas`
 - **Para la persona:** en Progreso, «Metas»: récord de un ejercicio («Sentadilla 100 kg»), km de un mes o semanas cumplidas, con fecha opcional. Se ven en la pestaña Semana y, al cumplirse, dan una pieza en la Vitrina. Si pasa la fecha: «Sin cumplir · ¿Cambiar fecha?», sin rojo ni cuenta atrás.
