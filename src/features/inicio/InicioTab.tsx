@@ -31,10 +31,14 @@ import AvisoAmigos from '../social/components/AvisoAmigos'
 import TarjetaRevisionSemanal from './components/TarjetaRevisionSemanal'
 import { useTarjetaRevision } from './hooks/useRevisionSemanal'
 import { useHoy } from '../../shared/hooks/useHoy'
+import { usePeriodoAResumir } from '../vitrina/hooks/useTuPeriodo'
 import { moduloActivo, tarjetasInicio, type TarjetaInicio } from '../../shared/lib/modulos'
 
 // El detalle de la revisión (con récords y resumen de Gym) va en su propio chunk: no entra en el arranque de Inicio.
 const RevisionSemanal = lazy(() => import('./components/RevisionSemanal'))
+// «Tu mes» (B15): tarjeta y resumen en su propio trozo; solo se cargan del día 1 al 7.
+const TarjetaTuPeriodo = lazy(() => import('../vitrina/components/TuPeriodo').then((m) => ({ default: m.TarjetaTuPeriodo })))
+const ResumenTuPeriodo = lazy(() => import('../vitrina/components/TuPeriodo').then((m) => ({ default: m.ResumenTuPeriodo })))
 
 interface Props {
   onIrANutricion: () => void
@@ -73,6 +77,8 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
   const [historialPeso, setHistorialPeso] = useState(false)
   const revision = useTarjetaRevision(hoy)
   const [revisionAbierta, setRevisionAbierta] = useState<string | null>(null)
+  const tuPeriodo = usePeriodoAResumir(hoy)
+  const [tuPeriodoAbierto, setTuPeriodoAbierto] = useState(false)
 
   const tendencia = pesos ? tendenciaPeso(pesos, hoy) : null
   const fechaLarga = parseISODate(hoy).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
@@ -103,6 +109,15 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
       avisar({ mensaje: 'Revisión cerrada hasta el lunes', onDeshacer: () => updateSettings({ revisionSemanalCerrada: cerradaAntes }) })
     } catch {
       avisarError('No se ha podido cerrar la revisión. Inténtalo de nuevo.')
+    }
+  }
+
+  async function cerrarTuPeriodo(clave: string, cerradoAntes: string | undefined) {
+    try {
+      await updateSettings({ resumenMesCerrado: clave })
+      avisar({ mensaje: 'Resumen cerrado hasta el mes que viene', onDeshacer: () => updateSettings({ resumenMesCerrado: cerradoAntes }) })
+    } catch {
+      avisarError('No se ha podido cerrar el resumen. Inténtalo de nuevo.')
     }
   }
 
@@ -149,6 +164,9 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
         />
       )}
 
+      {tuPeriodo && <Suspense fallback={null}><TarjetaTuPeriodo periodo={tuPeriodo.periodo} hoy={hoy} onVer={() => setTuPeriodoAbierto(true)}
+        onCerrar={() => cerrarTuPeriodo(tuPeriodo.periodo.clave, tuPeriodo.cerradoAntes)} /></Suspense>}
+
       {!entries || !vigentes || !pesos || !settings ? (
         <div className="animate-fade-in-late">
           <LoadingState />
@@ -171,6 +189,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
       />
       <AguaSheet open={aguaAbierta} onClose={() => setAguaAbierta(false)} hoy={hoy} objetivo={objetivoAgua ?? null} />
       {historialPeso && <HistorialPeso onClose={() => setHistorialPeso(false)} />}
+      {tuPeriodoAbierto && tuPeriodo && <Suspense fallback={null}><ResumenTuPeriodo periodo={tuPeriodo.periodo} hoy={hoy} onClose={() => setTuPeriodoAbierto(false)} /></Suspense>}
       {revisionAbierta && <Suspense fallback={null}><RevisionSemanal lunes={revisionAbierta} hoy={hoy} onClose={() => setRevisionAbierta(null)} /></Suspense>}
     </div>
   )

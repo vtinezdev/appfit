@@ -49,6 +49,10 @@ Las medidas corporales (cintura, cadera…) viven en Perfil; «Medidas caseras»
 - **Ajustes › «Lo que usas»** (`app/ModulosAjustes`, lógica en `shared/lib/modulos`): Nutrición, Gimnasio, Actividades, Agua y Peso con «Usar …» / «Ocultar» y lo que pasa al ocultarlo; ocultar nunca borra datos. Debajo, «Ordenar Inicio» con flechas: Energía y comidas, Cumbres/Caminos/Ritmo/Vitrina, Peso y agua, Creatina y Último entreno (las ocultas por su módulo siguen en la lista, marcadas). El orden y los módulos se llevan también en el estado de la vista para que dos toques seguidos no se pisen.
 - **Efectos**: sin Nutrición, ni la energía en Inicio ni Nutrición en la media luna, y la gamificación cuenta solo el entreno (`conNutricionEfectiva`, derivado al leer sin escribir `gamificacionConNutricion`; Ajustes de Cumbres lo dice en lugar del selector). Sin Gimnasio, ni la tarjeta del último entreno ni Entreno › Gimnasio (Entreno queda solo con Actividades, sin pestañas); sin Actividades, ni la tesela de Caminos ni Entreno › Actividades; sin los dos, Entreno sale de la media luna. Sin Peso o Agua, su tarjeta. La revisión semanal (tarjeta y detalle) quita las cifras y bloques de los módulos ocultos (Entreno y Récords van con el gimnasio).
 
+## Tu mes y tu año (B15)
+
+Del día 1 al 7 de cada mes, debajo de la revisión semanal, una tarjeta en grafito «Tu octubre» (en enero, «Tu 2026») con sus cuatro primeras cifras y «Ver», que abre el resumen en una página modal (`vitrina/components/TuPeriodo`). La X la cierra hasta el mes siguiente (`settings.resumenMesCerrado`, con «Deshacer»). Ver [vitrina](vitrina.md#tu-mes-y-tu-año-b15).
+
 ## Revisión semanal
 
 Resume la última semana cerrada (lunes-domingo) frente a la anterior, con cifras y diferencias sin juicio de valor (el mismo tono suba o baje, sin colores de bien o mal) y sin consejos.
