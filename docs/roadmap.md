@@ -2,7 +2,7 @@
 
 Única lista viva de lo que falta. Cuando algo se haga, se quita de aquí (y se documenta donde toque); cuando se descarte, pasa a «Descartadas» con el motivo. Nada de esto se empieza sin que Víctor lo pida. Origen de la mayoría de ideas (con su valor y esfuerzo estimados): `historico/ideas-nutricion-v2.md`.
 
-**Plan de evolución (2026-10-22):** 33 mejoras elegidas en el dashboard de evolución, repartidas en dos carriles que trabajan en paralelo (A: Entreno, Social y actividades; B: Inicio, Nutrición, navegación y progreso). Orden, implementación, reglas para no pisarse y decisiones pendientes en [`plan-evolucion/`](plan-evolucion/README.md). Las ideas de abajo que coinciden con un paso del plan (tendencia de peso, coherencia energética, TCX) se quitan de aquí al terminar ese paso.
+**Plan de evolución (2026-10-22):** 33 mejoras elegidas en el dashboard de evolución, repartidas en dos carriles que trabajan en paralelo (A: Entreno, Social y actividades; B: Inicio, Nutrición, navegación y progreso). Orden, implementación, reglas para no pisarse y decisiones pendientes en [`plan-evolucion/`](plan-evolucion/README.md). Las ideas de abajo que coinciden con un paso del plan (tendencia de peso, coherencia energética, TCX) se quitan de aquí al terminar ese paso. **Estado (2026-10-24):** quedan A15 (espera el piloto de A14) y B17 (fotos de progreso, espera la decisión D13 de Víctor sobre el backup).
 
 **Plan en curso:** las mejoras acordadas el 2026-10-12 (serie hecha, pista del menú de serie, filtro de abductores, creatina, cheat day, creador de rutinas y uso por otras personas) tienen su plan y estado en [`mejoras.md`](mejoras.md).
 
