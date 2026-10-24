@@ -272,6 +272,18 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   .cal-lista { display: block; }
 }
 .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .125rem; }
+/* Calendario de registros de Progreso (B14): la misma rejilla y el mismo paso a lista por debajo de 20 rem. Cada día
+   lleva hasta cuatro marcas (entreno, actividad, comidas, peso) bajo el número. */
+.calendario-registros { container: registros / inline-size; }
+@container registros (width < 20rem) {
+  .calendario-registros .cal-vista-mes { display: none; }
+  .calendario-registros .cal-lista { display: block; }
+}
+.cal-registro { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .125rem; width: 100%; min-height: calc(var(--touch-target) + .25rem); border-radius: var(--radius-md); font-size: var(--fs-body-sm); color: rgb(var(--c-text-primary)); }
+.cal-registro[data-futuro='true'] { color: rgb(var(--c-text-tertiary)); }
+.cal-registro[data-hoy='true'] { box-shadow: 0 0 0 2px rgb(var(--c-bg)), 0 0 0 4px rgb(var(--c-text-primary)); }
+.cal-registro[data-con='true'] { background: rgb(var(--c-surface-muted)); font-weight: 700; }
+.cal-marcas { display: flex; gap: 1px; min-height: 10px; color: rgb(var(--c-text-secondary)); }
 .cal-dia { display: grid; place-items: center; width: 100%; min-height: var(--touch-target); border-radius: var(--radius-md); font-size: var(--fs-body-sm); color: rgb(var(--c-text-primary)); }
 .cal-dia[data-futuro='true'] { color: rgb(var(--c-text-tertiary)); }
 .cal-dia[data-nivel] { font-weight: 700; }

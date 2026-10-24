@@ -67,7 +67,7 @@ Los documentos vivos describen el estado actual y cada tema vive en uno solo. Si
 |---|---|---|
 | `docs/arquitectura.md` | capas y dependencias, mapa de carpetas, navegación, arranque, PWA/offline, red | cambian carpetas, capas, arranque o caché |
 | `docs/datos.md` | tablas, invariantes, repositorios, ajustes, backup, trampas de Dexie | cambian tablas, invariantes, repos o el backup |
-| `docs/features/nutricion.md`, `gym.md`, `actividades.md`, `inicio.md`, `perfil.md`, `referencias.md`, `experiencia.md`, `cumbres.md`, `caminos.md`, `ritmo.md`, `vitrina.md`, `liga.md`, `cuenta.md`, `social.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
+| `docs/features/nutricion.md`, `gym.md`, `actividades.md`, `inicio.md`, `perfil.md`, `referencias.md`, `experiencia.md`, `cumbres.md`, `caminos.md`, `ritmo.md`, `vitrina.md`, `progreso.md`, `liga.md`, `cuenta.md`, `social.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
 | `DESIGN.md` | identidad, intención y criterios de producto | cambia la dirección visual |
 | `docs/DESIGN-SYSTEM.md` | implementación: tokens, primitives y patrones | cambian tokens, primitives o patrones |
 | `docs/desarrollo.md` | requisitos, tests, pruebas en navegador, Git/PR, despliegue, uso de Claude Code | cambian comandos, flujo de trabajo o despliegue |

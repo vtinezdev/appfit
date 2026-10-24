@@ -1,6 +1,8 @@
 import { lazy, Suspense, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
+import Button from '../../shared/components/Button'
 import Card from '../../shared/components/Card'
+import Icon from '../../shared/components/Icon'
 import PageHeader from '../../shared/components/PageHeader'
 import { LoadingState } from '../../shared/components/StateMessage'
 import ViewTabs from '../../shared/components/ViewTabs'
@@ -19,6 +21,7 @@ const CaminosTab = lazy(() => import('../caminos/CaminosTab'))
 const RitmoTab = lazy(() => import('../ritmo/RitmoTab'))
 const VitrinaTab = lazy(() => import('../vitrina/VitrinaTab'))
 const MetasVista = lazy(() => import('../vitrina/components/MetasVista'))
+const CalendarioRegistros = lazy(() => import('./components/CalendarioRegistros'))
 
 const NOMBRES: Record<VistaProgreso, string> = { semana: 'Semana', cumbres: 'Cumbres', caminos: 'Caminos', vitrina: 'Vitrina' }
 
@@ -28,6 +31,8 @@ interface Props {
   onVolver?: () => void
   onIrAAjustes: () => void
   onIrAActividades: () => void
+  /** «Ver en Nutrición» de un día del calendario (B14). */
+  onIrANutricion: (fecha: string) => void
 }
 
 /** Lo de esta semana en las tres secciones, encima de Ritmo en la pestaña Semana. */
@@ -54,7 +59,8 @@ function EstaSemana() {
  * esta semana, las metas (B13) y Ritmo (con su calendario, que abre las revisiones). Las páginas de siempre se montan como vistas
  * (`incrustada`). Sin Actividades (B9), Caminos no sale.
  */
-export default function ProgresoTab({ vistaInicial = 'semana', onVolver, onIrAAjustes, onIrAActividades }: Props) {
+export default function ProgresoTab({ vistaInicial = 'semana', onVolver, onIrAAjustes, onIrAActividades, onIrANutricion }: Props) {
+  const [calendario, setCalendario] = useState(false)
   const settings = useLiveQuery(() => getSettings(), [])
   const vistas = vistasProgreso({ actividades: moduloActivo(settings, 'actividades') })
   const [elegida, setVista] = useState<VistaProgreso>(vistaInicial)
@@ -62,7 +68,8 @@ export default function ProgresoTab({ vistaInicial = 'semana', onVolver, onIrAAj
 
   return (
     <div className="space-y-3 px-page pt-5">
-      <PageHeader title="Progreso" volver={onVolver ? { etiqueta: 'Inicio', onVolver } : undefined} />
+      <PageHeader title="Progreso" volver={onVolver ? { etiqueta: 'Inicio', onVolver } : undefined}
+        action={<Button variant="secondary" size="sm" onClick={() => setCalendario(true)}><Icon name="calendar" size={16} />Calendario</Button>} />
       <ViewTabs label="Vistas de progreso" opciones={vistas.map((v) => ({ valor: v, label: NOMBRES[v] }))} valor={vista} onChange={setVista}>
         <Suspense fallback={<LoadingState />}>
           {vista === 'semana' && <div className="space-y-section"><EstaSemana /><MetasVista /><RitmoTab incrustada onIrAAjustes={onIrAAjustes} /></div>}
@@ -71,6 +78,7 @@ export default function ProgresoTab({ vistaInicial = 'semana', onVolver, onIrAAj
           {vista === 'vitrina' && <VitrinaTab incrustada onIrAAjustes={onIrAAjustes} />}
         </Suspense>
       </ViewTabs>
+      {calendario && <Suspense fallback={null}><CalendarioRegistros onClose={() => setCalendario(false)} onIrANutricion={onIrANutricion} /></Suspense>}
     </div>
   )
 }

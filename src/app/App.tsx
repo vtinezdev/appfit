@@ -39,6 +39,8 @@ export default function App() {
   const [referenciaInicial, setReferenciaInicial] = useState<NutrienteId | undefined>(undefined)
   /** Comida con la que Nutrición abre Añadir comida (el «Añadir …» de Inicio). */
   const [anadirInicial, setAnadirInicial] = useState<Comida | undefined>(undefined)
+  /** Día con el que se abre Nutrición (el «Ver en Nutrición» del calendario de Progreso). */
+  const [fechaNutricion, setFechaNutricion] = useState<string | undefined>(undefined)
   const [areaReferencias, setAreaReferencias] = useState<AreaReferencias | undefined>(undefined)
   /** De dónde se abrió Referencias, para su «Volver». */
   const [origenReferencias, setOrigenReferencias] = useState<OrigenReferencias>('ajustes')
@@ -61,6 +63,7 @@ export default function App() {
     setSeccionAjustes(undefined)
     setReferenciaInicial(undefined)
     setAnadirInicial(undefined)
+    setFechaNutricion(undefined)
     setAreaReferencias(undefined)
     setSeccionEntreno(undefined)
     setEntrenoAbierto(false)
@@ -117,10 +120,10 @@ export default function App() {
         <div key={tab} data-atmosphere={tab} className="app-view app-content mx-auto w-full">
         {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onAnadirComida={c => { navegar('nutricion'); setAnadirInicial(c) }} onIrAGym={abrirEntreno} onIrAProgreso={abrirProgreso} enfocarProgreso={focoVuelta === 'referencias' ? undefined : focoVuelta} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => abrirAmigos()} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => irAAjustes('instalacion')} />} />}
-        {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab anadirInicial={anadirInicial} onVerReferencia={id => { abrirReferencias('nutricion'); setReferenciaInicial(id) }} /></Suspense>}
+        {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab anadirInicial={anadirInicial} fechaInicial={fechaNutricion} onVerReferencia={id => { abrirReferencias('nutricion'); setReferenciaInicial(id) }} /></Suspense>}
         {tab === 'gym' && <Suspense fallback={<LoadingState />}><GymTab seccionInicial={seccionEntreno} entrenoAbierto={entrenoAbierto} onAbrirEntreno={() => setEntrenoAbierto(true)} onMinimizarEntreno={() => setEntrenoAbierto(false)} /></Suspense>}
         {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { abrirReferencias('perfil'); setAreaReferencias('energia') }} /></Suspense>}
-        {tab === 'progreso' && <Suspense fallback={<LoadingState />}><ProgresoTab key={`${vistaProgreso ?? 'semana'}-${teselaOrigen ?? ''}`} vistaInicial={vistaProgreso} onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} onVolver={teselaOrigen ? () => volverAInicio(teselaOrigen) : undefined} /></Suspense>}
+        {tab === 'progreso' && <Suspense fallback={<LoadingState />}><ProgresoTab key={`${vistaProgreso ?? 'semana'}-${teselaOrigen ?? ''}`} vistaInicial={vistaProgreso} onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} onIrANutricion={(f) => { navegar('nutricion'); setFechaNutricion(f) }} onVolver={teselaOrigen ? () => volverAInicio(teselaOrigen) : undefined} /></Suspense>}
         {tab === 'social' && <Suspense fallback={<LoadingState />}><SocialTab onIrAAmigos={abrirAmigos} onIrAGym={abrirEntreno} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'amigos' && <Suspense fallback={<LoadingState />}><AmigosTab anadirInicial={anadirAmigo} onIrACuenta={() => irAAjustes('cuenta')} onVolver={() => navegar('social')} /></Suspense>}
         {tab === 'ajustes' && <Suspense fallback={<LoadingState />}><Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} onIrAReferencias={() => abrirReferencias('ajustes')} enfocarReferencias={focoVuelta === 'referencias'} /></Suspense>}
