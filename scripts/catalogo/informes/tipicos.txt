@@ -1,16 +1,17 @@
 Típicos 2026-10-25 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
-Vía 2 (directos): 60; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 57; total: 117
-Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 72; pendientes: 428.
+Vía 2 (directos): 99; excluidos por energía: salvado-avena-cocido
+Vía 3 (recetas): 57; total: 156
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 111; pendientes: 389.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
 Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
 USDA: 43 directos aceptados
-CoFID: 17 directos aceptados
-Reparto por categoría: Carnes: 25; Legumbres: 10; Cereales, arroz y pasta: 9; Frutos secos y semillas: 3; Pan y tostadas: 1; Quesos: 3; Cereales de desayuno y barritas: 2; Patatas y tubérculos: 3; Verduras y hortalizas: 1; Pescados: 3; Platos preparados: 57
+CoFID: 56 directos aceptados
+Reparto por categoría: Carnes: 25; Legumbres: 10; Cereales, arroz y pasta: 9; Frutos secos y semillas: 3; Pan y tostadas: 1; Quesos: 3; Cereales de desayuno y barritas: 2; Patatas y tubérculos: 4; Verduras y hortalizas: 1; Pescados: 3; Platos preparados: 90; Galletas, bollería y pasteles: 3; Salsas y condimentos: 2
 Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 30 nuevas referencias individuales leídas. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.
+Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.
 Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.
 
 AVISOS calidad.ts:

@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-117 filas: 60 valores directos (43 USDA y 17 CoFID) y 57 recetas CIQUAL.
+156 filas: 99 valores directos (43 USDA y 56 CoFID) y 57 recetas CIQUAL.
 La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
@@ -15,7 +15,7 @@ Las nuevas entradas abarcan legumbres, cereales, semillas y cremas de frutos
 secos, pan integral, quesos, desayunos y platos de verduras, carnes, pescados,
 mariscos y postres. La petición más reciente amplía por categorías y alimentos
 cotidianos, más allá del primer repertorio estrictamente tradicional español.
-El objetivo anterior de 500 adicionales sigue pendiente: hay 72 más que en
+El objetivo anterior de 500 adicionales sigue pendiente: hay 111 más que en
 el primer lote de 45. No se cuentan referencias pendientes como alimentos.
 
 La lista de las 58 incorporaciones, con macros y referencia, está en
@@ -128,9 +128,10 @@ Se preservan todos los ids de las versiones anteriores del paquete típicos.
 
 ## Pendientes
 
-Seis filas CIQUAL con alias añadidos en traducciones.csv pendientes de
+Siete filas CIQUAL con alias añadidos en traducciones.csv pendientes de
 reconstruir es3: 6140/6141 carrillada de vacuno, 28501 panceta fresca,
-28845 jamón serrano, 36036 pollo empanado/milanesa de pollo y 36318 milanesa de pavo.
+28845 jamón serrano, 36036 pollo empanado/milanesa de pollo, 36318 milanesa
+de pavo y 13134 macedonia de frutas.
 ES2 sigue intacto; la descarga anterior de compo (~69 MB) quedó incompleta.
 No usar XML parciales. Seguir scripts/catalogo/README.md para reintentar.
 
@@ -175,3 +176,29 @@ la nueva preparación. Se usan nombres coherentes con el básico de CIQUAL
 («Pollo, pechuga, carne y piel, …»), sin cambiar el ranking ni archivos de src/.
 La prueba usa el entorno Vitest de la app y se mantiene fuera del ámbito de
 compilación Node de la tubería offline.
+
+## Lote de platos cotidianos (39 directos)
+
+Se añaden 39 entradas CoFID 2021: canelones de espinacas/ricota o verduras,
+lasaña de vacuno e integral de verduras, macarrones con queso, espaguetis
+boloñesa, risottos y arroces pilaf, quiches, sopas, calabacín con huevos,
+champiñones al ajillo, guisos y salteados, pimientos rellenos, musaca normal
+y vegetal, chili con carne, pizza casera, hamburguesa sin bollo, patatas en
+gajos, brownie, crumble, bizcocho de plátano, guacamole y mayonesa caseros.
+Lista y valores: `../informes/tipicos-cotidianos-2026-10-25.csv`.
+
+Son valores directos publicados por CoFID: sus cálculos de recetas se conservan
+como tales, no como supuestas mediciones ni como formulaciones AppFit. Algunas
+filas sí proceden de muestras analizadas, según descripción/referencia original.
+Se preservan los 117 registros anteriores, incluidos todos sus valores e ids.
+
+Las versiones caseras no se renombran como recetas tradicionales españolas.
+Se mantienen «pilaf», «quiche», «chili», «musaca», etc., y se distinguen de los
+productos CIQUAL envasados y de rellenos/cereales distintos. Una hamburguesa
+sin bollo no recibe el valor de un bocadillo completo. Las salsas son vía 2,
+con categoría Salsas y condimentos, no recetas AppFit disfrazadas de platos.
+
+De 40 candidatos se descarta la macedonia: CIQUAL 13134 ya cubre la ensalada
+de frutas cruda; no se presupone ausencia de azúcar en CIQUAL para crear otra
+fila. Solo se añade su alias al CSV, pendiente de publicar es3. Tampoco se
+añaden gofre artesanal, suflé de queso o pan de leche ya cubiertos por CIQUAL.

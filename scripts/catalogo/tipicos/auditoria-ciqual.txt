@@ -179,3 +179,145 @@ Búsqueda FR/EN en nombres.csv y contraste ES2:
   16-370; 16-369 y 16-426 son rebozado, con distinto método y aceite.
 Sin fuente específica para freidora de aire: no se extrapolan valores del
 horno/fritura ni se inventa un porcentaje de absorción de aceite.
+
+
+Lote cotidiano de 40 directos CoFID, 2026-10-25:
+No son formulaciones propias de AppFit: se copian valores oficiales CoFID.
+Los cercanos CIQUAL se revisan por origen y estado (casero/envasado) o relleno.
+canelones-espinacas-ricota-caseros: Cannelloni, spinach, homemade
+  CIQUAL 20027 (0.50): Épinard, cuit / Spinach, cooked / Espinaca, cocida
+  CIQUAL 20059 (0.50): Épinard, cru / Spinach, raw / Espinaca, cruda
+canelones-verduras-caseros: Cannelloni, vegetable, homemade
+  CIQUAL 20499 (0.33): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+  CIQUAL 25556 (0.33): Beignet de légumes / Vegetable fritters / Buñuelo de verduras
+lasana-vacuno-casera: Lasagne, homemade
+lasana-integral-verduras-casera: Lasagne, vegetable, wholemeal, homemade
+  CIQUAL 7340 (0.25): Biscotte au blé complet / Rusk, wholemeal / Biscote integral
+  CIQUAL 20499 (0.25): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+macarrones-queso-caseros: Macaroni cheese, homemade
+  CIQUAL 12999 (0.33): Fromage (aliment moyen) / Cheese (average) / Queso (promedio)
+  CIQUAL 22506 (0.33): Omelette au fromage, faite maison / Omelette with cheese, homemade / Tortilla de queso, casera
+espaguetis-bolonesa-caseros: Spaghetti bolognese, homemade
+  CIQUAL 25085 (0.40): Pâtes à la bolognaise (spaghetti, tagliatelles…), préemballées / Bolognese-style pasta (spaghetti, tagliatelle…), prepacked / Pasta a la boloñesa (espagueti, tallarín...), envasadas
+  CIQUAL 11114 (0.20): Sauce tomate à la viande ou sauce bolognaise, préemballée / Bolognese sauce or tomato sauce with meat, prepacked / Salsa de tomate con carne o salsa boloñesa, envasada
+risotto-pollo-casero: Risotto, chicken, homemade
+  CIQUAL 16540 (0.33): Graisse de poulet / Chicken fat / Grasa de pollo
+  CIQUAL 25138 (0.33): Couscous au poulet / Couscous with chicken / Cuscús con pollo
+risotto-natural-casero: Risotto, plain, homemade
+  CIQUAL 25187 (0.50): Risotto, aux légumes, préemballé / Risotto, with vegetables, prepacked / Risoto, con verduras, envasado
+  CIQUAL 25188 (0.50): Risotto, aux fruits de mer, préemballé / Risotto, with seafood, prepacked / Risoto, con mariscos, envasado
+arroz-pilaf-champinones-casero: Pilau, mushroom, homemade
+  CIQUAL 11160 (0.33): Sauce aux champignons, préemballée / Mushroom sauce, prepacked / Salsa de champiñones, envasada
+  CIQUAL 20114 (0.33): Champignon, pleurote, crue / Oyster mushroom, raw / Champiñón ostra, crudo
+arroz-pilaf-verduras-casero: Pilau, vegetable, homemade
+  CIQUAL 20499 (0.33): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+  CIQUAL 25556 (0.33): Beignet de légumes / Vegetable fritters / Buñuelo de verduras
+quiche-lorraine-casera: Quiche, Lorraine, homemade
+  CIQUAL 25405 (0.50): Quiche lorraine, préemballée / Quiche Lorraine (eggs and lardoons quiche), prepacked / Quiche lorraine, envasada
+quiche-champinones-casera: Quiche, mushroom, homemade
+  CIQUAL 11160 (0.33): Sauce aux champignons, préemballée / Mushroom sauce, prepacked / Salsa de champiñones, envasada
+  CIQUAL 20114 (0.33): Champignon, pleurote, crue / Oyster mushroom, raw / Champiñón ostra, crudo
+sopa-zanahoria-naranja-casera: Soup, carrot and orange, homemade
+  CIQUAL 20009 (0.33): Carotte, crue / Carrot, raw / Zanahoria, cruda
+  CIQUAL 2375 (0.25): Nectar d'orange / Orange nectar / Néctar de naranja
+sopa-cebolla-francesa-casera: Soup, French onion, homemade
+  CIQUAL 25942 (0.40): Soupe à l'oignon, déshydratée reconstituée / Soup, onion, dehydrated and reconstituted / Sopa de cebolla, deshidratada, reconstituida
+  CIQUAL 20034 (0.33): Oignon, cru / Onion, raw / Cebolla, cruda
+minestrone-casera: Soup, minestrone, homemade
+  CIQUAL 25956 (0.50): Soupe minestrone, déshydratée reconstituée / Soup, minestrone, dehydrated and reconstituted / Sopa minestrone, deshidratada, reconstituida
+  CIQUAL 25916 (0.40): Soupe minestrone, préemballée à réchauffer / Soup, minestrone, prepacked, to be reheated / Sopa minestrone, envasada para calentar
+sopa-verduras-casera: Soup, vegetable, homemade
+  CIQUAL 20499 (0.33): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+  CIQUAL 25556 (0.33): Beignet de légumes / Vegetable fritters / Buñuelo de verduras
+calabacin-huevos-casero: Courgettes with eggs, homemade
+  CIQUAL 1016 (0.33): Marsala aux oeufs / Marsala with eggs / Marsala con huevos
+  CIQUAL 7422 (0.25): Petit pain grillé suédois brioché / Swedish toast with eggs / Pan tostado sueco pequeño brioche
+champinones-ajillo-caseros: Garlic mushrooms, not coated, homemade
+  CIQUAL 11000 (0.25): Ail, cru / Garlic, raw / Ajo, crudo
+  CIQUAL 22508 (0.20): Omelette aux champignons, faite maison / Omelette with mushrooms, homemade / Tortilla con champiñones, casera
+estofado-vacuno-casero: Stew, beef, homemade
+  CIQUAL 25065 (0.67): Boeuf aux carottes, préemballé / Beef stew with carrots, prepacked / Estofado de ternera con zanahorias, envasado
+  CIQUAL 25033 (0.50): Boeuf bourguignon, préemballé / Burgundy-style beef stew, prepacked / Estofado de ternera a la borgoña, envasado
+vacuno-borgona-casero: Beef bourguignon, homemade
+  CIQUAL 6001 (0.33): Boeuf, côte crue / Beef, rib, raw / Vacuno, costilla, cruda
+  CIQUAL 6002 (0.33): Boeuf, épaule crue / Beef, shoulder, raw / Vacuno, paletilla, cruda
+pollo-limon-casero: Lemon chicken, homemade
+  CIQUAL 2007 (0.33): Jus de citron, fait maison / Lemon juice, homemade / Zumo de limón, casero
+  CIQUAL 16540 (0.33): Graisse de poulet / Chicken fat / Grasa de pollo
+pollo-champinones-anacardos-salteado: Chicken, stir-fried with mushrooms and cashew nuts, homemade
+  CIQUAL 20498 (0.25): Poêlée de légumes assaisonnés aux champignons ("champêtre"), surgelée / Vegetables with mushrooms, pan-fried or stir-fried, seasonned, country-style, frozen / Sofrito de verduras condimentadas con champiñones campestres, congelado
+  CIQUAL 20262 (0.18): Poêlée de légumes assaisonnés sans champignon, surgelée, crue / Vegetables, pan-fried without mushrooms, seasonned, frozen, raw / Sofrito de verduras condimentadas sin champiñón, congelado, crudo
+pavo-pasta-gratinada-casero: Turkey and pasta bake, homemade
+  CIQUAL 16570 (0.25): Graisse de dinde / Turkey fat / Grasa de pavo
+  CIQUAL 22080 (0.25): Oeuf de dinde, cru / Turkey egg, raw / Huevo de pavo, crudo
+pavo-verduras-salteado-casero: Turkey, stir-fried with vegetables, homemade
+  CIQUAL 20273 (0.33): Poêlée de légumes assaisonnés à l'asiatiques ou wok de légumes, surgelée, crue / Vegetables, pan-fried or stir-fried, seasonned, Asian-style, frozen, raw / Sofrito de verduras condimentadas a la asiática o wok de verduras, congelado, crudo
+  CIQUAL 20274 (0.33): Poêlée de légumes assaisonnés grillée, méridionale ou méditerranéenne, surgelée, crue / Vegetables, pan-fried or stir-fried, seasonned, Mediterranean-style, frozen, raw / Salteado de verduras condimentadas a la plancha, estilo mediterráneo, congelado, crudo
+cerdo-verduras-salteado-casero: Pork, stir-fried with vegetables, homemade
+  CIQUAL 20273 (0.33): Poêlée de légumes assaisonnés à l'asiatiques ou wok de légumes, surgelée, crue / Vegetables, pan-fried or stir-fried, seasonned, Asian-style, frozen, raw / Sofrito de verduras condimentadas a la asiática o wok de verduras, congelado, crudo
+  CIQUAL 20274 (0.33): Poêlée de légumes assaisonnés grillée, méridionale ou méditerranéenne, surgelée, crue / Vegetables, pan-fried or stir-fried, seasonned, Mediterranean-style, frozen, raw / Salteado de verduras condimentadas a la plancha, estilo mediterráneo, congelado, crudo
+vacuno-pimientos-verdes-salteado: Beef, stir-fried with green peppers, homemade
+  CIQUAL 6161 (0.25): Boeuf, tende de tranche grillée/poêlée / Beef, topside, grilled/pan-fried / Vacuno, tapa, a la plancha
+  CIQUAL 6200 (0.25): Boeuf, steak ou bifteck grillé/poêlé / Beef, steak or beef steak, grilled/pan-fried / Vacuno, filete o bistec, a la plancha
+patatas-gajo-piel-girasol-caseras: Potatoes, old, potato wedges, with skin, cooked in sunflower oil, homemade
+  CIQUAL 17440 (0.29): Huile de tournesol / Sunflower oil / Aceite de girasol
+  CIQUAL 4037 (0.20): Chips de pommes de terre nature ou aromatisées, à l'ancienne / Potato crisps, plain or flavoured, old style / Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano
+brownie-chocolate-casero: Brownies, chocolate, homemade
+  CIQUAL 7733 (0.33): Pain au chocolat, préemballé / Chocolate croissant, prepacked / Croissant de chocolate, envasado
+  CIQUAL 11300 (0.33): Sauce au chocolat, préemballée / Chocolate sauce, prepacked / Salsa de chocolate, envasada
+crumble-manzana-casero: Crumble, apple, homemade
+  CIQUAL 23493 (1.00): Crumble aux pommes, préemballé / Apple crumble, prepacked / Crumble de manzana, envasado
+  CIQUAL 2076 (0.33): Nectar de pomme / Apple nectar / Néctar de manzana
+bizcocho-platano-casero: Banana bread, homemade
+  CIQUAL 2366 (0.33): Nectar de banane / Banana nectar / Néctar de plátano
+  CIQUAL 7000 (0.33): Pain (aliment moyen) / Bread (average) / Pan (promedio)
+macedonia-frutas-azucar-casera: Fruit salad, homemade
+  CIQUAL 13134 (1.00): Salade de fruits, crue / Fruit salad, raw / Ensalada de frutas, cruda
+  CIQUAL 13706 (0.40): Macédoine ou cocktail ou salade de fruits, au sirop, appertisé, égoutté / Fruit cocktail or salad, canned in syrup, drained / Macedonia o cóctel o ensalada de frutas, en almíbar, en conserva, escurrida
+guacamole-casero: Guacamole, homemade
+  CIQUAL 25620 (1.00): Guacamole, préemballé / Guacamole, prepacked / Guacamole, envasado
+mayonesa-casera: Mayonnaise, homemade
+  CIQUAL 11054 (0.33): Mayonnaise (70% MG min.), préemballée / Mayonnaise (70% fat min.), prepacked / Mayonesa (70% grasa mín.), envasada
+  CIQUAL 11079 (0.25): Mayonnaise à teneur réduite en matière grasse ou mayonnaise allégée, préemballée / Mayonnaise, reduced fat or light mayonnaise, prepacked / Mayonesa con grasa reducida o mayonesa light, envasada
+pizza-tomate-casera: Pizza, tomato, homemade
+  CIQUAL 25404 (0.50): Pizza au fromage ou pizza margherita, préemballée / Pizza, cheese and tomato (Margherita), prepacked / Pizza de queso o pizza margarita, envasada
+  CIQUAL 25525 (0.50): Sauce tomate cuisinée pour pizza / Tomato sauce for pizza / Salsa de tomate cocinada para pizza
+pimientos-verdes-verduras-queso-caseros: Peppers, green, stuffed with vegetables, cheese topping, homemade
+  CIQUAL 13147 (0.30): Olives vertes, fourrées ou farcies (anchois, poivrons, etc.) / Olive, green, stuffed (anchovy, sweet peppers, etc…) / Aceitunas verdes, rellenas o farciadas (anchoa, pimientos, etc.)
+  CIQUAL 25155 (0.27): Pâtes fraîches farcies (ex : raviolis, tortellinis), au fromage et aux légumes, préemballées, cuites / Fresh pasta, stuffed with cheese and vegetables (e.g. ravioli), cooked, prepacked / Pasta fresca rellena (p. ej. ravioli, tortellini), de queso y verduras, envasada, cocida
+pimientos-rellenos-vacuno-arroz-verduras: Peppers, stuffed with beef, rice and vegetables, homemade
+  CIQUAL 25511 (0.29): Légumes farcis (sauf tomate) / Stuffed vegetables (excluding tomato) / Verduras rellenas (excepto tomate)
+  CIQUAL 26263 (0.25): Salade de riz au thon et légumes, avec sauce, préemballée / Rice salad, with tuna and vegetables, with sauce, prepacked / Ensalada de arroz con atún y verduras, con salsa, envasada
+chili-carne-casero: Chilli con carne, homemade
+  CIQUAL 25111 (0.50): Chili con carne, préemballé / Chili con carne, prepacked / Chili con carne, envasado
+  CIQUAL 11205 (0.10): Sauce rouille, préemballée / Rouille sauce (mayonnaise with garlic, chilli pepper and fish broth), prepacked / Salsa rouille, envasada
+musaca-casera: Moussaka, homemade
+  CIQUAL 25123 (1.00): Moussaka, préemballée / Moussaka, prepacked / Musaca, envasada
+musaca-vegetal-casera: Moussaka, vegetable, homemade
+  CIQUAL 25123 (0.50): Moussaka, préemballée / Moussaka, prepacked / Musaca, envasada
+  CIQUAL 20499 (0.33): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+hamburguesa-vacuno-casera-parrilla: Burger, beef, grilled, homemade
+  CIQUAL 1032 (0.40): Haché à base de boeuf et soja, préemballé / Burger from beef and soybean, prepacked / Picada a base de ternera y soja, envasada
+  CIQUAL 6161 (0.33): Boeuf, tende de tranche grillée/poêlée / Beef, topside, grilled/pan-fried / Vacuno, tapa, a la plancha
+
+Decisiones de la revisión manual de los 40 candidatos anteriores:
+- Se descarta CoFID 14-333 (macedonia): CIQUAL 13134 ya es ensalada de frutas
+  cruda. No se presupone que carezca de azúcar añadido para crear una variante.
+  Solo alias «Macedonia de frutas» en traducciones.csv; pendiente de es3.
+- Se retienen 39 directos nuevos, de los cuales muchos son recetas domésticas
+  calculadas por CoFID. Los valores no se estiman a partir de filas similares.
+- Lasagne/lasagna/cannelloni/canellonis: CIQUAL 25081, 25131 y 25635 son
+  envasados; las nuevas entradas dicen caseros y mantienen relleno e integral
+  cuando lo especifica CoFID. El algoritmo de tokens no resuelve esas variantes
+  ortográficas; la revisión FR/EN/ES manual sí las compara.
+- 25198 pasta en salsa de queso es envasada; macarrones con queso nuevos caseros.
+- 25033 borgoñona y 25065 estofado con zanahorias son envasados. 6230 es carne
+  para guisar cocida, no un plato con su salsa y guarnición completas.
+- 23850 gofre artesanal, 7710 pan de leche artesanal y 25020 suflé de queso ya
+  cubren esos alimentos: no se añade la fila casera para aumentar el número.
+- 25620 guacamole y 11054 mayonesa son envasados; nuevos directos caseros.
+  La vía 2 sí admite salsas publicadas por CoFID, con categoría Salsas y condimentos.
+- 25413 hamburger de restauración incluye pan; CoFID 19-555 es la pieza de
+  hamburguesa sin bollo. No se añade un bocadillo con los valores de la carne.
+- Pimientos rellenos concretos, con arroz/vacuno o verduras/queso, no equivalen
+  al promedio 25511 de verduras rellenas sin precisar relleno ni cereal.
