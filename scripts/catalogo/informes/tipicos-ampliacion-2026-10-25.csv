@@ -1,0 +1,59 @@
+id;nombre;categoria;kcal;prot;carb;grasa;via;fuente;idFuente;referencia
+alubia-azuki-seca-cruda;Alubia azuki, seca, cruda;Legumbres;329;19,9;62,9;0,5;directo;USDA;173727;https://fdc.nal.usda.gov/food-details/173727/nutrients
+alubia-azuki-hervida-sin-sal;Alubia azuki, hervida, sin sal añadida;Legumbres;128;7,5;24,8;0,1;directo;USDA;173728;https://fdc.nal.usda.gov/food-details/173728/nutrients
+alubia-negra-seca-cruda;Alubia negra, seca, cruda;Legumbres;341;21,6;62,4;1,4;directo;USDA;173734;https://fdc.nal.usda.gov/food-details/173734/nutrients
+alubia-negra-hervida-sin-sal;Alubia negra, hervida, sin sal añadida;Legumbres;132;8,9;23,7;0,5;directo;USDA;173735;https://fdc.nal.usda.gov/food-details/173735/nutrients
+alubia-pinta-seca-cruda;Alubia pinta, seca, cruda;Legumbres;347;21,4;62,6;1,2;directo;USDA;175199;https://fdc.nal.usda.gov/food-details/175199/nutrients
+alubia-pinta-hervida-sin-sal;Alubia pinta, hervida, sin sal añadida;Legumbres;143;9;26,2;0,7;directo;USDA;175200;https://fdc.nal.usda.gov/food-details/175200/nutrients
+alubia-borlotti-seca-cruda;Alubia borlotti, seca, cruda;Legumbres;335;23;60,1;1,2;directo;USDA;175189;https://fdc.nal.usda.gov/food-details/175189/nutrients
+alubia-borlotti-hervida-sin-sal;Alubia borlotti, hervida, sin sal añadida;Legumbres;136;9,3;24,5;0,5;directo;USDA;173736;https://fdc.nal.usda.gov/food-details/173736/nutrients
+alubia-ojo-negro-seca-cruda;Alubia de ojo negro, seca, cruda;Legumbres;336;23,5;60;1,3;directo;USDA;173758;https://fdc.nal.usda.gov/food-details/173758/nutrients
+alubia-ojo-negro-hervida-sin-sal;Alubia de ojo negro, hervida, sin sal añadida;Legumbres;116;7,7;20,8;0,5;directo;USDA;173759;https://fdc.nal.usda.gov/food-details/173759/nutrients
+teff-crudo;Teff, crudo;Cereales, arroz y pasta;367;13,3;73,1;2,4;directo;USDA;169747;https://fdc.nal.usda.gov/food-details/169747/nutrients
+teff-cocido;Teff, cocido;Cereales, arroz y pasta;101;3,9;19,9;0,7;directo;USDA;168918;https://fdc.nal.usda.gov/food-details/168918/nutrients
+amaranto-cocido;Amaranto, cocido;Cereales, arroz y pasta;102;3,8;18,7;1,6;directo;USDA;170683;https://fdc.nal.usda.gov/food-details/170683/nutrients
+espelta-cocida;Espelta, cocida;Cereales, arroz y pasta;127;5,5;26,4;0,9;directo;USDA;169746;https://fdc.nal.usda.gov/food-details/169746/nutrients
+trigo-sarraceno-tostado-cocido;Trigo sarraceno, tostado, cocido;Cereales, arroz y pasta;92;3,4;19,9;0,6;directo;USDA;170686;https://fdc.nal.usda.gov/food-details/170686/nutrients
+pistacho-crudo;Pistacho, crudo;Frutos secos y semillas;560;20,2;27,2;45,3;directo;USDA;170184;https://fdc.nal.usda.gov/food-details/170184/nutrients
+crema-almendras-sin-sal;Crema de almendras, sin sal añadida, lista para consumir;Frutos secos y semillas;614;21;18,8;55,5;directo;USDA;168588;https://fdc.nal.usda.gov/food-details/168588/nutrients
+crema-anacardos-sin-sal;Crema de anacardos, sin sal añadida, lista para consumir;Frutos secos y semillas;587;17,6;27,6;49,4;directo;USDA;170163;https://fdc.nal.usda.gov/food-details/170163/nutrients
+pan-pita-integral-horneado;Pan de pita integral, horneado;Pan y tostadas;262;9,8;55,9;1,7;directo;USDA;174916;https://fdc.nal.usda.gov/food-details/174916/nutrients
+halloumi-listo-consumir;Queso halloumi, listo para consumir;Quesos;313;23,9;1,7;23,5;directo;CoFID;12-496;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+cottage-natural-listo-consumir;Queso cottage, natural, listo para consumir;Quesos;103;9,4;3,1;6;directo;CoFID;12-539;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+cottage-natural-reducido-grasa;Queso cottage, natural, reducido en grasa, listo para consumir;Quesos;68;10,6;3,3;1,5;directo;CoFID;12-550;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+arroz-basmati-integral-crudo;Arroz basmati integral, crudo;Cereales, arroz y pasta;355;8,9;77,6;3,1;directo;CoFID;11-866;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+arroz-basmati-integral-hervido;Arroz basmati integral, hervido, sin sal añadida;Cereales, arroz y pasta;131;3,3;28,7;1,1;directo;CoFID;11-867;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+arroz-arborio-crudo;Arroz arborio, crudo;Cereales, arroz y pasta;354;6,4;85,2;1;directo;CoFID;11-878;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+arroz-arborio-hervido;Arroz arborio, hervido, sin sal añadida;Cereales, arroz y pasta;138;3,2;32,2;0,5;directo;CoFID;11-879;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+gachas-avena-leche-semi-cocidas;Gachas de avena, con leche semidesnatada, cocidas;Cereales de desayuno y barritas;84;4,6;12,1;2,3;directo;CoFID;11-789;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+gachas-avena-leche-entera-cocidas;Gachas de avena, con leche entera, cocidas;Cereales de desayuno y barritas;112;4,9;13,3;4,7;directo;CoFID;11-1108;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+albondigas-salsa-caseras;Albóndigas en salsa de tomate, caseras, guisadas;Platos preparados;133,8;6,6;6,1;8,8;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/albondigas/
+alcachofas-jamon-vino-blanco;Alcachofas con jamón y vino blanco, guisadas;Platos preparados;88,6;4,2;4,7;4,1;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/alcachofas-a-la-montillana/
+atun-encebollado;Atún encebollado, guisado;Platos preparados;143,4;14,6;3,8;6,9;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/atun-encebollado/
+bonito-tomate-casero;Bonito con tomate, casero, guisado;Platos preparados;92,6;7,6;3,7;5,3;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/bonito-con-tomate/
+cardo-almendras;Cardo en salsa de almendras, cocido;Platos preparados;80,6;2,4;3,1;5,9;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/cardos-en-salsa-de-almendras/
+coliflor-ajoarriero;Coliflor al ajoarriero, cocida;Platos preparados;66,9;1,8;2,2;5,2;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/coliflor-al-ajoarriero/
+espinacas-catalana;Espinacas a la catalana, salteadas, cocinadas;Platos preparados;142,9;4,5;7,2;9,5;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/espinacas-a-la-catalana/
+gallina-pepitoria;Gallina en pepitoria, guisada;Platos preparados;135,3;13,5;3,6;6,8;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/gallina-en-pepitoria/
+gambas-ajillo;Gambas al ajillo, cocinadas;Platos preparados;217,4;18,2;3,7;14,4;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/gambas-al-ajillo/
+mejillones-vinagreta;Mejillones a la vinagreta, cocidos;Platos preparados;146,5;5,9;3,9;11;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/mejillones-a-la-vinagreta/
+merluza-gallega;Merluza a la gallega, cocinada;Platos preparados;123,4;10,7;6,3;5,9;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/merluza-a-la-gallega/
+merluza-salsa-verde;Merluza en salsa verde, cocinada;Platos preparados;90,7;11,2;1,2;4,2;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/merluza-en-salsa-verde/
+patatas-riojana;Patatas a la riojana, guisadas;Platos preparados;116,1;3,4;9,5;6,7;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/patatas-a-la-riojana/
+patatas-revolconas;Patatas revolconas, cocinadas;Platos preparados;139,2;4,6;12,4;7,4;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/patatas-revolconas/
+pollo-ajillo;Pollo al ajillo, cocinado;Platos preparados;229,8;19,9;1,2;15;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/pollo-al-ajillo/
+pollo-chilindron;Pollo al chilindrón, guisado;Platos preparados;167,6;16,4;2,6;10,1;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/pollo-al-chilindron/
+porra-antequerana;Porra antequerana, sin guarnición, cruda;Platos preparados;124;2,3;16;5,4;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/porra-antequerana/
+revuelto-champinones;Revuelto de champiñones, cocinado;Platos preparados;179,3;8,6;10,5;11,1;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/revuelto-de-setas/
+sepia-ajillo;Sepia al ajillo, cocinada;Platos preparados;177,4;19;1,5;10,5;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/sepia-al-ajillo/
+sopa-ajo-casera;Sopa de ajo, casera, cocida;Platos preparados;48,4;0,8;5,4;2,5;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/sopa-de-ajo/
+tocino-cielo;Tocino de cielo, cocido;Platos preparados;328,6;4,1;65;5,8;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/tocino-de-cielo/
+tortilla-bacalao-fresco;Tortilla de bacalao fresco, cuajada;Platos preparados;179,9;14,6;0,2;13,4;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/tortilla-de-bacalao/
+tortilla-paisana;Tortilla paisana, cuajada;Platos preparados;126,4;5,9;7,1;7,8;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/tortilla-paisana/
+tumbet-mallorquin;Tumbet mallorquín, cocinado;Platos preparados;116;1,5;8,4;8;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/tumbet/
+churros-caseros;Churros, caseros, fritos;Platos preparados;244,9;3,3;34;10,3;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/churros-porras/
+crema-catalana-casera;Crema catalana, casera, cocida;Platos preparados;173,6;5;24;6,5;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/crema-catalana/
+leche-frita-casera;Leche frita, casera, frita;Platos preparados;230,1;3,8;29,8;10,6;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/leche-frita/
+torrijas-leche;Torrijas de leche, fritas;Platos preparados;239,6;6,4;29,3;10,5;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/torrijas/
+caldereta-cordero;Caldereta de cordero, guisada;Platos preparados;144,2;11,6;1,3;9,7;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/caldereta-de-cordero/
+conejo-salmorejo;Conejo en salmorejo canario, cocinado;Platos preparados;245,8;16,2;2,1;19,1;receta;CIQUAL 2025 + formulación AppFit;;https://realacademiadegastronomia.com/recetas/conejo-en-salmorejo/

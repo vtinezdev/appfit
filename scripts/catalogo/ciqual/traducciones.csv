@@ -188,8 +188,8 @@ code;nombre_es;alias
 6123;Vacuno, costillar, estofado o hervido;
 6130;Vacuno, entraña (hampe), cruda;
 6131;Vacuno, entraña (hampe), a la plancha;
-6140;Vacuno, carrillera, cruda;
-6141;Vacuno, carrillera, estofada o hervida;
+6140;Vacuno, carrillera, cruda;Carrillada de vacuno, cruda
+6141;Vacuno, carrillera, estofada o hervida;Carrillada de vacuno, estofada o hervida
 6151;Vacuno, morcillo, hervido;
 6160;Vacuno, tapa, cruda;
 6161;Vacuno, tapa, a la plancha;
@@ -966,7 +966,7 @@ code;nombre_es;alias
 13128;Chayota o christophine o chuchú, cruda;
 13129;Compota, todo tipo de frutas, reducida en azúcares, envasada, en frío;
 13131;Aceituna negra, en aceite (a la griega);
-13134;Ensalada de frutas, cruda;
+13134;Ensalada de frutas, cruda;Macedonia de frutas
 13147;Aceitunas verdes, rellenas o farciadas (anchoa, pimientos, etc.);
 13148;Nectarina o bruñón, amarilla, pulpa y piel, sin hueso, cruda;
 13149;Nectarina o bruñón, blanca, pulpa y piel, sin hueso, cruda;
@@ -2733,7 +2733,7 @@ code;nombre_es;alias
 28477;Cerdo, paletilla, descarnada, desgrasada, deshuesada, cruda;
 28479;Cerdo, pecho en chuleta, sin vientre, crudo;
 28480;Cerdo, asado de filete con solomillo, crudo;
-28501;Panceta al natural, cruda;beicon|bacon
+28501;Panceta al natural, cruda;beicon|bacon|Panceta fresca, cruda
 28502;Pecho de cerdo en salazón, ahumado, crudo;
 28503;Bresaola;
 28504;Panceta al natural, cocida;beicon|bacon
@@ -2754,7 +2754,7 @@ code;nombre_es;alias
 28811;Jamón de Bayona;
 28812;Jamón seco;
 28844;Jamón seco de Parma;
-28845;Jamón seco Serrano;
+28845;Jamón seco Serrano;Jamón serrano
 28850;Coppa;
 28858;Panceta o pecho enrollado seco;
 28860;Carne de los Grisones;
@@ -3018,7 +3018,7 @@ code;nombre_es;alias
 36032;Pollo, pechuga, carne y piel asada/cocida al horno;
 36033;Pollo, ala, carne y piel asada/cocida al horno;
 36035;Pollo, alitas marinadas, envasadas, asadas/cocidas al horno;
-36036;Escalopa empanada, vienesa o milanesa, pollo, cocida;
+36036;Escalopa empanada, vienesa o milanesa, pollo, cocida;Pollo empanado|Milanesa de pollo
 36037;Pollo, muslo, carne y piel cruda, ecológico;
 36038;Pollo, muslo, carne y piel cruda, label rouge;
 36039;Pollo, pechuga sin piel cruda, ecológico;
@@ -3046,7 +3046,7 @@ code;nombre_es;alias
 36307;Pavo, muslo, carne cruda;
 36308;Pavo, escalopa asada/cocida al horno;
 36310;Pavo, ala cruda;
-36318;Escalopa empanada, vienesa o milanesa, pavo, cocida;
+36318;Escalopa empanada, vienesa o milanesa, pavo, cocida;Milanesa de pavo
 36401;Faisán, carne cruda;
 36402;Faisán, carne asada/cocida al horno;
 36403;Faisán, carne y piel cruda;

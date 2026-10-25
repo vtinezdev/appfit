@@ -1,0 +1,2327 @@
+[
+  {
+    "id": "tortilla-patatas-sin-cebolla",
+    "nombre": "Tortilla de patatas, sin cebolla, cuajada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 800
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "tortilla-patatas-con-cebolla",
+    "nombre": "Tortilla de patatas, con cebolla, cuajada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1200,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 800
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 250
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "salmorejo-casero",
+    "nombre": "Salmorejo, casero, crudo",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1250,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "gazpacho-casero",
+    "nombre": "Gazpacho, casero, crudo",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1800,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20019",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 250
+      }
+    ]
+  },
+  {
+    "id": "ajoblanco-casero",
+    "nombre": "Ajoblanco, casero, crudo",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1300,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 200
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 800
+      }
+    ]
+  },
+  {
+    "id": "pisto-manchego",
+    "nombre": "Pisto manchego, guisado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20020",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "escalivada",
+    "nombre": "Escalivada, asada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "20053",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "patatas-a-lo-pobre",
+    "nombre": "Patatas a lo pobre, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "porrusalda",
+    "nombre": "Porrusalda, hervida",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1800,
+    "ingredientes": [
+      {
+        "ciqual": "20039",
+        "gramos": 600
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 600
+      }
+    ]
+  },
+  {
+    "id": "garbanzos-espinacas",
+    "nombre": "Garbanzos con espinacas, guisados",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1500,
+    "ingredientes": [
+      {
+        "ciqual": "20516",
+        "gramos": 350
+      },
+      {
+        "ciqual": "20059",
+        "gramos": 600
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11042",
+        "gramos": 2
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 900
+      }
+    ]
+  },
+  {
+    "id": "lentejas-verduras",
+    "nombre": "Lentejas con verduras, estofadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2200,
+    "ingredientes": [
+      {
+        "ciqual": "20359",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1600
+      }
+    ]
+  },
+  {
+    "id": "alubias-blancas-verduras",
+    "nombre": "Alubias blancas con verduras, guisadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2200,
+    "ingredientes": [
+      {
+        "ciqual": "20501",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1700
+      }
+    ]
+  },
+  {
+    "id": "arroz-marisco",
+    "nombre": "Arroz con marisco, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1800,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 400
+      },
+      {
+        "ciqual": "10001",
+        "gramos": 250
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 250
+      },
+      {
+        "ciqual": "10026",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.2
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1100
+      }
+    ]
+  },
+  {
+    "id": "arroz-pollo-conejo",
+    "nombre": "Arroz con pollo y conejo, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1900,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 400
+      },
+      {
+        "ciqual": "36003",
+        "gramos": 400
+      },
+      {
+        "ciqual": "34001",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20061",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.2
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1100
+      }
+    ]
+  },
+  {
+    "id": "bacalao-pil-pil",
+    "nombre": "Bacalao al pil-pil, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "26043",
+        "gramos": 800
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 180
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11088",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "merluza-romana",
+    "nombre": "Merluza a la romana, frita",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 100
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "calamares-romana",
+    "nombre": "Calamares a la romana, fritos",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "10001",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 120
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "boquerones-fritos",
+    "nombre": "Boquerones, enharinados, fritos",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "26079",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "patatas-importancia",
+    "nombre": "Patatas a la importancia, guisadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1700,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 150
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 600
+      }
+    ]
+  },
+  {
+    "id": "huevos-rotos",
+    "nombre": "Huevos rotos con patatas, fritos",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 900
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 90
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "arroz-leche-casero",
+    "nombre": "Arroz con leche, casero, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1400,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 1200
+      },
+      {
+        "ciqual": "9100",
+        "gramos": 150
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 120
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "flan-huevo-casero",
+    "nombre": "Flan de huevo, casero, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 600
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 300
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "natillas-caseras",
+    "nombre": "Natillas, caseras, cocidas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 200
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "tarta-santiago",
+    "nombre": "Tarta de Santiago, horneada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 300
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 300
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 300
+      }
+    ]
+  },
+  {
+    "id": "compota-manzana",
+    "nombre": "Compota de manzana, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "13396",
+        "gramos": 1200
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 80
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "pipirrana-cazorla",
+    "nombre": "Pipirrana de Cazorla, cruda",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://cazorla.es/turismo/recetario/ (consultada 2026-10-24). Gramajes netos: formulación AppFit. Mezcla cruda sin colar ni escurrir: incorporar íntegros todos los ingredientes, incluidos sus jugos. Peso final del lote definido por balance de masa, suma exacta de los ingredientes. Sin evaporación, absorción ni factores de rendimiento o retención. Aceite y sal explícitos. No se copian valores nutricionales de la referencia.",
+    "pesoFinalG": 1330,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 90
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "trampo-mallorquin",
+    "nombre": "Trampó mallorquín, crudo",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://gastronomia.illesbalears.travel/es/producto-local/iconos-gastronomicos/producto-coca-de-trampo (consultada 2026-10-24). Gramajes netos: formulación AppFit. Mezcla cruda sin colar ni escurrir: incorporar íntegros todos los ingredientes, incluidos sus jugos. Peso final del lote definido por balance de masa, suma exacta de los ingredientes. Sin evaporación, absorción ni factores de rendimiento o retención. Aceite y sal explícitos. No se copian valores nutricionales de la referencia.",
+    "pesoFinalG": 995,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "albondigas-salsa-caseras",
+    "nombre": "Albóndigas en salsa de tomate, caseras, guisadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/albondigas/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Se usa agua en la salsa en lugar de caldo de carne. Se omite el jamón opcional. Cerdo picado de paletilla neta.",
+    "pesoFinalG": 1800,
+    "ingredientes": [
+      {
+        "ciqual": "6535",
+        "gramos": 300
+      },
+      {
+        "ciqual": "28001",
+        "gramos": 200
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 75
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 100
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 8
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 180
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 150
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 400
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 500
+      }
+    ]
+  },
+  {
+    "id": "alcachofas-jamon-vino-blanco",
+    "nombre": "Alcachofas con jamón y vino blanco, guisadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/alcachofas-a-la-montillana/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Variante AppFit con vino blanco seco y jamón serrano genérico, sin atribuir DOP ni denominación montillana al producto final.",
+    "pesoFinalG": 1400,
+    "ingredientes": [
+      {
+        "ciqual": "20052",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 75
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 200
+      },
+      {
+        "ciqual": "13009",
+        "gramos": 30
+      },
+      {
+        "ciqual": "9510",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 45
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "atun-encebollado",
+    "nombre": "Atún encebollado, guisado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/atun-encebollado/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. ",
+    "pesoFinalG": 1700,
+    "ingredientes": [
+      {
+        "ciqual": "26053",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 600
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11018",
+        "gramos": 20
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "bonito-tomate-casero",
+    "nombre": "Bonito con tomate, casero, guisado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/bonito-con-tomate/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. ",
+    "pesoFinalG": 3200,
+    "ingredientes": [
+      {
+        "ciqual": "26101",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 3000
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 180
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11053",
+        "gramos": 0.3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 12
+      }
+    ]
+  },
+  {
+    "id": "cardo-almendras",
+    "nombre": "Cardo en salsa de almendras, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/cardos-en-salsa-de-almendras/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Se usan almendras, no la alternativa de piñones. El líquido incorporado representa agua de cocción retenida; no se duplican nutrientes del cardo.",
+    "pesoFinalG": 1750,
+    "ingredientes": [
+      {
+        "ciqual": "20054",
+        "gramos": 1500
+      },
+      {
+        "ciqual": "13009",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "9510",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 3
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 250
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "coliflor-ajoarriero",
+    "nombre": "Coliflor al ajoarriero, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/coliflor-al-ajoarriero/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. ",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "20016",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 8
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11018",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "espinacas-catalana",
+    "nombre": "Espinacas a la catalana, salteadas, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/espinacas-a-la-catalana/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. ",
+    "pesoFinalG": 1400,
+    "ingredientes": [
+      {
+        "ciqual": "20059",
+        "gramos": 2000
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 90
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "13046",
+        "gramos": 50
+      },
+      {
+        "ciqual": "15025",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "gallina-pepitoria",
+    "nombre": "Gallina en pepitoria, guisada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/gallina-en-pepitoria/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Vino blanco seco en lugar de Jerez y agua en lugar de caldo. Los huevos y las almendras se incorporan desde sus ingredientes crudos; se cuecen/tuestan durante la elaboración. Sin huesos ni piel.",
+    "pesoFinalG": 1900,
+    "ingredientes": [
+      {
+        "ciqual": "36001",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.3
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 450
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 750
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 100
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11053",
+        "gramos": 0.3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "gambas-ajillo",
+    "nombre": "Gambas al ajillo, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/gambas-al-ajillo/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Peso de gambas peladas, no peso con cáscaras. El aceite indicado queda en la cazuela servida.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "10021",
+        "gramos": 300
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "20151",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 45
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11019",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "mejillones-vinagreta",
+    "nombre": "Mejillones a la vinagreta, cocidos",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/mejillones-a-la-vinagreta/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Se pesan 500 g de carne cruda comestible, sin convertir ni atribuir un rendimiento a los 2 kg con concha de la referencia. El vino se usa en la cocción y el aliño se incorpora íntegro.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "10026",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11018",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 0.5
+      }
+    ]
+  },
+  {
+    "id": "merluza-gallega",
+    "nombre": "Merluza a la gallega, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/merluza-a-la-gallega/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Patatas y pescado pesados sin piel, espinas ni huesos. Peso final objetivo tras cocer y escurrir.",
+    "pesoFinalG": 1800,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 90
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11053",
+        "gramos": 0.3
+      }
+    ]
+  },
+  {
+    "id": "merluza-salsa-verde",
+    "nombre": "Merluza en salsa verde, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/merluza-en-salsa-verde/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Agua en lugar de caldo de pescado y vino blanco seco en lugar de txacolí. Guisantes y espárragos entran como ingredientes crudos. Almejas: peso comestible sin concha.",
+    "pesoFinalG": 1900,
+    "ingredientes": [
+      {
+        "ciqual": "11000",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "10017",
+        "gramos": 150
+      },
+      {
+        "ciqual": "26044",
+        "gramos": 1050
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 15
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20072",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20282",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "patatas-riojana",
+    "nombre": "Patatas a la riojana, guisadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/patatas-a-la-riojana/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Chorizo curado CIQUAL, no un chorizo fresco al que se atribuyan valores de otro producto. Agua de cocción incorporada explícita.",
+    "pesoFinalG": 1900,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 180
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11053",
+        "gramos": 0.3
+      },
+      {
+        "ciqual": "20151",
+        "gramos": 3
+      },
+      {
+        "ciqual": "30316",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 750
+      }
+    ]
+  },
+  {
+    "id": "patatas-revolconas",
+    "nombre": "Patatas revolconas, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/patatas-revolconas/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Formulación AppFit de lote, con panceta fresca; no se usa torrezno de composición supuesta.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 800
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 200
+      },
+      {
+        "ciqual": "28501",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11088",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 35
+      },
+      {
+        "ciqual": "11038",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "pollo-ajillo",
+    "nombre": "Pollo al ajillo, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/pollo-al-ajillo/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Pollo con piel, carne neta sin huesos. Aceite = cantidad retenida, no el baño de fritura.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "36016",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 50
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 1
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      }
+    ]
+  },
+  {
+    "id": "pollo-chilindron",
+    "nombre": "Pollo al chilindrón, guisado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/pollo-al-chilindron/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Jamón serrano genérico, sin equipararlo a jamón de Teruel con DOP. Pollo: carne y piel netas sin huesos.",
+    "pesoFinalG": 2400,
+    "ingredientes": [
+      {
+        "ciqual": "36016",
+        "gramos": 1500
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 180
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 750
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "porra-antequerana",
+    "nombre": "Porra antequerana, sin guarnición, cruda",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/porra-antequerana/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Sin los acompañamientos opcionales de huevo y jamón. Formulación cruda que conserva ingredientes y jugos íntegros; peso final = suma de gramos.",
+    "pesoFinalG": 862,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 500
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11018",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 42
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "revuelto-champinones",
+    "nombre": "Revuelto de champiñones, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/revuelto-de-setas/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Variante con champiñón de París identificado, en lugar de atribuir un valor medio a cualquier seta silvestre. Incluye el pan de acompañamiento de la formulación.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "20056",
+        "gramos": 400
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "sepia-ajillo",
+    "nombre": "Sepia al ajillo, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/sepia-al-ajillo/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Sepia limpia, peso comestible. Formulación de lote con aceite retenido explícito, no una conversión de la unidad ambigua «1 d» de la referencia.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "10016",
+        "gramos": 750
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 25
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11088",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11019",
+        "gramos": 0.5
+      }
+    ]
+  },
+  {
+    "id": "sopa-ajo-casera",
+    "nombre": "Sopa de ajo, casera, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/sopa-de-ajo/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Se elige la opción con agua de la referencia; no se atribuyen nutrientes a un caldo no identificado.",
+    "pesoFinalG": 1700,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1500
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "tocino-cielo",
+    "nombre": "Tocino de cielo, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/tocino-de-cielo/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Azúcar del caramelo incluida. Yemas y huevos pesados netos sin cáscara; rendimiento final objetivo, sin convertir unidades de huevo de la fuente a una supuesta pesada.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "31016",
+        "gramos": 650
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 215
+      },
+      {
+        "ciqual": "22002",
+        "gramos": 180
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "tortilla-bacalao-fresco",
+    "nombre": "Tortilla de bacalao fresco, cuajada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/tortilla-de-bacalao/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Se formula expresamente con bacalao fresco; no se usan sus valores como si fueran de bacalao salado/desalado.",
+    "pesoFinalG": 600,
+    "ingredientes": [
+      {
+        "ciqual": "26043",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11019",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "tortilla-paisana",
+    "nombre": "Tortilla paisana, cuajada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/tortilla-paisana/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Las verduras se incorporan desde sus gramos crudos, luego se cocinan. Aceite retenido explícito.",
+    "pesoFinalG": 1300,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20061",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20072",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 100
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 50
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 350
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "tumbet-mallorquin",
+    "nombre": "Tumbet mallorquín, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/tumbet/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. La salsa de tomate se elabora en el lote a partir de tomate crudo, ajo y parte del aceite contabilizado; no se suma además una salsa preparada.",
+    "pesoFinalG": 1300,
+    "ingredientes": [
+      {
+        "ciqual": "20053",
+        "gramos": 400
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 500
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11019",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "churros-caseros",
+    "nombre": "Churros, caseros, fritos",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/churros-porras/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Modelo de churro de harina y agua, no porra fermentada. Aceite = retenido tras escurrir. Azúcar de acabado incluida.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "18066",
+        "gramos": 400
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 250
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 65
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "crema-catalana-casera",
+    "nombre": "Crema catalana, casera, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/crema-catalana/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Canela molida retenida en lugar de rama. Se prescinde del aroma de piel de limón en la formulación AppFit. Incluye azúcar de caramelizar.",
+    "pesoFinalG": 1150,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "22002",
+        "gramos": 144
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 200
+      },
+      {
+        "ciqual": "9510",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "leche-frita-casera",
+    "nombre": "Leche frita, casera, frita",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/leche-frita/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Sin piel de limón en la formulación. Incluye harina y huevo del rebozado, aceite retenido y azúcar/canela de acabado.",
+    "pesoFinalG": 850,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 500
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 15
+      },
+      {
+        "ciqual": "22002",
+        "gramos": 36
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 115
+      },
+      {
+        "ciqual": "9510",
+        "gramos": 100
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 30
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 45
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "torrijas-leche",
+    "nombre": "Torrijas de leche, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/torrijas/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Sin piel de limón en la formulación. Toda la leche indicada se incorpora al lote; aceite = retenido tras escurrir. Azúcar de acabado incluida.",
+    "pesoFinalG": 1500,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 500
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 2
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 100
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "caldereta-cordero",
+    "nombre": "Caldereta de cordero, guisada",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/caldereta-de-cordero/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Cordero y pimiento pesados en porción neta comestible. Agua en lugar de caldo; se mantiene el hígado de cordero que figura en la referencia.",
+    "pesoFinalG": 2600,
+    "ingredientes": [
+      {
+        "ciqual": "21504",
+        "gramos": 1500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 85
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "40102",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 180
+      },
+      {
+        "ciqual": "11053",
+        "gramos": 0.3
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "conejo-salmorejo",
+    "nombre": "Conejo en salmorejo canario, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/conejo-en-salmorejo/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Carne de conejo neta, sin huesos. Aceite retenido en el conjunto de fritura y mojo, no volumen total de aceite de trabajo.",
+    "pesoFinalG": 1300,
+    "ingredientes": [
+      {
+        "ciqual": "11000",
+        "gramos": 65
+      },
+      {
+        "ciqual": "11035",
+        "gramos": 2
+      },
+      {
+        "ciqual": "11038",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 130
+      },
+      {
+        "ciqual": "11018",
+        "gramos": 30
+      },
+      {
+        "ciqual": "34001",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11042",
+        "gramos": 2
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "croquetas-jamon-serrano-caseras",
+    "nombre": "Croquetas de jamón serrano, caseras, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://realacademiadegastronomia.com/recetas/croquetas-de-jamon/ (consultada 2026-10-25). Gramajes netos comestibles y peso final objetivo del lote listo: criterio de formulación AppFit, no pesada experimental ni transcripción de todas las cantidades de la fuente. Se usa el paquete CIQUAL publicado para todos los nutrientes. Sin factores de rendimiento/retención USDA; se conserva la suma teórica de los ingredientes servidos. Se usa jamón serrano CIQUAL en lugar del ibérico de la referencia, por eso se especifica serrano en el nombre. Se incluyen mantequilla, leche, harina, huevo, pan rallado y aceite retenido del empanado/fritura. No se asigna al jamón ibérico el valor del serrano.",
+    "pesoFinalG": 1200,
+    "ingredientes": [
+      {
+        "ciqual": "16400",
+        "gramos": 100
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 700
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11048",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "11019",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 120
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "croquetas-pollo-caseras",
+    "nombre": "Croquetas de pollo, caseras, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://www.rtve.es/play/videos/rtve-cocina/espana-directo-croquetas-pollo/702331/ (consultada 2026-10-25). Gramajes netos comestibles y peso final objetivo del lote listo: criterio de formulación AppFit, no pesada experimental ni transcripción de todas las cantidades de la fuente. Se usa el paquete CIQUAL publicado para todos los nutrientes. Sin factores de rendimiento/retención USDA; se conserva la suma teórica de los ingredientes servidos. Referencia culinaria: RTVE, España Directo, Croquetas de pollo, 23-02-2010. La formulación concreta el pollo como pechuga sin piel en peso crudo, sin interpretar una unidad de cebolla/huevo como una pesada de la fuente. Harina, empanado y aceite retenido explícitos.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 300
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 70
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11048",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "patatas-bravas-caseras",
+    "nombre": "Patatas bravas, caseras, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://realacademiadegastronomia.com/recetas/patatas-bravas/ (consultada 2026-10-25). Gramajes netos comestibles y peso final objetivo del lote listo: criterio de formulación AppFit, no pesada experimental ni transcripción de todas las cantidades de la fuente. Se usa el paquete CIQUAL publicado para todos los nutrientes. Sin factores de rendimiento/retención USDA; se conserva la suma teórica de los ingredientes servidos. Salsa de harina y pimentón de la referencia, no mayonesa. El caldo de ave/verdura se formula con 1,5 g de cada polvo CIQUAL y 197 g de agua, 200 g en total. Pimentón dulce/picante se contabiliza conjuntamente como pimentón en polvo CIQUAL, no como cayena. Aceite retenido en patata y salsa explícito.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11174",
+        "gramos": 1.5
+      },
+      {
+        "ciqual": "11041",
+        "gramos": 1.5
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 197
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 9
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "pulpo-feira-sin-patata",
+    "nombre": "Pulpo a feira, sin patata, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://realacademiadegastronomia.com/recetas/pulpo-a-feira/ (consultada 2026-10-25). Gramajes netos comestibles y peso final objetivo del lote listo: criterio de formulación AppFit, no pesada experimental ni transcripción de todas las cantidades de la fuente. Se usa el paquete CIQUAL publicado para todos los nutrientes. Sin factores de rendimiento/retención USDA; se conserva la suma teórica de los ingredientes servidos. Pulpo crudo limpio en gramos netos comestibles. Se elige la versión sin patatas opcionales. Cebolla y agua de cocción se retiran: no forman parte de los ingredientes servidos ni del peso final. No se modela extracción de nutrientes de la cebolla a la cocción. Pimentón dulce y picante se contabiliza como pimentón en polvo genérico CIQUAL. Aceite y sal servidos explícitos.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "10018",
+        "gramos": 1500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  }
+]

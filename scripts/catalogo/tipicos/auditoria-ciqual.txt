@@ -1,0 +1,509 @@
+Auditoría CIQUAL 2025 FR/EN + paquete ES2. No equiparar recetas ni denominaciones protegidas.
+Vía 1 confirmada: 6140/6141 carrillera de vacuno (alias carrillada), 28501 panceta fresca (alias), 28845 jamón serrano (alias).
+Ya cubiertos: 7100 pan de pueblo; 40113/40119 hígado de cerdo; 40302–40305 mollejas; 30315–30317 chorizo (no asumir fresco); 28530 oreja en salmuera (NO cocida).
+XML compo incompleto por timeout en esta sesión: CSV cambiado; paquete ES2 y manifest CIQUAL conservados.
+ATENCIÓN: 31127 nougat NO equivale a turrón de Jijona. 23684 galette des rois NO equivale a roscón español.
+Caseras se distinguen de versiones envasadas; paella CIQUAL 25242 contiene chorizo, no es paella valenciana.
+
+Resultados de búsqueda por candidato (tokens españoles y comprobación FR/EN arriba):
+morro de cerdo cocido: 25610 Ensalada de morro de ternera, con salsa, envasada
+oreja de cerdo cocida: 10041 Oreja de mar, cruda | 28530 Oreja de cerdo en salmuera
+manitas de cerdo cocidas: 10089 Gambas grises, peladas, cocidas, refrigeradas, envasadas | 20497 Verduras para cuscús, cocidas | 36035 Pollo, alitas marinadas, envasadas, asadas/cocidas al horno | 40601 Asaduras, cocidas (promedio)
+carrillada de cerdo: sin coincidencia española; sin equivalencia FR/EN confirmada
+secreto ibérico: sin coincidencia española; sin equivalencia FR/EN confirmada
+presa ibérica: sin coincidencia española; sin equivalencia FR/EN confirmada
+pluma ibérica: 36603 Ave de caza emplumada, carne cocida (promedio)
+lagarto ibérico: sin coincidencia española; sin equivalencia FR/EN confirmada
+torreznos: sin coincidencia española; sin equivalencia FR/EN confirmada
+chicharrones: sin coincidencia española; sin equivalencia FR/EN confirmada
+papada de cerdo cocida: 28471 Cerdo, papada descarnada cruda
+rabo de toro: sin coincidencia española; sin equivalencia FR/EN confirmada
+callos a la madrileña: 40502 Callos, vacuno, crudos
+criadillas: sin coincidencia española; sin equivalencia FR/EN confirmada
+chorizo fresco: 2013 Zumo de naranja, fresco | 2023 Zumo de mango, fresco | 2024 Zumo de maracuyá, fresco | 2025 Zumo de pomelo, fresco | 2030 Zumo de lima, fresco | 2039 Zumo de granada, fresco | 2040 Zumo de acerola, fresco | 4041 Aligot (puré de patata con queso tomme fresco), envasado | 7263 Bretzel, pan fresco | 11002 Perifollo, fresco | 11003 Cebollino o cebolleta, fresco | 11014 Perejil, fresco
+salchichón español: 22510 Tortilla española con cebollas (tortilla con patatas y cebollas), envasada | 25520 Sándwich de baguette, salchichón y mantequilla, casero | 25639 Sándwich de baguette, salchichón y mantequilla, para llevar | 25641 Sándwich de pan de molde integral, salchichón o rosette, envasado | 26102 Caballa española o caballa blanca, cruda | 30700 Salchichón al ajo
+lomo embuchado: sin coincidencia española; sin equivalencia FR/EN confirmada
+sobrasada: sin coincidencia española; sin equivalencia FR/EN confirmada
+fuet: sin coincidencia española; sin equivalencia FR/EN confirmada
+cecina: sin coincidencia española; sin equivalencia FR/EN confirmada
+morcilla de Burgos: 8703 Morcilla negra, para cocinar | 8704 Morcilla negra, a la plancha/sartén | 8705 Morcilla negra o blanca, a la plancha/sartén (promedio) | 8742 Morcilla antillana, para cocinar | 8800 Morcilla blanca, a la plancha/sartén | 8801 Morcilla blanca, para cocinar | 8803 Morcilla blanca con trufa, para cocinar
+morcilla de cebolla: 8703 Morcilla negra, para cocinar | 8704 Morcilla negra, a la plancha/sartén | 8705 Morcilla negra o blanca, a la plancha/sartén (promedio) | 8742 Morcilla antillana, para cocinar | 8800 Morcilla blanca, a la plancha/sartén | 8801 Morcilla blanca, para cocinar | 8803 Morcilla blanca con trufa, para cocinar | 10082 Mejillones a la marinera (cebolla y vino blanco), envasados | 11107 Salsa de tomate con cebolla, envasada | 20034 Cebolla, cruda | 20035 Cebolla, cocida | 20180 Cebolla, deshidratada
+butifarra: sin coincidencia española; sin equivalencia FR/EN confirmada
+botillo: sin coincidencia española; sin equivalencia FR/EN confirmada
+jamón ibérico de bellota: 8206 Paté con jamón | 8395 Jamón en croûte | 8429 Jamón perejilado en gelatina | 25073 Endibia con jamón, envasada | 25122 Gratín de pasta con jamón, envasado | 25396 Hojaldre o pastel de jamón y queso, envasado | 25409 Crepe o galette de bechamel y jamón, envasada | 25410 Crepe o galette de bechamel, jamón y queso, envasada | 25418 Cruasán relleno de jamón y queso, casero | 25434 Sándwich panini de jamón curado, mozzarella y tomate | 25435 Pizza de jamón y queso, envasada | 25475 Sándwich de baguette, jamón, huevo, crudités y mantequilla
+cabeza de jabalí: 6582 Ternera, cabeza, hervida | 8400 Queso de cabeza | 14002 Jabalí, carne cruda | 14003 Jabalí, carne asada/cocida al horno | 21005 Oveja, cabeza cruda
+manchego semicurado: sin coincidencia española; sin equivalencia FR/EN confirmada
+manchego curado: 25434 Sándwich panini de jamón curado, mozzarella y tomate | 26274 Pizza con jamón curado, envasada | 26280 Ensalada de pasta con jamón curado, queso y crudités, con salsa, envasada | 28800 Jamón curado | 28801 Jamón curado ahumado | 28804 Jamón curado ahumado, reducido en grasa
+manchego viejo: 12738 Queso Mimolette viejo (12 meses de maduración mínimo) | 12742 Queso Mimolette extra viejo (18 meses de maduración mínimo)
+tetilla: sin coincidencia española; sin equivalencia FR/EN confirmada
+cabrales: sin coincidencia española; sin equivalencia FR/EN confirmada
+idiazábal: sin coincidencia española; sin equivalencia FR/EN confirmada
+mahón: sin coincidencia española; sin equivalencia FR/EN confirmada
+torta del Casar: 11248 Salsa Cásar, envasada
+queso fresco de Burgos: 1027 Especialidad vegetal tipo queso para untar, de soja, envasada | 1028 Especialidad vegetal tipo queso, de anacardo, envasada | 1029 Especialidad vegetal tipo queso en lonchas o rallado, sin soja, envasada | 2013 Zumo de naranja, fresco | 2023 Zumo de mango, fresco | 2024 Zumo de maracuyá, fresco | 2025 Zumo de pomelo, fresco | 2030 Zumo de lima, fresco | 2039 Zumo de granada, fresco | 2040 Zumo de acerola, fresco | 4041 Aligot (puré de patata con queso tomme fresco), envasado | 7263 Bretzel, pan fresco
+San Simón: sin coincidencia española; sin equivalencia FR/EN confirmada
+majorero: sin coincidencia española; sin equivalencia FR/EN confirmada
+zamorano: sin coincidencia española; sin equivalencia FR/EN confirmada
+cocido madrileño: sin coincidencia española; sin equivalencia FR/EN confirmada
+fabada: sin coincidencia española; sin equivalencia FR/EN confirmada
+paella valenciana: 25031 Paella, envasada | 25242 Paella (pollo, marisco, chorizo, colín), casera
+paella de marisco: 8292 Terrina de mariscos (p. ej. de vieiras), con o sin pescado, envasada | 10043 Mariscos (promedio) | 10080 Mariscos, mezcla o cóctel, congelados, cocidos | 25031 Paella, envasada | 25037 Gratín o cazuela de pescado y/o mariscos, envasada, cruda | 25038 Gratín o cazuela de pescado y/o mariscos, envasada, cocida | 25151 Hojaldre o pastel de pescado y/o mariscos, envasado, para cocinar | 25188 Risoto, con mariscos, envasado | 25242 Paella (pollo, marisco, chorizo, colín), casera | 25463 Pizza de marisco, envasada | 25503 Volován de pescado y marisco, casero | 25625 Crepe o galette de pescado y/o marisco, envasada
+arroz negro: 1026 Sake o vino de arroz | 7352 Tortita de arroz integral inflado | 7355 Tortita de arroz inflado, cubierta de chocolate | 9100 Arroz blanco, crudo | 9101 Arroz blanco cocido al vapor, crudo | 9102 Arroz integral, crudo | 9103 Arroz integral, cocido, sin sal añadida | 9104 Arroz blanco, cocido, sin sal añadida | 9105 Arroz blanco cocido al vapor, cocido, sin sal añadida | 9108 Arroz salvaje, crudo | 9109 Arroz rojo, crudo | 9110 Arroz rojo, cocido, sin sal añadida
+fideuá: sin coincidencia española; sin equivalencia FR/EN confirmada
+croquetas de jamón: 8206 Paté con jamón | 8395 Jamón en croûte | 8429 Jamón perejilado en gelatina | 25073 Endibia con jamón, envasada | 25122 Gratín de pasta con jamón, envasado | 25396 Hojaldre o pastel de jamón y queso, envasado | 25409 Crepe o galette de bechamel y jamón, envasada | 25410 Crepe o galette de bechamel, jamón y queso, envasada | 25418 Cruasán relleno de jamón y queso, casero | 25434 Sándwich panini de jamón curado, mozzarella y tomate | 25435 Pizza de jamón y queso, envasada | 25475 Sándwich de baguette, jamón, huevo, crudités y mantequilla
+croquetas de pollo: 1033 Nuggets o croqueta empanada de pollo (con soja), envasado | 8040 Rillettes de pollo | 9085 Fideos asiáticos cocinados (vacuno, pollo, verduras…) no instantáneos | 16540 Grasa de pollo | 20014 Repollo rojo, crudo | 20015 Repollo verde, cocido | 20069 Repollo verde, crudo | 20095 Repollo rojo, hervido | 20116 Repollo blanco, crudo | 20167 Repollo chino pe-tsai, crudo | 20218 Repollo rizado, crudo | 20219 Repollo rizado, cocido
+patatas bravas: 4004 Patatas fritas de bolsa, naturales o aromatizadas | 4030 Patatas fritas, congeladas, asadas al horno | 4032 Patatas fritas, congeladas, fritas en freidora | 4037 Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano | 4038 Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa | 4044 Patatas fritas, congeladas, prefritas, para cocinar al horno | 4045 Patatas fritas, congeladas, prefritas, para cocinar en microondas | 4046 Patatas fritas, congeladas, prefritas, para freír en freidora | 4050 Patatas fritas de bolsa, naturales o aromatizadas, sin sal añadida | 4051 Patatas salteadas a la sarladaise (grasa de pato, ajo y perejil), congeladas, crudas | 11245 Salsa para patatas fritas, envasada | 20267 Verduras primaverales o jardineras, congeladas, crudas (guisantes, patatas, judías verdes, zanahorias, cebolla)
+pulpo a feira: 10018 Pulpo, crudo | 10079 Pulpo, cocido
+albóndigas en salsa: 8406 Ensalada de hocico de cerdo, con salsa, envasada | 8407 Ensalada de cervelas, con salsa, envasada | 8903 Quenela de ternera en salsa, en conserva | 8912 Quenela de ave en salsa, en conserva | 8932 Quenela de pescado en salsa, en conserva | 10042 Caracol en salsa de mantequilla y perejil, envasado, cocido | 10081 Mejillones a la salsa catalana o escabeche (tomate), en conserva, escurridos | 10083 Mejillones rellenos (grasa, salsa de perejil y ajo…), envasados, crudos | 11051 Salsa tártara, envasada | 11100 Salsa barbecue, envasada | 11101 Salsa béchamel, envasada | 11102 Salsa bearnesa, envasada
+ensaladilla rusa: sin coincidencia española; sin equivalencia FR/EN confirmada
+empanada gallega: 1033 Nuggets o croqueta empanada de pollo (con soja), envasado | 10012 Cigala, empanada, frita | 25173 Escalopa empanada, vienesa o milanesa, ternera, cocida | 25225 Croqueta o nugget empanada de trigo (sin soja), envasado | 25226 Croqueta o nugget empanada de soja y trigo (no apto para veganos), envasado | 25227 Croqueta o nugget empanada de soja y trigo (apto para veganos), envasado | 25229 Bastón empanada de soja y trigo (apto para veganos), envasado | 25512 Nuggets o croquetas empanadas de ave, envasados | 26002 Solla, empanada, frita | 26028 Nuggets o croquetas empanadas de pescado, envasados | 36027 Nuggets o croqueta empanada de pollo, envasado | 36036 Escalopa empanada, vienesa o milanesa, pollo, cocida
+flamenquín: sin coincidencia española; sin equivalencia FR/EN confirmada
+marmitako: sin coincidencia española; sin equivalencia FR/EN confirmada
+migas: sin coincidencia española; sin equivalencia FR/EN confirmada
+sopa castellana: sin coincidencia española; sin equivalencia FR/EN confirmada
+pimientos de Padrón fritos: 13147 Aceitunas verdes, rellenas o farciadas (anchoa, pimientos, etc.)
+boquerones en vinagre: 11004 Pepinillo, al vinagre | 11018 Vinagre | 11091 Vinagre balsámico | 11108 Vinagreta de aceite de oliva (50 a 75% de aceite), envasada | 11109 Vinagreta reducida en grasa (25 a 50% de aceite), envasada | 11110 Vinagreta (50 a 75% de aceite), envasada | 11220 Vinagre de vino tinto
+mollete: sin coincidencia española; sin equivalencia FR/EN confirmada
+picos: sin coincidencia española; sin equivalencia FR/EN confirmada
+regañás: sin coincidencia española; sin equivalencia FR/EN confirmada
+churros: sin coincidencia española; sin equivalencia FR/EN confirmada
+porras: sin coincidencia española; sin equivalencia FR/EN confirmada
+torrijas: sin coincidencia española; sin equivalencia FR/EN confirmada
+magdalenas tradicionales: 8000 Rillettes tradicionales de cerdo
+ensaimada: sin coincidencia española; sin equivalencia FR/EN confirmada
+roscón: 23680 Roscón de Reyes de hojaldre, relleno de compota | 23684 Roscón de Reyes de hojaldre, relleno de crema de almendras, y Pithiviers
+polvorones: sin coincidencia española; sin equivalencia FR/EN confirmada
+mantecados: sin coincidencia española; sin equivalencia FR/EN confirmada
+turrón duro español: 22510 Tortilla española con cebollas (tortilla con patatas y cebollas), envasada | 26102 Caballa española o caballa blanca, cruda | 31098 Barra de chocolate con leche y turrón | 31127 Turrón suave | 39529 Turrón helado
+turrón blando español: 22510 Tortilla española con cebollas (tortilla con patatas y cebollas), envasada | 26102 Caballa española o caballa blanca, cruda | 31097 Caramelo blando | 31098 Barra de chocolate con leche y turrón | 31127 Turrón suave | 39529 Turrón helado
+crema catalana: 1018 Kir (vino blanco, crema de casis) | 1019 Kir royal (champán, crema de casis) | 1021 Crema de casis | 7739 Brioche relleno de crema pastelera (tipo chino), envasado | 8312 Mousse de hígado de cerdo superior o crema de hígado | 10081 Mejillones a la salsa catalana o escabeche (tomate), en conserva, escurridos | 11214 Preparación culinaria de soja tipo crema de soja | 11299 Crema de ciruelas pasas, envasada | 13164 Postre infantil lácteo tipo crema para postre | 15013 Crema de castaña o mermelada de castaña, envasada | 15202 Crema de cacahuete o pasta de cacahuete | 19673 Crema de postre, reducida en materia grasa, en fresco
+leche frita: 3000 Leche de inicio (1.ª edad), en polvo soluble (fórmula para lactantes) | 3002 Leche de continuación (2.ª edad), en polvo soluble | 4004 Patatas fritas de bolsa, naturales o aromatizadas | 4016 Copos de patata, deshidratados, con leche o nata | 4017 Puré de patata, a base de copos, reconstituido con leche entera y grasa añadida | 4018 Puré de patata, con leche y mantequilla, sin sal añadida | 4019 Puré de patata, a base de copos, reconstituido con leche semidesnatada y agua, sin sal | 4027 Patata salteada a la sartén, prefrita, congelada, cocinada | 4030 Patatas fritas, congeladas, asadas al horno | 4032 Patatas fritas, congeladas, fritas en freidora | 4037 Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano | 4038 Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa
+Tortilla de patatas, sin cebolla, cuajada: 4004 Patatas fritas de bolsa, naturales o aromatizadas | 4030 Patatas fritas, congeladas, asadas al horno | 4032 Patatas fritas, congeladas, fritas en freidora | 4037 Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano | 4038 Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa | 4044 Patatas fritas, congeladas, prefritas, para cocinar al horno | 4045 Patatas fritas, congeladas, prefritas, para cocinar en microondas | 4046 Patatas fritas, congeladas, prefritas, para freír en freidora | 4050 Patatas fritas de bolsa, naturales o aromatizadas, sin sal añadida | 4051 Patatas salteadas a la sarladaise (grasa de pato, ajo y perejil), congeladas, crudas | 7813 Tortilla suave (para rellenar), de maíz | 7815 Tortilla suave (para rellenar), de trigo
+Tortilla de patatas, con cebolla, cuajada: 4004 Patatas fritas de bolsa, naturales o aromatizadas | 4030 Patatas fritas, congeladas, asadas al horno | 4032 Patatas fritas, congeladas, fritas en freidora | 4037 Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano | 4038 Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa | 4044 Patatas fritas, congeladas, prefritas, para cocinar al horno | 4045 Patatas fritas, congeladas, prefritas, para cocinar en microondas | 4046 Patatas fritas, congeladas, prefritas, para freír en freidora | 4050 Patatas fritas de bolsa, naturales o aromatizadas, sin sal añadida | 4051 Patatas salteadas a la sarladaise (grasa de pato, ajo y perejil), congeladas, crudas | 7813 Tortilla suave (para rellenar), de maíz | 7815 Tortilla suave (para rellenar), de trigo
+Salmorejo, casero, crudo: sin coincidencia española; sin equivalencia FR/EN confirmada
+Gazpacho, casero, crudo: 25967 Sopa fría tipo gazpacho, envasada
+Ajoblanco, casero, crudo: sin coincidencia española; sin equivalencia FR/EN confirmada
+Pisto manchego, guisado: 25917 Sopa al pistou, deshidratada, reconstituida | 25953 Sopa al pistou, envasada para calentar
+Escalivada, asada: 1027 Especialidad vegetal tipo queso para untar, de soja, envasada | 1028 Especialidad vegetal tipo queso, de anacardo, envasada | 1029 Especialidad vegetal tipo queso en lonchas o rallado, sin soja, envasada | 1030 Finas lonchas vegetales, envasadas | 1031 Especialidad vegetal tipo paté, envasada | 1032 Picada a base de ternera y soja, envasada | 1034 Salchicha de ave tipo knack (con soja), envasada | 4002 Patata, sin piel, asada al horno | 4014 Patata al vapor, envasada al vacío | 4026 Patata, asada al horno | 4030 Patatas fritas, congeladas, asadas al horno | 5005 Clara envasada (menos de 1° de alcohol), aromatizada o no
+Patatas a lo pobre, fritas: 4004 Patatas fritas de bolsa, naturales o aromatizadas | 4030 Patatas fritas, congeladas, asadas al horno | 4032 Patatas fritas, congeladas, fritas en freidora | 4037 Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano | 4038 Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa | 4044 Patatas fritas, congeladas, prefritas, para cocinar al horno | 4045 Patatas fritas, congeladas, prefritas, para cocinar en microondas | 4046 Patatas fritas, congeladas, prefritas, para freír en freidora | 4050 Patatas fritas de bolsa, naturales o aromatizadas, sin sal añadida | 4051 Patatas salteadas a la sarladaise (grasa de pato, ajo y perejil), congeladas, crudas | 11245 Salsa para patatas fritas, envasada | 20267 Verduras primaverales o jardineras, congeladas, crudas (guisantes, patatas, judías verdes, zanahorias, cebolla)
+Porrusalda, hervida: 4003 Patata, hervida | 4007 Patata nueva, hervida | 4028 Patata de conservación, sin piel, hervida | 4029 Patata nueva, hervida, sin piel | 6141 Vacuno, carrillera, estofada o hervida | 6271 Vacuno, paleta (paleron), estofada o hervida | 6563 Ternera, paletilla, estofada o hervida | 6582 Ternera, cabeza, hervida | 9322 Cebada perlada, hervida/cocida en agua, sin sal añadida | 9341 Quinua, hervida/cocida en agua, sin sal añadida | 10022 Langosta, hervida/cocida en agua | 10027 Almeja, navaja o pipa, hervida/cocida en agua
+Garbanzos con espinacas, guisados: 25140 Pescado blanco a la florentina (salsa de espinacas), envasado | 25635 Lasaña o canelones de queso y espinacas, envasados | 26267 Tarta de espinacas y queso de cabra, envasada
+Lentejas con verduras, estofadas: 2052 Zumo de frutas y verduras, 100 % zumo | 2075 Zumo de verduras, 100 % zumo (promedio) | 7814 Bizcocho salado (relleno: queso, verduras, carne, pescado, volaille, etc.), envasado | 8296 Terrina o mousse de verduras, envasada | 8297 Flan de verduras con huevos | 9085 Fideos asiáticos cocinados (vacuno, pollo, verduras…) no instantáneos | 9876 Pasta seca, sin gluten (de lentejas rojas), cocida, sin sal añadida | 11041 Caldo de verduras, deshidratado | 13161 Bebida infantil de cereales con leche y verduras para cenar desde 4/6 meses | 18315 Bebida plana de frutas y verduras | 20051 Ensalada de verduras mixtas, en conserva, escurrida | 20101 Verduras mixtas, congeladas, crudas
+Alubias blancas con verduras, guisadas: 2052 Zumo de frutas y verduras, 100 % zumo | 2075 Zumo de verduras, 100 % zumo (promedio) | 7814 Bizcocho salado (relleno: queso, verduras, carne, pescado, volaille, etc.), envasado | 8296 Terrina o mousse de verduras, envasada | 8297 Flan de verduras con huevos | 9085 Fideos asiáticos cocinados (vacuno, pollo, verduras…) no instantáneos | 11041 Caldo de verduras, deshidratado | 13161 Bebida infantil de cereales con leche y verduras para cenar desde 4/6 meses | 18315 Bebida plana de frutas y verduras | 20051 Ensalada de verduras mixtas, en conserva, escurrida | 20101 Verduras mixtas, congeladas, crudas | 20194 Judías blancas en salsa de tomate, en conserva
+Arroz con marisco, cocido: 1026 Sake o vino de arroz | 7352 Tortita de arroz integral inflado | 7355 Tortita de arroz inflado, cubierta de chocolate | 8292 Terrina de mariscos (p. ej. de vieiras), con o sin pescado, envasada | 9100 Arroz blanco, crudo | 9101 Arroz blanco cocido al vapor, crudo | 9102 Arroz integral, crudo | 9103 Arroz integral, cocido, sin sal añadida | 9104 Arroz blanco, cocido, sin sal añadida | 9105 Arroz blanco cocido al vapor, cocido, sin sal añadida | 9108 Arroz salvaje, crudo | 9109 Arroz rojo, crudo
+Arroz con pollo y conejo, cocido: 1026 Sake o vino de arroz | 1033 Nuggets o croqueta empanada de pollo (con soja), envasado | 7352 Tortita de arroz integral inflado | 7355 Tortita de arroz inflado, cubierta de chocolate | 8040 Rillettes de pollo | 8240 Paté de conejo | 8242 Terrina de conejo | 9085 Fideos asiáticos cocinados (vacuno, pollo, verduras…) no instantáneos | 9100 Arroz blanco, crudo | 9101 Arroz blanco cocido al vapor, crudo | 9102 Arroz integral, crudo | 9103 Arroz integral, cocido, sin sal añadida
+Bacalao al pil-pil, cocinado: 4025 Gajos de patata especiados (wedges), congelados, cocinados | 4103 Boniato, puré, cocinado con nata | 5217 Vino cocinado (alcohol evaporado) | 5219 Licor fuerte (tipo ron), cocinado (alcohol evaporado) | 6230 Vacuno, para guiso o cocido, cocinado | 6520 Ternera, escalope, cocinado | 8293 Tarama, con huevos de bacalao, envasado | 9085 Fideos asiáticos cocinados (vacuno, pollo, verduras…) no instantáneos | 17630 Aceite de hígado de bacalao | 25997 Bacalao, cocido, sin especificar (promedio) | 26023 Bacalao, asado/al horno | 26024 Bacalao salado, hervido
+Merluza a la romana, frita: 4004 Patatas fritas de bolsa, naturales o aromatizadas | 4027 Patata salteada a la sartén, prefrita, congelada, cocinada | 4030 Patatas fritas, congeladas, asadas al horno | 4032 Patatas fritas, congeladas, fritas en freidora | 4037 Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano | 4038 Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa | 4043 Patata salteada a la sartén, prefrita, congelada, cruda | 4044 Patatas fritas, congeladas, prefritas, para cocinar al horno | 4045 Patatas fritas, congeladas, prefritas, para cocinar en microondas | 4046 Patatas fritas, congeladas, prefritas, para freír en freidora | 4050 Patatas fritas de bolsa, naturales o aromatizadas, sin sal añadida | 4053 Patata grenaille, prefrita, congelada, cruda
+Calamares a la romana, fritos: 10002 Calamar a la romana (buñuelo), envasado | 20171 Lechuga romana, cruda
+Boquerones, enharinados, fritos: sin coincidencia española; sin equivalencia FR/EN confirmada
+Patatas a la importancia, guisadas: 4004 Patatas fritas de bolsa, naturales o aromatizadas | 4030 Patatas fritas, congeladas, asadas al horno | 4032 Patatas fritas, congeladas, fritas en freidora | 4037 Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano | 4038 Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa | 4044 Patatas fritas, congeladas, prefritas, para cocinar al horno | 4045 Patatas fritas, congeladas, prefritas, para cocinar en microondas | 4046 Patatas fritas, congeladas, prefritas, para freír en freidora | 4050 Patatas fritas de bolsa, naturales o aromatizadas, sin sal añadida | 4051 Patatas salteadas a la sarladaise (grasa de pato, ajo y perejil), congeladas, crudas | 11245 Salsa para patatas fritas, envasada | 20267 Verduras primaverales o jardineras, congeladas, crudas (guisantes, patatas, judías verdes, zanahorias, cebolla)
+Huevos rotos con patatas, fritos: 1016 Marsala con huevos | 4004 Patatas fritas de bolsa, naturales o aromatizadas | 4030 Patatas fritas, congeladas, asadas al horno | 4032 Patatas fritas, congeladas, fritas en freidora | 4037 Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano | 4038 Patatas fritas de bolsa y similares, naturales o aromatizadas, reducidas en grasa | 4044 Patatas fritas, congeladas, prefritas, para cocinar al horno | 4045 Patatas fritas, congeladas, prefritas, para cocinar en microondas | 4046 Patatas fritas, congeladas, prefritas, para freír en freidora | 4050 Patatas fritas de bolsa, naturales o aromatizadas, sin sal añadida | 4051 Patatas salteadas a la sarladaise (grasa de pato, ajo y perejil), congeladas, crudas | 8293 Tarama, con huevos de bacalao, envasado
+Arroz con leche, casero, cocido: 1026 Sake o vino de arroz | 3000 Leche de inicio (1.ª edad), en polvo soluble (fórmula para lactantes) | 3002 Leche de continuación (2.ª edad), en polvo soluble | 4016 Copos de patata, deshidratados, con leche o nata | 4017 Puré de patata, a base de copos, reconstituido con leche entera y grasa añadida | 4018 Puré de patata, con leche y mantequilla, sin sal añadida | 4019 Puré de patata, a base de copos, reconstituido con leche semidesnatada y agua, sin sal | 4040 Puré de patata, con leche y mantequilla, con sal | 7352 Tortita de arroz integral inflado | 7355 Tortita de arroz inflado, cubierta de chocolate | 7710 Pan de leche, artesanal | 7711 Pan de leche, envasado
+Flan de huevo, casero, cocido: 1016 Marsala con huevos | 8293 Tarama, con huevos de bacalao, envasado | 8297 Flan de verduras con huevos | 9815 Pasta fresca, con huevos, cruda | 9816 Pasta fresca, con huevos, cocida, sin sal añadida | 9821 Pasta seca, con huevos, cruda | 9822 Pasta seca, con huevos, cocida, sin sal añadida | 9863 Pasta o fideos asiáticos secos, de trigo y huevos, natural, crudo | 19674 Flan con huevo, en fresco | 19684 Huevos a la leche, en fresco | 22000 Huevo crudo | 22001 Huevo, clara, cruda
+Natillas, caseras, cocidas: 10089 Gambas grises, peladas, cocidas, refrigeradas, envasadas | 20497 Verduras para cuscús, cocidas | 36035 Pollo, alitas marinadas, envasadas, asadas/cocidas al horno | 40601 Asaduras, cocidas (promedio)
+Tarta de Santiago, horneada: 11051 Salsa tártara, envasada | 23001 Tarta de queso, envasada | 23220 Pan de especias relleno de frutas o tarta fina, envasada | 23479 Tarta de frutas y crema pastelera | 23481 Tarta normanda de manzana (relleno de harina, huevos, nata, azúcar, calvados), artesanal | 23485 Tarta de limón | 23490 Tarta o tartaleta de manzana | 23491 Tarta de fresas, artesanal | 23494 Tarta de albaricoques | 23495 Tarta de frutos rojos | 23496 Tarta Tatín de manzana | 23497 Tarta de chocolate, fabricación artesanal
+Compota de manzana, cocida: 2009 Néctar multifrutas, base manzana, estándar | 2010 Néctar multifrutas, base manzana, multivitamínico | 2014 Zumo de manzana, a base de concentrado | 2048 Zumo multifrutas, base manzana, estándar | 2050 Zumo multifrutas, base manzana, multivitamínico | 2074 Zumo de manzana, 100 % zumo | 2076 Néctar de manzana | 13038 Compota de manzana, envasada | 13039 Manzana, pulpa y piel, cruda | 13085 Manzana Canadá, pulpa sin piel, cruda | 13086 Manzana Golden, pulpa sin piel, cruda | 13111 Manzana, deshidratada
+
+Directos USDA revisados contra FR/EN (nombres.csv) y ES2:
+Oreja y pie de cerdo: CIQUAL solo demi-sel, no crudo ni hervido natural.
+Intestinos, pulmones, bazo y páncreas: sin equivalencia confirmada en CIQUAL.
+Lengua de cerdo: CIQUAL 40205 cruda, no estofada.
+Callos de vacuno: CIQUAL 40502 crudos y platos preparados con salsa, no hervidos solos.
+
+Ampliación exclusivamente tradicional, 2026-10-24:
+Pipirrana de Cazorla y trampó mallorquín: búsquedas por pipirrana/trampo/trempo
+sin coincidencias en nombres.csv FR/EN, traducciones.csv ni paquete ES2.
+Búsqueda de ingredientes EN/FR encuentra 20240 Piperade basquaise, préemballée:
+es una preparación cocinada/envasada, no una ensalada cruda. No se equipara.
+Ambas nuevas recetas usan las verduras crudas y conservan íntegros todos los jugos.
+
+
+Ampliación por categorías de 2026-10-25 (paquete previo: 47 filas):
+Directos: revisión de nombres.csv FR/EN, traducciones.csv y paquete ES2.
+- Alubias azuki, negras, pintas y borlotti: sin equivalencia específica en
+  CIQUAL, que tiene judía blanca/roja genéricas. No equiparar kidney roja a azuki.
+- Ojo negro: CIQUAL 20527 es verde/fresca/cruda; las nuevas son maduras secas/hervidas.
+- Teff: sin equivalente confirmado. Amaranto y espelta crudos ya existen
+  (9345/9001): no se duplican; se incorporan solo los cocidos ausentes.
+- Trigo sarraceno: 9380 es crudo; el nuevo es tostado y cocido (kasha).
+- Salvado de avena: 9640 es seco. Candidato cocido excluido por energía, no publicado.
+- Pistacho: 15009/15044 son tostados; el nuevo es crudo.
+- Crema de almendras: no es mazapán 15201. Crema de anacardos: sin coincidencia.
+- Pita: 7180 no especifica integral; la nueva mantiene la formulación integral.
+- Cottage y halloumi: no hay equivalencia confirmada; quark SI está (19644,
+  19646 y otros) bajo queso blanco: NO se añade otro quark genérico.
+- Basmati blanco (9119/9125), cebada perlada cocida (9322), gachas con agua
+  (9313) ya cubiertos: NO se añaden. Las nuevas gachas se hacen con leche.
+- Arborio y basmati integral: versiones específicas conservadas; arroz integral
+  genérico 9102 aparece como casi duplicado y queda explícito en el informe.
+
+Recetas: se revisan las páginas individuales del Legado Gastronómico y se
+comparan nombres y variantes publicadas. La referencia y las adaptaciones
+están por id en revision-2026-10-25.json. Las versiones caseras se distinguen de
+los platos CIQUAL envasados cuando existe una preparación cercana. P. ej.:
+- CIQUAL 25124 estofado de cordero con verduras no es caldereta con hígado.
+- 10082 mejillones a la marinera no es mejillones a la vinagreta.
+- 25141 pescado blanco marinero envasado no equivale a merluza en salsa verde.
+- 25242 paella con pollo, marisco y chorizo no se renombra como paella valenciana.
+- 23827 pancake envasado no se convierte en receta de churros; no se añade
+  otra familia de pancakes para aumentar el número.
+- Se conservan las 27 recetas previas y sus ids. Ningún nuevo nombre normalizado
+  es idéntico al de CIQUAL ni al de otra fila de típicos (bloqueo en construir).
+
+Sin incorporación en esta ampliación: arroz a banda (ñora/fondo), salsa romesco
+(ñora y categoría salsa), alioli (categoría salsa), verdinas con almejas
+(sin ingrediente CIQUAL que identifique verdinas), tosta de jamón ibérico
+(no se sustituye su ingrediente por serrano conservando el nombre ibérico),
+berenjenas con miel de caña (ingrediente específico pendiente).
+
+
+Preparaciones, segunda ampliación de 2026-10-25 (12 filas nuevas):
+Búsqueda FR/EN en nombres.csv y contraste ES2:
+- Pollo: 36018 plancha/sartén, 36004/36005/36006/36032/36033 horno y
+  36030/36031 hervidos ya cubiertos; no se crean filas equivalentes.
+- 36036 escalope empanado de pollo y 36318 pavo cocidos: alias en CSV,
+  no nuevas filas. Nuggets 1033/36027 no equivalen a una pieza entera rebozada.
+- Nuevos USDA 171475/171476 distinguen batter/flour en pechuga con piel;
+  172374/173628 son jamoncito/ala con piel rebozados. No confundir con
+  breadcrumbs (pan rallado) ni asignar composición de huevo a batter.
+- CoFID 18-327 es frito sin recubrimiento, con piel; no plancha 36018.
+- Patata: CIQUAL 4002/4026 al horno tiene 0,1 g de grasa por 100 g;
+  el nuevo CoFID 13-492 indica girasol y 5,7 g. No se llama sin aceite.
+- 4030/4032 son patatas CONGELADAS horneadas/fritas: no equivalen al
+  CoFID 13-597 de patatas CASERAS fritas en girasol (197 kcal).
+- 4045 es producto congelado prefrito PARA microondas, no la patata fresca
+  con piel ya cocida al microondas de CoFID 13-494. Zanahoria microondas
+  13-498 no tiene equivalente confirmado en nombres.csv/ES2.
+- CIQUAL 26025 bacalao al vapor y 26038 salmón al vapor: no se duplican.
+  26030 pescado empanado frito no equivale al bacalao empanado al horno
+  16-370; 16-369 y 16-426 son rebozado, con distinto método y aceite.
+Sin fuente específica para freidora de aire: no se extrapolan valores del
+horno/fritura ni se inventa un porcentaje de absorción de aceite.
+
+
+Lote cotidiano de 40 directos CoFID, 2026-10-25:
+No son formulaciones propias de AppFit: se copian valores oficiales CoFID.
+Los cercanos CIQUAL se revisan por origen y estado (casero/envasado) o relleno.
+canelones-espinacas-ricota-caseros: Cannelloni, spinach, homemade
+  CIQUAL 20027 (0.50): Épinard, cuit / Spinach, cooked / Espinaca, cocida
+  CIQUAL 20059 (0.50): Épinard, cru / Spinach, raw / Espinaca, cruda
+canelones-verduras-caseros: Cannelloni, vegetable, homemade
+  CIQUAL 20499 (0.33): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+  CIQUAL 25556 (0.33): Beignet de légumes / Vegetable fritters / Buñuelo de verduras
+lasana-vacuno-casera: Lasagne, homemade
+lasana-integral-verduras-casera: Lasagne, vegetable, wholemeal, homemade
+  CIQUAL 7340 (0.25): Biscotte au blé complet / Rusk, wholemeal / Biscote integral
+  CIQUAL 20499 (0.25): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+macarrones-queso-caseros: Macaroni cheese, homemade
+  CIQUAL 12999 (0.33): Fromage (aliment moyen) / Cheese (average) / Queso (promedio)
+  CIQUAL 22506 (0.33): Omelette au fromage, faite maison / Omelette with cheese, homemade / Tortilla de queso, casera
+espaguetis-bolonesa-caseros: Spaghetti bolognese, homemade
+  CIQUAL 25085 (0.40): Pâtes à la bolognaise (spaghetti, tagliatelles…), préemballées / Bolognese-style pasta (spaghetti, tagliatelle…), prepacked / Pasta a la boloñesa (espagueti, tallarín...), envasadas
+  CIQUAL 11114 (0.20): Sauce tomate à la viande ou sauce bolognaise, préemballée / Bolognese sauce or tomato sauce with meat, prepacked / Salsa de tomate con carne o salsa boloñesa, envasada
+risotto-pollo-casero: Risotto, chicken, homemade
+  CIQUAL 16540 (0.33): Graisse de poulet / Chicken fat / Grasa de pollo
+  CIQUAL 25138 (0.33): Couscous au poulet / Couscous with chicken / Cuscús con pollo
+risotto-natural-casero: Risotto, plain, homemade
+  CIQUAL 25187 (0.50): Risotto, aux légumes, préemballé / Risotto, with vegetables, prepacked / Risoto, con verduras, envasado
+  CIQUAL 25188 (0.50): Risotto, aux fruits de mer, préemballé / Risotto, with seafood, prepacked / Risoto, con mariscos, envasado
+arroz-pilaf-champinones-casero: Pilau, mushroom, homemade
+  CIQUAL 11160 (0.33): Sauce aux champignons, préemballée / Mushroom sauce, prepacked / Salsa de champiñones, envasada
+  CIQUAL 20114 (0.33): Champignon, pleurote, crue / Oyster mushroom, raw / Champiñón ostra, crudo
+arroz-pilaf-verduras-casero: Pilau, vegetable, homemade
+  CIQUAL 20499 (0.33): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+  CIQUAL 25556 (0.33): Beignet de légumes / Vegetable fritters / Buñuelo de verduras
+quiche-lorraine-casera: Quiche, Lorraine, homemade
+  CIQUAL 25405 (0.50): Quiche lorraine, préemballée / Quiche Lorraine (eggs and lardoons quiche), prepacked / Quiche lorraine, envasada
+quiche-champinones-casera: Quiche, mushroom, homemade
+  CIQUAL 11160 (0.33): Sauce aux champignons, préemballée / Mushroom sauce, prepacked / Salsa de champiñones, envasada
+  CIQUAL 20114 (0.33): Champignon, pleurote, crue / Oyster mushroom, raw / Champiñón ostra, crudo
+sopa-zanahoria-naranja-casera: Soup, carrot and orange, homemade
+  CIQUAL 20009 (0.33): Carotte, crue / Carrot, raw / Zanahoria, cruda
+  CIQUAL 2375 (0.25): Nectar d'orange / Orange nectar / Néctar de naranja
+sopa-cebolla-francesa-casera: Soup, French onion, homemade
+  CIQUAL 25942 (0.40): Soupe à l'oignon, déshydratée reconstituée / Soup, onion, dehydrated and reconstituted / Sopa de cebolla, deshidratada, reconstituida
+  CIQUAL 20034 (0.33): Oignon, cru / Onion, raw / Cebolla, cruda
+minestrone-casera: Soup, minestrone, homemade
+  CIQUAL 25956 (0.50): Soupe minestrone, déshydratée reconstituée / Soup, minestrone, dehydrated and reconstituted / Sopa minestrone, deshidratada, reconstituida
+  CIQUAL 25916 (0.40): Soupe minestrone, préemballée à réchauffer / Soup, minestrone, prepacked, to be reheated / Sopa minestrone, envasada para calentar
+sopa-verduras-casera: Soup, vegetable, homemade
+  CIQUAL 20499 (0.33): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+  CIQUAL 25556 (0.33): Beignet de légumes / Vegetable fritters / Buñuelo de verduras
+calabacin-huevos-casero: Courgettes with eggs, homemade
+  CIQUAL 1016 (0.33): Marsala aux oeufs / Marsala with eggs / Marsala con huevos
+  CIQUAL 7422 (0.25): Petit pain grillé suédois brioché / Swedish toast with eggs / Pan tostado sueco pequeño brioche
+champinones-ajillo-caseros: Garlic mushrooms, not coated, homemade
+  CIQUAL 11000 (0.25): Ail, cru / Garlic, raw / Ajo, crudo
+  CIQUAL 22508 (0.20): Omelette aux champignons, faite maison / Omelette with mushrooms, homemade / Tortilla con champiñones, casera
+estofado-vacuno-casero: Stew, beef, homemade
+  CIQUAL 25065 (0.67): Boeuf aux carottes, préemballé / Beef stew with carrots, prepacked / Estofado de ternera con zanahorias, envasado
+  CIQUAL 25033 (0.50): Boeuf bourguignon, préemballé / Burgundy-style beef stew, prepacked / Estofado de ternera a la borgoña, envasado
+vacuno-borgona-casero: Beef bourguignon, homemade
+  CIQUAL 6001 (0.33): Boeuf, côte crue / Beef, rib, raw / Vacuno, costilla, cruda
+  CIQUAL 6002 (0.33): Boeuf, épaule crue / Beef, shoulder, raw / Vacuno, paletilla, cruda
+pollo-limon-casero: Lemon chicken, homemade
+  CIQUAL 2007 (0.33): Jus de citron, fait maison / Lemon juice, homemade / Zumo de limón, casero
+  CIQUAL 16540 (0.33): Graisse de poulet / Chicken fat / Grasa de pollo
+pollo-champinones-anacardos-salteado: Chicken, stir-fried with mushrooms and cashew nuts, homemade
+  CIQUAL 20498 (0.25): Poêlée de légumes assaisonnés aux champignons ("champêtre"), surgelée / Vegetables with mushrooms, pan-fried or stir-fried, seasonned, country-style, frozen / Sofrito de verduras condimentadas con champiñones campestres, congelado
+  CIQUAL 20262 (0.18): Poêlée de légumes assaisonnés sans champignon, surgelée, crue / Vegetables, pan-fried without mushrooms, seasonned, frozen, raw / Sofrito de verduras condimentadas sin champiñón, congelado, crudo
+pavo-pasta-gratinada-casero: Turkey and pasta bake, homemade
+  CIQUAL 16570 (0.25): Graisse de dinde / Turkey fat / Grasa de pavo
+  CIQUAL 22080 (0.25): Oeuf de dinde, cru / Turkey egg, raw / Huevo de pavo, crudo
+pavo-verduras-salteado-casero: Turkey, stir-fried with vegetables, homemade
+  CIQUAL 20273 (0.33): Poêlée de légumes assaisonnés à l'asiatiques ou wok de légumes, surgelée, crue / Vegetables, pan-fried or stir-fried, seasonned, Asian-style, frozen, raw / Sofrito de verduras condimentadas a la asiática o wok de verduras, congelado, crudo
+  CIQUAL 20274 (0.33): Poêlée de légumes assaisonnés grillée, méridionale ou méditerranéenne, surgelée, crue / Vegetables, pan-fried or stir-fried, seasonned, Mediterranean-style, frozen, raw / Salteado de verduras condimentadas a la plancha, estilo mediterráneo, congelado, crudo
+cerdo-verduras-salteado-casero: Pork, stir-fried with vegetables, homemade
+  CIQUAL 20273 (0.33): Poêlée de légumes assaisonnés à l'asiatiques ou wok de légumes, surgelée, crue / Vegetables, pan-fried or stir-fried, seasonned, Asian-style, frozen, raw / Sofrito de verduras condimentadas a la asiática o wok de verduras, congelado, crudo
+  CIQUAL 20274 (0.33): Poêlée de légumes assaisonnés grillée, méridionale ou méditerranéenne, surgelée, crue / Vegetables, pan-fried or stir-fried, seasonned, Mediterranean-style, frozen, raw / Salteado de verduras condimentadas a la plancha, estilo mediterráneo, congelado, crudo
+vacuno-pimientos-verdes-salteado: Beef, stir-fried with green peppers, homemade
+  CIQUAL 6161 (0.25): Boeuf, tende de tranche grillée/poêlée / Beef, topside, grilled/pan-fried / Vacuno, tapa, a la plancha
+  CIQUAL 6200 (0.25): Boeuf, steak ou bifteck grillé/poêlé / Beef, steak or beef steak, grilled/pan-fried / Vacuno, filete o bistec, a la plancha
+patatas-gajo-piel-girasol-caseras: Potatoes, old, potato wedges, with skin, cooked in sunflower oil, homemade
+  CIQUAL 17440 (0.29): Huile de tournesol / Sunflower oil / Aceite de girasol
+  CIQUAL 4037 (0.20): Chips de pommes de terre nature ou aromatisées, à l'ancienne / Potato crisps, plain or flavoured, old style / Patatas fritas de bolsa, naturales o aromatizadas, estilo artesano
+brownie-chocolate-casero: Brownies, chocolate, homemade
+  CIQUAL 7733 (0.33): Pain au chocolat, préemballé / Chocolate croissant, prepacked / Croissant de chocolate, envasado
+  CIQUAL 11300 (0.33): Sauce au chocolat, préemballée / Chocolate sauce, prepacked / Salsa de chocolate, envasada
+crumble-manzana-casero: Crumble, apple, homemade
+  CIQUAL 23493 (1.00): Crumble aux pommes, préemballé / Apple crumble, prepacked / Crumble de manzana, envasado
+  CIQUAL 2076 (0.33): Nectar de pomme / Apple nectar / Néctar de manzana
+bizcocho-platano-casero: Banana bread, homemade
+  CIQUAL 2366 (0.33): Nectar de banane / Banana nectar / Néctar de plátano
+  CIQUAL 7000 (0.33): Pain (aliment moyen) / Bread (average) / Pan (promedio)
+macedonia-frutas-azucar-casera: Fruit salad, homemade
+  CIQUAL 13134 (1.00): Salade de fruits, crue / Fruit salad, raw / Ensalada de frutas, cruda
+  CIQUAL 13706 (0.40): Macédoine ou cocktail ou salade de fruits, au sirop, appertisé, égoutté / Fruit cocktail or salad, canned in syrup, drained / Macedonia o cóctel o ensalada de frutas, en almíbar, en conserva, escurrida
+guacamole-casero: Guacamole, homemade
+  CIQUAL 25620 (1.00): Guacamole, préemballé / Guacamole, prepacked / Guacamole, envasado
+mayonesa-casera: Mayonnaise, homemade
+  CIQUAL 11054 (0.33): Mayonnaise (70% MG min.), préemballée / Mayonnaise (70% fat min.), prepacked / Mayonesa (70% grasa mín.), envasada
+  CIQUAL 11079 (0.25): Mayonnaise à teneur réduite en matière grasse ou mayonnaise allégée, préemballée / Mayonnaise, reduced fat or light mayonnaise, prepacked / Mayonesa con grasa reducida o mayonesa light, envasada
+pizza-tomate-casera: Pizza, tomato, homemade
+  CIQUAL 25404 (0.50): Pizza au fromage ou pizza margherita, préemballée / Pizza, cheese and tomato (Margherita), prepacked / Pizza de queso o pizza margarita, envasada
+  CIQUAL 25525 (0.50): Sauce tomate cuisinée pour pizza / Tomato sauce for pizza / Salsa de tomate cocinada para pizza
+pimientos-verdes-verduras-queso-caseros: Peppers, green, stuffed with vegetables, cheese topping, homemade
+  CIQUAL 13147 (0.30): Olives vertes, fourrées ou farcies (anchois, poivrons, etc.) / Olive, green, stuffed (anchovy, sweet peppers, etc…) / Aceitunas verdes, rellenas o farciadas (anchoa, pimientos, etc.)
+  CIQUAL 25155 (0.27): Pâtes fraîches farcies (ex : raviolis, tortellinis), au fromage et aux légumes, préemballées, cuites / Fresh pasta, stuffed with cheese and vegetables (e.g. ravioli), cooked, prepacked / Pasta fresca rellena (p. ej. ravioli, tortellini), de queso y verduras, envasada, cocida
+pimientos-rellenos-vacuno-arroz-verduras: Peppers, stuffed with beef, rice and vegetables, homemade
+  CIQUAL 25511 (0.29): Légumes farcis (sauf tomate) / Stuffed vegetables (excluding tomato) / Verduras rellenas (excepto tomate)
+  CIQUAL 26263 (0.25): Salade de riz au thon et légumes, avec sauce, préemballée / Rice salad, with tuna and vegetables, with sauce, prepacked / Ensalada de arroz con atún y verduras, con salsa, envasada
+chili-carne-casero: Chilli con carne, homemade
+  CIQUAL 25111 (0.50): Chili con carne, préemballé / Chili con carne, prepacked / Chili con carne, envasado
+  CIQUAL 11205 (0.10): Sauce rouille, préemballée / Rouille sauce (mayonnaise with garlic, chilli pepper and fish broth), prepacked / Salsa rouille, envasada
+musaca-casera: Moussaka, homemade
+  CIQUAL 25123 (1.00): Moussaka, préemballée / Moussaka, prepacked / Musaca, envasada
+musaca-vegetal-casera: Moussaka, vegetable, homemade
+  CIQUAL 25123 (0.50): Moussaka, préemballée / Moussaka, prepacked / Musaca, envasada
+  CIQUAL 20499 (0.33): Légume cuit (aliment moyen) / Vegetable, cooked (average) / Verdura cocida (promedio)
+hamburguesa-vacuno-casera-parrilla: Burger, beef, grilled, homemade
+  CIQUAL 1032 (0.40): Haché à base de boeuf et soja, préemballé / Burger from beef and soybean, prepacked / Picada a base de ternera y soja, envasada
+  CIQUAL 6161 (0.33): Boeuf, tende de tranche grillée/poêlée / Beef, topside, grilled/pan-fried / Vacuno, tapa, a la plancha
+
+Decisiones de la revisión manual de los 40 candidatos anteriores:
+- Se descarta CoFID 14-333 (macedonia): CIQUAL 13134 ya es ensalada de frutas
+  cruda. No se presupone que carezca de azúcar añadido para crear una variante.
+  Solo alias «Macedonia de frutas» en traducciones.csv; pendiente de es3.
+- Se retienen 39 directos nuevos, de los cuales muchos son recetas domésticas
+  calculadas por CoFID. Los valores no se estiman a partir de filas similares.
+- Lasagne/lasagna/cannelloni/canellonis: CIQUAL 25081, 25131 y 25635 son
+  envasados; las nuevas entradas dicen caseros y mantienen relleno e integral
+  cuando lo especifica CoFID. El algoritmo de tokens no resuelve esas variantes
+  ortográficas; la revisión FR/EN/ES manual sí las compara.
+- 25198 pasta en salsa de queso es envasada; macarrones con queso nuevos caseros.
+- 25033 borgoñona y 25065 estofado con zanahorias son envasados. 6230 es carne
+  para guisar cocida, no un plato con su salsa y guarnición completas.
+- 23850 gofre artesanal, 7710 pan de leche artesanal y 25020 suflé de queso ya
+  cubren esos alimentos: no se añade la fila casera para aumentar el número.
+- 25620 guacamole y 11054 mayonesa son envasados; nuevos directos caseros.
+  La vía 2 sí admite salsas publicadas por CoFID, con categoría Salsas y condimentos.
+- 25413 hamburger de restauración incluye pan; CoFID 19-555 es la pieza de
+  hamburguesa sin bollo. No se añade un bocadillo con los valores de la carne.
+- Pimientos rellenos concretos, con arroz/vacuno o verduras/queso, no equivalen
+  al promedio 25511 de verduras rellenas sin precisar relleno ni cereal.
+
+
+Lote vegetal y ensaladas, 32 directos (31 CoFID y 1 USDA), 2026-10-25:
+Revisión FR/EN/ES y de los 156 ids/valores previos:
+- Berenjenas rellenas de lentejas/verduras y de verduras/queso no equivalen
+  a 25196 Riste (berenjena, tomate y cebolla envasados) ni al promedio 25511
+  de verduras rellenas sin composición del relleno. Se conservan los rellenos.
+- Edamame CoFID 13-667 son semillas jóvenes congeladas/hervidas: vainas
+  descartadas por la fuente. CIQUAL 20901 identifica semilla entera de soja, no esta preparación de edamame.
+- Chapata/ciabatta, paneer y ricota: sin equivalente específico confirmado en
+  nombres.csv FR/EN ni ES2. Baguette/pan blanco, brousse y otros quesos frescos
+  no se renombran como estos alimentos ni como DOP españolas.
+- Quark ya cubierto bajo queso blanco: no se añade. Sin alias de requesón a
+  ricota, pues ese nombre puede referirse a quesos distintos.
+- Hummus USDA 172454 es home prepared; CIQUAL 25621 es envasado. Vía 2 con
+  categoría Salsas y condimentos, no fórmula propia de AppFit.
+- Frijoles pintos refritos son un plato preparado, no alubias pintas hervidas
+  (ya añadidas como USDA). El pastel de legumbres tampoco equivale al guiso
+  de alubias blancas con verduras previo: preparaciones y composición distintas.
+- Tortitas de lentejas rojas y patata, fritas en aceite vegetal: no equivalen
+  a 25591 pavé de lentejas, soja y verduras envasado. No se supone aceite de oliva.
+- Los pasteles seleccionados distinguen lenteja/arroz de lenteja/frutos secos;
+  no se duplican versiones casi idénticas con/sin huevo del mismo plato.
+- 25101 gratín de coliflor es envasado; nuevo 15-639 casero con leche semi.
+- 25187 risotto vegetal es envasado; nuevo 15-863 incluye alubia roja y anacardo.
+- 26262 ensalada griega y 26258 remolacha con salsa son envasadas. Las nuevas
+  son recetas CoFID con relleno/aliño descritos en sus notas, no promedios inventados.
+- 25609 patata a la piamontesa, 25664 con atún y 25665 con salchicha no son la
+  receta CoFID de patata/mayonesa ni la de patata/aliño francés.
+- Ensalada Waldorf: sin equivalente confirmado. Se conservan nuez, apio y mayonesa.
+- 25615 pasta con queso/verduras/salsa no identifica pasta integral; nueva
+  15-294 integral con verduras y mayonesa. No se añade otra versión de pasta
+  blanca que pueda solapar sin una diferencia clara.
+- 25614 ensalada de arroz en conserva y 26263 con atún/verduras no equivalen
+  a la nueva de arroz integral con frutos secos y pasas. No se omiten esos ingredientes.
+- 25900 sopa de lentejas es envasada. La nueva es casera CoFID; no es un guiso
+  de lentejas con verduras. Sopa de guisantes/jamón: sin equivalente confirmado.
+- Sopa de patata/puerro descartada por solape con porrusalda; 25907/25925 ya
+  aportan otras versiones preparadas. No se aumenta el catálogo con otra similar.
+- CIQUAL 4102 boniato cocido y 20832 boniato al vapor ya cubiertos: no duplicar.
+  Nuevo 13-647 especifica gajos con piel asados en colza y 15-884 es un plato
+  de boniato con cebolla, no boniato cocido solo.
+- Se descartan 9110 arroz rojo cocido, 9124 arroz tailandés cocido, 4018/4040
+  puré de patata con leche y mantequilla y 20030/20320 judía verde cocida/hervida.
+
+
+Lote pescado/aves y clásicos españoles, 24 entradas, 2026-10-25:
+- Se descartan atún al horno 26041, trucha al horno 27006/27014 y al vapor
+  27007/27015, salmón al vapor 26038, huevo escalfado 22011 y huevo frito sin
+  grasa 22505: ya tienen cobertura CIQUAL. No se duplican por otra traducción.
+- Pez espada 26093 es al horno, no parrilla; 16-222 CoFID es a la parrilla
+  (calculado por CoFID desde crudo, no un cálculo nuevo propio).
+- Langostinos de aguas cálidas 16-388 a la parrilla no equivalen a los hervidos
+  10007 ni al plato de fideos con gambas 25183. Peso comestible sin cáscara.
+- Fishcakes blancos/salmón empanados al horno no son nuggets fritos CIQUAL
+  26028/26030; fishcake casero de salmón no se llama croqueta de bechamel.
+- Bolitas de pescado asiáticas al vapor no son croquetas españolas ni albóndigas
+  con salsa inventada. Se conserva el estilo y preparación originales.
+- 11129 salsa cazadora sola y 25058 pato en salsa no equivalen a pollo cazadora.
+  25174 pollo al curry/coco envasado no equivale al curry de pescado blanco.
+- 25207 cerdo al caramelo envasado no equivale a cerdo magro agridulce casero;
+  chuletas con mostaza/nata, cerdo con manzana y costillas con salsa barbacoa
+  no se añaden como si fueran piezas de carne sola sin salsa.
+- 28475/28476 son cerdo 90/10 u 80/20 crudo, no carne picada ya estofada. El
+  porcentaje 10% descrito para la carne de CoFID no se impone al plato cocinado.
+- 36306 pavo plancha/sartén no especifica tiras salteadas en aceite de maíz.
+  Quiche de queso/huevo no es Lorraine con panceta; 25573 promedio de tartas
+  saladas no fija ese relleno. Pilaf integral con huevo/patata no es arroz solo.
+- Croquetas de jamón/pollo con bechamel no equivalen a nuggets 1033/36027/25512.
+  No existe entrada específica de bravas ni de pulpo a feira con su aceite y
+  pimentón; 10079 es pulpo cocido solo. Se usan ingredientes crudos CIQUAL.
+- En la referencia RAG las croquetas llevan ibérico: variante AppFit llamada
+  expresamente serrano. Bravas conservan caldo y pimentón. Pulpo se sirve sin
+  patatas opcionales y sin la cebolla/agua de cocción desechadas. Referencias y
+  adaptaciones de las 4 recetas registradas en revision-2026-10-25.json.
+- Ensaladilla rusa no se completa omitiendo atún en aceite ni usando pescado
+  fresco con su nombre: continúa pendiente de una vía compatible con el encargo.
+
+
+Lote de salsas, guisos y repostería, 29 directos CoFID, 2026-10-25:
+Revisión FR/EN/ES y contraste con los 212 registros anteriores:
+- 11143 bechamel casera, 11166 yogur casero, 23050 bizcocho de Saboya,
+  23477 éclair genérico, 19688 baba al ron y 25121 coq au vin ya cubiertos:
+  descartados los candidatos equivalentes. No se agregan otros por la traducción.
+- Las salsas 11100 barbacoa, 11114 boloñesa, 11179 pesto, 11105 holandesa,
+  11189 queso y vinagretas 11108/11110 son envasadas. Nuevos CoFID caseros;
+  boloñesa sin pasta, pesto de albahaca/parmesano, queso con leche entera.
+- 25525 es salsa de tomate para pizza; el nuevo 17-834 es receta de salsa de
+  tomate casera. Se descarta 50-1173, otra receta de salsa de tomate demasiado
+  similar para crear una segunda entrada sin distinguir composición.
+- Sin equivalente específico confirmado de Stroganoff, Wellington o meatloaf.
+  Este último no es paté ni pastel murciano con masa. Los guisos de conejo y
+  salchichas no son carne sola ni conejo en salmorejo o salchichas/lentejas.
+- 25124 estofado de cordero con verduras no es un salteado. El nuevo goulash
+  no se renombra como estofado genérico ni sustituye a la caldereta previa.
+- Curry de garbanzos y de verduras/yogur no equivalen a garbanzos con espinacas,
+  chili de legumbres o currys de pescado. Korma casero no es 25174 curry de pollo
+  con coco envasado. Dal son lentejas con especias, no sopa de lentejas casera
+  ni lentejas españolas con verduras. No se añaden versiones equivalentes de
+  dal con mantequilla, aceite, más patata, etc., para inflar el recuento.
+- 23001 cheesecake, 23585 chocolate y muffins 23951/23952 son envasados.
+  Los nuevos son caseros y preservan cobertura, ausencia de relleno o salvado.
+  23803 pastel vasco con cerezas no es bizcocho de cerezas. 23033 rocher coco
+  no es bizcocho de coco: texturas y recetas diferentes. Pudin de pan no es
+  la torrija previa ni arroz/sémola con leche. Sin versiones nuevas de génoise
+  sin grasa que solapen 23050, ni brazo de gitano con relleno no identificado.
+- 25571 falafel para llevar y 25590 envasado no son receta casera en colza.
+  No se renombran como falafel de habas: CoFID identifica garbanzos.
+- Tortitas caseras de bacalao 16-458 no son las comerciales empanadas al horno
+  de pescado blanco o salmón ni croquetas españolas de bechamel.
+
+Lote de pizzas (2026-10-25): 14 candidatos directos, 13 USDA y 1 CoFID.
+Revisión previa de nombres.csv FR/EN y paquete CIQUAL ES2, y de los 241 típicos:
+- CIQUAL ya cubre margarita/queso 25404, jamón/queso 25435, boloñesa 25457,
+  chorizo/salami 25462, marisco 25463, salmón 25464, cabra/panceta 25468,
+  verduras/cuatro estaciones 25472, champiñones/queso 25477, quesos 25478,
+  promedio 25516, regina 25548, panceta/cebolla 25570, cabra 25671, atún 26270,
+  kebab 26271, pollo 26272, raclette 26273 y jamón curado 26274. No se crean
+  otras filas genéricas con esos nombres ni se añaden alias redundantes.
+- Hawaiana (jamón y piña): sin equivalente confirmado en CIQUAL. CoFID 11-1013
+  conserva el promedio de 10 muestras/5 marcas, con masas finas y gruesas:
+  no se desglosa en dos nutrientes inventados. No se trata como receta casera.
+- USDA aporta genéricos Fast Food, Pizza Chain de queso, pepperoni, salchicha
+  y carne/verduras. Se distinguen masa fina/normal/gruesa o borde relleno,
+  ausentes de los genéricos CIQUAL. Son agregados de restauración rápida
+  estadounidense, no pizzas tradicionales españolas ni valores de pizzería
+  artesanal. El diámetro de 14 pulgadas del original NO define una ración.
+- Queso congelada/cocinada: solo masa fina y rising crust (masa que sube al
+  hornear), frente al genérico envasado de CIQUAL sin ese detalle de masa.
+  Rising crust no significa borde relleno ni se asimila a masa gruesa.
+- Sausage es salchicha, no chorizo español. Pepperoni no recibe alias de
+  chorizo/salami genéricos. El relleno del borde no se especifica como queso.
+- Se descartan las filas de marcas concretas Domino's, Pizza Hut, Papa John's,
+  Little Caesars y DiGiorno: no se renombran productos de marca como genéricos.
+- CoFID queso/tomate, pollo y vegetariana se descartan por solapamiento con
+  CIQUAL. El promedio fish topped mezcla coberturas de atún o gambas: no se
+  crea una supuesta receta de atún CON gambas. Meat topped demasiado genérica.
+- Pizza tomate casera CoFID 15-255 ya existe en típicos: sin duplicarla ni
+  renombrarla margarita sin confirmar sus ingredientes. Quesos 25478 no dice
+  cuatro quesos: no se le atribuye esa receta. Carbonara/barbacoa/cuatro quesos
+  específicas siguen sin una fuente comprobada para publicar aquí.
+
+Lote variado (2026-10-25): 32 candidatos CoFID, 30 publicados y 2 pendientes.
+Contraste previo FR/EN en nombres.csv, ES2 y los 255 típicos publicados:
+- Fruta cocida: sin equivalentes específicos de pera, ciruela o mezcla de
+  moras/manzana con y sin azúcar añadido. Albaricoque: CIQUAL 13205 es compota
+  envasada; 13704/13712-15 son conservas en almíbar, no la fruta cocida de
+  CoFID 14-027/029. Se mantienen la piel/deshuesado donde se especifican.
+  No se duplican manzana cocida 13175/13176, albaricoque seco 13001/13623,
+  ciruela pasa 13042 ni sus almíbares. Sin equivalente de pera o piña secas.
+- Panes: bagel 7258, semillas 7098/7255 y mueslis/granolas existentes se
+  descartan. Pan con germen de trigo no es biscote con germen 7302; germen
+  solo 9660 tampoco es pan. Sin equivalente confirmado de pan
+  de malta/frutas, trigo malteado, soda de harina blanca, naan peshwari o
+  crumpet tostado. El naan conserva frutos secos/pasas sin inventar especie.
+  Pan de malta no se equipara al mollete español ni a pan integral.
+- Berenjena con arroz/tomate/cebolla/pasas no es el gratín 25052, riste 25196
+  ni los típicos previos con lentejas o verduras/queso. Brócoli con salsa de
+  queso y leche semidesnatada no es brócoli solo ni coliflor con queso.
+  Lombarda con manzana no es col roja hervida 20095, estofada 20310 o ensalada
+  con salsa 26281: se mantiene su ingrediente adicional en el nombre.
+- Repollo relleno de cordero/arroz, casero, frente a relleno no especificado
+  envasado 25106; sin sustituir el cordero por vacuno/cerdo. Patatas duquesa
+  caseras CoFID 15-850 frente a congeladas cocidas/crudas 4034/4042.
+- Crepes caseras: relleno tomate/champiñón/cebolla, con harina blanca o
+  integral; no bechamel/champiñón 25411/25581. Masa salada integral con leche
+  entera y masa dulce con leche entera se publican sin relleno, distinto de
+  las crepes envasadas 23799/23800 o panqueques gruesos 23827. No se añaden
+  tres versiones que solo cambien la grasa de la leche.
+- Calamar rebozado horneado CoFID 16-404 frente a buñuelo envasado 10002,
+  hervido 10037 o frito/a la sartén 10084. No se presenta como frito.
+- Salmón en costra de masa: pendiente, retail no confirma el estado final
+  cocinado. No se presupone tipo de masa, peso final ni merma. Pan de ajo y
+  hierbas retail queda pendiente por el mismo motivo. No se publican como
+  listos para consumir sin confirmar si requieren cocción. Ambos registrados
+  en sin-fuente.json. Nigiri salmón/atún son subtipos concretos con arroz; no se
+  duplican sushi/maki de productos del mar genérico 25456 ni pescado solo.
+  Se descartan salmón al horno/plancha/vapor ya cubiertos y scampi sin una
+  identificación de especie suficientemente clara para traducirlo a cigala.
+- Cacahuetes/pasas (56/44%) y cacahuetes/pasas/chocolate con leche
+  (38/37/25%) son mezclas publicadas por CoFID; no frutas o frutos secos
+  sueltos, ni mezcla genérica de frutos secos 15065/15066 sin fruta.
+- Todas las referencias y descripciones de CoFID se conservan por fila.
+  Algunas son valores analíticos y otras cálculos publicados por CoFID;
+  no se atribuyen a nuevas estimaciones o rendimientos AppFit. No se
+  convierten sodio a sal ni fibra NSP a AOAC para rellenar huecos.

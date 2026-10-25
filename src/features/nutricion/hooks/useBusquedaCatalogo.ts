@@ -1,5 +1,7 @@
 import { filtrarPorCategoria, type FiltroCategoria } from '../lib/repartoCategorias'
 import { useEffect, useRef, useState } from 'react'
+import { useLiveQuery } from 'dexie-react-hooks'
+import * as catalogRepo from '../data/catalogRepo'
 import { elegibleDeCatalogo, type AlimentoElegible } from '../lib/alimentos'
 import { buscarCatalogo } from './buscarCatalogo'
 
@@ -17,9 +19,11 @@ export interface BusquedaCatalogo {
 /**
  * Busca en el catálogo con una pequeña espera entre teclas y descarta las respuestas que llegan tarde.
  * `frecuentes` son ids de catálogo que el usuario ya ha usado: a igualdad de coincidencia van primero.
- * No usa useLiveQuery: el catálogo no cambia mientras se escribe (ver `catalogRepo`).
+ * Observa solo los metadatos de las fuentes para repetir la consulta al terminar una importación.
  */
 export function useBusquedaCatalogo(q: string, limite = 15, frecuentes: readonly string[] = [], categoria: FiltroCategoria = 'todas'): BusquedaCatalogo {
+  const fuentes = useLiveQuery(() => catalogRepo.fuentes(), [])
+  const revisionCatalogo = (fuentes ?? []).map(f => `${f.id}:${f.version}:${f.filas}:${f.importadoAt}`).sort().join('|')
   const consulta = q.trim()
   const clave = `${consulta}|${categoria}`
   const [ultima, setUltima] = useState<{ consulta: string; alimentos: AlimentoElegible[]; corregida?: string } | null>(null)
@@ -48,7 +52,7 @@ export function useBusquedaCatalogo(q: string, limite = 15, frecuentes: readonly
       vigente = false
       clearTimeout(temporizador)
     }
-  }, [consulta, limite, claveFrecuentes, categoria, clave])
+  }, [consulta, limite, claveFrecuentes, categoria, clave, revisionCatalogo])
 
   if (!consulta) return { alimentos: [], pendiente: false }
   return { alimentos: filtrarPorCategoria(ultima?.alimentos ?? [], categoria), pendiente: ultima?.consulta !== clave, corregida: ultima?.consulta === clave ? ultima.corregida : undefined }

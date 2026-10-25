@@ -1,0 +1,1297 @@
+{
+  "tipo": "referencias-culinarias-pendientes",
+  "consultado": "2026-10-24",
+  "alcance": "Solo alimentos y platos tradicionales españoles. No autoriza publicación ni aporta valores nutricionales.",
+  "fuente": "Real Academia de Gastronomía, Legado Gastronómico",
+  "indice": "https://realacademiadegastronomia.com/recetas/",
+  "referencias": [
+    {
+      "slug": "ajoblanco",
+      "url": "https://realacademiadegastronomia.com/recetas/ajoblanco/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "albondigas",
+      "url": "https://realacademiadegastronomia.com/recetas/albondigas/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "albondigas-salsa-caseras"
+    },
+    {
+      "slug": "alcachofas-a-la-montillana",
+      "url": "https://realacademiadegastronomia.com/recetas/alcachofas-a-la-montillana/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "alcachofas-jamon-vino-blanco"
+    },
+    {
+      "slug": "alcachofas-con-jamon-iberico",
+      "url": "https://realacademiadegastronomia.com/recetas/alcachofas-con-jamon-iberico/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "all-i-pebre",
+      "url": "https://realacademiadegastronomia.com/recetas/all-i-pebre/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "almejas-a-la-marinera",
+      "url": "https://realacademiadegastronomia.com/recetas/almejas-a-la-marinera/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "almejas-al-ajillo",
+      "url": "https://realacademiadegastronomia.com/recetas/almejas-al-ajillo/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "almendras-garrapinadas",
+      "url": "https://realacademiadegastronomia.com/recetas/almendras-garrapinadas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "alubias-de-tolosa-guisadas",
+      "url": "https://realacademiadegastronomia.com/recetas/alubias-de-tolosa-guisadas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "arroz-a-banda",
+      "url": "https://realacademiadegastronomia.com/recetas/arroz-a-banda/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "arroz-a-la-zamorana",
+      "url": "https://realacademiadegastronomia.com/recetas/arroz-a-la-zamorana/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "arroz-al-caldero",
+      "url": "https://realacademiadegastronomia.com/recetas/arroz-al-caldero/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "arroz-con-costra",
+      "url": "https://realacademiadegastronomia.com/recetas/arroz-con-costra/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "arroz-con-leche",
+      "url": "https://realacademiadegastronomia.com/recetas/arroz-con-leche/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "arroz-negro",
+      "url": "https://realacademiadegastronomia.com/recetas/arroz-negro/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "atun-encebollado",
+      "url": "https://realacademiadegastronomia.com/recetas/atun-encebollado/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "atun-encebollado"
+    },
+    {
+      "slug": "bacalao-a-la-llauna",
+      "url": "https://realacademiadegastronomia.com/recetas/bacalao-a-la-llauna/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bacalao-a-la-vizcaina",
+      "url": "https://realacademiadegastronomia.com/recetas/bacalao-a-la-vizcaina/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bacalao-al-ajoarriero",
+      "url": "https://realacademiadegastronomia.com/recetas/bacalao-al-ajoarriero/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bartolillos-de-crema",
+      "url": "https://realacademiadegastronomia.com/recetas/bartolillos-de-crema/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "berenjenas-fritas",
+      "url": "https://realacademiadegastronomia.com/recetas/berenjenas-fritas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "besugo-a-la-madrilena",
+      "url": "https://realacademiadegastronomia.com/recetas/besugo-a-la-madrilena/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "besugo-al-horno",
+      "url": "https://realacademiadegastronomia.com/recetas/besugo-al-horno/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bocartes-en-cazuela",
+      "url": "https://realacademiadegastronomia.com/recetas/bocartes-en-cazuela/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bombas-rellenas-de-chorizo",
+      "url": "https://realacademiadegastronomia.com/recetas/bombas-rellenas-de-chorizo/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bonito-con-mahonesa-pajarito",
+      "url": "https://realacademiadegastronomia.com/recetas/bonito-con-mahonesa-pajarito/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bonito-con-tomate",
+      "url": "https://realacademiadegastronomia.com/recetas/bonito-con-tomate/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "bonito-tomate-casero"
+    },
+    {
+      "slug": "bonito-en-escabeche",
+      "url": "https://realacademiadegastronomia.com/recetas/bonito-en-escabeche/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bonito-en-escabeche-2",
+      "url": "https://realacademiadegastronomia.com/recetas/bonito-en-escabeche-2/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "boquerones-en-vinagre",
+      "url": "https://realacademiadegastronomia.com/recetas/boquerones-en-vinagre/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "boquerones-fritos",
+      "url": "https://realacademiadegastronomia.com/recetas/boquerones-fritos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "brazo-relleno-de-crema-pastelera",
+      "url": "https://realacademiadegastronomia.com/recetas/brazo-relleno-de-crema-pastelera/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bunuelos-de-bacalao",
+      "url": "https://realacademiadegastronomia.com/recetas/bunuelos-de-bacalao/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bunuelos-de-bacalao-2",
+      "url": "https://realacademiadegastronomia.com/recetas/bunuelos-de-bacalao-2/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bunuelos-de-platano",
+      "url": "https://realacademiadegastronomia.com/recetas/bunuelos-de-platano/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "bunuelos-de-viento",
+      "url": "https://realacademiadegastronomia.com/recetas/bunuelos-de-viento/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "butifarra-con-rovellons",
+      "url": "https://realacademiadegastronomia.com/recetas/butifarra-con-rovellons/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "cabrito-asado",
+      "url": "https://realacademiadegastronomia.com/recetas/cabrito-asado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "caldereta-de-cordero",
+      "url": "https://realacademiadegastronomia.com/recetas/caldereta-de-cordero/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "caldereta-cordero"
+    },
+    {
+      "slug": "caldereta-de-langosta",
+      "url": "https://realacademiadegastronomia.com/recetas/caldereta-de-langosta/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "caldo-gallego",
+      "url": "https://realacademiadegastronomia.com/recetas/caldo-gallego/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "callos",
+      "url": "https://realacademiadegastronomia.com/recetas/callos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "canelones",
+      "url": "https://realacademiadegastronomia.com/recetas/canelones/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "cangrejos-de-rio",
+      "url": "https://realacademiadegastronomia.com/recetas/cangrejos-de-rio/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "canutillos-de-crema",
+      "url": "https://realacademiadegastronomia.com/recetas/canutillos-de-crema/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "caracoles",
+      "url": "https://realacademiadegastronomia.com/recetas/caracoles/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "carajacas",
+      "url": "https://realacademiadegastronomia.com/recetas/carajacas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "cardos-en-salsa-de-almendras",
+      "url": "https://realacademiadegastronomia.com/recetas/cardos-en-salsa-de-almendras/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "cardo-almendras"
+    },
+    {
+      "slug": "carrilleras",
+      "url": "https://realacademiadegastronomia.com/recetas/carrilleras/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "casadielles",
+      "url": "https://realacademiadegastronomia.com/recetas/casadielles/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "castanas-con-leche",
+      "url": "https://realacademiadegastronomia.com/recetas/castanas-con-leche/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "champinones-rellenos",
+      "url": "https://realacademiadegastronomia.com/recetas/champinones-rellenos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "changurro-a-la-donostiarra",
+      "url": "https://realacademiadegastronomia.com/recetas/changurro-a-la-donostiarra/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "chipirones-en-su-tinta",
+      "url": "https://realacademiadegastronomia.com/recetas/chipirones-en-su-tinta/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "chistorra",
+      "url": "https://realacademiadegastronomia.com/recetas/chistorra/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "chocolate-a-la-taza",
+      "url": "https://realacademiadegastronomia.com/recetas/chocolate-a-la-taza/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "chopitos-fritos",
+      "url": "https://realacademiadegastronomia.com/recetas/chopitos-fritos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "chorizos-a-la-sidra",
+      "url": "https://realacademiadegastronomia.com/recetas/chorizos-a-la-sidra/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "chuletitas-de-cordero-al-sarmiento",
+      "url": "https://realacademiadegastronomia.com/recetas/chuletitas-de-cordero-al-sarmiento/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "churros-porras",
+      "url": "https://realacademiadegastronomia.com/recetas/churros-porras/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "churros-caseros"
+    },
+    {
+      "slug": "coca-de-verduras",
+      "url": "https://realacademiadegastronomia.com/recetas/coca-de-verduras/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "cochinillo-asado",
+      "url": "https://realacademiadegastronomia.com/recetas/cochinillo-asado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "cocido-catalan",
+      "url": "https://realacademiadegastronomia.com/recetas/cocido-catalan/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "cocido-madrileno",
+      "url": "https://realacademiadegastronomia.com/recetas/cocido-madrileno/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "cocido-montanes",
+      "url": "https://realacademiadegastronomia.com/recetas/cocido-montanes/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "cocochas",
+      "url": "https://realacademiadegastronomia.com/recetas/cocochas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "codornices-estofadas",
+      "url": "https://realacademiadegastronomia.com/recetas/codornices-estofadas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "coliflor-al-ajoarriero",
+      "url": "https://realacademiadegastronomia.com/recetas/coliflor-al-ajoarriero/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "coliflor-ajoarriero"
+    },
+    {
+      "slug": "conejo-con-caracoles",
+      "url": "https://realacademiadegastronomia.com/recetas/conejo-con-caracoles/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "conejo-en-salmorejo",
+      "url": "https://realacademiadegastronomia.com/recetas/conejo-en-salmorejo/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "conejo-salmorejo"
+    },
+    {
+      "slug": "cordero-al-chilindron",
+      "url": "https://realacademiadegastronomia.com/recetas/cordero-al-chilindron/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "cordero-asado",
+      "url": "https://realacademiadegastronomia.com/recetas/cordero-asado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "crema-catalana",
+      "url": "https://realacademiadegastronomia.com/recetas/crema-catalana/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "crema-catalana-casera"
+    },
+    {
+      "slug": "croquetas-de-jamon",
+      "url": "https://realacademiadegastronomia.com/recetas/croquetas-de-jamon/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "croquetas-jamon-serrano-caseras"
+    },
+    {
+      "slug": "cuajada",
+      "url": "https://realacademiadegastronomia.com/recetas/cuajada/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "dorada-a-la-sal",
+      "url": "https://realacademiadegastronomia.com/recetas/dorada-a-la-sal/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "duelos-y-quebrantos",
+      "url": "https://realacademiadegastronomia.com/recetas/duelos-y-quebrantos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "empanada-de-bacalao",
+      "url": "https://realacademiadegastronomia.com/recetas/empanada-de-bacalao/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "empanadillas",
+      "url": "https://realacademiadegastronomia.com/recetas/empanadillas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "ensalada-de-bacalao-desmenuzado",
+      "url": "https://realacademiadegastronomia.com/recetas/ensalada-de-bacalao-desmenuzado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "ensalada-de-naranja-y-bacalao",
+      "url": "https://realacademiadegastronomia.com/recetas/ensalada-de-naranja-y-bacalao/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "ensalada-murciana",
+      "url": "https://realacademiadegastronomia.com/recetas/ensalada-murciana/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "ensaladilla-rusa",
+      "url": "https://realacademiadegastronomia.com/recetas/ensaladilla-rusa/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "escalivada",
+      "url": "https://realacademiadegastronomia.com/recetas/escalivada/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "esparragos-blancos-cocidos-con-huevo-escalfado",
+      "url": "https://realacademiadegastronomia.com/recetas/esparragos-blancos-cocidos-con-huevo-escalfado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "espinacas-a-la-catalana",
+      "url": "https://realacademiadegastronomia.com/recetas/espinacas-a-la-catalana/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "espinacas-catalana"
+    },
+    {
+      "slug": "estofado-de-ternera",
+      "url": "https://realacademiadegastronomia.com/recetas/estofado-de-ternera/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "fabada-asturiana",
+      "url": "https://realacademiadegastronomia.com/recetas/fabada-asturiana/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "fardeles-de-conejo",
+      "url": "https://realacademiadegastronomia.com/recetas/fardeles-de-conejo/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "fideua",
+      "url": "https://realacademiadegastronomia.com/recetas/fideua/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "filloas-de-leche",
+      "url": "https://realacademiadegastronomia.com/recetas/filloas-de-leche/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "flan-de-huevo",
+      "url": "https://realacademiadegastronomia.com/recetas/flan-de-huevo/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "flao",
+      "url": "https://realacademiadegastronomia.com/recetas/flao/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "flores-manchegas",
+      "url": "https://realacademiadegastronomia.com/recetas/flores-manchegas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "frito-mallorquin",
+      "url": "https://realacademiadegastronomia.com/recetas/frito-mallorquin/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "fritos-de-pixin",
+      "url": "https://realacademiadegastronomia.com/recetas/fritos-de-pixin/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "fritura-de-pescado",
+      "url": "https://realacademiadegastronomia.com/recetas/fritura-de-pescado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "frutas-de-aragon",
+      "url": "https://realacademiadegastronomia.com/recetas/frutas-de-aragon/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "gallina-en-pepitoria",
+      "url": "https://realacademiadegastronomia.com/recetas/gallina-en-pepitoria/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "gallina-pepitoria"
+    },
+    {
+      "slug": "gambas-al-ajillo",
+      "url": "https://realacademiadegastronomia.com/recetas/gambas-al-ajillo/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "gambas-ajillo"
+    },
+    {
+      "slug": "gambas-en-gabardina",
+      "url": "https://realacademiadegastronomia.com/recetas/gambas-en-gabardina/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "gambas-en-gabardina-2",
+      "url": "https://realacademiadegastronomia.com/recetas/gambas-en-gabardina-2/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "gazpacho-andaluz",
+      "url": "https://realacademiadegastronomia.com/recetas/gazpacho-andaluz/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "gazpacho-de-trigueros",
+      "url": "https://realacademiadegastronomia.com/recetas/gazpacho-de-trigueros/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "gazpachos-manchegos-o-galianos",
+      "url": "https://realacademiadegastronomia.com/recetas/gazpachos-manchegos-o-galianos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "gazpachuelo-de-pescado",
+      "url": "https://realacademiadegastronomia.com/recetas/gazpachuelo-de-pescado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "gilda",
+      "url": "https://realacademiadegastronomia.com/recetas/gilda/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "gofio-escaldado",
+      "url": "https://realacademiadegastronomia.com/recetas/gofio-escaldado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "habas-a-la-catalana",
+      "url": "https://realacademiadegastronomia.com/recetas/habas-a-la-catalana/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "habas-con-chocos",
+      "url": "https://realacademiadegastronomia.com/recetas/habas-con-chocos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "habitas-guisantes-y-alcachofas-con-jamon",
+      "url": "https://realacademiadegastronomia.com/recetas/habitas-guisantes-y-alcachofas-con-jamon/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "horchata",
+      "url": "https://realacademiadegastronomia.com/recetas/horchata/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "hornazo-dulce-de-extremadura",
+      "url": "https://realacademiadegastronomia.com/recetas/hornazo-dulce-de-extremadura/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "huevas-alinadas",
+      "url": "https://realacademiadegastronomia.com/recetas/huevas-alinadas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "huevas-alinadas-2",
+      "url": "https://realacademiadegastronomia.com/recetas/huevas-alinadas-2/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "huevos-a-la-flamenca",
+      "url": "https://realacademiadegastronomia.com/recetas/huevos-a-la-flamenca/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "huevos-duros-rebozados-y-fritos",
+      "url": "https://realacademiadegastronomia.com/recetas/huevos-duros-rebozados-y-fritos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "huevos-rellenos-con-gambas-y-mahonesa",
+      "url": "https://realacademiadegastronomia.com/recetas/huevos-rellenos-con-gambas-y-mahonesa/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "huevos-rellenos-de-bonito-y-mahonesa",
+      "url": "https://realacademiadegastronomia.com/recetas/huevos-rellenos-de-bonito-y-mahonesa/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "huevos-rotos",
+      "url": "https://realacademiadegastronomia.com/recetas/huevos-rotos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "intxaursalsa-o-sopas-de-leche-y-nueces-navidenas",
+      "url": "https://realacademiadegastronomia.com/recetas/intxaursalsa-o-sopas-de-leche-y-nueces-navidenas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "jarretes-de-ternasco-con-alcachofas-y-huevos-tontos",
+      "url": "https://realacademiadegastronomia.com/recetas/jarretes-de-ternasco-con-alcachofas-y-huevos-tontos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "judiones-de-la-granja",
+      "url": "https://realacademiadegastronomia.com/recetas/judiones-de-la-granja/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "lacon-con-grelos",
+      "url": "https://realacademiadegastronomia.com/recetas/lacon-con-grelos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "leche-frita",
+      "url": "https://realacademiadegastronomia.com/recetas/leche-frita/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "leche-frita-casera"
+    },
+    {
+      "slug": "lentejas-estofadas",
+      "url": "https://realacademiadegastronomia.com/recetas/lentejas-estofadas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "lionesas-de-nata-con-salsa-de-chocolate",
+      "url": "https://realacademiadegastronomia.com/recetas/lionesas-de-nata-con-salsa-de-chocolate/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "madejas",
+      "url": "https://realacademiadegastronomia.com/recetas/madejas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "magras-con-tomate",
+      "url": "https://realacademiadegastronomia.com/recetas/magras-con-tomate/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "mantecadas",
+      "url": "https://realacademiadegastronomia.com/recetas/mantecadas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "marmitaco-de-bonito",
+      "url": "https://realacademiadegastronomia.com/recetas/marmitaco-de-bonito/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "matrimonio",
+      "url": "https://realacademiadegastronomia.com/recetas/matrimonio/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "mazapan",
+      "url": "https://realacademiadegastronomia.com/recetas/mazapan/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "mejillon-tigre",
+      "url": "https://realacademiadegastronomia.com/recetas/mejillon-tigre/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "mejillones-a-la-vinagreta",
+      "url": "https://realacademiadegastronomia.com/recetas/mejillones-a-la-vinagreta/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "mejillones-vinagreta"
+    },
+    {
+      "slug": "mejillones-en-escabeche",
+      "url": "https://realacademiadegastronomia.com/recetas/mejillones-en-escabeche/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "mejillones-en-vinagre",
+      "url": "https://realacademiadegastronomia.com/recetas/mejillones-en-vinagre/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "melocotones-con-vino",
+      "url": "https://realacademiadegastronomia.com/recetas/melocotones-con-vino/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "menestra-de-verduras-de-invierno",
+      "url": "https://realacademiadegastronomia.com/recetas/menestra-de-verduras-de-invierno/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "menudo-gitano",
+      "url": "https://realacademiadegastronomia.com/recetas/menudo-gitano/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "merluza-a-la-gallega",
+      "url": "https://realacademiadegastronomia.com/recetas/merluza-a-la-gallega/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "merluza-gallega"
+    },
+    {
+      "slug": "merluza-en-salsa-verde",
+      "url": "https://realacademiadegastronomia.com/recetas/merluza-en-salsa-verde/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "merluza-salsa-verde"
+    },
+    {
+      "slug": "migas",
+      "url": "https://realacademiadegastronomia.com/recetas/migas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "morcilla",
+      "url": "https://realacademiadegastronomia.com/recetas/morcilla/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "morteruelo",
+      "url": "https://realacademiadegastronomia.com/recetas/morteruelo/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "natillas",
+      "url": "https://realacademiadegastronomia.com/recetas/natillas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "olla-catalana-de-pescado",
+      "url": "https://realacademiadegastronomia.com/recetas/olla-catalana-de-pescado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "paella-valenciana",
+      "url": "https://realacademiadegastronomia.com/recetas/paella-valenciana/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "palomas-a-la-cazadora",
+      "url": "https://realacademiadegastronomia.com/recetas/palomas-a-la-cazadora/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pantxineta",
+      "url": "https://realacademiadegastronomia.com/recetas/pantxineta/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "paparajotes",
+      "url": "https://realacademiadegastronomia.com/recetas/paparajotes/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "papas-arrugadas-con-mojo-verde-y-rojo",
+      "url": "https://realacademiadegastronomia.com/recetas/papas-arrugadas-con-mojo-verde-y-rojo/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pastel-de-almendragato-de-metle",
+      "url": "https://realacademiadegastronomia.com/recetas/pastel-de-almendragato-de-metle/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pastel-de-cabracho",
+      "url": "https://realacademiadegastronomia.com/recetas/pastel-de-cabracho/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pastel-de-carne",
+      "url": "https://realacademiadegastronomia.com/recetas/pastel-de-carne/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "patatas-a-la-importancia",
+      "url": "https://realacademiadegastronomia.com/recetas/patatas-a-la-importancia/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "patatas-a-la-riojana",
+      "url": "https://realacademiadegastronomia.com/recetas/patatas-a-la-riojana/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "patatas-riojana"
+    },
+    {
+      "slug": "patatas-bravas",
+      "url": "https://realacademiadegastronomia.com/recetas/patatas-bravas/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "patatas-bravas-caseras"
+    },
+    {
+      "slug": "patatas-revolconas",
+      "url": "https://realacademiadegastronomia.com/recetas/patatas-revolconas/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "patatas-revolconas"
+    },
+    {
+      "slug": "patatas-revolconas-2",
+      "url": "https://realacademiadegastronomia.com/recetas/patatas-revolconas-2/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pato-con-peras",
+      "url": "https://realacademiadegastronomia.com/recetas/pato-con-peras/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pavo-relleno-al-horno",
+      "url": "https://realacademiadegastronomia.com/recetas/pavo-relleno-al-horno/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pencas-de-acelga-rellenas",
+      "url": "https://realacademiadegastronomia.com/recetas/pencas-de-acelga-rellenas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "perdiz-a-la-toledana",
+      "url": "https://realacademiadegastronomia.com/recetas/perdiz-a-la-toledana/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "perdiz-al-modo-de-alcantara",
+      "url": "https://realacademiadegastronomia.com/recetas/perdiz-al-modo-de-alcantara/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pestinos",
+      "url": "https://realacademiadegastronomia.com/recetas/pestinos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pimientos-rellenos-de-carne",
+      "url": "https://realacademiadegastronomia.com/recetas/pimientos-rellenos-de-carne/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pincho-moruno",
+      "url": "https://realacademiadegastronomia.com/recetas/pincho-moruno/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "piononos",
+      "url": "https://realacademiadegastronomia.com/recetas/piononos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pipirrana",
+      "url": "https://realacademiadegastronomia.com/recetas/pipirrana/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pisto-manchego",
+      "url": "https://realacademiadegastronomia.com/recetas/pisto-manchego/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pochas",
+      "url": "https://realacademiadegastronomia.com/recetas/pochas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pochas-con-codornices",
+      "url": "https://realacademiadegastronomia.com/recetas/pochas-con-codornices/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pollo-al-ajillo",
+      "url": "https://realacademiadegastronomia.com/recetas/pollo-al-ajillo/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "pollo-ajillo"
+    },
+    {
+      "slug": "pollo-al-chilindron",
+      "url": "https://realacademiadegastronomia.com/recetas/pollo-al-chilindron/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "pollo-chilindron"
+    },
+    {
+      "slug": "pollo-con-cigalas",
+      "url": "https://realacademiadegastronomia.com/recetas/pollo-con-cigalas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "polvorones",
+      "url": "https://realacademiadegastronomia.com/recetas/polvorones/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "porra-antequerana",
+      "url": "https://realacademiadegastronomia.com/recetas/porra-antequerana/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "porra-antequerana"
+    },
+    {
+      "slug": "porrusalda",
+      "url": "https://realacademiadegastronomia.com/recetas/porrusalda/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "potaje-de-berros",
+      "url": "https://realacademiadegastronomia.com/recetas/potaje-de-berros/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "potaje-de-cuaresma",
+      "url": "https://realacademiadegastronomia.com/recetas/potaje-de-cuaresma/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "prueba-de-picadillo",
+      "url": "https://realacademiadegastronomia.com/recetas/prueba-de-picadillo/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "prueba-de-picadillo-2",
+      "url": "https://realacademiadegastronomia.com/recetas/prueba-de-picadillo-2/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "pulpo-a-feira",
+      "url": "https://realacademiadegastronomia.com/recetas/pulpo-a-feira/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "pulpo-feira-sin-patata"
+    },
+    {
+      "slug": "pulpo-a-la-gallega",
+      "url": "https://realacademiadegastronomia.com/recetas/pulpo-a-la-gallega/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "quesada-pasiega",
+      "url": "https://realacademiadegastronomia.com/recetas/quesada-pasiega/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "rabas",
+      "url": "https://realacademiadegastronomia.com/recetas/rabas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "rabo-de-toro",
+      "url": "https://realacademiadegastronomia.com/recetas/rabo-de-toro/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "rape-alangostado",
+      "url": "https://realacademiadegastronomia.com/recetas/rape-alangostado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "raya-al-pimenton",
+      "url": "https://realacademiadegastronomia.com/recetas/raya-al-pimenton/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "repapalos",
+      "url": "https://realacademiadegastronomia.com/recetas/repapalos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "revuelto-de-setas",
+      "url": "https://realacademiadegastronomia.com/recetas/revuelto-de-setas/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "revuelto-champinones"
+    },
+    {
+      "slug": "rin-ran",
+      "url": "https://realacademiadegastronomia.com/recetas/rin-ran/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "rinones-al-jerez",
+      "url": "https://realacademiadegastronomia.com/recetas/rinones-al-jerez/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "rodaballo-a-la-gallega",
+      "url": "https://realacademiadegastronomia.com/recetas/rodaballo-a-la-gallega/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "romesco-de-pescado",
+      "url": "https://realacademiadegastronomia.com/recetas/romesco-de-pescado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "roscon-de-reyes",
+      "url": "https://realacademiadegastronomia.com/recetas/roscon-de-reyes/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "rosquillas-fritas",
+      "url": "https://realacademiadegastronomia.com/recetas/rosquillas-fritas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "rosquillas-listas",
+      "url": "https://realacademiadegastronomia.com/recetas/rosquillas-listas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "rosquillas-tontas",
+      "url": "https://realacademiadegastronomia.com/recetas/rosquillas-tontas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "salmon-a-la-riberena",
+      "url": "https://realacademiadegastronomia.com/recetas/salmon-a-la-riberena/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "salmorejo",
+      "url": "https://realacademiadegastronomia.com/recetas/salmorejo/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "salsa-alioli",
+      "url": "https://realacademiadegastronomia.com/recetas/salsa-alioli/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "salsa-mahonesa",
+      "url": "https://realacademiadegastronomia.com/recetas/salsa-mahonesa/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "salsa-romesco",
+      "url": "https://realacademiadegastronomia.com/recetas/salsa-romesco/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "samfaina",
+      "url": "https://realacademiadegastronomia.com/recetas/samfaina/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "sangria",
+      "url": "https://realacademiadegastronomia.com/recetas/sangria/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "sardinas-asadas",
+      "url": "https://realacademiadegastronomia.com/recetas/sardinas-asadas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "sepia-al-ajillo",
+      "url": "https://realacademiadegastronomia.com/recetas/sepia-al-ajillo/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "sepia-ajillo"
+    },
+    {
+      "slug": "sepia-al-ajillo-2",
+      "url": "https://realacademiadegastronomia.com/recetas/sepia-al-ajillo-2/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "sobaos-pasiegos",
+      "url": "https://realacademiadegastronomia.com/recetas/sobaos-pasiegos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "sobrasada-con-queso-mahon-fundido",
+      "url": "https://realacademiadegastronomia.com/recetas/sobrasada-con-queso-mahon-fundido/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "soldaditos-de-pavia",
+      "url": "https://realacademiadegastronomia.com/recetas/soldaditos-de-pavia/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "solomillo-al-cabrales",
+      "url": "https://realacademiadegastronomia.com/recetas/solomillo-al-cabrales/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "sopa-cana",
+      "url": "https://realacademiadegastronomia.com/recetas/sopa-cana/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "sopa-de-ajo",
+      "url": "https://realacademiadegastronomia.com/recetas/sopa-de-ajo/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "sopa-ajo-casera"
+    },
+    {
+      "slug": "sopa-de-pescado",
+      "url": "https://realacademiadegastronomia.com/recetas/sopa-de-pescado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "sopa-de-picadillo",
+      "url": "https://realacademiadegastronomia.com/recetas/sopa-de-picadillo/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "sopa-mallorquina",
+      "url": "https://realacademiadegastronomia.com/recetas/sopa-mallorquina/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tabla-de-quesos",
+      "url": "https://realacademiadegastronomia.com/recetas/tabla-de-quesos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tabla-de-salazones",
+      "url": "https://realacademiadegastronomia.com/recetas/tabla-de-salazones/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tarta-de-santiago",
+      "url": "https://realacademiadegastronomia.com/recetas/tarta-de-santiago/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "titaina",
+      "url": "https://realacademiadegastronomia.com/recetas/titaina/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tiznao",
+      "url": "https://realacademiadegastronomia.com/recetas/tiznao/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tocino-de-cielo",
+      "url": "https://realacademiadegastronomia.com/recetas/tocino-de-cielo/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "tocino-cielo"
+    },
+    {
+      "slug": "torreznos",
+      "url": "https://realacademiadegastronomia.com/recetas/torreznos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "torrijas",
+      "url": "https://realacademiadegastronomia.com/recetas/torrijas/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "torrijas-leche"
+    },
+    {
+      "slug": "tortilla-de-bacalao",
+      "url": "https://realacademiadegastronomia.com/recetas/tortilla-de-bacalao/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "tortilla-bacalao-fresco"
+    },
+    {
+      "slug": "tortilla-de-bacalao-2",
+      "url": "https://realacademiadegastronomia.com/recetas/tortilla-de-bacalao-2/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tortilla-de-patata",
+      "url": "https://realacademiadegastronomia.com/recetas/tortilla-de-patata/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tortilla-paisana",
+      "url": "https://realacademiadegastronomia.com/recetas/tortilla-paisana/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "tortilla-paisana"
+    },
+    {
+      "slug": "tortillas-de-carnaval",
+      "url": "https://realacademiadegastronomia.com/recetas/tortillas-de-carnaval/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tortillitas-de-camarones",
+      "url": "https://realacademiadegastronomia.com/recetas/tortillitas-de-camarones/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tosta-de-jamon-con-tomate",
+      "url": "https://realacademiadegastronomia.com/recetas/tosta-de-jamon-con-tomate/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tosta-de-morcilla",
+      "url": "https://realacademiadegastronomia.com/recetas/tosta-de-morcilla/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tosta-de-pisto-y-huevo-frito",
+      "url": "https://realacademiadegastronomia.com/recetas/tosta-de-pisto-y-huevo-frito/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tosta-de-queso-cabrales-batido-con-sidra",
+      "url": "https://realacademiadegastronomia.com/recetas/tosta-de-queso-cabrales-batido-con-sidra/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tosta-de-sobrasada-con-miel",
+      "url": "https://realacademiadegastronomia.com/recetas/tosta-de-sobrasada-con-miel/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "truchas-a-la-navarra",
+      "url": "https://realacademiadegastronomia.com/recetas/truchas-a-la-navarra/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "truchas-con-almendras",
+      "url": "https://realacademiadegastronomia.com/recetas/truchas-con-almendras/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "tumbet",
+      "url": "https://realacademiadegastronomia.com/recetas/tumbet/",
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "tumbet-mallorquin"
+    },
+    {
+      "slug": "turron-a-la-piedra",
+      "url": "https://realacademiadegastronomia.com/recetas/turron-a-la-piedra/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "turron-de-guirlache",
+      "url": "https://realacademiadegastronomia.com/recetas/turron-de-guirlache/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "urta-a-la-rotena",
+      "url": "https://realacademiadegastronomia.com/recetas/urta-a-la-rotena/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "verdinas-con-almejas",
+      "url": "https://realacademiadegastronomia.com/recetas/verdinas-con-almejas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "vieiras-al-horno",
+      "url": "https://realacademiadegastronomia.com/recetas/vieiras-al-horno/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "yemas",
+      "url": "https://realacademiadegastronomia.com/recetas/yemas/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "zarajos",
+      "url": "https://realacademiadegastronomia.com/recetas/zarajos/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "zarzuela-de-pescado",
+      "url": "https://realacademiadegastronomia.com/recetas/zarzuela-de-pescado/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "zorongollo-extremeno",
+      "url": "https://realacademiadegastronomia.com/recetas/zorongollo-extremeno/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    },
+    {
+      "slug": "zurrukutuna",
+      "url": "https://realacademiadegastronomia.com/recetas/zurrukutuna/",
+      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+    }
+  ]
+}

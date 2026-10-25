@@ -1,0 +1,15 @@
+id;nombre;categoria;kcal;prot;carb;grasa;fuente;idFuente;referencia
+pizza-queso-masa-fina-restauracion;Pizza de queso, masa fina, de restauración rápida, cocinada;Platos preparados;302;12,9;31,2;14;USDA;173294;https://fdc.nal.usda.gov/food-details/173294/nutrients
+pizza-queso-masa-normal-restauracion;Pizza de queso, masa normal, de restauración rápida, cocinada;Platos preparados;266;11,4;33,3;9,7;USDA;173292;https://fdc.nal.usda.gov/food-details/173292/nutrients
+pizza-queso-masa-gruesa-restauracion;Pizza de queso, masa gruesa, de restauración rápida, cocinada;Platos preparados;271;10,8;33,2;10,5;USDA;173293;https://fdc.nal.usda.gov/food-details/173293/nutrients
+pizza-queso-borde-relleno-restauracion;Pizza de queso, borde relleno, de restauración rápida, cocinada;Platos preparados;274;12,2;30;11,6;USDA;170773;https://fdc.nal.usda.gov/food-details/170773/nutrients
+pizza-pepperoni-masa-fina-restauracion;Pizza de pepperoni, masa fina, de restauración rápida, cocinada;Platos preparados;331;14;29;17,6;USDA;170762;https://fdc.nal.usda.gov/food-details/170762/nutrients
+pizza-pepperoni-masa-normal-restauracion;Pizza de pepperoni, masa normal, de restauración rápida, cocinada;Platos preparados;282;11,7;32;11,9;USDA;173295;https://fdc.nal.usda.gov/food-details/173295/nutrients
+pizza-pepperoni-masa-gruesa-restauracion;Pizza de pepperoni, masa gruesa, de restauración rápida, cocinada;Platos preparados;287;11,5;31,8;12,6;USDA;173296;https://fdc.nal.usda.gov/food-details/173296/nutrients
+pizza-salchicha-masa-fina-restauracion;Pizza de salchicha, masa fina, de restauración rápida, cocinada;Platos preparados;321;13,4;27;17,7;USDA;170366;https://fdc.nal.usda.gov/food-details/170366/nutrients
+pizza-salchicha-masa-normal-restauracion;Pizza de salchicha, masa normal, de restauración rápida, cocinada;Platos preparados;280;11,5;30,6;12,4;USDA;170367;https://fdc.nal.usda.gov/food-details/170367/nutrients
+pizza-salchicha-masa-gruesa-restauracion;Pizza de salchicha, masa gruesa, de restauración rápida, cocinada;Platos preparados;282;11,1;30,4;12,9;USDA;170365;https://fdc.nal.usda.gov/food-details/170365/nutrients
+pizza-carne-verduras-masa-normal-restauracion;Pizza de carne y verduras, masa normal, de restauración rápida, cocinada;Platos preparados;244;11;25,4;10,9;USDA;172055;https://fdc.nal.usda.gov/food-details/172055/nutrients
+pizza-queso-masa-fina-congelada-cocinada;Pizza de queso, masa fina, congelada, cocinada;Platos preparados;263;11,9;28,8;11,1;USDA;170373;https://fdc.nal.usda.gov/food-details/170373/nutrients
+pizza-queso-masa-levado-horno-congelada-cocinada;Pizza de queso, masa que sube al hornear, congelada, cocinada;Platos preparados;260;12,4;32,9;8,8;USDA;170714;https://fdc.nal.usda.gov/food-details/170714/nutrients
+pizza-jamon-pina-envasada-cocinada;Pizza de jamón y piña, envasada, cocinada;Platos preparados;260;13,5;34,4;8,6;CoFID;11-1013;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid

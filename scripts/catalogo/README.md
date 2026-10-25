@@ -16,14 +16,15 @@ Lo que hace la app con los paquetes (sincronización, búsqueda, ranking, errata
 | Fuente | Qué aporta | Licencia | Obtenida |
 |---|---|---|---|
 | **CIQUAL 2025** (ANSES) | 3.323 alimentos genéricos, por 100 g | Licence Ouverte Etalab 2.0 | archivos del 2025-11-03 (publicada el 2025-11-19) |
+| **Alimentos y platos AppFit** (`tipicos`) | Complementos genéricos y recetas calculadas desde CIQUAL | Etalab 2.0, CC0, OGL v3 y formulaciones MIT | paquete 2026-10-25, 285 filas |
 | **Open Food Facts, selección España** (`offes`) | 3.000 productos de marca populares, por 100 g o 100 ml | **ODbL 1.0** (contenidos DbCL) | volcado del 2026-09-30 |
 
 Atribuciones (ya en `manifest.json`): «Fuente: ANSES, Table de composition nutritionnelle des aliments Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Nombres traducidos al español.» y «Contiene datos de Open Food Facts (openfoodfacts.org), disponibles bajo la Open Database License (ODbL)…». **`public/catalogo/offes-*.json` es ODbL aunque el código del repo sea MIT.**
 
-Descartadas (y por qué):
+Restricciones y selección de otras fuentes:
 - **BEDCA**: sus condiciones de uso (https://www.bedca.net/bdpub/UsoBD.pdf) exigen autorización expresa de AESAN/BEDCA para reproducción, traducción o uso no personal en formato electrónico. Es la mejor fuente española, pero no se puede redistribuir sin permiso; si se consigue, encajaría como fuente nueva.
-- **USDA FDC**: CC0, pero en inglés, de EE. UU., y casi todo duplicaría a CIQUAL.
-- **UK CoFID**: OGL, mismo motivo que USDA.
+- **USDA FDC**: CC0. En típicos se seleccionan solo complementos documentados que no estén cubiertos por CIQUAL; no se importa masivamente.
+- **UK CoFID**: OGL v3. Misma selección limitada para típicos; se distinguen valores analíticos de cálculos publicados por CoFID.
 
 Campos usados: CIQUAL → energía (Reglamento UE 1169/2011, kcal), proteínas (factor de Jones), glúcidos, lípidos, fibra, azúcares, sal, AG saturados y, solo para el control de energía, alcohol (no se guarda). OFF → `code`, `product_name`, `quantity`, `brands`, `categories_tags`, `countries_tags`, `data_quality_errors_tags`, `unique_scans_n`, `popularity_tags`, `pnns_groups_2`, `energy-kcal_100g`/`energy-kj_100g`/`energy_100g`, `fat`, `saturated-fat`, `carbohydrates`, `sugars`, `fiber`, `proteins`, `salt`, `alcohol_100g`.
 
@@ -92,3 +93,21 @@ Limitaciones conocidas: no hay genéricos españoles (manchego, cocido, tortilla
 - Paquetes: `ciqual-2025-es2.json` 609 KB (128 KB gzip); `offes-2026-09-30.json` 447 KB (101 KB gzip). Antes: 626 KB (128 KB gzip). No entran en el precache (`globPatterns` excluye `.json`); el bundle de la app no cambia de forma apreciable.
 - Tubería: CIQUAL `construir` ≈ 2 s; OFF ≈ 70–95 s (4,5 M líneas, 354.697 de España, ~68.000 pasan los filtros, 3.000 publicados).
 - App (fake-indexeddb en Node, orientativo; el dispositivo real será distinto y hay que medirlo en Safari): validar 12–13 ms, `aCatalogFoods` 12–20 ms, importar ≈ 4,3 s (CIQUAL) y ≈ 3,5 s (OFF); vocabulario del índice (4.049 palabras) ≈ 3,5 s la primera vez (solo cuando una búsqueda no encuentra nada); búsqueda con hasta 600 candidatos: 11–71 ms; `rankCatalogo` con 364 candidatos («queso»): ≈ 14 ms, con 143: ≈ 1 ms.
+
+
+## Típicos y búsqueda en Nutrición
+
+`npm run catalogo:tipicos` construye el paquete complementario y el informe
+`informes/tipicos.txt`. Datos, lista revisable y límites: [tipicos/LEEME.md](tipicos/LEEME.md).
+La app importa todas las fuentes del manifest, incluido `tipicos`, al abrir con
+conexión o al pulsar «Buscar actualización» en Ajustes → Catálogo de alimentos.
+La fuente se muestra como «Alimentos y platos (AppFit)»; se busca por nombre y
+alias desde Nutrición, también offline tras importar. Una ampliación del mismo
+día con distinto número de filas fuerza la reimportación sin caché; los cambios
+de contenido que conserven el recuento deben publicarse con nueva versión.
+El buscador se refresca cuando termina la importación sin volver a escribir.
+
+Regresión de importación/búsqueda real: `scripts/integracion/tipicosBusqueda.test.ts`.
+Navegador aislado con una descarga demorada y búsquedas offline:
+`node scripts/ui/validar-tipicos.cjs` (mismos requisitos de Playwright/Chromium
+que las otras comprobaciones de UI; Vite en 5173, origen appfit-test.localhost).

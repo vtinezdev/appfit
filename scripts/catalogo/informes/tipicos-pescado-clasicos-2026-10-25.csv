@@ -1,0 +1,25 @@
+id;nombre;categoria;kcal;prot;carb;grasa;via;fuente;idFuente;referencia
+tortitas-pescado-blanco-empanadas-horno;Tortitas de pescado blanco, empanadas, horneadas;Platos preparados;206;9,3;22,6;9,4;directo;CoFID;16-407;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+tortitas-salmon-empanadas-horno;Tortitas de salmón, empanadas, horneadas;Platos preparados;245;11,4;20,4;13,7;directo;CoFID;16-408;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+tortitas-salmon-caseras;Tortitas de salmón, caseras, cocinadas;Platos preparados;287;11,4;15,2;20,5;directo;CoFID;16-459;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+bullabesa-casera;Bullabesa, casera, cocida;Platos preparados;139;11,3;2;10,5;directo;CoFID;17-770;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+curry-pescado-casero;Curry de pescado blanco, casero, cocinado;Platos preparados;139;11,3;1,9;9,6;directo;CoFID;16-364;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+pez-espada-parrilla;Pez espada, asado a la parrilla;Pescados;139;22,9;0;5,2;directo;CoFID;16-222;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+bolitas-pescado-vapor;Bolitas de pescado, tipo asiático, cocidas al vapor;Platos preparados;74;11,8;5,5;0,5;directo;CoFID;16-279;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+langostinos-aguas-calidas-parrilla;Langostinos de aguas cálidas, asados a la parrilla;Mariscos;102;23,5;0;0,9;directo;CoFID;16-388;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+pollo-cazadora-casero;Pollo a la cazadora, casero, cocinado;Platos preparados;78;13,5;2,3;1,5;directo;CoFID;19-560;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+fricase-pollo-casero;Fricasé de pollo, casero, cocinado;Platos preparados;115;10;2,8;6,1;directo;CoFID;19-561;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+cerdo-manzana-guisado-casero;Cerdo con manzana, casero, guisado;Platos preparados;100;11;7,5;2,9;directo;CoFID;19-612;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+chuletas-cerdo-mostaza-nata-caseras;Chuletas de cerdo con mostaza y nata, caseras, cocinadas;Platos preparados;263;15,5;1;19,4;directo;CoFID;19-665;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+costillas-cerdo-barbacoa-caseras;Costillas de cerdo, estilo barbacoa, caseras, cocinadas;Platos preparados;302;20,8;4,9;22,3;directo;CoFID;19-670;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+cerdo-magro-agridulce-casero;Cerdo magro agridulce, casero, cocinado;Platos preparados;162;14,5;11;6,3;directo;CoFID;19-668;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+brochetas-cerdo-pina-caseras;Brochetas de cerdo y piña, caseras, cocinadas;Platos preparados;170;14,4;5,9;9,9;directo;CoFID;19-615;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+pavo-carne-picada-estofada;Pavo, carne picada, estofada;Carnes;176;28,6;0;6,8;directo;CoFID;18-354;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+cerdo-carne-picada-estofada;Cerdo, carne picada, estofada;Carnes;191;24,4;0;10,4;directo;CoFID;18-607;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+pavo-tiras-sin-piel-maiz-salteado;Pavo, tiras sin piel, salteadas en aceite de maíz, cocinadas;Carnes;164;31;0;4,5;directo;CoFID;18-357;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+quiche-queso-huevo-casera;Quiche de queso y huevo, casera, horneada;Platos preparados;305;12,5;14,6;22,3;directo;CoFID;12-948;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+arroz-pilaf-integral-huevo-patata;Arroz pilaf integral, con huevo y patata, casero, cocido;Platos preparados;117;4,7;19,5;2,8;directo;CoFID;15-845;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+croquetas-jamon-serrano-caseras;Croquetas de jamón serrano, caseras, fritas;Platos preparados;235,6;7,4;16,8;15,3;receta;CIQUAL + formulación AppFit;;https://realacademiadegastronomia.com/recetas/croquetas-de-jamon/
+croquetas-pollo-caseras;Croquetas de pollo, caseras, fritas;Platos preparados;195;13,3;14,6;8,9;receta;CIQUAL + formulación AppFit;;https://www.rtve.es/play/videos/rtve-cocina/espana-directo-croquetas-pollo/702331/
+patatas-bravas-caseras;Patatas bravas, caseras, fritas;Platos preparados;147,1;2,1;15,2;8;receta;CIQUAL + formulación AppFit;;https://realacademiadegastronomia.com/recetas/patatas-bravas/
+pulpo-feira-sin-patata;Pulpo a feira, sin patata, cocido;Platos preparados;161,5;21,6;1,8;7,6;receta;CIQUAL + formulación AppFit;;https://realacademiadegastronomia.com/recetas/pulpo-a-feira/

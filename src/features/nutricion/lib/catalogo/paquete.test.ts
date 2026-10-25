@@ -200,10 +200,17 @@ describe('paquete publicado en public/catalogo', () => {
       expect(foods.filter((x) => x.tok.length === 0)).toHaveLength(ocultos)
     }
   })
-  it('CIQUAL y la selección de OFF España están publicados, con su licencia', () => {
+  it('CIQUAL, OFF España y los alimentos AppFit están publicados, con sus licencias', () => {
     const manifest = validarManifest(leer('manifest.json'))
-    expect(manifest.fuentes.map((f) => f.id).sort()).toEqual(['ciqual', 'offes'])
+    expect(manifest.fuentes.map((f) => f.id).sort()).toEqual(['ciqual', 'offes', 'tipicos'])
     expect(manifest.fuentes.find((f) => f.id === 'offes')?.licencia).toBe('ODbL 1.0')
     expect(manifest.fuentes.find((f) => f.id === 'offes')?.atribucion).toContain('Open Food Facts')
+    const tipicos = manifest.fuentes.find(f => f.id === 'tipicos')!
+    expect(tipicos.licencia).toContain('Etalab 2.0')
+    expect(tipicos.licencia).toContain('CC0')
+    expect(tipicos.licencia).toContain('Open Government Licence v3.0')
+    expect(tipicos.atribucion).toContain('Ciqual')
+    expect(tipicos.atribucion).toContain('USDA')
+    expect(tipicos.atribucion).toContain('Composition of Foods Integrated Dataset 2021')
   })
 })

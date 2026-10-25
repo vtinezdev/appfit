@@ -1,5 +1,5 @@
 // Sincroniza el catálogo local con el paquete publicado en `/catalogo/`: descarga el manifest, y por cada fuente
-// cuya versión difiera de la instalada descarga, valida, convierte e importa. Las dependencias se inyectan para
+// cuya versión o número de filas difiera de la instalada descarga, valida, convierte e importa. Las dependencias se inyectan para
 // poder probarlo sin red ni base de datos; al final se exporta la versión cableada que usa la app.
 // Todos los `fetch` ocurren fuera de las transacciones (ninguna función de aquí abre una).
 import type { CatalogFood, CatalogSource } from '../../../../shared/db/types'
@@ -9,7 +9,7 @@ import { aCatalogFoods, validarManifest, validarPaquete } from './paquete'
 const RUTA = '/catalogo/'
 
 export interface DependenciasSincronizacion {
-  /** Descarga y parsea un JSON. `sinCache` fuerza a revalidar con el servidor (para el manifest). */
+  /** Descarga y parsea un JSON. `sinCache` fuerza a revalidar con el servidor. */
   fetchJson: (url: string, opciones?: { sinCache?: boolean }) => Promise<unknown>
   fuentesInstaladas: () => Promise<CatalogSource[]>
   importarFuente: (meta: CatalogSource, foods: CatalogFood[]) => Promise<void>
@@ -39,15 +39,16 @@ export function crearSincronizador(deps: DependenciasSincronizacion): () => Prom
 
   async function sincronizar(): Promise<ResultadoSincronizacion> {
     const manifest = validarManifest(await deps.fetchJson(`${RUTA}manifest.json`, { sinCache: true }))
-    const instaladas = new Map((await deps.fuentesInstaladas()).map((f) => [f.id, f.version]))
+    const instaladas = new Map((await deps.fuentesInstaladas()).map((f) => [f.id, f]))
     const resultado: ResultadoSincronizacion = { actualizadas: [], alDia: [] }
 
     for (const entrada of manifest.fuentes) {
-      if (instaladas.get(entrada.id) === entrada.version) {
+      const instalada = instaladas.get(entrada.id)
+      if (instalada?.version === entrada.version && instalada.filas === entrada.filas) {
         resultado.alDia.push(entrada.id)
         continue
       }
-      const paquete = validarPaquete(await deps.fetchJson(`${RUTA}${entrada.archivo}`))
+      const paquete = validarPaquete(await deps.fetchJson(`${RUTA}${entrada.archivo}`, { sinCache: true }))
       // Coherencia con el manifest: un paquete cortado o de otra fuente no debe sustituir lo instalado.
       if (paquete.fuente !== entrada.id || paquete.version !== entrada.version) {
         throw new Error(`El paquete «${entrada.archivo}» no coincide con el manifest`)

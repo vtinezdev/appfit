@@ -1,0 +1,308 @@
+[
+  {
+    "id": "albondigas-salsa-caseras",
+    "referencia": "https://realacademiadegastronomia.com/recetas/albondigas/",
+    "consultado": "2026-10-25",
+    "sha256Html": "f2d88754fb908a664cff8a0514e52989fb947b93001695d9167d7fcc00ce9dc7",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Se usa agua en la salsa en lugar de caldo de carne. Se omite el jamón opcional. Cerdo picado de paletilla neta."
+  },
+  {
+    "id": "alcachofas-jamon-vino-blanco",
+    "referencia": "https://realacademiadegastronomia.com/recetas/alcachofas-a-la-montillana/",
+    "consultado": "2026-10-25",
+    "sha256Html": "2a455c7b44e154939aeb60efad8e67eb3a787c74aaf9bcd767f2db63062238ee",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Variante AppFit con vino blanco seco y jamón serrano genérico, sin atribuir DOP ni denominación montillana al producto final."
+  },
+  {
+    "id": "atun-encebollado",
+    "referencia": "https://realacademiadegastronomia.com/recetas/atun-encebollado/",
+    "consultado": "2026-10-25",
+    "sha256Html": "383dce581f43092b17e044568559499d93c1a7b83b5e134258df30db577a01b8",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": ""
+  },
+  {
+    "id": "bonito-tomate-casero",
+    "referencia": "https://realacademiadegastronomia.com/recetas/bonito-con-tomate/",
+    "consultado": "2026-10-25",
+    "sha256Html": "c238f05104035054dd8368aa6a8ead281ba4b6eaa66d1cc03731e66ccd6dde34",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": ""
+  },
+  {
+    "id": "cardo-almendras",
+    "referencia": "https://realacademiadegastronomia.com/recetas/cardos-en-salsa-de-almendras/",
+    "consultado": "2026-10-25",
+    "sha256Html": "a2ac723c7fd194be347cc0a3fdd0d92a587fbbd6e4c6bbac63b2d58bf26751f2",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Se usan almendras, no la alternativa de piñones. El líquido incorporado representa agua de cocción retenida; no se duplican nutrientes del cardo."
+  },
+  {
+    "id": "coliflor-ajoarriero",
+    "referencia": "https://realacademiadegastronomia.com/recetas/coliflor-al-ajoarriero/",
+    "consultado": "2026-10-25",
+    "sha256Html": "bb04a48f2e30f8d39f96e8dc2cfb6246ac63fd3fb920da28ccd2e2f0aa442f9f",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": ""
+  },
+  {
+    "id": "espinacas-catalana",
+    "referencia": "https://realacademiadegastronomia.com/recetas/espinacas-a-la-catalana/",
+    "consultado": "2026-10-25",
+    "sha256Html": "3335fdf89a3127d8d7a30017a503b024279871f83735425911d4025b663c33e6",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": ""
+  },
+  {
+    "id": "gallina-pepitoria",
+    "referencia": "https://realacademiadegastronomia.com/recetas/gallina-en-pepitoria/",
+    "consultado": "2026-10-25",
+    "sha256Html": "d1ec7978f67cd4c6673158c5afc69e7985c06d18c5ecfc9df476e36f182503f6",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Vino blanco seco en lugar de Jerez y agua en lugar de caldo. Los huevos y las almendras se incorporan desde sus ingredientes crudos; se cuecen/tuestan durante la elaboración. Sin huesos ni piel."
+  },
+  {
+    "id": "gambas-ajillo",
+    "referencia": "https://realacademiadegastronomia.com/recetas/gambas-al-ajillo/",
+    "consultado": "2026-10-25",
+    "sha256Html": "b2a1a0651c20da2970bb15c3fd7837a01dc7ac617180ca2fee7621a7f524d949",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Peso de gambas peladas, no peso con cáscaras. El aceite indicado queda en la cazuela servida."
+  },
+  {
+    "id": "mejillones-vinagreta",
+    "referencia": "https://realacademiadegastronomia.com/recetas/mejillones-a-la-vinagreta/",
+    "consultado": "2026-10-25",
+    "sha256Html": "6bf297bec37b2ec9374b2da9447de17f8699bb768d210889a2a182bfc748b07c",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Se pesan 500 g de carne cruda comestible, sin convertir ni atribuir un rendimiento a los 2 kg con concha de la referencia. El vino se usa en la cocción y el aliño se incorpora íntegro."
+  },
+  {
+    "id": "merluza-gallega",
+    "referencia": "https://realacademiadegastronomia.com/recetas/merluza-a-la-gallega/",
+    "consultado": "2026-10-25",
+    "sha256Html": "a19b250821813168a44063822a6d47669bc3c001257f22023a37050dc6660fe7",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Patatas y pescado pesados sin piel, espinas ni huesos. Peso final objetivo tras cocer y escurrir."
+  },
+  {
+    "id": "merluza-salsa-verde",
+    "referencia": "https://realacademiadegastronomia.com/recetas/merluza-en-salsa-verde/",
+    "consultado": "2026-10-25",
+    "sha256Html": "664210f9a9d773366933b0d2fb63e55f9ae848021856e7a4f62771d637e78b1e",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Agua en lugar de caldo de pescado y vino blanco seco en lugar de txacolí. Guisantes y espárragos entran como ingredientes crudos. Almejas: peso comestible sin concha."
+  },
+  {
+    "id": "patatas-riojana",
+    "referencia": "https://realacademiadegastronomia.com/recetas/patatas-a-la-riojana/",
+    "consultado": "2026-10-25",
+    "sha256Html": "4cca09600705185ed9f4631b8e14f1e50bcae263a340845509420debf17f36cc",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Chorizo curado CIQUAL, no un chorizo fresco al que se atribuyan valores de otro producto. Agua de cocción incorporada explícita."
+  },
+  {
+    "id": "patatas-revolconas",
+    "referencia": "https://realacademiadegastronomia.com/recetas/patatas-revolconas/",
+    "consultado": "2026-10-25",
+    "sha256Html": "4d98e7e4b5ccba98d449acd4d667915c0910b7e2040da800fc178df6569c3dc8",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Formulación AppFit de lote, con panceta fresca; no se usa torrezno de composición supuesta."
+  },
+  {
+    "id": "pollo-ajillo",
+    "referencia": "https://realacademiadegastronomia.com/recetas/pollo-al-ajillo/",
+    "consultado": "2026-10-25",
+    "sha256Html": "f0b09458214589ede7ace7e2e3f4e9ed02346d5a7e363f6d4084d270ffeb852f",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Pollo con piel, carne neta sin huesos. Aceite = cantidad retenida, no el baño de fritura."
+  },
+  {
+    "id": "pollo-chilindron",
+    "referencia": "https://realacademiadegastronomia.com/recetas/pollo-al-chilindron/",
+    "consultado": "2026-10-25",
+    "sha256Html": "169e729e12d1388f275d03a1b17a51b403c92549d4adce5f0aee0be09f974891",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Jamón serrano genérico, sin equipararlo a jamón de Teruel con DOP. Pollo: carne y piel netas sin huesos."
+  },
+  {
+    "id": "porra-antequerana",
+    "referencia": "https://realacademiadegastronomia.com/recetas/porra-antequerana/",
+    "consultado": "2026-10-25",
+    "sha256Html": "e35884a69f0a260e68a22ae73822c6754fb93b5b338f8bc8af1414de7ec515b6",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Sin los acompañamientos opcionales de huevo y jamón. Formulación cruda que conserva ingredientes y jugos íntegros; peso final = suma de gramos."
+  },
+  {
+    "id": "revuelto-champinones",
+    "referencia": "https://realacademiadegastronomia.com/recetas/revuelto-de-setas/",
+    "consultado": "2026-10-25",
+    "sha256Html": "87992a5ab7533c5e8b5444445a8c61a8d26ba2942396b2e328c445901612bd4b",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Variante con champiñón de París identificado, en lugar de atribuir un valor medio a cualquier seta silvestre. Incluye el pan de acompañamiento de la formulación."
+  },
+  {
+    "id": "sepia-ajillo",
+    "referencia": "https://realacademiadegastronomia.com/recetas/sepia-al-ajillo/",
+    "consultado": "2026-10-25",
+    "sha256Html": "dadddba4ff3a2a3253a662068d99226b901ae7e89f1f25cc4d804b85e5848727",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Sepia limpia, peso comestible. Formulación de lote con aceite retenido explícito, no una conversión de la unidad ambigua «1 d» de la referencia."
+  },
+  {
+    "id": "sopa-ajo-casera",
+    "referencia": "https://realacademiadegastronomia.com/recetas/sopa-de-ajo/",
+    "consultado": "2026-10-25",
+    "sha256Html": "77deed01dc47ae3449809867ce5a53f972985c7b87f75f3731955b3850f123e0",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Se elige la opción con agua de la referencia; no se atribuyen nutrientes a un caldo no identificado."
+  },
+  {
+    "id": "tocino-cielo",
+    "referencia": "https://realacademiadegastronomia.com/recetas/tocino-de-cielo/",
+    "consultado": "2026-10-25",
+    "sha256Html": "b936912685fbd6672a4703ad0a4472811fb7bc03e215533380f43489cd831946",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Azúcar del caramelo incluida. Yemas y huevos pesados netos sin cáscara; rendimiento final objetivo, sin convertir unidades de huevo de la fuente a una supuesta pesada."
+  },
+  {
+    "id": "tortilla-bacalao-fresco",
+    "referencia": "https://realacademiadegastronomia.com/recetas/tortilla-de-bacalao/",
+    "consultado": "2026-10-25",
+    "sha256Html": "9446d89619b9400ddc503aeff0cb2bcb78ad740c825ed041b678e1f563db273f",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Se formula expresamente con bacalao fresco; no se usan sus valores como si fueran de bacalao salado/desalado."
+  },
+  {
+    "id": "tortilla-paisana",
+    "referencia": "https://realacademiadegastronomia.com/recetas/tortilla-paisana/",
+    "consultado": "2026-10-25",
+    "sha256Html": "7ad9ae4a63725e328bd6afc3e61bcf6d74631f84ef1a8fe8b036acc8a5c0fab6",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Las verduras se incorporan desde sus gramos crudos, luego se cocinan. Aceite retenido explícito."
+  },
+  {
+    "id": "tumbet-mallorquin",
+    "referencia": "https://realacademiadegastronomia.com/recetas/tumbet/",
+    "consultado": "2026-10-25",
+    "sha256Html": "4009234ef0186e0db713b26ab7a376fd7746a4aea1e3b6db90a857c52fcb6f06",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "La salsa de tomate se elabora en el lote a partir de tomate crudo, ajo y parte del aceite contabilizado; no se suma además una salsa preparada."
+  },
+  {
+    "id": "churros-caseros",
+    "referencia": "https://realacademiadegastronomia.com/recetas/churros-porras/",
+    "consultado": "2026-10-25",
+    "sha256Html": "00eabd5a9e44fa48eb809f3cf9ab62704a95bad1668bfa830e4a6950b15dfd0b",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Modelo de churro de harina y agua, no porra fermentada. Aceite = retenido tras escurrir. Azúcar de acabado incluida."
+  },
+  {
+    "id": "crema-catalana-casera",
+    "referencia": "https://realacademiadegastronomia.com/recetas/crema-catalana/",
+    "consultado": "2026-10-25",
+    "sha256Html": "756d59d97cdec91b8cb521b8520bcfe9d1c62b22b61ee8545a4445cd97b0f884",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Canela molida retenida en lugar de rama. Se prescinde del aroma opcional de piel de limón en la formulación AppFit. Incluye azúcar de caramelizar."
+  },
+  {
+    "id": "leche-frita-casera",
+    "referencia": "https://realacademiadegastronomia.com/recetas/leche-frita/",
+    "consultado": "2026-10-25",
+    "sha256Html": "6cb46482efd7c7ae401120f2ebeeaff7b0511c8c70bfde343290382c481f1438",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Sin piel de limón en la formulación. Incluye harina y huevo del rebozado, aceite retenido y azúcar/canela de acabado."
+  },
+  {
+    "id": "torrijas-leche",
+    "referencia": "https://realacademiadegastronomia.com/recetas/torrijas/",
+    "consultado": "2026-10-25",
+    "sha256Html": "a35294cf672ec03a9e3adb46b7520c085da6e239ed9e8b8ffe17316b95568d72",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Sin piel de limón en la formulación. Toda la leche indicada se incorpora al lote; aceite = retenido tras escurrir. Azúcar de acabado incluida."
+  },
+  {
+    "id": "caldereta-cordero",
+    "referencia": "https://realacademiadegastronomia.com/recetas/caldereta-de-cordero/",
+    "consultado": "2026-10-25",
+    "sha256Html": "c8cfded000c5ed09051e815de1eb03dbb44190656e20ce5054168fe3a1830e55",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Cordero y pimiento pesados en porción neta comestible. Agua en lugar de caldo; se mantiene el hígado de cordero que figura en la referencia."
+  },
+  {
+    "id": "conejo-salmorejo",
+    "referencia": "https://realacademiadegastronomia.com/recetas/conejo-en-salmorejo/",
+    "consultado": "2026-10-25",
+    "sha256Html": "503049852236aa68c787fc1ff3cd620290ab01ac29732ff8526c0596877c83ad",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Carne de conejo neta, sin huesos. Aceite retenido en el conjunto de fritura y mojo, no volumen total de aceite de trabajo."
+  },
+  {
+    "id": "croquetas-jamon-serrano-caseras",
+    "referencia": "https://realacademiadegastronomia.com/recetas/croquetas-de-jamon/",
+    "consultado": "2026-10-25",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Se usa jamón serrano CIQUAL en lugar del ibérico de la referencia, por eso se especifica serrano en el nombre. Se incluyen mantequilla, leche, harina, huevo, pan rallado y aceite retenido del empanado/fritura. No se asigna al jamón ibérico el valor del serrano.",
+    "sha256Html": "ed351aa9e6dc4ec525e5d81b39a65f9594e85bf65fdc000eb468c1c4011aca37"
+  },
+  {
+    "id": "croquetas-pollo-caseras",
+    "referencia": "https://www.rtve.es/play/videos/rtve-cocina/espana-directo-croquetas-pollo/702331/",
+    "consultado": "2026-10-25",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Referencia culinaria: RTVE, España Directo, Croquetas de pollo, 23-02-2010. La formulación concreta el pollo como pechuga sin piel en peso crudo, sin interpretar una unidad de cebolla/huevo como una pesada de la fuente. Harina, empanado y aceite retenido explícitos.",
+    "origenLectura": "Página primaria RTVE: ingredientes visibles en el texto indexado y referencia audiovisual, no tabla nutricional de la web"
+  },
+  {
+    "id": "patatas-bravas-caseras",
+    "referencia": "https://realacademiadegastronomia.com/recetas/patatas-bravas/",
+    "consultado": "2026-10-25",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Salsa de harina y pimentón de la referencia, no mayonesa. El caldo de ave/verdura se formula con 1,5 g de cada polvo CIQUAL y 197 g de agua, 200 g en total. Pimentón dulce/picante se contabiliza conjuntamente como pimentón en polvo CIQUAL, no como cayena. Aceite retenido en patata y salsa explícito.",
+    "sha256Html": "2c27eab1ec503e0dea718a6cb33c3303fb776d6bb177c0eb5b60899179ce2027"
+  },
+  {
+    "id": "pulpo-feira-sin-patata",
+    "referencia": "https://realacademiadegastronomia.com/recetas/pulpo-a-feira/",
+    "consultado": "2026-10-25",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Pulpo crudo limpio en gramos netos comestibles. Se elige la versión sin patatas opcionales. Cebolla y agua de cocción se retiran: no forman parte de los ingredientes servidos ni del peso final. No se modela extracción de nutrientes de la cebolla a la cocción. Pimentón dulce y picante se contabiliza como pimentón en polvo genérico CIQUAL. Aceite y sal servidos explícitos.",
+    "sha256Html": "aa525581cdb86ac9c0beab0d3463c110a485d36d7e3c95a740d130e2a48a078a"
+  }
+]

@@ -65,6 +65,17 @@ describe('sincronizar', () => {
     expect(importarFuente).not.toHaveBeenCalled()
   })
 
+  it('reimporta una ampliación del mismo día si cambia el número de filas, sin usar caché', async () => {
+    const anterior = { ...instalada('v1'), filas: 1 }
+    const { sincronizar, fetchJson, importarFuente } = crear({
+      '/catalogo/manifest.json': manifest('v1'),
+      '/catalogo/ciqual-v1.json': paquete('v1'),
+    }, [anterior])
+    expect((await sincronizar()).actualizadas).toEqual([{ id: 'ciqual', version: 'v1', filas: 2 }])
+    expect(importarFuente).toHaveBeenCalledTimes(1)
+    expect(fetchJson).toHaveBeenCalledWith('/catalogo/ciqual-v1.json', { sinCache: true })
+  })
+
   it('primera instalación: descarga, convierte e importa con los metadatos del manifest', async () => {
     const { sincronizar, importarFuente } = crear({
       '/catalogo/manifest.json': manifest('v1'),

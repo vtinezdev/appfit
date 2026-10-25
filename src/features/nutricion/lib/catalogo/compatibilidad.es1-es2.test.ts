@@ -90,7 +90,7 @@ describe('actualización CIQUAL es1 → es2 con datos de usuario', () => {
 
     // Actualización: descarga los paquetes publicados (CIQUAL es2 y OFF España) y los importa.
     const r = await sincronizar()
-    expect(r.actualizadas.map((a) => a.id).sort()).toEqual(['ciqual', 'offes'])
+    expect(r.actualizadas.map((a) => a.id).sort()).toEqual(['ciqual', 'offes', 'tipicos'])
 
     // 1. Ningún id de la versión anterior desapareció, y ya son de la versión nueva.
     const porId = await catalogRepo.porIds(es1.filas.map((f) => `ciqual:${f[0]}`))
@@ -117,7 +117,7 @@ describe('actualización CIQUAL es1 → es2 con datos de usuario', () => {
 
     // 5. Los escaneados en directo (fuente `off`) sobreviven a la importación de `offes`.
     expect((await catalogRepo.obtener('off:8410000000000'))?.nombre).toBe('Yogur escaneado')
-    expect((await catalogRepo.fuentes()).map((f) => f.id).sort()).toEqual(['ciqual', 'off', 'offes'])
+    expect((await catalogRepo.fuentes()).map((f) => f.id).sort()).toEqual(['ciqual', 'off', 'offes', 'tipicos'])
 
     // 6. Un producto de la selección offline se encuentra por su código de barras.
     const uno = (await db.catalogFoods.where('fuente').equals('offes').first())!
