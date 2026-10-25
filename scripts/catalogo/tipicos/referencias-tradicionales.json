@@ -383,7 +383,8 @@
     {
       "slug": "croquetas-de-jamon",
       "url": "https://realacademiadegastronomia.com/recetas/croquetas-de-jamon/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "croquetas-jamon-serrano-caseras"
     },
     {
       "slug": "cuajada",
@@ -811,7 +812,8 @@
     {
       "slug": "patatas-bravas",
       "url": "https://realacademiadegastronomia.com/recetas/patatas-bravas/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "patatas-bravas-caseras"
     },
     {
       "slug": "patatas-revolconas",
@@ -945,7 +947,8 @@
     {
       "slug": "pulpo-a-feira",
       "url": "https://realacademiadegastronomia.com/recetas/pulpo-a-feira/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "pulpo-feira-sin-patata"
     },
     {
       "slug": "pulpo-a-la-gallega",

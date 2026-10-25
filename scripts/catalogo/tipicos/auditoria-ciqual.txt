@@ -365,3 +365,36 @@ Revisión FR/EN/ES y de los 156 ids/valores previos:
   de boniato con cebolla, no boniato cocido solo.
 - Se descartan 9110 arroz rojo cocido, 9124 arroz tailandés cocido, 4018/4040
   puré de patata con leche y mantequilla y 20030/20320 judía verde cocida/hervida.
+
+
+Lote pescado/aves y clásicos españoles, 24 entradas, 2026-10-25:
+- Se descartan atún al horno 26041, trucha al horno 27006/27014 y al vapor
+  27007/27015, salmón al vapor 26038, huevo escalfado 22011 y huevo frito sin
+  grasa 22505: ya tienen cobertura CIQUAL. No se duplican por otra traducción.
+- Pez espada 26093 es al horno, no parrilla; 16-222 CoFID es a la parrilla
+  (calculado por CoFID desde crudo, no un cálculo nuevo propio).
+- Langostinos de aguas cálidas 16-388 a la parrilla no equivalen a los hervidos
+  10007 ni al plato de fideos con gambas 25183. Peso comestible sin cáscara.
+- Fishcakes blancos/salmón empanados al horno no son nuggets fritos CIQUAL
+  26028/26030; fishcake casero de salmón no se llama croqueta de bechamel.
+- Bolitas de pescado asiáticas al vapor no son croquetas españolas ni albóndigas
+  con salsa inventada. Se conserva el estilo y preparación originales.
+- 11129 salsa cazadora sola y 25058 pato en salsa no equivalen a pollo cazadora.
+  25174 pollo al curry/coco envasado no equivale al curry de pescado blanco.
+- 25207 cerdo al caramelo envasado no equivale a cerdo magro agridulce casero;
+  chuletas con mostaza/nata, cerdo con manzana y costillas con salsa barbacoa
+  no se añaden como si fueran piezas de carne sola sin salsa.
+- 28475/28476 son cerdo 90/10 u 80/20 crudo, no carne picada ya estofada. El
+  porcentaje 10% descrito para la carne de CoFID no se impone al plato cocinado.
+- 36306 pavo plancha/sartén no especifica tiras salteadas en aceite de maíz.
+  Quiche de queso/huevo no es Lorraine con panceta; 25573 promedio de tartas
+  saladas no fija ese relleno. Pilaf integral con huevo/patata no es arroz solo.
+- Croquetas de jamón/pollo con bechamel no equivalen a nuggets 1033/36027/25512.
+  No existe entrada específica de bravas ni de pulpo a feira con su aceite y
+  pimentón; 10079 es pulpo cocido solo. Se usan ingredientes crudos CIQUAL.
+- En la referencia RAG las croquetas llevan ibérico: variante AppFit llamada
+  expresamente serrano. Bravas conservan caldo y pimentón. Pulpo se sirve sin
+  patatas opcionales y sin la cebolla/agua de cocción desechadas. Referencias y
+  adaptaciones de las 4 recetas registradas en revision-2026-10-25.json.
+- Ensaladilla rusa no se completa omitiendo atún en aceite ni usando pescado
+  fresco con su nombre: continúa pendiente de una vía compatible con el encargo.

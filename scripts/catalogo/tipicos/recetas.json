@@ -2159,5 +2159,169 @@
         "gramos": 8
       }
     ]
+  },
+  {
+    "id": "croquetas-jamon-serrano-caseras",
+    "nombre": "Croquetas de jamón serrano, caseras, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://realacademiadegastronomia.com/recetas/croquetas-de-jamon/ (consultada 2026-10-25). Gramajes netos comestibles y peso final objetivo del lote listo: criterio de formulación AppFit, no pesada experimental ni transcripción de todas las cantidades de la fuente. Se usa el paquete CIQUAL publicado para todos los nutrientes. Sin factores de rendimiento/retención USDA; se conserva la suma teórica de los ingredientes servidos. Se usa jamón serrano CIQUAL en lugar del ibérico de la referencia, por eso se especifica serrano en el nombre. Se incluyen mantequilla, leche, harina, huevo, pan rallado y aceite retenido del empanado/fritura. No se asigna al jamón ibérico el valor del serrano.",
+    "pesoFinalG": 1200,
+    "ingredientes": [
+      {
+        "ciqual": "16400",
+        "gramos": 100
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 700
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11048",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "11019",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 120
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "croquetas-pollo-caseras",
+    "nombre": "Croquetas de pollo, caseras, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://www.rtve.es/play/videos/rtve-cocina/espana-directo-croquetas-pollo/702331/ (consultada 2026-10-25). Gramajes netos comestibles y peso final objetivo del lote listo: criterio de formulación AppFit, no pesada experimental ni transcripción de todas las cantidades de la fuente. Se usa el paquete CIQUAL publicado para todos los nutrientes. Sin factores de rendimiento/retención USDA; se conserva la suma teórica de los ingredientes servidos. Referencia culinaria: RTVE, España Directo, Croquetas de pollo, 23-02-2010. La formulación concreta el pollo como pechuga sin piel en peso crudo, sin interpretar una unidad de cebolla/huevo como una pesada de la fuente. Harina, empanado y aceite retenido explícitos.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 300
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 70
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11048",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 0.5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "patatas-bravas-caseras",
+    "nombre": "Patatas bravas, caseras, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://realacademiadegastronomia.com/recetas/patatas-bravas/ (consultada 2026-10-25). Gramajes netos comestibles y peso final objetivo del lote listo: criterio de formulación AppFit, no pesada experimental ni transcripción de todas las cantidades de la fuente. Se usa el paquete CIQUAL publicado para todos los nutrientes. Sin factores de rendimiento/retención USDA; se conserva la suma teórica de los ingredientes servidos. Salsa de harina y pimentón de la referencia, no mayonesa. El caldo de ave/verdura se formula con 1,5 g de cada polvo CIQUAL y 197 g de agua, 200 g en total. Pimentón dulce/picante se contabiliza conjuntamente como pimentón en polvo CIQUAL, no como cayena. Aceite retenido en patata y salsa explícito.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11174",
+        "gramos": 1.5
+      },
+      {
+        "ciqual": "11041",
+        "gramos": 1.5
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 197
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 9
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "pulpo-feira-sin-patata",
+    "nombre": "Pulpo a feira, sin patata, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Referencia culinaria individual: https://realacademiadegastronomia.com/recetas/pulpo-a-feira/ (consultada 2026-10-25). Gramajes netos comestibles y peso final objetivo del lote listo: criterio de formulación AppFit, no pesada experimental ni transcripción de todas las cantidades de la fuente. Se usa el paquete CIQUAL publicado para todos los nutrientes. Sin factores de rendimiento/retención USDA; se conserva la suma teórica de los ingredientes servidos. Pulpo crudo limpio en gramos netos comestibles. Se elige la versión sin patatas opcionales. Cebolla y agua de cocción se retiran: no forman parte de los ingredientes servidos ni del peso final. No se modela extracción de nutrientes de la cebolla a la cocción. Pimentón dulce y picante se contabiliza como pimentón en polvo genérico CIQUAL. Aceite y sal servidos explícitos.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "10018",
+        "gramos": 1500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
   }
 ]

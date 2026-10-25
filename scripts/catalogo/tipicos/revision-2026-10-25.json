@@ -268,5 +268,41 @@
     "formulacion": "AppFit",
     "pesoFinal": "objetivo de formulación, sin medición experimental",
     "decision": "Carne de conejo neta, sin huesos. Aceite retenido en el conjunto de fritura y mojo, no volumen total de aceite de trabajo."
+  },
+  {
+    "id": "croquetas-jamon-serrano-caseras",
+    "referencia": "https://realacademiadegastronomia.com/recetas/croquetas-de-jamon/",
+    "consultado": "2026-10-25",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Se usa jamón serrano CIQUAL en lugar del ibérico de la referencia, por eso se especifica serrano en el nombre. Se incluyen mantequilla, leche, harina, huevo, pan rallado y aceite retenido del empanado/fritura. No se asigna al jamón ibérico el valor del serrano.",
+    "sha256Html": "ed351aa9e6dc4ec525e5d81b39a65f9594e85bf65fdc000eb468c1c4011aca37"
+  },
+  {
+    "id": "croquetas-pollo-caseras",
+    "referencia": "https://www.rtve.es/play/videos/rtve-cocina/espana-directo-croquetas-pollo/702331/",
+    "consultado": "2026-10-25",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Referencia culinaria: RTVE, España Directo, Croquetas de pollo, 23-02-2010. La formulación concreta el pollo como pechuga sin piel en peso crudo, sin interpretar una unidad de cebolla/huevo como una pesada de la fuente. Harina, empanado y aceite retenido explícitos.",
+    "origenLectura": "Página primaria RTVE: ingredientes visibles en el texto indexado y referencia audiovisual, no tabla nutricional de la web"
+  },
+  {
+    "id": "patatas-bravas-caseras",
+    "referencia": "https://realacademiadegastronomia.com/recetas/patatas-bravas/",
+    "consultado": "2026-10-25",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Salsa de harina y pimentón de la referencia, no mayonesa. El caldo de ave/verdura se formula con 1,5 g de cada polvo CIQUAL y 197 g de agua, 200 g en total. Pimentón dulce/picante se contabiliza conjuntamente como pimentón en polvo CIQUAL, no como cayena. Aceite retenido en patata y salsa explícito.",
+    "sha256Html": "2c27eab1ec503e0dea718a6cb33c3303fb776d6bb177c0eb5b60899179ce2027"
+  },
+  {
+    "id": "pulpo-feira-sin-patata",
+    "referencia": "https://realacademiadegastronomia.com/recetas/pulpo-a-feira/",
+    "consultado": "2026-10-25",
+    "formulacion": "AppFit",
+    "pesoFinal": "objetivo de formulación, sin medición experimental",
+    "decision": "Pulpo crudo limpio en gramos netos comestibles. Se elige la versión sin patatas opcionales. Cebolla y agua de cocción se retiran: no forman parte de los ingredientes servidos ni del peso final. No se modela extracción de nutrientes de la cebolla a la cocción. Pimentón dulce y picante se contabiliza como pimentón en polvo genérico CIQUAL. Aceite y sal servidos explícitos.",
+    "sha256Html": "aa525581cdb86ac9c0beab0d3463c110a485d36d7e3c95a740d130e2a48a078a"
   }
 ]

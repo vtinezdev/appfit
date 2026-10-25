@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-188 filas: 131 valores directos (44 USDA y 87 CoFID) y 57 recetas CIQUAL.
+212 filas: 151 valores directos (44 USDA y 107 CoFID) y 61 recetas CIQUAL.
 La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
@@ -15,7 +15,7 @@ Las nuevas entradas abarcan legumbres, cereales, semillas y cremas de frutos
 secos, pan integral, quesos, desayunos y platos de verduras, carnes, pescados,
 mariscos y postres. La petición más reciente amplía por categorías y alimentos
 cotidianos, más allá del primer repertorio estrictamente tradicional español.
-El objetivo anterior de 500 adicionales sigue pendiente: hay 143 más que en
+El objetivo anterior de 500 adicionales sigue pendiente: hay 167 más que en
 el primer lote de 45. No se cuentan referencias pendientes como alimentos.
 
 La lista de las 58 incorporaciones, con macros y referencia, está en
@@ -226,3 +226,42 @@ Ricota/paneer no se renombran como queso de Burgos ni otros quesos españoles.
 No se añaden seis variantes casi iguales de un pastel vegetal para aumentar
 el recuento. El origen de cada plato y sus recetas publicadas se conserva en
 las notas, sin presentarlos como recetas tradicionales españolas.
+
+## Lote de pescado, aves y clásicos españoles (24 entradas)
+
+20 directos CoFID y 4 recetas calculadas desde CIQUAL. Las 188 filas anteriores
+se conservan exactamente. Lista con valores y fuentes:
+`../informes/tipicos-pescado-clasicos-2026-10-25.csv`.
+
+Los directos añaden tortitas de pescado (fishcakes) caseras o empanadas al
+horno, bolitas de pescado asiáticas al vapor, bullabesa, curry de pescado blanco,
+pez espada a la parrilla, langostinos de aguas cálidas a la parrilla, pollo a
+la cazadora/fricasé, cerdo con manzana/mostaza y nata/barbacoa/agridulce, brochetas
+de cerdo y piña, carne picada de pavo o cerdo estofada, pavo en maíz, quiche de
+queso y huevo y pilaf integral con huevo y patata. Las notas conservan muestras,
+recetas y cálculos de CoFID. Se excluyen las variantes pesadas con huesos.
+No se equiparan fishcakes a croquetas españolas con bechamel.
+
+Las 4 recetas nuevas son croquetas de jamón serrano, croquetas de pollo,
+patatas bravas y pulpo a feira sin patata. Referencias individuales leídas:
+Real Academia de Gastronomía para jamón/bravas/pulpo y RTVE España Directo
+(23-02-2010) para pollo. La consulta inicial a RAG agotó el tiempo del buscador;
+se recuperaron las páginas por descarga normal y se revisaron sus ingredientes
+y elaboración. No se usan nutrientes de RTVE, webs comerciales ni recetas de marca.
+
+Los gramajes y pesos finales siguen siendo formulaciones AppFit, no pesadas
+experimentales. El aceite es el retenido que se sirve, no el baño de fritura.
+Las croquetas de jamón usan serrano identificado, no un valor supuesto para
+ibérico. Las de pollo usan pechuga sin piel pesada cruda. Las bravas incluyen
+caldo de ave/verdura como 3 g de polvos CIQUAL y 197 g de agua: no se omite la
+sal del concentrado. El pimentón dulce/picante se contabiliza como pimentón
+CIQUAL, no como cayena. En el pulpo no se suman la cebolla ni el agua de cocción
+que se desechan: no se modela su extracción al alimento servido. No se aplica
+un factor de retención/rendimiento USDA; el peso final es objetivo de formulación.
+
+La ensaladilla rusa sigue pendiente: la referencia contiene atún en aceite y
+mayonesa; no se sustituye el valor del atún en conserva por fresco ni se omite
+el atún para publicarla con el mismo nombre. Los platos resueltos por las cuatro
+recetas nuevas salen de sin-fuente.json. En total hay ahora 34 recetas con
+referencia individual revisada (33 RAG y 1 RTVE), además de las 25 iniciales de
+referencia general y las 2 mezclas crudas institucionales.
