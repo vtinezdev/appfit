@@ -2567,3 +2567,15 @@ Víctor ejecuta `supabase/migrations/0025_social_avisos_compania.sql` en el SQL 
 - Documentos: `datos.md` (tabla, invariante 19, repos, backup, v14), `features/nutricion.md`, README, roadmap, el carril B y la D12 del plan.
 
 **Verificación:** `npm run test` (2.761) y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 px en claro, 375 en oscuro y 430 en claro, con dos comidas típicas. Se planificaron tres comidas (hoy, mañana y pasado mañana) y el resumen siguió en 0 kcal. La lista sumó «Pechuga de pollo 360 g», «Arroz blanco 160 g», «Verduras 300 g», «Pan integral 60 g» y «Tomate 100 g». Con «Hoy y mañana» quedaron solo las tres primeras. «Lo he comido» creó tres entradas y dejó dos planificadas. No hubo scroll horizontal ni errores de consola. En el iPhone queda por probar el selector nativo del día y el portapapeles.
+
+## 235. Plan de evolución al día (2026-10-25)
+
+Víctor pide revisar el repositorio entero (también lo hecho en otras sesiones) y corregir lo desfasado. Rama `docs/plan-evolucion-al-dia`; solo documentación.
+
+- `docs/plan-evolucion/README.md`: estado actual (falta B17, pendiente de D13, y A15, tras el piloto), que desde el 2026-10-24 una sola sesión lleva los dos carriles, la última versión de Dexie (14) y la última migración de Supabase (`0026`, ejecutada), y el resultado de cada decisión D1–D11 en su tabla (antes solo estaba D12).
+- `docs/plan-evolucion/carril-b.md`: B5–B8 enlazan su PR (#124, #126, #130, #132) en vez de «PR pendiente».
+- La rama remota `feat/a-tras-paron` (A4, descartado; su único commit nunca se fusionó) queda para borrar desde GitHub: la sesión no tiene permiso para borrar ramas.
+- Queda abierta, sin tocar, la PR #162 (`feat/b-catalogo-tipicos`, borrador con conflictos y encargo incompleto según su descripción), pendiente de lo que decida Víctor.
+
+**Verificación:** `npm run test` (243 archivos, 2.766 pruebas) y `npm run build` correctos en `master`; este cambio no toca código.
+

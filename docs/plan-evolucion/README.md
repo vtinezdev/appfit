@@ -2,14 +2,16 @@
 
 Plan vivo para implementar, poco a poco, las 33 mejoras que Víctor eligió el 2026-10-22 en el dashboard de evolución (dos loops de investigación: <https://claude.ai/artifact/Qjai8aiNUC5aARFgA6nLtM>, privado de Víctor). Cada mejora conserva su ID del dashboard (`NUT-03`, `ENT-01`…); allí está la investigación completa de cada una (situación comprobada, referencias externas, impacto y esfuerzo).
 
-El trabajo se reparte en **dos carriles** para que dos sesiones de Claude Code, en dos cuentas distintas que no se ven entre sí, trabajen a la vez sin pisarse:
+El trabajo se reparte en **dos carriles** para que dos sesiones de Claude Code, en dos cuentas distintas que no se ven entre sí, trabajen a la vez sin pisarse. **Desde el 2026-10-24 una sola sesión lleva los dos carriles** (sesión 11, B9 en adelante): los cruces se resuelven en el mismo paso y la regla de carpetas de abajo queda como orientación.
 
 | Carril | Archivo de estado | Tema | Pasos |
 |---|---|---|---|
 | **A** | [`carril-a.md`](carril-a.md) | Entreno, Social y actividades | 15 + 2 cruces |
 | **B** | [`carril-b.md`](carril-b.md) | Inicio, Nutrición, navegación y progreso | 17 |
 
-Base: `master` en `550ab77` (tras el historial por gimnasio, §185–§188, y la auditoría del 22 de octubre, `docs/plan-auditoria-2026-10-22.md`, ya cerrada). Las dos sesiones solo se comunican a través de `master`: lo que una fusiona, la otra lo ve al actualizar su rama. Víctor es quien fusiona las PR y quien resuelve las decisiones marcadas como **Decidir**.
+Base: `master` en `550ab77` (tras el historial por gimnasio, §185–§188, y la auditoría del 22 de octubre, `docs/plan-auditoria-2026-10-22.md`, ya cerrada). Mientras hubo dos sesiones, solo se comunicaban a través de `master`: lo que una fusionaba, la otra lo veía al actualizar su rama. Víctor resuelve las decisiones marcadas como **Decidir** y decide cuándo se fusiona cada PR.
+
+**Estado (2026-10-25):** carril B hecho salvo **B17** (fotos, pendiente de D13); carril A hecho salvo **A15** (expediciones de comunidad, tras el piloto de la semana en compañía), con A4, A7 y A20 (y otros añadidos después) descartados. Detalle en cada archivo de carril.
 
 ## Cómo empezar una sesión
 
@@ -51,8 +53,8 @@ Cada carril es **dueño** de unas carpetas: solo él las modifica. Del otro carr
 Consecuencias:
 
 - **El carril A no toca `src/shared/` ni `src/app/`.** Si necesita una pieza nueva, la crea dentro de su feature (por ejemplo, un componente en `gym/components/`). En los pasos de A no hace falta ningún campo nuevo en `Settings` ni ninguna versión de esquema. Única excepción: el cruce A-X1 cambia la línea de `src/app/App.tsx` que monta `AmigosTab`.
-- **Solo B crea versiones de Dexie** (`shared/db/db.ts`) y toca `shared/lib/backup.ts`. Hoy la última es la 13 (`gimnasios`, PROCESO §185).
-- **Solo A crea migraciones de Supabase.** Hoy la última es `0021`. Se ejecutan a mano en el SQL Editor, como siempre (`docs/features/social.md`).
+- **Solo B crea versiones de Dexie** (`shared/db/db.ts`) y toca `shared/lib/backup.ts`. Hoy la última es la 14 (`planificadas`, B16, PROCESO §234).
+- **Solo A crea migraciones de Supabase.** Hoy la última es `0026` (ejecutada, PROCESO §223). Se ejecutan a mano en el SQL Editor, como siempre (`docs/features/social.md`).
 - Ninguno añade dependencias a `package.json` sin preguntar a Víctor.
 
 ## Archivos compartidos
@@ -85,17 +87,17 @@ Cada una aparece también, como **Decidir**, en el paso que la necesita. Se resu
 
 | # | Paso | Decisión |
 |---|---|---|
-| D1 | B6 · NUT-03 | Volver a tener un acceso para registrar en Inicio, que ADR 021 («sin accesos que repitan destinos») y ADR 043 dejaron fuera. Si se aprueba, ADR nuevo o actualización del 043. Umbral de «lo de siempre» (propuesto: la misma combinación en esa comida ≥ 3 de los últimos 7 días). |
-| D2 | B9 · GLO-02 | Qué módulos se pueden desactivar y qué pasa con la gamificación al quitar Nutrición (propuesto: pasa a «Solo entreno»). |
-| D3 | B12 · GAM-02 | Un destino «Progreso» con pestañas en lugar de cuatro destinos sueltos: cambia el ADR 043. |
-| D4 | B13 · GAM-04 | Qué tipos de meta (propuesto: récord de un ejercicio, km de un mes, semanas cumplidas; nunca peso corporal) y si da un logro en la Vitrina. |
-| D5 | B11 · PRO-01 | Dónde viven las lecturas cruzadas (revisión semanal o Progreso) y su redacción («coinciden», nunca «porque»). |
-| D6 | B10 · NUT-05 | Si encaja ordenar tus alimentos por lo que te falta (riesgo de empujar a comer de más). |
-| D7 | A7 · ENT-05 | Porcentajes de la rampa de calentamiento, como criterio de AppFit declarado en Referencias. |
-| D8 | A3 · ENT-14 | Preguntar el descanso una vez en general o una vez por ejercicio. |
-| D9 | A9 · ENT-10 | Qué hitos van en la franja «Hoy» del póster y en qué orden. |
-| D10 | A12 · ENT-09 | Quién revisa los textos de técnica y con qué fuentes; por qué ejercicios se empieza. |
-| D11 | A13–A15 · SOC | ADR para lo que sale del móvil, migraciones, y si van antes o después de la fase 6 legal de Social. |
+| D1 | B6 · NUT-03 | Volver a tener un acceso para registrar en Inicio, que ADR 021 («sin accesos que repitan destinos») y ADR 043 dejaron fuera. Si se aprueba, ADR nuevo o actualización del 043. Umbral de «lo de siempre» (propuesto: la misma combinación en esa comida ≥ 3 de los últimos 7 días). **Decidida (2026-10-23):** sí al acceso «+ Añadir desayuno» (según la hora) al pie de la energía; «Lo de siempre» descartado. Anotado en el ADR 043. |
+| D2 | B9 · GLO-02 | Qué módulos se pueden desactivar y qué pasa con la gamificación al quitar Nutrición (propuesto: pasa a «Solo entreno»). **Decidida (2026-10-24):** Nutrición, Gimnasio, Actividades, Agua y Peso; sin Nutrición, la gamificación cuenta solo el entreno (derivado, sin escribir el ajuste). |
+| D3 | B12 · GAM-02 | Un destino «Progreso» con pestañas en lugar de cuatro destinos sueltos: cambia el ADR 043. **Decidida (2026-10-24):** destino «Progreso» con pestañas, también en la media luna ([ADR 058](../decisiones/058-destino-progreso.md)). |
+| D4 | B13 · GAM-04 | Qué tipos de meta (propuesto: récord de un ejercicio, km de un mes, semanas cumplidas; nunca peso corporal) y si da un logro en la Vitrina. **Decidida (2026-10-24):** récord de un ejercicio, km de un mes y semanas cumplidas; cada meta cumplida da pieza en la Vitrina. |
+| D5 | B11 · PRO-01 | Dónde viven las lecturas cruzadas (revisión semanal o Progreso) y su redacción («coinciden», nunca «porque»). **Decidida (2026-10-24):** al final de la revisión semanal, con frases descriptivas («coinciden», nunca «porque»). |
+| D6 | B10 · NUT-05 | Si encaja ordenar tus alimentos por lo que te falta (riesgo de empujar a comer de más). **Decidida (2026-10-24):** sí, como chip «Encajan con lo que te falta» en Buscar. |
+| D7 | A7 · ENT-05 | Porcentajes de la rampa de calentamiento, como criterio de AppFit declarado en Referencias. **Descartada (2026-10-23):** A7 no se implementa. |
+| D8 | A3 · ENT-14 | Preguntar el descanso una vez en general o una vez por ejercicio. **Decidida (2026-10-22):** una sola vez en general, recordado. |
+| D9 | A9 · ENT-10 | Qué hitos van en la franja «Hoy» del póster y en qué orden. **Decidida (2026-10-23):** récords, subida muscular, cumbre, liga y logros, en ese orden. |
+| D10 | A12 · ENT-09 | Quién revisa los textos de técnica y con qué fuentes; por qué ejercicios se empieza. **Decidida (2026-10-23):** textos de Claude como «claves de AppFit», revisados por Víctor; todos los ejercicios en un lote. |
+| D11 | A13–A15 · SOC | ADR para lo que sale del móvil, migraciones, y si van antes o después de la fase 6 legal de Social. **Decidida (2026-10-23) para A13, A14 y A18:** con su ADR y migración cada una (ADR 055–057, migraciones 0022–0024). A15 sigue pendiente. |
 | D12 | B16 · NUT-04 | Comidas planificadas en días futuros: cómo cuentan en medias, rachas, XP y objetivos congelados. **Decidida (2026-10-24):** no cuentan en nada hasta «Lo he comido» (tabla aparte, ADR 059) y no se planifican días pasados. |
 | D13 | B17 · PRO-04 | Fotos dentro o fuera del backup y de la copia cifrada; límite de tamaño. |
 
