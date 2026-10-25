@@ -1,0 +1,13 @@
+id;nombre;categoria;kcal;prot;carb;grasa;fuente;idFuente;referencia
+pollo-pechuga-piel-rebozada-frita;Pollo, pechuga, carne y piel, rebozada, frita;Carnes;260;24,8;9;13,2;USDA;171475;https://fdc.nal.usda.gov/food-details/171475/nutrients
+pollo-pechuga-piel-enharinada-frita;Pollo, pechuga, carne y piel, enharinada, frita;Carnes;222;31,8;1,6;8,9;USDA;171476;https://fdc.nal.usda.gov/food-details/171476/nutrients
+pollo-jamoncito-piel-rebozado-frito;Pollo, jamoncito, carne y piel, rebozado, frito;Carnes;268;22;8,3;15,8;USDA;172374;https://fdc.nal.usda.gov/food-details/172374/nutrients
+pollo-ala-piel-rebozada-frita;Pollo, ala, carne y piel, rebozada, frita;Carnes;324;19,9;10,9;21,8;USDA;173628;https://fdc.nal.usda.gov/food-details/173628/nutrients
+pollo-piel-sin-rebozado-frito;Pollo, con piel, sin rebozado, frito;Carnes;259;26,9;0;16,8;CoFID;18-327;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+patatas-fritas-caseras-girasol;Patatas, caseras, fritas en aceite de girasol;Patatas y tubérculos;197;3,2;33,1;6,7;CoFID;13-597;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+patatas-asadas-girasol-sin-piel;Patatas, sin piel, asadas con aceite de girasol;Patatas y tubérculos;161;2,6;26,4;5,7;CoFID;13-492;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+patatas-piel-microondas-cocidas;Patatas, con piel, cocidas al microondas;Patatas y tubérculos;92;2,6;21,5;0,1;CoFID;13-494;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+zanahoria-microondas-cocida;Zanahoria, cocida al microondas;Verduras y hortalizas;32;0,6;7,5;0,2;CoFID;13-498;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+bacalao-rebozado-horneado;Bacalao, rebozado, horneado;Pescados;229;12,3;19,7;11,8;CoFID;16-369;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+bacalao-empanado-horneado;Bacalao, empanado, horneado;Pescados;204;13,7;19,8;8,3;CoFID;16-370;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+bacalao-rebozado-frito-colza;Bacalao, rebozado, frito en aceite de colza;Pescados;285;12,6;19,5;17,9;CoFID;16-426;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid

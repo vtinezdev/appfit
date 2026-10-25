@@ -155,3 +155,27 @@ Sin incorporación en esta ampliación: arroz a banda (ñora/fondo), salsa romes
 (sin ingrediente CIQUAL que identifique verdinas), tosta de jamón ibérico
 (no se sustituye su ingrediente por serrano conservando el nombre ibérico),
 berenjenas con miel de caña (ingrediente específico pendiente).
+
+
+Preparaciones, segunda ampliación de 2026-10-25 (12 filas nuevas):
+Búsqueda FR/EN en nombres.csv y contraste ES2:
+- Pollo: 36018 plancha/sartén, 36004/36005/36006/36032/36033 horno y
+  36030/36031 hervidos ya cubiertos; no se crean filas equivalentes.
+- 36036 escalope empanado de pollo y 36318 pavo cocidos: alias en CSV,
+  no nuevas filas. Nuggets 1033/36027 no equivalen a una pieza entera rebozada.
+- Nuevos USDA 171475/171476 distinguen batter/flour en pechuga con piel;
+  172374/173628 son jamoncito/ala con piel rebozados. No confundir con
+  breadcrumbs (pan rallado) ni asignar composición de huevo a batter.
+- CoFID 18-327 es frito sin recubrimiento, con piel; no plancha 36018.
+- Patata: CIQUAL 4002/4026 al horno tiene 0,1 g de grasa por 100 g;
+  el nuevo CoFID 13-492 indica girasol y 5,7 g. No se llama sin aceite.
+- 4030/4032 son patatas CONGELADAS horneadas/fritas: no equivalen al
+  CoFID 13-597 de patatas CASERAS fritas en girasol (197 kcal).
+- 4045 es producto congelado prefrito PARA microondas, no la patata fresca
+  con piel ya cocida al microondas de CoFID 13-494. Zanahoria microondas
+  13-498 no tiene equivalente confirmado en nombres.csv/ES2.
+- CIQUAL 26025 bacalao al vapor y 26038 salmón al vapor: no se duplican.
+  26030 pescado empanado frito no equivale al bacalao empanado al horno
+  16-370; 16-369 y 16-426 son rebozado, con distinto método y aceite.
+Sin fuente específica para freidora de aire: no se extrapolan valores del
+horno/fritura ni se inventa un porcentaje de absorción de aceite.

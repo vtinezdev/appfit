@@ -33,6 +33,7 @@ try {
     ...['USDA', 'CoFID'].map(fuente => `${fuente}: ${directos.filter(d => d.fuente === fuente && !r.excluidos.includes(d.fila[0])).length} directos aceptados`),
     'Reparto por categoría: ' + [...new Set(r.paquete.filas.map(f => f[3]))].map(c => `${c}: ${r.paquete.filas.filter(f => f[3] === c).length}`).join('; '),
     'Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 30 nuevas referencias individuales leídas. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.',
+    'Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',

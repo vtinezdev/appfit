@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-105 filas: 48 valores directos (39 USDA y 9 CoFID) y 57 recetas CIQUAL.
+117 filas: 60 valores directos (43 USDA y 17 CoFID) y 57 recetas CIQUAL.
 La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
@@ -15,7 +15,7 @@ Las nuevas entradas abarcan legumbres, cereales, semillas y cremas de frutos
 secos, pan integral, quesos, desayunos y platos de verduras, carnes, pescados,
 mariscos y postres. La petición más reciente amplía por categorías y alimentos
 cotidianos, más allá del primer repertorio estrictamente tradicional español.
-El objetivo anterior de 500 adicionales sigue pendiente: hay 60 más que en
+El objetivo anterior de 500 adicionales sigue pendiente: hay 72 más que en
 el primer lote de 45. No se cuentan referencias pendientes como alimentos.
 
 La lista de las 58 incorporaciones, con macros y referencia, está en
@@ -128,8 +128,9 @@ Se preservan todos los ids de las versiones anteriores del paquete típicos.
 
 ## Pendientes
 
-Cuatro alias CIQUAL en traducciones.csv pendientes de reconstruir es3:
-6140/6141 carrillada de vacuno, 28501 panceta fresca y 28845 jamón serrano.
+Seis filas CIQUAL con alias añadidos en traducciones.csv pendientes de
+reconstruir es3: 6140/6141 carrillada de vacuno, 28501 panceta fresca,
+28845 jamón serrano, 36036 pollo empanado/milanesa de pollo y 36318 milanesa de pavo.
 ES2 sigue intacto; la descarga anterior de compo (~69 MB) quedó incompleta.
 No usar XML parciales. Seguir scripts/catalogo/README.md para reintentar.
 
@@ -142,3 +143,35 @@ fuente. referencias-tradicionales.json registra 251 referencias RAG; las 30
 leídas en esta ampliación tienen su estado actualizado. Esos enlaces no se
 cuentan como filas. Spain.info también ofrece un repertorio regional que
 necesita revisión individual y deduplicación; no se asume que todo sea nuevo.
+
+## Preparaciones de un mismo alimento
+
+Se incorporan otras 12 filas directas (4 USDA y 8 CoFID), sin calcular absorción
+de aceite ni rendimientos propios: pechuga de pollo con piel rebozada o
+simplemente enharinada y frita, jamoncito/ala rebozados y fritos, pollo con piel
+frito sin rebozado, patatas caseras fritas en girasol, patatas asadas con girasol,
+patatas con piel y zanahorias al microondas, bacalao rebozado al horno,
+empanado al horno y rebozado frito en colza. Lista con macros y referencias:
+`../informes/tipicos-preparaciones-2026-10-25.csv`.
+
+Se conserva literalmente la preparación del origen: batter = rebozado,
+flour = enharinado, breadcrumbs = empanado. No se llama «a la romana» a un
+recubrimiento cuya receta no especifica huevo. No se cambia girasol/colza
+por oliva ni se convierte un dato de freidora convencional en freidora de aire.
+Los nutrientes incluyen la piel y el recubrimiento cuando lo dice el nombre;
+los pesos son comestibles, sin huesos. Algunas filas CoFID son cálculos del
+propio organismo, descritos en las notas, no análisis de cada muestra individual.
+
+Las preparaciones ya cubiertas por CIQUAL no crean filas de típicos: pollo a
+la plancha, pollo asado, pollo hervido, pollo/pavo empanados, patata hervida,
+asada sin aceite, patatas congeladas fritas/al horno, bacalao y salmón al vapor.
+Se añaden solo tres alias en las dos filas de escalopas empanadas de CIQUAL;
+esos alias siguen pendientes de publicar en es3, igual que los anteriores.
+
+La prueba de regresión de búsqueda está en
+`scripts/integracion/preparacionesBusqueda.test.ts`: una consulta general de
+pechuga con piel conserva el básico CIQUAL, y la consulta con «rebozada» elige
+la nueva preparación. Se usan nombres coherentes con el básico de CIQUAL
+(«Pollo, pechuga, carne y piel, …»), sin cambiar el ranking ni archivos de src/.
+La prueba usa el entorno Vitest de la app y se mantiene fuera del ámbito de
+compilación Node de la tubería offline.
