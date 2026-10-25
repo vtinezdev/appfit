@@ -321,3 +321,47 @@ Decisiones de la revisión manual de los 40 candidatos anteriores:
   hamburguesa sin bollo. No se añade un bocadillo con los valores de la carne.
 - Pimientos rellenos concretos, con arroz/vacuno o verduras/queso, no equivalen
   al promedio 25511 de verduras rellenas sin precisar relleno ni cereal.
+
+
+Lote vegetal y ensaladas, 32 directos (31 CoFID y 1 USDA), 2026-10-25:
+Revisión FR/EN/ES y de los 156 ids/valores previos:
+- Berenjenas rellenas de lentejas/verduras y de verduras/queso no equivalen
+  a 25196 Riste (berenjena, tomate y cebolla envasados) ni al promedio 25511
+  de verduras rellenas sin composición del relleno. Se conservan los rellenos.
+- Edamame CoFID 13-667 son semillas jóvenes congeladas/hervidas: vainas
+  descartadas por la fuente. CIQUAL 20901 identifica semilla entera de soja, no esta preparación de edamame.
+- Chapata/ciabatta, paneer y ricota: sin equivalente específico confirmado en
+  nombres.csv FR/EN ni ES2. Baguette/pan blanco, brousse y otros quesos frescos
+  no se renombran como estos alimentos ni como DOP españolas.
+- Quark ya cubierto bajo queso blanco: no se añade. Sin alias de requesón a
+  ricota, pues ese nombre puede referirse a quesos distintos.
+- Hummus USDA 172454 es home prepared; CIQUAL 25621 es envasado. Vía 2 con
+  categoría Salsas y condimentos, no fórmula propia de AppFit.
+- Frijoles pintos refritos son un plato preparado, no alubias pintas hervidas
+  (ya añadidas como USDA). El pastel de legumbres tampoco equivale al guiso
+  de alubias blancas con verduras previo: preparaciones y composición distintas.
+- Tortitas de lentejas rojas y patata, fritas en aceite vegetal: no equivalen
+  a 25591 pavé de lentejas, soja y verduras envasado. No se supone aceite de oliva.
+- Los pasteles seleccionados distinguen lenteja/arroz de lenteja/frutos secos;
+  no se duplican versiones casi idénticas con/sin huevo del mismo plato.
+- 25101 gratín de coliflor es envasado; nuevo 15-639 casero con leche semi.
+- 25187 risotto vegetal es envasado; nuevo 15-863 incluye alubia roja y anacardo.
+- 26262 ensalada griega y 26258 remolacha con salsa son envasadas. Las nuevas
+  son recetas CoFID con relleno/aliño descritos en sus notas, no promedios inventados.
+- 25609 patata a la piamontesa, 25664 con atún y 25665 con salchicha no son la
+  receta CoFID de patata/mayonesa ni la de patata/aliño francés.
+- Ensalada Waldorf: sin equivalente confirmado. Se conservan nuez, apio y mayonesa.
+- 25615 pasta con queso/verduras/salsa no identifica pasta integral; nueva
+  15-294 integral con verduras y mayonesa. No se añade otra versión de pasta
+  blanca que pueda solapar sin una diferencia clara.
+- 25614 ensalada de arroz en conserva y 26263 con atún/verduras no equivalen
+  a la nueva de arroz integral con frutos secos y pasas. No se omiten esos ingredientes.
+- 25900 sopa de lentejas es envasada. La nueva es casera CoFID; no es un guiso
+  de lentejas con verduras. Sopa de guisantes/jamón: sin equivalente confirmado.
+- Sopa de patata/puerro descartada por solape con porrusalda; 25907/25925 ya
+  aportan otras versiones preparadas. No se aumenta el catálogo con otra similar.
+- CIQUAL 4102 boniato cocido y 20832 boniato al vapor ya cubiertos: no duplicar.
+  Nuevo 13-647 especifica gajos con piel asados en colza y 15-884 es un plato
+  de boniato con cebolla, no boniato cocido solo.
+- Se descartan 9110 arroz rojo cocido, 9124 arroz tailandés cocido, 4018/4040
+  puré de patata con leche y mantequilla y 20030/20320 judía verde cocida/hervida.

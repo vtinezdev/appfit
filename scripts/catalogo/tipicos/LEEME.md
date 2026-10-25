@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-156 filas: 99 valores directos (43 USDA y 56 CoFID) y 57 recetas CIQUAL.
+188 filas: 131 valores directos (44 USDA y 87 CoFID) y 57 recetas CIQUAL.
 La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
@@ -15,7 +15,7 @@ Las nuevas entradas abarcan legumbres, cereales, semillas y cremas de frutos
 secos, pan integral, quesos, desayunos y platos de verduras, carnes, pescados,
 mariscos y postres. La petición más reciente amplía por categorías y alimentos
 cotidianos, más allá del primer repertorio estrictamente tradicional español.
-El objetivo anterior de 500 adicionales sigue pendiente: hay 111 más que en
+El objetivo anterior de 500 adicionales sigue pendiente: hay 143 más que en
 el primer lote de 45. No se cuentan referencias pendientes como alimentos.
 
 La lista de las 58 incorporaciones, con macros y referencia, está en
@@ -202,3 +202,27 @@ De 40 candidatos se descarta la macedonia: CIQUAL 13134 ya cubre la ensalada
 de frutas cruda; no se presupone ausencia de azúcar en CIQUAL para crear otra
 fila. Solo se añade su alias al CSV, pendiente de publicar es3. Tampoco se
 añaden gofre artesanal, suflé de queso o pan de leche ya cubiertos por CIQUAL.
+
+## Lote vegetal, ensaladas y básicos (32 directos)
+
+Se añaden 31 filas CoFID y hummus casero USDA 172454, sin nuevos cálculos de
+recetas AppFit. Total 188, con las 156 filas anteriores intactas. Lista:
+`../informes/tipicos-vegetales-2026-10-25.csv`.
+
+Incluye berenjenas rellenas, pasteles y tortitas de legumbres, frijoles
+refritos, arroz con legumbres, pilaf natural, risotto de verduras con alubias
+y anacardos, ensaladas de patata/remolacha/arroz/pasta integral, ensalada griega
+y Waldorf, sopas de lentejas/guisantes con jamón, guarniciones de patata y
+boniato, coliflor con queso y leche semidesnatada, edamame, chapata, ricota,
+paneer y hummus casero. Se conserva el aceite de colza del boniato, no se
+renombra como oliva. Edamame: semillas comestibles, vainas descartadas.
+Waldorf incluye manzana, nuez, apio y mayonesa según la descripción CoFID.
+Las ensaladas de arroz y risotto que incluyen frutos secos lo indican.
+
+No se añaden quark, arroz rojo/tailandés, puré de patata con leche y mantequilla,
+boniato cocido genérico ni judías verdes hervidas: ya están cubiertos por CIQUAL.
+Tampoco se añade otra sopa de patata/puerro que solape la porrusalda existente.
+Ricota/paneer no se renombran como queso de Burgos ni otros quesos españoles.
+No se añaden seis variantes casi iguales de un pastel vegetal para aumentar
+el recuento. El origen de cada plato y sus recetas publicadas se conserva en
+las notas, sin presentarlos como recetas tradicionales españolas.
