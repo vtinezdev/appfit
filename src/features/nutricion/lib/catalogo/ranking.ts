@@ -5,7 +5,7 @@ import { normalizeName, tokensConsulta } from '../../../../shared/lib/text'
 import { preferidoCompatible, preferidoDe } from './preferidos'
 
 /** En caso de empate, qué fuente va antes (menor = antes). Las que no están aquí van detrás. */
-export const PRIORIDAD_FUENTE: Record<string, number> = { ciqual: 0, usda: 1, offes: 2, off: 3 }
+export const PRIORIDAD_FUENTE: Record<string, number> = { ciqual: 0, usda: 1, tipicos: 2, offes: 3, off: 4 }
 
 /** Posición que se asigna a un token que solo coincide por un alias (no aparece en el nombre). */
 const SOLO_ALIAS = 99

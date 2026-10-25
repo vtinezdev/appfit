@@ -72,7 +72,7 @@ Router casero con `useState`, sin URLs ni historial ([ADR 002](decisiones/002-ro
 - `vite.config.ts`: `VitePWA` con `registerType: 'autoUpdate'` (un deploy nuevo se aplica solo).
 - Manifest con `id: '/'`, `start_url: '/'` y `scope: '/'` estables entre builds. Los archivos precacheados se actualizan; la base IndexedDB `appfit` conserva los registros en el mismo origen. La PWA y Safari pueden tener almacenes separados en iOS (traslado: `datos.md`).
 - El precache (`globPatterns`) incluye js/css/html/svg/png/ico/woff2. **No** incluye:
-  - los `.json` del catálogo: el manifest se pide con `cache: 'no-cache'`;
+  - los `.json` del catálogo: manifest y paquetes necesarios se piden con `cache: 'no-cache'`; la importación compara versión y filas para detectar ampliaciones del mismo día;
   - el `.wasm` del escáner: regla `CacheFirst` en tiempo de ejecución, así que funciona sin red desde su primer uso.
 - La fuente local variable se precarga y precachea; no añade un origen de red. El logotipo/iconos existentes se mantienen.
 - Chunks diferidos (`React.lazy` / `import()`): `Resumen` y `Progreso` (llevan Recharts) y el lector de códigos (`nutricion/lib/escaner/`). Recharts no debe entrar en el chunk de arranque (Inicio usa un SVG propio).

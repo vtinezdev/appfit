@@ -23,8 +23,9 @@ La lista de las 58 incorporaciones, con macros y referencia, está en
 Se han comprobado intactas las 47 filas anteriores, incluidos sus valores e ids.
 
 El manifest enumera las fuentes y sus licencias. No se equiparan DOP ni
-productos regionales a alimentos parecidos. Sin cambios en src/, OFF,
-dependencias, documentos vivos ni docs/PROCESO.md, según el encargo original.
+productos regionales a alimentos parecidos. La fase de ampliación conservó
+src/, OFF y dependencias. La integración posterior autorizada en Nutrición
+se describe al final de este documento.
 
 ## Valores directos
 
@@ -135,9 +136,8 @@ de pavo y 13134 macedonia de frutas.
 ES2 sigue intacto; la descarga anterior de compo (~69 MB) quedó incompleta.
 No usar XML parciales. Seguir scripts/catalogo/README.md para reintentar.
 
-Dos tests de src/ esperan exactamente CIQUAL/OFF en el manifest y fallan al
-publicar la tercera fuente. Se respeta la prohibición de tocar src/; Claude
-Code deberá adaptar esas expectativas al integrar.
+Las expectativas antiguas de dos fuentes se han actualizado durante la
+integración posterior: el manifest y la sincronización incluyen típicos.
 
 sin-fuente.json contiene pendientes, no una afirmación de que no exista ninguna
 fuente. referencias-tradicionales.json registra 251 referencias RAG; las 30
@@ -357,3 +357,23 @@ en notas; no son recetas nuevas de AppFit. Sal desconocida y extras ausentes
 se mantienen vacíos. No se cambia NSP por AOAC. No se añaden alias CIQUAL ni
 fuentes/licencias nuevas en este lote. 240 adicionales desde las 45 iniciales;
 faltan 260 para el objetivo anterior de 500 adicionales.
+
+
+## Integración en Nutrición (2026-10-25)
+
+Víctor solicita que los alimentos añadidos salgan al buscarlos en Nutrición,
+autorizando completar esta parte de src/. El paquete se instala desde el
+manifest al abrir con conexión o desde Ajustes → Catálogo de alimentos →
+Buscar actualización. La etiqueta visible es «AppFit» y el nombre en Ajustes
+«Alimentos y platos (AppFit)».
+
+La sincronización compara versión y filas para detectar ampliaciones del mismo
+día; revalida el paquete sin caché. El buscador observa los metadatos instalados
+y repite la consulta al terminar la importación, sin tener que volver a escribir.
+CIQUAL mantiene prioridad en los empates; típicos va antes de OFF. No se cambian
+los alimentos, las tablas, los snapshots ni los backups.
+
+Pruebas: actualización desde un lote parcial de la misma versión, nombres y
+alias en los primeros 15 resultados, preservación de básicos CIQUAL, búsqueda
+real en Nutrición durante una descarga demorada y cuatro consultas offline.
+Comandos y requisitos en scripts/catalogo/README.md.

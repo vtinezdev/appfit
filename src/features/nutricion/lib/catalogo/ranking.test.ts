@@ -109,15 +109,15 @@ describe('rankCatalogo', () => {
     expect(nombres(rankCatalogo(foods, 'mango'))).toEqual(['Mango, pulpa sin piel, cruda', 'Mango, pulpa, cruda'])
   })
 
-  it('desempata por completitud y después por fuente (ciqual, usda, offes, off)', () => {
+  it('desempata por completitud y después por fuente (ciqual, usda, tipicos, offes, off)', () => {
     const foods = [
       food('1', 'Leche entera', { completitud: 0.5 }),
       { ...food('2', 'Leche entera'), id: 'usda:2', fuente: 'usda' },
       food('3', 'Leche entera'),
     ]
     expect(rankCatalogo(foods, 'leche entera').map((f) => f.id)).toEqual(['ciqual:3', 'usda:2', 'ciqual:1'])
-    const fuentes = ['off', 'offes', 'usda', 'ciqual'].map((fu) => ({ ...food('9', 'Sal'), id: `${fu}:9`, fuente: fu }))
-    expect(rankCatalogo(fuentes, 'sal').map((f) => f.fuente)).toEqual(['ciqual', 'usda', 'offes', 'off'])
+    const fuentes = ['off', 'offes', 'tipicos', 'usda', 'ciqual'].map((fu) => ({ ...food('9', 'Sal'), id: `${fu}:9`, fuente: fu }))
+    expect(rankCatalogo(fuentes, 'sal').map((f) => f.fuente)).toEqual(['ciqual', 'usda', 'tipicos', 'offes', 'off'])
   })
 
   it('consulta vacía → nada', () => {
