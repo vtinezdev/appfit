@@ -13,12 +13,14 @@
     {
       "slug": "albondigas",
       "url": "https://realacademiadegastronomia.com/recetas/albondigas/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "albondigas-salsa-caseras"
     },
     {
       "slug": "alcachofas-a-la-montillana",
       "url": "https://realacademiadegastronomia.com/recetas/alcachofas-a-la-montillana/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "alcachofas-jamon-vino-blanco"
     },
     {
       "slug": "alcachofas-con-jamon-iberico",
@@ -83,7 +85,8 @@
     {
       "slug": "atun-encebollado",
       "url": "https://realacademiadegastronomia.com/recetas/atun-encebollado/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "atun-encebollado"
     },
     {
       "slug": "bacalao-a-la-llauna",
@@ -138,7 +141,8 @@
     {
       "slug": "bonito-con-tomate",
       "url": "https://realacademiadegastronomia.com/recetas/bonito-con-tomate/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "bonito-tomate-casero"
     },
     {
       "slug": "bonito-en-escabeche",
@@ -198,7 +202,8 @@
     {
       "slug": "caldereta-de-cordero",
       "url": "https://realacademiadegastronomia.com/recetas/caldereta-de-cordero/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "caldereta-cordero"
     },
     {
       "slug": "caldereta-de-langosta",
@@ -243,7 +248,8 @@
     {
       "slug": "cardos-en-salsa-de-almendras",
       "url": "https://realacademiadegastronomia.com/recetas/cardos-en-salsa-de-almendras/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "cardo-almendras"
     },
     {
       "slug": "carrilleras",
@@ -303,7 +309,8 @@
     {
       "slug": "churros-porras",
       "url": "https://realacademiadegastronomia.com/recetas/churros-porras/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "churros-caseros"
     },
     {
       "slug": "coca-de-verduras",
@@ -343,7 +350,8 @@
     {
       "slug": "coliflor-al-ajoarriero",
       "url": "https://realacademiadegastronomia.com/recetas/coliflor-al-ajoarriero/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "coliflor-ajoarriero"
     },
     {
       "slug": "conejo-con-caracoles",
@@ -353,7 +361,8 @@
     {
       "slug": "conejo-en-salmorejo",
       "url": "https://realacademiadegastronomia.com/recetas/conejo-en-salmorejo/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "conejo-salmorejo"
     },
     {
       "slug": "cordero-al-chilindron",
@@ -368,7 +377,8 @@
     {
       "slug": "crema-catalana",
       "url": "https://realacademiadegastronomia.com/recetas/crema-catalana/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "crema-catalana-casera"
     },
     {
       "slug": "croquetas-de-jamon",
@@ -433,7 +443,8 @@
     {
       "slug": "espinacas-a-la-catalana",
       "url": "https://realacademiadegastronomia.com/recetas/espinacas-a-la-catalana/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "espinacas-catalana"
     },
     {
       "slug": "estofado-de-ternera",
@@ -498,12 +509,14 @@
     {
       "slug": "gallina-en-pepitoria",
       "url": "https://realacademiadegastronomia.com/recetas/gallina-en-pepitoria/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "gallina-pepitoria"
     },
     {
       "slug": "gambas-al-ajillo",
       "url": "https://realacademiadegastronomia.com/recetas/gambas-al-ajillo/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "gambas-ajillo"
     },
     {
       "slug": "gambas-en-gabardina",
@@ -628,7 +641,8 @@
     {
       "slug": "leche-frita",
       "url": "https://realacademiadegastronomia.com/recetas/leche-frita/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "leche-frita-casera"
     },
     {
       "slug": "lentejas-estofadas",
@@ -678,7 +692,8 @@
     {
       "slug": "mejillones-a-la-vinagreta",
       "url": "https://realacademiadegastronomia.com/recetas/mejillones-a-la-vinagreta/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "mejillones-vinagreta"
     },
     {
       "slug": "mejillones-en-escabeche",
@@ -708,12 +723,14 @@
     {
       "slug": "merluza-a-la-gallega",
       "url": "https://realacademiadegastronomia.com/recetas/merluza-a-la-gallega/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "merluza-gallega"
     },
     {
       "slug": "merluza-en-salsa-verde",
       "url": "https://realacademiadegastronomia.com/recetas/merluza-en-salsa-verde/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "merluza-salsa-verde"
     },
     {
       "slug": "migas",
@@ -788,7 +805,8 @@
     {
       "slug": "patatas-a-la-riojana",
       "url": "https://realacademiadegastronomia.com/recetas/patatas-a-la-riojana/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "patatas-riojana"
     },
     {
       "slug": "patatas-bravas",
@@ -798,7 +816,8 @@
     {
       "slug": "patatas-revolconas",
       "url": "https://realacademiadegastronomia.com/recetas/patatas-revolconas/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "patatas-revolconas"
     },
     {
       "slug": "patatas-revolconas-2",
@@ -873,12 +892,14 @@
     {
       "slug": "pollo-al-ajillo",
       "url": "https://realacademiadegastronomia.com/recetas/pollo-al-ajillo/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "pollo-ajillo"
     },
     {
       "slug": "pollo-al-chilindron",
       "url": "https://realacademiadegastronomia.com/recetas/pollo-al-chilindron/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "pollo-chilindron"
     },
     {
       "slug": "pollo-con-cigalas",
@@ -893,7 +914,8 @@
     {
       "slug": "porra-antequerana",
       "url": "https://realacademiadegastronomia.com/recetas/porra-antequerana/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "porra-antequerana"
     },
     {
       "slug": "porrusalda",
@@ -963,7 +985,8 @@
     {
       "slug": "revuelto-de-setas",
       "url": "https://realacademiadegastronomia.com/recetas/revuelto-de-setas/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "revuelto-champinones"
     },
     {
       "slug": "rin-ran",
@@ -1048,7 +1071,8 @@
     {
       "slug": "sepia-al-ajillo",
       "url": "https://realacademiadegastronomia.com/recetas/sepia-al-ajillo/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "sepia-ajillo"
     },
     {
       "slug": "sepia-al-ajillo-2",
@@ -1083,7 +1107,8 @@
     {
       "slug": "sopa-de-ajo",
       "url": "https://realacademiadegastronomia.com/recetas/sopa-de-ajo/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "sopa-ajo-casera"
     },
     {
       "slug": "sopa-de-pescado",
@@ -1128,7 +1153,8 @@
     {
       "slug": "tocino-de-cielo",
       "url": "https://realacademiadegastronomia.com/recetas/tocino-de-cielo/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "tocino-cielo"
     },
     {
       "slug": "torreznos",
@@ -1138,12 +1164,14 @@
     {
       "slug": "torrijas",
       "url": "https://realacademiadegastronomia.com/recetas/torrijas/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "torrijas-leche"
     },
     {
       "slug": "tortilla-de-bacalao",
       "url": "https://realacademiadegastronomia.com/recetas/tortilla-de-bacalao/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "tortilla-bacalao-fresco"
     },
     {
       "slug": "tortilla-de-bacalao-2",
@@ -1158,7 +1186,8 @@
     {
       "slug": "tortilla-paisana",
       "url": "https://realacademiadegastronomia.com/recetas/tortilla-paisana/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "tortilla-paisana"
     },
     {
       "slug": "tortillas-de-carnaval",
@@ -1208,7 +1237,8 @@
     {
       "slug": "tumbet",
       "url": "https://realacademiadegastronomia.com/recetas/tumbet/",
-      "estado": "pendiente de revisar receta individual, equivalencia CIQUAL y rendimiento"
+      "estado": "Referencia individual leída; formulación AppFit documentada, rendimiento de diseño pendiente de medición",
+      "recetaId": "tumbet-mallorquin"
     },
     {
       "slug": "turron-a-la-piedra",

@@ -11,10 +11,10 @@ const leer = (ruta: string) => readFileSync(ruta, 'utf8')
 const manifest = JSON.parse(leer(join(salida, 'manifest.json')))
 const ciqual = JSON.parse(leer(join(salida, manifest.fuentes.find((f: { id: string }) => f.id === 'ciqual').archivo))) as PaqueteCalidad
 const off = JSON.parse(leer(join(salida, manifest.fuentes.find((f: { id: string }) => f.id === 'offes').archivo))) as PaqueteCalidad
-const version = process.argv[2] ?? '2026-10-24'
+const version = process.argv[2] ?? '2026-10-25'
 const recetas = JSON.parse(leer(join(datos, 'recetas.json'))) as Receta[]
 const directos = leerDirectos(leer(join(datos, 'directos.csv')))
-const referencias = JSON.parse(leer(join(datos, 'referencias-tradicionales.json'))) as { referencias: unknown[] }
+const referencias = JSON.parse(leer(join(datos, 'referencias-tradicionales.json'))) as { referencias: { estado: string }[] }
 const informe = join(aqui, 'informes/tipicos.txt')
 mkdirSync(dirname(informe), { recursive: true })
 try {
@@ -26,11 +26,13 @@ try {
     `Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).`,
     `Vía 2 (directos): ${r.directos}; excluidos por energía: ${r.excluidos.join(', ') || 'ninguno'}`,
     `Vía 3 (recetas): ${r.recetas}; total: ${r.paquete.filas.length}`,
-    `Ampliación solicitada: 500 adicionales, exclusivamente tradicionales españoles. Añadidos frente al lote inicial de 45: ${r.paquete.filas.length - 45}; pendientes: ${Math.max(0, 545 - r.paquete.filas.length)}.`,
+    `Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: ${r.paquete.filas.length - 45}; pendientes: ${Math.max(0, 545 - r.paquete.filas.length)}.`,
     `Referencias RAG localizadas: ${referencias.referencias.length}; NO cuentan como filas publicadas.`,
     'Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.',
-    'USDA SR Legacy April 2018 descargado de fdc.nal.usda.gov (CC0). XML CIQUAL compo no descargado completo dentro del plazo; no se publica es3.',
-    'Revisar Víctor: las 25 recetas iniciales tienen pesos de diseño y referencia general sin correspondencia individual verificada. Las 2 nuevas son mezclas crudas con referencia individual y balance de masa íntegro.',
+    'Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.',
+    ...['USDA', 'CoFID'].map(fuente => `${fuente}: ${directos.filter(d => d.fuente === fuente && !r.excluidos.includes(d.fila[0])).length} directos aceptados`),
+    'Reparto por categoría: ' + [...new Set(r.paquete.filas.map(f => f[3]))].map(c => `${c}: ${r.paquete.filas.filter(f => f[3] === c).length}`).join('; '),
+    'Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 30 nuevas referencias individuales leídas. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',
@@ -46,8 +48,8 @@ try {
   writeFileSync(join(salida, archivo), JSON.stringify(r.paquete))
   manifest.fuentes = [...manifest.fuentes.filter((f: { id: string }) => f.id !== 'tipicos'), {
     id: 'tipicos', version, archivo, filas: r.paquete.filas.length,
-    licencia: 'Licence Ouverte Etalab 2.0 (CIQUAL); CC0 (USDA); MIT (formulaciones AppFit)',
-    atribucion: 'Nutrientes calculados a partir de ANSES, Table Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Valores directos: USDA FoodData Central, SR Legacy April 2018, CC0 (https://fdc.nal.usda.gov). Formulaciones y rendimientos de diseño: AppFit. Referencias culinarias en scripts/catalogo/tipicos/recetas.json.',
+    licencia: 'Licence Ouverte Etalab 2.0 (CIQUAL); CC0 (USDA); Open Government Licence v3.0 (CoFID); MIT (formulaciones AppFit)',
+    atribucion: 'Nutrientes calculados a partir de ANSES, Table Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Valores directos: USDA FoodData Central, SR Legacy April 2018, CC0 (https://fdc.nal.usda.gov). Contiene información del sector público del Reino Unido bajo Open Government Licence v3.0: Public Health England, McCance and Widdowson’s Composition of Foods Integrated Dataset 2021 (https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid). Formulaciones y rendimientos de diseño: AppFit. Referencias culinarias en scripts/catalogo/tipicos/recetas.json.',
   }]
   writeFileSync(join(salida, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n')
   for (const f of readdirSync(salida)) if (/^tipicos-.*\.json$/.test(f) && f !== archivo) unlinkSync(join(salida, f))

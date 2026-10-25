@@ -1,17 +1,22 @@
-Típicos 2026-10-24 · CIQUAL 2025-es2
+Típicos 2026-10-25 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
-Vía 2 (directos): 20; excluidos por energía: ninguno
-Vía 3 (recetas): 27; total: 47
-Ampliación solicitada: 500 adicionales, exclusivamente tradicionales españoles. Añadidos frente al lote inicial de 45: 2; pendientes: 498.
+Vía 2 (directos): 48; excluidos por energía: salvado-avena-cocido
+Vía 3 (recetas): 57; total: 105
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 60; pendientes: 440.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
-USDA SR Legacy April 2018 descargado de fdc.nal.usda.gov (CC0). XML CIQUAL compo no descargado completo dentro del plazo; no se publica es3.
-Revisar Víctor: las 25 recetas iniciales tienen pesos de diseño y referencia general sin correspondencia individual verificada. Las 2 nuevas son mezclas crudas con referencia individual y balance de masa íntegro.
+Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
+USDA: 39 directos aceptados
+CoFID: 9 directos aceptados
+Reparto por categoría: Carnes: 20; Legumbres: 10; Cereales, arroz y pasta: 9; Frutos secos y semillas: 3; Pan y tostadas: 1; Quesos: 3; Cereales de desayuno y barritas: 2; Platos preparados: 57
+Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 30 nuevas referencias individuales leídas. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.
 
 AVISOS calidad.ts:
+tipicos:salvado-avena-cocido: 40 kcal declaradas frente a 72 esperadas (4P+4C+9G+2fibra); diferencia -32
 
 DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):
+ciqual: arroz-basmati-integral-crudo → 9102 Arroz integral, crudo (casi)
 offes: tortilla-patatas-con-cebolla → 8480000808950 Tortilla De Patatas Con Cebolla (casi)
 
 SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):
@@ -61,7 +66,6 @@ sin fuente: croquetas de jamón
 sin fuente: croquetas de pollo
 sin fuente: patatas bravas
 sin fuente: pulpo a feira
-sin fuente: albóndigas en salsa
 sin fuente: ensaladilla rusa
 sin fuente: empanada gallega
 sin fuente: flamenquín
@@ -73,9 +77,7 @@ sin fuente: boquerones en vinagre
 sin fuente: mollete
 sin fuente: picos
 sin fuente: regañás
-sin fuente: churros
 sin fuente: porras
-sin fuente: torrijas
 sin fuente: magdalenas tradicionales
 sin fuente: ensaimada
 sin fuente: roscón
@@ -83,5 +85,3 @@ sin fuente: polvorones
 sin fuente: mantecados
 sin fuente: turrón duro español
 sin fuente: turrón blando español
-sin fuente: crema catalana
-sin fuente: leche frita

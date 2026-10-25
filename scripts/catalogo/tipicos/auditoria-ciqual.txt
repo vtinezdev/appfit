@@ -116,3 +116,42 @@ sin coincidencias en nombres.csv FR/EN, traducciones.csv ni paquete ES2.
 Búsqueda de ingredientes EN/FR encuentra 20240 Piperade basquaise, préemballée:
 es una preparación cocinada/envasada, no una ensalada cruda. No se equipara.
 Ambas nuevas recetas usan las verduras crudas y conservan íntegros todos los jugos.
+
+
+Ampliación por categorías de 2026-10-25 (paquete previo: 47 filas):
+Directos: revisión de nombres.csv FR/EN, traducciones.csv y paquete ES2.
+- Alubias azuki, negras, pintas y borlotti: sin equivalencia específica en
+  CIQUAL, que tiene judía blanca/roja genéricas. No equiparar kidney roja a azuki.
+- Ojo negro: CIQUAL 20527 es verde/fresca/cruda; las nuevas son maduras secas/hervidas.
+- Teff: sin equivalente confirmado. Amaranto y espelta crudos ya existen
+  (9345/9001): no se duplican; se incorporan solo los cocidos ausentes.
+- Trigo sarraceno: 9380 es crudo; el nuevo es tostado y cocido (kasha).
+- Salvado de avena: 9640 es seco. Candidato cocido excluido por energía, no publicado.
+- Pistacho: 15009/15044 son tostados; el nuevo es crudo.
+- Crema de almendras: no es mazapán 15201. Crema de anacardos: sin coincidencia.
+- Pita: 7180 no especifica integral; la nueva mantiene la formulación integral.
+- Cottage y halloumi: no hay equivalencia confirmada; quark SI está (19644,
+  19646 y otros) bajo queso blanco: NO se añade otro quark genérico.
+- Basmati blanco (9119/9125), cebada perlada cocida (9322), gachas con agua
+  (9313) ya cubiertos: NO se añaden. Las nuevas gachas se hacen con leche.
+- Arborio y basmati integral: versiones específicas conservadas; arroz integral
+  genérico 9102 aparece como casi duplicado y queda explícito en el informe.
+
+Recetas: se revisan las páginas individuales del Legado Gastronómico y se
+comparan nombres y variantes publicadas. La referencia y las adaptaciones
+están por id en revision-2026-10-25.json. Las versiones caseras se distinguen de
+los platos CIQUAL envasados cuando existe una preparación cercana. P. ej.:
+- CIQUAL 25124 estofado de cordero con verduras no es caldereta con hígado.
+- 10082 mejillones a la marinera no es mejillones a la vinagreta.
+- 25141 pescado blanco marinero envasado no equivale a merluza en salsa verde.
+- 25242 paella con pollo, marisco y chorizo no se renombra como paella valenciana.
+- 23827 pancake envasado no se convierte en receta de churros; no se añade
+  otra familia de pancakes para aumentar el número.
+- Se conservan las 27 recetas previas y sus ids. Ningún nuevo nombre normalizado
+  es idéntico al de CIQUAL ni al de otra fila de típicos (bloqueo en construir).
+
+Sin incorporación en esta ampliación: arroz a banda (ñora/fondo), salsa romesco
+(ñora y categoría salsa), alioli (categoría salsa), verdinas con almejas
+(sin ingrediente CIQUAL que identifique verdinas), tosta de jamón ibérico
+(no se sustituye su ingrediente por serrano conservando el nombre ibérico),
+berenjenas con miel de caña (ingrediente específico pendiente).
