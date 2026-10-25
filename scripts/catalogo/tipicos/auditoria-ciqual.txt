@@ -398,3 +398,36 @@ Lote pescado/aves y clásicos españoles, 24 entradas, 2026-10-25:
   adaptaciones de las 4 recetas registradas en revision-2026-10-25.json.
 - Ensaladilla rusa no se completa omitiendo atún en aceite ni usando pescado
   fresco con su nombre: continúa pendiente de una vía compatible con el encargo.
+
+
+Lote de salsas, guisos y repostería, 29 directos CoFID, 2026-10-25:
+Revisión FR/EN/ES y contraste con los 212 registros anteriores:
+- 11143 bechamel casera, 11166 yogur casero, 23050 bizcocho de Saboya,
+  23477 éclair genérico, 19688 baba al ron y 25121 coq au vin ya cubiertos:
+  descartados los candidatos equivalentes. No se agregan otros por la traducción.
+- Las salsas 11100 barbacoa, 11114 boloñesa, 11179 pesto, 11105 holandesa,
+  11189 queso y vinagretas 11108/11110 son envasadas. Nuevos CoFID caseros;
+  boloñesa sin pasta, pesto de albahaca/parmesano, queso con leche entera.
+- 25525 es salsa de tomate para pizza; el nuevo 17-834 es receta de salsa de
+  tomate casera. Se descarta 50-1173, otra receta de salsa de tomate demasiado
+  similar para crear una segunda entrada sin distinguir composición.
+- Sin equivalente específico confirmado de Stroganoff, Wellington o meatloaf.
+  Este último no es paté ni pastel murciano con masa. Los guisos de conejo y
+  salchichas no son carne sola ni conejo en salmorejo o salchichas/lentejas.
+- 25124 estofado de cordero con verduras no es un salteado. El nuevo goulash
+  no se renombra como estofado genérico ni sustituye a la caldereta previa.
+- Curry de garbanzos y de verduras/yogur no equivalen a garbanzos con espinacas,
+  chili de legumbres o currys de pescado. Korma casero no es 25174 curry de pollo
+  con coco envasado. Dal son lentejas con especias, no sopa de lentejas casera
+  ni lentejas españolas con verduras. No se añaden versiones equivalentes de
+  dal con mantequilla, aceite, más patata, etc., para inflar el recuento.
+- 23001 cheesecake, 23585 chocolate y muffins 23951/23952 son envasados.
+  Los nuevos son caseros y preservan cobertura, ausencia de relleno o salvado.
+  23803 pastel vasco con cerezas no es bizcocho de cerezas. 23033 rocher coco
+  no es bizcocho de coco: texturas y recetas diferentes. Pudin de pan no es
+  la torrija previa ni arroz/sémola con leche. Sin versiones nuevas de génoise
+  sin grasa que solapen 23050, ni brazo de gitano con relleno no identificado.
+- 25571 falafel para llevar y 25590 envasado no son receta casera en colza.
+  No se renombran como falafel de habas: CoFID identifica garbanzos.
+- Tortitas caseras de bacalao 16-458 no son las comerciales empanadas al horno
+  de pescado blanco o salmón ni croquetas españolas de bechamel.

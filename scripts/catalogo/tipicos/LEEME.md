@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-212 filas: 151 valores directos (44 USDA y 107 CoFID) y 61 recetas CIQUAL.
+241 filas: 180 valores directos (44 USDA y 136 CoFID) y 61 recetas CIQUAL.
 La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
@@ -15,7 +15,7 @@ Las nuevas entradas abarcan legumbres, cereales, semillas y cremas de frutos
 secos, pan integral, quesos, desayunos y platos de verduras, carnes, pescados,
 mariscos y postres. La petición más reciente amplía por categorías y alimentos
 cotidianos, más allá del primer repertorio estrictamente tradicional español.
-El objetivo anterior de 500 adicionales sigue pendiente: hay 167 más que en
+El objetivo anterior de 500 adicionales sigue pendiente: hay 196 más que en
 el primer lote de 45. No se cuentan referencias pendientes como alimentos.
 
 La lista de las 58 incorporaciones, con macros y referencia, está en
@@ -265,3 +265,33 @@ el atún para publicarla con el mismo nombre. Los platos resueltos por las cuatr
 recetas nuevas salen de sin-fuente.json. En total hay ahora 34 recetas con
 referencia individual revisada (33 RAG y 1 RTVE), además de las 25 iniciales de
 referencia general y las 2 mezclas crudas institucionales.
+
+## Lote de salsas, guisos y repostería (29 directos)
+
+29 nuevas filas CoFID 2021, sin fórmulas ni rendimientos nuevos de AppFit.
+Total 241; los 212 registros anteriores permanecen iguales. Lista con valores:
+`../informes/tipicos-salsas-guisos-2026-10-25.csv`.
+
+Incluye salsas caseras barbacoa, boloñesa, pesto, holandesa, queso con leche
+entera, aliños francés/aceite-limón y tomate; vacuno Stroganoff, Wellington,
+meatloaf, guisos de conejo/salchichas, cordero salteado, goulash, curry de
+garbanzos/verduras con yogur/pollo korma y dal de lentejas. En repostería:
+tarta de queso, zanahoria con cobertura, bizcochos de cerezas/chocolate/coco,
+muffins con pepitas o salvado y pudin de pan. Se añaden falafel de garbanzos
+frito en colza y tortitas caseras de bacalao.
+
+Las notas identifican recetas calculadas por CoFID y referencias originales;
+el dal 13-484 procede de muestras analizadas. Las referencias culinarias a
+libros que aparecen en CoFID no se usan como tablas nutricionales por AppFit:
+se redistribuyen los valores del conjunto oficial autorizado, con sus ids.
+La salsa boloñesa es salsa sola, no espaguetis; no se extrapola a platos
+completos. El aliño aceite/limón no se presenta como hecho de oliva. La tarta
+de queso no se llama vasca ni de La Viña, ni se presupone horneada. La cobertura
+de la tarta de zanahoria se incluye, sin adivinar si es de queso o mantequilla.
+El meatloaf no se presenta como pastel murciano de carne con masa.
+
+No se duplican bechamel casera (11143), salsa de yogur casera (11166), bizcocho
+de Saboya (23050), éclair (23477), baba al ron (19688), ni coq au vin (25121).
+Entre las salsas de tomate CoFID 50-1173 y 17-834 solo se elige 17-834; no se
+crean dos genéricos indistinguibles. Tampoco se incorporan seis tipos de curry
+con cambios menores de grasa para aumentar la cifra.

@@ -37,6 +37,7 @@ try {
     'Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.',
     'Lote vegetal y ensaladas: 32 directos nuevos (31 CoFID y 1 USDA). Semillas de edamame sin vaina, rellenos/aliños/frutos secos explícitos. Sin nuevos cálculos AppFit. Las 156 filas anteriores permanecen intactas.',
     'Lote pescado/aves y clásicos: 20 directos CoFID y 4 recetas AppFit con referencia individual (croquetas serrano/pollo, bravas y pulpo a feira). Pesos finales de formulación, no pesadas experimentales. Las 188 filas anteriores permanecen intactas.',
+    'Lote de salsas, guisos y repostería: 29 directos CoFID, sin cálculos nuevos AppFit. Bechamel/yogur caseros, Saboya, éclair, baba y coq au vin ya cubiertos se descartan; solo una salsa de tomate CoFID. Las 212 filas anteriores permanecen intactas.',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',

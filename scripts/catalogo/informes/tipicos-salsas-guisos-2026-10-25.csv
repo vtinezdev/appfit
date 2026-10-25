@@ -1,0 +1,30 @@
+id;nombre;categoria;kcal;prot;carb;grasa;fuente;idFuente;referencia
+salsa-barbacoa-casera;Salsa barbacoa, casera, lista para consumir;Salsas y condimentos;300;2,7;26,1;21;CoFID;17-769;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+salsa-bolonesa-carne-casera;Salsa boloñesa con carne, casera, cocinada;Salsas y condimentos;161;11,8;2,8;11,6;CoFID;19-476;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+pesto-albahaca-parmesano-casero;Pesto de albahaca y parmesano, casero, listo para consumir;Salsas y condimentos;501;19;2,4;46,2;CoFID;15-838;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+salsa-holandesa-casera;Salsa holandesa, casera, lista para consumir;Salsas y condimentos;717;5,1;0,9;77,9;CoFID;17-800;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+salsa-queso-leche-entera-casera;Salsa de queso, con leche entera, casera, cocinada;Salsas y condimentos;197;8,2;8,9;14,6;CoFID;17-775;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+alino-frances-casero;Aliño francés, casero, listo para consumir;Salsas y condimentos;680;0,1;0,2;74,9;CoFID;17-787;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+alino-aceite-limon-casero;Aliño de aceite y limón, casero, listo para consumir;Salsas y condimentos;652;0,1;3,4;72,4;CoFID;17-788;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+salsa-tomate-casera;Salsa de tomate, casera, cocinada;Salsas y condimentos;70;1,5;6,5;4,5;CoFID;17-834;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+vacuno-stroganoff-casero;Vacuno Stroganoff, casero, cocinado;Platos preparados;171;15,3;2,5;11,2;CoFID;19-551;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+solomillo-wellington-casero;Solomillo Wellington, casero, horneado;Platos preparados;356;16,3;16,2;25,5;CoFID;19-552;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+pastel-carne-meatloaf-casero;Pastel de carne (meatloaf), casero, cocinado;Platos preparados;213;16,6;12,7;10,9;CoFID;19-605;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+guiso-conejo-casero;Guiso de conejo, casero, cocinado;Platos preparados;97;11,4;2,2;4,8;CoFID;19-623;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+guiso-salchichas-casero;Guiso de salchichas, casero, cocinado;Platos preparados;165;11,9;5,2;10,9;CoFID;19-484;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+cordero-verduras-salteado-casero;Cordero con verduras, casero, salteado, cocinado;Platos preparados;244;16,4;2,3;18,4;CoFID;19-598;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+goulash-casero;Goulash, casero, cocinado;Platos preparados;79;6,9;6,5;3;CoFID;19-583;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+curry-garbanzos-casero;Curry de garbanzos, casero, cocinado;Platos preparados;109;5,9;14,3;3,5;CoFID;15-748;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+curry-verduras-yogur-casero;Curry de verduras con yogur, casero, cocinado;Platos preparados;64;2,2;4,7;4;CoFID;15-794;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+pollo-korma-casero;Pollo korma, casero, cocinado;Platos preparados;127;14,6;4,6;5,1;CoFID;19-565;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+dal-lentejas-variadas-casero;Dal de lentejas variadas, casero, cocinado;Platos preparados;60;4,9;9,1;0,7;CoFID;13-484;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+tarta-queso-casera;Tarta de queso, casera, lista para consumir;Galletas, bollería y pasteles;325;6,2;25,4;22,8;CoFID;12-562;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+tarta-zanahoria-cobertura-casera;Tarta de zanahoria, con cobertura, casera, horneada;Galletas, bollería y pasteles;346;4;37,7;21,1;CoFID;11-1041;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+bizcocho-cerezas-casero;Bizcocho de cerezas, casero, horneado;Galletas, bollería y pasteles;398;5;66,5;14,4;CoFID;11-1044;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+bizcocho-chocolate-sin-relleno-casero;Bizcocho de chocolate, sin relleno, casero, horneado;Galletas, bollería y pasteles;438;7,3;51,3;24,1;CoFID;11-1046;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+bizcocho-coco-casero;Bizcocho de coco, casero, horneado;Galletas, bollería y pasteles;423;6,7;52,6;22,1;CoFID;11-1053;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+muffin-pepitas-chocolate-casero;Muffin con pepitas de chocolate, casero, horneado;Galletas, bollería y pasteles;384;6,3;53,6;17,5;CoFID;11-1094;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+muffin-salvado-casero;Muffin de salvado, casero, horneado;Galletas, bollería y pasteles;263;8,2;44,5;7;CoFID;11-1095;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+pudin-pan-casero;Pudin de pan, casero, cocinado;Galletas, bollería y pasteles;289;5,9;48;7,7;CoFID;11-1038;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+falafel-garbanzos-casero-frito-colza;Falafel de garbanzos, casero, frito en aceite de colza;Platos preparados;183;6,4;15,9;11,2;CoFID;15-795;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
+tortitas-bacalao-caseras;Tortitas de bacalao, caseras, cocinadas;Platos preparados;235;11,3;15,2;14,7;CoFID;16-458;https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid
