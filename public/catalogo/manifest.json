@@ -21,7 +21,7 @@
       "id": "tipicos",
       "version": "2026-10-25",
       "archivo": "tipicos-2026-10-25.json",
-      "filas": 241,
+      "filas": 255,
       "licencia": "Licence Ouverte Etalab 2.0 (CIQUAL); CC0 (USDA); Open Government Licence v3.0 (CoFID); MIT (formulaciones AppFit)",
       "atribucion": "Nutrientes calculados a partir de ANSES, Table Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Valores directos: USDA FoodData Central, SR Legacy April 2018, CC0 (https://fdc.nal.usda.gov). Contiene información del sector público del Reino Unido bajo Open Government Licence v3.0: Public Health England, McCance and Widdowson’s Composition of Foods Integrated Dataset 2021 (https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid). Formulaciones y rendimientos de diseño: AppFit. Referencias culinarias en scripts/catalogo/tipicos/recetas.json."
     }

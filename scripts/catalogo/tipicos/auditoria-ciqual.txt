@@ -431,3 +431,34 @@ Revisión FR/EN/ES y contraste con los 212 registros anteriores:
   No se renombran como falafel de habas: CoFID identifica garbanzos.
 - Tortitas caseras de bacalao 16-458 no son las comerciales empanadas al horno
   de pescado blanco o salmón ni croquetas españolas de bechamel.
+
+Lote de pizzas (2026-10-25): 14 candidatos directos, 13 USDA y 1 CoFID.
+Revisión previa de nombres.csv FR/EN y paquete CIQUAL ES2, y de los 241 típicos:
+- CIQUAL ya cubre margarita/queso 25404, jamón/queso 25435, boloñesa 25457,
+  chorizo/salami 25462, marisco 25463, salmón 25464, cabra/panceta 25468,
+  verduras/cuatro estaciones 25472, champiñones/queso 25477, quesos 25478,
+  promedio 25516, regina 25548, panceta/cebolla 25570, cabra 25671, atún 26270,
+  kebab 26271, pollo 26272, raclette 26273 y jamón curado 26274. No se crean
+  otras filas genéricas con esos nombres ni se añaden alias redundantes.
+- Hawaiana (jamón y piña): sin equivalente confirmado en CIQUAL. CoFID 11-1013
+  conserva el promedio de 10 muestras/5 marcas, con masas finas y gruesas:
+  no se desglosa en dos nutrientes inventados. No se trata como receta casera.
+- USDA aporta genéricos Fast Food, Pizza Chain de queso, pepperoni, salchicha
+  y carne/verduras. Se distinguen masa fina/normal/gruesa o borde relleno,
+  ausentes de los genéricos CIQUAL. Son agregados de restauración rápida
+  estadounidense, no pizzas tradicionales españolas ni valores de pizzería
+  artesanal. El diámetro de 14 pulgadas del original NO define una ración.
+- Queso congelada/cocinada: solo masa fina y rising crust (masa que sube al
+  hornear), frente al genérico envasado de CIQUAL sin ese detalle de masa.
+  Rising crust no significa borde relleno ni se asimila a masa gruesa.
+- Sausage es salchicha, no chorizo español. Pepperoni no recibe alias de
+  chorizo/salami genéricos. El relleno del borde no se especifica como queso.
+- Se descartan las filas de marcas concretas Domino's, Pizza Hut, Papa John's,
+  Little Caesars y DiGiorno: no se renombran productos de marca como genéricos.
+- CoFID queso/tomate, pollo y vegetariana se descartan por solapamiento con
+  CIQUAL. El promedio fish topped mezcla coberturas de atún o gambas: no se
+  crea una supuesta receta de atún CON gambas. Meat topped demasiado genérica.
+- Pizza tomate casera CoFID 15-255 ya existe en típicos: sin duplicarla ni
+  renombrarla margarita sin confirmar sus ingredientes. Quesos 25478 no dice
+  cuatro quesos: no se le atribuye esa receta. Carbonara/barbacoa/cuatro quesos
+  específicas siguen sin una fuente comprobada para publicar aquí.

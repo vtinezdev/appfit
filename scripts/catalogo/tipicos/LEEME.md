@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-241 filas: 180 valores directos (44 USDA y 136 CoFID) y 61 recetas CIQUAL.
+255 filas: 194 valores directos (57 USDA y 137 CoFID) y 61 recetas CIQUAL.
 La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
@@ -15,7 +15,7 @@ Las nuevas entradas abarcan legumbres, cereales, semillas y cremas de frutos
 secos, pan integral, quesos, desayunos y platos de verduras, carnes, pescados,
 mariscos y postres. La petición más reciente amplía por categorías y alimentos
 cotidianos, más allá del primer repertorio estrictamente tradicional español.
-El objetivo anterior de 500 adicionales sigue pendiente: hay 196 más que en
+El objetivo anterior de 500 adicionales sigue pendiente: hay 210 más que en
 el primer lote de 45. No se cuentan referencias pendientes como alimentos.
 
 La lista de las 58 incorporaciones, con macros y referencia, está en
@@ -295,3 +295,29 @@ de Saboya (23050), éclair (23477), baba al ron (19688), ni coq au vin (25121).
 Entre las salsas de tomate CoFID 50-1173 y 17-834 solo se elige 17-834; no se
 crean dos genéricos indistinguibles. Tampoco se incorporan seis tipos de curry
 con cambios menores de grasa para aumentar la cifra.
+
+
+## Lote de pizzas (14 directos)
+
+13 valores USDA SR Legacy y 1 CoFID 2021. Total 255; las 241 filas anteriores
+se conservan exactamente. Lista completa con valores y enlace a la fuente:
+`../informes/tipicos-pizzas-2026-10-25.csv`.
+
+Añade hawaiana (jamón y piña); queso, pepperoni y salchicha de restauración
+rápida con masa fina, normal o gruesa; queso con borde relleno; carne y verduras
+con masa normal; queso congelada/cocinada con masa fina o masa que sube al
+hornear. La hawaiana es promedio de masas finas y gruesas, no dos filas nuevas.
+Las variantes USDA de restauración rápida son genéricos estadounidenses, no
+recetas caseras ni promedios de pizzerías españolas. Los nombres lo indican.
+
+CIQUAL ya cubre margarita, jamón/queso, pollo, atún, verduras/cuatro estaciones,
+champiñones, chorizo/salami y otras coberturas: no se duplican esas entradas
+sin una distinción documentada. No se añaden marcas ni se inventa una pizza
+cuatro quesos a partir del genérico de quesos. La salchicha no se traduce como
+chorizo y rising crust no se confunde con borde relleno. El relleno del borde
+no tiene un ingrediente especificado. Los originales conservan el diámetro,
+pero no se calcula un peso por pizza ni una ración a partir de él.
+
+No hay recetas nuevas ni rendimientos AppFit en este lote. Se dejan sal y
+cualquier nutriente ausente como desconocidos. El objetivo de 500 adicionales
+sigue pendiente: 210 añadidos desde el lote inicial de 45, faltan 290.
