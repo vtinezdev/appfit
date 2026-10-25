@@ -462,3 +462,48 @@ Revisión previa de nombres.csv FR/EN y paquete CIQUAL ES2, y de los 241 típico
   renombrarla margarita sin confirmar sus ingredientes. Quesos 25478 no dice
   cuatro quesos: no se le atribuye esa receta. Carbonara/barbacoa/cuatro quesos
   específicas siguen sin una fuente comprobada para publicar aquí.
+
+Lote variado (2026-10-25): 32 candidatos CoFID, 30 publicados y 2 pendientes.
+Contraste previo FR/EN en nombres.csv, ES2 y los 255 típicos publicados:
+- Fruta cocida: sin equivalentes específicos de pera, ciruela o mezcla de
+  moras/manzana con y sin azúcar añadido. Albaricoque: CIQUAL 13205 es compota
+  envasada; 13704/13712-15 son conservas en almíbar, no la fruta cocida de
+  CoFID 14-027/029. Se mantienen la piel/deshuesado donde se especifican.
+  No se duplican manzana cocida 13175/13176, albaricoque seco 13001/13623,
+  ciruela pasa 13042 ni sus almíbares. Sin equivalente de pera o piña secas.
+- Panes: bagel 7258, semillas 7098/7255 y mueslis/granolas existentes se
+  descartan. Pan con germen de trigo no es biscote con germen 7302; germen
+  solo 9660 tampoco es pan. Sin equivalente confirmado de pan
+  de malta/frutas, trigo malteado, soda de harina blanca, naan peshwari o
+  crumpet tostado. El naan conserva frutos secos/pasas sin inventar especie.
+  Pan de malta no se equipara al mollete español ni a pan integral.
+- Berenjena con arroz/tomate/cebolla/pasas no es el gratín 25052, riste 25196
+  ni los típicos previos con lentejas o verduras/queso. Brócoli con salsa de
+  queso y leche semidesnatada no es brócoli solo ni coliflor con queso.
+  Lombarda con manzana no es col roja hervida 20095, estofada 20310 o ensalada
+  con salsa 26281: se mantiene su ingrediente adicional en el nombre.
+- Repollo relleno de cordero/arroz, casero, frente a relleno no especificado
+  envasado 25106; sin sustituir el cordero por vacuno/cerdo. Patatas duquesa
+  caseras CoFID 15-850 frente a congeladas cocidas/crudas 4034/4042.
+- Crepes caseras: relleno tomate/champiñón/cebolla, con harina blanca o
+  integral; no bechamel/champiñón 25411/25581. Masa salada integral con leche
+  entera y masa dulce con leche entera se publican sin relleno, distinto de
+  las crepes envasadas 23799/23800 o panqueques gruesos 23827. No se añaden
+  tres versiones que solo cambien la grasa de la leche.
+- Calamar rebozado horneado CoFID 16-404 frente a buñuelo envasado 10002,
+  hervido 10037 o frito/a la sartén 10084. No se presenta como frito.
+- Salmón en costra de masa: pendiente, retail no confirma el estado final
+  cocinado. No se presupone tipo de masa, peso final ni merma. Pan de ajo y
+  hierbas retail queda pendiente por el mismo motivo. No se publican como
+  listos para consumir sin confirmar si requieren cocción. Ambos registrados
+  en sin-fuente.json. Nigiri salmón/atún son subtipos concretos con arroz; no se
+  duplican sushi/maki de productos del mar genérico 25456 ni pescado solo.
+  Se descartan salmón al horno/plancha/vapor ya cubiertos y scampi sin una
+  identificación de especie suficientemente clara para traducirlo a cigala.
+- Cacahuetes/pasas (56/44%) y cacahuetes/pasas/chocolate con leche
+  (38/37/25%) son mezclas publicadas por CoFID; no frutas o frutos secos
+  sueltos, ni mezcla genérica de frutos secos 15065/15066 sin fruta.
+- Todas las referencias y descripciones de CoFID se conservan por fila.
+  Algunas son valores analíticos y otras cálculos publicados por CoFID;
+  no se atribuyen a nuevas estimaciones o rendimientos AppFit. No se
+  convierten sodio a sal ni fibra NSP a AOAC para rellenar huecos.

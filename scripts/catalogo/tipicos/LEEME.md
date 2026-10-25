@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-255 filas: 194 valores directos (57 USDA y 137 CoFID) y 61 recetas CIQUAL.
+285 filas: 224 valores directos (57 USDA y 167 CoFID) y 61 recetas CIQUAL.
 La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
@@ -15,7 +15,7 @@ Las nuevas entradas abarcan legumbres, cereales, semillas y cremas de frutos
 secos, pan integral, quesos, desayunos y platos de verduras, carnes, pescados,
 mariscos y postres. La petición más reciente amplía por categorías y alimentos
 cotidianos, más allá del primer repertorio estrictamente tradicional español.
-El objetivo anterior de 500 adicionales sigue pendiente: hay 210 más que en
+El objetivo anterior de 500 adicionales sigue pendiente: hay 240 más que en
 el primer lote de 45. No se cuentan referencias pendientes como alimentos.
 
 La lista de las 58 incorporaciones, con macros y referencia, está en
@@ -321,3 +321,39 @@ pero no se calcula un peso por pizza ni una ración a partir de él.
 No hay recetas nuevas ni rendimientos AppFit en este lote. Se dejan sal y
 cualquier nutriente ausente como desconocidos. El objetivo de 500 adicionales
 sigue pendiente: 210 añadidos desde el lote inicial de 45, faltan 290.
+
+
+## Lote variado: fruta, panes, verduras y pescado (30 directos)
+
+30 valores directos CoFID 2021; total 285. Las 255 filas anteriores conservan
+exactamente nombres, ids y nutrientes. Lista con valores y referencia:
+`../informes/tipicos-variedad-2026-10-25.csv`.
+
+- Frutas (10): pera, albaricoque, ciruela y mezcla de moras/manzana cocidas,
+  cada una con y sin azúcar añadido; pera y piña deshidratadas.
+- Panes (6): malta con frutas, trigo malteado, germen de trigo, soda con harina
+  blanca, naan peshwari con frutos secos/pasas y crumpet tostado.
+- Verduras y guarniciones (7): berenjena rellena de arroz/tomate/cebolla/pasas,
+  brócoli con queso/leche semidesnatada, lombarda con manzana, repollo relleno
+  de cordero/arroz, crepes blancas o integrales rellenas de verduras y patatas
+  duquesa caseras.
+- Mar/pescado (3): calamar rebozado al horno y nigiri de salmón o atún
+  (platos con arroz, no pescado solo).
+- Crepes sin relleno (2): dulce con leche entera y salada integral con leche
+  entera, caseras; no se presentan como panqueques gruesos estadounidenses.
+- Mezclas (2): cacahuetes/pasas y cacahuetes/pasas/chocolate con leche.
+
+No se añaden bagel, pan de semillas, muesli ni métodos de salmón que ya cubre
+CIQUAL. No se traduce scampi a una especie concreta sin comprobarla. Se dejan
+pendientes el pan de ajo/hierbas CoFID 11-937 y salmón en croute 16-453: su
+etiqueta retail no confirma si los valores corresponden al peso tras el
+calentamiento/cocinado; no se inventa esa conversión. Figuran en sin-fuente.json
+hasta comprobar el estado comestible. Las frutas sin azúcar añadido conservan
+sus azúcares naturales; no se llaman sin azúcar. No se usan filas pesadas con
+piel/huesos descartados.
+
+Las cantidades de las mezclas y los cálculos publicados de CoFID se trazan
+en notas; no son recetas nuevas de AppFit. Sal desconocida y extras ausentes
+se mantienen vacíos. No se cambia NSP por AOAC. No se añaden alias CIQUAL ni
+fuentes/licencias nuevas en este lote. 240 adicionales desde las 45 iniciales;
+faltan 260 para el objetivo anterior de 500 adicionales.

@@ -39,6 +39,7 @@ try {
     'Lote pescado/aves y clásicos: 20 directos CoFID y 4 recetas AppFit con referencia individual (croquetas serrano/pollo, bravas y pulpo a feira). Pesos finales de formulación, no pesadas experimentales. Las 188 filas anteriores permanecen intactas.',
     'Lote de salsas, guisos y repostería: 29 directos CoFID, sin cálculos nuevos AppFit. Bechamel/yogur caseros, Saboya, éclair, baba y coq au vin ya cubiertos se descartan; solo una salsa de tomate CoFID. Las 212 filas anteriores permanecen intactas.',
     'Lote de pizzas: 14 directos (13 USDA y 1 CoFID). Hawaiana y variantes de masa/cobertura identificadas, sin marcas ni nuevos rendimientos AppFit. Restauración rápida estadounidense se identifica como tal. Las 241 filas anteriores permanecen intactas; ver auditoria-ciqual.txt para los descartes.',
+    'Lote variado: 30 directos CoFID (10 frutas, 6 panes, 7 verduras/guarniciones, 3 mar/pescado, 2 crepes sin relleno y 2 mezclas de cacahuetes). Pan de ajo y salmón en costra pendientes de confirmar el estado final, registrados sin fuente. Sin rendimientos nuevos AppFit ni alias nuevos CIQUAL. Las 255 filas anteriores permanecen intactas; descartes en auditoria-ciqual.txt.',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',

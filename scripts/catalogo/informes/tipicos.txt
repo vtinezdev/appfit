@@ -1,14 +1,14 @@
 Típicos 2026-10-25 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
-Vía 2 (directos): 194; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 61; total: 255
-Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 210; pendientes: 290.
+Vía 2 (directos): 224; excluidos por energía: salvado-avena-cocido
+Vía 3 (recetas): 61; total: 285
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 240; pendientes: 260.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
 Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
 USDA: 57 directos aceptados
-CoFID: 137 directos aceptados
-Reparto por categoría: Carnes: 28; Legumbres: 11; Cereales, arroz y pasta: 9; Frutos secos y semillas: 3; Pan y tostadas: 2; Quesos: 5; Cereales de desayuno y barritas: 2; Patatas y tubérculos: 5; Verduras y hortalizas: 1; Pescados: 4; Platos preparados: 162; Galletas, bollería y pasteles: 11; Salsas y condimentos: 11; Mariscos: 1
+CoFID: 167 directos aceptados
+Reparto por categoría: Carnes: 28; Legumbres: 11; Cereales, arroz y pasta: 9; Frutos secos y semillas: 5; Pan y tostadas: 8; Quesos: 5; Cereales de desayuno y barritas: 2; Patatas y tubérculos: 6; Verduras y hortalizas: 1; Pescados: 4; Platos preparados: 171; Galletas, bollería y pasteles: 12; Salsas y condimentos: 11; Mariscos: 2; Frutas: 10
 Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 34 referencias individuales leídas de RAG/RTVE. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.
 Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.
@@ -16,6 +16,7 @@ Lote vegetal y ensaladas: 32 directos nuevos (31 CoFID y 1 USDA). Semillas de ed
 Lote pescado/aves y clásicos: 20 directos CoFID y 4 recetas AppFit con referencia individual (croquetas serrano/pollo, bravas y pulpo a feira). Pesos finales de formulación, no pesadas experimentales. Las 188 filas anteriores permanecen intactas.
 Lote de salsas, guisos y repostería: 29 directos CoFID, sin cálculos nuevos AppFit. Bechamel/yogur caseros, Saboya, éclair, baba y coq au vin ya cubiertos se descartan; solo una salsa de tomate CoFID. Las 212 filas anteriores permanecen intactas.
 Lote de pizzas: 14 directos (13 USDA y 1 CoFID). Hawaiana y variantes de masa/cobertura identificadas, sin marcas ni nuevos rendimientos AppFit. Restauración rápida estadounidense se identifica como tal. Las 241 filas anteriores permanecen intactas; ver auditoria-ciqual.txt para los descartes.
+Lote variado: 30 directos CoFID (10 frutas, 6 panes, 7 verduras/guarniciones, 3 mar/pescado, 2 crepes sin relleno y 2 mezclas de cacahuetes). Pan de ajo y salmón en costra pendientes de confirmar el estado final, registrados sin fuente. Sin rendimientos nuevos AppFit ni alias nuevos CIQUAL. Las 255 filas anteriores permanecen intactas; descartes en auditoria-ciqual.txt.
 Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.
 
 AVISOS calidad.ts:
@@ -87,3 +88,5 @@ sin fuente: polvorones
 sin fuente: mantecados
 sin fuente: turrón duro español
 sin fuente: turrón blando español
+sin fuente: pan de ajo y hierbas listo para consumir (CoFID retail sin estado tras calentar confirmado)
+sin fuente: salmón en costra de masa cocinado (CoFID retail sin estado tras cocinar confirmado)
