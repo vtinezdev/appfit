@@ -1,16 +1,26 @@
 # Inicio
 
-`src/features/inicio/`. Es la pestaña por defecto: un resumen del día que compone piezas de las otras features (ver `../arquitectura.md` § Capas).
+`src/features/inicio/`. Es la pestaña por defecto: tarjetas breves del día que componen datos de las otras features (ver `../arquitectura.md` § Capas). Composición minimalista y rueda de energía: [ADR 021](../decisiones/021-inicio-minimalista-rueda-energia.md).
 
 ## Dónde está cada cosa
 
+El día se actualiza con `useHoy` al cruzar medianoche y al volver a la app. Los handlers de registro de agua, peso y creatina leen la fecha actual al actuar; Deshacer conserva la fecha de la acción original. Las teselas de progreso reutilizan Caminos desde el resultado de `useVitrina`, sin una segunda suscripción. Se conserva el diseño actual de peso (minigráfica) y agua (vaso).
+
 | Pieza | Archivo | Datos |
 |---|---|---|
-| Pantalla | `InicioTab.tsx` (saludo según la hora: `lib/saludo.ts`) | lee `entriesRepo.delDia`, `getSettings`, `pesosRepo.delRango` |
-| Resumen de kcal y macros | `nutricion/components/ResumenNutricional` (el mismo que en Hoy) | — |
-| Entreno en curso o último | `gym/components/TarjetaEntreno` | solo lectura de `workoutsRepo` y `setsRepo` |
-| Peso | `components/PesoCard`, `components/RegistrarPesoSheet`, `components/HistorialPeso` | `pesosRepo` (tabla `pesos`) |
-| Lógica del peso | `lib/peso.ts`: `validarPeso` (rango y decimales admitidos), `tendenciaPeso`, `puntosSparkline` | — |
+| Pantalla | `InicioTab.tsx` | lee `entriesRepo.delDia`, `objetivosDiaRepo.objetivosDe` (el objetivo de hoy: snapshot o vigentes), `pesosRepo.delRango`, `aguaRepo.delDia` |
+| Energía (rueda, objetivo, «Quedan…», gramos de P/C/G) | `components/TarjetaEnergia` | totales de `sumMacros` y objetivos vigentes |
+| Geometría de la rueda | `lib/anilloEnergia.ts`: tramos por macro, tramo `otros` y segunda vuelta | — |
+| Último entreno (tarjeta ancha: en curso o último terminado) | `components/AccesoEntreno` | solo lectura de `workoutsRepo`, `setsRepo`, `routinesRepo` y `exercisesRepo` (solo sin snapshot); resumen con `gym/lib/workout`, mapa con `gym/lib/cargaMuscular` (`trabajoMuscularWorkout`, `masTrabajados`) y `MiniMapa` (diferido) |
+| Peso | `components/AccesoPeso` (con minigráfica SVG, `lib/miniGrafica`), `components/RegistrarPesoSheet`, `components/HistorialPeso` | `pesosRepo` (tabla `pesos`) |
+| Tarjeta común | `components/TarjetaAcceso` (etiqueta, dato, toda la tarjeta como botón, acción opcional en la esquina y acciones opcionales al pie) | — |
+| Lógica del peso | `lib/peso.ts`: `validarPeso` (rango y decimales admitidos), `tendenciaPeso`, `fraseVariacion`, `mediaMovilPeso` (media de los 7 días naturales que acaban en cada fecha), `mediaSemanaPeso` (la media en el último pesaje y cuántos pesajes entran), `ritmoSemanal` y `fraseRitmo` (kg/semana) | — |
+| Gráfica del peso | `components/GraficaPeso` (Recharts, diferida desde `HistorialPeso`): pesajes y media de 7 días | — |
+| Agua | `components/AccesoAgua` (tarjeta con vaso que se llena, `lib/agua.nivelVaso`; «−» quita la última toma y «+» suma 250 ml), `components/AguaSheet` (250/330/500/otra, quitar la última toma, evolución y tabla de 7/30/90 días), `lib/agua.ts` (objetivo, validación, formato) | `aguaRepo` (tabla `agua`) |
+| Revisión semanal | `components/TarjetaRevisionSemanal` (tarjeta), `components/RevisionSemanal` (página modal, chunk diferido), `hooks/useRevisionSemanal` (lecturas), `lib/revisionSemanal.ts` (semanas, bloques y diferencias) | `entriesRepo`, `objetivosDiaRepo.objetivosPorFecha`, `pesosRepo`, `aguaRepo`, `workoutsRepo`, `setsRepo` y `exercisesRepo` (solo el detalle lee series y ejercicios); reutiliza `gym/lib/resumenSemanal`, `gym/lib/records`, `nutricion/lib/adherencia` y `RecordsSesion` de Gym (con `total` para el contador y `catalogIds` para las miniaturas); `settings.revisionSemanalCerrada` |
+| Progreso | `components/AccesoProgreso` (Cumbres, Caminos, Ritmo y Vitrina en 2 × 2; cada tesela abre su pestaña de Progreso, B12) | `vitrina/hooks/useVitrina` (incluye Cumbres, Ritmo y Caminos), `vitrina/lib/logros.recuentoPiezas`; ver [cumbres.md](cumbres.md), [caminos.md](caminos.md), [ritmo.md](ritmo.md) y [vitrina.md](vitrina.md) |
+| Aviso de copia | `components/AvisoBackup` (banda de una línea con «Exportar» y la X de «Más tarde»), `shared/lib/recordatorioBackup.ts` (`textoSinCopia`: «14 días sin copia») | `shared/db/settings` (`ultimaExportacion`, `recordatorioBackupPospuesto`, `recordatorioBackupDias`) |
+| Aviso social | `social/components/AvisoAmigos` (banda «Novedades en Social» o «Solicitudes en Amigos» con «Ver», bajo el aviso de copia, solo con algo pendiente; ver [social](social.md)) | Supabase (`avisos`) |
 
 ## Primer inicio en iPhone
 
@@ -18,11 +28,73 @@ El shell (`app/TrasladarDatos`) muestra antes del resumen un aviso breve para a�
 
 ## Presentación y acciones
 
-Resumen nutricional en un recuadro compartido con Hoy: fondo propio, borde fino, esquinas redondeadas y padding, separado de Registrar comida y los paneles siguientes por el espacio de sección. Cabecera con «Ver día», kcal destacadas y macros agrupados debajo de un divisor, sin anillo ni contador. «Registrar comida» abre directamente el flujo de Nutrición. Entreno y peso son paneles de contexto, con acciones claras. El historial de peso se consulta desde «⋯»: lista completa con fechas/kg, solo lectura sobre el repositorio existente. No hay tracking de medidas corporales; «Medidas caseras» pertenece a Nutrición.
+«Hoy» con la fecha debajo. Después, de arriba abajo:
+
+1. **Energía** (tarjeta ancha, la cifra protagonista): rueda de 160 px con las kcal del día en grande en el centro; a su lado, «Quedan» (o «Sobre el objetivo») con su cifra (`restoKcal`) y el objetivo; debajo, proteína, hidratos y grasa con una barrita frente a su objetivo y «58/137 g». Toda la tarjeta abre el día en Nutrición. Al pie, fuera de ese botón, `components/AnadirComidaAhora`: «+ Añadir desayuno» (o comida, cena o snack según la hora, `shared/lib/dates.comidaPorHora`; botón secundario neutro a todo el ancho) abre Añadir comida en esa comida (`InicioTab.onAnadirComida` → `App.anadirInicial` → `NutricionTab.anadirInicial`). Es el único acceso de Inicio que repite un destino ([ADR 043](../decisiones/043-media-luna-de-secciones.md) § Consecuencias). Si la rueda no cabe junto al texto (tarjeta de 20 rem o menos, p. ej. a 320 px o con texto ampliado), la rueda se centra y el texto pasa entero debajo.
+2. **Progreso** (si la gamificación está visible): cuatro teselas en 2 × 2, Cumbres (metros de la montaña actual y su nombre, o «Elige montaña»), Caminos (km de la ruta actual, o «Elige ruta»), Ritmo (semanas de hilo) y Vitrina (piezas conseguidas de las totales). Bajo una línea fina, cada una dice cómo va la semana en curso (de lunes a hoy), en grafito y sin juicio: Cumbres «+324 m esta semana» (`cumbres/lib/cumbres.metrosEntre` sobre sus tramos), Caminos «+12,4 km esta semana» (`caminos/lib/caminos.metrosEntre`), Ritmo siete puntos decorativos (rellenos los días con un entreno que cuenta, atenuados los que faltan) y «2 de 3 entrenos · falta 1», «Semana cumplida» o «En pausa» (con un plan sin entrenos, los días registrados), y Vitrina «2 nuevas esta semana» o «Ninguna nueva esta semana» (`vitrina/lib/logros.piezasDesde`: niveles alcanzados desde el lunes y repetibles conseguidos por primera vez). Textos en `lib/progresoSemana.ts`; todo sale del mismo resultado de `useVitrina`. Cada una abre su sección ([cumbres.md](cumbres.md), [caminos.md](caminos.md), [ritmo.md](ritmo.md), [vitrina.md](vitrina.md)); en ellas, la media luna marca Inicio.
+3. **Peso** y **Agua** (cada una con su fila entera en el móvil). Peso: la media de 7 días como cifra principal («80,6 kg · media 7 días»), con al menos 2 pesajes en los 7 días que acaban en el último; si no, el último pesaje y «La media sale con 2 pesajes en 7 días». Debajo, el ritmo («−0,4 kg/sem», «Estable» si no llega a 0,1): la pendiente por mínimos cuadrados de la media móvil en los últimos 21 días, solo con ≥ 4 pesajes que abarquen ≥ 14 días; sin eso, la variación a 7 días de siempre. Después, «Último: 80,2 kg» en pequeño y una minigráfica de los últimos 12 pesajes (x por fecha real, y ceñida a su mínimo y máximo, relleno plano bajo la línea, el último punto marcado y el máximo y el mínimo rotulados al lado; SVG propio, porque Recharts no entra en Inicio); la tarjeta abre el historial (solo lectura) y su «+» abre el registro. Agua: lo bebido hoy, «de 2 L» y un vaso que se llena con la proporción frente al objetivo (lleno al alcanzarlo); sin objetivo, el vaso queda vacío y dice «Sin objetivo». El «+» del pie suma una toma de 250 ml y el «−» quita la última (desactivado a 0 ml), ambos con «Deshacer»; la tarjeta abre una Sheet para elegir 250/330/500 ml u otra cantidad, quitar la última toma y repasar la evolución de los últimos 7, 30 o 90 días con gráfica y tabla. El objetivo sale de Ajustes (lo editado manda) o, sin él, del sexo de Perfil: 2,0 L (hombre) o 1,6 L (mujer), según la ingesta adecuada de agua total de EFSA (2010) menos un 20 % por la humedad de los alimentos (criterio de AppFit; ver Referencias › Proteína y agua). Peso y agua son datos: no usan el acento.
+4. **Creatina** (tarjeta ancha, solo al activarla en Ajustes): dosis de hoy, mantenimiento o día de carga y el control reversible «Tomada hoy». Abre su hoja con los últimos siete días. No cuenta para la gamificación.
+5. **Último entreno** (tarjeta ancha): nombre de la rutina (o «Entreno libre»), «Ayer · 52 min · 6.420 kg», el mapa muscular frontal y trasero en miniatura (niveles del `muscleSnapshot`) y lo más trabajado en texto («Cuádriceps y glúteos, lo más trabajado»: los grupos de nivel máximo, como mucho dos), para no depender del color. Con una sesión en curso: «En curso · Desde 18:05». Sin entrenos: «Sin entrenos». Abre Entreno.
+
+Registrar comida, entreno o actividad se hace en su sección; peso y agua, en sus tarjetas ([ADR 043](../decisiones/043-media-luna-de-secciones.md) retiró el «+» de la barra). Inicio no tiene botón ancho. Las acciones de las tarjetas van en tono neutro.
+
+Debajo del aviso de copia, los lunes puede aparecer la **revisión semanal** (ver abajo). Su detalle empieza con una card «Ritmo» con el estado de esa semana, sus cifras y el hilo, si la gamificación está visible.
+
+Encima de las tarjetas puede aparecer el **aviso de copia de seguridad** si hay datos y han pasado 14 días (configurable en Ajustes: 7/14/30) desde la última exportación (o nunca se exportó). Es una banda de una línea («14 días sin copia» o «Aún no has hecho ninguna copia» y «Tus registros solo están en este móvil»): «Exportar» lleva a Ajustes › Copias de seguridad; la X («Más tarde») lo pospone 3 días. Sin notificaciones. La fecha de la última exportación se guarda solo si la descarga se lanzó.
+
+Las medidas corporales (cintura, cadera…) viven en Perfil; «Medidas caseras» pertenece a Nutrición.
+
+## Lo que usas (B9)
+
+- **Ajustes › «Lo que usas»** (`app/ModulosAjustes`, lógica en `shared/lib/modulos`): Nutrición, Gimnasio, Actividades, Agua y Peso con «Usar …» / «Ocultar» y lo que pasa al ocultarlo; ocultar nunca borra datos. Debajo, «Ordenar Inicio» con flechas: Energía y comidas, Cumbres/Caminos/Ritmo/Vitrina, Peso y agua, Creatina y Último entreno (las ocultas por su módulo siguen en la lista, marcadas). El orden y los módulos se llevan también en el estado de la vista para que dos toques seguidos no se pisen.
+- **Efectos**: sin Nutrición, ni la energía en Inicio ni Nutrición en la media luna, y la gamificación cuenta solo el entreno (`conNutricionEfectiva`, derivado al leer sin escribir `gamificacionConNutricion`; Ajustes de Cumbres lo dice en lugar del selector). Sin Gimnasio, ni la tarjeta del último entreno ni Entreno › Gimnasio (Entreno queda solo con Actividades, sin pestañas); sin Actividades, ni la tesela de Caminos ni Entreno › Actividades; sin los dos, Entreno sale de la media luna. Sin Peso o Agua, su tarjeta. La revisión semanal (tarjeta y detalle) quita las cifras y bloques de los módulos ocultos (Entreno y Récords van con el gimnasio).
+
+## Tu mes y tu año (B15)
+
+Del día 1 al 7 de cada mes, debajo de la revisión semanal, una tarjeta en grafito «Tu octubre» (en enero, «Tu 2026») con sus cuatro primeras cifras y «Ver», que abre el resumen en una página modal (`vitrina/components/TuPeriodo`). La X la cierra hasta el mes siguiente (`settings.resumenMesCerrado`, con «Deshacer»). Ver [vitrina](vitrina.md#tu-mes-y-tu-año-b15).
+
+## Revisión semanal
+
+Resume la última semana cerrada (lunes-domingo) frente a la anterior, con cifras y diferencias sin juicio de valor (el mismo tono suba o baje, sin colores de bien o mal) y sin consejos.
+
+- **Cuándo sale**: desde el lunes, si la semana revisada tiene algún dato (comida, pesaje, agua o un entreno terminado) y no se ha cerrado ya. La X («Hecho») guarda su lunes en `settings.revisionSemanalCerrada` y la oculta hasta el lunes siguiente, con «Deshacer» en el Toast. Sin notificaciones.
+- **Tarjeta**: «Tu semana · 5–11 oct» y, en una fila de tres, peso medio con su cambio, kcal al día con el objetivo y entrenos con su cambio; toda la tarjeta abre la revisión («Ver revisión») y la X de la esquina es «Hecho», en tono neutro. Solo lee comidas, pesos, agua y entrenos: las series se cargan al abrir el detalle.
+- **Detalle** (página modal, con flechas de semana hasta la última cerrada): Peso (media de los pesajes de la semana y nº de pesajes; diferencia de medias solo si ambas semanas tienen pesajes), Nutrición (kcal y proteína medias de los días registrados frente a la media de los objetivos de esos días, días registrados de 7 y adherencia ±10 %, con el criterio del Resumen: los cheat days quedan fuera, en esta semana y en la anterior, y se nombran en «N cheat days fuera de la media»), Entreno (sesiones, duración, series efectivas y volumen del resumen semanal de Gym, cada uno con su cambio, y los 3 grupos con más series), Récords personales (los de los entrenos de la semana, cada uno frente a los anteriores a él; 3 visibles y «y N más») y Agua (media de los días con registro y días que llegan al objetivo vigente). Cada bloque sin datos lo dice en su sitio.
+- **Tus 8 semanas** (B11, al final del detalle; decisión de Víctor): las 8 semanas que acaban en la revisada, con el peso medio (línea, eje izquierdo) y las kcal al día (barras, eje derecho) en la misma gráfica (`components/LecturasCruzadas`, Recharts en su propio trozo diferido) y frases que describen, nunca explican: «Semanas con la proteína en objetivo: 5 de 8 · récords en esas semanas: 9; en las otras: 2», «Semanas con 3 entrenos o más: 4 de 8 · kcal al día en esas semanas: …; en las otras: …» y «Peso medio: de 79,4 kg a 78,7 kg en 8 semanas (−0,7 kg)». Cada frase sale con al menos 4 semanas con las dos cosas que compara; la proteína está «en objetivo» con la media al 90 % de su objetivo o más (`experiencia/lib/experiencia.PROPORCION_PROTEINA`). Lógica pura en `lib/lecturasCruzadas` (`semanasCruzadas` reutiliza los bloques de nutrición —sin cheat days— y de peso y `recordsDeSemana`; `frasesCruzadas`), con un test que impide «porque», «gracias a» o «debido a»; la lee `hooks/useRevisionSemanal.useSemanasCruzadas`. Sin Nutrición o sin Gimnasio (B9) no cruza; sin Peso, no habla del peso.
+- **Límites**: los días sin snapshot del objetivo se comparan con el vigente (como en el Resumen); el objetivo de agua no se guarda por día, así que se usa el actual. Cerrada la revisión en Inicio, se puede volver a abrir desde Ritmo › Semanas (cada semana cerrada con registros abre la suya; ver [ritmo.md](ritmo.md)). `RevisionSemanal` acepta `closeLabel` («Inicio» por defecto, «Ritmo» desde allí).
+
+## Rueda de energía
+
+- **Anillo exterior**: lo consumido hasta el objetivo, en tramos de proteína, hidratos y grasa proporcionales a sus kcal (4/4/9 kcal/g). Lo que falta va en negro (`stroke-kcal-rest`) sobre un carril más fino (6 frente a 12 del viewBox), para que manden los colores de lo consumido. Al alcanzar el objetivo queda lleno.
+- **Kcal sin desglose**: si las kcal del día superan a las de los macros (kcal rápidas, alimentos sin macros), la diferencia es un tramo final en `kcal`. Si las de los macros superan a las del día (redondeos), se reparte entre ellos sin pasar de lo consumido.
+- **Segunda vuelta**: el exceso sobre el objetivo se dibuja en un anillo interior fino en `kcal`, hasta una vuelta completa (= otro objetivo entero). Sin rojo: pasarse se cuenta con el mismo tono que quedarse corto.
+- **Sin objetivo**: si hay consumo, el anillo entero muestra el reparto, sin «de X kcal» ni frase.
+- SVG propio (Recharts no entra en Inicio para no cargarlo al arrancar), decorativo (`aria-hidden`): cifras, objetivo y gramos están en texto. Sin animación de llenado.
 
 ## Reglas
 
 - **Un pesaje por día**: registrar de nuevo el mismo día lo sustituye (`pesosRepo.registrar`, upsert por fecha en una transacción).
 - **Variación a 7 días**: compara el último pesaje con el último cuya fecha sea ≤ la suya − 7 días. Si no hay ninguno, no se muestra.
-- **Mini gráfica de 30 días**: SVG propio (`puntosSparkline`, los puntos se reparten por orden, no por fecha). Recharts no entra en Inicio para no cargarlo al arrancar.
-- Todavía no se puede borrar un pesaje (ver `../roadmap.md`).
+- **Borrar un pesaje**: en el historial, papelera por fila con borrado inmediato y «Deshacer» en línea (dentro de un Sheet el Toast queda debajo). `pesosRepo.borrar` devuelve el registro y `restaurar` lo repone con su id; no pisa un pesaje que se haya registrado el mismo día entretanto.
+- **Media móvil de 7 días**: el historial (con al menos 2 pesajes) dibuja los pesajes y la media de los 7 días naturales que acaban en cada fecha. La variación de Inicio sigue siendo la de los pesajes (no se cambió a la media: con pesajes poco frecuentes la media de 7 días lee peor).
+- **Objetivo del día**: al registrar un peso se actualiza el objetivo congelado de hoy (`objetivosDiaRepo.actualizarObjetivoHoy`), porque la proteína por kg y el objetivo del Perfil dependen del peso.
+
+## Creatina
+
+Función opcional, desactivada por defecto. Ajustes › Creatina permite activarla y fijar una dosis manual de mantenimiento (gramos, con coma o punto; dejar vacío y guardar recupera la automática). Desactivar oculta la tarjeta, conservando dosis y registros. Las fórmulas se explican en el desplegable «Cómo se calcula» de esa vista. `CreatinaAjustes` y `CreatinaHoy` componen `creatinaRepo`; las fórmulas viven en `lib/creatina`.
+
+Mantenimiento automático: 0,05 g/kg del último pesaje con fecha ≤ hoy, mínimo 3 g y redondeo a 0,5 g. Sin pesaje válido: 3 g. La manual sustituye a esa dosis. La carga opcional se inicia desde Ajustes, requiere pesaje y dura cinco días naturales, incluido el de inicio: 0,3 g/kg al día, repartidos en cuatro tomas. La manual solo afecta al mantenimiento. Cancelar vuelve a mantenimiento; al sexto día vuelve automáticamente, sin escrituras al leer. Si se pierde el pesaje durante una carga, se pide registrar peso para calcularla y no se inventa masa.
+
+La tarjeta aparece debajo de Peso/Agua; muestra gramos con decimales y el estado de la fase. «Tomada hoy» usa `aria-pressed`, marca una sola vez al día (también en carga) y permite quitar la marca con el mismo control. La hoja muestra siete días, como «Tomada» o «Sin marcar», sin inferir tomas. Escrituras bloquean toques duplicados; los fallos aparecen en línea y permiten reintentar sin confirmar la marca. La toma persiste tras recargar y en las copias; no suma XP, no modifica Ritmo, rachas, Cumbres ni Vitrina. No hay notificaciones. Datos y compatibilidad: [datos](../datos.md#creatina).
+
+### Estado de actualización
+
+Bajo la cabecera se muestra una línea discreta y táctil con el estado real de la página («App al día», actualización disponible, comprobación en curso o falta de conexión). `shared/components/AvisoActualizacion` lee el gestor compartido y abre Ajustes › Actualizaciones mediante `onRevisarActualizaciones`. Detección, acción y guía de cierre/reapertura: [Desarrollo](../desarrollo.md#actualizaciones-visibles-de-la-pwa). No exige cuenta ni cambia registros.
+
+## Tamaños de pantalla
+
+El mosaico sigue el ancho de su contenedor: energía y progreso comparten fila desde 40 rem de lectura, y Peso/Agua la siguiente, lado a lado; por debajo, Peso y Agua van cada una en su fila. Con menos de 17,5 rem de lectura (texto ampliado) se apilan las teselas de progreso; a 320 px con texto normal (18 rem justos) siguen en 2 × 2. La rueda de energía se limita al ancho disponible y, con texto muy ampliado, la cifra y los macros pasan a filas propias. Dimensiones y reglas compartidas: `../DESIGN-SYSTEM.md` § Adaptación a tamaños y Android.
+
+### Evolución del agua
+
+La hoja Agua ofrece periodos de 7, 30 y 90 días, gráfica cargada de forma diferida y «Ver datos de agua» con tabla de fechas y ml. Solo representa días registrados; los huecos interrumpen la línea y no cuentan como cero. Añadir y quitar tomas conservan su comportamiento. La consulta usa `aguaRepo.entreFechas`, sin escribir al leer.

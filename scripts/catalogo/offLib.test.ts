@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { CATEGORIAS_APPFIT } from './ciqualLib.ts'
 import {
   aFila,
-  categoriaDeOff,
   COLUMNAS_OFF,
   construirPaqueteOff,
   entradaManifestOff,
@@ -218,27 +216,6 @@ describe('pareceOtroIdioma', () => {
     expect(pareceOtroIdioma('Pingüino de piña y menta')).toBe(false)
     expect(pareceOtroIdioma('Atún claro al natural')).toBe(false)
     expect(pareceOtroIdioma('Yogur natural')).toBe(false)
-  })
-})
-
-describe('categoriaDeOff', () => {
-  it('por etiquetas, con prioridad ordenada', () => {
-    expect(categoriaDeOff(['dairies', 'fermented-milk-products', 'cheeses'], '')).toBe('Quesos') // antes que «yogures»
-    expect(categoriaDeOff(['plant-based-milks', 'milks'], '')).toBe('Bebidas vegetales') // antes que «leche»
-    expect(categoriaDeOff(['seafood', 'fishes', 'canned-tunas'], '')).toBe('Pescados')
-    expect(categoriaDeOff(['cold-cuts', 'meats'], '')).toBe('Embutidos y fiambres')
-    expect(categoriaDeOff(['beers', 'alcoholic-beverages', 'beverages'], '')).toBe('Bebidas alcohólicas')
-    expect(categoriaDeOff(['plant-based-foods', 'sodas'], '')).toBe('Bebidas')
-  })
-  it('sin etiquetas útiles usa pnns_groups_2 y después el nombre; si nada, «Otros»', () => {
-    expect(categoriaDeOff(['es:algo-raro'], 'Cheese')).toBe('Quesos')
-    expect(categoriaDeOff([], 'unknown', 'Mayonesa light')).toBe('Salsas y condimentos')
-    expect(categoriaDeOff([], 'unknown', 'Choco duo')).toBe('Otros')
-  })
-  it('siempre devuelve una categoría de la lista AppFit', () => {
-    for (const t of ['yogurts', 'breads', 'olive-oils', 'pastas', 'ice-creams', 'legumes', 'eggs', 'sauces', 'unknown']) {
-      expect(CATEGORIAS_APPFIT).toContain(categoriaDeOff([t], ''))
-    }
   })
 })
 

@@ -44,3 +44,13 @@ export function normalizarGtin(raw: string): string | undefined {
 export function claveRef(ref: FoodRef): string {
   return `${ref.tipo}:${ref.id}`
 }
+
+/** Inversa de `claveRef`; `undefined` si el texto no es una clave válida. */
+export function refDeClave(clave: string): FoodRef | undefined {
+  if (clave.startsWith('user:')) {
+    const id = Number(clave.slice(5))
+    return clave.length > 5 && Number.isSafeInteger(id) && id >= 0 ? { tipo: 'user', id } : undefined
+  }
+  if (clave.startsWith('catalog:') && clave.length > 8) return { tipo: 'catalog', id: clave.slice(8) }
+  return undefined
+}

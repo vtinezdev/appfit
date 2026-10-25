@@ -16,7 +16,7 @@ interface Props {
  */
 export default function ConfirmacionDestructiva({ mensaje, confirmar, onConfirmar, onCancelar, ocupado = false }: Props) {
   return (
-    <div className="space-y-2" role="group" aria-label="Confirmar borrado">
+    <div className="confirmacion-destructiva space-y-2" role="group" aria-label="Confirmar borrado">
       <p className="text-body-sm text-destructive">{mensaje}</p>
       <div className="flex gap-2">
         <Button variant="secondary" onClick={onCancelar} disabled={ocupado} className="flex-1">

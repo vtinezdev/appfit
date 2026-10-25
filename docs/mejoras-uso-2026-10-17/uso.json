@@ -1,0 +1,110 @@
+[
+  {
+    "motor": "chromium",
+    "caso": "320-light",
+    "pasos": [
+      "calendarios con targets de 44 px y alternativa compacta",
+      "pestañas ampliadas: selección por teclado sin perder el rótulo",
+      "filtro de categorías en búsqueda y preparación explícita antes de guardar",
+      "gráfica de agua con periodos y tabla de los registros reales",
+      "gráfica de medidas: campo, unidades, variación y tabla",
+      "estado local y reintento recuperan el valor tras un fallo de escritura",
+      "carga inusual permite revisar o conservar sin imponer máximos",
+      "el reintento de notas conserva el texto y actualiza el estado local",
+      "pista contextual RIR descartable y ayuda recuperable desde Ajustes",
+      "diagnóstico revisable y copia con fallback sin red ni datos personales"
+    ],
+    "estado": "correcto",
+    "version": "151.0.7922.173"
+  },
+  {
+    "motor": "chromium",
+    "caso": "375-dark-texto200",
+    "pasos": [
+      "calendarios con targets de 44 px y alternativa compacta",
+      "pestañas ampliadas: selección por teclado sin perder el rótulo",
+      "filtro de categorías en búsqueda y preparación explícita antes de guardar",
+      "gráfica de agua con periodos y tabla de los registros reales",
+      "gráfica de medidas: campo, unidades, variación y tabla",
+      "estado local y reintento recuperan el valor tras un fallo de escritura",
+      "carga inusual permite revisar o conservar sin imponer máximos",
+      "el reintento de notas conserva el texto y actualiza el estado local",
+      "pista contextual RIR descartable y ayuda recuperable desde Ajustes",
+      "diagnóstico revisable y copia con fallback sin red ni datos personales"
+    ],
+    "estado": "correcto",
+    "version": "151.0.7922.173"
+  },
+  {
+    "motor": "firefox",
+    "caso": "320-light",
+    "pasos": [
+      "calendarios con targets de 44 px y alternativa compacta",
+      "pestañas ampliadas: selección por teclado sin perder el rótulo",
+      "filtro de categorías en búsqueda y preparación explícita antes de guardar",
+      "gráfica de agua con periodos y tabla de los registros reales",
+      "gráfica de medidas: campo, unidades, variación y tabla",
+      "estado local y reintento recuperan el valor tras un fallo de escritura",
+      "carga inusual permite revisar o conservar sin imponer máximos",
+      "el reintento de notas conserva el texto y actualiza el estado local",
+      "pista contextual RIR descartable y ayuda recuperable desde Ajustes",
+      "diagnóstico revisable y copia con fallback sin red ni datos personales"
+    ],
+    "estado": "correcto",
+    "version": "153.0"
+  },
+  {
+    "motor": "firefox",
+    "caso": "375-dark-texto200",
+    "pasos": [
+      "calendarios con targets de 44 px y alternativa compacta",
+      "pestañas ampliadas: selección por teclado sin perder el rótulo",
+      "filtro de categorías en búsqueda y preparación explícita antes de guardar",
+      "gráfica de agua con periodos y tabla de los registros reales",
+      "gráfica de medidas: campo, unidades, variación y tabla",
+      "estado local y reintento recuperan el valor tras un fallo de escritura",
+      "carga inusual permite revisar o conservar sin imponer máximos",
+      "el reintento de notas conserva el texto y actualiza el estado local",
+      "pista contextual RIR descartable y ayuda recuperable desde Ajustes",
+      "diagnóstico revisable y copia con fallback sin red ni datos personales"
+    ],
+    "estado": "correcto",
+    "version": "153.0"
+  },
+  {
+    "motor": "webkit",
+    "caso": "320-light",
+    "pasos": [
+      "calendarios con targets de 44 px y alternativa compacta",
+      "pestañas ampliadas: selección por teclado sin perder el rótulo",
+      "filtro de categorías en búsqueda y preparación explícita antes de guardar",
+      "gráfica de agua con periodos y tabla de los registros reales",
+      "gráfica de medidas: campo, unidades, variación y tabla",
+      "estado local y reintento recuperan el valor tras un fallo de escritura",
+      "carga inusual permite revisar o conservar sin imponer máximos",
+      "el reintento de notas conserva el texto y actualiza el estado local",
+      "pista contextual RIR descartable y ayuda recuperable desde Ajustes",
+      "diagnóstico revisable y copia con fallback sin red ni datos personales"
+    ],
+    "estado": "correcto",
+    "version": "26.5"
+  },
+  {
+    "motor": "webkit",
+    "caso": "375-dark-texto200",
+    "pasos": [
+      "calendarios con targets de 44 px y alternativa compacta",
+      "pestañas ampliadas: selección por teclado sin perder el rótulo",
+      "filtro de categorías en búsqueda y preparación explícita antes de guardar",
+      "gráfica de agua con periodos y tabla de los registros reales",
+      "gráfica de medidas: campo, unidades, variación y tabla",
+      "estado local y reintento recuperan el valor tras un fallo de escritura",
+      "carga inusual permite revisar o conservar sin imponer máximos",
+      "el reintento de notas conserva el texto y actualiza el estado local",
+      "pista contextual RIR descartable y ayuda recuperable desde Ajustes",
+      "diagnóstico revisable y copia con fallback sin red ni datos personales"
+    ],
+    "estado": "correcto",
+    "version": "26.5"
+  }
+]

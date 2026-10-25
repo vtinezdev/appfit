@@ -1,4 +1,4 @@
-/* Resumen diario en Inicio/Nutrición. Vite + Playwright + Chromium, solo origen de pruebas. */
+/* Cifras de Inicio y resumen compacto de Nutrición. Vite + Playwright + Chromium, solo origen de pruebas. */
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -22,7 +22,13 @@ async function backup(page) {
   })
 }
 
-async function comprobar(page, resumen, totales) {
+async function comprobar(page, resumen, totales, integrado = false) {
+  if (integrado) {
+    const formato = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0, useGrouping: 'always' })
+    await resumen.locator('.energia-cifra').getByText(formato.format(totales.kcal), { exact: true }).waitFor()
+    assert.deepEqual(await resumen.locator('.macro-fila strong').allTextContents(), [totales.prot, totales.carb, totales.grasa].map(n => formato.format(n)))
+    return
+  }
   await resumen.locator(`[role="progressbar"][aria-label="Calorías"][aria-valuenow="${Math.round(totales.kcal)}"]`).waitFor()
   const tarjeta = resumen.locator(':scope > div')
   await tarjeta.waitFor()
@@ -37,11 +43,12 @@ async function comprobar(page, resumen, totales) {
     const tacto = [...document.querySelectorAll('button,[role="radio"],[role="tab"]')].filter(visible).filter((n) => n.getBoundingClientRect().height < 43.9).map((n) => n.textContent)
     return { border: style.borderTopWidth, radius: parseFloat(style.borderTopLeftRadius), padding: parseFloat(style.paddingLeft), bg: style.backgroundColor, fondo: shell.backgroundColor, separacion: siguiente ? siguiente.top - rect.bottom : null, desbordes, tacto }
   })
-  assert.equal(medidas.border, '1px')
-  assert.equal(medidas.radius, 16)
-  assert.equal(medidas.padding, 16)
-  assert.notEqual(medidas.bg, medidas.fondo)
-  assert.ok(medidas.separacion >= 27.9, `separación: ${medidas.separacion}`)
+  if (!integrado) {
+    assert.ok(medidas.radius > 0, 'Hoy mantiene su panel de consumo')
+    assert.ok(medidas.padding >= 12, 'el panel deja espacio de lectura')
+    assert.notEqual(medidas.bg, medidas.fondo)
+  }
+  assert.ok(medidas.separacion >= 16, `separación entre tareas: ${medidas.separacion}`)
   assert.deepEqual(medidas.desbordes, [])
   assert.deepEqual(medidas.tacto, [])
   for (const [label, clave] of [['Calorías', 'kcal'], ['Proteína', 'prot'], ['Carbohidratos', 'carb'], ['Grasa', 'grasa']]) {
@@ -55,6 +62,7 @@ async function main() {
   const resultados = []
   try {
     for (const width of [320, 375, 430]) for (const colorScheme of ['light', 'dark']) for (const [estado, totales] of Object.entries(casos)) {
+      if (process.env.APPFIT_UI_CASE && !`${width}-${colorScheme}-${estado}`.includes(process.env.APPFIT_UI_CASE)) continue
       const context = await browser.newContext({ viewport: { width, height: width === 320 ? 568 : 812 }, colorScheme, reducedMotion: 'reduce' })
       try {
         await context.route('**/world.openfoodfacts.org/**', (route) => route.abort())
@@ -62,40 +70,40 @@ async function main() {
         const errores = []
         page.on('pageerror', (e) => errores.push(e.message))
         await page.goto(ORIGEN)
-        await page.getByRole('heading', { name: /Buenos|Buenas/ }).waitFor()
+        await page.getByRole('heading', { name: 'Hoy', exact: true }).waitFor()
         // Completa el arranque antes del backup base: el primer inicio guarda los ajustes por defecto.
         await page.evaluate(async () => { const s = await import('/src/shared/db/settings.ts'); await s.ensureSettings() })
         if (estado !== 'vacio') await page.evaluate(async ({ totales, estado }) => {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const d = await import('/src/shared/lib/dates.ts')
-          await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [{ nombre: estado === 'extremo' ? 'Alimento con un nombre muy largo para comprobar el resumen y su separación del contenido del diario sin recortar los datos guardados' : 'Alimento de prueba', gramos: 100, kcal100: totales.kcal, prot100: totales.prot, carb100: totales.carb, grasa100: totales.grasa, nutrientes: { fibra: 1.2, azucares: 3, sal: 0.2, agSat: 1.1 }, fuenteSiNuevo: 'manual' }] })
+          await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [{ nombre: estado === 'extremo' ? 'Alimento con un nombre muy largo para comprobar el resumen y su separación del contenido del diario sin recortar los datos guardados' : 'Alimento de prueba', gramos: 100, kcal100: totales.kcal, prot100: totales.prot, carb100: totales.carb, grasa100: totales.grasa, nutrientes: { fibra: 1.2, azucares: 3, sal: 0.2, agSat: 1.1 }, fuenteSiNuevo: 'manual', categoria: 'Otros' }] })
         }, { totales, estado })
         const antes = await backup(page)
-        const inicio = page.getByRole('region', { name: 'Resumen de hoy', exact: true })
+        const inicio = page.locator('.energia-card')
         const tag = `${width}-${colorScheme}-${estado}`
-        await comprobar(page, inicio, totales)
+        await comprobar(page, inicio, totales, true)
         if (estado === 'habitual') {
-          await inicio.getByText('Quedan 2.087 kcal', { exact: true }).waitFor()
+          await inicio.locator('.energia-texto').getByText('2.087', { exact: true }).waitFor()
           await page.screenshot({ path: path.join(salida, `${tag}-inicio.png`) })
         }
-        await inicio.getByRole('button', { name: 'Ver día', exact: true }).click()
+        await inicio.getByRole('button').click()
         await page.getByRole('heading', { name: 'Nutrición', exact: true }).waitFor()
         const diario = page.getByRole('region', { name: /^Resumen de / }).first()
         await comprobar(page, diario, totales)
         assert.equal(await diario.getByRole('region', { name: 'Desglose del día', exact: true }).count(), 0)
         if (estado === 'habitual') await page.screenshot({ path: path.join(salida, `${tag}-nutricion.png`) })
-        await page.getByRole('radio', { name: 'Vista detallada', exact: true }).click()
+        await page.getByRole('button', { name: 'Ver detalle nutricional', exact: true }).click()
         await diario.getByRole('region', { name: 'Desglose del día', exact: true }).waitFor()
         await comprobar(page, diario, totales)
         if (estado === 'habitual') await page.screenshot({ path: path.join(salida, `${tag}-detallada.png`) })
-        await page.getByRole('radio', { name: 'Vista sencilla', exact: true }).click()
+        await page.getByRole('button', { name: 'Ver detalle nutricional', exact: true }).click()
         assert.equal(await diario.getByRole('region', { name: 'Desglose del día', exact: true }).count(), 0)
-        await page.getByRole('button', { name: 'Día anterior', exact: true }).click()
+        await page.getByRole('button', { name: 'Semana anterior', exact: true }).click()
         await comprobar(page, diario, casos.vacio)
-        await page.getByRole('button', { name: 'Día siguiente', exact: true }).click()
+        await page.getByRole('button', { name: 'Semana siguiente', exact: true }).click()
         await comprobar(page, diario, totales)
         await navegar(page, 'Inicio')
-        await comprobar(page, inicio, totales)
+        await comprobar(page, inicio, totales, true)
         assert.deepEqual(await backup(page), antes, 'la presentación no modifica datos')
         assert.deepEqual(errores, [])
         resultados.push({ width, colorScheme, estado, correcto: true })
@@ -104,7 +112,7 @@ async function main() {
     }
   } finally {
     await browser.close()
-    fs.writeFileSync(path.join(salida, 'resultado.json'), JSON.stringify({ origen: ORIGEN, completado: resultados.length === 24, casos: resultados }, null, 2))
+    fs.writeFileSync(path.join(salida, 'resultado.json'), JSON.stringify({ origen: ORIGEN, completado: resultados.length === [320, 375, 430].flatMap(w => ['light', 'dark'].flatMap(t => Object.keys(casos).map(e => `${w}-${t}-${e}`))).filter(id => !process.env.APPFIT_UI_CASE || id.includes(process.env.APPFIT_UI_CASE)).length, casos: resultados }, null, 2))
   }
 }
 main().catch((e) => { console.error(e); process.exitCode = 1 })

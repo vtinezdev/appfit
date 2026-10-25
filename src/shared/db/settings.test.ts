@@ -42,4 +42,19 @@ describe('ensureSettings / updateSettings', () => {
     await ensureSettings()
     expect(await db.settings.get(1)).toEqual({ id: 1, objetivos })
   })
+
+  it('updateSettings es transaccional: dos parches concurrentes no se pisan', async () => {
+    await ensureSettings()
+    const objetivos = { kcal: 1800, prot: 140, carb: 180, grasa: 60 }
+    await Promise.all([updateSettings({ objetivos }), updateSettings({ perfil: { sexo: 'mujer' } })])
+    const s = await getSettings()
+    expect(s.objetivos).toEqual(objetivos)
+    expect(s.perfil).toEqual({ sexo: 'mujer' })
+  })
+
+  it('un parche con perfil undefined elimina el campo', async () => {
+    await updateSettings({ perfil: { sexo: 'mujer' } })
+    await updateSettings({ perfil: undefined })
+    expect(await db.settings.get(1)).not.toHaveProperty('perfil')
+  })
 })

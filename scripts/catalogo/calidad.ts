@@ -47,7 +47,7 @@ export const UMBRAL_KCAL = 15
 export const UMBRAL_REL = 0.2
 export const KCAL_MAX = 900
 
-/** Minúsculas, sin tildes y sin espacios sobrantes. Replica `normalizeName` de la app (los scripts no importan de src). */
+/** Minúsculas, sin tildes y sin espacios sobrantes. Replica `normalizeName` de la app (los scripts solo importan de src archivos sin imports, como `categorias.ts`). */
 export function normalizar(s: string): string {
   return s
     .trim()

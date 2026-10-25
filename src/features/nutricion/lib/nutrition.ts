@@ -25,9 +25,9 @@ export function macrosPorGramos(
   }
 }
 
-/** «P41 C0 G3»: proteína, carbohidratos y grasa redondeados a entero, con el formato de las filas de Hoy. */
+/** «P 41 · C 0 · G 3»: proteína, carbohidratos y grasa redondeados a entero. La única forma de escribir los macros en una línea. */
 export function resumenMacros({ prot, carb, grasa }: Pick<Macros, 'prot' | 'carb' | 'grasa'>): string {
-  return `P${formatInt(prot)} C${formatInt(carb)} G${formatInt(grasa)}`
+  return `P ${formatInt(prot)} · C ${formatInt(carb)} · G ${formatInt(grasa)}`
 }
 
 export function sumMacros(entries: Macros[]): Macros {
@@ -106,12 +106,12 @@ export interface ResumenPeriodo {
 
 /**
  * Resumen de un periodo. La media solo cuenta los días con al menos una entrada y fecha ≤ `hoy`:
- * los días futuros o sin registrar no bajan la media.
+ * los días futuros o sin registrar no bajan la media. Los cheat days tampoco cuentan (sí salen en `porDia`).
  */
-export function resumenPeriodo(entries: Entry[], fechas: string[], hoy: string): ResumenPeriodo {
+export function resumenPeriodo(entries: Entry[], fechas: string[], hoy: string, cheatDays: ReadonlySet<string> = new Set()): ResumenPeriodo {
   const byDate = aggregateByDate(entries)
   const porDia = macrosDeRango(entries, fechas)
-  const registrados = fechas.filter((f) => f <= hoy && byDate.has(f)).map((f) => byDate.get(f)!)
+  const registrados = fechas.filter((f) => f <= hoy && byDate.has(f) && !cheatDays.has(f)).map((f) => byDate.get(f)!)
   const total = sumMacros(registrados)
   return {
     porDia,
@@ -133,4 +133,14 @@ export function fraseKcal(valor: number, objetivo: number): string | null {
   if (diff > 0) return `${formatInt(diff)} kcal sobre el objetivo`
   if (diff < 0) return `Quedan ${formatInt(-diff)} kcal`
   return 'En el objetivo'
+}
+
+/** La misma idea que `fraseKcal` en dos piezas, para destacar la cifra: rótulo («Quedan», «Sobre el objetivo») y kcal. */
+export function restoKcal(valor: number, objetivo: number): { rotulo: string; kcal: number | null } | null {
+  const g = Math.round(objetivo)
+  if (g <= 0) return null
+  const diff = Math.round(valor) - g
+  if (diff > 0) return { rotulo: 'Sobre el objetivo', kcal: diff }
+  if (diff < 0) return { rotulo: 'Quedan', kcal: -diff }
+  return { rotulo: 'En el objetivo', kcal: null }
 }

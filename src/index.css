@@ -3,22 +3,119 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Saira variable (anchura y peso). La cursiva solo la usan las cifras. */
 @font-face {
-  font-family: 'Manrope';
+  font-family: 'Saira';
   font-style: normal;
-  font-weight: 200 800;
+  font-weight: 100 900;
+  font-stretch: 50% 125%;
   font-display: swap;
-  src: url('/fonts/manrope-latin-variable.woff2') format('woff2');
+  src: url('/fonts/saira-latin-variable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Saira';
+  font-style: italic;
+  font-weight: 100 900;
+  font-stretch: 50% 125%;
+  font-display: swap;
+  src: url('/fonts/saira-latin-italic-variable.woff2') format('woff2');
 }
 
 html, body, #root {
   height: 100%;
 }
+.app-content { max-width: var(--content-width); }
+.app-form { max-width: var(--form-width); }
+/* El viewport no rebota: el único scroll es el de <main>. En el root (no en body), que es donde se aplica al viewport. */
+html { scrollbar-color: rgb(var(--c-border-strong)) rgb(var(--c-bg)); overscroll-behavior: none; }
+button, a { -webkit-user-select: none; }
+a { text-underline-offset: 0.2em; }
+.text-display, .text-heading, .font-display { font-family: var(--font-display); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
+.text-display { text-transform: uppercase; }
+.text-label { font-stretch: var(--fst-label); }
+.text-rotulo { font-stretch: var(--fst-label); text-transform: uppercase; }
+/* Después de .text-heading: una cifra con tamaño de título sigue siendo cifra. */
+.font-numeric { font-family: var(--font-numeric); font-weight: var(--fw-numeric); font-stretch: var(--fst-numeric); font-style: var(--font-style-numeric); }
+.font-numeric.text-hero { font-weight: var(--fw-numeric-hero); font-stretch: var(--fst-numeric-hero); }
+.page-header-main { min-width: min(100%, 10rem); }
+
+/* Una escena por sección, dentro del ancho de producto. Es hermana del <main> con scroll, no hija:
+   el contenido se desplaza encima y la foto queda quieta, sin eventos de scroll ni position: fixed.
+   No parallax/backdrop-filter ni alturas añadidas al contenido. Si falla la imagen queda el tema. */
+.app-view[data-atmosphere] { position: relative; isolation: isolate; min-height: 100%; }
+/* En táctil, <main> siempre puede desplazarse: si una sección cabe en pantalla (Gym, Referencias), iOS no le pasa
+   el gesto al documento, que arrastraba la foto con el contenido; el rebote queda dentro de <main>, sobre la foto quieta. */
+@media (pointer: coarse) { .app-view[data-atmosphere] { min-height: calc(100% + 1px); } }
+/* Franja de lectura de cabecera/pestañas: viaja con el contenido, no con la foto quieta. */
+.app-view[data-atmosphere]::before {
+  content: ''; position: absolute; inset: 0 0 auto; z-index: -1; height: var(--atmosphere-reading-fade); pointer-events: none;
+  background: linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-reading-wash)) 0%, rgb(var(--c-bg) / var(--atmosphere-reading-wash)) var(--atmosphere-reading-height), rgb(var(--c-bg) / 0) var(--atmosphere-reading-fade));
+}
+.app-atmosphere {
+  --atmosphere-light-primary: var(--c-atmosphere-slate);
+  --atmosphere-light-secondary: var(--c-atmosphere-mist);
+  position: absolute; inset: env(safe-area-inset-top) 0 0; z-index: -1; overflow: hidden; pointer-events: none;
+}
+.app-atmosphere[data-scene='gym'] {
+  --atmosphere-light-primary: var(--c-atmosphere-cobalt);
+  --atmosphere-light-secondary: var(--c-atmosphere-steel);
+}
+.app-atmosphere[data-scene='nutricion'] {
+  --atmosphere-light-primary: var(--c-atmosphere-sand);
+  --atmosphere-light-secondary: var(--c-atmosphere-slate);
+}
+.app-atmosphere::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 26rem 52rem at 112% 52%, rgb(var(--atmosphere-light-primary) / var(--atmosphere-light-primary-opacity)), transparent 74%),
+    radial-gradient(ellipse 30rem 46rem at -28% 87%, rgb(var(--atmosphere-light-secondary) / var(--atmosphere-light-secondary-opacity)), transparent 76%);
+}
+.app-atmosphere img {
+  position: relative; z-index: 1;
+  display: block; width: 100%; height: min(100%, var(--atmosphere-height)); object-fit: cover; object-position: center top;
+  opacity: var(--atmosphere-photo-opacity);
+  filter: saturate(var(--atmosphere-photo-saturation)) brightness(var(--atmosphere-photo-brightness)) contrast(var(--atmosphere-photo-contrast));
+}
+.app-atmosphere::after {
+  content: ''; position: absolute; inset: 0 0 auto; z-index: 2; height: min(100%, var(--atmosphere-height));
+  background: linear-gradient(180deg, rgb(var(--c-bg) / var(--atmosphere-wash-top)) 0%, rgb(var(--c-bg) / var(--atmosphere-wash-upper)) 18%, rgb(var(--c-bg) / var(--atmosphere-wash-middle)) 43%, rgb(var(--c-bg) / .97) 75%, rgb(var(--c-bg)) 100%);
+}
+.app-atmosphere img, .app-atmosphere::after {
+  mask-image: linear-gradient(rgb(var(--c-overlay)) 0%, rgb(var(--c-overlay)) 40%, transparent 100%);
+}
+.app-atmosphere[data-quiet='true'] { --atmosphere-photo-opacity: var(--atmosphere-quiet-opacity); }
+/* Fondo liso (Ajustes): sin fotografía; quedan el color del tema y las luces estáticas de la sección. */
+:root[data-fondo='liso'] .app-atmosphere img { display: none; }
+.app-atmosphere[data-quiet='true']::before { opacity: var(--atmosphere-quiet-light-opacity); }
+/* Fondos dibujados (Ajustes): sin fotografía ni luces de sección. Un halo volt arriba a la derecha y, en ::after,
+   un trazo que se desvanece hacia abajo: curvas de nivel (máscara del SVG generado por scripts/fondos/curvas.cjs)
+   o una rejilla de puntos. Son tenues por diseño (contrast.test.ts), así que sobra la franja de lectura. */
+:root:is([data-fondo='curvas'], [data-fondo='puntos']) .app-atmosphere img,
+:root:is([data-fondo='curvas'], [data-fondo='puntos']) .app-view[data-atmosphere]::before { display: none; }
+:root:is([data-fondo='curvas'], [data-fondo='puntos']) .app-atmosphere::before {
+  background: radial-gradient(ellipse 28rem 22rem at 82% -4%, rgb(var(--c-accent) / var(--atmosphere-drawn-halo)), transparent 72%);
+}
+:root:is([data-fondo='curvas'], [data-fondo='puntos']) .app-atmosphere[data-quiet='true']::after { opacity: var(--atmosphere-quiet-light-opacity); }
+:root[data-fondo='curvas'] .app-atmosphere::after {
+  background: linear-gradient(180deg, rgb(var(--c-accent-strong) / var(--atmosphere-contour-opacity)) 28%, rgb(var(--c-accent-strong) / 0) 92%);
+  mask: url('/images/fondos/curvas.svg') center top / 100% auto no-repeat;
+}
+:root[data-fondo='puntos'] .app-atmosphere::after {
+  background: radial-gradient(circle, rgb(var(--c-text-primary) / var(--atmosphere-dots-opacity)) 1.1px, transparent 1.6px) 0 0 / 1.125rem 1.125rem;
+  mask-image: radial-gradient(ellipse 120% 70% at 70% 0%, rgb(var(--c-overlay)) 20%, transparent 85%);
+}
+.app-view[data-atmosphere] .app-card:not(.bg-surface-muted):not(.training-surface),
+.app-view[data-atmosphere] .app-list-group {
+  background-color: rgb(var(--c-surface) / var(--atmosphere-panel-opacity));
+}
+.app-view[data-atmosphere] .training-surface { background-color: rgb(var(--c-training) / var(--atmosphere-training-opacity)); }
+@media (forced-colors: active) { .app-atmosphere, .app-view[data-atmosphere]::before { display: none; } }
 
 body {
   @apply bg-bg font-sans text-body text-fg antialiased;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
+  overflow-wrap: anywhere;
 }
 
 /* Inputs editables: 16 px como mínimo en móvil para evitar el zoom automático de iOS. */
@@ -26,12 +123,17 @@ input, select, textarea, button {
   font-size: 16px;
 }
 input, select, textarea { scroll-margin-block: 1rem; }
+/* Algunos controles nativos (fecha/select en Android) tienen un mínimo intrínseco mayor que su columna. */
+input, select, textarea { max-width: 100%; min-width: 0; }
 button, input, select, textarea { touch-action: manipulation; }
 button { overflow-wrap: anywhere; }
 button:disabled { cursor: default; }
 input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 
-/* Geometría del área visible, incluido el teclado cuando el navegador expone visualViewport. */
+/* Geometría del área visible, incluido el teclado cuando el navegador expone visualViewport.
+   iOS no encoge el viewport de layout al abrir el teclado: lo desplaza (offsetTop). Un shell en el flujo
+   quedaría arriba del documento, cortado a media pantalla; por eso shell y capas siguen también el desplazamiento. */
+.app-shell { top: var(--viewport-top, 0px); }
 .modal-viewport {
   top: var(--viewport-top, 0px);
   height: var(--viewport-height, 100dvh);
@@ -52,6 +154,13 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   -webkit-appearance: none;
   margin: 0;
 }
+.number-stepper { width: calc(2 * var(--touch-target) + var(--stepper-field-width) + 2px); container: stepper / inline-size; }
+.number-stepper-grid { display: grid; grid-template-columns: var(--touch-target) minmax(0, 1fr) var(--touch-target); align-items: center; }
+@container stepper (max-width: 10rem) {
+  .number-stepper-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .number-stepper-field { grid-column: 1 / -1; grid-row: 1; }
+  .number-stepper-grid > button { grid-row: 2; justify-self: center; }
+}
 
 :focus-visible {
   outline: 2px solid rgb(var(--c-focus));
@@ -65,5 +174,561 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom);
 }
+.safe-inline {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+/* Rejillas ligadas al ancho de lectura: conservan espacio al ampliar texto o girar un móvil. */
+.inicio-layout { container: inicio-layout / inline-size; }
+.inicio-paneles { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-stack); container: inicio / inline-size; }
+.inicio-paneles > * { min-width: 0; }
+/* Peso y Agua: cada una con su fila entera en el móvil (Peso lleva media, ritmo y minigráfica); lado a lado desde 40 rem. */
+.inicio-registros { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-stack); }
+@container inicio-layout (min-width: 40rem) {
+  .inicio-paneles { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .inicio-registros { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* El scroll es visible donde el navegador lo necesita; no se oculta globalmente. */
+
+::selection { background: rgb(var(--c-accent-subtle)); color: rgb(var(--c-text-primary)); }
+.app-button {
+  transition: transform var(--dur-short) var(--ease-standard), background-color var(--dur-short), opacity var(--dur-short);
+}
+.app-button:active:not(:disabled) { transform: scale(var(--motion-press)); }
+.muscle-body { max-width: var(--muscle-body-width); }
+.muscle-mini { height: var(--muscle-mini-height); }
+.publicacion-ejercicios { grid-template-columns: repeat(auto-fill, minmax(4.25rem, 1fr)); }
+.publicacion-ejercicio-record { position: absolute; top: .25rem; right: .25rem; display: grid; place-items: center; width: 1.375rem; height: 1.375rem; border-radius: var(--radius-pill); background: rgb(var(--c-accent)); color: rgb(var(--c-on-accent)); }
+.publicacion-ejercicio-boton { display: block; width: 100%; border-radius: var(--radius-md); text-align: left; }
+.publicacion-ejercicio-boton[aria-expanded="true"] > span:first-child { box-shadow: 0 0 0 2px rgb(var(--c-accent-strong)); }
+.publicacion-insignias { grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr)); }
+.publicacion-insignias-mas { display: grid; place-items: center; min-width: var(--touch-target); height: var(--touch-target); padding-inline: .5rem; border-radius: var(--radius-pill); background: rgb(var(--c-surface)); color: rgb(var(--c-text-primary)); font-size: var(--fs-body-sm); font-weight: 700; }
+.muscle-progreso { max-width: var(--muscle-progreso-width); }
+/* Inicio: minigráfica del peso y vaso del agua. Datos neutros (texto atenuado), sin acento. */
+.mini-grafica { height: auto; overflow: visible; }
+.mini-grafica-linea { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.mini-grafica-punto { fill: rgb(var(--c-text-primary)); stroke: rgb(var(--c-surface)); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+/* Relleno plano bajo la línea (sin degradado): da cuerpo al tramo sin competir con ella. */
+.mini-grafica-area { fill: rgb(var(--c-text-primary) / .08); }
+/* Progreso: carrusel de variantes. Tarjetas de ancho fijo que se deslizan dentro de su caja (la página no se desplaza en horizontal). */
+.carrusel-variantes { scroll-snap-type: x proximity; scrollbar-width: none; overscroll-behavior-x: contain; }
+.carrusel-variantes::-webkit-scrollbar { display: none; }
+.tarjeta-variante { flex: 0 0 9.25rem; min-height: var(--touch-target); scroll-snap-align: start; }
+.tarjeta-variante-activa { box-shadow: inset 0 0 0 2px rgb(var(--c-accent-strong)); }
+.tarjeta-variante-mini { display: block; width: 100%; height: 1.875rem; }
+.vaso { width: var(--vaso-width); height: auto; }
+.vaso-borde { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.vaso-agua { fill: rgb(var(--c-text-secondary) / .35); }
+/* Rutina: mosaico 2 × 2 con las miniaturas de sus cuatro primeros ejercicios; «+N» sobre la cuarta. */
+.rutina-mosaico { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 2px; width: calc(var(--thumb-size) + 1rem); height: calc(var(--thumb-size) + 1rem); flex-shrink: 0; border-radius: var(--radius-md); overflow: hidden; background: rgb(var(--c-surface-muted)); }
+/* Ninguna miniatura estira el mosaico (con tres, la ancha de abajo lo hacía más alto). */
+.rutina-mosaico > * { min-width: 0; min-height: 0; }
+.rutina-mosaico > :only-child { grid-column: span 2; grid-row: span 2; }
+.rutina-mosaico > :first-child:nth-last-child(2), .rutina-mosaico > :nth-child(2):last-child { grid-row: span 2; }
+.rutina-mosaico > :nth-child(3):last-child { grid-column: span 2; }
+/* Fila de rutina en Empezar: el texto reserva dos líneas de nombre y una de fecha, para que todas midan lo mismo. */
+.rutina-fila-texto { display: flex; flex-direction: column; justify-content: center; min-height: calc(2 * var(--fs-body) * var(--lh-body) + var(--fs-caption) * var(--lh-caption)); }
+.rutina-mapa { --muscle-mini-height: min(8rem, 40vw); flex-shrink: 0; } /* Mapa de la cabecera de una rutina: más grande que en las tarjetas, sin pasar del ancho con el texto ampliado. */
+.rutina-mosaico-mas { position: absolute; inset: 0; display: grid; place-items: center; background: rgb(var(--c-overlay) / .55); color: rgb(var(--c-on-training)); font-size: var(--fs-caption); font-weight: 700; }
+/* Cifras separadas por filetes (póster de sesión, cifras clave de Progreso). Sobre grafito, --c-border ya es el carril de entreno. */
+.cifras-filetes > * { min-width: 0; padding-inline: calc(var(--space-stack) * .75); }
+.cifras-filetes > :first-child { padding-left: 0; }
+.cifras-filetes > * + * { border-left: 1px solid rgb(var(--c-border)); }
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--metric-column-min)), 1fr)); }
+/* Semana del diario: el número de cada día dentro del anillo de sus kcal frente a su objetivo (N1, ADR 035).
+   El día elegido, número en grafito sólido; hoy, subrayado. */
+.semana-kcal { width: max(100%, calc(7 * var(--touch-target) + 1.5rem)); display: grid; grid-template-columns: repeat(7, minmax(var(--touch-target), 1fr)); gap: .25rem; }
+.semana-scroll { position: relative; overflow-x: auto; padding-block: .25rem; }
+.semana-deslizar { display: none; }
+@container semana (max-width: 21rem) { .semana-deslizar { display: block; } }
+.semana-diario { container: semana / inline-size; }
+.calendario-ritmo { container: calendario-ritmo / inline-size; }
+@container calendario-ritmo (max-width: 16rem) {
+  .calendario-cabecera { flex-wrap: wrap; }
+  .calendario-cabecera p { order: 1; flex-basis: 100%; text-align: center; }
+}
+@container semana (max-width: 16rem) {
+  .semana-cabecera { flex-wrap: wrap; justify-content: space-between; }
+  .semana-cabecera h2 { order: 1; flex-basis: 100%; overflow-wrap: anywhere; }
+}
+.semana-dia { display: flex; width: 100%; min-height: var(--touch-target); flex-direction: column; align-items: center; gap: .375rem; padding-block: .375rem; border-radius: var(--radius-md); color: rgb(var(--c-text-secondary)); }
+.semana-dia[aria-current='date'] { color: rgb(var(--c-text-primary)); }
+.semana-dia:disabled { opacity: .4; }
+.semana-letra { display: inline-flex; align-items: center; gap: .125rem; font-size: var(--fs-caption); line-height: 1; font-weight: 600; }
+/* Cheat day: destello junto a la letra, sin cambiar el alto de la columna. */
+.semana-cheat { flex-shrink: 0; color: rgb(var(--c-text-secondary)); }
+.semana-anillo { width: var(--touch-target); height: auto; aspect-ratio: 1; max-width: 100%; }
+.semana-num { display: grid; place-items: center; width: 1.875rem; height: 1.875rem; border-radius: var(--radius-pill); font-size: var(--fs-body-sm); line-height: 1; font-weight: 700; color: rgb(var(--c-text-primary)); }
+.semana-dia[aria-current='date'] .semana-num { background: rgb(var(--c-text-primary)); color: rgb(var(--c-bg)); }
+.semana-dia[data-hoy='true'] .semana-num { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+/* Calendario del historial: día entrenado relleno con la rampa según su volumen en el mes; hoy con anillo exterior.
+   Rejilla de días mientras cada día quepa con su objetivo táctil (7 × 44 px + huecos = 20 rem: móviles de 360 px o más);
+   más estrecho (320 px o texto ampliado) pasa a lista. */
+.calendario-entrenos { container: entrenos / inline-size; }
+.cal-lista { display: none; }
+@container entrenos (width < 20rem) {
+  .cal-vista-mes { display: none; }
+  .cal-lista { display: block; }
+}
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .125rem; }
+/* Calendario de registros de Progreso (B14): la misma rejilla y el mismo paso a lista por debajo de 20 rem. Cada día
+   lleva hasta cuatro marcas (entreno, actividad, comidas, peso) bajo el número. */
+.calendario-registros { container: registros / inline-size; }
+@container registros (width < 20rem) {
+  .calendario-registros .cal-vista-mes { display: none; }
+  .calendario-registros .cal-lista { display: block; }
+}
+.cal-registro { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .125rem; width: 100%; min-height: calc(var(--touch-target) + .25rem); border-radius: var(--radius-md); font-size: var(--fs-body-sm); color: rgb(var(--c-text-primary)); }
+.cal-registro[data-futuro='true'] { color: rgb(var(--c-text-tertiary)); }
+.cal-registro[data-hoy='true'] { box-shadow: 0 0 0 2px rgb(var(--c-bg)), 0 0 0 4px rgb(var(--c-text-primary)); }
+.cal-registro[data-con='true'] { background: rgb(var(--c-surface-muted)); font-weight: 700; }
+.cal-marcas { display: flex; gap: 1px; min-height: 10px; color: rgb(var(--c-text-secondary)); }
+.cal-dia { display: grid; place-items: center; width: 100%; min-height: var(--touch-target); border-radius: var(--radius-md); font-size: var(--fs-body-sm); color: rgb(var(--c-text-primary)); }
+.cal-dia[data-futuro='true'] { color: rgb(var(--c-text-tertiary)); }
+.cal-dia[data-nivel] { font-weight: 700; }
+.cal-dia[data-nivel='1'] { background: rgb(var(--c-muscle-1)); }
+.cal-dia[data-nivel='2'] { background: rgb(var(--c-muscle-2)); }
+.cal-dia[data-nivel='3'] { background: rgb(var(--c-muscle-3)); }
+.cal-dia[data-nivel='4'] { background: rgb(var(--c-muscle-4)); color: rgb(var(--c-on-muscle-4)); }
+.cal-dia[data-nivel='5'] { background: rgb(var(--c-muscle-5)); color: rgb(var(--c-on-muscle-5)); }
+.cal-dia[data-hoy='true'] { box-shadow: 0 0 0 2px rgb(var(--c-bg)), 0 0 0 4px rgb(var(--c-text-primary)); }
+@media (forced-colors: active) { .cal-dia[data-nivel] { border: 2px solid Highlight; } }
+/* Póster de sesión (fin y detalle): título en display gigante, tres cifras con filetes y el mapa sobre grafito.
+   Sobre grafito la rampa clara se leería al revés: usa la rampa del póster, de rojo pálido a rojo intenso, en ambos temas. */
+.poster-title { font-family: var(--font-display); font-size: var(--fs-hero); line-height: .95; font-weight: var(--fw-display); font-stretch: var(--fst-display); }
+.session-poster { --c-muscle-1: var(--c-muscle-poster-1); --c-muscle-2: var(--c-muscle-poster-2); --c-muscle-3: var(--c-muscle-poster-3); --c-muscle-4: var(--c-muscle-poster-4); --c-muscle-5: var(--c-muscle-poster-5); --muscle-body-width: 12rem;
+  --c-progreso-1: var(--c-progreso-poster-1); --c-progreso-2: var(--c-progreso-poster-2); --c-progreso-3: var(--c-progreso-poster-3); --c-progreso-4: var(--c-progreso-poster-4); --c-progreso-5: var(--c-progreso-poster-5); --c-progreso-6: var(--c-progreso-poster-6); --c-progreso-7: var(--c-progreso-poster-7); --c-progreso-8: var(--c-progreso-poster-8); --c-progreso-9: var(--c-progreso-poster-9); }
+.session-poster .muscle-region { fill: rgb(var(--c-training-track)); stroke: rgb(var(--c-training)); }
+.session-poster .muscle-outline { stroke: rgb(var(--c-training-muted) / .5); }
+.session-poster .muscle-swatch { border-color: rgb(var(--c-training-muted) / .5); }
+.poster-map-reserva { aspect-ratio: 2 / 2.7; }
+.muscle-summary { container-type: inline-size; container-name: muscle-summary; }
+.muscle-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; }
+.muscle-level { overflow-wrap: normal; text-align: right; }
+/* Igual que las filas de nutrientes, el ancho en rem adapta el patrón al texto ampliado. */
+@container muscle-summary (max-width: 16rem) {
+  .muscle-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .muscle-name { grid-column: 1; grid-row: 1; }
+  .muscle-level { grid-column: 1; grid-row: 2; text-align: left; }
+  .muscle-chevron { grid-column: 2; grid-row: 1 / span 2; }
+}
+/* Formas neutras o con su nivel; el trazo del color del fondo dibuja la separación entre músculos y la silueta va encima. */
+.muscle-region { fill: rgb(var(--c-surface-muted)); stroke: rgb(var(--c-surface)); stroke-width: 1.25; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.muscle-outline { fill: none; stroke: rgb(var(--c-border-strong)); stroke-width: 1; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.muscle-swatch { display: inline-block; width: var(--muscle-swatch-size); height: var(--muscle-swatch-size); border-radius: var(--radius-sm); background: rgb(var(--c-surface-muted)); border: 1px solid rgb(var(--c-border-strong)); }
+.muscle-swatch[data-level='1'] { background: rgb(var(--c-muscle-1)); }
+.muscle-swatch[data-level='2'] { background: rgb(var(--c-muscle-2)); }
+.muscle-swatch[data-level='3'] { background: rgb(var(--c-muscle-3)); }
+.muscle-swatch[data-level='4'] { background: rgb(var(--c-muscle-4)); }
+.muscle-swatch[data-level='5'] { background: rgb(var(--c-muscle-5)); }
+/* Mapa de progreso (ADR 051): nueve niveles en tres tramos; la huella (llegó a un nivel y lo perdió) es un contorno discontinuo;
+   el color cambia despacio solo en el antes → después. */
+.muscle-swatch[data-escala='progreso'][data-level='1'] { background: rgb(var(--c-progreso-1)); }
+.muscle-swatch[data-escala='progreso'][data-level='2'] { background: rgb(var(--c-progreso-2)); }
+.muscle-swatch[data-escala='progreso'][data-level='3'] { background: rgb(var(--c-progreso-3)); }
+.muscle-swatch[data-escala='progreso'][data-level='4'] { background: rgb(var(--c-progreso-4)); }
+.muscle-swatch[data-escala='progreso'][data-level='5'] { background: rgb(var(--c-progreso-5)); }
+.muscle-swatch[data-escala='progreso'][data-level='6'] { background: rgb(var(--c-progreso-6)); }
+.muscle-swatch[data-escala='progreso'][data-level='7'] { background: rgb(var(--c-progreso-7)); }
+.muscle-swatch[data-escala='progreso'][data-level='8'] { background: rgb(var(--c-progreso-8)); }
+.muscle-swatch[data-escala='progreso'][data-level='9'] { background: rgb(var(--c-progreso-9)); }
+[data-huella='true'] > .muscle-region { stroke: rgb(var(--c-progreso-3)); stroke-width: 1.5; stroke-dasharray: 3 2.5; }
+.muscle-swatch[data-huella='true'] { border: 1.5px dashed rgb(var(--c-progreso-3)); }
+.muscle-transicion .muscle-region { transition: fill var(--dur-progreso) var(--ease-standard); }
+@media (forced-colors: active) {
+  .muscle-region { fill: Canvas !important; stroke: CanvasText; }
+  .muscle-outline { stroke: CanvasText; }
+  .muscle-map [data-level]:not([data-level='0']) .muscle-region { fill: Highlight !important; }
+  .muscle-swatch { background: Canvas; border-color: CanvasText; }
+  .muscle-swatch:not([data-level='0']) { background: Highlight; }
+  [data-huella='true'] > .muscle-region { stroke: CanvasText; }
+}
+.app-field { caret-color: rgb(var(--c-accent-strong)); transition: border-color var(--dur-short), background-color var(--dur-short); }
+.app-field:focus { border-color: rgb(var(--c-accent-strong)); background: rgb(var(--c-surface)); }
+.app-tabs { isolation: isolate; overflow-x: auto; scroll-padding-inline: .25rem; }
+.app-tab { min-width: max-content; white-space: nowrap; }
+/* La celda se desplaza; dentro, una barra corta y redondeada marca la vista activa. */
+.tab-indicator {
+  position: absolute; bottom: 0; left: 0; height: 3px;
+  width: var(--selection-width);
+  transform: translateX(var(--selection-offset));
+  transition: transform var(--dur-normal) var(--ease-standard);
+}
+.tab-indicator::after {
+  content: ""; position: absolute; inset: 0 auto 0 50%; width: 1.75rem; transform: translateX(-50%);
+  border-radius: var(--radius-pill); background: rgb(var(--c-accent-strong));
+}
+/* Secciones de arriba: la celda activa es una caja `surface-muted` dentro del recuadro, con la misma barra. */
+.app-tabs-principal .tab-indicator {
+  top: 0.25rem; bottom: 0.25rem; left: 0; height: auto;
+  border-radius: var(--radius-sm); background: rgb(var(--c-surface-muted));
+}
+.app-tabs-principal .tab-indicator::after { inset: auto auto 0.25rem 50%; height: 3px; }
+.app-segmented { gap: 0; }
+.segment-indicator {
+  position: absolute; top: 4px; bottom: 4px; left: 4px;
+  width: var(--selection-width, calc((100% - 8px) / var(--selection-count))); border-radius: var(--radius-pill);
+  background: rgb(var(--c-selected)); box-shadow: var(--shadow-control);
+  transform: translateX(var(--selection-offset, calc(var(--selection-index) * 100%)));
+  transition: transform var(--dur-normal) var(--ease-standard);
+}
+.progress-fill { transition: transform var(--dur-normal) var(--ease-standard); }
+.meal-section { transition: background-color var(--dur-short) var(--ease-standard); }
+.meal-card { border-color: rgb(var(--c-border)); }
+/* Cabecera apenas más oscura que la superficie, en ambos temas; no altera el resumen del día. */
+.meal-header {
+  padding: 0.5rem 0.75rem;
+  background: rgb(var(--c-bg) / 0.5);
+  border-bottom: 1px solid rgb(var(--c-border) / 0.6);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  container: meal-header / inline-size;
+}
+.meal-header-grid {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, max-content) auto;
+  grid-template-areas: 'icon title energy actions';
+  align-items: center;
+  column-gap: 0.5rem;
+  row-gap: 0.125rem;
+}
+.meal-header-icon { grid-area: icon; }
+.meal-header-title { grid-area: title; overflow-wrap: anywhere; }
+.meal-header-energy { grid-area: energy; min-width: 0; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; column-gap: 0.25rem; }
+.meal-header-energy .tabular { min-width: 0; overflow-wrap: anywhere; }
+.meal-header-actions { grid-area: actions; }
+.meal-add { color: rgb(var(--c-text-primary)); }
+/* La cifra completa y el texto ampliado ganan una fila, sin reducir letra/targets. */
+.meal-header[data-wide-energy='true'] .meal-header-grid {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: 'icon title actions' 'energy energy energy';
+}
+@container meal-header (max-width: 15rem) {
+  .meal-header-grid { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'icon title actions' 'energy energy energy'; }
+}
+@container meal-header (max-width: 10rem) {
+  .meal-header-grid, .meal-header[data-wide-energy='true'] .meal-header-grid {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'icon actions' 'title title' 'energy energy';
+  }
+}
+.meal-section[data-drop-active='true'] {
+  background: rgb(var(--c-accent-subtle));
+  outline: 2px solid rgb(var(--c-accent-strong));
+  outline-offset: 4px;
+}
+.food-record { container-type: inline-size; container-name: food-record; }
+/* Pastilla de la columna de categoría del Diario: el icono o, sin categoría, la inicial del alimento (N2, ADR 035). */
+.icono-pastilla { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: var(--radius-md); background: rgb(var(--c-surface-muted)); }
+/* Las acciones esperan detrás del contenido opaco y se revelan al deslizar o recibir foco. */
+.fila-deslizable { position: relative; overflow: hidden; }
+.fila-deslizable-acciones { position: absolute; inset: 0 0 0 auto; width: min(5.5rem, 100%); display: flex; }
+.fila-deslizable[data-con-copia] .fila-deslizable-acciones { width: min(11rem, 100%); }
+.fila-deslizable-accion { min-width: var(--touch-target); flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; background: rgb(var(--c-destructive)); color: rgb(var(--c-on-destructive)); }
+.fila-deslizable-copiar { background: rgb(var(--c-surface-muted)); color: rgb(var(--c-text-primary)); }
+.fila-deslizable-contenido { position: relative; background: rgb(var(--c-surface)); touch-action: pan-y; transition: transform var(--dur-normal) var(--ease-standard); }
+.fila-deslizable[data-arrastrando] .fila-deslizable-contenido { transition: none; }
+.food-record-button { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, max-content) auto; grid-template-areas: 'name energy chevron' 'detail energy chevron'; column-gap: 0.5rem; row-gap: 0.125rem; align-items: center; }
+.food-record-name { grid-area: name; }
+.food-record-detail { grid-area: detail; }
+.food-record-energy { grid-area: energy; }
+.food-record-chevron { grid-area: chevron; align-self: center; justify-self: center; }
+.food-record-icon { grid-area: icon; align-self: center; justify-self: center; }
+.meal-card .food-record .icono-pastilla { background: transparent; }
+/* Los platos conservan su menú como hermano del botón principal y el icono no desplaza los nombres. */
+.food-record-plato { padding-left: 0; grid-template-columns: var(--touch-target) minmax(0, 1fr) minmax(0, max-content) auto; grid-template-areas: 'icon name energy chevron' 'icon detail energy chevron'; }
+/* Texto ampliado y cifras largas envuelven sin estrechar controles ni truncar nombres. */
+@container food-record (max-width: 14rem) {
+  .food-record-button { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'name chevron' 'detail detail' 'energy energy'; }
+  .food-record-plato { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'icon chevron' 'name name' 'detail detail' 'energy energy'; }
+}
+/* Energía de Inicio: si la rueda no cabe junto al texto, se centra y el texto pasa entero debajo (no queda a un lado). */
+.energia-card { container: energia / inline-size; }
+.energia-anillo { width: min(var(--energy-ring-size), 100%); }
+.energia-cifra { overflow-wrap: anywhere; text-align: center; }
+.energia-cifra > span { max-width: 100%; }
+/* Cada macro frente a su objetivo: nombre · barrita · «58/137 g». */
+.macro-fila { display: grid; grid-template-columns: minmax(4.5rem, auto) minmax(0, 1fr) auto; align-items: center; gap: var(--space-stack); }
+.macro-fila-carril { position: relative; display: block; height: .375rem; overflow: hidden; border-radius: var(--radius-sm); background: rgb(var(--c-border)); }
+.macro-fila-relleno { position: absolute; inset: 0 auto 0 0; display: block; border-radius: var(--radius-sm); }
+@container energia (max-width: 20rem) {
+  .energia-cuerpo { justify-content: center; }
+  .energia-texto { flex-basis: 100%; }
+}
+@container energia (max-width: 12rem) {
+  .energia-cifra { position: static; margin-top: var(--space-stack); }
+  .macro-fila { grid-template-columns: minmax(0, 1fr); }
+  .macro-fila > :last-child { text-align: left; overflow-wrap: anywhere; }
+}
+/* Un desplegable no repite la línea de la lista plana o del desplegable que lo preceden, ni deja una suelta al final de una card. */
+.app-list-flat + .app-disclosure, .app-disclosure + .app-disclosure { border-top-width: 0; }
+.app-card > .app-disclosure:last-child { border-bottom-width: 0; }
+.overlay-backdrop { opacity: 0; transition: opacity var(--dur-overlay) var(--ease-standard); }
+[data-visible='true'] > .overlay-backdrop { opacity: 1; }
+[data-visible='false'] > .overlay-backdrop { transition-duration: var(--dur-exit); }
+.sheet-panel { transition: transform var(--dur-overlay) var(--ease-standard); }
+.sheet-layer { container: sheet / size; }
+@container sheet (max-height: 24rem) {
+  .sheet-panel { max-height: calc(100% - env(safe-area-inset-top)); }
+  .sheet-header > button { margin-top: 0; }
+  .sheet-panel > footer { padding-block: var(--space-stack); max-height: 50%; overflow-y: auto; }
+}
+[data-visible='false'] > .sheet-panel { transition-duration: var(--dur-exit); transition-timing-function: var(--ease-exit); }
+.task-layer { opacity: 0; transform: translateY(var(--motion-shift)); transition: opacity var(--dur-normal), transform var(--dur-overlay) var(--ease-standard); }
+.task-layer { container: task / size; }
+@container task (max-height: 24rem) {
+  .task-layer > header { max-height: 40%; overflow-y: auto; }
+  .task-layer > footer { max-height: 45%; overflow-y: auto; }
+}
+.task-layer[data-visible='true'] { opacity: 1; transform: translateY(0); }
+.task-layer[data-visible='false'] { transition-duration: var(--dur-exit); }
+.app-view, .view-arrival { animation: view-arrival var(--dur-short) var(--ease-standard) both; }
+@keyframes view-arrival { from { opacity: .35; } to { opacity: 1; } }
+/* Navegación (ADR 043): un botón redondo flotante abajo al centro, fuera del flujo, sobre el contenido, que pasa por debajo. */
+.app-nav {
+  position: absolute; inset: auto 0 0; z-index: 40; pointer-events: none;
+  padding: 0 max(var(--space-page), env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton))) max(var(--space-page), env(safe-area-inset-left));
+}
+.nav-boton {
+  pointer-events: auto; display: grid; place-items: center; width: var(--nav-boton); height: var(--nav-boton); margin-inline: auto;
+  border-radius: var(--radius-pill); background: rgb(var(--c-accent)); color: rgb(var(--c-on-accent));
+  box-shadow: var(--shadow-float); transition: transform var(--dur-short) var(--ease-standard);
+}
+.nav-boton:active { transform: scale(var(--motion-press)); }
+/* Media luna de secciones: nace del botón, que en la capa pasa a cerrar. El fondo es el de la app casi opaco, para leer los nombres en los dos temas. */
+.arco-fondo { background: rgb(var(--c-bg) / .9); }
+.arco-layer { container: arco / size; }
+.arco-panel {
+  position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton)));
+  width: var(--nav-boton); height: var(--nav-boton); transform: translateX(-50%); outline: none;
+}
+.arco-origen { position: absolute; left: 50%; top: 50%; }
+.arco-item {
+  position: absolute; left: 0; top: 0; width: var(--arco-nodo);
+  transform: translate(calc(var(--arco-rx) * var(--arco-x) - 50%), calc(var(--arco-ry) * var(--arco-y) - var(--arco-circulo) / 2));
+  transition: transform var(--dur-overlay) var(--ease-standard), opacity var(--dur-short);
+  transition-delay: calc(var(--dur-stagger) * var(--arco-i));
+}
+[data-visible='false'] .arco-item { opacity: 0; transform: translate(-50%, calc(var(--arco-circulo) / -2)) scale(.5); transition-delay: 0s; transition-duration: var(--dur-exit); transition-timing-function: var(--ease-exit); }
+.arco-destino {
+  display: flex; width: 100%; flex-direction: column; align-items: center; gap: .25rem;
+  color: rgb(var(--c-text-primary)); font-size: var(--fs-caption); line-height: 1.15; font-weight: 600; font-stretch: var(--fst-label); white-space: nowrap;
+}
+.arco-circulo {
+  display: grid; place-items: center; width: var(--arco-circulo); height: var(--arco-circulo); border-radius: var(--radius-pill);
+  border: 1px solid transparent; background: rgb(var(--c-surface-elevated)); box-shadow: var(--shadow-float); transition: transform var(--dur-short) var(--ease-standard);
+}
+:root[data-theme='dark'] .arco-circulo { border-color: rgb(var(--c-border)); }
+.arco-destino:active .arco-circulo { transform: scale(var(--motion-press)); }
+.arco-destino[aria-current='page'] { font-weight: 700; }
+/* La actual, con borde (el relleno volt es del botón): sombra interior para no mover el icono. */
+.arco-destino[aria-current='page'] .arco-circulo { border-color: transparent; color: rgb(var(--c-accent-strong)); box-shadow: inset 0 0 0 2px rgb(var(--c-accent-strong)), var(--shadow-float); }
+.arco-panel .nav-boton { position: absolute; inset: 0; }
+/* En horizontal o con poco alto, la órbita se convierte en una rejilla desplazable con cierre persistente. */
+@container arco (max-height: 28rem) or (max-width: 18rem) {
+  .arco-panel {
+    display: flex; flex-direction: column; gap: var(--space-stack);
+    width: min(var(--form-width), calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right)));
+    height: auto; max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - var(--space-stack));
+  }
+  .arco-panel nav { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--space-stack); }
+  .arco-origen { position: static; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--arco-nodo)), 1fr)); gap: var(--space-stack); }
+  .arco-item, .arco-layer[data-visible='false'] .arco-item { position: static; width: auto; transform: none; }
+  .arco-destino { min-height: var(--touch-target); white-space: normal; overflow-wrap: anywhere; }
+  .arco-panel .nav-boton { position: static; flex-shrink: 0; }
+}
+/* La vista deja sitio al final para leer lo último por encima de la barra flotante. */
+.app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--space-section)); }
+/* Entreno minimizado: barra de grafito sobre la cápsula. Los avisos suben por encima y la vista reserva también su altura. */
+.entreno-minimizado {
+  pointer-events: auto; display: flex; width: 100%; min-height: var(--mini-entreno-height); flex-direction: column; justify-content: center; gap: .375rem;
+  margin-bottom: .5rem; padding: .5rem .875rem; text-align: left; box-shadow: var(--shadow-float);
+  transition: transform var(--dur-short) var(--ease-standard);
+}
+.entreno-minimizado:active { transform: scale(var(--motion-press)); }
+[data-mini-entreno] { --nav-toast: calc(var(--nav-dock) + var(--mini-entreno-height) + .5rem); }
+[data-mini-entreno] .app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--mini-entreno-height) + .5rem + var(--space-section)); }
+/* Progreso en Inicio: teselas de Cumbres, Caminos, Ritmo y Vitrina con su dato, en 2 × 2 con el mismo hueco que el mosaico. */
+.progreso-teselas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-stack); }
+/* Con texto ampliado, una columna (a 320 px con texto normal, 18 rem justos, siguen en 2 × 2). Va después de la regla base
+   para poder pisarla: antes estaba delante y nunca se aplicaba. */
+@container inicio (max-width: 17.5rem) {
+  .progreso-teselas { grid-template-columns: minmax(0, 1fr); }
+}
+.nutrient-row { container-type: inline-size; container-name: nutrient-row; }
+@container nutrient-row (max-width: 14rem) {
+  .nutrient-values { grid-template-columns: minmax(0, 1fr); }
+  .nutrient-values dd { text-align: left; }
+}
+.loading-skeleton { animation: loading-breathe 1.4s ease-in-out infinite alternate; }
+@keyframes loading-breathe { to { opacity: .45; } }
+.training-surface {
+  --c-text-primary: var(--c-on-training); --c-text-secondary: var(--c-training-muted); --c-text-tertiary: var(--c-training-muted);
+  --c-accent-strong: var(--c-meal-accent); --c-focus: var(--c-meal-accent); --c-border: var(--c-training-track);
+  --c-surface-muted: var(--c-training-track);
+  background: rgb(var(--c-training)); color: rgb(var(--c-on-training)); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+  border: 1px solid rgb(var(--c-training-border));
+}
+/* Descanso flotante sobre la barra inferior: los avisos suben por encima y la página deja sitio para leer el final. */
+.rest-dock { bottom: var(--nav-dock); }
+/* Con texto muy ampliado la cabecera fija taparía media pantalla: vuelve a desplazarse con la página. */
+.entreno-activo { container-type: inline-size; }
+@container (max-width: 20rem) { .workout-bar { position: static; } }
+/* Lo que flota sobre el contenido no deja ver el texto de debajo: la superficie de entreno va opaca también con la atmósfera. */
+.app-view[data-atmosphere] :is(.workout-bar, .rest-dock .training-surface) { background-color: rgb(var(--c-training)); }
+.descanso-activo { --nav-toast: calc(var(--nav-dock) + var(--rest-dock-height) + 0.5rem); padding-bottom: calc(var(--rest-dock-height) + var(--space-section)); }
+.series-row .app-field { font-size: var(--fs-title); font-weight: 700; background: rgb(var(--c-bg)); }
+.exercise-panel .exercise-title { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
+.exercise-panel { container-type: inline-size; }
+.nutrition-summary { container-type: inline-size; }
+@container (max-width: 14rem) { .nutrition-macros { grid-template-columns: 1fr; } }
+.sheet-panel h2, .task-layer header h1 { font-family: var(--font-display); font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: var(--fw-display); font-stretch: var(--fst-display); }
+.training-muted { color: rgb(var(--c-training-muted)); }
+/* Filete entre cifras sobre grafito («Tu mes», B15). */
+.training-filete { border-top: 1px solid rgb(var(--c-training-track)); }
+.training-secondary { color: rgb(var(--c-on-training)); border: 1px solid rgb(var(--c-training-muted) / .4); }
+.training-secondary:hover, .training-secondary:active { background: rgb(var(--c-on-training) / .1); }
+/* Acción principal sobre grafito sin gastar el acento: relleno en el texto de entreno. */
+.training-primary { background: rgb(var(--c-on-training)); color: rgb(var(--c-training)); font-weight: 700; }
+.training-primary:hover, .training-primary:active { background: rgb(var(--c-on-training) / .9); }
+.training-progress { --c-surface-muted: var(--c-training-track); --c-goal: var(--c-training-muted); }
+.training-progress .ring-bg { --tw-ring-color: rgb(var(--c-training)); }
+/* Series de la sesión: un segmento por serie sobre grafito; hechas en texto de entreno. */
+.progreso-series { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 3px; height: .375rem; }
+.progreso-series > span { display: block; height: 100%; border-radius: var(--radius-pill); background: rgb(var(--c-training-track)); }
+.progreso-series > span[data-hecha] { background: rgb(var(--c-on-training)); }
+.progreso-series[data-continuo] { display: block; border-radius: var(--radius-pill); background: rgb(var(--c-training-track)); overflow: hidden; }
+.workout-summary-metrics .text-fg { color: rgb(var(--c-on-training)); }
+.workout-summary-metrics .text-fg-muted { color: rgb(var(--c-training-muted)); }
+/* Serie: tipo/número · [anterior] · reps · kg · RIR · ✓, por áreas con nombre (cada celda lleva su .celda-*).
+   Lados (I/D) y bajadas (↓) son filas hijas en la misma rejilla. */
+.series-row { display: grid; grid-template-columns: var(--touch-target) repeat(2, minmax(var(--touch-target), 1fr)) calc(var(--touch-target) + var(--space-stack) / 2) var(--touch-target); grid-template-areas: "tipo reps kg rir ok"; gap: calc(var(--space-stack) / 2); align-items: center; border-radius: var(--radius-md); }
+.celda-tipo { grid-area: tipo; } .celda-prev { grid-area: prev; } .celda-reps { grid-area: reps; } .celda-kg { grid-area: kg; } .celda-rir { grid-area: rir; } .celda-ok { grid-area: ok; }
+.series-span { grid-column: reps-start / rir-end; grid-row: reps-start; min-width: 0; padding-inline: calc(var(--space-stack) / 3); }
+/* «Anterior»: si no cabe como columna, va en una línea bajo reps y kg con su rótulo. */
+.series-row.con-anterior { grid-template-areas: "tipo reps kg rir ok" ". prev prev prev ."; row-gap: 0; }
+.series-prev { min-width: 0; overflow-wrap: anywhere; color: rgb(var(--c-text-secondary)); font-size: var(--fs-caption); line-height: var(--lh-caption); padding-inline: calc(var(--space-stack) / 3); }
+.series-row.con-anterior .series-prev { padding-top: calc(var(--space-stack) / 3); }
+.series-prev[data-vacia='true'], .series-head .celda-prev { display: none; }
+@container (min-width: 20.5rem) {
+  .series-row.con-anterior { grid-template-columns: var(--touch-target) minmax(3.5rem, 1.1fr) repeat(2, minmax(var(--touch-target), 1fr)) calc(var(--touch-target) + var(--space-stack) / 2) var(--touch-target); grid-template-areas: "tipo prev reps kg rir ok"; row-gap: calc(var(--space-stack) / 2); }
+  .series-row.con-anterior .series-prev { padding-top: 0; text-align: center; }
+  .series-prev[data-vacia='true'], .series-head .celda-prev { display: block; }
+  .series-prev-label { display: none; }
+}
+.series-row .app-field { padding-inline: calc(var(--space-stack) / 3); }
+.series-type { display: flex; align-items: center; justify-content: center; gap: calc(var(--space-stack) / 6); min-height: 48px; border-radius: var(--radius-md); font-size: var(--fs-label); font-weight: 700; color: rgb(var(--c-text-secondary)); }
+.series-type-chevron { width: var(--fs-caption); height: var(--fs-caption); }
+.series-type:hover { background: rgb(var(--c-surface-muted)); }
+.series-type:disabled { opacity: .5; }
+.series-letter { display: inline-grid; place-items: center; min-width: 1.75rem; height: 1.75rem; border-radius: var(--radius-sm); background: rgb(var(--c-surface-muted)); color: rgb(var(--c-text-primary)); }
+.series-rir { min-height: 48px; }
+.series-child { position: relative; }
+.series-child .app-field { font-size: var(--fs-body); }
+.series-child::before { content: ''; position: absolute; left: calc(var(--touch-target) / 2); top: calc(var(--space-stack) / -2); height: calc(var(--space-stack) / 2 + var(--touch-target-lg) / 2); width: calc(var(--space-stack) * .75); border-left: 1.5px solid rgb(var(--c-border-strong) / .6); border-bottom: 1.5px solid rgb(var(--c-border-strong) / .6); border-bottom-left-radius: var(--radius-sm); pointer-events: none; }
+.series-child-label { justify-self: end; padding-right: calc(var(--space-stack) / 6); }
+.series-add-child, .series-notes { margin-left: calc(var(--touch-target) + var(--space-stack) / 2); }
+@media (max-width: 359px) { .exercise-panel { padding-inline: .75rem; } }
+/* Texto ampliado: los controles conservan su tamaño; tipo y ✓ arriba, reps y kg debajo, RIR y anterior en su propia fila. */
+@container (max-width: 15rem) {
+  .series-row, .series-row.con-anterior { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "tipo ok" "reps kg" "rir rir" "prev prev"; row-gap: calc(var(--space-stack) / 2); }
+  .series-head { display: none; }
+  .celda-ok { justify-self: end; }
+  .series-child::before { display: none; }
+  .series-child-label { justify-self: start; }
+  .series-add-child, .series-notes { margin-left: 0; }
+}
+.series-complete { position: relative; min-width: 44px; min-height: 48px; border-radius: var(--radius-md); border: 1px solid rgb(var(--c-border-strong) / .5); color: rgb(var(--c-text-secondary)); }
+.series-complete[aria-pressed='true'] { background: rgb(var(--c-success)); border-color: rgb(var(--c-success)); color: rgb(var(--c-on-success)); }
+.series-complete[aria-pressed='true'] svg { animation: series-confirm var(--dur-normal) var(--ease-standard); }
+.series-complete:disabled { opacity: .5; }
+@keyframes series-confirm { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+.series-new { animation: series-enter var(--dur-normal) var(--ease-standard); }
+@keyframes series-enter { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.workout-finish-mark { animation: finish-mark var(--dur-success) var(--ease-standard) both; }
+@keyframes finish-mark { from { opacity: 0; transform: translateY(8px) scale(.92); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .task-layer, .sheet-panel { transform: none !important; }
+  .sheet-panel { opacity: 0; transition: opacity var(--dur-exit); }
+  [data-visible='true'] > .sheet-panel { opacity: 1; }
+  .nav-boton, .arco-circulo { transition: none; }
+  .nav-boton:active, .arco-destino:active .arco-circulo { transform: none; }
+  /* Sin desplazamiento: las secciones aparecen ya en su sitio, solo con opacidad. */
+  .arco-item { transition-property: opacity; transition-delay: 0s; }
+  [data-visible='false'] .arco-item { transform: translate(calc(var(--arco-rx) * var(--arco-x) - 50%), calc(var(--arco-ry) * var(--arco-y) - var(--arco-circulo) / 2)); }
+  .segment-indicator, .tab-indicator, .progress-fill { transition: none; }
+  .series-complete svg, .series-new, .workout-finish-mark, .loading-skeleton, .app-view, .view-arrival { animation: none !important; }
+}
+/* Miniatura de ejercicio: las fotos son de gimnasio claro; en oscuro se atenúan con --thumb-filter. */
+.ejercicio-thumb { filter: var(--thumb-filter); }
+
+/* Las insignias conservan su tamaño con texto ampliado; la rejilla gana espacio de lectura. */
+.medalla-anillo { width: var(--insignia-lg); height: var(--insignia-lg); }
+/* Hueco libre de los logros destacados del perfil: del tamaño de una insignia mediana. */
+.destacado-hueco { display: block; width: var(--insignia-md); height: var(--insignia-md); }
+.logros-grupo { container: logros-grupo / inline-size; }
+.publicacion-tarjeta { container: publicacion / inline-size; }
+.confirmacion-destructiva { container: confirmacion / inline-size; }
+@container confirmacion (max-width: 18rem) {
+  .confirmacion-destructiva > div { flex-direction: column; }
+}
+@container publicacion (max-width: 18rem) {
+  .publicacion-metricas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Al pasar a dos columnas, la tercera cifra empieza fila: sin filete a la izquierda. */
+  .publicacion-metricas.cifras-filetes > :nth-child(odd) { border-left: 0; padding-left: 0; }
+}
+@container publicacion (max-width: 12rem) {
+  .publicacion-metricas { grid-template-columns: minmax(0, 1fr); }
+  .publicacion-metricas.cifras-filetes > * { border-left: 0; padding-left: 0; }
+}
+
+/* Social (rediseño): avatar con monograma o insignia (Avatar.tsx); el tamaño sigue al texto como el resto de la fila. */
+.app-avatar { width: var(--avatar-md); height: var(--avatar-md); line-height: 1; letter-spacing: .02em; }
+.app-avatar-sm { width: var(--avatar-sm); height: var(--avatar-sm); }
+.app-avatar-lg { width: var(--avatar-lg); height: var(--avatar-lg); }
+.app-avatar-insignia { display: inline-flex; flex-shrink: 0; }
+.app-avatar-insignia .app-insignia { width: 100% !important; height: 100% !important; }
+/* Hoja «Avatar»: cada opción del catálogo con la cara al tamaño de una insignia mediana; la elegida, con el anillo del foco. */
+.avatar-opcion-cara { display: inline-flex; width: var(--insignia-md); height: var(--insignia-md); flex-shrink: 0; }
+.avatar-opcion-cara .app-insignia { width: 100% !important; height: 100% !important; }
+.avatar-opcion[aria-pressed='true'] .avatar-opcion-cara { outline: 2px solid rgb(var(--c-accent-strong)); outline-offset: 2px; border-radius: var(--radius-pill); }
+.avatar-opcion[aria-disabled='true'] { cursor: default; }
+/* Paisaje sin desbloquear: el mismo dibujo, apagado; lo que pide va en texto debajo. */
+.avatar-opcion-bloqueada { filter: grayscale(1); opacity: .45; }
+/* Muestras del color de fondo de las disciplinas (paleta fija de la Vitrina). */
+.avatar-tono-muestra { display: block; width: var(--avatar-sm); height: var(--avatar-sm); }
+.avatar-tono[aria-pressed='true'] .avatar-tono-muestra { outline: 2px solid rgb(var(--c-accent-strong)); outline-offset: 2px; }
+.avatar-tono-bosque { background: rgb(var(--c-expedicion-bosque)); }
+.avatar-tono-arcilla { background: rgb(var(--c-expedicion-arcilla)); }
+.avatar-tono-salvia { background: rgb(var(--c-expedicion-salvia)); }
+.avatar-tono-cobalto { background: rgb(var(--c-expedicion-cobalto)); }
+.avatar-tono-magenta { background: rgb(var(--c-expedicion-magenta)); }
+.avatar-tono-oro { background: rgb(var(--c-expedicion-oro)); }
+/* Con el texto ampliado, dos columnas para que los nombres no se partan a media palabra. */
+.avatar-catalogo { container: avatar-catalogo / inline-size; }
+@container avatar-catalogo (max-width: 16rem) {
+  .avatar-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Caras apiladas de quién te animó: un aro del color de la tarjeta las separa. */
+.avatar-apilado { box-shadow: 0 0 0 2px rgb(var(--c-surface)); }
+/* Tipo del aviso sobre la cara (llama, comentario, check). */
+.aviso-tipo { width: 1.25rem; height: 1.25rem; }
+/* Contador de la campana: pegado a la esquina, sin tapar el icono. */
+.contador-avisos { top: .25rem; right: .125rem; min-width: 1.125rem; height: 1.125rem; box-shadow: 0 0 0 2px rgb(var(--c-bg)); }
+/* «N publicaciones nuevas» queda a la vista al bajar por el feed. */
+.feed-novedades { top: .5rem; }
+/* Logro como medalla: las curvas de nivel del fondo por defecto, muy tenues, detrás de la insignia. Decorativas. */
+.logro-medalla::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: rgb(var(--c-text-primary) / .09);
+  mask: url('/images/fondos/curvas.svg') center / cover no-repeat;
+}
+@media (forced-colors: active) { .logro-medalla::before { display: none; } }
+/* Dar ánimo: un pulso breve en la llama, solo al marcarlo y nunca con Reduce Motion. */
+@keyframes animo-pulso { 0% { transform: scale(.8); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .animo-pulso { animation: animo-pulso var(--dur-normal) var(--ease-standard); }
+}
+@container logros-grupo (max-width: 18rem) {
+  .logros-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

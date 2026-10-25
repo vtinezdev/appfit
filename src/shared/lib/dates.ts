@@ -22,6 +22,11 @@ export function addDays(iso: string, days: number): string {
   return toISODate(d)
 }
 
+/** Días naturales de `desde` a `hasta` (negativo si `hasta` es anterior). Redondea para no depender del cambio de hora. */
+export function diasEntre(desde: string, hasta: string): number {
+  return Math.round((parseISODate(hasta).getTime() - parseISODate(desde).getTime()) / 86_400_000)
+}
+
 /** Lunes de la semana que contiene `iso` (semana lunes-domingo). */
 export function startOfWeek(iso: string): string {
   const d = parseISODate(iso)
@@ -68,6 +73,25 @@ export function formatFriendly(iso: string): string {
 export function formatShort(iso: string): string {
   const d = parseISODate(iso)
   return `${DIAS_SEMANA[d.getDay()]} ${d.getDate()}`
+}
+
+const dosCifras = (n: number) => String(n).padStart(2, '0')
+
+/** Día y mes de un instante, sin año: «7 oct» (ejes, «hace más de una semana»). Una sola forma de fecha corta en la app. */
+export function formatDiaMes(ts: number): string {
+  const d = new Date(ts)
+  return `${d.getDate()} ${MESES_ABREV[d.getMonth()]}`
+}
+
+/** Un momento concreto en una lista: «3 oct · 08:21» (historial de entrenos, sesiones de un ejercicio). */
+export function formatFechaHora(ts: number): string {
+  const d = new Date(ts)
+  return `${formatDiaMes(ts)} · ${dosCifras(d.getHours())}:${dosCifras(d.getMinutes())}`
+}
+
+/** El mismo momento con el día de la semana, para el título de un entreno: «sáb 19 sep · 08:16». */
+export function formatFechaHoraConDia(ts: number): string {
+  return `${DIAS_SEMANA[new Date(ts).getDay()]} ${formatFechaHora(ts)}`
 }
 
 /** Periodo del Resumen (D1): una semana (lunes-domingo) o un mes natural. */

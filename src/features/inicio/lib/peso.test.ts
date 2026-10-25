@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Peso } from '../../../shared/db/types'
-import { puntosSparkline, tendenciaPeso, validarPeso } from './peso'
+import { addDays } from '../../../shared/lib/dates'
+import { fraseRitmo, fraseVariacion, mediaSemanaPeso, ritmoSemanal, tendenciaPeso, validarPeso } from './peso'
 
 const p = (fecha: string, kg: number): Peso => ({ id: 0, fecha, kg, createdAt: 0 })
 
@@ -37,23 +38,114 @@ describe('tendenciaPeso', () => {
     expect(t).toMatchObject({ actual: 71, fecha: '2026-09-20', variacion7d: 1 })
   })
 
-  it('la serie son los últimos 30 días, ordenados', () => {
-    const t = tendenciaPeso([p('2026-09-30', 71), p('2026-09-01', 72), p('2026-08-31', 99), p('2026-09-15', 71.5)], '2026-09-30')
-    expect(t?.serie30d.map((x) => x.fecha)).toEqual(['2026-09-01', '2026-09-15', '2026-09-30'])
+  it('ordena los pesajes aunque lleguen desordenados', () => {
+    const t = tendenciaPeso([p('2026-09-30', 71), p('2026-09-01', 72), p('2026-09-15', 71.5)], '2026-09-30')
+    expect(t).toMatchObject({ actual: 71, fecha: '2026-09-30', variacion7d: -0.5 })
   })
 })
 
-describe('puntosSparkline', () => {
-  it('sin valores: vacío', () => {
-    expect(puntosSparkline([], 100, 20)).toBe('')
-  })
-
-  it('un valor o todos iguales: línea horizontal a media altura', () => {
-    expect(puntosSparkline([70], 100, 20)).toBe('M0 10 L100 10')
-    expect(puntosSparkline([70, 70, 70], 100, 20)).toBe('M0 10 L100 10')
-  })
-
-  it('reparte x a intervalos iguales y pone el mayor arriba', () => {
-    expect(puntosSparkline([70, 72, 71], 100, 20)).toBe('M0 20 L50 0 L100 10')
+describe('fraseVariacion', () => {
+  it('signo menos tipográfico, un decimal y el mismo tono al subir o bajar', () => {
+    expect(fraseVariacion(-0.6)).toBe('−0,6 kg en 7 días')
+    expect(fraseVariacion(1.2)).toBe('+1,2 kg en 7 días')
+    expect(fraseVariacion(0)).toBe('Sin cambios en 7 días')
   })
 })
+
+import { mediaMovilPeso } from './peso'
+
+describe('mediaMovilPeso', () => {
+  it('promedia los pesajes de los 7 días naturales que acaban en cada fecha', () => {
+    const r = mediaMovilPeso([
+      { fecha: '2026-10-07', kg: 70 }, { fecha: '2026-10-01', kg: 72 }, { fecha: '2026-10-03', kg: 71 }, { fecha: '2026-09-20', kg: 80 },
+    ])
+    expect(r.map((p) => p.fecha)).toEqual(['2026-09-20', '2026-10-01', '2026-10-03', '2026-10-07'])
+    expect(r[0].media).toBe(80)
+    expect(r[1].media).toBe(72)
+    expect(r[2].media).toBe(71.5)
+    // el 7 de octubre: ventana 1–7 → 72, 71, 70
+    expect(r[3].media).toBe(71)
+  })
+  it('el 1 de octubre no entra en la ventana del 8', () => {
+    const r = mediaMovilPeso([{ fecha: '2026-10-01', kg: 72 }, { fecha: '2026-10-08', kg: 70 }])
+    expect(r[1].media).toBe(70)
+  })
+  it('sin pesajes devuelve vacío', () => {
+    expect(mediaMovilPeso([])).toEqual([])
+  })
+})
+
+const HOY = '2026-10-22'
+/** Un pesaje por día durante `dias` días que acaban en HOY, con `kg(i)` (i = 0 el más antiguo). */
+const diarios = (dias: number, kg: (i: number) => number): Peso[] =>
+  Array.from({ length: dias }, (_, i) => p(addDays(HOY, i - dias + 1), kg(i)))
+
+describe('mediaSemanaPeso', () => {
+  it('sin pesajes (o solo futuros): null', () => {
+    expect(mediaSemanaPeso([], HOY)).toBeNull()
+    expect(mediaSemanaPeso([p('2026-10-23', 80)], HOY)).toBeNull()
+  })
+
+  it('media de los 7 días que acaban en el último pesaje, con cuántos pesajes entran', () => {
+    expect(mediaSemanaPeso([p('2026-10-10', 90), p('2026-10-17', 81), p('2026-10-20', 80.4), p(HOY, 80.1)], HOY))
+      .toEqual({ media: 80.5, pesajes: 3 })
+  })
+
+  it('un solo pesaje en la semana: la media es él mismo y lo dice el recuento', () => {
+    expect(mediaSemanaPeso([p('2026-10-01', 82), p(HOY, 80.6)], HOY)).toEqual({ media: 80.6, pesajes: 1 })
+  })
+
+  it('el último pesaje puede ser anterior a hoy; los futuros no cuentan', () => {
+    expect(mediaSemanaPeso([p('2026-10-14', 81), p('2026-10-15', 80), p('2026-10-30', 70)], HOY)).toEqual({ media: 80.5, pesajes: 2 })
+  })
+})
+
+describe('ritmoSemanal', () => {
+  it('pesajes diarios con una bajada constante: la pendiente exacta en kg/semana', () => {
+    expect(ritmoSemanal(diarios(35, (i) => 85 - 0.05 * i), HOY)).toBe(-0.4)
+    expect(ritmoSemanal(diarios(35, (i) => 70 + 0.03 * i), HOY)).toBe(0.2)
+  })
+
+  it('el ruido diario se suaviza con la media móvil', () => {
+    const ruido = [0.4, -0.3, 0.2, -0.4, 0.3, -0.2, 0.1]
+    expect(ritmoSemanal(diarios(35, (i) => 82 - 0.04 * i + ruido[i % 7]), HOY)).toBe(-0.3)
+  })
+
+  it('pesajes sueltos (dos por semana) que abarcan el tramo: da ritmo', () => {
+    const pesos = [20, 17, 13, 10, 6, 3, 0].map((d) => p(addDays(HOY, -d), 80 + d * 0.02))
+    expect(ritmoSemanal(pesos, HOY)).toBe(-0.1)
+  })
+
+  it('peso estable: 0', () => {
+    expect(ritmoSemanal(diarios(28, () => 80), HOY)).toBe(0)
+  })
+
+  it('menos de 4 pesajes en los últimos 21 días: null', () => {
+    expect(ritmoSemanal([p('2026-09-01', 84), p('2026-10-02', 81), p('2026-10-12', 80.5), p(HOY, 80)], HOY)).toBeNull()
+  })
+
+  it('4 pesajes que abarcan menos de 14 días: null', () => {
+    expect(ritmoSemanal([p('2026-10-10', 81), p('2026-10-14', 80.8), p('2026-10-18', 80.4), p(HOY, 80)], HOY)).toBeNull()
+  })
+
+  it('días sin pesaje: cuenta la fecha real, no el orden', () => {
+    // Mismos kg, pero el hueco del medio cambia la pendiente por día.
+    const juntos = [p('2026-10-02', 81), p('2026-10-03', 81), p('2026-10-21', 80), p(HOY, 80)]
+    expect(ritmoSemanal(juntos, HOY)).not.toBeNull()
+    expect(ritmoSemanal(juntos, HOY)!).toBeLessThan(0)
+  })
+
+  it('ignora los pesajes futuros y los anteriores al tramo', () => {
+    const base = diarios(21, (i) => 80 - 0.02 * i)
+    expect(ritmoSemanal([...base, p('2026-10-25', 60), p('2026-08-01', 100)], HOY)).toBe(ritmoSemanal(base, HOY))
+  })
+})
+
+describe('fraseRitmo', () => {
+  it('signo tipográfico, coma decimal y «Estable» en 0', () => {
+    expect(fraseRitmo(-0.3)).toBe('−0,3 kg/sem')
+    expect(fraseRitmo(0.5)).toBe('+0,5 kg/sem')
+    expect(fraseRitmo(0)).toBe('Estable')
+  })
+})
+

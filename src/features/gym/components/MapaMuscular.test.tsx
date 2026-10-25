@@ -1,0 +1,55 @@
+import { renderToStaticMarkup } from 'react-dom/server'
+import { describe, expect, it } from 'vitest'
+import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
+import { ZONAS_MUSCULARES } from '../lib/musculos'
+import { CUERPOS } from './mapaMuscularGeometria'
+import MapaMuscular, { CuerpoMuscular, FigurasMusculares } from './MapaMuscular'
+
+describe('mapa corporal como representación de datos', () => {
+  it('frontal/trasera cubren todas las zonas identificables sin usar categorías genéricas, en hombre y en mujer', () => {
+    for (const { frontal, trasera } of Object.values(CUERPOS)) {
+      expect(new Set([...Object.keys(frontal.zonas), ...Object.keys(trasera.zonas)])).toEqual(new Set(ZONAS_MUSCULARES))
+      for (const d of [frontal.silueta, trasera.silueta, ...Object.values(frontal.zonas), ...Object.values(trasera.zonas)]) expect(d).toMatch(/^M.*z$/)
+    }
+  })
+  it('el muñeco cambia con la figura (hombre por defecto)', () => {
+    const summary = trabajoMuscularWorkout({}, [], [])
+    const hombre = renderToStaticMarkup(<MapaMuscular summary={summary} />), mujer = renderToStaticMarkup(<MapaMuscular summary={summary} figura="mujer" />)
+    expect(hombre).toContain(CUERPOS.hombre.frontal.silueta)
+    expect(mujer).toContain(CUERPOS.mujer.trasera.silueta)
+    expect(mujer).not.toContain(CUERPOS.hombre.frontal.silueta)
+  })
+  it('datos de sesión cambian regiones/niveles y conservan alternativa textual', () => {
+    const summary = trabajoMuscularWorkout({ muscleSnapshot: { version: 1, exercises: [{ exerciseId: 1, nombre: 'Press banca', primaryMuscles: ['pecho'], secondaryMuscles: ['triceps', 'hombros'] }] } }, [{ id: 1, exerciseId: 1, workoutId: 1, reps: 8, peso: 60, orden: 0, createdAt: 1 }], [])
+    const html = renderToStaticMarkup(<MapaMuscular summary={summary} />)
+    expect(html).toContain('data-muscle="pecho" data-level="5"')
+    expect(html).toContain('data-muscle="triceps" data-level="3"')
+    expect(html).toContain('data-muscle="espalda" data-level="0"')
+    expect(html).toContain('Muy alto')
+    expect(html).toContain('Principal')
+    expect(html).toContain('Secundario')
+    expect(html.match(/aria-hidden="true" focusable="false"/g)).toHaveLength(2)
+  })
+  it('entrenamiento vacío muestra estado neutral y explicación', () => {
+    const html = renderToStaticMarkup(<MapaMuscular summary={trabajoMuscularWorkout({}, [], [])} />)
+    expect(html).toContain('No hay series con repeticiones')
+    expect(html).not.toMatch(/data-muscle="[^"]+" data-level="[1-5]"/)
+  })
+  it('mapa de progreso: una vista con la rampa de nueve niveles y huella, y la leyenda del contorno solo si hay huella', () => {
+    const levels = { ...trabajoMuscularWorkout({}, [], []).levels, espalda: 8, gluteos: 4 }
+    const vista = renderToStaticMarkup(<CuerpoMuscular vista="trasera" levels={levels} huella={{ gemelos: true }} />)
+    expect(vista).toContain(CUERPOS.hombre.trasera.silueta)
+    expect(vista).not.toContain(CUERPOS.hombre.frontal.silueta)
+    expect(vista).toContain('fill:rgb(var(--c-progreso-8))')
+    expect(vista).toContain('data-muscle="gemelos" data-level="0" data-huella="true"')
+    expect(vista).toContain('data-muscle="espalda" data-level="8" data-huella="false"')
+    const figuras = renderToStaticMarkup(<FigurasMusculares levels={levels} escala="progreso" huella={{ gemelos: true }} />)
+    expect(figuras).toContain('Nivel perdido')
+    expect(figuras).toContain('Avanzado')
+    const sinHuella = renderToStaticMarkup(<FigurasMusculares levels={levels} escala="progreso" />)
+    expect(sinHuella).not.toContain('Nivel perdido')
+    expect(sinHuella).not.toContain('data-huella')
+    // La sesión sigue con su rampa roja relativa.
+    expect(renderToStaticMarkup(<FigurasMusculares levels={{ ...levels, espalda: 5 }} />)).toContain('fill:rgb(var(--c-muscle-5))')
+  })
+})

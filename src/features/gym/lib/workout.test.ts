@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { epley1RM, formatDuracion, formatHora, formatUltimaVez, pesoMaximo, resumenUltimoEntreno, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
+import { detalleSesion, epley1RM, formatDuracion, formatHora, mejorSet, pesoMaximo, resumenUltimoEntreno, seriesSinMarcar, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
 
 describe('epley1RM', () => {
   it('con 1 repetición el 1RM es el propio peso', () => {
@@ -41,18 +41,15 @@ describe('pesoMaximo', () => {
   })
 })
 
-describe('formatUltimaVez', () => {
-  it('indica que no hay datos previos si no hay series', () => {
-    expect(formatUltimaVez([])).toBe('Sin datos previos')
+describe('detalleSesion', () => {
+  it('rutina, duración, volumen y notas, separados por puntos', () => {
+    const w = { inicio: 0, fin: 52 * 60_000, notas: 'Buen día' }
+    expect(detalleSesion(w, 'Torso', [{ reps: 10, peso: 60 }, { reps: 10, peso: 60, tipo: 'calentamiento' }])).toBe('Torso · 52 min · 600 kg · con notas')
+    expect(detalleSesion(w, 'Torso', [{ reps: 10, peso: 60 }], 'Gym Playa')).toBe('Gym Playa · Torso · 52 min · 600 kg · con notas')
   })
-
-  it('agrupa series repetidas iguales', () => {
-    const texto = formatUltimaVez([
-      { reps: 8, peso: 60 },
-      { reps: 8, peso: 60 },
-      { reps: 8, peso: 60 },
-    ])
-    expect(texto).toBe('3×8 @ 60 kg')
+  it('omite lo que no existe y nunca queda vacío', () => {
+    expect(detalleSesion({ inicio: 0, fin: 3_600_000 }, undefined, [])).toBe('1 h')
+    expect(detalleSesion({ inicio: 0 }, undefined, [])).toBe('—')
   })
 })
 
@@ -130,5 +127,96 @@ describe('resumenUltimoEntreno', () => {
 
   it('sin fin no hay duración; sin series, cero ejercicios y volumen 0', () => {
     expect(resumenUltimoEntreno({ inicio: hace(0) }, [], ahora)).toEqual({ cuando: 'Hoy', duracion: null, ejercicios: 0, volumen: 0 })
+  })
+})
+
+import { efectivas, moverElemento, ordenEjerciciosSesion } from './workout'
+
+describe('series de calentamiento', () => {
+  it('no cuentan en volumen, mejor serie ni peso máximo', () => {
+    const sets = [{ peso: 20, reps: 10, tipo: 'calentamiento' as const }, { peso: 60, reps: 5 }]
+    expect(efectivas(sets)).toHaveLength(1)
+    expect(volumenSets(sets)).toBe(300)
+    expect(mejorSet(sets)).toEqual({ peso: 60, reps: 5 })
+    expect(pesoMaximo([{ peso: 100, tipo: 'calentamiento' as const }, { peso: 60 }])).toBe(60)
+    expect(mejorSet([{ peso: 20, reps: 10, tipo: 'calentamiento' as const }])).toBeNull()
+  })
+})
+
+describe('orden de ejercicios de la sesión', () => {
+  it('sin orden manual: rutina y luego series', () => {
+    expect(ordenEjerciciosSesion([1, 2], [3, 1])).toEqual([1, 2, 3])
+  })
+  it('la omisión manda sobre rutina, series y orden manual sin mutarlos', () => {
+    const rutina = [1, 2], series = [3, 1], manual = [3, 1, 2], omitidos = [1, 3]
+    expect(ordenEjerciciosSesion(rutina, series, manual, omitidos)).toEqual([2])
+    expect(ordenEjerciciosSesion(rutina, series, undefined, [1])).toEqual([2, 3])
+    expect(ordenEjerciciosSesion(rutina, series, manual, [1, 2, 3])).toEqual([])
+    expect(ordenEjerciciosSesion(rutina, series, manual, [])).toEqual([3, 1, 2])
+    expect([rutina, series, manual, omitidos]).toEqual([[1, 2], [3, 1], [3, 1, 2], [1, 3]])
+  })
+  it('el orden manual manda, ignora ids que ya no existen y añade los nuevos al final', () => {
+    expect(ordenEjerciciosSesion([1, 2], [3], [3, 9, 1])).toEqual([3, 1, 2])
+    expect(ordenEjerciciosSesion([1], [2, 3], [])).toEqual([1, 2, 3])
+  })
+  it('moverElemento sube y baja sin salirse', () => {
+    expect(moverElemento([1, 2, 3], 1, -1)).toEqual([2, 1, 3])
+    expect(moverElemento([1, 2, 3], 1, 1)).toEqual([1, 3, 2])
+    expect(moverElemento([1, 2, 3], 0, -1)).toEqual([1, 2, 3])
+    expect(moverElemento([1, 2, 3], 2, 1)).toEqual([1, 2, 3])
+  })
+})
+
+import { combinarFechaHora, minutosEntre } from './workout'
+
+describe('fecha y duración de un entreno editado', () => {
+  it('combina fecha y hora locales y rechaza valores imposibles', () => {
+    const ms = combinarFechaHora('2026-10-07', '18:05')!
+    const d = new Date(ms)
+    expect([d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()]).toEqual([2026, 9, 7, 18, 5])
+    expect(combinarFechaHora('2026-02-30', '10:00')).toBeNull()
+    expect(combinarFechaHora('2026-10-07', '25:00')).toBeNull()
+    expect(combinarFechaHora('', '10:00')).toBeNull()
+  })
+  it('minutosEntre redondea y nunca baja de 1', () => {
+    expect(minutosEntre(0, 3_600_000)).toBe(60)
+    expect(minutosEntre(0, 10)).toBe(1)
+  })
+})
+
+import { validarEntrenoPasado } from './workout'
+
+describe('validarEntrenoPasado', () => {
+  it('acepta pasado con duración razonable y rechaza el resto', () => {
+    expect(validarEntrenoPasado(1000, 60, 5000)).toBeNull()
+    expect(validarEntrenoPasado(null, 60, 5000)).toMatch(/válidas/)
+    expect(validarEntrenoPasado(9000, 60, 5000)).toMatch(/empezado/)
+    expect(validarEntrenoPasado(1000, 0, 5000)).toMatch(/duración/)
+    expect(validarEntrenoPasado(1000, 2000, 5000)).toMatch(/duración/)
+  })
+})
+
+import { rangoSesion } from './workout'
+describe('rangoSesion', () => {
+  it('día, inicio y fin; sin fin solo el inicio', () => {
+    const inicio = new Date(2026, 9, 9, 18, 5).getTime()
+    expect(rangoSesion(inicio, new Date(2026, 9, 9, 18, 57).getTime())).toBe('vie 9 oct · 18:05 – 18:57')
+    expect(rangoSesion(inicio)).toBe('vie 9 oct · 18:05')
+  })
+})
+
+describe('seriesSinMarcar', () => {
+  it('separa las no marcadas que se pueden dar por hechas de las que no tienen repeticiones', () => {
+    const sets = [
+      { id: 1, peso: 60, reps: 8 },
+      { id: 2, peso: 60, reps: 8 },
+      { id: 3, peso: 60, reps: 0 },
+      { id: 4, peso: 0, reps: 0, ejecucion: 'lados' as const, lados: { izquierda: { reps: 10, peso: 12 } } },
+    ]
+    expect(seriesSinMarcar(sets, [1])).toEqual({ confirmables: [2, 4], sinReps: 1 })
+  })
+
+  it('con todas marcadas no queda nada que marcar', () => {
+    expect(seriesSinMarcar([{ id: 1, peso: 60, reps: 8 }], [1])).toEqual({ confirmables: [], sinReps: 0 })
   })
 })

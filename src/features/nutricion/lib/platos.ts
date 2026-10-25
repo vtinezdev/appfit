@@ -27,6 +27,11 @@ export function agruparPlatos(entries: Entry[], nombreAlimento: (entry: Entry) =
   }))
 }
 
+/** Ids de las entradas de los platos (o entradas sueltas) que no se han quitado, en orden; un plato va siempre entero. */
+export function idsElegidos(platos: Plato[], quitados: ReadonlySet<string>): number[] {
+  return platos.filter((p) => !quitados.has(p.clave)).flatMap((p) => p.entries.map((e) => e.id))
+}
+
 export function camposPlato(item: AgrupacionPlato): AgrupacionPlato {
   return item.platoId ? { platoId: item.platoId, ...(item.nombrePlato ? { nombrePlato: item.nombrePlato } : {}) } : {}
 }

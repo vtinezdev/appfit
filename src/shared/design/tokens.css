@@ -1,41 +1,55 @@
-/* Valores visuales de APPFIT. Intención: DESIGN.md; implementación: docs/DESIGN-SYSTEM.md.
+/* Valores visuales de APPFIT (grafito neutro, un único acento volt —verde lima— para actuar y para la energía del día; ADR 035).
+   El volt es claro: como relleno lleva texto casi negro en ambos temas; líneas, iconos y texto sobre claro usan accent-strong. Intención: DESIGN.md; implementación: docs/DESIGN-SYSTEM.md.
    Canales RGB para opacidad Tailwind. Ninguna pantalla define su propia paleta. */
 :root {
   color-scheme: light;
-  --c-bg: 245 245 242;
+  --c-bg: 244 245 240;
   --c-surface: 255 255 255;
   --c-surface-elevated: 255 255 255;
-  --c-surface-muted: 236 236 231;
-  --c-overlay: 20 20 18;
-  --c-text-primary: 32 32 28;
-  --c-text-secondary: 87 87 79;
-  --c-text-tertiary: 102 102 92;
-  --c-border: 218 218 210;
-  --c-border-strong: 135 135 122;
-  --c-accent: 223 87 27;
-  --c-on-accent: 20 20 18;
-  --c-accent-strong: 157 55 13;
-  --c-accent-subtle: 255 236 222;
+  --c-surface-muted: 234 236 228;
+  --c-overlay: 11 13 18;
+  --c-text-primary: 21 23 15;
+  --c-text-secondary: 74 77 66;
+  --c-text-tertiary: 86 89 78;
+  --c-border: 226 228 218;
+  --c-border-strong: 124 127 114;
+  --c-accent: 198 244 50;
+  --c-on-accent: 10 11 9;
+  --c-accent-strong: 58 94 10;
+  --c-accent-subtle: 236 245 214;
   --c-selected: 255 255 255;
-  --c-on-selected: 32 32 28;
+  --c-on-selected: 21 23 15;
   --c-focus: var(--c-accent-strong);
-  --c-success: 24 111 73;
-  --c-warning: 137 84 9;
-  --c-destructive: 175 49 38;
-  --c-on-destructive: 255 255 255;
-  --c-kcal: var(--c-accent);
-  --c-protein: 66 95 136;
-  --c-carbs: 83 102 47;
-  --c-fat: 129 78 113;
+  --c-success: 3 115 74;
+  --c-on-success: 253 254 255;
+  --c-warning: 138 86 25;
+  --c-destructive: 182 20 58;
+  --c-on-destructive: 253 254 255;
+  --c-kcal: 96 150 20;
+  /* Lo que falta para el objetivo en la rueda de energía de Inicio: negro, elegido por Víctor (ADR 021). */
+  --c-kcal-rest: 21 23 15;
+  --c-protein: 85 77 160;
+  --c-carbs: 2 113 122;
+  --c-fat: 148 86 62;
   --c-goal: var(--c-text-primary);
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Una familia, tres voces: lectura a ancho normal, títulos negros condensados rectos, cifras en cursiva condensada. */
+  --font-sans: 'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-sans);
   --font-numeric: var(--font-sans);
-  --fs-hero: 2.75rem;
-  --lh-hero: 1.1;
-  --fs-display: 1.75rem;
-  --lh-display: 1.2;
-  --fs-heading: 1.375rem;
-  --lh-heading: 1.4;
+  --fw-display: 900;
+  --fst-display: 62.5%;
+  --fw-numeric: 800;
+  --fst-numeric: 70%;
+  --fw-numeric-hero: 900;
+  --fst-numeric-hero: 62.5%;
+  --font-style-numeric: italic;
+  --fst-label: 85%;
+  --fs-hero: 3.5rem;
+  --lh-hero: 1;
+  --fs-display: 2.5625rem;
+  --lh-display: 1.05;
+  --fs-heading: 1.625rem;
+  --lh-heading: 1.2;
   --fs-title: 1.125rem;
   --lh-title: 1.5;
   --fs-body: 1rem;
@@ -46,79 +60,319 @@
   --lh-label: 1.4;
   --fs-caption: 0.75rem;
   --lh-caption: 1.5;
-  --fs-metric: 1.75rem;
-  --lh-metric: 1.2;
+  /* Rótulo de tarjeta y de métrica: versalitas pequeñas que separan «qué es» de «cuánto es». */
+  --fs-rotulo: 0.75rem;
+  --lh-rotulo: 1.3;
+  --fs-metric: 2.125rem;
+  --lh-metric: 1.1;
   --space-page: 1.25rem;
-  --space-section: 1.75rem;
-  --space-card: 1rem;
+  --space-section: 2rem;
+  --space-card: 1.25rem;
   --space-stack: 0.75rem;
+  --content-width: 32rem;
+  --form-width: 32rem;
+  --energy-ring-size: 10rem;
+  --metric-column-min: 5rem;
+  --stepper-field-width: 6rem;
   --touch-target: 2.75rem;
   --touch-target-lg: 3rem;
+  --thumb-size: 3rem;
+  /* Como Icon, el arte conserva su tamaño nominal al ampliar solo el texto. */
+  --insignia-sm: 40px;
+  --insignia-md: 56px;
+  --insignia-lg: 80px;
+  /* Avatar de Social: monograma o insignia elegida (sm en filas y comentarios, md en el feed, lg en el perfil). */
+  --avatar-sm: 2rem;
+  --avatar-md: 2.5rem;
+  --avatar-lg: 5rem;
+  --thumb-filter: none;
   --sheet-max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - 1rem);
   --app-height: 100dvh;
-  --nav-height: 4rem;
-  --menu-wheel-size: 17.5rem;
-  --menu-item-size: 5rem;
-  --menu-hub-size: 4rem;
-  --menu-orbit: 34%;
-  --nav-toast: calc(var(--nav-height) + env(safe-area-inset-bottom) + 0.75rem);
+  /* Botón de secciones flotante, abajo al centro, con un margen inferior; --nav-height es lo que reserva. */
+  --nav-height: 4.25rem;
+  --nav-boton: 3.75rem;
+  /* Media luna de secciones (ADR 043; geometría en app/arco.ts): órbita horizontal (124 px a 320 px, hasta 144), elevación y nodo. */
+  --arco-rx: min(9rem, calc(50vw - 2.25rem));
+  --arco-ry: 13.125rem; /* 210 px: con Progreso caben siete secciones a 320 px (B12) */
+  --arco-nodo: 3.5rem;
+  --arco-circulo: 3rem;
+  /* Lo que flota sobre la barra inferior (avisos, descanso) empieza aquí. */
+  --nav-dock: calc(var(--nav-height) + env(safe-area-inset-bottom) + 0.75rem);
+  --nav-toast: var(--nav-dock);
+  /* Píldora del descanso en el entreno: los avisos y el final de la página se apartan de ella. */
+  --rest-dock-height: 6rem;
+  /* Barra del entreno minimizado, encima de la cápsula: lo que reserva la vista y desde donde suben los avisos. */
+  --mini-entreno-height: 4.5rem;
   --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-sheet: 1.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.375rem;
+  --radius-sheet: 1.75rem;
   --radius-pill: 9999px;
   --shadow-overlay: 0 -4px 24px rgb(20 20 18 / 0.12);
+  /* Elevación mínima: separa cards (unidades reales) y controles elegidos del fondo; no es decoración. */
+  --shadow-card: 0 1px 2px rgb(28 24 20 / 0.04), 0 10px 28px -10px rgb(28 24 20 / 0.12);
+  --shadow-control: 0 1px 2px rgb(28 24 20 / 0.06), 0 4px 12px -4px rgb(28 24 20 / 0.12);
+  /* Lo que flota sobre el contenido (la barra de pestañas): más difusa que la de las cards. */
+  --shadow-float: 0 1px 2px rgb(28 24 20 / 0.08), 0 12px 32px -12px rgb(28 24 20 / 0.32);
   --dur-short: 120ms;
   --dur-normal: 200ms;
-  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-  --motion-shift: 0.25rem;
+  --dur-overlay: 280ms;
+  --dur-exit: 180ms;
+  --dur-success: 420ms;
+  /* Cambio de color del mapa de progreso en el antes → después al terminar un entreno (ADR 051). */
+  --dur-progreso: 600ms;
+  --dur-stagger: 18ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --motion-shift: 0.5rem;
+  --motion-press: 0.97;
+  --c-training: 24 26 20;
+  --c-on-training: 245 247 240;
+  --c-training-muted: 188 190 180;
+  --c-training-track: 54 57 48;
+  /* Borde de la superficie de entreno: en claro, su mismo tono (no se ve); en oscuro la delimita como al resto de cards. */
+  --c-training-border: 24 26 20;
+  --c-meal-accent: 198 244 50;
+  --c-success-subtle: 222 245 232;
+  /* Trabajo muscular relativo: rampa roja, de rojo claro (menos trabajo) a rojo intenso (más). No es un aviso: el mapa siempre va con niveles en texto. */
+  --c-muscle-1: 255 214 213;
+  --c-muscle-2: 255 178 175;
+  --c-muscle-3: 251 141 135;
+  --c-muscle-4: 242 88 82;
+  --c-muscle-5: 188 25 29;
+  /* Texto sobre los niveles 4 y 5 de la rampa (calendario del historial); 1–3 usan el texto normal. */
+  --c-on-muscle-4: var(--c-text-primary);
+  --c-on-muscle-5: 255 255 255;
+  /* Rampa sobre grafito (póster de sesión), igual en ambos temas: de rojo pálido a rojo intenso; el nivel 1 ya se distingue del gris sin trabajo. */
+  --c-muscle-poster-1: 233 186 186;
+  --c-muscle-poster-2: 237 154 154;
+  --c-muscle-poster-3: 241 119 116;
+  --c-muscle-poster-4: 242 84 78;
+  --c-muscle-poster-5: 240 33 33;
+  /* Progreso muscular (ADR 051): Básico en rojo, Intermedio en verde esmeralda (lejos del volt) y Avanzado en morado, tres niveles
+     cada uno. La luminosidad baja de nivel en nivel en ambos temas, así que el orden se lee también sin distinguir colores; siempre con el nombre del nivel en texto. */
+  --c-progreso-1: 255 195 192;
+  --c-progreso-2: 247 149 143;
+  --c-progreso-3: 239 95 85;
+  --c-progreso-4: 49 157 100;
+  --c-progreso-5: 0 128 83;
+  --c-progreso-6: 0 99 67;
+  --c-progreso-7: 93 38 149;
+  --c-progreso-8: 69 7 126;
+  --c-progreso-9: 46 1 94;
+  /* Progreso sobre grafito (al terminar un entreno), igual en ambos temas: la rampa del tema oscuro. */
+  --c-progreso-poster-1: 255 220 217;
+  --c-progreso-poster-2: 255 174 168;
+  --c-progreso-poster-3: 255 122 110;
+  --c-progreso-poster-4: 88 180 127;
+  --c-progreso-poster-5: 1 159 104;
+  --c-progreso-poster-6: 0 133 90;
+  --c-progreso-poster-7: 127 75 177;
+  --c-progreso-poster-8: 104 35 172;
+  --c-progreso-poster-9: 76 6 145;
+  /* Insignias de la Liga (ADR 033): metales y gemas atenuados, de relleno (≥ 3:1 sobre la superficie); siempre con el nombre en texto. Élite, en grafito. */
+  --c-liga-bronce: 148 74 40;
+  --c-liga-plata: 112 120 130;
+  --c-liga-oro: 140 112 0;
+  --c-liga-zafiro: 36 84 170;
+  --c-liga-rubi: 146 28 122;
+  --c-liga-elite: var(--c-text-primary);
+  --muscle-body-width: 10rem;
+  --muscle-mini-height: 5.5rem;
+  --muscle-progreso-width: 13rem;
+  --vaso-width: 1.75rem;
+  --muscle-swatch-size: 0.75rem;
+  /* Foto/fade sobre luces estáticas que acompañan la longitud real de la página. */
+  --atmosphere-height: 50rem;
+  --atmosphere-photo-opacity: 0.72;
+  --atmosphere-photo-saturation: 0.85;
+  --atmosphere-photo-brightness: 0.98;
+  --atmosphere-photo-contrast: 0.96;
+  --atmosphere-quiet-opacity: 0.14;
+  --atmosphere-panel-opacity: 0.98;
+  --atmosphere-training-opacity: 0.96;
+  --atmosphere-wash-top: 0.71;
+  --atmosphere-wash-upper: 0.86;
+  --atmosphere-wash-middle: 0.9;
+  --atmosphere-reading-wash: 0.58;
+  --atmosphere-reading-height: 15rem;
+  --atmosphere-reading-fade: 21rem;
+  --atmosphere-light-primary-opacity: 0.1;
+  --atmosphere-light-secondary-opacity: 0.07;
+  --atmosphere-quiet-light-opacity: 0.35;
+  /* Fondos dibujados (Ajustes › Curvas/Puntos): halo volt arriba a la derecha y trazo que se desvanece hacia abajo. */
+  --atmosphere-drawn-halo: 0.2;
+  --atmosphere-contour-opacity: 0.2;
+  --atmosphere-dots-opacity: 0.14;
+  --c-atmosphere-cobalt: 72 104 162;
+  --c-atmosphere-steel: 111 132 144;
+  --c-atmosphere-slate: 105 114 128;
+  --c-atmosphere-sand: 166 141 113;
+  --c-atmosphere-mist: 145 162 167;
+  /* Arte de ligas y logros: paleta topográfica fija, independiente de los colores de acción y datos. */
+  --c-expedicion-bosque: 25 57 43;
+  --c-expedicion-arcilla: 158 69 36;
+  --c-expedicion-salvia: 54 85 61;
+  --c-expedicion-marfil: 246 240 216;
+  --c-expedicion-bronce: 210 145 98;
+  --c-expedicion-plata: 212 216 203;
+  --c-expedicion-oro: 224 181 93;
+  --c-expedicion-zafiro: 162 193 231;
+  --c-expedicion-rubi: 237 159 155;
+  /* Fondos de los avatares de disciplina de Social, con trazo marfil (fijos, como el resto de la paleta). */
+  --c-expedicion-cobalto: 36 84 170;
+  --c-expedicion-magenta: 146 28 122;
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --c-bg: 20 20 18;
-  --c-surface: 32 32 29;
-  --c-surface-elevated: 39 39 35;
-  --c-surface-muted: 45 45 40;
+  --thumb-filter: brightness(0.85);
+  --c-bg: 10 11 9;
+  --c-surface: 22 23 20;
+  --c-surface-elevated: 30 31 27;
+  --c-surface-muted: 34 36 31;
   --c-overlay: 0 0 0;
-  --c-text-primary: 245 245 239;
-  --c-text-secondary: 194 194 181;
-  --c-text-tertiary: 170 170 154;
-  --c-border: 68 68 59;
-  --c-border-strong: 132 132 118;
-  --c-accent: 255 148 92;
-  --c-on-accent: 20 20 18;
-  --c-accent-strong: 255 170 124;
-  --c-accent-subtle: 68 39 24;
-  --c-selected: 65 65 57;
-  --c-on-selected: 245 245 239;
-  --c-success: 105 207 157;
-  --c-warning: 235 193 97;
-  --c-destructive: 255 148 135;
-  --c-on-destructive: 20 20 18;
-  --c-protein: 151 179 221;
-  --c-carbs: 173 195 121;
-  --c-fat: 215 166 201;
+  --c-text-primary: 244 247 238;
+  --c-text-secondary: 195 199 186;
+  --c-text-tertiary: 160 164 151;
+  --c-border: 44 46 40;
+  --c-border-strong: 114 118 106;
+  --c-accent: 198 244 50;
+  --c-on-accent: 10 11 9;
+  --c-accent-strong: 212 248 106;
+  --c-accent-subtle: 42 51 17;
+  --c-kcal: 184 232 44;
+  --c-kcal-rest: 0 0 0;
+  --c-selected: 58 60 53;
+  --c-on-selected: 244 247 238;
+  --c-success: 64 190 140;
+  --c-on-success: 10 11 13;
+  --c-warning: 239 190 114;
+  --c-destructive: 244 122 121;
+  --c-on-destructive: 10 11 13;
+  --c-protein: 170 167 244;
+  --c-carbs: 124 205 214;
+  --c-fat: 219 162 140;
+  /* Más clara que las cards (38 39 44): la tarjeta de entreno sigue siendo la principal también en oscuro. */
+  --c-training: 48 50 43;
+  --c-on-training: 244 247 238;
+  --c-training-muted: 185 190 176;
+  --c-training-track: 74 77 68;
+  --c-training-border: 68 71 62;
+  --c-meal-accent: 212 248 106;
+  --c-success-subtle: 21 50 35;
+  /* En oscuro el texto claro del calendario exige niveles 1–3 oscuros: de rojo apagado a rojo vivo. */
+  --c-muscle-1: 103 41 38;
+  --c-muscle-2: 138 54 51;
+  --c-muscle-3: 182 59 55;
+  --c-muscle-4: 214 80 74;
+  --c-muscle-5: 255 48 42;
+  --c-on-muscle-4: 10 11 13;
+  --c-on-muscle-5: 10 11 13;
+  --c-muscle-poster-1: 233 186 186;
+  --c-muscle-poster-2: 237 154 154;
+  --c-muscle-poster-3: 241 119 116;
+  --c-muscle-poster-4: 242 84 78;
+  --c-muscle-poster-5: 240 33 33;
+  /* En oscuro, de rosa pálido a morado intenso: el último nivel se separa del gris por su croma. */
+  --c-progreso-1: 255 220 217;
+  --c-progreso-2: 255 174 168;
+  --c-progreso-3: 255 122 110;
+  --c-progreso-4: 88 180 127;
+  --c-progreso-5: 1 159 104;
+  --c-progreso-6: 0 133 90;
+  --c-progreso-7: 127 75 177;
+  --c-progreso-8: 104 35 172;
+  --c-progreso-9: 76 6 145;
+  --c-progreso-poster-1: 255 220 217;
+  --c-progreso-poster-2: 255 174 168;
+  --c-progreso-poster-3: 255 122 110;
+  --c-progreso-poster-4: 88 180 127;
+  --c-progreso-poster-5: 1 159 104;
+  --c-progreso-poster-6: 0 133 90;
+  --c-progreso-poster-7: 127 75 177;
+  --c-progreso-poster-8: 104 35 172;
+  --c-progreso-poster-9: 76 6 145;
+  --c-liga-bronce: 222 140 94;
+  --c-liga-plata: 178 186 196;
+  --c-liga-oro: 226 190 60;
+  --c-liga-zafiro: 124 164 240;
+  --c-liga-rubi: 232 124 204;
   --shadow-overlay: 0 -4px 24px rgb(0 0 0 / 0.4);
+  /* En oscuro las cards se separan por tono. */
+  --shadow-card: none;
+  --shadow-control: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-float: 0 12px 32px -10px rgb(0 0 0 / 0.7);
+  --atmosphere-photo-opacity: 0.9;
+  --atmosphere-photo-saturation: 0.6;
+  --atmosphere-photo-brightness: 0.92;
+  --atmosphere-quiet-opacity: 0.2;
+  --atmosphere-wash-top: 0.52;
+  --atmosphere-wash-upper: 0.56;
+  --atmosphere-wash-middle: 0.82;
+  --atmosphere-panel-opacity: 0.96;
+  --atmosphere-light-primary-opacity: 0.16;
+  --atmosphere-light-secondary-opacity: 0.1;
+  --atmosphere-drawn-halo: 0.08;
+  --atmosphere-contour-opacity: 0.13;
+  --atmosphere-dots-opacity: 0.12;
+  --c-atmosphere-cobalt: 72 104 162;
+  --c-atmosphere-steel: 111 132 144;
+  --c-atmosphere-slate: 105 114 128;
+  --c-atmosphere-sand: 166 141 113;
+  --c-atmosphere-mist: 145 162 167;
+  --c-expedicion-bosque: 25 57 43;
+  --c-expedicion-arcilla: 158 69 36;
+  --c-expedicion-salvia: 54 85 61;
+  --c-expedicion-marfil: 246 240 216;
+  --c-expedicion-bronce: 210 145 98;
+  --c-expedicion-plata: 212 216 203;
+  --c-expedicion-oro: 224 181 93;
+  --c-expedicion-zafiro: 162 193 231;
+  --c-expedicion-rubi: 237 159 155;
+  --c-expedicion-cobalto: 36 84 170;
+  --c-expedicion-magenta: 146 28 122;
 }
+/* En oscuro, las unidades reales (Card y ListGroup agrupada) son una capa más clara con borde fino y un leve brillo
+   arriba, para no confundirse con el fondo. Lo de dentro (filas, campos, botones tonales, divisores) se aclara con ellas.
+   La Card muted y la superficie de entreno conservan su tono propio. */
+:root[data-theme='dark'] :is(.app-card:not(.bg-surface-muted), .app-list-group):not(.training-surface) {
+  --c-surface: 38 40 35;
+  --c-surface-elevated: 46 48 42;
+  --c-surface-muted: 50 52 46;
+  --c-border: 58 60 54;
+  --c-border-strong: 132 135 125;
+  --c-selected: 72 74 67;
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.05);
+  border-color: rgb(var(--c-border));
+}
+/* La superficie de entreno en oscuro lleva el mismo brillo interior de 1 px que las cards. */
+:root[data-theme='dark'] .training-surface { --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.06); }
 /* Aviso temporal, sin obligar a usar bloques negros en las pantallas. */
 [data-surface='inverse'] {
-  --c-surface: 32 32 28;
-  --c-text-primary: 245 245 239;
-  --c-text-secondary: 194 194 181;
-  --c-accent-strong: 255 170 124;
-  --c-destructive: 255 148 135;
+  --c-surface: 22 23 20;
+  --c-text-primary: 244 247 238;
+  --c-text-secondary: 195 199 186;
+  --c-accent-strong: 212 248 106;
+  --c-destructive: 244 122 121;
   --c-focus: var(--c-accent-strong);
 }
 :root[data-theme='dark'] [data-surface='inverse'] {
-  --c-surface: 245 245 239;
-  --c-text-primary: 32 32 28;
-  --c-text-secondary: 87 87 79;
-  --c-accent-strong: 157 55 13;
-  --c-destructive: 175 49 38;
+  --c-surface: 255 255 255;
+  --c-text-primary: 21 23 15;
+  --c-text-secondary: 74 77 66;
+  --c-accent-strong: 58 94 10;
+  --c-destructive: 182 20 58;
 }
 @media (max-width: 359px) {
   :root { --space-page: 1rem; }
 }
+@media (min-width: 48rem) {
+  :root { --content-width: 48rem; --space-page: 1.5rem; }
+}
 @media (prefers-reduced-motion: reduce) {
-  :root { --dur-short: 0ms; --dur-normal: 0ms; }
+  :root {
+    --dur-short: 80ms; --dur-normal: 80ms; --dur-overlay: 80ms;
+    --dur-exit: 80ms; --dur-success: 80ms; --dur-stagger: 0ms; --dur-progreso: 80ms;
+    --motion-shift: 0rem; --motion-press: 1;
+  }
 }

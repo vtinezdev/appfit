@@ -1,6 +1,6 @@
 # 001 — PWA con los datos solo en el dispositivo
 
-- **Estado**: vigente (desde la sesión 01)
+- **Estado**: vigente en lo de PWA y datos en el dispositivo; lo de «sin backend ni cuentas» lo sustituye el [ADR 039](039-cuentas-y-copia-cifrada.md) (2026-10-13), con cuentas opcionales y copia cifrada
 - **Historia**: `PROCESO.md` §0–§13; alternativas descartadas en `../roadmap.md` § Descartadas.
 
 ## Contexto

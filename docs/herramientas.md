@@ -13,7 +13,9 @@ En una frase: una **web hecha con React** que se instala como app en el iPhone (
 | **TypeScript** | JavaScript con tipos que se revisan antes de ejecutar nada. | Evita errores tontos y hace el código más fácil de mantener. |
 | **Tailwind CSS** | Estilos mediante clases cortas (`bg-surface`, `rounded-lg`…). | Maquetar rápido y de forma consistente. En AppFit las clases solo nombran los tokens del diseño (ver `DESIGN-SYSTEM.md`). |
 
-La tipografía Manrope variable se incluye como archivo local (licencia OFL). Está en el precache: no necesita un servicio de fuentes ni conexión. No se añadió un paquete a las dependencias de la app para usarla.
+La tipografía Saira variable (recta y cursiva) se incluye como archivo local (licencia OFL). Está en el precache: no necesita un servicio de fuentes ni conexión. No se añadió un paquete a las dependencias de la app para usarla.
+
+**@dnd-kit/core** gestiona contexto de arrastre, destinos, teclado, autoscroll y anuncios accesibles para mover platos entre comidas. El arrastre HTML nativo no resuelve bien tacto/teclado/scroll móvil; por eso se usa esta librería especializada. Se carga con Hoy, separada de Inicio y Gym. Un sensor de Pointer Events usa su API pública para conservar el primer dedo y cancelar limpiamente al interrumpir el gesto; no se añade una librería de motion ni se cambia la navegación.
 
 ## Guardar los datos (sin servidor)
 
@@ -22,6 +24,15 @@ La tipografía Manrope variable se incluye como archivo local (licencia OFL). Es
 | **IndexedDB** | Base de datos que existe dentro del propio navegador o móvil. | Guarda comidas, entrenos, pesos… **sin backend**: todo se queda en el iPhone. |
 | **Dexie.js** | Una capa que simplifica mucho IndexedDB. | IndexedDB «a pelo» es muy incómoda; Dexie la hace parecida a una base de datos normal, con versiones del esquema. |
 | **dexie-react-hooks** | Conecta Dexie con React (`useLiveQuery`). | La pantalla se actualiza sola cuando cambian los datos. |
+
+## Cuenta y copia en la nube (opcional)
+
+| Herramienta | Qué es | Por qué se usa |
+|---|---|---|
+| **Supabase** | Servicio con cuentas de usuario y base de datos Postgres (plan gratuito, servidores en Irlanda, en la UE). | Guarda la copia de cada cuenta para recuperarla en otro móvil. Solo recibe la copia ya cifrada en el móvil: no puede leer los datos. |
+| **Brevo** | Servicio de envío de correo (plan gratuito, 300 correos al día). | Supabase lo usa para mandar el código de 6 cifras al entrar. Solo recibe el email y el código; la app no habla con Brevo. |
+| **@supabase/supabase-js** | La librería para hablar con Supabase desde la app. | Entrar con el código del email, mantener la sesión y subir o traer la copia. Solo se descarga si se usa la cuenta. |
+| **Web Crypto** (del navegador) | Cifrado que trae el propio navegador. | Cifra la copia con la contraseña antes de subirla, sin añadir ninguna librería. |
 
 ## Comidas sin IA
 
@@ -53,6 +64,7 @@ La app no usa IA: al principio interpretaba las comidas con Gemini, pero se reti
 | Herramienta | Qué es | Por qué se usa |
 |---|---|---|
 | **Vitest** | Framework de tests automáticos. | Comprueba que los cálculos y reglas importantes (macros, 1RM, intérprete, backups…) siguen bien aunque cambie el código. |
+| **sharp** | Librería de Node para redimensionar y convertir imágenes. | Solo la usa `scripts/ejercicios/` (manual, offline) para convertir las fotos de ejercicios a WebP pequeño. No llega a la app. |
 | **fake-indexeddb** | Una IndexedDB en memoria para los tests. | Permite probar el guardado de datos y las migraciones sin abrir un navegador. No llega a la app. |
 
 ## Publicar la app

@@ -38,9 +38,16 @@ export async function ensureSettings(): Promise<void> {
   }
 }
 
-export async function updateSettings(patch: Partial<Omit<Settings, 'id'>>): Promise<Settings> {
-  const current = await getSettings()
-  const next: Settings = { ...current, ...patch, id: 1 }
-  await db.settings.put(next)
-  return next
+/**
+ * Lectura + escritura en una sola transacción: escriben dos pantallas (Ajustes y Perfil) y un parche no debe
+ * pisar el de la otra. Un campo con valor `undefined` en el parche borra el campo (p. ej. `perfil: undefined`).
+ */
+export function updateSettings(patch: Partial<Omit<Settings, 'id'>>): Promise<Settings> {
+  return db.transaction('rw', db.settings, async () => {
+    const current = await getSettings()
+    const next: Settings = { ...current, ...patch, id: 1 }
+    if (next.perfil === undefined) delete next.perfil
+    await db.settings.put(next)
+    return next
+  })
 }

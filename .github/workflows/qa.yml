@@ -1,0 +1,117 @@
+name: Calidad de AppFit
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas-y-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test
+      - run: npm run build
+
+  navegador:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      APPFIT_AUDIT_BROWSERS: chromium,firefox,webkit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Los navegadores de Playwright se guardan entre ejecuciones: la clave cambia con la versión y con la imagen del sistema.
+      - name: Caché de los navegadores de Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-1.62.1-${{ runner.os }}-ubuntu-24.04
+      - name: Herramientas de navegador fuera de las dependencias de la PWA
+        run: |
+          printf '%s\n' "NODE_PATH=$RUNNER_TEMP/appfit-qa/node_modules" "APPFIT_UI_OUTPUT=$RUNNER_TEMP/appfit-auditoria" >> "$GITHUB_ENV"
+          npm install --prefix "$RUNNER_TEMP/appfit-qa" --no-audit --no-fund playwright@1.62.1
+      # Descarga de navegadores y paquetes del sistema van por separado, cada una con su límite y tres intentos: una
+      # descarga o un apt colgados fallan en minutos, dicen en qué fase y no agotan el tiempo del trabajo.
+      - name: Navegadores de Playwright
+        timeout-minutes: 12
+        run: |
+          for intento in 1 2 3; do
+            timeout 180 node "$RUNNER_TEMP/appfit-qa/node_modules/playwright/cli.js" install chromium firefox webkit && exit 0
+            echo "::warning title=Navegadores de Playwright::La descarga no terminó (intento $intento)."
+          done
+          echo "::error title=Navegadores de Playwright::La descarga no terminó en tres intentos."
+          exit 1
+      - name: Paquetes del sistema para los navegadores
+        timeout-minutes: 12
+        run: |
+          for intento in 1 2 3; do
+            timeout 180 node "$RUNNER_TEMP/appfit-qa/node_modules/playwright/cli.js" install-deps chromium firefox webkit && exit 0
+            echo "::warning title=Paquetes del sistema::apt no terminó (intento $intento)."
+            # `timeout` solo corta a Node: el apt que lanzó (con sudo) sigue vivo con el bloqueo. Se corta y se limpia.
+            sudo pkill -9 -x apt-get || true; sudo pkill -9 -x dpkg || true
+            sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/cache/apt/archives/lock /var/lib/apt/lists/lock
+            sudo dpkg --configure -a || true
+          done
+          echo "::error title=Paquetes del sistema::apt no terminó en tres intentos."
+          exit 1
+      - run: npm run build
+      - name: Entrenamiento, responsive, formularios y producción offline
+        shell: bash
+        run: |
+          export APPFIT_CHROMIUM="$(node -p "require('playwright').chromium.executablePath()")"
+          npm run dev -- --host 127.0.0.1 --port 5173 --strictPort > "$RUNNER_TEMP/appfit-vite.log" 2>&1 &
+          appfit_dev_pid=$!
+          npm run preview -- --host 127.0.0.1 --port 5174 --strictPort > "$RUNNER_TEMP/appfit-preview.log" 2>&1 &
+          appfit_preview_pid=$!
+          trap 'kill "$appfit_dev_pid" "$appfit_preview_pid" 2>/dev/null || true' EXIT
+          node - <<'NODE'
+          (async () => {
+            for (const port of [5173, 5174]) {
+              let ready = false
+              for (let i = 0; i < 100; i++) {
+                try { ready = (await fetch(`http://127.0.0.1:${port}`)).ok } catch {}
+                if (ready) break
+                await new Promise(resolve => setTimeout(resolve, 200))
+              }
+              if (!ready) throw new Error(`Servidor de pruebas ${port} no disponible`)
+            }
+          })().catch(error => { console.error(error); process.exitCode = 1 })
+          NODE
+          # Si un recorrido falla, su final queda como anotación del trabajo: se lee en la PR sin descargar el log.
+          paso() {
+            local registro="$RUNNER_TEMP/appfit-paso.log" estado
+            "$@" 2>&1 | tee "$registro" && return 0
+            estado=${PIPESTATUS[0]}
+            echo "::error title=Falla en ${*//:/%3A}::$(tail -n 60 "$registro" | cut -c1-400 | sed 's/%/%25/g; s/\r/%0D/g' | sed ':a;N;$!ba;s/\n/%0A/g')"
+            return "$estado"
+          }
+          paso npm run test:ui
+          paso npm run test:ui:responsive
+          paso npm run test:ui:uso
+          paso node scripts/ui/validar-correcciones-auditoria.cjs
+          paso node scripts/ui/validar-pulido-auditoria.cjs
+          paso node scripts/ui/validar-mejoras-pendientes.cjs
+          paso node scripts/ui/auditoria-datos.cjs
+          paso npm run test:ui:offline
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evidencias-navegador
+          path: |
+            ${{ runner.temp }}/appfit-auditoria
+            ${{ runner.temp }}/appfit-vite.log
+            ${{ runner.temp }}/appfit-preview.log

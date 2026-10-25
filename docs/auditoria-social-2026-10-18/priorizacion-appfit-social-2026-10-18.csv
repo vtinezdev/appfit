@@ -1,0 +1,33 @@
+﻿ID;Utilidad potencial;Participación/continuidad esperada;Diferenciación;Esfuerzo;Dependencia principal;Riesgo/incertidumbre;Encaje
+A01;Alta;Media;Baja;Bajo;Borrado actual;"Bajo; fallo claro";Alto
+A02;Alta;Media;Baja;Medio;Contrato de páginas;"Medio; escenarios concretos";Alto
+A03;Alta;Media;Media;Bajo/medio;Navegación local;"Medio; validar nombres";Alto
+A04;Alta;Media;Baja;Bajo;Estados existentes;"Medio; arranque sin red social";Alto
+A05;Media;Media;Baja;Bajo;Botón actual;"Bajo/medio; comprensión";Alto
+A06;Alta;Media;Media;Bajo/medio;Tarjeta actual;"Medio; falta prueba visual";Alto
+A07;Alta;Media;Baja;Medio;Invalidación/scroll;"Medio; concurrencia";Alto
+A08;Alta;Media;Baja;Bajo/medio;Estados de consulta;Bajo/medio;Alto
+A09;Alta;Media;Baja;Bajo/medio;Capas/editor;Bajo/medio;Alto
+A10;Alta;Media;Media;Bajo;Ayudas/contexto;Bajo/medio;Alto
+B01;Alta;Media;Media;Medio;Campos/permisos;"Medio; exposición";Alto
+B02;Media/alta;Media;Media;Medio;Agregación consentida;Medio;Alto
+B03;Alta;Media;Media;Medio/alto;Payload y validación;"Alto; audiencia/copias";Alto
+B04;Alta;Media/alta;Baja;Medio/alto;Enlaces y PWA;"Alto; sesión/exposición";Alto
+B05;Alta;Alta;Media;Alto;Rutina canónica;Medio/alto;Alto
+B06;Media;Media;Baja;Medio;Acceso y B05;"Medio; revocación";Alto
+B07;Alta;Media/alta;Baja;Medio/alto;Respuestas/eventos;"Alto; abuso/ruido";Alto
+B08;Alta;Media/alta;Media;Medio;Metadatos/fijados;"Medio; actividad suficiente";Alto
+B09;Alta al crecer;Media;Baja;Alto;Roles y cascadas;"Alto; gobierno";Alto
+B10;Alta en mala red;Media;Media;Medio/alto;Persistencia por cuenta;"Alto; privacidad local";Alto
+C01;Alta, por validar;Alta, por validar;Alta;Alto;Pactos y agregados;"Alto; presión/demanda";Alto
+C02;Alta, por validar;Alta, por validar;Alta;Alto;C01 + expediciones;"Alto; economía de avance";Alto
+C03;Media/alta;Media;Alta;Alto;Datos comparables;"Alto; sesgos";Alto si es optativo
+C04;Alta, por validar;Alta, por validar;Alta;Medio/alto;Pausas consentidas;"Alto; datos sensibles";Alto
+C05;Media/alta;Media/alta;Media;Medio/alto;B05/B07;"Alto; calidad de consejos";Alto
+C06;Media, por validar;Media;Alta;Alto;Colección grupal;"Alto; propósito incierto";Medio/alto
+D01;Media para un segmento;Incierta;Media;Alto;C01 + población;Alto;Medio
+D02;Media para un segmento;Incierta;Media;Alto;C03 + reglas;Muy alto;Medio
+D03;Incierta;Incierta;Alta;Alto;B05 + coordinación;Muy alto;Medio/alto
+D04;Media/alta;Incierta;Baja;Alto;B07 + entrega;"Alto; fatiga";Medio/alto
+D05;Incierta;Incierta;Baja;Alto;Storage/moderación;Muy alto;Medio
+D06;Media si hay población;Incierta;Baja;Alto;B01/B09 + opt-in;Muy alto;Medio

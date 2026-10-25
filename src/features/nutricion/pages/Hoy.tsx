@@ -1,21 +1,42 @@
-import { useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { DndContext, DragOverlay, KeyboardSensor, MeasuringStrategy, useSensor, useSensors } from '@dnd-kit/core'
 import { useLiveQuery } from 'dexie-react-hooks'
+import * as cheatDaysRepo from '../data/cheatDaysRepo'
 import * as entriesRepo from '../data/entriesRepo'
+import * as foodsRepo from '../data/foodsRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
 import type { Comida, Entry } from '../../../shared/db/types'
-import { addDays, formatFriendly, todayISO } from '../../../shared/lib/dates'
-import { getSettings } from '../../../shared/db/settings'
+import { formatFriendly, startOfWeek, weekDates } from '../../../shared/lib/dates'
+import { congelarObjetivoDia, objetivosDe, objetivosPorFecha } from '../../perfil/data/objetivosDiaRepo'
+import SemanaKcal from '../components/SemanaKcal'
+import { semanaKcal } from '../lib/semanaKcal'
 import AccionesComidaSheet from '../components/AccionesComidaSheet'
 import ComidaSection from '../components/ComidaSection'
-import CopiarDiaSheet from '../components/CopiarDiaSheet'
+import AccionesDiaSheet, { type PasoAccionesDia } from '../components/AccionesDiaSheet'
+import { avisoAlMarcar } from '../lib/cheatDays'
 import ResumenNutricional from '../components/ResumenNutricional'
 import { useAviso } from '../../../shared/hooks/useAviso'
 import { sumMacros } from '../lib/nutrition'
 import type { Plato } from '../lib/platos'
-import { IconButton } from '../../../shared/components/Button'
+import Button, { IconButton } from '../../../shared/components/Button'
 import { LoadingState } from '../../../shared/components/StateMessage'
-import SegmentedControl from '../../../shared/components/SegmentedControl'
+import Pista from '../../../shared/components/Pista'
 import NutrientesDetalle from '../components/NutrientesDetalle'
+import Planificadas from '../components/Planificadas'
+import MoverPlatoSheet from '../components/MoverPlatoSheet'
+import ComidasTipicasSheet from '../components/ComidasTipicasSheet'
+import AplicarPlantillaSheet from '../components/AplicarPlantillaSheet'
+import type { ComidaTipica } from '../lib/comidasTipicas'
+import { COMIDAS, esComida, nombreComida } from '../lib/comidas'
+import { colisionesComidas, crearCoordenadasComidas, limitarCopiaAlViewport } from '../lib/arrastrePlatos'
+import { PlatoPointerSensor } from '../lib/PlatoPointerSensor'
+import { haptic } from '../../../shared/design/motion'
+import Icon from '../../../shared/components/Icon'
+import Card from '../../../shared/components/Card'
+import { formatInt } from '../../../shared/lib/format'
+import type { NutrienteId } from '../../../shared/lib/referenciasNutricionales'
+import { useHoy } from '../../../shared/hooks/useHoy'
 
 interface Props {
   fecha: string
@@ -24,29 +45,80 @@ interface Props {
   onEditarPlato: (plato: Plato) => void
   /** Sin argumento, Añadir comida elige la comida por la hora. */
   onAnadir: (comida?: Comida) => void
+  onCrearTipica: (comida: Comida) => void
+  onVerReferencia?: (id: NutrienteId) => void
 }
 
-const ORDEN_COMIDAS: Comida[] = ['desayuno', 'comida', 'cena', 'snack']
-const LABELS: Record<Comida, string> = {
-  desayuno: 'Desayuno',
-  comida: 'Comida',
-  cena: 'Cena',
-  snack: 'Snack',
-}
 
-export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir }: Props) {
-  const [detalle, setDetalle] = useState<'sencilla' | 'detallada'>('sencilla')
-  const ayer = addDays(fecha, -1)
+export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir, onCrearTipica, onVerReferencia }: Props) {
+  const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
   const nombresCortos = useLiveQuery(() => nombresAlimentosRepo.paraComida(entries ?? []), [entries]) ?? new Map()
-  const entriesAyer = useLiveQuery(() => entriesRepo.delDia(ayer), [ayer])
-  const settings = useLiveQuery(() => getSettings(), [])
+  const categorias = useLiveQuery(() => foodsRepo.categoriasDeEntradas(entries ?? []), [entries]) ?? new Map()
+  const vigentes = useLiveQuery(() => objetivosDe(fecha, hoy), [fecha, hoy])
+  const lunes = startOfWeek(fecha)
+  const semana = useLiveQuery(async () => {
+    const fechas = weekDates(lunes)
+    const [delaSemana, objetivosSemana, cheatSemana] = await Promise.all([entriesRepo.entreFechas(fechas[0], fechas[6]), objetivosPorFecha(fechas, hoy), cheatDaysRepo.entreFechas(fechas[0], fechas[6])])
+    return semanaKcal(lunes, delaSemana, objetivosSemana, hoy, new Set(cheatSemana))
+  }, [lunes, hoy])
   const { avisar, avisarError, toast } = useAviso()
-  const [copiarDia, setCopiarDia] = useState<{ fechaDestino: string } | null>(null)
+  const [accionesDia, setAccionesDia] = useState<{ paso: PasoAccionesDia; fechaDestino: string } | null>(null)
   const [copiandoDia, setCopiandoDia] = useState(false)
-  const [errorCopia, setErrorCopia] = useState<string | null>(null)
-  const [repitiendo, setRepitiendo] = useState<Comida | null>(null)
-  const [accionesComida, setAccionesComida] = useState<{ comida: Comida; plato?: { id: string; nombre: string } } | null>(null)
+  const [marcandoCheat, setMarcandoCheat] = useState(false)
+  const [errorDia, setErrorDia] = useState<string | null>(null)
+  const cheat = semana?.find((d) => d.fecha === fecha)?.cheat ?? false
+  const [comidaTipicas, setComidaTipicas] = useState<Comida | null>(null)
+  const [tipicaElegida, setTipicaElegida] = useState<{ comida: Comida; tipica: ComidaTipica; fecha: string } | null>(null)
+  const tipicasId = useId()
+  const [accionesComida, setAccionesComida] = useState<{ comida: Comida; plato?: { id: string; nombre: string }; entrada?: Pick<Entry, 'id' | 'nombre'> } | null>(null)
+  const [platoMover, setPlatoMover] = useState<Plato | null>(null)
+  const [platoArrastrado, setPlatoArrastrado] = useState<Plato | null>(null)
+  const [moviendo, setMoviendo] = useState(false)
+  const [errorMover, setErrorMover] = useState<string | null>(null)
+  const guardMoving = useRef(false)
+  const alive = useRef(true)
+  const fechaActual = useRef(fecha)
+  fechaActual.current = fecha
+  const [focoPendiente, setFocoPendiente] = useState<{ id: string; comida: Comida } | null>(null)
+  const coordenadasComidas = useMemo(crearCoordenadasComidas, [])
+  const sensors = useSensors(useSensor(PlatoPointerSensor, { distance: 8 }),
+    useSensor(KeyboardSensor, { coordinateGetter: coordenadasComidas, scrollBehavior: 'auto' }))
+  useEffect(() => { alive.current = true; return () => { alive.current = false } }, [])
+  useEffect(() => {
+    if (!focoPendiente || platoMover) return
+    const button = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-mover-plato]')).find(b =>
+      b.dataset.moverPlato === focoPendiente.id && b.closest<HTMLElement>('[data-comida]')?.dataset.comida === focoPendiente.comida)
+    if (button) { button.focus({ preventScroll: true }); setFocoPendiente(null) }
+  }, [entries, focoPendiente, platoMover])
+
+  async function mover(plato: Plato, destino: Comida): Promise<boolean> {
+    const first = plato.entries[0]
+    if (!alive.current || guardMoving.current || first.fecha !== fechaActual.current || !first.platoId || first.comida === destino) return false
+    guardMoving.current = true
+    setMoviendo(true)
+    setErrorMover(null)
+    try {
+      const cambio = await entriesRepo.moverPlato({ fecha: first.fecha, origen: first.comida, destino, platoId: first.platoId, idsEsperados: plato.entries.map(e => e.id) })
+      if (!cambio || !alive.current) return false
+      setFocoPendiente({ id: cambio.platoId, comida: destino })
+      haptic('success')
+      avisar({ mensaje: `Plato movido a ${nombreComida(destino)}`, onDeshacer: async () => {
+        const vuelto = await entriesRepo.deshacerMovimientoPlato(cambio)
+        if (vuelto && alive.current) setFocoPendiente({ id: vuelto.platoId, comida: vuelto.destino })
+      } })
+      return true
+    } catch (error) {
+      if (!alive.current) return false
+      const mensaje = error instanceof entriesRepo.PlatoNoDisponibleError || error instanceof entriesRepo.PlatoCambiadoError ? error.message : 'No se ha podido mover el plato. Inténtalo de nuevo.'
+      if (platoMover) setErrorMover(mensaje)
+      else avisarError(mensaje)
+      return false
+    } finally {
+      guardMoving.current = false
+      if (alive.current) setMoviendo(false)
+    }
+  }
   // Sentido del último cambio de día, solo para orientar la transición (no afecta a los datos).
   const [navegacion, setNavegacion] = useState<{ fecha: string; sentido: 'next' | 'prev' | null }>({ fecha, sentido: null })
   if (navegacion.fecha !== fecha) setNavegacion({ fecha, sentido: fecha > navegacion.fecha ? 'next' : 'prev' })
@@ -72,63 +144,66 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
   }
 
   async function confirmarCopiarDia() {
-    if (!copiarDia || copiandoDia) return
+    if (!accionesDia || copiandoDia) return
     setCopiandoDia(true)
-    setErrorCopia(null)
+    setErrorDia(null)
     try {
-      const ids = await entriesRepo.copiar({ origen: { fecha }, destino: { fecha: copiarDia.fechaDestino } })
-      setCopiarDia(null)
+      const ids = await entriesRepo.copiar({ origen: { fecha }, destino: { fecha: accionesDia.fechaDestino } })
+      void congelarObjetivoDia(accionesDia.fechaDestino)
+      setAccionesDia(null)
       avisarCopia(ids)
     } catch {
-      setErrorCopia('No se ha podido copiar el día. Inténtalo de nuevo.')
+      setErrorDia('No se ha podido copiar el día. Inténtalo de nuevo.')
     } finally {
       setCopiandoDia(false)
     }
   }
 
-  function avisarPlantillaGuardada(nombre: string) {
-    avisar({ mensaje: `Plantilla «${nombre}» guardada` })
-  }
-
-  async function repetirDeAyer(c: Comida) {
-    if (repitiendo) return
-    setRepitiendo(c)
+  /**
+   * Marca o quita el cheat day del día elegido; las dos cosas se pueden deshacer. Desde la hoja de acciones, el error va
+   * en línea (el Toast queda debajo); desde el botón del Diario, en el Toast.
+   */
+  async function alternarCheat(desdeHoja: boolean) {
+    if (marcandoCheat || !semana) return
+    setMarcandoCheat(true)
+    setErrorDia(null)
     try {
-      avisarCopia(await entriesRepo.copiar({ origen: { fecha: ayer, comida: c }, destino: { fecha, comida: c } }))
+      if (cheat) {
+        const marca = await cheatDaysRepo.quitar(fecha)
+        if (marca) avisar({ mensaje: 'Cheat day quitado', onDeshacer: () => cheatDaysRepo.restaurar(marca) })
+      } else {
+        const mensaje = avisoAlMarcar(fecha, semana.filter((d) => d.cheat).map((d) => d.fecha))
+        await cheatDaysRepo.marcar(fecha)
+        avisar({ mensaje, onDeshacer: () => cheatDaysRepo.quitar(fecha) })
+      }
+      setAccionesDia(null)
     } catch {
-      avisarError('No se ha podido repetir la comida. Inténtalo de nuevo.')
+      const mensaje = cheat ? 'No se ha podido quitar el cheat day. Inténtalo de nuevo.' : 'No se ha podido marcar el cheat day. Inténtalo de nuevo.'
+      if (desdeHoja) setErrorDia(mensaje)
+      else avisarError(mensaje)
     } finally {
-      setRepitiendo(null)
+      setMarcandoCheat(false)
     }
   }
 
-  const cargado = entries && settings
+  function avisarPlantillaGuardada(nombre: string) {
+    avisar({ mensaje: `Comida típica «${nombre}» guardada` })
+  }
+
+  const cargado = entries && vigentes
   const totales = cargado ? sumMacros(entries) : null
-  const objetivos = settings?.objetivos
+  const objetivos = vigentes
 
   const porComida = new Map<Comida, Entry[]>()
-  for (const c of ORDEN_COMIDAS) porComida.set(c, [])
+  for (const c of COMIDAS) porComida.set(c.valor, [])
   for (const e of entries ?? []) porComida.get(e.comida)?.push(e)
-
-  const porComidaAyer = new Map<Comida, number>()
-  for (const e of entriesAyer ?? []) porComidaAyer.set(e.comida, (porComidaAyer.get(e.comida) ?? 0) + 1)
 
   const transicion = navegacion.sentido === 'next' ? 'animate-shift-next' : navegacion.sentido === 'prev' ? 'animate-shift-prev' : ''
 
   return (
     <div className="space-y-section">
-      <SegmentedControl label="Detalle nutricional" size="sm" valor={detalle} onChange={setDetalle}
-        opciones={[{ valor: 'sencilla', label: 'Vista sencilla' }, { valor: 'detallada', label: 'Vista detallada' }]} />
-      <div className="flex items-center gap-2">
-        <div className="flex min-w-0 flex-1 items-center border-b border-line">
-          <IconButton icon="chevron-left" label="Día anterior" variant="ghost" onClick={() => onFechaChange(addDays(fecha, -1))} />
-          <h2 key={fecha} aria-live="polite" className={`min-w-0 flex-1 text-center text-body font-semibold text-fg first-letter:uppercase ${transicion}`}>
-            {formatFriendly(fecha)}
-          </h2>
-          <IconButton icon="chevron-right" label="Día siguiente" variant="ghost" onClick={() => onFechaChange(addDays(fecha, 1))} disabled={fecha >= todayISO()} />
-        </div>
-        <IconButton icon="more" label="Copiar el día" onClick={() => { setErrorCopia(null); setCopiarDia({ fechaDestino: fecha }) }} />
-      </div>
+      <SemanaKcal fecha={fecha} hoy={hoy} dias={semana} onFecha={onFechaChange} transicion={transicion}
+        acciones={<IconButton icon="more" label="Acciones del día" variant="ghost" aria-haspopup="dialog" onClick={() => { setErrorDia(null); setAccionesDia({ paso: 'menu', fechaDestino: fecha }) }} />} />
 
       {!cargado || !totales || !objetivos ? (
         <div className="animate-fade-in-late">
@@ -140,47 +215,90 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
             totales={totales}
             objetivos={objetivos}
             titulo={`Resumen de ${formatFriendly(fecha).toLowerCase()}`}
-            detalle={detalle === 'detallada' && <NutrientesDetalle entries={entries} titulo="Desglose del día" />}
+            detalle={<NutrientesDetalle entries={entries} titulo="Desglose del día" objetivoKcal={objetivos.kcal} onVerReferencia={onVerReferencia} />}
           />
 
-          <div key={fecha} className={`space-y-6 ${transicion}`}>
-            {ORDEN_COMIDAS.map((c) => (
+          {entries.length > 0 && <Pista id="nutricion-deslizar" compacta />}
+          <DndContext key={fecha} sensors={sensors} collisionDetection={colisionesComidas} measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
+            accessibility={{ restoreFocus: true, screenReaderInstructions: { draggable: 'Para mover el plato, pulsa Espacio o Enter, usa las flechas entre comidas y vuelve a pulsar para soltar. Escape cancela. También puedes usar Mover en el menú de acciones del plato.' },
+              announcements: {
+                onDragStart: ({ active }) => `Plato ${active.data.current?.plato?.nombre} seleccionado para mover.`,
+                onDragOver: ({ over }) => over && esComida(over.data.current?.comida) ? `Sobre ${nombreComida(over.data.current.comida)}.` : 'Fuera de las comidas; soltar cancela.',
+                onDragEnd: ({ over }) => over && esComida(over.data.current?.comida) ? `Soltado sobre ${nombreComida(over.data.current.comida)}.` : 'Movimiento cancelado.',
+                onDragCancel: () => 'Movimiento cancelado. El plato conserva su comida.',
+              } }}
+            onDragStart={({ active }) => { setPlatoArrastrado(active.data.current?.plato ?? null); haptic() }}
+            onDragCancel={() => setPlatoArrastrado(null)}
+            onDragEnd={({ active, over }) => {
+              setPlatoArrastrado(null)
+              const plato = active.data.current?.plato as Plato | undefined
+              const destino = over?.data.current?.comida
+              if (plato && esComida(destino)) void mover(plato, destino)
+            }}>
+          <div data-comidas-diario className={`space-y-4 ${transicion}`}>
+            {COMIDAS.map(({ valor: c, label }) => (
               <ComidaSection
                 key={c}
-                titulo={LABELS[c]}
+                comida={c}
+                titulo={label}
                 entries={porComida.get(c) ?? []}
                 nombresCortos={nombresCortos}
+                categorias={categorias}
                 onAcciones={() => setAccionesComida({ comida: c })}
                 onEditar={onEditarEntry}
                 onBorrar={(e) => borrar(e.id)}
+                onCopiarEntrada={entrada => setAccionesComida({ comida: c, entrada })}
                 onBorrarPlato={borrarPlato}
                 onEditarPlato={onEditarPlato}
+                onMoverPlato={plato => { setErrorMover(null); setPlatoMover(plato) }}
+                moviendo={moviendo}
                 onAccionesPlato={(plato) => {
                   const id = plato.entries[0].platoId
                   if (id) setAccionesComida({ comida: c, plato: { id, nombre: plato.nombre } })
                 }}
                 onAnadir={() => onAnadir(c)}
-                disponiblesAyer={porComidaAyer.get(c) ?? 0}
-                onRepetir={() => repetirDeAyer(c)}
-                ocupado={repitiendo !== null}
-                repitiendo={repitiendo === c}
+                onTipicas={() => setComidaTipicas(c)}
+                tipicasAbiertas={comidaTipicas === c}
+                tipicasId={tipicasId}
               />
             ))}
           </div>
+          {createPortal(<DragOverlay modifiers={[limitarCopiaAlViewport]} dropAnimation={null} transition="none" zIndex={45}>
+            {platoArrastrado && <Card className="dnd-overlay-copy pointer-events-none space-y-1" aria-hidden>
+              <p className="break-words text-body font-semibold text-fg">{platoArrastrado.nombre}</p>
+              <p className="text-caption text-fg-muted">{formatInt(platoArrastrado.entries.length)} ingredientes · mueve a otra comida</p>
+            </Card>}
+          </DragOverlay>, document.body)}
+          </DndContext>
         </>
       )}
 
-      {toast}
+      {fecha === hoy && <Planificadas hoy={hoy} avisar={avisar} avisarError={avisarError} />}
 
-      <CopiarDiaSheet
-        open={copiarDia !== null}
+      {semana && <Button variant="subtle" size="sm" aria-pressed={cheat} disabled={marcandoCheat} onClick={() => { void alternarCheat(false) }}>
+        <Icon name="sparkles" size={18} className={cheat ? 'text-accent-strong' : 'text-fg-muted'} />{cheat ? 'Cheat day · fuera de las medias' : 'Marcar como cheat day'}
+      </Button>}
+      {toast}
+      {comidaTipicas && <ComidasTipicasSheet key={`${fecha}-${comidaTipicas}`} id={tipicasId} comida={comidaTipicas} fecha={fecha} onClose={() => setComidaTipicas(null)} onElegir={tipica => setTipicaElegida({ comida: comidaTipicas, tipica, fecha })} onCrear={() => onCrearTipica(comidaTipicas)} />}
+      {tipicaElegida && <AplicarPlantillaSheet meal={tipicaElegida.tipica} comida={tipicaElegida.comida} fecha={tipicaElegida.fecha} onClose={() => setTipicaElegida(null)} onAplicado={ids => {
+        avisar({ mensaje: `Comida típica añadida a ${nombreComida(tipicaElegida.comida).toLowerCase()}`, onDeshacer: () => entriesRepo.borrarVarias(ids) })
+      }} />}
+      <MoverPlatoSheet plato={platoMover} moviendo={moviendo} error={errorMover} onMover={mover} onClose={() => setPlatoMover(null)} />
+
+      <AccionesDiaSheet
+        open={accionesDia !== null}
+        paso={accionesDia?.paso ?? 'menu'}
         fechaOrigen={fecha}
-        fechaDestino={copiarDia?.fechaDestino ?? fecha}
-        onFechaDestinoChange={(f) => setCopiarDia((d) => (d ? { fechaDestino: f } : d))}
+        fechaDestino={accionesDia?.fechaDestino ?? fecha}
+        cheat={cheat}
+        onFechaDestinoChange={(f) => setAccionesDia((d) => (d ? { ...d, fechaDestino: f } : d))}
+        onIrACopiar={() => { setErrorDia(null); setAccionesDia((d) => (d ? { ...d, paso: 'copiar' } : d)) }}
         onCopiar={confirmarCopiarDia}
-        onClose={() => setCopiarDia(null)}
+        onCheat={() => { void alternarCheat(true) }}
+        onClose={() => setAccionesDia(null)}
         copiando={copiandoDia}
-        error={errorCopia}
+        marcando={marcandoCheat}
+        error={errorDia}
       />
 
       {accionesComida && (
@@ -188,7 +306,8 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
           fecha={fecha}
           comida={accionesComida.comida}
           plato={accionesComida.plato}
-          entries={(porComida.get(accionesComida.comida) ?? []).filter((e) => !accionesComida.plato || e.platoId === accionesComida.plato.id)}
+          entrada={accionesComida.entrada}
+          entries={(porComida.get(accionesComida.comida) ?? []).filter(e => accionesComida.entrada ? e.id === accionesComida.entrada.id : !accionesComida.plato || e.platoId === accionesComida.plato.id)}
           onClose={() => setAccionesComida(null)}
           onCopiado={avisarCopia}
           onPlantillaGuardada={avisarPlantillaGuardada}

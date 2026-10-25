@@ -16,3 +16,23 @@ yarn-error.log*
 
 # catálogo: descargas crudas de fuentes (se regeneran, ver scripts/catalogo/README.md)
 scripts/catalogo/raw/
+
+# lugares: volcado de GeoNames (se descarga a mano, ver scripts/lugares/README.md)
+scripts/lugares/raw/
+
+# skills de Claude Code instaladas en local (ui-ux-pro-max, impeccable)
+.claude/skills/
+
+# copias de trabajo (worktrees) de Claude Code
+.claude/worktrees/
+
+# ejercicios: originales generados con IA (pesados; se convierten a public/ejercicios/, ver scripts/ejercicios/README.md)
+scripts/ejercicios/ia/
+
+# capturas e imágenes sueltas de Víctor (no forman parte de la app)
+/images/
+
+# configuración local de Supabase (ver .env.example y docs/desarrollo.md); en Cloudflare van como variables de build
+.env
+.env.*
+!.env.example

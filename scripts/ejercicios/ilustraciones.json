@@ -1,0 +1,406 @@
+{
+  "lotes": [
+    [
+      ["press-banca", "flat barbell bench press: lying on a flat bench, feet on the floor, gripping a loaded barbell slightly wider than shoulders, bar lowered to the mid-chest (nipple line), elbows about 45 degrees from the torso", "chest"],
+      ["press-inclinado-barra", "incline barbell bench press: lying on a bench inclined about 30 degrees, bar lowered to the upper chest", "upper chest"],
+      ["press-declinado-barra", "decline barbell bench press: lying on a decline bench with legs hooked under the pads, bar lowered to the lower chest", "lower chest"],
+      ["press-mancuernas", "flat dumbbell bench press: lying on a flat bench, one dumbbell in each hand pressed up above the chest, arms almost straight", "chest"]
+    ],
+    [
+      ["press-inclinado-mancuernas", "incline dumbbell press: lying on a bench inclined about 30 degrees, dumbbells at upper-chest level with elbows bent", "upper chest"],
+      ["aperturas-mancuernas", "flat dumbbell fly: lying on a flat bench, arms opened wide to the sides with a slight elbow bend, dumbbells at chest height", "chest"],
+      ["pullover-mancuerna", "dumbbell pullover: lying on a flat bench, holding one dumbbell with both hands behind the head, arms extended overhead", "chest and latissimus dorsi"],
+      ["cruce-poleas", "cable crossover: standing between the two high pulleys of a cable crossover machine, slight forward lean, pulling both handles down and together in front of the hips", "chest"]
+    ],
+    [
+      ["pec-deck", "pec deck machine fly: seated upright in a pec deck machine, bringing the two padded arms together in front of the chest", "chest"],
+      ["press-pecho-maquina", "seated chest press machine: seated with back on the pad, pushing the handles forward at chest height", "chest"],
+      ["flexiones", "push-up: body in a straight plank on hands and toes, chest lowered close to the floor, hands slightly wider than shoulders", "chest and triceps"],
+      ["fondos-pecho", "chest dip on parallel bars: supporting the body on two parallel bars, torso leaning forward, elbows bent to 90 degrees, legs bent behind", "lower chest"]
+    ],
+    [
+      ["press-banca-smith", "Smith machine bench press: lying on a flat bench inside a Smith machine (barbell fixed on vertical rails), bar lowered to the mid-chest", "chest"],
+      ["press-pecho-bandas", "resistance band chest press: standing, a resistance band anchored behind at chest height, pressing both band handles straight forward", "chest"],
+      ["dominadas", "pull-up: hanging from an overhead bar with an overhand grip wider than shoulders, pulled up with the chin above the bar, rear three-quarter view", "latissimus dorsi"],
+      ["dominadas-asistidas", "assisted pull-up machine: kneeling on the padded counterweight platform of an assisted pull-up machine, pulling up with an overhand grip", "latissimus dorsi"]
+    ],
+    [
+      ["jalon-pecho", "lat pulldown: seated at a cable pulldown machine, thighs under the pads, pulling a wide bar down to the upper chest, rear three-quarter view", "latissimus dorsi"],
+      ["jalon-neutro", "close neutral-grip lat pulldown: seated at a cable pulldown machine, pulling a V-handle (palms facing each other) down to the upper chest, rear three-quarter view", "latissimus dorsi"],
+      ["remo-barra", "bent-over barbell row: hinged at the hips with the torso at about 45 degrees, knees slightly bent, back flat, pulling the barbell to the lower ribs", "latissimus dorsi and upper back"],
+      ["remo-mancuerna", "one-arm dumbbell row: one knee and one hand resting on a flat bench, back flat, the other arm pulling a dumbbell up to the hip", "latissimus dorsi"]
+    ],
+    [
+      ["remo-polea", "seated cable row: seated on a low cable row bench, feet on the foot platform, torso upright, pulling a V-handle to the abdomen", "middle back"],
+      ["remo-maquina", "seated row machine: seated with the chest against the pad, pulling both handles back, elbows close to the body", "middle back"],
+      ["remo-pecho-apoyado", "chest-supported dumbbell row: lying face down on an incline bench, a dumbbell in each hand pulled up beside the ribs", "upper back"],
+      ["remo-t", "T-bar row: standing over a barbell anchored at one end (landmine), hinged at the hips, pulling a V-handle under the bar up to the chest", "middle back"]
+    ],
+    [
+      ["pullover-polea", "standing straight-arm cable pulldown: facing a high pulley, slight hip hinge, arms almost straight pushing a straight bar down to the thighs", "latissimus dorsi"],
+      ["remo-trx", "TRX inverted row: holding TRX suspension straps, body leaning back in a straight line with heels on the floor, chest pulled up to the hands", "upper back"],
+      ["remo-invertido", "inverted row: lying under a barbell set in a rack at waist height, body straight, heels on the floor, chest pulled up to the bar", "upper back"],
+      ["remo-bandas", "resistance band seated row: seated on the floor with legs straight, a resistance band looped around the feet, rowing the handles to the waist", "middle back"]
+    ],
+    [
+      ["extension-lumbar", "back extension: hips on the pad of a 45-degree hyperextension bench, ankles locked, torso raised up in line with the legs", "lower back and glutes"],
+      ["encogimientos", "dumbbell shrug: standing, a dumbbell in each hand with arms straight at the sides, shoulders shrugged up toward the ears", "trapezius"],
+      ["press-militar", "standing barbell overhead press: standing upright, barbell pressed from the shoulders to overhead with arms almost locked", "shoulders (deltoids)"],
+      ["press-hombro-mancuernas", "seated dumbbell shoulder press: seated on an upright bench, dumbbells pressed overhead from shoulder height", "shoulders (deltoids)"]
+    ],
+    [
+      ["press-arnold", "Arnold press: seated on an upright bench, dumbbells at shoulder height with palms facing the body, rotating the palms forward while pressing up", "shoulders (deltoids)"],
+      ["press-hombro-maquina", "seated shoulder press machine: seated with the back on the pad, pressing the handles overhead", "shoulders (deltoids)"],
+      ["elevacion-lateral", "dumbbell lateral raise: standing, raising a dumbbell in each hand out to the sides up to shoulder height, slight elbow bend", "side deltoids"],
+      ["elevacion-lateral-polea", "cable lateral raise: standing side-on to a low cable pulley, raising a single handle across the body and out to the side up to shoulder height with the far arm", "side deltoids"]
+    ],
+    [
+      ["elevacion-frontal", "dumbbell front raise: standing, raising dumbbells straight in front of the body up to shoulder height", "front deltoids"],
+      ["pajaros", "bent-over dumbbell reverse fly: torso hinged forward almost parallel to the floor, raising the dumbbells out to the sides", "rear deltoids and upper back"],
+      ["reverse-pec-deck", "reverse pec deck: seated facing the chest pad of a pec deck machine, pulling the handles backward and apart with straight arms", "rear deltoids"],
+      ["face-pull", "cable face pull: standing facing a high cable pulley with a rope attachment, pulling the rope toward the face with elbows high and wide", "rear deltoids"]
+    ],
+    [
+      ["press-landmine", "landmine press: standing, one end of a barbell anchored in a floor landmine, pressing the other end up and forward with one hand", "front deltoids"],
+      ["separacion-bandas", "band pull-apart: standing, arms straight in front at shoulder height, pulling a resistance band apart out to the sides", "rear deltoids"],
+      ["curl-barra", "standing barbell curl: standing, underhand grip, elbows fixed at the sides, curling the barbell up halfway", "biceps"],
+      ["curl-mancuernas", "standing dumbbell curl: standing, palms facing up, curling the dumbbells up with elbows at the sides", "biceps"]
+    ],
+    [
+      ["curl-martillo", "hammer curl: standing, neutral grip with palms facing each other, curling the dumbbells up", "biceps and forearms"],
+      ["curl-inclinado", "incline dumbbell curl: seated leaning back on a bench inclined about 45 degrees, arms hanging behind the torso, curling the dumbbells", "biceps"],
+      ["curl-predicador", "barbell preacher curl: seated at a preacher bench, upper arms resting on the angled pad, curling a straight barbell up", "biceps"],
+      ["curl-polea", "standing cable curl: facing a low cable pulley, curling a straight bar up with elbows at the sides", "biceps"]
+    ],
+    [
+      ["curl-concentrado", "concentration curl: seated on a flat bench, elbow braced against the inner thigh, curling a single dumbbell", "biceps"],
+      ["curl-maquina", "biceps curl machine: seated with the upper arms on the machine pad, curling the handles up", "biceps"],
+      ["extension-triceps-cuerda", "rope triceps pushdown: standing facing a high cable pulley, elbows tucked at the sides, pushing a rope down to the thighs and spreading its ends", "triceps"],
+      ["extension-triceps-barra", "straight-bar triceps pushdown: standing facing a high cable pulley, elbows tucked at the sides, pushing a short straight bar down to the thighs", "triceps"]
+    ],
+    [
+      ["extension-triceps-cabeza", "seated overhead dumbbell triceps extension: seated upright, one dumbbell held with both hands behind the head, elbows pointing up, extending the arms overhead", "triceps"],
+      ["extension-triceps-polea-cabeza", "overhead cable triceps extension: standing facing away from a cable pulley, rope held behind the head, elbows pointing forward, extending the arms overhead", "triceps"],
+      ["press-frances", "lying barbell triceps extension (skull crusher): lying on a flat bench, upper arms vertical, barbell lowered toward the forehead by bending the elbows", "triceps"],
+      ["press-cerrado", "close-grip bench press: lying on a flat bench, hands shoulder-width apart, elbows tucked, barbell lowered to the lower chest", "triceps and chest"]
+    ],
+    [
+      ["patada-triceps", "dumbbell triceps kickback: bent over with one hand and knee on a bench, upper arm parallel to the floor, forearm extended straight back", "triceps"],
+      ["fondos-triceps", "triceps dip on parallel bars: supporting the body on two parallel bars, torso upright, elbows pointing back and bent to 90 degrees", "triceps"],
+      ["curl-muneca", "seated wrist curl: seated, forearms resting on the thighs with palms facing up, curling the dumbbells up with the wrists only", "forearms"],
+      ["extension-muneca", "seated wrist extension: seated, forearms resting on the thighs with palms facing down, lifting the dumbbells with the wrists only", "forearms"]
+    ],
+    [
+      ["curl-inverso", "reverse barbell curl: standing, overhand grip (palms down), curling the barbell up with elbows at the sides", "forearms and biceps"],
+      ["colgar-barra", "dead hang: hanging from an overhead pull-up bar, arms straight, feet off the floor, body relaxed", "forearms"],
+      ["agarre-disco", "plate pinch hold: standing upright, in each hand two smooth weight plates pinched together between fingers and thumb, arms straight at the sides", "forearms"],
+      ["sentadilla", "barbell back squat: barbell resting across the upper back behind the neck, standing freely with no bench or box, at the bottom of the squat with thighs parallel to the floor, chest up", "quadriceps and glutes"]
+    ],
+    [
+      ["sentadilla-frontal", "barbell front squat: barbell resting on the front of the shoulders with elbows high, standing freely, deep squat with torso upright", "quadriceps"],
+      ["sentadilla-goblet", "goblet squat: holding one kettlebell at the chest with both hands, deep squat with torso upright", "quadriceps and glutes"],
+      ["prensa-piernas", "45-degree leg press: seated reclined in a leg press machine, feet on the platform, knees bent near 90 degrees", "quadriceps"],
+      ["hack-squat", "hack squat machine: back against the angled padded sled, shoulders under the pads, squatting down with thighs near parallel", "quadriceps"]
+    ],
+    [
+      ["sentadilla-smith", "Smith machine squat: standing inside a Smith machine, bar on the upper back, squatting with thighs parallel to the floor", "quadriceps"],
+      ["extension-cuadriceps", "leg extension machine: seated, ankles behind the lower pad, extending the knees to lift the legs forward", "quadriceps"],
+      ["zancadas", "dumbbell lunge: dumbbells hanging at the sides, long forward step, front thigh parallel to the floor, back knee close to the floor", "quadriceps and glutes"],
+      ["sentadilla-bulgara", "Bulgarian split squat: rear foot resting on a bench behind, dumbbells at the sides, front leg bent with thigh parallel to the floor", "quadriceps and glutes"]
+    ],
+    [
+      ["step-up", "dumbbell step-up: stepping up onto a box with one foot, dumbbells hanging at the sides", "quadriceps and glutes"],
+      ["sentadilla-corporal", "bodyweight squat: no equipment, arms extended forward for balance, thighs parallel to the floor", "quadriceps"],
+      ["sentadilla-trx", "TRX squat: holding the TRX suspension strap handles in front with arms extended, sitting back into a deep squat", "quadriceps"],
+      ["peso-muerto-rumano", "barbell Romanian deadlift: hips pushed back, knees slightly bent, back flat, barbell lowered to mid-shin close to the legs", "hamstrings"]
+    ],
+    [
+      ["rumano-mancuernas", "dumbbell Romanian deadlift: hips pushed back, knees slightly bent, back flat, a dumbbell in each hand lowered to mid-shin in front of the legs", "hamstrings"],
+      ["curl-femoral-tumbado", "lying leg curl machine: lying face down on the machine, curling the ankle pad toward the glutes", "hamstrings"],
+      ["curl-femoral-sentado", "seated leg curl machine: seated with the thigh pad locked, pushing the lower pad down and back under the seat", "hamstrings"],
+      ["curl-nordico", "Nordic hamstring curl: kneeling on a pad with the ankles held down, body straight from knees to head, slowly leaning forward", "hamstrings"]
+    ],
+    [
+      ["buenos-dias", "barbell good morning: barbell on the upper back, knees slightly bent, hinging forward at the hips until the torso is nearly parallel to the floor, back flat", "hamstrings and lower back"],
+      ["rumano-unilateral", "single-leg dumbbell Romanian deadlift: balancing on one leg, the other leg extended straight back, torso tilted forward, dumbbell in the opposite hand", "hamstrings and glutes"],
+      ["curl-femoral-trx", "TRX hamstring curl: lying on the back with the heels in TRX foot cradles, hips lifted, curling the heels toward the glutes", "hamstrings"],
+      ["hip-thrust", "barbell hip thrust: upper back resting on a bench, padded barbell across the hips, hips driven up to full extension, knees at 90 degrees", "glutes"]
+    ],
+    [
+      ["hip-thrust-maquina", "hip thrust machine: upper back on the machine pad, padded belt over the hips, hips driven up to full extension", "glutes"],
+      ["puente-gluteos", "glute bridge: lying on the back on the floor, knees bent, feet flat, hips lifted up", "glutes"],
+      ["patada-gluteo", "cable glute kickback: standing facing a low cable pulley with an ankle strap, kicking one straight leg back", "glutes"],
+      ["abduccion-maquina", "seated hip abduction machine: seated, pushing the knees outward against the side pads", "outer glutes"]
+    ],
+    [
+      ["abduccion-bandas", "banded hip abduction: seated on the floor leaning back on the hands, a mini resistance band around the thighs above the knees, pushing the knees apart", "outer glutes"],
+      ["pull-through", "cable pull-through: facing away from a low cable pulley, rope held between the legs, hinging forward then driving the hips forward to stand", "glutes and hamstrings"],
+      ["zancada-inversa", "dumbbell reverse lunge: dumbbells at the sides, stepping one leg back, front thigh parallel to the floor", "glutes and quadriceps"],
+      ["gemelos-maquina", "standing calf raise machine: shoulders under the pads, balls of the feet on the block, rising up on the toes", "calves"]
+    ],
+    [
+      ["gemelos-sentado", "seated calf raise machine: seated, knees under the pad, balls of the feet on the block, rising up on the toes", "calves"],
+      ["gemelos-prensa", "calf press on a 45-degree leg press: seated reclined, legs straight, balls of the feet on the bottom edge of the platform, pushing with the ankles", "calves"],
+      ["gemelos-unilateral", "single-leg calf raise: standing on one foot on the edge of a step, one hand on a wall for balance, rising up on the toes", "calves"],
+      ["gemelos-smith", "Smith machine calf raise: standing inside a Smith machine, bar on the upper back, balls of the feet on a raised block, rising up on the toes", "calves"]
+    ],
+    [
+      ["plancha", "forearm plank: on the forearms and toes, body in a straight line from head to heels, side view", "abdominals"],
+      ["plancha-lateral", "side plank: supported on one forearm and the side of one foot, hips lifted, body in a straight line", "obliques"],
+      ["crunch", "floor crunch: lying on the back, knees bent, feet flat, hands beside the head, curling the shoulders off the floor", "abdominals"],
+      ["crunch-polea", "kneeling cable crunch: kneeling facing a high cable pulley, rope held beside the head, curling the torso down toward the knees", "abdominals"]
+    ],
+    [
+      ["elevacion-piernas", "hanging leg raise: hanging from a pull-up bar, raising straight legs up to horizontal", "abdominals"],
+      ["dead-bug", "dead bug: lying on the back, one arm extended overhead and the opposite leg extended straight, the other arm and leg pointing up with knee bent at 90 degrees", "abdominals"],
+      ["bird-dog", "bird dog: on hands and knees, extending one arm straight forward and the opposite leg straight back, back flat", "lower back, glutes and abdominals"],
+      ["pallof-press", "Pallof press: standing side-on to a cable pulley set at chest height, pressing the handle straight out in front of the chest with both hands, resisting rotation", "obliques and abdominals"]
+    ],
+    [
+      ["rueda-abdominal", "ab wheel rollout: kneeling, both hands on an ab wheel rolled far forward, body stretched long and straight", "abdominals"],
+      ["woodchop", "cable woodchop: standing side-on to a high cable pulley, rotating the torso and pulling the handle diagonally down across the body with both hands", "obliques"],
+      ["crunch-inverso", "reverse crunch: lying on the back, knees bent, lifting the hips off the floor and curling the knees toward the chest", "lower abdominals"],
+      ["encogimiento-trx", "TRX knee tuck: in a push-up plank with both feet in the TRX foot cradles, pulling the knees in toward the chest", "abdominals"]
+    ],
+    [
+      ["peso-muerto", "conventional barbell deadlift: feet hip-width, hands just outside the knees, back flat, bar lifted from the floor to knee height", "glutes, hamstrings and lower back"],
+      ["peso-muerto-sumo", "sumo deadlift: very wide stance with toes pointed out, hands gripping the bar inside the knees, torso upright, lifting the bar from the floor", "glutes, quadriceps and inner thighs"],
+      ["swing-kettlebell", "two-hand kettlebell swing: hips fully extended, standing tall, arms straight holding the kettlebell at chest height", "glutes and hamstrings"],
+      ["thruster", "dumbbell thruster: rising from a squat while pressing the dumbbells from the shoulders to overhead", "quadriceps and shoulders"]
+    ],
+    [
+      ["burpee", "burpee: shown in the plank phase, hands on the floor and chest lowered close to the floor, legs straight behind, ready to jump up", "chest and quadriceps"],
+      ["farmer-walk", "farmer's walk: walking upright mid-stride, holding a heavy dumbbell in each hand at the sides", "forearms and trapezius"],
+      ["cargada-barra", "barbell power clean, catch position: barbell racked on the front of the shoulders, elbows high and forward, in a quarter squat", "quadriceps, glutes and upper back"],
+      ["turkish-get-up", "kettlebell Turkish get-up, bridge phase: supported on one straight arm and both feet, hips lifted high, the other arm pointing straight up holding a kettlebell overhead", "abdominals and shoulders"]
+    ],
+    [
+      ["press-inclinado-maquina", "plate-loaded incline chest press machine: seated with the back on the reclined pad of the machine, gripping the two handles at upper-chest level and pressing them up and forward", "upper chest"],
+      ["press-inclinado-smith", "Smith machine incline bench press: lying on a bench inclined about 30 degrees inside a Smith machine (barbell fixed on vertical rails), bar lowered to the upper chest", "upper chest"],
+      ["aperturas-inclinadas", "incline dumbbell fly: lying on a bench inclined about 30 degrees, arms opened wide to the sides with a slight elbow bend, dumbbells at upper-chest height", "upper chest"],
+      ["cruce-poleas-bajo", "low-to-high cable fly: standing between the two low pulleys of a cable crossover machine, arms slightly bent, sweeping both handles up and together in front of the upper chest", "upper chest"]
+    ],
+    [
+      ["dominadas-supinas", "chin-up: hanging from an overhead bar with an underhand grip (palms facing the body) at shoulder width, pulled up with the chin above the bar, front three-quarter view", "latissimus dorsi and biceps"],
+      ["jalon-supino", "underhand-grip lat pulldown: seated at a cable pulldown machine with the thighs under the pads, straight bar held with an underhand grip (palms facing the body) at shoulder width, bar pulled down to the upper chest", "latissimus dorsi and biceps"],
+      ["jalon-unilateral", "single-arm cable pulldown: kneeling on one knee facing a high cable pulley, pulling a single D-handle down with one arm to the side of the chest, elbow driving down toward the hip", "latissimus dorsi"],
+      ["remo-polea-unilateral", "single-arm seated cable row: seated at a low cable row station with the feet on the platform, torso upright, pulling one D-handle to the side of the waist with one arm, the other hand resting on the thigh", "latissimus dorsi and upper back"]
+    ],
+    [
+      ["remo-pendlay", "Pendlay row: torso bent forward parallel to the floor, back flat, knees slightly bent, overhand grip, loaded barbell pulled from the floor up to the lower chest", "upper back and latissimus dorsi"],
+      ["encogimientos-barra", "barbell shrug: standing upright, barbell held in front of the thighs with an overhand grip and straight arms, shoulders lifted up toward the ears", "trapezius"],
+      ["peso-muerto-trap-bar", "trap bar deadlift: standing inside a hexagonal trap bar, gripping its two side handles with a neutral grip, back flat, hips and knees bent, lifting the bar from the floor to knee height", "quadriceps and glutes"],
+      ["remo-menton", "barbell upright row: standing upright, overhand grip at shoulder width, barbell pulled up close to the body to lower-chest height with the elbows high and out to the sides", "side deltoids and trapezius"]
+    ],
+    [
+      ["press-hombro-smith", "seated Smith machine shoulder press: seated on an upright bench inside a Smith machine (barbell fixed on vertical rails), bar in front of the face at chin level, pressing it overhead", "front deltoids"],
+      ["elevacion-lateral-maquina", "seated lateral raise machine: seated in the machine with the arms bent and the outside of the forearms against the side pads, raising the elbows out to shoulder height", "side deltoids"],
+      ["pajaros-polea", "reverse cable fly: standing between the two high pulleys of a cable crossover machine, cables crossed in front of the body, pulling both straight arms out wide to the sides at shoulder height", "rear deltoids"],
+      ["elevacion-frontal-polea", "cable front raise: standing facing away from a low cable pulley, the cable passing between the legs, raising a short straight bar with straight arms in front of the body to shoulder height", "front deltoids"]
+    ],
+    [
+      ["curl-bayesiano", "Bayesian cable curl: standing facing away from a low cable pulley in a staggered stance, one arm extended behind the torso holding a D-handle, curling it forward while the elbow stays behind the body", "biceps"],
+      ["curl-arana", "dumbbell spider curl: lying chest-down on a bench inclined about 45 degrees, arms hanging straight down in front of the bench, curling the dumbbells up", "biceps"],
+      ["curl-martillo-cuerda", "cable rope hammer curl: standing facing a low cable pulley, holding both ends of a rope with a neutral grip (palms facing each other), elbows at the sides, curling it up", "biceps and forearms"],
+      ["curl-barra-z", "EZ-bar curl: standing, angled underhand grip on a zig-zag shaped EZ curl bar, elbows fixed at the sides, curling the bar up halfway", "biceps"]
+    ],
+    [
+      ["extension-triceps-unilateral", "single-arm cable triceps pushdown: standing facing a high cable pulley, one elbow tucked at the side, pushing a single D-handle down until the arm is straight", "triceps"],
+      ["press-frances-mancuernas", "lying dumbbell triceps extension: lying on a flat bench, upper arms vertical, two dumbbells held with a neutral grip lowered beside the head by bending the elbows", "triceps"],
+      ["fondos-maquina", "seated dip machine: seated upright in a triceps dip machine, gripping the two handles at the sides of the body, pushing them down until the arms are straight", "triceps"],
+      ["fondos-banco", "bench dip: hands on the edge of a flat bench behind the body, legs extended forward with the heels on the floor, body lowered with the elbows bent to 90 degrees and pointing back", "triceps"]
+    ],
+    [
+      ["sentadilla-pendulo", "pendulum squat machine: standing on the angled foot platform, shoulders under the pads and back against the swinging back pad, deep squat with the knees travelling well forward", "quadriceps"],
+      ["prensa-horizontal", "seated horizontal leg press machine: seated upright with the back against the backrest, feet on a vertical platform in front, knees bent near 90 degrees, pushing the platform away", "quadriceps"],
+      ["zancadas-barra", "barbell lunge: barbell resting across the upper back (not on the neck), long forward step, torso upright, front thigh parallel to the floor, back knee close to the floor", "quadriceps and glutes"],
+      ["sissy-squat", "sissy squat: on the balls of the feet, one hand holding a post for balance, knees pushed far forward and down toward the floor while the body leans back in a straight line from knees to head", "quadriceps"]
+    ],
+    [
+      ["curl-femoral-pie", "standing single-leg curl machine: standing upright with the torso against the machine pad, curling one ankle pad up behind toward the glutes", "hamstrings"],
+      ["rumano-smith", "Smith machine Romanian deadlift: standing inside a Smith machine (barbell fixed on vertical rails), hips pushed back, knees slightly bent, back flat, bar lowered close to the legs to mid-shin", "hamstrings"],
+      ["hip-thrust-smith", "Smith machine hip thrust: upper back resting on a flat bench placed inside a Smith machine, padded bar across the hips, hips driven up to full extension, knees at 90 degrees", "glutes"],
+      ["patada-gluteo-maquina", "glute kickback machine: torso supported on the chest pad, hands on the handles, one foot on the footplate, kicking that leg straight back and up", "glutes"]
+    ],
+    [
+      ["abduccion-polea", "standing cable hip abduction: standing side-on to a low cable pulley with the strap on the outer ankle, one hand on the machine for balance, lifting the straight leg out to the side", "outer glutes"],
+      ["sentadilla-sumo", "dumbbell sumo squat: very wide stance with the toes pointed out, one dumbbell held vertically by one end with both hands hanging between the legs, deep squat with the torso upright", "glutes, quadriceps and inner thighs"],
+      ["gemelos-mancuernas", "standing dumbbell calf raise: balls of the feet on a raised step, a dumbbell in each hand at the sides, rising up on the toes", "calves"],
+      ["crunch-maquina", "seated ab crunch machine: seated with the upper chest against the pads, hands on the handles, curling the torso forward and down", "abdominals"]
+    ],
+    [
+      ["elevacion-rodillas-paralelas", "captain's chair knee raise: back against the pad of a vertical knee raise station, forearms resting on the arm pads, legs hanging, knees raised up to the chest", "lower abdominals"],
+      ["giros-rusos", "Russian twist: seated on the floor, torso leaning back about 45 degrees, feet lifted off the floor with the knees bent, hands clasped together and rotated to one side of the hips", "obliques"],
+      ["inclinacion-lateral", "dumbbell side bend: standing upright, one dumbbell hanging in one hand at the side, the other hand behind the head, bending the torso sideways toward the dumbbell", "obliques"],
+      ["elevacion-piernas-tumbado", "lying leg raise: lying on the back on the floor, hands flat at the sides, straight legs raised up to vertical", "lower abdominals"]
+    ],
+    [
+      ["aduccion-maquina", "seated hip adduction machine: seated upright, the inner side of the knees against the two pads, squeezing the legs together from a wide position", "inner thighs (adductors)"],
+      ["aduccion-polea", "standing cable hip adduction: standing side-on to a low cable pulley with the strap on the inner ankle of the leg nearest the machine, one hand on the machine for balance, pulling that straight leg across in front of the other leg", "inner thighs (adductors)"],
+      ["aduccion-bandas", "banded standing hip adduction: standing side-on to a resistance band anchored low at the side, band looped around the inner ankle, one hand on a post for balance, pulling the straight leg in across the body", "inner thighs (adductors)"],
+      ["aduccion-tumbado", "side-lying hip adduction: lying on one side on the floor, head resting on the bent lower arm, top leg bent with its foot flat on the floor in front of the knee, lifting the straight bottom leg up off the floor", "inner thighs (adductors)"]
+    ],
+    [
+      ["plancha-copenhague", "Copenhagen plank: side plank on one forearm, the top leg resting on a flat bench by the inside of the knee, the bottom leg hanging free under the bench, hips lifted so the body forms a straight line", "inner thighs (adductors) and obliques"],
+      ["sentadilla-cosaca", "Cossack squat: very wide stance, shifting the weight to one side into a deep one-leg squat while the other leg stays straight with the toes pointing up, arms extended forward for balance", "inner thighs (adductors), quadriceps and glutes"],
+      ["zancada-lateral", "dumbbell side lunge: a dumbbell in each hand, long step out to the side, that knee bent with the hips pushed back, the other leg straight, torso upright", "inner thighs (adductors) and quadriceps"],
+      ["aduccion-balon", "isometric adductor ball squeeze: lying on the back on the floor, knees bent and feet flat, squeezing a soft exercise ball between the knees", "inner thighs (adductors)"]
+    ],
+    [
+      ["flexiones-declinadas", "decline push-up: feet raised on a flat bench behind, hands on the floor slightly wider than shoulders, body in a straight line, chest lowered close to the floor", "upper chest and triceps"],
+      ["press-declinado-mancuernas", "decline dumbbell press: lying on a decline bench with the legs hooked under the pads, dumbbells pressed up above the lower chest, arms almost straight", "lower chest"],
+      ["aperturas-polea-banco", "lying cable fly: lying on a flat bench placed between the two low pulleys of a cable crossover machine, a handle in each hand, arms opened wide to the sides with a slight elbow bend", "chest"],
+      ["press-squeeze", "dumbbell squeeze press: lying on a flat bench, two dumbbells held with a neutral grip and pressed firmly against each other above the mid-chest, arms bent", "chest"]
+    ],
+    [
+      ["remo-seal", "seal row: lying face down on a high flat bench raised on blocks, arms hanging straight down, pulling a barbell up from below toward the underside of the bench", "upper back and latissimus dorsi"],
+      ["remo-meadows", "Meadows row: staggered stance side-on to a barbell anchored in a floor landmine, torso bent forward, one hand gripping the loaded end of the bar overhand and pulling it up beside the hip, the other forearm resting on the front knee", "latissimus dorsi and upper back"],
+      ["rack-pull", "rack pull: standing inside a power rack, loaded barbell lifted off safety pins set just below the knees, back flat, shown at mid-thigh with the hips driving forward", "upper back, lower back and glutes"],
+      ["jalon-maquina", "plate-loaded lat pulldown machine: seated with the thighs under the pads, pulling two independent handles down from overhead to shoulder level", "latissimus dorsi"]
+    ],
+    [
+      ["press-militar-sentado", "seated barbell overhead press: seated on an upright bench, barbell pressed from the upper chest to overhead, bar passing in front of the face (not behind the neck)", "front deltoids"],
+      ["elevacion-y", "dumbbell Y raise: lying chest-down on a bench inclined about 30 degrees, raising light dumbbells with straight arms forward and up into a Y shape, thumbs up", "rear and side deltoids"],
+      ["press-kettlebell", "single-arm kettlebell overhead press: standing upright, kettlebell resting on the back of the forearm, pressing it straight overhead with one arm, the other hand on the hip", "front deltoids"],
+      ["elevacion-lateral-bandas", "resistance band lateral raise: standing on the middle of a resistance band, holding its two ends and raising both arms out to the sides to shoulder height", "side deltoids"]
+    ],
+    [
+      ["curl-predicador-mancuerna", "single-arm dumbbell preacher curl: seated at a preacher bench, one upper arm resting on the angled pad, curling a dumbbell up", "biceps"],
+      ["curl-zottman", "Zottman curl: standing, elbows at the sides, dumbbells at the top of the curl turned palms down (overhand), about to be lowered slowly", "biceps and forearms"],
+      ["curl-polea-alta", "high cable curl: standing between the two high pulleys of a cable crossover machine, arms out to the sides at shoulder height, curling both handles toward the head (double-biceps pose)", "biceps"],
+      ["curl-trx", "TRX biceps curl: leaning back holding the TRX handles with palms up, body straight, heels on the floor, curling the hands toward the forehead", "biceps"]
+    ],
+    [
+      ["flexiones-diamante", "diamond push-up: body in a straight plank on the toes, hands together under the chest forming a diamond with the thumbs and index fingers, elbows bent close to the body", "triceps"],
+      ["patada-triceps-polea", "cable triceps kickback: bent forward at the hips facing a low cable pulley, upper arm held parallel to the floor, extending the forearm straight back while holding the cable", "triceps"],
+      ["extension-triceps-maquina", "seated triceps extension machine: seated, upper arms resting on the angled pad, pushing the handles down and forward until the elbows are straight", "triceps"],
+      ["extension-triceps-bandas", "resistance band overhead triceps extension: standing on one end of a band, holding the other end with both hands behind the head, elbows pointing up, extending the arms overhead", "triceps"]
+    ],
+    [
+      ["belt-squat", "belt squat machine: standing on the machine platform with a hip belt attached to the lever below, hands on the front handles, torso upright, squatting with the thighs parallel to the floor", "quadriceps and glutes"],
+      ["zancadas-caminando", "dumbbell walking lunge: side view, walking forward mid-stride, dumbbells at the sides, front thigh parallel to the floor, back knee near the floor, torso upright", "quadriceps and glutes"],
+      ["sentadilla-pistol", "pistol squat: deep squat on one leg, the other leg held straight out in front parallel to the floor, arms extended forward for balance", "quadriceps and glutes"],
+      ["sentadilla-pared", "wall sit: back flat against a wall, thighs parallel to the floor, knees at 90 degrees, hands resting on the thighs", "quadriceps"]
+    ],
+    [
+      ["glute-ham-raise", "glute-ham raise machine: kneeling with the thighs on the curved pad and the ankles locked behind the rollers, body straight from knees to head, raising the torso by bending the knees", "hamstrings"],
+      ["curl-femoral-fitball", "stability ball hamstring curl: lying on the back, heels on a large exercise ball, hips lifted, curling the ball toward the glutes", "hamstrings"],
+      ["peso-muerto-rigidas", "stiff-leg barbell deadlift: legs almost straight, hinging at the hips with a flat back, barbell lowered toward the feet in front of the shins", "hamstrings and lower back"],
+      ["rodillo-muneca", "wrist roller: standing, arms held straight out in front at shoulder height, both hands on a short handle, twisting the wrists to roll up a cord with a small weight plate hanging from it", "forearms"]
+    ],
+    [
+      ["puente-unilateral", "single-leg glute bridge: lying on the back, one knee bent with the foot flat on the floor, the other leg extended straight up in the air, hips lifted", "glutes"],
+      ["hiperextension-gluteo", "glute-focused 45-degree hyperextension: on a 45-degree back extension bench, hips over the pad, upper back slightly rounded, feet turned out, raising the torso by squeezing the glutes", "glutes"],
+      ["almejas", "banded clamshell: lying on one side, knees bent at 90 degrees with the feet together, a mini band around the thighs above the knees, opening the top knee upward", "outer glutes"],
+      ["patada-cuadrupedia", "quadruped donkey kick: on hands and knees, back flat, kicking one bent leg up behind with the sole of the foot facing the ceiling", "glutes"]
+    ],
+    [
+      ["hollow-hold", "hollow body hold: lying on the back with the lower back pressed into the floor, shoulders and straight legs lifted slightly off the floor, arms extended overhead, body in a shallow banana shape", "abdominals"],
+      ["escaladores", "mountain climbers: high plank on straight arms, one knee driven toward the chest while the other leg stays extended back", "abdominals"],
+      ["navaja", "V-up: balancing on the glutes, straight legs and straight arms raised to meet above the hips, the body forming a V shape", "abdominals"],
+      ["crunch-bicicleta", "bicycle crunch: lying on the back, hands beside the head, shoulders lifted, twisting one elbow toward the opposite bent knee while the other leg extends", "abdominals and obliques"]
+    ],
+    [
+      ["crunch-declinado", "decline bench crunch: lying on a decline bench with the feet hooked under the pads, hands beside the head, curling the torso up", "abdominals"],
+      ["gemelos-burro", "donkey calf raise machine: bent forward at the hips with the lower back under the machine pad, hands on the handles, balls of the feet on the block, rising up on the toes", "calves"],
+      ["curl-muneca-espalda", "behind-the-back barbell wrist curl: standing upright, barbell held behind the body at arms length with the palms facing back, curling the bar up with the wrists only", "forearms"],
+      ["empuje-trineo", "sled push: leaning forward at about 45 degrees, arms extended gripping the tall poles of a loaded weight sled, driving it forward mid-stride on artificial turf", "quadriceps, glutes and calves"]
+    ],
+    [
+      ["pullover-maquina", "seated machine pullover, back against the seat, elbows on lever pads, lowering the overhead lever with nearly fixed elbow angle; rear three-quarter view", "latissimus dorsi"],
+      ["press-pecho-unilateral-polea", "standing single-arm cable chest press, staggered stance, cable behind shoulder, pressing one handle forward at chest height", "pectorals"],
+      ["remo-alto-maquina", "chest-supported high row machine, seated facing chest pad, pulling two angled lever handles toward upper ribs; rear three-quarter view", "upper and middle back"],
+      ["sentadilla-zercher", "Zercher barbell squat halfway down, bar held securely in crooks of elbows in front of torso, knees tracking toes, heels down", "quadriceps"]
+    ],
+    [
+      ["hip-thrust-unilateral", "single-leg bodyweight hip thrust with shoulder blades on a low stable bench, one foot planted on floor, opposite knee bent and lifted, hips extended; side view", "gluteus maximus"],
+      ["reverse-hyper", "reverse hyperextension machine, torso prone on high horizontal padded platform, hands grasping front handles, pelvis at edge, straight legs lifted behind to torso height with weighted pendulum strap at ankles; side view", "gluteus maximus"],
+      ["remo-kettlebell", "single-arm kettlebell row in split stance, torso hinged with flat back, free hand braced on front thigh, kettlebell pulled next to hip; rear three-quarter view", "latissimus dorsi and middle back"],
+      ["paseo-maleta", "single-arm suitcase carry, walking upright while holding one kettlebell by side, opposite arm free, shoulders and pelvis level, no leaning", "abdominals and obliques"]
+    ],
+    [
+      ["dominadas-neutras", "neutral-grip pull-up using two parallel handles above the head, palms facing each other, elbows bent at top; rear three-quarter view", "latissimus dorsi and middle back"],
+      ["dominadas-banda", "band-assisted overhand pull-up, single continuous resistance loop anchored around overhead bar and stretched down under both knees, lifting chin to bar; rear three-quarter view", "latissimus dorsi"],
+      ["dominadas-escapulares", "scapular pull-up on high bar, hanging with elbows completely straight, shoulders depressed away from ears and shoulder blades drawn down, feet clear of floor; rear three-quarter view", "lower trapezius and latissimus dorsi"],
+      ["fondos-anillas", "gymnastic ring dip, two rings hanging on straight vertical straps, hands beside hips, elbows bent near 90 degrees, feet off floor, neutral stable shoulders", "triceps"]
+    ],
+    [
+      ["flexiones-inclinadas", "incline push-up with both hands on a stable low bench, toes on floor, straight line from head to heels, elbows bent", "pectorals"],
+      ["flexiones-arqueras", "archer push-up, hands wide on floor, chest lowered toward bent left elbow, right arm extended straight out sideways, toes on floor, body straight", "pectorals"],
+      ["flexiones-pike", "pike push-up, inverted V body with hips high, feet and hands on floor, head lowering toward floor between hands with elbows bent, side three-quarter view", "deltoids"],
+      ["flexiones-anillas", "ring push-up, hands on two rings suspended just above floor from long vertical straps, toes on floor, body straight, elbows bent, chest near rings", "pectorals"]
+    ],
+    [
+      ["remo-anillas", "inverted ring row, two rings hanging from vertical straps, heels on floor well forward, torso diagonal and rigid, pulling rings to sides of chest; rear three-quarter view", "latissimus dorsi and middle back"],
+      ["sentadilla-shrimp", "shrimp squat on one leg, free leg bent back, same-side hand holding ankle behind buttocks, other arm forward for balance, rear knee lowered near floor without touching; side view", "quadriceps"],
+      ["dragon-flag", "dragon flag on flat bench, only upper back and shoulders supported, hands gripping bench behind head, straight rigid torso and legs raised at 35 degrees, hips lifted off bench; side view", "abdominals"],
+      ["l-sit", "L-sit on two low parallettes, elbows locked straight, hips lifted clear of floor, both legs held straight together horizontally in front, torso upright; side view", "abdominals"]
+    ],
+    [
+      ["pilates-hundred", "Pilates Hundred on white mat, supine with head and shoulder blades curled up, legs straight together raised 45 degrees, arms reaching toward feet and hovering parallel to floor", "abdominals"],
+      ["pilates-roll-up", "Pilates roll up midway through controlled spinal articulation, legs straight together on mat, heels grounded, torso curled halfway toward sitting, arms reaching forward", "abdominals"],
+      ["pilates-single-leg-stretch", "Pilates single leg stretch, supine with shoulders curled off mat, right knee drawn toward chest with hands on shin, left leg straight hovering 30 degrees above floor", "abdominals"],
+      ["pilates-double-leg-stretch", "Pilates double leg stretch in extension phase, supine with shoulder blades curled up, both legs extended together at 45 degrees, both arms extended overhead at 45 degrees, pelvis neutral", "abdominals"]
+    ],
+    [
+      ["pilates-tijeras", "Pilates single straight leg stretch scissors, supine with shoulders curled up, one straight leg pointing nearly vertical and held gently at calf with both hands, other straight leg hovering low", "abdominals"],
+      ["pilates-leg-circles", "Pilates single leg circles, supine on mat, arms straight beside body palms down, left leg straight on mat, right leg straight lifted near vertical and slightly across midline, pelvis level", "abdominals and obliques"],
+      ["pilates-side-kick", "Pilates side kick, lying on left side, head supported by bent left arm, right hand on floor in front, lower leg straight on mat, top leg lifted at hip height and reaching forward while trunk stays still; rear three-quarter view", "gluteus medius and gluteus maximus"],
+      ["pilates-swimming", "Pilates swimming, prone on mat with face toward floor and neck neutral, right straight arm and left straight leg lifted a little, opposite arm and leg hovering, no excessive back arch; rear three-quarter view", "spinal erectors"]
+    ],
+    [
+      ["pilates-swan", "Pilates swan preparation on mat, prone with palms under shoulders, elbows slightly bent, sternum reaching forward and up with gentle thoracic extension, pelvis and legs resting on mat, no extreme lumbar arch; side three-quarter view", "spinal erectors"],
+      ["pilates-teaser", "Pilates teaser held on mat, balancing on sitting bones with both legs straight together raised 45 degrees, torso curled into C curve at opposite 45 degrees, straight arms reaching parallel to legs", "abdominals"],
+      ["pilates-leg-pull-front", "Pilates leg pull front, high plank on straight arms, palms under shoulders, right toes on mat, left straight leg lifted slightly above body line, hips level and torso rigid; side three-quarter view", "abdominals"],
+      ["pilates-side-bend", "Pilates side bend, supported on right straight arm and outer edge of right foot, left foot staggered just in front, hips lifted into side arch, left arm extended overhead to form a long curve; front three-quarter view", "obliques"]
+    ],
+    [
+      ["press-suelo-mancuernas", "dumbbell floor press, lying supine on the floor with knees bent and feet flat, holding one dumbbell in each hand, upper arms resting lightly on floor, forearms vertical, elbows at 45 degrees to torso", "pectorals"],
+      ["press-unilateral-mancuerna", "single-arm dumbbell bench press on flat bench, both feet flat on floor, right arm pressing ONE dumbbell vertically above right shoulder, left hand resting on abdomen, torso level", "pectorals"],
+      ["remo-gorila", "gorilla row with two kettlebells between wide-set feet, knees bent and hips hinged with flat neutral spine, right hand pulling one kettlebell to hip, left hand resting on second kettlebell still on floor; rear three-quarter view", "latissimus dorsi and middle back"],
+      ["peso-muerto-kettlebell", "kettlebell deadlift halfway up, both hands holding handle of a SINGLE kettlebell centrally between feet, knees slightly bent and hips hinged, flat neutral spine; side three-quarter view", "gluteus maximus"]
+    ],
+    [
+      ["sentadilla-cajon", "barbell box squat, barbell across upper back, lightly touching buttocks to a stable box behind, feet planted slightly wider than shoulders, knees tracking toes, controlled upright torso, no collapsing onto box", "quadriceps"],
+      ["remo-renegado", "renegade dumbbell row in high plank, feet wide on toes, left hand gripping a hexagonal dumbbell resting on floor directly under left shoulder, right elbow pulling second dumbbell to ribs, torso and pelvis level; rear three-quarter view", "latissimus dorsi and middle back"],
+      ["hip-thrust-mancuerna", "dumbbell hip thrust, shoulder blades on low stable bench, both feet on floor, ONE dumbbell lying horizontally across hip crease and held securely by both hands, hips extended until torso horizontal", "gluteus maximus"],
+      ["curl-femoral-deslizadores", "sliding hamstring curl, supine on floor, arms by sides, hips lifted into bridge, heels on two small flat round slider discs, knees partly bent while drawing heels toward buttocks; side three-quarter view", "hamstrings"]
+    ],
+    [
+      ["gemelos-sentado-mancuerna", "seated dumbbell calf raise on bench, knees bent 90 degrees, balls of both feet on low step, heels lifted, one dumbbell held securely on each lower thigh just above knee, side three-quarter view", "calves"],
+      ["press-z", "barbell Z press, seated directly on floor with both legs straight forward and slightly apart, torso upright with neutral spine, barbell held above forehead as arms press upward, NO bench or backrest", "deltoids"],
+      ["elevacion-lateral-inclinada", "lean-away single-arm dumbbell lateral raise, standing beside a vertical rack post, left hand holding post at shoulder height, both feet together near post, body leaning diagonally away as right arm lifts ONE dumbbell out to shoulder height with elbow slightly bent", "lateral deltoid"],
+      ["arrastre-trineo-atras", "backward sled drag, man facing a weighted low sled positioned in FRONT of him, both hands holding taut straps connecting to front sled attachment, arms extended forward at waist height, knees flexed while stepping BACKWARDS, torso nearly upright, visible steel sled with stacked plates and long straps, side view", "quadriceps"]
+    ],
+    [
+      ["flexiones-rodillas", "knee push-up, both knees supported on floor, straight line from head through hips to knees, hands on floor slightly wider than shoulders, elbows bent as chest lowers, feet lifted behind, no bend at hips", "pectorals"],
+      ["flexiones-pseudo-plancha", "pseudo planche push-up, toes on floor, body rigid and horizontal, hands on floor near waist rather than shoulders with fingers turned slightly outward, shoulders leaning well in FRONT of wrists, elbows bending close to torso; side three-quarter view", "pectorals"],
+      ["flexiones-escapulares", "scapular push-up plus in high plank, BOTH elbows completely straight and locked, hands under shoulders, toes on floor, upper back gently rounded as shoulder blades protract and chest lifts away from floor, hips stay level; side three-quarter view", "serratus anterior along side ribs only, NOT the pectoral mass"],
+      ["flexiones-hindu", "Hindu push-up at low diving transition from pike toward upward dog, hands and toes on floor, elbows bent close to ribs, chest passing just above floor between hands, hips lowering with smooth neutral controlled curve, no knees on floor; side view", "deltoids"]
+    ],
+    [
+      ["dominadas-arqueras", "archer pull-up on straight overhead bar, very wide overhand grip, chin brought near LEFT hand with left elbow bent, RIGHT arm nearly straight stretched sideways along bar, both feet hanging clear of floor, rear three-quarter view", "latissimus dorsi and middle back"],
+      ["fondos-barra-recta", "straight-bar dip, both hands overhand on a SINGLE horizontal waist-high bar in front of hips, entire body above and behind bar, torso leaning slightly forward, elbows bent while lowering chest toward bar, legs hanging freely below bar, NO parallel bars; side three-quarter view", "triceps"],
+      ["curl-biceps-anillas", "bodyweight ring biceps curl, heels on floor forward of body, body rigid leaning backward, TWO rings suspended from vertical straps, upper arms raised forward at shoulder height, elbows bent bringing rings toward temples with palms facing forehead, shoulders not rowing backward; side view", "biceps"],
+      ["extension-triceps-anillas", "bodyweight ring triceps extension, facing away from hanging straps, toes on floor, straight rigid body leaning forward, rings held near forehead with elbows bent and upper arms reaching forward, extending elbows would push body back up, whole two hanging straps visible; side view", "triceps"]
+    ],
+    [
+      ["sentadilla-salto", "bodyweight jump squat during takeoff, both feet just above floor, hips and knees nearly extended, arms swung back naturally, body upright, depict ONE athletic figure and a small floor shadow, no motion arrows", "quadriceps"],
+      ["zancadas-salto", "jumping alternating lunge at landing in split stance, front knee bent 90 degrees over ankle, rear knee bent just above floor, torso upright, opposite arm forward naturally, BOTH legs clearly separated front and back; side view", "quadriceps"],
+      ["puente-isquios-caminando", "hamstring bridge walkout, supine on floor with arms flat by sides, pelvis raised, legs nearly straight reaching away from hips, BOTH heels on floor with toes pointing up, about to take tiny heel steps back inward while hips remain lifted; side view", "hamstrings"],
+      ["plancha-inversa", "reverse plank held on hands and heels, body facing UP toward ceiling, palms on floor below shoulders with straight arms, legs straight together, hips raised into perfectly straight line from shoulders through pelvis to heels, neck neutral, side three-quarter view", "abdominals and obliques"]
+    ],
+    [
+      ["pilates-rolling-like-ball", "Pilates rolling like a ball in balanced starting position, sitting on tailbone on mat with rounded C-curve spine, knees tucked close to chest and together, hands around front of shins, feet hovering above mat, head gently bowed, no rolling motion trails", "abdominals"],
+      ["pilates-roll-over", "Pilates roll over in controlled mat position, lying on upper back and shoulders, arms long flat on mat at sides palms down, hips rolled up above shoulders, both straight legs together extending overhead parallel to mat, feet hovering behind head, weight on SHOULDERS not neck, head resting and chin not compressed; side view", "abdominals"],
+      ["pilates-double-leg-kick", "Pilates double leg kick at extension phase, lying prone on mat with pelvis resting, legs straight together extended behind slightly lifted, chest gently lifted in thoracic extension, both hands clasped behind lower back reaching toward heels, elbows straight, neck long; side three-quarter view", "spinal erectors"],
+      ["pilates-single-leg-kick", "Pilates single leg kick, prone on mat supported on both forearms with elbows under shoulders, sternum lifted and neck neutral, hips resting on mat, one knee bent bringing heel toward buttocks, opposite leg straight on mat, heels not crossing; side three-quarter view", "hamstrings"]
+    ],
+    [
+      ["pilates-hip-twist", "Pilates hip twist, seated on mat leaning torso back supported on straight arms with palms on floor BEHIND hips, both legs straight together raised 45 degrees and swept slightly to one side, pelvis controlled, torso long, arms shoulder-width; front three-quarter view", "abdominals and obliques"],
+      ["pilates-leg-pull-back", "Pilates leg pull back, reverse plank with chest facing UP, straight arms and palms on mat beneath shoulders, hips high and one straight leg lifted forward/up to 45 degrees, opposite straight leg supported only on heel, body long and level, side view", "abdominals and obliques"],
+      ["pilates-side-kick-arrodillado", "Pilates kneeling side kick, kneeling on LEFT knee with left palm on mat to side, left arm straight under shoulder, torso tilted sideways, RIGHT leg straight extended laterally at hip height, right hand behind head, pelvis steady, front three-quarter view", "gluteus medius"],
+      ["pilates-seal", "Pilates Seal balanced on sitting bones, spine in rounded C curve, knees bent and opened wide, soles of feet facing each other and hovering just above mat, arms pass INSIDE knees and under calves, hands holding outer sides of ankles, ankles gently together in front, no rolling trails, front three-quarter view", "abdominals"]
+    ]
+  ]
+}

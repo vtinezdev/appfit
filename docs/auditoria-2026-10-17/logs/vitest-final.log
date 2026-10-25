@@ -1,0 +1,15 @@
+
+> appfit@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.2 /workspace/appfit
+
+
+ Test Files  181 passed (181)
+      Tests  2248 passed (2248)
+   Start at  15:16:42
+   Duration  94.91s (tests 55%, import 18%, transform 13%, setup 12%, worker 2%)
+
+    Isolate  181 workers spawned · ~161ms startup each (spawn + environment, per file)
+             at least ~28.95s faster with isolate: false — reuses workers across files instead of one per file

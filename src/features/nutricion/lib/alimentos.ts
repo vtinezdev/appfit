@@ -4,6 +4,7 @@ import { addDays } from '../../../shared/lib/dates'
 import { round1 } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
 import { camposNutrientes, mismosNutrientes } from './nutrientes'
+import { esCategoriaAlimento } from './catalogo/categorias'
 import type { MedidaAmbigua } from './interprete/medidas'
 
 /** Valores nutricionales por 100 g de un alimento. */
@@ -21,6 +22,8 @@ export interface ItemGuardado extends Por100 {
   catalogId?: string
   /** `undefined`: no cambiar la preferencia; `null`: eliminarla; texto: guardar un nombre personal. */
   nombreCorto?: string | null
+  /** Categoría del alimento propio que se cree (obligatoria en ese caso: ver `foodsRepo.resolverParaGuardar`). */
+  categoria?: string
 }
 
 /** De dónde salieron los valores de un ítem de la revisión, para saber después si el usuario los ha cambiado. */
@@ -56,6 +59,8 @@ export interface ItemRevision extends Por100 {
   nombreCorto?: string
   /** Solo se persisten los cambios confirmados expresamente en la revisión. */
   nombreCortoModificado?: boolean
+  /** Categoría del alimento de origen o la elegida en la revisión (ver `creaAlimentoNuevo`). */
+  categoria?: string
 }
 
 /** Lo que el intérprete local (o «Cambiar») añade a un ítem además del alimento y los gramos. */
@@ -117,6 +122,7 @@ export function aItemGuardado(item: ItemRevision): ItemGuardado {
   }
   if (sigueSiendoDelCatalogo(item)) guardado.catalogId = item.origen.catalogId
   if (item.nombreCortoModificado) guardado.nombreCorto = item.nombreCorto?.trim() || null
+  if (esCategoriaAlimento(item.categoria)) guardado.categoria = item.categoria
   return guardado
 }
 
@@ -128,7 +134,7 @@ export function itemDesdeElegible(a: AlimentoElegible, gramos: number, extra: Ex
   const valores = valoresDe(a)
   const origen: OrigenItem = { fuente: 'manual', valores: valoresDe(valores), nombreNorm: normalizeName(a.nombre), guardado: a.ref.tipo === 'user' }
   if (a.ref.tipo === 'catalog') origen.catalogId = a.ref.id
-  return aplicarExtra({ nombre: a.nombre, gramos, ...valores, origen }, extra)
+  return aplicarExtra({ nombre: a.nombre, gramos, ...valores, origen, ...(a.categoria ? { categoria: a.categoria } : {}) }, extra)
 }
 
 /** Ítem de un alimento que no se ha encontrado: valores a 0 para que el usuario elija uno o los escriba. */
@@ -142,9 +148,12 @@ export function itemSinCoincidencia(nombre: string, gramos: number, extra: Extra
  * Ítem de un producto escaneado con datos incompletos: lo que se conoce y 0 en lo demás. Se guarda como alimento
  * propio `manual` (nunca con `catalogId`: el producto incompleto no entra en el catálogo).
  */
-export function itemDeProductoIncompleto(nombre: string, conocidos: Partial<Por100>, gramos = 100): ItemRevision {
+export function itemDeProductoIncompleto(nombre: string, conocidos: Partial<Por100>, categoria?: string, gramos = 100): ItemRevision {
   const valores: Por100 = { kcal100: 0, prot100: 0, carb100: 0, grasa100: 0, ...conocidos }
-  return { nombre, gramos, ...valoresDe(valores), origen: { fuente: 'manual', valores: valoresDe(valores), nombreNorm: normalizeName(nombre), guardado: false }, datosIncompletos: true }
+  return {
+    nombre, gramos, ...valoresDe(valores), origen: { fuente: 'manual', valores: valoresDe(valores), nombreNorm: normalizeName(nombre), guardado: false }, datosIncompletos: true,
+    ...(esCategoriaAlimento(categoria) ? { categoria } : {}),
+  }
 }
 
 /** true si el ítem no se encontró (o le faltan datos) y todavía no tiene ningún valor: no se puede guardar así. */
@@ -165,6 +174,21 @@ export function procedencia(item: ItemRevision): 'tuyo' | 'catalogo' | undefined
   if (item.origen.guardado) return 'tuyo'
   if (item.origen.catalogId !== undefined) return sigueSiendoDelCatalogo(item) ? 'catalogo' : undefined
   return undefined
+}
+
+/**
+ * true si al guardar este ítem se creará (o se podrá crear) un alimento propio nuevo: no se guarda con su `catalogId`
+ * ni es, con el mismo nombre, un alimento ya guardado. Entonces la revisión pide la categoría. Si al final el nombre
+ * coincide con otro alimento guardado, se reutiliza ese y la categoría solo rellena la suya si no tenía.
+ */
+export function creaAlimentoNuevo(item: ItemRevision): boolean {
+  if (sigueSiendoDelCatalogo(item)) return false
+  return !(item.origen.guardado && normalizeName(item.nombre) === item.origen.nombreNorm)
+}
+
+/** true si el ítem va a crear un alimento propio y todavía no tiene una categoría válida: no se puede guardar así. */
+export function faltaCategoria(item: ItemRevision): boolean {
+  return creaAlimentoNuevo(item) && !esCategoriaAlimento(item.categoria)
 }
 
 /** true si al guardar este ítem se corregirán los valores de un alimento ya guardado (para avisar en la revisión). */
@@ -207,7 +231,7 @@ export function rankFrecuentes(
 
 /**
  * Un alimento que se puede elegir para añadirlo con sus gramos: uno propio (`foods`) o uno del catálogo.
- * `detalle` es una línea secundaria opcional (la categoría del catálogo o, en un producto, su marca).
+ * `detalle` es una línea secundaria opcional (la marca de un producto; la categoría se muestra como icono).
  */
 export interface AlimentoElegible extends Por100 {
   ref: FoodRef
@@ -215,22 +239,20 @@ export interface AlimentoElegible extends Por100 {
   detalle?: string
   /** Los valores son por 100 ml (bebida de marca) en lugar de por 100 g. Las cantidades se guardan igual (ml ≈ g). */
   ml?: true
+  /** Categoría del alimento, si la tiene. La revisión la hereda (`itemDesdeElegible`). */
+  categoria?: string
 }
 
 export function elegibleDeFood(f: Food): AlimentoElegible {
-  return { ref: { tipo: 'user', id: f.id }, nombre: f.nombre, ...valoresDe(f) }
-}
-
-/** Detalle de una línea: «Marca · Categoría» en un producto de marca, la categoría en un genérico. */
-function detalleDeCatalogo(f: CatalogFood): string | undefined {
-  return f.marca ? [f.marca, f.categoria].filter(Boolean).join(' · ') : f.categoria
+  return { ref: { tipo: 'user', id: f.id }, nombre: f.nombre, ...(f.categoria ? { categoria: f.categoria } : {}), ...valoresDe(f) }
 }
 
 export function elegibleDeCatalogo(f: CatalogFood): AlimentoElegible {
   return {
     ref: { tipo: 'catalog', id: f.id },
     nombre: f.nombre,
-    detalle: detalleDeCatalogo(f),
+    ...(f.marca ? { detalle: f.marca } : {}),
+    ...(f.categoria ? { categoria: f.categoria } : {}),
     ...(f.ml ? { ml: true as const } : {}),
     ...valoresDe(f),
   }
@@ -273,4 +295,68 @@ export function filtrarAlimentos(foods: Food[], q: string, limite = 20): Food[] 
         Number(b.nombreNorm.startsWith(consulta)) - Number(a.nombreNorm.startsWith(consulta)) || a.nombreNorm.localeCompare(b.nombreNorm),
     )
     .slice(0, limite)
+}
+
+/**
+ * Umbrales del aviso de coherencia energética: avisa si |kcal − esperadas| > max(30 kcal, 25 % de las kcal escritas),
+ * es decir, solo con un descuadre notorio (una cifra mal tecleada, kcal de otra ración, macros de otro producto). El
+ * redondeo de la etiqueta, la fibra o los polialcoholes no llegan. Más holgados que los de la tubería del catálogo
+ * (`scripts/catalogo/calidad.ts`, 15 kcal y 20 %), que sirven para su informe, no para la persona.
+ */
+export const COHERENCIA_KCAL_MIN = 30
+export const COHERENCIA_REL = 0.25
+
+/**
+ * Compara las kcal por 100 g con las que salen de los macros (Atwater, Reglamento UE 1169/2011: 4·P + 4·C + 9·G, más
+ * 2·fibra si se conoce; el alcohol, 7 kcal/g, no se registra). Devuelve las kcal esperadas (redondeadas) si no cuadran;
+ * `null` si cuadran o si no hay macros con los que comparar (solo se escribieron las kcal).
+ */
+export function coherenciaEnergetica(p: Por100): { esperadas: number } | null {
+  if (p.prot100 <= 0 && p.carb100 <= 0 && p.grasa100 <= 0) return null
+  const esperadas = 4 * p.prot100 + 4 * p.carb100 + 9 * p.grasa100 + 2 * (p.nutrientes?.fibra ?? 0)
+  const diferencia = Math.abs(p.kcal100 - esperadas)
+  return diferencia > Math.max(COHERENCIA_KCAL_MIN, COHERENCIA_REL * p.kcal100) ? { esperadas: Math.round(esperadas) } : null
+}
+
+// ── «Cerrar el día» (B10) ──
+
+/** Por debajo de esta proteína pendiente (g) no se propone nada: lo que falta ya es poco. */
+export const PROTEINA_MINIMA_FALTA = 10
+/** Cantidades redondeadas a 5 g, como mínimo 10 g y como mucho 400 g (más ya no es «cerrar el día»). */
+const PASO_G = 5
+const MIN_G = 10
+const MAX_G = 400
+/** Cuántas propuestas se enseñan. */
+export const MAX_ENCAJES = 5
+
+export interface Encaje {
+  alimento: AlimentoElegible
+  gramos: number
+  prot: number
+  kcal: number
+}
+
+/**
+ * Alimentos frecuentes que encajan con lo que falta del día: la cantidad que cubre la proteína pendiente sin pasar de las
+ * kcal que quedan (redondeada hacia abajo a 5 g), ordenados por proteína por kcal. Nada si faltan menos de 10 g de
+ * proteína o no quedan kcal; los alimentos sin proteína o sin kcal no entran.
+ */
+export function encajanConLoQueFalta(frecuentes: readonly AlimentoElegible[], falta: { prot: number; kcal: number }, max = MAX_ENCAJES): Encaje[] {
+  if (!(falta.prot >= PROTEINA_MINIMA_FALTA) || !(falta.kcal > 0)) return []
+  const encajes: (Encaje & { densidad: number })[] = []
+  for (const alimento of frecuentes) {
+    if (!(alimento.prot100 > 0) || !(alimento.kcal100 > 0)) continue
+    const porProteina = (falta.prot / alimento.prot100) * 100
+    const porKcal = (falta.kcal / alimento.kcal100) * 100
+    const gramos = Math.min(MAX_G, Math.floor(Math.min(porProteina, porKcal) / PASO_G) * PASO_G)
+    if (gramos < MIN_G) continue
+    encajes.push({ alimento, gramos, prot: round1((alimento.prot100 * gramos) / 100), kcal: Math.round((alimento.kcal100 * gramos) / 100), densidad: alimento.prot100 / alimento.kcal100 })
+  }
+  return encajes.sort((a, b) => b.densidad - a.densidad).slice(0, max).map(({ densidad: _d, ...e }) => e)
+}
+
+/** Lo que falta del día frente al objetivo: proteína y kcal, nunca negativas. `null` sin objetivo. */
+export function faltaDelDia(totales: { prot: number; kcal: number }, objetivo: { prot: number; kcal: number } | null | undefined): { prot: number; kcal: number } | null {
+  if (!objetivo || !(objetivo.kcal > 0)) return null
+  return { prot: Math.max(0, objetivo.prot - totales.prot), kcal: Math.max(0, objetivo.kcal - totales.kcal) }
 }

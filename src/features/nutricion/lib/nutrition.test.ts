@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { aggregateByDate, distribucionPCG, fraseKcal, macrosPorGramos, mediaDiaria, resumenMacros, resumenPeriodo, sumMacros } from './nutrition'
+import { aggregateByDate, distribucionPCG, fraseKcal, restoKcal, macrosPorGramos, mediaDiaria, resumenMacros, resumenPeriodo, sumMacros } from './nutrition'
 import type { Entry } from '../../../shared/db/types'
 
 describe('resumenMacros', () => {
   it('redondea a entero con el formato de Hoy', () => {
-    expect(resumenMacros({ prot: 41.4, carb: 0, grasa: 2.7 })).toBe('P41 C0 G3')
+    expect(resumenMacros({ prot: 41.4, carb: 0, grasa: 2.7 })).toBe('P 41 · C 0 · G 3')
   })
 
   it('usa separador de millares como el resto de cifras', () => {
-    expect(resumenMacros({ prot: 1200, carb: 3, grasa: 0 })).toBe('P1.200 C3 G0')
+    expect(resumenMacros({ prot: 1200, carb: 3, grasa: 0 })).toBe('P 1.200 · C 3 · G 0')
   })
 })
 
@@ -101,6 +101,15 @@ describe('fraseKcal', () => {
   })
 })
 
+describe('restoKcal', () => {
+  it('separa el rótulo de la cifra', () => {
+    expect(restoKcal(1888, 2200)).toEqual({ rotulo: 'Quedan', kcal: 312 })
+    expect(restoKcal(2292, 2200)).toEqual({ rotulo: 'Sobre el objetivo', kcal: 92 })
+    expect(restoKcal(2200.3, 2200)).toEqual({ rotulo: 'En el objetivo', kcal: null })
+    expect(restoKcal(500, 0)).toBeNull()
+  })
+})
+
 describe('resumenPeriodo (P1)', () => {
   const mes = Array.from({ length: 30 }, (_, i) => `2026-09-${String(i + 1).padStart(2, '0')}`)
 
@@ -117,6 +126,15 @@ describe('resumenPeriodo (P1)', () => {
     const r = resumenPeriodo([entry('2026-09-01', 1800), entry('2026-09-20', 5000)], mes, '2026-09-10')
     expect(r.diasRegistrados).toBe(1)
     expect(r.media.kcal).toBe(1800)
+  })
+
+  it('los cheat days quedan fuera de la media pero conservan sus kcal reales en porDia', () => {
+    const entries = [entry('2026-09-01', 2000), entry('2026-09-02', 4000), entry('2026-09-03', 1800)]
+    const r = resumenPeriodo(entries, mes, '2026-09-05', new Set(['2026-09-02', '2026-09-04']))
+    expect(r.diasRegistrados).toBe(2)
+    expect(r.media.kcal).toBe(1900)
+    expect(r.total.kcal).toBe(3800)
+    expect(r.porDia[1].kcal).toBe(4000)
   })
 
   it('sin días registrados devuelve ceros', () => {

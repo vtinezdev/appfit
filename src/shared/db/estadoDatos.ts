@@ -9,7 +9,8 @@ export function hayDatosGuardados(): Promise<boolean> {
       Promise.all(TABLAS_USUARIO.filter((t) => t !== 'settings').map((t) => db.table(t).count())),
       getSettings(),
     ])
-    return cantidades.some((n) => n > 0) ||
+    const perfilIntroducido = Object.values(settings.perfil ?? {}).some((v) => v !== undefined)
+    return cantidades.some((n) => n > 0) || perfilIntroducido ||
       (Object.keys(DEFAULT_OBJETIVOS) as (keyof Objetivos)[]).some((k) => settings.objetivos[k] !== DEFAULT_OBJETIVOS[k])
   })
 }

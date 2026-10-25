@@ -6,31 +6,42 @@ import ViewTabs from '../../shared/components/ViewTabs'
 import { IconButton } from '../../shared/components/Button'
 import KcalRapidasSheet from './components/KcalRapidasSheet'
 import * as entriesRepo from './data/entriesRepo'
+import { congelarObjetivoDia } from '../perfil/data/objetivosDiaRepo'
 import { validarKcalRapidas, type KcalRapidasDraft } from './lib/alimentos'
-import Hoy from './pages/Hoy'
 import Alimentos from './pages/Alimentos'
 import AnadirComida from './pages/AnadirComida'
 import { LoadingState } from '../../shared/components/StateMessage'
 import type { Plato } from './lib/platos'
+import type { NutrienteId } from '../../shared/lib/referenciasNutricionales'
+import { useHoy } from '../../shared/hooks/useHoy'
 
 const RAPIDA_VACIA: KcalRapidasDraft = { nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }
 
 // Resumen lleva Recharts: se carga aparte para no inflar el arranque de la app.
 const Resumen = lazy(() => import('./pages/Resumen'))
+// Sensores de arrastre: el diario se carga al entrar, no en el arranque de Inicio.
+const Hoy = lazy(() => import('./pages/Hoy'))
 
 type Vista = 'hoy' | 'resumen' | 'alimentos'
 
 const VISTAS: { valor: Vista; label: string }[] = [
-  { valor: 'hoy', label: 'Hoy' },
+  { valor: 'hoy', label: 'Diario' },
   { valor: 'resumen', label: 'Resumen' },
-  { valor: 'alimentos', label: 'Alimentos' },
+  { valor: 'alimentos', label: 'Mis alimentos' },
 ]
 
-export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?: boolean }) {
+export default function NutricionTab({ onVerReferencia, anadirInicial, fechaInicial }: { onVerReferencia?: (id: NutrienteId) => void; /** Abre Añadir comida en esa comida al montar (desde Inicio). */ anadirInicial?: Comida
+  /** Abre el diario en ese día (el «Ver en Nutrición» del calendario de Progreso, B14). */ fechaInicial?: string }) {
   const [vista, setVista] = useState<Vista>('hoy')
-  const [fecha, setFecha] = useState(todayISO())
-  const [mostrarAnadir, setMostrarAnadir] = useState(anadirAlAbrir)
-  const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(undefined)
+  const hoy = useHoy()
+  const [fechaElegida, setFechaElegida] = useState<string | null>(fechaInicial ?? null)
+  const fecha = fechaElegida ?? hoy
+  const setFecha = (nueva: string) => setFechaElegida(nueva === hoy ? null : nueva)
+  // El destino de una tarea ya abierta queda fijado aunque se cruce medianoche.
+  const [fechaAnadir, setFechaAnadir] = useState(todayISO())
+  const [mostrarAnadir, setMostrarAnadir] = useState(anadirInicial !== undefined)
+  const [creandoTipica, setCreandoTipica] = useState(false)
+  const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(anadirInicial)
   const [entryEditar, setEntryEditar] = useState<Entry | undefined>(undefined)
   const [platoEditar, setPlatoEditar] = useState<Plato | undefined>(undefined)
   const [rapidaEditar, setRapidaEditar] = useState<Entry | null>(null)
@@ -38,8 +49,16 @@ export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?
   const [guardandoRapida, setGuardandoRapida] = useState(false)
   const [errorRapida, setErrorRapida] = useState<string | null>(null)
 
+  function abrirAnadir(comida?: Comida, tipica = false) {
+    setFechaAnadir(fecha)
+    setComidaAnadir(comida)
+    setCreandoTipica(tipica)
+    setMostrarAnadir(true)
+  }
+
   function cerrarAnadir() {
     setMostrarAnadir(false)
+    setCreandoTipica(false)
     setEntryEditar(undefined)
     setPlatoEditar(undefined)
     setComidaAnadir(undefined)
@@ -79,19 +98,19 @@ export default function NutricionTab({ anadirAlAbrir = false }: { anadirAlAbrir?
 
   return (
     <div className="space-y-3 px-page pt-5">
-      <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="primary" onClick={() => { setComidaAnadir(undefined); setMostrarAnadir(true) }} />} />
-      <ViewTabs label="Vistas de nutrición" opciones={VISTAS} valor={vista} onChange={setVista}>
-      {vista === 'hoy' && <Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={(comida) => { setComidaAnadir(comida); setMostrarAnadir(true) }} />}
+      <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="secondary" onClick={() => abrirAnadir()} />} />
+      <ViewTabs label="Vistas de nutrición" nivel="principal" opciones={VISTAS} valor={vista} onChange={setVista}>
+      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={abrirAnadir} onCrearTipica={comida => abrirAnadir(comida, true)} onVerReferencia={onVerReferencia} /></Suspense>}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>
-          <Resumen />
+          <Resumen onVerReferencia={onVerReferencia} />
         </Suspense>
       )}
       {vista === 'alimentos' && <Alimentos />}
       </ViewTabs>
 
       {mostrarAnadir && (
-        <AnadirComida fecha={entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fecha} entryEditar={entryEditar} platoDestino={platoEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={cerrarAnadir} />
+        <AnadirComida soloTipica={creandoTipica} fecha={entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fechaAnadir} entryEditar={entryEditar} platoDestino={platoEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={() => { if (!creandoTipica) void congelarObjetivoDia(entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fechaAnadir); cerrarAnadir() }} />
       )}
 
       <KcalRapidasSheet

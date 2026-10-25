@@ -23,7 +23,7 @@ function v1ConApiKey(apiKey: string): string {
 describe('importarBackup', () => {
   it('importa entero el backup v1 de referencia (generado con el código de la sesión 01)', async () => {
     await importarBackup(backupV1)
-    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, catalogFoods: 0, catalogSources: 0 })
+    expect(await recuentos()).toEqual({ foods: 4, entries: 9, settings: 1, exercises: 2, routines: 1, workouts: 1, sets: 5, meals: 0, notasMedida: 0, pesos: 0, nombresAlimentos: 0, porciones: 0, recetas: 0, agua: 0, objetivosDia: 0, medidas: 0, suplementos: 0, cheatDays: 0, actividades: 0, rutasPropias: 0, pasos: 0, gimnasios: 0, planificadas: 0, catalogFoods: 0, catalogSources: 0 })
     expect((await db.foods.get(1))?.nombre).toBe('Plátano')
     expect(await db.entries.get(9)).toMatchObject({ fecha: '2026-09-28', comida: 'cena', kcal: 330, textoOriginal: 'pollo a la plancha' })
   })
@@ -58,6 +58,9 @@ describe('importarBackup', () => {
   })
 })
 
+/** Importar anota `ultimaExportacion`; para comparar ida y vuelta se ignora ese campo y la hora del export. */
+const sinFechaCopia = (b: Awaited<ReturnType<typeof exportarBackup>>) => ({ ...b, exportedAt: '', settings: b.settings.map(({ ultimaExportacion: _u, ...r }) => r) })
+
 describe('exportarBackup', () => {
   it('exportar e importar conserva platos e ingredientes en entradas y plantillas sin cambiar la versión', async () => {
     await importarBackup(backupV1)
@@ -66,7 +69,7 @@ describe('exportarBackup', () => {
     const entries = (await db.entries.bulkGet([8, 9])).map((e) => e!)
     await db.meals.add({ nombre: 'Cena', items: entries.map(({ id: _id, fecha: _fecha, comida: _comida, createdAt: _createdAt, ...item }) => item), usos: 0, usadoAt: 1, createdAt: 1 })
     const antes = await exportarBackup()
-    expect(antes.version).toBe(2)
+    expect(antes.version).toBe(3)
     await importarBackup(JSON.stringify(antes))
     const despues = await exportarBackup()
     expect(despues.entries).toEqual(antes.entries)
@@ -77,7 +80,7 @@ describe('exportarBackup', () => {
   it('exporta la versión actual sin la API key antigua', async () => {
     await importarBackup(v1ConApiKey('secreta'))
     const b = await exportarBackup()
-    expect(b.version).toBe(2)
+    expect(b.version).toBe(3)
     expect(b.dbVersion).toBe(db.verno)
     expect(b.settings[0]).not.toHaveProperty('apiKey')
     expect(JSON.stringify(b)).not.toContain('secreta')
@@ -96,7 +99,7 @@ describe('exportarBackup', () => {
     await Promise.all(db.tables.map((t) => t.clear()))
     await importarBackup(JSON.stringify(antes))
     const despues = await exportarBackup()
-    expect({ ...despues, exportedAt: '' }).toEqual({ ...antes, exportedAt: '' })
+    expect(sinFechaCopia(despues)).toEqual(sinFechaCopia(antes))
     expect(await db.pesos.count()).toBe(2)
   })
 
@@ -107,11 +110,49 @@ describe('exportarBackup', () => {
   })
 })
 
+describe('ultimaExportacion al importar', () => {
+  it('queda como exportedAt del backup, o la que trae si exportedAt no es válida', async () => {
+    const base = JSON.parse(backupV1)
+    await importarBackup(JSON.stringify({ ...base, version: 2, exportedAt: '2026-09-20T10:00:00.000Z' }))
+    expect((await db.settings.get(1))?.ultimaExportacion).toBe(Date.parse('2026-09-20T10:00:00.000Z'))
+    await importarBackup(JSON.stringify({ ...base, version: 2, exportedAt: 'no es fecha', settings: [{ ...base.settings[0], ultimaExportacion: 12345 }] }))
+    expect((await db.settings.get(1))?.ultimaExportacion).toBe(12345)
+    await importarBackup(JSON.stringify({ ...base, version: 2, exportedAt: '' }))
+    expect((await db.settings.get(1))?.ultimaExportacion).toBeUndefined()
+  })
+})
+
+describe('backup v3', () => {
+  it('ida y vuelta con las tablas nuevas', async () => {
+    await importarBackup(backupV1)
+    await db.porciones.add({ ref: 'user:1', nombre: 'rebanada', nombreNorm: 'rebanada', gramos: 30 })
+    await db.agua.add({ fecha: '2026-10-01', ml: 500 })
+    await db.medidas.add({ fecha: '2026-10-01', cintura: 80 })
+    await db.objetivosDia.add({ fecha: '2026-10-01', objetivos: { kcal: 2000, prot: 150, carb: 200, grasa: 60 }, origen: 'test' })
+    await db.recetas.add({ nombre: 'Guiso', nombreNorm: 'guiso', ingredientes: [], pesoCocinadoG: 500, foodId: 1, createdAt: 1, updatedAt: 1 })
+    const antes = await exportarBackup()
+    await Promise.all(db.tables.map((t) => t.clear()))
+    await importarBackup(JSON.stringify(antes))
+    const despues = await exportarBackup()
+    expect(sinFechaCopia(despues)).toEqual(sinFechaCopia(antes))
+    expect(await db.porciones.count()).toBe(1)
+    expect(await db.recetas.count()).toBe(1)
+  })
+
+  it('importar un v2 vacía las tablas nuevas y sigue funcionando', async () => {
+    await db.agua.add({ fecha: '2026-10-01', ml: 250 })
+    const v2 = { ...JSON.parse(backupV1), version: 2 }
+    await importarBackup(JSON.stringify(v2))
+    expect(await db.agua.count()).toBe(0)
+    expect(await db.foods.count()).toBeGreaterThan(0)
+  })
+})
+
 describe('migrarBackup', () => {
   it('lleva un v1 a v2 sin cambiar los registros', () => {
     const v1 = JSON.parse(backupV1)
     const v2 = migrarBackup(v1)
-    expect(v2).toMatchObject({ version: 2, dbVersion: 1, exportedAt: v1.exportedAt })
+    expect(v2).toMatchObject({ version: 3, dbVersion: 1, exportedAt: v1.exportedAt })
     expect(v2.entries).toEqual(v1.entries)
     expect(v2.sets).toEqual(v1.sets)
     expect(v2.meals).toEqual([])
@@ -126,7 +167,7 @@ describe('migrarBackup', () => {
   })
 
   it('rechaza backups de una versión más nueva con un mensaje claro', () => {
-    expect(() => migrarBackup({ ...JSON.parse(backupV1), version: 3 })).toThrow(/versión más nueva/)
+    expect(() => migrarBackup({ ...JSON.parse(backupV1), version: 4 })).toThrow(/versión más nueva/)
   })
 
   it('rechaza backups a los que les falta una tabla obligatoria o con forma desconocida', () => {
@@ -193,6 +234,139 @@ describe('el catálogo queda fuera de los datos del usuario', () => {
   })
 
   it('los backups v1 existentes siguen importándose (versión del formato sin cambios)', () => {
-    expect(migrarBackup(JSON.parse(backupV1)).version).toBe(2)
+    expect(migrarBackup(JSON.parse(backupV1)).version).toBe(3)
+  })
+})
+
+describe('backup de suplementos', () => {
+  it('mantiene backup v3 y conserva marcas, configuración y otras tablas al importar', async () => {
+    await importarBackup(backupV1)
+    await db.settings.update(1, { creatina: { activa: true, dosisManualG: 4.5, inicioCarga: '2026-10-12' } })
+    await db.suplementos.bulkAdd([{ tipo: 'creatina', fecha: '2026-10-12', createdAt: 10 }, { tipo: 'otro', fecha: '2026-10-12', createdAt: 11 }])
+    const antes = await exportarBackup()
+    expect(antes.version).toBe(3)
+    expect(antes.dbVersion).toBe(14)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+  })
+  it('un backup antiguo importa suplementos vacíos y Creatina desactivada', async () => {
+    await db.settings.put({ id: 1, objetivos: { kcal: 2200, prot: 150, carb: 238, grasa: 72 }, creatina: { activa: true } })
+    await db.suplementos.add({ tipo: 'creatina', fecha: '2026-10-12', createdAt: 1 })
+    await importarBackup(backupV1)
+    expect(await db.suplementos.count()).toBe(0)
+    expect((await db.settings.get(1))?.creatina).toBeUndefined()
+  })
+  it('rechaza marcas duplicadas sin perder los registros existentes', async () => {
+    await importarBackup(backupV1)
+    const antes = await exportarBackup()
+    const mala = { ...antes, suplementos: [{ id: 1, tipo: 'creatina', fecha: '2026-10-12', createdAt: 1 }, { id: 2, tipo: 'creatina', fecha: '2026-10-12', createdAt: 2 }] }
+    await expect(importarBackup(JSON.stringify(mala))).rejects.toThrow()
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+    expect(() => migrarBackup({ ...antes, suplementos: {} })).toThrow(BackupError)
+  })
+  it('borrar todos los datos incluye suplementos', async () => {
+    await db.suplementos.add({ tipo: 'creatina', fecha: '2026-10-12', createdAt: 1 })
+    await borrarTodosLosDatos()
+    expect(await db.suplementos.count()).toBe(0)
+  })
+})
+
+describe('backup de cheat days', () => {
+  it('ida y vuelta: las marcas sobreviven a exportar e importar', async () => {
+    await importarBackup(backupV1)
+    await db.cheatDays.bulkAdd([{ fecha: '2026-10-10', createdAt: 1 }, { fecha: '2026-10-11', createdAt: 2 }])
+    const antes = await exportarBackup()
+    expect(antes.cheatDays).toHaveLength(2)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+  })
+  it('un backup antiguo sin cheatDays las deja vacías', async () => {
+    await db.cheatDays.add({ fecha: '2026-10-11', createdAt: 1 })
+    await importarBackup(backupV1)
+    expect(await db.cheatDays.count()).toBe(0)
+  })
+  it('borrar todos los datos incluye los cheat days', async () => {
+    await db.cheatDays.add({ fecha: '2026-10-11', createdAt: 1 })
+    await borrarTodosLosDatos()
+    expect(await db.cheatDays.count()).toBe(0)
+  })
+})
+
+describe('backup de actividades', () => {
+  const actividad = { tipo: 'senderismo' as const, fecha: '2026-10-11', inicio: 1, duracionSeg: 3600, distanciaM: 8000, desnivelM: 420, origen: 'gpx' as const, recorrido: [[[43.1, -8.2, 100], [43.11, -8.21, 120]]] as [number, number, number][][], createdAt: 1 }
+  it('ida y vuelta: las actividades y su recorrido sobreviven a exportar e importar', async () => {
+    await importarBackup(backupV1)
+    await db.actividades.add(actividad)
+    const antes = await exportarBackup()
+    expect(antes.actividades).toHaveLength(1)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+  })
+  it('un backup antiguo sin actividades las deja vacías', async () => {
+    await db.actividades.add(actividad)
+    await importarBackup(backupV1)
+    expect(await db.actividades.count()).toBe(0)
+  })
+  it('borrar todos los datos incluye las actividades', async () => {
+    await db.actividades.add(actividad)
+    await borrarTodosLosDatos()
+    expect(await db.actividades.count()).toBe(0)
+  })
+})
+
+describe('backup de rutas propias', () => {
+  it('ida y vuelta, y un backup antiguo las deja vacías', async () => {
+    await importarBackup(backupV1)
+    await db.rutasPropias.add({ nombre: 'Tarragona – Valencia', salida: { nombre: 'Tarragona', lat: 41.1, lon: 1.2 }, etapas: [{ nombre: 'Valencia', km: 260 }], createdAt: 1, updatedAt: 1 })
+    const antes = await exportarBackup()
+    expect(antes.rutasPropias).toHaveLength(1)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+    await importarBackup(backupV1)
+    expect(await db.rutasPropias.count()).toBe(0)
+  })
+})
+
+describe('backup de gimnasios', () => {
+  it('ida y vuelta con el gimnasio de entrenos y series, y un backup antiguo los deja vacíos', async () => {
+    await importarBackup(backupV1)
+    const gimnasioId = await db.gimnasios.add({ nombre: 'Gym Playa', nombreNorm: 'gym playa' } as never)
+    const workoutId = await db.workouts.add({ inicio: 1, fin: 2, gimnasioId } as never)
+    await db.sets.add({ workoutId, exerciseId: 1, orden: 0, reps: 10, peso: 50, createdAt: 1, gimnasioId } as never)
+    const antes = await exportarBackup()
+    expect(antes.gimnasios).toHaveLength(1)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+    expect((await db.sets.where('workoutId').equals(workoutId).first())?.gimnasioId).toBe(gimnasioId)
+    await importarBackup(backupV1)
+    expect(await db.gimnasios.count()).toBe(0)
+  })
+})
+
+describe('backup de comidas planificadas', () => {
+  it('ida y vuelta, y un backup antiguo las deja vacías', async () => {
+    await importarBackup(backupV1)
+    await db.planificadas.add({ fecha: '2026-10-25', comida: 'comida', nombre: 'Arroz', gramos: 120, kcal: 156, prot: 3, carb: 34, grasa: 0.4, createdAt: 1 } as never)
+    const antes = await exportarBackup()
+    expect(antes.planificadas).toHaveLength(1)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+    await importarBackup(backupV1)
+    expect(await db.planificadas.count()).toBe(0)
+  })
+})
+
+describe('backup de pasos', () => {
+  it('ida y vuelta, y un backup antiguo los deja vacíos', async () => {
+    await importarBackup(backupV1)
+    await db.pasos.add({ fecha: '2026-10-12', pasos: 8432, createdAt: 1, updatedAt: 1 })
+    await db.settings.update(1, { zancadaCm: 74 })
+    const antes = await exportarBackup()
+    expect(antes.pasos).toHaveLength(1)
+    await importarBackup(JSON.stringify(antes))
+    expect(sinFechaCopia(await exportarBackup())).toEqual(sinFechaCopia(antes))
+    expect((await db.settings.get(1))?.zancadaCm).toBe(74)
+    await importarBackup(backupV1)
+    expect(await db.pasos.count()).toBe(0)
   })
 })

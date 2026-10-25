@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Entry } from '../../../shared/db/types'
-import { agruparPlatos, camposPlato, clavePlato, renovarPlatos } from './platos'
+import { agruparPlatos, camposPlato, clavePlato, idsElegidos, renovarPlatos } from './platos'
 import { sumMacros } from './nutrition'
 import { entradasDesdePlantilla, itemsDesdeEntradas, planCopia, resolverItemsPlantilla } from './plantillas'
 
@@ -9,6 +9,13 @@ function entrada(id: number, extra: Partial<Entry> = {}): Entry {
 }
 
 describe('platos', () => {
+  it('idsElegidos devuelve los platos completos y las entradas sueltas no quitados, en orden', () => {
+    const platos = agruparPlatos([entrada(1, { platoId: 'a' }), entrada(2), entrada(3, { platoId: 'a' }), entrada(4)])
+    expect(idsElegidos(platos, new Set())).toEqual([1, 3, 2, 4])
+    expect(idsElegidos(platos, new Set([platos[0].clave]))).toEqual([2, 4])
+    expect(idsElegidos(platos, new Set(platos.map((p) => p.clave)))).toEqual([])
+  })
+
   it('agrupa solo ids explícitos y conserva el orden de platos e ingredientes', () => {
     const entries = [entrada(1, { platoId: 'a' }), entrada(2), entrada(3, { platoId: 'b' }), entrada(4, { platoId: 'a' })]
     const platos = agruparPlatos(entries)

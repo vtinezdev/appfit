@@ -21,7 +21,7 @@ export default function ListRow({ tone = 'plain', className = '', type = 'button
   return (
     <button
       type={type}
-      className={`flex min-h-touch w-full items-center justify-between gap-3 py-3 text-left disabled:opacity-40 ${TONES[tone]} ${className}`}
+      className={`app-list-row flex min-h-touch w-full items-center justify-between gap-3 py-3 text-left disabled:opacity-40 ${TONES[tone]} ${className}`}
       {...rest}
     />
   )

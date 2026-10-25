@@ -1,12 +1,25 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vitest/config'
+import { configDefaults, defineConfig } from 'vitest/config'
 import { VitePWA } from 'vite-plugin-pwa'
+import { randomUUID } from 'node:crypto'
+
+// La página y el fichero remoto comparten el mismo identificador, también en builds sin commit nuevo.
+const versionApp = { id: process.env.APPFIT_BUILD_ID ?? randomUUID(), fecha: new Date().toISOString() }
 
 export default defineConfig({
+  define: { __APP_VERSION__: JSON.stringify(versionApp) },
   plugins: [
     react(),
+    {
+      name: 'appfit-version',
+      generateBundle() {
+        this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify(versionApp) })
+      },
+    },
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
+      // shared/pwa/actualizaciones registra y aplica el SW al pedirlo la persona.
+      injectRegister: false,
       includeAssets: ['apple-touch-icon.png', 'favicon.svg'],
       manifest: {
         // Identidad estable entre builds; el almacenamiento sigue ligado al mismo origen.
@@ -14,8 +27,8 @@ export default defineConfig({
         name: 'AppFit',
         short_name: 'AppFit',
         description: 'Nutrición y gimnasio, uso personal',
-        theme_color: '#f5f5f2',
-        background_color: '#f5f5f2',
+        theme_color: '#0a0b09',
+        background_color: '#0a0b09',
         display: 'standalone',
         start_url: '/',
         scope: '/',
@@ -26,7 +39,11 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        skipWaiting: false,
+        clientsClaim: true,
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,ico,woff2}'],
+        // Las imágenes de ejercicios (~0,5 MB) tampoco: se guardan al verlas por primera vez (regla de abajo).
+        globIgnores: ['ejercicios/**'],
         // El .wasm del escáner (~1 MB) no se precachea: pesaría en cada instalación y el escáner casi siempre
         // necesita conexión (Open Food Facts). Se guarda la primera vez que se usa y después funciona sin red.
         runtimeCaching: [
@@ -35,6 +52,17 @@ export default defineConfig({
             handler: 'CacheFirst',
             options: { cacheName: 'wasm', expiration: { maxEntries: 4 } },
           },
+          // Lugares de España (~300 KB) para las rutas propias de Caminos: solo hacen falta al crear o editar una ruta.
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith('/lugares/'),
+            handler: 'StaleWhileRevalidate',
+            options: { cacheName: 'lugares', expiration: { maxEntries: 4 } },
+          },
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith('/ejercicios/'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'ejercicios', expiration: { maxEntries: 200 } },
+          },
         ],
       },
     }),
@@ -42,5 +70,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     setupFiles: ['./src/test/setup-db.ts'],
+    // `.claude/` puede contener copias de trabajo de otras ramas (worktrees): sus tests no son de esta rama.
+    exclude: [...configDefaults.exclude, '.claude/**'],
   },
 })

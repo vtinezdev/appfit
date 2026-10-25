@@ -1,12 +1,13 @@
-import type { ReactNode } from 'react'
+import { registrarErrorDiagnostico } from '../lib/diagnostico'
+import { useEffect, type ReactNode } from 'react'
 import Icon, { type IconName } from './Icon'
 
 /** Estado de carga: una línea discreta, sin spinners a pantalla completa. */
 export function LoadingState({ children = 'Cargando…' }: { children?: ReactNode }) {
   return (
-    <div role="status" className="flex items-center gap-2 p-page text-body-sm text-fg-muted">
-      <Icon name="loader" size={16} />
-      {children}
+    <div role="status" className="space-y-3 py-4 text-body-sm text-fg-muted">
+      <span>{children}</span>
+      <div aria-hidden className="loading-skeleton space-y-2"><div className="h-3 w-2/3 rounded-sm bg-surface-muted" /><div className="h-3 w-full rounded-sm bg-surface-muted" /><div className="h-3 w-1/2 rounded-sm bg-surface-muted" /></div>
     </div>
   )
 }
@@ -25,7 +26,7 @@ export function EmptyState({ children, action, icon, title }: EmptyProps) {
     return (
       <div className="flex flex-col items-start gap-3 border-y border-line py-section">
         {icon && <Icon name={icon} size={26} className="text-fg-muted" />}
-        {title && <p className="text-title text-fg">{title}</p>}
+        {title && <p className="text-heading text-fg">{title}</p>}
         {children && <p className="max-w-sm text-body-sm text-fg-muted">{children}</p>}
         {action && <div className="mt-2">{action}</div>}
       </div>
@@ -41,6 +42,7 @@ export function EmptyState({ children, action, icon, title }: EmptyProps) {
 
 /** Error recuperable: explica qué hacer; el color es de aviso, sin tono alarmista. */
 export function ErrorState({ children }: { children: ReactNode }) {
+  useEffect(() => { registrarErrorDiagnostico('operacion') }, [children])
   return (
     <p role="alert" className="flex items-start gap-2 text-body-sm text-destructive">
       <Icon name="alert" size={18} className="mt-0.5" />

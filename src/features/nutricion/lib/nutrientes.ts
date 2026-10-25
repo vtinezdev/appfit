@@ -1,10 +1,11 @@
 import type { NutrientesAdicionales } from '../../../shared/db/types'
+import { NOMBRES_NUTRIENTES } from '../../../shared/lib/referenciasNutricionales'
 
 export const NUTRIENTES_ADICIONALES = [
-  { clave: 'fibra', label: 'Fibra' },
-  { clave: 'azucares', label: 'Azúcares' },
-  { clave: 'sal', label: 'Sal' },
-  { clave: 'agSat', label: 'Grasas saturadas' },
+  { clave: 'fibra', label: NOMBRES_NUTRIENTES.fibra },
+  { clave: 'azucares', label: NOMBRES_NUTRIENTES.azucares },
+  { clave: 'sal', label: NOMBRES_NUTRIENTES.sal },
+  { clave: 'agSat', label: NOMBRES_NUTRIENTES.agSat },
 ] as const
 
 /** Copia solo los cuatro nutrientes conocidos; nunca convierte un dato ausente en cero. */
@@ -46,4 +47,18 @@ export function resumenNutrientes(entries: { nutrientes?: NutrientesAdicionales 
       total: entries.length,
     }
   })
+}
+
+export type ResumenNutriente = ReturnType<typeof resumenNutrientes>[number]
+
+/**
+ * Media diaria de un periodo con el criterio de `resumenPeriodo`: cuentan los días registrados hasta `hoy` que no son
+ * cheat days, y lo conocido de cada nutriente se reparte entre todos ellos. La cobertura sigue contándose por alimento,
+ * así una media parcial nunca parece completa.
+ */
+export function mediaNutrientes(entries: { fecha: string; nutrientes?: NutrientesAdicionales }[], fechas: string[], hoy: string, cheatDays: ReadonlySet<string> = new Set()): ResumenNutriente[] {
+  const validas = new Set(fechas.filter((f) => f <= hoy && !cheatDays.has(f)))
+  const contadas = entries.filter((e) => validas.has(e.fecha))
+  const dias = new Set(contadas.map((e) => e.fecha)).size
+  return resumenNutrientes(contadas).map((n) => ({ ...n, valor: n.valor === undefined || dias === 0 ? n.valor : n.valor / dias }))
 }

@@ -1,0 +1,6 @@
+
+> appfit@0.1.0 test:ui:uso
+> node scripts/ui/validar-mejoras-uso.cjs
+
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+firefox 375-dark-texto200: correcto; 10 escenarios;

@@ -14,7 +14,7 @@ interface Props {
   /** Producto con todos sus valores (del dispositivo o recién descargado): se añade como cualquier alimento. */
   onEncontrado: (food: CatalogFood) => void
   /** Producto al que le faltan datos: se revisa a mano y acaba como alimento propio. */
-  onIncompleto: (producto: { nombre: string; valores: Partial<Por100> }) => void
+  onIncompleto: (producto: { nombre: string; valores: Partial<Por100>; categoria?: string }) => void
   onKcalRapidas?: () => void
   /** Crear el alimento a mano (revisión vacía). */
   onManual: () => void

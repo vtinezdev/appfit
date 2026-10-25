@@ -8,6 +8,8 @@ export interface ParteComida {
   texto: string
   cantidad?: number
   unidad?: Unidad
+  /** Nombre normalizado de una ración propia del usuario escrita como unidad («2 rebanadas de pan bimbo»). */
+  unidadPropia?: string
   /** Lo que queda al quitar cantidad y unidad, con sus tildes («plátano», «pechuga de pollo»). */
   nombre: string
   /** Palabras útiles de `nombre` en singular, separadas por espacios (ver `tokensConsulta`): lo que se busca. */
@@ -93,11 +95,12 @@ function cantidadAlPrincipio(norm: string[]): { valor: number; usadas: number } 
 }
 
 /** Quita la cantidad y la unidad del principio o, si no hay, del final («arroz 200 g»). */
-function extraerCantidad(palabras: string[]): { cantidad?: number; unidad?: Unidad; resto: string[] } {
+function extraerCantidad(palabras: string[], propias?: ReadonlyMap<string, string>): { cantidad?: number; unidad?: Unidad; unidadPropia?: string; resto: string[] } {
   const norm = palabras.map(normalizeName)
   let i = 0
   let cantidad: number | undefined
   let unidad: Unidad | undefined
+  let unidadPropia: string | undefined
 
   const inicio = cantidadAlPrincipio(norm)
   if (inicio) {
@@ -107,9 +110,11 @@ function extraerCantidad(palabras: string[]): { cantidad?: number; unidad?: Unid
   // «un cuarto de kilo»: la unidad puede venir tras un «de».
   const saltaDe = norm[i] === 'de' && unidadEn(norm, i + 1) !== undefined ? 1 : 0
   const u = unidadEn(norm, i + saltaDe)
+  const up = propias?.get(norm[i + saltaDe] ?? '')
   // Una unidad casera sin número («vaso de leche») cuenta como una; una de peso sin número («g de arroz») no se entiende.
-  if (u !== undefined && (cantidad !== undefined || !UNIDADES_EXACTAS.has(u))) {
+  if ((u !== undefined && (cantidad !== undefined || !UNIDADES_EXACTAS.has(u))) || (up !== undefined && norm[i + saltaDe + 1] !== undefined)) {
     unidad = u
+    unidadPropia = up
     i += saltaDe + 1
     cantidad ??= 1
     // «1 kilo y medio»
@@ -122,7 +127,7 @@ function extraerCantidad(palabras: string[]): { cantidad?: number; unidad?: Unid
   }
   if (i > 0) {
     if (norm[i] === 'de' || norm[i] === 'del') i += 1
-    return { cantidad, unidad, resto: palabras.slice(i) }
+    return { cantidad, unidad, unidadPropia, resto: palabras.slice(i) }
   }
 
   // Al final: «arroz 200 g», «arroz 200g», «huevos 2».
@@ -136,10 +141,10 @@ function extraerCantidad(palabras: string[]): { cantidad?: number; unidad?: Unid
 }
 
 /** Interpreta un trozo con un solo alimento. `undefined` si no queda nombre (p. ej. «200 g» suelto). */
-export function parsearParte(texto: string): ParteComida | undefined {
+export function parsearParte(texto: string, propias?: ReadonlyMap<string, string>): ParteComida | undefined {
   const limpio = limpiarParte(texto)
   if (!limpio) return undefined
-  const { cantidad, unidad, resto } = extraerCantidad(limpio.split(/\s+/))
+  const { cantidad, unidad, unidadPropia, resto } = extraerCantidad(limpio.split(/\s+/), propias)
   const nombre = resto.join(' ').trim()
   const consulta = tokensConsulta(nombre).join(' ')
   if (!consulta || resto.every((p) => SIN_ALIMENTO.has(normalizeName(p)))) return undefined
@@ -147,13 +152,14 @@ export function parsearParte(texto: string): ParteComida | undefined {
   if (cantidad !== undefined && cantidad > 0) {
     parte.cantidad = cantidad
     if (unidad !== undefined) parte.unidad = unidad
-    else if (cantidad >= MINIMO_GRAMOS_IMPLICITOS) parte.unidad = 'g'
+    else if (unidadPropia === undefined && cantidad >= MINIMO_GRAMOS_IMPLICITOS) parte.unidad = 'g'
+    if (unidadPropia !== undefined) parte.unidadPropia = unidadPropia
   }
   return parte
 }
 
 /** Parte una frase en alimentos. Los trozos sin alimento («y», «200 g» suelto) se descartan. */
-export function parsear(texto: string): ParteComida[] {
+export function parsear(texto: string, propias?: ReadonlyMap<string, string>): ParteComida[] {
   const partes: ParteComida[] = []
   let inicio = 0
   for (const separador of texto.matchAll(SEPARADORES)) {
@@ -171,11 +177,11 @@ export function parsear(texto: string): ParteComida[] {
       // «1 kilo y medio de patatas» frente a «2 huevos y medio aguacate».
       if (anterior.cantidad !== undefined && anterior.resto.length === 0) continue
     }
-    const parte = parsearParte(izquierda)
+    const parte = parsearParte(izquierda, propias)
     if (parte) partes.push(parte)
     inicio = separador.index + separador[0].length
   }
-  const ultima = parsearParte(texto.slice(inicio))
+  const ultima = parsearParte(texto.slice(inicio), propias)
   if (ultima) partes.push(ultima)
   return partes
 }

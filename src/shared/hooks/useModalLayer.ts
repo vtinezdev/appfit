@@ -1,9 +1,55 @@
-import { useEffect, useRef, type RefObject } from 'react'
+import { useEffect, useLayoutEffect, useRef, type RefObject } from 'react'
 
 const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
 const layers: HTMLElement[] = []
 let previousOverflow = ''
 let previousInert = false
+let layerSequence = 0
+const historyLayers = new Map<HTMLElement, { id: number; close: () => void | boolean }>()
+let historyListening = false
+let historyBackPending = false
+let historyPushQueue: (() => void)[] = []
+
+function settleHistory() {
+  if (historyBackPending) return
+  const id = history.state?.appfitOverlay
+  if (id && !Array.from(historyLayers.values()).some(layer => layer.id === id)) {
+    historyBackPending = true
+    history.back()
+    return
+  }
+  const queue = historyPushQueue
+  historyPushQueue = []
+  queue.forEach(push => push())
+}
+
+function registerHistory(panel: HTMLElement, close: () => void | boolean) {
+  if (!historyListening) {
+    historyListening = true
+    window.addEventListener('popstate', () => {
+      if (historyBackPending) {
+        historyBackPending = false
+        settleHistory()
+        return
+      }
+      const top = layers.at(-1)
+      const layer = top && historyLayers.get(top)
+      if (layer && history.state?.appfitOverlay !== layer.id && layer.close() === false) {
+        // Atrás ya consumió la entrada: restaurarla si el formulario pide seguir en la misma capa.
+        try { history.pushState({ ...history.state, appfitOverlay: layer.id }, '') } catch { /* History opcional. */ }
+      }
+    })
+  }
+  const id = ++layerSequence
+  historyLayers.set(panel, { id, close })
+  const push = () => {
+    if (!historyLayers.has(panel)) return
+    try { history.pushState({ ...history.state, appfitOverlay: id }, '') } catch { /* History opcional. */ }
+  }
+  // history.back() es asíncrono. No colocar una capa nueva encima de una salida pendiente.
+  if (historyBackPending) historyPushQueue.push(push)
+  else push()
+}
 
 function syncLayers() {
   const shell = document.querySelector<HTMLElement>('[data-app-shell]')
@@ -12,12 +58,12 @@ function syncLayers() {
 }
 
 /** Foco, Escape, aislamiento y retorno compartidos por sheets y páginas modales. */
-export function useModalLayer(open: boolean, panelRef: RefObject<HTMLElement | null>, onClose: () => void) {
+export function useModalLayer(open: boolean, panelRef: RefObject<HTMLElement | null>, onClose: () => void | boolean) {
   const closeRef = useRef(onClose)
   const triggerRef = useRef<HTMLElement | null>(null)
   if (open && !triggerRef.current) triggerRef.current = document.activeElement as HTMLElement | null
   useEffect(() => { closeRef.current = onClose })
-  useEffect(() => {
+  useLayoutEffect(() => {
     const panel = panelRef.current
     if (!open || !panel) return
     if (!layers.length) {
@@ -28,6 +74,9 @@ export function useModalLayer(open: boolean, panelRef: RefObject<HTMLElement | n
     triggerRef.current ??= document.activeElement as HTMLElement | null
     layers.push(panel)
     syncLayers()
+    // Una entrada efímera por capa: Atrás en Android/navegador cierra la capa superior,
+    // no abandona la PWA. El estado previo y la URL se conservan.
+    registerHistory(panel, () => closeRef.current())
     if (!panel.contains(document.activeElement)) panel.focus()
     const onKey = (e: KeyboardEvent) => {
       if (layers.at(-1) !== panel) return
@@ -49,8 +98,10 @@ export function useModalLayer(open: boolean, panelRef: RefObject<HTMLElement | n
     document.addEventListener('keydown', onKey)
     return () => {
       document.removeEventListener('keydown', onKey)
+      historyLayers.delete(panel)
       const index = layers.indexOf(panel)
       if (index !== -1) layers.splice(index, 1)
+      settleHistory()
       syncLayers()
       if (!layers.length) document.body.style.overflow = previousOverflow
       const trigger = triggerRef.current
@@ -58,7 +109,11 @@ export function useModalLayer(open: boolean, panelRef: RefObject<HTMLElement | n
       if (trigger?.isConnected && !trigger.closest('[inert]')) trigger.focus({ preventScroll: true })
       else layers.at(-1)?.focus({ preventScroll: true })
       if (!layers.length && !trigger?.isConnected) {
-        document.querySelector<HTMLElement>('[data-app-shell] [aria-current="page"], [data-app-shell] [data-nav-trigger]')?.focus({ preventScroll: true })
+        // Si el control que abrió la capa se sustituyó mientras estaba abierta (p. ej. un ejercicio que se pliega), el foco
+        // va a su sustituto, marcado con `data-foco-pendiente`; si no, a la sección actual de la barra.
+        const sustituto = document.querySelector<HTMLElement>('[data-foco-pendiente]')
+        sustituto?.removeAttribute('data-foco-pendiente')
+        ;(sustituto ?? document.querySelector<HTMLElement>('[data-app-shell] [aria-current="page"], [data-app-shell] [data-nav-trigger]'))?.focus({ preventScroll: true })
       }
     }
   }, [open, panelRef])

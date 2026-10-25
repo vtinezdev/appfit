@@ -7,11 +7,11 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const TONES = {
-  default: 'border border-line bg-surface',
+  default: 'border border-transparent bg-surface shadow-card',
   muted: 'bg-surface-muted',
 }
 
 /** Superficie base de contenido. Una sola forma de «tarjeta»: cambiar `bg-surface`/`rounded-lg` aquí lo cambia en toda la app. */
 export default function Card({ tone = 'default', padded = true, className = '', ...rest }: Props) {
-  return <div className={`rounded-lg ${TONES[tone]} ${padded ? 'p-card' : ''} ${className}`} {...rest} />
+  return <div className={`app-card rounded-lg ${TONES[tone]} ${padded ? 'p-card' : ''} ${className}`} {...rest} />
 }

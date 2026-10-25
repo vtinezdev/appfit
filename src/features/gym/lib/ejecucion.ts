@@ -1,0 +1,107 @@
+import type { ConfiguracionEjecucion, DatosLado, Lado, SetEntry, TramoDropset } from '../../../shared/db/types'
+import { modoCarga, formatearCarga } from './carga'
+import { formatNumber } from '../../../shared/lib/format'
+
+export type SerieEjecucion = Pick<SetEntry, 'reps' | 'peso'> & Partial<Pick<SetEntry, 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg' | 'bajadas' | 'realizada' | 'tipo' | 'modoCarga' | 'pesoCorporal' | 'rir' | 'gimnasioId'>>
+export const EJECUCIONES = { bilateral: 'Bilateral', unilateral: 'Unilateral · ambos iguales', lados: 'Unilateral · distinguir lados' } as const
+export { ORIENTACIONES, ANCHURAS, ACCESORIOS, opcionesAgarre, textoAgarre } from './agarres'
+import { ORIENTACIONES, ANCHURAS, ACCESORIOS, textoAgarre } from './agarres'
+import { textoGimnasio } from './gimnasios'
+const positivo = (n: number) => Number.isFinite(n) && n > 0 ? n : 0
+
+/** `gimnasios`: nombres por id; sin él (o sin el nombre, si se borró) se muestra «Otro gimnasio». */
+export function contextoSerie(s: Partial<SerieEjecucion>, gimnasios?: ReadonlyMap<number, string>): string {
+  const partes = [s.ejecucion === 'unilateral' ? `Ambos lados · kg ${s.kgUnilateral === 'total' ? 'totales' : 'por lado'}` : s.ejecucion === 'lados' ? `Lados separados · ${s.lados?.izquierda && s.lados?.derecha ? 'ambos registrados' : s.lados?.izquierda ? 'izquierda' : s.lados?.derecha ? 'derecha' : 'sin lados registrados'} · kg por lado` : '', textoAgarre(s.agarre), s.soloNegativas ? 'Solo negativas' : '', s.excentricaSeg ? `Descenso ${formatNumber(s.excentricaSeg)} s` : '', s.bajadas?.length ? `Dropset · ${s.bajadas.length + 1} tramos` : '', s.gimnasioId !== undefined ? textoGimnasio(s.gimnasioId, gimnasios) : '']
+  return partes.filter(Boolean).join(' · ')
+}
+/**
+ * Independiente del orden de propiedades; sin snapshot corporal ni reps/peso. «Ambos iguales» con kg por lado
+ * equivale a registrar los dos lados: el histórico antiguo sigue en la misma curva que las filas I/D.
+ * El gimnasio solo se añade si la serie lo trae: la clave del habitual no cambia (las decisiones de progresión la guardan).
+ */
+export function claveComparacion(s: Partial<SerieEjecucion>): string {
+  const comoLados = s.ejecucion === 'unilateral' && s.kgUnilateral !== 'total'
+  const ejecucion = comoLados ? 'lados' : s.ejecucion ?? 'bilateral'
+  return JSON.stringify([modoCarga(s), ejecucion, s.ejecucion === 'unilateral' && !comoLados ? 'total' : 'lado', s.agarre?.orientacion ?? '', s.agarre?.anchura ?? '', s.agarre?.accesorio ?? '', !!s.soloNegativas, s.excentricaSeg ?? 0, comoLados ? 'derecha,izquierda' : s.ejecucion === 'lados' ? Object.keys(s.lados ?? {}).sort().join(',') : '', ...(s.gimnasioId !== undefined ? [s.gimnasioId] : [])])
+}
+export function convencional(s: Partial<SerieEjecucion>): boolean { return !s.soloNegativas && !s.bajadas?.length }
+/** Datos de cada lado realmente indicado. Total en ambos iguales se reparte una sola vez. */
+export function partesTramo(s: SerieEjecucion, tramo: Pick<TramoDropset, 'reps' | 'peso' | 'lados'> = s): DatosLado[] {
+  if (s.ejecucion === 'lados') return [tramo.lados?.izquierda, tramo.lados?.derecha].filter((p): p is DatosLado => !!p).map(p => ({ ...p, reps: positivo(p.reps), peso: positivo(p.peso) }))
+  const p = { reps: positivo(tramo.reps), peso: positivo(tramo.peso) }
+  if (s.ejecucion === 'unilateral') { const peso = s.kgUnilateral === 'total' ? p.peso / 2 : p.peso; return [{ ...p, peso }, { ...p, peso }] }
+  return [p]
+}
+export function tramosSerie(s: SerieEjecucion) { return [s, ...(s.bajadas ?? [])].map(t => partesTramo(s, t)) }
+export function repsComparables(s: SerieEjecucion): number { const ps = partesTramo(s); return ps.length ? Math.min(...ps.map(p => p.reps)) : 0 }
+export function pesoComparable(s: SerieEjecucion): number { const ps = partesTramo(s); return ps.length ? Math.min(...ps.map(p => p.peso)) : 0 }
+export function tieneReps(s: SerieEjecucion): boolean { return tramosSerie(s).some(ps => ps.some(p => p.reps > 0)) }
+/** Volumen físico registrado, sin cuerpo/ayuda; todos los tramos suman exactamente una vez. */
+export function volumenSerie(s: SerieEjecucion): number {
+  if (modoCarga(s) !== 'externa' && modoCarga(s) !== 'lastre') return 0
+  return Math.min(Number.MAX_VALUE, tramosSerie(s).reduce((total, ps) => total + ps.reduce((v, p) => v + p.peso * p.reps, 0), 0))
+}
+/** Una serie bilateral o ambos lados cuenta una vez. Lados distintos: promedio de los dos lados, ausente = cero. */
+export function repsEstimulo(s: SerieEjecucion): number {
+  const denominador = s.ejecucion === 'bilateral' || !s.ejecucion ? 1 : 2
+  // La dropset es una serie extendida: techo único de 30 reps, no una serie nueva por bajada.
+  return Math.min(30, tramosSerie(s).reduce((n, ps) => n + ps.reduce((r, p) => r + p.reps, 0) / denominador, 0))
+}
+export function describirReps(s: SerieEjecucion): string {
+  if (s.ejecucion === 'lados') return ['izquierda', 'derecha'].map(l => { const p = s.lados?.[l as 'izquierda' | 'derecha']; return `${l === 'izquierda' ? 'I' : 'D'}: ${p ? `${formatNumber(p.reps)} reps · ${formatearCarga({ ...s, ...p })}` : 'sin registrar'}` }).join(' · ')
+  return `${formatNumber(s.reps)}${s.ejecucion === 'unilateral' ? ' por lado' : ''}`
+}
+export function validarEjecucion(c: ConfiguracionEjecucion): void {
+  if (!Object.hasOwn(EJECUCIONES, c.ejecucion) || (c.kgUnilateral && !['lado', 'total'].includes(c.kgUnilateral))) throw new Error('Selecciona una ejecución válida.')
+  for (const [valor, opciones] of [[c.agarre?.orientacion, ORIENTACIONES], [c.agarre?.anchura, ANCHURAS], [c.agarre?.accesorio, ACCESORIOS]] as const) if (valor && !Object.hasOwn(opciones, valor)) throw new Error('Selecciona un agarre válido.')
+}
+/** «Ambos lados iguales» ya no se ofrece: una configuración antigua (habitual o de sesión) se aplica como una fila por lado. */
+export function ejecucionVigente(c: ConfiguracionEjecucion): ConfiguracionEjecucion {
+  return c.ejecucion === 'unilateral' ? { ejecucion: 'lados', ...(c.agarre ? { agarre: c.agarre } : {}) } : c
+}
+/** Cambiar entre bilateral y unilateral cambia qué significan reps y kg; pasar de «ambos iguales» a cada lado no. */
+export function vaciaRegistro(s: Partial<Pick<SetEntry, 'ejecucion'>>, c: ConfiguracionEjecucion): boolean {
+  const desde = s.ejecucion ?? 'bilateral', hacia = ejecucionVigente(c).ejecucion
+  return desde !== hacia && !(desde === 'unilateral' && hacia === 'lados')
+}
+function ladosIguales(s: SerieEjecucion, t: Pick<TramoDropset, 'reps' | 'peso'>, rir?: number): Partial<Record<Lado, DatosLado>> | undefined {
+  const p: DatosLado = { reps: t.reps, peso: s.kgUnilateral === 'total' ? t.peso / 2 : t.peso, ...(rir !== undefined ? { rir } : {}) }
+  return p.reps || p.peso || rir !== undefined ? { izquierda: p, derecha: { ...p } } : undefined
+}
+/** Una serie de «ambos iguales» como filas I/D con los mismos datos; los kg totales se reparten entre los dos lados. */
+export function comoLados(s: SerieEjecucion) {
+  return { ejecucion: 'lados' as const, kgUnilateral: undefined, reps: 0, peso: 0, rir: undefined, lados: ladosIguales(s, s, s.rir),
+    bajadas: s.bajadas?.map(b => ({ id: b.id, reps: 0, peso: 0, lados: ladosIguales(s, b) })) }
+}
+export function aplicarEjecucion(s: SerieEjecucion, config: ConfiguracionEjecucion) {
+  const c = ejecucionVigente(config)
+  if (s.ejecucion === 'unilateral' && c.ejecucion === 'lados') return { ...comoLados(s), agarre: c.agarre }
+  return { ejecucion: c.ejecucion === 'bilateral' ? undefined : c.ejecucion, kgUnilateral: undefined, agarre: c.agarre,
+    ...(vaciaRegistro(s, c) ? { reps: 0, peso: 0, lados: undefined, bajadas: undefined } : {}) }
+}
+/**
+ * Ejecución que recibe una serie nueva: la de la sesión o la habitual. Sin ninguna, la copiada de otra sesión en
+ * «ambos iguales» se estrena con una fila por lado; dentro de la misma sesión se respeta lo que ya hay.
+ */
+export function ejecucionSerieNueva(config: ConfiguracionEjecucion | undefined, copiada: Partial<SerieEjecucion>, mismaSesion: boolean): ConfiguracionEjecucion | undefined {
+  if (config) return config
+  return copiada.ejecucion === 'unilateral' && !mismaSesion ? { ejecucion: 'lados', ...(copiada.agarre ? { agarre: copiada.agarre } : {}) } : undefined
+}
+export function validarSerie(s: SerieEjecucion) {
+  validarEjecucion({ ejecucion: s.ejecucion ?? 'bilateral', kgUnilateral: s.kgUnilateral, agarre: s.agarre })
+  const valido = (p: DatosLado) => Number.isFinite(p.reps) && p.reps >= 0 && p.reps <= 10000 && Number.isFinite(p.peso) && p.peso >= 0 && p.peso <= 100000 && (p.rir === undefined || Number.isInteger(p.rir) && p.rir >= 0 && p.rir <= 5)
+  if (!valido(s) || s.excentricaSeg !== undefined && (!Number.isFinite(s.excentricaSeg) || s.excentricaSeg <= 0 || s.excentricaSeg > 120)) throw new Error('Revisa repeticiones, kg, RIR y segundos (1–120).')
+  const segundos = (s as { segundos?: number }).segundos
+  if (segundos !== undefined && (!Number.isInteger(segundos) || segundos < 0 || segundos > 3600)) throw new Error('Revisa los segundos (0–3600).')
+  if ((s.bajadas?.length ?? 0) > 10 || new Set(s.bajadas?.map(b => b.id)).size !== (s.bajadas?.length ?? 0)) throw new Error('Máximo 10 bajadas, con identificadores distintos.')
+  for (const t of [s, ...(s.bajadas ?? [])]) {
+    if (!valido(t) || Object.values(t.lados ?? {}).some(p => !valido(p))) throw new Error('Revisa los datos de cada tramo y lado.')
+  }
+}
+
+/** RIR por lado cambia esfuerzo anotado, no la ejecución física ya confirmada. */
+export function cambiaRealizacion(s: SerieEjecucion, patch: Partial<SerieEjecucion>): boolean {
+  // `segundos`: series por tiempo (A29, `lib/tiempo`).
+  const fisico = (x: SerieEjecucion) => JSON.stringify([x.reps, (x as { segundos?: number }).segundos ?? 0, x.peso, x.ejecucion ?? 'bilateral', x.kgUnilateral ?? 'lado', x.agarre?.orientacion ?? '', x.agarre?.anchura ?? '', x.agarre?.accesorio ?? '', x.soloNegativas ?? false, x.excentricaSeg, Object.entries(x.lados ?? {}).sort().map(([l, p]) => [l, p.reps, p.peso]), x.bajadas?.map(b => [b.id, b.reps, b.peso, Object.entries(b.lados ?? {}).sort().map(([l, p]) => [l, p.reps, p.peso])]) ?? []])
+  return fisico(s) !== fisico({ ...s, ...patch })
+}

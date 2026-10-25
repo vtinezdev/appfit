@@ -10,7 +10,7 @@ import * as mealsRepo from './mealsRepo'
 beforeEach(async () => { await Promise.all(db.tables.map((t) => t.clear())) })
 
 const catalogo: CatalogFood = {
-  id: 'ciqual:1', fuente: 'ciqual', idExterno: '1', nombre: 'Prueba', nombreNorm: 'prueba', tok: ['prueba'], tipo: 'generico',
+  id: 'ciqual:1', fuente: 'ciqual', idExterno: '1', nombre: 'Prueba', nombreNorm: 'prueba', tok: ['prueba'], tipo: 'generico', categoria: 'Otros',
   kcal100: 100, prot100: 5, carb100: 10, grasa100: 4, nutrientes: { fibra: 2, azucares: 0, sal: 0.15, agSat: 1 }, version: '1', importadoAt: 1,
 }
 
@@ -56,11 +56,11 @@ describe('snapshots de nutrientes adicionales', () => {
     expect(despues.meals).toEqual(antes.meals)
     expect(despues.foods).toEqual(antes.foods)
     expect(despues.foods[0].nutrientes).toEqual(catalogo.nutrientes)
-    expect(despues.version).toBe(2)
+    expect(despues.version).toBe(3)
   })
 
   it('alimentos/entradas anteriores y kcal rápidas siguen con los extras desconocidos', async () => {
-    const foodId = await foodsRepo.crear({ nombre: 'Antiguo', kcal100: 100, prot100: 5, carb100: 10, grasa100: 4, fuente: 'manual' })
+    const foodId = await foodsRepo.crear({ nombre: 'Antiguo', kcal100: 100, prot100: 5, carb100: 10, grasa100: 4, fuente: 'manual', categoria: 'Otros' })
     const id = await entriesRepo.anadirDesdeAlimento({ fecha: '2026-10-03', comida: 'cena', foodId, gramos: 100 })
     const rapido = await entriesRepo.anadirRapida({ fecha: '2026-10-03', comida: 'cena', nombre: 'Fuera', kcal: 100, prot: 0, carb: 0, grasa: 0 })
     expect((await db.entries.get(id!))?.nutrientes).toBeUndefined()

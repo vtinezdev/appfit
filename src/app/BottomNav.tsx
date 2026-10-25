@@ -1,36 +1,39 @@
-import { useId, useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import Icon from '../shared/components/Icon'
-import Button from '../shared/components/Button'
-import Sheet from '../shared/components/Sheet'
-import RuedaNavegacion from './RuedaNavegacion'
-import { DESTINOS, type Tab } from './navegacion'
+import { haptic } from '../shared/design/motion'
+import ArcoSecciones from './ArcoSecciones'
+import { DESTINOS, EN_ARCO, seccionDe, type Tab } from './navegacion'
 export type { Tab } from './navegacion'
 
 interface Props {
   tab: Tab
   onChange: (tab: Tab) => void
+  /** Destinos que no se muestran (Social sin cuenta configurada). */
+  ocultos?: readonly Tab[]
+  /** Lo que flota pegado encima del botón (el entreno minimizado). */
+  encima?: ReactNode
 }
 
-/** Un único botón con espacio propio; abre una rueda dentro de la capa compartida. */
-export default function BottomNav({ tab, onChange }: Props) {
-  const [abierto, setAbierto] = useState(false)
-  const menuId = useId()
-  const contextoId = useId()
-  const actual = DESTINOS.find((destino) => destino.key === tab)!
+const destino = (key: Tab) => DESTINOS.find((d) => d.key === key)!
+
+/**
+ * Navegación (ADR 043): un botón redondo flotante abajo al centro abre la media luna con Inicio · Perfil · Nutrición · Entreno · Social · Ajustes
+ * (Social solo con cuenta configurada). El resto de destinos se abre desde su sección, que queda marcada (`seccionDe`).
+ */
+export default function BottomNav({ tab, onChange, ocultos = [], encima }: Props) {
+  const [arco, setArco] = useState(false)
+  const actual = seccionDe(tab)
+  const enArco = EN_ARCO.filter((key) => !ocultos.includes(key)).map((key) => ({ ...destino(key), actual: actual === key }))
+
   return (
-    <nav aria-label="Navegación principal" className="safe-bottom z-40 shrink-0 bg-bg">
-      <div className="mx-auto flex h-nav max-w-lg items-center justify-center px-page">
-        <Button variant="secondary" size="lg" className="rounded-pill px-6" aria-label="Menú" aria-haspopup="dialog"
-          aria-expanded={abierto} aria-controls={menuId} aria-describedby={contextoId} data-nav-trigger
-          onClick={() => setAbierto(true)}>
-          <Icon name="menu" size={22} />
-          Menú
-        </Button>
-        <span id={contextoId} className="sr-only">Sección actual: {actual.label}</span>
-      </div>
-      <Sheet id={menuId} open={abierto} onClose={() => setAbierto(false)} title="Menú">
-        <RuedaNavegacion destinos={DESTINOS} actual={tab} onClose={() => setAbierto(false)} onElegir={(destino) => { setAbierto(false); onChange(destino) }} />
-      </Sheet>
+    <nav aria-label="Navegación principal" className="app-nav">
+      {encima && <div className="app-content mx-auto">{encima}</div>}
+      <button type="button" className="nav-boton app-button" aria-label="Secciones" aria-haspopup="dialog" aria-expanded={arco} data-nav-trigger
+        onClick={() => { haptic(); setArco(true) }}>
+        <Icon name="secciones" size={24} />
+      </button>
+      {/* Se navega en cuanto se elige, mientras la media luna se recoge. */}
+      <ArcoSecciones open={arco} destinos={enArco} onElegir={(key) => { haptic(); onChange(key) }} onClose={() => setArco(false)} />
     </nav>
   )
 }

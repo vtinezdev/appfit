@@ -4,10 +4,13 @@ import type { CatalogFood, Entry, Food } from '../../../shared/db/types'
 import { normalizeName } from '../../../shared/lib/text'
 import {
   aItemGuardado,
+  coherenciaEnergetica,
   actualizaAlimentoGuardado,
+  creaAlimentoNuevo,
   decidirGuardado,
   elegibleDeCatalogo,
   elegibleDeFood,
+  faltaCategoria,
   faltanValores,
   filtrarAlimentos,
   itemDeProductoIncompleto,
@@ -179,13 +182,13 @@ describe('AlimentoElegible', () => {
   it('un alimento propio conserva su id y sus valores', () => {
     expect(elegibleDeFood(PLATANO)).toEqual({ ref: { tipo: 'user', id: 7 }, nombre: 'Plátano', kcal100: 89, prot100: 1.1, carb100: 22.8, grasa100: 0.3 })
   })
-  it('uno del catálogo lleva su categoría como detalle', () => {
+  it('uno del catálogo lleva su categoría (sin detalle si no es de marca)', () => {
     const cf: CatalogFood = {
       id: 'ciqual:13005', fuente: 'ciqual', idExterno: '13005', nombre: 'Plátano, pulpa, crudo', nombreNorm: 'platano, pulpa, crudo', tok: [],
       tipo: 'generico', categoria: 'Frutas', kcal100: 90, prot100: 1.1, carb100: 20, grasa100: 0.2, version: '1', importadoAt: 0,
     }
     expect(elegibleDeCatalogo(cf)).toEqual({
-      ref: { tipo: 'catalog', id: 'ciqual:13005' }, nombre: 'Plátano, pulpa, crudo', detalle: 'Frutas', kcal100: 90, prot100: 1.1, carb100: 20, grasa100: 0.2,
+      ref: { tipo: 'catalog', id: 'ciqual:13005' }, nombre: 'Plátano, pulpa, crudo', categoria: 'Frutas', kcal100: 90, prot100: 1.1, carb100: 20, grasa100: 0.2,
     })
   })
 })
@@ -263,5 +266,92 @@ describe('producto escaneado incompleto', () => {
       kcal100: 46, prot100: 3, carb100: 5, grasa100: 1.6, version: 'live', importadoAt: 0,
     }
     expect(elegibleDeCatalogo(f).detalle).toBe('Pascual')
+  })
+})
+
+describe('categoría en la revisión', () => {
+  const POLLO_CAT: AlimentoElegible = { ref: { tipo: 'catalog', id: 'ciqual:36003' }, nombre: 'Pollo, pechuga', categoria: 'Carnes', kcal100: 120, prot100: 23, carb100: 0, grasa100: 2 }
+
+  it('un alimento propio con categoría la muestra como detalle y la pasa al ítem', () => {
+    const conCategoria = { ...PLATANO, categoria: 'Frutas' }
+    expect(elegibleDeFood(conCategoria)).toMatchObject({ categoria: 'Frutas' })
+    expect(itemDesdeElegible(elegibleDeFood(conCategoria), 100).categoria).toBe('Frutas')
+  })
+
+  it('del catálogo sin cambios o de un alimento guardado con su nombre: no crea alimento ni pide categoría', () => {
+    const delCatalogo = itemDesdeElegible(POLLO_CAT, 150)
+    expect(creaAlimentoNuevo(delCatalogo)).toBe(false)
+    const propio = itemDesdeElegible(elegibleDeFood(PLATANO), 120)
+    expect(creaAlimentoNuevo(propio)).toBe(false)
+    expect(faltaCategoria(propio)).toBe(false)
+    // Cambiar los valores de uno guardado lo actualiza: tampoco es nuevo.
+    expect(creaAlimentoNuevo({ ...propio, kcal100: 95 })).toBe(false)
+  })
+
+  it('del catálogo con cambios crea un alimento con la categoría heredada', () => {
+    const cambiado = { ...itemDesdeElegible(POLLO_CAT, 150), kcal100: 110 }
+    expect(creaAlimentoNuevo(cambiado)).toBe(true)
+    expect(faltaCategoria(cambiado)).toBe(false)
+    expect(aItemGuardado(cambiado)).toMatchObject({ categoria: 'Carnes' })
+    expect(aItemGuardado(cambiado).catalogId).toBeUndefined()
+  })
+
+  it('renombrar uno guardado, sin coincidencia o un producto incompleto: hay que elegirla', () => {
+    expect(faltaCategoria({ ...itemDesdeElegible(elegibleDeFood(PLATANO), 120), nombre: 'Plátano de Canarias' })).toBe(true)
+    const nuevo = itemSinCoincidencia('tortilla de patata', 150)
+    expect(faltaCategoria(nuevo)).toBe(true)
+    expect(faltaCategoria({ ...nuevo, categoria: 'No existe' })).toBe(true)
+    expect(faltaCategoria({ ...nuevo, categoria: 'Platos preparados' })).toBe(false)
+    expect(aItemGuardado({ ...nuevo, categoria: 'No existe' })).not.toHaveProperty('categoria')
+    expect(faltaCategoria(itemDeProductoIncompleto('Galletas', { kcal100: 480 }))).toBe(true)
+  })
+
+  it('un producto incompleto lleva la categoría que dio Open Food Facts, si es válida', () => {
+    expect(itemDeProductoIncompleto('Galletas', { kcal100: 480 }, 'Galletas, bollería y pasteles').categoria).toBe('Galletas, bollería y pasteles')
+    expect(itemDeProductoIncompleto('Galletas', { kcal100: 480 }, 'otra')).not.toHaveProperty('categoria')
+  })
+})
+
+describe('coherenciaEnergetica', () => {
+  const v = (kcal100: number, prot100: number, carb100: number, grasa100: number, fibra?: number) =>
+    ({ kcal100, prot100, carb100, grasa100, nutrientes: fibra === undefined ? undefined : { fibra } })
+
+  it('cuadra con 4·P + 4·C + 9·G: sin aviso', () => {
+    expect(coherenciaEnergetica(v(295, 10, 30, 15))).toBeNull()
+  })
+
+  it('descuadres pequeños (redondeo, fibra) no avisan', () => {
+    expect(coherenciaEnergetica(v(200, 10, 30, 6))).toBeNull() // 214: 7 %
+    expect(coherenciaEnergetica(v(100, 5, 20, 1))).toBeNull() // 109
+    expect(coherenciaEnergetica(v(20, 2, 8, 0.5))).toBeNull() // 44,5: 24,5 kcal, por debajo de 30
+  })
+
+  it('descuadres notorios avisan con las kcal esperadas redondeadas', () => {
+    expect(coherenciaEnergetica(v(200, 10, 30, 15))).toEqual({ esperadas: 295 })
+    expect(coherenciaEnergetica(v(450, 6, 50, 12))).toEqual({ esperadas: 332 })
+  })
+
+  it('hace falta superar a la vez 30 kcal y el 25 %', () => {
+    expect(coherenciaEnergetica(v(600, 30, 50, 22.5))).toBeNull() // 522,5: 77,5 kcal pero 13 %
+    expect(coherenciaEnergetica(v(40, 10, 10, 0))).toEqual({ esperadas: 80 }) // 40 kcal y 100 %
+    expect(coherenciaEnergetica(v(60, 10, 10, 0))).toBeNull() // 20 kcal
+  })
+
+  it('cuenta la fibra a 2 kcal/g si se conoce', () => {
+    expect(coherenciaEnergetica(v(180, 5, 20, 2))).toEqual({ esperadas: 118 })
+    expect(coherenciaEnergetica(v(180, 5, 20, 2, 30))).toBeNull() // 178
+  })
+
+  it('kcal olvidadas (0) con macros: avisa', () => {
+    expect(coherenciaEnergetica(v(0, 10, 30, 15))).toEqual({ esperadas: 295 })
+  })
+
+  it('sin macros (solo kcal, o todo a cero): no hay con qué comparar', () => {
+    expect(coherenciaEnergetica(v(250, 0, 0, 0))).toBeNull()
+    expect(coherenciaEnergetica(v(0, 0, 0, 0))).toBeNull()
+  })
+
+  it('bebidas con alcohol: el alcohol no se registra y avisan (el texto lo explica)', () => {
+    expect(coherenciaEnergetica(v(83, 0.1, 2.6, 0))).toEqual({ esperadas: 11 }) // vino tinto
   })
 })

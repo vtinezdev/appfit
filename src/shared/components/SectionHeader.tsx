@@ -16,7 +16,7 @@ export default function SectionHeader({ children, action, variant = 'label', ton
   if (variant === 'section') {
     return (
       <div className="flex items-center justify-between gap-2">
-        <h2 className={`text-title ${tone === 'destructive' ? 'text-destructive' : 'text-fg'}`}>{children}</h2>
+        <h2 className={`text-heading ${tone === 'destructive' ? 'text-destructive' : 'text-fg'}`}>{children}</h2>
         {action}
       </div>
     )

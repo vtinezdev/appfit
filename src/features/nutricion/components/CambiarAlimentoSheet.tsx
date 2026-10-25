@@ -1,3 +1,5 @@
+import FiltroCategoriaBusqueda from './FiltroCategoriaBusqueda'
+import { filtrarPorCategoria, type FiltroCategoria } from '../lib/repartoCategorias'
 import { useState } from 'react'
 import { SearchInput } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
@@ -16,10 +18,12 @@ interface Props {
 /** «Cambiar» un alimento de la revisión: otras opciones que encajaban y un buscador en tus alimentos y el catálogo. */
 export default function CambiarAlimentoSheet({ item, onElegir, onClose }: Props) {
   const [busqueda, setBusqueda] = useState('')
-  const alternativas = item?.origen.alternativas ?? []
+  const [categoria, setCategoria] = useState<FiltroCategoria>('todas')
+  const alternativas = filtrarPorCategoria(item?.origen.alternativas ?? [], categoria)
 
   function cerrar() {
     setBusqueda('')
+    setCategoria('todas')
     onClose()
   }
 
@@ -32,6 +36,7 @@ export default function CambiarAlimentoSheet({ item, onElegir, onClose }: Props)
           onChange={(e) => setBusqueda(e.target.value)}
           placeholder="Buscar otro alimento…"
         />
+        <FiltroCategoriaBusqueda valor={categoria} onChange={setCategoria} />
         {busqueda.trim() === '' && alternativas.length > 0 && (
           <div className="space-y-1">
             <SectionHeader variant="section">Otras opciones</SectionHeader>
@@ -44,7 +49,7 @@ export default function CambiarAlimentoSheet({ item, onElegir, onClose }: Props)
             />
           </div>
         )}
-        <ResultadosBusqueda
+        <ResultadosBusqueda categoria={categoria}
           busqueda={busqueda}
           onElegir={(a) => {
             setBusqueda('')

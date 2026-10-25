@@ -1,173 +1,122 @@
 import { useId, useState } from 'react'
 import Button, { IconButton } from '../../../shared/components/Button'
-import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
-import type { Entry } from '../../../shared/db/types'
+import Card from '../../../shared/components/Card'
+import { MACROS } from '../../../shared/design/macros'
+import type { Comida, Entry } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
-import { resumenMacros, sumMacros } from '../lib/nutrition'
+import { sumMacros } from '../lib/nutrition'
 import { nombreVisible } from '../lib/nombresCortos'
+import { categoriaDeEntrada } from '../lib/repartoCategorias'
+import IconoCategoria from './IconoCategoria'
+import FilaDeslizable from '../../../shared/components/FilaDeslizable'
 import { agruparPlatos, type Plato } from '../lib/platos'
+import { useDraggable, useDroppable } from '@dnd-kit/core'
+import { useListMotion } from '../../../shared/hooks/useListMotion'
+import CabeceraComida from './CabeceraComida'
+import RegistroComida from './RegistroComida'
+import AccionesPlatoSheet from './AccionesPlatoSheet'
 
 interface Props {
+  comida: Comida
   titulo: string
   entries: Entry[]
   onAcciones: () => void
   onEditar: (entry: Entry) => void
   onBorrar: (entry: Entry) => void
+  onCopiarEntrada: (entry: Entry) => void
   onBorrarPlato: (plato: Plato) => void
   onEditarPlato: (plato: Plato) => void
   onAccionesPlato: (plato: Plato) => void
+  onMoverPlato: (plato: Plato) => void
+  moviendo: boolean
   /** «Añadir a desayuno»: abre Añadir comida con esta comida preseleccionada. */
   onAnadir: () => void
-  /** Entradas de esa misma comida el día anterior: si hay, se ofrece repetirlas. */
-  disponiblesAyer: number
-  onRepetir: () => void
-  /** Hay una repetición en curso: bloquea los botones de repetir. */
-  ocupado: boolean
-  /** Esta comida es la que se está repitiendo (cambia el texto del botón). */
-  repitiendo: boolean
+  /** Abre la colección compartida de típicas con esta comida como destino. */
+  onTipicas: () => void
+  tipicasAbiertas?: boolean
+  tipicasId?: string
   nombresCortos: ReadonlyMap<string, string>
+  /** Categoría actual de cada alimento referenciado, por `claveRef` (ver `foodsRepo.categoriasDeEntradas`). */
+  categorias: ReadonlyMap<string, string>
 }
 
-/** «Kcal rápidas» (A5) no tiene gramos: se muestra solo con los macros que se hayan indicado. */
-function detalleEntry(e: Entry): string {
-  if (!e.rapida) {
-    return `${formatNumber(e.gramos, 1)} g`
-  }
-  const macros = ([
-    ['P', e.prot],
-    ['C', e.carb],
-    ['G', e.grasa],
-  ] as const)
-    .filter(([, valor]) => valor > 0)
-    .map(([letra, valor]) => `${letra}${formatInt(valor)}`)
-    .join(' ')
-  return `${macros ? `${macros} · ` : ''}rápida`
+/** Alimento suelto o ingrediente: deslizar ofrece Copiar y Borrar, accesibles también con teclado. */
+function FilaEntrada({ entry: e, nombreCorto, categorias, ingrediente = false, onEditar, onBorrar, onCopiarEntrada }: { entry: Entry; nombreCorto: string; ingrediente?: boolean } & Pick<Props, 'onEditar' | 'onBorrar' | 'onCopiarEntrada' | 'categorias'>) {
+  return <li data-entry-id={e.id}><FilaDeslizable etiqueta={`Borrar ${e.nombre}`} onBorrar={() => onBorrar(e)} accionCopiar={{ etiqueta: `Copiar ${e.nombre}`, onCopiar: () => onCopiarEntrada(e) }}>
+    <RegistroComida tipo={ingrediente ? 'ingrediente' : 'individual'} nombre={nombreCorto} nombreOriginal={e.nombre}
+      icono={<IconoCategoria categoria={categoriaDeEntrada(e, categorias)} sinCategoria="hueco" inicial={nombreCorto.trim().charAt(0)} />}
+      detalle={e.rapida ? 'Registro rápido' : `${formatNumber(e.gramos, 1)} g`} macros={e} aproximado={e.rapida} onClick={() => onEditar(e)} accion={null} />
+  </FilaDeslizable></li>
 }
 
-function FilaEntrada({ entry: e, nombreCorto, onEditar, onBorrar }: { entry: Entry; nombreCorto: string } & Pick<Props, 'onEditar' | 'onBorrar'>) {
-  return (
-    <li className="flex items-center gap-1">
-      <button
-        type="button"
-        onClick={() => onEditar(e)}
-        className="-mx-2 flex min-h-touch min-w-0 flex-1 items-center gap-3 rounded-md px-2 py-2 text-left transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted"
-      >
-        <span className="min-w-0 flex-1">
-          <span className="block break-words text-body font-medium text-fg" title={e.nombre}>{nombreCorto}</span>
-          <span className="tabular block text-caption text-fg-muted">{detalleEntry(e)}</span>
-        </span>
-        <span className="tabular shrink-0 text-body font-semibold text-fg">
-          {e.rapida ? '≈ ' : ''}
-          {formatInt(e.kcal)}
-        </span>
-      </button>
-      <IconButton icon="trash" label={`Borrar ${e.nombre}`} variant="ghost" size="sm" onClick={() => onBorrar(e)} />
-    </li>
-  )
-}
-
-function FilaPlato({ plato, nombresCortos, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'onEditar' | 'onBorrar' | 'onBorrarPlato' | 'onEditarPlato' | 'onAccionesPlato'>) {
+function FilaPlato({ plato, nombresCortos, categorias, onEditar, onBorrar, onCopiarEntrada, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo }: { plato: Plato; nombresCortos: ReadonlyMap<string, string> } & Pick<Props, 'categorias' | 'onEditar' | 'onBorrar' | 'onCopiarEntrada' | 'onBorrarPlato' | 'onEditarPlato' | 'onAccionesPlato' | 'onMoverPlato' | 'moviendo'>) {
   const [abierto, setAbierto] = useState(false)
+  const [acciones, setAcciones] = useState(false)
+  const { attributes, listeners, setNodeRef, setActivatorNodeRef, isDragging } = useDraggable({ id: plato.clave, data: { plato }, disabled: moviendo })
   const detalleId = useId()
+  const accionesId = useId()
   const totales = sumMacros(plato.entries)
   return (
-    <li>
-      <Card padded={false} className="overflow-hidden">
-        <div className="flex items-center gap-1 px-3 py-1">
-          <button
-            type="button"
-            aria-expanded={abierto}
-            aria-controls={detalleId}
-            onClick={() => setAbierto(!abierto)}
-            className="-mx-2 flex min-h-touch min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-3 text-left transition-colors duration-short hover:bg-surface-muted active:bg-surface-muted"
-          >
-            <Icon name="chevron-right" size={16} className={`text-fg-muted transition-transform duration-short ${abierto ? 'rotate-90' : ''}`} />
-            <span className="min-w-0 flex-1">
-              <span className="line-clamp-2 block text-body font-semibold text-fg" title={plato.nombre}>{plato.nombre}</span>
-              <span className="block text-caption text-fg-muted">
-                {formatInt(plato.entries.length)} {plato.entries.length === 1 ? 'alimento' : 'alimentos'} · {abierto ? 'Ocultar ingredientes' : 'Ver ingredientes'}
-              </span>
-              <span className="tabular block text-caption text-fg-muted">{resumenMacros(totales)}</span>
-            </span>
-            <span className="tabular shrink-0 text-body font-semibold text-fg">
-              {plato.entries.some((e) => e.rapida) ? '≈ ' : ''}
-              {formatInt(totales.kcal)}
-            </span>
-          </button>
-          <IconButton icon="trash" label={`Borrar plato ${plato.nombre}`} variant="ghost" size="sm" onClick={() => onBorrarPlato(plato)} />
-        </div>
-        <ul id={detalleId} hidden={!abierto} aria-label={`Ingredientes de ${plato.nombre}`} className="divide-y divide-line border-t border-line bg-surface px-3 py-2">
+    <li ref={setNodeRef} data-motion-id={plato.clave} data-plato-id={plato.entries[0].platoId} className={isDragging ? 'opacity-40' : ''}>
+      <RegistroComida tipo="plato" nombre={plato.nombre} detalle={`${formatInt(plato.entries.length)} ${plato.entries.length === 1 ? 'ingrediente' : 'ingredientes'}`}
+        macros={totales} aproximado={plato.entries.some(e => e.rapida)} abierto={abierto} detalleId={detalleId} onClick={() => setAbierto(!abierto)}
+        accion={<IconButton icon="more" label={`Acciones del plato ${plato.nombre}`} variant="ghost" size="sm" disabled={moviendo}
+          data-mover-plato={plato.entries[0].platoId} aria-haspopup="dialog" aria-expanded={acciones} aria-controls={accionesId} onClick={() => setAcciones(true)} />}>
+        <div id={detalleId} hidden={!abierto} className="border-t border-line">
+        <ul aria-label={`Ingredientes de ${plato.nombre}`} className="divide-y divide-line px-1">
           {plato.entries.map((e) => (
-            <FilaEntrada key={e.id} entry={e} nombreCorto={nombreVisible(e, nombresCortos)} onEditar={onEditar} onBorrar={onBorrar} />
+            <FilaEntrada key={e.id} entry={e} ingrediente nombreCorto={nombreVisible(e, nombresCortos)} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} onCopiarEntrada={onCopiarEntrada} />
           ))}
         </ul>
-        <div className="flex flex-wrap gap-1 border-t border-line px-3 py-1">
-          <Button variant="ghost" size="sm" aria-label={`Editar plato ${plato.nombre}`} onClick={() => onEditarPlato(plato)}>
-            <Icon name="pencil" size={16} />
-            Editar plato
-          </Button>
-          <Button variant="ghost" size="sm" aria-label={`Copiar plato ${plato.nombre}`} onClick={() => onAccionesPlato(plato)}>
-            <Icon name="copy" size={16} />
-            Copiar plato
-          </Button>
+        <div className="flex items-center gap-1 border-t border-line px-2 py-1">
+          <IconButton ref={setActivatorNodeRef} {...attributes} {...listeners} icon="grip" variant="ghost"
+            label={`Arrastrar plato ${plato.nombre}`} className="touch-none cursor-grab active:cursor-grabbing" disabled={moviendo} />
+          <span className="text-caption text-fg-muted">Arrastrar para mover</span>
         </div>
-      </Card>
+        </div>
+      </RegistroComida>
+      <AccionesPlatoSheet id={accionesId} open={acciones} nombre={plato.nombre} ocupado={moviendo} onClose={() => setAcciones(false)}
+        onAnadir={() => onEditarPlato(plato)} onMover={() => onMoverPlato(plato)} onCopiar={() => onAccionesPlato(plato)} onBorrar={() => onBorrarPlato(plato)} />
     </li>
   )
 }
 
-/** Sección por comida; cada guardado múltiple tiene su propio bloque desplegable, sin duplicar macros. */
-export default function ComidaSection({ titulo, entries, nombresCortos, onAcciones, onEditar, onBorrar, onBorrarPlato, onEditarPlato, onAccionesPlato, onAnadir, disponiblesAyer, onRepetir, ocupado, repitiendo }: Props) {
+/** Platos y entradas sueltas comparten fila; solo los ingredientes se subordinan al desplegar. */
+export default function ComidaSection({ comida, titulo, entries, nombresCortos, categorias, onAcciones, onEditar, onBorrar, onCopiarEntrada, onBorrarPlato, onEditarPlato, onAccionesPlato, onMoverPlato, moviendo, onAnadir, onTipicas, tipicasAbiertas = false, tipicasId }: Props) {
+  const { setNodeRef, isOver, active } = useDroppable({ id: `comida:${comida}`, data: { comida }, disabled: moviendo })
+  const listRef = useListMotion<HTMLUListElement>(entries.map(e => e.id).join(','))
+  const recibe = isOver && active?.data.current?.plato?.entries[0].comida !== comida
   const totales = sumMacros(entries)
   const hayEntradas = entries.length > 0
-  const repetir = disponiblesAyer > 0 && (
-    <Button variant="ghost" size="sm" onClick={onRepetir} disabled={ocupado}>
-      <Icon name="copy" size={16} />
-      {repitiendo ? 'Repitiendo…' : `Repetir del día anterior (${disponiblesAyer})`}
-    </Button>
-  )
+  const comidaMinus = titulo.toLowerCase()
+  const anadir = <Button variant="subtle" size="sm" className="meal-add bg-surface-muted" aria-label={`Añadir a ${comidaMinus}`} onClick={onAnadir}><Icon name="plus" size={18} />Añadir</Button>
+  const tipicas = <Button variant="subtle" size="sm" className="ml-auto" onClick={onTipicas} aria-haspopup="dialog" aria-expanded={tipicasAbiertas} aria-controls={tipicasAbiertas ? tipicasId : undefined} aria-label={`Comidas típicas de ${comidaMinus}`}>
+    Típicas<Icon name="chevron-down" size={16} />
+  </Button>
   return (
-    <section aria-label={titulo} className="border-t border-line pt-2">
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="text-title text-fg">{titulo}</h2>
-        <div className="flex items-center gap-1">
-          {hayEntradas ? (
-            <span className="tabular text-title text-fg">
-              {formatInt(totales.kcal)} <span className="text-body-sm font-normal text-fg-muted">kcal</span>
-            </span>
-          ) : (
-            <Button variant="ghost" size="sm" onClick={onAnadir}>
-              <Icon name="plus" size={16} />
-              Añadir
-            </Button>
-          )}
-          <IconButton icon="more" label={`Acciones de ${titulo}`} variant="ghost" size="sm" onClick={onAcciones} />
-        </div>
-      </div>
-      {hayEntradas && (
-        <>
-          <ul className="mt-3 space-y-stack">
+    <section ref={setNodeRef} aria-label={titulo} data-comida={comida} data-drop-active={recibe || undefined} className="meal-section rounded-lg">
+      <Card padded={false} className="meal-card">
+        <CabeceraComida comida={comida} titulo={titulo} kcal={totales.kcal} registros={entries.length} onAcciones={onAcciones} />
+        {hayEntradas ? <>
+          <ul ref={listRef} className="divide-y divide-line px-1">
             {agruparPlatos(entries, (entry) => nombreVisible(entry, nombresCortos)).map((plato) =>
               plato.agrupado ? (
-                <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} onEditar={onEditar} onBorrar={onBorrar} onBorrarPlato={onBorrarPlato} onEditarPlato={onEditarPlato} onAccionesPlato={onAccionesPlato} />
+                <FilaPlato key={plato.clave} plato={plato} nombresCortos={nombresCortos} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} onCopiarEntrada={onCopiarEntrada} onBorrarPlato={onBorrarPlato} onEditarPlato={onEditarPlato} onAccionesPlato={onAccionesPlato} onMoverPlato={onMoverPlato} moviendo={moviendo} />
               ) : (
-                <FilaEntrada key={plato.clave} entry={plato.entries[0]} nombreCorto={nombreVisible(plato.entries[0], nombresCortos)} onEditar={onEditar} onBorrar={onBorrar} />
+                <FilaEntrada key={plato.clave} entry={plato.entries[0]} nombreCorto={nombreVisible(plato.entries[0], nombresCortos)} categorias={categorias} onEditar={onEditar} onBorrar={onBorrar} onCopiarEntrada={onCopiarEntrada} />
               ),
             )}
           </ul>
-          <div className="mt-3 border-t border-line">
-            <div className="-ml-4 flex flex-wrap items-center gap-x-1">
-              <Button variant="ghost" size="sm" onClick={onAnadir}>
-                <Icon name="plus" size={16} />
-                Añadir a {titulo.toLowerCase()}
-              </Button>
-              {repetir}
-            </div>
-          </div>
-        </>
-      )}
-      {!hayEntradas && disponiblesAyer > 0 && <div className="-ml-4">{repetir}</div>}
+          <dl aria-label={`Macros de ${comidaMinus}`} className="meal-macros flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 pb-3 pt-2">
+            {[{ macro: MACROS.prot, valor: totales.prot }, { macro: MACROS.carbs, valor: totales.carb }, { macro: MACROS.fat, valor: totales.grasa }].map(({ macro, valor }) => <div key={macro.short} className="flex min-w-0 flex-wrap items-baseline gap-x-1 text-caption">
+              <dt className="flex items-center gap-1"><span aria-hidden className={`h-1 w-1 shrink-0 rounded-pill ${macro.bg}`} /><span className="sr-only">{macro.label}</span><span aria-hidden className="font-semibold text-fg-muted">{macro.short}</span></dt>
+              <dd className="tabular min-w-0 break-words font-semibold text-fg">{formatInt(valor)} <span className="font-normal text-fg-muted">g</span></dd>
+            </div>)}
+          </dl>
+        </> : <p className="px-4 py-3 text-caption text-fg-muted">Sin alimentos todavía.</p>}
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-3 py-2">{anadir}{tipicas}</div>
+      </Card>
     </section>
   )
 }

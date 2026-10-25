@@ -1,27 +1,30 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
-import Button from '../../../shared/components/Button'
 import ResumenNutricional from './ResumenNutricional'
 import NutrientesDetalle from './NutrientesDetalle'
 
 const objetivos = { kcal: 2200, prot: 150, carb: 220, grasa: 70 }
 const totales = { kcal: 113, prot: 6, carb: 9, grasa: 6 }
 
-describe('ResumenNutricional: panel diario compartido', () => {
-  it('agrupa kcal y macros en una superficie con borde, radio y padding', () => {
+describe('ResumenNutricional: diario compacto', () => {
+  it('conserva calorías, diferencia y cuatro barras con nombres accesibles', () => {
     const html = renderToStaticMarkup(<ResumenNutricional totales={totales} objetivos={objetivos} />)
-    expect(html).toContain('<section aria-label="Resumen del día"><div class="rounded-lg border border-line bg-surface p-card space-y-4">')
+    expect(html).toContain('<section aria-label="Resumen del día">')
     expect(html).toContain('Quedan 2.087 kcal')
+    expect(html).toContain('>Quedan</p>')
+    expect(html).toContain('>2.087</span>')
     expect(html.match(/role="progressbar"/g)).toHaveLength(4)
     for (const label of ['Calorías', 'Proteína', 'Carbohidratos', 'Grasa']) expect(html).toContain(`aria-label="${label}"`)
     expect(html).not.toContain('data-surface="inverse"')
+    for (const nombre of ['Proteína', 'Hidratos', 'Grasa']) expect(html).toContain(`>${nombre}</p>`)
+    expect(html).toContain('>113</span>')
+    expect(html).toContain('Objetivo 2.200 kcal')
   })
 
-  it('mantiene Ver día en la cabecera de Inicio y el título accesible', () => {
-    const html = renderToStaticMarkup(<ResumenNutricional titulo="Resumen de hoy" totales={totales} objetivos={objetivos} accion={<Button onClick={() => {}}>Ver día</Button>} />)
+  it('el título es solo el nombre accesible de la sección', () => {
+    const html = renderToStaticMarkup(<ResumenNutricional titulo="Resumen de hoy" totales={totales} objetivos={objetivos} />)
     expect(html).toContain('aria-label="Resumen de hoy"')
-    expect(html).toContain('Nutrición · hoy')
-    expect(html).toContain('Ver día</button>')
+    expect(html).not.toContain('<h2')
   })
 
   it('incluye el desglose opcional dentro de la misma tarjeta y conserva los valores desconocidos', () => {
@@ -29,7 +32,9 @@ describe('ResumenNutricional: panel diario compartido', () => {
     expect(html).toContain('aria-label="Desglose del día"')
     expect(html).toContain('Parcial · 1 de 2 alimentos')
     expect(html).toContain('Sin datos')
-    expect(html).toContain('</section></div></section>')
+    expect(html).toContain('Ver detalle nutricional')
+    expect(html).toContain('aria-expanded="false"')
+    expect(html).toContain('hidden=""')
   })
 
   it('conserva el exceso en texto y en las barras, sin tratarlo como error', () => {
@@ -44,7 +49,7 @@ describe('ResumenNutricional: panel diario compartido', () => {
     const html = renderToStaticMarkup(<ResumenNutricional totales={{ kcal: 0, prot: 0, carb: 0, grasa: 0 }} objetivos={{ kcal: 0, prot: 0, carb: 0, grasa: 0 }} />)
     expect(html.match(/aria-valuenow="0"/g)).toHaveLength(4)
     expect(html).not.toContain('Quedan')
-    expect(html).not.toContain('de <strong')
+    expect(html).not.toContain(' / ')
     expect(html).not.toContain('Desglose del día')
   })
 })

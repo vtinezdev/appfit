@@ -52,3 +52,16 @@ export function tokensConsulta(q: string): string[] {
   const utiles = tokens.filter((t) => !PALABRAS_VACIAS.has(t))
   return [...new Set((utiles.length > 0 ? utiles : tokens).map(singular))]
 }
+
+/**
+ * Monograma de una persona o una comunidad: las iniciales de las dos primeras palabras («Laura Gómez» → «LG»,
+ * «pablo_gym» → «PG», «Madrugadores de Valencia» → «MV») o las dos primeras letras si solo hay una («jon» → «JO»).
+ * Sin «@», signos ni palabras vacías.
+ */
+export function iniciales(texto: string): string {
+  const todas = texto.replace(/^@/, '').split(/[\s._-]+/u).map((p) => p.replace(/[^\p{L}\p{N}]/gu, '')).filter(Boolean)
+  const llenas = todas.filter((p) => !PALABRAS_VACIAS.has(normalizeName(p)))
+  const palabras = llenas.length > 0 ? llenas : todas
+  const letras = palabras.length >= 2 ? [...palabras[0]][0] + [...palabras[1]][0] : [...(palabras[0] ?? '')].slice(0, 2).join('')
+  return letras.toLocaleUpperCase('es') || '?'
+}

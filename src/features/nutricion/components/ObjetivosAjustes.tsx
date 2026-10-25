@@ -2,15 +2,22 @@ import { useState } from 'react'
 import Button from '../../../shared/components/Button'
 import Disclosure from '../../../shared/components/Disclosure'
 import { Input } from '../../../shared/components/Input'
-import SectionHeader from '../../../shared/components/SectionHeader'
 import type { Objetivos } from '../../../shared/db/types'
 import { MACROS } from '../../../shared/design/macros'
-import { formatInt } from '../../../shared/lib/format'
+import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { distribucionPCG } from '../lib/nutrition'
+import { reajustarConProteinaFija, type AjusteProteina } from '../../perfil/lib/proteina'
+
 import { cuadrarObjetivos, kcalDeMacros, objetivosCuadran, reajustarObjetivos } from '../lib/objetivos'
 
 interface Props {
+  /** Objetivos vigentes: los de Ajustes, o los derivados del Perfil cuando este manda. */
   objetivos: Objetivos
+  /** `perfil`: las kcal se calculan en Perfil y aquí son de solo lectura; los macros siguen editables. */
+  origen?: 'perfil' | 'manual'
+  onIrAPerfil?: () => void
+  /** Proteína calculada con g/kg × peso en Perfil: el campo es de solo lectura y los demás la respetan. */
+  proteinaPorKg?: AjusteProteina
   onGuardar: (objetivos: Objetivos) => void
 }
 
@@ -28,26 +35,49 @@ type Edicion = { campo: keyof Objetivos; texto: string; base: Objetivos }
  * Objetivos diarios siempre cuadrados (4·P + 4·C + 9·G = kcal): al cambiar las kcal los macros conservan su reparto;
  * al cambiar un macro, los otros dos se ajustan a lo que queda. Junto a cada macro, su % de las kcal.
  */
-export default function ObjetivosAjustes({ objetivos, onGuardar }: Props) {
+export default function ObjetivosAjustes({ objetivos, origen = 'manual', onIrAPerfil, proteinaPorKg, onGuardar }: Props) {
+  const reajustar = (base: Objetivos, campo: keyof Objetivos, valor: number) => proteinaPorKg && campo !== 'prot' ? reajustarConProteinaFija(base, campo, valor) : reajustarObjetivos(base, campo, valor)
+  const kcalDePerfil = origen === 'perfil'
   const [edicion, setEdicion] = useState<Edicion | null>(null)
-  const mostrados = edicion && edicion.texto !== '' ? reajustarObjetivos(edicion.base, edicion.campo, Number(edicion.texto)) : objetivos
+  const mostrados = edicion && edicion.texto !== '' ? reajustar(edicion.base, edicion.campo, Number(edicion.texto)) : objetivos
   const dist = distribucionPCG(mostrados)
   const descuadrados = !edicion && !objetivosCuadran(objetivos)
 
   function teclear(campo: keyof Objetivos, texto: string, base: Objetivos) {
     setEdicion({ campo, texto, base })
     // Un campo vacío a medio teclear no se guarda: al salir del campo se queda lo que había.
-    if (texto !== '') onGuardar(reajustarObjetivos(base, campo, Number(texto)))
+    if (texto !== '') onGuardar(reajustar(base, campo, Number(texto)))
   }
 
   return (
     <section aria-label="Objetivos diarios" className="space-y-stack">
-      <SectionHeader variant="section">Objetivos diarios</SectionHeader>
       <div className="space-y-3">
-      {CAMPOS.map(({ campo, label, macro }) => (
-        <label key={campo} className="flex items-center justify-between gap-3">
+      {CAMPOS.map(({ campo, label, macro }) => kcalDePerfil && campo === 'kcal' ? (
+        <div key={campo} className="space-y-1">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-body-sm font-medium text-fg">{label}</span>
+            <span className="tabular text-body font-semibold text-fg">{formatInt(mostrados.kcal)}</span>
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-caption text-fg-muted">Calculado en Perfil</p>
+            {onIrAPerfil && <Button variant="ghost" size="sm" className="shrink-0" onClick={onIrAPerfil}>Ir a Perfil</Button>}
+          </div>
+        </div>
+      ) : proteinaPorKg && campo === 'prot' ? (
+        <div key={campo} className="space-y-1">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-body-sm font-medium text-fg">{label}</span>
+            <span className="tabular text-body font-semibold text-fg">{formatInt(mostrados.prot)}</span>
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-caption text-fg-muted">{formatNumber(proteinaPorKg.gPorKg, 1)} g/kg × {formatNumber(proteinaPorKg.pesoKg, 1)} kg · calculada en Perfil</p>
+            {onIrAPerfil && <Button variant="ghost" size="sm" className="shrink-0" onClick={onIrAPerfil}>Ir a Perfil</Button>}
+          </div>
+        </div>
+      ) : (
+        <label key={campo} className="flex flex-wrap items-center justify-between gap-3">
           <span className="text-body-sm font-medium text-fg">{label}</span>
-          <span className="flex items-center gap-3">
+          <span className="flex max-w-full flex-wrap items-center gap-3">
             {campo !== 'kcal' && (
               <span className="tabular flex w-12 items-center justify-end gap-1 text-caption text-fg-muted"><span aria-hidden className={`h-1.5 w-1.5 shrink-0 rounded-pill ${macro.bg}`} />{dist[campo]} %</span>
             )}
@@ -71,13 +101,13 @@ export default function ObjetivosAjustes({ objetivos, onGuardar }: Props) {
           <p className="text-caption text-fg-subtle">
             Los macros suman {formatInt(kcalDeMacros(objetivos))} kcal, no {formatInt(objetivos.kcal)}.
           </p>
-          <Button variant="ghost" size="sm" onClick={() => onGuardar(cuadrarObjetivos(objetivos))}>
+          <Button variant="ghost" size="sm" className="shrink-0" onClick={() => onGuardar(cuadrarObjetivos(objetivos))}>
             Cuadrar
           </Button>
         </div>
       ) : (
         <Disclosure title="Cómo se ajustan los objetivos"><p className="text-body-sm text-fg-muted">
-          Si cambias las calorías, los macros mantienen su reparto. Si cambias un macro, los otros dos se ajustan para seguir sumando las mismas calorías.
+          {kcalDePerfil ? 'Las calorías salen de tu Perfil. Si cambias un macro, los otros dos se ajustan para seguir sumando las mismas calorías.' : 'Si cambias las calorías, los macros mantienen su reparto. Si cambias un macro, los otros dos se ajustan para seguir sumando las mismas calorías.'}
         </p></Disclosure>
       )}
       </div>

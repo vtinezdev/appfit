@@ -21,7 +21,7 @@ async function main() {
       await route.continue()
     })
     await page.goto('http://appfit-test.localhost:5173')
-    await page.getByRole('heading', { name: /Buenos|Buenas/ }).waitFor()
+    await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
     await page.evaluate(() => {
       window.actualizacionTipicos = import('/src/features/nutricion/lib/catalogo/sincronizar.ts').then(m => m.sincronizarCatalogo())
     })

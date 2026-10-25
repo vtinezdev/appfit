@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Button from '../../../shared/components/Button'
-import Disclosure from '../../../shared/components/Disclosure'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
-import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import * as catalogRepo from '../data/catalogRepo'
 import { sincronizarCatalogo } from '../lib/catalogo/sincronizar'
@@ -50,8 +48,7 @@ export default function CatalogoAjustes() {
 
   return (
     <section aria-label="Catálogo de alimentos" className="space-y-stack">
-      <SectionHeader variant="section">Catálogo de alimentos</SectionHeader>
-      <Disclosure title="Fuentes, licencias y mantenimiento"><div className="space-y-3">
+      <div className="space-y-3">
 
       {fuentes === undefined ? (
         <LoadingState />
@@ -59,7 +56,7 @@ export default function CatalogoAjustes() {
         <EmptyState>
           <span className="block text-body-sm text-fg-muted">Sin descargar</span>
           <span className="block text-caption">
-            Se descarga solo al abrir la app con conexión. Pulsa «Buscar actualización» para hacerlo ahora.
+            Se descarga solo al abrir la app con conexión.
           </span>
         </EmptyState>
       ) : (
@@ -92,14 +89,14 @@ export default function CatalogoAjustes() {
         </div>
       ) : (
         <ConfirmacionDestructiva
-          mensaje="¿Borrar el catálogo? No afecta a tus alimentos, comidas ni plantillas. Se volverá a descargar al abrir la app con conexión; los productos escaneados se volverán a consultar al escanearlos."
+          mensaje="¿Borrar el catálogo? No afecta a tus alimentos, registros ni comidas típicas. Se volverá a descargar al abrir la app con conexión; los productos escaneados se volverán a consultar al escanearlos."
           confirmar="Sí, borrar"
           onConfirmar={borrar}
           onCancelar={() => setConfirmandoBorrado(false)}
           ocupado={borrando}
         />
       )}
-      </div></Disclosure>
+      </div>
     </section>
   )
 }

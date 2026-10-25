@@ -1,0 +1,102 @@
+import type { ReactNode } from 'react'
+import Card from '../../../shared/components/Card'
+import Icon from '../../../shared/components/Icon'
+import type { Objetivos } from '../../../shared/db/types'
+import { MACROS } from '../../../shared/design/macros'
+import { formatInt } from '../../../shared/lib/format'
+import { restoKcal, type Macros } from '../../nutricion/lib/nutrition'
+import { anilloEnergia, type TipoTramo } from '../lib/anilloEnergia'
+
+interface Props {
+  totales: Macros
+  objetivos: Objetivos
+  /** Abre el día en Nutrición. */
+  onAbrir: () => void
+  /** Acciones al pie (registrar), hermanas del botón de la tarjeta, nunca dentro. */
+  pie?: ReactNode
+}
+
+/** Geometría del SVG (viewBox 120): anillo exterior de consumo y anillo interior fino para la segunda vuelta. */
+const R = 52
+const GROSOR = 12
+/** Lo que falta va en un carril más fino que lo consumido: el negro sigue ahí, pero mandan los colores de P/C/G. */
+const GROSOR_RESTO = 6
+const R_VUELTA = 40
+const GROSOR_VUELTA = 5
+const CIRC = 2 * Math.PI * R
+const CIRC_VUELTA = 2 * Math.PI * R_VUELTA
+/** Separación entre tramos contiguos, en unidades del viewBox. */
+const HUECO = 1.5
+
+const TRAZO: Record<TipoTramo, string> = { prot: 'stroke-protein', carbs: 'stroke-carbs', fat: 'stroke-fat', otros: 'stroke-kcal' }
+const MACROS_HOY = [
+  { key: 'prot', nombre: MACROS.prot.label, valor: (t: Macros) => t.prot, objetivo: (o: Objetivos) => o.prot },
+  { key: 'carbs', nombre: 'Hidratos', valor: (t: Macros) => t.carb, objetivo: (o: Objetivos) => o.carb },
+  { key: 'fat', nombre: MACROS.fat.label, valor: (t: Macros) => t.grasa, objetivo: (o: Objetivos) => o.grasa },
+] as const
+
+/**
+ * Energía del día en Inicio: la cifra consumida manda en grande dentro de la rueda (lo consumido en los colores de P/C/G,
+ * proporcional a sus kcal, y lo que falta en negro sobre un carril más fino; si te pasas, el exceso da una segunda vuelta
+ * por dentro). Al lado, lo que queda como segunda cifra; debajo, cada macro frente a su objetivo. Toda la tarjeta abre el día.
+ */
+export default function TarjetaEnergia({ totales, objetivos, onAbrir, pie }: Props) {
+  const { tramos, vuelta } = anilloEnergia(totales, objetivos.kcal)
+  const meta = Math.round(objetivos.kcal)
+  const resto = restoKcal(totales.kcal, objetivos.kcal)
+  const hueco = tramos.length > 1 ? HUECO : 0
+
+  return (
+    <Card padded={false} className="energia-card">
+      <button type="button" onClick={onAbrir} className="flex w-full flex-col gap-4 rounded-lg p-card text-left">
+        <span className="flex w-full items-center gap-2">
+          <span className="min-w-0 flex-1 text-rotulo text-fg-muted">Energía</span>
+          <Icon name="chevron-right" size={18} className="text-fg-subtle" />
+        </span>
+        <span className="energia-cuerpo flex w-full flex-wrap items-center gap-5">
+          <span className="energia-anillo relative block shrink-0">
+            <svg viewBox="0 0 120 120" className="block aspect-square w-full -rotate-90" aria-hidden="true" fill="none">
+              <circle cx="60" cy="60" r={R} strokeWidth={GROSOR_RESTO} className="stroke-kcal-rest" />
+              {tramos.map((t) => (
+                <circle key={t.tipo} cx="60" cy="60" r={R} strokeWidth={GROSOR} className={TRAZO[t.tipo]}
+                  strokeDasharray={`${Math.max(t.largo * CIRC - hueco, 0)} ${CIRC}`} strokeDashoffset={-t.inicio * CIRC} />
+              ))}
+              {vuelta > 0 && <>
+                <circle cx="60" cy="60" r={R_VUELTA} strokeWidth={GROSOR_VUELTA} className="stroke-surface-muted" />
+                <circle cx="60" cy="60" r={R_VUELTA} strokeWidth={GROSOR_VUELTA} strokeLinecap="round" className="stroke-kcal"
+                  strokeDasharray={`${vuelta * CIRC_VUELTA} ${CIRC_VUELTA}`} />
+              </>}
+            </svg>
+            <span className="energia-cifra absolute inset-0 flex flex-col items-center justify-center">
+              <span className="tabular font-numeric text-hero text-fg">{formatInt(totales.kcal)}</span>
+              <span className="text-caption text-fg-muted">kcal</span>
+            </span>
+          </span>
+          <span className="energia-texto flex min-w-0 flex-1 basis-28 flex-col gap-1">
+            {resto && <>
+              <span className="text-body-sm text-fg-muted">{resto.rotulo}</span>
+              {resto.kcal !== null && <span className="tabular flex flex-wrap items-baseline gap-x-1">
+                <span className="font-numeric text-metric text-fg">{formatInt(resto.kcal)}</span><span className="text-body-sm text-fg-muted">kcal</span>
+              </span>}
+            </>}
+            {meta > 0 && <span className="tabular text-body-sm text-fg-muted">de <strong className="font-semibold text-fg">{formatInt(meta)}</strong> kcal</span>}
+          </span>
+        </span>
+        <span className="flex w-full flex-col gap-2">
+          {MACROS_HOY.map((m) => {
+            const v = Math.round(m.valor(totales)), g = Math.round(m.objetivo(objetivos))
+            return (
+              <span key={m.key} className="macro-fila tabular text-body-sm">
+                <span className="min-w-0 text-fg-muted">{m.nombre}</span>
+                {/* Barrita decorativa: las cifras de al lado ya dicen lo mismo en texto. */}
+                <span aria-hidden="true" className="macro-fila-carril">{g > 0 && <span className={`macro-fila-relleno ${MACROS[m.key].bg}`} style={{ width: `${Math.min(v / g, 1) * 100}%` }} />}</span>
+                <span className="text-right text-fg"><strong className="font-semibold">{formatInt(v)}</strong>{g > 0 && <span className="text-fg-muted">/{formatInt(g)}</span>} g</span>
+              </span>
+            )
+          })}
+        </span>
+      </button>
+      {pie}
+    </Card>
+  )
+}

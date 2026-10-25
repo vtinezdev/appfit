@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { camposDeRef, catalogId, claveRef, normalizarGtin, refDe } from './foodRef'
+import { camposDeRef, catalogId, claveRef, normalizarGtin, refDe, refDeClave } from './foodRef'
 
 describe('refDe / camposDeRef', () => {
   it('distingue alimento del usuario, del catálogo y rápida', () => {
@@ -48,5 +48,14 @@ describe('claveRef', () => {
     expect(claveRef({ tipo: 'user', id: 3 })).toBe('user:3')
     expect(claveRef({ tipo: 'catalog', id: 'ciqual:3' })).toBe('catalog:ciqual:3')
     expect(claveRef({ tipo: 'user', id: 3 })).not.toBe(claveRef({ tipo: 'catalog', id: '3' }))
+  })
+})
+
+describe('refDeClave', () => {
+  it('es la inversa de claveRef', () => {
+    for (const ref of [{ tipo: 'user', id: 3 }, { tipo: 'catalog', id: 'ciqual:1000' }] as const) expect(refDeClave(claveRef(ref))).toEqual(ref)
+  })
+  it('rechaza claves inválidas', () => {
+    for (const c of ['', 'user:', 'user:abc', 'catalog:', 'otro:1']) expect(refDeClave(c)).toBeUndefined()
   })
 })

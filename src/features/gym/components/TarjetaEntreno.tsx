@@ -3,6 +3,7 @@ import Button from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
 import Metric from '../../../shared/components/Metric'
+import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState } from '../../../shared/components/StateMessage'
 import { formatInt } from '../../../shared/lib/format'
 import * as setsRepo from '../data/setsRepo'
@@ -10,14 +11,14 @@ import * as workoutsRepo from '../data/workoutsRepo'
 import { formatHora, resumenUltimoEntreno } from '../lib/workout'
 
 interface Props {
-  /** Lleva a Entreno (Inicio). Sin él no hay acción (Gym ya es la pantalla de destino). */
+  /** Lleva a Entreno. Sin él no hay acción (Gym ya es la pantalla de destino). */
   onAbrir?: () => void
   /** Solo el último entreno terminado, aunque haya uno en curso (Gym enseña el entreno activo aparte). */
   soloUltimo?: boolean
 }
 
 /**
- * Entreno en Inicio y en Gym: el entreno en curso («En curso desde 18:05») o, si no hay, el último terminado
+ * Entreno en Gym: el entreno en curso («En curso desde 18:05») o, si no hay, el último terminado
  * (cuándo, duración, ejercicios y volumen). Solo lee datos que ya existen; la lógica está en `resumenUltimoEntreno`.
  */
 export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
@@ -28,18 +29,19 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
   }, [])
 
   if (activo === undefined || ultimo === undefined) return null
+  const resumen = ultimo ? resumenUltimoEntreno(ultimo.workout, ultimo.sets) : null
 
   if (activo && !soloUltimo) {
     return (
-      <Card>
+      <Card className="training-surface">
         <section aria-label="Entreno en curso" className="space-y-stack">
           <div className="flex items-center gap-3">
             <div className="min-w-0 flex-1">
-              <h2 className="text-title text-fg">Entreno en curso</h2>
-              <p className="tabular text-body-sm text-fg-muted">En curso desde {formatHora(activo.inicio)}</p>
+              <h2 className="text-title">Entreno en curso</h2>
+              <p className="training-muted tabular text-body-sm">En curso desde {formatHora(activo.inicio)}</p>
             </div>
             {onAbrir && (
-              <Button size="sm" onClick={onAbrir}>
+              <Button variant="ghost" className="training-secondary" size="sm" onClick={onAbrir}>
                 Continuar
               </Button>
             )}
@@ -49,33 +51,29 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
     )
   }
 
-  const resumen = ultimo ? resumenUltimoEntreno(ultimo.workout, ultimo.sets) : null
-
+  // El título va sobre la card, como el resto de secciones; dentro solo quedan los datos.
   return (
-    <Card>
-      <section aria-label="Último entreno" className="space-y-4">
-        <div className="flex min-h-touch items-center justify-between gap-2">
-          <h2 className="text-title text-fg">Último entreno</h2>
-          {onAbrir && (
-            <Button variant="ghost" size="sm" className="-mr-3" onClick={onAbrir}>
-              Entreno
-              <Icon name="chevron-right" size={16} />
-            </Button>
-          )}
-        </div>
+    <section aria-label="Último entreno" className="space-y-stack">
+      <SectionHeader variant="section" action={onAbrir && (
+        <Button variant="ghost" size="sm" className="-mr-3" onClick={onAbrir}>
+          Entreno
+          <Icon name="chevron-right" size={16} />
+        </Button>
+      )}>Último entreno</SectionHeader>
+      <Card className="space-y-4">
         {!resumen ? (
           <EmptyState action={onAbrir && <Button variant="secondary" block onClick={onAbrir}>Empezar entreno</Button>}>Todavía no hay un entreno terminado.</EmptyState>
         ) : (
           <>
             <p className="text-body-sm text-fg-muted">{resumen.cuando}</p>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="metric-grid gap-4">
               <Metric size="title" label="Duración" valor={resumen.duracion ?? '—'} />
               <Metric size="title" label="Ejercicios" valor={formatInt(resumen.ejercicios)} />
               <Metric size="title" label="Volumen" valor={formatInt(resumen.volumen)} unidad="kg" />
             </div>
           </>
         )}
-      </section>
-    </Card>
+      </Card>
+    </section>
   )
 }

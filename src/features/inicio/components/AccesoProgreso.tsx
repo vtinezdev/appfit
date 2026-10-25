@@ -1,0 +1,86 @@
+import { useEffect, useRef } from 'react'
+import Icon, { type IconName } from '../../../shared/components/Icon'
+import { addDays, startOfWeek, todayISO } from '../../../shared/lib/dates'
+import { formatInt } from '../../../shared/lib/format'
+import { useVitrina } from '../../vitrina/hooks/useVitrina'
+import { formatKm } from '../../actividades/lib/actividad'
+import { piezasDesde, recuentoPiezas } from '../../vitrina/lib/logros'
+import { metrosEntre as metrosSubidos } from '../../cumbres/lib/cumbres'
+import { metrosEntre as metrosRecorridos } from '../../caminos/lib/caminos'
+import { textoKmSemana, textoMetrosSemana, textoPiezasSemana, textoRitmoSemana } from '../lib/progresoSemana'
+
+export type DestinoProgreso = 'cumbres' | 'caminos' | 'ritmo' | 'vitrina'
+
+interface Tesela { key: DestinoProgreso; label: string; icon: IconName; valor: string | null; unidad?: string; detalle: string; semana?: string }
+
+/**
+ * Progreso en Inicio, bajo la energía: Cumbres, Caminos, Ritmo y Vitrina en 2 × 2, una tesela por sección con su dato vivo
+ * (metros, km, hilo, piezas) para ver cómo van sin entrar; tocarla abre la sección. No se pinta con la gamificación oculta en Ajustes.
+ */
+export default function AccesoProgreso({ onAbrir, enfocar, sinCaminos = false }: { onAbrir: (destino: DestinoProgreso) => void; enfocar?: DestinoProgreso
+  /** Con Actividades oculta en «Lo que usas» (B9), Caminos no sale. */
+  sinCaminos?: boolean }) {
+  const hoy = todayISO()
+  const estado = useVitrina(hoy)
+  const lista = useRef<HTMLUListElement>(null)
+  const listo = !!estado?.visible
+  // Al volver de una sección con «‹ Inicio», el foco regresa a su tesela (una vez, cuando ya está pintada).
+  useEffect(() => {
+    if (!enfocar || !listo) return
+    const boton = lista.current?.querySelector<HTMLButtonElement>(`[data-destino="${enfocar}"]`)
+    boton?.focus({ preventScroll: true })
+    // Tras pintar el resto de Inicio (avisos, energía), para que no la desplacen después.
+    const id = requestAnimationFrame(() => boton?.scrollIntoView({ block: 'center' }))
+    return () => cancelAnimationFrame(id)
+  }, [enfocar, listo])
+  if (!estado?.visible) return null
+  const caminos = estado.caminos
+  const resultadoCaminos = caminos?.visible ? caminos.caminos : null
+  const camino = resultadoCaminos?.actual
+  const actual = estado.cumbres?.actual
+  const piezas = recuentoPiezas(estado.vitrina.logros)
+  const hilo = estado.resultado.ritmo.hiloActual
+  const lunes = startOfWeek(hoy)
+  const semanaRitmo = estado.resultado.ritmo.actual
+  const diasEntreno = estado.resultado.diasEntreno
+
+  const todas: Tesela[] = [
+    actual
+      ? { key: 'cumbres', label: 'Cumbres', icon: 'mountain', valor: formatInt(actual.metros), unidad: 'm', detalle: actual.montana.nombre, semana: textoMetrosSemana(metrosSubidos(estado.cumbres!.tramos, lunes, hoy)) }
+      : { key: 'cumbres', label: 'Cumbres', icon: 'mountain', valor: null, detalle: 'Elige montaña' },
+    camino
+      ? { key: 'caminos', label: 'Caminos', icon: 'route', valor: formatKm(camino.metros), unidad: 'km', detalle: camino.ruta.nombre, semana: textoKmSemana(metrosRecorridos(resultadoCaminos!.tramos, lunes, hoy)) }
+      : { key: 'caminos', label: 'Caminos', icon: 'route', valor: null, detalle: caminos?.visible ? 'Elige ruta' : '' },
+    { key: 'ritmo', label: 'Ritmo', icon: 'calendar', valor: formatInt(hilo), unidad: hilo === 1 ? 'semana' : 'semanas', detalle: 'Hilo actual', semana: textoRitmoSemana(semanaRitmo) },
+    { key: 'vitrina', label: 'Vitrina', icon: 'trophy', valor: `${formatInt(piezas.conseguidas)}/${formatInt(piezas.total)}`, detalle: 'Piezas', semana: textoPiezasSemana(piezasDesde(estado.vitrina.logros, lunes)) },
+  ]
+  const teselas = sinCaminos ? todas.filter((t) => t.key !== 'caminos') : todas
+
+  return (
+    <ul ref={lista} className="progreso-teselas" aria-label="Tu progreso">
+      {teselas.map((t) => <li key={t.key} className="min-w-0">
+        <button type="button" data-destino={t.key} onClick={() => onAbrir(t.key)}
+          className="app-button app-card flex h-full min-h-touch-lg w-full flex-col items-start gap-1 rounded-lg border border-transparent bg-surface p-3 text-left shadow-card">
+          <span className="flex w-full flex-col items-start gap-1 text-fg-muted">
+            <Icon name={t.icon} size={18} className="shrink-0" />
+            <span className="min-w-0 text-rotulo">{t.label}</span>
+          </span>
+          <span className="tabular flex min-h-touch flex-wrap items-baseline gap-x-1 text-fg">
+            {t.valor !== null ? <><span className="font-numeric text-heading">{t.valor}</span>{t.unidad && <span className="text-caption text-fg-muted">{t.unidad}</span>}</> : <span className="text-body-sm text-fg-muted">—</span>}
+          </span>
+          {t.detalle && <span className="w-full break-words text-caption text-fg-muted">{t.detalle}</span>}
+          {t.semana && <span className="mt-auto flex w-full flex-col gap-1 border-t border-line pt-2">
+            {/* Los siete días de Ritmo, decorativos: el texto de al lado ya dice lo mismo. */}
+            {t.key === 'ritmo' && <span aria-hidden="true" className="flex gap-1">
+              {[0, 1, 2, 3, 4, 5, 6].map((i) => {
+                const f = addDays(lunes, i)
+                return <span key={f} className={`block h-2 w-2 rounded-pill ${diasEntreno.has(f) ? 'bg-fg' : 'border border-line-strong'} ${f > hoy ? 'opacity-40' : ''}`} />
+              })}
+            </span>}
+            <span className="tabular break-words text-caption text-fg">{t.semana}</span>
+          </span>}
+        </button>
+      </li>)}
+    </ul>
+  )
+}

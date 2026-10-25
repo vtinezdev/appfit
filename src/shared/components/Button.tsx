@@ -1,7 +1,7 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
 import Icon, { type IconName } from './Icon'
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'danger'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'subtle' | 'destructive' | 'danger'
 type Size = 'sm' | 'md' | 'lg'
 
 /**
@@ -9,9 +9,10 @@ type Size = 'sm' | 'md' | 'lg'
  * `hover:` solo actúa con puntero fino (tailwind `hoverOnlyWhenSupported`): en iOS no se queda pegado.
  */
 const VARIANTS: Record<Variant, string> = {
-  primary: 'bg-accent text-accent-on hover:brightness-95',
-  secondary: 'border border-line bg-surface text-fg hover:bg-surface-muted',
-  ghost: 'text-accent-strong hover:bg-accent-subtle',
+  primary: 'bg-accent text-accent-on font-bold hover:brightness-95',
+  secondary: 'border border-line/60 bg-surface text-fg shadow-control hover:bg-surface-muted',
+  ghost: 'text-fg hover:bg-surface-muted [&_svg]:text-accent-strong', // acción terciaria en grafito; solo el icono lleva el acento
+  subtle: 'text-fg-muted hover:bg-surface-muted hover:text-fg', // acción repetida en listas: no compite con la principal
   destructive: 'bg-surface-muted text-destructive hover:bg-line', // acción destructiva ofrecida
   danger: 'bg-destructive text-destructive-on hover:brightness-95', // confirmación de una acción destructiva
 }
@@ -32,6 +33,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
 }
 
+/**
+ * Deshabilitado: atenuado, salvo el primario, que pasa a neutro (un acento apagado parece un error de color):
+ * el acento solo existe cuando se puede actuar. Mientras carga conserva su color.
+ */
+const DESHABILITADO = (variant: Variant) => (variant === 'primary' ? 'disabled:bg-surface-muted disabled:text-fg-subtle' : 'disabled:opacity-40')
+
 /** Botón de tarea, con altura táctil real y esquinas contenidas. */
 export default function Button({ variant = 'primary', size = 'md', block = false, loading = false, className = '', type = 'button', disabled, children, ...rest }: Props) {
   return (
@@ -39,7 +46,7 @@ export default function Button({ variant = 'primary', size = 'md', block = false
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`inline-flex items-center justify-center gap-2 rounded-md py-2 transition-[opacity,background-color,filter] duration-short enabled:active:brightness-95 ${loading ? 'opacity-70' : 'disabled:opacity-40'} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
+      className={`app-button inline-flex min-w-0 max-w-full flex-wrap items-center justify-center gap-2 rounded-md py-2 enabled:active:brightness-95 ${loading ? 'opacity-70' : DESHABILITADO(variant)} ${VARIANTS[variant]} ${SIZES[size]} ${block ? 'w-full' : ''} ${className}`}
       {...rest}
     >
       {loading && <Icon name="loader" size={18} />}
@@ -49,10 +56,13 @@ export default function Button({ variant = 'primary', size = 'md', block = false
 }
 
 interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'> {
+  /** React 19: sensores/foco pueden referenciar el botón real sin un wrapper. */
+  ref?: Ref<HTMLButtonElement>
   icon: IconName
   /** Obligatorio: es el nombre accesible y el tooltip. */
   label: string
-  variant?: 'secondary' | 'primary' | 'ghost'
+  /** `tonal`: fondo gris suave sin acento, para una acción repetida que debe verse (el «+» de cada comida). */
+  variant?: 'secondary' | 'primary' | 'ghost' | 'tonal'
   /** Zona real de 44 px para sm/md, 48 px para lg; solo cambia el tamaño del icono. */
   size?: 'sm' | 'md' | 'lg'
 }
@@ -62,13 +72,15 @@ const ICON_SIZE = { sm: 18, md: 20, lg: 24 }
 
 /** Botón solo-icono. */
 export function IconButton({ icon, label, variant = 'secondary', size = 'md', className = '', type = 'button', ...rest }: IconButtonProps) {
-  const v = variant === 'ghost' ? 'text-fg-muted hover:bg-surface-muted hover:text-fg' : VARIANTS[variant]
+  const v = variant === 'ghost' ? 'text-fg-muted hover:bg-surface-muted hover:text-fg'
+    : variant === 'tonal' ? 'bg-fg/10 text-fg hover:bg-fg/15' // velo del texto: se ve igual sobre la página que dentro de una card
+    : VARIANTS[variant]
   return (
     <button
       type={type}
       aria-label={label}
       title={label}
-      className={`inline-flex shrink-0 items-center justify-center rounded-md transition-[opacity,background-color,filter] duration-short enabled:active:opacity-70 disabled:opacity-30 ${ICON_BOX[size]} ${v} ${className}`}
+      className={`app-button inline-flex shrink-0 items-center justify-center rounded-md enabled:active:opacity-70 disabled:opacity-30 ${ICON_BOX[size]} ${v} ${className}`}
       {...rest}
     >
       <Icon name={icon} size={ICON_SIZE[size]} />

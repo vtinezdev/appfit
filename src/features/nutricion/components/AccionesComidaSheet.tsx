@@ -1,7 +1,9 @@
+import { congelarObjetivoDia } from '../../perfil/data/objetivosDiaRepo'
 import { useState } from 'react'
 import Sheet from '../../../shared/components/Sheet'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import type { Comida, Entry } from '../../../shared/db/types'
+import { COMIDAS } from '../lib/comidas'
 import { todayISO } from '../../../shared/lib/dates'
 import * as entriesRepo from '../data/entriesRepo'
 import * as mealsRepo from '../data/mealsRepo'
@@ -11,12 +13,6 @@ import { Input } from '../../../shared/components/Input'
 import Button from '../../../shared/components/Button'
 import { ErrorState } from '../../../shared/components/StateMessage'
 
-const COMIDAS: { valor: Comida; label: string }[] = [
-  { valor: 'desayuno', label: 'Desayuno' },
-  { valor: 'comida', label: 'Comida' },
-  { valor: 'cena', label: 'Cena' },
-  { valor: 'snack', label: 'Snack' },
-]
 
 const LABELS: Record<Comida, string> = { desayuno: 'Desayuno', comida: 'Comida', cena: 'Cena', snack: 'Snack' }
 
@@ -26,6 +22,8 @@ interface Props {
   entries: Entry[]
   /** Si está presente, las acciones afectan solo al plato, no a toda la comida. */
   plato?: { id: string; nombre: string }
+  /** Copiar solo este alimento, incluso si era un ingrediente de un plato. */
+  entrada?: Pick<Entry, 'id' | 'nombre'>
   onClose: () => void
   onCopiado: (ids: number[]) => void
   onPlantillaGuardada: (nombre: string) => void
@@ -34,11 +32,11 @@ interface Props {
 type Paso = 'menu' | 'copiar' | 'copiar-comida' | 'plantilla'
 
 /**
- * Acciones de una comida o plato en Hoy: copiar a otra comida/día o guardar como plantilla.
+ * Acciones de una comida o plato en Hoy, o copia individual de un alimento deslizado.
  * Se monta de nuevo cada vez que se abre (el padre lo renderiza solo mientras hay una comida elegida),
  * así que su estado interno siempre empieza limpio.
  */
-export default function AccionesComidaSheet({ fecha, comida, entries, plato, onClose, onCopiado, onPlantillaGuardada }: Props) {
+export default function AccionesComidaSheet({ fecha, comida, entries, plato, entrada, onClose, onCopiado, onPlantillaGuardada }: Props) {
   const [paso, setPaso] = useState<Paso>('menu')
   const [fechaDestino, setFechaDestino] = useState(fecha)
   const [comidaDestino, setComidaDestino] = useState<Comida>(comida)
@@ -64,7 +62,8 @@ export default function AccionesComidaSheet({ fecha, comida, entries, plato, onC
     setCopiando(true)
     setError(null)
     try {
-      const ids = await entriesRepo.copiar({ origen: { fecha, comida, platoId: plato?.id }, destino: { fecha: paso === 'copiar-comida' ? fecha : fechaDestino, comida: comidaDestino } })
+      const ids = await entriesRepo.copiar({ origen: { fecha, comida, platoId: plato?.id, ...(entrada ? { ids: [entrada.id] } : {}) }, destino: { fecha: paso === 'copiar-comida' ? fecha : fechaDestino, comida: comidaDestino }, separarIngredientes: Boolean(entrada) })
+      if (ids.length > 0) void congelarObjetivoDia(paso === 'copiar-comida' ? fecha : fechaDestino)
       if (ids.length === 0) {
         setError('Ya no hay alimentos disponibles para copiar.')
         return
@@ -88,17 +87,17 @@ export default function AccionesComidaSheet({ fecha, comida, entries, plato, onC
       onClose()
       onPlantillaGuardada(nombre)
     } catch {
-      setError('No se ha podido guardar la plantilla. Inténtalo de nuevo.')
+      setError('No se ha podido guardar la comida típica. Inténtalo de nuevo.')
     } finally {
       setGuardando(false)
     }
   }
 
-  const titulos: Record<Paso, string> = { menu: plato ? 'Acciones del plato' : 'Acciones', copiar: 'Copiar a otro día', 'copiar-comida': 'Copiar a otra comida', plantilla: 'Guardar como plantilla' }
+  const titulos: Record<Paso, string> = { menu: entrada ? 'Copiar alimento' : plato ? 'Acciones del plato' : 'Acciones', copiar: 'Copiar a otro día', 'copiar-comida': 'Copiar a otra comida', plantilla: 'Guardar comida típica' }
 
   return (
     <Sheet open onClose={onClose} title={titulos[paso]}>
-      {plato && <p className="mb-3 break-words text-body font-semibold text-fg">{plato.nombre}</p>}
+      {(plato || entrada) && <p className="mb-3 break-words text-body font-semibold text-fg">{entrada?.nombre ?? plato?.nombre}</p>}
       {paso === 'menu' && (
         <div className="space-y-2">
           <ListRow tone="muted"
@@ -115,13 +114,13 @@ export default function AccionesComidaSheet({ fecha, comida, entries, plato, onC
           >
             Copiar a otro día…
           </ListRow>
-          <ListRow tone="muted"
+          {!entrada && <ListRow tone="muted"
             onClick={() => irA('plantilla')}
             disabled={!hayEntradas}
             className="font-medium disabled:opacity-40"
           >
-            Guardar como plantilla…
-          </ListRow>
+            Marcar como comida típica…
+          </ListRow>}
         </div>
       )}
 
@@ -149,7 +148,8 @@ export default function AccionesComidaSheet({ fecha, comida, entries, plato, onC
 
       {paso === 'plantilla' && (
         <div className="space-y-3">
-          <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la plantilla</span><Input
+          <p className="text-body-sm text-fg-muted">La tendrás a mano en tus comidas típicas, junto a las detectadas por repetición.</p>
+          <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la comida típica</span><Input
             value={nombrePlantilla}
             onChange={(e) => setNombrePlantilla(e.target.value)}
             placeholder={`Mi ${LABELS[comida].toLowerCase()} de siempre`}

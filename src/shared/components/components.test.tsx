@@ -8,20 +8,16 @@ import ProgressBar from './ProgressBar'
 import SegmentedControl from './SegmentedControl'
 import ViewTabs from './ViewTabs'
 import Disclosure from './Disclosure'
+import PageHeader from './PageHeader'
 
 const opciones = [{ valor: 'hoy', label: 'Hoy' }, { valor: 'resumen', label: 'Resumen' }]
 const noop = () => {}
 
 describe('contratos del sistema visual', () => {
-  it.each(['inicio', 'nutricion', 'gym', 'ajustes'] as Tab[])('un único botón de menú accesible en %s', tab => {
+  it.each(['inicio', 'nutricion', 'gym', 'perfil', 'referencias', 'ajustes'] as Tab[])('navegación con un solo botón que abre las secciones en %s', tab => {
     const html = renderToStaticMarkup(<BottomNav tab={tab} onChange={noop} />)
     expect(html.match(/<button/g)).toHaveLength(1)
-    expect(html).toContain('aria-label="Menú"')
-    expect(html).toContain('aria-haspopup="dialog"')
-    expect(html).toContain('aria-expanded="false"')
-    expect(html).toContain('aria-controls=')
-    expect(html).toContain('Sección actual:')
-    expect(html).toContain('data-nav-trigger=')
+    expect(html).toMatch(/aria-label="Secciones" aria-haspopup="dialog" aria-expanded="false" data-nav-trigger/)
     expect(html).not.toContain('role="dialog"')
     expect(html).not.toContain('fixed')
     expect(html).not.toContain('data-surface')
@@ -62,6 +58,11 @@ describe('contratos del sistema visual', () => {
     expect(html).toContain('disabled=""')
     expect(html).toContain('aria-busy="true"')
   })
+  it('el primario deshabilitado pasa a neutro; mientras carga conserva el acento', () => {
+    expect(renderToStaticMarkup(<Button disabled onClick={noop}>Interpretar</Button>)).toContain('disabled:bg-surface-muted')
+    expect(renderToStaticMarkup(<Button loading onClick={noop}>Guardar</Button>)).not.toContain('disabled:bg-surface-muted')
+    expect(renderToStaticMarkup(<Button variant="secondary" disabled onClick={noop}>Cancelar</Button>)).toContain('disabled:opacity-40')
+  })
   it('las métricas muestran el valor completo inmediato y con formato español', () => {
     const html = renderToStaticMarkup(<Metric valor={1234567} unidad="kg" label="Volumen" />)
     expect(html).toContain('1.234.567')
@@ -76,11 +77,24 @@ describe('contratos del sistema visual', () => {
     expect(html).toContain('opacity-50')
     expect(html).not.toContain('destructive')
   })
+  it('la marca del objetivo solo aparece al pasarse: por debajo, el final del carril ya es el objetivo', () => {
+    expect(renderToStaticMarkup(<ProgressBar value={300} goal={200} label="Proteína" />)).toContain('bg-goal')
+    expect(renderToStaticMarkup(<ProgressBar value={150} goal={200} label="Proteína" />)).not.toContain('bg-goal')
+    expect(renderToStaticMarkup(<ProgressBar value={200} goal={200} label="Proteína" />)).not.toContain('bg-goal')
+  })
   it('el desplegable conserva relación entre control y contenido', () => {
     const html = renderToStaticMarkup(<Disclosure title="Detalles" open><p>Valores nutricionales</p></Disclosure>)
     const id = html.match(/aria-controls="([^"]+)"/)![1]
     expect(html).toContain(`id="${id}"`)
     expect(html).toContain('aria-expanded="true"')
     expect(html).not.toContain('hidden=""')
+  })
+  it('la cabecera solo lleva «Volver» en las secciones anidadas, encima del título y con target real', () => {
+    const sin = renderToStaticMarkup(<PageHeader title="Inicio" />)
+    expect(sin).not.toContain('<button')
+    const con = renderToStaticMarkup(<PageHeader title="Cumbres" volver={{ etiqueta: 'Inicio', onVolver: noop }} />)
+    expect(con.match(/<button/g)).toHaveLength(1)
+    expect(con).toMatch(/<button[^>]*min-h-touch[^>]*>.*Inicio<\/button>/)
+    expect(con.indexOf('Inicio</button>')).toBeLessThan(con.indexOf('<h1'))
   })
 })

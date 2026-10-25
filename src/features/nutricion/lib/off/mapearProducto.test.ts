@@ -33,6 +33,7 @@ describe('mapearProducto', () => {
         nombreNorm: 'copos de avena',
         tok: ['copos', 'de', 'avena', 'hacendado'],
         tipo: 'marca',
+        categoria: 'Otros',
         marca: 'Hacendado',
         gtin: '8480000123456',
         kcal100: 389,
@@ -45,6 +46,20 @@ describe('mapearProducto', () => {
         importadoAt: 42,
       },
     })
+  })
+
+  it('clasifica con las reglas de la tubería: etiquetas, pnns_groups_2 y nombre', () => {
+    const conEtiquetas = mapearProducto(respuesta({ product_name: 'Copos', categories_tags: ['en:breakfast-cereals', 'en:oat-flakes'], nutriments: NUTRIMENTS }), '8480000123456', 0)
+    expect(conEtiquetas.tipo === 'completo' && conEtiquetas.food.categoria).toBe('Cereales de desayuno y barritas')
+    const porPnns = mapearProducto(respuesta({ product_name: 'Algo', pnns_groups_2: 'Cheese', nutriments: NUTRIMENTS }), '8480000123456', 0)
+    expect(porPnns.tipo === 'completo' && porPnns.food.categoria).toBe('Quesos')
+    const porNombre = mapearProducto(respuesta({ product_name: 'Zumo de naranja', nutriments: NUTRIMENTS }), '8480000123456', 0)
+    expect(porNombre.tipo === 'completo' && porNombre.food.categoria).toBe('Bebidas')
+  })
+
+  it('un incompleto lleva la categoría si alguna regla encaja; si no, la pide la revisión', () => {
+    expect(mapearProducto(respuesta({ product_name: 'Yogur natural', nutriments: {} }), '8480000123456', 0)).toMatchObject({ tipo: 'incompleto', categoria: 'Yogures y postres lácteos' })
+    expect(mapearProducto(respuesta({ product_name: 'Choco duo', nutriments: {} }), '8480000123456', 0)).not.toHaveProperty('categoria')
   })
 
   it('el nombre en español gana al genérico; sin él, vale el genérico', () => {

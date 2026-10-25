@@ -11,6 +11,18 @@ const datos: Record<string, unknown[]> = {
   notasMedida: [{ id: 1, texto: 'Un bol son 200 g', createdAt: 1 }],
   pesos: [{ id: 1, fecha: '2026-10-01', kg: 72, createdAt: 1 }],
   nombresAlimentos: [{ id: 'catalog:ciqual:1', nombre: 'Arroz' }],
+  porciones: [{ id: 1, ref: 'user:1', nombre: 'rebanada', nombreNorm: 'rebanada', gramos: 30 }],
+  recetas: [{ id: 1, nombre: 'Guiso', nombreNorm: 'guiso', ingredientes: [], pesoCocinadoG: 400, foodId: 1, createdAt: 1, updatedAt: 1 }],
+  agua: [{ id: 1, fecha: '2026-10-01', ml: 250 }],
+  objetivosDia: [{ id: 1, fecha: '2026-10-01', objetivos: { kcal: 2000, prot: 150, carb: 200, grasa: 60 }, origen: 'test' }],
+  medidas: [{ id: 1, fecha: '2026-10-01', cintura: 80 }],
+  suplementos: [{ id: 1, tipo: 'creatina', fecha: '2026-10-01', createdAt: 1 }],
+  cheatDays: [{ id: 1, fecha: '2026-10-01', createdAt: 1 }],
+  actividades: [{ id: 1, tipo: 'caminar', fecha: '2026-10-01', inicio: 1, duracionSeg: 600, distanciaM: 1000, origen: 'manual', createdAt: 1 }],
+  rutasPropias: [{ id: 1, nombre: 'Tarragona – Valencia', salida: { nombre: 'Tarragona' }, etapas: [{ nombre: 'Valencia', km: 260 }], createdAt: 1, updatedAt: 1 }],
+  pasos: [{ id: 1, fecha: '2026-10-01', pasos: 8000, createdAt: 1, updatedAt: 1 }],
+  gimnasios: [{ id: 1, nombre: 'Gym Playa', nombreNorm: 'gym playa' }],
+  planificadas: [{ id: 1, fecha: '2026-10-02', comida: 'comida', nombre: 'Arroz', gramos: 100, kcal: 130, prot: 2.7, carb: 28, grasa: 0.3, createdAt: 1 }],
 }
 
 beforeEach(async () => {
@@ -46,5 +58,12 @@ describe('detección de registros al abrir otro acceso', () => {
     expect(await hayDatosGuardados()).toBe(true)
     await ensureSettings()
     expect(await db.settings.get(1)).toEqual(antes)
+  })
+
+  it('un perfil con algún campo cuenta como dato introducido; uno vacío no', async () => {
+    await updateSettings({ perfil: {} })
+    expect(await hayDatosGuardados()).toBe(false)
+    await updateSettings({ perfil: { sexo: 'mujer' } })
+    expect(await hayDatosGuardados()).toBe(true)
   })
 })

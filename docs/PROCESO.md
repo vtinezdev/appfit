@@ -594,10 +594,1986 @@ La lista central de destinos define también Tab. La geometría/paginación pura
 
 El servidor preexistente conservaba el CSS anterior de Tailwind: se usó un servidor nuevo sin detenerlo, encaminando las solicitudes de Playwright desde el mismo origen aislado de pruebas. Los archivos reales de producción también pasan navegación/geometría/overflow en seis contextos, con SW bloqueado; no se reejecutó el ensayo completo de actualización/offline del SW. Safe areas y tacto de WebKit quedan para el iPhone real. Sin commit ni push.
 
-## 57. Catálogo ampliado en la búsqueda de Nutrición (rama `feat/b-catalogo-tipicos`, 2026-10-25)
+## 57. Rediseño profundo y motion con Impeccable (2026-10-03)
+
+Víctor delega reemplazar el mundo visual y pide un menú que nazca de su botón, además de una experiencia de entrenamiento más satisfactoria. La critique independiente distingue problemas de jerarquía/densidad y continuidad de las fortalezas de datos honestos, componentes, plantillas y Deshacer. Se construye la identidad tinta/mineral/naranja y un sistema compartido de movimiento; el abanico anclado sustituye la rueda dentro de Sheet. Confirmar series, configurar descanso y terminar una sesión tienen estados claros y reversibles, sin modificar histórico, cálculos ni backups. Se mantiene la PWA y no se añaden dependencias.
+
+La documentación normativa se reemplaza por el sistema implementado y los documentos vivos de arquitectura/features se actualizan. Decisiones y límites: [ADR 009](decisiones/009-identidad-y-motion-impeccable.md), [DESIGN](../DESIGN.md), [DESIGN-SYSTEM](DESIGN-SYSTEM.md). Informe de alcance, evidencia y oportunidades descartadas: [rediseño Impeccable](historico/rediseno-impeccable-2026-10-03.md).
+
+**Verificación**: 1.133 tests en 59 archivos y build TypeScript/Vite/PWA correctos. Matriz de 514 estados; 12 contextos de navegación y 12 de motion/entrenamiento, con interrupciones, foco, Atrás, texto ampliado, Reduce Motion, cancelación de gesto y fallo/reintento de guardado. Producción offline/SW/fuente/chunks/export íntegro en ambos temas. La revisión final de Impeccable valida los cinco fixes solicitados usando 136 capturas renovadas; documentación y snippets comprobados. Sin commit, push ni despliegue. Safari/iOS, Android físicos, lectores de pantalla y rendimiento/haptics en hardware siguen pendientes; emulación no equivale a validación nativa.
+
+## 58. Ingredientes, movimiento de platos y referencias diarias (2026-10-04)
+
+Víctor pide una rama nueva tras integrar el rediseño y cuatro mejoras en Nutrición. `feat/mejoras-diario-nutricional` hace explícito «Añadir ingredientes», incorpora arrastre y alternativa accesible «Mover» con Deshacer, añade barras de referencias justificadas y destaca los títulos de comidas. El gesto conserva el primer pointerId o cancela limpiamente; la escritura completa es transaccional y no modifica snapshots ni totales diarios. No hay cambios de esquema/backup ni funcionalidad de Gym.
+
+La referencia de azúcar total se diferencia expresamente del límite de azúcares libres y no se inventan rangos ausentes. Decisión/fuentes en [ADR 010](decisiones/010-mover-platos-y-referencias-nutricionales.md); flujos en [Nutrición](features/nutricion.md), invariantes en [Datos](datos.md), patrones en [DESIGN-SYSTEM](DESIGN-SYSTEM.md) y dependencia/carga diferida en [Herramientas](herramientas.md) y [Arquitectura](arquitectura.md).
+
+**Verificación**: 1.154 tests en 61 archivos, build TypeScript/Vite/PWA y diff check correctos. Nueve contextos del diario (tacto CDP, mouse, teclado, texto al 200%, Reduce Motion, interrupciones, autoscroll y fallo/reintento), 18 contextos de regresión de ingredientes/copia/nutrientes y 40 estados de flujos. Artefacto de producción con SW/offline/fuente/chunks/export intacto; revisión visual acotada con Impeccable. Evidencia y límites en [informe](historico/mejoras-diario-nutricional-2026-10-04.md). Sin commit ni push; hardware iOS/Android pendiente.
+
+## 59. Cabeceras de comidas (rama `feat/cabeceras-comidas-nutricion`, 2026-10-04)
+
+Víctor aporta una referencia y pide limitar el cambio a las cabeceras de Desayuno/Comida/Cena/Snack. `CabeceraComida`, compartida por `ComidaSection`, separa cada comida de platos e ingredientes: tinta existente, radio de 16 px, icono SVG circular, título de 22 px / 800, kcal naranja y borde tenue sin sombra ni halo. La información secundaria es el número real de registros, no una hora inventada. Se conservan las acciones y los cálculos; Añadir/Repetir se coloca debajo del bloque cuando está vacío. No cambian datos, esquema, navegación, librerías ni otras pantallas.
+
+El contexto local `meal-header` resuelve lectura/hover/foco en ambos temas y reutiliza el naranja existente. La rejilla da otra fila a cifras largas/espacio estrecho, y ancho completo al título con texto ampliado; altura natural, sin abreviar ni reducir targets. La primera inspección conjunta detecta contraste de hover y poco espacio para títulos al 200%; se corrigen en una tanda y se confirma el resultado. Documentación en [DESIGN](../DESIGN.md), su sidecar de Impeccable, [DESIGN-SYSTEM](DESIGN-SYSTEM.md), [Nutrición](features/nutricion.md) y comandos en [Desarrollo](desarrollo.md).
+
+**Verificación**: 1.170 tests en 61 archivos, build TypeScript/Vite/PWA, sintaxis de scripts y diff check correctos. Diez configuraciones de cabeceras (320/375/430/1440 px, claro/oscuro y dos con texto al 200%/Reduce Motion): totales, registro vacío, nombres/cifras extremos, targets, solapes, acciones/cancelación/foco y registros intactos. Confirmación adicional con ingredientes desplegados en oscuro y con texto ampliado en claro. Los nueve contextos de regresión del diario pasan, incluyendo arrastre, autoscroll, teclado, tacto CDP, Deshacer y fallo/reintento. La prueba retira el dedo del borde antes de medir el destino, centra la cabecera y espera su medición tras el scroll; también corrige el ámbito de la captura inicial del gesto multitáctil, sin tocar la interacción de producto.
+
+Evidencia: `/tmp/appfit-cabeceras-comidas/informe.json`, `/tmp/appfit-cabeceras-confirmacion/` y `/tmp/appfit-cabeceras-regresion/resultado.json`. Revisión visual acotada con Impeccable en móvil/escritorio y ambos temas. Chromium emulado; Safari/iOS, Android físicos y lectores de pantalla siguen pendientes. Sin commit ni push.
+
+## 60. Consumo diario y sección global Referencias (rama `feat/referencias-nutricionales`, 2026-10-04)
+
+Víctor pide simplificar las barras adicionales y separar metodología del diario. Nutrición conserva nombre, gramos, barra y cobertura; cada IconButton info abre criterio/fuente en Sheet y permite continuar a su referencia global. Referencias reúne catálogo, objetivos, recomendaciones alimentarias futuras y limitaciones de datos. El abanico conserva cinco destinos amplios, sin nueva dependencia.
+
+`shared/lib/referenciasNutricionales` y `ReferenciaNutrienteContenido` sirven ambas vistas. Los objetivos personales vienen de Ajustes; las referencias generales conservan exactamente los criterios previos. Fuentes reales: CIQUAL/Open Food Facts y OMS/UE ya utilizados. Grupos futuros tienen tipos y colección vacía, sin raciones inventadas. No cambian cálculos, persistencia, esquema, parser ni registros. Principio en [DESIGN](../DESIGN.md), estructura en [Referencias](features/referencias.md) y [ADR 011](decisiones/011-consumo-y-referencias.md); documentación y sidecar sincronizados.
+
+**Verificación**: 1.186 tests / 64 archivos, TypeScript/build Vite/PWA, sintaxis de scripts y diff check correctos. Diez contextos de Referencias (320/375/430/1440 px, ambos temas, texto al 200%/Reduce Motion), nueve de diario/arrastre, doce de menú y seis por regresión de nutrientes/ingredientes. Primera apertura de Referencias offline, SW, fuente/chunks y export íntegro en ambos temas. La revisión visual inicial detecta wrapping/carril y se corrige en una tanda; confirmación final conjunta correcta. Informe, evidencia y límites: [revisión de entrega](historico/referencias-nutricionales-2026-10-04.md).
+
+Chromium emulado; hardware iOS/Android y lectores de pantalla pendientes. Sin commit ni push.
+
+## 61. Registros de comida compactos y equivalentes (rama `feat/registros-comida-compactos`, 2026-10-04)
+
+Víctor pide igualar la jerarquía de platos y alimentos individuales sin modificar cabeceras, resumen nutricional ni navegación. `RegistroComida` comparte superficie, borde, tipografía, cantidad/conteo, macros y kcal con unidad; el plato solo añade chevrón y menú «…». Se elimina su barra permanente de acciones. Los ingredientes desplegados conservan edición y papelera como filas interiores, sin tarjetas anidadas; el asa de arrastre se muestra al desplegarlos. Los registros rápidos conservan aproximación y no presentan gramos inventados.
+
+`AccionesPlatoSheet` reutiliza Sheet/ListGroup/ListRow para añadir ingredientes, mover, copiar y borrar. Espera `onExited` antes de continuar, evitando capas apiladas y manteniendo visible Deshacer tras borrar. Foco, Escape/Atrás y la alternativa de mover sin arrastre siguen disponibles. No cambian cálculos, repositorios, datos, esquema, parser ni dependencias. Alturas naturales y rejilla contextual permiten nombres/cifras extensos y texto ampliado. [DESIGN](../DESIGN.md), sidecar Impeccable, [DESIGN-SYSTEM](DESIGN-SYSTEM.md), [Nutrición](features/nutricion.md), arquitectura y comandos actualizados.
+
+**Verificación**: 1.192 tests / 65 archivos y build TypeScript/Vite/PWA correctos. Diez configuraciones nuevas (320/375/430/1440 px, claro/oscuro y dos con texto al 200%/Reduce Motion) comprueban jerarquía/altura, cifras, macros, ingredientes, targets, overflow, acciones, foco, cancelación, borrado/Deshacer y backup íntegro. Cabecera, resumen y navegación mantienen su HTML tras el recorrido. También pasan nueve contextos de diario/arrastre, diez de cabeceras y seis por cada regresión de ingredientes, copia y nutrientes; 40 estados de flujos generales. Se actualizan selectores al acceso contextual real, sin alterar los recorridos de producto. Producción: SW, recarga offline, fuente local, destinos, chunks y export intactos en ambos temas. Sintaxis de scripts, sidecar JSON y diff check correctos; no existe script de lint separado.
+
+La revisión visual acotada con Impeccable inspecciona móvil/escritorio, ambos temas, ingredientes, menú, cifras/nombres extremos y texto ampliado; no necesita otra tanda de cambios. Evidencia en `/tmp/appfit-registros-comida/informe.json` y capturas de esa carpeta; regresiones en `/tmp/appfit-registros-diario/resultado.json` y `/tmp/appfit-registros-flujos/resultado.json`. Chromium emulado; dispositivos físicos iOS/Android y lectores de pantalla siguen pendientes. Sin commit ni push.
+
+## 62. Identidad enfocada y enérgica (rama `feat/identidad-enfocada-energica`, 2026-10-05)
+
+Víctor elige la opción 3 de su referencia y pide rediseñar toda APPFIT conservando producto y datos. Se reemplaza azul tinta por negro/grafito, blanco y naranja intenso de acento. Barlow Condensed 700 local para títulos/métricas, Manrope para lectura y edición; superficies compactas, contornos de control y radios contenidos. Inicio prioriza entrenar y después consumo/peso, con resultados existentes; sesión activa enfatiza ejercicio, series, campos y métricas. El sistema compartido alcanza Nutrición/detalle, comidas, rutinas, progreso, referencias, ajustes, capas y menú.
+
+Se conservan Claro/Sistema, abanico, motion/Reduce Motion, fuentes contextualizadas, registros equivalentes, Deshacer y flujos de entrenamiento. Sin fotografía genérica, nuevas dependencias, cálculos, repositorios, esquema o cambios de backup. Barlow lleva licencia/procedencia local y funciona offline. Decisión en [ADR 012](decisiones/012-identidad-enfocada-energica.md), tokens en [DESIGN](../DESIGN.md)/sidecar y patrones en [DESIGN-SYSTEM](DESIGN-SYSTEM.md); documentación viva actualizada.
+
+**Verificación**: 1.193 tests / 65 archivos y TypeScript/build Vite/PWA correctos; 145 guards/contraste/componentes tras el ajuste final. Matriz de 514 estados, 12 contextos de motion, 10 de registros, 10 de referencias, 6 de nutrientes, 9 de diario/arrastre y 24 de consumo compartido. Producción: SW/offline, ambas fuentes, destinos/chunks y export íntegro en ambos temas. Sintaxis de scripts, JSON/YAML y diff check correctos; sin script de lint separado. Se adaptan las aserciones del resumen a Inicio integrado/Hoy panel, manteniendo números y datos protegidos.
+
+Revisión final manual con Impeccable en la sesión principal según CLAUDE.md; inspección inicial conjunta y confirmación móvil/escritorio del ajuste tipográfico de duración. Detector: cero hallazgos principales, un aviso no bloqueante de radio preexistente en paginación futura. Resultado/evidencia/límites: [informe](historico/identidad-enfocada-energica-2026-10-05.md). Chromium emulado; Safari/iOS, Android físicos, lectores de pantalla y haptics reales pendientes. Sin commit, push ni despliegue.
+
+## 63. Atmósferas fotográficas aprobadas (2026-10-05)
+
+Tras validar una preview estática, Víctor pide implementar los fondos propios de Inicio, Nutrición y Gym. Se generan escenas sin UI/texto y se integran mediante `AtmosferaApp` y tokens compartidos: fotografía secundaria, overlay, desaturación y desvanecimiento; variantes discretas para Referencias/Ajustes y claro. Sin añadir altura decorativa, animación o dependencia; capas, acciones, datos y cálculos intactos. Tres WebP locales suman 175.712 bytes y funcionan offline mediante precache; prompts/procedencia documentados.
+
+Principios en [DESIGN](../DESIGN.md), implementación en [DESIGN-SYSTEM](DESIGN-SYSTEM.md), arquitectura en [ADR 013](decisiones/013-atmosferas-fotograficas.md) y evidencia en [informe](historico/atmosferas-fotograficas-2026-10-05.md). Sidecar Impeccable sincronizado.
+
+**Verificación**: 1.208 tests / 66 archivos y build TypeScript/Vite/PWA correctos; 514 estados, 12 contextos de motion y producción offline con imágenes presentes en CacheStorage, decodificadas y datos intactos. Revisión visual inicial conjunta móvil/escritorio y ambos temas; no necesita otra tanda de cambios. Detector: cero hallazgos principales y un aviso preexistente no bloqueante. Sin script de lint separado. Chromium emulado; Safari y dispositivos físicos pendientes. Sin commit, push ni despliegue.
+
+## 64. Atmósferas propias del tema claro (2026-10-06)
+
+Víctor pide el equivalente para claro y fotografías distintas que encajen con él. En `feat/atmosferas-tema-claro` se generan escenas de luz natural para Inicio, cocina/meal prep y Gym, con velo marfil y fade más rápido. `AtmosferaApp` selecciona una sola foto mediante el tema resuelto existente; Claro/Oscuro/Sistema actualizan escena y tokens juntos. Oscuro conserva su apariencia. Sin cambios de datos, cálculos, navegación, motion ni dependencias.
+
+Los nuevos assets añaden 156.792 bytes; los seis suman 332.504, con prompts/procedencia y precache offline. Se actualizan [DESIGN](../DESIGN.md), sidecar/surface Impeccable, [DESIGN-SYSTEM](DESIGN-SYSTEM.md), arquitectura y [ADR 013](decisiones/013-atmosferas-fotograficas.md). Evidencia y límites en [informe](historico/atmosferas-tema-claro-2026-10-06.md).
+
+**Verificación**: 1.212 tests / 66 archivos, TypeScript/build Vite/PWA y producción offline correctos. Recorrido de 44 estados de navegación/sesión/tema con tamaños de 320 a 1440 px, texto al 200%, Reduce Motion, Forced Colors y backups intactos. Revisión visual acotada inicial/confirmación; sin cambios extra de pulido. La confirmación estabilizada encuentra desbordamiento previo en campos de objetivos de Ajustes al 200%, documentado fuera del alcance de fondos. Detector sin hallazgos principales, un aviso preexistente no bloqueante; sin script de lint separado. Chromium emulado; Safari y hardware iOS/Android pendientes. Sin commit ni push.
+
+## 65. Catálogo de ejercicios y selector compartido (2026-10-06)
+
+Víctor pide 100–150 ejercicios comunes, búsqueda/filtros, recientes y personalizados para evitar escribir cada ejercicio. En `feat/catalogo-ejercicios` se añaden 116 definiciones editoriales locales con ids estables, músculos principales/secundarios y equipo. ModalPage compartida entre rutinas y sesión, chips combinables y recientes derivados de las series. Personalizado conserva formulario al fallar y queda disponible después; selección/primera serie transaccional.
+
+Se mantienen los ids numéricos de rutinas/series y los valores históricos; catálogo separado de datos personales, lectura sin escritura y enlace exacto solo al seleccionar. Campos opcionales conservan Dexie v6/backup v2. No hay nuevas dependencias, red, tabla de recientes ni funciones futuras ficticias. Decisión en [ADR 014](decisiones/014-catalogo-ejercicios-local.md), flujo en [Gym](features/gym.md), datos/arquitectura/diseño y sidecar Impeccable actualizados. Evidencia y límites: [informe](historico/catalogo-ejercicios-2026-10-06.md).
+
+**Verificación**: 1.236 tests / 68 archivos y build TypeScript/Vite/PWA correctos. 32 estados en ocho contextos de catálogo/rutinas/sesión, caso adicional de viewport reducido y cierre bloqueado/reintento, doce contextos de motion. Producción abre catálogo por primera vez offline en ambos temas con export intacto. Revisión visual acotada inicial/confirmación corrige título ampliado y protege espacio de lista; detector sin hallazgos. Sintaxis, sidecar JSON y diff check correctos; sin script de lint separado. Chromium emulado; hardware Safari/iOS/Android pendiente. Sin commit ni push.
+
+## 66. Mapa muscular del entrenamiento terminado (2026-10-06)
+
+Antes de cerrar `feat/catalogo-ejercicios`, Víctor solicita mapa muscular dinámico en resumen/historial. Se separan taxonomía, clasificación, carga por ejercicio, agregación, normalización y SVG original frontal/trasero de once grupos. Trabajo estimado desde series/reps/peso relativo por ejercicio, principales 1,0/secundarios 0,5; niveles relativos al máximo de sesión. «Cuerpo completo» sigue como filtro, pero sus ocho oficiales aportan músculos concretos. Personalizados específicos participan y desconocidos muestran cobertura, sin pintar zonas arbitrarias.
+
+`workoutsRepo.terminar` guarda fin y snapshot semántico v1 (id/nombre/músculos), conservando series y backup v2/Dexie v6. Cierre idempotente/rollback; consultar no escribe. Sesiones antiguas usan asociaciones actuales con aviso, sin inventar su clasificación original. Detalle accesible en filas táctiles, temas/Forced Colors y texto ampliado. No interpreta intensidad fisiológica, fatiga, recuperación o riesgo; mapas temporales y nuevas medidas de esfuerzo quedan para después. Decisión en [ADR 015](decisiones/015-mapa-muscular-de-sesion.md); documentos vivos y sidecar/surface Impeccable sincronizados.
+
+**Verificación**: 1.264 tests / 71 archivos y build TypeScript/Vite/PWA correctos. 32 estados del mapa en ocho contextos, 32 de catálogo y doce de motion con iPhone/Pixel emulados. Producción abre mapa y catálogo por primera vez offline en ambos temas, con export íntegro. Revisión visual inicial/confirmación ajusta nivel debajo del nombre con texto grande; sin palabras partidas, overflow ni targets pequeños. Se evita mezclar series previas durante consultas rápidas del historial. Detector sin hallazgos; sintaxis, JSON y diff check correctos. Sin script de lint separado; hardware físico Safari/iOS/Android y lectores de pantalla pendientes. Evidencia: [informe](historico/mapa-muscular-2026-10-06.md). Sin commit ni push.
+
+## 67. Publicación del catálogo y mapa muscular (2026-10-06)
+
+Víctor autoriza commit, push y merge de `feat/catalogo-ejercicios` a `master` mediante PR. Se publica conjuntamente el catálogo/selector y el mapa por sesión descritos en §§65–66, con sus tests y documentación. Se mantienen fuera del commit las carpetas locales `.agents/` y `.codex/`. La validación previa sigue en verde: 1.264 tests / 71 archivos, TypeScript/build, UI y producción offline; esta operación no cambia el código del producto.
+
+## 68. Preview opt-in de fondo largo en Gym (2026-10-06)
+
+Víctor solicita recuperar color y continuidad ambiental durante scroll, pero exige primero una prueba en Gym. En `feat/preview-fondos-gym`, `?preview=fondo-gym` activa exclusivamente el fondo de Gym oscuro: foto existente al 60% de saturación, brillo/contraste reducidos, velo menos opaco y máscara continua sobre dos radiales cálidos muy discretos a lo largo del contenido. Sin foto repetida/segunda cabecera, blur, fixed, scroll listeners, nuevas dependencias ni cambios de UI, layout, motion o datos. URL normal/otras secciones/Claro conservan su diseño. No se extiende ni publica definitivamente antes de feedback.
+
+**Verificación**: 1.267 tests / 71 archivos y TypeScript/build correctos. Contraste ≥4,5:1, Playwright 320/375/430/1440 px, misma geometría/export, preview aislada, capas y Forced Colors. Revisión inicial/una tanda/confirmación; detector sin hallazgos principales, aviso de radio preexistente fuera de alcance. Capturas reales de cuatro tramos y scroll completo en `/tmp/appfit-preview-fondos-gym`. Evidencia, parámetros, archivos y límites: [informe](historico/preview-fondos-gym-2026-10-06.md). Chromium emulado, hardware Safari/iOS/Android pendiente. Sin commit ni push.
+
+## 69. Extensión del fondo aprobado a toda AppFit (2026-10-06)
+
+Víctor aprueba la preview de Gym y pide implementarla en toda la app. Se elimina el opt-in, el shell selecciona pares de luz por sección (Inicio cobre/piedra; Nutrición oliva/arena; Gym ember/ámbar), y conserva foto/velo enmascarados de 50 rem sobre radiales estáticos por toda la longitud. Claro usa sus imágenes propias y protección clara; Referencias/Ajustes atenúan foto y luces. Sin cambio de layout, superficies, contenido, controles, motion, datos o navegación; sin nuevos assets/dependencias ni trabajo ligado al scroll.
+
+**Verificación:** 1.270 tests / 71 archivos, TypeScript/build y validación de producción offline correctos. Contraste ≥4,5:1 en ambos temas y los tres pares ambientales, incluyendo fade; recorrido aislado 320/375/430/1440 en oscuro/claro, datos/export intactos y capas/Forced Colors. Revisión conjunta y confirmación; capturas reales en `/tmp/appfit-fondos`. El script espera a Referencias antes de capturar, evitando un loading intermedio. Sin commit/push. Evidencia: [informe](historico/fondos-appfit-2026-10-06.md).
+
+## 70. Tipografía Saira en tres voces (2026-10-06)
+
+Víctor instala la skill `typography-selector` (davepoon/buildwithclaude, a nivel de usuario) y pide rediseñar la tipografía. Se preparan muestrarios estáticos fuera del repo con contenido real de la app: cuatro direcciones, cinco atrevidas y ocho combinaciones con las cifras de «Velocidad». Elige «Saira recta»: Saira local en una sola familia, títulos 900 condensados rectos, cifras en cursiva 800 condensada y lectura a ancho normal. Se sustituyen Barlow Condensed y Manrope por Saira variable recta/cursiva (OFL), tokens de peso/anchura/estilo, escala de títulos y métricas ~8 % mayor; sin cambios de layout, datos ni red. La skill propone Google Fonts por CDN; se descarta por la regla de red y las fuentes quedan en `public/fonts/`. Decisión: [016](decisiones/016-tipografia-saira.md).
+
+**Verificación:** 1.270 tests / 71 archivos y TypeScript/build correctos. `validar-rediseno.cjs` (514 estados, 320/375/430 en ambos temas, vacío/normal/extremo y flujos) y `validar-build.cjs` (SW, offline, Saira cargada, export íntegro) correctos con Edge vía Playwright en lugar de Chromium. `validar-produccion.cjs` no se ejecutó (requiere perfil de pruebas). Sin hardware iOS. Sin commit/push.
+
+## 71. Paleta Cobalto y composición respirada (2026-10-06)
+
+Víctor instala en local las skills UI/UX Pro Max e impeccable (ignoradas en `.gitignore`, sin hooks ni subagentes) y pide una auditoría. Resultado: `/impeccable audit` 16/20 y 16 mejoras; contraste AA ya correcto, pero naranja repetido como acción y kcal, macros casi iguales con daltonismo (ΔE 1,8), acción/borrar casi iguales en claro (ΔE 3,5) y comidas como tres cajas apiladas. Entre cinco direcciones maquetadas elige **Cobalto** y pide un diseño más minimalista y respirado, con menos colores y una jerarquía cromática clara, sin cambiar funciones ni información, y que se apliquen las mejoras.
+
+Cambios: tokens en OKLCH con grafito frío, cobalto para actuar, ámbar solo para kcal, P/C/G índigo/turquesa/arcilla, aviso en familia ámbar y mapa muscular en rampa de cobalto. Las luces de ambiente pasan a pizarra/niebla, arena/pizarra y cobalto/acero. Las cabeceras de comida pierden la placa grafito, el círculo y el divisor; cada comida es una `Card` con filas planas y «Añadir a…» en la nueva variante `subtle`. Pestañas sin carril, navegador de día sin línea ni caja, velo de cabecera como franja que se desvanece, panel del Diario sin título repetido ni separador, pestaña «Diario», «Hidratos», «Sin datos» discreto, pista de Gym corregida, sin «AF/» en la barra, menú sin contorno y paginador del abanico con tokens. Descartados con motivo: ocultar las kcal del registro único (lleva la marca «≈») y unificar papelera/«…» (velocidad de registro). Decisión: [ADR 017](decisiones/017-paleta-cobalto-y-composicion-respirada.md).
+
+**Verificación:** 1.266 tests / 71 archivos (contraste más distancias ΔE nuevas entre macros, acción/borrar y kcal/acción) y TypeScript/build correctos. Detector impeccable sin hallazgos. Capturas con Edge vía Playwright a 375×812 en claro/oscuro con datos sintéticos (origen `appfit-test.localhost`, servidor del worktree): sin scroll horizontal, 0 controles <44 px y sin errores de consola. Nutrición mide ~200 px menos con más aire entre comidas. Los scripts `validar-*.cjs` se actualizan a «Diario» pero no se ejecutaron (requieren `/usr/bin/chromium`). Sin hardware iOS. Víctor revisa las capturas antes/ahora y pide commit y PR a `master`.
+
+## 72. Fondo quieto al hacer scroll y foto más presente en claro (2026-10-06)
+
+Víctor pide que la foto de fondo se quede quieta al bajar, para seguir viéndola, y después que en claro tenga más presencia (oscuro se queda igual). `AtmosferaApp` sale del contenido con scroll: es hermana de `main` dentro de un contenedor `relative isolate` del shell, centrada en la columna y bajo la safe area; foto y velo miden `min(100%, 50 rem)`. Sin `position: fixed`, eventos de scroll ni cambios de layout o datos. En claro la saturación sube a 85% y el velo baja de 76/88/95% a 71/86/90%, el mínimo que los tests de contraste aceptan sobre el negro fotográfico; oscuro fija su saturación (60%) para no heredar el cambio. Al rebasar sobre la paleta Cobalto (§71), su franja de lectura de cabecera pasa de la capa de la foto a `.app-view[data-atmosphere]::before`, para que se desplace con la cabecera y no tape siempre la parte alta de la foto quieta. `validar-fondos.cjs` comprueba ahora que la foto no se mueve en cada tramo de scroll.
+
+**Verificación:** tests y build en verde. Capturas con Edge vía Playwright en `appfit-test.localhost` (320/375/1440, ambos temas, Inicio/Gym/Nutrición): la foto conserva su posición tras desplazar, sin scroll horizontal ni errores de consola. `validar-fondos.cjs` completo no se ejecutó. Sin hardware iOS. Víctor lo prueba en el servidor del worktree y pide commit y push.
+
+## 73. Fondo quieto también en Gym y Referencias (2026-10-06)
+
+Víctor ve que en Gym y Referencias la foto se sigue moviendo al hacer scroll, a diferencia de Inicio y Nutrición. Causa: esas secciones caben en la pantalla, `main` no tiene nada que desplazar y iOS entrega el gesto al documento, cuyo rebote arrastra a la vez foto y contenido (el `overscroll-behavior` estaba en `body`, que no se aplica al viewport). Arreglo solo en `index.css`: `html { overscroll-behavior: none }` y, en táctil (`pointer: coarse`), `.app-view[data-atmosphere]` con `min-height: calc(100% + 1px)` para que `main` siempre capture el gesto; el rebote queda dentro de `main`, sobre la foto quieta, como en las secciones largas. En escritorio no cambia nada (sin barra de scroll por 1 px).
+
+**Verificación:** tests y build en verde. Edge headless con emulación táctil a 375×812 en `appfit-test.localhost`: `pointer: coarse` activo, Gym y Referencias pasan a tener 1 px de scroll en `main`, el documento no se desplaza y la capa de la foto no cambia de posición en ninguna sección. El rebote real de iOS no se puede reproducir aquí: queda por confirmar en el iPhone.
+
+## 74. Sección Perfil con estimación energética (2026-10-06)
+
+Víctor pide una sección principal que estime el gasto y el objetivo energético a partir de datos personales. En `feat/perfil` (desde `master`): gasto en reposo como media de Mifflin-St Jeor y Harris-Benedict revisada (Roza-Shizgal 1984), documentada como criterio de AppFit y no como método publicado; factor de actividad en cinco niveles (1,2–1,9) atribuidos a McArdle, Katch y Katch (1996) como convención, con la limitación PAL < 1,40 de FAO en Referencias; objetivo definición −200…−600 / volumen +200…+600 kcal en pasos de 100 (por defecto 400, campo `intensidadKcal`), aviso si el ritmo supera el 1 % del peso por semana, IMC < 18,5 bloquea el déficit y suelo max(TMB, 800 kcal). «Perfil manda»: los objetivos vigentes se derivan al leer (`perfilRepo.objetivosVigentes`: kcal del perfil y macros reescalados con `reajustarObjetivos`); sin perfil completo y objetivo, siguen los manuales. Se guarda `Settings.perfil` con la fecha de nacimiento; el peso es el último pesaje ≤ hoy. Sin Dexie v7 ni cambio de `BACKUP_VERSION`; `updateSettings` pasa a ser transaccional.
+
+Menú de seis destinos (Inicio · Nutrición · Gym · Perfil · Referencias · Ajustes) en rueda 3+3 con dianas circulares de 84 px; el modo compacto conserva la rejilla rectangular. `SegmentedControl` gana `valor={null}` y la variante vertical con descripción. Nueva área Referencias › Energía y objetivo con fuentes (registro `fuentesEnergia.ts`); `referenciaNutricional` recibe el origen. Decisiones en [ADR 019](decisiones/019-perfil-y-estimacion-energetica.md) y [ADR 018](decisiones/018-menu-de-seis-destinos.md); flujo en [Perfil](features/perfil.md).
+
+Verificación de fuentes: DOI y títulos cotejados con Crossref (Harris-Benedict 1918, Roza-Shizgal, Mifflin, Frankenfield, Henry, ten Haaf, Helms, Garthe, Iraki, Slater, Hall, EFSA); FAO, OMS TRS 894 y NICE NG246 comprobadas solo como URL accesibles. **Sin verificar**: edición y página del manual de McArdle, y la cifra de 600 kcal/día de NICE en NG246 (procede de CG189). Coeficientes de las ecuaciones cotejados con una fuente secundaria (Wikipedia: Harris–Benedict equation y Basal metabolic rate), no con el texto de los artículos originales (de pago); los tests fijan casos calculados a mano.
+
+Tests de cálculo, validación, objetivos vigentes, repositorio (lecturas sin escribir, backup con/sin perfil), rueda a 320 px, estados de UI y SegmentedControl vertical; `guard.test.ts` y `contrast.test.ts` sin excepciones nuevas.
+
+Rebasado sobre `master` actualizado (Saira §70, Cobalto §71, fondo quieto §72–73): conflictos en `index.css` (dianas circulares con el borde y el paginador tokenizado de Cobalto; `--menu-pages-offset` pasa a −19,375 rem), `arquitectura.md` y esta bitácora; los ADR de Perfil y del menú pasan a 019 y 018 porque 017 ya era la paleta Cobalto. Vitest excluye `.claude/**` (copias de trabajo de otras ramas) y `.gitignore` ignora `.claude/worktrees/`. **Verificación**: 1.348 tests / 77 archivos y build correctos. Navegador con Edge vía Playwright (instalado fuera del repo) en `appfit-test.localhost`, servidor propio en 5175 porque el de 5173 servía CSS anterior al cambio de Tailwind: 90/90 comprobaciones. Menú de seis sin solapes, dentro de pantalla y circular (84 px) a 320/375/430 en ambos temas; con texto al 200 % pasa a la rejilla. Flujo completo de Perfil (vacío, incompleto, menor de 18 y altura en metros rechazados, sin objetivo, 2.370 kcal que coincide con el cálculo a mano, −600/+600, IMC < 18,5, aviso «Objetivo actualizado», borrar y deshacer); Inicio, Diario y Ajustes (kcal en solo lectura) usan el objetivo derivado; salto a Referencias › Energía y objetivo con foco; export con el perfil y sin cifras calculadas; importar backups con y sin perfil. Sin scroll horizontal ni errores de consola. Producción: chunk de Perfil precacheado; Perfil y Referencias abren sin conexión. Los scripts `scripts/ui/validar-*.cjs` siguen sin ejecutarse (rutas a `/usr/bin/chromium` y puerto 5174 fijos). Sin hardware iOS. Sin commit ni push.
+
+## 75. Evolución visual: acento naranja y superficies suaves (2026-10-07)
+
+Víctor aporta una referencia visual (`images/`) y pide explorar, sin implementar, cómo refinar AppFit con ella sin perder su identidad ni hacer un mashup. Preview temporal en una copia del proyecto en el scratchpad (hoja `preview-evolucion.css` importada al final, sin tocar el repo) y capturas antes/después de Inicio, Nutrición, Entreno, Progreso y Perfil en claro y oscuro. Víctor la aprueba tal cual e indica integrarla.
+
+Implementación solo en tokens y primitives ([ADR 020](decisiones/020-acento-naranja-y-superficies-suaves.md)): grafito neutro (claro 245/244/241 con superficies blancas, oscuro 10/11/13), un único acento naranja para acción/selección/foco con la barra de kcal en la misma familia, borrar a carmín en claro, rampa muscular naranja, radios 8/14/22/28 px, sección 32 px y card 20 px. Nuevas sombras `shadow-card` (Card, `.training-surface`, ListGroup agrupada; `none` en oscuro) y `shadow-control` (botón secundario, selector, Menú). `ListGroup` gana `variante` (`agrupada` por defecto, `plana` en la cadena de energía de Perfil y en el Sheet de acciones del plato). ViewTabs con barra corta y negrita; SegmentedControl y Menú en cápsula; nav sin línea; contexto de sección con icono naranja. `Button ghost` en grafito con el icono en acento; línea de peso e icono de las tarjetas de entreno neutros; Progreso en tres Cards; Inicio sin divisor sobre los accesos rápidos. `theme-color` del manifest y del HTML a `#0a0b0d`. `contrast.test.ts`: kcal debe quedar en la familia del acento (ΔE ≤ 10) y acción textual/borrar ≥ 8 (antes ≥ 15). DESIGN.md (frontmatter y prosa), DESIGN-SYSTEM, `.impeccable/design.json`, README, PRODUCT y el estado de ADR 017 actualizados.
+
+**Verificación:** tests y build en verde. Capturas con Edge vía Playwright (instalado fuera del repo) en `appfit-test.localhost` con datos sintéticos, servidor propio en 5181: las cinco pantallas a 390 y 320 px en ambos temas coinciden con la preview aprobada, sin scroll horizontal ni errores de consola. Los scripts `scripts/ui/validar-*.cjs` no se ejecutaron (rutas a `/usr/bin/chromium` y puertos fijos). Sin hardware iOS. Sin commit ni push.
+
+## 76. Imágenes de referencia en el selector de ejercicios (2026-10-07)
+
+Cada fila de «Añadir ejercicio» muestra una miniatura de 48 px para reconocer el ejercicio sin depender del nombre. Fuente: free-exercise-db (The Unlicense, comprobada en el repositorio). Tubería manual `scripts/ejercicios/` (`imagenes.ts`, `mapeo.json`, README) con `sharp` como dependencia de desarrollo: descarga la foto mapeada, recorta a cuadrado, 192 px, WebP calidad 70 (2–7 KB), escribe `public/ejercicios/<slug>.webp` y `lib/ejerciciosConImagen.ts`; idempotente y valida que el mapeo cubra exactamente el catálogo. Mapeo editorial revisado a mano y con una hoja de contactos de todas las miniaturas: 101 con imagen, 15 sin equivalente fiel (`null`), listados en el roadmap junto a los dudosos. App: `imagenEjercicio` (puro, con test que también comprueba que cada archivo existe), `MiniaturaEjercicio` (hueco con icono para personalizados, sin imagen o `onError`), token `--thumb-size`/`thumb` y `--thumb-filter` (en oscuro `brightness(0.85)`; las fotos no son de fondo blanco sino de gimnasio, claras y con mucho rojo, así que un atenuado leve basta). No se amplían al tocar: la fila es un botón y anidar otro rompería accesibilidad y el objetivo de añadir. PWA: `globIgnores: ['ejercicios/**']` y `CacheFirst` en la caché `ejercicios` (200 entradas); el precache sigue en 34 entradas. Documentados gym, arquitectura, DESIGN-SYSTEM, herramientas, README y roadmap.
+
+**Verificación:** 1.351 tests y build correctos. Edge vía Playwright (instalado fuera del repo) en `appfit-test.localhost`: selector a 320/375/430 px en ambos temas, sin scroll horizontal ni errores de consola, imágenes cargadas y filas de 72–90 px. `validar-catalogo-ejercicios.cjs` no se ejecutó (ruta fija a `/usr/bin/chromium`). Sin hardware iOS ni prueba offline de la caché de imágenes. Sin commit ni push.
+
+## 77. Ilustraciones propias de ejercicios por lotes (2026-10-07)
+
+Las fotos de free-exercise-db no convencen a Víctor; aporta una referencia de estilo (render anatómico 3D gris con el músculo trabajado resaltado, estilo Gym Visual). Se descarta copiar o licenciar esas imágenes (la licencia de Gym Visual, < 0,75 $/ilustración, prohíbe además usarlas como base para IA) y se prueba una imagen 2×2 con cuatro ejercicios en Artlist (Nano Banana 2.1, generación gratuita): estilo muy parecido, con errores técnicos en dos de las cuatro (barra sobre el cuello en press banca, asiento detrás en la sentadilla). Víctor prefiere generarlas con ChatGPT (plan gratuito, poco a poco) en lotes de cuatro.
+
+`scripts/ejercicios/ilustraciones.json`: 29 lotes fijos de cuatro `[slug, postura en inglés, músculos a resaltar]`, cada ejercicio del catálogo una sola vez (validado). `imagenes.ts` escribe `prompts.md` (estilo común + cuatro posturas por lote, con ☐/✔), recorta cada cuarto de `ia/lote-NN.*` (−2 % por borde contra líneas divisorias, `trim` del blanco, cuadrado con 8 % de margen, 192 px, WebP 78, ~3 KB) y da prioridad a la ilustración sobre la foto; `ia/<slug>.*` sustituye un recuadro suelto (`--prompt <slug>` imprime su prompt). `ia/` queda fuera de Git. Trampa de sharp: `resize` se aplica antes que `extend` en la misma cadena, así que el margen va en un paso aparte. La app no cambia.
+
+**Verificación:** recorte probado con la imagen de Artlist como lote ficticio (cuatro miniaturas de 192 px sin líneas divisorias) y revertido; tests y build en verde. Sin lotes reales todavía.
+
+## 78. Ilustraciones de los 116 ejercicios (2026-10-07)
+
+Víctor genera los 29 lotes con ChatGPT (1254×1254 px) y los deja en `scripts/ejercicios/ia/` como `1`…`29` (los tres primeros sin extensión); se renombran a `lote-NN.png`. Primer recorte con mitades fijas: dos fallos. (1) `bad extract area` en 87 recuadros: sharp aplica `trim` antes que `extract` dentro de una misma cadena; cada operación va ahora en su propio paso. (2) La IA no respeta las mitades: el thruster perdía las mancuernas, que invadían el cuarto vecino, y varios recuadros arrastraban trozos de otro. `cajasLote` busca el corte por la línea más blanca entre el 35 y el 65 % (horizontal por mitad izquierda/derecha y vertical por banda superior/inferior) y, en cada cuarto, descarta las componentes conexas (rejilla de 4 px) que tocan un corte y ocupan menos del 8 % de la tinta. Resultado: 116/116 ilustraciones, 358 KB en total (~3 KB cada una), sustituyen a todas las fotos; free-exercise-db queda como respaldo de la tubería.
+
+**Verificación:** hojas de contactos de las 116 revisadas a ojo (postura, equipo y músculo resaltado coherentes; sin fragmentos vecinos); tests y build en verde. Sin revisión en navegador en esta entrada (el servidor de desarrollo se cerró por falta de memoria).
+
+
+## 79. Inicio minimalista con rueda de energía (2026-10-07)
+
+A Víctor no le acababa de gustar Inicio y pidió algo más minimalista. Lienzo de bocetos (390×844, ambos temas, tokens reales): A poda, B lista del día, C una cifra protagonista. Eligió C con las kcal como tarjeta pequeña algo mayor, en rueda; después rueda ancha frente a alta, negro frente a gris para lo que falta y tres formas del exceso (llena, segunda vuelta, color de aviso). Eligió ancha, negro y segunda vuelta, mantener «Registrar comida» y retirar la regla «sin anillo» ([ADR 021](decisiones/021-inicio-minimalista-rueda-energia.md)).
+
+Inicio: «Hoy» + fecha, `TarjetaEnergia` (rueda SVG propia: tramos P/C/G por kcal 4/4/9, tramo `otros` para kcal sin desglose, resto en el token nuevo `kcal-rest`, segunda vuelta interior hasta una vuelta completa; geometría pura en `inicio/lib/anilloEnergia.ts`), `AccesoEntreno` y `AccesoPeso` sobre `TarjetaAcceso` (toda la tarjeta es un botón; el «+» del peso es hermano en la esquina) y «Registrar comida» como acción principal. Retirados por quedar sin uso: `TarjetaEntreno destacado` (y `.training-feature`), `ResumenNutricional` `integrado`/`accion`/`footer`/`tituloVisible`, `PesoCard`, `BrandMark`, `saludo.ts`, la mini gráfica (`puntosSparkline`, `serie30d`). `fraseVariacion` pasa a `inicio/lib/peso.ts` con test. Regla de CLAUDE.md: «sin halo ni contador animado». La foto de fondo de Inicio se mantiene (los bocetos no la llevaban; Víctor no pidió quitarla).
+
+**Verificación:** 1.353 tests y build en verde. Edge vía Playwright (`playwright-core` en el scratchpad, fuera del repo) en `appfit-test.localhost`, servidor propio en 5182, datos sintéticos: escenarios normal, exceso con entreno en curso y kcal rápidas, vacío y cifras grandes (12.450 kcal, 145,6 kg) a 320/375/430 px en ambos temas; sin scroll horizontal, sin botones < 44 px, sin errores de consola. Recorrido: «+» abre Registrar peso, la tarjeta de peso abre el historial, Entreno abre Gym y Energía abre Nutrición. A 320 px el texto de energía pasa bajo la rueda. Sin hardware iOS. Sin commit ni push.
+
+## 80. Mejoras funcionales: seguridad de datos, Gym, Nutrición y análisis (2026-10-07)
+
+Plan de 26 puntos ejecutado de una vez en `feat/mejoras-funcionales` (sin commits), con dos ajustes de Víctor a mitad: la sugerencia de progresión (8) y las kcal extra en días de entreno (18) **no se implementan** (pasan al roadmap), la proteína por kg (17) va activada por defecto con rango 1,6–2,2 g/kg y el objetivo de agua (19) sale de EFSA por sexo.
+
+**Esquema.** Dexie v7 con cinco tablas nuevas (`porciones`, `recetas`, `agua`, `objetivosDia`, `medidas`), backup v3 (importa v1 y v2) y campos opcionales sin versión (ADR 022). Tests de migración v6 → v7 y de ida y vuelta del backup.
+
+**Datos y fallos básicos.** Aviso de copia en Inicio (`ultimaExportacion`, 14 días configurables, «Más tarde» 3 días). Descartar entreno en curso, «Terminar» con 0 series descarta. Detalle del historial convertido en vista de la pestaña (`DetalleEntreno`) con edición de horario, series, ejercicios, orden y notas, borrado con confirmación y recálculo del `muscleSnapshot`; registrar entreno pasado; borrar pesaje con «Deshacer» en línea; Mis ejercicios; reordenar ejercicios (`Workout.ordenEjercicios`).
+
+**Gym.** Notas, series de calentamiento (excluidas de volumen, récords, mapa, progreso y precarga) y RIR en un menú por serie, récords (peso, 1RM Epley, repeticiones con un peso ya usado), objetivos de rutina con series precargadas con los últimos valores, descanso por ejercicio y pitido Web Audio, calculadora de discos y resumen semanal por grupo muscular.
+
+**Nutrición.** Raciones propias que el intérprete reconoce como unidad (`unidadPropia`), recetas caseras como `Food` propio, proteína por kg, agua con objetivo EFSA, objetivo de cada día (snapshots escritos solo por acciones del usuario), adherencia, rachas y top de alimentos en Resumen.
+
+**Cuerpo y análisis.** Gráfica del peso con media de 7 días (Recharts diferido), gasto observado (≥ 28 días, 80 % de registro, 2 pesajes por semana) con opción de usarlo, medidas corporales; exportación CSV para Excel (`;`, coma decimal, BOM).
+
+**Fuentes.** DOI, título y año contra Crossref; cifras contra el texto de cada fuente: Morton 2018 (1,62 g/kg/día, IC 95 % 1,03–2,20, PubMed Central), Jäger 2017 (1,4–2,0 g/kg/día), EFSA 2010 (2,0 L mujeres y 2,5 L hombres de agua total, resumen de una copia archivada porque efsa.europa.eu devuelve 403). El 20 % descontado por la humedad de los alimentos es criterio de AppFit, y consta así en Referencias › Proteína y agua.
+
+**Decisiones propias.** Precarga de rutina = últimos valores efectivos (sin sugerencia); Deshacer en línea dentro de Sheets y ModalPage porque el Toast queda debajo; un fallo al congelar el objetivo del día no estropea la acción principal; la variación de peso de Inicio no cambia a la media.
+
+**Revisión posterior.** Objetivo de hoy siempre en vivo (el snapshot solo manda para fechas pasadas; `congelar(hoy)` hace upsert) y borrar/restaurar pesaje o perfil lo actualizan; importar una copia fija `ultimaExportacion` a su fecha. Validación en navegador (Edge headless con `playwright-core` instalado fuera del repo, en `appfit-test.localhost`, datos sintéticos, 320/375/430 px × claro/oscuro, capturas en el scratchpad): Inicio (aviso, agua, historial de peso con gráfica y borrado), Gym (registrar pasado, detalle y edición, Semanas, récords, Rutinas con objetivos, Mis ejercicios, sesión con menú de serie, discos, reordenar, notas, descartar y terminar sin series), Nutrición (recetas, raciones, «2 tostadas de pan bimbo» = 64 g, Resumen con adherencia), Perfil (proteína, gasto observado, medidas), Ajustes (CSV, recordatorio, barra, sonido) y Referencias. Sin scroll horizontal, controles ≥44 px, inputs ≥16 px y sin errores de consola. Fallos hallados y corregidos: «Mis ejercicios» (la vuelta de editar a la lista cerraba la ModalPage entera: ahora el editor es una segunda ModalPage), RIR como segmentos de 43 px a 320 px (ahora botones en rejilla de 3 columnas con «Sin dato») y el Toast tapando el último botón del detalle y de la sesión (más margen inferior).
+
+**Verificación:** tests y build en verde; recorrido en Edge emulado. Sigue sin probarse en iPhone (ver roadmap).
+
+
+## 81. Agua «−» en Inicio y decimales en los campos de nutrición (2026-10-07)
+
+Rama `feat/agua-y-decimales`. **Agua:** la tarjeta de Inicio suma un «−» junto al «+» que quita la última toma del día (`aguaRepo.quitarUltima`) con «Deshacer» (la vuelve a añadir); desactivado con 0 ml. **Decimales:** al crear un alimento sin coincidencia, los valores por 100 g no admitían decimales: el `type="number"` con valor numérico controlado devolvía `''` (o `12` con «12,0») a medio escribir y `Number(...) || 0` pisaba el campo. Nuevo `DecimalInput` (y hook `useCampoDecimal`, también en `NumberStepper`): campo de texto con teclado decimal, acepta coma o punto, conserva el borrador mientras tiene el foco y muestra el valor con coma. Aplicado a `MacroInputs` (macros y nutrientes adicionales), `KcalRapidasSheet` y todos los `NumberStepper`. Parseo puro en `shared/lib/format.ts` (`esDecimalParcial`, `leerDecimal`, `decimalEditable`) con tests.
+
+**Verificación:** tests y build en verde. Sin recorrido en navegador (Playwright no está instalado en el entorno) ni en iPhone.
+
+## 82. Categoría en cada alimento (2026-10-08)
+
+Rama `feat/categorias-alimentos`. Víctor preguntó cómo cuenta el café con leche en el agua (no cuenta: el agua es independiente del registro de comida y el 20 % del objetivo solo descuenta la humedad de lo que se come) y, en vez de sumar bebidas al agua, pidió que cada alimento tenga una categoría. Eligió: verla, filtrar, estadísticas; obligatoria al crear; los antiguos, revisados a mano ([ADR 023](decisiones/023-categorias-de-alimentos.md)).
+
+- **Lista única**: las 29 categorías y las reglas de OFF pasan de `scripts/catalogo` a `nutricion/lib/catalogo/categorias.ts` (sin imports; la tubería lo importa con `.ts`). Tests de `categoriaDeOff` movidos con ella.
+- **Datos**: `Food.categoria` opcional sin índice (sin versión de Dexie ni de backup). Obligatoria en `foodsRepo.crear`, `resolverParaGuardar` (crear) y `recetasRepo` (`CategoriaRequeridaError` / `RecetaInvalidaError`); `actualizar` sin ella la conserva; reutilizar un alimento antiguo le pone la del ítem. `foodsRepo.categoriasDeEntradas` la resuelve en vivo por `FoodRef`.
+- **OFF**: `CAMPOS_OFF` pide `categories_tags` y `pnns_groups_2`; completo sin coincidencia → «Otros»; incompleto lleva la suya si encaja. Un `off` guardado sin categoría se vuelve a pedir al escanearlo con conexión.
+- **UI**: `SelectorCategoria` en Alimentos (obligatorio), en recetas («Platos preparados» por defecto) y en la revisión cuando el ítem crea un alimento (`creaAlimentoNuevo` / `faltaCategoria` bloquean Guardar). Alimentos: «Filtrar por categoría», aviso de pendientes con «Revisar» y la categoría en cada fila. Revisión: «Tu alimento · Bebidas». Diario: «150 g · Carnes». Buscar/frecuentes: la categoría como detalle de los propios. Resumen: «Por categoría» (kcal, % y proteína; `repartoPorCategoria`).
+- Fixtures de `scripts/ui/*.cjs` con `categoria` en los ítems y el paso de categoría en `validar-nutrientes.cjs` (no ejecutados: Playwright no está instalado en este entorno).
+
+**Verificación:** tests y build en verde (lógica pura, repos y render estático de la revisión y del diario). Sin recorrido en navegador ni en iPhone.
+
+**Iconos de categoría (mismo día).** Víctor pidió iconos o emojis por categoría, mostrados como icono y con el nombre al pulsarlos. Emojis no (regla de diseño y guard); 15 SVG propios por familia (`Icon` `cat-*`, contacto revisado a 48 y 20 px renderizado con sharp), mapa en `lib/iconosCategoria.ts` y `IconoCategoria` (toggletip de 44 px al lado de la fila). En Alimentos, Diario, Buscar/frecuentes y revisión sustituyen al texto de la categoría (el detalle de Buscar queda para la marca); en el Resumen se ven icono y nombre. Tests y build en verde; sin recorrido en navegador.
+
+## 83. Pie de las comidas solo con iconos y cards más claras en oscuro (2026-10-08)
+
+Víctor veía muy cargado el pie de cada comida («Añadir a desayuno» + «Repetir del día anterior (3)», que a 375 px partía en dos líneas) y, en oscuro, la card de la comida casi igual que el fondo. Antes de implementar pidió una preview (artifact con los tokens reales: cuatro opciones de acciones y cuatro de card). Eligió la fila de iconos con un «+» que se vea bien («+» sobre gris) y el tono más claro con borde fino, para toda la app.
+
+- **Comidas** (`ComidaSection`): el pie de la card y la fila de una comida vacía son «+» (`IconButton` nueva variante `tonal`, velo `fg/10` que funciona sobre página y card) a la izquierda y Repetir (`copy`, `ghost`) con el número de ayer en una pastilla `aria-hidden` a la derecha; los nombres completos van en `aria-label` («Repetir desayuno del día anterior (3 alimentos)»; «Repitiendo…» con `aria-busy` y loader). Tests en `RegistroComida.test.tsx`.
+- **Cards en oscuro** (`tokens.css`): Card default y ListGroup agrupada (no muted ni `.training-surface`) redefinen dentro superficie 38/39/44, `surface-muted`, `border`, `border-strong`, `selected` y `surface-elevated`, con borde visible y brillo interior arriba. ListGroup agrupada gana `border-transparent` para la geometría. `contrast.test.ts` añade el caso «card en oscuro».
+
+**Verificación:** tests y build en verde. Edge headless (`playwright-core` fuera del repo) en `appfit-test.localhost` con datos sintéticos, Nutrición a 375 claro/oscuro y 320 oscuro: sin scroll horizontal ni errores de consola, botones de 44 px. Sin probar en iPhone.
+
+## 84. Repetir con selección (2026-10-08)
+
+Rama `feat/pie-comidas-y-cards-oscuro`. Víctor pidió que Repetir no copiase toda la comida del día anterior sino que abriese una tarjeta para elegir alimentos/platos.
+
+- **UI**: Repetir abre `RepetirComidaSheet` con la comida del día anterior: un check por plato (entero, con sus ingredientes listados si tiene nombre propio) o entrada suelta, cantidad/conteo y kcal; todo marcado al abrir (repetirlo todo sigue siendo un toque más), «Desmarcar/Marcar todo», total de lo marcado y «Añadir a …» en el footer. Error en línea; al terminar, Toast «N entradas copiadas» con «Deshacer». `ComidaSection` pierde `ocupado`/`repitiendo` (el progreso va en el botón del sheet).
+- **Datos/lógica**: `entriesRepo.copiar` admite `origen.ids`; `platos.idsElegidos` traduce la selección (claves desmarcadas) a ids. Tests en `entriesRepo.test.ts`, `platos.test.ts` y `RegistroComida.test.tsx`.
+
+**Verificación:** tests y build en verde. Edge headless (Playwright de la caché de npx) en `appfit-test.localhost` con datos sintéticos (plato con nombre largo, entradas sueltas, kcal rápidas de 5 cifras), 320/375/430 claro/oscuro: sin desbordamiento ni scroll horizontal, controles del sheet ≥ 44 px, «Añadir» desactivado sin selección y solo se copian las marcadas conservando el plato. Sin probar en iPhone.
+
+## 85. Pulido visual «precisión silenciosa» (2026-10-08)
+
+Rama `feat/pie-comidas-y-cards-oscuro` (sin commit). Víctor pidió una auditoría visual para evolucionar AppFit sin rediseñarla. Se hizo con capturas reales (Edge con `playwright-core` fuera del repo, datos sintéticos en `appfit-test.localhost`) y un laboratorio en un artifact con los tokens reales, Saira y las fotografías: recreación «Actual» frente a variantes, informe y un control Sí/No/Otra por propuesta guardado en la base de datos del artifact. Marcó las quince propuestas y las variantes (P1-B, P2-B, P3-C, P4-C, P5-C, P6-C, P7-B, P8-B, P9-B, P10-B y P11–P15). Decisión: [ADR 024](decisiones/024-precision-silenciosa.md).
+
+- **Barras** (`ProgressBar`, `tramosCarril.marca`): sin marca mientras no te pasas; carril en `bg-line`.
+- **Inicio**: rueda con lo que falta en un carril de 6; a 20 rem o menos de tarjeta la rueda se centra (container query `energia`). Agua en `bg-fg-muted` con valor/unidad separados (`partesAgua`); acciones de peso y agua en neutro.
+- **Diario**: chevrón del plato en la columna del icono (`.food-record-plato`), kcal de cabecera en una línea, Repetir con el número como texto. Macros siempre con `resumenMacros` («P 11 · C 57 · G 7»).
+- **Cards**: títulos de sección fuera de la card en Perfil, Progreso y «Último entreno»; `Disclosure` sin línea duplicada tras una lista plana ni al final de una card (`.app-disclosure`, `.app-list-flat`).
+- **Entreno en oscuro**: `--c-training` 50 51 56, `--c-training-track` 76 78 84 y borde `--c-training-border`; brillo interior como las cards.
+- **Cifras**: kcal rectas en Alimentos y recetas; unidades fuera de `font-numeric` en el entreno en curso; `formatUltimaVez` con coma y grupos sin partir; fila y check de serie con `--radius-md`.
+- **Resumen**: media diaria en card con `MacroBar` y navegador sin línea. **Progreso**: `escalaAjustada` (paso 1/2/5 × 10ⁿ), `chartGrid`, rótulo del último valor y nota del eje.
+- **Nombres y fechas**: destino «Entreno» (antes «Gym»), primera vista «Empezar»; `formatDiaMes`, `formatFechaHora`, `formatFechaHoraConDia`; Historial con rutina · duración · volumen (`detalleSesion`). `scripts/ui/` navega a «Entreno».
+- **Controles**: primario deshabilitado en neutro; «Nuevo» y «Nueva receta» secundarios.
+
+**Verificación:** tests y build en verde. Edge headless en `appfit-test.localhost` con datos sintéticos: capturas de todas las secciones a 320/375/430 px en ambos temas y la matriz de `validar-rediseno.cjs` (copia adaptada: 320/375/430 × claro/oscuro × vacío/normal/extremo, 456 estados) sin desbordamiento, con controles de 44 px, campos de 16 px y sin errores de consola. Sin probar en iPhone.
+
+## 86. Plan de mejoras de Entreno (2026-10-08)
+
+Tras sincronizar master hasta `cb1e9c5`, Víctor aporta diez mejoras y pide un documento y ayuda para planificar, especialmente negativas, dropsets y agarres. Se crea [mejoras.md](../mejoras.md) en `feat/plan-mejoras-entreno` como propuesta viva: estado real del código, solución inicial por mejora, fases, dependencias, compatibilidad y preguntas abiertas. Roadmap enlaza al plan en lugar de duplicar las reglas de progresión.
+
+Hallazgos relevantes: RIR ya persistido; notas solo del entreno; completar series es estado de sesión no incluido en el historial, y se guardan también series precargadas/no marcadas. La progresión exige distinguir realización confirmada y variantes comparables. Quitar ejercicio de una rutina solo en la sesión necesita recordar omisiones además de borrar series. Peso corporal, asistencia y unilateral afectan a volumen, récords, precarga y mapa; negativas y dropsets no deben compararse como series convencionales sin definir su semántica.
+
+**Verificación:** únicamente documentación; `git diff --check` y enlaces nuevos comprobados. El código sigue en la misma base ya validada con 1.607 tests / 105 archivos y TypeScript/build correctos al sincronizar. Sin implementación, cambios de datos, commit ni push.
+
+Víctor confirma posteriormente el alcance de gráficas: mostrar/ocultar curvas y métricas. Se actualiza el plan y se retira esa pregunta de las decisiones abiertas; no implica cambiar tipos de gráfica ni periodos.
+
+Confirma también unilateral: datos comunes para ambos lados por defecto y opción para distinguir izquierda/derecha cuando haga falta. Queda registrado en el plan, sin implementar todavía.
+
+## 87. Papelera de ejercicio por sesión, primera mejora (2026-10-08)
+
+Rama `feat/quitar-ejercicio-entreno`. Víctor pide implementar las mejoras de una en una y parar tras la primera. Orden registrado en [mejoras.md](../mejoras.md): papelera, RIR visible, notas por ejercicio, gráficas configurables, peso corporal, unilateral, agarres, dropsets, negativas y progresión. Solo se implementa la papelera; RIR visible será el siguiente paso cuando indique continuar.
+
+- `PanelEjercicio` comparte la papelera de cabecera en activo/editor del historial; detalle de lectura no ofrece borrado. `hooks/useQuitarEjercicio` comparte bloqueo, Toast Deshacer y foco al siguiente/anterior título o Añadir ejercicio. Deshacer devuelve el foco al panel restaurado.
+- `workoutsRepo.quitarEjercicio` borra todas las series de ese ejercicio y guarda `Workout.ejerciciosOmitidos` en una transacción; no modifica catálogo, rutina ni otras sesiones. Sin ese campo, los ejercicios de rutina volverían a aparecer. El orden recordado se conserva; `restaurarEjercicio` devuelve ids/reps/kg/RIR/calentamiento y clasificación muscular histórica sin revertir notas, movimientos u otras omisiones. La UI retira/restaura sus marcas de completado; espera las escrituras de series pendientes y consulta el estado de sesión más reciente.
+- `setsRepo.agregar` cancela la omisión si se vuelve a añadir desde el selector. Campo opcional sin índice ni migración: Dexie v7/backup v3 conservados, export/import probado.
+- Impeccable guía una integración contenida con icono/primitive/tokens existentes. La revisión con texto al 200% detecta controles de cabecera y series comprimidos: se permite envolver controles y una container query distribuye series en dos columnas cuando no caben. El selector de duración existente del historial también desbordaba: se limita el ancho de `NumberStepper`, se permite encoger su campo y envolver su fila. No cambian cálculos ni comportamiento de registro.
+- Documentación viva actualizada: plan/roadmap, Gym, datos, arquitectura, sistema de diseño, desarrollo y README. Sin dependencias nuevas de la aplicación, commit ni push.
+
+**Verificación:** `npm run test` (1.620 tests, 106 archivos), `npm run build` (incluye TypeScript y PWA) y `git diff --check` correctos. No hay script de lint independiente; guard de diseño/acceso/contraste incluido en la suite. Detector Impeccable sobre los componentes afectados sin hallazgos. `validar-quitar-ejercicio.cjs` pasa ocho contextos Chromium efímeros en `appfit-test.localhost:5173`: 320/375/430 px en claro/oscuro, 375 px con texto al 200% y Reduce Motion, y escritorio 1440 px. Comprueba datos y otras sesiones intactos, Deshacer exacto/marcas/posición/foco, fallo y rollback, doble toque, recarga, reañadir mediante selector, historial/snapshot, ejercicio sin series y quitar todos los paneles. Capturas activo/historial inspeccionadas; informe en `/tmp/appfit-quitar-ejercicio/report.json`. Sin validación física de iOS/Android. Build conserva el aviso conocido de chunk >500 kB.
+
+## 88. RIR, notas por ejercicio, gráficas y carga corporal, mejoras 2–5 (2026-10-08)
+
+En la misma rama `feat/quitar-ejercicio-entreno`, Víctor autoriza continuar con los pasos 2, 3, 4 y 5. Se implementa ese bloque y se para antes de unilateral. [mejoras.md](../mejoras.md) recoge el estado y [ADR 025](decisiones/025-carga-corporal-y-notas-de-sesion.md) fija la semántica de carga y notas.
+
+- **RIR:** selector visible por serie en `PanelEjercicio`, también en el editor del historial; «—» sigue significando sin dato y 0 es un valor distinto. Editarlo conserva la marca de completado. Las filas se redistribuyen mediante container queries cuando falta ancho, sin comprimir los controles táctiles. «…» conserva las acciones secundarias.
+- **Notas:** `NotaEjercicio` usa Sheet y guarda `Workout.notasEjercicios` mediante transacción; la nota general permanece independiente. La última nota anterior terminada se consulta con fecha, sin copiarla. Guardado fallido mantiene el borrador para reintentar. Historial, backup y CSV conservan las notas.
+- **Gráficas:** `ChartVisibility` comparte botones con texto e indicador de selección. Progreso permite ocultar métricas y separa los modos de carga; Nutrición permite ocultar Consumo/Objetivo. Ejes, tooltip y rótulos responden a las curvas visibles, sus colores mantienen identidad y ocultarlas todas ofrece un estado explicativo. Los datos textuales siguen accesibles y no se escriben preferencias nuevas.
+- **Carga:** `CargaEjercicio` distingue externa, corporal, lastre y asistencia. `lib/carga.ts` centraliza formato, validación, cambio de modo y kg externos. Se propone el pesaje hasta la fecha de la sesión y se guarda un snapshot opcional, admitiendo masa desconocida. Cambiar modo reinicia kg para no reinterpretarlos; corregir masa conserva kg añadidos/de ayuda. La configuración se aplica a las series del ejercicio y solo las realmente modificadas pierden su marca.
+- **Comparaciones:** volumen suma kg externos/lastre × reps; corporal y asistencia no suman tonelaje. Epley se limita a carga externa. Récords/Progreso comparan ejercicio + modo; menos asistencia exige reps comparables. Precarga, Última vez, nuevas series, mapa muscular y CSV expresan estos significados. El mapa corporal usa series/reps sin inferir precisión de esfuerzo a partir de la masa o ayuda.
+- **Compatibilidad:** campos opcionales sin índices, Dexie v7/backup v3 conservados; registros antiguos siguen representando kg externos. Quitar/Deshacer también retira/restaura notas y configuración. Sin dependencias nuevas de la aplicación, commit ni push.
+
+**Verificación:** `npm run test` (1.636 tests, 109 archivos), `npm run build` (TypeScript y PWA) y `git diff --check` correctos. No hay script de lint independiente; guards existentes de diseño, acceso y contraste pasan, y el detector Impeccable no encuentra incidencias en la UI nueva. `validar-mejoras-entreno.cjs` pasa ocho contextos Chromium efímeros en `appfit-test.localhost:5173`: 320/375/430 px en ambos temas, 375 px con texto al 200% y Reduce Motion, y 1440 px oscuro. Comprueba RIR, notas/errores, carga corporal/lastre/asistencia con masa desconocida, snapshots, marcas, Deshacer, recarga, historial, curvas y datos intactos, sin errores de página ni desbordamiento. Capturas revisadas de activo, notas y Progreso; informe en `/tmp/appfit-mejoras-entreno/report.json`. Regresión de la papelera con texto al 200% también correcta. Sin validación física de iOS/Android; permanece el aviso conocido de chunk >500 kB.
+
+## 89. Unilateral, agarres, dropsets, negativas y progresión, mejoras 6–10 (2026-10-08)
+
+Víctor autoriza completar el resto de [mejoras.md](../mejoras.md) en la misma rama `feat/quitar-ejercicio-entreno`, sin commit/push. Se implementan las cinco mejoras y se documenta el criterio en [ADR 026](decisiones/026-ejecucion-tecnicas-y-progresion-confirmada.md). No se añaden dependencias de aplicación, tablas, índices ni migraciones: Dexie v7/backup v3 conservados.
+
+- `lib/ejecucion` separa ejecución, significado de kg, agarre, lados, técnicas, volumen y clave comparable. Unilateral permite ambos iguales o lados distintos, incluidos lados ausentes. Kg totales o por lado explícitos; cambiar interpretación vacía valores. Configuración de sesión y preferencia habitual opcional; cada serie conserva la utilizada.
+- `EjecucionEjercicio` reutiliza Sheet/Select para configuración pertinente. `TecnicaSerie`, desde «…», usa un borrador Guardar/Cancelar para variante, datos por lado, tempo, solo negativas y bajadas de dropset con id estable. RIR por lado sigue directamente accesible. Una dropset cuenta una serie extendida y suma todos los tramos una vez; Deshacer restaura la semántica completa.
+- Volumen, Última vez, precarga, mapa, récords, Progreso, historial y CSV integran esos datos. El mapa promedia lados, aplica un único techo de reps a la dropset y no inventa bonus por técnicas. Negativas se comparan en su variante, sin récords convencionales ni Epley; dropsets quedan fuera de curvas/recomendaciones convencionales. Agarre no reescribe músculos del catálogo.
+- `SetEntry.realizada` registra explícitamente confirmación. Ausente permanece desconocida en histórico; false es pendiente y no cuenta como trabajo realizado. El editor permite confirmar series antiguas/pasadas. Cambiar datos físicos exige reconfirmar; RIR/tipo no desmarcan. Marcas se recuperan desde IndexedDB y sessionStorage queda para presentación/descanso. Al terminar se guardan todas las filas, con true/false según sus marcas; no se eliminan pendientes ni se infiere realización de una precarga.
+- `lib/progresion` exige tres sesiones terminadas/comparables confirmadas y objetivo explícito. Propone incremento real tras dos al máximo o una repetición en una única serie sostenida; evita recomendar ante regresión o datos inválidos. Separa variantes/modos y excluye técnicas/tempo. Lastre/asistencia exige masa conocida/estable; asistencia nunca se propone negativa. Incremento/RIR son configurables, sin asumir preferencias del usuario.
+- `ProgresionEjercicio` y el selector muestran señal, motivo y fechas; Aplicar/Mantener/Descartar guarda decisiones por propuesta/sesión. Aplicar revalida transaccionalmente, conserva ids existentes y crea las series objetivo faltantes, sin marcarlas realizadas ni copiar RIR histórico. Fallo revierte también esos cambios. Mantener/Descartar no modifica series.
+- Documentación viva actualizada: mejoras, ADR, datos, Gym, arquitectura, sistema de diseño, identidad (confirmación persistida), desarrollo, roadmap y README. El alcance inicial queda completo; anatomía lateral, progresión independiente por lado y superseries/rest-pause se mantienen como ampliaciones futuras.
+
+**Verificación:** `npm run test` (1.667 tests, 112 archivos), `npm run build` (TypeScript, Vite/PWA) y `git diff --check` correctos. Nuevos tests puros/de repos cubren lados, kg totales, ausencia, tramos, negativas, comparabilidad, RIR vacío/0, extremos, confirmación, precarga, snapshots, Deshacer/backup, datos escasos, regresión, propuestas obsoletas y rollback. Guards de diseño/acceso/contraste pasan; no existe lint independiente. Detector Impeccable sin hallazgos en los componentes nuevos/afectados.
+
+`validar-tecnicas-progresion.cjs` pasa ocho contextos Chromium efímeros en `appfit-test.localhost:5173`: 320/375/430 px en claro/oscuro, 375 px con texto al 200% y Reduce Motion, 1440 px oscuro. Comprueba variantes, lados/asimetría, bajadas/tempo/negativas, cancelar, fallo/reintento, confirmación, Deshacer, recarga, selector y Aplicar, historial/editor y Progreso; sin desbordamiento, targets menores de 44 px ni errores de página. La revisión de capturas compacta controles secundarios y evita un RIR global engañoso en lados distintos. Informe/capturas en `/tmp/appfit-tecnicas-progresion`. Regresión de mejoras 2–5 en 375 oscuro también pasa (`/tmp/appfit-regresion-mejoras`). Sin prueba física iOS/Android; build mantiene el aviso conocido de chunk >500 kB.
+
+## 90. Separar tareas del registro de entrenamiento y RIR compacto (2026-10-08)
+
+Tras probar las diez mejoras, Víctor valida papelera, sugerencias y notas (numeración original 1/6/9), pero pide distinguir mejor carga corporal, unilateral, negativas, dropsets y agarres; RIR con −/+ en la fila y mayor claridad sobre las gráficas. Se trabaja en `feat/claridad-registro-entreno`. [mejoras.md](../mejoras.md) recoge su revisión; flujos actuales en [Gym](features/gym.md) y patrones en [sistema de diseño](DESIGN-SYSTEM.md).
+
+- `PanelEjercicio` presenta carga y ejecución bajo «Ajustes del ejercicio». `OpcionEjercicio` comparte filas con tarea/valor actual, en lugar de botones mezclados. Progresión mantiene una fila visible propia; sus campos distinguen objetivo de reps y criterios para subir.
+- `CamposEjecucion` separa ejecución y agarre. Carga muestra explicación del modo seleccionado y metodología bajo demanda. Carga/ejecución usan el footer persistente de Sheet para Guardar/Cancelar.
+- Opciones de serie separa Ejecución y agarre, Negativas y tempo, Dropset. Cada fila abre su pestaña de `TecnicaSerie`; un único borrador conserva datos al cambiar de pestaña, se guarda atómicamente y Cancelar conserva el original. Las acciones permanecen fuera del scroll.
+- `RirStepper` ofrece −/+ compactos con targets completos y estado «—» distinto de 0. Reducir desde 0 quita el dato. La fila mantiene Reps/Kg/RIR juntos en móvil normal; texto ampliado redistribuye controles. El borrador inmediato evita perder pulsaciones rápidas y revierte ante fallo. Se reutiliza para RIR por lado. No cambian fórmulas, modelo de datos ni criterios de progresión.
+- Progreso antepone controles/gráficas al resumen de última sesión, rotula la visibilidad y explica las dos sesiones comparables necesarias. Expone también las reps ya calculadas en externa/lastre. Peso/1RM, reps y volumen conservan gráficas por unidad; Nutrición mantiene sus métricas y controles existentes.
+
+**Verificación:** 1.667 tests en 112 archivos, TypeScript/Vite/PWA y `git diff --check` correctos. Guards de diseño/acceso/contraste incluidos; no existe lint independiente. Detector Impeccable sin hallazgos. `validar-mejoras-entreno.cjs` y `validar-tecnicas-progresion.cjs` pasan ocho configuraciones cada uno (320/375/430 px en ambos temas, 375 px texto 200%/Reduce Motion y 1440 px oscuro). Comprueban alineación RIR, límites/sin dato, pulsaciones rápidas, rollback, borradores entre pestañas, cancelar, carga/lados, propuestas, historial, recarga, gráficas y conservación de datos. Regresión `validar-quitar-ejercicio.cjs` correcta con texto 200%. Capturas revisadas de fila/activo, gráficas, ejecución, negativas y dropset; informes en `/tmp/appfit-claridad-mejoras-final`, `/tmp/appfit-claridad-tecnicas-final` y `/tmp/appfit-claridad-papelera`. Chromium emulado, sin validación física iOS/Android. Permanece el aviso conocido de chunk >500 kB. Sin dependencias nuevas, commit ni push.
+
+## 91. RIR secundario y opciones en la misma fila (2026-10-08)
+
+Víctor pide un RIR menor que los campos de reps/kg y mantener «…» en su fila. `RirStepper` elimina el fondo de pastilla y utiliza la cifra secundaria de 14 px, frente a 18 px de reps/kg. −/+ se apilan en una columna estrecha con targets completos; la rejilla conserva Serie/Reps/Kg/RIR/opciones en una fila a 320/375/430 px. Con texto ampliado mantiene la redistribución accesible. No cambian límites, guardado, marcas ni datos. Patrón actualizado en [sistema de diseño](DESIGN-SYSTEM.md), [Gym](features/gym.md) y [mejoras](../mejoras.md).
+
+**Verificación:** 1.667 tests en 112 archivos, TypeScript/Vite/PWA y `git diff --check` correctos. Regresión de RIR/gráficas en ocho configuraciones y técnicas/lados con texto 200%/Reduce Motion; comprueba centros de Reps/Kg/RIR/«…», menor tamaño de cifra, targets ≥44 px, pulsaciones rápidas, rollback, historial y conservación de datos. Captura del panel real revisada; resultados en `/tmp/appfit-rir-compacto` y `/tmp/appfit-rir-compacto-tecnica`. Detector Impeccable sin hallazgos. Chromium emulado, sin prueba física iOS/Android; aviso conocido de chunk >500 kB. Sin dependencias nuevas, commit ni push.
+
+## 92. Sincronización con los cambios de Codex (2026-10-08)
+
+Víctor ha trabajado desde Codex en la nube (§86–91, PR #40 y #41) y pide actualizar en local lo necesario. `master` avanza por fast-forward hasta `15c3b4b`; `package.json` y el lockfile no cambian, así que no hace falta reinstalar. Los ajustes de documentación van en la rama `chore/docs-tras-codex`.
+
+- **Documentos que contradecían al código** tras persistir `SetEntry.realizada` ([ADR 026](decisiones/026-ejecucion-tecnicas-y-progresion-confirmada.md)): README, [Gym](features/gym.md) y [arquitectura](arquitectura.md) seguían describiendo las marcas como ayuda visual de la sesión; Gym daba además volumen = Σ peso × reps y un mapa que contaba series «marcadas o no». ADR 009 y 015 tachan lo que sustituye ADR 026, como el resto de ADR.
+- **Texto añadido al final del archivo en vez de en su sección**: README (tras Licencia → lista de Gimnasio), arquitectura (tras Despliegue → bloque de Gym), DESIGN-SYSTEM (en Trampas de UI → patrones de Gym), desarrollo (en Claude Code → Pruebas en navegador) y datos (junto a Notas/carga). [Arquitectura](arquitectura.md) añade `gym → inicio/data/pesosRepo` a la composición entre features.
+- **Scripts de navegador**: los seis `scripts/ui/validar-*.cjs` que fijaban `/usr/bin/chromium` aceptan `APPFIT_CHROMIUM` como los demás; [desarrollo](desarrollo.md) explica una vez los requisitos comunes, en lugar de la ruta `NODE_PATH` del entorno de Codex.
+- `mejoras.md` sigue en la raíz como plan vivo (la segunda entrega está pendiente de validación); al cerrarlo, pasa a `docs/historico/`.
+
+**Verificación:** al sincronizar y tras los cambios, `npm run test` (1.667 tests, 112 archivos) y `npm run build` en verde, con el aviso conocido de chunk >500 kB; `git diff --check` y `node --check` de los scripts tocados correctos. Los recorridos de navegador no se ejecutan: solo cambia cómo eligen el ejecutable. Sin commit ni push.
+
+## 93. Registro de series en la fila (2026-10-08)
+
+Víctor pidió una revisión visual de Entreno: le gustan RIR, ejecución y agarre, negativas y dropsets, pero no cómo se integraron. Se le presentó una comparativa (capturas reales y opciones dibujadas con los tokens de AppFit, en un artifact) y eligió todas las recomendadas, manteniendo Reps · Kg. Rama `feat/registro-series-entreno` (lleva también los cambios de documentación sin commit de §92). Decisión en [ADR 027](decisiones/027-registro-de-series-en-la-fila.md); flujos en [Gym](features/gym.md) y patrones en [sistema de diseño](DESIGN-SYSTEM.md).
+
+- **Fila:** tipo/número · Reps · Kg · RIR · ✓. El número muestra C/D/N y abre `MenuSerie` (tipo, bajada lenta, agarre de la serie, discos, borrar), que guarda al tocar. El ✓ pasa al final de la fila. Lados (I/D) y bajadas (↓) son filas hijas editables con conector; quitar una bajada tiene Deshacer.
+- **RIR:** `RirSheet` (0 al fallo … 5+, «Quitar RIR») desde la celda; se abre al marcar una serie efectiva sin RIR, con el ajuste nuevo `rirAlCompletar` en Ajustes › Entreno. Desaparece `RirStepper`.
+- **Variante y acciones del ejercicio:** botones bajo el título para carga, ejecución y agarre; hojas con opciones visibles (`SegmentedControl`, `FilterChips` de una opción) en lugar de desplegables. Nota, progresión, subir/bajar y quitar pasan al «…» de la cabecera; la sugerencia de progresión solo aparece si hay una propuesta pendiente. Desaparecen «Ajustes del ejercicio», `TecnicaSerie` y `OpcionEjercicio`; la ejecución ya no se cambia por serie.
+- **Datos:** sin tablas, índices ni cambios de backup. `setsRepo.actualizar` acepta una función de la serie guardada para combinar lados y bajadas dentro de la transacción. Lógica pura nueva en `gym/lib/serie` con tests.
+- **Scripts de navegador:** `validar-tecnicas-progresion.cjs` reescrito para el nuevo registro; `validar-mejoras-entreno.cjs` y `validar-quitar-ejercicio.cjs` adaptados al selector de RIR y al menú; `validar-catalogo-ejercicios.cjs` y `validar-motion.cjs` desactivan el RIR al completar en su fixture, y el primero compara con el estado ya marcado (marcar persiste desde ADR 026, por lo que ese script fallaba antes de este cambio).
+
+**Verificación:** `npm run test` (1.681 tests, 113 archivos) y `npm run build` en verde, con el aviso conocido de chunk >500 kB. En Edge con Playwright (`appfit-test.localhost`, Vite en 127.0.0.1, datos sintéticos) pasan en sus ocho configuraciones (320/375/430 × claro/oscuro, 375 con texto al 200 % y Reduce Motion, 1440 oscuro) `validar-tecnicas-progresion`, `validar-mejoras-entreno`, `validar-quitar-ejercicio` y `validar-catalogo-ejercicios`. Capturas revisadas a 320/375 en ambos temas y con texto al 200 %, sin desbordamiento ni targets menores de 44 px. `validar-motion.cjs` sigue fallando antes de llegar a Entreno: espera una marca de destino activo en el menú radial que se retiró en la auditoría visual (§85); no se toca aquí. Sin prueba en iPhone. Víctor decide dejar la intensidad por volumen y pide commit y PR (#97).
+
+## 94. Catálogo de ejercicios ampliado a 204 y grupo Aductores (2026-10-09)
+
+Víctor pide ampliar la lista de ejercicios y, como con la primera, los prompts para generar sus imágenes. Elige +40 (10 lotes de cuatro), repartidos por grupos y con foco en máquinas/poleas y peso libre. Se añaden en su grupo de `catalogoEjercicios.ts` (ids `appfit:*` nuevos, los existentes intactos):
+
+- **Pecho:** press inclinado en máquina y en multipower, aperturas inclinadas, cruce de poleas de abajo arriba.
+- **Espalda:** dominadas supinas, jalón supino, jalón unilateral, remo unilateral en polea, remo Pendlay, encogimientos con barra.
+- **Hombros:** press en multipower, elevaciones laterales en máquina, remo al mentón, pájaros en polea, elevaciones frontales en polea.
+- **Brazos:** curl bayesiano, curl araña, curl martillo con cuerda, curl con barra Z; extensión de tríceps unilateral en polea, press francés con mancuernas, fondos en máquina y en banco.
+- **Pierna:** sentadilla péndulo, prensa horizontal, zancadas con barra, sentadilla sissy, curl femoral de pie, rumano en multipower, hip thrust en multipower, patada de glúteo en máquina, abducción en polea, sentadilla sumo, gemelos con mancuernas.
+- **Core:** crunch en máquina, elevaciones de rodillas en silla romana, giros rusos, inclinaciones laterales, elevaciones de piernas tumbado.
+- **Cuerpo completo:** peso muerto con barra hexagonal (participación propia en `PARTICIPACION_COMPLETA`).
+
+En una segunda petición Víctor pide el apartado **Aductores**: zona nueva en `musculos.ts` (entre glúteos y gemelos, así que aparece en filtros, personalizados, mapa y resumen semanal), con forma propia en el mapa en las dos vistas (cara interna del muslo, provisional) y ocho ejercicios: aducción en máquina, en polea, con banda y tumbado de lado, plancha Copenhague, sentadilla cosaca, zancada lateral y aducción isométrica con balón. Peso muerto sumo y sentadilla sumo pasan a tener aductores como secundario (las sesiones ya cerradas conservan su snapshot). El test del catálogo pasa de 100–150 a 100–200 y comprueba que nombres y alias no se repiten entre ejercicios (`catalogoDeLocal` enlaza registros antiguos por coincidencia exacta). Imágenes: lotes 30–41 en `ilustraciones.json`; `mapeo.json` los deja en `null` para no mezclar fotos con las ilustraciones: hasta generarlos muestran el hueco con icono. Víctor quiere cambiar el muñeco del mapa: `scripts/ejercicios/mapa-muscular.md` reúne cuatro direcciones de estilo (vector plano, geométrico, anatómico suave, línea), cada una con hombre y mujer de frente y de espaldas, las doce zonas y la rampa `--c-muscle-*`; `imagenes.ts` lo añade al final de los prompts. Cuando elija, aportará la imagen de referencia para redibujarlo en SVG (anotado en el roadmap).
+
+Tercera petición: otros 40 (lotes 42–51), con el mismo reparto: flexiones declinadas, press declinado con mancuernas, aperturas en polea en banco, press con mancuernas juntas; remo Seal, remo Meadows, rack pull, jalón en máquina; press militar sentado, elevaciones en Y, press con kettlebell, elevaciones laterales con banda; curl predicador con mancuerna, Zottman, en polea alta y en TRX; flexiones diamante, patada de tríceps en polea, extensión de tríceps en máquina y con banda; rodillo de muñeca, curl de muñeca por detrás; sentadilla con cinturón, zancadas caminando, sentadilla a una pierna, sentadilla isométrica en pared; glute ham raise, curl femoral con fitball, peso muerto con piernas rígidas; puente a una pierna, hiperextensión para glúteo, almejas, patada en cuadrupedia; gemelos tipo burro; hollow hold, escaladores, abdominales en V, crunch bicicleta y en banco declinado; empuje de trineo (cuerpo completo, con participación propia). Total 204; el test del catálogo admite hasta 250. Víctor pide además los prompts de esta sesión en otro archivo: `imagenes.ts` escribe `prompts.md` con la primera tanda (lotes 1–29, hechos) y `prompts-2.md` con los lotes 30–51 y el mapa muscular al final.
+
+Sin cambios de Dexie ni backup: los músculos son cadenas en campos opcionales y un backup antiguo sigue siendo válido. Documentados gym, arquitectura, datos, ADR 014 y 015, DESIGN-SYSTEM, roadmap, README y el README de `scripts/ejercicios`.
+
+## 95. Revisión semanal en Inicio (2026-10-09)
+
+Víctor eligió la revisión semanal entre las propuestas de funcionalidades nuevas. Decidió que aparezca el lunes y se quede hasta cerrarla; los bloques (peso, nutrición, entreno, récords y agua) y el tono neutro se tomaron de la propuesta por defecto, a falta de respuesta explícita. Rama `feat/revision-semanal` desde `master`. Flujo y reglas en [Inicio](features/inicio.md).
+
+- **Lógica pura** en `inicio/lib/revisionSemanal.ts` (con tests): semana revisada, cuándo sale, bloques de peso, nutrición, entreno, récords y agua, y `formatDiferencia`. Reutiliza `resumenSemanal` y `recordsDeEntreno` de Gym y `calcularAdherencia` de Nutrición, sin duplicar criterios.
+- **Lecturas** en `inicio/hooks/useRevisionSemanal.ts`: la tarjeta no lee series (solo comidas, pesos, agua y entrenos); el detalle sí, y va en un chunk diferido para no pesar en el arranque de Inicio.
+- **UI**: `TarjetaRevisionSemanal` (filas en una card, «Hecho» y «Ver revisión» neutros) y `RevisionSemanal` (`ModalPage` con flechas de semana; compone `ListaRecords` de Gym). «Hecho» con «Deshacer» en el Toast.
+- **Datos**: campo opcional `Settings.revisionSemanalCerrada` (lunes de la última semana cerrada). Sin versión de Dexie ni de backup.
+
+**Verificación:** `npm run test` (1.699 tests, 115 archivos) y `npm run build` en verde, con el aviso conocido de chunk >500 kB. Edge headless con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost`, datos sintéticos: 320/375/430 px × claro/oscuro, cifras grandes a 320 oscuro y a 375 con texto al 200 %, y semana sin datos (sin tarjeta). Recorrido: tarjeta, detalle con sus cinco bloques, flechas (no pasa de la última semana cerrada; una semana vacía lo dice), volver, «Hecho», «Deshacer», «Hecho» y recarga (sigue cerrada). Sin scroll horizontal, sin botones < 44 px y sin errores de consola. A 320 px «Ver revisión» ocupa dos líneas. Sin prueba en iPhone. Víctor decide dejar la intensidad por volumen y pide commit y PR (#97).
+
+## 96. Ilustraciones de los lotes 30–51 y nuevo muñeco del mapa muscular (2026-10-09)
+
+Víctor deja en `scripts/ejercicios/ia/parte2/` las 22 imágenes de los lotes 30–51 (`30.png`…`51.png`) y la imagen del mapa muscular en el estilo A (vector plano segmentado), y pide integrarlas.
+
+- **Ilustraciones**: copiadas como `ia/lote-NN.png` y convertidas con `npm run ejercicios:imagenes`; los 204 ejercicios del catálogo tienen ya ilustración propia (88 WebP nuevos). Revisados los 88 recortes en una hoja de contactos: cada figura cae en su ejercicio, sin trozos de la vecina.
+- **Mapa muscular**: en vez de redibujarlo a mano, `scripts/ejercicios/mapa-muscular.ts` (`npm run ejercicios:mapa`) traza la imagen (`ia/mapa-muscular.png`): segmenta las formas por las líneas blancas y el color, reparte los píxeles de las líneas a la forma más cercana, asigna cada forma a una zona con rectángulos simétricos por figura y escribe curvas cuadráticas con coordenadas enteras relativas. `mapaMuscularGeometria.ts` pasa a `CUERPOS.{hombre,mujer}.{frontal,trasera}` con silueta, detalles neutros y una forma por zona, en un viewBox común. Pesa unos 45 kB, así que `MapaMuscular` se carga con `React.lazy` en el resumen final y el detalle del historial (el bundle principal baja de 478 a 473 kB).
+- **Estilo**: las formas se rellenan con surface-muted o su nivel y el hueco entre músculos es el trazo del color del fondo; la silueta va encima, sin relleno. Forced Colors: formas Canvas/Highlight con separaciones CanvasText.
+- **Hombre o mujer**: decisión que el roadmap dejaba abierta. Se toma el sexo de Perfil (`gym/hooks/useFiguraMapa`): mujer si lo indica, hombre en cualquier otro caso, sin ajuste nuevo. Pendiente de confirmar con Víctor.
+
+**Verificación:** `npm run test` y `npm run build` en verde. Edge con `playwright` fuera del repo, Vite en 127.0.0.1 y `appfit-test.localhost`, datos sintéticos (entreno terminado con press banca, remo, sentadilla, curl, hip thrust y press militar): detalle del historial a 320/375/430 px, claro/oscuro, hombre y mujer, y Forced Colors; sin scroll horizontal ni errores de consola, y el muñeco cambia con el sexo de Perfil. `validar-mapa-muscular.cjs` falla también en `master` antes de llegar al dibujo (espera pecho en nivel 5 tras «Guardar y terminar» y obtiene 0; su fixture es anterior a las series confirmadas); no se toca aquí. Sin prueba en iPhone. Víctor decide dejar la intensidad por volumen y pide commit y PR (#97).
+
+## 97. Rediseño visual v2 (2026-10-09)
+
+Víctor pidió ejecutar entero el plan aprobado ese mismo día ([histórico](historico/plan-rediseno-visual-2026-10-09.md)). Antes de empezar respondió las preguntas abiertas: acciones de pantalla en neutro, «Más» como Sheet, flechas de semana en Nutrición, el calendario sustituye a «Semanas» y abre la sesión, una métrica cada vez en Progreso, fuera «Última vez», «Anterior» con su par en calentamientos/lados/bajadas y vaso vacío sin objetivo de agua. Al no autorizar commits, todo va en una sola rama `feat/rediseno-visual`, creada desde `feat/mapa-muscular-figuras` (pendiente de merge: póster e Inicio usan su mapa nuevo) en lugar de una rama por fase desde `master`. Sin cambios de esquema ni de backup.
+
+- **E1 + M3 · Entreno en sesión**: columna «Anterior» (`gym/lib/anterior`: la última sesión terminada que empezó antes; calentamientos con calentamientos, efectivas por su número, lados y bajadas con su par; también en el editor del historial), rejilla de la serie por áreas con nombre (`.celda-*`), «Anterior» como columna desde paneles de 20,5rem y en línea propia por debajo. Cabecera del panel con miniatura y «Pecho · barra» (`lib/presentacionEjercicio`). Cabecera de grafito fija (estática con texto muy ampliado). Descanso en píldora flotante con −15/+15/Saltar (`session.ajustarDescanso`), sin desmontar los botones; los avisos suben por encima (`--nav-toast` redefinido) y la página deja sitio. Serie hecha: el tinte de éxito recorre la serie entera (`.series-set::after`), directo con Reducir movimiento. `formatUltimaVez` desaparece.
+- **F1 + H1 + P1 · Cierre, historial y progreso**: `PosterSesion` (rutina en display, «vie 9 oct · 18:05 – 18:57», tres cifras con filetes y las figuras sobre grafito con una rampa propia, `--c-muscle-poster-*`) al terminar y en el detalle; `MapaMuscular figuras={false}` deja lista y metodología. Historial: calendario del mes con la rampa por volumen cuantizado (`lib/calendarioEntrenos`), semana compacta y sesiones del mes. Arreglado el orden: un test confirma que `workoutsRepo.terminados` ya devuelve de más reciente a más antiguo y se quita la segunda inversión de `Historial`. Progreso: cabecera con miniatura, selector segmentado, área al 12 %, último valor en grande, mejor serie / 1RM máximo / cambio y sesiones con su mejor serie (`datosProgreso.mejor`, `cifrasClave`). `ChartVisibility` sigue en el Resumen de Nutrición.
+- **M7 · Rutinas**: cards con mosaico 2 × 2 de miniaturas («+N»), series objetivo, última vez (`lib/rutinas`, `cuandoFue`) y «Empezar».
+- **NV2 · Navegación** ([ADR 028](decisiones/028-barra-de-pestanas-y-registrar.md), sustituye 008 y 018): barra Inicio · Nutrición · [+] · Entreno · Más; «+» abre `app/AccionesRapidas` (comida, empezar/volver al entreno con elección de rutina, peso y agua vía `inicio/components/RegistroRapido`); «Más» en Sheet. Fuera `RuedaNavegacion`, `rueda.ts`, tokens `--menu-*`, CSS del abanico y `validar-menu-radial.cjs`; `navegar.cjs` y los scripts que esperaban «Menú» o el título «Sesión guardada» se adaptan sin ejecutarlos. Acciones naranjas de pantalla a neutro (sobre grafito, `training-secondary`). Iconos nuevos `scale` y `droplet`.
+- **I3 · Inicio**: rueda de energía igual; Peso con minigráfica SVG (`lib/miniGrafica`) y Agua con vaso (`nivelVaso`, acciones al pie) en la misma fila; Último entreno ancho con `MiniMapa` diferido y «Cuádriceps y glúteos, lo más trabajado» (`masTrabajados`). Fuera el botón «Registrar comida».
+- **N1 · Nutrición**: `SemanaKcal` arriba del diario (`lib/semanaKcal`, `entreFechas` + `objetivosPorFecha`), flechas de semana y «Copiar el día» en el «…»; `ResumenNutricional` en carriles con el selector de detalle dentro. Comidas sin cambios.
+
+**Verificación:** `npm run test` (1.715 tests, 119 archivos) y `npm run build` en verde. El build vuelve a avisar de un chunk de más de 500 kB: el `workoutsRepo` que antes iba en un chunk compartido aparte se funde con el principal al usarlo `AccionesRapidas` (unos 8 kB más de JS de arranque en total). Edge sin interfaz con `playwright` fuera del repo, el Vite ya abierto en 5173 y solo `appfit-test.localhost` con datos sintéticos (`importarBackup`): entreno activo (marcar, píldora y +15 con el foco conservado, cabecera fija), terminar → póster, calendario (orden descendente, abrir un día), detalle, Progreso, rutinas (Empezar), barra (+ → peso, empezar desde rutina, volver, comida; Más → Ajustes), Inicio y Nutrición (semana, semana anterior, vista detallada), a 320/375/430 px en claro y oscuro y 375 con texto al 200 % y Reducir movimiento. Sin scroll horizontal, sin controles por debajo de 44 px en el entreno y sin errores de consola. Con texto al 200 % se corrigieron la cabecera del panel (la miniatura pasa encima), las etiquetas de la barra (quedan para el lector) y la cabecera fija (vuelve a desplazarse). Los días del calendario y de la semana miden unos 37–39 px de ancho a 320 px. Sin prueba en iPhone ni ejecución de `scripts/ui/validar-*.cjs`. Sin commit ni push.
+
+**Auditoría visual (misma sesión):** Víctor pide revisar que todo se ve bien antes del PR. Recorrido completo (Inicio, «+» y «Más», Nutrición Diario/Resumen/Alimentos, Entreno Empezar/Rutinas/Historial/detalle/edición/Progreso, entreno activo con RIR y descanso, terminar, póster, Perfil, Referencias y Ajustes) a 375 claro y oscuro, 320 claro y 430 oscuro, con hojas de contacto. Sin scroll horizontal, sin controles pequeños ni errores de consola (los únicos «recortes» detectados son textos `sr-only`). Dos ajustes: la miniatura del panel de ejercicio bajaba a su propia línea a 320 px (el título ahora pide 8 rem en lugar de 10 y solo se separa con texto ampliado) y la línea del objetivo de la semana de Nutrición se pegaba a la letra del día (la escala deja un 15 % de aire arriba).
+
+
+## 98. Mapa muscular en rojo (2026-10-09)
+
+Víctor pide que el mapa de calor corporal deje el marrón-naranja y vaya de un rojo más claro (menos trabajado) a un rojo más intenso (más trabajado).
+
+- **Solo tokens** (`shared/design/tokens.css`): `--c-muscle-1…5` en claro van de rosa pálido 255/214/213 a rojo profundo 188/25/29 y en oscuro de rojo apagado 103/41/38 a rojo vivo 255/48/42 (el número claro del calendario obliga a que los niveles 1–3 sean oscuros); `--c-muscle-poster-1…5` (póster sobre grafito, igual en ambos temas) van de rojo pálido 233/186/186 a rojo intenso 240/33/33. Calculadas en OKLCH con ΔE ≥ 6 entre niveles vecinos. La misma rampa colorea el calendario del Historial, la leyenda, la lista de grupos y el mapa en miniatura de Inicio, así que todo pasa a rojo a la vez.
+- **Rojo de borrar**: la rampa comparte familia con `destructive`; se acepta porque el mapa no es un aviso y siempre lleva niveles en texto. `DESIGN.md`, `DESIGN-SYSTEM.md`, `features/gym.md` y ADR 015 lo recogen.
+
+**Verificación:** `contrast.test.ts` en verde (texto del calendario sobre cada nivel ≥ 4,5:1 en ambos temas). `npm run test` y `npm run build` en verde. Edge con `playwright-core` fuera del repo, el Vite ya abierto en 5173 y `appfit-test.localhost` con datos sintéticos: póster al terminar, lista de grupos y calendario del Historial a 375 px en claro y oscuro. Sin prueba en iPhone. Víctor decide dejar la intensidad por volumen y pide commit y PR (#97).
+
+## 99. Exploración de gamificación (2026-10-10)
+
+Víctor pide investigar cómo gamificar AppFit, sin implementar nada: apps y videojuegos de referencia, propuestas, reglas de progresión y un artifact para compararlas.
+
+- **Artifact** (privado de Víctor): https://claude.ai/artifact/4KYsAz8G3ss1WhV1E1no6a. Investigación de 27 apps y juegos y 11 estudios con fuentes, seis propuestas (Atributos, Liga fantasma, Tablón, Ritmo, Vitrina y Cumbres), maquetas con los tokens y piezas de AppFit, simulador de semana y evaluación con pesos.
+- **Decisión de Víctor**: Atributos, Ritmo y Vitrina; Liga fantasma reinterpretada como una liga por ejercicio y Cumbres como sistema global, por concretar; rachas autorizadas si alguna función las necesita. Recogido en `gaming.md` (raíz) y enlazado desde el roadmap.
+- Sin cambios de código ni de esquema. `DESIGN.md`, `PRODUCT.md` y ADR 021 siguen diciendo «sin rachas»: el ADR que los revise llega con la implementación.
+
+**Verificación:** el artifact se probó fuera del repo en Edge sin interfaz (perfil temporal): todas las pestañas, las 288 combinaciones de maqueta (escenario × tema × ancho) y las semanas de ejemplo del simulador, sin errores ni scroll horizontal a 1280 y 390 px. Sin commit ni push.
+
+## 100. Atributos: nivel y XP (2026-10-10)
+
+Víctor pide aplicar la parte de Atributos de `gaming.md`, solo eso por ahora (Vitrina y Ritmo después; Liga y Cumbres en otras sesiones), e implementar lo que haga falta de Ritmo.
+
+- **Decisión**: [ADR 029](decisiones/029-gamificacion-atributos.md), que recoge las salvaguardas y la autorización de rachas. `DESIGN.md`, `PRODUCT.md` y ADR 021 se actualizan en consecuencia.
+- **Lógica pura**: `features/atributos/lib/atributos.ts` (XP derivada del historial, nivel, títulos, descanso y textos) y `features/ritmo/lib/plan.ts` (plan semanal por tramos y semana cumplida), con sus tests. Los parámetros son los de `gaming.md`; los títulos que faltaban (25 Curtido, 35 Experto, 40 Maestro, 45 Referente) y «Recién llegado» para los niveles 1–4 los elijo yo. Decisiones tomadas sin preguntar, porque Víctor no las contestó: plan por defecto 3 entrenos y 5 días, XP retroactiva (todo el historial cuenta), nutrición incluida con interruptor, y las tres pantallas exploradas (tarjeta en Inicio, página en Más y bloque al terminar), sin «Maestría muscular».
+- **Datos**: solo campos opcionales de `Settings` (`planSemanal`, `gamificacionVisible`, `gamificacionConNutricion`). Sin versión de Dexie ni de backup. «Series efectivas» usa `esEfectiva`, así que el historial anterior a la confirmación de series cuenta.
+- **UI**: `AtributosTab` (Más, diferida), `inicio/components/AccesoNivel`, `atributos/components/XpSesion` bajo los récords del fin de sesión (`WorkoutSummary.workoutId`) y `AtributosAjustes` en Ajustes. Destino `atributos` en `DESTINOS`/`EN_MAS`, icono `rank` y `BottomNav.ocultos`.
+- **Rendimiento**: la primera versión tardaba unos 900 ms con un historial sintético de 500 entrenos y 12.500 series. `detectarRecords` copiaba el array en cada serie al agrupar (cuadrático). Ahora agrupa en su sitio y expone `acumularComparables`/`recordsFrenteA`, y Atributos compara con un historial que crece entreno a entreno: unos 60 ms, con el mismo resultado.
+
+**Verificación:** `npm run test` (1.744 tests, 121 archivos) y `npm run build` en verde, con el aviso conocido de chunk >500 kB (el principal mide 543 kB; la página va aparte, en 7 kB). `git diff --check` correcto. Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost`, con datos sintéticos importados con `importarBackup`. Recorrido (79 comprobaciones, todas bien): tarjeta de Inicio, página de Atributos con los desplegables y «Ver más días», y Ajustes a 320/375/430 px en claro y oscuro y a 375 con texto al 200 % y Reducir movimiento. Además: terminar un entreno que suma (+275 XP, ×2 y tres récords, «Subes al nivel 14») y otro al tope semanal, cambiar el plan (se guarda un tramo), «Solo entreno» (desaparece Nutrición), «Ocultar» (sin tarjeta ni entrada en Más) y el estado sin datos. Sin scroll horizontal, sin botones por debajo de 44 px y sin errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 101. Ritmo y Vitrina (2026-10-10)
+
+Víctor pide implementar Ritmo y Vitrina; Liga por ejercicio y Cumbres quedan para otras sesiones. Sin respuestas a las preguntas abiertas de `gaming.md`, tomo los parámetros que allí se proponían y elijo yo lo que faltaba. Todo queda recogido en el ADR 029 (ampliado) y en `docs/features/ritmo.md` y `vitrina.md`.
+
+- **Ritmo** (`features/ritmo/`):
+  - estado de cada semana (cumplida, parcial, presente o vacía);
+  - hilo semanal, comodines (1 por 4 cumplidas, máximo 2), vueltas e hitos;
+  - pausas total o de entreno, que rigen si cubren 4 días de la semana o más;
+  - tarjeta «Tu semana» en Inicio, página en Más con el calendario del año, hoja «Pausar» y sello en la revisión semanal.
+
+  Atributos toma ahora la semana cumplida de Ritmo, con las pausas incluidas.
+- **Vitrina** (`features/vitrina/`):
+  - 27 piezas retroactivas: Entrenos, Coleccionista de récords, Atlas completo, Semanas cumplidas, Hilo, Días registrados, Proteína, Herbario 30 y tres ocultos (Madrugador, Vuelta al ruedo y Descanso bien llevado);
+  - muro de récords con la mejor marca vigente;
+  - Herbario (`nutricion/lib/herbario.ts`, también en Nutrición › Resumen) y Atlas;
+  - «Nuevo en la Vitrina» al terminar un entreno.
+- **Elegido por mí**:
+  - umbrales de Hilo, Días registrados, Proteína y Coleccionista;
+  - que un entreno es siempre uno de 6 series efectivas o más, también para la presencia y los logros;
+  - la clave de planta (nombre corto en singular aproximado);
+  - los motivos de pausa, la regla de 4 días y que «Reanudar hoy» cierra la pausa ayer.
+
+  Queda fuera la proteína opcional del plan semanal.
+- **Datos**: solo `Settings.pausas` (las escribe `ritmo/data/pausasRepo` en una transacción), sin versión de Dexie ni de backup. Los interruptores pasan a llamarse `gamificacionVisible` y `gamificacionConNutricion` (no había nada publicado con el nombre anterior) y valen para los tres sistemas.
+- **Código común**:
+  - `calcularAtributos` devuelve también el Ritmo, los entrenos que cuentan y todos los récords;
+  - `leerAtributos` se comparte entre `useAtributos` y `useVitrina`;
+  - Inicio lee Atributos una vez para sus dos tarjetas;
+  - `tailwind.config.js` añade `grid-cols-13`.
+- **Arreglo**: en `RitmoTab` la hoja «Pausar» y el Toast compartían la key `1` (React avisaba de claves repetidas). La hoja usa ahora `pausar-N`.
+
+**Verificación:** `npm run test` (1.771 tests, 127 archivos) y `npm run build` en verde; el chunk principal mide 496 kB y ya no sale el aviso de >500 kB. Todo el historial sintético denso (500 entrenos, 12.500 series y 8.000 entradas) se calcula en unos 150 ms en escritorio con la Vitrina y en unos 70 ms solo con Atributos y Ritmo.
+
+Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos (alimentos con categoría, entrenos a las 7:00). 155 comprobaciones, todas bien:
+- Inicio, Atributos, Ritmo (calendario, lista de semanas y «Cómo funciona»), Vitrina (las tres vistas) y Ajustes, a 320/375/430 px en claro y oscuro y a 375 con texto al 200 % y Reducir movimiento.
+- Terminar un entreno tras 21 días sin entrenar: «Vuelta al ruedo» en «Nuevo en la Vitrina».
+- Pausar con motivo, «Reanudar hoy» y «Deshacer»; sello de Ritmo en la revisión; «Plantas distintas» en el Resumen.
+- Plan, «Solo entreno» y «Ocultar»: sin tarjetas ni destinos.
+
+Sin scroll horizontal, sin botones por debajo de 44 px y sin errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 102. Atributos: XP proporcional y el plan como tope (2026-10-10)
+
+Víctor pide que un entreno con menos de 6 series efectivas dé experiencia (menos, pero que dé) y que la del entreno dependa del plan que se marca, no del descanso. Elige en las preguntas: XP proporcional, contar para el plan desde 5 series, quitar el multiplicador y aplicar el umbral de 5 también a la Vitrina.
+
+- **Reglas** (`atributos/lib/atributos.ts`):
+  - `xpDeEntreno`: 100 con ≥ 6 series efectivas (`SERIES_COMPLETAS`) y `round(100 × series / 6)` por debajo.
+  - `SERIES_MINIMAS` pasa de 6 a 5: es el entreno que cuenta para el plan, Ritmo y la Vitrina.
+  - Fuera el multiplicador de descanso y `ENTRENOS_EXTRA`: el tope semanal es el plan.
+  - `VERSION_REGLAS` sigue en 1: las reglas anteriores solo estuvieron publicadas unas horas (PR #48, el mismo día) y la XP se recalcula sobre todo el historial.
+- **Elegido por mí**:
+  - si hay varios entrenos un día, suma el de más series (antes, el primero);
+  - los entrenos cortos (< 5) suman mientras quede plan, pero no ocupan hueco, para que uno corto no le quite la XP a uno que cuenta;
+  - un entreno sin series efectivas no suma.
+- **Textos**: `descansoActual`/`textoDescanso` pasan a `entrenoHoy`/`textoEntrenoHoy` («Quedan 2 entrenos del plan esta semana»), en Inicio y en Atributos. «Cómo se gana XP», Ajustes, Ritmo y la Vitrina toman los umbrales de las constantes.
+
+**Verificación:** `npm run test` (1.775 tests, 127 archivos) y `npm run build` en verde. Sin prueba en navegador ni en iPhone (solo cambian textos de la UI). Commit, PR y merge a petición de Víctor.
+
+## 103. Liga por ejercicio: decisiones y lógica (2026-10-10)
+
+Víctor pide planificar la Liga por ejercicio de `gaming.md` y decide: Élite a las 16 semanas (no 13), bajada gradual, variantes como el mismo ejercicio, «Mantener» en todos los ejercicios y básicos sin aviso, sin XP (solo logros) y todo dentro de Entreno (Progreso, sin destino en Más). Acepta la lista de básicos propuesta. Plan por fases en `gaming.md` y [ADR 030](decisiones/030-liga-por-ejercicio.md).
+
+- **Fase 1, solo lógica** (`src/features/liga/lib`, sin pantallas):
+  - `liga.ts`: semanas con cada ejercicio (primera sesión de la semana y último día), evolución semana a semana (sube una división; la primera semana sin él no cuenta y desde la segunda baja una; las pausas de Ritmo congelan; la semana en curso no baja), `divisionDe` (5 ligas × 3 divisiones y Élite), racha, fantasma, ascensos de un entreno y ciclos.
+  - `basicos.ts`: sentadilla, press banca, peso muerto, press militar, dominadas y remo con barra; `avisarElite`.
+- **Elegido por mí**: una semana cuenta con una serie efectiva con repeticiones (`tieneReps`, para los lados distintos); la racha la rompen dos semanas seguidas sin el ejercicio; el fantasma es el pico de las rachas anteriores, con el último día en que se alcanzó; el ascenso lo da la primera sesión de la semana por hora de inicio.
+- Documentos: `docs/features/liga.md`, ADR 030, `arquitectura.md`, `CLAUDE.md` (mapa) y `gaming.md`.
+
+**Verificación:** 22 tests nuevos; `npm run test` (1.797 tests, 128 archivos) y `npm run build` en verde. Unos 20 ms con 500 entrenos y 12.500 series en escritorio. Sin prueba en navegador: no hay interfaz. Sin commit ni push.
+
+## 104. Liga por ejercicio: Entreno › Progreso (2026-10-10)
+
+Fase 2 de la Liga, con el visto bueno de Víctor.
+
+- **Lista** (`liga/components/LigasLista`): en Progreso, sin ejercicio elegido, sustituye a «Elige un ejercicio». Grupos de Élite a Bronce (`agruparPorLiga`), cada ejercicio con su racha o «Sin hacerlo desde…» y su división; «Sin liga ahora» y «Cómo funciona la liga» en desplegables. Tocar uno lo elige en Progreso.
+- **Bloque** (`BloqueLiga`): entre la cabecera del ejercicio y la gráfica (o antes de «Aún sin sesiones terminadas»), una card con la división, la barra hacia Élite en grafito, qué pasa ahora (`textoSiguiente`), racha, pico anterior, veces en Élite y «Ver todas las ligas».
+- **Lecturas**: `liga/hooks/useLigas` (entrenos terminados, todas las series y ajustes). Con la gamificación oculta, Progreso queda como antes.
+- **Lógica nueva**: `semanasSin` y `hechaEstaSemana` en cada liga y `lib/textos.ts`.
+- **Elegido por mí**:
+  - elegir desde la lista devuelve el foco al selector de ejercicio (`Select` acepta ahora `ref`), que sube la vista y anuncia el ejercicio;
+  - en Élite el texto no repite las semanas (ya están en «Racha»); en los básicos, «Es un ejercicio básico: es habitual mantenerlo mucho tiempo», sin decir «recomendable» hasta tener fuente;
+  - mientras cargan las ligas no se muestra el estado vacío, para que no parpadee.
+- Documentos: `liga.md`, `gym.md`, `DESIGN-SYSTEM.md` (Progreso y `Select`), `arquitectura.md` y `gaming.md`.
+
+**Verificación:** `npm run test` (1.803 tests, 129 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos (seis ejercicios: dos en Élite, uno básico, uno bajando, uno con la semana de gracia y uno sin liga): 320/375/430 px en claro y oscuro, 375 con texto al 200 % y Reducir movimiento, y la gamificación oculta. 114 comprobaciones, todas bien: grupos y orden, desplegables, foco al elegir, bloque encima de la gráfica, textos de Élite, básico y bajada, volver a la lista, selector, sin scroll horizontal, botones ≥ 44 px y sin errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 105. Liga por ejercicio: entreno activo y fin de sesión (2026-10-10)
+
+Fase 3 de la Liga.
+
+- **Entreno activo**: `EntrenoActivo` calcula la liga de cada ejercicio con lo que ya lee (`liga/hooks/useLigasSesion`: solo recalcula si cambian los entrenos terminados, sus series o las pausas, no a cada toque) y la pasa a `PanelEjercicio`:
+  - en Élite y si no es básico, `AvisoElite` bajo los botones de ajuste, con la forma de la sugerencia de progresión: «Élite: llevas 17 semanas seguidas con este ejercicio»;
+  - fila «Liga» con la división en el menú «…»;
+  - `LigaSheet`: lo mismo que la card de Progreso (ahora `DetalleLiga`, compartido), «Este entreno cuenta al terminarlo» y «Cómo funciona la liga».
+- **Fin de sesión**: `AscensosLiga` entre «Experiencia» y «Nuevo en la Vitrina», con los ascensos del entreno (`ascensosDeEntreno`). Los cambios de liga y Élite van a la vista; las subidas dentro de la misma liga, en un desplegable (`ascensoDestacado`).
+- **Elegido por mí**:
+  - la liga del entreno activo es la de antes de esa sesión, y la hoja lo dice;
+  - el aviso no aparece en el editor del historial, solo en la sesión activa;
+  - en el fin de sesión, para no repetir cada lunes una fila por ejercicio, solo los cambios de liga van a la vista;
+  - icono `rank` para la Liga (la Vitrina usa `trophy`).
+- Documentos: `liga.md`, `gym.md`, `DESIGN-SYSTEM.md`, `arquitectura.md` y `gaming.md`.
+
+**Verificación:** `npm run test` (1.805 tests, 129 archivos) y `npm run build` en verde. El recorrido de §104, ampliado con un entreno activo de cinco ejercicios (uno en Élite, uno básico en Élite, uno en Diamante I sin hacer esta semana, uno bajando y uno sin liga) y su cierre, en Edge sin interfaz, 320/375/430 px en claro y oscuro y 375 con texto al 200 %: 198 comprobaciones, todas bien. Solo avisa el ejercicio en Élite que no es básico; el aviso y el menú abren la hoja; al terminar, «Entra en la liga», «Llega a Élite» y la subida de Platino III a Platino II en el desplegable, sin los ejercicios que ya contaban esa semana; sin scroll horizontal, botones ≥ 44 px y sin errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 106. Liga por ejercicio: alternativas y «Mantener» (2026-10-10)
+
+Fase 4 de la Liga.
+
+- **Alternativas** (`liga/lib/alternativas.ts`): hasta 5 ejercicios del catálogo o propios con el mismo músculo principal, sin el propio ni los que están en Élite. Orden: división más baja; a igualdad, los ya hechos alguna vez, los del mismo material y el orden del catálogo. Cada una con su estado: «Nunca lo has hecho», «Sin liga ahora» o la división.
+- **«Mantener»** (`liga/data/ligaRepo.ts`, `Settings.ligaMantener`, opcional y sin versión, como `pausas`): el ejercicio deja de avisar en el entreno; «Volver a avisar» lo deshace.
+- **Pantalla** (`components/VariarElite`, en la card de Progreso y en la hoja del entreno activo, solo en Élite):
+  - «Si te apetece variar» con las alternativas (miniatura, nombre y «Bíceps · barra · Nunca lo has hecho»);
+  - «Mantener este ejercicio» o, si ya lo está, «Volver a avisar», con su consecuencia y errores en línea;
+  - en los básicos, sin «Mantener» y con las alternativas en el desplegable «Si aun así quieres variar».
+- **Elegido por mí**:
+  - las alternativas son información, no un botón de sustituir: para cambiar, se añade el ejercicio al entreno o a la rutina (sustituir en la rutina queda como opcional de la fase 5);
+  - entre las de liga baja van primero las ya hechas alguna vez (técnica conocida) y luego las nuevas;
+  - «Mantener» no lleva Toast con Deshacer: es un interruptor y «Volver a avisar» queda en el mismo sitio;
+  - el texto de los básicos sigue siendo descriptivo; no he buscado fuente para decir «recomendable».
+- Documentos: `liga.md`, `datos.md`, `DESIGN-SYSTEM.md`, `arquitectura.md`, ADR 030 y `gaming.md`.
+
+**Verificación:** `npm run test` (1.809 tests, 131 archivos) y `npm run build` en verde. El recorrido de §105, ampliado con las alternativas (en la hoja y en Progreso), «Mantener» (se guarda `[2]` en ajustes y desaparece el aviso), «Volver a avisar» (vuelve el aviso) y el básico sin «Mantener», en Edge sin interfaz, 320/375/430 px en claro y oscuro y 375 con texto al 200 %: 254 comprobaciones, todas bien, con botones ≥ 44 px también en la hoja. Capturas revisadas: la etiqueta «Si te apetece variar» salía con estilo de título dentro de la hoja y pasó a un `h3` de etiqueta. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 107. Liga por ejercicio: Vitrina, sin récords y «Usar» en la rutina (2026-10-10)
+
+Fase 5 y cierre de la Liga («termina lo que quede»).
+
+- **Vitrina**: logro «Ciclos completados» (Entreno, 1 · 5 · 10 ejercicios distintos que llegan a Élite), retroactivo con la fecha y el entreno de la primera llegada de cada ejercicio (`liga/lib/liga.primerosCiclos`; `LigaEjercicio.ciclos` pasa a guardar también el entreno). `calcularVitrina` recibe las pausas. 30 piezas (22 sin nutrición).
+- **Sin récords**: `liga/lib/estancamiento.sesionesSinRecord` (la detección de `gym/lib/records`, solo el ejercicio). En Élite, si no es básico ni mantenido y lleva 4 sesiones o más seguidas sin récord, el texto lo dice. En el entreno se calcula dentro de `useLigasSesion`, con la misma caché.
+- **«Usar» en la rutina**: `gym/lib/rutinas.sustituirEnRutina` (puro: mismo lugar y mismo objetivo; error si ya está) y `routinesRepo.sustituirEjercicio` (transacción sobre rutinas y ejercicios; crea el del catálogo con `resolverSeleccion`) y `restaurar`. En `VariarElite`, cada alternativa lleva «Usar» si el ejercicio está en una rutina: en el entreno, la de la sesión («Este entreno no cambia»); en Progreso, las que lo incluyen, con selector si son varias. Lo hecho, en una línea con «Deshacer» en línea.
+- **Elegido por mí**:
+  - descartado «Explorador» (logro por probar 3 ejercicios nuevos), que el plan dejaba como opcional: empujaría a cambiar por cambiar;
+  - el umbral de 4 sesiones sin récord y que el aviso de la cabecera no lo repita (solo el texto de la card y de la hoja);
+  - «Usar» no pide confirmación: es una edición con «Deshacer», no un borrado.
+- **Corregido de paso**: el README aún decía que el descanso multiplica la XP (retirado en §102).
+- Documentos: `liga.md`, `vitrina.md`, `gym.md`, `datos.md`, `DESIGN-SYSTEM.md`, `arquitectura.md`, ADR 030, `roadmap.md`, `README.md` y `gaming.md`.
+
+**Verificación:** `npm run test` (1.817 tests, 133 archivos) y `npm run build` en verde. El recorrido de §106, ampliado con una rutina en la sesión y un curl sin récords en 16 sesiones, en Edge sin interfaz, 320/375/430 px en claro y oscuro y 375 con texto al 200 %: 284 comprobaciones, todas bien. Entre ellas: el texto de sin récords; cinco «Usar» en Progreso; en la hoja, «Usar» cambia la rutina con su objetivo y «Deshacer» la devuelve; y la Vitrina muestra «Ciclos completados» con «2 de 5 ejercicios». Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 108. Cumbres: decisión y motor (2026-10-10)
+
+Víctor pide afinar Cumbres sin implementarla. Se comparan alternativas a subir una montaña (Caminos, Constelaciones y Temporadas) y se hacen maquetas de Cumbres y Caminos lado a lado: https://claude.ai/artifact/7RYQxMtyxzXcNszPEynA9M (privado de Víctor).
+
+- **Decisión de Víctor**: las dos, por partes. Ahora Cumbres; Caminos cuando AppFit registre caminatas, carreras u otra actividad con distancia, y con kilómetros reales.
+- **Propuesta para Cumbres, pendiente de confirmar**: montañas reales sin plazo, del mar a la cumbre, hitos cada 1.000 m, una sola tarjeta en Inicio (en lugar de la de Nivel) y arranque al elegir la primera montaña.
+- **Motor**: Víctor no descarta la XP, pero pide alternativas de entreno y nutrición. Recogidas en `gaming.md` (XP, plan cumplido, semanas de Ritmo, fuerza real y series por grupo); recomiendo «plan cumplido». Después Víctor pregunta por recuperar los víveres: añadida la variante «etapas y víveres» (la etapa sin víveres queda preparada y se completa al registrar, sin perderse). **Víctor elige etapas y víveres**, con 800 m por semana de plan y medio víver los días con una sola comida; se implementará más adelante.
+- Documentos: `gaming.md` (sección Cumbres reescrita) y `roadmap.md`.
+
+**Verificación:** solo documentación y un artifact; sin cambios de código. Commit de la documentación de Cumbres en `feat/cumbres`, fusionada con la Liga en un solo PR a petición de Víctor.
+
+## 109. Cumbres en prueba, con la XP como motor (2026-10-11)
+
+Víctor decide integrar Cumbres sin los víveres, solo con la XP como se planteó al principio, para probarla un tiempo y decidir después qué funcionalidades de `gaming.md` se quedan. Acepta todas las recomendaciones salvo una: **los metros que sobran al hacer cumbre se pierden**. Pide además logros de montañas.
+
+- **Motor** (`cumbres/lib/cumbres.ts`, puro): recorre los eventos de `calcularAtributos` desde `Settings.cumbres.inicio`; 1 XP = 1 m de la montaña actual; hitos cada 1.000 m con fecha y entreno; al llegar a la altitud, cumbre ese día y la siguiente empieza con la XP posterior. `ruta` guarda las elegidas y el resto sigue `MONTANAS`. Cambiar la actual solo por otra sin coronar y más alta que lo subido.
+- **Montañas** (`lib/montanas.ts`): Techo de España, Mont Blanc y Siete Cumbres (Messner), 11 en total y 58.717 m, con altitudes comprobadas (IGN, medición de 2023 del Mont Blanc, oficiales de las Siete Cumbres).
+- **Datos**: `Settings.cumbres` (`{ inicio, ruta }`, opcional y sin versión) con `data/cumbresRepo.guardar` en una transacción; todo lo demás se deriva.
+- **Pantallas**: destino Cumbres en Más (elegir la primera, montaña actual con perfil, hitos, expedición, siguientes, mis cumbres, hoja «Cambiar montaña», «Deshacer»); la tarjeta de Inicio pasa a «Nivel y cumbre» con el perfil en lugar de la barra cuando Cumbres está empezada (y celebra la cumbre durante tres días); en el fin de sesión, card «Cumbre del …» y la línea de metros dentro de «Experiencia» (`XpSesion` acepta `children`). Icono `mountain`. Ajustes nombra Cumbres en su sección.
+- **Vitrina**: grupo Cumbres (Cumbres 1 · 3 · 6 · 11, Metros subidos 10.000 · 25.000 · 50.000, Techo de España, Siete Cumbres) y ocultos Techo del mundo y Paso firme: 41 piezas (33 sin nutrición). `useVitrina` lee con `leerCumbres`.
+- **Elegido por mí**:
+  - los logros concretos y sus umbrales;
+  - el perfil es una silueta genérica (`lib/perfil.ts`) en `fg` al 20 % con lo subido en `fg`; sin datos de rutas reales;
+  - la pausa de Ritmo solo se ve («En el refugio»): la XP sigue subiendo, como en Atributos;
+  - sin Cumbres empezada, la tarjeta de Inicio es la «Nivel» de siempre y abre Atributos;
+  - en el fin de sesión, «+79 m» incluye los metros de la cumbre y los de la siguiente montaña.
+- Documentos: `features/cumbres.md` (nuevo), `vitrina.md`, `atributos.md`, `inicio.md`, `gym.md`, `datos.md`, `arquitectura.md`, `DESIGN-SYSTEM.md`, `roadmap.md`, `README.md`, `CLAUDE.md` y `gaming.md`.
+
+**Verificación:** `npm run test` (1.841 tests, 135 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos (14 semanas de entrenos): 320/375/430 px en claro y oscuro y 375 con texto al 200 %, más elegir la primera montaña con «Deshacer», el fin de sesión en ambos temas, una cumbre hecha con el entreno (card, pieza en «Nuevo en la Vitrina» y celebración en Inicio) y la gamificación oculta: 138 comprobaciones, todas bien (sin scroll horizontal, botones ≥ 44 px, sin errores de consola). Capturas revisadas: la silueta en `line` apenas se veía en claro y pasó a `fg` al 20 %; la card de la cumbre salía después de la línea de la montaña nueva y se reordenó. Sin prueba en iPhone ni con los datos reales. Sin commit ni push.
+
+## 110. Serie hecha: solo el check en verde (2026-10-12)
+
+Primera mejora del orden acordado en [mejoras.md](mejoras.md): al completar una serie, solo el botón ✓ se rellena en verde y conserva su animación de confirmación. Se elimina el tinte que recorría la fila y sus hijas para mantener la lectura de reps, kg y RIR estable.
+
+- Retirados el pseudoelemento y las reglas de estado/Reduce Motion de `.series-set`, junto con el aislamiento, radio, padding y margen negativo que necesitaba el fondo. Se conserva la agrupación de filas y su espaciado.
+- Retirado `data-done` de `PanelEjercicio`; el estado accesible y visual sigue en `aria-pressed` del check. El test existente comprueba el check marcado y desmarcado.
+- Actualizados [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md), [roadmap.md](roadmap.md), el README y el estado del plan.
+
+**Verificación:** `npm run test` (1.841 tests, 135 archivos) y `npm run build` en verde, tras restaurar las dependencias del entorno con `npm ci`. Recorrido con Chromium y datos sintéticos en `appfit-test.localhost:5173`: diez contextos (320/375/430 px en claro/oscuro, 375 con Reduce Motion en ambos temas y 375 con texto al 200 % y Reduce Motion en ambos temas). Marcar/desmarcar series normales, calentamientos, dropsets y lados cambia solo el check; el fondo, las cifras y la geometría de fila e hijas se conservan. Sin capa de tinte, sin overflow, check ≥44 px, persistencia tras recargar y sin errores de consola. Capturas revisadas e informes en `/tmp/appfit-serie-hecha-check`. Sin prueba en iPhone ni con datos reales. Sin commit, push ni despliegue.
+
+
+## 111. Pista del menú de la serie (2026-10-12)
+
+Segunda mejora del orden de [mejoras.md](mejoras.md): un chevrón descendente siempre visible junto al número o letra C/D/N indica que el botón abre las opciones de la serie.
+
+- Añadido `chevron-down` al set compartido de iconos y usado en `PanelEjercicio`. El botón conserva su nombre accesible y anuncia `aria-haspopup="dialog"`; el icono queda oculto al lector de pantalla para evitar anuncios duplicados.
+- Alineación con flex, separación derivada de `space-stack`, tamaño del chevrón con `caption` y tono `fg-muted`. Se conserva el ancho de la columna y el área táctil.
+- Actualizados [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md), [features/gym.md](features/gym.md) y el estado del plan. Corregida también la descripción antigua del tinte de la fila en Gym para reflejar la primera mejora ya implementada.
+
+**Verificación:** `npm run test` (1.841 tests, 135 archivos) y `npm run build` en verde. Recorrido en Chromium con datos sintéticos en `appfit-test.localhost:5173`: ocho contextos (320/375/430 px en claro/oscuro y 375 con texto al 200 % y Reduce Motion en ambos temas). Comprobados número, C/D/N y numeración hasta 12; chevrón visible y contenido dentro del botón, controles ≥44 px y ausencia de overflow. Apertura por clic, Enter y Espacio; cierre por Escape y retorno del foco. Abrir/cerrar conserva el backup; sin errores de consola. Semántica accesible comprobada, sin prueba con lector de pantalla real ni iPhone. Capturas revisadas e informe en `/tmp/appfit-pista-menu-serie`. Sin commit, push ni despliegue.
+
+
+## 112. Filtro de abductores (2026-10-12)
+
+Tercera mejora del orden de [mejoras.md](mejoras.md): «Abductores» aparece después de «Aductores» en el selector compartido de ejercicios, agrupando las abducciones en máquina, polea, banda y las almejas.
+
+- `selectorEjercicios` separa los filtros de los músculos anatómicos con `FiltroMusculo` y `FILTROS_MUSCULO`. La agrupación se resuelve por los cuatro `catalogId` y conserva OR entre músculos/filtros y AND con equipo y consulta. No clasifica automáticamente otros ejercicios por su nombre.
+- Buscar «abductor» o «abductores» encuentra las cuatro opciones como coincidencias directas. El sinónimo solo participa en la búsqueda: no se añade a los alias de identidad, que deben seguir siendo únicos para enlazar registros antiguos.
+- Se conservan Glúteos, los IDs, las imágenes y el catálogo existente. El formulario personalizado sigue ofreciendo solo músculos reales; no hay cambios de datos, mapa, reparto de series ni Atlas. Actualizados [features/gym.md](features/gym.md) y el estado del plan.
+
+**Verificación:** `npm run test` (1.848 tests, 135 archivos) y `npm run build` en verde. Siete casos nuevos cubren agrupación, orden, búsqueda singular/plural, combinaciones, limpiar, clasificación e identidad antigua sin mutaciones; revalidado el archivo del selector (21 tests) tras completar el campo obligatorio de sus fixtures. Recorrido en Chromium con datos sintéticos en `appfit-test.localhost:5173`: ocho contextos (320/375/430 px en claro/oscuro y 375 con texto al 200 % y Reduce Motion en ambos temas). Chip por teclado, cuatro resultados, equipo y búsqueda combinados, limpiar, búsqueda singular/plural y formulario personalizado sin nuevo músculo. Controles ≥44 px, sin overflow ni errores de consola; navegar, filtrar y cancelar conserva el backup. Capturas revisadas e informe en `/tmp/appfit-filtro-abductores`. Sin prueba en iPhone ni con datos reales. Sin commit, push ni despliegue.
+
+
+## 113. Publicación de las tres primeras mejoras (2026-10-12)
+
+Víctor autoriza commit, push y merge de las tres mejoras de Entreno, y continuar con Creatina cuando el cierre esté bien. Se agrupan en `feat/mejoras-entreno-octubre`, commit `5c4dad7` (`feat(gym): refine set completion, menu cues and abductor filters`) y [PR #52](https://github.com/vtinezdev/appfit/pull/52), fusionada en `master` mediante `4cdd7ec`. Sin cambios adicionales de código respecto a lo validado en §110–112.
+
+El check de Cloudflare de la rama falló sin motivo en la salida de GitHub; el repo permitía el merge sin omitir protecciones. El build de producción de `master` terminó correctamente (`Workers Builds: appfit`, build `a811a718-a80d-483b-afbf-3fee96a09292`) antes de empezar Creatina.
+
+## 114. Creatina opcional (2026-10-12)
+
+Cuarta mejora del orden de [mejoras.md](mejoras.md), en `feat/creatina` desde el master ya fusionado y validado. Activación opcional en Ajustes, dosis automática o manual, tarjeta y marca diaria reversible en Inicio, historial de siete días y carga opcional de cinco días. Criterios y consecuencias en [ADR 031](decisiones/031-creatina-opcional-y-registro-diario.md); flujo en [Inicio](features/inicio.md#creatina) y compatibilidad en [datos](datos.md#creatina).
+
+- `inicio/lib/creatina` concentra dosis, fechas y fase; `creatinaRepo` concentra lecturas sin escritura y cambios transaccionales. Marcas idempotentes, bloqueo de toques duplicados y errores en línea con reintento. No se modifica la gamificación.
+- Dexie v8 añade suplementos con índice único por tipo y día, sin editar esquemas anteriores. Tabla opcional y configuración en backup v3; copias antiguas la dejan vacía y desactivada. Sin CSV ni notificaciones.
+- Decisiones de implementación: la feature permanece en Inicio; la manual solo cambia mantenimiento; comenzar una carga exige pesaje, y si se pierde durante una carga no se inventa masa. El fin se deriva, sin escrituras al consultar.
+- La prueba visual detectó el redondeo entero de dosis decimales: corregido para mostrar hasta dos decimales con el formato compartido. Ajustadas las referencias al esquema actual y las fixtures de detección de datos. Documentos vivos y estado del plan actualizados; recorrido reutilizable en `scripts/ui/validar-creatina.cjs`.
+
+**Verificación:** suite completa en verde (1.874 tests, 137 archivos), build TypeScript/Vite/PWA final correcto y revalidación de lógica/arquitectura/guard tras corregir los decimales (67 tests). Migración v7→v8 con datos conservados; índice único; backups antiguo/nuevo y rollback; marcas concurrentes e independientes de otros tipos. Ocho contextos de Chromium en `appfit-test.localhost:5173` (320/375/430 px en claro/oscuro y 375 con texto al 200 % y Reduce Motion): activación, sin pesaje/mínimo/manual, validación, marcar/desmarcar, fallo/reintento, recarga, historial, cinco días de carga, fin sin escribir, cancelación y desactivación conservando datos. XP/Ritmo intactos al marcar; nuevos controles sin overflow y con targets ≥44 px. Informes/capturas en `/tmp/appfit-creatina`. Smoke de producción en `appfit-test.localhost:5174`, 375 px en ambos temas: importación por la UI, service worker, recarga offline, marcar/desmarcar, hoja e historial y reapertura con la marca y dosis conservadas. Sin prueba en iPhone ni datos reales. Creatina sin commit, push ni despliegue.
+
+## 115. Cheat day (2026-10-12)
+
+Quinta mejora del orden de [mejoras.md](mejoras.md), en `feat/cheat-day` desde el `master` con Creatina ya fusionada ([PR #53](https://github.com/vtinezdev/appfit/pull/53)). Se marca el día entero desde el «…» de la cabecera del Diario, que pasa de abrir directamente «Copiar el día» a un menú de acciones del día (`AccionesDiaSheet`, sustituye a `CopiarDiaSheet`). Flujo y reglas en [Nutrición](features/nutricion.md#cheat-day); tabla y backup en [datos](datos.md#cheat-days).
+
+- Dexie v9 añade `cheatDays` (`++id, &fecha`) sin tocar versiones anteriores; tabla opcional en el backup v3. `cheatDaysRepo`: marcar idempotente, quitar/restaurar para «Deshacer».
+- `lib/cheatDays` (aviso desde el 2.º de la semana, nota «N cheat days fuera de la media», fechas de racha). Fuera de `resumenPeriodo`, la media de objetivos y la adherencia del Resumen, y de `bloqueNutricion` en las dos semanas de la revisión; la racha los cuenta; `calcularAtributos` no da XP de proteína ese día (el registro sí suma), y Vitrina/Cumbres lo heredan.
+- Marca visible: `Badge` «Cheat day · fuera de las medias» bajo la cabecera del día y destello `sparkles` junto a la letra en `SemanaKcal`, también en su etiqueta accesible. Sin límite; el aviso no bloquea.
+- Decisión de implementación: un cheat day vacío mantiene la racha del Resumen, pero no cuenta como día registrado para Ritmo ni da XP de registro (no hay comidas); el plan solo pedía la racha.
+
+**Verificación:** `npm run test` (1.890 tests, 139 archivos) y `npm run build` en verde. Tests nuevos de migración v8→v9 con datos conservados e índice único, backup de ida y vuelta/antiguo/borrado, repositorio (idempotencia, quitar/restaurar) y de cada cálculo (Resumen, semana, revisión semanal, XP, racha, aviso). Recorrido `scripts/ui/validar-cheat-day.cjs` con Playwright y Edge en `appfit-test.localhost:5173`, reloj fijo el jueves 15 oct: siete contextos (320/375/430 px en claro/oscuro y 375 con texto al 200 % y Reduce Motion), sin overflow, targets ≥44 px ni errores de consola; capturas revisadas. Sin prueba en iPhone ni con datos reales. Sin commit, push ni despliegue.
+
+## 116. Creador de rutinas (2026-10-12)
+
+Sexta mejora del orden de [mejoras.md](mejoras.md), en `feat/creador-rutinas`, rebasada sobre el cheat day ([PR #54](https://github.com/vtinezdev/appfit/pull/54)); no comparten esquema. Creador por reglas, sin IA ni red: decisión en [ADR 032](decisiones/032-creador-de-rutinas-por-reglas.md); flujo y reglas en [Gym](features/gym.md#creador-de-rutinas).
+
+- Catálogo: `tipo` y `patron` para los 204 ejercicios (`POR_PATRON`, de más a menos básico, y excepciones de tipo). Lógica pura en `gym/lib/creadorRutinas` (repartos, huecos por tiempo, prioridad, material, sustitutos, semilla, otra sugerencia, sugerencias para cambiar, nombres libres); `routinesRepo.guardarPlan` en una transacción y `borrarVarias` para «Deshacer».
+- UI: «Nueva rutina» pasa a «Crear rutina» con «En blanco» o «Con el asistente»; `CreadorRutinas` con preguntas y vista previa. Ajustados los recorridos que abrían el editor (`validar-build`, `validar-catalogo-ejercicios`, `validar-rediseno`); en `validar-catalogo-ejercicios` también un localizador ambiguo previo (`/Catálogo test/` coincidía con «Editar» y «Empezar»). Revalidado ese recorrido en 375 claro; los otros dos no se han ejecutado.
+- Decisiones al implementar: 5/6/7 ejercicios por tiempo (uno menos con Fuerza); priorizar sustituye huecos de aislamiento en lugar de alargar la sesión (hasta dos por día); nombre repetido → «(2)» sin preguntar; sin material para un patrón, sustitutos y, como último recurso, core; los objetivos de la tabla del plan, sin cambios. Las alternativas de la Liga no se han unificado con el creador.
+
+**Verificación:** `npm run test` y `npm run build` en verde. Tests del catálogo (clasificación completa y cobertura por material), de todas las combinaciones de días × material × objetivo × tiempo sin huecos ni repetidos, determinismo, prioridad, cambios y guardado transaccional (también reutilizar ejercicios, nombre libre, repetidos, fallo sin restos y series objetivo al empezar). Recorrido `scripts/ui/validar-creador-rutinas.cjs` con Playwright y Edge en `appfit-test.localhost:5173`: siete contextos sin overflow, targets ≥44 px ni errores de consola; capturas revisadas. Sin prueba en iPhone ni con datos reales. Sin commit, push ni despliegue.
+
+## 117. Cheat day más visible (2026-10-12)
+
+Víctor no encontraba dónde marcar el cheat day: solo estaba dentro del «…» de la cabecera del Diario. Ahora hay un botón siempre visible bajo la semana, «Marcar como cheat day», que marcado pasa a «Cheat day · fuera de las medias» (`aria-pressed`) y sustituye a la etiqueta anterior; tocarlo de nuevo lo quita, con «Deshacer». El «…» conserva la acción. Patrón del botón «Tomada hoy» de Creatina; sin cambios de datos ni de reglas. Actualizados [Nutrición](features/nutricion.md#cheat-day) y `DESIGN-SYSTEM.md`.
+
+**Verificación:** `npm run test` y `npm run build` en verde. `scripts/ui/validar-cheat-day.cjs` (ahora marca el día vacío con el botón visible) en siete contextos (320/375/430 px en claro/oscuro y 375 con texto al 200 %), sin overflow, targets ≥44 px ni errores de consola; capturas revisadas. Sin prueba en iPhone.
+
+## 118. Liga sin divisiones (2026-10-12)
+
+A Víctor la Liga le parecía demasiado de videojuego (le recordaba a League of Legends) y pidió presentarla como Duolingo, conservando Élite como cima. En `feat/liga-sin-divisiones`. Decisión en [ADR 033](decisiones/033-liga-sin-divisiones.md); reglas y pantallas en [Liga](features/liga.md).
+
+- Misma mecánica (16 semanas hasta Élite, gracia, bajada, pausas, ciclos). Cinco ligas de tres semanas sin divisiones: Bronce, Plata, Oro, Zafiro y Rubí; `Division` gana `semana` (1–3) y aparece `siguienteLiga`. Textos cotidianos: «Empieza en Bronce», «Sube a Plata», «Semana 2 de 3 en Zafiro», «Mejor marca anterior», «Hace tiempo que no los haces».
+- `InsigniaLiga` (escudo con el color de la liga y medalla/gema/estrella) y `SemanasLiga` (tres puntos) en la lista, la card, el aviso de Élite y el fin de sesión. Tokens `--c-liga-*` por tema con tests de contraste (≥ 3:1) y distancia (ΔE ≥ 10 entre ligas y frente a borrar).
+
+**Verificación:** `npm run test` (1.930 tests, 141 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos (siete ejercicios en todas las situaciones): 320/375/430 px en claro y oscuro, 375 con texto al 200 % y Reducir movimiento, entreno activo con «Usar», «Mantener», menú y fin de sesión, y la gamificación oculta. 298 comprobaciones, todas bien (grupos e insignias, sin números romanos, textos de cada estado, sin scroll horizontal, botones ≥ 44 px, sin errores de consola). Capturas revisadas. Sin prueba en iPhone ni con los datos reales.
+
+## 119. Cumbres en lugar de Atributos (2026-10-12)
+
+A Víctor los Atributos le sonaban a juego de rol y se solapaban con el resto de la gamificación; prefería las Cumbres. Decidió que Cumbres siga sin ser retroactiva, que tenga más montañas, que se puedan repetir las coronadas y que haya logros de repetir. En `feat/cumbres-sin-atributos`, sobre la Liga sin divisiones (§118). Decisión en [ADR 034](decisiones/034-cumbres-en-lugar-de-atributos.md); reglas en [Cumbres](features/cumbres.md), [experiencia](features/experiencia.md) y [Vitrina](features/vitrina.md).
+
+- `features/atributos` pasa a `features/experiencia` (`calcularExperiencia`, `leerExperiencia`, `useExperiencia`), sin `atributo` en los eventos, `porAtributo`, nivel, títulos ni `XpSesion` con nivel. Fuera la página Atributos, su destino en Más y el icono `rank`. Los ajustes pasan a `ritmo/components/GamificacionAjustes` («Cumbres, Ritmo y Vitrina»).
+- Inicio: `AccesoCumbre` sustituye a `AccesoNivel` (con la invitación a elegir montaña si no hay). Fin de sesión: `CumbreSesion` lleva los metros con su porqué (`FilasMetros`, antes `FilasXp`) en lugar de «Experiencia». La página de Cumbres gana «Esta semana», «Cada día» y «Cómo se sube».
+- Cumbres: once montañas más con fuentes (detrás del Everest), colecciones múltiples (Alpes, Volcanes, Los cinco más altos), ruta sin fin (`rutaDe(elegidas, n)` elige la menos coronada), `Expedicion.vez`, `actual` siempre presente y «Cambiar montaña» con las coronadas. Vitrina: «Otra vez arriba», «Más rápido que la otra vez», Cumbres hasta 22, Metros hasta 100.000 y las tres colecciones (50 piezas; 42 sin nutrición).
+- Scripts `validar-cheat-day` y `validar-creatina` apuntan al nuevo módulo.
+
+**Verificación:** `npm run test` (1.929 tests, 141 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5182 y `appfit-test.localhost` con datos sintéticos: 320/375/430 px en claro y oscuro y 375 con texto al 200 % (tarjeta de Inicio, página, «Cambiar montaña» con repetir y «Deshacer», Más sin Atributos, Vitrina), sin empezar (invitación en Inicio y al terminar), fin de sesión en ambos temas, una cumbre hecha con el entreno, una montaña repetida y la gamificación oculta: 177 comprobaciones, todas bien (sin XP ni nivel en pantalla, sin scroll horizontal, botones ≥ 44 px, sin errores de consola). Repetido el recorrido de la Liga (298, todas bien). Capturas revisadas. Sin prueba en iPhone ni con los datos reales.
+
+## 120. Plan de publicación (2026-10-12)
+
+Víctor quiere terminar el rediseño visual y unos retoques y después abrir la app a otras personas: gratis, sin anuncios, en Google Play para Android y como PWA desde la web para iPhone (sin App Store por el coste). Se comentan la monetización (portfolio, pago único, propinas, afiliados; anuncios desaconsejados por rendimiento y privacidad), que sin ingresos no hace falta alta de autónomo y los requisitos de Play (cuenta de 25 $, verificación, prueba cerrada con 12 testers durante 14 días, seguridad de datos, declaración de salud y política de privacidad). Todo queda en [despliegue.md](despliegue.md), enlazado desde [roadmap](roadmap.md) y desde el punto 6 de [mejoras](mejoras.md). Solo documentación: sin cambios de código.
+
+## 121. Acento volt y pulido visual (2026-10-12)
+
+Víctor pidió mejorar lo que ya hay mirando otras apps, sin funciones nuevas. Se le presentó una propuesta (artifact) con capturas reales, lo que se puede tomar de WHOOP, Oura, Strava, Hevy/Strong, MacroFactor, Apple Fitness, Gentler Streak, Bevel y Cronometer, un explorador de seis paletas y 19 propuestas con maquetas. Eligió la paleta «Volt» y todas las propuestas; de la rueda de energía, el tamaño y la cifra, pero con el relleno de siempre. En `feat/pulido-visual`. Decisión en [ADR 035](decisiones/035-acento-volt-y-pulido-visual.md).
+
+- Tokens: `accent` volt (198 244 50) con `on-accent` casi negro en ambos temas; `accent-strong` oliva en claro y lima en oscuro para todo lo que se dibuja (texto, iconos, foco, ViewTabs, `chart.ts`, `ProgressBar` por defecto, bordes de selección); `kcal` lima; neutros con sesgo oliva; `success` oscuro a 64 190 140. `contrast.test.ts`: la familia de `kcal` por tono (≤ 15°) y el verde de serie hecha separado del volt. Iconos de la PWA y `theme-color` regenerados.
+- Global: barra flotante (`.app-nav` absoluta, cápsula + «+» aparte, `shadow-float`, `--tab-capsule-height`), `text-rotulo`, fondo «Con foto / Liso» (`theme.ts`: `data-fondo`), aviso de copia en banda (`textoSinCopia`), `Anillo` y `FilaDeslizable` (`lib/deslizar`) como primitives nuevas; `useModalLayer` devuelve el foco a `data-foco-pendiente` si el opener ya no existe.
+- Inicio: rueda de 160 px con la cifra en `hero`, «Quedan» (`restoKcal`) y macros frente a su objetivo; minigráfica del peso con relleno y escala; «Tu semana» con anillos de kcal (`semanaKcal` en Inicio, `DiasSemana anillos`); revisión semanal en una fila.
+- Nutrición: semana con anillos (`fraccionAnillo`, fuera las barritas y `--semana-barra-alto`); pastilla de categoría o inicial; letras P/C/G en color; borrar deslizando (sin papelera en la fila).
+- Entreno: Empezar con las rutinas (`ordenParaEmpezar`, `RutinaResumen`, `.training-primary`; fuera la hoja «Desde rutina»); cabecera con el tiempo en display y `ProgresoSeries`; ejercicios completos plegados (`PanelEjercicio plegado`); Progreso con «Por ejercicio» (`resumenEjercicios`, `trazoMini`) y el selector debajo.
+- Más/Cumbres/Ritmo/Vitrina: teselas de progreso (`MasAccesos`, `useVitrina` expone Cumbres), barra de altitud y perfil de la primera montaña, calendario como mapa de calor en grafito, logros en medallas con su detalle en una hoja.
+- Scripts `validar-*`: «Desde rutina» → «Empezar …» y la papelera → el botón «Borrar …» con teclado. `validar-registros-comida` ya fallaba antes en `master` (espera el saludo de Inicio que se quitó en el rediseño v2).
+
+**Verificación:** `npm run test` (1.942 tests, 143 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con Playwright fuera del repo en `appfit-test.localhost` con la fixture: Inicio, Nutrición (deslizar una fila), Empezar, Progreso, Más, Cumbres, Ritmo, Vitrina, sesión (completar las series y plegar, hoja del RIR) y Ajustes › Fondo liso, a 390 px en claro y oscuro, 320 en oscuro y 430 en claro, sin scroll horizontal ni errores de consola. Capturas revisadas. Sin prueba en iPhone ni con los datos reales; pendientes en el roadmap.
+
+## 122. Fondos dibujados: curvas de nivel y rejilla de puntos (2026-10-12)
+
+Víctor pidió opciones solo para el fondo de pantalla, para elegir antes de implementar. Se le presentó una propuesta (artifact) con nueve fondos aplicados como CSS sobre la app real (Inicio, Nutrición y Entreno en ambos temas): foto actual, liso, halo volt, foto en duotono, curvas de nivel, grano, aurora, rejilla de puntos y anillos. Eligió curvas de nivel («la que más me ha gustado») y rejilla de puntos, las dos a elegir en Ajustes, y después las curvas como fondo por defecto. En `feat/fondos-curvas-puntos`. Decisión en [ADR 036](decisiones/036-fondos-dibujados.md).
+
+- `theme.ts`: `FondoPref` añade `curvas` y `puntos` (`data-fondo` en html). Lo no guardado o desconocido son las curvas; elegir la foto ahora se guarda. Ajustes › Apariencia: Curvas / Puntos / Foto / Liso. `validar-fondos.cjs` elige la foto antes de cargar.
+- `index.css`: con fondo dibujado se ocultan la foto, las luces de sección y la franja de lectura; halo volt en `::before` y trazo en `::after` (máscara `public/images/fondos/curvas.svg` o retícula radial), atenuado con `data-quiet`. Tokens `--atmosphere-drawn-halo`, `--atmosphere-contour-opacity` y `--atmosphere-dots-opacity` por tema.
+- `scripts/fondos/curvas.cjs` genera el SVG (picos gaussianos, marching squares y segmentos encadenados; ≈47 KB, precacheado).
+- `.gitignore`: `images/` pasa a `/images/` (solo la carpeta de capturas de la raíz); ignoraba también `public/images/` y las atmósferas se habían añadido forzadas.
+- `contrast.test.ts`: todo el texto ≥ 4,5:1 sobre el píxel más cargado (halo + trazo) de cada fondo dibujado; fija el tope de las opacidades (en oscuro, más bajas que en la propuesta).
+
+**Verificación:** `npm run test` (1.946 tests, 143 archivos) y `npm run build` en verde. Recorrido en Edge sin interfaz con Playwright fuera del repo, Vite en 5182 y `appfit-test.localhost` con la fixture: elegir Curvas, Puntos y Foto desde Ajustes, Inicio/Nutrición/Entreno con cada fondo, recarga con la preferencia guardada y el SVG servido, a 320 oscuro, 375 claro y oscuro, 430 claro y 1440 oscuro: 230 comprobaciones, todas bien, incluidas las curvas por defecto sin nada guardado (sin foto ni franja, halo y trazo presentes, sin scroll horizontal, segmentos ≥ 44 px y en una línea a 320, sin errores de consola). `validar-fondos.cjs` (con la foto elegida) pasa en 320/375/430/1440 y ambos temas. Capturas revisadas. Sin prueba en iPhone ni con los datos reales. Víctor autoriza commit, PR y merge.
+
+## 123. Actividades (caminar, correr, senderismo) y Caminos (2026-10-12)
+
+Víctor pidió, como última funcionalidad, las actividades que son caminar o correr y los Caminos de `gaming.md`. Decidió con preguntas: registro a mano + importar GPX + GPS en vivo como extra (tras explicarle que ni la PWA ni la TWA de Play reciben la ubicación con la pantalla bloqueada; la app nativa queda en el roadmap), recorrido dibujado sin mapa, actividades dentro de Entreno, km que mueven Caminos y XP (10 m por km, 100 al día, 3 días por semana), Caminos no retroactivo y rutas de todo tipo, reales y de ficción, sin mundos con derechos (pidió dominio público y fantasías propias en lugar de la ruta de Frodo). En `feat/actividades-caminos`. Decisión en [ADR 037](decisiones/037-actividades-y-caminos.md).
+
+- Datos: Dexie v10 con `actividades` (`++id, fecha, inicio`), opcional en el backup v3; `Settings.caminos`. `actividadesRepo` con la grabación en curso guardada en la tabla (cada 10 s, al pausar y al salir) y `caminosRepo`.
+- `features/actividades/`: `lib/geo` (distancias, desnivel con histéresis, simplificación RDP, proyección y perfil), `lib/gpx` (lector sin DOM), `lib/grabacion` (filtro de lecturas, pausas), `lib/actividad` y `lib/formulario`; `hooks/useGrabacionGps` (`watchPosition` y Wake Lock); páginas `ActividadesHome`, `GrabacionActiva` y `DetalleActividad` y las hojas `HojaActividad` y `HojaGrabar`. Entreno pasa a tener ViewTabs Gimnasio · Actividades; el «+» añade «Registrar actividad».
+- XP: `calcularExperiencia` añade el evento `actividad` y `actividadesSinXp` (corta o tope semanal); `VERSION_REGLAS` 2. Cumbres lo enseña en «Cómo se sube», «Esta semana» y «Cada día».
+- `features/caminos/`: 15 rutas en cuatro colecciones (Caminos de Santiago y rutas del mundo con etapas de Gronze y webs oficiales; la Odisea y La vuelta al mundo en 80 días en línea recta; dos fantasías de AppFit), motor derivado como Cumbres con etapas, sellos y llegadas, página en Más, tarjeta en Inicio, tesela en Más (ahora 2 × 2) y lo que avanzó cada actividad en su detalle.
+- Vitrina: grupo Caminos (kilómetros, salidas, rutas terminadas, Compostela, Todos los caminos) y dos ocultos (El fin del mundo, Más allá de la maratón): 66 piezas.
+- Iconos `route`, `footprints`, `play`, `pause`, `upload`, `locate` y `flag`. `ActividadesHome`, `GrabacionActiva` y `DetalleActividad` van en chunks diferidos: el principal crece unos 8 kB (2 kB comprimido) frente a `master`, por Caminos en Inicio y Más.
+
+**Verificación:** `npm run test` (2.021 tests, 151 archivos) y `npm run build` en verde, con el aviso conocido de chunk >500 kB (546 kB; `master`, 539 kB). `git diff --check` correcto. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite propio en 5183 y `appfit-test.localhost`, datos efímeros y geolocalización simulada (46 comprobaciones, todas bien, en dos pasadas): registrar a mano (error sin distancia), importar un GPX (tipo, nombre y distancia propuestos), detalle con trazado, altitud y «Cumbres y Caminos», editar, grabar con el GPS (suma distancia, descarta saltos, pausa, sobrevive a recargar, terminar abre el detalle), elegir el Camino Inglés, tarjeta de Inicio, metros por km en Cumbres y grupo Caminos en la Vitrina; sin scroll horizontal en Actividades, detalle, Caminos e Inicio a 320/375/430 px en claro y oscuro y sin errores de consola. Capturas revisadas; arreglados «Terminar» partido en dos líneas (botones apilados), «menos de 1 min» con la semana vacía y el icono de las huellas. El Wake Lock no se concede en el navegador sin interfaz: se vio el aviso. Sin prueba en iPhone (GPS real, pantalla bloqueada, importar desde Archivos) ni con los datos reales. Sin commit ni push.
+
+## 124. Rutas propias en Caminos (2026-10-12)
+
+Víctor pidió poder crear rutas suyas en Caminos, como de Tarragona a Valencia, con ubicaciones intermedias. Eligió, entre escribirlo todo a mano, una lista de pueblos en la app o un servicio de rutas externo, la lista de pueblos, y solo de España. En `feat/actividades-caminos`, ampliación del [ADR 037](decisiones/037-actividades-y-caminos.md).
+
+- Lugares: `scripts/lugares/` (`lugaresLib.ts` puro con test, `lugares.ts` CLI, `npm run lugares:construir`, README) convierte el volcado de GeoNames de España (CC BY 4.0) en `public/lugares/espana.json`: 7.834 núcleos con habitantes, provincia y coordenadas (310 KB, 125 KB comprimido). El Nomenclátor del IGN no tiene enlace directo de descarga (su carrito rechaza la petición sin navegador). La app lo pide del propio origen al abrir el editor y el service worker lo guarda (`StaleWhileRevalidate`).
+- `caminos/lib/lugares.ts` (buscar, km = línea recta × 1,15, proponer paradas cada 15/25/40 km priorizando pueblos grandes, insertar en su sitio) y `lib/rutasPropias.ts` (validación, conversión a `Ruta`, quitar/añadir paradas, posición en la ruta). El motor acepta las rutas propias (`calcularCaminos`, `rutaDe`, `rutasParaCambiar`, `cambiarRuta` con `propias`); la sugerida sigue siendo solo de `RUTAS`.
+- Datos: Dexie v11 con `rutasPropias`, opcional en el backup; `rutasPropiasRepo` no borra una ruta que está en el viaje.
+- Interfaz: «Tus rutas» en Caminos (con lápiz para editar antes de empezar), `EditorRuta` (ModalPage con `BuscadorLugar`, propuesta de paradas, `MapaRuta`, etapas con km editables y nombre) y `MapaRuta` en la card de una ruta propia con la posición. Cambiar de ruta ofrece también las propias.
+- Tarragona → Valencia cada 25 km propone 10 paradas por la costa (Cambrils, Deltebre, Benicarló, Oropesa, Sagunto…) y unos 270 km; Madrid → Toledo cada 40 km, por Illescas (78 km); Sevilla → Granada, unos 250 km.
+
+**Verificación:** `npm run test` (2.042 tests, 154 archivos) y `npm run build` en verde (el chunk principal no cambia: el editor va con `CaminosTab`; el JSON no se precachea). `git diff --check` correcto. Recorrido en Edge sin interfaz con `playwright-core` fuera del repo, Vite en 5183 y `appfit-test.localhost` con datos efímeros (todo bien): crear Tarragona → Valencia (paradas propuestas, nombre por defecto, cambiar a 40 km, quitar una parada, añadir Salou en su sitio, corregir sus km, guardar), empezarla, registrar 40 km a mano y ver la posición en el mapa y la etapa en curso, abrirla para editar (no se puede borrar porque está en el viaje), y el editor y Caminos a 320 px en oscuro y 430 en claro, sin scroll horizontal ni errores de consola. Capturas revisadas. Sin prueba en iPhone. Víctor decide dejar la intensidad por volumen y pide commit y PR (#97).
+
+Ampliación del mismo día: Víctor pidió rutas como Tarragona – Reus – Tarragona. La llegada puede ser la salida (ida y vuelta: sin paradas propuestas y las añadidas, en el orden en que se eligen) y «Volver a …» convierte la llegada en parada. El buscador ya no excluye los lugares elegidos. `rutasPropias.mismoSitio`, `anadirVuelta` y `nombrePorDefecto` con las paradas, con tests; recorrido en Edge a 320 px en `appfit-test.localhost` (Tarragona – Reus – Valls – Tarragona y Tarragona → Reus → «Volver a Tarragona»), sin overflow ni errores de consola.
+
+## 125. Más logros en la Vitrina (2026-10-12)
+
+Víctor pidió más logros en la Vitrina, de todos los apartados y también ocultos. Se pasa de 30 logros y 66 piezas a 55 logros y 140 piezas (121 sin nutrición), sin guardar nada nuevo: todo sigue derivándose del historial con su fecha real. Respetan las salvaguardas del ADR 029 (nada por kcal, peso corporal o déficit).
+
+- Más niveles en los que había: Entrenos (500), Coleccionista de récords (50), Hilo (104), Días registrados (500), Proteína (365), Otra vez arriba (10), Metros subidos (250.000), Kilómetros (5.000) y Salidas (500).
+- Nuevos con niveles: Series efectivas, Toneladas, Récords batidos, Ejercicios dominados y Subir de liga (Bronce a Rubí) en Entreno; En racha (semanas cumplidas seguidas) en Constancia; Semanas enteras y Botánica (plantas desde siempre) en Nutrición; Montañas distintas en Cumbres; Kilómetros corriendo, Desnivel positivo, Horas en marcha y Larga distancia en Caminos, y las colecciones Rutas del mundo, Viajes de libro y Fantasía.
+- Ocultos nuevos: Noctámbulo, Red de seguridad, Día de récords, Día redondo, Año nuevo, Un año después, La montaña salvaje (K2), Kilómetro vertical y Jardín botánico (50 plantas en una semana).
+- Código: `vitrina/lib/logros.ts` (ayudas `marcasAcumuladas` y `coleccion`; km y metros pasan a usarla), `lib/vitrina.ts` le pasa la Liga, el volumen de cada entreno y las plantas desde siempre; `atlas.dominados` lleva el entreno de la tercera sesión; `herbarioPorSemana` añade `cincuentaEl`; `montanas.K2`. La interfaz no cambia: más medallas en la misma rejilla.
+
+**Verificación:** `npm run test` (2.047 tests, 154 archivos) y `npm run build` en verde; tests nuevos de los logros ampliados (entreno, ocultos con comodín y racha, nutrición y actividades). Sin recorrido en navegador ni prueba en iPhone. Sin commit ni push.
+
+## 126. Secciones de arriba recuadradas en Entreno y Nutrición (2026-10-12)
+
+Víctor pidió que las secciones de arriba de Entreno (Gimnasio · Actividades) y Nutrición (Diario · Resumen · Alimentos) pesaran más que las subsecciones de debajo, quizá recuadradas. `ViewTabs` gana `nivel="principal"`: recuadro `surface` con borde `line` y `rounded-md`, etiquetas en `body` (las de dentro siguen en `body-sm`) y la activa en una caja `surface-muted` `rounded-sm` que se desliza (`.app-tabs-principal .tab-indicator` en `index.css`), con la barra de acento dentro, al pie. Sin sombra ni pill, para no confundirse con SegmentedControl. Lo usan `GymTab` y `NutricionTab`.
+
+**Verificación:** `npm run test` y `npm run build` en verde. Capturas en Edge sin interfaz con `playwright-core` fuera del repo, Vite en 5184 y `appfit-test.localhost`, Entreno (Gimnasio y Actividades) y Nutrición a 320/375/430 px en claro y oscuro: celdas de 44 px, sin scroll horizontal ni errores de consola. Sin prueba en iPhone. Víctor decide dejar la intensidad por volumen y pide commit y PR (#97).
+
+## 127. Iconos topográficos de ligas y logros (2026-10-13)
+
+Publicación autorizada por Víctor mediante commit, PR y merge. La integración se actualiza sobre master, que incorporó ligas sin divisiones (Zafiro/Rubí), Caminos y 55 logros. Se conserva la rejilla de medallas, su anillo y la hoja de detalle; cada logro recibe un símbolo topográfico y cada sección una silueta (Caminos, placa de ruta horizontal). Los 18 símbolos propuestos inicialmente se mantienen y la misma familia cubre los 37 incorporados. Criterio en [ADR 038](decisiones/038-insignias-topograficas.md); flujos en [Liga](features/liga.md) y [Vitrina](features/vitrina.md).
+
+SVG locales con recortes únicos por instancia, tokens propios y contraste de pictogramas/fondos. Todos los ocultos sin conseguir usan el mismo candado y tampoco muestran un anillo que dé pistas. Sin nuevos servicios, dependencias o datos persistidos. Las reglas, semanas, niveles y fechas se conservan. La rejilla se adapta a texto ampliado, y la insignia mantiene su tamaño nominal.
+
+**Verificación:** `npm run test` (2.071 tests, 154 archivos) y `npm run build` (TypeScript/Vite/PWA) en verde sobre master actualizado. `scripts/ui/validar-insignias.cjs`: ocho contextos a 320/375/430 px en claro/oscuro y 375 con texto al 200 %/Reduce Motion; 55 logros, seis ligas, conseguidos/pendientes, detalle de Élite, nuevos logros y ascensos. Sin desbordamiento, recortes únicos, candados idénticos y backup intacto al consultar. Capturas/informe en `/tmp/appfit-insignias`. Chromium con datos sintéticos; sin iPhone físico.
+
+## 128. Cuentas y copia cifrada en la nube (2026-10-13)
+
+Víctor pidió poder registrarse con una cuenta donde se guarden los datos, sin exportar e importar a mano. Al abrir la app a otras personas cambia la decisión de «sin backend ni cuentas» ([ADR 039](decisiones/039-cuentas-y-copia-cifrada.md), que sustituye esa parte del 001). Eligió: copia automática (no sincronización), Supabase, entrar con email y código, y cifrado en el móvil con contraseña. Plan en `cuentas.md`. Creó el proyecto de Supabase (Irlanda, eu-west-1; Data API sin exponer tablas nuevas, RLS automática, código de 6 cifras, Site URL y Redirect URL de pruebas). En `feat/cuentas`.
+
+- `features/cuenta/`: `lib/cifrado` (DEK AES-GCM envuelta con PBKDF2 por la contraseña y por un código de recuperación, gzip + AES-GCM), `lib/huella`, `lib/decision` (vínculo y nada/subir/traer/conflicto/perdida), `lib/estado`, `lib/disparo`; `data/nube` + `nubeSupabase` (diferido), `dispositivoRepo` (base aparte `appfit-dispositivo`, DEK no exportable) y `cambiosRepo` (`storagemutated`); `copiaNube.ts` (orquestación inyectada, cola con Web Locks) y `servicio.ts` (instancia, disparadores: 15 s tras escribir, al ir a segundo plano, al volver y con red).
+- Servidor: `supabase/migrations/0001_copias.sql` con la tabla `copias` (copia y la anterior, claves envueltas), RLS de lectura propia y las funciones `subir_copia` (revisión atómica), `actualizar_claves` y `borrar_cuenta`. Config en `.env` (URL y clave publicable).
+- UI: Ajustes › Cuenta (`CuentaAjustes`, `EntrarSheet` por pasos, `ElegirCopia`, `GestionarCuenta`: contraseña, clave nueva, cerrar sesión con o sin borrar datos, borrar cuenta). Inicio: `AvisoBackup` usa la última copia en la nube y avisa sin «Más tarde» del conflicto, la copia perdida o la sesión caducada. Guía de traslado de Ajustes con el camino de la cuenta.
+
+**Verificación:** `npm run test` (2.099 tests, 161 archivos) y `npm run build` en verde (supabase-js en su propio chunk de 56 KB comprimido; el principal, 588 kB, con el aviso conocido de >500 kB). `git diff --check` correcto. `scripts/ui/validar-cuenta.cjs` en Edge sin interfaz con `playwright-core` fuera del repo, Vite en 5185, `appfit-test.localhost` y Supabase simulado: los seis casos (320/375/430 × claro/oscuro) bien, también targets, sin scroll horizontal ni errores de consola. Las plantillas del correo solo se pueden editar con SMTP propio: el correo sale por Gmail (contraseña de aplicación), con el aviso de Supabase de que no es un proveedor transaccional; antes de publicar, dominio propio y Resend o Brevo. Sin probar contra el proyecto real (falta ejecutar el SQL) ni en iPhone. Sin commit ni push.
+
+## 129. Cuentas en marcha: Supabase, correo por Brevo y Cloudflare (2026-10-13)
+
+Víctor terminó de configurar el proyecto real de la cuenta en otra sesión y pidió documentarlo, corregir un mensaje de error y llevar `feat/cuentas` a `master`. Configuración en [cuenta](features/cuenta.md) § Servidor y correo; motivos del correo en `cuentas.md` § Riesgos.
+
+- Supabase (Irlanda, eu-west-1): `0001_copias.sql` ejecutado (el alta crea la fila en `copias`), código de 6 cifras, plantillas con `{{ .Token }}`, Site URL de producción.
+- Correo: **Brevo** como SMTP propio, servicio externo nuevo. Sin SMTP propio Supabase no deja editar las plantillas (llegaba un enlace). Gmail falló («535», con bloqueo temporal de la cuenta) y Resend sin dominio solo envía a su propia cuenta. Sale desde un Gmail sin DKIM/DMARC y puede caer en spam: antes de publicar, dominio propio solo para el correo ([ADR 039](decisiones/039-cuentas-y-copia-cifrada.md)).
+- Cloudflare: las dos `VITE_SUPABASE_*` en las variables de build del Worker. `.env` pasa a `.gitignore` y se añade `.env.example`.
+- Arreglo: cuando falló el SMTP, Supabase respondió 500 en `/otp` y la app dijo «No hay conexión con la nube». auth-js da los 5xx como `AuthRetryableFetchError` (igual que sin red, pero con status ≥ 500): `traducir` los distingue y al pedir el código dice «No se ha podido enviar el código. Inténtalo más tarde.». La comprobación de `navigator.onLine` pasa a `=== false`. Test nuevo `nubeSupabase.test.ts`.
+- Al integrar `master`, que ya tenía el ADR 038 (insignias topográficas, §127), el de cuentas pasa a ser el [ADR 039](decisiones/039-cuentas-y-copia-cifrada.md).
+
+**Verificación:** `npm run test` (2.128 tests, 162 archivos, con `master` integrado) y `npm run build` en verde. `.env` ignorado por git (`git check-ignore`). Sin prueba en navegador del mensaje nuevo (el 5xx se reproduce en el test) ni en iPhone.
+
+## 130. Menos texto a la vista y Ajustes por temas (2026-10-14)
+
+Víctor pidió aligerar el texto de la app sin perder las explicaciones y que en Ajustes se distinguiera más cada categoría. Se le presentó una propuesta con maquetas (cinco patrones, recorte de frases y tres formas de separar Ajustes); aprobó todas y, para Ajustes, el índice con pantallas.
+
+- **Ajustes en índice** (`app/seccionesAjustes`, con tests): rótulos Tú · Entreno · App · Tus datos y «Borrar registros» aparte; cada fila con icono, nombre y el valor actual («2.200 kcal · 150 g de proteína», «Con sonido · Pregunta el RIR»; la cuenta, con `ResumenCuenta`). Cada sección abre su vista con «Volver a Ajustes» y foco de vuelta a la fila. `App.seccionAjustes` sustituye a `abrirGuia`/`abrirCopia`/`abrirCuenta`; los «Ir a Ajustes» de Cumbres, Caminos, Ritmo y Vitrina abren su sección. «Instalación y traslado» pasa a «Primeros pasos». Las secciones de las features pierden su `SectionHeader` (el título lo pone la vista) y el catálogo, su desplegable.
+- **Cómo funciona** (`shared/components/ComoFunciona`): una «i» en la cabecera de Cumbres, Caminos, Ritmo, Vitrina y las Ligas de Progreso abre una ModalPage con las reglas reescritas en bloques; lo que sube metros y los estados de la semana van como reglas con su valor. Sustituye a los desplegables «Cómo se sube», «Cómo se avanza» y «Cómo funciona», y recoge las notas de Logros, Récords y Colecciones.
+- **«i» → hoja** en Progreso: «Qué significa cada cifra» según el tipo de carga (`gym/lib/ayudaCifras`, con tests), en lugar del párrafo bajo las cifras.
+- **NotaAmpliable**: media línea + «Más» para las notas de Ajustes (agua, entreno, Cumbres/Caminos/Ritmo/Vitrina, CSV) y del Resumen (adherencia, categorías, plantas, series por músculo, media del peso). Creatina junta sus cuatro notas en «Cómo se calcula».
+- **Pistas de primera vez** (`shared/lib/pistas`, `shared/components/Pista`): Entreno activo y el editor del historial explican una vez cómo marcar series; «Entendido» las guarda en `Settings.pistasVistas` (campo opcional, sin versión) y Ajustes › Primeros pasos › «Volver a ver las pistas» las recupera.
+- **Recorte**: Progreso («Toca uno…»), Copias, Catálogo, primera vez de Caminos, leyenda de Ritmo, descanso del entreno, Creatina en Inicio, intro de Ligas y la línea repetida de Almacenamiento. Avisos, errores y datos parciales siguen siempre a la vista.
+
+**Verificación:** `npm run test` (2.136 tests, 165 archivos) y `npm run build` en verde. En `appfit-test.localhost:5173` (Chrome, sin Playwright): índice y las 11 vistas de Ajustes con foco al entrar y al volver; recorrido por iframe a 320/375/430 px en claro y oscuro, con todo desplegado, sin scroll horizontal ni controles < 44 px; «Cómo funciona» de Cumbres y Ritmo; pista de Entreno activo, «Entendido» y «Volver a ver las pistas»; sin errores en consola. No probado en navegador: la hoja de Progreso (sin sesiones en el origen de pruebas) ni la pista del editor del historial. Sin iPhone real.
+
+## 131. Entreno minimizado (2026-10-14)
+
+Víctor pidió poder salir del entreno en curso para usar el resto de la app, con un resumen abajo que lleve de vuelta al tocarlo.
+
+- **Estado en App**: `entrenoAbierto` decide si Entreno enseña `EntrenoActivo`; navegar a cualquier pestaña lo pone a `false` y `abrirEntreno` (barra, «Volver al entreno» del «+», tarjeta de Inicio, empezar) a `true`. Un entreno empezado se abre siempre.
+- **Barra** (`gym/components/EntrenoMinimizado`, en el hueco `encima` de `BottomNav`): rutina, tiempo o descanso restante, series marcadas y progreso. El descanso termina ahí con vibración y pitido y queda anotado en `sessionStorage`. `WorkoutClock` comparte la cuenta atrás (`useDescansoRestante`, `RestCountdown`) y `lib/session.seriesMarcadas` (con test) sustituye el cálculo repetido de `EntrenoActivo`.
+- **Con entreno en curso**: Empezar enseña «Entreno en curso · Continuar» en lugar de las rutinas y Rutinas oculta «Empezar» (antes estas vistas nunca se veían con un entreno activo). Icono `chevron-up` nuevo; token `--mini-entreno-height`.
+
+**Verificación:** `npm run test` (2.137 tests, 165 archivos) y `npm run build` en verde. En `appfit-test.localhost:5173` (Edge con Playwright, contextos efímeros) a 375 claro y 320 oscuro: empezar vacío y desde una rutina (se abre), minimizar, Inicio con la barra sin tapar el final, volver tocándola, Rutinas sin «Empezar», nombre largo con elipsis, descanso que acaba minimizado tras recargar (aviso y `restEndsAt` a `null`, sin píldora al volver), sin scroll horizontal ni errores en consola. Sin iPhone real.
+
+## 132. Unilateral con una fila por lado (2026-10-14)
+
+Víctor pidió que al marcar un ejercicio como unilateral cada serie tenga una línea para la izquierda y otra para la derecha, repitiendo lo mismo en las dos si es igual, porque a veces un lado hace 7 reps y el otro 6.
+
+- **Variante**: Bilateral/Unilateral sin más opciones; unilateral guarda `ejecucion: 'lados'`. Se quitan «Ambos lados iguales» y «Los kg indican».
+- **Copia I → D** (`lib/serie.conLadoEspejo`, en filas, RIR y bajadas): el dato de la izquierda pasa a la derecha si la derecha está vacía o igual a lo que tenía la izquierda (funciona tecla a tecla); la derecha nunca cambia la izquierda.
+- **Datos antiguos en «ambos iguales»**: siguen en el historial; con kg por lado comparten clave de comparación con I/D (Progreso, récords y progresión no se cortan). Una configuración antigua se aplica como lados (`ejecucionVigente`); guardar la variante convierte las series de la sesión con los mismos datos, kg totales repartidos y sin perder la confirmación (`comoLados`); una sesión nueva que copia una serie así la estrena con lados (`ejecucionSerieNueva`). Sin cambio de esquema.
+- Chip de cabecera: «Unilateral» en vez de «Unilateral · cada lado».
+- **Panel con texto al 200 %**: la fila plegada y «Añadir serie» + «Plegar» se desbordaban; ahora pasan a otra línea cuando no caben (`flex-wrap`).
+- **`scripts/ui/validar-tecnicas-progresion.cjs`** puesto al día: abre el entreno con «Continuar» (desde el entreno minimizado), espera la fila plegada, lista «Entrenos terminados del mes», gráfica de área; y cubre la copia I → D y la conversión de «ambos iguales». La captura se guarda antes de comprobar, para ver el fallo.
+
+**Verificación:** `npm run test` (2.144 tests, 165 archivos) y `npm run build` en verde. `validar-tecnicas-progresion.cjs` en Edge sin interfaz con `playwright-core` fuera del repo y `appfit-test.localhost:5173`: los ocho casos (320/375/430 × claro/oscuro, 375 con texto al 200 % y 1440) bien, sin scroll horizontal, targets < 44 px ni errores de consola. Víctor lo probó también a mano en el origen de pruebas. Sin iPhone real.
+
+## 133. Parte social: decisión, plan y ahorro de espacio (2026-10-15)
+
+Víctor pidió un componente social al estilo de Strava, gratis. Se comparó el plan gratuito de Supabase (500 MB, 5 GB de tráfico, sin copias de seguridad, pausa tras 7 días sin actividad: con uso semanal no ocurre), Supabase Pro y Cloudflare Workers + D1. Víctor eligió: publicar entrenos, actividades sin recorrido, y logros y ligas, solo para seguidores aprobados; reacción (provisionalmente «Ánimo») y comentarios; publicar al terminar con vista previa; encontrar por alias o código de invitación; cuenta independiente de la copia cifrada; 16 años; plan gratuito con ahorro de espacio.
+
+- [ADR 040](decisiones/040-parte-social.md) y plan por fases en [`social.md`](social.md), rama `feat/social`.
+- **Fase 1, espacio:** `supabase/migrations/0002_espacio.sql` (tabla `actividad`, `marcar_actividad`, `borrar_cuentas_inactivas` y dos tareas de pg_cron: copia anterior a los 7 días y cuentas sin actividad en 12 meses). `CopiaNube.marcarActividad` lo anota con sesión al arrancar, al entrar y al volver a la app, una vez al día; «Gestionar la cuenta» lo avisa. Víctor ejecutó el SQL el mismo día; comprobado en el SQL Editor: las dos tareas activas en `cron.job`, las dos funciones con `security definer` y las 3 cuentas en `actividad`.
+- **Medida** en el SQL Editor (Chrome): 3 cuentas, copia media 7 kB y la mayor 20 kB; tabla `copias` 280 kB, base entera 11 MB. El límite de personas del plan gratuito pasa de «cientos» a «miles».
+
+**Verificación:** `npm run test` (2.146 tests, 165 archivos) y `npm run build` en verde. El SQL no se ha probado: no hay Postgres local; se prueba al ejecutarlo en el SQL Editor.
+- **Fase 2, cuenta sin copia:** la fase `sin-vincular` pasa a `sin-copia` («hay sesión y este móvil no guarda copia»), un estado válido y no un alta a medias. Tras el código, `EntrarSheet` ofrece «Activar la copia» o «Abrir la copia» y «Ahora no»; Ajustes › Cuenta, sin copia, enseña el email, «Activar la copia» y solo cerrar sesión y borrar la cuenta (cerrar sesión no ofrece borrar los datos del móvil, que serían la única copia). Tests nuevos en `copiaNube.test.ts` (entrar sin copia, reabrir, activarla después, borrar la cuenta sin copia).
+
+**Verificación de la fase 2:** `npm run test` (2.150 tests, 165 archivos) y `npm run build` en verde. Sin prueba en el navegador: entrar exige recibir un código real en el correo.
+
+## 134. Amigos: perfiles, seguir, bloquear y denunciar (2026-10-15)
+
+Fase 3 de [`social.md`](social.md). Víctor aprobó un destino «Amigos» en «Más».
+
+- **SQL** `supabase/migrations/0003_social.sql`: tablas `perfiles`, `seguimientos`, `bloqueos` y `denuncias` con RLS y sin permisos directos; todo por funciones `security definer` que identifican por alias (`mi_perfil`, `crear_perfil`, `editar_perfil`, `nuevo_codigo`, `borrar_perfil`, `buscar_persona`, `personas`, `pedir_seguir`, `dejar_de_seguir`, `responder_solicitud`, `quitar_seguidor`, `bloquear`, `desbloquear`, `denunciar`) y ayudantes `social_*` que la app no puede llamar. Errores como claves cortas. Límites: 50 solicitudes y 20 denuncias al día. Pruebas en `supabase/pruebas/social.sql`: un bloque que comprueba todo con tres usuarios de prueba y termina con el error «PRUEBAS_OK», que lo deshace.
+- **App** `features/social/`: `lib/` (alias, relación, mensajes; un test compara las claves del SQL con los mensajes), `data/socialSupabase` con el cliente compartido (`cuenta/data/clienteSupabase`, nuevo), `hooks/useConsulta`, `AmigosTab` y componentes (crear perfil con «Tengo 16 años o más», solicitudes, Siguiendo · Seguidores · Añadir, hoja de persona con denunciar y bloquear, «Tu perfil»). `Campo` pasa de `EntrarSheet` a `shared/components`. Icono `users`.
+- **Prueba en el navegador** sin el proyecto real: `scripts/ui/supabase-falso.mjs` (RPC en memoria) con Vite en `appfit-test.localhost:5174` y una sesión falsa. Recorrido en Chrome: crear perfil (alias ocupado traducido), aceptar solicitud, seguidores, pedir seguir, denunciar, bloquear con Toast, buscar por código sin guion, «Tu perfil» con bloqueados; 320/375/430 en claro y oscuro sin scroll horizontal. Arreglado en el recorrido: el alias salía con mayúscula en `overline`, el nombre se estrujaba a 320 px en las solicitudes (ahora los botones bajan), la hoja repetía el nombre y dos hojas hermanas compartían `key`.
+
+**Verificación:** `npm run test` (2.167 tests, 169 archivos) y `npm run build` en verde. Víctor ejecutó `0003_social.sql` el mismo día (copiado del archivo con PowerShell: copiarlo de la terminal partía las líneas largas) y `pruebas/social.sql` terminó en «PRUEBAS_OK»: pasan todas. Víctor lo probó con dos cuentas reales (ventana normal e incógnito en `appfit-test.localhost:5173`): crear perfiles, buscar, pedir seguir y aceptar, todo bien. Sin prueba en iPhone.
+
+## 135. Publicar entrenos y actividades en Amigos (2026-10-15)
+
+Fase 4 de [`social.md`](social.md), tras guardar las fases 1–3 en un commit.
+
+- **SQL** `supabase/migrations/0004_publicaciones.sql`: tabla `publicaciones` (id uuid que genera la app, autor, tipo `entreno`/`actividad`, fecha, resumen jsonb objeto ≤ 8 KB), `publicar` (idempotente con el mismo id, 30 al día, nada del futuro) y `borrar_publicacion`. Pruebas añadidas a `supabase/pruebas/social.sql`.
+- **Resumen** (`social/lib/publicacion`, con tests): `resumenEntreno`/`resumenActividad` recortan textos (60) y listas (15 ejercicios, 6 récords, ligas y logros) para que el más largo quepa en 8 KB; `leerResumen` valida lo que llega del servidor para el feed. Los logros y las ligas van dentro del entreno (no hay publicación de tipo «logro»).
+- **UI**: `social/components/Publicar` («Compartir» con `TarjetaPublicacion`, «Publicar en Amigos», «Publicado en Amigos» y «Borrar publicación») dentro de `SiPuedePublicar` (sesión y perfil); `gym/components/PublicarEntreno` en el fin de sesión y en el detalle del historial; `actividades/components/PublicarActividad` en el detalle de la actividad. Marca local `Workout.publicacion`/`Actividad.publicacion` (`marcarPublicacion` en los repos). `SocialError` lleva la clave del SQL. `vitrina/lib/logros.nombreConNivel` (también en `NuevosLogros`).
+- **Navegador** con `scripts/ui/supabase-falso.mjs` (ya con `publicar` y `borrar_publicacion`): actividad a mano (Peñalara, 12,4 km, 812 m) publicada y borrada; entreno del historial con ligas («Empieza en Bronce») y Vitrina en la vista previa; 320 y 375 px sin scroll horizontal.
+
+**Verificación:** `npm run test` (2.175 tests, 170 archivos) y `npm run build` en verde. Víctor ejecutó `0004_publicaciones.sql` y `pruebas/social.sql` terminó en «PRUEBAS_OK» con las pruebas de publicaciones. Sin prueba con cuentas reales ni en iPhone.
+
+## 136. Feed, reacciones, comentarios y avisos en Amigos (2026-10-15)
+
+Fase 5 de [`social.md`](social.md), tras guardar la fase 4 en un commit.
+
+- **SQL** `supabase/migrations/0005_feed.sql`: tablas `reacciones` y `comentarios`; ayudantes `social_puede_ver` (autor o seguidor aceptado, sin bloqueo ni suspensión), `social_publicacion` y `social_fila`; `feed` y `publicaciones_de` paginados por `creada`; `comentarios_de`, `reaccionar`, `quitar_reaccion`, `comentar` (1–500, 100 al día), `borrar_comentario` (mío o en lo mío); `denunciar` ampliada a publicaciones y comentarios; `avisos` (solicitudes, nuevos y los 30 últimos) y `marcar_avisos_vistos`. Pruebas añadidas a `supabase/pruebas/social.sql` (feed con y sin aceptar, paginación, reacción única, comentarios, avisos y vistos, quien no sigue no ve ni interactúa, denuncias, borrar como autor, bloqueo).
+- **Lógica** (`lib/feed`, `lib/reaccion`, con tests): leer y validar filas del feed, comentarios y avisos; textos de avisos y recuentos; el nombre de la reacción en un solo sitio.
+- **UI**: Amigos pasa a «Novedades» (Avisos y feed paginado) · «Personas» (lo de antes). `PublicacionFeed` con reacción al momento y comentarios; `ComentariosSheet` (escribir, borrar con «Deshacer» o confirmación, denunciar); `AvisosSheet` (marca vistos y abre los comentarios); `PublicacionesPersona` desde «Ver sus publicaciones»; `FormDenuncia` compartido (también en la hoja de una persona); banda `AvisoAmigos` en Inicio. Iconos `llama` (reacción) y `comentario`.
+- **Navegador** con `scripts/ui/supabase-falso.mjs` (feed de ejemplo, una publicación con forma rara que se descarta y `simular_avisos`): banda de Inicio, feed, dar y quitar ánimo, comentar, borrar con Deshacer, avisos (abrir los comentarios desde uno) y publicaciones de una persona; 320 y 430 px en oscuro sin scroll horizontal. Arreglado en el recorrido: el título de la hoja de comentarios era larguísimo (pasa a «Comentarios» con la publicación debajo), los «Nuevo» desaparecían al marcar vistos con la hoja abierta y la página de una persona repetía su nombre en cada tarjeta.
+
+**Verificación:** `npm run test` (2.183 tests, 171 archivos) y `npm run build` en verde. Víctor ejecutó `0005_feed.sql` y `pruebas/social.sql` terminó en «PRUEBAS_OK» tras dos arreglos de la propia prueba: el bloque es una transacción y `now()` no avanza, así que los avisos se marcan vistos un minuto antes y la reacción va 30 s antes que el comentario. Víctor lo probó con dos cuentas reales en `appfit-test.localhost:5173` (publicar, ánimo, comentario, banda de Inicio y avisos): funciona. Sin prueba en iPhone.
+
+## 137. Social en la barra y Amigos en Más (2026-10-15)
+
+Víctor pidió separar las publicaciones de las personas: una pestaña «Social» en la barra, junto a Inicio, Nutrición, Entreno y Más, con todo lo de las publicaciones, y «Amigos» en Más para el perfil y la gente.
+
+- **Navegación**: destino `social` en `DESTINOS` (icono `comentario`), pestaña de la barra detrás de Entreno; `.tab-bar` reparte columnas solas (`grid-auto-flow: column`) y, bajo 16 rem de cápsula, estrecha los nombres para que «Nutrición» no se parta a 320 px. Sin cuenta configurada, `social` y `amigos` van en `ocultos`. Test de contrato de la barra con cinco pestañas y sin Social.
+- **`SocialTab`**: Avisos, solicitudes pendientes (lleva a Amigos), ViewTabs «Siguiendo» (feed) · «Tú» (lo mío, con `publicaciones_de` y mi alias, sin SQL nuevo); tocar a alguien abre sus publicaciones. **`AmigosTab`** vuelve a ser solo perfil y personas. La banda de Inicio lleva a Social con novedades y a Amigos con solo solicitudes. «Publicar en Social» / «Publicado en Social».
+- **Navegador** con el Supabase falso: barra a 320/375/430 en claro (todos los nombres dentro de su celda), Social «Tú» vacío, Amigos y Avisos en oscuro, sin scroll horizontal.
+
+**Verificación:** `npm run test` (2.185 tests, 171 archivos) y `npm run build` en verde. Sin probar con cuentas reales ni en iPhone.
+
+
+## 138. Publicaciones libres, logros, comunidades y mapa compartido (2026-10-16)
+
+Víctor pide ampliar Social para escribir publicaciones sin un entreno, compartir un logro al conseguirlo, participar en comunidades sin seguirse y ver el mapa de calor en el entreno publicado. Implementación en `feat/social-publicaciones-comunidades`, desde master con Social ya integrado. Criterio y audiencias en [ADR 041](decisiones/041-publicaciones-y-comunidades.md); contratos y flujos en [Social](features/social.md#publicaciones-libres-logros-y-comunidades).
+
+- `CrearPublicacion`: texto, destinatario y vista previa para seguidores o una comunidad elegida. La identidad del envío se conserva al reintentar y se renueva si se cambia contenido o audiencia. Nuevos tipos de resumen `texto` y `logro`, con validación al construir y leer, sin modificar Dexie ni el backup.
+- `CompartirLogro` en Vitrina y nuevos logros del entreno: solo piezas alcanzadas, con símbolo, requisito del nivel concreto y día real, sin inventar una hora ni revelar ocultos pendientes. Los entrenos llevan solo los niveles musculares conocidos, usando el cálculo/snapshot existentes. La geometría es común y no transmite datos del Perfil. Las publicaciones anteriores sin mapa siguen siendo válidas.
+- Comunidades: descubrir/buscar, crear, unirse, salir, publicar e interactuar sin seguimiento; borrar por el creador y denunciar. Los entrenos y actividades se pueden compartir allí de forma independiente, sin pisar su marca local de publicación de seguidores. La interfaz explica la audiencia y las cascadas; tarjetas y leyenda se adaptan a texto ampliado.
+- `0006_comunidades_y_publicaciones.sql`: tablas con RLS sin acceso directo, audiencias separadas por publicación y funciones autenticadas; se aplican también a comentarios, reacciones, avisos y denuncias. Cuotas compartidas e idempotencia. Pruebas con usuarios sintéticos y rollback en `supabase/pruebas/comunidades.sql`.
+
+**Verificación:** suite completa final en verde (2.207 tests, 173 archivos). Un test de simplificación GPS agotó su tiempo con navegador/build en paralelo; después pasó aislado y en la suite completa sin cambiar su código ni sus tiempos. PostgreSQL 17 local en un contenedor sin red ni puertos: migraciones sociales 0003–0006, suite social anterior (`PRUEBAS_OK`) y pruebas nuevas (`PRUEBAS_COMUNIDADES_OK`), con separación de audiencias, miembros sin seguimiento, idempotencia, cuota conjunta, bloqueos, salida, suspensiones, denuncia, cascadas, RLS y ayudantes privados; rollback y contenedor cerrado. `scripts/ui/validar-social.cjs`: ocho contextos 320/375/430 px en claro/oscuro y 375 con texto al 200 %/Reduce Motion; crear texto con vista previa, pérdida de respuesta/reintento sin duplicar, comunidad de no seguidos, comentarios, unirse/salir, crear comunidad, compartir logro y mapa del entreno para ambas audiencias. Backup intacto salvo la marca explícita de publicación del entreno. Capturas/informe en `/tmp/appfit-social`; sin datos/cuentas reales ni iPhone físico. Build TypeScript/Vite/PWA final correcto.
+
+La migración está preparada pero no se ha aplicado al Supabase real: debe ejecutarse antes de desplegar esta versión. Sin commit, push ni despliegue.
+
+## 139. Migración social aplicada y publicación autorizada (2026-10-16)
+
+Víctor ejecutó el contenido completo de `0006_comunidades_y_publicaciones.sql` en el SQL Editor del proyecto real y confirmó «Success. No rows returned». Después pidió commit, push, PR y merge de las cuatro mejoras de Social (§138). Se actualizan los documentos vivos con la migración aplicada. Las comprobaciones de §138 están en verde y la rama parte del master actual; quedan pendientes las pruebas de esta ampliación con cuentas reales y dispositivos físicos.
+
+## 140. Mapa compartido compacto y borrado desde Social (2026-10-16)
+
+Tras probar la ampliación en producción, Víctor confirma que funciona y pide reducir el mapa corporal compartido y poder borrar también los entrenos desde su publicación, con la opción visible solo al autor.
+
+- `MapaPublicacion` limita y centra las figuras con `--muscle-social-width` (12 rem), conservando las dos vistas, la escala y los niveles en texto. No cambia el mapa del detalle del entreno.
+- `PublicacionFeed` ofrece el borrado con confirmación para todas las publicaciones propias, también entrenos y actividades. El servidor conserva su comprobación de autoría. Se elimina el parámetro de audiencia que restringía esa opción y las acciones de confirmación se apilan cuando falta ancho, incluido texto al 200 %.
+- `social/data/publicacionesRepo.borrarPublicacion`, compartido por feed y detalle, borra primero en Supabase y después limpia en una transacción las marcas locales que coincidan con ese UUID, sin eliminar registros ni series. Borrar la copia de comunidad conserva la marca de seguidores; los errores de red conservan la marca y el reintento acepta `no_encontrado` para completar la limpieza si se perdió la respuesta.
+
+**Verificación:** 2.211 tests en 174 archivos y build TypeScript/Vite/PWA correctos; guard de diseño y acceso a datos repetidos tras ajustar la confirmación (47 tests). Cuatro pruebas de datos nuevas verifican conservación de registros, marcas independientes y reintentos. `scripts/ui/validar-social.cjs`: ocho contextos finales a 320/375/430 px en claro/oscuro y 375 con texto al 200 %/Reduce Motion, con mapa compacto, borrado ausente en publicaciones ajenas, cancelación, borrado de copia de comunidad, pérdida de respuesta/reintento, marca local liberada y vuelta al historial para compartir otra vez. Backup sin cambios salvo la marca de publicación; informe y capturas en `/tmp/appfit-social-compacto`. Datos sintéticos y Supabase falso; sin nueva prueba real ni iPhone físico.
+
+En `feat/social-borrado-mapa-compacto`, sin commit, push ni despliegue de este ajuste. No requiere SQL nuevo.
+
+## 141. Estado visible y actualización de la PWA desde Ajustes (2026-10-16)
+
+Víctor pide informar si la app está al día tanto en Ajustes como en un aviso pequeño de Inicio, y explicar el cierre/reapertura que hasta ahora había que repetir para recuperar la versión nueva.
+
+- Cada build compila su identidad/fecha y genera `version.json` del propio origen, fuera del precache. El gestor compartido valida la respuesta sin caché y compara la versión de esta página, no solo la descarga del SW. Distingue al día, disponible, comprobando, aplicando, falta de conexión y error. Mantiene la última comprobación y una actualización conocida aunque falle la siguiente consulta. Sin conexión no afirma que esté al día.
+- Ajustes › App › Actualizaciones muestra el estado, la fecha de la versión, la última comprobación, «Comprobar actualizaciones» y «Actualizar ahora». La guía desplegable explica cerrar completamente desde el selector del móvil y reabrir desde el mismo icono si no termina. Inicio ofrece una línea discreta con el mismo estado y acceso directo.
+- Registro explícito en `shared/pwa/actualizaciones`, Workbox `prompt`, descargas en segundo plano y activación a petición, esperando instalación y cambio de controlador antes de recargar. No recarga otras pestañas a la fuerza. La interfaz pide guardar ediciones antes de recargar. Hay reintentos y tiempos máximos; nunca se limpia IndexedDB para actualizar. Decisión y operación: [ADR 042](decisiones/042-actualizaciones-pwa-visibles.md) y [Desarrollo](desarrollo.md#actualizaciones-visibles-de-la-pwa).
+
+**Verificación:** suite completa en verde: 2.220 tests, 175 archivos (incluye el ajuste de Social de §140). Build TypeScript/Vite/PWA correcto; `version.json` fuera del precache y sin registro duplicado inyectado. `scripts/ui/validar-actualizaciones.cjs`: ocho contextos 320/375/430 en ambos temas y 375 con texto al 200 %/Reduce Motion, con estado al día, sin conexión, error de consulta, nueva versión, guía y acceso de Inicio. Dos builds locales A→B con SW real: fallo de descarga/reintento, recarga de la página que lo pide sin recargar otra pestaña, comparación de todas las tablas con un fixture y reapertura del mismo perfil sin red. Chromium puede mantener `navigator.onLine=true` al reabrir ese perfil: se verifica el fallo real de fetch y que el estado sea sin conexión o no comprobado, nunca al día. Informe/capturas en `/tmp/appfit-actualizaciones`. Sin cuentas reales ni iPhone físico.
+
+Sin commit, push ni despliegue; se conserva también el trabajo pendiente de §140. No requiere SQL ni migración local.
+
+## 142. Comunidades donde solo publica quien las creó (2026-10-16)
+
+Víctor pide crear una comunidad de actualizaciones donde solo él publique y que los miembros puedan comentar; Testers debe conservar la participación actual.
+
+- «Crear comunidad» añade «Quién puede publicar»: todos los miembros (por defecto) o solo el creador. La elección entra en el UUID de reintento. Las comunidades restringidas explican la regla en el detalle; el creador puede publicar y los demás miembros siguen leyendo, comentando y dando ánimo.
+- `Comunidad.soloCreadorPublica` y `puedePublicarEnComunidad` se usan tanto en el detalle como en todos los destinos del editor compartido, incluidos texto, entreno, actividad y logro. Una comunidad ajena restringida no se ofrece como destino. Hay mensaje comprensible si el servidor rechaza el envío de un cliente anterior.
+- `0007_comunidades_solo_creador.sql`: columna remota no nula con default false para conservar Testers y las demás comunidades existentes; RPC de creación con la elección, firma anterior de tres argumentos conservada y listado ampliado. Un trigger privado valida cualquier inserción/cambio de autor o comunidad en publicaciones. No cambia permisos de lectura/comentarios ni añade datos locales. Reglas y operación en [Social](features/social.md#comunidades-donde-solo-publica-su-creador).
+
+**Verificación:** 2.222 tests en 175 archivos y build TypeScript/Vite/PWA correctos. PostgreSQL 17 local aislado, sin red ni puertos: migraciones 0003–0007, comunidad creada antes de 0007 conservada en modo abierto, suite social anterior (`PRUEBAS_OK`), comunidades (`PRUEBAS_COMUNIDADES_OK`) y `supabase/pruebas/comunidades_solo_creador.sql` (`PRUEBAS_COMUNIDADES_SOLO_CREADOR_OK`): creador publica los cuatro tipos, miembros no publican en anuncios pero sí comentan/reaccionan, pertenencia, firma anterior, idempotencia, permisos y cascadas. Rollback de pruebas y contenedor cerrado. `scripts/ui/validar-social.cjs`: ocho contextos finales en 320/375/430 claro/oscuro y 375 con texto al 200 %/Reduce Motion; elección al crear, publicación del creador, comentarios del miembro sin botón de publicar, filtro de destinos y regresión del resto de Social (mapa, borrado y marcas locales). Backup conservado salvo la marca explícita de publicación. Informe/capturas en `/tmp/appfit-comunidades-creador`; datos sintéticos, sin cuentas reales ni iPhone físico.
+
+0007 está preparada pero pendiente de ejecutar en el Supabase real antes de desplegar. Sin commit, push ni publicación; se conserva todo el trabajo pendiente de §140–141.
+
+## 143. Migración 0007 aplicada y publicación autorizada (2026-10-16)
+
+Víctor ejecutó la query completa de 0007 en el SQL Editor del proyecto real y confirmó «Success. No rows returned». Después pidió commit, PR y merge de todo lo pendiente: mapa compartido compacto y borrado desde Social (§140), estado y aplicación de actualizaciones de la PWA (§141), y comunidades donde solo publica el creador (§142). Se actualiza el estado de la migración en los documentos vivos. Las comprobaciones finales de §142 siguen en verde (2.222 tests, build, SQL y ocho contextos de interfaz); también está verificada la actualización real de la PWA con datos conservados (§141). Las pruebas con cuentas reales de estos ajustes y un iPhone físico siguen pendientes.
+
+## 144. Editar la descripción de una comunidad (2026-10-16)
+
+Víctor pide poder editar la descripción de una comunidad después de crearla. Implementación en `feat/editar-descripcion-comunidad`, desde master con §138–143.
+
+- Detalle de comunidad: el creador ve «Editar descripción» («Añadir descripción» si está vacía), que abre un Sheet con la descripción actual, validación de 300 caracteres (`comunidad.validarDescripcionComunidad`, reutilizada por `validarComunidad`) y errores en línea. Al guardar se actualiza el detalle. Ni el nombre ni «Quién puede publicar» se editan.
+- `Social.editarDescripcionComunidad` → RPC `editar_descripcion_comunidad` en `0008_editar_descripcion_comunidad.sql`: solo el creador con perfil activo y comunidad no suspendida; recorta, idempotente, `no_encontrado`/`comunidad_no_valida`. Sin cambios en tablas, Dexie ni backup. `supabase-falso.mjs` imita el RPC.
+
+**Verificación:** 2.223 tests en 175 archivos y build TypeScript/Vite/PWA correctos. `scripts/ui/validar-social.cjs` con Edge (Windows), Supabase falso y Vite en `appfit-test.localhost:5174`: ocho contextos 320/375/430 claro/oscuro y 375 con texto al 200 %/Reduce Motion, todos correctos; incluye editar la descripción propia con texto largo, petición recortada, detalle actualizado sin desbordamiento y ausencia de la opción en una comunidad ajena. `supabase/pruebas/comunidades_editar_descripcion.sql` escrita pero **no ejecutada**: no había PostgreSQL ni Docker en este equipo.
+
+Víctor ejecutó 0008 en el SQL Editor del proyecto real («Success») y pidió commit, PR y merge. Comprobación posterior: llamada anónima a `editar_descripcion_comunidad` en producción → `42501 permission denied` (el RPC existe y `anon` no puede usarlo); la suite SQL sigue sin ejecutarse.
+
+## 145. Suite SQL de 0008 en el proyecto real (2026-10-16)
+
+Víctor ejecutó `supabase/pruebas/comunidades_editar_descripcion.sql` en el SQL Editor del proyecto real y confirmó que pasa (`PRUEBAS_EDITAR_DESCRIPCION_OK`, con rollback de los usuarios sintéticos). Quedan las pruebas con cuentas reales en un iPhone físico.
+
+## 146. Botón de secciones con media luna (2026-10-17)
+
+Víctor no estaba a gusto con la cápsula de pestañas ni con el «+» grande y dibujó un boceto (`images/Sin título.png`): un botón abajo al centro que abre una media luna con Inicio · Social · Nutrición · Entreno · Más · Ajustes. Eligió Ajustes para la «A» y un botón solo, sin barra; dejó abierta la elección del icono. Rama `feat/navegacion-arco`.
+
+- `BottomNav` queda en un botón redondo en volt, como el antiguo «+» —primero fue neutro y Víctor lo pidió en volt al verlo— (icono `secciones`, «Secciones», `data-nav-trigger`) que abre `app/ArcoSecciones`: capa con `useModalLayer`/`useOverlayPresence`, fondo `bg` al 90 %, seis círculos de 48 px con nombre en arco de 168° a 12° (`app/arco.posicionesArco` + test de solapes a 320 px), la actual con borde en `accent-strong`, ✕ en el sitio del botón, teclado con flechas/Inicio/Fin, entrada escalonada y solo opacidad con Reduce Motion. Elegir navega al momento; «Más» abre su hoja al cerrarse la media luna. Ajustes sale de `EN_MAS`.
+- Se retiran el «+», `AccionesRapidas`, `inicio/components/RegistroRapido` y `NutricionTab.anadirAlAbrir`; se registra en cada sección. Tokens `--nav-boton` y `--arco-*` en lugar de `--tab-capsule-height`; la franja degradada bajo la barra desaparece. [ADR 043](decisiones/043-media-luna-de-secciones.md) sustituye ADR 028.
+
+- Tras verlo, Víctor marcó la sección actual con borde en vez de relleno volt (el volt queda para el botón) y pidió repartir «Más»: la media luna pasa a Inicio · Social · Nutrición · Entreno · **Perfil** · Ajustes y la hoja «Más» desaparece. Amigos se abre desde Social (icono de la cabecera, que ya existía), Referencias desde una fila nueva «Saber más › Referencias» en Ajustes y la sección de dentro queda marcada en la media luna (`navegacion.seccionDe` con test). Para Cumbres, Caminos, Ritmo y Vitrina se le enseñaron dos versiones en Perfil (arriba o tras la energía); prefirió Inicio: `inicio/components/AccesoProgreso` (las teselas que antes vivían en «Más», 2 × 2 con aspecto de Card) bajo la energía, en lugar de las tarjetas anchas «Tu semana», «Cumbre» y «Camino». Se retiran `AccesoSemana`, `AccesoCumbre`, `AccesoCamino`, `app/MasAccesos`, la variante `anillos` de `DiasSemana`, `cumbreReciente` y `llegadaReciente` (con sus aserciones), y los textos «Más › Cumbres/Caminos» pasan a «Inicio › …».
+
+**Verificación:** `npm run test` y `npm run build` en verde. Chrome en `appfit-test.localhost:5173` (iframes de 320 × 568, 375 y 430 × 600, claro y oscuro): media luna sin solapes ni scroll horizontal, navegación, flechas/Inicio/Escape, teselas de Inicio que abren Cumbres, Caminos, Ritmo y Vitrina con Inicio marcado, Ajustes › Referencias, y sin errores en consola. No probados: texto al 200 %, Reduce Motion real ni iPhone físico; los recorridos Playwright no se ejecutaron (Playwright no está instalado en este equipo).
+
+## 147. Orden de la media luna (2026-10-17)
+
+Víctor prefiere Perfil a la izquierda, entre Inicio y Nutrición, y Social entre Entreno y Ajustes: `EN_ARCO` pasa a Inicio · Perfil · Nutrición · Entreno · Social · Ajustes (sin cuenta configurada, Inicio · Perfil · Nutrición · Entreno · Ajustes). Solo cambia el orden; geometría, teclado y `seccionDe` siguen igual. Rama `feat/orden-arco`.
+
+## 148. Pasos en Caminos y sus logros (2026-10-17)
+
+Víctor quiere que los pasos que cuenta el móvil avancen el Camino. Una PWA no puede leer Apple Salud ni Health Connect, así que se apuntan a mano. Eligió: de cada día solo cuenta lo que pasa de las actividades registradas (el total del móvil ya las incluye), zancada estimada por la altura y ajustable, y apuntarlos en la página de Caminos. A mitad pidió también logros de pasos.
+
+- Dexie v12: tabla `pasos` (`++id, &fecha`), opcional en el backup v3; `Settings.zancadaCm`. `caminos/lib/pasos.ts` (zancada, lectura de la cifra, `aportesDePasos`) y `data/pasosRepo.ts`; `caminosRepo.guardarZancada`.
+- `calcularCaminos` recibe los metros de los pasos de cada día y los pone detrás de las actividades de ese día; sus marcas llevan `actividadId: null`. Dan etapas, sellos y llegadas; no dan XP ni metros en Cumbres.
+- Caminos › Pasos (`PasosCaminos`, `HojaPasos`, `HojaZancada`): últimos 7 días, corregir tocando, borrar deslizando con «Deshacer», «Apuntar los de hoy/otro día» y la zancada. «Cómo funciona Caminos» explica los pasos.
+- Vitrina: «Pasos» (100.000 a 5.000.000), «Días de 10.000» (10 a 365) y el oculto «Treinta mil», con pictogramas propios: 151 piezas (132 sin nutrición), 58 logros.
+
+**Verificación:** `npm run test` (2.243 tests en 179 archivos) y `npm run build` en verde. Chrome en `appfit-test.localhost:5173` (ventana de escritorio, columna móvil): apuntar 12.500 pasos (8,75 km con 70 cm), una caminata de 5 km el mismo día deja +3,75 km y la ruta en 8,75 km; zancada propia de 80 cm y «Usar la estimada»; Vitrina con las piezas nuevas; sin scroll horizontal ni errores en consola. No probados: 320/430 px, tema oscuro, texto al 200 % ni iPhone físico.
+
+## 149. Revisión muscular y ampliación del catálogo de ejercicios (2026-10-17)
+
+Víctor pide revisar todos los ejercicios (especialmente las dominadas), ampliar gimnasio, calistenia y pilates, y mantener las ilustraciones anatómicas. Facilita la conversación original de ChatGPT con el prompt por lotes de cuatro. Implementación en `feat/revision-ampliacion-ejercicios`, desde `origin/master` con §148.
+
+- Revisión de las 204 definiciones: 96 listas de secundarios afinadas, 108 confirmadas. Se completan tirones, agarre, deltoides posteriores, aductores y demanda del tronco según apoyo; se retiran asociaciones incidentales de press francés y sentadilla sumo. [Auditoría completa](historico/revision-ejercicios-2026-10-17.md), con antes/después, listas sin cambios, altas y fuentes de contraste. Se mantienen los ids, nombres, alias y principales anteriores y las 12 zonas anatómicas.
+- 32 altas: 8 de gimnasio, 12 de calistenia y 12 de pilates en colchoneta. Total 236. Material Anillas propio; términos de búsqueda «pilates», «calistenia» y «gimnasio» separados de los alias de identidad. El selector sugiere esos términos en el buscador. Los nuevos movimientos se anexan a sus patrones; pike cubre ahora el empuje vertical con peso corporal en el creador.
+- 32 miniaturas WebP de 192 px generadas con el prompt original y referencia visual local, lotes 52–59; pullover en máquina e hiperextensión inversa se refinan individualmente para aclarar la mecánica de la máquina. Las 204 miniaturas anteriores permanecen idénticas byte a byte. Se conservan originales locales en `scripts/ejercicios/ia/` (ignorados por Git), prompts y metadatos en el repositorio.
+- Se corrige la tubería que podía borrar miniaturas sin original local ni equivalente fotográfico. `ilustraciones-convertidas.json` conserva la procedencia y las casillas completadas aunque falten los originales; solo se borran archivos ajenos al catálogo. Test de integración en directorio temporal: dos ejecuciones normales y otra con `--forzar` sin equivalentes, conservación de bytes/registro, pendiente honesto y eliminación de huérfana.
+- Sin migración de datos ni SQL: las sesiones nuevas resuelven el catálogo vigente, incluso con metadatos locales anteriores; los `muscleSnapshot` guardados conservan su reparto. Los entrenamientos antiguos sin snapshot siguen la clasificación vigente y la indicación de sesión antigua. Los términos editoriales no se persisten ni enlazan nombres genéricos como «Pilates».
+
+**Verificación:** `npm run test`: 2.246 tests en 180 archivos, correctos. Build TypeScript/Vite/PWA correcto. `scripts/ui/validar-catalogo-ejercicios.cjs` actualizado a la navegación por Secciones, entreno minimizado y plegado de paneles: ocho contextos Chromium efímeros en `appfit-test.localhost:5173` (320/375/430 claro/oscuro, 1440 claro y 375 oscuro con texto al 200 %/Reduce Motion), 48 estados correctos, sin desbordamientos, controles pequeños ni errores de consola. Incluye búsquedas por disciplina, filtro Anillas, decodificación de las 236 imágenes, añadir pilates a una rutina, personalizados/reintento de error, identidad y datos antiguos conservados, sesión y recarga. Capturas e informe en `/tmp/appfit-catalogo-ejercicios`. Sin prueba en dispositivo físico. No se hace commit ni push.
+
+## 150. Segunda ampliación y agarres al elegir un ejercicio (2026-10-17)
+
+Víctor pide seguir ampliando el catálogo y, durante el trabajo, elegir las modalidades de agarre al seleccionar un ejercicio. Se explica el flujo concreto (paso opcional, dimensiones compatibles, detalles fijos, persistencia por rutina y serie); se implementa sobre `feat/revision-ampliacion-ejercicios`, conservando los cambios sin commit de §149.
+
+- Otros 32 ejercicios: 12 de gimnasio, 12 de calistenia y 8 de pilates. Total 268; 20 de pilates. Lotes 60–67 con el mismo render anatómico gris/naranja; refinamientos individuales de gemelos sentado y curl femoral deslizante para corregir la zona resaltada y el apoyo de talones. Las 236 fichas e imágenes anteriores se conservan idénticas. [Listado y decisiones de la ampliación](historico/ampliacion-ejercicios-agarres-2026-10-17.md).
+- `lib/agarres.ts`: 123 perfiles asignados explícitamente a ids del catálogo. Se separan orientación/anchura/accesorio y se respetan variantes nombradas: neutro, supino, cuerda, barra, diamante, cerrado… Mixto solo en pesos muertos con barra compatibles; V neutro/estrecho; cuerda neutra sin anchura; individual sin anchura. No se ofrecen agarres neutros con barra recta. El cambio de accesorio limpia incompatibilidades del borrador, sin tocar datos anteriores.
+- `SelectorEjercicios` abre «Elegir agarre» con `CamposAgarre` si hay alternativas; el resto se añade directamente. Permite añadir sin especificar, volver conservando consulta/filtros/foco y reintentar errores sin perder la elección. Se reutiliza `ModalPage`; la clave de la página cambia al entrar/salir del paso para reiniciar su ciclo modal. No se escribe al abrir, consultar o volver.
+- `Routine.agarres?` conserva `Agarre | null` por ejercicio: omitido conserva el comportamiento anterior, null anula el habitual. El editor muestra/edita agarres; el asistente los mantiene en la selección y los muestra en el plan. Guardar filtra ejercicios retirados; sustituir limpia el agarre anterior y conserva la elección explícita nueva. No se modifica `Exercise.ejecucionHabitual` al elegir desde el catálogo.
+- Empezar rutina o crear entreno pasado copia los agarres a `Workout.ejecucionesEjercicios`, incluso sin objetivos. Las series usan `SetEntry.agarre`, y su precarga solo toma valores del agarre escogido. Selección/configuración/primera serie es transaccional y un fallo revierte todo. La clave de comparación sigue separando variantes y la sesión no reescribe el histórico ni la rutina. «Recordar» aclara que los agarres propios de una rutina tienen prioridad sobre el habitual.
+- Nuevos campos/valores opcionales, sin índices ni migración de registros: Dexie v12 y backup v3. Se comprueba round trip de rutinas/configuraciones/series y conservación de valores sin especificar; no se necesita SQL. Documentación viva y ADR 026 actualizados.
+
+**Verificación:** `npm run test`: 2.258 tests en 182 archivos correctos. `npm run build` TypeScript/Vite/PWA correcto. Doce nuevas pruebas de perfiles, combinaciones, aislamiento entre rutinas, histórico/precarga, herencia con/sin objetivos, asistente, sustitución, rollback y backup. `validar-agarres.cjs` y `validar-catalogo-ejercicios.cjs`: ocho contextos Chromium efímeros cada uno, 320/375/430 claro/oscuro, 1440 claro y 375 oscuro con texto al 200 %/Reduce Motion; 48 + 48 estados correctos, sin desbordamientos ni errores de consola, controles ≥44 px e inputs ≥16 px. Incluye elegir/restringir/volver, edición por rutina, cambio de sesión sin cambiar rutina/habitual, neutro fijo, añadir directamente sin agarres, decodificar las 268 imágenes, recarga y datos antiguos conservados. Capturas e informes en `/tmp/appfit-agarres-ui` y `/tmp/appfit-catalogo-ejercicios`. No probado en iPhone físico. Sin commit ni push.
+
+## 151. Preparación de una vista previa para probar los agarres (2026-10-17)
+
+El enlace de desarrollo `appfit-test.localhost` solo es accesible desde el entorno donde se ejecuta y no sirve para que Víctor pruebe desde su dispositivo. Víctor autoriza commit y push de `feat/revision-ampliacion-ejercicios` con los cambios de §149–150 para preparar una vista previa en Cloudflare, sin merge a `master`. Se conservan como validación los 2.258 tests, el build y los 96 estados de navegador ya comprobados; desde entonces no se ha cambiado código.
+
+## 152. Tamaños de pantalla y Android (2026-10-17)
+
+Se adapta la PWA existente a móvil, tablet y escritorio: columna compartida de 32/48 rem, mosaico de Inicio según ancho de lectura, texto largo y cifras completas, zonas seguras laterales, controles nativos acotados y rejillas que se reorganizan al ampliar texto. Semana del diario, resúmenes de entreno/actividad e indicadores/calendario de Ritmo responden al espacio disponible. La rueda de energía se limita a su contenedor y separa su cifra con texto muy ampliado.
+
+El shell y las capas siguen el área visible del teclado, con fallback sin visualViewport y sin rediseñar al hacer pinch zoom. Chrome Android recibe `interactive-widget=resizes-content`. Las secciones pasan a rejilla con scroll en horizontal o con texto ampliado; Atrás conserva el cierre de capas. Sheet deja el título en el scroll y el gesto en el asa; el footer sigue accesible con teclado. ModalPage limita las zonas fijas cuando falta alto.
+
+Primeros pasos incorpora instrucciones de Android/iOS y el botón de instalación cuando el navegador ofrece `beforeinstallprompt`; la oferta se captura al arrancar, se consume una vez y desaparece al instalar. Nutrición, Entreno y Ajustes se cargan al entrar: el archivo JS principal pasa de unos 583 KB a 362 KB (sin comprimir), conservando el precache de todos los destinos para abrirlos offline.
+
+**Verificación:** `npm run test` (2.248 tests en 181 archivos) y `npm run build` en verde. Nuevos tests de viewport e instalación; se conserva el contrato de accesibilidad de la rueda sin depender de sus clases de tamaño. `scripts/ui/validar-adaptacion.cjs` pasa en 14 contextos aislados (320/375/430/768/1440, horizontal y texto al 200 %, ambos temas), con nombres largos y cifras grandes, comprobación de desbordamientos internos, geometría de navegación, Atrás, viewport reducido con teclado, oferta de instalación simulada y backup íntegro. `validar-adaptacion-offline.cjs` pasa y comprueba un pesaje conservado tras recargar sin conexión y nueve destinos abiertos offline por primera vez, con SW activo.
+
+Documentación viva actualizada. Sin commits, push, despliegue, cambios de datos ni SQL. Pendiente validar instalación y teclado/cámara/gestos/recortes en Android e iOS físicos; Chromium emulado no reproduce esos dispositivos.
+
+## 153. Auditoría integral de calidad y compatibilidad (2026-10-17)
+
+Víctor solicita la auditoría completa adjunta: inventario real, uso diario, tamaños, navegadores, persistencia/PWA, UX y prevención. Se continúa sobre los cambios de adaptación de §152, sin confundirlos con hallazgos nuevos. Inventario: 1.179 archivos, 602 fuentes TS/TSX/CSS, 215 componentes/pantallas y 181 archivos de tests. Matriz y evidencias duraderas en [el informe](auditoria-2026-10-17/INFORME.md).
+
+Cinco correcciones confirmadas: CampoSerie admitía una coma que Chromium descartaba (`72,5` terminaba como `725 kg`, P1); ahora parser común y teclado decimal con borrador y flechas. El fallo de notas no impedía terminar ni salir del historial (P1); ahora se conserva el borrador y se exige guardado correcto antes de continuar. Alimentos deja envolver nombre/kcal con texto ampliado (P2), NumberStepper coloca campo y ± en filas separadas si no caben (P2), y el anillo semanal conserva proporción cuadrada al encoger (P3). Sin cambios de esquema, backup ni reglas de cálculo.
+
+**Verificación final:** 2.248 tests en 181 archivos y build correctos. Chromium 151.0.7922.173, Firefox 153.0 y WebKit 26.5 ejecutados en Linux: 33 escenarios diarios correctos (11 por motor), 30 configuraciones de interfaz correctas y 690 medidas. Ocho viewports exigidos y texto al 200 % en ambos temas. Cuatro flujos de formularios/importación; catálogo, creador de rutinas, Cuenta y Social a 375 oscuro, estos dos con Supabase simulado. SW de producción real A→B con descarga fallida/reintento, dos pestañas, reapertura offline y tablas conservadas; recarga offline y nueve destinos diferidos conservando un pesaje. Logs y JSON retenidos junto al informe. No se ejecutaron cuentas remotas, SQL/RLS ni dispositivos físicos.
+
+Nuevos runners de entrenamiento, geometría y formularios; npm scripts esenciales, reparación de selectores obsoletos y workflow de GitHub Actions con tres motores y artefactos. Sin nuevas dependencias en la PWA; Playwright externo. Comandos locales comprobados y YAML válido; workflow aún sin publicar/ejecutar en GitHub. Pendientes explícitos en roadmap: targets pequeños de calendarios, lectura de pestañas al 200 % y validación física iOS/Android. Sin datos reales, commits, push, merge ni despliegue.
+
+## 154. Ocho mejoras de uso tras la auditoría (2026-10-17)
+
+Víctor autoriza implementar las recomendaciones 1–8. Se conservan todos los cambios pendientes de §152–150, sin commit, push, merge ni despliegue.
+
+- Diario mantiene siete días con ancho táctil y desplazamiento propio, selección visible y ayuda de deslizamiento. Calendario de entrenos pasa a lista bajo 23 rem; se conservan mes y acceso al día. ViewTabs mantiene rótulos completos en una línea con desplazamiento e indicador medido, teclado y selección visibles.
+- Entreno activo muestra estado local de series/notas y reintento de las últimas operaciones fallidas, con cola por registro y cierre bloqueado mientras haya errores. Al salir de notas cancela el guardado diferido para no repetir intentos. Borrar una serie o quitar un ejercicio elimina sus reintentos obsoletos. El estado de nube se conserva separado.
+- El peso principal puede mostrar un aviso al terminar de editar si difiere mucho de la última sesión comparable. Permite corregir o conservar, sin límites ni cambios de progresión. Pistas de RIR y progresión en sus hojas, descartables; ayuda recuperable en Primeros pasos.
+- Añadir/Cambiar alimento filtra frecuentes, propios y catálogo por categoría antes del límite visible. Destaca crudo/cocinado solo cuando el nombre lo indica; si menciona ambos, pide comprobar la preparación. No convierte cantidades ni nutrientes. Estados vacíos del filtro explican cómo seguir.
+- Agua y medidas corporales ofrecen periodos, gráficas diferidas y tablas accesibles. Días sin registro no se inventan como cero; unidades y fechas reales. Las filas de medidas y los rótulos de Disclosure envuelven al ampliar texto; espacio para el giro del icono y Reduce Motion.
+- Ajustes › Comunicar un problema prepara un diagnóstico revisable y copiable, con fallback manual. Versión, navegador, viewport y categoría/fecha del error en memoria, sin mensajes/stack/URL ni registros personales; pasos escritos expresamente, sin envío automático.
+
+**Verificación:** 2.261 tests en 186 archivos y build TypeScript/Vite/PWA correctos. Chromium 151.0.7922.173, Firefox 153.0 y WebKit 26.5: 33 escenarios diarios; 30 configuraciones de interfaz y 690 medidas, todas correctas y sin targets pequeños en los estados medidos; 60 escenarios nuevos de uso (10 por cada combinación 320 claro / 375 oscuro al 200 %, en tres motores). Firefox headless ignora algunos puntos de pulsación bajos incluso en un HTML mínimo: el recorrido documenta y prueba una zona interior superior del botón, sin force ni invocar el handler. No se atribuye ese fallo del entorno a la app ni se certifica un clic físico. La regresión completa final se ejecuta sin la carga simultánea de toda la matriz de navegadores.
+
+Se amplía `test:ui:offline` con la primera apertura de la gráfica/tabla de agua sin red. Workflow añade `test:ui:uso`, todavía sin publicar ni ejecutar en GitHub. Evidencias, resultados finales y límites en [verificación de mejoras](mejoras-uso-2026-10-17/VERIFICACION.md). Documentación viva y roadmap actualizados. Sin dependencias nuevas, migraciones, datos reales ni servicios externos nuevos; pendientes Android/iPhone físicos.
+
+## 155. Integración y publicación autorizada de compatibilidad y mejoras de uso (2026-10-17)
+
+Víctor pide commit, PR y merge de todo el trabajo de §152–154. Rama `feat/compatibilidad-y-mejoras-uso`. Se integra `origin/master` con la PR #78 (catálogo de 268 ejercicios y elección de agarre), conservando sus cambios. Las tres entradas de esta sesión se numeran tras las §149–151 ya publicadas y se actualizan sus referencias. Conflictos resueltos en la bitácora, documentación de desarrollo y recorrido de catálogo, conservando ambos trabajos.
+
+Los nuevos recorridos de entrenamiento y uso añaden explícitamente «Añadir sin especificar agarre» después de seleccionar Press banca; no se cambia el comportamiento de la elección incorporada en master. Comprobación local del conjunto integrado: **2.276 tests en 189 archivos y build TypeScript/Vite/PWA correctos**. Las evidencias anteriores se conservan como resultados de sus versiones, sin atribuirles el catálogo posterior. El workflow de QA se publica en la PR y sus checks verifican tres motores, formularios y producción offline antes de fusionar; el estado remoto se consulta en la PR. Sin migraciones ni SQL nuevos. Las pruebas físicas de iPhone/Android siguen pendientes.
+
+La primera publicación de la PR #79 detectó una configuración inválida del workflow: `runner.temp` no está disponible en `jobs.<job>.env`. Las rutas de Playwright y evidencias se configuran ahora desde un paso mediante `GITHUB_ENV`, con `RUNNER_TEMP` del runner; no cambia código de la aplicación. Se vuelve a ejecutar la CI antes del merge.
+
+## 156. Archivo de la auditoría social y sus propuestas (2026-10-18)
+
+Víctor pide incorporar a `docs` el informe de investigación del sistema social. Se guarda en [auditoria-social-2026-10-18/appfit-social-2026-10-18.md](auditoria-social-2026-10-18/appfit-social-2026-10-18.md), junto a sus matrices CSV de benchmark, catálogo y priorización. Los enlaces a código y documentos pasan a ser relativos al repositorio. El informe conserva la revisión auditada, las fuentes y las limitaciones de verificación; las propuestas no constituyen funcionalidades implementadas ni autorización para desarrollarlas.
+
+Cambio exclusivamente documental, sin dependencias nuevas ni modificaciones de código, datos o SQL. Se comprueban los enlaces locales y el formato del diff; no se repiten tests ni build de la aplicación en el entorno local. Víctor autoriza después commit, PR y merge a `master`; la publicación se prepara en `feat/auditoria-social` y las comprobaciones completas se ejecutan mediante el workflow de la PR.
+
+## 157. Plan consolidado de mejoras de Social (2026-10-18)
+
+Víctor pide un documento con todas las mejoras de Social para implementarlas desde otro entorno. Se crea [social-mejoras.md](social-mejoras.md), que une la auditoría de Codex (§156) y la de Claude Code (página privada «Auditoría de Social en AppFit»): estado actual con rutas, fase 0 de fiabilidad (borrado sin confirmar desde el detalle, paginación que se corta al descartar filas, recuento de comentarios, validación por campos en el servidor, avisos y editor), fase 1 de claridad (hora relativa, tarjeta compacta, récords resumidos uno por ejercicio con recuento, nota personal, refrescar, menú de acciones), fase 2 (avisos, respuestas, compositor, comunidades en el feed, perfil deportivo, moderación y gobierno de comunidades) y fase 3 a validar (semana en compañía, rutina reutilizable, semana de Ritmo, invitación por enlace, metas de comunidad, push). Cada mejora lleva problema con evidencia, archivos, datos/SQL, tests y criterio de aceptación; las que dependen de Víctor van marcadas **[DECIDIR]** y resumidas en una tabla.
+
+Los hallazgos de Codex se comprobaron en el código antes de incorporarlos. Regla de compatibilidad fijada en el plan: los campos nuevos del resumen van como opcionales en v1, sin subir `VERSION_RESUMEN`. Roadmap enlaza el plan. Cambio solo documental: sin código, datos ni SQL; no se ejecutan tests ni build.
+
+
+## 158. Implementación de fiabilidad, claridad y control de Social (2026-10-18)
+
+Víctor pide implementar `docs/social-mejoras.md`. Confirma resumen recomendado de récords, nota de 280 sin edición y por copia, Ánimo, Sigues/Te siguen, identidades de reacciones solo para el autor y novedades de comunidades sin mezclarlas con Siguiendo. Confirma revisión manual de denuncias y transferir/cerrar antes de borrar el perfil creador.
+
+Se implementan fases 0–1 y los bloques autorizados de fase 2: páginas crudas con cursor compuesto, total de comentarios paginado, validación cerrada, errores recuperables, borrador con veto de cierre/foco/historial, hora de publicación, tarjetas compactas con mapa bajo demanda, récords estructurados compatibles v1, compositor y selección común, notas, refresco, acciones y reacción visible, primeros pasos, persona común con contexto de comunidad, respuestas de un nivel, avisos ampliados, reacciones privadas, silencios, identidad deportiva elegida y gobierno de comunidades. Los récords privados y el historial no se recalculan por las decisiones de Social.
+
+Se preparan 0009–0013, sin ejecutar nada en el proyecto real. 0013 prepara omitir duración/volumen, pero mantiene su escritura desactivada hasta actualizar los lectores anteriores. No se cambia `VERSION_RESUMEN`, no se añade dependencia ni servicio externo y la preferencia de primeros pasos reutiliza `pistasVistas`. La fase 3 conserva sus bloqueos/pilotos; filtros por tipo esperan volumen y las denuncias siguen manuales. Se registra ADR 044 y se actualizan plan, Social, roadmap, datos, arquitectura, diseño y desarrollo.
+
+Validación automática final: **2.291 tests en 191 archivos y build TypeScript/Vite/PWA correctos**, seis suites SQL correctas y ocho escenarios móviles correctos (320/375/430, claro/oscuro y 375 al 200 %). El refresco/error/página desconocida se vuelve a comprobar en 375 tras proteger consultas obsoletas. Una ejecución simultánea con build/navegador agotó los cinco segundos del test geométrico de 5.000 puntos; la ejecución general separada pasa sin cambiar ese test ni su límite. La salida para creadores suspendidos y el borrado con avatar enlazado también quedan verificados. PostgreSQL temporal en Docker con las trece migraciones y seis suites con rollback; auth se simula y pg_cron no se ejecuta. Navegador únicamente en `appfit-test.localhost:5174`, sesión/datos/backend falsos. Pendientes: tareas con 6–8 personas, dos cuentas reales e iPhone/Android físicos. Sin commit, push, despliegue ni migraciones remotas en esta implementación.
+
+## 159. Migraciones y publicación autorizada de las mejoras de Social (2026-10-18)
+
+Víctor ejecuta a mano 0009–0013 en Supabase SQL Editor y confirma «Success. No rows returned» para cada una antes de autorizar commit, PR y merge con checks en verde. La migración 0013 crea `campos_opcionales = false`; no se activa la omisión de duración/volumen. Las suites SQL siguen verificadas únicamente en PostgreSQL temporal, sin atribuirlas al proyecto real.
+
+Se publica desde `feat/social-mejoras`, integrando la base `origin/master` con el plan documental de la PR #81 ya fusionado. Los resultados locales de §158 se conservan y el workflow comprueba tests/build y regresiones de navegador de la revisión publicada. El estado de CI y Cloudflare se consulta en la PR y en el commit de integración antes de dar por publicado el cliente. Pruebas con cuentas reales, participantes e iPhone/Android físicos pendientes.
+
+## 160. Repetir un entreno y guardarlo como rutina (2026-10-18)
+
+Víctor pide repetir el entreno de un día anterior (eligiendo el día en algún sitio) y guardar un entreno como rutina con los ejercicios hechos. Decide: repetir copia las cifras de ese día; la rutina toma de objetivo las series y el rango de reps de ese día **y también los calentamientos**. Rama `feat/repetir-entreno-y-rutina-desde-entreno`; antes se borraron las 15 ramas locales ya fusionadas.
+
+- `lib/repetirEntreno`: orden de ejercicios del detalle, series hechas (sin pendientes salvo que no haya otras), series a repetir (sin RIR ni marca; masa corporal al último pesaje) y rutina desde un entreno.
+- `workoutsRepo.repetir` (transacción, nunca dos activos; conserva la rutina si existe y omite lo que esta tenga y ese día no se hizo) y `routinesRepo.guardarDesdeEntreno` (nombre libre, error si no hay ejercicios).
+- UI: «Repetir un entreno» en Empezar (hoja con los entrenos terminados por día) y «Volver a hacerlo» en el detalle del historial («Repetir este entreno» y «Guardar como rutina», con Deshacer). También desde el detalle que abre Social.
+- `ObjetivoEjercicio.calentamientos?` (1–5, opcional, sin versión de esquema ni de backup): stepper «Calentamiento» en el objetivo de la rutina, texto en el objetivo del panel y series de calentamiento al empezar la rutina, con las cifras del último calentamiento del ejercicio.
+
+**Verificación:** `npm run test`: 2.308 de 2.309 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (crear un symlink de directorio exige permisos), igual que antes del cambio. `npm run build` correcto. Recorrido Playwright con Edge en `appfit-test.localhost:5173` y fixtures (320/375/430 claro/oscuro y 1440): elegir día, sesión con las cifras copiadas, guardar como rutina «Torso (2)» con sus objetivos y repetir desde el detalle; sin scroll horizontal, controles <44 px ni errores de consola. Sin dispositivo físico. Sin commit ni push.
+
+## 161. Rediseño visual de Social (2026-10-18)
+
+Víctor pide mejorar el diseño de Social. Se prepara una propuesta privada (página «Rediseño de Social») con maquetas sobre los tokens reales, referencias de Strava, Hevy, Instagram/Threads, Gentler Streak y centros de avisos, y dieciséis propuestas. Elige quince (todas salvo P15, primeros pasos como lista) y decide P16: «Tú» pasa a tu perfil. [ADR 045](decisiones/045-rediseno-visual-de-social.md). Rama `feat/social-rediseno`.
+
+- **Cabecera y feed:** campana con contador, Amigos y tu avatar; pestañas Siguiendo · Comunidades; `Compositor` con el último entreno o actividad sin compartir (≤ 7 días, `lib/presentacion.sugerenciaCompartir`; resumen con `gym/hooks/useResumenEntreno`, extraído de `PublicarEntreno`; `actividadesRepo.ultimaTerminada`); sin botón «Actualizar»: comprobación al volver a tocar Siguiendo y píldora fija de novedades; esqueleto con la forma de la tarjeta.
+- **Tarjeta:** identidad en una línea (`etiquetaPublicacion`), cifras con filetes, `MiniMapa` con «Más trabajado» (`textoMasTrabajado`), récords en franja, logro como medalla sobre curvas de nivel, pie de iconos con pulso solo al dar ánimo y «Detalle».
+- **Avatar:** primitive `shared/components/Avatar` (monograma con `shared/lib/text.iniciales` o insignia), `AvatarPersona` y `hooks/useAvatares`. Caras de quién te animó con la lectura existente (solo autor).
+- **Avisos, comentarios, personas y comunidades:** avisos por día (`agruparPorPeriodo`) con solicitudes en su fila; comentarios en hilos (`hilosComentarios`) con el campo en el pie; `PaginaPersona` (antes `PersonaSheet`) y `MiPerfilPagina` sobre `CabeceraPerfil`; Amigos con recuentos y «Seguir» en la fila; comunidades con escudo, «Unirme» en la fila, «Antes de publicar» y «Más acciones».
+- **Servidor:** `0014_social_rediseno.sql` añade `avatares_social` y `ultimos_comentarios` (aditivas; el cliente devuelve `{}` si faltan) y la suite `social_rediseno.sql`. Víctor la ejecuta en el SQL Editor del proyecto real el 2026-10-18 y confirma «Success. No rows returned». El Supabase falso las imita.
+- **Corrección:** al publicar un entreno o una actividad eligiendo una comunidad en «Publicar para», ya no se anota la marca local de seguidores (`CrearPublicacion.onPublicada` recibe la comunidad).
+
+**Verificación:** `npm run test`: 2.327 de 2.328 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), igual que antes. `npm run build` correcto. SQL: sin Docker, las catorce migraciones y las siete suites pasan en PGlite (PostgreSQL 17 WASM) fuera del proyecto. `scripts/ui/validar-social.cjs`, actualizado al rediseño, correcto en los ocho casos (320/375/430 claro/oscuro y 375 al 200 %) con Edge y playwright-core fuera del proyecto, Supabase falso y `appfit-test.localhost:5174`; el caso al 200 % obligó a dejar bajar «…», «Unirme» y «Seguir» a su línea y el nombre de la comunidad bajo el escudo. Sin dispositivos físicos ni cuentas reales. Sin commit ni push.
+
+## 162. Mapa muscular acumulado en Progreso (2026-10-19)
+
+Víctor pide un mapa de calor muscular que evolucione con los entrenos y, antes de implementar, alternativas con vista previa. Se prepara una propuesta privada («Mapa de calor muscular»): diagnóstico (mapa de sesión, `muscleSnapshot`, resumen semanal y Atlas ya existían; faltaba agregar en el tiempo), referencias externas, cinco modelos de cálculo, representaciones, ubicaciones y un prototipo con la geometría y los tokens reales. Elige el modelo «calor con huella», el bloque de Progreso del diseño A con la figura de una vista y Frontal/Trasera del diseño B, el detalle al tocar un músculo y el antes → después al terminar ([ADR 046](decisiones/046-mapa-muscular-acumulado.md)).
+
+- `lib/calorMuscular`: series efectivas fraccionales (principal 1, secundario 0,5) de entrenos terminados con su snapshot o la clasificación actual; tope de 10 series por músculo y día; calor con vida media de 7 días en 8 semanas; `ritmo = calor × ln 2`; niveles desde 0,5 · 2 · 5 · 9 · 14; huella; detalle de 7/28 días, última vez, semanas, directas/indirectas y top 3; `resumenCalor`, `nivelesDeCalor`, `subidasDeNivel`, `fraseSubidas`. Lectura con `hooks/useAportesMusculares`. Sin cambios de esquema, tabla ni backup.
+- `components/MapaCalor` arriba de Progreso (diferido): `SegmentedControl` Frontal/Trasera, `CuerpoMuscular`, escala con «Trabajado antes», más/menos calor y una `Sheet` que alterna la lista de grupos y el detalle (tocar una zona abre el detalle).
+- `components/CalorAntesDespues` en `WorkoutFinished`, bajo el póster: antes → después una vez y botón para alternar; `--dur-calor` (600 ms, 80 ms con Reduce Motion).
+- `MapaMuscular`: `Cuerpo` con título opcional, `huella` y `onZona`; `EscalaMuscular`, `CuerpoMuscular`; `FigurasMusculares` acepta `huella`. CSS `[data-huella]`, `.muscle-calor` y `.muscle-transicion` (Forced Colors incluido); tokens `--muscle-calor-width` y `--dur-calor`.
+
+**Verificación:** `npm run test`: 2.340 de 2.341 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), igual que antes del cambio. `npm run build` correcto. En Chrome (`appfit-test.localhost:5173`) con fixtures: estado vacío, mapa con huella, Frontal/Trasera, hoja de detalle y lista, cierre real de un entreno con el antes → después, tema oscuro y 316 px en un iframe (sin desbordamiento ni botones bajo 44 px), sin errores de consola; fixtures borrados al terminar. No se probó en un móvil real ni a 375/430 px exactos (la ventana no se dejó redimensionar).
+
+## 163. Vista detallada en el Resumen de Nutrición (2026-10-19)
+
+Víctor pide poder ver en el resumen semanal la vista detallada que ya tenía el Diario. El Resumen (semana y mes) gana el selector «Vista sencilla / Vista detallada» dentro de la card «Media diaria».
+
+- `lib/nutrientes.ts`: `mediaNutrientes(entries, fechas, hoy, cheatDays)`, con el criterio de días de `resumenPeriodo`; lo conocido de cada nutriente entre los días que cuentan y la cobertura por alimento. Tipo `ResumenNutriente`.
+- `NutrientesDetalle`: prop `mediaDiaria` (sustituye a la suma de `entries`; etiquetas «media diaria conocida» / «media parcial»; 1 decimal, 2 bajo 1 g).
+- `pages/Resumen`: selector y bloque «Media diaria de nutrientes»; recibe `onVerReferencia` desde `NutricionTab` para «Ver en Referencias».
+
+**Verificación:** tests nuevos en `nutrientes.test.ts` y `NutrientesDetalle.test.tsx`. `npm run test`: 2.342 de 2.343 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), también sin el cambio. `npm run build` correcto. En Chrome (`appfit-test.localhost:5173`) con fixtures (cobertura parcial, kcal rápidas): media correcta, 316 px en un iframe sin desbordamiento, sin errores de consola; fixtures borrados. No se probó en móvil real ni a 375/430 px exactos.
+
+## 164. Logros destacados visibles al editar el perfil (2026-10-19)
+
+Víctor pide que en «Editar perfil» los logros que se pueden destacar se vean, sin que muchos ocupen toda la página.
+
+- `components/ElegirDestacados`: en el formulario, tres huecos con la medalla de cada destacado o «Libre» y «Elegir/Cambiar logros destacados»; la hoja enseña todos los logros publicados en rejilla de medallas (`aria-pressed`, marca de elegido, deshabilitados al llegar a tres), «N de 3 elegidos», «Buscar en publicaciones anteriores» con su error en la hoja y «Hecho».
+- Después pide poder mostrar u ocultar los logros que aún no se pueden destacar: en la hoja, «Solo compartidos / Todos mis logros». Con «Todos», tres grupos: «Compartidos · se pueden destacar» (los únicos elegibles), «Conseguidos sin compartir» («Compártelos desde Vitrina para poder destacarlos») y «Sin conseguir» (insignia pendiente; los ocultos, con candado). Se leen de Vitrina (`useVitrina`) solo al elegir «Todos».
+- `lib/destacados`: `logrosElegibles` (antes en línea en `EditarPerfilDeportivo`), `alternarDestacado` (tope de tres) y `logrosNoElegibles`. `MedallaPublicada` sale de `CabeceraPerfil` para reutilizar la insignia de un logro publicado. CSS `.destacado-hueco`.
+
+**Verificación:** tests nuevos en `lib/destacados.test.ts` y `components/ElegirDestacados.test.tsx`. `npm run test`: 2.345 de 2.346 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), igual que antes. `npm run build` correcto. En Chrome (`appfit-test.localhost:5174` con el Supabase falso y 14 logros publicados): huecos vacíos, hoja con la rejilla a 375 px en un iframe (sin desbordamiento ni botones bajo 44 px), elegir tres deja los demás deshabilitados, «Hecho» devuelve los tres con su medalla y «Guardar perfil deportivo» los guarda; con 13 entrenos de prueba y tres logros compartidos, «Todos mis logros» separa 3 compartidos, 5 conseguidos sin compartir y 50 sin conseguir, sin desbordamiento; servidores de prueba parados al terminar. Sin probar en móvil real.
+
+## 165. Avatares de catálogo en Social (2026-10-19)
+
+Víctor plantea fotos de perfil para Social. Se descartan (moderación de imágenes, datos biométricos y revisión legal pendiente) a favor de un catálogo, porque el problema era reconocer a la gente: con el monograma en grafito, dos personas con las mismas iniciales tienen la misma cara. Se le enseñan cinco estilos maquetados y tres maneras de juntar los dos que elige (disciplinas y paisajes). Elige disciplinas a color junto a los paisajes, con el fondo de la disciplina a elegir, paisajes que se desbloquean y todos los logros conseguidos ([ADR 047](decisiones/047-avatares-de-catalogo.md)).
+
+- `social/lib/avatar.ts`: tipo `Avatar`, catálogo (`DISCIPLINAS_AVATAR`, `TONOS_AVATAR`, `PAISAJES_AVATAR` con su logro), `idAvatar`/`leerAvatar`, `avatarDeResumen` (el logro publicado de antes), `estadoPaisajes`, `logrosPorGrupo`, `avatarDisponible` y `nombreAvatar`.
+- `components/ArteAvatar` (SVG en la paleta de la Vitrina) y el primitive `Avatar` con `arte` (recorte circular). `AvatarPersona`, `useAvatares` y quienes los usan pasan de `logro` (resumen) a `avatar`. `CabeceraPerfil` lee el avatar del servidor o el que recibe (`avatar`, para «Así te ven»).
+- `components/ElegirAvatar`: la cara actual y «Cambiar avatar» en el perfil deportivo; hoja «Avatar» con vista previa, «Usar mis iniciales» y pestañas Paisajes · Disciplinas (con el color de fondo) · Logros, lo bloqueado apagado y con lo que pide. Sustituye al desplegable de logros publicados. Se guarda con «Guardar perfil deportivo» (`editarAvatar` primero).
+- Tokens `--c-expedicion-cobalto` y `--c-expedicion-magenta` (fondos de disciplina), con su contraste en `contrast.test.ts`.
+- SQL `0015_social_avatares.sql` (aditiva): `perfiles.avatar`, `editar_avatar` y `avatares_perfil`; el cliente cae a `avatares_social` sin ella. Pruebas en `supabase/pruebas/social_avatares.sql`. `supabase-falso.mjs` imita 0015 (Lucía con un paisaje) y `validar-social.cjs` recorre la hoja.
+
+**Verificación:** `npm run test`: 2.373 de 2.374 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), como antes. `npm run build` correcto. SQL: sin Docker, las quince migraciones y las suites pasan en PGlite fuera del proyecto, incluida `social_avatares.sql`. `validar-social.cjs` con Edge, Playwright fuera del proyecto, Supabase falso y `appfit-test.localhost:5174`: correcto en los ocho casos (320/375/430 claro/oscuro y 375 al 200 %); con el texto al 200 % la rejilla pasa a dos columnas para no partir los nombres. Capturas revisadas del feed y Amigos con un paisaje y una disciplina. Sin cuentas reales ni dispositivos físicos. Fusionado en el PR #87. Víctor ejecutó 0015 en el SQL Editor del proyecto real el mismo día («Success. No rows returned»).
+
+## 166. Ampliación de avatares de catálogo (2026-10-19)
+
+Víctor pide más disciplinas y paisajes con el estilo existente, verlos antes de implementar y revisa Pilates, Escalada, Esquí, Comba y Snowboard; también pide distinguir Valle de Sendero. Tras aprobar las propuestas, solicita incorporarlas al catálogo.
+
+- Se añaden trece disciplinas (incluido Snowboard) y doce paisajes: el catálogo pasa a 23 disciplinas en seis tonos (138 combinaciones) y 20 paisajes. Se conservan los identificadores y el arte anteriores; los nuevos dibujos son SVG locales de `ArteAvatar`, sin usar las láminas generadas como imágenes de interfaz.
+- Se adaptan las revisiones aprobadas: Pilates en puente sobre colchoneta, rocódromo con relieve del mismo tono sin bloque verde, esquiador con esquís y bastones, persona saltando a la comba, Snowboard descendiendo con botas/fijaciones, y Valle con laderas altas y río azul frente al camino de tierra de Sendero.
+- Los paisajes nuevos reutilizan el primer nivel de logros existentes, conservando el sistema de desbloqueos; correspondencias y catálogo en [Social](features/social.md#avatar). No hay migraciones, cambios de backup, servicios ni dependencias nuevos.
+- La prueba de identificadores cubre ida/vuelta, unicidad y formato de todo el catálogo; se comprueba la disponibilidad de cada disciplina y el desbloqueo de cada paisaje. `scripts/ui/validar-avatares.cjs` recorre las incorporaciones, los seis tonos, bloqueos y guardado/recarga de disciplina y paisaje. El recorrido social existente se adapta a la hoja actual de logros destacados y al nuevo número de paisajes.
+
+**Verificación:** `npm run test -- --maxWorkers=4`: 2.380 tests en 197 archivos, correctos. Tras el ajuste final del tamaño de los pictogramas, 273 tests de catálogo, guard visual y contraste correctos; `npm run build` correcto. `validar-avatares.cjs` pasa en sus ocho contextos Chromium efímeros (320/375/430 px claro/oscuro, 375 al 200 % con Reduce Motion), con selección, guardado y recarga de Snowboard y Valle, bloqueo de Glaciar, controles de al menos 44 px, sin desbordamiento ni errores de consola y backup local intacto. Capturas/informe en `/tmp/appfit-avatares`; revisión visual de las nuevas piezas grandes y a 32 px y de las hojas en claro/oscuro. Solo origen de pruebas y Supabase falso; sin cuentas reales ni móvil físico. Sin SQL remoto.
+
+## 167. Logros destacados sin publicar y «Editar perfil» aparte de los ajustes (2026-10-19)
+
+Víctor pide que no haga falta publicar un logro para destacarlo (la hoja solo distingue desbloqueados y por desbloquear) y que «Editar perfil» abra directamente el perfil deportivo, con alias, nombre, código, bloqueos, silencios, comunidades creadas y borrar el perfil aparte, quizá en un «…» ([ADR 048](decisiones/048-logros-destacados-sin-publicar.md)).
+
+- SQL `0016_social_logros_destacados.sql` (aditiva): `perfiles.logros_destacados` (hasta tres medallas: resumen de logro sin nota), conversión de lo destacado antes, `guardar_perfil_deportivo(bio, disciplinas, logros)` con `social_logro_destacado_valido`, `perfil_deportivo` con `logros` y la denuncia de perfil con sus nombres. Pruebas en `supabase/pruebas/social_logros_destacados.sql`.
+- `social/lib/destacados.ts`: `leerLogrosDestacados` (0016 o, sin ella, las publicaciones de antes), `alternarDestacado` por logro, `destacadosAlDia` (nivel de ahora al guardar) y `opcionesDestacados` (desbloqueados y por desbloquear). Desaparecen `logrosElegibles`, `logrosNoElegibles` y la paginación de publicaciones del editor.
+- `Social.guardarPerfilDeportivo` sustituye a `editarPerfilDeportivo`; `PerfilDeportivo.logros` a `destacados`/`avatarId`. Sin 0016, error propio («aún no están disponibles»), compartido con `editarAvatar` (`escritura`).
+- `ElegirDestacados`: hoja con Desbloqueados y Por desbloquear, sin el selector «Solo compartidos / Todos mis logros»; rejilla a dos columnas con texto ampliado (también los tres huecos). `ElegirAvatar` recibe la Vitrina del formulario (una sola lectura).
+- `MiPerfilPagina`: «Editar perfil» primario abre una Sheet con `EditarPerfilDeportivo` (avatar primero, «Así te ven», «Guardar perfil» cierra la hoja); el «…» abre `PerfilSheet`, ahora «Ajustes del perfil» y sin perfil deportivo. El engranaje de Amigos abre la misma hoja.
+- `supabase-falso.mjs` imita 0016; `validar-social.cjs` elige un logro sin publicar, comprueba lo enviado y abre el «…».
+
+**Verificación:** `npm run test`: 2.382 de 2.383 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), como antes. `npm run build` correcto. SQL: sin Docker, las dieciséis migraciones y las suites pasan en PGlite fuera del proyecto, incluida `social_logros_destacados.sql`. `validar-social.cjs` con Edge, Playwright fuera del proyecto, Supabase falso y `appfit-test.localhost:5174`: correcto en los ocho casos (320/375/430 claro/oscuro y 375 al 200 %); capturas revisadas de la hoja de destacados, el editor, tu perfil y los ajustes. Tras fusionar la ampliación de avatares (§166), `validar-avatares.cjs` pasa a «Guardar perfil» (que cierra la hoja) y ambos recorridos vuelven a pasar en los ocho casos. Víctor ejecutó 0016 en el SQL Editor del proyecto real el mismo día («Success. No rows returned»). Sin cuentas reales ni dispositivos físicos. Sin commit ni push.
+
+
+## 168. Corrección de los avatares deportivos (2026-10-19)
+
+Víctor detecta que Calistenia, Esquí y Snowboard publicados no reflejan las últimas propuestas aprobadas y pide también mejorar Remo. La conversión anterior a un único trazo simplificaba demasiado la anatomía y mezclaba el equipo con el cuerpo; se corrigen los SVG del componente, sin sustituirlos por recortes de las láminas.
+
+- `social/components/ArteAvatar`: Calistenia conserva la persona suspendida de la barra con cabeza, brazos y piernas diferenciados; Esquí recupera la postura, dos esquís y dos bastones; Snowboard mantiene el descenso y separa casco/gafas, cuerpo, botas/fijaciones y una sola tabla; Remo distingue barca, persona, dos remos con palas y ondas de agua.
+- Los cuatro pasan a `FIGURAS` con piezas en coordenadas 100 × 100; el relleno usa el fondo elegido para que las piezas no se crucen al reducirse. Tipos exhaustivos para estas figuras y los trazos anteriores. Se conservan los 23 identificadores de disciplina, seis tonos, 20 paisajes y desbloqueos. Detalle en [Social](features/social.md#avatar).
+- Se revisan comparaciones renderizadas desde el componente real frente al SVG publicado, a tamaño grande y 32/40/56 px, además de la hoja real del selector. Se incorpora la base actual de `master` con el editor de perfil y los logros destacados de §167.
+
+**Verificación:** `npm run test -- --maxWorkers=1`: 2.384 tests en 197 archivos, correctos; `npm run build` correcto. Una primera ejecución simultánea de tests y build agotó los cinco segundos del caso geométrico de 5.000 puntos; la ejecución secuencial pasa sin tocar el test ni su límite. `validar-avatares.cjs` correcto en los ocho contextos Chromium (320/375/430 px claro/oscuro y 375 al 200 % con Reduce Motion), incluidos colores, selección, guardado/recarga y diario intacto; revisión de las capturas reales. Informe en `/tmp/appfit-correcciones-avatares`. Sin cuentas reales ni dispositivos físicos; sin migraciones, dependencias ni cambios de datos.
+
+## 169. Administración de Social desde la app (2026-10-19)
+
+Víctor quiere, como creador, un perfil con más permisos que el resto (borrar comentarios y publicaciones de cualquiera, suspender perfiles, meter y sacar gente de las comunidades), visible solo para él. Elige actuar sobre lo que ve más lo denunciado, sin feed global, y que quien sea añadido a una comunidad entre directamente con un aviso «Tinez te ha añadido». Decisión en [ADR 049](decisiones/049-administracion-de-social.md).
+
+- `supabase/migrations/0017_social_administracion.sql`: tablas `administradores` (se rellena a mano en el SQL Editor) y `vetados` (la suspensión sobrevive a borrar el perfil), `miembros_comunidad.anadido_por`; RPC `soy_admin`, `admin_denuncias` (agrupadas por objetivo, sin UUID de personas), `admin_resolver_denuncia` (descartar, borrar, suspender), `admin_suspender`, `admin_suspendidos` y `anadir_a_comunidad`. Amplían su versión anterior `social_modera` (el administrador modera todas), `borrar_publicacion`/`borrar_comentario` (cualquiera, y marcan revisadas sus denuncias), `gestionar_comunidad` (expulsa también a moderadores), `crear_perfil` (rechaza a quien está vetado) y `social_eventos` (aviso `anadido`). Suite `supabase/pruebas/social_administracion.sql`.
+- Cliente: `hooks/useAdmin`, panel `components/Moderacion` (Denuncias · Suspendidos) con `lib/moderacion.ts` y sus tests; escudo en la cabecera de Social; «Borrar publicación» y «Borrar» comentario en lo ajeno, «Suspender perfil» en la página de una persona, «Añadir a alguien» y expulsar moderadores en «Gestionar comunidad»; aviso `anadido` en `lib/feed` y `AvisosSheet` (abre Mis comunidades). Icono `escudo`. Contrato en `data/social.ts`/`socialSupabase.ts` (sin 0017, `soyAdmin` es `false`).
+- `scripts/ui/supabase-falso.mjs` imita 0017 tras `simular_admin`; recorrido nuevo `scripts/ui/validar-administracion.cjs`. Documentado en [Social](features/social.md#administración), DESIGN-SYSTEM, desarrollo, roadmap y README (privacidad).
+
+**Verificación:** `npm run test`: 2.393 de 2.394 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), como antes. `npm run build` correcto. SQL: sin Docker, las diecisiete migraciones y las diez suites pasan en PGlite fuera del proyecto, incluida `social_administracion.sql`. `validar-administracion.cjs` con Edge, playwright-core fuera del proyecto, Supabase falso y `appfit-test.localhost:5174`: correcto en los ocho casos (320/375/430 claro/oscuro y 375 al 200 %); capturas revisadas del panel, la gestión y el aviso. Víctor ejecutó 0017 en el SQL Editor del proyecto real el mismo día («Success. No rows returned») y se nombró administrador al perfil `tinez`. No se probó en local con la cuenta real (Víctor prefiere no entrar con ella en `appfit-test.localhost`); **pendiente** probarlo en el móvil tras el despliegue y con una segunda cuenta.
+
+## 170. Seguimiento mutuo al aceptar (2026-10-19)
+
+Víctor quiere que una sola solicitud baste para seguirse los dos: si una persona pide seguir a otra y esta acepta, quedan como seguidores mutuos. Elige que después cada sentido siga siendo independiente (dejar de seguir y quitar de seguidores rompen solo el suyo) y que las relaciones de un solo sentido que ya existen se queden como están. Decisión en [ADR 050](decisiones/050-seguimiento-mutuo-al-aceptar.md); en `feat/seguimiento-mutuo` desde `master`.
+
+- `supabase/migrations/0018_social_seguimiento_mutuo.sql`: `responder_solicitud` acepta la solicitud y crea el sentido contrario ya aceptado; si había una solicitud cruzada, la acepta y le quita la fecha de aceptación para que quien acepta no reciba «aceptó tu solicitud». Rechazar no cambia. Pruebas en `supabase/pruebas/social_seguimiento_mutuo.sql`.
+- Cliente: `PaginaPersona` marca los dos sentidos al aceptar, explica antes «Si aceptas, os seguiréis los dos» y deja de ofrecer «Pedir seguir» mientras su solicitud espera; «Pedir seguir» avisa «Cuando te acepte, os seguiréis los dos». El aviso pasa a «Aceptó tu solicitud: ahora os seguís» (`lib/feed`) y Añadir explica el código con la nueva regla. `supabase-falso.mjs` imita 0018.
+- Documentado en [Social](features/social.md), roadmap y README. Víctor ejecuta 0018 en el proyecto real el mismo día («Success. No rows returned»); falta probarlo con dos cuentas.
+
+**Verificación:** `npm run test`: 2.393 de 2.394 correctos; falla solo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), como antes. `npm run build` correcto. SQL: sin Docker, las dieciocho migraciones y las once suites pasan en PGlite fuera del proyecto; la suite nueva falla sin 0018. Recorrido de navegador con Edge, playwright-core fuera del proyecto y Supabase falso en `appfit-test.localhost:5174` (320/375/430 px, claro y oscuro): aceptar desde la página de la persona y desde la fila de Solicitudes deja «Os seguís» y a la persona en Sigues, sin scroll horizontal ni errores.
+
+## 171. Mapa muscular de progreso (2026-10-19)
+
+Víctor quiere que el mapa global cueste en torno a un año en llegar al máximo, con Básico (rojo), Intermedio (verde) y Avanzado (morado), y más adelante una versión de cinco años. Se planifica antes de tocar código: se simula el modelo con planes del creador de rutinas (2–6 días, catálogo real, 100/85/70 % de asistencia, vacaciones y paradas de 1 a 12 meses) y se le enseñan tres paletas en una página privada. Elige bajada gradual, la paleta A y que en oscuro también vaya de claro a oscuro.
+
+- [ADR 051](decisiones/051-mapa-muscular-de-progreso.md) sustituye al calor del ADR 046: semanas completas (10 series en grupos grandes, 6 en pequeños; lo indirecto, como mucho media semana), nueve niveles desde 1 · 3 · 6 · 10 · 16 · 23 · 30 · 39 · 48, dos semanas de gracia y una menos por cada semana sin trabajo después, pausas de Ritmo que no restan y memoria muscular (doble por debajo del máximo alcanzado).
+- `gym/lib/progresoMuscular` (con `aportesMusculares`, que sale de `calorMuscular`, borrado) y sus tests; `MapaProgreso` y `ProgresoSesion` sustituyen a `MapaCalor` y `CalorAntesDespues`; `MapaMuscular` gana `escala="progreso"` y `EscalaProgreso`. Tokens `--c-progreso-1…9` y `--c-progreso-poster-1…9`, `--dur-progreso` y `--muscle-progreso-width`; `contrast.test.ts` vigila la rampa. Sin cambios de Dexie ni del backup.
+- Documentado en Gym, DESIGN-SYSTEM, DESIGN, arquitectura, roadmap (versión de cinco años; gemelos fuera de los planes cortos del creador) y README.
+
+**Verificación:** `npm run test`: todo en verde salvo `scripts/ejercicios/imagenes.test.ts` en Windows (symlink sin permisos), como antes. `npm run build` correcto. Recorrido con Edge y Playwright fuera del proyecto en `appfit-test.localhost:5173` con 34 semanas sintéticas (320 claro, 375 oscuro, 430 claro y 375 con texto al 200 %): mapa, lista, detalle y final del entreno sin scroll horizontal, desbordes, controles de menos de 44 px ni errores de consola. El texto al 200 % desbordaba «Semana completa» en el final; la fila ahora baja de línea.
+
+## 172. Avatar exclusivo de Tinez (2026-10-19)
+
+Víctor facilita un retrato con corona y pide que solo lo pueda usar su cuenta `tinez`, en una rama nueva. Se crea `feat/avatar-exclusivo-tinez` desde `master` actualizado (incluye 0017/0018). Decisión en [ADR 052](decisiones/052-avatar-exclusivo-de-cuenta.md).
+
+- `0019_social_avatar_exclusivo.sql`: tabla privada `avatares_exclusivos`, asignación única al UUID del perfil actual `tinez` corroborado por `administradores`, RPC `mis_avatares_exclusivos` y permiso obligatorio en `editar_avatar` para `exclusivo.tinez`. Otro administrador o quien ocupe el alias después no lo hereda. Revocar la asignación oculta el avatar ya elegido; bloqueo y suspensión conservan su efecto. Suite `social_avatar_exclusivo.sql`, solo para una base temporal sin asignaciones reales.
+- Cliente: tipo de avatar exclusivo, lectura validada de permisos sin caché entre cuentas, sección «Solo para ti» y representación con recurso propio. Sin migración, permiso o recurso, no se ofrece la opción y se conserva el monograma. No se cambia Dexie, el backup ni el resto del catálogo. Supabase falso simula el permiso independientemente del rol para ensayarlo.
+- Recurso: al principio solo llegó la vista previa del chat y la ruta Windows. Víctor sube el PNG al repositorio (commit `aea8ea5`) y pide quitarlo de la raíz, con `.gitignore` o una carpeta de avatares. Se integra ese commit en la rama y se mueve el original, sin modificar sus bytes, a `src/features/social/assets/avatares/tinez.png`. La app importa solo `tinez.webp`: 512 × 512 px y 228.088 bytes, codificado sin pérdida después de reducirlo con Sharp (ya instalado). El PNG original queda como fuente y no entra en el build. Se conserva en Git porque el avatar debe acompañar los despliegues; `.gitignore` no oculta archivos ya versionados. No hay recreación del diseño.
+- Servidor: Víctor ejecuta 0019 en el SQL Editor del proyecto real y confirma el resultado de la comprobación final: `alias = tinez`, `avatar = exclusivo.tinez`. El permiso queda asignado a su cuenta; autoriza fusionar la rama a `master`.
+
+**Verificación:** `npm run test -- --maxWorkers=1`: 2.400 tests en 198 archivos, correctos; `npm run build` correcto con el retrato real (WebP incluido en la caché PWA; el PNG fuente no se emite). El hash Git del PNG movido coincide con el del archivo subido por Víctor. PostgreSQL 17 temporal en Docker: diecinueve migraciones y doce suites correctas, sin credenciales ni datos reales; ensayo adicional con dos administradores confirma que solo se asigna al propietario de `tinez` y que no se hereda al ocupar su alias. `scripts/ui/validar-avatares.cjs` incorpora el recorrido del exclusivo con la imagen real, sin sustituirla por un icono: ocho contextos correctos (320/375/430 px claro/oscuro y 375 al 200 %), carga del retrato, selección y guardado/recarga, rechazo tras revocar el permiso con el editor abierto, ocultación al volver a abrir y compatibilidad sin 0019; sin desbordamiento, errores de página ni cambios en el diario. Capturas revisadas, también al 200 %. Informe y capturas en `/tmp/appfit-avatar-real-ui`. La primera comprobación, antes de disponer del PNG, usó únicamente un sustituto gráfico de prueba; esta verificación final usa el retrato aportado por Víctor. Las pruebas automáticas no usan cuentas reales; la ejecución remota de 0019 y su asignación las confirma Víctor.
+
+Integración previa a publicar: se incorpora `master` (`14b5c61`, mapa muscular de progreso), se conservan ambas entradas de la bitácora y el ADR del avatar pasa a 052 para evitar duplicar el 051. El conjunto integrado pasa 2.424 tests en 198 archivos y `npm run build`, con el WebP incluido en la caché PWA.
+
+## 173. Vuelve la rejilla del calendario del Historial (2026-10-19)
+
+Víctor pide recuperar el calendario en Entreno › Historial con los días entrenados en rojo según la intensidad del entreno. La rejilla y su rampa roja seguían en el código (`--c-muscle-1…5`, nivel por volumen del día frente al día de más volumen del mes), pero desde §154 el calendario pasaba a lista con contenedor ≤23 rem: en cualquier iPhone (375 px → 335 px de contenedor) solo se veía la lista. Rama `feat/calendario-historial` desde `master`.
+
+- `src/index.css`: los huecos de la rejilla bajan de 6 a 2 px y el cambio a lista pasa a `width < 20rem` (7 × 44 px + huecos). Desde 360 px de pantalla se ve la rejilla con días de 44 px o más (46 px a 375, 54 px a 430); a 320 px y con el texto ampliado sigue la lista. Sin cambios en la lógica ni en el cálculo del nivel.
+
+**Verificación:** `npm run build` correcto; `npm run test`: 2.423 de 2.424 correctos, falla `scripts/ejercicios/imagenes.test.ts` por `EPERM` al crear un enlace simbólico en Windows (falla igual sin el cambio). Edge con Playwright fuera del repo en `appfit-test.localhost` con entrenos sintéticos: 320 claro (lista), 360 oscuro, 375 claro y oscuro, 430 oscuro (rejilla) y 375 al 200 % (lista); sin scroll horizontal, sin botones por debajo de 44 px ni errores de página. Capturas revisadas en ambos temas. Sin prueba en iPhone. Víctor decide dejar la intensidad por volumen y pide commit y PR (#97).
+
+## 174. Publicación de un entreno más visual (2026-10-20)
+
+Víctor encuentra la publicación de un entreno con mucho texto y poco visual: ejercicios en una línea, niveles del mapa muscular escritos debajo del mapa, récords en frases y «Nuevo en la Vitrina» en texto. Se comparan cuatro formas de los récords con capturas reales de la tarjeta (franja actual, fichas, cifra junto a las demás, una línea y marcador) y elige el marcador. Después pide el mapa en miniatura a la izquierda con los logros a la derecha, sin mapa grande ni lista completa de récords en el detalle, y el número de récords junto a «Ejercicios».
+
+- Resumen (`social/lib/publicacion`): `catalogIds` e `insignias`, opcionales y paralelas a `ejercicios` y `logros`, construidas en `gym/hooks/useResumenEntreno`. Al leer se descartan si se desalinean. `seleccionarResumen` las quita con su lista y `sinImagenes` las quita si el servidor no anuncia `imagenesPublicacion`; «Ver vista previa» de un entreno espera a esa consulta (si falla, sigue sin imágenes).
+- Servidor: `0020_social_imagenes_publicacion.sql` amplía `social_resumen_valido` (el servidor rechazaba cualquier clave desconocida) y `social_capacidades`. Suite `supabase/pruebas/social_imagenes_publicacion.sql`.
+- Tarjeta: `Vistazo` (mapa en miniatura + insignias pequeñas o «Más trabajado»), `RecordsPublicacion` como marcador, `EjerciciosPublicacion` (mosaico con trofeo y recuento) y `VitrinaPublicacion` (insignias; texto en publicaciones antiguas). Se borra `MapaPublicacion` y el token `--muscle-social-width`.
+- Tamaño: el caso extremo del test de `resumenEntreno` pasa de 6,1 KB a 7,2 KB (umbral del test de 7.000 a 8.000 bytes). Midiendo además nota de 280 caracteres, mapa y récords estructurados con variante, el máximo teórico ya superaba los 8 KB del servidor antes de este cambio (9,4 KB) y ahora llega a 10,5 KB; un entreno real de seis ejercicios con imágenes, dos récords y dos insignias ocupa unos 0,8 KB. Queda anotado en el roadmap.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las veinte migraciones y las trece suites SQL pasan en un PostgreSQL 16 local temporal (sin Docker en la sesión; mismo procedimiento que `scripts/sql/validar-social.mjs`). `scripts/ui/validar-social.cjs`, adaptado a la tarjeta nueva, correcto en sus ocho casos (320/375/430 claro/oscuro y 375 al 200 %) con Chromium de Playwright y el Supabase falso. Las capturas de diseño se hicieron con una página temporal de vista previa, ya borrada. Víctor ejecuta 0020 en el SQL Editor del proyecto real (2026-10-20) con éxito.
+
+## 175. Récords al tocar el ejercicio (2026-10-20)
+
+Tras §174, Víctor ve que el número de récords junto a «Ejercicios» ya los anuncia y pide quitar el marcador «4 récords en 4 ejercicios» de la tarjeta: la marca de cada récord se ve al tocar el ejercicio que la tiene.
+
+- `EjerciciosPublicacion`: los ejercicios con trofeo son botones (`aria-expanded`) que abren debajo del mosaico sus récords (`RecordsPublicacion`, ahora solo la lista de un ejercicio: anterior, marca y mejora). `TarjetaPublicacion` deja de pintar récords plegada.
+- `resumenEntreno` guarda `catalogIds` siempre que haya ejercicios, también toda `null`: un entreno solo con ejercicios propios iba en texto y sus récords no se podían abrir. Las publicaciones sin `catalogIds` (anteriores a §174) enseñan sus récords bajo la línea de ejercicios.
+- `scripts/ui/validar-social.cjs` comprueba que la tarjeta no tiene la región de récords y que tocar el ejercicio enseña su marca.
+
+- Víctor prefiere que al tocar el ejercicio se vea solo la subida de peso, sin la marca anterior ni los récords de repeticiones: `mejorasDePeso` (peso, lastre y asistencia, por ejercicio y variante) decide el trofeo, el recuento junto a «Ejercicios» y lo que se abre («Press banca ▲ +5 kg»).
+
+**Verificación:** `npm run test` y `npm run build` correctos; `validar-social.cjs` correcto en sus ocho casos con el Supabase falso. Capturas de la tarjeta a 320 oscuro y 375 claro con una página temporal de vista previa, ya borrada; sin desbordamiento horizontal.
+
+## 176. Compartir un entreno entero, sin filtros (2026-10-20)
+
+Víctor no quiere que se pueda elegir qué partes de un entreno se comparten: o se comparte todo o no se comparte. Decisión en [ADR 053](decisiones/053-compartir-todo-o-nada.md).
+
+- Se borran `social/lib/seleccion.ts` (con su test) y `components/SeleccionPublicacion`. `CrearPublicacion` publica `adjunto.resumen` tal cual (más la nota y, sin 0020, sin imágenes); ya no cuenta un cambio de selección como borrador sin guardar.
+- Van todos los récords que caben en el resumen (hasta seis), no solo el principal de cada ejercicio como hacía la selección por defecto.
+- `scripts/ui/validar-social.cjs`: el editor no tiene casillas ni «Mostrar en este resumen», y el envío lleva duración, volumen y mapa.
+- Documentado en Social, datos y ADR 053; el ADR 044 conserva la compatibilidad de lectura de cifras omitidas.
+
+**Verificación:** `npm run test` y `npm run build` correctos; `validar-social.cjs` correcto en sus ocho casos con el Supabase falso.
+
+## 177. Ficha de un entreno más visual (2026-10-20)
+
+Víctor ve la ficha de un entreno del historial muy cargada de texto: los récords repetían el ejercicio en cada fila y cada ejercicio era una tabla con «Realizada» en todas las series. Elige, sobre una maqueta, récords agrupados por ejercicio en cifras y series como pastillas con el detalle plegado.
+
+- `lib/records`: cada récord lleva `setId`, la serie que lo marca. `lib/fichaEntreno` (con test): `recordsPorEjercicio`, `seriesConRecord`, `partesRecord` (rótulo, cifra y mejora), `pastillaSerie` (carga corta × reps, por lados I/D) y `resumenEjercicio`.
+- `components/RecordsSesion` sustituye a `ListaRecords` en el fin del entreno, el detalle del historial y la revisión semanal (con `total` y miniaturas: `WorkoutSummary.catalogIds`, `Revision.catalogIds`).
+- `components/EjercicioSesion` y `LeyendaSeries`: miniatura, resumen, pastillas con su estado y tabla plegada (RIR solo si hay). «Ejercicios» sube justo debajo de los récords; mapa, Compartir y «Volver a hacerlo» quedan después. La edición no cambia.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Navegador en `appfit-test.localhost` con datos sintéticos (calentamiento, pendiente, dropset, lados, nombre largo, cifras grandes): 320/375/430 px en claro y oscuro sin scroll horizontal, sin botones por debajo de 44 px, miniaturas cargadas y sin errores de consola.
+
+## 178. Rutinas más visuales y ficha de rutina (2026-10-20)
+
+Víctor pide que «Repetir» y «Guardar como rutina» salgan arriba del todo en la ficha de un entreno y que las rutinas guardadas se vean más bonitas, con más imágenes. Aprueba sobre maqueta la tarjeta nueva y una ficha para cada rutina.
+
+- `DetalleEntreno`: «Repetir entreno» (primario, `play`) y «Guardar como rutina» van justo debajo de la cabecera, antes del póster; el botón de volver dice «Rutina» si se abrió desde una ficha de rutina.
+- `components/TarjetaRutina` (Rutinas y «Otras rutinas» de Empezar): rótulo de cuándo, nombre, tres músculos principales con su muestra, `MiniMapa`, rejilla de cinco miniaturas y «Empezar». `lib/fichaRutina` (con test): `musculosRutina`, `tiraMiniaturas`, `cifrasRutina`, `sesionesRutina`, `ultimaVezEjercicios`. `resumenRutina.series` ya no suma si algún ejercicio no tiene objetivo («6 series» con dos objetivos engañaba).
+- `pages/DetalleRutina`, vista de `GymTab`: cabecera de grafito con mapa, cifras y «Empezar», músculos, ejercicios con objetivo y última serie, últimas sesiones (abren su entreno y vuelven a la ficha) y «Borrar rutina».
+- El editor sale de `Rutinas` a `components/EditorRutina` (misma hoja, con miniaturas), usado desde la ficha y desde «Crear rutina › En blanco». `RutinaResumen` pierde `detalleRutina`.
+- La CI («navegador») falló con el texto al 200 %: la cabecera de cada ejercicio de la ficha dejaba el nombre en 5 px. Las cabeceras con miniatura (ficha de entreno, tarjeta y ficha de rutina, editor) ahora saltan de línea (`flex-wrap` y `basis-*` en el texto); la ficha de rutina sin objetivos quita la cifra de series en vez de «—» y su título hereda `overflow-wrap: anywhere`. `auditoria-interfaz.cjs` siembra una rutina y mide también su ficha (24 pantallas). Los botones de «Repetir»/«Guardar como rutina» se apilan en móvil.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Navegador en `appfit-test.localhost` con datos sintéticos (rutina sin ejercicios, nombre largo, ejercicio propio sin imagen, cifras grandes): lista, ficha, editor, entreno abierto desde la ficha y vuelta, y Empezar a 320/375/430 px en claro y oscuro, sin scroll horizontal, sin botones por debajo de 44 px y sin errores de consola.
+
+## 179. Aviso al terminar con series sin marcar (2026-10-20)
+
+Víctor cuenta que hay conocidos que no dan al tic de las series y terminan entrenos con cero ejercicios y cero volumen (las no marcadas se guardan como pendientes). Pide un aviso al terminar, o que el tic no haga falta. Se mantiene el tic, porque registrar no es hacer (las rutinas precargan series con los últimos valores y contarlas sin confirmar inventaría volumen y progresión), pero deja de hacer falta tocarlo serie a serie:
+
+- `lib/workout.seriesSinMarcar`: las no marcadas con repeticiones (se pueden dar por hechas) y cuántas no tienen.
+- Hoja «Terminar entreno»: si hay series sin marcar con repeticiones, aviso en `text-warning` («No has marcado ninguna serie como hecha» / «Te faltan 3 de 12 series por marcar») y «Marcar todas y terminar» como primario; «Guardar solo las marcadas» («Guardar sin marcar» sin ninguna) como secundario. Con todo marcado sigue «Guardar y terminar». `workoutsRepo.terminar` acepta `marcarTodas`.
+- Detalle del historial: con series pendientes, aviso bajo el póster y «Marcar todas como realizadas» (`setsRepo.confirmarVarias`, todo o nada) con «Deshacer», para arreglar los entrenos ya guardados así.
+- La pista de primera vez del entreno dice que al terminar se pueden marcar todas.
+- Los recorridos `scripts/ui/*.cjs` que pulsaban «Guardar y terminar» aceptan también «Guardar solo las marcadas»/«Guardar sin marcar», para conservar lo que hacían.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido propio con Playwright (Chromium) en `appfit-test.localhost:5173` y datos sintéticos, a 320 claro/oscuro, 375 oscuro, 430 claro y 375 con texto al 200 %: aviso con y sin series marcadas, «Marcar todas y terminar» deja hechas las que tienen reps y pendiente la de 0 reps (resumen con 1.260 kg), y en el historial un entreno a 0 kg pasa a 960 kg al marcar y vuelve con «Deshacer»; sin scroll horizontal, targets ≥44 px ni errores de consola. `validar-tecnicas-progresion.cjs` y `validar-quitar-ejercicio.cjs` fallan antes de llegar a Terminar, igual en `master`; no se tocan aquí. Sin prueba en iPhone.
+
+## 180. Pantalla cortada a media altura con el teclado en iOS (2026-10-21)
+
+Víctor mandó capturas de dos iPhone: a veces, al enfocar un campo (series del entreno, buscador de Amigos), la app se veía solo en la franja de arriba, con el botón de secciones en medio y el resto vacío hasta el teclado. Causa: iOS no encoge el viewport de layout al abrir el teclado, desplaza el área visible (`visualViewport.offsetTop`) para enseñar el campo. El shell medía ya el alto visible, pero seguía en el flujo, pegado arriba del documento; si iOS desplazaba (campo en la mitad baja), se veía su parte inferior y debajo nada. Solo pasaba «a veces» porque depende de dónde está el campo.
+
+- El shell (`App`) pasa a `fixed` con `.app-shell` (`top: var(--viewport-top)`), como ya hacían las capas con `.modal-viewport`; `viewport.ts` ya publicaba ese desplazamiento.
+
+**Verificación:** `npm run test` (2.450 tests) y `npm run build` en verde. En Chromium (`appfit-test.localhost:5173`, 375×812) se simuló el teclado de iOS fijando un visible de 490 px desplazado 300 px: el shell ocupa 300–790 y el botón queda a su pie (antes, 0–490). Sin scroll horizontal. Sin prueba en iPhone: Chromium no reproduce el teclado de WebKit.
+
+## 181. Liga y series al tocar un ejercicio publicado (2026-10-21)
+
+A Víctor no le gustaba la lista de texto «Ligas · Empieza en Bronce» de la publicación de un entreno. Tras una preview aprobada, la liga pasa a verse como insignia y solo dentro del ejercicio: al tocar cualquier ejercicio del mosaico se despliega, como ya pasaba con el récord, un panel con la insignia y el texto de su liga, cada serie (reps y peso) y la subida del récord en la serie que lo batió. El trofeo de récord sigue en la miniatura; la liga no se pinta en la imagen (lo pidió así).
+
+- Resumen (`social/lib/publicacion`): `detalles`, paralela a `ejercicios`, con `liga`, `cambio`, `series` y `records` por ejercicio; `ligas` queda vacía en lo nuevo. Entran en orden mientras quepan en los 8 KB del servidor con sitio para la nota (`bytesResumen`); el peor caso anterior (con imágenes, insignias y nota) ya pasaba de 8 KB y ahora cabe, porque las líneas de liga en texto ya no se escriben. `leerDetalle` limpia campo a campo lo que llega.
+- Datos: `gym/lib/fichaEntreno.seriesPublicables` (series efectivas como en la ficha y récords de carga por serie) y `liga/lib/liga.divisionEnSemana` (la liga de la semana del entreno, no la de hoy). Los junta `useResumenEntreno`.
+- Tarjeta: `PanelEjercicioPublicacion` con `presentacion.panelEjercicio`, que en publicaciones anteriores saca la liga de su línea de texto. Las publicaciones de solo texto conservan su lista de ligas.
+- Servidor: `0021_social_detalles_ejercicio.sql` valida `detalles` y anuncia `detallesEjercicio`; sin ella el editor envía sin detalles (`sinDetalles`, los cambios de liga vuelven a `ligas`). Víctor la ejecutó en el proyecto real el 2026-10-21, antes de desplegar, y su suite `supabase/pruebas/social_detalles_ejercicio.sql` terminó allí con `PRUEBAS_OK`.
+- Privacidad: las series con su peso salen ahora del móvil, solo dentro de lo que la persona elige publicar (Víctor lo aprobó en la preview).
+
+**Verificación:** `npm run test` (2458) y `npm run build` correctos. Migraciones 0001–0021 y las catorce suites SQL en PostgreSQL 16 local temporal (Docker no estaba disponible), todas correctas. `scripts/ui/validar-social.cjs` con el Supabase falso, los ocho casos (320/375/430 claro/oscuro y 375 con texto al 200 %) correctos, con el panel nuevo comprobado; a 200 % la cabecera y las filas del panel saltan de línea en vez de desbordar. Capturas propias a 320 oscuro, 375 y 430 claro de una publicación de ejemplo con seis ejercicios: sin scroll horizontal ni errores de consola. Sin prueba en iPhone.
+
+## 182. Nutrición: comidas típicas y acciones de alimentos (2026-10-21)
+
+Víctor centra esta sesión de Codex en la interfaz de nutrición: aclarar el registro, reunir las combinaciones habituales y permitir copiar alimentos desde el diario.
+
+- «Describir comida» pasa a «¿Qué has comido?» con pestaña Escribir. El escáner también está aquí y al añadir otra tanda, incorporando productos sin reemplazar la revisión anterior.
+- Plantillas y típicas se reúnen en Comidas típicas, bajo Escribir, desde el pie de las cuatro comidas del diario y en Alimentos → Típicas. El botón «Típicas» sustituye a repetir la comida de ayer; el selector cierra antes de abrir la vista previa y confirmar ofrece Deshacer.
+- Automáticas: mismos alimentos en tres días distintos de los últimos treinta, por comida, aunque se registrasen por separado o cambien las cantidades; propone las del día más reciente. Las guardadas preceden y ocultan su equivalente automático, conservando todas las variantes manuales con diferentes nombres o cantidades.
+- «Nueva comida típica» permite guardar un alimento o un plato con el flujo de escribir/buscar/escanear y revisar, sin entradas ni objetivos diarios. También se pueden marcar comidas ya registradas o conservar una sugerencia automática. La biblioteca permite editar nombre/cantidades y dejar de guardar con confirmación; las antiguas plantillas conservan su formato y contenido.
+- Deslizar un alimento o ingrediente muestra Copiar y Borrar. Con ambas acciones el gesto solo las revela; teclado y lector de pantalla también tienen acceso. Copiar permite elegir otra comida o día, conserva snapshots/referencias/nutrientes y copia solo el ingrediente elegido como registro suelto, sin heredar el nombre de todo su plato. Copiar y borrar ofrecen Deshacer.
+- Persistencia en `meals` sin cambios de esquema ni backup: `crearDesdeRevision` guarda una típica nueva, `crearDesdeItems` conserva una sugerencia y `aplicarSugerencia` registra una automática sin crear una guardada. El marcado durante el registro guarda comida y típica en la misma transacción. Documentación actualizada en [Nutrición](features/nutricion.md), [Datos](datos.md), [Arquitectura](arquitectura.md), [Sistema de diseño](DESIGN-SYSTEM.md), [Desarrollo](desarrollo.md), README y PRODUCT.
+
+**Verificación:** `npm run test` (200 archivos, 2.474 pruebas) y `npm run build` correctos. Recorridos `validar-comidas-tipicas.cjs`, `validar-copiar-alimento.cjs` y `validar-fusion-tipicas.cjs`: 320/375/430 px claro/oscuro y 375 oscuro con texto al 200 %, datos sintéticos/origen aislado y sin API real. Creación desde diario/Escribir/biblioteca, legado y variantes preservados, cantidades/nutrientes, guardar sin alterar diario/objetivos, edición, confirmación/cancelación, recarga, selector/foco, ratón y tacto de Chromium, copiar a otra comida/día y Deshacer aislado. Sin overflow, targets menores de 44 px ni errores de consola. Regresión `validar-entrada-nutricion.cjs` correcta a 375 claro. Capturas en `/tmp/appfit-comidas-tipicas`, `/tmp/appfit-copiar-alimento` y `/tmp/appfit-fusion-tipicas`. Sin prueba en dispositivo físico.
+
+**Coordinación con la sesión de Claude:** por indicación de Víctor, esta sesión de Codex ocupa únicamente la §182. Antes del commit se ha ejecutado `git fetch origin master && git rebase origin/master`, conservando los cambios y las §180–181 de Claude; los conflictos se limitaban a documentación. Si hiciera falta una migración SQL, su número será 0022; estos cambios de nutrición no crean ninguna.
+
+
+**Continuación de §182 — registro visual y típicas sin clasificación:** tras revisar la propuesta y el boceto, Víctor aprueba centrarse en la pantalla «+» y pide que una típica de desayuno (p. ej. café con leche) se pueda elegir también en comida/cena/snack.
+
+- Añadir comida usa un selector compacto de destino y fecha, Escribir/Buscar con iconos y Escanear como acción hermana. Se eliminan las instrucciones largas y la lista que repetía lo escrito; «Revisar N alimentos» anticipa el siguiente paso. La ayuda de medidas se conserva.
+- Revisión en filas de icono, nombre, cantidad y kcal; al tocar se abre el editor con cantidades, raciones, fuentes, Cambiar/Quitar y detalles nutricionales. Los datos obligatorios pendientes fuerzan su apertura; las cantidades estimadas y los avisos de actualización permanecen visibles. Total/macros juntos, nombre opcional de plato en un desplegable, Editar descripción y confirmación persistente con destino.
+- Todas las típicas, incluidas las antiguas con `Meal.comida`, aparecen en los cuatro destinos y en la biblioteca, sin filtros ni duplicarlas. El selector solo fija dónde se añadirán. Bajo Escribir hay dos accesos y Ver todas; origen/kcal en una línea y reglas en la ayuda. Crear o conservar una típica ya no pide clasificación. Se mantiene el formato de datos/backup, sin migración.
+- Detección automática: las combinaciones se forman dentro de cada comida/fecha (sin mezclar sus ingredientes), pero se reconocen entre distintos tipos de comida; una fecha cuenta una sola vez. Se conservan las cantidades de la aparición más reciente por fecha/createdAt/id y las variantes manuales.
+
+**Verificación de la continuación:** 200 archivos y 2.476 pruebas correctas, compilación correcta y 77 pruebas focalizadas tras el ajuste final de orden. `validar-registro-visual.cjs`: siete casos (320/375/430 claro/oscuro y 375 oscuro con texto al 200 %), origen aislado, datos sintéticos y Open Food Facts bloqueado; sin overflow, targets menores de 44 px ni errores de consola. Confirma uso/Deshacer del café guardado como desayuno desde los cuatro destinos, sugerencias globales, Ver todas, escáner sin perder texto, teclado de métodos, edición de gramos y plato, guardar como típica, creación sin diario/objetivos, obligatorios visibles, cancelación, biblioteca sin clasificación y recarga. Regresiones de entrada/escáner, fusión/gestión y selector/uso de típicas a 375 claro correctas; auditoría de datos en Chromium correcta (registro/guardado y backup incluidos). Capturas en `/tmp/appfit-registro-visual`. Sin prueba en dispositivo físico.
+
+
+**Continuación de §182 — tarjetas integradas en el Diario:** Víctor elige la versión pulida de las tarjetas de Desayuno/Comida/Cena/Snack, con cabecera apenas más oscura como en su captura. Rechaza para esta implementación los bocetos del resumen superior y las cabeceras de grafito.
+
+- Una Card por comida, incluida la vacía, que reúne cabecera, registros, macros y acciones. Fondo suave de la cabecera con los tokens existentes, icono en pastilla neutra y kcal en cifra cursiva. Las comidas vacías muestran «Sin alimentos todavía.» sin ceros ni macrofila.
+- Filas de nombre/cantidad o ingredientes y kcal, con iconos neutros y chevrón; P/C/G reunidos por comida, con sus colores y etiquetas completas para lectores de pantalla. Plato, menú, edición, arrastre, Copiar/Borrar, Deshacer y típicas compartidas mantienen sus flujos. Añadir pasa de icono suelto a botón tonal con texto. No cambia calendario, resumen superior, datos ni migraciones.
+- Se conserva el menú del plato como botón hermano del desplegado y no se recorta la tarjeta entera, para mantener accesibles las burbujas de categoría. Cabeceras y filas envuelven nombres/cifras al ampliar texto. Los recorridos anteriores se adaptan a los rótulos de ingredientes y macros agregados.
+
+**Verificación de tarjetas:** `npm run test` (202 archivos, 2.514 pruebas) y `npm run build` correctos. `validar-tarjetas-comidas.cjs`, siete casos de Chromium (320/375/430 claro/oscuro y 375 oscuro con texto al 200 %), con datos sintéticos y API bloqueada: sin overflow, targets menores de 44 px ni errores; totales/macros, vacío, desplegar, Añadir con destino, típicas globales, cancelación sin escrituras y cifras/nombres largos. `validar-platos.cjs` y `validar-copia-platos.cjs` correctos en sus seis casos; copiar alimento, registro visual y acciones de registros correctos a 375 claro; cabeceras con texto al 200 % correctas. Capturas reales en `/tmp/appfit-tarjetas-comidas`. Sin prueba en dispositivo físico.
+
+**Continuación de §182 — correcciones de auditoría y decisiones visuales (2026-10-22):** Víctor pide resolver primero los errores y guardar las diez decisiones UI/UX para después. Se conservan en [el plan de auditoría](plan-auditoria-2026-10-22.md): mantener gráfica de peso/vaso actuales, usar «Mis alimentos» y reducir la propuesta de Perfil; las otras previews quedan aprobadas con su alcance. Esta continuación implementa las correcciones, sin adelantar esa fase visual.
+
+- AF-01: reloj compartido `useHoy` al cruzar medianoche y reanudar; Inicio y Diario actualizan sus lecturas. Agua, peso y creatina resuelven la fecha al actuar, Deshacer conserva la fecha de origen y las tareas de comida abiertas mantienen su destino; una fecha histórica elegida no salta a hoy.
+- AF-02: `Arranque` espera apertura explícita de IndexedDB/ajustes y ofrece Reintentar/Recargar al fallar. `LimiteErrores` muestra recuperación ante lecturas/renderizado/chunks fallidos; diagnóstico sin mensajes ni datos personales. No se borra almacenamiento.
+- AF-03: `ModalPage` consulta una protección de salida compatible con Atrás/Escape. Añadir comida pide Seguir editando/Descartar ante cambios; mantiene montado el editor y devuelve foco, distingue edición sin cambios y no pregunta al salir vacío. Las regresiones que cancelan revisiones ahora descartan explícitamente.
+- AF-04/05: filas de objetivos y rutinas de Empezar envuelven controles para conservar campos, nombre y acción con texto ampliado. AF-06: se reutiliza Caminos ya leído por Vitrina en el acceso de Inicio; queda pendiente el perfilado de rendimiento con históricos grandes. Sin cambios de fórmula, esquema, backup ni migración.
+- AF-07: nuevo recorrido `validar-correcciones-auditoria.cjs` incluido en QA, con reloj controlado, historial de capas, fallos inyectados de apertura/lectura, backup intacto y adaptación. Documentos vivos y roadmap actualizados.
+
+**Verificación de correcciones:** `npm run test` (205 archivos, 2.527 pruebas) y `npm run build` correctos. Chromium: seis casos nuevos (medianoche, borrador, almacenamiento, 320 claro, 375 oscuro al 200 %, 430 claro); adaptación en sus catorce configuraciones; once escenarios esenciales de entreno; cuatro de datos; seis de platos; registro visual a 375 claro. Producción en 5174: pesaje conservado, recarga offline y nueve destinos diferidos/gráfica de agua abiertos sin conexión. Solo origen aislado y registros sintéticos; evidencias en `/tmp/appfit-correcciones-auditoria`. Firefox/WebKit no disponibles localmente para esta ejecución; tres motores configurados en CI, sin atribuirles resultado remoto. iPhone/Android físicos y rendimiento en hardware representativo pendientes. Cambios preparados en `feat/correcciones-auditoria`, sin commit/push en esta continuación.
+
+**Continuación de §182 — primer bloque de pulido visual y pausa (2026-10-22):** Víctor autoriza implementar las decisiones guardadas y, durante el trabajo, pide cerrar el bloque en marcha y detenerse en un punto retomable. Se completan cinco mejoras, sin comenzar las cuatro restantes.
+
+- UI-02: Diario con consumidas/restantes juntas, cuatro barras de consumo y tres columnas de macros; las columnas se apilan con texto ampliado. Se reutiliza `restoKcal` para redondeo, exceso, meta cumplida y meta ausente. Disclosure «Ver detalle nutricional» sustituye al selector sencilla/detallada del Diario; Resumen conserva el suyo. Cheat day pasa al pie y conserva el acceso en «…». No cambia Inicio.
+- UI-03: pista compacta de deslizar a la izquierda para Copiar/Borrar, solo con registros. Cierre manual con X, persistencia en `Settings.pistasVistas` y restablecimiento desde las pistas existentes. No cambia el gesto ni Deshacer.
+- UI-04/05: «Mis alimentos» en la pestaña principal, con Alimentos/Típicas/Recetas y sus descripciones; típicas con recuento e icono de categoría si es un alimento, bol si es una combinación y cubiertos como respaldo. Lectura de categorías por repositorio, sin persistir información nueva ni clasificar por comida.
+- **UI-08, última implementada:** «Ir a ejercicios» junto al mapa desplaza a «Por ejercicio» y le da foco. Se conserva el mapa, su progreso y la elección de ejercicios.
+- Punto de continuación en [el plan](plan-auditoria-2026-10-22.md): UI-06 Perfil más compacto, UI-07 requisitos del gasto observado, UI-09 primeros pasos de Social y UI-10 próximos logros. UI-01 se mantiene descartada: gráfica de peso y vaso actuales. Sin migración, commit ni push.
+
+**Verificación del bloque:** 205 archivos/2.527 tests y compilación correctos. `validar-pulido-auditoria.cjs` en ocho configuraciones de Chromium (320/375/430 claro/oscuro y 375 al 200 % en ambos temas): cifras, detalle, pista/cierre/recarga, típicas globales/iconos/recuentos, cambio de pestañas, foco/scroll, targets y overflow. Compara backup y comprueba el único ajuste cambiado al cerrar la pista. Registro visual y copiar alimento correctos a 375 claro; resumen correcto a 375 claro con día vacío, habitual, exceso y cifras extremas. Se adaptan los selectores de los recorridos al nombre de pestaña y Disclosure; el recorrido antiguo del resumen se actualiza a la rueda de Inicio/cabecera Hoy/flechas semanales actuales. Recorridos y capturas en `/tmp/appfit-mejoras-visuales`. Sin prueba física ni ejecución local de Firefox/WebKit para este bloque; workflow preparado para los tres motores.
+
+**Publicación del bloque:** Víctor solicita commit, push y merge antes de continuar UI-06/07/09/10. Se ejecuta `git fetch origin master && git rebase origin/master` antes del commit, con los cambios guardados temporalmente y restaurados después; la base ya estaba al día y no hay conflictos. La publicación reúne las correcciones AF-01–05/regresión y UI-02/03/04/05/08, conservando las secciones de Claude desde §183 y sin migraciones.
+
+## 183. Empezar abre con «Tu entreno» y las rutinas en pequeño (2026-10-21)
+
+A Víctor no le gustaba que Entreno abriera con una rutina en grande («Empezar Pecho») ni que entreno vacío, registrar uno pasado y repetir uno quedaran sueltos por la pantalla. Le gustaba el diseño de la tarjeta, así que se conserva con otro contenido:
+
+- `GymHome`: la tarjeta de grafito pasa a ser «Tu entreno», con «Empezar entreno» (vacío) como acción principal y «Repetir un entreno» (solo con entrenos terminados) y «Registrar entreno pasado» debajo, como secundarias de la tarjeta.
+- Debajo, «Rutinas» en un `ListGroup` de filas del mismo alto (Víctor lo pidió al ver la primera versión): mosaico, nombre en dos líneas como mucho, «Hace 5 días»/«Sin hacer» en una y «Empezar». `.rutina-fila-texto` reserva el hueco y `.rutina-mosaico` deja de estirarse con tres miniaturas (`minmax(0, 1fr)` y `min-height: 0`), lo que también afecta a las tarjetas de Rutinas.
+- Con un entreno en curso no cambia nada. El aviso de `validarEntrenoPasado` y los recorridos `validar-mejoras-uso`/`auditoria-entreno` usan «Empezar entreno».
+
+**Verificación:** `npm run test` y `npm run build` correctos. Capturas propias con datos sintéticos en `appfit-test.localhost:5173` a 320 oscuro, 375 y 430 claro, 375 con texto al 200 % y sin rutinas: filas de 90 px (180 px al 200 %; la segunda y la tercera suman la línea divisoria de 1 px), sin scroll horizontal, sin controles de menos de 44 px ni errores de consola. Sin prueba en iPhone.
+
+## 184. Recorridos de platos al día (2026-10-21)
+
+`validar-platos.cjs` y `validar-copia-platos.cjs` fallaban ya antes de §180–§183: esperaban elementos que la app ya no tiene. Se ponen al día sin cambiar lo que comprueban:
+
+- Ambos esperan a la navegación principal en lugar del saludo «Buenos/Buenas…» de Inicio, que ya no existe.
+- `validar-copia-platos`: el día anterior se elige en la rejilla «Días de la semana» (el botón anterior al de hoy o, si hoy es lunes, el domingo tras «Semana anterior»), tras esperar a que esté pintado; antes había un botón «Día anterior».
+- `validar-platos`: los campos de fibra («Fibra/100g») y de gramos son de texto con teclado decimal, no `spinbutton`; se buscan por su etiqueta (los gramos, dentro de la hoja «Cantidad»).
+
+**Verificación:** los dos recorridos, correctos en sus seis casos (320/375/430 px, claro/oscuro) en `appfit-test.localhost:5173` con datos sintéticos. La rama de «hoy es lunes» no se ha ejecutado (hoy es miércoles). `npm run test` y `npm run build` correctos.
+
+## 185. Gimnasios: historial de máquinas por gimnasio (2026-10-21)
+
+Víctor entrenó en otro gimnasio y los kg de las máquinas no coincidían con los de su gimnasio habitual. De las soluciones propuestas eligió separar el historial por máquina (solo máquinas, poleas y smith), registrar el RIR (ya existía) y que lo hecho fuera no ensucie los récords del habitual, con gimnasios con nombre y, la primera vez, reps del habitual sin kg. Decisión en [ADR 054](decisiones/054-historial-por-gimnasio.md).
+
+- Datos: Dexie v13 con la tabla `gimnasios` (`&nombreNorm`), `Workout.gimnasioId` y el snapshot `SetEntry.gimnasioId`, solo en ejercicios de máquina fuera del habitual. Opcional en el backup v3, sin `upgrade()`.
+- `lib/gimnasios`: qué depende de la máquina, qué gimnasio lleva la serie, la nota de primera vez y la validación de nombres. `claveComparacion` añade el gimnasio solo si la serie lo trae (la clave del habitual queda idéntica, con test que la fija), y con eso Anterior, récords, progresión, Progreso, Liga, Experiencia y Vitrina separan cada máquina por gimnasio.
+- Repos: `gimnasiosRepo`, `setsRepo.previaEnGimnasio` (en `agregar` y en las series objetivo) y `workoutsRepo.cambiarGimnasio`. Las realizadas conservan cifras y marca, a diferencia de lo previsto en el plan (desmarcarlas): se hicieron allí, solo se había elegido mal el gimnasio. `empezar`, `crearPasado` y `repetir` llevan el gimnasio.
+- UI: `GimnasioSheet` con `ChipGimnasio` en Empezar, entreno activo y edición del historial; nota de primera vez en `PanelEjercicio`; gimnasio en el póster; «Variante» en Progreso, que abre en el habitual. Los récords dicen «Otro gimnasio» para no delatar el sitio al publicarlos. Pista `entreno-gimnasio`, también en Ajustes › Primeros pasos.
+
+**Verificación:** `npm run test` (202 archivos, 2.506 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs` en 320/375/430 px claro y oscuro con datos sintéticos en `appfit-test.localhost:5173`: sin overflow, controles de menos de 44 px ni errores de consola. Capturas revisadas de la hoja, el entreno activo, el póster y Progreso, más Empezar a 320 px en ambos temas. Sin prueba en iPhone.
+
+## 186. Progreso con una línea por gimnasio (2026-10-21)
+
+Víctor quiere ver en la misma gráfica (por ejemplo, la de press banca) la progresión en cada gimnasio y poder elegir entre todos, solo uno o solo el otro ([ADR 054](decisiones/054-historial-por-gimnasio.md)).
+
+- `lib/progreso`:
+  - `claveVariante`: la variante sin el gimnasio.
+  - `datosProgreso`: da el gimnasio de cada sesión (el del entreno, o el snapshot de sus series) y admite un filtro opcional.
+  - `gimnasiosConSesiones`: el habitual primero y después por id; ese orden fija el color.
+  - `filasPorGimnasio`: las filas para dibujar las líneas.
+  - La minigráfica de la lista usa el habitual o el primer gimnasio.
+- `pages/Progreso`:
+  - El selector «Variante» ya no lista gimnasios.
+  - Selector nuevo «Gimnasio», solo con sesiones en más de uno, con «Todos los gimnasios» por defecto: un `LineChart` con una línea por gimnasio (hasta 4) y una leyenda con la última cifra de cada uno.
+  - Con «Todos», el gimnasio aparece en la última sesión, en la mejor serie y en cada fila de Sesiones, y el «Cambio» pide elegir uno.
+  - Con un gimnasio elegido, su área se dibuja en su color.
+- `shared/design/chart`: `chartColors.gimnasios` (acento, proteína, grasa, hidratos) y `chartDashGimnasios`. El orden pasa el validador de paletas en separación con daltonismo, separación con visión normal y contraste, en ambos temas. Las otras dos comprobaciones (banda de luminosidad y croma mínimo) fallan por los valores de los tokens de la marca; por eso cada línea lleva además trazo y leyenda.
+
+**Verificación:** `npm run test` (202 archivos, 2.508 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs`, ampliado con el selector, las dos líneas con leyenda y el filtro de cada gimnasio, pasa en 320/375/430 px en claro y oscuro. Capturas de press banca con nueve sesiones en dos gimnasios a 320/375 px en ambos temas, sin overflow ni errores. Sin prueba en iPhone.
+
+## 187. Progreso: tarjetas de variante (2026-10-21)
+
+A Víctor no le gustaban los desplegables de Progreso cuando un ejercicio tiene varias variantes o agarres. Vio cuatro alternativas en maquetas (chips, tarjetas, todas las variantes en una gráfica y una línea-resumen) y eligió la recomendada: tarjetas de variante, chip para el tipo de carga y el gimnasio junto a la gráfica.
+
+- `lib/progreso`: `resumenVariantes` da una tarjeta por variante con sesiones terminadas (sesiones, gimnasios, métrica por defecto, mejor marca, puntos y cambio de su línea principal), ordenadas por sesiones. `tendenciaVariante` da el texto y si mejora (con asistencia, bajar es mejorar). `UNIDAD_TARJETA` da la unidad de cada métrica.
+- `components/TarjetasVariante`: carrusel horizontal (`.carrusel-variantes`, `.tarjeta-variante` en `index.css`, con desplazamiento dentro de su caja) de botones con `aria-pressed`, nombre, sesiones, mejor marca, minigráfica y tendencia.
+- `components/ChipAjuste`: sale de `PanelEjercicio` a su propio archivo (lo usan el panel, `GimnasioSheet` y Progreso) para que Progreso no cargue el panel entero.
+- `pages/Progreso`:
+  - La cabecera del ejercicio sube debajo del selector «Ejercicio».
+  - Los desplegables «Comparar el mismo tipo de carga» y «Variante» desaparecen. El tipo de carga pasa a un chip que abre una hoja, solo con más de un tipo; las variantes, a tarjetas, solo con más de una.
+  - El gimnasio pasa dentro de la tarjeta de la gráfica: segmentos si caben y un desplegable si no. Una variante de un solo gimnasio lo dice cuando el ejercicio tiene sesiones en otros.
+- `validar-mejoras-entreno.cjs` usa el chip del tipo de carga y `validar-gimnasios.cjs` espera a las opciones del desplegable antes de leerlas. Nuevo recorrido: `validar-variantes-progreso.cjs`.
+
+**Verificación:** `npm run test` (202 archivos, 2.511 pruebas) y `npm run build` correctos. `validar-variantes-progreso.cjs` en 320/375/430 px en claro y oscuro y a 375 px con texto al 200 %. `validar-gimnasios.cjs` y los recorridos del job «navegador» de la CI (`test:ui`, `test:ui:responsive`, `test:ui:uso`, `auditoria-datos`, `test:ui:offline`) pasan en Chromium. Firefox y WebKit no se han probado aquí. Sin prueba en iPhone.
+
+## 188. Gimnasio en cada entreno del historial y nombre del habitual (2026-10-21)
+
+Víctor quiere ver en el historial en qué gimnasio entrenó exactamente cada día. Eligió nombrarlo en todas las filas, también el habitual, poder poner nombre al habitual y no tener filtro por gimnasio.
+
+- Datos: el ajuste opcional `Settings.nombreGimnasioHabitual`, sin cambio de esquema ni de backup. `gimnasiosRepo.nombreHabitual` y `renombrarHabitual`. `validarNombreHabitual` impide repetir el nombre de otro gimnasio y `validarNombreGimnasio` impide que otro gimnasio repita el del habitual.
+- `lib/gimnasios.textoGimnasio` acepta el nombre del habitual. El hook nuevo `hooks/useNombresGimnasio` sustituye las lecturas repetidas de nombres en el chip, el entreno activo, el detalle y Progreso.
+- `lib/workout.detalleSesion` pone el gimnasio delante en cada fila del historial. El póster del detalle lo nombra siempre.
+- `GimnasioSheet`: con el habitual elegido, el bloque «Nombre» con «Guardar nombre» (sin «Borrar»); la opción y el chip muestran el nombre puesto.
+
+**Verificación:** `npm run test` (202 archivos, 2.514 pruebas) y `npm run build` correctos. `validar-gimnasios.cjs` ampliado (nombrar el habitual desde la hoja, el chip con el nombre, cada fila del historial con su gimnasio y Progreso con el nombre) pasa en 320/375/430 px en claro y oscuro. Capturas de la lista a 320 px en claro y 375 px en oscuro. Sin prueba en iPhone.
+
+## 189. Perfil compacto, requisitos del gasto observado, primeros pasos y próximos logros (2026-10-22)
+
+Víctor pide terminar las cuatro mejoras aprobadas que quedaron en pausa en [el plan de auditoría](plan-auditoria-2026-10-22.md) (UI-06/07/09/10), conservando la gráfica de peso, el vaso de agua y las tarjetas integradas de comidas. Rama `feat/mejoras-ui-pendientes` desde `master`, sin commit ni push.
+
+- UI-06: `ResultadoEnergia` muestra, con el perfil incompleto, solo el bloque `PerfilIncompleto` («Completa tu perfil», «N de 5 datos», qué falta y un botón para el primer dato pendiente). Reutiliza `editar` de `PerfilTab`, que abre `EditarDatoSheet` o `RegistrarPesoSheet`; al guardar, el botón pasa al siguiente. `CAMPOS_ENERGIA` en `validacionPerfil`. `GastoObservadoCard` acepta `plegado` y se pinta en un Disclosure mientras el perfil está incompleto. Sin aviso orientativo en ese bloque: no hay estimación.
+- UI-07: `calcularGastoObservado` devuelve también `diasMin` y `semanas` (pesajes de cada semana) con los mismos registros que deciden el cálculo; `semanasCumplidas` cuenta las que llegan al mínimo. La card muestra «Días con comidas» y «Semanas con pesajes» con cifras, barra y cuatro pastillas de semana; la fórmula, los requisitos y sus límites, en el Disclosure. Sin cambios de fórmula, criterios, ventana ni selector.
+- UI-09: `PrimerosPasosSocial` plegado al entrar, con «Primeros pasos · 1 de 3», barra y X persistente; al ampliar, los tres pasos con su estado. `social/lib/primerosPasos` cuenta los hechos y no da cifra mientras no llega lo remoto. El plegado no se guarda.
+- UI-10: `proximosLogros` (hasta tres, por fracción del siguiente umbral) y el bloque «Próximos logros» de `LogrosVista`, antes del catálogo; cada fila abre la hoja de detalle existente. Excluye ocultos sin conseguir, repetibles, completos y los que van a cero.
+- Con texto al 200 %, la X de primeros pasos y la columna de cada próximo logro bajan de línea en vez de partir palabras.
+- Recorrido nuevo `validar-mejoras-pendientes.cjs`, añadido al workflow de QA (allí sin Social, que necesita el Supabase falso). Documentos vivos: Perfil, Social, Vitrina, desarrollo, roadmap y plan.
+
+**Verificación:** `npm run test` (207 archivos, 2.537 pruebas) y `npm run build` correctos. `validar-mejoras-pendientes.cjs` correcto en ocho configuraciones de Chromium (320/375/430 claro/oscuro y 375 al 200 % claro/oscuro), con Social contra el Supabase falso. `validar-social.cjs` y `validar-pulido-auditoria.cjs` correctos a 375 claro (y el segundo también al 200 %). Capturas revisadas en ambos temas y al 200 %. Pendiente previo, sin tocar: con texto al 200 % a 375 px, la fila «Gasto diario estimado» de la card del resultado parte «moderado» y las pestañas de Social se recortan. Sin dispositivo físico ni Firefox/WebKit locales.
+
+## 190. Plan de evolución en dos carriles (2026-10-22)
+
+Tras dos loops de investigación (auditoría del código y de los documentos, y comparación con Hevy, Strong, Fitbod, MacroFactor, Cronometer, MyFitnessPal, Nike Training Club, Strava, Duolingo y Gentler Streak), Víctor elige 33 de las 60 propuestas del dashboard de evolución. Se ordenan de más simples a más complejas y se reparten en dos carriles para dos sesiones de Claude Code en cuentas distintas: A (Entreno, Social y actividades) y B (Inicio, Nutrición, navegación y progreso), con carpetas de cada uno, reglas para los archivos compartidos (`PROCESO.md`, roadmap, versiones de Dexie, migraciones de Supabase), cruces planificados y 13 decisiones pendientes. Plan en `docs/plan-evolucion/`; enlace en `docs/roadmap.md`.
+
+Durante la auditoría se detectaron documentos vivos que contradicen el código (paso B1 y parte de A1). No se ha cambiado código.
+
+## 191. Documentos vivos al día (2026-10-22)
+
+Paso B1 (DOC-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `docs/b-documentos-vivos` desde `master`; solo documentación, manda el código.
+
+- `docs/features/nutricion.md`: desde Inicio, la tarjeta de energía abre Nutrición, no Añadir comida.
+- `DESIGN.md`: § Inicio sin «Tu semana» (retirada por el ADR 043) y con las teselas de Progreso y el orden actual; § Entrenamiento, Empezar con «Tu entreno» arriba y las rutinas debajo (PR #107).
+- `PRODUCT.md`: cuenta opcional con copia cifrada y Social, apertura a otras personas y sin la mención a Atributos.
+- `docs/features/ritmo.md`: el enlace roto a `atributos.md` pasa a la experiencia. `cumbres.md`, `experiencia.md` y `vitrina.md` ya no lo tenían; el de `gym.md` es del carril A (A1).
+- `docs/features/vitrina.md` § Rendimiento: la Vitrina también se calcula en Inicio y en el perfil deportivo de Social.
+- `docs/features/inicio.md`: Progreso ya no lee `useCaminos`; Caminos sale del resultado de `useVitrina`.
+
+**Verificación:** sin cambios de código; `npm run test` (207 archivos, 2.537 pruebas) y `npm run build` correctos.
+
+## 192. Tendencia de peso en Inicio (2026-10-22)
+
+Paso B2 (NUT-06) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-tendencia-peso` desde `master`. Tras una vista previa con capturas, Víctor eligió que Peso ocupe su fila entera en el móvil (como ya pasaba por debajo de 18 rem) en lugar de compartirla con Agua.
+
+- `inicio/lib/peso.ts`: `mediaSemanaPeso` (la media de 7 días en el último pesaje y cuántos pesajes entran), `ritmoSemanal` (pendiente por mínimos cuadrados de la media móvil en los últimos 21 días, en kg/semana, con ≥ 4 pesajes que abarquen ≥ 14 días; si no, `null`) y `fraseRitmo` («−0,4 kg/sem», «Estable»).
+- `AccesoPeso`: la media como cifra principal («kg · media 7 días») con al menos 2 pesajes en esa semana; debajo, el ritmo (o la variación a 7 días de siempre si no hay ritmo) y «Último: 80,2 kg» en `caption`. Con un solo pesaje en la semana, el último pesaje y «La media sale con 2 pesajes en 7 días». Tono neutro, sin acento.
+- `index.css`: `.inicio-registros` en una columna; lado a lado solo desde 40 rem de lectura.
+
+**Verificación:** `npm run test` (208 archivos, 2.554 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con pesajes sintéticos (5 semanas con ruido, cifras de 280 kg, dos pesajes y ninguno) a 320/375/430 px en claro y oscuro, 375 px con texto al 200 % en ambos temas y 768 px: sin scroll horizontal ni desbordes, controles ≥ 44 px, Peso a todo el ancho en móvil y junto a Agua en tablet, sin errores de consola. Sin dispositivo físico.
+
+## 193. Aviso de coherencia energética (2026-10-22)
+
+Paso B3 (NUT-09) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-coherencia-kcal` desde `master`. Tras una vista previa con capturas, Víctor pide que solo avise con un descuadre notorio y que el aviso vaya donde Claude lo pondría: bajo los cuatro campos principales y sin aparecer mientras se teclea.
+
+- `nutricion/lib/alimentos.coherenciaEnergetica`: kcal esperadas con Atwater (4·P + 4·C + 9·G, más 2·fibra si se conoce). Avisa si la diferencia supera a la vez 30 kcal y el 25 % de las kcal escritas; `null` sin macros. Umbral más holgado que el de `scripts/catalogo/calidad.ts` (15 kcal y 20 %), que es para el informe del catálogo.
+- `MacroInputs` (prop `coherencia`): el aviso en `text-warning` con «Calcular kcal desde los macros» entre los cuatro campos principales y los extras; se oculta mientras un campo está enfocado. Lo usan «Detalles del alimento» de la revisión (salvo alimentos del catálogo sin tocar) y el formulario de Alimentos (salvo alimentos de una receta). No bloquea guardar.
+
+**Verificación:** `npm run test` (209 archivos, 2.565 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost`: descuadre pequeño sin aviso, sin aviso con el campo enfocado, aviso al salir entre la grasa y la fibra, «Calcular» deja 295 kcal y quita el aviso, guardar, y aviso en la revisión de Añadir comida con un alimento no encontrado; a 320/375/430 px en claro y oscuro y 375 px con texto al 200 %, sin scroll horizontal, botón ≥ 44 px y sin errores de consola. Sin dispositivo físico.
+
+## 194. «Volver» en las secciones anidadas (2026-10-22)
+
+Paso B4 (NAV-02) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-volver` desde `master`. Tras una vista previa con capturas, Víctor elige que Referencias vuelva a donde se abrió (Ajustes, Nutrición o Perfil) en lugar de siempre a Ajustes.
+
+- `shared/components/PageHeader`: prop opcional `volver` (`{ etiqueta, onVolver }`) que pinta encima del título un Button ghost `sm` con `arrow-left`, como el «Volver» de `DetalleRutina`.
+- Cumbres, Caminos, Ritmo y Vitrina reciben `onVolver` → «‹ Inicio»; `ReferenciasTab` recibe `salida`. `App` recuerda el origen de Referencias (`origenReferencias`; etiqueta, destino y foco en `app/volver.retornoDeReferencias`) y lo que recupera el foco (`focoVuelta`): la tesela en `AccesoProgreso` (`InicioTab.enfocarProgreso`, la enfoca y la centra tras pintar Inicio) o la fila Referencias en `Ajustes` (`enfocarReferencias`). La media luna lo borra. Atrás del sistema no cambia.
+- Amigos (carril A) queda para el cruce A-X1, que ya puede usar `PageHeader.volver`.
+- Documentos: ADR 043 § Consecuencias, `arquitectura.md` § Navegación, `DESIGN-SYSTEM.md` (PageHeader), `DESIGN.md`, y las features de Referencias, Cumbres, Caminos, Ritmo y Vitrina.
+
+**Verificación:** `npm run test` (209 archivos, 2.557 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost`: ida y vuelta por las cuatro teselas (el foco y la tesela a la vista al volver) y Ajustes › Referencias › «‹ Ajustes» (foco en la fila), a 320/375/430 px en claro y oscuro y 375 px con texto al 200 %: botón ≥ 44 px, sin scroll horizontal ni errores de consola. Sin dispositivo físico.
+
+## 195. El resumen social de un entreno siempre cabe en los 8 KB (A1 · REN-02, 2026-10-22)
+
+Primer paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). Rama `feat/a-resumen-8kb` desde `master`.
+
+- Al medir, la limitación del roadmap («el resumen al máximo supera los 8 KB») ya no se cumplía: desde §181, `resumenEntreno` mete los `detalles` solo mientras el resumen cabe con la nota más larga, y sin ellos los topes de textos y listas lo dejan en unos 5,6 KB. Peor caso (todos los textos al máximo con «€», de tres bytes; 15 ejercicios con imagen, 6 récords con variante y peso, 6 logros con insignia, cambios de liga, mapa completo y nota de 280): 8.156 bytes con todo, 6.973 sin imágenes (servidor sin 0020) y 7.984 sin detalles (sin 0021).
+- Víctor elige la versión reducida: no se añade `recortarResumen`, que nunca llegaría a ejecutarse. Test nuevo en `social/lib/publicacion.test.ts` con ese peor caso en las cuatro combinaciones de `sinImagenes`/`sinDetalles` y la nota más larga: ≤ 8.192 bytes y `leerResumen` lo devuelve igual (listas paralelas alineadas). Comprobado que falla si se sube `MAX_TEXTO`.
+- Documentos: limitación fuera de `docs/roadmap.md`, peor caso en `docs/features/social.md` y, de paso (DOC-01), el enlace roto a `atributos.md` de `docs/features/gym.md` apunta a `experiencia.md`.
+
+Sin cambios de código de la app, esquema, backup ni SQL; nada que probar en navegador.
+
+## 196. Revisiones semanales desde Ritmo (2026-10-23)
+
+Paso B5 (PRO-02) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-revisiones-ritmo` desde `master`. Primera vista previa con un botón «Ver revisión» en cada semana; Víctor pide ver la alternativa que recomienda Claude (la fila entera con chevrón, como el resto de listas) y la elige.
+
+- `ritmo/lib/ritmo.tieneRevision`: semana cerrada con algún entreno o día con comidas (una «vacía» con un día registrado también; la actual y las futuras, no).
+- `CalendarioSemanas` (prop `onVerRevision`): en el desplegable «Semanas de …», esas semanas son un `ListRow` con chevrón y nombre accesible «Semana del 12 oct, Presente. Ver revisión»; el resto, texto alineado con ellas. «hilo 6» sin partirse.
+- `RitmoTab` monta `inicio/components/RevisionSemanal` con `React.lazy`; `RevisionSemanal` acepta `closeLabel` («Ritmo»). Abrirla desde Ritmo no toca `revisionSemanalCerrada`.
+- Documentos: `ritmo.md`, `inicio.md` (ya hay acceso permanente) y `arquitectura.md` (composición ritmo → inicio).
+
+**Verificación:** `npm run test` (211 archivos, 2.573 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con entrenos y pesajes sintéticos en las últimas semanas: desplegable, seis filas con revisión, abrir la de la semana del 12 oct (12–18 oct, «← Ritmo») y volver con el foco en la fila, a 320/375/430 px en claro y oscuro y 375 px con texto al 200 %: filas ≥ 44 px, sin scroll horizontal ni errores de consola. Sin dispositivo físico.
+
+## 197. Avance automático al siguiente ejercicio (A2 · ENT-15, 2026-10-22)
+
+Segundo paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). Rama `feat/a-avance-automatico` desde `master`. Víctor aprueba la preview (GIF y capturas a 320/375 px) antes de abrir la PR.
+
+- `gym/lib/session.siguienteEjercicioPendiente(visibleIds, sets, completadas, actual)`: el primer ejercicio después del actual, en el orden de la sesión (también el manual), con alguna serie sin marcar (los calentamientos cuentan) o sin series todavía; si no, el primero antes; `null` si no queda ninguno. Víctor decide que un ejercicio sin series cuenta: si se ha añadido es para hacerlo.
+- `EntrenoActivo`: en `completar`, cuando la serie marcada completa su ejercicio, guarda el destino; tras el plegado (`requestAnimationFrame`), `scrollIntoView({ block: 'start' })` sobre el `div[data-ejercicio]` del panel, con `scroll-margin-top` = altura de la cabecera fija + `--space-stack`, o 0 si la cabecera es estática (contenedor ≤ 20 rem). No se mueve al desmarcar, con un campo enfocado ni sin destino; con Reduce Motion, `behavior: 'instant'`. Con la hoja del RIR abierta baja por detrás (la capa modal restaura el foco con `preventScroll`), como pidió Víctor. Sin opción en Ajustes (sería un cruce con B).
+- Tests: cuatro casos nuevos en `session.test.ts` (orden, calentamientos, vuelta atrás, todo hecho, sin series, orden manual, ejercicio fuera de la sesión).
+
+**Verificación:** `npm run test` (207 archivos, 2.541 pruebas) y `npm run build` correctos. Recorrido Playwright de preview (fuera del repo) en `appfit-test.localhost:5173`, a 375 claro, 320 oscuro, 430 oscuro y 375 con Reduce Motion, dos veces seguidas: el siguiente queda a 12 px bajo la cabecera (a 0 px del borde a 320, con la cabecera estática), también al cerrar la hoja del RIR; desmarcar y escribir en un campo no mueven la página; sin scroll horizontal ni errores en consola. Entre el toque y el movimiento pasan unos 300 ms (la escritura de la serie). Sin dispositivo físico: falta probarlo en iPhone.
+
+## 198. Descanso sugerido y descanso habitual (A3 · ENT-14, 2026-10-22)
+
+Tercer paso del carril A del [plan de evolución](plan-evolucion/carril-a.md). Rama `feat/a-descanso-sugerido` desde `master`. Víctor aprueba la preview (capturas a 320/375/430 px) y el texto de la banda.
+
+- `gym/lib/descansoSugerido`: `descansoSugerido(catalogId)` con los valores de hipertrofia del creador (`OBJETIVOS_POR_TIPO`: 120 s compuesto, 90 s aislamiento; propio o desconocido, 90 s), `proponerDescanso(restSeconds, descansoRutina, pistasVistas)` y `textoDescanso` («2 min», «90 s»). Aparte de `session.ts`, que también importa la barra del entreno minimizado, para no arrastrar el catálogo.
+- `gym/components/DescansoSugerido`: banda en línea (no Sheet) bajo el ejercicio de la serie marcada, con «No, gracias» y «Sí, 2 min». En `EntrenoActivo`, «Sí» fija `restSeconds` y empieza la cuenta atrás en ese momento; las dos respuestas guardan `entreno-descanso` en `Settings.pistasVistas` (sin tocar `shared/lib/pistas`). D8: una sola vez en general.
+- La preview destapó que cada entreno empezaba «sin temporizador» (el descanso vive por workout en sessionStorage): un «Sí» solo valía para esa sesión y la pregunta ya no volvía. Víctor elige recordarlo en el dispositivo: `session.descansoHabitual`/`guardarDescansoHabitual` (localStorage `appfit:descanso-habitual`, como las preferencias del tema; fuera del backup) dan el descanso con el que empieza un entreno sin estado guardado; lo guardan el selector de Descanso y el «Sí». Llevarlo a `Settings` (con backup) sería un cruce con B.
+- Tests: `descansoSugerido.test.ts` (tipos, propio, condiciones, texto) y el descanso habitual en `session.test.ts` (entreno nuevo, uno en curso conserva el suyo, «No» lo olvida, valores raros y storage bloqueado).
+
+- Al juntarse con el avance automático (§197): si la serie marcada propone el descanso, la sesión no baja al siguiente ejercicio, para que la banda se vea. «Ya propuesto» va en un ref: con varias series marcadas seguidas, la escritura de la primera termina con el estado de un render anterior y se proponía dos veces (y no se bajaba).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright de preview (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 claro con la hoja del RIR: la banda sale tras la primera serie y no se duplica con la segunda; «Sí» deja «Descanso: 120 s» con la cuenta atrás en marcha; «No, gracias» la cierra sin temporizador; el siguiente entreno no vuelve a preguntar y empieza con 120 s; sin scroll horizontal, botones de 44 px y sin errores en consola. Sin dispositivo físico.
+
+## 199. Historial y récords del ejercicio sin salir de la sesión (A5 · ENT-04, 2026-10-23)
+
+Paso A5 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9 (pantallas reales con la parte nueva en maqueta). Rama `feat/a-historial-ejercicio` desde `master`.
+
+- `gym/lib/progreso.historialEjercicio(series, workouts, referencia, antesDe)`: sesiones terminadas antes del entreno en curso del mismo grupo comparable que la serie de referencia (la primera efectiva del ejercicio en la sesión). El grupo es el de los récords: `records.claveGrupo`, ahora exportada (ejercicio, modo, variante y gimnasio de las máquinas). Devuelve las 5 últimas sesiones (mejor serie, nº de series y RIR medio), 8 puntos para la minigráfica (`mide` dice cuál: 1RM estimado, peso o lastre máximo, menor ayuda o reps) y los récords vigentes con la fecha en que se lograron.
+- `gym/components/HistorialEjercicioSheet`: hoja de solo lectura con la minigráfica SVG (`trazoMini`, las clases `mini-grafica` de Progreso; sin Recharts), «Últimas sesiones» y «Récords vigentes»; en ejercicios de máquina, «En <gimnasio>». Sin historial comparable, un texto lo dice.
+- `PanelEjercicio`: fila «Historial y récords» en el menú «…» (entre Progresión y Liga) cuando llega `contexto.historial`, que solo pasa `EntrenoActivo` (con `allSets` y `todosWorkouts`, sin lecturas nuevas). El cálculo se hace al abrir y se conserva mientras la hoja se cierra.
+- Tests en `progreso.test.ts`: sesiones (orden, máximo 5, calentamientos, pendientes, en curso, sin terminar y posteriores fuera), puntos, récords vigentes y reps con el peso de referencia, variantes, modos y gimnasios separados, sin historial.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: cinco sesiones, récords con fecha, sin scroll horizontal, botones de 44 px, sin errores en consola, y consultar la hoja no cambia la copia de seguridad. Con otra ejecución sale el estado vacío. Sin dispositivo físico.
+
+## 200. Sustituir un ejercicio durante la sesión (A6 · ENT-01, 2026-10-23)
+
+Paso A6 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9 con dos decisiones: «Cambiar también en la rutina» sin marcar por defecto y, si ya estaban todas hechas, el nuevo entra con una serie. Rama `feat/a-sustituir-ejercicio` desde `master`.
+
+- `liga/lib/alternativas`: opción `{ sustituir: true, hechos }` (no excluye Élite; primero los ya hechos, los del mismo material y el orden del catálogo). Élite sigue igual.
+- `gym/lib/sustituir`: `ordenTrasSustituir` (el nuevo en el sitio del anterior, o detrás si este conserva series) y `textoUltimaVez` («3 × 10 · 32 kg, hace 23 días» o «Nunca»).
+- `workoutsRepo.sustituirEnSesion(workoutId, de, seleccion, tambienRutina)` en una transacción (`workouts`, `sets`, `exercises`, `pesos`, `routines`): resuelve el ejercicio (crea el del catálogo si hace falta), pasa las series sin hacer conservando id, orden relativo, calentamiento y reps, con los kg de la última vez del nuevo en el gimnasio (`previaEnGimnasio`, carga y ejecución configuradas, peso corporal), sin RIR ni técnica; con todo hecho, añade una serie; reordena, omite el anterior si es de la rutina y se queda sin series, quita el nuevo de omitidos y, con la casilla, cambia la rutina (`routinesRepo.sustituirEjercicio`). Devuelve la captura para `deshacerSustitucion`.
+- `components/SustituirEjercicioSheet` y, en `EntrenoActivo`, «Sustituir» en el menú del ejercicio, la hoja (alternativas calculadas al abrir con su última vez), «Buscar otro…» (al cerrarse la hoja, `SelectorEjercicios` con `titulo` «Sustituir …», `verbo` «Sustituir» y sin el propio; un fallo queda en línea en el buscador) y el aviso con «Deshacer». Una sola sustitución a la vez y tras las escrituras pendientes.
+- Tests: `sustituirEnSesion.test.ts` (solo pasan las pendientes con sus reps y los kg del nuevo, deshacer exacto, sin hechas se omite el anterior, con todo hecho se crea una serie, también en la rutina con su objetivo, del catálogo, mismo ejercicio y fallo a mitad sin nada a medias), `sustituir.test.ts` y el modo sustituir en `alternativas.test.ts`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: cinco alternativas con su última vez, las 2 series pendientes pasan con 32 kg y el orden queda [1, 4, 2, 3], «Deshacer» deja la copia de seguridad idéntica; a 375, además, la casilla de la rutina (rutina [5, 2, 3] con el objetivo y deshacer), «Buscar otro…» con el agarre y el caso con todo hecho. Sin scroll horizontal, botones de 44 px y sin errores en consola. Sin dispositivo físico.
+
+## 201. La prueba del navegador deja de colgarse en la instalación (CI, 2026-10-23)
+
+Desde el 22 de octubre por la tarde, el job `navegador` de `.github/workflows/qa.yml` se quedaba en «Herramientas de navegador…» (`playwright install --with-deps chromium firefox webkit`) hasta que GitHub lo cancelaba a los 25 minutos; las ejecuciones que llegaban a probar pasaban, y en local los 8 recorridos del job pasan. Coincide con el aviso de GitHub de que `ubuntu-latest` pasa a Ubuntu 26 desde el 19 de octubre. Víctor elige arreglar el workflow (compartido por los dos carriles). Rama `ci/navegadores-cache`.
+
+- Los dos jobs, en `ubuntu-24.04` fijo.
+- Caché de `~/.cache/ms-playwright` con `actions/cache` (clave: Playwright 1.62.1 e imagen).
+- Descarga de navegadores (`install`) y paquetes del sistema (`install-deps`) en pasos separados, con `timeout 180` y tres intentos cada uno. La primera versión (un solo paso con `--with-deps`, 6 minutos y un reintento) se colgó una vez y el reintento murió al momento: `timeout` solo corta a Node y el apt que lanzó con sudo seguía vivo con el bloqueo. Ahora se corta y se limpia antes de reintentar.
+- Cada recorrido del job pasa por `paso()`, que si falla publica el final de su salida como anotación (`::error`): desde aquí no se pueden descargar ni el log ni las evidencias.
+- `docs/desarrollo.md` (workflow de QA).
+
+**Verificación:** YAML válido; el propio workflow de la PR es la prueba (las PR usan el de su rama).
+
+## 202. Tendencia de series por músculo (A8 · PRO-03, 2026-10-23)
+
+Paso A8 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9 (que también descartó A7, el calentamiento en rampa). Rama `feat/a-tendencia-musculo` desde `master`.
+
+- `gym/lib/progresoMuscular`: `ProgresoMusculo.ultimasSemanas` (`SemanaMusculo`: lunes, series que cuentan y si está en pausa de Ritmo) con las `SEMANAS_TENDENCIA` (8) últimas semanas hasta la en curso. Sale del mismo `porSemana` de `calcularMusculo`, así que la última barra es «Esta semana» (directas e indirectas hasta su tope).
+- `gym/components/TendenciaSemanasMusculo` en el detalle de un músculo de `MapaProgreso`, bajo las tres cifras: barras SVG (sin Recharts), línea discontinua de la dosis, la semana en curso en el acento; cifras y día del lunes en una rejilla de texto alineada con las barras (el mes, en el pie) y una tabla `sr-only`. Sin series en las 8 semanas, no se dibuja.
+- Tests en `progresoMuscular.test.ts`: lunes y series de 8 semanas (con hueco y semana en curso), tope de lo indirecto, coincidencia con «Esta semana», sin series y semanas en pausa.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: pecho con 8 barras (6, 9, 6, 6, 9, 6, 6 y 3, la última igual que «Esta semana 3/10»), 8 columnas y 8 filas en la tabla, sin scroll horizontal ni errores; gemelos sin series, sin gráfica. Al 200 % las fechas completas se partían a media palabra: se dejó solo el día bajo cada barra. Sin dispositivo físico.
+
+## 203. Fin de sesión ordenado por momentos (A9 · ENT-10, 2026-10-23)
+
+Paso A9 del carril A del [plan de evolución](plan-evolucion/carril-a.md), aprobado por Víctor en la página de previews de A5–A9. D9: hitos en el orden récords, subida muscular, cumbre, liga y logros; abierto, el primer bloque con contenido. Rama `feat/a-fin-sesion` desde `master`.
+
+- `gym/lib/fichaEntreno`: `hitosDeSesion` (como mucho `MAX_HITOS` = 3; primero uno de cada tipo en el orden de D9 para que tres récords no tapen una cima o una liga y, si sobra sitio, más; los récords, uno por ejercicio y el de peso antes que el 1RM) y los resúmenes de una línea `resumenRecords`, `resumenCuerpo` y `resumenCumbresLigas`. Tests en `hitosSesion.test.ts`.
+- `gym/hooks/useProgresoSesion` (antes/después, subidas y grupos trabajados) y `components/ProgresoSesion` partido en `FigurasProgresoSesion` (el único muñeco, dentro del póster, con su antes → después) y `SemanaProgresoSesion` (bloque «Cuerpo»).
+- `PosterSesion` admite `hoy` (franja `HitosSesion`) y `figuras` (sustituyen a las de `levels`); el detalle del historial no cambia. `RecordsSesion` admite `sinTitulo`.
+- `components/BloqueSesion`: plegable con título y resumen (clases de `Disclosure`), controlado y con el contenido montado solo al abrirlo.
+- `WorkoutFinished` lee una vez la Vitrina (que trae Cumbres) y las Ligas para hitos y resúmenes; Récords · Cuerpo · Cumbres y ligas · Vitrina, solo uno abierto (el primero con contenido; Cumbres y ligas y Vitrina, solo con la gamificación visible); «Compartir» y «Volver a Entreno» al final. Los componentes de Cumbres y Vitrina (carril B) se usan tal cual.
+- Cruce X4 no hecho: B8 aún no está en `master`.
+
+**Verificación:** `npm run test` y `npm run build` correctos; `npm run test:ui` (`auditoria-entreno.cjs`) correcto. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` con 8 semanas de historial y una montaña elegida, a 375 claro, 320 oscuro, 430 oscuro, 375 con texto al 200 % y Reduce Motion, sin gamificación y en un primer entreno: «Hoy» con récord, cumbre y pieza nueva (sin gamificación, tres récords; primer entreno, cumbre, liga y pieza), un solo muñeco, como mucho un bloque abierto (Récords con récords; Cuerpo sin ellos), abrir otro cierra el anterior, «Volver a Entreno» el último, sin scroll horizontal ni errores. `scripts/ui/validar-mapa-muscular.cjs` falla igual en `master` antes de este cambio (no pulsa «Continuar» del entreno minimizado y espera las figuras en la sección del mapa, que desde el rediseño del póster no las lleva): no se ha tocado y queda propuesto como tarea aparte. Sin dispositivo físico.
+
+## 204. Importar TCX además de GPX (A11 · REN-04, 2026-10-23)
+
+**Qué:** en Entreno › Actividades, «Importar GPX o TCX» acepta también los TCX de Garmin Connect, Polar, Coros o una cinta, con la misma hoja de revisión (titulada «Importar TCX»). Víctor lo aprobó en la página de previews A10–A14: se guarda como importada (`origen: 'gpx'`, sin cambiar datos) y se prueba con archivos sintéticos.
+
+**Cómo:**
+- `actividades/lib/tcx.ts`: `resumirTcx` con las herramientas de `gpx.ts` (ahora exporta `ETIQUETA`, `valor`, `atributo` y `texto`). Lee la primera `<Activity>`: distancia y tiempo de sus vueltas (`DistanceMeters`, `TotalTimeSeconds`) o, si faltan, de sus puntos; inicio del `<Id>`; nombre de sus `<Notes>`; tipo de `Sport` con `sugerirTipo`; recorrido y desnivel de los puntos con posición, pasando por `resumirGpx`. Sin posiciones (cinta) devuelve el recorrido vacío. `resumirArchivoActividad` elige GPX o TCX por el contenido.
+- `ActividadesHome`: el input acepta `.tcx`, el título de la hoja dice el formato y una cinta abre la hoja sin trazado. `DetalleActividad` dice «Importada de un archivo (GPX o TCX)».
+- Tests: `tcx.test.ts` (Garmin con dos vueltas y GPS, cinta sin posiciones, sin totales de vuelta, tipo por velocidad, errores y la elección por contenido).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: TCX roto con error en línea y sin escribir, Garmin sintético de 5,04 km (25:50, nombre, desnivel y trazado), cinta de 5,2 km sin trazado, las dos guardadas con `origen: 'gpx'` y el detalle; sin scroll horizontal, controles de 44 px y sin errores de consola. Sin probar con archivos reales ni en iPhone (Archivos).
+
+## 205. Compartir una rutina para guardarla (A13 · SOC-02, 2026-10-23)
+
+**Qué:** desde la ficha de una rutina, «Compartir rutina» publica su estructura en Social (ejercicios, series, repeticiones, descansos y calentamientos; nunca cargas) y quien la ve pulsa «Guardar en mis rutinas», revisa nombre y ejercicios y la guarda como suya. Víctor lo aprobó en la página de previews A10–A14: ahora, con ADR y la migración 0022. Decisión en [ADR 055](decisiones/055-rutina-compartida.md); plan F3-2 de `social-mejoras.md`.
+
+**Cómo:**
+- `social/lib/publicacion.ts`: tipo `rutina` (`ResumenRutina`, `EjercicioRutinaPublicado`), `resumenRutinaCompartida` (sin repetir, hasta 15, `catalogId` solo del catálogo de la app y objetivo solo si encaja en los límites) y su lector en `leerResumen`, que descarta la rutina entera si una entrada está mal. `etiquetaPublicacion` dice «Rutina» y `social.capacidades` admite `rutinaCompartida`.
+- `gym/lib/rutinaCompartida.ts`: de una rutina al resumen (`datosRutinaCompartida`) y del resumen a las filas de la hoja (`filasRutinaCompartida`: los del catálogo ya elegidos, los propios o desconocidos por elegir), `objetivoCompartido` (con `sanearObjetivo`) y `textoEjercicioCompartido`.
+- `routinesRepo.guardarCompartida(nombre, ejercicios)`: en una transacción (`routines`, `exercises`), resuelve cada selección con `resolverSeleccion`, sin repetir, con nombre libre y sin series.
+- `gym/components/CompartirRutina` (en `DetalleRutina`, solo con Amigos y la capacidad) abre `CrearPublicacion`; `TarjetaPublicacion` pinta la rutina (cifras, nombres y, al desplegar, cada ejercicio con su imagen y objetivo) y «Guardar en mis rutinas», que abre `gym/components/GuardarRutinaCompartida` (diferida) con «Elegir/Cambiar» en `SelectorEjercicios` (`verbo` «Elegir») y «Quitar».
+- `supabase/migrations/0022_social_rutina_compartida.sql` (tipo en `publicaciones_tipo_check`, validación en `social_resumen_valido`, `rutinaCompartida` en `social_capacidades`) y `supabase/pruebas/social_rutina_compartida.sql`. El Supabase falso acepta el tipo y Jon comparte una rutina con un ejercicio propio.
+- Tests: `rutinaCompartida.test.ts`, `guardarCompartida.test.ts` (reutiliza ejercicios, nombre libre, sin repetir, vacía y fallo sin nada a medias) y el bloque de rutina en `publicacion.test.ts` (topes, peor caso con nota en 8 KB y lector estricto).
+- Documentos: ADR 055, `features/social.md`, `features/gym.md`, `social-mejoras.md` (F3-2 hecho), `roadmap.md` y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las 22 migraciones y las 15 suites SQL pasan en un PostgreSQL 16 local temporal (sin Docker en este entorno; mismo procedimiento que `scripts/sql/validar-social.mjs`). Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5175` con el Supabase falso, a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: compartir desde la ficha (el envío lleva `tipo: 'rutina'`, los `catalogId` y ninguna carga), la tarjeta de Jon desplegada, «Guardar» sin elegir el propio (error en línea), elegir «Remo sentado en polea» con su agarre sin especificar, quitar uno y guardar (rutina con 3 ejercicios y el objetivo de press banca intacto); sin scroll horizontal, controles de 44 px, inputs de 16 px y sin errores de consola. **Pendiente de Víctor:** ejecutar 0022 en el SQL Editor después de desplegar.
+
+## 206. Póster del entreno como imagen (A10 · ENT-11, 2026-10-23)
+
+**Qué:** bajo el póster, al terminar un entreno y en su detalle del historial, «Guardar imagen» y, en el móvil, «Compartir…» (la hoja del sistema: WhatsApp, Instagram…). La imagen es un PNG de 1080 × 1350 con título, fecha, cifras, «Hoy» y el muñeco, y «Hecho con AppFit» al pie; nada del perfil, sin cuenta ni red. Víctor lo aprobó en la página de previews A10–A14 (cifras, muñeco y «Hoy»; pie «Hecho con AppFit»).
+
+**Cómo:**
+- `gym/lib/posterImagen.ts` (puro): `svgPoster(datos, colores, css)` compone el SVG con los colores de los tokens ya resueltos (tripletes «r g b») y la geometría del muñeco que le pasan; título en dos líneas como mucho, «Hoy» en dos por hito, `partirLineas` estima la anchura por caracteres. `escaparXml` y `nombreArchivoPoster` («appfit-torso-a-2026-10-09.png»).
+- `gym/lib/exportarImagen.ts` (navegador, reutilizable, cruce X3): `cssFuentesIncrustadas` (Saira normal y cursiva de `/fonts/` como data URI, una vez por sesión), `svgAPng` (imagen → canvas → PNG), `puedeCompartirArchivos`, `compartirImagen` (cancelar no es error) y `descargarImagen`.
+- `gym/components/PosterImagen`: lee los colores del tema que se ve, carga la geometría diferida y ofrece los dos botones; error en línea. En `WorkoutFinished` usa los hitos de la franja; en `DetalleEntreno`, los récords del entreno con `hitosDeSesion`.
+- Tests: `posterImagen.test.ts` (tamaño, textos y colores, escapes y título largo, muñeco por niveles, sin «Hoy» ni niveles, CSS dentro, cortes de línea y nombre del archivo).
+- Documentos: `features/gym.md`, `arquitectura.md` (párrafo de Entreno), `roadmap.md` (falta iPhone) y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro (con `navigator.canShare`/`share` simulados), 430 oscuro y 375 con texto al 200 %: al terminar y desde el historial, «Guardar imagen» descarga un PNG de 1080 × 1350 (`appfit-torso-a-<día>.png`, ~200 KB) con la letra de la app; «Compartir…» solo aparece con la hoja de compartir y le pasa el PNG; botones de 44 px, sin scroll horizontal ni errores de consola. Imágenes revisadas en claro y oscuro. Sin probar en iPhone (hoja de compartir real).
+
+## 207. Fichas de técnica de los ejercicios (A12 · ENT-09, 2026-10-23)
+
+**Qué:** un botón «i» («Ficha de …») en la cabecera del panel del ejercicio (sesión e historial en edición) y en cada fila del buscador abre la ficha del ejercicio del catálogo: imagen, músculos, material y tipo, el muñeco (principales altos, secundarios medios), tres claves de ejecución y dos errores comunes, tu última vez y tus récords si lo has hecho, y alternativas del mismo músculo que abren su propia ficha. Víctor lo aprobó con cambios en la página de previews A10–A14: los textos los redacto yo (sin fuente citada, como «claves de AppFit») y van todos los ejercicios de una vez.
+
+**Cómo:**
+- `gym/lib/fichas/*.ts` (pecho, espalda, hombros, brazos, piernas, caderaGemelos, core): 268 fichas `{ claves: [3], errores: [2] }` por id sin «appfit:». `gym/lib/fichasEjercicios.ts` las junta en `FICHAS`; solo se carga con `import()` al abrir una ficha.
+- `gym/lib/fichaTecnica.ts` (puro): `nivelesFicha` (5 principales, 3 secundarios, «Cuerpo completo» no pinta) y `textoMusculosFicha` («Pecho; también tríceps y hombros», con «e» delante de «i»).
+- `gym/components/FichaEjercicio` (ModalPage diferida desde `PanelEjercicio` y `SelectorEjercicios`): historial con `progreso.historialEjercicio` (solo si es del ejercicio que se ve: al cambiar de alternativa la consulta anterior dura un instante), alternativas con `liga/lib/alternativas` en modo sustituir; al abrir una alternativa vuelve arriba.
+- `SelectorEjercicios`: cada fila lleva su «i»; con texto muy ampliado el botón pasa debajo (`flex-wrap`, `basis-48`) para no estrechar la fila.
+- Tests: `fichasEjercicios.test.ts` (todas las fichas son del catálogo, ninguna falta ni se repite entre grupos, tres y dos frases de hasta 130 caracteres) y `fichaTecnica.test.ts`.
+- Documentos: `features/gym.md`, `scripts/ejercicios/README.md`, `roadmap.md` (revisión de los textos y la imagen de 384 px) y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Recorrido Playwright (fuera del repo) en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: la ficha de press banca desde el panel (3 claves, 2 errores, última vez y récords, cuatro alternativas), saltar a «Press inclinado con barra» desde sus alternativas, cerrar y abrir la de «Hip thrust con barra» desde el buscador, que sigue abierto al cerrarla; controles de 44 px, sin scroll horizontal ni errores de consola. Al probar apareció un fallo (abrir una alternativa sin historial rompía la pantalla) y se corrigió. **Pendiente:** revisión de los textos por Víctor y la ilustración de 384 px.
+
+## 208. Migración 0022 ejecutada (A13, 2026-10-23)
+
+Víctor ejecuta `supabase/migrations/0022_social_rutina_compartida.sql` en el SQL Editor del proyecto real con «Success», después de fusionar la app que lee el tipo `rutina` (#134). Desde ahora `social_capacidades` anuncia `rutinaCompartida` y la ficha de una rutina ofrece «Compartir rutina». Se actualizan el estado del servidor en `features/social.md`, el carril A y el roadmap. Sin cambios de código.
+
+## 209. Añadir comida desde Inicio (2026-10-23)
+
+Paso B6 (NUT-03) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-registro-inicio` desde `master`. La vista previa (capturas a las 8:00, 14:00 y 21:00 simuladas) llevaba dos acciones al pie de la tarjeta de energía: «+ Añadir desayuno» y «Lo de siempre» (la combinación repetida al menos 3 de los últimos 7 días, en un toque con Deshacer). Víctor aprueba la primera y descarta la segunda (decisión D1); su lógica no se queda en el código. Se anota en el ADR 043 § Consecuencias, que ya preveía recuperar este acceso.
+
+- `inicio/components/AnadirComidaAhora`: Button secundario `sm` a todo el ancho con «+ Añadir desayuno/comida/cena/snack» según `comidaPorHora`, en el pie nuevo de `TarjetaEnergia` (`pie`, hermano de su botón). Neutro, sin acento.
+- `InicioTab.onAnadirComida` → `App.anadirInicial` (se borra al navegar) → `NutricionTab.anadirInicial`, que abre Añadir comida en esa comida al montar.
+- Tests: la etiqueta según la hora y que el pie va fuera del botón de la tarjeta.
+- Documentos: ADR 043, `inicio.md`, `nutricion.md`, `DESIGN.md`, `DESIGN-SYSTEM.md` y `arquitectura.md`.
+
+**Verificación:** `npm run test` (212 archivos, 2.576 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con el reloj fijado a las 8:00, 14:00 y 21:00: la etiqueta cambia con la hora y Añadir comida abre en esa comida, a 320/375/430 px en claro y oscuro y con texto al 200 % a 375 y 320 px; sin scroll horizontal ni texto cortado, botón ≥ 44 px, sin errores de consola. Sin dispositivo físico.
+
+## 210. La semana en las teselas de progreso (2026-10-23)
+
+Paso B7 (GAM-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `feat/b-teselas-semana` desde `master`, sin fusionar (Víctor pide trabajar en ramas y fusionar más adelante). El número de esta entrada se ajusta al fusionar si choca con las de otras ramas abiertas (B6, #126, también lleva una entrada propia).
+
+- `inicio/lib/progresoSemana.ts`: textos cortos de la semana para cada tesela (metros, km, Ritmo y piezas nuevas), con espacios duros entre cifra y unidad. `vitrina/lib/logros.piezasDesde`: niveles alcanzados desde el lunes y repetibles conseguidos por primera vez.
+- `AccesoProgreso`: una línea más por tesela, tras un `border-line`, en caption grafito; en Ritmo, siete puntos decorativos de los días con entreno. Todo del mismo resultado de `useVitrina`.
+- **Fallo antiguo corregido:** la regla de container query que apilaba las teselas iba antes que la regla base de `.progreso-teselas` en `index.css` y nunca se aplicaba; con texto al 200 % las palabras se partían. Ahora va después. Tras ver las capturas, Víctor elige el umbral de 17,5 rem: 2 × 2 a 320 px con texto normal y una columna con texto ampliado.
+- Documentos: `inicio.md`, `DESIGN.md` y `DESIGN-SYSTEM.md`.
+
+**Verificación:** `npm run test` (213 archivos, 2.591 pruebas) y `npm run build` correctos. Recorrido propio (fuera del repo) en `appfit-test.localhost` con el reloj el viernes 23 de octubre, montaña y ruta elegidas y entrenos y paseos sintéticos (una semana a medias y otra sin nada aún), a 320/375/430 px en claro y oscuro y 375 px con texto al 200 % en ambos temas: 2 × 2 salvo con texto ampliado (una columna), sin scroll horizontal ni texto cortado, sin errores de consola. Sin dispositivo físico.
+
+## 211. Un único cálculo de la gamificación (2026-10-23)
+
+Paso B8 (REN-01) del [plan de evolución](plan-evolucion/carril-b.md). Rama `perf/b-calculo-derivado` desde `master`, sin fusionar (el número de esta entrada se ajusta al fusionar si choca con las de otras ramas abiertas).
+
+**Medir primero.** `scripts/ui/medir-progreso.cjs` (nuevo) siembra en el origen de pruebas un historial sintético y determinista de 3 años (500 entrenos, 12.500 series, 8.000 entradas, 300 actividades y 600 días con pasos) y mide la mediana de 5 lecturas en Chromium con la CPU ralentizada 4×:
+
+| Lectura | Antes | Después |
+|---|---|---|
+| Leer series, entrenos y entradas (solo IndexedDB) | ~0,5 s | igual |
+| Calcular la experiencia (sin leer) | ~0,56 s | igual |
+| Experiencia (Ritmo, revisión semanal) | 1,1–1,7 s | igual (compartida) |
+| Cumbres | 1,1–1,2 s | igual (compartida) |
+| Caminos | 55–65 ms | igual (compartida) |
+| Vitrina (Inicio, VitrinaTab) | 1,3–1,4 s | igual (compartida) |
+| Fin de sesión (Cumbres + 2 × Vitrina) | 3,7–3,8 s | **~1,0 s** |
+| Volver a otra sección (ya calculado) | otra lectura completa | **0 ms** |
+
+Casi todo el coste es leer el historial y calcular la experiencia; cada pantalla lo repetía.
+
+- `experiencia/hooks/useProgreso.ts`: lector compartido. `crearAlmacenProgreso(leerVitrina)` mantiene una sola suscripción `liveQuery` de Dexie por día mientras haya pantallas que la usen y la libera 30 s (`MARGEN_MS`) después de la última; `useProgreso(hoy)` la reparte con `useSyncExternalStore`. Solo lee.
+- `useExperiencia`, `useCumbres`, `useCaminos` y `useVitrina` toman su parte (`hooks/selectoresProgreso.ts`, mismo objeto: sin renders de más) con la misma firma: quien los usa, también en el carril A, no cambia.
+- Las lecturas pasan a archivos propios sin React (`experiencia/hooks/leerExperiencia.ts`, `cumbres/hooks/leerCumbres.ts`, `caminos/hooks/leerCaminos.ts`, `vitrina/hooks/leerVitrina.ts`, este último con la lectura que antes iba dentro de `useVitrina`), para no crear ciclos entre módulos; los `use*.ts` las reexportan.
+- Ritmo y la revisión semanal calculan también la Vitrina (unos 0,1 s más) a cambio de compartirla. Sin Web Worker: con esto, el primer cálculo (~1,3 s a 4×) es el único que queda.
+- Tests: el almacén (varias pantallas, un cálculo; un cálculo por día; el margen; recalcular al cambiar los datos) y que los selectores dan lo mismo que las lecturas de siempre con fake-indexeddb.
+- Documentos: `experiencia.md`, `vitrina.md`, `cumbres.md` y `caminos.md` (§ Rendimiento y lecturas) y `arquitectura.md`.
+
+**Verificación:** `npm run test` (215 archivos, 2.600 pruebas, con `master` al día) y `npm run build` correctos. En navegador (`appfit-test.localhost`) pasan `auditoria-entreno` (incluye el fin de sesión), `auditoria-interfaz` (24 pantallas), `validar-mejoras-pendientes` (Vitrina), `validar-pulido-auditoria` y `validar-mejoras-uso`, y los recorridos propios de las teselas de Inicio y de Ritmo › Semanas. `validar-insignias.cjs` no pasa ni en `master`: aún busca el botón «Más» de la barra anterior al ADR 043 (pendiente, sin tocar). Sin dispositivo físico.
+
+## 212. «Volver» en Amigos (A-X1 · NAV-02, 2026-10-23)
+
+**Qué:** Amigos, que se abre desde Social, tiene «‹ Social» encima del título, como las secciones de progreso tienen «‹ Inicio» (B4). Víctor lo aprobó en la página de previews de los cinco siguientes, junto con A14 (con sus decisiones), y tres pasos nuevos del roadmap del carril A que se añaden al plan: A16 (gemelos en el asistente), A17 (importar FIT) y A18 (compartir la semana de Ritmo).
+
+**Cómo:** `social/AmigosTab` recibe `onVolver` y pasa `volver={{ etiqueta: 'Social', onVolver }}` a sus tres `PageHeader` (sin sesión, error y normal). En `app/App.tsx`, solo la línea que monta `AmigosTab` (cruce pactado). Documentos: `features/social.md`, `arquitectura.md` (navegación) y el carril A con los pasos nuevos.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright con el Supabase falso en `appfit-test.localhost:5175` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: el botón «Social» (44 px) vuelve a Social; sin scroll horizontal ni errores de consola.
+
+## 213. Gemelos siempre en el asistente de rutinas (A16 · ENT-16, 2026-10-23)
+
+**Qué:** con sesiones de 45 min, o con 2–3 días y 60 min, el asistente no proponía ningún ejercicio de gemelos y ese grupo no podía progresar en el mapa (el roadmap solo lo apuntaba para 2–3 días). Víctor elige en las previews que siempre haya uno, de 3 series, aunque alargue un poco la sesión.
+
+**Cómo:** `gym/lib/creadorRutinas.generarPlan` termina con `conGemelos`: si ningún día trae gemelos, elige uno con `elegir('gemelos', …)` (material y semilla como el resto) y lo añade con `SERIES_GEMELOS` = 3 al día de pierna o cuerpo completo con menos series, ordenado como aislamiento. Tests: el de completitud cuenta ese ejercicio de más y uno nuevo exige gemelos en todas las combinaciones (días × material × objetivo × tiempo), en un día de pierna o completo. Documentos: `features/gym.md` § Creador, roadmap (sale la línea) y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 375 claro (3 días, 45 min), 320 oscuro (2 días, 60 min) y 430 oscuro (4 días, 45 min): el plan muestra «Elevación de gemelos de pie en máquina» y la rutina guardada la lleva con 3 series; sin errores de consola.
+
+## 214. Importar FIT (A17 · REN-04, 2026-10-23)
+
+**Qué:** «Importar GPX, TCX o FIT»: el mismo botón y la misma hoja aceptan también el formato binario de los relojes (Garmin, Coros, Wahoo, Suunto). Víctor elige en las previews un lector propio, sin dependencias.
+
+**Cómo:**
+- `actividades/lib/fit.ts`: `esFit` (cabecera «.FIT») y `resumirFit`, que recorre los mensajes (definiciones en ambas arquitecturas, campos de desarrollador saltados, cabeceras de hora comprimida, valores no válidos ignorados, sin comprobar el CRC) y usa `session`, `lap`, `sport` y `record`. Devuelve el mismo `ResumenGpx` que GPX y TCX, con el recorrido partido en las pausas de más de dos minutos y pasando por `resumirGpx`.
+- `actividades/lib/importar.ts`: `leerArchivoActividad(bytes)` elige FIT por la cabecera y GPX o TCX por el contenido; `ActividadesHome` lee el archivo como bytes y titula la hoja con el formato. El detalle dice «Importada de un archivo (GPX, TCX o FIT)».
+- Tests: `fit.test.ts` con un escritor FIT mínimo dentro del test (sesión, vueltas, solo puntos, cinta sin posiciones, big endian, hora comprimida, archivos dañados y la elección de formato).
+- Documentos: `features/actividades.md`, `arquitectura.md`, `datos.md`, `README.md`, roadmap y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: un FIT cortado da un error en línea; uno sintético de 5,04 km abre «Importar FIT» con 27 min y 48 m de desnivel de la sesión y se guarda como importada, de tipo correr y con su recorrido; sin scroll horizontal ni errores de consola. **Sin probar con un .fit real de un reloj.**
+
+## 215. Compartir tu semana de Ritmo (A18 · SOC-04, 2026-10-23)
+
+**Qué:** en el compositor de Social, «Tu semana» («2 de 3 entrenos») con «Compartir»: una hoja deja elegir «Mi semana» (los siete días, entrenos frente al plan e hilo), «Estoy retomando» o «En pausa», con la vista previa, y abre el editor de siempre. Víctor lo aprobó en las previews con «Estoy retomando» y antes de A14. Decisión en [ADR 056](decisiones/056-compartir-la-semana-de-ritmo.md); plan F3-3.
+
+**Cómo:**
+- `social/lib/publicacion.ts`: tipo `semana` (`ResumenSemana`, tres estados), `resumenSemana`, `tituloSemana` y su lector, que rehace el título y descarta lo que no encaja con el estado. `etiquetaPublicacion` dice «Semana»; `social.capacidades` admite `semanaRitmo`.
+- `social/lib/semana.ts`: `opcionesSemana` desde el resultado de Ritmo (`useVitrina`, solo lectura); sin Ritmo (gamificación oculta) solo «retomando» sin cifras y «pausa».
+- `social/components/CompartirSemana` en `Compositor` (solo con la capacidad) y los siete días en `TarjetaPublicacion`.
+- `supabase/migrations/0023_social_semana_ritmo.sql` y `supabase/pruebas/social_semana_ritmo.sql`; el Supabase falso acepta el tipo y Lucía comparte su semana.
+- Tests: `semana.test.ts` (opciones, títulos, cifras acotadas, nada de nutrición y lector estricto).
+- Documentos: ADR 056, `features/social.md`, `social-mejoras.md` (F3-3 hecho), roadmap y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las 23 migraciones y las 16 suites SQL pasan en PostgreSQL 16 local temporal. Playwright con el Supabase falso a 375 claro («Mi semana»), 320 oscuro («Estoy retomando»), 430 oscuro («En pausa») y 375 con texto al 200 %: la fila «Tu semana · 2 de 3 entrenos», la hoja con su vista previa, el envío (`tipo: 'semana'`, sin kcal, peso ni días registrados) y la tarjeta de Lucía con sus días; sin scroll horizontal ni errores de consola. **Pendiente de Víctor:** ejecutar 0023 después de desplegar.
+
+## 216. Semana en compañía (A14 · SOC-01, 2026-10-23)
+
+**Qué:** grupos de 2 o 3 personas que os seguís mutuamente, que se acompañan semana tras semana cada una contra su plan de Ritmo. Arriba de Siguiendo, una tarjeta muestra cómo va cada una («2 de 3», «Semana cumplida», «En pausa»), con «Ánimo» por persona y semana, las invitaciones con Aceptar y Rechazar, e invitar, pausar o salir sin reproche. Víctor lo aprobó en las previews con sus decisiones D11. Decisión en [ADR 057](decisiones/057-semana-en-compania.md); plan F3-1.
+
+**Cómo:**
+- `supabase/migrations/0024_social_semana_compania.sql`: cuatro tablas con RLS (`companias`, `companeros`, `companeros_semana` y `companeros_animos`) y siete RPC.
+  - Invitar exige seguimiento mutuo con todo el grupo y sin bloqueos, como mucho 3 personas, 5 grupos por persona y 20 invitaciones al día.
+  - La semana solo se guarda dentro de un grupo y se borra al salir del último.
+  - Los triggers cierran el grupo cuando queda una persona y sacan de los grupos compartidos a quien bloquea.
+  - `semanaCompania` en `social_capacidades`.
+  - Prueba: `supabase/pruebas/social_semana_compania.sql`.
+- `social/lib/compania.ts`, todo puro con tests en `compania.test.ts`:
+  - el lector tolerante;
+  - el estado de cada persona, sin porcentaje, con la semana ajena válida solo si es la tuya;
+  - tu semana desde Ritmo y cuándo subirla;
+  - los ánimos y a quién invitar.
+- `social/data`: el contrato y el adaptador (`companias`, `invitarCompania`…); los errores nuevos en `lib/mensajes`.
+- `social/components/SemanaCompania`: se monta en `SocialTab` arriba del compositor, solo con la capacidad. Incluye la fila vacía, la invitación, los grupos, «Tu grupo» y la hoja de invitar. Sube tu semana al abrir Social si cambió.
+- Supabase falso: las RPC, `simular_companias` y `simular_aceptar_compania`. Sin grupos al empezar, para no cambiar los otros recorridos.
+- Una sola PR, no las tres del plan: la tarjeta no aparece hasta que el servidor la anuncia.
+- Documentos: ADR 057, `features/social.md` (§ Semana en compañía y 0024), `social-mejoras.md` (F3-1 implementado), `arquitectura.md`, `README.md`, roadmap y el carril A.
+
+**Verificación:**
+- `npm run test` y `npm run build` correctos.
+- Las 24 migraciones y las 17 suites SQL pasan en PostgreSQL 16 local temporal.
+- Playwright con el Supabase falso a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %:
+  - «Empezar» → solo Jon (Lucía no te sigue) → «Invitación enviada».
+  - Se sube tu semana una vez, con solo lunes, entrenos y plan (`2 de 3`).
+  - Cuando Jon acepta, «1 de 4» y la llama `aria-pressed`.
+  - La invitación de Lucía con «Ánimo de Jon», «Aceptar» y su «Semana cumplida».
+  - «Pausar mi semana» → «En pausa», y «Salir del grupo» con confirmación cierra el grupo.
+  - Sin scroll horizontal ni errores de consola.
+- **Pendiente de Víctor:** ejecutar 0024 después de desplegar, probar con dos cuentas reales y organizar el piloto de 3–4 semanas.
+
+## 217. Migraciones 0023 y 0024 ejecutadas (A18 y A14, 2026-10-23)
+
+Víctor ejecuta `supabase/migrations/0023_social_semana_ritmo.sql` y `0024_social_semana_compania.sql` en el SQL Editor del proyecto real, después de fusionar la app que las lee (#141 y #142). Desde ahora `social_capacidades` anuncia `semanaRitmo` y `semanaCompania`: aparecen «Tu semana» en el compositor y «Semana en compañía» arriba de Siguiendo. Se actualizan el estado del servidor en `features/social.md`, el carril A y el roadmap. Sin cambios de código. Queda el piloto de 3–4 semanas con parejas.
+
+## 218. Hito redondo en el póster (A23 · ENT-18, 2026-10-23)
+
+**Qué:** al terminar el entreno nº 10, 25, 50, 100, 250, 500 o 1.000, el póster lleva encima del título la cifra grande con «entrenos terminados» y «Desde el 3 mar» (el primero). También va en la imagen del póster. Víctor lo aprobó en las previews de los cinco siguientes, con esos números; en la misma página descarta A20 (enlace o QR).
+
+**Cómo:** `gym/lib/fichaEntreno.hitoDeEntrenos` (posición entre los terminados por inicio y id) y `textoDesde` (con el año si no es el actual), con tests; `hooks/useHitoEntrenos` lee `workoutsRepo.terminados`; `PosterSesion` y `PosterImagen` reciben `hito` y `posterImagen.svgPoster` lo dibuja encima del título. Solo en `WorkoutFinished`. Documentos: `features/gym.md`, roadmap, `social-mejoras.md` (F3-4 descartado) y el carril A (filas y decisiones de A19–A23).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` con 49 entrenos terminados sembrados a 375 claro, 320 oscuro y 375 con texto al 200 % (el nº 50 lleva «50 entrenos terminados · Desde el 3 mar»; a 200 % el texto baja bajo la cifra), 430 oscuro con el nº 51 (sin hito) y la imagen descargada con la cifra encima del título; sin scroll horizontal ni errores de consola.
+
+## 219. Avisos de la semana en compañía (A19 · SOC-05, 2026-10-23)
+
+**Qué:** la invitación de la semana en compañía cuenta en la campana de Social y en la banda de Inicio como una solicitud («1 invitación») y sale arriba de la hoja de Avisos con «Aceptar» y «Rechazar»; el ánimo de alguien del grupo llega como aviso del día y lleva a la tarjeta. Pausar, salir o bloquear nunca avisan. Víctor lo aprobó en las previews (invitación y ánimo).
+
+**Cómo:**
+- `supabase/migrations/0025_social_avisos_compania.sql`: `social_eventos` con `animo_compania` y `avisos` con el recuento `companias`; prueba en `supabase/pruebas/social_avisos_compania.sql`.
+- `social/lib/feed`: `Avisos.invitaciones`, el tipo `animo_compania` (con `compania`), su texto y `resumenAvisos` con las invitaciones; tests en `feed.test.ts`.
+- `AvisosSheet` (sección «Semana en compañía» con el `Invitacion` exportado de `SemanaCompania`), `SocialTab` (contador, etiqueta, tocar el ánimo y releer la tarjeta), `AvisoAmigos` (a Social también con invitaciones) y `SemanaCompania` (`version` y `onRespondida`; botones que se apilan con letra grande).
+- Supabase falso: `avisos` con `companias` y el ánimo de cada grupo.
+- Documentos: `features/social.md`, ADR 057 (los avisos llegan con A19) y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las 25 migraciones y las 18 suites SQL pasan en PostgreSQL 16 local temporal. Playwright con el Supabase falso a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: la banda de Inicio («2 solicitudes · 1 invitación · 1 novedad»), la campana («Avisos, 1 nuevo, 2 solicitudes, 1 invitación»), la invitación arriba de Avisos y el ánimo de Jon; aceptar quita la invitación del contador y tocar el ánimo lleva a la tarjeta con el grupo de Lucía; sin scroll horizontal ni errores de consola. **Pendiente de Víctor:** ejecutar 0025.
+
+## 220. Moderar comunidades desde la app (A22 · SOC-07, 2026-10-23)
+
+**Qué:** en el panel Moderación, una denuncia de comunidad ofrece «Suspender comunidad» (deja de verse para todos y se reactiva desde Suspendidos) y «Cerrar comunidad» (se borra con sus publicaciones y miembros), con confirmación. Cuando se actúa sobre cualquier denuncia, quien denunció recibe «Revisamos tu denuncia y hemos actuado. Gracias por avisar.», sin decir qué ni a quién; descartar no avisa. Víctor lo aprobó en las previews («avisar: sí, sin detalles»).
+
+**Cómo:**
+- `supabase/migrations/0026_social_moderar_comunidades.sql`: `denuncias.actuada`, acciones `suspender_comunidad` y `cerrar` en `admin_resolver_denuncia`, `admin_comunidades_suspendidas`, `admin_reactivar_comunidad` y el evento `denuncia` en `social_eventos`; prueba en `supabase/pruebas/social_moderar_comunidades.sql`.
+- `social/lib/moderacion` (acciones y `leerComunidadesSuspendidas`, con tests), el contrato y el adaptador, `components/Moderacion` (botones, `textosConfirmacion`, lista de comunidades suspendidas con «Reactivar»; «Ningún perfil suspendido»), `lib/feed` (aviso `denuncia` sin persona, con test) y `AvisosSheet` (escudo en lugar de la cara).
+- Supabase falso: las acciones, la lista, reactivar y `simular_denuncia_actuada`. `scripts/ui/validar-administracion.cjs`: el texto vacío nuevo y medio píxel de margen en la medida de 44 px (las posiciones fraccionarias daban 43,9999).
+- Documentos: `features/social.md` (Administración, Feed y 0026), ADR 049 (actualización), roadmap y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Las 26 migraciones y las 19 suites SQL pasan en PostgreSQL 16 local temporal. Playwright con el Supabase falso a 375 claro y 430 oscuro (suspender, la lista y «Reactivar») y 320 oscuro y 375 con texto al 200 % (cerrar), y el aviso de la denuncia en Avisos; `validar-administracion.cjs` correcto en sus 8 casos (contra Vite en 5175). Sin scroll horizontal ni errores de consola. **Pendiente de Víctor:** ejecutar 0026.
+
+## 221. Superseries (A21 · ENT-17, 2026-10-23)
+
+**Qué:** dos ejercicios seguidos se unen en superserie desde el menú del ejercicio en la sesión o desde el editor de rutinas. Se alternan serie a serie: al marcar una serie del primero no empieza el descanso y la sesión baja al segundo; al marcar la del segundo empieza el descanso y vuelve al primero. Víctor lo aprobó en las previews (en la sesión y en la rutina, de dos ejercicios, descanso al terminar la ronda). En la misma tanda decidió A24 y A28 (implementar) y descartó A25, A26 y A27.
+
+**Cómo:**
+- `gym/lib/superseries.ts`: lector, validez (seguidos, en su orden, sin repetir), unir y separar, bloques de la sesión, la ronda (`siguienteEnRonda`) y el descanso (`sinDescanso`), sin calentamientos; tests en `superseries.test.ts`.
+- Datos: campo opcional `superseries` en rutinas y entrenos, declarado en `gym/lib` (`ConSuperseries`) y escrito solo por `routinesRepo.guardar` y `workoutsRepo` (`empezar` lo copia de la rutina, `guardarSuperseries`, `repetir`, `sustituirEnSesion` y su deshacer); `lib/rutinas.sustituirEnRutina` lo mantiene. Sin versión de Dexie. Tests con fake-indexeddb en `data/superseries.test.ts`, también por la copia.
+- `EntrenoActivo`: sección «Superserie» con filete superior, avance y descanso de la ronda; `PanelEjercicio.superserie` en el menú; `EditorRutina` con «Superserie con…».
+- Documentos: `features/gym.md`, `datos.md`, `mejoras.md`, roadmap (el panel a 200 %, visto al probar) y el carril A (A21 y la tanda 6).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 375 claro, 320 oscuro, 430 oscuro y 375 con texto al 200 %: unir press banca y remo, la serie 1 del press baja al remo sin descanso, la del remo empieza el descanso y vuelve al press, separar desde el menú, y en la rutina «Superserie con Remo con barra» guarda `[[1, 2]]`; sin scroll horizontal ni errores de consola. Con el texto al 200 % el panel se estrecha igual que sin superserie (anotado en el roadmap).
+
+## 222. Entreno activo con letra grande (2026-10-23)
+
+**Qué:** con el texto al 200 % a 375 px, el nombre de la rutina en la cabecera de la sesión y el nombre y el grupo de cada ejercicio se estrechaban hasta partirse letra a letra (visto al probar A21; ya pasaba antes). Ahora «Terminar», la ficha y el menú del ejercicio bajan de línea antes de estrechar el nombre.
+
+**Cómo:** en `EntrenoActivo`, la fila de la cabecera hace `flex-wrap` con el bloque del nombre en `basis-24` y «Terminar» en `ml-auto`; en `PanelEjercicio`, la fila de la cabecera hace `flex-wrap`, el bloque de miniatura y nombre lleva `basis-32` y los dos botones van juntos en `ml-auto`. Con letra normal a 320, 375 y 430 px queda como antes. Documentos: el carril A y el roadmap (sale la línea que lo anotaba).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 y 375 px con texto normal y al 200 %: la cabecera y los paneles se leen enteros y con letra normal no cambian; sin scroll horizontal.
+
+## 223. Migraciones 0025 y 0026 ejecutadas y decisiones A29–A33 (2026-10-23)
+
+Víctor ejecuta `supabase/migrations/0025_social_avisos_compania.sql` en el SQL Editor del proyecto real con «Success», después de fusionar A19 (#145): la invitación de la semana en compañía cuenta en la campana y en la banda de Inicio y el ánimo llega a Avisos. En la página de previews A29–A33 decide implementar A29 (series por tiempo: catálogo y a mano, sin liga) y descartar A30–A33. Se actualizan `features/social.md` y el carril A. Sin cambios de código. Después, el mismo día, ejecuta también `0026_social_moderar_comunidades.sql` con «Success» (A22, #146): una comunidad denunciada se suspende o se cierra desde Moderación y quien denunció recibe el aviso cuando se actúa; se actualizan `features/social.md`, el carril A y el roadmap.
+
+## 224. Tus mejores marcas en Actividades (A24, 2026-10-23)
+
+**Qué:** arriba de Entreno › Actividades, con dos salidas o más, «Tus mejores marcas»: la más larga, la de más desnivel y el mejor ritmo, que solo cuenta salidas de 5 km o más (decisión de Víctor, para que un paseo corto o un sprint no lo gane), con todas las actividades juntas. Tocar una abre su detalle. Al registrar a mano o importar una que bate una marca anterior, el aviso lo dice («Actividad guardada · Tu salida más larga»). El detalle de la actividad que tiene una marca lleva su insignia, también al terminar una grabación.
+
+**Cómo:** `actividades/lib/marcas.ts`, puro y con tests: `mejoresMarcas` (en empate gana la más antigua), `marcasDe` (solo si hay otra que optaba: con una sola salida no presume), `marcasBatidas` (sin marca anterior no hay nada que batir; un empate no bate) y `mensajeConMarcas`. `components/MejoresMarcas` con botones de 44 px como mínimo en una `metric-grid`; `ActividadesHome` calcula las batidas con las actividades de antes de guardar; `DetalleActividad` lee `terminadas()` para las insignias. Sin datos nuevos ni cambios en `shared`. Documentos: `features/actividades.md`, el README y el carril A.
+
+**Verificación:** `npm run test` (2.691) y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` con cinco salidas sembradas, a 320, 375 y 430 px y en ambos temas: el bloque sin scroll horizontal, tocar «Más desnivel» abre Peñalara con «Tu salida con más desnivel», y registrar a mano 25 km en 2 h avisa «Actividad guardada · Tu salida más larga y tu mejor ritmo en 5 km o más»; sin errores de consola.
+
+## 225. Parciales por km (A28, 2026-10-23)
+
+**Qué:** el detalle de una actividad enseña «Parciales»: el ritmo de cada km, el resto final (de 100 m o más, con lo que tardó) y «Más rápido» si un km lo es al segundo. Desde ahora se guarda la hora de cada punto en las grabaciones con GPS y en las importaciones GPX, TCX y FIT que la traen (decisión de Víctor: desde ahora; las de antes no tienen parciales).
+
+**Cómo:** campo `Actividad.tiempos` (segundos desde el primer punto, con la misma forma que el recorrido), declarado en `actividades/lib/parciales` (`ConTiempos`) sin tocar `shared` ni crear versión de Dexie. La grabación lleva `horas` en su estado (`lib/grabacion`), que `actividadesRepo` guarda cada 10 s y recupera al recargar. Los lectores (`resumirGpx`, y con él TCX y FIT) devuelven `tiempos` si todos los puntos traen hora. `crear` y `terminarGrabacion` simplifican el recorrido y los tiempos juntos (`simplificarConTiempos`, sobre `geo.indicesSimplificados`). `parcialesPorKm` cuenta el tiempo en marcha (las pausas entre tramos no) y reparte la distancia guardada en proporción a la del recorrido simplificado. Al probarlo con un GPX en línea recta salió que la simplificación dejaba solo dos puntos y todos los km salían iguales: con hora, el tiempo es una tercera coordenada del Ramer-Douglas-Peucker (a la velocidad media del tramo), y así se conservan los cambios de ritmo. `components/Parciales` va en el detalle. Documentos: `features/actividades.md`, `datos.md`, el README y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos, con tests de parciales (ritmo constante y variable, pausas, escala, resto, simplificación), de la grabación, del repositorio y de los tres lectores. Playwright en `appfit-test.localhost:5173`, a 320 y 375 px y en ambos temas: un GPX importado a 5:30, 4:50, 5:10 y 5:00 por km enseña 5:30 · 4:50 «Más rápido» · 5:10 · 0,89 km a 5:01, sin scroll horizontal ni errores. La grabación con GPS real no se ha probado en el iPhone: solo con tests.
+
+## 226. Series por tiempo (A29, 2026-10-23)
+
+**Qué:** planchas, isométricos o colgarse apuntan segundos en lugar de repeticiones. Son por tiempo los ejercicios del catálogo que lo son y cualquiera que se marque a mano desde su menú («Contar por tiempo» / «Contar por repeticiones»). En el panel, «Reps» pasa a «Seg» y el RIR, a un contador con objetivo, anterior y mejor, que vibra y pita al llegar al objetivo; «Parar y guardar» apunta los segundos y marca la serie. Al terminar, el bloque Récords enseña los de «más tiempo». Sin liga (decisión de Víctor).
+
+**Cómo:** `gym/lib/tiempo` (puro, con tests) declara `SetEntry.segundos` y `Exercise.porTiempo` sin tocar `shared` ni crear versión de Dexie. `validarSerie` comprueba los segundos y `cambiaRealizacion` los cuenta como cambio físico. `tieneDatos` deja marcar una serie con segundos (`PanelEjercicio`, `setsRepo.confirmar`, «marcar todas y terminar»). El mapa muscular cuenta cada serie por tiempo como una serie de referencia. La columna «Anterior» dice «40 s». Una serie nueva no trae los 8 × 20 kg por defecto (`valoresPorTiempo` en `agregar`, `empezar` y `sustituirEnSesion`). La liga, los récords de peso y la progresión no las cuentan, porque sus repeticiones son 0. El récord de tiempo no se publica en Social: el validador del servidor solo admite los tipos de siempre. Componentes: `CronoSerie` y el bloque «Récords de tiempo» en `WorkoutFinished`. Documentos: `features/gym.md`, `datos.md`, el README y el carril A.
+
+**Verificación:** `npm run test` y `npm run build` correctos, con tests de `lib/tiempo` y de los datos (`data/seriesTiempo.test.ts`: confirmar, desmarcar al cambiar, límites, terminar, valores de una serie nueva, marca a mano y mapa muscular). Playwright en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas, con una Plancha con sesión anterior (40 y 45 s): cabecera «Serie · Seg · Kg», 50 s a mano y marcada, contador con «Objetivo 45 s · Anterior 45 s · Mejor 45 s» que guarda y marca la serie 2, «Contar por tiempo» y vuelta en Sentadilla y, al terminar, «Más tiempo: 50 s · antes 45 s». Sin scroll horizontal ni errores. Pendiente: el editor de objetivos de la rutina sigue diciendo «reps».
+
+## 227. Módulos activables (B9, 2026-10-24)
+
+**Qué:** Ajustes › «Lo que usas»: Nutrición, Gimnasio, Actividades, Agua y Peso se pueden ocultar («Usar …» / «Ocultar», con lo que pasa al hacerlo); ocultar no borra datos. Debajo, «Ordenar Inicio» con flechas. Decisiones de Víctor en las previews B9–B16: los cinco módulos y, sin Nutrición, la gamificación cuenta solo el entreno. Desde esta tanda la misma sesión lleva los carriles A y B.
+
+**Cómo:** `Settings.modulos` y `ordenInicio`, opcionales y sin versión de Dexie ni de backup. Lógica pura en `shared/lib/modulos` (`moduloActivo`, `conNutricionEfectiva`, `ordenTarjetas`, `tarjetasInicio`, `moverTarjeta`), con tests. `app/navegacion.destinosOcultos` quita Nutrición y Entreno (sin Gimnasio ni Actividades) de la media luna. `InicioTab` pinta las tarjetas en su orden y solo las visibles; `AccesoProgreso` quita Caminos sin Actividades; `gym/GymTab` enseña solo el gimnasio o las actividades, sin pestañas, si falta el otro; `leerExperiencia` y `GamificacionAjustes` usan `conNutricionEfectiva` (derivado al leer, sin escribir el ajuste de siempre). La revisión semanal quita las cifras y los bloques de los módulos ocultos. Vista nueva `app/ModulosAjustes`: lleva el orden y los módulos también en su estado, porque en Playwright dos toques seguidos se pisaban esperando a la lectura de los ajustes. Documentos: `arquitectura.md`, `datos.md`, `features/inicio.md`, `experiencia.md` y el carril B (con las decisiones de B9–B16).
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas: «Lo que usas» sin scroll horizontal; con Nutrición oculta, la media luna queda en Inicio · Perfil · Entreno · Ajustes e Inicio sin energía; subir «Último entreno» dos veces seguidas lo pone delante de Peso y agua en Inicio; con Gimnasio oculto, Entreno abre directamente Actividades; sin errores de consola.
+
+## 228. «Cerrar el día» (B10, 2026-10-24)
+
+**Qué:** en Añadir comida › Buscar, junto al filtro de categorías, el chip «Encajan con lo que te falta» sale si faltan 10 g de proteína o más y quedan kcal. Al tocarlo enseña lo que falta y hasta cinco alimentos habituales con la cantidad que más se acerca a esa proteína sin pasar de las kcal; elegir uno abre la hoja de gramos con esa cantidad. Decisión de Víctor: un chip en Buscar.
+
+**Cómo:** funciones puras `encajanConLoQueFalta` y `faltaDelDia` en `nutricion/lib/alimentos.ts`, con tests en `lib/cerrarDia.test.ts`: sin objetivo, objetivo cumplido, kcal agotadas, alimento sin proteína, tope de 400 g y de cinco propuestas. Las cantidades se redondean hacia abajo a 5 g y las propuestas se ordenan por proteína por kcal. `AnadirComida` lee las entradas del día y `objetivosDe`; `AlimentosRapidos` lleva el chip (`aria-pressed`) y la lista, y `onElegir` admite los gramos propuestos. Documentos: `features/nutricion.md` y el carril B.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 y 375 px con cuatro habituales y 50 g de proteína y 700 kcal por cubrir. Sale «Pechuga de pollo · 215 g · 50 g de proteína · 237 kcal» la primera; tocarla abre la hoja de gramos con 215 g. Sin scroll horizontal ni errores.
+
+## 229. Lecturas cruzadas de entreno y nutrición (B11, 2026-10-24)
+
+**Qué:** al final de la revisión semanal, «Tus 8 semanas». Tiene una gráfica con el peso medio (línea, eje izquierdo) y las kcal al día (barras, eje derecho) por semana, y frases que describen sin explicar: proteína en objetivo y récords, semanas con 3 entrenos o más y kcal, y el peso de la primera a la última semana. Decisión de Víctor: al final de la revisión semanal.
+
+**Cómo:** `inicio/lib/lecturasCruzadas` es puro y tiene tests. `semanasCruzadas` reutiliza los bloques de nutrición (sin cheat days) y de peso y `recordsDeSemana`; `frasesCruzadas` exige 4 semanas con las dos variables, y un test impide «porque», «gracias a» o «debido a». La proteína cuenta «en objetivo» desde el 90 % (`PROPORCION_PROTEINA`, como en Cumbres). `hooks/useRevisionSemanal.useSemanasCruzadas` lee las 8 semanas. `components/LecturasCruzadas` va diferido dentro de la revisión, para que Recharts no entre en su carga. Respeta los módulos de B9: sin Nutrición o sin Gimnasio no cruza, y sin Peso no habla del peso. Documentos: `features/inicio.md` § Revisión semanal y el carril B.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas, con 9 semanas de comidas, pesajes y entrenos sembrados: la gráfica con los dos ejes y las tres frases, sin scroll horizontal ni errores. Las marcas del eje del peso salían repetidas al redondear a enteros; ahora llevan un decimal cuando hace falta.
+
+## 230. Un solo destino «Progreso» (B12, 2026-10-24)
+
+**Qué:** Cumbres, Caminos, Ritmo y Vitrina pasan a ser pestañas de un solo destino, «Progreso»: Semana · Cumbres · Caminos · Vitrina. La pestaña Semana reúne lo de esta semana y Ritmo. Va también en la media luna (decisión de Víctor), que queda en Inicio · Perfil · Nutrición · Entreno · Progreso · Social · Ajustes. Las teselas de Inicio abren su pestaña con «‹ Inicio». ADR 058, que cambia el ADR 043.
+
+**Cómo:** feature nueva `progreso/`, con `ProgresoTab` y `lib/vistas` (pestañas visibles, tesela ↔ pestaña), con tests. Las cuatro páginas aceptan `incrustada`: sin márgenes de página y con `PageHeader.incrustada`, que deja el título para el lector de pantalla y conserva «Cómo funciona». `app/navegacion` cambia los cuatro destinos por `progreso` y oculta Progreso con la gamificación oculta. `App.abrirProgreso` lleva la pestaña y la tesela de origen. Sin Actividades (B9), no hay pestaña Caminos. Para que quepan siete secciones a 320 px, la media luna sube de 170 a 210 px (`--arco-ry`) y sus extremos pasan de 168°/12° a 174°/6°; `arco.test.ts` comprueba 5, 6 y 7. `scripts/ui/navegar.cjs` entra en las cuatro por Progreso y su pestaña. Documentos: ADR 058 (y la nota en el 043), `arquitectura.md`, `DESIGN.md`, `CLAUDE.md` (mapa), `features/inicio.md`, `cumbres.md`, `caminos.md`, `ritmo.md`, `vitrina.md` y el carril B.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5175` (Supabase falso, con Social) a 320, 375 y 430 px en ambos temas: siete secciones sin pisarse ni salirse, Progreso con sus cuatro pestañas y sin scroll horizontal, y la tesela de Vitrina abre su pestaña con «‹ Inicio», que devuelve el foco a la tesela. Pasan también los recorridos del CI (`test:ui`, `test:ui:responsive`, `test:ui:uso`, `validar-correcciones-auditoria`, `validar-pulido-auditoria` y `validar-mejoras-pendientes`).
+
+## 231. Metas personales y su línea en la gráfica (B13 y A-X2, 2026-10-24)
+
+**Qué:** en Progreso › Semana, «Metas». Hay tres tipos: el récord de un ejercicio («Press banca 90 kg»), los km de un mes y las semanas cumplidas de Ritmo, con plazo opcional. Cada meta tiene su barra y «77,5 de 90 kg»; al cumplirse dice «Cumplida el …» y da la pieza repetible «Meta cumplida» en la Vitrina (decisiones de Víctor). Si pasa el plazo queda «Sin cumplir · ¿Cambiar fecha?», sin rojo. Nunca son de peso corporal. En Entreno › Progreso, la meta de récord vigente se dibuja como línea discontinua en el peso máximo, con la fila «Meta: 90 kg antes del …» (cruce A-X2, en el mismo paso).
+
+**Cómo:** `Settings.metas` (tipo `Meta` en `shared/db/types`), sin versión de Dexie. Lógica pura en `vitrina/lib/metas` (`estadoMetas`, `textoPlazo`, `validarMeta`, `mejorCarga`, `metasCumplidas`, `metaDeEjercicio`) con tests; escritura en `vitrina/data/metasRepo`, en transacción, con «Deshacer» al borrar. `leerVitrina` deriva el estado con el historial y las semanas de Ritmo y lo expone en `EstadoVitrina.metas`. El logro `meta` (Constancia, repetible) tiene su pictograma. Componente `vitrina/components/MetasVista` (hoja de nueva meta con `SegmentedControl` y errores en línea), y `gym/pages/Progreso` lleva la `ReferenceLine` con su escala y su texto accesible. Las pestañas de Progreso pasan al nivel secundario de `ViewTabs` para que quepan las cuatro a 320 px. Documentos: `features/vitrina.md`, `gym.md`, `datos.md` y los carriles A y B.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas. Una meta de 75 kg en Press banca da «Ya has levantado 77,5 kg: pon una meta por encima». Las de 90 kg y 4 semanas salen con su barra, sin scroll horizontal. En Entreno › Progreso › Press banca › Peso máx. aparecen «Meta: 90 kg» y la línea de referencia. Sin errores de consola.
+
+## 232. Calendario único de registros (B14, 2026-10-24)
+
+**Qué:** en Progreso, «Calendario» (en la cabecera): el mes con una marca por día para el entreno, la actividad, las comidas y el peso, y una hoja por día con los entrenos (rutina, duración, series y volumen), las actividades, las comidas (con «Ver en Nutrición», que abre el diario en ese día), el peso y el agua. Por debajo de 20 rem pasa a lista.
+
+**Cómo:** agregación pura en `progreso/lib/calendario` (`calendarioRegistros`, `conRegistros`, `resumenDia`), con tests. `progreso/components/CalendarioRegistros` es una ModalPage diferida con su rejilla propia (`.calendario-registros`, `.cal-registro` en `index.css`, con el mismo cambio a lista a 20 rem que el de Entreno) y lee con los repos de siempre. `NutricionTab.fechaInicial` y `App.fechaNutricion` llevan el día. Va en la cabecera porque con cinco pestañas no cabían a 320 px. Documento nuevo `docs/features/progreso.md` (con B12 y B13), enlazado en `CLAUDE.md` y `arquitectura.md`; se actualiza el carril B.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 px (lista) y 375 px (rejilla) en ambos temas, con un mes de entrenos y un día con comidas, peso y agua: se ven las marcas y la leyenda, la hoja del día muestra «650 kcal · 35 g de proteína», 78,2 kg y 750 ml, y «Ver en Nutrición» abre el diario en «Ayer». Sin scroll horizontal ni errores.
+
+## 233. Tu mes y tu año (B15, 2026-10-24)
+
+**Qué:** del 1 al 7 de cada mes, en Inicio, la tarjeta en grafito «Tu octubre» (en enero, «Tu 2026»). Lleva cuatro cifras y «Ver», que abre el resumen: entrenos, toneladas, récords, metros subidos, km, días registrados, plantas distintas y lo más trabajado, con «Guardar imagen» y «Compartir…» (decisión de Víctor: con imagen). La X la cierra hasta el mes siguiente, con «Deshacer».
+
+**Cómo:** `vitrina/lib/tuPeriodo` es puro y tiene tests: `periodoAResumir` (del 1 al 7, el mes anterior; en enero, el año), `resumirPeriodo`, `cifrasPeriodo` (respeta los módulos de B9) y `lineaTarjeta`. `vitrina/lib/imagenTuPeriodo` genera el SVG de 1080 × 1350, que se pasa a PNG con la utilidad del póster (A10). `hooks/useTuPeriodo` hace las lecturas, y los metros salen del lector compartido. `components/TuPeriodo` lleva la tarjeta y la página, cargadas aparte desde Inicio. Hay un ajuste nuevo, `resumenMesCerrado`, y una clase `.training-filete` para los filetes sobre grafito. En lugar del «músculo que más subió» sale el grupo con más series del periodo. Documentos: `features/inicio.md`, `vitrina.md`, `datos.md` y el carril B.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173`, con el reloj fijado el 3 de noviembre, a 320 y 375 px en ambos temas. La tarjeta dice «10 entrenos · 52,6 t · 20 récords · 6 km». El resumen sale completo y sin scroll horizontal. «Guardar imagen» descarga `appfit-tu-octubre-2026.png`, que se revisó a ojo. Cerrar la tarjeta la quita y ofrece «Deshacer». Sin errores de consola.
+
+## 234. Comidas planificadas y lista de la compra (B16, 2026-10-24)
+
+**Qué:** al pie del Diario de hoy, la sección «Planificadas» muestra lo que hay colocado para hoy y los siete días siguientes, agrupado por día y comida («Hoy · Comida», «Mañana · Cena»). Va en tono apagado y **fuera de los totales**. «Planificar» abre una hoja para elegir el día, la comida y una comida típica. «Lo he comido» pasa la comida al Diario y congela el objetivo del día. La X quita la comida planificada. Las tres acciones tienen «Deshacer». «Lista de la compra» suma los gramos por alimento (Hoy y mañana, 4 días o Semana) y «Copiar lista» copia el texto. Decisión de Víctor (D12): nada de días pasados.
+
+**Cómo:** una tabla aparte, `planificadas` (Dexie v14, `++id, fecha`, tipo `Planificada` = entrada sin `textoOriginal`), para que ninguna lectura de `entries` la cuente ([ADR 059](decisiones/059-comidas-planificadas-en-tabla-aparte.md)). Está en `TABLAS_USUARIO` y es opcional en el backup v3, con test de migración v13→v14 y de ida y vuelta en el backup.
+- `nutricion/lib/planificadas` es puro y tiene tests: `diasPlanificables`, `sePuedePlanificar`, `nombreDia`, `agruparPlanificadas`, `listaCompra` (por referencia o nombre; sin kcal rápidas) y `textoListaCompra`.
+- `data/planificadasRepo` ofrece `planificar`, que rechaza fechas fuera de la ventana con `FechaNoPlanificable` y resuelve los ítems como al aplicar una plantilla. También `loHeComido`/`deshacerComido`, que trabajan en transacción, solo para hoy o días pasados, y `borrar`/`restaurar`.
+- `components/Planificadas` se monta en `pages/Hoy` cuando el día elegido es hoy, porque el Diario no abre días futuros.
+- Los tests de Gym que fijaban `db.verno` en 13 pasan a 14.
+- Documentos: `datos.md` (tabla, invariante 19, repos, backup, v14), `features/nutricion.md`, README, roadmap, el carril B y la D12 del plan.
+
+**Verificación:** `npm run test` (2.761) y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320 px en claro, 375 en oscuro y 430 en claro, con dos comidas típicas. Se planificaron tres comidas (hoy, mañana y pasado mañana) y el resumen siguió en 0 kcal. La lista sumó «Pechuga de pollo 360 g», «Arroz blanco 160 g», «Verduras 300 g», «Pan integral 60 g» y «Tomate 100 g». Con «Hoy y mañana» quedaron solo las tres primeras. «Lo he comido» creó tres entradas y dejó dos planificadas. No hubo scroll horizontal ni errores de consola. En el iPhone queda por probar el selector nativo del día y el portapapeles.
+
+## 235. Catálogo ampliado en la búsqueda de Nutrición (rama `feat/b-catalogo-tipicos`, 2026-10-25)
 
 Tras ampliar el paquete a 285 alimentos y platos, Víctor pide completar la integración para encontrarlos al buscar en Nutrición. La importación ya recorre todas las fuentes del manifest; ahora compara versión y número de filas, revalidando también el JSON del paquete para detectar los lotes publicados el mismo día. Una importación completa actualiza los metadatos observados por el buscador, que repite la consulta sin tener que cambiar el texto. No se observa la tabla completa para buscar.
 
 La fuente `tipicos` se presenta como «Alimentos y platos (AppFit)» en Ajustes y «AppFit» en las etiquetas. Tiene prioridad explícita tras CIQUAL/USDA y antes de OFF en los empates; se conservan las preferencias por básicos CIQUAL y las preparaciones pedidas expresamente. Se actualizan las expectativas antiguas de dos fuentes y se añaden regresiones de actualización desde un lote parcial con la misma fecha, nueve búsquedas en los primeros 15 resultados y segunda sincronización sin reimportación. No cambian tablas, snapshots, backups, nutrientes ni los paquetes OFF/CIQUAL.
 
 **Verificación**: 1.136 tests en 61 archivos, build TypeScript/Vite/PWA, `catalogo:validar` y diff check correctos. `node scripts/ui/validar-tipicos.cjs` abre Nutrición en un perfil nuevo de `appfit-test.localhost:5173` a 375×812, demora la descarga de típicos y comprueba que «pizza hawaiana» aparece al terminar sin volver a escribir. Después encuentra croquetas de jamón, lombarda con manzana, pan con germen de trigo y nigiri de atún sin conexión, sin errores de página. No se ha comprobado en el iPhone real. Pendientes del contenido (alias CIQUAL es3, referencias/rendimientos iniciales y objetivo de 500 adicionales) documentados en `scripts/catalogo/tipicos/LEEME.md`. PR en borrador, sin merge a master.
+
+**Preparación de la fusión, autorizada después por Víctor**: reconciliación con `master` conservando filtros por categoría, navegación y documentación actuales. Se incorpora la atribución de típicos a Referencias. Verificación sobre el conjunto combinado: 2.784 tests en 246 archivos, build, validador de catálogo y regresión de búsqueda/offline en navegador correctos. Los conflictos quedan resueltos sin retirar funciones de master.

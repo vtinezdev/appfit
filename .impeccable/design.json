@@ -1,0 +1,1581 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-07T12:00:00Z",
+  "title": "Design System: APPFIT",
+  "extensions": {
+    "muscleMap": {
+      "component": "src/features/gym/components/MapaMuscular.tsx",
+      "visitorMode": "Operate",
+      "surfaces": [
+        "WorkoutFinished",
+        "Historial Sheet"
+      ],
+      "representation": "SVG original bilateral, frontal/trasera; once grupos, sin lateralidad ni subdivisión de hombros",
+      "dataTokens": {
+        "muscle-1": "rgb(253 232 216)",
+        "dark-muscle-1": "rgb(60 34 20)",
+        "muscle-2": "rgb(250 196 160)",
+        "dark-muscle-2": "rgb(104 54 24)",
+        "muscle-3": "rgb(240 146 88)",
+        "dark-muscle-3": "rgb(160 82 32)",
+        "muscle-4": "rgb(214 98 30)",
+        "dark-muscle-4": "rgb(220 116 50)",
+        "muscle-5": "rgb(160 64 6)",
+        "dark-muscle-5": "rgb(255 165 110)"
+      },
+      "dimensions": {
+        "bodyWidth": "10rem",
+        "swatchSize": "0.75rem"
+      },
+      "semantics": "rampa del acento naranja independiente de error/destructivo (carmín); cero neutro; el naranja sólido sigue reservado a acciones",
+      "scale": "relativa al máximo de la sesión; límites 10/25/50/80/100%, no intensidad fisiológica",
+      "accessibility": "niveles textuales y filas >=44 px para detalle; nivel debajo del nombre al estrechar el contenedor (16rem); SVG aria-hidden, Forced Colors Canvas/Highlight",
+      "persistence": "snapshot semántico v1 en Workout, series originales, Dexie v6/backup v2",
+      "motion": "sin animar colores/valores; patrones de cierre y resumen existentes"
+    },
+    "exerciseSelector": {
+      "component": "src/features/gym/components/SelectorEjercicios.tsx",
+      "visitorMode": "Operate",
+      "catalogCount": 116,
+      "catalog": "src/features/gym/lib/catalogoEjercicios.ts",
+      "identity": "Exercise.id histórico + catalogId opcional; no fusionar parecidos",
+      "filters": "FilterChips: OR dentro de cada familia, AND entre músculo/equipamiento y búsqueda",
+      "recents": "seis ejercicios deduplicados según series.createdAt; solo sin filtros/búsqueda",
+      "presentation": "ModalPage; buscador fijo, filtros y lista plana desplazables; personalizado en la misma tarea",
+      "accessibility": "targets 44 px, aria-pressed, teclado/foco/capas existentes; cabecera puede envolver",
+      "keyboard": "no automático al abrir; foco explícito al crear personalizado",
+      "persistence": "campos opcionales, Dexie v6/backup v2; primera serie transaccional",
+      "motion": "patrones existentes; busy bloquea cierres durante escritura"
+    },
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Fondo neutro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00414 271.37)",
+          "oklch(26.4% 0.00414 271.37)",
+          "oklch(37.9% 0.00414 271.37)",
+          "oklch(49.3% 0.00414 271.37)",
+          "oklch(60.7% 0.00414 271.37)",
+          "oklch(72.1% 0.00414 271.37)",
+          "oklch(83.6% 0.00414 271.37)",
+          "oklch(95.0% 0.00414 271.37)"
+        ]
+      },
+      "dark-bg": {
+        "role": "neutral",
+        "displayName": "Fondo neutro · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00747 256.88)",
+          "oklch(26.4% 0.00747 256.88)",
+          "oklch(37.9% 0.00747 256.88)",
+          "oklch(49.3% 0.00747 256.88)",
+          "oklch(60.7% 0.00747 256.88)",
+          "oklch(72.1% 0.00747 256.88)",
+          "oklch(83.6% 0.00747 256.88)",
+          "oklch(95.0% 0.00747 256.88)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Superficie de contenido",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "Superficie de contenido · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01109 260.66)",
+          "oklch(26.4% 0.01109 260.66)",
+          "oklch(37.9% 0.01109 260.66)",
+          "oklch(49.3% 0.01109 260.66)",
+          "oklch(60.7% 0.01109 260.66)",
+          "oklch(72.1% 0.01109 260.66)",
+          "oklch(83.6% 0.01109 260.66)",
+          "oklch(95.0% 0.01109 260.66)"
+        ]
+      },
+      "surface-elevated": {
+        "role": "neutral",
+        "displayName": "Superficie de capa",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-surface-elevated": {
+        "role": "neutral",
+        "displayName": "Superficie de capa · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01241 264.30)",
+          "oklch(26.4% 0.01241 264.30)",
+          "oklch(37.9% 0.01241 264.30)",
+          "oklch(49.3% 0.01241 264.30)",
+          "oklch(60.7% 0.01241 264.30)",
+          "oklch(72.1% 0.01241 264.30)",
+          "oklch(83.6% 0.01241 264.30)",
+          "oklch(95.0% 0.01241 264.30)"
+        ]
+      },
+      "surface-muted": {
+        "role": "neutral",
+        "displayName": "Superficie secundaria",
+        "tonalRamp": [
+          "oklch(15.0% 0.00580 264.53)",
+          "oklch(26.4% 0.00580 264.53)",
+          "oklch(37.9% 0.00580 264.53)",
+          "oklch(49.3% 0.00580 264.53)",
+          "oklch(60.7% 0.00580 264.53)",
+          "oklch(72.1% 0.00580 264.53)",
+          "oklch(83.6% 0.00580 264.53)",
+          "oklch(95.0% 0.00580 264.53)"
+        ]
+      },
+      "dark-surface-muted": {
+        "role": "neutral",
+        "displayName": "Superficie secundaria · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01277 258.37)",
+          "oklch(26.4% 0.01277 258.37)",
+          "oklch(37.9% 0.01277 258.37)",
+          "oklch(49.3% 0.01277 258.37)",
+          "oklch(60.7% 0.01277 258.37)",
+          "oklch(72.1% 0.01277 258.37)",
+          "oklch(83.6% 0.01277 258.37)",
+          "oklch(95.0% 0.01277 258.37)"
+        ]
+      },
+      "overlay": {
+        "role": "neutral",
+        "displayName": "Fondo de aislamiento",
+        "tonalRamp": [
+          "oklch(15.0% 0.01114 267.98)",
+          "oklch(26.4% 0.01114 267.98)",
+          "oklch(37.9% 0.01114 267.98)",
+          "oklch(49.3% 0.01114 267.98)",
+          "oklch(60.7% 0.01114 267.98)",
+          "oklch(72.1% 0.01114 267.98)",
+          "oklch(83.6% 0.01114 267.98)",
+          "oklch(95.0% 0.01114 267.98)"
+        ]
+      },
+      "dark-overlay": {
+        "role": "neutral",
+        "displayName": "Fondo de aislamiento · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00000 0.00)",
+          "oklch(26.4% 0.00000 0.00)",
+          "oklch(37.9% 0.00000 0.00)",
+          "oklch(49.3% 0.00000 0.00)",
+          "oklch(60.7% 0.00000 0.00)",
+          "oklch(72.1% 0.00000 0.00)",
+          "oklch(83.6% 0.00000 0.00)",
+          "oklch(95.0% 0.00000 0.00)"
+        ]
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "Contenido principal",
+        "tonalRamp": [
+          "oklch(15.0% 0.01578 256.82)",
+          "oklch(26.4% 0.01578 256.82)",
+          "oklch(37.9% 0.01578 256.82)",
+          "oklch(49.3% 0.01578 256.82)",
+          "oklch(60.7% 0.01578 256.82)",
+          "oklch(72.1% 0.01578 256.82)",
+          "oklch(83.6% 0.01578 256.82)",
+          "oklch(95.0% 0.01578 256.82)"
+        ]
+      },
+      "dark-text-primary": {
+        "role": "neutral",
+        "displayName": "Contenido principal · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00342 247.86)",
+          "oklch(26.4% 0.00342 247.86)",
+          "oklch(37.9% 0.00342 247.86)",
+          "oklch(49.3% 0.00342 247.86)",
+          "oklch(60.7% 0.00342 247.86)",
+          "oklch(72.1% 0.00342 247.86)",
+          "oklch(83.6% 0.00342 247.86)",
+          "oklch(95.0% 0.00342 247.86)"
+        ]
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "Contexto",
+        "tonalRamp": [
+          "oklch(15.0% 0.01679 258.37)",
+          "oklch(26.4% 0.01679 258.37)",
+          "oklch(37.9% 0.01679 258.37)",
+          "oklch(49.3% 0.01679 258.37)",
+          "oklch(60.7% 0.01679 258.37)",
+          "oklch(72.1% 0.01679 258.37)",
+          "oklch(83.6% 0.01679 258.37)",
+          "oklch(95.0% 0.01679 258.37)"
+        ]
+      },
+      "dark-text-secondary": {
+        "role": "neutral",
+        "displayName": "Contexto · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00951 258.34)",
+          "oklch(26.4% 0.00951 258.34)",
+          "oklch(37.9% 0.00951 258.34)",
+          "oklch(49.3% 0.00951 258.34)",
+          "oklch(60.7% 0.00951 258.34)",
+          "oklch(72.1% 0.00951 258.34)",
+          "oklch(83.6% 0.00951 258.34)",
+          "oklch(95.0% 0.00951 258.34)"
+        ]
+      },
+      "text-tertiary": {
+        "role": "neutral",
+        "displayName": "Metadato",
+        "tonalRamp": [
+          "oklch(15.0% 0.01291 256.74)",
+          "oklch(26.4% 0.01291 256.74)",
+          "oklch(37.9% 0.01291 256.74)",
+          "oklch(49.3% 0.01291 256.74)",
+          "oklch(60.7% 0.01291 256.74)",
+          "oklch(72.1% 0.01291 256.74)",
+          "oklch(83.6% 0.01291 256.74)",
+          "oklch(95.0% 0.01291 256.74)"
+        ]
+      },
+      "dark-text-tertiary": {
+        "role": "neutral",
+        "displayName": "Metadato · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01167 256.71)",
+          "oklch(26.4% 0.01167 256.71)",
+          "oklch(37.9% 0.01167 256.71)",
+          "oklch(49.3% 0.01167 256.71)",
+          "oklch(60.7% 0.01167 256.71)",
+          "oklch(72.1% 0.01167 256.71)",
+          "oklch(83.6% 0.01167 256.71)",
+          "oklch(95.0% 0.01167 256.71)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Divisor neutro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00634 255.48)",
+          "oklch(26.4% 0.00634 255.48)",
+          "oklch(37.9% 0.00634 255.48)",
+          "oklch(49.3% 0.00634 255.48)",
+          "oklch(60.7% 0.00634 255.48)",
+          "oklch(72.1% 0.00634 255.48)",
+          "oklch(83.6% 0.00634 255.48)",
+          "oklch(95.0% 0.00634 255.48)"
+        ]
+      },
+      "dark-border": {
+        "role": "neutral",
+        "displayName": "Divisor neutro · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01284 253.00)",
+          "oklch(26.4% 0.01284 253.00)",
+          "oklch(37.9% 0.01284 253.00)",
+          "oklch(49.3% 0.01284 253.00)",
+          "oklch(60.7% 0.01284 253.00)",
+          "oklch(72.1% 0.01284 253.00)",
+          "oklch(83.6% 0.01284 253.00)",
+          "oklch(95.0% 0.01284 253.00)"
+        ]
+      },
+      "border-strong": {
+        "role": "neutral",
+        "displayName": "Límite de control",
+        "tonalRamp": [
+          "oklch(15.0% 0.01217 256.72)",
+          "oklch(26.4% 0.01217 256.72)",
+          "oklch(37.9% 0.01217 256.72)",
+          "oklch(49.3% 0.01217 256.72)",
+          "oklch(60.7% 0.01217 256.72)",
+          "oklch(72.1% 0.01217 256.72)",
+          "oklch(83.6% 0.01217 256.72)",
+          "oklch(95.0% 0.01217 256.72)"
+        ]
+      },
+      "dark-border-strong": {
+        "role": "neutral",
+        "displayName": "Límite de control · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01239 256.73)",
+          "oklch(26.4% 0.01239 256.73)",
+          "oklch(37.9% 0.01239 256.73)",
+          "oklch(49.3% 0.01239 256.73)",
+          "oklch(60.7% 0.01239 256.73)",
+          "oklch(72.1% 0.01239 256.73)",
+          "oklch(83.6% 0.01239 256.73)",
+          "oklch(95.0% 0.01239 256.73)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Naranja señal",
+        "tonalRamp": [
+          "oklch(15.0% 0.20035 261.97)",
+          "oklch(26.4% 0.20035 261.97)",
+          "oklch(37.9% 0.20035 261.97)",
+          "oklch(49.3% 0.20035 261.97)",
+          "oklch(60.7% 0.20035 261.97)",
+          "oklch(72.1% 0.20035 261.97)",
+          "oklch(83.6% 0.20035 261.97)",
+          "oklch(95.0% 0.20035 261.97)"
+        ]
+      },
+      "dark-accent": {
+        "role": "primary",
+        "displayName": "Naranja señal · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.15943 257.76)",
+          "oklch(26.4% 0.15943 257.76)",
+          "oklch(37.9% 0.15943 257.76)",
+          "oklch(49.3% 0.15943 257.76)",
+          "oklch(60.7% 0.15943 257.76)",
+          "oklch(72.1% 0.15943 257.76)",
+          "oklch(83.6% 0.15943 257.76)",
+          "oklch(95.0% 0.15943 257.76)"
+        ]
+      },
+      "kcal": {
+        "role": "primary",
+        "displayName": "Energía diaria · claro",
+        "tonalRamp": [
+          "oklch(15.0% 0.14581 62.06)",
+          "oklch(26.4% 0.14581 62.06)",
+          "oklch(37.9% 0.14581 62.06)",
+          "oklch(49.3% 0.14581 62.06)",
+          "oklch(60.7% 0.14581 62.06)",
+          "oklch(72.1% 0.14581 62.06)",
+          "oklch(83.6% 0.14581 62.06)",
+          "oklch(95.0% 0.14581 62.06)"
+        ]
+      },
+      "dark-kcal": {
+        "role": "primary",
+        "displayName": "Energía diaria · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.14014 71.82)",
+          "oklch(26.4% 0.14014 71.82)",
+          "oklch(37.9% 0.14014 71.82)",
+          "oklch(49.3% 0.14014 71.82)",
+          "oklch(60.7% 0.14014 71.82)",
+          "oklch(72.1% 0.14014 71.82)",
+          "oklch(83.6% 0.14014 71.82)",
+          "oklch(95.0% 0.14014 71.82)"
+        ]
+      },
+      "on-accent": {
+        "role": "neutral",
+        "displayName": "Tinta sobre señal",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-on-accent": {
+        "role": "neutral",
+        "displayName": "on-accent",
+        "tonalRamp": [
+          "oklch(15.0% 0.00747 256.88)",
+          "oklch(26.4% 0.00747 256.88)",
+          "oklch(37.9% 0.00747 256.88)",
+          "oklch(49.3% 0.00747 256.88)",
+          "oklch(60.7% 0.00747 256.88)",
+          "oklch(72.1% 0.00747 256.88)",
+          "oklch(83.6% 0.00747 256.88)",
+          "oklch(95.0% 0.00747 256.88)"
+        ]
+      },
+      "accent-strong": {
+        "role": "primary",
+        "displayName": "Naranja de texto y foco",
+        "tonalRamp": [
+          "oklch(15.0% 0.19004 261.97)",
+          "oklch(26.4% 0.19004 261.97)",
+          "oklch(37.9% 0.19004 261.97)",
+          "oklch(49.3% 0.19004 261.97)",
+          "oklch(60.7% 0.19004 261.97)",
+          "oklch(72.1% 0.19004 261.97)",
+          "oklch(83.6% 0.19004 261.97)",
+          "oklch(95.0% 0.19004 261.97)"
+        ]
+      },
+      "dark-accent-strong": {
+        "role": "primary",
+        "displayName": "Naranja de texto y foco · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.11775 255.22)",
+          "oklch(26.4% 0.11775 255.22)",
+          "oklch(37.9% 0.11775 255.22)",
+          "oklch(49.3% 0.11775 255.22)",
+          "oklch(60.7% 0.11775 255.22)",
+          "oklch(72.1% 0.11775 255.22)",
+          "oklch(83.6% 0.11775 255.22)",
+          "oklch(95.0% 0.11775 255.22)"
+        ]
+      },
+      "accent-subtle": {
+        "role": "primary",
+        "displayName": "Apoyo de señal",
+        "tonalRamp": [
+          "oklch(15.0% 0.02660 262.34)",
+          "oklch(26.4% 0.02660 262.34)",
+          "oklch(37.9% 0.02660 262.34)",
+          "oklch(49.3% 0.02660 262.34)",
+          "oklch(60.7% 0.02660 262.34)",
+          "oklch(72.1% 0.02660 262.34)",
+          "oklch(83.6% 0.02660 262.34)",
+          "oklch(95.0% 0.02660 262.34)"
+        ]
+      },
+      "dark-accent-subtle": {
+        "role": "primary",
+        "displayName": "Apoyo de señal · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.06049 262.60)",
+          "oklch(26.4% 0.06049 262.60)",
+          "oklch(37.9% 0.06049 262.60)",
+          "oklch(49.3% 0.06049 262.60)",
+          "oklch(60.7% 0.06049 262.60)",
+          "oklch(72.1% 0.06049 262.60)",
+          "oklch(83.6% 0.06049 262.60)",
+          "oklch(95.0% 0.06049 262.60)"
+        ]
+      },
+      "selected": {
+        "role": "neutral",
+        "displayName": "Selección neutra",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-selected": {
+        "role": "neutral",
+        "displayName": "Selección neutra · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01345 261.73)",
+          "oklch(26.4% 0.01345 261.73)",
+          "oklch(37.9% 0.01345 261.73)",
+          "oklch(49.3% 0.01345 261.73)",
+          "oklch(60.7% 0.01345 261.73)",
+          "oklch(72.1% 0.01345 261.73)",
+          "oklch(83.6% 0.01345 261.73)",
+          "oklch(95.0% 0.01345 261.73)"
+        ]
+      },
+      "on-selected": {
+        "role": "neutral",
+        "displayName": "Texto de selección",
+        "tonalRamp": [
+          "oklch(15.0% 0.01578 256.82)",
+          "oklch(26.4% 0.01578 256.82)",
+          "oklch(37.9% 0.01578 256.82)",
+          "oklch(49.3% 0.01578 256.82)",
+          "oklch(60.7% 0.01578 256.82)",
+          "oklch(72.1% 0.01578 256.82)",
+          "oklch(83.6% 0.01578 256.82)",
+          "oklch(95.0% 0.01578 256.82)"
+        ]
+      },
+      "dark-on-selected": {
+        "role": "neutral",
+        "displayName": "Texto de selección · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00342 247.86)",
+          "oklch(26.4% 0.00342 247.86)",
+          "oklch(37.9% 0.00342 247.86)",
+          "oklch(49.3% 0.00342 247.86)",
+          "oklch(60.7% 0.00342 247.86)",
+          "oklch(72.1% 0.00342 247.86)",
+          "oklch(83.6% 0.00342 247.86)",
+          "oklch(95.0% 0.00342 247.86)"
+        ]
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "Confirmación",
+        "tonalRamp": [
+          "oklch(15.0% 0.11034 159.84)",
+          "oklch(26.4% 0.11034 159.84)",
+          "oklch(37.9% 0.11034 159.84)",
+          "oklch(49.3% 0.11034 159.84)",
+          "oklch(60.7% 0.11034 159.84)",
+          "oklch(72.1% 0.11034 159.84)",
+          "oklch(83.6% 0.11034 159.84)",
+          "oklch(95.0% 0.11034 159.84)"
+        ]
+      },
+      "dark-success": {
+        "role": "semantic",
+        "displayName": "Confirmación · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.11968 160.04)",
+          "oklch(26.4% 0.11968 160.04)",
+          "oklch(37.9% 0.11968 160.04)",
+          "oklch(49.3% 0.11968 160.04)",
+          "oklch(60.7% 0.11968 160.04)",
+          "oklch(72.1% 0.11968 160.04)",
+          "oklch(83.6% 0.11968 160.04)",
+          "oklch(95.0% 0.11968 160.04)"
+        ]
+      },
+      "on-success": {
+        "role": "neutral",
+        "displayName": "Texto de confirmación",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-on-success": {
+        "role": "neutral",
+        "displayName": "Texto de confirmación · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00747 256.88)",
+          "oklch(26.4% 0.00747 256.88)",
+          "oklch(37.9% 0.00747 256.88)",
+          "oklch(49.3% 0.00747 256.88)",
+          "oklch(60.7% 0.00747 256.88)",
+          "oklch(72.1% 0.00747 256.88)",
+          "oklch(83.6% 0.00747 256.88)",
+          "oklch(95.0% 0.00747 256.88)"
+        ]
+      },
+      "success-subtle": {
+        "role": "semantic",
+        "displayName": "Fila confirmada",
+        "tonalRamp": [
+          "oklch(15.0% 0.02968 161.10)",
+          "oklch(26.4% 0.02968 161.10)",
+          "oklch(37.9% 0.02968 161.10)",
+          "oklch(49.3% 0.02968 161.10)",
+          "oklch(60.7% 0.02968 161.10)",
+          "oklch(72.1% 0.02968 161.10)",
+          "oklch(83.6% 0.02968 161.10)",
+          "oklch(95.0% 0.02968 161.10)"
+        ]
+      },
+      "dark-success-subtle": {
+        "role": "semantic",
+        "displayName": "Fila confirmada · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.04501 159.19)",
+          "oklch(26.4% 0.04501 159.19)",
+          "oklch(37.9% 0.04501 159.19)",
+          "oklch(49.3% 0.04501 159.19)",
+          "oklch(60.7% 0.04501 159.19)",
+          "oklch(72.1% 0.04501 159.19)",
+          "oklch(83.6% 0.04501 159.19)",
+          "oklch(95.0% 0.04501 159.19)"
+        ]
+      },
+      "warning": {
+        "role": "semantic",
+        "displayName": "Advertencia",
+        "tonalRamp": [
+          "oklch(15.0% 0.10024 65.20)",
+          "oklch(26.4% 0.10024 65.20)",
+          "oklch(37.9% 0.10024 65.20)",
+          "oklch(49.3% 0.10024 65.20)",
+          "oklch(60.7% 0.10024 65.20)",
+          "oklch(72.1% 0.10024 65.20)",
+          "oklch(83.6% 0.10024 65.20)",
+          "oklch(95.0% 0.10024 65.20)"
+        ]
+      },
+      "dark-warning": {
+        "role": "semantic",
+        "displayName": "Advertencia · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.10963 77.31)",
+          "oklch(26.4% 0.10963 77.31)",
+          "oklch(37.9% 0.10963 77.31)",
+          "oklch(49.3% 0.10963 77.31)",
+          "oklch(60.7% 0.10963 77.31)",
+          "oklch(72.1% 0.10963 77.31)",
+          "oklch(83.6% 0.10963 77.31)",
+          "oklch(95.0% 0.10963 77.31)"
+        ]
+      },
+      "destructive": {
+        "role": "semantic",
+        "displayName": "Acción destructiva",
+        "tonalRamp": [
+          "oklch(15.0% 0.19005 24.90)",
+          "oklch(26.4% 0.19005 24.90)",
+          "oklch(37.9% 0.19005 24.90)",
+          "oklch(49.3% 0.19005 24.90)",
+          "oklch(60.7% 0.19005 24.90)",
+          "oklch(72.1% 0.19005 24.90)",
+          "oklch(83.6% 0.19005 24.90)",
+          "oklch(95.0% 0.19005 24.90)"
+        ]
+      },
+      "dark-destructive": {
+        "role": "semantic",
+        "displayName": "Acción destructiva · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.15027 22.01)",
+          "oklch(26.4% 0.15027 22.01)",
+          "oklch(37.9% 0.15027 22.01)",
+          "oklch(49.3% 0.15027 22.01)",
+          "oklch(60.7% 0.15027 22.01)",
+          "oklch(72.1% 0.15027 22.01)",
+          "oklch(83.6% 0.15027 22.01)",
+          "oklch(95.0% 0.15027 22.01)"
+        ]
+      },
+      "on-destructive": {
+        "role": "neutral",
+        "displayName": "Texto destructivo",
+        "tonalRamp": [
+          "oklch(15.0% 0.00170 247.84)",
+          "oklch(26.4% 0.00170 247.84)",
+          "oklch(37.9% 0.00170 247.84)",
+          "oklch(49.3% 0.00170 247.84)",
+          "oklch(60.7% 0.00170 247.84)",
+          "oklch(72.1% 0.00170 247.84)",
+          "oklch(83.6% 0.00170 247.84)",
+          "oklch(95.0% 0.00170 247.84)"
+        ]
+      },
+      "dark-on-destructive": {
+        "role": "neutral",
+        "displayName": "Texto destructivo · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.00747 256.88)",
+          "oklch(26.4% 0.00747 256.88)",
+          "oklch(37.9% 0.00747 256.88)",
+          "oklch(49.3% 0.00747 256.88)",
+          "oklch(60.7% 0.00747 256.88)",
+          "oklch(72.1% 0.00747 256.88)",
+          "oklch(83.6% 0.00747 256.88)",
+          "oklch(95.0% 0.00747 256.88)"
+        ]
+      },
+      "protein": {
+        "role": "data",
+        "displayName": "Proteína mineral",
+        "tonalRamp": [
+          "oklch(15.0% 0.12985 284.62)",
+          "oklch(26.4% 0.12985 284.62)",
+          "oklch(37.9% 0.12985 284.62)",
+          "oklch(49.3% 0.12985 284.62)",
+          "oklch(60.7% 0.12985 284.62)",
+          "oklch(72.1% 0.12985 284.62)",
+          "oklch(83.6% 0.12985 284.62)",
+          "oklch(95.0% 0.12985 284.62)"
+        ]
+      },
+      "dark-protein": {
+        "role": "data",
+        "displayName": "Proteína mineral · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.10956 285.26)",
+          "oklch(26.4% 0.10956 285.26)",
+          "oklch(37.9% 0.10956 285.26)",
+          "oklch(49.3% 0.10956 285.26)",
+          "oklch(60.7% 0.10956 285.26)",
+          "oklch(72.1% 0.10956 285.26)",
+          "oklch(83.6% 0.10956 285.26)",
+          "oklch(95.0% 0.10956 285.26)"
+        ]
+      },
+      "carbs": {
+        "role": "data",
+        "displayName": "Carbohidratos oliva",
+        "tonalRamp": [
+          "oklch(15.0% 0.08497 204.53)",
+          "oklch(26.4% 0.08497 204.53)",
+          "oklch(37.9% 0.08497 204.53)",
+          "oklch(49.3% 0.08497 204.53)",
+          "oklch(60.7% 0.08497 204.53)",
+          "oklch(72.1% 0.08497 204.53)",
+          "oklch(83.6% 0.08497 204.53)",
+          "oklch(95.0% 0.08497 204.53)"
+        ]
+      },
+      "dark-carbs": {
+        "role": "data",
+        "displayName": "Carbohidratos oliva · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.08028 204.79)",
+          "oklch(26.4% 0.08028 204.79)",
+          "oklch(37.9% 0.08028 204.79)",
+          "oklch(49.3% 0.08028 204.79)",
+          "oklch(60.7% 0.08028 204.79)",
+          "oklch(72.1% 0.08028 204.79)",
+          "oklch(83.6% 0.08028 204.79)",
+          "oklch(95.0% 0.08028 204.79)"
+        ]
+      },
+      "fat": {
+        "role": "data",
+        "displayName": "Grasa ciruela",
+        "tonalRamp": [
+          "oklch(15.0% 0.09014 41.70)",
+          "oklch(26.4% 0.09014 41.70)",
+          "oklch(37.9% 0.09014 41.70)",
+          "oklch(49.3% 0.09014 41.70)",
+          "oklch(60.7% 0.09014 41.70)",
+          "oklch(72.1% 0.09014 41.70)",
+          "oklch(83.6% 0.09014 41.70)",
+          "oklch(95.0% 0.09014 41.70)"
+        ]
+      },
+      "dark-fat": {
+        "role": "data",
+        "displayName": "Grasa ciruela · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.07488 42.03)",
+          "oklch(26.4% 0.07488 42.03)",
+          "oklch(37.9% 0.07488 42.03)",
+          "oklch(49.3% 0.07488 42.03)",
+          "oklch(60.7% 0.07488 42.03)",
+          "oklch(72.1% 0.07488 42.03)",
+          "oklch(83.6% 0.07488 42.03)",
+          "oklch(95.0% 0.07488 42.03)"
+        ]
+      },
+      "training": {
+        "role": "neutral",
+        "displayName": "Superficie de entrenamiento",
+        "tonalRamp": [
+          "oklch(15.0% 0.02014 254.87)",
+          "oklch(26.4% 0.02014 254.87)",
+          "oklch(37.9% 0.02014 254.87)",
+          "oklch(49.3% 0.02014 254.87)",
+          "oklch(60.7% 0.02014 254.87)",
+          "oklch(72.1% 0.02014 254.87)",
+          "oklch(83.6% 0.02014 254.87)",
+          "oklch(95.0% 0.02014 254.87)"
+        ]
+      },
+      "dark-training": {
+        "role": "neutral",
+        "displayName": "Superficie de entrenamiento · oscuro",
+        "tonalRamp": [
+          "oklch(15.0% 0.01198 254.12)",
+          "oklch(26.4% 0.01198 254.12)",
+          "oklch(37.9% 0.01198 254.12)",
+          "oklch(49.3% 0.01198 254.12)",
+          "oklch(60.7% 0.01198 254.12)",
+          "oklch(72.1% 0.01198 254.12)",
+          "oklch(83.6% 0.01198 254.12)",
+          "oklch(95.0% 0.01198 254.12)"
+        ]
+      },
+      "on-training": {
+        "role": "neutral",
+        "displayName": "Lectura de entrenamiento",
+        "tonalRamp": [
+          "oklch(15.0% 0.00342 247.86)",
+          "oklch(26.4% 0.00342 247.86)",
+          "oklch(37.9% 0.00342 247.86)",
+          "oklch(49.3% 0.00342 247.86)",
+          "oklch(60.7% 0.00342 247.86)",
+          "oklch(72.1% 0.00342 247.86)",
+          "oklch(83.6% 0.00342 247.86)",
+          "oklch(95.0% 0.00342 247.86)"
+        ]
+      },
+      "dark-on-training": {
+        "role": "neutral",
+        "displayName": "on-training",
+        "tonalRamp": [
+          "oklch(15.0% 0.00342 247.86)",
+          "oklch(26.4% 0.00342 247.86)",
+          "oklch(37.9% 0.00342 247.86)",
+          "oklch(49.3% 0.00342 247.86)",
+          "oklch(60.7% 0.00342 247.86)",
+          "oklch(72.1% 0.00342 247.86)",
+          "oklch(83.6% 0.00342 247.86)",
+          "oklch(95.0% 0.00342 247.86)"
+        ]
+      },
+      "training-muted": {
+        "role": "neutral",
+        "displayName": "Contexto de entrenamiento",
+        "tonalRamp": [
+          "oklch(15.0% 0.01256 259.82)",
+          "oklch(26.4% 0.01256 259.82)",
+          "oklch(37.9% 0.01256 259.82)",
+          "oklch(49.3% 0.01256 259.82)",
+          "oklch(60.7% 0.01256 259.82)",
+          "oklch(72.1% 0.01256 259.82)",
+          "oklch(83.6% 0.01256 259.82)",
+          "oklch(95.0% 0.01256 259.82)"
+        ]
+      },
+      "dark-training-muted": {
+        "role": "neutral",
+        "displayName": "training-muted",
+        "tonalRamp": [
+          "oklch(15.0% 0.01256 259.82)",
+          "oklch(26.4% 0.01256 259.82)",
+          "oklch(37.9% 0.01256 259.82)",
+          "oklch(49.3% 0.01256 259.82)",
+          "oklch(60.7% 0.01256 259.82)",
+          "oklch(72.1% 0.01256 259.82)",
+          "oklch(83.6% 0.01256 259.82)",
+          "oklch(95.0% 0.01256 259.82)"
+        ]
+      },
+      "training-track": {
+        "role": "neutral",
+        "displayName": "Carril de entrenamiento",
+        "tonalRamp": [
+          "oklch(15.0% 0.01988 257.27)",
+          "oklch(26.4% 0.01988 257.27)",
+          "oklch(37.9% 0.01988 257.27)",
+          "oklch(49.3% 0.01988 257.27)",
+          "oklch(60.7% 0.01988 257.27)",
+          "oklch(72.1% 0.01988 257.27)",
+          "oklch(83.6% 0.01988 257.27)",
+          "oklch(95.0% 0.01988 257.27)"
+        ]
+      },
+      "dark-training-track": {
+        "role": "neutral",
+        "displayName": "training-track",
+        "tonalRamp": [
+          "oklch(15.0% 0.01811 258.37)",
+          "oklch(26.4% 0.01811 258.37)",
+          "oklch(37.9% 0.01811 258.37)",
+          "oklch(49.3% 0.01811 258.37)",
+          "oklch(60.7% 0.01811 258.37)",
+          "oklch(72.1% 0.01811 258.37)",
+          "oklch(83.6% 0.01811 258.37)",
+          "oklch(95.0% 0.01811 258.37)"
+        ]
+      },
+      "meal-accent": {
+        "role": "primary",
+        "displayName": "Naranja de cabecera · tinta",
+        "tonalRamp": [
+          "oklch(15.0% 0.11775 255.22)",
+          "oklch(26.4% 0.11775 255.22)",
+          "oklch(37.9% 0.11775 255.22)",
+          "oklch(49.3% 0.11775 255.22)",
+          "oklch(60.7% 0.11775 255.22)",
+          "oklch(72.1% 0.11775 255.22)",
+          "oklch(83.6% 0.11775 255.22)",
+          "oklch(95.0% 0.11775 255.22)"
+        ]
+      },
+      "dark-meal-accent": {
+        "role": "neutral",
+        "displayName": "meal-accent",
+        "tonalRamp": [
+          "oklch(15.0% 0.11775 255.22)",
+          "oklch(26.4% 0.11775 255.22)",
+          "oklch(37.9% 0.11775 255.22)",
+          "oklch(49.3% 0.11775 255.22)",
+          "oklch(60.7% 0.11775 255.22)",
+          "oklch(72.1% 0.11775 255.22)",
+          "oklch(83.6% 0.11775 255.22)",
+          "oklch(95.0% 0.11775 255.22)"
+        ]
+      },
+      "muscle-1": {
+        "role": "data",
+        "displayName": "muscle-1",
+        "tonalRamp": [
+          "oklch(15.0% 0.03091 263.51)",
+          "oklch(26.4% 0.03091 263.51)",
+          "oklch(37.9% 0.03091 263.51)",
+          "oklch(49.3% 0.03091 263.51)",
+          "oklch(60.7% 0.03091 263.51)",
+          "oklch(72.1% 0.03091 263.51)",
+          "oklch(83.6% 0.03091 263.51)",
+          "oklch(95.0% 0.03091 263.51)"
+        ]
+      },
+      "dark-muscle-1": {
+        "role": "data",
+        "displayName": "muscle-1",
+        "tonalRamp": [
+          "oklch(15.0% 0.04944 261.49)",
+          "oklch(26.4% 0.04944 261.49)",
+          "oklch(37.9% 0.04944 261.49)",
+          "oklch(49.3% 0.04944 261.49)",
+          "oklch(60.7% 0.04944 261.49)",
+          "oklch(72.1% 0.04944 261.49)",
+          "oklch(83.6% 0.04944 261.49)",
+          "oklch(95.0% 0.04944 261.49)"
+        ]
+      },
+      "muscle-2": {
+        "role": "data",
+        "displayName": "muscle-2",
+        "tonalRamp": [
+          "oklch(15.0% 0.07024 262.53)",
+          "oklch(26.4% 0.07024 262.53)",
+          "oklch(37.9% 0.07024 262.53)",
+          "oklch(49.3% 0.07024 262.53)",
+          "oklch(60.7% 0.07024 262.53)",
+          "oklch(72.1% 0.07024 262.53)",
+          "oklch(83.6% 0.07024 262.53)",
+          "oklch(95.0% 0.07024 262.53)"
+        ]
+      },
+      "dark-muscle-2": {
+        "role": "data",
+        "displayName": "muscle-2",
+        "tonalRamp": [
+          "oklch(15.0% 0.09055 262.30)",
+          "oklch(26.4% 0.09055 262.30)",
+          "oklch(37.9% 0.09055 262.30)",
+          "oklch(49.3% 0.09055 262.30)",
+          "oklch(60.7% 0.09055 262.30)",
+          "oklch(72.1% 0.09055 262.30)",
+          "oklch(83.6% 0.09055 262.30)",
+          "oklch(95.0% 0.09055 262.30)"
+        ]
+      },
+      "muscle-3": {
+        "role": "data",
+        "displayName": "muscle-3",
+        "tonalRamp": [
+          "oklch(15.0% 0.13033 262.08)",
+          "oklch(26.4% 0.13033 262.08)",
+          "oklch(37.9% 0.13033 262.08)",
+          "oklch(49.3% 0.13033 262.08)",
+          "oklch(60.7% 0.13033 262.08)",
+          "oklch(72.1% 0.13033 262.08)",
+          "oklch(83.6% 0.13033 262.08)",
+          "oklch(95.0% 0.13033 262.08)"
+        ]
+      },
+      "dark-muscle-3": {
+        "role": "data",
+        "displayName": "muscle-3",
+        "tonalRamp": [
+          "oklch(15.0% 0.13045 262.13)",
+          "oklch(26.4% 0.13045 262.13)",
+          "oklch(37.9% 0.13045 262.13)",
+          "oklch(49.3% 0.13045 262.13)",
+          "oklch(60.7% 0.13045 262.13)",
+          "oklch(72.1% 0.13045 262.13)",
+          "oklch(83.6% 0.13045 262.13)",
+          "oklch(95.0% 0.13045 262.13)"
+        ]
+      },
+      "muscle-4": {
+        "role": "data",
+        "displayName": "muscle-4",
+        "tonalRamp": [
+          "oklch(15.0% 0.18022 262.16)",
+          "oklch(26.4% 0.18022 262.16)",
+          "oklch(37.9% 0.18022 262.16)",
+          "oklch(49.3% 0.18022 262.16)",
+          "oklch(60.7% 0.18022 262.16)",
+          "oklch(72.1% 0.18022 262.16)",
+          "oklch(83.6% 0.18022 262.16)",
+          "oklch(95.0% 0.18022 262.16)"
+        ]
+      },
+      "dark-muscle-4": {
+        "role": "data",
+        "displayName": "muscle-4",
+        "tonalRamp": [
+          "oklch(15.0% 0.15088 260.10)",
+          "oklch(26.4% 0.15088 260.10)",
+          "oklch(37.9% 0.15088 260.10)",
+          "oklch(49.3% 0.15088 260.10)",
+          "oklch(60.7% 0.15088 260.10)",
+          "oklch(72.1% 0.15088 260.10)",
+          "oklch(83.6% 0.15088 260.10)",
+          "oklch(95.0% 0.15088 260.10)"
+        ]
+      },
+      "muscle-5": {
+        "role": "data",
+        "displayName": "muscle-5",
+        "tonalRamp": [
+          "oklch(15.0% 0.16012 263.88)",
+          "oklch(26.4% 0.16012 263.88)",
+          "oklch(37.9% 0.16012 263.88)",
+          "oklch(49.3% 0.16012 263.88)",
+          "oklch(60.7% 0.16012 263.88)",
+          "oklch(72.1% 0.16012 263.88)",
+          "oklch(83.6% 0.16012 263.88)",
+          "oklch(95.0% 0.16012 263.88)"
+        ]
+      },
+      "dark-muscle-5": {
+        "role": "data",
+        "displayName": "muscle-5",
+        "tonalRamp": [
+          "oklch(15.0% 0.11775 255.22)",
+          "oklch(26.4% 0.11775 255.22)",
+          "oklch(37.9% 0.11775 255.22)",
+          "oklch(49.3% 0.11775 255.22)",
+          "oklch(60.7% 0.11775 255.22)",
+          "oklch(72.1% 0.11775 255.22)",
+          "oklch(83.6% 0.11775 255.22)",
+          "oklch(95.0% 0.11775 255.22)"
+        ]
+      },
+      "atmosphere-cobalt": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-cobalt",
+        "tonalRamp": [
+          "oklch(15.0% 0.09959 261.59)",
+          "oklch(26.4% 0.09959 261.59)",
+          "oklch(37.9% 0.09959 261.59)",
+          "oklch(49.3% 0.09959 261.59)",
+          "oklch(60.7% 0.09959 261.59)",
+          "oklch(72.1% 0.09959 261.59)",
+          "oklch(83.6% 0.09959 261.59)",
+          "oklch(95.0% 0.09959 261.59)"
+        ]
+      },
+      "dark-atmosphere-cobalt": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-cobalt",
+        "tonalRamp": [
+          "oklch(15.0% 0.09959 261.59)",
+          "oklch(26.4% 0.09959 261.59)",
+          "oklch(37.9% 0.09959 261.59)",
+          "oklch(49.3% 0.09959 261.59)",
+          "oklch(60.7% 0.09959 261.59)",
+          "oklch(72.1% 0.09959 261.59)",
+          "oklch(83.6% 0.09959 261.59)",
+          "oklch(95.0% 0.09959 261.59)"
+        ]
+      },
+      "atmosphere-steel": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-steel",
+        "tonalRamp": [
+          "oklch(15.0% 0.03047 233.04)",
+          "oklch(26.4% 0.03047 233.04)",
+          "oklch(37.9% 0.03047 233.04)",
+          "oklch(49.3% 0.03047 233.04)",
+          "oklch(60.7% 0.03047 233.04)",
+          "oklch(72.1% 0.03047 233.04)",
+          "oklch(83.6% 0.03047 233.04)",
+          "oklch(95.0% 0.03047 233.04)"
+        ]
+      },
+      "dark-atmosphere-steel": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-steel",
+        "tonalRamp": [
+          "oklch(15.0% 0.03047 233.04)",
+          "oklch(26.4% 0.03047 233.04)",
+          "oklch(37.9% 0.03047 233.04)",
+          "oklch(49.3% 0.03047 233.04)",
+          "oklch(60.7% 0.03047 233.04)",
+          "oklch(72.1% 0.03047 233.04)",
+          "oklch(83.6% 0.03047 233.04)",
+          "oklch(95.0% 0.03047 233.04)"
+        ]
+      },
+      "atmosphere-slate": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-slate",
+        "tonalRamp": [
+          "oklch(15.0% 0.02439 259.19)",
+          "oklch(26.4% 0.02439 259.19)",
+          "oklch(37.9% 0.02439 259.19)",
+          "oklch(49.3% 0.02439 259.19)",
+          "oklch(60.7% 0.02439 259.19)",
+          "oklch(72.1% 0.02439 259.19)",
+          "oklch(83.6% 0.02439 259.19)",
+          "oklch(95.0% 0.02439 259.19)"
+        ]
+      },
+      "dark-atmosphere-slate": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-slate",
+        "tonalRamp": [
+          "oklch(15.0% 0.02439 259.19)",
+          "oklch(26.4% 0.02439 259.19)",
+          "oklch(37.9% 0.02439 259.19)",
+          "oklch(49.3% 0.02439 259.19)",
+          "oklch(60.7% 0.02439 259.19)",
+          "oklch(72.1% 0.02439 259.19)",
+          "oklch(83.6% 0.02439 259.19)",
+          "oklch(95.0% 0.02439 259.19)"
+        ]
+      },
+      "atmosphere-sand": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-sand",
+        "tonalRamp": [
+          "oklch(15.0% 0.04977 69.97)",
+          "oklch(26.4% 0.04977 69.97)",
+          "oklch(37.9% 0.04977 69.97)",
+          "oklch(49.3% 0.04977 69.97)",
+          "oklch(60.7% 0.04977 69.97)",
+          "oklch(72.1% 0.04977 69.97)",
+          "oklch(83.6% 0.04977 69.97)",
+          "oklch(95.0% 0.04977 69.97)"
+        ]
+      },
+      "dark-atmosphere-sand": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-sand",
+        "tonalRamp": [
+          "oklch(15.0% 0.04977 69.97)",
+          "oklch(26.4% 0.04977 69.97)",
+          "oklch(37.9% 0.04977 69.97)",
+          "oklch(49.3% 0.04977 69.97)",
+          "oklch(60.7% 0.04977 69.97)",
+          "oklch(72.1% 0.04977 69.97)",
+          "oklch(83.6% 0.04977 69.97)",
+          "oklch(95.0% 0.04977 69.97)"
+        ]
+      },
+      "atmosphere-mist": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-mist",
+        "tonalRamp": [
+          "oklch(15.0% 0.02058 217.31)",
+          "oklch(26.4% 0.02058 217.31)",
+          "oklch(37.9% 0.02058 217.31)",
+          "oklch(49.3% 0.02058 217.31)",
+          "oklch(60.7% 0.02058 217.31)",
+          "oklch(72.1% 0.02058 217.31)",
+          "oklch(83.6% 0.02058 217.31)",
+          "oklch(95.0% 0.02058 217.31)"
+        ]
+      },
+      "dark-atmosphere-mist": {
+        "role": "atmosphere",
+        "displayName": "atmosphere-mist",
+        "tonalRamp": [
+          "oklch(15.0% 0.02058 217.31)",
+          "oklch(26.4% 0.02058 217.31)",
+          "oklch(37.9% 0.02058 217.31)",
+          "oklch(49.3% 0.02058 217.31)",
+          "oklch(60.7% 0.02058 217.31)",
+          "oklch(72.1% 0.02058 217.31)",
+          "oklch(83.6% 0.02058 217.31)",
+          "oklch(95.0% 0.02058 217.31)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "hero": {
+        "displayName": "hero",
+        "purpose": "Métrica protagonista en Saira cursiva condensada; unidad visible."
+      },
+      "display": {
+        "displayName": "display",
+        "purpose": "Título deportivo de pantalla, condensado y en mayúsculas."
+      },
+      "metric": {
+        "displayName": "metric",
+        "purpose": "Cifra secundaria destacada."
+      },
+      "heading": {
+        "displayName": "heading",
+        "purpose": "Título operativo (Saira 900 condensada recta) o cifra compacta (cursiva)."
+      },
+      "title": {
+        "displayName": "title",
+        "purpose": "Nombre o título secundario en Saira a ancho normal; capas utilizan heading."
+      },
+      "body": {
+        "displayName": "body",
+        "purpose": "Lectura y campo editable."
+      },
+      "body-sm": {
+        "displayName": "body-sm",
+        "purpose": "Contexto y controles secundarios."
+      },
+      "label": {
+        "displayName": "label",
+        "purpose": "Etiqueta breve sin mayúsculas obligatorias."
+      },
+      "caption": {
+        "displayName": "caption",
+        "purpose": "Metadatos y unidades breves."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-card",
+        "value": "0 1px 2px rgb(28 24 20 / 0.04), 0 10px 28px -10px rgb(28 24 20 / 0.12)",
+        "purpose": "Cards, superficie de entreno y listas agrupadas en claro; none en oscuro (separación por tono)."
+      },
+      {
+        "name": "shadow-control",
+        "value": "0 1px 2px rgb(28 24 20 / 0.06), 0 4px 12px -4px rgb(28 24 20 / 0.12)",
+        "purpose": "Botón secundario, opción elegida del selector y botón Menú."
+      },
+      {
+        "name": "shadow-overlay",
+        "value": "0 -4px 24px rgb(20 20 18 / 0.12)",
+        "purpose": "Sheets y avisos flotantes en claro."
+      },
+      {
+        "name": "shadow-overlay-dark",
+        "value": "0 -4px 24px rgb(0 0 0 / 0.4)",
+        "purpose": "La misma elevación en tema oscuro."
+      }
+    ],
+    "motion": [
+      {
+        "name": "dur-short",
+        "value": "120ms",
+        "purpose": "Feedback, presión y entrada discreta de vista."
+      },
+      {
+        "name": "dur-normal",
+        "value": "200ms",
+        "purpose": "Selección, estado, confirmación de serie y continuidad FLIP."
+      },
+      {
+        "name": "dur-overlay",
+        "value": "280ms",
+        "purpose": "Entrada de capa y expansión del abanico."
+      },
+      {
+        "name": "dur-exit",
+        "value": "180ms",
+        "purpose": "Salida de capa y reversa del abanico."
+      },
+      {
+        "name": "dur-success",
+        "value": "420ms",
+        "purpose": "Check de sesión guardada."
+      },
+      {
+        "name": "dur-stagger",
+        "value": "18ms",
+        "purpose": "Desfase entre destinos del abanico."
+      },
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Desaceleración CSS/WAAPI sin rebote; no motor spring."
+      },
+      {
+        "name": "ease-exit",
+        "value": "cubic-bezier(0.4, 0, 1, 1)",
+        "purpose": "Aceleración de salida."
+      },
+      {
+        "name": "motion-shift",
+        "value": "0.5rem",
+        "purpose": "Entrada espacial discreta de tarea o fecha."
+      },
+      {
+        "name": "motion-press",
+        "value": "0.97",
+        "purpose": "Escala de presión en controles."
+      },
+      {
+        "name": "reduced-overlay",
+        "value": "80ms",
+        "purpose": "Fundido de capas con Reduce Motion; sin desplazamiento, escala ni desfase."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-page",
+        "value": "359px",
+        "purpose": "max-width: reducir el margen de página a 16 px."
+      },
+      {
+        "name": "compact-menu-height",
+        "value": "360px",
+        "purpose": "Altura de ventana inferior a este umbral activa la rejilla de destinos."
+      },
+      {
+        "name": "compact-menu-type",
+        "value": "20px",
+        "purpose": "Tamaño computado de raíz superior a este umbral activa la rejilla de destinos."
+      }
+    ],
+    "atmospheres": {
+      "component": "src/app/AtmosferaApp.tsx",
+      "assets": {
+        "inicio": "/images/atmosferas/inicio.webp",
+        "nutricion": "/images/atmosferas/nutricion.webp",
+        "gym": "/images/atmosferas/gym.webp"
+      },
+      "quietSections": [
+        "referencias",
+        "ajustes"
+      ],
+      "rasterBytes": 332504,
+      "height": "50rem",
+      "photoOpacity": {
+        "light": 0.72,
+        "dark": 0.9,
+        "quietLight": 0.14,
+        "quietDark": 0.2
+      },
+      "photoSaturation": {
+        "light": 0.6,
+        "dark": 0.6
+      },
+      "panelOpacity": {
+        "light": 0.98,
+        "dark": 0.96
+      },
+      "trainingOpacity": 0.96,
+      "washTop": {
+        "light": 0.76,
+        "dark": 0.52
+      },
+      "readingWash": 0.58,
+      "motion": "none",
+      "forcedColors": "hidden",
+      "provenance": "public/images/atmosferas/README.md",
+      "offline": "Vite PWA precache glob webp",
+      "assetsLight": {
+        "inicio": "/images/atmosferas/inicio-claro.webp",
+        "nutricion": "/images/atmosferas/nutricion-claro.webp",
+        "gym": "/images/atmosferas/gym-claro.webp"
+      },
+      "themeSelection": "getResolvedTheme/subscribeTheme + useSyncExternalStore; una imagen según preferencia Claro/Oscuro/Sistema",
+      "washUpper": {
+        "light": 0.88,
+        "dark": 0.56
+      },
+      "washMiddle": {
+        "light": 0.95,
+        "dark": 0.82
+      },
+      "photoBrightness": {
+        "light": 0.98,
+        "dark": 0.92
+      },
+      "photoContrast": 0.96,
+      "ambientOpacity": {
+        "light": [
+          0.1,
+          0.07
+        ],
+        "dark": [
+          0.16,
+          0.1
+        ]
+      },
+      "quietAmbientOpacity": 0.35,
+      "ambientLights": {
+        "inicio": [
+          "slate",
+          "mist"
+        ],
+        "nutricion": [
+          "sand",
+          "slate"
+        ],
+        "gym": [
+          "cobalt",
+          "steel"
+        ]
+      },
+      "readingBand": {
+        "solid": "15rem",
+        "fade": "21rem",
+        "wash": 0.58
+      }
+    },
+    "layeredBackgrounds": {
+      "status": "approved-implemented",
+      "surface": "src/app/AtmosferaApp.tsx",
+      "activation": "normal en todas las secciones/ambos temas; sin flag ni preferencia adicional",
+      "scenes": {
+        "inicio": "copper/stone",
+        "nutricion": "olive/sand",
+        "gym": "ember/amber"
+      },
+      "ambientColors": {
+        "ember": "173 75 50",
+        "amber": "174 109 62",
+        "olive": "112 129 93",
+        "sand": "163 137 100",
+        "copper": "156 105 74",
+        "stone": "131 126 109"
+      },
+      "transition": "foto y velo comparten máscara gradual; dos radiales estáticos por toda la longitud real",
+      "performance": "una imagen ya existente; scroll natural; sin fixed, blur, animaciones/listeners ni nuevas dependencias",
+      "quiet": "Referencias/Ajustes: foto tenue y luces al 35%",
+      "scope": "solo fondo; conserva layout, contenido, superficies, controles, motion y datos"
+    }
+  },
+  "components": [
+    {
+      "name": "Botón principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Variante real de Button: Guardar.",
+      "html": "<button type=\"button\" class=\"ds-button-primary\">Guardar</button>",
+      "css": ".ds-button-primary{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md, 0.625rem);font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:rgb(var(--c-accent, 255 108 28));color:rgb(var(--c-on-accent, 10 10 11));}.ds-button-primary:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px;}.ds-button-primary:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-primary:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-primary:hover:not(:disabled){filter:brightness(.95)}}@media(prefers-reduced-motion:reduce){.ds-button-primary:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Variante real de Button: Continuar.",
+      "html": "<button type=\"button\" class=\"ds-button-secondary\">Continuar</button>",
+      "css": ".ds-button-secondary{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md, 0.625rem);font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:rgb(var(--c-surface, 255 255 255));color:rgb(var(--c-text-primary, 22 22 24));border:1px solid rgb(var(--c-border, 216 216 210));}.ds-button-secondary:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px;}.ds-button-secondary:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-secondary:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-secondary:hover:not(:disabled){background:rgb(var(--c-surface-muted, 232 232 228))}}@media(prefers-reduced-motion:reduce){.ds-button-secondary:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Botón ghost",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Variante real de Button: Añadir serie.",
+      "html": "<button type=\"button\" class=\"ds-button-ghost\">Añadir serie</button>",
+      "css": ".ds-button-ghost{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md, 0.625rem);font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:transparent;color:rgb(var(--c-accent-strong, 163 56 7));}.ds-button-ghost:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px;}.ds-button-ghost:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-ghost:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-ghost:hover:not(:disabled){background:rgb(var(--c-accent-subtle, 255 234 216))}}@media(prefers-reduced-motion:reduce){.ds-button-ghost:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Oferta destructiva",
+      "kind": "button",
+      "refersTo": "button-destructive",
+      "description": "Variante real de Button: Borrar.",
+      "html": "<button type=\"button\" class=\"ds-button-destructive\">Borrar</button>",
+      "css": ".ds-button-destructive{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md, 0.625rem);font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:rgb(var(--c-surface-muted, 232 232 228));color:rgb(var(--c-destructive, 175 49 38));}.ds-button-destructive:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px;}.ds-button-destructive:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-destructive:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-destructive:hover:not(:disabled){background:rgb(var(--c-border, 216 216 210))}}@media(prefers-reduced-motion:reduce){.ds-button-destructive:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Confirmación destructiva",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Variante real de Button: Confirmar borrado.",
+      "html": "<button type=\"button\" class=\"ds-button-danger\">Confirmar borrado</button>",
+      "css": ".ds-button-danger{\ndisplay:inline-flex;align-items:center;justify-content:center;gap:8px;\nmin-height:var(--touch-target,2.75rem);padding:8px 20px;border:0;\nborder-radius:var(--radius-md, 0.625rem);font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;\ntransition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)),background-color var(--dur-short,120ms),opacity var(--dur-short,120ms);background:rgb(var(--c-destructive, 175 49 38));color:rgb(var(--c-on-destructive, 255 255 255));}.ds-button-danger:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px;}.ds-button-danger:active:not(:disabled){transform:scale(var(--motion-press,.97));filter:brightness(.95)}.ds-button-danger:disabled{opacity:.4;cursor:default}@media(hover:hover) and (pointer:fine){.ds-button-danger:hover:not(:disabled){filter:brightness(.95)}}@media(prefers-reduced-motion:reduce){.ds-button-danger:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Campo editable",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo de una línea, texto de 16 px, borde fuerte y foco compartido.",
+      "html": "<label class=\"ds-field-label\" for=\"ds-field-weight\">Peso en kg</label><input id=\"ds-field-weight\" class=\"ds-field\" type=\"number\" inputmode=\"decimal\" min=\"0\" step=\"2.5\" value=\"40\" />",
+      "css": ".ds-field-label{display:block;margin-bottom:4px;font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:.875rem;line-height:1.5;color:rgb(var(--c-text-secondary, 77 77 74))}.ds-field{display:block;width:100%;min-width:0;min-height:var(--touch-target,2.75rem);padding:0 12px;border:1px solid rgb(var(--c-border-strong, 121 121 116));border-radius:var(--radius-md, 0.625rem);background:rgb(var(--c-surface-muted, 232 232 228));color:rgb(var(--c-text-primary, 22 22 24));font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;caret-color:rgb(var(--c-accent-strong, 163 56 7));transition:border-color var(--dur-short,120ms),background-color var(--dur-short,120ms)}.ds-field:focus{border-color:rgb(var(--c-accent-strong, 163 56 7));background:rgb(var(--c-surface, 255 255 255))}.ds-field:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px;}.ds-field[aria-invalid=true]{border-color:rgb(var(--c-destructive, 175 49 38))}.ds-field:disabled{opacity:.5}.ds-field::placeholder{color:rgb(var(--c-text-tertiary, 96 96 91))}"
+    },
+    {
+      "name": "Badge neutral",
+      "kind": "chip",
+      "refersTo": "badge-neutral",
+      "description": "Metadato no pulsable; el punto acompaña al nombre.",
+      "html": "<span class=\"ds-badge\"><span class=\"ds-badge-dot\" aria-hidden=\"true\"></span>Proteína</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:var(--radius-sm, 0.375rem);background:rgb(var(--c-surface-muted, 232 232 228));color:rgb(var(--c-text-secondary, 77 77 74));font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:.75rem;line-height:1.5;font-weight:500;font-variant-numeric:tabular-nums}.ds-badge-dot{width:8px;height:8px;border-radius:9999px;background:rgb(var(--c-protein, 66 90 112))}"
+    },
+    {
+      "name": "Panel de contenido",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Card default: unidad real de información, superficie por tono y sin contorno visible ni sombra.",
+      "html": "<section class=\"ds-card\" aria-labelledby=\"ds-card-title\"><h2 id=\"ds-card-title\" class=\"ds-card-title\">Press de banca</h2><p class=\"ds-card-context\">Sin datos previos</p></section>",
+      "css": ".ds-card{padding:var(--space-card,1rem);border:1px solid transparent;border-radius:var(--radius-lg, 0.875rem);background:rgb(var(--c-surface, 255 255 255));color:rgb(var(--c-text-primary, 22 22 24));font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);}.ds-card-title{margin:0;font-size:1.125rem;line-height:1.5;font-weight:600;letter-spacing:-.01em;overflow-wrap:anywhere}.ds-card-context{margin:0;font-size:.75rem;line-height:1.5;color:rgb(var(--c-text-secondary, 77 77 74))}"
+    },
+    {
+      "name": "Abanico de navegación",
+      "kind": "nav",
+      "refersTo": "menu-trigger",
+      "description": "Estado abierto del abanico: los cinco destinos en dos niveles comparten origen; el destino actual contiene su check.",
+      "html": "<nav class=\"ds-fan\" aria-label=\"Destinos de la aplicación\"><ul class=\"ds-fan-list\"><li class=\"ds-fan-item ds-fan-one\"><button type=\"button\" class=\"ds-fan-target\" aria-label=\"Inicio\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 11l8-7 8 7M6 9.5V20h4v-5h4v5h4V9.5\"></path></svg><span>Inicio</span></button></li><li class=\"ds-fan-item ds-fan-two\"><button type=\"button\" class=\"ds-fan-target\" aria-label=\"Nutrición\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 3v8a2 2 0 0 0 2 2v8M11 3v8a2 2 0 0 1-2 2M9 3v8M17 21V3c-2 1.5-3 4-3 7v3h3\"></path></svg><span>Nutrición</span></button></li><li class=\"ds-fan-item ds-fan-three\"><button type=\"button\" class=\"ds-fan-target\" aria-label=\"Gym\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11\"></path></svg><span>Gym</span></button></li><li class=\"ds-fan-item ds-fan-four\"><button type=\"button\" class=\"ds-fan-target\" aria-label=\"Referencias\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><path d=\"M12 11v6M12 7v1\"></path></svg><span>Referencias</span></button></li><li class=\"ds-fan-item ds-fan-five\"><button type=\"button\" class=\"ds-fan-target\" aria-label=\"Ajustes\" aria-current=\"page\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4\"></path></svg><span>Ajustes</span><svg class=\"ds-fan-check\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"></path></svg></button></li></ul><button type=\"button\" class=\"ds-fan-hub\" aria-label=\"Cerrar menú\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"></path></svg><span>Menú</span></button></nav>",
+      "css": ".ds-fan{position:relative;width:100%;min-width:300px;height:248px;font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);}.ds-fan-list{list-style:none;margin:0;padding:0}.ds-fan-item{position:absolute;left:50%;top:216px;width:var(--menu-item-size,5.25rem);height:var(--menu-action-height,4.25rem);transform:translate(calc(-50% + var(--ds-fan-x)),calc(-50% + var(--ds-fan-y)));animation:ds-fan-arrive var(--dur-overlay,280ms) var(--ease-standard,cubic-bezier(.16,1,.3,1)) both;animation-delay:calc(var(--ds-fan-index) * var(--dur-stagger,18ms))}.ds-fan-one{--ds-fan-x:calc(var(--menu-orbit,104px) * -1);--ds-fan-y:calc(var(--menu-rise,160px) * -1.05);--ds-fan-index:0}.ds-fan-two{--ds-fan-x:calc(var(--menu-orbit,104px) * 0);--ds-fan-y:calc(var(--menu-rise,160px) * -1.05);--ds-fan-index:1}.ds-fan-three{--ds-fan-x:calc(var(--menu-orbit,104px) * 1);--ds-fan-y:calc(var(--menu-rise,160px) * -1.05);--ds-fan-index:2}.ds-fan-four{--ds-fan-x:calc(var(--menu-orbit,104px) * -.55);--ds-fan-y:calc(var(--menu-rise,160px) * -.55);--ds-fan-index:3}.ds-fan-five{--ds-fan-x:calc(var(--menu-orbit,104px) * .55);--ds-fan-y:calc(var(--menu-rise,160px) * -.55);--ds-fan-index:4}.ds-fan-target{position:relative;display:flex;width:100%;height:100%;min-height:var(--menu-action-height,4.25rem);flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;border:1px solid rgb(var(--c-border-strong,121 121 116));border-radius:var(--radius-md, 0.625rem);background:rgb(var(--c-surface-elevated, 255 255 255));color:rgb(var(--c-text-primary, 22 22 24));font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:.75rem;line-height:1.5;font-weight:600;transition:transform var(--dur-short,120ms),background-color var(--dur-short,120ms)}.ds-fan-target[aria-current=page]{border-color:rgb(var(--c-accent,255 108 28));background:rgb(var(--c-accent, 255 108 28));color:rgb(var(--c-on-accent, 10 10 11))}.ds-fan-check{position:absolute;right:8px;top:8px}.ds-fan-target:focus-visible,.ds-fan-hub:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px;}.ds-fan-target:active{transform:scale(var(--motion-press,.97))}.ds-fan-hub{position:absolute;left:50%;top:216px;display:flex;align-items:center;justify-content:center;gap:8px;width:124px;height:48px;padding:0;border:0;border-radius:var(--radius-md,.625rem);transform:translate(-50%,-50%);background:rgb(var(--c-accent, 255 108 28));color:rgb(var(--c-on-accent, 10 10 11));font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:14px;font-weight:700}.ds-fan-hub:active{transform:translate(-50%,-50%) scale(var(--motion-press,.97))}@media(hover:hover) and (pointer:fine){.ds-fan-target:not([aria-current=page]):hover{background:rgb(var(--c-surface-muted, 232 232 228))}}@keyframes ds-fan-arrive{from{opacity:0;transform:translate(-50%,-50%) scale(.7)}to{opacity:1;transform:translate(calc(-50% + var(--ds-fan-x)),calc(-50% + var(--ds-fan-y))) scale(1)}}@media(prefers-reduced-motion:reduce){.ds-fan-item{animation:none}.ds-fan-target:active{transform:none}.ds-fan-hub:active{transform:translate(-50%,-50%)}}"
+    },
+    {
+      "name": "Serie completada",
+      "kind": "custom",
+      "refersTo": "series-completed",
+      "description": "Fila real del entreno: check reversible, campos directos de reps/kg y acción de borrado con nombre accesible.",
+      "html": "<div class=\"ds-series-row\" data-done=\"true\"><button type=\"button\" class=\"ds-series-complete\" aria-label=\"Desmarcar serie 1 de Press de banca\" aria-pressed=\"true\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"></path></svg></button><input class=\"ds-series-input\" type=\"number\" inputmode=\"numeric\" aria-label=\"Repeticiones, serie 1 de Press de banca\" value=\"8\" min=\"0\" step=\"1\" /><input class=\"ds-series-input\" type=\"number\" inputmode=\"decimal\" aria-label=\"Peso en kg, serie 1 de Press de banca\" value=\"40\" min=\"0\" step=\"2.5\" /><button type=\"button\" class=\"ds-series-delete\" aria-label=\"Borrar serie 1\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6\"></path></svg></button></div>",
+      "css": ".ds-series-row{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(0,1fr) 44px;gap:6px;align-items:center;border-radius:10px;font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);transition:background-color var(--dur-normal,200ms)}.ds-series-row[data-done=true]{background:rgb(var(--c-success-subtle, 230 244 236))}.ds-series-complete{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:48px;padding:0;border:0;border-radius:10px;color:rgb(var(--c-text-secondary, 77 77 74));background:transparent;font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:.8125rem;line-height:1.4;font-weight:700;font-variant-numeric:tabular-nums;transition:transform var(--dur-short,120ms)}.ds-series-complete[aria-pressed=true]{background:rgb(var(--c-success, 24 111 73));color:rgb(var(--c-on-success, 255 255 255))}.ds-series-complete[aria-pressed=true] svg{animation:ds-series-confirm var(--dur-normal,200ms) var(--ease-standard,cubic-bezier(.16,1,.3,1))}.ds-series-input{width:100%;min-width:0;min-height:44px;padding:0 12px;border:1px solid rgb(var(--c-border-strong, 121 121 116));border-radius:var(--radius-md, 0.625rem);background:rgb(var(--c-surface-muted, 232 232 228));color:rgb(var(--c-text-primary, 22 22 24));font-family:var(--font-sans,'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:1rem;line-height:1.5;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;appearance:textfield;caret-color:rgb(var(--c-accent-strong, 163 56 7));transition:border-color var(--dur-short,120ms),background-color var(--dur-short,120ms)}.ds-series-input::-webkit-inner-spin-button,.ds-series-input::-webkit-outer-spin-button{appearance:none;margin:0}.ds-series-input:focus{border-color:rgb(var(--c-accent-strong, 163 56 7));background:rgb(var(--c-surface, 255 255 255))}.ds-series-delete{display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:0;border-radius:var(--radius-md, 0.625rem);background:transparent;color:rgb(var(--c-text-secondary, 77 77 74));transition:transform var(--dur-short,120ms),background-color var(--dur-short,120ms)}.ds-series-complete:focus-visible,.ds-series-input:focus-visible,.ds-series-delete:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px;}.ds-series-complete:active:not(:disabled),.ds-series-delete:active:not(:disabled){transform:scale(var(--motion-press,.97))}.ds-series-complete:disabled{opacity:.5}.ds-series-delete:disabled{opacity:.3}@media(hover:hover) and (pointer:fine){.ds-series-delete:hover:not(:disabled){background:rgb(var(--c-surface-muted, 232 232 228));color:rgb(var(--c-text-primary, 22 22 24))}}@keyframes ds-series-confirm{from{opacity:0;transform:scale(.65)}to{opacity:1;transform:scale(1)}}@media(prefers-reduced-motion:reduce){.ds-series-complete svg{animation:none!important}.ds-series-complete:active,.ds-series-delete:active{transform:none!important}}"
+    },
+    {
+      "name": "Cabecera de comida",
+      "kind": "custom",
+      "refersTo": "meal-header",
+      "description": "Título de comida sobre la página, sin caja: icono neutro, título condensado, conteo real y kcal neutras; sin horario inventado.",
+      "html": "<header class=\"ds-meal-header\"><div class=\"ds-meal-grid\"><span class=\"ds-meal-icon\" aria-hidden=\"true\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 17h18M5 21h14M6 17a6 6 0 0 1 12 0M12 3v3M4.2 8.2l2.1 2.1M19.8 8.2l-2.1 2.1M2 13h2M20 13h2\"></path></svg></span><h2 class=\"ds-meal-title\">Desayuno</h2><p class=\"ds-meal-meta\">2 registros</p><p class=\"ds-meal-energy\"><span class=\"ds-meal-value\">300</span><span class=\"ds-meal-unit\">kcal</span></p><button type=\"button\" class=\"ds-meal-actions\" aria-label=\"Acciones de Desayuno\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\"></path></svg></button></div></header>",
+      "css": ".ds-meal-header{--ds-meal-accent:var(--c-meal-accent, 255 134 66);padding:.75rem;border:1px solid rgb(var(--c-border,50 50 54));border-radius:var(--radius-lg, 0.875rem);background:rgb(var(--c-training, 20 20 22));color:rgb(var(--c-on-training, 248 248 245));font-family:var(--font-sans,'Saira',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif);container:ds-meal / inline-size}.ds-meal-grid{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,max-content) auto;grid-template-areas:'icon title energy actions' 'icon meta energy actions';align-items:center;column-gap:.5rem;row-gap:.125rem}.ds-meal-icon{grid-area:icon;display:flex;align-items:center;justify-content:center;width:var(--touch-target,2.75rem);height:var(--touch-target,2.75rem);border-radius:var(--radius-pill,9999px);border:1px solid rgb(var(--ds-meal-accent)/.3);background:rgb(var(--ds-meal-accent)/.1);color:rgb(var(--ds-meal-accent))}.ds-meal-title{font-family:var(--font-display,'Saira',sans-serif);grid-area:title;min-width:0;margin:0;overflow-wrap:anywhere;font-size:var(--fs-heading,1.5rem);line-height:var(--lh-heading,1.2);font-weight:700;letter-spacing:-.02em}.ds-meal-meta{grid-area:meta;min-width:0;margin:0;color:rgb(var(--c-training-muted, 189 189 188));font-size:var(--fs-caption,.75rem);line-height:var(--lh-caption,1.5)}.ds-meal-energy{grid-area:energy;min-width:0;margin:0;padding-left:.5rem;border-left:1px solid rgb(var(--c-border,50 50 54));text-align:right;color:rgb(var(--ds-meal-accent))}.ds-meal-value{font-family:var(--font-numeric,'Saira',sans-serif);display:block;min-width:0;overflow-wrap:anywhere;font-size:var(--fs-heading,1.5rem);line-height:var(--lh-heading,1.2);font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.ds-meal-unit{display:block;font-size:var(--fs-caption,.75rem);line-height:var(--lh-caption,1.5);font-weight:600}.ds-meal-actions{grid-area:actions;display:flex;align-items:center;justify-content:center;width:var(--touch-target,2.75rem);height:var(--touch-target,2.75rem);padding:0;border:0;border-radius:var(--radius-md, 0.625rem);background:transparent;color:rgb(var(--c-training-muted, 189 189 188));transition:transform var(--dur-short,120ms) var(--ease-standard,cubic-bezier(.16,1,.3,1))}.ds-meal-actions:focus-visible{outline:2px solid rgb(var(--ds-meal-accent));outline-offset:2px}.ds-meal-actions:active{transform:scale(var(--motion-press,.97));opacity:.7}@media(hover:hover) and (pointer:fine){.ds-meal-actions:hover{background:rgb(var(--c-overlay, 10 10 11));color:rgb(var(--c-on-training, 248 248 245))}}@container ds-meal (max-width:18rem){.ds-meal-grid{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:'icon title actions' 'icon meta actions' 'energy energy energy'}.ds-meal-energy{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:baseline;gap:.375rem;padding-left:0;border-left:0;border-top:1px solid rgb(var(--ds-meal-accent)/.25);padding-top:.5rem;margin-top:.375rem}}@container ds-meal (max-width:10rem){.ds-meal-grid{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'icon actions' 'title title' 'meta meta' 'energy energy'}}@media(prefers-reduced-motion:reduce){.ds-meal-actions:active{transform:none}}"
+    },
+    {
+      "name": "Registros de comida",
+      "kind": "custom",
+      "refersTo": "food-record",
+      "description": "Una superficie por comida con filas planas para platos y alimentos; «Añadir a…» como última fila neutra.",
+      "html": "<section class=\"ds-records\" aria-label=\"Registros de desayuno\"><div class=\"ds-record\"><div class=\"ds-record-header\"><button type=\"button\" class=\"ds-record-button\" aria-expanded=\"false\"><span class=\"ds-record-name\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M9 5l7 7-7 7\"></path></svg><span>Café + Leche + Saladas</span></span><span class=\"ds-record-detail\">3 alimentos · P 11 · C 22 · G 11</span><span class=\"ds-record-energy\">227 <small>kcal</small></span></button><button type=\"button\" class=\"ds-record-action\" aria-label=\"Acciones del plato Café + Leche + Saladas\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0M17 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0\"></path></svg></button></div></div><div class=\"ds-record\"><div class=\"ds-record-header\"><button type=\"button\" class=\"ds-record-button\"><span class=\"ds-record-name\"><span>Bizcocho</span></span><span class=\"ds-record-detail\">40 g · P 2 · C 20 · G 10</span><span class=\"ds-record-energy\">174 <small>kcal</small></span></button><button type=\"button\" class=\"ds-record-action\" aria-label=\"Borrar Bizcocho\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6\"></path></svg></button></div></div></section>",
+      "css": ".ds-records{display:grid;gap:8px;font-family:var(--font-sans,'Saira',ui-sans-serif,system-ui,sans-serif)}.ds-record{container-type:inline-size;container-name:ds-record;border:1px solid rgb(var(--c-border, 216 216 210));border-radius:var(--radius-md, 0.625rem);background:rgb(var(--c-surface, 255 255 255));color:rgb(var(--c-text-primary, 22 22 24))}.ds-record-header{display:flex;align-items:center;gap:4px;padding:4px 8px}.ds-record-button{display:grid;flex:1;min-width:0;min-height:var(--touch-target,2.75rem);grid-template-columns:minmax(0,1fr) minmax(0,max-content);grid-template-areas:'name name' 'detail energy';gap:4px 8px;align-items:baseline;padding:8px 4px;border:0;border-radius:var(--radius-sm, 0.375rem);background:transparent;color:inherit;text-align:left;font:inherit}.ds-record-name{grid-area:name;display:flex;align-items:start;gap:4px;font-size:1rem;line-height:1.5;font-weight:600;overflow-wrap:anywhere}.ds-record-name svg{flex-shrink:0;margin-top:4px}.ds-record-detail{grid-area:detail;font-size:.75rem;line-height:1.5;color:rgb(var(--c-text-secondary, 77 77 74));font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.ds-record-energy{grid-area:energy;font-size:1rem;line-height:1.5;font-weight:600;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.ds-record-energy small{font-size:.75rem;font-weight:400;color:rgb(var(--c-text-secondary, 77 77 74))}.ds-record-action{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:var(--touch-target,2.75rem);height:var(--touch-target,2.75rem);padding:0;border:0;border-radius:var(--radius-md, 0.625rem);background:transparent;color:rgb(var(--c-text-secondary, 77 77 74))}.ds-record-button:focus-visible,.ds-record-action:focus-visible{outline:2px solid rgb(var(--c-focus, 163 56 7));outline-offset:2px}@media(hover:hover){.ds-record-button:hover,.ds-record-action:hover{background:rgb(var(--c-surface-muted, 232 232 228))}}@container ds-record(max-width:14rem){.ds-record-button{grid-template-columns:minmax(0,1fr);grid-template-areas:'name' 'detail' 'energy'}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Enfocada y enérgica",
+    "overview": "**Creative North Star: \"Enfocada y enérgica\"**\n\nLa opción 3 aportada por el usuario fijó la dirección deportiva; desde el 2026-10-07 la paleta es grafito neutro con un único acento naranja para actuar y medir la energía, con superficies limpias y redondeadas sobre la composición respirada de ADR 017 (ADR 020). AppFit sigue siendo un registro personal de alimentación, peso y entrenamiento. No se incorporan datos, rachas, retos, planificación o promesas del mockup.\n\nLa identidad nace de títulos condensados, cifras tabulares y superficies compactas; el abanico que emerge del botón Menú sigue siendo el gesto distintivo. Energía mediante contraste y jerarquía, sin neones, degradados decorativos, glassmorphism, imágenes genéricas ni movimiento constante. La implementación directa fue solicitada por el usuario.\n\nLa preview de tres pantallas aprobada incorpora atmósferas fotográficas: bienestar/fitness/nutrición en Inicio, meal prep en Nutrición y pesas/esfuerzo en Gym. Son imágenes generadas con acabado fotográfico, específicas de esta dirección. Texto, controles y datos siguen siendo interfaz real. Los degradados se permiten como integración de la foto, sin convertirse en decoración de componentes.\n\nPRODUCT.md conserva la verdad de producto; src/shared/design/tokens.css los valores; tailwind.config.js sus clases; docs/DESIGN-SYSTEM.md los patrones. Este frontmatter y .impeccable/design.json documentan el código. La superficie appfit mantiene el encargo.",
+    "keyCharacteristics": [
+      "Grafito neutro y un único acento naranja para actuar y para la energía; claro mantiene la misma identidad.",
+      "Saira local en tres voces: títulos condensados rectos, cifras en cursiva, lectura a ancho normal.",
+      "Pocas superficies y pocas líneas: una superficie por unidad real, filas planas y color solo donde informa.",
+      "Menú en abanico y motion breve que comunica estados."
+    ],
+    "rules": [
+      {
+        "name": "Acento",
+        "body": "El naranja orienta la acción y mide la energía del día; no sustituye superficies, texto o jerarquía. Acciones terciarias en grafito con icono naranja.",
+        "section": "colors"
+      },
+      {
+        "name": "Dos voces",
+        "body": "Títulos condensados rectos, cifras en cursiva, lectura y edición rectas a ancho normal.",
+        "section": "typography"
+      },
+      {
+        "name": "Elevación mínima",
+        "body": "Tono y espacio separan contenido; una sombra casi imperceptible separa cards reales del fondo y la sombra marcada indica una capa temporal.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Contraste AA en ambos temas; campos ≥16 px, controles ≥44 px.",
+      "Datos y unidades completos, estados honestos cuando falta información.",
+      "Sistema común; ninguna paleta o familia exclusiva por pantalla.",
+      "Cards limpias y redondeadas, separación generosa entre tareas; elevación mínima.",
+      "Naranja orienta y confirma; no domina el contenido.",
+      "Teclado, foco, Atrás, safe areas y Reduce Motion forman parte del producto.",
+      "Sigue siendo una PWA; emulación no acredita hardware físico iOS/Android."
+    ],
+    "donts": [
+      "Evitar paletas por pantalla, neones, degradados decorativos, glassmorphism y fotografías genéricas. No reducir tipografía/targets ni ocultar contenido para encajar. No inventar rachas, récords, planificación o referencias de salud."
+    ]
+  }
+}

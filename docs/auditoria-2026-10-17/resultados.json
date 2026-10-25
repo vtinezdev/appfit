@@ -1,0 +1,34 @@
+{
+  "fecha": "2026-10-17",
+  "entorno": "Linux; contextos sintéticos; ningún teléfono físico",
+  "unitarios": {
+    "comando": "npm run test",
+    "archivos": 181,
+    "tests": 2248,
+    "correcto": true
+  },
+  "build": {
+    "comando": "npm run build",
+    "correcto": true
+  },
+  "entreno": {
+    "motores": 3,
+    "escenariosPorMotor": 11,
+    "totalCorrectos": 33
+  },
+  "interfaz": {
+    "configuraciones": 30,
+    "medidas": 690,
+    "correctas": 30,
+    "calendariosTactilesPendientes": true
+  },
+  "formularios": {
+    "escenarios": 4,
+    "correctos": 4
+  },
+  "swReal": "A→B, fallo/reintento, dos pestañas, cierre/reapertura offline y tablas conservadas",
+  "serviciosRemotos": "simulados; SQL/RLS no ejecutado en esta auditoría",
+  "ci": "workflow preparado; comandos locales ejecutados; GitHub no ejecutado",
+  "datosReales": false,
+  "commitPushMergeDespliegue": false
+}

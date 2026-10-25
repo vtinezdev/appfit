@@ -1,96 +1,77 @@
 import { useState } from 'react'
-import { formatNumber } from '../../../shared/lib/format'
 import { useLiveQuery } from 'dexie-react-hooks'
-import * as exercisesRepo from '../data/exercisesRepo'
+import CalendarioEntrenos from '../components/CalendarioEntrenos'
+import ResumenSemanalGym from '../components/ResumenSemanalGym'
+import * as routinesRepo from '../data/routinesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
-import type { Workout } from '../../../shared/db/types'
-import { formatDuracion, volumenSets } from '../lib/workout'
-import Sheet from '../../../shared/components/Sheet'
+import { calendarioMes, type DiaCalendario } from '../lib/calendarioEntrenos'
+import { detalleSesion, volumenSets } from '../lib/workout'
+import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
+import { formatFechaHora, monthDates, todayISO, toISODate } from '../../../shared/lib/dates'
+import type { SetEntry } from '../../../shared/db/types'
 import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
+import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
-import Metric from '../../../shared/components/Metric'
 
-function formatFechaHora(ts: number): string {
-  return new Date(ts).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
-}
-
-export default function Historial() {
-  const [seleccionado, setSeleccionado] = useState<Workout | null>(null)
+/**
+ * Calendario del mes (días entrenados por volumen), resumen de la semana y sesiones del mes, de la más reciente a la
+ * más antigua (`workoutsRepo.terminados` ya las da así). El detalle y la edición viven en `DetalleEntreno`.
+ */
+export default function Historial({ onAbrir }: { onAbrir: (id: number) => void }) {
+  const [mes, setMes] = useState(todayISO)
   const workouts = useLiveQuery(() => workoutsRepo.terminados(), [])
-  const detalleSets = useLiveQuery(() => (seleccionado?.id ? setsRepo.delWorkout(seleccionado.id) : []), [seleccionado?.id])
-  const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
-  const exerciseMap = new Map((exercises ?? []).map((e) => [e.id!, e]))
+  const nombreGimnasio = useNombresGimnasio()
+  const contexto = useLiveQuery(async () => {
+    const porWorkout = new Map<number, SetEntry[]>()
+    for (const s of await setsRepo.todas()) {
+      const delWorkout = porWorkout.get(s.workoutId)
+      if (delWorkout) delWorkout.push(s)
+      else porWorkout.set(s.workoutId, [s])
+    }
+    return { rutinas: new Map((await routinesRepo.listar()).map((r) => [r.id, r.nombre])), porWorkout }
+  }, [])
+  if (workouts === undefined) return <LoadingState />
+  if (workouts.length === 0) return <EmptyState icon="dumbbell" title="Sin entrenos todavía">Cuando termines un entreno aparecerá aquí.</EmptyState>
 
-  const lista = workouts ? [...workouts].reverse() : []
+  const semanas = calendarioMes(mes, workouts, id => volumenSets(contexto?.porWorkout.get(id) ?? []), todayISO())
+  const diasMes = new Set(monthDates(mes))
+  const lista = workouts.filter(w => diasMes.has(toISODate(new Date(w.inicio))))
 
-  const porEjercicio = new Map<number, typeof detalleSets>()
-  for (const s of detalleSets ?? []) {
-    const arr = porEjercicio.get(s.exerciseId) ?? []
-    arr.push(s)
-    porEjercicio.set(s.exerciseId, arr)
+  function abrirDia(dia: DiaCalendario) {
+    if (dia.workoutIds.length === 1) return onAbrir(dia.workoutIds[0])
+    // Varias sesiones ese día: se baja a la primera de la lista.
+    const fila = document.querySelector<HTMLElement>(`[data-sesion="${dia.workoutIds[0]}"] button`)
+    fila?.scrollIntoView({ block: 'center' })
+    fila?.focus({ preventScroll: true })
   }
 
   return (
-    <div className="space-y-stack">
-      {workouts === undefined && <LoadingState />}
-      {workouts && lista.length === 0 && <EmptyState icon="dumbbell" title="Sin entrenos todavía">Cuando termines un entreno aparecerá aquí.</EmptyState>}
-      {lista.length > 0 && (
-        <ListGroup aria-label="Entrenos terminados">
-          {lista.map((w) => (
-            <li key={w.id}>
-              <ListRow onClick={() => setSeleccionado(w)}>
-                <span className="min-w-0">
-                  <span className="block text-body font-medium text-fg">{formatFechaHora(w.inicio)}</span>
-                  <span className="tabular block text-caption text-fg-muted">{w.fin ? formatDuracion(w.fin - w.inicio) : '—'}</span>
-                </span>
-                <Icon name="chevron-right" size={18} className="text-fg-subtle" />
-              </ListRow>
-            </li>
-          ))}
-        </ListGroup>
-      )}
-
-      <Sheet open={seleccionado !== null} onClose={() => setSeleccionado(null)} title={seleccionado ? formatFechaHora(seleccionado.inicio) : ''}>
-        <div className="space-y-section">
-          {seleccionado && <div className="grid grid-cols-3 gap-3 border-b border-line pb-4">
-            <Metric size="title" label="Duración" valor={seleccionado.fin ? formatDuracion(seleccionado.fin - seleccionado.inicio) : '—'} />
-            <Metric size="title" label="Series" valor={detalleSets?.length ?? 0} />
-            <Metric size="title" label="Volumen" valor={formatNumber(volumenSets(detalleSets ?? []), 1)} unidad="kg" />
-          </div>}
-          {Array.from(porEjercicio.entries()).map(([exId, sets]) => (
-            <section key={exId} aria-label={exerciseMap.get(exId)?.nombre ?? 'Ejercicio'} className="space-y-2">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="min-w-0 break-words text-title text-fg">{exerciseMap.get(exId)?.nombre ?? '…'}</h3>
-                <span className="tabular text-caption text-fg-muted">{formatNumber(volumenSets(sets ?? []), 1)} kg</span>
-              </div>
-              <table className="tabular w-full table-fixed break-words text-body-sm">
-                <thead>
-                  <tr className="text-left text-label text-fg-muted">
-                    <th className="w-16 pb-1 font-semibold">Serie</th>
-                    <th className="pb-1 text-right font-semibold">Reps</th>
-                    <th className="pb-1 text-right font-semibold">Kg</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-line">
-                  {[...(sets ?? [])]
-                    .sort((a, b) => a.orden - b.orden)
-                    .map((s, i) => (
-                      <tr key={s.id}>
-                        <td className="py-1.5 text-fg-muted">{i + 1}</td>
-                        <td className="py-1.5 text-right text-fg">{formatNumber(s.reps, 0)}</td>
-                        <td className="py-1.5 text-right font-semibold text-fg">{formatNumber(s.peso, 2)}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </section>
-          ))}
-          {porEjercicio.size === 0 && <EmptyState>Sin ejercicios registrados.</EmptyState>}
-        </div>
-      </Sheet>
+    <div className="space-y-section">
+      <CalendarioEntrenos mes={mes} semanas={semanas} onMes={setMes} onDia={abrirDia} />
+      <section aria-label="Semana" className="space-y-stack"><SectionHeader variant="section">Semana</SectionHeader><ResumenSemanalGym /></section>
+      <section aria-label="Sesiones del mes" className="space-y-stack">
+        <SectionHeader variant="section">Sesiones del mes</SectionHeader>
+        {lista.length === 0 ? <EmptyState>Sin entrenos este mes.</EmptyState> : (
+          <ListGroup aria-label="Entrenos terminados del mes">
+            {lista.map((w) => (
+              <li key={w.id} data-sesion={w.id}>
+                <ListRow onClick={() => onAbrir(w.id)}>
+                  <span className="min-w-0">
+                    <span className="tabular block text-body font-medium text-fg">{formatFechaHora(w.inicio)}</span>
+                    <span className="tabular block break-words text-caption text-fg-muted">
+                      {detalleSesion(w, w.routineId !== undefined ? contexto?.rutinas.get(w.routineId) : undefined, contexto?.porWorkout.get(w.id) ?? [], nombreGimnasio(w.gimnasioId))}
+                    </span>
+                  </span>
+                  <Icon name="chevron-right" size={18} className="text-fg-subtle" />
+                </ListRow>
+              </li>
+            ))}
+          </ListGroup>
+        )}
+      </section>
     </div>
   )
 }

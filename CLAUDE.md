@@ -1,6 +1,6 @@
 # AppFit — instrucciones para Claude Code
 
-PWA personal de nutrición y gimnasio para el iPhone de Víctor (único usuario). Sin backend: todos los datos viven en IndexedDB (Dexie) del dispositivo y Cloudflare solo sirve estáticos. Sin IA: las comidas se interpretan en el dispositivo (intérprete local + catálogo CIQUAL / Open Food Facts). UI, nombres de dominio en el código y documentación, en español.
+PWA de nutrición y gimnasio de Víctor, que va a abrirse a otras personas. Los datos viven en IndexedDB (Dexie) del dispositivo y Cloudflare solo sirve estáticos; la cuenta es opcional y guarda en Supabase una copia cifrada en el móvil (`docs/features/cuenta.md`) y, si se usa Social, el perfil, las publicaciones elegidas y las comunidades (`docs/features/social.md`). Sin IA: las comidas se interpretan en el dispositivo (intérprete local + catálogo CIQUAL / Open Food Facts). UI, nombres de dominio en el código y documentación, en español.
 
 Stack: Vite 8 · React 19 · TypeScript · Tailwind 3 (solo nombra tokens) · Dexie 4 + dexie-react-hooks · Recharts · vite-plugin-pwa · Vitest + fake-indexeddb. Versiones: `package.json`.
 
@@ -20,10 +20,11 @@ Catálogo (`npm run catalogo:*`): `scripts/catalogo/README.md`. Despliegue y res
 ```
 src/app/            shell: App (router casero con useState, sin URLs), BottomNav, Ajustes
 src/shared/         db/ (esquema Dexie, tipos, ajustes) · lib/ (fechas, formato, texto, backup) · design/ (tokens, guard)
-                    · components/ (primitives) · hooks/ (useAviso, useModalLayer)
-src/features/       inicio/ · nutricion/ · gym/ — cada una: <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
+                    · pwa/ (estado y aplicación de actualizaciones) · components/ (primitives) · hooks/ (useAviso, useModalLayer)
+src/features/       inicio/ · nutricion/ · gym/ · actividades/ · perfil/ · referencias/ · experiencia/ · cumbres/ · caminos/ · ritmo/ · vitrina/ · progreso/ · liga/ · cuenta/ · social/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
 src/test/           setup-db.ts (fake-indexeddb) y fixtures/
 scripts/catalogo/   tubería offline (Node, manual) que genera los paquetes de public/catalogo/
+supabase/           SQL del proyecto de Supabase (migrations/, se ejecuta a mano en su SQL Editor; pruebas/, se ejecuta y se deshace)
 ```
 
 Dónde está cada cosa: `docs/arquitectura.md` y `docs/features/<feature>.md`.
@@ -39,12 +40,12 @@ Dónde está cada cosa: `docs/arquitectura.md` y `docs/features/<feature>.md`.
 **Código**
 - Lógica de negocio en funciones puras con tests colocados al lado (`*.test.ts`); los componentes solo componen.
 - Imports relativos, sin alias.
-- Red: solo el catálogo del propio origen y Open Food Facts con el código de barras (nada más sale del móvil). Ningún servicio externo nuevo sin preguntar.
+- Red: solo los estáticos, el catálogo y los metadatos de versión del propio origen, Open Food Facts con el código de barras y, con cuenta, Supabase con la copia **ya cifrada** y, en Amigos, solo el perfil social (alias, nombre, a quién sigues) y lo que la persona publique a propósito (nada más sale en claro del móvil; el GPS de las actividades es local y el recorrido se dibuja sin mapas). Ningún servicio externo nuevo sin preguntar.
 
 **UI** (identidad en `DESIGN.md`; implementación en `docs/DESIGN-SYSTEM.md`: lee la sección que toque)
 - Nada de colores, tamaños, radios ni cifras sin formato sueltos, ni emojis como iconos: tokens + primitives. Lo vigilan `shared/design/guard.test.ts` y `contrast.test.ts`.
 - Inputs a 16 px como mínimo (Safari iOS hace zoom), controles reales ≥44 px. Validar 320/375/430 px, ambos temas, contenido largo y cifras grandes; sin scroll horizontal ni acciones cubiertas.
-- Listas planas; cards para unidades reales. Métricas inmediatas, sin halo/anillo/contador animado. ViewTabs para navegar, SegmentedControl para valores. Sheets y páginas modales usan las capas compartidas (foco/inert/viewport), sin wrappers nuevos por feature.
+- Listas planas; cards para unidades reales. Métricas inmediatas, sin halo ni contador animado. ViewTabs para navegar, SegmentedControl para valores. Sheets y páginas modales usan las capas compartidas (foco/inert/viewport), sin wrappers nuevos por feature.
 - Borrados: rutinas y plantillas → confirmación previa (`ConfirmacionDestructiva`); filas sueltas (series, entradas, alimentos…) → borrado inmediato con «Deshacer» (`useAviso`). Dentro de un Sheet el Toast queda debajo: errores en línea con `ErrorState`.
 
 **Pruebas en navegador**
@@ -66,7 +67,7 @@ Los documentos vivos describen el estado actual y cada tema vive en uno solo. Si
 |---|---|---|
 | `docs/arquitectura.md` | capas y dependencias, mapa de carpetas, navegación, arranque, PWA/offline, red | cambian carpetas, capas, arranque o caché |
 | `docs/datos.md` | tablas, invariantes, repositorios, ajustes, backup, trampas de Dexie | cambian tablas, invariantes, repos o el backup |
-| `docs/features/nutricion.md`, `gym.md`, `inicio.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
+| `docs/features/nutricion.md`, `gym.md`, `actividades.md`, `inicio.md`, `perfil.md`, `referencias.md`, `experiencia.md`, `cumbres.md`, `caminos.md`, `ritmo.md`, `vitrina.md`, `progreso.md`, `liga.md`, `cuenta.md`, `social.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
 | `DESIGN.md` | identidad, intención y criterios de producto | cambia la dirección visual |
 | `docs/DESIGN-SYSTEM.md` | implementación: tokens, primitives y patrones | cambian tokens, primitives o patrones |
 | `docs/desarrollo.md` | requisitos, tests, pruebas en navegador, Git/PR, despliegue, uso de Claude Code | cambian comandos, flujo de trabajo o despliegue |

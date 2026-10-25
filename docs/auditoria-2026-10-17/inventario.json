@@ -1,0 +1,1052 @@
+{
+  "fecha": "2026-10-17",
+  "archivos": 1179,
+  "fuentes": 602,
+  "componentes": 215,
+  "archivos_tests": 181,
+  "inventario": [
+    {
+      "archivo": "src/app/ActualizacionesAjustes.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/app/Ajustes.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/app/AlmacenamientoAjustes.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/app/App.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/app/ArcoSecciones.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/app/AtmosferaApp.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/app/BottomNav.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/app/TrasladarDatos.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/actividades/components/HojaActividad.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/actividades/components/HojaGrabar.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/actividades/components/PerfilAltitud.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/actividades/components/PublicarActividad.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/actividades/components/TrazadoRecorrido.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/actividades/pages/ActividadesHome.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/actividades/pages/DetalleActividad.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/actividades/pages/GrabacionActiva.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/caminos/CaminosTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/caminos/components/AvanceActividad.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/BuscadorLugar.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/CambiarRutaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/ComoSeAvanza.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/EditorRuta.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/HojaPasos.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/HojaZancada.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/ListaRutas.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/MapaRuta.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/PasosCaminos.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/caminos/components/TrazadoCamino.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cuenta/components/CuentaAjustes.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cuenta/components/ElegirCopia.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cuenta/components/EntrarSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cuenta/components/GestionarCuenta.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cumbres/CumbresTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/cumbres/components/CambiarMontanaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cumbres/components/ComoSeSube.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cumbres/components/CumbreSesion.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cumbres/components/FilasMetros.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cumbres/components/ListaMontanas.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/cumbres/components/PerfilMontana.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/GymTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/gym/components/CalendarioEntrenos.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/CargaEjercicio.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/CreadorRutinas.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/EjecucionEjercicio.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/EntrenoMinimizado.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/MapaMuscular.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/MenuSerie.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/MiniaturaEjercicio.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/MisEjercicios.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/NotaEjercicio.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/ObjetivoRutina.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/PanelEjercicio.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/PosterSesion.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/ProgresionEjercicio.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/ProgresoSeries.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/PublicarEntreno.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/RegistrarEntrenoPasado.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/ResumenSemanalGym.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/RirSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/RutinaResumen.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/SelectorEjercicios.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/TarjetaEntreno.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/WorkoutClock.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/components/WorkoutFinished.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/gym/pages/DetalleEntreno.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/gym/pages/EntrenoActivo.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/gym/pages/GymHome.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/gym/pages/Historial.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/gym/pages/Progreso.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/gym/pages/Rutinas.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/inicio/InicioTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/inicio/components/AccesoAgua.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/AccesoEntreno.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/AccesoPeso.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/AccesoProgreso.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/AguaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/AvisoBackup.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/CreatinaAjustes.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/CreatinaHoy.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/GraficaPeso.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/HistorialPeso.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/RegistrarPesoSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/RevisionSemanal.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/TarjetaAcceso.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/TarjetaEnergia.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/inicio/components/TarjetaRevisionSemanal.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/AscensosLiga.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/AvisoElite.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/BloqueLiga.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/ComoFuncionaLiga.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/DetalleLiga.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/IconoLiga.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/InsigniaLiga.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/LigaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/LigasLista.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/liga/components/VariarElite.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/NutricionTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/nutricion/components/AccionesComidaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/AccionesDiaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/AccionesPlatoSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/AdherenciaResumen.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/AlimentosRapidos.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/AplicarPlantillaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/CabeceraComida.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/CambiarAlimentoSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/CatalogoAjustes.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/CategoriasResumen.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/ComidaSection.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/DescribirComida.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/EditorReceta.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/EscanerCodigo.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/FranjaMacros.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/GestionPlantillaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/HerbarioResumen.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/IconoCategoria.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/ItemRevisionRow.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/KcalRapidasSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/ListaElegibles.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/MacroBar.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/MacroInputs.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/MoverPlatoSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/NutrientesDetalle.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/ObjetivosAjustes.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/PlantillasLista.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/PorcionesAlimento.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/RegistroComida.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/RepetirComidaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/ResultadosBusqueda.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/ResumenNutricional.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/SelectorCategoria.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/SemanaKcal.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/components/UnidadRacion.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/nutricion/pages/Alimentos.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/nutricion/pages/AnadirComida.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/nutricion/pages/Hoy.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/nutricion/pages/Medidas.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/nutricion/pages/Resumen.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/perfil/PerfilTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/perfil/components/DatosPerfil.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/perfil/components/EditarDatoSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/perfil/components/GastoObservadoCard.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/perfil/components/MedidasCorporales.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/perfil/components/ResultadoEnergia.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/referencias/ReferenciasTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/referencias/components/EnergiaReferencias.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/referencias/components/ProteinaAguaReferencias.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/referencias/components/ReferenciaNutrienteContenido.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/ritmo/RitmoTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/ritmo/components/CalendarioSemanas.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/ritmo/components/ComoFuncionaRitmo.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/ritmo/components/DiasSemana.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/ritmo/components/GamificacionAjustes.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/ritmo/components/PausarSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/AmigosTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/social/SocialTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/social/components/Anadir.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/AvisoAmigos.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/AvisosSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/ComentariosSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/Comunidades.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/CrearPerfil.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/CrearPublicacion.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/FormDenuncia.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/ListaFeed.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/ListaPersonas.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/MapaPublicacion.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/NombrePersona.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/PerfilSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/PersonaSheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/PublicacionFeed.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/PublicacionesPersona.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/Publicar.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/Solicitudes.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/social/components/TarjetaPublicacion.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/vitrina/VitrinaTab.tsx",
+      "tipo": "pantalla"
+    },
+    {
+      "archivo": "src/features/vitrina/components/ColeccionesVista.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/vitrina/components/ComoFuncionaVitrina.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/vitrina/components/CompartirLogro.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/vitrina/components/IconoLogro.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/vitrina/components/LogrosVista.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/vitrina/components/NuevosLogros.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/features/vitrina/components/RecordsVista.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/main.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Anillo.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/AvisoActualizacion.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Badge.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Button.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Campo.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Card.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/ChartVisibility.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/ComoFunciona.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/ConfirmacionDestructiva.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Disclosure.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/FilaDeslizable.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/FilterChips.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Icon.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Input.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/InsigniaExpedicion.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/InstalarApp.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/ListGroup.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/ListRow.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Metric.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/ModalPage.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/NotaAmpliable.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/NumberStepper.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/PageHeader.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Pista.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/ProgressBar.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/SectionHeader.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/SegmentedControl.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Sheet.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/StateMessage.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/Toast.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/components/ViewTabs.tsx",
+      "tipo": "componente"
+    },
+    {
+      "archivo": "src/shared/hooks/useAviso.tsx",
+      "tipo": "componente"
+    }
+  ],
+  "tests": [
+    "scripts/catalogo/calidad.test.ts",
+    "scripts/catalogo/ciqualLib.test.ts",
+    "scripts/catalogo/offLib.test.ts",
+    "scripts/lugares/lugaresLib.test.ts",
+    "src/app/AtmosferaApp.test.tsx",
+    "src/app/arco.test.ts",
+    "src/app/navegacion.test.ts",
+    "src/app/seccionesAjustes.test.ts",
+    "src/features/actividades/data/actividadesRepo.test.ts",
+    "src/features/actividades/lib/actividad.test.ts",
+    "src/features/actividades/lib/formulario.test.ts",
+    "src/features/actividades/lib/geo.test.ts",
+    "src/features/actividades/lib/gpx.test.ts",
+    "src/features/actividades/lib/grabacion.test.ts",
+    "src/features/caminos/data/caminosRepo.test.ts",
+    "src/features/caminos/data/pasosRepo.test.ts",
+    "src/features/caminos/data/rutasPropiasRepo.test.ts",
+    "src/features/caminos/lib/caminos.test.ts",
+    "src/features/caminos/lib/lugares.test.ts",
+    "src/features/caminos/lib/pasos.test.ts",
+    "src/features/cuenta/copiaNube.test.ts",
+    "src/features/cuenta/data/dispositivoRepo.test.ts",
+    "src/features/cuenta/data/nubeSupabase.test.ts",
+    "src/features/cuenta/lib/cifrado.test.ts",
+    "src/features/cuenta/lib/decision.test.ts",
+    "src/features/cuenta/lib/disparo.test.ts",
+    "src/features/cuenta/lib/estado.test.ts",
+    "src/features/cuenta/lib/huella.test.ts",
+    "src/features/cumbres/data/cumbresRepo.test.ts",
+    "src/features/cumbres/lib/cumbres.test.ts",
+    "src/features/experiencia/lib/experiencia.test.ts",
+    "src/features/gym/components/MapaMuscular.test.tsx",
+    "src/features/gym/components/PanelEjercicio.test.tsx",
+    "src/features/gym/data/catalogoEjerciciosRepo.test.ts",
+    "src/features/gym/data/ejecucionProgresion.test.ts",
+    "src/features/gym/data/guardarPlan.test.ts",
+    "src/features/gym/data/gymRepos.test.ts",
+    "src/features/gym/data/mapaMuscularRepo.test.ts",
+    "src/features/gym/data/notasCarga.test.ts",
+    "src/features/gym/data/quitarEjercicio.test.ts",
+    "src/features/gym/data/sustituirEjercicio.test.ts",
+    "src/features/gym/lib/anterior.test.ts",
+    "src/features/gym/lib/ayudaCifras.test.ts",
+    "src/features/gym/lib/calendarioEntrenos.test.ts",
+    "src/features/gym/lib/carga.test.ts",
+    "src/features/gym/lib/cargaMuscular.test.ts",
+    "src/features/gym/lib/creadorRutinas.test.ts",
+    "src/features/gym/lib/discos.test.ts",
+    "src/features/gym/lib/ejecucion.test.ts",
+    "src/features/gym/lib/imagenEjercicio.test.ts",
+    "src/features/gym/lib/objetivos.test.ts",
+    "src/features/gym/lib/presentacionEjercicio.test.ts",
+    "src/features/gym/lib/progresion.test.ts",
+    "src/features/gym/lib/progreso.test.ts",
+    "src/features/gym/lib/records.test.ts",
+    "src/features/gym/lib/resumenSemanal.test.ts",
+    "src/features/gym/lib/rutinas.test.ts",
+    "src/features/gym/lib/selectorEjercicios.test.ts",
+    "src/features/gym/lib/serie.test.ts",
+    "src/features/gym/lib/session.test.ts",
+    "src/features/gym/lib/workout.test.ts",
+    "src/features/inicio/components/TarjetaEnergia.test.tsx",
+    "src/features/inicio/components/TarjetaRevisionSemanal.test.tsx",
+    "src/features/inicio/data/aguaRepo.test.ts",
+    "src/features/inicio/data/creatinaRepo.test.ts",
+    "src/features/inicio/data/pesosRepo.test.ts",
+    "src/features/inicio/lib/agua.test.ts",
+    "src/features/inicio/lib/anilloEnergia.test.ts",
+    "src/features/inicio/lib/creatina.test.ts",
+    "src/features/inicio/lib/miniGrafica.test.ts",
+    "src/features/inicio/lib/peso.test.ts",
+    "src/features/inicio/lib/revisionSemanal.test.ts",
+    "src/features/liga/data/ligaRepo.test.ts",
+    "src/features/liga/lib/alternativas.test.ts",
+    "src/features/liga/lib/estancamiento.test.ts",
+    "src/features/liga/lib/liga.test.ts",
+    "src/features/liga/lib/textos.test.ts",
+    "src/features/nutricion/components/ItemRevisionRow.test.tsx",
+    "src/features/nutricion/components/NutrientesDetalle.test.tsx",
+    "src/features/nutricion/components/RegistroComida.test.tsx",
+    "src/features/nutricion/components/ResumenNutricional.test.tsx",
+    "src/features/nutricion/data/catalogId.propagacion.test.ts",
+    "src/features/nutricion/data/catalogRepo.test.ts",
+    "src/features/nutricion/data/cheatDaysRepo.test.ts",
+    "src/features/nutricion/data/entriesRepo.mover.test.ts",
+    "src/features/nutricion/data/entriesRepo.test.ts",
+    "src/features/nutricion/data/foodsRepo.test.ts",
+    "src/features/nutricion/data/mealsRepo.test.ts",
+    "src/features/nutricion/data/notasMedidaRepo.test.ts",
+    "src/features/nutricion/data/nutrientesRepo.test.ts",
+    "src/features/nutricion/data/porcionesRepo.test.ts",
+    "src/features/nutricion/data/recetasRepo.test.ts",
+    "src/features/nutricion/hooks/buscarCatalogo.test.ts",
+    "src/features/nutricion/hooks/interpretarTexto.test.ts",
+    "src/features/nutricion/lib/adherencia.test.ts",
+    "src/features/nutricion/lib/alimentos.test.ts",
+    "src/features/nutricion/lib/catalogo/categorias.test.ts",
+    "src/features/nutricion/lib/catalogo/compatibilidad.es1-es2.test.ts",
+    "src/features/nutricion/lib/catalogo/erratas.test.ts",
+    "src/features/nutricion/lib/catalogo/paquete.test.ts",
+    "src/features/nutricion/lib/catalogo/preferidos.test.ts",
+    "src/features/nutricion/lib/catalogo/ranking.test.ts",
+    "src/features/nutricion/lib/catalogo/sincronizar.test.ts",
+    "src/features/nutricion/lib/catalogo/textos.test.ts",
+    "src/features/nutricion/lib/cheatDays.test.ts",
+    "src/features/nutricion/lib/escaner/detector.test.ts",
+    "src/features/nutricion/lib/herbario.test.ts",
+    "src/features/nutricion/lib/interprete/emparejar.catalogo.test.ts",
+    "src/features/nutricion/lib/interprete/emparejar.test.ts",
+    "src/features/nutricion/lib/interprete/medidas.test.ts",
+    "src/features/nutricion/lib/interprete/parsear.test.ts",
+    "src/features/nutricion/lib/interprete/porciones.test.ts",
+    "src/features/nutricion/lib/interprete/raciones.test.ts",
+    "src/features/nutricion/lib/nombresCortos.test.ts",
+    "src/features/nutricion/lib/nutrientes.test.ts",
+    "src/features/nutricion/lib/nutrition.test.ts",
+    "src/features/nutricion/lib/objetivos.test.ts",
+    "src/features/nutricion/lib/off/buscarProducto.test.ts",
+    "src/features/nutricion/lib/off/mapearProducto.test.ts",
+    "src/features/nutricion/lib/plantillas.catalogo.test.ts",
+    "src/features/nutricion/lib/plantillas.test.ts",
+    "src/features/nutricion/lib/platos.test.ts",
+    "src/features/nutricion/lib/recetas.test.ts",
+    "src/features/nutricion/lib/referenciasNutrientes.test.ts",
+    "src/features/nutricion/lib/repartoCategorias.test.ts",
+    "src/features/nutricion/lib/semanaKcal.test.ts",
+    "src/features/perfil/components/perfil.test.tsx",
+    "src/features/perfil/data/medidasRepo.test.ts",
+    "src/features/perfil/data/objetivosDiaRepo.test.ts",
+    "src/features/perfil/data/perfilRepo.test.ts",
+    "src/features/perfil/lib/energia.test.ts",
+    "src/features/perfil/lib/fuentesEnergia.test.ts",
+    "src/features/perfil/lib/gastoObservado.test.ts",
+    "src/features/perfil/lib/medidas.test.ts",
+    "src/features/perfil/lib/objetivosDia.test.ts",
+    "src/features/perfil/lib/objetivosVigentes.test.ts",
+    "src/features/perfil/lib/proteina.test.ts",
+    "src/features/perfil/lib/validacionPerfil.test.ts",
+    "src/features/referencias/components/ReferenciaNutrienteContenido.test.tsx",
+    "src/features/referencias/lib/contenidoReferencias.test.ts",
+    "src/features/ritmo/data/pausasRepo.test.ts",
+    "src/features/ritmo/lib/pausas.test.ts",
+    "src/features/ritmo/lib/plan.test.ts",
+    "src/features/ritmo/lib/ritmo.test.ts",
+    "src/features/ritmo/lib/textos.test.ts",
+    "src/features/social/data/publicacionesRepo.test.ts",
+    "src/features/social/data/socialSupabase.test.ts",
+    "src/features/social/lib/alias.test.ts",
+    "src/features/social/lib/comunidad.test.ts",
+    "src/features/social/lib/feed.test.ts",
+    "src/features/social/lib/intento.test.ts",
+    "src/features/social/lib/mensajes.test.ts",
+    "src/features/social/lib/publicacion.test.ts",
+    "src/features/social/lib/relacion.test.ts",
+    "src/features/vitrina/lib/vitrina.test.ts",
+    "src/shared/components/components.test.tsx",
+    "src/shared/db/acceso.test.ts",
+    "src/shared/db/db.test.ts",
+    "src/shared/db/estadoDatos.test.ts",
+    "src/shared/db/foodRef.test.ts",
+    "src/shared/db/settings.test.ts",
+    "src/shared/design/carril.test.ts",
+    "src/shared/design/chart.test.ts",
+    "src/shared/design/contrast.test.ts",
+    "src/shared/design/guard.test.ts",
+    "src/shared/design/selection.test.ts",
+    "src/shared/design/theme.test.ts",
+    "src/shared/design/viewport.test.ts",
+    "src/shared/lib/almacenamiento.test.ts",
+    "src/shared/lib/backup.test.ts",
+    "src/shared/lib/csv.test.ts",
+    "src/shared/lib/dates.test.ts",
+    "src/shared/lib/deslizar.test.ts",
+    "src/shared/lib/exportarCsv.test.ts",
+    "src/shared/lib/format.test.ts",
+    "src/shared/lib/pistas.test.ts",
+    "src/shared/lib/recordatorioBackup.test.ts",
+    "src/shared/lib/referenciasNutricionales.test.ts",
+    "src/shared/lib/text.test.ts",
+    "src/shared/pwa/gestorActualizaciones.test.ts",
+    "src/shared/pwa/instalacion.test.ts"
+  ]
+}

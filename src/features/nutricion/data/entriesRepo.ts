@@ -8,10 +8,17 @@ import { macrosPorGramos } from '../lib/nutrition'
 import { copiaEsNoOp, planCopia, type DestinoCopia } from '../lib/plantillas'
 import * as foodsRepo from './foodsRepo'
 import * as nombresAlimentosRepo from './nombresAlimentosRepo'
+import * as mealsRepo from './mealsRepo'
 import { escalarNutrientes } from '../lib/nutrientes'
+import { esComida } from '../lib/comidas'
 
 export function delDia(fecha: string): Promise<Entry[]> {
   return db.entries.where('fecha').equals(fecha).toArray()
+}
+
+/** Fechas (YYYY-MM-DD) con alguna entrada, sin repetir. Solo lectura. */
+export async function fechasConRegistro(): Promise<string[]> {
+  return (await db.entries.orderBy('fecha').uniqueKeys()) as string[]
 }
 
 /** Entradas entre dos fechas YYYY-MM-DD, ambas incluidas. */
@@ -25,6 +32,7 @@ export interface GuardarComidaInput {
   items: ItemGuardado[]
   textoOriginal?: string
   nombrePlato?: string
+  guardarComoTipica?: boolean
   /** Añade al plato existente de esta fecha/comida, sin reescribir sus ingredientes. */
   platoDestinoId?: string
 }
@@ -36,16 +44,24 @@ export class PlatoNoDisponibleError extends Error {
   }
 }
 
+export class PlatoCambiadoError extends Error {
+  constructor() {
+    super('El plato ha cambiado. Cierra y vuelve a abrir el plato para mover todos sus ingredientes.')
+    this.name = 'PlatoCambiadoError'
+  }
+}
+
 /**
  * Guarda los alimentos revisados como entradas nuevas (creando o actualizando sus alimentos).
  * Varios ingredientes del mismo guardado comparten un plato, con identidad independiente de otros guardados.
  * Con destino explícito se valida y conserva el plato existente dentro de la transacción.
  * Un ítem con `catalogId` referencia el catálogo y no crea ni toca ningún alimento propio.
+ * Con `guardarComoTipica` también guarda una plantilla con los snapshots de las nuevas entradas.
  * Todo o nada: si falla un alimento, no se guarda ninguno.
  */
-export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato, platoDestinoId }: GuardarComidaInput): Promise<number[]> {
+export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato, platoDestinoId, guardarComoTipica = false }: GuardarComidaInput): Promise<number[]> {
   const createdAt = Date.now()
-  return db.transaction('rw', db.foods, db.entries, db.nombresAlimentos, async () => {
+  return db.transaction('rw', db.foods, db.entries, db.nombresAlimentos, db.meals, async () => {
     let agrupacion: Pick<Entry, 'platoId' | 'nombrePlato'> = items.length > 1
       ? { platoId: crypto.randomUUID(), ...(nombrePlato?.trim() ? { nombrePlato: nombrePlato.trim() } : {}) }
       : {}
@@ -73,6 +89,10 @@ export function guardarComida({ fecha, comida, items, textoOriginal, nombrePlato
           ...agrupacion,
         }),
       )
+    }
+    if (guardarComoTipica && ids.length > 0) {
+      const entries = (await db.entries.bulkGet(ids)).filter((e): e is Entry => e !== undefined)
+      await mealsRepo.crearDesdeEntradas({ nombre: nombrePlato?.trim() || [...new Set(items.map(it => it.nombre))].join(' + '), comida, entries })
     }
     return ids
   })
@@ -198,27 +218,77 @@ export async function restaurar(entries: Entry[]): Promise<void> {
   await db.entries.bulkPut(entries)
 }
 
+export interface MoverPlatoInput {
+  fecha: string
+  origen: Comida
+  destino: Comida
+  platoId: string
+  /** Evita mover un grupo sustituido o parcialmente cambiado durante el gesto/Deshacer. */
+  idsEsperados: number[]
+}
+
+export interface MovimientoPlato {
+  fecha: string
+  origen: Comida
+  destino: Comida
+  platoId: string
+  ids: number[]
+}
+
+/** Mueve el grupo completo, sin copiarlo ni recalcular snapshots. Todo o nada.
+ * Si el mismo id existe en destino (p. ej. un backup antiguo), asigna otro al
+ * grupo movido para no fusionar platos independientes. No cambia fecha/createdAt.
+ */
+export function moverPlato({ fecha, origen, destino, platoId, idsEsperados }: MoverPlatoInput): Promise<MovimientoPlato | null> {
+  if (!esComida(origen) || !esComida(destino)) return Promise.reject(new Error('Comida no válida.'))
+  if (origen === destino) return Promise.resolve(null)
+  return db.transaction('rw', db.entries, async () => {
+    const delDia = await db.entries.where('fecha').equals(fecha).toArray()
+    const plato = delDia.filter(e => e.comida === origen && e.platoId === platoId)
+    if (!platoId.trim() || !plato.length) throw new PlatoNoDisponibleError()
+    const esperados = new Set(idsEsperados)
+    if (!esperados.size || esperados.size !== idsEsperados.length || plato.length !== esperados.size || plato.some(e => !esperados.has(e.id))) {
+      throw new PlatoCambiadoError()
+    }
+    const idDestino = delDia.some(e => e.comida === destino && e.platoId === platoId) ? crypto.randomUUID() : platoId
+    await db.entries.bulkPut(plato.map(e => ({ ...e, comida: destino, platoId: idDestino })))
+    return { fecha, origen, destino, platoId: idDestino, ids: plato.map(e => e.id) }
+  })
+}
+
+/** Solo revierte la ubicación: conserva ediciones posteriores y nunca resucita borrados. */
+export function deshacerMovimientoPlato(movimiento: MovimientoPlato): Promise<MovimientoPlato | null> {
+  return moverPlato({ ...movimiento, origen: movimiento.destino, destino: movimiento.origen, idsEsperados: movimiento.ids })
+}
+
 export interface CopiarInput {
-  origen: DestinoCopia & { platoId?: string }
+  origen: DestinoCopia & { platoId?: string; ids?: number[] }
   destino: DestinoCopia
+  /** La copia individual de un ingrediente se registra suelta, sin heredar el nombre de todo su plato. */
+  separarIngredientes?: boolean
 }
 
 /**
  * Copia el snapshot de las entradas del origen al destino (A2): «Copiar a otro día» (con `comida`)
  * o «Copiar el día a…» (sin `comida`, conserva la de cada entrada).
- * Con `platoId` limita el origen a ese plato; permite otra comida del mismo día. Todo o nada.
+ * Con `platoId` limita el origen a ese plato; permite otra comida del mismo día. Con `ids`, a esas entradas
+ * seleccionadas; las que ya no existan se ignoran. `separarIngredientes` elimina la agrupación solo en las copias.
+ * Todo o nada.
  */
-export function copiar({ origen, destino }: CopiarInput): Promise<number[]> {
+export function copiar({ origen, destino, separarIngredientes = false }: CopiarInput): Promise<number[]> {
   const loteId = crypto.randomUUID()
+  const ids = origen.ids && new Set(origen.ids)
   return db.transaction('rw', db.entries, async () => {
     if (copiaEsNoOp(origen, destino)) return []
     const deLaFecha = await db.entries.where('fecha').equals(origen.fecha).toArray()
     const entradas = deLaFecha.filter((e) =>
       (origen.comida === undefined || e.comida === origen.comida)
-      && (origen.platoId === undefined || e.platoId === origen.platoId),
+      && (origen.platoId === undefined || e.platoId === origen.platoId)
+      && (!ids || ids.has(e.id)),
     )
     if (entradas.length === 0) return []
-    return db.entries.bulkAdd(planCopia(entradas, destino, Date.now(), loteId), { allKeys: true })
+    const copias = planCopia(entradas, destino, Date.now(), loteId)
+    return db.entries.bulkAdd(separarIngredientes ? copias.map(e => ({ ...e, platoId: undefined, nombrePlato: undefined })) : copias, { allKeys: true })
   })
 }
 

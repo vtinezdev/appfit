@@ -1,4 +1,8 @@
 import type { SetEntry } from '../../../shared/db/types'
+import { formatDiaMes, formatFechaHoraConDia } from '../../../shared/lib/dates'
+import { formatInt } from '../../../shared/lib/format'
+import { convencional, tieneReps, volumenSerie, type SerieEjecucion } from './ejecucion'
+import { cargaExterna, modoCarga, type SerieCarga } from './carga'
 
 /** 1RM estimado con la fórmula de Epley: peso * (1 + reps/30). */
 export function epley1RM(peso: number, reps: number): number {
@@ -7,17 +11,41 @@ export function epley1RM(peso: number, reps: number): number {
   return Math.round(peso * (1 + reps / 30) * 10) / 10
 }
 
-export function volumenSets(sets: Pick<SetEntry, 'peso' | 'reps'>[]): number {
-  return sets.reduce((acc, s) => acc + s.peso * s.reps, 0)
+type SerieBasica = SerieEjecucion
+
+/** Una serie es efectiva salvo que sea de calentamiento (no cuenta en volumen, récords, mapa ni progreso). */
+export function esEfectiva(s: { tipo?: SetEntry['tipo']; realizada?: boolean }): boolean {
+  return s.tipo !== 'calentamiento' && s.realizada !== false
 }
 
-export function mejorSet(sets: Pick<SetEntry, 'peso' | 'reps'>[]): { peso: number; reps: number } | null {
+/** Solo las series efectivas, conservando el tipo concreto de la serie. */
+export function efectivas<T extends { tipo?: SetEntry['tipo']; realizada?: boolean }>(sets: T[]): T[] {
+  return sets.filter(esEfectiva)
+}
+
+/**
+ * Series que no están en `marcadas`: las que tienen repeticiones se pueden dar por hechas de una vez («Marcar todas»);
+ * las que no, se quedan pendientes. Sirve en la sesión activa (marcadas = las del tic) y en el historial
+ * (marcadas = las que no están pendientes).
+ */
+export function seriesSinMarcar<T extends SerieBasica & { id: number }>(sets: T[], marcadas: readonly number[]): { confirmables: number[]; sinReps: number } {
+  const sin = sets.filter(s => !marcadas.includes(s.id))
+  const confirmables = sin.filter(tieneReps).map(s => s.id)
+  return { confirmables, sinReps: sin.length - confirmables.length }
+}
+
+export function volumenSets(sets: SerieBasica[]): number {
+  return efectivas(sets).reduce((acc, s) => acc + volumenSerie(s), 0)
+}
+
+export function mejorSet(todas: SerieBasica[]): { peso: number; reps: number } | null {
+  const sets = efectivas(todas).filter(s => modoCarga(s) === 'externa' && convencional(s) && !s.ejecucion && !s.excentricaSeg)
   if (sets.length === 0) return null
   return sets.reduce((best, s) => (epley1RM(s.peso, s.reps) > epley1RM(best.peso, best.reps) ? s : best))
 }
 
-export function pesoMaximo(sets: Pick<SetEntry, 'peso'>[]): number {
-  return sets.reduce((max, s) => Math.max(max, s.peso), 0)
+export function pesoMaximo(sets: (SerieCarga & { tipo?: SetEntry['tipo'] })[]): number {
+  return efectivas(sets).reduce((max, s) => Math.max(max, cargaExterna(s)), 0)
 }
 
 /** Agrupa series por workoutId, útil para gráficas de progreso por sesión. */
@@ -31,21 +59,11 @@ export function agruparPorWorkout(sets: SetEntry[]): Map<number, SetEntry[]> {
   return map
 }
 
-export function formatUltimaVez(sets: Pick<SetEntry, 'peso' | 'reps'>[]): string {
-  if (sets.length === 0) return 'Sin datos previos'
-  const grupos = new Map<string, number>()
-  for (const s of sets) {
-    const key = `${s.reps}x${s.peso}`
-    grupos.set(key, (grupos.get(key) ?? 0) + 1)
-  }
-  return Array.from(grupos.entries())
-    .map(([key, count]) => (count > 1 ? `${count}×${key.split('x')[0]} @ ${key.split('x')[1]} kg` : `${key.replace('x', '×')} kg`))
-    .join(', ')
-}
-
 /** Valores por defecto de una serie nueva: repite la última serie del ejercicio o, si no hay, 8 × 20 kg. */
-export function valoresNuevaSerie(previa: Pick<SetEntry, 'peso' | 'reps'> | undefined): { reps: number; peso: number } {
-  return { reps: previa?.reps ?? 8, peso: previa?.peso ?? 20 }
+export function valoresNuevaSerie(previa: SerieEjecucion | undefined): Pick<SetEntry, 'reps' | 'peso' | 'modoCarga' | 'pesoCorporal' | 'ejecucion' | 'kgUnilateral' | 'agarre' | 'lados' | 'soloNegativas' | 'excentricaSeg'> {
+  return { reps: previa?.reps ?? 8, peso: previa?.peso ?? 20,
+    ...(previa ? { ejecucion: previa.ejecucion, kgUnilateral: previa.kgUnilateral, agarre: previa.agarre, lados: previa.lados ? Object.fromEntries(Object.entries(previa.lados).map(([lado, p]) => [lado, { reps: p.reps, peso: p.peso }])) : undefined, soloNegativas: previa.soloNegativas, excentricaSeg: previa.excentricaSeg } : {}),
+    ...(previa?.modoCarga ? { modoCarga: previa.modoCarga, pesoCorporal: previa.pesoCorporal } : {}) }
 }
 
 /** `orden` de la siguiente serie: uno más que el mayor existente (no el número de series, que se repite tras borrar). */
@@ -69,8 +87,13 @@ export function formatHora(ts: number): string {
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
 }
 
+/** Cuándo fue una sesión, de principio a fin: «vie 9 oct · 18:05 – 18:57». Sin fin, solo el inicio. */
+export function rangoSesion(inicio: number, fin?: number): string {
+  return fin === undefined ? formatFechaHoraConDia(inicio) : `${formatFechaHoraConDia(inicio)} – ${formatHora(fin)}`
+}
+
 export interface ResumenEntreno {
-  /** «Hoy», «Ayer», «Hace 3 días» o «22 sept». */
+  /** «Hoy», «Ayer», «Hace 3 días» o «22 sep». */
   cuando: string
   duracion: string | null
   ejercicios: number
@@ -80,22 +103,91 @@ export interface ResumenEntreno {
 
 const DIA_MS = 86_400_000
 
-/** Resumen de un entreno terminado para las tarjetas de Inicio y Gym: cuándo fue, cuánto duró, cuántos ejercicios y qué volumen movió. */
-export function resumenUltimoEntreno(
-  workout: { inicio: number; fin?: number },
-  sets: Pick<SetEntry, 'exerciseId' | 'peso' | 'reps'>[],
-  ahora: Date = new Date(),
-): ResumenEntreno {
-  const inicio = new Date(workout.inicio)
+/** «Hoy», «Ayer», «Hace 3 días» o, desde una semana, «22 sep». Cuenta días naturales, no horas. */
+export function cuandoFue(ts: number, ahora: Date = new Date()): string {
+  const inicio = new Date(ts)
   const diaInicio = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime()
   const diaHoy = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()).getTime()
   const dias = Math.round((diaHoy - diaInicio) / DIA_MS)
-  const cuando =
-    dias <= 0 ? 'Hoy' : dias === 1 ? 'Ayer' : dias < 7 ? `Hace ${dias} días` : inicio.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })
+  return dias <= 0 ? 'Hoy' : dias === 1 ? 'Ayer' : dias < 7 ? `Hace ${dias} días` : formatDiaMes(ts)
+}
+
+/** Resumen de un entreno terminado para las tarjetas de Inicio y Gym: cuándo fue, cuánto duró, cuántos ejercicios y qué volumen movió. */
+export function resumenUltimoEntreno(
+  workout: { inicio: number; fin?: number },
+  sets: (Pick<SetEntry, 'exerciseId' | 'peso' | 'reps'> & { tipo?: SetEntry['tipo'] })[],
+  ahora: Date = new Date(),
+): ResumenEntreno {
   return {
-    cuando,
+    cuando: cuandoFue(workout.inicio, ahora),
     duracion: workout.fin !== undefined ? formatDuracion(workout.fin - workout.inicio) : null,
-    ejercicios: new Set(sets.map((s) => s.exerciseId)).size,
+    ejercicios: new Set(efectivas(sets).map((s) => s.exerciseId)).size,
     volumen: volumenSets(sets),
   }
+}
+
+/** Línea secundaria de una sesión en el historial: «Basic-Fit Centro · Torso · 52 min · 9.268 kg · con notas». Solo lo que existe. */
+export function detalleSesion(
+  workout: { inicio: number; fin?: number; notas?: string },
+  rutina: string | undefined,
+  sets: SerieBasica[],
+  gimnasio?: string,
+): string {
+  const volumen = volumenSets(sets)
+  const partes = [
+    gimnasio,
+    rutina,
+    workout.fin !== undefined ? formatDuracion(workout.fin - workout.inicio) : null,
+    volumen > 0 ? `${formatInt(volumen)} kg` : null,
+    workout.notas ? 'con notas' : null,
+  ]
+  return partes.filter(Boolean).join(' · ') || '—'
+}
+
+/**
+ * Orden de los ejercicios de una sesión: los de la rutina y luego los que tienen series (como hasta ahora);
+ * Excluye los omitidos solo en esta sesión. Si hay un orden manual, manda: sus ids primero
+ * (los que sigan existiendo) y el resto detrás en su orden natural.
+ */
+export function ordenEjerciciosSesion(idsRutina: number[], idsConSeries: number[], manual?: number[], omitidos: number[] = []): number[] {
+  const ocultos = new Set(omitidos)
+  const base = Array.from(new Set([...idsRutina, ...idsConSeries])).filter(id => !ocultos.has(id))
+  if (!manual?.length) return base
+  const baseSet = new Set(base)
+  const primeros = Array.from(new Set(manual)).filter((id) => baseSet.has(id))
+  const resto = base.filter((id) => !primeros.includes(id))
+  return [...primeros, ...resto]
+}
+
+/** Mueve el elemento `indice` una posición (`delta` -1 sube, +1 baja). Devuelve una copia; fuera de rango no cambia nada. */
+export function moverElemento<T>(lista: T[], indice: number, delta: -1 | 1): T[] {
+  const destino = indice + delta
+  if (indice < 0 || indice >= lista.length || destino < 0 || destino >= lista.length) return [...lista]
+  const copia = [...lista]
+  ;[copia[indice], copia[destino]] = [copia[destino], copia[indice]]
+  return copia
+}
+
+/** `YYYY-MM-DD` + `HH:MM` locales → ms; `null` si alguno no es válido. */
+export function combinarFechaHora(fecha: string, hora: string): number | null {
+  const f = /^(\d{4})-(\d{2})-(\d{2})$/.exec(fecha)
+  const h = /^(\d{1,2}):(\d{2})$/.exec(hora)
+  if (!f || !h) return null
+  const [y, mo, d, hh, mm] = [Number(f[1]), Number(f[2]), Number(f[3]), Number(h[1]), Number(h[2])]
+  if (mo < 1 || mo > 12 || d < 1 || d > 31 || hh > 23 || mm > 59) return null
+  const date = new Date(y, mo - 1, d, hh, mm)
+  return date.getMonth() === mo - 1 && date.getDate() === d ? date.getTime() : null
+}
+
+/** Duración en minutos enteros (mínimo 1) entre dos marcas de tiempo. */
+export function minutosEntre(inicio: number, fin: number): number {
+  return Math.max(1, Math.round((fin - inicio) / 60000))
+}
+
+/** Mensaje de error si un entreno registrado a posteriori no es válido; `null` si lo es. */
+export function validarEntrenoPasado(inicio: number | null, minutos: number, ahora: number): string | null {
+  if (inicio === null) return 'Indica una fecha y una hora válidas.'
+  if (inicio > ahora) return 'El entreno tiene que haber empezado ya. Para uno nuevo, usa «Empezar entreno».'
+  if (!Number.isFinite(minutos) || minutos < 1 || minutos > 24 * 60) return 'La duración debe estar entre 1 minuto y 24 horas.'
+  return null
 }

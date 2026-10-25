@@ -12,7 +12,7 @@ import { Input } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 
 interface Props {
-  meal: Meal
+  meal: Pick<Meal, 'nombre' | 'items'> & { id?: number }
   onClose: () => void
   onBorrada: () => void
 }
@@ -47,24 +47,25 @@ export default function GestionPlantillaSheet({ meal, onClose, onBorrada }: Prop
   }
 
   const items = entradas.map((e) => e.item)
-  const puedeGuardar = nombre.trim() !== '' && itemsConGramosValidos(items) && !guardando
+  const puedeGuardar = nombre.trim() !== '' && items.length > 0 && itemsConGramosValidos(items) && !guardando
 
   async function guardar() {
     if (!puedeGuardar) return
     setGuardando(true)
     setError(null)
     try {
-      await mealsRepo.actualizar(meal.id, { nombre: nombre.trim(), items })
+      if (meal.id === undefined) await mealsRepo.crearDesdeItems({ nombre, items })
+      else await mealsRepo.actualizar(meal.id, { nombre: nombre.trim(), items })
       onClose()
     } catch {
-      setError('No se ha podido guardar la plantilla. Inténtalo de nuevo.')
+      setError('No se ha podido guardar la comida típica. Inténtalo de nuevo.')
     } finally {
       setGuardando(false)
     }
   }
 
   async function borrar() {
-    if (borrando) return
+    if (borrando || meal.id === undefined) return
     setBorrando(true)
     setError(null)
     try {
@@ -73,35 +74,36 @@ export default function GestionPlantillaSheet({ meal, onClose, onBorrada }: Prop
       onBorrada()
     } catch {
       setConfirmandoBorrado(false)
-      setError('No se ha podido borrar la plantilla. Inténtalo de nuevo.')
+      setError('No se ha podido quitar la comida guardada. Inténtalo de nuevo.')
     } finally {
       setBorrando(false)
     }
   }
 
   return (
-    <Sheet open onClose={onClose} title="Editar plantilla" footer={<div className="space-y-2">        {error && <ErrorState>{error}</ErrorState>}
+    <Sheet open onClose={onClose} title={meal.id === undefined ? 'Guardar comida típica' : 'Editar comida típica'} footer={<div className="space-y-2">        {error && <ErrorState>{error}</ErrorState>}
 
         {confirmandoBorrado ? (
           <ConfirmacionDestructiva
-            mensaje={`¿Borrar la plantilla «${meal.nombre}»? No se puede deshacer. Lo que ya has registrado con ella no se borra.`}
-            confirmar="Sí, borrar"
+            mensaje={`¿Dejar de guardar «${meal.nombre}»? Tus registros del diario se mantienen. Si la repites a menudo, puede seguir apareciendo como sugerencia.`}
+            confirmar="Sí, quitar"
             onConfirmar={borrar}
             onCancelar={() => setConfirmandoBorrado(false)}
             ocupado={borrando}
           />
         ) : (
-          <div className="flex gap-2">
-            <Button variant="destructive" onClick={() => setConfirmandoBorrado(true)} disabled={guardando} className="flex-1">
-              Borrar plantilla
-            </Button>
-            <Button loading={guardando} onClick={guardar} disabled={!puedeGuardar} className="flex-1">
-              {guardando ? 'Guardando…' : 'Guardar'}
+          <div className="flex flex-wrap gap-2">
+            {meal.id !== undefined && <Button variant="destructive" onClick={() => setConfirmandoBorrado(true)} disabled={guardando} className="flex-1 basis-40">
+              Dejar de guardar
+            </Button>}
+            <Button loading={guardando} onClick={guardar} disabled={!puedeGuardar} className="flex-1 basis-40">
+              {guardando ? 'Guardando…' : 'Guardar comida típica'}
             </Button>
           </div>
         )}</div>}>
       <div className="space-y-3">
-        <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la plantilla</span><Input value={nombre} onChange={(e) => setNombre(e.target.value)} /></label>
+        {meal.id === undefined && <p className="text-body-sm text-fg-muted">Detectada por repetición. Guárdala para tenerla siempre a mano, aunque dejes de repetirla durante un tiempo.</p>}
+        <label className="block space-y-1"><span className="text-label text-fg-muted">Nombre de la comida típica</span><Input value={nombre} onChange={(e) => setNombre(e.target.value)} /></label>
 
         <div className="space-y-2">
           {entradas.length === 0 && <EmptyState>Sin alimentos.</EmptyState>}

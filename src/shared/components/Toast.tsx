@@ -28,8 +28,8 @@ export default function Toast({ mensaje, accion, onCerrar, duracionMs = 5000, to
 
   const error = tono === 'error'
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-nav-toast z-40">
-      <div className="mx-auto max-w-lg px-page">
+    <div className="safe-inline pointer-events-none fixed inset-x-0 bottom-nav-toast z-40">
+      <div className="app-content mx-auto px-page">
         <div
           role={error ? 'alert' : 'status'}
           data-surface="inverse"

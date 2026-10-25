@@ -1,0 +1,10 @@
+[
+  {
+    "caso": "375-dark",
+    "correcto": true
+  },
+  {
+    "caso": "actualizacion-real-dos-pestanas-offline",
+    "correcto": true
+  }
+]

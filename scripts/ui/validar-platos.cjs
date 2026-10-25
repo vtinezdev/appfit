@@ -4,6 +4,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { chromium } = require('playwright')
 const { navegar } = require('./navegar.cjs')
+const { ejecutarAccionPlato } = require('./acciones-plato.cjs')
 const ORIGEN = 'http://appfit-test.localhost:5173'
 const salida = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-platos-ui'
 const nombre = 'Mi plato de arroz con pollo y acompañamientos para la comida'
@@ -36,14 +37,13 @@ async function comprobarTotales(page, entries, platoId) {
   const ingredientes = entries.filter((e) => e.platoId === platoId)
   const formato = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0 })
   const cabecera = page.getByRole('button', { name: new RegExp(`^${nombre} `) })
-  await cabecera.getByText(new RegExp(`^${ingredientes.length} alimentos ·`)).waitFor()
-  assert.equal(await cabecera.locator('span.tabular').last().innerText(), formato.format(ingredientes.reduce((s, e) => s + e.kcal, 0)))
+  await cabecera.locator('[data-record-quantity]').getByText(`${ingredientes.length} ${ingredientes.length === 1 ? 'ingrediente' : 'ingredientes'}`, { exact: true }).waitFor()
+  assert.equal(await cabecera.locator('[data-record-kcal]').innerText(), formato.format(ingredientes.reduce((s, e) => s + e.kcal, 0)))
   const fibra = entries.filter((e) => e.nutrientes?.fibra !== undefined)
   const valor = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 3 }).format(fibra.reduce((s, e) => s + e.nutrientes.fibra, 0))
-  const celda = page.getByRole('region', { name: 'Desglose del día', exact: true }).locator('dl > div').filter({ has: page.getByText('Fibra', { exact: true }) })
-  const esperado = `${valor} g\nParcial · ${fibra.length} de ${entries.length} alimentos`
-  await celda.getByText(`Parcial · ${fibra.length} de ${entries.length} alimentos`, { exact: true }).waitFor()
-  assert.equal((await celda.locator('dd').innerText()).replace(/\s+/g, ' ').trim(), esperado.replace(/\s+/g, ' '))
+  const celda = page.getByRole('region', { name: 'Desglose del día', exact: true }).locator('[data-nutriente="fibra"]')
+  await celda.getByText(`Información disponible en ${fibra.length} de ${entries.length} alimentos`, { exact: true }).waitFor()
+  assert.equal(await celda.locator('dd').textContent(), `${valor} g`)
 }
 
 async function main() {
@@ -59,14 +59,14 @@ async function main() {
         const errores = []
         page.on('pageerror', (e) => errores.push(e.message))
         await page.goto(ORIGEN)
-        await page.getByRole('heading', { name: /Buenos|Buenas/ }).waitFor()
+        await page.getByRole('navigation', { name: 'Navegación principal' }).waitFor()
         await page.evaluate(async (nombre) => {
           const r = await import('/src/features/nutricion/data/entriesRepo.ts')
           const c = await import('/src/features/nutricion/lib/catalogo/sincronizar.ts')
           const d = await import('/src/shared/lib/dates.ts')
           await c.sincronizarCatalogo()
-          const arroz = { nombre: 'Arroz', gramos: 150, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, sal: 0.02 }, fuenteSiNuevo: 'manual' }
-          const pollo = { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual' }
+          const arroz = { nombre: 'Arroz', gramos: 150, kcal100: 130, prot100: 3, carb100: 28, grasa100: 0.3, nutrientes: { fibra: 1, sal: 0.02 }, fuenteSiNuevo: 'manual', categoria: 'Otros' }
+          const pollo = { nombre: 'Pollo', gramos: 100, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual', categoria: 'Otros' }
           await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [arroz, pollo], nombrePlato: nombre })
           await r.guardarComida({ fecha: d.todayISO(), comida: 'comida', items: [arroz, pollo], nombrePlato: 'Otro plato' })
         }, nombre)
@@ -74,27 +74,32 @@ async function main() {
         const platoId = antes[0].platoId
         const originales = antes.filter((e) => e.platoId === platoId)
         await navegar(page, 'Nutrición')
-        const editar = () => page.getByRole('button', { name: `Editar plato ${nombre}`, exact: true }).click()
+        const editar = () => ejecutarAccionPlato(page, nombre, 'Añadir ingredientes a')
         await layout(page)
         await editar()
-        await page.getByRole('heading', { name: 'Editar plato', exact: true }).waitFor()
-        assert.equal(await page.getByRole('tab', { name: 'Plantillas', exact: true }).count(), 0)
+        await page.getByRole('heading', { name: 'Añadir ingredientes', exact: true }).waitFor()
+        assert.equal(await page.getByRole('region', { name: 'Tus comidas típicas', exact: true }).count(), 0)
+        assert.equal(await page.getByRole('button', { name: 'Nueva comida típica', exact: true }).count(), 0)
         assert.equal(await page.getByRole('button', { name: 'Solo registrar calorías', exact: true }).count(), 0)
         assert.equal(await page.getByRole('radiogroup', { name: 'Comida del día', exact: true }).count(), 0)
         await page.getByText('Ver ingredientes actuales (2)', { exact: true }).click()
         await layout(page)
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('50 g de tomate')
-        await page.getByRole('button', { name: 'Interpretar', exact: true }).click()
+        await page.getByRole('button', { name: /^Revisar \d+ alimentos?$/, exact: true }).click()
         await page.getByRole('button', { name: /^Añadir al plato ·/ }).waitFor()
         await page.getByRole('button', { name: 'Cancelar', exact: true }).click()
+        await page.getByRole('dialog', { name: '¿Descartar los cambios?', exact: true }).getByRole('button', { name: 'Descartar', exact: true }).click()
+        await page.getByRole('dialog').waitFor({ state: 'detached' })
         assert.deepEqual(await registros(page), antes, 'cancelar no guarda')
 
         // Dos tandas se añaden al mismo plato; detalles siguen mostrando extras.
         await editar()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('50 g de tomate')
-        await page.getByRole('button', { name: 'Interpretar', exact: true }).click()
+        await page.getByRole('button', { name: /^Revisar \d+ alimentos?$/, exact: true }).click()
+        const editor = page.getByRole('button', { name: /^Editar / }).first()
+        if (await editor.getAttribute('aria-expanded') === 'false') await editor.click()
         await page.getByRole('button', { name: 'Detalles del alimento', exact: true }).click()
-        await page.getByRole('spinbutton', { name: 'Fibra/100g', exact: true }).waitFor()
+        await page.getByLabel('Fibra/100g', { exact: true }).waitFor()
         await page.getByRole('button', { name: 'Añadir otro alimento', exact: true }).click()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('30 g de queso')
         await page.getByRole('button', { name: 'Añadir a la revisión', exact: true }).click()
@@ -106,7 +111,7 @@ async function main() {
         assert.equal(conNuevos.filter((e) => e.platoId === platoId).length, 4)
         assert.ok(conNuevos.filter((e) => e.platoId === platoId).every((e) => e.nombrePlato === nombre))
         assert.deepEqual(conNuevos.filter((e) => antes.some((a) => a.id === e.id)), antes, 'snapshots anteriores intactos')
-        await page.getByRole('radio', { name: 'Vista detallada', exact: true }).click()
+        await page.getByRole('button', { name: 'Ver detalle nutricional', exact: true }).click()
         await page.getByRole('region', { name: 'Desglose del día', exact: true }).getByText('Fibra', { exact: true }).waitFor()
         await comprobarTotales(page, conNuevos, platoId)
 
@@ -115,7 +120,7 @@ async function main() {
         await page.getByRole('tab', { name: 'Buscar', exact: true }).click()
         await page.getByRole('searchbox', { name: 'Buscar en tus alimentos y en el catálogo' }).fill('Arroz')
         await page.getByRole('button', { name: /^Arroz 130 kcal/ }).first().click()
-        await page.getByRole('spinbutton', { name: 'gramos', exact: true }).fill('25')
+        await page.getByRole('dialog', { name: 'Cantidad', exact: true }).getByLabel('gramos', { exact: true }).fill('25')
         await page.getByRole('button', { name: 'Revisar alimento', exact: true }).click()
         assert.deepEqual(await registros(page), conNuevos)
         await layout(page)
@@ -130,7 +135,7 @@ async function main() {
         // El escáner no ofrece un guardado rápido fuera del plato.
         await editar()
         await page.getByRole('tab', { name: 'Buscar', exact: true }).click()
-        await page.getByRole('button', { name: 'Escanear código de barras', exact: true }).click()
+        await page.getByRole('button', { name: 'Escanear producto', exact: true }).click()
         await page.getByRole('textbox', { name: 'O escribe el código', exact: true }).fill('3017620422003')
         await page.getByRole('dialog', { name: 'Escanear producto', exact: true }).getByRole('button', { name: 'Buscar', exact: true }).click()
         await page.getByRole('button', { name: 'Escribir valores', exact: true }).waitFor()
@@ -138,12 +143,14 @@ async function main() {
         await page.getByRole('button', { name: 'Escribir valores', exact: true }).click()
         await page.getByRole('textbox', { name: 'Nombre del alimento', exact: true }).waitFor()
         await page.getByRole('button', { name: 'Cancelar', exact: true }).click()
+        await page.getByRole('dialog', { name: '¿Descartar los cambios?', exact: true }).getByRole('button', { name: 'Descartar', exact: true }).click()
+        await page.getByRole('dialog').waitFor({ state: 'detached' })
         assert.deepEqual(await registros(page), conBusqueda)
 
         // Se conserva la edición/borrado del diario, incluso con un solo ingrediente.
         await page.getByRole('button', { name: new RegExp(`^${nombre} `) }).click()
         const ingredientes = page.getByRole('list', { name: `Ingredientes de ${nombre}`, exact: true })
-        await ingredientes.getByRole('button', { name: 'Borrar Pollo', exact: true }).click()
+        await ingredientes.getByRole('button', { name: 'Borrar Pollo', exact: true }).press('Enter') // detrás de la fila (se desliza): con teclado
         await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
         assert.deepEqual((await registros(page)).sort((a, b) => a.id - b.id), conBusqueda)
         await page.evaluate(async (platoId) => {
@@ -155,7 +162,7 @@ async function main() {
         await editar()
         await page.getByText('Ver ingredientes actuales (1)', { exact: true }).waitFor()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('20 g de tomate')
-        await page.getByRole('button', { name: 'Interpretar', exact: true }).click()
+        await page.getByRole('button', { name: /^Revisar \d+ alimentos?$/, exact: true }).click()
         await cerrarGuardado(page)
         const reducido = await registros(page)
         assert.equal(reducido.filter((e) => e.platoId === platoId).length, 2)
@@ -166,7 +173,7 @@ async function main() {
         await navegar(page, 'Nutrición')
         await editar()
         await page.getByRole('textbox', { name: 'Describe lo que has comido' }).fill('10 g de tomate')
-        await page.getByRole('button', { name: 'Interpretar', exact: true }).click()
+        await page.getByRole('button', { name: /^Revisar \d+ alimentos?$/, exact: true }).click()
         await page.getByRole('button', { name: /^Añadir al plato ·/ }).waitFor()
         // Si otra acción elimina el destino mientras se revisa, no se recrea silenciosamente.
         await page.evaluate(async (platoId) => {
@@ -179,6 +186,8 @@ async function main() {
         assert.deepEqual(await registros(page), antes.filter((e) => e.platoId !== platoId))
         await layout(page)
         await page.getByRole('button', { name: 'Cancelar', exact: true }).click()
+        await page.getByRole('dialog', { name: '¿Descartar los cambios?', exact: true }).getByRole('button', { name: 'Descartar', exact: true }).click()
+        await page.getByRole('dialog').waitFor({ state: 'detached' })
         assert.deepEqual(errores, [])
         resultados.push({ width, colorScheme, correcto: true })
         console.log(`Platos: ${width} px, ${colorScheme}: correcto`)

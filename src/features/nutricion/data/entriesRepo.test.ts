@@ -9,14 +9,50 @@ beforeEach(async () => {
   await Promise.all(db.tables.map((t) => t.clear()))
 })
 
-const POLLO: foodsRepo.FoodInput = { nombre: 'Pollo', kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuente: 'gemini' }
-const ARROZ: ItemGuardado = { nombre: 'Arroz', gramos: 200, kcal100: 130, prot100: 2.7, carb100: 28, grasa100: 0.3, fuenteSiNuevo: 'gemini' }
+const POLLO: foodsRepo.FoodInput = { nombre: 'Pollo', kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuente: 'gemini', categoria: 'Carnes' }
+const ARROZ: ItemGuardado = { nombre: 'Arroz', gramos: 200, kcal100: 130, prot100: 2.7, carb100: 28, grasa100: 0.3, fuenteSiNuevo: 'gemini', categoria: 'Otros' }
 
 function crearPollo(): Promise<number> {
   return foodsRepo.crear(POLLO)
 }
 
 describe('entriesRepo: lecturas y añadido rápido', () => {
+  it('copiar un ingrediente lo registra suelto y conserva snapshot, referencia y nutrientes, sin alterar su plato', async () => {
+    const origen = { fecha: '2026-10-21', comida: 'desayuno' as const }
+    const ids = await entriesRepo.guardarComida({ ...origen, nombrePlato: 'Mi bol', items: [ARROZ, { ...ARROZ, nombre: 'Leche', gramos: 150, catalogId: 'ciqual:leche', nutrientes: { sal: 0.05 } }] })
+    const antes = await entriesRepo.delDia(origen.fecha)
+    const copiados = await entriesRepo.copiar({ origen: { ...origen, ids: [ids[1]] }, destino: { fecha: origen.fecha, comida: 'cena' }, separarIngredientes: true })
+    const copia = (await db.entries.get(copiados[0]!))!
+    expect(copiados).toHaveLength(1)
+    expect(copia).toMatchObject({ nombre: 'Leche', comida: 'cena', catalogId: 'ciqual:leche', gramos: 150, nutrientes: { sal: 0.075 } })
+    expect(copia.platoId).toBeUndefined()
+    expect(copia.nombrePlato).toBeUndefined()
+    expect(copia.foodId).toBeUndefined()
+    expect(copia.kcal).toBe(antes[1]!.kcal)
+    expect(await db.entries.bulkGet(ids)).toEqual(antes)
+    await entriesRepo.borrarVarias(copiados)
+    expect(await entriesRepo.delDia(origen.fecha)).toEqual(antes)
+  })
+
+  it('guardar como típica crea a la vez la comida y su plantilla, con los mismos snapshots', async () => {
+    const ids = await entriesRepo.guardarComida({ fecha: '2026-10-21', comida: 'desayuno', nombrePlato: 'Mi bol', guardarComoTipica: true, items: [ARROZ, { ...ARROZ, nombre: 'Leche', gramos: 150, catalogId: 'ciqual:leche', nutrientes: { sal: 0.05 } }] })
+    const meal = (await db.meals.toArray())[0]!
+    const entries = (await db.entries.bulkGet(ids)).map(e => e!)
+    expect(meal).toMatchObject({ nombre: 'Mi bol', comida: 'desayuno', usos: 0 })
+    expect(meal.items.map(it => [it.foodId, it.catalogId, it.gramos, it.kcal, it.nutrientes, it.platoId])).toEqual(entries.map(it => [it.foodId, it.catalogId, it.gramos, it.kcal, it.nutrientes, it.platoId]))
+    expect(await db.objetivosDia.count()).toBe(0)
+  })
+
+  it('fallar al marcar como típica revierte también las entradas y los alimentos', async () => {
+    const fallo = vi.spyOn(db.meals, 'add').mockRejectedValueOnce(new Error('No se puede guardar'))
+    try {
+      await expect(entriesRepo.guardarComida({ fecha: '2026-10-21', comida: 'desayuno', guardarComoTipica: true, items: [ARROZ] })).rejects.toThrow('No se puede guardar')
+      expect(await db.entries.count()).toBe(0)
+      expect(await db.foods.count()).toBe(0)
+      expect(await db.meals.count()).toBe(0)
+    } finally { fallo.mockRestore() }
+  })
+
   it('guardarComida: un ítem con catalogId referencia el catálogo sin crear ni tocar alimentos propios', async () => {
     const foodId = await crearPollo()
     const antes = await foodsRepo.obtener(foodId)
@@ -24,7 +60,7 @@ describe('entriesRepo: lecturas y añadido rápido', () => {
       fecha: '2026-09-28',
       comida: 'comida',
       items: [
-        { nombre: 'Pollo', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual', catalogId: 'ciqual:36003' },
+        { nombre: 'Pollo', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'manual', categoria: 'Otros', catalogId: 'ciqual:36003' },
         ARROZ,
       ],
     })
@@ -211,7 +247,7 @@ describe('entriesRepo.guardarComida', () => {
     await entriesRepo.guardarComida({
       fecha: '2026-09-28',
       comida: 'cena',
-      items: [{ nombre: 'pollo', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'gemini' }],
+      items: [{ nombre: 'pollo', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'gemini', categoria: 'Otros' }],
     })
     const food = await foodsRepo.obtener(foodId)
     expect(food).toMatchObject({ nombre: 'Pollo', fuente: 'gemini', kcal100: 165 })
@@ -223,7 +259,7 @@ describe('entriesRepo.guardarComida', () => {
     await entriesRepo.guardarComida({
       fecha: '2026-09-28',
       comida: 'cena',
-      items: [{ nombre: 'Pollo', gramos: 150, kcal100: 120, prot100: 23, carb100: 0, grasa100: 2, fuenteSiNuevo: 'manual' }],
+      items: [{ nombre: 'Pollo', gramos: 150, kcal100: 120, prot100: 23, carb100: 0, grasa100: 2, fuenteSiNuevo: 'manual', categoria: 'Otros' }],
     })
     expect(await foodsRepo.obtener(foodId)).toMatchObject({ nombre: 'Pollo', fuente: 'manual', kcal100: 120 })
   })
@@ -233,7 +269,7 @@ describe('entriesRepo.guardarComida', () => {
     await entriesRepo.guardarComida({
       fecha: '2026-09-28',
       comida: 'cena',
-      items: [{ nombre: 'Pollo al curry', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'gemini' }],
+      items: [{ nombre: 'Pollo al curry', gramos: 150, kcal100: 165, prot100: 31, carb100: 0, grasa100: 3.6, fuenteSiNuevo: 'gemini', categoria: 'Otros' }],
     })
     expect(await foodsRepo.obtener(foodId)).toMatchObject({ nombre: 'Pollo', nombreNorm: 'pollo' })
     expect(await foodsRepo.buscarPorNombre('pollo al curry')).toBeDefined()
@@ -279,7 +315,7 @@ describe('entriesRepo.editar (P5)', () => {
 
   it('con la casilla y un nombre que ya existe, falla sin guardar nada', async () => {
     const { id } = await entradaDePollo()
-    await foodsRepo.crear({ nombre: 'Pavo', kcal100: 135, prot100: 30, carb100: 0, grasa100: 1, fuente: 'manual' })
+    await foodsRepo.crear({ nombre: 'Pavo', kcal100: 135, prot100: 30, carb100: 0, grasa100: 1, fuente: 'manual', categoria: 'Carnes' })
     await expect(
       entriesRepo.editar(id, { comida: 'cena', nombre: 'pavo', gramos: 300, kcal100: 135, prot100: 30, carb100: 0, grasa100: 1, aplicarAlAlimento: true }),
     ).rejects.toBeInstanceOf(foodsRepo.NombreDuplicadoError)
@@ -400,6 +436,20 @@ describe('entriesRepo.copiar / borrarVarias (A2)', () => {
     expect(ids).toHaveLength(1)
     expect(await db.entries.get(ids[0])).toMatchObject({ fecha: '2026-09-28', comida: 'cena', foodId, nombre: 'Pollo', gramos: 100 })
     expect(await entriesRepo.delDia('2026-09-27')).toHaveLength(1)
+  })
+
+  it('con ids copia solo esas entradas (Repetir con selección) e ignora las que ya no existen', async () => {
+    const foodId = await crearPollo()
+    await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-27', comida: 'cena', foodId, gramos: 100 })
+    const plato = await entriesRepo.guardarComida({ fecha: '2026-09-27', comida: 'cena', items: [ARROZ, { ...ARROZ, nombre: 'Pollo' }], nombrePlato: 'Mi plato' })
+    const ids = await entriesRepo.copiar({ origen: { fecha: '2026-09-27', comida: 'cena', ids: [...plato, 999] }, destino: { fecha: '2026-09-28', comida: 'cena' } })
+    const copias = (await db.entries.bulkGet(ids)).map((e) => e!)
+    expect(copias.map((e) => e.nombre)).toEqual(['Arroz', 'Pollo'])
+    expect(copias[0].platoId).toBeDefined()
+    expect(copias[0].platoId).toBe(copias[1].platoId)
+    expect(copias[0].nombrePlato).toBe('Mi plato')
+    expect(await entriesRepo.delDia('2026-09-28')).toHaveLength(2)
+    expect(await entriesRepo.copiar({ origen: { fecha: '2026-09-27', comida: 'cena', ids: [] }, destino: { fecha: '2026-09-28', comida: 'cena' } })).toEqual([])
   })
 
   it('copia el día entero conservando la comida de cada entrada si no se especifica destino.comida', async () => {

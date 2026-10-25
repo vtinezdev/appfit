@@ -22,26 +22,26 @@ async function main() {
   await p.getByRole('radio',{name:'Sistema',exact:true}).waitFor()
   assert.deepEqual(await exportar(p),esperado)
   await c.close(); ({c,p}=await abrir(chromium)); assert.deepEqual(await exportar(p),esperado)
-  await p.evaluate(()=>document.fonts.ready); assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Manrope' && f.status==='loaded')),true)
-  await c.setOffline(true); await p.reload(); await p.getByRole('button',{name:'Menú',exact:true}).waitFor()
+  await p.evaluate(()=>document.fonts.ready); assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Saira' && f.status==='loaded')),true)
+  await c.setOffline(true); await p.reload(); await p.getByRole('button',{name:'Registrar',exact:true}).waitFor()
   assert.deepEqual(await exportar(p),esperado)
   for (const theme of ['Claro','Oscuro']) {
    await p.getByRole('radio',{name:theme,exact:true}).click()
-   for(const tab of ['Inicio','Nutrición','Gym','Ajustes']) {
+   for(const tab of ['Inicio','Nutrición','Entreno','Ajustes']) {
     await navegar(p, tab)
     if(tab==='Nutrición') { await p.getByRole('tab',{name:'Resumen',exact:true}).click(); await p.getByRole('radio',{name:'Mes',exact:true}).waitFor() }
-    if(tab==='Gym') { await p.getByRole('tab',{name:'Progreso',exact:true}).click(); await p.getByRole('combobox',{name:'Ejercicio',exact:true}).selectOption('1'); await p.getByText('Peso máximo · última sesión',{exact:true}).waitFor() }
+    if(tab==='Entreno') { await p.getByRole('tab',{name:'Progreso',exact:true}).click(); await p.getByRole('combobox',{name:'Ejercicio',exact:true}).selectOption('1'); await p.getByText('Peso máximo · última sesión',{exact:true}).waitFor() }
     assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth===innerWidth),true)
     await p.screenshot({path:`/tmp/appfit-production-${theme}-${tab}.png`})
    }
   }
   await navegar(p, 'Nutrición'); await p.getByRole('button',{name:'Añadir comida',exact:true}).click()
   await p.getByRole('textbox',{name:'Describe lo que has comido'}).fill('un plátano y 125 g de yogur')
-  await p.getByRole('button',{name:'Interpretar',exact:true}).click(); await p.getByRole('button',{name:'Detalles del alimento',exact:true}).nth(1).waitFor()
-  await p.getByRole('button',{name:/^Guardar ·/}).click(); await p.waitForFunction(()=>!document.querySelector('[role=dialog]'))
+  await p.getByRole('button',{name:/^Revisar \d+ alimentos?$/,exact:true}).click(); await p.getByRole('button',{name:/^Editar /}).nth(1).waitFor()
+  await p.getByRole('button',{name:/^(?:Añadir a (?:desayuno|comida|cena|snack)|Guardar cambios) ·/}).click(); await p.waitForFunction(()=>!document.querySelector('[role=dialog]'))
   const registrados=await exportar(p); assert.equal(registrados.entries.length,esperado.entries.length+2)
   await p.reload(); assert.deepEqual(await exportar(p),registrados)
-  assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Manrope' && f.status==='loaded')),true)
+  assert.equal(await p.evaluate(()=>[...document.fonts].some(f=>f.family==='Saira' && f.status==='loaded')),true)
   // Restaurar la referencia hace repetible el ensayo en este perfil aislado.
   await p.locator('input[type=file]').setInputFiles({name:'referencia.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(esperado))})
   await p.getByRole('group',{name:'Confirmar importación',exact:true}).getByRole('button',{name:'Importar copia',exact:true}).click()

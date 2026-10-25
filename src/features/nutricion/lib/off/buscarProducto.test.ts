@@ -19,7 +19,7 @@ const COMPLETO = {
 
 function producto(id: string, fuente: string): CatalogFood {
   return {
-    id, fuente, idExterno: id, nombre: id, nombreNorm: id, tok: [id], tipo: 'marca', gtin: '8410000000000',
+    id, fuente, idExterno: id, nombre: id, nombreNorm: id, tok: [id], tipo: 'marca', categoria: 'Bebidas', gtin: '8410000000000',
     kcal100: 1, prot100: 1, carb100: 1, grasa100: 1, version: '1', importadoAt: 0,
   }
 }
@@ -52,6 +52,23 @@ describe('buscarProducto', () => {
     expect(deps.descargar).not.toHaveBeenCalled()
   })
 
+  it('uno de OFF guardado sin categoría se vuelve a pedir con conexión y se guarda ya clasificado', async () => {
+    const antiguo = { ...producto('off:8410000000000', 'off'), categoria: undefined }
+    const { buscar, deps } = crear({ buscarEnDispositivo: vi.fn(async () => [antiguo]) })
+    expect(await buscar('8410000000000')).toEqual({ tipo: 'encontrado', food: expect.objectContaining({ id: 'off:8410000000000', categoria: 'Leche y nata' }) })
+    expect(deps.guardar).toHaveBeenCalledWith(expect.objectContaining({ categoria: 'Leche y nata' }))
+  })
+
+  it('sin conexión, o si la nueva consulta falla, sirve la copia sin categoría del dispositivo', async () => {
+    const antiguo = { ...producto('off:8410000000000', 'off'), categoria: undefined }
+    const sinRed = crear({ buscarEnDispositivo: vi.fn(async () => [antiguo]), enLinea: () => false })
+    expect(await sinRed.buscar('8410000000000')).toEqual({ tipo: 'encontrado', food: antiguo })
+    expect(sinRed.deps.descargar).not.toHaveBeenCalled()
+    const caida = crear({ buscarEnDispositivo: vi.fn(async () => [antiguo]), descargar: falla(new TypeError('Load failed')) })
+    expect(await caida.buscar('8410000000000')).toEqual({ tipo: 'encontrado', food: antiguo })
+    expect(caida.deps.guardar).not.toHaveBeenCalled()
+  })
+
   it('completo: lo descarga con el código normalizado, lo guarda y lo devuelve', async () => {
     const { buscar, deps } = crear()
     const r = await buscar(' 841 0000 000000 ')
@@ -67,7 +84,7 @@ describe('buscarProducto', () => {
     const { buscar, deps } = crear({
       descargar: vi.fn(async () => ({ status: 1, product: { product_name: 'Galletas', nutriments: { 'energy-kcal_100g': 480 } } })),
     })
-    expect(await buscar('8410000000000')).toEqual({ tipo: 'incompleto', gtin: '8410000000000', nombre: 'Galletas', valores: { kcal100: 480 } })
+    expect(await buscar('8410000000000')).toEqual({ tipo: 'incompleto', gtin: '8410000000000', nombre: 'Galletas', valores: { kcal100: 480 }, categoria: 'Galletas, bollería y pasteles' })
     expect(deps.guardar).not.toHaveBeenCalled()
   })
 
