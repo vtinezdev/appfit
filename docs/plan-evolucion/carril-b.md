@@ -78,7 +78,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] B5 · PRO-02 · Revisiones semanales desde Ritmo
 
-- **Tamaño:** S · **Rama:** `feat/b-revisiones-ritmo` · **Hecho:** 2026-10-23 (PR pendiente). Víctor eligió, tras dos vistas previas, que la fila entera de la semana abra su revisión (con chevrón) en lugar de un botón «Ver revisión»; sin botones en las celdas.
+- **Tamaño:** S · **Rama:** `feat/b-revisiones-ritmo` · **Hecho:** 2026-10-23 (PR #124). Víctor eligió, tras dos vistas previas, que la fila entera de la semana abra su revisión (con chevrón) en lugar de un botón «Ver revisión»; sin botones en las celdas.
 - **Para la persona:** en Ritmo › Semanas, cada semana cerrada con datos tiene «Ver revisión», que abre la misma revisión semanal de Inicio, aunque ya se haya cerrado.
 - **Cómo:** `ritmo/components/CalendarioSemanas.tsx` (hoy `{ ritmo, hoy }`) recibe `onVerRevision(lunes)`; el botón va en la lista de estados por semana (el desplegable textual), que ya es accesible, y opcionalmente en cada celda. `RitmoTab` monta `inicio/components/RevisionSemanal` con `React.lazy` (`{ lunes, hoy, onClose }`); la propia revisión ya navega por semanas.
 - **Tests:** el calendario llama a `onVerRevision` con el lunes correcto; semanas futuras o vacías sin botón.
@@ -86,7 +86,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] B6 · NUT-03 · Registrar comida desde Inicio
 
-- **Tamaño:** M · **Rama:** `feat/b-registro-inicio` · **Hecho:** 2026-10-23 (PR pendiente). **D1 resuelta:** tras la vista previa, Víctor aprueba «+ Añadir desayuno» y descarta «Lo de siempre». Anotado en el ADR 043.
+- **Tamaño:** M · **Rama:** `feat/b-registro-inicio` · **Hecho:** 2026-10-23 (PR #126). **D1 resuelta:** tras la vista previa, Víctor aprueba «+ Añadir desayuno» y descarta «Lo de siempre». Anotado en el ADR 043.
 - **Para la persona:** al pie de la tarjeta de energía, «+ Añadir desayuno» (la comida según la hora) abre Añadir comida ya en esa comida y, si hay una combinación que se repite, «Lo de siempre · 520 kcal» la añade en un toque con Deshacer.
 - **Cómo:**
   1. Lógica pura `loDeSiempre(entries, fecha, comida)` en `nutricion/lib/comidasTipicas.ts`: en los 7 días anteriores, la combinación (misma `claveCombinacion`) más repetida en **esa** comida, si aparece ≥ 3 días; devuelve sus ítems (los de la aparición más reciente, con `itemsDesdeEntradas`), nombre y kcal. `null` si hoy ya hay algo en esa comida. Lectura en `comidasTipicasRepo` (solo lee).
@@ -100,7 +100,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] B7 · GAM-01 · Teselas de progreso con la semana
 
-- **Tamaño:** M · **Rama:** `feat/b-teselas-semana` · **Hecho:** 2026-10-23 (PR pendiente, sin fusionar). Corrige de paso la regla que apilaba las teselas (nunca se aplicaba); Víctor elige 2 × 2 a 320 px y apilar solo con texto ampliado.
+- **Tamaño:** M · **Rama:** `feat/b-teselas-semana` · **Hecho:** 2026-10-23 (PR #130). Corrige de paso la regla que apilaba las teselas (nunca se aplicaba); Víctor elige 2 × 2 a 320 px y apilar solo con texto ampliado.
 - **Para la persona:** cada tesela de Inicio añade una línea con la semana: Cumbres «+620 m esta semana», Caminos «+12,4 km», Ritmo «2 de 3 entrenos · falta 1» con siete puntos, Vitrina «2 nuevas».
 - **Cómo:** solo lecturas de lo que `useVitrina`/`useCaminos` ya devuelven:
   1. Cumbres: `cumbres/lib/cumbres.metrosEntre(tramos, lunes, hoy)`. Caminos: su equivalente en `caminos/lib/caminos.ts`. Ritmo: semana actual del resultado de Ritmo con `ritmo/lib/textos` (`cifrasSemana`, `faltaParaCumplir`). Vitrina: función nueva `piezasDesde(logros, lunes)` en `vitrina/lib/logros.ts`.
@@ -111,7 +111,7 @@ Orden: de lo más pequeño y seguro a lo más grande. Tamaños: **S** (media ses
 
 ### [x] B8 · REN-01 · Un único cálculo derivado
 
-- **Tamaño:** L · **Rama:** `perf/b-calculo-derivado` · **Hecho:** 2026-10-23 (PR pendiente, sin fusionar). Lector compartido: `experiencia/hooks/useProgreso` (para el cruce X4 de A). Sin Web Worker.
+- **Tamaño:** L · **Rama:** `perf/b-calculo-derivado` · **Hecho:** 2026-10-23 (PR #132). Lector compartido: `experiencia/hooks/useProgreso` (para el cruce X4 de A). Sin Web Worker.
 - **Para la persona:** Inicio y el fin de sesión más rápidos, sobre todo con años de datos.
 - **Ya hecho en `master`:** la auditoría (AF-06) quitó la lectura duplicada de Caminos en Inicio; `AccesoProgreso` solo usa `useVitrina`. Queda el perfilado, el triple cálculo del fin de sesión y que cada hook recalcule por su cuenta.
 - **Cómo:**
