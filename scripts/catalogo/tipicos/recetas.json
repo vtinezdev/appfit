@@ -51871,5 +51871,194 @@
         "gramos": 20
       }
     ]
+  },
+  {
+    "id": "puchero-canario",
+    "nombre": "Puchero canario, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 99 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 3748,
+    "ingredientes": [
+      {
+        "ciqual": "20516",
+        "gramos": 200
+      },
+      {
+        "ciqual": "6583",
+        "gramos": 300
+      },
+      {
+        "ciqual": "36016",
+        "gramos": 300
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 300
+      },
+      {
+        "ciqual": "4101",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20044",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20108",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20069",
+        "gramos": 200
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 2500
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "queso-asado-mojo",
+    "nombre": "Queso asado con mojo, asado",
+    "categoria": "Quesos",
+    "referencia": "Lote manual de platos habituales en España, tanda 99 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 219,
+    "ingredientes": [
+      {
+        "ciqual": "12812",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "truchas-batata",
+    "nombre": "Truchas de batata (empanadillas dulces), fritas",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 99 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 766,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 300
+      },
+      {
+        "ciqual": "16520",
+        "gramos": 60
+      },
+      {
+        "ciqual": "4101",
+        "gramos": 300
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 100
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 60
+      }
+    ]
+  },
+  {
+    "id": "arroz-conejo-caracoles",
+    "nombre": "Arroz con conejo y caracoles, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 99 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2132,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 400
+      },
+      {
+        "ciqual": "34001",
+        "gramos": 500
+      },
+      {
+        "ciqual": "10008",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "cabra-guisada",
+    "nombre": "Carne de cabra guisada, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 99 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1250,
+    "ingredientes": [
+      {
+        "ciqual": "21800",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
   }
 ]

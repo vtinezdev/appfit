@@ -1048,3 +1048,7 @@ Empanada de zamburiñas, pitu de caleya (pollo de corral guisado), cocido lebani
 ### Tanda 98 de recetas: Cataluña, Valencia y Baleares (5)
 
 Caracoles a la llauna, olleta alicantina, romesco de pescado, arroz brut mallorquín y coca de patata mallorquina.
+
+### Tanda 99 de recetas: Canarias y Murcia (5)
+
+Puchero canario, queso asado con mojo, truchas de batata (empanadillas dulces), arroz con conejo y caracoles y carne de cabra guisada.
