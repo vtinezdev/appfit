@@ -951,3 +951,16 @@ pavo-relleno;Pavo relleno de Navidad, asado;Carnes;;193,5;23,1;4,2;8,8;2600;3630
 solomillo-wellington;Solomillo Wellington, horneado;Carnes;;215;15,8;12,3;11,2;1100;6116:600 23410:300 20056:300 28845:60 22000:30 16400:20
 lomo-relleno-ciruelas;Lomo de cerdo relleno de ciruelas, asado;Carnes;;213,6;19,3;7,9;10,4;950;28473:800 13042:100 28501:80 1006:100 20034:100 17270:30 11017:6
 cordero-ciruelas-almendras;Cordero con ciruelas y almendras (tajín), cocinado;Platos preparados;tajine de cordero;189,7;12,9;8,4;11,4;1250;21504:800 13042:120 15041:50 20034:200 11025:3 31008:20 17270:30 18066:300 11017:6
+pan-blanco-casero;Pan blanco casero, horneado;Pan y tostadas;;237,4;5,9;47,4;1,9;780;9436:500 18066:330 11010:10 11017:10 17270:10
+pan-integral-casero;Pan integral casero, horneado;Pan y tostadas;;226,4;7,2;40,7;2,2;800;9415:500 18066:350 11010:10 11017:10 17270:10
+pan-leche-casero;Pan de leche casero, horneado;Galletas, bollería y pasteles;bollos de leche;326,8;7,3;50,8;10;900;9440:500 19023:250 16400:80 31016:60 22000:100 11010:20 11017:8
+caracolas-canela;Caracolas de canela glaseadas (cinnamon rolls), horneadas;Galletas, bollería y pasteles;rollos de canela;350,1;6,1;51,2;12,8;1080;9440:500 19023:250 16400:120 31016:150 22000:50 11010:20 11025:10 12068:100
+donuts-caseros;Donuts caseros glaseados, fritos;Galletas, bollería y pasteles;rosquillas glaseadas;414,2;6,3;54,9;18,4;1050;9440:500 19023:250 31016:180 16400:60 22000:100 11010:20 17440:120
+berlinas-crema;Berlinas rellenas de crema, fritas;Galletas, bollería y pasteles;bolas de crema;299;5,9;37,1;13,9;1450;9440:400 19023:200 31016:60 16400:50 22000:100 11010:15 17440:100 19023:500 22002:80 31016:100 9510:40
+napolitanas-chocolate-caseras;Napolitanas de chocolate caseras, horneadas;Galletas, bollería y pasteles;;435,6;6,2;45,1;24,8;610;23410:500 31085:120 22000:30
+napolitanas-crema-caseras;Napolitanas de crema caseras, horneadas;Galletas, bollería y pasteles;;322,7;5,3;37,7;16,4;780;23410:500 19023:250 22002:40 31016:50 9510:20
+cruasanes-caseros;Cruasanes caseros, horneados;Galletas, bollería y pasteles;croissants caseros;428,8;6,1;46,9;23,6;950;9440:500 16400:250 19023:200 31016:50 11010:15 11017:10 22000:50
+magdalenas-chocolate;Magdalenas de chocolate caseras, horneadas;Galletas, bollería y pasteles;;459,4;6,8;44,9;27,6;760;9440:200 31016:180 22000:200 17440:180 18100:30 19023:60 11046:8
+bizcocho-limon;Bizcocho de limón casero, horneado;Galletas, bollería y pasteles;;391,2;6,3;49,9;18,2;800;9440:250 31016:200 22000:200 17440:120 19023:100 2007:30 11046:10
+bizcocho-marmolado;Bizcocho marmolado casero, horneado;Galletas, bollería y pasteles;;396,1;6,8;49;18,8;820;9440:250 31016:200 22000:200 16400:150 19023:100 18100:20 11046:10
+galletas-mantequilla-caseras;Galletas de mantequilla caseras, horneadas;Galletas, bollería y pasteles;pastas de mantequilla;515,3;5,6;56;29,4;590;9440:300 16400:200 31016:100 22000:50

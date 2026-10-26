@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1428 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 1013 recetas CIQUAL (61 hasta el 25 de octubre y
-952 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1441 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 1026 recetas CIQUAL (61 hasta el 25 de octubre y
+965 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -796,3 +796,7 @@ Croquetas de chorizo, morcilla y queso de cabra, caracoles en salsa, mollejas de
 ### Trigesimoquinta tanda de recetas: caza y carnes de fiesta (13)
 
 Codornices escabechadas y a la plancha, conejo en escabeche, faisán estofado, pato a la naranja, lomo de ciervo a la plancha, cochifrito, cordero al ajillo, caldereta de cabrito, pavo relleno de Navidad, solomillo Wellington, lomo relleno de ciruelas y cordero con ciruelas y almendras. El confit de pato se descarta: sin dato fiable de la grasa absorbida, el cálculo salía muy por debajo.
+
+### Trigesimosexta tanda de recetas: panes y bollería casera (13)
+
+Pan blanco, integral y de leche caseros, caracolas de canela, donuts, berlinas de crema, napolitanas de chocolate y de crema, cruasanes, magdalenas de chocolate, bizcochos de limón y marmolado y galletas de mantequilla.
