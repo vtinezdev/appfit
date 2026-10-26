@@ -1,6 +1,6 @@
 # Progreso
 
-`src/features/progreso/`. Un solo destino para el progreso ([ADR 058](../decisiones/058-destino-progreso.md), B12), en la media luna entre Entreno y Social: pestañas Semana · Cumbres · Caminos · Vitrina y, en la cabecera, «Calendario» (B14). Las teselas de Inicio lo abren en su pestaña con «‹ Inicio». Con Cumbres, Caminos, Ritmo y Vitrina ocultos en Ajustes no sale en la media luna; sin Actividades (B9) no hay pestaña Caminos.
+`src/features/progreso/`. Un solo destino para el progreso ([ADR 058](../decisiones/058-destino-progreso.md), B12), en la rejilla de secciones entre Entreno y Social: pestañas Semana · Cumbres · Caminos · Vitrina y, en la cabecera, «Calendario» (B14). Las teselas de Inicio lo abren en su pestaña con «‹ Inicio». Con Cumbres, Caminos, Ritmo y Vitrina ocultos en Ajustes no sale en la rejilla de secciones; sin Actividades (B9) no hay pestaña Caminos.
 
 ## Dónde está cada cosa
 

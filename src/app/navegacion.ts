@@ -2,7 +2,7 @@ import type { IconName } from '../shared/components/Icon'
 import type { Settings } from '../shared/db/types'
 import { moduloActivo } from '../shared/lib/modulos'
 
-/** Una sola lista para la media luna y el tipo de destino. */
+/** Una sola lista para la rejilla de secciones y el tipo de destino. */
 export const DESTINOS = [
   { key: 'inicio', label: 'Inicio', icon: 'home' },
   { key: 'nutricion', label: 'Nutrición', icon: 'utensils' },
@@ -17,20 +17,20 @@ export const DESTINOS = [
 
 export type Tab = (typeof DESTINOS)[number]['key']
 
-/** La media luna de secciones (ADR 043, 058), de izquierda a derecha. Social solo con cuenta configurada. */
-export const EN_ARCO: readonly Tab[] = ['inicio', 'perfil', 'nutricion', 'gym', 'progreso', 'social', 'ajustes']
+/** La rejilla de secciones (ADR 043, 058, 060), en orden de lectura. Social solo con cuenta configurada. */
+export const EN_SECCIONES: readonly Tab[] = ['inicio', 'perfil', 'nutricion', 'gym', 'progreso', 'social', 'ajustes']
 
-/** Destinos fuera de la media luna y la sección desde la que se entra: es la que queda marcada mientras se está en ellos. */
+/** Destinos fuera de la rejilla de secciones y la sección desde la que se entra: es la que queda marcada mientras se está en ellos. */
 const DENTRO_DE: Partial<Record<Tab, Tab>> = {
   amigos: 'social',
   referencias: 'ajustes',
 }
 
-/** La sección de la media luna que corresponde a un destino. */
+/** La sección de la rejilla de secciones que corresponde a un destino. */
 export const seccionDe = (tab: Tab): Tab => DENTRO_DE[tab] ?? tab
 
 /**
- * Destinos de la media luna que no se muestran: Social sin cuenta configurada (ADR 040), los módulos apagados (B9) y
+ * Destinos de la rejilla de secciones que no se muestran: Social sin cuenta configurada (ADR 040), los módulos apagados (B9) y
  * Progreso con Cumbres, Caminos, Ritmo y Vitrina ocultos en Ajustes.
  * Entreno se queda mientras quede el gimnasio o las actividades.
  */
