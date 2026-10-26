@@ -1,7 +1,7 @@
 // El póster de una sesión como imagen para compartir (ENT-11): un SVG de 1080 × 1920 (9:16, el de las historias y los
 // estados) compuesto aquí, sin DOM, con los colores del tema ya resueltos (un canvas no entiende variables CSS).
 // `exportarImagen` lo pasa a PNG. Solo lleva datos del entreno: título, fecha, cifras, récords, ejercicios, «Hoy» y el
-// muñeco. Nada del perfil. Cuenta con formas antes que con frases: pastillas de series, trofeos, medallas y cifras.
+// muñeco. Nada del perfil. Cuenta con formas antes que con frases: la mejor serie como pastilla, trofeos, medallas y cifras.
 import type { VistaCuerpo } from '../components/mapaMuscularGeometria'
 import type { EjercicioPoster, HitoSesion } from './fichaEntreno'
 import type { ZonaMuscular } from './musculos'
@@ -117,8 +117,8 @@ function muneco({ levels, cuerpo, viewBox }: NonNullable<DatosPosterImagen['mune
 /**
  * El SVG del póster. `css` añade reglas dentro del SVG (las `@font-face` con la letra incrustada: una imagen no carga
  * recursos de fuera). Arriba, título (hasta dos líneas), fecha y cifras con filetes; el trofeo con los récords; las
- * medallas de la Vitrina; los ejercicios (nombre, mejora del récord y sus series como pastillas), «Hoy» y el muñeco ocupa
- * lo que queda (si no hay sitio, no va); abajo, «Hecho con AppFit».
+ * medallas de la Vitrina; los ejercicios (nombre, cuántas series, mejora del récord y la mejor serie como pastilla), «Hoy» y
+ * el muñeco ocupa lo que queda (si no hay sitio, no va); abajo, «Hecho con AppFit».
  */
 export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): string {
   const partes: string[] = [`<rect width="${ANCHO_POSTER}" height="${ALTO_POSTER}" fill="${rgb(c.fondo)}"/>`]
@@ -179,42 +179,28 @@ export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): str
     }
   }
 
-  // Cada ejercicio: el nombre y, con récord, el trofeo y la mejora; debajo, sus series como las pastillas del historial
-  // (la del récord en acento con trofeo), en dos líneas como mucho.
+  // Cada ejercicio: el nombre y, debajo, cuántas series y, con récord, el trofeo y la mejora; a la derecha, la mejor serie
+  // como la pastilla del historial (la del récord en acento con trofeo).
   const ejercicios = d.ejercicios ?? []
   if (ejercicios.length) {
     y += 40
     for (const e of ejercicios.slice(0, MAX_EJERCICIOS_POSTER)) {
       y += 60
-      partes.push(texto(MARGEN, y, partirLineas(e.nombre, e.mejora ? 30 : 40, 1)[0] ?? '', 36, c.texto, LETRA.texto.replace('500', '600')))
+      const etiqueta = partirLineas(e.mejor.texto, 18, 1)[0] ?? ''
+      const ancho = Math.round(etiqueta.length * 15 + 44 + (e.mejor.record ? 38 : 0))
+      const x = ANCHO_POSTER - MARGEN - ancho
+      partes.push(`<rect x="${x}" y="${y - 6}" width="${ancho}" height="58" rx="29" fill="${rgb(e.mejor.record ? c.acento : c.pista)}"/>`)
+      if (e.mejor.record) partes.push(trofeo(x + 20, y + 8, 30, c.fondo))
+      partes.push(texto(x + 22 + (e.mejor.record ? 38 : 0), y + 34, etiqueta, 32, e.mejor.record ? c.fondo : c.texto, LETRA.texto.replace('500', '700')))
+      // El nombre deja sitio a la pastilla.
+      partes.push(texto(MARGEN, y, partirLineas(e.nombre, Math.floor((x - MARGEN - 24) / 19), 1)[0] ?? '', 36, c.texto, LETRA.texto.replace('500', '600')))
+      y += 44
+      partes.push(texto(MARGEN, y, e.series, 28, c.tenue, LETRA.texto))
       if (e.mejora) {
-        partes.push(texto(ANCHO_POSTER - MARGEN, y, e.mejora, 36, c.acento, LETRA.texto.replace('500', '700'), ' text-anchor="end"'))
-        partes.push(trofeo(ANCHO_POSTER - MARGEN - e.mejora.length * 17 - 46, y - 32, 36, c.acento))
+        const xm = MARGEN + e.series.length * 14 + 24
+        partes.push(trofeo(xm, y - 26, 30, c.acento))
+        partes.push(texto(xm + 38, y, e.mejora, 30, c.acento, LETRA.texto.replace('500', '700')))
       }
-      y += 20
-      let x = MARGEN
-      let lineas = 1
-      for (const [i, serie] of e.series.entries()) {
-        const etiqueta = partirLineas(serie.texto, 18, 1)[0] ?? ''
-        const ancho = Math.round(etiqueta.length * 13.5 + 40 + (serie.record ? 34 : 0))
-        const quedan = e.series.length - i
-        // Si no cabe y ya van dos líneas, una pastilla «+N» con las que faltan.
-        if (x + ancho > ANCHO_POSTER - MARGEN || (lineas === 2 && quedan > 1 && x + ancho + 90 > ANCHO_POSTER - MARGEN)) {
-          if (lineas === 2) {
-            partes.push(`<rect x="${x}" y="${y}" width="80" height="50" rx="25" fill="${rgb(c.pista)}"/>`)
-            partes.push(texto(x + 40, y + 34, `+${quedan}`, 28, c.texto, LETRA.texto.replace('500', '600'), ' text-anchor="middle"'))
-            break
-          }
-          lineas++
-          x = MARGEN
-          y += 62
-        }
-        partes.push(`<rect x="${x}" y="${y}" width="${ancho}" height="50" rx="25" fill="${rgb(serie.record ? c.acento : c.pista)}"/>`)
-        if (serie.record) partes.push(trofeo(x + 18, y + 12, 26, c.fondo))
-        partes.push(texto(x + 20 + (serie.record ? 34 : 0), y + 34, etiqueta, 28, serie.record ? c.fondo : c.texto, LETRA.texto.replace('500', '600')))
-        x += ancho + 12
-      }
-      y += 50
     }
     const resto = ejercicios.length - MAX_EJERCICIOS_POSTER
     if (resto > 0) {

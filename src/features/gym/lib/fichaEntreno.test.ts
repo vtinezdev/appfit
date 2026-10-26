@@ -132,20 +132,31 @@ describe('restoRecords', () => {
 describe('ejerciciosDelPoster', () => {
   const serie = (id: number, exerciseId: number, peso: number, reps: number, extra: Partial<SetEntry> = {}): SetEntry =>
     ({ id, workoutId: 1, exerciseId, peso, reps, orden: id, createdAt: id, realizada: true, ...extra })
-  const nombres = { 1: 'Press banca', 2: 'Fondos', 3: 'Curl' }
+  const nombres = { 1: 'Press banca', 2: 'Dominadas asistidas', 3: 'Elevaciones', 4: 'Curl' }
 
-  it('en el orden del entreno, sus series efectivas como pastillas (las de récord marcadas) y la mejora del récord principal', () => {
+  it('en el orden del entreno, la mejor serie (la del récord de carga), cuántas series y la mejora del récord principal', () => {
     const sets = [
-      serie(1, 1, 60, 10, { tipo: 'calentamiento' }), serie(2, 1, 80, 8), serie(3, 1, 100, 5),
-      serie(4, 2, 0, 12, { modoCarga: 'corporal' }), serie(5, 3, 12, 10, { realizada: false }),
+      serie(1, 1, 60, 10, { tipo: 'calentamiento' }), serie(2, 1, 100, 5), serie(3, 1, 105, 1), serie(4, 1, 80, 12),
+      serie(5, 4, 12, 10, { realizada: false }),
     ]
     const records: RecordEjercicio[] = [
-      { exerciseId: 1, tipo: '1rm', valor: 110, anterior: 108, setId: 2 },
-      { exerciseId: 1, tipo: 'peso', valor: 100, anterior: 95, setId: 3 },
+      { exerciseId: 1, tipo: '1rm', valor: 112, anterior: 110, setId: 4 },
+      { exerciseId: 1, tipo: 'peso', valor: 100, anterior: 95, setId: 2 },
     ]
-    expect(ejerciciosDelPoster({ ordenEjercicios: [2, 1] }, sets, records, nombres)).toEqual([
-      { nombre: 'Fondos', series: [{ texto: 'Corporal × 12', record: false }] },
-      { nombre: 'Press banca', mejora: '+5 kg', series: [{ texto: '80 kg × 8', record: true }, { texto: '100 kg × 5', record: true }] },
+    expect(ejerciciosDelPoster({}, sets, records, nombres)).toEqual([
+      { nombre: 'Press banca', mejor: { texto: '100 kg × 5', record: true }, series: '3 series', mejora: '+5 kg' },
+    ])
+  })
+
+  it('sin récord de carga, la más fuerte de las de récord; sin récord, la más fuerte (con asistencia, la de menos)', () => {
+    const sets = [
+      serie(1, 3, 10, 15), serie(2, 3, 12, 8), serie(3, 3, 7.5, 15),
+      serie(4, 2, 30, 8, { modoCarga: 'asistencia' }), serie(5, 2, 20, 6, { modoCarga: 'asistencia' }),
+    ]
+    const records: RecordEjercicio[] = [{ exerciseId: 3, tipo: 'reps', valor: 15, anterior: 12, peso: 10, setId: 1 }, { exerciseId: 3, tipo: 'reps', valor: 15, anterior: 11, peso: 7.5, setId: 3 }]
+    expect(ejerciciosDelPoster({ ordenEjercicios: [2] }, sets, records, nombres)).toEqual([
+      { nombre: 'Dominadas asistidas', mejor: { texto: 'Asistencia 20 kg × 6', record: false }, series: '2 series' },
+      { nombre: 'Elevaciones', mejor: { texto: '10 kg × 15', record: true }, series: '3 series', mejora: '+3 reps' },
     ])
   })
 
