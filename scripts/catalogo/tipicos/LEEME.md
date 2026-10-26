@@ -992,3 +992,7 @@ Pollo kung pao, curry rojo de gambas, brochetas de pollo satay, cerdo al jengibr
 ### Tanda 84 de recetas: cocina india y árabe (8)
 
 Vindaloo de cerdo, patata y coliflor al curry (aloo gobi), raita de yogur y pepino, pan naan casero, pollo al curry con espinacas, tajín de pollo con limón y aceitunas, pastela de pollo y baklava.
+
+### Tanda 85 de recetas: cocina francesa y europea (9)
+
+Quiche de salmón y puerro, croque monsieur, fricasé de pollo con champiñones, crepes Suzette, fish and chips (pescado rebozado con patatas fritas), salchichas con puré de patata, pastel de carne y puré de patata (shepherd pie), strudel de manzana y mejillones al vino con patatas fritas.
