@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1457 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 1042 recetas CIQUAL (61 hasta el 25 de octubre y
-981 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1469 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 1054 recetas CIQUAL (61 hasta el 25 de octubre y
+993 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -804,3 +804,7 @@ Pan blanco, integral y de leche caseros, caracolas de canela, donuts, berlinas d
 ### Trigesimoséptima tanda de recetas: más pescados y mariscos (16)
 
 Merluza con tomate y a la bilbaína, bacalao a la riojana, gratinado con alioli, a la Gomes de Sá y dorado, rape con langostinos, salmón con eneldo, pez espada con tomate, lubina a la sal, rodaballo al horno, boquerones al ajillo, pijotas fritas, pulpo a la plancha, almejas en salsa verde y mariscada cocida.
+
+### Trigesimoctava tanda de recetas: más postres y tartas (12)
+
+Tarta de queso con galletas de chocolate, tarta de yogur, tarta Tatin, coulant, crème brûlée, lionesas de nata, flanes de leche condensada y de chocolate, tarta de calabaza, natillas con galleta, copa de mousse de chocolate y arroz con leche de coco. Se omiten merengue y crema quemada (CIQUAL) y el brownie casero (ya estaba).
