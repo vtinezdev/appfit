@@ -19,7 +19,7 @@ import { formatDiaMes, toISODate } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import PanelEjercicio from '../components/PanelEjercicio'
 import SelectorEjercicios from '../components/SelectorEjercicios'
-import RecordsSesion from '../components/RecordsSesion'
+import HitosSesion from '../components/HitosSesion'
 import EjercicioSesion, { LeyendaSeries } from '../components/EjercicioSesion'
 import PublicarEntreno from '../components/PublicarEntreno'
 import GuardarComoRutina from '../components/GuardarComoRutina'
@@ -108,8 +108,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
   const exerciseMap = new Map(exercises.map((e) => [e.id, e]))
   const records = recordsDeEntreno(workoutId, todosWorkouts, todasSeries)
   const nombres = Object.fromEntries(exercises.map((e) => [e.id, e.nombre]))
-  const catalogIds = Object.fromEntries(exercises.map((e) => [e.id, e.catalogId]))
   const conRecord = seriesConRecord(records)
+  const hitos = hitosDeSesion({ records, nombres, subidas: [], cumbre: null, ligas: [], logros: [] })
   const minutos = minutosEntre(w.inicio, fin)
   const trabajo = trabajoMuscularWorkout(w, delEntreno, exercises)
   // Las que se guardaron sin el tic (`realizada: false`) no suman: se ofrece marcarlas de una vez.
@@ -224,10 +224,10 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
       )}
       <PosterSesion titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)}
         levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined}
-        gimnasio={nombreGimnasio(w.gimnasioId)} />
+        gimnasio={nombreGimnasio(w.gimnasioId)} hoy={!editando && hitos.length ? <HitosSesion hitos={hitos} /> : undefined} />
       {!editando && <PosterImagen titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length}
         volumen={volumenSets(delEntreno)} gimnasio={nombreGimnasio(w.gimnasioId)} levels={trabajo.levels} figura={figura}
-        hoy={hitosDeSesion({ records, nombres, subidas: [], cumbre: null, ligas: [], logros: [] })} />}
+        hoy={hitos} />}
       {error && <ErrorState>{error}</ErrorState>}
       {!editando && pendientes.length > 0 && (
         <section aria-label="Series sin marcar" className="space-y-2">
@@ -257,7 +257,6 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
         </section>
       )}
 
-      {!editando && !!records.length && <RecordsSesion records={records} nombres={nombres} catalogIds={catalogIds} />}
       {!editando && (
         <section aria-label="Ejercicios" className="space-y-stack">
           <SectionHeader variant="section">Ejercicios <span className="tabular text-body text-fg-muted">{formatInt(ids.length)}</span></SectionHeader>
@@ -265,7 +264,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
             record={delEntreno.some(s => conRecord.has(s.id))} />
           {ids.length > 0
             ? <ul className="space-y-stack">
-              {ids.map((id) => <li key={id}><EjercicioSesion ejercicio={exerciseMap.get(id)} records={conRecord} nota={w.notasEjercicios?.[id]}
+              {ids.map((id) => <li key={id}><EjercicioSesion ejercicio={exerciseMap.get(id)} records={conRecord} recordsEjercicio={records.filter(r => r.exerciseId === id)} nota={w.notasEjercicios?.[id]}
                 series={delEntreno.filter((s) => s.exerciseId === id).sort((a, b) => a.orden - b.orden)} /></li>)}
             </ul>
             : <EmptyState>Sin ejercicios registrados.</EmptyState>}
