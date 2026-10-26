@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Exercise, Objetivos, SetEntry, Workout } from '../../../shared/db/types'
 import {
-  bloqueAgua, bloqueEntreno, bloqueNutricion, bloquePeso, calcularRevision, debeMostrarRevision, entrenosDeSemana, formatDiferencia,
+  bloqueAgua, bloqueEntreno, bloqueNutricion, diasRevision, bloquePeso, calcularRevision, debeMostrarRevision, entrenosDeSemana, formatDiferencia,
   hayDatosSemana, recordsDeSemana, semanaAnterior, semanaARevisar, semanaDe, type DatosRevision,
 } from './revisionSemanal'
 
@@ -144,5 +144,16 @@ describe('formatDiferencia', () => {
     expect(formatDiferencia(2)).toBe('+2')
     expect(formatDiferencia(0.04, 1, 'kg')).toBe('Sin cambios')
     expect(formatDiferencia(-0.04, 1)).toBe('Sin cambios')
+  })
+})
+
+describe('diasRevision', () => {
+  it('cada día de la semana con entreno terminado, comidas y cheat day', () => {
+    const dias = diasRevision(SEMANA, [e('2026-10-05', 500), e('2026-10-07', 300)], [w(1, '2026-10-05'), { id: 2, inicio: ts('2026-10-06') }, w(3, '2026-10-04')], new Set(['2026-10-07']))
+    expect(dias).toHaveLength(7)
+    expect(dias[0]).toEqual({ fecha: '2026-10-05', entreno: true, comidas: true, cheat: false })
+    // Un entreno sin terminar no cuenta; el de la semana anterior, tampoco.
+    expect(dias[1]).toEqual({ fecha: '2026-10-06', entreno: false, comidas: false, cheat: false })
+    expect(dias[2]).toEqual({ fecha: '2026-10-07', entreno: false, comidas: true, cheat: true })
   })
 })

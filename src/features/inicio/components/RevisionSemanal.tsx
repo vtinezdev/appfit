@@ -6,17 +6,19 @@ import ModalPage from '../../../shared/components/ModalPage'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import { addDays, etiquetaPeriodo } from '../../../shared/lib/dates'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
-import RecordsSesion from '../../gym/components/RecordsSesion'
+import MiniaturaEjercicio from '../../gym/components/MiniaturaEjercicio'
+import { partesRecord, recordsPorEjercicio, resumenRecords } from '../../gym/lib/fichaEntreno'
+import type { RecordEjercicio } from '../../gym/lib/records'
 import { formatDuracion } from '../../gym/lib/workout'
 import { useRevision, useSemanasCruzadas } from '../hooks/useRevisionSemanal'
 import { useExperiencia } from '../../experiencia/hooks/useExperiencia'
-import { semanaRitmo } from '../../ritmo/lib/ritmo'
+import { semanaRitmo, type SemanaRitmo } from '../../ritmo/lib/ritmo'
 import { cifrasSemana, textoEstado, textoHilo } from '../../ritmo/lib/textos'
 import Card from '../../../shared/components/Card'
 import Icon, { type IconName } from '../../../shared/components/Icon'
 import ProgressBar from '../../../shared/components/ProgressBar'
 import { formatAgua, partesAgua } from '../lib/agua'
-import { formatDiferencia, semanaARevisar, type Revision } from '../lib/revisionSemanal'
+import { formatDiferencia, semanaARevisar, type DiaRevision, type Revision } from '../lib/revisionSemanal'
 import { notaCheatDays } from '../../nutricion/lib/cheatDays'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { getSettings } from '../../../shared/db/settings'
@@ -84,11 +86,7 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose, clo
         {!cargada ? <LoadingState /> : !cargada.hayDatos ? (
           <EmptyState title="Sin registros esta semana">Las comidas, pesajes, entrenos y el agua de la semana aparecerán aquí.</EmptyState>
         ) : <>
-          {ritmo && <Card tone="muted" className="space-y-1">
-            <p className="text-label text-fg-muted">Ritmo</p>
-            <p className="text-title text-fg">{textoEstado(ritmo)}</p>
-            <p className="tabular break-words text-body-sm text-fg-muted">{cifrasSemana(ritmo)} · {textoHilo(ritmo.hilo).toLocaleLowerCase('es')}</p>
-          </Card>}
+          <SemanaDeUnVistazo dias={cargada.dias} ritmo={ritmo} />
           <Contenido revision={cargada} modulos={settings} />
           {/* «Tus 8 semanas» (B11): al final, con la gráfica en su propio trozo. */}
           {cruzadas && <Suspense fallback={null}><LecturasCruzadas semanas={cruzadas}
@@ -97,6 +95,56 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose, clo
       </div>
     </ModalPage>
   )
+}
+
+const LETRAS = ['L', 'M', 'X', 'J', 'V', 'S', 'D']
+const NOMBRES_DIA = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
+
+/**
+ * La semana de un vistazo (punto 2): el estado de Ritmo y el hilo, y los siete días con el entreno (cuadro verde) y las
+ * comidas (raya debajo; en un cheat day, discontinua). Sustituye a la tarjeta de Ritmo en texto.
+ */
+function SemanaDeUnVistazo({ dias, ritmo }: { dias: DiaRevision[]; ritmo?: SemanaRitmo }) {
+  return <Card className="space-y-4">
+    {ritmo && <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+      <p className="text-title text-fg">{textoEstado(ritmo)}</p>
+      <p className="tabular text-caption text-fg-muted">{textoHilo(ritmo.hilo)}</p>
+    </div>}
+    <ol className="grid grid-cols-7 gap-1" aria-label="Días de la semana">
+      {dias.map((d, i) => <li key={d.fecha} className="flex flex-col items-center gap-1">
+        <span aria-hidden className="text-caption text-fg-muted">{LETRAS[i]}</span>
+        <span aria-hidden className={`flex h-9 w-9 items-center justify-center rounded-md ${d.entreno ? 'bg-accent text-accent-on' : 'bg-surface-muted'}`}>
+          {d.entreno && <Icon name="dumbbell" size={16} />}
+        </span>
+        <span aria-hidden className={`h-1 w-5 rounded-pill ${d.comidas ? (d.cheat ? 'border-t-2 border-dashed border-kcal' : 'bg-kcal') : 'bg-transparent'}`} />
+        <span className="sr-only">{NOMBRES_DIA[i]}: {[d.entreno ? 'entreno' : 'sin entreno', d.comidas ? (d.cheat ? 'comidas (cheat day)' : 'comidas registradas') : 'sin comidas'].join(', ')}</span>
+      </li>)}
+    </ol>
+    <p className="tabular border-t border-line pt-3 text-caption text-fg-muted">{ritmo ? `${cifrasSemana(ritmo)}. ` : ''}Verde: entreno · raya: comidas.</p>
+  </Card>
+}
+
+/** Récords de la semana en una lista corta (punto 2): uno por ejercicio, el que más cuenta, con su mejora. */
+function RecordsSemana({ records, nombres, catalogIds }: { records: RecordEjercicio[]; nombres: Record<number, string>; catalogIds: Record<number, string | undefined> }) {
+  const PRIORIDAD: RecordEjercicio['tipo'][] = ['peso', 'asistencia', '1rm', 'reps']
+  const grupos = recordsPorEjercicio(records).map(g => ({ ...g, principal: [...g.records].sort((a, b) => PRIORIDAD.indexOf(a.tipo) - PRIORIDAD.indexOf(b.tipo))[0] }))
+  const resto = grupos.length - RECORDS_VISIBLES
+  return <Bloque titulo="Récords personales" icono="trophy">
+    <p className="tabular -mt-2 text-body-sm text-fg-muted">{resumenRecords(records, nombres)}</p>
+    <ListGroup variante="plana" aria-label="Récords de la semana" pie={resto > 0 ? `y ${formatInt(resto)} ${resto === 1 ? 'ejercicio' : 'ejercicios'} más` : undefined}>
+      {grupos.slice(0, RECORDS_VISIBLES).map(({ exerciseId, records: rs, principal }) => {
+        const p = partesRecord(principal)
+        return <li key={exerciseId} className="flex min-h-touch items-center gap-3 py-2">
+          <MiniaturaEjercicio catalogId={catalogIds[exerciseId]} />
+          <span className="min-w-0 flex-1">
+            <span className="block break-words text-body-sm font-semibold text-fg">{nombres[exerciseId] ?? 'Ejercicio'}</span>
+            <span className="tabular block break-words text-caption text-fg-muted">{p.rotulo}: {p.valor}{rs.length > 1 ? ` · +${formatInt(rs.length - 1)}` : ''}</span>
+          </span>
+          <span className="tabular flex shrink-0 items-center gap-1 text-body-sm font-semibold text-accent-strong"><Icon name="trophy" size={14} />{p.mejora}</span>
+        </li>
+      })}
+    </ListGroup>
+  </Bloque>
 }
 
 /** Sin los bloques de los módulos ocultos en «Lo que usas» (B9): Entreno y Récords van con el gimnasio. */
@@ -133,8 +181,11 @@ function Contenido({ revision, modulos }: { revision: Revision; modulos?: Pick<S
             </div>
             <Metric size="title" label="Días registrados" valor={`${formatInt(nutricion.diasRegistrados)} de 7`} caption={notaCheatDays(nutricion.cheatDays) ?? undefined} />
             {nutricion.kcalObjetivo !== null && nutricion.adherencia !== null && (
-              <Metric size="title" label="En objetivo" valor={formatInt(nutricion.adherencia)} unidad="%"
-                caption={`${formatInt(nutricion.diasEnRango)} de ${formatInt(nutricion.diasRegistrados)} días a ±10 %`} />
+              <div className="space-y-2">
+                <Metric size="title" label="En objetivo" valor={formatInt(nutricion.adherencia)} unidad="%"
+                  caption={`${formatInt(nutricion.diasEnRango)} de ${formatInt(nutricion.diasRegistrados)} días a ±10 %`} />
+                <ProgressBar value={nutricion.diasEnRango} goal={Math.max(1, nutricion.diasRegistrados)} label="Días en objetivo" />
+              </div>
             )}
           </div>
         )}
@@ -170,20 +221,18 @@ function Contenido({ revision, modulos }: { revision: Revision; modulos?: Pick<S
         )}
       </Bloque>}
 
-      {ver('gym') && actual.sesiones > 0 && (records.length ? (
-        <div className="space-y-2">
-          <RecordsSesion records={records.slice(0, RECORDS_VISIBLES)} total={records.length} nombres={revision.nombres} catalogIds={revision.catalogIds} />
-          {records.length > RECORDS_VISIBLES && <p className="text-caption text-fg-muted">y {formatInt(records.length - RECORDS_VISIBLES)} más</p>}
-        </div>
-      ) : (
-        <Bloque titulo="Récords personales" icono="trophy"><EmptyState>Sin récords esta semana.</EmptyState></Bloque>
-      ))}
+      {ver('gym') && actual.sesiones > 0 && (records.length
+        ? <RecordsSemana records={records} nombres={revision.nombres} catalogIds={revision.catalogIds} />
+        : <Bloque titulo="Récords personales" icono="trophy"><EmptyState>Sin récords esta semana.</EmptyState></Bloque>)}
 
       {ver('agua') && <Bloque titulo="Agua" icono="droplet">
         {agua.mediaMl === null ? <EmptyState>Sin agua registrada esta semana.</EmptyState> : (
           <div className="grid grid-cols-2 gap-4">
-            <Metric size="title" label="Agua al día" valor={partesAgua(agua.mediaMl).valor} unidad={partesAgua(agua.mediaMl).unidad}
-              caption={`${formatInt(agua.dias)} de 7 días con registro`} />
+            <div className="space-y-2">
+              <Metric size="title" label="Agua al día" valor={partesAgua(agua.mediaMl).valor} unidad={partesAgua(agua.mediaMl).unidad}
+                caption={`${formatInt(agua.dias)} de 7 días con registro`} />
+              {agua.objetivoMl !== null && <ProgressBar value={agua.mediaMl} goal={agua.objetivoMl} label="Agua al día frente al objetivo" />}
+            </div>
             {agua.diasEnObjetivo !== null && agua.objetivoMl !== null && (
               <Metric size="title" label="Días en objetivo" valor={`${formatInt(agua.diasEnObjetivo)} de ${formatInt(agua.dias)}`} caption={`Objetivo ${formatAgua(agua.objetivoMl)}`} />
             )}
