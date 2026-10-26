@@ -12,6 +12,7 @@ import SectionHeader from '../../../shared/components/SectionHeader'
 import Disclosure from '../../../shared/components/Disclosure'
 import Sheet from '../../../shared/components/Sheet'
 import * as entriesRepo from '../data/entriesRepo'
+import * as planificadasRepo from '../data/planificadasRepo'
 import * as mealsRepo from '../data/mealsRepo'
 import * as foodsRepo from '../data/foodsRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
@@ -19,7 +20,6 @@ import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
 import {
   aItemGuardado,
   actualizaAlimentoGuardado,
-  faltaDelDia,
   creaAlimentoNuevo,
   elegibleDeCatalogo,
   faltaCategoria,
@@ -47,6 +47,7 @@ import DescribirComida from '../components/DescribirComida'
 import ItemRevisionRow from '../components/ItemRevisionRow'
 import KcalRapidasSheet from '../components/KcalRapidasSheet'
 import AlimentosRapidos from '../components/AlimentosRapidos'
+import EncajanConLoQueFalta from '../components/EncajanConLoQueFalta'
 import CambiarAlimentoSheet from '../components/CambiarAlimentoSheet'
 import EscanerCodigo from '../components/EscanerCodigo'
 import Medidas from './Medidas'
@@ -54,6 +55,7 @@ import Button from '../../../shared/components/Button'
 import { Input, Select } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { revisionModificada } from '../lib/borradorComida'
+import { faltaDelDia } from '../lib/cerrarDia'
 
 interface Props {
   fecha: string
@@ -63,6 +65,8 @@ interface Props {
   comidaInicial?: Comida
   /** Reutiliza la revisión para guardar una comida típica sin registrarla en el diario. */
   soloTipica?: boolean
+  /** Guarda en el Plan (`planificadas`) en vez de en el diario: hoy o un día futuro, no cuenta hasta «Lo he comido». */
+  planificar?: boolean
   onClose: () => void
   onGuardado: () => void
 }
@@ -74,7 +78,7 @@ function itemDesdeEntrada(e: Entry): ItemRevision {
   return { nombre: e.nombre, gramos: e.gramos, ...valores, origen: { fuente: 'manual', valores, nombreNorm: normalizeName(e.nombre), guardado: false } }
 }
 
-export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaInicial, soloTipica = false, onClose, onGuardado }: Props) {
+export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaInicial, soloTipica = false, planificar = false, onClose, onGuardado }: Props) {
   const [comida, setComida] = useState<Comida>(entryEditar?.comida ?? platoDestino?.entries[0].comida ?? comidaInicial ?? comidaPorHora())
   const [metodo, setMetodo] = useState<'describir' | 'buscar'>('describir')
   const [guardandoRapido, setGuardandoRapido] = useState(false)
@@ -109,11 +113,12 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const [escaneando, setEscaneando] = useState(false)
   const [verMedidas, setVerMedidas] = useState(false)
   const local = useInterpretarLocal()
-  // «Cerrar el día» (B10): lo que falta de proteína y kcal frente al objetivo del día, para el chip de Buscar.
+  // «Cerrar el día» (B10): lo que falta de cada macro frente al objetivo del día, para el botón de Escribir. Al
+  // planificar, frente a lo ya planificado ese día.
   const falta = useLiveQuery(async () => {
-    const [delDia, objetivo] = await Promise.all([entriesRepo.delDia(fecha), objetivosDe(fecha, todayISO())])
+    const [delDia, objetivo] = await Promise.all([planificar ? planificadasRepo.delDia(fecha) : entriesRepo.delDia(fecha), objetivosDe(fecha, todayISO())])
     return faltaDelDia(sumMacros(delDia), objetivo)
-  }, [fecha])
+  }, [fecha, planificar])
   const [descartar, setDescartar] = useState(false)
   const confirmacionRef = useRef<HTMLDivElement>(null)
   const editorRef = useRef<HTMLDivElement>(null)
@@ -211,15 +216,22 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           aplicarAlAlimento,
           ...(items[0].nombreCortoModificado ? { nombreCorto: items[0].nombreCorto?.trim() || null } : {}),
         })
+      } else if (planificar) {
+        await planificadasRepo.planificarRevision({ fecha, comida, items: items.map(aItemGuardado), nombrePlato }, todayISO())
       } else {
         await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: textoOriginal || undefined, nombrePlato, platoDestinoId: platoDestino?.entries[0].platoId, guardarComoTipica })
       }
       onGuardado()
     } catch (e) {
-      setErrorGuardar(e instanceof foodsRepo.NombreDuplicadoError || e instanceof foodsRepo.CategoriaRequeridaError || e instanceof entriesRepo.PlatoNoDisponibleError ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
+      setErrorGuardar(e instanceof foodsRepo.NombreDuplicadoError || e instanceof foodsRepo.CategoriaRequeridaError || e instanceof entriesRepo.PlatoNoDisponibleError || e instanceof planificadasRepo.FechaNoPlanificable ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
     } finally {
       setGuardando(false)
     }
+  }
+
+  function elegirRapido(alimento: AlimentoElegible, gramos: number) {
+    setErrorRapido(null)
+    setGramosRapido({ alimento, gramos })
   }
 
   async function confirmarRapido() {
@@ -234,14 +246,16 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
         setGramosRapido(null)
         return
       }
-      const id = alimento.ref.tipo === 'user'
+      const id = planificar
+        ? await planificadasRepo.planificarAlimento({ fecha, comida, ref: alimento.ref, gramos }, todayISO())
+        : alimento.ref.tipo === 'user'
         ? await entriesRepo.anadirDesdeAlimento({ fecha, comida, foodId: alimento.ref.id, gramos })
         : await entriesRepo.anadirDesdeCatalogo({ fecha, comida, catalogId: alimento.ref.id, gramos })
       if (id === undefined) { setErrorRapido('Este alimento ya no está disponible. Elige otro.'); return }
       setGramosRapido(null)
       onGuardado()
-    } catch {
-      setErrorRapido('No se ha podido guardar. Inténtalo de nuevo.')
+    } catch (e) {
+      setErrorRapido(e instanceof planificadasRepo.FechaNoPlanificable ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
     } finally {
       setGuardandoRapido(false)
     }
@@ -254,11 +268,12 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
     setGuardandoRapida(true)
     setErrorRapida(null)
     try {
-      await entriesRepo.anadirRapida({ fecha, comida, ...validado })
+      if (planificar) await planificadasRepo.planificarRapida({ fecha, comida, ...validado }, todayISO())
+      else await entriesRepo.anadirRapida({ fecha, comida, ...validado })
       setKcalRapidas(null)
       onGuardado()
-    } catch {
-      setErrorRapida('No se ha podido guardar. Inténtalo de nuevo.')
+    } catch (e) {
+      setErrorRapida(e instanceof planificadasRepo.FechaNoPlanificable ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
     } finally {
       setGuardandoRapida(false)
     }
@@ -270,7 +285,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const kcalRapido = aporteRapido ? Math.round(aporteRapido.kcal) : 0
 
   return (
-    <ModalPage title={descartar ? '¿Descartar los cambios?' : soloTipica ? 'Nueva comida típica' : entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose} busy={ocupado}
+    <ModalPage title={descartar ? '¿Descartar los cambios?' : soloTipica ? 'Nueva comida típica' : entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : planificar ? 'Planificar comida' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose} busy={ocupado}
       onBeforeClose={() => {
         if (!tieneCambios) return true
         if (!descartar) focoAnterior.current = document.activeElement as HTMLElement | null
@@ -282,7 +297,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           {!soloTipica && <p className="flex flex-wrap justify-between gap-x-3 text-caption text-fg-muted"><span>{formatInt(items.length)} {items.length === 1 ? 'alimento' : 'alimentos'}</span><span>{nombreComida(comida)} · {formatFriendly(fecha)}</span></p>}
           {errorGuardar && <ErrorState>{errorGuardar}</ErrorState>}
           <Button size="lg" block loading={guardando} onClick={guardar} disabled={(soloTipica && !nombreTipica.trim()) || anadiendo || nombreCortoEditando || items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it) || (!entryEditar && faltaCategoria(it)))}>
-            {guardando ? 'Guardando…' : `${soloTipica ? 'Guardar comida típica' : platoDestino ? 'Añadir al plato' : entryEditar ? 'Guardar cambios' : `Añadir a ${nombreComida(comida).toLowerCase()}`} · ${formatInt(kcalTotales)} kcal`}
+            {guardando ? 'Guardando…' : `${soloTipica ? 'Guardar comida típica' : platoDestino ? 'Añadir al plato' : entryEditar ? 'Guardar cambios' : `${planificar ? 'Planificar en' : 'Añadir a'} ${nombreComida(comida).toLowerCase()}`} · ${formatInt(kcalTotales)} kcal`}
           </Button>
         </div>
       )}>
@@ -313,6 +328,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
         ) : !soloTipica && <div className="flex flex-wrap items-center justify-between gap-3">
           <label className="flex min-w-0 items-center gap-2"><Icon name="utensils" size={20} className="shrink-0 text-fg-muted" /><Select aria-label="Comida del día" value={comida} onChange={e => setComida(e.target.value as Comida)} className="w-auto max-w-full" tone="surface">{COMIDAS.map(c => <option key={c.valor} value={c.valor}>{c.label}</option>)}</Select></label>
           <p className="text-caption text-fg-muted">{formatFriendly(fecha)}</p>
+          {planificar && <p className="w-full text-caption text-fg-muted">Se guarda en el Plan: no cuenta hasta que, ese día, pulses «Lo he comido».</p>}
         </div>}
 
           {items === null && (
@@ -322,13 +338,15 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
             ]} valor={metodo} onChange={setMetodo} accion={<Button variant="subtle" size="sm" disabled={local.cargando} onClick={() => setEscaneando(true)} aria-label="Escanear producto"><Icon name="barcode" size={18} />Escanear</Button>}>
               <div className="space-y-section">
                 {metodo === 'describir' && <>
-                  <DescribirComida texto={texto} onTextoChange={setTexto} onInterpretar={interpretar} cargando={local.cargando} error={local.error} onVerMedidas={() => setVerMedidas(true)} titulo={soloTipica ? '¿Qué sueles comer?' : undefined} />
+                  <DescribirComida texto={texto} onTextoChange={setTexto} onInterpretar={interpretar} cargando={local.cargando} error={local.error} onVerMedidas={() => setVerMedidas(true)} titulo={soloTipica ? '¿Qué sueles comer?' : planificar ? '¿Qué vas a comer?' : undefined} />
                   {!platoDestino && !soloTipica && <>
                     {tipicaCreada && <p role="status" className="text-body-sm text-fg-muted">Comida típica guardada. Ya la tienes a mano.</p>}
                     <ComidasTipicas fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} onVerTodas={() => setVerTipicas(true)} />
+                    <EncajanConLoQueFalta comida={comida} fecha={fecha} falta={falta ?? null} onElegirAlimento={elegirRapido} onElegirTipica={setTipicaElegida}
+                      onElegirCombinacion={(propuestos) => { setErrorGuardar(null); abrirRevision(propuestos.map((p) => itemDesdeElegible(p.alimento, p.gramos))) }} />
                   </>}
                 </>}
-                {metodo === 'buscar' && <AlimentosRapidos comida={comida} falta={falta ?? null} onElegir={(alimento, gramos) => { setErrorRapido(null); setGramosRapido({ alimento, gramos: gramos ?? 100 }) }} />}
+                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)} />}
                 {!platoDestino && !soloTipica && <div className="border-t border-line pt-3">
                   <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}>Solo registrar calorías</Button>
                 </div>}
@@ -369,7 +387,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                   <span className="min-w-0">Aplicar también a «{alimentoDeLaEntrada.nombre}» en Alimentos</span>
                 </label>
               )}
-              {!entryEditar && !platoDestino && !soloTipica && <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg">
+              {!entryEditar && !platoDestino && !soloTipica && !planificar && <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg">
                 <input type="checkbox" checked={guardarComoTipica} onChange={e => setGuardarComoTipica(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
                 <span className="min-w-0">Guardar como comida típica</span>
               </label>}
@@ -441,7 +459,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
       <Sheet open={gramosRapido !== null} onClose={() => setGramosRapido(null)} title="Cantidad"
         footer={gramosRapido && <div className="space-y-2">
           {errorRapido && <ErrorState>{errorRapido}</ErrorState>}
-          <Button block loading={guardandoRapido} onClick={confirmarRapido}>{platoDestino || soloTipica || anadiendo ? 'Revisar alimento' : 'Añadir'}</Button>
+          <Button block loading={guardandoRapido} onClick={confirmarRapido}>{platoDestino || soloTipica || anadiendo ? 'Revisar alimento' : planificar ? 'Planificar' : 'Añadir'}</Button>
         </div>}>
         {gramosRapido && aporteRapido && (
           <div className="space-y-5">
@@ -493,7 +511,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
 
       {creandoTipica && <AnadirComida soloTipica fecha={fecha} comidaInicial={comida} onClose={() => setCreandoTipica(false)} onGuardado={() => { setCreandoTipica(false); setTipicaCreada(true) }} />}
 
-      {tipicaElegida && <AplicarPlantillaSheet meal={tipicaElegida} fecha={fecha} comida={comida} onClose={() => setTipicaElegida(null)} onAplicado={() => onGuardado()} />}
+      {tipicaElegida && <AplicarPlantillaSheet meal={tipicaElegida} fecha={fecha} comida={comida} planificar={planificar} onClose={() => setTipicaElegida(null)} onAplicado={() => onGuardado()} />}
 
       <CambiarAlimentoSheet item={cambiando !== null ? (items?.[cambiando] ?? null) : null} onElegir={cambiarAlimento} onClose={() => setCambiando(null)} />
 

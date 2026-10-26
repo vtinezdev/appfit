@@ -140,7 +140,7 @@ async function main() {
         await page.getByRole('button', { name: 'Ver detalle nutricional', exact: true }).click()
         await check(page)
         await page.screenshot({ path: `${output}/${id}-nutrientes.png`, animations: 'disabled' })
-        for (const sub of ['Resumen', 'Mis alimentos', 'Diario']) {
+        for (const sub of ['Resumen', 'Alimentos', 'Diario']) {
           await page.getByRole('tab', { name: sub, exact: true }).click(); await check(page)
         }
         // Menu/selector mantienen las capas; cambiar el tema sustituye una sola imagen.

@@ -6,7 +6,8 @@ import type { Exercise, SetEntry } from '../../../shared/db/types'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
 import { formatearCarga } from '../lib/carga'
 import { contextoSerie, describirReps } from '../lib/ejecucion'
-import { pastillaSerie, resumenEjercicio, type PastillaSerie } from '../lib/fichaEntreno'
+import { partesRecord, pastillaSerie, resumenEjercicio, type PastillaSerie } from '../lib/fichaEntreno'
+import type { RecordEjercicio } from '../lib/records'
 
 type Marca = 'efectiva' | 'calentamiento' | 'pendiente' | 'record'
 
@@ -48,6 +49,8 @@ interface Props {
   series: SetEntry[]
   /** Ids de las series que marcan récord. */
   records: ReadonlySet<number>
+  /** Récords del ejercicio en ese entreno: se enseñan como cifras bajo la cabecera, siempre visibles. */
+  recordsEjercicio?: RecordEjercicio[]
   nota?: string
 }
 
@@ -55,11 +58,10 @@ interface Props {
  * Un ejercicio de un entreno terminado: miniatura, nombre, resumen y las series como pastillas. Al tocar la cabecera se
  * despliega el detalle (tabla con RIR, ejecución, agarre, bajadas y la nota del ejercicio).
  */
-export default function EjercicioSesion({ ejercicio, series, records, nota }: Props) {
+export default function EjercicioSesion({ ejercicio, series, records, recordsEjercicio = [], nota }: Props) {
   const [abierto, setAbierto] = useState(false)
   const id = useId()
   const nombre = ejercicio?.nombre ?? '…'
-  const conRecord = series.some(s => records.has(s.id))
   const conRir = series.some(s => s.rir !== undefined || Object.values(s.lados ?? {}).some(l => l?.rir !== undefined))
   let n = 0
   return <Card padded={false} className="overflow-hidden">
@@ -71,9 +73,18 @@ export default function EjercicioSesion({ ejercicio, series, records, nota }: Pr
         <span className="tabular block break-words text-body-sm text-fg-muted">{resumenEjercicio(series)}</span>
       </span>
       {nota && <Icon name="comentario" size={18} label="Con nota" className="shrink-0 text-fg-muted" />}
-      {conRecord && <Icon name="trophy" size={20} label="Con récord" className="shrink-0 text-accent-strong" />}
       <Icon name="chevron-down" size={20} className={`shrink-0 text-fg-muted transition-transform duration-short motion-reduce:transition-none ${abierto ? 'rotate-180' : ''}`} />
     </button>
+    {recordsEjercicio.length > 0 && <ul aria-label={`Récords de ${nombre}`} className="grid grid-cols-2 gap-2 px-card pb-3">
+      {recordsEjercicio.map((r, i) => {
+        const p = partesRecord(r)
+        return <li key={`${r.tipo}-${r.peso ?? 0}-${i}`} className="min-w-0 rounded-md bg-accent-subtle px-3 py-2">
+          <p className="break-words text-rotulo text-fg-muted">{p.rotulo}</p>
+          <p className="tabular break-words"><span className="font-numeric text-body font-semibold text-fg">{p.valor}</span> <span className="text-label text-accent-strong">{p.mejora}</span></p>
+          {p.variante && <p className="break-words text-caption text-fg-muted">{p.variante}</p>}
+        </li>
+      })}
+    </ul>}
     {series.length > 0 && <ul aria-label={`Series de ${nombre}`} className="flex flex-wrap gap-2 px-card pb-4">
       {series.map(s => <Pastilla key={s.id} p={pastillaSerie(s)} record={records.has(s.id)} />)}
     </ul>}

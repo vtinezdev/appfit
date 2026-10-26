@@ -90,7 +90,7 @@ async function main() {
         await captura(page, `${etiqueta}-escribir-unificado`)
         await anadir.getByRole('button', { name: 'Cancelar', exact: true }).click()
         assert.deepEqual((await datos(page)).entries, antes.entries)
-        await page.getByRole('tab', { name: 'Mis alimentos', exact: true }).click()
+        await page.getByRole('tab', { name: 'Alimentos', exact: true }).click()
         assert.equal(await page.getByRole('radio', { name: 'Plantillas', exact: true }).count(), 0)
         await page.getByRole('radio', { name: 'Típicas', exact: true }).click()
         const lista = page.getByRole('region', { name: 'Tus comidas típicas', exact: true })

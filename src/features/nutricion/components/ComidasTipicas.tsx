@@ -54,7 +54,7 @@ export default function ComidasTipicas({ fecha, onElegir, onCrear, enSelector = 
       <div className="space-y-stack text-body-sm text-fg-muted">
         <p>Guarda un alimento o un plato para tenerlo siempre a mano. Puedes usarlo en desayuno, comida, cena o snack.</p>
         <p>Las sugerencias aparecen cuando repites los mismos alimentos en {formatInt(DIAS_PARA_TIPICA)} días distintos de los últimos {formatInt(VENTANA_TIPICAS)}. Usan las últimas cantidades registradas.</p>
-        <p>Al elegir una típica puedes revisar sus alimentos antes de añadirla. Para editar las guardadas, ve a Mis alimentos → Típicas.</p>
+        <p>Al elegir una típica puedes revisar sus alimentos antes de añadirla. Para editar las guardadas, ve a Alimentos → Típicas.</p>
       </div>
     </Sheet>
   </section>

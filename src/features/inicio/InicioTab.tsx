@@ -21,6 +21,7 @@ import { getSettings, updateSettings } from '../../shared/db/settings'
 import { getPerfil } from '../perfil/data/perfilRepo'
 import * as aguaRepo from './data/aguaRepo'
 import AccesoAgua from './components/AccesoAgua'
+import AccesoPasos from './components/AccesoPasos'
 import CreatinaHoy from './components/CreatinaHoy'
 import AccesoProgreso, { type DestinoProgreso } from './components/AccesoProgreso'
 import AguaSheet from './components/AguaSheet'
@@ -61,7 +62,7 @@ const PESO_POR_DEFECTO = 70
 /** Historial que se lee: de sobra para encontrar un pesaje de hace una semana o más. */
 const DIAS_HISTORIAL = 365
 
-/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, el progreso (Cumbres, Caminos, Ritmo y Vitrina), peso y agua y el último entreno. */
+/** Pantalla de arranque en mosaico: revisión de la semana (los lunes), energía, el progreso (Cumbres, Caminos, Ritmo y Vitrina), peso, agua y pasos y el último entreno. */
 export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, onIrAProgreso, enfocarProgreso, onExportarCopia, onRevisarCuenta, onIrAAmigos, onIrASocial, onRevisarActualizaciones, ayudaInicial }: Props) {
   const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(hoy), [hoy])
@@ -141,7 +142,10 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
       case 'progreso': return <AccesoProgreso onAbrir={onIrAProgreso} enfocar={enfocarProgreso} sinCaminos={!moduloActivo(settings, 'actividades')} />
       case 'registros': return <div className="inicio-registros">
         {moduloActivo(settings, 'peso') && <AccesoPeso tendencia={tendencia} pesos={pesos ?? []} hoy={hoy} onRegistrar={abrirRegistro} onVerHistorial={() => setHistorialPeso(true)} />}
-        {moduloActivo(settings, 'agua') && <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />}
+        {(moduloActivo(settings, 'agua') || moduloActivo(settings, 'pasos')) && <div className="inicio-par">
+          {moduloActivo(settings, 'agua') && <AccesoAgua ml={agua?.ml ?? 0} objetivo={objetivoAgua ?? null} onAnadir={anadirAgua} onQuitar={quitarAgua} onAbrir={() => setAguaAbierta(true)} />}
+          {moduloActivo(settings, 'pasos') && <AccesoPasos hoy={hoy} avisar={avisar} />}
+        </div>}
       </div>
       case 'creatina': return <CreatinaHoy hoy={hoy} />
       case 'entreno': return <AccesoEntreno onAbrir={onIrAGym} />

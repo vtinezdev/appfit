@@ -1,8 +1,12 @@
 // «Tu mes» como imagen para compartir (B15): un SVG de 1080 × 1350 con el título, el periodo y sus cifras en dos columnas,
 // con los colores del tema ya resueltos. Lo pasa a PNG la utilidad del póster (`gym/lib/exportarImagen`, A10). Solo lleva
 // las cifras del periodo: nada del perfil.
-import { ALTO_POSTER, ANCHO_POSTER, escaparXml, partirLineas } from '../../gym/lib/posterImagen'
+import { escaparXml, partirLineas } from '../../gym/lib/posterImagen'
 import type { CifraPeriodo } from './tuPeriodo'
+
+/** 4:5, como la publicación de un feed (el póster del entreno, en cambio, es vertical de historia). */
+export const ANCHO_POSTER = 1080
+export const ALTO_POSTER = 1350
 
 export interface ColoresTuPeriodo { fondo: string; texto: string; tenue: string; filete: string }
 

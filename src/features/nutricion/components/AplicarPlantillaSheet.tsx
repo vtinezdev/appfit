@@ -1,11 +1,13 @@
 import { congelarObjetivoDia } from '../../perfil/data/objetivosDiaRepo'
 import { useState } from 'react'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
+import { todayISO } from '../../../shared/lib/dates'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Sheet from '../../../shared/components/Sheet'
 import type { Comida, Meal } from '../../../shared/db/types'
 import * as foodsRepo from '../data/foodsRepo'
 import * as mealsRepo from '../data/mealsRepo'
+import * as planificadasRepo from '../data/planificadasRepo'
 import { resolverItemsPlantilla } from '../lib/plantillas'
 import { resumenMacros, sumMacros } from '../lib/nutrition'
 import Button from '../../../shared/components/Button'
@@ -17,12 +19,14 @@ interface Props {
   meal: Pick<Meal, 'nombre' | 'items'> & { id?: number }
   fecha: string
   comida: Comida
+  /** La coloca en el Plan (`planificadas`) en vez de en el diario. */
+  planificar?: boolean
   onClose: () => void
   onAplicado: (ids: number[]) => void
 }
 
 /** Vista previa (con los valores actuales de cada alimento) y confirmación al usar una plantilla (A1). */
-export default function AplicarPlantillaSheet({ meal, fecha, comida, onClose, onAplicado }: Props) {
+export default function AplicarPlantillaSheet({ meal, fecha, comida, planificar = false, onClose, onAplicado }: Props) {
   const foodIds = meal.items.map((it) => it.foodId).filter((id): id is number => id !== undefined)
   const foodsById = useLiveQuery(() => foodsRepo.porIds(foodIds), [meal.id, JSON.stringify(meal.items)])
   const resueltos = foodsById ? resolverItemsPlantilla(meal.items, foodsById) : null
@@ -36,29 +40,31 @@ export default function AplicarPlantillaSheet({ meal, fecha, comida, onClose, on
     setAplicando(true)
     setError(null)
     try {
-      const ids = meal.id === undefined
+      const ids = planificar
+        ? await planificadasRepo.planificar(meal.items, { fecha, comida }, todayISO())
+        : meal.id === undefined
         ? await mealsRepo.aplicarSugerencia(meal.items, { fecha, comida })
         : await mealsRepo.aplicar(meal.id, { fecha, comida })
       if (ids.length === 0) { setError('Esta comida ya no está disponible. Vuelve a elegirla.'); return }
-      void congelarObjetivoDia(fecha)
+      if (!planificar) void congelarObjetivoDia(fecha)
       onClose()
       onAplicado(ids)
-    } catch {
-      setError('No se ha podido añadir la comida típica. Inténtalo de nuevo.')
+    } catch (e) {
+      setError(e instanceof planificadasRepo.FechaNoPlanificable ? e.message : 'No se ha podido añadir la comida típica. Inténtalo de nuevo.')
     } finally {
       setAplicando(false)
     }
   }
 
   return (
-    <Sheet open onClose={onClose} title="Añadir comida típica" footer={<div className="space-y-3">
+    <Sheet open onClose={onClose} title={planificar ? 'Planificar comida típica' : 'Añadir comida típica'} footer={<div className="space-y-3">
       {total && <div className="flex flex-wrap items-baseline justify-between gap-2">
         <span className="text-label text-fg-muted">Total</span>
         <span className="tabular break-words text-title text-fg">{formatInt(kcalTotal)} <span className="text-caption text-fg-muted">kcal</span></span>
       </div>}
       {error && <ErrorState>{error}</ErrorState>}
       <Button block loading={aplicando} onClick={aplicar} disabled={!resueltos}>
-        {aplicando ? 'Añadiendo…' : `Añadir a ${LABELS[comida]}`}
+        {aplicando ? (planificar ? 'Planificando…' : 'Añadiendo…') : `${planificar ? 'Planificar en' : 'Añadir a'} ${LABELS[comida]}`}
       </Button>
     </div>}>
       <div className="space-y-4">

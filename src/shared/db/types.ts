@@ -297,6 +297,8 @@ export interface Settings {
   gamificacionConNutricion?: boolean
   /** Pausas declaradas de Ritmo (vacaciones, enfermedad, lesión…), ordenadas por `desde`. */
   pausas?: Pausa[]
+  /** Artículos de la lista de la compra ya marcados como comprados (claves de `nutricion/lib/planificadas.listaCompra`). */
+  compraMarcada?: string[]
   /** Ejercicios (`Exercise.id`) que el usuario mantiene en Élite de la Liga: no avisan durante el entreno. */
   ligaMantener?: number[]
   /** Cumbres: desde cuándo se sube y las montañas elegidas para cada capítulo, en orden (`cumbres/lib/cumbres.ts`). */
@@ -312,7 +314,7 @@ export interface Settings {
   /** Pistas de primera vez ya cerradas (`shared/lib/pistas.ts`); ausente = ninguna. */
   pistasVistas?: string[]
   /** Módulos activables (B9, `shared/lib/modulos.ts`): `false` lo oculta; ausente = activo. Ocultar no borra datos. */
-  modulos?: Partial<Record<'nutricion' | 'gym' | 'actividades' | 'agua' | 'peso', boolean>>
+  modulos?: Partial<Record<'nutricion' | 'gym' | 'actividades' | 'agua' | 'pasos' | 'peso', boolean>>
   /** Orden de las tarjetas de Inicio (`TarjetaInicio`); ausente o incompleto = el de siempre para las que falten. */
   ordenInicio?: string[]
   /** Metas personales (B13, `vitrina/lib/metas.ts`); su estado (progreso, cumplida) se deriva al leer, nunca se guarda. */

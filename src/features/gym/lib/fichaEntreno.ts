@@ -4,7 +4,7 @@ import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { modoCarga } from './carga'
 import { describirReps, type SerieEjecucion } from './ejecucion'
 import type { RecordEjercicio } from './records'
-import { efectivas, volumenSets } from './workout'
+import { efectivas, ordenEjerciciosSesion, volumenSets } from './workout'
 
 /**
  * Presentación de la ficha de un entreno terminado (detalle del historial y fin de sesión): récords agrupados por
@@ -115,6 +115,43 @@ export function seriesPublicables(series: (SerieEjecucion & Pick<SetEntry, 'id' 
   }
 }
 
+/** Un ejercicio en la imagen del póster: su nombre, la mejor serie como pastilla, cuántas series y la mejora de su récord. */
+export interface EjercicioPoster {
+  nombre: string
+  /** La mejor serie como la pastilla del historial («85 kg × 8») y si marca récord. */
+  mejor: { texto: string; record: boolean }
+  /** «3 series». */
+  series: string
+  /** La mejora del récord que más cuenta (el de peso antes que el 1RM): «+5 kg», «+3 reps». */
+  mejora?: string
+}
+
+/**
+ * Los ejercicios de un entreno para la imagen del póster, en el orden del detalle y sin los que no tienen series
+ * efectivas. De cada uno, solo la mejor serie (con 10 series no cabrían todas): la del récord de carga; si no, la de más
+ * carga (menos asistencia) y más repeticiones entre las de récord y, sin récord, entre todas.
+ */
+export function ejerciciosDelPoster(w: Pick<Workout, 'ordenEjercicios' | 'ejerciciosOmitidos'>, sets: SetEntry[], records: RecordEjercicio[], nombres: Record<number, string>): EjercicioPoster[] {
+  const ids = Array.from(new Set([...sets].sort((a, b) => a.createdAt - b.createdAt || a.id - b.id).map(s => s.exerciseId)))
+  const conRecord = seriesConRecord(records)
+  const signo = (s: SetEntry) => (modoCarga(s) === 'asistencia' ? -1 : 1)
+  const masFuerte = (series: SetEntry[]) => [...series].sort((a, b) => signo(b) * b.peso - signo(a) * a.peso || b.reps - a.reps)[0]
+  return ordenEjerciciosSesion([], ids, w.ordenEjercicios, w.ejerciciosOmitidos).flatMap(id => {
+    const hechas = efectivas(sets.filter(s => s.exerciseId === id).sort((a, b) => a.orden - b.orden))
+    if (!hechas.length) return []
+    const propios = records.filter(r => r.exerciseId === id).sort((a, b) => PRIORIDAD_RECORD[a.tipo] - PRIORIDAD_RECORD[b.tipo])
+    const deCarga = propios.find(r => (r.tipo === 'peso' || r.tipo === 'asistencia') && hechas.some(s => s.id === r.setId))
+    const conMarca = hechas.filter(s => conRecord.has(s.id))
+    const mejor = deCarga ? hechas.find(s => s.id === deCarga.setId)! : masFuerte(conMarca.length ? conMarca : hechas)
+    return [{
+      nombre: nombres[id] ?? 'Ejercicio',
+      mejor: { texto: pastillaSerie(mejor).texto, record: conRecord.has(mejor.id) },
+      series: plural(hechas.length, 'serie', 'series'),
+      ...(propios[0] ? { mejora: partesRecord(propios[0]).mejora } : {}),
+    }]
+  })
+}
+
 // --- Fin de sesión ordenado por momentos (ENT-10) ---
 
 export type TipoHito = 'record' | 'cuerpo' | 'cumbre' | 'liga' | 'logro'
@@ -135,6 +172,11 @@ export interface DatosHitos {
 export const MAX_HITOS = 3
 const ETIQUETA: Record<TipoHito, string> = { record: 'Récord', cuerpo: 'Cuerpo', cumbre: 'Cumbres', liga: 'Liga', logro: 'Vitrina' }
 const PRIORIDAD_RECORD: Record<RecordEjercicio['tipo'], number> = { peso: 0, asistencia: 1, reps: 2, '1rm': 3 }
+
+/** Récords que no caben en la franja «Hoy» del historial: «y 8 récords más», o nada si caben todos. */
+export function restoRecords(n: number): string | undefined {
+  return n > 0 ? `y ${formatInt(n)} ${n === 1 ? 'récord' : 'récords'} más` : undefined
+}
 
 /**
  * Hasta `MAX_HITOS` hitos para la franja «Hoy» (D9: récords, subida muscular, cumbre, liga y logros, en ese orden). Primero

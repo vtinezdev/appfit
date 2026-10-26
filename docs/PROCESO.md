@@ -2602,7 +2602,86 @@ La fuente `tipicos` se presenta como «Alimentos y platos (AppFit)» en Ajustes 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost` a 320, 375 y 430 px en los dos temas, con siete secciones (Supabase falso, en el 5174) y con seis: 4 + 3 con la fila corta centrada y 3 + 3, sin scroll horizontal ni errores en consola. También en horizontal (568 × 320) con el ✕ a la vista, flechas, Enter y Escape. No probado en un iPhone físico ni con el texto al 200 %; no se ejecutaron los recorridos `validar-*`.
 
-## 239. Típicos españoles añadidos a mano (2026-10-26)
+## 239. Récords dentro de cada ejercicio en el detalle del historial (2026-10-26)
+
+Víctor señala que en un entreno pasado los récords personales (una card por ejercicio, con miniatura y nombre) y la lista de ejercicios (también cards con miniatura y nombre) se confundían: con muchos récords no se veía que después venían los ejercicios. Elige, de tres opciones (meterlos en cada ejercicio, plegarlos o compactarlos), meterlos en cada ejercicio.
+
+- `pages/DetalleEntreno` deja de usar `RecordsSesion`. El póster lleva la franja «Hoy» (`HitosSesion`, hasta tres récords de `hitosDeSesion`) y, si hay más, una línea «y N récords más» (`lib/fichaEntreno.restoRecords`, nueva prop `pie` de `HitosSesion`).
+- `components/EjercicioSesion` recibe `recordsEjercicio` y los enseña como cifras (rótulo, valor y mejora) bajo la cabecera, siempre visibles. Se quita el trofeo de la cabecera, que repetía lo mismo; las series con récord siguen en acento con trofeo.
+- La pantalla de fin de entreno y la revisión semanal siguen con `RecordsSesion`.
+- Documentos: `features/gym.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` con un entreno de 6 ejercicios y 11 récords, a 320/375/430 px en ambos temas: sin scroll horizontal, «y 8 récords más» en el póster, cifras de récord en los cinco ejercicios con récord y sin trofeo en la cabecera. No se ha probado en el iPhone real.
+
+## 240. Ejercicios y récords en la imagen del entreno (2026-10-26)
+
+Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los récords de alguna forma y los ejercicios hechos, sin enumerar todas las series. (Los récords ya salían en «Hoy» si el entreno tenía alguno.)
+
+- `lib/posterImagen.svgPoster` pasa a 1080 × 1920 (9:16) y añade «Ejercicios»: hasta `MAX_EJERCICIOS_POSTER` (8) con nombre, mejor serie a la derecha, series efectivas y el récord principal en acento con cuántos más; el resto, «y N ejercicios más». Con ejercicios, «Hoy» se queda con los hitos que no son récords. El muñeco ocupa lo que queda y desaparece si no hay sitio.
+- `lib/fichaEntreno.ejerciciosDelPoster` (puro, con tests) arma la lista en el orden del detalle, sin los ejercicios sin series efectivas.
+- `components/PosterImagen` recibe `workoutId`, `records` y `nombres` y lee el entreno y sus series al pulsar; lo usan `DetalleEntreno` y `WorkoutFinished`.
+- «Tu mes» (Vitrina) sigue en 1080 × 1350: tenía importadas las medidas del póster y pasa a tener las suyas en `vitrina/lib/imagenTuPeriodo`.
+- Documentos: `features/gym.md`.
+
+**Verificación:** `npm run test` (2.789) y `npm run build` correctos. Playwright en `appfit-test.localhost:5173`: se descargó la imagen del detalle del historial de un entreno con 6 ejercicios y 11 récords, en tema claro y oscuro; los textos caben. La imagen desde el fin de entreno no se ha descargado en el navegador (mismo componente y la misma función). No se ha probado compartir desde el iPhone.
+
+**Más visual, a petición de Víctor («hay mucha letra»):** las frases de cada ejercicio («3 series · Récord: Peso máximo 85 kg (+5 kg) · 1 récord más») pasan a formas. Bajo las cifras, el trofeo con el número de récords en grande. En cada ejercicio, la mejor serie en cifra, una barra por serie efectiva (alto proporcional a la más fuerte, por carga o, sin carga, por repeticiones; las de récord en acento) y el trofeo con la mejora del récord principal («+5 kg»). `EjercicioPoster` cambia a `{ nombre, mejor, series: { alto, record }[], mejora? }`. Verificado con la imagen descargada en ambos temas; tests y build correctos.
+
+**Pastillas y medallas, a petición de Víctor:** las barras de series no se entendían y pasan a ser las mismas pastillas del historial («85 kg × 8», la de récord en acento con trofeo; dos líneas como mucho y «+N»); la mejora del récord va a la derecha del nombre. `EjercicioPoster` queda en `{ nombre, series: { texto, record }[], mejora? }`. Además, las medallas de la Vitrina conseguidas con el entreno (hasta cuatro, con nombre): `PosterImagen` recibe `logros` (de `DetalleEntreno`, con `useVitrina`, y de `WorkoutFinished`, solo con la gamificación visible), pinta `IconoLogro` oculto y copia su SVG con los colores resueltos; `svgPoster` lo recibe como `medallas`. Con medallas, «Hoy» no repite los logros. Con muchos ejercicios y medallas el muñeco no cabe y no sale. Verificado descargando la imagen en ambos temas (tres medallas, seis ejercicios); tests y build correctos.
+
+**Solo la mejor serie:** Víctor ve demasiadas pastillas (y con 10 series no cabrían). Cada ejercicio queda en una fila: nombre, «3 series» y, con récord, trofeo y mejora; a la derecha, la mejor serie como pastilla. `EjercicioPoster` queda en `{ nombre, mejor: { texto, record }, series, mejora? }`. Con seis ejercicios y tres medallas vuelve a caber el muñeco. Tests y build correctos; imagen descargada en ambos temas.
+
+**Cabecera más baja:** para que el muñeco no quede pequeño, la fila de duración, volumen y series pasa de cifras de 84 px a 60 px (bloque de 132 a 96 px), la línea de récords de 84 a 64 px y las medallas de 140 a 120 px. Con seis ejercicios y tres medallas el muñeco pasa de unos 215 a unos 300 px de alto. Tests y build correctos; imagen descargada en ambos temas.
+
+**Qué medallas se ven si hay más de cuatro:** antes, las cuatro primeras en el orden fijo de la Vitrina (los ocultos, al final). Víctor elige priorizar las raras: `vitrina/lib/logros.porRareza` pone primero los ocultos, después los niveles más altos y al final los niveles I y los repetibles; a igualdad, el orden de la Vitrina. `PosterImagen` ordena con ella. Test en `vitrina.test.ts`; en la imagen, «Día de récords» pasa a la primera posición.
+
+## 241. Pestaña Plan y lista de la compra por semanas (2026-10-26)
+
+**Qué:** a Víctor le parecía que planificar quedaba escondido (una sección al pie del Diario de hoy) y que solo dejaba colocar comidas típicas. Quería abrir, por ejemplo, el miércoles que viene, añadir cualquier alimento o comida y sacar la lista de la compra de la semana. Se le enseñaron tres bocetos (pestaña Plan; días futuros dentro del Diario; tarjeta en el Diario con página de la semana) y eligió la pestaña, sin límite de días y con casillas en la lista.
+
+**Cómo:** Nutrición pasa a Diario · Plan · Resumen · Alimentos («Mis alimentos» se queda en «Alimentos» para caber a 320 px; se actualizan los recorridos `scripts/ui`). `pages/Plan` (diferida) muestra la semana con flechas hacia delante, anillos de kcal planificadas por día, el día elegido con su barra frente al objetivo y una card por comida con «Añadir», quitar con «Deshacer» y «Lo he comido» hoy. «Añadir» abre `AnadirComida` con `planificar` (y `AplicarPlantillaSheet` con `planificar`): lo escrito, lo buscado, lo escaneado, las típicas y las kcal rápidas van a `planificadasRepo.planificarRevision` / `planificarAlimento` / `planificarRapida` / `planificar`. `sePuedePlanificar` ya no tiene ventana (hoy o futuro). `components/ListaCompra` (ModalPage) agrupa por categoría (`agruparCompra`, con `foodsRepo.categoriasDeEntradas`), elige toda la semana o días sueltos, guarda lo marcado en `settings.compraMarcada` (`marcasCompra`/`guardarMarcasCompra`, campo opcional sin versión) y copia lo que falta. El Diario de hoy conserva solo «Planificado para hoy» con «Ver plan»; se retiran `PlanificarSheet` y `ListaCompraSheet`. Icono nuevo `carrito`. Sin cambios de esquema ni de backup. Documentos: ADR 059 (actualizado), `features/nutricion.md`, `datos.md`, `arquitectura.md`, `roadmap.md` y `README.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos, con tests nuevos en `lib/planificadas.test.ts` (semana, nombres, rango, día inicial, agrupación por categoría, marcas) y `data/planificadasRepo.test.ts` (revisión con alimento propio y de catálogo agrupados en plato, alimento, kcal rápidas, días lejanos, marcas). Chromium en `appfit-test.localhost:5173` a 320, 375 y 430 px en ambos temas: semana que viene, miércoles, planificar escribiendo y buscando, lista agrupada, marcar, elegir días y lo de hoy en el Diario, sin scroll horizontal ni errores en consola. No probado en un iPhone físico ni con el texto al 200 %; no se ejecutaron los recorridos `validar-*` existentes.
+
+## 242. Pasos de la semana y tarjeta de Pasos en Inicio (2026-10-26)
+
+**Qué:** los pasos se pueden apuntar por semanas: «Pasos de la semana» reparte el total a partes iguales entre los días ya pasados de esa semana (lunes a domingo, sin los futuros) y cada día se puede cambiar; el total pasa a ser la suma. Un día vacío queda sin pasos. En Inicio, una tarjeta propia «Pasos», al lado del agua (cada una la suya, decisión de Víctor), con los de hoy y los de la semana; tocarla apunta los de hoy y «Semana» abre la hoja de la semana. Módulo nuevo «Pasos» en Ajustes › «Lo que usas».
+
+**Cómo:** se guarda día a día en la tabla `pasos` de siempre (sin esquema nuevo), así que el motor de Caminos y los logros de la Vitrina no cambian.
+- `caminos/lib/semanaPasos` es puro y tiene tests: `repartirPasos` (el resto de la división, un paso más en los primeros días), el borrador de la hoja (`borradorInicial`, `conTotal`, `conDia`), `leerSemana` (errores por día y total que no cuadra), `sustituye`, `pasosDeSemana`, `mensajeSemana`. `lib/pasos` gana `leerCifraPasos` y `diaTexto` (antes privado de `PasosCaminos`).
+- `pasosRepo.guardarSemana` escribe la semana en una transacción y devuelve lo anterior de cada día para `restaurarSemana` («Deshacer»); `restaurar` pasa a usarla.
+- `components/HojaSemanaPasos` (Sheet con flechas de semana), «Apuntar una semana» en `PasosCaminos` e `inicio/components/AccesoPasos`, que monta las dos hojas.
+- `shared/lib/modulos`: `pasos` (y `Settings.modulos.pasos`); la tarjeta «registros» pasa a «Peso, agua y pasos» y se ve mientras quede una de las tres. Ocultar Pasos solo quita la tarjeta: lo apuntado sigue contando en Caminos.
+- `index.css`: `.inicio-par` (agua y pasos en dos columnas, una sola ocupa la fila; apiladas bajo 17,5 rem).
+- Documentos: `features/caminos.md`, `features/inicio.md`, `datos.md`, `arquitectura.md`, `DESIGN-SYSTEM.md`, README y roadmap.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320/375/430 px en ambos temas, 1440 px y 375 px con texto al 200 %: tarjetas Agua y Pasos lado a lado (apiladas con el texto ampliado), controles de 44 px, inputs de 16 px y sin scroll horizontal. En la semana anterior con 8.000 pasos ya apuntados el miércoles, la hoja parte de 8.000; 63.003 se reparten 9.001 × 3 y 9.000 × 4; cambiar el sábado a 15.000 y vaciar el domingo deja 60.003; un día con 200.000 da el error en línea con su día; al guardar, «60.003 pasos del 19–25 oct» y «Deshacer» deja la tabla como estaba. Con Agua o Pasos oculto, la otra ocupa la fila. «Apuntar una semana» en Caminos guarda 70.000 repartidos. Sin errores de consola.
+
+## 243. «Encajan con lo que te falta» pasa de Buscar a Escribir (2026-10-26)
+
+**Qué:** Víctor quiere ver «Cerrar el día» (B10) en Escribir, la pestaña con la que abre Añadir comida, en lugar de como chip en Buscar.
+
+**Cómo:** nuevo `components/EncajanConLoQueFalta`, con el botón (`aria-expanded`) y la lista desplegable; lee los frecuentes de la comida y usa `encajanConLoQueFalta` sin cambios. Va bajo las comidas típicas en Escribir. No sale al crear una comida típica. `AlimentosRapidos` pierde `falta`, el chip y la lista, y su `onElegir` ya no recibe gramos. `AnadirComida` reúne la apertura de la hoja de gramos en `elegirRapido`. Documento: `features/nutricion.md`.
+
+**Verificación:** `npm run test` (2.803) y `npm run build` correctos. No probado en el navegador.
+
+## 244. «Encajan con lo que te falta» con los cuatro macros, combinaciones e ideas (2026-10-26)
+
+**Qué:** a Víctor le salían propuestas como «400 g de champiñones» y quería combinaciones de alimentos. Se le propusieron raciones habituales, ordenar por cuánto acerca, combinaciones de dos frecuentes y comidas típicas. Pidió las cuatro y dos cosas más: que mirase los cuatro macros, para no pasarse de grasa, e ideas de fuera de lo habitual (solo de categorías que la persona registra). Arriba, típicas y combinaciones estables; debajo, ideas y sueltos que cambian con «Sugerir otras».
+
+**Cómo:** nuevo `lib/cerrarDia.ts` (sustituye `encajanConLoQueFalta`/`faltaDelDia` de `alimentos.ts`). `faltaDelDia` da los cuatro macros, con los excesos en negativo. `hayHueco` exige 150 kcal y 10 g de proteína o 20 g de carbohidratos. `cabe` no deja pasar de kcal ni, con 5 g de margen, de carbohidratos y grasa. `huecoRestante` ordena, con la proteína al doble. `racionesHabituales` usa la mediana de 60 días. `proponer` arma típicas, combinaciones, ideas y sueltos: baja las raciones juntas hasta caber, sin bajar de la mitad; cada idea sale una vez, y no si repite un frecuente con otro nombre. `tanda` sirve para «Sugerir otras». `IDEAS` son 26 básicos de CIQUAL con ración. `foodsRepo.paraCerrarDia` reúne frecuentes con ración e ideas de las categorías registradas. `EncajanConLoQueFalta` pinta dos secciones. `AnadirComida` abre la vista previa de una típica, la revisión de una combinación o la hoja de gramos de un alimento. Sin cambios de esquema ni de backup. Documentos: `features/nutricion.md` y `datos.md`.
+
+**Verificación:** `npm run test` (2.841) y `npm run build` correctos, con tests nuevos en `lib/cerrarDia.test.ts` (macros, márgenes, raciones, combinaciones, típicas, ideas, tandas y que cada id de `IDEAS` existe en el catálogo) y `data/foodsRepo.test.ts`. Chromium en `appfit-test.localhost:5173` con datos sintéticos, a 320, 375 y 430 px en ambos temas: abrir, «Sugerir otras» y elegir una combinación, que abre la revisión con los dos alimentos. Sin scroll horizontal, controles de 44 px o más y sin errores en consola. No probado en un iPhone ni con el texto al 200 %.
+
+## 245. Propuestas de «Cerrar el día» del tamaño de una comida (2026-10-26)
+
+**Qué:** las propuestas podían gastarse casi todo lo que quedaba del día (947 de 1.020 kcal en un plato). Víctor elige: la mitad de lo que queda, salvo en la cena o con 600 kcal o menos por delante, que puede usarse todo.
+
+**Cómo:** `cerrarDia.paraUnaPropuesta(falta, comida)` devuelve lo que puede ocupar una propuesta. En la cena o con `KCAL_SIN_LIMITE` (600) o menos, todo. Si no, la mitad sin bajar de 600 kcal: así no hay salto (con 700 kcal por delante el límite es 600, no 350). Lo pendiente de cada macro se escala igual y los excesos se quedan como están. `proponer` recibe `comida` y mide con eso `cabe`, `huecoRestante` y `aporta`. `hayHueco` sigue mirando el día entero. La frase de `EncajanConLoQueFalta` añade «Cada propuesta, hasta X kcal, para que te quede para el resto del día» cuando hay límite. Documento: `features/nutricion.md`.
+
+**Verificación:** `npm run test` (2.844) y `npm run build` correctos, con tests de `paraUnaPropuesta` y de una propuesta a mediodía frente a la cena. Chromium en `appfit-test.localhost:5173` a 375 px: en la comida, con 1.020 kcal por delante, todas las propuestas quedan en 600 kcal o menos.
+
+## 246. Típicos españoles añadidos a mano (2026-10-26)
 
 **Qué:** Víctor quiere más alimentos y platos en Nutrición; las fuentes con licencia abierta ya están aprovechadas, así que pide ampliar a mano con lo típico de España y fusionar duplicados después. Se añaden 110 platos al paquete `tipicos` (285 → 395 filas, versión 2026-10-26): cuchara, arroces, huevos, carnes, pescados, ensaladas, tapas y bocadillos, salsas, dulces y bebidas.
 

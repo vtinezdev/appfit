@@ -2,6 +2,7 @@
 // que marca el móvil. Se pasan a metros con la zancada y avanzan la ruta con lo que no esté ya en las actividades de ese
 // día: el total del móvil incluye las caminatas y carreras registradas, y así no cuentan dos veces.
 import type { Actividad, DiaPasos, Perfil } from '../../../shared/db/types'
+import { addDays, formatFriendly } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 
 /** Pasos de un día como mucho (más es casi seguro una errata). */
@@ -44,9 +45,15 @@ export const metrosDePasos = (pasos: number, zancadaCm: number) => Math.round((p
  * Lee los pasos escritos («8432», «8.432» o «8 432»). `null` si no es un número entero de 1 a `PASOS_MAX`.
  */
 export function leerPasos(texto: string): number | null {
+  const n = leerCifraPasos(texto)
+  return n === null ? null : validarPasos(n)
+}
+
+/** Un entero escrito con o sin separador de millares, sin mirar el rango (también el total de una semana). */
+export function leerCifraPasos(texto: string): number | null {
   const limpio = texto.trim().replace(/\s/g, '')
   if (!/^(\d+|\d{1,3}(\.\d{3})+)$/.test(limpio)) return null
-  return validarPasos(Number(limpio.replace(/\./g, '')))
+  return Number(limpio.replace(/\./g, ''))
 }
 
 export function validarPasos(n: number): number | null {
@@ -90,3 +97,9 @@ export function aportesDePasos(
 
 /** «1 paso», «8.432 pasos». */
 export const pasosTexto = (n: number) => (n === 1 ? '1 paso' : `${formatInt(n)} pasos`)
+
+/** «hoy», «ayer» o «el lun, 12 octubre» (avisos al apuntar o borrar). */
+export function diaTexto(fecha: string, hoy: string): string {
+  if (fecha === hoy) return 'hoy'
+  return fecha === addDays(hoy, -1) ? 'ayer' : `el ${formatFriendly(fecha)}`
+}

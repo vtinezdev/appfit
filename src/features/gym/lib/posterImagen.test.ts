@@ -11,11 +11,11 @@ const datos: DatosPosterImagen = {
 }
 
 describe('svgPoster', () => {
-  it('un SVG de 1080 × 1350 con título, fecha, cifras, «Hoy» y el pie, con los colores del tema', () => {
+  it('un SVG de 1080 × 1920 con título, fecha, cifras, «Hoy» y el pie, con los colores del tema', () => {
     const svg = svgPoster(datos, claro)
     expect(svg).toMatch(new RegExp(`^<svg xmlns="http://www.w3.org/2000/svg" width="${ANCHO_POSTER}" height="${ALTO_POSTER}"`))
     for (const t of ['Torso A', 'vie 9 oct · 18:05 – 18:57', 'Duración', '52 min', '8.450', ' kg', 'HOY', 'Récord', 'Hecho con AppFit']) expect(svg).toContain(`>${t}<`)
-    expect(svg).toContain('<rect width="1080" height="1350" fill="rgb(24 26 20)"/>')
+    expect(svg).toContain('<rect width="1080" height="1920" fill="rgb(24 26 20)"/>')
     expect(svg).toContain('fill="rgb(198 244 50)">Récord<')
     expect(svg).not.toMatch(/var\(--/)
   })
@@ -37,6 +37,41 @@ describe('svgPoster', () => {
     const sin = svgPoster({ ...datos, hoy: [] }, claro)
     expect(sin).not.toContain('HOY')
     expect(sin).not.toContain('<g transform')
+  })
+})
+
+describe('ejercicios y medallas en el póster', () => {
+  const ejercicio = (n: number, mejora?: string) => ({ nombre: `Ejercicio ${n}`, mejor: { texto: `${80 + n} kg × 8`, record: !!mejora },
+    series: '3 series', ...(mejora ? { mejora } : {}) })
+
+  it('el trofeo con los récords; cada ejercicio con su mejor serie como pastilla, sus series y la mejora; «Hoy» sin récords', () => {
+    const svg = svgPoster({ ...datos, records: 3, ejercicios: [ejercicio(1, '+5 kg'), ejercicio(2)],
+      hoy: [...datos.hoy, { tipo: 'cumbre', etiqueta: 'Cumbres', texto: '+120 m de subida' }] }, claro)
+    for (const t of ['Ejercicio 1', 'Ejercicio 2', '81 kg × 8', '82 kg × 8', '3 series', '+5 kg', 'HOY', '+120 m de subida']) expect(svg).toContain(`>${t}<`)
+    expect(svg).toContain('>3</tspan>')
+    expect(svg).toContain('> récords personales<')
+    expect(svg.match(/height="58" rx="29"/g)).toHaveLength(2)
+    expect(svg.match(/height="58" rx="29" fill="rgb\(198 244 50\)"/g)).toHaveLength(1)
+    expect(svg).not.toContain('Press banca · Peso máximo')
+  })
+
+  it('de más de ocho ejercicios, «y N ejercicios más»; sin récords ni «Hoy» si no hay', () => {
+    const svg = svgPoster({ ...datos, ejercicios: Array.from({ length: 10 }, (_, i) => ejercicio(i + 1)) }, claro)
+    expect(svg).toContain('>Ejercicio 8<')
+    expect(svg).not.toContain('>Ejercicio 9<')
+    expect(svg).toContain('>y 2 ejercicios más<')
+    expect(svg).not.toContain('HOY')
+    expect(svg).not.toContain('récords personales')
+  })
+
+  it('las medallas con su nombre (hasta cuatro); con ellas, «Hoy» no repite los logros', () => {
+    const medalla = (n: number) => ({ interior: `<path d="M${n} 0"/>`, nombre: `Logro <${n}>` })
+    const svg = svgPoster({ ...datos, medallas: [1, 2, 3, 4, 5].map(medalla), hoy: [{ tipo: 'logro', etiqueta: 'Vitrina', texto: 'Logro 1' }] }, claro)
+    expect(svg).toContain('viewBox="0 0 100 100"><path d="M1 0"/></svg>')
+    expect(svg).toContain('>Logro &lt;4&gt;<')
+    expect(svg).not.toContain('M5 0')
+    expect(svg).toContain('>y 1 logro más<')
+    expect(svg).not.toContain('HOY')
   })
 })
 

@@ -1,7 +1,10 @@
 import type { HitoSesion } from '../lib/fichaEntreno'
 
-/** Franja «Hoy» del póster al terminar (ENT-10): hasta tres hitos de la sesión (`lib/fichaEntreno.hitosDeSesion`). Sin animación. */
-export default function HitosSesion({ hitos }: { hitos: HitoSesion[] }) {
+/**
+ * Franja «Hoy» del póster al terminar (ENT-10): hasta tres hitos de la sesión (`lib/fichaEntreno.hitosDeSesion`). Sin animación.
+ * `pie`, lo que no cabe («y 8 récords más»), en una línea debajo.
+ */
+export default function HitosSesion({ hitos, pie }: { hitos: HitoSesion[]; pie?: string }) {
   return <section aria-label="Hoy" className="space-y-2">
     <h2 className="training-muted text-rotulo">Hoy</h2>
     <ul className="space-y-2">
@@ -10,5 +13,6 @@ export default function HitosSesion({ hitos }: { hitos: HitoSesion[] }) {
         <span className="min-w-0 break-words text-body-sm">{h.texto}</span>
       </li>)}
     </ul>
+    {pie && <p className="training-muted text-caption">{pie}</p>}
   </section>
 }

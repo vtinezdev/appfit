@@ -17,6 +17,8 @@ describe('planificadasRepo', () => {
     expect(ids).toHaveLength(2)
     await planificadasRepo.planificar([arroz], { fecha: HOY, comida: 'cena' }, HOY)
     await expect(planificadasRepo.planificar([arroz], { fecha: '2026-03-09', comida: 'cena' }, HOY)).rejects.toBeInstanceOf(planificadasRepo.FechaNoPlanificable)
+    await planificadasRepo.planificar([arroz], { fecha: '2026-06-01', comida: 'cena' }, HOY)
+    await db.planificadas.where('fecha').equals('2026-06-01').delete()
     expect(await db.entries.count()).toBe(0)
     expect((await planificadasRepo.todas()).map((p) => p.fecha)).toEqual([HOY, '2026-03-12', '2026-03-12'])
     expect(await planificadasRepo.entreFechas('2026-03-11', '2026-03-12')).toHaveLength(2)
@@ -60,5 +62,37 @@ describe('planificadasRepo', () => {
     expect(await db.planificadas.count()).toBe(0)
     await planificadasRepo.restaurar(borradas)
     expect(await planificadasRepo.todas()).toEqual(antes)
+  })
+
+  it('planifica lo revisado sin tocar el diario: crea el alimento propio, referencia el catálogo y agrupa el plato', async () => {
+    const ids = await planificadasRepo.planificarRevision({ fecha: '2026-03-20', comida: 'cena', nombrePlato: 'Merluza con patata', items: [
+      { nombre: 'Merluza', gramos: 200, kcal100: 90, prot100: 18, carb100: 0, grasa100: 1.5, fuenteSiNuevo: 'manual', categoria: 'Pescados' },
+      { nombre: 'Patata cocida', gramos: 250, kcal100: 86, prot100: 2, carb100: 18, grasa100: 0.1, fuenteSiNuevo: 'manual', catalogId: 'ciqual:4003' },
+    ] }, HOY)
+    expect(ids).toHaveLength(2)
+    expect(await db.entries.count()).toBe(0)
+    const filas = await planificadasRepo.delDia('2026-03-20')
+    expect(filas.map((f) => [f.nombre, f.kcal, f.nombrePlato])).toEqual([['Merluza', 180, 'Merluza con patata'], ['Patata cocida', 215, 'Merluza con patata']])
+    expect(filas[0].foodId).toBe((await db.foods.toArray())[0].id)
+    expect(filas[1].catalogId).toBe('ciqual:4003')
+    expect(filas[0].platoId).toBe(filas[1].platoId)
+    await expect(planificadasRepo.planificarRevision({ fecha: '2026-03-09', comida: 'cena', items: [] }, HOY)).rejects.toBeInstanceOf(planificadasRepo.FechaNoPlanificable)
+  })
+
+  it('planifica un alimento con sus valores actuales y unas kcal rápidas', async () => {
+    const foodId = await db.foods.add({ nombre: 'Yogur', nombreNorm: 'yogur', kcal100: 60, prot100: 4, carb100: 5, grasa100: 3, fuente: 'manual', updatedAt: 1 } as never)
+    expect(await planificadasRepo.planificarAlimento({ fecha: HOY, comida: 'snack', ref: { tipo: 'user', id: foodId }, gramos: 125 }, HOY)).toBeDefined()
+    expect(await planificadasRepo.planificarAlimento({ fecha: HOY, comida: 'snack', ref: { tipo: 'user', id: 999 }, gramos: 125 }, HOY)).toBeUndefined()
+    await planificadasRepo.planificarRapida({ fecha: HOY, comida: 'cena', nombre: 'Cena fuera', kcal: 800, prot: 30, carb: 80, grasa: 35 }, HOY)
+    const filas = await planificadasRepo.delDia(HOY)
+    expect(filas.map((f) => [f.nombre, f.gramos, f.kcal, f.rapida ?? false])).toEqual([['Yogur', 125, 75, false], ['Cena fuera', 0, 800, true]])
+    expect(await db.entries.count()).toBe(0)
+  })
+
+  it('guarda y vacía lo marcado en la lista de la compra', async () => {
+    await planificadasRepo.guardarMarcasCompra(['user:1', 'catalog:ciqual:1'])
+    expect(await planificadasRepo.marcasCompra()).toEqual(['user:1', 'catalog:ciqual:1'])
+    await planificadasRepo.guardarMarcasCompra([])
+    expect(await planificadasRepo.marcasCompra()).toEqual([])
   })
 })
