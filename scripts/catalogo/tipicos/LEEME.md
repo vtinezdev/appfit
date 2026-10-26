@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-911 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
-AppFit de alimentos sueltos) y 536 recetas CIQUAL (61 hasta el 25 de octubre y
-475 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+934 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
+AppFit de alimentos sueltos) y 559 recetas CIQUAL (61 hasta el 25 de octubre y
+498 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -672,3 +672,7 @@ Tapas y raciones de bar: bravioli, morcilla con pimientos, sepia, zamburiñas y 
 ### Octava tanda de recetas: cenas ligeras, verduras y ensaladas (30)
 
 Verduras de diario (acelgas con patata, coles de Bruselas, calabaza y boniato al horno, tomates a la provenzal, berenjenas rellenas, espaguetis de calabacín, verduras salteadas), purés, sopas y cremas (verduras, vichyssoise, espinacas, tomate), ensaladas (aguacate, pollo, atún y maíz, salmón ahumado, griega, caprese, arroz, espinacas con cabra, pepino, coleslaw), espárragos con mayonesa y cenas ligeras (merluza al vapor, salmón en papillote, huevos escalfados, salteados de pollo y de tofu). Recetas con ingredientes CIQUAL en crudo.
+
+### Novena tanda de recetas: postres y repostería casera (23)
+
+Bizcochos caseros (chocolate, naranja, manzana, pan de plátano), tarta de zanahoria, cookies y galletas de avena, muffins de arándanos, pudin de pan, tartas frías (queso sin horno, tres chocolates), mousse de limón, helados caseros de vainilla y chocolate, flan de coco, sémola con leche, poleá, compota de pera, palmeras de hojaldre y dulces regionales (casadielles, piononos, miguelitos de La Roda, coca de Sant Joan). Se omiten los que CIQUAL ya trae (brownie, crepes, gofres, tarta de fresas, galletas de mantequilla, coulant).

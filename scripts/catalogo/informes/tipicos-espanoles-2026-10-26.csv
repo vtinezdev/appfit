@@ -474,3 +474,26 @@ tofu-salteado-verduras;Tofu salteado con verduras y soja, cocinado;Platos prepar
 calabaza-horno;Calabaza al horno con aceite de oliva, asada;Platos preparados;calabaza asada;56,8;1,5;4,7;3,5;600;20044:800 17270:20 11017:3
 esparragos-mayonesa;Espárragos blancos con mayonesa, listos para consumir;Platos preparados;;112,9;1,6;1,5;10,9;290;20076:250 11054:40
 boniato-horno;Boniato al horno con aceite de oliva, asado;Platos preparados;batata asada|boniato asado;130,5;2,1;22,5;2,8;380;4101:500 17270:10 11017:2
+bizcocho-chocolate;Bizcocho de chocolate casero, horneado;Galletas, bollería y pasteles;;396,6;7,3;48,7;18,6;830;9440:250 31016:200 22000:200 17440:120 19023:125 18100:40 11046:10
+bizcocho-naranja;Bizcocho de naranja casero, horneado;Galletas, bollería y pasteles;;380,9;5,9;49,7;17,3;820;9440:250 31016:200 22000:200 17440:120 2013:150 11046:10
+bizcocho-manzana;Bizcocho de manzana casero, horneado;Galletas, bollería y pasteles;;301,5;5,1;41,4;12,6;1000;9440:250 31016:180 22000:200 17440:100 19023:100 13396:300 11046:10
+tarta-zanahoria;Tarta de zanahoria con crema de queso, horneada;Galletas, bollería y pasteles;carrot cake;387,7;5,1;37,8;23,6;1380;9440:250 31016:300 22000:200 17440:180 20009:300 15005:60 11025:5 11046:10 12068:200 16400:50
+cookies-chocolate;Galletas caseras con pepitas de chocolate (cookies), horneadas;Galletas, bollería y pasteles;cookies caseras;517;5,3;63,3;26,2;820;9440:280 16400:170 31016:200 22000:50 31085:200 11046:5
+galletas-avena;Galletas caseras de avena, horneadas;Galletas, bollería y pasteles;;475,5;9,1;57,3;22,1;540;9310:200 9440:100 16400:120 31016:120 22000:50 11046:4
+banana-bread;Pan de plátano (banana bread) casero, horneado;Galletas, bollería y pasteles;banana bread|bizcocho de plátano;308;4,6;46,2;11,3;850;13005:400 9440:250 31016:120 22000:100 16400:100 11046:8
+muffins-arandanos;Muffins de arándanos caseros, horneados;Galletas, bollería y pasteles;magdalenas de arándanos;340;5,1;45,8;14,7;800;9440:250 31016:150 22000:100 19023:150 17440:100 13028:150 11046:10
+pudin-pan;Pudin de pan casero, horneado;Galletas, bollería y pasteles;budín de pan;168,4;6;26,3;4,3;1150;7001:200 19023:750 22000:200 31016:150
+tarta-queso-sin-horno;Tarta de queso fría sin horno, lista para consumir;Galletas, bollería y pasteles;tarta de queso fría;331,7;4,8;22,7;24,5;1150;12068:400 19417:400 31016:120 11007:12 24001:150 16400:75
+tarta-tres-chocolates;Tarta de tres chocolates, lista para consumir;Galletas, bollería y pasteles;;279,7;4,2;19,6;20,3;1700;24001:150 16400:75 31085:100 31004:100 19023:600 19417:600 31016:60 11007:15
+mousse-limon;Mousse de limón casera, lista para consumir;Yogures y postres lácteos;;273;4,3;25,6;16,9;885;19027:370 19417:400 2007:120
+helado-vainilla-casero;Helado casero de vainilla, listo para consumir;Yogures y postres lácteos;;212,9;4,4;19,4;13,2;950;19023:500 19417:250 22002:120 31016:150
+helado-chocolate-casero;Helado casero de chocolate, listo para consumir;Yogures y postres lácteos;;218,1;4,9;19,4;13,2;970;19023:500 19417:250 22002:100 31016:150 18100:40
+flan-coco;Flan de coco casero, cuajado;Yogures y postres lácteos;;217,8;6,8;21;11,6;1150;19023:500 19027:370 22000:200 15007:100
+semola-leche;Sémola con leche casera, cocida;Yogures y postres lácteos;papilla de sémola;123,1;4,2;18,5;3,5;1050;19023:1000 9610:80 31016:90 11025:3
+gachas-dulces;Gachas dulces (poleá) con picatostes, cocidas;Yogures y postres lácteos;poleá|gachas de leche;154,6;4,1;21,3;5,9;1150;19023:1000 9440:80 31016:100 17270:30 11025:3 7001:60
+compota-pera;Compota de pera casera, cocida;Dulces y chocolate;;89,2;0,4;20,4;0,3;1000;13037:1000 31016:80 18066:200 11025:3
+casadielles;Casadielles rellenas de nuez, fritas;Galletas, bollería y pasteles;;516,1;6,1;44,7;33;680;9440:250 16400:50 5215:60 18066:60 11017:2 15005:150 31016:100 1006:20 17440:80
+piononos;Piononos de Santa Fe, listos para consumir;Galletas, bollería y pasteles;;248,6;6,2;43,4;5,5;820;22000:200 31016:260 9440:80 18066:100 19023:250 22002:60 9510:25
+palmeras-hojaldre;Palmeras de hojaldre caseras, horneadas;Galletas, bollería y pasteles;palmeritas;428,9;4,7;56,9;19,7;440;23410:400 31016:80
+miguelitos;Miguelitos de La Roda, listos para consumir;Galletas, bollería y pasteles;;293,3;5,3;37,2;13,5;700;23410:300 19023:300 22002:70 31016:90 9510:30
+coca-sant-joan;Coca de Sant Joan casera, horneada;Galletas, bollería y pasteles;coca de san juan;369,3;7,5;56,1;12,1;880;9440:500 31016:100 22000:100 19023:150 16400:80 11010:20 15025:30
