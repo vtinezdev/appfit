@@ -156,6 +156,28 @@ describe('foodsRepo.frecuentes y buscar (A3)', () => {
   })
 })
 
+describe('foodsRepo.paraCerrarDia (B10)', () => {
+  it('frecuentes con su ración habitual e ideas solo de las categorías que registras', async () => {
+    const arroz = await foodsRepo.crear(ARROZ)
+    const platano = await foodsRepo.crear(PLATANO)
+    await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-26', comida: 'cena', foodId: arroz, gramos: 140 })
+    await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-27', comida: 'cena', foodId: arroz, gramos: 160 })
+    await catalogRepo.guardarLote([
+      { ...catalogo('13005', 'Plátano'), categoria: 'Frutas' },
+      { ...catalogo('36018', 'Pollo a la plancha'), categoria: 'Carnes' },
+    ])
+    const { frecuentes, ideas } = await foodsRepo.paraCerrarDia({ comida: 'cena', hoy: '2026-09-28' })
+    expect(frecuentes.find((f) => f.alimento.ref.id === arroz)?.racion).toBe(150)
+    // Sin registros con gramos, la ración por defecto.
+    expect(frecuentes.find((f) => f.alimento.ref.id === platano)?.racion).toBe(100)
+    // Solo registras «Cereales, arroz y pasta»: ninguna idea es de esa categoría.
+    expect(ideas).toEqual([])
+    await entriesRepo.anadirDesdeAlimento({ fecha: '2026-09-28', comida: 'desayuno', foodId: platano, gramos: 120 })
+    const despues = await foodsRepo.paraCerrarDia({ comida: 'cena', hoy: '2026-09-28' })
+    expect(despues.ideas.map((i) => [i.alimento.ref.id, i.racion])).toEqual([['ciqual:13005', 120]])
+  })
+})
+
 describe('foodsRepo: categorías', () => {
   it('crear exige una categoría válida', async () => {
     await expect(foodsRepo.crear({ ...PLATANO, categoria: 'Fruta' as never })).rejects.toThrow(foodsRepo.CategoriaRequeridaError)

@@ -20,7 +20,6 @@ import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
 import {
   aItemGuardado,
   actualizaAlimentoGuardado,
-  faltaDelDia,
   creaAlimentoNuevo,
   elegibleDeCatalogo,
   faltaCategoria,
@@ -56,6 +55,7 @@ import Button from '../../../shared/components/Button'
 import { Input, Select } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { revisionModificada } from '../lib/borradorComida'
+import { faltaDelDia } from '../lib/cerrarDia'
 
 interface Props {
   fecha: string
@@ -113,7 +113,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const [escaneando, setEscaneando] = useState(false)
   const [verMedidas, setVerMedidas] = useState(false)
   const local = useInterpretarLocal()
-  // «Cerrar el día» (B10): lo que falta de proteína y kcal frente al objetivo del día, para el botón de Escribir. Al
+  // «Cerrar el día» (B10): lo que falta de cada macro frente al objetivo del día, para el botón de Escribir. Al
   // planificar, frente a lo ya planificado ese día.
   const falta = useLiveQuery(async () => {
     const [delDia, objetivo] = await Promise.all([planificar ? planificadasRepo.delDia(fecha) : entriesRepo.delDia(fecha), objetivosDe(fecha, todayISO())])
@@ -342,8 +342,9 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                   {!platoDestino && !soloTipica && <>
                     {tipicaCreada && <p role="status" className="text-body-sm text-fg-muted">Comida típica guardada. Ya la tienes a mano.</p>}
                     <ComidasTipicas fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} onVerTodas={() => setVerTipicas(true)} />
+                    <EncajanConLoQueFalta comida={comida} fecha={fecha} falta={falta ?? null} onElegirAlimento={elegirRapido} onElegirTipica={setTipicaElegida}
+                      onElegirCombinacion={(propuestos) => { setErrorGuardar(null); abrirRevision(propuestos.map((p) => itemDesdeElegible(p.alimento, p.gramos))) }} />
                   </>}
-                  {!soloTipica && <EncajanConLoQueFalta comida={comida} falta={falta ?? null} onElegir={elegirRapido} />}
                 </>}
                 {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)} />}
                 {!platoDestino && !soloTipica && <div className="border-t border-line pt-3">
