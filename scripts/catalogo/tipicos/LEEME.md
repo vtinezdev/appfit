@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1166 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
+1175 filas: 409 valores directos (57 USDA, 167 CoFID y 185 valores de referencia
 AppFit de alimentos sueltos) y 766 recetas CIQUAL (61 hasta el 25 de octubre y
 705 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
@@ -724,3 +724,7 @@ Hamburguesas de lentejas y de garbanzos, tofu a la plancha y revuelto de tofu, c
 ### Decimonovena tanda de recetas: pizzas, hamburguesas y comida rápida casera (14)
 
 Pizzas caseras (margarita, cuatro quesos, barbacoa, pollo y verduras), focaccia, pan de ajo, hamburguesas de pollo y con huevo, beicon y queso, patatas con queso y beicon, alitas picantes, quesadilla, burrito y tacos de pollo y pan bao de cerdo. La salsa barbacoa se aproxima con kétchup y miel (CIQUAL no la trae).
+
+### Sueltos de supermercado, segunda ronda (9)
+
+Fuente AppFit (URLs en notas): salsas barbacoa, miel y mostaza y de queso cheddar, edamame en grano, tortillas integrales para wraps, caldo de cocido de brik, cuajada de oveja, patatas paja y huevas de merluza cocidas. Se omiten la gelatina sin azúcar (las fuentes solo dan calorías) y lo que CIQUAL ya trae (sirope de arce, seitán, tempeh, soja texturizada, salsa teriyaki, mermeladas reducidas en azúcar).
