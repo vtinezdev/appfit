@@ -45482,5 +45482,216 @@
         "gramos": 1
       }
     ]
+  },
+  {
+    "id": "tostada-queso-fresco-miel",
+    "nombre": "Tostada con queso fresco batido y miel, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 70 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 119,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "19644",
+        "gramos": 50
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "avena-manzana-canela",
+    "nombre": "Gachas de avena con manzana y canela, cocinadas",
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, tanda 70 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 333,
+    "ingredientes": [
+      {
+        "ciqual": "9310",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19041",
+        "gramos": 200
+      },
+      {
+        "ciqual": "13396",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "porridge-chocolate",
+    "nombre": "Porridge de avena con cacao, cocinado",
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, tanda 70 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 256,
+    "ingredientes": [
+      {
+        "ciqual": "9310",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 200
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 10
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "cafe-leche-galletas",
+    "nombre": "Café con leche y galletas María, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 70 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 230,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 150
+      },
+      {
+        "ciqual": "24001",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "crepes-fruta",
+    "nombre": "Crepes con fresas y miel, cocinadas",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 70 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 317,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 60
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 120
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 50
+      },
+      {
+        "ciqual": "13014",
+        "gramos": 100
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "desayuno-ingles",
+    "nombre": "Desayuno inglés completo, cocinado",
+    "alias": [
+      "full english breakfast"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 70 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 490,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "28720",
+        "gramos": 50
+      },
+      {
+        "ciqual": "30742",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20524",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20056",
+        "gramos": 60
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "bol-yogur-frutas-semillas",
+    "nombre": "Bol de yogur con frutas y semillas de chía, listo para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, tanda 70 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 275,
+    "ingredientes": [
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "13014",
+        "gramos": 80
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 60
+      },
+      {
+        "ciqual": "15047",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "tostada-cacahuete-fresas",
+    "nombre": "Tostada con crema de cacahuete y fresas, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 70 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 130,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "15202",
+        "gramos": 20
+      },
+      {
+        "ciqual": "13014",
+        "gramos": 50
+      }
+    ]
   }
 ]
