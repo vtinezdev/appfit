@@ -1007,3 +1007,17 @@ te-miel-limon;Té con miel y limón, listo para consumir;Bebidas;;14,5;0;3,4;0;2
 batido-cacahuete-platano;Batido de plátano y crema de cacahuete, listo para consumir;Bebidas;;90,7;3,9;9,6;3,9;370;19041:250 13005:100 15202:20
 lassi-mango;Lassi de mango, listo para consumir;Bebidas;;66,1;2,6;9,7;1,4;460;19593:250 13025:150 31016:10 19023:50
 granizado-fresa;Granizado de fresa casero, listo para consumir;Bebidas;;60,4;0,3;13,5;0,2;580;13014:300 31016:60 18066:200 2007:20
+taper-pavo-arroz-integral;Pavo con arroz integral y calabacín (táper), cocinado;Platos preparados;;111,6;10,8;10,5;2,7;500;36304:200 9102:70 18066:150 20020:150 17270:8 11017:2
+taper-pollo-curry-arroz;Pollo al curry con arroz (táper), cocinado;Platos preparados;;140,2;11,3;14;3,9;480;36017:200 9100:80 18066:160 18041:50 11005:3 20034:50 17270:5
+taper-atun-garbanzos;Ensalada de garbanzos con atún al natural (táper), lista para consumir;Platos preparados;;102,5;8,9;7;3,9;530;20532:200 26039:120 20276:100 20019:80 20238:20 17270:10
+taper-lentejas-pollo;Lentejas con pollo y verduras (táper), cocinadas;Platos preparados;;96,8;10,1;7,7;2,2;560;20359:80 18066:250 36017:150 20009:80 20034:50 17270:8
+taper-salmon-boniato;Salmón con boniato y brócoli (táper), cocinado;Platos preparados;;128,6;9,1;9,2;5,6;500;26036:180 4101:250 20057:150 17270:5
+taper-ternera-patata;Solomillo de ternera con patata y judías (táper), cocinado;Platos preparados;;112,3;9,8;9;3,6;520;6116:200 4008:250 20061:150 17270:8
+taper-pasta-integral-atun;Pasta integral con atún y tomate (táper), cocinada;Platos preparados;;117,8;8,6;14,1;2,5;450;9870:90 18066:160 26039:100 20048:150 17270:5
+taper-pollo-quinoa;Pollo con quinoa y verduras (táper), cocinado;Platos preparados;;108,9;10,9;8,5;3;530;36017:200 9340:70 18066:150 20085:80 20020:100 17270:8
+tortilla-claras-patata;Tortilla de claras con patata, cocinada;Huevos;;92,5;7,8;8,5;2,7;400;22001:250 4008:200 17270:10 11017:2
+bowl-burrito-fit;Bol de burrito con pollo, arroz y alubias, listo para consumir;Platos preparados;burrito bowl;118,3;9;14;2,3;560;9100:70 18066:140 36017:150 20524:100 20066:50 20276:60 13004:40
+pechuga-rellena-espinacas;Pechuga de pollo rellena de espinacas y queso de cabra, horneada;Platos preparados;;156,8;23,5;0,7;6,2;450;36017:400 20059:100 12812:50 17270:10
+hamburguesa-pavo-casera;Hamburguesas de pavo caseras, a la plancha, cocinadas;Carnes;;152,1;23,6;4,6;4,2;440;36304:400 20034:50 9310:30 22001:30 11017:3 17270:10
+revuelto-claras-pavo-champinones;Revuelto de claras con pavo y champiñones, cocinado;Huevos;;70,6;11,5;1,1;2,2;300;22001:200 28964:50 20056:100 17270:5
+pancakes-avena-queso-batido;Tortitas de avena con queso batido y plátano, cocinadas;Galletas, bollería y pasteles;pancakes proteicos;131,1;10,3;17,2;1,6;280;19644:100 9310:60 22001:100 13005:50

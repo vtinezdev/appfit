@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1484 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 1069 recetas CIQUAL (61 hasta el 25 de octubre y
-1008 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1498 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 1083 recetas CIQUAL (61 hasta el 25 de octubre y
+1022 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -812,3 +812,7 @@ Tarta de queso con galletas de chocolate, tarta de yogur, tarta Tatin, coulant, 
 ### Trigesimonovena tanda de recetas: más bebidas y cócteles (15)
 
 Caipiroska, daiquiri, ron con limón, ginebra con naranja, Bloody Mary, sangría de cava, vino caliente, cafés con bebida de almendra, leche desnatada y leche sin lactosa, leche desnatada con cacao, té con miel y limón, batido de plátano y cacahuete, lassi de mango y granizado de fresa. En el vino caliente no se descuenta el alcohol que se evapora.
+
+### Cuadragésima tanda de recetas: más tápers y recetas fit (14)
+
+Tápers (pavo con arroz integral, pollo al curry, garbanzos con atún, lentejas con pollo, salmón con boniato, ternera con patata, pasta integral con atún, pollo con quinoa), tortilla de claras con patata, bol de burrito, pechuga rellena de espinacas, hamburguesas de pavo, revuelto de claras con pavo y tortitas de avena con queso batido.
