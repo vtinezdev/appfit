@@ -907,3 +907,19 @@ kofta-cordero;Kofta de cordero casera, a la parrilla, asada;Carnes;;145,4;21,4;1
 fattoush;Fattoush (ensalada libanesa con pan de pita), lista para consumir;Platos preparados;;94,9;1,5;6,7;6,7;630;20031:150 20276:150 20019:150 20045:60 7180:60 17270:40 2007:20 11027:5 11017:2
 mjadara;Mjadara (lentejas con arroz y cebolla frita), cocinada;Platos preparados;;128,4;4,7;16,5;4,1;1400;20359:200 9100:150 18066:900 20034:400 17270:50 11042:3 11017:6
 shawarma-pollo-plato;Shawarma de pollo al plato, asado;Platos preparados;;216,7;20;1,2;14,5;470;36022:500 19593:60 2007:20 17270:20 11042:3 11049:3 11000:5 11017:4
+bocadillo-lomo-pimientos;Bocadillo de lomo con pimientos, listo para consumir;Pan y tostadas;;244,4;13;30;7,6;240;7001:120 28473:100 20085:50 17270:10
+bocadillo-pollo-queso-bacon;Bocadillo de pollo con queso y beicon, listo para consumir;Pan y tostadas;;261,9;17;28,7;8,2;250;7001:120 36017:100 12300:30 28720:30 17270:5
+bocadillo-salmon-queso;Bocadillo de salmón ahumado y queso de untar, listo para consumir;Pan y tostadas;;248,1;11,8;33;7,1;180;7001:100 26037:50 12068:30
+bocadillo-vegetal-atun;Bocadillo vegetal con atún, listo para consumir;Pan y tostadas;;223,1;9,5;26,2;8,5;275;7001:120 26245:50 20031:20 20276:40 22000:30 11054:15
+montadito-pringa;Montadito de pringá, listo para consumir;Pan y tostadas;pringá;294,3;13,6;26,1;14,6;180;7001:80 6583:50 28470:15 30315:20 8703:15
+bocadillo-queso-tomate;Bocadillo de queso curado y tomate, listo para consumir;Pan y tostadas;;274,7;9,8;32,5;11,3;185;7001:100 12119:40 20276:40 17270:5
+bocadillo-jamon-queso;Bocadillo de jamón serrano y queso curado, listo para consumir;Pan y tostadas;;298,8;16,3;34,7;10,1;170;7001:100 28845:40 12119:30
+bocadillo-albondigas;Bocadillo de albóndigas con tomate, listo para consumir;Pan y tostadas;;252,3;11,9;29,5;9,1;240;7001:120 6536:100 20048:50 17270:5
+bocadillo-bonito-pimientos;Bocadillo de bonito con pimientos asados, listo para consumir;Pan y tostadas;;217,9;10,8;31,9;4,7;190;7001:100 26245:50 20087:40
+pulga-jamon-tomate;Pulga de jamón serrano y tomate, lista para consumir;Pan y tostadas;pulguita de jamón;237,8;10;34;6,4;88;7001:50 28845:15 20276:20 17270:3
+sandwich-pollo-aguacate;Sándwich de pollo y aguacate, listo para consumir;Pan y tostadas;;220,1;12,9;16,6;10,6;185;7200:60 36017:80 13004:40 20031:10 11054:10
+sandwich-pavo-aguacate;Sándwich de pavo y aguacate, listo para consumir;Pan y tostadas;;182,4;8,4;19,3;7,3;160;7200:60 28964:40 13004:40 20276:20
+croque-madame;Sándwich mixto con huevo frito (croque madame), cocinado;Pan y tostadas;;239,1;12,5;17,8;12,7;180;7200:60 28964:30 12300:30 22000:60 16400:10
+wrap-pollo-cesar;Wrap de pollo césar, listo para consumir;Pan y tostadas;;218,2;15,2;18,5;8,7;180;7815:60 36017:80 20031:30 12120:10 11248:15
+wrap-atun;Wrap de atún con maíz, listo para consumir;Pan y tostadas;;212,6;9,3;19,5;10,4;190;7815:60 26245:50 20031:20 20276:30 20066:20 11054:10
+wrap-falafel;Wrap de falafel con yogur, listo para consumir;Pan y tostadas;;180,5;5,7;22,9;6,5;210;7815:60 25590:80 20031:20 20276:30 19593:20

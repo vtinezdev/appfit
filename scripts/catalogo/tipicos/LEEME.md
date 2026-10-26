@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1384 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 969 recetas CIQUAL (61 hasta el 25 de octubre y
-908 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1400 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 985 recetas CIQUAL (61 hasta el 25 de octubre y
+924 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -784,3 +784,7 @@ Ramen, bibimbap, curry japonés, pollo katsu, yakitori, okonomiyaki, gyudon, sam
 ### Trigesimosegunda tanda de recetas: mediterránea, italiana y de Oriente Medio (19)
 
 Italiana (saltimbocca, pollo a la cazadora y a la parmesana, polenta, arancini, bruschetta, caponata, espaguetis con albóndigas, pasta e fagioli, penne al vodka, panzanella), francesa (coq au vin), griega (souvlaki, gyros, spanakopita) y de Oriente Medio (kofta, fattoush, mjadara, shawarma al plato). Se omiten ossobuco y bourguignon, que CIQUAL ya trae.
+
+### Trigesimotercera tanda de recetas: bocadillos, sándwiches y wraps (16)
+
+Bocadillos (lomo con pimientos, pollo con queso y beicon, salmón y queso, vegetal con atún, queso y tomate, jamón y queso, albóndigas, bonito con pimientos), montadito de pringá, pulga de jamón, sándwiches (pollo y aguacate, pavo y aguacate, croque madame) y wraps (pollo césar, atún, falafel). Queso de oveja curado CIQUAL como queso manchego.

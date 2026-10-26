@@ -33329,5 +33329,439 @@
         "gramos": 4
       }
     ]
+  },
+  {
+    "id": "bocadillo-lomo-pimientos",
+    "nombre": "Bocadillo de lomo con pimientos, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 240,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 120
+      },
+      {
+        "ciqual": "28473",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "bocadillo-pollo-queso-bacon",
+    "nombre": "Bocadillo de pollo con queso y beicon, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 250,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 120
+      },
+      {
+        "ciqual": "36017",
+        "gramos": 100
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 30
+      },
+      {
+        "ciqual": "28720",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "bocadillo-salmon-queso",
+    "nombre": "Bocadillo de salmón ahumado y queso de untar, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 180,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 100
+      },
+      {
+        "ciqual": "26037",
+        "gramos": 50
+      },
+      {
+        "ciqual": "12068",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "bocadillo-vegetal-atun",
+    "nombre": "Bocadillo vegetal con atún, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 275,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 120
+      },
+      {
+        "ciqual": "26245",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 20
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 40
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "montadito-pringa",
+    "nombre": "Montadito de pringá, listo para consumir",
+    "alias": [
+      "pringá"
+    ],
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Carnes del puchero pesadas en crudo.",
+    "pesoFinalG": 180,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 80
+      },
+      {
+        "ciqual": "6583",
+        "gramos": 50
+      },
+      {
+        "ciqual": "28470",
+        "gramos": 15
+      },
+      {
+        "ciqual": "30315",
+        "gramos": 20
+      },
+      {
+        "ciqual": "8703",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "bocadillo-queso-tomate",
+    "nombre": "Bocadillo de queso curado y tomate, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 185,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 100
+      },
+      {
+        "ciqual": "12119",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "bocadillo-jamon-queso",
+    "nombre": "Bocadillo de jamón serrano y queso curado, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 170,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 100
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 40
+      },
+      {
+        "ciqual": "12119",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "bocadillo-albondigas",
+    "nombre": "Bocadillo de albóndigas con tomate, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 240,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 120
+      },
+      {
+        "ciqual": "6536",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "bocadillo-bonito-pimientos",
+    "nombre": "Bocadillo de bonito con pimientos asados, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 190,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 100
+      },
+      {
+        "ciqual": "26245",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "pulga-jamon-tomate",
+    "nombre": "Pulga de jamón serrano y tomate, lista para consumir",
+    "alias": [
+      "pulguita de jamón"
+    ],
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 88,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 50
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 15
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "sandwich-pollo-aguacate",
+    "nombre": "Sándwich de pollo y aguacate, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 185,
+    "ingredientes": [
+      {
+        "ciqual": "7200",
+        "gramos": 60
+      },
+      {
+        "ciqual": "36017",
+        "gramos": 80
+      },
+      {
+        "ciqual": "13004",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "sandwich-pavo-aguacate",
+    "nombre": "Sándwich de pavo y aguacate, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 160,
+    "ingredientes": [
+      {
+        "ciqual": "7200",
+        "gramos": 60
+      },
+      {
+        "ciqual": "28964",
+        "gramos": 40
+      },
+      {
+        "ciqual": "13004",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "croque-madame",
+    "nombre": "Sándwich mixto con huevo frito (croque madame), cocinado",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 180,
+    "ingredientes": [
+      {
+        "ciqual": "7200",
+        "gramos": 60
+      },
+      {
+        "ciqual": "28964",
+        "gramos": 30
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 30
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "wrap-pollo-cesar",
+    "nombre": "Wrap de pollo césar, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 180,
+    "ingredientes": [
+      {
+        "ciqual": "7815",
+        "gramos": 60
+      },
+      {
+        "ciqual": "36017",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 30
+      },
+      {
+        "ciqual": "12120",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11248",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "wrap-atun",
+    "nombre": "Wrap de atún con maíz, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 190,
+    "ingredientes": [
+      {
+        "ciqual": "7815",
+        "gramos": 60
+      },
+      {
+        "ciqual": "26245",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 20
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 30
+      },
+      {
+        "ciqual": "20066",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "wrap-falafel",
+    "nombre": "Wrap de falafel con yogur, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigesimotercera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 210,
+    "ingredientes": [
+      {
+        "ciqual": "7815",
+        "gramos": 60
+      },
+      {
+        "ciqual": "25590",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 20
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 30
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 20
+      }
+    ]
   }
 ]
