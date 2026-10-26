@@ -2588,3 +2588,15 @@ Víctor señala que en un entreno pasado los récords personales (una card por e
 - Documentos: `features/gym.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` con un entreno de 6 ejercicios y 11 récords, a 320/375/430 px en ambos temas: sin scroll horizontal, «y 8 récords más» en el póster, cifras de récord en los cinco ejercicios con récord y sin trofeo en la cabecera. No se ha probado en el iPhone real.
+
+## 237. Ejercicios y récords en la imagen del entreno (2026-10-26)
+
+Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los récords de alguna forma y los ejercicios hechos, sin enumerar todas las series. (Los récords ya salían en «Hoy» si el entreno tenía alguno.)
+
+- `lib/posterImagen.svgPoster` pasa a 1080 × 1920 (9:16) y añade «Ejercicios»: hasta `MAX_EJERCICIOS_POSTER` (8) con nombre, mejor serie a la derecha, series efectivas y el récord principal en acento con cuántos más; el resto, «y N ejercicios más». Con ejercicios, «Hoy» se queda con los hitos que no son récords. El muñeco ocupa lo que queda y desaparece si no hay sitio.
+- `lib/fichaEntreno.ejerciciosDelPoster` (puro, con tests) arma la lista en el orden del detalle, sin los ejercicios sin series efectivas.
+- `components/PosterImagen` recibe `workoutId`, `records` y `nombres` y lee el entreno y sus series al pulsar; lo usan `DetalleEntreno` y `WorkoutFinished`.
+- «Tu mes» (Vitrina) sigue en 1080 × 1350: tenía importadas las medidas del póster y pasa a tener las suyas en `vitrina/lib/imagenTuPeriodo`.
+- Documentos: `features/gym.md`.
+
+**Verificación:** `npm run test` (2.789) y `npm run build` correctos. Playwright en `appfit-test.localhost:5173`: se descargó la imagen del detalle del historial de un entreno con 6 ejercicios y 11 récords, en tema claro y oscuro; los textos caben. La imagen desde el fin de entreno no se ha descargado en el navegador (mismo componente y la misma función). No se ha probado compartir desde el iPhone.

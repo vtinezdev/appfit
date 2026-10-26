@@ -4,7 +4,7 @@ import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { modoCarga } from './carga'
 import { describirReps, type SerieEjecucion } from './ejecucion'
 import type { RecordEjercicio } from './records'
-import { efectivas, volumenSets } from './workout'
+import { efectivas, ordenEjerciciosSesion, volumenSets } from './workout'
 
 /**
  * Presentación de la ficha de un entreno terminado (detalle del historial y fin de sesión): récords agrupados por
@@ -113,6 +113,42 @@ export function seriesPublicables(series: (SerieEjecucion & Pick<SetEntry, 'id' 
       return r ? [{ serie, mejora: r.tipo === 'asistencia' ? `${partesRecord(r).mejora} de asistencia` : partesRecord(r).mejora }] : []
     }),
   }
+}
+
+/** Un ejercicio en la imagen del póster: su nombre, cuántas series efectivas, la mejor y su récord principal. */
+export interface EjercicioPoster {
+  nombre: string
+  /** «3 series». */
+  series: string
+  /** La serie que marca el récord de carga o, si no hay, la de más carga (menos asistencia) y más repeticiones: «85 kg × 8». */
+  mejor: string
+  /** El récord que más cuenta (el de peso antes que el 1RM): «Peso máximo 85 kg (+5 kg)», y cuántos más hay. */
+  record?: string
+}
+
+/**
+ * Los ejercicios de un entreno para la imagen del póster, en el orden del detalle y sin los que no tienen series
+ * efectivas. Las series del ejercicio se resumen en la mejor, no se enumeran: en la imagen no caben todas.
+ */
+export function ejerciciosDelPoster(w: Pick<Workout, 'ordenEjercicios' | 'ejerciciosOmitidos'>, sets: SetEntry[], records: RecordEjercicio[], nombres: Record<number, string>): EjercicioPoster[] {
+  const ids = Array.from(new Set([...sets].sort((a, b) => a.createdAt - b.createdAt || a.id - b.id).map(s => s.exerciseId)))
+  return ordenEjerciciosSesion([], ids, w.ordenEjercicios, w.ejerciciosOmitidos).flatMap(id => {
+    const hechas = efectivas(sets.filter(s => s.exerciseId === id).sort((a, b) => a.orden - b.orden))
+    if (!hechas.length) return []
+    const propios = records.filter(r => r.exerciseId === id).sort((a, b) => PRIORIDAD_RECORD[a.tipo] - PRIORIDAD_RECORD[b.tipo])
+    const deCarga = propios.find(r => (r.tipo === 'peso' || r.tipo === 'asistencia') && hechas.some(s => s.id === r.setId))
+    const signo = (s: SetEntry) => (modoCarga(s) === 'asistencia' ? -1 : 1)
+    const mejor = deCarga ? hechas.find(s => s.id === deCarga.setId)!
+      : [...hechas].sort((a, b) => signo(b) * b.peso - signo(a) * a.peso || b.reps - a.reps)[0]
+    const principal = propios[0]
+    const p = principal && partesRecord(principal)
+    return [{
+      nombre: nombres[id] ?? 'Ejercicio',
+      series: plural(hechas.length, 'serie', 'series'),
+      mejor: pastillaSerie(mejor).texto,
+      ...(p ? { record: `${p.rotulo} ${p.valor} (${p.mejora})${propios.length > 1 ? ` · ${plural(propios.length - 1, 'récord', 'récords')} más` : ''}` } : {}),
+    }]
+  })
 }
 
 // --- Fin de sesión ordenado por momentos (ENT-10) ---

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { hitoDeEntrenos, partesRecord, pastillaSerie, recordsPorEjercicio, restoRecords, resumenEjercicio, seriesConRecord, seriesPublicables, textoDesde } from './fichaEntreno'
+import { ejerciciosDelPoster, hitoDeEntrenos, partesRecord, pastillaSerie, recordsPorEjercicio, restoRecords, resumenEjercicio, seriesConRecord, seriesPublicables, textoDesde } from './fichaEntreno'
 import type { RecordEjercicio } from './records'
+import type { SetEntry } from '../../../shared/db/types'
 
 const record = (r: Partial<RecordEjercicio>): RecordEjercicio => ({ exerciseId: 1, tipo: 'peso', valor: 82.5, anterior: 80, ...r })
 
@@ -125,5 +126,32 @@ describe('restoRecords', () => {
     expect(restoRecords(1)).toBe('y 1 récord más')
     expect(restoRecords(8)).toBe('y 8 récords más')
     expect(restoRecords(1200)).toBe('y 1.200 récords más')
+  })
+})
+
+describe('ejerciciosDelPoster', () => {
+  const serie = (id: number, exerciseId: number, peso: number, reps: number, extra: Partial<SetEntry> = {}): SetEntry =>
+    ({ id, workoutId: 1, exerciseId, peso, reps, orden: id, createdAt: id, realizada: true, ...extra })
+  const nombres = { 1: 'Press banca', 2: 'Dominadas asistidas', 3: 'Curl' }
+
+  it('en el orden del entreno, con la mejor serie, las series efectivas y el récord principal', () => {
+    const sets = [
+      serie(1, 1, 60, 10, { tipo: 'calentamiento' }), serie(2, 1, 80, 8), serie(3, 1, 85, 6), serie(4, 1, 85, 5),
+      serie(5, 2, 30, 8, { modoCarga: 'asistencia' }), serie(6, 2, 20, 6, { modoCarga: 'asistencia' }),
+      serie(7, 3, 12, 10, { realizada: false }),
+    ]
+    const records: RecordEjercicio[] = [
+      { exerciseId: 1, tipo: '1rm', valor: 100, anterior: 98, setId: 2 },
+      { exerciseId: 1, tipo: 'peso', valor: 85, anterior: 80, setId: 4 },
+    ]
+    expect(ejerciciosDelPoster({ ordenEjercicios: [2, 1] }, sets, records, nombres)).toEqual([
+      { nombre: 'Dominadas asistidas', series: '2 series', mejor: 'Asistencia 20 kg × 6' },
+      { nombre: 'Press banca', series: '3 series', mejor: '85 kg × 5', record: 'Peso máximo 85 kg (+5 kg) · 1 récord más' },
+    ])
+  })
+
+  it('sin récord de carga, la de más carga y, a igual carga, más repeticiones; omite los ocultos', () => {
+    const sets = [serie(1, 1, 80, 8), serie(2, 1, 80, 10), serie(3, 1, 70, 12), serie(4, 3, 10, 10)]
+    expect(ejerciciosDelPoster({ ejerciciosOmitidos: [3] }, sets, [], nombres)).toEqual([{ nombre: 'Press banca', series: '3 series', mejor: '80 kg × 10' }])
   })
 })

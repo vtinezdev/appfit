@@ -227,7 +227,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
         gimnasio={nombreGimnasio(w.gimnasioId)} hoy={!editando && hitos.length ? <HitosSesion hitos={hitos} pie={restoRecords(records.length - hitos.length)} /> : undefined} />
       {!editando && <PosterImagen titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length}
         volumen={volumenSets(delEntreno)} gimnasio={nombreGimnasio(w.gimnasioId)} levels={trabajo.levels} figura={figura}
-        hoy={hitos} />}
+        hoy={hitos} workoutId={w.id} records={records} nombres={nombres} />}
       {error && <ErrorState>{error}</ErrorState>}
       {!editando && pendientes.length > 0 && (
         <section aria-label="Series sin marcar" className="space-y-2">

@@ -1,12 +1,15 @@
-// El póster de una sesión como imagen para compartir (ENT-11): un SVG de 1080 × 1350 (4:5) compuesto aquí, sin DOM, con
-// los colores del tema ya resueltos (un canvas no entiende variables CSS). `exportarImagen` lo pasa a PNG. Solo lleva
-// datos del entreno: título, fecha, cifras, «Hoy» y el muñeco. Nada del perfil.
+// El póster de una sesión como imagen para compartir (ENT-11): un SVG de 1080 × 1920 (9:16, el de las historias y los
+// estados) compuesto aquí, sin DOM, con los colores del tema ya resueltos (un canvas no entiende variables CSS).
+// `exportarImagen` lo pasa a PNG. Solo lleva datos del entreno: título, fecha, cifras, ejercicios con sus récords, «Hoy» y
+// el muñeco. Nada del perfil.
 import type { VistaCuerpo } from '../components/mapaMuscularGeometria'
-import type { HitoSesion } from './fichaEntreno'
+import type { EjercicioPoster, HitoSesion } from './fichaEntreno'
 import type { ZonaMuscular } from './musculos'
 
 export const ANCHO_POSTER = 1080
-export const ALTO_POSTER = 1350
+export const ALTO_POSTER = 1920
+/** Ejercicios que caben en la imagen; el resto se cuenta en una línea. */
+export const MAX_EJERCICIOS_POSTER = 8
 
 /** Colores del póster como tripletes «r g b» (los de los tokens), ya resueltos para el tema actual. */
 export interface ColoresPoster {
@@ -28,6 +31,8 @@ export interface DatosPosterImagen {
   /** «vie 9 oct · 18:05 – 18:57» (y el gimnasio, si no es el habitual). */
   fecha: string
   cifras: CifraPoster[]
+  /** Ejercicios en su orden; con ellos, los récords van en cada ejercicio y «Hoy» se queda con los demás hitos. */
+  ejercicios?: EjercicioPoster[]
   hoy: HitoSesion[]
   /** El entreno nº 10, 25, 50…: la cifra y su texto encima del título (A23). */
   hito?: { cifra: string; texto: string; desde: string }
@@ -96,8 +101,8 @@ function muneco({ levels, cuerpo, viewBox }: NonNullable<DatosPosterImagen['mune
 
 /**
  * El SVG del póster. `css` añade reglas dentro del SVG (las `@font-face` con la letra incrustada: una imagen no carga
- * recursos de fuera). Arriba, título (hasta dos líneas), fecha y cifras con filetes; después «Hoy» y el muñeco ocupa lo
- * que queda; abajo, «Hecho con AppFit».
+ * recursos de fuera). Arriba, título (hasta dos líneas), fecha y cifras con filetes; después los ejercicios (nombre, mejor
+ * serie, series y récord), «Hoy» y el muñeco ocupa lo que queda (si no hay sitio, no va); abajo, «Hecho con AppFit».
  */
 export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): string {
   const partes: string[] = [`<rect width="${ANCHO_POSTER}" height="${ALTO_POSTER}" fill="${rgb(c.fondo)}"/>`]
@@ -131,10 +136,31 @@ export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): str
   })
   y += 132
 
-  if (d.hoy.length) {
+  const ejercicios = d.ejercicios ?? []
+  if (ejercicios.length) {
+    y += 80
+    partes.push(texto(MARGEN, y, 'EJERCICIOS', 28, c.tenue, LETRA.rotulo))
+    for (const e of ejercicios.slice(0, MAX_EJERCICIOS_POSTER)) {
+      y += 68
+      // El nombre deja sitio a la mejor serie, alineada a la derecha.
+      partes.push(texto(MARGEN, y, partirLineas(e.nombre, 30, 1)[0] ?? '', 38, c.texto, LETRA.texto.replace('500', '600')))
+      partes.push(texto(ANCHO_POSTER - MARGEN, y, partirLineas(e.mejor, 16, 1)[0] ?? '', 38, c.texto, LETRA.texto.replace('500', '700'), ' text-anchor="end"'))
+      y += 42
+      partes.push(`<text x="${MARGEN}" y="${y}" style="${LETRA.texto};font-size:28px" fill="${rgb(c.tenue)}">${escaparXml(e.series)}`
+        + (e.record ? `<tspan fill="${rgb(c.acento)}"> · Récord: ${escaparXml(partirLineas(e.record, 52, 1)[0] ?? '')}</tspan>` : '') + '</text>')
+    }
+    const resto = ejercicios.length - MAX_EJERCICIOS_POSTER
+    if (resto > 0) {
+      y += 56
+      partes.push(texto(MARGEN, y, `y ${resto} ${resto === 1 ? 'ejercicio' : 'ejercicios'} más`, 28, c.tenue, LETRA.texto))
+    }
+  }
+
+  const hoy = ejercicios.length ? d.hoy.filter(h => h.tipo !== 'record') : d.hoy
+  if (hoy.length) {
     y += 72
     partes.push(texto(MARGEN, y, 'HOY', 28, c.tenue, LETRA.rotulo))
-    for (const h of d.hoy) {
+    for (const h of hoy) {
       y += 56
       partes.push(texto(MARGEN, y, h.etiqueta, 30, c.acento, LETRA.rotulo.replace('letter-spacing:0.08em', 'letter-spacing:0')))
       partirLineas(h.texto, 44, 2).forEach((linea, i) => {
