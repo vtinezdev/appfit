@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1604 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1182 recetas CIQUAL (61 hasta el 25 de octubre y
-1121 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1616 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1194 recetas CIQUAL (61 hasta el 25 de octubre y
+1133 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -856,3 +856,7 @@ Fuente AppFit (URLs en notas): croquetas de pollo congeladas, paella de marisco 
 ### Quincuagésima tanda de recetas: platos combinados y de menú (12)
 
 Platos combinados (lomo con huevo, pechuga, hamburguesa con huevo, calamares, bistec con huevo, vegetariano), pescado a la plancha con ensalada, lomo con patatas y pimientos, medio pollo con patatas, merluza rebozada con ensalada, sepia con patatas y alioli y huevos con pimientos y patatas. Ocho búsquedas más en la regresión (ramen, butter chicken, spanakopita, wrap de pollo, paella mixta, harira, plato combinado, cocido de lata).
+
+### Tanda 51 de recetas: pollo (12)
+
+Pollo al ajo y limón, pollo a la sidra con manzana, pollo con champiñones en salsa de nata, pollo con pisto, muslos de pollo al romero, alitas de pollo al ajillo, pollo a la miel y mostaza, pechuga de pollo empanada al horno, pollo al pimentón, pollo al horno con verduras, pollo tandoori y pollo al vino blanco.
