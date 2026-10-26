@@ -2720,3 +2720,11 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 **Cómo:** `components/SesionesEjercicio` (solo la forma elegida) y `lib/progreso.marcasSesiones` (récord, cambio y ancho de barra; con test). Documentos: `features/gym.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas con 15 sesiones de press banca: tres meses, 8 a la vista y «Ver las 15 sesiones», sin scroll horizontal. Sin probar en iPhone.
+
+## 251. Mejoras de la app, bloque 4: Nutrición e Inicio (2026-10-26)
+
+**Qué:** puntos 3, 11 y 2 del documento de mejoras, con vista previa. 3: separadores entre las pestañas principales (Entreno y Nutrición). 11: la adherencia del Resumen en una tarjeta con su explicación tras la «i», y «Lo que más aporta» en una sola lista con selector calorías/proteína y barras. 2: la revisión semanal empieza con «la semana de un vistazo» (sustituye a la tarjeta de Ritmo en texto): dos filas de cuadros por día, entreno (mancuerna) y comidas (cubiertos; destellos en un cheat day), sin leyenda, a petición de Víctor para que las comidas se vean igual que el entreno; cada bloque en su tarjeta con icono, el cambio en una pastilla neutra, barras en las cifras frente a objetivo y los récords en una lista corta por ejercicio.
+
+**Cómo:** `index.css` (`.app-tabs-principal`, separadores); `nutricion/components/AdherenciaResumen`; `inicio/lib/revisionSemanal.diasRevision` y `Revision.dias` (con test); `inicio/components/RevisionSemanal` (`SemanaDeUnVistazo`, `RecordsSemana`, `Bloque`, `Cambio`; deja de usar `RecordsSesion`). Documentos: `features/inicio.md`, `features/nutricion.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con 21 días sintéticos de comidas, pesos y agua (con objetivo y un cheat day) y 15 semanas de entrenos: pestañas, Resumen y revisión semanal, sin scroll horizontal. Sin probar en iPhone ni con los datos reales.
