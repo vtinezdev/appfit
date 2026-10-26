@@ -65,6 +65,9 @@ it.each([
   ['alfajor', 'alfajor-medina'],
   ['torraos', 'garbanzos-tostados'],
   ['zamburiñas', 'zamburinas-salsa'],
+  ['proteína whey', 'proteina-whey-concentrada'],
+  ['skyr', 'skyr-natural'],
+  ['burger meat de pollo', 'burger-meat-pollo'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)

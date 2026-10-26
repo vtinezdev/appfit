@@ -46,6 +46,7 @@ try {
     'Alimentos sueltos AppFit (2026-10-26): valores típicos estimados a partir de etiquetado de productos y webs nutricionales, NO fuente oficial; URL consultadas en directos.csv. Embutidos, cortes ibéricos, quesos españoles, panes, aperitivos y horchata.',
     'Segunda tanda de alimentos sueltos AppFit: 30 más (embutidos, quesos, conservas de mar, dulces navideños y bollería envasados, snacks y miel de caña). Pipas descartadas: CIQUAL 15045 las cubre.',
     'Tercera tanda de alimentos sueltos AppFit: 24 más (frutos secos y aperitivos, dulces navideños y bollería, conservas de mar, platos, postres y salsas envasados). Donuts, mortadela, garrapiñadas, gazpacho y arroz con leche envasados ya están en CIQUAL.',
+    'Cuarta tanda de alimentos sueltos AppFit: 20 alimentos comunes (proteína en polvo, skyr, yogur, batido, barrita, pan y leche proteicos; carne picada mixta, burger meat, salchichas frescas, cinta de lomo; gulas, cacao soluble, isotónica, ñoquis, atún claro en aceite de oliva y crema de verduras envasada).',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',

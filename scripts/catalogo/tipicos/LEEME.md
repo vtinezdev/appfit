@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-691 filas: 316 valores directos (57 USDA, 167 CoFID y 92 valores de referencia
+711 filas: 336 valores directos (57 USDA, 167 CoFID y 112 valores de referencia
 AppFit de alimentos sueltos) y 375 recetas CIQUAL (61 hasta el 25 de octubre y
 314 de las tres tandas manuales de típicos españoles del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
@@ -559,4 +559,23 @@ morcillas de cebolla comerciales son mucho más magras y quedan sin fila.
 
 Ya en CIQUAL y no añadidos: donuts, mortadela, almendra garrapiñada, gazpacho
 envasado y arroz con leche de la sección refrigerada.
+
+### Cuarta tanda: alimentos comunes (20)
+
+711 filas en total; las 691 anteriores intactas. Víctor pide alimentos más
+comunes. Lo cotidiano (leche, pan, yogur, huevos, legumbres, fruta, atún al
+natural o en girasol, tortitas, avena, quinoa, crema de cacahuete, kéfir,
+tofu, bebidas energéticas…) ya está en CIQUAL; se añade lo que falta:
+
+- Gimnasio (9): proteína de suero concentrada y aislada, caseína, skyr,
+  yogur y leche con más proteínas, batido de proteínas, barrita de proteínas
+  y pan proteico. La barrita es un valor típico de varias marcas (con fibra y
+  polialcoholes); cada marca varía mucho.
+- Carne de supermercado (5): carne picada mixta de vacuno y cerdo (pura, sin
+  preparado), burger meat de vacuno y de pollo, salchichas frescas de pollo y
+  pavo y cinta de lomo de cerdo cruda (el «lomo» CIQUAL 28302 es aguja, más
+  grasa).
+- Despensa y bebidas (6): gulas, cacao soluble azucarado, bebida isotónica,
+  ñoquis de patata, atún claro en aceite de oliva (escurrido) y crema de
+  verduras envasada.
 
