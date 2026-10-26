@@ -1032,3 +1032,7 @@ Canapés de salmón ahumado y queso, volovanes rellenos de marisco, sopa de alme
 ### Tanda 94 de recetas: Semana Santa y Cuaresma (5)
 
 Torrijas al horno, tortillitas de bacalao, soldaditos de Pavía, cazuela de vigilia (patatas con bacalao y huevo) y empanadillas de bacalao.
+
+### Tanda 95 de recetas: verano y barbacoa (5)
+
+Brochetas de pollo y piña, brochetas de salmón y calabacín, hamburguesas de cordero, plátano asado con chocolate y patatas asadas en papel con alioli.

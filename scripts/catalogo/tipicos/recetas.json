@@ -51141,5 +51141,122 @@
         "gramos": 60
       }
     ]
+  },
+  {
+    "id": "brochetas-pollo-pina",
+    "nombre": "Brochetas de pollo y piña, asadas",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, tanda 95 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 525,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 400
+      },
+      {
+        "ciqual": "13002",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "brochetas-salmon",
+    "nombre": "Brochetas de salmón y calabacín, asadas",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 95 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 479,
+    "ingredientes": [
+      {
+        "ciqual": "26036",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20020",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "hamburguesa-cordero",
+    "nombre": "Hamburguesas de cordero, a la parrilla, asadas",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, tanda 95 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 356,
+    "ingredientes": [
+      {
+        "ciqual": "21502",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11042",
+        "gramos": 2
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "platano-asado-chocolate",
+    "nombre": "Plátano asado con chocolate, asado",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 95 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 153,
+    "ingredientes": [
+      {
+        "ciqual": "13005",
+        "gramos": 150
+      },
+      {
+        "ciqual": "31085",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "patatas-papel-alioli",
+    "nombre": "Patatas asadas en papel con alioli, asadas",
+    "categoria": "Patatas y tubérculos",
+    "referencia": "Lote manual de platos habituales en España, tanda 95 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 568,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 600
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
   }
 ]
