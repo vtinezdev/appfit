@@ -13,7 +13,7 @@ import { logrosDeEntreno, nombreConNivel } from '../../vitrina/lib/logros'
 import AscensosLiga from '../../liga/components/AscensosLiga'
 import { useLigas } from '../../liga/hooks/useLigas'
 import { ascensosDeEntreno } from '../../liga/lib/liga'
-import { ascensoDestacado, textoAscenso } from '../../liga/lib/textos'
+import { ascensoDestacado, ligasDeImagen, textoAscenso } from '../../liga/lib/textos'
 import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { gimnasioDelPoster } from '../lib/gimnasios'
 import PublicarEntreno from './PublicarEntreno'
@@ -89,8 +89,6 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
     ligas: ascensos.filter(ascensoDestacado).map(a => ({ exerciseId: a.exerciseId, texto: textoAscenso(a) })),
     logros: vitrina?.visible && id !== undefined ? logrosDeEntreno(vitrina.vitrina.logros, id).map(nombreConNivel) : [],
   }
-  // En la imagen, cada cambio de liga va con su insignia en la fila del ejercicio («Llega a Élite», sin «: ciclo completado»).
-  const ligasImagen = ascensos.filter(a => ascensoDestacado(a) && a.a.liga).map(a => ({ exerciseId: a.exerciseId, liga: a.a.liga!, texto: textoAscenso(a).split(':')[0], empieza: a.de.paso === 0 }))
   const hitos = hitosDeSesion(gamificacion ? datos : { ...datos, cumbre: null, ligas: [], logros: [] })
 
   // Qué bloques hay y cuáles tienen algo que contar (el primero de estos sale abierto).
@@ -113,7 +111,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
       hoy={hitos.length ? <HitosSesion hitos={hitos} /> : undefined}
       hito={hito} figuras={progreso ? <Suspense fallback={<div className="poster-map-reserva" />}><FigurasProgresoSesion progreso={progreso} figura={figura} /></Suspense> : undefined} />
     <PosterImagen titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} hoy={hitos} workoutId={id} records={records} nombres={nombres}
-      gimnasio={gimnasioDelPoster(nombreGimnasio(summary.gimnasioId))} ligas={gamificacion ? ligasImagen : []}
+      gimnasio={gimnasioDelPoster(nombreGimnasio(summary.gimnasioId))} ligas={gamificacion ? ligasDeImagen(ascensos) : []}
       logros={gamificacion && id !== undefined ? logrosDeEntreno(vitrina.vitrina.logros, id) : []} hito={hito} levels={summary.muscle?.levels} figura={figura} />
     {bloques.length > 0 && <div>
       {bloques.map(b => <BloqueSesion key={b.clave} titulo={b.titulo} resumen={b.resumen} abierto={abierto === b.clave} onCambiar={a => setAbierto(a ? b.clave : null)}>

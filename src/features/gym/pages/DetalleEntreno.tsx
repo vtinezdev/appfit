@@ -37,6 +37,9 @@ import { ChipGimnasio } from '../components/GimnasioSheet'
 import Pista from '../../../shared/components/Pista'
 import { useVitrina } from '../../vitrina/hooks/useVitrina'
 import { logrosDeEntreno } from '../../vitrina/lib/logros'
+import { useLigas } from '../../liga/hooks/useLigas'
+import { ascensosDeEntreno } from '../../liga/lib/liga'
+import { ligasDeImagen } from '../../liga/lib/textos'
 
 // Diferido: la geometría de los muñecos pesa más que el resto del mapa.
 const MapaMuscular = lazy(() => import('../components/MapaMuscular'))
@@ -77,6 +80,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
   const enCurso = useLiveQuery(() => workoutsRepo.activo(), [])
   const nombreGimnasio = useNombresGimnasio()
   const vitrina = useVitrina(todayISO())
+  const ligas = useLigas(todayISO())
   const w = workout?.id === workoutId ? workout.w : undefined
   const rutina = useLiveQuery(() => (w?.routineId ? routinesRepo.obtener(w.routineId) : undefined), [w?.routineId])
   const delEntreno = sets?.id === workoutId ? sets.s : undefined
@@ -231,7 +235,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
       {!editando && <PosterImagen titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length}
         volumen={volumenSets(delEntreno)} gimnasio={gimnasioDelPoster(nombreGimnasio(w.gimnasioId))} levels={trabajo.levels} figura={figura}
         hoy={hitos} workoutId={w.id} records={records} nombres={nombres}
-        logros={vitrina?.visible ? logrosDeEntreno(vitrina.vitrina.logros, w.id) : []} />}
+        logros={vitrina?.visible ? logrosDeEntreno(vitrina.vitrina.logros, w.id) : []}
+        ligas={ligas?.visible ? ligasDeImagen(ascensosDeEntreno(ligas.ligas, w.id)) : []} />}
       {error && <ErrorState>{error}</ErrorState>}
       {!editando && pendientes.length > 0 && (
         <section aria-label="Series sin marcar" className="space-y-2">

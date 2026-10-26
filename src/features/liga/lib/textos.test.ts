@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { SetEntry, Workout } from '../../../shared/db/types'
 import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { agruparPorLiga, calcularLigas, divisionDe, type LigaEjercicio } from './liga'
-import { ascensoDestacado, fechaCorta, resumenLiga, textoAscenso, textoAvisoElite, textoDivision, textoPico, textoProgreso, textoSemanas, textoSiguiente } from './textos'
+import { ascensoDestacado, fechaCorta, ligasDeImagen, resumenLiga, textoAscenso, textoAvisoElite, textoDivision, textoPico, textoProgreso, textoSemanas, textoSiguiente } from './textos'
 
 const LUNES = '2026-01-05'
 const semana = (n: number, dia = 0) => addDays(LUNES, (n - 1) * 7 + dia)
@@ -90,6 +90,12 @@ describe('entreno activo y fin de sesión', () => {
       'Empieza en Bronce', 'Semana 2 de 3 en Bronce', 'Sube a Plata', 'Llega a Élite: ciclo completado',
     ])
     expect([a(0, 1), a(1, 2), a(3, 4), a(15, 16)].map(ascensoDestacado)).toEqual([true, false, true, true])
+    // En la imagen: solo los cambios, con el texto corto.
+    expect(ligasDeImagen([a(0, 1), a(1, 2), a(3, 4), a(15, 16)])).toEqual([
+      { exerciseId: 1, liga: 'Bronce', texto: 'Empieza en Bronce', empieza: true },
+      { exerciseId: 1, liga: 'Plata', texto: 'Sube a Plata', empieza: false },
+      { exerciseId: 1, liga: 'Élite', texto: 'Llega a Élite', empieza: false },
+    ])
   })
 })
 
