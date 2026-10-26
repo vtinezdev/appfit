@@ -28,6 +28,13 @@ describe('posicionesArco', () => {
     }
   })
 
+  it.each([5, 6, 7])('con %i secciones, a la órbita habitual quedan a la misma distancia unas de otras', (n) => {
+    const puntos = posicionesArco(n).map(({ x, y }) => ({ x: x * ARCO.rxHabitual, y: y * ARCO.ry }))
+    const huecos = puntos.slice(1).map((p, i) => Math.hypot(p.x - puntos[i].x, p.y - puntos[i].y))
+    // La cuerda entre vecinas apenas cambia: sin la diferencia de más de 40 px que dejaban los ángulos iguales.
+    expect(Math.max(...huecos) - Math.min(...huecos)).toBeLessThan(6)
+  })
+
   it.each([5, 6, 7])('con %i secciones, a 320 px ninguna pisa a otra ni al botón ni sale de la pantalla', (n) => {
     const todas = cajas(n)
     const boton = 30 // radio del botón central (60 px)

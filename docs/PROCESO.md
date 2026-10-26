@@ -2585,3 +2585,11 @@ La fuente `tipicos` se presenta como «Alimentos y platos (AppFit)» en Ajustes 
 **Cómo:** `lib/workout.previasPorSerie` (puro, con tests) empareja calentamientos con calentamientos y efectivas con efectivas; si la rutina pide más, repite la última de su tipo. `setsRepo.seriesUltimaSesion` lee las series realizadas y convencionales de la sesión de la última efectiva realizada (con agarre y gimnasio). `workoutsRepo.crearSeriesObjetivo` lo usa a través de `previaEnGimnasio` (máquinas en otro gimnasio igual que antes) y mantiene los respaldos anteriores. Sin cambios de esquema ni de backup. Documento: `features/gym.md` (objetivos de rutina).
 
 **Verificación:** `npm run test` (2.788) y `npm run build` correctos, con un test de repositorio de 1 calentamiento + 4 series sobre una sesión 20 / 60 / 62,5 / 65 y una serie sin marcar de 90 kg. No se ha probado en el navegador.
+
+## 237. Media luna equilibrada (2026-10-26)
+
+**Qué:** Víctor veía la media luna de secciones descompensada. La órbita es más alta que ancha (210 × 144 px) y los puntos iban a ángulos iguales, así que de Inicio a Perfil había unos 115 px y de Nutrición a Entreno unos 83. Ahora las secciones quedan a la misma distancia unas de otras.
+
+**Cómo:** `app/arco.posicionesArco` reparte los puntos por longitud de curva (muestreada, con la proporción `ARCO.ry / ARCO.rxHabitual`), con los mismos extremos de 174° y 6°. Test nuevo en `arco.test.ts` (5, 6 y 7 secciones con huecos iguales a ±6 px); el de solapes a 320 px sigue pasando. Sin cambios de tokens ni CSS. Documento: `DESIGN-SYSTEM.md` (navegación, que aún decía 168°–12°).
+
+**Verificación:** `npm run test` (2.791) y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320, 375 y 430 px con seis secciones: huecos iguales, sin solapes. No probado con siete (Social necesita cuenta) más que en el test, ni en iPhone físico.
