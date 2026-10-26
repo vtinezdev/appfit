@@ -1016,3 +1016,7 @@ Tortilla de claras con atún al natural, pechuga de pollo a la plancha con espá
 ### Tanda 90 de recetas: bajos en hidratos (9)
 
 Pizza con base de coliflor, arroz de coliflor salteado, espaguetis de calabacín con boloñesa, tortilla de queso y espinacas, pan de almendra bajo en hidratos, hamburguesa envuelta en lechuga, puré de coliflor, huevos al horno en aguacate y muffins de huevo con verduras.
+
+### Tanda 91 de recetas: comida infantil (7)
+
+Pollo empanado con copos de maíz, minipizzas de hojaldre, hamburguesas de merluza caseras, sándwich de crema de cacao y plátano, palomitas de pollo rebozadas, gofres de chocolate caseros y bizcocho de chocolate en taza (mug cake).

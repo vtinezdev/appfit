@@ -50391,5 +50391,216 @@
         "gramos": 60
       }
     ]
+  },
+  {
+    "id": "pollo-copos-maiz",
+    "nombre": "Pollo empanado con copos de maíz, horneado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 91 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 479,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 400
+      },
+      {
+        "ciqual": "32005",
+        "gramos": 80
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "mini-pizzas-hojaldre",
+    "nombre": "Minipizzas de hojaldre, horneadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 91 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 388,
+    "ingredientes": [
+      {
+        "ciqual": "23410",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 80
+      },
+      {
+        "ciqual": "19590",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11035",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "hamburguesas-pescado",
+    "nombre": "Hamburguesas de merluza caseras, a la plancha, cocinadas",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 91 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 432,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 400
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 40
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "sandwich-cacao-platano",
+    "nombre": "Sándwich de crema de cacao y plátano, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 91 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 130,
+    "ingredientes": [
+      {
+        "ciqual": "7200",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31032",
+        "gramos": 20
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "palomitas-pollo",
+    "nombre": "Palomitas de pollo rebozadas, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 91 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 513,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 400
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 30
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "gofres-chocolate",
+    "nombre": "Gofres de chocolate caseros, cocinados",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 91 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 568,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 20
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "mug-cake-chocolate",
+    "nombre": "Bizcocho de chocolate en taza (mug cake), cocinado",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 91 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 176,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 40
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 30
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 15
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 20
+      }
+    ]
   }
 ]
