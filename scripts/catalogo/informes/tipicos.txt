@@ -1,14 +1,15 @@
 Típicos 2026-10-26 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
-Vía 2 (directos): 224; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 300; total: 524
-Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 479; pendientes: 21.
+Vía 2 (directos): 262; excluidos por energía: salvado-avena-cocido
+Vía 3 (recetas): 375; total: 637
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 592; pendientes: 0.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
 Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
 USDA: 57 directos aceptados
 CoFID: 167 directos aceptados
-Reparto por categoría: Carnes: 28; Legumbres: 11; Cereales, arroz y pasta: 9; Frutos secos y semillas: 5; Pan y tostadas: 15; Quesos: 5; Cereales de desayuno y barritas: 2; Patatas y tubérculos: 6; Verduras y hortalizas: 1; Pescados: 4; Platos preparados: 337; Galletas, bollería y pasteles: 29; Salsas y condimentos: 20; Mariscos: 2; Frutas: 10; Dulces y chocolate: 11; Bebidas: 11; Bebidas alcohólicas: 12; Yogures y postres lácteos: 6
+AppFit: 38 directos aceptados
+Reparto por categoría: Carnes: 36; Legumbres: 12; Cereales, arroz y pasta: 12; Frutos secos y semillas: 5; Pan y tostadas: 20; Quesos: 19; Cereales de desayuno y barritas: 3; Patatas y tubérculos: 9; Verduras y hortalizas: 8; Pescados: 12; Platos preparados: 368; Galletas, bollería y pasteles: 35; Salsas y condimentos: 20; Mariscos: 2; Frutas: 11; Embutidos y fiambres: 14; Snacks salados: 1; Bebidas: 15; Dulces y chocolate: 12; Bebidas alcohólicas: 12; Yogures y postres lácteos: 9; Huevos: 2
 Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 34 referencias individuales leídas de RAG/RTVE. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.
 Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.
@@ -19,6 +20,8 @@ Lote de pizzas: 14 directos (13 USDA y 1 CoFID). Hawaiana y variantes de masa/co
 Lote variado: 30 directos CoFID (10 frutas, 6 panes, 7 verduras/guarniciones, 3 mar/pescado, 2 crepes sin relleno y 2 mezclas de cacahuetes). Pan de ajo y salmón en costra pendientes de confirmar el estado final, registrados sin fuente. Sin rendimientos nuevos AppFit ni alias nuevos CIQUAL. Las 255 filas anteriores permanecen intactas; descartes en auditoria-ciqual.txt.
 Lote manual de típicos españoles (2026-10-26): 110 recetas AppFit calculadas desde CIQUAL (legumbres, arroces, huevos, carnes, pescados, ensaladas, bocadillos, salsas, dulces y bebidas), sin referencia individual. Admiten conservas, envasados y fiambres como ingredientes y cualquier categoría AppFit. Avisos energéticos de bebidas con alcohol esperados (CIQUAL no guarda el alcohol). Las 285 filas anteriores permanecen intactas.
 Segunda tanda manual (2026-10-26): 129 recetas AppFit más (cuchara, arroces y pasta, huevos, carnes, pescados, tapas y bocadillos, verduras, salsas, postres y bebidas). Caballa al horno descartada por cubrirla CIQUAL 26019. Las 395 filas anteriores permanecen intactas.
+Tercera tanda manual (2026-10-26): 75 recetas AppFit (31 básicos a la española y 44 platos regionales, dulces y bebidas).
+Alimentos sueltos AppFit (2026-10-26): valores típicos estimados a partir de etiquetado de productos y webs nutricionales, NO fuente oficial; URL consultadas en directos.csv. Embutidos, cortes ibéricos, quesos españoles, panes, aperitivos y horchata.
 Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.
 
 AVISOS calidad.ts:
@@ -47,42 +50,13 @@ offes: torta-aceite → 8410637115671 Tortas de Aceite (casi)
 SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):
 sin fuente: morro de cerdo cocido
 sin fuente: carrillada de cerdo
-sin fuente: secreto ibérico
-sin fuente: presa ibérica
-sin fuente: pluma ibérica
 sin fuente: lagarto ibérico
-sin fuente: torreznos
-sin fuente: chicharrones
 sin fuente: papada de cerdo cocida
 sin fuente: criadillas
-sin fuente: chorizo fresco
-sin fuente: salchichón español
-sin fuente: lomo embuchado
-sin fuente: sobrasada
-sin fuente: fuet
-sin fuente: cecina
-sin fuente: morcilla de Burgos
 sin fuente: morcilla de cebolla
-sin fuente: butifarra
-sin fuente: botillo
-sin fuente: jamón ibérico de bellota
 sin fuente: cabeza de jabalí
-sin fuente: manchego semicurado
-sin fuente: manchego curado
 sin fuente: manchego viejo
-sin fuente: tetilla
-sin fuente: cabrales
-sin fuente: idiazábal
-sin fuente: mahón
-sin fuente: torta del Casar
-sin fuente: queso fresco de Burgos
-sin fuente: San Simón
-sin fuente: majorero
-sin fuente: zamorano
 sin fuente: paella de marisco
 sin fuente: arroz negro
-sin fuente: mollete
-sin fuente: picos
-sin fuente: regañás
 sin fuente: pan de ajo y hierbas listo para consumir (CoFID retail sin estado tras calentar confirmado)
 sin fuente: salmón en costra de masa cocinado (CoFID retail sin estado tras cocinar confirmado)

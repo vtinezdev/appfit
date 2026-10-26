@@ -2612,3 +2612,5 @@ La fuente `tipicos` se presenta como «Alimentos y platos (AppFit)» en Ajustes 
 
 **Segunda tanda (mismo día):** Víctor pide seguir ampliando. 129 recetas más con el mismo método (395 → 524 filas): cuchara, arroces y pasta, huevos, carnes, pescados, tapas y bocadillos, verduras, salsas, postres y bebidas. Seis búsquedas más en la regresión. Sin cambios de código. Detalle en `tipicos/LEEME.md` § Segunda tanda.
 
+**Tercera tanda y alimentos sueltos (mismo día):** Víctor pide seguir y añadir alimentos sueltos. 75 recetas más (31 básicos a la española con aceite de oliva, como huevo frito o pechuga a la plancha, y 44 platos) y 38 alimentos sueltos (embutidos, cortes ibéricos, quesos españoles, panes, aperitivos, horchata) con una fuente nueva `AppFit`: el entorno no llega a USDA/CoFID/CIQUAL y BEDCA no permite reproducir su tabla, así que Víctor acepta valores no oficiales. Son valores típicos estimados de varias etiquetas y webs (búsqueda web), con las URL en `directos.csv`; `leerDirectos` acepta `AppFit` solo con `fuentes=` y el validador exige coherencia energética. Referencias en la app avisa de que son orientativos. 524 → 637 filas.
+

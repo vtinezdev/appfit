@@ -30,7 +30,7 @@ try {
     `Referencias RAG localizadas: ${referencias.referencias.length}; NO cuentan como filas publicadas.`,
     'Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.',
     'Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.',
-    ...['USDA', 'CoFID'].map(fuente => `${fuente}: ${directos.filter(d => d.fuente === fuente && !r.excluidos.includes(d.fila[0])).length} directos aceptados`),
+    ...['USDA', 'CoFID', 'AppFit'].map(fuente => `${fuente}: ${directos.filter(d => d.fuente === fuente && !r.excluidos.includes(d.fila[0])).length} directos aceptados`),
     'Reparto por categoría: ' + [...new Set(r.paquete.filas.map(f => f[3]))].map(c => `${c}: ${r.paquete.filas.filter(f => f[3] === c).length}`).join('; '),
     'Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 34 referencias individuales leídas de RAG/RTVE. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.',
     'Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.',
@@ -42,6 +42,8 @@ try {
     'Lote variado: 30 directos CoFID (10 frutas, 6 panes, 7 verduras/guarniciones, 3 mar/pescado, 2 crepes sin relleno y 2 mezclas de cacahuetes). Pan de ajo y salmón en costra pendientes de confirmar el estado final, registrados sin fuente. Sin rendimientos nuevos AppFit ni alias nuevos CIQUAL. Las 255 filas anteriores permanecen intactas; descartes en auditoria-ciqual.txt.',
     'Lote manual de típicos españoles (2026-10-26): 110 recetas AppFit calculadas desde CIQUAL (legumbres, arroces, huevos, carnes, pescados, ensaladas, bocadillos, salsas, dulces y bebidas), sin referencia individual. Admiten conservas, envasados y fiambres como ingredientes y cualquier categoría AppFit. Avisos energéticos de bebidas con alcohol esperados (CIQUAL no guarda el alcohol). Las 285 filas anteriores permanecen intactas.',
     'Segunda tanda manual (2026-10-26): 129 recetas AppFit más (cuchara, arroces y pasta, huevos, carnes, pescados, tapas y bocadillos, verduras, salsas, postres y bebidas). Caballa al horno descartada por cubrirla CIQUAL 26019. Las 395 filas anteriores permanecen intactas.',
+    'Tercera tanda manual (2026-10-26): 75 recetas AppFit (31 básicos a la española y 44 platos regionales, dulces y bebidas).',
+    'Alimentos sueltos AppFit (2026-10-26): valores típicos estimados a partir de etiquetado de productos y webs nutricionales, NO fuente oficial; URL consultadas en directos.csv. Embutidos, cortes ibéricos, quesos españoles, panes, aperitivos y horchata.',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',
@@ -57,8 +59,8 @@ try {
   writeFileSync(join(salida, archivo), JSON.stringify(r.paquete))
   manifest.fuentes = [...manifest.fuentes.filter((f: { id: string }) => f.id !== 'tipicos'), {
     id: 'tipicos', version, archivo, filas: r.paquete.filas.length,
-    licencia: 'Licence Ouverte Etalab 2.0 (CIQUAL); CC0 (USDA); Open Government Licence v3.0 (CoFID); MIT (formulaciones AppFit)',
-    atribucion: 'Nutrientes calculados a partir de ANSES, Table Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Valores directos: USDA FoodData Central, SR Legacy April 2018, CC0 (https://fdc.nal.usda.gov). Contiene información del sector público del Reino Unido bajo Open Government Licence v3.0: Public Health England, McCance and Widdowson’s Composition of Foods Integrated Dataset 2021 (https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid). Formulaciones y rendimientos de diseño: AppFit. Referencias culinarias en scripts/catalogo/tipicos/recetas.json.',
+    licencia: 'Licence Ouverte Etalab 2.0 (CIQUAL); CC0 (USDA); Open Government Licence v3.0 (CoFID); MIT (formulaciones y valores de referencia AppFit)',
+    atribucion: 'Nutrientes calculados a partir de ANSES, Table Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Valores directos: USDA FoodData Central, SR Legacy April 2018, CC0 (https://fdc.nal.usda.gov). Contiene información del sector público del Reino Unido bajo Open Government Licence v3.0: Public Health England, McCance and Widdowson’s Composition of Foods Integrated Dataset 2021 (https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid). Formulaciones y rendimientos de diseño: AppFit. Alimentos sueltos marcados como AppFit: valores típicos estimados por AppFit a partir de etiquetado de productos y webs nutricionales (no fuente oficial; URL en scripts/catalogo/tipicos/directos.csv). Referencias culinarias en scripts/catalogo/tipicos/recetas.json.',
   }]
   writeFileSync(join(salida, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n')
   for (const f of readdirSync(salida)) if (/^tipicos-.*\.json$/.test(f) && f !== archivo) unlinkSync(join(salida, f))

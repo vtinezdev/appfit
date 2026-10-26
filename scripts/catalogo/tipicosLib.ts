@@ -26,7 +26,9 @@ export function leerDirectos(csv: string): Directo[] {
   return lineas.filter(l => l.trim()).map((l, i) => {
     const c = l.split(';'); exigir(c.length === 15, `CSV fila ${i + 2}: se esperaban 15 columnas`)
     const [id, nombre, aliases, categoria, fuente, idFuente] = c
-    exigir(['CIQUAL', 'USDA', 'CoFID', 'Frida'].includes(fuente), `Fuente no autorizada: ${fuente}`)
+    // AppFit = valor típico estimado de etiquetas y webs (no oficial); exige las URL consultadas en notas.
+    exigir(['CIQUAL', 'USDA', 'CoFID', 'Frida', 'AppFit'].includes(fuente), `Fuente no autorizada: ${fuente}`)
+    exigir(fuente !== 'AppFit' || /(?:^|\|)fuentes=https?:\/\//.test(c[14]), `Faltan las fuentes consultadas: ${id}`)
     exigir(idFuente.trim() && /version=.+/.test(c[14]) && /original=.+/.test(c[14]), `Falta id, versión o nombre original: ${id}`)
     const alias = aliases ? aliases.split('|') : []; metadatos(id, nombre, categoria, alias)
     const numero = (s: string, obligatorio: boolean) => {

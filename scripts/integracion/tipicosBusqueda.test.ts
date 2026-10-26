@@ -54,6 +54,12 @@ it.each([
   ['croquetas de atún', 'croquetas-atun'],
   ['gin tonic', 'gin-tonic'],
   ['tarta de la abuela', 'tarta-abuela'],
+  ['huevo frito', 'huevo-frito-aove'],
+  ['serranito', 'serranito'],
+  ['sobrasada', 'sobrasada'],
+  ['queso manchego curado', 'queso-manchego-curado'],
+  ['secreto ibérico', 'secreto-iberico'],
+  ['horchata', 'horchata-chufa'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)

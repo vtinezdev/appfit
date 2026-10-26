@@ -39,6 +39,8 @@ describe('típicos', () => {
     expect(d.fila[2]).toBe('Test pork')
     expect(() => leerDirectos(header + 'x;y')).toThrow()
     expect(() => leerDirectos(header + 'x;X, crudo;;Carnes;BEDCA;1;100;20;0;2;;;;;version=2020|original=X')).toThrow()
+    expect(() => leerDirectos(header + 'x;X, crudo;;Carnes;AppFit;web;100;20;0;2;;;;;version=2026|original=X')).toThrow()
+    expect(leerDirectos(header + 'x;X, crudo;;Carnes;AppFit;web;100;20;0;2;;;;;version=2026|original=X|fuentes=https://a.es/x')[0].fuente).toBe('AppFit')
   })
   it('detecta duplicados normalizados y casi iguales sin confundir crudo con cocido', () => {
     const f = ciqual.filas[0]

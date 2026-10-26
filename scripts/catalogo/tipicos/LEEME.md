@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-524 filas: 224 valores directos (57 USDA y 167 CoFID) y 300 recetas CIQUAL
-(61 hasta el 25 de octubre y 239 de las dos tandas manuales de típicos
-españoles del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+637 filas: 262 valores directos (57 USDA, 167 CoFID y 38 valores de referencia
+AppFit de alimentos sueltos) y 375 recetas CIQUAL (61 hasta el 25 de octubre y
+314 de las tres tandas manuales de típicos españoles del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -458,4 +458,63 @@ Se descarta la caballa al horno: CIQUAL 26019 ya la cubre. Casi duplicados
 para la fase de fusión: tortas de aceite (OFF) y los platos parecidos entre
 tandas (pollo en pepitoria y gallina en pepitoria, arroz con leche entera y
 semidesnatada).
+
+### Tercera tanda (75 recetas más)
+
+637 filas en total con los alimentos sueltos de la sección siguiente; las 524
+anteriores intactas.
+
+- Básicos a la española (31): huevo frito o a la plancha con aceite de oliva;
+  nombres al estilo CIQUAL («Pollo, pechuga sin piel con aceite de oliva, a la
+  plancha») para que el básico CIQUAL siga primero al buscar «a la plancha»;
+  pechuga de pollo o pavo, ternera, lomo, salmón, merluza, bacalao, lenguado,
+  gallo y mero a la plancha (ración de 150 g crudos, 5 g de aceite); jureles y
+  salmonetes; arroz blanco e integral, pasta y patata cocidos con aceite; puré
+  con aceite; patatas fritas en aceite de oliva; parrillada, brócoli, judías,
+  espinacas, berenjena y calabacín; tostadas integrales; yogur con miel o
+  nueces y avena con leche y plátano. Usan la categoría del alimento base
+  (Huevos, Carnes, Pescados…), no «Platos preparados».
+- Platos (44): cordero asado y al chilindrón, jabalí, ciervo y liebre,
+  ternera a la jardinera, redondo, solomillo a la pimienta, vieiras, arroz con
+  bogavante, txangurro, pulpo a la brasa, gambas al pil pil, cóctel de gambas,
+  tortillitas de camarones, buñuelos de bacalao fresco, ensaladas (murciana,
+  canónigos, rúcula, endibias), zarangollo, samfaina, mazamorra, cocido
+  montañés, empanada de carne, hornazo, coca de verduras, pepito y serranito;
+  dulces (quesada, bizcocho borracho, orejas, huesos de santo, tejas,
+  carquiñolis, tarta de manzana, crema pastelera, manzana asada) y tres bebidas.
+
+Sustituciones: pierna de cordero por lechazo, cangrejo genérico por centollo,
+gamba por camarón, queso fresco untable por queso pasiego. Los porcentajes de
+aceite retenido son estimaciones AppFit.
+
+## Alimentos sueltos con valor de referencia AppFit (2026-10-26)
+
+Víctor pide añadir alimentos sueltos aunque no haya fuente oficial: el
+entorno no llega a USDA, CoFID ni CIQUAL y BEDCA no permite reproducir su
+tabla. Se añaden 38 filas en directos.csv con fuente `AppFit`: un **valor
+típico** por 100 g elegido por AppFit tras consultar varias etiquetas de
+productos y webs nutricionales (Open Food Facts, fichas de fabricantes y
+tiendas, bases colaborativas). No se copia una base de datos: se toma la
+mediana razonable de varias etiquetas, se descartan los datos incoherentes y
+se exige coherencia energética (el validador lo comprueba). Las URL
+consultadas quedan en la columna de notas (`fuentes=`); el lector de
+directos.csv rechaza una fila AppFit sin ellas. Lista:
+`../informes/tipicos-sueltos-2026-10-26.csv`.
+
+- Embutidos (15): sobrasada, fuet, salchichón y chorizo ibéricos, lomo
+  embuchado, cecina, jamón ibérico de bellota, morcilla de Burgos, butifarra,
+  chistorra, chorizo fresco, botillo, torreznos y chicharrón de Cádiz.
+- Cortes ibéricos crudos (3): secreto, presa y pluma.
+- Quesos (14): manchego curado y semicurado, tetilla, Cabrales, Idiazábal,
+  Mahón, torta del Casar, fresco de Burgos y su versión 0 %, San Simón,
+  majorero, zamorano, tierno de mezcla y requesón.
+- Otros (6): picos, regañás, mollete, maíz frito (kikos), altramuces en
+  salmuera, pimientos del piquillo y horchata de chufa.
+
+Son orientativos: las etiquetas de una misma categoría varían mucho
+(torreznos, chicharrones y morcilla de Burgos, sobre todo), y la sal queda
+vacía cuando las fuentes no coincidían. Referencias en la app lo explica. El
+vermut no entra: su energía viene del alcohol y el validador lo excluiría.
+Siguen pendientes, en sin-fuente.json, manchego viejo, morcilla de cebolla,
+papada, morro, criadillas y otros sin datos suficientes.
 
