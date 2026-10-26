@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1181 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 766 recetas CIQUAL (61 hasta el 25 de octubre y
-705 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1194 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 779 recetas CIQUAL (61 hasta el 25 de octubre y
+718 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -732,3 +732,7 @@ Fuente AppFit (URLs en notas): salsas barbacoa, miel y mostaza y de queso chedda
 ### Sueltos de mercado poco comunes en CIQUAL (6)
 
 Fuente AppFit (URLs en notas): pimientos de Padrón, chufa seca, coquinas, lichi, alcaparras en vinagre y grelos cocidos. Se descartan el cardo (CIQUAL ya lo trae) y carabinero, quisquilla, pichón y ñora por falta de valores completos y coherentes.
+
+### Vigésima tanda de recetas: dulces festivos y regionales (13)
+
+Bartolillos, flores de Semana Santa, mantecadas de Astorga, rosquillas listas, fartons, pan de Calatrava, carbayones, roscos fritos de anís, hojaldrinas, compota de Navidad, turrón de coco, trufas de chocolate y tarta de queso vasca. Ocho búsquedas más en la regresión (arroz negro, risotto de setas, pizza margarita, pollo a la naranja, salsa barbacoa, pimientos de Padrón, cuajada, tarta de queso vasca).

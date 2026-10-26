@@ -704,3 +704,16 @@ quesadilla-pollo;Quesadilla de pollo, cocinada;Platos preparados;;270,7;16,6;22,
 burrito-pollo;Burrito de pollo con arroz y alubias, cocinado;Platos preparados;;192,1;11,8;21,2;6,1;1100;7815:240 36017:300 9100:100 18066:200 20524:150 12726:80 20276:100 20034:80 17270:15 11017:3
 tacos-pollo;Tacos de pollo con aguacate, cocinados;Platos preparados;;173,1;12,4;16,1;6;720;7815:200 36017:300 20034:80 20276:100 20031:50 13004:60 17270:10 11042:2 11017:3
 pan-bao-cerdo;Pan bao de cerdo, cocinado;Platos preparados;bao;214,2;11,9;30,6;4,6;600;9440:200 18066:110 31016:15 11010:6 17270:10 28473:250 11104:20 31008:15 20019:50
+bartolillos;Bartolillos rellenos de crema, fritos;Galletas, bollería y pasteles;;340,4;4,9;36,9;18,6;760;9440:200 16400:40 5215:50 18066:30 19023:300 22002:60 31016:90 9510:25 17440:80
+flores-fritas;Flores de Semana Santa, fritas;Galletas, bollería y pasteles;flores manchegas;364,4;6,6;42;18,6;650;9440:250 22000:100 19023:250 31016:70 17440:100
+mantecadas-astorga;Mantecadas de Astorga, horneadas;Galletas, bollería y pasteles;;458,1;6,1;49,3;26;900;9440:250 31016:250 22000:250 16400:250 11046:5
+rosquillas-listas;Rosquillas listas de San Isidro, horneadas;Galletas, bollería y pasteles;rosquillas de santa clara;395,9;7,5;63,4;12;650;9440:300 22000:150 31016:180 17270:60 11066:5 11046:8 22001:30 2007:5
+fartons;Fartons, horneados;Galletas, bollería y pasteles;;366;6,9;60,4;10,2;770;9440:400 19023:150 31016:150 22000:100 17440:60 11010:20
+pan-calatrava;Pan de Calatrava, cuajado;Yogures y postres lácteos;;158,8;5,6;22,2;5,3;1450;19023:1000 22000:300 31016:200 24001:100
+carbayones;Carbayones, horneados;Galletas, bollería y pasteles;;454,7;8,6;53;22;700;23410:300 15041:150 31016:230 22000:100 2007:10
+roscos-fritos-anis;Roscos fritos de anís, fritos;Galletas, bollería y pasteles;rosquillas fritas;458,9;6,7;54,4;23,3;760;9440:400 22000:100 31016:100 19023:100 17270:80 17440:80 11066:5 11046:8
+hojaldrinas;Hojaldrinas, horneadas;Galletas, bollería y pasteles;;480,6;4,6;51,9;27;470;9440:250 16520:125 5215:60 2013:30 31016:50
+compota-navidad;Compota de Navidad con frutas secas y vino, cocida;Dulces y chocolate;compota navideña;131,9;0,9;27,8;0,3;1700;13042:150 13001:150 13013:100 13046:100 13396:300 13037:300 5214:300 31016:100 11025:3 18066:500
+turron-coco-casero;Turrón de coco casero, listo para consumir;Dulces y chocolate;;505,8;5,4;45;32,3;600;15007:250 31016:250 22002:100 18066:50
+trufas-chocolate;Trufas de chocolate caseras, listas para consumir;Dulces y chocolate;;489,4;5,7;31,6;36,3;345;31085:200 19417:100 16400:30 18100:20
+tarta-queso-vasca;Tarta de queso vasca (estilo La Viña), horneada;Galletas, bollería y pasteles;tarta de queso la viña|cheesecake vasca;284,4;6;19,3;20,3;1900;12068:1000 31016:300 22000:300 19417:500 9440:20

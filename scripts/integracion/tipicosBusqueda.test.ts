@@ -83,6 +83,14 @@ it.each([
   ['kebab', 'kebab-pollo-pita'],
   ['colacao', 'leche-cacao-soluble'],
   ['galletas maría', 'galletas-maria'],
+  ['arroz negro', 'arroz-negro'],
+  ['risotto de setas', 'risotto-setas'],
+  ['pizza margarita', 'pizza-margarita-casera'],
+  ['pollo a la naranja', 'pollo-naranja'],
+  ['salsa barbacoa', 'salsa-barbacoa'],
+  ['pimientos de padrón', 'pimientos-padron-crudos'],
+  ['cuajada', 'cuajada-oveja'],
+  ['tarta de queso vasca', 'tarta-queso-vasca'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)
