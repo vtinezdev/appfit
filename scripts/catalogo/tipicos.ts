@@ -44,6 +44,7 @@ try {
     'Segunda tanda manual (2026-10-26): 129 recetas AppFit más (cuchara, arroces y pasta, huevos, carnes, pescados, tapas y bocadillos, verduras, salsas, postres y bebidas). Caballa al horno descartada por cubrirla CIQUAL 26019. Las 395 filas anteriores permanecen intactas.',
     'Tercera tanda manual (2026-10-26): 75 recetas AppFit (31 básicos a la española y 44 platos regionales, dulces y bebidas).',
     'Alimentos sueltos AppFit (2026-10-26): valores típicos estimados a partir de etiquetado de productos y webs nutricionales, NO fuente oficial; URL consultadas en directos.csv. Embutidos, cortes ibéricos, quesos españoles, panes, aperitivos y horchata.',
+    'Segunda tanda de alimentos sueltos AppFit: 30 más (embutidos, quesos, conservas de mar, dulces navideños y bollería envasados, snacks y miel de caña). Pipas descartadas: CIQUAL 15045 las cubre.',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',

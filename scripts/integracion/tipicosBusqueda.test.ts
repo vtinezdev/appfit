@@ -60,6 +60,9 @@ it.each([
   ['queso manchego curado', 'queso-manchego-curado'],
   ['secreto ibérico', 'secreto-iberico'],
   ['horchata', 'horchata-chufa'],
+  ['chorizo de pamplona', 'chorizo-pamplona'],
+  ['mojama', 'mojama'],
+  ['alfajor', 'alfajor-medina'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)

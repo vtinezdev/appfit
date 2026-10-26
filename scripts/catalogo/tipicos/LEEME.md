@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-637 filas: 262 valores directos (57 USDA, 167 CoFID y 38 valores de referencia
+667 filas: 292 valores directos (57 USDA, 167 CoFID y 68 valores de referencia
 AppFit de alimentos sueltos) y 375 recetas CIQUAL (61 hasta el 25 de octubre y
 314 de las tres tandas manuales de típicos españoles del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
@@ -515,6 +515,29 @@ Son orientativos: las etiquetas de una misma categoría varían mucho
 (torreznos, chicharrones y morcilla de Burgos, sobre todo), y la sal queda
 vacía cuando las fuentes no coincidían. Referencias en la app lo explica. El
 vermut no entra: su energía viene del alcohol y el validador lo excluiría.
-Siguen pendientes, en sin-fuente.json, manchego viejo, morcilla de cebolla,
-papada, morro, criadillas y otros sin datos suficientes.
+Siguen pendientes, en sin-fuente.json, papada cocida, morro, criadillas y
+otros sin datos suficientes.
+
+### Segunda tanda de alimentos sueltos (30)
+
+Mismo método; 667 filas en total, las 637 anteriores intactas.
+
+- Embutidos (7): lacón cocido, morcilla asturiana, chorizo de Pamplona,
+  longaniza, cabeza de jabalí, panceta y papada ibéricas curadas.
+- Quesos (6): manchego viejo, cabra semicurado, oveja curado, Arzúa-Ulloa,
+  Valdeón y semicurado de mezcla.
+- Conservas de mar (6, peso escurrido): berberechos y navajas al natural,
+  bonito del norte y ventresca en aceite de oliva, calamares en su tinta y
+  mojama.
+- Dulces y bollería envasados (7): turrones de Jijona y de Alicante, polvorón
+  de Estepa, sobao pasiego, napolitana de chocolate, ensaimada y alfajor de
+  Medina Sidonia. Conviven con las recetas caseras del mismo nombre: son
+  versiones de etiqueta comercial (para la fase de fusión).
+- Otros (4): cortezas de cerdo, patatas de bolsa en aceite de oliva,
+  rosquilletas y miel de caña.
+
+No se añaden las pipas (CIQUAL 15045, semilla de girasol tostada y salada) ni
+magdalenas, palmeras, cuajada, flan o mazapán envasados: ya están en CIQUAL.
+La morcilla asturiana sigue las etiquetas asturianas (muy grasas); otras
+morcillas de cebolla comerciales son mucho más magras y quedan sin fila.
 
