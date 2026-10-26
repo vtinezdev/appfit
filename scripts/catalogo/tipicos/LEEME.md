@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1274 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 859 recetas CIQUAL (61 hasta el 25 de octubre y
-798 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1289 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 874 recetas CIQUAL (61 hasta el 25 de octubre y
+813 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -756,3 +756,7 @@ Patatas (asadas con piel, gratinadas, puré con mantequilla, duquesa, croquetas 
 ### Vigesimoquinta tanda de recetas: salsas y aliños caseros (14)
 
 Chimichurri, tomate frito casero, salsas caseras (queso azul, pimienta, setas con nata, miel y mostaza, cacahuete, rosa, piquillos), ajada gallega, vinagreta de mostaza y miel, aliño de aceite y limón, caramelo líquido y picada catalana. Se omiten la mayonesa y el pesto caseros (ya estaban) y las salsas que trae CIQUAL (bechamel, pesto, holandesa, tártara, barbecue, César…). Corrección: la pizza barbacoa de la decimonovena tanda usa ahora la salsa barbecue de CIQUAL en vez de la aproximación con kétchup y miel; los sueltos AppFit «Salsa barbacoa» y «Salsa César» quedan como candidatos a fusionar con «Salsa barbecue» y «Salsa Cásar» de CIQUAL.
+
+### Vigesimosexta tanda de recetas: cocina latinoamericana (15)
+
+Empanadas argentinas, lomo saltado, arroz chaufa, causa limeña, ají de gallina, tequeños, salchipapas, pupusas, huevos rancheros, chilaquiles, tacos al pastor, gallo pinto, ropa vieja cubana, yuca frita y alfajores de maicena. Sin ají amarillo en CIQUAL: se omite en la causa y se sustituye por cúrcuma en el ají de gallina.
