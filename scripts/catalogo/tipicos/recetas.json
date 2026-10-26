@@ -37220,5 +37220,464 @@
         "gramos": 35
       }
     ]
+  },
+  {
+    "id": "paella-mixta",
+    "nombre": "Paella mixta de carne y marisco, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2300,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 400
+      },
+      {
+        "ciqual": "36016",
+        "gramos": 300
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10026",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10001",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20084",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.2
+      }
+    ]
+  },
+  {
+    "id": "arroz-verduras-gambas",
+    "nombre": "Arroz con verduras y gambas, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1750,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 300
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20052",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20061",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 900
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.2
+      }
+    ]
+  },
+  {
+    "id": "arroz-pato",
+    "nombre": "Arroz con pato y setas, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1950,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 400
+      },
+      {
+        "ciqual": "36204",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20010",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "arroz-sepia-alcachofas",
+    "nombre": "Arroz con sepia y alcachofas, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1700,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 300
+      },
+      {
+        "ciqual": "10016",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20052",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 900
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.2
+      }
+    ]
+  },
+  {
+    "id": "arroz-caldoso-marisco",
+    "nombre": "Arroz caldoso de marisco, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2500,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 300
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10017",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10001",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1600
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "arroz-bacalao",
+    "nombre": "Arroz con bacalao y coliflor, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Bacalao fresco CIQUAL como desalado.",
+    "pesoFinalG": 1600,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 300
+      },
+      {
+        "ciqual": "26043",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20016",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 900
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.2
+      }
+    ]
+  },
+  {
+    "id": "arroz-setas-costillas",
+    "nombre": "Arroz con setas y costillas, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1800,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 300
+      },
+      {
+        "ciqual": "28400",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20010",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "arroz-magro-verduras",
+    "nombre": "Arroz con magro y verduras, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1600,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 300
+      },
+      {
+        "ciqual": "28473",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20061",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 900
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      },
+      {
+        "ciqual": "11039",
+        "gramos": 0.2
+      }
+    ]
+  },
+  {
+    "id": "arroz-salchichas-tomate",
+    "nombre": "Arroz con salchichas y tomate, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 200
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 400
+      },
+      {
+        "ciqual": "30051",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "arroz-milanesa",
+    "nombre": "Arroz a la milanesa con jamón y guisantes, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1150,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 300
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 600
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20084",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 30
+      },
+      {
+        "ciqual": "12120",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "arroz-atun-tomate",
+    "nombre": "Arroz con atún y tomate, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 500
+      },
+      {
+        "ciqual": "26245",
+        "gramos": 160
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      }
+    ]
   }
 ]

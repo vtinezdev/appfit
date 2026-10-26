@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1510 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 1095 recetas CIQUAL (61 hasta el 25 de octubre y
-1034 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1521 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 1106 recetas CIQUAL (61 hasta el 25 de octubre y
+1045 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -820,3 +820,7 @@ Tápers (pavo con arroz integral, pollo al curry, garbanzos con atún, lentejas 
 ### Cuadragesimoprimera tanda de recetas: verduras rellenas y gratinados (12)
 
 Lasañas de berenjena con carne y de calabacín con pollo, calabacines, tomates, pimientos, alcachofas y cebollas rellenos, brócoli, puerros, espinacas y coliflor gratinados con bechamel y endibias gratinadas (con pechuga de pavo en lonchas en lugar de jamón cocido).
+
+### Cuadragesimosegunda tanda de recetas: más arroces (11)
+
+Paella mixta, arroces con verduras y gambas, con pato y setas, con sepia y alcachofas, caldoso de marisco, de bacalao y coliflor, con setas y costillas, con magro y verduras, con salchichas y tomate, a la milanesa y con atún y tomate.
