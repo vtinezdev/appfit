@@ -46475,5 +46475,197 @@
         "gramos": 100
       }
     ]
+  },
+  {
+    "id": "platanos-flambeados",
+    "nombre": "Plátanos flambeados, cocinados",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 75 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 434,
+    "ingredientes": [
+      {
+        "ciqual": "13005",
+        "gramos": 400
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 30
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 40
+      },
+      {
+        "ciqual": "1004",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "compota-frutos-bosque",
+    "nombre": "Compota de frutos del bosque, cocida",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 75 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 493,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 200
+      },
+      {
+        "ciqual": "13015",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13028",
+        "gramos": 150
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 80
+      }
+    ]
+  },
+  {
+    "id": "mermelada-fresa-casera",
+    "nombre": "Mermelada de fresa casera, cocida",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 75 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1148,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 500
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "mermelada-naranja-casera",
+    "nombre": "Mermelada de naranja casera, cocida",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 75 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1120,
+    "ingredientes": [
+      {
+        "ciqual": "13034",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 600
+      }
+    ]
+  },
+  {
+    "id": "dulce-membrillo-casero",
+    "nombre": "Dulce de membrillo casero, cocido",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 75 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1260,
+    "ingredientes": [
+      {
+        "ciqual": "13010",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 800
+      }
+    ]
+  },
+  {
+    "id": "crumble-frutos-rojos",
+    "nombre": "Crumble de frutos rojos, horneado",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 75 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 808,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 300
+      },
+      {
+        "ciqual": "13015",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13028",
+        "gramos": 150
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 120
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 80
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 100
+      },
+      {
+        "ciqual": "9310",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "manzana-caramelizada",
+    "nombre": "Manzana caramelizada, cocinada",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 75 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 456,
+    "ingredientes": [
+      {
+        "ciqual": "13396",
+        "gramos": 500
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 30
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "ensalada-citricos",
+    "nombre": "Ensalada de cítricos con miel y menta, lista para consumir",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 75 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 723,
+    "ingredientes": [
+      {
+        "ciqual": "13034",
+        "gramos": 300
+      },
+      {
+        "ciqual": "13024",
+        "gramos": 200
+      },
+      {
+        "ciqual": "13040",
+        "gramos": 200
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11027",
+        "gramos": 3
+      }
+    ]
   }
 ]

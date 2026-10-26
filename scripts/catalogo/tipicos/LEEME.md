@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1811 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1389 recetas CIQUAL (61 hasta el 25 de octubre y
-1328 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1819 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1397 recetas CIQUAL (61 hasta el 25 de octubre y
+1336 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -952,3 +952,7 @@ Tarta de almendra y naranja sin harina, tarta de coco, tarta de chocolate sin ho
 ### Tanda 74 de recetas: galletas y pastas (9)
 
 Galletas de avena y plátano, galletas de jengibre, pastas de té con almendra, galletas de limón, galletas de coco, galletas de canela, galletas de crema de cacahuete, bizcochos de soletilla caseros y galletas saladas de queso.
+
+### Tanda 75 de recetas: dulces de fruta (8)
+
+Plátanos flambeados, compota de frutos del bosque, mermelada de fresa casera, mermelada de naranja casera, dulce de membrillo casero, crumble de frutos rojos, manzana caramelizada y ensalada de cítricos con miel y menta.
