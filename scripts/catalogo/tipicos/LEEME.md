@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1094 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
-AppFit de alimentos sueltos) y 694 recetas CIQUAL (61 hasta el 25 de octubre y
-633 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1115 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
+AppFit de alimentos sueltos) y 715 recetas CIQUAL (61 hasta el 25 de octubre y
+654 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -708,3 +708,7 @@ Tostadas (aceite y azúcar, mantequilla, mantequilla y azúcar, crema de cacao, 
 ### Decimoquinta tanda de recetas: pescados y mariscos (21)
 
 Básicos a la plancha con aceite de oliva (dorada, lubina, rape, sardinas, caballa, trucha, pez espada), chipirones a la plancha, calamares a la andaluza, gambas a la gabardina, sepia con guisantes, pastel de cabracho, lenguado a la meunière, salmón teriyaki, tataki de atún, tartar de salmón, caballa al horno y en escabeche, bacalao al horno con patatas, croquetas de bacalao y arroz con calamares.
+
+### Decimosexta tanda de recetas: carnes (21)
+
+Básicos a la plancha con aceite de oliva (chuleta de cerdo, contramuslo de pollo, conejo), pollo (a la mostaza, a la naranja, asado al limón, nuggets caseros), cerdo (lomo con champiñones y nata, solomillo a la mostaza y al Pedro Ximénez, costillas a la barbacoa, salchichas frescas al vino y con tomate, oreja a la plancha), ternera (filete empanado, hamburguesa con queso sin pan, salteado con verduras, fajitas, steak tartar), riñones al jerez y pavo al horno con verduras. El cordero a la plancha no se añade: CIQUAL ya trae la chuleta a la plancha.
