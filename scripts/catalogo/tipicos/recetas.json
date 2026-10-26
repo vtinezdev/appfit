@@ -38514,5 +38514,448 @@
         "gramos": 5
       }
     ]
+  },
+  {
+    "id": "ensalada-pollo-mango",
+    "nombre": "Ensalada de pollo y mango, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Pechuga pesada en crudo.",
+    "pesoFinalG": 470,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13025",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 120
+      },
+      {
+        "ciqual": "20238",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "13067",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "ensalada-pasta-salmon",
+    "nombre": "Ensalada de pasta con salmón ahumado, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 660,
+    "ingredientes": [
+      {
+        "ciqual": "9810",
+        "gramos": 120
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 220
+      },
+      {
+        "ciqual": "26037",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20019",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20217",
+        "gramos": 40
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 60
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "ensalada-garbanzos-bacalao",
+    "nombre": "Ensalada de garbanzos con bacalao, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Bacalao fresco CIQUAL como desalado.",
+    "pesoFinalG": 640,
+    "ingredientes": [
+      {
+        "ciqual": "20532",
+        "gramos": 300
+      },
+      {
+        "ciqual": "26043",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "ensalada-thai-ternera",
+    "nombre": "Ensalada thai de ternera, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Ternera pesada en crudo.",
+    "pesoFinalG": 470,
+    "ingredientes": [
+      {
+        "ciqual": "6201",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20019",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20238",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11094",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11027",
+        "gramos": 5
+      },
+      {
+        "ciqual": "13067",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 20
+      },
+      {
+        "ciqual": "15001",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "ensalada-brocoli",
+    "nombre": "Ensalada de brócoli con huevo y almendras, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 540,
+    "ingredientes": [
+      {
+        "ciqual": "20057",
+        "gramos": 350
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 25
+      },
+      {
+        "ciqual": "20238",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "ensalada-kale-quinoa",
+    "nombre": "Ensalada de kale y quinoa, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 435,
+    "ingredientes": [
+      {
+        "ciqual": "20346",
+        "gramos": 120
+      },
+      {
+        "ciqual": "9340",
+        "gramos": 70
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 140
+      },
+      {
+        "ciqual": "13018",
+        "gramos": 50
+      },
+      {
+        "ciqual": "15005",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "ensalada-nicoise",
+    "nombre": "Ensalada nizarda, lista para consumir",
+    "alias": [
+      "ensalada niçoise"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 750,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20061",
+        "gramos": 150
+      },
+      {
+        "ciqual": "26245",
+        "gramos": 120
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13032",
+        "gramos": 30
+      },
+      {
+        "ciqual": "26177",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "ensalada-canonigos-granada",
+    "nombre": "Ensalada de canónigos con granada y queso de cabra, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 260,
+    "ingredientes": [
+      {
+        "ciqual": "20099",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13018",
+        "gramos": 60
+      },
+      {
+        "ciqual": "12812",
+        "gramos": 60
+      },
+      {
+        "ciqual": "15005",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "ensalada-rucula-pera",
+    "nombre": "Ensalada de rúcula con pera y nueces, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 270,
+    "ingredientes": [
+      {
+        "ciqual": "20217",
+        "gramos": 80
+      },
+      {
+        "ciqual": "13037",
+        "gramos": 120
+      },
+      {
+        "ciqual": "15005",
+        "gramos": 25
+      },
+      {
+        "ciqual": "12120",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "ensalada-espinacas-champinones",
+    "nombre": "Ensalada de espinacas con champiñones crudos, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 320,
+    "ingredientes": [
+      {
+        "ciqual": "20059",
+        "gramos": 120
+      },
+      {
+        "ciqual": "20056",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 10
+      },
+      {
+        "ciqual": "12120",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "ensalada-zanahoria",
+    "nombre": "Ensalada de zanahoria rallada, lista para consumir",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "20009",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "ensalada-remolacha-cabra",
+    "nombre": "Ensalada de remolacha con queso de cabra, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Remolacha cruda CIQUAL.",
+    "pesoFinalG": 370,
+    "ingredientes": [
+      {
+        "ciqual": "20091",
+        "gramos": 200
+      },
+      {
+        "ciqual": "12812",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20099",
+        "gramos": 60
+      },
+      {
+        "ciqual": "15005",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      }
+    ]
   }
 ]

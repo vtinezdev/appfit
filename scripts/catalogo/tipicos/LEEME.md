@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1542 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 1127 recetas CIQUAL (61 hasta el 25 de octubre y
-1066 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1554 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 1139 recetas CIQUAL (61 hasta el 25 de octubre y
+1078 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -832,3 +832,7 @@ Lentejas con calabaza y con salchichas, garbanzos con setas y refritos con chori
 ### Cuadragesimocuarta tanda de recetas: más sopas y cremas (11)
 
 Harira, sopa gulash, sopa de pescado con fideos, cremas de lentejas rojas con coco, puerro y manzana, pimientos rojos, calabaza con jengibre, alcachofas, remolacha y calabacín con quesitos y gazpacho de sandía.
+
+### Cuadragesimoquinta tanda de recetas: más ensaladas (12)
+
+Pollo y mango, pasta con salmón ahumado, garbanzos con bacalao, thai de ternera, brócoli con huevo, kale y quinoa, nizarda, canónigos con granada, rúcula con pera, espinacas con champiñones, zanahoria rallada y remolacha con queso de cabra.
