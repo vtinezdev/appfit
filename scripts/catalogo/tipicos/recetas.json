@@ -43024,5 +43024,288 @@
         "gramos": 3
       }
     ]
+  },
+  {
+    "id": "coles-bruselas-horno",
+    "nombre": "Coles de Bruselas al horno, asadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 418,
+    "ingredientes": [
+      {
+        "ciqual": "20058",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "coliflor-horno-especias",
+    "nombre": "Coliflor al horno con especias, asada",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 506,
+    "ingredientes": [
+      {
+        "ciqual": "20016",
+        "gramos": 600
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "11005",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "brocoli-horno-parmesano",
+    "nombre": "Brócoli al horno con parmesano, asado",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 469,
+    "ingredientes": [
+      {
+        "ciqual": "20057",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "12120",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "repollo-patatas",
+    "nombre": "Repollo con patatas, cocido",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 758,
+    "ingredientes": [
+      {
+        "ciqual": "20069",
+        "gramos": 500
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 300
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "puerros-vinagreta",
+    "nombre": "Puerros a la vinagreta, listos para consumir",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 573,
+    "ingredientes": [
+      {
+        "ciqual": "20039",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 15
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "setas-plancha",
+    "nombre": "Setas a la plancha, cocinadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 326,
+    "ingredientes": [
+      {
+        "ciqual": "20010",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "chips-boniato-horno",
+    "nombre": "Chips de boniato al horno, horneados",
+    "categoria": "Patatas y tubérculos",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 250,
+    "ingredientes": [
+      {
+        "ciqual": "4101",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "espinacas-pinones-pasas",
+    "nombre": "Espinacas con piñones y pasas, cocinadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 458,
+    "ingredientes": [
+      {
+        "ciqual": "20059",
+        "gramos": 500
+      },
+      {
+        "ciqual": "15025",
+        "gramos": 20
+      },
+      {
+        "ciqual": "13046",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "endibias-plancha",
+    "nombre": "Endibias a la plancha, cocinadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 354,
+    "ingredientes": [
+      {
+        "ciqual": "20026",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "zanahorias-asadas-miel",
+    "nombre": "Zanahorias asadas con miel, asadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 430,
+    "ingredientes": [
+      {
+        "ciqual": "20009",
+        "gramos": 500
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "remolacha-asada",
+    "nombre": "Remolacha asada, asada",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 60 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 384,
+    "ingredientes": [
+      {
+        "ciqual": "20091",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
   }
 ]

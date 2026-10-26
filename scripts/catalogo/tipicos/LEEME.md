@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1697 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1275 recetas CIQUAL (61 hasta el 25 de octubre y
-1214 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1708 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1286 recetas CIQUAL (61 hasta el 25 de octubre y
+1225 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -892,3 +892,7 @@ Tortilla de patatas con jamón serrano, tortilla de berenjena, tortilla de pimie
 ### Tanda 59 de recetas: verduras de primavera y verano (9)
 
 Pimientos asados con ajo y aceite, berenjena asada con yogur y miel, tomates asados con queso de cabra, espárragos trigueros con huevo, habas tiernas salteadas con ajo y menta, alcachofas con almejas, calabacín salteado con ajo y menta, ratatouille casera y acelgas rehogadas con ajo.
+
+### Tanda 60 de recetas: verduras de otoño e invierno (11)
+
+Coles de Bruselas al horno, coliflor al horno con especias, brócoli al horno con parmesano, repollo con patatas, puerros a la vinagreta, setas a la plancha, chips de boniato al horno, espinacas con piñones y pasas, endibias a la plancha, zanahorias asadas con miel y remolacha asada.
