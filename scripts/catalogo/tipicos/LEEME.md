@@ -984,3 +984,7 @@ Tacos de pescado rebozado, burrito vegetariano de alubias y arroz, quesadilla de
 ### Tanda 82 de recetas: cocina italiana (8)
 
 Risotto de marisco, risotto de espárragos, pizza de verduras casera, pizza de jamón serrano y rúcula casera, calzone casero, ñoquis de patata con salsa de queso azul, pollo piccata al limón y vitello tonnato.
+
+### Tanda 83 de recetas: cocina asiática (9)
+
+Pollo kung pao, curry rojo de gambas, brochetas de pollo satay, cerdo al jengibre (shogayaki), tallarines salteados con pollo (lo mein), arroz cantonés con gambas y huevo, tofu teriyaki, pollo karaage (frito japonés) y onigiri de atún con mayonesa.

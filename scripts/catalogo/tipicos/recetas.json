@@ -48161,5 +48161,278 @@
         "gramos": 3
       }
     ]
+  },
+  {
+    "id": "pollo-kung-pao",
+    "nombre": "Pollo kung pao, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 83 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 616,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 500
+      },
+      {
+        "ciqual": "15001",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20151",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 20
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "curry-rojo-gambas",
+    "nombre": "Curry rojo de gambas, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 83 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 652,
+    "ingredientes": [
+      {
+        "ciqual": "10021",
+        "gramos": 300
+      },
+      {
+        "ciqual": "18041",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11005",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "pollo-satay",
+    "nombre": "Brochetas de pollo satay, asadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 83 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 570,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 500
+      },
+      {
+        "ciqual": "15202",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 30
+      },
+      {
+        "ciqual": "18041",
+        "gramos": 80
+      }
+    ]
+  },
+  {
+    "id": "cerdo-jengibre",
+    "nombre": "Cerdo al jengibre (shogayaki), cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 83 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 484,
+    "ingredientes": [
+      {
+        "ciqual": "28473",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11074",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "lo-mein-pollo",
+    "nombre": "Tallarines salteados con pollo (lo mein), cocinados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 83 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1134,
+    "ingredientes": [
+      {
+        "ciqual": "9821",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 450
+      },
+      {
+        "ciqual": "36017",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20069",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "arroz-cantones-gambas",
+    "nombre": "Arroz cantonés con gambas y huevo, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 83 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1022,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 500
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 150
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "20084",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "tofu-teriyaki",
+    "nombre": "Tofu teriyaki, cocinado",
+    "categoria": "Alternativas vegetales",
+    "referencia": "Lote manual de platos habituales en España, tanda 83 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 418,
+    "ingredientes": [
+      {
+        "ciqual": "20904",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 40
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 20
+      },
+      {
+        "ciqual": "15010",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "karaage",
+    "nombre": "Pollo karaage (frito japonés), frito",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 83 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 540,
+    "ingredientes": [
+      {
+        "ciqual": "36022",
+        "gramos": 500
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 30
+      },
+      {
+        "ciqual": "9510",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11074",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "onigiri-atun",
+    "nombre": "Onigiri de atún con mayonesa, listo para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 83 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 570,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 200
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 300
+      },
+      {
+        "ciqual": "26245",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 20
+      }
+    ]
   }
 ]
