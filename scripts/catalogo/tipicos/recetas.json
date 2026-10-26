@@ -50790,5 +50790,179 @@
         "gramos": 60
       }
     ]
+  },
+  {
+    "id": "canapes-salmon",
+    "nombre": "Canapés de salmón ahumado y queso, listos para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 93 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 180,
+    "ingredientes": [
+      {
+        "ciqual": "7200",
+        "gramos": 80
+      },
+      {
+        "ciqual": "12068",
+        "gramos": 40
+      },
+      {
+        "ciqual": "26037",
+        "gramos": 60
+      }
+    ]
+  },
+  {
+    "id": "volovanes-marisco",
+    "nombre": "Volovanes rellenos de marisco, horneados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 93 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 533,
+    "ingredientes": [
+      {
+        "ciqual": "23410",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 150
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 200
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 20
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "sopa-almendras",
+    "nombre": "Sopa de almendras navideña, cocida",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 93 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1262,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 2
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "turron-chocolate-almendras",
+    "nombre": "Turrón de chocolate con almendras casero, listo para consumir",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 93 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 470,
+    "ingredientes": [
+      {
+        "ciqual": "31085",
+        "gramos": 300
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 150
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "ensalada-bogavante",
+    "nombre": "Ensalada de bogavante, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 93 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 694,
+    "ingredientes": [
+      {
+        "ciqual": "10010",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13025",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "merluza-rellena-marisco",
+    "nombre": "Merluza rellena de marisco, horneada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 93 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1076,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 800
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 200
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 20
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
   }
 ]

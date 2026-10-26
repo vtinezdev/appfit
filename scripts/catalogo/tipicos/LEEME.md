@@ -1024,3 +1024,7 @@ Pollo empanado con copos de maíz, minipizzas de hojaldre, hamburguesas de merlu
 ### Tanda 92 de recetas: purés y papillas infantiles (8)
 
 Puré de calabaza y patata (triturado infantil), puré de pollo con arroz y zanahoria (triturado infantil), papilla de pera y manzana, puré de guisantes y pavo (triturado infantil), puré de boniato y pollo (triturado infantil), papilla de plátano y naranja, puré de cordero con verduras (triturado infantil) y yogur con plátano triturado.
+
+### Tanda 93 de recetas: Navidad (6)
+
+Canapés de salmón ahumado y queso, volovanes rellenos de marisco, sopa de almendras navideña, turrón de chocolate con almendras casero, ensalada de bogavante y merluza rellena de marisco.
