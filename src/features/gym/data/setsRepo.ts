@@ -32,6 +32,17 @@ export function ultimaEfectiva(exerciseId: number, agarre?: Agarre | null, gimna
   return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId))).first()
 }
 
+/**
+ * Series del ejercicio en su última sesión (la de la última efectiva realizada, con ese agarre y en ese gimnasio, si se
+ * indican): las realizadas y convencionales, calentamientos incluidos. Para precargar una rutina serie a serie. Solo lectura.
+ */
+export async function seriesUltimaSesion(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio): Promise<SetEntry[]> {
+  const comparable = (s: SetEntry) => s.realizada !== false && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId))
+  const ultima = await db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && comparable(s)).first()
+  if (!ultima) return []
+  return db.sets.where('workoutId').equals(ultima.workoutId).filter((s) => s.exerciseId === exerciseId && comparable(s)).toArray()
+}
+
 /** La última serie de calentamiento del ejercicio (con ese agarre y en ese gimnasio, si se indican). */
 export function ultimoCalentamiento(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio): Promise<SetEntry | undefined> {
   return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo === 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId))).first()
