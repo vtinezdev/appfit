@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1841 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1419 recetas CIQUAL (61 hasta el 25 de octubre y
-1358 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1849 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1427 recetas CIQUAL (61 hasta el 25 de octubre y
+1366 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -968,3 +968,7 @@ Leche caliente con canela, leche dorada con cúrcuma (golden milk), chocolate ca
 ### Tanda 78 de recetas: cócteles y bebidas sin alcohol (8)
 
 Mojito sin alcohol, piña colada sin alcohol, cóctel San Francisco sin alcohol, limonada de fresa casera, sangría sin alcohol, martini seco, mimosa (cava con zumo de naranja) y whisky sour.
+
+### Tanda 79 de recetas: salsas y dips (8)
+
+Salsa de yogur y menta, bechamel ligera con leche semidesnatada y aceite, salsa de tomate con albahaca casera, salsa de soja y miel, salsa agridulce casera, ajo y perejil en aceite (ajillo), muhammara (crema de pimiento y nueces) y dip de queso y cebolleta.
