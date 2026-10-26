@@ -21,13 +21,15 @@ const RAPIDA_VACIA: KcalRapidasDraft = { nombre: '', kcal: 0, prot: 0, carb: 0, 
 const Resumen = lazy(() => import('./pages/Resumen'))
 // Sensores de arrastre: el diario se carga al entrar, no en el arranque de Inicio.
 const Hoy = lazy(() => import('./pages/Hoy'))
+const Plan = lazy(() => import('./pages/Plan'))
 
-type Vista = 'hoy' | 'resumen' | 'alimentos'
+type Vista = 'hoy' | 'plan' | 'resumen' | 'alimentos'
 
 const VISTAS: { valor: Vista; label: string }[] = [
   { valor: 'hoy', label: 'Diario' },
+  { valor: 'plan', label: 'Plan' },
   { valor: 'resumen', label: 'Resumen' },
-  { valor: 'alimentos', label: 'Mis alimentos' },
+  { valor: 'alimentos', label: 'Alimentos' },
 ]
 
 export default function NutricionTab({ onVerReferencia, anadirInicial, fechaInicial }: { onVerReferencia?: (id: NutrienteId) => void; /** Abre Añadir comida en esa comida al montar (desde Inicio). */ anadirInicial?: Comida
@@ -41,6 +43,8 @@ export default function NutricionTab({ onVerReferencia, anadirInicial, fechaInic
   const [fechaAnadir, setFechaAnadir] = useState(todayISO())
   const [mostrarAnadir, setMostrarAnadir] = useState(anadirInicial !== undefined)
   const [creandoTipica, setCreandoTipica] = useState(false)
+  // Añadir comida abierto desde el Plan: guarda en `planificadas`, no en el diario.
+  const [planificando, setPlanificando] = useState(false)
   const [comidaAnadir, setComidaAnadir] = useState<Comida | undefined>(anadirInicial)
   const [entryEditar, setEntryEditar] = useState<Entry | undefined>(undefined)
   const [platoEditar, setPlatoEditar] = useState<Plato | undefined>(undefined)
@@ -56,9 +60,18 @@ export default function NutricionTab({ onVerReferencia, anadirInicial, fechaInic
     setMostrarAnadir(true)
   }
 
+  function abrirPlanificar(dia: string, comida: Comida) {
+    setFechaAnadir(dia)
+    setComidaAnadir(comida)
+    setCreandoTipica(false)
+    setPlanificando(true)
+    setMostrarAnadir(true)
+  }
+
   function cerrarAnadir() {
     setMostrarAnadir(false)
     setCreandoTipica(false)
+    setPlanificando(false)
     setEntryEditar(undefined)
     setPlatoEditar(undefined)
     setComidaAnadir(undefined)
@@ -100,7 +113,8 @@ export default function NutricionTab({ onVerReferencia, anadirInicial, fechaInic
     <div className="space-y-3 px-page pt-5">
       <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="secondary" onClick={() => abrirAnadir()} />} />
       <ViewTabs label="Vistas de nutrición" nivel="principal" opciones={VISTAS} valor={vista} onChange={setVista}>
-      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={abrirAnadir} onCrearTipica={comida => abrirAnadir(comida, true)} onVerReferencia={onVerReferencia} /></Suspense>}
+      {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={abrirAnadir} onCrearTipica={comida => abrirAnadir(comida, true)} onVerReferencia={onVerReferencia} onVerPlan={() => setVista('plan')} /></Suspense>}
+      {vista === 'plan' && <Suspense fallback={<LoadingState />}><Plan hoy={hoy} onAnadir={abrirPlanificar} /></Suspense>}
       {vista === 'resumen' && (
         <Suspense fallback={<LoadingState />}>
           <Resumen onVerReferencia={onVerReferencia} />
@@ -110,7 +124,7 @@ export default function NutricionTab({ onVerReferencia, anadirInicial, fechaInic
       </ViewTabs>
 
       {mostrarAnadir && (
-        <AnadirComida soloTipica={creandoTipica} fecha={entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fechaAnadir} entryEditar={entryEditar} platoDestino={platoEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={() => { if (!creandoTipica) void congelarObjetivoDia(entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fechaAnadir); cerrarAnadir() }} />
+        <AnadirComida soloTipica={creandoTipica} planificar={planificando} fecha={entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fechaAnadir} entryEditar={entryEditar} platoDestino={platoEditar} comidaInicial={comidaAnadir} onClose={cerrarAnadir} onGuardado={() => { if (!creandoTipica && !planificando) void congelarObjetivoDia(entryEditar?.fecha ?? platoEditar?.entries[0].fecha ?? fechaAnadir); cerrarAnadir() }} />
       )}
 
       <KcalRapidasSheet

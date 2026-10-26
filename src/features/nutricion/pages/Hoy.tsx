@@ -47,10 +47,12 @@ interface Props {
   onAnadir: (comida?: Comida) => void
   onCrearTipica: (comida: Comida) => void
   onVerReferencia?: (id: NutrienteId) => void
+  /** Cambia a la vista Plan (desde lo planificado para hoy). */
+  onVerPlan: () => void
 }
 
 
-export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir, onCrearTipica, onVerReferencia }: Props) {
+export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato, onAnadir, onCrearTipica, onVerReferencia, onVerPlan }: Props) {
   const hoy = useHoy()
   const entries = useLiveQuery(() => entriesRepo.delDia(fecha), [fecha])
   const nombresCortos = useLiveQuery(() => nombresAlimentosRepo.paraComida(entries ?? []), [entries]) ?? new Map()
@@ -273,7 +275,7 @@ export default function Hoy({ fecha, onFechaChange, onEditarEntry, onEditarPlato
         </>
       )}
 
-      {fecha === hoy && <Planificadas hoy={hoy} avisar={avisar} avisarError={avisarError} />}
+      {fecha === hoy && <Planificadas hoy={hoy} avisar={avisar} avisarError={avisarError} onVerPlan={onVerPlan} />}
 
       {semana && <Button variant="subtle" size="sm" aria-pressed={cheat} disabled={marcandoCheat} onClick={() => { void alternarCheat(false) }}>
         <Icon name="sparkles" size={18} className={cheat ? 'text-accent-strong' : 'text-fg-muted'} />{cheat ? 'Cheat day · fuera de las medias' : 'Marcar como cheat day'}

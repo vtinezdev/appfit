@@ -297,6 +297,8 @@ export interface Settings {
   gamificacionConNutricion?: boolean
   /** Pausas declaradas de Ritmo (vacaciones, enfermedad, lesión…), ordenadas por `desde`. */
   pausas?: Pausa[]
+  /** Artículos de la lista de la compra ya marcados como comprados (claves de `nutricion/lib/planificadas.listaCompra`). */
+  compraMarcada?: string[]
   /** Ejercicios (`Exercise.id`) que el usuario mantiene en Élite de la Liga: no avisan durante el entreno. */
   ligaMantener?: number[]
   /** Cumbres: desde cuándo se sube y las montañas elegidas para cada capítulo, en orden (`cumbres/lib/cumbres.ts`). */

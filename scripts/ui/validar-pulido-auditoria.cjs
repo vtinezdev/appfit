@@ -59,7 +59,7 @@ async function motor(nombre) {
           await page.keyboard.press('Escape')
           await selector.waitFor({ state: 'detached' })
         }
-        await page.getByRole('tab', { name: 'Mis alimentos', exact: true }).click()
+        await page.getByRole('tab', { name: 'Alimentos', exact: true }).click()
         await page.getByRole('radio', { name: 'Alimentos', exact: true }).waitFor()
         await page.getByRole('radio', { name: 'Recetas', exact: true }).click()
         await page.getByText('Platos con ingredientes y valores calculados.', { exact: true }).waitFor()

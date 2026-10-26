@@ -1,19 +1,37 @@
 // Acceso a la tabla `planificadas` (B16): comidas colocadas en hoy o en días futuros que no cuentan en nada hasta
-// «Lo he comido», que las pasa a `entries`. Van aparte de `entries` a propósito (ADR 059).
+// «Lo he comido», que las pasa a `entries`. Van aparte de `entries` a propósito (ADR 059). Se escriben con las mismas
+// formas que el diario (revisión, añadido rápido, kcal rápidas y comidas típicas) desde Añadir comida en modo planificar.
 import { db } from '../../../shared/db/db'
+import { camposDeRef, type FoodRef } from '../../../shared/db/foodRef'
+import { getSettings, updateSettings } from '../../../shared/db/settings'
 import type { Comida, Entry, MealItem, Planificada } from '../../../shared/db/types'
+import type { ItemGuardado, KcalRapidasDraft } from '../lib/alimentos'
+import { macrosPorGramos } from '../lib/nutrition'
 import { sePuedePlanificar } from '../lib/planificadas'
 import { entradasDesdePlantilla, type DestinoPlantilla } from '../lib/plantillas'
 import * as foodsRepo from './foodsRepo'
+import * as nombresAlimentosRepo from './nombresAlimentosRepo'
 
-/** Se intenta planificar en un día pasado o demasiado lejos. */
+/** Se intenta planificar en un día pasado. */
 export class FechaNoPlanificable extends Error {
-  constructor() { super('Solo se puede planificar hoy y los próximos días.') }
+  constructor() { super('Solo se puede planificar hoy y días futuros.') }
+}
+
+const rechazarSiPasado = (fecha: string, hoy: string) => sePuedePlanificar(fecha, hoy) ? null : Promise.reject(new FechaNoPlanificable())
+
+/** Las planificadas de un día. Solo lectura. */
+export function delDia(fecha: string): Promise<Planificada[]> {
+  return db.planificadas.where('fecha').equals(fecha).toArray()
 }
 
 /** Todas las planificadas, por fecha. Pocas filas: lo que queda por comer. Solo lectura. */
 export function todas(): Promise<Planificada[]> {
   return db.planificadas.orderBy('fecha').toArray()
+}
+
+/** Las planificadas de hoy y de días pasados que quedaron sin marcar (lo que se puede comer ya). Solo lectura. */
+export function hastaFecha(hoy: string): Promise<Planificada[]> {
+  return db.planificadas.where('fecha').belowOrEqual(hoy).toArray()
 }
 
 /** Las planificadas entre dos fechas (incluidas), para la lista de la compra. Solo lectura. */
@@ -26,13 +44,69 @@ export function entreFechas(desde: string, hasta: string): Promise<Planificada[]
  * actual, como al aplicar una plantilla. Devuelve los ids creados.
  */
 export function planificar(items: readonly MealItem[], destino: DestinoPlantilla, hoy: string): Promise<number[]> {
-  if (!sePuedePlanificar(destino.fecha, hoy)) return Promise.reject(new FechaNoPlanificable())
+  const rechazo = rechazarSiPasado(destino.fecha, hoy)
+  if (rechazo) return rechazo
   const loteId = crypto.randomUUID()
   return db.transaction('rw', db.foods, db.planificadas, async () => {
     if (items.length === 0) return []
     const foodsById = await foodsRepo.porIds(items.map((it) => it.foodId).filter((id): id is number => id !== undefined))
     return db.planificadas.bulkAdd(entradasDesdePlantilla({ items: [...items] }, foodsById, destino, Date.now(), loteId), { allKeys: true })
   })
+}
+
+export interface PlanificarRevisionInput {
+  fecha: string
+  comida: Comida
+  items: ItemGuardado[]
+  nombrePlato?: string
+}
+
+/**
+ * Planifica los alimentos revisados, como `entriesRepo.guardarComida` en el diario: crea o actualiza sus alimentos
+ * (o referencia el catálogo) y agrupa varios en un plato. Todo o nada.
+ */
+export function planificarRevision({ fecha, comida, items, nombrePlato }: PlanificarRevisionInput, hoy: string): Promise<number[]> {
+  const rechazo = rechazarSiPasado(fecha, hoy)
+  if (rechazo) return rechazo
+  const createdAt = Date.now()
+  return db.transaction('rw', db.foods, db.planificadas, db.nombresAlimentos, async () => {
+    const agrupacion: Pick<Planificada, 'platoId' | 'nombrePlato'> = items.length > 1
+      ? { platoId: crypto.randomUUID(), ...(nombrePlato?.trim() ? { nombrePlato: nombrePlato.trim() } : {}) }
+      : {}
+    const ids: number[] = []
+    for (const item of items) {
+      const ref: FoodRef = item.catalogId !== undefined ? { tipo: 'catalog', id: item.catalogId } : { tipo: 'user', id: await foodsRepo.resolverParaGuardar(item) }
+      if (item.nombreCorto !== undefined) await nombresAlimentosRepo.guardarEnTransaccion(ref, item.nombreCorto)
+      ids.push(await db.planificadas.add({ fecha, comida, ...camposDeRef(ref), nombre: item.nombre, gramos: item.gramos, ...macrosPorGramos(item, item.gramos), createdAt, ...agrupacion }))
+    }
+    return ids
+  })
+}
+
+export interface PlanificarAlimentoInput {
+  fecha: string
+  comida: Comida
+  ref: FoodRef
+  gramos: number
+}
+
+/**
+ * Añadido rápido planificado: un alimento propio o del catálogo con sus valores actuales, sin tocarlo.
+ * `undefined` si ya no existe.
+ */
+export async function planificarAlimento({ fecha, comida, ref, gramos }: PlanificarAlimentoInput, hoy: string): Promise<number | undefined> {
+  const rechazo = rechazarSiPasado(fecha, hoy)
+  if (rechazo) return rechazo
+  const food = ref.tipo === 'user' ? await db.foods.get(ref.id) : await db.catalogFoods.get(ref.id)
+  if (!food) return undefined
+  return db.planificadas.add({ fecha, comida, ...camposDeRef(ref), nombre: food.nombre, gramos, ...macrosPorGramos(food, gramos), createdAt: Date.now() })
+}
+
+/** «Kcal rápidas» planificadas (una comida fuera): no salen en la lista de la compra. */
+export function planificarRapida({ fecha, comida, nombre, kcal, prot, carb, grasa }: KcalRapidasDraft & { fecha: string; comida: Comida }, hoy: string): Promise<number> {
+  const rechazo = rechazarSiPasado(fecha, hoy)
+  if (rechazo) return rechazo
+  return db.planificadas.add({ fecha, comida, nombre, gramos: 0, kcal, prot, carb, grasa, rapida: true, createdAt: Date.now() })
 }
 
 export interface Comido {
@@ -78,4 +152,13 @@ export function borrar(ids: readonly number[]): Promise<Planificada[]> {
 
 export async function restaurar(filas: readonly Planificada[]): Promise<void> {
   await db.planificadas.bulkPut([...filas])
+}
+
+/** Lo ya marcado como comprado en la lista de la compra (claves de artículo). Solo lectura. */
+export async function marcasCompra(): Promise<string[]> {
+  return (await getSettings()).compraMarcada ?? []
+}
+
+export async function guardarMarcasCompra(claves: string[]): Promise<void> {
+  await updateSettings({ compraMarcada: claves.length ? claves : undefined })
 }

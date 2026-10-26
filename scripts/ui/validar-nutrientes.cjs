@@ -95,7 +95,7 @@ async function main() {
         assert.equal(await desglose.count(), 0)
 
         // Introducción manual, cero conocido y borrado de un dato opcional.
-        await page.getByRole('tab', { name: 'Mis alimentos', exact: true }).click()
+        await page.getByRole('tab', { name: 'Alimentos', exact: true }).click()
         await page.getByRole('button', { name: 'Nuevo', exact: true }).click()
         await page.getByRole('textbox', { name: 'Nombre del alimento', exact: true }).fill('Alimento de prueba')
         await page.getByRole('combobox', { name: 'Categoría', exact: true }).selectOption('Otros')
