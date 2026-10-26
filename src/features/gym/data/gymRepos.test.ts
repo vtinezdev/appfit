@@ -219,6 +219,24 @@ describe('entrenos: descartar, pasado, edición', () => {
     ])
   })
 
+  it('cada serie objetivo copia la del mismo número de la última sesión, sin las no realizadas', async () => {
+    const ex = await exercisesRepo.obtenerOCrear('Press')
+    const viejo = await workoutsRepo.crearPasado({ inicio: 1, fin: 2 })
+    await setsRepo.actualizar(await setsRepo.agregar(viejo, ex, 3), { reps: 10, peso: 40 })
+    const previo = await workoutsRepo.crearPasado({ inicio: 10, fin: 20 })
+    const series: [number, number, ('calentamiento' | undefined)?, boolean?][] = [[12, 20, 'calentamiento'], [10, 60], [8, 62.5], [6, 65], [5, 90, undefined, false]]
+    for (const [i, [reps, peso, tipo, realizada]] of series.entries()) {
+      const id = await setsRepo.agregar(previo, ex, 11 + i)
+      await setsRepo.actualizar(id, { reps, peso, ...(tipo ? { tipo } : {}) })
+      await db.sets.update(id, { realizada: realizada ?? true })
+    }
+    const rid = await routinesRepo.guardar({ nombre: 'Empuje', exerciseIds: [ex], objetivos: { [ex]: { series: 4, repsMin: 6, repsMax: 10, calentamientos: 1 } } })
+    const sets = await setsRepo.delWorkout(await workoutsRepo.empezar(rid))
+    expect(sets.sort((a, b) => a.orden - b.orden).map((x) => [x.tipo, x.reps, x.peso])).toEqual([
+      ['calentamiento', 12, 20], [undefined, 10, 60], [undefined, 8, 62.5], [undefined, 6, 65], [undefined, 6, 65],
+    ])
+  })
+
   it('sin calentamiento previo, el del objetivo usa las cifras de la efectiva', async () => {
     const ex = await exercisesRepo.obtenerOCrear('Remo')
     const rid = await routinesRepo.guardar({ nombre: 'Tirón', exerciseIds: [ex], objetivos: { [ex]: { series: 1, repsMin: 8, repsMax: 8, calentamientos: 1 } } })

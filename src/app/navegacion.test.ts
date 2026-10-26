@@ -1,15 +1,15 @@
 import { describe, expect, it } from 'vitest'
-import { DESTINOS, destinosOcultos, EN_ARCO, seccionDe } from './navegacion'
+import { DESTINOS, destinosOcultos, EN_SECCIONES, seccionDe } from './navegacion'
 
 describe('seccionDe', () => {
-  it('todo destino cae en una sección de la media luna', () => {
-    for (const { key } of DESTINOS) expect(EN_ARCO).toContain(seccionDe(key))
+  it('todo destino cae en una sección de la rejilla de secciones', () => {
+    for (const { key } of DESTINOS) expect(EN_SECCIONES).toContain(seccionDe(key))
   })
   it('Amigos va con Social y Referencias con Ajustes; Progreso es una sección (B12)', () => {
     expect(seccionDe('amigos')).toBe('social')
     expect(seccionDe('referencias')).toBe('ajustes')
     expect(seccionDe('progreso')).toBe('progreso')
-    expect(EN_ARCO).toContain('progreso')
+    expect(EN_SECCIONES).toContain('progreso')
     expect(seccionDe('nutricion')).toBe('nutricion')
   })
 })

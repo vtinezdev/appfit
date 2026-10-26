@@ -1,6 +1,6 @@
 # 058 — Un solo destino «Progreso»
 
-Fecha: 2026-10-24. Estado: vigente. Cambia [ADR 043](043-media-luna-de-secciones.md) en dos puntos: Cumbres, Caminos, Ritmo y Vitrina dejan de ser cuatro destinos sueltos que se abren desde Inicio, y la media luna pasa a siete secciones.
+Fecha: 2026-10-24. Estado: vigente; la ampliación de la media luna quedó sin efecto con [ADR 060](060-rejilla-de-secciones.md) (rejilla de secciones). Cambia [ADR 043](043-media-luna-de-secciones.md) en dos puntos: Cumbres, Caminos, Ritmo y Vitrina dejan de ser cuatro destinos sueltos que se abren desde Inicio, y la media luna pasa a siete secciones.
 
 ## Contexto
 

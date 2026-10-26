@@ -7,8 +7,8 @@ import type { ConfiguracionEjecucion, ConfiguracionCarga, Routine, SetEntry, Wor
 import { aplicarConfiguracionCarga, validarConfiguracionCarga } from '../lib/carga'
 import { toISODate } from '../../../shared/lib/dates'
 import { crearSnapshotMuscular } from '../lib/cargaMuscular'
-import { ordenEjerciciosSesion, siguienteOrden, valoresNuevaSerie } from '../lib/workout'
-import { previaEnGimnasio, ultimaEfectiva, ultimoCalentamiento } from './setsRepo'
+import { ordenEjerciciosSesion, previasPorSerie, siguienteOrden, valoresNuevaSerie } from '../lib/workout'
+import { previaEnGimnasio, seriesUltimaSesion, ultimaEfectiva, ultimoCalentamiento } from './setsRepo'
 import { dependeDeMaquina, gimnasioDeSerie, sinKg } from '../lib/gimnasios'
 import { ejerciciosDelEntreno, seriesParaRepetir } from '../lib/repetirEntreno'
 import { ordenTrasSustituir } from '../lib/sustituir'
@@ -54,10 +54,12 @@ export function empezar(routineId?: number, gimnasioId?: number): Promise<number
 }
 
 /**
- * Crea las series objetivo de cada ejercicio de la rutina que tenga objetivos, precargadas con los últimos
- * valores efectivos del ejercicio (o 8 × 20 kg). Los calentamientos del objetivo van antes, con los valores del último
- * calentamiento del ejercicio (o los de la efectiva, si nunca se hizo uno). En otro gimnasio, los ejercicios de máquina toman
- * los valores de ese gimnasio, o los del habitual sin kg si allí nunca se hicieron. Va dentro de la transacción de quien la llama.
+ * Crea las series objetivo de cada ejercicio de la rutina que tenga objetivos. Cada una copia reps y kg de la serie del mismo
+ * número en la última sesión del ejercicio (`previasPorSerie`: calentamientos con calentamientos, efectivas con efectivas,
+ * solo las realizadas; si la rutina pide más, la última de su tipo). Sin esa sesión, la última efectiva (o 8 × 20 kg); un
+ * calentamiento sin par, el último calentamiento del ejercicio (o su primera efectiva). En otro gimnasio, los ejercicios de
+ * máquina toman los valores de ese gimnasio, o los del habitual sin kg si allí nunca se hicieron. Va dentro de la
+ * transacción de quien la llama.
  */
 async function crearSeriesObjetivo(workoutId: number, routineId: number, base = Date.now(), gimnasioId?: number): Promise<void> {
   const rutina = await db.routines.get(routineId)
@@ -80,9 +82,16 @@ async function crearSeriesObjetivo(workoutId: number, routineId: number, base = 
     const ejercicio = await db.exercises.get(exerciseId)
     const config = ejecuciones[exerciseId] ?? ejercicio?.ejecucionHabitual
     const agarre = config ? config.agarre ?? null : undefined
-    const efectiva = await previaEnGimnasio(exerciseId, gimnasioId, g => ultimaEfectiva(exerciseId, agarre, g))
-    const delCalentamiento = objetivo.calentamientos ? await previaEnGimnasio(exerciseId, gimnasioId, g => ultimoCalentamiento(exerciseId, agarre, g)) : undefined
-    const calentamiento = delCalentamiento?.previa ? delCalentamiento : efectiva
+    // `previaEnGimnasio` devuelve lo de su última búsqueda, así que `sesion` queda con las series de ese mismo gimnasio.
+    let sesion: SetEntry[] = []
+    const ultimaSesion = await previaEnGimnasio(exerciseId, gimnasioId, async g => {
+      sesion = await seriesUltimaSesion(exerciseId, agarre, g)
+      return sesion.find(s => s.tipo !== 'calentamiento')
+    })
+    const efectiva = ultimaSesion.previa ? ultimaSesion : await previaEnGimnasio(exerciseId, gimnasioId, g => ultimaEfectiva(exerciseId, agarre, g))
+    const pares = previasPorSerie(sesion, objetivo.calentamientos ?? 0, objetivo.series)
+    const sinPar = pares.calentamientos.some(c => !c) ? await previaEnGimnasio(exerciseId, gimnasioId, g => ultimoCalentamiento(exerciseId, agarre, g)) : undefined
+    const respaldoCalentamiento = sinPar?.previa ? sinPar : { ...efectiva, previa: pares.efectivas[0] ?? efectiva.previa }
     const pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(base))).last())?.kg
     const valoresDe = ({ previa, sinKg: vaciar, gimnasioId }: Awaited<ReturnType<typeof previaEnGimnasio>>) => {
       const valores: Partial<SetEntry> & ReturnType<typeof valoresNuevaSerie> = vaciar ? sinKg(valoresNuevaSerie(previa)) : valoresNuevaSerie(previa)
@@ -94,12 +103,12 @@ async function crearSeriesObjetivo(workoutId: number, routineId: number, base = 
       return valores
     }
     let i = 0
-    for (let c = 0; c < (objetivo.calentamientos ?? 0); c++) {
-      await db.sets.add({ workoutId, exerciseId, orden: i++, ...valoresDe(calentamiento), tipo: 'calentamiento', createdAt: base + orden++ })
+    for (const par of pares.calentamientos) {
+      const valores = valoresDe(par ? { ...efectiva, previa: par } : respaldoCalentamiento)
+      await db.sets.add({ workoutId, exerciseId, orden: i++, ...valores, tipo: 'calentamiento', createdAt: base + orden++ })
     }
-    const valores = valoresDe(efectiva)
-    for (let n = 0; n < objetivo.series; n++) {
-      await db.sets.add({ workoutId, exerciseId, orden: i++, ...valores, createdAt: base + orden++ })
+    for (const par of pares.efectivas) {
+      await db.sets.add({ workoutId, exerciseId, orden: i++, ...valoresDe(par ? { ...efectiva, previa: par } : efectiva), createdAt: base + orden++ })
     }
   }
 }

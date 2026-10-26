@@ -1,5 +1,5 @@
 // Módulos activables (B9): qué partes de la app usa cada persona y el orden de las tarjetas de Inicio. Funciones puras.
-// Ocultar un módulo nunca borra datos: solo lo quita de la media luna, de Inicio y de lo que se deriva al leer.
+// Ocultar un módulo nunca borra datos: solo lo quita de las secciones, de Inicio y de lo que se deriva al leer.
 import type { Settings } from '../db/types'
 
 export type Modulo = 'nutricion' | 'gym' | 'actividades' | 'agua' | 'peso'
@@ -12,8 +12,8 @@ export const NOMBRE_MODULO: Record<Modulo, string> = {
 
 /** Lo que pasa al apagarlo, para el interruptor de Ajustes. */
 export const AL_APAGAR: Record<Modulo, string> = {
-  nutricion: 'Si lo ocultas, sale de la media luna y de Inicio, y Cumbres, Ritmo y Vitrina cuentan solo el entreno.',
-  gym: 'Si lo ocultas, Entreno queda solo con Actividades (o sale de la media luna si también las ocultas) y el último entreno deja Inicio.',
+  nutricion: 'Si lo ocultas, sale de las secciones y de Inicio, y Cumbres, Ritmo y Vitrina cuentan solo el entreno.',
+  gym: 'Si lo ocultas, Entreno queda solo con Actividades (o sale de las secciones si también las ocultas) y el último entreno deja Inicio.',
   actividades: 'Si las ocultas, Entreno queda solo con el gimnasio y Caminos deja Inicio.',
   agua: 'Si lo ocultas, la tarjeta del agua deja Inicio.',
   peso: 'Si lo ocultas, la tarjeta del peso deja Inicio.',

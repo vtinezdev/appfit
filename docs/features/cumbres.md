@@ -2,7 +2,7 @@
 
 `src/features/cumbres/`. El progreso general de la gamificación: se sube una montaña real tras otra con la [experiencia](experiencia.md) (1 XP = 1 m, aunque la interfaz solo habla de metros), desde el día en que se elige la primera montaña. Sustituye al nivel, los títulos y los atributos ([ADR 034](../decisiones/034-cumbres-en-lugar-de-atributos.md)). Se deriva del historial como el resto de la gamificación; solo se guardan el inicio y las montañas elegidas. Los víveres del plan (etapas y víveres) están aparcados.
 
-Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve como la pestaña Cumbres de Progreso (`features/progreso/ProgresoTab`, en la media luna), montada con `incrustada`; la tesela de Inicio abre esa pestaña con «‹ Inicio».
+Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve como la pestaña Cumbres de Progreso (`features/progreso/ProgresoTab`, en la rejilla de secciones), montada con `incrustada`; la tesela de Inicio abre esa pestaña con «‹ Inicio».
 
 ## Dónde está cada cosa
 

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { detalleSesion, epley1RM, formatDuracion, formatHora, mejorSet, pesoMaximo, resumenUltimoEntreno, seriesSinMarcar, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
+import type { SetEntry } from '../../../shared/db/types'
+import { detalleSesion, epley1RM, formatDuracion, formatHora, mejorSet, pesoMaximo, previasPorSerie, resumenUltimoEntreno, seriesSinMarcar, siguienteOrden, valoresNuevaSerie, volumenSets } from './workout'
 
 describe('epley1RM', () => {
   it('con 1 repetición el 1RM es el propio peso', () => {
@@ -60,6 +61,30 @@ describe('valoresNuevaSerie', () => {
 
   it('sin serie previa usa 8 × 20 kg', () => {
     expect(valoresNuevaSerie(undefined)).toEqual({ reps: 8, peso: 20 })
+  })
+})
+
+describe('previasPorSerie', () => {
+  const serie = (orden: number, peso: number, extra: Partial<SetEntry> = {}) => ({ orden, createdAt: orden, peso, ...extra }) as SetEntry
+  const pesos = (sets: (SetEntry | undefined)[]) => sets.map(s => s?.peso)
+
+  it('empareja por número: calentamientos entre sí y efectivas entre sí', () => {
+    const previas = [serie(2, 60), serie(0, 20, { tipo: 'calentamiento' }), serie(3, 62.5), serie(1, 40, { tipo: 'calentamiento' }), serie(4, 65)]
+    const r = previasPorSerie(previas, 2, 3)
+    expect(pesos(r.calentamientos)).toEqual([20, 40])
+    expect(pesos(r.efectivas)).toEqual([60, 62.5, 65])
+  })
+
+  it('si la rutina pide más series, repite la última de su tipo; si pide menos, toma las primeras', () => {
+    expect(pesos(previasPorSerie([serie(0, 60), serie(1, 62.5)], 0, 4).efectivas)).toEqual([60, 62.5, 62.5, 62.5])
+    expect(pesos(previasPorSerie([serie(0, 60), serie(1, 62.5), serie(2, 65)], 0, 2).efectivas)).toEqual([60, 62.5])
+  })
+
+  it('las no realizadas no cuentan y sin ninguna de un tipo queda sin par', () => {
+    const r = previasPorSerie([serie(0, 60), serie(1, 70, { realizada: false }), serie(2, 62.5, { realizada: true })], 1, 2)
+    expect(pesos(r.efectivas)).toEqual([60, 62.5])
+    expect(r.calentamientos).toEqual([undefined])
+    expect(previasPorSerie([], 0, 2).efectivas).toEqual([undefined, undefined])
   })
 })
 

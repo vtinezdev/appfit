@@ -2578,7 +2578,31 @@ La fuente `tipicos` se presenta como «Alimentos y platos (AppFit)» en Ajustes 
 
 **Preparación de la fusión, autorizada después por Víctor**: reconciliación con `master` conservando filtros por categoría, navegación y documentación actuales. Se incorpora la atribución de típicos a Referencias. Verificación sobre el conjunto combinado: 2.784 tests en 246 archivos, build, validador de catálogo y regresión de búsqueda/offline en navegador correctos. Los conflictos quedan resueltos sin retirar funciones de master.
 
-## 236. Récords dentro de cada ejercicio en el detalle del historial (2026-10-26)
+## 236. Rutinas precargadas serie a serie (2026-10-26)
+
+**Qué:** Víctor preguntó qué pesos salían al empezar una rutina. Antes, todas las series copiaban la **última** serie efectiva del ejercicio (60 × 10, 62,5 × 8 y 65 × 6 salían las tres como 65 × 6), y podía servir de referencia una serie que no se marcó. Ahora la rutina sigue guardando solo series, calentamientos y rango (no pesos). Al empezarla, cada serie copia la del mismo número de la última sesión del ejercicio, solo entre las realizadas, como en «Repetir un entreno» pero con las cifras de la última vez.
+
+**Cómo:** `lib/workout.previasPorSerie` (puro, con tests) empareja calentamientos con calentamientos y efectivas con efectivas; si la rutina pide más, repite la última de su tipo. `setsRepo.seriesUltimaSesion` lee las series realizadas y convencionales de la sesión de la última efectiva realizada (con agarre y gimnasio). `workoutsRepo.crearSeriesObjetivo` lo usa a través de `previaEnGimnasio` (máquinas en otro gimnasio igual que antes) y mantiene los respaldos anteriores. Sin cambios de esquema ni de backup. Documento: `features/gym.md` (objetivos de rutina).
+
+**Verificación:** `npm run test` (2.788) y `npm run build` correctos, con un test de repositorio de 1 calentamiento + 4 series sobre una sesión 20 / 60 / 62,5 / 65 y una serie sin marcar de 90 kg. No se ha probado en el navegador.
+
+## 237. Media luna equilibrada (2026-10-26)
+
+**Qué:** Víctor veía la media luna de secciones descompensada. La órbita es más alta que ancha (210 × 144 px) y los puntos iban a ángulos iguales, así que de Inicio a Perfil había unos 115 px y de Nutrición a Entreno unos 83. Ahora las secciones quedan a la misma distancia unas de otras.
+
+**Cómo:** `app/arco.posicionesArco` reparte los puntos por longitud de curva (muestreada, con la proporción `ARCO.ry / ARCO.rxHabitual`), con los mismos extremos de 174° y 6°. Test nuevo en `arco.test.ts` (5, 6 y 7 secciones con huecos iguales a ±6 px); el de solapes a 320 px sigue pasando. Sin cambios de tokens ni CSS. Documento: `DESIGN-SYSTEM.md` (navegación, que aún decía 168°–12°).
+
+**Verificación:** `npm run test` (2.791) y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320, 375 y 430 px con seis secciones: huecos iguales, sin solapes. No probado con siete (Social necesita cuenta) más que en el test, ni en iPhone físico.
+
+## 238. Rejilla de secciones (2026-10-26)
+
+**Qué:** a 320 px, con siete secciones, la media luna quedaba alta y estrecha. Víctor comparó tres alternativas a ese ancho (rejilla 4 + 3, dos arcos y zigzag) y eligió la rejilla para todas las pantallas, con la fila corta centrada: si un día hay ocho secciones, quedarán dos filas de cuatro. ADR 060, que cambia el ADR 043.
+
+**Cómo:** `app/ArcoSecciones` pasa a `app/RejillaSecciones` y `app/arco.ts` a `app/rejilla.ts`, con `columnasRejilla` (puro, con test: hasta cuatro, una fila; con más, dos filas con la de arriba igual o más larga, máximo cuatro). El panel queda justo encima del botón: flex con `flex-wrap` y `justify-content: center`, ancho de `--secciones-columnas` × `--secciones-celda` sin pasar del de página, y desplazable con poco alto. Las secciones entran subiendo, escalonadas; con Reduce Motion, solo opacidad. Se retiran `posicionesArco` y los tokens `--arco-*`; `EN_ARCO` pasa a `EN_SECCIONES` y las clases a `.secciones-*`. Los textos de «Lo que usas» dicen «sale de las secciones». Se actualizan `scripts/ui/navegar.cjs` y `validar-adaptacion.cjs`. Documentos: ADR 060 (con notas en el 043 y el 058), `DESIGN-SYSTEM.md`, `DESIGN.md`, `arquitectura.md`, `desarrollo.md`, `README.md` y las features que mencionaban la media luna.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost` a 320, 375 y 430 px en los dos temas, con siete secciones (Supabase falso, en el 5174) y con seis: 4 + 3 con la fila corta centrada y 3 + 3, sin scroll horizontal ni errores en consola. También en horizontal (568 × 320) con el ✕ a la vista, flechas, Enter y Escape. No probado en un iPhone físico ni con el texto al 200 %; no se ejecutaron los recorridos `validar-*`.
+
+## 239. Récords dentro de cada ejercicio en el detalle del historial (2026-10-26)
 
 Víctor señala que en un entreno pasado los récords personales (una card por ejercicio, con miniatura y nombre) y la lista de ejercicios (también cards con miniatura y nombre) se confundían: con muchos récords no se veía que después venían los ejercicios. Elige, de tres opciones (meterlos en cada ejercicio, plegarlos o compactarlos), meterlos en cada ejercicio.
 
@@ -2589,7 +2613,7 @@ Víctor señala que en un entreno pasado los récords personales (una card por e
 
 **Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` con un entreno de 6 ejercicios y 11 récords, a 320/375/430 px en ambos temas: sin scroll horizontal, «y 8 récords más» en el póster, cifras de récord en los cinco ejercicios con récord y sin trofeo en la cabecera. No se ha probado en el iPhone real.
 
-## 237. Ejercicios y récords en la imagen del entreno (2026-10-26)
+## 240. Ejercicios y récords en la imagen del entreno (2026-10-26)
 
 Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los récords de alguna forma y los ejercicios hechos, sin enumerar todas las series. (Los récords ya salían en «Hoy» si el entreno tenía alguno.)
 

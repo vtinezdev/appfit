@@ -66,6 +66,18 @@ export function valoresNuevaSerie(previa: SerieEjecucion | undefined): Pick<SetE
     ...(previa?.modoCarga ? { modoCarga: previa.modoCarga, pesoCorporal: previa.pesoCorporal } : {}) }
 }
 
+/**
+ * De qué serie de la última sesión copia cada serie objetivo al empezar una rutina: la del mismo número, calentamientos con
+ * calentamientos y efectivas con efectivas, solo entre las realizadas. Si la rutina pide más series que las que hubo, repite
+ * la última de su tipo; sin ninguna de ese tipo, `undefined` (quien llama decide el respaldo).
+ */
+export function previasPorSerie<T extends Pick<SetEntry, 'tipo' | 'orden' | 'createdAt' | 'realizada'>>(previas: T[], calentamientos: number, series: number): { calentamientos: (T | undefined)[]; efectivas: (T | undefined)[] } {
+  const hechas = [...previas].filter(s => s.realizada !== false).sort((a, b) => a.orden - b.orden || a.createdAt - b.createdAt)
+  const emparejar = (grupo: T[], n: number) => Array.from({ length: n }, (_, i) => grupo[Math.min(i, grupo.length - 1)])
+  return { calentamientos: emparejar(hechas.filter(s => s.tipo === 'calentamiento'), calentamientos),
+    efectivas: emparejar(hechas.filter(s => s.tipo !== 'calentamiento'), series) }
+}
+
 /** `orden` de la siguiente serie: uno más que el mayor existente (no el número de series, que se repite tras borrar). */
 export function siguienteOrden(sets: Pick<SetEntry, 'orden'>[]): number {
   return sets.reduce((max, s) => Math.max(max, s.orden + 1), 0)
