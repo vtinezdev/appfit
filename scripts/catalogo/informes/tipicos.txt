@@ -1,15 +1,15 @@
 Típicos 2026-10-26 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
 Vía 2 (directos): 422; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 1380; total: 1802
-Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 1757; pendientes: 0.
+Vía 3 (recetas): 1389; total: 1811
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 1766; pendientes: 0.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
 Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
 USDA: 57 directos aceptados
 CoFID: 167 directos aceptados
 AppFit: 198 directos aceptados
-Reparto por categoría: Carnes: 100; Legumbres: 14; Cereales, arroz y pasta: 18; Frutos secos y semillas: 7; Pan y tostadas: 99; Quesos: 32; Cereales de desayuno y barritas: 20; Patatas y tubérculos: 21; Verduras y hortalizas: 57; Pescados: 65; Platos preparados: 896; Galletas, bollería y pasteles: 119; Salsas y condimentos: 51; Mariscos: 30; Frutas: 16; Embutidos y fiambres: 26; Snacks salados: 7; Bebidas: 48; Dulces y chocolate: 46; Yogures y postres lácteos: 51; Otros: 3; Leche y nata: 1; Alternativas vegetales: 6; Bebidas alcohólicas: 28; Huevos: 41
+Reparto por categoría: Carnes: 100; Legumbres: 14; Cereales, arroz y pasta: 18; Frutos secos y semillas: 7; Pan y tostadas: 100; Quesos: 32; Cereales de desayuno y barritas: 20; Patatas y tubérculos: 21; Verduras y hortalizas: 57; Pescados: 65; Platos preparados: 896; Galletas, bollería y pasteles: 127; Salsas y condimentos: 51; Mariscos: 30; Frutas: 16; Embutidos y fiambres: 26; Snacks salados: 7; Bebidas: 48; Dulces y chocolate: 46; Yogures y postres lácteos: 51; Otros: 3; Leche y nata: 1; Alternativas vegetales: 6; Bebidas alcohólicas: 28; Huevos: 41
 Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 34 referencias individuales leídas de RAG/RTVE. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.
 Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.
@@ -76,6 +76,7 @@ offes: torta-aceite → 8410637115671 Tortas de Aceite (casi)
 offes: arroz-pollo → 8402001008740 Arroz con pollo (casi)
 offes: tequenos → 8480000134134 Tequeños de Queso (casi)
 offes: tempura-verduras → 8480000613004 Tempura de verduras (casi)
+offes: galletas-canela → 8480000144300 Galletas de canela (casi)
 
 SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):
 sin fuente: morro de cerdo cocido
