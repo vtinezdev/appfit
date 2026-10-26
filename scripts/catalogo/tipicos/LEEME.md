@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-731 filas: 356 valores directos (57 USDA, 167 CoFID y 132 valores de referencia
+750 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
 AppFit de alimentos sueltos) y 375 recetas CIQUAL (61 hasta el 25 de octubre y
 314 de las tres tandas manuales de típicos españoles del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
@@ -597,3 +597,24 @@ Algunas webs reproducen valores de BEDCA (paraguayo, besugo, palometa): no
 se toman de ellas; se usan tiendas, pescaderías y Mercavalencia. Sin fila:
 grelos (las fuentes se contradicen), ñora y carne de pimiento choricero en
 tarro (cada marca es muy distinta).
+
+### Sexta tanda (19)
+
+750 filas; las 731 anteriores intactas. Se comprobó una lista amplia de
+alimentos comunes contra CIQUAL: muchos «faltantes» solo lo son de nombre
+(jamón york = jamón cocido, yogur griego = yogur al estilo griego,
+contramuslo = parte alta del muslo, crema de cacao = crema para untar de
+chocolate y avellana…) y se resuelven con alias en CIQUAL es3, pendiente del
+XML completo. Huecos reales añadidos:
+
+- Mar (5): bacalao desalado, nécora y percebes cocidos, huevas de erizo al
+  natural.
+- Carne (2): chuletas de cordero lechal y perdiz.
+- Fruta (2): pitaya y kumquat (valores USDA; hidratos sin fibra, como en la
+  app).
+- Despensa (10): caldo de pollo de brik, gominolas, salsas sriracha, romesco
+  envasada y picante de chile y vinagre, natas de soja y de avena para
+  cocinar, alternativa vegetal al queso en lonchas, bocados de proteína
+  vegetal de soja, crema de arroz y harina de avena.
+
+Sin fila: centollo (solo había valores de BEDCA reproducidos por terceros).
