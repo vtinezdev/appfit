@@ -93,7 +93,7 @@ async function main() {
         actual = await datos(page)
         assert.equal(actual.entries.length, 3)
         assert.equal(actual.meals[0].usos, 1)
-        await page.getByRole('tab', { name: 'Mis alimentos', exact: true }).click()
+        await page.getByRole('tab', { name: 'Alimentos', exact: true }).click()
         await page.getByRole('radio', { name: 'Típicas', exact: true }).click()
         await page.getByRole('button', { name: 'Nueva comida típica', exact: true }).click()
         await page.getByRole('dialog', { name: 'Nueva comida típica', exact: true }).getByRole('button', { name: 'Cancelar', exact: true }).click()

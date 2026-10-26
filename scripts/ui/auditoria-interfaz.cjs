@@ -62,7 +62,7 @@ async function motor(nombre) {
         await page.getByRole('tab', { name:'Resumen',exact:true }).click()
         await page.getByRole('radio', { name:'Mes',exact:true }).waitFor()
         await medir('resumen-nutricion')
-        await page.getByRole('tab', { name:'Mis alimentos',exact:true }).click()
+        await page.getByRole('tab', { name: 'Alimentos', exact: true }).click()
         await medir('alimentos')
         await page.getByRole('button', { name:'Añadir comida',exact:true }).click()
         await page.getByRole('dialog', { name:'Añadir comida',exact:true }).waitFor()

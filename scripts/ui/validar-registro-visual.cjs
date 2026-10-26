@@ -158,7 +158,7 @@ async function main() {
         await page.getByRole('dialog', { name: '¿Descartar los cambios?', exact: true }).getByRole('button', { name: 'Descartar', exact: true }).click()
         await tarea.waitFor({ state: 'detached' })
         assert.deepEqual((await datos(page)).entries, guardado.entries)
-        await page.getByRole('tab', { name: 'Mis alimentos', exact: true }).click()
+        await page.getByRole('tab', { name: 'Alimentos', exact: true }).click()
         await page.getByRole('radio', { name: 'Típicas', exact: true }).click()
         assert.equal(await page.getByRole('radiogroup', { name: 'Comida habitual', exact: true }).count(), 0)
         await page.getByRole('button', { name: /^Mi arroz rápido/ }).waitFor()
