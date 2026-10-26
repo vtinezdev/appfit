@@ -117,6 +117,7 @@ export function seriesPublicables(series: (SerieEjecucion & Pick<SetEntry, 'id' 
 
 /** Un ejercicio en la imagen del póster: su nombre, la mejor serie como pastilla, cuántas series y la mejora de su récord. */
 export interface EjercicioPoster {
+  exerciseId: number
   nombre: string
   /** La mejor serie como la pastilla del historial («85 kg × 8») y si marca récord. */
   mejor: { texto: string; record: boolean }
@@ -124,6 +125,9 @@ export interface EjercicioPoster {
   series: string
   /** La mejora del récord que más cuenta (el de peso antes que el 1RM): «+5 kg», «+3 reps». */
   mejora?: string
+  /** Su cambio de liga con este entreno: la insignia (interior de su SVG, como las medallas), «Sube a Oro» y si solo
+   * empieza en Bronce (en una línea, sin el texto, esa insignia se confundiría con una subida y no va). */
+  liga?: { interior: string; texto: string; empieza?: boolean }
 }
 
 /**
@@ -144,6 +148,7 @@ export function ejerciciosDelPoster(w: Pick<Workout, 'ordenEjercicios' | 'ejerci
     const conMarca = hechas.filter(s => conRecord.has(s.id))
     const mejor = deCarga ? hechas.find(s => s.id === deCarga.setId)! : masFuerte(conMarca.length ? conMarca : hechas)
     return [{
+      exerciseId: id,
       nombre: nombres[id] ?? 'Ejercicio',
       mejor: { texto: pastillaSerie(mejor).texto, record: conRecord.has(mejor.id) },
       series: plural(hechas.length, 'serie', 'series'),
@@ -156,6 +161,12 @@ export function ejerciciosDelPoster(w: Pick<Workout, 'ordenEjercicios' | 'ejerci
 
 export type TipoHito = 'record' | 'cumbre' | 'liga' | 'logro'
 export interface HitoSesion { tipo: TipoHito; etiqueta: string; texto: string }
+
+/** «Press banca · Peso máximo: 65 kg (+2,5 kg)» → lo conseguido y de qué; sin «·», el sistema hace de contexto. */
+export function partesHito(h: HitoSesion): { principal: string; detalle: string } {
+  const i = h.texto.lastIndexOf(' · ')
+  return i < 0 ? { principal: h.texto, detalle: h.etiqueta } : { principal: h.texto.slice(i + 3), detalle: h.texto.slice(0, i) }
+}
 /** Lo que pasó en la sesión, ya con nombres: récords en su orden, Cumbres, cambios de liga y piezas nuevas. Los grupos que suben
  * de nivel no van aquí (decisión de Víctor): se ven en el bloque «Cuerpo» y en el muñeco. */
 export interface DatosHitos {

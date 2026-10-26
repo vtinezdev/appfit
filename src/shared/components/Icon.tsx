@@ -79,6 +79,9 @@ const PATHS = {
 
 export type IconName = keyof typeof PATHS
 
+/** El trazo de un icono (24 × 24), para dibujarlo fuera de React (la imagen del póster). */
+export const trazoIcono = (name: IconName): string => PATHS[name]
+
 interface Props extends Omit<SVGProps<SVGSVGElement>, 'children'> {
   name: IconName
   size?: number

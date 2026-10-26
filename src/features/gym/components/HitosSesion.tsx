@@ -1,13 +1,7 @@
 import Icon, { type IconName } from '../../../shared/components/Icon'
-import type { HitoSesion, TipoHito } from '../lib/fichaEntreno'
+import { partesHito, type HitoSesion, type TipoHito } from '../lib/fichaEntreno'
 
 const ICONO: Record<TipoHito, IconName> = { record: 'trophy', cumbre: 'mountain', liga: 'escudo', logro: 'sparkles' }
-
-/** «Press banca · Peso: 65 kg (+2,5 kg)» → lo conseguido arriba y de qué, debajo; sin «·», el sistema hace de contexto. */
-function partes(h: HitoSesion): { principal: string; detalle: string } {
-  const i = h.texto.lastIndexOf(' · ')
-  return i < 0 ? { principal: h.texto, detalle: h.etiqueta } : { principal: h.texto.slice(i + 3), detalle: h.texto.slice(0, i) }
-}
 
 /**
  * Franja «Hoy» del póster al terminar (ENT-10): hasta tres hitos de la sesión (`lib/fichaEntreno.hitosDeSesion`), cada uno
@@ -18,7 +12,7 @@ export default function HitosSesion({ hitos, pie }: { hitos: HitoSesion[]; pie?:
     <h2 className="training-muted text-rotulo">Hoy</h2>
     <ul className="space-y-2">
       {hitos.map((h, i) => {
-        const { principal, detalle } = partes(h)
+        const { principal, detalle } = partesHito(h)
         return <li key={i} className="flex items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent text-accent-on" aria-hidden><Icon name={ICONO[h.tipo]} size={20} /></span>
           <span className="min-w-0">

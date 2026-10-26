@@ -32,6 +32,11 @@ export function textoGimnasio(id: number | undefined, nombres?: ReadonlyMap<numb
   return nombres?.get(id) ?? 'Otro gimnasio'
 }
 
+/** Para el póster: el nombre del gimnasio tras la fecha, salvo el habitual sin nombre («Gimnasio habitual» no aporta nada). */
+export function gimnasioDelPoster(texto: string): string | undefined {
+  return texto === textoGimnasio(undefined) ? undefined : texto
+}
+
 export function nombresGimnasios(gimnasios: readonly Pick<Gimnasio, 'id' | 'nombre'>[] | undefined): Map<number, string> {
   return new Map((gimnasios ?? []).map(g => [g.id, g.nombre]))
 }

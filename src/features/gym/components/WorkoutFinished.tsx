@@ -14,6 +14,8 @@ import AscensosLiga from '../../liga/components/AscensosLiga'
 import { useLigas } from '../../liga/hooks/useLigas'
 import { ascensosDeEntreno } from '../../liga/lib/liga'
 import { ascensoDestacado, textoAscenso } from '../../liga/lib/textos'
+import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
+import { gimnasioDelPoster } from '../lib/gimnasios'
 import PublicarEntreno from './PublicarEntreno'
 import BloqueSesion from './BloqueSesion'
 import HitosSesion from './HitosSesion'
@@ -51,6 +53,8 @@ export interface WorkoutSummary {
   catalogIds?: Record<number, string | undefined>
   /** Para mostrar los metros que sube el entreno (Cumbres). */
   workoutId?: number
+  /** Gimnasio de la sesión (ADR 054), para el póster y la imagen como en el historial. */
+  gimnasioId?: number
   /** Récords de «más tiempo» de las series por tiempo (A29). */
   recordsTiempo?: RecordTiempo[]
 }
@@ -63,6 +67,7 @@ export interface WorkoutSummary {
  */
 export default function WorkoutFinished({ summary, onClose }: { summary: WorkoutSummary; onClose: () => void }) {
   const figura = useFiguraMapa()
+  const nombreGimnasio = useNombresGimnasio()
   const hoy = todayISO()
   const id = summary.workoutId
   const progreso = useProgresoSesion(id)
@@ -84,6 +89,8 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
     ligas: ascensos.filter(ascensoDestacado).map(a => ({ exerciseId: a.exerciseId, texto: textoAscenso(a) })),
     logros: vitrina?.visible && id !== undefined ? logrosDeEntreno(vitrina.vitrina.logros, id).map(nombreConNivel) : [],
   }
+  // En la imagen, cada cambio de liga va con su insignia en la fila del ejercicio («Llega a Élite», sin «: ciclo completado»).
+  const ligasImagen = ascensos.filter(a => ascensoDestacado(a) && a.a.liga).map(a => ({ exerciseId: a.exerciseId, liga: a.a.liga!, texto: textoAscenso(a).split(':')[0], empieza: a.de.paso === 0 }))
   const hitos = hitosDeSesion(gamificacion ? datos : { ...datos, cumbre: null, ligas: [], logros: [] })
 
   // Qué bloques hay y cuáles tienen algo que contar (el primero de estos sale abierto).
@@ -101,10 +108,12 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
 
   return <div className="space-y-section px-page pt-5">
     <PosterSesion titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} levels={summary.muscle?.levels} figura={figura}
+      gimnasio={gimnasioDelPoster(nombreGimnasio(summary.gimnasioId))}
       estado={<p role="status" className="flex items-center gap-2 text-label"><span className="workout-finish-mark flex h-touch w-touch items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="check" size={24} /></span>Sesión guardada en el historial</p>}
       hoy={hitos.length ? <HitosSesion hitos={hitos} /> : undefined}
       hito={hito} figuras={progreso ? <Suspense fallback={<div className="poster-map-reserva" />}><FigurasProgresoSesion progreso={progreso} figura={figura} /></Suspense> : undefined} />
     <PosterImagen titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} hoy={hitos} workoutId={id} records={records} nombres={nombres}
+      gimnasio={gimnasioDelPoster(nombreGimnasio(summary.gimnasioId))} ligas={gamificacion ? ligasImagen : []}
       logros={gamificacion && id !== undefined ? logrosDeEntreno(vitrina.vitrina.logros, id) : []} hito={hito} levels={summary.muscle?.levels} figura={figura} />
     {bloques.length > 0 && <div>
       {bloques.map(b => <BloqueSesion key={b.clave} titulo={b.titulo} resumen={b.resumen} abierto={abierto === b.clave} onCambiar={a => setAbierto(a ? b.clave : null)}>

@@ -31,7 +31,7 @@ import { combinarFechaHora, efectivas, formatHora, minutosEntre, moverElemento, 
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import { anterioresPorSerie, seriesSesionAnterior } from '../lib/anterior'
-import { gimnasioDeSerie } from '../lib/gimnasios'
+import { gimnasioDelPoster, gimnasioDeSerie } from '../lib/gimnasios'
 import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { ChipGimnasio } from '../components/GimnasioSheet'
 import Pista from '../../../shared/components/Pista'
@@ -227,9 +227,9 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
       )}
       <PosterSesion titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)}
         levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined}
-        gimnasio={nombreGimnasio(w.gimnasioId)} hoy={!editando && hitos.length ? <HitosSesion hitos={hitos} pie={restoRecords(records.length - hitos.length)} /> : undefined} />
+        gimnasio={gimnasioDelPoster(nombreGimnasio(w.gimnasioId))} hoy={!editando && hitos.length ? <HitosSesion hitos={hitos} pie={restoRecords(records.length - hitos.length)} /> : undefined} />
       {!editando && <PosterImagen titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length}
-        volumen={volumenSets(delEntreno)} gimnasio={nombreGimnasio(w.gimnasioId)} levels={trabajo.levels} figura={figura}
+        volumen={volumenSets(delEntreno)} gimnasio={gimnasioDelPoster(nombreGimnasio(w.gimnasioId))} levels={trabajo.levels} figura={figura}
         hoy={hitos} workoutId={w.id} records={records} nombres={nombres}
         logros={vitrina?.visible ? logrosDeEntreno(vitrina.vitrina.logros, w.id) : []} />}
       {error && <ErrorState>{error}</ErrorState>}

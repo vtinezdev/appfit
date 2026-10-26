@@ -144,7 +144,7 @@ describe('ejerciciosDelPoster', () => {
       { exerciseId: 1, tipo: 'peso', valor: 100, anterior: 95, setId: 2 },
     ]
     expect(ejerciciosDelPoster({}, sets, records, nombres)).toEqual([
-      { nombre: 'Press banca', mejor: { texto: '100 kg × 5', record: true }, series: '3 series', mejora: '+5 kg' },
+      { exerciseId: 1, nombre: 'Press banca', mejor: { texto: '100 kg × 5', record: true }, series: '3 series', mejora: '+5 kg' },
     ])
   })
 
@@ -155,8 +155,8 @@ describe('ejerciciosDelPoster', () => {
     ]
     const records: RecordEjercicio[] = [{ exerciseId: 3, tipo: 'reps', valor: 15, anterior: 12, peso: 10, setId: 1 }, { exerciseId: 3, tipo: 'reps', valor: 15, anterior: 11, peso: 7.5, setId: 3 }]
     expect(ejerciciosDelPoster({ ordenEjercicios: [2] }, sets, records, nombres)).toEqual([
-      { nombre: 'Dominadas asistidas', mejor: { texto: 'Asistencia 20 kg × 6', record: false }, series: '2 series' },
-      { nombre: 'Elevaciones', mejor: { texto: '10 kg × 15', record: true }, series: '3 series', mejora: '+3 reps' },
+      { exerciseId: 2, nombre: 'Dominadas asistidas', mejor: { texto: 'Asistencia 20 kg × 6', record: false }, series: '2 series' },
+      { exerciseId: 3, nombre: 'Elevaciones', mejor: { texto: '10 kg × 15', record: true }, series: '3 series', mejora: '+3 reps' },
     ])
   })
 

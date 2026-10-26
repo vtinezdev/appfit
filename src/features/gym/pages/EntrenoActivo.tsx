@@ -310,6 +310,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         nombres: Object.fromEntries(exercises.map(e => [e.id, e.nombre])),
         catalogIds: Object.fromEntries(exercises.map(e => [e.id, e.catalogId])),
         workoutId: workout.id,
+        gimnasioId: finished.workout.gimnasioId,
         recordsTiempo: recordsTiempo(saved, allSets.filter(s => s.workoutId !== workout.id)),
       })
     } catch {
