@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-983 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
+999 filas: 391 valores directos (57 USDA, 167 CoFID y 167 valores de referencia
 AppFit de alimentos sueltos) y 608 recetas CIQUAL (61 hasta el 25 de octubre y
 547 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
@@ -684,3 +684,7 @@ Lo que más se pide o se cocina en España de fuera: asiática (arroz tres delic
 ### Undécima tanda de recetas: bebidas, cafés y cócteles (25)
 
 Desayuno y merienda (leche con cacao soluble entera y semidesnatada, leche con miel), cafés (solo con azúcar, con hielo, capuchino, con bebida de avena o de soja, moca, frappé, granizado, irlandés), té helado y chai, smoothies (frutos rojos, verde), batido de mango y combinados de bar (clara con gaseosa, michelada, vermut con sifón, spritz, destornillador, vodka y ginebra con limón, piña colada). Se omiten los que ya estaban (cubatas, mojito, sangría blanca, horchata) o trae CIQUAL (sangría, clara con limón, sidra, zumos).
+
+### Sueltos de supermercado con valores de etiqueta (16)
+
+Fuente AppFit (valor típico a partir de varias etiquetas y webs, URLs en notas): tortilla de patatas envasada, pinchos morunos y lomo adobado crudos, san jacobo congelado, aceitunas rellenas de anchoa, obleas para empanadillas, arroz de microondas, galletas María, crema de balsámico, salsa César, caldo de verduras de brik, albóndigas crudas, natillas con proteínas, sirope de agave, cebollitas en vinagre y palmera de chocolate. El caldo de pescado de brik se descarta porque CIQUAL ya trae el fumet envasado. Nuevas regresiones de búsqueda (pinchos morunos, bravioli, vichyssoise, banana bread, tres delicias, kebab, colacao, galletas María).
