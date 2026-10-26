@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1647 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1225 recetas CIQUAL (61 hasta el 25 de octubre y
-1164 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1657 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1235 recetas CIQUAL (61 hasta el 25 de octubre y
+1174 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -872,3 +872,7 @@ Ternera guisada con setas, ternera a la cerveza, ternera al ajillo, entrecot a l
 ### Tanda 54 de recetas: cordero, conejo y aves (9)
 
 Cordero a la miel con romero, cordero al curry, conejo al horno con patatas, conejo con caracoles, conejo a la cazadora, conejo en salsa de almendras, cabrito al horno con patatas, codornices guisadas y pato con peras.
+
+### Tanda 55 de recetas: pescado azul (10)
+
+Sardinas al horno con tomate, boquerones al limón, caballa en salsa de tomate, bonito con aceite de oliva, atún con pisto, salmón a la mostaza, salmón salteado con verduras, jurel en escabeche, salmón a la naranja y trucha al horno con limón.

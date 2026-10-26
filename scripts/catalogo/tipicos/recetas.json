@@ -41595,5 +41595,298 @@
         "gramos": 6
       }
     ]
+  },
+  {
+    "id": "sardinas-horno-tomate",
+    "nombre": "Sardinas al horno con tomate, horneadas",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 880,
+    "ingredientes": [
+      {
+        "ciqual": "26065",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "boquerones-limon",
+    "nombre": "Boquerones al limón, fritos",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 563,
+    "ingredientes": [
+      {
+        "ciqual": "26079",
+        "gramos": 500
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 100
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "caballa-tomate",
+    "nombre": "Caballa en salsa de tomate, cocinada",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 965,
+    "ingredientes": [
+      {
+        "ciqual": "26051",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "bonito-plancha-aove",
+    "nombre": "Bonito con aceite de oliva, a la plancha, cocinado",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 128,
+    "ingredientes": [
+      {
+        "ciqual": "26101",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "atun-pisto",
+    "nombre": "Atún con pisto, cocinado",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 888,
+    "ingredientes": [
+      {
+        "ciqual": "26053",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20020",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "salmon-mostaza",
+    "nombre": "Salmón a la mostaza, cocinado",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 675,
+    "ingredientes": [
+      {
+        "ciqual": "26036",
+        "gramos": 600
+      },
+      {
+        "ciqual": "11013",
+        "gramos": 40
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "salmon-wok-verduras",
+    "nombre": "Salmón salteado con verduras, cocinado",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 633,
+    "ingredientes": [
+      {
+        "ciqual": "26036",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20057",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "jurel-escabeche",
+    "nombre": "Jurel en escabeche, cocinado",
+    "alias": [
+      "chicharro en escabeche"
+    ],
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1010,
+    "ingredientes": [
+      {
+        "ciqual": "26113",
+        "gramos": 600
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 120
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 100
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11053",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "salmon-naranja",
+    "nombre": "Salmón a la naranja, cocinado",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 654,
+    "ingredientes": [
+      {
+        "ciqual": "26036",
+        "gramos": 600
+      },
+      {
+        "ciqual": "2013",
+        "gramos": 150
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "trucha-horno-limon",
+    "nombre": "Trucha al horno con limón, horneada",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 55 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 547,
+    "ingredientes": [
+      {
+        "ciqual": "27009",
+        "gramos": 600
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
   }
 ]
