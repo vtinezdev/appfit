@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import Ayuda from '../../../shared/components/Ayuda'
 import Button from '../../../shared/components/Button'
 import Disclosure from '../../../shared/components/Disclosure'
 import FilaDeslizable from '../../../shared/components/FilaDeslizable'
+import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
+import ListRow from '../../../shared/components/ListRow'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import type { Aviso } from '../../../shared/hooks/useAviso'
 import { formatFriendly } from '../../../shared/lib/dates'
@@ -19,7 +22,7 @@ import HojaZancada from './HojaZancada'
 /** Días que se ven fuera del desplegable. */
 const RECIENTES = 7
 
-const ORIGEN_ZANCADA: Record<Zancada['origen'], string> = { propia: 'la tuya', altura: 'por tu altura', defecto: 'sin tu altura en Perfil' }
+const ORIGEN_ZANCADA: Record<Zancada['origen'], string> = { propia: 'La tuya', altura: 'Por tu altura', defecto: 'Sin tu altura en Perfil' }
 
 interface Props {
   hoy: string
@@ -95,23 +98,33 @@ export default function PasosCaminos({ hoy, inicio, aportes, zancada, zancadaEst
   </li>
 
   return <section aria-label="Pasos" className="space-y-stack">
-    <SectionHeader variant="section">Pasos</SectionHeader>
-    <p className="break-words text-body-sm text-fg-muted">
-      Apunta los que marca tu móvil{inicio === undefined ? '; avanzan tu Camino desde que eliges la primera ruta' : ''}. Lo que ya esté en tus actividades del día no cuenta dos veces.
-    </p>
+    <SectionHeader variant="section" action={<Ayuda titulo="Pasos">
+      <p>Apunta los pasos que marca tu móvil{inicio === undefined ? '; avanzan tu Camino desde que eliges la primera ruta' : ''}.</p>
+      <p>Lo que ya esté en tus actividades del día no cuenta dos veces: solo avanza lo que sobra de los pasos sobre ellas.</p>
+      <p>Los pasos se pasan a km con tu zancada.</p>
+    </Ayuda>}>Pasos</SectionHeader>
     {dias.length > 0 && <ListGroup aria-label="Pasos apuntados">{dias.slice(0, RECIENTES).map(fila)}</ListGroup>}
     {dias.length > RECIENTES && <Disclosure title={`Todos los días (${formatInt(dias.length)})`}>
       <ul className="app-list-flat divide-y divide-line" aria-label="Todos los días con pasos">{dias.slice(RECIENTES).map(fila)}</ul>
     </Disclosure>}
-    <Button variant="secondary" size="sm" onClick={() => abrir(deHoy !== undefined ? { fecha: hoy, pasos: deHoy } : undefined)}>
-      {deHoy !== undefined ? 'Cambiar los de hoy' : 'Apuntar los de hoy'}
-    </Button>
-    {dias.length > 0 && <Button variant="ghost" size="sm" onClick={() => abrir()}>Apuntar otro día</Button>}
-    <Button variant="ghost" size="sm" onClick={() => { setSemanaN(Date.now()); setSemanaAbierta(true) }}>Apuntar una semana</Button>
-    <div className="flex min-h-touch items-center justify-between gap-3">
-      <span className="tabular min-w-0 break-words text-body-sm text-fg-muted">Zancada de {formatInt(zancada.cm)} cm, {ORIGEN_ZANCADA[zancada.origen]}</span>
-      <Button variant="subtle" size="sm" onClick={() => { setZancadaN(Date.now()); setZancadaAbierta(true) }}>Cambiar</Button>
+    <div className="flex flex-wrap gap-2">
+      <Button variant="secondary" size="sm" onClick={() => abrir(deHoy !== undefined ? { fecha: hoy, pasos: deHoy } : undefined)}>
+        <Icon name="footprints" size={16} />{deHoy !== undefined ? 'Cambiar los de hoy' : 'Apuntar los de hoy'}
+      </Button>
+      {dias.length > 0 && <Button variant="ghost" size="sm" onClick={() => abrir()}>Otro día</Button>}
+      <Button variant="ghost" size="sm" onClick={() => { setSemanaN(Date.now()); setSemanaAbierta(true) }}>Una semana</Button>
     </div>
+    {/* La zancada, como fila: toda ella abre su hoja. */}
+    <ListGroup aria-label="Zancada">
+      <li><ListRow aria-haspopup="dialog" onClick={() => { setZancadaN(Date.now()); setZancadaAbierta(true) }}>
+        <span className="min-w-0 flex-1">
+          <span className="block text-body text-fg">Zancada</span>
+          <span className="block break-words text-caption text-fg-muted">{ORIGEN_ZANCADA[zancada.origen]}</span>
+        </span>
+        <span className="tabular shrink-0 text-body-sm font-semibold text-fg">{formatInt(zancada.cm)} cm</span>
+        <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
+      </ListRow></li>
+    </ListGroup>
 
     {hoja && <HojaPasos key={hoja.n} open={hojaAbierta} onClose={() => setHojaAbierta(false)} hoy={hoy} editando={hoja.editando} apuntados={apuntados}
       zancadaCm={zancada.cm} onGuardar={guardar} />}

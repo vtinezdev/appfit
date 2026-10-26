@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Button, { IconButton } from '../../../shared/components/Button'
+import Card from '../../../shared/components/Card'
 import Campo from '../../../shared/components/Campo'
 import Icon from '../../../shared/components/Icon'
 import { DecimalInput, Input, Select } from '../../../shared/components/Input'
@@ -120,7 +121,16 @@ export default function MetasVista() {
         <span id="metas">Metas</span>
       </SectionHeader>
       {metas.length === 0
-        ? <p className="text-body-sm text-fg-muted">Un récord de un ejercicio, los km de un mes o semanas cumplidas, con plazo si quieres. Al cumplirla, una pieza en la Vitrina.</p>
+        // Sin metas: una tarjeta con lo que se puede proponer (tres ejemplos con su icono) y el botón para la primera.
+        ? <Card className="space-y-3">
+          <ul aria-label="Qué metas puedes ponerte" className="space-y-2">
+            {([['trophy', 'Un récord de un ejercicio'], ['route', 'Los km de un mes'], ['calendar', 'Semanas cumplidas de Ritmo']] as const).map(([icono, texto]) =>
+              <li key={texto} className="flex items-center gap-3 text-body-sm text-fg">
+                <span aria-hidden className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-surface-muted text-fg-muted"><Icon name={icono} size={16} /></span>{texto}
+              </li>)}
+          </ul>
+          <p className="text-caption text-fg-muted">Con plazo si quieres. Al cumplirla, una pieza en la Vitrina.</p>
+        </Card>
         : <ListGroup aria-label="Tus metas">
           {metas.map((e) => {
             const plazo = textoPlazo(e)

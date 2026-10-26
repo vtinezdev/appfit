@@ -15,6 +15,7 @@ import { useExperiencia } from '../../experiencia/hooks/useExperiencia'
 import { semanaRitmo, type SemanaRitmo } from '../../ritmo/lib/ritmo'
 import { cifrasSemana, textoEstado, textoHilo } from '../../ritmo/lib/textos'
 import Card from '../../../shared/components/Card'
+import SemanaCuadros from '../../ritmo/components/SemanaCuadros'
 import EtiquetaCambio from '../../../shared/components/Cambio'
 import Icon, { type IconName } from '../../../shared/components/Icon'
 import ProgressBar from '../../../shared/components/ProgressBar'
@@ -96,9 +97,6 @@ export default function RevisionSemanal({ lunes: lunesInicial, hoy, onClose, clo
   )
 }
 
-const LETRAS = ['L', 'M', 'X', 'J', 'V', 'S', 'D']
-const NOMBRES_DIA = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
-
 /**
  * La semana de un vistazo (punto 2): el estado de Ritmo y el hilo, y los siete días en dos filas de cuadros, cada uno con
  * su icono: arriba el entreno (mancuerna) y debajo las comidas (cubiertos; destellos en un cheat day). Sin leyenda: la
@@ -110,18 +108,7 @@ function SemanaDeUnVistazo({ dias, ritmo }: { dias: DiaRevision[]; ritmo?: Seman
       <p className="text-title text-fg">{textoEstado(ritmo)}</p>
       <p className="tabular text-caption text-fg-muted">{textoHilo(ritmo.hilo)}</p>
     </div>}
-    <ol className="grid grid-cols-7 gap-1" aria-label="Días de la semana">
-      {dias.map((d, i) => <li key={d.fecha} className="flex flex-col items-center gap-1">
-        <span aria-hidden className="text-caption text-fg-muted">{LETRAS[i]}</span>
-        <span aria-hidden className={`flex h-8 w-8 items-center justify-center rounded-md ${d.entreno ? 'bg-accent text-accent-on' : 'bg-surface-muted'}`}>
-          {d.entreno && <Icon name="dumbbell" size={16} />}
-        </span>
-        <span aria-hidden className={`flex h-8 w-8 items-center justify-center rounded-md ${d.comidas ? 'bg-fg text-bg' : 'bg-surface-muted'}`}>
-          {d.comidas && <Icon name={d.cheat ? 'sparkles' : 'utensils'} size={16} />}
-        </span>
-        <span className="sr-only">{NOMBRES_DIA[i]}: {[d.entreno ? 'entreno' : 'sin entreno', d.comidas ? (d.cheat ? 'comidas (cheat day)' : 'comidas registradas') : 'sin comidas'].join(', ')}</span>
-      </li>)}
-    </ol>
+    <SemanaCuadros dias={dias} />
     {(ritmo || dias.some((d) => d.cheat)) && <div className="tabular space-y-1 border-t border-line pt-3 text-caption text-fg-muted">
       {ritmo && <p>{cifrasSemana(ritmo)}</p>}
       {dias.some((d) => d.cheat) && <p className="flex items-center gap-1"><Icon name="sparkles" size={12} />Cheat day</p>}
