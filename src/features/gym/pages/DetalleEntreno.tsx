@@ -15,7 +15,7 @@ import PosterSesion from '../components/PosterSesion'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { EmptyState, ErrorState, LoadingState } from '../../../shared/components/StateMessage'
 import { useAviso } from '../../../shared/hooks/useAviso'
-import { formatDiaMes, toISODate } from '../../../shared/lib/dates'
+import { formatDiaMes, toISODate, todayISO } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import PanelEjercicio from '../components/PanelEjercicio'
 import SelectorEjercicios from '../components/SelectorEjercicios'
@@ -35,6 +35,8 @@ import { gimnasioDeSerie } from '../lib/gimnasios'
 import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { ChipGimnasio } from '../components/GimnasioSheet'
 import Pista from '../../../shared/components/Pista'
+import { useVitrina } from '../../vitrina/hooks/useVitrina'
+import { logrosDeEntreno } from '../../vitrina/lib/logros'
 
 // Diferido: la geometría de los muñecos pesa más que el resto del mapa.
 const MapaMuscular = lazy(() => import('../components/MapaMuscular'))
@@ -74,6 +76,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
   const ajustes = useLiveQuery(() => getSettings(), [])
   const enCurso = useLiveQuery(() => workoutsRepo.activo(), [])
   const nombreGimnasio = useNombresGimnasio()
+  const vitrina = useVitrina(todayISO())
   const w = workout?.id === workoutId ? workout.w : undefined
   const rutina = useLiveQuery(() => (w?.routineId ? routinesRepo.obtener(w.routineId) : undefined), [w?.routineId])
   const delEntreno = sets?.id === workoutId ? sets.s : undefined
@@ -227,7 +230,8 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
         gimnasio={nombreGimnasio(w.gimnasioId)} hoy={!editando && hitos.length ? <HitosSesion hitos={hitos} pie={restoRecords(records.length - hitos.length)} /> : undefined} />
       {!editando && <PosterImagen titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length}
         volumen={volumenSets(delEntreno)} gimnasio={nombreGimnasio(w.gimnasioId)} levels={trabajo.levels} figura={figura}
-        hoy={hitos} workoutId={w.id} records={records} nombres={nombres} />}
+        hoy={hitos} workoutId={w.id} records={records} nombres={nombres}
+        logros={vitrina?.visible ? logrosDeEntreno(vitrina.vitrina.logros, w.id) : []} />}
       {error && <ErrorState>{error}</ErrorState>}
       {!editando && pendientes.length > 0 && (
         <section aria-label="Series sin marcar" className="space-y-2">

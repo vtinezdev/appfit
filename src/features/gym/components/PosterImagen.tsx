@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -8,6 +8,8 @@ import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import { ejerciciosDelPoster, textoDesde, type HitoEntrenos, type HitoSesion } from '../lib/fichaEntreno'
 import type { RecordEjercicio } from '../lib/records'
+import IconoLogro from '../../vitrina/components/IconoLogro'
+import { nombreConNivel, type NuevoLogro } from '../../vitrina/lib/logros'
 import type { ZonaMuscular } from '../lib/musculos'
 import { ALTO_POSTER, ANCHO_POSTER, nombreArchivoPoster, svgPoster, type ColoresPoster } from '../lib/posterImagen'
 import { formatDuracion, rangoSesion } from '../lib/workout'
@@ -27,6 +29,8 @@ interface Props {
   /** Récords del entreno, para ponerlos en cada ejercicio. */
   records?: RecordEjercicio[]
   nombres?: Record<number, string>
+  /** Logros de la Vitrina conseguidos con el entreno: salen como medallas (vacío si la gamificación está oculta). */
+  logros?: NuevoLogro[]
   /** Al terminar el entreno nº 10, 25, 50… (A23). */
   hito?: HitoEntrenos | null
   levels?: Partial<Record<ZonaMuscular, number>>
@@ -44,15 +48,27 @@ function coloresDelTema(): ColoresPoster {
 }
 
 /**
+ * El dibujo de una insignia ya pintada (`IconoLogro`) para meterlo en la imagen: su interior con las variables de color
+ * resueltas (una imagen no las entiende) y los ids de `useId` cambiados por unos propios, para que no choquen entre sí.
+ */
+function interiorInsignia(svg: SVGSVGElement, n: number): string {
+  const estilo = getComputedStyle(document.documentElement)
+  let interior = svg.innerHTML
+  svg.querySelectorAll('[id]').forEach((el, k) => { interior = interior.split(el.id).join(`medalla-${n}-${k}`) })
+  return interior.replace(/var\((--[\w-]+)\)/g, (_, nombre: string) => estilo.getPropertyValue(nombre).trim())
+}
+
+/**
  * «Guardar imagen» y «Compartir…» bajo el póster (ENT-11): la misma sesión como PNG de 1080 × 1920 con título, fecha,
- * cifras, los récords, los ejercicios con su mejor serie y una barra por serie, «Hoy» y el muñeco, y «Hecho con AppFit» al pie. Las series se leen
+ * cifras, los récords, las medallas de la Vitrina, los ejercicios con sus series como pastillas, «Hoy» y el muñeco, y «Hecho con AppFit» al pie. Las series se leen
  * al pulsar, no mientras se ve la pantalla. Sin cuenta ni red: «Compartir…» abre la hoja del móvil y solo
  * aparece donde se pueden compartir archivos; si no, se descarga.
  */
-export default function PosterImagen({ titulo, inicio, fin, series, volumen, gimnasio, hoy, workoutId, records = [], nombres = {}, hito, levels, figura = 'hombre' }: Props) {
+export default function PosterImagen({ titulo, inicio, fin, series, volumen, gimnasio, hoy, workoutId, records = [], nombres = {}, logros = [], hito, levels, figura = 'hombre' }: Props) {
   const [ocupado, setOcupado] = useState<'guardar' | 'compartir' | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [compartible] = useState(puedeCompartirArchivos)
+  const insignias = useRef<HTMLDivElement>(null)
 
   async function crear(): Promise<Blob> {
     const [css, { CUERPOS, VIEWBOX_CUERPO }, w, sets] = await Promise.all([cssFuentesIncrustadas(), import('./mapaMuscularGeometria'),
@@ -63,6 +79,7 @@ export default function PosterImagen({ titulo, inicio, fin, series, volumen, gim
       cifras: [{ rotulo: 'Duración', valor: formatDuracion(fin - inicio) }, { rotulo: 'Volumen', valor: formatInt(volumen), unidad: 'kg' }, { rotulo: 'Series', valor: formatInt(series) }],
       ejercicios: w ? ejerciciosDelPoster(w, sets, records, nombres) : [],
       records: records.length,
+      medallas: [...(insignias.current?.querySelectorAll<SVGSVGElement>(':scope > svg') ?? [])].map((svg, i) => ({ interior: interiorInsignia(svg, i), nombre: nombreConNivel(logros[i]) })),
       hoy,
       ...(hito ? { hito: { cifra: formatInt(hito.numero), texto: 'entrenos terminados', desde: textoDesde(hito.desde, Date.now()) } } : {}),
       ...(levels ? { muneco: { levels, cuerpo: CUERPOS[figura], viewBox: VIEWBOX_CUERPO } } : {}),
@@ -96,5 +113,7 @@ export default function PosterImagen({ titulo, inicio, fin, series, volumen, gim
       </Button>}
     </div>
     {error && <ErrorState>{error}</ErrorState>}
+    {/* Las insignias, sin mostrar: de aquí se copia su dibujo al crear la imagen. */}
+    {logros.length > 0 && <div ref={insignias} hidden>{logros.map(l => <IconoLogro key={`${l.logro.id}-${l.nivel ?? 'vez'}`} logro={l.logro} alcanzado />)}</div>}
   </section>
 }

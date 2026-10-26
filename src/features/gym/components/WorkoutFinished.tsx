@@ -104,7 +104,8 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
       estado={<p role="status" className="flex items-center gap-2 text-label"><span className="workout-finish-mark flex h-touch w-touch items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="check" size={24} /></span>Sesión guardada en el historial</p>}
       hoy={hitos.length ? <HitosSesion hitos={hitos} /> : undefined}
       hito={hito} figuras={progreso ? <Suspense fallback={<div className="poster-map-reserva" />}><FigurasProgresoSesion progreso={progreso} figura={figura} /></Suspense> : undefined} />
-    <PosterImagen titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} hoy={hitos} workoutId={id} records={records} nombres={nombres} hito={hito} levels={summary.muscle?.levels} figura={figura} />
+    <PosterImagen titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} hoy={hitos} workoutId={id} records={records} nombres={nombres}
+      logros={gamificacion && id !== undefined ? logrosDeEntreno(vitrina.vitrina.logros, id) : []} hito={hito} levels={summary.muscle?.levels} figura={figura} />
     {bloques.length > 0 && <div>
       {bloques.map(b => <BloqueSesion key={b.clave} titulo={b.titulo} resumen={b.resumen} abierto={abierto === b.clave} onCambiar={a => setAbierto(a ? b.clave : null)}>
         {b.clave === 'records' && <>
