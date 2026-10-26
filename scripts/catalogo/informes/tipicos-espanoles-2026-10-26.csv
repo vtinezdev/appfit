@@ -497,3 +497,27 @@ piononos;Piononos de Santa Fe, listos para consumir;Galletas, bollería y pastel
 palmeras-hojaldre;Palmeras de hojaldre caseras, horneadas;Galletas, bollería y pasteles;palmeritas;428,9;4,7;56,9;19,7;440;23410:400 31016:80
 miguelitos;Miguelitos de La Roda, listos para consumir;Galletas, bollería y pasteles;;293,3;5,3;37,2;13,5;700;23410:300 19023:300 22002:70 31016:90 9510:30
 coca-sant-joan;Coca de Sant Joan casera, horneada;Galletas, bollería y pasteles;coca de san juan;369,3;7,5;56,1;12,1;880;9440:500 31016:100 22000:100 19023:150 16400:80 11010:20 15025:30
+arroz-tres-delicias;Arroz tres delicias casero, frito;Platos preparados;arroz frito;148,8;5,7;21,5;4,1;1150;9100:300 18066:600 28900:100 22000:120 20084:100 20009:80 17440:30 11104:20 11017:3
+tallarines-salteados-verduras;Tallarines salteados con verduras (estilo yakisoba), cocinados;Platos preparados;fideos chinos|yakisoba;125,5;4,1;18;3,6;1050;9821:250 18066:450 20069:150 20009:100 20034:100 20085:80 11104:40 17440:25
+pad-thai;Pad thai de pollo, cocinado;Platos preparados;;157,8;9;17,1;5,5;1100;9900:200 18066:350 36017:250 22000:100 11003:50 20009:80 15001:40 11104:30 31016:15 2007:20 17440:25
+pollo-limon-chino;Pollo al limón estilo chino, frito;Platos preparados;;211,2;16,3;14,1;9,6;760;36017:500 9510:50 22000:50 17440:60 2007:80 31016:60 18066:100
+cerdo-agridulce;Cerdo agridulce, frito;Platos preparados;;211,5;13,6;13;11,5;850;28473:500 9510:50 22000:50 17440:60 20085:100 20034:100 11008:60 11220:30 31016:40 11104:20
+rollitos-primavera;Rollitos de primavera caseros, fritos;Platos preparados;;216,6;6;19,9;12,1;650;9440:150 18066:90 20069:200 20009:100 20034:50 28473:100 11104:15 17440:70
+gyozas-cerdo;Gyozas de cerdo a la plancha, cocinadas;Platos preparados;empanadillas japonesas;176,9;11,1;19,3;5,8;500;9440:120 18066:70 28473:200 20069:100 11003:30 11104:15 17440:15 11074:5
+maki-salmon;Makis de salmón (sushi), listos para consumir;Platos preparados;sushi de salmón|maki;169,7;5,8;28;3,5;900;9100:300 18066:400 11220:30 31016:20 11017:5 26036:150 13004:50
+uramaki-california;Uramakis california de surimi (sushi), listos para consumir;Platos preparados;california roll;166,5;3,4;27,3;4,4;990;9100:300 18066:400 11220:30 31016:20 11017:5 26046:120 13004:80 20019:60 15010:10 11054:20
+poke-atun;Poke de atún con arroz, listo para consumir;Platos preparados;poke bowl de atún;137,9;7,4;16,7;4,2;540;9100:100 18066:200 26053:120 13004:60 20019:50 20066:40 11104:15 15010:5
+burrito-ternera;Burrito de ternera con alubias y arroz, cocinado;Platos preparados;burrito;212,5;10,5;20,6;9,3;1150;7815:240 6254:300 20524:150 9100:100 18066:200 20034:100 20276:100 12726:80 17440:15 11042:2 11017:4
+tacos-carne;Tacos de carne picada, cocinados;Platos preparados;tacos mexicanos;223,6;12,1;15,4;12,3;780;7815:200 6254:300 20034:80 20276:150 20031:60 12726:60 17440:15 11042:2 11049:3 11017:4
+enchiladas-pollo;Enchiladas de pollo gratinadas, horneadas;Platos preparados;;180;13,4;12,9;7,8;1100;7815:240 36017:400 20048:400 20034:100 12726:120 17440:20 11042:2 11017:4
+kebab-pollo-pita;Kebab de pollo en pan de pita, listo para consumir;Platos preparados;kebab|döner kebab;186,7;10,3;15;9,1;360;7180:100 36022:150 20031:30 20276:40 20034:20 19593:30 11054:15 17270:5 11042:1 11049:1
+durum-ternera;Dürüm de ternera, listo para consumir;Platos preparados;durum|kebab enrollado;238,1;10,8;13,9;15,2;340;7815:80 6201:150 20031:30 20276:40 20034:20 19593:30 11054:15 17440:8
+pollo-tikka-masala;Pollo tikka masala, cocinado;Platos preparados;;122,4;13;2,3;6,3;1200;36017:600 19593:125 20048:400 20034:150 19417:100 11000:10 11074:10 11005:15 17440:30 11017:6
+dal-lentejas;Dal de lentejas con especias, cocinado;Platos preparados;dhal;101,2;6,1;11,5;2,5;1100;20359:250 18066:750 20034:100 20276:150 11000:8 11074:8 11005:10 11089:3 17440:20 11017:5
+nyoquis-tomate;Ñoquis de patata caseros con tomate, cocidos;Platos preparados;gnocchi con tomate;149,2;3,7;26;2,8;1000;4008:600 9440:200 22000:50 11017:5 20276:300 17270:20
+macarrones-queso;Macarrones con queso (mac and cheese), horneados;Platos preparados;mac and cheese;192,1;7,6;20,7;8,5;1050;9810:250 18066:450 19023:300 16400:30 9440:25 12726:150 11017:4
+penne-arrabbiata;Macarrones a la arrabbiata, cocinados;Platos preparados;penne arrabbiata;125,2;3,5;19,7;3,1;1150;9810:300 18066:540 20048:400 11000:10 20151:3 17270:30 11017:5
+espaguetis-almejas;Espaguetis con almejas, cocinados;Platos preparados;spaghetti alle vongole;160,5;6,6;21,1;4,9;1080;9810:300 18066:540 10017:300 11000:10 5215:50 17270:40 11014:5
+ceviche;Ceviche de pescado blanco, listo para consumir;Platos preparados;;73,7;13,3;2,4;0,6;600;26072:400 20238:100 13067:150 11094:10 20151:5 11017:5
+shakshuka;Shakshuka (huevos en salsa de tomate y pimiento), cocinada;Platos preparados;;88,3;4,9;3;6;780;22000:240 20048:400 20087:150 20034:100 17270:20 11042:2 11049:3 11017:4
+pollo-frito-americano;Pollo rebozado estilo americano, frito;Platos preparados;pollo frito|pollo kentucky;287;17,5;9;20;720;36022:600 9440:80 22000:60 19023:60 17440:80 11049:3 11017:6

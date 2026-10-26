@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-934 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
-AppFit de alimentos sueltos) y 559 recetas CIQUAL (61 hasta el 25 de octubre y
-498 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+958 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
+AppFit de alimentos sueltos) y 583 recetas CIQUAL (61 hasta el 25 de octubre y
+522 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -676,3 +676,7 @@ Verduras de diario (acelgas con patata, coles de Bruselas, calabaza y boniato al
 ### Novena tanda de recetas: postres y repostería casera (23)
 
 Bizcochos caseros (chocolate, naranja, manzana, pan de plátano), tarta de zanahoria, cookies y galletas de avena, muffins de arándanos, pudin de pan, tartas frías (queso sin horno, tres chocolates), mousse de limón, helados caseros de vainilla y chocolate, flan de coco, sémola con leche, poleá, compota de pera, palmeras de hojaldre y dulces regionales (casadielles, piononos, miguelitos de La Roda, coca de Sant Joan). Se omiten los que CIQUAL ya trae (brownie, crepes, gofres, tarta de fresas, galletas de mantequilla, coulant).
+
+### Décima tanda de recetas: cocina internacional habitual (24)
+
+Lo que más se pide o se cocina en España de fuera: asiática (arroz tres delicias, tallarines salteados, pad thai, pollo al limón, cerdo agridulce, rollitos de primavera, gyozas, makis y uramakis, poke de atún, tikka masala, dal), mexicana y tex-mex (burrito, tacos, enchiladas), kebab y dürüm, italiana (ñoquis con tomate, arrabbiata, espaguetis con almejas), mac and cheese, ceviche, shakshuka y pollo frito. Se omiten los que ya estaban (lasaña, musaca, risotto, chili, curry, falafel, pizza, nigiri) o trae CIQUAL (perrito caliente, cuscús).
