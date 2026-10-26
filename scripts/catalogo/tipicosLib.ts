@@ -26,7 +26,9 @@ export function leerDirectos(csv: string): Directo[] {
   return lineas.filter(l => l.trim()).map((l, i) => {
     const c = l.split(';'); exigir(c.length === 15, `CSV fila ${i + 2}: se esperaban 15 columnas`)
     const [id, nombre, aliases, categoria, fuente, idFuente] = c
-    exigir(['CIQUAL', 'USDA', 'CoFID', 'Frida'].includes(fuente), `Fuente no autorizada: ${fuente}`)
+    // AppFit = valor típico estimado de etiquetas y webs (no oficial); exige las URL consultadas en notas.
+    exigir(['CIQUAL', 'USDA', 'CoFID', 'Frida', 'AppFit'].includes(fuente), `Fuente no autorizada: ${fuente}`)
+    exigir(fuente !== 'AppFit' || /(?:^|\|)fuentes=https?:\/\//.test(c[14]), `Faltan las fuentes consultadas: ${id}`)
     exigir(idFuente.trim() && /version=.+/.test(c[14]) && /original=.+/.test(c[14]), `Falta id, versión o nombre original: ${id}`)
     const alias = aliases ? aliases.split('|') : []; metadatos(id, nombre, categoria, alias)
     const numero = (s: string, obligatorio: boolean) => {
@@ -48,14 +50,15 @@ export function leerDirectos(csv: string): Directo[] {
 export function calcularReceta(r: Receta, ciqual: PaqueteCalidad): FilaPaquete {
   metadatos(r.id, r.nombre, r.categoria, r.alias)
   exigir(ciqual.formato === 2 && ciqual.fuente === 'ciqual', 'Se necesita el paquete CIQUAL publicado')
-  exigir(r.categoria === 'Platos preparados' && r.referencia.trim(), `Falta referencia o categoría de plato: ${r.id}`)
+  exigir(r.referencia.trim(), `Falta referencia: ${r.id}`)
   exigir(Number.isFinite(r.pesoFinalG) && r.pesoFinalG > 0 && r.ingredientes.length > 0, `Peso/ingredientes inválidos: ${r.id}`)
   const porId = new Map(ciqual.filas.map(f => [f[0], f]))
   const ingredientes = r.ingredientes.map(i => {
     exigir(Number.isFinite(i.gramos) && i.gramos > 0, `Gramos inválidos: ${r.id}`)
     const f = porId.get(String(i.ciqual)); exigir(f, `CIQUAL inexistente: ${i.ciqual}`)
     // Ingredientes secos, aceites, especias, leche y agua no llevan el descriptor «crudo».
-    exigir(!/\b(cocid|hervid|frit|asad|tostad|conserva|envasad)/i.test(f[1]), `Ingrediente procesado: ${i.ciqual}`)
+    // Conservas, envasados y fiambres («jamón cocido») entran tal cual se sirven; nunca un ingrediente ya cocinado.
+    exigir(f[3] === 'Embutidos y fiambres' || !/\b(cocid|hervid|frit|asad|tostad)/i.test(f[1]), `Ingrediente cocinado: ${i.ciqual}`)
     return { f, gramos: i.gramos }
   })
   const valores = BASE.map((_, j) => redondear(ingredientes.reduce((s, i) => s + (i.f[4 + j] as number) * i.gramos, 0) / r.pesoFinalG))

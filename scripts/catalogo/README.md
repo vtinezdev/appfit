@@ -1,6 +1,6 @@
 # Catálogo de alimentos: tubería offline
 
-Convierte fuentes públicas en paquetes JSON estáticos (`public/catalogo/`) que la app descarga sola. No forma parte del build ni de la app; se ejecuta a mano (Node 24, sin dependencias, type stripping). Criterio: **prefiero 3.000 alimentos fiables a 30.000 dudosos**. Nunca se inventa un valor nutricional: si no hay fuente fiable, el alimento no entra.
+Convierte fuentes públicas en paquetes JSON estáticos (`public/catalogo/`) que la app descarga sola. No forma parte del build ni de la app; se ejecuta a mano (Node 24, sin dependencias, type stripping). Criterio: **prefiero 3.000 alimentos fiables a 30.000 dudosos**. Nunca se inventa un valor nutricional: si no hay fuente, el alimento no entra. Excepción decidida por Víctor (2026-10-26): alimentos españoles sin fuente oficial accesible entran en `tipicos` con un valor típico AppFit estimado de varias etiquetas y webs, con las URL consultadas (ver `tipicos/LEEME.md`).
 
 ```
 raw/ (ignorado por git) ─► ciqual.ts / off.ts (E/S) ─► ciqualLib.ts / offLib.ts (puros: normalizar, categorizar, deduplicar)
@@ -16,7 +16,7 @@ Lo que hace la app con los paquetes (sincronización, búsqueda, ranking, errata
 | Fuente | Qué aporta | Licencia | Obtenida |
 |---|---|---|---|
 | **CIQUAL 2025** (ANSES) | 3.323 alimentos genéricos, por 100 g | Licence Ouverte Etalab 2.0 | archivos del 2025-11-03 (publicada el 2025-11-19) |
-| **Alimentos y platos AppFit** (`tipicos`) | Complementos genéricos y recetas calculadas desde CIQUAL | Etalab 2.0, CC0, OGL v3 y formulaciones MIT | paquete 2026-10-25, 285 filas |
+| **Alimentos y platos AppFit** (`tipicos`) | Complementos genéricos, recetas calculadas desde CIQUAL y valores de referencia AppFit de alimentos españoles | Etalab 2.0, CC0, OGL v3 y formulaciones/valores AppFit MIT | paquete 2026-10-26, 1972 filas |
 | **Open Food Facts, selección España** (`offes`) | 3.000 productos de marca populares, por 100 g o 100 ml | **ODbL 1.0** (contenidos DbCL) | volcado del 2026-09-30 |
 
 Atribuciones (ya en `manifest.json`): «Fuente: ANSES, Table de composition nutritionnelle des aliments Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Nombres traducidos al español.» y «Contiene datos de Open Food Facts (openfoodfacts.org), disponibles bajo la Open Database License (ODbL)…». **`public/catalogo/offes-*.json` es ODbL aunque el código del repo sea MIT.**

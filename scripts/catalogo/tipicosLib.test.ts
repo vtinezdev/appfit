@@ -25,12 +25,22 @@ describe('típicos', () => {
     expect(() => calcularReceta({ ...receta, ingredientes: [{ ciqual: '1', gramos: -1 }] }, ciqual)).toThrow()
     expect(() => calcularReceta(receta, { ...ciqual, filas: [['1', 'Patata, cocida', '', 'Patatas y tubérculos', 80, 2, 18, 0]] })).toThrow()
   })
+  it('admite conservas escurridas y cualquier categoría AppFit, pero no una inventada', () => {
+    const conserva: PaqueteCalidad = { ...ciqual, filas: [['1', 'Atún, al natural, en conserva, escurrido', '', 'Pescados', 140, 27, 0, 4]] }
+    expect(calcularReceta({ ...receta, ingredientes: [{ ciqual: '1', gramos: 150 }] }, conserva)[4]).toBe(140)
+    expect(calcularReceta({ ...receta, nombre: 'Salsa de prueba, cocinada', categoria: 'Salsas y condimentos' }, ciqual)[3]).toBe('Salsas y condimentos')
+    expect(() => calcularReceta({ ...receta, categoria: 'Tapas' }, ciqual)).toThrow()
+    const fiambre: PaqueteCalidad = { ...ciqual, filas: [['1', 'Jamón cocido, superior', '', 'Embutidos y fiambres', 113, 21, 0.8, 2.8]] }
+    expect(calcularReceta({ ...receta, ingredientes: [{ ciqual: '1', gramos: 150 }] }, fiambre)[5]).toBe(21)
+  })
   it('lee coma decimal, vacíos desconocidos, cero y trazabilidad', () => {
     const d = leerDirectos(header + 'morro-prueba;Morro de prueba, cocido;morro de ensayo;Carnes;USDA;123;100,4;20;0;2,3;;0;;;version=2018|original=Test pork\n')[0]
     expect(d.fila[4]).toBe(100.4); expect(d.fila[8]).toEqual({ azucares: 0 })
     expect(d.fila[2]).toBe('Test pork')
     expect(() => leerDirectos(header + 'x;y')).toThrow()
     expect(() => leerDirectos(header + 'x;X, crudo;;Carnes;BEDCA;1;100;20;0;2;;;;;version=2020|original=X')).toThrow()
+    expect(() => leerDirectos(header + 'x;X, crudo;;Carnes;AppFit;web;100;20;0;2;;;;;version=2026|original=X')).toThrow()
+    expect(leerDirectos(header + 'x;X, crudo;;Carnes;AppFit;web;100;20;0;2;;;;;version=2026|original=X|fuentes=https://a.es/x')[0].fuente).toBe('AppFit')
   })
   it('detecta duplicados normalizados y casi iguales sin confundir crudo con cocido', () => {
     const f = ciqual.filas[0]
