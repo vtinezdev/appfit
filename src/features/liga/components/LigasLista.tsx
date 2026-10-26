@@ -1,10 +1,10 @@
+import { useId, useState } from 'react'
 import ComoFunciona from '../../../shared/components/ComoFunciona'
-import Disclosure from '../../../shared/components/Disclosure'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import Icon from '../../../shared/components/Icon'
 import { formatInt } from '../../../shared/lib/format'
-import { agruparPorLiga, PASO_ELITE, type LigaEjercicio } from '../lib/liga'
+import { agruparPorLiga, type LigaEjercicio } from '../lib/liga'
 import { fechaCorta, resumenLiga, textoDivision } from '../lib/textos'
 import ComoFuncionaLiga from './ComoFuncionaLiga'
 import InsigniaLiga, { SemanasLiga } from './InsigniaLiga'
@@ -36,13 +36,14 @@ export default function LigasLista({ ligas, nombres, hoy, onElegir }: Props) {
   const conNombre = ligas.filter((l) => nombres.has(l.exerciseId))
   const { grupos, sinLiga } = agruparPorLiga(conNombre)
   const enElite = grupos.find((g) => g.liga === 'Élite')?.ligas.length ?? 0
+  const [verSinLiga, setVerSinLiga] = useState(false)
+  const idSinLiga = useId()
   return <section aria-labelledby="ligas-titulo" className="space-y-stack">
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-2">
         <h2 id="ligas-titulo" className="text-heading text-fg">Ligas</h2>
         <ComoFunciona nombre="la liga" volver="Progreso"><ComoFuncionaLiga /></ComoFunciona>
       </div>
-      <p className="text-body-sm text-fg-muted">Cada semana con un ejercicio suma una; a las {formatInt(PASO_ELITE)} llega a Élite.</p>
       {enElite > 0 && <p className="tabular text-body-sm text-fg">{enElite === 1 ? 'Un ejercicio está' : `${formatInt(enElite)} ejercicios están`} en Élite: quizá te apetezca variar alguno.</p>}
     </div>
     {grupos.map((g) => <div key={g.liga} className="space-y-2">
@@ -52,11 +53,19 @@ export default function LigasLista({ ligas, nombres, hoy, onElegir }: Props) {
       </ListGroup>
     </div>)}
     {grupos.length === 0 && <p className="text-body-sm text-fg-muted">Ahora ningún ejercicio tiene liga: vuelve a entrenar uno y empieza en Bronce.</p>}
-    {sinLiga.length > 0 && <Disclosure title={`Hace tiempo que no los haces (${formatInt(sinLiga.length)})`}>
-      <p className="pb-2 text-body-sm text-fg-muted">Si vuelves a uno, empieza de nuevo en Bronce.</p>
-      <ListGroup variante="plana" aria-label="Ejercicios sin liga">
-        {sinLiga.map((l) => <Fila key={l.exerciseId} l={l} nombre={nombres.get(l.exerciseId) ?? ''} hoy={hoy} onElegir={onElegir} />)}
-      </ListGroup>
-    </Disclosure>}
+    {/* Sin liga: un grupo más, plegado, con la cabecera como las de las ligas y la consecuencia como pie (punto 17). */}
+    {sinLiga.length > 0 && <div className="space-y-2">
+      <button type="button" aria-expanded={verSinLiga} aria-controls={idSinLiga} onClick={() => setVerSinLiga(!verSinLiga)}
+        className="app-button flex min-h-touch w-full items-center gap-2 px-1 text-left text-label text-fg-muted">
+        <Icon name="timer" size={20} className="shrink-0" />
+        <span className="min-w-0 flex-1">Hace tiempo que no los haces ({formatInt(sinLiga.length)})</span>
+        <Icon name="chevron-right" size={18} className={`shrink-0 transition-transform duration-short motion-reduce:transition-none ${verSinLiga ? 'rotate-90' : ''}`} />
+      </button>
+      <div id={idSinLiga} hidden={!verSinLiga}>
+        <ListGroup aria-label="Ejercicios sin liga" pie="Si vuelves a uno, empieza de nuevo en Bronce.">
+          {sinLiga.map((l) => <Fila key={l.exerciseId} l={l} nombre={nombres.get(l.exerciseId) ?? ''} hoy={hoy} onElegir={onElegir} />)}
+        </ListGroup>
+      </div>
+    </div>}
   </section>
 }

@@ -70,7 +70,6 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
       <div className="space-y-section">
         <TarjetaEntreno onAbrir={onEmpezado} />
         <Button variant="subtle" block onClick={() => setPasado((n) => n + 1)}>Registrar entreno pasado</Button>
-        <TarjetaEntreno soloUltimo />
         {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open gimnasioId={gimnasio} onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
       </div>
     )
@@ -119,8 +118,7 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
         </ListGroup>
       </section>}
 
-      <TarjetaEntreno soloUltimo />
-
+      {/* Sin «Último entreno» (punto 14): cada rutina ya dice cuándo se hizo y el historial, el resto. */}
       {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open gimnasioId={gimnasio} onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
       {repetir > 0 && <RepetirEntreno key={repetir} open onClose={() => setRepetir(0)} onRepetido={onEmpezado} />}
     </div>

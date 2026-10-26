@@ -5,6 +5,7 @@ import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import { IconButton } from '../../../shared/components/Button'
 import ListGroup from '../../../shared/components/ListGroup'
+import Card from '../../../shared/components/Card'
 import Metric from '../../../shared/components/Metric'
 import { LoadingState } from '../../../shared/components/StateMessage'
 import Disclosure from '../../../shared/components/Disclosure'
@@ -22,14 +23,14 @@ export default function ResumenSemanalGym() {
   const resumen = datos ? resumenSemanal(fechas[0], fechas[6], datos.w, datos.s, datos.e) : null
 
   return (
-    <div className="space-y-stack">
-      <div className="flex items-center justify-between gap-2">
+    <Card className="space-y-stack">
+      <div className="-mx-2 -mt-2 flex items-center justify-between gap-2">
         <IconButton icon="chevron-left" label="Semana anterior" variant="ghost" onClick={() => setAncla(desplazarPeriodo('semana', ancla, -1))} />
         <p className="tabular min-w-0 text-center text-title text-fg" aria-live="polite">{etiquetaPeriodo('semana', ancla)}</p>
         <IconButton icon="chevron-right" label="Semana siguiente" variant="ghost" disabled={esPeriodoActual('semana', ancla)} onClick={() => setAncla(desplazarPeriodo('semana', ancla, 1))} />
       </div>
       {!resumen ? <LoadingState /> : resumen.sesiones === 0 ? (
-        <p className="text-body-sm text-fg-muted">Sin entrenos terminados esta semana.</p>
+        <p className="pb-2 text-center text-body-sm text-fg-muted">Sin entrenos terminados esta semana</p>
       ) : (
         <>
           <div className="metric-grid gap-3">
@@ -55,6 +56,6 @@ export default function ResumenSemanalGym() {
           </Disclosure>
         </>
       )}
-    </div>
+    </Card>
   )
 }

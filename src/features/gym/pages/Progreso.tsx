@@ -161,6 +161,7 @@ export default function Progreso() {
           const ex = nombres.get(r.exerciseId)
           if (!ex) return null
           return <li key={r.exerciseId}><ListRow onClick={() => elegirYEnfocar(r.exerciseId)}>
+            <MiniaturaEjercicio catalogId={ex.catalogId} />
             <span className="min-w-0 flex-1">
               <span className="block break-words text-body font-semibold text-fg">{ex.nombre}</span>
               <span className="tabular block break-words text-caption text-fg-muted">{textoMejorSerie(r.ultima.mejor, r.modo)} · {formatDiaMes(r.ultima.inicio)}</span>
@@ -247,12 +248,13 @@ export default function Progreso() {
           </div>
           {escala.dominio[0] > 0 && <p className="tabular text-caption text-fg-muted">El eje empieza en {formatNumber(escala.dominio[0])} {unidad}.</p>}
         </>}
+        {/* Las tres cifras clave, dentro de la tarjeta de la gráfica: van con ella (punto 40). */}
+        <dl aria-label="Cifras clave" className="cifras-filetes grid grid-cols-3 border-t border-line pt-3">
+          <div><dt className="text-caption text-fg-muted">Mejor serie</dt><dd className="tabular break-words text-body font-semibold text-fg">{textoMejorSerie(cifras.mejor, modo)}</dd><dd className="tabular break-words text-caption text-fg-muted">{formatDiaMes(cifras.mejor.inicio)}{todosLosGimnasios ? ` · ${nombreGimnasio(datos.find(d => d.inicio === cifras.mejor.inicio)?.gimnasioId)}` : ''}</dd></div>
+          <div><dt className="text-caption text-fg-muted">1RM estimado</dt><dd className="tabular break-words text-body font-semibold text-fg">{cifras.oneRM === null ? '—' : `${formatNumber(cifras.oneRM, 1)} kg`}</dd><dd className="text-caption text-fg-muted">Máximo</dd></div>
+          <div><dt className="text-caption text-fg-muted">Cambio</dt><dd className="tabular break-words text-body font-semibold text-fg">{cifras.cambio === null ? '—' : `${conSigno(cifras.cambio)} ${unidad}`}</dd><dd className="text-caption text-fg-muted">{todosLosGimnasios ? 'Elige un gimnasio' : corto}</dd></div>
+        </dl>
       </Card>
-      <dl aria-label="Cifras clave" className="cifras-filetes grid grid-cols-3">
-        <div><dt className="text-caption text-fg-muted">Mejor serie</dt><dd className="tabular break-words text-body font-semibold text-fg">{textoMejorSerie(cifras.mejor, modo)}</dd><dd className="tabular break-words text-caption text-fg-muted">{formatDiaMes(cifras.mejor.inicio)}{todosLosGimnasios ? ` · ${nombreGimnasio(datos.find(d => d.inicio === cifras.mejor.inicio)?.gimnasioId)}` : ''}</dd></div>
-        <div><dt className="text-caption text-fg-muted">1RM estimado</dt><dd className="tabular break-words text-body font-semibold text-fg">{cifras.oneRM === null ? '—' : `${formatNumber(cifras.oneRM, 1)} kg`}</dd><dd className="text-caption text-fg-muted">Máximo</dd></div>
-        <div><dt className="text-caption text-fg-muted">Cambio</dt><dd className="tabular break-words text-body font-semibold text-fg">{cifras.cambio === null ? '—' : `${conSigno(cifras.cambio)} ${unidad}`}</dd><dd className="text-caption text-fg-muted">{todosLosGimnasios ? 'Elige un gimnasio' : corto}</dd></div>
-      </dl>
       <section aria-label="Sesiones" className="space-y-stack">
         <SectionHeader variant="section">Sesiones</SectionHeader>
         <ListGroup aria-label={`Sesiones de ${ejercicio?.nombre ?? 'este ejercicio'}`}>{[...datos].reverse().map(d => <li key={d.workoutId} className="flex min-h-touch items-center justify-between gap-3 py-2">

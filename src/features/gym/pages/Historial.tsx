@@ -6,7 +6,7 @@ import * as routinesRepo from '../data/routinesRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import { calendarioMes, type DiaCalendario } from '../lib/calendarioEntrenos'
-import { detalleSesion, volumenSets } from '../lib/workout'
+import { detalleSesion, formatHora, volumenSets } from '../lib/workout'
 import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
 import { formatFechaHora, monthDates, todayISO, toISODate } from '../../../shared/lib/dates'
 import type { SetEntry } from '../../../shared/db/types'
@@ -58,11 +58,20 @@ export default function Historial({ onAbrir }: { onAbrir: (id: number) => void }
           <ListGroup aria-label="Entrenos terminados del mes">
             {lista.map((w) => (
               <li key={w.id} data-sesion={w.id}>
+                {/* El día en un cuadro (número y día de la semana) y, al lado, la rutina y sus cifras: se lee de un vistazo.
+                    El gimnasio, solo si no es el habitual (el de casi todas). */}
                 <ListRow onClick={() => onAbrir(w.id)}>
-                  <span className="min-w-0">
-                    <span className="tabular block text-body font-medium text-fg">{formatFechaHora(w.inicio)}</span>
-                    <span className="tabular block break-words text-caption text-fg-muted">
-                      {detalleSesion(w, w.routineId !== undefined ? contexto?.rutinas.get(w.routineId) : undefined, contexto?.porWorkout.get(w.id) ?? [], nombreGimnasio(w.gimnasioId))}
+                  <span className="flex min-w-0 flex-1 items-center gap-3">
+                    <span aria-hidden className="flex h-thumb w-thumb shrink-0 flex-col items-center justify-center rounded-md bg-surface-muted">
+                      <span className="tabular font-numeric text-title leading-none text-fg">{new Date(w.inicio).getDate()}</span>
+                      <span className="text-caption text-fg-muted">{new Date(w.inicio).toLocaleDateString('es-ES', { weekday: 'short' }).replace('.', '')}</span>
+                    </span>
+                    <span className="min-w-0">
+                      <span className="sr-only">{formatFechaHora(w.inicio)}: </span>
+                      <span className="block break-words text-body font-semibold text-fg">{(w.routineId !== undefined ? contexto?.rutinas.get(w.routineId) : undefined) ?? 'Entreno libre'}</span>
+                      <span className="tabular block break-words text-caption text-fg-muted">
+                        {formatHora(w.inicio)} · {detalleSesion(w, undefined, contexto?.porWorkout.get(w.id) ?? [], w.gimnasioId !== undefined ? nombreGimnasio(w.gimnasioId) : undefined)}
+                      </span>
                     </span>
                   </span>
                   <Icon name="chevron-right" size={18} className="text-fg-subtle" />
