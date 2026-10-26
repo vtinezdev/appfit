@@ -81,6 +81,7 @@ Social:
 - Filtros por tipo requieren datos de volumen. Ocultación automática requiere capacidad de moderación; se conserva revisión manual. Fase 3 (enlaces/QR, expediciones y push) pendiente de sus pilotos, decisiones y bloqueos técnicos; las rutinas reutilizables ya están (A13, ADR 055, con 0022 ejecutada el 2026-10-23), la semana de Ritmo compartida (A18, ADR 056, con 0023 ejecutada el 2026-10-23) y la semana en compañía (A14, ADR 057, con 0024 ejecutada el 2026-10-23; falta el piloto de 3–4 semanas con parejas). El único agregado nuevo es la semana de Ritmo de quien está en un grupo; no hay servicio de push.
 
 Registro:
+- **Recetas con preparación** (raciones, pasos, ficha de lectura y acceso desde la rejilla y Nutrición): primero un prototipo con recetas de prueba; Víctor decide después si se implementa. Plan en [plan-recetas-2026-10-26.md](plan-recetas-2026-10-26.md).
 - Más nombres de unidades propias de varias palabras («trozo grande») en las raciones propias del intérprete.
 
 Gimnasio:
