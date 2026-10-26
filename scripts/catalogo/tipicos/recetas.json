@@ -38957,5 +38957,289 @@
         "gramos": 10
       }
     ]
+  },
+  {
+    "id": "salchichas-patatas-fritas",
+    "nombre": "Salchichas con patatas fritas, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 430,
+    "ingredientes": [
+      {
+        "ciqual": "30742",
+        "gramos": 200
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "fingers-pescado-caseros",
+    "nombre": "Palitos de merluza empanados caseros, fritos",
+    "alias": [
+      "fingers de pescado"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 540,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 400
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 30
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "mini-hamburguesas",
+    "nombre": "Minihamburguesas con queso, cocinadas",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 370,
+    "ingredientes": [
+      {
+        "ciqual": "7259",
+        "gramos": 150
+      },
+      {
+        "ciqual": "6254",
+        "gramos": 200
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11008",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "empanadillas-pizza",
+    "nombre": "Empanadillas de pizza de hojaldre, horneadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 450,
+    "ingredientes": [
+      {
+        "ciqual": "23410",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 80
+      },
+      {
+        "ciqual": "19590",
+        "gramos": 100
+      },
+      {
+        "ciqual": "28964",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11035",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "pollo-patatas-fritas",
+    "nombre": "Pollo frito con patatas fritas, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 680,
+    "ingredientes": [
+      {
+        "ciqual": "36022",
+        "gramos": 400
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "plato-huevo-salchichas-patatas",
+    "nombre": "Huevo frito con salchichas y patatas fritas, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 320,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "30742",
+        "gramos": 100
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 25
+      }
+    ]
+  },
+  {
+    "id": "tortitas-sirope",
+    "nombre": "Tortitas con sirope de arce, cocinadas",
+    "alias": [
+      "pancakes con sirope"
+    ],
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 500,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 150
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 20
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 6
+      },
+      {
+        "ciqual": "31034",
+        "gramos": 60
+      }
+    ]
+  },
+  {
+    "id": "macarrones-tomate",
+    "nombre": "Macarrones con tomate, cocinados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1100,
+    "ingredientes": [
+      {
+        "ciqual": "9810",
+        "gramos": 300
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 540
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "arroz-tomate",
+    "nombre": "Arroz blanco con tomate, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 780,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 200
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "pizza-pita",
+    "nombre": "Pizza de pan de pita, horneada",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimosexta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 180,
+    "ingredientes": [
+      {
+        "ciqual": "7180",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 30
+      },
+      {
+        "ciqual": "19590",
+        "gramos": 40
+      },
+      {
+        "ciqual": "28964",
+        "gramos": 20
+      }
+    ]
   }
 ]
