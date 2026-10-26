@@ -20,7 +20,8 @@ describe('módulos activables', () => {
     expect(tarjetasInicio({})).toEqual(TARJETAS_INICIO)
     expect(tarjetasInicio({ modulos: { nutricion: false, gym: false } })).toEqual(['progreso', 'registros', 'creatina'])
     expect(tarjetasInicio({ modulos: { peso: false } })).toContain('registros')
-    expect(tarjetasInicio({ modulos: { peso: false, agua: false } })).not.toContain('registros')
+    expect(tarjetasInicio({ modulos: { peso: false, agua: false } })).toContain('registros')
+    expect(tarjetasInicio({ modulos: { peso: false, agua: false, pasos: false } })).not.toContain('registros')
   })
 
   it('orden guardado: sin desconocidas ni repetidas y con las que falten al final', () => {

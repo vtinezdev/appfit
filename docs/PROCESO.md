@@ -2643,7 +2643,21 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos, con tests nuevos en `lib/planificadas.test.ts` (semana, nombres, rango, día inicial, agrupación por categoría, marcas) y `data/planificadasRepo.test.ts` (revisión con alimento propio y de catálogo agrupados en plato, alimento, kcal rápidas, días lejanos, marcas). Chromium en `appfit-test.localhost:5173` a 320, 375 y 430 px en ambos temas: semana que viene, miércoles, planificar escribiendo y buscando, lista agrupada, marcar, elegir días y lo de hoy en el Diario, sin scroll horizontal ni errores en consola. No probado en un iPhone físico ni con el texto al 200 %; no se ejecutaron los recorridos `validar-*` existentes.
 
-## 242. «Encajan con lo que te falta» pasa de Buscar a Escribir (2026-10-26)
+## 242. Pasos de la semana y tarjeta de Pasos en Inicio (2026-10-26)
+
+**Qué:** los pasos se pueden apuntar por semanas: «Pasos de la semana» reparte el total a partes iguales entre los días ya pasados de esa semana (lunes a domingo, sin los futuros) y cada día se puede cambiar; el total pasa a ser la suma. Un día vacío queda sin pasos. En Inicio, una tarjeta propia «Pasos», al lado del agua (cada una la suya, decisión de Víctor), con los de hoy y los de la semana; tocarla apunta los de hoy y «Semana» abre la hoja de la semana. Módulo nuevo «Pasos» en Ajustes › «Lo que usas».
+
+**Cómo:** se guarda día a día en la tabla `pasos` de siempre (sin esquema nuevo), así que el motor de Caminos y los logros de la Vitrina no cambian.
+- `caminos/lib/semanaPasos` es puro y tiene tests: `repartirPasos` (el resto de la división, un paso más en los primeros días), el borrador de la hoja (`borradorInicial`, `conTotal`, `conDia`), `leerSemana` (errores por día y total que no cuadra), `sustituye`, `pasosDeSemana`, `mensajeSemana`. `lib/pasos` gana `leerCifraPasos` y `diaTexto` (antes privado de `PasosCaminos`).
+- `pasosRepo.guardarSemana` escribe la semana en una transacción y devuelve lo anterior de cada día para `restaurarSemana` («Deshacer»); `restaurar` pasa a usarla.
+- `components/HojaSemanaPasos` (Sheet con flechas de semana), «Apuntar una semana» en `PasosCaminos` e `inicio/components/AccesoPasos`, que monta las dos hojas.
+- `shared/lib/modulos`: `pasos` (y `Settings.modulos.pasos`); la tarjeta «registros» pasa a «Peso, agua y pasos» y se ve mientras quede una de las tres. Ocultar Pasos solo quita la tarjeta: lo apuntado sigue contando en Caminos.
+- `index.css`: `.inicio-par` (agua y pasos en dos columnas, una sola ocupa la fila; apiladas bajo 17,5 rem).
+- Documentos: `features/caminos.md`, `features/inicio.md`, `datos.md`, `arquitectura.md`, `DESIGN-SYSTEM.md`, README y roadmap.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320/375/430 px en ambos temas, 1440 px y 375 px con texto al 200 %: tarjetas Agua y Pasos lado a lado (apiladas con el texto ampliado), controles de 44 px, inputs de 16 px y sin scroll horizontal. En la semana anterior con 8.000 pasos ya apuntados el miércoles, la hoja parte de 8.000; 63.003 se reparten 9.001 × 3 y 9.000 × 4; cambiar el sábado a 15.000 y vaciar el domingo deja 60.003; un día con 200.000 da el error en línea con su día; al guardar, «60.003 pasos del 19–25 oct» y «Deshacer» deja la tabla como estaba. Con Agua o Pasos oculto, la otra ocupa la fila. «Apuntar una semana» en Caminos guarda 70.000 repartidos. Sin errores de consola.
+
+## 243. «Encajan con lo que te falta» pasa de Buscar a Escribir (2026-10-26)
 
 **Qué:** Víctor quiere ver «Cerrar el día» (B10) en Escribir, la pestaña con la que abre Añadir comida, en lugar de como chip en Buscar.
 
@@ -2651,7 +2665,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` (2.803) y `npm run build` correctos. No probado en el navegador.
 
-## 243. «Encajan con lo que te falta» con los cuatro macros, combinaciones e ideas (2026-10-26)
+## 244. «Encajan con lo que te falta» con los cuatro macros, combinaciones e ideas (2026-10-26)
 
 **Qué:** a Víctor le salían propuestas como «400 g de champiñones» y quería combinaciones de alimentos. Se le propusieron raciones habituales, ordenar por cuánto acerca, combinaciones de dos frecuentes y comidas típicas. Pidió las cuatro y dos cosas más: que mirase los cuatro macros, para no pasarse de grasa, e ideas de fuera de lo habitual (solo de categorías que la persona registra). Arriba, típicas y combinaciones estables; debajo, ideas y sueltos que cambian con «Sugerir otras».
 
@@ -2659,7 +2673,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` (2.841) y `npm run build` correctos, con tests nuevos en `lib/cerrarDia.test.ts` (macros, márgenes, raciones, combinaciones, típicas, ideas, tandas y que cada id de `IDEAS` existe en el catálogo) y `data/foodsRepo.test.ts`. Chromium en `appfit-test.localhost:5173` con datos sintéticos, a 320, 375 y 430 px en ambos temas: abrir, «Sugerir otras» y elegir una combinación, que abre la revisión con los dos alimentos. Sin scroll horizontal, controles de 44 px o más y sin errores en consola. No probado en un iPhone ni con el texto al 200 %.
 
-## 244. Propuestas de «Cerrar el día» del tamaño de una comida (2026-10-26)
+## 245. Propuestas de «Cerrar el día» del tamaño de una comida (2026-10-26)
 
 **Qué:** las propuestas podían gastarse casi todo lo que quedaba del día (947 de 1.020 kcal en un plato). Víctor elige: la mitad de lo que queda, salvo en la cena o con 600 kcal o menos por delante, que puede usarse todo.
 
