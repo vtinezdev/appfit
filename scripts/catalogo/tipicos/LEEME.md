@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1677 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1255 recetas CIQUAL (61 hasta el 25 de octubre y
-1194 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1688 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1266 recetas CIQUAL (61 hasta el 25 de octubre y
+1205 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -884,3 +884,7 @@ Merluza en salsa de puerros, lubina al horno con patatas, dorada a la sal, bacal
 ### Tanda 57 de recetas: mariscos (9)
 
 Mejillones al vapor, mejillones a la marinera, almejas a la plancha, vieiras gratinadas, cigalas a la plancha, langostinos al ajillo, pulpo guisado con patatas, sepia en salsa y langosta a la plancha.
+
+### Tanda 58 de recetas: huevos y tortillas (11)
+
+Tortilla de patatas con jamón serrano, tortilla de berenjena, tortilla de pimientos, tortilla de queso de cabra y cebolla, revuelto de champiñones y jamón, huevos revueltos con tomate, huevos rellenos de gambas, huevos encapotados (rebozados), huevos en salsa de almendras, huevos escalfados con espárragos trigueros y frittata de patata y espinacas.
