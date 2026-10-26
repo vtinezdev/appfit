@@ -46667,5 +46667,197 @@
         "gramos": 3
       }
     ]
+  },
+  {
+    "id": "smoothie-mango-platano",
+    "nombre": "Smoothie de mango y plátano, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 76 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 475,
+    "ingredientes": [
+      {
+        "ciqual": "13025",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "batido-fresa-platano",
+    "nombre": "Batido de fresa y plátano, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 76 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 500,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      }
+    ]
+  },
+  {
+    "id": "smoothie-pina-espinacas",
+    "nombre": "Smoothie de piña y espinacas, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 76 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 470,
+    "ingredientes": [
+      {
+        "ciqual": "13002",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20059",
+        "gramos": 40
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 80
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "batido-kefir-frutos-rojos",
+    "nombre": "Batido de kéfir con frutos rojos, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 76 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 450,
+    "ingredientes": [
+      {
+        "ciqual": "19865",
+        "gramos": 250
+      },
+      {
+        "ciqual": "13014",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13015",
+        "gramos": 50
+      },
+      {
+        "ciqual": "13028",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "smoothie-melocoton",
+    "nombre": "Smoothie de melocotón y yogur, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 76 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 335,
+    "ingredientes": [
+      {
+        "ciqual": "13398",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "batido-datiles-platano",
+    "nombre": "Batido de dátiles y plátano, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 76 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 390,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      },
+      {
+        "ciqual": "13011",
+        "gramos": 40
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "smoothie-kiwi-manzana",
+    "nombre": "Smoothie de kiwi y manzana, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 76 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 410,
+    "ingredientes": [
+      {
+        "ciqual": "13021",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13396",
+        "gramos": 150
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 100
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "batido-verde-pepino-apio",
+    "nombre": "Batido verde de pepino, apio y manzana, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 76 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 565,
+    "ingredientes": [
+      {
+        "ciqual": "20019",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20023",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13396",
+        "gramos": 150
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 15
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 100
+      }
+    ]
   }
 ]
