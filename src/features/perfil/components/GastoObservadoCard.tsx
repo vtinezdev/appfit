@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import Ayuda from '../../../shared/components/Ayuda'
 import Card from '../../../shared/components/Card'
 import Disclosure from '../../../shared/components/Disclosure'
 import Icon from '../../../shared/components/Icon'
@@ -26,7 +27,8 @@ interface Props {
 
 const diaMes = (iso: string) => formatDiaMes(parseISODate(iso).getTime())
 
-function Requisito({ titulo, valor, meta, detalle, children }: { titulo: string; valor: number; meta: number; detalle: string; children?: ReactNode }) {
+/** Un mínimo con su cifra y su barra; `children` sustituye a la barra cuando hace falta otra forma. */
+function Requisito({ titulo, valor, meta, children }: { titulo: string; valor: number; meta: number; children?: ReactNode }) {
   const cumplido = valor >= meta
   return <div className="space-y-2">
     <p className="flex flex-wrap items-baseline justify-between gap-x-3">
@@ -35,34 +37,40 @@ function Requisito({ titulo, valor, meta, detalle, children }: { titulo: string;
       </span>
       <span className="tabular text-body-sm text-fg">{formatNumber(valor)} de {formatNumber(meta)}</span>
     </p>
-    <ProgressBar value={Math.min(valor, meta)} goal={meta} colorClass="bg-fg" label={titulo} valueText={`${formatNumber(valor)} de ${formatNumber(meta)}`} />
-    <p className="text-caption text-fg-muted">{detalle}</p>
-    {children}
+    {children ?? <ProgressBar value={Math.min(valor, meta)} goal={meta} colorClass="bg-fg" label={titulo} valueText={`${formatNumber(valor)} de ${formatNumber(meta)}`} />}
   </div>
 }
 
-/** Los dos mínimos por separado, con las cifras de los registros reales: días con comidas y semanas con pesajes. */
+/**
+ * Los dos mínimos por separado, con las cifras de los registros reales: días con comidas (barra) y semanas con pesajes
+ * (un tramo por semana, lleno si tiene sus pesajes, con el día en que empieza debajo).
+ */
 function Requisitos({ observado }: { observado: GastoObservado }) {
   const semanas = observado.semanas
   return <div className="space-y-stack">
-    <Requisito titulo="Días con comidas" valor={observado.diasRegistrados} meta={observado.diasMin}
-      detalle={`Al menos ${formatNumber(observado.diasMin)} de los últimos ${formatNumber(observado.dias)} días, sin contar hoy.`} />
-    <Requisito titulo="Semanas con pesajes" valor={semanasCumplidas(observado)} meta={semanas.length}
-      detalle={`${formatNumber(PESAJES_SEMANA_MIN)} pesajes en cada una de las ${formatNumber(semanas.length)} semanas.`}>
-      <ul aria-label="Pesajes por semana" className="flex flex-wrap gap-2">
+    <Requisito titulo="Días con comidas" valor={observado.diasRegistrados} meta={observado.diasMin} />
+    <Requisito titulo="Semanas con pesajes" valor={semanasCumplidas(observado)} meta={semanas.length}>
+      <ul aria-label="Pesajes por semana" className="grid gap-1" style={{ gridTemplateColumns: `repeat(${semanas.length}, minmax(0, 1fr))` }}>
         {semanas.map((s) => {
           const ok = s.pesajes >= PESAJES_SEMANA_MIN
-          return <li key={s.desde} className="min-w-0 flex-1 basis-28 rounded-md bg-surface-muted px-3 py-2">
-            <span className="tabular block break-words text-caption text-fg-muted">{diaMes(s.desde)} – {diaMes(s.hasta)}</span>
-            <span className="tabular flex items-center gap-1 text-body-sm font-semibold text-fg">
-              {ok && <Icon name="check" size={16} className="shrink-0 text-accent-strong" />}
-              {formatNumber(s.pesajes)} de {formatNumber(PESAJES_SEMANA_MIN)}<span className="sr-only">{ok ? ' pesajes: cumplida' : ' pesajes'}</span>
-            </span>
+          return <li key={s.desde} className="min-w-0 space-y-1">
+            <span aria-hidden className={`block h-2 rounded-pill ${ok ? 'bg-fg' : 'bg-surface-muted'}`} />
+            <span className="tabular block break-words text-caption text-fg-muted">{diaMes(s.desde)}</span>
+            <span className="sr-only">al {diaMes(s.hasta)}: {formatNumber(s.pesajes)} de {formatNumber(PESAJES_SEMANA_MIN)} pesajes{ok ? ', cumplida' : ''}</span>
           </li>
         })}
       </ul>
     </Requisito>
   </div>
+}
+
+/** Cómo se calcula, sus mínimos y sus límites, tras la «i» del título. */
+function ComoSeCalcula({ observado }: { observado: GastoObservado }) {
+  return <Ayuda titulo="Gasto observado">
+    <p>Compara lo que comes con cómo cambia tu peso. Gasto = kcal medias registradas − (pendiente de la media de peso de 7 días, en kg/día) × {formatNumber(KCAL_POR_KG)} kcal/kg. Se usan los últimos {formatNumber(DIAS_VENTANA)} días sin contar hoy.</p>
+    <p>Requisitos: comidas registradas al menos el {formatNumber(FRACCION_REGISTRO_MIN * 100)} % de los días ({formatNumber(observado.diasMin)} de los últimos {formatNumber(observado.dias)}) y {formatNumber(PESAJES_SEMANA_MIN)} pesajes en cada una de las {formatNumber(observado.semanas.length)} semanas. La ventana nunca baja de {formatNumber(DIAS_VENTANA_MIN)} días.</p>
+    <p>{formatNumber(KCAL_POR_KG)} kcal por kg es solo una aproximación (Hall, 2008). El peso también cambia por agua, sal y digestión, y los registros de comida suelen quedarse algo cortos, así que el resultado es orientativo. Cambia de verdad con cambios de peso reales: si tu peso apenas varía, el gasto observado es sobre todo lo que comes.</p>
+  </Ayuda>
 }
 
 /** Gasto observado junto al estimado, con el progreso de sus requisitos y la opción de usarlo como gasto diario (desactivada por defecto). */
@@ -90,7 +98,7 @@ export default function GastoObservadoCard({ perfil, energia, observado, hoy, pl
       </div>
       <p className="tabular text-body-sm text-fg-muted">Con {formatNumber(observado.kcalMedia)} kcal de media en {formatNumber(observado.diasRegistrados)} de los últimos {formatNumber(observado.dias)} días y {formatNumber(observado.pesajes)} pesajes.</p>
     </> : <>
-      <p className="text-body-sm text-fg-muted">Se calcula cuando se cumplen los dos requisitos.</p>
+      <p className="text-body-sm text-fg-muted">Se calcula con tus comidas y tus pesajes cuando se cumplan los dos mínimos.</p>
       <Requisitos observado={observado} />
       {requisitosCumplidos && observado.motivos.map((m) => <p key={m} className="text-body-sm text-fg-muted">{m}</p>)}
     </>}
@@ -101,18 +109,13 @@ export default function GastoObservadoCard({ perfil, energia, observado, hoy, pl
       {energia.estado === 'ok' && energia.origenGet === 'observado' && <p className="text-body-sm text-fg-muted">Tu objetivo diario parte ahora del gasto observado.</p>}
       {error && <ErrorState>{error}</ErrorState>}
     </div>
-    <Disclosure title="Cómo se calcula y sus límites">
-      <div className="space-y-2 text-body-sm text-fg-muted">
-        <p>Compara lo que comes con cómo cambia tu peso. Gasto = kcal medias registradas − (pendiente de la media de peso de 7 días, en kg/día) × {formatNumber(KCAL_POR_KG)} kcal/kg. Se usan los últimos {formatNumber(DIAS_VENTANA)} días sin contar hoy.</p>
-        <p>Requisitos: comidas registradas al menos el {formatNumber(FRACCION_REGISTRO_MIN * 100)} % de los días ({formatNumber(Math.ceil(DIAS_VENTANA * FRACCION_REGISTRO_MIN))} de {formatNumber(DIAS_VENTANA)}) y {formatNumber(PESAJES_SEMANA_MIN)} pesajes en cada semana. La ventana nunca baja de {formatNumber(DIAS_VENTANA_MIN)} días.</p>
-        <p>{formatNumber(KCAL_POR_KG)} kcal por kg es solo una aproximación (Hall, 2008). El peso también cambia por agua, sal y digestión, y los registros de comida suelen quedarse algo cortos, así que el resultado es orientativo. Cambia de verdad con cambios de peso reales: si tu peso apenas varía, el gasto observado es sobre todo lo que comes.</p>
-      </div>
-    </Disclosure>
   </div>
 
-  if (plegado) return <section aria-label="Gasto observado"><Disclosure title="Gasto observado">{contenido}</Disclosure></section>
+  if (plegado) return <section aria-label="Gasto observado"><Disclosure title="Gasto observado">
+    <div className="space-y-stack"><div className="flex justify-end"><ComoSeCalcula observado={observado} /></div>{contenido}</div>
+  </Disclosure></section>
   return <section className="space-y-stack">
-    <SectionHeader variant="section">Gasto observado</SectionHeader>
+    <SectionHeader variant="section" action={<ComoSeCalcula observado={observado} />}>Gasto observado</SectionHeader>
     <Card>{contenido}</Card>
   </section>
 }

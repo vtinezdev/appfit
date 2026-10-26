@@ -21,18 +21,17 @@ describe('requisitos del gasto observado', () => {
     const h = html(18, [0, 3, 8, 21, 23, 25])
     expect(h).toContain('Días con comidas')
     expect(h).toContain('18 de 23')
-    expect(h).toContain('Al menos 23 de los últimos 28 días, sin contar hoy.')
     expect(h).toContain('Semanas con pesajes')
     expect(h).toContain('2 de 4')
     expect(h).toContain('aria-label="Pesajes por semana"')
     expect(h.match(/<li /g)).toHaveLength(4)
-    expect(h).toContain('0 de 2')
+    expect(h).toContain('0 de 2 pesajes')
     expect(h).not.toContain('kcal/día')
   })
-  it('la explicación y sus límites quedan en el desplegable; se conserva el selector', () => {
+  it('la explicación y sus límites quedan tras la «i»; se conserva el selector', () => {
     const h = html(0, [])
-    expect(h).toContain('Cómo se calcula y sus límites')
-    expect(h).toContain('Hall, 2008')
+    expect(h).toContain('aria-label="Qué es Gasto observado"')
+    expect(h).not.toContain('Hall, 2008')
     expect(h).toContain('Usar el observado')
   })
   it('con los mínimos cumplidos se ve el resultado y no los requisitos', () => {
