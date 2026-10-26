@@ -31166,5 +31166,381 @@
         "gramos": 15
       }
     ]
+  },
+  {
+    "id": "chuleton-brasa",
+    "nombre": "Chuletón de vacuno a la brasa, asado",
+    "alias": [
+      "chuletón a la parrilla"
+    ],
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Entrecot CIQUAL como chuletón.",
+    "pesoFinalG": 400,
+    "ingredientes": [
+      {
+        "ciqual": "6103",
+        "gramos": 500
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "churrasco-ternera",
+    "nombre": "Churrasco de ternera a la brasa, asado",
+    "alias": [
+      "tira de asado"
+    ],
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 380,
+    "ingredientes": [
+      {
+        "ciqual": "6001",
+        "gramos": 500
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "panceta-brasa",
+    "nombre": "Panceta a la brasa, asada",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 280,
+    "ingredientes": [
+      {
+        "ciqual": "28501",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "morcilla-brasa",
+    "nombre": "Morcilla a la brasa, asada",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 270,
+    "ingredientes": [
+      {
+        "ciqual": "8703",
+        "gramos": 300
+      }
+    ]
+  },
+  {
+    "id": "salchichas-brasa",
+    "nombre": "Salchichas frescas a la brasa, asadas",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 320,
+    "ingredientes": [
+      {
+        "ciqual": "30051",
+        "gramos": 400
+      }
+    ]
+  },
+  {
+    "id": "parrillada-carne",
+    "nombre": "Parrillada de carne mixta, asada",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 600,
+    "ingredientes": [
+      {
+        "ciqual": "28100",
+        "gramos": 200
+      },
+      {
+        "ciqual": "36022",
+        "gramos": 200
+      },
+      {
+        "ciqual": "30051",
+        "gramos": 150
+      },
+      {
+        "ciqual": "8703",
+        "gramos": 100
+      },
+      {
+        "ciqual": "28501",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "parrillada-pescado-marisco",
+    "nombre": "Parrillada de pescado y marisco, a la plancha, cocinada",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 580,
+    "ingredientes": [
+      {
+        "ciqual": "26088",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10016",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "espeto-sardinas",
+    "nombre": "Espeto de sardinas, asado",
+    "alias": [
+      "sardinas a la brasa"
+    ],
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 400,
+    "ingredientes": [
+      {
+        "ciqual": "26065",
+        "gramos": 500
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "alitas-barbacoa",
+    "nombre": "Alitas de pollo a la barbacoa, asadas",
+    "alias": [
+      "alitas bbq"
+    ],
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 760,
+    "ingredientes": [
+      {
+        "ciqual": "36023",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "11100",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "pollo-brasa",
+    "nombre": "Pollo a la brasa con especias, asado",
+    "alias": [
+      "pollo a la brasa peruano"
+    ],
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 750,
+    "ingredientes": [
+      {
+        "ciqual": "36016",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11042",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "13067",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "brochetas-ternera",
+    "nombre": "Brochetas de ternera con verduras, asadas",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 480,
+    "ingredientes": [
+      {
+        "ciqual": "6201",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "provoleta",
+    "nombre": "Provoleta a la plancha, cocinada",
+    "alias": [
+      "provolone a la plancha"
+    ],
+    "categoria": "Quesos",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 180,
+    "ingredientes": [
+      {
+        "ciqual": "12716",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11035",
+        "gramos": 2
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "mazorca-brasa",
+    "nombre": "Mazorca de maíz a la brasa con mantequilla, asada",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 290,
+    "ingredientes": [
+      {
+        "ciqual": "20108",
+        "gramos": 300
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "calcots-romesco",
+    "nombre": "Calçots con salsa romesco, asados",
+    "alias": [
+      "calçotada"
+    ],
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Cebolleta CIQUAL como calçot; romesco casero con pimentón a falta de ñora.",
+    "pesoFinalG": 600,
+    "ingredientes": [
+      {
+        "ciqual": "11003",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 30
+      },
+      {
+        "ciqual": "15004",
+        "gramos": 20
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "butifarra-mongetes",
+    "nombre": "Butifarra con judías (botifarra amb mongetes), cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Masa de salchicha de cerdo CIQUAL como butifarra fresca.",
+    "pesoFinalG": 560,
+    "ingredientes": [
+      {
+        "ciqual": "30051",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20501",
+        "gramos": 120
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      }
+    ]
   }
 ]

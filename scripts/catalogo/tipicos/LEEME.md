@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1318 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 903 recetas CIQUAL (61 hasta el 25 de octubre y
-842 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1333 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 918 recetas CIQUAL (61 hasta el 25 de octubre y
+857 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -768,3 +768,7 @@ Brochetas de fruta, piña asada, plátano a la plancha con miel, fresas con yogu
 ### Vigesimoctava tanda de recetas: dieta blanda y purés (13)
 
 Dieta blanda (arroz con pollo hervido, merluza hervida con patata, patata y zanahoria hervidas, sopas de arroz y de sémola, compota sin azúcar), purés de zanahoria y de calabacín con patata, triturados caseros (pollo, pescado, ternera, lentejas) y papilla de frutas con galleta.
+
+### Vigesimonovena tanda de recetas: asados, brasa y barbacoa (15)
+
+Carnes a la brasa (chuletón, churrasco, panceta, morcilla, salchichas, parrillada mixta, pollo, alitas a la barbacoa con salsa barbecue CIQUAL, brochetas de ternera), parrillada de pescado y marisco, espeto de sardinas, provoleta, mazorca a la brasa, calçots con romesco casero y butifarra con judías. Sin factores de retención: en las piezas grasas (panceta, chorizo, morcilla) la grasa que se pierde en la brasa no se descuenta.
