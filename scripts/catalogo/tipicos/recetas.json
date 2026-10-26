@@ -36790,5 +36790,435 @@
         "gramos": 50
       }
     ]
+  },
+  {
+    "id": "lasana-berenjena",
+    "nombre": "Lasaña de berenjena con carne, horneada",
+    "alias": [
+      "lasaña sin pasta"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1300,
+    "ingredientes": [
+      {
+        "ciqual": "20053",
+        "gramos": 600
+      },
+      {
+        "ciqual": "6536",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "19590",
+        "gramos": 125
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "lasana-calabacin",
+    "nombre": "Lasaña de calabacín con pollo, horneada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1250,
+    "ingredientes": [
+      {
+        "ciqual": "20020",
+        "gramos": 600
+      },
+      {
+        "ciqual": "36017",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "19590",
+        "gramos": 125
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "calabacin-relleno-carne",
+    "nombre": "Calabacines rellenos de carne gratinados, horneados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "20020",
+        "gramos": 700
+      },
+      {
+        "ciqual": "6536",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 150
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "tomates-rellenos-carne",
+    "nombre": "Tomates rellenos de carne, horneados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 800
+      },
+      {
+        "ciqual": "6536",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 60
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "pimientos-rellenos-arroz",
+    "nombre": "Pimientos rellenos de arroz y carne, horneados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1200,
+    "ingredientes": [
+      {
+        "ciqual": "20087",
+        "gramos": 700
+      },
+      {
+        "ciqual": "9100",
+        "gramos": 120
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 240
+      },
+      {
+        "ciqual": "6536",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "alcachofas-rellenas",
+    "nombre": "Alcachofas rellenas de jamón, horneadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "20052",
+        "gramos": 700
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "brocoli-gratinado",
+    "nombre": "Brócoli gratinado con bechamel, horneado",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "20057",
+        "gramos": 500
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 400
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 35
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 35
+      }
+    ]
+  },
+  {
+    "id": "puerros-gratinados",
+    "nombre": "Puerros gratinados con bechamel, horneados",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 850,
+    "ingredientes": [
+      {
+        "ciqual": "20039",
+        "gramos": 500
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 400
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 35
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 35
+      }
+    ]
+  },
+  {
+    "id": "endibias-jamon-gratinadas",
+    "nombre": "Endibias con jamón gratinadas, horneadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Pechuga de pavo en lonchas CIQUAL en lugar de jamón cocido.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "20026",
+        "gramos": 500
+      },
+      {
+        "ciqual": "28964",
+        "gramos": 100
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 400
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 35
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 35
+      }
+    ]
+  },
+  {
+    "id": "cebollas-rellenas",
+    "nombre": "Cebollas rellenas de carne, horneadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 850,
+    "ingredientes": [
+      {
+        "ciqual": "20034",
+        "gramos": 700
+      },
+      {
+        "ciqual": "6536",
+        "gramos": 250
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 20
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "espinacas-gratinadas",
+    "nombre": "Espinacas gratinadas con bechamel, horneadas",
+    "alias": [
+      "espinacas a la crema"
+    ],
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 850,
+    "ingredientes": [
+      {
+        "ciqual": "20059",
+        "gramos": 600
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 400
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 35
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 35
+      }
+    ]
+  },
+  {
+    "id": "coliflor-bechamel",
+    "nombre": "Coliflor con bechamel gratinada, horneada",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, cuadragesimoprimera tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "20016",
+        "gramos": 600
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 400
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 35
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 35
+      }
+    ]
   }
 ]
