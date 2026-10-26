@@ -1,15 +1,15 @@
 Típicos 2026-10-26 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
-Vía 2 (directos): 336; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 375; total: 711
-Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 666; pendientes: 0.
+Vía 2 (directos): 356; excluidos por energía: salvado-avena-cocido
+Vía 3 (recetas): 375; total: 731
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 686; pendientes: 0.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
 Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
 USDA: 57 directos aceptados
 CoFID: 167 directos aceptados
-AppFit: 112 directos aceptados
-Reparto por categoría: Carnes: 41; Legumbres: 13; Cereales, arroz y pasta: 13; Frutos secos y semillas: 6; Pan y tostadas: 22; Quesos: 25; Cereales de desayuno y barritas: 4; Patatas y tubérculos: 9; Verduras y hortalizas: 8; Pescados: 17; Platos preparados: 375; Galletas, bollería y pasteles: 41; Salsas y condimentos: 21; Mariscos: 9; Frutas: 11; Embutidos y fiambres: 22; Snacks salados: 4; Bebidas: 18; Dulces y chocolate: 22; Yogures y postres lácteos: 12; Otros: 3; Leche y nata: 1; Bebidas alcohólicas: 12; Huevos: 2
+AppFit: 132 directos aceptados
+Reparto por categoría: Carnes: 43; Legumbres: 13; Cereales, arroz y pasta: 13; Frutos secos y semillas: 6; Pan y tostadas: 23; Quesos: 26; Cereales de desayuno y barritas: 4; Patatas y tubérculos: 9; Verduras y hortalizas: 13; Pescados: 21; Platos preparados: 375; Galletas, bollería y pasteles: 42; Salsas y condimentos: 24; Mariscos: 9; Frutas: 12; Embutidos y fiambres: 22; Snacks salados: 5; Bebidas: 19; Dulces y chocolate: 22; Yogures y postres lácteos: 12; Otros: 3; Leche y nata: 1; Bebidas alcohólicas: 12; Huevos: 2
 Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 34 referencias individuales leídas de RAG/RTVE. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.
 Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.
@@ -25,6 +25,7 @@ Alimentos sueltos AppFit (2026-10-26): valores típicos estimados a partir de et
 Segunda tanda de alimentos sueltos AppFit: 30 más (embutidos, quesos, conservas de mar, dulces navideños y bollería envasados, snacks y miel de caña). Pipas descartadas: CIQUAL 15045 las cubre.
 Tercera tanda de alimentos sueltos AppFit: 24 más (frutos secos y aperitivos, dulces navideños y bollería, conservas de mar, platos, postres y salsas envasados). Donuts, mortadela, garrapiñadas, gazpacho y arroz con leche envasados ya están en CIQUAL.
 Cuarta tanda de alimentos sueltos AppFit: 20 alimentos comunes (proteína en polvo, skyr, yogur, batido, barrita, pan y leche proteicos; carne picada mixta, burger meat, salchichas frescas, cinta de lomo; gulas, cacao soluble, isotónica, ñoquis, atún claro en aceite de oliva y crema de verduras envasada).
+Quinta tanda de alimentos sueltos AppFit: 20 comunes más (acelga en hoja, borraja, ajetes, níscalos, seta de cardo, paraguayo, rosada, besugo, palometa, corvina, cabrito, magret de pato, té frío, salsa rosa, digestive, gusanitos, queso rallado, pan de espelta, piparras y choricero seco). Valores de webs que reproducen BEDCA descartados.
 Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.
 
 AVISOS calidad.ts:

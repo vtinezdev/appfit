@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-711 filas: 336 valores directos (57 USDA, 167 CoFID y 112 valores de referencia
+731 filas: 356 valores directos (57 USDA, 167 CoFID y 132 valores de referencia
 AppFit de alimentos sueltos) y 375 recetas CIQUAL (61 hasta el 25 de octubre y
 314 de las tres tandas manuales de típicos españoles del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
@@ -579,3 +579,21 @@ tofu, bebidas energéticas…) ya está en CIQUAL; se añade lo que falta:
   ñoquis de patata, atún claro en aceite de oliva (escurrido) y crema de
   verduras envasada.
 
+
+### Quinta tanda: más alimentos comunes (20)
+
+731 filas en total; las 711 anteriores intactas.
+
+- Verduras y setas (5): acelga en hoja (CIQUAL solo tiene el tallo), borraja,
+  ajetes, níscalos (ficha del MAPA) y seta de cardo.
+- Fruta (1): paraguayo.
+- Pescado y carne (6): rosada, besugo, palometa, corvina, cabrito y magret
+  de pato con piel.
+- Supermercado (8): té frío al limón con azúcar, salsa rosa, galletas
+  digestive, gusanitos, queso rallado de cuatro quesos, pan de espelta,
+  piparras y pimiento choricero seco.
+
+Algunas webs reproducen valores de BEDCA (paraguayo, besugo, palometa): no
+se toman de ellas; se usan tiendas, pescaderías y Mercavalencia. Sin fila:
+grelos (las fuentes se contradicen), ñora y carne de pimiento choricero en
+tarro (cada marca es muy distinta).
