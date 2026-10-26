@@ -5,12 +5,12 @@ import IconoLogro from './IconoLogro'
 
 /**
  * Celebración de las piezas nuevas de la Vitrina: una hoja con cada una (insignia grande, nombre y requisito). Con una
- * sola, la insignia va centrada; con varias, en lista. No guarda nada: quien la abre decide cuándo.
+ * sola, la insignia va centrada; con varias, en lista. No guarda nada: la abre `CelebracionLogros`.
  */
-export default function NuevosLogrosSheet({ nuevos, open, onClose }: { nuevos: NuevoLogro[]; open: boolean; onClose: () => void }) {
+export default function NuevosLogrosSheet({ nuevos, open, onClose, onExited }: { nuevos: NuevoLogro[]; open: boolean; onClose: () => void; onExited?: () => void }) {
   const titulo = nuevos.length === 1 ? '¡Nuevo logro!' : `¡${nuevos.length} logros nuevos!`
   const texto = ({ logro, nivel }: NuevoLogro) => nivel !== null && logro.umbrales && logro.textoNivel ? logro.textoNivel(logro.umbrales[nivel - 1]) : logro.descripcion
-  return <Sheet open={open} onClose={onClose} title={titulo} footer={<Button block size="lg" onClick={onClose}>Genial</Button>}>
+  return <Sheet open={open} onClose={onClose} onExited={onExited} title={titulo} footer={<Button block size="lg" onClick={onClose}>Genial</Button>}>
     {nuevos.length === 1
       ? <div className="flex flex-col items-center gap-3 py-2 text-center">
           <IconoLogro logro={nuevos[0].logro} tamano="lg" alcanzado />

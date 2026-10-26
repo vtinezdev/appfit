@@ -4,7 +4,7 @@ import type { RecordEjercicio } from './records'
 
 const rec = (exerciseId: number, tipo: RecordEjercicio['tipo'], valor: number, anterior: number, peso?: number): RecordEjercicio => ({ exerciseId, tipo, valor, anterior, ...(peso ? { peso } : {}) })
 const nombres = { 1: 'Press banca', 2: 'Sentadilla', 3: 'Remo' }
-const vacio: DatosHitos = { records: [], nombres, subidas: [], cumbre: null, ligas: [], logros: [] }
+const vacio: DatosHitos = { records: [], nombres, cumbre: null, ligas: [], logros: [] }
 
 describe('franja «Hoy» del fin de sesión', () => {
   it('sin nada que contar, ningún hito', () => {
@@ -25,8 +25,8 @@ describe('franja «Hoy» del fin de sesión', () => {
   })
 
   it('con sitio de sobra, más récords (uno por ejercicio antes que repetir)', () => {
-    const h = hitosDeSesion({ ...vacio, records: [rec(1, '1rm', 104.5, 98.2), rec(1, 'peso', 82.5, 77.5), rec(2, 'peso', 120, 117.5)], subidas: [{ musculo: 'Pecho', nivel: 'Básico III' }] })
-    expect(h.map(x => x.texto)).toEqual(['Press banca · Peso máximo: 82,5 kg (+5 kg)', 'Pecho sube a Básico III', 'Sentadilla · Peso máximo: 120 kg (+2,5 kg)'])
+    const h = hitosDeSesion({ ...vacio, records: [rec(1, '1rm', 104.5, 98.2), rec(1, 'peso', 82.5, 77.5), rec(2, 'peso', 120, 117.5)] })
+    expect(h.map(x => x.texto)).toEqual(['Press banca · Peso máximo: 82,5 kg (+5 kg)', 'Sentadilla · Peso máximo: 120 kg (+2,5 kg)', 'Press banca · 1RM estimado: 104,5 kg (+6,3 kg)'])
   })
 
   it('metros sin cima y logros; nunca más de tres', () => {

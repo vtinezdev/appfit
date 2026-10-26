@@ -1,7 +1,7 @@
 import Icon, { type IconName } from '../../../shared/components/Icon'
 import type { HitoSesion, TipoHito } from '../lib/fichaEntreno'
 
-const ICONO: Record<TipoHito, IconName> = { record: 'trophy', cuerpo: 'dumbbell', cumbre: 'mountain', liga: 'escudo', logro: 'sparkles' }
+const ICONO: Record<TipoHito, IconName> = { record: 'trophy', cumbre: 'mountain', liga: 'escudo', logro: 'sparkles' }
 
 /** «Press banca · Peso: 65 kg (+2,5 kg)» → lo conseguido arriba y de qué, debajo; sin «·», el sistema hace de contexto. */
 function partes(h: HitoSesion): { principal: string; detalle: string } {

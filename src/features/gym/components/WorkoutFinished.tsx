@@ -8,7 +8,6 @@ import PosterSesion from './PosterSesion'
 import CumbreSesion from '../../cumbres/components/CumbreSesion'
 import { cumbreDeSesion, nombreExpedicion } from '../../cumbres/lib/cumbres'
 import NuevosLogros from '../../vitrina/components/NuevosLogros'
-import NuevosLogrosSheet from '../../vitrina/components/NuevosLogrosSheet'
 import { useVitrina } from '../../vitrina/hooks/useVitrina'
 import { logrosDeEntreno, nombreConNivel } from '../../vitrina/lib/logros'
 import AscensosLiga from '../../liga/components/AscensosLiga'
@@ -80,7 +79,7 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
   const enCumbre = cumbres && id !== undefined ? cumbreDeSesion(cumbres, id) : null
   const ascensos = ligas?.visible && id !== undefined ? ascensosDeEntreno(ligas.ligas, id) : []
   const datos: DatosHitos = {
-    records, nombres, subidas,
+    records, nombres,
     cumbre: enCumbre ? { metros: enCumbre.metros, cimas: enCumbre.cumbres.map(nombreExpedicion) } : null,
     ligas: ascensos.filter(ascensoDestacado).map(a => ({ exerciseId: a.exerciseId, texto: textoAscenso(a) })),
     logros: vitrina?.visible && id !== undefined ? logrosDeEntreno(vitrina.vitrina.logros, id).map(nombreConNivel) : [],
@@ -99,10 +98,6 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
   const [abierto, setAbierto] = useState<Bloque | null | undefined>(undefined)
   const porDefecto = bloques.find(b => b.contenido)?.clave ?? null
   useEffect(() => { if (cargado && abierto === undefined) setAbierto(porDefecto) }, [cargado, abierto, porDefecto])
-  // Las piezas nuevas se celebran en una hoja al llegar, una vez (punto 5 del documento de mejoras).
-  const nuevos = gamificacion && id !== undefined ? logrosDeEntreno(vitrina.vitrina.logros, id) : []
-  // La Vitrina puede leerse antes de contar este entreno: la hoja se abre en cuanto aparecen, hasta que se cierra.
-  const [celebrada, setCelebrada] = useState(false)
 
   return <div className="space-y-section px-page pt-5">
     <PosterSesion titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin} series={summary.sets} volumen={summary.volume} levels={summary.muscle?.levels} figura={figura}
@@ -133,7 +128,6 @@ export default function WorkoutFinished({ summary, onClose }: { summary: Workout
     </div>}
     {id !== undefined && <PublicarEntreno workoutId={id} titulo={summary.titulo} inicio={summary.inicio} fin={summary.fin}
       series={summary.sets} volumen={summary.volume} records={records} nombres={nombres} />}
-    {nuevos.length > 0 && <NuevosLogrosSheet nuevos={nuevos} open={!celebrada} onClose={() => setCelebrada(true)} />}
     <Button variant="secondary" block size="lg" onClick={onClose}>Volver a Entreno<Icon name="chevron-right" size={18} /></Button>
   </div>
 }

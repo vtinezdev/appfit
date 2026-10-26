@@ -28,6 +28,7 @@ const PerfilTab = lazy(() => import('../features/perfil/PerfilTab'))
 const ProgresoTab = lazy(() => import('../features/progreso/ProgresoTab'))
 const AmigosTab = lazy(() => import('../features/social/AmigosTab'))
 const SocialTab = lazy(() => import('../features/social/SocialTab'))
+const CelebracionLogros = lazy(() => import('../features/vitrina/components/CelebracionLogros'))
 
 export default function App() {
   // Actualiza también las pantallas derivadas de la fecha al volver después de medianoche.
@@ -131,6 +132,8 @@ export default function App() {
         </div>
       </main>
       </div>
+      {/* Nuevos logros, en la pantalla en la que se consigan; con el entreno en curso abierto, al terminarlo. */}
+      {!(tab === 'gym' && entrenoAbierto && entrenoActivo) && <Suspense fallback={null}><CelebracionLogros /></Suspense>}
       <BottomNav tab={tab} onChange={navegar} ocultos={ocultos}
         encima={entrenoMinimizado && <EntrenoMinimizado key={entrenoMinimizado.id} workout={entrenoMinimizado} onAbrir={abrirEntreno} />} />
     </div>

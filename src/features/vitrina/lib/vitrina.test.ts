@@ -4,7 +4,7 @@ import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { calcularExperiencia } from '../../experiencia/lib/experiencia'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import { calcularAtlas } from './atlas'
-import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, nombreConNivel, piezasDesde, porRareza, proximosLogros, recuentoPiezas, siguienteUmbral, UMBRALES, type Logro } from './logros'
+import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, nombreConNivel, piezasConseguidas, piezasDesde, piezasPorCelebrar, porRareza, proximosLogros, recuentoPiezas, siguienteUmbral, UMBRALES, type Logro } from './logros'
 import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { calcularCumbres, empezar } from '../../cumbres/lib/cumbres'
 import { calcularCaminos } from '../../caminos/lib/caminos'
@@ -322,5 +322,26 @@ describe('porRareza', () => {
     ]
     expect(porRareza(nuevos).map(n => n.logro.id)).toEqual(['dia-records', 'series', 'toneladas', 'records', 'atlas', 'entrenos'])
     expect(nuevos[0].logro.id).toBe('records')
+  })
+})
+
+describe('piezas por celebrar', () => {
+  const logro = (extra: Partial<Logro>): Logro => ({ id: 'entrenos', nombre: 'X', grupo: 'entreno', descripcion: '', niveles: [], ...extra } as Logro)
+  const hoy = '2026-10-26'
+
+  it('clave estable por nivel y, en los repetibles, por día y orden dentro del día', () => {
+    const niveles = logro({ umbrales: [1, 5], niveles: [{ fecha: '2026-10-01' }, { fecha: hoy }] })
+    const meta = logro({ id: 'meta' as Logro['id'], veces: [{ fecha: '2026-10-20' }, { fecha: hoy }, { fecha: hoy }] })
+    expect(piezasConseguidas([niveles, meta]).map((p) => p.clave)).toEqual(['entrenos:1', 'entrenos:2', 'meta@2026-10-20#0', `meta@${hoy}#0`, `meta@${hoy}#1`])
+  })
+
+  it('solo las recientes que no se han visto, las más especiales primero', () => {
+    const niveles = logro({ umbrales: [1, 5, 10], niveles: [{ fecha: '2026-10-01' }, { fecha: '2026-10-25' }, { fecha: hoy }] })
+    const oculto = logro({ id: 'madrugador' as Logro['id'], oculto: true, umbrales: [5], niveles: [{ fecha: hoy }] })
+    const claves = (vistos: string[]) => piezasPorCelebrar([niveles, oculto], vistos, hoy).map((p) => p.clave)
+    // El nivel 1 es de hace más de una semana: no se celebra aunque no se haya visto.
+    expect(claves([])).toEqual(['madrugador:1', 'entrenos:3', 'entrenos:2'])
+    expect(claves(['entrenos:2', 'madrugador:1'])).toEqual(['entrenos:3'])
+    expect(piezasPorCelebrar([niveles], [], hoy, 1).map((p) => p.clave)).toEqual(['entrenos:3'])
   })
 })

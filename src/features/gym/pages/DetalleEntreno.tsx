@@ -112,7 +112,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
   const records = recordsDeEntreno(workoutId, todosWorkouts, todasSeries)
   const nombres = Object.fromEntries(exercises.map((e) => [e.id, e.nombre]))
   const conRecord = seriesConRecord(records)
-  const hitos = hitosDeSesion({ records, nombres, subidas: [], cumbre: null, ligas: [], logros: [] })
+  const hitos = hitosDeSesion({ records, nombres, cumbre: null, ligas: [], logros: [] })
   const minutos = minutosEntre(w.inicio, fin)
   const trabajo = trabajoMuscularWorkout(w, delEntreno, exercises)
   // Las que se guardaron sin el tic (`realizada: false`) no suman: se ofrece marcarlas de una vez.

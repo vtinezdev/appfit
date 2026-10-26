@@ -154,13 +154,13 @@ export function ejerciciosDelPoster(w: Pick<Workout, 'ordenEjercicios' | 'ejerci
 
 // --- Fin de sesión ordenado por momentos (ENT-10) ---
 
-export type TipoHito = 'record' | 'cuerpo' | 'cumbre' | 'liga' | 'logro'
+export type TipoHito = 'record' | 'cumbre' | 'liga' | 'logro'
 export interface HitoSesion { tipo: TipoHito; etiqueta: string; texto: string }
-/** Lo que pasó en la sesión, ya con nombres: récords en su orden, grupos que suben, Cumbres, cambios de liga y piezas nuevas. */
+/** Lo que pasó en la sesión, ya con nombres: récords en su orden, Cumbres, cambios de liga y piezas nuevas. Los grupos que suben
+ * de nivel no van aquí (decisión de Víctor): se ven en el bloque «Cuerpo» y en el muñeco. */
 export interface DatosHitos {
   records: RecordEjercicio[]
   nombres: Record<number, string>
-  subidas: { musculo: string; nivel: string }[]
   /** Metros que sube el entreno y cimas que corona; `null` sin Cumbres (sin montaña elegida o gamificación oculta). */
   cumbre: { metros: number; cimas: string[] } | null
   /** Solo los cambios de liga destacados («Sube a Plata»). */
@@ -170,7 +170,7 @@ export interface DatosHitos {
 
 /** Hitos que caben en la franja «Hoy» del póster. */
 export const MAX_HITOS = 3
-const ETIQUETA: Record<TipoHito, string> = { record: 'Récord', cuerpo: 'Cuerpo', cumbre: 'Cumbres', liga: 'Liga', logro: 'Vitrina' }
+const ETIQUETA: Record<TipoHito, string> = { record: 'Récord', cumbre: 'Cumbres', liga: 'Liga', logro: 'Vitrina' }
 const PRIORIDAD_RECORD: Record<RecordEjercicio['tipo'], number> = { peso: 0, asistencia: 1, reps: 2, '1rm': 3 }
 
 /** Récords que no caben en la franja «Hoy» del historial: «y 8 récords más», o nada si caben todos. */
@@ -179,7 +179,7 @@ export function restoRecords(n: number): string | undefined {
 }
 
 /**
- * Hasta `MAX_HITOS` hitos para la franja «Hoy» (D9: récords, subida muscular, cumbre, liga y logros, en ese orden). Primero
+ * Hasta `MAX_HITOS` hitos para la franja «Hoy» (D9: récords, cumbre, liga y logros, en ese orden). Primero
  * uno de cada tipo en ese orden, para que tres récords no tapen una cima o una liga; si sobra sitio, más del mismo orden.
  * Los récords van de uno por ejercicio (el de peso antes que el 1RM, que suele acompañarlo) y después el resto.
  */
@@ -194,7 +194,6 @@ export function hitosDeSesion(d: DatosHitos, max = MAX_HITOS): HitoSesion[] {
   const cumbre = !d.cumbre ? [] : d.cumbre.cimas.length ? d.cumbre.cimas.map(c => `Cumbre del ${c}`) : d.cumbre.metros > 0 ? [`+${formatInt(d.cumbre.metros)} m de subida`] : []
   const grupos: [TipoHito, string[]][] = [
     ['record', records],
-    ['cuerpo', d.subidas.map(s => `${s.musculo} sube a ${s.nivel}`)],
     ['cumbre', cumbre],
     ['liga', d.ligas.map(l => `${nombre(l.exerciseId)} · ${l.texto}`)],
     ['logro', d.logros],
