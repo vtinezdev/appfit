@@ -9,7 +9,7 @@ import * as workoutsRepo from '../data/workoutsRepo'
 import { ejerciciosDelPoster, textoDesde, type HitoEntrenos, type HitoSesion } from '../lib/fichaEntreno'
 import type { RecordEjercicio } from '../lib/records'
 import IconoLogro from '../../vitrina/components/IconoLogro'
-import { nombreConNivel, type NuevoLogro } from '../../vitrina/lib/logros'
+import { nombreConNivel, porRareza, type NuevoLogro } from '../../vitrina/lib/logros'
 import type { ZonaMuscular } from '../lib/musculos'
 import { ALTO_POSTER, ANCHO_POSTER, nombreArchivoPoster, svgPoster, type ColoresPoster } from '../lib/posterImagen'
 import { formatDuracion, rangoSesion } from '../lib/workout'
@@ -29,7 +29,7 @@ interface Props {
   /** Récords del entreno, para ponerlos en cada ejercicio. */
   records?: RecordEjercicio[]
   nombres?: Record<number, string>
-  /** Logros de la Vitrina conseguidos con el entreno: salen como medallas (vacío si la gamificación está oculta). */
+  /** Logros de la Vitrina conseguidos con el entreno: salen como medallas, los más especiales primero (vacío si la gamificación está oculta). */
   logros?: NuevoLogro[]
   /** Al terminar el entreno nº 10, 25, 50… (A23). */
   hito?: HitoEntrenos | null
@@ -64,11 +64,12 @@ function interiorInsignia(svg: SVGSVGElement, n: number): string {
  * al pulsar, no mientras se ve la pantalla. Sin cuenta ni red: «Compartir…» abre la hoja del móvil y solo
  * aparece donde se pueden compartir archivos; si no, se descarga.
  */
-export default function PosterImagen({ titulo, inicio, fin, series, volumen, gimnasio, hoy, workoutId, records = [], nombres = {}, logros = [], hito, levels, figura = 'hombre' }: Props) {
+export default function PosterImagen({ titulo, inicio, fin, series, volumen, gimnasio, hoy, workoutId, records = [], nombres = {}, logros: conseguidos = [], hito, levels, figura = 'hombre' }: Props) {
   const [ocupado, setOcupado] = useState<'guardar' | 'compartir' | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [compartible] = useState(puedeCompartirArchivos)
   const insignias = useRef<HTMLDivElement>(null)
+  const logros = porRareza(conseguidos)
 
   async function crear(): Promise<Blob> {
     const [css, { CUERPOS, VIEWBOX_CUERPO }, w, sets] = await Promise.all([cssFuentesIncrustadas(), import('./mapaMuscularGeometria'),
