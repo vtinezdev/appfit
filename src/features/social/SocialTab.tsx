@@ -37,7 +37,7 @@ interface Props {
 }
 
 /**
- * Social (en la media luna, ADR 040 y 043): las publicaciones de quienes sigues y las tuyas, sus ánimos y comentarios, y los
+ * Social (en la rejilla de secciones, ADR 040, 043 y 060): las publicaciones de quienes sigues y las tuyas, sus ánimos y comentarios, y los
  * avisos. Cabecera con Avisos, Amigos y tu perfil (con tus publicaciones); las personas (seguir, solicitudes) están en Amigos.
  */
 export default function SocialTab({ onIrAAmigos, onIrACuenta, onIrAGym }: Props) {

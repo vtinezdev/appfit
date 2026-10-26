@@ -69,14 +69,14 @@ async function main() {
         if (width >= 768 && !grande) assert.ok(ancho > 512 && ancho <= 768, 'columna de tablet/escritorio aprovecha el ancho con límite de lectura')
 
         await page.getByRole('button', { name: 'Secciones', exact: true }).click()
-        const arco = page.getByRole('dialog', { name: 'Secciones', exact: true })
-        const destinos = arco.locator('.arco-destino')
+        const rejilla = page.getByRole('dialog', { name: 'Secciones', exact: true })
+        const destinos = rejilla.locator('.secciones-destino')
         for (const destino of await destinos.all()) {
           await destino.scrollIntoViewIfNeeded()
           const rect = await destino.boundingBox()
           assert.ok(rect.x >= -1 && rect.x + rect.width <= width + 1 && rect.y >= -1 && rect.y + rect.height <= height + 1, 'destinos accesibles dentro de la pantalla')
         }
-        const circulos = await arco.locator('.arco-circulo').evaluateAll(items => items.map(el => {
+        const circulos = await rejilla.locator('.secciones-circulo').evaluateAll(items => items.map(el => {
           const r = el.getBoundingClientRect()
           return { x: r.x + r.width / 2, y: r.y + r.height / 2, radio: r.width / 2 }
         }))
@@ -85,7 +85,7 @@ async function main() {
           assert.ok(Math.hypot(a.x - b.x, a.y - b.y) >= a.radio + b.radio, 'secciones sin solaparse')
         }
         await page.goBack()
-        await arco.waitFor({ state: 'detached' })
+        await rejilla.waitFor({ state: 'detached' })
 
         // Atrás de Android cierra la capa; una altura reducida simula el espacio que deja el teclado.
         await page.getByRole('button', { name: 'Registrar peso', exact: true }).click()

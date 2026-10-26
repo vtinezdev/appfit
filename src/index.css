@@ -495,48 +495,38 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   box-shadow: var(--shadow-float); transition: transform var(--dur-short) var(--ease-standard);
 }
 .nav-boton:active { transform: scale(var(--motion-press)); }
-/* Media luna de secciones: nace del botón, que en la capa pasa a cerrar. El fondo es el de la app casi opaco, para leer los nombres en los dos temas. */
-.arco-fondo { background: rgb(var(--c-bg) / .9); }
-.arco-layer { container: arco / size; }
-.arco-panel {
+/* Rejilla de secciones (ADR 060): sube desde el botón, que en la capa pasa a cerrar. El fondo es el de la app casi opaco, para leer los nombres en los dos temas. */
+.secciones-fondo { background: rgb(var(--c-bg) / .9); }
+.secciones-panel {
   position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom) + (var(--nav-height) - var(--nav-boton)));
-  width: var(--nav-boton); height: var(--nav-boton); transform: translateX(-50%); outline: none;
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-stack); outline: none; transform: translateX(-50%);
+  width: min(calc(var(--secciones-columnas, 4) * var(--secciones-celda)), calc(100% - 2 * var(--space-page) - env(safe-area-inset-left) - env(safe-area-inset-right)));
+  max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - var(--space-stack));
 }
-.arco-origen { position: absolute; left: 50%; top: 50%; }
-.arco-item {
-  position: absolute; left: 0; top: 0; width: var(--arco-nodo);
-  transform: translate(calc(var(--arco-rx) * var(--arco-x) - 50%), calc(var(--arco-ry) * var(--arco-y) - var(--arco-circulo) / 2));
+/* Con poco alto (horizontal, teclado), la rejilla se desplaza y el cierre sigue a la vista. */
+.secciones-panel nav { width: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+/* Filas completas de --secciones-columnas; la última, si queda corta, centrada. */
+.secciones-rejilla { display: flex; flex-wrap: wrap; justify-content: center; row-gap: var(--space-stack); padding-block: var(--space-stack); }
+.secciones-item {
+  width: calc(100% / var(--secciones-columnas, 4)); min-width: 0;
   transition: transform var(--dur-overlay) var(--ease-standard), opacity var(--dur-short);
-  transition-delay: calc(var(--dur-stagger) * var(--arco-i));
+  transition-delay: calc(var(--dur-stagger) * var(--secciones-i));
 }
-[data-visible='false'] .arco-item { opacity: 0; transform: translate(-50%, calc(var(--arco-circulo) / -2)) scale(.5); transition-delay: 0s; transition-duration: var(--dur-exit); transition-timing-function: var(--ease-exit); }
-.arco-destino {
-  display: flex; width: 100%; flex-direction: column; align-items: center; gap: .25rem;
-  color: rgb(var(--c-text-primary)); font-size: var(--fs-caption); line-height: 1.15; font-weight: 600; font-stretch: var(--fst-label); white-space: nowrap;
+[data-visible='false'] .secciones-item { opacity: 0; transform: translateY(var(--motion-shift)) scale(.9); transition-delay: 0s; transition-duration: var(--dur-exit); transition-timing-function: var(--ease-exit); }
+.secciones-destino {
+  display: flex; width: 100%; min-height: var(--touch-target); flex-direction: column; align-items: center; gap: .25rem;
+  color: rgb(var(--c-text-primary)); font-size: var(--fs-caption); line-height: 1.15; font-weight: 600; font-stretch: var(--fst-label); overflow-wrap: anywhere;
 }
-.arco-circulo {
-  display: grid; place-items: center; width: var(--arco-circulo); height: var(--arco-circulo); border-radius: var(--radius-pill);
+.secciones-circulo {
+  display: grid; place-items: center; width: var(--secciones-circulo); height: var(--secciones-circulo); border-radius: var(--radius-pill);
   border: 1px solid transparent; background: rgb(var(--c-surface-elevated)); box-shadow: var(--shadow-float); transition: transform var(--dur-short) var(--ease-standard);
 }
-:root[data-theme='dark'] .arco-circulo { border-color: rgb(var(--c-border)); }
-.arco-destino:active .arco-circulo { transform: scale(var(--motion-press)); }
-.arco-destino[aria-current='page'] { font-weight: 700; }
+:root[data-theme='dark'] .secciones-circulo { border-color: rgb(var(--c-border)); }
+.secciones-destino:active .secciones-circulo { transform: scale(var(--motion-press)); }
+.secciones-destino[aria-current='page'] { font-weight: 700; }
 /* La actual, con borde (el relleno volt es del botón): sombra interior para no mover el icono. */
-.arco-destino[aria-current='page'] .arco-circulo { border-color: transparent; color: rgb(var(--c-accent-strong)); box-shadow: inset 0 0 0 2px rgb(var(--c-accent-strong)), var(--shadow-float); }
-.arco-panel .nav-boton { position: absolute; inset: 0; }
-/* En horizontal o con poco alto, la órbita se convierte en una rejilla desplazable con cierre persistente. */
-@container arco (max-height: 28rem) or (max-width: 18rem) {
-  .arco-panel {
-    display: flex; flex-direction: column; gap: var(--space-stack);
-    width: min(var(--form-width), calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right)));
-    height: auto; max-height: calc(var(--viewport-height, 100dvh) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - var(--space-stack));
-  }
-  .arco-panel nav { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--space-stack); }
-  .arco-origen { position: static; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--arco-nodo)), 1fr)); gap: var(--space-stack); }
-  .arco-item, .arco-layer[data-visible='false'] .arco-item { position: static; width: auto; transform: none; }
-  .arco-destino { min-height: var(--touch-target); white-space: normal; overflow-wrap: anywhere; }
-  .arco-panel .nav-boton { position: static; flex-shrink: 0; }
-}
+.secciones-destino[aria-current='page'] .secciones-circulo { border-color: transparent; color: rgb(var(--c-accent-strong)); box-shadow: inset 0 0 0 2px rgb(var(--c-accent-strong)), var(--shadow-float); }
+.secciones-panel .nav-boton { flex-shrink: 0; }
 /* La vista deja sitio al final para leer lo último por encima de la barra flotante. */
 .app-view { padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--space-section)); }
 /* Entreno minimizado: barra de grafito sobre la cápsula. Los avisos suben por encima y la vista reserva también su altura. */
@@ -651,11 +641,11 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   .task-layer, .sheet-panel { transform: none !important; }
   .sheet-panel { opacity: 0; transition: opacity var(--dur-exit); }
   [data-visible='true'] > .sheet-panel { opacity: 1; }
-  .nav-boton, .arco-circulo { transition: none; }
-  .nav-boton:active, .arco-destino:active .arco-circulo { transform: none; }
+  .nav-boton, .secciones-circulo { transition: none; }
+  .nav-boton:active, .secciones-destino:active .secciones-circulo { transform: none; }
   /* Sin desplazamiento: las secciones aparecen ya en su sitio, solo con opacidad. */
-  .arco-item { transition-property: opacity; transition-delay: 0s; }
-  [data-visible='false'] .arco-item { transform: translate(calc(var(--arco-rx) * var(--arco-x) - 50%), calc(var(--arco-ry) * var(--arco-y) - var(--arco-circulo) / 2)); }
+  .secciones-item { transition-property: opacity; transition-delay: 0s; }
+  [data-visible='false'] .secciones-item { transform: none; }
   .segment-indicator, .tab-indicator, .progress-fill { transition: none; }
   .series-complete svg, .series-new, .workout-finish-mark, .loading-skeleton, .app-view, .view-arrival { animation: none !important; }
 }

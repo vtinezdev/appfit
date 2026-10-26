@@ -2,7 +2,7 @@
 
 `src/features/vitrina/` (y el Herbario en `src/features/nutricion/lib/herbario.ts`). Museo personal: logros con niveles, repetibles u ocultos, el muro de récords y las colecciones Herbario y Atlas. Se deriva del historial con la fecha real de cada pieza (retroactiva) y no guarda nada: borrar un registro puede retirar una pieza. Decisión: [ADR 029](../decisiones/029-gamificacion-atributos.md); logros de repetir montaña y nuevas colecciones de Cumbres: [ADR 034](../decisiones/034-cumbres-en-lugar-de-atributos.md).
 
-Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve como la pestaña Vitrina de Progreso (`features/progreso/ProgresoTab`, en la media luna), montada con `incrustada`; la tesela de Inicio abre esa pestaña con «‹ Inicio».
+Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve como la pestaña Vitrina de Progreso (`features/progreso/ProgresoTab`, en la rejilla de secciones), montada con `incrustada`; la tesela de Inicio abre esa pestaña con «‹ Inicio».
 
 ## Dónde está cada cosa
 

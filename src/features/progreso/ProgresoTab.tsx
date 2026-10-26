@@ -27,7 +27,7 @@ const NOMBRES: Record<VistaProgreso, string> = { semana: 'Semana', cumbres: 'Cum
 
 interface Props {
   vistaInicial?: VistaProgreso
-  /** «‹ Inicio» cuando se entra desde una tesela de Inicio; desde la media luna no hay. */
+  /** «‹ Inicio» cuando se entra desde una tesela de Inicio; desde la rejilla de secciones no hay. */
   onVolver?: () => void
   onIrAAjustes: () => void
   onIrAActividades: () => void

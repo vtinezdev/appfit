@@ -1,8 +1,8 @@
 import { useState, type ReactNode } from 'react'
 import Icon from '../shared/components/Icon'
 import { haptic } from '../shared/design/motion'
-import ArcoSecciones from './ArcoSecciones'
-import { DESTINOS, EN_ARCO, seccionDe, type Tab } from './navegacion'
+import RejillaSecciones from './RejillaSecciones'
+import { DESTINOS, EN_SECCIONES, seccionDe, type Tab } from './navegacion'
 export type { Tab } from './navegacion'
 
 interface Props {
@@ -17,23 +17,23 @@ interface Props {
 const destino = (key: Tab) => DESTINOS.find((d) => d.key === key)!
 
 /**
- * Navegación (ADR 043): un botón redondo flotante abajo al centro abre la media luna con Inicio · Perfil · Nutrición · Entreno · Social · Ajustes
- * (Social solo con cuenta configurada). El resto de destinos se abre desde su sección, que queda marcada (`seccionDe`).
+ * Navegación (ADR 043, 060): un botón redondo flotante abajo al centro abre la rejilla con Inicio · Perfil · Nutrición · Entreno · Progreso ·
+ * Social · Ajustes (Social solo con cuenta configurada). El resto de destinos se abre desde su sección, que queda marcada (`seccionDe`).
  */
 export default function BottomNav({ tab, onChange, ocultos = [], encima }: Props) {
-  const [arco, setArco] = useState(false)
+  const [abierta, setAbierta] = useState(false)
   const actual = seccionDe(tab)
-  const enArco = EN_ARCO.filter((key) => !ocultos.includes(key)).map((key) => ({ ...destino(key), actual: actual === key }))
+  const secciones = EN_SECCIONES.filter((key) => !ocultos.includes(key)).map((key) => ({ ...destino(key), actual: actual === key }))
 
   return (
     <nav aria-label="Navegación principal" className="app-nav">
       {encima && <div className="app-content mx-auto">{encima}</div>}
-      <button type="button" className="nav-boton app-button" aria-label="Secciones" aria-haspopup="dialog" aria-expanded={arco} data-nav-trigger
-        onClick={() => { haptic(); setArco(true) }}>
+      <button type="button" className="nav-boton app-button" aria-label="Secciones" aria-haspopup="dialog" aria-expanded={abierta} data-nav-trigger
+        onClick={() => { haptic(); setAbierta(true) }}>
         <Icon name="secciones" size={24} />
       </button>
-      {/* Se navega en cuanto se elige, mientras la media luna se recoge. */}
-      <ArcoSecciones open={arco} destinos={enArco} onElegir={(key) => { haptic(); onChange(key) }} onClose={() => setArco(false)} />
+      {/* Se navega en cuanto se elige, mientras la rejilla se recoge. */}
+      <RejillaSecciones open={abierta} destinos={secciones} onElegir={(key) => { haptic(); onChange(key) }} onClose={() => setAbierta(false)} />
     </nav>
   )
 }

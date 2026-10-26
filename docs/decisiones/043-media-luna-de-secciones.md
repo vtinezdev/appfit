@@ -1,6 +1,6 @@
 # 043 — Botón de secciones con media luna
 
-Fecha: 2026-10-17. Estado: vigente, cambiado por [ADR 058](058-destino-progreso.md) (Progreso en la media luna, con siete secciones; Cumbres, Caminos, Ritmo y Vitrina como pestañas). Sustituye [ADR 028](028-barra-de-pestanas-y-registrar.md) (barra de pestañas con «+») y la cápsula flotante con el «+» aparte de [ADR 035](035-acento-volt-y-pulido-visual.md); el resto de ADR 035 sigue vigente.
+Fecha: 2026-10-17. Estado: vigente, cambiado por [ADR 058](058-destino-progreso.md) (Progreso en la media luna, con siete secciones; Cumbres, Caminos, Ritmo y Vitrina como pestañas) y por [ADR 060](060-rejilla-de-secciones.md) (las secciones pasan de la media luna a una rejilla; el botón y el resto siguen igual). Sustituye [ADR 028](028-barra-de-pestanas-y-registrar.md) (barra de pestañas con «+») y la cápsula flotante con el «+» aparte de [ADR 035](035-acento-volt-y-pulido-visual.md); el resto de ADR 035 sigue vigente.
 
 ## Contexto
 
