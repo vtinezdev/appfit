@@ -1044,3 +1044,7 @@ Ajo caliente (sopa de tomate y pan), cachorreñas (sopa de naranja y bacalao), c
 ### Tanda 97 de recetas: cornisa cantábrica (5)
 
 Empanada de zamburiñas, pitu de caleya (pollo de corral guisado), cocido lebaniego, pantxineta y bacalao al club ranero.
+
+### Tanda 98 de recetas: Cataluña, Valencia y Baleares (5)
+
+Caracoles a la llauna, olleta alicantina, romesco de pescado, arroz brut mallorquín y coca de patata mallorquina.
