@@ -45693,5 +45693,260 @@
         "gramos": 50
       }
     ]
+  },
+  {
+    "id": "bizcocho-aceite-oliva",
+    "nombre": "Bizcocho de aceite de oliva, horneado",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 71 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 801,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 250
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 150
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "bizcocho-coco",
+    "nombre": "Bizcocho de coco, horneado",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 71 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 801,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 200
+      },
+      {
+        "ciqual": "15007",
+        "gramos": 80
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 120
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "muffins-chocolate",
+    "nombre": "Muffins de chocolate caseros, horneados",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 71 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 783,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 250
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 150
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 30
+      },
+      {
+        "ciqual": "31085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "bizcocho-frutos-secos",
+    "nombre": "Bizcocho de frutos secos, horneado",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 71 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 774,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 250
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 180
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 120
+      },
+      {
+        "ciqual": "15005",
+        "gramos": 60
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "bizcocho-calabaza",
+    "nombre": "Bizcocho de calabaza, horneado",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 71 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 830,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20044",
+        "gramos": 250
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 180
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "trenza-chocolate",
+    "nombre": "Trenza de crema de cacao, horneada",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 71 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 814,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 400
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 180
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 60
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11010",
+        "gramos": 15
+      },
+      {
+        "ciqual": "31032",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "bollos-prenados",
+    "nombre": "Bollos preñados de chorizo, horneados",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 71 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 719,
+    "ingredientes": [
+      {
+        "ciqual": "9436",
+        "gramos": 400
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 230
+      },
+      {
+        "ciqual": "11010",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      },
+      {
+        "ciqual": "30315",
+        "gramos": 150
+      }
+    ]
   }
 ]
