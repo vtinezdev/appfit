@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1365 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 950 recetas CIQUAL (61 hasta el 25 de octubre y
-889 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1384 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 969 recetas CIQUAL (61 hasta el 25 de octubre y
+908 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -780,3 +780,7 @@ Barritas de avena, bolitas energéticas, granola casera, queso batido con fruta,
 ### Trigesimoprimera tanda de recetas: cocina asiática (18)
 
 Ramen, bibimbap, curry japonés, pollo katsu, yakitori, okonomiyaki, gyudon, samosas, pakoras, biryani, butter chicken, chana saag, curry verde, pho, banh mi, tempura de verduras, sopa de miso y ternera con brócoli. La pasta al huevo CIQUAL hace de fideos de ramen.
+
+### Trigesimosegunda tanda de recetas: mediterránea, italiana y de Oriente Medio (19)
+
+Italiana (saltimbocca, pollo a la cazadora y a la parmesana, polenta, arancini, bruschetta, caponata, espaguetis con albóndigas, pasta e fagioli, penne al vodka, panzanella), francesa (coq au vin), griega (souvlaki, gyros, spanakopita) y de Oriente Medio (kofta, fattoush, mjadara, shawarma al plato). Se omiten ossobuco y bourguignon, que CIQUAL ya trae.

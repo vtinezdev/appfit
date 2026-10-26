@@ -888,3 +888,22 @@ banh-mi;Bocadillo banh mi de cerdo, listo para consumir;Pan y tostadas;;202,9;10
 tempura-verduras;Tempura de verduras, frita;Platos preparados;;205,9;2,4;17,3;13,7;600;9440:120 18066:180 20020:150 20053:150 20009:100 17440:80
 sopa-miso;Sopa de miso con tofu, cocinada;Platos preparados;;23,9;1,9;1,1;1,2;950;20916:40 20904:100 18066:800 11003:15
 ternera-brocoli;Ternera con brócoli estilo chino, cocinada;Platos preparados;;175,6;11,6;3;12,6;580;6201:300 20057:300 11104:30 9510:10 17440:20 11000:5 11074:5
+saltimbocca;Saltimbocca de ternera con jamón, cocinada;Platos preparados;;193,5;21,6;3;9,6;500;6521:400 28845:80 16400:30 5215:80 9440:15
+pollo-cacciatora;Pollo a la cazadora (cacciatora), cocinado;Platos preparados;;127,6;10,7;1,5;8;1450;36022:800 20048:400 20034:150 20085:100 20056:150 5214:100 13032:50 17270:30 11017:6
+pollo-parmesana;Pollo a la parmesana, horneado;Platos preparados;;185,3;18,3;5,6;9,6;870;36017:500 7500:60 22000:60 20048:200 19590:125 12120:20 17440:40
+coq-au-vin;Pollo al vino tinto (coq au vin), cocinado;Platos preparados;;182;16,1;2,5;9,7;1500;36016:1000 5214:400 28501:100 20056:200 20034:150 20009:100 16400:30 9440:20 11017:8
+polenta-queso;Polenta con parmesano, cocinada;Cereales de desayuno y barritas;;113,1;3,2;14,9;4,4;1000;9614:200 18066:800 12120:50 16400:30 11017:5
+arancini;Arancini (bolas de arroz rellenas de queso), fritos;Platos preparados;;259,1;6,5;25,4;14,3;850;9100:200 18066:450 12120:40 19590:80 22000:60 7500:80 17440:70 16400:20
+bruschetta;Bruschetta de tomate y albahaca, lista para consumir;Pan y tostadas;;186,4;3,8;26,3;7;480;7001:200 20276:250 11000:5 11033:5 17270:30 11017:2
+caponata;Caponata siciliana, cocinada;Platos preparados;;101,3;1,2;5,1;7,7;900;20053:600 20034:150 20023:80 20048:200 13033:40 11220:30 31016:15 17270:60 11017:4
+espaguetis-albondigas;Espaguetis con albóndigas en salsa de tomate, cocinados;Platos preparados;;149,2;7,1;15,9;6;1550;9810:300 18066:540 6536:300 22000:50 7500:30 12120:20 20048:400 17270:30 11017:5
+pasta-fagioli;Pasta e fagioli (sopa de pasta y alubias), cocinada;Platos preparados;;85,5;3,7;11,1;2,4;1700;9810:150 20501:150 20048:200 20034:80 20009:80 20023:50 17270:30 12120:20 18066:1070
+penne-vodka;Macarrones al vodka con tomate y nata, cocinados;Platos preparados;penne alla vodka;154,1;4;17,8;6,2;1300;9810:300 18066:540 20048:300 19417:150 1008:40 20034:50 17270:20 12120:30
+panzanella;Panzanella (ensalada toscana de pan y tomate), lista para consumir;Platos preparados;;146;2,6;17,4;7;770;7001:200 20276:300 20019:150 20238:50 11033:5 17270:50 11220:20 11017:3
+souvlaki-pollo;Souvlaki de pollo, asado;Platos preparados;;175,3;25,5;1;7,2;470;36017:500 19593:60 2007:20 17270:25 11035:3 11000:5 11017:4
+gyros-pita;Gyros de cerdo en pan de pita, listo para consumir;Pan y tostadas;;156,7;10,8;16,9;4,7;320;7180:100 28473:120 20276:40 20034:20 19593:40 20019:20 17270:5
+spanakopita;Spanakopita (pastel griego de espinacas y feta), horneado;Platos preparados;;220,1;7,8;15,1;13,6;1000;23445:250 20059:600 12066:200 22000:100 20034:80 17270:60
+kofta-cordero;Kofta de cordero casera, a la parrilla, asada;Carnes;;145,4;21,4;1,9;5,7;380;21502:400 20034:60 11014:10 11042:3 11017:4
+fattoush;Fattoush (ensalada libanesa con pan de pita), lista para consumir;Platos preparados;;94,9;1,5;6,7;6,7;630;20031:150 20276:150 20019:150 20045:60 7180:60 17270:40 2007:20 11027:5 11017:2
+mjadara;Mjadara (lentejas con arroz y cebolla frita), cocinada;Platos preparados;;128,4;4,7;16,5;4,1;1400;20359:200 9100:150 18066:900 20034:400 17270:50 11042:3 11017:6
+shawarma-pollo-plato;Shawarma de pollo al plato, asado;Platos preparados;;216,7;20;1,2;14,5;470;36022:500 19593:60 2007:20 17270:20 11042:3 11049:3 11000:5 11017:4
