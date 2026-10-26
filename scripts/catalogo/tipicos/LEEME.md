@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1753 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1331 recetas CIQUAL (61 hasta el 25 de octubre y
-1270 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1760 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1338 recetas CIQUAL (61 hasta el 25 de octubre y
+1277 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -920,3 +920,7 @@ Sopa de verduras con fideos, sopa de pollo y verduras, sopa de fideos con almeja
 ### Tanda 66 de recetas: ensaladas (8)
 
 Ensalada de aguacate y gambas, ensalada de cuscús con verduras, ensalada de espárragos con huevo, ensalada de berenjena asada, ensalada de garbanzos con pollo, ensalada de lentejas con salmón ahumado, ensalada de arroz con gambas y ensalada de patata con pepinillos y mostaza.
+
+### Tanda 67 de recetas: bocadillos (7)
+
+Bocadillo de pechuga de pavo y tomate, bocadillo de huevo frito, bocadillo de panceta, bocadillo de salmón ahumado y aguacate, bocadillo de pollo al curry, bocadillo de ensaladilla rusa y bocadillo de chorizo y queso.
