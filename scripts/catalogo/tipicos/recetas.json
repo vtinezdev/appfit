@@ -44409,5 +44409,211 @@
         "gramos": 7
       }
     ]
+  },
+  {
+    "id": "sopa-verduras-fideos",
+    "nombre": "Sopa de verduras con fideos, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 65 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1569,
+    "ingredientes": [
+      {
+        "ciqual": "9810",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20039",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20061",
+        "gramos": 80
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1300
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "sopa-pollo-verduras",
+    "nombre": "Sopa de pollo y verduras, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 65 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1944,
+    "ingredientes": [
+      {
+        "ciqual": "36016",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20039",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20023",
+        "gramos": 50
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 150
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1500
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 9
+      }
+    ]
+  },
+  {
+    "id": "sopa-fideos-almejas",
+    "nombre": "Sopa de fideos con almejas, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 65 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1450,
+    "ingredientes": [
+      {
+        "ciqual": "9810",
+        "gramos": 80
+      },
+      {
+        "ciqual": "10017",
+        "gramos": 300
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1200
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "crema-esparragos-blancos",
+    "nombre": "Crema de espárragos blancos, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 65 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1003,
+    "ingredientes": [
+      {
+        "ciqual": "20076",
+        "gramos": 400
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 80
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "crema-pepino-fria",
+    "nombre": "Crema fría de pepino y yogur, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 65 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 861,
+    "ingredientes": [
+      {
+        "ciqual": "20019",
+        "gramos": 600
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 250
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11027",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "crema-aguacate-fria",
+    "nombre": "Crema fría de aguacate, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 65 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 635,
+    "ingredientes": [
+      {
+        "ciqual": "13004",
+        "gramos": 300
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 200
+      },
+      {
+        "ciqual": "13067",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
   }
 ]
