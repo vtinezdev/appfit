@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1770 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1348 recetas CIQUAL (61 hasta el 25 de octubre y
-1287 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1776 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1354 recetas CIQUAL (61 hasta el 25 de octubre y
+1293 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -928,3 +928,7 @@ Bocadillo de pechuga de pavo y tomate, bocadillo de huevo frito, bocadillo de pa
 ### Tanda 68 de recetas: tostas y montaditos (10)
 
 Tosta de sardinas con tomate, tosta de anchoas con queso de untar, tosta de morcilla con manzana, tosta de champiñones al ajillo, tosta de berenjena con queso de cabra y miel, montadito de pollo con alioli, montadito de tortilla de patatas, tosta de pulpo con patata y pimentón, tosta de bacalao con tomate y tosta de setas con jamón.
+
+### Tanda 69 de recetas: tapas frías (6)
+
+Pimientos del piquillo con anchoas, mejillones en escabeche caseros, ensaladilla de gambas, cogollos con anchoas, pulpo a la vinagreta y ensalada de tomate con anchoas.
