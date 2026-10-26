@@ -4,7 +4,9 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Cambio from '../../../shared/components/Cambio'
-import Disclosure from '../../../shared/components/Disclosure'
+import Icon from '../../../shared/components/Icon'
+import ListGroup from '../../../shared/components/ListGroup'
+import ListRow from '../../../shared/components/ListRow'
 import { Input } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import Sheet from '../../../shared/components/Sheet'
@@ -30,6 +32,7 @@ export default function MedidasCorporales() {
   const medidas = useLiveQuery(() => medidasRepo.todas(), [])
   const { avisar, avisarError, toast } = useAviso()
   const [evolucion, setEvolucion] = useState<CampoMedida | null>(null)
+  const [historial, setHistorial] = useState(false)
   const [abierta, setAbierta] = useState(false)
   const [aperturas, setAperturas] = useState(0)
   const [fecha, setFecha] = useState(todayISO())
@@ -70,6 +73,8 @@ export default function MedidasCorporales() {
   async function borrar(m: Medida) {
     try {
       const borrada = await medidasRepo.borrar(m.id)
+      // El aviso con «Deshacer» va bajo las hojas: se cierra el historial para que se vea.
+      setHistorial(false)
       if (borrada) avisar({ mensaje: `Medidas del ${fechaCorta(borrada.fecha)} borradas`, onDeshacer: () => medidasRepo.restaurar(borrada) })
     } catch {
       avisarError('No se han podido borrar las medidas. Inténtalo de nuevo.')
@@ -99,14 +104,21 @@ export default function MedidasCorporales() {
       <TendenciaRegistros puntos={(medidas ?? []).filter(m => m[campoEvolucion.campo] !== undefined).map(m => ({ fecha: m.fecha, valor: m[campoEvolucion.campo]! }))}
         unidad={campoEvolucion.unidad} titulo={campoEvolucion.etiqueta.toLowerCase()} />
     </Sheet>}
-    {!!medidas?.length && <Disclosure title={`Historial (${formatNumber(medidas.length)})`}>
+    {!!medidas?.length && <ListGroup pie={`Última medición: ${fechaCorta(medidas[0].fecha)}.`}>
+      <li><ListRow aria-haspopup="dialog" onClick={() => setHistorial(true)}>
+        <span className="min-w-0 flex-1 break-words text-body text-fg">Historial</span>
+        <span className="tabular shrink-0 text-body-sm text-fg-muted">{formatNumber(medidas.length)} {medidas.length === 1 ? 'registro' : 'registros'}</span>
+        <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
+      </ListRow></li>
+    </ListGroup>}
+    {historial && !!medidas?.length && <Sheet open onClose={() => setHistorial(false)} title="Historial de medidas">
       <ul className="divide-y divide-line" aria-label="Historial de medidas">
         {medidas.map((m) => <li key={m.id} className="flex min-h-touch items-center justify-between gap-2 py-1">
           <span className="min-w-0"><span className="block text-body-sm font-medium text-fg">{fechaCorta(m.fecha)}</span><span className="tabular block break-words text-caption text-fg-muted">{textoMedida(m)}</span></span>
           <IconButton icon="trash" variant="ghost" size="sm" label={`Borrar medidas del ${fechaCorta(m.fecha)}`} onClick={() => borrar(m)} />
         </li>)}
       </ul>
-    </Disclosure>}
+    </Sheet>}
 
     <Sheet key={aperturas} open={abierta} onClose={() => setAbierta(false)} title="Registrar medidas"
       footer={<div className="space-y-2">{error && <ErrorState>{error}</ErrorState>}<Button block loading={guardando} onClick={guardar}>Guardar</Button></div>}>

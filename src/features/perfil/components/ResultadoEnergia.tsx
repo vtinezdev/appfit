@@ -9,6 +9,7 @@ import {
   AVISO_ORIENTATIVO, ECUACIONES, ETIQUETAS_OBJETIVO, formatSigned, formulaSustituida, KCAL_POR_KG, METODO_TMB, SUELO_KCAL,
   type EnergiaOk, type ResultadoEnergia,
 } from '../lib/energia'
+import type { Objetivos } from '../../../shared/db/types'
 import { tramosEnergia, type EstiloTramo } from '../lib/tramosEnergia'
 import { CAMPOS_ENERGIA, listaCampos, type CampoPerfil } from '../lib/validacionPerfil'
 
@@ -18,6 +19,8 @@ interface Props {
   onVerMetodo: () => void
   /** Abre el editor del dato que falta (el mismo que la fila de «Tus datos»). */
   onCompletar: (campo: CampoPerfil) => void
+  /** Objetivos de macros que salen de este objetivo (los que usa Nutrición); sin ellos no se pinta el reparto. */
+  macros?: Pick<Objetivos, 'prot' | 'carb' | 'grasa'>
 }
 
 const ACCION_CAMPO: Partial<Record<CampoPerfil, string>> = {
@@ -72,6 +75,26 @@ function Composicion({ e }: { e: EnergiaOk }) {
   </div>
 }
 
+const MACROS = [
+  { clave: 'prot', etiqueta: 'Proteína', color: 'bg-protein' },
+  { clave: 'carb', etiqueta: 'Carbohidratos', color: 'bg-carbs' },
+  { clave: 'grasa', etiqueta: 'Grasa', color: 'bg-fat' },
+] as const
+
+/** En qué se reparte el objetivo: los gramos de cada macro que usa Nutrición, con la misma forma que las partes. */
+function Reparto({ macros }: { macros: Pick<Objetivos, 'prot' | 'carb' | 'grasa'> }) {
+  return <div className="space-y-2 border-t border-line pt-3">
+    <p className="text-rotulo text-fg-muted">Tu día en macros</p>
+    <ul aria-label="Objetivos de macros" className="grid grid-cols-3 gap-2">
+      {MACROS.map((m, i) => <li key={m.clave} className={`min-w-0 space-y-0.5 ${i > 0 ? 'border-l border-line pl-2' : ''}`}>
+        <span aria-hidden className={`mb-1.5 block h-1.5 w-6 rounded-pill ${m.color}`} />
+        <span className="block break-words text-caption font-semibold text-fg-muted">{m.etiqueta}</span>
+        <span className="tabular block text-title text-fg">{formatNumber(Math.round(macros[m.clave]))} <span className="text-caption font-normal text-fg-muted">g</span></span>
+      </li>)}
+    </ul>
+  </div>
+}
+
 /** Cómo se ha calculado, tras la «i» del título: las fórmulas con tus datos, el ritmo y el acceso al método. */
 function ComoSeCalcula({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo: () => void }) {
   return <Ayuda titulo="Tu energía diaria">
@@ -90,7 +113,7 @@ function ComoSeCalcula({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo: () => vo
  * Resultado arriba, datos debajo: esta card solo lee; la edición vive en «Tus datos». El objetivo en grande y, debajo, de qué
  * se compone (reposo, actividad y ajuste) en una barra con su leyenda; cómo se ha calculado, tras la «i» del título.
  */
-export default function ResultadoEnergia({ energia, onElegirObjetivo, onVerMetodo, onCompletar }: Props) {
+export default function ResultadoEnergia({ energia, onElegirObjetivo, onVerMetodo, onCompletar, macros }: Props) {
   if (energia.estado === 'incompleto') return <PerfilIncompleto faltan={energia.faltan} onCompletar={onCompletar} />
   return <section className="space-y-stack">
     <SectionHeader variant="section" action={energia.estado === 'ok' ? <ComoSeCalcula e={energia} onVerMetodo={onVerMetodo} /> : undefined}>Tu energía diaria</SectionHeader>
@@ -105,6 +128,7 @@ export default function ResultadoEnergia({ energia, onElegirObjetivo, onVerMetod
               <Button variant="secondary" onClick={onElegirObjetivo}>Elige tu objetivo</Button>
             </div>}
         <Composicion e={energia} />
+        {energia.objetivoKcal !== null && macros && <Reparto macros={macros} />}
         {energia.avisos.map((a) => <p key={a.tipo} className="flex items-start gap-2 text-body-sm text-warning"><Icon name="alert" size={16} className="mt-0.5" /><span className="min-w-0">{a.texto}</span></p>)}
       </>}
     </Card>

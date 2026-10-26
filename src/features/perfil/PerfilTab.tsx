@@ -21,6 +21,7 @@ const PESO_POR_DEFECTO = 70
 export default function PerfilTab({ onVerMetodo }: { onVerMetodo: () => void }) {
   const hoy = todayISO()
   const estado = useLiveQuery(() => perfilRepo.estadoEnergetico(hoy), [hoy])
+  const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(hoy), [hoy])
   const { avisar, avisarError, toast } = useAviso()
   const [campo, setCampo] = useState<Exclude<CampoEditable, 'peso'>>('sexo')
   const [abierto, setAbierto] = useState(false)
@@ -64,7 +65,7 @@ export default function PerfilTab({ onVerMetodo }: { onVerMetodo: () => void }) 
   return <div className="space-y-section px-page pt-5">
     <PageHeader title="Perfil" overline="Tus datos para estimar tu energía diaria" />
     {!estado ? <LoadingState /> : <>
-      <ResultadoEnergia energia={estado.energia} onElegirObjetivo={() => editar('objetivo')} onVerMetodo={onVerMetodo} onCompletar={editar} />
+      <ResultadoEnergia energia={estado.energia} macros={vigentes?.origen === 'perfil' ? vigentes : undefined} onElegirObjetivo={() => editar('objetivo')} onVerMetodo={onVerMetodo} onCompletar={editar} />
       <GastoObservadoCard perfil={estado.perfil} energia={estado.energia} observado={estado.observado} hoy={hoy} plegado={estado.energia.estado === 'incompleto'} />
       <DatosPerfil perfil={estado.perfil} peso={estado.peso} hoy={hoy} onEditar={editar} onBorrar={borrar} />
       <MedidasCorporales />
