@@ -39,6 +39,15 @@ it.each([
   ['nigiri de atún', 'nigiri-atun'],
   ['calamar rebozado horneado', 'calamar-rebozado-horneado'],
   ['pera deshidratada', 'pera-deshidratada'],
+  ['paella valenciana', 'paella-valenciana'],
+  ['ensaladilla rusa', 'ensaladilla-rusa'],
+  ['cocido madrileño', 'cocido-madrileno'],
+  ['fabada', 'fabada-asturiana'],
+  ['bocata de jamón', 'bocadillo-jamon-serrano'],
+  ['pa amb tomàquet', 'pan-tomate-aceite'],
+  ['alioli', 'alioli-casero'],
+  ['polvorones', 'polvorones'],
+  ['calimocho', 'calimocho'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)

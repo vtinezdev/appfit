@@ -11,7 +11,7 @@ const leer = (ruta: string) => readFileSync(ruta, 'utf8')
 const manifest = JSON.parse(leer(join(salida, 'manifest.json')))
 const ciqual = JSON.parse(leer(join(salida, manifest.fuentes.find((f: { id: string }) => f.id === 'ciqual').archivo))) as PaqueteCalidad
 const off = JSON.parse(leer(join(salida, manifest.fuentes.find((f: { id: string }) => f.id === 'offes').archivo))) as PaqueteCalidad
-const version = process.argv[2] ?? '2026-10-25'
+const version = process.argv[2] ?? '2026-10-26'
 const recetas = JSON.parse(leer(join(datos, 'recetas.json'))) as Receta[]
 const directos = leerDirectos(leer(join(datos, 'directos.csv')))
 const referencias = JSON.parse(leer(join(datos, 'referencias-tradicionales.json'))) as { referencias: { estado: string }[] }
@@ -40,6 +40,7 @@ try {
     'Lote de salsas, guisos y repostería: 29 directos CoFID, sin cálculos nuevos AppFit. Bechamel/yogur caseros, Saboya, éclair, baba y coq au vin ya cubiertos se descartan; solo una salsa de tomate CoFID. Las 212 filas anteriores permanecen intactas.',
     'Lote de pizzas: 14 directos (13 USDA y 1 CoFID). Hawaiana y variantes de masa/cobertura identificadas, sin marcas ni nuevos rendimientos AppFit. Restauración rápida estadounidense se identifica como tal. Las 241 filas anteriores permanecen intactas; ver auditoria-ciqual.txt para los descartes.',
     'Lote variado: 30 directos CoFID (10 frutas, 6 panes, 7 verduras/guarniciones, 3 mar/pescado, 2 crepes sin relleno y 2 mezclas de cacahuetes). Pan de ajo y salmón en costra pendientes de confirmar el estado final, registrados sin fuente. Sin rendimientos nuevos AppFit ni alias nuevos CIQUAL. Las 255 filas anteriores permanecen intactas; descartes en auditoria-ciqual.txt.',
+    'Lote manual de típicos españoles (2026-10-26): 110 recetas AppFit calculadas desde CIQUAL (legumbres, arroces, huevos, carnes, pescados, ensaladas, bocadillos, salsas, dulces y bebidas), sin referencia individual. Admiten conservas, envasados y fiambres como ingredientes y cualquier categoría AppFit. Avisos energéticos de bebidas con alcohol esperados (CIQUAL no guarda el alcohol). Las 285 filas anteriores permanecen intactas.',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',

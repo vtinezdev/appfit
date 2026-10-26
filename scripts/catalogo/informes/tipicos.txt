@@ -1,14 +1,14 @@
-Típicos 2026-10-25 · CIQUAL 2025-es2
+Típicos 2026-10-26 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
 Vía 2 (directos): 224; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 61; total: 285
-Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 240; pendientes: 260.
+Vía 3 (recetas): 171; total: 395
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 350; pendientes: 150.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
 Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
 USDA: 57 directos aceptados
 CoFID: 167 directos aceptados
-Reparto por categoría: Carnes: 28; Legumbres: 11; Cereales, arroz y pasta: 9; Frutos secos y semillas: 5; Pan y tostadas: 8; Quesos: 5; Cereales de desayuno y barritas: 2; Patatas y tubérculos: 6; Verduras y hortalizas: 1; Pescados: 4; Platos preparados: 171; Galletas, bollería y pasteles: 12; Salsas y condimentos: 11; Mariscos: 2; Frutas: 10
+Reparto por categoría: Carnes: 28; Legumbres: 11; Cereales, arroz y pasta: 9; Frutos secos y semillas: 5; Pan y tostadas: 11; Quesos: 5; Cereales de desayuno y barritas: 2; Patatas y tubérculos: 6; Verduras y hortalizas: 1; Pescados: 4; Platos preparados: 248; Galletas, bollería y pasteles: 22; Salsas y condimentos: 16; Mariscos: 2; Frutas: 10; Dulces y chocolate: 5; Bebidas: 4; Bebidas alcohólicas: 6
 Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 34 referencias individuales leídas de RAG/RTVE. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.
 Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.
@@ -17,14 +17,23 @@ Lote pescado/aves y clásicos: 20 directos CoFID y 4 recetas AppFit con referenc
 Lote de salsas, guisos y repostería: 29 directos CoFID, sin cálculos nuevos AppFit. Bechamel/yogur caseros, Saboya, éclair, baba y coq au vin ya cubiertos se descartan; solo una salsa de tomate CoFID. Las 212 filas anteriores permanecen intactas.
 Lote de pizzas: 14 directos (13 USDA y 1 CoFID). Hawaiana y variantes de masa/cobertura identificadas, sin marcas ni nuevos rendimientos AppFit. Restauración rápida estadounidense se identifica como tal. Las 241 filas anteriores permanecen intactas; ver auditoria-ciqual.txt para los descartes.
 Lote variado: 30 directos CoFID (10 frutas, 6 panes, 7 verduras/guarniciones, 3 mar/pescado, 2 crepes sin relleno y 2 mezclas de cacahuetes). Pan de ajo y salmón en costra pendientes de confirmar el estado final, registrados sin fuente. Sin rendimientos nuevos AppFit ni alias nuevos CIQUAL. Las 255 filas anteriores permanecen intactas; descartes en auditoria-ciqual.txt.
+Lote manual de típicos españoles (2026-10-26): 110 recetas AppFit calculadas desde CIQUAL (legumbres, arroces, huevos, carnes, pescados, ensaladas, bocadillos, salsas, dulces y bebidas), sin referencia individual. Admiten conservas, envasados y fiambres como ingredientes y cualquier categoría AppFit. Avisos energéticos de bebidas con alcohol esperados (CIQUAL no guarda el alcohol). Las 285 filas anteriores permanecen intactas.
 Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.
 
 AVISOS calidad.ts:
 tipicos:salvado-avena-cocido: 40 kcal declaradas frente a 72 esperadas (4P+4C+9G+2fibra); diferencia -32
+tipicos:tinto-verano-gaseosa: 38.1 kcal declaradas frente a 3 esperadas (4P+4C+9G+2fibra); diferencia +35
+tipicos:tinto-verano-limon: 54.4 kcal declaradas frente a 19 esperadas (4P+4C+9G+2fibra); diferencia +35
+tipicos:calimocho: 57.9 kcal declaradas frente a 23 esperadas (4P+4C+9G+2fibra); diferencia +35
+tipicos:rebujito: 39.7 kcal declaradas frente a 24 esperadas (4P+4C+9G+2fibra); diferencia +16
+tipicos:carajillo: 78.3 kcal declaradas frente a 7 esperadas (4P+4C+9G+2fibra); diferencia +72
+tipicos:agua-valencia: 92.6 kcal declaradas frente a 26 esperadas (4P+4C+9G+2fibra); diferencia +66
 
 DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):
 ciqual: arroz-basmati-integral-crudo → 9102 Arroz integral, crudo (casi)
 offes: tortilla-patatas-con-cebolla → 8480000808950 Tortilla De Patatas Con Cebolla (casi)
+offes: callos-madrilena → 8402001011474 Callos a la Madrileña (casi)
+offes: sofrito-tomate → 0000084103291 Sofrito casero de tomate y cebolla (casi)
 
 SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):
 sin fuente: morro de cerdo cocido
@@ -36,8 +45,6 @@ sin fuente: lagarto ibérico
 sin fuente: torreznos
 sin fuente: chicharrones
 sin fuente: papada de cerdo cocida
-sin fuente: rabo de toro
-sin fuente: callos a la madrileña
 sin fuente: criadillas
 sin fuente: chorizo fresco
 sin fuente: salchichón español
@@ -63,30 +70,10 @@ sin fuente: queso fresco de Burgos
 sin fuente: San Simón
 sin fuente: majorero
 sin fuente: zamorano
-sin fuente: cocido madrileño
-sin fuente: fabada
-sin fuente: paella valenciana
 sin fuente: paella de marisco
 sin fuente: arroz negro
-sin fuente: fideuá
-sin fuente: ensaladilla rusa
-sin fuente: empanada gallega
-sin fuente: flamenquín
-sin fuente: marmitako
-sin fuente: migas
-sin fuente: sopa castellana
-sin fuente: pimientos de Padrón fritos
-sin fuente: boquerones en vinagre
 sin fuente: mollete
 sin fuente: picos
 sin fuente: regañás
-sin fuente: porras
-sin fuente: magdalenas tradicionales
-sin fuente: ensaimada
-sin fuente: roscón
-sin fuente: polvorones
-sin fuente: mantecados
-sin fuente: turrón duro español
-sin fuente: turrón blando español
 sin fuente: pan de ajo y hierbas listo para consumir (CoFID retail sin estado tras calentar confirmado)
 sin fuente: salmón en costra de masa cocinado (CoFID retail sin estado tras cocinar confirmado)

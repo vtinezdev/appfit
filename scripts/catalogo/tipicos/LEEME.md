@@ -1,13 +1,14 @@
 # Típicos: catálogo ampliado y límites
 
-`npm run catalogo:tipicos` genera por defecto la versión 2026-10-25.
+`npm run catalogo:tipicos` genera por defecto la versión 2026-10-26.
 También admite `npm run catalogo:tipicos -- AAAA-MM-DD`. Node 24,
 sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-285 filas: 224 valores directos (57 USDA y 167 CoFID) y 61 recetas CIQUAL.
-La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+395 filas: 224 valores directos (57 USDA y 167 CoFID) y 171 recetas CIQUAL
+(61 hasta el 25 de octubre y 110 del lote manual de típicos españoles del 26,
+descrito al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -112,8 +113,11 @@ netos, sin convertir unidades de una fuente en una supuesta pesada real.
 
 Arroz negro, romesco, verdinas con almejas y otras preparaciones con ingredientes
 sin equivalencia suficientemente precisa no se completan omitiéndolos o
-sustituyéndolos por otro alimento sin documentarlo. Alioli y romesco son salsas:
-no se añaden como «Platos preparados» por la vía de recetas reservada a platos.
+sustituyéndolos por otro alimento sin documentarlo. Desde el lote del 26 de
+octubre una receta puede ir en cualquier categoría AppFit (salsas, bollería,
+bebidas…), no solo en «Platos preparados», y admite conservas, envasados y
+fiambres tal cual se sirven (atún escurrido, mayonesa, jamón cocido); siguen
+prohibidos los ingredientes ya cocinados (cocido, hervido, frito, asado, tostado).
 
 ## Calidad y duplicados
 
@@ -377,3 +381,45 @@ Pruebas: actualización desde un lote parcial de la misma versión, nombres y
 alias en los primeros 15 resultados, preservación de básicos CIQUAL, búsqueda
 real en Nutrición durante una descarga demorada y cuatro consultas offline.
 Comandos y requisitos en scripts/catalogo/README.md.
+
+
+## Lote manual de típicos españoles (2026-10-26)
+
+Víctor pide ampliar a mano con platos típicos de España, ya aprovechadas las
+fuentes con licencia abierta. Se añaden 110 recetas AppFit calculadas desde
+CIQUAL; las 285 filas anteriores conservan ids y valores. Lista con macros,
+peso final e ingredientes: `../informes/tipicos-espanoles-2026-10-26.csv`.
+
+- Cuchara (15): cocido madrileño con su caldo, fabada, lentejas con chorizo,
+  potaje de vigilia, alubias rojas, michirones, callos, judías verdes, menestra,
+  cremas de calabacín/calabaza/verduras, sopa castellana y de fideos.
+- Arroces y pasta (6): paella valenciana y de verduras, arroz a banda, fideuá,
+  arroz al horno y a la cubana.
+- Huevos (6), carnes (15) y pescados/mariscos (16): tortillas, huevos a la
+  flamenca y rellenos, flamenquín, San Jacobo, lomo adobado, carrilleras, rabo
+  de toro, pinchos morunos, marmitako, zarzuela, suquet, pulpo con cachelos,
+  cazón en adobo, boquerones en vinagre, almejas a la marinera…
+- Ensaladas, tapas y bocadillos (20): ensaladilla rusa, mixta, campera,
+  pimientos de Padrón, patatas alioli, papas arrugadas, pan con tomate, migas,
+  empanada gallega de atún, bocadillos y sándwich mixto.
+- Verduras (4), salsas (5: alioli, mojos, sofrito, brava), dulces (14:
+  magdalenas, bizcocho de yogur, rosquillas, pestiños, porras, polvorones,
+  mantecados, roscón, ensaimada, tarta de queso, panellets, turrones) y
+  bebidas (10: chocolate a la taza, leche merengada, granizado, limonada,
+  tintos de verano, calimocho, rebujito, carajillo, agua de Valencia).
+
+Son formulaciones de cocina doméstica con criterio AppFit, **sin referencia
+individual contrastada**: el campo referencia de cada receta lo dice y explica
+las sustituciones (bacalao fresco en lugar de salado, jamón serrano en lugar de
+lacón, pimentón en lugar de choricero o ñora, agua en lugar de fumet, vino
+blanco seco en lugar de manzanilla, pimiento verde genérico para Padrón). Los
+bocadillos de tortilla y calamares usan 120 g de la receta AppFit del catálogo
+expresada en ingredientes crudos. Lomo = pieza magra de jamón de cerdo CIQUAL.
+
+Las bebidas alcohólicas dan aviso energético (el validador no cuenta el
+alcohol); como en CIQUAL, no se corrige nada. No se añaden la sangría, la
+clara, la tortilla francesa ni el revuelto: ya están en CIQUAL. Se retiran de
+sin-fuente.json los 22 platos resueltos. Algunos coinciden casi con productos
+de OFF (callos, sofrito) o con platos ya presentes (pulpo a feira sin patata):
+se revisarán en la fase de fusión de duplicados que Víctor ha anunciado.
+
