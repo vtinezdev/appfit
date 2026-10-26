@@ -4,7 +4,7 @@ import { addDays, parseISODate } from '../../../shared/lib/dates'
 import { calcularExperiencia } from '../../experiencia/lib/experiencia'
 import { ZONAS_MUSCULARES } from '../../gym/lib/musculos'
 import { calcularAtlas } from './atlas'
-import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, nombreConNivel, piezasDesde, proximosLogros, recuentoPiezas, siguienteUmbral, UMBRALES, type Logro } from './logros'
+import { calcularLogros, conseguido, logrosDeEntreno, nivelDe, nombreConNivel, piezasDesde, porRareza, proximosLogros, recuentoPiezas, siguienteUmbral, UMBRALES, type Logro } from './logros'
 import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { calcularCumbres, empezar } from '../../cumbres/lib/cumbres'
 import { calcularCaminos } from '../../caminos/lib/caminos'
@@ -312,3 +312,15 @@ describe('piezasDesde', () => {
   })
 })
 
+
+describe('porRareza', () => {
+  const logro = (id: string, oculto = false) => ({ id, nombre: id, grupo: 'entreno', descripcion: '', niveles: [], oculto } as unknown as Logro)
+  it('primero los ocultos, después los niveles más altos; a igualdad, el orden de la Vitrina', () => {
+    const nuevos = [
+      { logro: logro('records'), nivel: 1 }, { logro: logro('atlas'), nivel: null }, { logro: logro('series'), nivel: 3 },
+      { logro: logro('dia-records', true), nivel: null }, { logro: logro('toneladas'), nivel: 2 }, { logro: logro('entrenos'), nivel: 1 },
+    ]
+    expect(porRareza(nuevos).map(n => n.logro.id)).toEqual(['dia-records', 'series', 'toneladas', 'records', 'atlas', 'entrenos'])
+    expect(nuevos[0].logro.id).toBe('records')
+  })
+})

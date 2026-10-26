@@ -2601,3 +2601,36 @@ La fuente `tipicos` se presenta como «Alimentos y platos (AppFit)» en Ajustes 
 **Cómo:** `app/ArcoSecciones` pasa a `app/RejillaSecciones` y `app/arco.ts` a `app/rejilla.ts`, con `columnasRejilla` (puro, con test: hasta cuatro, una fila; con más, dos filas con la de arriba igual o más larga, máximo cuatro). El panel queda justo encima del botón: flex con `flex-wrap` y `justify-content: center`, ancho de `--secciones-columnas` × `--secciones-celda` sin pasar del de página, y desplazable con poco alto. Las secciones entran subiendo, escalonadas; con Reduce Motion, solo opacidad. Se retiran `posicionesArco` y los tokens `--arco-*`; `EN_ARCO` pasa a `EN_SECCIONES` y las clases a `.secciones-*`. Los textos de «Lo que usas» dicen «sale de las secciones». Se actualizan `scripts/ui/navegar.cjs` y `validar-adaptacion.cjs`. Documentos: ADR 060 (con notas en el 043 y el 058), `DESIGN-SYSTEM.md`, `DESIGN.md`, `arquitectura.md`, `desarrollo.md`, `README.md` y las features que mencionaban la media luna.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost` a 320, 375 y 430 px en los dos temas, con siete secciones (Supabase falso, en el 5174) y con seis: 4 + 3 con la fila corta centrada y 3 + 3, sin scroll horizontal ni errores en consola. También en horizontal (568 × 320) con el ✕ a la vista, flechas, Enter y Escape. No probado en un iPhone físico ni con el texto al 200 %; no se ejecutaron los recorridos `validar-*`.
+
+## 239. Récords dentro de cada ejercicio en el detalle del historial (2026-10-26)
+
+Víctor señala que en un entreno pasado los récords personales (una card por ejercicio, con miniatura y nombre) y la lista de ejercicios (también cards con miniatura y nombre) se confundían: con muchos récords no se veía que después venían los ejercicios. Elige, de tres opciones (meterlos en cada ejercicio, plegarlos o compactarlos), meterlos en cada ejercicio.
+
+- `pages/DetalleEntreno` deja de usar `RecordsSesion`. El póster lleva la franja «Hoy» (`HitosSesion`, hasta tres récords de `hitosDeSesion`) y, si hay más, una línea «y N récords más» (`lib/fichaEntreno.restoRecords`, nueva prop `pie` de `HitosSesion`).
+- `components/EjercicioSesion` recibe `recordsEjercicio` y los enseña como cifras (rótulo, valor y mejora) bajo la cabecera, siempre visibles. Se quita el trofeo de la cabecera, que repetía lo mismo; las series con récord siguen en acento con trofeo.
+- La pantalla de fin de entreno y la revisión semanal siguen con `RecordsSesion`.
+- Documentos: `features/gym.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` con un entreno de 6 ejercicios y 11 récords, a 320/375/430 px en ambos temas: sin scroll horizontal, «y 8 récords más» en el póster, cifras de récord en los cinco ejercicios con récord y sin trofeo en la cabecera. No se ha probado en el iPhone real.
+
+## 240. Ejercicios y récords en la imagen del entreno (2026-10-26)
+
+Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los récords de alguna forma y los ejercicios hechos, sin enumerar todas las series. (Los récords ya salían en «Hoy» si el entreno tenía alguno.)
+
+- `lib/posterImagen.svgPoster` pasa a 1080 × 1920 (9:16) y añade «Ejercicios»: hasta `MAX_EJERCICIOS_POSTER` (8) con nombre, mejor serie a la derecha, series efectivas y el récord principal en acento con cuántos más; el resto, «y N ejercicios más». Con ejercicios, «Hoy» se queda con los hitos que no son récords. El muñeco ocupa lo que queda y desaparece si no hay sitio.
+- `lib/fichaEntreno.ejerciciosDelPoster` (puro, con tests) arma la lista en el orden del detalle, sin los ejercicios sin series efectivas.
+- `components/PosterImagen` recibe `workoutId`, `records` y `nombres` y lee el entreno y sus series al pulsar; lo usan `DetalleEntreno` y `WorkoutFinished`.
+- «Tu mes» (Vitrina) sigue en 1080 × 1350: tenía importadas las medidas del póster y pasa a tener las suyas en `vitrina/lib/imagenTuPeriodo`.
+- Documentos: `features/gym.md`.
+
+**Verificación:** `npm run test` (2.789) y `npm run build` correctos. Playwright en `appfit-test.localhost:5173`: se descargó la imagen del detalle del historial de un entreno con 6 ejercicios y 11 récords, en tema claro y oscuro; los textos caben. La imagen desde el fin de entreno no se ha descargado en el navegador (mismo componente y la misma función). No se ha probado compartir desde el iPhone.
+
+**Más visual, a petición de Víctor («hay mucha letra»):** las frases de cada ejercicio («3 series · Récord: Peso máximo 85 kg (+5 kg) · 1 récord más») pasan a formas. Bajo las cifras, el trofeo con el número de récords en grande. En cada ejercicio, la mejor serie en cifra, una barra por serie efectiva (alto proporcional a la más fuerte, por carga o, sin carga, por repeticiones; las de récord en acento) y el trofeo con la mejora del récord principal («+5 kg»). `EjercicioPoster` cambia a `{ nombre, mejor, series: { alto, record }[], mejora? }`. Verificado con la imagen descargada en ambos temas; tests y build correctos.
+
+**Pastillas y medallas, a petición de Víctor:** las barras de series no se entendían y pasan a ser las mismas pastillas del historial («85 kg × 8», la de récord en acento con trofeo; dos líneas como mucho y «+N»); la mejora del récord va a la derecha del nombre. `EjercicioPoster` queda en `{ nombre, series: { texto, record }[], mejora? }`. Además, las medallas de la Vitrina conseguidas con el entreno (hasta cuatro, con nombre): `PosterImagen` recibe `logros` (de `DetalleEntreno`, con `useVitrina`, y de `WorkoutFinished`, solo con la gamificación visible), pinta `IconoLogro` oculto y copia su SVG con los colores resueltos; `svgPoster` lo recibe como `medallas`. Con medallas, «Hoy» no repite los logros. Con muchos ejercicios y medallas el muñeco no cabe y no sale. Verificado descargando la imagen en ambos temas (tres medallas, seis ejercicios); tests y build correctos.
+
+**Solo la mejor serie:** Víctor ve demasiadas pastillas (y con 10 series no cabrían). Cada ejercicio queda en una fila: nombre, «3 series» y, con récord, trofeo y mejora; a la derecha, la mejor serie como pastilla. `EjercicioPoster` queda en `{ nombre, mejor: { texto, record }, series, mejora? }`. Con seis ejercicios y tres medallas vuelve a caber el muñeco. Tests y build correctos; imagen descargada en ambos temas.
+
+**Cabecera más baja:** para que el muñeco no quede pequeño, la fila de duración, volumen y series pasa de cifras de 84 px a 60 px (bloque de 132 a 96 px), la línea de récords de 84 a 64 px y las medallas de 140 a 120 px. Con seis ejercicios y tres medallas el muñeco pasa de unos 215 a unos 300 px de alto. Tests y build correctos; imagen descargada en ambos temas.
+
+**Qué medallas se ven si hay más de cuatro:** antes, las cuatro primeras en el orden fijo de la Vitrina (los ocultos, al final). Víctor elige priorizar las raras: `vitrina/lib/logros.porRareza` pone primero los ocultos, después los niveles más altos y al final los niveles I y los repetibles; a igualdad, el orden de la Vitrina. `PosterImagen` ordena con ella. Test en `vitrina.test.ts`; en la imagen, «Día de récords» pasa a la primera posición.
