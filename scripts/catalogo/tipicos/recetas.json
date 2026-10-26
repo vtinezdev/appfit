@@ -29039,5 +29039,444 @@
         "gramos": 60
       }
     ]
+  },
+  {
+    "id": "patatas-asadas-piel",
+    "nombre": "Patatas asadas enteras con piel, asadas",
+    "alias": [
+      "patatas al horno"
+    ],
+    "categoria": "Patatas y tubérculos",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 380,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "patatas-gratinadas",
+    "nombre": "Patatas gratinadas con nata, horneadas",
+    "alias": [
+      "gratén de patata"
+    ],
+    "categoria": "Patatas y tubérculos",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1050,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 800
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "pure-patata-mantequilla",
+    "nombre": "Puré de patata con leche y mantequilla, cocido",
+    "categoria": "Patatas y tubérculos",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 820,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 600
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 200
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "pure-boniato",
+    "nombre": "Puré de boniato, cocido",
+    "categoria": "Patatas y tubérculos",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 600,
+    "ingredientes": [
+      {
+        "ciqual": "4101",
+        "gramos": 500
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 80
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "patatas-duquesa",
+    "nombre": "Patatas duquesa, horneadas",
+    "categoria": "Patatas y tubérculos",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 560,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 600
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 40
+      },
+      {
+        "ciqual": "22002",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11048",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "croquetas-patata",
+    "nombre": "Croquetas de patata y queso, fritas",
+    "categoria": "Patatas y tubérculos",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 700,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 600
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 60
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "cuscus-mantequilla",
+    "nombre": "Cuscús con mantequilla, cocinado",
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 455,
+    "ingredientes": [
+      {
+        "ciqual": "9681",
+        "gramos": 200
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 240
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "quinoa-aove",
+    "nombre": "Quinoa cocida con aceite de oliva, cocinada",
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 290,
+    "ingredientes": [
+      {
+        "ciqual": "9340",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "zanahorias-glaseadas",
+    "nombre": "Zanahorias glaseadas con mantequilla, cocinadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 450,
+    "ingredientes": [
+      {
+        "ciqual": "20009",
+        "gramos": 500
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 20
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "guisantes-salteados",
+    "nombre": "Guisantes salteados con cebolla, cocinados",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 450,
+    "ingredientes": [
+      {
+        "ciqual": "20084",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "cebolla-caramelizada",
+    "nombre": "Cebolla caramelizada, cocinada",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 540,
+    "ingredientes": [
+      {
+        "ciqual": "20034",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "pimientos-rojos-horno",
+    "nombre": "Pimientos rojos asados al horno, asados",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 600,
+    "ingredientes": [
+      {
+        "ciqual": "20087",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "tomates-plancha",
+    "nombre": "Tomates a la plancha, cocinados",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "alcachofas-plancha",
+    "nombre": "Alcachofas a la plancha, cocinadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 420,
+    "ingredientes": [
+      {
+        "ciqual": "20052",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "ensalada-verde",
+    "nombre": "Ensalada verde de lechuga aliñada, lista para consumir",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 221,
+    "ingredientes": [
+      {
+        "ciqual": "20031",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "verduras-vapor",
+    "nombre": "Verduras variadas al vapor con aceite de oliva, cocinadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 600,
+    "ingredientes": [
+      {
+        "ciqual": "20057",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20061",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20016",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "maiz-mantequilla",
+    "nombre": "Maíz dulce salteado con mantequilla, cocinado",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, vigesimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 315,
+    "ingredientes": [
+      {
+        "ciqual": "20066",
+        "gramos": 300
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
   }
 ]

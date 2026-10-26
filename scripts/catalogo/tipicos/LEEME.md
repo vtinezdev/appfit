@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1243 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 828 recetas CIQUAL (61 hasta el 25 de octubre y
-767 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1260 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 845 recetas CIQUAL (61 hasta el 25 de octubre y
+784 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -748,3 +748,7 @@ Tortillas francesas (gambas, espárragos trigueros, cebolla, alcachofas, jamón 
 ### Vigesimotercera tanda de recetas: ensaladas, patés y entrantes fríos (15)
 
 Ensaladas (judías verdes, papas aliñás, mango y langostinos, espinacas con fresas, huevo, tomate con burrata), tabla de jamón, chorizo y queso, patés caseros (hígado de pollo, atún, olivada), hummus de remolacha, baba ganoush, tzatziki, pico de gallo y melón con jamón. El carpaccio no se añade: CIQUAL ya trae el de ternera y el de salmón.
+
+### Vigesimocuarta tanda de recetas: guarniciones (17)
+
+Patatas (asadas con piel, gratinadas, puré con mantequilla, duquesa, croquetas de patata), puré de boniato, cuscús y quinoa cocidos, verduras (zanahorias glaseadas, guisantes salteados, cebolla caramelizada, pimientos asados, tomates y alcachofas a la plancha, verduras al vapor, maíz con mantequilla) y ensalada verde aliñada.
