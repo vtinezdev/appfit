@@ -28138,5 +28138,467 @@
         "gramos": 6
       }
     ]
+  },
+  {
+    "id": "tortilla-gambas",
+    "nombre": "Tortilla de gambas, cocinada",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 175,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "tortilla-esparragos-trigueros",
+    "nombre": "Tortilla de espárragos trigueros, cocinada",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "20279",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "tortilla-cebolla",
+    "nombre": "Tortilla de cebolla, cocinada",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 195,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "tortilla-alcachofas",
+    "nombre": "Tortilla de alcachofas, cocinada",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 210,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "20052",
+        "gramos": 120
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "tortilla-jamon-queso",
+    "nombre": "Tortilla de jamón serrano y queso, cocinada",
+    "alias": [
+      "tortilla francesa de jamón y queso"
+    ],
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 160,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 20
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "tortilla-patata-calabacin",
+    "nombre": "Tortilla de patata y calabacín, cocinada",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 800,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20020",
+        "gramos": 250
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "tortilla-patatas-rellena",
+    "nombre": "Tortilla de patatas rellena de jamón y queso, cocinada",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 60
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "revuelto-jamon-queso",
+    "nombre": "Revuelto de jamón y queso, cocinado",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 175,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 25
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 25
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "revuelto-espinacas-gambas",
+    "nombre": "Revuelto de espinacas y gambas, cocinado",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 260,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "20059",
+        "gramos": 100
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "revuelto-patatas-chorizo",
+    "nombre": "Revuelto de patatas y chorizo, cocinado",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 320,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 150
+      },
+      {
+        "ciqual": "30315",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "revuelto-salmon-ahumado",
+    "nombre": "Revuelto de salmón ahumado, cocinado",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 175,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "26037",
+        "gramos": 50
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "revuelto-bacalao",
+    "nombre": "Revuelto de bacalao con cebolla, cocinado",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Bacalao fresco CIQUAL como desalado.",
+    "pesoFinalG": 270,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "26043",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "huevos-duros-mayonesa",
+    "nombre": "Huevos duros con mayonesa, listos para consumir",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 145,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 25
+      }
+    ]
+  },
+  {
+    "id": "huevos-tomate",
+    "nombre": "Huevos con tomate, cocinados",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 380,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "huevos-benedictinos",
+    "nombre": "Huevos benedictinos, listos para consumir",
+    "alias": [
+      "huevos benedict"
+    ],
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 270,
+    "ingredientes": [
+      {
+        "ciqual": "7257",
+        "gramos": 70
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "28720",
+        "gramos": 40
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 40
+      },
+      {
+        "ciqual": "22002",
+        "gramos": 20
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "pisto-huevo",
+    "nombre": "Pisto con huevo frito, cocinado",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, vigesimosegunda tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 400,
+    "ingredientes": [
+      {
+        "ciqual": "20020",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 100
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
   }
 ]

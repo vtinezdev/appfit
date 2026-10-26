@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1212 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 797 recetas CIQUAL (61 hasta el 25 de octubre y
-736 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1228 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 813 recetas CIQUAL (61 hasta el 25 de octubre y
+752 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -740,3 +740,7 @@ Bartolillos, flores de Semana Santa, mantecadas de Astorga, rosquillas listas, f
 ### Vigesimoprimera tanda de recetas: cuchara, sopas y cremas (18)
 
 Legumbres (alubias con chorizo, garbanzos con callos y con costillas, olla podrida), guisos (patatas en salsa verde, calamares con patatas, marmitako de salmón, ternera con guisantes, albóndigas con patatas, estofado de cordero, gazpacho manchego), cremas (melón con jamón, boniato, marisco), sopas (letras, pollo con arroz, tomate extremeña) y gazpacho de remolacha.
+
+### Vigesimosegunda tanda de recetas: huevos y tortillas (16)
+
+Tortillas francesas (gambas, espárragos trigueros, cebolla, alcachofas, jamón y queso), tortillas de patata con calabacín y rellena, revueltos (jamón y queso, espinacas y gambas, patatas y chorizo, salmón ahumado, bacalao), huevos duros con mayonesa, huevos con tomate, huevos benedictinos y pisto con huevo.
