@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1194 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 779 recetas CIQUAL (61 hasta el 25 de octubre y
-718 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1212 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 797 recetas CIQUAL (61 hasta el 25 de octubre y
+736 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -736,3 +736,7 @@ Fuente AppFit (URLs en notas): pimientos de Padrón, chufa seca, coquinas, lichi
 ### Vigésima tanda de recetas: dulces festivos y regionales (13)
 
 Bartolillos, flores de Semana Santa, mantecadas de Astorga, rosquillas listas, fartons, pan de Calatrava, carbayones, roscos fritos de anís, hojaldrinas, compota de Navidad, turrón de coco, trufas de chocolate y tarta de queso vasca. Ocho búsquedas más en la regresión (arroz negro, risotto de setas, pizza margarita, pollo a la naranja, salsa barbacoa, pimientos de Padrón, cuajada, tarta de queso vasca).
+
+### Vigesimoprimera tanda de recetas: cuchara, sopas y cremas (18)
+
+Legumbres (alubias con chorizo, garbanzos con callos y con costillas, olla podrida), guisos (patatas en salsa verde, calamares con patatas, marmitako de salmón, ternera con guisantes, albóndigas con patatas, estofado de cordero, gazpacho manchego), cremas (melón con jamón, boniato, marisco), sopas (letras, pollo con arroz, tomate extremeña) y gazpacho de remolacha.
