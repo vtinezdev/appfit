@@ -976,3 +976,7 @@ Salsa de yogur y menta, bechamel ligera con leche semidesnatada y aceite, salsa 
 ### Tanda 80 de recetas: aperitivos salados (6)
 
 Nachos caseros de tortilla de maíz al horno, almendras tostadas caseras con sal, frutos secos especiados al horno, grisines caseros, mezcla de almendras y brochetas de queso y uva.
+
+### Tanda 81 de recetas: cocina mexicana (9)
+
+Tacos de pescado rebozado, burrito vegetariano de alubias y arroz, quesadilla de champiñones, fajitas de gambas, tostadas mexicanas de pollo, elote (maíz asado con mayonesa y queso), sopa de tortilla mexicana, huevos a la mexicana y arroz rojo mexicano.
