@@ -70,6 +70,10 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 
 La ampliación de publicaciones libres, logros compartidos, comunidades y mapa muscular está implementada. Víctor confirmó la ejecución correcta de `0006_comunidades_y_publicaciones.sql` en el proyecto real el 2026-10-16; las pruebas con cuentas reales de esta ampliación siguen pendientes. Ver [Social](features/social.md).
 
+## Mejoras de la app (documento de Víctor, 2026-10-26)
+
+Nueve bloques acordados (PROCESO §246 en adelante). Pendiente de decidir dentro de los hechos: **punto 40**, la lista de sesiones del detalle de un ejercicio (Entreno › Progreso). Hay dos opciones probadas en el commit `46fbf5b` (`gym/components/SesionesEjercicio`, `forma` «barras» o «tabla»); mientras, sigue la lista de siempre. Siguen los bloques 4 (Nutrición e Inicio: 3, 11, 2) a 9.
+
 ## Ideas sin empezar
 
 Social:
