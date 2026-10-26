@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1616 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1194 recetas CIQUAL (61 hasta el 25 de octubre y
-1133 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1628 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1206 recetas CIQUAL (61 hasta el 25 de octubre y
+1145 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -860,3 +860,7 @@ Platos combinados (lomo con huevo, pechuga, hamburguesa con huevo, calamares, bi
 ### Tanda 51 de recetas: pollo (12)
 
 Pollo al ajo y limón, pollo a la sidra con manzana, pollo con champiñones en salsa de nata, pollo con pisto, muslos de pollo al romero, alitas de pollo al ajillo, pollo a la miel y mostaza, pechuga de pollo empanada al horno, pollo al pimentón, pollo al horno con verduras, pollo tandoori y pollo al vino blanco.
+
+### Tanda 52 de recetas: cerdo (12)
+
+Lomo de cerdo al horno, lomo de cerdo con leche, lomo de cerdo a la naranja, solomillo de cerdo al roquefort, solomillo de cerdo con manzana y sidra, cerdo salteado con pimientos y cebolla, cerdo con salsa de soja y miel, cerdo desmechado a la barbacoa (pulled pork), panceta al horno crujiente, costillas de cerdo al ajillo, chuletas de cerdo a la mostaza y albóndigas de cerdo en salsa de tomate.
