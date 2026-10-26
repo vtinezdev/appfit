@@ -1020,3 +1020,7 @@ Pizza con base de coliflor, arroz de coliflor salteado, espaguetis de calabacín
 ### Tanda 91 de recetas: comida infantil (7)
 
 Pollo empanado con copos de maíz, minipizzas de hojaldre, hamburguesas de merluza caseras, sándwich de crema de cacao y plátano, palomitas de pollo rebozadas, gofres de chocolate caseros y bizcocho de chocolate en taza (mug cake).
+
+### Tanda 92 de recetas: purés y papillas infantiles (8)
+
+Puré de calabaza y patata (triturado infantil), puré de pollo con arroz y zanahoria (triturado infantil), papilla de pera y manzana, puré de guisantes y pavo (triturado infantil), puré de boniato y pollo (triturado infantil), papilla de plátano y naranja, puré de cordero con verduras (triturado infantil) y yogur con plátano triturado.

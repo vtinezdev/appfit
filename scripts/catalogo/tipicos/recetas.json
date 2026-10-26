@@ -50602,5 +50602,193 @@
         "gramos": 20
       }
     ]
+  },
+  {
+    "id": "pure-calabaza-patata-bebe",
+    "nombre": "Puré de calabaza y patata (triturado infantil), cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 92 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 454,
+    "ingredientes": [
+      {
+        "ciqual": "20044",
+        "gramos": 200
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 150
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "pure-pollo-arroz-bebe",
+    "nombre": "Puré de pollo con arroz y zanahoria (triturado infantil), cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 92 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 421,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 80
+      },
+      {
+        "ciqual": "9100",
+        "gramos": 30
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 80
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "papilla-pera-manzana",
+    "nombre": "Papilla de pera y manzana, cocida",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 92 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 285,
+    "ingredientes": [
+      {
+        "ciqual": "13037",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13396",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "pure-guisantes-pavo-bebe",
+    "nombre": "Puré de guisantes y pavo (triturado infantil), cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 92 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 455,
+    "ingredientes": [
+      {
+        "ciqual": "20084",
+        "gramos": 150
+      },
+      {
+        "ciqual": "36304",
+        "gramos": 80
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "pure-boniato-pollo-bebe",
+    "nombre": "Puré de boniato y pollo (triturado infantil), cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 92 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 412,
+    "ingredientes": [
+      {
+        "ciqual": "4101",
+        "gramos": 200
+      },
+      {
+        "ciqual": "36017",
+        "gramos": 80
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "papilla-platano-naranja",
+    "nombre": "Papilla de plátano y naranja, lista para consumir",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, tanda 92 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 250,
+    "ingredientes": [
+      {
+        "ciqual": "13005",
+        "gramos": 150
+      },
+      {
+        "ciqual": "2013",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "pure-cordero-verduras-bebe",
+    "nombre": "Puré de cordero con verduras (triturado infantil), cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 92 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 540,
+    "ingredientes": [
+      {
+        "ciqual": "21502",
+        "gramos": 80
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "yogur-platano-triturado",
+    "nombre": "Yogur con plátano triturado, listo para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, tanda 92 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 185,
+    "ingredientes": [
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 60
+      }
+    ]
   }
 ]
