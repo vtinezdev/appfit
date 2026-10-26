@@ -5,13 +5,15 @@ import FilaDeslizable from '../../../shared/components/FilaDeslizable'
 import ListGroup from '../../../shared/components/ListGroup'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import type { Aviso } from '../../../shared/hooks/useAviso'
-import { addDays, formatFriendly } from '../../../shared/lib/dates'
+import { formatFriendly } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import { kmTexto } from '../../actividades/lib/actividad'
 import * as caminosRepo from '../data/caminosRepo'
 import * as pasosRepo from '../data/pasosRepo'
-import { pasosTexto, type AportePasos, type Zancada } from '../lib/pasos'
+import { diaTexto, pasosTexto, type AportePasos, type Zancada } from '../lib/pasos'
+import { mensajeSemana, type DiasSemana } from '../lib/semanaPasos'
 import HojaPasos from './HojaPasos'
+import HojaSemanaPasos from './HojaSemanaPasos'
 import HojaZancada from './HojaZancada'
 
 /** Días que se ven fuera del desplegable. */
@@ -30,12 +32,6 @@ interface Props {
   avisarError: (mensaje: string) => void
 }
 
-/** «hoy», «ayer» o «el lun, 12 octubre». */
-function diaTexto(fecha: string, hoy: string): string {
-  if (fecha === hoy) return 'hoy'
-  return fecha === addDays(hoy, -1) ? 'ayer' : `el ${formatFriendly(fecha)}`
-}
-
 /** Lo que dieron los pasos de un día. */
 function detalle(a: AportePasos, inicio: string | undefined): string {
   const km = `≈ ${kmTexto(a.metrosPasos)}`
@@ -49,6 +45,8 @@ function detalle(a: AportePasos, inicio: string | undefined): string {
 export default function PasosCaminos({ hoy, inicio, aportes, zancada, zancadaEstimada, avisar, avisarError }: Props) {
   const [hoja, setHoja] = useState<{ n: number; editando?: { fecha: string; pasos: number } } | null>(null)
   const [hojaAbierta, setHojaAbierta] = useState(false)
+  const [semanaN, setSemanaN] = useState<number | null>(null)
+  const [semanaAbierta, setSemanaAbierta] = useState(false)
   const [zancadaN, setZancadaN] = useState<number | null>(null)
   const [zancadaAbierta, setZancadaAbierta] = useState(false)
   const apuntados = new Map(aportes.map((a) => [a.fecha, a.pasos]))
@@ -61,6 +59,12 @@ export default function PasosCaminos({ hoy, inicio, aportes, zancada, zancadaEst
     const antes = await pasosRepo.guardar(fecha, pasos)
     setHojaAbierta(false)
     avisar({ mensaje: `${pasosTexto(pasos)} ${diaTexto(fecha, hoy)}`, onDeshacer: () => pasosRepo.restaurar(fecha, antes) })
+  }
+
+  async function guardarSemana(lunes: string, semana: DiasSemana) {
+    const anteriores = await pasosRepo.guardarSemana(semana)
+    setSemanaAbierta(false)
+    avisar({ mensaje: mensajeSemana(lunes, semana), onDeshacer: () => pasosRepo.restaurarSemana(anteriores) })
   }
 
   async function borrar(fecha: string) {
@@ -103,6 +107,7 @@ export default function PasosCaminos({ hoy, inicio, aportes, zancada, zancadaEst
       {deHoy !== undefined ? 'Cambiar los de hoy' : 'Apuntar los de hoy'}
     </Button>
     {dias.length > 0 && <Button variant="ghost" size="sm" onClick={() => abrir()}>Apuntar otro día</Button>}
+    <Button variant="ghost" size="sm" onClick={() => { setSemanaN(Date.now()); setSemanaAbierta(true) }}>Apuntar una semana</Button>
     <div className="flex min-h-touch items-center justify-between gap-3">
       <span className="tabular min-w-0 break-words text-body-sm text-fg-muted">Zancada de {formatInt(zancada.cm)} cm, {ORIGEN_ZANCADA[zancada.origen]}</span>
       <Button variant="subtle" size="sm" onClick={() => { setZancadaN(Date.now()); setZancadaAbierta(true) }}>Cambiar</Button>
@@ -110,6 +115,8 @@ export default function PasosCaminos({ hoy, inicio, aportes, zancada, zancadaEst
 
     {hoja && <HojaPasos key={hoja.n} open={hojaAbierta} onClose={() => setHojaAbierta(false)} hoy={hoy} editando={hoja.editando} apuntados={apuntados}
       zancadaCm={zancada.cm} onGuardar={guardar} />}
+    {semanaN !== null && <HojaSemanaPasos key={semanaN} open={semanaAbierta} onClose={() => setSemanaAbierta(false)} hoy={hoy} apuntados={apuntados}
+      zancadaCm={zancada.cm} onGuardar={guardarSemana} />}
     {zancadaN !== null && <HojaZancada key={zancadaN} open={zancadaAbierta} onClose={() => setZancadaAbierta(false)} zancada={zancada} estimada={zancadaEstimada}
       onGuardar={guardarZancada} />}
   </section>
