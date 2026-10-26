@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1260 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 845 recetas CIQUAL (61 hasta el 25 de octubre y
-784 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1274 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 859 recetas CIQUAL (61 hasta el 25 de octubre y
+798 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -723,7 +723,7 @@ Hamburguesas de lentejas y de garbanzos, tofu a la plancha y revuelto de tofu, c
 
 ### Decimonovena tanda de recetas: pizzas, hamburguesas y comida rápida casera (14)
 
-Pizzas caseras (margarita, cuatro quesos, barbacoa, pollo y verduras), focaccia, pan de ajo, hamburguesas de pollo y con huevo, beicon y queso, patatas con queso y beicon, alitas picantes, quesadilla, burrito y tacos de pollo y pan bao de cerdo. La salsa barbacoa se aproxima con kétchup y miel (CIQUAL no la trae).
+Pizzas caseras (margarita, cuatro quesos, barbacoa, pollo y verduras), focaccia, pan de ajo, hamburguesas de pollo y con huevo, beicon y queso, patatas con queso y beicon, alitas picantes, quesadilla, burrito y tacos de pollo y pan bao de cerdo. La pizza barbacoa usa la salsa barbecue envasada de CIQUAL.
 
 ### Sueltos de supermercado, segunda ronda (9)
 
@@ -752,3 +752,7 @@ Ensaladas (judías verdes, papas aliñás, mango y langostinos, espinacas con fr
 ### Vigesimocuarta tanda de recetas: guarniciones (17)
 
 Patatas (asadas con piel, gratinadas, puré con mantequilla, duquesa, croquetas de patata), puré de boniato, cuscús y quinoa cocidos, verduras (zanahorias glaseadas, guisantes salteados, cebolla caramelizada, pimientos asados, tomates y alcachofas a la plancha, verduras al vapor, maíz con mantequilla) y ensalada verde aliñada.
+
+### Vigesimoquinta tanda de recetas: salsas y aliños caseros (14)
+
+Chimichurri, tomate frito casero, salsas caseras (queso azul, pimienta, setas con nata, miel y mostaza, cacahuete, rosa, piquillos), ajada gallega, vinagreta de mostaza y miel, aliño de aceite y limón, caramelo líquido y picada catalana. Se omiten la mayonesa y el pesto caseros (ya estaban) y las salsas que trae CIQUAL (bechamel, pesto, holandesa, tártara, barbecue, César…). Corrección: la pizza barbacoa de la decimonovena tanda usa ahora la salsa barbecue de CIQUAL en vez de la aproximación con kétchup y miel; los sueltos AppFit «Salsa barbacoa» y «Salsa César» quedan como candidatos a fusionar con «Salsa barbecue» y «Salsa Cásar» de CIQUAL.

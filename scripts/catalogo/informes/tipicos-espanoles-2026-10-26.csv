@@ -692,7 +692,7 @@ lentejas-veganas-verduras-arroz;Lentejas con arroz integral y verduras, cocinada
 patatas-rellenas-verduras;Patatas asadas rellenas de verduras y queso, horneadas;Platos preparados;;117,3;4;13,1;4,8;800;4008:600 20056:100 20034:60 20085:60 12118:60 17270:20 11017:4
 pizza-margarita-casera;Pizza margarita casera, horneada;Platos preparados;pizza margarita;225,5;8,1;28,4;8,4;690;9440:250 18066:150 11010:7 17270:15 11017:4 20048:150 19590:200 11033:5 17270:5
 pizza-cuatro-quesos-casera;Pizza cuatro quesos casera, horneada;Platos preparados;;262,1;10,8;28,7;11,2;680;9440:250 18066:150 11010:7 17270:15 11017:4 20048:100 19590:120 12500:40 12120:30 12115:50
-pizza-barbacoa-casera;Pizza barbacoa casera con carne picada, horneada;Platos preparados;pizza bbq;238,1;10,4;28,5;8,8;760;9440:250 18066:150 11010:7 17270:15 11017:4 20048:100 11008:40 31008:10 6254:150 19590:150 20034:60
+pizza-barbacoa-casera;Pizza barbacoa casera con carne picada, horneada;Platos preparados;pizza bbq;237;10,3;28,2;8,8;760;9440:250 18066:150 11010:7 17270:15 11017:4 20048:100 11100:50 6254:150 19590:150 20034:60
 pizza-pollo-verduras-casera;Pizza de pollo y verduras casera, horneada;Platos preparados;;201,8;10,7;25,3;5,9;800;9440:250 18066:150 11010:7 17270:15 11017:4 20048:150 36017:150 20085:60 20034:60 20056:80 19590:150
 focaccia;Focaccia con romero, horneada;Pan y tostadas;;292;5,4;48;8,1;800;9440:500 18066:350 17270:60 11010:10 11017:10 11036:3
 pan-ajo;Pan de ajo con mantequilla, horneado;Pan y tostadas;garlic bread;385,4;7;47,6;17,7;250;7001:200 16400:50 11000:10 11014:5
@@ -783,3 +783,17 @@ alcachofas-plancha;Alcachofas a la plancha, cocinadas;Verduras y hortalizas;;96,
 ensalada-verde;Ensalada verde de lechuga aliñada, lista para consumir;Verduras y hortalizas;;74,8;1,3;1,1;7;221;20031:200 17270:15 11220:5 11017:1
 verduras-vapor;Verduras variadas al vapor con aceite de oliva, cocinadas;Verduras y hortalizas;;52,2;1,8;3,4;2,9;600;20057:150 20009:150 20061:150 20016:150 17270:15 11017:2
 maiz-mantequilla;Maíz dulce salteado con mantequilla, cocinado;Verduras y hortalizas;;135,9;2,6;17,5;5,6;315;20066:300 16400:15 11017:1
+chimichurri;Chimichurri, listo para consumir;Salsas y condimentos;;516,7;1,2;2;55,3;272;11014:50 11000:10 11035:5 17270:150 11220:50 20151:3 11017:4
+tomate-frito-casero;Tomate frito casero, cocinado;Salsas y condimentos;salsa de tomate casera;122;1;7,7;9,8;650;20276:1000 17270:60 20034:100 31016:10 11017:6
+salsa-queso-azul;Salsa de queso azul casera, cocinada;Salsas y condimentos;salsa roquefort casera;346,4;8,5;2,6;33,5;280;12500:100 19417:200
+salsa-pimienta-casera;Salsa de pimienta casera, cocinada;Salsas y condimentos;;340;2,2;4,2;31,7;230;19417:200 1023:30 11015:5 16400:15
+salsa-setas-casera;Salsa de setas con nata casera, cocinada;Salsas y condimentos;;186;2,4;3,8;17,7;400;20010:200 19417:200 20034:50 17270:10 11017:2
+salsa-miel-mostaza-casera;Salsa de miel y mostaza casera, lista para consumir;Salsas y condimentos;;368,7;2,8;28,2;26,8;160;11013:50 31008:50 11054:50 2007:10
+ajada;Ajada gallega, cocinada;Salsas y condimentos;allada;656;1,8;3,2;69,8;145;17270:100 11000:15 11049:10 11220:20
+salsa-cacahuete;Salsa de cacahuete (satay), lista para consumir;Salsas y condimentos;salsa satay;349,8;10,2;13,4;27,2;260;15202:100 11104:30 18041:100 13067:15 31008:15
+vinagreta-mostaza;Vinagreta de mostaza y miel, lista para consumir;Salsas y condimentos;;618,2;0,8;3,3;66,4;137;17270:90 11220:30 11013:10 31008:5 11017:2
+alino-limon-aceite;Aliño de aceite de oliva y limón, listo para consumir;Salsas y condimentos;;595,6;0,3;0,8;65,2;92;17270:60 2007:30 11017:2
+salsa-rosa-casera;Salsa rosa casera, lista para consumir;Salsas y condimentos;salsa cóctel casera;504,5;1,2;8,4;50,9;220;11054:150 11008:50 2013:15 1023:5
+caramelo-liquido;Caramelo líquido casero, cocinado;Dulces y chocolate;;380;0;95;0;210;31016:200 18066:50
+picada-catalana;Picada catalana, lista para consumir;Salsas y condimentos;;540,7;12,6;18;44;145;15041:50 15004:30 11000:10 7001:30 11014:5 17270:20
+salsa-piquillos;Salsa de pimientos del piquillo con nata, cocinada;Salsas y condimentos;;155,2;1,5;5,4;14;290;20087:200 19417:100 17270:10 11017:2

@@ -26379,7 +26379,7 @@
       "pizza bbq"
     ],
     "categoria": "Platos preparados",
-    "referencia": "Lote manual de platos habituales en España, decimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Salsa barbacoa aproximada con kétchup y miel.",
+    "referencia": "Lote manual de platos habituales en España, decimonovena tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
     "pesoFinalG": 760,
     "ingredientes": [
       {
@@ -26407,12 +26407,8 @@
         "gramos": 100
       },
       {
-        "ciqual": "11008",
-        "gramos": 40
-      },
-      {
-        "ciqual": "31008",
-        "gramos": 10
+        "ciqual": "11100",
+        "gramos": 50
       },
       {
         "ciqual": "6254",
@@ -29476,6 +29472,387 @@
       {
         "ciqual": "11017",
         "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "chimichurri",
+    "nombre": "Chimichurri, listo para consumir",
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 272,
+    "ingredientes": [
+      {
+        "ciqual": "11014",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11035",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20151",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "tomate-frito-casero",
+    "nombre": "Tomate frito casero, cocinado",
+    "alias": [
+      "salsa de tomate casera"
+    ],
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "salsa-queso-azul",
+    "nombre": "Salsa de queso azul casera, cocinada",
+    "alias": [
+      "salsa roquefort casera"
+    ],
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 280,
+    "ingredientes": [
+      {
+        "ciqual": "12500",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 200
+      }
+    ]
+  },
+  {
+    "id": "salsa-pimienta-casera",
+    "nombre": "Salsa de pimienta casera, cocinada",
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 230,
+    "ingredientes": [
+      {
+        "ciqual": "19417",
+        "gramos": 200
+      },
+      {
+        "ciqual": "1023",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11015",
+        "gramos": 5
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "salsa-setas-casera",
+    "nombre": "Salsa de setas con nata casera, cocinada",
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 400,
+    "ingredientes": [
+      {
+        "ciqual": "20010",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "salsa-miel-mostaza-casera",
+    "nombre": "Salsa de miel y mostaza casera, lista para consumir",
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 160,
+    "ingredientes": [
+      {
+        "ciqual": "11013",
+        "gramos": 50
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 50
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "ajada",
+    "nombre": "Ajada gallega, cocinada",
+    "alias": [
+      "allada"
+    ],
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 145,
+    "ingredientes": [
+      {
+        "ciqual": "17270",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "salsa-cacahuete",
+    "nombre": "Salsa de cacahuete (satay), lista para consumir",
+    "alias": [
+      "salsa satay"
+    ],
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 260,
+    "ingredientes": [
+      {
+        "ciqual": "15202",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11104",
+        "gramos": 30
+      },
+      {
+        "ciqual": "18041",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13067",
+        "gramos": 15
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "vinagreta-mostaza",
+    "nombre": "Vinagreta de mostaza y miel, lista para consumir",
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 137,
+    "ingredientes": [
+      {
+        "ciqual": "17270",
+        "gramos": 90
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11013",
+        "gramos": 10
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "alino-limon-aceite",
+    "nombre": "Aliño de aceite de oliva y limón, listo para consumir",
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 92,
+    "ingredientes": [
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "salsa-rosa-casera",
+    "nombre": "Salsa rosa casera, lista para consumir",
+    "alias": [
+      "salsa cóctel casera"
+    ],
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 220,
+    "ingredientes": [
+      {
+        "ciqual": "11054",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11008",
+        "gramos": 50
+      },
+      {
+        "ciqual": "2013",
+        "gramos": 15
+      },
+      {
+        "ciqual": "1023",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "caramelo-liquido",
+    "nombre": "Caramelo líquido casero, cocinado",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 210,
+    "ingredientes": [
+      {
+        "ciqual": "31016",
+        "gramos": 200
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "picada-catalana",
+    "nombre": "Picada catalana, lista para consumir",
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 145,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 50
+      },
+      {
+        "ciqual": "15004",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "salsa-piquillos",
+    "nombre": "Salsa de pimientos del piquillo con nata, cocinada",
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoquinta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 290,
+    "ingredientes": [
+      {
+        "ciqual": "20087",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
       }
     ]
   }
