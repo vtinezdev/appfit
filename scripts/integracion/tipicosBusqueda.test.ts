@@ -99,6 +99,14 @@ it.each([
   ['espeto de sardinas', 'espeto-sardinas'],
   ['calçots', 'calcots-romesco'],
   ['energy balls', 'bolitas-energeticas'],
+  ['ramen', 'ramen-cerdo'],
+  ['butter chicken', 'butter-chicken'],
+  ['spanakopita', 'spanakopita'],
+  ['wrap de pollo', 'wrap-pollo-cesar'],
+  ['paella mixta', 'paella-mixta'],
+  ['harira', 'harira'],
+  ['plato combinado', 'combinado-lomo-huevo'],
+  ['cocido de lata', 'cocido-madrileno-envasado'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)

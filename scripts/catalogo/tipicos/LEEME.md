@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1592 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1170 recetas CIQUAL (61 hasta el 25 de octubre y
-1109 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1604 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1182 recetas CIQUAL (61 hasta el 25 de octubre y
+1121 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -852,3 +852,7 @@ Cañas de crema, brazo de gitano de chocolate, mostachones, almendrados, mona de
 ### Platos envasados de supermercado (7)
 
 Fuente AppFit (URLs en notas): croquetas de pollo congeladas, paella de marisco congelada, atún en escabeche, pisto, cocido madrileño, callos y albóndigas en salsa envasados. Las alcachofas en aceite se descartan por no encontrar valores de la versión en aceite.
+
+### Quincuagésima tanda de recetas: platos combinados y de menú (12)
+
+Platos combinados (lomo con huevo, pechuga, hamburguesa con huevo, calamares, bistec con huevo, vegetariano), pescado a la plancha con ensalada, lomo con patatas y pimientos, medio pollo con patatas, merluza rebozada con ensalada, sepia con patatas y alioli y huevos con pimientos y patatas. Ocho búsquedas más en la regresión (ramen, butter chicken, spanakopita, wrap de pollo, paella mixta, harira, plato combinado, cocido de lata).

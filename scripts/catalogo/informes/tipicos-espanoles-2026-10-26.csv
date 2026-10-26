@@ -1108,3 +1108,15 @@ almendrados;Almendrados, horneados;Dulces y chocolate;;534,3;13,3;49,3;29,2;450;
 mona-pascua;Mona de Pascua, horneada;Galletas, bollería y pasteles;toña;364,7;8,1;59,1;10;830;9440:500 31016:100 22000:150 17270:60 11010:20 19023:100 11066:5
 coquitos;Coquitos de coco, horneados;Dulces y chocolate;;530,6;6,6;41,3;35,9;400;15007:200 31016:150 22000:100
 flao;Flaó ibicenco, horneado;Galletas, bollería y pasteles;;323,4;7,4;35,5;16,6;1150;9440:250 16520:60 11066:5 12068:500 22000:250 31016:200 11027:3
+combinado-lomo-huevo;Plato combinado de lomo, huevo frito, patatas y ensalada, cocinado;Platos preparados;plato combinado;173,1;8,8;8,2;11,4;430;22000:60 28473:120 4008:200 17440:25 20031:50 20276:50 17270:10
+combinado-pechuga;Plato combinado de pechuga a la plancha, patatas y ensalada, cocinado;Platos preparados;;164;10;8,7;9,4;400;36017:150 4008:200 17440:25 20031:50 20276:50 17270:10
+combinado-hamburguesa-huevo;Plato combinado de hamburguesa, huevo y patatas, cocinado;Platos preparados;;226,1;12;9,5;15,2;350;6254:150 22000:60 4008:200 17440:25
+combinado-calamares;Plato combinado de calamares, patatas y ensalada, cocinado;Platos preparados;;165,3;6,9;13;9,1;410;10001:150 9440:20 17440:35 4008:200 20031:50 20276:50
+combinado-bistec-huevo;Plato combinado de bistec, huevo y patatas, cocinado;Platos preparados;;232,1;11,4;9,3;16,3;350;6201:150 22000:60 4008:200 17440:25
+combinado-vegetariano;Plato combinado de huevo frito, arroz y ensalada, cocinado;Platos preparados;;132;3,7;16,5;5,6;390;22000:60 9100:80 18066:160 20031:50 20276:50 17270:15
+pescado-plancha-ensalada;Pescado blanco a la plancha con ensalada, cocinado;Platos preparados;;95,8;10,8;1,1;5,3;340;26044:200 20031:80 20276:80 17270:15
+lomo-patatas-pimientos;Lomo con patatas fritas y pimientos, cocinado;Platos preparados;;185,4;9,5;9,4;11,8;380;28473:150 20085:80 17270:10 4008:200 17440:25
+medio-pollo-patatas;Medio pollo asado con patatas fritas, cocinado;Platos preparados;;221,8;18,3;8,1;12,5;620;36016:500 4008:300 17440:30 11017:5
+merluza-rebozada-ensalada;Merluza rebozada con ensalada, cocinada;Platos preparados;;166,9;12,3;5,3;10,6;340;26044:200 9440:20 22000:30 17440:30 20031:60 20276:60
+sepia-patatas-alioli;Sepia a la plancha con patatas fritas y alioli, cocinada;Platos preparados;;197;9,7;9,2;13,1;380;10016:200 11054:30 11000:3 4008:200 17440:25
+huevos-pimientos-patatas;Huevos fritos con pimientos y patatas fritas, cocinados;Platos preparados;;186,9;5,3;9,5;13,8;380;22000:120 20085:100 17270:10 4008:200 17440:30
