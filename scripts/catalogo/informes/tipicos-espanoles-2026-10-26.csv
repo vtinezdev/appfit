@@ -109,3 +109,132 @@ calimocho;Calimocho, listo para consumir;Bebidas alcohólicas;kalimotxo;57,9;0,1
 rebujito;Rebujito, con vino blanco seco, listo para consumir;Bebidas alcohólicas;;39,7;0,1;5,8;0;1000;5215:300 18010:700
 carajillo;Carajillo de coñac, listo para consumir;Bebidas alcohólicas;;78,3;0,2;1,1;0,1;90;18071:60 1023:30
 agua-valencia;Agua de Valencia, lista para consumir;Bebidas alcohólicas;;92,6;0,4;5,9;0,1;920;5207:500 2013:300 1008:50 1002:50 31016:20
+caldo-gallego;Caldo gallego, cocido;Platos preparados;;70,8;2,7;6,6;3,3;2700;20501:150 20069:500 4008:600 28470:80 30315:60 11017:10 18066:2200
+olla-gitana;Olla gitana, guisada;Platos preparados;;90,7;3,5;9,6;3,7;2400;20516:300 20061:300 20044:400 13037:200 20034:150 20276:150 11000:10 11049:5 15041:30 7001:30 17270:50 11039:0.2 11017:10 18066:1500
+lentejas-arroz;Lentejas con arroz, estofadas;Platos preparados;;83,1;4,1;10,6;2,1;2400;20359:350 9100:100 20034:150 20085:100 20009:100 11000:10 11049:5 11053:0.5 17270:40 11017:10 18066:1800
+alubias-almejas;Alubias con almejas, guisadas;Platos preparados;fabes con almejas;93,3;5,8;9,2;2,8;2200;20501:400 10017:250 20034:150 11000:10 11049:3 9440:10 5215:100 11014:10 17270:50 11039:0.1 11017:8 18066:1800
+judiones-granja;Judiones guisados con chorizo, guisados;Platos preparados;judiones de la granja;126,1;7,3;9,5;5,8;2000;20501:400 30315:100 8703:100 28501:80 20034:150 11000:10 11049:5 11053:0.5 17270:30 11017:8 18066:1600
+garbanzos-chorizo;Garbanzos con chorizo, guisados;Platos preparados;;119,8;5,5;11,2;5,2;2300;20516:400 30315:150 4008:300 20034:150 20009:100 11000:10 11049:5 11053:0.5 17270:40 11017:10 18066:1600
+potaje-garbanzos-verduras;Potaje de garbanzos con verduras, guisado;Platos preparados;;90,1;4,1;10,3;3;2300;20516:400 20044:300 20061:200 20009:150 20034:150 20085:100 20276:150 11000:10 11049:5 11042:2 17270:40 11017:10 18066:1500
+pote-asturiano;Pote asturiano, cocido;Platos preparados;;107,2;4,8;8,1;5,5;2600;20501:250 20069:600 4008:500 30315:120 8703:120 28470:80 11049:4 11017:8 18066:2000
+crema-puerros;Crema de puerros, casera, cocida;Platos preparados;;53,2;1,6;6,5;2;1800;20039:800 4008:400 20034:100 16400:30 19023:200 11017:8 18066:500
+crema-champinones;Crema de champiñones, casera, cocida;Platos preparados;;64,5;1,5;3,6;4,7;1700;20056:800 20034:150 4008:200 19417:150 17270:30 11017:8 18066:500
+crema-zanahoria;Crema de zanahoria, casera, cocida;Platos preparados;;42,2;0,7;4,9;1,9;1800;20009:900 4008:200 20034:150 17270:30 11017:8 18066:650
+crema-lentejas;Crema de lentejas, casera, cocida;Platos preparados;puré de lentejas;73,3;4,2;8,2;2;1900;20359:300 20009:150 20034:150 20039:100 17270:30 11042:2 11017:8 18066:1400
+sopa-pescado-marisco;Sopa de pescado y marisco, casera, cocida;Platos preparados;;45,5;4;2,7;2;2600;26044:300 10021:150 10017:100 20276:200 20034:150 20039:100 20009:100 11000:10 7001:60 17270:40 11049:3 11017:12 18066:2200
+sopa-cocido;Sopa de cocido con fideos, cocida;Platos preparados;;49,8;2,4;6;1,6;1500;9810:100 20516:30 36001:80 28470:20 20009:50 11017:8 18066:1400
+arroz-caldoso-pollo;Arroz caldoso de pollo, cocido;Platos preparados;;103,8;4,8;11,8;4;2500;9100:350 36022:500 20085:100 20087:100 20276:150 20034:100 11000:10 11049:4 11039:0.2 17270:50 11017:10 18066:1700
+arroz-meloso-setas;Arroz meloso de setas, cocido;Platos preparados;;111,6;2,7;15,3;3,8;1900;9100:350 20114:300 20056:200 20034:150 11000:10 5215:100 16400:30 17270:30 12122:40 11017:8 18066:1100
+arroz-tomate-huevo;Arroz blanco con tomate y huevo frito, cocinado;Platos preparados;;138,2;4;18,3;5,3;1350;9100:300 18066:600 20276:400 17270:45 11000:5 22000:240 11017:6
+macarrones-chorizo;Macarrones con chorizo y tomate, cocinados;Platos preparados;;184,5;7;21,9;7,3;1500;9810:400 18066:500 30315:150 20276:600 20034:150 17270:30 12118:60 31016:5 11017:8
+macarrones-atun;Macarrones con atún y tomate, cocinados;Platos preparados;;156,7;6,2;22,5;4,3;1450;9810:400 18066:500 26245:160 20276:600 20034:150 17270:30 31016:5 11017:8
+espaguetis-tomate;Espaguetis con tomate, caseros, cocinados;Platos preparados;pasta con tomate;147,4;3,9;24;3,6;1350;9810:400 18066:500 20276:600 20034:100 11000:10 17270:40 31016:5 11017:8
+canelones-carne;Canelones de carne, caseros, horneados;Platos preparados;canelones de Sant Esteve;159,2;8,9;11,2;8,6;1700;9821:150 18066:150 28473:200 36017:150 40106:50 20034:200 20276:150 17270:40 19023:600 9440:50 16400:50 11048:0.3 12118:60 11017:8
+fideos-cazuela;Fideos a la cazuela, cocinados;Platos preparados;;130,9;5,2;14,2;5,6;2000;9810:300 28400:300 4008:300 20276:150 20034:100 11000:10 11049:4 15041:20 11039:0.1 17270:40 11017:10 18066:1300
+huevos-rotos-jamon;Huevos rotos con jamón serrano, fritos;Platos preparados;huevos estrellados con jamón;211,3;9,1;13,4;12,9;1100;4008:900 22000:400 28845:100 17270:90 11017:6
+huevos-rotos-chorizo;Huevos rotos con chorizo, fritos;Platos preparados;;228,6;8,5;13,4;15,1;1100;4008:900 22000:400 30315:100 17270:90 11017:6
+tortilla-chorizo;Tortilla de patatas con chorizo, cuajada;Platos preparados;;193,7;8,3;10,8;12,5;1150;4008:700 22000:400 20034:150 30315:120 17270:60 11017:5
+revuelto-esparragos;Revuelto de espárragos trigueros, cocinado;Platos preparados;;139,9;8,4;1,3;11;550;20279:300 22000:300 11000:5 17270:30 11017:3
+revuelto-morcilla;Revuelto de morcilla, cocinado;Platos preparados;;242,1;13;0,3;20,8;500;8703:200 22000:300 17270:10 15025:15
+huevos-plato;Huevos al plato con tomate, horneados;Platos preparados;;130,8;8,5;2,1;9,8;700;22000:240 20276:400 28845:50 30315:50 17270:20 11017:3
+tortilla-patatas-pimiento;Tortilla de patatas con pimiento, cuajada;Platos preparados;;154,6;5,7;11,7;8,9;1250;4008:800 22000:400 20085:200 20034:150 17270:70 11017:7
+cachopo;Cachopo, frito;Platos preparados;;359;20,5;12,6;25;900;6201:500 28845:100 12115:120 9440:30 22000:100 7500:120 17270:80 11017:3
+filetes-rusos;Filetes rusos, caseros, fritos;Platos preparados;hamburguesas caseras;261,4;14,4;7,6;19,2;750;6536:500 7001:50 19023:50 22000:60 11000:10 11014:10 9440:30 17270:60 11017:8
+solomillo-whisky;Solomillo de cerdo al whisky, cocinado;Platos preparados;;218;22,6;1,3;10,6;950;28204:1000 11000:40 1005:100 17270:60 2007:20 11017:10
+pollo-almendras;Pollo en salsa de almendras, guisado;Platos preparados;;188;14,2;2,7;12,6;1700;36022:1200 15041:80 7001:40 11000:15 20034:200 5215:150 17270:60 11039:0.1 11017:10 18066:300
+pollo-villeroy;Pechugas Villeroy, fritas;Platos preparados;;239;13,9;15,2;13,3;1200;36017:500 19023:500 9440:90 16400:50 11048:0.3 22000:100 7500:120 17440:80 11017:8
+higado-encebollado;Hígado encebollado, cocinado;Platos preparados;;157,7;11;7,5;8,2;900;40106:600 20034:500 11000:10 5215:80 17270:50 11017:6
+chorizo-sidra;Chorizo a la sidra, cocinado;Platos preparados;;365,6;18,9;3,6;29;500;30315:400 5003:350
+conejo-tomate;Conejo con tomate, guisado;Platos preparados;;166,9;13,2;3,2;11,2;1600;34001:1000 20276:800 20034:200 11000:10 20085:100 17270:60 11017:10
+pavo-guisado;Pavo guisado con verduras, guisado;Platos preparados;;111,3;14,5;2,1;4,5;1600;36301:1000 20034:200 20009:200 20085:100 20276:200 5215:100 17270:50 11017:10 18066:200
+carne-guisada;Carne guisada de ternera, guisada;Platos preparados;ternera en salsa;138,5;14,8;3,6;6,1;1500;6583:1000 20034:300 20009:200 20276:200 11000:10 5214:200 9440:20 17270:50 11053:0.5 11017:10 18066:500
+albondigas-almendras;Albóndigas en salsa de almendras, guisadas;Platos preparados;;201,5;11,8;6;13,6;1700;6536:500 28473:300 7001:75 19023:100 22000:100 11000:10 11014:10 9440:40 15041:80 20034:200 5215:150 11039:0.1 17270:80 11017:12 18066:400
+pollo-pepitoria;Pollo en pepitoria, guisado;Platos preparados;;185,4;15,3;2,6;11,9;1750;36016:1100 15041:60 22000:100 11000:10 20034:300 5215:150 9440:20 17270:60 11039:0.2 11053:0.5 11017:10 18066:300
+pollo-guisado-patatas;Pollo guisado con patatas, guisado;Platos preparados;;129,8;9,2;7,1;6,6;2200;36022:1000 4008:800 20034:200 20085:100 20276:200 11000:10 5215:100 11049:4 11053:0.5 17270:50 11017:12 18066:400
+muslos-pollo-horno;Muslos de pollo al horno, asados;Platos preparados;;220,6;21,4;0,5;14,4;850;36022:1000 11000:15 5215:50 2007:30 17270:30 11038:1 11017:10
+costillas-adobadas;Costillas de cerdo adobadas, a la brasa, cocinadas;Platos preparados;;361,3;24,4;1,5;28,3;750;28400:1000 11049:15 11000:10 11035:2 11220:30 17270:30 11017:12
+lomo-ajillo;Lomo de cerdo al ajillo, cocinado;Platos preparados;;230,7;24,9;1,3;13,3;850;28473:1000 11000:40 5215:100 17270:50 11014:5 11017:10
+trucha-navarra;Trucha a la navarra, frita;Platos preparados;;219,2;20,7;3,5;13,6;900;27009:800 28845:100 9440:40 17270:60 11017:4
+navajas-plancha;Navajas a la plancha, cocinadas;Platos preparados;;137,8;12,5;3,4;8,3;280;10017:300 17270:15 11000:5 11014:3 2007:10
+mejillones-tomate;Mejillones con tomate, cocinados;Platos preparados;;82;5,3;4,1;4,3;900;10026:400 20276:500 20034:100 11000:10 5215:100 20151:2 17270:30 11017:3
+salpicon-marisco;Salpicón de marisco, listo para consumir;Platos preparados;;134,3;10,4;3,2;8,7;1000;10021:300 10026:150 10018:200 20085:100 20087:100 20034:100 17270:80 11220:40 11017:5
+calamares-rellenos;Calamares rellenos en su salsa, guisados;Platos preparados;;132,7;11,3;5,9;6,5;1300;10001:800 20034:300 22000:60 7001:50 28845:50 20276:300 5215:100 17270:60 11017:8
+sepia-patatas;Sepia con patatas, guisada;Platos preparados;;94,4;7;8;3,2;1900;10016:700 4008:800 20034:150 20276:200 11000:10 11049:3 5215:100 17270:50 11017:10 18066:300
+puntillitas-fritas;Puntillitas, enharinadas, fritas;Platos preparados;chopitos fritos;222,8;17,2;12,6;11,4;900;10001:1000 9440:120 17270:90 11017:8
+sardinas-escabeche;Sardinas en escabeche, caseras, cocinadas;Platos preparados;;247,3;16,9;2,8;18,3;950;26065:800 17270:100 11220:60 5215:40 11000:15 11053:1 11049:3 9440:30 11017:8
+rape-alangostado;Rape alangostado, cocido;Platos preparados;;105,9;17,4;0,2;3,8;700;26018:800 11049:8 17270:20 11017:8
+merluza-koskera;Merluza a la koskera, cocinada;Platos preparados;;114,3;12,2;2,1;5,8;1500;26044:800 10017:150 20282:100 20072:100 22000:120 11000:10 9440:15 5215:100 11014:10 17270:60 11017:8 18066:200
+bacalao-fresco-pisto;Bacalao fresco con pisto, cocinado;Platos preparados;;91,9;8,6;3,1;4,9;1600;26043:700 20276:500 20020:300 20085:150 20087:150 20034:200 17270:70 11017:8
+salmon-horno-verduras;Salmón al horno con verduras, horneado;Platos preparados;;160,5;11,5;6,2;9,5;1350;26036:700 4008:400 20034:150 20087:150 17270:40 5215:50 11017:8
+atun-plancha-ajo;Atún a la plancha con ajo y perejil, cocinado;Platos preparados;;228;28,1;3,5;11,3;600;26053:700 11000:10 11014:5 17270:30 11017:5
+pescadito-frito;Pescadito frito variado, frito;Platos preparados;fritura de pescado;226,5;18,2;10,6;12,3;1000;26079:400 10001:300 26044:300 9440:130 17270:90 11017:10
+gildas;Gildas, listas para consumir;Platos preparados;;124;7,4;0,5;9,7;150;13033:60 26177:40 11004:50
+croquetas-cocido;Croquetas de cocido, caseras, fritas;Platos preparados;croquetas de pringá;284,2;10,7;19,3;18;1100;36001:150 28845:50 30315:50 20034:50 19023:700 9440:110 16400:80 11048:0.3 22000:100 7500:120 17270:60 11017:4
+croquetas-atun;Croquetas de atún, caseras, fritas;Platos preparados;;289,1;10,1;20,1;18,5;1050;26245:200 20034:50 19023:700 9440:110 16400:80 22000:100 7500:120 17270:60 11017:4
+croquetas-setas;Croquetas de setas, caseras, fritas;Platos preparados;;252,3;6,4;20,4;15,8;1050;20114:250 20034:50 19023:700 9440:110 16400:80 22000:100 7500:120 17270:60 11017:6
+empanadillas-atun;Empanadillas de atún, fritas;Platos preparados;;327,2;9,2;27,2;19,9;900;9440:300 18066:100 17270:140 11017:4 26245:200 20276:250 20034:100 22000:60
+tomates-rellenos-atun;Tomates rellenos de atún, listos para consumir;Platos preparados;;94,6;4,4;2,9;7,3;1100;20276:800 26245:150 22000:60 11054:60 13033:30 20034:30 11017:3
+ensalada-tomate-alinada;Tomate aliñado, listo para consumir;Platos preparados;ensalada de tomate;81,1;0,5;3,2;7,3;565;20276:500 17270:40 11000:5 11035:1 11017:4 11220:15
+ensalada-lentejas;Ensalada de lentejas, lista para consumir;Platos preparados;;124,9;6;11,7;5,1;879;20359:200 18066:260 20276:200 20085:100 20034:60 17270:40 11220:15 11017:4
+ensalada-alubias;Ensalada de alubias blancas, lista para consumir;Platos preparados;;120,3;5,6;11,6;4,9;879;20501:200 18066:260 20276:200 20085:100 20034:60 17270:40 11220:15 11017:4
+ensalada-pasta-atun;Ensalada de pasta con atún, lista para consumir;Platos preparados;;165,9;6;19,3;6,8;1260;9810:300 18066:400 26245:150 20276:200 20066:100 13033:40 17270:50 11220:15 11017:6
+picatostes;Picatostes, fritos;Pan y tostadas;pan frito;405,9;7,3;50,7;18,6;230;7001:200 17270:40
+tostada-mantequilla-mermelada;Tostada con mantequilla y mermelada, lista para consumir;Pan y tostadas;;314,3;6,2;54,4;7,3;135;7001:100 16400:10 31024:25
+tostada-aguacate-tomate;Tostada con aguacate y tomate, lista para consumir;Pan y tostadas;;224,8;4,6;29,1;9,2;205;7001:100 13004:60 20276:40 17270:5 11017:0.5
+pan-chocolate;Pan con chocolate, listo para consumir;Pan y tostadas;bocadillo de chocolate;346,8;7,9;56,7;8,7;130;7001:100 31085:30
+bocadillo-atun;Bocadillo de atún con tomate, listo para consumir;Platos preparados;bocata de atún;236,7;10,8;31,7;7;225;7001:120 26245:60 20276:40 17270:5 11017:0.3
+bocadillo-pollo;Bocadillo de pechuga de pollo, listo para consumir;Platos preparados;bocata de pollo;232,7;17,7;30,5;3,8;230;7001:120 36017:130 20031:20 17270:5 11017:0.8
+bocadillo-tortilla-francesa;Bocadillo de tortilla francesa, listo para consumir;Platos preparados;;241,5;10,7;31,1;7,8;225;7001:120 22000:110 17270:5 11017:0.5
+bocadillo-bacon-queso;Bocadillo de bacon y queso, listo para consumir;Platos preparados;bocata de bacon con queso;289,8;12,3;34,2;11;210;7001:120 28720:70 12300:30
+bocadillo-york-queso;Bocadillo de jamón cocido y queso, listo para consumir;Platos preparados;bocata de york y queso;243,9;11,9;37,8;4,4;190;7001:120 28900:40 12300:30
+bocadillo-morcilla;Bocadillo de morcilla, listo para consumir;Platos preparados;bocata de morcilla;271,9;9,6;38,2;8,4;190;7001:120 8704:70
+bocadillo-calamares-alioli;Bocadillo de calamares con alioli, listo para consumir;Platos preparados;;285,3;12;32,2;11,6;260;7001:120 10001:120 9440:14.4 22000:20 17270:25 11000:1 11017:0.8
+sandwich-vegetal;Sándwich vegetal, listo para consumir;Platos preparados;sándwich vegetal con atún;205,2;7,6;15,7;12,1;260;7200:75 20031:30 20276:50 22000:50 26245:30 11054:25
+montadito-lomo;Montadito de lomo con pimientos, listo para consumir;Platos preparados;;249,7;13,5;27,6;9;110;7001:50 28473:50 20085:30 17270:6 11017:0.4
+habas-jamon;Habas con jamón, salteadas, cocinadas;Platos preparados;habas a la rondeña;115,3;9,3;4,4;5,6;850;20517:700 28845:100 20034:100 11000:5 17270:30 11017:3
+guisantes-jamon;Guisantes con jamón, salteados, cocinados;Platos preparados;;130,8;8,2;10,2;5,4;850;20072:700 28845:100 20034:100 17270:30 11017:3
+alcachofas-fritas;Alcachofas, fritas en aceite de oliva;Platos preparados;;162,4;4;5,8;12,2;500;20052:600 17270:60 11017:4
+esparragos-plancha;Espárragos trigueros a la plancha, cocinados;Platos preparados;;66,8;2,9;2,3;4,6;350;20279:400 17270:15 11017:3
+calabacin-rebozado;Calabacín rebozado, frito;Platos preparados;;154,6;3,6;8,1;11,7;700;20020:600 9440:60 22000:100 17270:70 11017:5
+coliflor-rebozada;Coliflor rebozada, frita;Platos preparados;;150,9;3,8;7,8;11,3;750;20016:600 9440:60 22000:100 17270:70 11017:5
+pimientos-fritos;Pimientos verdes italianos, fritos;Platos preparados;pimientos italianos fritos;116,2;1;4;10,3;600;20085:700 17270:60 11017:6
+patatas-ajo-perejil;Patatas salteadas con ajo y perejil, cocinadas;Platos preparados;;143,2;2,2;17,4;6,4;950;4008:1000 11000:15 11014:10 17270:60 11017:8
+champinones-plancha;Champiñones a la plancha con ajo, cocinados;Platos preparados;;90,3;3,4;3,4;6,7;330;20056:500 11000:10 11014:5 17270:20 11017:3
+repollo-rehogado;Repollo rehogado con ajo y pimentón, cocinado;Platos preparados;;71,6;1,7;3,3;4,9;850;20069:900 11000:15 11049:4 17270:40 11017:6
+pimientos-rellenos-carne;Pimientos rojos rellenos de carne, horneados;Platos preparados;;126;6,3;7,9;7,5;1400;20087:800 6536:400 9100:60 20034:150 20276:200 17270:40 11017:8 18066:100
+vinagreta;Vinagreta, casera, lista para consumir;Salsas y condimentos;;492;0,5;1,4;53,4;375;17270:200 11220:70 20034:40 20085:30 20087:30 11017:5
+salsa-verde;Salsa verde de perejil, casera, cocinada;Salsas y condimentos;;150,5;0,8;3,5;13,4;450;17270:60 11000:15 9440:15 11014:30 5215:100 18066:300 11017:3
+salsa-almendras;Salsa de almendras, casera, cocinada;Salsas y condimentos;;227,1;4,3;6,5;18,5;500;15041:80 7001:40 11000:10 17270:50 5215:100 11039:0.1 18066:300 11017:4
+salsa-vizcaina;Salsa vizcaína, casera, cocinada;Salsas y condimentos;;153,1;2;10,1;11;600;20034:600 20087:200 20276:200 11000:10 11049:10 17270:60 11017:4
+torrijas-vino;Torrijas de vino, fritas;Galletas, bollería y pasteles;;271,4;4,8;34;9,5;1300;7001:500 5214:500 31016:150 11025:3 22000:150 17270:100
+filloas;Filloas, caseras, cocinadas;Galletas, bollería y pasteles;frixuelos;182,3;7,1;24;6,2;900;19023:500 22000:200 9440:250 18066:100 16400:20 11017:2
+cuajada-miel;Cuajada de oveja con miel, lista para consumir;Yogures y postres lácteos;;127,4;5,2;12,8;6,3;140;19250:125 31008:15
+fresas-nata;Fresas con nata, listas para consumir;Yogures y postres lácteos;;102,6;1;7,2;7,3;200;13014:150 19420:50
+membrillo;Dulce de membrillo, casero, cocido;Dulces y chocolate;carne de membrillo;270,1;0,3;65,9;0,1;1400;13010:1000 31016:800
+mazapan;Mazapán, casero, horneado;Dulces y chocolate;;522,6;11,6;51,9;27,6;950;15041:500 31016:450 22001:30
+yemas-santa-teresa;Yemas de Santa Teresa, caseras, cocinadas;Dulces y chocolate;yemas de Ávila;384,3;9,3;50,6;16;400;22002:240 31016:200 18066:100 11025:1
+tarta-abuela;Tarta de la abuela, lista para consumir;Galletas, bollería y pasteles;tarta de galletas y chocolate;290,8;5;38,1;12,8;1500;24001:300 19023:800 31016:150 9510:60 22002:80 31085:200 16400:50
+brazo-gitano;Brazo de gitano de crema, horneado;Galletas, bollería y pasteles;;236,2;6,6;39,7;5,6;1000;22000:250 31016:250 9440:120 19023:400 22002:60 9510:40
+sobaos;Sobaos, caseros, horneados;Galletas, bollería y pasteles;sobaos pasiegos;434,3;5,7;46,8;24,6;950;16400:250 31016:250 22000:250 9440:250 11046:8 11017:2
+bunuelos-calabaza;Buñuelos de calabaza, fritos;Galletas, bollería y pasteles;;295,6;4,3;39,2;13,1;950;20044:400 9440:400 11010:25 18066:100 17440:120 31016:50
+torta-aceite;Tortas de aceite, horneadas;Galletas, bollería y pasteles;;414,1;5,2;56,3;18;900;9440:500 17270:150 31016:120 18066:200 11010:15 15010:15 11066:5 11017:5
+arroz-leche-semi;Arroz con leche semidesnatada, casero, cocido;Yogures y postres lácteos;;112,8;3,8;21,2;1,5;1400;19041:1200 9100:150 31016:120 11025:1
+natillas-chocolate;Natillas de chocolate, caseras, cocidas;Yogures y postres lácteos;;165,1;4,8;18,9;7,8;1150;19023:1000 22002:100 31016:100 9510:30 31085:80
+flan-queso;Flan de queso, casero, cocido;Yogures y postres lácteos;;171,1;5,9;16,3;9,2;1100;12068:300 19023:400 22000:250 31016:150
+peras-vino;Peras al vino tinto, cocidas;Dulces y chocolate;;119,2;0,4;21;0,4;1300;13037:1000 5214:500 31016:150 11025:2 11052:0.5
+higos-nuez;Higos con nueces, listos para consumir;Dulces y chocolate;;195,9;3,6;12,2;13,7;150;13012:120 15005:30
+castanas-leche;Castañas con leche, cocidas;Yogures y postres lácteos;;121,5;3;19,3;3;1300;15024:400 19023:900 31016:60 11025:1
+naranja-miel-canela;Naranja con miel y canela, lista para consumir;Dulces y chocolate;;62,7;0,8;13,2;0,3;215;13034:200 31008:15 11025:0.5
+cafe-bombon;Café bombón, listo para consumir;Bebidas;;143,9;3,5;24,9;3,5;70;18071:40 19027:30
+cafe-leche-azucar;Café con leche y azúcar, listo para consumir;Bebidas;;49,5;1,8;6,7;1,8;208;18071:100 19023:100 31016:8
+cortado;Café cortado, listo para consumir;Bebidas;;25,9;1,4;2,4;1,3;60;18071:40 19023:20
+batido-fresa;Batido de fresa, casero, listo para consumir;Bebidas;;70;2,3;9,7;2,3;420;19023:250 13014:150 31016:20
+batido-platano;Batido de plátano, casero, listo para consumir;Bebidas;;80,8;2,6;12,2;2,4;390;19023:250 13005:130 31016:10
+batido-chocolate;Batido de chocolate, casero, listo para consumir;Bebidas;leche con cacao;94,6;4;10,2;4;275;19023:250 18100:10 31016:15
+zumo-naranja-casero;Zumo de naranja con azúcar, listo para consumir;Bebidas;;58,4;0,7;12,7;0,2;260;2013:250 31016:10
+gin-tonic;Gin tonic, listo para consumir;Bebidas alcohólicas;gin-tonic;79,5;0;6,6;0;250;1002:50 18344:200
+ron-cola;Ron con cola, listo para consumir;Bebidas alcohólicas;cubata de ron|cubalibre;78,9;0;8;0;250;1004:50 18018:200
+whisky-cola;Whisky con cola, listo para consumir;Bebidas alcohólicas;cubata de whisky;82,5;0;8;0;250;1005:50 18018:200
+mojito;Mojito, listo para consumir;Bebidas alcohólicas;;75,3;0,1;6,4;0;250;1004:50 2007:30 31016:15 11027:5 18046:150
+sangria-blanca;Sangría de vino blanco, casera, lista para consumir;Bebidas alcohólicas;sangría de cava;47,2;0,2;4,5;0;1450;5215:750 2013:150 31016:50 18035:500
+leche-pantera;Leche de pantera, lista para consumir;Bebidas alcohólicas;;128,8;2,5;8,2;2,6;210;19023:150 1002:50 31016:10 11025:0.5

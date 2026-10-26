@@ -2610,3 +2610,5 @@ La fuente `tipicos` se presenta como «Alimentos y platos (AppFit)» en Ajustes 
 
 **Verificación:** `catalogo:tipicos`, `catalogo:validar`, `npm run test` y `npm run build` correctos. Las formulaciones no se han contrastado con pesadas reales ni con recetas concretas. Pendiente: la fusión de duplicados con CIQUAL/OFF que Víctor ha anunciado.
 
+**Segunda tanda (mismo día):** Víctor pide seguir ampliando. 129 recetas más con el mismo método (395 → 524 filas): cuchara, arroces y pasta, huevos, carnes, pescados, tapas y bocadillos, verduras, salsas, postres y bebidas. Seis búsquedas más en la regresión. Sin cambios de código. Detalle en `tipicos/LEEME.md` § Segunda tanda.
+

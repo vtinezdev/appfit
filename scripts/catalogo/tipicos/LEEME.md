@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-395 filas: 224 valores directos (57 USDA y 167 CoFID) y 171 recetas CIQUAL
-(61 hasta el 25 de octubre y 110 del lote manual de típicos españoles del 26,
-descrito al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+524 filas: 224 valores directos (57 USDA y 167 CoFID) y 300 recetas CIQUAL
+(61 hasta el 25 de octubre y 239 de las dos tandas manuales de típicos
+españoles del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -388,7 +388,8 @@ Comandos y requisitos en scripts/catalogo/README.md.
 Víctor pide ampliar a mano con platos típicos de España, ya aprovechadas las
 fuentes con licencia abierta. Se añaden 110 recetas AppFit calculadas desde
 CIQUAL; las 285 filas anteriores conservan ids y valores. Lista con macros,
-peso final e ingredientes: `../informes/tipicos-espanoles-2026-10-26.csv`.
+peso final e ingredientes de las dos tandas:
+`../informes/tipicos-espanoles-2026-10-26.csv`.
 
 - Cuchara (15): cocido madrileño con su caldo, fabada, lentejas con chorizo,
   potaje de vigilia, alubias rojas, michirones, callos, judías verdes, menestra,
@@ -422,4 +423,39 @@ clara, la tortilla francesa ni el revuelto: ya están en CIQUAL. Se retiran de
 sin-fuente.json los 22 platos resueltos. Algunos coinciden casi con productos
 de OFF (callos, sofrito) o con platos ya presentes (pulpo a feira sin patata):
 se revisarán en la fase de fusión de duplicados que Víctor ha anunciado.
+
+### Segunda tanda (129 recetas más)
+
+Víctor pide seguir ampliando. Mismo método y mismas reglas; 524 filas en total,
+las 395 anteriores intactas. Versión 2026-10-26 (el cambio de filas fuerza la
+reimportación del mismo día).
+
+- Cuchara (14): caldo gallego, olla gitana, pote asturiano, judiones, alubias
+  con almejas, garbanzos con chorizo, lentejas con arroz, cremas de puerros,
+  champiñones, zanahoria y lentejas, sopa de pescado y sopa de cocido.
+- Arroces y pasta (8): arroz caldoso de pollo, meloso de setas, con tomate y
+  huevo; macarrones con chorizo o atún, espaguetis con tomate, canelones de
+  carne y fideos a la cazuela.
+- Huevos (7), carnes (17) y pescados (15): huevos rotos con jamón o chorizo,
+  revueltos, cachopo, filetes rusos, solomillo al whisky, Villeroy, hígado
+  encebollado, chorizo a la sidra, pollo en pepitoria, albóndigas en salsa de
+  almendras, trucha a la navarra, navajas, salpicón, calamares rellenos, merluza
+  a la koskera, pescadito frito…
+- Tapas, ensaladas y bocadillos (25): gildas, croquetas de cocido, atún y setas,
+  empanadillas, ensaladas de lentejas, alubias y pasta, picatostes, tostadas,
+  pan con chocolate, ocho bocadillos más, sándwich vegetal y montadito.
+- Verduras (11), salsas (4: vinagreta, verde, de almendras, vizcaína), postres
+  (21: torrijas de vino, filloas, cuajada, membrillo, mazapán, yemas, tarta de
+  la abuela, brazo de gitano, sobaos, tortas de aceite, natillas de chocolate,
+  flan de queso, peras al vino…) y bebidas (14: cafés, batidos, gin tonic,
+  cubatas, mojito, sangría blanca, leche de pantera).
+
+Sustituciones documentadas en cada receta: repollo por grelos o berza, tocino
+por unto, judía blanca por judión, pecorino como queso curado rallado,
+emmental como queso fundente, pepinillo por guindilla encurtida, hinojo por
+matalahúva, limón por lima. La cuajada se modela como leche de oveja entera.
+Se descarta la caballa al horno: CIQUAL 26019 ya la cubre. Casi duplicados
+para la fase de fusión: tortas de aceite (OFF) y los platos parecidos entre
+tandas (pollo en pepitoria y gallina en pepitoria, arroz con leche entera y
+semidesnatada).
 
