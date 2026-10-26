@@ -41294,5 +41294,306 @@
         "gramos": 5
       }
     ]
+  },
+  {
+    "id": "cordero-miel",
+    "nombre": "Cordero a la miel con romero, asado",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, tanda 54 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 678,
+    "ingredientes": [
+      {
+        "ciqual": "21504",
+        "gramos": 800
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11036",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "cordero-curry",
+    "nombre": "Cordero al curry, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 54 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1097,
+    "ingredientes": [
+      {
+        "ciqual": "21504",
+        "gramos": 700
+      },
+      {
+        "ciqual": "18041",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11005",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "conejo-horno-patatas",
+    "nombre": "Conejo al horno con patatas, asado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 54 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1246,
+    "ingredientes": [
+      {
+        "ciqual": "34001",
+        "gramos": 900
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "conejo-caracoles",
+    "nombre": "Conejo con caracoles, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 54 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1146,
+    "ingredientes": [
+      {
+        "ciqual": "34001",
+        "gramos": 800
+      },
+      {
+        "ciqual": "10008",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "conejo-cazadora",
+    "nombre": "Conejo a la cazadora, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 54 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1433,
+    "ingredientes": [
+      {
+        "ciqual": "34001",
+        "gramos": 900
+      },
+      {
+        "ciqual": "20056",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 300
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "conejo-almendras",
+    "nombre": "Conejo en salsa de almendras, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 54 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1105,
+    "ingredientes": [
+      {
+        "ciqual": "34001",
+        "gramos": 900
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 50
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "cabrito-horno",
+    "nombre": "Cabrito al horno con patatas, asado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 54 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1459,
+    "ingredientes": [
+      {
+        "ciqual": "21800",
+        "gramos": 1200
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "codornices-guisadas",
+    "nombre": "Codornices guisadas, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 54 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 997,
+    "ingredientes": [
+      {
+        "ciqual": "36100",
+        "gramos": 800
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "pato-peras",
+    "nombre": "Pato con peras, cocinado",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, tanda 54 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1175,
+    "ingredientes": [
+      {
+        "ciqual": "36204",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "13037",
+        "gramos": 400
+      },
+      {
+        "ciqual": "1006",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
   }
 ]
