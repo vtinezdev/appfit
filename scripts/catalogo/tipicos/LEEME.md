@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-853 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
-AppFit de alimentos sueltos) y 478 recetas CIQUAL (61 hasta el 25 de octubre y
-417 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+881 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
+AppFit de alimentos sueltos) y 506 recetas CIQUAL (61 hasta el 25 de octubre y
+445 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -664,3 +664,7 @@ pimientos y crema de cacao; sándwiches de pollo, club, atún y salmón; cruasá
 mixto, bagel de salmón; seis tostadas; leche con galletas (con y sin cacao),
 yogur con frutos secos o fruta, desayuno de bar (café con leche y tostada);
 pizzas caseras de jamón y queso y de atún, y empanadillas al horno.
+
+### Séptima tanda de recetas: tapas y raciones (28)
+
+Tapas y raciones de bar: bravioli, morcilla con pimientos, sepia, zamburiñas y langostinos a la plancha, almejas al ajillo, tostas y montaditos, rebozados (queso, berenjena, aros de cebolla, mejillones tigre, lagrimitas), croquetas de queso azul y de gambas, ensaladilla de surimi, aceitunas aliñadas, sardinas fritas, huevos de codorniz con jamón, nachos, patatas gajo, champiñones gratinados, pimientos rellenos de atún, brochetas de langostino, salpicón de pulpo y ensalada de tomate con ventresca. Recetas con ingredientes CIQUAL en crudo.

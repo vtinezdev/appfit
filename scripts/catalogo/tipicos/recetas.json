@@ -16904,5 +16904,926 @@
         "gramos": 60
       }
     ]
+  },
+  {
+    "id": "patatas-bravioli",
+    "nombre": "Patatas con salsa brava y alioli, fritas",
+    "alias": [
+      "patatas bravioli",
+      "bravas con alioli"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 680,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 90
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11088",
+        "gramos": 1
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 60
+      }
+    ]
+  },
+  {
+    "id": "morcilla-frita-pimientos",
+    "nombre": "Morcilla frita con pimientos, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Morcilla a la plancha CIQUAL.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "8704",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "sepia-plancha",
+    "nombre": "Sepia a la plancha, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 480,
+    "ingredientes": [
+      {
+        "ciqual": "10016",
+        "gramos": 600
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "zamburinas-plancha",
+    "nombre": "Zamburiñas a la plancha, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Vieira CIQUAL (nuez) como zamburiña.",
+    "pesoFinalG": 260,
+    "ingredientes": [
+      {
+        "ciqual": "10045",
+        "gramos": 300
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "langostinos-plancha",
+    "nombre": "Langostinos a la plancha, cocinados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 420,
+    "ingredientes": [
+      {
+        "ciqual": "10021",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "almejas-ajillo",
+    "nombre": "Almejas al ajillo, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Peso sin concha; se cuenta el aceite servido.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "10017",
+        "gramos": 300
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "20151",
+        "gramos": 2
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 5
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "tosta-anchoas-pimientos",
+    "nombre": "Tosta de anchoas con pimientos asados, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 112,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 40
+      },
+      {
+        "ciqual": "26177",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "tosta-escalivada-anchoas",
+    "nombre": "Tosta de escalivada con anchoas, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Verduras asadas pesadas en crudo.",
+    "pesoFinalG": 135,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20053",
+        "gramos": 30
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 30
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 15
+      },
+      {
+        "ciqual": "26177",
+        "gramos": 12
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "tosta-solomillo-queso",
+    "nombre": "Tosta de solomillo de cerdo con queso, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 135,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 50
+      },
+      {
+        "ciqual": "28204",
+        "gramos": 70
+      },
+      {
+        "ciqual": "12812",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 0.5
+      }
+    ]
+  },
+  {
+    "id": "montadito-salmon",
+    "nombre": "Montadito de salmón ahumado y queso, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 95,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 50
+      },
+      {
+        "ciqual": "26037",
+        "gramos": 25
+      },
+      {
+        "ciqual": "12068",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "queso-rebozado-frito",
+    "nombre": "Queso rebozado, frito",
+    "alias": [
+      "queso frito"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "12736",
+        "gramos": 200
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 20
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 40
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "berenjenas-rebozadas",
+    "nombre": "Berenjenas rebozadas, fritas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "20053",
+        "gramos": 600
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 60
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "aros-cebolla-caseros",
+    "nombre": "Aros de cebolla, caseros, fritos",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 450,
+    "ingredientes": [
+      {
+        "ciqual": "20034",
+        "gramos": 400
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 60
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "mejillones-tigre",
+    "nombre": "Mejillones tigre, rebozados, fritos",
+    "alias": [
+      "tigres"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Mejillón pesado sin concha; relleno de bechamel con tomate.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "10026",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 80
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 50
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 25
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 70
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "croquetas-queso-azul",
+    "nombre": "Croquetas de queso azul, caseras, fritas",
+    "alias": [
+      "croquetas de cabrales"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1050,
+    "ingredientes": [
+      {
+        "ciqual": "12500",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 700
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 110
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 70
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 120
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      }
+    ]
+  },
+  {
+    "id": "croquetas-gambas",
+    "nombre": "Croquetas de gambas, caseras, fritas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1050,
+    "ingredientes": [
+      {
+        "ciqual": "10021",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 700
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 110
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 80
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 120
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "ensaladilla-cangrejo",
+    "nombre": "Ensaladilla de surimi, lista para consumir",
+    "alias": [
+      "ensaladilla de cangrejo"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 880,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "26046",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 120
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "aceitunas-alinadas",
+    "nombre": "Aceitunas aliñadas caseras, listas para consumir",
+    "categoria": "Salsas y condimentos",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "13033",
+        "gramos": 300
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11035",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11038",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "sardinas-fritas",
+    "nombre": "Sardinas enharinadas, fritas",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 700,
+    "ingredientes": [
+      {
+        "ciqual": "26065",
+        "gramos": 800
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "huevos-codorniz-jamon",
+    "nombre": "Huevos de codorniz con jamón, fritos",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Sobre rebanadas de pan.",
+    "pesoFinalG": 150,
+    "ingredientes": [
+      {
+        "ciqual": "22050",
+        "gramos": 90
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 40
+      },
+      {
+        "ciqual": "7001",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "lagrimitas-pollo",
+    "nombre": "Lagrimitas de pollo, rebozadas, fritas",
+    "alias": [
+      "tiras de pollo rebozadas"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 800,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 600
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 70
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "nachos-queso",
+    "nombre": "Nachos con queso cheddar, listos para consumir",
+    "alias": [
+      "nachos"
+    ],
+    "categoria": "Snacks salados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 160,
+    "ingredientes": [
+      {
+        "ciqual": "38417",
+        "gramos": 100
+      },
+      {
+        "ciqual": "12726",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "patatas-gajo-casera",
+    "nombre": "Patatas gajo al horno con especias, asadas",
+    "alias": [
+      "patatas deluxe caseras"
+    ],
+    "categoria": "Patatas y tubérculos",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 800,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11035",
+        "gramos": 2
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "champinones-gratinados-queso",
+    "nombre": "Champiñones gratinados con queso, horneados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 400,
+    "ingredientes": [
+      {
+        "ciqual": "20056",
+        "gramos": 400
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "pimientos-rellenos-atun",
+    "nombre": "Pimientos rojos rellenos de atún, horneados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 900,
+    "ingredientes": [
+      {
+        "ciqual": "20087",
+        "gramos": 600
+      },
+      {
+        "ciqual": "26245",
+        "gramos": 160
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "brochetas-langostino",
+    "nombre": "Brochetas de langostinos y verduras, a la plancha, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 520,
+    "ingredientes": [
+      {
+        "ciqual": "10021",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "salpicon-pulpo",
+    "nombre": "Salpicón de pulpo, listo para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Pulpo cocido pesado en crudo.",
+    "pesoFinalG": 800,
+    "ingredientes": [
+      {
+        "ciqual": "10018",
+        "gramos": 700
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 70
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "ensalada-tomate-ventresca",
+    "nombre": "Ensalada de tomate con atún y cebolla, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, séptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 590,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 400
+      },
+      {
+        "ciqual": "26245",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
   }
 ]
