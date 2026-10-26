@@ -44615,5 +44615,273 @@
         "gramos": 3
       }
     ]
+  },
+  {
+    "id": "ensalada-aguacate-gambas",
+    "nombre": "Ensalada de aguacate y gambas, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 66 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 482,
+    "ingredientes": [
+      {
+        "ciqual": "13004",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 30
+      },
+      {
+        "ciqual": "13067",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "ensalada-cuscus",
+    "nombre": "Ensalada de cuscús con verduras, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 66 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 615,
+    "ingredientes": [
+      {
+        "ciqual": "9681",
+        "gramos": 150
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 180
+      },
+      {
+        "ciqual": "20019",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "ensalada-esparragos-huevo",
+    "nombre": "Ensalada de espárragos con huevo, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 66 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 416,
+    "ingredientes": [
+      {
+        "ciqual": "20076",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "ensalada-berenjena-asada",
+    "nombre": "Ensalada de berenjena asada, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 66 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 587,
+    "ingredientes": [
+      {
+        "ciqual": "20053",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11042",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "ensalada-garbanzos-pollo",
+    "nombre": "Ensalada de garbanzos con pollo, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 66 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 520,
+    "ingredientes": [
+      {
+        "ciqual": "20532",
+        "gramos": 200
+      },
+      {
+        "ciqual": "36017",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20019",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "ensalada-lentejas-salmon",
+    "nombre": "Ensalada de lentejas con salmón ahumado, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 66 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 446,
+    "ingredientes": [
+      {
+        "ciqual": "20510",
+        "gramos": 300
+      },
+      {
+        "ciqual": "26037",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20217",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "ensalada-arroz-gambas",
+    "nombre": "Ensalada de arroz con gambas, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 66 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 543,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 120
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20066",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "ensalada-patata-pepinillos",
+    "nombre": "Ensalada de patata con pepinillos y mostaza, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 66 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 611,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "11004",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11013",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
   }
 ]
