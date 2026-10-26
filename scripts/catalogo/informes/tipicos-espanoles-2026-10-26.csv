@@ -751,3 +751,18 @@ huevos-duros-mayonesa;Huevos duros con mayonesa, listos para consumir;Huevos;;23
 huevos-tomate;Huevos con tomate, cocinados;Huevos;;94,6;4,8;1,7;7,3;380;22000:120 20048:250 20034:40 17270:15 11017:2
 huevos-benedictinos;Huevos benedictinos, listos para consumir;Huevos;huevos benedict;296,5;11,8;11,4;22,3;270;7257:70 22000:120 28720:40 16400:40 22002:20 2007:5
 pisto-huevo;Pisto con huevo frito, cocinado;Huevos;;90,6;3,1;3,4;6,8;400;20020:150 20085:60 20087:60 20034:60 20048:100 22000:60 17270:20 11017:2
+ensalada-judias-verdes;Ensalada de judías verdes con tomate y huevo, lista para consumir;Platos preparados;;77,8;2,4;3,6;5,5;680;20061:400 20276:150 20034:50 22000:60 17270:30 11220:10 11017:3
+papas-alinas;Patatas aliñadas (papas aliñás), listas para consumir;Platos preparados;papas aliñás;137;1,9;14,5;7,3;700;4008:600 20034:60 11014:5 17270:50 11220:20 11017:5
+ensalada-mango-langostinos;Ensalada de mango y langostinos, lista para consumir;Platos preparados;;114,2;6,7;5,6;6,7;500;13025:150 10021:150 20031:100 13004:80 17270:15 13067:10
+ensalada-espinacas-fresas;Ensalada de espinacas, fresas y nueces, lista para consumir;Platos preparados;;162,4;4,6;3,9;13,5;310;20059:100 13014:120 15005:25 12812:40 17270:15 11220:10
+ensalada-huevo;Ensalada de huevo con mayonesa, lista para consumir;Platos preparados;egg salad;206,9;10,5;1;17,8;300;22000:240 11054:40 20034:20
+tabla-jamon-chorizo-queso;Tabla de jamón, chorizo y queso curado, lista para consumir;Platos preparados;tabla de embutidos|tabla de ibéricos;361;26;1;28,1;150;28845:50 30315:50 12119:50
+pate-higado-pollo;Paté casero de hígado de pollo, listo para consumir;Platos preparados;;219,4;15,6;2;15,4;420;40108:300 16400:60 20034:60 1023:20 11017:4
+pate-atun;Paté de atún casero, listo para consumir;Platos preparados;;226,2;16,8;1,3;17,1;260;26245:160 12068:100
+olivada;Paté de aceitunas negras (olivada), listo para consumir;Salsas y condimentos;tapenade;288,1;2,2;0,3;29,8;253;13032:200 17270:40 26177:10 11000:3
+hummus-remolacha;Hummus de remolacha, listo para consumir;Platos preparados;;177,3;5,5;11,3;11,1;540;20532:300 20091:150 15203:40 2007:20 17270:30 11000:3
+baba-ganoush;Baba ganoush (crema de berenjena asada), lista para consumir;Platos preparados;mutabal;129,1;3;5,1;9,5;450;20053:600 15203:40 2007:20 17270:20 11000:5 11017:3
+tzatziki;Tzatziki (salsa de yogur y pepino), listo para consumir;Salsas y condimentos;;61,7;2,7;4;3,6;400;19593:250 20019:150 11000:5 17270:10 11093:2
+pico-gallo;Pico de gallo, listo para consumir;Salsas y condimentos;;23,1;0,7;3,9;0,4;415;20276:300 20034:80 11094:10 13067:20 20151:5 11017:2
+ensalada-tomate-burrata;Ensalada de tomate con burrata, lista para consumir;Platos preparados;;124;3,4;2,6;11,1;450;20276:300 12072:125 11033:5 17270:20 11017:2
+melon-jamon;Melón con jamón serrano, listo para consumir;Platos preparados;;57,7;5,5;3,7;2,1;360;13742:300 28845:60

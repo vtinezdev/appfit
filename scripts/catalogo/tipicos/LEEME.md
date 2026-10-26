@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1228 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 813 recetas CIQUAL (61 hasta el 25 de octubre y
-752 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1243 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 828 recetas CIQUAL (61 hasta el 25 de octubre y
+767 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -744,3 +744,7 @@ Legumbres (alubias con chorizo, garbanzos con callos y con costillas, olla podri
 ### Vigesimosegunda tanda de recetas: huevos y tortillas (16)
 
 Tortillas francesas (gambas, espárragos trigueros, cebolla, alcachofas, jamón y queso), tortillas de patata con calabacín y rellena, revueltos (jamón y queso, espinacas y gambas, patatas y chorizo, salmón ahumado, bacalao), huevos duros con mayonesa, huevos con tomate, huevos benedictinos y pisto con huevo.
+
+### Vigesimotercera tanda de recetas: ensaladas, patés y entrantes fríos (15)
+
+Ensaladas (judías verdes, papas aliñás, mango y langostinos, espinacas con fresas, huevo, tomate con burrata), tabla de jamón, chorizo y queso, patés caseros (hígado de pollo, atún, olivada), hummus de remolacha, baba ganoush, tzatziki, pico de gallo y melón con jamón. El carpaccio no se añade: CIQUAL ya trae el de ternera y el de salmón.
