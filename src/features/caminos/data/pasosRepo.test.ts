@@ -32,4 +32,20 @@ describe('pasosRepo', () => {
     await expect(pasosRepo.guardar('2026-10-12', 12.5)).rejects.toBeInstanceOf(pasosRepo.PasosInvalidos)
     expect(await db.pasos.count()).toBe(0)
   })
+
+  it('una semana de una vez: sustituye, añade y borra los días vacíos; deshacer la deja como estaba', async () => {
+    await pasosRepo.guardar('2026-10-19', 8000)
+    await pasosRepo.guardar('2026-10-20', 5000)
+    const antes = await pasosRepo.todos()
+    const anteriores = await pasosRepo.guardarSemana([{ fecha: '2026-10-19', pasos: 9000 }, { fecha: '2026-10-20', pasos: null }, { fecha: '2026-10-21', pasos: 9000 }])
+    expect((await pasosRepo.todos()).map((p) => [p.fecha, p.pasos])).toEqual([['2026-10-19', 9000], ['2026-10-21', 9000]])
+    expect(anteriores.map((a) => [a.fecha, a.antes?.pasos])).toEqual([['2026-10-19', 8000], ['2026-10-20', 5000], ['2026-10-21', undefined]])
+    await pasosRepo.restaurarSemana(anteriores)
+    expect(await pasosRepo.todos()).toEqual(antes)
+  })
+
+  it('una semana con un día no válido no escribe nada', async () => {
+    await expect(pasosRepo.guardarSemana([{ fecha: '2026-10-19', pasos: 9000 }, { fecha: '2026-10-20', pasos: 100_001 }])).rejects.toBeInstanceOf(pasosRepo.PasosInvalidos)
+    expect(await db.pasos.count()).toBe(0)
+  })
 })

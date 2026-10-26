@@ -194,7 +194,7 @@ Series, entradas, platos y alimentos: inmediato con Deshacer, restauración exis
 
 ### Creatina en Inicio y Ajustes
 
-`CreatinaHoy` reutiliza `TarjetaAcceso`, a todo el ancho bajo Peso/Agua: etiqueta, dosis en `heading` con gramos en `caption`, fase en `body-sm` y botón neutro «Tomada hoy» al pie, hermano del acceso. `aria-pressed` indica el estado; el icono de check en `success` confirma la marca. La hoja compartida muestra siete filas con fecha y estado explícito, sin rachas ni acento de gamificación. Errores en línea, también dentro de la hoja.
+`CreatinaHoy` reutiliza `TarjetaAcceso`, a todo el ancho bajo Peso, Agua y Pasos: etiqueta, dosis en `heading` con gramos en `caption`, fase en `body-sm` y botón neutro «Tomada hoy» al pie, hermano del acceso. `aria-pressed` indica el estado; el icono de check en `success` confirma la marca. La hoja compartida muestra siete filas con fecha y estado explícito, sin rachas ni acento de gamificación. Errores en línea, también dentro de la hoja.
 
 `CreatinaAjustes` usa sección y switch nativo con etiqueta táctil ≥44 px; campos y textos en bloques que envuelven al ampliar texto. Dosis manual con teclado decimal, acción de guardar y carga opcional mediante botones neutros. No hay wrappers, tokens ni dependencias nuevas.
 
@@ -223,7 +223,7 @@ La creación de comunidad incluye un Select «Quién puede publicar» y la ayuda
 
 `interactive-widget=resizes-content` permite que Chrome Android ajuste el área de contenido al teclado. `safe-inline` protege el contenido y las capas de los recortes laterales en horizontal; navegación conserva también la zona segura inferior. Campos nativos acotados al ancho disponible y botones con texto que envuelve.
 
-Inicio usa container queries: con al menos 40 rem de lectura, energía y progreso comparten fila y Peso/Agua ocupan la siguiente, lado a lado. Por debajo, Peso y Agua tienen cada una su fila entera. Bajo 17,5 rem de lectura (texto ampliado) las teselas de progreso se apilan; a 320 px con texto normal siguen en 2 × 2. La regla va después de la base de `.progreso-teselas` para poder pisarla. La rueda de energía no excede su contenedor y, bajo 12 rem, su cifra pasa debajo y los macros se apilan, conservando el tamaño del texto.
+Inicio usa container queries: con al menos 40 rem de lectura, energía y progreso comparten fila y Peso y el par Agua/Pasos ocupan la siguiente, lado a lado. Por debajo, Peso tiene su fila entera y Agua y Pasos comparten la siguiente (`.inicio-par`, dos columnas; una sola tarjeta ocupa la fila). Bajo 17,5 rem de lectura (texto ampliado) las teselas de progreso y el par se apilan; a 320 px con texto normal siguen en 2 × 2. La regla va después de la base de `.progreso-teselas` para poder pisarla. La rueda de energía no excede su contenedor y, bajo 12 rem, su cifra pasa debajo y los macros se apilan, conservando el tamaño del texto.
 
 La capa de secciones también sigue el viewport visible. Bajo 28 rem de alto o 18 rem de ancho de su contenedor, la órbita pasa a una rejilla adaptable con scroll y cierre persistente; los umbrales responden al texto ampliado. Conserva foco, Escape y Atrás de `useModalLayer`.
 
