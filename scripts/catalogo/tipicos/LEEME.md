@@ -1004,3 +1004,7 @@ Hamburguesa doble con queso y beicon, bocadillo de cerdo desmechado a la barbaco
 ### Tanda 87 de recetas: vegetarianos (8)
 
 Canelones de verduras, hamburguesas de champiñones y avena, empanada de verduras, quiche de verduras, pimientos rellenos de quinoa, tofu al curry con verduras, gratinado de calabacín y hamburguesas de remolacha y garbanzos.
+
+### Tanda 88 de recetas: veganos (8)
+
+Curry de garbanzos y boniato, albóndigas de lentejas en salsa de tomate, bol de arroz con tofu y verduras, pasta con crema de anacardos y espinacas, mayonesa vegana de soja, ensalada de quinoa con aguacate y maíz, pudin de chía con bebida de avena y bizcocho vegano.
