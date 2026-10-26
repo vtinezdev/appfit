@@ -2656,3 +2656,27 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 - Documentos: `features/caminos.md`, `features/inicio.md`, `datos.md`, `arquitectura.md`, `DESIGN-SYSTEM.md`, README y roadmap.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` a 320/375/430 px en ambos temas, 1440 px y 375 px con texto al 200 %: tarjetas Agua y Pasos lado a lado (apiladas con el texto ampliado), controles de 44 px, inputs de 16 px y sin scroll horizontal. En la semana anterior con 8.000 pasos ya apuntados el miércoles, la hoja parte de 8.000; 63.003 se reparten 9.001 × 3 y 9.000 × 4; cambiar el sábado a 15.000 y vaciar el domingo deja 60.003; un día con 200.000 da el error en línea con su día; al guardar, «60.003 pasos del 19–25 oct» y «Deshacer» deja la tabla como estaba. Con Agua o Pasos oculto, la otra ocupa la fila. «Apuntar una semana» en Caminos guarda 70.000 repartidos. Sin errores de consola.
+
+## 243. «Encajan con lo que te falta» pasa de Buscar a Escribir (2026-10-26)
+
+**Qué:** Víctor quiere ver «Cerrar el día» (B10) en Escribir, la pestaña con la que abre Añadir comida, en lugar de como chip en Buscar.
+
+**Cómo:** nuevo `components/EncajanConLoQueFalta`, con el botón (`aria-expanded`) y la lista desplegable; lee los frecuentes de la comida y usa `encajanConLoQueFalta` sin cambios. Va bajo las comidas típicas en Escribir. No sale al crear una comida típica. `AlimentosRapidos` pierde `falta`, el chip y la lista, y su `onElegir` ya no recibe gramos. `AnadirComida` reúne la apertura de la hoja de gramos en `elegirRapido`. Documento: `features/nutricion.md`.
+
+**Verificación:** `npm run test` (2.803) y `npm run build` correctos. No probado en el navegador.
+
+## 244. «Encajan con lo que te falta» con los cuatro macros, combinaciones e ideas (2026-10-26)
+
+**Qué:** a Víctor le salían propuestas como «400 g de champiñones» y quería combinaciones de alimentos. Se le propusieron raciones habituales, ordenar por cuánto acerca, combinaciones de dos frecuentes y comidas típicas. Pidió las cuatro y dos cosas más: que mirase los cuatro macros, para no pasarse de grasa, e ideas de fuera de lo habitual (solo de categorías que la persona registra). Arriba, típicas y combinaciones estables; debajo, ideas y sueltos que cambian con «Sugerir otras».
+
+**Cómo:** nuevo `lib/cerrarDia.ts` (sustituye `encajanConLoQueFalta`/`faltaDelDia` de `alimentos.ts`). `faltaDelDia` da los cuatro macros, con los excesos en negativo. `hayHueco` exige 150 kcal y 10 g de proteína o 20 g de carbohidratos. `cabe` no deja pasar de kcal ni, con 5 g de margen, de carbohidratos y grasa. `huecoRestante` ordena, con la proteína al doble. `racionesHabituales` usa la mediana de 60 días. `proponer` arma típicas, combinaciones, ideas y sueltos: baja las raciones juntas hasta caber, sin bajar de la mitad; cada idea sale una vez, y no si repite un frecuente con otro nombre. `tanda` sirve para «Sugerir otras». `IDEAS` son 26 básicos de CIQUAL con ración. `foodsRepo.paraCerrarDia` reúne frecuentes con ración e ideas de las categorías registradas. `EncajanConLoQueFalta` pinta dos secciones. `AnadirComida` abre la vista previa de una típica, la revisión de una combinación o la hoja de gramos de un alimento. Sin cambios de esquema ni de backup. Documentos: `features/nutricion.md` y `datos.md`.
+
+**Verificación:** `npm run test` (2.841) y `npm run build` correctos, con tests nuevos en `lib/cerrarDia.test.ts` (macros, márgenes, raciones, combinaciones, típicas, ideas, tandas y que cada id de `IDEAS` existe en el catálogo) y `data/foodsRepo.test.ts`. Chromium en `appfit-test.localhost:5173` con datos sintéticos, a 320, 375 y 430 px en ambos temas: abrir, «Sugerir otras» y elegir una combinación, que abre la revisión con los dos alimentos. Sin scroll horizontal, controles de 44 px o más y sin errores en consola. No probado en un iPhone ni con el texto al 200 %.
+
+## 245. Propuestas de «Cerrar el día» del tamaño de una comida (2026-10-26)
+
+**Qué:** las propuestas podían gastarse casi todo lo que quedaba del día (947 de 1.020 kcal en un plato). Víctor elige: la mitad de lo que queda, salvo en la cena o con 600 kcal o menos por delante, que puede usarse todo.
+
+**Cómo:** `cerrarDia.paraUnaPropuesta(falta, comida)` devuelve lo que puede ocupar una propuesta. En la cena o con `KCAL_SIN_LIMITE` (600) o menos, todo. Si no, la mitad sin bajar de 600 kcal: así no hay salto (con 700 kcal por delante el límite es 600, no 350). Lo pendiente de cada macro se escala igual y los excesos se quedan como están. `proponer` recibe `comida` y mide con eso `cabe`, `huecoRestante` y `aporta`. `hayHueco` sigue mirando el día entero. La frase de `EncajanConLoQueFalta` añade «Cada propuesta, hasta X kcal, para que te quede para el resto del día» cuando hay límite. Documento: `features/nutricion.md`.
+
+**Verificación:** `npm run test` (2.844) y `npm run build` correctos, con tests de `paraUnaPropuesta` y de una propuesta a mediodía frente a la cena. Chromium en `appfit-test.localhost:5173` a 375 px: en la comida, con 1.020 kcal por delante, todas las propuestas quedan en 600 kcal o menos.

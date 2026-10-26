@@ -20,7 +20,6 @@ import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
 import {
   aItemGuardado,
   actualizaAlimentoGuardado,
-  faltaDelDia,
   creaAlimentoNuevo,
   elegibleDeCatalogo,
   faltaCategoria,
@@ -48,6 +47,7 @@ import DescribirComida from '../components/DescribirComida'
 import ItemRevisionRow from '../components/ItemRevisionRow'
 import KcalRapidasSheet from '../components/KcalRapidasSheet'
 import AlimentosRapidos from '../components/AlimentosRapidos'
+import EncajanConLoQueFalta from '../components/EncajanConLoQueFalta'
 import CambiarAlimentoSheet from '../components/CambiarAlimentoSheet'
 import EscanerCodigo from '../components/EscanerCodigo'
 import Medidas from './Medidas'
@@ -55,6 +55,7 @@ import Button from '../../../shared/components/Button'
 import { Input, Select } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { revisionModificada } from '../lib/borradorComida'
+import { faltaDelDia } from '../lib/cerrarDia'
 
 interface Props {
   fecha: string
@@ -112,7 +113,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const [escaneando, setEscaneando] = useState(false)
   const [verMedidas, setVerMedidas] = useState(false)
   const local = useInterpretarLocal()
-  // «Cerrar el día» (B10): lo que falta de proteína y kcal frente al objetivo del día, para el chip de Buscar. Al
+  // «Cerrar el día» (B10): lo que falta de cada macro frente al objetivo del día, para el botón de Escribir. Al
   // planificar, frente a lo ya planificado ese día.
   const falta = useLiveQuery(async () => {
     const [delDia, objetivo] = await Promise.all([planificar ? planificadasRepo.delDia(fecha) : entriesRepo.delDia(fecha), objetivosDe(fecha, todayISO())])
@@ -228,6 +229,11 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
     }
   }
 
+  function elegirRapido(alimento: AlimentoElegible, gramos: number) {
+    setErrorRapido(null)
+    setGramosRapido({ alimento, gramos })
+  }
+
   async function confirmarRapido() {
     if (!gramosRapido || guardandoRapido) return
     setGuardandoRapido(true)
@@ -336,9 +342,11 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                   {!platoDestino && !soloTipica && <>
                     {tipicaCreada && <p role="status" className="text-body-sm text-fg-muted">Comida típica guardada. Ya la tienes a mano.</p>}
                     <ComidasTipicas fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} onVerTodas={() => setVerTipicas(true)} />
+                    <EncajanConLoQueFalta comida={comida} fecha={fecha} falta={falta ?? null} onElegirAlimento={elegirRapido} onElegirTipica={setTipicaElegida}
+                      onElegirCombinacion={(propuestos) => { setErrorGuardar(null); abrirRevision(propuestos.map((p) => itemDesdeElegible(p.alimento, p.gramos))) }} />
                   </>}
                 </>}
-                {metodo === 'buscar' && <AlimentosRapidos comida={comida} falta={falta ?? null} onElegir={(alimento, gramos) => { setErrorRapido(null); setGramosRapido({ alimento, gramos: gramos ?? 100 }) }} />}
+                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)} />}
                 {!platoDestino && !soloTipica && <div className="border-t border-line pt-3">
                   <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}>Solo registrar calorías</Button>
                 </div>}

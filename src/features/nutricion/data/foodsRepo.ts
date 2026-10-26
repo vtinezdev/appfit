@@ -18,6 +18,7 @@ import {
 import * as catalogRepo from './catalogRepo'
 import { esCategoriaAlimento, type CategoriaAlimento } from '../lib/catalogo/categorias'
 import { escalarNutrientes } from '../lib/nutrientes'
+import { IDEAS, ideasPara, RACION_POR_DEFECTO, racionesHabituales, VENTANA_HABITOS_DIAS, type ConRacion } from '../lib/cerrarDia'
 
 /** Al crear, la categoría es obligatoria. */
 export type FoodInput = Omit<Food, 'id' | 'nombreNorm' | 'updatedAt' | 'categoria'> & { categoria: CategoriaAlimento }
@@ -90,6 +91,28 @@ export async function frecuentes({ comida, hoy, dias = VENTANA_FRECUENTES_DIAS, 
   const yaIncluidos = new Set(idsUsuario)
   const relleno = (await recientes(limite * 2)).filter((f) => !yaIncluidos.has(f.id)).map(elegibleDeFood)
   return [...usados, ...relleno].slice(0, limite)
+}
+
+/**
+ * Datos de «Cerrar el día» (B10): tus frecuentes de esa comida con su ración habitual y las ideas del catálogo
+ * (`IDEAS`) de las categorías que registras. Las ideas que el catálogo no tenga cargadas no salen.
+ */
+export async function paraCerrarDia({ comida, hoy }: { comida: Comida; hoy: string }): Promise<{ frecuentes: ConRacion[]; ideas: ConRacion[] }> {
+  const [usados, entries, delCatalogo] = await Promise.all([
+    frecuentes({ comida, hoy }),
+    db.entries.where('fecha').between(addDays(hoy, -(VENTANA_HABITOS_DIAS - 1)), hoy, true, true).toArray(),
+    catalogRepo.porIds(IDEAS.map((i) => i.id)),
+  ])
+  const raciones = racionesHabituales(entries, { hoy })
+  const categorias = new Set((await categoriasDeEntradas(entries)).values())
+  const ideas = IDEAS.flatMap(({ id, gramos }) => {
+    const f = delCatalogo.get(id)
+    return f ? [{ alimento: elegibleDeCatalogo(f), racion: gramos }] : []
+  })
+  return {
+    frecuentes: usados.map((alimento) => ({ alimento, racion: raciones.get(claveRef(alimento.ref)) ?? RACION_POR_DEFECTO })),
+    ideas: ideasPara(ideas, categorias),
+  }
 }
 
 export async function nombres(): Promise<string[]> {
