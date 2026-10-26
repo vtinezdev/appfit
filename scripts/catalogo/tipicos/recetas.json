@@ -47001,5 +47001,191 @@
         "gramos": 10
       }
     ]
+  },
+  {
+    "id": "mojito-sin-alcohol",
+    "nombre": "Mojito sin alcohol, listo para consumir",
+    "alias": [
+      "virgin mojito"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 78 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 260,
+    "ingredientes": [
+      {
+        "ciqual": "13067",
+        "gramos": 40
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11027",
+        "gramos": 5
+      },
+      {
+        "ciqual": "18046",
+        "gramos": 200
+      }
+    ]
+  },
+  {
+    "id": "pina-colada-sin-alcohol",
+    "nombre": "Piña colada sin alcohol, lista para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 78 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 220,
+    "ingredientes": [
+      {
+        "ciqual": "2073",
+        "gramos": 150
+      },
+      {
+        "ciqual": "18041",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "san-francisco",
+    "nombre": "Cóctel San Francisco sin alcohol, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 78 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 195,
+    "ingredientes": [
+      {
+        "ciqual": "2013",
+        "gramos": 80
+      },
+      {
+        "ciqual": "2073",
+        "gramos": 80
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 20
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "limonada-fresa",
+    "nombre": "Limonada de fresa casera, lista para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 78 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 870,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 150
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 60
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 600
+      }
+    ]
+  },
+  {
+    "id": "sangria-sin-alcohol",
+    "nombre": "Sangría sin alcohol, lista para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 78 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 800,
+    "ingredientes": [
+      {
+        "ciqual": "2016",
+        "gramos": 400
+      },
+      {
+        "ciqual": "18035",
+        "gramos": 200
+      },
+      {
+        "ciqual": "13034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13398",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "martini-seco",
+    "nombre": "Martini seco, listo para consumir",
+    "alias": [
+      "dry martini"
+    ],
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, tanda 78 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 70,
+    "ingredientes": [
+      {
+        "ciqual": "1002",
+        "gramos": 60
+      },
+      {
+        "ciqual": "1007",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "mimosa",
+    "nombre": "Mimosa (cava con zumo de naranja), lista para consumir",
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, tanda 78 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 175,
+    "ingredientes": [
+      {
+        "ciqual": "5207",
+        "gramos": 100
+      },
+      {
+        "ciqual": "2013",
+        "gramos": 75
+      }
+    ]
+  },
+  {
+    "id": "whisky-sour",
+    "nombre": "Whisky sour, listo para consumir",
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, tanda 78 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 105,
+    "ingredientes": [
+      {
+        "ciqual": "1005",
+        "gramos": 50
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 25
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 15
+      },
+      {
+        "ciqual": "22001",
+        "gramos": 15
+      }
+    ]
   }
 ]

@@ -1349,3 +1349,11 @@ chocolate-caliente-nata;Chocolate caliente con nata, listo para consumir;Bebidas
 infusion-jengibre-limon;Infusión de jengibre y limón con miel, lista para consumir;Bebidas;;14,3;0,1;3,1;0;285;18066:250 11074:10 2007:15 31008:10
 ponche-leche-huevo;Ponche de leche y huevo casero, listo para consumir;Bebidas;;123;4,4;13,9;5,6;609;19023:500 22002:60 31016:60 11025:1
 avena-caliente-cacao;Bebida de avena caliente con cacao, lista para consumir;Bebidas;;67,1;1,1;11,3;1,8;270;18899:250 18100:10 31016:10
+mojito-sin-alcohol;Mojito sin alcohol, listo para consumir;Bebidas;virgin mojito;30,2;0,2;6,3;0;260;13067:40 31016:15 11027:5 18046:200
+pina-colada-sin-alcohol;Piña colada sin alcohol, lista para consumir;Bebidas;;108,5;0,8;14;5,3;220;2073:150 18041:60 31016:10
+san-francisco;Cóctel San Francisco sin alcohol, listo para consumir;Bebidas;;73,7;0,5;16,7;0,1;195;2013:80 2073:80 2007:20 31016:15
+limonada-fresa;Limonada de fresa casera, lista para consumir;Bebidas;;35,5;0,1;8,1;0,1;870;13014:150 2007:60 31016:60 18066:600
+sangria-sin-alcohol;Sangría sin alcohol, lista para consumir;Bebidas;;45,5;0,3;10,4;0,1;800;2016:400 18035:200 13034:100 13398:100
+martini-seco;Martini seco, listo para consumir;Bebidas alcohólicas;dry martini;246,7;0;1,6;0;70;1002:60 1007:10
+mimosa;Mimosa (cava con zumo de naranja), lista para consumir;Bebidas alcohólicas;;62,7;0,5;4,7;0,1;175;5207:100 2013:75
+whisky-sour;Whisky sour, listo para consumir;Bebidas alcohólicas;;190,7;1,7;15;0,1;105;1005:50 2007:25 31016:15 22001:15
