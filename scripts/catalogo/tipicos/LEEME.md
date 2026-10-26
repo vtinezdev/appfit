@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1628 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1206 recetas CIQUAL (61 hasta el 25 de octubre y
-1145 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1638 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1216 recetas CIQUAL (61 hasta el 25 de octubre y
+1155 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -864,3 +864,7 @@ Pollo al ajo y limón, pollo a la sidra con manzana, pollo con champiñones en s
 ### Tanda 52 de recetas: cerdo (12)
 
 Lomo de cerdo al horno, lomo de cerdo con leche, lomo de cerdo a la naranja, solomillo de cerdo al roquefort, solomillo de cerdo con manzana y sidra, cerdo salteado con pimientos y cebolla, cerdo con salsa de soja y miel, cerdo desmechado a la barbacoa (pulled pork), panceta al horno crujiente, costillas de cerdo al ajillo, chuletas de cerdo a la mostaza y albóndigas de cerdo en salsa de tomate.
+
+### Tanda 53 de recetas: vacuno (10)
+
+Ternera guisada con setas, ternera a la cerveza, ternera al ajillo, entrecot a la pimienta, entrecot al roquefort, hamburguesa de ternera con cebolla caramelizada, albóndigas de ternera al horno, ternera teriyaki, picadillo de ternera con verduras y tiras de ternera con pimientos.
