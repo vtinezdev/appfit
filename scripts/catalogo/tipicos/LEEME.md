@@ -1052,3 +1052,7 @@ Caracoles a la llauna, olleta alicantina, romesco de pescado, arroz brut mallorq
 ### Tanda 99 de recetas: Canarias y Murcia (5)
 
 Puchero canario, queso asado con mojo, truchas de batata (empanadillas dulces), arroz con conejo y caracoles y carne de cabra guisada.
+
+### Tanda 100 de recetas: Castilla, Madrid y Extremadura (5)
+
+Tortas de Alcázar, asadillo de pimientos, judías del Barco, tiznao (bacalao con pimientos asados) y perrunillas.
