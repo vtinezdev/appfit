@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1135 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
-AppFit de alimentos sueltos) y 735 recetas CIQUAL (61 hasta el 25 de octubre y
-674 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1152 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
+AppFit de alimentos sueltos) y 752 recetas CIQUAL (61 hasta el 25 de octubre y
+691 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -716,3 +716,7 @@ Básicos a la plancha con aceite de oliva (chuleta de cerdo, contramuslo de poll
 ### Decimoséptima tanda de recetas: arroces y pastas (20)
 
 Arroces (risottos de setas y de calabaza, con conejo, salteado con verduras, meloso de marisco), pastas (ajo y aceite, con gambas, tallarines con salmón y nata, macarrones gratinados, puttanesca, cuatro quesos, champiñones y nata, brócoli, pollo y verduras, salchichas, integral con verduras), lasaña y canelones de atún, canelones de espinacas y cuscús con verduras y garbanzos.
+
+### Decimoctava tanda de recetas: vegetarianos y veganos (17)
+
+Hamburguesas de lentejas y de garbanzos, tofu a la plancha y revuelto de tofu, curry de lentejas con coco, bol de quinoa con garbanzos y boniato, berenjenas a la parmesana, fajitas vegetales, wok con fideos de arroz, croquetas de espinacas, garbanzos crujientes al horno, tortilla de verduras, revuelto de calabacín, boloñesa de lentejas, calabacines rellenos de quinoa, lentejas con arroz integral y patatas rellenas de verduras.

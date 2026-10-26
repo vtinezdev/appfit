@@ -673,3 +673,20 @@ lasana-atun;Lasaña de atún, horneada;Platos preparados;;152,2;7,6;11,1;8,4;160
 canelones-atun;Canelones de atún, horneados;Platos preparados;;141,4;7,6;10,6;7,4;1450;9810:120 18066:220 26245:200 20048:300 20034:100 22000:60 19023:500 9440:40 16400:40 12118:60 11017:5
 canelones-espinacas;Canelones de espinacas, horneados;Platos preparados;;141,7;5,6;12,1;7,4;1500;9810:120 18066:220 20059:600 20034:100 15025:30 19023:600 9440:50 16400:50 12118:80 11017:5
 cuscus-verduras;Cuscús con verduras y garbanzos, cocinado;Platos preparados;;135,8;4,3;20,9;3,2;1050;9681:250 18066:300 20020:150 20009:100 20532:150 20034:100 17270:25 11042:2 11017:4
+hamburguesas-lentejas;Hamburguesas de lentejas caseras, a la plancha, cocinadas;Platos preparados;burger de lentejas;148,6;7;16,5;4,9;560;20510:400 9310:60 20034:80 20009:80 11042:2 17270:20 11017:4
+hamburguesas-garbanzos;Hamburguesas de garbanzos caseras, a la plancha, cocinadas;Platos preparados;;178,4;6,6;20,6;6,5;500;20532:400 7500:50 20034:80 11014:5 11042:2 17270:20 11017:4
+tofu-plancha-soja;Tofu a la plancha con soja, cocinado;Alternativas vegetales;;180,5;14,5;3,1;11,6;190;20904:200 17270:5 11104:10
+revuelto-tofu;Revuelto de tofu con verduras, cocinado;Alternativas vegetales;revuelto vegano|tofu scramble;148,8;10,5;3,8;9,6;330;20904:250 20034:50 20085:50 11089:1 17270:10 11017:2
+curry-lentejas-coco;Curry de lentejas con leche de coco, cocinado;Platos preparados;;115,2;5,5;10;5;1300;20359:250 18066:700 18041:200 20048:200 20034:100 11005:10 17270:20 11017:5
+buddha-bowl;Bol vegano de quinoa, garbanzos y boniato, listo para consumir;Platos preparados;buddha bowl;150,3;4,2;15,2;7,1;520;9340:60 18066:130 20532:100 4101:150 20059:50 13004:60 17270:10 15203:15
+berenjenas-parmesana;Berenjenas a la parmesana, horneadas;Platos preparados;parmigiana di melanzane;118,3;5,5;2,5;9;1000;20053:600 20048:400 19590:200 12120:40 17270:40 11033:5 11017:4
+fajitas-vegetales;Fajitas de verduras y alubias, cocinadas;Platos preparados;fajitas vegetarianas;136,1;4,2;18,3;4,5;950;7815:240 20085:150 20087:150 20034:150 20056:150 20524:150 17270:20 11042:2
+wok-verduras-fideos-arroz;Wok de verduras con fideos de arroz, cocinado;Platos preparados;;108;2,6;17;2,9;800;9900:150 18066:250 20057:150 20009:100 20085:100 20069:100 11104:30 17270:20
+croquetas-espinacas;Croquetas de espinacas, caseras, fritas;Platos preparados;;234,6;5,1;16,2;16,3;860;19023:500 9440:80 16400:40 20059:200 20034:50 22000:60 7500:60 17440:80 11017:3
+garbanzos-horno-especias;Garbanzos crujientes al horno con especias, asados;Platos preparados;garbanzos tostados caseros;213,6;9,2;20,4;8,9;300;20532:400 17270:15 11049:3 11042:2 11017:3
+tortilla-verduras;Tortilla de verduras, cocinada;Huevos;;129,6;8;2,1;9,7;520;22000:300 20020:150 20085:80 20034:80 17270:20 11017:3
+revuelto-calabacin;Revuelto de calabacín, cocinado;Huevos;;118,2;7,6;1,8;8,8;450;22000:240 20020:250 20034:50 17270:15 11017:2
+bolonesa-lentejas-pasta;Pasta con boloñesa de lentejas, cocinada;Platos preparados;boloñesa vegana;107,3;3,9;17;2,1;1600;9810:300 18066:540 20510:300 20048:400 20034:100 20009:80 17270:25 11017:4
+calabacin-relleno-quinoa;Calabacines rellenos de quinoa y verduras, horneados;Platos preparados;;84,7;3,4;7,3;4,3;900;20020:600 9340:80 18066:160 20034:80 20276:100 12118:40 17270:20 11017:4
+lentejas-veganas-verduras-arroz;Lentejas con arroz integral y verduras, cocinadas;Platos preparados;;88,6;4,3;11,8;2;1700;20359:250 9102:100 20009:100 20034:100 20085:80 20276:100 17270:25 11049:3 18066:1200 11017:6
+patatas-rellenas-verduras;Patatas asadas rellenas de verduras y queso, horneadas;Platos preparados;;117,3;4;13,1;4,8;800;4008:600 20056:100 20034:60 20085:60 12118:60 17270:20 11017:4
