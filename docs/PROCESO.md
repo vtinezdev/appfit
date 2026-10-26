@@ -2711,3 +2711,11 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 **Cómo:** detector de casi duplicados ad hoc (nombre normalizado sin estados ni palabras vacías, similitud ≥ 0,6, mismo estado) y revisión manual de cada par; criterio y lista en `scripts/catalogo/tipicos/LEEME.md` § Fusión de duplicados. Ninguna fila eliminada estaba publicada en `master` (paquete 2026-10-25), así que se quitan en lugar de ocultarse; la construcción se comprobó contra ese paquete publicado. Dos búsquedas más en la regresión («sopa juliana», «pollo cacciatora»). Sin cambios de código.
 
 **Verificación:** `catalogo:tipicos`, `catalogo:validar`, `npm run test` y `npm run build` correctos. Pendiente: los alias que necesitan filas de CIQUAL («salsa barbacoa» → «Salsa barbecue», «salsa César» → «Salsa Cásar») esperan a reconstruir CIQUAL es3.
+
+## 248. Plan de recetas con preparación (2026-10-26)
+
+**Qué:** Víctor propone una sección de recetas con lo que aportan (kcal y macros) y cómo se preparan, accesible desde la rejilla de secciones y desde Nutrición. Las recetas ya existen como calculadora (ADR 022). Decide empezar solo por las recetas propias y hacer primero un prototipo con recetas de prueba antes de decidir si se implementa.
+
+**Cómo:** sin código. Plan en `docs/plan-recetas-2026-10-26.md`: fase 1 con un prototipo en una rama sin fusionar (campos opcionales `raciones`, `pasos`, `tiempoMin` y `notas`; ficha de lectura; destino en la rejilla; cuatro recetas de prueba con capturas), decisiones para Víctor y fase 2 si la aprueba. Entrada en `roadmap.md` § Ideas sin empezar. Cierre de la sesión 12 en `docs/progreso/sesion-12/`.
+
+**Verificación:** solo documentación; `npm run test` y `npm run build` correctos.
