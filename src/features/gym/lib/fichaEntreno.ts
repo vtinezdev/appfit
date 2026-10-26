@@ -115,20 +115,20 @@ export function seriesPublicables(series: (SerieEjecucion & Pick<SetEntry, 'id' 
   }
 }
 
-/** Un ejercicio en la imagen del póster: su nombre, cuántas series efectivas, la mejor y su récord principal. */
+/** Un ejercicio en la imagen del póster: su nombre, la mejor serie, cada serie como barra y la mejora de su récord. */
 export interface EjercicioPoster {
   nombre: string
-  /** «3 series». */
-  series: string
   /** La serie que marca el récord de carga o, si no hay, la de más carga (menos asistencia) y más repeticiones: «85 kg × 8». */
   mejor: string
-  /** El récord que más cuenta (el de peso antes que el 1RM): «Peso máximo 85 kg (+5 kg)», y cuántos más hay. */
-  record?: string
+  /** Una por serie efectiva, en orden: `alto` (de 0,3 a 1) frente a la más fuerte, por carga o, sin carga, por repeticiones; y si marca récord. */
+  series: { alto: number; record: boolean }[]
+  /** La mejora del récord que más cuenta (el de peso antes que el 1RM): «+5 kg», «+3 reps». */
+  mejora?: string
 }
 
 /**
  * Los ejercicios de un entreno para la imagen del póster, en el orden del detalle y sin los que no tienen series
- * efectivas. Las series del ejercicio se resumen en la mejor, no se enumeran: en la imagen no caben todas.
+ * efectivas. Se cuentan con formas más que con texto: la mejor serie en cifra, el resto como barras.
  */
 export function ejerciciosDelPoster(w: Pick<Workout, 'ordenEjercicios' | 'ejerciciosOmitidos'>, sets: SetEntry[], records: RecordEjercicio[], nombres: Record<number, string>): EjercicioPoster[] {
   const ids = Array.from(new Set([...sets].sort((a, b) => a.createdAt - b.createdAt || a.id - b.id).map(s => s.exerciseId)))
@@ -140,13 +140,16 @@ export function ejerciciosDelPoster(w: Pick<Workout, 'ordenEjercicios' | 'ejerci
     const signo = (s: SetEntry) => (modoCarga(s) === 'asistencia' ? -1 : 1)
     const mejor = deCarga ? hechas.find(s => s.id === deCarga.setId)!
       : [...hechas].sort((a, b) => signo(b) * b.peso - signo(a) * a.peso || b.reps - a.reps)[0]
-    const principal = propios[0]
-    const p = principal && partesRecord(principal)
+    // Proporcional a la serie más fuerte: carga (con asistencia, menos es más) o, sin carga, repeticiones.
+    const conCarga = hechas.some(s => s.peso > 0)
+    const valores = hechas.map(s => (!conCarga ? s.reps : signo(s) < 0 ? (s.peso > 0 ? 1 / s.peso : 0) : s.peso))
+    const max = Math.max(...valores)
+    const conRecord = new Set(propios.flatMap(r => (r.setId !== undefined ? [r.setId] : [])))
     return [{
       nombre: nombres[id] ?? 'Ejercicio',
-      series: plural(hechas.length, 'serie', 'series'),
       mejor: pastillaSerie(mejor).texto,
-      ...(p ? { record: `${p.rotulo} ${p.valor} (${p.mejora})${propios.length > 1 ? ` · ${plural(propios.length - 1, 'récord', 'récords')} más` : ''}` } : {}),
+      series: hechas.map((s, i) => ({ alto: max > 0 ? Math.max(0.3, valores[i] / max) : 1, record: conRecord.has(s.id) })),
+      ...(propios[0] ? { mejora: partesRecord(propios[0]).mejora } : {}),
     }]
   })
 }

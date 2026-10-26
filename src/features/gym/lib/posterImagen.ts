@@ -1,7 +1,7 @@
 // El póster de una sesión como imagen para compartir (ENT-11): un SVG de 1080 × 1920 (9:16, el de las historias y los
 // estados) compuesto aquí, sin DOM, con los colores del tema ya resueltos (un canvas no entiende variables CSS).
-// `exportarImagen` lo pasa a PNG. Solo lleva datos del entreno: título, fecha, cifras, ejercicios con sus récords, «Hoy» y
-// el muñeco. Nada del perfil.
+// `exportarImagen` lo pasa a PNG. Solo lleva datos del entreno: título, fecha, cifras, récords, ejercicios, «Hoy» y el
+// muñeco. Nada del perfil. Cuenta con formas antes que con frases: barras de series, trofeos y cifras.
 import type { VistaCuerpo } from '../components/mapaMuscularGeometria'
 import type { EjercicioPoster, HitoSesion } from './fichaEntreno'
 import type { ZonaMuscular } from './musculos'
@@ -33,6 +33,8 @@ export interface DatosPosterImagen {
   cifras: CifraPoster[]
   /** Ejercicios en su orden; con ellos, los récords van en cada ejercicio y «Hoy» se queda con los demás hitos. */
   ejercicios?: EjercicioPoster[]
+  /** Récords del entreno: con alguno, el trofeo y su número bajo las cifras. */
+  records?: number
   hoy: HitoSesion[]
   /** El entreno nº 10, 25, 50…: la cifra y su texto encima del título (A23). */
   hito?: { cifra: string; texto: string; desde: string }
@@ -80,6 +82,12 @@ function texto(x: number, y: number, contenido: string, tam: number, color: stri
   return `<text x="${x}" y="${y}" style="${letra};font-size:${tam}px" fill="${rgb(color)}"${extra}>${escaparXml(contenido)}</text>`
 }
 
+/** El trofeo de `Icon` (24 × 24, de trazo) en `color`, con su esquina en (x, y) y `tam` de lado. */
+function trofeo(x: number, y: number, tam: number, color: string): string {
+  const d = 'M8 3h8v6a4 4 0 0 1-8 0V3M8 5H4v3a4 4 0 0 0 4 4M16 5h4v3a4 4 0 0 1-4 4M12 13v6M8 21h8M10 19h4'
+  return `<path d="${d}" transform="translate(${x} ${y}) scale(${tam / 24})" fill="none" stroke="${rgb(color)}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
+}
+
 function muneco({ levels, cuerpo, viewBox }: NonNullable<DatosPosterImagen['muneco']>, c: ColoresPoster, x: number, y: number, alto: number): string {
   const [, , anchoCaja, altoCaja] = viewBox.split(' ').map(Number)
   const escala = alto / altoCaja
@@ -101,8 +109,9 @@ function muneco({ levels, cuerpo, viewBox }: NonNullable<DatosPosterImagen['mune
 
 /**
  * El SVG del póster. `css` añade reglas dentro del SVG (las `@font-face` con la letra incrustada: una imagen no carga
- * recursos de fuera). Arriba, título (hasta dos líneas), fecha y cifras con filetes; después los ejercicios (nombre, mejor
- * serie, series y récord), «Hoy» y el muñeco ocupa lo que queda (si no hay sitio, no va); abajo, «Hecho con AppFit».
+ * recursos de fuera). Arriba, título (hasta dos líneas), fecha y cifras con filetes; el trofeo con los récords; los
+ * ejercicios (nombre, mejor serie, una barra por serie y la mejora del récord), «Hoy» y el muñeco ocupa lo que queda (si no
+ * hay sitio, no va); abajo, «Hecho con AppFit».
  */
 export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): string {
   const partes: string[] = [`<rect width="${ANCHO_POSTER}" height="${ALTO_POSTER}" fill="${rgb(c.fondo)}"/>`]
@@ -136,18 +145,34 @@ export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): str
   })
   y += 132
 
+  // Los récords, en grande: el trofeo y su número.
+  if (d.records) {
+    y += 120
+    partes.push(trofeo(MARGEN, y - 64, 72, c.acento))
+    partes.push(`<text x="${MARGEN + 100}" y="${y}" fill="${rgb(c.acento)}"><tspan style="${LETRA.cifra};font-size:84px">${d.records}</tspan>`
+      + `<tspan style="${LETRA.texto.replace('500', '700')};font-size:40px"> ${d.records === 1 ? 'récord personal' : 'récords personales'}</tspan></text>`)
+  }
+
+  // Cada ejercicio: nombre y mejor serie en una línea; debajo, una barra por serie (la del récord en acento) y la mejora.
   const ejercicios = d.ejercicios ?? []
   if (ejercicios.length) {
-    y += 80
-    partes.push(texto(MARGEN, y, 'EJERCICIOS', 28, c.tenue, LETRA.rotulo))
+    y += 64
     for (const e of ejercicios.slice(0, MAX_EJERCICIOS_POSTER)) {
-      y += 68
-      // El nombre deja sitio a la mejor serie, alineada a la derecha.
-      partes.push(texto(MARGEN, y, partirLineas(e.nombre, 30, 1)[0] ?? '', 38, c.texto, LETRA.texto.replace('500', '600')))
-      partes.push(texto(ANCHO_POSTER - MARGEN, y, partirLineas(e.mejor, 16, 1)[0] ?? '', 38, c.texto, LETRA.texto.replace('500', '700'), ' text-anchor="end"'))
-      y += 42
-      partes.push(`<text x="${MARGEN}" y="${y}" style="${LETRA.texto};font-size:28px" fill="${rgb(c.tenue)}">${escaparXml(e.series)}`
-        + (e.record ? `<tspan fill="${rgb(c.acento)}"> · Récord: ${escaparXml(partirLineas(e.record, 52, 1)[0] ?? '')}</tspan>` : '') + '</text>')
+      y += 56
+      partes.push(texto(MARGEN, y, partirLineas(e.nombre, 30, 1)[0] ?? '', 36, c.texto, LETRA.texto.replace('500', '600')))
+      partes.push(texto(ANCHO_POSTER - MARGEN, y, partirLineas(e.mejor, 16, 1)[0] ?? '', 40, c.texto, LETRA.cifra, ' text-anchor="end"'))
+      const base = y + 64
+      const barras = e.series.slice(0, 12)
+      barras.forEach((b, i) => {
+        const alto = Math.round(44 * b.alto)
+        partes.push(`<rect x="${MARGEN + i * 38}" y="${base - alto}" width="28" height="${alto}" rx="5" fill="${rgb(b.record ? c.acento : c.tenue)}"${b.record ? '' : ' fill-opacity="0.45"'}/>`)
+      })
+      if (e.mejora) {
+        const x = MARGEN + barras.length * 38 + 24
+        partes.push(trofeo(x, base - 34, 34, c.acento))
+        partes.push(texto(x + 44, base - 4, e.mejora, 34, c.acento, LETRA.texto.replace('500', '700')))
+      }
+      y = base
     }
     const resto = ejercicios.length - MAX_EJERCICIOS_POSTER
     if (resto > 0) {

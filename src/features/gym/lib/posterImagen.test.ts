@@ -41,23 +41,27 @@ describe('svgPoster', () => {
 })
 
 describe('ejercicios en el póster', () => {
-  const ejercicio = (n: number, record?: string) => ({ nombre: `Ejercicio ${n}`, series: '3 series', mejor: '80 kg × 8', ...(record ? { record } : {}) })
+  const ejercicio = (n: number, mejora?: string) => ({ nombre: `Ejercicio ${n}`, mejor: '80 kg × 8',
+    series: [{ alto: 1, record: !!mejora }, { alto: 0.5, record: false }], ...(mejora ? { mejora } : {}) })
 
-  it('cada ejercicio con su mejor serie y su récord; «Hoy» se queda sin récords y cuenta el resto', () => {
-    const svg = svgPoster({ ...datos, ejercicios: [ejercicio(1, 'Peso máximo 85 kg (+5 kg)'), ejercicio(2)],
+  it('el trofeo con los récords; cada ejercicio con su mejor serie, una barra por serie y la mejora; «Hoy» sin récords', () => {
+    const svg = svgPoster({ ...datos, records: 3, ejercicios: [ejercicio(1, '+5 kg'), ejercicio(2)],
       hoy: [...datos.hoy, { tipo: 'cumbre', etiqueta: 'Cumbres', texto: '+120 m de subida' }] }, claro)
-    for (const t of ['EJERCICIOS', 'Ejercicio 1', 'Ejercicio 2', '80 kg × 8', 'HOY', '+120 m de subida']) expect(svg).toContain(`>${t}<`)
-    expect(svg).toContain('> · Récord: Peso máximo 85 kg (+5 kg)<')
+    for (const t of ['Ejercicio 1', 'Ejercicio 2', '80 kg × 8', '+5 kg', 'HOY', '+120 m de subida']) expect(svg).toContain(`>${t}<`)
+    expect(svg).toContain('>3</tspan>')
+    expect(svg).toContain('> récords personales<')
+    expect(svg.match(/<rect x="\d+" y="\d+" width="28"/g)).toHaveLength(4)
+    expect(svg.match(/width="28" height="44" rx="5" fill="rgb\(198 244 50\)"/g)).toHaveLength(1)
     expect(svg).not.toContain('Press banca · Peso máximo')
-    expect(svg).not.toContain('más<')
   })
 
-  it('de más de ocho, enseña ocho y «y N ejercicios más»; sin «Hoy» si solo eran récords', () => {
+  it('de más de ocho, enseña ocho y «y N ejercicios más»; sin récords ni «Hoy» si no hay', () => {
     const svg = svgPoster({ ...datos, ejercicios: Array.from({ length: 10 }, (_, i) => ejercicio(i + 1)) }, claro)
     expect(svg).toContain('>Ejercicio 8<')
     expect(svg).not.toContain('>Ejercicio 9<')
     expect(svg).toContain('>y 2 ejercicios más<')
     expect(svg).not.toContain('HOY')
+    expect(svg).not.toContain('récords personales')
   })
 })
 

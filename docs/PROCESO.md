@@ -2600,3 +2600,5 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 - Documentos: `features/gym.md`.
 
 **Verificación:** `npm run test` (2.789) y `npm run build` correctos. Playwright en `appfit-test.localhost:5173`: se descargó la imagen del detalle del historial de un entreno con 6 ejercicios y 11 récords, en tema claro y oscuro; los textos caben. La imagen desde el fin de entreno no se ha descargado en el navegador (mismo componente y la misma función). No se ha probado compartir desde el iPhone.
+
+**Más visual, a petición de Víctor («hay mucha letra»):** las frases de cada ejercicio («3 series · Récord: Peso máximo 85 kg (+5 kg) · 1 récord más») pasan a formas. Bajo las cifras, el trofeo con el número de récords en grande. En cada ejercicio, la mejor serie en cifra, una barra por serie efectiva (alto proporcional a la más fuerte, por carga o, sin carga, por repeticiones; las de récord en acento) y el trofeo con la mejora del récord principal («+5 kg»). `EjercicioPoster` cambia a `{ nombre, mejor, series: { alto, record }[], mejora? }`. Verificado con la imagen descargada en ambos temas; tests y build correctos.

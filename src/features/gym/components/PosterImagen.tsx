@@ -45,7 +45,7 @@ function coloresDelTema(): ColoresPoster {
 
 /**
  * «Guardar imagen» y «Compartir…» bajo el póster (ENT-11): la misma sesión como PNG de 1080 × 1920 con título, fecha,
- * cifras, los ejercicios con su mejor serie y su récord, «Hoy» y el muñeco, y «Hecho con AppFit» al pie. Las series se leen
+ * cifras, los récords, los ejercicios con su mejor serie y una barra por serie, «Hoy» y el muñeco, y «Hecho con AppFit» al pie. Las series se leen
  * al pulsar, no mientras se ve la pantalla. Sin cuenta ni red: «Compartir…» abre la hoja del móvil y solo
  * aparece donde se pueden compartir archivos; si no, se descarga.
  */
@@ -62,6 +62,7 @@ export default function PosterImagen({ titulo, inicio, fin, series, volumen, gim
       fecha: `${rangoSesion(inicio, fin)}${gimnasio ? ` · ${gimnasio}` : ''}`,
       cifras: [{ rotulo: 'Duración', valor: formatDuracion(fin - inicio) }, { rotulo: 'Volumen', valor: formatInt(volumen), unidad: 'kg' }, { rotulo: 'Series', valor: formatInt(series) }],
       ejercicios: w ? ejerciciosDelPoster(w, sets, records, nombres) : [],
+      records: records.length,
       hoy,
       ...(hito ? { hito: { cifra: formatInt(hito.numero), texto: 'entrenos terminados', desde: textoDesde(hito.desde, Date.now()) } } : {}),
       ...(levels ? { muneco: { levels, cuerpo: CUERPOS[figura], viewBox: VIEWBOX_CUERPO } } : {}),
