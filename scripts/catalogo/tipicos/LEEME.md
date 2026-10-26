@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1289 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 874 recetas CIQUAL (61 hasta el 25 de octubre y
-813 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1305 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 890 recetas CIQUAL (61 hasta el 25 de octubre y
+829 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -760,3 +760,7 @@ Chimichurri, tomate frito casero, salsas caseras (queso azul, pimienta, setas co
 ### Vigesimosexta tanda de recetas: cocina latinoamericana (15)
 
 Empanadas argentinas, lomo saltado, arroz chaufa, causa limeña, ají de gallina, tequeños, salchipapas, pupusas, huevos rancheros, chilaquiles, tacos al pastor, gallo pinto, ropa vieja cubana, yuca frita y alfajores de maicena. Sin ají amarillo en CIQUAL: se omite en la causa y se sustituye por cúrcuma en el ají de gallina.
+
+### Vigesimoséptima tanda de recetas: postres de fruta y helados caseros (16)
+
+Brochetas de fruta, piña asada, plátano a la plancha con miel, fresas con yogur y con chocolate, kiwi con yogur, ensalada de frutas con yogur, melocotón en almíbar casero, manzana al microondas, sorbete de mango, polos de yogur, yogur helado, mousse de fresa, crema de mango, sandía con feta y fruta con chocolate fundido.

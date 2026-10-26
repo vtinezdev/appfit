@@ -30424,5 +30424,376 @@
         "gramos": 20
       }
     ]
+  },
+  {
+    "id": "brochetas-fruta",
+    "nombre": "Brochetas de fruta fresca, listas para consumir",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 450,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13002",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13742",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13021",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "pina-asada-canela",
+    "nombre": "Piña asada con canela, asada",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "13002",
+        "gramos": 400
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "platano-plancha-miel",
+    "nombre": "Plátano a la plancha con miel, cocinado",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 140,
+    "ingredientes": [
+      {
+        "ciqual": "13005",
+        "gramos": 130
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 5
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "fresas-yogur",
+    "nombre": "Fresas con yogur natural, listas para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 275,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 150
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      }
+    ]
+  },
+  {
+    "id": "fresas-chocolate",
+    "nombre": "Fresas bañadas en chocolate, listas para consumir",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 230,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 200
+      },
+      {
+        "ciqual": "31085",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "kiwi-yogur",
+    "nombre": "Kiwi con yogur y miel, listo para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 235,
+    "ingredientes": [
+      {
+        "ciqual": "13021",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "ensalada-frutas-yogur",
+    "nombre": "Ensalada de frutas con yogur, lista para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 525,
+    "ingredientes": [
+      {
+        "ciqual": "13396",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13014",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      }
+    ]
+  },
+  {
+    "id": "melocoton-almibar-casero",
+    "nombre": "Melocotón en almíbar casero, cocido",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "13398",
+        "gramos": 800
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 150
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 300
+      }
+    ]
+  },
+  {
+    "id": "manzana-canela-microondas",
+    "nombre": "Manzana con canela al microondas, cocinada",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 170,
+    "ingredientes": [
+      {
+        "ciqual": "13396",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "sorbete-mango",
+    "nombre": "Sorbete de mango casero, listo para consumir",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "13025",
+        "gramos": 500
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 80
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 20
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 60
+      }
+    ]
+  },
+  {
+    "id": "polos-yogur-fruta",
+    "nombre": "Polos de yogur y frutos rojos caseros, listos para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 380,
+    "ingredientes": [
+      {
+        "ciqual": "19593",
+        "gramos": 250
+      },
+      {
+        "ciqual": "13014",
+        "gramos": 80
+      },
+      {
+        "ciqual": "13015",
+        "gramos": 40
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "yogur-helado",
+    "nombre": "Yogur helado casero, listo para consumir",
+    "alias": [
+      "frozen yogurt"
+    ],
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 530,
+    "ingredientes": [
+      {
+        "ciqual": "19593",
+        "gramos": 375
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 80
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 75
+      }
+    ]
+  },
+  {
+    "id": "mousse-fresa",
+    "nombre": "Mousse de fresa casera, lista para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 690,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 300
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 250
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11007",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 60
+      }
+    ]
+  },
+  {
+    "id": "crema-mango",
+    "nombre": "Crema de mango con yogur, lista para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 445,
+    "ingredientes": [
+      {
+        "ciqual": "13025",
+        "gramos": 300
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "sandia-feta-menta",
+    "nombre": "Sandía con queso feta y menta, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 390,
+    "ingredientes": [
+      {
+        "ciqual": "13036",
+        "gramos": 300
+      },
+      {
+        "ciqual": "12066",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11027",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "fondue-chocolate-fruta",
+    "nombre": "Fruta con chocolate fundido, lista para consumir",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 500,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13002",
+        "gramos": 100
+      },
+      {
+        "ciqual": "31085",
+        "gramos": 80
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 20
+      }
+    ]
   }
 ]
