@@ -22,6 +22,7 @@ Esta carpeta guarda un registro por sesión de trabajo. Cada vez que se cierra u
 - [`sesion-09/`](./sesion-09/) — Categoría obligatoria en cada alimento, con iconos propios por familia, filtro y revisión en Alimentos y reparto «Por categoría» en el Resumen (PR #36).
 - [`sesion-10/`](./sesion-10/) — Parte social: Social en la barra (feed, ánimos, comentarios, avisos) y Amigos en Más (perfil, seguir, bloquear, denunciar), publicar entrenos y actividades, cuenta sin copia y limpieza de espacio en Supabase (ADR 040).
 - [`sesion-11/`](./sesion-11/) — Plan de evolución: carril A completo salvo A15 (espera el piloto de A14) y carril B de B9 a B16 (módulos, Progreso, metas, calendario, tu mes, comidas planificadas); queda B17, pendiente de la decisión D13.
+- [`sesion-12/`](./sesion-12/) — «Encajan con lo que te falta» pasa a Escribir y propone con los cuatro macros: raciones habituales, típicas y combinaciones estables, ideas nuevas con «Sugerir otras» y propuestas del tamaño de una comida (PR #169).
 
 ## Convención para cerrar una sesión («cierra la sesión»)
 
