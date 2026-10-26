@@ -91,6 +91,14 @@ it.each([
   ['pimientos de padrón', 'pimientos-padron-crudos'],
   ['cuajada', 'cuajada-oveja'],
   ['tarta de queso vasca', 'tarta-queso-vasca'],
+  ['olla podrida', 'olla-podrida'],
+  ['huevos benedictinos', 'huevos-benedictinos'],
+  ['baba ganoush', 'baba-ganoush'],
+  ['chimichurri', 'chimichurri'],
+  ['lomo saltado', 'lomo-saltado'],
+  ['espeto de sardinas', 'espeto-sardinas'],
+  ['calçots', 'calcots-romesco'],
+  ['energy balls', 'bolitas-energeticas'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)

@@ -31542,5 +31542,347 @@
         "gramos": 5
       }
     ]
+  },
+  {
+    "id": "barritas-avena-caseras",
+    "nombre": "Barritas de avena caseras, horneadas",
+    "alias": [
+      "barritas de cereales caseras"
+    ],
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 370,
+    "ingredientes": [
+      {
+        "ciqual": "9310",
+        "gramos": 200
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 60
+      },
+      {
+        "ciqual": "15202",
+        "gramos": 80
+      },
+      {
+        "ciqual": "31085",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "bolitas-energeticas",
+    "nombre": "Bolitas energéticas de dátil y avena, listas para consumir",
+    "alias": [
+      "energy balls"
+    ],
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 315,
+    "ingredientes": [
+      {
+        "ciqual": "9310",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13011",
+        "gramos": 150
+      },
+      {
+        "ciqual": "15202",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "granola-casera",
+    "nombre": "Granola casera con frutos secos, horneada",
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 480,
+    "ingredientes": [
+      {
+        "ciqual": "9310",
+        "gramos": 300
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 60
+      },
+      {
+        "ciqual": "15005",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "queso-batido-fruta",
+    "nombre": "Queso fresco batido 0 % con fruta y miel, listo para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 335,
+    "ingredientes": [
+      {
+        "ciqual": "19644",
+        "gramos": 200
+      },
+      {
+        "ciqual": "13014",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 25
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "hummus-crudites",
+    "nombre": "Hummus con crudités, listo para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 260,
+    "ingredientes": [
+      {
+        "ciqual": "25621",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20019",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "chips-kale",
+    "nombre": "Chips de kale al horno, horneados",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 106,
+    "ingredientes": [
+      {
+        "ciqual": "20346",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "tortitas-arroz-pavo",
+    "nombre": "Tortitas de arroz con pavo, listas para consumir",
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 60,
+    "ingredientes": [
+      {
+        "ciqual": "7352",
+        "gramos": 20
+      },
+      {
+        "ciqual": "28964",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "rollitos-pavo-queso",
+    "nombre": "Rollitos de pavo con queso de untar, listos para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 90,
+    "ingredientes": [
+      {
+        "ciqual": "28964",
+        "gramos": 60
+      },
+      {
+        "ciqual": "12068",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "mug-cake-avena",
+    "nombre": "Mug cake de avena y cacao, cocinado",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 180,
+    "ingredientes": [
+      {
+        "ciqual": "9310",
+        "gramos": 40
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19041",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 2
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "helado-platano",
+    "nombre": "Helado de plátano y cacao (nice cream), listo para consumir",
+    "alias": [
+      "nice cream"
+    ],
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 310,
+    "ingredientes": [
+      {
+        "ciqual": "13005",
+        "gramos": 300
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "gofres-avena",
+    "nombre": "Gofres de avena, cocinados",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 230,
+    "ingredientes": [
+      {
+        "ciqual": "9310",
+        "gramos": 80
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19041",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "pan-avena-yogur",
+    "nombre": "Pan de avena y yogur sin harina, horneado",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 580,
+    "ingredientes": [
+      {
+        "ciqual": "9310",
+        "gramos": 300
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 250
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "crackers-semillas",
+    "nombre": "Crackers de semillas caseros, horneados",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 160,
+    "ingredientes": [
+      {
+        "ciqual": "15047",
+        "gramos": 50
+      },
+      {
+        "ciqual": "15010",
+        "gramos": 50
+      },
+      {
+        "ciqual": "15034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "pollo-desmenuzado",
+    "nombre": "Pechuga de pollo hervida y desmenuzada, cocida",
+    "alias": [
+      "pollo desmechado"
+    ],
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, trigésima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 380,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 500
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
   }
 ]

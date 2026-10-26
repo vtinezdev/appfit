@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1333 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 918 recetas CIQUAL (61 hasta el 25 de octubre y
-857 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1347 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 932 recetas CIQUAL (61 hasta el 25 de octubre y
+871 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -772,3 +772,7 @@ Dieta blanda (arroz con pollo hervido, merluza hervida con patata, patata y zana
 ### Vigesimonovena tanda de recetas: asados, brasa y barbacoa (15)
 
 Carnes a la brasa (chuletón, churrasco, panceta, morcilla, salchichas, parrillada mixta, pollo, alitas a la barbacoa con salsa barbecue CIQUAL, brochetas de ternera), parrillada de pescado y marisco, espeto de sardinas, provoleta, mazorca a la brasa, calçots con romesco casero y butifarra con judías. Sin factores de retención: en las piezas grasas (panceta, chorizo, morcilla) la grasa que se pierde en la brasa no se descuenta.
+
+### Trigésima tanda de recetas: snacks caseros y fit (14)
+
+Barritas de avena, bolitas energéticas, granola casera, queso batido con fruta, hummus con crudités, chips de kale, tortitas de arroz con pavo, rollitos de pavo, mug cake de avena, helado de plátano, gofres de avena, pan de avena sin harina, crackers de semillas y pollo desmenuzado. Ocho búsquedas más en la regresión (olla podrida, huevos benedictinos, baba ganoush, chimichurri, lomo saltado, espeto, calçots, energy balls).
