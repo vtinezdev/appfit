@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1578 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 1163 recetas CIQUAL (61 hasta el 25 de octubre y
-1102 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1585 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 1170 recetas CIQUAL (61 hasta el 25 de octubre y
+1109 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -844,3 +844,7 @@ Salchichas con patatas fritas, palitos de merluza caseros, minihamburguesas, emp
 ### Cuadragesimoséptima tanda de recetas: más platos regionales (14)
 
 Esgarraet, mojete murciano, alboronía, melocotón con vino, garbanzada y bienmesabe canarios, kokotxas al pil pil, goxua, pochas a la navarra, raxo con patatas, frit mallorquín, tortos de maíz, sorropotún y mar y montaña. Sustituciones anotadas: merluza por kokotxas y alubia blanca seca por pochas.
+
+### Cuadragesimoctava tanda de recetas: más dulces tradicionales (7)
+
+Cañas de crema, brazo de gitano de chocolate, mostachones, almendrados, mona de Pascua, coquitos y flaó ibicenco.
