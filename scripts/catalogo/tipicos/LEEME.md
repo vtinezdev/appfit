@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1441 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 1026 recetas CIQUAL (61 hasta el 25 de octubre y
-965 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1457 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 1042 recetas CIQUAL (61 hasta el 25 de octubre y
+981 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -800,3 +800,7 @@ Codornices escabechadas y a la plancha, conejo en escabeche, faisán estofado, p
 ### Trigesimosexta tanda de recetas: panes y bollería casera (13)
 
 Pan blanco, integral y de leche caseros, caracolas de canela, donuts, berlinas de crema, napolitanas de chocolate y de crema, cruasanes, magdalenas de chocolate, bizcochos de limón y marmolado y galletas de mantequilla.
+
+### Trigesimoséptima tanda de recetas: más pescados y mariscos (16)
+
+Merluza con tomate y a la bilbaína, bacalao a la riojana, gratinado con alioli, a la Gomes de Sá y dorado, rape con langostinos, salmón con eneldo, pez espada con tomate, lubina a la sal, rodaballo al horno, boquerones al ajillo, pijotas fritas, pulpo a la plancha, almejas en salsa verde y mariscada cocida.

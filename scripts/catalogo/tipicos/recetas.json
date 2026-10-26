@@ -35179,5 +35179,498 @@
         "gramos": 50
       }
     ]
+  },
+  {
+    "id": "merluza-tomate",
+    "nombre": "Merluza con tomate, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "merluza-bilbaina",
+    "nombre": "Merluza a la bilbaína, cocinada",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 560,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 600
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20151",
+        "gramos": 2
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "bacalao-riojana",
+    "nombre": "Bacalao a la riojana, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Bacalao fresco CIQUAL como desalado.",
+    "pesoFinalG": 1050,
+    "ingredientes": [
+      {
+        "ciqual": "26043",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "bacalao-gratinado-alioli",
+    "nombre": "Bacalao gratinado con alioli, horneado",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Bacalao fresco CIQUAL como desalado. Alioli aproximado con mayonesa y ajo.",
+    "pesoFinalG": 620,
+    "ingredientes": [
+      {
+        "ciqual": "26043",
+        "gramos": 600
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "bacalao-gomes-sa",
+    "nombre": "Bacalao a la Gomes de Sá, horneado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Bacalao fresco CIQUAL como desalado.",
+    "pesoFinalG": 1250,
+    "ingredientes": [
+      {
+        "ciqual": "26043",
+        "gramos": 500
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "13032",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "bacalao-dorado",
+    "nombre": "Bacalao dorado (a brás), cocinado",
+    "alias": [
+      "bacalhau à brás"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Bacalao fresco CIQUAL como desalado.",
+    "pesoFinalG": 1000,
+    "ingredientes": [
+      {
+        "ciqual": "26043",
+        "gramos": 400
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 40
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 240
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "13032",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "rape-langostinos",
+    "nombre": "Rape con langostinos en salsa, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1050,
+    "ingredientes": [
+      {
+        "ciqual": "26018",
+        "gramos": 600
+      },
+      {
+        "ciqual": "10021",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "salmon-eneldo",
+    "nombre": "Salmón con salsa de eneldo, cocinado",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "26036",
+        "gramos": 600
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11093",
+        "gramos": 5
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "pez-espada-tomate",
+    "nombre": "Pez espada con tomate, cocinado",
+    "alias": [
+      "emperador con tomate"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 950,
+    "ingredientes": [
+      {
+        "ciqual": "26082",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "lubina-sal",
+    "nombre": "Lubina a la sal, horneada",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. La costra de sal no se come; sin sal añadida a la pieza.",
+    "pesoFinalG": 800,
+    "ingredientes": [
+      {
+        "ciqual": "26072",
+        "gramos": 1000
+      }
+    ]
+  },
+  {
+    "id": "rodaballo-horno",
+    "nombre": "Rodaballo al horno con patatas, horneado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1050,
+    "ingredientes": [
+      {
+        "ciqual": "26174",
+        "gramos": 800
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "boquerones-ajillo",
+    "nombre": "Boquerones al ajillo, cocinados",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 430,
+    "ingredientes": [
+      {
+        "ciqual": "26079",
+        "gramos": 500
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "pijotas-fritas",
+    "nombre": "Pijotas fritas, fritas",
+    "alias": [
+      "pescadillas fritas"
+    ],
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 470,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 500
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 50
+      },
+      {
+        "ciqual": "17440",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "pulpo-plancha",
+    "nombre": "Pulpo a la plancha con pimentón, cocinado",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 380,
+    "ingredientes": [
+      {
+        "ciqual": "10018",
+        "gramos": 600
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "almejas-salsa-verde",
+    "nombre": "Almejas en salsa verde, cocinadas",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 550,
+    "ingredientes": [
+      {
+        "ciqual": "10017",
+        "gramos": 500
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 10
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 10
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "mariscada-cocida",
+    "nombre": "Mariscada cocida, lista para consumir",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, trigesimoséptima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1050,
+    "ingredientes": [
+      {
+        "ciqual": "10021",
+        "gramos": 300
+      },
+      {
+        "ciqual": "10026",
+        "gramos": 300
+      },
+      {
+        "ciqual": "10017",
+        "gramos": 200
+      },
+      {
+        "ciqual": "10039",
+        "gramos": 250
+      },
+      {
+        "ciqual": "10024",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 10
+      }
+    ]
   }
 ]
