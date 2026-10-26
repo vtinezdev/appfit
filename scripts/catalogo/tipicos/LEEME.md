@@ -988,3 +988,7 @@ Risotto de marisco, risotto de espárragos, pizza de verduras casera, pizza de j
 ### Tanda 83 de recetas: cocina asiática (9)
 
 Pollo kung pao, curry rojo de gambas, brochetas de pollo satay, cerdo al jengibre (shogayaki), tallarines salteados con pollo (lo mein), arroz cantonés con gambas y huevo, tofu teriyaki, pollo karaage (frito japonés) y onigiri de atún con mayonesa.
+
+### Tanda 84 de recetas: cocina india y árabe (8)
+
+Vindaloo de cerdo, patata y coliflor al curry (aloo gobi), raita de yogur y pepino, pan naan casero, pollo al curry con espinacas, tajín de pollo con limón y aceitunas, pastela de pollo y baklava.
