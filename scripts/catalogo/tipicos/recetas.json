@@ -20748,5 +20748,578 @@
         "gramos": 6
       }
     ]
+  },
+  {
+    "id": "leche-cacao-soluble",
+    "nombre": "Leche con cacao soluble, lista para consumir",
+    "alias": [
+      "colacao",
+      "nesquik",
+      "leche con colacao"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 265,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18101",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "leche-semi-cacao",
+    "nombre": "Leche semidesnatada con cacao soluble, lista para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 265,
+    "ingredientes": [
+      {
+        "ciqual": "19041",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18101",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "cafe-solo-azucar",
+    "nombre": "Café solo con azúcar, listo para consumir",
+    "alias": [
+      "café solo con azúcar",
+      "expreso con azúcar"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 58,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 50
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "cafe-hielo",
+    "nombre": "Café con hielo y azúcar, listo para consumir",
+    "alias": [
+      "café del tiempo"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 138,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 50
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 8
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 80
+      }
+    ]
+  },
+  {
+    "id": "capuchino",
+    "nombre": "Capuchino, listo para consumir",
+    "alias": [
+      "cappuccino"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "cafe-leche-avena",
+    "nombre": "Café con bebida de avena, listo para consumir",
+    "alias": [
+      "café con leche de avena"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18899",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "cafe-leche-soja",
+    "nombre": "Café con bebida de soja, listo para consumir",
+    "alias": [
+      "café con leche de soja"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18113",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "cafe-moca",
+    "nombre": "Café moca con nata, listo para consumir",
+    "alias": [
+      "mocha"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 240,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 150
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 10
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      },
+      {
+        "ciqual": "19420",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "cafe-frappe",
+    "nombre": "Café frappé, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 295,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 150
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 15
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 80
+      }
+    ]
+  },
+  {
+    "id": "granizado-cafe",
+    "nombre": "Granizado de café, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 460,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 400
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 60
+      }
+    ]
+  },
+  {
+    "id": "cafe-irlandes",
+    "nombre": "Café irlandés, listo para consumir",
+    "alias": [
+      "irish coffee"
+    ],
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "18071",
+        "gramos": 120
+      },
+      {
+        "ciqual": "1005",
+        "gramos": 40
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      },
+      {
+        "ciqual": "19420",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "te-helado-limon",
+    "nombre": "Té helado con limón casero, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 450,
+    "ingredientes": [
+      {
+        "ciqual": "18154",
+        "gramos": 400
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 30
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "chai-latte",
+    "nombre": "Té chai con leche, listo para consumir",
+    "alias": [
+      "chai latte"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 313,
+    "ingredientes": [
+      {
+        "ciqual": "18154",
+        "gramos": 150
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 150
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      },
+      {
+        "ciqual": "11074",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "leche-miel",
+    "nombre": "Leche caliente con miel, lista para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 265,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 15
+      }
+    ]
+  },
+  {
+    "id": "smoothie-frutos-rojos",
+    "nombre": "Smoothie de frutos rojos con yogur, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 335,
+    "ingredientes": [
+      {
+        "ciqual": "13014",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13015",
+        "gramos": 50
+      },
+      {
+        "ciqual": "13028",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "smoothie-verde",
+    "nombre": "Smoothie verde de espinacas, manzana y plátano, listo para consumir",
+    "alias": [
+      "batido verde"
+    ],
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 470,
+    "ingredientes": [
+      {
+        "ciqual": "20059",
+        "gramos": 30
+      },
+      {
+        "ciqual": "13396",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20019",
+        "gramos": 80
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 10
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "batido-mango",
+    "nombre": "Batido de mango con leche, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 410,
+    "ingredientes": [
+      {
+        "ciqual": "13025",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 200
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "clara-gaseosa",
+    "nombre": "Cerveza con gaseosa (clara), lista para consumir",
+    "alias": [
+      "clara con gaseosa"
+    ],
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "5001",
+        "gramos": 200
+      },
+      {
+        "ciqual": "18035",
+        "gramos": 130
+      }
+    ]
+  },
+  {
+    "id": "michelada",
+    "nombre": "Michelada, lista para consumir",
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 381,
+    "ingredientes": [
+      {
+        "ciqual": "5001",
+        "gramos": 330
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 20
+      },
+      {
+        "ciqual": "2053",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "vermut-sifon",
+    "nombre": "Vermut con sifón, listo para consumir",
+    "alias": [
+      "vermú con sifón"
+    ],
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 130,
+    "ingredientes": [
+      {
+        "ciqual": "1007",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18046",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "spritz",
+    "nombre": "Spritz de cava con aperitivo amargo, listo para consumir",
+    "alias": [
+      "aperol spritz"
+    ],
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Aperitivo a base de vino o vermut como sustituto del bitter.",
+    "pesoFinalG": 180,
+    "ingredientes": [
+      {
+        "ciqual": "5207",
+        "gramos": 90
+      },
+      {
+        "ciqual": "1007",
+        "gramos": 60
+      },
+      {
+        "ciqual": "18046",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "vodka-naranja",
+    "nombre": "Vodka con zumo de naranja (destornillador), listo para consumir",
+    "alias": [
+      "destornillador"
+    ],
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "1008",
+        "gramos": 50
+      },
+      {
+        "ciqual": "2013",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "vodka-limon",
+    "nombre": "Vodka con refresco de limón, listo para consumir",
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "1008",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18010",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "ginebra-limon",
+    "nombre": "Ginebra con refresco de limón, lista para consumir",
+    "alias": [
+      "gin lemon"
+    ],
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "1002",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18010",
+        "gramos": 150
+      }
+    ]
+  },
+  {
+    "id": "pina-colada",
+    "nombre": "Piña colada, lista para consumir",
+    "categoria": "Bebidas alcohólicas",
+    "referencia": "Lote manual de platos habituales en España, undécima tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 240,
+    "ingredientes": [
+      {
+        "ciqual": "1004",
+        "gramos": 50
+      },
+      {
+        "ciqual": "2073",
+        "gramos": 120
+      },
+      {
+        "ciqual": "18041",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      }
+    ]
   }
 ]

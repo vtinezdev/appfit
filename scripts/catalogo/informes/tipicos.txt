@@ -1,15 +1,15 @@
 Típicos 2026-10-26 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
 Vía 2 (directos): 375; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 583; total: 958
-Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 913; pendientes: 0.
+Vía 3 (recetas): 608; total: 983
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 938; pendientes: 0.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
 Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
 USDA: 57 directos aceptados
 CoFID: 167 directos aceptados
 AppFit: 151 directos aceptados
-Reparto por categoría: Carnes: 47; Legumbres: 13; Cereales, arroz y pasta: 15; Frutos secos y semillas: 6; Pan y tostadas: 35; Quesos: 26; Cereales de desayuno y barritas: 7; Patatas y tubérculos: 10; Verduras y hortalizas: 18; Pescados: 24; Platos preparados: 514; Galletas, bollería y pasteles: 63; Salsas y condimentos: 28; Mariscos: 12; Frutas: 15; Embutidos y fiambres: 22; Snacks salados: 6; Bebidas: 22; Dulces y chocolate: 24; Yogures y postres lácteos: 24; Otros: 3; Leche y nata: 1; Alternativas vegetales: 4; Bebidas alcohólicas: 12; Huevos: 7
+Reparto por categoría: Carnes: 47; Legumbres: 13; Cereales, arroz y pasta: 15; Frutos secos y semillas: 6; Pan y tostadas: 35; Quesos: 26; Cereales de desayuno y barritas: 7; Patatas y tubérculos: 10; Verduras y hortalizas: 18; Pescados: 24; Platos preparados: 514; Galletas, bollería y pasteles: 63; Salsas y condimentos: 28; Mariscos: 12; Frutas: 15; Embutidos y fiambres: 22; Snacks salados: 6; Bebidas: 38; Dulces y chocolate: 24; Yogures y postres lácteos: 24; Otros: 3; Leche y nata: 1; Alternativas vegetales: 4; Bebidas alcohólicas: 21; Huevos: 7
 Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 34 referencias individuales leídas de RAG/RTVE. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.
 Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.
@@ -45,6 +45,15 @@ tipicos:whisky-cola: 82.5 kcal declaradas frente a 32 esperadas (4P+4C+9G+2fibra
 tipicos:mojito: 75.3 kcal declaradas frente a 26 esperadas (4P+4C+9G+2fibra); diferencia +49
 tipicos:sangria-blanca: 47.2 kcal declaradas frente a 19 esperadas (4P+4C+9G+2fibra); diferencia +28
 tipicos:leche-pantera: 128.8 kcal declaradas frente a 66 esperadas (4P+4C+9G+2fibra); diferencia +62
+tipicos:cafe-irlandes: 120 kcal declaradas frente a 72 esperadas (4P+4C+9G+2fibra); diferencia +48
+tipicos:clara-gaseosa: 23.8 kcal declaradas frente a 9 esperadas (4P+4C+9G+2fibra); diferencia +15
+tipicos:michelada: 37 kcal declaradas frente a 14 esperadas (4P+4C+9G+2fibra); diferencia +23
+tipicos:vermut-sifon: 105.4 kcal declaradas frente a 35 esperadas (4P+4C+9G+2fibra); diferencia +70
+tipicos:spritz: 83.7 kcal declaradas frente a 19 esperadas (4P+4C+9G+2fibra); diferencia +65
+tipicos:vodka-naranja: 96.1 kcal declaradas frente a 32 esperadas (4P+4C+9G+2fibra); diferencia +64
+tipicos:vodka-limon: 87.3 kcal declaradas frente a 25 esperadas (4P+4C+9G+2fibra); diferencia +62
+tipicos:ginebra-limon: 91 kcal declaradas frente a 25 esperadas (4P+4C+9G+2fibra); diferencia +66
+tipicos:pina-colada: 141.6 kcal declaradas frente a 93 esperadas (4P+4C+9G+2fibra); diferencia +49
 
 DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):
 ciqual: arroz-basmati-integral-crudo → 9102 Arroz integral, crudo (casi)

@@ -521,3 +521,28 @@ espaguetis-almejas;Espaguetis con almejas, cocinados;Platos preparados;spaghetti
 ceviche;Ceviche de pescado blanco, listo para consumir;Platos preparados;;73,7;13,3;2,4;0,6;600;26072:400 20238:100 13067:150 11094:10 20151:5 11017:5
 shakshuka;Shakshuka (huevos en salsa de tomate y pimiento), cocinada;Platos preparados;;88,3;4,9;3;6;780;22000:240 20048:400 20087:150 20034:100 17270:20 11042:2 11049:3 11017:4
 pollo-frito-americano;Pollo rebozado estilo americano, frito;Platos preparados;pollo frito|pollo kentucky;287;17,5;9;20;720;36022:600 9440:80 22000:60 19023:60 17440:80 11049:3 11017:6
+leche-cacao-soluble;Leche con cacao soluble, lista para consumir;Bebidas;colacao|nesquik|leche con colacao;82,4;3,7;8,8;3,6;265;19023:250 18101:15
+leche-semi-cacao;Leche semidesnatada con cacao soluble, lista para consumir;Bebidas;;66,5;3,7;9;1,7;265;19041:250 18101:15
+cafe-solo-azucar;Café solo con azúcar, listo para consumir;Bebidas;café solo con azúcar|expreso con azúcar;60,6;0,3;14,8;0,2;58;18071:50 31016:8
+cafe-hielo;Café con hielo y azúcar, listo para consumir;Bebidas;café del tiempo;25,5;0,1;6,2;0,1;138;18071:50 31016:8 18066:80
+capuchino;Capuchino, listo para consumir;Bebidas;cappuccino;50,1;2,7;3,9;2,8;200;18071:50 19023:150
+cafe-leche-avena;Café con bebida de avena, listo para consumir;Bebidas;café con leche de avena;32,4;0,3;6,2;0,9;200;18071:50 18899:150
+cafe-leche-soja;Café con bebida de soja, listo para consumir;Bebidas;café con leche de soja;36,2;2,5;2,5;1,6;200;18071:50 18113:150
+cafe-moca;Café moca con nata, listo para consumir;Bebidas;mocha;99,9;3,4;8,8;5,5;240;18071:50 19023:150 18100:10 31016:10 19420:20
+cafe-frappe;Café frappé, listo para consumir;Bebidas;;54,2;1,8;7,7;1,9;295;18071:50 19023:150 31016:15 18066:80
+granizado-cafe;Granizado de café, listo para consumir;Bebidas;;57,7;0,3;14;0,2;460;18071:400 31016:60
+cafe-irlandes;Café irlandés, listo para consumir;Bebidas alcohólicas;irish coffee;120;0,5;7,3;4,4;200;18071:120 1005:40 31016:10 19420:30
+te-helado-limon;Té helado con limón casero, listo para consumir;Bebidas;;29;0;7;0;450;18154:400 31016:30 2007:20
+chai-latte;Té chai con leche, listo para consumir;Bebidas;chai latte;45,3;1,7;5,7;1,7;313;18154:150 19023:150 31016:10 11025:1 11074:2
+leche-miel;Leche caliente con miel, lista para consumir;Bebidas;;79,7;3,3;9,2;3,4;265;19023:250 31008:15
+smoothie-frutos-rojos;Smoothie de frutos rojos con yogur, listo para consumir;Bebidas;;54,8;1,9;8,3;0,9;335;13014:100 13015:50 13028:50 19593:125 31008:10
+smoothie-verde;Smoothie verde de espinacas, manzana y plátano, listo para consumir;Bebidas;batido verde;40,6;0,6;8,7;0,2;470;20059:30 13396:150 13005:100 20019:80 2007:10 18066:100
+batido-mango;Batido de mango con leche, listo para consumir;Bebidas;;75,9;2;11,7;1,9;410;13025:200 19023:200 31016:10
+clara-gaseosa;Cerveza con gaseosa (clara), lista para consumir;Bebidas alcohólicas;clara con gaseosa;23,8;0,2;1,9;0;330;5001:200 18035:130
+michelada;Michelada, lista para consumir;Bebidas alcohólicas;;37;0,4;3,1;0;381;5001:330 2007:20 2053:30 11017:1
+vermut-sifon;Vermut con sifón, listo para consumir;Bebidas alcohólicas;vermú con sifón;105,4;0,1;8,7;0;130;1007:100 18046:30
+spritz;Spritz de cava con aperitivo amargo, listo para consumir;Bebidas alcohólicas;aperol spritz;83,7;0,2;4,5;0;180;5207:90 1007:60 18046:30
+vodka-naranja;Vodka con zumo de naranja (destornillador), listo para consumir;Bebidas alcohólicas;destornillador;96,1;0,5;6,9;0,2;200;1008:50 2013:150
+vodka-limon;Vodka con refresco de limón, listo para consumir;Bebidas alcohólicas;;87,3;0;6,2;0;200;1008:50 18010:150
+ginebra-limon;Ginebra con refresco de limón, lista para consumir;Bebidas alcohólicas;gin lemon;91;0;6,2;0;200;1002:50 18010:150
+pina-colada;Piña colada, lista para consumir;Bebidas alcohólicas;;141,6;0,7;11,3;4,9;240;1004:50 2073:120 18041:60 31016:10

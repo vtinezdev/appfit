@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-958 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
-AppFit de alimentos sueltos) y 583 recetas CIQUAL (61 hasta el 25 de octubre y
-522 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+983 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
+AppFit de alimentos sueltos) y 608 recetas CIQUAL (61 hasta el 25 de octubre y
+547 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -680,3 +680,7 @@ Bizcochos caseros (chocolate, naranja, manzana, pan de plátano), tarta de zanah
 ### Décima tanda de recetas: cocina internacional habitual (24)
 
 Lo que más se pide o se cocina en España de fuera: asiática (arroz tres delicias, tallarines salteados, pad thai, pollo al limón, cerdo agridulce, rollitos de primavera, gyozas, makis y uramakis, poke de atún, tikka masala, dal), mexicana y tex-mex (burrito, tacos, enchiladas), kebab y dürüm, italiana (ñoquis con tomate, arrabbiata, espaguetis con almejas), mac and cheese, ceviche, shakshuka y pollo frito. Se omiten los que ya estaban (lasaña, musaca, risotto, chili, curry, falafel, pizza, nigiri) o trae CIQUAL (perrito caliente, cuscús).
+
+### Undécima tanda de recetas: bebidas, cafés y cócteles (25)
+
+Desayuno y merienda (leche con cacao soluble entera y semidesnatada, leche con miel), cafés (solo con azúcar, con hielo, capuchino, con bebida de avena o de soja, moca, frappé, granizado, irlandés), té helado y chai, smoothies (frutos rojos, verde), batido de mango y combinados de bar (clara con gaseosa, michelada, vermut con sifón, spritz, destornillador, vodka y ginebra con limón, piña colada). Se omiten los que ya estaban (cubatas, mojito, sangría blanca, horchata) o trae CIQUAL (sangría, clara con limón, sidra, zumos).
