@@ -47419,7 +47419,7 @@
   },
   {
     "id": "almendras-tostadas-caseras",
-    "nombre": "Almendras tostadas caseras con sal, tostadas",
+    "nombre": "Almendras tostadas caseras con sal, horneadas",
     "categoria": "Snacks salados",
     "referencia": "Lote manual de platos habituales en España, tanda 80 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
     "pesoFinalG": 202,
@@ -49740,8 +49740,8 @@
     ]
   },
   {
-    "id": "pasta-crema-anacardos",
-    "nombre": "Pasta con crema de anacardos y espinacas, cocinada",
+    "id": "pasta-crema-almendras",
+    "nombre": "Pasta con crema de almendras y espinacas, cocinada",
     "categoria": "Platos preparados",
     "referencia": "Lote manual de platos habituales en España, tanda 88 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
     "pesoFinalG": 1006,
@@ -49755,7 +49755,7 @@
         "gramos": 540
       },
       {
-        "ciqual": "15054",
+        "ciqual": "15041",
         "gramos": 80
       },
       {
@@ -49918,7 +49918,7 @@
   },
   {
     "id": "pechuga-esparragos",
-    "nombre": "Pechuga de pollo a la plancha con espárragos, cocinada",
+    "nombre": "Espárragos trigueros con pechuga de pollo a la plancha, cocinados",
     "categoria": "Platos preparados",
     "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
     "pesoFinalG": 350,

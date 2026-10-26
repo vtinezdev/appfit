@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1849 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1427 recetas CIQUAL (61 hasta el 25 de octubre y
-1366 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1999 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1577 recetas CIQUAL (61 hasta el 25 de octubre y
+1516 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -1007,11 +1007,11 @@ Canelones de verduras, hamburguesas de champiñones y avena, empanada de verdura
 
 ### Tanda 88 de recetas: veganos (8)
 
-Curry de garbanzos y boniato, albóndigas de lentejas en salsa de tomate, bol de arroz con tofu y verduras, pasta con crema de anacardos y espinacas, mayonesa vegana de soja, ensalada de quinoa con aguacate y maíz, pudin de chía con bebida de avena y bizcocho vegano.
+Curry de garbanzos y boniato, albóndigas de lentejas en salsa de tomate, bol de arroz con tofu y verduras, pasta con crema de almendras y espinacas, mayonesa vegana de soja, ensalada de quinoa con aguacate y maíz, pudin de chía con bebida de avena y bizcocho vegano.
 
 ### Tanda 89 de recetas: altos en proteína (10)
 
-Tortilla de claras con atún al natural, pechuga de pollo a la plancha con espárragos, pavo con quinoa y brócoli, ensalada de atún, queso batido con avena y cacao, batido de queso batido y fresas, merluza con espinacas, hamburguesas de pollo y espinacas, salmón con espárragos al horno y sepia a la plancha con ensalada.
+Tortilla de claras con atún al natural, espárragos trigueros con pechuga de pollo a la plancha, pavo con quinoa y brócoli, ensalada de atún, queso batido con avena y cacao, batido de queso batido y fresas, merluza con espinacas, hamburguesas de pollo y espinacas, salmón con espárragos al horno y sepia a la plancha con ensalada.
 
 ### Tanda 90 de recetas: bajos en hidratos (9)
 

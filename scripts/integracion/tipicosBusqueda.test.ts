@@ -107,6 +107,13 @@ it.each([
   ['harira', 'harira'],
   ['plato combinado', 'combinado-lomo-huevo'],
   ['cocido de lata', 'cocido-madrileno-envasado'],
+  ['pulled pork', 'pulled-pork'],
+  ['lomo con leche', 'lomo-leche'],
+  ['patatas freidora de aire', 'patatas-freidora-aire'],
+  ['pasta alla norma', 'pasta-norma'],
+  ['golden milk', 'golden-milk'],
+  ['pizza de coliflor', 'pizza-coliflor'],
+  ['soldaditos de pavía', 'soldaditos-pavia'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)
