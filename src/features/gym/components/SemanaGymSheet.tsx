@@ -25,14 +25,18 @@ export default function SemanaGymSheet({ lunes, onClose }: { lunes: string; onCl
         <Metric size="title" label="Tiempo" valor={formatDuracion(r.duracionMs)} />
         <Metric size="title" label="Volumen" valor={formatNumber(r.volumen, 0)} unidad="kg" />
       </div>
-      <h3 className="text-label text-fg-muted">Series efectivas por grupo muscular · {formatNumber(r.series, 0)}</h3>
+      <h3 className="text-label text-fg-muted">Series por músculo · {formatNumber(r.series, 0)} efectivas</h3>
       {r.porMusculo.length === 0 ? <p className="text-body-sm text-fg-muted">Los ejercicios de esta semana no tienen músculo clasificado.</p> : (
         <ListGroup variante="plana" aria-label="Series efectivas por músculo"
           pie={`Cada serie cuenta 1 al músculo principal y 0,5 a los secundarios; los calentamientos no cuentan.${r.sinClasificar > 0 ? ` ${r.sinClasificar} ${r.sinClasificar === 1 ? 'serie' : 'series'} sin músculo clasificado no se reparten.` : ''}`}>
           {r.porMusculo.map((m) => (
-            <li key={m.musculo} className="flex min-h-touch items-center justify-between gap-3 py-2">
-              <span className="min-w-0 break-words text-body text-fg">{m.nombre}</span>
-              <span className="tabular shrink-0 text-body font-semibold text-fg">{formatNumber(m.series, 1)}</span>
+            // Cada músculo con una barra proporcional al más trabajado: se ve de un vistazo dónde se ha cargado la semana.
+            <li key={m.musculo} className="grid min-h-touch grid-cols-3 items-center gap-3 py-2">
+              <span className="min-w-0 break-words text-body-sm text-fg">{m.nombre}</span>
+              <span aria-hidden className="h-2 overflow-hidden rounded-pill bg-surface-muted">
+                <span className="block h-full rounded-pill bg-accent-strong" style={{ width: `${Math.max(6, (m.series / r.porMusculo[0].series) * 100)}%` }} />
+              </span>
+              <span className="tabular text-right text-body-sm font-semibold text-fg">{formatNumber(m.series, 1)} <span className="font-normal text-fg-muted">{m.series === 1 ? 'serie' : 'series'}</span></span>
             </li>
           ))}
         </ListGroup>

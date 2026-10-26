@@ -13,7 +13,7 @@ import type { ModoCarga } from '../../../shared/db/types'
 import { chartAxis, chartColors, chartDashGimnasios, chartGoalLine, chartGrid, chartTooltip, escalaAjustada } from '../../../shared/design/chart'
 import { getSettings } from '../../../shared/db/settings'
 import { estadoMetas, metaDeEjercicio } from '../../vitrina/lib/metas'
-import { formatDiaMes, formatFechaHora, todayISO } from '../../../shared/lib/dates'
+import { formatDiaMes, todayISO } from '../../../shared/lib/dates'
 import { SearchInput, Select } from '../../../shared/components/Input'
 import FilterChips from '../../../shared/components/FilterChips'
 import { familiasPresentes, filtrarPorEjercicio, PRIMEROS_PROGRESO, type FamiliaProgreso } from '../lib/listaProgreso'
@@ -29,8 +29,7 @@ import { formatCompact, formatInt, formatNumber } from '../../../shared/lib/form
 import Card from '../../../shared/components/Card'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import MiniaturaEjercicio from '../components/MiniaturaEjercicio'
-import DiaSesion from '../components/DiaSesion'
-import { formatHora } from '../lib/workout'
+import SesionesEjercicio from '../components/SesionesEjercicio'
 import TarjetasVariante from '../components/TarjetasVariante'
 import ChipAjuste from '../components/ChipAjuste'
 import BloqueLiga from '../../liga/components/BloqueLiga'
@@ -283,24 +282,8 @@ export default function Progreso() {
       </Card>
       <section aria-label="Sesiones" className="space-y-stack">
         <SectionHeader variant="section">Sesiones</SectionHeader>
-        {/* Cada sesión como en el historial: el día en un cuadro, la mejor serie en una pastilla y, a la derecha, la cifra de la
-            métrica con lo que cambió frente a la sesión anterior (punto 40). */}
-        <ListGroup aria-label={`Sesiones de ${ejercicio?.nombre ?? 'este ejercicio'}`}>{[...datos].reverse().map((d, i, lista) => {
-          const anterior = lista[i + 1]
-          const cambio = anterior ? (d[metrica] ?? 0) - (anterior[metrica] ?? 0) : null
-          return <li key={d.workoutId} className="flex min-h-touch items-center gap-3 py-2">
-            <DiaSesion inicio={d.inicio} />
-            <span className="min-w-0 flex-1">
-              <span className="sr-only">{formatFechaHora(d.inicio)}. Mejor serie: </span>
-              <span className="tabular inline-flex max-w-full rounded-pill bg-surface-muted px-3 py-1 text-body-sm font-semibold text-fg">{textoMejorSerie(d.mejor, modo)}</span>
-              <span className="tabular block break-words pt-1 text-caption text-fg-muted">{formatHora(d.inicio)}{todosLosGimnasios ? ` · ${nombreGimnasio(d.gimnasioId)}` : ''}</span>
-            </span>
-            <span className="shrink-0 text-right">
-              <span className="tabular block text-body font-semibold text-fg">{valor(d)} <span className="text-caption font-normal text-fg-muted">{unidad}</span></span>
-              {cambio !== null && cambio !== 0 && <span className={`tabular block text-caption font-semibold ${cambio > 0 ? 'text-success' : 'text-fg-muted'}`}>{conSigno(cambio)}</span>}
-            </span>
-          </li>
-        })}</ListGroup>
+        <SesionesEjercicio nombre={ejercicio?.nombre ?? 'este ejercicio'} unidad={unidad}
+          filas={[...datos].reverse().map(d => ({ id: d.workoutId, inicio: d.inicio, mejor: textoMejorSerie(d.mejor, modo), valor: d[metrica] ?? 0, ...(todosLosGimnasios ? { gimnasio: nombreGimnasio(d.gimnasioId) } : {}) }))} />
       </section>
       <Sheet open={ayuda} onClose={() => setAyuda(false)} title="Qué significa cada cifra">
         <dl className="divide-y divide-line">{ayudaCifras(modo, rm).map(d => <div key={d.nombre} className="space-y-1 py-3 first:pt-0">

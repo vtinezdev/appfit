@@ -75,16 +75,18 @@ export default function Historial({ onAbrir }: { onAbrir: (id: number) => void }
         {lista.length === 0 ? <EmptyState>Sin entrenos este mes.</EmptyState> : porSemana.map(({ lunes, sesiones }) => {
           const minutos = sesiones.reduce((t, w) => t + (w.fin ?? w.inicio) - w.inicio, 0)
           const kg = sesiones.reduce((t, w) => t + volumenSets(series(w)), 0)
-          return <div key={lunes} className="space-y-2">
-            {/* La cabecera de la semana: sus totales y, al tocarla, sus series por grupo muscular. */}
-            <button type="button" aria-haspopup="dialog" onClick={() => setSemanaAbierta(lunes)}
-              aria-label={`Semana del ${etiquetaPeriodo('semana', lunes)}: ${sesiones.length} ${sesiones.length === 1 ? 'entreno' : 'entrenos'}, ${formatDuracion(minutos)}, ${formatInt(kg)} kg. Ver series por grupo muscular`}
-              className="app-button flex min-h-touch w-full flex-wrap items-center gap-x-3 gap-y-1 px-1 text-left">
-              <span className="text-rotulo text-fg-muted">{etiquetaPeriodo('semana', lunes)}</span>
-              <span className="tabular ml-auto text-caption text-fg-muted">{sesiones.length} {sesiones.length === 1 ? 'entreno' : 'entrenos'} · {formatDuracion(minutos)} · {formatInt(kg)} kg</span>
-              <Icon name="chevron-right" size={16} className="shrink-0 text-fg-subtle" />
-            </button>
+          return <div key={lunes}>
             <ListGroup aria-label={`Entrenos de la semana del ${etiquetaPeriodo('semana', lunes)}`}>
+              {/* La semana, dentro de su tarjeta: sus totales y, al tocarla, sus series por grupo muscular. */}
+              <li><button type="button" aria-haspopup="dialog" onClick={() => setSemanaAbierta(lunes)}
+                aria-label={`Semana del ${etiquetaPeriodo('semana', lunes)}: ${sesiones.length} ${sesiones.length === 1 ? 'entreno' : 'entrenos'}, ${formatDuracion(minutos)}, ${formatInt(kg)} kg. Ver series por músculo`}
+                className="app-button flex min-h-touch w-full items-center gap-3 py-3 text-left">
+                <span className="min-w-0 flex-1">
+                  <span className="block text-rotulo text-fg-muted">{etiquetaPeriodo('semana', lunes)}</span>
+                  <span className="tabular block text-caption font-semibold text-fg">{sesiones.length} {sesiones.length === 1 ? 'entreno' : 'entrenos'} · {formatDuracion(minutos)} · {formatInt(kg)} kg</span>
+                </span>
+                <span className="flex shrink-0 items-center gap-1 text-body-sm font-semibold text-accent-strong">Músculos<Icon name="chevron-right" size={16} /></span>
+              </button></li>
               {sesiones.map((w) => {
                 const records = contexto ? recordsDeEntreno(w.id, workouts, contexto.todas).length : 0
                 return <li key={w.id} data-sesion={w.id}>
