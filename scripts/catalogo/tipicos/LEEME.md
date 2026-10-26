@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-823 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
-AppFit de alimentos sueltos) y 448 recetas CIQUAL (61 hasta el 25 de octubre y
-387 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+853 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
+AppFit de alimentos sueltos) y 478 recetas CIQUAL (61 hasta el 25 de octubre y
+417 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -655,3 +655,12 @@ con patatas, pollo en tomate; tortillas de atún y de setas, revuelto de setas
 con jamón; judías con tomate, coliflor gratinada, brócoli al ajo, alcachofas
 al horno, calabacín relleno de atún y berenjenas gratinadas con carne. La
 escudella lleva panceta en lugar de butifarra y pasta seca como galets.
+
+### Sexta tanda de recetas: bocadillos, tostadas y meriendas (30)
+
+Bocadillos de queso (gouda como semicurado), jamón cocido, pavo y queso,
+pechuga empanada, lomo con queso, sardinas, anchoas, huevo y bacon, pollo con
+pimientos y crema de cacao; sándwiches de pollo, club, atún y salmón; cruasán
+mixto, bagel de salmón; seis tostadas; leche con galletas (con y sin cacao),
+yogur con frutos secos o fruta, desayuno de bar (café con leche y tostada);
+pizzas caseras de jamón y queso y de atún, y empanadillas al horno.

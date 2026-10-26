@@ -386,3 +386,33 @@ brocoli-ajo;Brócoli salteado con ajo, cocinado;Verduras y hortalizas;;77,8;3,4;
 alcachofas-horno;Alcachofas al horno, asadas;Verduras y hortalizas;;121,7;4,5;6,6;6,9;450;20052:600 17270:30 11000:5 11017:4
 calabacin-relleno-atun;Calabacín relleno de atún, horneado;Platos preparados;;87,5;6;2,4;5,8;1100;20020:800 26245:160 20034:100 20276:150 12118:60 17270:20 11017:6
 berenjenas-gratinadas-carne;Berenjenas gratinadas con carne, horneadas;Platos preparados;;114;6,7;2,8;8;1300;20053:800 6254:300 20034:100 20276:200 12118:60 17270:40 11017:8
+bocadillo-queso;Bocadillo de queso, listo para consumir;Platos preparados;bocata de queso;311,1;13,1;41,2;9,9;170;7001:120 12736:50
+bocadillo-york;Bocadillo de jamón cocido, listo para consumir;Platos preparados;bocata de york;235,8;12;41,4;1,8;170;7001:120 28900:50
+bocadillo-pavo-queso;Bocadillo de pavo y queso, listo para consumir;Platos preparados;bocata de pavo;241;11,9;37,7;4,2;190;7001:120 28964:40 12300:30
+bocadillo-pechuga-empanada;Bocadillo de pechuga empanada, listo para consumir;Platos preparados;bocata de pollo empanado;248,9;14,8;32,5;6;250;7001:120 36017:100 22000:15 7500:15 17270:10 20031:15 11017:0.8
+bocadillo-lomo-queso;Bocadillo de lomo con queso, listo para consumir;Platos preparados;bocata de lomo con queso;263;15,3;31,8;7,8;225;7001:120 28473:100 12300:25 17270:5 11017:0.8
+bocadillo-sardinas;Bocadillo de sardinas en aceite, listo para consumir;Platos preparados;bocata de sardinas;252,9;12,6;37;5,5;190;7001:120 26040:60 20276:10
+bocadillo-anchoas-tomate;Bocadillo de anchoas con tomate, listo para consumir;Platos preparados;;248,2;8,6;40,6;5,1;175;7001:120 26177:20 20276:30 17270:5
+bocadillo-huevo-bacon;Bocadillo de huevo frito y bacon, listo para consumir;Platos preparados;bocata de huevo y bacon;264,9;11,3;30,5;10,4;230;7001:120 22000:60 28720:50 17270:5
+bocadillo-pollo-pimientos;Bocadillo de pollo con pimientos, listo para consumir;Platos preparados;;220,9;14;28,1;5,2;260;7001:120 36017:110 20085:40 20087:30 17270:10 11017:0.8
+bocadillo-crema-cacao;Bocadillo de crema de cacao, listo para consumir;Pan y tostadas;pan con crema de cacao;339,4;7,6;58,2;7,6;150;7001:120 31032:30
+sandwich-pollo-mayonesa;Sándwich de pollo con mayonesa, listo para consumir;Platos preparados;;208,2;12,4;18,6;8,8;170;7200:60 36017:70 11054:15 20031:15 20276:20
+sandwich-club;Sándwich club, listo para consumir;Platos preparados;club sándwich;200,1;11,4;14,8;10,2;330;7200:90 36017:80 28720:30 22000:30 20031:20 20276:40 11054:20 12300:20
+sandwich-atun;Sándwich de atún con tomate, listo para consumir;Platos preparados;;251,6;10,5;20,5;13,7;155;7200:60 26245:50 20276:30 11054:15
+sandwich-salmon-queso;Sándwich de salmón ahumado y queso crema, listo para consumir;Platos preparados;;212;10,9;18,7;9,2;140;7111:60 26037:40 12068:30 20031:10
+croissant-mixto;Cruasán mixto de jamón y queso, listo para consumir;Galletas, bollería y pasteles;croissant mixto;312;11,6;27,9;16,7;108;7615:60 28900:25 12300:25
+bagel-salmon;Bagel de salmón ahumado y queso crema, listo para consumir;Platos preparados;;243,9;11,4;28,3;8,9;175;7258:90 26037:40 12068:35 20238:10
+tostada-pavo-queso-fresco;Tostada integral con pavo y queso fresco, lista para consumir;Pan y tostadas;;178,1;11,1;18,6;5,7;140;7110:60 28964:40 12068:30 20276:10
+tostada-salmon-aguacate;Tostada de salmón ahumado y aguacate, lista para consumir;Pan y tostadas;;225;9,5;22,7;9,9;155;7001:60 26037:40 13004:50 2007:5 11017:0.3
+tostada-cacahuete-platano;Tostada con crema de cacahuete y plátano, lista para consumir;Pan y tostadas;tostada fit;217,1;6,7;26,7;8,1;175;7110:60 15202:25 13005:90
+tostada-huevo-revuelto;Tostada con huevo revuelto, lista para consumir;Pan y tostadas;;218,3;11,2;20,6;9,8;170;7001:60 22000:110 17270:5 11017:0.5
+tostada-tomate-york;Tostada con tomate y jamón cocido, lista para consumir;Pan y tostadas;;185,8;9,4;25,3;4,9;145;7001:60 20276:40 28900:40 17270:5
+tostada-queso-mermelada;Tostada con queso crema y mermelada, lista para consumir;Pan y tostadas;;262,3;6;44,4;6,2;115;7001:60 12068:30 31024:25
+leche-galletas;Leche con galletas, lista para consumir;Bebidas;galletas con leche;89,5;3,9;12,5;2,7;280;19041:250 24001:30
+leche-cacao-galletas;Leche con cacao soluble y galletas, lista para consumir;Bebidas;colacao con galletas;105,1;4,1;15,4;2,9;295;19041:250 18100:5 31016:10 24001:30
+yogur-frutos-secos;Yogur natural con frutos secos, listo para consumir;Yogures y postres lácteos;;152,1;6,2;4,9;11,2;150;19593:125 15005:10 15041:15
+yogur-fruta;Yogur natural con fruta troceada, listo para consumir;Yogures y postres lácteos;;55,1;2,5;8,1;1,1;225;19593:125 13005:50 13014:50
+cafe-con-leche-tostada;Café con leche y tostada con aceite, listos para consumir;Platos preparados;desayuno de bar;104,8;3,1;14,5;3,7;288;18071:100 19041:100 7001:60 17270:8 20276:20 11017:0.3
+pizza-casera-jamon-queso;Pizza casera de jamón y queso, horneada;Platos preparados;;205,2;8,9;25,6;7,1;900;9436:300 18066:180 17270:30 11010:10 11017:5 20169:150 28900:120 19590:150 11035:2
+pizza-casera-atun;Pizza casera de atún y cebolla, horneada;Platos preparados;;217,1;8,8;26,2;8,1;900;9436:300 18066:180 17270:30 11010:10 11017:5 20169:150 26245:120 20034:100 19590:120 11035:2
+empanadillas-horno-atun;Empanadillas de atún al horno, horneadas;Platos preparados;empanadillas al horno;283,5;10,5;28,8;13,6;700;9440:250 18066:80 17270:60 11017:3 26245:180 20169:150 20034:80 22000:60
