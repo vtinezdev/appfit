@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Exercise, SetEntry, Workout } from '../../../shared/db/types'
-import { resumenSemanal } from './resumenSemanal'
+import { gruposDeSesion, resumenSemanal } from './resumenSemanal'
 
 const dia = (iso: string, h = 10) => new Date(`${iso}T${String(h).padStart(2, '0')}:00:00`).getTime()
 const ejercicios: Exercise[] = [
@@ -32,5 +32,15 @@ describe('resumenSemanal', () => {
   })
   it('semana vacía', () => {
     expect(resumenSemanal('2026-10-05', '2026-10-11', [], [], [])).toMatchObject({ sesiones: 0, series: 0, porMusculo: [] })
+  })
+})
+
+describe('gruposDeSesion', () => {
+  it('nombra la sesión por sus dos grupos más trabajados; sin series clasificadas, nada', () => {
+    const conRemo: Exercise[] = [...ejercicios, { id: 3, nombre: 'Remo', nombreNorm: 'remo', grupo: 'Espalda', primaryMuscles: ['espalda'], secondaryMuscles: ['biceps'] }]
+    // Solo los principales: el press (pecho) y el remo (espalda), sin los secundarios de ninguno.
+    expect(gruposDeSesion(w(1, '2026-10-05'), [s(1, 1, 1, 10, 50), s(2, 1, 1, 10, 50), s(3, 1, 3, 10, 50), s(4, 2, 2, 10, 50)], conRemo)).toBe('Pecho y espalda')
+    expect(gruposDeSesion(w(1, '2026-10-05'), [s(1, 1, 1, 10, 50)], ejercicios, 1)).toBe('Pecho')
+    expect(gruposDeSesion(w(2, '2026-10-05'), [s(2, 2, 2, 10, 50)], ejercicios)).toBeNull()
   })
 })

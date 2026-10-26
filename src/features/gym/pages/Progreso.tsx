@@ -14,7 +14,9 @@ import { chartAxis, chartColors, chartDashGimnasios, chartGoalLine, chartGrid, c
 import { getSettings } from '../../../shared/db/settings'
 import { estadoMetas, metaDeEjercicio } from '../../vitrina/lib/metas'
 import { formatDiaMes, formatFechaHora, todayISO } from '../../../shared/lib/dates'
-import { Select } from '../../../shared/components/Input'
+import { SearchInput, Select } from '../../../shared/components/Input'
+import FilterChips from '../../../shared/components/FilterChips'
+import { familiasPresentes, filtrarPorEjercicio, PRIMEROS_PROGRESO, type FamiliaProgreso } from '../lib/listaProgreso'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import Icon from '../../../shared/components/Icon'
@@ -27,6 +29,8 @@ import { formatCompact, formatInt, formatNumber } from '../../../shared/lib/form
 import Card from '../../../shared/components/Card'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import MiniaturaEjercicio from '../components/MiniaturaEjercicio'
+import DiaSesion from '../components/DiaSesion'
+import { formatHora } from '../lib/workout'
 import TarjetasVariante from '../components/TarjetasVariante'
 import ChipAjuste from '../components/ChipAjuste'
 import BloqueLiga from '../../liga/components/BloqueLiga'
@@ -82,6 +86,10 @@ export default function Progreso() {
   const [ayuda, setAyuda] = useState(false)
   const [hojaCarga, setHojaCarga] = useState(false)
   const [metricaElegida, setMetricaElegida] = useState<Metrica | null>(null)
+  // Lista «Por ejercicio» (punto 16): búsqueda, grupos y los primeros hasta «Ver todos».
+  const [consulta, setConsulta] = useState('')
+  const [familias, setFamilias] = useState<FamiliaProgreso[]>([])
+  const [verTodos, setVerTodos] = useState(false)
   const exercises = useLiveQuery(() => exercisesRepo.listar(), [])
   const sets = useLiveQuery(() => exerciseId ? setsRepo.delEjercicio(exerciseId) : [], [exerciseId])
   // Todas las series solo para la lista (sin ejercicio elegido).
@@ -94,7 +102,7 @@ export default function Progreso() {
   // Metas de récord (B13): la vigente del ejercicio se dibuja en la gráfica del peso máximo (cruce A-X2).
   const metasGuardadas = useLiveQuery(async () => (await getSettings()).metas ?? [], [])
   const ligas = useLigas(hoy)
-  const selectorRef = useRef<HTMLSelectElement>(null)
+  const tituloRef = useRef<HTMLHeadingElement>(null)
   const modos = [...new Set((sets ?? []).map(modoCarga))]
   const modo = modoElegido && modos.includes(modoElegido) ? modoElegido : modos[0] ?? 'externa'
   // El gimnasio no es variante: es otra dimensión de la gráfica (una línea por gimnasio, o solo uno).
@@ -142,9 +150,16 @@ export default function Progreso() {
   const valor = (d: (typeof datos)[number]) => formatNumber(d[metrica] ?? 0, 1)
   const elegir = (id: number | null) => { setExerciseId(id); setModoElegido(null); setVarianteElegida(null); setMetricaElegida(null); setGimnasioElegido(TODOS); setHojaCarga(false) }
   // Elegir desde la lista o volver a ella lleva el foco arriba (al selector o al título de la lista): anuncia y sube la vista.
-  const elegirYEnfocar = (id: number | null) => { elegir(id); requestAnimationFrame(() => (id === null ? listaRef.current : selectorRef.current)?.focus()) }
+  const elegirYEnfocar = (id: number | null) => { elegir(id); requestAnimationFrame(() => (id === null ? listaRef.current : tituloRef.current)?.focus()) }
   const resumenes = !exerciseId && todasLasSeries && workouts ? resumenEjercicios(todasLasSeries, workouts) : undefined
   const nombres = new Map((exercises ?? []).map(e => [e.id, e]))
+  const idsConSesiones = (resumenes ?? []).map(r => r.exerciseId)
+  const filtrando = consulta.trim() !== '' || familias.length > 0
+  const encontrados = new Set(filtrarPorEjercicio(idsConSesiones, nombres, consulta, familias))
+  const filasLista = (resumenes ?? []).filter(r => encontrados.has(r.exerciseId))
+  const visibles = filtrando || verTodos ? filasLista : filasLista.slice(0, PRIMEROS_PROGRESO)
+  // Buscando, también los que aún no tienen sesiones (antes se elegían en un desplegable).
+  const sinSesiones = consulta.trim() ? filtrarPorEjercicio((exercises ?? []).map(e => e.id).filter(id => !idsConSesiones.includes(id)), nombres, consulta, familias) : []
   const liga = ligas?.visible && exerciseId !== null ? ligas.porEjercicio.get(exerciseId) : undefined
   const bloqueLiga = liga && ligas?.visible && <BloqueLiga liga={liga} ejercicio={ejercicio} hoy={hoy} onVerTodas={() => elegirYEnfocar(null)}
     alternativas={liga.division.elite && ejercicio && exercises ? alternativas(ejercicio, exercises, ligas.porEjercicio) : []} mantenido={ligas.mantener.includes(liga.exerciseId)}
@@ -156,33 +171,44 @@ export default function Progreso() {
     {!exerciseId && <Suspense fallback={<LoadingState />}><MapaProgreso onIrAEjercicios={() => { listaRef.current?.scrollIntoView({ block: 'start' }); listaRef.current?.focus({ preventScroll: true }) }} /></Suspense>}
     {!exerciseId && <section aria-labelledby="progreso-lista" className="space-y-stack">
       <h2 id="progreso-lista" ref={listaRef} tabIndex={-1} className="text-heading text-fg">Por ejercicio</h2>
-      {resumenes && resumenes.length > 0 && <ListGroup aria-label="Ejercicios con sesiones">
-        {resumenes.map(r => {
-          const ex = nombres.get(r.exerciseId)
-          if (!ex) return null
-          return <li key={r.exerciseId}><ListRow onClick={() => elegirYEnfocar(r.exerciseId)}>
-            <MiniaturaEjercicio catalogId={ex.catalogId} />
+      {resumenes && resumenes.length > 0 && <>
+        <SearchInput tone="surface" aria-label="Buscar ejercicio" placeholder="Buscar ejercicio" value={consulta} onChange={e => setConsulta(e.target.value)} />
+        {Object.keys(familiasPresentes(idsConSesiones, nombres)).length > 1 && <FilterChips label="Grupo" opciones={familiasPresentes(idsConSesiones, nombres) as Record<FamiliaProgreso, string>} seleccion={familias} onChange={setFamilias} />}
+        {visibles.length > 0 && <ListGroup aria-label="Ejercicios con sesiones">
+          {visibles.map(r => {
+            const ex = nombres.get(r.exerciseId)
+            if (!ex) return null
+            return <li key={r.exerciseId}><ListRow onClick={() => elegirYEnfocar(r.exerciseId)}>
+              <MiniaturaEjercicio catalogId={ex.catalogId} />
+              <span className="min-w-0 flex-1">
+                <span className="block break-words text-body font-semibold text-fg">{ex.nombre}</span>
+                <span className="tabular block break-words text-caption text-fg-muted">{textoMejorSerie(r.ultima.mejor, r.modo)} · {formatDiaMes(r.ultima.inicio)}</span>
+              </span>
+              <MiniLinea valores={r.puntos} />
+              <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
+            </ListRow></li>
+          })}
+          {sinSesiones.map(id => <li key={id}><ListRow onClick={() => elegirYEnfocar(id)}>
+            <MiniaturaEjercicio catalogId={nombres.get(id)?.catalogId} />
             <span className="min-w-0 flex-1">
-              <span className="block break-words text-body font-semibold text-fg">{ex.nombre}</span>
-              <span className="tabular block break-words text-caption text-fg-muted">{textoMejorSerie(r.ultima.mejor, r.modo)} · {formatDiaMes(r.ultima.inicio)}</span>
+              <span className="block break-words text-body font-semibold text-fg">{nombres.get(id)?.nombre}</span>
+              <span className="block text-caption text-fg-muted">Sin sesiones todavía</span>
             </span>
-            <MiniLinea valores={r.puntos} />
             <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
-          </ListRow></li>
-        })}
-      </ListGroup>}
+          </ListRow></li>)}
+        </ListGroup>}
+        {visibles.length === 0 && sinSesiones.length === 0 && <p className="px-1 text-body-sm text-fg-muted">Ningún ejercicio coincide.</p>}
+        {!filtrando && !verTodos && filasLista.length > PRIMEROS_PROGRESO && <Button variant="secondary" block onClick={() => setVerTodos(true)}>Ver los {formatInt(filasLista.length)} ejercicios</Button>}
+      </>}
     </section>}
     {/* Elegido uno, el selector cambia de ejercicio; en la lista, abre cualquiera (también los que aún no tienen sesiones). */}
     <div className="space-y-stack">
       {!!exerciseId && <Button variant="ghost" size="sm" className="-ml-2" onClick={() => elegirYEnfocar(null)}><Icon name="chevron-left" size={18} />Todos los ejercicios</Button>}
-      <label className="block space-y-2"><span className="text-label text-fg-muted">{exerciseId ? 'Ejercicio' : 'Otro ejercicio'}</span>
-        <Select ref={selectorRef} tone="surface" aria-label="Ejercicio" value={exerciseId ?? ''} onChange={e => elegir(e.target.value ? Number(e.target.value) : null)}><option value="">{exerciseId ? 'Todos los ejercicios' : 'Elige un ejercicio…'}</option>{exercises?.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}</Select>
-      </label>
     </div>
     {/* Elegido uno: cabecera, chip del tipo de carga (si hay más de uno) y tarjetas de variante (si hay más de una). */}
     {!!exerciseId && ejercicio && <div className="flex items-center gap-3">
       <MiniaturaEjercicio catalogId={ejercicio.catalogId} />
-      <div className="min-w-0"><h2 className="break-words text-heading text-fg">{ejercicio.nombre}</h2>
+      <div className="min-w-0"><h2 ref={tituloRef} tabIndex={-1} className="break-words text-heading text-fg">{ejercicio.nombre}</h2>
         {datos.length > 0 && <p className="tabular text-caption text-fg-muted">{formatInt(datos.length)} {datos.length === 1 ? 'sesión' : 'sesiones'} · desde el {formatDiaMes(datos[0].inicio)}</p>}</div>
     </div>}
     {!!exerciseId && modos.length > 1 && <div className="flex flex-wrap gap-2">
@@ -257,11 +283,24 @@ export default function Progreso() {
       </Card>
       <section aria-label="Sesiones" className="space-y-stack">
         <SectionHeader variant="section">Sesiones</SectionHeader>
-        <ListGroup aria-label={`Sesiones de ${ejercicio?.nombre ?? 'este ejercicio'}`}>{[...datos].reverse().map(d => <li key={d.workoutId} className="flex min-h-touch items-center justify-between gap-3 py-2">
-          <span className="min-w-0"><span className="tabular block text-body font-medium text-fg">{formatFechaHora(d.inicio)}</span>
-            <span className="tabular block break-words text-caption text-fg-muted">Mejor serie: {textoMejorSerie(d.mejor, modo)}{todosLosGimnasios ? ` · ${nombreGimnasio(d.gimnasioId)}` : ''}</span></span>
-          <span className="tabular shrink-0 text-right text-body font-semibold text-fg">{valor(d)} <span className="text-caption font-normal text-fg-muted">{unidad}</span></span>
-        </li>)}</ListGroup>
+        {/* Cada sesión como en el historial: el día en un cuadro, la mejor serie en una pastilla y, a la derecha, la cifra de la
+            métrica con lo que cambió frente a la sesión anterior (punto 40). */}
+        <ListGroup aria-label={`Sesiones de ${ejercicio?.nombre ?? 'este ejercicio'}`}>{[...datos].reverse().map((d, i, lista) => {
+          const anterior = lista[i + 1]
+          const cambio = anterior ? (d[metrica] ?? 0) - (anterior[metrica] ?? 0) : null
+          return <li key={d.workoutId} className="flex min-h-touch items-center gap-3 py-2">
+            <DiaSesion inicio={d.inicio} />
+            <span className="min-w-0 flex-1">
+              <span className="sr-only">{formatFechaHora(d.inicio)}. Mejor serie: </span>
+              <span className="tabular inline-flex max-w-full rounded-pill bg-surface-muted px-3 py-1 text-body-sm font-semibold text-fg">{textoMejorSerie(d.mejor, modo)}</span>
+              <span className="tabular block break-words pt-1 text-caption text-fg-muted">{formatHora(d.inicio)}{todosLosGimnasios ? ` · ${nombreGimnasio(d.gimnasioId)}` : ''}</span>
+            </span>
+            <span className="shrink-0 text-right">
+              <span className="tabular block text-body font-semibold text-fg">{valor(d)} <span className="text-caption font-normal text-fg-muted">{unidad}</span></span>
+              {cambio !== null && cambio !== 0 && <span className={`tabular block text-caption font-semibold ${cambio > 0 ? 'text-success' : 'text-fg-muted'}`}>{conSigno(cambio)}</span>}
+            </span>
+          </li>
+        })}</ListGroup>
       </section>
       <Sheet open={ayuda} onClose={() => setAyuda(false)} title="Qué significa cada cifra">
         <dl className="divide-y divide-line">{ayudaCifras(modo, rm).map(d => <div key={d.nombre} className="space-y-1 py-3 first:pt-0">

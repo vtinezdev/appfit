@@ -42,7 +42,7 @@ export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, on
   const [seccion, setSeccion] = useState<SeccionEntreno>(seccionInicial)
   const [vista, setVista] = useState<Vista>('inicio')
   const [summary, setSummary] = useState<WorkoutSummary | null>(null)
-  const [detalle, setDetalle] = useState<{ id: number; editar: boolean } | null>(null)
+  const [detalle, setDetalle] = useState<{ id: number; editar: boolean; desdeEmpezar?: boolean } | null>(null)
   /** Ficha de rutina abierta; un entreno abierto desde ella vuelve a ella. */
   const [rutina, setRutina] = useState<number | null>(null)
   const [detalleActividad, setDetalleActividad] = useState<number | null>(null)
@@ -65,8 +65,8 @@ export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, on
   }
 
   if (detalle) {
-    return <DetalleEntreno key={detalle.id} workoutId={detalle.id} editarInicial={detalle.editar} volverA={rutina !== null ? 'Rutina' : 'Historial'}
-      onVolver={() => { setDetalle(null); if (rutina === null) setVista('historial') }}
+    return <DetalleEntreno key={detalle.id} workoutId={detalle.id} editarInicial={detalle.editar} volverA={rutina !== null ? 'Rutina' : detalle.desdeEmpezar ? 'Empezar' : 'Historial'}
+      onVolver={() => { setDetalle(null); if (rutina === null && !detalle.desdeEmpezar) setVista('historial') }}
       onRepetido={() => { setDetalle(null); setRutina(null); setVista('inicio'); onAbrirEntreno() }} />
   }
   if (rutina !== null) {
@@ -95,7 +95,8 @@ export default function GymTab({ seccionInicial = 'gimnasio', entrenoAbierto, on
       valor={vista}
       onChange={setVista}
     >
-      {vista === 'inicio' && <GymHome enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onRegistrado={(id) => setDetalle({ id, editar: true })} onAbrirRutina={setRutina} />}
+      {vista === 'inicio' && <GymHome enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onRegistrado={(id) => setDetalle({ id, editar: true })} onAbrirRutina={setRutina}
+        onAbrirSesion={(id) => setDetalle({ id, editar: false, desdeEmpezar: true })} />}
       {vista === 'rutinas' && <Rutinas enCurso={!!activeWorkout} onEmpezado={onAbrirEntreno} onAbrirRutina={setRutina} />}
       {vista === 'historial' && <Historial onAbrir={(id) => setDetalle({ id, editar: false })} />}
       {vista === 'progreso' && (

@@ -6,6 +6,7 @@ import * as workoutsRepo from '../data/workoutsRepo'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import TarjetaEntreno from '../components/TarjetaEntreno'
+import SemanaEntreno from '../components/SemanaEntreno'
 import RegistrarEntrenoPasado from '../components/RegistrarEntrenoPasado'
 import { ChipGimnasio } from '../components/GimnasioSheet'
 import RepetirEntreno from '../components/RepetirEntreno'
@@ -33,9 +34,11 @@ interface Props {
   onRegistrado: (id: number) => void
   /** Abre la ficha de una rutina. */
   onAbrirRutina: (id: number) => void
+  /** Abre el detalle de un entreno terminado (el último, desde «Esta semana»). */
+  onAbrirSesion: (id: number) => void
 }
 
-export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRutina }: Props) {
+export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRutina, onAbrirSesion }: Props) {
   const [pasado, setPasado] = useState(0)
   const [repetir, setRepetir] = useState(0)
   const [empezando, setEmpezando] = useState<number | 'vacio' | null>(null)
@@ -118,7 +121,8 @@ export default function GymHome({ enCurso, onEmpezado, onRegistrado, onAbrirRuti
         </ListGroup>
       </section>}
 
-      {/* Sin «Último entreno» (punto 14): cada rutina ya dice cuándo se hizo y el historial, el resto. */}
+      {/* En lugar de «Último entreno» (punto 14): la semana frente al plan y el último, en una fila. */}
+      <SemanaEntreno onAbrirSesion={onAbrirSesion} />
       {pasado > 0 && <RegistrarEntrenoPasado key={pasado} open gimnasioId={gimnasio} onClose={() => setPasado(0)} onRegistrado={onRegistrado} />}
       {repetir > 0 && <RepetirEntreno key={repetir} open onClose={() => setRepetir(0)} onRepetido={onEmpezado} />}
     </div>
