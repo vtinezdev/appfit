@@ -25,7 +25,7 @@ import PublicarEntreno from '../components/PublicarEntreno'
 import GuardarComoRutina from '../components/GuardarComoRutina'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
 import { recordsDeEntreno } from '../lib/records'
-import { hitosDeSesion, seriesConRecord } from '../lib/fichaEntreno'
+import { hitosDeSesion, restoRecords, seriesConRecord } from '../lib/fichaEntreno'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { combinarFechaHora, efectivas, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, seriesSinMarcar, volumenSets } from '../lib/workout'
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
@@ -224,7 +224,7 @@ export default function DetalleEntreno({ workoutId, editarInicial = false, volve
       )}
       <PosterSesion titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length} volumen={volumenSets(delEntreno)}
         levels={editando ? undefined : trabajo.levels} figura={figura} estado={editando ? <p className="training-muted text-label">Editando entreno</p> : undefined}
-        gimnasio={nombreGimnasio(w.gimnasioId)} hoy={!editando && hitos.length ? <HitosSesion hitos={hitos} /> : undefined} />
+        gimnasio={nombreGimnasio(w.gimnasioId)} hoy={!editando && hitos.length ? <HitosSesion hitos={hitos} pie={restoRecords(records.length - hitos.length)} /> : undefined} />
       {!editando && <PosterImagen titulo={rutina?.nombre ?? (w.routineId ? 'Entreno' : 'Entreno libre')} inicio={w.inicio} fin={fin} series={efectivas(delEntreno).length}
         volumen={volumenSets(delEntreno)} gimnasio={nombreGimnasio(w.gimnasioId)} levels={trabajo.levels} figura={figura}
         hoy={hitos} />}

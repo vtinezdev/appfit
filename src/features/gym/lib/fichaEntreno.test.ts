@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { hitoDeEntrenos, partesRecord, pastillaSerie, recordsPorEjercicio, resumenEjercicio, seriesConRecord, seriesPublicables, textoDesde } from './fichaEntreno'
+import { hitoDeEntrenos, partesRecord, pastillaSerie, recordsPorEjercicio, restoRecords, resumenEjercicio, seriesConRecord, seriesPublicables, textoDesde } from './fichaEntreno'
 import type { RecordEjercicio } from './records'
 
 const record = (r: Partial<RecordEjercicio>): RecordEjercicio => ({ exerciseId: 1, tipo: 'peso', valor: 82.5, anterior: 80, ...r })
@@ -116,5 +116,14 @@ describe('hitoDeEntrenos', () => {
     const marzo = new Date(2026, 2, 3, 18).getTime()
     expect(textoDesde(marzo, new Date(2026, 9, 23).getTime())).toBe('Desde el 3 mar')
     expect(textoDesde(marzo, new Date(2027, 0, 2).getTime())).toBe('Desde el 3 mar de 2026')
+  })
+})
+
+describe('restoRecords', () => {
+  it('cuenta los que no caben en la franja, en singular o plural', () => {
+    expect(restoRecords(0)).toBeUndefined()
+    expect(restoRecords(1)).toBe('y 1 récord más')
+    expect(restoRecords(8)).toBe('y 8 récords más')
+    expect(restoRecords(1200)).toBe('y 1.200 récords más')
   })
 })

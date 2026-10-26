@@ -136,6 +136,11 @@ export const MAX_HITOS = 3
 const ETIQUETA: Record<TipoHito, string> = { record: 'Récord', cuerpo: 'Cuerpo', cumbre: 'Cumbres', liga: 'Liga', logro: 'Vitrina' }
 const PRIORIDAD_RECORD: Record<RecordEjercicio['tipo'], number> = { peso: 0, asistencia: 1, reps: 2, '1rm': 3 }
 
+/** Récords que no caben en la franja «Hoy» del historial: «y 8 récords más», o nada si caben todos. */
+export function restoRecords(n: number): string | undefined {
+  return n > 0 ? `y ${formatInt(n)} ${n === 1 ? 'récord' : 'récords'} más` : undefined
+}
+
 /**
  * Hasta `MAX_HITOS` hitos para la franja «Hoy» (D9: récords, subida muscular, cumbre, liga y logros, en ese orden). Primero
  * uno de cada tipo en ese orden, para que tres récords no tapen una cima o una liga; si sobra sitio, más del mismo orden.

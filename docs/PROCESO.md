@@ -2577,3 +2577,14 @@ La fuente `tipicos` se presenta como «Alimentos y platos (AppFit)» en Ajustes 
 **Verificación**: 1.136 tests en 61 archivos, build TypeScript/Vite/PWA, `catalogo:validar` y diff check correctos. `node scripts/ui/validar-tipicos.cjs` abre Nutrición en un perfil nuevo de `appfit-test.localhost:5173` a 375×812, demora la descarga de típicos y comprueba que «pizza hawaiana» aparece al terminar sin volver a escribir. Después encuentra croquetas de jamón, lombarda con manzana, pan con germen de trigo y nigiri de atún sin conexión, sin errores de página. No se ha comprobado en el iPhone real. Pendientes del contenido (alias CIQUAL es3, referencias/rendimientos iniciales y objetivo de 500 adicionales) documentados en `scripts/catalogo/tipicos/LEEME.md`. PR en borrador, sin merge a master.
 
 **Preparación de la fusión, autorizada después por Víctor**: reconciliación con `master` conservando filtros por categoría, navegación y documentación actuales. Se incorpora la atribución de típicos a Referencias. Verificación sobre el conjunto combinado: 2.784 tests en 246 archivos, build, validador de catálogo y regresión de búsqueda/offline en navegador correctos. Los conflictos quedan resueltos sin retirar funciones de master.
+
+## 236. Récords dentro de cada ejercicio en el detalle del historial (2026-10-26)
+
+Víctor señala que en un entreno pasado los récords personales (una card por ejercicio, con miniatura y nombre) y la lista de ejercicios (también cards con miniatura y nombre) se confundían: con muchos récords no se veía que después venían los ejercicios. Elige, de tres opciones (meterlos en cada ejercicio, plegarlos o compactarlos), meterlos en cada ejercicio.
+
+- `pages/DetalleEntreno` deja de usar `RecordsSesion`. El póster lleva la franja «Hoy» (`HitosSesion`, hasta tres récords de `hitosDeSesion`) y, si hay más, una línea «y N récords más» (`lib/fichaEntreno.restoRecords`, nueva prop `pie` de `HitosSesion`).
+- `components/EjercicioSesion` recibe `recordsEjercicio` y los enseña como cifras (rótulo, valor y mejora) bajo la cabecera, siempre visibles. Se quita el trofeo de la cabecera, que repetía lo mismo; las series con récord siguen en acento con trofeo.
+- La pantalla de fin de entreno y la revisión semanal siguen con `RecordsSesion`.
+- Documentos: `features/gym.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Playwright en `appfit-test.localhost:5173` con un entreno de 6 ejercicios y 11 récords, a 320/375/430 px en ambos temas: sin scroll horizontal, «y 8 récords más» en el póster, cifras de récord en los cinco ejercicios con récord y sin trofeo en la cabecera. No se ha probado en el iPhone real.

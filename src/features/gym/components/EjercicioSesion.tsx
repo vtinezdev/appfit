@@ -62,7 +62,6 @@ export default function EjercicioSesion({ ejercicio, series, records, recordsEje
   const [abierto, setAbierto] = useState(false)
   const id = useId()
   const nombre = ejercicio?.nombre ?? '…'
-  const conRecord = series.some(s => records.has(s.id))
   const conRir = series.some(s => s.rir !== undefined || Object.values(s.lados ?? {}).some(l => l?.rir !== undefined))
   let n = 0
   return <Card padded={false} className="overflow-hidden">
@@ -74,7 +73,6 @@ export default function EjercicioSesion({ ejercicio, series, records, recordsEje
         <span className="tabular block break-words text-body-sm text-fg-muted">{resumenEjercicio(series)}</span>
       </span>
       {nota && <Icon name="comentario" size={18} label="Con nota" className="shrink-0 text-fg-muted" />}
-      {conRecord && <Icon name="trophy" size={20} label="Con récord" className="shrink-0 text-accent-strong" />}
       <Icon name="chevron-down" size={20} className={`shrink-0 text-fg-muted transition-transform duration-short motion-reduce:transition-none ${abierto ? 'rotate-180' : ''}`} />
     </button>
     {recordsEjercicio.length > 0 && <ul aria-label={`Récords de ${nombre}`} className="grid grid-cols-2 gap-2 px-card pb-3">
