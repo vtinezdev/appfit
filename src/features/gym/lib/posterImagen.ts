@@ -140,24 +140,24 @@ export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): str
   partes.push(texto(MARGEN, y, partirLineas(d.fecha, 50, 1)[0] ?? '', 36, c.tenue, LETRA.texto))
 
   // Cifras en columnas iguales, con filete a la izquierda de cada una salvo la primera.
-  y += 56
+  y += 48
   const columna = Math.floor(ANCHO_UTIL / Math.max(1, d.cifras.length))
   d.cifras.forEach((cifra, i) => {
     const filete = MARGEN + i * columna
     const x = filete + (i ? 28 : 0)
-    if (i) partes.push(`<rect x="${filete}" y="${y}" width="2" height="132" fill="${rgb(c.pista)}"/>`)
-    partes.push(texto(x, y + 36, cifra.rotulo, 30, c.tenue, LETRA.texto))
-    partes.push(`<text x="${x}" y="${y + 116}" fill="${rgb(c.texto)}"><tspan style="${LETRA.cifra};font-size:84px">${escaparXml(cifra.valor)}</tspan>`
-      + (cifra.unidad ? `<tspan style="${LETRA.texto};font-size:30px" fill="${rgb(c.tenue)}"> ${escaparXml(cifra.unidad)}</tspan>` : '') + '</text>')
+    if (i) partes.push(`<rect x="${filete}" y="${y}" width="2" height="96" fill="${rgb(c.pista)}"/>`)
+    partes.push(texto(x, y + 28, cifra.rotulo, 26, c.tenue, LETRA.texto))
+    partes.push(`<text x="${x}" y="${y + 88}" fill="${rgb(c.texto)}"><tspan style="${LETRA.cifra};font-size:60px">${escaparXml(cifra.valor)}</tspan>`
+      + (cifra.unidad ? `<tspan style="${LETRA.texto};font-size:26px" fill="${rgb(c.tenue)}"> ${escaparXml(cifra.unidad)}</tspan>` : '') + '</text>')
   })
-  y += 132
+  y += 96
 
   // Los récords, en grande: el trofeo y su número.
   if (d.records) {
-    y += 120
-    partes.push(trofeo(MARGEN, y - 64, 72, c.acento))
-    partes.push(`<text x="${MARGEN + 100}" y="${y}" fill="${rgb(c.acento)}"><tspan style="${LETRA.cifra};font-size:84px">${d.records}</tspan>`
-      + `<tspan style="${LETRA.texto.replace('500', '700')};font-size:40px"> ${d.records === 1 ? 'récord personal' : 'récords personales'}</tspan></text>`)
+    y += 100
+    partes.push(trofeo(MARGEN, y - 50, 56, c.acento))
+    partes.push(`<text x="${MARGEN + 80}" y="${y}" fill="${rgb(c.acento)}"><tspan style="${LETRA.cifra};font-size:64px">${d.records}</tspan>`
+      + `<tspan style="${LETRA.texto.replace('500', '700')};font-size:34px"> ${d.records === 1 ? 'récord personal' : 'récords personales'}</tspan></text>`)
   }
 
   // Las medallas de la Vitrina conseguidas con el entreno, en fila, con su nombre debajo.
@@ -167,11 +167,11 @@ export function svgPoster(d: DatosPosterImagen, c: ColoresPoster, css = ''): str
     const celda = ANCHO_UTIL / MAX_MEDALLAS_POSTER
     medallas.slice(0, MAX_MEDALLAS_POSTER).forEach((m, i) => {
       const centro = MARGEN + celda * i + celda / 2
-      partes.push(`<svg x="${centro - 70}" y="${y}" width="140" height="140" viewBox="0 0 100 100">${m.interior}</svg>`)
+      partes.push(`<svg x="${centro - 60}" y="${y}" width="120" height="120" viewBox="0 0 100 100">${m.interior}</svg>`)
       partirLineas(m.nombre, 14, 2).forEach((linea, l) =>
-        partes.push(texto(centro, y + 184 + l * 34, linea, 28, c.texto, LETRA.texto.replace('500', '600'), ' text-anchor="middle"')))
+        partes.push(texto(centro, y + 160 + l * 34, linea, 28, c.texto, LETRA.texto.replace('500', '600'), ' text-anchor="middle"')))
     })
-    y += 184 + 34
+    y += 160 + 34
     const resto = medallas.length - MAX_MEDALLAS_POSTER
     if (resto > 0) {
       y += 48
