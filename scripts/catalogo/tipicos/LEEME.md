@@ -1036,3 +1036,7 @@ Torrijas al horno, tortillitas de bacalao, soldaditos de Pavía, cazuela de vigi
 ### Tanda 95 de recetas: verano y barbacoa (5)
 
 Brochetas de pollo y piña, brochetas de salmón y calabacín, hamburguesas de cordero, plátano asado con chocolate y patatas asadas en papel con alioli.
+
+### Tanda 96 de recetas: Andalucía (7)
+
+Ajo caliente (sopa de tomate y pan), cachorreñas (sopa de naranja y bacalao), choco frito, migas de harina almerienses, gurullos con conejo, carne mechada y lomo en manteca colorá.
