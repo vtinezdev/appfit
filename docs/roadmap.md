@@ -72,7 +72,7 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 
 ## Mejoras de la app (documento de Víctor, 2026-10-26)
 
-Nueve bloques acordados (PROCESO §246 en adelante). Pendiente de decidir dentro de los hechos: **punto 40**, la lista de sesiones del detalle de un ejercicio (Entreno › Progreso). Hay dos opciones probadas en el commit `46fbf5b` (`gym/components/SesionesEjercicio`, `forma` «barras» o «tabla»); mientras, sigue la lista de siempre. Siguen los bloques 4 (Nutrición e Inicio: 3, 11, 2) a 9.
+Nueve bloques acordados (PROCESO §246 en adelante). Hechos los bloques 1 a 3; siguen el 4 (Nutrición e Inicio: 3, 11, 2) al 9.
 
 ## Ideas sin empezar
 

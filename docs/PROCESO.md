@@ -2712,3 +2712,11 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 **Cómo:** `components/SemanaEntreno`, `DiaSesion` y `SemanaGymSheet` (sustituye a `ResumenSemanalGym`); `lib/resumenSemanal.gruposDeSesion` y `lib/listaProgreso` (`familiaDe`, `filtrarPorEjercicio`, `familiasPresentes`), con tests; `GymTab` pasa `onAbrirSesion` a `GymHome` y el detalle abierto desde Empezar vuelve a Empezar; `TarjetaEntreno` pierde `soloUltimo`; `LigasLista` y `SemanasLiga`. Documentos: `features/gym.md`, `features/liga.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas con un historial sintético de 15 semanas (ejercicios del catálogo, dos gimnasios y ejercicios abandonados): Empezar, Historial con su hoja de semana, Progreso con búsqueda y filtros, Ligas desplegadas y detalle de un ejercicio, sin scroll horizontal. Sin probar en iPhone ni con los datos reales.
+
+## 250. Mejoras de la app, punto 40: sesiones de un ejercicio (2026-10-26)
+
+**Qué:** la lista de sesiones del detalle de un ejercicio (Entreno › Progreso) que quedó pendiente en §249. Víctor compara tres formas con vista previa (barras grandes, tabla y mixta) y elige la mixta: por meses, una línea por sesión con el día, la mejor serie, una barra corta frente a las demás y la cifra con su cambio; trofeo en las que superan a todas las anteriores; las 8 últimas y «Ver las N sesiones».
+
+**Cómo:** `components/SesionesEjercicio` (solo la forma elegida) y `lib/progreso.marcasSesiones` (récord, cambio y ancho de barra; con test). Documentos: `features/gym.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas con 15 sesiones de press banca: tres meses, 8 a la vista y «Ver las 15 sesiones», sin scroll horizontal. Sin probar en iPhone.

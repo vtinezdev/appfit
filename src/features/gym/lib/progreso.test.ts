@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { epley1RM } from './workout'
-import { cifrasClave, datosProgreso, historialEjercicio, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, resumenVariantes, tendenciaVariante, textoMejorSerie, trazoMini } from './progreso'
+import { cifrasClave, datosProgreso, marcasSesiones, historialEjercicio, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, resumenVariantes, tendenciaVariante, textoMejorSerie, trazoMini } from './progreso'
 import type { SetEntry } from '../../../shared/db/types'
 
 const s = (id: number, over: Partial<SetEntry>): SetEntry => ({ id, workoutId: 1, exerciseId: 1, reps: 8, peso: 20, orden: id, createdAt: id, ...over })
@@ -156,5 +156,17 @@ describe('historial del ejercicio en la sesión', () => {
     expect(historialEjercicio(series, ws, { exerciseId: 1, gimnasioId: 7 }, 9000)).toBeNull()
     expect(historialEjercicio(series, ws, { exerciseId: 3 }, 9000)).toBeNull()
     expect(historialEjercicio(series, ws, { exerciseId: 1 }, 1000)).toBeNull()
+  })
+})
+
+describe('sesiones de un ejercicio (punto 40)', () => {
+  it('récord si supera a todas las anteriores, cambio frente a la anterior y barra con base bajo la peor', () => {
+    const m = marcasSesiones([100, 95, 98, 90])
+    expect(m.map((x) => x.record)).toEqual([true, false, true, false])
+    expect(m.map((x) => x.cambio)).toEqual([5, -3, 8, null])
+    expect(m[0].ancho).toBe(100)
+    expect(m[3].ancho).toBeGreaterThanOrEqual(8)
+    expect(m[3].ancho).toBeLessThan(m[1].ancho)
+    expect(marcasSesiones([80]).map((x) => [x.record, x.cambio])).toEqual([[false, null]])
   })
 })

@@ -282,3 +282,19 @@ function recordsVigentes(sesiones: { inicio: number; ss: MejorSerie[] }[], modo:
   }
   return out
 }
+
+/**
+ * Lo que enseña cada sesión de la lista de un ejercicio (punto 40), con los valores de la más reciente a la más antigua:
+ * si supera a todas las anteriores (récord), el cambio frente a la anterior (`null` en la primera) y el ancho de su barra
+ * (8–100 %), que parte un poco por debajo de la peor sesión para ver las diferencias sin exagerarlas.
+ */
+export function marcasSesiones(valores: readonly number[]): { record: boolean; cambio: number | null; ancho: number }[] {
+  const max = Math.max(...valores)
+  const min = Math.min(...valores)
+  const base = Math.max(0, min - (max - min || max) * 0.25)
+  return valores.map((v, i) => ({
+    record: i < valores.length - 1 && valores.slice(i + 1).every((anterior) => v > anterior),
+    cambio: i < valores.length - 1 ? v - valores[i + 1] : null,
+    ancho: Math.max(8, ((v - base) / Math.max(1e-9, max - base)) * 100),
+  }))
+}
