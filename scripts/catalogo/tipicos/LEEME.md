@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-999 filas: 391 valores directos (57 USDA, 167 CoFID y 167 valores de referencia
+1008 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
 AppFit de alimentos sueltos) y 608 recetas CIQUAL (61 hasta el 25 de octubre y
 547 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
@@ -688,3 +688,7 @@ Desayuno y merienda (leche con cacao soluble entera y semidesnatada, leche con m
 ### Sueltos de supermercado con valores de etiqueta (16)
 
 Fuente AppFit (valor típico a partir de varias etiquetas y webs, URLs en notas): tortilla de patatas envasada, pinchos morunos y lomo adobado crudos, san jacobo congelado, aceitunas rellenas de anchoa, obleas para empanadillas, arroz de microondas, galletas María, crema de balsámico, salsa César, caldo de verduras de brik, albóndigas crudas, natillas con proteínas, sirope de agave, cebollitas en vinagre y palmera de chocolate. El caldo de pescado de brik se descarta porque CIQUAL ya trae el fumet envasado. Nuevas regresiones de búsqueda (pinchos morunos, bravioli, vichyssoise, banana bread, tres delicias, kebab, colacao, galletas María).
+
+### Quesos y embutidos regionales con valores de etiqueta (9)
+
+Fuente AppFit (URLs en notas): quesos Afuega'l Pitu, Gamonéu, nata de Cantabria, mató e ibérico curado de mezcla; paleta ibérica de cebo, butifarra blanca, salchichón de Vic y lomo de orza. Se omiten Roncal, Payoyo, Torta de La Serena, quesucos, palmero, morcón y farinato por no encontrar valores fiables fuera de tablas derivadas de BEDCA, y el rulo de cabra porque CIQUAL ya trae el bûche.
