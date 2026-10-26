@@ -6,7 +6,7 @@ import * as foodsRepo from '../data/foodsRepo'
 import * as comidasTipicasRepo from '../data/comidasTipicasRepo'
 import type { AlimentoElegible } from '../lib/alimentos'
 import type { ComidaTipica } from '../lib/comidasTipicas'
-import { hayMasTandas, MAX_IDEAS, MAX_SUELTOS, proponer, tanda, type Falta, type Propuesta, type PropuestaItem } from '../lib/cerrarDia'
+import { hayMasTandas, MAX_IDEAS, MAX_SUELTOS, paraUnaPropuesta, proponer, tanda, type Falta, type Propuesta, type PropuestaItem } from '../lib/cerrarDia'
 import { resumenMacros } from '../lib/nutrition'
 import Badge from '../../../shared/components/Badge'
 import Button from '../../../shared/components/Button'
@@ -56,8 +56,9 @@ function Fila({ propuesta, onElegir }: { propuesta: Propuesta; onElegir: () => v
 
 /**
  * «Cerrar el día» (B10), bajo Escribir: un botón que despliega propuestas que encajan con lo que falta en los cuatro
- * macros. Arriba, estables, tus comidas típicas y combinaciones de tus frecuentes; debajo, otras ideas y alimentos
- * sueltos, que cambian con «Sugerir otras». Solo sale si hay hueco (`hayHueco`) y alguna propuesta.
+ * macros, cada una del tamaño de una comida (`paraUnaPropuesta`). Arriba, estables, tus comidas típicas y
+ * combinaciones de tus frecuentes; debajo, otras ideas y alimentos sueltos, que cambian con «Sugerir otras». Solo sale
+ * si hay hueco (`hayHueco`) y alguna propuesta.
  */
 export default function EncajanConLoQueFalta({ comida, fecha, falta, onElegirAlimento, onElegirCombinacion, onElegirTipica }: Props) {
   const [abierto, setAbierto] = useState(false)
@@ -67,7 +68,8 @@ export default function EncajanConLoQueFalta({ comida, fecha, falta, onElegirAli
   const datos = useLiveQuery(() => foodsRepo.paraCerrarDia({ comida, hoy }), [comida, hoy])
   const tipicas = useLiveQuery(() => comidasTipicasRepo.listar(fecha), [fecha])
   if (!falta || !datos || !tipicas) return null
-  const propuestas = proponer({ falta, tipicas, frecuentes: datos.frecuentes, ideas: datos.ideas })
+  const propuestas = proponer({ falta, comida, tipicas, frecuentes: datos.frecuentes, ideas: datos.ideas })
+  const limite = paraUnaPropuesta(falta, comida).kcal
   const otras = [...tanda(propuestas.ideas, MAX_IDEAS, vuelta), ...tanda(propuestas.sueltos, MAX_SUELTOS, vuelta)]
   if (propuestas.fijas.length === 0 && otras.length === 0) return null
 
@@ -83,7 +85,7 @@ export default function EncajanConLoQueFalta({ comida, fecha, falta, onElegirAli
         <Icon name="flag" size={16} />Encajan con lo que te falta
       </Button>
       {abierto && <div id={listaId} className="space-y-stack">
-        <p className="tabular text-body-sm text-fg-muted">{frasePendiente(falta)} Sin pasarte de las kcal, los carbohidratos ni la grasa que te quedan.</p>
+        <p className="tabular text-body-sm text-fg-muted">{frasePendiente(falta)} {limite < falta.kcal ? `Cada propuesta, hasta ${formatInt(limite)} kcal, para que te quede para el resto del día.` : 'Sin pasarte de las kcal, los carbohidratos ni la grasa que te quedan.'}</p>
         {propuestas.fijas.length > 0 && <div className="space-y-1">
           <SectionHeader>Con lo que sueles comer</SectionHeader>
           <ul className="divide-y divide-line" aria-label="Con lo que sueles comer">

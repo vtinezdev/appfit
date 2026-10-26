@@ -12,6 +12,7 @@ import {
   huecoRestante,
   IDEAS,
   ideasPara,
+  paraUnaPropuesta,
   proponer,
   racionesHabituales,
   tanda,
@@ -66,6 +67,28 @@ describe('lo que falta del día', () => {
   })
 })
 
+describe('tamaño de una propuesta', () => {
+  it('en la cena o con 600 kcal o menos, todo lo que queda', () => {
+    expect(paraUnaPropuesta({ kcal: 1200, prot: 60, carb: 100, grasa: 30 }, 'cena')).toEqual({ kcal: 1200, prot: 60, carb: 100, grasa: 30 })
+    expect(paraUnaPropuesta({ kcal: 600, prot: 40, carb: 50, grasa: 20 }, 'comida')).toEqual({ kcal: 600, prot: 40, carb: 50, grasa: 20 })
+  })
+
+  it('si no, la mitad, sin bajar de 600 kcal; los excesos se quedan como están', () => {
+    expect(paraUnaPropuesta({ kcal: 1600, prot: 80, carb: 120, grasa: -4 }, 'comida')).toEqual({ kcal: 800, prot: 40, carb: 60, grasa: -4 })
+    expect(paraUnaPropuesta({ kcal: 1000, prot: 50, carb: 100, grasa: 20 }, 'desayuno')).toEqual({ kcal: 600, prot: 30, carb: 60, grasa: 12 })
+  })
+
+  it('a mediodía no propone algo que se coma casi todo el día', () => {
+    const mucho: Falta = { kcal: 1600, prot: 100, carb: 180, grasa: 50 }
+    const frecuentes = [con(pollo, 250), con(arroz, 400)]
+    const comida = proponer({ comida: 'comida', falta: mucho, tipicas: [], frecuentes, ideas: [] })
+    for (const p of [...comida.fijas, ...comida.sueltos]) expect(p.aporte.kcal).toBeLessThanOrEqual(800)
+    // 795 kcal caben en 800, pero 112 g de carbohidratos no caben en 90 (+5): bajan juntos al 80 %.
+    expect(nombres(comida.fijas)).toEqual(['Pechuga de pollo 200 + Arroz cocido 320'])
+    expect(nombres(proponer({ comida: 'cena', falta: mucho, tipicas: [], frecuentes, ideas: [] }).fijas)).toEqual(['Pechuga de pollo 250 + Arroz cocido 400'])
+  })
+})
+
 describe('raciones habituales', () => {
   const entrada = (id: number, fecha: string, gramos: number, extra: Partial<Entry> = {}): Entry =>
     ({ id, fecha, comida: 'comida', foodId: 1, nombre: 'Pollo', gramos, kcal: 0, prot: 0, carb: 0, grasa: 0, createdAt: id, ...extra })
@@ -85,31 +108,31 @@ describe('raciones habituales', () => {
 
 describe('propuestas', () => {
   it('nada sin hueco', () => {
-    expect(proponer({ falta: { kcal: 100, prot: 40, carb: 0, grasa: 0 }, tipicas: [], frecuentes: [con(pollo, 150)], ideas: [] }))
+    expect(proponer({ comida: 'cena', falta: { kcal: 100, prot: 40, carb: 0, grasa: 0 }, tipicas: [], frecuentes: [con(pollo, 150)], ideas: [] }))
       .toEqual({ fijas: [], ideas: [], sueltos: [] })
   })
 
   it('un suelto no pasa de tu ración: nada de 400 g de champiñones', () => {
-    const { sueltos } = proponer({ falta, tipicas: [], frecuentes: [con(champinones, 100), con(pollo, 150)], ideas: [] })
+    const { sueltos } = proponer({ comida: 'cena', falta, tipicas: [], frecuentes: [con(champinones, 100), con(pollo, 150)], ideas: [] })
     expect(nombres(sueltos)).toEqual(['Pechuga de pollo 150'])
   })
 
   it('reduce la ración para caber, pero no por debajo de la mitad', () => {
     const justo: Falta = { kcal: 160, prot: 30, carb: 0, grasa: 50 }
-    expect(nombres(proponer({ falta: justo, tipicas: [], frecuentes: [con(pollo, 150)], ideas: [] }).sueltos)).toEqual(['Pechuga de pollo 135'])
+    expect(nombres(proponer({ comida: 'cena', falta: justo, tipicas: [], frecuentes: [con(pollo, 150)], ideas: [] }).sueltos)).toEqual(['Pechuga de pollo 135'])
     // Media ración de queso (50 g) ya son 200 kcal.
-    expect(proponer({ falta: justo, tipicas: [], frecuentes: [con(queso, 100)], ideas: [] }).sueltos).toEqual([])
+    expect(proponer({ comida: 'cena', falta: justo, tipicas: [], frecuentes: [con(queso, 100)], ideas: [] }).sueltos).toEqual([])
   })
 
   it('combina frecuentes de categorías distintas y prefiere lo que cubre los cuatro macros', () => {
-    const { fijas, sueltos } = proponer({ falta, tipicas: [], frecuentes: [con(pollo, 150), con(pavo, 150), con(arroz, 150)], ideas: [] })
+    const { fijas, sueltos } = proponer({ comida: 'cena', falta, tipicas: [], frecuentes: [con(pollo, 150), con(pavo, 150), con(arroz, 150)], ideas: [] })
     expect(nombres(fijas)).toEqual(['Pechuga de pollo 150 + Arroz cocido 150', 'Pavo 150 + Arroz cocido 150'])
     expect(nombres(sueltos)[0]).toBe('Pechuga de pollo 150')
     for (const p of [...fijas, ...sueltos]) expect(cabe(p.aporte, falta)).toBe(true)
   })
 
   it('con la grasa ya cubierta no propone algo graso', () => {
-    const { sueltos } = proponer({ falta: { ...falta, grasa: -2 }, tipicas: [], frecuentes: [con(queso, 40), con(yogur, 125)], ideas: [] })
+    const { sueltos } = proponer({ comida: 'cena', falta: { ...falta, grasa: -2 }, tipicas: [], frecuentes: [con(queso, 40), con(yogur, 125)], ideas: [] })
     expect(nombres(sueltos)).toEqual(['Yogur 125'])
   })
 
@@ -117,6 +140,7 @@ describe('propuestas', () => {
     const item = (nombre: string, kcal: number, prot: number, carb: number, grasa: number): MealItem => ({ nombre, gramos: 100, kcal, prot, carb, grasa })
     const tipica = (nombre: string, items: MealItem[]): ComidaTipica => ({ clave: nombre, nombre, items, origen: 'historial', dias: 3 })
     const { fijas } = proponer({
+      comida: 'cena',
       falta,
       tipicas: [tipica('Pollo con arroz', [item('Pollo', 200, 35, 0, 3), item('Arroz', 250, 5, 55, 1)]), tipica('Pizza', [item('Pizza', 900, 35, 100, 35)])],
       frecuentes: [con(pollo, 150), con(arroz, 150)],
@@ -128,17 +152,17 @@ describe('propuestas', () => {
 
   it('cada idea sale una vez, sola o con el frecuente que mejor encaja, y no repite tus frecuentes', () => {
     const atun = { ...alimento(9, 'Atún', [116, 26, 0, 1], 'Pescados'), ref: { tipo: 'catalog' as const, id: 'ciqual:26039' } }
-    const { ideas } = proponer({ falta, tipicas: [], frecuentes: [con(arroz, 150)], ideas: [con(atun, 60), con(arroz, 150)] })
+    const { ideas } = proponer({ comida: 'cena', falta, tipicas: [], frecuentes: [con(arroz, 150)], ideas: [con(atun, 60), con(arroz, 150)] })
     expect(nombres(ideas)).toEqual(['Atún 60 + Arroz cocido 150'])
     // Sin hueco de carbohidratos, mejor sola.
-    expect(nombres(proponer({ falta: { ...falta, carb: 0 }, tipicas: [], frecuentes: [con(arroz, 150)], ideas: [con(atun, 60)] }).ideas)).toEqual(['Atún 60'])
+    expect(nombres(proponer({ comida: 'cena', falta: { ...falta, carb: 0 }, tipicas: [], frecuentes: [con(arroz, 150)], ideas: [con(atun, 60)] }).ideas)).toEqual(['Atún 60'])
     expect(ideas.every((p) => p.tipo === 'idea')).toBe(true)
   })
 
   it('no propone como idea lo que ya comes con otro nombre', () => {
     const polloCatalogo = { ...alimento(9, 'Pollo, pechuga sin piel a la plancha', [141, 30, 0, 2], 'Carnes'), ref: { tipo: 'catalog' as const, id: 'ciqual:36018' } }
     const pavoCatalogo = { ...alimento(10, 'Pavo, escalopa a la plancha', [124, 28.5, 0, 1.1], 'Carnes'), ref: { tipo: 'catalog' as const, id: 'ciqual:36306' } }
-    const { ideas } = proponer({ falta, tipicas: [], frecuentes: [con(pollo, 150)], ideas: [con(polloCatalogo, 150), con(pavoCatalogo, 150)] })
+    const { ideas } = proponer({ comida: 'cena', falta, tipicas: [], frecuentes: [con(pollo, 150)], ideas: [con(polloCatalogo, 150), con(pavoCatalogo, 150)] })
     expect(ideas.map((p) => p.tipo !== 'tipica' && p.items[0].alimento.nombre)).toEqual(['Pavo, escalopa a la plancha'])
   })
 

@@ -1,5 +1,5 @@
 // «Cerrar el día» (B10): propuestas que encajan con lo que falta del día en los cuatro macros. Lógica pura.
-import type { Entry, MealItem } from '../../../shared/db/types'
+import type { Comida, Entry, MealItem } from '../../../shared/db/types'
 import { claveRef, refDe } from '../../../shared/db/foodRef'
 import { addDays } from '../../../shared/lib/dates'
 import { mismaRaiz, tokensConsulta } from '../../../shared/lib/text'
@@ -27,6 +27,9 @@ export const RACION_POR_DEFECTO = 100
 /** Ventana para calcular tus raciones habituales y las categorías que registras. */
 export const VENTANA_HABITOS_DIAS = 60
 
+/** Con esto o menos por delante, una propuesta puede usarlo todo; con más, la mitad, sin bajar de esta cifra. */
+export const KCAL_SIN_LIMITE = 600
+
 export const MAX_TIPICAS = 2
 export const MAX_COMBINACIONES = 2
 export const MAX_IDEAS = 2
@@ -41,6 +44,18 @@ export function faltaDelDia(totales: Macros4, objetivo: Macros4 | null | undefin
 /** Si tiene sentido proponer algo: quedan kcal y falta proteína o carbohidratos. */
 export function hayHueco(falta: Falta | null): falta is Falta {
   return !!falta && falta.kcal >= KCAL_MINIMAS && (falta.prot >= PROTEINA_MINIMA || falta.carb >= CARBOHIDRATOS_MINIMOS)
+}
+
+/**
+ * Lo que puede ocupar una sola propuesta, para que sea del tamaño de una comida: en la cena (para cerrar el día) o
+ * con `KCAL_SIN_LIMITE` kcal o menos, todo lo que queda; si no, la mitad sin bajar de `KCAL_SIN_LIMITE`. Escala
+ * igual lo pendiente de cada macro; los excesos se quedan como están.
+ */
+export function paraUnaPropuesta(falta: Falta, comida: Comida): Falta {
+  if (comida === 'cena' || falta.kcal <= KCAL_SIN_LIMITE) return falta
+  const factor = Math.max(falta.kcal / 2, KCAL_SIN_LIMITE) / falta.kcal
+  const escalar = (v: number) => (v > 0 ? v * factor : v)
+  return { kcal: falta.kcal * factor, prot: escalar(falta.prot), carb: escalar(falta.carb), grasa: escalar(falta.grasa) }
 }
 
 /** Sin pasarse de kcal y, con margen, de carbohidratos y grasa (lo pendiente; si ya te pasaste, solo el margen). */
@@ -170,15 +185,17 @@ function aporteDeTipica(items: readonly MealItem[]): Macros4 {
  * - ideas: alimentos de la lista que no sueles registrar (ni con otro nombre), cada uno solo o con el frecuente que
  *   mejor encaja;
  * - sueltos: tus frecuentes solos, con tu ración habitual como tope.
- * Nada si no hay hueco (`hayHueco`).
+ * Cada propuesta se mide contra lo que puede ocupar (`paraUnaPropuesta`). Nada si no hay hueco en el día (`hayHueco`).
  */
-export function proponer({ falta, tipicas, frecuentes, ideas }: {
+export function proponer({ falta: delDia, comida, tipicas, frecuentes, ideas }: {
   falta: Falta | null
+  comida: Comida
   tipicas: readonly ComidaTipica[]
   frecuentes: readonly ConRacion[]
   ideas: readonly ConRacion[]
 }): Propuestas {
-  if (!hayHueco(falta)) return { fijas: [], ideas: [], sueltos: [] }
+  if (!hayHueco(delDia)) return { fijas: [], ideas: [], sueltos: [] }
+  const falta = paraUnaPropuesta(delDia, comida)
   const orden = porHueco(falta)
   const validas = (ps: (Propuesta | null)[]) => ps.filter((p): p is Propuesta => p !== null).sort(orden)
 
