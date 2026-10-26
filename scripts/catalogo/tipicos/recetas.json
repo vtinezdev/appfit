@@ -50152,5 +50152,244 @@
         "gramos": 2
       }
     ]
+  },
+  {
+    "id": "pizza-coliflor",
+    "nombre": "Pizza con base de coliflor, horneada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 90 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 615,
+    "ingredientes": [
+      {
+        "ciqual": "20016",
+        "gramos": 500
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 60
+      },
+      {
+        "ciqual": "19590",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 80
+      },
+      {
+        "ciqual": "12120",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "arroz-coliflor",
+    "nombre": "Arroz de coliflor salteado, cocinado",
+    "alias": [
+      "cauliflower rice"
+    ],
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 90 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 422,
+    "ingredientes": [
+      {
+        "ciqual": "20016",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "espaguetis-calabacin-bolonesa",
+    "nombre": "Espaguetis de calabacín con boloñesa, cocinados",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 90 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 844,
+    "ingredientes": [
+      {
+        "ciqual": "20020",
+        "gramos": 400
+      },
+      {
+        "ciqual": "6254",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "tortilla-queso-espinacas",
+    "nombre": "Tortilla de queso y espinacas, cocinada",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, tanda 90 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 332,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 240
+      },
+      {
+        "ciqual": "20059",
+        "gramos": 100
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "pan-keto-almendra",
+    "nombre": "Pan de almendra bajo en hidratos, horneado",
+    "alias": [
+      "pan keto"
+    ],
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 90 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 405,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 200
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "hamburguesa-lechuga",
+    "nombre": "Hamburguesa envuelta en lechuga, cocinada",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, tanda 90 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 230,
+    "ingredientes": [
+      {
+        "ciqual": "6254",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 40
+      },
+      {
+        "ciqual": "12726",
+        "gramos": 20
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "pure-coliflor",
+    "nombre": "Puré de coliflor, cocido",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 90 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 581,
+    "ingredientes": [
+      {
+        "ciqual": "20016",
+        "gramos": 600
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 30
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "huevos-aguacate-horno",
+    "nombre": "Huevos al horno en aguacate, horneados",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, tanda 90 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 304,
+    "ingredientes": [
+      {
+        "ciqual": "13004",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      }
+    ]
+  },
+  {
+    "id": "muffins-huevo-verduras",
+    "nombre": "Muffins de huevo con verduras, horneados",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, tanda 90 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 528,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 360
+      },
+      {
+        "ciqual": "20059",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 80
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 60
+      }
+    ]
   }
 ]

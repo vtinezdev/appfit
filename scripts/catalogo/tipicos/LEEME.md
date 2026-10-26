@@ -1012,3 +1012,7 @@ Curry de garbanzos y boniato, albóndigas de lentejas en salsa de tomate, bol de
 ### Tanda 89 de recetas: altos en proteína (10)
 
 Tortilla de claras con atún al natural, pechuga de pollo a la plancha con espárragos, pavo con quinoa y brócoli, ensalada de atún, queso batido con avena y cacao, batido de queso batido y fresas, merluza con espinacas, hamburguesas de pollo y espinacas, salmón con espárragos al horno y sepia a la plancha con ensalada.
+
+### Tanda 90 de recetas: bajos en hidratos (9)
+
+Pizza con base de coliflor, arroz de coliflor salteado, espaguetis de calabacín con boloñesa, tortilla de queso y espinacas, pan de almendra bajo en hidratos, hamburguesa envuelta en lechuga, puré de coliflor, huevos al horno en aguacate y muffins de huevo con verduras.
