@@ -26,13 +26,14 @@ describe('requisitos del gasto observado', () => {
     expect(h).toContain('aria-label="Pesajes por semana"')
     expect(h.match(/<li /g)).toHaveLength(4)
     expect(h).toContain('0 de 2 pesajes')
-    expect(h).not.toContain('kcal/día')
+    expect(h).toContain('Faltan datos')
   })
   it('la explicación y sus límites quedan tras la «i»; se conserva el selector', () => {
     const h = html(0, [])
     expect(h).toContain('aria-label="Qué es Gasto observado"')
     expect(h).not.toContain('Hall, 2008')
-    expect(h).toContain('Usar el observado')
+    expect(h).toContain('role="switch"')
+    expect(h).toContain('Usar el gasto observado')
   })
   it('con los mínimos cumplidos se ve el resultado y no los requisitos', () => {
     const pesos = Array.from({ length: 12 }, (_, i) => i * 2 + 1)

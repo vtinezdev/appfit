@@ -15,6 +15,7 @@ import { useExperiencia } from '../../experiencia/hooks/useExperiencia'
 import { semanaRitmo, type SemanaRitmo } from '../../ritmo/lib/ritmo'
 import { cifrasSemana, textoEstado, textoHilo } from '../../ritmo/lib/textos'
 import Card from '../../../shared/components/Card'
+import EtiquetaCambio from '../../../shared/components/Cambio'
 import Icon, { type IconName } from '../../../shared/components/Icon'
 import ProgressBar from '../../../shared/components/ProgressBar'
 import { formatAgua, partesAgua } from '../lib/agua'
@@ -50,11 +51,9 @@ function Bloque({ titulo, icono, children }: { titulo: string; icono: IconName; 
   )
 }
 
-/** El cambio frente a la semana anterior como etiqueta pequeña y neutra (sin juicio de valor): «↑ +0,4 kg». */
+/** El cambio frente a la semana anterior, en la etiqueta neutra compartida. */
 function Cambio({ diferencia, texto }: { diferencia: number; texto: string }) {
-  return <span className="tabular inline-flex items-center gap-1 rounded-pill bg-surface-muted px-2 py-0.5 text-caption text-fg-muted">
-    <span aria-hidden>{texto === 'Sin cambios' ? '=' : diferencia > 0 ? '↑' : '↓'}</span>{texto}<span className="sr-only"> frente a la semana anterior</span>
-  </span>
+  return <EtiquetaCambio diferencia={texto === 'Sin cambios' ? 0 : diferencia} texto={texto} frente="frente a la semana anterior" />
 }
 
 // Recharts solo se carga al llegar a «Tus 8 semanas».

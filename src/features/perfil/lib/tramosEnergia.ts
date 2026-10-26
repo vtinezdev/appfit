@@ -23,7 +23,7 @@ export function tramosEnergia(e: EnergiaOk): { barra: TramoBarra[]; filas: FilaT
     : [{ estilo: 'reposo' as const, kcal: e.tmb.valor }, { estilo: 'actividad' as const, kcal: Math.max(0, e.get - e.tmb.valor) }]
   const ajuste = e.ajusteKcal
   if (ajuste !== 0 && e.objetivoAplicado) {
-    filas.push({ estilo: ajuste > 0 ? 'superavit' : 'deficit', etiqueta: ETIQUETAS_OBJETIVO[e.objetivoAplicado], detalle: ajuste > 0 ? 'Lo que comes de más' : 'Lo que comes de menos', kcal: formatSigned(ajuste) })
+    filas.push({ estilo: ajuste > 0 ? 'superavit' : 'deficit', etiqueta: ETIQUETAS_OBJETIVO[e.objetivoAplicado], detalle: ajuste > 0 ? 'Comes de más' : 'Comes de menos', kcal: formatSigned(ajuste) })
   }
   const total = partes.reduce((t, p) => t + p.kcal, 0) + Math.max(0, ajuste)
   if (total <= 0) return { barra: [], filas }

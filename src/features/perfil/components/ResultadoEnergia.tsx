@@ -2,7 +2,6 @@ import Ayuda from '../../../shared/components/Ayuda'
 import Button from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
-import ListGroup from '../../../shared/components/ListGroup'
 import Metric from '../../../shared/components/Metric'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { formatNumber } from '../../../shared/lib/format'
@@ -41,25 +40,35 @@ function PerfilIncompleto({ faltan, onCompletar }: { faltan: CampoPerfil[]; onCo
   </section>
 }
 
+/** «Volumen · unos +270 g por semana»: el objetivo y, si cambia el peso, el ritmo aproximado (el detalle, tras la «i»). */
+function textoObjetivo(e: EnergiaOk): string {
+  const objetivo = ETIQUETAS_OBJETIVO[e.objetivoAplicado!]
+  return e.ritmo ? `${objetivo} · unos ${formatSigned(e.ritmo.kgSemana * 1000)} g por semana` : objetivo
+}
+
 /** Color de cada parte, el mismo en la barra y en la leyenda: el gasto en grises y el ajuste en el color de la energía. */
 const COLOR_TRAMO: Record<EstiloTramo, string> = {
   reposo: 'bg-fg-muted', actividad: 'bg-fg-subtle', observado: 'bg-fg-muted', superavit: 'bg-kcal', deficit: 'border border-dashed border-fg-subtle',
 }
 
-/** De qué se compone la energía diaria: una barra con sus partes y la leyenda con las cifras (punto 9). */
+/**
+ * De qué se compone la energía diaria: una barra con sus partes y, debajo, cada parte en su columna con su color, su cifra
+ * y de dónde sale (punto 9).
+ */
 function Composicion({ e }: { e: EnergiaOk }) {
   const { barra, filas } = tramosEnergia(e)
   return <div className="space-y-3">
-    <span aria-hidden className="flex h-3 gap-0.5 overflow-hidden rounded-pill">
+    <span aria-hidden className="flex h-4 gap-0.5 overflow-hidden rounded-pill">
       {barra.map((t) => <span key={t.estilo} className={`h-full rounded-sm ${COLOR_TRAMO[t.estilo]}`} style={{ width: `${t.pct}%` }} />)}
     </span>
-    <ListGroup variante="plana" aria-label="Cálculo de tu energía diaria">
-      {filas.map((f) => <li key={f.estilo} className="flex items-center gap-3 py-2">
-        <span aria-hidden className={`h-3 w-3 shrink-0 rounded-sm ${COLOR_TRAMO[f.estilo]}`} />
-        <span className="min-w-0 flex-1"><span className="block break-words text-body-sm text-fg">{f.etiqueta}</span><span className="block break-words text-caption text-fg-muted">{f.detalle}</span></span>
-        <span className="tabular shrink-0 text-body font-semibold text-fg">{f.kcal} <span className="text-caption font-normal text-fg-muted">kcal</span></span>
+    <ul aria-label="Cálculo de tu energía diaria" className="grid gap-2" style={{ gridTemplateColumns: `repeat(${filas.length}, minmax(0, 1fr))` }}>
+      {filas.map((f, i) => <li key={f.estilo} className={`min-w-0 space-y-0.5 ${i > 0 ? 'border-l border-line pl-2' : ''}`}>
+        <span aria-hidden className={`mb-1.5 block h-1.5 w-6 rounded-pill ${COLOR_TRAMO[f.estilo]}`} />
+        <span className="block break-words text-caption font-semibold text-fg-muted">{f.etiqueta}</span>
+        <span className="tabular block break-words text-title text-fg">{f.kcal}<span className="sr-only"> kcal</span></span>
+        <span className="block break-words text-caption text-fg-muted">{f.detalle}</span>
       </li>)}
-    </ListGroup>
+    </ul>
   </div>
 }
 
@@ -90,7 +99,7 @@ export default function ResultadoEnergia({ energia, onElegirObjetivo, onVerMetod
       {energia.estado === 'ok' && <>
         {energia.objetivoKcal !== null
           ? <Metric size="hero" label="Objetivo diario" valor={energia.objetivoKcal} unidad="kcal/día"
-              caption={energia.objetivoAplicado === 'mantenimiento' && energia.objetivoElegido === 'definicion' ? 'Mantenimiento (déficit no disponible)' : ETIQUETAS_OBJETIVO[energia.objetivoAplicado!]} />
+              caption={energia.objetivoAplicado === 'mantenimiento' && energia.objetivoElegido === 'definicion' ? 'Mantenimiento (déficit no disponible)' : textoObjetivo(energia)} />
           : <div className="space-y-3">
               <Metric size="hero" label="Gasto diario estimado" valor={energia.get} unidad="kcal/día" />
               <Button variant="secondary" onClick={onElegirObjetivo}>Elige tu objetivo</Button>

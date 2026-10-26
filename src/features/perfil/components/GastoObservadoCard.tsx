@@ -3,10 +3,10 @@ import Ayuda from '../../../shared/components/Ayuda'
 import Card from '../../../shared/components/Card'
 import Disclosure from '../../../shared/components/Disclosure'
 import Icon from '../../../shared/components/Icon'
+import Interruptor from '../../../shared/components/Interruptor'
 import Metric from '../../../shared/components/Metric'
 import ProgressBar from '../../../shared/components/ProgressBar'
 import SectionHeader from '../../../shared/components/SectionHeader'
-import SegmentedControl from '../../../shared/components/SegmentedControl'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import type { Perfil } from '../../../shared/db/types'
 import { formatDiaMes, parseISODate } from '../../../shared/lib/dates'
@@ -90,23 +90,25 @@ export default function GastoObservadoCard({ perfil, energia, observado, hoy, pl
     }
   }
 
+  const detalleUso = !usando ? 'Ahora tu objetivo parte del gasto estimado.'
+    : observado.estado !== 'ok' ? 'Mientras falten datos se sigue usando el estimado.'
+    : 'Tu objetivo diario parte del gasto observado.'
+  // Estimado y observado lado a lado: el observado, con su cifra o con «—» mientras faltan datos.
   const contenido = <div className="space-y-stack">
-    {observado.estado === 'ok' ? <>
-      <div className="grid grid-cols-2 gap-3">
-        <Metric size="title" label="Observado" valor={formatNumber(observado.gasto)} unidad="kcal/día" caption={`${formatSigned(observado.kgSemana * 1000)} g de peso por semana`} />
-        {estimado !== null && <Metric size="title" label="Estimado" valor={formatNumber(Math.round(estimado))} unidad="kcal/día" caption="Ecuaciones" />}
-      </div>
-      <p className="tabular text-body-sm text-fg-muted">Con {formatNumber(observado.kcalMedia)} kcal de media en {formatNumber(observado.diasRegistrados)} de los últimos {formatNumber(observado.dias)} días y {formatNumber(observado.pesajes)} pesajes.</p>
-    </> : <>
-      <p className="text-body-sm text-fg-muted">Se calcula con tus comidas y tus pesajes cuando se cumplan los dos mínimos.</p>
-      <Requisitos observado={observado} />
-      {requisitosCumplidos && observado.motivos.map((m) => <p key={m} className="text-body-sm text-fg-muted">{m}</p>)}
-    </>}
-    <div className="space-y-2">
-      <SegmentedControl label="Usar el gasto observado" valor={usando ? 'si' : 'no'} onChange={(v) => void cambiar(v === 'si')}
-        opciones={[{ valor: 'no', label: 'Usar el estimado' }, { valor: 'si', label: 'Usar el observado' }]} />
-      {usando && observado.estado !== 'ok' && <p className="text-body-sm text-warning">Mientras falten datos se sigue usando el gasto estimado.</p>}
-      {energia.estado === 'ok' && energia.origenGet === 'observado' && <p className="text-body-sm text-fg-muted">Tu objetivo diario parte ahora del gasto observado.</p>}
+    <div className="grid grid-cols-2 gap-3">
+      {estimado !== null && <Metric size="title" label="Estimado" valor={formatNumber(Math.round(estimado))} unidad="kcal/día" caption="Con las ecuaciones" />}
+      {observado.estado === 'ok'
+        ? <Metric size="title" label="Observado" valor={formatNumber(observado.gasto)} unidad="kcal/día" caption={`${formatSigned(observado.kgSemana * 1000)} g de peso por semana`} />
+        : <Metric size="title" label="Observado" valor="—" caption="Faltan datos" />}
+    </div>
+    {observado.estado === 'ok'
+      ? <p className="tabular text-body-sm text-fg-muted">Con {formatNumber(observado.kcalMedia)} kcal de media en {formatNumber(observado.diasRegistrados)} de los últimos {formatNumber(observado.dias)} días y {formatNumber(observado.pesajes)} pesajes.</p>
+      : <div className="space-y-stack border-t border-line pt-3">
+          <Requisitos observado={observado} />
+          {requisitosCumplidos && observado.motivos.map((m) => <p key={m} className="text-body-sm text-fg-muted">{m}</p>)}
+        </div>}
+    <div className="border-t border-line">
+      <Interruptor label="Usar el gasto observado" detalle={detalleUso} activo={usando} onChange={(v) => void cambiar(v)} />
       {error && <ErrorState>{error}</ErrorState>}
     </div>
   </div>
