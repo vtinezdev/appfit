@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1305 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 890 recetas CIQUAL (61 hasta el 25 de octubre y
-829 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1318 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 903 recetas CIQUAL (61 hasta el 25 de octubre y
+842 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -764,3 +764,7 @@ Empanadas argentinas, lomo saltado, arroz chaufa, causa limeña, ají de gallina
 ### Vigesimoséptima tanda de recetas: postres de fruta y helados caseros (16)
 
 Brochetas de fruta, piña asada, plátano a la plancha con miel, fresas con yogur y con chocolate, kiwi con yogur, ensalada de frutas con yogur, melocotón en almíbar casero, manzana al microondas, sorbete de mango, polos de yogur, yogur helado, mousse de fresa, crema de mango, sandía con feta y fruta con chocolate fundido.
+
+### Vigesimoctava tanda de recetas: dieta blanda y purés (13)
+
+Dieta blanda (arroz con pollo hervido, merluza hervida con patata, patata y zanahoria hervidas, sopas de arroz y de sémola, compota sin azúcar), purés de zanahoria y de calabacín con patata, triturados caseros (pollo, pescado, ternera, lentejas) y papilla de frutas con galleta.

@@ -30795,5 +30795,376 @@
         "gramos": 20
       }
     ]
+  },
+  {
+    "id": "arroz-pollo-hervido",
+    "nombre": "Arroz blanco con pollo hervido (dieta blanda), cocido",
+    "alias": [
+      "dieta blanda"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 330,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 80
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 160
+      },
+      {
+        "ciqual": "36017",
+        "gramos": 120
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "merluza-hervida-patata",
+    "nombre": "Merluza hervida con patata, cocida",
+    "alias": [
+      "pescadilla hervida con patatas"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 380,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 200
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "patata-zanahoria-hervidas",
+    "nombre": "Patata y zanahoria hervidas con aceite de oliva, cocidas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 440,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "sopa-arroz-zanahoria",
+    "nombre": "Sopa de arroz con zanahoria, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 850,
+    "ingredientes": [
+      {
+        "ciqual": "9100",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 800
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "sopa-semola",
+    "nombre": "Sopa de sémola, cocida",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 800,
+    "ingredientes": [
+      {
+        "ciqual": "9610",
+        "gramos": 40
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 800
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "compota-manzana-sin-azucar",
+    "nombre": "Compota de manzana sin azúcar, cocida",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 520,
+    "ingredientes": [
+      {
+        "ciqual": "13396",
+        "gramos": 500
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "pure-zanahoria-patata",
+    "nombre": "Puré de zanahoria y patata, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "pure-calabacin-patata",
+    "nombre": "Puré de calabacín y patata, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 680,
+    "ingredientes": [
+      {
+        "ciqual": "4008",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20020",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "triturado-pollo-verduras",
+    "nombre": "Puré de pollo con verduras (triturado infantil), cocido",
+    "alias": [
+      "potito casero de pollo"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 650,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 100
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20020",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "triturado-pescado-verduras",
+    "nombre": "Puré de pescado con verduras (triturado infantil), cocido",
+    "alias": [
+      "potito casero de pescado"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 600,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 100
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20061",
+        "gramos": 80
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 250
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "triturado-ternera-verduras",
+    "nombre": "Puré de ternera con verduras (triturado infantil), cocido",
+    "alias": [
+      "potito casero de ternera"
+    ],
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 610,
+    "ingredientes": [
+      {
+        "ciqual": "6583",
+        "gramos": 100
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20039",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 300
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "triturado-lentejas",
+    "nombre": "Puré de lentejas con verduras (triturado infantil), cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 500,
+    "ingredientes": [
+      {
+        "ciqual": "20359",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20009",
+        "gramos": 80
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "papilla-frutas",
+    "nombre": "Papilla de frutas con galleta, lista para consumir",
+    "alias": [
+      "triturado de frutas"
+    ],
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, vigesimoctava tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 315,
+    "ingredientes": [
+      {
+        "ciqual": "13005",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13037",
+        "gramos": 100
+      },
+      {
+        "ciqual": "2013",
+        "gramos": 100
+      },
+      {
+        "ciqual": "24001",
+        "gramos": 15
+      }
+    ]
   }
 ]
