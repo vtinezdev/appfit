@@ -42195,5 +42195,262 @@
         "gramos": 6
       }
     ]
+  },
+  {
+    "id": "mejillones-vapor",
+    "nombre": "Mejillones al vapor, cocidos",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, tanda 57 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 893,
+    "ingredientes": [
+      {
+        "ciqual": "10026",
+        "gramos": 1000
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11053",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "mejillones-marinera",
+    "nombre": "Mejillones a la marinera, cocinados",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, tanda 57 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1006,
+    "ingredientes": [
+      {
+        "ciqual": "10026",
+        "gramos": 800
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "almejas-plancha",
+    "nombre": "Almejas a la plancha, cocinadas",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, tanda 57 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 364,
+    "ingredientes": [
+      {
+        "ciqual": "10017",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11014",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "vieiras-gratinadas",
+    "nombre": "Vieiras gratinadas, horneadas",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, tanda 57 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 450,
+    "ingredientes": [
+      {
+        "ciqual": "10045",
+        "gramos": 400
+      },
+      {
+        "ciqual": "7500",
+        "gramos": 30
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 50
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "cigalas-plancha",
+    "nombre": "Cigalas a la plancha, cocinadas",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, tanda 57 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 437,
+    "ingredientes": [
+      {
+        "ciqual": "10024",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
+  },
+  {
+    "id": "langostinos-ajillo",
+    "nombre": "Langostinos al ajillo, cocinados",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, tanda 57 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 412,
+    "ingredientes": [
+      {
+        "ciqual": "10021",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20151",
+        "gramos": 2
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "pulpo-guisado",
+    "nombre": "Pulpo guisado con patatas, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 57 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1481,
+    "ingredientes": [
+      {
+        "ciqual": "10018",
+        "gramos": 800
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 300
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "sepia-salsa",
+    "nombre": "Sepia en salsa, cocinada",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, tanda 57 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 857,
+    "ingredientes": [
+      {
+        "ciqual": "10016",
+        "gramos": 600
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 150
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "langosta-plancha",
+    "nombre": "Langosta a la plancha, cocinada",
+    "categoria": "Mariscos",
+    "referencia": "Lote manual de platos habituales en España, tanda 57 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 508,
+    "ingredientes": [
+      {
+        "ciqual": "10015",
+        "gramos": 600
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 4
+      }
+    ]
   }
 ]
