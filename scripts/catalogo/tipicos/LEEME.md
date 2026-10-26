@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1027 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
-AppFit de alimentos sueltos) y 627 recetas CIQUAL (61 hasta el 25 de octubre y
-566 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1052 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
+AppFit de alimentos sueltos) y 652 recetas CIQUAL (61 hasta el 25 de octubre y
+591 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -696,3 +696,7 @@ Fuente AppFit (URLs en notas): quesos Afuega'l Pitu, Gamonéu, nata de Cantabria
 ### Duodécima tanda de recetas: gimnasio y táper (19)
 
 Tápers de comida preparada (pollo con arroz y brócoli, pollo con boniato, ternera con arroz, salmón con quinoa, pavo con patata, merluza con patata, pasta con pollo), ensalada de quinoa con pollo, pechuga al horno, hamburguesas de pollo y albóndigas de pavo caseras, tortilla de claras con pavo, wrap de pavo, bizcocho y muffins fit de avena, proats, batido de avena y plátano, yogur con avena y fresas y tortitas de arroz con crema de cacahuete. Recetas con ingredientes CIQUAL en crudo.
+
+### Decimotercera tanda de recetas: platos regionales (25)
+
+Arroces (negro, con costra, caldero murciano, arròs amb fesols i naps), bacalao (empedrat, esqueixada, atascaburras, remojón, pimientos rellenos, sancocho), cuchara (berza jerezana, ropa vieja canaria, sopas mallorquinas, gazpachuelo, caldereta de langosta, all i pebre), carnes (duelos y quebrantos, zorza, choto al ajillo, pastel de carne murciano), chipirones en su tinta, merluza a la sidra, coca de recapte y dulces (frixuelos, paparajotes). El bacalao desalado se calcula con bacalao fresco CIQUAL.

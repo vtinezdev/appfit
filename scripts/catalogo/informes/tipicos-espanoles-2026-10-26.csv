@@ -565,3 +565,28 @@ proats;Gachas de avena con claras (proats), cocinadas;Cereales de desayuno y bar
 batido-avena-platano;Batido de avena y plátano con leche, listo para consumir;Bebidas;;86,8;4,2;13;1,8;440;9310:40 19041:300 13005:100
 yogur-avena-frutos-rojos;Yogur con avena y fresas, listo para consumir;Yogures y postres lácteos;;102,7;4,6;14,9;2;280;19593:150 9310:40 13014:80 31008:10
 tortitas-arroz-cacahuete;Tortitas de arroz con crema de cacahuete y plátano, listas para consumir;Cereales de desayuno y barritas;;268,6;6,9;35,1;10,3;110;7352:30 15202:20 13005:60
+arroz-negro;Arroz negro con sepia, cocinado;Platos preparados;;124,8;5,9;16,4;3,8;1500;9100:300 10016:400 20034:100 20276:100 11000:10 17270:50 18066:900 11017:8
+arroz-costra;Arroz con costra, horneado;Platos preparados;;176,2;9,7;14,1;8,8;1900;9100:300 36016:300 28400:200 8703:100 20516:60 22000:300 20276:100 17270:40 18066:900 11017:8 11039:0.2
+empedrat;Empedrat de bacalao y alubias, listo para consumir;Platos preparados;;120,6;7,4;8,9;5,5;880;20501:150 18066:250 26043:150 20276:150 20034:80 20085:60 13032:30 17270:40 11220:10 11017:2
+esqueixada;Esqueixada de bacalao, lista para consumir;Platos preparados;;99;6,7;2,2;6,9;720;26043:250 20276:250 20034:80 20085:60 13032:40 17270:40 11220:10
+atascaburras;Atascaburras (bacalao con patata), cocinado;Platos preparados;ajoarriero manchego;208,9;7;11,9;14,2;850;4008:600 26043:200 11000:15 17270:100 22000:60 15005:20 11017:3
+duelos-quebrantos;Duelos y quebrantos (huevos con chorizo y tocino), cocinados;Platos preparados;;247,9;17,2;0,5;19,7;300;22000:240 30315:60 28501:40 17270:5
+berza-jerezana;Berza jerezana, cocida;Platos preparados;berza andaluza;86,7;5;5,4;4,6;3000;20516:200 20501:100 20069:300 20061:150 20044:150 30315:80 8703:80 28470:80 6583:200 18066:2000 11049:5 11042:2 11000:10 11017:10
+ropa-vieja-canaria;Ropa vieja canaria, cocinada;Platos preparados;;124;8,8;9,3;5,3;1800;20516:200 6583:300 36016:200 4008:300 20034:150 20276:200 20085:100 11000:10 17270:50 11049:5 18066:800 11017:8
+chipirones-tinta;Chipirones en su tinta, cocinados;Platos preparados;txipirones en su tinta|calamares en su tinta caseros;120,5;9,8;5,2;6,3;950;10001:600 20034:250 20085:100 20276:100 11000:10 17270:50 5215:50 7001:20 11017:5
+merluza-sidra;Merluza a la sidra con almejas, cocinada;Platos preparados;;115,4;14;2,8;4,9;1150;26044:800 20034:200 5003:200 10017:150 17270:40 9440:10 11017:6
+frixuelos;Frixuelos asturianos, cocinados;Galletas, bollería y pasteles;fayuelos|filloas asturianas;203,8;6,8;28,2;6,9;470;9440:125 19023:250 22000:100 31016:25 16400:15
+zorza;Zorza (carne de chorizo frita), cocinada;Platos preparados;picadillo de chorizo|raxo adobado;222,1;22,4;1,4;13,2;480;28473:500 11049:15 11000:10 11035:2 11017:10 17270:30 5215:50
+sancocho-canario;Sancocho canario, cocido;Platos preparados;;96,4;6,7;11,7;2;1700;26043:500 4008:800 4101:400 17270:30 11000:5 11049:3 11220:10 11017:6
+sopas-mallorquinas;Sopas mallorquinas, cocidas;Platos preparados;;75,8;1,7;8,9;3,3;1700;20069:400 20016:200 20034:150 20276:150 20085:100 11000:10 17270:50 7001:200 18066:800 11017:8
+coca-recapte;Coca de recapte, horneada;Platos preparados;;230,3;4,5;26,9;11;1000;9440:300 18066:160 17270:100 11010:10 11017:6 20087:300 20053:300 20034:200 26177:40
+caldero-murciano;Caldero murciano, cocinado;Platos preparados;;135,1;5,7;16;5,2;1500;9100:300 26088:300 11000:15 11049:5 20276:100 17270:60 18066:1100 11017:8
+paparajotes;Paparajotes, fritos;Galletas, bollería y pasteles;;310,3;6,5;35,2;15,6;500;9440:150 19023:200 22000:100 31016:50 11046:5 17440:60 11025:2
+pastel-carne-murciano;Pastel de carne murciano, horneado;Platos preparados;;319,5;12,4;19,9;20,8;880;23410:400 6536:300 30315:60 22000:150 20034:50 17270:15 11017:4
+gazpachuelo;Gazpachuelo malagueño, cocido;Platos preparados;;92,4;3,2;4,1;6,8;1700;26044:250 4008:400 18066:1000 11054:150 2007:20 11017:6
+remojon;Remojón granadino, listo para consumir;Platos preparados;ensalada de naranja y bacalao;105,1;4,7;5,1;6,9;850;13034:500 26043:150 13032:60 20034:50 22000:60 17270:40 11017:2
+chivo-ajillo;Choto al ajillo, cocinado;Platos preparados;cabrito al ajillo;194;22,3;0,8;10,5;750;21800:800 11000:30 17270:60 5215:100 11053:1 11017:8
+caldereta-langosta;Caldereta de langosta, cocinada;Platos preparados;;87;7,9;3,9;4;2400;10015:1000 20034:200 20276:200 20085:100 11000:10 17270:80 1023:30 18066:1000 7001:100 11017:8
+arros-fesols-naps;Arroz con alubias y nabos (arròs amb fesols i naps), cocido;Platos preparados;;95,6;5,1;11,7;2,9;2700;9100:300 20501:150 20064:300 28501:150 8703:100 28473:200 18066:2000 11039:0.2 11049:3 11017:10
+all-i-pebre;All i pebre de anguila, cocinado;Platos preparados;;163,8;7,1;7,2;11,5;1650;27016:600 4008:600 11000:20 15041:30 20151:3 11049:10 17270:60 18066:600 11017:8
+pimientos-rellenos-bacalao;Pimientos rellenos de bacalao, cocinados;Platos preparados;;112,3;6,6;7,4;6,1;950;20087:500 26043:250 20034:80 9440:30 19023:250 16400:30 17270:20 11017:3
