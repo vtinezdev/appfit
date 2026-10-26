@@ -2,6 +2,7 @@ import { lazy, Suspense, useLayoutEffect, useRef, useState, type ReactNode } fro
 import Button, { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
+import FilaDeslizable from '../../../shared/components/FilaDeslizable'
 import { Input } from '../../../shared/components/Input'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
@@ -301,6 +302,8 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
           const previo = anteriores?.get(s.id)
           return (
             <div key={s.id} className="series-set space-y-2" data-motion-id={s.id}>
+              {/* Deslizar la fila a la izquierda revela «Borrar», como en el Diario; el menú de la serie lo sigue ofreciendo. */}
+              <FilaDeslizable etiqueta={`Borrar ${nombreSerie} de ${ejercicio.nombre}`} onBorrar={() => { if (!bloqueado) onBorrar(s.id, numero ?? 0) }}>
               <div className={`${fila} ${nuevaId === s.id ? 'series-new' : ''}`}>
                 <button type="button" className="celda-tipo series-type app-button tabular" disabled={bloqueado} aria-haspopup="dialog"
                   aria-label={`Opciones de ${nombreSerie} de ${ejercicio.nombre}${tipo !== 'normal' && tipo !== 'calentamiento' ? ` (${TIPOS_SERIE[tipo].label.toLowerCase()})` : ''}`}
@@ -328,6 +331,7 @@ export default function PanelEjercicio({ ejercicio, sets, anteriores, referencia
                   </button>
                 ) : null}
               </div>
+              </FilaDeslizable>
               {lados && filasLados(s, nombreSerie, s, previo)}
               {s.bajadas?.map((b, i) => lados ? filasLados(s, nombreSerie, b, previo?.bajadas[i], { id: b.id, n: i + 1 }) : (
                 <div key={b.id} className={`${fila} series-child`}>

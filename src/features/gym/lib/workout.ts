@@ -196,6 +196,16 @@ export function minutosEntre(inicio: number, fin: number): number {
   return Math.max(1, Math.round((fin - inicio) / 60000))
 }
 
+/**
+ * Inicio y fin al terminar un entreno con la duración corregida (en minutos; `null`, la del reloj). Si dura menos que lo
+ * transcurrido, termina antes (se olvidó pararlo); si dura más, empezó antes (se olvidó empezarlo). Nunca acaba en el futuro.
+ */
+export function tiemposAlTerminar(inicio: number, ahora: number, minutos: number | null): { inicio: number; fin: number } {
+  if (minutos === null) return { inicio, fin: ahora }
+  const ms = Math.min(24 * 60, Math.max(1, Math.round(minutos))) * 60000
+  return inicio + ms <= ahora ? { inicio, fin: inicio + ms } : { inicio: ahora - ms, fin: ahora }
+}
+
 /** Mensaje de error si un entreno registrado a posteriori no es válido; `null` si lo es. */
 export function validarEntrenoPasado(inicio: number | null, minutos: number, ahora: number): string | null {
   if (inicio === null) return 'Indica una fecha y una hora válidas.'
