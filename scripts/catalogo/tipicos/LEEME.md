@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1400 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 985 recetas CIQUAL (61 hasta el 25 de octubre y
-924 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1415 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 1000 recetas CIQUAL (61 hasta el 25 de octubre y
+939 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -788,3 +788,7 @@ Italiana (saltimbocca, pollo a la cazadora y a la parmesana, polenta, arancini, 
 ### Trigesimotercera tanda de recetas: bocadillos, sándwiches y wraps (16)
 
 Bocadillos (lomo con pimientos, pollo con queso y beicon, salmón y queso, vegetal con atún, queso y tomate, jamón y queso, albóndigas, bonito con pimientos), montadito de pringá, pulga de jamón, sándwiches (pollo y aguacate, pavo y aguacate, croque madame) y wraps (pollo césar, atún, falafel). Queso de oveja curado CIQUAL como queso manchego.
+
+### Trigesimocuarta tanda de recetas: más tapas (15)
+
+Croquetas de chorizo, morcilla y queso de cabra, caracoles en salsa, mollejas de cordero y de pollo al ajillo, champiñones al ajillo, pinchos de champiñón con gamba, brochetas de gambas con beicon, dátiles con beicon, chorizo al vino, morcilla con cebolla y piñones, berberechos al vapor y tostas de cabra con cebolla y de pisto con huevo de codorniz.

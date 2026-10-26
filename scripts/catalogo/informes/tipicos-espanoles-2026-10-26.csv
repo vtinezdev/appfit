@@ -923,3 +923,18 @@ croque-madame;Sándwich mixto con huevo frito (croque madame), cocinado;Pan y to
 wrap-pollo-cesar;Wrap de pollo césar, listo para consumir;Pan y tostadas;;218,2;15,2;18,5;8,7;180;7815:60 36017:80 20031:30 12120:10 11248:15
 wrap-atun;Wrap de atún con maíz, listo para consumir;Pan y tostadas;;212,6;9,3;19,5;10,4;190;7815:60 26245:50 20031:20 20276:30 20066:20 11054:10
 wrap-falafel;Wrap de falafel con yogur, listo para consumir;Pan y tostadas;;180,5;5,7;22,9;6,5;210;7815:60 25590:80 20031:20 20276:30 19593:20
+croquetas-chorizo;Croquetas de chorizo, caseras, fritas;Platos preparados;;305,2;8,3;16,4;22,8;800;19023:500 9440:80 16400:40 22000:60 7500:60 17440:80 11017:3 30315:120
+croquetas-morcilla;Croquetas de morcilla, caseras, fritas;Platos preparados;;289,8;6,9;15,9;21,9;820;19023:500 9440:80 16400:40 22000:60 7500:60 17440:80 11017:3 8703:150
+croquetas-queso-cabra;Croquetas de queso de cabra, caseras, fritas;Platos preparados;;287,6;8,1;15,9;21,2;820;19023:500 9440:80 16400:40 22000:60 7500:60 17440:80 11017:3 12812:150
+caracoles-salsa;Caracoles en salsa picante, cocinados;Platos preparados;caracoles a la madrileña;122,6;11;2,2;7,6;900;10008:500 20048:200 30315:60 20034:100 11000:10 20151:3 17270:40 11049:5 18066:150 11017:5
+mollejas-ajillo;Mollejas de cordero al ajillo, cocinadas;Platos preparados;;250,9;17,9;0,9;18,8;420;40302:500 11000:15 17270:30 5215:50 11017:4
+mollejas-pollo-ajillo;Mollejas de pollo al ajillo, cocinadas;Platos preparados;;195,4;21,2;0,7;11,9;400;40700:500 11000:15 17270:30 11017:4
+champinones-ajillo;Champiñones al ajillo, cocinados;Verduras y hortalizas;;113;2,9;3,1;9,6;330;20056:400 11000:15 20151:2 17270:30 11014:5 11017:3
+pinchos-champinon-gamba;Pinchos de champiñón con gamba (estilo Logroño), cocinados;Platos preparados;;102,1;7,7;2,8;6,5;340;20056:300 10021:100 11000:5 17270:20 11017:2
+brochetas-gamba-bacon;Brochetas de gambas con beicon, cocinadas;Platos preparados;;188;22,4;2,7;9,7;250;10021:200 28720:100
+datiles-bacon;Dátiles con beicon, horneados;Platos preparados;;328,8;10,9;38,3;13,5;170;13011:100 28720:100
+chorizo-vino;Chorizo al vino tinto, cocinado;Platos preparados;;365,4;18,6;0,9;28,6;380;30315:300 5214:150
+morcilla-cebolla-pinones;Morcilla con cebolla y piñones, cocinada;Platos preparados;;292,1;9,8;2,6;26,4;420;8703:300 20034:150 15025:20 17270:15
+berberechos-vapor;Berberechos al vapor con limón, cocinados;Mariscos;;87,3;12,3;3;2,9;280;10017:300 2007:10 11017:1
+tosta-cabra-cebolla;Tosta de queso de cabra con cebolla caramelizada, lista para consumir;Pan y tostadas;;264,7;9,3;30,8;11;140;7001:60 12812:40 20034:50 17270:5 31016:5
+tosta-pisto-codorniz;Tosta de pisto con huevo de codorniz, lista para consumir;Pan y tostadas;;183,1;5,3;23,5;7,1;160;7001:60 20020:50 20276:30 20085:20 17270:8 22050:20
