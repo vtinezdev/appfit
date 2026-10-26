@@ -980,3 +980,7 @@ Nachos caseros de tortilla de maíz al horno, almendras tostadas caseras con sal
 ### Tanda 81 de recetas: cocina mexicana (9)
 
 Tacos de pescado rebozado, burrito vegetariano de alubias y arroz, quesadilla de champiñones, fajitas de gambas, tostadas mexicanas de pollo, elote (maíz asado con mayonesa y queso), sopa de tortilla mexicana, huevos a la mexicana y arroz rojo mexicano.
+
+### Tanda 82 de recetas: cocina italiana (8)
+
+Risotto de marisco, risotto de espárragos, pizza de verduras casera, pizza de jamón serrano y rúcula casera, calzone casero, ñoquis de patata con salsa de queso azul, pollo piccata al limón y vitello tonnato.
