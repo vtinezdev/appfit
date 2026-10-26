@@ -13,7 +13,7 @@ import type { ModoCarga } from '../../../shared/db/types'
 import { chartAxis, chartColors, chartDashGimnasios, chartGoalLine, chartGrid, chartTooltip, escalaAjustada } from '../../../shared/design/chart'
 import { getSettings } from '../../../shared/db/settings'
 import { estadoMetas, metaDeEjercicio } from '../../vitrina/lib/metas'
-import { formatDiaMes, formatFechaHora, todayISO } from '../../../shared/lib/dates'
+import { formatDiaMes, todayISO } from '../../../shared/lib/dates'
 import { SearchInput, Select } from '../../../shared/components/Input'
 import FilterChips from '../../../shared/components/FilterChips'
 import { familiasPresentes, filtrarPorEjercicio, PRIMEROS_PROGRESO, type FamiliaProgreso } from '../lib/listaProgreso'
@@ -29,6 +29,7 @@ import { formatCompact, formatInt, formatNumber } from '../../../shared/lib/form
 import Card from '../../../shared/components/Card'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 import MiniaturaEjercicio from '../components/MiniaturaEjercicio'
+import SesionesEjercicio from '../components/SesionesEjercicio'
 import TarjetasVariante from '../components/TarjetasVariante'
 import ChipAjuste from '../components/ChipAjuste'
 import BloqueLiga from '../../liga/components/BloqueLiga'
@@ -281,11 +282,8 @@ export default function Progreso() {
       </Card>
       <section aria-label="Sesiones" className="space-y-stack">
         <SectionHeader variant="section">Sesiones</SectionHeader>
-        <ListGroup aria-label={`Sesiones de ${ejercicio?.nombre ?? 'este ejercicio'}`}>{[...datos].reverse().map(d => <li key={d.workoutId} className="flex min-h-touch items-center justify-between gap-3 py-2">
-          <span className="min-w-0"><span className="tabular block text-body font-medium text-fg">{formatFechaHora(d.inicio)}</span>
-            <span className="tabular block break-words text-caption text-fg-muted">Mejor serie: {textoMejorSerie(d.mejor, modo)}{todosLosGimnasios ? ` · ${nombreGimnasio(d.gimnasioId)}` : ''}</span></span>
-          <span className="tabular shrink-0 text-right text-body font-semibold text-fg">{valor(d)} <span className="text-caption font-normal text-fg-muted">{unidad}</span></span>
-        </li>)}</ListGroup>
+        <SesionesEjercicio nombre={ejercicio?.nombre ?? 'este ejercicio'} unidad={unidad}
+          filas={[...datos].reverse().map(d => ({ id: d.workoutId, inicio: d.inicio, mejor: textoMejorSerie(d.mejor, modo), valor: d[metrica] ?? 0, ...(todosLosGimnasios ? { gimnasio: nombreGimnasio(d.gimnasioId) } : {}) }))} />
       </section>
       <Sheet open={ayuda} onClose={() => setAyuda(false)} title="Qué significa cada cifra">
         <dl className="divide-y divide-line">{ayudaCifras(modo, rm).map(d => <div key={d.nombre} className="space-y-1 py-3 first:pt-0">
