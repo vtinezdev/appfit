@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-881 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
-AppFit de alimentos sueltos) y 506 recetas CIQUAL (61 hasta el 25 de octubre y
-445 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+911 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
+AppFit de alimentos sueltos) y 536 recetas CIQUAL (61 hasta el 25 de octubre y
+475 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -668,3 +668,7 @@ pizzas caseras de jamón y queso y de atún, y empanadillas al horno.
 ### Séptima tanda de recetas: tapas y raciones (28)
 
 Tapas y raciones de bar: bravioli, morcilla con pimientos, sepia, zamburiñas y langostinos a la plancha, almejas al ajillo, tostas y montaditos, rebozados (queso, berenjena, aros de cebolla, mejillones tigre, lagrimitas), croquetas de queso azul y de gambas, ensaladilla de surimi, aceitunas aliñadas, sardinas fritas, huevos de codorniz con jamón, nachos, patatas gajo, champiñones gratinados, pimientos rellenos de atún, brochetas de langostino, salpicón de pulpo y ensalada de tomate con ventresca. Recetas con ingredientes CIQUAL en crudo.
+
+### Octava tanda de recetas: cenas ligeras, verduras y ensaladas (30)
+
+Verduras de diario (acelgas con patata, coles de Bruselas, calabaza y boniato al horno, tomates a la provenzal, berenjenas rellenas, espaguetis de calabacín, verduras salteadas), purés, sopas y cremas (verduras, vichyssoise, espinacas, tomate), ensaladas (aguacate, pollo, atún y maíz, salmón ahumado, griega, caprese, arroz, espinacas con cabra, pepino, coleslaw), espárragos con mayonesa y cenas ligeras (merluza al vapor, salmón en papillote, huevos escalfados, salteados de pollo y de tofu). Recetas con ingredientes CIQUAL en crudo.
