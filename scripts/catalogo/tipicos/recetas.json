@@ -42755,5 +42755,274 @@
         "gramos": 3
       }
     ]
+  },
+  {
+    "id": "pimientos-asados-ajo",
+    "nombre": "Pimientos asados con ajo y aceite, listos para consumir",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 59 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 518,
+    "ingredientes": [
+      {
+        "ciqual": "20087",
+        "gramos": 800
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "11220",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "berenjena-asada-yogur",
+    "nombre": "Berenjena asada con yogur y miel, lista para consumir",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 59 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 575,
+    "ingredientes": [
+      {
+        "ciqual": "20053",
+        "gramos": 600
+      },
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 20
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "tomates-asados-cabra",
+    "nombre": "Tomates asados con queso de cabra, horneados",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 59 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 477,
+    "ingredientes": [
+      {
+        "ciqual": "20276",
+        "gramos": 500
+      },
+      {
+        "ciqual": "12812",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11035",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "esparragos-huevo",
+    "nombre": "Espárragos trigueros con huevo, cocinados",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 59 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 371,
+    "ingredientes": [
+      {
+        "ciqual": "20279",
+        "gramos": 300
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 15
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "habas-salteadas",
+    "nombre": "Habas tiernas salteadas con ajo y menta, cocinadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 59 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 392,
+    "ingredientes": [
+      {
+        "ciqual": "20517",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11027",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "alcachofas-almejas",
+    "nombre": "Alcachofas con almejas, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 59 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 776,
+    "ingredientes": [
+      {
+        "ciqual": "20052",
+        "gramos": 600
+      },
+      {
+        "ciqual": "10017",
+        "gramos": 200
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "9440",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "calabacin-ajo-menta",
+    "nombre": "Calabacín salteado con ajo y menta, cocinado",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 59 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 541,
+    "ingredientes": [
+      {
+        "ciqual": "20020",
+        "gramos": 600
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11027",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "ratatouille-casera",
+    "nombre": "Ratatouille casera, cocinada",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 59 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1133,
+    "ingredientes": [
+      {
+        "ciqual": "20053",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20020",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "acelgas-ajo",
+    "nombre": "Acelgas rehogadas con ajo, cocinadas",
+    "categoria": "Verduras y hortalizas",
+    "referencia": "Lote manual de platos habituales en España, tanda 59 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 542,
+    "ingredientes": [
+      {
+        "ciqual": "20004",
+        "gramos": 600
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 10
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 25
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
   }
 ]
