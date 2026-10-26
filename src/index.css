@@ -125,6 +125,13 @@ input, select, textarea, button {
 input, select, textarea { scroll-margin-block: 1rem; }
 /* Algunos controles nativos (fecha/select en Android) tienen un mínimo intrínseco mayor que su columna. */
 input, select, textarea { max-width: 100%; min-width: 0; }
+/* Safari iOS pinta fecha y hora como una píldora nativa centrada, con un ancho mínimo propio que desborda su columna. */
+input[type='date'], input[type='time'], input[type='datetime-local'], input[type='month'] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+}
+input::-webkit-date-and-time-value { text-align: left; margin: 0; }
 button, input, select, textarea { touch-action: manipulation; }
 button { overflow-wrap: anywhere; }
 button:disabled { cursor: default; }

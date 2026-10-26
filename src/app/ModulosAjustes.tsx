@@ -1,13 +1,15 @@
 import { useState } from 'react'
+import Ayuda from '../shared/components/Ayuda'
 import { IconButton } from '../shared/components/Button'
+import Interruptor from '../shared/components/Interruptor'
 import ListGroup from '../shared/components/ListGroup'
-import NotaAmpliable from '../shared/components/NotaAmpliable'
-import SegmentedControl from '../shared/components/SegmentedControl'
 import { updateSettings } from '../shared/db/settings'
 import type { Settings } from '../shared/db/types'
+import * as creatinaRepo from '../features/inicio/data/creatinaRepo'
 import { AL_APAGAR, MODULOS, moduloActivo, moverTarjeta, NOMBRE_MODULO, NOMBRE_TARJETA, ordenTarjetas, tarjetaVisible } from '../shared/lib/modulos'
 
 const ERROR = 'No se ha podido guardar el ajuste. Inténtalo de nuevo.'
+const AL_APAGAR_CREATINA = 'Al activarla, su tarjeta sale en Inicio; la dosis y la fase de carga se ajustan en Ajustes › Creatina. Apagarla conserva tus tomas.'
 
 /**
  * Ajustes › «Lo que usas» (B9): qué módulos se ven, con lo que pasa al apagarlos, y el orden de las tarjetas de Inicio.
@@ -24,7 +26,6 @@ export default function ModulosAjustes({ settings, onError }: { settings: Settin
   }
   // Igual con los módulos: dos cambios seguidos no pisan el primero con una lectura antigua.
   const [modulos, setModulos] = useState(settings.modulos)
-  const actual = { ...settings, modulos }
   const encender = (m: (typeof MODULOS)[number], activo: boolean) => {
     const siguiente = { ...modulos }
     if (activo) delete siguiente[m]
@@ -33,27 +34,41 @@ export default function ModulosAjustes({ settings, onError }: { settings: Settin
     setModulos(valor)
     guardar({ modulos: valor })
   }
+  // Creatina no es un módulo de `Settings.modulos`: tiene su propia configuración, que conserva al apagarla.
+  const [creatina, setCreatina] = useState(settings.creatina?.activa === true)
+  const encenderCreatina = (activa: boolean) => {
+    setCreatina(activa)
+    creatinaRepo.configurar({ activa }).catch(() => { setCreatina(!activa); onError(ERROR) })
+  }
+  const actual = { ...settings, modulos, creatina: { ...settings.creatina, activa: creatina } }
 
   return <div className="space-y-section">
-    <section aria-label="Módulos" className="space-y-stack">
-      <NotaAmpliable resumen="Ocultar un módulo no borra nada: vuelve tal cual al activarlo."><p>Tus registros siguen en el móvil y en la copia de seguridad.</p></NotaAmpliable>
-      {MODULOS.map((m) => {
-        const activo = moduloActivo(actual, m)
-        return <div key={m} className="space-y-1">
-          <SegmentedControl label={NOMBRE_MODULO[m]} valor={activo ? 'si' : 'no'} onChange={(v) => encender(m, v === 'si')}
-            opciones={[{ valor: 'si', label: `Usar ${NOMBRE_MODULO[m].toLowerCase()}` }, { valor: 'no', label: 'Ocultar' }]} />
-          <p className="break-words text-caption text-fg-muted">{AL_APAGAR[m]}</p>
-        </div>
-      })}
+    <section aria-labelledby="modulos" className="space-y-2">
+      <div className="flex items-center justify-between gap-2">
+        <h3 id="modulos" className="text-title text-fg">Módulos</h3>
+        <Ayuda titulo="Qué pasa al ocultar un módulo">
+          <p>Tus registros siguen en el móvil y en la copia de seguridad: al activarlo vuelve tal cual.</p>
+          <ul className="space-y-2">
+            {MODULOS.map((m) => <li key={m}><span className="font-semibold text-fg">{NOMBRE_MODULO[m]}.</span> {AL_APAGAR[m]}</li>)}
+            <li><span className="font-semibold text-fg">Creatina.</span> {AL_APAGAR_CREATINA}</li>
+          </ul>
+        </Ayuda>
+      </div>
+      <ListGroup aria-label="Módulos" pie="Ocultar un módulo no borra nada.">
+        {MODULOS.map((m) => <li key={m}>
+          <Interruptor label={NOMBRE_MODULO[m]} activo={moduloActivo(actual, m)} onChange={(v) => encender(m, v)} />
+        </li>)}
+        <li><Interruptor label="Creatina" activo={creatina} onChange={encenderCreatina} /></li>
+      </ListGroup>
     </section>
 
     <section aria-labelledby="ordenar-inicio" className="space-y-2">
       <h3 id="ordenar-inicio" className="text-title text-fg">Ordenar Inicio</h3>
-      <ListGroup variante="plana" aria-label="Tarjetas de Inicio">
+      <ListGroup aria-label="Tarjetas de Inicio" pie="Los avisos y la revisión del lunes van siempre arriba.">
         {orden.map((t, i) => {
           const visible = tarjetaVisible(actual, t)
           return <li key={t} className="flex min-h-touch items-center gap-2 py-1">
-            <span className="min-w-0 flex-1">
+            <span className={`min-w-0 flex-1 ${visible ? '' : 'opacity-50'}`}>
               <span className="block break-words text-body-sm font-semibold text-fg">{NOMBRE_TARJETA[t]}</span>
               {!visible && <span className="block text-caption text-fg-muted">Oculta con su módulo</span>}
             </span>
@@ -64,7 +79,6 @@ export default function ModulosAjustes({ settings, onError }: { settings: Settin
           </li>
         })}
       </ListGroup>
-      <p className="text-caption text-fg-muted">Los avisos y la revisión del lunes siguen arriba.</p>
     </section>
   </div>
 }

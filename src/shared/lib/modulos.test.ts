@@ -17,8 +17,10 @@ describe('módulos activables', () => {
   })
 
   it('tarjetas de Inicio: las de los módulos apagados no salen', () => {
-    expect(tarjetasInicio({})).toEqual(TARJETAS_INICIO)
-    expect(tarjetasInicio({ modulos: { nutricion: false, gym: false } })).toEqual(['progreso', 'registros', 'creatina'])
+    const creatina = { creatina: { activa: true } }
+    expect(tarjetasInicio(creatina)).toEqual(TARJETAS_INICIO)
+    expect(tarjetasInicio({})).not.toContain('creatina')
+    expect(tarjetasInicio({ ...creatina, modulos: { nutricion: false, gym: false } })).toEqual(['progreso', 'registros', 'creatina'])
     expect(tarjetasInicio({ modulos: { peso: false } })).toContain('registros')
     expect(tarjetasInicio({ modulos: { peso: false, agua: false } })).toContain('registros')
     expect(tarjetasInicio({ modulos: { peso: false, agua: false, pasos: false } })).not.toContain('registros')
@@ -26,7 +28,7 @@ describe('módulos activables', () => {
 
   it('orden guardado: sin desconocidas ni repetidas y con las que falten al final', () => {
     expect(ordenTarjetas({ ordenInicio: ['entreno', 'x', 'entreno', 'energia'] })).toEqual(['entreno', 'energia', 'progreso', 'registros', 'creatina'])
-    expect(tarjetasInicio({ ordenInicio: ['entreno', 'energia'], modulos: { nutricion: false } })).toEqual(['entreno', 'progreso', 'registros', 'creatina'])
+    expect(tarjetasInicio({ ordenInicio: ['entreno', 'energia'], modulos: { nutricion: false } })).toEqual(['entreno', 'progreso', 'registros'])
   })
 
   it('mover una tarjeta con las flechas', () => {

@@ -43,8 +43,9 @@ export function ordenTarjetas(s: Pick<Settings, 'ordenInicio'> | undefined): Tar
   return [...guardado, ...TARJETAS_INICIO.filter((t) => !guardado.includes(t))]
 }
 
-/** ¿Se ve la tarjeta con estos módulos? Registros, mientras quede peso, agua o pasos. */
-export function tarjetaVisible(s: Pick<Settings, 'modulos'> | undefined, t: TarjetaInicio): boolean {
+/** ¿Se ve la tarjeta con estos módulos? Registros, mientras quede peso, agua o pasos; Creatina, solo activada. */
+export function tarjetaVisible(s: Pick<Settings, 'modulos' | 'creatina'> | undefined, t: TarjetaInicio): boolean {
+  if (t === 'creatina') return s?.creatina?.activa === true
   if (t === 'energia') return moduloActivo(s, 'nutricion')
   if (t === 'entreno') return moduloActivo(s, 'gym')
   if (t === 'registros') return moduloActivo(s, 'peso') || moduloActivo(s, 'agua') || moduloActivo(s, 'pasos')
@@ -52,7 +53,7 @@ export function tarjetaVisible(s: Pick<Settings, 'modulos'> | undefined, t: Tarj
 }
 
 /** Tarjetas de Inicio en su orden, solo las visibles. */
-export const tarjetasInicio = (s: Pick<Settings, 'modulos' | 'ordenInicio'> | undefined): TarjetaInicio[] =>
+export const tarjetasInicio = (s: Pick<Settings, 'modulos' | 'ordenInicio' | 'creatina'> | undefined): TarjetaInicio[] =>
   ordenTarjetas(s).filter((t) => tarjetaVisible(s, t))
 
 /** Mueve una tarjeta un puesto arriba (−1) o abajo (+1) en el orden completo; devuelve el orden nuevo para guardar. */

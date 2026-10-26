@@ -36,12 +36,7 @@ export default function CreatinaAjustes({ settings }: { settings: Settings }) {
     await ejecutar(async () => { await creatinaRepo.configurar({ dosisManualG: g }); setTexto(null) })
   }
   return <section aria-label="Creatina" className="space-y-stack">
-    <label className="flex min-h-touch items-center gap-3 text-body-sm font-medium text-fg">
-      <input type="checkbox" role="switch" checked={config?.activa === true} disabled={ocupado}
-        onChange={e => { const activa = e.target.checked; void ejecutar(() => creatinaRepo.configurar({ activa })) }} />
-      Activar Creatina
-    </label>
-    {!config?.activa && <p className="text-caption text-fg-muted">Dosis y registro diario en Inicio.</p>}
+    {!config?.activa && <p className="text-body-sm text-fg-muted">Creatina está desactivada. Se activa en Ajustes › Lo que usas.</p>}
     {config?.activa && (datos === undefined ? <LoadingState /> : <div className="space-y-stack">
       <div className="flex items-baseline justify-between gap-3">
         <span className="text-body-sm text-fg">Mantenimiento</span>
@@ -73,7 +68,7 @@ export default function CreatinaAjustes({ settings }: { settings: Settings }) {
         <li>Automática: 0,05 g/kg del último pesaje, mínimo 3 g y redondeada a 0,5 g. Sin pesaje, 3 g.</li>
         <li>Dosis manual: la del bote. Deja el campo vacío y guarda para volver a la automática.</li>
         <li>Fase de carga opcional: 5 días a 0,3 g/kg al día, en 4 tomas. Después pasa sola a mantenimiento, donde se aplica la dosis manual.</li>
-        <li>No sube metros en Cumbres ni cuenta para rachas o logros. Desactivarla conserva tus registros.</li>
+        <li>No sube metros en Cumbres ni cuenta para rachas o logros. Se activa y desactiva en Lo que usas; desactivarla conserva tus registros.</li>
       </ul>
     </Disclosure>
   </section>

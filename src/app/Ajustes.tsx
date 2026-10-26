@@ -198,7 +198,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
         <PageHeader title="Ajustes" />
         {GRUPOS_AJUSTES.map((g) => <section key={g.nombre} aria-labelledby={`ajustes-${g.nombre}`} className="space-y-2">
           <h2 id={`ajustes-${g.nombre}`} className="px-1 text-rotulo text-fg-muted">{g.nombre}</h2>
-          <ListGroup>{g.secciones.filter((id) => id !== 'cuenta' || cuentaDisponible).map((id) => fila(id))}</ListGroup>
+          <ListGroup>{g.secciones.filter((id) => (id !== 'cuenta' || cuentaDisponible) && (id !== 'creatina' || settings.creatina?.activa === true)).map((id) => fila(id))}</ListGroup>
         </section>)}
         {onIrAReferencias && <section aria-labelledby="ajustes-saber-mas" className="space-y-2">
           <h2 id="ajustes-saber-mas" className="px-1 text-rotulo text-fg-muted">Saber más</h2>
