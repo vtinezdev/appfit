@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1585 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+1592 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
 AppFit de alimentos sueltos) y 1170 recetas CIQUAL (61 hasta el 25 de octubre y
 1109 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
@@ -848,3 +848,7 @@ Esgarraet, mojete murciano, alboronía, melocotón con vino, garbanzada y bienme
 ### Cuadragesimoctava tanda de recetas: más dulces tradicionales (7)
 
 Cañas de crema, brazo de gitano de chocolate, mostachones, almendrados, mona de Pascua, coquitos y flaó ibicenco.
+
+### Platos envasados de supermercado (7)
+
+Fuente AppFit (URLs en notas): croquetas de pollo congeladas, paella de marisco congelada, atún en escabeche, pisto, cocido madrileño, callos y albóndigas en salsa envasados. Las alcachofas en aceite se descartan por no encontrar valores de la versión en aceite.
