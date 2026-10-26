@@ -1008,3 +1008,7 @@ Canelones de verduras, hamburguesas de champiñones y avena, empanada de verdura
 ### Tanda 88 de recetas: veganos (8)
 
 Curry de garbanzos y boniato, albóndigas de lentejas en salsa de tomate, bol de arroz con tofu y verduras, pasta con crema de anacardos y espinacas, mayonesa vegana de soja, ensalada de quinoa con aguacate y maíz, pudin de chía con bebida de avena y bizcocho vegano.
+
+### Tanda 89 de recetas: altos en proteína (10)
+
+Tortilla de claras con atún al natural, pechuga de pollo a la plancha con espárragos, pavo con quinoa y brócoli, ensalada de atún, queso batido con avena y cacao, batido de queso batido y fresas, merluza con espinacas, hamburguesas de pollo y espinacas, salmón con espárragos al horno y sepia a la plancha con ensalada.

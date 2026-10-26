@@ -49894,5 +49894,263 @@
         "gramos": 5
       }
     ]
+  },
+  {
+    "id": "tortilla-claras-atun",
+    "nombre": "Tortilla de claras con atún al natural, cocinada",
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 302,
+    "ingredientes": [
+      {
+        "ciqual": "22001",
+        "gramos": 250
+      },
+      {
+        "ciqual": "26039",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "pechuga-esparragos",
+    "nombre": "Pechuga de pollo a la plancha con espárragos, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 350,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20279",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "pavo-quinoa-brocoli",
+    "nombre": "Pavo con quinoa y brócoli, cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 520,
+    "ingredientes": [
+      {
+        "ciqual": "36304",
+        "gramos": 200
+      },
+      {
+        "ciqual": "9340",
+        "gramos": 70
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20057",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "ensalada-atun-huevo-garbanzos",
+    "nombre": "Ensalada de atún, huevo y garbanzos, lista para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 529,
+    "ingredientes": [
+      {
+        "ciqual": "26039",
+        "gramos": 120
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20532",
+        "gramos": 150
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 80
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "queso-batido-avena-cacao",
+    "nombre": "Queso batido con avena y cacao, listo para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 290,
+    "ingredientes": [
+      {
+        "ciqual": "19644",
+        "gramos": 250
+      },
+      {
+        "ciqual": "9310",
+        "gramos": 30
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "batido-queso-frutos-rojos",
+    "nombre": "Batido de queso batido y fresas, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 450,
+    "ingredientes": [
+      {
+        "ciqual": "19644",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19041",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13014",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "merluza-espinacas",
+    "nombre": "Merluza con espinacas, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 393,
+    "ingredientes": [
+      {
+        "ciqual": "26044",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20059",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "hamburguesa-pollo-espinacas",
+    "nombre": "Hamburguesas de pollo y espinacas, a la plancha, cocinadas",
+    "categoria": "Carnes",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 479,
+    "ingredientes": [
+      {
+        "ciqual": "36017",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20059",
+        "gramos": 100
+      },
+      {
+        "ciqual": "22001",
+        "gramos": 30
+      },
+      {
+        "ciqual": "9310",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "salmon-esparragos-horno",
+    "nombre": "Salmón con espárragos al horno, horneado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 346,
+    "ingredientes": [
+      {
+        "ciqual": "26036",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20279",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "sepia-plancha-ensalada",
+    "nombre": "Sepia a la plancha con ensalada, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 89 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 393,
+    "ingredientes": [
+      {
+        "ciqual": "10016",
+        "gramos": 250
+      },
+      {
+        "ciqual": "20031",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
   }
 ]
