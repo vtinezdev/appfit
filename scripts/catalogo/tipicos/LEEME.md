@@ -1000,3 +1000,7 @@ Quiche de salmón y puerro, croque monsieur, fricasé de pollo con champiñones,
 ### Tanda 86 de recetas: cocina estadounidense (8)
 
 Hamburguesa doble con queso y beicon, bocadillo de cerdo desmechado a la barbacoa, patatas fritas con chili y queso, tortitas con beicon y sirope de arce, ensalada Cobb, pastel de carne al horno (meatloaf), crema de almejas (clam chowder) y patata asada rellena de queso y beicon.
+
+### Tanda 87 de recetas: vegetarianos (8)
+
+Canelones de verduras, hamburguesas de champiñones y avena, empanada de verduras, quiche de verduras, pimientos rellenos de quinoa, tofu al curry con verduras, gratinado de calabacín y hamburguesas de remolacha y garbanzos.
