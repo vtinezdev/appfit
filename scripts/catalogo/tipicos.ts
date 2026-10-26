@@ -49,6 +49,7 @@ try {
     'Cuarta tanda de alimentos sueltos AppFit: 20 alimentos comunes (proteína en polvo, skyr, yogur, batido, barrita, pan y leche proteicos; carne picada mixta, burger meat, salchichas frescas, cinta de lomo; gulas, cacao soluble, isotónica, ñoquis, atún claro en aceite de oliva y crema de verduras envasada).',
     'Quinta tanda de alimentos sueltos AppFit: 20 comunes más (acelga en hoja, borraja, ajetes, níscalos, seta de cardo, paraguayo, rosada, besugo, palometa, corvina, cabrito, magret de pato, té frío, salsa rosa, digestive, gusanitos, queso rallado, pan de espelta, piparras y choricero seco). Valores de webs que reproducen BEDCA descartados.',
     'Sexta tanda de alimentos sueltos AppFit: 19 (bacalao desalado, nécora, percebes, huevas de erizo, cordero lechal, perdiz, pitaya, kumquat, caldo de pollo de brik, gominolas, sriracha, romesco, salsa picante, natas vegetales, queso vegetal, bocados de proteína vegetal, crema de arroz y harina de avena).',
+    'Cuarta tanda de recetas AppFit (43): primeros y segundos de menú del día, platos internacionales habituales (carbonara, César, poke, fajitas…), desayunos y recetas de gimnasio (claras, tortitas de avena) y postres.',
     'Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.',
     '', 'AVISOS calidad.ts:', ...r.avisos, '', 'DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):', ...coincidencias,
     '', 'SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):', ...sinFuente.map(n => `sin fuente: ${n}`), '',

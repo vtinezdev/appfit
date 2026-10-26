@@ -313,3 +313,46 @@ manzana-asada;Manzana asada con azúcar, horneada;Frutas;;106;0,4;19,9;2,7;170;1
 te-leche;Té con leche, listo para consumir;Bebidas;;9,6;0,5;0,9;0,5;230;18154:200 19023:30
 infusion-miel;Infusión con miel, lista para consumir;Bebidas;;16,5;0;4,1;0;210;18022:200 31008:10
 batido-frutas-yogur;Batido de frutas con yogur, casero, listo para consumir;Bebidas;smoothie de frutas;57;2;9,6;0,8;325;13005:100 13014:100 19593:125
+espaguetis-carbonara;Espaguetis a la carbonara, caseros, cocinados;Platos preparados;carbonara;212,8;9,7;25,5;7,5;1150;9810:400 18066:500 28720:150 22002:80 22000:60 12120:60 11015:2 11017:4
+espaguetis-carbonara-nata;Espaguetis carbonara con nata, caseros, cocinados;Platos preparados;carbonara con nata;222,4;7,3;24,3;10,3;1250;9810:400 18066:500 28720:150 19417:200 20034:80 12120:40 17270:15 11017:5
+pasta-pesto;Pasta al pesto, casera, cocinada;Platos preparados;;222,4;6,1;28;9;1050;9810:400 18066:500 11033:40 15025:25 12120:35 11000:4 17270:60 11017:4
+macarrones-bolonesa;Macarrones a la boloñesa, caseros, cocinados;Platos preparados;;168;7,8;20,2;5,9;1600;9810:400 18066:500 6254:300 20276:500 20034:150 20009:80 17270:30 12118:40 11017:8
+ensalada-cesar;Ensalada César con pollo, lista para consumir;Platos preparados;césar;183,5;10,5;6,5;12,4;640;20171:250 36017:200 17270:20 7001:60 12120:30 11054:60 26177:8 2007:10 11000:2
+ensalada-pasta-casera;Ensalada de pasta con atún y huevo, lista para consumir;Platos preparados;;167,7;6,7;19,3;6,7;1240;9810:300 18066:380 26245:120 22000:120 20276:200 20066:80 13033:40 17270:40 11220:15 11017:5
+ensalada-quinoa;Ensalada de quinoa con verduras, lista para consumir;Platos preparados;;107,2;2,7;12,3;4,8;840;9340:150 18066:250 20276:150 20019:120 20087:80 20238:40 17270:30 2007:15 11014:5 11017:3
+tabule;Tabulé, listo para consumir;Platos preparados;tabbouleh;112,7;2,5;13,1;5;870;9690:150 18066:250 20276:200 20019:100 20238:40 11014:40 11027:10 17270:40 2007:40 11017:4
+garbanzos-langostinos;Garbanzos con langostinos, guisados;Platos preparados;;103,9;6,6;10,1;3,6;2200;20516:400 10021:300 20034:150 20276:200 20085:100 11000:10 11049:4 17270:50 11017:10 18066:1300
+arroz-costillas;Arroz con costillas, cocido;Platos preparados;;142,8;5,5;15;6,6;2200;9100:400 28400:500 20085:100 20087:100 20276:150 11000:10 11049:4 11039:0.2 17270:50 11017:10 18066:1300
+hervido-valenciano;Hervido valenciano, hervido;Platos preparados;;74,5;1,7;10,4;2,3;1450;4008:700 20061:400 20034:200 20009:150 17270:30 11017:5
+patatas-rellenas-carne;Patatas rellenas de carne, horneadas;Platos preparados;;145,6;6,8;13,5;6,6;1300;4008:1000 6254:250 20034:100 20276:150 12118:60 17270:30 11017:8
+sopa-picadillo;Sopa de picadillo, cocida;Platos preparados;;54,2;4,7;4,6;1,8;1800;9810:80 22000:120 28845:80 36001:150 7001:40 11017:8 18066:1600
+filete-ternera-patatas;Filete de ternera con patatas fritas, cocinado;Platos preparados;;246,4;10;12,3;17;330;6201:150 4008:250 17270:30 11017:2
+entrecot-plancha;Entrecot de vacuno a la plancha, cocinado;Carnes;;335,2;25,9;0;25,8;165;6103:220 17270:5 11017:2
+solomillo-vacuno-plancha;Solomillo de vacuno a la plancha, cocinado;Carnes;;206;28,8;0,3;10;150;6116:200 17270:5 11017:2
+hamburguesa-casera-completa;Hamburguesa casera completa con pan, cocinada;Platos preparados;hamburguesa completa;203,1;13;13,8;10,2;330;7259:80 6254:150 12726:20 20031:20 20276:40 20034:20 11008:15 11013:5 11017:1
+wrap-pollo;Wrap de pollo, listo para consumir;Platos preparados;burrito de pollo;194,3;13,2;14,5;8,8;260;7815:60 36017:120 20031:30 20276:40 20066:20 11054:15 17270:5 11017:1
+fajitas-pollo;Fajitas de pollo caseras, cocinadas;Platos preparados;;177,2;13,7;17;5,4;850;7815:240 36017:400 20087:120 20085:80 20034:100 17270:20 11042:2 11049:4 11017:4
+quesadilla-queso;Quesadilla de queso, cocinada;Platos preparados;;342,7;16,5;30,3;16,6;140;7815:80 12115:60
+pollo-curry-coco;Pollo al curry con leche de coco, cocinado;Platos preparados;;129,2;11,3;2,2;8;1350;36017:600 18041:400 20034:150 11000:10 11074:10 11005:12 17270:20 11017:6 18066:200
+pollo-teriyaki-arroz;Pollo con salsa de soja y arroz, cocinado;Platos preparados;;143,5;9,7;17,8;3,6;1000;36019:400 9100:200 18066:400 11104:40 31008:25 11000:5 11074:5 15010:5 17270:15
+alitas-pollo-horno;Alitas de pollo al horno, asadas;Platos preparados;;282,2;29,3;0,3;18;700;36023:1000 11049:8 11000:5 17270:15 11017:10
+albondigas-pollo;Albóndigas de pollo en salsa de tomate, guisadas;Platos preparados;;109,8;9,9;6,1;4,9;1400;36017:500 7001:50 19023:50 22000:60 11000:5 11014:5 9440:30 17270:50 20276:600 20034:150 11017:10
+poke-salmon;Poke de salmón, listo para consumir;Platos preparados;poke bowl;135,4;6,2;13,4;6;470;9100:70 18066:140 26036:100 13004:60 20019:50 13025:40 11104:15 15010:5 20238:10
+bol-arroz-pollo-verduras;Bol de arroz con pollo y verduras, cocinado;Platos preparados;;110,2;8,2;12,3;2,7;480;9100:70 18066:140 36017:130 20057:100 20009:50 17270:10 11104:10
+tortilla-claras;Tortilla de claras, cuajada;Huevos;tortilla de claras de huevo;61,6;10,9;0,7;1,7;200;22001:200 17270:3 11017:1
+revuelto-claras-espinacas;Revuelto de claras con espinacas, cocinado;Huevos;;67,1;9,4;1,7;2,2;260;22001:200 20059:100 17270:5 11017:1
+tortitas-avena-claras;Tortitas de avena y claras, cocinadas;Cereales de desayuno y barritas;pancakes fit|tortitas fit;161,7;11,8;20,2;2,9;230;9310:60 22001:150 13005:60 11025:1 17270:2
+tortitas-americanas;Tortitas americanas, caseras, cocinadas;Galletas, bollería y pasteles;pancakes;229,4;6,7;34,1;7,1;700;9440:250 19023:300 22000:120 31016:30 16400:30 11046:10 11017:2
+porridge-avena-leche;Gachas de avena con leche y canela, cocidas;Cereales de desayuno y barritas;porridge;107,1;5,9;14;2,6;290;9310:50 19041:250 11025:1
+overnight-oats;Avena remojada con yogur y fruta, lista para consumir;Cereales de desayuno y barritas;overnight oats;99,1;5,3;13;2,3;335;9310:50 19041:120 19593:125 13028:40
+bol-yogur-granola;Bol de yogur con granola y fruta, listo para consumir;Yogures y postres lácteos;yogur con granola;119,7;3,5;17,4;3,4;255;19593:125 32108:40 13014:60 31008:10 13028:20
+batido-proteico-casero;Batido de leche con plátano y avena, casero, listo para consumir;Bebidas;batido de avena;86,8;4;13,2;1,7;460;19041:300 13005:120 9310:40
+tostada-aguacate-huevo;Tostada con aguacate y huevo, lista para consumir;Pan y tostadas;tostada de aguacate;234,4;7,8;22,1;12;185;7001:70 13004:60 22000:60 17270:3 11017:0.5
+sandwich-york-queso;Sándwich de jamón cocido y queso, listo para consumir;Platos preparados;sándwich frío;233,8;11,9;28,9;7,2;110;7200:60 28900:25 12300:25
+mousse-chocolate;Mousse de chocolate, casera, lista para consumir;Yogures y postres lácteos;;335,8;8,2;26,2;21,4;560;31085:200 22000:240 31016:40 19417:100
+flan-cafe;Flan de café, casero, cocido;Yogures y postres lácteos;;150,5;6,4;19,2;5,4;950;19023:600 22000:300 31016:150 18005:8
+tarta-chocolate;Tarta de chocolate, casera, horneada;Galletas, bollería y pasteles;;477,4;7,1;44,9;29,1;740;31085:200 16400:150 31016:150 22000:200 9440:100 18100:20
+tarta-limon;Tarta de limón con merengue, casera, horneada;Galletas, bollería y pasteles;;330,1;6,3;46,1;12,9;900;9440:200 16400:100 31016:230 22000:150 22002:60 2007:150 9510:30 22001:90
+profiteroles-chocolate;Profiteroles con chocolate, caseros, horneados;Galletas, bollería y pasteles;;357,8;6,5;24,2;25,8;900;18066:250 16400:100 9440:150 22000:250 19417:300 31016:40 31085:100
+gelatina-frutas;Gelatina de frutas, casera, lista para consumir;Yogures y postres lácteos;;50,4;1,5;10,8;0;600;18066:500 31016:60 11007:10 13014:80
+macedonia-zumo;Fruta troceada con zumo de naranja, lista para consumir;Frutas;;56,5;0,7;12,2;0,2;550;13396:150 13005:150 13014:100 2013:150

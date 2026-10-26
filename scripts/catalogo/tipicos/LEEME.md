@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-750 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
-AppFit de alimentos sueltos) y 375 recetas CIQUAL (61 hasta el 25 de octubre y
-314 de las tres tandas manuales de típicos españoles del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+793 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
+AppFit de alimentos sueltos) y 418 recetas CIQUAL (61 hasta el 25 de octubre y
+357 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -618,3 +618,28 @@ XML completo. Huecos reales añadidos:
   vegetal de soja, crema de arroz y harina de avena.
 
 Sin fila: centollo (solo había valores de BEDCA reproducidos por terceros).
+
+### Cuarta tanda de recetas (43)
+
+793 filas; las 750 anteriores intactas. Platos habituales en España que
+faltaban, incluidos internacionales de uso diario y recetas de gimnasio:
+
+- Primeros (13): espaguetis carbonara (con yema y con nata), pasta al pesto,
+  macarrones a la boloñesa, ensalada César, de pasta y de quinoa, tabulé,
+  garbanzos con langostinos, arroz con costillas, hervido valenciano, patatas
+  rellenas y sopa de picadillo.
+- Segundos (13): filete con patatas, entrecot y solomillo a la plancha,
+  hamburguesa completa, wrap, fajitas, quesadilla, pollo al curry con coco,
+  pollo con soja y arroz, alitas al horno, albóndigas de pollo, poke de
+  salmón y bol de arroz con pollo.
+- Huevos y desayunos (10): tortilla y revuelto de claras, tortitas de avena y
+  claras, tortitas americanas, gachas, avena remojada, bol de yogur con
+  granola, batido de plátano y avena, tostada de aguacate y huevo y sándwich
+  frío.
+- Postres (7): mousse de chocolate, flan de café, tartas de chocolate y de
+  limón, profiteroles, gelatina y fruta troceada con zumo.
+
+No se añaden tiramisú ni panna cotta (CIQUAL ya los tiene). El poke no lleva
+algas ni edamame (sin dato CIQUAL) y la quesadilla usa emmental como queso
+fundente.
+

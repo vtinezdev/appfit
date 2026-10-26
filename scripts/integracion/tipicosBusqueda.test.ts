@@ -72,6 +72,9 @@ it.each([
   ['salsa rosa', 'salsa-rosa'],
   ['bacalao desalado', 'bacalao-desalado'],
   ['crema de arroz', 'crema-arroz'],
+  ['carbonara', 'espaguetis-carbonara'],
+  ['tortilla de claras', 'tortilla-claras'],
+  ['ensalada césar', 'ensalada-cesar'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)
