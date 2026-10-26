@@ -44183,5 +44183,231 @@
         "gramos": 4
       }
     ]
+  },
+  {
+    "id": "alubias-rojas-arroz",
+    "nombre": "Alubias rojas con arroz, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 64 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1649,
+    "ingredientes": [
+      {
+        "ciqual": "20525",
+        "gramos": 300
+      },
+      {
+        "ciqual": "9100",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 3
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1400
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "potaje-alubias-espinacas",
+    "nombre": "Potaje de alubias con espinacas, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 64 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2076,
+    "ingredientes": [
+      {
+        "ciqual": "20501",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20059",
+        "gramos": 300
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1500
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "garbanzos-chorizo-patatas",
+    "nombre": "Garbanzos con chorizo y patatas, cocidos",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 64 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1896,
+    "ingredientes": [
+      {
+        "ciqual": "20516",
+        "gramos": 300
+      },
+      {
+        "ciqual": "30315",
+        "gramos": 120
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1400
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
+  },
+  {
+    "id": "hummus-pimiento",
+    "nombre": "Hummus de pimiento rojo asado, listo para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 64 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 535,
+    "ingredientes": [
+      {
+        "ciqual": "20532",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 150
+      },
+      {
+        "ciqual": "15203",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "fabes-pulpo",
+    "nombre": "Fabes con pulpo, cocinadas",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 64 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2169,
+    "ingredientes": [
+      {
+        "ciqual": "20501",
+        "gramos": 400
+      },
+      {
+        "ciqual": "10018",
+        "gramos": 500
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 40
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1500
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "potaje-garbanzos-calabaza",
+    "nombre": "Potaje de garbanzos con calabaza, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 64 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1820,
+    "ingredientes": [
+      {
+        "ciqual": "20516",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20044",
+        "gramos": 400
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 4
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 1300
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 7
+      }
+    ]
   }
 ]

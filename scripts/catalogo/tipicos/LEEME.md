@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1733 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1311 recetas CIQUAL (61 hasta el 25 de octubre y
-1250 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1739 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1317 recetas CIQUAL (61 hasta el 25 de octubre y
+1256 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -908,3 +908,7 @@ Tallarines con setas y nata, espaguetis con calamares y tomate, pasta con espina
 ### Tanda 63 de recetas: arroces (7)
 
 Arroz con alcachofas, arroz con pulpo, arroz frito con huevo, arroz con setas y pollo, arroz integral con verduras, arroz con salmón y espárragos y arroz con chorizo.
+
+### Tanda 64 de recetas: legumbres (6)
+
+Alubias rojas con arroz, potaje de alubias con espinacas, garbanzos con chorizo y patatas, hummus de pimiento rojo asado, fabes con pulpo y potaje de garbanzos con calabaza.
