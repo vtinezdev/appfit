@@ -653,3 +653,23 @@ salchichas-vino;Salchichas frescas al vino blanco, cocinadas;Platos preparados;;
 salchichas-tomate;Salchichas frescas con tomate, cocinadas;Platos preparados;;192;10,9;1,5;15,6;820;30051:500 20048:400 20034:100 17270:20 11017:3
 oreja-plancha;Oreja de cerdo a la plancha, cocinada;Carnes;oreja a la plancha;320,6;27,1;1,4;22,9;420;28530:500 11000:10 17270:20 11049:5
 pavo-horno-verduras;Pechuga de pavo al horno con verduras, asada;Platos preparados;;122,1;16,2;2,3;4,5;900;36304:600 20034:150 20009:150 20085:100 17270:30 5215:100 11017:6
+risotto-setas;Risotto de setas, cocinado;Platos preparados;;136;3,2;17,6;5,2;1400;9100:300 20010:300 20034:100 5215:100 16400:40 12120:50 17270:20 18066:900 11017:6
+risotto-calabaza;Risotto de calabaza, cocinado;Platos preparados;;127,4;2,8;16,9;4,8;1500;9100:300 20044:400 20034:100 5215:100 16400:40 12120:50 17270:20 18066:900 11017:6
+arroz-conejo;Arroz con conejo, cocinado;Platos preparados;paella de conejo;155,9;7,6;16,1;6,7;2000;9100:400 34001:600 20085:100 20276:100 17270:60 18066:1100 11017:8 11039:0.2 11049:3
+arroz-verduras-salteado;Arroz salteado con verduras, cocinado;Platos preparados;;104,6;2,1;18;2,4;960;9100:200 18066:400 20020:150 20009:100 20085:100 20034:100 11104:20 17270:20
+arroz-meloso-marisco;Arroz meloso de marisco, cocinado;Platos preparados;;102,3;5,6;12,9;3;2000;9100:300 10021:200 10026:200 10001:200 20034:100 20276:100 17270:50 18066:1300 11017:8
+espaguetis-ajo-aceite;Espaguetis con ajo y aceite, cocinados;Platos preparados;aglio e olio;183,6;4,4;26;6,5;850;9810:300 18066:540 11000:15 17270:50 20151:2 11014:5 11017:4
+espaguetis-gambas;Espaguetis con gambas al ajillo, cocinados;Platos preparados;;167,4;8;21,2;5,3;1080;9810:300 18066:540 10021:250 11000:15 17270:50 20151:2 11014:5 11017:5
+tallarines-salmon-nata;Tallarines con salmón ahumado y nata, cocinados;Platos preparados;pasta con salmón;183,9;7;18,7;8,7;1150;9821:300 18066:540 26037:150 19417:200 20034:50 17270:10 11017:4
+macarrones-gratinados;Macarrones con tomate gratinados, horneados;Platos preparados;;134,2;5,3;17,8;4,2;1300;9810:300 18066:540 20048:400 20034:100 12118:100 17270:20 11017:5
+espaguetis-puttanesca;Espaguetis a la puttanesca, cocinados;Platos preparados;;128,2;3,9;18,1;4;1250;9810:300 18066:540 20048:400 13032:60 26177:30 11000:10 17270:30 20151:2
+pasta-cuatro-quesos;Pasta a los cuatro quesos, cocinada;Platos preparados;;203,3;7,1;20,6;9,9;1100;9810:300 18066:540 19417:200 12500:40 12120:40 12115:40 19590:40
+pasta-champinones-nata;Pasta con champiñones y nata, cocinada;Platos preparados;;151,1;3,7;18,7;6,5;1250;9810:300 18066:540 20056:250 19417:200 20034:60 17270:15 11017:4
+pasta-brocoli;Pasta con brócoli y parmesano, cocinada;Platos preparados;;144,7;5;20,6;4,1;1100;9810:300 18066:540 20057:300 11000:10 17270:30 12120:30 11017:4
+pasta-pollo-verduras;Pasta con pollo y verduras, cocinada;Platos preparados;;128,4;8,1;17,1;2,6;1350;9810:300 18066:540 36017:300 20020:150 20085:100 20034:100 17270:25 11017:5
+pasta-salchichas;Pasta con salchichas y tomate, cocinada;Platos preparados;;144,6;6,1;16,9;5,5;1350;9810:300 18066:540 30051:250 20048:300 20034:80 17270:15
+pasta-integral-verduras;Pasta integral con verduras, cocinada;Platos preparados;;113,6;3,3;18;2,7;1000;9870:250 18066:450 20020:150 20276:150 20085:100 17270:20 11017:4
+lasana-atun;Lasaña de atún, horneada;Platos preparados;;152,2;7,6;11,1;8,4;1600;9810:150 18066:270 26245:240 20048:400 20034:100 19023:500 9440:40 16400:40 12118:80 17270:20 11017:5
+canelones-atun;Canelones de atún, horneados;Platos preparados;;141,4;7,6;10,6;7,4;1450;9810:120 18066:220 26245:200 20048:300 20034:100 22000:60 19023:500 9440:40 16400:40 12118:60 11017:5
+canelones-espinacas;Canelones de espinacas, horneados;Platos preparados;;141,7;5,6;12,1;7,4;1500;9810:120 18066:220 20059:600 20034:100 15025:30 19023:600 9440:50 16400:50 12118:80 11017:5
+cuscus-verduras;Cuscús con verduras y garbanzos, cocinado;Platos preparados;;135,8;4,3;20,9;3,2;1050;9681:250 18066:300 20020:150 20009:100 20532:150 20034:100 17270:25 11042:2 11017:4
