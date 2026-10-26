@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import Ayuda from '../../../shared/components/Ayuda'
 import Button from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
@@ -6,7 +7,7 @@ import Metric from '../../../shared/components/Metric'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import { formatNumber } from '../../../shared/lib/format'
 import {
-  AVISO_ORIENTATIVO, ECUACIONES, ETIQUETAS_OBJETIVO, formatSigned, formulaSustituida, KCAL_POR_KG, METODO_TMB, SUELO_KCAL,
+  AVISO_ORIENTATIVO, ECUACIONES, ETIQUETAS_OBJETIVO, formatSigned, formulaSustituida, KCAL_POR_KG, METODO_TMB, NIVELES_ACTIVIDAD, SUELO_KCAL,
   type EnergiaOk, type ResultadoEnergia,
 } from '../lib/energia'
 import type { Objetivos } from '../../../shared/db/types'
@@ -95,16 +96,56 @@ function Reparto({ macros }: { macros: Pick<Objetivos, 'prot' | 'carb' | 'grasa'
   </div>
 }
 
-/** Cómo se ha calculado, tras la «i» del título: las fórmulas con tus datos, el ritmo y el acceso al método. */
+/** Un paso de la cuenta: su número en un círculo unido al siguiente por una línea, qué es, su cifra y de dónde sale. */
+function Paso({ n, titulo, valor, detalle, ultimo = false, children }: { n: number; titulo: string; valor: string; detalle: string; ultimo?: boolean; children?: ReactNode }) {
+  return <li className="flex gap-3">
+    <span className="flex flex-col items-center">
+      <span aria-hidden className="tabular flex h-7 w-7 shrink-0 items-center justify-center rounded-pill bg-surface-muted text-caption font-semibold text-fg">{n}</span>
+      {!ultimo && <span aria-hidden className="w-px flex-1 bg-line-strong" />}
+    </span>
+    <span className={`min-w-0 flex-1 space-y-2 ${ultimo ? '' : 'pb-5'}`}>
+      <span className="flex flex-wrap items-baseline justify-between gap-x-3">
+        <span className="text-body font-semibold text-fg">{titulo}</span>
+        <span className="tabular text-title text-fg">{valor} <span className="text-caption font-normal text-fg-muted">kcal</span></span>
+      </span>
+      <span className="block text-body-sm text-fg-muted">{detalle}</span>
+      {children}
+    </span>
+  </li>
+}
+
+/**
+ * Cómo se ha calculado, tras la «i» del título: la cuenta en pasos numerados (reposo, actividad y objetivo) con sus cifras,
+ * las ecuaciones con tus datos en un recuadro, el ritmo aproximado y el acceso al método.
+ */
 function ComoSeCalcula({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo: () => void }) {
+  const nivel = NIVELES_ACTIVIDAD[e.actividad].etiqueta.toLowerCase()
+  const conObjetivo = e.objetivoKcal !== null && e.objetivoAplicado !== null
   return <Ayuda titulo="Tu energía diaria">
-    {METODO_TMB.ecuaciones.map((id) => <p key={id}><span className="block font-semibold text-fg">{ECUACIONES[id].nombre}</span><span className="tabular break-words">{formulaSustituida(id, e.datos)} kcal</span></p>)}
-    <p className="tabular"><span className="block font-semibold text-fg">Gasto en reposo</span>Media de las dos: {formatNumber(e.tmb.valor, 1)} kcal</p>
-    <p className="tabular"><span className="block font-semibold text-fg">Gasto diario</span>{formatNumber(e.tmb.valor, 1)} × {formatNumber(e.factor, 3)} = {formatNumber(e.getEstimado, 1)} kcal</p>
-    <p className="tabular"><span className="block font-semibold text-fg">Tus datos</span>{formatNumber(e.edad)} años · {formatNumber(e.datos.alturaCm, 1)} cm · {formatNumber(e.datos.pesoKg, 1)} kg · IMC {formatNumber(e.imc, 1)}</p>
-    {e.ritmo && <p><span className="block font-semibold text-fg">Ritmo aproximado</span>
-      <span className="tabular">{formatSigned(e.ritmo.kgSemana * 1000)} g por semana ({e.ritmo.pctPesoSemana > 0 ? '+' : '−'}{formatNumber(Math.abs(e.ritmo.pctPesoSemana), 1)} % del peso)</span>, con {formatNumber(KCAL_POR_KG)} kcal por kg. Es una aproximación que pierde validez con el tiempo (Hall, 2008): ajusta según tu peso real.</p>}
-    <p>El objetivo se redondea a 10 kcal y nunca baja de {formatNumber(SUELO_KCAL)} kcal ni de tu gasto en reposo (criterio de prudencia de AppFit).</p>
+    <ul aria-label="Tus datos" className="flex flex-wrap gap-2">
+      {[`${formatNumber(e.edad)} años`, `${formatNumber(e.datos.alturaCm, 1)} cm`, `${formatNumber(e.datos.pesoKg, 1)} kg`, `IMC ${formatNumber(e.imc, 1)}`].map((d) =>
+        <li key={d} className="tabular rounded-pill bg-surface-muted px-3 py-1 text-body-sm text-fg">{d}</li>)}
+    </ul>
+    <ol aria-label="Cómo se calcula">
+      <Paso n={1} titulo="En reposo" valor={formatNumber(Math.round(e.tmb.valor))} detalle={`Lo que gastas sin moverte: la media de ${formatNumber(METODO_TMB.ecuaciones.length)} ecuaciones con tus datos.`}>
+        <span className="block space-y-2 rounded-md bg-surface-muted p-3">
+          {METODO_TMB.ecuaciones.map((id) => <span key={id} className="block">
+            <span className="block text-caption font-semibold text-fg">{ECUACIONES[id].nombre}</span>
+            <span className="tabular block break-words text-caption text-fg-muted">{formulaSustituida(id, e.datos)} kcal</span>
+          </span>)}
+        </span>
+      </Paso>
+      <Paso n={2} titulo="Con tu actividad" valor={formatNumber(Math.round(e.getEstimado))} ultimo={!conObjetivo}
+        detalle={`Gasto en reposo × ${formatNumber(e.factor, 3)}, el factor de un nivel ${nivel}.${e.origenGet === 'observado' ? ` Ahora usas el gasto observado: ${formatNumber(Math.round(e.get))} kcal.` : ''}`} />
+      {conObjetivo && <Paso n={3} titulo={ETIQUETAS_OBJETIVO[e.objetivoAplicado!]} valor={formatNumber(e.objetivoKcal!)} ultimo
+        detalle={e.ajusteKcal === 0 ? 'Comes lo que gastas.' : `${formatSigned(e.ajusteKcal)} kcal al día, redondeado a 10 kcal.`} />}
+    </ol>
+    {e.ritmo && <div className="space-y-1 rounded-md border border-line p-3">
+      <p className="text-rotulo text-fg-muted">Ritmo aproximado</p>
+      <p className="tabular text-title text-fg">{formatSigned(e.ritmo.kgSemana * 1000)} g <span className="text-body-sm font-normal text-fg-muted">por semana · {e.ritmo.pctPesoSemana > 0 ? '+' : '−'}{formatNumber(Math.abs(e.ritmo.pctPesoSemana), 1)} % del peso</span></p>
+      <p className="text-caption text-fg-muted">Con {formatNumber(KCAL_POR_KG)} kcal por kg (Hall, 2008). Pierde validez con el tiempo: ajusta según tu peso real.</p>
+    </div>}
+    <p className="text-caption">Nunca baja de {formatNumber(SUELO_KCAL)} kcal ni de tu gasto en reposo (criterio de prudencia de AppFit).</p>
     <Button variant="ghost" size="sm" onClick={onVerMetodo}>Ver método y fuentes<Icon name="chevron-right" size={16} /></Button>
   </Ayuda>
 }
