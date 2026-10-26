@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1999 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1577 recetas CIQUAL (61 hasta el 25 de octubre y
-1516 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1972 filas: 420 valores directos (57 USDA, 167 CoFID y 196 valores de referencia
+AppFit de alimentos sueltos) y 1552 recetas CIQUAL (61 hasta el 25 de octubre y
+1491 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -130,6 +130,53 @@ El informe registra duplicados exactos/cercanos con CIQUAL y OFF. Un nombre
 exacto CIQUAL o repetido dentro del paquete bloquea. La comparación automática
 se complementa con la revisión FR/EN/ES documentada en auditoria-ciqual.txt.
 Se preservan todos los ids de las versiones anteriores del paquete típicos.
+
+### Fusión de duplicados (2026-10-26)
+
+Revisión de los casi duplicados que dejaron las tandas manuales, con un
+detector más amplio que el informe (nombre sin estados ni palabras vacías,
+similitud de palabras ≥ 0,6, mismo estado) frente a CIQUAL y dentro del
+propio paquete. Criterio:
+
+- Solo se fusiona el mismo plato en la misma variante y el mismo estado.
+  Nunca crudo con cocido, con azúcar con sin azúcar, entero con desnatado,
+  integral con blanco, ni un plato con otro que añade un ingrediente.
+- Casero y envasado son productos distintos y se conservan los dos (salmorejo,
+  tortilla, tomate frito, ensaladilla, salsas, ensaimada, napolitana…).
+- Dentro de típicos se conserva la fila con fuente oficial (CoFID/USDA) o la
+  más antigua; la otra se elimina y su nombre y alias pasan como alias.
+- Frente a CIQUAL solo se elimina una estimación AppFit con calorías a menos
+  del 15 % y nombre que CIQUAL ya encuentra en español. Si CIQUAL no la
+  encuentra con el término habitual («Salsa barbecue», «Salsa Cásar»,
+  «Cruasán»), se conserva la fila de típicos.
+- Ninguna fila eliminada estaba publicada (paquete 2026-10-25 de master), así
+  que se quitan del todo en lugar de marcarse ocultas. La construcción se
+  comprobó contra ese paquete publicado.
+
+Eliminadas en favor de otra fila de típicos (alias añadido): sopa de verduras
+→ sopa-verduras-casera («sopa juliana»), pollo a la cazadora (cacciatora) →
+pollo-cazadora-casero, solomillo Wellington, bizcocho de coco y patatas
+duquesa → sus filas CoFID caseras, chuletas de cerdo a la mostaza →
+chuletas-cerdo-mostaza-nata-caseras, aliño de aceite de oliva y limón →
+alino-aceite-limon-casero, dulce de membrillo casero → membrillo, batido de
+avena y plátano → batido-proteico-casero, coliflor con bechamel →
+coliflor-gratinada y calabacines rellenos de carne gratinados →
+calabacines-rellenos.
+
+Eliminadas porque CIQUAL ya trae el alimento: baklava (23300), puré de patata
+con leche y mantequilla (4040), tarta Tatin (23496), tarta de frutas con crema
+pastelera (23479), pan integral (7110), yogur helado (39517), vinagreta
+(11110), ensalada de zanahoria rallada (26257), queso rallado de cuatro quesos
+(12775), ñoquis de patata crudos (26264), tarta de manzana (23490), ensalada
+de arroz con atún (26263), galletas de coco (24070), mermelada de naranja
+(31039), galletas de mantequilla (24015) y pan de leche (7710). Además, la
+salsa barbacoa AppFit pasa a llamarse «Salsa barbacoa envasada» para
+distinguirla de la casera CoFID.
+
+1999 → 1972 filas (27 eliminadas). Se conservan como variantes legítimas, entre
+otras: guacamole, mayonesa, hummus, salsa holandesa y tarta de queso caseras
+frente a las envasadas de CIQUAL; frutas cocidas con y sin azúcar; tortilla con
+y sin cebolla; queso de Burgos entero y desnatado; crepe blanca e integral.
 
 ## Pendientes
 

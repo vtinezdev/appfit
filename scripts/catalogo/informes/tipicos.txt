@@ -1,15 +1,15 @@
 Típicos 2026-10-26 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
-Vía 2 (directos): 422; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 1577; total: 1999
-Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 1954; pendientes: 0.
+Vía 2 (directos): 420; excluidos por energía: salvado-avena-cocido
+Vía 3 (recetas): 1552; total: 1972
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 1927; pendientes: 0.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
 Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
 USDA: 57 directos aceptados
 CoFID: 167 directos aceptados
-AppFit: 198 directos aceptados
-Reparto por categoría: Carnes: 106; Legumbres: 14; Cereales, arroz y pasta: 18; Frutos secos y semillas: 7; Pan y tostadas: 108; Quesos: 33; Cereales de desayuno y barritas: 21; Patatas y tubérculos: 22; Verduras y hortalizas: 61; Pescados: 68; Platos preparados: 987; Galletas, bollería y pasteles: 141; Salsas y condimentos: 61; Mariscos: 31; Frutas: 16; Embutidos y fiambres: 26; Snacks salados: 11; Bebidas: 68; Dulces y chocolate: 58; Yogures y postres lácteos: 54; Otros: 3; Leche y nata: 1; Alternativas vegetales: 7; Bebidas alcohólicas: 31; Huevos: 46
+AppFit: 196 directos aceptados
+Reparto por categoría: Carnes: 105; Legumbres: 14; Cereales, arroz y pasta: 17; Frutos secos y semillas: 7; Pan y tostadas: 107; Quesos: 32; Cereales de desayuno y barritas: 21; Patatas y tubérculos: 20; Verduras y hortalizas: 59; Pescados: 68; Platos preparados: 982; Galletas, bollería y pasteles: 133; Salsas y condimentos: 59; Mariscos: 31; Frutas: 16; Embutidos y fiambres: 26; Snacks salados: 11; Bebidas: 67; Dulces y chocolate: 56; Yogures y postres lácteos: 53; Otros: 3; Leche y nata: 1; Alternativas vegetales: 7; Bebidas alcohólicas: 31; Huevos: 46
 Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 34 referencias individuales leídas de RAG/RTVE. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.
 Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.
@@ -68,8 +68,6 @@ tipicos:whisky-sour: 190.7 kcal declaradas frente a 68 esperadas (4P+4C+9G+2fibr
 
 DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):
 ciqual: arroz-basmati-integral-crudo → 9102 Arroz integral, crudo (casi)
-ciqual: pure-patata-mantequilla → 4040 Puré de patata, con leche y mantequilla, con sal (casi)
-ciqual: tarta-tatin → 23496 Tarta Tatín de manzana (casi)
 offes: atun-claro-aceite-oliva → 3560071175665 Atún claro en aceite de oliva (casi)
 offes: atun-claro-aceite-oliva → 8480000180025 Atún claro en aceite de oliva (casi)
 offes: tortilla-patatas-con-cebolla → 8480000808950 Tortilla De Patatas Con Cebolla (casi)

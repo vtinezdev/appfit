@@ -114,6 +114,8 @@ it.each([
   ['golden milk', 'golden-milk'],
   ['pizza de coliflor', 'pizza-coliflor'],
   ['soldaditos de pavía', 'soldaditos-pavia'],
+  ['sopa juliana', 'sopa-verduras-casera'],
+  ['pollo cacciatora', 'pollo-cazadora-casero'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)
