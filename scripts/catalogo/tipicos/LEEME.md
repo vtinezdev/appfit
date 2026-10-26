@@ -6,7 +6,7 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-667 filas: 292 valores directos (57 USDA, 167 CoFID y 68 valores de referencia
+691 filas: 316 valores directos (57 USDA, 167 CoFID y 92 valores de referencia
 AppFit de alimentos sueltos) y 375 recetas CIQUAL (61 hasta el 25 de octubre y
 314 de las tres tandas manuales de típicos españoles del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
@@ -540,4 +540,23 @@ No se añaden las pipas (CIQUAL 15045, semilla de girasol tostada y salada) ni
 magdalenas, palmeras, cuajada, flan o mazapán envasados: ya están en CIQUAL.
 La morcilla asturiana sigue las etiquetas asturianas (muy grasas); otras
 morcillas de cebolla comerciales son mucho más magras y quedan sin fila.
+
+### Tercera tanda de alimentos sueltos (24)
+
+691 filas en total; las 667 anteriores intactas.
+
+- Frutos secos y aperitivos (3): almendra marcona frita, garbanzos tostados
+  (torraos) y habas fritas.
+- Dulces y bollería (8): peladillas, turrones de chocolate crujiente y de yema
+  tostada, pan de higo, membrillo envasado, roscos de vino, bizcochos de
+  soletilla y torta de aceite envasada.
+- Conservas de mar (4, escurridas): pulpo en aceite de oliva, zamburiñas en
+  salsa de vieira, almejas al natural y mejillones en escabeche (el español,
+  con aceite; el de CIQUAL 10081 es otro, con tomate y sin apenas grasa).
+- Envasados (9): fabada y lentejas con chorizo en conserva, salmorejo,
+  croquetas de jamón y empanadillas de atún congeladas (crudas, sin freír),
+  natillas de vainilla, chopped de cerdo, tomate frito y ensaladilla rusa.
+
+Ya en CIQUAL y no añadidos: donuts, mortadela, almendra garrapiñada, gazpacho
+envasado y arroz con leche de la sección refrigerada.
 

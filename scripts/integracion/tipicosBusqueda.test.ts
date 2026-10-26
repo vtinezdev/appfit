@@ -63,6 +63,8 @@ it.each([
   ['chorizo de pamplona', 'chorizo-pamplona'],
   ['mojama', 'mojama'],
   ['alfajor', 'alfajor-medina'],
+  ['torraos', 'garbanzos-tostados'],
+  ['zamburiñas', 'zamburinas-salsa'],
 ])('«%s» aparece en los 15 resultados que muestra Nutrición', async (consulta, slug) => {
   const r = await buscarCatalogo(consulta)
   expect(r.foods.slice(0, 15).map(f => f.id)).toContain(`tipicos:${slug}`)
