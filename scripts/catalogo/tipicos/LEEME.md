@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1347 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 932 recetas CIQUAL (61 hasta el 25 de octubre y
-871 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1365 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 950 recetas CIQUAL (61 hasta el 25 de octubre y
+889 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -776,3 +776,7 @@ Carnes a la brasa (chuletón, churrasco, panceta, morcilla, salchichas, parrilla
 ### Trigésima tanda de recetas: snacks caseros y fit (14)
 
 Barritas de avena, bolitas energéticas, granola casera, queso batido con fruta, hummus con crudités, chips de kale, tortitas de arroz con pavo, rollitos de pavo, mug cake de avena, helado de plátano, gofres de avena, pan de avena sin harina, crackers de semillas y pollo desmenuzado. Ocho búsquedas más en la regresión (olla podrida, huevos benedictinos, baba ganoush, chimichurri, lomo saltado, espeto, calçots, energy balls).
+
+### Trigesimoprimera tanda de recetas: cocina asiática (18)
+
+Ramen, bibimbap, curry japonés, pollo katsu, yakitori, okonomiyaki, gyudon, samosas, pakoras, biryani, butter chicken, chana saag, curry verde, pho, banh mi, tempura de verduras, sopa de miso y ternera con brócoli. La pasta al huevo CIQUAL hace de fideos de ramen.

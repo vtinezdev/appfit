@@ -870,3 +870,21 @@ gofres-avena;Gofres de avena, cocinados;Galletas, bollería y pasteles;;210,3;12
 pan-avena-yogur;Pan de avena y yogur sin harina, horneado;Pan y tostadas;;243,1;12,6;31,1;6;580;9310:300 19593:250 22000:100 11046:10 11017:4
 crackers-semillas;Crackers de semillas caseros, horneados;Pan y tostadas;;496,3;16,6;8,4;37,7;160;15047:50 15010:50 15034:50 18066:150 11017:2
 pollo-desmenuzado;Pechuga de pollo hervida y desmenuzada, cocida;Carnes;pollo desmechado;144,7;30,8;0;2;380;36017:500 11017:3
+ramen-cerdo;Ramen de cerdo casero, cocinado;Platos preparados;ramen;73,5;5,6;7,8;2,1;1900;9821:200 28473:250 22000:120 11003:30 11104:50 20916:30 20183:100 18066:1500 11017:5
+bibimbap;Bibimbap de ternera, cocinado;Platos preparados;;145,1;7,1;15,2;6;1100;9100:200 18066:400 6254:200 20059:100 20009:80 20183:80 22000:120 11104:20 15010:5 17440:20
+curry-japones;Curry japonés de pollo con verduras, cocinado;Platos preparados;;83,4;7,7;6,4;2,5;1400;36017:400 4008:300 20009:150 20034:150 9440:30 16400:30 11005:15 11104:15 18066:600 11017:5
+pollo-katsu;Pollo katsu (empanado japonés), frito;Platos preparados;;254,2;20,6;15,3;11,7;540;36017:400 9440:30 22000:60 7500:80 17440:50 11017:3
+yakitori;Brochetas de pollo yakitori, asadas;Platos preparados;;191,9;20,2;4,4;9,9;470;36022:500 11104:40 31008:20 1006:20 11003:50
+okonomiyaki;Okonomiyaki (tortita japonesa de col), cocinado;Platos preparados;;180,4;6,1;17,3;9,1;750;9440:150 18066:150 22000:120 20069:300 28501:80 11054:30 11008:20 17440:15
+gyudon;Gyudon (arroz con ternera y cebolla), cocinado;Platos preparados;;134;6,2;17,2;4,3;1050;9100:200 18066:500 6201:250 20034:150 11104:40 31016:15
+samosas-verduras;Samosas de patata y guisantes, fritas;Platos preparados;;274,9;4,4;31,4;13,8;680;9440:200 18066:80 17270:30 4008:300 20084:80 20034:60 11005:8 17440:60
+pakoras;Pakoras de verduras, fritas;Platos preparados;;231,2;7;15,4;14,7;560;9580:150 18066:150 20034:200 20059:100 11005:5 17440:70 11017:3
+biryani-pollo;Biryani de pollo, cocinado;Platos preparados;;151,8;7;17,3;5,8;1450;9100:300 18066:600 36022:400 19593:125 20034:200 17440:40 11005:10 11017:6
+butter-chicken;Pollo a la mantequilla (butter chicken), cocinado;Platos preparados;murgh makhani;144,7;13,5;1,8;8,8;1150;36017:600 19593:125 20048:400 16400:50 19417:150 11005:15 11000:10 11074:10 11017:6
+chana-saag;Garbanzos con espinacas al curry (chana saag), cocinado;Platos preparados;;94,8;4,1;8;4,2;900;20059:500 20532:300 20276:150 20034:100 11005:10 17440:25 11017:4
+curry-verde-pollo;Curry verde tailandés de pollo, cocinado;Platos preparados;green curry;142,4;11,8;2,2;9,2;1100;36017:500 18041:400 20020:150 20085:100 11005:10 11033:5 17440:15 11104:15
+pho-ternera;Pho de ternera (sopa vietnamita), cocinado;Platos preparados;;57,2;2,9;6,9;1,9;1900;9900:150 6201:200 20183:100 20034:80 11094:10 13067:20 11104:30 18066:1550 11017:5
+banh-mi;Bocadillo banh mi de cerdo, listo para consumir;Pan y tostadas;;202,9;10,9;25,6;5,9;360;7001:150 28473:120 20009:50 20019:40 11094:5 11054:15 11104:10
+tempura-verduras;Tempura de verduras, frita;Platos preparados;;205,9;2,4;17,3;13,7;600;9440:120 18066:180 20020:150 20053:150 20009:100 17440:80
+sopa-miso;Sopa de miso con tofu, cocinada;Platos preparados;;23,9;1,9;1,1;1,2;950;20916:40 20904:100 18066:800 11003:15
+ternera-brocoli;Ternera con brócoli estilo chino, cocinada;Platos preparados;;175,6;11,6;3;12,6;580;6201:300 20057:300 11104:30 9510:10 17440:20 11000:5 11074:5
