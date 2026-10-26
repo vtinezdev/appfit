@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1052 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
-AppFit de alimentos sueltos) y 652 recetas CIQUAL (61 hasta el 25 de octubre y
-591 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1073 filas: 400 valores directos (57 USDA, 167 CoFID y 176 valores de referencia
+AppFit de alimentos sueltos) y 673 recetas CIQUAL (61 hasta el 25 de octubre y
+612 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -700,3 +700,7 @@ Tápers de comida preparada (pollo con arroz y brócoli, pollo con boniato, tern
 ### Decimotercera tanda de recetas: platos regionales (25)
 
 Arroces (negro, con costra, caldero murciano, arròs amb fesols i naps), bacalao (empedrat, esqueixada, atascaburras, remojón, pimientos rellenos, sancocho), cuchara (berza jerezana, ropa vieja canaria, sopas mallorquinas, gazpachuelo, caldereta de langosta, all i pebre), carnes (duelos y quebrantos, zorza, choto al ajillo, pastel de carne murciano), chipirones en su tinta, merluza a la sidra, coca de recapte y dulces (frixuelos, paparajotes). El bacalao desalado se calcula con bacalao fresco CIQUAL.
+
+### Decimocuarta tanda de recetas: desayunos y meriendas (21)
+
+Tostadas (aceite y azúcar, mantequilla, mantequilla y azúcar, crema de cacao, hummus, cabra con miel, francesa), sándwiches (queso fundido, serrano y tomate), minipizzas de pan de molde, bocadillo de mortadela, arepa con queso, huevos con beicon, tortitas de plátano y huevo, crepe de pavo y queso, yogur con muesli, cereales y muesli con leche, pudin de chía, gachas con cacao y plátano y plátano con crema de cacahuete. Sin bocadillo de salchichón: el «salchichón al ajo» de CIQUAL es un embutido cocido francés, no el curado español.

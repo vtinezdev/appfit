@@ -590,3 +590,24 @@ caldereta-langosta;Caldereta de langosta, cocinada;Platos preparados;;87;7,9;3,9
 arros-fesols-naps;Arroz con alubias y nabos (arròs amb fesols i naps), cocido;Platos preparados;;95,6;5,1;11,7;2,9;2700;9100:300 20501:150 20064:300 28501:150 8703:100 28473:200 18066:2000 11039:0.2 11049:3 11017:10
 all-i-pebre;All i pebre de anguila, cocinado;Platos preparados;;163,8;7,1;7,2;11,5;1650;27016:600 4008:600 11000:20 15041:30 20151:3 11049:10 17270:60 18066:600 11017:8
 pimientos-rellenos-bacalao;Pimientos rellenos de bacalao, cocinados;Platos preparados;;112,3;6,6;7,4;6,1;950;20087:500 26043:250 20034:80 9440:30 19023:250 16400:30 17270:20 11017:3
+tostada-aceite-azucar;Tostada con aceite y azúcar, lista para consumir;Pan y tostadas;;376,9;6,4;55,1;13,9;78;7001:60 17270:10 31016:8
+tostada-mantequilla;Tostada con mantequilla, lista para consumir;Pan y tostadas;;353,6;7,2;50,1;13,1;70;7001:60 16400:10
+tostada-mantequilla-azucar;Tostada con mantequilla y azúcar, lista para consumir;Pan y tostadas;;358,2;6,5;55,2;11,7;78;7001:60 16400:10 31016:8
+tostada-crema-cacao;Tostada con crema de cacao, lista para consumir;Pan y tostadas;tostada de nocilla|tostada de nutella;352,5;7,5;58,2;9,2;80;7001:60 31032:20
+tostada-hummus;Tostada con hummus, lista para consumir;Pan y tostadas;;275,4;8,2;38,6;8,8;100;7001:60 25621:40
+tostada-cabra-miel;Tostada de queso de cabra con miel, lista para consumir;Pan y tostadas;;290,3;11,4;39,3;9,2;110;7001:60 12812:40 31008:10
+tostada-francesa;Tostada francesa (pan de molde con huevo), cocinada;Pan y tostadas;french toast;217,1;7,8;23,7;9,7;320;7200:120 22000:100 19023:100 16400:15 31016:10 11025:1
+sandwich-queso-fundido;Sándwich de queso fundido a la plancha, cocinado;Pan y tostadas;grilled cheese;324,9;9,5;30,9;17,5;105;7200:60 12300:40 16400:10
+sandwich-serrano-tomate;Sándwich de jamón serrano y tomate, listo para consumir;Pan y tostadas;;214,7;10,1;23,6;8,5;135;7200:60 28845:30 20276:40 17270:5
+mini-pizzas-pan-molde;Minipizzas de pan de molde, horneadas;Pan y tostadas;;223,7;11,9;25,9;7,3;120;7200:60 20048:30 12118:20 28964:20 11035:1
+bocadillo-mortadela;Bocadillo de mortadela, listo para consumir;Pan y tostadas;;294,7;10,6;39,1;10,1;150;7001:100 30789:50
+arepa-queso;Arepa con queso, cocinada;Pan y tostadas;;202,1;4,5;33,2;5,5;250;9545:100 18066:130 11017:2 17270:5 12300:40
+huevos-bacon;Huevos fritos con beicon, cocinados;Huevos;huevos con bacon;235,1;15,9;0,2;18,9;160;22000:120 28720:60 17270:5
+tortitas-platano-huevo;Tortitas de plátano y huevo, cocinadas;Galletas, bollería y pasteles;tortitas de dos ingredientes;136;7,1;11,9;6,6;200;13005:120 22000:100 17270:3
+crepe-pavo-queso;Crepe de pavo y queso, cocinada;Platos preparados;;191,5;10,9;17,4;8,5;310;9440:60 19023:120 22000:50 28964:60 12300:40 16400:10
+yogur-muesli;Yogur con muesli, listo para consumir;Yogures y postres lácteos;;142,9;5;18,6;4,8;165;19593:125 32004:40
+copos-maiz-leche;Copos de maíz con leche semidesnatada, listos para consumir;Cereales de desayuno y barritas;cereales con leche|corn flakes con leche;101,1;4,1;17,5;1,5;240;32005:40 19041:200
+muesli-leche;Muesli con leche semidesnatada, listo para consumir;Cereales de desayuno y barritas;;124,8;4,6;16,7;4,1;250;32004:50 19041:200
+pudin-chia;Pudin de chía con leche y miel, listo para consumir;Yogures y postres lácteos;chia pudding;124;5,5;8,5;6,2;250;15047:40 19041:200 31008:10
+gachas-avena-cacao-platano;Gachas de avena con cacao y plátano, cocinadas;Cereales de desayuno y barritas;;114,4;5,4;16,1;2,6;380;9310:50 19041:250 18100:10 13005:100
+platano-crema-cacahuete;Plátano con crema de cacahuete, listo para consumir;Dulces y chocolate;;166,9;4,1;19,4;7,6;140;13005:120 15202:20

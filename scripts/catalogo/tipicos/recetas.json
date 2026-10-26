@@ -22981,5 +22981,485 @@
         "gramos": 3
       }
     ]
+  },
+  {
+    "id": "tostada-aceite-azucar",
+    "nombre": "Tostada con aceite y azúcar, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 78,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "tostada-mantequilla",
+    "nombre": "Tostada con mantequilla, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 70,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "tostada-mantequilla-azucar",
+    "nombre": "Tostada con mantequilla y azúcar, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 78,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 10
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "tostada-crema-cacao",
+    "nombre": "Tostada con crema de cacao, lista para consumir",
+    "alias": [
+      "tostada de nocilla",
+      "tostada de nutella"
+    ],
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 80,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31032",
+        "gramos": 20
+      }
+    ]
+  },
+  {
+    "id": "tostada-hummus",
+    "nombre": "Tostada con hummus, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 100,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "25621",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "tostada-cabra-miel",
+    "nombre": "Tostada de queso de cabra con miel, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 110,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "12812",
+        "gramos": 40
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "tostada-francesa",
+    "nombre": "Tostada francesa (pan de molde con huevo), cocinada",
+    "alias": [
+      "french toast"
+    ],
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 320,
+    "ingredientes": [
+      {
+        "ciqual": "7200",
+        "gramos": 120
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 100
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 15
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "sandwich-queso-fundido",
+    "nombre": "Sándwich de queso fundido a la plancha, cocinado",
+    "alias": [
+      "grilled cheese"
+    ],
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 105,
+    "ingredientes": [
+      {
+        "ciqual": "7200",
+        "gramos": 60
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 40
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "sandwich-serrano-tomate",
+    "nombre": "Sándwich de jamón serrano y tomate, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 135,
+    "ingredientes": [
+      {
+        "ciqual": "7200",
+        "gramos": 60
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 30
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "mini-pizzas-pan-molde",
+    "nombre": "Minipizzas de pan de molde, horneadas",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 120,
+    "ingredientes": [
+      {
+        "ciqual": "7200",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20048",
+        "gramos": 30
+      },
+      {
+        "ciqual": "12118",
+        "gramos": 20
+      },
+      {
+        "ciqual": "28964",
+        "gramos": 20
+      },
+      {
+        "ciqual": "11035",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "bocadillo-mortadela",
+    "nombre": "Bocadillo de mortadela, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 150,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 100
+      },
+      {
+        "ciqual": "30789",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "arepa-queso",
+    "nombre": "Arepa con queso, cocinada",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 250,
+    "ingredientes": [
+      {
+        "ciqual": "9545",
+        "gramos": 100
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 130
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "huevos-bacon",
+    "nombre": "Huevos fritos con beicon, cocinados",
+    "alias": [
+      "huevos con bacon"
+    ],
+    "categoria": "Huevos",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 160,
+    "ingredientes": [
+      {
+        "ciqual": "22000",
+        "gramos": 120
+      },
+      {
+        "ciqual": "28720",
+        "gramos": 60
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "tortitas-platano-huevo",
+    "nombre": "Tortitas de plátano y huevo, cocinadas",
+    "alias": [
+      "tortitas de dos ingredientes"
+    ],
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "13005",
+        "gramos": 120
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "crepe-pavo-queso",
+    "nombre": "Crepe de pavo y queso, cocinada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 310,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 60
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 120
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 50
+      },
+      {
+        "ciqual": "28964",
+        "gramos": 60
+      },
+      {
+        "ciqual": "12300",
+        "gramos": 40
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "yogur-muesli",
+    "nombre": "Yogur con muesli, listo para consumir",
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 165,
+    "ingredientes": [
+      {
+        "ciqual": "19593",
+        "gramos": 125
+      },
+      {
+        "ciqual": "32004",
+        "gramos": 40
+      }
+    ]
+  },
+  {
+    "id": "copos-maiz-leche",
+    "nombre": "Copos de maíz con leche semidesnatada, listos para consumir",
+    "alias": [
+      "cereales con leche",
+      "corn flakes con leche"
+    ],
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 240,
+    "ingredientes": [
+      {
+        "ciqual": "32005",
+        "gramos": 40
+      },
+      {
+        "ciqual": "19041",
+        "gramos": 200
+      }
+    ]
+  },
+  {
+    "id": "muesli-leche",
+    "nombre": "Muesli con leche semidesnatada, listo para consumir",
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 250,
+    "ingredientes": [
+      {
+        "ciqual": "32004",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19041",
+        "gramos": 200
+      }
+    ]
+  },
+  {
+    "id": "pudin-chia",
+    "nombre": "Pudin de chía con leche y miel, listo para consumir",
+    "alias": [
+      "chia pudding"
+    ],
+    "categoria": "Yogures y postres lácteos",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 250,
+    "ingredientes": [
+      {
+        "ciqual": "15047",
+        "gramos": 40
+      },
+      {
+        "ciqual": "19041",
+        "gramos": 200
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "gachas-avena-cacao-platano",
+    "nombre": "Gachas de avena con cacao y plátano, cocinadas",
+    "categoria": "Cereales de desayuno y barritas",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 380,
+    "ingredientes": [
+      {
+        "ciqual": "9310",
+        "gramos": 50
+      },
+      {
+        "ciqual": "19041",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 10
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "platano-crema-cacahuete",
+    "nombre": "Plátano con crema de cacahuete, listo para consumir",
+    "categoria": "Dulces y chocolate",
+    "referencia": "Lote manual de platos habituales en España, decimocuarta tanda (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 140,
+    "ingredientes": [
+      {
+        "ciqual": "13005",
+        "gramos": 120
+      },
+      {
+        "ciqual": "15202",
+        "gramos": 20
+      }
+    ]
   }
 ]
