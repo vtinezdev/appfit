@@ -996,3 +996,7 @@ Vindaloo de cerdo, patata y coliflor al curry (aloo gobi), raita de yogur y pepi
 ### Tanda 85 de recetas: cocina francesa y europea (9)
 
 Quiche de salmón y puerro, croque monsieur, fricasé de pollo con champiñones, crepes Suzette, fish and chips (pescado rebozado con patatas fritas), salchichas con puré de patata, pastel de carne y puré de patata (shepherd pie), strudel de manzana y mejillones al vino con patatas fritas.
+
+### Tanda 86 de recetas: cocina estadounidense (8)
+
+Hamburguesa doble con queso y beicon, bocadillo de cerdo desmechado a la barbacoa, patatas fritas con chili y queso, tortitas con beicon y sirope de arce, ensalada Cobb, pastel de carne al horno (meatloaf), crema de almejas (clam chowder) y patata asada rellena de queso y beicon.
