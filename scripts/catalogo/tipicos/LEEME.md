@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1415 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
-AppFit de alimentos sueltos) y 1000 recetas CIQUAL (61 hasta el 25 de octubre y
-939 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1428 filas: 415 valores directos (57 USDA, 167 CoFID y 191 valores de referencia
+AppFit de alimentos sueltos) y 1013 recetas CIQUAL (61 hasta el 25 de octubre y
+952 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -792,3 +792,7 @@ Bocadillos (lomo con pimientos, pollo con queso y beicon, salmón y queso, veget
 ### Trigesimocuarta tanda de recetas: más tapas (15)
 
 Croquetas de chorizo, morcilla y queso de cabra, caracoles en salsa, mollejas de cordero y de pollo al ajillo, champiñones al ajillo, pinchos de champiñón con gamba, brochetas de gambas con beicon, dátiles con beicon, chorizo al vino, morcilla con cebolla y piñones, berberechos al vapor y tostas de cabra con cebolla y de pisto con huevo de codorniz.
+
+### Trigesimoquinta tanda de recetas: caza y carnes de fiesta (13)
+
+Codornices escabechadas y a la plancha, conejo en escabeche, faisán estofado, pato a la naranja, lomo de ciervo a la plancha, cochifrito, cordero al ajillo, caldereta de cabrito, pavo relleno de Navidad, solomillo Wellington, lomo relleno de ciruelas y cordero con ciruelas y almendras. El confit de pato se descarta: sin dato fiable de la grasa absorbida, el cálculo salía muy por debajo.
