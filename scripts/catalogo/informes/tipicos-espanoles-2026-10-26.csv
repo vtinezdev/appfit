@@ -1276,3 +1276,13 @@ bocadillo-salmon-aguacate;Bocadillo de salmón ahumado y aguacate, listo para co
 bocadillo-pollo-curry;Bocadillo de pollo al curry, listo para consumir;Pan y tostadas;;200,3;14,7;30,1;1,6;236;7001:120 36017:100 19593:20 11005:2 20031:15
 bocadillo-ensaladilla;Bocadillo de ensaladilla rusa, listo para consumir;Pan y tostadas;;254;6,6;34,4;9,3;201;7001:100 4008:60 11054:20 26245:15 20009:10
 bocadillo-chorizo-queso;Bocadillo de chorizo y queso, listo para consumir;Pan y tostadas;;316,4;12,8;37,4;12,2;160;7001:100 30315:40 12300:20
+tosta-sardina-tomate;Tosta de sardinas con tomate, lista para consumir;Pan y tostadas;;207;11,2;27,9;5,2;129;7001:60 26040:40 20276:30
+tosta-anchoas-queso;Tosta de anchoas con queso de untar, lista para consumir;Pan y tostadas;;261,4;9,5;37,7;7,5;95;7001:60 26177:10 12068:25
+tosta-morcilla-manzana;Tosta de morcilla con manzana, lista para consumir;Pan y tostadas;;293,1;8,6;29,8;15;130;7001:60 8703:50 13396:30 17270:5
+tosta-champinones;Tosta de champiñones al ajillo, lista para consumir;Pan y tostadas;;206,4;5,3;28,9;7,2;128;7001:60 20056:80 11000:3 17270:8
+tosta-berenjena-cabra;Tosta de berenjena con queso de cabra y miel, lista para consumir;Pan y tostadas;;231,2;7,8;28,3;9;144;7001:60 20053:60 12812:30 31008:5 17270:5
+montadito-pollo-alioli;Montadito de pollo con alioli, listo para consumir;Pan y tostadas;;268,8;16;29,7;8,9;100;7001:50 36017:50 11054:10 11000:1
+montadito-tortilla;Montadito de tortilla de patatas, listo para consumir;Pan y tostadas;;264,3;7,7;31,1;11,5;96;7001:40 4008:40 22000:25 17270:8
+tosta-pulpo-patata;Tosta de pulpo con patata y pimentón, lista para consumir;Pan y tostadas;;229,1;9,2;31,2;6,9;135;7001:60 10018:50 4008:40 17270:8 11049:1
+tosta-bacalao-tomate;Tosta de bacalao con tomate, lista para consumir;Pan y tostadas;;216,6;10,7;27,1;6,9;133;7001:60 26043:50 20276:30 17270:8
+tosta-setas-jamon;Tosta de setas con jamón, lista para consumir;Pan y tostadas;;228;8,6;28,2;8,4;130;7001:60 20010:70 28845:15 17270:8

@@ -45046,5 +45046,255 @@
         "gramos": 20
       }
     ]
+  },
+  {
+    "id": "tosta-sardina-tomate",
+    "nombre": "Tosta de sardinas con tomate, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 129,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "26040",
+        "gramos": 40
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "tosta-anchoas-queso",
+    "nombre": "Tosta de anchoas con queso de untar, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 95,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "26177",
+        "gramos": 10
+      },
+      {
+        "ciqual": "12068",
+        "gramos": 25
+      }
+    ]
+  },
+  {
+    "id": "tosta-morcilla-manzana",
+    "nombre": "Tosta de morcilla con manzana, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 130,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "8703",
+        "gramos": 50
+      },
+      {
+        "ciqual": "13396",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "tosta-champinones",
+    "nombre": "Tosta de champiñones al ajillo, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 128,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20056",
+        "gramos": 80
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "tosta-berenjena-cabra",
+    "nombre": "Tosta de berenjena con queso de cabra y miel, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 144,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20053",
+        "gramos": 60
+      },
+      {
+        "ciqual": "12812",
+        "gramos": 30
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 5
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "montadito-pollo-alioli",
+    "nombre": "Montadito de pollo con alioli, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 100,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 50
+      },
+      {
+        "ciqual": "36017",
+        "gramos": 50
+      },
+      {
+        "ciqual": "11054",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11000",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "montadito-tortilla",
+    "nombre": "Montadito de tortilla de patatas, listo para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 96,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 40
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 40
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 25
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "tosta-pulpo-patata",
+    "nombre": "Tosta de pulpo con patata y pimentón, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 135,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "10018",
+        "gramos": 50
+      },
+      {
+        "ciqual": "4008",
+        "gramos": 40
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "tosta-bacalao-tomate",
+    "nombre": "Tosta de bacalao con tomate, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Bacalao fresco CIQUAL como desalado.",
+    "pesoFinalG": 133,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "26043",
+        "gramos": 50
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 30
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "tosta-setas-jamon",
+    "nombre": "Tosta de setas con jamón, lista para consumir",
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 68 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 130,
+    "ingredientes": [
+      {
+        "ciqual": "7001",
+        "gramos": 60
+      },
+      {
+        "ciqual": "20010",
+        "gramos": 70
+      },
+      {
+        "ciqual": "28845",
+        "gramos": 15
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 8
+      }
+    ]
   }
 ]
