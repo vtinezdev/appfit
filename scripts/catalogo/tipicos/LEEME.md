@@ -1028,3 +1028,7 @@ Puré de calabaza y patata (triturado infantil), puré de pollo con arroz y zana
 ### Tanda 93 de recetas: Navidad (6)
 
 Canapés de salmón ahumado y queso, volovanes rellenos de marisco, sopa de almendras navideña, turrón de chocolate con almendras casero, ensalada de bogavante y merluza rellena de marisco.
+
+### Tanda 94 de recetas: Semana Santa y Cuaresma (5)
+
+Torrijas al horno, tortillitas de bacalao, soldaditos de Pavía, cazuela de vigilia (patatas con bacalao y huevo) y empanadillas de bacalao.
