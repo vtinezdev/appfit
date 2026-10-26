@@ -972,3 +972,7 @@ Mojito sin alcohol, piña colada sin alcohol, cóctel San Francisco sin alcohol,
 ### Tanda 79 de recetas: salsas y dips (8)
 
 Salsa de yogur y menta, bechamel ligera con leche semidesnatada y aceite, salsa de tomate con albahaca casera, salsa de soja y miel, salsa agridulce casera, ajo y perejil en aceite (ajillo), muhammara (crema de pimiento y nueces) y dip de queso y cebolleta.
+
+### Tanda 80 de recetas: aperitivos salados (6)
+
+Nachos caseros de tortilla de maíz al horno, almendras tostadas caseras con sal, frutos secos especiados al horno, grisines caseros, mezcla de almendras y brochetas de queso y uva.

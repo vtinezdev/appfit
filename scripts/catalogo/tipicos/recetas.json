@@ -47395,5 +47395,150 @@
         "gramos": 20
       }
     ]
+  },
+  {
+    "id": "nachos-caseros-horno",
+    "nombre": "Nachos caseros de tortilla de maíz al horno, horneados",
+    "categoria": "Snacks salados",
+    "referencia": "Lote manual de platos habituales en España, tanda 80 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 201,
+    "ingredientes": [
+      {
+        "ciqual": "7813",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "almendras-tostadas-caseras",
+    "nombre": "Almendras tostadas caseras con sal, tostadas",
+    "categoria": "Snacks salados",
+    "referencia": "Lote manual de platos habituales en España, tanda 80 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 202,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 200
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "frutos-secos-especiados",
+    "nombre": "Frutos secos especiados al horno, horneados",
+    "categoria": "Snacks salados",
+    "referencia": "Lote manual de platos habituales en España, tanda 80 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 307,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 100
+      },
+      {
+        "ciqual": "15005",
+        "gramos": 100
+      },
+      {
+        "ciqual": "15001",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11049",
+        "gramos": 3
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 3
+      }
+    ]
+  },
+  {
+    "id": "grisines-caseros",
+    "nombre": "Grisines caseros, horneados",
+    "alias": [
+      "colines caseros"
+    ],
+    "categoria": "Pan y tostadas",
+    "referencia": "Lote manual de platos habituales en España, tanda 80 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 366,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 140
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 30
+      },
+      {
+        "ciqual": "11010",
+        "gramos": 5
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 5
+      }
+    ]
+  },
+  {
+    "id": "mix-frutos-secos-pasas",
+    "nombre": "Mezcla de almendras, nueces y pasas, lista para consumir",
+    "categoria": "Snacks salados",
+    "referencia": "Lote manual de platos habituales en España, tanda 80 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 300,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 100
+      },
+      {
+        "ciqual": "15005",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13046",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "brochetas-queso-uva",
+    "nombre": "Brochetas de queso y uva, listas para consumir",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 80 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 200,
+    "ingredientes": [
+      {
+        "ciqual": "12119",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13044",
+        "gramos": 100
+      }
+    ]
   }
 ]
