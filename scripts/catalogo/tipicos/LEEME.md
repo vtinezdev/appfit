@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-793 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
-AppFit de alimentos sueltos) y 418 recetas CIQUAL (61 hasta el 25 de octubre y
-357 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+823 filas: 375 valores directos (57 USDA, 167 CoFID y 151 valores de referencia
+AppFit de alimentos sueltos) y 448 recetas CIQUAL (61 hasta el 25 de octubre y
+387 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -643,3 +643,15 @@ No se añaden tiramisú ni panna cotta (CIQUAL ya los tiene). El poke no lleva
 algas ni edamame (sin dato CIQUAL) y la quesadilla usa emmental como queso
 fundente.
 
+
+### Quinta tanda de recetas (30)
+
+Cocina española que faltaba: arroces con pollo, con almejas y a la zamorana;
+patatas con bacalao fresco; puchero andaluz, escudella y cocido maragato;
+cremas de espárragos, setas, brócoli, coliflor y guisantes; bonito en
+escabeche, rape a la marinera, dorada al horno con patatas; paletilla de
+cordero con patatas, codillo, fricandó, filete de pollo empanado, chuletas
+con patatas, pollo en tomate; tortillas de atún y de setas, revuelto de setas
+con jamón; judías con tomate, coliflor gratinada, brócoli al ajo, alcachofas
+al horno, calabacín relleno de atún y berenjenas gratinadas con carne. La
+escudella lleva panceta en lugar de butifarra y pasta seca como galets.

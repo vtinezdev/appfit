@@ -356,3 +356,33 @@ tarta-limon;Tarta de limón con merengue, casera, horneada;Galletas, bollería y
 profiteroles-chocolate;Profiteroles con chocolate, caseros, horneados;Galletas, bollería y pasteles;;357,8;6,5;24,2;25,8;900;18066:250 16400:100 9440:150 22000:250 19417:300 31016:40 31085:100
 gelatina-frutas;Gelatina de frutas, casera, lista para consumir;Yogures y postres lácteos;;50,4;1,5;10,8;0;600;18066:500 31016:60 11007:10 13014:80
 macedonia-zumo;Fruta troceada con zumo de naranja, lista para consumir;Frutas;;56,5;0,7;12,2;0,2;550;13396:150 13005:150 13014:100 2013:150
+arroz-pollo;Arroz con pollo, cocido;Platos preparados;;144,3;7;16,4;5,5;2000;9100:400 36022:600 20085:100 20087:100 20276:150 11000:10 11049:4 11039:0.2 17270:50 11017:10 18066:1200
+arroz-almejas;Arroz con almejas, cocido;Platos preparados;;127,1;3,5;19,1;3,6;1700;9100:400 10017:250 20034:100 11000:10 11014:10 5215:100 17270:50 11017:8 18066:1200
+arroz-zamorana;Arroz a la zamorana, cocido;Platos preparados;;172;5,6;17,3;8,7;1900;9100:400 28400:300 28470:60 30315:80 20064:150 20034:100 11000:10 11049:4 17270:30 11017:8 18066:1200
+patatas-bacalao-fresco;Patatas con bacalao fresco, guisadas;Platos preparados;;84;5,6;8,2;2,8;2000;4008:900 26043:500 20034:150 20085:100 20276:100 11000:10 11049:4 11053:0.5 17270:50 11017:10 18066:600
+puchero-andaluz;Puchero andaluz, con su caldo, cocido;Platos preparados;;73,3;5,1;6;2,9;5000;20516:400 36001:400 6583:300 28470:100 4008:500 20009:300 20039:200 20069:200 11017:15 18066:3800
+escudella;Escudella i carn d'olla, con su caldo, cocida;Platos preparados;escudella;78,2;5,6;6,8;2,9;5500;20516:300 9810:200 36001:400 6583:300 28473:200 28470:80 28501:100 20069:300 4008:400 20009:200 11017:15 18066:4000
+cocido-maragato;Cocido maragato, cocido;Platos preparados;;113,5;8,3;7,6;5,1;4200;20516:500 6583:400 36001:300 30315:150 28470:100 28474:200 20069:500 4008:400 11017:12 18066:2500
+crema-esparragos;Crema de espárragos, casera, cocida;Platos preparados;;42,7;1,8;3,9;1,9;1500;20282:600 4008:200 20039:150 19023:200 17270:20 11017:7 18066:500
+crema-setas;Crema de setas, casera, cocida;Platos preparados;;54,1;1,5;3,3;3,6;1600;20010:700 20034:150 4008:150 19417:100 17270:25 11017:7 18066:600
+crema-brocoli;Crema de brócoli, casera, cocida;Platos preparados;;42,4;1,8;3,6;1,8;1600;20057:700 4008:200 20034:100 12303:32 17270:20 11017:7 18066:600
+crema-coliflor;Crema de coliflor, casera, cocida;Platos preparados;;38,1;1,4;3,3;1,9;1600;20016:700 4008:150 20034:100 19023:150 17270:20 11017:7 18066:550
+crema-guisantes;Crema de guisantes, casera, cocida;Platos preparados;;55,3;2,4;6,6;1,5;1500;20072:600 20034:100 4008:150 17270:20 11027:5 11017:7 18066:700
+bonito-escabeche;Bonito en escabeche, casero, cocinado;Pescados;;248,2;18,2;1,3;18,5;1000;26101:800 17270:120 11220:60 5215:40 11000:15 20034:100 20009:50 11053:1 11015:2 11017:10
+rape-marinera;Rape a la marinera, guisado;Platos preparados;;95,2;11,1;2,4;4,1;1500;26018:800 10017:100 10021:150 20034:150 20276:150 11000:10 9440:15 5215:100 11049:3 17270:50 11017:8 18066:200
+dorada-horno-patatas;Dorada al horno con patatas, horneada;Platos preparados;;133,8;10,6;7,1;6,3;1300;26088:600 4008:500 20034:150 5215:80 17270:50 11000:10 11014:5 11017:8
+cordero-horno-patatas;Paletilla de cordero al horno con patatas, asada;Platos preparados;;172,3;11,8;7,7;9,9;1700;21504:1000 4008:700 20034:150 11000:15 5215:100 17270:40 16520:20 11017:14
+codillo-horno;Codillo de cerdo al horno, asado;Platos preparados;codillo asado;210,5;25,4;1,2;11;800;28474:1000 5001:150 11000:10 17270:15 11017:12
+fricando;Fricandó de ternera con setas, guisado;Platos preparados;fricandó;111,8;13,1;3,4;4,6;1500;6106:800 20010:300 20034:200 20276:150 9440:30 5215:100 17270:50 11017:10 18066:300
+pollo-empanado-casero;Filete de pollo empanado, casero, frito;Platos preparados;pechuga empanada casera;236,7;21,9;12;10,7;750;36017:600 22000:100 7500:100 9440:20 17270:60 11017:6
+chuletas-cerdo-patatas;Chuletas de cerdo con patatas fritas, cocinadas;Platos preparados;;186,7;11,8;8,9;11,2;650;28100:350 4008:350 17270:40 11017:4
+pollo-tomate;Pollo en salsa de tomate, guisado;Platos preparados;;132,4;11,1;2,7;8,6;1700;36022:1000 20276:800 20034:200 11000:10 20085:100 17270:50 11017:10
+tortilla-atun;Tortilla de atún, cuajada;Huevos;;181,4;14,9;0,1;13,5;300;22000:240 26245:60 17270:8 11017:1
+tortilla-setas;Tortilla de setas, cuajada;Huevos;;118,8;7,6;1,6;8,9;500;20010:300 22000:240 11000:5 17270:20 11017:3
+revuelto-setas-jamon;Revuelto de setas con jamón, cocinado;Huevos;;141,8;10,3;1,6;10,3;550;20010:300 22000:240 28845:60 11000:5 17270:25 11017:2
+judias-verdes-tomate;Judías verdes con tomate, guisadas;Verduras y hortalizas;;59;1,6;4,6;3,3;1000;20061:700 20276:300 20034:100 11000:5 17270:30 11017:6
+coliflor-gratinada;Coliflor gratinada con bechamel, horneada;Verduras y hortalizas;;82,1;3,7;4,9;5,1;1300;20016:800 19023:400 9440:35 16400:35 11048:0.3 12118:60 11017:7
+brocoli-ajo;Brócoli salteado con ajo, cocinado;Verduras y hortalizas;;77,8;3,4;2,9;4,9;450;20057:500 11000:10 17270:20 11017:3
+alcachofas-horno;Alcachofas al horno, asadas;Verduras y hortalizas;;121,7;4,5;6,6;6,9;450;20052:600 17270:30 11000:5 11017:4
+calabacin-relleno-atun;Calabacín relleno de atún, horneado;Platos preparados;;87,5;6;2,4;5,8;1100;20020:800 26245:160 20034:100 20276:150 12118:60 17270:20 11017:6
+berenjenas-gratinadas-carne;Berenjenas gratinadas con carne, horneadas;Platos preparados;;114;6,7;2,8;8;1300;20053:800 6254:300 20034:100 20276:200 12118:60 17270:40 11017:8
