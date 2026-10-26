@@ -610,3 +610,12 @@ export function logrosDeEntreno(logros: readonly Logro[], workoutId: number): Nu
     ...(l.veces ?? []).flatMap((v) => (v.workoutId === workoutId ? [{ logro: l, nivel: null }] : [])),
   ])
 }
+
+/**
+ * Los más especiales primero, para cuando no caben todos (la imagen del entreno enseña cuatro): los ocultos, después los
+ * niveles más altos y al final los niveles I y los repetibles. A igualdad, el orden de la Vitrina.
+ */
+export function porRareza(nuevos: readonly NuevoLogro[]): NuevoLogro[] {
+  const rareza = ({ logro, nivel }: NuevoLogro) => (logro.oculto ? Infinity : nivel ?? 1)
+  return [...nuevos].sort((a, b) => rareza(b) - rareza(a))
+}

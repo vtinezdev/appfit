@@ -8,7 +8,7 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 
 | Pieza | Archivo | Datos |
 |---|---|---|
-| Logros | `lib/logros.ts`: `calcularLogros`, `nivelDe`, `conseguido`, `ultimaVez`, `siguienteUmbral`, `recuentoPiezas`, `proximosLogros`, `logrosDeEntreno` | — (puro; usa el resultado de la [experiencia](experiencia.md), su Ritmo, Cumbres, las actividades, Caminos, la Liga, el Herbario y el volumen de cada entreno, que prepara `lib/vitrina.ts`) |
+| Logros | `lib/logros.ts`: `calcularLogros`, `nivelDe`, `conseguido`, `ultimaVez`, `siguienteUmbral`, `recuentoPiezas`, `proximosLogros`, `logrosDeEntreno`, `porRareza` (los ocultos y los niveles altos primero; la imagen del entreno enseña los cuatro primeros) | — (puro; usa el resultado de la [experiencia](experiencia.md), su Ritmo, Cumbres, las actividades, Caminos, la Liga, el Herbario y el volumen de cada entreno, que prepara `lib/vitrina.ts`) |
 | Muro de récords | `lib/muro.ts`: `muroRecords`, `describirMarca` | — (puro; reutiliza `gym/lib/records.acumularComparables`) |
 | Atlas | `lib/atlas.ts`: `gruposDeEntreno`, `calcularAtlas` (cada dominado, con el entreno de su tercera sesión) | — (puro; snapshot muscular de cada entreno o la clasificación actual) |
 | Herbario | `nutricion/lib/herbario.ts`: `plantaDeEntrada`, `plantasDistintas`, `herbarioPorSemana` (día en que se llega a 30 y a 50) | — (puro; categoría con `repartoCategorias.categoriaDeEntrada`) |

@@ -7,10 +7,9 @@ import { ErrorState, LoadingState } from '../../../shared/components/StateMessag
 import { getSettings } from '../../../shared/db/settings'
 import { moduloActivo } from '../../../shared/lib/modulos'
 import { compartirImagen, cssFuentesIncrustadas, descargarImagen, puedeCompartirArchivos, svgAPng } from '../../gym/lib/exportarImagen'
-import { ALTO_POSTER, ANCHO_POSTER } from '../../gym/lib/posterImagen'
 import { useDatosPeriodo } from '../hooks/useTuPeriodo'
 import { useVitrina } from '../hooks/useVitrina'
-import { nombreArchivoTuPeriodo, svgTuPeriodo, type ColoresTuPeriodo } from '../lib/imagenTuPeriodo'
+import { ALTO_POSTER, ANCHO_POSTER, nombreArchivoTuPeriodo, svgTuPeriodo, type ColoresTuPeriodo } from '../lib/imagenTuPeriodo'
 import { cifrasPeriodo, lineaTarjeta, resumirPeriodo, type CifraPeriodo, type Periodo } from '../lib/tuPeriodo'
 
 /** Cifras y grupo del periodo, con los metros del lector compartido y los módulos de B9. `undefined` mientras carga. */
