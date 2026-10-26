@@ -46859,5 +46859,147 @@
         "gramos": 100
       }
     ]
+  },
+  {
+    "id": "leche-canela",
+    "nombre": "Leche caliente con canela, lista para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 77 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 261,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "golden-milk",
+    "nombre": "Leche dorada con cúrcuma (golden milk), lista para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 77 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 265,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 250
+      },
+      {
+        "ciqual": "11089",
+        "gramos": 3
+      },
+      {
+        "ciqual": "11074",
+        "gramos": 2
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "chocolate-caliente-nata",
+    "nombre": "Chocolate caliente con nata, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 77 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 270,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 200
+      },
+      {
+        "ciqual": "31085",
+        "gramos": 30
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      },
+      {
+        "ciqual": "19420",
+        "gramos": 30
+      }
+    ]
+  },
+  {
+    "id": "infusion-jengibre-limon",
+    "nombre": "Infusión de jengibre y limón con miel, lista para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 77 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 285,
+    "ingredientes": [
+      {
+        "ciqual": "18066",
+        "gramos": 250
+      },
+      {
+        "ciqual": "11074",
+        "gramos": 10
+      },
+      {
+        "ciqual": "2007",
+        "gramos": 15
+      },
+      {
+        "ciqual": "31008",
+        "gramos": 10
+      }
+    ]
+  },
+  {
+    "id": "ponche-leche-huevo",
+    "nombre": "Ponche de leche y huevo casero, listo para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 77 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 609,
+    "ingredientes": [
+      {
+        "ciqual": "19023",
+        "gramos": 500
+      },
+      {
+        "ciqual": "22002",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 60
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 1
+      }
+    ]
+  },
+  {
+    "id": "avena-caliente-cacao",
+    "nombre": "Bebida de avena caliente con cacao, lista para consumir",
+    "categoria": "Bebidas",
+    "referencia": "Lote manual de platos habituales en España, tanda 77 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 270,
+    "ingredientes": [
+      {
+        "ciqual": "18899",
+        "gramos": 250
+      },
+      {
+        "ciqual": "18100",
+        "gramos": 10
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 10
+      }
+    ]
   }
 ]

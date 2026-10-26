@@ -6,9 +6,9 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1827 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
-AppFit de alimentos sueltos) y 1405 recetas CIQUAL (61 hasta el 25 de octubre y
-1344 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1833 filas: 422 valores directos (57 USDA, 167 CoFID y 198 valores de referencia
+AppFit de alimentos sueltos) y 1411 recetas CIQUAL (61 hasta el 25 de octubre y
+1350 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
@@ -960,3 +960,7 @@ Plátanos flambeados, compota de frutos del bosque, mermelada de fresa casera, m
 ### Tanda 76 de recetas: batidos y smoothies (8)
 
 Smoothie de mango y plátano, batido de fresa y plátano, smoothie de piña y espinacas, batido de kéfir con frutos rojos, smoothie de melocotón y yogur, batido de dátiles y plátano, smoothie de kiwi y manzana y batido verde de pepino.
+
+### Tanda 77 de recetas: bebidas calientes (6)
+
+Leche caliente con canela, leche dorada con cúrcuma (golden milk), chocolate caliente con nata, infusión de jengibre y limón con miel, ponche de leche y huevo casero y bebida de avena caliente con cacao.
