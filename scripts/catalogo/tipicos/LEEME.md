@@ -1040,3 +1040,7 @@ Brochetas de pollo y piña, brochetas de salmón y calabacín, hamburguesas de c
 ### Tanda 96 de recetas: Andalucía (7)
 
 Ajo caliente (sopa de tomate y pan), cachorreñas (sopa de naranja y bacalao), choco frito, migas de harina almerienses, gurullos con conejo, carne mechada y lomo en manteca colorá.
+
+### Tanda 97 de recetas: cornisa cantábrica (5)
+
+Empanada de zamburiñas, pitu de caleya (pollo de corral guisado), cocido lebaniego, pantxineta y bacalao al club ranero.

@@ -51485,5 +51485,190 @@
         "gramos": 5
       }
     ]
+  },
+  {
+    "id": "empanada-zamburinas",
+    "nombre": "Empanada de zamburiñas, horneada",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 97 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1096,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 400
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 150
+      },
+      {
+        "ciqual": "11010",
+        "gramos": 10
+      },
+      {
+        "ciqual": "10045",
+        "gramos": 300
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 6
+      }
+    ]
+  },
+  {
+    "id": "pitu-caleya",
+    "nombre": "Pitu de caleya (pollo de corral guisado), cocinado",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 97 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1606,
+    "ingredientes": [
+      {
+        "ciqual": "36016",
+        "gramos": 1200
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 200
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "5215",
+        "gramos": 150
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 50
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 300
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "cocido-lebaniego",
+    "nombre": "Cocido lebaniego, cocido",
+    "categoria": "Platos preparados",
+    "referencia": "Lote manual de platos habituales en España, tanda 97 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 2710,
+    "ingredientes": [
+      {
+        "ciqual": "20516",
+        "gramos": 300
+      },
+      {
+        "ciqual": "30315",
+        "gramos": 100
+      },
+      {
+        "ciqual": "8703",
+        "gramos": 100
+      },
+      {
+        "ciqual": "28470",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20069",
+        "gramos": 300
+      },
+      {
+        "ciqual": "6583",
+        "gramos": 300
+      },
+      {
+        "ciqual": "18066",
+        "gramos": 2000
+      },
+      {
+        "ciqual": "11017",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "pantxineta",
+    "nombre": "Pantxineta, horneada",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 97 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 796,
+    "ingredientes": [
+      {
+        "ciqual": "23410",
+        "gramos": 400
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 300
+      },
+      {
+        "ciqual": "22002",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 70
+      },
+      {
+        "ciqual": "9510",
+        "gramos": 25
+      },
+      {
+        "ciqual": "15041",
+        "gramos": 50
+      }
+    ]
+  },
+  {
+    "id": "bacalao-club-ranero",
+    "nombre": "Bacalao al club ranero, cocinado",
+    "categoria": "Pescados",
+    "referencia": "Lote manual de platos habituales en España, tanda 97 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. Bacalao fresco CIQUAL como desalado.",
+    "pesoFinalG": 918,
+    "ingredientes": [
+      {
+        "ciqual": "26043",
+        "gramos": 600
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20085",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20087",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20034",
+        "gramos": 100
+      },
+      {
+        "ciqual": "20276",
+        "gramos": 100
+      }
+    ]
   }
 ]
