@@ -46069,5 +46069,183 @@
         "gramos": 20
       }
     ]
+  },
+  {
+    "id": "tarta-almendra-naranja",
+    "nombre": "Tarta de almendra y naranja sin harina, horneada",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 73 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 765,
+    "ingredientes": [
+      {
+        "ciqual": "15041",
+        "gramos": 250
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 250
+      },
+      {
+        "ciqual": "13034",
+        "gramos": 200
+      }
+    ]
+  },
+  {
+    "id": "tarta-coco",
+    "nombre": "Tarta de coco, horneada",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 73 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 892,
+    "ingredientes": [
+      {
+        "ciqual": "15007",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19027",
+        "gramos": 370
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 200
+      }
+    ]
+  },
+  {
+    "id": "tarta-chocolate-sin-horno",
+    "nombre": "Tarta de chocolate sin horno, lista para consumir",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 73 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 870,
+    "ingredientes": [
+      {
+        "ciqual": "24001",
+        "gramos": 200
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 80
+      },
+      {
+        "ciqual": "31085",
+        "gramos": 200
+      },
+      {
+        "ciqual": "19417",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11007",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "tarta-frutas-crema",
+    "nombre": "Tarta de frutas con crema pastelera, horneada",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 73 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1122,
+    "ingredientes": [
+      {
+        "ciqual": "23410",
+        "gramos": 300
+      },
+      {
+        "ciqual": "19023",
+        "gramos": 400
+      },
+      {
+        "ciqual": "22002",
+        "gramos": 60
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 80
+      },
+      {
+        "ciqual": "9510",
+        "gramos": 30
+      },
+      {
+        "ciqual": "13014",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13021",
+        "gramos": 100
+      },
+      {
+        "ciqual": "13398",
+        "gramos": 100
+      }
+    ]
+  },
+  {
+    "id": "tarta-pina-invertida",
+    "nombre": "Tarta de piña invertida, horneada",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 73 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 931,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 200
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 200
+      },
+      {
+        "ciqual": "22000",
+        "gramos": 200
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 150
+      },
+      {
+        "ciqual": "13002",
+        "gramos": 300
+      },
+      {
+        "ciqual": "11046",
+        "gramos": 8
+      }
+    ]
+  },
+  {
+    "id": "tarta-platano-hojaldre",
+    "nombre": "Tarta de plátano y hojaldre, horneada",
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos habituales en España, tanda 73 (2026-10-26). Formulación, gramajes y peso final objetivo: criterio AppFit de cocina doméstica, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; aceite = cantidad retenida; el peso final estima el agua evaporada o absorbida. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 774,
+    "ingredientes": [
+      {
+        "ciqual": "23410",
+        "gramos": 300
+      },
+      {
+        "ciqual": "13005",
+        "gramos": 500
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 50
+      },
+      {
+        "ciqual": "16400",
+        "gramos": 30
+      }
+    ]
   }
 ]
