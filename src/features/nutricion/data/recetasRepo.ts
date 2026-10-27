@@ -30,6 +30,11 @@ export function obtener(id: number): Promise<Receta | undefined> {
   return db.recetas.get(id)
 }
 
+/** La receta de la que sale un alimento propio, si la hay. Solo lectura. */
+export function deAlimento(foodId: number): Promise<Receta | undefined> {
+  return db.recetas.where('foodId').equals(foodId).first()
+}
+
 function valoresFood(datos: RecetaInput) {
   const v = por100DeReceta(datos.ingredientes, datos.pesoCocinadoG)
   return { kcal100: v.kcal100, prot100: v.prot100, carb100: v.carb100, grasa100: v.grasa100, ...(v.nutrientes ? { nutrientes: v.nutrientes } : {}), categoria: datos.categoria }

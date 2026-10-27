@@ -2784,3 +2784,11 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 **Cómo:** `FiltrosBusquedaSheet` (nuevo), `AlimentosRapidos` (botón «Filtrar», recuento, pastillas, orden y categoría), `ResultadosBusqueda` recibe `orden` (sin botón propio); fuera `OrdenarBusqueda`. Icono nuevo `filtro`. Cambiar alimento conserva las categorías en fila. Documentos: `features/nutricion.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas: resultados, hoja y filtrado con categoría y «Más proteína»; sin scroll horizontal.
+
+## 259. Añadir comida, página 3: la hoja Cantidad (2026-10-28)
+
+**Qué:** la hoja que sale al elegir un alimento. Víctor compara en la app real A (más clara: cabecera con icono, kcal de la cantidad con macros y cantidades de un toque), B (A + «Cómo queda tu día») y C (B + más nutrientes) y elige la B. Pregunta por las recetas: una receta casera dice sus ingredientes y peso cocinado, propone toda, la mitad y un cuarto de la receta y cuenta cuánto de cada ingrediente va en esa cantidad; le gusta en las dos. También pregunta por qué Escribir se ve distinto: Escribir pasa por la revisión (varios alimentos, correcciones, alimentos nuevos), que es la página 4 y se igualará a esta hoja.
+
+**Cómo:** `components/CantidadAlimento` (nuevo) sustituye el contenido de la hoja en `AnadirComida`; `lib/opcionesCantidad` (con tests); lecturas `foodsRepo.racionHabitual` y `recetasRepo.deAlimento`. Arreglo de paso: los botones elegidos dentro de una hoja (Filtrar y Cantidad) van en tinta, porque `selected` es blanco sobre la hoja blanca. Documentos: `features/nutricion.md`, `datos.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con un frecuente, unos huevos del catálogo y una receta de prueba (la mitad, ingredientes abiertos): sin scroll horizontal.

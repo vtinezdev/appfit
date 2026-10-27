@@ -1,4 +1,3 @@
-import PreparacionAlimento from '../components/PreparacionAlimento'
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida, Entry } from '../../../shared/db/types'
@@ -7,7 +6,6 @@ import { objetivosDe } from '../../perfil/data/objetivosDiaRepo'
 import ModalPage from '../../../shared/components/ModalPage'
 import ViewTabs from '../../../shared/components/ViewTabs'
 import Icon from '../../../shared/components/Icon'
-import NumberStepper from '../../../shared/components/NumberStepper'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import Disclosure from '../../../shared/components/Disclosure'
 import Sheet from '../../../shared/components/Sheet'
@@ -59,6 +57,7 @@ import { faltaDelDia } from '../lib/cerrarDia'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import SelectorComida from '../components/SelectorComida'
+import CantidadAlimento from '../components/CantidadAlimento'
 
 interface Props {
   fecha: string
@@ -283,9 +282,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   }
 
   const totales = items ? sumMacros(items.map((it) => macrosPorGramos(it, it.gramos))) : null
-  const aporteRapido = gramosRapido ? macrosPorGramos(gramosRapido.alimento, gramosRapido.gramos) : null
   const kcalTotales = totales ? Math.round(totales.kcal) : 0
-  const kcalRapido = aporteRapido ? Math.round(aporteRapido.kcal) : 0
 
   return (
     <ModalPage title={descartar ? '¿Descartar los cambios?' : soloTipica ? 'Nueva comida típica' : entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : planificar ? 'Planificar comida' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose} busy={ocupado}
@@ -468,24 +465,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           {errorRapido && <ErrorState>{errorRapido}</ErrorState>}
           <Button block loading={guardandoRapido} onClick={confirmarRapido}>{platoDestino || soloTipica || anadiendo ? 'Revisar alimento' : planificar ? 'Planificar' : 'Añadir'}</Button>
         </div>}>
-        {gramosRapido && aporteRapido && (
-          <div className="space-y-5">
-            <h3 className="break-words text-title text-fg">{gramosRapido.alimento.nombre}</h3>
-            <PreparacionAlimento nombre={gramosRapido.alimento.nombre} explicar />
-            <div className="text-center">
-              <p className="flex items-baseline justify-center gap-1.5 text-fg">
-                <span className="tabular text-display">{formatInt(kcalRapido)}</span>
-                <span className="text-body text-fg-muted">kcal</span>
-              </p>
-              <p className="tabular mt-1 text-body-sm text-fg-subtle">
-                {resumenMacros(aporteRapido)} · {formatInt(gramosRapido.alimento.kcal100)} kcal por 100 {gramosRapido.alimento.ml ? 'ml' : 'g'}
-              </p>
-            </div>
-            <div className="flex justify-center">
-              <NumberStepper label={gramosRapido.alimento.ml ? 'mililitros' : 'gramos'} value={gramosRapido.gramos} onChange={(v) => setGramosRapido({ ...gramosRapido, gramos: v })} step={10} suffix={gramosRapido.alimento.ml ? 'ml' : 'g'} />
-            </div>
-          </div>
-        )}
+        {gramosRapido && <CantidadAlimento alimento={gramosRapido.alimento} gramos={gramosRapido.gramos} onGramos={(v) => setGramosRapido({ ...gramosRapido, gramos: v })} fecha={fecha} planificar={planificar} />}
       </Sheet>
 
       <EscanerCodigo
