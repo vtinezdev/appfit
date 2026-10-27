@@ -14,7 +14,7 @@ const CATEGORIAS: { valor: FiltroCategoria; label: string }[] = [
 
 function Chip({ activa, onClick, icono, children }: { activa: boolean; onClick: () => void; icono?: IconName; children: string }) {
   return <button type="button" role="radio" aria-checked={activa} onClick={onClick}
-    className={`app-button flex min-h-touch items-center gap-1.5 rounded-pill border px-3 text-body-sm ${activa ? 'border-transparent bg-selected font-semibold text-selected-on' : 'border-line bg-surface text-fg-muted'}`}>
+    className={`app-button flex min-h-touch items-center gap-1.5 rounded-pill border px-3 text-body-sm ${activa ? 'border-transparent bg-fg font-semibold text-bg' : 'border-line bg-surface text-fg-muted'}`}>
     {icono && <Icon name={icono} size={16} />}{children}
   </button>
 }
