@@ -74,4 +74,21 @@ describe('recetasRepo', () => {
     await foodsRepo.borrar(receta.foodId)
     expect(await recetasRepo.categoriaDe(receta)).toBeUndefined()
   })
+
+  it('guarda la preparación limpia, la cambia y la quita; sin ella la receta sigue igual', async () => {
+    const id = await recetasRepo.crear({ nombre: 'Tortilla', ingredientes: [arroz], pesoCocinadoG: 200, categoria: 'Platos preparados', raciones: 2, pasos: [' Batir ', '', 'Cuajar'], tiempoMin: 10, notas: '  ' })
+    const r = (await recetasRepo.obtener(id))!
+    expect(r).toMatchObject({ raciones: 2, pasos: ['Batir', 'Cuajar'], tiempoMin: 10 })
+    expect('notas' in r).toBe(false)
+    await recetasRepo.actualizar(id, { nombre: 'Tortilla', ingredientes: [arroz], pesoCocinadoG: 200, categoria: 'Platos preparados', raciones: 1, notas: 'Mejor recién hecha' })
+    const sinPasos = (await recetasRepo.obtener(id))!
+    expect(sinPasos).toMatchObject({ raciones: 1, notas: 'Mejor recién hecha' })
+    expect(sinPasos.pasos).toBeUndefined()
+    expect(sinPasos.tiempoMin).toBeUndefined()
+  })
+
+  it('una preparación imposible no se guarda', async () => {
+    await expect(recetasRepo.crear({ nombre: 'X', ingredientes: [arroz], pesoCocinadoG: 200, categoria: 'Platos preparados', raciones: 0 })).rejects.toBeInstanceOf(recetasRepo.RecetaInvalidaError)
+    expect(await db.recetas.count()).toBe(0)
+  })
 })

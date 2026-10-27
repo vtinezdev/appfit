@@ -94,6 +94,23 @@ describe('validarPaquete (formato 2)', () => {
     // Una clave desconocida se ignora (compatibilidad hacia delante).
     expect(validarPaquete(con({ futura: 1 })).filas[1][9]).toEqual({})
   })
+  it('valida la receta de un plato de típicos', () => {
+    const con = (receta: unknown) => {
+      const p = paquete()
+      ;(p.filas[1] as unknown[])[9] = { receta }
+      return p
+    }
+    const buena = { peso: 1000, ing: [['4008', 800], ['22000', 400]], raciones: 5, min: 45, pasos: ['Pela las patatas.'], notas: 'Jugosa.' }
+    expect(validarPaquete(con(buena)).filas[1][9]?.receta).toEqual(buena)
+    expect(validarPaquete(con({ peso: 500, ing: [['1', 100]] })).filas[1][9]?.receta).toEqual({ peso: 500, ing: [['1', 100]] })
+    expect(() => validarPaquete(con({ ...buena, peso: 0 }))).toThrow(/peso/)
+    expect(() => validarPaquete(con({ ...buena, ing: [] }))).toThrow(/ingredientes/)
+    expect(() => validarPaquete(con({ ...buena, ing: [['1', 0]] }))).toThrow(/ingrediente 1/)
+    expect(() => validarPaquete(con({ ...buena, ing: [['1']] }))).toThrow(/ingrediente 1/)
+    expect(() => validarPaquete(con({ ...buena, raciones: 0 }))).toThrow(/raciones/)
+    expect(() => validarPaquete(con({ ...buena, min: 1.5 }))).toThrow(/min/)
+    expect(() => validarPaquete(con({ ...buena, pasos: [''] }))).toThrow(/paso 1/)
+  })
   it('ml solo en productos de marca', () => {
     const p = paquete()
     ;(p.filas[0] as unknown[]).push({}, { ml: 1 })
@@ -164,6 +181,15 @@ describe('aCatalogFoods', () => {
     expect(f.id).toBe('ciqual:19023')
     expect(f.nombre).toBe('Leche entera, UHT')
     expect(f.kcal100).toBe(64)
+  })
+  it('la receta pasa a ingredientes del catálogo CIQUAL con su preparación', () => {
+    const p: Paquete = { formato: 2, fuente: 'tipicos', version: 'v', tipo: 'generico', filas: [
+      ['tortilla', 'Tortilla de patatas, cuajada', '', 'Platos preparados', 183, 6, 13, 11, {}, { receta: { peso: 1000, ing: [['4008', 800], ['22000', 400]], raciones: 5, min: 45, pasos: ['Pela las patatas.'] } }],
+      ['pan', 'Pan, listo para consumir', '', 'Pan y tostadas', 250, 8, 50, 1, {}, { receta: { peso: 500, ing: [['7001', 500]] } }],
+    ] }
+    const [tortilla, pan] = aCatalogFoods(p, 1)
+    expect(tortilla.receta).toEqual({ pesoFinalG: 1000, ingredientes: [{ catalogId: 'ciqual:4008', gramos: 800 }, { catalogId: 'ciqual:22000', gramos: 400 }], raciones: 5, tiempoMin: 45, pasos: ['Pela las patatas.'] })
+    expect(pan.receta).toEqual({ pesoFinalG: 500, ingredientes: [{ catalogId: 'ciqual:7001', gramos: 500 }] })
   })
   it('secundario se guarda como indicador', () => {
     const p: Paquete = { formato: 2, fuente: 'ciqual', version: 'v', tipo: 'generico', filas: [['1', 'Ñame', '', '', 1, 1, 1, 1, {}, { secundario: 1 }]] }

@@ -38,6 +38,19 @@ export type TipoCatalogo = 'generico' | 'marca' | 'preparado'
  * Alimento del catálogo (tabla `catalogFoods`): solo lectura desde la app, re-descargable y NO va en el backup.
  * `nombreNorm` NO es único (habrá muchas «leche entera»); la identidad es `id`.
  */
+/**
+ * Receta de un plato del catálogo de típicos. Los valores por 100 g del `CatalogFood` ya salen de ella; los
+ * ingredientes son referencias a otros alimentos del catálogo (CIQUAL) con sus gramos en crudo para el lote entero.
+ */
+export interface RecetaCatalogo {
+  pesoFinalG: number
+  ingredientes: { catalogId: string; gramos: number }[]
+  raciones?: number
+  tiempoMin?: number
+  pasos?: string[]
+  notas?: string
+}
+
 export interface CatalogFood {
   /** Determinista y estable: `${fuente}:${idExterno}` (ver `catalogId()`). No es autoincremental. */
   id: string
@@ -56,6 +69,8 @@ export interface CatalogFood {
   gtin?: string
   /** Sinónimos reales («banana» para «Plátano»). Ya están en `tok`; se guardan para que el ranking cuente el alias exacto. Sin índice. */
   alias?: string[]
+  /** Solo platos de típicos calculados como receta: su formulación y, si está escrita, su preparación. Sin índice. */
+  receta?: RecetaCatalogo
   /** Los valores son por 100 ml (bebidas de marca) en lugar de por 100 g. Sin índice. */
   ml?: true
   /** Va detrás de los demás al buscar (alimentos de Martinica/Reunión, infantiles). Sin índice. */
@@ -184,6 +199,22 @@ export interface Porcion {
  * Receta casera. Guarda un snapshot de los ingredientes y el peso cocinado; `foodId` es el `Food` propio que
  * la representa (valores por 100 g del peso cocinado), así funciona en búsqueda, frecuentes e intérprete.
  */
+/**
+ * Variante guardada de una receta (propia o del catálogo): sus ingredientes cambiados para el lote entero. La receta
+ * normal no cambia y los pasos siguen siendo los suyos. Se registra como un plato con estos ingredientes escalados.
+ */
+export interface VarianteReceta {
+  id: number
+  /** De qué receta es: una propia (`recetaId`) o una del catálogo (`catalogId`); exactamente una. */
+  recetaId?: number
+  catalogId?: string
+  nombre: string
+  ingredientes: MealItem[]
+  pesoCocinadoG: number
+  createdAt: number
+  updatedAt: number
+}
+
 export interface Receta {
   id: number
   nombre: string
@@ -191,6 +222,14 @@ export interface Receta {
   ingredientes: MealItem[]
   pesoCocinadoG: number
   foodId: number
+  /** Raciones que salen del peso cocinado (entero ≥ 1; sin él, 1). Opcional y sin índice: sin versión nueva de Dexie. */
+  raciones?: number
+  /** Pasos de la preparación, en orden; nunca vacíos. */
+  pasos?: string[]
+  /** Tiempo total en minutos. */
+  tiempoMin?: number
+  /** Trucos, conservación… */
+  notas?: string
   createdAt: number
   updatedAt: number
 }

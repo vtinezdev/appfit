@@ -2711,3 +2711,59 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 **Cómo:** detector de casi duplicados ad hoc (nombre normalizado sin estados ni palabras vacías, similitud ≥ 0,6, mismo estado) y revisión manual de cada par; criterio y lista en `scripts/catalogo/tipicos/LEEME.md` § Fusión de duplicados. Ninguna fila eliminada estaba publicada en `master` (paquete 2026-10-25), así que se quitan en lugar de ocultarse; la construcción se comprobó contra ese paquete publicado. Dos búsquedas más en la regresión («sopa juliana», «pollo cacciatora»). Sin cambios de código.
 
 **Verificación:** `catalogo:tipicos`, `catalogo:validar`, `npm run test` y `npm run build` correctos. Pendiente: los alias que necesitan filas de CIQUAL («salsa barbacoa» → «Salsa barbecue», «salsa César» → «Salsa Cásar») esperan a reconstruir CIQUAL es3.
+
+## 248. Plan de recetas con preparación (2026-10-26)
+
+**Qué:** Víctor propone una sección de recetas con lo que aportan (kcal y macros) y cómo se preparan, accesible desde la rejilla de secciones y desde Nutrición. Las recetas ya existen como calculadora (ADR 022). Decide empezar solo por las recetas propias y hacer primero un prototipo con recetas de prueba antes de decidir si se implementa.
+
+**Cómo:** sin código. Plan en `docs/plan-recetas-2026-10-26.md`: fase 1 con un prototipo en una rama sin fusionar (campos opcionales `raciones`, `pasos`, `tiempoMin` y `notas`; ficha de lectura; destino en la rejilla; cuatro recetas de prueba con capturas), decisiones para Víctor y fase 2 si la aprueba. Entrada en `roadmap.md` § Ideas sin empezar. Cierre de la sesión 12 en `docs/progreso/sesion-12/`.
+
+**Verificación:** solo documentación; `npm run test` y `npm run build` correctos.
+
+## 249. Prototipo de recetas con preparación (2026-10-27)
+
+**Qué:** fase 1 del plan de recetas en la rama `feat/recetas-prototipo`, sin fusionar.
+- Campos opcionales `raciones`, `pasos`, `tiempoMin` y `notas` en `Receta`, sin versión nueva de Dexie (mismo criterio que el ADR 022).
+- Lógica por ración y escalado de ingredientes en `lib/recetas.ts`.
+- Sección Preparación en el editor y ficha de lectura `FichaReceta` con Registrar y Planificar.
+- Destino `recetas` en la rejilla (8 secciones, dos filas de 4) y acceso desde la cabecera de Nutrición.
+- Cuatro recetas de prueba en `scripts/ui/validar-recetas.cjs`.
+
+Víctor ve las capturas y aprueba seguir, con estas decisiones:
+- una sola pantalla Recetas, a la que se llega por la rejilla y por Nutrición;
+- lo que aporta, por ración y por 100 g;
+- registrar una ración estándar con gramos editables;
+- lista de la compra con los ingredientes en proporción a lo planificado.
+
+Además amplía el alcance a un recetario con las 1.552 recetas del catálogo de típicos, con pasos escritos con texto propio por tandas de ~100. La siguiente sesión la hará con Sonnet.
+
+**Cómo:** inventario y decisiones en `docs/plan-recetas-2026-10-26.md` (§ Qué quedó hecho en la fase 1, § Decisiones y § Handoff, etapas 1–4). Los 357 ingredientes del recetario ya están en el paquete CIQUAL del móvil. El plan de la sesión 12 solo estaba en su rama de sesión: se trae a esta con su commit. Los documentos vivos se actualizarán en la etapa 3, al cerrar la implementación. Cierre de la sesión 13 en `docs/progreso/sesion-13/`.
+
+**Verificación:** `npm run test` (2.941) y `npm run build` correctos. `validar-recetas.cjs` correcto a 320/375/430 en claro y oscuro: overflow, 44 px, inputs de 16 px y la entrada registrada (120 g, 217 kcal). Sin probar: el teclado del iPhone en los pasos y el texto al 200 %.
+
+## 250. Preparaciones del recetario: formato y tandas 1–4 (2026-10-27)
+
+**Qué:** etapa 1 del plan de recetas, en la rama `feat/recetas-prototipo`, sin fusionar. Formato `scripts/catalogo/tipicos/preparaciones.json` (`{ id, raciones, tiempoMin, pasos, notas? }`, separado de `recetas.json`), su validación y 400 recetas del catálogo de típicos con pasos de texto propio: las tandas 1 y 2 (Víctor las vio en la ficha del prototipo con tres recetas sembradas en `appfit-test.localhost` y pidió seguir) y las tandas 3 y 4, los 200 platos preparados siguientes en el orden de `recetas.json`.
+
+**Cómo:** `preparacionesLib.ts` (validación y listado Markdown, lógica pura con tests) y `preparaciones.ts` (`npm run catalogo:preparaciones` → `informes/preparaciones.md`). `catalogo:validar` incluye las preparaciones. Los límites coinciden con los de `nutricion/lib/recetas.ts`; lo comprueba `scripts/integracion/preparacionesLimites.test.ts`, fuera de `scripts/catalogo` porque el typecheck `nodenext` de los scripts no admite los imports sin extensión de la app. Criterios de redacción en `tipicos/LEEME.md` § Preparaciones. El listado avisa de cuatro recetas con peso final mayor que la suma de ingredientes (paisana, salmorejo, tarta de Santiago, ajoblanco), que se dejan para Víctor sin tocar `recetas.json`.
+
+**Verificación:** `npm run test` y `npm run build` correctos; `catalogo:validar` OK con 400 preparaciones. Pendiente: las preguntas abiertas del plan (pesos finales y cifras de los pasos frente al selector de raciones).
+
+Después, Víctor plantea que al añadir comida no se distingue una receta de un alimento suelto y que querría ver y cambiar los ingredientes de una receta. Decide (plan § Decisiones, segunda ronda, 8–13): recetas marcadas en Buscar, hoja de receta al elegirla, versión normal con pasos fijos para sus cantidades, y cambios que preguntan entre «Solo esta vez» y «Guardar como variante». Las variantes solo se eligen dentro de la hoja de la receta. Queda como etapa 2b, sin código todavía.
+
+## 251. Recetas al añadir comida y variantes (2026-10-27)
+
+**Qué:** etapa 2b del plan de recetas (decisiones 8–13) y la parte de datos de la etapa 2, en la rama `feat/recetas-prototipo`.
+- Las 1.552 recetas de típicos viajan en el paquete con su formulación y, las 400 escritas, con su preparación.
+- Buscar distingue recetas de alimentos.
+- Elegir una receta abre su hoja (normal o variantes, raciones y gramos, ingredientes).
+- «Cambiar ingredientes» pregunta al guardar entre «Solo esta vez» y «Guardar como variante».
+
+**Cómo:**
+- Paquete: `extra.receta` (`tipicosLib.calcularReceta` con la preparación; validado en `lib/catalogo/paquete.ts`), sin versión de Dexie porque es un campo opcional de `catalogFoods`.
+- Variantes: tabla nueva `variantesReceta` (Dexie v15, test de migración, `TABLAS_USUARIO` y backup opcional).
+- Lógica pura en `lib/variantes.ts`; UI en `HojaReceta`, `PreguntaVariante` y `AnadirComida`.
+- Una variante (y «Solo esta vez») se registra como un plato con sus ingredientes; la normal, como un alimento. Así no se crean alimentos ocultos.
+- Detalle en `docs/features/nutricion.md`, `docs/datos.md` (invariante 20) y el plan (§ Etapa 2b, Hecho).
+
+**Verificación:** `npm run test` y `npm run build` correctos. `validar-recetas-anadir.cjs` correcto a 320/375/430 en claro y oscuro: grupos en Buscar, hoja, variante «Sin chorizo» guardada, registrada y elegible otra vez, y receta propia registrada; sin scroll horizontal, controles de 44 px e inputs de 16 px. Sin probar en el iPhone.

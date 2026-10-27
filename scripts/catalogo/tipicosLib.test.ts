@@ -14,10 +14,16 @@ describe('típicos', () => {
     expect(f[8]).toEqual({ fibra: 2.7 })
     expect(calcularReceta({ ...receta, pesoFinalG: 300 }, ciqual)[4]).toBe(83.3)
   })
-  it('conserva ceros conocidos y coloca {} cuando solo hay alias', () => {
+  it('conserva ceros conocidos y coloca {} cuando no se conoce ningún extra', () => {
     const base: PaqueteCalidad = { ...ciqual, filas: [['1', 'Patata, cruda', '', 'Patatas y tubérculos', 80, 2, 18, 0]] }
     const f = calcularReceta({ ...receta, alias: ['papas cocidas'], ingredientes: [{ ciqual: '1', gramos: 100 }] }, base)
-    expect(f[8]).toEqual({}); expect(f[9]).toEqual({ alias: ['papas cocidas'] })
+    expect(f[8]).toEqual({}); expect(f[9]).toEqual({ alias: ['papas cocidas'], receta: { peso: 150, ing: [['1', 100]] } })
+  })
+  it('lleva la formulación y, si la hay, la preparación en extra.receta', () => {
+    expect(calcularReceta(receta, ciqual)[9]).toEqual({ receta: { peso: 150, ing: [['1', 200], ['2', 10]] } })
+    const prep = { id: 'patatas-prueba', raciones: 2, tiempoMin: 30, pasos: ['Pela las patatas.', 'Fríelas.'], notas: 'Mejor recién hechas.' }
+    expect(construir([], [receta], ciqual, '2026-10-27', [prep]).paquete.filas[0][9]?.receta)
+      .toEqual({ peso: 150, ing: [['1', 200], ['2', 10]], raciones: 2, min: 30, pasos: ['Pela las patatas.', 'Fríelas.'], notas: 'Mejor recién hechas.' })
   })
   it('rechaza ingredientes ausentes, cocidos, gramos y rendimientos inválidos', () => {
     expect(() => calcularReceta({ ...receta, pesoFinalG: 0 }, ciqual)).toThrow()

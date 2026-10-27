@@ -5,10 +5,8 @@ import { formatInt } from '../../../shared/lib/format'
 import { useLiveQuery } from 'dexie-react-hooks'
 import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Sheet from '../../../shared/components/Sheet'
-import type { Receta } from '../../../shared/db/types'
 import * as recetasRepo from '../data/recetasRepo'
-import EditorReceta from '../components/EditorReceta'
-import { por100DeReceta } from '../lib/recetas'
+import ListaRecetas from '../components/ListaRecetas'
 import * as foodsRepo from '../data/foodsRepo'
 import ComidasTipicas from '../components/ComidasTipicas'
 import type { ComidaTipica } from '../lib/comidasTipicas'
@@ -48,7 +46,6 @@ export default function Alimentos() {
   const [error, setError] = useState<string | null>(null)
   const [tipicaEditando, setTipicaEditando] = useState<ComidaTipica | null>(null)
   const [creandoTipica, setCreandoTipica] = useState(false)
-  const [recetaEditando, setRecetaEditando] = useState<Receta | 'nueva' | null>(null)
   const recetas = useLiveQuery(() => recetasRepo.listar(), [])
   const recetaDelAlimento = editando?.id !== undefined ? recetas?.find((r) => r.foodId === editando.id) : undefined
   const foods = useLiveQuery(() => foodsRepo.listar(), [])
@@ -168,32 +165,7 @@ export default function Alimentos() {
         </div>
       )}
 
-      {vista === 'recetas' && (
-        <div className="space-y-stack">
-          <Button variant="secondary" block onClick={() => setRecetaEditando('nueva')}><Icon name="plus" size={18} />Nueva receta</Button>
-          {recetas?.length === 0 && <EmptyState icon="utensils" title="Aún no hay recetas">Crea una receta con sus ingredientes y su peso cocinado: se convierte en un alimento con los valores por 100 g.</EmptyState>}
-          {recetas && recetas.length > 0 && (
-            <ListGroup aria-label="Tus recetas">
-              {recetas.map((r) => {
-                const v = por100DeReceta(r.ingredientes, r.pesoCocinadoG)
-                return (
-                  <li key={r.id}>
-                    <ListRow onClick={() => setRecetaEditando(r)}>
-                      <div className="min-w-0 flex-1">
-                        <p className="break-words text-body font-medium text-fg">{r.nombre}</p>
-                        <p className="tabular text-caption text-fg-muted">{r.ingredientes.length} ingrediente{r.ingredientes.length === 1 ? '' : 's'} · {formatInt(r.pesoCocinadoG)} g cocinados</p>
-                      </div>
-                      <p className="tabular shrink-0 text-right text-fg"><span className="text-body font-semibold">{formatInt(v.kcal100)}</span> <span className="text-caption text-fg-muted">kcal/100 g</span></p>
-                    </ListRow>
-                  </li>
-                )
-              })}
-            </ListGroup>
-          )}
-        </div>
-      )}
-
-      {recetaEditando && <EditorReceta key={recetaEditando === 'nueva' ? 'nueva' : recetaEditando.id} receta={recetaEditando === 'nueva' ? undefined : recetaEditando} onClose={() => setRecetaEditando(null)} />}
+      {vista === 'recetas' && <ListaRecetas />}
 
       <Sheet open={editando !== null} onClose={() => abrir(null)} title={editando?.id ? 'Editar alimento' : 'Nuevo alimento'} footer={editando && <div className="space-y-2">            {error && <ErrorState>{error}</ErrorState>}
             <div className="flex gap-2">

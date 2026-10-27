@@ -18,7 +18,7 @@ describe('destinosOcultos', () => {
   it('Social sin cuenta y los módulos apagados', () => {
     expect(destinosOcultos(undefined, true)).toEqual([])
     expect(destinosOcultos({}, false)).toEqual(['social'])
-    expect(destinosOcultos({ modulos: { nutricion: false } }, true)).toEqual(['nutricion'])
+    expect(destinosOcultos({ modulos: { nutricion: false } }, true)).toEqual(['nutricion', 'recetas'])
   })
   it('Entreno se queda con el gimnasio o con las actividades', () => {
     expect(destinosOcultos({ modulos: { gym: false } }, true)).toEqual([])

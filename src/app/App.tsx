@@ -21,6 +21,7 @@ import { destinosOcultos } from './navegacion'
 import { vistaDeTesela, type VistaProgreso } from '../features/progreso/lib/vistas'
 
 const NutricionTab = lazy(() => import('../features/nutricion/NutricionTab'))
+const RecetasTab = lazy(() => import('../features/nutricion/RecetasTab'))
 const GymTab = lazy(() => import('../features/gym/GymTab'))
 const Ajustes = lazy(() => import('./Ajustes'))
 const ReferenciasTab = lazy(() => import('../features/referencias/ReferenciasTab'))
@@ -120,7 +121,8 @@ export default function App() {
         <div key={tab} data-atmosphere={tab} className="app-view app-content mx-auto w-full">
         {tab === 'inicio' && <InicioTab onIrANutricion={() => navegar('nutricion')} onAnadirComida={c => { navegar('nutricion'); setAnadirInicial(c) }} onIrAGym={abrirEntreno} onIrAProgreso={abrirProgreso} enfocarProgreso={focoVuelta === 'referencias' ? undefined : focoVuelta} onExportarCopia={() => irAAjustes('copias')} onRevisarCuenta={() => irAAjustes('cuenta')} onIrAAmigos={() => abrirAmigos()} onIrASocial={() => navegar('social')} onRevisarActualizaciones={() => irAAjustes('actualizaciones')}
           ayudaInicial={<TrasladarDatos onVerInstrucciones={() => irAAjustes('instalacion')} />} />}
-        {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab anadirInicial={anadirInicial} fechaInicial={fechaNutricion} onVerReferencia={id => { abrirReferencias('nutricion'); setReferenciaInicial(id) }} /></Suspense>}
+        {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab onIrARecetas={() => navegar('recetas')} anadirInicial={anadirInicial} fechaInicial={fechaNutricion} onVerReferencia={id => { abrirReferencias('nutricion'); setReferenciaInicial(id) }} /></Suspense>}
+        {tab === 'recetas' && <Suspense fallback={<LoadingState />}><RecetasTab /></Suspense>}
         {tab === 'gym' && <Suspense fallback={<LoadingState />}><GymTab seccionInicial={seccionEntreno} entrenoAbierto={entrenoAbierto} onAbrirEntreno={() => setEntrenoAbierto(true)} onMinimizarEntreno={() => setEntrenoAbierto(false)} /></Suspense>}
         {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { abrirReferencias('perfil'); setAreaReferencias('energia') }} /></Suspense>}
         {tab === 'progreso' && <Suspense fallback={<LoadingState />}><ProgresoTab key={`${vistaProgreso ?? 'semana'}-${teselaOrigen ?? ''}`} vistaInicial={vistaProgreso} onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} onIrANutricion={(f) => { navegar('nutricion'); setFechaNutricion(f) }} onVolver={teselaOrigen ? () => volverAInicio(teselaOrigen) : undefined} /></Suspense>}

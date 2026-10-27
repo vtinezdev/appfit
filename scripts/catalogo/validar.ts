@@ -1,11 +1,15 @@
 // Valida todos los paquetes publicados en `public/catalogo/`. Uso: npm run catalogo:validar
 // Sale con código 1 si hay errores. Los avisos de CIQUAL no fallan: van a `informes/ciqual.txt`.
+// Comprueba también las preparaciones de típicos (`tipicos/preparaciones.json`) frente a `tipicos/recetas.json`.
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { validarPaquetePublicado, type PaqueteCalidad } from './calidad.ts'
+import { validarPreparaciones, type Preparacion } from './preparacionesLib.ts'
+import type { Receta } from './tipicosLib.ts'
 
 const CATALOGO = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..', 'public', 'catalogo')
+const TIPICOS = resolve(dirname(fileURLToPath(import.meta.url)), 'tipicos')
 
 interface FuenteManifest {
   id: string
@@ -33,9 +37,17 @@ export function validarCatalogoPublicado(carpeta = CATALOGO): { linea: string; e
   })
 }
 
+export function validarPreparacionesTipicos(carpeta = TIPICOS): { linea: string; errores: number } {
+  const leer = <T>(archivo: string) => JSON.parse(readFileSync(join(carpeta, archivo), 'utf8')) as T
+  const preparaciones = leer<Preparacion[]>('preparaciones.json')
+  const problemas = validarPreparaciones(preparaciones, leer<Receta[]>('recetas.json'))
+  const cabecera = `preparaciones de típicos: ${preparaciones.length}, ${problemas.length === 0 ? 'OK' : `${problemas.length} problemas`}`
+  return { linea: [cabecera, ...problemas.slice(0, 20).map((p) => `  ${p}`)].join('\n'), errores: problemas.length }
+}
+
 // Solo se ejecuta como CLI (los tests importan `validarCatalogoPublicado` sin lanzar nada).
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const resultados = validarCatalogoPublicado()
+  const resultados = [...validarCatalogoPublicado(), validarPreparacionesTipicos()]
   for (const r of resultados) console.log(r.linea)
   if (resultados.some((r) => r.errores > 0)) process.exit(1)
 }
