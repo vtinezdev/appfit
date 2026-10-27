@@ -2,7 +2,6 @@ import { useState } from 'react'
 import Button from '../../shared/components/Button'
 import Card from '../../shared/components/Card'
 import ComoFunciona from '../../shared/components/ComoFunciona'
-import Disclosure from '../../shared/components/Disclosure'
 import Icon from '../../shared/components/Icon'
 import ListGroup from '../../shared/components/ListGroup'
 import Metric from '../../shared/components/Metric'
@@ -34,7 +33,6 @@ import { esRutaPropia, idDeRutaPropia, posicionEnRutaPropia, PREFIJO, puntosDe }
 const COLECCIONES: ColeccionRuta[] = ['santiago', 'mundo', 'literatura', 'fantasia']
 
 const diasTexto = (n: number) => (n === 1 ? '1 día' : `${formatInt(n)} días`)
-const sellosTexto = (n: number) => (n === 1 ? '1 sello' : `${formatInt(n)} sellos`)
 
 function desdeTexto(inicio: string, hoy: string): string {
   if (inicio === hoy) return 'Desde hoy'
@@ -158,12 +156,14 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
     try {
       await cambiarA(r)
     } catch {
-      avisarError(r.id === actual.ruta.id ? `Ya vas por ${r.nombre}.` : `${r.nombre} es más corta que lo que llevas en esta ruta: elígela al llegar.`)
+      avisarError(r.id === actual.ruta.id ? `Ya vas por ${r.nombre}.` : `${r.nombre} es más corta que lo que llevas en esta ruta: elígela cuando llegues.`)
     }
   }
   // Por hacer: las rutas que aún no has terminado nunca, por colección, sin la que llevas ahora.
   const porHacer = (col: ColeccionRuta) => RUTAS.filter((r) => r.coleccion === col && !veces.has(r.id) && r.id !== actual.ruta.id)
   const pendientes = COLECCIONES.reduce((n, col) => n + porHacer(col).length, 0)
+  // Terminados: una fila por ruta (la última vez que se terminó), de la más reciente a la más antigua.
+  const terminadas = [...c.completadas].reverse().filter((x, i, todas) => todas.findIndex((y) => y.ruta.id === x.ruta.id) === i)
 
   return <div className={`space-y-section ${marco}`}>
     {!incrustada && <PageHeader title="Caminos" volver={volver} />}
@@ -190,50 +190,48 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
 
     {pasos}
 
-    {/* Caminos: los que te quedan por hacer (con crear, las sugeridas y todas) y los terminados (con tus números). */}
-    <section aria-label="Caminos" className="space-y-stack">
-      <SectionHeader variant="section">Caminos</SectionHeader>
+    {/* Caminos (punto 6): título centrado, distinto de los de sección, y dos partes: por hacer (crear, tuyas y de la app) y terminados (repetir). */}
+    <section aria-labelledby="caminos-lista" className="space-y-stack">
+      <h2 id="caminos-lista" className="flex items-center gap-3 text-rotulo text-fg-muted"><span aria-hidden className="h-px flex-1 bg-line-strong" />Caminos<span aria-hidden className="h-px flex-1 bg-line-strong" /></h2>
       <SegmentedControl label="Qué caminos" valor={lista} onChange={setLista}
-        opciones={[{ valor: 'pendientes', label: 'Por hacer' }, { valor: 'hechos', label: `Terminados${c.completadas.length ? ` (${formatInt(c.completadas.length)})` : ''}` }]} />
+        opciones={[{ valor: 'pendientes', label: 'Por hacer' }, { valor: 'hechos', label: `Terminados${terminadas.length ? ` (${formatInt(terminadas.length)})` : ''}` }]} />
       {lista === 'pendientes' ? <div className="space-y-section">
-        <div className="space-y-stack">
-          <Button variant="secondary" block onClick={() => abrirEditor()}><Icon name="route" size={18} />Crear una ruta</Button>
-          {rutasPropias.length > 0 && <ListGroup aria-label="Tus rutas" pie={NOTA_COLECCION.propia}><ListaRutas rutas={rutasPropias} veces={veces} onElegir={(r) => { void elegirDeLista(r) }} onEditar={(r) => abrirEditor(propiaDe(r))} /></ListGroup>}
-        </div>
-        <section aria-label="Sugeridas" className="space-y-stack">
-          <p className="text-rotulo text-fg-muted">Sugeridas</p>
-          <ListGroup aria-label="Rutas sugeridas" pie="Al llegar eliges la siguiente; si no, sigue la primera.">
-            <ListaRutas rutas={c.siguientes.slice(0, 3)} sugerida={c.siguientes[0]?.id} veces={veces} onElegir={(r) => { void elegirDeLista(r) }} />
-          </ListGroup>
+        <Button variant="secondary" block onClick={() => abrirEditor()}><Icon name="route" size={18} />Crear una ruta</Button>
+        <section aria-label="Tus caminos" className="space-y-2">
+          <p className="text-rotulo text-fg-muted">Tus caminos</p>
+          {rutasPropias.length > 0
+            ? <ListGroup aria-label="Tus caminos"><ListaRutas rutas={rutasPropias} veces={veces} onElegir={(r) => { void elegirDeLista(r) }} onEditar={(r) => abrirEditor(propiaDe(r))} /></ListGroup>
+            : <p className="text-body-sm text-fg-muted">Las rutas que crees, entre dos lugares de España y con paradas, salen aquí.</p>}
         </section>
-        {pendientes > 0 && <Disclosure title={`Todas las que te faltan (${formatInt(pendientes)})`}>
-          <div className="space-y-section pt-2">
-            {COLECCIONES.filter((col) => porHacer(col).length > 0).map((col) => <section key={col} aria-label={NOMBRE_COLECCION[col]} className="space-y-stack">
-              <p className="text-rotulo text-fg-muted">{NOMBRE_COLECCION[col]}</p>
-              <ListGroup aria-label={NOMBRE_COLECCION[col]}><ListaRutas rutas={porHacer(col)} onElegir={(r) => { void elegirDeLista(r) }} /></ListGroup>
-            </section>)}
-          </div>
-        </Disclosure>}
+        <section aria-label="Caminos de la app" className="space-y-stack">
+          <p className="text-rotulo text-fg-muted">Caminos de la app · {formatInt(pendientes)}</p>
+          {COLECCIONES.filter((col) => porHacer(col).length > 0).map((col) => <div key={col} className="space-y-1">
+            <p className="px-1 text-caption font-semibold text-fg">{NOMBRE_COLECCION[col]}</p>
+            <ListGroup aria-label={NOMBRE_COLECCION[col]}><ListaRutas rutas={porHacer(col)} sugerida={c.siguientes[0]?.id} onElegir={(r) => { void elegirDeLista(r) }} /></ListGroup>
+          </div>)}
+          {pendientes === 0 && <p className="text-body-sm text-fg-muted">Has hecho todas: puedes repetirlas desde «Terminados».</p>}
+        </section>
       </div> : <div className="space-y-stack">
         <Card padded={false} className="grid grid-cols-2 overflow-hidden">
           <div className="min-w-0 border-r border-line px-card py-3"><Metric size="title" label="Rutas" valor={c.completadas.length} caption={`${formatInt(veces.size)} de ${formatInt(RUTAS.length)} distintas`} /></div>
           <div className="min-w-0 px-card py-3"><Metric size="title" label="Recorridos" valor={formatKm(c.metrosTotales)} unidad="km" caption={desdeTexto(c.inicio, hoy)} /></div>
         </Card>
-        {c.completadas.length === 0
+        {terminadas.length === 0
           ? <EmptyState>Aún ninguno. Al llegar, la ruta queda aquí con su fecha, lo que tardaste y los sellos de su credencial.</EmptyState>
-          : <ListGroup aria-label="Rutas terminadas">
-          {[...c.completadas].reverse().map((x) => {
-            const dias = diasDeExpedicion(x)
-            return <li key={`${x.ruta.id}-${x.vez}`} className="flex min-h-touch items-center gap-3 py-2">
-              <span aria-hidden className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="flag" size={18} /></span>
-              <span className="min-w-0 flex-1">
-                <span className="block break-words text-body font-semibold text-fg">{nombreExpedicion(x)}</span>
-                <span className="tabular block break-words text-body-sm text-fg-muted">{x.llegada ? formatFriendly(x.llegada.fecha) : ''}{dias !== null ? ` · en ${diasTexto(dias)}` : ''} · {sellosTexto(x.sellos.length)}</span>
-              </span>
-              <span className="tabular shrink-0 text-body-sm text-fg">{kmTexto(metrosRuta(x.ruta))}</span>
-            </li>
-          })}
-        </ListGroup>}
+          : <ListGroup aria-label="Caminos terminados">
+            {terminadas.map((x) => {
+              const dias = diasDeExpedicion(x)
+              const n = veces.get(x.ruta.id) ?? 1
+              return <li key={x.ruta.id} className="flex min-h-touch items-center gap-3 py-2">
+                <span aria-hidden className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="flag" size={18} /></span>
+                <span className="min-w-0 flex-1">
+                  <span className="block break-words text-body font-semibold text-fg">{x.ruta.nombre}</span>
+                  <span className="tabular block break-words text-caption text-fg-muted">{kmTexto(metrosRuta(x.ruta))}{x.llegada ? ` · ${formatFriendly(x.llegada.fecha)}` : ''}{dias !== null ? ` · en ${diasTexto(dias)}` : ''}{n > 1 ? ` · ${formatInt(n)} veces` : ''}</span>
+                </span>
+                {x.ruta.id !== actual.ruta.id && <Button variant="secondary" size="sm" onClick={() => { void elegirDeLista(x.ruta) }}>Repetir</Button>}
+              </li>
+            })}
+          </ListGroup>}
       </div>}
     </section>
 
