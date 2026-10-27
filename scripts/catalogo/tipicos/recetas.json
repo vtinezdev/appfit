@@ -57,8 +57,8 @@
     "id": "salmorejo-casero",
     "nombre": "Salmorejo, casero, crudo",
     "categoria": "Platos preparados",
-    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
-    "pesoFinalG": 1250,
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor. Peso final corregido el 2026-10-27: estaba por encima de la suma de ingredientes, imposible sin agua de fuera de la lista.",
+    "pesoFinalG": 1200,
     "ingredientes": [
       {
         "ciqual": "20276",
@@ -135,8 +135,8 @@
     "id": "ajoblanco-casero",
     "nombre": "Ajoblanco, casero, crudo",
     "categoria": "Platos preparados",
-    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
-    "pesoFinalG": 1300,
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor. Peso final corregido el 2026-10-27: estaba por encima de la suma de ingredientes, imposible sin agua de fuera de la lista.",
+    "pesoFinalG": 1180,
     "ingredientes": [
       {
         "ciqual": "15041",
@@ -790,8 +790,8 @@
     "id": "tarta-santiago",
     "nombre": "Tarta de Santiago, horneada",
     "categoria": "Platos preparados",
-    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor.",
-    "pesoFinalG": 950,
+    "referencia": "Referencia culinaria: Simone Ortega, 1080 recetas de cocina, Alianza Editorial (repertorio de cocina doméstica española). Formulación y peso final objetivo: criterio AppFit, no transcripción de cantidades del libro. Peso neto comestible del lote listo; aceite = cantidad retenida. Sin factores de retención. Rendimiento de diseño pendiente de contraste mediante pesada por Víctor. Peso final corregido el 2026-10-27: estaba por encima de la suma de ingredientes, imposible sin agua de fuera de la lista.",
+    "pesoFinalG": 800,
     "ingredientes": [
       {
         "ciqual": "15041",
@@ -1828,8 +1828,8 @@
     "id": "tortilla-paisana",
     "nombre": "Tortilla paisana, cuajada",
     "categoria": "Platos preparados",
-    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/tortilla-paisana/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Las verduras se incorporan desde sus gramos crudos, luego se cocinan. Aceite retenido explícito.",
-    "pesoFinalG": 1300,
+    "referencia": "Referencia culinaria individual: Real Academia de Gastronomía, Legado Gastronómico, https://realacademiadegastronomia.com/recetas/tortilla-paisana/ (consultada 2026-10-25). Gramajes netos y peso final objetivo del lote listo: formulación AppFit, no transcripción de cantidades de la fuente ni pesada experimental. Sin factores USDA de rendimiento/retención: se conserva la suma teórica de nutrientes de los ingredientes, también al cocinar vino. Aceite y sal incorporados explícitos. Las verduras se incorporan desde sus gramos crudos, luego se cocinan. Aceite retenido explícito. Peso final corregido el 2026-10-27: estaba por encima de la suma de ingredientes, imposible sin agua de fuera de la lista.",
+    "pesoFinalG": 1150,
     "ingredientes": [
       {
         "ciqual": "4008",

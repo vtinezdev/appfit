@@ -62,6 +62,8 @@ export function calcularReceta(r: Receta, ciqual: PaqueteCalidad, preparacion?: 
   exigir(ciqual.formato === 2 && ciqual.fuente === 'ciqual', 'Se necesita el paquete CIQUAL publicado')
   exigir(r.referencia.trim(), `Falta referencia: ${r.id}`)
   exigir(Number.isFinite(r.pesoFinalG) && r.pesoFinalG > 0 && r.ingredientes.length > 0, `Peso/ingredientes inválidos: ${r.id}`)
+  // Sin agua de fuera de la lista, un plato no puede pesar más que lo que lleva (el agua que absorbe es un ingrediente).
+  exigir(r.pesoFinalG <= r.ingredientes.reduce((s, i) => s + i.gramos, 0), `Peso final mayor que la suma de ingredientes: ${r.id}`)
   const porId = new Map(ciqual.filas.map(f => [f[0], f]))
   const ingredientes = r.ingredientes.map(i => {
     exigir(Number.isFinite(i.gramos) && i.gramos > 0, `Gramos inválidos: ${r.id}`)

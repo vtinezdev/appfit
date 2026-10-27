@@ -12,12 +12,12 @@ describe('típicos', () => {
     const f = calcularReceta(receta, ciqual)
     expect(f.slice(4, 8)).toEqual([166.7, 2.7, 24, 6.7])
     expect(f[8]).toEqual({ fibra: 2.7 })
-    expect(calcularReceta({ ...receta, pesoFinalG: 300 }, ciqual)[4]).toBe(83.3)
+    expect(calcularReceta({ ...receta, pesoFinalG: 200 }, ciqual)[4]).toBe(125)
   })
   it('conserva ceros conocidos y coloca {} cuando no se conoce ningún extra', () => {
     const base: PaqueteCalidad = { ...ciqual, filas: [['1', 'Patata, cruda', '', 'Patatas y tubérculos', 80, 2, 18, 0]] }
-    const f = calcularReceta({ ...receta, alias: ['papas cocidas'], ingredientes: [{ ciqual: '1', gramos: 100 }] }, base)
-    expect(f[8]).toEqual({}); expect(f[9]).toEqual({ alias: ['papas cocidas'], receta: { peso: 150, ing: [['1', 100]] } })
+    const f = calcularReceta({ ...receta, alias: ['papas cocidas'], ingredientes: [{ ciqual: '1', gramos: 200 }] }, base)
+    expect(f[8]).toEqual({}); expect(f[9]).toEqual({ alias: ['papas cocidas'], receta: { peso: 150, ing: [['1', 200]] } })
   })
   it('lleva la formulación y, si la hay, la preparación en extra.receta', () => {
     expect(calcularReceta(receta, ciqual)[9]).toEqual({ receta: { peso: 150, ing: [['1', 200], ['2', 10]] } })
@@ -27,6 +27,8 @@ describe('típicos', () => {
   })
   it('rechaza ingredientes ausentes, cocidos, gramos y rendimientos inválidos', () => {
     expect(() => calcularReceta({ ...receta, pesoFinalG: 0 }, ciqual)).toThrow()
+    expect(() => calcularReceta({ ...receta, pesoFinalG: 211 }, ciqual)).toThrow(/mayor que la suma/)
+    expect(calcularReceta({ ...receta, pesoFinalG: 210 }, ciqual)[0]).toBeDefined()
     expect(() => calcularReceta({ ...receta, ingredientes: [{ ciqual: '9', gramos: 10 }] }, ciqual)).toThrow()
     expect(() => calcularReceta({ ...receta, ingredientes: [{ ciqual: '1', gramos: -1 }] }, ciqual)).toThrow()
     expect(() => calcularReceta(receta, { ...ciqual, filas: [['1', 'Patata, cocida', '', 'Patatas y tubérculos', 80, 2, 18, 0]] })).toThrow()
