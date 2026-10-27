@@ -1,6 +1,6 @@
 # Plan: recetas con preparación (prototipo)
 
-Fecha: 2026-10-26. Estado (2026-10-27): **etapas 1 y 2b hechas, etapa 2 a medias y etapa 4 en curso**: 403 recetas con pasos; las 1.555 recetas del catálogo llegan al móvil con su formulación y preparación; recetas marcadas en Buscar, hoja de receta, «Cambiar ingredientes» y variantes (ver § Etapa 2b, Hecho). **Fase 1 hecha** en la rama `feat/recetas-prototipo` (sin fusionar). Víctor ha visto las capturas y **aprueba seguir**, con las decisiones de abajo; además amplía el alcance al **recetario del catálogo** (las 1.552 recetas de típicos), con pasos escritos por tandas. La siguiente sesión empieza por § Handoff.
+Fecha: 2026-10-26. Estado (2026-10-27): **etapas 1, 2b y 4 hechas y etapa 2 a medias**: las 1.555 recetas del catálogo tienen pasos y llegan al móvil con su formulación y preparación; recetas marcadas en Buscar, hoja de receta, «Cambiar ingredientes» y variantes (ver § Etapa 2b, Hecho). **Fase 1 hecha** en la rama `feat/recetas-prototipo` (sin fusionar). Víctor ha visto las capturas y **aprueba seguir**, con las decisiones de abajo; además amplía el alcance al **recetario del catálogo** (las 1.552 recetas de típicos), con pasos escritos por tandas. La siguiente sesión empieza por § Handoff.
 
 ## Mensaje para abrir la siguiente sesión (con Sonnet: `/model sonnet`)
 
@@ -110,7 +110,7 @@ Datos comprobados el 2026-10-27:
 3. **Tanda 1**: 100 recetas habituales (tortillas, legumbres, arroces, guisos, cremas, ensaladas, salsas básicas, postres caseros). Para cada una: leer sus ingredientes y gramos (nombre CIQUAL desde el paquete) y escribir pasos que usen esos ingredientes y cantidades del lote, raciones razonables para `pesoFinalG` y tiempo total. Si un paso necesita algo que no está en la lista (agua de cocción, por ejemplo), solo si no aporta energía; si falta algo que sí la aporta, anotarlo para Víctor en lugar de inventarlo.
 4. Enseñar la tanda a Víctor (un listado legible, p. ej. un `.md` generado) y esperar su visto bueno antes de las tandas siguientes.
 
-**Hecho (2026-10-27):** `tipicos/preparaciones.json` con las tandas 1–4 (400 recetas; Víctor vio la 1 y la 2 en la ficha del prototipo y pidió seguir; la 3 y la 4 son los 200 platos preparados siguientes en el orden de `recetas.json`), validación en `scripts/catalogo/preparacionesLib.ts` (+ tests, `catalogo:validar`, límites cruzados con la app en `scripts/integracion/preparacionesLimites.test.ts`) y listado `npm run catalogo:preparaciones` → `scripts/catalogo/informes/preparaciones.md`. Criterios de redacción en `tipicos/LEEME.md` § Preparaciones. Las cantidades de los pasos se quedan (decisión 10). Pendiente: pesos finales mayores que la suma de ingredientes en paisana, salmorejo, tarta de Santiago y ajoblanco.
+**Hecho (2026-10-27):** `tipicos/preparaciones.json` con las tandas 1–16 (las 1.555 recetas, incluidos los tres pastissets; Víctor vio la 1 y la 2 en la ficha del prototipo y pidió seguir; de la 3 a la 9 son el resto de platos preparados en el orden de `recetas.json` y de la 10 a la 16, el resto de categorías), validación en `scripts/catalogo/preparacionesLib.ts` (+ tests, `catalogo:validar`, límites cruzados con la app en `scripts/integracion/preparacionesLimites.test.ts`) y listado `npm run catalogo:preparaciones` → `scripts/catalogo/informes/preparaciones.md`. Criterios de redacción en `tipicos/LEEME.md` § Preparaciones. Las cantidades de los pasos se quedan (decisión 10). Pendiente: pesos finales mayores que la suma de ingredientes en paisana, salmorejo, tarta de Santiago y ajoblanco.
 
 ### Etapa 2 — El recetario en la app
 1. Paquete de típicos con ingredientes, peso final y preparación (formato nuevo de paquete o campo opcional; documentarlo en `scripts/catalogo/README.md`), sin romper los paquetes ya instalados (la sincronización compara versión y filas).
@@ -142,6 +142,8 @@ Puntos 1–5 de § Fase 2 de abajo, más las decisiones 2–5: quitar la vista A
 
 ### Etapa 4 — Resto de tandas
 Tandas de ~100 con el mismo método hasta cubrir los platos que tengan sentido; anotar en `tipicos/LEEME.md` cuáles se dejan sin pasos y por qué.
+
+**Hecho (2026-10-27):** Víctor pidió cubrirlas todas; las 1.555 tienen pasos (tandas 5–16, PROCESO §255–266).
 
 ## Qué tenía que decidir Víctor al ver el prototipo (resuelto en § Decisiones)
 

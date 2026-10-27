@@ -12,7 +12,7 @@ const leer = (ruta: string) => readFileSync(ruta, 'utf8')
 const manifest = JSON.parse(leer(join(salida, 'manifest.json')))
 const ciqual = JSON.parse(leer(join(salida, manifest.fuentes.find((f: { id: string }) => f.id === 'ciqual').archivo))) as PaqueteCalidad
 const off = JSON.parse(leer(join(salida, manifest.fuentes.find((f: { id: string }) => f.id === 'offes').archivo))) as PaqueteCalidad
-const version = process.argv[2] ?? '2026-10-28'
+const version = process.argv[2] ?? '2026-10-30'
 const recetas = JSON.parse(leer(join(datos, 'recetas.json'))) as Receta[]
 const directos = leerDirectos(leer(join(datos, 'directos.csv')))
 const preparaciones = JSON.parse(leer(join(datos, 'preparaciones.json'))) as Preparacion[]

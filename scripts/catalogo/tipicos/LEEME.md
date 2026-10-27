@@ -1,6 +1,6 @@
 # Típicos: catálogo ampliado y límites
 
-`npm run catalogo:tipicos` genera por defecto la versión 2026-10-28 (con las preparaciones de `preparaciones.json`).
+`npm run catalogo:tipicos` genera por defecto la versión 2026-10-30 (con las preparaciones de `preparaciones.json`).
 También admite `npm run catalogo:tipicos -- AAAA-MM-DD`. Node 24,
 sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
@@ -1129,9 +1129,39 @@ Gastronomía ni de ninguna otra fuente. Criterios:
   por uso, y lo que se reparte en piezas (croquetas, albóndigas) dice cuántas.
 - Imperativo de tú, cifras en dígitos y unidades del sistema métrico.
 
-Tandas escritas (400 recetas): la 1 (100 habituales: tortillas, legumbres,
+Tandas escritas (las 1.555 recetas, en 16 tandas más los tres pastissets): la 1 (100 habituales: tortillas, legumbres,
 arroces y pasta, guisos de carne y pescado, verduras, cremas, ensaladas, salsas
 básicas y postres caseros) y la 2 (100 más del mismo repertorio), revisadas por
 Víctor con muestras en la app; la 3 y la 4 (200 platos preparados siguientes en
 el orden de `recetas.json`: regionales, tapas, bocadillos y sándwiches, cocidos,
-ensaladas y platos de diario) con el mismo criterio.
+ensaladas y platos de diario) con el mismo criterio, y la 5 (100 platos
+preparados más: asiáticos, mexicanos y de otras cocinas, tápers de comida
+preparada, regionales, guisos de carne y pescado, arroces y pasta) y la 6
+(100 más: vegetarianos, pizzas caseras, legumbres y guisos, cremas y sopas,
+ensaladas, cocina latinoamericana y asiática, dieta blanda y triturados
+infantiles, que no llevan sal) y la 7 (100 más: cocina italiana, griega y
+de Oriente Medio, croquetas y tapas, pescados en salsa, tápers, verduras
+rellenas, arroces, legumbres, cremas, ensaladas y platos combinados) y la 8
+(100 más: regionales, platos combinados de bar, guisos de pollo, cerdo,
+ternera, conejo y cordero, pescados al horno, patatas guisadas, pasta,
+arroces, legumbres, sopas, ensaladas y tex-mex) y la 9 (los 84 platos
+preparados que quedaban: risottos, pizzas, cocina asiática, india y
+marroquí, platos de cocina anglosajona, vegetarianos, triturados infantiles
+y regionales). Con ella, todos los «Platos preparados» tienen pasos. La 10
+(100 de Carnes, Pescados y Mariscos: planchas, brasas, asados, escabeches,
+frituras y guisos) usa la misma plantilla de pasos para las piezas sueltas
+a la plancha con aceite de oliva. La 11 (100 más: el resto de carnes,
+pescados y mariscos, huevos y tortillas, verduras y patatas) cierra esas
+categorías salvo unas pocas verduras. La 12 (100 más: dulces navideños y
+conventuales, postres lácteos y flanes, fruta preparada, salsas caseras y
+las últimas verduras y guarniciones) reparte los dulces por pieza y las
+salsas por cucharada o uso. La 13 (100 de bollería, galletas y pasteles:
+dulces de sartén, roscón, ensaimada, tartas, bizcochos, galletas y bollos de
+levadura) reparte por pieza o por porción de tarta. La 14 (82: desayunos de
+avena y cereales, salsas y dips, snacks, papillas y las últimas recetas
+sueltas de cada categoría) deja solo pan y bebidas sin pasos. La 15 (los
+93 de «Pan y tostadas»: tostadas, bocadillos, sándwiches, tostas, wraps,
+hamburguesas y panes caseros) va por unidad. La 16 (las 93 bebidas: cafés,
+batidos, smoothies, zumos, cócteles, combinados y bebidas calientes) cierra
+el recetario: todas las recetas de `recetas.json` tienen preparación. En los
+combinados con hielo, el hielo no cuenta en el peso salvo donde se dice.

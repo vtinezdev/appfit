@@ -2798,3 +2798,154 @@ Después, Víctor plantea que al añadir comida no se distingue una receta de un
 **Cómo:** entradas en `tipicos/recetas.json` (masa común de harina, aceite de oliva, anís y azúcar; criterio AppFit, sin transcribir cantidades de ninguna fuente) y pasos propios en `tipicos/preparaciones.json`. CIQUAL no tiene cabello de ángel: se calcula como calabaza espagueti cocida con azúcar y canela. El paquete sigue siendo 2026-10-28; pasa de 1972 a 1975 filas, y el cambio de filas basta para que el móvil lo reimporte.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 255. Recetas: tanda 5 de preparaciones (2026-10-27)
+
+**Qué:** Víctor confirma que todo va bien y pide seguir con las tandas. Se escriben los pasos de los 100 platos preparados siguientes en el orden de `recetas.json`. Son platos asiáticos, mexicanos y de otras cocinas, tápers de comida preparada, regionales (empedrat, esqueixada, berza jerezana, all i pebre…), guisos de carne y pescado, arroces y pasta. En total hay 503 recetas con pasos.
+
+**Cómo:**
+- Texto propio en `tipicos/preparaciones.json`, con los criterios de `tipicos/LEEME.md` § Preparaciones. Las notas avisan del bacalao desalado, el aceite retenido al freír, los acompañamientos que no están incluidos y el pescado crudo congelado antes.
+- Añadir pasos no cambia el número de filas. Por eso el paquete pasa a la versión 2026-10-29, para que el móvil lo reimporte.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 256. Recetas: tanda 6 de preparaciones (2026-10-27)
+
+**Qué:** se escriben los pasos de los 100 platos preparados siguientes. En total hay 603 recetas con pasos. Entran:
+- platos vegetarianos y veganos (hamburguesas de legumbres, curry de lentejas, berenjenas a la parmesana…) y pizzas caseras;
+- guisos y legumbres (garbanzos con callos, olla podrida, marmitako de salmón…), cremas y sopas, ensaladas y entrantes;
+- cocina latinoamericana (empanadas, lomo saltado, ají de gallina, pupusas…) y asiática (ramen, bibimbap, curry japonés, biryani, pho…);
+- platos de dieta blanda y triturados infantiles.
+
+**Cómo:**
+- Texto propio en `tipicos/preparaciones.json`, con los criterios de siempre.
+- Las notas dicen qué ingrediente clásico no está en la formulación (ají amarillo, pasta de curry, dashi) y cómo se aproxima.
+- Los triturados infantiles no llevan sal. Los patés y el hummus van por ración untable.
+- El paquete pasa a la versión 2026-10-30 para que el móvil lo reimporte.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 257. Recetas: tanda 7 de preparaciones (2026-10-27)
+
+**Qué:** pasos de los 100 platos preparados siguientes. En total hay 703 recetas con pasos. Entran:
+- cocina italiana, griega y de Oriente Medio (coq au vin, arancini, caponata, spanakopita, mjadara, harira…);
+- croquetas y tapas;
+- pescados en salsa y bacalaos (a la riojana, Gomes de Sá, dorado);
+- tápers, verduras rellenas, arroces, legumbres, cremas, ensaladas y platos combinados.
+
+Víctor pide no fusionar hasta terminar todas las tandas. Desde esta tanda van juntas en la rama `feat/recetas-tandas`.
+
+**Cómo:** igual que la tanda 6. El paquete sigue en la versión 2026-10-30, que aún no está publicada.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 258. Recetas: tanda 8 de preparaciones (2026-10-27)
+
+**Qué:** pasos de los 100 platos preparados siguientes. En total hay 803 recetas con pasos. Entran:
+- regionales (mojete, alboronía, garbanzada canaria, pochas, raxo, frit mallorquín, sorropotún, mar i muntanya);
+- platos combinados de bar;
+- guisos de pollo, cerdo, ternera, conejo y cordero, y pescados al horno;
+- patatas guisadas, pasta, arroces, legumbres, sopas, ensaladas y tex-mex.
+
+En los platos combinados, la formulación no lleva sal y las notas lo dicen.
+
+**Cómo:** igual que las tandas anteriores, en la rama `feat/recetas-tandas`.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 259. Recetas: tanda 9 de preparaciones (2026-10-27)
+
+**Qué:** pasos de los 84 platos preparados que faltaban. Con esta tanda, todos los «Platos preparados» del catálogo tienen pasos: 887 recetas en total. Entran:
+- risottos y pizzas;
+- cocina asiática, india y marroquí, y platos anglosajones (fish and chips, shepherd's pie, clam chowder);
+- vegetarianos y triturados infantiles;
+- regionales (tortillitas de bacalao, soldaditos de Pavía, gurullos, pitu de caleya, cocido lebaniego, olleta, arroz brut, puchero canario, tiznao…).
+
+**Cómo:** igual que las tandas anteriores, en la rama `feat/recetas-tandas`.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 260. Recetas: tanda 10 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas de las categorías Carnes, Pescados y Mariscos. En total hay 987 recetas con pasos. Entran:
+- piezas a la plancha con aceite de oliva;
+- brasas y parrilladas, asados, escabeches;
+- frituras (calamares a la andaluza, gambas a la gabardina, pijotas…);
+- guisos de pollo, cerdo, cordero, caza y pescado.
+
+**Cómo:**
+- Las piezas sueltas a la plancha (150 g con 5 g de aceite) comparten una plantilla de pasos.
+- Las notas dicen cuándo los gramos son con hueso o con concha. En los escabeches avisan de que parte del aceite queda en el líquido.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 261. Recetas: tanda 11 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas más: el resto de carnes, pescados y mariscos, los huevos y tortillas, y casi todas las verduras y patatas. En total hay 1.087 recetas con pasos.
+
+**Cómo:** igual que la tanda 10.
+- Las piezas sueltas tienen una ración de lo que pesan (un huevo, una pieza a la plancha).
+- La cebolla caramelizada y los chips van por ración de acompañamiento.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 262. Recetas: tanda 12 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas más. En total hay 1.187 recetas con pasos. Entran:
+- dulces navideños y conventuales (polvorones, turrones, mazapán, yemas, huesos de santo, panellets);
+- flanes, natillas, mousses y helados caseros;
+- yogures y fruta preparada;
+- salsas caseras (vizcaína, almendras, chimichurri, tzatziki, picada…);
+- las últimas verduras y guarniciones.
+
+**Cómo:**
+- Los dulces van por pieza (unos 25 g) y las salsas, por cucharada o uso.
+- Los flanes avisan si el caramelo del molde no está en la formulación, y los postres con huevo crudo lo dicen.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 263. Recetas: tanda 13 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas de bollería, galletas y pasteles. En total hay 1.287 recetas con pasos. Entran:
+- dulces de sartén (rosquillas, pestiños, buñuelos, porras, torrijas, orejas, flores);
+- roscón, ensaimada y bollos de levadura;
+- tartas frías y horneadas, bizcochos y galletas;
+- dulces regionales (sobaos, quesada, carbayones, casadielles, piononos, miguelitos, fartons, flaó).
+
+**Cómo:**
+- Los bizcochos de batido comparten una plantilla de pasos.
+- Las raciones son por pieza o por porción de tarta.
+- En los dulces fritos, las notas avisan del aceite que se queda en la masa.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 264. Recetas: tanda 14 de preparaciones (2026-10-27)
+
+**Qué:** pasos de las 82 recetas que quedaban fuera de pan y bebidas. En total hay 1.369 recetas con pasos. Entran:
+- desayunos de avena y cereales;
+- salsas y dips;
+- snacks y papillas;
+- las últimas recetas sueltas de cada categoría (migas de harina, carne mechada, lomo en manteca, pantxineta, coca de patata, perrunillas…).
+
+**Cómo:** igual que las tandas anteriores.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 265. Recetas: tanda 15 de preparaciones (2026-10-27)
+
+**Qué:** pasos de las 93 recetas de «Pan y tostadas»: tostadas, bocadillos, sándwiches, tostas y montaditos, wraps, hamburguesas y panes caseros (focaccia, naan, grisines, bollos preñados). En total hay 1.462 recetas con pasos. Solo faltan las bebidas.
+
+**Cómo:** pasos cortos, una ración por unidad. Los que usan una elaboración previa lo dicen en las notas (pulpo cocido, bacalao desalado, cerdo desmechado, carnes del puchero).
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 266. Recetas: tanda 16, el recetario completo (2026-10-27)
+
+**Qué:** pasos de las 93 bebidas: cafés, batidos y smoothies, zumos, combinados y cócteles, y bebidas calientes. Con esta tanda, **las 1.555 recetas del catálogo de típicos tienen preparación**.
+
+**Cómo:**
+- Los combinados de vaso largo comparten una plantilla.
+- El hielo no cuenta en el peso, salvo en el frappé, el café con hielo y la caipiroska, cuya formulación lo incluye como agua.
+- Las bebidas con clara o yema crudas lo avisan.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos y ninguna receta de `recetas.json` queda sin preparación. `npm run test` y `npm run build` correctos.
