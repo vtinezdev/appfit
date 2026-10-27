@@ -1,6 +1,6 @@
 # Preparaciones de las recetas de típicos
 
-803 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
+887 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
 
 ## 1. Tortilla de patatas, con cebolla, cuajada
 
@@ -17985,3 +17985,1845 @@
 4. Reparte las tiras de tortilla en cuencos, vierte la sopa y añade 60 g de aguacate en dados y 40 g de cheddar rallado.
 
 *Notas:* Tradicionalmente lleva caldo de pollo y chile pasilla. Ajusta la sal al gusto: la formulación no la lleva.
+
+## 804. Arroz rojo mexicano, cocinado
+
+`arroz-rojo-mexicano` · Platos preparados · 3 raciones de 247 g · 30 min · por ración: 308 kcal, P 5,3 g, C 53,5 g, G 7,4 g
+
+**Ingredientes** (lote de 741 g cocinado)
+
+- 200 g · Arroz blanco, crudo
+- 400 g · Agua del grifo
+- 150 g · Tomate, pelado, en conserva, escurrido
+- 50 g · Cebolla, cruda
+- 20 g · Aceite de oliva virgen extra
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tritura 150 g de tomate pelado con 50 g de cebolla.
+2. Sofríe 200 g de arroz en 20 g de aceite 3 minutos, removiendo, hasta que esté algo dorado.
+3. Añade el tomate triturado y cocina 2 minutos. Vierte 400 g de agua con la sal.
+4. Tapa y cuece a fuego suave 18 minutos. Deja reposar 5 minutos y suéltalo con un tenedor.
+
+## 805. Risotto de marisco, cocinado
+
+`risotto-marisco` · Platos preparados · 5 raciones de 333 g · 50 min · por ración: 386 kcal, P 19,7 g, C 49,4 g, G 10,6 g
+
+**Ingredientes** (lote de 1663 g cocinado)
+
+- 300 g · Arroz blanco, crudo
+- 200 g · Gamba o langostino, crudo
+- 150 g · Mejillón de Mediterráneo, crudo
+- 150 g · Calamar, crudo
+- 100 g · Vino blanco seco
+- 30 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 20 g · Aceite de oliva virgen extra
+- 1000 g · Agua del grifo
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pela 200 g de gambas, abre 150 g de mejillones al vapor y corta 150 g de calamar en dados. Calienta 1.000 g de agua con la sal (mejor con las cabezas de las gambas, coladas).
+2. Dora el calamar en 20 g de aceite 3 minutos.
+3. Añade 300 g de arroz y remueve 2 minutos. Vierte 100 g de vino blanco y deja que se evapore.
+4. Ve añadiendo el agua caliente poco a poco, removiendo, unos 18 minutos. Los últimos 3 minutos, añade las gambas y los mejillones.
+5. Fuera del fuego, añade 30 g de mantequilla y remueve hasta que quede cremoso.
+
+*Notas:* Los 150 g de mejillones son de carne. El arroz más adecuado es el de risotto (arborio o carnaroli).
+
+## 806. Risotto de espárragos, cocinado
+
+`risotto-esparragos` · Platos preparados · 5 raciones de 302 g · 45 min · por ración: 343 kcal, P 9,1 g, C 48,9 g, G 10,5 g
+
+**Ingredientes** (lote de 1510 g cocinado)
+
+- 300 g · Arroz blanco, crudo
+- 300 g · Espárrago verde, crudo
+- 50 g · Queso Parmesano
+- 40 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Vino blanco seco
+- 80 g · Cebolla, cruda
+- 900 g · Agua del grifo
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 300 g de espárragos verdes en trozos, separando las puntas. Calienta 900 g de agua con la sal.
+2. Pica 80 g de cebolla y pochala en 20 g de la mantequilla 6 minutos. Añade los tallos de los espárragos.
+3. Añade 300 g de arroz y remueve 2 minutos. Vierte 100 g de vino blanco y deja que se evapore.
+4. Ve añadiendo el agua caliente poco a poco, removiendo, unos 18 minutos. Añade las puntas los últimos 5 minutos.
+5. Fuera del fuego, añade el resto de la mantequilla y 50 g de parmesano rallado y remueve hasta que quede cremoso.
+
+## 807. Pizza de verduras casera, horneada
+
+`pizza-verduras-casera` · Platos preparados · 2 raciones de 411 g · 120 min · por ración: 721 kcal, P 25,5 g, C 100,4 g, G 22,5 g
+
+**Ingredientes** (lote de 821 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Agua del grifo
+- 7 g · Levadura de panadero fresca
+- 15 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 150 g · Tomate, pelado, en conserva, escurrido
+- 100 g · Calabacín, pulpa y piel, crudo
+- 60 g · Pimiento verde, crudo
+- 80 g · Champiñón de París o champiñón cultivado, crudo
+- 150 g · Mozzarella de leche de vaca
+
+**Preparación**
+
+1. Disuelve 7 g de levadura en 150 g de agua templada. Mézclala con 250 g de harina, 15 g de aceite y la sal y amasa 8 minutos. Deja reposar tapada 1 hora.
+2. Corta 100 g de calabacín en rodajas finas, 60 g de pimiento verde en tiras y lamina 80 g de champiñones.
+3. Precalienta el horno a 250 °C con la bandeja dentro. Estira la masa y extiende 150 g de tomate triturado.
+4. Reparte las verduras y 150 g de mozzarella y hornea 12 minutos, hasta que los bordes estén dorados.
+
+## 808. Pizza de jamón serrano y rúcula casera, horneada
+
+`pizza-jamon-rucula` · Platos preparados · 2 raciones de 343 g · 120 min · por ración: 793 kcal, P 36,3 g, C 98,2 g, G 27 g
+
+**Ingredientes** (lote de 685 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Agua del grifo
+- 7 g · Levadura de panadero fresca
+- 15 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 120 g · Tomate, pelado, en conserva, escurrido
+- 150 g · Mozzarella de leche de vaca
+- 80 g · Jamón seco Serrano
+- 30 g · Rúcula, cruda
+
+**Preparación**
+
+1. Disuelve 7 g de levadura en 150 g de agua templada. Mézclala con 250 g de harina, 15 g de aceite y la sal y amasa 8 minutos. Deja reposar tapada 1 hora.
+2. Precalienta el horno a 250 °C con la bandeja dentro. Estira la masa, extiende 120 g de tomate triturado y reparte 150 g de mozzarella.
+3. Hornea 10 o 12 minutos, hasta que los bordes estén dorados.
+4. Al sacarla, reparte 80 g de jamón en lonchas y 30 g de rúcula.
+
+## 809. Calzone casero, horneado
+
+`calzone` · Platos preparados · 2 raciones de 339 g · 120 min · por ración: 738 kcal, P 32,5 g, C 97,7 g, G 22,8 g
+
+**Ingredientes** (lote de 677 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Agua del grifo
+- 7 g · Levadura de panadero fresca
+- 15 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 80 g · Tomate, pelado, en conserva, escurrido
+- 150 g · Mozzarella de leche de vaca
+- 80 g · Jamón de pavo o pechuga de pavo en loncha
+- 60 g · Champiñón de París o champiñón cultivado, crudo
+
+**Preparación**
+
+1. Disuelve 7 g de levadura en 150 g de agua templada. Mézclala con 250 g de harina, 15 g de aceite y la sal y amasa 8 minutos. Deja reposar tapada 1 hora.
+2. Divide la masa en 2 y estírala en círculos.
+3. Pon en una mitad de cada círculo 40 g de tomate triturado, 75 g de mozzarella, 40 g de pavo y 30 g de champiñones laminados.
+4. Dóblalos y sella el borde apretando con los dedos.
+5. Hornéalos a 230 °C 15 minutos, hasta que estén dorados.
+
+## 810. Ñoquis de patata con salsa de queso azul, cocinados
+
+`nyoquis-queso` · Platos preparados · 3 raciones de 312 g · 70 min · por ración: 643 kcal, P 16,7 g, C 85,3 g, G 24,1 g
+
+**Ingredientes** (lote de 936 g cocinado)
+
+- 600 g · Patata, sin piel, cruda
+- 200 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 50 g · Huevo crudo
+- 150 g · Nata, 30 % MG, fluida, UHT
+- 60 g · Queso Roquefort (queso de oveja)
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 600 g de patata pelada en agua 20 minutos, escúrrela bien y pásala por el pasapurés en caliente.
+2. Cuando esté templada, mézclala con 50 g de huevo (1 huevo pequeño), la sal y 200 g de harina, solo hasta tener una masa lisa.
+3. Haz cilindros de 2 cm, córtalos en trozos de 2 cm y cuécelos en agua hirviendo con sal en tandas; sácalos cuando suban.
+4. Calienta 150 g de nata con 60 g de roquefort desmenuzado a fuego suave, hasta que se funda.
+5. Mezcla los ñoquis con la salsa.
+
+## 811. Pollo piccata al limón, cocinado
+
+`pollo-piccata` · Platos preparados · 3 raciones de 179 g · 25 min · por ración: 297 kcal, P 39,7 g, C 5,5 g, G 10,9 g
+
+**Ingredientes** (lote de 536 g cocinado)
+
+- 500 g · Pollo, pechuga sin piel cruda
+- 20 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 30 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 40 g · Zumo de limón, casero
+- 60 g · Vino blanco seco
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Abre 500 g de pechuga de pollo en filetes finos, sazónalos y pásalos por 20 g de harina.
+2. Dóralos en 15 g de la mantequilla 2 o 3 minutos por cada lado. Sácalos.
+3. Vierte 60 g de vino blanco y 40 g de zumo de limón en la sartén y reduce 2 minutos, rascando el fondo.
+4. Añade el resto de la mantequilla y vuelve a poner el pollo 1 minuto, napándolo con la salsa.
+
+*Notas:* Tradicionalmente lleva alcaparras, que no están incluidas.
+
+## 812. Vitello tonnato, listo para consumir
+
+`vitello-tonnato` · Platos preparados · 4 raciones de 163 g · 90 min · por ración: 401 kcal, P 41,1 g, C 1,5 g, G 25,6 g
+
+**Ingredientes** (lote de 650 g cocinado)
+
+- 600 g · Vacuno, redondo, crudo
+- 100 g · Atún al aceite de girasol, deshilachado, en conserva, escurrido
+- 100 g · Mayonesa (70% grasa mín.), envasada
+- 10 g · Anchoa, filetes, salados, al aceite, semiconserva, escurridos
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 600 g de redondo de ternera en agua con la sal a fuego suave 1 hora. Deja que se enfríe en el caldo.
+2. Tritura 100 g de atún escurrido con 100 g de mayonesa, 10 g de anchoas y un poco del caldo, hasta tener una salsa fina.
+3. Corta la carne fría en lonchas muy finas.
+4. Colócalas en una fuente y cúbrelas con la salsa. Guárdalo en la nevera al menos 2 horas.
+
+*Notas:* Tradicionalmente lleva alcaparras, que no están incluidas. El reposo en la nevera no cuenta en el tiempo.
+
+## 813. Pollo kung pao, cocinado
+
+`pollo-kung-pao` · Platos preparados · 3 raciones de 205 g · 25 min · por ración: 374 kcal, P 44,1 g, C 7,2 g, G 17,5 g
+
+**Ingredientes** (lote de 616 g cocinado)
+
+- 500 g · Pollo, pechuga sin piel cruda
+- 50 g · Cacahuete, sin sal añadida
+- 100 g · Pimiento verde, crudo
+- 40 g · Salsa de soja, envasada
+- 5 g · Chile, crudo
+- 20 g · Aceite de girasol
+- 10 g · Azúcar blanco
+
+**Preparación**
+
+1. Corta 500 g de pechuga de pollo en dados y 100 g de pimiento verde en cuadrados.
+2. Mezcla 40 g de salsa de soja con 10 g de azúcar.
+3. Saltea el pollo en 20 g de aceite a fuego muy fuerte 4 minutos. Añade el pimiento y 5 g de guindilla y saltea 2 minutos.
+4. Añade la salsa y 50 g de cacahuetes y saltea 1 minuto, hasta que la salsa glasee.
+
+*Notas:* No lleva sal aparte: la soja ya la aporta. Tradicionalmente lleva pimienta de Sichuan y vinagre negro.
+
+## 814. Curry rojo de gambas, cocinado
+
+`curry-rojo-gambas` · Platos preparados · 2 raciones de 326 g · 20 min · por ración: 541 kcal, P 33,5 g, C 13,1 g, G 38,3 g
+
+**Ingredientes** (lote de 652 g cocinado)
+
+- 300 g · Gamba o langostino, crudo
+- 300 g · Leche de coco
+- 100 g · Pimiento verde, crudo
+- 10 g · Curry, polvo
+- 15 g · Aceite de girasol
+
+**Preparación**
+
+1. Pela 300 g de gambas.
+2. Dora 10 g de curry en 15 g de aceite 1 minuto. Vierte 300 g de leche de coco y lleva a ebullición.
+3. Añade 100 g de pimiento verde en tiras y cuece 5 minutos.
+4. Añade las gambas y cuece 2 o 3 minutos, hasta que cambien de color.
+
+*Notas:* Los 300 g de gambas son pesados ya peladas. Tradicionalmente lleva pasta de curry rojo y salsa de pescado. Se acompaña con arroz, que no está incluido.
+
+## 815. Brochetas de pollo satay, asadas
+
+`pollo-satay` · Platos preparados · 3 raciones de 190 g · 40 min · por ración: 369 kcal, P 44,7 g, C 4,8 g, G 17,9 g
+
+**Ingredientes** (lote de 570 g cocinado)
+
+- 500 g · Pollo, pechuga sin piel cruda
+- 60 g · Crema de cacahuete o pasta de cacahuete
+- 30 g · Salsa de soja, envasada
+- 80 g · Leche de coco
+
+**Preparación**
+
+1. Corta 500 g de pechuga de pollo en tiras y mézclalas con 15 g de la salsa de soja. Déjalas 15 minutos.
+2. Ensártalas en brochetas y hazlas a la plancha 4 o 5 minutos por cada lado.
+3. Calienta 60 g de crema de cacahuete con 80 g de leche de coco y el resto de la soja, removiendo, hasta tener una salsa fina.
+4. Sirve las brochetas con la salsa.
+
+## 816. Cerdo al jengibre (shogayaki), cocinado
+
+`cerdo-jengibre` · Platos preparados · 3 raciones de 161 g · 20 min · por ración: 253 kcal, P 29,3 g, C 2,9 g, G 13,7 g
+
+**Ingredientes** (lote de 484 g cocinado)
+
+- 400 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 15 g · Jengibre, raíz fresca
+- 40 g · Salsa de soja, envasada
+- 100 g · Cebolla, cruda
+- 15 g · Aceite de girasol
+
+**Preparación**
+
+1. Corta 400 g de cerdo en lonchas finas. Mézclalas con 15 g de jengibre rallado y 40 g de salsa de soja.
+2. Corta 100 g de cebolla en pluma y saltéala en 15 g de aceite 3 minutos.
+3. Añade el cerdo con su adobo y saltea a fuego fuerte 4 minutos, hasta que esté hecho y glaseado.
+
+*Notas:* No lleva sal aparte: la soja ya la aporta. Tradicionalmente lleva mirin.
+
+## 817. Tallarines salteados con pollo (lo mein), cocinados
+
+`lo-mein-pollo` · Platos preparados · 3 raciones de 378 g · 25 min · por ración: 497 kcal, P 33,1 g, C 60 g, G 12 g
+
+**Ingredientes** (lote de 1134 g cocinado)
+
+- 250 g · Pasta seca, con huevos, cruda
+- 450 g · Agua del grifo
+- 250 g · Pollo, pechuga sin piel cruda
+- 150 g · Repollo verde, crudo
+- 100 g · Zanahoria, cruda
+- 40 g · Salsa de soja, envasada
+- 20 g · Aceite de girasol
+
+**Preparación**
+
+1. Cuece 250 g de tallarines de huevo el tiempo del paquete y escúrrelos: absorben unos 450 g de agua.
+2. Corta 250 g de pechuga de pollo en tiras, 150 g de repollo y 100 g de zanahoria en tiras finas.
+3. Saltea el pollo en 10 g del aceite a fuego fuerte 4 minutos. Sácalo.
+4. Saltea las verduras en el resto del aceite 4 minutos. Añade la pasta, el pollo y 40 g de salsa de soja y saltea 2 minutos.
+
+*Notas:* No lleva sal aparte: la soja ya la aporta.
+
+## 818. Arroz cantonés con gambas y huevo, cocinado
+
+`arroz-cantones-gambas` · Platos preparados · 3 raciones de 341 g · 30 min · por ración: 480 kcal, P 22,8 g, C 68,8 g, G 11,8 g
+
+**Ingredientes** (lote de 1022 g cocinado)
+
+- 250 g · Arroz blanco, crudo
+- 500 g · Agua del grifo
+- 150 g · Gamba o langostino, crudo
+- 120 g · Huevo crudo
+- 80 g · Guisante, congelados, crudos
+- 20 g · Aceite de girasol
+- 15 g · Salsa de soja, envasada
+
+**Preparación**
+
+1. Cuece 250 g de arroz con 500 g de agua, tapado, 15 minutos y deja que se enfríe. Mejor si es del día anterior.
+2. Bate 120 g de huevo (2 huevos) y cuájalos en un poco del aceite removiendo, en trozos. Sácalos.
+3. Saltea 150 g de gambas peladas y 80 g de guisantes en el resto del aceite 2 minutos.
+4. Añade el arroz y saltea a fuego fuerte 3 minutos. Incorpora el huevo y 15 g de salsa de soja y saltea 1 minuto.
+
+*Notas:* Tradicionalmente lleva también jamón cocido en dados, que no está incluido.
+
+## 819. Pollo karaage (frito japonés), frito
+
+`karaage` · Platos preparados · 3 raciones de 180 g · 45 min · por ración: 474 kcal, P 31 g, C 15,3 g, G 32,1 g
+
+**Ingredientes** (lote de 540 g cocinado)
+
+- 500 g · Pollo, muslo crudo
+- 30 g · Salsa de soja, envasada
+- 50 g · Almidón de maíz o fécula de maíz
+- 50 g · Aceite de girasol
+- 5 g · Jengibre, raíz fresca
+
+**Preparación**
+
+1. Corta 500 g de muslo de pollo deshuesado en trozos grandes.
+2. Mézclalos con 30 g de salsa de soja y 5 g de jengibre rallado. Déjalos 20 minutos.
+3. Escúrrelos y rebózalos en 50 g de maicena.
+4. Fríelos en aceite a 170 °C 4 minutos, sácalos, deja reposar 2 minutos y vuelve a freírlos a 190 °C 1 minuto, para que queden crujientes. Escúrrelos.
+
+*Notas:* Los 50 g de aceite son los que retiene el pollo al freír; en la sartén hace falta más.
+
+## 820. Onigiri de atún con mayonesa, listo para consumir
+
+`onigiri-atun` · Platos preparados · 3 raciones de 190 g · 35 min · por ración: 340 kcal, P 11 g, C 51,9 g, G 9,4 g
+
+**Ingredientes** (lote de 570 g cocinado)
+
+- 200 g · Arroz blanco, crudo
+- 300 g · Agua del grifo
+- 80 g · Atún al aceite de girasol, deshilachado, en conserva, escurrido
+- 20 g · Mayonesa (70% grasa mín.), envasada
+
+**Preparación**
+
+1. Lava 200 g de arroz y cuécelo con 300 g de agua, tapado, 12 minutos. Deja reposar 10 minutos sin destapar.
+2. Mezcla 80 g de atún escurrido con 20 g de mayonesa.
+3. Con las manos mojadas y saladas, coge una porción de arroz templado, haz un hueco, pon relleno y ciérralo dándole forma de triángulo.
+4. Repite hasta tener 6 onigiris.
+
+*Notas:* Salen 6 onigiris: 2 por ración. Tradicionalmente se envuelven en alga nori, que no está incluida.
+
+## 821. Vindaloo de cerdo, cocinado
+
+`vindaloo-cerdo` · Platos preparados · 4 raciones de 230 g · 105 min · por ración: 320 kcal, P 32,7 g, C 5,4 g, G 17,9 g
+
+**Ingredientes** (lote de 918 g cocinado)
+
+- 600 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 200 g · Tomate redondo, crudo
+- 200 g · Cebolla, cruda
+- 30 g · Vinagre de vino tinto
+- 15 g · Curry, polvo
+- 30 g · Aceite de girasol
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 600 g de cerdo en dados y mézclalos con 15 g de curry, 30 g de vinagre y la sal. Déjalo 30 minutos.
+2. Pica 200 g de cebolla y sofríela en 30 g de aceite 10 minutos.
+3. Añade el cerdo con su adobo y dóralo 5 minutos. Añade 200 g de tomate rallado y un poco de agua.
+4. Tapa y cuece a fuego suave 50 minutos, hasta que el cerdo esté tierno y la salsa espesa.
+
+*Notas:* Es un curry picante: tradicionalmente lleva guindillas secas. Se acompaña con arroz, que no está incluido.
+
+## 822. Patata y coliflor al curry (aloo gobi), cocinadas
+
+`aloo-gobi` · Platos preparados · 4 raciones de 233 g · 40 min · por ración: 196 kcal, P 4,6 g, C 21,2 g, G 8,9 g
+
+**Ingredientes** (lote de 931 g cocinado)
+
+- 400 g · Patata, sin piel, cruda
+- 400 g · Coliflor, cruda
+- 150 g · Tomate redondo, crudo
+- 100 g · Cebolla, cruda
+- 10 g · Curry, polvo
+- 30 g · Aceite de girasol
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 100 g de cebolla y sofríela en 30 g de aceite 6 minutos. Añade 10 g de curry y remueve 1 minuto.
+2. Añade 400 g de patata pelada en dados y rehoga 5 minutos.
+3. Añade 400 g de coliflor en ramitos, 150 g de tomate rallado, la sal y un poco de agua.
+4. Tapa y cuece a fuego suave 20 minutos, removiendo con cuidado, hasta que todo esté tierno.
+
+## 823. Pollo al curry con espinacas, cocinado
+
+`pollo-saag` · Platos preparados · 4 raciones de 252 g · 40 min · por ración: 244 kcal, P 33,1 g, C 6,3 g, G 8,2 g
+
+**Ingredientes** (lote de 1007 g cocinado)
+
+- 500 g · Pollo, pechuga sin piel cruda
+- 300 g · Espinaca, cruda
+- 150 g · Tomate redondo, crudo
+- 100 g · Cebolla, cruda
+- 10 g · Curry, polvo
+- 100 g · Yogur o leche fermentada, natural
+- 20 g · Aceite de girasol
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 500 g de pechuga de pollo en dados y dóralos en 10 g del aceite 5 minutos. Sácalos.
+2. Pica 100 g de cebolla y sofríela en el resto del aceite 6 minutos. Añade 10 g de curry y 150 g de tomate rallado y cocina 5 minutos.
+3. Añade 300 g de espinacas por tandas, dejando que reduzcan, y tritura la salsa.
+4. Vuelve a poner el pollo con la sal y cuece 8 minutos. Fuera del fuego, añade 100 g de yogur.
+
+## 824. Tajín de pollo con limón y aceitunas, cocinado
+
+`tajin-pollo-limon` · Platos preparados · 4 raciones de 238 g · 70 min · por ración: 435 kcal, P 37,1 g, C 3,9 g, G 29,6 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 800 g · Pollo, muslo crudo
+- 80 g · Aceituna verde, en salmuera, escurrida
+- 40 g · Zumo de limón, casero
+- 200 g · Cebolla, cruda
+- 3 g · Cúrcuma, polvo
+- 30 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sazona 800 g de muslos de pollo y dóralos en 30 g de aceite 8 minutos.
+2. Añade 200 g de cebolla en pluma y 3 g de cúrcuma y pochala 10 minutos.
+3. Añade un poco de agua, tapa y cuece a fuego suave 35 minutos.
+4. Añade 80 g de aceitunas verdes y 40 g de zumo de limón y cuece 10 minutos más, destapado.
+
+*Notas:* Tradicionalmente lleva limón en conserva y jengibre.
+
+## 825. Pastela de pollo, horneada
+
+`pastela-pollo` · Platos preparados · 6 raciones de 175 g · 90 min · por ración: 437 kcal, P 28,6 g, C 29,9 g, G 21,3 g
+
+**Ingredientes** (lote de 1048 g cocinado)
+
+- 250 g · Masa filo o phyllo, cruda
+- 500 g · Pollo, pechuga sin piel cruda
+- 100 g · Almendra, pelada, sin sal añadida
+- 200 g · Cebolla, cruda
+- 100 g · Huevo crudo
+- 30 g · Azúcar blanco
+- 3 g · Canela, polvo
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Pica 500 g de pechuga de pollo y 200 g de cebolla y pochalos en 20 g de la mantequilla 15 minutos, hasta que el pollo esté hecho. Añade 2 g de la canela.
+2. Añade 100 g de huevo (2 huevos) batido y remueve hasta que cuaje.
+3. Tuesta 100 g de almendras, pícalas y mézclalas con 25 g del azúcar.
+4. Precalienta el horno a 180 °C. Forra un molde con la mitad de 250 g de masa filo, pintando las hojas con la mantequilla fundida. Pon el pollo, cubre con la almendra y cierra con el resto de las hojas.
+5. Hornea 30 minutos y espolvorea con el resto del azúcar y de la canela.
+
+## 826. Quiche de salmón y puerro, horneada
+
+`quiche-salmon-puerro` · Platos preparados · 6 raciones de 151 g · 90 min · por ración: 444 kcal, P 13,4 g, C 28 g, G 30,5 g
+
+**Ingredientes** (lote de 904 g cocinado)
+
+- 200 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 200 g · Huevo crudo
+- 200 g · Nata, 30 % MG, fluida, UHT
+- 150 g · Salmón, de cría, crudo
+- 150 g · Puerro, crudo
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Mezcla 200 g de harina con 100 g de mantequilla fría en dados hasta que parezca arena. Añade 2 cucharadas de agua fría y una pizca de la sal, forma una bola y déjala en la nevera 20 minutos.
+2. Precalienta el horno a 190 °C. Estira la masa, forra un molde de 24 cm, pínchala y hornéala 12 minutos.
+3. Corta 150 g de puerro en rodajas finas y rehógalo en una sartén con un poco de agua 8 minutos. Corta 150 g de salmón en dados.
+4. Bate 200 g de huevo (4 huevos) con 200 g de nata y el resto de la sal.
+5. Reparte el puerro y el salmón sobre la base, vierte la mezcla y hornea a 180 °C 30 minutos, hasta que esté cuajada.
+
+## 827. Fricasé de pollo con champiñones, cocinado
+
+`pollo-crema-champinones` · Platos preparados · 4 raciones de 274 g · 60 min · por ración: 569 kcal, P 45,5 g, C 5 g, G 40,6 g
+
+**Ingredientes** (lote de 1096 g cocinado)
+
+- 800 g · Pollo, carne y piel cruda
+- 200 g · Champiñón de París o champiñón cultivado, crudo
+- 200 g · Nata, 30 % MG, fluida, UHT
+- 100 g · Cebolla, cruda
+- 30 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 800 g de pollo, sazónalo y dóralo en 30 g de mantequilla sin que tome mucho color, 8 minutos. Sácalo.
+2. Pocha 100 g de cebolla picada en la misma cazuela 8 minutos. Añade 200 g de champiñones en cuartos y saltea 5 minutos.
+3. Vuelve a poner el pollo con un poco de agua, tapa y cuece a fuego suave 25 minutos.
+4. Añade 200 g de nata y cuece 5 minutos más, destapado, hasta que la salsa espese.
+
+*Notas:* Los 800 g son de pollo sin huesos.
+
+## 828. Fish and chips (pescado rebozado con patatas fritas), frito
+
+`fish-and-chips` · Platos preparados · 3 raciones de 249 g · 40 min · por ración: 541 kcal, P 22,1 g, C 37,7 g, G 31,7 g
+
+**Ingredientes** (lote de 747 g cocinado)
+
+- 300 g · Merluza, cruda
+- 60 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 80 g · Cerveza estándar (4-5° de alcohol)
+- 90 g · Aceite de girasol
+- 400 g · Patata, sin piel, cruda
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 400 g de patata pelada en bastones gruesos y fríelos a 160 °C 8 minutos. Sácalos.
+2. Mezcla 60 g de harina con 80 g de cerveza fría y la mitad de la sal hasta tener una masa espesa.
+3. Corta 300 g de merluza en trozos, sécalos, sálalos y pásalos por la masa.
+4. Fríelos a 180 °C 4 o 5 minutos, hasta que estén dorados. Escúrrelos.
+5. Vuelve a freír las patatas a 190 °C 2 o 3 minutos y sírvelas con el pescado.
+
+*Notas:* Los 90 g de aceite son los que retienen el pescado y las patatas; en la sartén hace falta más.
+
+## 829. Salchichas con puré de patata, cocinadas
+
+`salchichas-pure` · Platos preparados · 3 raciones de 259 g · 40 min · por ración: 470 kcal, P 20,9 g, C 25 g, G 30,8 g
+
+**Ingredientes** (lote de 776 g cocinado)
+
+- 300 g · Masa de salchicha, de cerdo puro, cruda
+- 400 g · Patata, sin piel, cruda
+- 80 g · Leche entera, UHT
+- 30 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Cebolla, cruda
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 400 g de patata pelada en trozos en agua con la sal 20 minutos. Escúrrela y aplástala con 80 g de leche caliente y 20 g de la mantequilla.
+2. Corta 100 g de cebolla en pluma y pochala en el resto de la mantequilla 15 minutos, hasta que esté dorada.
+3. Dora 300 g de salchichas en una sartén 10 minutos, dándoles la vuelta.
+4. Sirve las salchichas sobre el puré con la cebolla por encima.
+
+## 830. Pastel de carne y puré de patata (shepherd pie), horneado
+
+`pastel-pastor` · Platos preparados · 5 raciones de 263 g · 75 min · por ración: 414 kcal, P 24,9 g, C 25,2 g, G 22,5 g
+
+**Ingredientes** (lote de 1314 g cocinado)
+
+- 500 g · Vacuno, carne picada 15 % MG, cruda
+- 100 g · Cebolla, cruda
+- 100 g · Zanahoria, cruda
+- 100 g · Guisante, congelados, crudos
+- 600 g · Patata, sin piel, cruda
+- 100 g · Leche entera, UHT
+- 40 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 100 g de cebolla y 100 g de zanahoria y sofríelas en una cazuela 8 minutos. Añade 500 g de carne picada y parte de la sal y cocina 10 minutos.
+2. Añade 100 g de guisantes y un poco de agua y cuece 10 minutos.
+3. Cuece 600 g de patata pelada en agua 20 minutos, escúrrela y aplástala con 100 g de leche, 30 g de la mantequilla y el resto de la sal.
+4. Precalienta el horno a 200 °C. Pon la carne en una fuente y cúbrela con el puré. Reparte por encima el resto de la mantequilla en trocitos.
+5. Hornea 25 minutos, hasta que esté dorado.
+
+*Notas:* Con carne de cordero es shepherd's pie; con ternera, cottage pie.
+
+## 831. Mejillones al vino con patatas fritas, cocinados
+
+`mejillones-patatas-fritas` · Platos preparados · 3 raciones de 305 g · 35 min · por ración: 383 kcal, P 24,2 g, C 27,3 g, G 16,9 g
+
+**Ingredientes** (lote de 914 g cocinado)
+
+- 600 g · Mejillón de Mediterráneo, crudo
+- 100 g · Vino blanco seco
+- 400 g · Patata, sin piel, cruda
+- 40 g · Aceite de girasol
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 400 g de patata pelada en bastones y fríelos a 170 °C 8 minutos. Sácalos y vuelve a freírlos a 190 °C 2 o 3 minutos. Escúrrelos y sálalos.
+2. Limpia los mejillones (600 g de carne, unos 1.500 g con concha) quitándoles las barbas.
+3. Ponlos en una cazuela con 100 g de vino blanco, tapa y cuece a fuego fuerte 4 o 5 minutos, moviendo la cazuela, hasta que se abran.
+4. Sirve los mejillones con su caldo y las patatas aparte.
+
+*Notas:* Los 600 g de mejillones son de carne. Los 40 g de aceite son los que retienen las patatas.
+
+## 832. Patatas fritas con chili y queso, cocinadas
+
+`chili-cheese-fries` · Platos preparados · 2 raciones de 298 g · 35 min · por ración: 586 kcal, P 29,3 g, C 30,9 g, G 36,6 g
+
+**Ingredientes** (lote de 595 g cocinado)
+
+- 300 g · Patata, sin piel, cruda
+- 30 g · Aceite de girasol
+- 150 g · Vacuno, carne picada 15 % MG, cruda
+- 80 g · Judía roja, en conserva, escurrida
+- 60 g · Queso Cheddar
+- 80 g · Tomate, pelado, en conserva, escurrido
+
+**Preparación**
+
+1. Dora 150 g de carne picada en una sartén sin aceite 6 minutos.
+2. Añade 80 g de alubias rojas escurridas y 80 g de tomate triturado y cuece 10 minutos.
+3. Corta 300 g de patata pelada en bastones y fríelos a 170 °C 8 minutos. Sácalos y vuelve a freírlos a 190 °C 2 o 3 minutos.
+4. Cubre las patatas con el chili y 60 g de cheddar rallado y gratina 3 minutos.
+
+*Notas:* Los 30 g de aceite son los que retienen las patatas. Ajusta la sal y el picante al gusto.
+
+## 833. Ensalada Cobb, lista para consumir
+
+`ensalada-cobb` · Platos preparados · 2 raciones de 341 g · 30 min · por ración: 492 kcal, P 34,3 g, C 3,1 g, G 37 g
+
+**Ingredientes** (lote de 681 g cocinado)
+
+- 200 g · Lechuga, cruda
+- 150 g · Pollo, pechuga sin piel cruda
+- 50 g · Panceta ahumada, cruda
+- 100 g · Huevo crudo
+- 80 g · Aguacate, pulpa sin piel, sin hueso, crudo
+- 100 g · Tomate redondo, crudo
+- 40 g · Queso Roquefort (queso de oveja)
+- 20 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Haz 150 g de pechuga de pollo a la plancha y córtala en dados. Dora 50 g de panceta ahumada en dados hasta que esté crujiente.
+2. Cuece 100 g de huevo (2 huevos pequeños) 10 minutos, pélalos y pícalos.
+3. Trocea 200 g de lechuga y corta en dados 80 g de aguacate y 100 g de tomate.
+4. Coloca la lechuga y, encima, cada ingrediente en hileras con 40 g de roquefort desmenuzado. Aliña con 20 g de aceite.
+
+## 834. Pastel de carne al horno (meatloaf), horneado
+
+`meatloaf` · Platos preparados · 5 raciones de 164 g · 75 min · por ración: 350 kcal, P 27,8 g, C 14,4 g, G 19,8 g
+
+**Ingredientes** (lote de 821 g cocinado)
+
+- 600 g · Vacuno, carne picada 15 % MG, cruda
+- 100 g · Cebolla, cruda
+- 60 g · Huevo crudo
+- 60 g · Pan rallado
+- 80 g · Leche entera, UHT
+- 60 g · Ketchup, envasado
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Pica muy fina 100 g de cebolla.
+2. Mezcla 600 g de carne picada con la cebolla, 60 g de huevo (1 huevo), 60 g de pan rallado remojado en 80 g de leche y la sal.
+3. Forma un pan alargado en una fuente o métela en un molde.
+4. Píntala con 60 g de ketchup y hornéala 55 minutos. Déjala reposar 10 minutos antes de cortarla.
+
+## 835. Crema de almejas (clam chowder), cocinada
+
+`clam-chowder` · Platos preparados · 4 raciones de 277 g · 50 min · por ración: 364 kcal, P 17,4 g, C 25,5 g, G 20,9 g
+
+**Ingredientes** (lote de 1108 g cocinado)
+
+- 300 g · Almeja, navaja o pipa, cruda
+- 300 g · Patata, sin piel, cruda
+- 60 g · Panceta al natural, cruda
+- 100 g · Cebolla, cruda
+- 400 g · Leche entera, UHT
+- 100 g · Nata, 30 % MG, fluida, UHT
+- 20 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pon 300 g de almejas en agua con sal 30 minutos. Ábrelas en una cazuela tapada con un poco de agua, saca la carne y cuela el líquido.
+2. Dora 60 g de panceta en dados en 20 g de mantequilla. Añade 100 g de cebolla picada y pochala 6 minutos.
+3. Añade 20 g de harina y remueve 1 minuto. Vierte el líquido de las almejas y 400 g de leche, removiendo.
+4. Añade 300 g de patata pelada en dados y la sal y cuece a fuego suave 15 minutos.
+5. Añade 100 g de nata y las almejas y calienta sin que hierva.
+
+*Notas:* Los 300 g son de almejas con concha.
+
+## 836. Patata asada rellena de queso y beicon, horneada
+
+`patata-asada-rellena` · Platos preparados · 3 raciones de 232 g · 70 min · por ración: 381 kcal, P 14,5 g, C 33,7 g, G 19,4 g
+
+**Ingredientes** (lote de 697 g cocinado)
+
+- 600 g · Patata, sin piel, cruda
+- 80 g · Queso Cheddar
+- 60 g · Panceta ahumada, cruda
+- 60 g · Nata, 30 % MG, fluida, UHT
+- 20 g · Cebollino o cebolleta, fresco
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Lava 600 g de patatas medianas, pínchalas y ásalas enteras 50 minutos.
+2. Dora 60 g de panceta ahumada en dados hasta que esté crujiente.
+3. Parte las patatas, vacía parte de la pulpa y mézclala con 60 g de nata y la mitad de 80 g de cheddar rallado.
+4. Rellena las patatas, cubre con el resto del queso y la panceta y gratina 5 minutos. Sirve con 20 g de cebollino picado.
+
+*Notas:* Los 600 g son de patata pelada; con piel se pesa algo más.
+
+## 837. Canelones de verduras, horneados
+
+`canelones-verduras` · Platos preparados · 5 raciones de 277 g · 75 min · por ración: 291 kcal, P 11,1 g, C 30,5 g, G 13 g
+
+**Ingredientes** (lote de 1386 g cocinado)
+
+- 120 g · Pasta seca, estándar, cruda
+- 220 g · Agua del grifo
+- 200 g · Calabacín, pulpa y piel, crudo
+- 200 g · Berenjena, cruda
+- 100 g · Cebolla, cruda
+- 200 g · Tomate, pelado, en conserva, escurrido
+- 400 g · Leche entera, UHT
+- 35 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 35 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 60 g · Queso Emmental o emmenthal, rallado
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 120 g de placas de canelones en agua hirviendo con sal el tiempo del paquete y extiéndelas sobre un paño: absorben unos 220 g de agua.
+2. Pica 100 g de cebolla, 200 g de calabacín y 200 g de berenjena y sofríelos en 10 g de la mantequilla 15 minutos. Añade 200 g de tomate triturado y cuece 10 minutos.
+3. Funde el resto de la mantequilla, añade 35 g de harina y remueve 1 minuto. Vierte poco a poco 400 g de leche con la sal y cuece 8 minutos, removiendo.
+4. Precalienta el horno a 200 °C. Rellena y enrolla las placas y colócalas en una fuente.
+5. Cúbrelas con la bechamel y 60 g de emmental rallado y hornea 20 minutos.
+
+## 838. Hamburguesas de champiñones y avena, a la plancha, cocinadas
+
+`hamburguesa-champinones-avena` · Platos preparados · 4 raciones de 108 g · 35 min · por ración: 171 kcal, P 7,9 g, C 16,2 g, G 7,3 g
+
+**Ingredientes** (lote de 430 g cocinado)
+
+- 300 g · Champiñón de París o champiñón cultivado, crudo
+- 100 g · Avena, cruda
+- 60 g · Huevo crudo
+- 60 g · Cebolla, cruda
+- 15 g · Aceite de oliva virgen extra
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica muy fino 300 g de champiñones y 60 g de cebolla y saltéalos en una sartén sin aceite 8 minutos, hasta que pierdan el agua. Deja que se templen.
+2. Mézclalos con 100 g de copos de avena, 60 g de huevo (1 huevo) y la sal. Deja reposar 10 minutos.
+3. Forma 4 hamburguesas y hazlas a la plancha con 15 g de aceite 4 minutos por cada lado.
+
+## 839. Empanada de verduras, horneada
+
+`empanada-verduras` · Platos preparados · 8 raciones de 155 g · 120 min · por ración: 304 kcal, P 6,1 g, C 42,6 g, G 11,5 g
+
+**Ingredientes** (lote de 1237 g cocinado)
+
+- 400 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 80 g · Aceite de oliva virgen extra
+- 150 g · Agua del grifo
+- 10 g · Levadura de panadero fresca
+- 200 g · Cebolla, cruda
+- 150 g · Pimiento verde, crudo
+- 150 g · Pimiento rojo, crudo
+- 200 g · Tomate redondo, crudo
+- 60 g · Huevo crudo
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Disuelve 10 g de levadura en 150 g de agua templada. Mézclala con 400 g de harina, 40 g del aceite y la sal y amasa. Deja reposar tapada 45 minutos.
+2. Corta en tiras 200 g de cebolla, 150 g de pimiento verde y 150 g de pimiento rojo y pochalos en el resto del aceite 20 minutos. Añade 200 g de tomate rallado y cocina 10 minutos. Deja que se enfríe.
+3. Precalienta el horno a 190 °C. Divide la masa en dos, estira una mitad en una bandeja y extiende el relleno.
+4. Cubre con la otra mitad, sella los bordes y haz un agujero en el centro. Pinta con 60 g de huevo (1 huevo) batido.
+5. Hornea 35 minutos, hasta que esté dorada.
+
+*Notas:* Tradicionalmente el aceite del sofrito se escurre y se usa en la masa: aquí cuenta entero.
+
+## 840. Quiche de verduras, horneada
+
+`quiche-verduras` · Platos preparados · 6 raciones de 142 g · 90 min · por ración: 408 kcal, P 10,9 g, C 27,5 g, G 27,8 g
+
+**Ingredientes** (lote de 850 g cocinado)
+
+- 200 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 200 g · Huevo crudo
+- 150 g · Nata, 30 % MG, fluida, UHT
+- 150 g · Calabacín, pulpa y piel, crudo
+- 80 g · Pimiento verde, crudo
+- 60 g · Queso Emmental o emmenthal, rallado
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Mezcla 200 g de harina con 100 g de mantequilla fría en dados hasta que parezca arena. Añade 2 cucharadas de agua fría y una pizca de la sal, forma una bola y déjala en la nevera 20 minutos.
+2. Precalienta el horno a 190 °C. Estira la masa, forra un molde de 24 cm, pínchala y hornéala 12 minutos.
+3. Corta en dados 150 g de calabacín y 80 g de pimiento verde y saltéalos en una sartén antiadherente 6 minutos.
+4. Bate 200 g de huevo (4 huevos) con 150 g de nata y el resto de la sal.
+5. Reparte las verduras y 60 g de emmental sobre la base, vierte la mezcla y hornea a 180 °C 30 minutos.
+
+## 841. Pimientos rellenos de quinoa, horneados
+
+`pimientos-rellenos-quinoa` · Platos preparados · 4 raciones de 272 g · 70 min · por ración: 250 kcal, P 9,4 g, C 28,6 g, G 9,7 g
+
+**Ingredientes** (lote de 1088 g cocinado)
+
+- 600 g · Pimiento rojo, crudo
+- 120 g · Quinua, cruda
+- 240 g · Agua del grifo
+- 80 g · Cebolla, cruda
+- 100 g · Tomate redondo, crudo
+- 50 g · Queso Emmental o emmenthal, rallado
+- 15 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Lava 120 g de quinoa y cuécela con 240 g de agua, tapada, 15 minutos.
+2. Pica 80 g de cebolla y sofríela en 15 g de aceite 5 minutos. Añade 100 g de tomate rallado y la sal y cocina 5 minutos. Mézclalo con la quinoa.
+3. Precalienta el horno a 190 °C. Corta la parte de arriba a 600 g de pimientos rojos y quítales las pepitas.
+4. Rellénalos, cubre con 50 g de emmental rallado y hornéalos 35 minutos, hasta que estén tiernos.
+
+## 842. Tofu al curry con verduras, cocinado
+
+`tofu-curry-verduras` · Platos preparados · 3 raciones de 274 g · 30 min · por ración: 367 kcal, P 21,8 g, C 9,4 g, G 25 g
+
+**Ingredientes** (lote de 822 g cocinado)
+
+- 400 g · Tofu natural, envasado
+- 200 g · Leche de coco
+- 200 g · Brócoli, crudo
+- 100 g · Pimiento verde, crudo
+- 10 g · Curry, polvo
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 400 g de tofu en dados y dóralos en una sartén antiadherente 6 minutos.
+2. Separa 200 g de brócoli en ramitos y corta 100 g de pimiento verde en tiras.
+3. En una cazuela, tuesta 10 g de curry 30 segundos, vierte 200 g de leche de coco con la sal y añade las verduras. Cuece 8 minutos.
+4. Añade el tofu y cuece 3 minutos más.
+
+*Notas:* Se acompaña con arroz, que no está incluido.
+
+## 843. Gratinado de calabacín, horneado
+
+`gratinado-calabacin` · Platos preparados · 4 raciones de 209 g · 45 min · por ración: 211 kcal, P 11,4 g, C 4,2 g, G 16,1 g
+
+**Ingredientes** (lote de 836 g cocinado)
+
+- 700 g · Calabacín, pulpa y piel, crudo
+- 100 g · Huevo crudo
+- 100 g · Nata, 30 % MG, fluida, UHT
+- 80 g · Queso Emmental o emmenthal, rallado
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Corta 700 g de calabacín en rodajas finas y saltéalas en una sartén antiadherente 5 minutos para que suelten agua. Escúrrelas.
+2. Colócalas en una fuente.
+3. Bate 100 g de huevo (2 huevos pequeños) con 100 g de nata y la sal y viértelo por encima.
+4. Cubre con 80 g de emmental rallado y hornea 25 minutos, hasta que esté cuajado y dorado.
+
+## 844. Hamburguesas de remolacha y garbanzos, a la plancha, cocinadas
+
+`hamburguesa-remolacha` · Platos preparados · 4 raciones de 142 g · 40 min · por ración: 224 kcal, P 8,9 g, C 26,9 g, G 7 g
+
+**Ingredientes** (lote de 568 g cocinado)
+
+- 300 g · Remolacha, cruda
+- 100 g · Avena, cruda
+- 200 g · Garbanzo, en conserva, escurrido
+- 50 g · Cebolla, cruda
+- 15 g · Aceite de oliva virgen extra
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pela 300 g de remolacha cruda y rállala fina. Escúrrela apretando.
+2. Aplasta 200 g de garbanzos cocidos y mézclalos con la remolacha, 50 g de cebolla muy picada, 100 g de copos de avena y la sal.
+3. Deja reposar 10 minutos y forma 4 hamburguesas.
+4. Hazlas a la plancha con 15 g de aceite a fuego medio 5 minutos por cada lado.
+
+## 845. Curry de garbanzos y boniato, cocinado
+
+`curry-garbanzos-boniato` · Platos preparados · 4 raciones de 255 g · 40 min · por ración: 333 kcal, P 8,2 g, C 32,3 g, G 17,2 g
+
+**Ingredientes** (lote de 1021 g cocinado)
+
+- 300 g · Garbanzo, en conserva, escurrido
+- 400 g · Boniato, crudo
+- 200 g · Leche de coco
+- 200 g · Tomate redondo, crudo
+- 10 g · Curry, polvo
+- 20 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tuesta 10 g de curry en 20 g de aceite 30 segundos.
+2. Añade 200 g de tomate rallado y cocina 5 minutos.
+3. Añade 400 g de boniato pelado en dados, 200 g de leche de coco, la sal y un poco de agua. Cuece 15 minutos.
+4. Añade 300 g de garbanzos escurridos y cuece 8 minutos más, hasta que el boniato esté tierno.
+
+*Notas:* Se acompaña con arroz, que no está incluido.
+
+## 846. Albóndigas de lentejas en salsa de tomate, cocinadas
+
+`albondigas-lentejas` · Platos preparados · 4 raciones de 191 g · 50 min · por ración: 256 kcal, P 11,2 g, C 26,1 g, G 9,9 g
+
+**Ingredientes** (lote de 762 g cocinado)
+
+- 400 g · Lenteja, culinaria, en conserva, escurrida
+- 80 g · Avena, cruda
+- 80 g · Cebolla, cruda
+- 2 g · Comino, grano
+- 300 g · Tomate, pelado, en conserva, escurrido
+- 30 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Aplasta 400 g de lentejas cocidas escurridas y mézclalas con 80 g de cebolla muy picada, 80 g de copos de avena, 2 g de comino y parte de la sal.
+2. Deja reposar 10 minutos y forma unas 20 albóndigas.
+3. Dóralas con cuidado en 20 g del aceite 5 minutos. Sácalas.
+4. Cuece 300 g de tomate pelado triturado con el resto del aceite y de la sal 10 minutos. Añade las albóndigas y cuece 5 minutos más, sin remover.
+
+*Notas:* Salen unas 20 albóndigas: 5 por ración.
+
+## 847. Bol de arroz con tofu y verduras, listo para consumir
+
+`bol-arroz-tofu` · Platos preparados · 2 raciones de 311 g · 30 min · por ración: 332 kcal, P 16,5 g, C 44,6 g, G 8,4 g
+
+**Ingredientes** (lote de 622 g cocinado)
+
+- 100 g · Arroz blanco, crudo
+- 200 g · Agua del grifo
+- 150 g · Tofu natural, envasado
+- 100 g · Brócoli, crudo
+- 80 g · Zanahoria, cruda
+- 20 g · Salsa de soja, envasada
+- 5 g · Sésamo, grano
+
+**Preparación**
+
+1. Cuece 100 g de arroz con 200 g de agua, tapado, 15 minutos.
+2. Corta 150 g de tofu en dados y dóralos en una sartén antiadherente 6 minutos. Añade 20 g de salsa de soja.
+3. Cuece al vapor 100 g de brócoli en ramitos 5 minutos y ralla 80 g de zanahoria.
+4. Reparte el arroz en dos cuencos y coloca encima el tofu, el brócoli y la zanahoria. Espolvorea 5 g de sésamo.
+
+## 848. Pasta con crema de almendras y espinacas, cocinada
+
+`pasta-crema-almendras` · Platos preparados · 4 raciones de 252 g · 25 min · por ración: 447 kcal, P 14,4 g, C 57,7 g, G 15,6 g
+
+**Ingredientes** (lote de 1006 g cocinado)
+
+- 300 g · Pasta seca, estándar, cruda
+- 540 g · Agua del grifo
+- 80 g · Almendra, pelada, sin sal añadida
+- 150 g · Espinaca, cruda
+- 5 g · Ajo, crudo
+- 15 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 300 g de pasta en agua hirviendo con sal el tiempo del paquete. Guarda un vaso del agua y escúrrela: absorbe unos 540 g de agua.
+2. Tritura 80 g de almendras con 5 g de ajo, la sal y un poco del agua de cocción hasta tener una crema fina.
+3. Saltea 150 g de espinacas en 15 g de aceite 2 minutos.
+4. Mezcla la pasta con la crema y las espinacas, aclarando con agua de cocción si hace falta.
+
+## 849. Ensalada de quinoa con aguacate y maíz, lista para consumir
+
+`ensalada-quinoa-aguacate` · Platos preparados · 2 raciones de 286 g · 25 min · por ración: 391 kcal, P 8,6 g, C 36,5 g, G 21,5 g
+
+**Ingredientes** (lote de 572 g cocinado)
+
+- 100 g · Quinua, cruda
+- 200 g · Agua del grifo
+- 100 g · Aguacate, pulpa sin piel, sin hueso, crudo
+- 100 g · Tomate redondo, crudo
+- 60 g · Maíz dulce, en conserva, escurrido
+- 15 g · Aceite de oliva virgen extra
+- 15 g · Limón verde o lima, pulpa sin piel, sin pepitas, cruda
+
+**Preparación**
+
+1. Lava 100 g de quinoa y cuécela con 200 g de agua, tapada, 15 minutos. Deja que se enfríe.
+2. Corta en dados 100 g de aguacate y 100 g de tomate y escurre 60 g de maíz.
+3. Mezcla todo y aliña con 15 g de aceite y 15 g de zumo de lima.
+
+## 850. Espárragos trigueros con pechuga de pollo a la plancha, cocinados
+
+`pechuga-esparragos` · Platos preparados · 1 ración de 350 g · 20 min · por ración: 359 kcal, P 51,8 g, C 4 g, G 13,6 g
+
+**Ingredientes** (lote de 350 g cocinado)
+
+- 200 g · Pollo, pechuga sin piel cruda
+- 200 g · Espárrago verde, crudo
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Quita la parte dura a 200 g de espárragos trigueros.
+2. Hazlos a la plancha con la mitad del aceite 5 minutos, dándoles la vuelta.
+3. Haz 200 g de pechuga de pollo a la plancha con el resto del aceite y la sal, 4 o 5 minutos por cada lado.
+
+## 851. Pavo con quinoa y brócoli, cocinado
+
+`pavo-quinoa-brocoli` · Platos preparados · 2 raciones de 260 g · 30 min · por ración: 293 kcal, P 30,5 g, C 22 g, G 7,9 g
+
+**Ingredientes** (lote de 520 g cocinado)
+
+- 200 g · Pavo, escalopa cruda
+- 70 g · Quinua, cruda
+- 150 g · Agua del grifo
+- 150 g · Brócoli, crudo
+- 8 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Lava 70 g de quinoa y cuécela con 150 g de agua, tapada, 15 minutos.
+2. Cuece al vapor 150 g de brócoli en ramitos 5 minutos.
+3. Haz 200 g de escalopes de pavo a la plancha con 8 g de aceite, 3 minutos por cada lado.
+4. Reparte la quinoa, el brócoli y el pavo en dos platos o táperes.
+
+*Notas:* Ajusta la sal al gusto: la formulación no la lleva.
+
+## 852. Ensalada de atún, huevo y garbanzos, lista para consumir
+
+`ensalada-atun-huevo-garbanzos` · Platos preparados · 2 raciones de 265 g · 20 min · por ración: 305 kcal, P 28,3 g, C 13,1 g, G 14,5 g
+
+**Ingredientes** (lote de 529 g cocinado)
+
+- 120 g · Atún, al natural, en conserva, escurrido
+- 100 g · Huevo crudo
+- 150 g · Garbanzo, en conserva, escurrido
+- 80 g · Lechuga, cruda
+- 80 g · Tomate redondo, crudo
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Cuece 100 g de huevo (2 huevos pequeños) 10 minutos, pélalos y córtalos en cuartos.
+2. Escurre 150 g de garbanzos cocidos y 120 g de atún al natural.
+3. Trocea 80 g de lechuga y 80 g de tomate.
+4. Mezcla todo y aliña con 10 g de aceite.
+
+## 853. Merluza con espinacas, cocinada
+
+`merluza-espinacas` · Platos preparados · 1 ración de 393 g · 20 min · por ración: 363 kcal, P 49,4 g, C 6,2 g, G 14,3 g
+
+**Ingredientes** (lote de 393 g cocinado)
+
+- 250 g · Merluza, cruda
+- 200 g · Espinaca, cruda
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Saltea 200 g de espinacas en la mitad del aceite 3 minutos, hasta que reduzcan.
+2. Haz 250 g de merluza a la plancha con el resto del aceite y la sal, 3 o 4 minutos por cada lado.
+3. Sirve la merluza sobre las espinacas.
+
+## 854. Salmón con espárragos al horno, horneado
+
+`salmon-esparragos-horno` · Platos preparados · 1 ración de 346 g · 25 min · por ración: 480 kcal, P 46 g, C 4 g, G 30,4 g
+
+**Ingredientes** (lote de 346 g cocinado)
+
+- 200 g · Salmón, de cría, crudo
+- 200 g · Espárrago verde, crudo
+- 5 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Quita la parte dura a 200 g de espárragos trigueros.
+2. Colócalos en una fuente con 200 g de salmón, riega con 5 g de aceite y sazona.
+3. Hornea 12 o 15 minutos, hasta que el salmón esté hecho.
+
+## 855. Sepia a la plancha con ensalada, cocinada
+
+`sepia-plancha-ensalada` · Platos preparados · 1 ración de 393 g · 20 min · por ración: 313 kcal, P 42,4 g, C 5,9 g, G 13,2 g
+
+**Ingredientes** (lote de 393 g cocinado)
+
+- 250 g · Sepia, cruda
+- 100 g · Lechuga, cruda
+- 100 g · Tomate redondo, crudo
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 250 g de sepia y córtala en trozos o tiras.
+2. Hazla a la plancha muy caliente con la mitad del aceite y la sal 4 o 5 minutos.
+3. Trocea 100 g de lechuga y 100 g de tomate y aliña con el resto del aceite.
+
+## 856. Pizza con base de coliflor, horneada
+
+`pizza-coliflor` · Platos preparados · 2 raciones de 308 g · 60 min · por ración: 343 kcal, P 25,7 g, C 6,6 g, G 22,7 g
+
+**Ingredientes** (lote de 615 g cocinado)
+
+- 500 g · Coliflor, cruda
+- 60 g · Huevo crudo
+- 150 g · Mozzarella de leche de vaca
+- 80 g · Tomate, pelado, en conserva, escurrido
+- 30 g · Queso Parmesano
+
+**Preparación**
+
+1. Ralla 500 g de coliflor y cuécela en el microondas 5 minutos. Ponla en un paño y escúrrela apretando mucho, hasta que no suelte agua.
+2. Precalienta el horno a 220 °C. Mézclala con 60 g de huevo (1 huevo) y 30 g de parmesano rallado.
+3. Extiende la masa en una bandeja con papel en un círculo de 1 cm y hornéala 20 minutos, hasta que esté dorada.
+4. Cubre con 80 g de tomate triturado y 150 g de mozzarella y hornea 8 minutos más.
+
+## 857. Espaguetis de calabacín con boloñesa, cocinados
+
+`espaguetis-calabacin-bolonesa` · Platos preparados · 3 raciones de 281 g · 35 min · por ración: 304 kcal, P 22,8 g, C 5,5 g, G 20,6 g
+
+**Ingredientes** (lote de 844 g cocinado)
+
+- 400 g · Calabacín, pulpa y piel, crudo
+- 300 g · Vacuno, carne picada 15 % MG, cruda
+- 250 g · Tomate, pelado, en conserva, escurrido
+- 60 g · Cebolla, cruda
+- 15 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 60 g de cebolla y sofríela en 15 g de aceite 5 minutos. Añade 300 g de carne picada y cocina 8 minutos.
+2. Añade 250 g de tomate pelado triturado y la sal y cuece 15 minutos.
+3. Corta 400 g de calabacín en espiral o en tiras finas con un pelador.
+4. Saltéalo en una sartén caliente 2 minutos, solo para templarlo, y sírvelo con la salsa.
+
+## 858. Pollo empanado con copos de maíz, horneado
+
+`pollo-copos-maiz` · Platos preparados · 3 raciones de 160 g · 35 min · por ración: 333 kcal, P 35,6 g, C 21,4 g, G 10,9 g
+
+**Ingredientes** (lote de 479 g cocinado)
+
+- 400 g · Pollo, pechuga sin piel cruda
+- 80 g · Copos de maíz al natural, enriquecidos con vitaminas y minerales
+- 60 g · Huevo crudo
+- 20 g · Aceite de oliva virgen extra
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Corta 400 g de pechuga de pollo en tiras y sálalas.
+2. Tritura un poco 80 g de copos de maíz, sin hacerlos polvo.
+3. Pasa las tiras por 60 g de huevo (1 huevo) batido y luego por los copos, apretando.
+4. Colócalas en una bandeja, rocíalas con 20 g de aceite y hornéalas 18 minutos, dándoles la vuelta a mitad.
+
+## 859. Minipizzas de hojaldre, horneadas
+
+`mini-pizzas-hojaldre` · Platos preparados · 3 raciones de 129 g · 25 min · por ración: 408 kcal, P 10,1 g, C 36,3 g, G 24,1 g
+
+**Ingredientes** (lote de 388 g cocinado)
+
+- 250 g · Masa de hojaldre, grasa vegetal, envasada, cruda
+- 80 g · Tomate, pelado, en conserva, escurrido
+- 100 g · Mozzarella de leche de vaca
+- 1 g · Orégano, deshidratado
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Estira 250 g de hojaldre y corta unos 12 círculos de 7 cm.
+2. Pon en cada uno un poco de los 80 g de tomate triturado, un trozo de los 100 g de mozzarella y una pizca de orégano.
+3. Hornéalas 15 minutos, hasta que estén hinchadas y doradas.
+
+*Notas:* Salen unas 12: 4 por ración.
+
+## 860. Palomitas de pollo rebozadas, fritas
+
+`palomitas-pollo` · Platos preparados · 3 raciones de 171 g · 30 min · por ración: 433 kcal, P 36,5 g, C 22,5 g, G 21 g
+
+**Ingredientes** (lote de 513 g cocinado)
+
+- 400 g · Pollo, pechuga sin piel cruda
+- 30 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 60 g · Huevo crudo
+- 60 g · Pan rallado
+- 50 g · Aceite de girasol
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 400 g de pechuga de pollo en dados pequeños y sálalos.
+2. Pásalos por 30 g de harina, luego por 60 g de huevo (1 huevo) batido y por último por 60 g de pan rallado.
+3. Fríelos por tandas en aceite caliente 3 minutos, hasta que estén dorados. Escúrrelos.
+
+*Notas:* Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 861. Puré de calabaza y patata (triturado infantil), cocido
+
+`pure-calabaza-patata-bebe` · Platos preparados · 2 raciones de 227 g · 30 min · por ración: 103 kcal, P 2,6 g, C 15,7 g, G 2,7 g
+
+**Ingredientes** (lote de 454 g cocinado)
+
+- 200 g · Calabaza, cruda
+- 150 g · Patata, sin piel, cruda
+- 150 g · Agua del grifo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Pela 200 g de calabaza y 150 g de patata y córtalas en trozos.
+2. Cuécelas en 150 g de agua, tapadas, 20 minutos, hasta que estén muy tiernas.
+3. Tritúralas con su agua y 5 g de aceite en crudo hasta que quede muy fino.
+
+*Notas:* Para bebés no lleva sal. Se puede congelar en raciones.
+
+## 862. Puré de pollo con arroz y zanahoria (triturado infantil), cocido
+
+`pure-pollo-arroz-bebe` · Platos preparados · 2 raciones de 211 g · 35 min · por ración: 131 kcal, P 10,7 g, C 13,7 g, G 3,3 g
+
+**Ingredientes** (lote de 421 g cocinado)
+
+- 80 g · Pollo, pechuga sin piel cruda
+- 30 g · Arroz blanco, crudo
+- 80 g · Zanahoria, cruda
+- 300 g · Agua del grifo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 80 g de pechuga de pollo y 80 g de zanahoria pelada en trozos.
+2. Cuécelos con 30 g de arroz en 300 g de agua, tapados, 25 minutos, hasta que todo esté muy tierno.
+3. Tritúralo con su caldo y 5 g de aceite en crudo hasta que quede muy fino.
+
+*Notas:* Para bebés no lleva sal. Se puede congelar en raciones.
+
+## 863. Puré de guisantes y pavo (triturado infantil), cocido
+
+`pure-guisantes-pavo-bebe` · Platos preparados · 2 raciones de 228 g · 30 min · por ración: 164 kcal, P 14,9 g, C 15,2 g, G 3,4 g
+
+**Ingredientes** (lote de 455 g cocinado)
+
+- 150 g · Guisante, congelados, crudos
+- 80 g · Pavo, escalopa cruda
+- 100 g · Patata, sin piel, cruda
+- 200 g · Agua del grifo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 80 g de pavo y 100 g de patata pelada en trozos.
+2. Cuécelos con 150 g de guisantes en 200 g de agua, tapados, 20 minutos.
+3. Tritúralo con su caldo y 5 g de aceite en crudo y pásalo por un colador para quitar las pieles de los guisantes.
+
+*Notas:* Para bebés no lleva sal. Se puede congelar en raciones.
+
+## 864. Puré de boniato y pollo (triturado infantil), cocido
+
+`pure-boniato-pollo-bebe` · Platos preparados · 2 raciones de 206 g · 30 min · por ración: 148 kcal, P 11 g, C 17,1 g, G 3,2 g
+
+**Ingredientes** (lote de 412 g cocinado)
+
+- 200 g · Boniato, crudo
+- 80 g · Pollo, pechuga sin piel cruda
+- 200 g · Agua del grifo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Pela 200 g de boniato y córtalo en trozos con 80 g de pechuga de pollo.
+2. Cuécelos en 200 g de agua, tapados, 20 minutos.
+3. Tritúralo con su caldo y 5 g de aceite en crudo hasta que quede muy fino.
+
+*Notas:* Para bebés no lleva sal. Se puede congelar en raciones.
+
+## 865. Puré de cordero con verduras (triturado infantil), cocido
+
+`pure-cordero-verduras-bebe` · Platos preparados · 2 raciones de 270 g · 50 min · por ración: 149 kcal, P 9,9 g, C 15 g, G 4,8 g
+
+**Ingredientes** (lote de 540 g cocinado)
+
+- 80 g · Cordero, pierna cruda
+- 150 g · Patata, sin piel, cruda
+- 100 g · Zanahoria, cruda
+- 300 g · Agua del grifo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 80 g de pierna de cordero sin grasa en dados pequeños y cuécelos en 300 g de agua, tapados, 20 minutos.
+2. Añade 150 g de patata y 100 g de zanahoria peladas y troceadas y cuece 20 minutos más.
+3. Tritúralo con su caldo y 5 g de aceite en crudo hasta que quede muy fino.
+
+*Notas:* Para bebés no lleva sal. Se puede congelar en raciones.
+
+## 866. Volovanes rellenos de marisco, horneados
+
+`volovanes-marisco` · Platos preparados · 4 raciones de 133 g · 45 min · por ración: 321 kcal, P 12,2 g, C 28,8 g, G 17,1 g
+
+**Ingredientes** (lote de 533 g cocinado)
+
+- 200 g · Masa de hojaldre, grasa vegetal, envasada, cruda
+- 150 g · Gamba o langostino, crudo
+- 200 g · Leche entera, UHT
+- 20 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Corta 200 g de hojaldre en 8 círculos; a la mitad, quítales el centro para hacer aros. Coloca los aros sobre los círculos.
+2. Hornéalos 15 minutos, hasta que estén hinchados y dorados.
+3. Funde 20 g de mantequilla, añade 20 g de harina y remueve 1 minuto. Vierte 200 g de leche con la sal y cuece 6 minutos, removiendo.
+4. Añade 150 g de gambas peladas y troceadas y cuece 2 minutos.
+5. Rellena los volovanes con la crema y sírvelos calientes.
+
+*Notas:* Salen 4 volovanes: 1 por ración.
+
+## 867. Ensalada de bogavante, lista para consumir
+
+`ensalada-bogavante` · Platos preparados · 2 raciones de 347 g · 30 min · por ración: 348 kcal, P 45,8 g, C 10 g, G 13,2 g
+
+**Ingredientes** (lote de 694 g cocinado)
+
+- 500 g · Bogavante, crudo
+- 100 g · Lechuga, cruda
+- 100 g · Mango, pulpa sin piel, sin hueso, cruda
+- 20 g · Aceite de oliva virgen extra
+- 10 g · Vinagre de vino tinto
+
+**Preparación**
+
+1. Cuece un bogavante (500 g de carne, unos 800 g entero) en agua hirviendo con sal 10 minutos. Enfríalo en agua con hielo.
+2. Sácale la carne de la cola y las pinzas y córtala en medallones.
+3. Trocea 100 g de lechuga y corta en dados 100 g de mango.
+4. Coloca todo y aliña con 20 g de aceite y 10 g de vinagre.
+
+*Notas:* Los 500 g son de carne de bogavante, sin caparazón.
+
+## 868. Merluza rellena de marisco, horneada
+
+`merluza-rellena-marisco` · Platos preparados · 5 raciones de 215 g · 60 min · por ración: 272 kcal, P 36 g, C 6,6 g, G 11,3 g
+
+**Ingredientes** (lote de 1076 g cocinado)
+
+- 800 g · Merluza, cruda
+- 150 g · Gamba o langostino, crudo
+- 50 g · Cebolla, cruda
+- 200 g · Leche entera, UHT
+- 20 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 20 g · Aceite de oliva virgen extra
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Abre 800 g de merluza en libro y quítale la espina central, o usa dos lomos grandes.
+2. Pica 50 g de cebolla y pochala en 20 g de mantequilla 5 minutos. Añade 20 g de harina y remueve 1 minuto. Vierte 200 g de leche y cuece 6 minutos, removiendo.
+3. Añade 150 g de gambas peladas y picadas y cuece 1 minuto. Deja que se temple.
+4. Precalienta el horno a 190 °C. Sazona la merluza, rellénala, ciérrala y colócala en una fuente.
+5. Riégala con 20 g de aceite y hornéala 20 minutos.
+
+## 869. Tortillitas de bacalao, fritas
+
+`tortillitas-bacalao` · Platos preparados · 4 raciones de 157 g · 30 min · por ración: 408 kcal, P 20,1 g, C 29 g, G 23,2 g
+
+**Ingredientes** (lote de 629 g cocinado)
+
+- 300 g · Bacalao, crudo
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Huevo crudo
+- 5 g · Perejil, fresco
+- 5 g · Ajo, crudo
+- 100 g · Agua del grifo
+- 80 g · Aceite de girasol
+
+**Preparación**
+
+1. Desmiga muy fino 300 g de bacalao desalado sin piel ni espinas.
+2. Mezcla 150 g de harina con 100 g de huevo (2 huevos pequeños) y 100 g de agua hasta tener una masa espesa.
+3. Añade el bacalao, 5 g de ajo y 5 g de perejil picados.
+4. Fríe cucharadas de masa en aceite caliente, aplastándolas, 2 minutos por cada lado. Escúrrelas.
+
+*Notas:* Salen unas 16 tortillitas: 4 por ración. Los 80 g de aceite son los que retienen al freír; en la sartén hace falta más. El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo.
+
+## 870. Soldaditos de Pavía, fritos
+
+`soldaditos-pavia` · Platos preparados · 4 raciones de 147 g · 40 min · por ración: 289 kcal, P 20 g, C 16,1 g, G 15,9 g
+
+**Ingredientes** (lote de 588 g cocinado)
+
+- 400 g · Bacalao, crudo
+- 80 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Agua del grifo
+- 2 g · Pimentón, polvo
+- 60 g · Aceite de girasol
+- 50 g · Pimiento rojo, crudo
+
+**Preparación**
+
+1. Corta 400 g de bacalao desalado en tiras de 2 cm, sin piel ni espinas. Sécalas.
+2. Mezcla 80 g de harina con 100 g de agua fría y 2 g de pimentón hasta tener una masa fina.
+3. Pasa las tiras por la masa y fríelas en aceite caliente 3 minutos, hasta que estén doradas. Escúrrelas.
+4. Asa o fríe 50 g de pimiento rojo en tiras y coloca una sobre cada soldadito.
+
+*Notas:* Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más. El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo.
+
+## 871. Cazuela de vigilia (patatas con bacalao y huevo), cocinada
+
+`cazuela-vigilia` · Platos preparados · 4 raciones de 312 g · 50 min · por ración: 322 kcal, P 20,8 g, C 26 g, G 13,8 g
+
+**Ingredientes** (lote de 1246 g cocinado)
+
+- 600 g · Patata, sin piel, cruda
+- 300 g · Bacalao, crudo
+- 120 g · Huevo crudo
+- 100 g · Cebolla, cruda
+- 40 g · Aceite de oliva virgen extra
+- 3 g · Pimentón, polvo
+- 300 g · Agua del grifo
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 120 g de huevo (2 huevos) 10 minutos, pélalos y córtalos en cuartos.
+2. Pica 100 g de cebolla y sofríela en 40 g de aceite 8 minutos. Retira del fuego y añade 3 g de pimentón.
+3. Añade 600 g de patata pelada en trozos cascados, 300 g de agua y la sal y cuece 20 minutos.
+4. Añade 300 g de bacalao desalado en trozos y cuece 5 minutos. Sirve con el huevo.
+
+*Notas:* El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo.
+
+## 872. Empanadillas de bacalao, fritas
+
+`empanadillas-bacalao` · Platos preparados · 5 raciones de 157 g · 75 min · por ración: 418 kcal, P 11,8 g, C 40,3 g, G 22,8 g
+
+**Ingredientes** (lote de 783 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 50 g · Aceite de oliva virgen extra
+- 100 g · Agua del grifo
+- 200 g · Bacalao, crudo
+- 150 g · Tomate redondo, crudo
+- 80 g · Cebolla, cruda
+- 60 g · Aceite de girasol
+
+**Preparación**
+
+1. Mezcla 250 g de harina con 50 g de aceite de oliva y 100 g de agua templada y amasa hasta que esté lisa. Déjala reposar 20 minutos.
+2. Pica 80 g de cebolla y sofríela en una sartén antiadherente 6 minutos. Añade 150 g de tomate rallado y cocina 8 minutos. Añade 200 g de bacalao desalado desmigado y cocina 3 minutos. Deja que se enfríe.
+3. Estira la masa fina y corta unos 20 círculos de 10 cm.
+4. Rellénalos, dóblalos y sella el borde con un tenedor.
+5. Fríelos en aceite de girasol caliente 2 minutos por cada lado y escúrrelos.
+
+*Notas:* Salen unas 20 empanadillas: 4 por ración. Los 60 g de girasol son los que retienen al freír. El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo.
+
+## 873. Ajo caliente (sopa de tomate y pan), cocinado
+
+`ajo-caliente` · Platos preparados · 3 raciones de 262 g · 30 min · por ración: 400 kcal, P 6,5 g, C 44 g, G 21,3 g
+
+**Ingredientes** (lote de 787 g cocinado)
+
+- 200 g · Pan blanco (p. ej. baguette, hogaza)
+- 300 g · Tomate redondo, crudo
+- 100 g · Pimiento verde, crudo
+- 10 g · Ajo, crudo
+- 60 g · Aceite de oliva virgen extra
+- 200 g · Agua del grifo
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 10 g de ajo, 100 g de pimiento verde y 300 g de tomate.
+2. Sofríelos en 60 g de aceite 10 minutos, aplastándolos.
+3. Añade 200 g de agua y la sal y cuece 5 minutos.
+4. Añade 200 g de pan del día anterior en trozos y remueve a fuego suave hasta tener una pasta espesa.
+
+*Notas:* Plato riojano y castellano; se come caliente.
+
+## 874. Cachorreñas (sopa de naranja y bacalao), cocinada
+
+`cachorrenas` · Platos preparados · 4 raciones de 285 g · 35 min · por ración: 259 kcal, P 8,1 g, C 25,8 g, G 13,2 g
+
+**Ingredientes** (lote de 1138 g cocinado)
+
+- 150 g · Pan blanco (p. ej. baguette, hogaza)
+- 10 g · Ajo, crudo
+- 50 g · Aceite de oliva virgen extra
+- 150 g · Zumo de naranja, fresco
+- 100 g · Bacalao, crudo
+- 800 g · Agua del grifo
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Dora 10 g de ajo laminado en 50 g de aceite y añade 150 g de pan en rebanadas finas; tuéstalo 2 minutos.
+2. Añade 800 g de agua con la sal y 100 g de bacalao desalado desmigado y cuece 15 minutos.
+3. Retira del fuego y añade 150 g de zumo de naranja.
+4. Sirve enseguida.
+
+*Notas:* Sopa típica de Málaga. El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo.
+
+## 875. Gurullos con conejo, cocinados
+
+`gurullos-conejo` · Platos preparados · 5 raciones de 336 g · 75 min · por ración: 414 kcal, P 25,5 g, C 31,2 g, G 20,4 g
+
+**Ingredientes** (lote de 1680 g cocinado)
+
+- 200 g · Pasta seca, estándar, cruda
+- 500 g · Conejo, carne cruda
+- 150 g · Tomate redondo, crudo
+- 80 g · Pimiento verde, crudo
+- 40 g · Aceite de oliva virgen extra
+- 1000 g · Agua del grifo
+- 7 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 500 g de conejo, sazónalo con parte de la sal y dóralo en 40 g de aceite 10 minutos.
+2. Añade 80 g de pimiento verde picado y sofríe 5 minutos. Añade 150 g de tomate rallado y cocina 5 minutos.
+3. Vierte 1.000 g de agua con el resto de la sal y cuece 30 minutos.
+4. Añade 200 g de gurullos (o pasta corta pequeña) y cuece 12 minutos, hasta que estén hechos y quede caldoso.
+
+*Notas:* Los gurullos son una pasta almeriense hecha a mano; la formulación usa pasta seca.
+
+## 876. Empanada de zamburiñas, horneada
+
+`empanada-zamburinas` · Platos preparados · 8 raciones de 137 g · 120 min · por ración: 313 kcal, P 11,4 g, C 40,8 g, G 10,9 g
+
+**Ingredientes** (lote de 1096 g cocinado)
+
+- 400 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 80 g · Aceite de oliva virgen extra
+- 150 g · Agua del grifo
+- 10 g · Levadura de panadero fresca
+- 300 g · Vieira, noix, cruda
+- 200 g · Cebolla, cruda
+- 100 g · Pimiento verde, crudo
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Disuelve 10 g de levadura en 150 g de agua templada. Mézclala con 400 g de harina, 40 g del aceite y parte de la sal y amasa. Deja reposar tapada 45 minutos.
+2. Corta en tiras 200 g de cebolla y 100 g de pimiento verde y pochalos en el resto del aceite 20 minutos.
+3. Añade 300 g de zamburiñas limpias y el resto de la sal y saltea 2 minutos. Deja que se enfríe.
+4. Precalienta el horno a 190 °C. Divide la masa en dos, estira una mitad en una bandeja y extiende el relleno.
+5. Cubre con la otra mitad, sella los bordes, haz un agujero en el centro y hornea 35 minutos.
+
+*Notas:* La formulación usa vieira; la zamburiña es muy parecida.
+
+## 877. Pitu de caleya (pollo de corral guisado), cocinado
+
+`pitu-caleya` · Platos preparados · 6 raciones de 268 g · 150 min · por ración: 451 kcal, P 43,6 g, C 3,3 g, G 27,6 g
+
+**Ingredientes** (lote de 1606 g cocinado)
+
+- 1200 g · Pollo, carne y piel cruda
+- 200 g · Cebolla, cruda
+- 100 g · Pimiento verde, crudo
+- 150 g · Vino blanco seco
+- 50 g · Aceite de oliva virgen extra
+- 300 g · Agua del grifo
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 1.200 g de pollo de corral, sazónalo con parte de la sal y dóralo en 50 g de aceite por tandas. Sácalo.
+2. Pica 200 g de cebolla y 100 g de pimiento verde y pochalos 15 minutos.
+3. Vuelve a poner el pollo, vierte 150 g de vino blanco y deja que se evapore.
+4. Añade 300 g de agua y el resto de la sal, tapa y cuece a fuego muy suave 1 hora y media, hasta que esté tierno. Tritura la salsa si quieres.
+
+*Notas:* El pollo de corral necesita mucho más tiempo que uno de granja. Los 1.200 g son de carne sin huesos.
+
+## 878. Cocido lebaniego, cocido
+
+`cocido-lebaniego` · Platos preparados · 7 raciones de 387 g · 210 min · por ración: 399 kcal, P 24,1 g, C 21,7 g, G 22,4 g
+
+**Ingredientes** (lote de 2710 g cocinado)
+
+- 300 g · Garbanzo, seco
+- 100 g · Chorizo
+- 100 g · Morcilla negra, para cocinar
+- 80 g · Cerdo, tocino descarnado crudo
+- 300 g · Repollo verde, crudo
+- 300 g · Ternera, morcillo, crudo
+- 2000 g · Agua del grifo
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pon en una olla 300 g de garbanzos remojados, 300 g de morcillo, 80 g de tocino y 2.000 g de agua caliente. Cuece a fuego suave 2 horas y media, quitando la espuma.
+2. Añade 100 g de chorizo y 100 g de morcilla y cuece 20 minutos.
+3. Cuece aparte 300 g de repollo en agua con sal 20 minutos y escúrrelo.
+4. Sirve los garbanzos con su caldo, el repollo y las carnes troceadas. Añade la sal al final.
+
+*Notas:* Los garbanzos se ponen en remojo la noche antes; el remojo no cuenta en el tiempo. Tradicionalmente se hace con garbanzos de Potes.
+
+## 879. Caracoles a la llauna, asados
+
+`caracoles-llauna` · Platos preparados · 4 raciones de 141 g · 60 min · por ración: 211 kcal, P 24,4 g, C 2,7 g, G 11,4 g
+
+**Ingredientes** (lote de 565 g cocinado)
+
+- 600 g · Caracol, crudo
+- 15 g · Ajo, crudo
+- 40 g · Aceite de oliva virgen extra
+- 5 g · Perejil, fresco
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Lava 600 g de caracoles purgados varias veces en agua con sal hasta que no suelten babas.
+2. Colócalos en una bandeja de horno o llauna con la abertura hacia arriba y espolvoréalos con la sal.
+3. Ásalos en el horno a 220 °C o a la brasa 20 minutos.
+4. Machaca 15 g de ajo y 5 g de perejil con 40 g de aceite y riégalos 5 minutos antes de terminar.
+
+*Notas:* Los 600 g son de caracoles con concha. Tradicionalmente se sirven con alioli, que no está incluido.
+
+## 880. Olleta alicantina, cocida
+
+`olleta-alicantina` · Platos preparados · 7 raciones de 329 g · 150 min · por ración: 236 kcal, P 13,6 g, C 31,5 g, G 4,6 g
+
+**Ingredientes** (lote de 2302 g cocinado)
+
+- 200 g · Judía blanca, seca
+- 100 g · Arroz blanco, crudo
+- 100 g · Lenteja, seca (promedio)
+- 200 g · Acelga, tallo sin hojas, crudo
+- 200 g · Calabaza, cruda
+- 100 g · Morcilla negra, para cocinar
+- 1800 g · Agua del grifo
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pon 200 g de alubias blancas remojadas en 1.800 g de agua fría y cuece a fuego suave 1 hora.
+2. Añade 100 g de lentejas lavadas, 200 g de calabaza en dados y 200 g de pencas de acelga en trozos y cuece 30 minutos.
+3. Añade 100 g de morcilla y 100 g de arroz y la sal y cuece 18 minutos más.
+4. Deja reposar 5 minutos antes de servir.
+
+*Notas:* Las alubias se ponen en remojo la noche antes; el remojo no cuenta en el tiempo.
+
+## 881. Romesco de pescado, cocinado
+
+`romesco-pescado` · Platos preparados · 4 raciones de 313 g · 60 min · por ración: 411 kcal, P 36,1 g, C 8 g, G 25,4 g
+
+**Ingredientes** (lote de 1250 g cocinado)
+
+- 500 g · Rape, crudo
+- 300 g · Merluza, cruda
+- 40 g · Almendra, pelada, sin sal añadida
+- 20 g · Avellana, sin sal añadida
+- 200 g · Tomate redondo, crudo
+- 10 g · Ajo, crudo
+- 4 g · Pimentón, polvo
+- 30 g · Pan blanco (p. ej. baguette, hogaza)
+- 60 g · Aceite de oliva virgen extra
+- 300 g · Agua del grifo
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Fríe en 30 g del aceite 40 g de almendras, 20 g de avellanas, 10 g de ajo y 30 g de pan hasta que estén dorados. Sácalos.
+2. En el mismo aceite, sofríe 200 g de tomate rallado 8 minutos. Retira del fuego y añade 4 g de pimentón.
+3. Tritura el sofrito con los frutos secos, el pan y el ajo y un poco de agua.
+4. Pon la salsa en una cazuela con el resto del aceite, 300 g de agua y la sal y cuece 5 minutos.
+5. Añade 500 g de rape y 300 g de merluza en trozos y cuece 8 minutos, moviendo la cazuela.
+
+*Notas:* Tradicionalmente lleva ñoras, que no están incluidas.
+
+## 882. Arroz brut mallorquín, cocinado
+
+`arroz-brut` · Platos preparados · 6 raciones de 395 g · 150 min · por ración: 529 kcal, P 29,9 g, C 46,5 g, G 24,2 g
+
+**Ingredientes** (lote de 2370 g cocinado)
+
+- 300 g · Arroz blanco, crudo
+- 300 g · Pollo, carne y piel cruda
+- 200 g · Conejo, carne cruda
+- 200 g · Cerdo, costillas crudas
+- 80 g · Garbanzo, seco
+- 150 g · Tomate redondo, crudo
+- 50 g · Aceite de oliva virgen extra
+- 1500 g · Agua del grifo
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 80 g de garbanzos remojados en agua 1 hora y escúrrelos.
+2. Trocea 300 g de pollo, 200 g de conejo y 200 g de costillas y dóralos en 50 g de aceite 12 minutos.
+3. Añade 150 g de tomate rallado y cocina 5 minutos. Vierte 1.500 g de agua con la sal y los garbanzos y cuece 30 minutos.
+4. Añade 300 g de arroz y cuece 18 minutos: debe quedar caldoso.
+
+*Notas:* Los garbanzos se ponen en remojo la noche antes; el remojo no cuenta en el tiempo. Tradicionalmente lleva setas, sobrasada y especias (canela, clavo), que no están incluidas.
+
+## 883. Puchero canario, cocido
+
+`puchero-canario` · Platos preparados · 8 raciones de 469 g · 180 min · por ración: 282 kcal, P 23,8 g, C 28,1 g, G 6,9 g
+
+**Ingredientes** (lote de 3748 g cocinado)
+
+- 200 g · Garbanzo, seco
+- 300 g · Ternera, morcillo, crudo
+- 300 g · Pollo, carne y piel cruda
+- 300 g · Patata, sin piel, cruda
+- 200 g · Boniato, crudo
+- 200 g · Calabaza, cruda
+- 200 g · Maíz dulce, mazorca, congelado, crudo
+- 200 g · Repollo verde, crudo
+- 2500 g · Agua del grifo
+- 10 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pon en una olla 200 g de garbanzos remojados, 300 g de morcillo, 300 g de pollo y 2.500 g de agua. Cuece a fuego suave 1 hora y media, quitando la espuma.
+2. Añade 200 g de mazorca de maíz en trozos y 200 g de repollo y cuece 20 minutos.
+3. Añade 300 g de patata, 200 g de boniato y 200 g de calabaza, pelados y en trozos grandes, y la sal. Cuece 25 minutos más.
+4. Sirve las verduras y las carnes en una fuente y el caldo aparte.
+
+*Notas:* Los garbanzos se ponen en remojo la noche antes; el remojo no cuenta en el tiempo. El caldo se suele tomar con gofio, que no está incluido.
+
+## 884. Arroz con conejo y caracoles, cocinado
+
+`arroz-conejo-caracoles` · Platos preparados · 6 raciones de 355 g · 75 min · por ración: 499 kcal, P 27,3 g, C 54 g, G 19 g
+
+**Ingredientes** (lote de 2132 g cocinado)
+
+- 400 g · Arroz blanco, crudo
+- 500 g · Conejo, carne cruda
+- 200 g · Caracol, crudo
+- 150 g · Tomate redondo, crudo
+- 100 g · Pimiento verde, crudo
+- 50 g · Aceite de oliva virgen extra
+- 1100 g · Agua del grifo
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Lava 200 g de caracoles purgados y cuécelos empezando en agua fría 10 minutos. Escúrrelos.
+2. Trocea 500 g de conejo, sazónalo y dóralo en 50 g de aceite en la paella 10 minutos.
+3. Añade 100 g de pimiento verde y sofríe 5 minutos. Añade 150 g de tomate rallado y cocina 5 minutos.
+4. Vierte 1.100 g de agua con el resto de la sal y los caracoles y cuece 15 minutos.
+5. Echa 400 g de arroz repartido y cuece 18 minutos: 10 a fuego fuerte y 8 a fuego suave. Deja reposar 5 minutos.
+
+*Notas:* Los 200 g son de caracoles con concha. Tradicionalmente se aromatiza con romero.
+
+## 885. Carne de cabra guisada, cocinada
+
+`cabra-guisada` · Platos preparados · 5 raciones de 250 g · 150 min · por ración: 334 kcal, P 42 g, C 3,5 g, G 15 g
+
+**Ingredientes** (lote de 1250 g cocinado)
+
+- 1000 g · Chivo, carne cruda
+- 200 g · Tomate redondo, crudo
+- 150 g · Cebolla, cruda
+- 5 g · Pimentón, polvo
+- 150 g · Vino blanco seco
+- 50 g · Aceite de oliva virgen extra
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 1.000 g de carne de cabra, sazónala y dórala en 50 g de aceite por tandas. Sácala.
+2. Pica 150 g de cebolla y pochala 10 minutos. Añade 200 g de tomate rallado y cocina 5 minutos. Retira del fuego y añade 5 g de pimentón.
+3. Vuelve a poner la carne, vierte 150 g de vino blanco y un poco de agua.
+4. Tapa y cuece a fuego suave 2 horas, hasta que esté tierna.
+
+*Notas:* Plato canario. Los 1.000 g son de carne con algo de hueso.
+
+## 886. Judías del Barco, cocidas
+
+`judias-barco` · Platos preparados · 7 raciones de 315 g · 180 min · por ración: 361 kcal, P 20,7 g, C 26,4 g, G 17,2 g
+
+**Ingredientes** (lote de 2202 g cocinado)
+
+- 400 g · Judía blanca, seca
+- 100 g · Chorizo
+- 100 g · Oreja de cerdo en salmuera
+- 80 g · Cerdo, tocino descarnado crudo
+- 100 g · Cebolla, cruda
+- 4 g · Pimentón, polvo
+- 1800 g · Agua del grifo
+- 7 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Desala 100 g de oreja de cerdo en agua fría 2 horas y córtala en trozos.
+2. Pon 400 g de judías del Barco (alubias blancas) remojadas en 1.800 g de agua fría con la oreja, 80 g de tocino y 100 g de cebolla entera. Lleva a ebullición y quita la espuma.
+3. Cuece a fuego muy suave 2 horas, asustándolas con agua fría cuando hiervan fuerte.
+4. Añade 100 g de chorizo en rodajas y 4 g de pimentón desleído en un poco de caldo y cuece 30 minutos más. Añade la sal al final.
+
+*Notas:* Las judías se ponen en remojo la noche antes; ni el remojo ni el desalado cuentan en el tiempo.
+
+## 887. Tiznao (bacalao con pimientos asados), cocinado
+
+`tiznao` · Platos preparados · 4 raciones de 239 g · 60 min · por ración: 258 kcal, P 19,7 g, C 7,5 g, G 16,2 g
+
+**Ingredientes** (lote de 955 g cocinado)
+
+- 400 g · Bacalao, crudo
+- 300 g · Pimiento rojo, crudo
+- 150 g · Cebolla, cruda
+- 10 g · Ajo, crudo
+- 4 g · Pimentón, polvo
+- 60 g · Aceite de oliva virgen extra
+- 200 g · Agua del grifo
+
+**Preparación**
+
+1. Asa 400 g de bacalao desalado en trozos, 300 g de pimiento rojo, 150 g de cebolla y 10 g de ajo enteros en el horno o a la brasa hasta que se tuesten (el bacalao, 10 minutos; las verduras, 30).
+2. Pela y trocea las verduras y desmiga el bacalao sin piel ni espinas.
+3. Ponlo todo en una cazuela de barro con 60 g de aceite y 4 g de pimentón y rehoga 2 minutos.
+4. Añade 200 g de agua y cuece 15 minutos a fuego suave.
+
+*Notas:* Plato manchego. El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo. No lleva sal: el bacalao ya la aporta.

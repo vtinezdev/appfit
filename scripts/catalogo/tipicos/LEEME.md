@@ -1129,7 +1129,7 @@ Gastronomía ni de ninguna otra fuente. Criterios:
   por uso, y lo que se reparte en piezas (croquetas, albóndigas) dice cuántas.
 - Imperativo de tú, cifras en dígitos y unidades del sistema métrico.
 
-Tandas escritas (800 recetas, más los tres pastissets): la 1 (100 habituales: tortillas, legumbres,
+Tandas escritas (884 recetas, más los tres pastissets): la 1 (100 habituales: tortillas, legumbres,
 arroces y pasta, guisos de carne y pescado, verduras, cremas, ensaladas, salsas
 básicas y postres caseros) y la 2 (100 más del mismo repertorio), revisadas por
 Víctor con muestras en la app; la 3 y la 4 (200 platos preparados siguientes en
@@ -1144,4 +1144,7 @@ de Oriente Medio, croquetas y tapas, pescados en salsa, tápers, verduras
 rellenas, arroces, legumbres, cremas, ensaladas y platos combinados) y la 8
 (100 más: regionales, platos combinados de bar, guisos de pollo, cerdo,
 ternera, conejo y cordero, pescados al horno, patatas guisadas, pasta,
-arroces, legumbres, sopas, ensaladas y tex-mex).
+arroces, legumbres, sopas, ensaladas y tex-mex) y la 9 (los 84 platos
+preparados que quedaban: risottos, pizzas, cocina asiática, india y
+marroquí, platos de cocina anglosajona, vegetarianos, triturados infantiles
+y regionales). Con ella, todos los «Platos preparados» tienen pasos.

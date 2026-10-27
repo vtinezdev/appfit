@@ -2852,3 +2852,15 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 **Cómo:** igual que las tandas anteriores, en la rama `feat/recetas-tandas`.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 259. Recetas: tanda 9 de preparaciones (2026-10-27)
+
+**Qué:** pasos de los 84 platos preparados que faltaban. Con esta tanda, todos los «Platos preparados» del catálogo tienen pasos: 887 recetas en total. Entran:
+- risottos y pizzas;
+- cocina asiática, india y marroquí, y platos anglosajones (fish and chips, shepherd's pie, clam chowder);
+- vegetarianos y triturados infantiles;
+- regionales (tortillitas de bacalao, soldaditos de Pavía, gurullos, pitu de caleya, cocido lebaniego, olleta, arroz brut, puchero canario, tiznao…).
+
+**Cómo:** igual que las tandas anteriores, en la rama `feat/recetas-tandas`.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
