@@ -1,6 +1,6 @@
 # Preparaciones de las recetas de típicos
 
-987 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
+1087 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
 
 ## 1. Tortilla de patatas, con cebolla, cuajada
 
@@ -21676,3 +21676,1861 @@
 1. Sala 600 g de lomos de salmón y dóralos en una sartén antiadherente 3 minutos por cada lado. Sácalos.
 2. En la misma sartén, mezcla 40 g de mostaza con 150 g de nata y cuece 3 minutos.
 3. Vuelve a poner el salmón 1 minuto en la salsa.
+
+## 988. Huevo, frito en aceite de oliva
+
+`huevo-frito-aove` · Huevos · 1 ración de 56 g · 5 min · por ración: 120 kcal, P 7,7 g, C 0,1 g, G 9,9 g
+
+**Ingredientes** (lote de 56 g cocinado)
+
+- 60 g · Huevo crudo
+- 4 g · Aceite de oliva virgen extra
+- 0,3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Calienta 4 g de aceite en una sartén antiadherente pequeña a fuego medio.
+2. Casca 60 g de huevo (1 huevo), sálalo y fríelo 2 o 3 minutos, echándole aceite por encima para cuajar la clara sin que la yema se haga.
+
+*Notas:* Frito en poco aceite: con la sartén llena de aceite retiene algo más.
+
+## 989. Huevo con aceite de oliva, a la plancha, cocinado
+
+`huevo-plancha-aove` · Huevos · 1 ración de 58 g · 5 min · por ración: 111 kcal, P 7,7 g, C 0,1 g, G 8,9 g
+
+**Ingredientes** (lote de 58 g cocinado)
+
+- 60 g · Huevo crudo
+- 3 g · Aceite de oliva virgen extra
+- 0,3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Unta una sartén antiadherente con 3 g de aceite y caliéntala a fuego medio.
+2. Casca 60 g de huevo (1 huevo), sálalo, tapa y cuécelo 3 minutos, hasta que la clara esté cuajada.
+
+## 990. Patata cocida con aceite de oliva, cocida
+
+`patata-cocida-aove` · Patatas y tubérculos · 1 ración de 210 g · 25 min · por ración: 250 kcal, P 4 g, C 32,4 g, G 10,2 g
+
+**Ingredientes** (lote de 210 g cocinado)
+
+- 200 g · Patata, sin piel, cruda
+- 10 g · Aceite de oliva virgen extra
+- 1,5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pela 200 g de patata y córtala en trozos.
+2. Cuécela en agua con la sal 18 minutos, hasta que esté tierna.
+3. Escúrrela y aliña con 10 g de aceite en crudo.
+
+## 991. Patatas fritas caseras en aceite de oliva, fritas
+
+`patatas-fritas-aove` · Patatas y tubérculos · 2 raciones de 165 g · 30 min · por ración: 425 kcal, P 5,1 g, C 40,5 g, G 25,2 g
+
+**Ingredientes** (lote de 330 g cocinado)
+
+- 500 g · Patata, sin piel, cruda
+- 50 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 500 g de patata pelada en bastones, lávalos y sécalos muy bien.
+2. Fríelos en aceite de oliva a 160 °C 8 minutos, hasta que estén tiernos. Sácalos.
+3. Sube el aceite a 190 °C y vuelve a freírlos 2 o 3 minutos, hasta que estén dorados. Escúrrelos y sálalos.
+
+*Notas:* Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 992. Parrillada de verduras, a la plancha, cocinada
+
+`parrillada-verduras` · Verduras y hortalizas · 3 raciones de 233 g · 30 min · por ración: 191 kcal, P 4 g, C 9,4 g, G 14,2 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 200 g · Calabacín, pulpa y piel, crudo
+- 200 g · Berenjena, cruda
+- 150 g · Pimiento rojo, crudo
+- 100 g · Cebolla, cruda
+- 100 g · Champiñón de París o champiñón cultivado, crudo
+- 100 g · Espárrago verde, crudo
+- 40 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 200 g de calabacín y 200 g de berenjena en rodajas de 1 cm, 150 g de pimiento rojo en tiras y 100 g de cebolla en rodajas. Limpia 100 g de champiñones y 100 g de espárragos.
+2. Úntalas con 30 g del aceite y la sal.
+3. Hazlas en una plancha muy caliente por tandas, 3 o 4 minutos por cada lado.
+4. Sirve con el resto del aceite por encima.
+
+## 993. Brócoli al vapor con aceite de oliva, cocido
+
+`brocoli-vapor-aove` · Verduras y hortalizas · 2 raciones de 150 g · 15 min · por ración: 93 kcal, P 4,4 g, C 3,3 g, G 5,6 g
+
+**Ingredientes** (lote de 300 g cocinado)
+
+- 300 g · Brócoli, crudo
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Separa 300 g de brócoli en ramitos.
+2. Cuécelo al vapor 5 o 6 minutos, hasta que esté tierno pero firme.
+3. Aliña con 10 g de aceite y la sal.
+
+## 994. Judías verdes rehogadas con ajo, cocinadas
+
+`judias-verdes-ajo` · Verduras y hortalizas · 2 raciones de 150 g · 25 min · por ración: 118 kcal, P 2,9 g, C 6,6 g, G 7,8 g
+
+**Ingredientes** (lote de 300 g cocinado)
+
+- 300 g · Judía verde, cruda
+- 5 g · Ajo, crudo
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Quita las puntas a 300 g de judías verdes, trocéalas y cuécelas en agua con la sal 8 minutos. Escúrrelas.
+2. Dora 5 g de ajo laminado en 15 g de aceite.
+3. Añade las judías y rehógalas 2 minutos.
+
+## 995. Espinacas salteadas con ajo, cocinadas
+
+`espinacas-ajo` · Verduras y hortalizas · 2 raciones de 125 g · 15 min · por ración: 137 kcal, P 5,6 g, C 6,7 g, G 8,3 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 400 g · Espinaca, cruda
+- 5 g · Ajo, crudo
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Lava 400 g de espinacas.
+2. Dora 5 g de ajo laminado en 15 g de aceite.
+3. Añade las espinacas por tandas con la sal y saltéalas 3 minutos, hasta que reduzcan.
+
+## 996. Berenjena a la plancha con aceite de oliva, cocinada
+
+`berenjena-plancha` · Verduras y hortalizas · 2 raciones de 120 g · 20 min · por ración: 102 kcal, P 1,5 g, C 4,1 g, G 7,8 g
+
+**Ingredientes** (lote de 240 g cocinado)
+
+- 300 g · Berenjena, cruda
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 300 g de berenjena en rodajas de 1 cm.
+2. Úntalas con 15 g de aceite y la sal.
+3. Hazlas en una plancha caliente 3 o 4 minutos por cada lado, hasta que estén tiernas y doradas.
+
+## 997. Calabacín a la plancha con aceite de oliva, cocinado
+
+`calabacin-plancha` · Verduras y hortalizas · 2 raciones de 125 g · 15 min · por ración: 70 kcal, P 1,8 g, C 2,7 g, G 5,4 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 300 g · Calabacín, pulpa y piel, crudo
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 300 g de calabacín en rodajas o láminas de 1 cm.
+2. Úntalas con 10 g de aceite y la sal.
+3. Hazlas en una plancha caliente 2 o 3 minutos por cada lado.
+
+## 998. Revuelto de claras con espinacas, cocinado
+
+`revuelto-claras-espinacas` · Huevos · 1 ración de 260 g · 15 min · por ración: 174 kcal, P 24,5 g, C 4,5 g, G 5,8 g
+
+**Ingredientes** (lote de 260 g cocinado)
+
+- 200 g · Huevo, clara, cruda
+- 100 g · Espinaca, cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Saltea 100 g de espinacas en 5 g de aceite 2 minutos, hasta que reduzcan.
+2. Añade 200 g de claras con la sal y remueve a fuego suave hasta que cuajen pero sigan jugosas.
+
+## 999. Brócoli salteado con ajo, cocinado
+
+`brocoli-ajo` · Verduras y hortalizas · 3 raciones de 150 g · 20 min · por ración: 117 kcal, P 5 g, C 4,3 g, G 7,3 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 500 g · Brócoli, crudo
+- 10 g · Ajo, crudo
+- 20 g · Aceite de oliva virgen extra
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Separa 500 g de brócoli en ramitos y escáldalos en agua hirviendo 2 minutos. Escúrrelos.
+2. Dora 10 g de ajo laminado en 20 g de aceite.
+3. Añade el brócoli con la sal y saltéalo a fuego fuerte 4 minutos.
+
+## 1000. Alcachofas al horno, asadas
+
+`alcachofas-horno` · Verduras y hortalizas · 3 raciones de 150 g · 50 min · por ración: 183 kcal, P 6,7 g, C 9,9 g, G 10,4 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 600 g · Alcachofa, cruda
+- 30 g · Aceite de oliva virgen extra
+- 5 g · Ajo, crudo
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Quita las hojas duras a 600 g de alcachofas, corta las puntas y pártelas por la mitad.
+2. Colócalas en una fuente, riégalas con 30 g de aceite, 5 g de ajo picado y la sal.
+3. Tápalas con papel de aluminio y hornéalas 25 minutos. Destápalas y hornéalas 10 minutos más.
+
+*Notas:* Los 600 g son de alcachofa limpia.
+
+## 1001. Berenjenas rebozadas, fritas
+
+`berenjenas-rebozadas` · Verduras y hortalizas · 4 raciones de 163 g · 40 min · por ración: 295 kcal, P 5,4 g, C 15,5 g, G 22,4 g
+
+**Ingredientes** (lote de 650 g cocinado)
+
+- 600 g · Berenjena, cruda
+- 60 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 80 g · Huevo crudo
+- 80 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 600 g de berenjena en rodajas de 1 cm, sálalas y déjalas 20 minutos. Sécalas.
+2. Pásalas por 60 g de harina y luego por 80 g de huevo batido.
+3. Fríelas en aceite de oliva caliente 2 minutos por cada lado y escúrrelas.
+
+*Notas:* Los 80 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1002. Patatas gajo al horno con especias, asadas
+
+`patatas-gajo-casera` · Patatas y tubérculos · 4 raciones de 200 g · 50 min · por ración: 297 kcal, P 5,3 g, C 41,1 g, G 10,4 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 1000 g · Patata, sin piel, cruda
+- 40 g · Aceite de oliva virgen extra
+- 5 g · Pimentón, polvo
+- 2 g · Orégano, deshidratado
+- 5 g · Ajo, crudo
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 210 °C. Corta 1.000 g de patata pelada (o con piel) en gajos.
+2. Mézclalos con 40 g de aceite, 5 g de pimentón, 2 g de orégano, 5 g de ajo machacado y la sal.
+3. Repártelos en una bandeja sin amontonar y hornéalos 35 minutos, dándoles la vuelta a mitad.
+
+## 1003. Tortilla de claras con pavo, cocinada
+
+`tortilla-claras-pavo` · Huevos · 1 ración de 220 g · 10 min · por ración: 181 kcal, P 30,2 g, C 1,4 g, G 6,1 g
+
+**Ingredientes** (lote de 220 g cocinado)
+
+- 200 g · Huevo, clara, cruda
+- 40 g · Jamón de pavo o pechuga de pavo en loncha
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Pica 40 g de pechuga de pavo.
+2. Bate 200 g de claras y añade el pavo.
+3. Cuájala en una sartén antiadherente con 5 g de aceite 2 minutos por cada lado.
+
+*Notas:* No lleva sal: el pavo ya la aporta.
+
+## 1004. Huevos fritos con beicon, cocinados
+
+`huevos-bacon` · Huevos · 1 ración de 160 g · 10 min · por ración: 376 kcal, P 25,4 g, C 0,4 g, G 30,3 g
+
+**Ingredientes** (lote de 160 g cocinado)
+
+- 120 g · Huevo crudo
+- 60 g · Panceta ahumada, cruda
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Dora 60 g de panceta ahumada en lonchas en una sartén sin aceite 3 minutos. Sácala.
+2. Añade 5 g de aceite y fríe 120 g de huevo (2 huevos) 2 o 3 minutos.
+3. Sírvelos con la panceta.
+
+## 1005. Revuelto de calabacín, cocinado
+
+`revuelto-calabacin` · Huevos · 2 raciones de 225 g · 25 min · por ración: 266 kcal, P 17,2 g, C 3,9 g, G 19,8 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 240 g · Huevo crudo
+- 250 g · Calabacín, pulpa y piel, crudo
+- 50 g · Cebolla, cruda
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 250 g de calabacín en dados y 50 g de cebolla en pluma.
+2. Pochalos en 15 g de aceite 10 minutos.
+3. Añade 240 g de huevo (4 huevos) batido con la sal y remueve a fuego suave hasta que cuaje pero quede jugoso.
+
+## 1006. Tortilla de gambas, cocinada
+
+`tortilla-gambas` · Huevos · 1 ración de 175 g · 15 min · por ración: 303 kcal, P 27,4 g, C 2,6 g, G 20,2 g
+
+**Ingredientes** (lote de 175 g cocinado)
+
+- 120 g · Huevo crudo
+- 60 g · Gamba o langostino, crudo
+- 3 g · Ajo, crudo
+- 8 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pela 60 g de gambas y trocéalas.
+2. Saltéalas con 3 g de ajo picado en 8 g de aceite 1 minuto.
+3. Añade 120 g de huevo (2 huevos) batido con la sal y cuaja la tortilla 1 o 2 minutos por cada lado.
+
+*Notas:* Los 60 g de gambas son pesados ya peladas.
+
+## 1007. Tortilla de espárragos trigueros, cocinada
+
+`tortilla-esparragos-trigueros` · Huevos · 1 ración de 200 g · 15 min · por ración: 265 kcal, P 17,9 g, C 2,1 g, G 20,1 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 120 g · Huevo crudo
+- 100 g · Espárrago verde, crudo
+- 8 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 100 g de espárragos trigueros y saltéalos en 8 g de aceite 5 minutos.
+2. Añade 120 g de huevo (2 huevos) batido con la sal.
+3. Cuaja la tortilla 1 o 2 minutos por cada lado.
+
+## 1008. Tortilla de alcachofas, cocinada
+
+`tortilla-alcachofas` · Huevos · 1 ración de 210 g · 30 min · por ración: 294 kcal, P 19,3 g, C 5,9 g, G 20 g
+
+**Ingredientes** (lote de 210 g cocinado)
+
+- 120 g · Huevo crudo
+- 120 g · Alcachofa, cruda
+- 8 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 120 g de alcachofas, córtalas en láminas finas y fríelas en 8 g de aceite a fuego suave 12 minutos, hasta que estén tiernas.
+2. Añade 120 g de huevo (2 huevos) batido con la sal.
+3. Cuaja la tortilla 1 o 2 minutos por cada lado.
+
+*Notas:* Los 120 g son de alcachofa limpia.
+
+## 1009. Tortilla de jamón serrano y queso, cocinada
+
+`tortilla-jamon-queso` · Huevos · 1 ración de 160 g · 10 min · por ración: 336 kcal, P 24,3 g, C 1,3 g, G 25,9 g
+
+**Ingredientes** (lote de 160 g cocinado)
+
+- 120 g · Huevo crudo
+- 20 g · Jamón seco Serrano
+- 20 g · Queso fundido en lonchas
+- 8 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Bate 120 g de huevo (2 huevos) con la sal.
+2. Cuájalos en una sartén con 8 g de aceite.
+3. Antes de que cuaje del todo, pon en una mitad 20 g de jamón y 20 g de queso en lonchas, dóblala y deja que el queso se funda.
+
+## 1010. Tortilla de patata y calabacín, cocinada
+
+`tortilla-patata-calabacin` · Huevos · 4 raciones de 200 g · 50 min · por ración: 338 kcal, P 12,6 g, C 18,7 g, G 22,7 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 400 g · Patata, sin piel, cruda
+- 250 g · Calabacín, pulpa y piel, crudo
+- 300 g · Huevo crudo
+- 80 g · Cebolla, cruda
+- 60 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 400 g de patata pelada en láminas finas, 250 g de calabacín en dados y 80 g de cebolla en pluma.
+2. Pocha la patata y la cebolla en 50 g del aceite a fuego suave 20 minutos. Añade el calabacín los últimos 8.
+3. Escurre el aceite que sobre y mezcla las verduras con 300 g de huevo (5 huevos) batido y la sal.
+4. Cuaja la tortilla en una sartén con el resto del aceite 3 minutos por cada lado, dándole la vuelta con un plato.
+
+## 1011. Tortilla de patatas rellena de jamón y queso, cocinada
+
+`tortilla-patatas-rellena` · Huevos · 4 raciones de 238 g · 55 min · por ración: 442 kcal, P 19 g, C 22,5 g, G 29,7 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 500 g · Patata, sin piel, cruda
+- 300 g · Huevo crudo
+- 80 g · Cebolla, cruda
+- 60 g · Jamón seco Serrano
+- 60 g · Queso fundido en lonchas
+- 70 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 500 g de patata pelada en láminas finas y 80 g de cebolla en pluma y pochalas en 60 g del aceite a fuego suave 20 minutos.
+2. Mézclalas con 300 g de huevo (5 huevos) batido y la sal.
+3. Echa la mitad en una sartén con el resto del aceite, cubre con 60 g de jamón y 60 g de queso en lonchas y añade el resto de la mezcla.
+4. Cuaja 4 minutos, dale la vuelta con un plato y cuaja 3 minutos más.
+
+## 1012. Revuelto de espinacas y gambas, cocinado
+
+`revuelto-espinacas-gambas` · Huevos · 1 ración de 260 g · 15 min · por ración: 336 kcal, P 30,1 g, C 5,7 g, G 20,6 g
+
+**Ingredientes** (lote de 260 g cocinado)
+
+- 120 g · Huevo crudo
+- 100 g · Espinaca, cruda
+- 60 g · Gamba o langostino, crudo
+- 3 g · Ajo, crudo
+- 8 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Dora 3 g de ajo laminado en 8 g de aceite. Añade 60 g de gambas peladas y saltéalas 1 minuto.
+2. Añade 100 g de espinacas y saltéalas hasta que reduzcan.
+3. Añade 120 g de huevo (2 huevos) batido con la sal y remueve hasta que cuaje.
+
+## 1013. Revuelto de patatas y chorizo, cocinado
+
+`revuelto-patatas-chorizo` · Huevos · 1 ración de 320 g · 25 min · por ración: 683 kcal, P 27,8 g, C 24,9 g, G 51,3 g
+
+**Ingredientes** (lote de 320 g cocinado)
+
+- 120 g · Huevo crudo
+- 150 g · Patata, sin piel, cruda
+- 40 g · Chorizo
+- 25 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 150 g de patata pelada en dados pequeños y fríelos en 25 g de aceite 12 minutos.
+2. Añade 40 g de chorizo en dados y dóralo 2 minutos.
+3. Añade 120 g de huevo (2 huevos) batido con la sal y remueve hasta que cuaje.
+
+## 1014. Revuelto de salmón ahumado, cocinado
+
+`revuelto-salmon-ahumado` · Huevos · 1 ración de 175 g · 10 min · por ración: 298 kcal, P 26,5 g, C 0,2 g, G 21,2 g
+
+**Ingredientes** (lote de 175 g cocinado)
+
+- 120 g · Huevo crudo
+- 50 g · Salmón ahumado
+- 5 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Bate 120 g de huevo (2 huevos).
+2. Cuájalos en 5 g de mantequilla a fuego muy suave, removiendo, hasta que estén cremosos.
+3. Retira del fuego y añade 50 g de salmón ahumado en tiras.
+
+*Notas:* No lleva sal: el salmón ya la aporta.
+
+## 1015. Revuelto de bacalao con cebolla, cocinado
+
+`revuelto-bacalao` · Huevos · 1 ración de 270 g · 20 min · por ración: 359 kcal, P 34,2 g, C 3,9 g, G 22,7 g
+
+**Ingredientes** (lote de 270 g cocinado)
+
+- 120 g · Huevo crudo
+- 100 g · Bacalao, crudo
+- 60 g · Cebolla, cruda
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Pocha 60 g de cebolla en pluma en 10 g de aceite 10 minutos.
+2. Añade 100 g de bacalao desalado desmigado y rehoga 2 minutos.
+3. Añade 120 g de huevo (2 huevos) batido y remueve hasta que cuaje.
+
+*Notas:* El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo.
+
+## 1016. Huevos duros con mayonesa, listos para consumir
+
+`huevos-duros-mayonesa` · Huevos · 1 ración de 145 g · 15 min · por ración: 341 kcal, P 15,7 g, C 1 g, G 30,4 g
+
+**Ingredientes** (lote de 145 g cocinado)
+
+- 120 g · Huevo crudo
+- 25 g · Mayonesa (70% grasa mín.), envasada
+
+**Preparación**
+
+1. Cuece 120 g de huevo (2 huevos) 10 minutos y enfríalos en agua fría.
+2. Pélalos, córtalos por la mitad y sírvelos con 25 g de mayonesa.
+
+## 1017. Huevos benedictinos, listos para consumir
+
+`huevos-benedictinos` · Huevos · 2 raciones de 135 g · 30 min · por ración: 400 kcal, P 15,9 g, C 15,3 g, G 30,1 g
+
+**Ingredientes** (lote de 270 g cocinado)
+
+- 70 g · Muffin inglés, panecillo especial, envasado
+- 120 g · Huevo crudo
+- 40 g · Panceta ahumada, cruda
+- 40 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 20 g · Huevo, yema, cruda
+- 5 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Para la salsa holandesa, bate 20 g de yema con 5 g de zumo de limón al baño maría y añade poco a poco 40 g de mantequilla fundida, sin dejar de batir, hasta que espese.
+2. Dora 40 g de panceta ahumada en lonchas. Abre y tuesta 70 g de muffin inglés.
+3. Escalfa 120 g de huevo (2 huevos) en agua con un chorrito de vinagre 3 minutos.
+4. Monta cada mitad de muffin con panceta, un huevo y la holandesa por encima.
+
+*Notas:* El vinagre del agua de escalfar se tira.
+
+## 1018. Pisto con huevo frito, cocinado
+
+`pisto-huevo` · Huevos · 1 ración de 400 g · 35 min · por ración: 362 kcal, P 12,2 g, C 13,8 g, G 27,3 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 150 g · Calabacín, pulpa y piel, crudo
+- 60 g · Pimiento verde, crudo
+- 60 g · Pimiento rojo, crudo
+- 60 g · Cebolla, cruda
+- 100 g · Tomate, pelado, en conserva, escurrido
+- 60 g · Huevo crudo
+- 20 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 60 g de cebolla, 60 g de pimiento verde y 60 g de pimiento rojo y pochalos en 15 g del aceite 10 minutos.
+2. Añade 150 g de calabacín en dados y cocina 8 minutos. Añade 100 g de tomate triturado y la sal y cuece 10 minutos.
+3. Fríe 60 g de huevo (1 huevo) en el resto del aceite y sírvelo sobre el pisto.
+
+## 1019. Patatas asadas enteras con piel, asadas
+
+`patatas-asadas-piel` · Patatas y tubérculos · 2 raciones de 190 g · 60 min · por ración: 222 kcal, P 5 g, C 40,5 g, G 2,7 g
+
+**Ingredientes** (lote de 380 g cocinado)
+
+- 500 g · Patata, sin piel, cruda
+- 5 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Lava 500 g de patatas medianas y sécalas.
+2. Pínchalas, úntalas con 5 g de aceite y la sal.
+3. Ásalas 50 minutos, hasta que estén tiernas por dentro.
+
+*Notas:* Los 500 g son de patata; la piel cuenta poco.
+
+## 1020. Patatas gratinadas con nata, horneadas
+
+`patatas-gratinadas` · Patatas y tubérculos · 5 raciones de 210 g · 75 min · por ración: 316 kcal, P 8,8 g, C 29,6 g, G 17 g
+
+**Ingredientes** (lote de 1050 g cocinado)
+
+- 800 g · Patata, sin piel, cruda
+- 200 g · Nata, 30 % MG, fluida, UHT
+- 200 g · Leche entera, UHT
+- 5 g · Ajo, crudo
+- 60 g · Queso Emmental o emmenthal, rallado
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Corta 800 g de patata pelada en láminas muy finas.
+2. Calienta 200 g de nata y 200 g de leche con 5 g de ajo machacado y la sal.
+3. Coloca la patata en capas en una fuente, vertiendo la mezcla por encima.
+4. Hornea 45 minutos, cubre con 60 g de emmental rallado y hornea 15 minutos más, hasta que esté dorado.
+
+*Notas:* Es el gratin dauphinois.
+
+## 1021. Puré de boniato, cocido
+
+`pure-boniato` · Patatas y tubérculos · 3 raciones de 200 g · 30 min · por ración: 203 kcal, P 3,6 g, C 29,8 g, G 6,7 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 500 g · Boniato, crudo
+- 80 g · Leche entera, UHT
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pela 500 g de boniato y córtalo en trozos.
+2. Cuécelo en agua 15 minutos, hasta que esté tierno. Escúrrelo.
+3. Aplástalo con 80 g de leche caliente, 20 g de mantequilla y la sal.
+
+## 1022. Croquetas de patata y queso, fritas
+
+`croquetas-patata` · Patatas y tubérculos · 4 raciones de 175 g · 60 min · por ración: 368 kcal, P 9,1 g, C 35,5 g, G 19,7 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 600 g · Patata, sin piel, cruda
+- 60 g · Huevo crudo
+- 60 g · Pan rallado
+- 60 g · Aceite de girasol
+- 40 g · Queso Emmental o emmenthal, rallado
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 600 g de patata pelada en agua 20 minutos, escúrrela y hazla puré con la sal.
+2. Mezcla el puré templado con 40 g de emmental rallado y forma unas 20 croquetas.
+3. Pásalas por 60 g de huevo (1 huevo) batido y luego por 60 g de pan rallado.
+4. Fríelas en aceite caliente 2 minutos, hasta que estén doradas. Escúrrelas.
+
+*Notas:* Salen unas 20 croquetas: 5 por ración. Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1023. Zanahorias glaseadas con mantequilla, cocinadas
+
+`zanahorias-glaseadas` · Verduras y hortalizas · 3 raciones de 150 g · 25 min · por ración: 114 kcal, P 1,4 g, C 12 g, G 6 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 500 g · Zanahoria, cruda
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 10 g · Azúcar blanco
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pela 500 g de zanahorias y córtalas en bastones o rodajas.
+2. Ponlas en una sartén con 20 g de mantequilla, 10 g de azúcar, la sal y agua hasta cubrirlas a medias.
+3. Cuécelas a fuego medio 15 minutos, hasta que se evapore el agua y queden brillantes.
+
+## 1024. Guisantes salteados con cebolla, cocinados
+
+`guisantes-salteados` · Verduras y hortalizas · 3 raciones de 150 g · 20 min · por ración: 159 kcal, P 8,2 g, C 14,3 g, G 5,7 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 400 g · Guisante, congelados, crudos
+- 80 g · Cebolla, cruda
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 80 g de cebolla y pochala en 15 g de aceite 6 minutos.
+2. Añade 400 g de guisantes congelados y la sal.
+3. Saltéalos 8 minutos, con un chorrito de agua si se pegan.
+
+## 1025. Cebolla caramelizada, cocinada
+
+`cebolla-caramelizada` · Verduras y hortalizas · 10 raciones de 54 g · 75 min · por ración: 87 kcal, P 1,1 g, C 9,3 g, G 4,6 g
+
+**Ingredientes** (lote de 540 g cocinado)
+
+- 1000 g · Cebolla, cruda
+- 40 g · Aceite de oliva virgen extra
+- 30 g · Azúcar blanco
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 1.000 g de cebolla en pluma fina.
+2. Pochala en 40 g de aceite con la sal a fuego muy suave 1 hora, removiendo de vez en cuando.
+3. Añade 30 g de azúcar y cuece 10 minutos más, hasta que esté dorada y melosa.
+
+*Notas:* Una ración son unos 55 g, como acompañamiento. Se conserva una semana en la nevera.
+
+## 1026. Pimientos rojos asados al horno, asados
+
+`pimientos-rojos-horno` · Verduras y hortalizas · 4 raciones de 150 g · 60 min · por ración: 129 kcal, P 2,8 g, C 15 g, G 5,7 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 1000 g · Pimiento rojo, crudo
+- 20 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Lava 1.000 g de pimientos rojos y úntalos con un poco del aceite.
+2. Ásalos 45 minutos, dándoles la vuelta a mitad.
+3. Tápalos 15 minutos, pélalos, quítales las pepitas y córtalos en tiras.
+4. Aliña con el resto del aceite, su jugo y la sal.
+
+## 1027. Tomates a la plancha, cocinados
+
+`tomates-plancha` · Verduras y hortalizas · 2 raciones de 165 g · 15 min · por ración: 80 kcal, P 1 g, C 6,8 g, G 5,6 g
+
+**Ingredientes** (lote de 330 g cocinado)
+
+- 400 g · Tomate redondo, crudo
+- 10 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 400 g de tomates por la mitad.
+2. Úntalos con 10 g de aceite y la sal.
+3. Hazlos en una plancha caliente, con el corte hacia abajo, 4 minutos, y 2 minutos más por el otro lado.
+
+## 1028. Alcachofas a la plancha, cocinadas
+
+`alcachofas-plancha` · Verduras y hortalizas · 3 raciones de 140 g · 40 min · por ración: 136 kcal, P 5,5 g, C 8 g, G 7 g
+
+**Ingredientes** (lote de 420 g cocinado)
+
+- 500 g · Alcachofa, cruda
+- 20 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Quita las hojas duras a 500 g de alcachofas, corta las puntas y pártelas por la mitad.
+2. Cuécelas en agua 12 minutos y escúrrelas bien.
+3. Hazlas en una plancha muy caliente con 20 g de aceite y la sal 4 minutos, con el corte hacia abajo.
+
+*Notas:* Los 500 g son de alcachofa limpia.
+
+## 1029. Ensalada verde de lechuga aliñada, lista para consumir
+
+`ensalada-verde` · Verduras y hortalizas · 2 raciones de 111 g · 5 min · por ración: 83 kcal, P 1,4 g, C 1,2 g, G 7,7 g
+
+**Ingredientes** (lote de 221 g cocinado)
+
+- 200 g · Lechuga, cruda
+- 15 g · Aceite de oliva virgen extra
+- 5 g · Vinagre de vino tinto
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Lava y seca 200 g de lechuga y trocéala.
+2. Aliña con 15 g de aceite, 5 g de vinagre y la sal justo antes de servir.
+
+## 1030. Verduras variadas al vapor con aceite de oliva, cocinadas
+
+`verduras-vapor` · Verduras y hortalizas · 3 raciones de 200 g · 20 min · por ración: 104 kcal, P 3,7 g, C 6,8 g, G 5,8 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 150 g · Brócoli, crudo
+- 150 g · Zanahoria, cruda
+- 150 g · Judía verde, cruda
+- 150 g · Coliflor, cruda
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Separa en ramitos 150 g de brócoli y 150 g de coliflor, corta en rodajas 150 g de zanahoria y trocea 150 g de judías verdes.
+2. Cuécelas al vapor: la zanahoria y las judías 10 minutos y el brócoli y la coliflor los últimos 6.
+3. Aliña con 15 g de aceite y la sal.
+
+## 1031. Maíz dulce salteado con mantequilla, cocinado
+
+`maiz-mantequilla` · Verduras y hortalizas · 2 raciones de 158 g · 10 min · por ración: 214 kcal, P 4,1 g, C 27,5 g, G 8,8 g
+
+**Ingredientes** (lote de 315 g cocinado)
+
+- 300 g · Maíz dulce, en conserva, escurrido
+- 15 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Escurre 300 g de maíz dulce.
+2. Saltéalo en 15 g de mantequilla con la sal 4 minutos.
+
+## 1032. Huevos rancheros, cocinados
+
+`huevos-rancheros` · Huevos · 2 raciones de 260 g · 30 min · por ración: 411 kcal, P 15,9 g, C 43,3 g, G 17,6 g
+
+**Ingredientes** (lote de 520 g cocinado)
+
+- 120 g · Tortilla suave (para rellenar), de maíz
+- 120 g · Huevo crudo
+- 200 g · Tomate, pelado, en conserva, escurrido
+- 50 g · Cebolla, cruda
+- 3 g · Chile, crudo
+- 80 g · Judía roja, en conserva, escurrida
+- 15 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Pica 50 g de cebolla y 3 g de guindilla y sofríelos en 10 g del aceite 5 minutos. Añade 200 g de tomate triturado y cuece 10 minutos.
+2. Calienta 80 g de alubias rojas escurridas.
+3. Calienta 120 g de tortillas de maíz y fríe 120 g de huevo (2 huevos) en el resto del aceite.
+4. Pon cada huevo sobre una tortilla, cúbrelo con la salsa y sirve con las alubias.
+
+*Notas:* Ajusta la sal al gusto: la formulación no la lleva.
+
+## 1033. Yuca frita, frita
+
+`yuca-frita` · Patatas y tubérculos · 3 raciones de 173 g · 45 min · por ración: 434 kcal, P 2,8 g, C 72,6 g, G 13,9 g
+
+**Ingredientes** (lote de 520 g cocinado)
+
+- 600 g · Yuca o mandioca, raíz cruda
+- 40 g · Aceite de girasol
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pela 600 g de yuca, quítale la fibra central y córtala en bastones.
+2. Cuécela en agua con sal 20 minutos, hasta que esté tierna pero entera. Escúrrela y sécala.
+3. Fríela en aceite caliente 4 o 5 minutos, hasta que esté dorada. Escúrrela y sálala.
+
+*Notas:* Los 40 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1034. Mazorca de maíz a la brasa con mantequilla, asada
+
+`mazorca-brasa` · Verduras y hortalizas · 2 raciones de 145 g · 25 min · por ración: 184 kcal, P 5,1 g, C 25,5 g, G 6 g
+
+**Ingredientes** (lote de 290 g cocinado)
+
+- 300 g · Maíz dulce, mazorca, congelado, crudo
+- 10 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 300 g de mazorcas de maíz en agua 8 minutos.
+2. Ásalas a la brasa o en una plancha muy caliente 8 minutos, girándolas.
+3. Úntalas con 10 g de mantequilla y la sal.
+
+*Notas:* Los 300 g son de maíz sin la parte central.
+
+## 1035. Calçots con salsa romesco, asados
+
+`calcots-romesco` · Verduras y hortalizas · 3 raciones de 200 g · 60 min · por ración: 379 kcal, P 9,4 g, C 13 g, G 30,4 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 600 g · Cebollino o cebolleta, fresco
+- 100 g · Tomate redondo, crudo
+- 10 g · Ajo, crudo
+- 30 g · Almendra, pelada, sin sal añadida
+- 20 g · Avellana, sin sal añadida
+- 20 g · Pan blanco (p. ej. baguette, hogaza)
+- 60 g · Aceite de oliva virgen extra
+- 10 g · Vinagre de vino tinto
+- 3 g · Pimentón, polvo
+
+**Preparación**
+
+1. Asa 600 g de calçots limpios a la brasa o al grill muy fuerte hasta que la parte de fuera se queme, 10 minutos. Envuélvelos en papel de periódico 15 minutos.
+2. Para la salsa, asa 100 g de tomate y 10 g de ajo 20 minutos. Tuesta 30 g de almendras, 20 g de avellanas y 20 g de pan.
+3. Tritura todo con 60 g de aceite, 10 g de vinagre y 3 g de pimentón hasta tener una salsa espesa.
+4. Pela los calçots tirando de la parte quemada y mójalos en la salsa.
+
+*Notas:* La formulación usa cebolleta, de valores muy parecidos al calçot. Tradicionalmente la salsa lleva ñora.
+
+## 1036. Chips de kale al horno, horneados
+
+`chips-kale` · Verduras y hortalizas · 2 raciones de 53 g · 30 min · por ración: 80 kcal, P 2,9 g, C 0,3 g, G 6,5 g
+
+**Ingredientes** (lote de 106 g cocinado)
+
+- 200 g · Repollo kale, crudo
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 150 °C. Quita los tallos a 200 g de kale y trocéalo.
+2. Sécalo muy bien y mézclalo con 10 g de aceite y la sal, masajeándolo.
+3. Repártelo en una bandeja sin que se solape y hornéalo 20 minutos, hasta que esté crujiente.
+
+## 1037. Tortilla de claras con patata, cocinada
+
+`tortilla-claras-patata` · Huevos · 2 raciones de 200 g · 35 min · por ración: 185 kcal, P 15,6 g, C 17,1 g, G 5,3 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 250 g · Huevo, clara, cruda
+- 200 g · Patata, sin piel, cruda
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 200 g de patata pelada en láminas finas y cuécelas en el microondas o al vapor 8 minutos.
+2. Dóralas en una sartén antiadherente con 10 g de aceite 5 minutos.
+3. Añade 250 g de claras con la sal y cuaja la tortilla 3 minutos por cada lado.
+
+## 1038. Revuelto de claras con pavo y champiñones, cocinado
+
+`revuelto-claras-pavo-champinones` · Huevos · 1 ración de 300 g · 15 min · por ración: 212 kcal, P 34,4 g, C 3,2 g, G 6,6 g
+
+**Ingredientes** (lote de 300 g cocinado)
+
+- 200 g · Huevo, clara, cruda
+- 50 g · Jamón de pavo o pechuga de pavo en loncha
+- 100 g · Champiñón de París o champiñón cultivado, crudo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Lamina 100 g de champiñones y saltéalos en 5 g de aceite 5 minutos.
+2. Añade 50 g de pavo en tiras y saltea 1 minuto.
+3. Añade 200 g de claras y remueve hasta que cuajen.
+
+*Notas:* No lleva sal: el pavo ya la aporta.
+
+## 1039. Brócoli gratinado con bechamel, horneado
+
+`brocoli-gratinado` · Verduras y hortalizas · 4 raciones de 225 g · 45 min · por ración: 257 kcal, P 12,1 g, C 14,4 g, G 15,7 g
+
+**Ingredientes** (lote de 900 g cocinado)
+
+- 500 g · Brócoli, crudo
+- 60 g · Queso Emmental o emmenthal, rallado
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 400 g · Leche entera, UHT
+- 35 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 35 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Separa 500 g de brócoli en ramitos y cuécelos en agua con sal hasta que estén tiernos. Escúrrelos muy bien y colócalos en una fuente.
+2. Funde 35 g de mantequilla, añade 35 g de harina y remueve 1 minuto. Vierte poco a poco 400 g de leche con la sal y cuece 8 minutos, removiendo, hasta tener una bechamel.
+3. Precalienta el horno a 220 °C. Cubre la verdura con la bechamel y 60 g de emmental rallado.
+4. Gratina 15 minutos, hasta que esté dorado.
+
+## 1040. Puerros gratinados con bechamel, horneados
+
+`puerros-gratinados` · Verduras y hortalizas · 4 raciones de 213 g · 45 min · por ración: 255 kcal, P 10,3 g, C 17,4 g, G 15,5 g
+
+**Ingredientes** (lote de 850 g cocinado)
+
+- 500 g · Puerro, crudo
+- 60 g · Queso Emmental o emmenthal, rallado
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 400 g · Leche entera, UHT
+- 35 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 35 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Corta 500 g de puerros en trozos y cuécelos en agua con sal hasta que estén tiernos. Escúrrelos muy bien y colócalos en una fuente.
+2. Funde 35 g de mantequilla, añade 35 g de harina y remueve 1 minuto. Vierte poco a poco 400 g de leche con la sal y cuece 8 minutos, removiendo, hasta tener una bechamel.
+3. Precalienta el horno a 220 °C. Cubre la verdura con la bechamel y 60 g de emmental rallado.
+4. Gratina 15 minutos, hasta que esté dorado.
+
+## 1041. Espinacas gratinadas con bechamel, horneadas
+
+`espinacas-gratinadas` · Verduras y hortalizas · 4 raciones de 213 g · 40 min · por ración: 258 kcal, P 11,8 g, C 16,3 g, G 15,1 g
+
+**Ingredientes** (lote de 850 g cocinado)
+
+- 600 g · Espinaca, cruda
+- 50 g · Queso Emmental o emmenthal, rallado
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 400 g · Leche entera, UHT
+- 35 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 35 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Saltea 600 g de espinacas hasta que reduzcan y escúrrelas muy bien. Colócalas en una fuente.
+2. Funde 35 g de mantequilla, añade 35 g de harina y remueve 1 minuto. Vierte poco a poco 400 g de leche con la sal y cuece 8 minutos, removiendo, hasta tener una bechamel.
+3. Precalienta el horno a 220 °C. Cubre las espinacas con la bechamel y 50 g de emmental rallado.
+4. Gratina 15 minutos, hasta que esté dorado.
+
+## 1042. Salmón salteado con verduras, cocinado
+
+`salmon-wok-verduras` · Pescados · 3 raciones de 211 g · 20 min · por ración: 335 kcal, P 30,3 g, C 2,8 g, G 21,9 g
+
+**Ingredientes** (lote de 633 g cocinado)
+
+- 400 g · Salmón, de cría, crudo
+- 200 g · Brócoli, crudo
+- 100 g · Pimiento verde, crudo
+- 30 g · Salsa de soja, envasada
+- 15 g · Aceite de girasol
+
+**Preparación**
+
+1. Corta 400 g de salmón en dados, 200 g de brócoli en ramitos y 100 g de pimiento verde en tiras.
+2. Saltea las verduras en 10 g del aceite a fuego fuerte 5 minutos.
+3. Añade el salmón con el resto del aceite y saltea 3 minutos, con cuidado de que no se rompa.
+4. Añade 30 g de salsa de soja y saltea 1 minuto.
+
+*Notas:* No lleva sal: la soja ya la aporta.
+
+## 1043. Jurel en escabeche, cocinado
+
+`jurel-escabeche` · Pescados · 5 raciones de 202 g · 60 min · por ración: 387 kcal, P 23,5 g, C 2,8 g, G 29,4 g
+
+**Ingredientes** (lote de 1010 g cocinado)
+
+- 600 g · Jurel o caballa de ojos grandes, crudo
+- 120 g · Aceite de oliva virgen extra
+- 100 g · Vinagre de vino tinto
+- 100 g · Vino blanco seco
+- 100 g · Cebolla, cruda
+- 80 g · Zanahoria, cruda
+- 15 g · Ajo, crudo
+- 1 g · Laurel, hojas
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 600 g de jureles en lomos, sálalos con parte de la sal y dóralos en 20 g del aceite 1 minuto por cada lado. Colócalos en un recipiente.
+2. En el resto del aceite, pocha 100 g de cebolla, 80 g de zanahoria y 15 g de ajo con 1 hoja de laurel 10 minutos.
+3. Añade 100 g de vinagre, 100 g de vino blanco, el resto de la sal y un poco de agua y cuece 5 minutos.
+4. Vierte el escabeche sobre el pescado y deja que repose en la nevera al menos 12 horas.
+
+*Notas:* Se conserva una semana en la nevera. El reposo no cuenta en el tiempo. Parte del aceite queda en el escabeche.
+
+## 1044. Salmón a la naranja, cocinado
+
+`salmon-naranja` · Pescados · 4 raciones de 164 g · 25 min · por ración: 319 kcal, P 31 g, C 6,5 g, G 18,7 g
+
+**Ingredientes** (lote de 654 g cocinado)
+
+- 600 g · Salmón, de cría, crudo
+- 150 g · Zumo de naranja, fresco
+- 15 g · Miel
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 600 g de lomos de salmón y dóralos en una sartén antiadherente 3 minutos por cada lado. Sácalos.
+2. Vierte 150 g de zumo de naranja y 15 g de miel y reduce 5 minutos.
+3. Vuelve a poner el salmón 1 minuto en la salsa.
+
+## 1045. Trucha al horno con limón, horneada
+
+`trucha-horno-limon` · Pescados · 3 raciones de 182 g · 30 min · por ración: 326 kcal, P 38 g, C 0,2 g, G 19,1 g
+
+**Ingredientes** (lote de 547 g cocinado)
+
+- 600 g · Trucha arco iris de cría, cruda
+- 20 g · Zumo de limón, casero
+- 20 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Limpia 600 g de truchas y colócalas en una fuente.
+2. Riégalas con 20 g de aceite, 20 g de zumo de limón y la sal.
+3. Hornéalas 15 o 18 minutos, hasta que la carne se separe de la espina.
+
+*Notas:* Los 600 g son de trucha limpia con espina.
+
+## 1046. Merluza en salsa de puerros, cocinada
+
+`merluza-puerros` · Pescados · 4 raciones de 197 g · 35 min · por ración: 257 kcal, P 27,7 g, C 3,2 g, G 14,7 g
+
+**Ingredientes** (lote de 786 g cocinado)
+
+- 600 g · Merluza, cruda
+- 200 g · Puerro, crudo
+- 100 g · Nata, 30 % MG, fluida, UHT
+- 20 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 200 g de puerro en rodajas finas y pochalo en 20 g de aceite 12 minutos.
+2. Añade 100 g de nata y la mitad de la sal y cuece 3 minutos. Tritura si la quieres fina.
+3. Sala 600 g de merluza con el resto de la sal y colócala en la salsa.
+4. Tapa y cuece 6 u 8 minutos, hasta que el pescado esté hecho.
+
+## 1047. Dorada a la sal, horneada
+
+`dorada-sal` · Pescados · 3 raciones de 267 g · 45 min · por ración: 430 kcal, P 69,7 g, C 0 g, G 17 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 1000 g · Dorada de cría, cruda
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Deja 1.000 g de dorada entera limpia, sin escamar.
+2. Cubre el fondo de una fuente con sal gruesa humedecida, coloca la dorada y cúbrela con más sal, apretando.
+3. Hornéala 25 minutos.
+4. Rompe la costra, quítale la piel y sirve los lomos.
+
+*Notas:* La sal de la costra no se come y no cuenta. Los 1.000 g son de pescado entero; la parte comestible es menor.
+
+## 1048. Bacalao a la llauna, horneado
+
+`bacalao-llauna` · Pescados · 4 raciones de 155 g · 30 min · por ración: 266 kcal, P 27,6 g, C 1 g, G 16,1 g
+
+**Ingredientes** (lote de 620 g cocinado)
+
+- 600 g · Bacalao, crudo
+- 15 g · Ajo, crudo
+- 5 g · Pimentón, polvo
+- 60 g · Aceite de oliva virgen extra
+- 50 g · Vino blanco seco
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Coloca 600 g de lomos de bacalao desalado en una bandeja metálica (llauna).
+2. Dora 15 g de ajo laminado en 60 g de aceite. Retira del fuego y añade 5 g de pimentón y 50 g de vino blanco.
+3. Vierte la mezcla sobre el bacalao.
+4. Hornéalo 12 o 15 minutos.
+
+*Notas:* El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo.
+
+## 1049. Rape al horno con tomate, horneado
+
+`rape-horno` · Pescados · 4 raciones de 261 g · 45 min · por ración: 253 kcal, P 30,8 g, C 3,3 g, G 11,7 g
+
+**Ingredientes** (lote de 1042 g cocinado)
+
+- 800 g · Rape, crudo
+- 200 g · Tomate redondo, crudo
+- 100 g · Cebolla, cruda
+- 40 g · Aceite de oliva virgen extra
+- 80 g · Vino blanco seco
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Corta 200 g de tomate en rodajas y 100 g de cebolla en pluma.
+2. Colócalos en una fuente con 20 g del aceite y la mitad de la sal y hornéalos 15 minutos.
+3. Coloca encima 800 g de rape en medallones o cola entera, sazónalo, riégalo con el resto del aceite y 80 g de vino blanco.
+4. Hornea 15 o 20 minutos.
+
+*Notas:* Los 800 g son de rape limpio, con la espina central.
+
+## 1050. Rodaballo con aceite de oliva, a la plancha, cocinado
+
+`rodaballo-plancha-aove` · Pescados · 1 ración de 128 g · 10 min · por ración: 173 kcal, P 26,9 g, C 0 g, G 7,4 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 150 g · Rodaballo, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de rodaballo, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Hazlo en una plancha muy caliente, primero por el lado de la piel, 3 o 4 minutos por cada lado.
+
+## 1051. Mero en salsa, cocinado
+
+`mero-salsa` · Pescados · 4 raciones de 207 g · 40 min · por ración: 245 kcal, P 28,5 g, C 3,9 g, G 11,6 g
+
+**Ingredientes** (lote de 829 g cocinado)
+
+- 600 g · Mero, crudo
+- 100 g · Cebolla, cruda
+- 150 g · Tomate redondo, crudo
+- 80 g · Vino blanco seco
+- 40 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 100 g de cebolla y pochala en 40 g de aceite 8 minutos. Añade 150 g de tomate rallado y cocina 8 minutos.
+2. Vierte 80 g de vino blanco y deja que se evapore.
+3. Sala 600 g de mero en rodajas, colócalo en la salsa, tapa y cuece 8 minutos.
+
+## 1052. Bacaladillas fritas, fritas
+
+`bacaladilla-frita` · Pescados · 3 raciones de 165 g · 25 min · por ración: 345 kcal, P 34,3 g, C 12,8 g, G 17,3 g
+
+**Ingredientes** (lote de 495 g cocinado)
+
+- 500 g · Bacaladilla, cruda
+- 50 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 50 g · Aceite de girasol
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 500 g de bacaladillas, quítales la cabeza y sécalas.
+2. Sálalas y pásalas por 50 g de harina.
+3. Fríelas en aceite caliente 3 minutos, hasta que estén doradas. Escúrrelas.
+
+*Notas:* Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1053. Merluza al limón, cocinada
+
+`merluza-limon` · Pescados · 4 raciones de 145 g · 25 min · por ración: 196 kcal, P 26,5 g, C 0,5 g, G 9,6 g
+
+**Ingredientes** (lote de 578 g cocinado)
+
+- 600 g · Merluza, cruda
+- 40 g · Zumo de limón, casero
+- 30 g · Aceite de oliva virgen extra
+- 5 g · Ajo, crudo
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 600 g de merluza en lomos.
+2. Hazla a la plancha o al horno 8 minutos.
+3. Dora 5 g de ajo laminado en 30 g de aceite, retira del fuego y añade 40 g de zumo de limón.
+4. Riega la merluza con la salsa.
+
+## 1054. Mejillones al vapor, cocidos
+
+`mejillones-vapor` · Mariscos · 3 raciones de 298 g · 20 min · por ración: 239 kcal, P 35,7 g, C 9,5 g, G 5,7 g
+
+**Ingredientes** (lote de 893 g cocinado)
+
+- 1000 g · Mejillón de Mediterráneo, crudo
+- 50 g · Vino blanco seco
+- 1 g · Laurel, hojas
+
+**Preparación**
+
+1. Limpia 1.000 g de mejillones quitándoles las barbas.
+2. Ponlos en una cazuela con 50 g de vino blanco y 1 hoja de laurel, tapa y cuece a fuego fuerte 4 minutos, moviendo la cazuela, hasta que se abran.
+3. Sírvelos con su caldo.
+
+*Notas:* Los 1.000 g son de carne de mejillón; con concha se compra el doble.
+
+## 1055. Mejillones a la marinera, cocinados
+
+`mejillones-marinera` · Mariscos · 4 raciones de 252 g · 35 min · por ración: 237 kcal, P 22,1 g, C 8,6 g, G 11,3 g
+
+**Ingredientes** (lote de 1006 g cocinado)
+
+- 800 g · Mejillón de Mediterráneo, crudo
+- 100 g · Cebolla, cruda
+- 150 g · Tomate redondo, crudo
+- 100 g · Vino blanco seco
+- 30 g · Aceite de oliva virgen extra
+- 3 g · Pimentón, polvo
+
+**Preparación**
+
+1. Limpia 800 g de mejillones y ábrelos al vapor. Guarda el caldo colado.
+2. Pica 100 g de cebolla y pochala en 30 g de aceite 8 minutos. Añade 150 g de tomate rallado y cocina 8 minutos.
+3. Retira del fuego, añade 3 g de pimentón y 100 g de vino blanco y un poco del caldo. Cuece 5 minutos.
+4. Añade los mejillones y mézclalos con la salsa 2 minutos.
+
+*Notas:* Los 800 g son de carne de mejillón.
+
+## 1056. Almejas a la plancha, cocinadas
+
+`almejas-plancha` · Mariscos · 2 raciones de 182 g · 40 min · por ración: 235 kcal, P 23,3 g, C 6,4 g, G 12,9 g
+
+**Ingredientes** (lote de 364 g cocinado)
+
+- 400 g · Almeja, navaja o pipa, cruda
+- 10 g · Ajo, crudo
+- 15 g · Aceite de oliva virgen extra
+- 3 g · Perejil, fresco
+
+**Preparación**
+
+1. Pon 400 g de almejas en agua con sal 30 minutos para que suelten la arena.
+2. Pica 10 g de ajo y 3 g de perejil y mézclalos con 15 g de aceite.
+3. Pon las almejas en una plancha muy caliente y, según se abran, échales el aliño y retíralas.
+
+*Notas:* Los 400 g son con concha. No lleva sal aparte.
+
+## 1057. Vieiras gratinadas, horneadas
+
+`vieiras-gratinadas` · Mariscos · 4 raciones de 113 g · 30 min · por ración: 178 kcal, P 21 g, C 7,6 g, G 6,9 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 400 g · Vieira, noix, cruda
+- 30 g · Pan rallado
+- 50 g · Cebolla, cruda
+- 30 g · Jamón seco Serrano
+- 20 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Precalienta el horno a 220 °C. Pica 50 g de cebolla y 30 g de jamón y sofríelos en 10 g del aceite 5 minutos.
+2. Coloca 400 g de vieiras limpias en sus conchas o en una fuente.
+3. Cubre con el sofrito y 30 g de pan rallado y riega con el resto del aceite.
+4. Gratina 8 minutos.
+
+*Notas:* Los 400 g son de carne de vieira. No lleva sal: el jamón ya la aporta.
+
+## 1058. Cigalas a la plancha, cocinadas
+
+`cigalas-plancha` · Mariscos · 2 raciones de 219 g · 15 min · por ración: 269 kcal, P 47,8 g, C 3,8 g, G 7 g
+
+**Ingredientes** (lote de 437 g cocinado)
+
+- 500 g · Cigala, cruda
+- 10 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Parte 500 g de cigalas por la mitad a lo largo (o déjalas enteras).
+2. Sálalas y úntalas con 10 g de aceite.
+3. Hazlas en una plancha muy caliente 2 minutos por cada lado.
+
+*Notas:* Los 500 g son de cigala entera; la parte comestible es menor.
+
+## 1059. Langostinos al ajillo, cocinados
+
+`langostinos-ajillo` · Mariscos · 3 raciones de 137 g · 20 min · por ración: 319 kcal, P 26,7 g, C 5,5 g, G 21,1 g
+
+**Ingredientes** (lote de 412 g cocinado)
+
+- 400 g · Gamba o langostino, crudo
+- 20 g · Ajo, crudo
+- 60 g · Aceite de oliva virgen extra
+- 2 g · Chile, crudo
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pela 400 g de langostinos.
+2. Dora 20 g de ajo laminado y 2 g de guindilla en 60 g de aceite en una cazuela de barro.
+3. Añade los langostinos y la sal y cocínalos 2 minutos, hasta que cambien de color. Sirve en la cazuela, chisporroteando.
+
+*Notas:* Los 400 g son pesados ya pelados. Parte del aceite queda en la cazuela.
+
+## 1060. Sepia en salsa, cocinada
+
+`sepia-salsa` · Mariscos · 4 raciones de 214 g · 60 min · por ración: 268 kcal, P 26,1 g, C 4,9 g, G 14,6 g
+
+**Ingredientes** (lote de 857 g cocinado)
+
+- 600 g · Sepia, cruda
+- 150 g · Cebolla, cruda
+- 150 g · Tomate redondo, crudo
+- 80 g · Vino blanco seco
+- 40 g · Aceite de oliva virgen extra
+- 20 g · Almendra, pelada, sin sal añadida
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 600 g de sepia y córtala en trozos.
+2. Pica 150 g de cebolla y sofríela en 40 g de aceite 10 minutos. Añade 150 g de tomate rallado y cocina 5 minutos.
+3. Añade la sepia y la sal y rehoga 5 minutos. Vierte 80 g de vino blanco.
+4. Tuesta 20 g de almendras, májalas con un poco de agua y añádelas. Tapa y cuece a fuego suave 30 minutos.
+
+## 1061. Langosta a la plancha, cocinada
+
+`langosta-plancha` · Mariscos · 2 raciones de 254 g · 20 min · por ración: 328 kcal, P 53,1 g, C 3,3 g, G 11,4 g
+
+**Ingredientes** (lote de 508 g cocinado)
+
+- 600 g · Langosta, cruda
+- 15 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Parte 600 g de langosta por la mitad a lo largo.
+2. Úntala con 15 g de aceite y la sal.
+3. Hazla en una plancha muy caliente con la carne hacia abajo 5 minutos y 3 minutos más por el lado del caparazón.
+
+*Notas:* Los 600 g son de langosta entera; la parte comestible es menor.
+
+## 1062. Tortilla de patatas con jamón serrano, cuajada
+
+`tortilla-patatas-jamon` · Huevos · 4 raciones de 192 g · 50 min · por ración: 398 kcal, P 16,7 g, C 20,4 g, G 26,8 g
+
+**Ingredientes** (lote de 766 g cocinado)
+
+- 500 g · Patata, sin piel, cruda
+- 300 g · Huevo crudo
+- 60 g · Jamón seco Serrano
+- 70 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 500 g de patata pelada en láminas finas y pochala en 60 g del aceite a fuego suave 20 minutos. Escurre el aceite que sobre.
+2. Mézclala con 300 g de huevo (5 huevos) batido, 60 g de jamón en taquitos y la sal.
+3. Cuaja la tortilla en una sartén con el resto del aceite 3 minutos por cada lado, dándole la vuelta con un plato.
+
+## 1063. Tortilla de berenjena, cocinada
+
+`tortilla-berenjena` · Huevos · 2 raciones de 218 g · 30 min · por ración: 291 kcal, P 16,7 g, C 4,4 g, G 22,1 g
+
+**Ingredientes** (lote de 435 g cocinado)
+
+- 240 g · Huevo crudo
+- 200 g · Berenjena, cruda
+- 50 g · Cebolla, cruda
+- 20 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 200 g de berenjena en dados y 50 g de cebolla en pluma.
+2. Pochalas en 15 g del aceite 12 minutos.
+3. Mézclalas con 240 g de huevo (4 huevos) batido y la sal.
+4. Cuaja la tortilla en el resto del aceite 2 o 3 minutos por cada lado.
+
+## 1064. Tortilla de pimientos, cocinada
+
+`tortilla-pimientos` · Huevos · 2 raciones de 194 g · 25 min · por ración: 263 kcal, P 16,3 g, C 4,8 g, G 19,6 g
+
+**Ingredientes** (lote de 388 g cocinado)
+
+- 240 g · Huevo crudo
+- 100 g · Pimiento verde, crudo
+- 100 g · Pimiento rojo, crudo
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 100 g de pimiento verde y 100 g de pimiento rojo en tiras y pochalos en 10 g del aceite 10 minutos.
+2. Mézclalos con 240 g de huevo (4 huevos) batido y la sal.
+3. Cuaja la tortilla en el resto del aceite 2 o 3 minutos por cada lado.
+
+## 1065. Tortilla de queso de cabra y cebolla, cocinada
+
+`tortilla-cabra-cebolla` · Huevos · 2 raciones de 167 g · 30 min · por ración: 310 kcal, P 21,3 g, C 2 g, G 23,9 g
+
+**Ingredientes** (lote de 333 g cocinado)
+
+- 240 g · Huevo crudo
+- 60 g · Queso de cabra bûche
+- 60 g · Cebolla, cruda
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 60 g de cebolla en pluma y pochala en 5 g del aceite 12 minutos.
+2. Bate 240 g de huevo (4 huevos) y añade la cebolla.
+3. Cuaja la tortilla en el resto del aceite. Antes de doblarla, reparte 60 g de queso de cabra en rodajas.
+
+*Notas:* No lleva sal: el queso ya la aporta.
+
+## 1066. Revuelto de champiñones y jamón, cocinado
+
+`revuelto-champinones-jamon` · Huevos · 2 raciones de 211 g · 20 min · por ración: 303 kcal, P 23,6 g, C 2,1 g, G 22,1 g
+
+**Ingredientes** (lote de 421 g cocinado)
+
+- 240 g · Huevo crudo
+- 200 g · Champiñón de París o champiñón cultivado, crudo
+- 40 g · Jamón seco Serrano
+- 15 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Lamina 200 g de champiñones y saltéalos en 15 g de aceite 6 minutos.
+2. Añade 40 g de jamón en taquitos y saltea 1 minuto.
+3. Añade 240 g de huevo (4 huevos) batido y remueve hasta que cuaje pero quede jugoso.
+
+*Notas:* No lleva sal: el jamón ya la aporta.
+
+## 1067. Huevos revueltos con tomate, cocinados
+
+`huevos-revueltos-tomate` · Huevos · 2 raciones de 194 g · 20 min · por ración: 253 kcal, P 15,9 g, C 3,5 g, G 19,6 g
+
+**Ingredientes** (lote de 388 g cocinado)
+
+- 240 g · Huevo crudo
+- 200 g · Tomate redondo, crudo
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Ralla 200 g de tomate y cuécelo en 15 g de aceite con la sal 8 minutos, hasta que se reduzca.
+2. Añade 240 g de huevo (4 huevos) batido y remueve a fuego suave hasta que cuaje.
+
+## 1068. Huevos rellenos de gambas, listos para consumir
+
+`huevos-rellenos-gambas` · Huevos · 4 raciones de 125 g · 30 min · por ración: 237 kcal, P 16,6 g, C 1,3 g, G 18,3 g
+
+**Ingredientes** (lote de 500 g cocinado)
+
+- 360 g · Huevo crudo
+- 100 g · Gamba o langostino, crudo
+- 50 g · Mayonesa (70% grasa mín.), envasada
+
+**Preparación**
+
+1. Cuece 360 g de huevo (6 huevos) 10 minutos, enfríalos y pélalos. Pártelos por la mitad y saca las yemas.
+2. Cuece 100 g de gambas peladas 1 minuto y pícalas.
+3. Mezcla las gambas con la mitad de las yemas y 30 g de la mayonesa y rellena las claras.
+4. Cúbrelas con el resto de la mayonesa y espolvorea el resto de las yemas ralladas.
+
+*Notas:* Salen 12 mitades: 3 por ración.
+
+## 1069. Huevos encapotados (rebozados), fritos
+
+`huevos-encapotados` · Huevos · 3 raciones de 147 g · 35 min · por ración: 352 kcal, P 18,8 g, C 7,8 g, G 27,1 g
+
+**Ingredientes** (lote de 441 g cocinado)
+
+- 420 g · Huevo crudo
+- 30 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 40 g · Aceite de girasol
+
+**Preparación**
+
+1. Cuece 420 g de huevo (7 huevos) 6 minutos, para que la yema quede algo blanda. Enfríalos y pélalos.
+2. Pásalos por 30 g de harina.
+3. Fríelos en aceite caliente 1 o 2 minutos, hasta que estén dorados. Escúrrelos.
+
+*Notas:* Los 40 g de aceite son los que retienen al freír; en la sartén hace falta más. Tradicionalmente se rebozan en bechamel y huevo; esta versión solo lleva harina.
+
+## 1070. Huevos en salsa de almendras, cocinados
+
+`huevos-salsa-almendras` · Huevos · 4 raciones de 162 g · 40 min · por ración: 301 kcal, P 14,1 g, C 6,7 g, G 23 g
+
+**Ingredientes** (lote de 649 g cocinado)
+
+- 360 g · Huevo crudo
+- 30 g · Almendra, pelada, sin sal añadida
+- 100 g · Cebolla, cruda
+- 30 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Aceite de oliva virgen extra
+- 50 g · Vino blanco seco
+- 150 g · Agua del grifo
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 360 g de huevo (6 huevos) 10 minutos, pélalos y pártelos por la mitad.
+2. Fríe en 40 g de aceite 30 g de almendras y 30 g de pan hasta que estén dorados. Sácalos y májalos con un poco de agua.
+3. En el mismo aceite, pocha 100 g de cebolla picada 8 minutos. Vierte 50 g de vino blanco y deja que se evapore.
+4. Añade el majado, 150 g de agua y la sal y cuece 5 minutos. Añade los huevos y calienta 2 minutos.
+
+## 1071. Huevos escalfados con espárragos trigueros, cocinados
+
+`huevos-poche-esparragos` · Huevos · 1 ración de 299 g · 20 min · por ración: 307 kcal, P 20,4 g, C 4,1 g, G 22,4 g
+
+**Ingredientes** (lote de 299 g cocinado)
+
+- 120 g · Huevo crudo
+- 200 g · Espárrago verde, crudo
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Quita la parte dura a 200 g de espárragos trigueros y hazlos a la plancha con 10 g de aceite y la sal 5 minutos.
+2. Escalfa 120 g de huevo (2 huevos) en agua con un chorrito de vinagre 3 minutos.
+3. Sirve los huevos sobre los espárragos.
+
+*Notas:* El vinagre del agua de escalfar se tira.
+
+## 1072. Frittata de patata y espinacas, horneada
+
+`frittata-patata-espinacas` · Huevos · 4 raciones de 150 g · 45 min · por ración: 233 kcal, P 14 g, C 9,4 g, G 14,9 g
+
+**Ingredientes** (lote de 598 g cocinado)
+
+- 300 g · Huevo crudo
+- 200 g · Patata, sin piel, cruda
+- 150 g · Espinaca, cruda
+- 30 g · Queso Parmesano
+- 20 g · Aceite de oliva virgen extra
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 200 g de patata pelada en láminas finas y dóralas en 20 g de aceite 12 minutos en una sartén que pueda ir al horno.
+2. Añade 150 g de espinacas y deja que reduzcan.
+3. Bate 300 g de huevo (5 huevos) con 30 g de parmesano rallado y la sal y viértelo por encima.
+4. Cuaja a fuego suave 5 minutos y termina en el horno a 180 °C 10 minutos.
+
+## 1073. Pimientos asados con ajo y aceite, listos para consumir
+
+`pimientos-asados-ajo` · Verduras y hortalizas · 4 raciones de 130 g · 70 min · por ración: 160 kcal, P 2,4 g, C 12,5 g, G 10,6 g
+
+**Ingredientes** (lote de 518 g cocinado)
+
+- 800 g · Pimiento rojo, crudo
+- 10 g · Ajo, crudo
+- 40 g · Aceite de oliva virgen extra
+- 10 g · Vinagre de vino tinto
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Asa 800 g de pimientos rojos en el horno a 200 °C 45 minutos. Tápalos 15 minutos.
+2. Pélalos, quítales las pepitas y córtalos en tiras, guardando su jugo.
+3. Aliña con 10 g de ajo laminado, 40 g de aceite, 10 g de vinagre, el jugo y la sal. Deja reposar 1 hora.
+
+## 1074. Berenjena asada con yogur y miel, lista para consumir
+
+`berenjena-asada-yogur` · Verduras y hortalizas · 3 raciones de 192 g · 55 min · por ración: 149 kcal, P 3,7 g, C 12,7 g, G 7,8 g
+
+**Ingredientes** (lote de 575 g cocinado)
+
+- 600 g · Berenjena, cruda
+- 125 g · Yogur o leche fermentada, natural
+- 20 g · Miel
+- 20 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Asa 600 g de berenjenas enteras en el horno a 220 °C 40 minutos.
+2. Ábrelas a lo largo y sazona la pulpa con la sal.
+3. Cúbrelas con 125 g de yogur, 20 g de miel y 20 g de aceite.
+
+## 1075. Tomates asados con queso de cabra, horneados
+
+`tomates-asados-cabra` · Verduras y hortalizas · 3 raciones de 159 g · 35 min · por ración: 151 kcal, P 5,9 g, C 5,8 g, G 11,7 g
+
+**Ingredientes** (lote de 477 g cocinado)
+
+- 500 g · Tomate redondo, crudo
+- 80 g · Queso de cabra bûche
+- 15 g · Aceite de oliva virgen extra
+- 1 g · Orégano, deshidratado
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Corta 500 g de tomates por la mitad y colócalos en una fuente.
+2. Riégalos con 15 g de aceite y hornéalos 20 minutos.
+3. Pon encima 80 g de queso de cabra en rodajas y 1 g de orégano y gratina 5 minutos.
+
+*Notas:* No lleva sal: el queso ya la aporta.
+
+## 1076. Espárragos trigueros con huevo, cocinados
+
+`esparragos-huevo` · Verduras y hortalizas · 2 raciones de 186 g · 20 min · por ración: 188 kcal, P 11,5 g, C 3,1 g, G 13,8 g
+
+**Ingredientes** (lote de 371 g cocinado)
+
+- 300 g · Espárrago verde, crudo
+- 120 g · Huevo crudo
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Quita la parte dura a 300 g de espárragos trigueros y hazlos a la plancha con 10 g del aceite y la sal 5 minutos.
+2. Fríe 120 g de huevo (2 huevos) en el resto del aceite.
+3. Sirve los huevos sobre los espárragos.
+
+## 1077. Habas tiernas salteadas con ajo y menta, cocinadas
+
+`habas-salteadas` · Verduras y hortalizas · 2 raciones de 196 g · 25 min · por ración: 219 kcal, P 13,9 g, C 9,4 g, G 11,4 g
+
+**Ingredientes** (lote de 392 g cocinado)
+
+- 400 g · Haba para desgranar, fresca, cruda
+- 10 g · Ajo, crudo
+- 20 g · Aceite de oliva virgen extra
+- 3 g · Menta, fresca
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 400 g de habas desgranadas en agua 5 minutos. Escúrrelas.
+2. Dora 10 g de ajo laminado en 20 g de aceite.
+3. Añade las habas y la sal y saltéalas 5 minutos. Añade 3 g de menta picada al final.
+
+## 1078. Calabacín salteado con ajo y menta, cocinado
+
+`calabacin-ajo-menta` · Verduras y hortalizas · 3 raciones de 180 g · 20 min · por ración: 98 kcal, P 2,6 g, C 4,3 g, G 7,3 g
+
+**Ingredientes** (lote de 541 g cocinado)
+
+- 600 g · Calabacín, pulpa y piel, crudo
+- 10 g · Ajo, crudo
+- 20 g · Aceite de oliva virgen extra
+- 3 g · Menta, fresca
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 600 g de calabacín en medias lunas.
+2. Dora 10 g de ajo laminado en 20 g de aceite.
+3. Añade el calabacín con la sal y saltéalo a fuego fuerte 8 minutos. Añade 3 g de menta picada al final.
+
+## 1079. Ratatouille casera, cocinada
+
+`ratatouille-casera` · Verduras y hortalizas · 4 raciones de 283 g · 75 min · por ración: 213 kcal, P 3,2 g, C 11,8 g, G 16 g
+
+**Ingredientes** (lote de 1133 g cocinado)
+
+- 300 g · Berenjena, cruda
+- 300 g · Calabacín, pulpa y piel, crudo
+- 150 g · Pimiento verde, crudo
+- 150 g · Pimiento rojo, crudo
+- 300 g · Tomate redondo, crudo
+- 150 g · Cebolla, cruda
+- 60 g · Aceite de oliva virgen extra
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta en dados 300 g de berenjena, 300 g de calabacín, 150 g de pimiento verde, 150 g de pimiento rojo y 150 g de cebolla.
+2. Pocha la cebolla y los pimientos en 30 g del aceite 10 minutos.
+3. Saltea aparte la berenjena y el calabacín en el resto del aceite 10 minutos.
+4. Junta todo con 300 g de tomate rallado y la sal y cuece a fuego suave 40 minutos.
+
+## 1080. Acelgas rehogadas con ajo, cocinadas
+
+`acelgas-ajo` · Verduras y hortalizas · 3 raciones de 181 g · 30 min · por ración: 104 kcal, P 2,2 g, C 3,8 g, G 8,9 g
+
+**Ingredientes** (lote de 542 g cocinado)
+
+- 600 g · Acelga, tallo sin hojas, crudo
+- 10 g · Ajo, crudo
+- 25 g · Aceite de oliva virgen extra
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 600 g de pencas de acelga en trozos y cuécelas en agua con sal 15 minutos. Escúrrelas.
+2. Dora 10 g de ajo laminado en 25 g de aceite.
+3. Añade las acelgas y rehógalas 3 minutos.
+
+## 1081. Coles de Bruselas al horno, asadas
+
+`coles-bruselas-horno` · Verduras y hortalizas · 3 raciones de 139 g · 35 min · por ración: 133 kcal, P 5,7 g, C 7,7 g, G 7,2 g
+
+**Ingredientes** (lote de 418 g cocinado)
+
+- 500 g · Coles de Bruselas, cruda
+- 20 g · Aceite de oliva virgen extra
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 210 °C. Limpia 500 g de coles de Bruselas y pártelas por la mitad.
+2. Mézclalas con 20 g de aceite y la sal.
+3. Ásalas con el corte hacia abajo 25 minutos, hasta que estén doradas.
+
+## 1082. Coliflor al horno con especias, asada
+
+`coliflor-horno-especias` · Verduras y hortalizas · 3 raciones de 169 g · 40 min · por ración: 130 kcal, P 3,9 g, C 4,2 g, G 10 g
+
+**Ingredientes** (lote de 506 g cocinado)
+
+- 600 g · Coliflor, cruda
+- 25 g · Aceite de oliva virgen extra
+- 5 g · Curry, polvo
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 210 °C. Separa 600 g de coliflor en ramitos.
+2. Mézclalos con 25 g de aceite, 5 g de curry y la sal.
+3. Ásalos 30 minutos, dándoles la vuelta a mitad, hasta que estén dorados.
+
+## 1083. Brócoli al horno con parmesano, asado
+
+`brocoli-horno-parmesano` · Verduras y hortalizas · 3 raciones de 156 g · 30 min · por ración: 154 kcal, P 8 g, C 3,8 g, G 10,4 g
+
+**Ingredientes** (lote de 469 g cocinado)
+
+- 500 g · Brócoli, crudo
+- 20 g · Aceite de oliva virgen extra
+- 30 g · Queso Parmesano
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 210 °C. Separa 500 g de brócoli en ramitos.
+2. Mézclalos con 20 g de aceite y la sal y ásalos 18 minutos.
+3. Espolvorea 30 g de parmesano rallado y hornea 5 minutos más.
+
+## 1084. Repollo con patatas, cocido
+
+`repollo-patatas` · Verduras y hortalizas · 3 raciones de 253 g · 40 min · por ración: 202 kcal, P 4,7 g, C 21,5 g, G 8,7 g
+
+**Ingredientes** (lote de 758 g cocinado)
+
+- 500 g · Repollo verde, crudo
+- 300 g · Patata, sin piel, cruda
+- 10 g · Ajo, crudo
+- 25 g · Aceite de oliva virgen extra
+- 3 g · Pimentón, polvo
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 500 g de repollo en tiras y 300 g de patata pelada en trozos.
+2. Cuécelos en agua con la sal 20 minutos. Escúrrelos.
+3. Dora 10 g de ajo laminado en 25 g de aceite, retira del fuego y añade 3 g de pimentón.
+4. Riega la verdura con el refrito.
+
+## 1085. Puerros a la vinagreta, listos para consumir
+
+`puerros-vinagreta` · Verduras y hortalizas · 4 raciones de 143 g · 35 min · por ración: 152 kcal, P 3,9 g, C 6,1 g, G 11,9 g
+
+**Ingredientes** (lote de 573 g cocinado)
+
+- 500 g · Puerro, crudo
+- 40 g · Aceite de oliva virgen extra
+- 15 g · Vinagre de vino tinto
+- 60 g · Huevo crudo
+- 20 g · Cebolla, cruda
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 500 g de puerros y cuécelos enteros en agua con sal 15 minutos. Escúrrelos y deja que se enfríen.
+2. Cuece 60 g de huevo (1 huevo) 10 minutos y pícalo.
+3. Mezcla 40 g de aceite, 15 g de vinagre, 20 g de cebolla muy picada, el huevo y la sal.
+4. Sirve los puerros con la vinagreta por encima.
+
+## 1086. Setas a la plancha, cocinadas
+
+`setas-plancha` · Verduras y hortalizas · 2 raciones de 163 g · 15 min · por ración: 145 kcal, P 5,1 g, C 5,6 g, G 10,6 g
+
+**Ingredientes** (lote de 326 g cocinado)
+
+- 400 g · Champiñón, todos los tipos, crudo
+- 10 g · Ajo, crudo
+- 20 g · Aceite de oliva virgen extra
+- 3 g · Perejil, fresco
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 400 g de setas con un paño y trocea las grandes.
+2. Hazlas en una plancha muy caliente con 10 g del aceite y la sal 5 minutos.
+3. Pica 10 g de ajo y 3 g de perejil, mézclalos con el resto del aceite y riega las setas.
+
+## 1087. Chips de boniato al horno, horneados
+
+`chips-boniato-horno` · Patatas y tubérculos · 2 raciones de 125 g · 40 min · por ración: 230 kcal, P 3,2 g, C 34,2 g, G 7,7 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 400 g · Boniato, crudo
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Corta 400 g de boniato en láminas muy finas, con mandolina.
+2. Mézclalas con 15 g de aceite y la sal.
+3. Repártelas en bandejas sin que se solapen y hornéalas 25 minutos, dándoles la vuelta a mitad, hasta que estén crujientes.
+
+*Notas:* Vigílalas al final: se queman enseguida.

@@ -1129,7 +1129,7 @@ Gastronomía ni de ninguna otra fuente. Criterios:
   por uso, y lo que se reparte en piezas (croquetas, albóndigas) dice cuántas.
 - Imperativo de tú, cifras en dígitos y unidades del sistema métrico.
 
-Tandas escritas (984 recetas, más los tres pastissets): la 1 (100 habituales: tortillas, legumbres,
+Tandas escritas (1084 recetas, más los tres pastissets): la 1 (100 habituales: tortillas, legumbres,
 arroces y pasta, guisos de carne y pescado, verduras, cremas, ensaladas, salsas
 básicas y postres caseros) y la 2 (100 más del mismo repertorio), revisadas por
 Víctor con muestras en la app; la 3 y la 4 (200 platos preparados siguientes en
@@ -1150,4 +1150,6 @@ marroquí, platos de cocina anglosajona, vegetarianos, triturados infantiles
 y regionales). Con ella, todos los «Platos preparados» tienen pasos. La 10
 (100 de Carnes, Pescados y Mariscos: planchas, brasas, asados, escabeches,
 frituras y guisos) usa la misma plantilla de pasos para las piezas sueltas
-a la plancha con aceite de oliva.
+a la plancha con aceite de oliva. La 11 (100 más: el resto de carnes,
+pescados y mariscos, huevos y tortillas, verduras y patatas) cierra esas
+categorías salvo unas pocas verduras.

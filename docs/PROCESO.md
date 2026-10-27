@@ -2878,3 +2878,13 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 - Las notas dicen cuándo los gramos son con hueso o con concha. En los escabeches avisan de que parte del aceite queda en el líquido.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 261. Recetas: tanda 11 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas más: el resto de carnes, pescados y mariscos, los huevos y tortillas, y casi todas las verduras y patatas. En total hay 1.087 recetas con pasos.
+
+**Cómo:** igual que la tanda 10.
+- Las piezas sueltas tienen una ración de lo que pesan (un huevo, una pieza a la plancha).
+- La cebolla caramelizada y los chips van por ración de acompañamiento.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.

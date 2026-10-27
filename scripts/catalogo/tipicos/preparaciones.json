@@ -11482,5 +11482,1067 @@
       "En la misma sartén, mezcla 40 g de mostaza con 150 g de nata y cuece 3 minutos.",
       "Vuelve a poner el salmón 1 minuto en la salsa."
     ]
+  },
+  {
+    "id": "huevo-frito-aove",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Calienta 4 g de aceite en una sartén antiadherente pequeña a fuego medio.",
+      "Casca 60 g de huevo (1 huevo), sálalo y fríelo 2 o 3 minutos, echándole aceite por encima para cuajar la clara sin que la yema se haga."
+    ],
+    "notas": "Frito en poco aceite: con la sartén llena de aceite retiene algo más."
+  },
+  {
+    "id": "huevo-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Unta una sartén antiadherente con 3 g de aceite y caliéntala a fuego medio.",
+      "Casca 60 g de huevo (1 huevo), sálalo, tapa y cuécelo 3 minutos, hasta que la clara esté cuajada."
+    ]
+  },
+  {
+    "id": "patata-cocida-aove",
+    "raciones": 1,
+    "tiempoMin": 25,
+    "pasos": [
+      "Pela 200 g de patata y córtala en trozos.",
+      "Cuécela en agua con la sal 18 minutos, hasta que esté tierna.",
+      "Escúrrela y aliña con 10 g de aceite en crudo."
+    ]
+  },
+  {
+    "id": "patatas-fritas-aove",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 500 g de patata pelada en bastones, lávalos y sécalos muy bien.",
+      "Fríelos en aceite de oliva a 160 °C 8 minutos, hasta que estén tiernos. Sácalos.",
+      "Sube el aceite a 190 °C y vuelve a freírlos 2 o 3 minutos, hasta que estén dorados. Escúrrelos y sálalos."
+    ],
+    "notas": "Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "parrillada-verduras",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 200 g de calabacín y 200 g de berenjena en rodajas de 1 cm, 150 g de pimiento rojo en tiras y 100 g de cebolla en rodajas. Limpia 100 g de champiñones y 100 g de espárragos.",
+      "Úntalas con 30 g del aceite y la sal.",
+      "Hazlas en una plancha muy caliente por tandas, 3 o 4 minutos por cada lado.",
+      "Sirve con el resto del aceite por encima."
+    ]
+  },
+  {
+    "id": "brocoli-vapor-aove",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Separa 300 g de brócoli en ramitos.",
+      "Cuécelo al vapor 5 o 6 minutos, hasta que esté tierno pero firme.",
+      "Aliña con 10 g de aceite y la sal."
+    ]
+  },
+  {
+    "id": "judias-verdes-ajo",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Quita las puntas a 300 g de judías verdes, trocéalas y cuécelas en agua con la sal 8 minutos. Escúrrelas.",
+      "Dora 5 g de ajo laminado en 15 g de aceite.",
+      "Añade las judías y rehógalas 2 minutos."
+    ]
+  },
+  {
+    "id": "espinacas-ajo",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Lava 400 g de espinacas.",
+      "Dora 5 g de ajo laminado en 15 g de aceite.",
+      "Añade las espinacas por tandas con la sal y saltéalas 3 minutos, hasta que reduzcan."
+    ]
+  },
+  {
+    "id": "berenjena-plancha",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Corta 300 g de berenjena en rodajas de 1 cm.",
+      "Úntalas con 15 g de aceite y la sal.",
+      "Hazlas en una plancha caliente 3 o 4 minutos por cada lado, hasta que estén tiernas y doradas."
+    ]
+  },
+  {
+    "id": "calabacin-plancha",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Corta 300 g de calabacín en rodajas o láminas de 1 cm.",
+      "Úntalas con 10 g de aceite y la sal.",
+      "Hazlas en una plancha caliente 2 o 3 minutos por cada lado."
+    ]
+  },
+  {
+    "id": "revuelto-claras-espinacas",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Saltea 100 g de espinacas en 5 g de aceite 2 minutos, hasta que reduzcan.",
+      "Añade 200 g de claras con la sal y remueve a fuego suave hasta que cuajen pero sigan jugosas."
+    ]
+  },
+  {
+    "id": "brocoli-ajo",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Separa 500 g de brócoli en ramitos y escáldalos en agua hirviendo 2 minutos. Escúrrelos.",
+      "Dora 10 g de ajo laminado en 20 g de aceite.",
+      "Añade el brócoli con la sal y saltéalo a fuego fuerte 4 minutos."
+    ]
+  },
+  {
+    "id": "alcachofas-horno",
+    "raciones": 3,
+    "tiempoMin": 50,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Quita las hojas duras a 600 g de alcachofas, corta las puntas y pártelas por la mitad.",
+      "Colócalas en una fuente, riégalas con 30 g de aceite, 5 g de ajo picado y la sal.",
+      "Tápalas con papel de aluminio y hornéalas 25 minutos. Destápalas y hornéalas 10 minutos más."
+    ],
+    "notas": "Los 600 g son de alcachofa limpia."
+  },
+  {
+    "id": "berenjenas-rebozadas",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Corta 600 g de berenjena en rodajas de 1 cm, sálalas y déjalas 20 minutos. Sécalas.",
+      "Pásalas por 60 g de harina y luego por 80 g de huevo batido.",
+      "Fríelas en aceite de oliva caliente 2 minutos por cada lado y escúrrelas."
+    ],
+    "notas": "Los 80 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "patatas-gajo-casera",
+    "raciones": 4,
+    "tiempoMin": 50,
+    "pasos": [
+      "Precalienta el horno a 210 °C. Corta 1.000 g de patata pelada (o con piel) en gajos.",
+      "Mézclalos con 40 g de aceite, 5 g de pimentón, 2 g de orégano, 5 g de ajo machacado y la sal.",
+      "Repártelos en una bandeja sin amontonar y hornéalos 35 minutos, dándoles la vuelta a mitad."
+    ]
+  },
+  {
+    "id": "tortilla-claras-pavo",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Pica 40 g de pechuga de pavo.",
+      "Bate 200 g de claras y añade el pavo.",
+      "Cuájala en una sartén antiadherente con 5 g de aceite 2 minutos por cada lado."
+    ],
+    "notas": "No lleva sal: el pavo ya la aporta."
+  },
+  {
+    "id": "huevos-bacon",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Dora 60 g de panceta ahumada en lonchas en una sartén sin aceite 3 minutos. Sácala.",
+      "Añade 5 g de aceite y fríe 120 g de huevo (2 huevos) 2 o 3 minutos.",
+      "Sírvelos con la panceta."
+    ]
+  },
+  {
+    "id": "revuelto-calabacin",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Corta 250 g de calabacín en dados y 50 g de cebolla en pluma.",
+      "Pochalos en 15 g de aceite 10 minutos.",
+      "Añade 240 g de huevo (4 huevos) batido con la sal y remueve a fuego suave hasta que cuaje pero quede jugoso."
+    ]
+  },
+  {
+    "id": "tortilla-gambas",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pela 60 g de gambas y trocéalas.",
+      "Saltéalas con 3 g de ajo picado en 8 g de aceite 1 minuto.",
+      "Añade 120 g de huevo (2 huevos) batido con la sal y cuaja la tortilla 1 o 2 minutos por cada lado."
+    ],
+    "notas": "Los 60 g de gambas son pesados ya peladas."
+  },
+  {
+    "id": "tortilla-esparragos-trigueros",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Trocea 100 g de espárragos trigueros y saltéalos en 8 g de aceite 5 minutos.",
+      "Añade 120 g de huevo (2 huevos) batido con la sal.",
+      "Cuaja la tortilla 1 o 2 minutos por cada lado."
+    ]
+  },
+  {
+    "id": "tortilla-alcachofas",
+    "raciones": 1,
+    "tiempoMin": 30,
+    "pasos": [
+      "Limpia 120 g de alcachofas, córtalas en láminas finas y fríelas en 8 g de aceite a fuego suave 12 minutos, hasta que estén tiernas.",
+      "Añade 120 g de huevo (2 huevos) batido con la sal.",
+      "Cuaja la tortilla 1 o 2 minutos por cada lado."
+    ],
+    "notas": "Los 120 g son de alcachofa limpia."
+  },
+  {
+    "id": "tortilla-jamon-queso",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Bate 120 g de huevo (2 huevos) con la sal.",
+      "Cuájalos en una sartén con 8 g de aceite.",
+      "Antes de que cuaje del todo, pon en una mitad 20 g de jamón y 20 g de queso en lonchas, dóblala y deja que el queso se funda."
+    ]
+  },
+  {
+    "id": "tortilla-patata-calabacin",
+    "raciones": 4,
+    "tiempoMin": 50,
+    "pasos": [
+      "Corta 400 g de patata pelada en láminas finas, 250 g de calabacín en dados y 80 g de cebolla en pluma.",
+      "Pocha la patata y la cebolla en 50 g del aceite a fuego suave 20 minutos. Añade el calabacín los últimos 8.",
+      "Escurre el aceite que sobre y mezcla las verduras con 300 g de huevo (5 huevos) batido y la sal.",
+      "Cuaja la tortilla en una sartén con el resto del aceite 3 minutos por cada lado, dándole la vuelta con un plato."
+    ]
+  },
+  {
+    "id": "tortilla-patatas-rellena",
+    "raciones": 4,
+    "tiempoMin": 55,
+    "pasos": [
+      "Corta 500 g de patata pelada en láminas finas y 80 g de cebolla en pluma y pochalas en 60 g del aceite a fuego suave 20 minutos.",
+      "Mézclalas con 300 g de huevo (5 huevos) batido y la sal.",
+      "Echa la mitad en una sartén con el resto del aceite, cubre con 60 g de jamón y 60 g de queso en lonchas y añade el resto de la mezcla.",
+      "Cuaja 4 minutos, dale la vuelta con un plato y cuaja 3 minutos más."
+    ]
+  },
+  {
+    "id": "revuelto-espinacas-gambas",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Dora 3 g de ajo laminado en 8 g de aceite. Añade 60 g de gambas peladas y saltéalas 1 minuto.",
+      "Añade 100 g de espinacas y saltéalas hasta que reduzcan.",
+      "Añade 120 g de huevo (2 huevos) batido con la sal y remueve hasta que cuaje."
+    ]
+  },
+  {
+    "id": "revuelto-patatas-chorizo",
+    "raciones": 1,
+    "tiempoMin": 25,
+    "pasos": [
+      "Corta 150 g de patata pelada en dados pequeños y fríelos en 25 g de aceite 12 minutos.",
+      "Añade 40 g de chorizo en dados y dóralo 2 minutos.",
+      "Añade 120 g de huevo (2 huevos) batido con la sal y remueve hasta que cuaje."
+    ]
+  },
+  {
+    "id": "revuelto-salmon-ahumado",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Bate 120 g de huevo (2 huevos).",
+      "Cuájalos en 5 g de mantequilla a fuego muy suave, removiendo, hasta que estén cremosos.",
+      "Retira del fuego y añade 50 g de salmón ahumado en tiras."
+    ],
+    "notas": "No lleva sal: el salmón ya la aporta."
+  },
+  {
+    "id": "revuelto-bacalao",
+    "raciones": 1,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pocha 60 g de cebolla en pluma en 10 g de aceite 10 minutos.",
+      "Añade 100 g de bacalao desalado desmigado y rehoga 2 minutos.",
+      "Añade 120 g de huevo (2 huevos) batido y remueve hasta que cuaje."
+    ],
+    "notas": "El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo."
+  },
+  {
+    "id": "huevos-duros-mayonesa",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Cuece 120 g de huevo (2 huevos) 10 minutos y enfríalos en agua fría.",
+      "Pélalos, córtalos por la mitad y sírvelos con 25 g de mayonesa."
+    ]
+  },
+  {
+    "id": "huevos-benedictinos",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Para la salsa holandesa, bate 20 g de yema con 5 g de zumo de limón al baño maría y añade poco a poco 40 g de mantequilla fundida, sin dejar de batir, hasta que espese.",
+      "Dora 40 g de panceta ahumada en lonchas. Abre y tuesta 70 g de muffin inglés.",
+      "Escalfa 120 g de huevo (2 huevos) en agua con un chorrito de vinagre 3 minutos.",
+      "Monta cada mitad de muffin con panceta, un huevo y la holandesa por encima."
+    ],
+    "notas": "El vinagre del agua de escalfar se tira."
+  },
+  {
+    "id": "pisto-huevo",
+    "raciones": 1,
+    "tiempoMin": 35,
+    "pasos": [
+      "Pica 60 g de cebolla, 60 g de pimiento verde y 60 g de pimiento rojo y pochalos en 15 g del aceite 10 minutos.",
+      "Añade 150 g de calabacín en dados y cocina 8 minutos. Añade 100 g de tomate triturado y la sal y cuece 10 minutos.",
+      "Fríe 60 g de huevo (1 huevo) en el resto del aceite y sírvelo sobre el pisto."
+    ]
+  },
+  {
+    "id": "patatas-asadas-piel",
+    "raciones": 2,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Lava 500 g de patatas medianas y sécalas.",
+      "Pínchalas, úntalas con 5 g de aceite y la sal.",
+      "Ásalas 50 minutos, hasta que estén tiernas por dentro."
+    ],
+    "notas": "Los 500 g son de patata; la piel cuenta poco."
+  },
+  {
+    "id": "patatas-gratinadas",
+    "raciones": 5,
+    "tiempoMin": 75,
+    "pasos": [
+      "Precalienta el horno a 180 °C. Corta 800 g de patata pelada en láminas muy finas.",
+      "Calienta 200 g de nata y 200 g de leche con 5 g de ajo machacado y la sal.",
+      "Coloca la patata en capas en una fuente, vertiendo la mezcla por encima.",
+      "Hornea 45 minutos, cubre con 60 g de emmental rallado y hornea 15 minutos más, hasta que esté dorado."
+    ],
+    "notas": "Es el gratin dauphinois."
+  },
+  {
+    "id": "pure-boniato",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pela 500 g de boniato y córtalo en trozos.",
+      "Cuécelo en agua 15 minutos, hasta que esté tierno. Escúrrelo.",
+      "Aplástalo con 80 g de leche caliente, 20 g de mantequilla y la sal."
+    ]
+  },
+  {
+    "id": "croquetas-patata",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Cuece 600 g de patata pelada en agua 20 minutos, escúrrela y hazla puré con la sal.",
+      "Mezcla el puré templado con 40 g de emmental rallado y forma unas 20 croquetas.",
+      "Pásalas por 60 g de huevo (1 huevo) batido y luego por 60 g de pan rallado.",
+      "Fríelas en aceite caliente 2 minutos, hasta que estén doradas. Escúrrelas."
+    ],
+    "notas": "Salen unas 20 croquetas: 5 por ración. Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "zanahorias-glaseadas",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Pela 500 g de zanahorias y córtalas en bastones o rodajas.",
+      "Ponlas en una sartén con 20 g de mantequilla, 10 g de azúcar, la sal y agua hasta cubrirlas a medias.",
+      "Cuécelas a fuego medio 15 minutos, hasta que se evapore el agua y queden brillantes."
+    ]
+  },
+  {
+    "id": "guisantes-salteados",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pica 80 g de cebolla y pochala en 15 g de aceite 6 minutos.",
+      "Añade 400 g de guisantes congelados y la sal.",
+      "Saltéalos 8 minutos, con un chorrito de agua si se pegan."
+    ]
+  },
+  {
+    "id": "cebolla-caramelizada",
+    "raciones": 10,
+    "tiempoMin": 75,
+    "pasos": [
+      "Corta 1.000 g de cebolla en pluma fina.",
+      "Pochala en 40 g de aceite con la sal a fuego muy suave 1 hora, removiendo de vez en cuando.",
+      "Añade 30 g de azúcar y cuece 10 minutos más, hasta que esté dorada y melosa."
+    ],
+    "notas": "Una ración son unos 55 g, como acompañamiento. Se conserva una semana en la nevera."
+  },
+  {
+    "id": "pimientos-rojos-horno",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Lava 1.000 g de pimientos rojos y úntalos con un poco del aceite.",
+      "Ásalos 45 minutos, dándoles la vuelta a mitad.",
+      "Tápalos 15 minutos, pélalos, quítales las pepitas y córtalos en tiras.",
+      "Aliña con el resto del aceite, su jugo y la sal."
+    ]
+  },
+  {
+    "id": "tomates-plancha",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Corta 400 g de tomates por la mitad.",
+      "Úntalos con 10 g de aceite y la sal.",
+      "Hazlos en una plancha caliente, con el corte hacia abajo, 4 minutos, y 2 minutos más por el otro lado."
+    ]
+  },
+  {
+    "id": "alcachofas-plancha",
+    "raciones": 3,
+    "tiempoMin": 40,
+    "pasos": [
+      "Quita las hojas duras a 500 g de alcachofas, corta las puntas y pártelas por la mitad.",
+      "Cuécelas en agua 12 minutos y escúrrelas bien.",
+      "Hazlas en una plancha muy caliente con 20 g de aceite y la sal 4 minutos, con el corte hacia abajo."
+    ],
+    "notas": "Los 500 g son de alcachofa limpia."
+  },
+  {
+    "id": "ensalada-verde",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Lava y seca 200 g de lechuga y trocéala.",
+      "Aliña con 15 g de aceite, 5 g de vinagre y la sal justo antes de servir."
+    ]
+  },
+  {
+    "id": "verduras-vapor",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Separa en ramitos 150 g de brócoli y 150 g de coliflor, corta en rodajas 150 g de zanahoria y trocea 150 g de judías verdes.",
+      "Cuécelas al vapor: la zanahoria y las judías 10 minutos y el brócoli y la coliflor los últimos 6.",
+      "Aliña con 15 g de aceite y la sal."
+    ]
+  },
+  {
+    "id": "maiz-mantequilla",
+    "raciones": 2,
+    "tiempoMin": 10,
+    "pasos": [
+      "Escurre 300 g de maíz dulce.",
+      "Saltéalo en 15 g de mantequilla con la sal 4 minutos."
+    ]
+  },
+  {
+    "id": "huevos-rancheros",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pica 50 g de cebolla y 3 g de guindilla y sofríelos en 10 g del aceite 5 minutos. Añade 200 g de tomate triturado y cuece 10 minutos.",
+      "Calienta 80 g de alubias rojas escurridas.",
+      "Calienta 120 g de tortillas de maíz y fríe 120 g de huevo (2 huevos) en el resto del aceite.",
+      "Pon cada huevo sobre una tortilla, cúbrelo con la salsa y sirve con las alubias."
+    ],
+    "notas": "Ajusta la sal al gusto: la formulación no la lleva."
+  },
+  {
+    "id": "yuca-frita",
+    "raciones": 3,
+    "tiempoMin": 45,
+    "pasos": [
+      "Pela 600 g de yuca, quítale la fibra central y córtala en bastones.",
+      "Cuécela en agua con sal 20 minutos, hasta que esté tierna pero entera. Escúrrela y sécala.",
+      "Fríela en aceite caliente 4 o 5 minutos, hasta que esté dorada. Escúrrela y sálala."
+    ],
+    "notas": "Los 40 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "mazorca-brasa",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Cuece 300 g de mazorcas de maíz en agua 8 minutos.",
+      "Ásalas a la brasa o en una plancha muy caliente 8 minutos, girándolas.",
+      "Úntalas con 10 g de mantequilla y la sal."
+    ],
+    "notas": "Los 300 g son de maíz sin la parte central."
+  },
+  {
+    "id": "calcots-romesco",
+    "raciones": 3,
+    "tiempoMin": 60,
+    "pasos": [
+      "Asa 600 g de calçots limpios a la brasa o al grill muy fuerte hasta que la parte de fuera se queme, 10 minutos. Envuélvelos en papel de periódico 15 minutos.",
+      "Para la salsa, asa 100 g de tomate y 10 g de ajo 20 minutos. Tuesta 30 g de almendras, 20 g de avellanas y 20 g de pan.",
+      "Tritura todo con 60 g de aceite, 10 g de vinagre y 3 g de pimentón hasta tener una salsa espesa.",
+      "Pela los calçots tirando de la parte quemada y mójalos en la salsa."
+    ],
+    "notas": "La formulación usa cebolleta, de valores muy parecidos al calçot. Tradicionalmente la salsa lleva ñora."
+  },
+  {
+    "id": "chips-kale",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 150 °C. Quita los tallos a 200 g de kale y trocéalo.",
+      "Sécalo muy bien y mézclalo con 10 g de aceite y la sal, masajeándolo.",
+      "Repártelo en una bandeja sin que se solape y hornéalo 20 minutos, hasta que esté crujiente."
+    ]
+  },
+  {
+    "id": "tortilla-claras-patata",
+    "raciones": 2,
+    "tiempoMin": 35,
+    "pasos": [
+      "Corta 200 g de patata pelada en láminas finas y cuécelas en el microondas o al vapor 8 minutos.",
+      "Dóralas en una sartén antiadherente con 10 g de aceite 5 minutos.",
+      "Añade 250 g de claras con la sal y cuaja la tortilla 3 minutos por cada lado."
+    ]
+  },
+  {
+    "id": "revuelto-claras-pavo-champinones",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Lamina 100 g de champiñones y saltéalos en 5 g de aceite 5 minutos.",
+      "Añade 50 g de pavo en tiras y saltea 1 minuto.",
+      "Añade 200 g de claras y remueve hasta que cuajen."
+    ],
+    "notas": "No lleva sal: el pavo ya la aporta."
+  },
+  {
+    "id": "brocoli-gratinado",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Separa 500 g de brócoli en ramitos y cuécelos en agua con sal hasta que estén tiernos. Escúrrelos muy bien y colócalos en una fuente.",
+      "Funde 35 g de mantequilla, añade 35 g de harina y remueve 1 minuto. Vierte poco a poco 400 g de leche con la sal y cuece 8 minutos, removiendo, hasta tener una bechamel.",
+      "Precalienta el horno a 220 °C. Cubre la verdura con la bechamel y 60 g de emmental rallado.",
+      "Gratina 15 minutos, hasta que esté dorado."
+    ]
+  },
+  {
+    "id": "puerros-gratinados",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Corta 500 g de puerros en trozos y cuécelos en agua con sal hasta que estén tiernos. Escúrrelos muy bien y colócalos en una fuente.",
+      "Funde 35 g de mantequilla, añade 35 g de harina y remueve 1 minuto. Vierte poco a poco 400 g de leche con la sal y cuece 8 minutos, removiendo, hasta tener una bechamel.",
+      "Precalienta el horno a 220 °C. Cubre la verdura con la bechamel y 60 g de emmental rallado.",
+      "Gratina 15 minutos, hasta que esté dorado."
+    ]
+  },
+  {
+    "id": "espinacas-gratinadas",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Saltea 600 g de espinacas hasta que reduzcan y escúrrelas muy bien. Colócalas en una fuente.",
+      "Funde 35 g de mantequilla, añade 35 g de harina y remueve 1 minuto. Vierte poco a poco 400 g de leche con la sal y cuece 8 minutos, removiendo, hasta tener una bechamel.",
+      "Precalienta el horno a 220 °C. Cubre las espinacas con la bechamel y 50 g de emmental rallado.",
+      "Gratina 15 minutos, hasta que esté dorado."
+    ]
+  },
+  {
+    "id": "salmon-wok-verduras",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Corta 400 g de salmón en dados, 200 g de brócoli en ramitos y 100 g de pimiento verde en tiras.",
+      "Saltea las verduras en 10 g del aceite a fuego fuerte 5 minutos.",
+      "Añade el salmón con el resto del aceite y saltea 3 minutos, con cuidado de que no se rompa.",
+      "Añade 30 g de salsa de soja y saltea 1 minuto."
+    ],
+    "notas": "No lleva sal: la soja ya la aporta."
+  },
+  {
+    "id": "jurel-escabeche",
+    "raciones": 5,
+    "tiempoMin": 60,
+    "pasos": [
+      "Limpia 600 g de jureles en lomos, sálalos con parte de la sal y dóralos en 20 g del aceite 1 minuto por cada lado. Colócalos en un recipiente.",
+      "En el resto del aceite, pocha 100 g de cebolla, 80 g de zanahoria y 15 g de ajo con 1 hoja de laurel 10 minutos.",
+      "Añade 100 g de vinagre, 100 g de vino blanco, el resto de la sal y un poco de agua y cuece 5 minutos.",
+      "Vierte el escabeche sobre el pescado y deja que repose en la nevera al menos 12 horas."
+    ],
+    "notas": "Se conserva una semana en la nevera. El reposo no cuenta en el tiempo. Parte del aceite queda en el escabeche."
+  },
+  {
+    "id": "salmon-naranja",
+    "raciones": 4,
+    "tiempoMin": 25,
+    "pasos": [
+      "Sala 600 g de lomos de salmón y dóralos en una sartén antiadherente 3 minutos por cada lado. Sácalos.",
+      "Vierte 150 g de zumo de naranja y 15 g de miel y reduce 5 minutos.",
+      "Vuelve a poner el salmón 1 minuto en la salsa."
+    ]
+  },
+  {
+    "id": "trucha-horno-limon",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Limpia 600 g de truchas y colócalas en una fuente.",
+      "Riégalas con 20 g de aceite, 20 g de zumo de limón y la sal.",
+      "Hornéalas 15 o 18 minutos, hasta que la carne se separe de la espina."
+    ],
+    "notas": "Los 600 g son de trucha limpia con espina."
+  },
+  {
+    "id": "merluza-puerros",
+    "raciones": 4,
+    "tiempoMin": 35,
+    "pasos": [
+      "Corta 200 g de puerro en rodajas finas y pochalo en 20 g de aceite 12 minutos.",
+      "Añade 100 g de nata y la mitad de la sal y cuece 3 minutos. Tritura si la quieres fina.",
+      "Sala 600 g de merluza con el resto de la sal y colócala en la salsa.",
+      "Tapa y cuece 6 u 8 minutos, hasta que el pescado esté hecho."
+    ]
+  },
+  {
+    "id": "dorada-sal",
+    "raciones": 3,
+    "tiempoMin": 45,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Deja 1.000 g de dorada entera limpia, sin escamar.",
+      "Cubre el fondo de una fuente con sal gruesa humedecida, coloca la dorada y cúbrela con más sal, apretando.",
+      "Hornéala 25 minutos.",
+      "Rompe la costra, quítale la piel y sirve los lomos."
+    ],
+    "notas": "La sal de la costra no se come y no cuenta. Los 1.000 g son de pescado entero; la parte comestible es menor."
+  },
+  {
+    "id": "bacalao-llauna",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Coloca 600 g de lomos de bacalao desalado en una bandeja metálica (llauna).",
+      "Dora 15 g de ajo laminado en 60 g de aceite. Retira del fuego y añade 5 g de pimentón y 50 g de vino blanco.",
+      "Vierte la mezcla sobre el bacalao.",
+      "Hornéalo 12 o 15 minutos."
+    ],
+    "notas": "El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo."
+  },
+  {
+    "id": "rape-horno",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Corta 200 g de tomate en rodajas y 100 g de cebolla en pluma.",
+      "Colócalos en una fuente con 20 g del aceite y la mitad de la sal y hornéalos 15 minutos.",
+      "Coloca encima 800 g de rape en medallones o cola entera, sazónalo, riégalo con el resto del aceite y 80 g de vino blanco.",
+      "Hornea 15 o 20 minutos."
+    ],
+    "notas": "Los 800 g son de rape limpio, con la espina central."
+  },
+  {
+    "id": "rodaballo-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de rodaballo, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Hazlo en una plancha muy caliente, primero por el lado de la piel, 3 o 4 minutos por cada lado."
+    ]
+  },
+  {
+    "id": "mero-salsa",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Pica 100 g de cebolla y pochala en 40 g de aceite 8 minutos. Añade 150 g de tomate rallado y cocina 8 minutos.",
+      "Vierte 80 g de vino blanco y deja que se evapore.",
+      "Sala 600 g de mero en rodajas, colócalo en la salsa, tapa y cuece 8 minutos."
+    ]
+  },
+  {
+    "id": "bacaladilla-frita",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Limpia 500 g de bacaladillas, quítales la cabeza y sécalas.",
+      "Sálalas y pásalas por 50 g de harina.",
+      "Fríelas en aceite caliente 3 minutos, hasta que estén doradas. Escúrrelas."
+    ],
+    "notas": "Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "merluza-limon",
+    "raciones": 4,
+    "tiempoMin": 25,
+    "pasos": [
+      "Sala 600 g de merluza en lomos.",
+      "Hazla a la plancha o al horno 8 minutos.",
+      "Dora 5 g de ajo laminado en 30 g de aceite, retira del fuego y añade 40 g de zumo de limón.",
+      "Riega la merluza con la salsa."
+    ]
+  },
+  {
+    "id": "mejillones-vapor",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Limpia 1.000 g de mejillones quitándoles las barbas.",
+      "Ponlos en una cazuela con 50 g de vino blanco y 1 hoja de laurel, tapa y cuece a fuego fuerte 4 minutos, moviendo la cazuela, hasta que se abran.",
+      "Sírvelos con su caldo."
+    ],
+    "notas": "Los 1.000 g son de carne de mejillón; con concha se compra el doble."
+  },
+  {
+    "id": "mejillones-marinera",
+    "raciones": 4,
+    "tiempoMin": 35,
+    "pasos": [
+      "Limpia 800 g de mejillones y ábrelos al vapor. Guarda el caldo colado.",
+      "Pica 100 g de cebolla y pochala en 30 g de aceite 8 minutos. Añade 150 g de tomate rallado y cocina 8 minutos.",
+      "Retira del fuego, añade 3 g de pimentón y 100 g de vino blanco y un poco del caldo. Cuece 5 minutos.",
+      "Añade los mejillones y mézclalos con la salsa 2 minutos."
+    ],
+    "notas": "Los 800 g son de carne de mejillón."
+  },
+  {
+    "id": "almejas-plancha",
+    "raciones": 2,
+    "tiempoMin": 40,
+    "pasos": [
+      "Pon 400 g de almejas en agua con sal 30 minutos para que suelten la arena.",
+      "Pica 10 g de ajo y 3 g de perejil y mézclalos con 15 g de aceite.",
+      "Pon las almejas en una plancha muy caliente y, según se abran, échales el aliño y retíralas."
+    ],
+    "notas": "Los 400 g son con concha. No lleva sal aparte."
+  },
+  {
+    "id": "vieiras-gratinadas",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 220 °C. Pica 50 g de cebolla y 30 g de jamón y sofríelos en 10 g del aceite 5 minutos.",
+      "Coloca 400 g de vieiras limpias en sus conchas o en una fuente.",
+      "Cubre con el sofrito y 30 g de pan rallado y riega con el resto del aceite.",
+      "Gratina 8 minutos."
+    ],
+    "notas": "Los 400 g son de carne de vieira. No lleva sal: el jamón ya la aporta."
+  },
+  {
+    "id": "cigalas-plancha",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Parte 500 g de cigalas por la mitad a lo largo (o déjalas enteras).",
+      "Sálalas y úntalas con 10 g de aceite.",
+      "Hazlas en una plancha muy caliente 2 minutos por cada lado."
+    ],
+    "notas": "Los 500 g son de cigala entera; la parte comestible es menor."
+  },
+  {
+    "id": "langostinos-ajillo",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pela 400 g de langostinos.",
+      "Dora 20 g de ajo laminado y 2 g de guindilla en 60 g de aceite en una cazuela de barro.",
+      "Añade los langostinos y la sal y cocínalos 2 minutos, hasta que cambien de color. Sirve en la cazuela, chisporroteando."
+    ],
+    "notas": "Los 400 g son pesados ya pelados. Parte del aceite queda en la cazuela."
+  },
+  {
+    "id": "sepia-salsa",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Limpia 600 g de sepia y córtala en trozos.",
+      "Pica 150 g de cebolla y sofríela en 40 g de aceite 10 minutos. Añade 150 g de tomate rallado y cocina 5 minutos.",
+      "Añade la sepia y la sal y rehoga 5 minutos. Vierte 80 g de vino blanco.",
+      "Tuesta 20 g de almendras, májalas con un poco de agua y añádelas. Tapa y cuece a fuego suave 30 minutos."
+    ]
+  },
+  {
+    "id": "langosta-plancha",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Parte 600 g de langosta por la mitad a lo largo.",
+      "Úntala con 15 g de aceite y la sal.",
+      "Hazla en una plancha muy caliente con la carne hacia abajo 5 minutos y 3 minutos más por el lado del caparazón."
+    ],
+    "notas": "Los 600 g son de langosta entera; la parte comestible es menor."
+  },
+  {
+    "id": "tortilla-patatas-jamon",
+    "raciones": 4,
+    "tiempoMin": 50,
+    "pasos": [
+      "Corta 500 g de patata pelada en láminas finas y pochala en 60 g del aceite a fuego suave 20 minutos. Escurre el aceite que sobre.",
+      "Mézclala con 300 g de huevo (5 huevos) batido, 60 g de jamón en taquitos y la sal.",
+      "Cuaja la tortilla en una sartén con el resto del aceite 3 minutos por cada lado, dándole la vuelta con un plato."
+    ]
+  },
+  {
+    "id": "tortilla-berenjena",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 200 g de berenjena en dados y 50 g de cebolla en pluma.",
+      "Pochalas en 15 g del aceite 12 minutos.",
+      "Mézclalas con 240 g de huevo (4 huevos) batido y la sal.",
+      "Cuaja la tortilla en el resto del aceite 2 o 3 minutos por cada lado."
+    ]
+  },
+  {
+    "id": "tortilla-pimientos",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Corta 100 g de pimiento verde y 100 g de pimiento rojo en tiras y pochalos en 10 g del aceite 10 minutos.",
+      "Mézclalos con 240 g de huevo (4 huevos) batido y la sal.",
+      "Cuaja la tortilla en el resto del aceite 2 o 3 minutos por cada lado."
+    ]
+  },
+  {
+    "id": "tortilla-cabra-cebolla",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 60 g de cebolla en pluma y pochala en 5 g del aceite 12 minutos.",
+      "Bate 240 g de huevo (4 huevos) y añade la cebolla.",
+      "Cuaja la tortilla en el resto del aceite. Antes de doblarla, reparte 60 g de queso de cabra en rodajas."
+    ],
+    "notas": "No lleva sal: el queso ya la aporta."
+  },
+  {
+    "id": "revuelto-champinones-jamon",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Lamina 200 g de champiñones y saltéalos en 15 g de aceite 6 minutos.",
+      "Añade 40 g de jamón en taquitos y saltea 1 minuto.",
+      "Añade 240 g de huevo (4 huevos) batido y remueve hasta que cuaje pero quede jugoso."
+    ],
+    "notas": "No lleva sal: el jamón ya la aporta."
+  },
+  {
+    "id": "huevos-revueltos-tomate",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Ralla 200 g de tomate y cuécelo en 15 g de aceite con la sal 8 minutos, hasta que se reduzca.",
+      "Añade 240 g de huevo (4 huevos) batido y remueve a fuego suave hasta que cuaje."
+    ]
+  },
+  {
+    "id": "huevos-rellenos-gambas",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Cuece 360 g de huevo (6 huevos) 10 minutos, enfríalos y pélalos. Pártelos por la mitad y saca las yemas.",
+      "Cuece 100 g de gambas peladas 1 minuto y pícalas.",
+      "Mezcla las gambas con la mitad de las yemas y 30 g de la mayonesa y rellena las claras.",
+      "Cúbrelas con el resto de la mayonesa y espolvorea el resto de las yemas ralladas."
+    ],
+    "notas": "Salen 12 mitades: 3 por ración."
+  },
+  {
+    "id": "huevos-encapotados",
+    "raciones": 3,
+    "tiempoMin": 35,
+    "pasos": [
+      "Cuece 420 g de huevo (7 huevos) 6 minutos, para que la yema quede algo blanda. Enfríalos y pélalos.",
+      "Pásalos por 30 g de harina.",
+      "Fríelos en aceite caliente 1 o 2 minutos, hasta que estén dorados. Escúrrelos."
+    ],
+    "notas": "Los 40 g de aceite son los que retienen al freír; en la sartén hace falta más. Tradicionalmente se rebozan en bechamel y huevo; esta versión solo lleva harina."
+  },
+  {
+    "id": "huevos-salsa-almendras",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Cuece 360 g de huevo (6 huevos) 10 minutos, pélalos y pártelos por la mitad.",
+      "Fríe en 40 g de aceite 30 g de almendras y 30 g de pan hasta que estén dorados. Sácalos y májalos con un poco de agua.",
+      "En el mismo aceite, pocha 100 g de cebolla picada 8 minutos. Vierte 50 g de vino blanco y deja que se evapore.",
+      "Añade el majado, 150 g de agua y la sal y cuece 5 minutos. Añade los huevos y calienta 2 minutos."
+    ]
+  },
+  {
+    "id": "huevos-poche-esparragos",
+    "raciones": 1,
+    "tiempoMin": 20,
+    "pasos": [
+      "Quita la parte dura a 200 g de espárragos trigueros y hazlos a la plancha con 10 g de aceite y la sal 5 minutos.",
+      "Escalfa 120 g de huevo (2 huevos) en agua con un chorrito de vinagre 3 minutos.",
+      "Sirve los huevos sobre los espárragos."
+    ],
+    "notas": "El vinagre del agua de escalfar se tira."
+  },
+  {
+    "id": "frittata-patata-espinacas",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Corta 200 g de patata pelada en láminas finas y dóralas en 20 g de aceite 12 minutos en una sartén que pueda ir al horno.",
+      "Añade 150 g de espinacas y deja que reduzcan.",
+      "Bate 300 g de huevo (5 huevos) con 30 g de parmesano rallado y la sal y viértelo por encima.",
+      "Cuaja a fuego suave 5 minutos y termina en el horno a 180 °C 10 minutos."
+    ]
+  },
+  {
+    "id": "pimientos-asados-ajo",
+    "raciones": 4,
+    "tiempoMin": 70,
+    "pasos": [
+      "Asa 800 g de pimientos rojos en el horno a 200 °C 45 minutos. Tápalos 15 minutos.",
+      "Pélalos, quítales las pepitas y córtalos en tiras, guardando su jugo.",
+      "Aliña con 10 g de ajo laminado, 40 g de aceite, 10 g de vinagre, el jugo y la sal. Deja reposar 1 hora."
+    ]
+  },
+  {
+    "id": "berenjena-asada-yogur",
+    "raciones": 3,
+    "tiempoMin": 55,
+    "pasos": [
+      "Asa 600 g de berenjenas enteras en el horno a 220 °C 40 minutos.",
+      "Ábrelas a lo largo y sazona la pulpa con la sal.",
+      "Cúbrelas con 125 g de yogur, 20 g de miel y 20 g de aceite."
+    ]
+  },
+  {
+    "id": "tomates-asados-cabra",
+    "raciones": 3,
+    "tiempoMin": 35,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Corta 500 g de tomates por la mitad y colócalos en una fuente.",
+      "Riégalos con 15 g de aceite y hornéalos 20 minutos.",
+      "Pon encima 80 g de queso de cabra en rodajas y 1 g de orégano y gratina 5 minutos."
+    ],
+    "notas": "No lleva sal: el queso ya la aporta."
+  },
+  {
+    "id": "esparragos-huevo",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Quita la parte dura a 300 g de espárragos trigueros y hazlos a la plancha con 10 g del aceite y la sal 5 minutos.",
+      "Fríe 120 g de huevo (2 huevos) en el resto del aceite.",
+      "Sirve los huevos sobre los espárragos."
+    ]
+  },
+  {
+    "id": "habas-salteadas",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Cuece 400 g de habas desgranadas en agua 5 minutos. Escúrrelas.",
+      "Dora 10 g de ajo laminado en 20 g de aceite.",
+      "Añade las habas y la sal y saltéalas 5 minutos. Añade 3 g de menta picada al final."
+    ]
+  },
+  {
+    "id": "calabacin-ajo-menta",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Corta 600 g de calabacín en medias lunas.",
+      "Dora 10 g de ajo laminado en 20 g de aceite.",
+      "Añade el calabacín con la sal y saltéalo a fuego fuerte 8 minutos. Añade 3 g de menta picada al final."
+    ]
+  },
+  {
+    "id": "ratatouille-casera",
+    "raciones": 4,
+    "tiempoMin": 75,
+    "pasos": [
+      "Corta en dados 300 g de berenjena, 300 g de calabacín, 150 g de pimiento verde, 150 g de pimiento rojo y 150 g de cebolla.",
+      "Pocha la cebolla y los pimientos en 30 g del aceite 10 minutos.",
+      "Saltea aparte la berenjena y el calabacín en el resto del aceite 10 minutos.",
+      "Junta todo con 300 g de tomate rallado y la sal y cuece a fuego suave 40 minutos."
+    ]
+  },
+  {
+    "id": "acelgas-ajo",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 600 g de pencas de acelga en trozos y cuécelas en agua con sal 15 minutos. Escúrrelas.",
+      "Dora 10 g de ajo laminado en 25 g de aceite.",
+      "Añade las acelgas y rehógalas 3 minutos."
+    ]
+  },
+  {
+    "id": "coles-bruselas-horno",
+    "raciones": 3,
+    "tiempoMin": 35,
+    "pasos": [
+      "Precalienta el horno a 210 °C. Limpia 500 g de coles de Bruselas y pártelas por la mitad.",
+      "Mézclalas con 20 g de aceite y la sal.",
+      "Ásalas con el corte hacia abajo 25 minutos, hasta que estén doradas."
+    ]
+  },
+  {
+    "id": "coliflor-horno-especias",
+    "raciones": 3,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 210 °C. Separa 600 g de coliflor en ramitos.",
+      "Mézclalos con 25 g de aceite, 5 g de curry y la sal.",
+      "Ásalos 30 minutos, dándoles la vuelta a mitad, hasta que estén dorados."
+    ]
+  },
+  {
+    "id": "brocoli-horno-parmesano",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 210 °C. Separa 500 g de brócoli en ramitos.",
+      "Mézclalos con 20 g de aceite y la sal y ásalos 18 minutos.",
+      "Espolvorea 30 g de parmesano rallado y hornea 5 minutos más."
+    ]
+  },
+  {
+    "id": "repollo-patatas",
+    "raciones": 3,
+    "tiempoMin": 40,
+    "pasos": [
+      "Corta 500 g de repollo en tiras y 300 g de patata pelada en trozos.",
+      "Cuécelos en agua con la sal 20 minutos. Escúrrelos.",
+      "Dora 10 g de ajo laminado en 25 g de aceite, retira del fuego y añade 3 g de pimentón.",
+      "Riega la verdura con el refrito."
+    ]
+  },
+  {
+    "id": "puerros-vinagreta",
+    "raciones": 4,
+    "tiempoMin": 35,
+    "pasos": [
+      "Limpia 500 g de puerros y cuécelos enteros en agua con sal 15 minutos. Escúrrelos y deja que se enfríen.",
+      "Cuece 60 g de huevo (1 huevo) 10 minutos y pícalo.",
+      "Mezcla 40 g de aceite, 15 g de vinagre, 20 g de cebolla muy picada, el huevo y la sal.",
+      "Sirve los puerros con la vinagreta por encima."
+    ]
+  },
+  {
+    "id": "setas-plancha",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Limpia 400 g de setas con un paño y trocea las grandes.",
+      "Hazlas en una plancha muy caliente con 10 g del aceite y la sal 5 minutos.",
+      "Pica 10 g de ajo y 3 g de perejil, mézclalos con el resto del aceite y riega las setas."
+    ]
+  },
+  {
+    "id": "chips-boniato-horno",
+    "raciones": 2,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 180 °C. Corta 400 g de boniato en láminas muy finas, con mandolina.",
+      "Mézclalas con 15 g de aceite y la sal.",
+      "Repártelas en bandejas sin que se solapen y hornéalas 25 minutos, dándoles la vuelta a mitad, hasta que estén crujientes."
+    ],
+    "notas": "Vigílalas al final: se queman enseguida."
   }
 ]
