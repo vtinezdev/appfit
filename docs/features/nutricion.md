@@ -169,7 +169,7 @@ Las filas de Alimentos permiten pasar las kcal a otra línea cuando el texto amp
 
 ## Objetivos (Ajustes)
 
-Etiquetas, porcentaje y campo redistribuyen sus filas si falta ancho (también con texto al 200 %). Se mantienen tamaños de lectura, cálculo y guardado automático.
+Una tarjeta con las calorías al día en grande (campo editable o, si salen de Perfil, la cifra con «Calculadas en Perfil» e «Ir a Perfil») y una barra partida con el reparto de proteína, hidratos y grasa en sus colores y su % debajo. Después, una lista con cada macro en su fila (punto de color, nombre, «N % de las calorías» o «g/kg × kg, en Perfil» en la proteína por kg, y su campo en g) y la regla de cómo se ajustan como pie de la lista; si no cuadran, «Cuadrar» debajo. Las filas redistribuyen su contenido si falta ancho (también con texto al 200 %). Cálculo y guardado automático, como antes.
 
 Las kcal vigentes pueden venir de Perfil (`perfilRepo.objetivosVigentes`, [features/perfil.md](perfil.md)): con perfil completo y objetivo elegido, `ObjetivosAjustes` muestra las kcal en solo lectura («Calculado en Perfil», «Ir a Perfil») y los macros siguen editables (`reajustarObjetivos` sobre los vigentes; lo guardado actúa como reparto). Hoy y Resumen usan los vigentes.
 

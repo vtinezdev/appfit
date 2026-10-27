@@ -72,11 +72,11 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 
 ## Mejoras de la app (documento de Víctor, 2026-10-26)
 
-Nueve bloques acordados (PROCESO §246 en adelante). Hechos los bloques 1 a 6; siguen el 7 (Ajustes: 25, 26–31, 33, 32) al 9.
+Nueve bloques acordados (PROCESO §246 en adelante). Hechos los bloques 1 a 7; siguen el 8 (Social: 22, 23; 21 más adelante) y el 9 (Recetas: 13).
 
 Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de acabar la sesión:
 - **Añadir comida**: mejorar la pantalla de añadir comida, sobre todo la ficha que se abre al añadir un alimento.
-- **Proponer un alimento**: un botón cerca de Nutrición o de Añadir comida para que cualquiera mande un alimento que falta y le llegue a Víctor para añadirlo al catálogo, como «Comunicar un problema» pero de alimentos. Depende de decidir cómo llegan esos avisos (punto 32).
+- **Proponer un alimento**: un botón cerca de Nutrición o de Añadir comida para que cualquiera mande un alimento que falta y le llegue a Víctor para añadirlo al catálogo, como «Comunicar un problema» pero de alimentos. Depende de decidir cómo llegan esos avisos: hoy «Comunicar un problema» solo prepara un informe para copiar y no llega a nadie (punto 32, pendiente de decisión de Víctor: correo o Supabase).
 
 ## Ideas sin empezar
 
