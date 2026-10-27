@@ -2796,3 +2796,11 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 ## 260. 0027 ejecutada (2026-10-28)
 
 Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real con «Success». Desde ahora «Comunicar un problema» y «Proponer un alimento» llegan a `mensajes_creador` (Table Editor). Sin probar aún un envío real desde el móvil.
+
+## 261. Añadir comida, página 4: la revisión (2026-10-28)
+
+**Qué:** lo que sale al pulsar «Revisar N alimentos». Tres vueltas en la app real: A (como la hoja Cantidad), B (A + «Cómo queda tu día») y C (B + aviso de lo pendiente); luego D y E sobre la B, con lo que pidió Víctor (que no se abra nada solo y lo que falta salga en rojo, menos cosas al abrir un alimento y unos detalles mejores); luego F, G y H, y por último I, J y L para hacer las filas más bonitas. Elige la D con los detalles en una hoja y «Cómo queda tu día» desplegable; las demás quedan para más adelante.
+
+**Cómo:** `ItemRevisionRow` reescrita (sin el editor antiguo): fila con icono, nombre en dos partes y fuente, kcal, gramos y pastillas; lo pendiente con `alimentos.pendienteRevision` (nueva, con tests) en etiqueta y franja rojas; abierta, `CantidadesRapidas` y Cambiar · Detalles · Quitar, o, sin encontrar, buscar otro, escribir sus valores o quitar. `DetallesAlimento` (nuevo) en una hoja. `PiezasCantidad` (nuevo) reúne `PastillasMacros`, `BarraReparto`, `CantidadesRapidas` y `ComoQuedaTuDia` (con `plegable`), y `CantidadAlimento` pasa a usarlas. `foodsRepo.racionHabitual` recibe la clave en vez de la referencia. `AnadirComida`: rótulo con recuento, línea de pendientes, total en una línea y «Cómo queda tu día» plegado. Se pierde el aporte de fibra, azúcares, sal y saturadas para la cantidad dentro de Detalles (siguen los valores por 100 g). Documentos: `features/nutricion.md` y `DESIGN-SYSTEM.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con «200 g de arroz, 2 huevos, medio aguacate, un poco de salsa rara»: lista, día desplegado, arroz abierto, salsa abierta, sus detalles y, tras escribir sus valores, la etiqueta pasa a «Elige su categoría»; sin scroll horizontal.

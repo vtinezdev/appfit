@@ -6,7 +6,6 @@ import { objetivosDe } from '../../perfil/data/objetivosDiaRepo'
 import ModalPage from '../../../shared/components/ModalPage'
 import ViewTabs from '../../../shared/components/ViewTabs'
 import Icon from '../../../shared/components/Icon'
-import SectionHeader from '../../../shared/components/SectionHeader'
 import Disclosure from '../../../shared/components/Disclosure'
 import Sheet from '../../../shared/components/Sheet'
 import * as entriesRepo from '../data/entriesRepo'
@@ -26,6 +25,7 @@ import {
   itemDesdeElegible,
   itemSinCoincidencia,
   medidaPendiente,
+  pendienteRevision,
   por100DesdeEntrada,
   validarKcalRapidas,
   type AlimentoElegible,
@@ -36,7 +36,7 @@ import { formatInt, formatNumber } from '../../../shared/lib/format'
 import type { Plato } from '../lib/platos'
 import { normalizeName } from '../../../shared/lib/text'
 import { COMIDAS, nombreComida } from '../lib/comidas'
-import { macrosPorGramos, resumenMacros, sumMacros } from '../lib/nutrition'
+import { macrosPorGramos, sumMacros } from '../lib/nutrition'
 import AplicarPlantillaSheet from '../components/AplicarPlantillaSheet'
 import ComidasTipicas from '../components/ComidasTipicas'
 import ComidasTipicasSheet from '../components/ComidasTipicasSheet'
@@ -58,6 +58,7 @@ import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import SelectorComida from '../components/SelectorComida'
 import CantidadAlimento from '../components/CantidadAlimento'
+import { ComoQuedaTuDia, PastillasMacros } from '../components/PiezasCantidad'
 
 interface Props {
   fecha: string
@@ -283,6 +284,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
 
   const totales = items ? sumMacros(items.map((it) => macrosPorGramos(it, it.gramos))) : null
   const kcalTotales = totales ? Math.round(totales.kcal) : 0
+  const pendientes = items ? items.filter((it) => pendienteRevision(it, !entryEditar)).length : 0
 
   return (
     <ModalPage title={descartar ? '¿Descartar los cambios?' : soloTipica ? 'Nueva comida típica' : entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : planificar ? 'Planificar comida' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose} busy={ocupado}
@@ -361,7 +363,8 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           {items !== null && totales && (
             <div className="animate-fade-in space-y-section">
               <section aria-label={items.length === 1 ? 'Alimento' : 'Alimentos'} className="space-y-1">
-                <SectionHeader variant="section">{items.length === 1 ? 'Alimento' : `Alimentos · ${formatInt(items.length)}`}</SectionHeader>
+                <h3 className="flex items-baseline gap-2 text-rotulo text-fg-muted">{items.length === 1 ? 'Alimento' : 'Alimentos'}<span className="tabular">{formatInt(items.length)}</span></h3>
+                {pendientes > 0 && <p className="flex items-center gap-2 text-body-sm font-semibold text-destructive"><Icon name="alert" size={18} className="shrink-0" />{pendientes === 1 ? '1 alimento necesita algo: tócalo' : `${formatInt(pendientes)} alimentos necesitan algo: tócalos`}</p>}
                 <div className="divide-y divide-line overflow-hidden rounded-lg border border-line bg-surface">
                   {items.length === 0 && <EmptyState title="La revisión está vacía">Añade otro alimento o vuelve a interpretar tu descripción.</EmptyState>}
                   {items.map((item, i) => (
@@ -381,10 +384,11 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                   ))}
                 </div>
               </section>
-              <div className="space-y-1">
-                <p className="flex flex-wrap items-baseline justify-between gap-3"><span className="text-body-sm text-fg-muted">Total de la comida</span><span className="tabular text-title font-semibold text-fg">{formatInt(kcalTotales)} <span className="text-caption font-normal text-fg-muted">kcal</span></span></p>
-                <p className="tabular text-caption text-fg-muted">{resumenMacros(totales)}</p>
+              <div className="space-y-2">
+                <p className="flex flex-wrap items-baseline justify-between gap-3"><span className="text-rotulo text-fg-muted">Total de la comida</span><span className="tabular"><span className="font-numeric text-heading text-fg">{formatInt(kcalTotales)}</span><span className="text-caption text-fg-muted"> kcal</span></span></p>
+                <PastillasMacros macros={totales} />
               </div>
+              {!entryEditar && <ComoQuedaTuDia aporte={totales} fecha={fecha} planificar={planificar} plegable />}
               {entryEditar && alimentoDeLaEntrada && (
                 <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg-muted">
                   <input type="checkbox" checked={aplicarAlAlimento} onChange={(e) => setAplicarAlAlimento(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
