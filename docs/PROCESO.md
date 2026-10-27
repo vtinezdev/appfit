@@ -2838,3 +2838,17 @@ Víctor pide no fusionar hasta terminar todas las tandas. Desde esta tanda van j
 **Cómo:** igual que la tanda 6. El paquete sigue en la versión 2026-10-30, que aún no está publicada.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 258. Recetas: tanda 8 de preparaciones (2026-10-27)
+
+**Qué:** pasos de los 100 platos preparados siguientes. En total hay 803 recetas con pasos. Entran:
+- regionales (mojete, alboronía, garbanzada canaria, pochas, raxo, frit mallorquín, sorropotún, mar i muntanya);
+- platos combinados de bar;
+- guisos de pollo, cerdo, ternera, conejo y cordero, y pescados al horno;
+- patatas guisadas, pasta, arroces, legumbres, sopas, ensaladas y tex-mex.
+
+En los platos combinados, la formulación no lleva sal y las notas lo dicen.
+
+**Cómo:** igual que las tandas anteriores, en la rama `feat/recetas-tandas`.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
