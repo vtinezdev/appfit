@@ -8,6 +8,7 @@ import type { SVGProps } from 'react'
 const PATHS = {
   menu: 'M4 6h16M4 12h16M4 18h16',
   ordenar: 'M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4', // ordenar resultados
+  filtro: 'M4 5h16l-6 7.5V18l-4 2v-7.5z', // filtrar resultados
   user: 'M8 8a4 4 0 1 0 8 0a4 4 0 1 0-8 0M4.5 21a7.5 7.5 0 0 1 15 0',
   llama: 'M12 21c-3.9 0-7-2.9-7-6.6 0-2.8 1.6-4.6 3.3-6.4.4 1.6 1.2 2.7 2.4 3.3C10.6 8 11.6 5.2 14 3c.5 3 2.3 4.6 3.6 6.3 1 1.3 1.4 2.8 1.4 4.3C19 17.9 15.9 21 12 21z', // reacción de Amigos
   comentario: 'M4 5h16v11H10l-5 4v-4H4z',

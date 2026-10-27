@@ -2776,3 +2776,11 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 **Cómo:** `lib/ordenBusqueda` (`ordenarElegibles`, `partesNombre`) y `lib/propuestaAlimento` (`errorPropuesta`, `mensajePropuesta`), con tests; `FiltroCategoriaBusqueda` (chips con icono), `ListaElegibles` (tarjeta, resaltado, pastillas), `OrdenarBusqueda` (botón y hoja), `ResultadosBusqueda` (títulos con cuántos, Ordenar, «¿No está?»), `ProponerAlimentoSheet` (envía con `cuenta/mensajes.enviarAlCreador`, tipo `alimento`); `AlimentosRapidos`, `CambiarAlimentoSheet` y `AnadirComida` (`onCrear` abre la revisión con el nombre). Icono nuevo `ordenar`. Documentos: `features/nutricion.md`, `features/cuenta.md`, `roadmap.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con Supabase simulado: resultados, hoja de ordenar, «Más proteína», «¿No está?», proponer (el mensaje enviado lleva solo nombre, marca y nota escritos) y «Créalo tú»; sin scroll horizontal. A 320 px las pestañas Escribir · Buscar · Escanear siguen en dos líneas. Para que la propuesta llegue hay que ejecutar 0027.
+
+## 258. Buscar: «Filtrar» junto al buscador (2026-10-28)
+
+**Qué:** a Víctor no le gusta «Ordenar» en su propia línea. Compara tres colocaciones en la app real (J: botón de ordenar al principio de la fila de categorías; K: un solo «Filtrar» junto al buscador con orden y categoría en una hoja; L: la fila de categorías con «Filtrar» como primer botón) y elige la K. Desaparece la fila de categorías de Buscar; lo puesto se ve y se quita como pastillas bajo el buscador.
+
+**Cómo:** `FiltrosBusquedaSheet` (nuevo), `AlimentosRapidos` (botón «Filtrar», recuento, pastillas, orden y categoría), `ResultadosBusqueda` recibe `orden` (sin botón propio); fuera `OrdenarBusqueda`. Icono nuevo `filtro`. Cambiar alimento conserva las categorías en fila. Documentos: `features/nutricion.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas: resultados, hoja y filtrado con categoría y «Más proteína»; sin scroll horizontal.

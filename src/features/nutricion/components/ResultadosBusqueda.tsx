@@ -11,7 +11,6 @@ import { useBusquedaCatalogo } from '../hooks/useBusquedaCatalogo'
 import { elegibleDeFood, type AlimentoElegible } from '../lib/alimentos'
 import { ordenarElegibles, type OrdenBusqueda } from '../lib/ordenBusqueda'
 import ListaElegibles from './ListaElegibles'
-import OrdenarBusqueda from './OrdenarBusqueda'
 import ProponerAlimentoSheet from './ProponerAlimentoSheet'
 
 interface Props {
@@ -23,6 +22,8 @@ interface Props {
   frecuentes?: readonly string[]
   /** «Créalo tú» de «¿No está?»: abre la revisión con ese nombre. Sin él, «¿No está?» no sale. */
   onCrear?: (nombre: string) => void
+  /** Orden de los resultados (lo elige «Filtrar»); por defecto, relevancia. */
+  orden?: OrdenBusqueda
 }
 
 const SIN_CATALOGO = 'El catálogo de alimentos aún no se ha descargado: se descarga solo al abrir la app con conexión.'
@@ -54,14 +55,13 @@ function NoEsta({ busqueda, onCrear, onProponer }: { busqueda: string; onCrear: 
 
 /**
  * Resultados de buscar un alimento (funciona sin conexión): primero tus alimentos y después el catálogo, cada grupo en
- * su tarjeta, con «Ordenar» encima y, al final, «¿No está?».
+ * su tarjeta, en el orden elegido y, al final, «¿No está?».
  */
-export default function ResultadosBusqueda({ busqueda, onElegir, frecuentes, categoria = 'todas', onCrear }: Props) {
+export default function ResultadosBusqueda({ busqueda, onElegir, frecuentes, categoria = 'todas', onCrear, orden = 'relevancia' }: Props) {
   const buscando = busqueda.trim() !== ''
   const propios = useLiveQuery(async () => (buscando ? filtrarPorCategoria(await foodsRepo.buscar(busqueda), categoria).map(elegibleDeFood) : undefined), [busqueda, categoria])
   const enCatalogo = useLiveQuery(() => catalogRepo.contar(), [])
   const catalogo = useBusquedaCatalogo(busqueda, undefined, frecuentes, categoria)
-  const [orden, setOrden] = useState<OrdenBusqueda>('relevancia')
   const [proponiendo, setProponiendo] = useState<string | null>(null)
 
   if (!buscando) return null
@@ -76,8 +76,6 @@ export default function ResultadosBusqueda({ busqueda, onElegir, frecuentes, cat
       <p role="status" className="sr-only">
         {listo ? `${total} resultados` : ''}
       </p>
-
-      {total > 1 && <div className="flex justify-end"><OrdenarBusqueda valor={orden} onChange={setOrden} /></div>}
 
       {propios && propios.length > 0 && (
         <div className="space-y-2">
