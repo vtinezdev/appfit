@@ -2918,3 +2918,15 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 - En los dulces fritos, las notas avisan del aceite que se queda en la masa.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 264. Recetas: tanda 14 de preparaciones (2026-10-27)
+
+**Qué:** pasos de las 82 recetas que quedaban fuera de pan y bebidas. En total hay 1.369 recetas con pasos. Entran:
+- desayunos de avena y cereales;
+- salsas y dips;
+- snacks y papillas;
+- las últimas recetas sueltas de cada categoría (migas de harina, carne mechada, lomo en manteca, pantxineta, coca de patata, perrunillas…).
+
+**Cómo:** igual que las tandas anteriores.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
