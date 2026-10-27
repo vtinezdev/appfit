@@ -5962,5 +5962,1176 @@
       "Funde el resto de la mantequilla, añade 50 g de harina y remueve 1 minuto. Vierte poco a poco 600 g de leche con la sal y cuece 8 minutos, removiendo. Mezcla un tercio de la bechamel con las espinacas.",
       "Precalienta el horno a 200 °C. Rellena y enrolla las placas, colócalas en una fuente, cúbrelas con el resto de la bechamel y 80 g de emmental rallado y hornea 20 minutos."
     ]
+  },
+  {
+    "id": "cuscus-verduras",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pica 100 g de cebolla y corta en dados 150 g de calabacín y 100 g de zanahoria.",
+      "Sofríe la cebolla y la zanahoria en 15 g del aceite 6 minutos. Añade el calabacín y 2 g de comino y cocina 5 minutos más.",
+      "Añade 150 g de garbanzos escurridos y la sal y calienta 2 minutos.",
+      "Lleva 300 g de agua a ebullición, viértela sobre 250 g de cuscús con el resto del aceite, tapa y deja reposar 5 minutos. Suéltalo con un tenedor.",
+      "Mezcla el cuscús con las verduras y los garbanzos."
+    ]
+  },
+  {
+    "id": "hamburguesas-lentejas",
+    "raciones": 4,
+    "tiempoMin": 35,
+    "pasos": [
+      "Pica muy fino 80 g de cebolla y ralla 80 g de zanahoria. Rehógalas en 5 g del aceite 5 minutos.",
+      "Aplasta 400 g de lentejas cocidas escurridas con un tenedor, dejando algunas enteras.",
+      "Mezcla las lentejas con las verduras, 60 g de copos de avena, 2 g de comino y la sal. Deja reposar 10 minutos para que la avena absorba la humedad.",
+      "Forma 4 hamburguesas con las manos húmedas.",
+      "Hazlas a la plancha con el resto del aceite a fuego medio, 4 minutos por cada lado, sin moverlas hasta que se doren."
+    ]
+  },
+  {
+    "id": "hamburguesas-garbanzos",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pica muy fino 80 g de cebolla y 5 g de perejil.",
+      "Aplasta 400 g de garbanzos cocidos escurridos con un tenedor o tritúralos un poco, sin hacer puré.",
+      "Mezcla los garbanzos con la cebolla, el perejil, 50 g de pan rallado, 2 g de comino y la sal.",
+      "Forma 4 hamburguesas y hazlas a la plancha con 20 g de aceite, 4 minutos por cada lado, hasta que estén doradas."
+    ]
+  },
+  {
+    "id": "curry-lentejas-coco",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Pica 100 g de cebolla y sofríela en 20 g de aceite 8 minutos. Añade 10 g de curry y remueve 1 minuto.",
+      "Añade 250 g de lentejas lavadas (mejor rojas, que no necesitan remojo), 200 g de tomate pelado triturado y 700 g de agua.",
+      "Cuece a fuego suave 25 minutos, removiendo de vez en cuando, hasta que las lentejas estén tiernas.",
+      "Añade 200 g de leche de coco y la sal y cuece 5 minutos más."
+    ],
+    "notas": "Tradicionalmente se acompaña con arroz basmati, que no está incluido."
+  },
+  {
+    "id": "buddha-bowl",
+    "raciones": 1,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Pela 150 g de boniato, córtalo en dados y ásalo con la mitad del aceite 25 minutos.",
+      "Lava 60 g de quinoa y cuécela con 130 g de agua, tapada, 15 minutos a fuego suave.",
+      "Escurre 100 g de garbanzos y dóralos en una sartén con el resto del aceite 5 minutos.",
+      "En un cuenco, coloca la quinoa, 50 g de espinacas, el boniato, los garbanzos y 60 g de aguacate en láminas.",
+      "Aliña con 15 g de tahini aclarado con un poco de agua."
+    ]
+  },
+  {
+    "id": "berenjenas-parmesana",
+    "raciones": 4,
+    "tiempoMin": 70,
+    "pasos": [
+      "Corta 600 g de berenjena en rodajas de 1 cm, sálalas y déjalas 20 minutos. Sécalas con papel de cocina.",
+      "Hazlas a la plancha con 30 g del aceite, 2 minutos por cada lado.",
+      "Cuece 400 g de tomate pelado triturado con el resto del aceite 10 minutos y añade 5 g de albahaca picada.",
+      "Precalienta el horno a 200 °C. En una fuente, alterna capas de berenjena, tomate y 200 g de mozzarella en rodajas.",
+      "Termina con 40 g de parmesano rallado y hornea 25 minutos, hasta que esté dorada."
+    ]
+  },
+  {
+    "id": "fajitas-vegetales",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta en tiras 150 g de pimiento verde, 150 g de pimiento rojo y 150 g de cebolla. Lamina 150 g de champiñones.",
+      "Saltea las verduras en 20 g de aceite a fuego fuerte 8 minutos, hasta que estén tiernas pero crujientes.",
+      "Añade 150 g de alubias rojas escurridas y 2 g de comino y saltea 2 minutos más.",
+      "Calienta 240 g de tortillas de trigo en una sartén seca y rellénalas con las verduras."
+    ]
+  },
+  {
+    "id": "wok-verduras-fideos-arroz",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Hidrata 150 g de fideos de arroz en agua caliente el tiempo del paquete y escúrrelos: absorben unos 250 g.",
+      "Separa 150 g de brócoli en ramitos pequeños y corta en tiras 100 g de zanahoria, 100 g de pimiento verde y 100 g de repollo.",
+      "Saltea las verduras en 20 g de aceite a fuego fuerte 6 minutos.",
+      "Añade los fideos y 30 g de salsa de soja y saltea 2 minutos, removiendo para que se repartan."
+    ],
+    "notas": "No lleva sal aparte: la soja ya la aporta."
+  },
+  {
+    "id": "croquetas-espinacas",
+    "raciones": 6,
+    "tiempoMin": 90,
+    "pasos": [
+      "Saltea 200 g de espinacas hasta que pierdan el agua, escúrrelas apretando y pícalas.",
+      "Pica 50 g de cebolla y pochala en 40 g de mantequilla 8 minutos. Añade las espinacas y 80 g de harina y remueve 2 minutos.",
+      "Vierte poco a poco 500 g de leche caliente con la sal y cuece 12 minutos, removiendo sin parar, hasta que la masa se despegue de la cazuela.",
+      "Extiéndela en una fuente, cúbrela con film a piel y déjala enfriar en la nevera al menos 2 horas.",
+      "Forma unas 30 croquetas, pásalas por 60 g de huevo (1 huevo) batido y luego por 60 g de pan rallado. Fríelas por tandas en aceite muy caliente 2 minutos y escúrrelas."
+    ],
+    "notas": "Salen unas 30 croquetas: 5 por ración. El reposo en la nevera no cuenta en el tiempo. Los 80 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "garbanzos-horno-especias",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Escurre y lava 400 g de garbanzos cocidos y sécalos muy bien con un paño; quita las pieles que se suelten.",
+      "Mézclalos con 15 g de aceite, 3 g de pimentón, 2 g de comino y la sal.",
+      "Extiéndelos en una bandeja en una sola capa y hornéalos 30 o 35 minutos, moviéndolos a mitad, hasta que estén crujientes.",
+      "Deja que se enfríen fuera del horno: terminan de endurecerse."
+    ],
+    "notas": "Es un picoteo: una ración son unos 75 g."
+  },
+  {
+    "id": "bolonesa-lentejas-pasta",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Pica 100 g de cebolla y 80 g de zanahoria y sofríelas en 25 g de aceite 10 minutos.",
+      "Añade 400 g de tomate pelado triturado y la sal y cuece 10 minutos.",
+      "Incorpora 300 g de lentejas cocidas escurridas y cuece 10 minutos más, aplastando algunas para que espese.",
+      "Mientras, cuece 300 g de pasta en agua hirviendo con sal el tiempo del paquete y escúrrela: absorbe unos 540 g de agua.",
+      "Mezcla la pasta con la salsa."
+    ]
+  },
+  {
+    "id": "calabacin-relleno-quinoa",
+    "raciones": 3,
+    "tiempoMin": 60,
+    "pasos": [
+      "Lava 80 g de quinoa y cuécela con 160 g de agua, tapada, 15 minutos a fuego suave.",
+      "Parte por la mitad a lo largo 600 g de calabacines y vacíalos con una cuchara, dejando 1 cm de pulpa. Pica la pulpa.",
+      "Sofríe 80 g de cebolla picada en 20 g de aceite 5 minutos. Añade la pulpa y 100 g de tomate picado y cocina 8 minutos. Mezcla con la quinoa y la sal.",
+      "Precalienta el horno a 200 °C. Rellena los calabacines y cúbrelos con 40 g de emmental rallado.",
+      "Hornea 25 minutos, hasta que el calabacín esté tierno y el queso dorado."
+    ]
+  },
+  {
+    "id": "lentejas-veganas-verduras-arroz",
+    "raciones": 5,
+    "tiempoMin": 70,
+    "pasos": [
+      "Pica 100 g de cebolla, 80 g de pimiento verde y 100 g de zanahoria y sofríelos en 25 g de aceite 10 minutos.",
+      "Añade 100 g de tomate rallado y cocina 5 minutos. Retira del fuego y añade 3 g de pimentón.",
+      "Añade 250 g de lentejas lavadas, 100 g de arroz integral y 1.200 g de agua.",
+      "Cuece a fuego suave 45 minutos, hasta que las lentejas y el arroz estén tiernos. Añade la sal los últimos 10 minutos."
+    ],
+    "notas": "Con lentejas pardinas no hace falta remojo. Si espesa demasiado, añade un poco de agua caliente."
+  },
+  {
+    "id": "patatas-rellenas-verduras",
+    "raciones": 3,
+    "tiempoMin": 75,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Lava 600 g de patatas medianas, pínchalas y ásalas enteras 45 minutos, hasta que estén tiernas.",
+      "Mientras, pica 100 g de champiñones, 60 g de cebolla y 60 g de pimiento verde y sofríelos en 20 g de aceite 8 minutos.",
+      "Parte las patatas por la mitad, vacíalas con cuidado dejando 1 cm y mezcla la pulpa con las verduras y la sal.",
+      "Rellena las patatas, cúbrelas con 60 g de emmental rallado y gratina 10 minutos."
+    ],
+    "notas": "Los 600 g son de patata pelada; con piel se pesa algo más."
+  },
+  {
+    "id": "pizza-margarita-casera",
+    "raciones": 2,
+    "tiempoMin": 120,
+    "pasos": [
+      "Disuelve 7 g de levadura en 150 g de agua templada. Mézclala con 250 g de harina, 15 g de aceite y la sal y amasa 8 minutos, hasta que la masa esté lisa.",
+      "Déjala reposar tapada en un sitio templado 1 hora, hasta que doble su volumen.",
+      "Precalienta el horno a 250 °C con la bandeja dentro. Estira la masa en un círculo fino.",
+      "Extiende 150 g de tomate pelado triturado y reparte 200 g de mozzarella en trozos.",
+      "Hornea 10 o 12 minutos, hasta que los bordes estén dorados. Al sacarla, añade 5 g de albahaca y riega con 5 g de aceite."
+    ]
+  },
+  {
+    "id": "pizza-cuatro-quesos-casera",
+    "raciones": 2,
+    "tiempoMin": 120,
+    "pasos": [
+      "Disuelve 7 g de levadura en 150 g de agua templada. Mézclala con 250 g de harina, 15 g de aceite y la sal y amasa 8 minutos, hasta que la masa esté lisa.",
+      "Déjala reposar tapada en un sitio templado 1 hora, hasta que doble su volumen.",
+      "Precalienta el horno a 250 °C con la bandeja dentro. Estira la masa en un círculo fino y extiende 100 g de tomate pelado triturado.",
+      "Reparte 120 g de mozzarella, 40 g de roquefort, 50 g de emmental en trozos y 30 g de parmesano rallado.",
+      "Hornea 10 o 12 minutos, hasta que los bordes estén dorados."
+    ]
+  },
+  {
+    "id": "pizza-barbacoa-casera",
+    "raciones": 2,
+    "tiempoMin": 120,
+    "pasos": [
+      "Disuelve 7 g de levadura en 150 g de agua templada. Mézclala con 250 g de harina, 15 g de aceite y la sal y amasa 8 minutos, hasta que la masa esté lisa.",
+      "Déjala reposar tapada en un sitio templado 1 hora, hasta que doble su volumen.",
+      "Dora 150 g de carne picada en una sartén sin aceite 6 minutos, desmenuzándola. Corta 60 g de cebolla en aros finos.",
+      "Precalienta el horno a 250 °C con la bandeja dentro. Estira la masa, extiende 100 g de tomate triturado mezclado con 50 g de salsa barbacoa y reparte la carne, la cebolla y 150 g de mozzarella.",
+      "Hornea 10 o 12 minutos, hasta que los bordes estén dorados."
+    ]
+  },
+  {
+    "id": "pizza-pollo-verduras-casera",
+    "raciones": 2,
+    "tiempoMin": 120,
+    "pasos": [
+      "Disuelve 7 g de levadura en 150 g de agua templada. Mézclala con 250 g de harina, 15 g de aceite y la sal y amasa 8 minutos, hasta que la masa esté lisa.",
+      "Déjala reposar tapada en un sitio templado 1 hora, hasta que doble su volumen.",
+      "Corta 150 g de pechuga de pollo en dados pequeños y dóralos en una sartén sin aceite 5 minutos. Corta en tiras 60 g de pimiento verde y 60 g de cebolla y lamina 80 g de champiñones.",
+      "Precalienta el horno a 250 °C con la bandeja dentro. Estira la masa, extiende 150 g de tomate triturado y reparte el pollo, las verduras y 150 g de mozzarella.",
+      "Hornea 12 minutos, hasta que los bordes estén dorados."
+    ]
+  },
+  {
+    "id": "patatas-queso-bacon",
+    "raciones": 2,
+    "tiempoMin": 35,
+    "pasos": [
+      "Corta 400 g de patata pelada en bastones y sécalos bien.",
+      "Fríelos en aceite a 170 °C 8 minutos, sácalos y vuelve a freírlos a 190 °C 2 o 3 minutos, hasta que estén dorados. Escúrrelos y sálalos.",
+      "Dora 50 g de panceta ahumada en dados en una sartén sin aceite 5 minutos, hasta que esté crujiente.",
+      "Cubre las patatas con 80 g de cheddar rallado y la panceta y gratina 3 minutos, hasta que el queso se funda."
+    ],
+    "notas": "Los 40 g de aceite son los que retienen las patatas; en la sartén hace falta más."
+  },
+  {
+    "id": "alitas-picantes",
+    "raciones": 4,
+    "tiempoMin": 55,
+    "pasos": [
+      "Precalienta el horno a 220 °C. Separa 1.000 g de alitas por la articulación, sécalas bien y mézclalas con 5 g de pimentón y la sal.",
+      "Ásalas en una rejilla sobre una bandeja 40 minutos, dándoles la vuelta a mitad, hasta que la piel esté crujiente.",
+      "Funde 40 g de mantequilla y mézclala con 5 g de cayena y 20 g de vinagre.",
+      "Mezcla las alitas recién sacadas con la salsa y sírvelas enseguida."
+    ],
+    "notas": "Los 1.000 g son de alitas con hueso, como se compran. Con 5 g de cayena pican bastante: ajústala a tu gusto."
+  },
+  {
+    "id": "quesadilla-pollo",
+    "raciones": 1,
+    "tiempoMin": 20,
+    "pasos": [
+      "Corta 100 g de pechuga de pollo en tiras finas y 30 g de pimiento verde en tiras. Saltéalos en 5 g de aceite 5 minutos.",
+      "Pon una tortilla de trigo (60 g) en una sartén y cúbrela con la mitad de 60 g de cheddar rallado, el pollo, el pimiento y el resto del queso.",
+      "Tapa con otra tortilla (60 g) y dórala a fuego medio 2 o 3 minutos por cada lado, hasta que el queso se funda.",
+      "Córtala en cuñas."
+    ]
+  },
+  {
+    "id": "burrito-pollo",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Cuece 100 g de arroz con 200 g de agua, tapado, 15 minutos a fuego suave.",
+      "Corta 300 g de pechuga de pollo en tiras. Pica 80 g de cebolla y sofríela en 15 g de aceite 5 minutos; añade el pollo con la sal y saltea 6 minutos.",
+      "Añade 150 g de alubias rojas escurridas y 100 g de tomate picado y cocina 4 minutos más.",
+      "Reparte el arroz, el pollo y 80 g de cheddar rallado en 4 tortillas de trigo (240 g) templadas.",
+      "Dobla los lados y enróllalas bien apretadas. Si quieres, dóralas 1 minuto por cada lado en una sartén."
+    ]
+  },
+  {
+    "id": "tacos-pollo",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 300 g de pechuga de pollo en tiras y mézclalas con 2 g de comino y la sal.",
+      "Pica 80 g de cebolla y sofríela en 10 g de aceite 5 minutos. Añade el pollo y saltea 6 minutos.",
+      "Pica 100 g de tomate, corta en tiras 50 g de lechuga y en láminas 60 g de aguacate.",
+      "Calienta 200 g de tortillas de trigo pequeñas en una sartén seca y rellénalas con el pollo, el tomate, la lechuga y el aguacate."
+    ]
+  },
+  {
+    "id": "pan-bao-cerdo",
+    "raciones": 4,
+    "tiempoMin": 150,
+    "pasos": [
+      "Disuelve 6 g de levadura en 110 g de agua templada con 15 g de azúcar. Mézclala con 200 g de harina y 10 g de aceite y amasa 8 minutos. Deja reposar tapada 1 hora.",
+      "Mientras, corta 250 g de cerdo en tiras y saltéalas a fuego fuerte 6 minutos. Añade 20 g de salsa de soja y 15 g de miel y cocina 3 minutos más, hasta que se glaseen.",
+      "Divide la masa en 8 bolas, estíralas en óvalos, úntalas con un poco de aceite y dóblalas por la mitad sobre un trozo de papel de horno. Deja reposar 30 minutos.",
+      "Cuécelas al vapor 10 minutos, sin destapar.",
+      "Ábrelas y rellénalas con el cerdo y 50 g de pepino en tiras finas."
+    ],
+    "notas": "Salen 8 panes: 2 por ración."
+  },
+  {
+    "id": "alubias-blancas-chorizo",
+    "raciones": 6,
+    "tiempoMin": 150,
+    "pasos": [
+      "Pon 400 g de alubias blancas remojadas en una olla con 1.600 g de agua fría y 1 hoja de laurel. Lleva a ebullición y quita la espuma.",
+      "Pica 100 g de cebolla, 80 g de pimiento verde y 10 g de ajo y sofríelos en 30 g de aceite 10 minutos. Retira del fuego y añade 4 g de pimentón.",
+      "Añade el sofrito y 150 g de chorizo en rodajas a las alubias.",
+      "Cuece a fuego muy suave 2 horas, hasta que las alubias estén tiernas; si se quedan sin caldo, añade un poco de agua fría para asustarlas. Añade la sal al final."
+    ],
+    "notas": "Las alubias se ponen en remojo la noche antes; el remojo no cuenta en el tiempo."
+  },
+  {
+    "id": "garbanzos-callos",
+    "raciones": 6,
+    "tiempoMin": 210,
+    "pasos": [
+      "Lava muy bien 500 g de callos limpios, córtalos en trozos y escáldalos 5 minutos en agua hirviendo. Tira esa agua.",
+      "Pon los callos con 300 g de garbanzos remojados y 1.600 g de agua en una olla. Cuece a fuego suave 2 horas y media, hasta que los callos estén tiernos.",
+      "Pica 100 g de cebolla y 10 g de ajo y sofríelos en 30 g de aceite 10 minutos. Añade 100 g de tomate rallado y cocina 5 minutos. Retira del fuego y añade 6 g de pimentón.",
+      "Añade el sofrito, 100 g de chorizo y 80 g de morcilla en rodajas y la sal, y cuece 20 minutos más, hasta que el caldo espese."
+    ],
+    "notas": "Los garbanzos se ponen en remojo la noche antes; el remojo no cuenta en el tiempo. En olla rápida, los callos con los garbanzos tardan unos 45 minutos. Mejor de un día para otro."
+  },
+  {
+    "id": "garbanzos-costillas",
+    "raciones": 6,
+    "tiempoMin": 150,
+    "pasos": [
+      "Trocea 400 g de costillas de cerdo y dóralas en 25 g de aceite 8 minutos.",
+      "Añade 100 g de cebolla y 10 g de ajo picados y sofríe 8 minutos. Retira del fuego y añade 4 g de pimentón.",
+      "Añade 300 g de garbanzos remojados, 100 g de zanahoria en rodajas y 1.500 g de agua caliente. Cuece a fuego suave 1 hora y media.",
+      "Añade 200 g de patata pelada en trozos cascados y la sal y cuece 20 minutos más, hasta que esté tierna."
+    ],
+    "notas": "Los garbanzos se ponen en remojo la noche antes; el remojo no cuenta en el tiempo. Los 400 g son de costillas con hueso."
+  },
+  {
+    "id": "olla-podrida",
+    "raciones": 7,
+    "tiempoMin": 200,
+    "pasos": [
+      "Desala 120 g de oreja de cerdo en agua fría 2 horas, cambiando el agua, y córtala en trozos.",
+      "Pon en una olla 400 g de alubias rojas remojadas, 300 g de costillas, 80 g de tocino, la oreja, 100 g de cebolla entera y 1.900 g de agua fría.",
+      "Lleva a ebullición, quita la espuma y cuece a fuego muy suave 2 horas y media; si se quedan sin caldo, añade un poco de agua fría.",
+      "Añade 120 g de chorizo y 120 g de morcilla y cuece 30 minutos más. Prueba antes de añadir la sal.",
+      "Sirve las alubias con su caldo y las carnes troceadas."
+    ],
+    "notas": "Las alubias se ponen en remojo la noche antes; ni el remojo ni el desalado cuentan en el tiempo. La cebolla entera se puede retirar o triturar con un poco de caldo para espesar."
+  },
+  {
+    "id": "patatas-salsa-verde",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Pon 200 g de almejas en agua con sal 30 minutos para que suelten la arena.",
+      "Pica 100 g de cebolla y 10 g de ajo y pochalos en 50 g de aceite 8 minutos. Añade 15 g de harina y remueve 1 minuto.",
+      "Añade 800 g de patata pelada en trozos cascados y rehoga 2 minutos. Vierte 80 g de vino blanco y 400 g de agua con la sal.",
+      "Cuece a fuego suave 20 minutos, moviendo la cazuela de vez en cuando, hasta que la patata esté tierna y la salsa espese.",
+      "Añade las almejas y 15 g de perejil picado, tapa y cuece 3 minutos, hasta que se abran."
+    ]
+  },
+  {
+    "id": "calamares-patatas",
+    "raciones": 4,
+    "tiempoMin": 70,
+    "pasos": [
+      "Limpia 500 g de calamares y córtalos en anillas o trozos.",
+      "Pica 150 g de cebolla, 80 g de pimiento verde y 10 g de ajo y sofríelos en 50 g de aceite 10 minutos. Añade 150 g de tomate rallado y cocina 5 minutos.",
+      "Añade los calamares y rehoga 5 minutos. Retira un momento del fuego y añade 3 g de pimentón. Vierte 80 g de vino blanco y deja que se evapore.",
+      "Añade 300 g de agua y la sal, tapa y cuece a fuego suave 25 minutos.",
+      "Añade 700 g de patata pelada en trozos cascados y cuece 20 minutos más, hasta que esté tierna."
+    ]
+  },
+  {
+    "id": "marmitako-salmon",
+    "raciones": 5,
+    "tiempoMin": 50,
+    "pasos": [
+      "Pica 150 g de cebolla, 100 g de pimiento verde, 80 g de pimiento rojo y 10 g de ajo y sofríelos en 40 g de aceite 12 minutos.",
+      "Añade 100 g de tomate rallado y cocina 5 minutos.",
+      "Añade 800 g de patata pelada en trozos cascados, rehoga 2 minutos y vierte 500 g de agua con la sal. Cuece 20 minutos, hasta que la patata esté tierna.",
+      "Corta 500 g de salmón sin piel ni espinas en dados, añádelos y apaga el fuego. Tapa y deja reposar 5 minutos: el calor residual basta para hacerlo."
+    ]
+  },
+  {
+    "id": "guiso-ternera-guisantes",
+    "raciones": 4,
+    "tiempoMin": 120,
+    "pasos": [
+      "Corta 600 g de morcillo en dados, sazónalos y dóralos en 40 g de aceite por tandas. Sácalos.",
+      "En la misma cazuela, sofríe 150 g de cebolla, 100 g de zanahoria y 10 g de ajo picados 10 minutos. Añade 100 g de tomate rallado y cocina 5 minutos.",
+      "Vuelve a poner la carne, vierte 100 g de vino blanco y deja que se evapore. Añade 500 g de agua.",
+      "Tapa y cuece a fuego suave 1 hora y media, hasta que la carne esté tierna.",
+      "Añade 300 g de guisantes congelados y cuece 8 minutos más."
+    ]
+  },
+  {
+    "id": "albondigas-patatas",
+    "raciones": 5,
+    "tiempoMin": 75,
+    "pasos": [
+      "Mezcla 500 g de carne picada con 60 g de huevo (1 huevo), 40 g de pan rallado, 8 g de ajo y 5 g de perejil picados y parte de la sal. Forma unas 25 albóndigas.",
+      "Dóralas en 30 g del aceite por tandas y sácalas.",
+      "En el resto del aceite, sofríe 150 g de cebolla picada 10 minutos. Añade 150 g de tomate rallado y cocina 5 minutos. Vierte 80 g de vino blanco y deja que se evapore.",
+      "Añade 600 g de patata pelada en dados, 300 g de agua y el resto de la sal y cuece 10 minutos.",
+      "Añade las albóndigas y cuece 15 minutos más, hasta que la patata esté tierna."
+    ],
+    "notas": "Salen unas 25 albóndigas: 5 por ración."
+  },
+  {
+    "id": "estofado-cordero",
+    "raciones": 5,
+    "tiempoMin": 120,
+    "pasos": [
+      "Trocea 700 g de paletilla de cordero, sazónala y dórala en 40 g de aceite por tandas. Sácala.",
+      "En la misma cazuela, sofríe 150 g de cebolla, 80 g de pimiento verde, 100 g de zanahoria y 10 g de ajo picados 10 minutos.",
+      "Vuelve a poner el cordero con 1 hoja de laurel, vierte 100 g de vino blanco y deja que se evapore. Añade 400 g de agua.",
+      "Tapa y cuece a fuego suave 1 hora, hasta que la carne esté casi tierna.",
+      "Añade 500 g de patata pelada en trozos cascados y la sal y cuece 25 minutos más."
+    ],
+    "notas": "Los 700 g son de carne de paletilla sin hueso."
+  },
+  {
+    "id": "gazpacho-manchego",
+    "raciones": 5,
+    "tiempoMin": 90,
+    "pasos": [
+      "Trocea 500 g de conejo y dóralo en 40 g del aceite 10 minutos. Sácalo.",
+      "En el mismo aceite, sofríe 100 g de cebolla, 100 g de pimiento verde y 10 g de ajo picados 10 minutos. Añade 200 g de tomate rallado y cocina 5 minutos.",
+      "Vuelve a poner el conejo, añade 1.200 g de agua con la sal y cuece 40 minutos. Saca el conejo y desmenúzalo sin huesos.",
+      "Mezcla 150 g de harina con agua y el resto del aceite, estírala muy fina y tuéstala en una sartén seca hasta que quede como una torta dura. Rómpela en trozos pequeños.",
+      "Echa la torta y el conejo al caldo y cuece 10 minutos, hasta que la torta se ablande y el guiso espese."
+    ],
+    "notas": "Tradicionalmente se hace con tortas cenceñas compradas y con caza (liebre, perdiz); la formulación usa harina y conejo. El agua de la torta no aporta energía."
+  },
+  {
+    "id": "crema-fria-melon",
+    "raciones": 4,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pela 700 g de melón, quítale las pepitas y trocéalo.",
+      "Tritúralo con 50 g de nata y la sal hasta que quede fino. Guárdalo en la nevera al menos 1 hora.",
+      "Corta 40 g de jamón serrano en tiras y tuéstalo en una sartén sin aceite 2 minutos, hasta que esté crujiente.",
+      "Sirve la crema muy fría con el jamón por encima y un hilo de 10 g de aceite."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "crema-boniato",
+    "raciones": 4,
+    "tiempoMin": 35,
+    "pasos": [
+      "Pica 100 g de cebolla y 100 g de zanahoria y pochalas en 25 g de aceite 8 minutos.",
+      "Añade 600 g de boniato pelado en dados y rehoga 2 minutos.",
+      "Vierte 600 g de agua con la sal y cuece 20 minutos, hasta que el boniato esté tierno.",
+      "Tritúralo hasta que quede fino; si está muy espesa, añade un poco de agua."
+    ]
+  },
+  {
+    "id": "crema-marisco",
+    "raciones": 5,
+    "tiempoMin": 60,
+    "pasos": [
+      "Pela 300 g de gambas y guarda las cabezas y las cáscaras.",
+      "Dora las cabezas y cáscaras en 15 g del aceite, aplastándolas. Vierte 800 g de agua, cuece 15 minutos y cuela el caldo apretando bien.",
+      "En el resto del aceite, pocha 100 g de cebolla, 80 g de zanahoria y 80 g de puerro picados 10 minutos. Añade 150 g de tomate rallado y cocina 5 minutos.",
+      "Añade 20 g de coñac y deja que se evapore. Incorpora 40 g de arroz, el caldo y la sal y cuece 20 minutos.",
+      "Añade las gambas, guarda unas pocas para decorar, y tritura todo muy fino. Pásalo por un colador, añade 100 g de nata y calienta sin que hierva."
+    ]
+  },
+  {
+    "id": "sopa-letras",
+    "raciones": 5,
+    "tiempoMin": 45,
+    "pasos": [
+      "Corta en trozos 100 g de zanahoria, 80 g de puerro, 50 g de apio y 80 g de cebolla y rehógalos en 15 g de aceite 5 minutos.",
+      "Añade 1.300 g de agua con la sal y cuece 30 minutos. Cuela el caldo; las verduras se pueden servir aparte o triturar con un poco de caldo.",
+      "Lleva el caldo a ebullición, añade 80 g de pasta de letras y cuece el tiempo del paquete."
+    ],
+    "notas": "Los valores incluyen las verduras; si se apartan, la sopa aporta algo menos."
+  },
+  {
+    "id": "sopa-pollo-arroz",
+    "raciones": 5,
+    "tiempoMin": 75,
+    "pasos": [
+      "Pon en una olla 300 g de pollo, 100 g de zanahoria, 80 g de puerro, 50 g de apio y 1.500 g de agua con la sal.",
+      "Lleva a ebullición, quita la espuma y cuece a fuego suave 50 minutos.",
+      "Saca el pollo, desmenúzalo sin piel ni huesos y corta las verduras en trozos pequeños.",
+      "Añade 80 g de arroz al caldo y cuece 15 minutos. Vuelve a poner el pollo y las verduras y sirve."
+    ]
+  },
+  {
+    "id": "sopa-tomate-extremena",
+    "raciones": 4,
+    "tiempoMin": 50,
+    "pasos": [
+      "Pica 150 g de cebolla, 100 g de pimiento verde y 10 g de ajo y sofríelos en 60 g de aceite 12 minutos.",
+      "Añade 800 g de tomate pelado y troceado y la sal y cuece 20 minutos a fuego suave.",
+      "Añade 300 g de agua y lleva a ebullición. Casca encima 180 g de huevo (3 huevos), tapa y deja que se escalfen 4 minutos.",
+      "Corta 150 g de pan del día anterior en rebanadas finas, repártelas en los platos y sirve encima la sopa con los huevos."
+    ]
+  },
+  {
+    "id": "gazpacho-remolacha",
+    "raciones": 4,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pela 300 g de remolacha cruda y córtala en trozos pequeños. Trocea 600 g de tomate, 100 g de pepino y 50 g de pimiento verde.",
+      "Tritura todo con 5 g de ajo, 30 g de vinagre, la sal y 100 g de agua hasta que quede fino.",
+      "Añade 60 g de aceite poco a poco sin dejar de triturar.",
+      "Pásalo por un colador si lo quieres muy fino y guárdalo en la nevera al menos 1 hora."
+    ],
+    "notas": "Con remolacha cocida envasada sale igual y se tritura más fácil. El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "ensalada-judias-verdes",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Quita las puntas a 400 g de judías verdes, trocéalas y cuécelas en agua con sal 8 minutos. Enfríalas en agua con hielo y escúrrelas.",
+      "Cuece 60 g de huevo (1 huevo) 10 minutos, pélalo y córtalo en trozos.",
+      "Corta 150 g de tomate en dados y 50 g de cebolla en pluma fina.",
+      "Mezcla todo y aliña con 30 g de aceite, 10 g de vinagre y la sal."
+    ]
+  },
+  {
+    "id": "papas-alinas",
+    "raciones": 3,
+    "tiempoMin": 35,
+    "pasos": [
+      "Cuece 600 g de patata pelada en trozos en agua con sal 20 minutos, hasta que esté tierna. Escúrrela y deja que se temple.",
+      "Corta 60 g de cebolla en pluma muy fina y pica 5 g de perejil.",
+      "Mezcla la patata con la cebolla y el perejil y aliña con 50 g de aceite, 20 g de vinagre y la sal. Deja que repose 15 minutos antes de servir."
+    ],
+    "notas": "En Cádiz es habitual añadir atún o melva, que no están incluidos."
+  },
+  {
+    "id": "ensalada-mango-langostinos",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Cuece 150 g de langostinos en agua hirviendo con sal 2 minutos, enfríalos en agua con hielo y pélalos.",
+      "Corta en dados 150 g de mango y 80 g de aguacate y trocea 100 g de lechuga.",
+      "Mezcla todo y aliña con 15 g de aceite y 10 g de zumo de lima."
+    ],
+    "notas": "Los 150 g de langostinos son pesados ya pelados."
+  },
+  {
+    "id": "ensalada-espinacas-fresas",
+    "raciones": 2,
+    "tiempoMin": 10,
+    "pasos": [
+      "Lava 100 g de espinacas tiernas y sécalas bien.",
+      "Corta en cuartos 120 g de fresas y desmenuza 40 g de queso de cabra.",
+      "Mezcla las espinacas con las fresas, el queso y 25 g de nueces troceadas.",
+      "Aliña con 15 g de aceite y 10 g de vinagre."
+    ]
+  },
+  {
+    "id": "ensalada-huevo",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Cuece 240 g de huevo (4 huevos) 10 minutos, enfríalos en agua fría y pélalos.",
+      "Pícalos en trozos pequeños y pica muy fina 20 g de cebolla.",
+      "Mezcla el huevo y la cebolla con 40 g de mayonesa. Sírvela fría, en sándwich o sobre pan tostado."
+    ],
+    "notas": "El pan no está incluido."
+  },
+  {
+    "id": "tabla-jamon-chorizo-queso",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Saca los embutidos y el queso de la nevera 15 minutos antes para que cojan temperatura.",
+      "Corta 50 g de queso curado en cuñas finas y 50 g de chorizo en rodajas.",
+      "Coloca en una tabla el queso, el chorizo y 50 g de jamón en lonchas finas."
+    ],
+    "notas": "El pan no está incluido."
+  },
+  {
+    "id": "pate-higado-pollo",
+    "raciones": 10,
+    "tiempoMin": 30,
+    "pasos": [
+      "Limpia 300 g de hígados de pollo quitándoles los nervios y las partes verdes.",
+      "Pica 60 g de cebolla y pochala en 20 g de la mantequilla 8 minutos.",
+      "Añade los hígados y la sal y dóralos 4 o 5 minutos, hasta que estén hechos por fuera y algo rosados por dentro. Vierte 20 g de coñac y deja que se evapore.",
+      "Tritúralo todo con el resto de la mantequilla hasta que quede muy fino. Pásalo a un recipiente y guárdalo en la nevera al menos 4 horas."
+    ],
+    "notas": "Una ración son unos 40 g, untada en pan, que no está incluido. El reposo en la nevera no cuenta en el tiempo. Se conserva 3 días en la nevera."
+  },
+  {
+    "id": "pate-atun",
+    "raciones": 6,
+    "tiempoMin": 5,
+    "pasos": [
+      "Escurre bien 160 g de atún en aceite.",
+      "Tritúralo con 100 g de queso fresco de untar hasta que quede una pasta fina.",
+      "Guárdalo en la nevera hasta servirlo."
+    ],
+    "notas": "Una ración son unos 40 g, untada en pan o tostadas, que no están incluidos."
+  },
+  {
+    "id": "hummus-remolacha",
+    "raciones": 8,
+    "tiempoMin": 60,
+    "pasos": [
+      "Envuelve 150 g de remolacha cruda en papel de aluminio y ásala a 200 °C 45 minutos, hasta que esté tierna. Pélala y trocéala.",
+      "Escurre y lava 300 g de garbanzos cocidos.",
+      "Tritura los garbanzos con la remolacha, 40 g de tahini, 20 g de zumo de limón y 3 g de ajo, añadiendo un poco de agua fría si hace falta, hasta que quede muy cremoso.",
+      "Añade 30 g de aceite poco a poco sin dejar de triturar."
+    ],
+    "notas": "Una ración son unos 65 g, para untar o mojar. Con remolacha cocida envasada no hace falta asarla. No lleva sal aparte: la remolacha y los garbanzos de bote ya la aportan; pruébalo."
+  },
+  {
+    "id": "baba-ganoush",
+    "raciones": 6,
+    "tiempoMin": 60,
+    "pasos": [
+      "Pincha 600 g de berenjenas enteras con un tenedor y ásalas a 220 °C 40 minutos, dándoles la vuelta, hasta que estén muy blandas y con la piel tostada.",
+      "Ábrelas, saca la pulpa con una cuchara y déjala escurrir en un colador 10 minutos.",
+      "Tritúrala o aplástala con 40 g de tahini, 20 g de zumo de limón, 5 g de ajo y la sal.",
+      "Sírvela con 20 g de aceite por encima."
+    ],
+    "notas": "Una ración son unos 75 g, para untar o mojar. El pan no está incluido."
+  },
+  {
+    "id": "ensalada-tomate-burrata",
+    "raciones": 2,
+    "tiempoMin": 10,
+    "pasos": [
+      "Corta 300 g de tomate maduro en rodajas o gajos y colócalos en un plato con la sal.",
+      "Pon en el centro 125 g de burrata escurrida y ábrela con un cuchillo.",
+      "Riega con 20 g de aceite y reparte 5 g de hojas de albahaca."
+    ]
+  },
+  {
+    "id": "melon-jamon",
+    "raciones": 2,
+    "tiempoMin": 10,
+    "pasos": [
+      "Pela 300 g de melón, quítale las pepitas y córtalo en tajadas finas.",
+      "Coloca encima o alrededor 60 g de jamón serrano en lonchas finas. Sírvelo frío."
+    ]
+  },
+  {
+    "id": "empanadas-argentinas",
+    "raciones": 6,
+    "tiempoMin": 90,
+    "pasos": [
+      "Mezcla 300 g de harina con 60 g de manteca derretida, 120 g de agua templada y la sal. Amasa hasta que esté lisa, tápala y deja reposar 30 minutos.",
+      "Pica 150 g de cebolla y sofríela en 15 g de aceite 8 minutos. Añade 300 g de carne picada, 3 g de pimentón y 2 g de comino y cocina 8 minutos. Deja que se enfríe.",
+      "Bate 60 g de huevo (1 huevo). Cuaja la mitad en una sartén antiadherente, pícala y mézclala con la carne y 30 g de aceitunas verdes picadas.",
+      "Precalienta el horno a 200 °C. Estira la masa y corta 12 círculos de unos 12 cm. Rellénalos, ciérralos y haz un repulgo en el borde.",
+      "Píntalas con el resto del huevo batido y hornéalas 20 minutos, hasta que estén doradas."
+    ],
+    "notas": "Salen 12 empanadas: 2 por ración."
+  },
+  {
+    "id": "lomo-saltado",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Corta 400 g de patata pelada en bastones y fríelos en aceite de girasol hasta que estén dorados. Escúrrelos y resérvalos.",
+      "Corta 400 g de solomillo de ternera en tiras gruesas y saltéalas en 15 g de aceite de oliva a fuego muy fuerte 2 minutos, por tandas. Sácalas.",
+      "En la misma sartén, saltea 150 g de cebolla roja en gajos 2 minutos. Añade 150 g de tomate en gajos y saltea 1 minuto.",
+      "Devuelve la carne, añade 30 g de salsa de soja y 15 g de vinagre y saltea 1 minuto.",
+      "Mezcla con las patatas justo antes de servir."
+    ],
+    "notas": "Los 40 g de girasol son los que retienen las patatas; en la sartén hace falta más. Tradicionalmente lleva ají amarillo y se acompaña con arroz blanco, que no están incluidos. No lleva sal aparte: la soja ya la aporta."
+  },
+  {
+    "id": "arroz-chaufa",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Cuece 300 g de arroz con 600 g de agua, tapado, 15 minutos a fuego suave y deja que se enfríe. Mejor si es del día anterior.",
+      "Bate 120 g de huevo (2 huevos) y cuájalos en una tortilla fina con un poco del aceite. Córtala en tiras.",
+      "Corta 250 g de pechuga de pollo en dados y saltéalos en el resto del aceite con 5 g de jengibre rallado 5 minutos.",
+      "Añade el arroz y saltea a fuego fuerte 3 minutos. Incorpora 40 g de salsa de soja, la tortilla y 60 g de cebolleta picada y saltea 1 minuto más."
+    ],
+    "notas": "No lleva sal aparte: la soja ya la aporta."
+  },
+  {
+    "id": "causa-limena",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Cuece 600 g de patata pelada en agua 20 minutos, hasta que esté tierna. Escúrrela y pásala por el pasapurés.",
+      "Cuando esté templada, mézclala con 30 g de zumo de lima, 40 g de aceite y la sal hasta tener una masa lisa.",
+      "Mezcla 150 g de atún escurrido con 60 g de mayonesa. Corta 100 g de aguacate en láminas.",
+      "En un molde, pon una capa de la mitad de la patata, luego el atún y el aguacate y termina con el resto de la patata, alisando.",
+      "Guárdala en la nevera 30 minutos y desmóldala."
+    ],
+    "notas": "Tradicionalmente la masa lleva ají amarillo, que no está incluido."
+  },
+  {
+    "id": "aji-gallina",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Cuece 500 g de pechuga de pollo en agua 15 minutos. Déjala enfriar y deshiláchala.",
+      "Remoja 100 g de pan sin corteza en 300 g de leche y tritúralo con 40 g de nueces.",
+      "Pica 150 g de cebolla y 10 g de ajo y sofríelos en 30 g de aceite 10 minutos. Añade 2 g de cúrcuma.",
+      "Añade la mezcla de pan y leche y cuece 5 minutos, removiendo, hasta que espese.",
+      "Incorpora el pollo y 30 g de parmesano rallado y cuece 3 minutos más."
+    ],
+    "notas": "Tradicionalmente lleva ají amarillo, que da el color; la cúrcuma lo imita sin picante. Se acompaña con arroz blanco, patata y huevo duro, que no están incluidos."
+  },
+  {
+    "id": "tequenos",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Mezcla 250 g de harina con 50 g de mantequilla fría en dados, hasta que parezca arena. Añade 50 g de huevo (1 huevo pequeño) y 60 g de agua fría y amasa solo hasta que se una.",
+      "Deja reposar la masa tapada en la nevera 20 minutos.",
+      "Corta 250 g de mozzarella en bastones de 1 cm.",
+      "Estira la masa muy fina y córtala en tiras de 2 cm. Envuelve cada bastón de queso en espiral con una tira, sellando bien los extremos.",
+      "Fríelos en aceite caliente 3 minutos, hasta que estén dorados. Escúrrelos."
+    ],
+    "notas": "Salen unos 20 tequeños: 5 por ración. Tradicionalmente se hacen con queso blanco llanero. Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "salchipapas",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 500 g de patata pelada en bastones y sécalos bien.",
+      "Fríelos en aceite a 170 °C 8 minutos, sácalos y vuelve a freírlos a 190 °C 2 o 3 minutos. Escúrrelos y sálalos.",
+      "Corta 200 g de salchichas en rodajas al bies y fríelas 2 minutos en el mismo aceite.",
+      "Mezcla las patatas con las salchichas."
+    ],
+    "notas": "Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más. Las salsas (ketchup, mayonesa) no están incluidas."
+  },
+  {
+    "id": "pupusas",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Mezcla 300 g de harina de maíz precocida con 350 g de agua templada y la sal y amasa hasta que la masa sea suave y no se agriete.",
+      "Aplasta 100 g de alubias rojas escurridas hasta hacer un puré y mézclalo con 150 g de mozzarella rallada.",
+      "Divide la masa en 8 bolas. Haz un hueco en cada una, rellénala con la mezcla, ciérrala y aplánala con las manos húmedas hasta 1 cm.",
+      "Hazlas en una plancha untada con 10 g de aceite 4 minutos por cada lado, hasta que estén doradas."
+    ],
+    "notas": "Salen 8 pupusas: 2 por ración. Tradicionalmente se sirven con curtido de col, que no está incluido."
+  },
+  {
+    "id": "chilaquiles",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pica 40 g de cebolla y tritúrala con 250 g de tomate pelado. Cuece la salsa 10 minutos.",
+      "Fríe 60 g de huevo (1 huevo) en una sartén antiadherente sin aceite.",
+      "Echa 100 g de totopos en la salsa y mézclalos 1 minuto, para que se impregnen sin ablandarse del todo.",
+      "Sírvelos con 40 g de nata, 30 g de queso feta desmenuzado y el huevo encima."
+    ],
+    "notas": "Tradicionalmente lleva crema mexicana y queso fresco; la formulación usa nata y feta."
+  },
+  {
+    "id": "tacos-pastor",
+    "raciones": 3,
+    "tiempoMin": 40,
+    "pasos": [
+      "Corta 300 g de cerdo en láminas finas y mézclalas con 5 g de pimentón, 15 g de vinagre y 5 g del aceite. Déjalo 20 minutos.",
+      "Dora la carne en una sartén muy caliente con el resto del aceite 5 minutos y pícala en trozos pequeños.",
+      "Corta 80 g de piña en dados y dórala 2 minutos en la misma sartén.",
+      "Calienta 150 g de tortillas de maíz y rellénalas con la carne, la piña, 40 g de cebolla picada y 10 g de cilantro."
+    ],
+    "notas": "Tradicionalmente el adobo lleva chiles secos y achiote; el pimentón lo imita."
+  },
+  {
+    "id": "gallo-pinto",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Cuece 200 g de arroz con 400 g de agua, tapado, 15 minutos a fuego suave.",
+      "Pica 80 g de cebolla y 60 g de pimiento verde y sofríelos en 20 g de aceite 8 minutos.",
+      "Añade 300 g de alubias rojas escurridas y la sal y cocina 3 minutos.",
+      "Añade el arroz y saltea 3 minutos, removiendo, hasta que se mezcle y tome color."
+    ]
+  },
+  {
+    "id": "ropa-vieja-cubana",
+    "raciones": 4,
+    "tiempoMin": 150,
+    "pasos": [
+      "Cuece 600 g de morcillo en 400 g de agua con parte de la sal 1 hora y media, hasta que esté muy tierno. Guarda el caldo y deshilacha la carne.",
+      "Corta en tiras 150 g de cebolla, 100 g de pimiento verde y 100 g de pimiento rojo y pica 10 g de ajo. Sofríelos en 40 g de aceite 10 minutos.",
+      "Añade 200 g de tomate rallado, 2 g de comino y el resto de la sal y cocina 10 minutos.",
+      "Añade la carne y un poco del caldo y cuece 15 minutos, hasta que la salsa la envuelva."
+    ],
+    "notas": "Tradicionalmente se acompaña con arroz blanco y plátano frito, que no están incluidos. En olla rápida, la carne tarda unos 35 minutos."
+  },
+  {
+    "id": "sandia-feta-menta",
+    "raciones": 2,
+    "tiempoMin": 10,
+    "pasos": [
+      "Corta 300 g de sandía sin pepitas en dados.",
+      "Desmenuza por encima 80 g de queso feta y reparte 3 g de hojas de menta.",
+      "Riega con 10 g de aceite y sirve muy fría."
+    ]
+  },
+  {
+    "id": "arroz-pollo-hervido",
+    "raciones": 1,
+    "tiempoMin": 25,
+    "pasos": [
+      "Cuece 120 g de pechuga de pollo en agua con la sal 15 minutos. Sácala y córtala en dados.",
+      "Cuece 80 g de arroz con 160 g de agua, tapado, 15 minutos a fuego suave.",
+      "Mezcla el arroz con el pollo y sírvelo templado."
+    ],
+    "notas": "Plato de dieta blanda, sin grasa añadida. Si lo cueces en el agua del pollo, sale más sabroso."
+  },
+  {
+    "id": "merluza-hervida-patata",
+    "raciones": 1,
+    "tiempoMin": 25,
+    "pasos": [
+      "Cuece 200 g de patata pelada en trozos en agua con la sal 15 minutos.",
+      "Añade 200 g de merluza y cuece 6 minutos más, a fuego suave.",
+      "Escurre y sirve con 5 g de aceite en crudo."
+    ]
+  },
+  {
+    "id": "patata-zanahoria-hervidas",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Pela 300 g de patata y 150 g de zanahoria y córtalas en trozos parecidos.",
+      "Cuécelas en agua con la sal 18 minutos, hasta que estén tiernas.",
+      "Escúrrelas y aliña con 10 g de aceite en crudo."
+    ]
+  },
+  {
+    "id": "sopa-arroz-zanahoria",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pela 100 g de zanahoria y córtala en dados pequeños.",
+      "Pon 800 g de agua con la sal a hervir, añade la zanahoria y cuece 10 minutos.",
+      "Añade 50 g de arroz y cuece 15 minutos más, hasta que esté muy tierno."
+    ],
+    "notas": "Plato de dieta blanda, sin grasa añadida."
+  },
+  {
+    "id": "sopa-semola",
+    "raciones": 3,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pon 800 g de agua con la sal a hervir.",
+      "Echa 40 g de sémola en forma de lluvia, removiendo con unas varillas para que no se formen grumos.",
+      "Cuece 5 minutos a fuego suave, removiendo, y añade 5 g de aceite al servir."
+    ],
+    "notas": "Con caldo de verduras o de pollo en vez de agua sale más sabrosa; los valores serían algo distintos."
+  },
+  {
+    "id": "pure-zanahoria-patata",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pela 300 g de patata y 200 g de zanahoria y córtalas en trozos.",
+      "Cuécelas en agua con sal 20 minutos, hasta que estén muy tiernas. Escúrrelas.",
+      "Tritúralas con 200 g de agua (o del agua de cocción), 10 g de aceite y la sal hasta que quede fino."
+    ]
+  },
+  {
+    "id": "pure-calabacin-patata",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pela 300 g de patata y córtala en trozos. Trocea 300 g de calabacín con su piel.",
+      "Cuece la patata en agua con sal 10 minutos, añade el calabacín y cuece 10 minutos más. Escúrrelo.",
+      "Tritúralo con 150 g de agua (o del agua de cocción), 10 g de aceite y la sal hasta que quede fino."
+    ]
+  },
+  {
+    "id": "triturado-pollo-verduras",
+    "raciones": 3,
+    "tiempoMin": 35,
+    "pasos": [
+      "Pela 150 g de patata y 100 g de zanahoria y trocéalas con 100 g de calabacín y 100 g de pechuga de pollo.",
+      "Cuécelo todo en 300 g de agua, tapado, 25 minutos, hasta que esté muy tierno.",
+      "Tritúralo con su caldo y 10 g de aceite en crudo hasta que quede muy fino."
+    ],
+    "notas": "Para bebés no lleva sal. Se puede congelar en raciones."
+  },
+  {
+    "id": "triturado-pescado-verduras",
+    "raciones": 3,
+    "tiempoMin": 35,
+    "pasos": [
+      "Pela 150 g de patata y 100 g de zanahoria, trocéalas y quita las puntas a 80 g de judías verdes.",
+      "Cuece las verduras en 250 g de agua, tapadas, 20 minutos.",
+      "Añade 100 g de merluza sin piel ni espinas y cuece 6 minutos más.",
+      "Tritúralo con su caldo y 10 g de aceite en crudo hasta que quede muy fino. Repasa con los dedos que no quede ninguna espina."
+    ],
+    "notas": "Para bebés no lleva sal. Se puede congelar en raciones."
+  },
+  {
+    "id": "triturado-ternera-verduras",
+    "raciones": 3,
+    "tiempoMin": 60,
+    "pasos": [
+      "Corta 100 g de morcillo en dados pequeños y cuécelos en 300 g de agua, tapados, 30 minutos.",
+      "Añade 150 g de patata y 100 g de zanahoria peladas y troceadas y 50 g de puerro, y cuece 20 minutos más, hasta que todo esté muy tierno.",
+      "Tritúralo con su caldo y 10 g de aceite en crudo hasta que quede muy fino."
+    ],
+    "notas": "Para bebés no lleva sal. Se puede congelar en raciones."
+  },
+  {
+    "id": "triturado-lentejas",
+    "raciones": 3,
+    "tiempoMin": 50,
+    "pasos": [
+      "Lava 60 g de lentejas (mejor rojas, que se deshacen antes) y ponlas en 400 g de agua con 80 g de zanahoria y 100 g de patata peladas y troceadas.",
+      "Cuece tapado a fuego suave 40 minutos, hasta que todo esté muy tierno.",
+      "Tritúralo con su caldo y 5 g de aceite en crudo hasta que quede muy fino; pásalo por un colador si las pieles molestan."
+    ],
+    "notas": "Para bebés no lleva sal. Se puede congelar en raciones."
+  },
+  {
+    "id": "butifarra-mongetes",
+    "raciones": 2,
+    "tiempoMin": 120,
+    "pasos": [
+      "Cuece 120 g de judías blancas remojadas en agua 1 hora y media, hasta que estén tiernas. Escúrrelas: absorben unos 200 g de agua.",
+      "Pincha 300 g de butifarra fresca y hazla a la plancha o en una sartén con 5 g del aceite 12 minutos, dándole la vuelta, hasta que esté hecha.",
+      "Dora 5 g de ajo picado en el resto del aceite, añade las judías y saltéalas 4 minutos, hasta que se tuesten un poco.",
+      "Sirve la butifarra con las judías."
+    ],
+    "notas": "Las judías se ponen en remojo la noche antes; el remojo no cuenta en el tiempo. Con judías cocidas de bote solo hay que saltearlas. No lleva sal aparte: la butifarra ya la aporta."
+  },
+  {
+    "id": "hummus-crudites",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Pela 100 g de zanahoria y córtala en bastones. Corta 100 g de pepino en bastones.",
+      "Sirve los bastones con 60 g de hummus para mojar."
+    ]
+  },
+  {
+    "id": "rollitos-pavo-queso",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Unta 60 g de lonchas de pechuga de pavo con 30 g de queso fresco de untar.",
+      "Enróllalas y, si quieres, sujétalas con un palillo."
+    ]
+  },
+  {
+    "id": "ramen-cerdo",
+    "raciones": 4,
+    "tiempoMin": 90,
+    "pasos": [
+      "Pon 250 g de cerdo en 1.500 g de agua con la sal y cuece a fuego suave 1 hora. Sácalo y córtalo en lonchas finas.",
+      "Cuece 120 g de huevo (2 huevos) 7 minutos, enfríalos en agua fría, pélalos y pártelos por la mitad.",
+      "Disuelve 30 g de miso y 50 g de salsa de soja en un poco del caldo y añádelo al resto, sin que vuelva a hervir.",
+      "Cuece 200 g de fideos de huevo el tiempo del paquete y repártelos en cuencos.",
+      "Cubre con el caldo caliente y coloca el cerdo, el huevo, 100 g de brotes de soja y 30 g de cebolleta picada."
+    ]
+  },
+  {
+    "id": "bibimbap",
+    "raciones": 3,
+    "tiempoMin": 40,
+    "pasos": [
+      "Cuece 200 g de arroz con 400 g de agua, tapado, 15 minutos a fuego suave.",
+      "Saltea por separado, con un poco del aceite cada una, 100 g de espinacas 1 minuto, 80 g de zanahoria en tiras 3 minutos y 80 g de brotes de soja 1 minuto.",
+      "Dora 200 g de carne picada en el aceite 6 minutos y añade 20 g de salsa de soja.",
+      "Fríe 120 g de huevo (2 huevos) con el resto del aceite.",
+      "Reparte el arroz en cuencos, coloca encima la carne y las verduras por separado y el huevo, y espolvorea 5 g de sésamo. Se mezcla todo al comer."
+    ],
+    "notas": "Tradicionalmente se acompaña con gochujang (pasta de pimiento coreana), que no está incluido."
+  },
+  {
+    "id": "curry-japones",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Corta 400 g de pechuga de pollo en dados, 150 g de cebolla en gajos, 150 g de zanahoria en rodajas y 300 g de patata pelada en trozos.",
+      "Dora el pollo y la cebolla en 10 g de la mantequilla 6 minutos. Añade la zanahoria, la patata, 600 g de agua y la sal y cuece 20 minutos.",
+      "Mientras, funde el resto de la mantequilla, añade 30 g de harina y 15 g de curry y tuesta a fuego suave 5 minutos, removiendo, hasta que tome color.",
+      "Deslíe el roux en un cazo de caldo, añádelo al guiso con 15 g de salsa de soja y cuece 10 minutos, removiendo, hasta que espese."
+    ],
+    "notas": "Tradicionalmente se sirve con arroz blanco, que no está incluido."
+  },
+  {
+    "id": "pollo-katsu",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Abre 400 g de pechuga de pollo en filetes de 1,5 cm y sazónalos.",
+      "Pásalos por 30 g de harina, luego por 60 g de huevo (1 huevo) batido y por último por 80 g de pan rallado (mejor panko), apretando.",
+      "Fríelos en aceite a 170 °C 3 minutos por cada lado, hasta que estén dorados y hechos. Escúrrelos y córtalos en tiras."
+    ],
+    "notas": "Los 50 g de aceite son los que retiene el pollo al freír; en la sartén hace falta más. La salsa tonkatsu y el arroz no están incluidos."
+  },
+  {
+    "id": "yakitori",
+    "raciones": 3,
+    "tiempoMin": 40,
+    "pasos": [
+      "Pon a remojo unas brochetas de madera 20 minutos para que no se quemen.",
+      "Mezcla 40 g de salsa de soja, 20 g de miel y 20 g de vino dulce y cuécelo 3 minutos, hasta que espese un poco.",
+      "Corta 500 g de muslo de pollo deshuesado en dados y 50 g de cebolleta en trozos de 3 cm. Ensártalos alternando.",
+      "Ásalos a la plancha o al grill a fuego fuerte 10 o 12 minutos, dándoles la vuelta y pintándolos con la salsa varias veces."
+    ],
+    "notas": "Tradicionalmente la salsa lleva mirin y sake; la formulación usa vino dulce."
+  },
+  {
+    "id": "okonomiyaki",
+    "raciones": 3,
+    "tiempoMin": 35,
+    "pasos": [
+      "Mezcla 150 g de harina con 150 g de agua fría y 120 g de huevo (2 huevos) hasta que no queden grumos.",
+      "Corta 300 g de repollo en tiras finas y mézclalo con la masa.",
+      "Calienta 15 g de aceite en una sartén, vierte la masa y aplánala. Coloca encima 80 g de panceta en lonchas.",
+      "Cuécela tapada a fuego medio 6 minutos, dale la vuelta con ayuda de un plato y cuece 6 minutos más, con la panceta abajo.",
+      "Sírvela con 20 g de ketchup y 30 g de mayonesa por encima."
+    ],
+    "notas": "Tradicionalmente lleva salsa okonomiyaki y copos de bonito; el ketchup imita la salsa."
+  },
+  {
+    "id": "gyudon",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Cuece 200 g de arroz con 400 g de agua, tapado, 15 minutos a fuego suave.",
+      "Corta 250 g de filete de ternera en láminas muy finas y 150 g de cebolla en pluma.",
+      "Pon la cebolla con 100 g de agua, 40 g de salsa de soja y 15 g de azúcar y cuece 8 minutos, hasta que esté tierna.",
+      "Añade la ternera y cuece 2 minutos, solo hasta que cambie de color.",
+      "Reparte el arroz en cuencos y cúbrelo con la carne y su caldo."
+    ]
+  },
+  {
+    "id": "samosas-verduras",
+    "raciones": 4,
+    "tiempoMin": 75,
+    "pasos": [
+      "Mezcla 200 g de harina con 30 g de aceite de oliva y 80 g de agua y amasa hasta que esté lisa. Tápala y deja reposar 30 minutos.",
+      "Cuece 300 g de patata pelada en dados 12 minutos y 80 g de guisantes los últimos 3. Escúrrelo.",
+      "Sofríe 60 g de cebolla picada en una cucharada del aceite de girasol 5 minutos. Añade 8 g de curry, la patata y los guisantes y aplasta un poco. Deja enfriar.",
+      "Divide la masa en 6 bolas, estíralas en óvalos y córtalas por la mitad. Forma un cono con cada mitad, rellénalo y sella el borde con agua.",
+      "Fríelas en aceite de girasol a 170 °C 5 minutos, hasta que estén doradas. Escúrrelas."
+    ],
+    "notas": "Salen 12 samosas: 3 por ración. Los 60 g de girasol son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "pakoras",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Mezcla 150 g de harina de garbanzo con 150 g de agua, 5 g de curry y la sal hasta tener una masa espesa.",
+      "Corta 200 g de cebolla en pluma fina y pica 100 g de espinacas. Mézclalas con la masa.",
+      "Fríe cucharadas de la mezcla en aceite caliente 3 o 4 minutos, dándoles la vuelta, hasta que estén doradas y crujientes. Escúrrelas."
+    ],
+    "notas": "Salen unas 20 pakoras: 5 por ración. Los 70 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "biryani-pollo",
+    "raciones": 4,
+    "tiempoMin": 75,
+    "pasos": [
+      "Corta 400 g de muslo de pollo deshuesado en trozos y mézclalo con 125 g de yogur, 10 g de curry y la mitad de la sal. Déjalo 20 minutos.",
+      "Corta 200 g de cebolla en pluma fina y fríela en 40 g de aceite a fuego medio 15 minutos, hasta que esté dorada. Saca la mitad.",
+      "Añade el pollo con su adobo a la cebolla que queda en la cazuela y cocina 10 minutos.",
+      "Cubre con 300 g de arroz lavado, 600 g de agua con el resto de la sal y la cebolla reservada. Tapa y cuece a fuego muy suave 18 minutos, sin remover.",
+      "Deja reposar 10 minutos tapado y mezcla con cuidado al servir."
+    ],
+    "notas": "Tradicionalmente se hace con arroz basmati y especias enteras (cardamomo, clavo, canela), que apenas aportan energía."
+  },
+  {
+    "id": "butter-chicken",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Corta 600 g de pechuga de pollo en dados y mézclala con 125 g de yogur, la mitad del curry y parte de la sal. Déjala 20 minutos.",
+      "Dora el pollo en 20 g de la mantequilla 6 minutos y sácalo.",
+      "En el resto de la mantequilla, sofríe 10 g de ajo y 10 g de jengibre rallados 1 minuto. Añade el resto del curry y 400 g de tomate pelado triturado y cuece 15 minutos.",
+      "Tritura la salsa, añade 150 g de nata y el resto de la sal y vuelve a poner el pollo.",
+      "Cuece a fuego suave 10 minutos."
+    ],
+    "notas": "Tradicionalmente se acompaña con arroz basmati o pan naan, que no están incluidos."
+  },
+  {
+    "id": "chana-saag",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pica 100 g de cebolla y sofríela en 25 g de aceite 8 minutos. Añade 10 g de curry y remueve 1 minuto.",
+      "Añade 150 g de tomate rallado y cocina 5 minutos.",
+      "Incorpora 500 g de espinacas por tandas, dejando que reduzcan.",
+      "Añade 300 g de garbanzos escurridos y la sal y cuece 8 minutos, hasta que el guiso espese."
+    ]
+  },
+  {
+    "id": "curry-verde-pollo",
+    "raciones": 4,
+    "tiempoMin": 35,
+    "pasos": [
+      "Corta 500 g de pechuga de pollo en tiras y dóralas en 15 g de aceite 5 minutos.",
+      "Añade 10 g de curry y remueve 1 minuto. Vierte 400 g de leche de coco y lleva a ebullición.",
+      "Añade 150 g de calabacín y 100 g de pimiento verde en trozos y cuece 10 minutos a fuego suave.",
+      "Añade 15 g de salsa de soja y 5 g de albahaca al final."
+    ],
+    "notas": "Tradicionalmente lleva pasta de curry verde y salsa de pescado; la formulación usa curry en polvo y soja. Se acompaña con arroz jazmín, que no está incluido."
+  },
+  {
+    "id": "pho-ternera",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Corta 80 g de cebolla por la mitad y tuéstala en una sartén seca hasta que se queme por fuera.",
+      "Ponla en 1.550 g de agua con 30 g de salsa de soja y la sal y cuece 40 minutos. Cuela el caldo.",
+      "Hidrata 150 g de fideos de arroz en agua caliente el tiempo del paquete, escúrrelos y repártelos en cuencos.",
+      "Corta 200 g de filete de ternera en láminas muy finas y colócalas crudas sobre los fideos.",
+      "Vierte encima el caldo hirviendo, que cocina la carne. Sirve con 100 g de brotes de soja, 10 g de cilantro y 20 g de lima."
+    ],
+    "notas": "Tradicionalmente el caldo se hace con huesos de ternera y anís estrellado durante horas."
+  },
+  {
+    "id": "tempura-verduras",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 150 g de calabacín, 150 g de berenjena y 100 g de zanahoria en bastones o rodajas finas y sécalos.",
+      "Mezcla 120 g de harina con 180 g de agua muy fría, solo unos segundos: la masa debe quedar con grumos.",
+      "Pasa las verduras por la masa y fríelas por tandas en aceite a 180 °C 2 o 3 minutos, hasta que estén crujientes y apenas doradas. Escúrrelas."
+    ],
+    "notas": "Los 80 g de aceite son los que retienen al freír; en la sartén hace falta más. La salsa para mojar no está incluida."
+  },
+  {
+    "id": "sopa-miso",
+    "raciones": 4,
+    "tiempoMin": 15,
+    "pasos": [
+      "Calienta 800 g de agua sin que llegue a hervir.",
+      "Disuelve 40 g de miso en un cazo del agua caliente y añádelo al resto.",
+      "Añade 100 g de tofu en dados pequeños y calienta 2 minutos, sin que hierva.",
+      "Sirve con 15 g de cebolleta picada."
+    ],
+    "notas": "Tradicionalmente se hace con caldo dashi y alga wakame, que no están incluidos. No lleva sal: el miso ya la aporta."
+  },
+  {
+    "id": "ternera-brocoli",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Corta 300 g de filete de ternera en láminas finas y mézclalas con 10 g de maicena.",
+      "Separa 300 g de brócoli en ramitos y escáldalo en agua hirviendo 2 minutos. Escúrrelo.",
+      "Saltea la ternera en 20 g de aceite a fuego muy fuerte 2 minutos y sácala.",
+      "Saltea 5 g de ajo y 5 g de jengibre picados 30 segundos, añade el brócoli y saltea 2 minutos.",
+      "Devuelve la carne, añade 30 g de salsa de soja y un chorrito de agua y saltea 1 minuto, hasta que la salsa brille."
+    ],
+    "notas": "No lleva sal aparte: la soja ya la aporta."
+  },
+  {
+    "id": "saltimbocca",
+    "raciones": 4,
+    "tiempoMin": 25,
+    "pasos": [
+      "Aplana 400 g de escalopes de ternera finos. Coloca encima de cada uno una loncha de los 80 g de jamón y sujétala con un palillo.",
+      "Pásalos por 15 g de harina solo por el lado de la carne.",
+      "Dóralos en 20 g de la mantequilla, primero por el lado del jamón, 1 o 2 minutos por cada lado. Sácalos.",
+      "Vierte 80 g de vino blanco en la sartén, rasca el fondo y reduce 2 minutos. Añade el resto de la mantequilla y riega los escalopes con la salsa."
+    ],
+    "notas": "Tradicionalmente lleva una hoja de salvia en cada escalope, que apenas aporta energía. No lleva sal: el jamón ya la aporta."
+  },
+  {
+    "id": "pollo-parmesana",
+    "raciones": 4,
+    "tiempoMin": 50,
+    "pasos": [
+      "Abre 500 g de pechuga de pollo en filetes finos. Pásalos por 60 g de huevo (1 huevo) batido y luego por 60 g de pan rallado.",
+      "Fríelos en aceite caliente 2 minutos por cada lado, hasta que estén dorados. Escúrrelos.",
+      "Precalienta el horno a 200 °C. Colócalos en una fuente y cúbrelos con 200 g de tomate pelado triturado.",
+      "Reparte por encima 125 g de mozzarella en rodajas y 20 g de parmesano rallado.",
+      "Hornea 15 minutos, hasta que el queso esté fundido y dorado."
+    ],
+    "notas": "Los 40 g de aceite son los que retiene el pollo al freír; en la sartén hace falta más."
   }
 ]

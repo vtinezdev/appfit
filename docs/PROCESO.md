@@ -2808,3 +2808,19 @@ Después, Víctor plantea que al añadir comida no se distingue una receta de un
 - Añadir pasos no cambia el número de filas. Por eso el paquete pasa a la versión 2026-10-29, para que el móvil lo reimporte.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 256. Recetas: tanda 6 de preparaciones (2026-10-27)
+
+**Qué:** se escriben los pasos de los 100 platos preparados siguientes. En total hay 603 recetas con pasos. Entran:
+- platos vegetarianos y veganos (hamburguesas de legumbres, curry de lentejas, berenjenas a la parmesana…) y pizzas caseras;
+- guisos y legumbres (garbanzos con callos, olla podrida, marmitako de salmón…), cremas y sopas, ensaladas y entrantes;
+- cocina latinoamericana (empanadas, lomo saltado, ají de gallina, pupusas…) y asiática (ramen, bibimbap, curry japonés, biryani, pho…);
+- platos de dieta blanda y triturados infantiles.
+
+**Cómo:**
+- Texto propio en `tipicos/preparaciones.json`, con los criterios de siempre.
+- Las notas dicen qué ingrediente clásico no está en la formulación (ají amarillo, pasta de curry, dashi) y cómo se aproxima.
+- Los triturados infantiles no llevan sal. Los patés y el hummus van por ración untable.
+- El paquete pasa a la versión 2026-10-30 para que el móvil lo reimporte.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
