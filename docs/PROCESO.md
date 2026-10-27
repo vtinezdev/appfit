@@ -2779,3 +2779,14 @@ Después, Víctor plantea que al añadir comida no se distingue una receta de un
 - Detalle en `docs/features/nutricion.md` y el plan.
 
 **Verificación:** `npm run test` y `npm run build` correctos. `validar-recetas-anadir.cjs` (ahora también recetario y ficha de solo lectura) y `validar-recetas.cjs` correctos en claro y oscuro. La comprobación final de la receta propia mira la entrada guardada en lugar del texto del diario, que a veces no estaba en pantalla.
+
+## 253. Recetas también al escribir la comida (2026-10-27)
+
+**Qué:** Víctor escribía «arroz al horno» en Escribir y la revisión lo trataba como un alimento suelto, mientras que en Buscar se abría su hoja de receta. Ahora:
+- una sola receta escrita abre su hoja directamente;
+- con más alimentos, la fila de la receta se marca y abre la misma hoja, y lo elegido sustituye a la fila (la receta con sus gramos, una variante o sus ingredientes);
+- sin cantidad, una receta escrita empieza con una ración.
+
+**Cómo:** `OrigenItem.receta` (lo pone `itemDesdeElegible`; el intérprete marca también las recetas propias) y `recetaDeItem` en `lib/alimentos.ts`; `ItemRevisionRow` con `onAbrirReceta`; `HojaReceta` con `gramosIniciales` y `onQuitar`; `AnadirComida` (`sustituirFila`, `abrirRecetaDeFila`). Detalle en `docs/features/nutricion.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos; `validar-recetas-anadir.cjs` con los dos casos de Escribir a 320 y 375 px, en claro y oscuro.

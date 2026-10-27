@@ -33,6 +33,10 @@ interface Props {
   onAnadir: (eleccion: EleccionReceta) => void
   onCambiarIngredientes: (eleccion: EleccionReceta) => void
   onClose: () => void
+  /** Gramos cocinados con los que se abre (lo escrito al describir la comida); sin ellos, una ración. */
+  gramosIniciales?: number
+  /** Desde la revisión: quitar la receta de la comida. */
+  onQuitar?: () => void
 }
 
 const gramosTexto = (g: number) => `${formatNumber(g, g < 10 ? 1 : 0)} g`
@@ -42,7 +46,7 @@ const gramosTexto = (g: number) => `${formatNumber(g, g < 10 ? 1 : 0)} g`
  * aporta y sus ingredientes para esa cantidad, con «Cambiar ingredientes». La normal se registra como un alimento;
  * una variante, como un plato con sus ingredientes (lo decide quien llama con `onAnadir`).
  */
-export default function HojaReceta({ alimento, accion, ocupado, error, onAnadir, onCambiarIngredientes, onClose }: Props) {
+export default function HojaReceta({ alimento, accion, ocupado, error, onAnadir, onCambiarIngredientes, onClose, gramosIniciales, onQuitar }: Props) {
   const ref = alimento?.ref
   const datos = useLiveQuery(async () => {
     if (!ref) return null
@@ -54,7 +58,7 @@ export default function HojaReceta({ alimento, accion, ocupado, error, onAnadir,
   const [borrada, setBorrada] = useState<VarianteReceta | null>(null)
 
   // Otra receta: vuelve a la normal y a su ración.
-  useEffect(() => { setElegida('normal'); setGramos(null); setBorrada(null) }, [ref?.tipo, ref?.id])
+  useEffect(() => { setElegida('normal'); setGramos(gramosIniciales && gramosIniciales > 0 ? gramosIniciales : null); setBorrada(null) }, [ref?.tipo, ref?.id, gramosIniciales])
 
   const vista = datos?.vista
   const variantes = datos?.variantes ?? []
@@ -89,6 +93,7 @@ export default function HojaReceta({ alimento, accion, ocupado, error, onAnadir,
       footer={vista && aporte && <div className="space-y-2">
         {error && <ErrorState>{error}</ErrorState>}
         <Button block loading={ocupado} disabled={!(cantidad > 0)} onClick={() => onAnadir({ vista, variante, gramos: cantidad })}>{accion} · {formatInt(aporte.kcal)} kcal</Button>
+        {onQuitar && <Button block variant="secondary" disabled={ocupado} onClick={onQuitar}><Icon name="trash" size={18} />Quitar de la comida</Button>}
       </div>}>
       {datos === undefined && <LoadingState />}
       {datos === null && <ErrorState>No se encuentran los ingredientes de esta receta. Vuelve a intentarlo cuando el catálogo termine de actualizarse.</ErrorState>}

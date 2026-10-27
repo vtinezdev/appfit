@@ -30,6 +30,11 @@ interface Props {
   /** El ítem creará un alimento propio: se muestra (y exige) su categoría. */
   pedirCategoria?: boolean
   editarInicial?: boolean
+  /**
+   * El ítem es una receta: tocarlo abre su hoja (versión, cantidad, ingredientes) en lugar del editor de alimento.
+   * Quitarla o cambiarla se hace desde esa hoja.
+   */
+  onAbrirReceta?: () => void
 }
 function textoProcedencia(item: ItemRevision): string | undefined {
   switch (procedencia(item)) {
@@ -53,7 +58,7 @@ function SelectorMedida({ medida, onElegir }: { medida: MedidaAmbigua; onElegir:
   )
 }
 /** Revisión rápida: alimento completo, cantidad y aporte; edición avanzada bajo demanda. */
-export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado, pedirCategoria, editarInicial = false }: Props) {
+export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado, pedirCategoria, editarInicial = false, onAbrirReceta }: Props) {
   const aporte = macrosPorGramos(item, item.gramos)
   const kcal = Math.round(aporte.kcal)
   const sinNombre = !item.nombre.trim()
@@ -76,11 +81,15 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
     <div className="min-w-0 px-3 py-2">
       <div className="flex items-center gap-2">
         <IconoCategoria categoria={item.categoria} sinCategoria="hueco" inicial={(item.nombre || '?').slice(0, 1)} />
-        <button type="button" aria-label={`Editar ${item.nombre || 'alimento'}`} aria-expanded={abierto} aria-controls={editorId}
-          onClick={() => { if (!requiereDatos && !medidaPendiente(item)) { cancelarNombre(); setEditando(!abierto) } }}
+        <button type="button" aria-label={onAbrirReceta ? `Ver receta ${item.nombre}` : `Editar ${item.nombre || 'alimento'}`} aria-expanded={onAbrirReceta ? undefined : abierto} aria-controls={onAbrirReceta ? undefined : editorId}
+          onClick={() => {
+            if (onAbrirReceta) { onAbrirReceta(); return }
+            if (!requiereDatos && !medidaPendiente(item)) { cancelarNombre(); setEditando(!abierto) }
+          }}
           className="flex min-h-touch min-w-0 flex-1 items-center gap-2 py-2 text-left text-fg">
           <span className="min-w-0 flex-1">
             <span className="block break-words text-body font-semibold">{item.nombre || 'Alimento sin nombre'}</span>
+            {onAbrirReceta && <span className="mt-1 flex items-center gap-1 text-caption font-medium text-fg-muted"><Icon name="recetario" size={14} className="shrink-0" />Receta · {item.origen.receta?.info.origen === 'tuya' ? 'Tuya' : 'AppFit'} · toca para ver</span>}
             <span className="mt-1 inline-block max-w-full break-words rounded-sm bg-surface-muted px-2 py-1 text-caption text-fg-muted">{medidaPendiente(item) ? 'Elige la cantidad' : `${formatNumber(item.gramos, 1)} g`}</span>
           </span>
           <span className="tabular min-w-0 break-words text-right text-body-sm font-semibold">{formatInt(kcal)}<span className="block text-caption font-normal text-fg-muted">kcal</span></span>

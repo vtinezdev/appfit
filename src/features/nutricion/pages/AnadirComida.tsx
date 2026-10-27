@@ -30,6 +30,7 @@ import {
   itemDesdeElegible,
   itemSinCoincidencia,
   medidaPendiente,
+  recetaDeItem,
   por100DesdeEntrada,
   validarKcalRapidas,
   type AlimentoElegible,
@@ -116,6 +117,9 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   const [recetaEnRevision, setRecetaEnRevision] = useState<{ eleccion: EleccionReceta; original: MealItem[] } | null>(null)
   const [pregunta, setPregunta] = useState<{ cambios: string[]; lote: MealItem[]; nombre: string; igual?: VarianteReceta } | null>(null)
   const [errorPregunta, setErrorPregunta] = useState<string | null>(null)
+  // La hoja de receta abierta desde una fila de la revisión (lo elegido sustituye a esa fila) y sus gramos de partida.
+  const [recetaDeFila, setRecetaDeFila] = useState<number | null>(null)
+  const [gramosRecetaInicial, setGramosRecetaInicial] = useState<number | undefined>(undefined)
   const [kcalRapidas, setKcalRapidas] = useState<KcalRapidasDraft | null>(null)
   const [guardandoRapida, setGuardandoRapida] = useState(false)
   const [errorRapida, setErrorRapida] = useState<string | null>(null)
@@ -172,6 +176,15 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
     if (local.cargando) return
     const descripcion = texto.trim()
     const resultado = await local.interpretar(descripcion)
+    // Una sola receta escrita («arroz al horno»): su hoja, como al elegirla en Buscar. El texto se conserva.
+    const receta = resultado?.length === 1 && !anadiendo && !platoDestino && !soloTipica ? recetaDeItem(resultado[0]) : undefined
+    if (resultado && receta) {
+      setErrorRapido(null)
+      setRecetaDeFila(null)
+      setGramosRecetaInicial(resultado[0].gramosEstimados || medidaPendiente(resultado[0]) ? undefined : resultado[0].gramos)
+      setRecetaElegida(receta)
+      return
+    }
     if (resultado) {
       abrirRevision(resultado, anadiendo)
       setTextoOriginal((prev) => anadiendo ? [prev, descripcion].filter(Boolean).join('\n') : descripcion)
@@ -286,9 +299,36 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
     else setGramosRapido({ alimento, gramos })
   }
 
+  function cerrarHojaReceta() {
+    setRecetaElegida(null)
+    setRecetaDeFila(null)
+    setGramosRecetaInicial(undefined)
+  }
+
+  /** Desde una fila de la revisión: lo elegido en la hoja la sustituye (la receta con sus gramos, o sus ingredientes). */
+  function sustituirFila(i: number, nuevos: ItemRevision[]) {
+    setItems((prev) => prev ? [...prev.slice(0, i), ...nuevos, ...prev.slice(i + 1)] : prev)
+    setClavesItems((prev) => [...prev.slice(0, i), ...nuevos.map(() => crypto.randomUUID()), ...prev.slice(i + 1)])
+    cerrarHojaReceta()
+  }
+
+  function abrirRecetaDeFila(i: number, item: ItemRevision) {
+    const receta = recetaDeItem(item)
+    if (!receta) return
+    setErrorRapido(null)
+    setRecetaDeFila(i)
+    setGramosRecetaInicial(item.gramos > 0 ? item.gramos : undefined)
+    setRecetaElegida(receta)
+  }
+
   /** Registra la receta de la hoja: la normal como un alimento; una variante, como un plato con sus ingredientes. */
   async function anadirReceta({ vista, variante, gramos }: EleccionReceta) {
     if (guardandoRapido) return
+    if (recetaDeFila !== null && items?.[recetaDeFila]) {
+      const fila = recetaDeFila
+      sustituirFila(fila, variante ? await recetasRepo.itemsDeIngredientes(ingredientesPara(variante, gramos)) : [{ ...items[fila], gramos, gramosEstimados: false }])
+      return
+    }
     setGuardandoRapido(true)
     setErrorRapido(null)
     try {
@@ -305,7 +345,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
         const plato = nombrePlatoDe(vista, variante)
         // Un ingrediente que crearía un alimento sin categoría: se revisa antes de guardar.
         if (items.some(faltaCategoria)) {
-          setRecetaElegida(null)
+          cerrarHojaReceta()
           setNombrePlato(plato)
           abrirRevision(items)
           return
@@ -314,7 +354,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
         if (planificar) await planificadasRepo.planificarRevision({ fecha, comida, items: guardados, nombrePlato: plato }, todayISO())
         else await entriesRepo.guardarComida({ fecha, comida, items: guardados, nombrePlato: plato })
       }
-      setRecetaElegida(null)
+      cerrarHojaReceta()
       onGuardado()
     } catch (e) {
       setErrorRapido(e instanceof planificadasRepo.FechaNoPlanificable ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
@@ -327,7 +367,9 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   async function cambiarIngredientesReceta(eleccion: EleccionReceta) {
     const original = ingredientesPara(eleccion.variante ?? eleccion.vista, eleccion.gramos)
     const nuevos = await recetasRepo.itemsDeIngredientes(original)
-    setRecetaElegida(null)
+    // Dentro de una comida con más alimentos: sus ingredientes sustituyen a la fila y se editan ahí mismo.
+    if (recetaDeFila !== null) { sustituirFila(recetaDeFila, nuevos); return }
+    cerrarHojaReceta()
     setRecetaEnRevision({ eleccion, original })
     setNombrePlato(nombrePlatoDe(eleccion.vista, eleccion.variante))
     setErrorGuardar(null)
@@ -464,6 +506,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                     <ItemRevisionRow
                       key={clavesItems[i]}
                       item={item}
+                      onAbrirReceta={!entryEditar && !soloTipica && recetaDeItem(item) ? () => abrirRecetaDeFila(i, item) : undefined}
                       editarInicial={!!entryEditar}
                       onChange={(patch) => actualizarItem(i, patch)}
                       nombreCorto={item.nombreCortoModificado ? item.nombreCorto : nombresGuardadosRevision?.get(i) ?? item.nombreCorto}
@@ -581,8 +624,9 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
         )}
       </Sheet>
 
-      <HojaReceta alimento={recetaElegida} accion={`${planificar ? 'Planificar en' : 'Añadir a'} ${nombreComida(comida).toLowerCase()}`}
-        ocupado={guardandoRapido} error={errorRapido} onAnadir={anadirReceta} onCambiarIngredientes={cambiarIngredientesReceta} onClose={() => setRecetaElegida(null)} />
+      <HojaReceta alimento={recetaElegida} accion={recetaDeFila !== null ? 'Usar en la comida' : `${planificar ? 'Planificar en' : 'Añadir a'} ${nombreComida(comida).toLowerCase()}`}
+        gramosIniciales={gramosRecetaInicial} onQuitar={recetaDeFila !== null ? () => { quitarItem(recetaDeFila); cerrarHojaReceta() } : undefined}
+        ocupado={guardandoRapido} error={errorRapido} onAnadir={anadirReceta} onCambiarIngredientes={cambiarIngredientesReceta} onClose={cerrarHojaReceta} />
 
       {recetaEnRevision && (
         <PreguntaVariante open={pregunta !== null} receta={recetaEnRevision.eleccion.vista.nombre} cambios={pregunta?.cambios ?? []} nombrePropuesto={pregunta?.nombre ?? ''}
