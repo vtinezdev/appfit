@@ -1,4 +1,3 @@
-import TendenciaRegistros from '../../../shared/components/TendenciaRegistros'
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Ayuda from '../../../shared/components/Ayuda'
@@ -10,6 +9,7 @@ import { ErrorState } from '../../../shared/components/StateMessage'
 import { addDays, todayISO } from '../../../shared/lib/dates'
 import { getPerfil } from '../../perfil/data/perfilRepo'
 import * as aguaRepo from '../data/aguaRepo'
+import EvolucionAgua from './EvolucionAgua'
 import { AGUA_POR_DEFECTO_ML, formatAgua, objetivoAguaPorDefecto, OPCIONES_AGUA_ML, validarObjetivoAgua, type ObjetivoAgua } from '../lib/agua'
 
 interface Props {
@@ -66,29 +66,23 @@ export default function AguaSheet({ open, onClose, hoy, objetivo }: Props) {
         </div>
 
         <section aria-labelledby="agua-objetivo" className="space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <h3 id="agua-objetivo" className="text-title text-fg">Objetivo diario</h3>
-            <Ayuda titulo="Objetivo de agua">
-              <p>El recomendado parte de la ingesta adecuada de agua de EFSA (2010) para adultos, según tu sexo en Perfil, sin la parte que llega con la comida; detalles en Referencias › Proteína y agua.</p>
-              <p>Si fijas uno tuyo, manda el tuyo.</p>
-            </Ayuda>
-          </div>
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-muted p-3">
-            <span className="min-w-0">
-              <span className="tabular block text-body font-semibold text-fg">{objetivo ? formatAgua(objetivo.ml) : 'Sin objetivo'}</span>
-              <span className="block text-caption text-fg-muted">{objetivo ? (objetivo.origen === 'efsa' ? 'El recomendado' : 'El tuyo') : 'Fija uno o indica tu sexo en Perfil'}</span>
-            </span>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-1">
+              <h3 id="agua-objetivo" className="text-title text-fg">Objetivo</h3>
+              <Ayuda titulo="Objetivo de agua">
+                <p>El recomendado parte de la ingesta adecuada de agua de EFSA (2010) para adultos, según tu sexo en Perfil, sin la parte que llega con la comida; detalles en Referencias › Proteína y agua.</p>
+                <p>Si fijas uno tuyo, manda el tuyo.</p>
+              </Ayuda>
+            </div>
             <NumberStepper label="Objetivo diario de agua (ml)" value={objetivo?.ml ?? recomendado ?? 2000} step={250} min={500} suffix="ml"
               onChange={(n) => { const v = validarObjetivoAgua(n); if (v !== null) fijarObjetivo(v) }} />
           </div>
+          {!objetivo && <p className="text-caption text-fg-muted">Aún sin objetivo: elige uno o indica tu sexo en Perfil.</p>}
           {objetivo?.origen === 'ajustes' && recomendado != null && recomendado !== objetivo.ml && <Button variant="ghost" size="sm" onClick={() => fijarObjetivo(undefined)}>Volver al recomendado ({formatAgua(recomendado)})</Button>}
           {errorObjetivo && <ErrorState>{errorObjetivo}</ErrorState>}
         </section>
 
-        <section aria-label="Historial de agua" className="space-y-2">
-          <h3 className="text-title text-fg">Evolución del agua</h3>
-          <TendenciaRegistros puntos={(historial ?? []).map(a => ({ fecha: a.fecha, valor: a.ml }))} unidad="ml" titulo="agua" diaria periodos={['7', '30', '90']} />
-        </section>
+        <EvolucionAgua registros={historial ?? []} hoy={hoy} objetivoMl={objetivo?.ml ?? null} />
       </div>
     </Sheet>
   )
