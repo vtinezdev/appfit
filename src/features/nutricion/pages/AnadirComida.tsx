@@ -1,7 +1,7 @@
 import PreparacionAlimento from '../components/PreparacionAlimento'
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import type { Comida, Entry } from '../../../shared/db/types'
+import type { Comida, Entry, MealItem, VarianteReceta } from '../../../shared/db/types'
 import { comidaPorHora, formatFriendly, todayISO } from '../../../shared/lib/dates'
 import { objetivosDe } from '../../perfil/data/objetivosDiaRepo'
 import ModalPage from '../../../shared/components/ModalPage'
@@ -16,6 +16,8 @@ import * as planificadasRepo from '../data/planificadasRepo'
 import * as mealsRepo from '../data/mealsRepo'
 import * as foodsRepo from '../data/foodsRepo'
 import * as nombresAlimentosRepo from '../data/nombresAlimentosRepo'
+import * as recetasRepo from '../data/recetasRepo'
+import * as variantesRepo from '../data/variantesRepo'
 import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
 import {
   aItemGuardado,
@@ -50,6 +52,10 @@ import AlimentosRapidos from '../components/AlimentosRapidos'
 import EncajanConLoQueFalta from '../components/EncajanConLoQueFalta'
 import CambiarAlimentoSheet from '../components/CambiarAlimentoSheet'
 import EscanerCodigo from '../components/EscanerCodigo'
+import HojaReceta, { type EleccionReceta } from '../components/HojaReceta'
+import PreguntaVariante from '../components/PreguntaVariante'
+import { ingredienteDeItem } from '../lib/recetas'
+import { aLote, diferencias, ingredientesPara, nombrePlatoDe, nombrePropuesto, pesoCocinadoVariante, varianteIgual } from '../lib/variantes'
 import Medidas from './Medidas'
 import Button from '../../../shared/components/Button'
 import { Input, Select } from '../../../shared/components/Input'
@@ -105,6 +111,11 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
     [entryEditar?.foodId],
   )
   const [gramosRapido, setGramosRapido] = useState<{ alimento: AlimentoElegible; gramos: number } | null>(null)
+  // Recetas: la hoja de la receta elegida y, si se cambian sus ingredientes, de qué receta y cantidad partía la revisión.
+  const [recetaElegida, setRecetaElegida] = useState<AlimentoElegible | null>(null)
+  const [recetaEnRevision, setRecetaEnRevision] = useState<{ eleccion: EleccionReceta; original: MealItem[] } | null>(null)
+  const [pregunta, setPregunta] = useState<{ cambios: string[]; lote: MealItem[]; nombre: string; igual?: VarianteReceta } | null>(null)
+  const [errorPregunta, setErrorPregunta] = useState<string | null>(null)
   const [kcalRapidas, setKcalRapidas] = useState<KcalRapidasDraft | null>(null)
   const [guardandoRapida, setGuardandoRapida] = useState(false)
   const [errorRapida, setErrorRapida] = useState<string | null>(null)
@@ -197,6 +208,45 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
 
   async function guardar() {
     if (!items || items.length === 0 || guardando) return
+    // Una receta con los ingredientes cambiados pregunta antes: solo esta vez o como variante (la normal no cambia).
+    if (recetaEnRevision && !soloTipica && !entryEditar && !platoDestino) {
+      const actuales = items.map(ingredienteDeItem)
+      const cambios = diferencias(recetaEnRevision.original, actuales)
+      if (cambios.length > 0) {
+        const { vista, variante, gramos } = recetaEnRevision.eleccion
+        const lote = aLote(variante ?? vista, actuales, gramos)
+        const igual = varianteIgual(await variantesRepo.deBase(vista.base), lote)
+        setErrorPregunta(null)
+        setPregunta({ cambios, lote, nombre: nombrePropuesto(diferencias(vista.ingredientes, lote)), igual })
+        return
+      }
+    }
+    await guardarRevision()
+  }
+
+  /** «Solo esta vez»: el plato con los ingredientes cambiados, sin guardar nada más. */
+  async function guardarSoloEstaVez() {
+    if (!recetaEnRevision) return
+    setPregunta(null)
+    await guardarRevision(nombrePlatoDe(recetaEnRevision.eleccion.vista, { nombre: 'con cambios' }))
+  }
+
+  /** «Guardar como variante» (o reutilizar la igual) y registrar el plato con su nombre. */
+  async function guardarComoVariante(nombre: string) {
+    if (!recetaEnRevision || !pregunta || guardando) return
+    const { vista } = recetaEnRevision.eleccion
+    try {
+      if (!pregunta.igual) await variantesRepo.crear({ base: vista.base, nombre, ingredientes: pregunta.lote, pesoCocinadoG: pesoCocinadoVariante(vista, pregunta.lote) })
+    } catch (e) {
+      setErrorPregunta(e instanceof variantesRepo.VarianteInvalidaError ? e.message : 'No se ha podido guardar la variante. Inténtalo de nuevo.')
+      return
+    }
+    setPregunta(null)
+    await guardarRevision(nombrePlatoDe(vista, { nombre: nombre.trim() }))
+  }
+
+  async function guardarRevision(platoNombre = nombrePlato) {
+    if (!items || items.length === 0 || guardando) return
     setGuardando(true)
     setErrorGuardar(null)
     try {
@@ -217,9 +267,9 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           ...(items[0].nombreCortoModificado ? { nombreCorto: items[0].nombreCorto?.trim() || null } : {}),
         })
       } else if (planificar) {
-        await planificadasRepo.planificarRevision({ fecha, comida, items: items.map(aItemGuardado), nombrePlato }, todayISO())
+        await planificadasRepo.planificarRevision({ fecha, comida, items: items.map(aItemGuardado), nombrePlato: platoNombre }, todayISO())
       } else {
-        await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: textoOriginal || undefined, nombrePlato, platoDestinoId: platoDestino?.entries[0].platoId, guardarComoTipica })
+        await entriesRepo.guardarComida({ fecha, comida, items: items.map(aItemGuardado), textoOriginal: textoOriginal || undefined, nombrePlato: platoNombre, platoDestinoId: platoDestino?.entries[0].platoId, guardarComoTipica })
       }
       onGuardado()
     } catch (e) {
@@ -231,7 +281,57 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
 
   function elegirRapido(alimento: AlimentoElegible, gramos: number) {
     setErrorRapido(null)
-    setGramosRapido({ alimento, gramos })
+    // Una receta abre su hoja (versión, raciones, ingredientes); dentro de un plato o una típica se añade como alimento.
+    if (alimento.receta && !platoDestino && !soloTipica && !anadiendo) setRecetaElegida(alimento)
+    else setGramosRapido({ alimento, gramos })
+  }
+
+  /** Registra la receta de la hoja: la normal como un alimento; una variante, como un plato con sus ingredientes. */
+  async function anadirReceta({ vista, variante, gramos }: EleccionReceta) {
+    if (guardandoRapido) return
+    setGuardandoRapido(true)
+    setErrorRapido(null)
+    try {
+      if (!variante) {
+        const { ref } = vista
+        const id = planificar
+          ? await planificadasRepo.planificarAlimento({ fecha, comida, ref, gramos }, todayISO())
+          : ref.tipo === 'user'
+          ? await entriesRepo.anadirDesdeAlimento({ fecha, comida, foodId: ref.id, gramos })
+          : await entriesRepo.anadirDesdeCatalogo({ fecha, comida, catalogId: ref.id, gramos })
+        if (id === undefined) { setErrorRapido('Esta receta ya no está disponible. Elige otra.'); return }
+      } else {
+        const items = await recetasRepo.itemsDeIngredientes(ingredientesPara(variante, gramos))
+        const plato = nombrePlatoDe(vista, variante)
+        // Un ingrediente que crearía un alimento sin categoría: se revisa antes de guardar.
+        if (items.some(faltaCategoria)) {
+          setRecetaElegida(null)
+          setNombrePlato(plato)
+          abrirRevision(items)
+          return
+        }
+        const guardados = items.map(aItemGuardado)
+        if (planificar) await planificadasRepo.planificarRevision({ fecha, comida, items: guardados, nombrePlato: plato }, todayISO())
+        else await entriesRepo.guardarComida({ fecha, comida, items: guardados, nombrePlato: plato })
+      }
+      setRecetaElegida(null)
+      onGuardado()
+    } catch (e) {
+      setErrorRapido(e instanceof planificadasRepo.FechaNoPlanificable ? e.message : 'No se ha podido guardar. Inténtalo de nuevo.')
+    } finally {
+      setGuardandoRapido(false)
+    }
+  }
+
+  /** «Cambiar ingredientes»: la revisión de siempre con los de esa cantidad; al guardar, pregunta (ver `guardar`). */
+  async function cambiarIngredientesReceta(eleccion: EleccionReceta) {
+    const original = ingredientesPara(eleccion.variante ?? eleccion.vista, eleccion.gramos)
+    const nuevos = await recetasRepo.itemsDeIngredientes(original)
+    setRecetaElegida(null)
+    setRecetaEnRevision({ eleccion, original })
+    setNombrePlato(nombrePlatoDe(eleccion.vista, eleccion.variante))
+    setErrorGuardar(null)
+    abrirRevision(nuevos)
   }
 
   async function confirmarRapido() {
@@ -480,6 +580,14 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           </div>
         )}
       </Sheet>
+
+      <HojaReceta alimento={recetaElegida} accion={`${planificar ? 'Planificar en' : 'Añadir a'} ${nombreComida(comida).toLowerCase()}`}
+        ocupado={guardandoRapido} error={errorRapido} onAnadir={anadirReceta} onCambiarIngredientes={cambiarIngredientesReceta} onClose={() => setRecetaElegida(null)} />
+
+      {recetaEnRevision && (
+        <PreguntaVariante open={pregunta !== null} receta={recetaEnRevision.eleccion.vista.nombre} cambios={pregunta?.cambios ?? []} nombrePropuesto={pregunta?.nombre ?? ''}
+          igual={pregunta?.igual} ocupado={guardando} error={errorPregunta} onSoloEstaVez={guardarSoloEstaVez} onGuardarVariante={guardarComoVariante} onClose={() => setPregunta(null)} />
+      )}
 
       <EscanerCodigo
         open={escaneando}

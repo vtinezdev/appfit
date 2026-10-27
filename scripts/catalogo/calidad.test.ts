@@ -11,7 +11,7 @@ import {
   type AlimentoCalidad,
   type PaqueteCalidad,
 } from './calidad.ts'
-import { validarCatalogoPublicado } from './validar.ts'
+import { validarCatalogoPublicado, validarPreparacionesTipicos } from './validar.ts'
 
 /** Un alimento correcto: 60 kcal = 4·3 + 4·5 + 9·3 + 2·0,5 = 60. */
 const ok = (extra: Partial<AlimentoCalidad> = {}): AlimentoCalidad => ({
@@ -190,5 +190,9 @@ describe('paquetes publicados en public/catalogo', () => {
     const r = validarCatalogoPublicado()
     expect(r.filter((x) => x.errores > 0).map((x) => x.linea)).toEqual([])
     expect(r).toHaveLength(manifest.fuentes.length)
+  })
+
+  it('las preparaciones de típicos (tipicos/preparaciones.json) son válidas', () => {
+    expect(validarPreparacionesTipicos().errores, validarPreparacionesTipicos().linea).toBe(0)
   })
 })

@@ -1,6 +1,6 @@
 # Típicos: catálogo ampliado y límites
 
-`npm run catalogo:tipicos` genera por defecto la versión 2026-10-26.
+`npm run catalogo:tipicos` genera por defecto la versión 2026-10-27 (con las preparaciones de `preparaciones.json`).
 También admite `npm run catalogo:tipicos -- AAAA-MM-DD`. Node 24,
 sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
@@ -1103,3 +1103,33 @@ Puchero canario, queso asado con mojo, truchas de batata (empanadillas dulces), 
 ### Tanda 100 de recetas: Castilla, Madrid y Extremadura (5)
 
 Tortas de Alcázar, asadillo de pimientos, judías del Barco, tiznao (bacalao con pimientos asados) y perrunillas.
+
+## Preparaciones (pasos de las recetas)
+
+`preparaciones.json` da a cada receta raciones, tiempo total, pasos y notas;
+formato y validación en `../README.md`. Texto propio de AppFit, escrito para
+cada formulación: no se copia de Simone Ortega, de la Real Academia de
+Gastronomía ni de ninguna otra fuente. Criterios:
+
+- Los pasos usan los ingredientes y las cantidades del lote tal como están en
+  `recetas.json`. Si una cantidad se reparte (aceite del sofrito y de la
+  fritura, azúcar del caramelo y de la crema), se dice en el paso.
+- Fuera de la lista solo entra lo que no aporta energía o se tira: agua de
+  remojo o de cocción que se escurre, sal del agua de cocer pasta. Cuando una
+  receta clásica lleva algo que la formulación no tiene (pan para mojar, arroz
+  de acompañamiento), se dice en las notas que no está incluido.
+- Aceite de fritura: se avisa en notas de que la cantidad es la retenida y que
+  en la sartén hace falta más.
+- El agua de la pasta y las legumbres de ensalada es la absorbida; el resto se
+  tira. El remojo de las legumbres no cuenta en el tiempo, y se dice en notas.
+- Raciones: las de un plato normal para el peso final (unos 350–400 g de
+  legumbre o arroz, 200 g de tortilla, 300 g de crema); salsas por cucharada o
+  por uso, y lo que se reparte en piezas (croquetas, albóndigas) dice cuántas.
+- Imperativo de tú, cifras en dígitos y unidades del sistema métrico.
+
+Tandas escritas (400 recetas): la 1 (100 habituales: tortillas, legumbres,
+arroces y pasta, guisos de carne y pescado, verduras, cremas, ensaladas, salsas
+básicas y postres caseros) y la 2 (100 más del mismo repertorio), revisadas por
+Víctor con muestras en la app; la 3 y la 4 (200 platos preparados siguientes en
+el orden de `recetas.json`: regionales, tapas, bocadillos y sándwiches, cocidos,
+ensaladas y platos de diario) con el mismo criterio.

@@ -1,5 +1,6 @@
 // Transformaciones puras. Node 24, sin dependencias ni acceso a disco/red.
-import { normalizar, validarAlimento, validarConjunto, alimentosDePaquete, type FilaPaquete, type PaqueteCalidad } from './calidad.ts'
+import { normalizar, validarAlimento, validarConjunto, alimentosDePaquete, type FilaPaquete, type PaqueteCalidad, type RecetaFila } from './calidad.ts'
+import type { Preparacion } from './preparacionesLib.ts'
 import { CATEGORIAS_APPFIT } from './ciqualLib.ts'
 export { normalizar } from './calidad.ts'
 const BASE = ['kcal', 'prot', 'carb', 'grasa'] as const
@@ -47,7 +48,16 @@ export function leerDirectos(csv: string): Directo[] {
     return { fila, fuente, idFuente, notas: c[14] }
   })
 }
-export function calcularReceta(r: Receta, ciqual: PaqueteCalidad): FilaPaquete {
+/** La receta tal como viaja en la fila: formulación y, si existe, su preparación. */
+function recetaFila(r: Receta, p?: Preparacion): RecetaFila {
+  const receta: RecetaFila = { peso: r.pesoFinalG, ing: r.ingredientes.map(i => [String(i.ciqual), i.gramos]) }
+  if (p) {
+    receta.raciones = p.raciones; receta.min = p.tiempoMin; receta.pasos = p.pasos
+    if (p.notas) receta.notas = p.notas
+  }
+  return receta
+}
+export function calcularReceta(r: Receta, ciqual: PaqueteCalidad, preparacion?: Preparacion): FilaPaquete {
   metadatos(r.id, r.nombre, r.categoria, r.alias)
   exigir(ciqual.formato === 2 && ciqual.fuente === 'ciqual', 'Se necesita el paquete CIQUAL publicado')
   exigir(r.referencia.trim(), `Falta referencia: ${r.id}`)
@@ -66,9 +76,9 @@ export function calcularReceta(r: Receta, ciqual: PaqueteCalidad): FilaPaquete {
   for (const k of EXTRAS) if (ingredientes.every(i => i.f[8]?.[k] !== undefined)) {
     n[k] = redondear(ingredientes.reduce((s, i) => s + i.f[8]![k]! * i.gramos, 0) / r.pesoFinalG)
   }
-  const fila: FilaPaquete = [r.id, r.nombre, '', r.categoria, valores[0], valores[1], valores[2], valores[3]]
-  if (Object.keys(n).length || r.alias?.length) fila[8] = n
-  if (r.alias?.length) fila[9] = { alias: r.alias }
+  // Toda receta lleva su formulación en `extra.receta`, así que `nutrientes` siempre existe (aunque sea `{}`).
+  const fila: FilaPaquete = [r.id, r.nombre, '', r.categoria, valores[0], valores[1], valores[2], valores[3], n]
+  fila[9] = { ...(r.alias?.length ? { alias: r.alias } : {}), receta: recetaFila(r, preparacion) }
   return fila
 }
 /** Igualdad normalizada y similitud de tokens (Jaccard >= 0,75); no elimina estados. */
@@ -85,7 +95,7 @@ export function duplicados(filas: FilaPaquete[], otros: FilaPaquete[]) {
     })
   })
 }
-export function construir(directos: Directo[], recetas: Receta[], ciqual: PaqueteCalidad, version: string) {
+export function construir(directos: Directo[], recetas: Receta[], ciqual: PaqueteCalidad, version: string, preparaciones: Preparacion[] = []) {
   exigir(/^\d{4}-\d{2}-\d{2}$/.test(version), 'Versión inválida')
   const excluidos: string[] = []
   const avisos: string[] = []
@@ -97,7 +107,8 @@ export function construir(directos: Directo[], recetas: Receta[], ciqual: Paquet
     if (q.avisos.length && d.fuente !== 'CIQUAL') { excluidos.push(d.fila[0]); return false }
     return true
   })
-  const filas = [...aceptados.map(d => d.fila), ...recetas.map(r => calcularReceta(r, ciqual))]
+  const porId = new Map(preparaciones.map(p => [p.id, p]))
+  const filas = [...aceptados.map(d => d.fila), ...recetas.map(r => calcularReceta(r, ciqual, porId.get(r.id)))]
   const paquete: PaqueteCalidad = { formato: 2, fuente: 'tipicos', version, tipo: 'generico', filas }
   const calidad = validarConjunto(alimentosDePaquete(paquete), 'generico')
   exigir(!calidad.errores.length, JSON.stringify(calidad.errores))

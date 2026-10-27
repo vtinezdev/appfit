@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { MealItem } from '../../../shared/db/types'
-import { itemDesdeElegible } from './alimentos'
-import { escalarIngredientes, gramosPorRacion, ingredienteDeItem, itemDeIngrediente, limpiarPasos, pesoCrudoTotal, por100DeReceta, racionesDe, textoRaciones, textoTiempo, valoresPorRacion, validarReceta } from './recetas'
+import { elegibleDeCatalogo, elegibleDeFood, itemDesdeElegible, kcalPorRacion } from './alimentos'
+import { escalarIngredientes, gramosPorRacion, infoReceta, marcarRecetasPropias, ingredienteDeItem, itemDeIngrediente, limpiarPasos, pesoCrudoTotal, por100DeReceta, racionesDe, textoRaciones, textoTiempo, valoresPorRacion, validarReceta } from './recetas'
 
 const arroz: MealItem = { nombre: 'Arroz', gramos: 200, kcal: 700, prot: 14, carb: 156, grasa: 2, nutrientes: { fibra: 2, sal: 0 } }
 const pollo: MealItem = { nombre: 'Pollo', gramos: 300, kcal: 330, prot: 69, carb: 0, grasa: 4, nutrientes: { fibra: 0 } }
@@ -89,3 +89,25 @@ describe('textos', () => {
     expect([1, 4, 1.5].map(textoRaciones)).toEqual(['1 ración', '4 raciones', '1,5 raciones'])
   })
 })
+
+describe('recetas en las listas para elegir', () => {
+  const food = (id: number, nombre: string) => elegibleDeFood({ id, nombre, nombreNorm: nombre.toLowerCase(), kcal100: 150, prot100: 5, carb100: 20, grasa100: 5, fuente: 'manual', updatedAt: 0 })
+  it('marca solo los alimentos que son de una receta, con sus raciones (1 si no tiene)', () => {
+    const [lentejas, pan] = marcarRecetasPropias([food(1, 'Lentejas'), food(2, 'Pan')], new Map([[1, { pesoCocinadoG: 2400, raciones: 6 }]]))
+    expect(lentejas.receta).toEqual({ origen: 'tuya', raciones: 6, gramosRacion: 400 })
+    expect(pan.receta).toBeUndefined()
+    expect(infoReceta({ pesoCocinadoG: 800 })).toEqual({ origen: 'tuya', raciones: 1, gramosRacion: 800 })
+  })
+  it('kcal por ración solo con raciones; si no, se habla de 100 g', () => {
+    expect(kcalPorRacion({ kcal100: 150, receta: { origen: 'tuya', raciones: 6, gramosRacion: 400 } })).toBe(600)
+    expect(kcalPorRacion({ kcal100: 150, receta: { origen: 'appfit' } })).toBeNull()
+    expect(kcalPorRacion({ kcal100: 150 })).toBeNull()
+  })
+  it('una receta del catálogo lleva su info; con raciones, los gramos de una', () => {
+    const base = { id: 'tipicos:x', fuente: 'tipicos', idExterno: 'x', nombre: 'X', nombreNorm: 'x', tok: [], tipo: 'generico' as const, kcal100: 100, prot100: 1, carb100: 1, grasa100: 1, version: 'v', importadoAt: 0 }
+    expect(elegibleDeCatalogo({ ...base, receta: { pesoFinalG: 2500, ingredientes: [], raciones: 6 } }).receta).toEqual({ origen: 'appfit', raciones: 6, gramosRacion: 416.7 })
+    expect(elegibleDeCatalogo({ ...base, receta: { pesoFinalG: 2500, ingredientes: [] } }).receta).toEqual({ origen: 'appfit' })
+    expect(elegibleDeCatalogo(base).receta).toBeUndefined()
+  })
+})
+

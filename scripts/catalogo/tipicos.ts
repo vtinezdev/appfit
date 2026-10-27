@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync } from 
 import { dirname, resolve, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { construir, duplicados, leerDirectos, type Receta } from './tipicosLib.ts'
+import { validarPreparaciones, type Preparacion } from './preparacionesLib.ts'
 import type { PaqueteCalidad } from './calidad.ts'
 const aqui = dirname(fileURLToPath(import.meta.url))
 const salida = resolve(aqui, '../../public/catalogo')
@@ -11,21 +12,24 @@ const leer = (ruta: string) => readFileSync(ruta, 'utf8')
 const manifest = JSON.parse(leer(join(salida, 'manifest.json')))
 const ciqual = JSON.parse(leer(join(salida, manifest.fuentes.find((f: { id: string }) => f.id === 'ciqual').archivo))) as PaqueteCalidad
 const off = JSON.parse(leer(join(salida, manifest.fuentes.find((f: { id: string }) => f.id === 'offes').archivo))) as PaqueteCalidad
-const version = process.argv[2] ?? '2026-10-26'
+const version = process.argv[2] ?? '2026-10-27'
 const recetas = JSON.parse(leer(join(datos, 'recetas.json'))) as Receta[]
 const directos = leerDirectos(leer(join(datos, 'directos.csv')))
+const preparaciones = JSON.parse(leer(join(datos, 'preparaciones.json'))) as Preparacion[]
+const erroresPreparacion = validarPreparaciones(preparaciones, recetas)
+if (erroresPreparacion.length) throw new Error(`Preparaciones inválidas:\n${erroresPreparacion.join('\n')}`)
 const referencias = JSON.parse(leer(join(datos, 'referencias-tradicionales.json'))) as { referencias: { estado: string }[] }
 const informe = join(aqui, 'informes/tipicos.txt')
 mkdirSync(dirname(informe), { recursive: true })
 try {
-  const r = construir(directos, recetas, ciqual, version)
+  const r = construir(directos, recetas, ciqual, version, preparaciones)
   const coincidencias = [ciqual, off].flatMap(p => duplicados(r.paquete.filas, p.filas).map(d => `${p.fuente}: ${d.id} → ${d.otro} ${d.nombre} (${d.exacto ? 'exacto' : 'casi'})`))
   const sinFuente = JSON.parse(leer(join(datos, 'sin-fuente.json'))) as string[]
   writeFileSync(informe, [
     `Típicos ${version} · CIQUAL ${ciqual.version}`,
     `Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).`,
     `Vía 2 (directos): ${r.directos}; excluidos por energía: ${r.excluidos.join(', ') || 'ninguno'}`,
-    `Vía 3 (recetas): ${r.recetas}; total: ${r.paquete.filas.length}`,
+    `Vía 3 (recetas): ${r.recetas}, con preparación escrita: ${preparaciones.length}; total: ${r.paquete.filas.length}`,
     `Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: ${r.paquete.filas.length - 45}; pendientes: ${Math.max(0, 545 - r.paquete.filas.length)}.`,
     `Referencias RAG localizadas: ${referencias.referencias.length}; NO cuentan como filas publicadas.`,
     'Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.',
@@ -65,7 +69,7 @@ try {
   writeFileSync(join(salida, archivo), JSON.stringify(r.paquete))
   manifest.fuentes = [...manifest.fuentes.filter((f: { id: string }) => f.id !== 'tipicos'), {
     id: 'tipicos', version, archivo, filas: r.paquete.filas.length,
-    licencia: 'Licence Ouverte Etalab 2.0 (CIQUAL); CC0 (USDA); Open Government Licence v3.0 (CoFID); MIT (formulaciones y valores de referencia AppFit)',
+    licencia: 'Licence Ouverte Etalab 2.0 (CIQUAL); CC0 (USDA); Open Government Licence v3.0 (CoFID); MIT (formulaciones, preparaciones y valores de referencia AppFit)',
     atribucion: 'Nutrientes calculados a partir de ANSES, Table Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Valores directos: USDA FoodData Central, SR Legacy April 2018, CC0 (https://fdc.nal.usda.gov). Contiene información del sector público del Reino Unido bajo Open Government Licence v3.0: Public Health England, McCance and Widdowson’s Composition of Foods Integrated Dataset 2021 (https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid). Formulaciones y rendimientos de diseño: AppFit. Alimentos sueltos marcados como AppFit: valores típicos estimados por AppFit a partir de etiquetado de productos y webs nutricionales (no fuente oficial; URL en scripts/catalogo/tipicos/directos.csv). Referencias culinarias en scripts/catalogo/tipicos/recetas.json.',
   }]
   writeFileSync(join(salida, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n')

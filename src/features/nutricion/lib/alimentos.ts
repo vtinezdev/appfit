@@ -1,5 +1,5 @@
 import { claveRef, refDe, type FoodRef } from '../../../shared/db/foodRef'
-import type { CatalogFood, Comida, Entry, Food, FuenteAlimento } from '../../../shared/db/types'
+import type { CatalogFood, Comida, Entry, Food, FuenteAlimento, RecetaCatalogo } from '../../../shared/db/types'
 import { addDays } from '../../../shared/lib/dates'
 import { round1 } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
@@ -241,6 +241,24 @@ export interface AlimentoElegible extends Por100 {
   ml?: true
   /** Categoría del alimento, si la tiene. La revisión la hereda (`itemDesdeElegible`). */
   categoria?: string
+  /** Es una receta (tuya o del catálogo): se marca como tal al elegir y abre su hoja en vez de la de gramos. */
+  receta?: InfoReceta
+}
+
+/**
+ * Lo que se enseña de una receta en las listas: de quién es y cuánto pesa una ración. Sin `gramosRacion` (recetas
+ * del catálogo aún sin raciones escritas) se habla de 100 g, no de una ración inventada.
+ */
+export interface InfoReceta {
+  origen: 'tuya' | 'appfit'
+  raciones?: number
+  gramosRacion?: number
+}
+
+/** Kcal de una ración de la receta, o `null` si no tiene raciones (se muestran por 100 g). */
+export function kcalPorRacion(a: Pick<AlimentoElegible, 'kcal100' | 'receta'>): number | null {
+  const g = a.receta?.gramosRacion
+  return g !== undefined && g > 0 ? (a.kcal100 * g) / 100 : null
 }
 
 export function elegibleDeFood(f: Food): AlimentoElegible {
@@ -254,8 +272,13 @@ export function elegibleDeCatalogo(f: CatalogFood): AlimentoElegible {
     ...(f.marca ? { detalle: f.marca } : {}),
     ...(f.categoria ? { categoria: f.categoria } : {}),
     ...(f.ml ? { ml: true as const } : {}),
+    ...(f.receta ? { receta: infoRecetaCatalogo(f.receta) } : {}),
     ...valoresDe(f),
   }
+}
+
+function infoRecetaCatalogo(r: RecetaCatalogo): InfoReceta {
+  return r.raciones !== undefined ? { origen: 'appfit', raciones: r.raciones, gramosRacion: round1(r.pesoFinalG / r.raciones) } : { origen: 'appfit' }
 }
 
 /** Formulario de «Kcal rápidas» (A5): una comida fuera que no merece registrarse con detalle. */

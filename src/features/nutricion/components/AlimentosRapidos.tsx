@@ -5,6 +5,8 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida } from '../../../shared/db/types'
 import { todayISO } from '../../../shared/lib/dates'
 import * as foodsRepo from '../data/foodsRepo'
+import * as recetasRepo from '../data/recetasRepo'
+import { marcarRecetasPropias } from '../lib/recetas'
 import type { AlimentoElegible } from '../lib/alimentos'
 import { IconButton } from '../../../shared/components/Button'
 import { SearchInput } from '../../../shared/components/Input'
@@ -35,7 +37,10 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props
   const [busqueda, setBusqueda] = useState('')
   const [categoria, setCategoria] = useState<FiltroCategoria>('todas')
   const hoy = todayISO()
-  const frecuentes = useLiveQuery(() => foodsRepo.frecuentes({ comida, hoy }), [comida, hoy])
+  const frecuentes = useLiveQuery(async () => {
+    const usados = await foodsRepo.frecuentes({ comida, hoy })
+    return marcarRecetasPropias(usados, await recetasRepo.porAlimentos(usados.flatMap((a) => (a.ref.tipo === 'user' ? [a.ref.id] : []))))
+  }, [comida, hoy])
 
   if (frecuentes === undefined) return <LoadingState>Cargando alimentos…</LoadingState>
 

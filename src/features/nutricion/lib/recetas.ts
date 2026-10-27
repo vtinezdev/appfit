@@ -3,7 +3,7 @@
 import type { MealItem, NutrientesAdicionales, Receta } from '../../../shared/db/types'
 import { formatNumber, round1 } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
-import { aItemGuardado, por100DesdeEntrada, type ItemRevision, type Por100 } from './alimentos'
+import { aItemGuardado, por100DesdeEntrada, type AlimentoElegible, type InfoReceta, type ItemRevision, type Por100 } from './alimentos'
 import { macrosPorGramos, type Macros } from './nutrition'
 import { NUTRIENTES_ADICIONALES } from './nutrientes'
 
@@ -120,3 +120,17 @@ export function textoTiempo(min: number): string {
 export function textoRaciones(n: number): string {
   return `${formatNumber(n, 1)} ${n === 1 ? 'ración' : 'raciones'}`
 }
+
+/** Lo que se enseña de una receta propia en las listas. Sin raciones guardadas cuenta como 1 (la receta entera). */
+export function infoReceta(receta: Pick<Receta, 'pesoCocinadoG' | 'raciones'>): InfoReceta {
+  return { origen: 'tuya', raciones: racionesDe(receta), gramosRacion: gramosPorRacion(receta) }
+}
+
+/** Marca como receta los alimentos propios que son el alimento de una receta (`porAlimento`: foodId → receta). */
+export function marcarRecetasPropias(elegibles: AlimentoElegible[], porAlimento: ReadonlyMap<number, Pick<Receta, 'pesoCocinadoG' | 'raciones'>>): AlimentoElegible[] {
+  return elegibles.map((a) => {
+    const r = a.ref.tipo === 'user' ? porAlimento.get(a.ref.id) : undefined
+    return r ? { ...a, receta: infoReceta(r) } : a
+  })
+}
+
