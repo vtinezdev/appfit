@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import type { Actividad } from '../../../shared/db/types'
+import type { Expedicion } from './caminos'
 import {
-  caminoDeActividad, calcularCaminos, cambiarRuta, confirmarRuta, diasDeExpedicion, llegadaPorCelebrar, empezar, etapaActual, finalesDeEtapa, metrosEntre,
+  caminoDeActividad, calcularCaminos, cambiarRuta, confirmarRuta, diasDeExpedicion, gruposTerminados, llegadaPorCelebrar, empezar, etapaActual, finalesDeEtapa, metrosEntre,
   nombreExpedicion, progresoTexto, rutaDe, rutasParaCambiar, vecesTerminada,
 } from './caminos'
 import { metrosRuta, RUTAS, rutaDe as rutaPorId } from './rutas'
@@ -124,6 +125,24 @@ describe('llegada por celebrar', () => {
     expect(llegadaPorCelebrar(r, [], '2026-10-20', 7)).toBeNull() // hace más de una semana
     expect(llegadaPorCelebrar(calcularCaminos(acts, confirmarRuta(config, r), HOY), [], '2026-10-08', 7)).toBeNull() // ya elegida
     expect(llegadaPorCelebrar(calcularCaminos([act('2026-10-05', 10)], config, HOY), [], '2026-10-08', 7)).toBeNull() // sin llegar
+  })
+})
+
+describe('terminados por tipos', () => {
+  const exp = (id: string, coleccion: string, fecha: string) => ({ ruta: { id, coleccion }, llegada: { fecha, actividadId: 1 } }) as unknown as Expedicion
+
+  it('menos de 10 terminados: sin grupos', () => {
+    expect(gruposTerminados({ completadas: Array.from({ length: 9 }, (_, i) => exp(`r${i}`, 'santiago', `2026-01-${10 + i}`)) })).toBeNull()
+  })
+
+  it('desde 10: solo los tipos con alguno, tuyos primero, una fila por ruta (la última vez)', () => {
+    const completadas = [
+      ...Array.from({ length: 6 }, (_, i) => exp(`s${i % 3}`, 'santiago', `2026-02-${10 + i}`)),
+      ...Array.from({ length: 4 }, (_, i) => exp(`propia:${i}`, 'propia', `2026-03-${10 + i}`)),
+    ]
+    const g = gruposTerminados({ completadas })!
+    expect(g.map((x) => x.coleccion)).toEqual(['propia', 'santiago'])
+    expect(g[1].expediciones.map((x) => [x.ruta.id, x.llegada?.fecha])).toEqual([['s2', '2026-02-15'], ['s1', '2026-02-14'], ['s0', '2026-02-13']])
   })
 })
 

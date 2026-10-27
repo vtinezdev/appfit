@@ -7,7 +7,7 @@ import type { Actividad, ConfigCaminos } from '../../../shared/db/types'
 import { diasEntre } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import { formatKm, kmTexto } from '../../actividades/lib/actividad'
-import { metrosRuta, RUTAS, rutaDe as rutaOficial, type Ruta } from './rutas'
+import { metrosRuta, RUTAS, rutaDe as rutaOficial, type ColeccionRuta, type Ruta } from './rutas'
 
 /** Rutas que se enseñan después de la actual. */
 export const SIGUIENTES = 5
@@ -268,4 +268,22 @@ export function llegadaPorCelebrar(r: ResultadoCaminos | null | undefined, vista
   if (diasEntre(ultima.llegada.fecha, hoy) > dias) return null
   const clave = `llegada:${ultima.ruta.id}#${ultima.vez}@${ultima.llegada.fecha}`
   return vistas.includes(clave) ? null : { clave, llegada: ultima }
+}
+
+/** Caminos terminados a partir de los que «Terminados» se separa por tipos (decisión de Víctor). */
+export const UMBRAL_GRUPOS_TERMINADOS = 10
+
+/** Orden de los grupos de caminos: los tuyos primero y después las colecciones de la app. */
+export const ORDEN_GRUPOS: readonly ColeccionRuta[] = ['propia', 'santiago', 'mundo', 'literatura', 'fantasia']
+
+/**
+ * Terminados agrupados por tipo de camino (punto 6): `null` mientras haya menos de `UMBRAL_GRUPOS_TERMINADOS` caminos
+ * terminados (contando las repeticiones), y entonces solo los tipos que tengan alguno, en `ORDEN_GRUPOS`. Cada grupo, con
+ * una expedición por ruta (la última vez), de la más reciente a la más antigua.
+ */
+export function gruposTerminados(r: Pick<ResultadoCaminos, 'completadas'>): { coleccion: ColeccionRuta; expediciones: Expedicion[] }[] | null {
+  if (r.completadas.length < UMBRAL_GRUPOS_TERMINADOS) return null
+  const unicas = [...r.completadas].reverse().filter((x, i, todas) => todas.findIndex((y) => y.ruta.id === x.ruta.id) === i)
+  return ORDEN_GRUPOS.map((coleccion) => ({ coleccion, expediciones: unicas.filter((x) => x.ruta.coleccion === coleccion) }))
+    .filter((g) => g.expediciones.length > 0)
 }
