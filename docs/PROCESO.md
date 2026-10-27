@@ -2767,3 +2767,15 @@ Después, Víctor plantea que al añadir comida no se distingue una receta de un
 - Detalle en `docs/features/nutricion.md`, `docs/datos.md` (invariante 20) y el plan (§ Etapa 2b, Hecho).
 
 **Verificación:** `npm run test` y `npm run build` correctos. `validar-recetas-anadir.cjs` correcto a 320/375/430 en claro y oscuro: grupos en Buscar, hoja, variante «Sin chorizo» guardada, registrada y elegible otra vez, y receta propia registrada; sin scroll horizontal, controles de 44 px e inputs de 16 px. Sin probar en el iPhone.
+
+## 252. Recetario en la pantalla Recetas y reimportación del catálogo (2026-10-27)
+
+**Qué:** tras fusionar la PR de recetas, Víctor vio en el móvil «Lentejas con calabaza» como un alimento normal y la pantalla Recetas vacía. Se arreglan las dos cosas: el catálogo se reimporta cuando una app anterior lo importó sin las recetas, y la pantalla Recetas enseña el recetario AppFit (1.552 recetas, 400 con pasos) debajo de las tuyas. Además, el arroz al horno se encuentra también como «arroz al horno valenciano».
+
+**Cómo:**
+- La sincronización solo comparaba versión y filas. Tras el despliegue, la app vieja (con el Service Worker anterior) descargó el paquete 2026-10-27, ignoró `extra.receta` (las claves desconocidas se ignoran por compatibilidad) y lo dio por instalado; la app nueva lo veía al día.
+- Ahora `CatalogSource.lectura` (opcional, sin versión de Dexie: el catálogo no va en el backup) guarda qué sabía leer la app que importó cada fuente, y `sincronizar` reimporta si es menor que `LECTURA_CATALOGO` (2). Cualquier campo nuevo del paquete que la app aprenda a leer sube ese número.
+- `RecetarioAppFit` y `FichaReceta`, ahora para recetas propias y del catálogo. El paquete de típicos pasa a 2026-10-28 por el alias nuevo.
+- Detalle en `docs/features/nutricion.md` y el plan.
+
+**Verificación:** `npm run test` y `npm run build` correctos. `validar-recetas-anadir.cjs` (ahora también recetario y ficha de solo lectura) y `validar-recetas.cjs` correctos en claro y oscuro. La comprobación final de la receta propia mira la entrada guardada en lugar del texto del diario, que a veces no estaba en pantalla.

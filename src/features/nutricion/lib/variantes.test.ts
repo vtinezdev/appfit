@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { CatalogFood, MealItem, Receta } from '../../../shared/db/types'
-import { aLote, diferencias, gramosRacion, ingredientesPara, mismaComposicion, nombrePlatoDe, nombrePropuesto, pesoCocinadoVariante, por100De, varianteIgual, vistaDeRecetaCatalogo, vistaDeRecetaPropia } from './variantes'
+import { aLote, diferencias, filtrarRecetario, gramosRacion, ingredientesPara, mismaComposicion, nombrePlatoDe, nombrePropuesto, pesoCocinadoVariante, por100De, varianteIgual, vistaDeRecetaCatalogo, vistaDeRecetaPropia } from './variantes'
 
 const ing = (catalogId: string, nombre: string, gramos: number, kcal100: number): MealItem => ({ catalogId, nombre, gramos, kcal: (kcal100 * gramos) / 100, prot: 0, carb: 0, grasa: 0 })
 const lenteja = ing('ciqual:1', 'Lenteja, seca (promedio)', 400, 330)
@@ -66,3 +66,17 @@ describe('variantes', () => {
     expect(nombrePlatoDe({ nombre: 'Lentejas con chorizo' })).toBe('Lentejas con chorizo')
   })
 })
+
+describe('recetario AppFit', () => {
+  const plato = (nombre: string, pasos?: string[]) => ({ nombre, receta: { pesoFinalG: 1000, ingredientes: [], ...(pasos ? { pasos } : {}) } })
+  const platos = [plato('Tortilla de patatas, cuajada'), plato('Lentejas con chorizo, estofadas', ['Lava.']), plato('Lentejas con calabaza, cocidas'), plato('Ñoquis con tomate', ['Cuece.'])]
+  it('sin consulta: primero los que tienen pasos y después por nombre', () => {
+    expect(filtrarRecetario(platos, '').map((p) => p.nombre)).toEqual(['Lentejas con chorizo, estofadas', 'Ñoquis con tomate', 'Lentejas con calabaza, cocidas', 'Tortilla de patatas, cuajada'])
+  })
+  it('busca por el principio de las palabras, sin tildes ni mayúsculas', () => {
+    expect(filtrarRecetario(platos, 'LENT cala').map((p) => p.nombre)).toEqual(['Lentejas con calabaza, cocidas'])
+    expect(filtrarRecetario(platos, 'noquis').map((p) => p.nombre)).toEqual(['Ñoquis con tomate'])
+    expect(filtrarRecetario(platos, 'tejas')).toEqual([])
+  })
+})
+

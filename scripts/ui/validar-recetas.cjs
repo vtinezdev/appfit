@@ -162,9 +162,9 @@ async function main() {
         const hoja = page.getByRole('dialog', { name: 'Registrar', exact: true })
         await hoja.getByRole('radio', { name: 'Cena', exact: true }).click()
         await captura(page, `${etiqueta}-registrar`)
-        await hoja.getByRole('button', { name: 'Registrar 1 ración', exact: true }).click()
+        await hoja.getByRole('button', { name: /^Registrar · \d+ kcal$/ }).click()
         await hoja.waitFor({ state: 'detached' })
-        await ficha.getByRole('status').getByText(/Registrada 1 ración · Cena · Hoy/).waitFor()
+        await ficha.getByRole('status').getByText(/Registrado: 1 ración · Cena · Hoy/).waitFor()
         const entrada = await page.evaluate(async () => {
           const { todayISO } = await import('/src/shared/lib/dates.ts')
           return (await (await import('/src/features/nutricion/data/entriesRepo.ts')).delDia(todayISO())).map(e => ({ nombre: e.nombre, comida: e.comida, gramos: e.gramos, kcal: e.kcal }))
