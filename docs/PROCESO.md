@@ -2949,3 +2949,16 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 - Las bebidas con clara o yema crudas lo avisan.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos y ninguna receta de `recetas.json` queda sin preparación. `npm run test` y `npm run build` correctos.
+
+## 267. Recetas: «Copiar a mis recetas» (2026-10-27)
+
+**Qué:** las recetas del recetario AppFit no se editan. Desde su ficha, «Copiar a mis recetas» crea una receta tuya igual, con ingredientes, peso final, raciones, tiempo, pasos, notas y categoría. La ficha pasa a enseñar la copia, que ya se puede editar.
+
+**Cómo:**
+- `recetasRepo.copiarDelCatalogo` lee el plato y su vista resuelta y crea la receta con `crear`. Los ingredientes se guardan como snapshot con `catalogId`, igual que en una receta hecha a mano con alimentos del catálogo.
+- Si ya tienes un alimento con ese nombre, la copia se numera con `lib/recetas.nombreLibre`: «… (copia)», «… (copia 2)».
+- Una categoría que no sea de AppFit pasa a «Platos preparados».
+- Las variantes del plato no se copian.
+- En `FichaReceta`, la fila Planificar / Copiar salta de línea si no cabe, para que el texto no se parta a 320 px.
+
+**Verificación:** tests de `nombreLibre` y de la copia (datos, numeración, categoría por defecto y error si no es receta); `npm run test` y `npm run build` correctos. `validar-recetas-anadir.cjs` copia una receta del recetario y comprueba que la ficha pasa a «Tuya» con Editar y que aparece en «Tus recetas»: correcto a 320, 375 y 430 px, en claro y oscuro.

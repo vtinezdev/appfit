@@ -116,6 +116,19 @@ export function textoTiempo(min: number): string {
   return m % 60 ? `${h} h ${m % 60} min` : `${h} h`
 }
 
+/**
+ * Nombre para una copia: el mismo si está libre; si no, «… (copia)», «… (copia 2)»… `ocupados` son nombres ya
+ * normalizados (`normalizeName`) de tus alimentos.
+ */
+export function nombreLibre(nombre: string, ocupados: ReadonlySet<string>): string {
+  const base = nombre.trim()
+  if (!ocupados.has(normalizeName(base))) return base
+  for (let n = 1; ; n++) {
+    const candidato = `${base} (copia${n === 1 ? '' : ` ${n}`})`
+    if (!ocupados.has(normalizeName(candidato))) return candidato
+  }
+}
+
 /** «1 ración», «4 raciones», «1,5 raciones». */
 export function textoRaciones(n: number): string {
   return `${formatNumber(n, 1)} ${n === 1 ? 'ración' : 'raciones'}`
