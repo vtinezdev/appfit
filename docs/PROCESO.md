@@ -2792,3 +2792,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 **Cómo:** `components/CantidadAlimento` (nuevo) sustituye el contenido de la hoja en `AnadirComida`; `lib/opcionesCantidad` (con tests); lecturas `foodsRepo.racionHabitual` y `recetasRepo.deAlimento`. Arreglo de paso: los botones elegidos dentro de una hoja (Filtrar y Cantidad) van en tinta, porque `selected` es blanco sobre la hoja blanca. Documentos: `features/nutricion.md`, `datos.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con un frecuente, unos huevos del catálogo y una receta de prueba (la mitad, ingredientes abiertos): sin scroll horizontal.
+
+## 260. 0027 ejecutada (2026-10-28)
+
+Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real con «Success». Desde ahora «Comunicar un problema» y «Proponer un alimento» llegan a `mensajes_creador` (Table Editor). Sin probar aún un envío real desde el móvil.
