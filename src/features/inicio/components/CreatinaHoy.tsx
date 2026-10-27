@@ -89,15 +89,15 @@ export default function CreatinaHoy({ hoy }: { hoy: string }) {
         </div>
 
         <section aria-labelledby="creatina-carga" className="space-y-2">
-          <h3 id="creatina-carga" className="text-title text-fg">Fase de carga</h3>
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-muted p-3">
-            <span className="tabular min-w-0 text-body-sm text-fg">{dia.carga
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3">
+            <h3 id="creatina-carga" className="text-title text-fg">Fase de carga</h3>
+            <span className="tabular text-body-sm text-fg-muted">{dia.carga
               ? `Día ${formatNumber(dia.diaCarga!)} de ${formatNumber(DIAS_CARGA)} · hasta el ${formatFriendly(dia.finCarga!)}`
               : !conPeso ? 'Registra un peso para calcularla' : `${formatNumber(DIAS_CARGA)} días · ${gramos(Math.round(datos.kg! * .3 * 100) / 100)} al día`}</span>
-            {dia.carga
-              ? <Button variant="subtle" size="sm" disabled={ocupado} onClick={() => { void guardarCreatina(() => creatinaRepo.configurar({ inicioCarga: undefined })) }}>Cancelar</Button>
-              : <Button variant="secondary" size="sm" disabled={ocupado || !conPeso} onClick={() => { void guardarCreatina(() => creatinaRepo.empezarCarga(hoy)) }}>Empezar</Button>}
           </div>
+          {dia.carga
+            ? <Button variant="secondary" disabled={ocupado} onClick={() => { void guardarCreatina(() => creatinaRepo.configurar({ inicioCarga: undefined })) }}>Cancelar fase de carga</Button>
+            : <Button variant="secondary" disabled={ocupado || !conPeso} onClick={() => { void guardarCreatina(() => creatinaRepo.empezarCarga(hoy)) }}>Empezar fase de carga</Button>}
         </section>
 
         <section aria-labelledby="creatina-mantenimiento" className="space-y-2">
