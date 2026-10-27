@@ -2,12 +2,13 @@
 // funciona en búsqueda, frecuentes, intérprete y entradas sin tocar el invariante foodId/catalogId.
 // Las funciones de lectura no escriben nunca, así que se pueden usar dentro de un useLiveQuery.
 import { db } from '../../../shared/db/db'
-import type { FoodRef } from '../../../shared/db/foodRef'
-import type { MealItem, Receta } from '../../../shared/db/types'
+import { claveRef, refDe, type FoodRef } from '../../../shared/db/foodRef'
+import type { MealItem, Planificada, Receta } from '../../../shared/db/types'
 import { normalizeName } from '../../../shared/lib/text'
 import { esCategoriaAlimento, type CategoriaAlimento } from '../lib/catalogo/categorias'
 import { elegibleDeFood, itemDesdeElegible, mismosValores, por100DesdeEntrada, type ItemRevision } from '../lib/alimentos'
 import { itemDeIngrediente, limpiarPasos, nombreLibre, por100DeReceta, validarReceta, type Preparacion } from '../lib/recetas'
+import type { RecetaCompra } from '../lib/planificadas'
 import { vistaDeRecetaCatalogo, vistaDeRecetaPropia, type RecetaVista } from '../lib/variantes'
 import * as catalogRepo from './catalogRepo'
 import { NombreDuplicadoError } from './foodsRepo'
@@ -59,6 +60,25 @@ export async function itemsDeIngredientes(ingredientes: MealItem[]): Promise<Ite
     const food = await db.foods.where('nombreNorm').equals(normalizeName(m.nombre)).first()
     return food && mismosValores(food, por100DesdeEntrada(m)) ? itemDesdeElegible(elegibleDeFood(food), m.gramos) : itemDeIngrediente(m)
   }))
+}
+
+/**
+ * Las recetas que hay entre unas planificadas (tuyas o del recetario AppFit), por clave de referencia, para que la lista
+ * de la compra salga por sus ingredientes (`lib/planificadas.expandirRecetas`). Solo lectura.
+ */
+export async function paraCompra(filas: readonly Pick<Planificada, 'foodId' | 'catalogId' | 'rapida'>[]): Promise<Map<string, RecetaCompra>> {
+  const refs = new Map<string, FoodRef>()
+  for (const f of filas) {
+    if (f.rapida) continue
+    try {
+      const ref = refDe(f)
+      if (ref) refs.set(claveRef(ref), ref)
+    } catch {
+      // Una fila que incumple el invariante de `foodRef` no es una receta.
+    }
+  }
+  const vistas = await Promise.all([...refs].map(async ([clave, ref]) => [clave, await vista(ref)] as const))
+  return new Map(vistas.flatMap(([clave, v]) => (v ? [[clave, { nombre: v.nombre, ingredientes: v.ingredientes, pesoCocinadoG: v.pesoCocinadoG }] as const] : [])))
 }
 
 /** Recetas cuyo alimento es uno de `foodIds`, por foodId. Solo lectura. */

@@ -107,3 +107,18 @@ describe('copiar del catálogo a tus recetas', () => {
   })
 })
 
+describe('recetas para la lista de la compra', () => {
+  it('encuentra las recetas propias y del catálogo entre lo planificado; lo demás no', async () => {
+    await db.catalogFoods.bulkAdd([
+      catalogo('tipicos:lentejas', 'Lentejas con chorizo', { receta: { pesoFinalG: 2500, ingredientes: [{ catalogId: 'ciqual:1', gramos: 400 }] } }),
+      catalogo('ciqual:1', 'Lenteja, seca'),
+    ])
+    const id = await recetasRepo.crear({ nombre: 'Arroz con pollo', ingredientes: [arroz, pollo], pesoCocinadoG: 800, categoria: 'Platos preparados' })
+    const { foodId } = (await recetasRepo.obtener(id))!
+    const recetas = await recetasRepo.paraCompra([{ catalogId: 'tipicos:lentejas' }, { foodId }, { catalogId: 'ciqual:1' }, { rapida: true }, {}])
+    expect([...recetas.keys()].sort()).toEqual(['catalog:tipicos:lentejas', `user:${foodId}`])
+    expect(recetas.get('catalog:tipicos:lentejas')).toMatchObject({ nombre: 'Lentejas con chorizo', pesoCocinadoG: 2500, ingredientes: [{ catalogId: 'ciqual:1', nombre: 'Lenteja, seca', gramos: 400 }] })
+    expect(recetas.get(`user:${foodId}`)!.ingredientes).toEqual([arroz, pollo])
+  })
+})
+

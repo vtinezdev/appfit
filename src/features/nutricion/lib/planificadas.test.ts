@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type { Planificada } from '../../../shared/db/types'
-import { agruparCompra, agruparPlanificadas, alternarMarca, cantidadCompra, diaInicialPlan, listaCompra, nombreDia, nombreSemana, rangoSemana, sePuedePlanificar, semanaPlan, SIN_CATEGORIA, textoListaCompra } from './planificadas'
+import type { MealItem, Planificada } from '../../../shared/db/types'
+import { agruparCompra, agruparPlanificadas, alternarMarca, cantidadCompra, diaInicialPlan, expandirRecetas, listaCompra, type RecetaCompra, nombreDia, nombreSemana, rangoSemana, sePuedePlanificar, semanaPlan, SIN_CATEGORIA, textoListaCompra } from './planificadas'
 
 let id = 0
 const fila = (p: Partial<Planificada>): Planificada => ({ id: ++id, fecha: '2026-03-10', comida: 'comida', nombre: 'Arroz', gramos: 100, kcal: 130, prot: 2.7, carb: 28, grasa: 0.3, createdAt: 1, ...p })
@@ -77,6 +77,8 @@ describe('lista de la compra', () => {
   it('el texto copiable, con kilos desde 1.000 g', () => {
     expect(cantidadCompra(350)).toBe('350 g')
     expect(cantidadCompra(1250)).toBe('1,3 kg')
+    expect(cantidadCompra(0.07)).toBe('menos de 1 g')
+    expect(cantidadCompra(0.6)).toBe('1 g')
     expect(textoListaCompra(listaCompra([fila({ nombre: 'Arroz', gramos: 1200 }), fila({ nombre: 'Huevos', gramos: 120 })]))).toBe('- Arroz: 1,2 kg\n- Huevos: 120 g')
   })
 
@@ -96,3 +98,37 @@ describe('lista de la compra', () => {
     expect(alternarMarca(['user:1', 'user:2'], 'user:1')).toEqual(['user:2'])
   })
 })
+
+describe('recetas en la lista de la compra', () => {
+  const ing = (p: Partial<MealItem> & Pick<MealItem, 'nombre' | 'gramos'>): MealItem => ({ kcal: 0, prot: 0, carb: 0, grasa: 0, ...p })
+  const lentejas: RecetaCompra = {
+    nombre: 'Lentejas con chorizo',
+    pesoCocinadoG: 2400,
+    ingredientes: [ing({ catalogId: 'ciqual:1', nombre: 'Lenteja, seca', gramos: 400 }), ing({ catalogId: 'ciqual:18066', nombre: 'Agua del grifo', gramos: 1600 }), ing({ nombre: 'Chorizo', gramos: 150 })],
+  }
+  const recetas = new Map([['catalog:tipicos:lentejas', lentejas]])
+
+  it('una receta planificada sale por sus ingredientes, en proporción a lo planificado y sin el agua del grifo', () => {
+    // 800 g de 2.400 g cocinados: un tercio del lote.
+    const lista = listaCompra(expandirRecetas([fila({ catalogId: 'tipicos:lentejas', nombre: 'Lentejas con chorizo', gramos: 800 })], recetas))
+    expect(lista.map((a) => [a.nombre, Math.round(a.gramos), a.recetas])).toEqual([['Chorizo', 50, ['Lentejas con chorizo']], ['Lenteja, seca', 133, ['Lentejas con chorizo']]])
+  })
+
+  it('suma los ingredientes de varias recetas y lo planificado suelto, y dice de qué recetas sale', () => {
+    const tortilla: RecetaCompra = { nombre: 'Tortilla', pesoCocinadoG: 600, ingredientes: [ing({ nombre: 'Chorizo', gramos: 60 }), ing({ nombre: 'Agua del grifo', gramos: 50 })] }
+    const lista = listaCompra(expandirRecetas([
+      fila({ catalogId: 'tipicos:lentejas', nombre: 'Lentejas con chorizo', gramos: 2400 }),
+      fila({ foodId: 7, nombre: 'Tortilla', gramos: 300 }),
+      fila({ nombre: 'chorizo', gramos: 20 }),
+    ], new Map([...recetas, ['user:7', tortilla]])))
+    const chorizo = lista.find((a) => a.nombre === 'Chorizo')!
+    expect([chorizo.gramos, chorizo.veces, chorizo.recetas]).toEqual([200, 3, ['Lentejas con chorizo', 'Tortilla']])
+    expect(lista.some((a) => a.nombre.startsWith('Agua'))).toBe(false)
+  })
+
+  it('lo que no es receta, las kcal rápidas y una receta sin peso pasan tal cual', () => {
+    const filas = [fila({ foodId: 1, nombre: 'Arroz' }), fila({ nombre: 'Cena fuera', gramos: 0, rapida: true }), fila({ catalogId: 'tipicos:raro', nombre: 'Raro', gramos: 100 })]
+    expect(expandirRecetas(filas, new Map([['catalog:tipicos:raro', { ...lentejas, pesoCocinadoG: 0 }]]))).toEqual(filas)
+  })
+})
+
