@@ -140,6 +140,8 @@ Orden sugerido: 1 → 2 → etapa 2 (recetario en el móvil) → 3 y 4, enseñan
 ### Etapa 3 — Mis recetas (decisiones 2–5) y cierre
 Puntos 1–5 de § Fase 2 de abajo, más las decisiones 2–5: quitar la vista Alimentos → Recetas, lista por ración, selector «Por ración / Por 100 g», gramos editables al registrar e ingredientes proporcionales en la lista de la compra (también para recetas del catálogo).
 
+**Hecho (2026-10-27):** ingredientes proporcionales en la lista de la compra (decisión 5), para recetas propias y del catálogo, sin el agua del grifo; cada artículo dice de qué recetas sale (PROCESO §268).
+
 ### Etapa 4 — Resto de tandas
 Tandas de ~100 con el mismo método hasta cubrir los platos que tengan sentido; anotar en `tipicos/LEEME.md` cuáles se dejan sin pasos y por qué.
 

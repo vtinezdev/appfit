@@ -12,14 +12,15 @@ import { addDays, formatShort } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import * as foodsRepo from '../data/foodsRepo'
 import * as planificadasRepo from '../data/planificadasRepo'
-import { agruparCompra, alternarMarca, cantidadCompra, listaCompra, nombreSemana, rangoSemana, textoListaCompra } from '../lib/planificadas'
+import * as recetasRepo from '../data/recetasRepo'
+import { agruparCompra, alternarMarca, cantidadCompra, expandirRecetas, listaCompra, nombreSemana, rangoSemana, textoListaCompra } from '../lib/planificadas'
 
 type Modo = 'semana' | 'dias'
 const OPCIONES_MODO: { valor: Modo; label: string }[] = [{ valor: 'semana', label: 'Toda la semana' }, { valor: 'dias', label: 'Elegir días' }]
 
 /**
  * Lista de la compra de una semana del Plan (desde hoy, nunca días pasados): gramos sumados por alimento y agrupados por
- * categoría. Lo marcado como comprado se guarda en el dispositivo (`settings.compraMarcada`) hasta que se desmarca.
+ * categoría. Las recetas planificadas salen por sus ingredientes, en proporción a lo planificado. Lo marcado como comprado se guarda en el dispositivo (`settings.compraMarcada`) hasta que se desmarca.
  */
 export default function ListaCompra({ hoy, lunes, onClose }: { hoy: string; lunes: string; onClose: () => void }) {
   const dias = Array.from({ length: 7 }, (_, i) => addDays(lunes, i)).filter((f) => f >= hoy)
@@ -31,8 +32,9 @@ export default function ListaCompra({ hoy, lunes, onClose }: { hoy: string; lune
 
   const datos = useLiveQuery(async () => {
     const filas = fechas.length ? (await planificadasRepo.entreFechas(fechas[0], fechas[fechas.length - 1])).filter((f) => fechas.includes(f.fecha)) : []
-    const articulos = listaCompra(filas)
-    const [categorias, marcadas] = await Promise.all([foodsRepo.categoriasDeEntradas(filas), planificadasRepo.marcasCompra()])
+    const compra = expandirRecetas(filas, await recetasRepo.paraCompra(filas))
+    const articulos = listaCompra(compra)
+    const [categorias, marcadas] = await Promise.all([foodsRepo.categoriasDeEntradas(compra), planificadasRepo.marcasCompra()])
     return { articulos, grupos: agruparCompra(articulos, categorias), marcadas }
   }, [fechas.join(',')])
 
@@ -87,7 +89,10 @@ export default function ListaCompra({ hoy, lunes, onClose }: { hoy: string; lune
                   return <li key={a.clave}>
                     <label className="flex min-h-touch cursor-pointer items-center gap-3 py-2">
                       <input type="checkbox" checked={hecho} onChange={() => marcar(a.clave)} className="h-5 w-5 shrink-0 accent-accent" />
-                      <span className={`min-w-0 flex-1 break-words text-body ${hecho ? 'text-fg-subtle line-through' : 'text-fg'}`}>{a.nombre}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className={`block break-words text-body ${hecho ? 'text-fg-subtle line-through' : 'text-fg'}`}>{a.nombre}</span>
+                        {a.recetas.length > 0 && <span className="block break-words text-caption text-fg-subtle">Para: {a.recetas.join(', ')}</span>}
+                      </span>
                       <span className={`tabular shrink-0 text-body-sm ${hecho ? 'text-fg-subtle' : 'text-fg-muted'}`}>{cantidadCompra(a.gramos)}</span>
                     </label>
                   </li>
@@ -95,7 +100,7 @@ export default function ListaCompra({ hoy, lunes, onClose }: { hoy: string; lune
               </ListGroup>
             </section>)}
             <div className="space-y-2">
-              <p className="tabular text-caption text-fg-muted">{formatInt(pendientes.length)} de {formatInt(datos.articulos.length)} por comprar. Suma los gramos de lo planificado; las kcal rápidas no salen.</p>
+              <p className="tabular text-caption text-fg-muted">{formatInt(pendientes.length)} de {formatInt(datos.articulos.length)} por comprar. Suma los gramos de lo planificado; las recetas salen por sus ingredientes en crudo, en proporción a lo planificado, sin el agua del grifo. Las kcal rápidas no salen.</p>
               {hayMarcadas && <Button variant="ghost" size="sm" className="-ml-3" onClick={desmarcarTodo}>Desmarcar todo</Button>}
             </div>
           </>}

@@ -2962,3 +2962,16 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 - En `FichaReceta`, la fila Planificar / Copiar salta de línea si no cabe, para que el texto no se parta a 320 px.
 
 **Verificación:** tests de `nombreLibre` y de la copia (datos, numeración, categoría por defecto y error si no es receta); `npm run test` y `npm run build` correctos. `validar-recetas-anadir.cjs` copia una receta del recetario y comprueba que la ficha pasa a «Tuya» con Editar y que aparece en «Tus recetas»: correcto a 320, 375 y 430 px, en claro y oscuro.
+
+## 268. Recetas: ingredientes en la lista de la compra (2026-10-27)
+
+**Qué:** antes, una receta planificada salía en la lista de la compra como plato entero («Lentejas… 800 g»). Ahora sale por sus ingredientes en crudo, en proporción a lo planificado: 2 raciones de una receta de 6 ponen un tercio de cada ingrediente. Funciona igual para las recetas propias y para las del recetario AppFit, y los ingredientes se suman con lo planificado suelto. Cada artículo dice «Para: …» con las recetas de las que sale. El agua del grifo no sale.
+
+**Cómo:**
+- `recetasRepo.paraCompra` (solo lectura) busca las recetas entre las planificadas.
+- `lib/planificadas.expandirRecetas` (pura) cambia cada receta por sus ingredientes: gramos planificados / peso cocinado × gramos del ingrediente.
+- `listaCompra` suma como antes y apunta las recetas de cada artículo. `cantidadCompra` lee «menos de 1 g» las pizcas (azafrán, especias).
+- Las categorías salen de los ingredientes, así que cada uno va a su grupo.
+- Las marcas de comprado siguen usando la clave del alimento.
+
+**Verificación:** tests de la expansión (proporción, sin agua, suma con lo suelto, recetas de las que sale, lo que no es receta pasa tal cual) y de `paraCompra`; `npm run test` y `npm run build` correctos. Nuevo `scripts/ui/validar-compra-recetas.cjs`: planifica 2 raciones del arroz al horno y comprueba «Arroz blanco, crudo · 133 g · Para: Arroz al horno, horneado», sin el agua ni el plato entero. Correcto a 320, 375 y 430 px, en claro y oscuro.
