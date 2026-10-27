@@ -12,6 +12,7 @@ Estado actual del código. El porqué de las decisiones de base está en `decisi
   - cargar las miniaturas de ejercicios (`/ejercicios/*.webp`, del propio origen) al abrir el selector;
   - cargar la lista de pueblos de España (`/lugares/espana.json`, del propio origen) al crear o editar una ruta propia de Caminos;
   - con cuenta: Supabase (`*.supabase.co`) para entrar con el código del email y subir o traer la copia, **ya cifrada en el móvil**. El service worker no cachea estas llamadas. El correo con el código lo envía Supabase por el SMTP de Brevo; la app no habla con Brevo.
+  - con o sin cuenta, solo al pulsar «Enviar»: Supabase para los mensajes al creador (`cuenta/mensajes`, tabla privada `mensajes_creador`, [ADR 061](decisiones/061-mensajes-al-creador.md)), con el texto revisado en pantalla.
 - El resto funciona sin conexión. El GPS de las actividades (`navigator.geolocation`) es local: la ubicación no sale del móvil y el recorrido se dibuja sin mapas ni teselas de ningún servicio ([ADR 037](decisiones/037-actividades-y-caminos.md)).
 
 ## Capas y dependencias
@@ -131,7 +132,7 @@ Cada build genera `version.json` (identidad y fecha) y compila esos mismos metad
 
 ### Diagnóstico local para comunicar problemas
 
-Ajustes › Comunicar un problema (`app/DiagnosticoAjustes`) prepara un texto revisable y copiable con versión/build, user agent, idioma, tamaño del viewport, conexión declarada, modo navegador/pantalla de inicio y categoría/fecha del último error de esta sesión. Los pasos se escriben expresamente. No hay envío automático ni servicio nuevo.
+Ajustes › Comunicar un problema (`app/DiagnosticoAjustes`) prepara un texto revisable y copiable con versión/build, user agent, idioma, tamaño del viewport, conexión declarada, modo navegador/pantalla de inicio y categoría/fecha del último error de esta sesión. Los pasos se escriben expresamente. Con Supabase configurado, «Enviar» lo manda al creador con `cuenta/mensajes.enviarAlCreador` (tabla privada `mensajes_creador`, que solo se lee desde el panel de Supabase; [ADR 061](decisiones/061-mensajes-al-creador.md)); «Copiar informe» sigue disponible y, sin Supabase, es la única opción. No hay envío automático.
 
 `shared/lib/diagnostico` se inicia en `main` y escucha errores no controlados; `useAviso` y `ErrorState` registran los errores recuperables. Se conserva **solo la categoría y la fecha en memoria**, sin mensaje, stack, URL, cuenta, registros ni coordenadas. No se persiste, no entra en el backup y no recoge sesiones anteriores. Clipboard falla de forma recuperable con instrucciones para copiar manualmente el texto visible.
 

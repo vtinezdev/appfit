@@ -67,7 +67,7 @@ export function resumenAjustes(seccion: SeccionAjustes, d: DatosResumen): string
     case 'cuenta': return ''
     case 'copias': return s.ultimaExportacion === undefined ? 'Aún sin copia exportada' : `Última: ${formatDiaMes(s.ultimaExportacion)}`
     case 'catalogo': return 'Fuentes, licencias y actualización'
-    case 'diagnostico': return 'Preparar y copiar un diagnóstico'
+    case 'diagnostico': return 'Cuenta lo que ha fallado'
     case 'borrar': return 'Todo lo guardado en este móvil'
   }
 }

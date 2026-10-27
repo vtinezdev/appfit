@@ -76,7 +76,8 @@ Nueve bloques acordados (PROCESO §246 en adelante). Hechos los bloques 1 a 7; s
 
 Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de acabar la sesión:
 - **Añadir comida**: mejorar la pantalla de añadir comida, sobre todo la ficha que se abre al añadir un alimento.
-- **Proponer un alimento**: un botón cerca de Nutrición o de Añadir comida para que cualquiera mande un alimento que falta y le llegue a Víctor para añadirlo al catálogo, como «Comunicar un problema» pero de alimentos. Depende de decidir cómo llegan esos avisos: hoy «Comunicar un problema» solo prepara un informe para copiar y no llega a nadie (punto 32, pendiente de decisión de Víctor: correo o Supabase).
+- **Proponer un alimento**: un botón cerca de Nutrición o de Añadir comida para que cualquiera mande un alimento que falta y le llegue a Víctor para añadirlo al catálogo, como «Comunicar un problema» pero de alimentos. Llega por la misma vía que «Comunicar un problema» (Supabase, tabla `mensajes_creador`, [ADR 061](decisiones/061-mensajes-al-creador.md)); falta la pantalla.
+- **Ejecutar 0027** (`supabase/migrations/0027_mensajes_creador.sql`) en el SQL Editor: sin ella, «Enviar» de Comunicar un problema no funciona.
 
 ## Ideas sin empezar
 
