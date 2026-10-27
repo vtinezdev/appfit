@@ -77,7 +77,6 @@ Nueve bloques acordados (PROCESO §246 en adelante). Hechos los bloques 1 a 7; s
 Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de acabar la sesión:
 - **Añadir comida**: mejorar la pantalla de añadir comida, sobre todo la ficha que se abre al añadir un alimento.
 - **Proponer un alimento**: un botón cerca de Nutrición o de Añadir comida para que cualquiera mande un alimento que falta y le llegue a Víctor para añadirlo al catálogo, como «Comunicar un problema» pero de alimentos. Hecho en Buscar («¿No está?» › «Propónselo a AppFit»), por la misma vía que «Comunicar un problema» ([ADR 061](decisiones/061-mensajes-al-creador.md)).
-- **Ejecutar 0027** (`supabase/migrations/0027_mensajes_creador.sql`) en el SQL Editor: sin ella, «Enviar» de Comunicar un problema no funciona.
 
 ## Ideas sin empezar
 
