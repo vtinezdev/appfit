@@ -40,6 +40,8 @@ export interface OrigenItem {
   catalogId?: string
   /** Otros alimentos que también encajaban (intérprete local), para «Cambiar». */
   alternativas?: AlimentoElegible[]
+  /** Si el alimento elegido es una receta (tuya o del catálogo): su referencia y lo que se enseña de ella. */
+  receta?: { ref: FoodRef; info: InfoReceta }
 }
 
 /** Un alimento en la pantalla de revisión (editable antes de guardar). */
@@ -134,7 +136,18 @@ export function itemDesdeElegible(a: AlimentoElegible, gramos: number, extra: Ex
   const valores = valoresDe(a)
   const origen: OrigenItem = { fuente: 'manual', valores: valoresDe(valores), nombreNorm: normalizeName(a.nombre), guardado: a.ref.tipo === 'user' }
   if (a.ref.tipo === 'catalog') origen.catalogId = a.ref.id
+  if (a.receta) origen.receta = { ref: a.ref, info: a.receta }
   return aplicarExtra({ nombre: a.nombre, gramos, ...valores, origen, ...(a.categoria ? { categoria: a.categoria } : {}) }, extra)
+}
+
+/**
+ * La receta de un ítem de la revisión, como alimento elegible para abrir su hoja; `undefined` si no viene de una
+ * receta o ya no es ella (se cambió el nombre o los valores).
+ */
+export function recetaDeItem(item: ItemRevision): AlimentoElegible | undefined {
+  const r = item.origen.receta
+  if (!r || normalizeName(item.nombre) !== item.origen.nombreNorm || !mismosValores(item, item.origen.valores)) return undefined
+  return { ref: r.ref, nombre: item.nombre, ...valoresDe(item.origen.valores), receta: r.info, ...(item.categoria ? { categoria: item.categoria } : {}) }
 }
 
 /** Ítem de un alimento que no se ha encontrado: valores a 0 para que el usuario elija uno o los escriba. */
