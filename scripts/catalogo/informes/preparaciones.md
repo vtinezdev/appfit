@@ -103,11 +103,9 @@
 
 ## 6. Tortilla paisana, cuajada
 
-`tortilla-paisana` · Platos preparados · 6 raciones de 217 g · 50 min · por ración: 274 kcal, P 12,9 g, C 15,4 g, G 17 g
+`tortilla-paisana` · Platos preparados · 6 raciones de 192 g · 50 min · por ración: 274 kcal, P 12,9 g, C 15,4 g, G 17 g
 
-> **Revisar:** el peso final (1300 g) supera la suma de ingredientes (1266 g).
-
-**Ingredientes** (lote de 1300 g cocinado)
+**Ingredientes** (lote de 1150 g cocinado)
 
 - 400 g · Patata, sin piel, cruda
 - 100 g · Zanahoria, cruda
@@ -1852,11 +1850,9 @@
 
 ## 77. Salmorejo, casero, crudo
 
-`salmorejo-casero` · Platos preparados · 5 raciones de 250 g · 15 min · por ración: 266 kcal, P 3,6 g, C 24,5 g, G 17 g
+`salmorejo-casero` · Platos preparados · 5 raciones de 240 g · 15 min · por ración: 266 kcal, P 3,6 g, C 24,5 g, G 17 g
 
-> **Revisar:** el peso final (1250 g) supera la suma de ingredientes (1241 g).
-
-**Ingredientes** (lote de 1250 g cocinado)
+**Ingredientes** (lote de 1200 g cocinado)
 
 - 1000 g · Tomate redondo, crudo
 - 150 g · Pan blanco (p. ej. baguette, hogaza)
@@ -2293,11 +2289,9 @@
 
 ## 96. Tarta de Santiago, horneada
 
-`tarta-santiago` · Platos preparados · 10 raciones de 95 g · 55 min · por ración: 351 kcal, P 10,3 g, C 32,6 g, G 18,7 g
+`tarta-santiago` · Platos preparados · 10 raciones de 80 g · 55 min · por ración: 351 kcal, P 10,3 g, C 32,6 g, G 18,7 g
 
-> **Revisar:** el peso final (950 g) supera la suma de ingredientes (900 g).
-
-**Ingredientes** (lote de 950 g cocinado)
+**Ingredientes** (lote de 800 g cocinado)
 
 - 300 g · Almendra, pelada, sin sal añadida
 - 300 g · Azúcar blanco
@@ -4171,11 +4165,9 @@
 
 ## 177. Ajoblanco, casero, crudo
 
-`ajoblanco-casero` · Platos preparados · 6 raciones de 217 g · 20 min · por ración: 351 kcal, P 8,7 g, C 13 g, G 27,7 g
+`ajoblanco-casero` · Platos preparados · 6 raciones de 197 g · 20 min · por ración: 351 kcal, P 8,7 g, C 13 g, G 27,7 g
 
-> **Revisar:** el peso final (1300 g) supera la suma de ingredientes (1206 g).
-
-**Ingredientes** (lote de 1300 g cocinado)
+**Ingredientes** (lote de 1180 g cocinado)
 
 - 200 g · Almendra, pelada, sin sal añadida
 - 100 g · Pan blanco (p. ej. baguette, hogaza)

@@ -1,6 +1,6 @@
 # Típicos: catálogo ampliado y límites
 
-`npm run catalogo:tipicos` genera por defecto la versión 2026-10-30 (con las preparaciones de `preparaciones.json`).
+`npm run catalogo:tipicos` genera por defecto la versión 2026-10-31 (con las preparaciones de `preparaciones.json`).
 También admite `npm run catalogo:tipicos -- AAAA-MM-DD`. Node 24,
 sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
@@ -1165,3 +1165,16 @@ hamburguesas y panes caseros) va por unidad. La 16 (las 93 bebidas: cafés,
 batidos, smoothies, zumos, cócteles, combinados y bebidas calientes) cierra
 el recetario: todas las recetas de `recetas.json` tienen preparación. En los
 combinados con hielo, el hielo no cuenta en el peso salvo donde se dice.
+
+## Peso final y suma de ingredientes (2026-10-27)
+
+Sin agua de fuera de la lista, un plato no puede pesar más que lo que lleva: el
+agua que absorbe (cocción, remojo) es un ingrediente más. `calcularReceta`
+rechaza un peso final mayor que la suma de gramos. Se corrigieron los cuatro que
+lo incumplían, con criterio AppFit:
+- salmorejo, 1.250 → 1.200 g (tomate y lo que queda al colar);
+- ajoblanco, 1.300 → 1.180 g (lo que queda al colar);
+- tarta de Santiago, 950 → 800 g (un 11 % de agua perdida al hornear);
+- tortilla paisana, 1.300 → 1.150 g (agua de la patata frita y del cuajado).
+Sus valores por 100 g suben en proporción.
+

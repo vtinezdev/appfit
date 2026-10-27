@@ -2975,3 +2975,20 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 - Las marcas de comprado siguen usando la clave del alimento.
 
 **Verificación:** tests de la expansión (proporción, sin agua, suma con lo suelto, recetas de las que sale, lo que no es receta pasa tal cual) y de `paraCompra`; `npm run test` y `npm run build` correctos. Nuevo `scripts/ui/validar-compra-recetas.cjs`: planifica 2 raciones del arroz al horno y comprueba «Arroz blanco, crudo · 133 g · Para: Arroz al horno, horneado», sin el agua ni el plato entero. Correcto a 320, 375 y 430 px, en claro y oscuro.
+
+## 269. Recetas: pesos finales que no cuadraban (2026-10-27)
+
+**Qué:** cuatro recetas del catálogo pesaban al final más que la suma de sus ingredientes. Eso es imposible sin agua de fuera de la lista. Se corrigen con criterio AppFit:
+- salmorejo, 1.250 → 1.200 g;
+- ajoblanco, 1.300 → 1.180 g;
+- tarta de Santiago, 950 → 800 g;
+- tortilla paisana, 1.300 → 1.150 g.
+
+Sus kcal por 100 g suben en proporción. Por ejemplo, la tarta de Santiago pasa de 370 a 439. Con esto queda cerrado el plan de recetas.
+
+**Cómo:**
+- `tipicosLib.calcularReceta` rechaza ahora un peso final mayor que la suma de ingredientes, con test. El listado de preparaciones ya no tiene ningún aviso.
+- Las referencias de los cuatro platos explican la corrección.
+- El paquete de típicos pasa a la versión 2026-10-31 para que el móvil lo reimporte: las filas no cambian, pero sí sus valores.
+
+**Verificación:** `npm run catalogo:validar` sin problemas y 0 avisos en `informes/preparaciones.md`. `npm run test` y `npm run build` correctos.
