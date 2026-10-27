@@ -10416,5 +10416,1071 @@
       "Añade 200 g de agua y cuece 15 minutos a fuego suave."
     ],
     "notas": "Plato manchego. El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo. No lleva sal: el bacalao ya la aporta."
+  },
+  {
+    "id": "pechuga-pollo-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de pechuga de pollo (mejor abierta en filete) con papel de cocina y úntalo con 5 g de aceite y la sal.",
+      "Hazlo en una plancha o sartén muy caliente 4 o 5 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.",
+      "Déjalo reposar 2 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "pechuga-pavo-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de pechuga de pavo en filete con papel de cocina y úntalo con 5 g de aceite y la sal.",
+      "Hazlo en una plancha o sartén muy caliente 3 o 4 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.",
+      "Déjalo reposar 2 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "filete-ternera-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de filete de ternera con papel de cocina y úntalo con 5 g de aceite y la sal.",
+      "Hazlo en una plancha o sartén muy caliente 1 o 2 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.",
+      "Déjalo reposar 2 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "lomo-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de lomo de cerdo en filetes con papel de cocina y úntalo con 5 g de aceite y la sal.",
+      "Hazlo en una plancha o sartén muy caliente 2 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.",
+      "Déjalo reposar 2 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "salmon-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de salmón con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "merluza-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de merluza con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "bacalao-fresco-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de bacalao fresco con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "lenguado-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de lenguado con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 o 3 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "gallo-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de gallo con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 o 3 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "mero-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de mero en rodaja con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 4 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "jureles-plancha",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Limpia 600 g de jureles, quítales las tripas y sécalos.",
+      "Úntalos con 30 g de aceite y la sal.",
+      "Hazlos en una plancha muy caliente 4 o 5 minutos por cada lado, hasta que la piel esté tostada."
+    ]
+  },
+  {
+    "id": "salmonetes-fritos",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Limpia y escama 600 g de salmonetes y sécalos bien.",
+      "Sálalos y pásalos por 50 g de harina, sacudiendo el exceso.",
+      "Fríelos en aceite de oliva caliente 3 minutos por cada lado, hasta que estén dorados y crujientes. Escúrrelos."
+    ],
+    "notas": "Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "cordero-asado",
+    "raciones": 6,
+    "tiempoMin": 150,
+    "pasos": [
+      "Precalienta el horno a 180 °C. Unta 1.500 g de pierna de cordero con 30 g de manteca y la sal.",
+      "Colócala en una fuente de barro con 200 g de agua.",
+      "Ásala 1 hora, dale la vuelta y ásala 1 hora más, regándola con su jugo cada 20 minutos.",
+      "Sube el horno a 220 °C los últimos 15 minutos para que la piel quede crujiente."
+    ],
+    "notas": "Los 1.500 g son de pierna con hueso, como se compra."
+  },
+  {
+    "id": "entrecot-plancha",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 220 g de entrecot (sácalo de la nevera 30 minutos antes) con papel de cocina y úntalo con 5 g de aceite y la sal.",
+      "Hazlo en una plancha o sartén muy caliente 2 o 3 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.",
+      "Déjalo reposar 2 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "solomillo-vacuno-plancha",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 200 g de solomillo de vacuno en un medallón grueso (sácalo de la nevera 30 minutos antes) con papel de cocina y úntalo con 5 g de aceite y la sal.",
+      "Hazlo en una plancha o sartén muy caliente 3 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.",
+      "Déjalo reposar 2 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "bonito-escabeche",
+    "raciones": 6,
+    "tiempoMin": 60,
+    "pasos": [
+      "Corta 800 g de bonito en tacos, sálalos con parte de la sal y dóralos en 20 g del aceite 1 minuto por cada lado. Colócalos en un recipiente.",
+      "En el resto del aceite, pocha a fuego suave 100 g de cebolla en pluma, 50 g de zanahoria en rodajas y 15 g de ajo laminado 10 minutos, con 1 hoja de laurel y 2 g de pimienta.",
+      "Añade 60 g de vinagre, 40 g de vino blanco, el resto de la sal y un poco de agua y cuece 5 minutos.",
+      "Vierte el escabeche caliente sobre el bonito, deja que se enfríe y guárdalo en la nevera al menos 12 horas."
+    ],
+    "notas": "Se conserva una semana en la nevera, cubierto con su escabeche. Mejor de un día para otro. El reposo no cuenta en el tiempo. Parte del aceite queda en el escabeche y no se come."
+  },
+  {
+    "id": "sardinas-fritas",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Limpia 800 g de sardinas, quítales la cabeza y las tripas y sécalas.",
+      "Sálalas y pásalas por 60 g de harina.",
+      "Fríelas en aceite de oliva caliente 2 o 3 minutos por cada lado y escúrrelas."
+    ],
+    "notas": "Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más. Los 800 g son de sardina limpia."
+  },
+  {
+    "id": "dorada-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de lomo de dorada con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "lubina-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de lomo de lubina con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "rape-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de rape en medallones con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "sardinas-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de sardinas limpias con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "caballa-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de lomos de caballa con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 o 3 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "trucha-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de trucha abierta con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "pez-espada-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de pez espada en rodaja con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "chipirones-plancha",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Limpia 500 g de chipirones, sécalos y sálalos.",
+      "Pica 8 g de ajo y 4 g de perejil y mézclalos con 20 g del aceite.",
+      "Haz los chipirones en una plancha muy caliente con el resto del aceite 2 o 3 minutos, dándoles la vuelta.",
+      "Sírvelos con el ajo y el perejil por encima."
+    ]
+  },
+  {
+    "id": "calamares-andaluza",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Corta 500 g de calamar en anillas y sécalas muy bien.",
+      "Sálalas y pásalas por 60 g de harina, sacudiendo el exceso.",
+      "Fríelas por tandas en aceite muy caliente 1 o 2 minutos, hasta que estén doradas. Escúrrelas."
+    ],
+    "notas": "Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "gambas-gabardina",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Pela 300 g de gambas dejando la cola y sálalas.",
+      "Mezcla 80 g de harina con 100 g de cerveza fría hasta tener una masa espesa.",
+      "Coge las gambas por la cola, pásalas por la masa y fríelas en aceite caliente 2 minutos, hasta que estén doradas. Escúrrelas."
+    ],
+    "notas": "Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más. Los 300 g de gambas son pesados ya peladas."
+  },
+  {
+    "id": "lenguado-meuniere",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Seca 400 g de filetes de lenguado, sálalos y pásalos por 20 g de harina.",
+      "Dóralos en 20 g de la mantequilla 2 minutos por cada lado y sácalos.",
+      "Funde el resto de la mantequilla hasta que tome color avellana, añade 20 g de zumo de limón y 3 g de perejil picado.",
+      "Riega el pescado con la salsa."
+    ]
+  },
+  {
+    "id": "salmon-teriyaki",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Mezcla 40 g de salsa de soja con 20 g de miel.",
+      "Dora 400 g de salmón en dados o lomos en una sartén antiadherente 3 minutos por cada lado.",
+      "Añade la salsa y cocina 2 minutos, dándole la vuelta, hasta que glasee.",
+      "Espolvorea 5 g de sésamo."
+    ],
+    "notas": "No lleva sal: la soja ya la aporta. Tradicionalmente la salsa lleva mirin y sake."
+  },
+  {
+    "id": "tataki-atun",
+    "raciones": 3,
+    "tiempoMin": 15,
+    "pasos": [
+      "Corta 300 g de atún en un taco rectangular y rebózalo en 15 g de sésamo, apretando.",
+      "Márcalo en una sartén muy caliente con 10 g de aceite 30 segundos por cada lado, solo por fuera.",
+      "Córtalo en lonchas de 1 cm y sírvelo con 20 g de salsa de soja."
+    ],
+    "notas": "El atún queda crudo por dentro: debe haberse congelado antes."
+  },
+  {
+    "id": "tartar-salmon",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Corta 300 g de salmón sin piel en dados muy pequeños y 100 g de aguacate en dados.",
+      "Pica muy fina 30 g de cebolla roja.",
+      "Mezcla el salmón con la cebolla, 15 g de salsa de soja, 10 g de zumo de limón y 10 g de aceite.",
+      "Sírvelo en un aro sobre el aguacate."
+    ],
+    "notas": "El salmón para comer crudo debe haberse congelado antes."
+  },
+  {
+    "id": "caballa-escabeche-casera",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Sala 500 g de lomos de caballa con parte de la sal y dóralos en 15 g del aceite 1 minuto por cada lado. Colócalos en un recipiente.",
+      "En el resto del aceite, pocha a fuego suave 80 g de cebolla, 50 g de zanahoria y 10 g de ajo laminados con 1 hoja de laurel 10 minutos.",
+      "Retira del fuego, añade 3 g de pimentón y luego 60 g de vinagre, el resto de la sal y un poco de agua. Cuece 3 minutos.",
+      "Vierte el escabeche sobre la caballa, deja que se enfríe y guárdalo en la nevera al menos 12 horas."
+    ],
+    "notas": "Se conserva una semana en la nevera, cubierto con su escabeche. Mejor de un día para otro. El reposo no cuenta en el tiempo."
+  },
+  {
+    "id": "chuleta-cerdo-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de chuleta de cerdo con papel de cocina y úntalo con 5 g de aceite y la sal.",
+      "Hazlo en una plancha o sartén muy caliente 3 o 4 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.",
+      "Déjalo reposar 2 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "contramuslo-pollo-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de contramuslo de pollo deshuesado con papel de cocina y úntalo con 5 g de aceite y la sal.",
+      "Hazlo en una plancha o sartén muy caliente 5 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.",
+      "Déjalo reposar 2 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "conejo-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de conejo troceado con papel de cocina y úntalo con 5 g de aceite y la sal.",
+      "Hazlo en una plancha o sartén muy caliente 5 o 6 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.",
+      "Déjalo reposar 2 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "hamburguesa-queso-plato",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Forma una hamburguesa con 150 g de carne picada y la sal.",
+      "Hazla en una plancha muy caliente 3 o 4 minutos por cada lado.",
+      "Pon encima 25 g de cheddar en lonchas, tapa y deja que se funda 1 minuto."
+    ]
+  },
+  {
+    "id": "steak-tartar",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pica a cuchillo, muy fino, 300 g de solomillo de vacuno muy frío.",
+      "Pica muy fino 20 g de cebolla y 20 g de pepinillos.",
+      "Mezcla la carne con la cebolla, los pepinillos, 10 g de mostaza, 10 g de ketchup, 5 g de aceite, 20 g de yema de huevo y la sal.",
+      "Sírvelo enseguida, muy frío."
+    ],
+    "notas": "La carne y la yema se comen crudas: usa carne muy fresca y huevo pasteurizado si hay dudas. Tradicionalmente lleva alcaparras y salsa Worcestershire."
+  },
+  {
+    "id": "oreja-plancha",
+    "raciones": 3,
+    "tiempoMin": 120,
+    "pasos": [
+      "Desala 500 g de oreja de cerdo en agua fría 2 horas, cambiando el agua. Cuécela en agua 1 hora y media, hasta que esté tierna. Escúrrela.",
+      "Córtala en tiras y sécala.",
+      "Dórala en una plancha muy caliente con 20 g de aceite y 10 g de ajo laminado 5 minutos, hasta que esté crujiente.",
+      "Espolvorea 5 g de pimentón al servir."
+    ],
+    "notas": "El desalado no cuenta en el tiempo. Con oreja ya cocida, solo hay que dorarla."
+  },
+  {
+    "id": "chuleton-brasa",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Saca 500 g de chuletón de la nevera 1 hora antes.",
+      "Ásalo a la brasa o en una plancha muy caliente 4 o 5 minutos por cada lado, según el punto.",
+      "Déjalo reposar 5 minutos, córtalo en tiras y añade la sal gruesa por encima."
+    ],
+    "notas": "Los 500 g son de carne sin hueso; con hueso, el chuletón pesa más."
+  },
+  {
+    "id": "churrasco-ternera",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Sala 500 g de costilla de ternera cortada en tiras finas.",
+      "Ásala a la brasa o en una plancha muy caliente 4 o 5 minutos por cada lado, hasta que esté dorada."
+    ],
+    "notas": "Los 500 g son de carne con hueso, como se compra. Tradicionalmente se sirve con chimichurri, que no está incluido."
+  },
+  {
+    "id": "panceta-brasa",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Sala 400 g de panceta en lonchas gruesas.",
+      "Ásala a la brasa o en una plancha muy caliente 5 o 6 minutos por cada lado, hasta que suelte la grasa y esté crujiente."
+    ]
+  },
+  {
+    "id": "morcilla-brasa",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Corta 300 g de morcilla en rodajas gruesas.",
+      "Ásalas a la brasa o en una plancha caliente 3 minutos por cada lado, sin aceite."
+    ]
+  },
+  {
+    "id": "salchichas-brasa",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pincha 400 g de salchichas frescas.",
+      "Ásalas a la brasa o en una plancha a fuego medio 12 o 15 minutos, dándoles la vuelta, hasta que estén hechas."
+    ]
+  },
+  {
+    "id": "parrillada-carne",
+    "raciones": 2,
+    "tiempoMin": 40,
+    "pasos": [
+      "Saca la carne de la nevera 30 minutos antes.",
+      "Ásala a la brasa o en una plancha empezando por lo que más tarda: 200 g de muslo de pollo deshuesado (15 minutos), 200 g de chuletas de cerdo y 150 g de panceta (10 minutos), 150 g de salchichas (12 minutos) y 100 g de morcilla (6 minutos).",
+      "Dales la vuelta a mitad y sírvelo todo junto."
+    ],
+    "notas": "Ajusta la sal al gusto: la formulación no la lleva."
+  },
+  {
+    "id": "parrillada-pescado-marisco",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Limpia 200 g de sepia y córtala en trozos. Abre 200 g de dorada en lomos.",
+      "Unta todo, con 200 g de gambas enteras, con 20 g de aceite y la sal.",
+      "Haz en una plancha muy caliente la sepia 4 minutos, la dorada 3 minutos por cada lado y las gambas 1 minuto por cada lado."
+    ]
+  },
+  {
+    "id": "espeto-sardinas",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Ensarta 500 g de sardinas enteras en cañas o brochetas, atravesándolas por el lomo.",
+      "Sálalas con sal gruesa.",
+      "Ásalas junto a las brasas, inclinadas, 4 minutos por cada lado. En casa, al grill o en una plancha muy caliente."
+    ],
+    "notas": "Los 500 g son de sardina entera; la parte comestible es menor."
+  },
+  {
+    "id": "alitas-barbacoa",
+    "raciones": 4,
+    "tiempoMin": 55,
+    "pasos": [
+      "Precalienta el horno a 220 °C. Separa 1.000 g de alitas por la articulación, sécalas y sálalas.",
+      "Ásalas sobre una rejilla 35 minutos, dándoles la vuelta a mitad.",
+      "Píntalas con 80 g de salsa barbacoa y ásalas 10 minutos más, hasta que se caramelicen."
+    ],
+    "notas": "Los 1.000 g son de alitas con hueso, como se compran."
+  },
+  {
+    "id": "pollo-brasa",
+    "raciones": 3,
+    "tiempoMin": 90,
+    "pasos": [
+      "Mezcla 20 g de salsa de soja, 3 g de comino, 10 g de ajo machacado, 5 g de pimentón, 15 g de aceite y 20 g de zumo de lima.",
+      "Unta 1.000 g de pollo abierto en mariposa o troceado y déjalo 30 minutos.",
+      "Ásalo a la brasa o en el horno a 200 °C 45 o 50 minutos, dándole la vuelta, hasta que esté dorado y el jugo salga claro."
+    ],
+    "notas": "Los 1.000 g son de pollo sin huesos. No lleva sal aparte: la soja ya la aporta."
+  },
+  {
+    "id": "brochetas-ternera",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 400 g de filete de ternera en dados de 3 cm y 100 g de pimiento verde y 100 g de cebolla en trozos del mismo tamaño.",
+      "Ensártalos alternando y úntalos con 15 g de aceite y la sal.",
+      "Ásalos a la plancha o a la brasa 8 minutos, dándoles la vuelta."
+    ]
+  },
+  {
+    "id": "pollo-desmenuzado",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pon 500 g de pechuga de pollo en una olla, cúbrela con agua y añade la sal.",
+      "Llévala a ebullición y cuécela a fuego suave 15 minutos.",
+      "Deja que se temple en el caldo y desmenúzala con dos tenedores."
+    ],
+    "notas": "Sirve para ensaladas, tacos o rellenos. El caldo se puede usar para sopa."
+  },
+  {
+    "id": "kofta-cordero",
+    "raciones": 3,
+    "tiempoMin": 40,
+    "pasos": [
+      "Pica muy fino 400 g de pierna de cordero o pídela picada.",
+      "Mézclala con 60 g de cebolla rallada y escurrida, 10 g de perejil picado, 3 g de comino y la sal.",
+      "Forma salchichas alargadas alrededor de brochetas y déjalas en la nevera 15 minutos.",
+      "Ásalas a la parrilla o en una plancha 8 o 10 minutos, dándoles la vuelta."
+    ]
+  },
+  {
+    "id": "berberechos-vapor",
+    "raciones": 2,
+    "tiempoMin": 40,
+    "pasos": [
+      "Pon 300 g de berberechos en agua con sal 30 minutos para que suelten la arena.",
+      "Ponlos en una cazuela tapada a fuego fuerte con un chorrito de agua 2 o 3 minutos, hasta que se abran.",
+      "Sírvelos con 10 g de zumo de limón."
+    ],
+    "notas": "Los 300 g son con concha. La formulación usa almeja, de valores muy parecidos."
+  },
+  {
+    "id": "codornices-escabechadas",
+    "raciones": 4,
+    "tiempoMin": 75,
+    "pasos": [
+      "Limpia 800 g de codornices, sálalas con parte de la sal y dóralas en 30 g del aceite. Sácalas.",
+      "En el resto del aceite, pocha 100 g de cebolla, 80 g de zanahoria y 15 g de ajo con 1 hoja de laurel y 2 g de pimienta 10 minutos.",
+      "Vuelve a poner las codornices, añade 100 g de vinagre, 100 g de vino blanco, el resto de la sal y un poco de agua.",
+      "Tapa y cuece a fuego suave 35 minutos. Deja que se enfríen en el escabeche al menos 12 horas."
+    ],
+    "notas": "Se conserva una semana en la nevera, cubierto con su escabeche. Mejor de un día para otro. El reposo no cuenta en el tiempo. Parte del aceite queda en el escabeche."
+  },
+  {
+    "id": "codornices-plancha",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Abre 700 g de codornices por la espalda y aplánalas. Sálalas.",
+      "Machaca 10 g de ajo con 20 g de aceite y úntalas.",
+      "Hazlas en una plancha caliente 6 o 7 minutos por cada lado, con la piel primero."
+    ]
+  },
+  {
+    "id": "conejo-escabeche",
+    "raciones": 5,
+    "tiempoMin": 80,
+    "pasos": [
+      "Trocea 900 g de conejo, sálalo con parte de la sal y dóralo en 30 g del aceite. Sácalo.",
+      "En el resto del aceite, pocha 100 g de cebolla, 80 g de zanahoria y 15 g de ajo con 1 hoja de laurel y 2 g de pimienta 10 minutos.",
+      "Vuelve a poner el conejo, añade 100 g de vinagre, 100 g de vino blanco, el resto de la sal y un poco de agua.",
+      "Tapa y cuece a fuego suave 40 minutos. Deja que se enfríe en el escabeche al menos 12 horas."
+    ],
+    "notas": "Se conserva una semana en la nevera, cubierto con su escabeche. Mejor de un día para otro. El reposo no cuenta en el tiempo. Parte del aceite queda en el escabeche."
+  },
+  {
+    "id": "faisan-estofado",
+    "raciones": 4,
+    "tiempoMin": 120,
+    "pasos": [
+      "Trocea 900 g de faisán, sazónalo y dóralo en 40 g de aceite. Sácalo.",
+      "Pocha 150 g de cebolla y 100 g de zanahoria picadas 10 minutos.",
+      "Vuelve a poner el faisán con 1 hoja de laurel, vierte 200 g de vino tinto y deja que se evapore. Añade 200 g de agua.",
+      "Tapa y cuece a fuego suave 1 hora y cuarto, hasta que esté tierno."
+    ]
+  },
+  {
+    "id": "pato-naranja",
+    "raciones": 4,
+    "tiempoMin": 120,
+    "pasos": [
+      "Precalienta el horno a 180 °C. Sala 1.000 g de pato y ásalo 1 hora y cuarto, retirando la grasa que suelte.",
+      "Carameliza 30 g de azúcar en un cazo, añade 300 g de zumo de naranja y cuece 10 minutos.",
+      "Añade 30 g de coñac y 10 g de maicena disuelta en un poco de agua y cuece 2 minutos, hasta que espese. Añade 20 g de mantequilla.",
+      "Trincha el pato y sírvelo con la salsa."
+    ],
+    "notas": "Los 1.000 g son de carne con piel, sin huesos."
+  },
+  {
+    "id": "ciervo-plancha",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Saca 400 g de lomo de ciervo de la nevera 30 minutos antes y córtalo en medallones.",
+      "Úntalos con 10 g de aceite y la sal.",
+      "Hazlos en una plancha muy caliente 2 minutos por cada lado: el ciervo se seca si se pasa.",
+      "Déjalos reposar 3 minutos antes de servir."
+    ]
+  },
+  {
+    "id": "cochifrito",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Corta 800 g de pierna de cordero en trozos pequeños y sálalos.",
+      "Fríelos en 60 g de aceite a fuego medio 15 minutos, hasta que estén dorados.",
+      "Añade 20 g de ajo laminado y 5 g de pimentón y remueve 1 minuto.",
+      "Añade 20 g de zumo de limón y un poco de agua, tapa y cuece 20 minutos, hasta que estén tiernos."
+    ],
+    "notas": "Plato segoviano y navarro. Parte del aceite queda en la cazuela."
+  },
+  {
+    "id": "cordero-ajillo",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Trocea 800 g de paletilla de cordero y sálala.",
+      "Dórala en 50 g de aceite 12 minutos.",
+      "Añade 30 g de ajo laminado y dóralo 2 minutos.",
+      "Vierte 100 g de vino blanco, tapa y cuece a fuego suave 30 minutos, hasta que esté tierno."
+    ],
+    "notas": "Los 800 g son de carne con algo de hueso."
+  },
+  {
+    "id": "pavo-relleno",
+    "raciones": 10,
+    "tiempoMin": 240,
+    "pasos": [
+      "Pica 100 g de cebolla y pochala en 20 g de la mantequilla 8 minutos. Añade 300 g de carne picada y cocina 5 minutos. Mézclala con 100 g de ciruelas pasas y 100 g de castañas peladas troceadas.",
+      "Precalienta el horno a 180 °C. Sala el pavo por dentro y por fuera y rellénalo; cose la abertura.",
+      "Úntalo con el resto de la mantequilla, colócalo en una fuente y riégalo con 100 g de vino dulce.",
+      "Ásalo unas 3 horas (40 minutos por kilo), regándolo con su jugo cada 30 minutos y tapándolo con papel de aluminio si se dora demasiado.",
+      "Déjalo reposar 15 minutos antes de trinchar."
+    ],
+    "notas": "Los 2.500 g son de carne con piel; el pavo entero con huesos pesa unos 4 kg."
+  },
+  {
+    "id": "lomo-relleno-ciruelas",
+    "raciones": 5,
+    "tiempoMin": 90,
+    "pasos": [
+      "Abre 800 g de lomo de cerdo en libro y sálalo.",
+      "Cúbrelo con 80 g de panceta en lonchas y 100 g de ciruelas pasas, enróllalo y átalo.",
+      "Dóralo en 30 g de aceite por todos los lados y colócalo en una fuente con 100 g de cebolla en pluma.",
+      "Riega con 100 g de vino dulce y hornéalo a 180 °C 50 minutos.",
+      "Tritura la cebolla con el jugo para la salsa y sirve el lomo en rodajas."
+    ]
+  },
+  {
+    "id": "merluza-bilbaina",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Sala 600 g de merluza en lomos y hazla a la plancha o al horno 8 minutos, con la piel hacia abajo.",
+      "Dora 15 g de ajo laminado y 2 g de guindilla en 50 g de aceite.",
+      "Vierte el refrito sobre la merluza.",
+      "Añade 10 g de vinagre a la sartén caliente y viértelo también por encima."
+    ]
+  },
+  {
+    "id": "bacalao-gratinado-alioli",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 220 °C con el gratinador.",
+      "Coloca 600 g de lomos de bacalao desalado en una fuente y hornéalos 8 minutos.",
+      "Machaca 10 g de ajo y mézclalo con 100 g de mayonesa.",
+      "Cubre el bacalao con el alioli y gratínalo 4 o 5 minutos, hasta que esté dorado."
+    ],
+    "notas": "El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo."
+  },
+  {
+    "id": "salmon-eneldo",
+    "raciones": 4,
+    "tiempoMin": 25,
+    "pasos": [
+      "Sala 600 g de lomos de salmón y dóralos en una sartén antiadherente 3 minutos por cada lado. Sácalos.",
+      "En la misma sartén, calienta 150 g de nata con 15 g de zumo de limón y 5 g de eneldo picado 3 minutos.",
+      "Vuelve a poner el salmón 1 minuto en la salsa."
+    ]
+  },
+  {
+    "id": "lubina-sal",
+    "raciones": 3,
+    "tiempoMin": 50,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Deja 1.000 g de lubina entera limpia, sin escamar.",
+      "Cubre el fondo de una fuente con sal gruesa humedecida con un poco de agua, coloca la lubina y cúbrela con más sal, apretando.",
+      "Hornéala 30 minutos.",
+      "Rompe la costra, quítale la piel y sirve los lomos."
+    ],
+    "notas": "La sal de la costra no se come y no cuenta. Los 1.000 g son de pescado entero; la parte comestible es menor."
+  },
+  {
+    "id": "boquerones-ajillo",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Limpia 500 g de boquerones, quítales la cabeza y la espina y ábrelos en lomos.",
+      "Dora 15 g de ajo laminado en 40 g de aceite.",
+      "Añade los boquerones con la sal y cocínalos 2 minutos, moviendo la sartén.",
+      "Espolvorea 5 g de perejil picado."
+    ]
+  },
+  {
+    "id": "pijotas-fritas",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Limpia 500 g de pijotas (merluzas pequeñas) y sécalas.",
+      "Sálalas y pásalas por 50 g de harina.",
+      "Fríelas enteras, con la cola metida en la boca si quieres, en aceite caliente 3 o 4 minutos. Escúrrelas."
+    ],
+    "notas": "Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "pulpo-plancha",
+    "raciones": 3,
+    "tiempoMin": 60,
+    "pasos": [
+      "Cuece 600 g de pulpo limpio (mejor congelado y descongelado) en agua hirviendo 40 minutos, hasta que esté tierno. Escúrrelo y sécalo.",
+      "Separa las patas y márcalas en una plancha muy caliente con 10 g del aceite 3 minutos, hasta que estén tostadas.",
+      "Sírvelo con el resto del aceite, 3 g de pimentón y la sal."
+    ]
+  },
+  {
+    "id": "almejas-salsa-verde",
+    "raciones": 3,
+    "tiempoMin": 45,
+    "pasos": [
+      "Pon 500 g de almejas en agua con sal 30 minutos para que suelten la arena.",
+      "Dora 10 g de ajo picado en 30 g de aceite. Añade 10 g de harina y remueve 1 minuto.",
+      "Vierte 80 g de vino blanco y un poco de agua y cuece 2 minutos.",
+      "Añade las almejas y 10 g de perejil picado, tapa y cuece 3 minutos, moviendo la cazuela, hasta que se abran."
+    ],
+    "notas": "Los 500 g son con concha."
+  },
+  {
+    "id": "mariscada-cocida",
+    "raciones": 3,
+    "tiempoMin": 40,
+    "pasos": [
+      "Pon a hervir una olla grande de agua con 70 g de sal por litro (la sal de la formulación es la que absorbe el marisco).",
+      "Cuece los cangrejos (250 g) 8 minutos, las cigalas (150 g) 2 minutos y los langostinos (300 g) 2 minutos, por separado. Enfríalos en agua con hielo.",
+      "Abre al vapor 300 g de mejillones y 200 g de almejas, tapados, 3 minutos.",
+      "Sírvelo todo en una fuente."
+    ],
+    "notas": "Los pesos son del marisco limpio o con concha según se compra; la sal del agua de cocción no se come."
+  },
+  {
+    "id": "hamburguesa-pavo-casera",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pica muy fino 400 g de pavo y 50 g de cebolla.",
+      "Mézclalos con 30 g de copos de avena, 30 g de clara de huevo y la sal.",
+      "Forma 3 hamburguesas y hazlas a la plancha con 10 g de aceite 5 minutos por cada lado."
+    ]
+  },
+  {
+    "id": "kokotxas-pil-pil",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Dora 10 g de ajo laminado en 50 g de aceite a fuego suave. Sácalo.",
+      "Deja templar el aceite y pon 500 g de kokotxas de merluza saladas, con la piel hacia abajo.",
+      "Mueve la cazuela en vaivén a fuego muy suave 6 u 8 minutos, sin parar, hasta que la gelatina ligue el aceite en una salsa.",
+      "Añade el ajo y 5 g de perejil picado."
+    ],
+    "notas": "La formulación usa merluza; las kokotxas tienen valores parecidos con algo más de colágeno."
+  },
+  {
+    "id": "pollo-ajo-limon",
+    "raciones": 4,
+    "tiempoMin": 60,
+    "pasos": [
+      "Mezcla 20 g de ajo machacado, 50 g de zumo de limón, 30 g de aceite, 2 g de tomillo y la sal.",
+      "Unta 800 g de muslos de pollo y déjalos 15 minutos.",
+      "Precalienta el horno a 200 °C y ásalos 40 minutos, dándoles la vuelta a mitad, hasta que estén dorados."
+    ]
+  },
+  {
+    "id": "pollo-romero-horno",
+    "raciones": 4,
+    "tiempoMin": 55,
+    "pasos": [
+      "Precalienta el horno a 200 °C.",
+      "Unta 800 g de muslos de pollo con 20 g de aceite, 10 g de ajo machacado, 3 g de romero y la sal.",
+      "Ásalos 40 minutos, dándoles la vuelta a mitad, hasta que la piel esté crujiente."
+    ]
+  },
+  {
+    "id": "alitas-ajillo",
+    "raciones": 4,
+    "tiempoMin": 45,
+    "pasos": [
+      "Separa 800 g de alitas por la articulación y sálalas.",
+      "Dóralas en 40 g de aceite a fuego medio 15 minutos.",
+      "Añade 25 g de ajo laminado y dóralo 2 minutos.",
+      "Vierte 80 g de vino blanco, tapa y cuece 10 minutos, hasta que estén hechas."
+    ],
+    "notas": "Los 800 g son de alitas con hueso."
+  },
+  {
+    "id": "pollo-miel-mostaza",
+    "raciones": 4,
+    "tiempoMin": 55,
+    "pasos": [
+      "Precalienta el horno a 200 °C.",
+      "Mezcla 50 g de miel, 40 g de mostaza, 15 g de aceite y la sal.",
+      "Unta 800 g de muslos de pollo con la mezcla y colócalos en una fuente.",
+      "Ásalos 40 minutos, pintándolos con su jugo a mitad, hasta que estén glaseados."
+    ]
+  },
+  {
+    "id": "pechuga-empanada-horno",
+    "raciones": 4,
+    "tiempoMin": 35,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Abre 500 g de pechuga de pollo en filetes finos y sálalos.",
+      "Pásalos por 60 g de huevo (1 huevo) batido y luego por 80 g de pan rallado.",
+      "Colócalos en una bandeja con papel, rocíalos con 20 g de aceite y hornéalos 20 minutos, dándoles la vuelta a mitad."
+    ]
+  },
+  {
+    "id": "pollo-pimenton",
+    "raciones": 4,
+    "tiempoMin": 55,
+    "pasos": [
+      "Precalienta el horno a 200 °C.",
+      "Mezcla 10 g de pimentón, 10 g de ajo machacado, 30 g de aceite y la sal.",
+      "Unta 800 g de muslos de pollo y ásalos 40 minutos, dándoles la vuelta a mitad."
+    ]
+  },
+  {
+    "id": "pollo-tandoori",
+    "raciones": 4,
+    "tiempoMin": 75,
+    "pasos": [
+      "Haz unos cortes en 800 g de muslos de pollo sin piel.",
+      "Mezcla 150 g de yogur, 15 g de curry, 20 g de zumo de limón y la sal y unta el pollo. Déjalo en la nevera al menos 30 minutos.",
+      "Precalienta el horno a 220 °C y ásalo sobre una rejilla 35 minutos, hasta que esté tostado por los bordes."
+    ],
+    "notas": "Tradicionalmente se usa garam masala y colorante; el curry lo imita."
+  },
+  {
+    "id": "lomo-horno",
+    "raciones": 5,
+    "tiempoMin": 75,
+    "pasos": [
+      "Precalienta el horno a 180 °C. Unta 1.000 g de lomo de cerdo en una pieza con 10 g de ajo machacado, 30 g de aceite y la sal.",
+      "Colócalo en una fuente y riégalo con 100 g de vino blanco.",
+      "Ásalo 55 minutos, regándolo con su jugo de vez en cuando.",
+      "Déjalo reposar 10 minutos y córtalo en lonchas."
+    ]
+  },
+  {
+    "id": "lomo-leche",
+    "raciones": 6,
+    "tiempoMin": 90,
+    "pasos": [
+      "Sala 1.000 g de lomo de cerdo en una pieza y dóralo en 20 g de mantequilla por todos los lados.",
+      "Añade 100 g de cebolla picada y pochala 8 minutos.",
+      "Vierte 500 g de leche, tapa y cuece a fuego suave 1 hora, dándole la vuelta de vez en cuando.",
+      "Saca el lomo y tritura la salsa. Sírvelo en lonchas con la salsa."
+    ]
+  },
+  {
+    "id": "lomo-naranja",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Corta 800 g de lomo de cerdo en filetes gruesos, sálalos y dóralos en 20 g de aceite 2 minutos por cada lado. Sácalos.",
+      "Vierte en la sartén 250 g de zumo de naranja y 20 g de miel y cuece 8 minutos, hasta que se reduzca a la mitad.",
+      "Vuelve a poner el lomo 3 minutos en la salsa."
+    ]
+  },
+  {
+    "id": "pulled-pork",
+    "raciones": 5,
+    "tiempoMin": 300,
+    "pasos": [
+      "Precalienta el horno a 150 °C. Sala 1.000 g de paleta o aguja de cerdo.",
+      "Envuélvela en papel de aluminio y hornéala 4 horas y media, hasta que se deshaga con un tenedor.",
+      "Desmenúzala con dos tenedores, quitando la grasa.",
+      "Mézclala con 150 g de salsa barbacoa."
+    ],
+    "notas": "Se sirve en bocadillo o con ensalada de col, que no están incluidos."
+  },
+  {
+    "id": "panceta-horno",
+    "raciones": 4,
+    "tiempoMin": 100,
+    "pasos": [
+      "Precalienta el horno a 160 °C. Haz cortes en la piel de 800 g de panceta en una pieza y frótala con la sal.",
+      "Ásala con la piel hacia arriba sobre una rejilla 1 hora y cuarto.",
+      "Sube el horno a 230 °C y ásala 15 minutos más, hasta que la piel esté crujiente.",
+      "Déjala reposar 10 minutos y córtala."
+    ]
+  },
+  {
+    "id": "costillas-ajillo",
+    "raciones": 4,
+    "tiempoMin": 50,
+    "pasos": [
+      "Trocea 800 g de costillas de cerdo y sálalas.",
+      "Dóralas en 30 g de aceite 15 minutos.",
+      "Añade 25 g de ajo laminado y dóralo 2 minutos.",
+      "Vierte 80 g de vino blanco, tapa y cuece a fuego suave 20 minutos."
+    ],
+    "notas": "Los 800 g son de costillas con hueso."
+  },
+  {
+    "id": "ternera-ajillo",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 600 g de filete de ternera en tiras o dados y sálalos.",
+      "Saltéalos en 40 g de aceite a fuego muy fuerte 3 minutos y sácalos.",
+      "Dora 25 g de ajo laminado en el mismo aceite. Vierte 80 g de vino blanco y reduce 2 minutos.",
+      "Vuelve a poner la carne 1 minuto."
+    ]
+  },
+  {
+    "id": "entrecot-pimienta",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Sala 500 g de entrecot y presiona 5 g de pimienta molida gruesa sobre las dos caras.",
+      "Hazlo en una sartén muy caliente sin aceite 2 o 3 minutos por cada lado. Sácalo.",
+      "Vierte 20 g de coñac en la sartén y deja que se evapore. Añade 150 g de nata y cuece 2 minutos.",
+      "Sirve la carne con la salsa."
+    ]
+  },
+  {
+    "id": "entrecot-roquefort",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Sala 500 g de entrecot y hazlo en una sartén muy caliente sin aceite 2 o 3 minutos por cada lado. Sácalo.",
+      "En la misma sartén, a fuego suave, funde 60 g de roquefort con 120 g de nata, removiendo.",
+      "Sirve la carne con la salsa."
+    ]
+  },
+  {
+    "id": "hamburguesa-cebolla-caramelizada",
+    "raciones": 1,
+    "tiempoMin": 40,
+    "pasos": [
+      "Corta 100 g de cebolla en pluma fina y pochala en 10 g de aceite a fuego muy suave 25 minutos. Añade 5 g de azúcar los últimos 5 minutos.",
+      "Forma una hamburguesa con 150 g de carne picada y la sal.",
+      "Hazla en una plancha muy caliente 3 o 4 minutos por cada lado y sírvela con la cebolla."
+    ]
+  },
+  {
+    "id": "albondigas-ternera-horno",
+    "raciones": 4,
+    "tiempoMin": 35,
+    "pasos": [
+      "Precalienta el horno a 200 °C.",
+      "Mezcla 500 g de carne picada con 50 g de huevo (1 huevo pequeño), 40 g de pan rallado, 5 g de ajo y 5 g de perejil picados y la sal.",
+      "Forma unas 24 albóndigas y colócalas en una bandeja con papel.",
+      "Hornéalas 18 minutos, dándoles la vuelta a mitad."
+    ],
+    "notas": "Salen unas 24 albóndigas: 6 por ración. Se pueden servir con salsa de tomate, que no está incluida."
+  },
+  {
+    "id": "ternera-teriyaki",
+    "raciones": 2,
+    "tiempoMin": 20,
+    "pasos": [
+      "Corta 400 g de filete de ternera en tiras.",
+      "Mezcla 40 g de salsa de soja con 20 g de miel.",
+      "Saltea la ternera en 15 g de aceite a fuego muy fuerte 2 minutos.",
+      "Añade la salsa y saltea 1 minuto, hasta que glasee. Espolvorea 5 g de sésamo."
+    ],
+    "notas": "No lleva sal: la soja ya la aporta."
+  },
+  {
+    "id": "cordero-miel",
+    "raciones": 4,
+    "tiempoMin": 90,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Unta 800 g de paletilla de cordero troceada con 20 g de aceite, 3 g de romero y la sal.",
+      "Ásala 50 minutos.",
+      "Píntala con 40 g de miel y ásala 15 minutos más, hasta que esté glaseada."
+    ],
+    "notas": "Los 800 g son de carne con algo de hueso."
+  },
+  {
+    "id": "pato-peras",
+    "raciones": 4,
+    "tiempoMin": 100,
+    "pasos": [
+      "Trocea 1.000 g de pato, sálalo y dóralo con la piel hacia abajo a fuego medio 15 minutos, hasta que suelte la grasa. Tira la mayor parte.",
+      "Añade 100 g de vino dulce y un poco de agua, tapa y cuece a fuego suave 45 minutos.",
+      "Añade 400 g de peras peladas en cuartos y cuece 15 minutos más, hasta que estén tiernas."
+    ],
+    "notas": "Plato catalán (ànec amb peres). Los 1.000 g son de carne con piel, sin huesos."
+  },
+  {
+    "id": "sardinas-horno-tomate",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Corta 300 g de tomate y 100 g de cebolla en rodajas finas.",
+      "Colócalos en una fuente con la mitad del aceite y de la sal y hornéalos 15 minutos.",
+      "Coloca encima 600 g de sardinas limpias, riégalas con el resto del aceite y sazónalas.",
+      "Hornea 12 minutos más."
+    ]
+  },
+  {
+    "id": "boquerones-limon",
+    "raciones": 3,
+    "tiempoMin": 90,
+    "pasos": [
+      "Limpia 500 g de boquerones y ábrelos en abanico, sin separar los lomos.",
+      "Cúbrelos con 100 g de zumo de limón y déjalos macerar 1 hora.",
+      "Escúrrelos, sécalos, sálalos y pásalos por 50 g de harina.",
+      "Fríelos en aceite caliente 1 o 2 minutos y escúrrelos."
+    ],
+    "notas": "Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más. Parte del zumo de limón queda en el recipiente."
+  },
+  {
+    "id": "caballa-tomate",
+    "raciones": 4,
+    "tiempoMin": 35,
+    "pasos": [
+      "Pica 100 g de cebolla y pochala en 30 g de aceite 8 minutos.",
+      "Añade 400 g de tomate pelado triturado y la sal y cuece 12 minutos.",
+      "Añade 600 g de lomos de caballa y cuece 5 minutos, tapados."
+    ]
+  },
+  {
+    "id": "bonito-plancha-aove",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Seca 150 g de bonito en rodaja con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.",
+      "Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 minutos por cada lado, hasta que la carne se separe con facilidad."
+    ]
+  },
+  {
+    "id": "atun-pisto",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Corta en dados 200 g de calabacín y 100 g de pimiento verde y pochalos en 30 g del aceite 12 minutos.",
+      "Añade 200 g de tomate pelado triturado y la mitad de la sal y cuece 10 minutos.",
+      "Sala 500 g de atún en tacos y márcalo en el resto del aceite 1 minuto por cada lado.",
+      "Mézclalo con el pisto y cuece 2 minutos, sin que se seque."
+    ]
+  },
+  {
+    "id": "salmon-mostaza",
+    "raciones": 4,
+    "tiempoMin": 25,
+    "pasos": [
+      "Sala 600 g de lomos de salmón y dóralos en una sartén antiadherente 3 minutos por cada lado. Sácalos.",
+      "En la misma sartén, mezcla 40 g de mostaza con 150 g de nata y cuece 3 minutos.",
+      "Vuelve a poner el salmón 1 minuto en la salsa."
+    ]
   }
 ]

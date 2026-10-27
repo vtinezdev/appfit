@@ -1,6 +1,6 @@
 # Preparaciones de las recetas de típicos
 
-887 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
+987 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
 
 ## 1. Tortilla de patatas, con cebolla, cuajada
 
@@ -19827,3 +19827,1852 @@
 4. Añade 200 g de agua y cuece 15 minutos a fuego suave.
 
 *Notas:* Plato manchego. El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo. No lleva sal: el bacalao ya la aporta.
+
+## 888. Pollo, pechuga sin piel con aceite de oliva, a la plancha, cocinada
+
+`pechuga-pollo-plancha-aove` · Carnes · 1 ración de 116 g · 10 min · por ración: 210 kcal, P 35,1 g, C 0 g, G 7,2 g
+
+**Ingredientes** (lote de 116 g cocinado)
+
+- 150 g · Pollo, pechuga sin piel cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de pechuga de pollo (mejor abierta en filete) con papel de cocina y úntalo con 5 g de aceite y la sal.
+2. Hazlo en una plancha o sartén muy caliente 4 o 5 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.
+3. Déjalo reposar 2 minutos antes de servir.
+
+## 889. Pavo, pechuga con aceite de oliva, a la plancha, cocinada
+
+`pechuga-pavo-plancha-aove` · Carnes · 1 ración de 118 g · 10 min · por ración: 207 kcal, P 35,6 g, C 0 g, G 7,2 g
+
+**Ingredientes** (lote de 118 g cocinado)
+
+- 150 g · Pavo, escalopa cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de pechuga de pavo en filete con papel de cocina y úntalo con 5 g de aceite y la sal.
+2. Hazlo en una plancha o sartén muy caliente 3 o 4 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.
+3. Déjalo reposar 2 minutos antes de servir.
+
+## 890. Ternera, filete con aceite de oliva, a la plancha, cocinado
+
+`filete-ternera-plancha-aove` · Carnes · 1 ración de 116 g · 10 min · por ración: 216 kcal, P 30,8 g, C 0,9 g, G 9,9 g
+
+**Ingredientes** (lote de 116 g cocinado)
+
+- 150 g · Ternera, escalope, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de filete de ternera con papel de cocina y úntalo con 5 g de aceite y la sal.
+2. Hazlo en una plancha o sartén muy caliente 1 o 2 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.
+3. Déjalo reposar 2 minutos antes de servir.
+
+## 891. Cerdo, lomo con aceite de oliva, a la plancha, cocinado
+
+`lomo-plancha-aove` · Carnes · 1 ración de 121 g · 10 min · por ración: 256 kcal, P 31,4 g, C 0,5 g, G 14,4 g
+
+**Ingredientes** (lote de 121 g cocinado)
+
+- 150 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de lomo de cerdo en filetes con papel de cocina y úntalo con 5 g de aceite y la sal.
+2. Hazlo en una plancha o sartén muy caliente 2 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.
+3. Déjalo reposar 2 minutos antes de servir.
+
+## 892. Salmón con aceite de oliva, a la plancha, cocinado
+
+`salmon-plancha-aove` · Pescados · 1 ración de 131 g · 10 min · por ración: 334 kcal, P 30,8 g, C 0 g, G 23,6 g
+
+**Ingredientes** (lote de 131 g cocinado)
+
+- 150 g · Salmón, de cría, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de salmón con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 893. Merluza con aceite de oliva, a la plancha, cocinada
+
+`merluza-plancha-aove` · Pescados · 1 ración de 126 g · 10 min · por ración: 169 kcal, P 26,4 g, C 0 g, G 7,1 g
+
+**Ingredientes** (lote de 126 g cocinado)
+
+- 150 g · Merluza, cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de merluza con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 894. Bacalao fresco con aceite de oliva, a la plancha, cocinado
+
+`bacalao-fresco-plancha-aove` · Pescados · 1 ración de 126 g · 10 min · por ración: 161 kcal, P 27,2 g, C 0 g, G 5,9 g
+
+**Ingredientes** (lote de 126 g cocinado)
+
+- 150 g · Bacalao, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de bacalao fresco con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 895. Lenguado con aceite de oliva, a la plancha, cocinado
+
+`lenguado-plancha-aove` · Pescados · 1 ración de 126 g · 10 min · por ración: 161 kcal, P 27 g, C 0 g, G 5,9 g
+
+**Ingredientes** (lote de 126 g cocinado)
+
+- 150 g · Lenguado, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de lenguado con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 o 3 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 896. Gallo con aceite de oliva, a la plancha, cocinado
+
+`gallo-plancha-aove` · Pescados · 1 ración de 126 g · 10 min · por ración: 166 kcal, P 25,5 g, C 0 g, G 7,1 g
+
+**Ingredientes** (lote de 126 g cocinado)
+
+- 150 g · Gallo o limanda, cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de gallo con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 o 3 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 897. Mero con aceite de oliva, a la plancha, cocinado
+
+`mero-plancha-aove` · Pescados · 1 ración de 126 g · 10 min · por ración: 173 kcal, P 27,9 g, C 1,1 g, G 6,3 g
+
+**Ingredientes** (lote de 126 g cocinado)
+
+- 150 g · Mero, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de mero en rodaja con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 4 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 898. Jureles a la plancha, cocinados
+
+`jureles-plancha` · Pescados · 3 raciones de 173 g · 20 min · por ración: 322 kcal, P 38 g, C 0 g, G 18,8 g
+
+**Ingredientes** (lote de 520 g cocinado)
+
+- 600 g · Jurel o caballa de ojos grandes, crudo
+- 30 g · Aceite de oliva virgen extra
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 600 g de jureles, quítales las tripas y sécalos.
+2. Úntalos con 30 g de aceite y la sal.
+3. Hazlos en una plancha muy caliente 4 o 5 minutos por cada lado, hasta que la piel esté tostada.
+
+## 899. Salmonetes, enharinados, fritos
+
+`salmonetes-fritos` · Pescados · 3 raciones de 187 g · 25 min · por ración: 525 kcal, P 38,3 g, C 12,8 g, G 35,6 g
+
+**Ingredientes** (lote de 560 g cocinado)
+
+- 600 g · Salmonete de roca, crudo
+- 50 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 50 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia y escama 600 g de salmonetes y sécalos bien.
+2. Sálalos y pásalos por 50 g de harina, sacudiendo el exceso.
+3. Fríelos en aceite de oliva caliente 3 minutos por cada lado, hasta que estén dorados y crujientes. Escúrrelos.
+
+*Notas:* Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 900. Cordero asado al horno, asado
+
+`cordero-asado` · Carnes · 6 raciones de 192 g · 150 min · por ración: 365 kcal, P 50 g, C 1,3 g, G 17,7 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 1500 g · Cordero, pierna cruda
+- 30 g · Manteca de cerdo
+- 200 g · Agua del grifo
+- 15 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Unta 1.500 g de pierna de cordero con 30 g de manteca y la sal.
+2. Colócala en una fuente de barro con 200 g de agua.
+3. Ásala 1 hora, dale la vuelta y ásala 1 hora más, regándola con su jugo cada 20 minutos.
+4. Sube el horno a 220 °C los últimos 15 minutos para que la piel quede crujiente.
+
+*Notas:* Los 1.500 g son de pierna con hueso, como se compra.
+
+## 901. Entrecot de vacuno a la plancha, cocinado
+
+`entrecot-plancha` · Carnes · 1 ración de 165 g · 10 min · por ración: 553 kcal, P 42,7 g, C 0 g, G 42,6 g
+
+**Ingredientes** (lote de 165 g cocinado)
+
+- 220 g · Vacuno, entrecot, crudo
+- 5 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 220 g de entrecot (sácalo de la nevera 30 minutos antes) con papel de cocina y úntalo con 5 g de aceite y la sal.
+2. Hazlo en una plancha o sartén muy caliente 2 o 3 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.
+3. Déjalo reposar 2 minutos antes de servir.
+
+## 902. Solomillo de vacuno a la plancha, cocinado
+
+`solomillo-vacuno-plancha` · Carnes · 1 ración de 150 g · 10 min · por ración: 309 kcal, P 43,2 g, C 0,4 g, G 15 g
+
+**Ingredientes** (lote de 150 g cocinado)
+
+- 200 g · Vacuno, solomillo, crudo
+- 5 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 200 g de solomillo de vacuno en un medallón grueso (sácalo de la nevera 30 minutos antes) con papel de cocina y úntalo con 5 g de aceite y la sal.
+2. Hazlo en una plancha o sartén muy caliente 3 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.
+3. Déjalo reposar 2 minutos antes de servir.
+
+## 903. Bonito en escabeche, casero, cocinado
+
+`bonito-escabeche` · Pescados · 6 raciones de 167 g · 60 min · por ración: 414 kcal, P 30,3 g, C 2,2 g, G 30,8 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 800 g · Bonito, crudo
+- 120 g · Aceite de oliva virgen extra
+- 60 g · Vinagre de vino tinto
+- 40 g · Vino blanco seco
+- 15 g · Ajo, crudo
+- 100 g · Cebolla, cruda
+- 50 g · Zanahoria, cruda
+- 1 g · Laurel, hojas
+- 2 g · Pimienta negra, polvo
+- 10 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 800 g de bonito en tacos, sálalos con parte de la sal y dóralos en 20 g del aceite 1 minuto por cada lado. Colócalos en un recipiente.
+2. En el resto del aceite, pocha a fuego suave 100 g de cebolla en pluma, 50 g de zanahoria en rodajas y 15 g de ajo laminado 10 minutos, con 1 hoja de laurel y 2 g de pimienta.
+3. Añade 60 g de vinagre, 40 g de vino blanco, el resto de la sal y un poco de agua y cuece 5 minutos.
+4. Vierte el escabeche caliente sobre el bonito, deja que se enfríe y guárdalo en la nevera al menos 12 horas.
+
+*Notas:* Se conserva una semana en la nevera, cubierto con su escabeche. Mejor de un día para otro. El reposo no cuenta en el tiempo. Parte del aceite queda en el escabeche y no se come.
+
+## 904. Sardinas enharinadas, fritas
+
+`sardinas-fritas` · Pescados · 4 raciones de 175 g · 30 min · por ración: 508 kcal, P 40,3 g, C 11,5 g, G 33,5 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 800 g · Sardina, cruda
+- 60 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 60 g · Aceite de oliva virgen extra
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 800 g de sardinas, quítales la cabeza y las tripas y sécalas.
+2. Sálalas y pásalas por 60 g de harina.
+3. Fríelas en aceite de oliva caliente 2 o 3 minutos por cada lado y escúrrelas.
+
+*Notas:* Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más. Los 800 g son de sardina limpia.
+
+## 905. Dorada con aceite de oliva, a la plancha, cocinada
+
+`dorada-plancha-aove` · Pescados · 1 ración de 128 g · 10 min · por ración: 238 kcal, P 31,4 g, C 0 g, G 12,6 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 150 g · Dorada de cría, cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de lomo de dorada con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 906. Lubina con aceite de oliva, a la plancha, cocinada
+
+`lubina-plancha-aove` · Pescados · 1 ración de 128 g · 10 min · por ración: 174 kcal, P 28,7 g, C 1,4 g, G 6 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 150 g · Lubina, cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de lomo de lubina con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 o 4 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 907. Rape con aceite de oliva, a la plancha, cocinado
+
+`rape-plancha-aove` · Pescados · 1 ración de 128 g · 10 min · por ración: 145 kcal, P 22,7 g, C 0 g, G 6 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 150 g · Rape, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de rape en medallones con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 908. Sardinas con aceite de oliva, a la plancha, cocinadas
+
+`sardinas-plancha-aove` · Pescados · 1 ración de 128 g · 10 min · por ración: 285 kcal, P 29,3 g, C 0 g, G 18,8 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 150 g · Sardina, cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de sardinas limpias con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 909. Caballa con aceite de oliva, a la plancha, cocinada
+
+`caballa-plancha-aove` · Pescados · 1 ración de 128 g · 10 min · por ración: 342 kcal, P 27,2 g, C 1,4 g, G 25,2 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 150 g · Caballa, cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de lomos de caballa con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 o 3 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 910. Trucha con aceite de oliva, a la plancha, cocinada
+
+`trucha-plancha-aove` · Pescados · 1 ración de 128 g · 10 min · por ración: 243 kcal, P 28,5 g, C 0 g, G 14,3 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 150 g · Trucha arco iris de cría, cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de trucha abierta con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 3 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 911. Pez espada con aceite de oliva, a la plancha, cocinado
+
+`pez-espada-plancha-aove` · Pescados · 1 ración de 128 g · 10 min · por ración: 246 kcal, P 28,4 g, C 1,5 g, G 14 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 150 g · Pez espada, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de pez espada en rodaja con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 912. Chipirones a la plancha, cocinados
+
+`chipirones-plancha` · Mariscos · 3 raciones de 133 g · 20 min · por ración: 207 kcal, P 24,2 g, C 4,2 g, G 10,3 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 500 g · Calamar, crudo
+- 8 g · Ajo, crudo
+- 4 g · Perejil, fresco
+- 25 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 500 g de chipirones, sécalos y sálalos.
+2. Pica 8 g de ajo y 4 g de perejil y mézclalos con 20 g del aceite.
+3. Haz los chipirones en una plancha muy caliente con el resto del aceite 2 o 3 minutos, dándoles la vuelta.
+4. Sírvelos con el ajo y el perejil por encima.
+
+## 913. Calamares a la andaluza (enharinados), fritos
+
+`calamares-andaluza` · Mariscos · 3 raciones de 160 g · 25 min · por ración: 379 kcal, P 25,7 g, C 19 g, G 22,2 g
+
+**Ingredientes** (lote de 480 g cocinado)
+
+- 500 g · Calamar, crudo
+- 60 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 60 g · Aceite de girasol
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 500 g de calamar en anillas y sécalas muy bien.
+2. Sálalas y pásalas por 60 g de harina, sacudiendo el exceso.
+3. Fríelas por tandas en aceite muy caliente 1 o 2 minutos, hasta que estén doradas. Escúrrelas.
+
+*Notas:* Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 914. Gambas a la gabardina, fritas
+
+`gambas-gabardina` · Mariscos · 3 raciones de 140 g · 25 min · por ración: 357 kcal, P 22,1 g, C 24,6 g, G 17,7 g
+
+**Ingredientes** (lote de 420 g cocinado)
+
+- 300 g · Gamba o langostino, crudo
+- 80 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Cerveza estándar (4-5° de alcohol)
+- 50 g · Aceite de girasol
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pela 300 g de gambas dejando la cola y sálalas.
+2. Mezcla 80 g de harina con 100 g de cerveza fría hasta tener una masa espesa.
+3. Coge las gambas por la cola, pásalas por la masa y fríelas en aceite caliente 2 minutos, hasta que estén doradas. Escúrrelas.
+
+*Notas:* Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más. Los 300 g de gambas son pesados ya peladas.
+
+## 915. Lenguado a la meunière, cocinado
+
+`lenguado-meuniere` · Pescados · 2 raciones de 200 g · 20 min · por ración: 344 kcal, P 37 g, C 8,1 g, G 17,9 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 400 g · Lenguado, crudo
+- 20 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 40 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 20 g · Zumo de limón, casero
+- 3 g · Perejil, fresco
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 400 g de filetes de lenguado, sálalos y pásalos por 20 g de harina.
+2. Dóralos en 20 g de la mantequilla 2 minutos por cada lado y sácalos.
+3. Funde el resto de la mantequilla hasta que tome color avellana, añade 20 g de zumo de limón y 3 g de perejil picado.
+4. Riega el pescado con la salsa.
+
+## 916. Salmón teriyaki, cocinado
+
+`salmon-teriyaki` · Pescados · 3 raciones de 127 g · 20 min · por ración: 295 kcal, P 28,6 g, C 5,9 g, G 17,4 g
+
+**Ingredientes** (lote de 380 g cocinado)
+
+- 400 g · Salmón, de cría, crudo
+- 40 g · Salsa de soja, envasada
+- 20 g · Miel
+- 5 g · Sésamo, grano
+
+**Preparación**
+
+1. Mezcla 40 g de salsa de soja con 20 g de miel.
+2. Dora 400 g de salmón en dados o lomos en una sartén antiadherente 3 minutos por cada lado.
+3. Añade la salsa y cocina 2 minutos, dándole la vuelta, hasta que glasee.
+4. Espolvorea 5 g de sésamo.
+
+*Notas:* No lleva sal: la soja ya la aporta. Tradicionalmente la salsa lleva mirin y sake.
+
+## 917. Tataki de atún, cocinado
+
+`tataki-atun` · Pescados · 3 raciones de 110 g · 15 min · por ración: 218 kcal, P 25,4 g, C 3,5 g, G 11,2 g
+
+**Ingredientes** (lote de 330 g cocinado)
+
+- 300 g · Atún, crudo
+- 15 g · Sésamo, grano
+- 20 g · Salsa de soja, envasada
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 300 g de atún en un taco rectangular y rebózalo en 15 g de sésamo, apretando.
+2. Márcalo en una sartén muy caliente con 10 g de aceite 30 segundos por cada lado, solo por fuera.
+3. Córtalo en lonchas de 1 cm y sírvelo con 20 g de salsa de soja.
+
+*Notas:* El atún queda crudo por dentro: debe haberse congelado antes.
+
+## 918. Tartar de salmón con aguacate, listo para consumir
+
+`tartar-salmon` · Pescados · 3 raciones de 153 g · 20 min · por ración: 297 kcal, P 21,6 g, C 0,7 g, G 22,7 g
+
+**Ingredientes** (lote de 460 g cocinado)
+
+- 300 g · Salmón, de cría, crudo
+- 100 g · Aguacate, pulpa sin piel, sin hueso, crudo
+- 30 g · Cebolla roja, cruda
+- 15 g · Salsa de soja, envasada
+- 10 g · Zumo de limón, casero
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 300 g de salmón sin piel en dados muy pequeños y 100 g de aguacate en dados.
+2. Pica muy fina 30 g de cebolla roja.
+3. Mezcla el salmón con la cebolla, 15 g de salsa de soja, 10 g de zumo de limón y 10 g de aceite.
+4. Sírvelo en un aro sobre el aguacate.
+
+*Notas:* El salmón para comer crudo debe haberse congelado antes.
+
+## 919. Caballa en escabeche casera, cocinada
+
+`caballa-escabeche-casera` · Pescados · 4 raciones de 163 g · 45 min · por ración: 448 kcal, P 23,3 g, C 3,8 g, G 37,1 g
+
+**Ingredientes** (lote de 650 g cocinado)
+
+- 500 g · Caballa, cruda
+- 80 g · Aceite de oliva virgen extra
+- 60 g · Vinagre de vino tinto
+- 80 g · Cebolla, cruda
+- 50 g · Zanahoria, cruda
+- 10 g · Ajo, crudo
+- 1 g · Laurel, hojas
+- 3 g · Pimentón, polvo
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 500 g de lomos de caballa con parte de la sal y dóralos en 15 g del aceite 1 minuto por cada lado. Colócalos en un recipiente.
+2. En el resto del aceite, pocha a fuego suave 80 g de cebolla, 50 g de zanahoria y 10 g de ajo laminados con 1 hoja de laurel 10 minutos.
+3. Retira del fuego, añade 3 g de pimentón y luego 60 g de vinagre, el resto de la sal y un poco de agua. Cuece 3 minutos.
+4. Vierte el escabeche sobre la caballa, deja que se enfríe y guárdalo en la nevera al menos 12 horas.
+
+*Notas:* Se conserva una semana en la nevera, cubierto con su escabeche. Mejor de un día para otro. El reposo no cuenta en el tiempo.
+
+## 920. Chuleta de cerdo con aceite de oliva, a la plancha, cocinada
+
+`chuleta-cerdo-plancha-aove` · Carnes · 1 ración de 115 g · 10 min · por ración: 291 kcal, P 29,7 g, C 0,6 g, G 18,9 g
+
+**Ingredientes** (lote de 115 g cocinado)
+
+- 150 g · Cerdo, chuleta cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de chuleta de cerdo con papel de cocina y úntalo con 5 g de aceite y la sal.
+2. Hazlo en una plancha o sartén muy caliente 3 o 4 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.
+3. Déjalo reposar 2 minutos antes de servir.
+
+## 921. Contramuslo de pollo con aceite de oliva, a la plancha, cocinado
+
+`contramuslo-pollo-plancha-aove` · Carnes · 1 ración de 115 g · 10 min · por ración: 219 kcal, P 29,6 g, C 0 g, G 11,1 g
+
+**Ingredientes** (lote de 115 g cocinado)
+
+- 150 g · Pollo, parte alta del muslo, carne cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de contramuslo de pollo deshuesado con papel de cocina y úntalo con 5 g de aceite y la sal.
+2. Hazlo en una plancha o sartén muy caliente 5 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.
+3. Déjalo reposar 2 minutos antes de servir.
+
+## 922. Conejo con aceite de oliva, a la plancha, cocinado
+
+`conejo-plancha-aove` · Carnes · 1 ración de 115 g · 10 min · por ración: 327 kcal, P 30,6 g, C 0,9 g, G 22,4 g
+
+**Ingredientes** (lote de 115 g cocinado)
+
+- 150 g · Conejo, carne cruda
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de conejo troceado con papel de cocina y úntalo con 5 g de aceite y la sal.
+2. Hazlo en una plancha o sartén muy caliente 5 o 6 minutos por cada lado, sin moverlo, hasta que esté dorado y hecho por dentro.
+3. Déjalo reposar 2 minutos antes de servir.
+
+## 923. Hamburguesa de vacuno con queso, sin pan, a la plancha, cocinada
+
+`hamburguesa-queso-plato` · Carnes · 1 ración de 140 g · 15 min · por ración: 422 kcal, P 36,5 g, C 1,1 g, G 30,4 g
+
+**Ingredientes** (lote de 140 g cocinado)
+
+- 150 g · Vacuno, carne picada 15 % MG, cruda
+- 25 g · Queso Cheddar
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Forma una hamburguesa con 150 g de carne picada y la sal.
+2. Hazla en una plancha muy caliente 3 o 4 minutos por cada lado.
+3. Pon encima 25 g de cheddar en lonchas, tapa y deja que se funda 1 minuto.
+
+## 924. Steak tartar, listo para consumir
+
+`steak-tartar` · Carnes · 2 raciones de 193 g · 20 min · por ración: 270 kcal, P 34,6 g, C 2,5 g, G 13,3 g
+
+**Ingredientes** (lote de 385 g cocinado)
+
+- 300 g · Vacuno, solomillo, crudo
+- 20 g · Huevo, yema, cruda
+- 10 g · Mostaza
+- 20 g · Cebolla, cruda
+- 20 g · Pepinillo, al vinagre
+- 10 g · Ketchup, envasado
+- 5 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica a cuchillo, muy fino, 300 g de solomillo de vacuno muy frío.
+2. Pica muy fino 20 g de cebolla y 20 g de pepinillos.
+3. Mezcla la carne con la cebolla, los pepinillos, 10 g de mostaza, 10 g de ketchup, 5 g de aceite, 20 g de yema de huevo y la sal.
+4. Sírvelo enseguida, muy frío.
+
+*Notas:* La carne y la yema se comen crudas: usa carne muy fresca y huevo pasteurizado si hay dudas. Tradicionalmente lleva alcaparras y salsa Worcestershire.
+
+## 925. Oreja de cerdo a la plancha, cocinada
+
+`oreja-plancha` · Carnes · 3 raciones de 140 g · 120 min · por ración: 449 kcal, P 37,9 g, C 1,9 g, G 32,1 g
+
+**Ingredientes** (lote de 420 g cocinado)
+
+- 500 g · Oreja de cerdo en salmuera
+- 10 g · Ajo, crudo
+- 20 g · Aceite de oliva virgen extra
+- 5 g · Pimentón, polvo
+
+**Preparación**
+
+1. Desala 500 g de oreja de cerdo en agua fría 2 horas, cambiando el agua. Cuécela en agua 1 hora y media, hasta que esté tierna. Escúrrela.
+2. Córtala en tiras y sécala.
+3. Dórala en una plancha muy caliente con 20 g de aceite y 10 g de ajo laminado 5 minutos, hasta que esté crujiente.
+4. Espolvorea 5 g de pimentón al servir.
+
+*Notas:* El desalado no cuenta en el tiempo. Con oreja ya cocida, solo hay que dorarla.
+
+## 926. Chuletón de vacuno a la brasa, asado
+
+`chuleton-brasa` · Carnes · 2 raciones de 200 g · 20 min · por ración: 578 kcal, P 48,5 g, C 0 g, G 42,8 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 500 g · Vacuno, entrecot, crudo
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Saca 500 g de chuletón de la nevera 1 hora antes.
+2. Ásalo a la brasa o en una plancha muy caliente 4 o 5 minutos por cada lado, según el punto.
+3. Déjalo reposar 5 minutos, córtalo en tiras y añade la sal gruesa por encima.
+
+*Notas:* Los 500 g son de carne sin hueso; con hueso, el chuletón pesa más.
+
+## 927. Churrasco de ternera a la brasa, asado
+
+`churrasco-ternera` · Carnes · 2 raciones de 190 g · 25 min · por ración: 628 kcal, P 46,8 g, C 0 g, G 49 g
+
+**Ingredientes** (lote de 380 g cocinado)
+
+- 500 g · Vacuno, costilla, cruda
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 500 g de costilla de ternera cortada en tiras finas.
+2. Ásala a la brasa o en una plancha muy caliente 4 o 5 minutos por cada lado, hasta que esté dorada.
+
+*Notas:* Los 500 g son de carne con hueso, como se compra. Tradicionalmente se sirve con chimichurri, que no está incluido.
+
+## 928. Panceta a la brasa, asada
+
+`panceta-brasa` · Carnes · 2 raciones de 140 g · 20 min · por ración: 538 kcal, P 33,2 g, C 2 g, G 44,2 g
+
+**Ingredientes** (lote de 280 g cocinado)
+
+- 400 g · Panceta al natural, cruda
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 400 g de panceta en lonchas gruesas.
+2. Ásala a la brasa o en una plancha muy caliente 5 o 6 minutos por cada lado, hasta que suelte la grasa y esté crujiente.
+
+## 929. Morcilla a la brasa, asada
+
+`morcilla-brasa` · Carnes · 2 raciones de 135 g · 15 min · por ración: 446 kcal, P 18,3 g, C 0,5 g, G 40,7 g
+
+**Ingredientes** (lote de 270 g cocinado)
+
+- 300 g · Morcilla negra, para cocinar
+
+**Preparación**
+
+1. Corta 300 g de morcilla en rodajas gruesas.
+2. Ásalas a la brasa o en una plancha caliente 3 minutos por cada lado, sin aceite.
+
+## 930. Salchichas frescas a la brasa, asadas
+
+`salchichas-brasa` · Carnes · 2 raciones de 160 g · 20 min · por ración: 516 kcal, P 33,8 g, C 0 g, G 42,4 g
+
+**Ingredientes** (lote de 320 g cocinado)
+
+- 400 g · Masa de salchicha, de cerdo puro, cruda
+
+**Preparación**
+
+1. Pincha 400 g de salchichas frescas.
+2. Ásalas a la brasa o en una plancha a fuego medio 12 o 15 minutos, dándoles la vuelta, hasta que estén hechas.
+
+## 931. Parrillada de carne mixta, asada
+
+`parrillada-carne` · Carnes · 2 raciones de 300 g · 40 min · por ración: 863 kcal, P 69,1 g, C 1,3 g, G 64,5 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 200 g · Cerdo, chuleta cruda
+- 200 g · Pollo, muslo crudo
+- 150 g · Masa de salchicha, de cerdo puro, cruda
+- 100 g · Morcilla negra, para cocinar
+- 150 g · Panceta al natural, cruda
+
+**Preparación**
+
+1. Saca la carne de la nevera 30 minutos antes.
+2. Ásala a la brasa o en una plancha empezando por lo que más tarda: 200 g de muslo de pollo deshuesado (15 minutos), 200 g de chuletas de cerdo y 150 g de panceta (10 minutos), 150 g de salchichas (12 minutos) y 100 g de morcilla (6 minutos).
+3. Dales la vuelta a mitad y sírvelo todo junto.
+
+*Notas:* Ajusta la sal al gusto: la formulación no la lleva.
+
+## 932. Parrillada de pescado y marisco, a la plancha, cocinada
+
+`parrillada-pescado-marisco` · Pescados · 2 raciones de 290 g · 30 min · por ración: 394 kcal, P 56,8 g, C 3,7 g, G 17 g
+
+**Ingredientes** (lote de 580 g cocinado)
+
+- 200 g · Dorada de cría, cruda
+- 200 g · Sepia, cruda
+- 200 g · Gamba o langostino, crudo
+- 20 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 200 g de sepia y córtala en trozos. Abre 200 g de dorada en lomos.
+2. Unta todo, con 200 g de gambas enteras, con 20 g de aceite y la sal.
+3. Haz en una plancha muy caliente la sepia 4 minutos, la dorada 3 minutos por cada lado y las gambas 1 minuto por cada lado.
+
+## 933. Espeto de sardinas, asado
+
+`espeto-sardinas` · Pescados · 2 raciones de 200 g · 20 min · por ración: 400 kcal, P 48,8 g, C 0 g, G 23 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 500 g · Sardina, cruda
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Ensarta 500 g de sardinas enteras en cañas o brochetas, atravesándolas por el lomo.
+2. Sálalas con sal gruesa.
+3. Ásalas junto a las brasas, inclinadas, 4 minutos por cada lado. En casa, al grill o en una plancha muy caliente.
+
+*Notas:* Los 500 g son de sardina entera; la parte comestible es menor.
+
+## 934. Alitas de pollo a la barbacoa, asadas
+
+`alitas-barbacoa` · Carnes · 4 raciones de 190 g · 55 min · por ración: 480 kcal, P 51,1 g, C 6,1 g, G 27,6 g
+
+**Ingredientes** (lote de 760 g cocinado)
+
+- 1000 g · Pollo, ala, carne y piel cruda
+- 80 g · Salsa barbecue, envasada
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 220 °C. Separa 1.000 g de alitas por la articulación, sécalas y sálalas.
+2. Ásalas sobre una rejilla 35 minutos, dándoles la vuelta a mitad.
+3. Píntalas con 80 g de salsa barbacoa y ásalas 10 minutos más, hasta que se caramelicen.
+
+*Notas:* Los 1.000 g son de alitas con hueso, como se compran.
+
+## 935. Pollo a la brasa con especias, asado
+
+`pollo-brasa` · Carnes · 3 raciones de 250 g · 90 min · por ración: 640 kcal, P 72,8 g, C 2,6 g, G 37,1 g
+
+**Ingredientes** (lote de 750 g cocinado)
+
+- 1000 g · Pollo, carne y piel cruda
+- 20 g · Salsa de soja, envasada
+- 3 g · Comino, grano
+- 10 g · Ajo, crudo
+- 5 g · Pimentón, polvo
+- 15 g · Aceite de oliva virgen extra
+- 20 g · Limón verde o lima, pulpa sin piel, sin pepitas, cruda
+
+**Preparación**
+
+1. Mezcla 20 g de salsa de soja, 3 g de comino, 10 g de ajo machacado, 5 g de pimentón, 15 g de aceite y 20 g de zumo de lima.
+2. Unta 1.000 g de pollo abierto en mariposa o troceado y déjalo 30 minutos.
+3. Ásalo a la brasa o en el horno a 200 °C 45 o 50 minutos, dándole la vuelta, hasta que esté dorado y el jugo salga claro.
+
+*Notas:* Los 1.000 g son de pollo sin huesos. No lleva sal aparte: la soja ya la aporta.
+
+## 936. Brochetas de ternera con verduras, asadas
+
+`brochetas-ternera` · Carnes · 3 raciones de 160 g · 30 min · por ración: 371 kcal, P 25,6 g, C 3,4 g, G 28,2 g
+
+**Ingredientes** (lote de 480 g cocinado)
+
+- 400 g · Vacuno, filete o bistec, crudo
+- 100 g · Pimiento verde, crudo
+- 100 g · Cebolla, cruda
+- 15 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 400 g de filete de ternera en dados de 3 cm y 100 g de pimiento verde y 100 g de cebolla en trozos del mismo tamaño.
+2. Ensártalos alternando y úntalos con 15 g de aceite y la sal.
+3. Ásalos a la plancha o a la brasa 8 minutos, dándoles la vuelta.
+
+## 937. Pechuga de pollo hervida y desmenuzada, cocida
+
+`pollo-desmenuzado` · Carnes · 4 raciones de 95 g · 30 min · por ración: 138 kcal, P 29,3 g, C 0 g, G 1,9 g
+
+**Ingredientes** (lote de 380 g cocinado)
+
+- 500 g · Pollo, pechuga sin piel cruda
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pon 500 g de pechuga de pollo en una olla, cúbrela con agua y añade la sal.
+2. Llévala a ebullición y cuécela a fuego suave 15 minutos.
+3. Deja que se temple en el caldo y desmenúzala con dos tenedores.
+
+*Notas:* Sirve para ensaladas, tacos o rellenos. El caldo se puede usar para sopa.
+
+## 938. Kofta de cordero casera, a la parrilla, asada
+
+`kofta-cordero` · Carnes · 3 raciones de 127 g · 40 min · por ración: 184 kcal, P 27,2 g, C 2,4 g, G 7,2 g
+
+**Ingredientes** (lote de 380 g cocinado)
+
+- 400 g · Cordero, pierna cruda
+- 60 g · Cebolla, cruda
+- 10 g · Perejil, fresco
+- 3 g · Comino, grano
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica muy fino 400 g de pierna de cordero o pídela picada.
+2. Mézclala con 60 g de cebolla rallada y escurrida, 10 g de perejil picado, 3 g de comino y la sal.
+3. Forma salchichas alargadas alrededor de brochetas y déjalas en la nevera 15 minutos.
+4. Ásalas a la parrilla o en una plancha 8 o 10 minutos, dándoles la vuelta.
+
+## 939. Berberechos al vapor con limón, cocinados
+
+`berberechos-vapor` · Mariscos · 2 raciones de 140 g · 40 min · por ración: 122 kcal, P 17,3 g, C 4,2 g, G 4,1 g
+
+**Ingredientes** (lote de 280 g cocinado)
+
+- 300 g · Almeja, navaja o pipa, cruda
+- 10 g · Zumo de limón, casero
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pon 300 g de berberechos en agua con sal 30 minutos para que suelten la arena.
+2. Ponlos en una cazuela tapada a fuego fuerte con un chorrito de agua 2 o 3 minutos, hasta que se abran.
+3. Sírvelos con 10 g de zumo de limón.
+
+*Notas:* Los 300 g son con concha. La formulación usa almeja, de valores muy parecidos.
+
+## 940. Codornices escabechadas, cocinadas
+
+`codornices-escabechadas` · Carnes · 4 raciones de 225 g · 75 min · por ración: 591 kcal, P 40,2 g, C 3,7 g, G 43,8 g
+
+**Ingredientes** (lote de 900 g cocinado)
+
+- 800 g · Codorniz, carne y piel cruda
+- 120 g · Aceite de oliva virgen extra
+- 100 g · Vinagre de vino tinto
+- 100 g · Vino blanco seco
+- 100 g · Cebolla, cruda
+- 80 g · Zanahoria, cruda
+- 15 g · Ajo, crudo
+- 1 g · Laurel, hojas
+- 2 g · Pimienta negra, polvo
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 800 g de codornices, sálalas con parte de la sal y dóralas en 30 g del aceite. Sácalas.
+2. En el resto del aceite, pocha 100 g de cebolla, 80 g de zanahoria y 15 g de ajo con 1 hoja de laurel y 2 g de pimienta 10 minutos.
+3. Vuelve a poner las codornices, añade 100 g de vinagre, 100 g de vino blanco, el resto de la sal y un poco de agua.
+4. Tapa y cuece a fuego suave 35 minutos. Deja que se enfríen en el escabeche al menos 12 horas.
+
+*Notas:* Se conserva una semana en la nevera, cubierto con su escabeche. Mejor de un día para otro. El reposo no cuenta en el tiempo. Parte del aceite queda en el escabeche.
+
+## 941. Codornices a la plancha con ajo, cocinadas
+
+`codornices-plancha` · Carnes · 3 raciones de 173 g · 30 min · por ración: 390 kcal, P 45,9 g, C 0,6 g, G 22,5 g
+
+**Ingredientes** (lote de 520 g cocinado)
+
+- 700 g · Codorniz, carne y piel cruda
+- 10 g · Ajo, crudo
+- 20 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Abre 700 g de codornices por la espalda y aplánalas. Sálalas.
+2. Machaca 10 g de ajo con 20 g de aceite y úntalas.
+3. Hazlas en una plancha caliente 6 o 7 minutos por cada lado, con la piel primero.
+
+## 942. Conejo en escabeche, cocinado
+
+`conejo-escabeche` · Carnes · 5 raciones de 200 g · 80 min · por ración: 587 kcal, P 37,5 g, C 4 g, G 45,1 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 900 g · Conejo, carne cruda
+- 120 g · Aceite de oliva virgen extra
+- 100 g · Vinagre de vino tinto
+- 100 g · Vino blanco seco
+- 100 g · Cebolla, cruda
+- 80 g · Zanahoria, cruda
+- 15 g · Ajo, crudo
+- 1 g · Laurel, hojas
+- 2 g · Pimienta negra, polvo
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 900 g de conejo, sálalo con parte de la sal y dóralo en 30 g del aceite. Sácalo.
+2. En el resto del aceite, pocha 100 g de cebolla, 80 g de zanahoria y 15 g de ajo con 1 hoja de laurel y 2 g de pimienta 10 minutos.
+3. Vuelve a poner el conejo, añade 100 g de vinagre, 100 g de vino blanco, el resto de la sal y un poco de agua.
+4. Tapa y cuece a fuego suave 40 minutos. Deja que se enfríe en el escabeche al menos 12 horas.
+
+*Notas:* Se conserva una semana en la nevera, cubierto con su escabeche. Mejor de un día para otro. El reposo no cuenta en el tiempo. Parte del aceite queda en el escabeche.
+
+## 943. Faisán estofado, cocinado
+
+`faisan-estofado` · Carnes · 4 raciones de 325 g · 120 min · por ración: 520 kcal, P 53 g, C 3,8 g, G 28,5 g
+
+**Ingredientes** (lote de 1300 g cocinado)
+
+- 900 g · Faisán, carne y piel cruda
+- 150 g · Cebolla, cruda
+- 100 g · Zanahoria, cruda
+- 200 g · Vino tinto
+- 40 g · Aceite de oliva virgen extra
+- 1 g · Laurel, hojas
+- 200 g · Agua del grifo
+- 7 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 900 g de faisán, sazónalo y dóralo en 40 g de aceite. Sácalo.
+2. Pocha 150 g de cebolla y 100 g de zanahoria picadas 10 minutos.
+3. Vuelve a poner el faisán con 1 hoja de laurel, vierte 200 g de vino tinto y deja que se evapore. Añade 200 g de agua.
+4. Tapa y cuece a fuego suave 1 hora y cuarto, hasta que esté tierno.
+
+## 944. Pato a la naranja, cocinado
+
+`pato-naranja` · Carnes · 4 raciones de 275 g · 120 min · por ración: 809 kcal, P 44,1 g, C 16,7 g, G 60,8 g
+
+**Ingredientes** (lote de 1100 g cocinado)
+
+- 1000 g · Pato, carne y piel cruda
+- 300 g · Zumo de naranja, fresco
+- 30 g · Azúcar blanco
+- 30 g · Aguardiente de vino tipo armañac o coñac
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 10 g · Almidón de maíz o fécula de maíz
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Sala 1.000 g de pato y ásalo 1 hora y cuarto, retirando la grasa que suelte.
+2. Carameliza 30 g de azúcar en un cazo, añade 300 g de zumo de naranja y cuece 10 minutos.
+3. Añade 30 g de coñac y 10 g de maicena disuelta en un poco de agua y cuece 2 minutos, hasta que espese. Añade 20 g de mantequilla.
+4. Trincha el pato y sírvelo con la salsa.
+
+*Notas:* Los 1.000 g son de carne con piel, sin huesos.
+
+## 945. Lomo de ciervo a la plancha, cocinado
+
+`ciervo-plancha` · Carnes · 2 raciones de 165 g · 20 min · por ración: 273 kcal, P 46 g, C 0 g, G 9,8 g
+
+**Ingredientes** (lote de 330 g cocinado)
+
+- 400 g · Ciervo, carne cruda
+- 10 g · Aceite de oliva virgen extra
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Saca 400 g de lomo de ciervo de la nevera 30 minutos antes y córtalo en medallones.
+2. Úntalos con 10 g de aceite y la sal.
+3. Hazlos en una plancha muy caliente 2 minutos por cada lado: el ciervo se seca si se pasa.
+4. Déjalos reposar 3 minutos antes de servir.
+
+## 946. Cochifrito de cordero, frito
+
+`cochifrito` · Carnes · 4 raciones de 175 g · 60 min · por ración: 402 kcal, P 40,5 g, C 2,3 g, G 25,4 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 800 g · Cordero, pierna cruda
+- 20 g · Ajo, crudo
+- 60 g · Aceite de oliva virgen extra
+- 20 g · Zumo de limón, casero
+- 5 g · Pimentón, polvo
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 800 g de pierna de cordero en trozos pequeños y sálalos.
+2. Fríelos en 60 g de aceite a fuego medio 15 minutos, hasta que estén dorados.
+3. Añade 20 g de ajo laminado y 5 g de pimentón y remueve 1 minuto.
+4. Añade 20 g de zumo de limón y un poco de agua, tapa y cuece 20 minutos, hasta que estén tiernos.
+
+*Notas:* Plato segoviano y navarro. Parte del aceite queda en la cazuela.
+
+## 947. Cordero al ajillo, cocinado
+
+`cordero-ajillo` · Carnes · 4 raciones de 180 g · 60 min · por ración: 474 kcal, P 37,1 g, C 2,4 g, G 33,7 g
+
+**Ingredientes** (lote de 720 g cocinado)
+
+- 800 g · Cordero, paletilla cruda
+- 30 g · Ajo, crudo
+- 50 g · Aceite de oliva virgen extra
+- 100 g · Vino blanco seco
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 800 g de paletilla de cordero y sálala.
+2. Dórala en 50 g de aceite 12 minutos.
+3. Añade 30 g de ajo laminado y dóralo 2 minutos.
+4. Vierte 100 g de vino blanco, tapa y cuece a fuego suave 30 minutos, hasta que esté tierno.
+
+*Notas:* Los 800 g son de carne con algo de hueso.
+
+## 948. Pavo relleno de Navidad, asado
+
+`pavo-relleno` · Carnes · 10 raciones de 260 g · 240 min · por ración: 503 kcal, P 60 g, C 10,9 g, G 22,9 g
+
+**Ingredientes** (lote de 2600 g cocinado)
+
+- 2500 g · Pavo, carne y piel cruda
+- 300 g · Ternera, carne picada 15 % MG, cruda
+- 100 g · Ciruela pasa, sin hueso, deshidratada
+- 100 g · Castaña, cruda
+- 100 g · Cebolla, cruda
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Vino dulce
+- 15 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 100 g de cebolla y pochala en 20 g de la mantequilla 8 minutos. Añade 300 g de carne picada y cocina 5 minutos. Mézclala con 100 g de ciruelas pasas y 100 g de castañas peladas troceadas.
+2. Precalienta el horno a 180 °C. Sala el pavo por dentro y por fuera y rellénalo; cose la abertura.
+3. Úntalo con el resto de la mantequilla, colócalo en una fuente y riégalo con 100 g de vino dulce.
+4. Ásalo unas 3 horas (40 minutos por kilo), regándolo con su jugo cada 30 minutos y tapándolo con papel de aluminio si se dora demasiado.
+5. Déjalo reposar 15 minutos antes de trinchar.
+
+*Notas:* Los 2.500 g son de carne con piel; el pavo entero con huesos pesa unos 4 kg.
+
+## 949. Lomo de cerdo relleno de ciruelas, asado
+
+`lomo-relleno-ciruelas` · Carnes · 5 raciones de 190 g · 90 min · por ración: 406 kcal, P 36,7 g, C 15 g, G 19,8 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 800 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 100 g · Ciruela pasa, sin hueso, deshidratada
+- 80 g · Panceta al natural, cruda
+- 100 g · Vino dulce
+- 100 g · Cebolla, cruda
+- 30 g · Aceite de oliva virgen extra
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Abre 800 g de lomo de cerdo en libro y sálalo.
+2. Cúbrelo con 80 g de panceta en lonchas y 100 g de ciruelas pasas, enróllalo y átalo.
+3. Dóralo en 30 g de aceite por todos los lados y colócalo en una fuente con 100 g de cebolla en pluma.
+4. Riega con 100 g de vino dulce y hornéalo a 180 °C 50 minutos.
+5. Tritura la cebolla con el jugo para la salsa y sirve el lomo en rodajas.
+
+## 950. Merluza a la bilbaína, cocinada
+
+`merluza-bilbaina` · Pescados · 3 raciones de 187 g · 25 min · por ración: 321 kcal, P 35,5 g, C 1 g, G 19,5 g
+
+**Ingredientes** (lote de 560 g cocinado)
+
+- 600 g · Merluza, cruda
+- 15 g · Ajo, crudo
+- 50 g · Aceite de oliva virgen extra
+- 2 g · Chile, crudo
+- 10 g · Vinagre de vino tinto
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 600 g de merluza en lomos y hazla a la plancha o al horno 8 minutos, con la piel hacia abajo.
+2. Dora 15 g de ajo laminado y 2 g de guindilla en 50 g de aceite.
+3. Vierte el refrito sobre la merluza.
+4. Añade 10 g de vinagre a la sartén caliente y viértelo también por encima.
+
+## 951. Bacalao gratinado con alioli, horneado
+
+`bacalao-gratinado-alioli` · Pescados · 4 raciones de 155 g · 30 min · por ración: 292 kcal, P 27,6 g, C 1,3 g, G 19,5 g
+
+**Ingredientes** (lote de 620 g cocinado)
+
+- 600 g · Bacalao, crudo
+- 100 g · Mayonesa (70% grasa mín.), envasada
+- 10 g · Ajo, crudo
+
+**Preparación**
+
+1. Precalienta el horno a 220 °C con el gratinador.
+2. Coloca 600 g de lomos de bacalao desalado en una fuente y hornéalos 8 minutos.
+3. Machaca 10 g de ajo y mézclalo con 100 g de mayonesa.
+4. Cubre el bacalao con el alioli y gratínalo 4 o 5 minutos, hasta que esté dorado.
+
+*Notas:* El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo.
+
+## 952. Salmón con salsa de eneldo, cocinado
+
+`salmon-eneldo` · Pescados · 4 raciones de 163 g · 25 min · por ración: 401 kcal, P 31,6 g, C 1,5 g, G 29,9 g
+
+**Ingredientes** (lote de 650 g cocinado)
+
+- 600 g · Salmón, de cría, crudo
+- 150 g · Nata, 30 % MG, fluida, UHT
+- 5 g · Eneldo, fresco
+- 15 g · Zumo de limón, casero
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 600 g de lomos de salmón y dóralos en una sartén antiadherente 3 minutos por cada lado. Sácalos.
+2. En la misma sartén, calienta 150 g de nata con 15 g de zumo de limón y 5 g de eneldo picado 3 minutos.
+3. Vuelve a poner el salmón 1 minuto en la salsa.
+
+## 953. Lubina a la sal, horneada
+
+`lubina-sal` · Pescados · 3 raciones de 267 g · 50 min · por ración: 287 kcal, P 63,7 g, C 3 g, G 2,3 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 1000 g · Lubina, cruda
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Deja 1.000 g de lubina entera limpia, sin escamar.
+2. Cubre el fondo de una fuente con sal gruesa humedecida con un poco de agua, coloca la lubina y cúbrela con más sal, apretando.
+3. Hornéala 30 minutos.
+4. Rompe la costra, quítale la piel y sirve los lomos.
+
+*Notas:* La sal de la costra no se come y no cuenta. Los 1.000 g son de pescado entero; la parte comestible es menor.
+
+## 954. Boquerones al ajillo, cocinados
+
+`boquerones-ajillo` · Pescados · 3 raciones de 143 g · 25 min · por ración: 341 kcal, P 31,4 g, C 1 g, G 23,5 g
+
+**Ingredientes** (lote de 430 g cocinado)
+
+- 500 g · Anchoa, cruda
+- 15 g · Ajo, crudo
+- 40 g · Aceite de oliva virgen extra
+- 5 g · Perejil, fresco
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 500 g de boquerones, quítales la cabeza y la espina y ábrelos en lomos.
+2. Dora 15 g de ajo laminado en 40 g de aceite.
+3. Añade los boquerones con la sal y cocínalos 2 minutos, moviendo la sartén.
+4. Espolvorea 5 g de perejil picado.
+
+## 955. Pijotas fritas, fritas
+
+`pijotas-fritas` · Pescados · 3 raciones de 157 g · 25 min · por ración: 347 kcal, P 30,8 g, C 12,8 g, G 19,1 g
+
+**Ingredientes** (lote de 470 g cocinado)
+
+- 500 g · Merluza, cruda
+- 50 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 50 g · Aceite de girasol
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 500 g de pijotas (merluzas pequeñas) y sécalas.
+2. Sálalas y pásalas por 50 g de harina.
+3. Fríelas enteras, con la cola metida en la boca si quieres, en aceite caliente 3 o 4 minutos. Escúrrelas.
+
+*Notas:* Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 956. Pulpo a la plancha con pimentón, cocinado
+
+`pulpo-plancha` · Mariscos · 3 raciones de 127 g · 60 min · por ración: 183 kcal, P 26 g, C 2,2 g, G 7,8 g
+
+**Ingredientes** (lote de 380 g cocinado)
+
+- 600 g · Pulpo, crudo
+- 20 g · Aceite de oliva virgen extra
+- 3 g · Pimentón, polvo
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 600 g de pulpo limpio (mejor congelado y descongelado) en agua hirviendo 40 minutos, hasta que esté tierno. Escúrrelo y sécalo.
+2. Separa las patas y márcalas en una plancha muy caliente con 10 g del aceite 3 minutos, hasta que estén tostadas.
+3. Sírvelo con el resto del aceite, 3 g de pimentón y la sal.
+
+## 957. Almejas en salsa verde, cocinadas
+
+`almejas-salsa-verde` · Mariscos · 3 raciones de 183 g · 45 min · por ración: 256 kcal, P 19,8 g, C 7,9 g, G 14,5 g
+
+**Ingredientes** (lote de 550 g cocinado)
+
+- 500 g · Almeja, navaja o pipa, cruda
+- 10 g · Ajo, crudo
+- 10 g · Perejil, fresco
+- 10 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 80 g · Vino blanco seco
+- 30 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pon 500 g de almejas en agua con sal 30 minutos para que suelten la arena.
+2. Dora 10 g de ajo picado en 30 g de aceite. Añade 10 g de harina y remueve 1 minuto.
+3. Vierte 80 g de vino blanco y un poco de agua y cuece 2 minutos.
+4. Añade las almejas y 10 g de perejil picado, tapa y cuece 3 minutos, moviendo la cazuela, hasta que se abran.
+
+*Notas:* Los 500 g son con concha.
+
+## 958. Mariscada cocida, lista para consumir
+
+`mariscada-cocida` · Mariscos · 3 raciones de 350 g · 40 min · por ración: 353 kcal, P 63,9 g, C 8,5 g, G 7,1 g
+
+**Ingredientes** (lote de 1050 g cocinado)
+
+- 300 g · Gamba o langostino, crudo
+- 300 g · Mejillón de Mediterráneo, crudo
+- 200 g · Almeja, navaja o pipa, cruda
+- 250 g · Cangrejo, crudo
+- 150 g · Cigala, cruda
+- 10 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pon a hervir una olla grande de agua con 70 g de sal por litro (la sal de la formulación es la que absorbe el marisco).
+2. Cuece los cangrejos (250 g) 8 minutos, las cigalas (150 g) 2 minutos y los langostinos (300 g) 2 minutos, por separado. Enfríalos en agua con hielo.
+3. Abre al vapor 300 g de mejillones y 200 g de almejas, tapados, 3 minutos.
+4. Sírvelo todo en una fuente.
+
+*Notas:* Los pesos son del marisco limpio o con concha según se compra; la sal del agua de cocción no se come.
+
+## 959. Hamburguesas de pavo caseras, a la plancha, cocinadas
+
+`hamburguesa-pavo-casera` · Carnes · 3 raciones de 147 g · 30 min · por ración: 223 kcal, P 34,6 g, C 6,7 g, G 6,1 g
+
+**Ingredientes** (lote de 440 g cocinado)
+
+- 400 g · Pavo, escalopa cruda
+- 50 g · Cebolla, cruda
+- 30 g · Avena, cruda
+- 30 g · Huevo, clara, cruda
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Pica muy fino 400 g de pavo y 50 g de cebolla.
+2. Mézclalos con 30 g de copos de avena, 30 g de clara de huevo y la sal.
+3. Forma 3 hamburguesas y hazlas a la plancha con 10 g de aceite 5 minutos por cada lado.
+
+## 960. Kokotxas de merluza al pil pil, cocinadas
+
+`kokotxas-pil-pil` · Pescados · 3 raciones de 160 g · 25 min · por ración: 292 kcal, P 29,6 g, C 0,7 g, G 19 g
+
+**Ingredientes** (lote de 480 g cocinado)
+
+- 500 g · Merluza, cruda
+- 10 g · Ajo, crudo
+- 50 g · Aceite de oliva virgen extra
+- 5 g · Perejil, fresco
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Dora 10 g de ajo laminado en 50 g de aceite a fuego suave. Sácalo.
+2. Deja templar el aceite y pon 500 g de kokotxas de merluza saladas, con la piel hacia abajo.
+3. Mueve la cazuela en vaivén a fuego muy suave 6 u 8 minutos, sin parar, hasta que la gelatina ligue el aceite en una salsa.
+4. Añade el ajo y 5 g de perejil picado.
+
+*Notas:* La formulación usa merluza; las kokotxas tienen valores parecidos con algo más de colágeno.
+
+## 961. Pollo al ajo y limón, asado
+
+`pollo-ajo-limon` · Carnes · 4 raciones de 182 g · 60 min · por ración: 388 kcal, P 36,6 g, C 1,4 g, G 26 g
+
+**Ingredientes** (lote de 726 g cocinado)
+
+- 800 g · Pollo, muslo crudo
+- 20 g · Ajo, crudo
+- 50 g · Zumo de limón, casero
+- 30 g · Aceite de oliva virgen extra
+- 2 g · Tomillo, deshidratado
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Mezcla 20 g de ajo machacado, 50 g de zumo de limón, 30 g de aceite, 2 g de tomillo y la sal.
+2. Unta 800 g de muslos de pollo y déjalos 15 minutos.
+3. Precalienta el horno a 200 °C y ásalos 40 minutos, dándoles la vuelta a mitad, hasta que estén dorados.
+
+## 962. Muslos de pollo al romero, asados
+
+`pollo-romero-horno` · Carnes · 4 raciones de 164 g · 55 min · por ración: 360 kcal, P 36,4 g, C 0,6 g, G 23,5 g
+
+**Ingredientes** (lote de 654 g cocinado)
+
+- 800 g · Pollo, muslo crudo
+- 3 g · Romero, deshidratado
+- 10 g · Ajo, crudo
+- 20 g · Aceite de oliva virgen extra
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C.
+2. Unta 800 g de muslos de pollo con 20 g de aceite, 10 g de ajo machacado, 3 g de romero y la sal.
+3. Ásalos 40 minutos, dándoles la vuelta a mitad, hasta que la piel esté crujiente.
+
+## 963. Alitas de pollo al ajillo, cocinadas
+
+`alitas-ajillo` · Carnes · 4 raciones de 178 g · 45 min · por ración: 470 kcal, P 41,2 g, C 1,2 g, G 32 g
+
+**Ingredientes** (lote de 713 g cocinado)
+
+- 800 g · Pollo, ala, carne y piel cruda
+- 25 g · Ajo, crudo
+- 40 g · Aceite de oliva virgen extra
+- 80 g · Vino blanco seco
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Separa 800 g de alitas por la articulación y sálalas.
+2. Dóralas en 40 g de aceite a fuego medio 15 minutos.
+3. Añade 25 g de ajo laminado y dóralo 2 minutos.
+4. Vierte 80 g de vino blanco, tapa y cuece 10 minutos, hasta que estén hechas.
+
+*Notas:* Los 800 g son de alitas con hueso.
+
+## 964. Pollo a la miel y mostaza, asado
+
+`pollo-miel-mostaza` · Carnes · 4 raciones de 182 g · 55 min · por ración: 400 kcal, P 37 g, C 10,7 g, G 23,3 g
+
+**Ingredientes** (lote de 728 g cocinado)
+
+- 800 g · Pollo, muslo crudo
+- 50 g · Miel
+- 40 g · Mostaza
+- 15 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C.
+2. Mezcla 50 g de miel, 40 g de mostaza, 15 g de aceite y la sal.
+3. Unta 800 g de muslos de pollo con la mezcla y colócalos en una fuente.
+4. Ásalos 40 minutos, pintándolos con su jugo a mitad, hasta que estén glaseados.
+
+## 965. Pechuga de pollo empanada al horno, horneada
+
+`pechuga-empanada-horno` · Carnes · 4 raciones de 141 g · 35 min · por ración: 276 kcal, P 33,1 g, C 14,9 g, G 8,7 g
+
+**Ingredientes** (lote de 564 g cocinado)
+
+- 500 g · Pollo, pechuga sin piel cruda
+- 60 g · Huevo crudo
+- 80 g · Pan rallado
+- 20 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Abre 500 g de pechuga de pollo en filetes finos y sálalos.
+2. Pásalos por 60 g de huevo (1 huevo) batido y luego por 80 g de pan rallado.
+3. Colócalos en una bandeja con papel, rocíalos con 20 g de aceite y hornéalos 20 minutos, dándoles la vuelta a mitad.
+
+## 966. Pollo al pimentón, asado
+
+`pollo-pimenton` · Carnes · 4 raciones de 171 g · 55 min · por ración: 388 kcal, P 36,7 g, C 0,9 g, G 26,2 g
+
+**Ingredientes** (lote de 685 g cocinado)
+
+- 800 g · Pollo, muslo crudo
+- 10 g · Pimentón, polvo
+- 10 g · Ajo, crudo
+- 30 g · Aceite de oliva virgen extra
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C.
+2. Mezcla 10 g de pimentón, 10 g de ajo machacado, 30 g de aceite y la sal.
+3. Unta 800 g de muslos de pollo y ásalos 40 minutos, dándoles la vuelta a mitad.
+
+## 967. Pollo tandoori, asado
+
+`pollo-tandoori` · Carnes · 4 raciones de 198 g · 75 min · por ración: 342 kcal, P 38,2 g, C 1,8 g, G 19,6 g
+
+**Ingredientes** (lote de 793 g cocinado)
+
+- 800 g · Pollo, muslo crudo
+- 150 g · Yogur o leche fermentada, natural
+- 15 g · Curry, polvo
+- 20 g · Zumo de limón, casero
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Haz unos cortes en 800 g de muslos de pollo sin piel.
+2. Mezcla 150 g de yogur, 15 g de curry, 20 g de zumo de limón y la sal y unta el pollo. Déjalo en la nevera al menos 30 minutos.
+3. Precalienta el horno a 220 °C y ásalo sobre una rejilla 35 minutos, hasta que esté tostado por los bordes.
+
+*Notas:* Tradicionalmente se usa garam masala y colorante; el curry lo imita.
+
+## 968. Lomo de cerdo al horno, asado
+
+`lomo-horno` · Carnes · 5 raciones de 172 g · 75 min · por ración: 349 kcal, P 42 g, C 1 g, G 18,6 g
+
+**Ingredientes** (lote de 861 g cocinado)
+
+- 1000 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 10 g · Ajo, crudo
+- 30 g · Aceite de oliva virgen extra
+- 100 g · Vino blanco seco
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Unta 1.000 g de lomo de cerdo en una pieza con 10 g de ajo machacado, 30 g de aceite y la sal.
+2. Colócalo en una fuente y riégalo con 100 g de vino blanco.
+3. Ásalo 55 minutos, regándolo con su jugo de vez en cuando.
+4. Déjalo reposar 10 minutos y córtalo en lonchas.
+
+## 969. Lomo de cerdo con leche, cocinado
+
+`lomo-leche` · Carnes · 6 raciones de 204 g · 90 min · por ración: 320 kcal, P 38 g, C 5,6 g, G 16,4 g
+
+**Ingredientes** (lote de 1221 g cocinado)
+
+- 1000 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 500 g · Leche entera, UHT
+- 100 g · Cebolla, cruda
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 1.000 g de lomo de cerdo en una pieza y dóralo en 20 g de mantequilla por todos los lados.
+2. Añade 100 g de cebolla picada y pochala 8 minutos.
+3. Vierte 500 g de leche, tapa y cuece a fuego suave 1 hora, dándole la vuelta de vez en cuando.
+4. Saca el lomo y tritura la salsa. Sírvelo en lonchas con la salsa.
+
+## 970. Lomo de cerdo a la naranja, cocinado
+
+`lomo-naranja` · Carnes · 4 raciones de 219 g · 40 min · por ración: 372 kcal, P 42,3 g, C 10,5 g, G 17,7 g
+
+**Ingredientes** (lote de 877 g cocinado)
+
+- 800 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 250 g · Zumo de naranja, fresco
+- 20 g · Miel
+- 20 g · Aceite de oliva virgen extra
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 800 g de lomo de cerdo en filetes gruesos, sálalos y dóralos en 20 g de aceite 2 minutos por cada lado. Sácalos.
+2. Vierte en la sartén 250 g de zumo de naranja y 20 g de miel y cuece 8 minutos, hasta que se reduzca a la mitad.
+3. Vuelve a poner el lomo 3 minutos en la salsa.
+
+## 971. Cerdo desmechado a la barbacoa (pulled pork), cocinado
+
+`pulled-pork` · Carnes · 5 raciones de 162 g · 300 min · por ración: 389 kcal, P 40 g, C 9,7 g, G 21 g
+
+**Ingredientes** (lote de 809 g cocinado)
+
+- 1000 g · Cerdo, paletilla, descarnada, desgrasada, deshuesada, cruda
+- 150 g · Salsa barbecue, envasada
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 150 °C. Sala 1.000 g de paleta o aguja de cerdo.
+2. Envuélvela en papel de aluminio y hornéala 4 horas y media, hasta que se deshaga con un tenedor.
+3. Desmenúzala con dos tenedores, quitando la grasa.
+4. Mézclala con 150 g de salsa barbacoa.
+
+*Notas:* Se sirve en bocadillo o con ensalada de col, que no están incluidos.
+
+## 972. Panceta al horno crujiente, asada
+
+`panceta-horno` · Carnes · 4 raciones de 131 g · 100 min · por ración: 538 kcal, P 33,2 g, C 2 g, G 44,2 g
+
+**Ingredientes** (lote de 524 g cocinado)
+
+- 800 g · Panceta al natural, cruda
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 160 °C. Haz cortes en la piel de 800 g de panceta en una pieza y frótala con la sal.
+2. Ásala con la piel hacia arriba sobre una rejilla 1 hora y cuarto.
+3. Sube el horno a 230 °C y ásala 15 minutos más, hasta que la piel esté crujiente.
+4. Déjala reposar 10 minutos y córtala.
+
+## 973. Costillas de cerdo al ajillo, cocinadas
+
+`costillas-ajillo` · Carnes · 4 raciones de 184 g · 50 min · por ración: 559 kcal, P 36,4 g, C 2,4 g, G 43,5 g
+
+**Ingredientes** (lote de 734 g cocinado)
+
+- 800 g · Cerdo, costillas crudas
+- 25 g · Ajo, crudo
+- 30 g · Aceite de oliva virgen extra
+- 80 g · Vino blanco seco
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 800 g de costillas de cerdo y sálalas.
+2. Dóralas en 30 g de aceite 15 minutos.
+3. Añade 25 g de ajo laminado y dóralo 2 minutos.
+4. Vierte 80 g de vino blanco, tapa y cuece a fuego suave 20 minutos.
+
+*Notas:* Los 800 g son de costillas con hueso.
+
+## 974. Ternera al ajillo, cocinada
+
+`ternera-ajillo` · Carnes · 4 raciones de 150 g · 30 min · por ración: 451 kcal, P 28,5 g, C 1,4 g, G 35,8 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 600 g · Vacuno, filete o bistec, crudo
+- 25 g · Ajo, crudo
+- 40 g · Aceite de oliva virgen extra
+- 80 g · Vino blanco seco
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 600 g de filete de ternera en tiras o dados y sálalos.
+2. Saltéalos en 40 g de aceite a fuego muy fuerte 3 minutos y sácalos.
+3. Dora 25 g de ajo laminado en el mismo aceite. Vierte 80 g de vino blanco y reduce 2 minutos.
+4. Vuelve a poner la carne 1 minuto.
+
+## 975. Entrecot a la pimienta, cocinado
+
+`entrecot-pimienta` · Carnes · 3 raciones de 186 g · 25 min · por ración: 552 kcal, P 33,7 g, C 2,6 g, G 43,6 g
+
+**Ingredientes** (lote de 557 g cocinado)
+
+- 500 g · Vacuno, entrecot, crudo
+- 150 g · Nata, 30 % MG, fluida, UHT
+- 5 g · Pimienta negra, polvo
+- 20 g · Aguardiente de vino tipo armañac o coñac
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 500 g de entrecot y presiona 5 g de pimienta molida gruesa sobre las dos caras.
+2. Hazlo en una sartén muy caliente sin aceite 2 o 3 minutos por cada lado. Sácalo.
+3. Vierte 20 g de coñac en la sartén y deja que se evapore. Añade 150 g de nata y cuece 2 minutos.
+4. Sirve la carne con la salsa.
+
+## 976. Entrecot al roquefort, cocinado
+
+`entrecot-roquefort` · Carnes · 3 raciones de 187 g · 25 min · por ración: 579 kcal, P 37,1 g, C 1,5 g, G 47,3 g
+
+**Ingredientes** (lote de 560 g cocinado)
+
+- 500 g · Vacuno, entrecot, crudo
+- 60 g · Queso Roquefort (queso de oveja)
+- 120 g · Nata, 30 % MG, fluida, UHT
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 500 g de entrecot y hazlo en una sartén muy caliente sin aceite 2 o 3 minutos por cada lado. Sácalo.
+2. En la misma sartén, a fuego suave, funde 60 g de roquefort con 120 g de nata, removiendo.
+3. Sirve la carne con la salsa.
+
+## 977. Hamburguesa de ternera con cebolla caramelizada, sin pan, cocinada
+
+`hamburguesa-cebolla-caramelizada` · Carnes · 1 ración de 213 g · 40 min · por ración: 471 kcal, P 31,4 g, C 12 g, G 32,8 g
+
+**Ingredientes** (lote de 213 g cocinado)
+
+- 150 g · Vacuno, carne picada 15 % MG, cruda
+- 100 g · Cebolla, cruda
+- 10 g · Aceite de oliva virgen extra
+- 5 g · Azúcar blanco
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 100 g de cebolla en pluma fina y pochala en 10 g de aceite a fuego muy suave 25 minutos. Añade 5 g de azúcar los últimos 5 minutos.
+2. Forma una hamburguesa con 150 g de carne picada y la sal.
+3. Hazla en una plancha muy caliente 3 o 4 minutos por cada lado y sírvela con la cebolla.
+
+## 978. Albóndigas de ternera al horno, horneadas
+
+`albondigas-ternera-horno` · Carnes · 4 raciones de 129 g · 35 min · por ración: 316 kcal, P 25,4 g, C 7,7 g, G 20,1 g
+
+**Ingredientes** (lote de 514 g cocinado)
+
+- 500 g · Ternera, carne picada 15 % MG, cruda
+- 50 g · Huevo crudo
+- 40 g · Pan rallado
+- 5 g · Ajo, crudo
+- 5 g · Perejil, fresco
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C.
+2. Mezcla 500 g de carne picada con 50 g de huevo (1 huevo pequeño), 40 g de pan rallado, 5 g de ajo y 5 g de perejil picados y la sal.
+3. Forma unas 24 albóndigas y colócalas en una bandeja con papel.
+4. Hornéalas 18 minutos, dándoles la vuelta a mitad.
+
+*Notas:* Salen unas 24 albóndigas: 6 por ración. Se pueden servir con salsa de tomate, que no está incluida.
+
+## 979. Ternera teriyaki, cocinada
+
+`ternera-teriyaki` · Carnes · 2 raciones de 197 g · 20 min · por ración: 582 kcal, P 39,4 g, C 9,1 g, G 43,2 g
+
+**Ingredientes** (lote de 394 g cocinado)
+
+- 400 g · Vacuno, filete o bistec, crudo
+- 40 g · Salsa de soja, envasada
+- 20 g · Miel
+- 5 g · Sésamo, grano
+- 15 g · Aceite de girasol
+
+**Preparación**
+
+1. Corta 400 g de filete de ternera en tiras.
+2. Mezcla 40 g de salsa de soja con 20 g de miel.
+3. Saltea la ternera en 15 g de aceite a fuego muy fuerte 2 minutos.
+4. Añade la salsa y saltea 1 minuto, hasta que glasee. Espolvorea 5 g de sésamo.
+
+*Notas:* No lleva sal: la soja ya la aporta.
+
+## 980. Cordero a la miel con romero, asado
+
+`cordero-miel` · Carnes · 4 raciones de 170 g · 90 min · por ración: 421 kcal, P 36,7 g, C 9,4 g, G 26,3 g
+
+**Ingredientes** (lote de 678 g cocinado)
+
+- 800 g · Cordero, paletilla cruda
+- 40 g · Miel
+- 3 g · Romero, deshidratado
+- 20 g · Aceite de oliva virgen extra
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Unta 800 g de paletilla de cordero troceada con 20 g de aceite, 3 g de romero y la sal.
+3. Ásala 50 minutos.
+4. Píntala con 40 g de miel y ásala 15 minutos más, hasta que esté glaseada.
+
+*Notas:* Los 800 g son de carne con algo de hueso.
+
+## 981. Pato con peras, cocinado
+
+`pato-peras` · Carnes · 4 raciones de 294 g · 100 min · por ración: 776 kcal, P 43,9 g, C 14,8 g, G 56,8 g
+
+**Ingredientes** (lote de 1175 g cocinado)
+
+- 1000 g · Pato, carne y piel cruda
+- 400 g · Pera, pulpa y piel, cruda
+- 100 g · Vino dulce
+- 6 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Trocea 1.000 g de pato, sálalo y dóralo con la piel hacia abajo a fuego medio 15 minutos, hasta que suelte la grasa. Tira la mayor parte.
+2. Añade 100 g de vino dulce y un poco de agua, tapa y cuece a fuego suave 45 minutos.
+3. Añade 400 g de peras peladas en cuartos y cuece 15 minutos más, hasta que estén tiernas.
+
+*Notas:* Plato catalán (ànec amb peres). Los 1.000 g son de carne con piel, sin huesos.
+
+## 982. Sardinas al horno con tomate, horneadas
+
+`sardinas-horno-tomate` · Pescados · 4 raciones de 220 g · 40 min · por ración: 330 kcal, P 29,9 g, C 4,1 g, G 21,7 g
+
+**Ingredientes** (lote de 880 g cocinado)
+
+- 600 g · Sardina, cruda
+- 300 g · Tomate redondo, crudo
+- 100 g · Cebolla, cruda
+- 30 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Corta 300 g de tomate y 100 g de cebolla en rodajas finas.
+2. Colócalos en una fuente con la mitad del aceite y de la sal y hornéalos 15 minutos.
+3. Coloca encima 600 g de sardinas limpias, riégalas con el resto del aceite y sazónalas.
+4. Hornea 12 minutos más.
+
+## 983. Boquerones al limón, fritos
+
+`boquerones-limon` · Pescados · 3 raciones de 188 g · 90 min · por ración: 434 kcal, P 32,6 g, C 13,6 g, G 27 g
+
+**Ingredientes** (lote de 563 g cocinado)
+
+- 500 g · Anchoa, cruda
+- 100 g · Zumo de limón, casero
+- 50 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 50 g · Aceite de girasol
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Limpia 500 g de boquerones y ábrelos en abanico, sin separar los lomos.
+2. Cúbrelos con 100 g de zumo de limón y déjalos macerar 1 hora.
+3. Escúrrelos, sécalos, sálalos y pásalos por 50 g de harina.
+4. Fríelos en aceite caliente 1 o 2 minutos y escúrrelos.
+
+*Notas:* Los 50 g de aceite son los que retienen al freír; en la sartén hace falta más. Parte del zumo de limón queda en el recipiente.
+
+## 984. Caballa en salsa de tomate, cocinada
+
+`caballa-tomate` · Pescados · 4 raciones de 241 g · 35 min · por ración: 391 kcal, P 28,3 g, C 4,5 g, G 28,2 g
+
+**Ingredientes** (lote de 965 g cocinado)
+
+- 600 g · Caballa, cruda
+- 400 g · Tomate, pelado, en conserva, escurrido
+- 100 g · Cebolla, cruda
+- 30 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 100 g de cebolla y pochala en 30 g de aceite 8 minutos.
+2. Añade 400 g de tomate pelado triturado y la sal y cuece 12 minutos.
+3. Añade 600 g de lomos de caballa y cuece 5 minutos, tapados.
+
+## 985. Bonito con aceite de oliva, a la plancha, cocinado
+
+`bonito-plancha-aove` · Pescados · 1 ración de 128 g · 10 min · por ración: 286 kcal, P 33,5 g, C 0 g, G 17 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 150 g · Bonito, crudo
+- 5 g · Aceite de oliva virgen extra
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Seca 150 g de bonito en rodaja con papel de cocina, úntalo con 5 g de aceite y sazónalo con la sal.
+2. Ponlo en una plancha o sartén muy caliente, primero por el lado de la piel, y hazlo 2 minutos por cada lado, hasta que la carne se separe con facilidad.
+
+## 986. Atún con pisto, cocinado
+
+`atun-pisto` · Pescados · 4 raciones de 222 g · 40 min · por ración: 306 kcal, P 31,3 g, C 5,9 g, G 17,1 g
+
+**Ingredientes** (lote de 888 g cocinado)
+
+- 500 g · Atún, crudo
+- 200 g · Calabacín, pulpa y piel, crudo
+- 100 g · Pimiento verde, crudo
+- 200 g · Tomate, pelado, en conserva, escurrido
+- 40 g · Aceite de oliva virgen extra
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta en dados 200 g de calabacín y 100 g de pimiento verde y pochalos en 30 g del aceite 12 minutos.
+2. Añade 200 g de tomate pelado triturado y la mitad de la sal y cuece 10 minutos.
+3. Sala 500 g de atún en tacos y márcalo en el resto del aceite 1 minuto por cada lado.
+4. Mézclalo con el pisto y cuece 2 minutos, sin que se seque.
+
+## 987. Salmón a la mostaza, cocinado
+
+`salmon-mostaza` · Pescados · 4 raciones de 169 g · 25 min · por ración: 414 kcal, P 32,3 g, C 1,8 g, G 31 g
+
+**Ingredientes** (lote de 675 g cocinado)
+
+- 600 g · Salmón, de cría, crudo
+- 40 g · Mostaza
+- 150 g · Nata, 30 % MG, fluida, UHT
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Sala 600 g de lomos de salmón y dóralos en una sartén antiadherente 3 minutos por cada lado. Sácalos.
+2. En la misma sartén, mezcla 40 g de mostaza con 150 g de nata y cuece 3 minutos.
+3. Vuelve a poner el salmón 1 minuto en la salsa.

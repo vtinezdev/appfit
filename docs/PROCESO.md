@@ -2864,3 +2864,17 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 **Cómo:** igual que las tandas anteriores, en la rama `feat/recetas-tandas`.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 260. Recetas: tanda 10 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas de las categorías Carnes, Pescados y Mariscos. En total hay 987 recetas con pasos. Entran:
+- piezas a la plancha con aceite de oliva;
+- brasas y parrilladas, asados, escabeches;
+- frituras (calamares a la andaluza, gambas a la gabardina, pijotas…);
+- guisos de pollo, cerdo, cordero, caza y pescado.
+
+**Cómo:**
+- Las piezas sueltas a la plancha (150 g con 5 g de aceite) comparten una plantilla de pasos.
+- Las notas dicen cuándo los gramos son con hueso o con concha. En los escabeches avisan de que parte del aceite queda en el líquido.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
