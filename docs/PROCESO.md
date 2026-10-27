@@ -2790,3 +2790,11 @@ Después, Víctor plantea que al añadir comida no se distingue una receta de un
 **Cómo:** `OrigenItem.receta` (lo pone `itemDesdeElegible`; el intérprete marca también las recetas propias) y `recetaDeItem` en `lib/alimentos.ts`; `ItemRevisionRow` con `onAbrirReceta`; `HojaReceta` con `gramosIniciales` y `onQuitar`; `AnadirComida` (`sustituirFila`, `abrirRecetaDeFila`). Detalle en `docs/features/nutricion.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos; `validar-recetas-anadir.cjs` con los dos casos de Escribir a 320 y 375 px, en claro y oscuro.
+
+## 254. Pastissets (2026-10-27)
+
+**Qué:** Víctor pide los pastissets, dulce típico catalán, en sus sabores habituales. Se añaden tres recetas al catálogo de típicos, con sus pasos: «Pastissets sin relleno», «de cabello de ángel» y «de chocolate» (24 por lote, una ración es un pastisset). Se encuentran también por «pastissets de Tortosa», «de cabell d'àngel» y «de xocolata».
+
+**Cómo:** entradas en `tipicos/recetas.json` (masa común de harina, aceite de oliva, anís y azúcar; criterio AppFit, sin transcribir cantidades de ninguna fuente) y pasos propios en `tipicos/preparaciones.json`. CIQUAL no tiene cabello de ángel: se calcula como calabaza espagueti cocida con azúcar y canela. El paquete sigue siendo 2026-10-28; pasa de 1972 a 1975 filas, y el cambio de filas basta para que el móvil lo reimporte.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.

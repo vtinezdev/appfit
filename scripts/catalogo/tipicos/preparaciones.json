@@ -4747,5 +4747,51 @@
       "Saltea las verduras con el resto del aceite y 5 g de ajo laminado 5 minutos.",
       "Devuelve el tofu, añade 30 g de salsa de soja y saltea 1 minuto. No lleva sal: la soja ya la aporta."
     ]
+  },
+  {
+    "id": "pastissets",
+    "raciones": 24,
+    "tiempoMin": 75,
+    "pasos": [
+      "Mezcla 150 g de aceite de oliva, 100 g de anís y 60 g de azúcar hasta que el azúcar se disuelva.",
+      "Añade 500 g de harina poco a poco y amasa solo hasta que la masa sea lisa y no se pegue. Tápala y déjala reposar 30 minutos.",
+      "Estira la masa a unos 3 mm y corta 24 círculos de unos 10 cm; junta los recortes y vuelve a estirarlos.",
+      "Dobla cada círculo por la mitad sin relleno, como una empanadilla vacía, y sella el borde con un tenedor.",
+      "Hornea a 180 °C, con calor arriba y abajo, unos 20 minutos, hasta que estén dorados.",
+      "Sácalos, espolvoréalos enseguida con los 20 g de azúcar restantes y deja que se enfríen en una rejilla."
+    ],
+    "notas": "Salen unos 24 pastissets: una ración es un pastisset. Se conservan una semana en una lata cerrada."
+  },
+  {
+    "id": "pastissets-cabell-angel",
+    "raciones": 24,
+    "tiempoMin": 150,
+    "pasos": [
+      "Para el cabello de ángel, trocea 800 g de calabaza espagueti pelada y sin pepitas y cuécela en agua 20 minutos, hasta que las hebras se separen.",
+      "Escúrrela bien, sepárala en hebras con un tenedor y cuécela a fuego suave con 400 g de azúcar y 2 g de canela unos 45 minutos, removiendo, hasta que quede brillante y espesa. Déjala enfriar.",
+      "Mezcla 150 g de aceite de oliva, 100 g de anís y 60 g de azúcar hasta que el azúcar se disuelva.",
+      "Añade 500 g de harina poco a poco y amasa solo hasta que la masa sea lisa y no se pegue. Tápala y déjala reposar 30 minutos.",
+      "Estira la masa a unos 3 mm y corta 24 círculos de unos 10 cm; junta los recortes y vuelve a estirarlos.",
+      "Pon una cucharada (unos 25 g) de cabello de ángel en el centro de cada círculo, sin llegar al borde.",
+      "Dobla cada círculo por la mitad y sella el borde haciendo un repulgo con los dedos o apretando con un tenedor.",
+      "Hornea a 180 °C, con calor arriba y abajo, unos 20 minutos, hasta que estén dorados.",
+      "Sácalos, espolvoréalos enseguida con los 20 g de azúcar restantes y deja que se enfríen en una rejilla."
+    ],
+    "notas": "Salen unos 24 pastissets: una ración es un pastisset. Se conservan una semana en una lata cerrada."
+  },
+  {
+    "id": "pastissets-chocolate",
+    "raciones": 24,
+    "tiempoMin": 80,
+    "pasos": [
+      "Mezcla 150 g de aceite de oliva, 100 g de anís y 60 g de azúcar hasta que el azúcar se disuelva.",
+      "Añade 500 g de harina poco a poco y amasa solo hasta que la masa sea lisa y no se pegue. Tápala y déjala reposar 30 minutos.",
+      "Estira la masa a unos 3 mm y corta 24 círculos de unos 10 cm; junta los recortes y vuelve a estirarlos.",
+      "Pon unos 12 g de chocolate negro troceado en el centro de cada círculo, sin llegar al borde.",
+      "Dobla cada círculo por la mitad y sella el borde haciendo un repulgo con los dedos o apretando con un tenedor.",
+      "Hornea a 180 °C, con calor arriba y abajo, unos 20 minutos, hasta que estén dorados.",
+      "Sácalos, espolvoréalos enseguida con los 20 g de azúcar restantes y deja que se enfríen en una rejilla."
+    ],
+    "notas": "Salen unos 24 pastissets: una ración es un pastisset. Se conservan una semana en una lata cerrada."
   }
 ]

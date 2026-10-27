@@ -6,9 +6,11 @@ sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
 ## Contenido actual
 
-1972 filas: 420 valores directos (57 USDA, 167 CoFID y 196 valores de referencia
-AppFit de alimentos sueltos) y 1552 recetas CIQUAL (61 hasta el 25 de octubre y
-1491 de las cuatro tandas manuales del 26, descritas al final). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
+1975 filas: 420 valores directos (57 USDA, 167 CoFID y 196 valores de referencia
+AppFit de alimentos sueltos) y 1555 recetas CIQUAL (61 hasta el 25 de octubre,
+1491 de las cuatro tandas manuales del 26, descritas al final, y los tres
+pastissets del 27: sin relleno, de cabello de ángel y de chocolate; el cabello de
+ángel se calcula como calabaza espagueti cocida con azúcar, porque CIQUAL no lo tiene). La ampliación del 25 de octubre añade 58 entradas frente a las 47 anteriores:
 28 directos aceptados y 30 recetas. No se añaden nuevas filas de vísceras;
 la caldereta de cordero incluye hígado como ingrediente de la receta citada.
 
