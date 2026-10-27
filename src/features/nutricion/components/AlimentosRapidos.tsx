@@ -8,9 +8,8 @@ import * as foodsRepo from '../data/foodsRepo'
 import type { AlimentoElegible } from '../lib/alimentos'
 import { IconButton } from '../../../shared/components/Button'
 import { SearchInput } from '../../../shared/components/Input'
-import SectionHeader from '../../../shared/components/SectionHeader'
 import ListaElegibles from './ListaElegibles'
-import ResultadosBusqueda from './ResultadosBusqueda'
+import ResultadosBusqueda, { TituloResultados } from './ResultadosBusqueda'
 import { EmptyState, LoadingState } from '../../../shared/components/StateMessage'
 
 interface Props {
@@ -18,6 +17,8 @@ interface Props {
   onElegir: (alimento: AlimentoElegible) => void
   /** Abre el escáner de códigos de barras. */
   onEscanear?: () => void
+  /** «Créalo tú» cuando no está lo buscado. */
+  onCrear?: (nombre: string) => void
 }
 
 const EN_LA_COMIDA: Record<Comida, string> = {
@@ -31,7 +32,7 @@ const EN_LA_COMIDA: Record<Comida, string> = {
  * Añadido rápido sin IA (funciona sin conexión): buscador y listas de selección. Sin búsqueda muestra lo que más
  * usas en esa comida (tuyo o del catálogo); con búsqueda, primero tus alimentos y después el catálogo.
  */
-export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props) {
+export default function AlimentosRapidos({ comida, onElegir, onEscanear, onCrear }: Props) {
   const [busqueda, setBusqueda] = useState('')
   const [categoria, setCategoria] = useState<FiltroCategoria>('todas')
   const hoy = todayISO()
@@ -60,13 +61,13 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear }: Props
       <FiltroCategoriaBusqueda valor={categoria} onChange={setCategoria} />
 
       {busqueda.trim() === '' && frecuentesFiltrados.length > 0 && (
-        <div className="space-y-1">
-          <SectionHeader variant="section">Frecuentes en {EN_LA_COMIDA[comida]}</SectionHeader>
+        <div className="space-y-2">
+          <TituloResultados texto={`Frecuentes en ${EN_LA_COMIDA[comida]}`} />
           <ListaElegibles alimentos={frecuentesFiltrados} onElegir={onElegir} />
         </div>
       )}
 
-      <ResultadosBusqueda categoria={categoria} busqueda={busqueda} onElegir={onElegir} frecuentes={idsCatalogo} />
+      <ResultadosBusqueda categoria={categoria} busqueda={busqueda} onElegir={onElegir} frecuentes={idsCatalogo} onCrear={onCrear} />
       {!busqueda.trim() && frecuentesFiltrados.length === 0 && <EmptyState title={categoria === 'todas' ? 'Busca tu primer alimento' : 'Sin frecuentes en esta categoría'} icon="search">{categoria === 'todas' ? 'Escribe su nombre. Los alimentos que uses aparecerán aquí para añadirlos más rápido.' : 'Escribe un nombre para buscar en tus alimentos y el catálogo, o elige otra categoría.'}</EmptyState>}
     </section>
   )

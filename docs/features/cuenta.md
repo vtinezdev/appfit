@@ -47,7 +47,7 @@ Proyecto de Supabase **AppFit** (ref `hygkysnhcpsezcfeoxwo`, Irlanda, eu-west-1,
 
 ## Mensajes al creador
 
-`cuenta/mensajes.ts` (`envioDisponible`, `enviarAlCreador`) manda con o sin sesión un mensaje a la tabla privada `mensajes_creador` por la función `enviar_mensaje_creador` (0027, [ADR 061](../decisiones/061-mensajes-al-creador.md)); `data/mensajesSupabase` se carga al enviar y traduce el freno del servidor («Has enviado varios mensajes seguidos…»). Lo usa Ajustes › Comunicar un problema (`app/DiagnosticoAjustes`) y lo usará «Proponer un alimento». **Leerlos:** en el panel de Supabase, Table Editor › `mensajes_creador` (más recientes arriba por `creado`; `leido` para marcar lo visto; `user_id` lleva a la cuenta en Authentication si se envió con sesión). Pendiente: Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor (prueba: `supabase/pruebas/mensajes_creador.sql`).
+`cuenta/mensajes.ts` (`envioDisponible`, `enviarAlCreador`) manda con o sin sesión un mensaje a la tabla privada `mensajes_creador` por la función `enviar_mensaje_creador` (0027, [ADR 061](../decisiones/061-mensajes-al-creador.md)); `data/mensajesSupabase` se carga al enviar y traduce el freno del servidor («Has enviado varios mensajes seguidos…»). Lo usa Ajustes › Comunicar un problema (`app/DiagnosticoAjustes`) y «Proponer un alimento» (Añadir comida › Buscar › «¿No está?», `nutricion/components/ProponerAlimentoSheet`). **Leerlos:** en el panel de Supabase, Table Editor › `mensajes_creador` (más recientes arriba por `creado`; `leido` para marcar lo visto; `user_id` lleva a la cuenta en Authentication si se envió con sesión). Pendiente: Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor (prueba: `supabase/pruebas/mensajes_creador.sql`).
 
 ## Pruebas
 

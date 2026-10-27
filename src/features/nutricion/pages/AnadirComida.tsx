@@ -353,7 +353,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                     </ListGroup>
                   </>}
                 </>}
-                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)} />}
+                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)} onCrear={(nombre) => { setErrorGuardar(null); abrirRevision([itemSinCoincidencia(nombre.charAt(0).toLocaleUpperCase('es') + nombre.slice(1), 100)]) }} />}
                 {!platoDestino && !soloTipica && metodo !== 'describir' && <div className="border-t border-line pt-3">
                   <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}>Solo registrar calorías</Button>
                 </div>}
