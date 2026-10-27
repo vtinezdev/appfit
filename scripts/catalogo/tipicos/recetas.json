@@ -51458,5 +51458,109 @@
         "gramos": 30
       }
     ]
+  },
+  {
+    "id": "pastissets",
+    "nombre": "Pastissets sin relleno, horneados",
+    "alias": [
+      "pastissets",
+      "pastissets de Tortosa",
+      "pastissets normals"
+    ],
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos típicos españoles (2026-10-27). Formulación, gramajes y peso final objetivo: criterio AppFit de repostería doméstica catalana, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; el peso final estima el agua y el alcohol evaporados al hornear. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 720,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 150
+      },
+      {
+        "ciqual": "1000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 80
+      }
+    ]
+  },
+  {
+    "id": "pastissets-cabell-angel",
+    "nombre": "Pastissets de cabello de ángel, horneados",
+    "alias": [
+      "pastissets de cabell d'àngel",
+      "pastissets de cabello de ángel"
+    ],
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos típicos españoles (2026-10-27). Formulación, gramajes y peso final objetivo: criterio AppFit de repostería doméstica catalana, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; el peso final estima el agua y el alcohol evaporados al hornear. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor. CIQUAL no tiene cabello de ángel: se calcula como calabaza espagueti (la más parecida a la cidra) cocida con azúcar hasta reducirla a la mitad.",
+    "pesoFinalG": 1320,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 150
+      },
+      {
+        "ciqual": "1000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 80
+      },
+      {
+        "ciqual": "20145",
+        "gramos": 800
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 400
+      },
+      {
+        "ciqual": "11025",
+        "gramos": 2
+      }
+    ]
+  },
+  {
+    "id": "pastissets-chocolate",
+    "nombre": "Pastissets de chocolate, horneados",
+    "alias": [
+      "pastissets de xocolata",
+      "pastissets de chocolate"
+    ],
+    "categoria": "Galletas, bollería y pasteles",
+    "referencia": "Lote manual de platos típicos españoles (2026-10-27). Formulación, gramajes y peso final objetivo: criterio AppFit de repostería doméstica catalana, sin transcribir cantidades de ninguna fuente ni referencia individual contrastada. Gramos netos comestibles; el peso final estima el agua y el alcohol evaporados al hornear. Sin factores de retención. Pendiente de contraste mediante pesada por Víctor.",
+    "pesoFinalG": 1020,
+    "ingredientes": [
+      {
+        "ciqual": "9440",
+        "gramos": 500
+      },
+      {
+        "ciqual": "17270",
+        "gramos": 150
+      },
+      {
+        "ciqual": "1000",
+        "gramos": 100
+      },
+      {
+        "ciqual": "31016",
+        "gramos": 80
+      },
+      {
+        "ciqual": "31085",
+        "gramos": 300
+      }
+    ]
   }
 ]

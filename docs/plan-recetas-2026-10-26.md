@@ -1,6 +1,6 @@
 # Plan: recetas con preparación (prototipo)
 
-Fecha: 2026-10-26. Estado (2026-10-27): **etapas 1 y 2b hechas, etapa 2 a medias y etapa 4 en curso**: 400 recetas con pasos; las 1.552 recetas del catálogo llegan al móvil con su formulación y preparación; recetas marcadas en Buscar, hoja de receta, «Cambiar ingredientes» y variantes (ver § Etapa 2b, Hecho). **Fase 1 hecha** en la rama `feat/recetas-prototipo` (sin fusionar). Víctor ha visto las capturas y **aprueba seguir**, con las decisiones de abajo; además amplía el alcance al **recetario del catálogo** (las 1.552 recetas de típicos), con pasos escritos por tandas. La siguiente sesión empieza por § Handoff.
+Fecha: 2026-10-26. Estado (2026-10-27): **etapas 1 y 2b hechas, etapa 2 a medias y etapa 4 en curso**: 403 recetas con pasos; las 1.555 recetas del catálogo llegan al móvil con su formulación y preparación; recetas marcadas en Buscar, hoja de receta, «Cambiar ingredientes» y variantes (ver § Etapa 2b, Hecho). **Fase 1 hecha** en la rama `feat/recetas-prototipo` (sin fusionar). Víctor ha visto las capturas y **aprueba seguir**, con las decisiones de abajo; además amplía el alcance al **recetario del catálogo** (las 1.552 recetas de típicos), con pasos escritos por tandas. La siguiente sesión empieza por § Handoff.
 
 ## Mensaje para abrir la siguiente sesión (con Sonnet: `/model sonnet`)
 

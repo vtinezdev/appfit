@@ -1,6 +1,6 @@
 # Preparaciones de las recetas de típicos
 
-400 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
+403 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
 
 ## 1. Tortilla de patatas, con cebolla, cuajada
 
@@ -9077,3 +9077,77 @@
 3. Dora el tofu con 10 g del aceite a fuego fuerte 6 minutos. Sácalo.
 4. Saltea las verduras con el resto del aceite y 5 g de ajo laminado 5 minutos.
 5. Devuelve el tofu, añade 30 g de salsa de soja y saltea 1 minuto. No lleva sal: la soja ya la aporta.
+
+## 401. Pastissets sin relleno, horneados
+
+`pastissets` · Galletas, bollería y pasteles · 24 raciones de 30 g · 75 min · por ración: 155 kcal, P 1,8 g, C 19,4 g, G 6,4 g
+
+**Ingredientes** (lote de 720 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Aceite de oliva virgen extra
+- 100 g · Pastis (licor de anís)
+- 80 g · Azúcar blanco
+
+**Preparación**
+
+1. Mezcla 150 g de aceite de oliva, 100 g de anís y 60 g de azúcar hasta que el azúcar se disuelva.
+2. Añade 500 g de harina poco a poco y amasa solo hasta que la masa sea lisa y no se pegue. Tápala y déjala reposar 30 minutos.
+3. Estira la masa a unos 3 mm y corta 24 círculos de unos 10 cm; junta los recortes y vuelve a estirarlos.
+4. Dobla cada círculo por la mitad sin relleno, como una empanadilla vacía, y sella el borde con un tenedor.
+5. Hornea a 180 °C, con calor arriba y abajo, unos 20 minutos, hasta que estén dorados.
+6. Sácalos, espolvoréalos enseguida con los 20 g de azúcar restantes y deja que se enfríen en una rejilla.
+
+*Notas:* Salen unos 24 pastissets: una ración es un pastisset. Se conservan una semana en una lata cerrada.
+
+## 402. Pastissets de cabello de ángel, horneados
+
+`pastissets-cabell-angel` · Galletas, bollería y pasteles · 24 raciones de 55 g · 150 min · por ración: 232 kcal, P 2 g, C 37,8 g, G 6,6 g
+
+**Ingredientes** (lote de 1320 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Aceite de oliva virgen extra
+- 100 g · Pastis (licor de anís)
+- 80 g · Azúcar blanco
+- 800 g · Calabaza espagueti, pulpa sin piel, cruda
+- 400 g · Azúcar blanco
+- 2 g · Canela, polvo
+
+**Preparación**
+
+1. Para el cabello de ángel, trocea 800 g de calabaza espagueti pelada y sin pepitas y cuécela en agua 20 minutos, hasta que las hebras se separen.
+2. Escúrrela bien, sepárala en hebras con un tenedor y cuécela a fuego suave con 400 g de azúcar y 2 g de canela unos 45 minutos, removiendo, hasta que quede brillante y espesa. Déjala enfriar.
+3. Mezcla 150 g de aceite de oliva, 100 g de anís y 60 g de azúcar hasta que el azúcar se disuelva.
+4. Añade 500 g de harina poco a poco y amasa solo hasta que la masa sea lisa y no se pegue. Tápala y déjala reposar 30 minutos.
+5. Estira la masa a unos 3 mm y corta 24 círculos de unos 10 cm; junta los recortes y vuelve a estirarlos.
+6. Pon una cucharada (unos 25 g) de cabello de ángel en el centro de cada círculo, sin llegar al borde.
+7. Dobla cada círculo por la mitad y sella el borde haciendo un repulgo con los dedos o apretando con un tenedor.
+8. Hornea a 180 °C, con calor arriba y abajo, unos 20 minutos, hasta que estén dorados.
+9. Sácalos, espolvoréalos enseguida con los 20 g de azúcar restantes y deja que se enfríen en una rejilla.
+
+*Notas:* Salen unos 24 pastissets: una ración es un pastisset. Se conservan una semana en una lata cerrada.
+
+## 403. Pastissets de chocolate, horneados
+
+`pastissets-chocolate` · Galletas, bollería y pasteles · 24 raciones de 43 g · 80 min · por ración: 223 kcal, P 2,6 g, C 25,8 g, G 10,5 g
+
+**Ingredientes** (lote de 1020 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Aceite de oliva virgen extra
+- 100 g · Pastis (licor de anís)
+- 80 g · Azúcar blanco
+- 300 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+
+**Preparación**
+
+1. Mezcla 150 g de aceite de oliva, 100 g de anís y 60 g de azúcar hasta que el azúcar se disuelva.
+2. Añade 500 g de harina poco a poco y amasa solo hasta que la masa sea lisa y no se pegue. Tápala y déjala reposar 30 minutos.
+3. Estira la masa a unos 3 mm y corta 24 círculos de unos 10 cm; junta los recortes y vuelve a estirarlos.
+4. Pon unos 12 g de chocolate negro troceado en el centro de cada círculo, sin llegar al borde.
+5. Dobla cada círculo por la mitad y sella el borde haciendo un repulgo con los dedos o apretando con un tenedor.
+6. Hornea a 180 °C, con calor arriba y abajo, unos 20 minutos, hasta que estén dorados.
+7. Sácalos, espolvoréalos enseguida con los 20 g de azúcar restantes y deja que se enfríen en una rejilla.
+
+*Notas:* Salen unos 24 pastissets: una ración es un pastisset. Se conservan una semana en una lata cerrada.
