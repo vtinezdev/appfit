@@ -2824,3 +2824,17 @@ Después, Víctor plantea que al añadir comida no se distingue una receta de un
 - El paquete pasa a la versión 2026-10-30 para que el móvil lo reimporte.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 257. Recetas: tanda 7 de preparaciones (2026-10-27)
+
+**Qué:** pasos de los 100 platos preparados siguientes. En total hay 703 recetas con pasos. Entran:
+- cocina italiana, griega y de Oriente Medio (coq au vin, arancini, caponata, spanakopita, mjadara, harira…);
+- croquetas y tapas;
+- pescados en salsa y bacalaos (a la riojana, Gomes de Sá, dorado);
+- tápers, verduras rellenas, arroces, legumbres, cremas, ensaladas y platos combinados.
+
+Víctor pide no fusionar hasta terminar todas las tandas. Desde esta tanda van juntas en la rama `feat/recetas-tandas`.
+
+**Cómo:** igual que la tanda 6. El paquete sigue en la versión 2026-10-30, que aún no está publicada.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
