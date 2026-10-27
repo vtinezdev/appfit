@@ -71,6 +71,7 @@ export default function ModulosAjustes({ settings, onError }: { settings: Settin
             <span className={`min-w-0 flex-1 ${visible ? '' : 'opacity-50'}`}>
               <span className="block break-words text-body-sm font-semibold text-fg">{NOMBRE_TARJETA[t]}</span>
               {!visible && <span className="block text-caption text-fg-muted">Oculta con su módulo</span>}
+              {visible && t === 'metas' && <span className="block text-caption text-fg-muted">Solo con alguna meta en curso</span>}
             </span>
             <IconButton icon="chevron-left" className="rotate-90" variant="ghost" size="sm" label={`Subir ${NOMBRE_TARJETA[t]}`} disabled={i === 0}
               onClick={() => mover(t, -1)} />

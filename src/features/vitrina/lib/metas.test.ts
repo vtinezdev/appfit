@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Meta, SetEntry, Workout } from '../../../shared/db/types'
-import { estadoMetas, finDeMes, mejorCarga, metaDeEjercicio, metasCumplidas, proporcionMeta, textoPlazo, validarMeta, type DatosMetas } from './metas'
+import { type DatosMetas, type EstadoMeta, estadoMetas, finDeMes, mejorCarga, metaDeEjercicio, metasCumplidas, metasEnCurso, proporcionMeta, textoPlazo, validarMeta } from './metas'
 
 const ts = (iso: string) => new Date(`${iso}T10:00:00`).getTime()
 const w = (id: number, iso: string): Workout => ({ id, inicio: ts(iso), fin: ts(iso) + 3600000 })
@@ -60,5 +60,19 @@ describe('metas personales (B13)', () => {
     expect(validarMeta({ tipo: 'km-mes', valor: 80, mes: '2026-09' }, '2026-10-20')).toBe('Elige este mes o uno que venga.')
     expect(validarMeta({ tipo: 'semanas', valor: 0 }, '2026-10-20')).toMatch(/de 1 a 104/)
     expect(validarMeta({ tipo: 'semanas', valor: 4, fecha: '2026-10-01' }, '2026-10-20')).toBe('El plazo no puede estar en el pasado.')
+  })
+})
+
+describe('metasEnCurso (tarjeta de Inicio)', () => {
+  const estado = (id: string, progreso: number, objetivo: number, extra: Partial<EstadoMeta> = {}): EstadoMeta =>
+    ({ meta: { id, tipo: 'semanas', valor: objetivo, creada: '2026-10-01' }, titulo: id, progreso, objetivo, detalle: '', cumplida: null, sinCumplir: false, ...extra })
+
+  it('sin cumplidas ni pasadas de plazo, de la más cerca de cumplirse a la más lejos', () => {
+    const r = metasEnCurso([estado('a', 2, 10), estado('b', 8, 10), estado('c', 10, 10, { cumplida: '2026-10-20' }), estado('d', 9, 10, { sinCumplir: true }), estado('e', 1, 5)])
+    expect(r.map((e) => e.titulo)).toEqual(['b', 'a', 'e'])
+  })
+
+  it('sin metas en curso, vacía', () => {
+    expect(metasEnCurso([estado('c', 10, 10, { cumplida: '2026-10-20' })])).toEqual([])
   })
 })

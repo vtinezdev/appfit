@@ -28,24 +28,36 @@ export const conNutricionEfectiva = (s: Pick<Settings, 'modulos' | 'gamificacion
   moduloActivo(s, 'nutricion') && s.gamificacionConNutricion !== false
 
 /** Tarjetas de Inicio que se pueden ordenar. Peso, agua y pasos van juntas (agua y pasos, lado a lado). */
-export type TarjetaInicio = 'energia' | 'progreso' | 'registros' | 'creatina' | 'entreno'
+export type TarjetaInicio = 'energia' | 'progreso' | 'metas' | 'registros' | 'creatina' | 'entreno'
 
-export const TARJETAS_INICIO: readonly TarjetaInicio[] = ['energia', 'progreso', 'registros', 'creatina', 'entreno']
+export const TARJETAS_INICIO: readonly TarjetaInicio[] = ['energia', 'progreso', 'metas', 'registros', 'creatina', 'entreno']
 
 export const NOMBRE_TARJETA: Record<TarjetaInicio, string> = {
-  energia: 'Energía y comidas', progreso: 'Cumbres, Caminos, Ritmo y Vitrina', registros: 'Peso, agua y pasos', creatina: 'Creatina', entreno: 'Último entreno',
+  energia: 'Energía y comidas', progreso: 'Cumbres, Caminos, Ritmo y Vitrina', metas: 'Metas', registros: 'Peso, agua y pasos', creatina: 'Creatina', entreno: 'Último entreno',
 }
 
-/** El orden guardado, sin ids desconocidos ni repetidos y con las tarjetas que falten al final, en su orden por defecto. */
+/**
+ * El orden guardado, sin ids desconocidos ni repetidos; cada tarjeta que falte (una nueva, como Metas) entra justo detrás
+ * de la que la precede en el orden por defecto, o al principio si no hay ninguna.
+ */
 export function ordenTarjetas(s: Pick<Settings, 'ordenInicio'> | undefined): TarjetaInicio[] {
   const validas = new Set<string>(TARJETAS_INICIO)
-  const guardado = [...new Set(s?.ordenInicio ?? [])].filter((t): t is TarjetaInicio => validas.has(t))
-  return [...guardado, ...TARJETAS_INICIO.filter((t) => !guardado.includes(t))]
+  const orden = [...new Set(s?.ordenInicio ?? [])].filter((t): t is TarjetaInicio => validas.has(t))
+  TARJETAS_INICIO.forEach((t, i) => {
+    if (orden.includes(t)) return
+    const previa = i > 0 ? orden.indexOf(TARJETAS_INICIO[i - 1]) : -1
+    orden.splice(previa + 1, 0, t)
+  })
+  return orden
 }
 
-/** ¿Se ve la tarjeta con estos módulos? Registros, mientras quede peso, agua o pasos; Creatina, solo activada. */
-export function tarjetaVisible(s: Pick<Settings, 'modulos' | 'creatina'> | undefined, t: TarjetaInicio): boolean {
+/**
+ * ¿Se ve la tarjeta con estos módulos? Registros, mientras quede peso, agua o pasos; Creatina, solo activada; Metas, con la
+ * gamificación visible (además, la tarjeta solo sale si hay alguna meta en curso).
+ */
+export function tarjetaVisible(s: Pick<Settings, 'modulos' | 'creatina' | 'gamificacionVisible'> | undefined, t: TarjetaInicio): boolean {
   if (t === 'creatina') return s?.creatina?.activa === true
+  if (t === 'metas') return s?.gamificacionVisible !== false
   if (t === 'energia') return moduloActivo(s, 'nutricion')
   if (t === 'entreno') return moduloActivo(s, 'gym')
   if (t === 'registros') return moduloActivo(s, 'peso') || moduloActivo(s, 'agua') || moduloActivo(s, 'pasos')
@@ -53,7 +65,7 @@ export function tarjetaVisible(s: Pick<Settings, 'modulos' | 'creatina'> | undef
 }
 
 /** Tarjetas de Inicio en su orden, solo las visibles. */
-export const tarjetasInicio = (s: Pick<Settings, 'modulos' | 'ordenInicio' | 'creatina'> | undefined): TarjetaInicio[] =>
+export const tarjetasInicio = (s: Pick<Settings, 'modulos' | 'ordenInicio' | 'creatina' | 'gamificacionVisible'> | undefined): TarjetaInicio[] =>
   ordenTarjetas(s).filter((t) => tarjetaVisible(s, t))
 
 /** Mueve una tarjeta un puesto arriba (−1) o abajo (+1) en el orden completo; devuelve el orden nuevo para guardar. */

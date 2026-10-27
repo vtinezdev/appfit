@@ -22,3 +22,12 @@ export function mesesDelAnio(anio: number, hoy: string): { mes: number; semanas:
   }
   return meses
 }
+
+/**
+ * Las dos mitades de la barra de una semana (punto 19, C4): qué parte del plan de entrenos y de días con comidas se
+ * hizo, de 0 a 1 (lo de más no cuenta). `comidas` es `null` si la nutrición no cuenta esa semana.
+ */
+export function partesSemana(s: { entrenos: number; diasRegistrados: number | null; plan: { entrenos: number; diasRegistro: number } }): { entreno: number; comidas: number | null } {
+  const parte = (hecho: number, plan: number) => (plan <= 0 ? 1 : Math.min(1, hecho / plan))
+  return { entreno: parte(s.entrenos, s.plan.entrenos), comidas: s.diasRegistrados === null ? null : parte(s.diasRegistrados, s.plan.diasRegistro) }
+}

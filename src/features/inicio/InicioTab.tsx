@@ -23,6 +23,7 @@ import * as aguaRepo from './data/aguaRepo'
 import AccesoAgua from './components/AccesoAgua'
 import AccesoPasos from './components/AccesoPasos'
 import CreatinaHoy from './components/CreatinaHoy'
+import AccesoMetas from './components/AccesoMetas'
 import AccesoProgreso, { type DestinoProgreso } from './components/AccesoProgreso'
 import AguaSheet from './components/AguaSheet'
 import { AGUA_POR_DEFECTO_ML, formatAgua, resolverObjetivoAgua } from './lib/agua'
@@ -147,6 +148,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
           {moduloActivo(settings, 'pasos') && <AccesoPasos hoy={hoy} avisar={avisar} />}
         </div>}
       </div>
+      case 'metas': return <AccesoMetas hoy={hoy} onAbrir={() => onIrAProgreso('ritmo')} />
       case 'creatina': return <CreatinaHoy hoy={hoy} />
       case 'entreno': return <AccesoEntreno onAbrir={onIrAGym} />
     }
