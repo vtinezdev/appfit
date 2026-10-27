@@ -2930,3 +2930,11 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 **Cómo:** igual que las tandas anteriores.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 265. Recetas: tanda 15 de preparaciones (2026-10-27)
+
+**Qué:** pasos de las 93 recetas de «Pan y tostadas»: tostadas, bocadillos, sándwiches, tostas y montaditos, wraps, hamburguesas y panes caseros (focaccia, naan, grisines, bollos preñados). En total hay 1.462 recetas con pasos. Solo faltan las bebidas.
+
+**Cómo:** pasos cortos, una ración por unidad. Los que usan una elaboración previa lo dicen en las notas (pulpo cocido, bacalao desalado, cerdo desmechado, carnes del puchero).
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.

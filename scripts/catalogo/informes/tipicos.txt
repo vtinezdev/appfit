@@ -1,7 +1,7 @@
 Típicos 2026-10-30 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
 Vía 2 (directos): 420; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 1555, con preparación escrita: 1369; total: 1975
+Vía 3 (recetas): 1555, con preparación escrita: 1462; total: 1975
 Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 1930; pendientes: 0.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.

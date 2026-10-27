@@ -15714,5 +15714,939 @@
       "Hornéalas a 180 °C 15 minutos."
     ],
     "notas": "Dulce extremeño. Una ración es una perrunilla (unos 30 g)."
+  },
+  {
+    "id": "pan-tomate-aceite",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 100 g de pan en rebanadas.",
+      "Frota o unta encima 40 g de tomate maduro rallado.",
+      "Riega con 10 g de aceite y espolvorea la sal."
+    ]
+  },
+  {
+    "id": "pan-aceite",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 100 g de pan en rebanadas.",
+      "Riega con 10 g de aceite y espolvorea la sal."
+    ]
+  },
+  {
+    "id": "pan-tomate-jamon",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 100 g de pan y unta 40 g de tomate rallado.",
+      "Riega con 8 g de aceite.",
+      "Cubre con 30 g de jamón serrano en lonchas finas."
+    ],
+    "notas": "No lleva sal: el jamón ya la aporta."
+  },
+  {
+    "id": "picatostes",
+    "raciones": 4,
+    "tiempoMin": 15,
+    "pasos": [
+      "Corta 200 g de pan del día anterior en dados.",
+      "Fríelos en 40 g de aceite a fuego medio, removiendo, hasta que estén dorados.",
+      "Escúrrelos sobre papel."
+    ],
+    "notas": "Para sopas, cremas o gachas. Una ración son unos 55 g."
+  },
+  {
+    "id": "tostada-mantequilla-mermelada",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 100 g de pan.",
+      "Úntalo con 10 g de mantequilla y luego con 25 g de mermelada."
+    ]
+  },
+  {
+    "id": "tostada-aguacate-tomate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 100 g de pan.",
+      "Aplasta 60 g de aguacate con la sal y úntalo.",
+      "Cubre con 40 g de tomate en rodajas y riega con 5 g de aceite."
+    ]
+  },
+  {
+    "id": "pan-chocolate",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Corta 100 g de pan y pon dentro o encima 30 g de chocolate en onzas."
+    ],
+    "notas": "Merienda clásica; si quieres, caliéntalo para que el chocolate se funda un poco."
+  },
+  {
+    "id": "tostada-integral-aceite",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 100 g de pan integral.",
+      "Riega con 10 g de aceite y espolvorea la sal."
+    ]
+  },
+  {
+    "id": "tostada-integral-tomate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 100 g de pan integral.",
+      "Unta 40 g de tomate rallado, riega con 10 g de aceite y espolvorea la sal."
+    ]
+  },
+  {
+    "id": "tostada-aguacate-huevo",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Tuesta 70 g de pan.",
+      "Aplasta 60 g de aguacate con la sal y úntalo.",
+      "Fríe o escalfa 60 g de huevo (1 huevo) con 3 g de aceite y ponlo encima."
+    ]
+  },
+  {
+    "id": "bocadillo-crema-cacao",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Abre 120 g de pan y úntalo con 30 g de crema de cacao."
+    ]
+  },
+  {
+    "id": "tostada-pavo-queso-fresco",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan integral.",
+      "Úntalo con 30 g de queso fresco de untar.",
+      "Cubre con 40 g de pavo y 10 g de tomate en rodajas."
+    ]
+  },
+  {
+    "id": "tostada-salmon-aguacate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan.",
+      "Aplasta 50 g de aguacate con 5 g de zumo de limón y la sal y úntalo.",
+      "Cubre con 40 g de salmón ahumado."
+    ]
+  },
+  {
+    "id": "tostada-cacahuete-platano",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan integral.",
+      "Úntalo con 25 g de crema de cacahuete.",
+      "Cubre con 90 g de plátano en rodajas."
+    ]
+  },
+  {
+    "id": "tostada-huevo-revuelto",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Tuesta 60 g de pan.",
+      "Bate 110 g de huevo (2 huevos pequeños) con la sal y cuájalos en 5 g de aceite a fuego suave, removiendo.",
+      "Sirve el revuelto sobre la tostada."
+    ]
+  },
+  {
+    "id": "tostada-tomate-york",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan.",
+      "Unta 40 g de tomate rallado y riega con 5 g de aceite.",
+      "Cubre con 40 g de jamón cocido."
+    ]
+  },
+  {
+    "id": "tostada-queso-mermelada",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan.",
+      "Úntalo con 30 g de queso crema y luego con 25 g de mermelada."
+    ]
+  },
+  {
+    "id": "tosta-anchoas-pimientos",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 50 g de pan.",
+      "Cubre con 40 g de pimiento rojo asado en tiras.",
+      "Coloca encima 15 g de anchoas y riega con 8 g de aceite."
+    ],
+    "notas": "Con pimientos asados de bote es inmediato; si los asas tú, 45 minutos más."
+  },
+  {
+    "id": "tosta-escalivada-anchoas",
+    "raciones": 1,
+    "tiempoMin": 60,
+    "pasos": [
+      "Asa 30 g de berenjena, 30 g de pimiento rojo y 15 g de cebolla en el horno a 200 °C 40 minutos. Pélalos y córtalos en tiras.",
+      "Aliña con 10 g de aceite.",
+      "Tuesta 50 g de pan, cúbrelo con la escalivada y 12 g de anchoas."
+    ],
+    "notas": "Lo normal es asar más verdura de una vez y guardarla."
+  },
+  {
+    "id": "tosta-solomillo-queso",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Corta 70 g de solomillo de cerdo en medallones y hazlos a la plancha con 5 g de aceite y la sal 2 minutos por cada lado.",
+      "Tuesta 50 g de pan.",
+      "Coloca la carne y 20 g de queso de cabra encima y gratina 2 minutos."
+    ]
+  },
+  {
+    "id": "montadito-salmon",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Unta 50 g de pan con 20 g de queso fresco de untar.",
+      "Cubre con 25 g de salmón ahumado."
+    ]
+  },
+  {
+    "id": "tostada-aceite-azucar",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan.",
+      "Riega con 10 g de aceite y espolvorea 8 g de azúcar."
+    ]
+  },
+  {
+    "id": "tostada-mantequilla",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan y úntalo con 10 g de mantequilla."
+    ]
+  },
+  {
+    "id": "tostada-mantequilla-azucar",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan, úntalo con 10 g de mantequilla y espolvorea 8 g de azúcar."
+    ]
+  },
+  {
+    "id": "tostada-crema-cacao",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan y úntalo con 20 g de crema de cacao."
+    ]
+  },
+  {
+    "id": "tostada-hummus",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan y úntalo con 40 g de hummus."
+    ]
+  },
+  {
+    "id": "tostada-cabra-miel",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Tuesta 60 g de pan.",
+      "Cubre con 40 g de queso de cabra en rodajas y gratina 2 o 3 minutos.",
+      "Riega con 10 g de miel."
+    ]
+  },
+  {
+    "id": "tostada-francesa",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Bate 100 g de huevo (2 huevos pequeños) con 100 g de leche, 10 g de azúcar y 1 g de canela.",
+      "Empapa 120 g de pan de molde (4 rebanadas) en la mezcla.",
+      "Dóralas en 15 g de mantequilla a fuego medio 2 minutos por cada lado."
+    ],
+    "notas": "Se sirve con fruta o sirope, que no están incluidos."
+  },
+  {
+    "id": "sandwich-queso-fundido",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Pon 40 g de queso en lonchas entre 60 g de pan de molde (2 rebanadas).",
+      "Unta el pan por fuera con 10 g de mantequilla.",
+      "Dóralo en una sartén a fuego medio 3 minutos por cada lado, apretando, hasta que el queso se funda."
+    ]
+  },
+  {
+    "id": "sandwich-serrano-tomate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Unta 60 g de pan de molde con 40 g de tomate rallado y 5 g de aceite.",
+      "Rellena con 30 g de jamón serrano."
+    ]
+  },
+  {
+    "id": "mini-pizzas-pan-molde",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Precalienta el horno a 200 °C.",
+      "Unta 60 g de pan de molde (2 rebanadas) con 30 g de tomate triturado.",
+      "Cubre con 20 g de pavo, 20 g de emmental rallado y 1 g de orégano.",
+      "Hornéalas 8 minutos, hasta que el queso se funda."
+    ]
+  },
+  {
+    "id": "bocadillo-mortadela",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Abre 100 g de pan y rellénalo con 50 g de mortadela."
+    ]
+  },
+  {
+    "id": "arepa-queso",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Mezcla 100 g de harina de maíz precocida con 130 g de agua templada y la sal y amasa hasta que no se agriete.",
+      "Forma 2 arepas de 1,5 cm de grosor.",
+      "Hazlas en una sartén untada con 5 g de aceite a fuego medio 6 minutos por cada lado.",
+      "Ábrelas y rellénalas con 40 g de queso."
+    ]
+  },
+  {
+    "id": "focaccia",
+    "raciones": 8,
+    "tiempoMin": 150,
+    "pasos": [
+      "Disuelve 10 g de levadura en 350 g de agua templada. Mézclala con 500 g de harina y la sal hasta tener una masa muy húmeda.",
+      "Añade 20 g del aceite y amasa 5 minutos. Deja reposar tapada 1 hora y media.",
+      "Extiende la masa en una bandeja untada con 20 g del aceite y deja que crezca 30 minutos.",
+      "Hunde los dedos en la masa haciendo hoyos, riega con el resto del aceite y espolvorea 3 g de romero.",
+      "Hornéala a 220 °C 20 minutos."
+    ],
+    "notas": "Una ración son 100 g."
+  },
+  {
+    "id": "pan-ajo",
+    "raciones": 4,
+    "tiempoMin": 20,
+    "pasos": [
+      "Precalienta el horno a 200 °C.",
+      "Mezcla 50 g de mantequilla blanda con 10 g de ajo machacado y 5 g de perejil picado.",
+      "Corta 200 g de pan en rebanadas sin separarlas del todo y unta la mantequilla entre ellas.",
+      "Envuélvelo en papel de aluminio y hornéalo 10 minutos; destápalo y hornea 5 más."
+    ]
+  },
+  {
+    "id": "hamburguesa-pollo-pan",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Aplana 120 g de pechuga de pollo y hazla a la plancha con 3 g de aceite 4 minutos por cada lado.",
+      "Tuesta 70 g de pan de hamburguesa.",
+      "Monta con 15 g de mayonesa, 15 g de lechuga, 30 g de tomate y el pollo."
+    ]
+  },
+  {
+    "id": "hamburguesa-huevo-bacon",
+    "raciones": 1,
+    "tiempoMin": 20,
+    "pasos": [
+      "Forma una hamburguesa con 150 g de carne picada y hazla a la plancha 3 o 4 minutos por cada lado. Pon encima 20 g de cheddar al final.",
+      "Dora 30 g de panceta ahumada y fríe 50 g de huevo con 3 g de aceite.",
+      "Tuesta 70 g de pan y monta la hamburguesa con la panceta y el huevo."
+    ]
+  },
+  {
+    "id": "pan-avena-yogur",
+    "raciones": 8,
+    "tiempoMin": 55,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Tritura 300 g de copos de avena hasta hacer harina.",
+      "Mézclala con 250 g de yogur, 100 g de huevo (2 huevos pequeños), 10 g de levadura y la sal.",
+      "Vierte en un molde alargado y hornea 40 minutos.",
+      "Deja que se enfríe antes de cortarlo."
+    ],
+    "notas": "Una ración son unos 70 g."
+  },
+  {
+    "id": "crackers-semillas",
+    "raciones": 6,
+    "tiempoMin": 75,
+    "pasos": [
+      "Mezcla 50 g de chía, 50 g de sésamo, 50 g de lino, 150 g de agua y la sal. Deja reposar 15 minutos, hasta que espese.",
+      "Precalienta el horno a 160 °C. Extiende la mezcla muy fina sobre papel de horno.",
+      "Hornéala 30 minutos, márcala en cuadrados y hornéala 20 minutos más, hasta que esté seca y crujiente."
+    ],
+    "notas": "Una ración son unos 27 g."
+  },
+  {
+    "id": "banh-mi",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 120 g de cerdo en tiras y saltéalas con 10 g de salsa de soja 5 minutos.",
+      "Corta en tiras finas 50 g de zanahoria y 40 g de pepino (si tienes, encúrtelas 15 minutos en vinagre y azúcar).",
+      "Abre 150 g de pan (baguette) y úntalo con 15 g de mayonesa.",
+      "Rellénalo con el cerdo, las verduras y 5 g de cilantro."
+    ],
+    "notas": "El vinagre y el azúcar del encurtido rápido se escurren y no cuentan."
+  },
+  {
+    "id": "bruschetta",
+    "raciones": 4,
+    "tiempoMin": 20,
+    "pasos": [
+      "Corta 250 g de tomate en dados pequeños y mézclalos con 5 g de albahaca picada, 20 g del aceite y la sal.",
+      "Tuesta 200 g de pan en rebanadas.",
+      "Frótalas con 5 g de ajo y riégalas con el resto del aceite.",
+      "Cúbrelas con el tomate justo antes de servir."
+    ]
+  },
+  {
+    "id": "gyros-pita",
+    "raciones": 1,
+    "tiempoMin": 20,
+    "pasos": [
+      "Corta 120 g de cerdo en tiras finas y saltéalas con 5 g de aceite a fuego fuerte 5 minutos.",
+      "Mezcla 40 g de yogur con 20 g de pepino rallado.",
+      "Calienta 100 g de pan de pita y rellénalo con la carne, 40 g de tomate, 20 g de cebolla y la salsa."
+    ],
+    "notas": "Ajusta la sal al gusto."
+  },
+  {
+    "id": "bocadillo-lomo-pimientos",
+    "raciones": 1,
+    "tiempoMin": 20,
+    "pasos": [
+      "Fríe 50 g de pimiento verde en 5 g del aceite a fuego suave 8 minutos.",
+      "Haz 100 g de lomo a la plancha con el resto del aceite 2 minutos por cada lado.",
+      "Abre 120 g de pan y rellénalo con el lomo y los pimientos."
+    ]
+  },
+  {
+    "id": "bocadillo-pollo-queso-bacon",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Haz 100 g de pechuga de pollo a la plancha con 5 g de aceite 4 minutos por cada lado.",
+      "Dora 30 g de panceta ahumada.",
+      "Abre 120 g de pan y rellénalo con el pollo, la panceta y 30 g de queso; caliéntalo para que se funda."
+    ]
+  },
+  {
+    "id": "bocadillo-salmon-queso",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Abre 100 g de pan y úntalo con 30 g de queso de untar.",
+      "Rellénalo con 50 g de salmón ahumado."
+    ]
+  },
+  {
+    "id": "bocadillo-vegetal-atun",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Cuece 30 g de huevo (medio huevo) 10 minutos y córtalo en rodajas.",
+      "Abre 120 g de pan y úntalo con 15 g de mayonesa.",
+      "Rellénalo con 20 g de lechuga, 40 g de tomate en rodajas, 50 g de atún escurrido y el huevo."
+    ]
+  },
+  {
+    "id": "montadito-pringa",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Desmenuza la carne de un cocido: 50 g de morcillo, 15 g de tocino, 20 g de chorizo y 15 g de morcilla.",
+      "Mézclala bien hasta tener una pasta.",
+      "Rellena 80 g de pan y tuéstalo en la plancha apretando."
+    ],
+    "notas": "Se hace con las carnes sobrantes del puchero; los gramos son de carne cocida."
+  },
+  {
+    "id": "bocadillo-queso-tomate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Abre 100 g de pan, unta 40 g de tomate rallado y 5 g de aceite.",
+      "Rellénalo con 40 g de queso curado en lonchas."
+    ]
+  },
+  {
+    "id": "bocadillo-jamon-queso",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Abre 100 g de pan y rellénalo con 40 g de jamón serrano y 30 g de queso curado en lonchas."
+    ]
+  },
+  {
+    "id": "bocadillo-albondigas",
+    "raciones": 1,
+    "tiempoMin": 40,
+    "pasos": [
+      "Forma unas 5 albóndigas con 100 g de carne picada y dóralas en 5 g de aceite.",
+      "Añade 50 g de tomate triturado y cuece 15 minutos.",
+      "Abre 120 g de pan y rellénalo con las albóndigas y la salsa."
+    ],
+    "notas": "Ajusta la sal al gusto."
+  },
+  {
+    "id": "bocadillo-bonito-pimientos",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Abre 100 g de pan.",
+      "Rellénalo con 50 g de bonito o atún escurrido y 40 g de pimiento rojo asado en tiras."
+    ]
+  },
+  {
+    "id": "pulga-jamon-tomate",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Abre 50 g de pan (una pulga), unta 20 g de tomate rallado y 3 g de aceite.",
+      "Rellénala con 15 g de jamón serrano."
+    ]
+  },
+  {
+    "id": "sandwich-pollo-aguacate",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Haz 80 g de pechuga de pollo a la plancha y córtala en tiras.",
+      "Unta 60 g de pan de molde con 10 g de mayonesa.",
+      "Rellénalo con el pollo, 40 g de aguacate en láminas y 10 g de lechuga."
+    ]
+  },
+  {
+    "id": "sandwich-pavo-aguacate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Aplasta 40 g de aguacate y úntalo en 60 g de pan de molde.",
+      "Rellénalo con 40 g de pavo y 20 g de tomate en rodajas."
+    ]
+  },
+  {
+    "id": "croque-madame",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pon 30 g de pavo y 30 g de queso entre 60 g de pan de molde (2 rebanadas).",
+      "Unta el pan por fuera con 10 g de mantequilla y dóralo en una sartén 3 minutos por cada lado.",
+      "Fríe 60 g de huevo (1 huevo) y ponlo encima."
+    ]
+  },
+  {
+    "id": "wrap-pollo-cesar",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Haz 80 g de pechuga de pollo a la plancha y córtala en tiras.",
+      "Calienta 60 g de tortilla de trigo.",
+      "Rellénala con 30 g de lechuga, el pollo, 10 g de parmesano en lascas y 15 g de salsa césar, y enróllala."
+    ]
+  },
+  {
+    "id": "wrap-atun",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Calienta 60 g de tortilla de trigo.",
+      "Rellénala con 20 g de lechuga, 30 g de tomate, 50 g de atún escurrido, 20 g de maíz y 10 g de mayonesa.",
+      "Enróllala bien apretada."
+    ]
+  },
+  {
+    "id": "wrap-falafel",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Calienta 80 g de falafel en el horno o la sartén.",
+      "Calienta 60 g de tortilla de trigo.",
+      "Rellénala con 20 g de lechuga, 30 g de tomate, el falafel y 20 g de yogur, y enróllala."
+    ]
+  },
+  {
+    "id": "tosta-cabra-cebolla",
+    "raciones": 1,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pocha 50 g de cebolla en pluma en 5 g de aceite a fuego muy suave 20 minutos. Añade 5 g de azúcar los últimos 5 minutos.",
+      "Tuesta 60 g de pan.",
+      "Cubre con la cebolla y 40 g de queso de cabra y gratina 3 minutos."
+    ]
+  },
+  {
+    "id": "tosta-pisto-codorniz",
+    "raciones": 1,
+    "tiempoMin": 25,
+    "pasos": [
+      "Pica 50 g de calabacín y 20 g de pimiento verde y pochalos en 6 g del aceite 10 minutos. Añade 30 g de tomate rallado y cocina 5 minutos.",
+      "Fríe 20 g de huevos de codorniz (2 huevos) en el resto del aceite.",
+      "Tuesta 60 g de pan y cúbrelo con el pisto y los huevos."
+    ]
+  },
+  {
+    "id": "pan-blanco-casero",
+    "raciones": 8,
+    "tiempoMin": 180,
+    "pasos": [
+      "Disuelve 10 g de levadura en 330 g de agua templada.",
+      "Mezcla con 500 g de harina de fuerza, la sal y 10 g de aceite y amasa 10 minutos, hasta que la masa esté lisa y elástica.",
+      "Deja reposar tapada 1 hora y media, hasta que doble su volumen.",
+      "Dale forma de hogaza o barra, colócala en una bandeja y deja que crezca 45 minutos.",
+      "Haz unos cortes y hornea a 220 °C con un recipiente con agua en el horno 35 minutos. Deja que se enfríe en una rejilla."
+    ],
+    "notas": "Una ración son unos 100 g."
+  },
+  {
+    "id": "mini-hamburguesas",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Forma 6 minihamburguesas con 200 g de carne picada.",
+      "Hazlas a la plancha 2 minutos por cada lado y pon encima 40 g de queso repartido.",
+      "Tuesta 150 g de panecillos pequeños y monta las hamburguesas con 20 g de ketchup."
+    ],
+    "notas": "Salen 6: una ración son 2."
+  },
+  {
+    "id": "pizza-pita",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Precalienta el horno a 220 °C.",
+      "Unta 100 g de pan de pita con 30 g de tomate triturado.",
+      "Cubre con 20 g de pavo y 40 g de mozzarella.",
+      "Hornéala 8 minutos."
+    ]
+  },
+  {
+    "id": "tortos-maiz",
+    "raciones": 6,
+    "tiempoMin": 30,
+    "pasos": [
+      "Mezcla 300 g de harina de maíz con 300 g de agua templada y la sal hasta tener una masa que no se pegue.",
+      "Forma bolas de unos 90 g y aplánalas con las manos hasta 0,5 cm.",
+      "Fríelos en aceite caliente 2 minutos por cada lado, hasta que se inflen y doren. Escúrrelos."
+    ],
+    "notas": "Se sirven con picadillo, huevo o cabrales, que no están incluidos. Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "bocadillo-pavo-tomate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Abre 100 g de pan, unta 40 g de tomate rallado y 5 g de aceite.",
+      "Rellénalo con 50 g de pechuga de pavo."
+    ]
+  },
+  {
+    "id": "bocadillo-huevo-frito",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Fríe 60 g de huevo (1 huevo) en 10 g de aceite.",
+      "Abre 100 g de pan y mete el huevo dentro."
+    ]
+  },
+  {
+    "id": "bocadillo-panceta",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Haz 60 g de panceta en lonchas a la plancha hasta que esté dorada y crujiente.",
+      "Abre 100 g de pan y rellénalo con la panceta."
+    ]
+  },
+  {
+    "id": "bocadillo-salmon-aguacate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Aplasta 40 g de aguacate y úntalo en 100 g de pan.",
+      "Rellénalo con 40 g de salmón ahumado."
+    ]
+  },
+  {
+    "id": "bocadillo-pollo-curry",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Haz 100 g de pechuga de pollo a la plancha y córtala en tiras.",
+      "Mezcla 20 g de yogur con 2 g de curry y mézclalo con el pollo.",
+      "Abre 120 g de pan y rellénalo con 15 g de lechuga y el pollo."
+    ]
+  },
+  {
+    "id": "bocadillo-ensaladilla",
+    "raciones": 1,
+    "tiempoMin": 30,
+    "pasos": [
+      "Cuece 60 g de patata y 10 g de zanahoria en dados 15 minutos. Deja que se enfríen.",
+      "Mézclalas con 15 g de atún escurrido y 20 g de mayonesa.",
+      "Abre 100 g de pan y rellénalo con la ensaladilla."
+    ]
+  },
+  {
+    "id": "bocadillo-chorizo-queso",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Abre 100 g de pan y rellénalo con 40 g de chorizo en rodajas y 20 g de queso en lonchas."
+    ]
+  },
+  {
+    "id": "tosta-sardina-tomate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan y unta 30 g de tomate rallado.",
+      "Cubre con 40 g de sardinas en conserva escurridas."
+    ]
+  },
+  {
+    "id": "tosta-anchoas-queso",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan y úntalo con 25 g de queso de untar.",
+      "Cubre con 10 g de anchoas."
+    ]
+  },
+  {
+    "id": "tosta-morcilla-manzana",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Corta 30 g de manzana en láminas y dóralas en 5 g de aceite 3 minutos.",
+      "Dora 50 g de morcilla en rodajas en la misma sartén 2 minutos por cada lado.",
+      "Tuesta 60 g de pan y cúbrelo con la morcilla y la manzana."
+    ]
+  },
+  {
+    "id": "tosta-champinones",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Lamina 80 g de champiñones.",
+      "Dora 3 g de ajo laminado en 8 g de aceite y saltea los champiñones 5 minutos.",
+      "Tuesta 60 g de pan y cúbrelo con los champiñones."
+    ],
+    "notas": "Ajusta la sal al gusto."
+  },
+  {
+    "id": "tosta-berenjena-cabra",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Corta 60 g de berenjena en rodajas y hazlas a la plancha con 5 g de aceite 3 minutos por cada lado.",
+      "Tuesta 60 g de pan, cúbrelo con la berenjena y 30 g de queso de cabra y gratina 3 minutos.",
+      "Riega con 5 g de miel."
+    ]
+  },
+  {
+    "id": "montadito-pollo-alioli",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Haz 50 g de pechuga de pollo a la plancha y córtala en tiras.",
+      "Machaca 1 g de ajo y mézclalo con 10 g de mayonesa.",
+      "Abre 50 g de pan, úntalo con el alioli y rellénalo con el pollo."
+    ]
+  },
+  {
+    "id": "montadito-tortilla",
+    "raciones": 1,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 40 g de patata en láminas finas y fríela en 8 g de aceite a fuego suave 12 minutos.",
+      "Mézclala con 25 g de huevo batido y cuaja una tortilla pequeña.",
+      "Ponla sobre 40 g de pan."
+    ],
+    "notas": "Lo normal es hacer una tortilla entera y cortar porciones."
+  },
+  {
+    "id": "tosta-pulpo-patata",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Cuece 40 g de patata en rodajas 12 minutos.",
+      "Corta 50 g de pulpo cocido en rodajas.",
+      "Tuesta 60 g de pan y cúbrelo con la patata y el pulpo.",
+      "Riega con 8 g de aceite y espolvorea 1 g de pimentón."
+    ],
+    "notas": "Los 50 g son de pulpo ya cocido; cocerlo en casa lleva 40 minutos más."
+  },
+  {
+    "id": "tosta-bacalao-tomate",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Desmiga 50 g de bacalao desalado y saltéalo en 8 g de aceite 3 minutos.",
+      "Tuesta 60 g de pan y unta 30 g de tomate rallado.",
+      "Cubre con el bacalao."
+    ],
+    "notas": "El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo."
+  },
+  {
+    "id": "tosta-setas-jamon",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Saltea 70 g de setas troceadas en 8 g de aceite 5 minutos.",
+      "Añade 15 g de jamón en taquitos y saltea 1 minuto.",
+      "Tuesta 60 g de pan y cúbrelo con las setas."
+    ]
+  },
+  {
+    "id": "tostada-queso-fresco-miel",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan.",
+      "Úntalo con 50 g de queso batido y riega con 10 g de miel."
+    ]
+  },
+  {
+    "id": "tostada-cacahuete-fresas",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tuesta 60 g de pan.",
+      "Úntalo con 20 g de crema de cacahuete y cubre con 50 g de fresas en láminas."
+    ]
+  },
+  {
+    "id": "bollos-prenados",
+    "raciones": 8,
+    "tiempoMin": 150,
+    "pasos": [
+      "Disuelve 10 g de levadura en 230 g de agua templada. Mézclala con 400 g de harina, 20 g de aceite y la sal y amasa 10 minutos. Deja reposar 1 hora.",
+      "Corta 150 g de chorizo en 8 trozos.",
+      "Divide la masa en 8 bolas, aplánalas, pon un trozo de chorizo en cada una y ciérralas.",
+      "Deja que crezcan 40 minutos y hornéalos a 200 °C 20 minutos."
+    ],
+    "notas": "Típicos de La Rioja y Asturias. Una ración es un bollo (unos 90 g)."
+  },
+  {
+    "id": "galletas-queso",
+    "raciones": 12,
+    "tiempoMin": 45,
+    "pasos": [
+      "Mezcla 150 g de harina con 100 g de parmesano rallado y 100 g de mantequilla fría en dados hasta tener una masa.",
+      "Forma un cilindro y déjalo en la nevera 30 minutos.",
+      "Córtalo en rodajas finas y hornéalas a 180 °C 12 minutos."
+    ],
+    "notas": "Una ración son unos 26 g."
+  },
+  {
+    "id": "grisines-caseros",
+    "raciones": 12,
+    "tiempoMin": 90,
+    "pasos": [
+      "Disuelve 5 g de levadura en 140 g de agua templada. Mézclala con 250 g de harina, 30 g de aceite y la sal y amasa. Deja reposar 45 minutos.",
+      "Divide la masa en 24 trozos y estíralos en palitos finos.",
+      "Hornéalos a 200 °C 15 minutos, hasta que estén dorados y crujientes."
+    ],
+    "notas": "Una ración son 2 grisines (unos 30 g)."
+  },
+  {
+    "id": "naan-casero",
+    "raciones": 6,
+    "tiempoMin": 90,
+    "pasos": [
+      "Disuelve 5 g de levadura en 80 g de agua templada. Mézclala con 300 g de harina, 100 g de yogur y la sal y amasa. Deja reposar 1 hora.",
+      "Divide en 6 bolas y estíralas en óvalos.",
+      "Hazlos en una sartén muy caliente sin aceite 2 minutos por cada lado, hasta que se inflen y tengan manchas tostadas.",
+      "Píntalos con 20 g de mantequilla fundida."
+    ],
+    "notas": "Una ración es un naan (unos 75 g)."
+  },
+  {
+    "id": "croque-monsieur",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pon 30 g de pavo y la mitad de 30 g de queso entre 60 g de pan de molde.",
+      "Unta el pan por fuera con 10 g de mantequilla y dóralo en una sartén 3 minutos por cada lado.",
+      "Cubre con el resto del queso mezclado con 30 g de leche y gratina 3 minutos."
+    ],
+    "notas": "Tradicionalmente lleva bechamel por encima; aquí se simplifica con leche y queso."
+  },
+  {
+    "id": "hamburguesa-doble",
+    "raciones": 1,
+    "tiempoMin": 20,
+    "pasos": [
+      "Forma 2 hamburguesas con 250 g de carne picada y hazlas a la plancha 3 minutos por cada lado. Pon 20 g de cheddar sobre cada una al final.",
+      "Dora 30 g de panceta ahumada.",
+      "Tuesta 80 g de pan y monta con 15 g de ketchup, 15 g de lechuga, 30 g de tomate, las hamburguesas y la panceta."
+    ]
+  },
+  {
+    "id": "sandwich-pulled-pork",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Calienta 150 g de cerdo desmechado (ya cocinado) con 30 g de salsa barbacoa.",
+      "Corta 30 g de repollo en tiras finas y mézclalo con 10 g de mayonesa.",
+      "Tuesta 80 g de pan y rellénalo con la carne y la ensalada de col."
+    ],
+    "notas": "El cerdo desmechado se hace aparte (ver «Cerdo desmechado a la barbacoa»)."
+  },
+  {
+    "id": "pan-keto-almendra",
+    "raciones": 8,
+    "tiempoMin": 50,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Bate 200 g de huevo (4 huevos) con 50 g de mantequilla fundida.",
+      "Añade 200 g de almendra molida y 10 g de levadura y mezcla.",
+      "Vierte en un molde alargado y hornea 35 minutos."
+    ],
+    "notas": "Una ración son unos 50 g. Ajusta la sal al gusto."
+  },
+  {
+    "id": "sandwich-cacao-platano",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Unta 60 g de pan de molde con 20 g de crema de cacao.",
+      "Rellénalo con 50 g de plátano en rodajas."
+    ]
+  },
+  {
+    "id": "canapes-salmon",
+    "raciones": 4,
+    "tiempoMin": 15,
+    "pasos": [
+      "Quita la corteza a 80 g de pan de molde y corta cada rebanada en cuatro.",
+      "Tuéstalos ligeramente.",
+      "Úntalos con 40 g de queso de untar y cubre con 60 g de salmón ahumado."
+    ],
+    "notas": "Salen unos 12 canapés: una ración son 3."
   }
 ]

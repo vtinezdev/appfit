@@ -1,6 +1,6 @@
 # Preparaciones de las recetas de típicos
 
-1369 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
+1462 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
 
 ## 1. Tortilla de patatas, con cebolla, cuajada
 
@@ -29070,3 +29070,1631 @@
 4. Hornéalas a 180 °C 15 minutos.
 
 *Notas:* Dulce extremeño. Una ración es una perrunilla (unos 30 g).
+
+## 1370. Pan con tomate y aceite, listo para consumir
+
+`pan-tomate-aceite` · Pan y tostadas · 1 ración de 150 g · 5 min · por ración: 384 kcal, P 8,5 g, C 59,7 g, G 11,5 g
+
+**Ingredientes** (lote de 150 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Tomate redondo, crudo
+- 10 g · Aceite de oliva virgen extra
+- 0,5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tuesta 100 g de pan en rebanadas.
+2. Frota o unta encima 40 g de tomate maduro rallado.
+3. Riega con 10 g de aceite y espolvorea la sal.
+
+## 1371. Pan con aceite de oliva, listo para consumir
+
+`pan-aceite` · Pan y tostadas · 1 ración de 110 g · 5 min · por ración: 377 kcal, P 8,3 g, C 58,3 g, G 11,4 g
+
+**Ingredientes** (lote de 110 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 10 g · Aceite de oliva virgen extra
+- 0,3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tuesta 100 g de pan en rebanadas.
+2. Riega con 10 g de aceite y espolvorea la sal.
+
+## 1372. Pan con tomate y jamón serrano, listo para consumir
+
+`pan-tomate-jamon` · Pan y tostadas · 1 ración de 178 g · 5 min · por ración: 436 kcal, P 17,6 g, C 59,9 g, G 13,2 g
+
+**Ingredientes** (lote de 178 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Tomate redondo, crudo
+- 8 g · Aceite de oliva virgen extra
+- 30 g · Jamón seco Serrano
+
+**Preparación**
+
+1. Tuesta 100 g de pan y unta 40 g de tomate rallado.
+2. Riega con 8 g de aceite.
+3. Cubre con 30 g de jamón serrano en lonchas finas.
+
+*Notas:* No lleva sal: el jamón ya la aporta.
+
+## 1373. Picatostes, fritos
+
+`picatostes` · Pan y tostadas · 4 raciones de 58 g · 15 min · por ración: 233 kcal, P 4,2 g, C 29,2 g, G 10,7 g
+
+**Ingredientes** (lote de 230 g cocinado)
+
+- 200 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 200 g de pan del día anterior en dados.
+2. Fríelos en 40 g de aceite a fuego medio, removiendo, hasta que estén dorados.
+3. Escúrrelos sobre papel.
+
+*Notas:* Para sopas, cremas o gachas. Una ración son unos 55 g.
+
+## 1374. Tostada con mantequilla y mermelada, lista para consumir
+
+`tostada-mantequilla-mermelada` · Pan y tostadas · 1 ración de 135 g · 5 min · por ración: 424 kcal, P 8,4 g, C 73,5 g, G 9,8 g
+
+**Ingredientes** (lote de 135 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 10 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 25 g · Mermelada de fresa
+
+**Preparación**
+
+1. Tuesta 100 g de pan.
+2. Úntalo con 10 g de mantequilla y luego con 25 g de mermelada.
+
+## 1375. Tostada con aguacate y tomate, lista para consumir
+
+`tostada-aguacate-tomate` · Pan y tostadas · 1 ración de 205 g · 5 min · por ración: 461 kcal, P 9,5 g, C 59,7 g, G 18,9 g
+
+**Ingredientes** (lote de 205 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 60 g · Aguacate, pulpa sin piel, sin hueso, crudo
+- 40 g · Tomate redondo, crudo
+- 5 g · Aceite de oliva virgen extra
+- 0,5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tuesta 100 g de pan.
+2. Aplasta 60 g de aguacate con la sal y úntalo.
+3. Cubre con 40 g de tomate en rodajas y riega con 5 g de aceite.
+
+## 1376. Pan con chocolate, listo para consumir
+
+`pan-chocolate` · Pan y tostadas · 1 ración de 130 g · 2 min · por ración: 451 kcal, P 10,2 g, C 73,7 g, G 11,3 g
+
+**Ingredientes** (lote de 130 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 30 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+
+**Preparación**
+
+1. Corta 100 g de pan y pon dentro o encima 30 g de chocolate en onzas.
+
+*Notas:* Merienda clásica; si quieres, caliéntalo para que el chocolate se funda un poco.
+
+## 1377. Pan integral con aceite de oliva, listo para consumir
+
+`tostada-integral-aceite` · Pan y tostadas · 1 ración de 110 g · 5 min · por ración: 324 kcal, P 8,7 g, C 41,2 g, G 11,7 g
+
+**Ingredientes** (lote de 110 g cocinado)
+
+- 100 g · Pan integral (harina T150)
+- 10 g · Aceite de oliva virgen extra
+- 0,3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tuesta 100 g de pan integral.
+2. Riega con 10 g de aceite y espolvorea la sal.
+
+## 1378. Pan integral con tomate y aceite, listo para consumir
+
+`tostada-integral-tomate` · Pan y tostadas · 1 ración de 150 g · 5 min · por ración: 331 kcal, P 8,9 g, C 42,6 g, G 11,8 g
+
+**Ingredientes** (lote de 150 g cocinado)
+
+- 100 g · Pan integral (harina T150)
+- 40 g · Tomate redondo, crudo
+- 10 g · Aceite de oliva virgen extra
+- 0,5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tuesta 100 g de pan integral.
+2. Unta 40 g de tomate rallado, riega con 10 g de aceite y espolvorea la sal.
+
+## 1379. Tostada con aguacate y huevo, lista para consumir
+
+`tostada-aguacate-huevo` · Pan y tostadas · 1 ración de 185 g · 10 min · por ración: 434 kcal, P 14,5 g, C 40,9 g, G 22,2 g
+
+**Ingredientes** (lote de 185 g cocinado)
+
+- 70 g · Pan blanco (p. ej. baguette, hogaza)
+- 60 g · Aguacate, pulpa sin piel, sin hueso, crudo
+- 60 g · Huevo crudo
+- 3 g · Aceite de oliva virgen extra
+- 0,5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tuesta 70 g de pan.
+2. Aplasta 60 g de aguacate con la sal y úntalo.
+3. Fríe o escalfa 60 g de huevo (1 huevo) con 3 g de aceite y ponlo encima.
+
+## 1380. Bocadillo de crema de cacao, listo para consumir
+
+`bocadillo-crema-cacao` · Pan y tostadas · 1 ración de 150 g · 2 min · por ración: 509 kcal, P 11,5 g, C 87,3 g, G 11,4 g
+
+**Ingredientes** (lote de 150 g cocinado)
+
+- 120 g · Pan blanco (p. ej. baguette, hogaza)
+- 30 g · Crema para untar de chocolate y avellana
+
+**Preparación**
+
+1. Abre 120 g de pan y úntalo con 30 g de crema de cacao.
+
+## 1381. Tostada integral con pavo y queso fresco, lista para consumir
+
+`tostada-pavo-queso-fresco` · Pan y tostadas · 1 ración de 140 g · 5 min · por ración: 249 kcal, P 15,5 g, C 26 g, G 7,9 g
+
+**Ingredientes** (lote de 140 g cocinado)
+
+- 60 g · Pan integral (harina T150)
+- 40 g · Jamón de pavo o pechuga de pavo en loncha
+- 30 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 10 g · Tomate redondo, crudo
+
+**Preparación**
+
+1. Tuesta 60 g de pan integral.
+2. Úntalo con 30 g de queso fresco de untar.
+3. Cubre con 40 g de pavo y 10 g de tomate en rodajas.
+
+## 1382. Tostada de salmón ahumado y aguacate, lista para consumir
+
+`tostada-salmon-aguacate` · Pan y tostadas · 1 ración de 155 g · 5 min · por ración: 349 kcal, P 14,7 g, C 35,1 g, G 15,4 g
+
+**Ingredientes** (lote de 155 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Salmón ahumado
+- 50 g · Aguacate, pulpa sin piel, sin hueso, crudo
+- 5 g · Zumo de limón, casero
+- 0,3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tuesta 60 g de pan.
+2. Aplasta 50 g de aguacate con 5 g de zumo de limón y la sal y úntalo.
+3. Cubre con 40 g de salmón ahumado.
+
+## 1383. Tostada con crema de cacahuete y plátano, lista para consumir
+
+`tostada-cacahuete-platano` · Pan y tostadas · 1 ración de 175 g · 5 min · por ración: 380 kcal, P 11,8 g, C 46,8 g, G 14,1 g
+
+**Ingredientes** (lote de 175 g cocinado)
+
+- 60 g · Pan integral (harina T150)
+- 25 g · Crema de cacahuete o pasta de cacahuete
+- 90 g · Plátano, pulpa sin piel, cruda
+
+**Preparación**
+
+1. Tuesta 60 g de pan integral.
+2. Úntalo con 25 g de crema de cacahuete.
+3. Cubre con 90 g de plátano en rodajas.
+
+## 1384. Tostada con huevo revuelto, lista para consumir
+
+`tostada-huevo-revuelto` · Pan y tostadas · 1 ración de 170 g · 10 min · por ración: 371 kcal, P 19,1 g, C 35,1 g, G 16,6 g
+
+**Ingredientes** (lote de 170 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 110 g · Huevo crudo
+- 5 g · Aceite de oliva virgen extra
+- 0,5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Tuesta 60 g de pan.
+2. Bate 110 g de huevo (2 huevos pequeños) con la sal y cuájalos en 5 g de aceite a fuego suave, removiendo.
+3. Sirve el revuelto sobre la tostada.
+
+## 1385. Tostada con tomate y jamón cocido, lista para consumir
+
+`tostada-tomate-york` · Pan y tostadas · 1 ración de 145 g · 5 min · por ración: 269 kcal, P 13,6 g, C 36,7 g, G 7,1 g
+
+**Ingredientes** (lote de 145 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Tomate redondo, crudo
+- 40 g · Jamón cocido, superior
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Tuesta 60 g de pan.
+2. Unta 40 g de tomate rallado y riega con 5 g de aceite.
+3. Cubre con 40 g de jamón cocido.
+
+## 1386. Tostada con queso crema y mermelada, lista para consumir
+
+`tostada-queso-mermelada` · Pan y tostadas · 1 ración de 115 g · 5 min · por ración: 302 kcal, P 6,9 g, C 51,1 g, G 7,2 g
+
+**Ingredientes** (lote de 115 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 30 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 25 g · Mermelada de fresa
+
+**Preparación**
+
+1. Tuesta 60 g de pan.
+2. Úntalo con 30 g de queso crema y luego con 25 g de mermelada.
+
+## 1387. Tosta de anchoas con pimientos asados, lista para consumir
+
+`tosta-anchoas-pimientos` · Pan y tostadas · 1 ración de 112 g · 5 min · por ración: 259 kcal, P 8,3 g, C 31,5 g, G 10,5 g
+
+**Ingredientes** (lote de 112 g cocinado)
+
+- 50 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Pimiento rojo, crudo
+- 15 g · Anchoa, filetes, salados, al aceite, semiconserva, escurridos
+- 8 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Tuesta 50 g de pan.
+2. Cubre con 40 g de pimiento rojo asado en tiras.
+3. Coloca encima 15 g de anchoas y riega con 8 g de aceite.
+
+*Notas:* Con pimientos asados de bote es inmediato; si los asas tú, 45 minutos más.
+
+## 1388. Tosta de escalivada con anchoas, lista para consumir
+
+`tosta-escalivada-anchoas` · Pan y tostadas · 1 ración de 135 g · 60 min · por ración: 280 kcal, P 8 g, C 32,7 g, G 12,3 g
+
+**Ingredientes** (lote de 135 g cocinado)
+
+- 50 g · Pan blanco (p. ej. baguette, hogaza)
+- 30 g · Berenjena, cruda
+- 30 g · Pimiento rojo, crudo
+- 15 g · Cebolla, cruda
+- 12 g · Anchoa, filetes, salados, al aceite, semiconserva, escurridos
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Asa 30 g de berenjena, 30 g de pimiento rojo y 15 g de cebolla en el horno a 200 °C 40 minutos. Pélalos y córtalos en tiras.
+2. Aliña con 10 g de aceite.
+3. Tuesta 50 g de pan, cúbrelo con la escalivada y 12 g de anchoas.
+
+*Notas:* Lo normal es asar más verdura de una vez y guardarla.
+
+## 1389. Tosta de solomillo de cerdo con queso, lista para consumir
+
+`tosta-solomillo-queso` · Pan y tostadas · 1 ración de 135 g · 15 min · por ración: 332 kcal, P 22,8 g, C 29,4 g, G 13,2 g
+
+**Ingredientes** (lote de 135 g cocinado)
+
+- 50 g · Pan blanco (p. ej. baguette, hogaza)
+- 70 g · Cerdo, solomillo crudo
+- 20 g · Queso de cabra bûche
+- 5 g · Aceite de oliva virgen extra
+- 0,5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 70 g de solomillo de cerdo en medallones y hazlos a la plancha con 5 g de aceite y la sal 2 minutos por cada lado.
+2. Tuesta 50 g de pan.
+3. Coloca la carne y 20 g de queso de cabra encima y gratina 2 minutos.
+
+## 1390. Montadito de salmón ahumado y queso, listo para consumir
+
+`montadito-salmon` · Pan y tostadas · 1 ración de 95 g · 5 min · por ración: 235 kcal, P 11 g, C 29,8 g, G 7,5 g
+
+**Ingredientes** (lote de 95 g cocinado)
+
+- 50 g · Pan blanco (p. ej. baguette, hogaza)
+- 25 g · Salmón ahumado
+- 20 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+
+**Preparación**
+
+1. Unta 50 g de pan con 20 g de queso fresco de untar.
+2. Cubre con 25 g de salmón ahumado.
+
+## 1391. Tostada con aceite y azúcar, lista para consumir
+
+`tostada-aceite-azucar` · Pan y tostadas · 1 ración de 78 g · 5 min · por ración: 294 kcal, P 5 g, C 43 g, G 10,8 g
+
+**Ingredientes** (lote de 78 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 10 g · Aceite de oliva virgen extra
+- 8 g · Azúcar blanco
+
+**Preparación**
+
+1. Tuesta 60 g de pan.
+2. Riega con 10 g de aceite y espolvorea 8 g de azúcar.
+
+## 1392. Tostada con mantequilla, lista para consumir
+
+`tostada-mantequilla` · Pan y tostadas · 1 ración de 70 g · 5 min · por ración: 248 kcal, P 5 g, C 35,1 g, G 9,1 g
+
+**Ingredientes** (lote de 70 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 10 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Tuesta 60 g de pan y úntalo con 10 g de mantequilla.
+
+## 1393. Tostada con mantequilla y azúcar, lista para consumir
+
+`tostada-mantequilla-azucar` · Pan y tostadas · 1 ración de 78 g · 5 min · por ración: 279 kcal, P 5 g, C 43 g, G 9,1 g
+
+**Ingredientes** (lote de 78 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 10 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 8 g · Azúcar blanco
+
+**Preparación**
+
+1. Tuesta 60 g de pan, úntalo con 10 g de mantequilla y espolvorea 8 g de azúcar.
+
+## 1394. Tostada con crema de cacao, lista para consumir
+
+`tostada-crema-cacao` · Pan y tostadas · 1 ración de 80 g · 5 min · por ración: 282 kcal, P 6 g, C 46,6 g, G 7,3 g
+
+**Ingredientes** (lote de 80 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 20 g · Crema para untar de chocolate y avellana
+
+**Preparación**
+
+1. Tuesta 60 g de pan y úntalo con 20 g de crema de cacao.
+
+## 1395. Tostada con hummus, lista para consumir
+
+`tostada-hummus` · Pan y tostadas · 1 ración de 100 g · 5 min · por ración: 275 kcal, P 8,2 g, C 38,6 g, G 8,8 g
+
+**Ingredientes** (lote de 100 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Hummus, envasado
+
+**Preparación**
+
+1. Tuesta 60 g de pan y úntalo con 40 g de hummus.
+
+## 1396. Tostada de queso de cabra con miel, lista para consumir
+
+`tostada-cabra-miel` · Pan y tostadas · 1 ración de 110 g · 10 min · por ración: 319 kcal, P 12,6 g, C 43,2 g, G 10,2 g
+
+**Ingredientes** (lote de 110 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Queso de cabra bûche
+- 10 g · Miel
+
+**Preparación**
+
+1. Tuesta 60 g de pan.
+2. Cubre con 40 g de queso de cabra en rodajas y gratina 2 o 3 minutos.
+3. Riega con 10 g de miel.
+
+## 1397. Tostada francesa (pan de molde con huevo), cocinada
+
+`tostada-francesa` · Pan y tostadas · 2 raciones de 160 g · 15 min · por ración: 347 kcal, P 12,5 g, C 37,9 g, G 15,6 g
+
+**Ingredientes** (lote de 320 g cocinado)
+
+- 120 g · Pan de molde blanco, envasado
+- 100 g · Huevo crudo
+- 100 g · Leche entera, UHT
+- 15 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 10 g · Azúcar blanco
+- 1 g · Canela, polvo
+
+**Preparación**
+
+1. Bate 100 g de huevo (2 huevos pequeños) con 100 g de leche, 10 g de azúcar y 1 g de canela.
+2. Empapa 120 g de pan de molde (4 rebanadas) en la mezcla.
+3. Dóralas en 15 g de mantequilla a fuego medio 2 minutos por cada lado.
+
+*Notas:* Se sirve con fruta o sirope, que no están incluidos.
+
+## 1398. Sándwich de queso fundido a la plancha, cocinado
+
+`sandwich-queso-fundido` · Pan y tostadas · 1 ración de 105 g · 10 min · por ración: 341 kcal, P 10 g, C 32,4 g, G 18,3 g
+
+**Ingredientes** (lote de 105 g cocinado)
+
+- 60 g · Pan de molde blanco, envasado
+- 40 g · Queso fundido en lonchas
+- 10 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Pon 40 g de queso en lonchas entre 60 g de pan de molde (2 rebanadas).
+2. Unta el pan por fuera con 10 g de mantequilla.
+3. Dóralo en una sartén a fuego medio 3 minutos por cada lado, apretando, hasta que el queso se funda.
+
+## 1399. Sándwich de jamón serrano y tomate, listo para consumir
+
+`sandwich-serrano-tomate` · Pan y tostadas · 1 ración de 135 g · 5 min · por ración: 290 kcal, P 13,6 g, C 31,8 g, G 11,4 g
+
+**Ingredientes** (lote de 135 g cocinado)
+
+- 60 g · Pan de molde blanco, envasado
+- 30 g · Jamón seco Serrano
+- 40 g · Tomate redondo, crudo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Unta 60 g de pan de molde con 40 g de tomate rallado y 5 g de aceite.
+2. Rellena con 30 g de jamón serrano.
+
+## 1400. Minipizzas de pan de molde, horneadas
+
+`mini-pizzas-pan-molde` · Pan y tostadas · 1 ración de 120 g · 15 min · por ración: 268 kcal, P 14,3 g, C 31,1 g, G 8,8 g
+
+**Ingredientes** (lote de 120 g cocinado)
+
+- 60 g · Pan de molde blanco, envasado
+- 30 g · Tomate, pelado, en conserva, escurrido
+- 20 g · Queso Emmental o emmenthal, rallado
+- 20 g · Jamón de pavo o pechuga de pavo en loncha
+- 1 g · Orégano, deshidratado
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C.
+2. Unta 60 g de pan de molde (2 rebanadas) con 30 g de tomate triturado.
+3. Cubre con 20 g de pavo, 20 g de emmental rallado y 1 g de orégano.
+4. Hornéalas 8 minutos, hasta que el queso se funda.
+
+## 1401. Bocadillo de mortadela, listo para consumir
+
+`bocadillo-mortadela` · Pan y tostadas · 1 ración de 150 g · 2 min · por ración: 442 kcal, P 15,9 g, C 58,7 g, G 15,1 g
+
+**Ingredientes** (lote de 150 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Mortadela
+
+**Preparación**
+
+1. Abre 100 g de pan y rellénalo con 50 g de mortadela.
+
+## 1402. Arepa con queso, cocinada
+
+`arepa-queso` · Pan y tostadas · 2 raciones de 125 g · 25 min · por ración: 253 kcal, P 5,6 g, C 41,5 g, G 6,9 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 100 g · Harina de maíz
+- 130 g · Agua del grifo
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 5 g · Aceite de oliva virgen extra
+- 40 g · Queso fundido en lonchas
+
+**Preparación**
+
+1. Mezcla 100 g de harina de maíz precocida con 130 g de agua templada y la sal y amasa hasta que no se agriete.
+2. Forma 2 arepas de 1,5 cm de grosor.
+3. Hazlas en una sartén untada con 5 g de aceite a fuego medio 6 minutos por cada lado.
+4. Ábrelas y rellénalas con 40 g de queso.
+
+## 1403. Focaccia con romero, horneada
+
+`focaccia` · Pan y tostadas · 8 raciones de 100 g · 150 min · por ración: 292 kcal, P 5,4 g, C 48 g, G 8,1 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 350 g · Agua del grifo
+- 60 g · Aceite de oliva virgen extra
+- 10 g · Levadura de panadero fresca
+- 10 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 3 g · Romero, deshidratado
+
+**Preparación**
+
+1. Disuelve 10 g de levadura en 350 g de agua templada. Mézclala con 500 g de harina y la sal hasta tener una masa muy húmeda.
+2. Añade 20 g del aceite y amasa 5 minutos. Deja reposar tapada 1 hora y media.
+3. Extiende la masa en una bandeja untada con 20 g del aceite y deja que crezca 30 minutos.
+4. Hunde los dedos en la masa haciendo hoyos, riega con el resto del aceite y espolvorea 3 g de romero.
+5. Hornéala a 220 °C 20 minutos.
+
+*Notas:* Una ración son 100 g.
+
+## 1404. Pan de ajo con mantequilla, horneado
+
+`pan-ajo` · Pan y tostadas · 4 raciones de 63 g · 20 min · por ración: 241 kcal, P 4,4 g, C 29,8 g, G 11,1 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 200 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 10 g · Ajo, crudo
+- 5 g · Perejil, fresco
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C.
+2. Mezcla 50 g de mantequilla blanda con 10 g de ajo machacado y 5 g de perejil picado.
+3. Corta 200 g de pan en rebanadas sin separarlas del todo y unta la mantequilla entre ellas.
+4. Envuélvelo en papel de aluminio y hornéalo 10 minutos; destápalo y hornea 5 más.
+
+## 1405. Hamburguesa de pollo con pan, lechuga y tomate, cocinada
+
+`hamburguesa-pollo-pan` · Pan y tostadas · 1 ración de 220 g · 15 min · por ración: 468 kcal, P 34,4 g, C 34,8 g, G 19,5 g
+
+**Ingredientes** (lote de 220 g cocinado)
+
+- 70 g · Pan para hamburguesa o perrito caliente (bun), envasado
+- 120 g · Pollo, pechuga sin piel cruda
+- 15 g · Lechuga, cruda
+- 30 g · Tomate redondo, crudo
+- 15 g · Mayonesa (70% grasa mín.), envasada
+- 3 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Aplana 120 g de pechuga de pollo y hazla a la plancha con 3 g de aceite 4 minutos por cada lado.
+2. Tuesta 70 g de pan de hamburguesa.
+3. Monta con 15 g de mayonesa, 15 g de lechuga, 30 g de tomate y el pollo.
+
+## 1406. Hamburguesa con huevo, beicon y queso, cocinada
+
+`hamburguesa-huevo-bacon` · Pan y tostadas · 1 ración de 270 g · 20 min · por ración: 779 kcal, P 52,4 g, C 34,2 g, G 46,8 g
+
+**Ingredientes** (lote de 270 g cocinado)
+
+- 70 g · Pan para hamburguesa o perrito caliente (bun), envasado
+- 150 g · Vacuno, carne picada 15 % MG, cruda
+- 50 g · Huevo crudo
+- 30 g · Panceta ahumada, cruda
+- 20 g · Queso Cheddar
+- 3 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Forma una hamburguesa con 150 g de carne picada y hazla a la plancha 3 o 4 minutos por cada lado. Pon encima 20 g de cheddar al final.
+2. Dora 30 g de panceta ahumada y fríe 50 g de huevo con 3 g de aceite.
+3. Tuesta 70 g de pan y monta la hamburguesa con la panceta y el huevo.
+
+## 1407. Pan de avena y yogur sin harina, horneado
+
+`pan-avena-yogur` · Pan y tostadas · 8 raciones de 73 g · 55 min · por ración: 176 kcal, P 9,1 g, C 22,6 g, G 4,3 g
+
+**Ingredientes** (lote de 580 g cocinado)
+
+- 300 g · Avena, cruda
+- 250 g · Yogur o leche fermentada, natural
+- 100 g · Huevo crudo
+- 10 g · Levadura química o polvo de hornear
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Tritura 300 g de copos de avena hasta hacer harina.
+3. Mézclala con 250 g de yogur, 100 g de huevo (2 huevos pequeños), 10 g de levadura y la sal.
+4. Vierte en un molde alargado y hornea 40 minutos.
+5. Deja que se enfríe antes de cortarlo.
+
+*Notas:* Una ración son unos 70 g.
+
+## 1408. Crackers de semillas caseros, horneados
+
+`crackers-semillas` · Pan y tostadas · 6 raciones de 27 g · 75 min · por ración: 132 kcal, P 4,4 g, C 2,3 g, G 10,1 g
+
+**Ingredientes** (lote de 160 g cocinado)
+
+- 50 g · Chía, semilla, seca
+- 50 g · Sésamo, grano
+- 50 g · Lino, semilla
+- 150 g · Agua del grifo
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Mezcla 50 g de chía, 50 g de sésamo, 50 g de lino, 150 g de agua y la sal. Deja reposar 15 minutos, hasta que espese.
+2. Precalienta el horno a 160 °C. Extiende la mezcla muy fina sobre papel de horno.
+3. Hornéala 30 minutos, márcala en cuadrados y hornéala 20 minutos más, hasta que esté seca y crujiente.
+
+*Notas:* Una ración son unos 27 g.
+
+## 1409. Bocadillo banh mi de cerdo, listo para consumir
+
+`banh-mi` · Pan y tostadas · 2 raciones de 180 g · 30 min · por ración: 365 kcal, P 19,6 g, C 46,1 g, G 10,5 g
+
+**Ingredientes** (lote de 360 g cocinado)
+
+- 150 g · Pan blanco (p. ej. baguette, hogaza)
+- 120 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 50 g · Zanahoria, cruda
+- 40 g · Pepino, pulpa y piel, crudo
+- 5 g · Cilantro, fresco
+- 15 g · Mayonesa (70% grasa mín.), envasada
+- 10 g · Salsa de soja, envasada
+
+**Preparación**
+
+1. Corta 120 g de cerdo en tiras y saltéalas con 10 g de salsa de soja 5 minutos.
+2. Corta en tiras finas 50 g de zanahoria y 40 g de pepino (si tienes, encúrtelas 15 minutos en vinagre y azúcar).
+3. Abre 150 g de pan (baguette) y úntalo con 15 g de mayonesa.
+4. Rellénalo con el cerdo, las verduras y 5 g de cilantro.
+
+*Notas:* El vinagre y el azúcar del encurtido rápido se escurren y no cuentan.
+
+## 1410. Bruschetta de tomate y albahaca, lista para consumir
+
+`bruschetta` · Pan y tostadas · 4 raciones de 120 g · 20 min · por ración: 224 kcal, P 4,6 g, C 31,6 g, G 8,4 g
+
+**Ingredientes** (lote de 480 g cocinado)
+
+- 200 g · Pan blanco (p. ej. baguette, hogaza)
+- 250 g · Tomate redondo, crudo
+- 5 g · Ajo, crudo
+- 5 g · Albahaca, fresca
+- 30 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Corta 250 g de tomate en dados pequeños y mézclalos con 5 g de albahaca picada, 20 g del aceite y la sal.
+2. Tuesta 200 g de pan en rebanadas.
+3. Frótalas con 5 g de ajo y riégalas con el resto del aceite.
+4. Cúbrelas con el tomate justo antes de servir.
+
+## 1411. Gyros de cerdo en pan de pita, listo para consumir
+
+`gyros-pita` · Pan y tostadas · 1 ración de 320 g · 20 min · por ración: 501 kcal, P 34,7 g, C 54,1 g, G 15 g
+
+**Ingredientes** (lote de 320 g cocinado)
+
+- 100 g · Pan de pita
+- 120 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 40 g · Tomate redondo, crudo
+- 20 g · Cebolla, cruda
+- 40 g · Yogur o leche fermentada, natural
+- 20 g · Pepino, pulpa y piel, crudo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 120 g de cerdo en tiras finas y saltéalas con 5 g de aceite a fuego fuerte 5 minutos.
+2. Mezcla 40 g de yogur con 20 g de pepino rallado.
+3. Calienta 100 g de pan de pita y rellénalo con la carne, 40 g de tomate, 20 g de cebolla y la salsa.
+
+*Notas:* Ajusta la sal al gusto.
+
+## 1412. Bocadillo de lomo con pimientos, listo para consumir
+
+`bocadillo-lomo-pimientos` · Pan y tostadas · 1 ración de 240 g · 20 min · por ración: 587 kcal, P 31,3 g, C 72 g, G 18,1 g
+
+**Ingredientes** (lote de 240 g cocinado)
+
+- 120 g · Pan blanco (p. ej. baguette, hogaza)
+- 100 g · Cerdo, jamón sin jarrete, sin carrilada, descarnado, desgrasado, deshuesado, crudo
+- 50 g · Pimiento verde, crudo
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Fríe 50 g de pimiento verde en 5 g del aceite a fuego suave 8 minutos.
+2. Haz 100 g de lomo a la plancha con el resto del aceite 2 minutos por cada lado.
+3. Abre 120 g de pan y rellénalo con el lomo y los pimientos.
+
+## 1413. Bocadillo de pollo con queso y beicon, listo para consumir
+
+`bocadillo-pollo-queso-bacon` · Pan y tostadas · 1 ración de 250 g · 15 min · por ración: 655 kcal, P 42,6 g, C 71,7 g, G 20,5 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 120 g · Pan blanco (p. ej. baguette, hogaza)
+- 100 g · Pollo, pechuga sin piel cruda
+- 30 g · Queso fundido en lonchas
+- 30 g · Panceta ahumada, cruda
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Haz 100 g de pechuga de pollo a la plancha con 5 g de aceite 4 minutos por cada lado.
+2. Dora 30 g de panceta ahumada.
+3. Abre 120 g de pan y rellénalo con el pollo, la panceta y 30 g de queso; caliéntalo para que se funda.
+
+## 1414. Bocadillo de salmón ahumado y queso de untar, listo para consumir
+
+`bocadillo-salmon-queso` · Pan y tostadas · 1 ración de 180 g · 3 min · por ración: 447 kcal, P 21,3 g, C 59,3 g, G 12,9 g
+
+**Ingredientes** (lote de 180 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Salmón ahumado
+- 30 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+
+**Preparación**
+
+1. Abre 100 g de pan y úntalo con 30 g de queso de untar.
+2. Rellénalo con 50 g de salmón ahumado.
+
+## 1415. Bocadillo vegetal con atún, listo para consumir
+
+`bocadillo-vegetal-atun` · Pan y tostadas · 1 ración de 275 g · 15 min · por ración: 614 kcal, P 26,2 g, C 72,1 g, G 23,4 g
+
+**Ingredientes** (lote de 275 g cocinado)
+
+- 120 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Atún al aceite de girasol, deshilachado, en conserva, escurrido
+- 20 g · Lechuga, cruda
+- 40 g · Tomate redondo, crudo
+- 30 g · Huevo crudo
+- 15 g · Mayonesa (70% grasa mín.), envasada
+
+**Preparación**
+
+1. Cuece 30 g de huevo (medio huevo) 10 minutos y córtalo en rodajas.
+2. Abre 120 g de pan y úntalo con 15 g de mayonesa.
+3. Rellénalo con 20 g de lechuga, 40 g de tomate en rodajas, 50 g de atún escurrido y el huevo.
+
+## 1416. Montadito de pringá, listo para consumir
+
+`montadito-pringa` · Pan y tostadas · 1 ración de 180 g · 10 min · por ración: 530 kcal, P 24,5 g, C 46,9 g, G 26,3 g
+
+**Ingredientes** (lote de 180 g cocinado)
+
+- 80 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Ternera, morcillo, crudo
+- 15 g · Cerdo, tocino descarnado crudo
+- 20 g · Chorizo
+- 15 g · Morcilla negra, para cocinar
+
+**Preparación**
+
+1. Desmenuza la carne de un cocido: 50 g de morcillo, 15 g de tocino, 20 g de chorizo y 15 g de morcilla.
+2. Mézclala bien hasta tener una pasta.
+3. Rellena 80 g de pan y tuéstalo en la plancha apretando.
+
+*Notas:* Se hace con las carnes sobrantes del puchero; los gramos son de carne cocida.
+
+## 1417. Bocadillo de queso curado y tomate, listo para consumir
+
+`bocadillo-queso-tomate` · Pan y tostadas · 1 ración de 185 g · 5 min · por ración: 508 kcal, P 18,2 g, C 60,1 g, G 20,9 g
+
+**Ingredientes** (lote de 185 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Queso Ossau-Iraty (queso de oveja)
+- 40 g · Tomate redondo, crudo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Abre 100 g de pan, unta 40 g de tomate rallado y 5 g de aceite.
+2. Rellénalo con 40 g de queso curado en lonchas.
+
+## 1418. Bocadillo de jamón serrano y queso curado, listo para consumir
+
+`bocadillo-jamon-queso` · Pan y tostadas · 1 ración de 170 g · 3 min · por ración: 508 kcal, P 27,7 g, C 58,9 g, G 17,1 g
+
+**Ingredientes** (lote de 170 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Jamón seco Serrano
+- 30 g · Queso Ossau-Iraty (queso de oveja)
+
+**Preparación**
+
+1. Abre 100 g de pan y rellénalo con 40 g de jamón serrano y 30 g de queso curado en lonchas.
+
+## 1419. Bocadillo de albóndigas con tomate, listo para consumir
+
+`bocadillo-albondigas` · Pan y tostadas · 1 ración de 240 g · 40 min · por ración: 606 kcal, P 28,6 g, C 70,8 g, G 21,8 g
+
+**Ingredientes** (lote de 240 g cocinado)
+
+- 120 g · Pan blanco (p. ej. baguette, hogaza)
+- 100 g · Ternera, carne picada 15 % MG, cruda
+- 50 g · Tomate, pelado, en conserva, escurrido
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Forma unas 5 albóndigas con 100 g de carne picada y dóralas en 5 g de aceite.
+2. Añade 50 g de tomate triturado y cuece 15 minutos.
+3. Abre 120 g de pan y rellénalo con las albóndigas y la salsa.
+
+*Notas:* Ajusta la sal al gusto.
+
+## 1420. Bocadillo de bonito con pimientos asados, listo para consumir
+
+`bocadillo-bonito-pimientos` · Pan y tostadas · 1 ración de 190 g · 5 min · por ración: 414 kcal, P 20,4 g, C 60,7 g, G 8,9 g
+
+**Ingredientes** (lote de 190 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Atún al aceite de girasol, deshilachado, en conserva, escurrido
+- 40 g · Pimiento rojo, crudo
+
+**Preparación**
+
+1. Abre 100 g de pan.
+2. Rellénalo con 50 g de bonito o atún escurrido y 40 g de pimiento rojo asado en tiras.
+
+## 1421. Pulga de jamón serrano y tomate, lista para consumir
+
+`pulga-jamon-tomate` · Pan y tostadas · 1 ración de 88 g · 3 min · por ración: 209 kcal, P 8,8 g, C 30 g, G 5,6 g
+
+**Ingredientes** (lote de 88 g cocinado)
+
+- 50 g · Pan blanco (p. ej. baguette, hogaza)
+- 15 g · Jamón seco Serrano
+- 20 g · Tomate redondo, crudo
+- 3 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Abre 50 g de pan (una pulga), unta 20 g de tomate rallado y 3 g de aceite.
+2. Rellénala con 15 g de jamón serrano.
+
+## 1422. Sándwich de pollo y aguacate, listo para consumir
+
+`sandwich-pollo-aguacate` · Pan y tostadas · 1 ración de 185 g · 15 min · por ración: 407 kcal, P 23,9 g, C 30,7 g, G 19,6 g
+
+**Ingredientes** (lote de 185 g cocinado)
+
+- 60 g · Pan de molde blanco, envasado
+- 80 g · Pollo, pechuga sin piel cruda
+- 40 g · Aguacate, pulpa sin piel, sin hueso, crudo
+- 10 g · Lechuga, cruda
+- 10 g · Mayonesa (70% grasa mín.), envasada
+
+**Preparación**
+
+1. Haz 80 g de pechuga de pollo a la plancha y córtala en tiras.
+2. Unta 60 g de pan de molde con 10 g de mayonesa.
+3. Rellénalo con el pollo, 40 g de aguacate en láminas y 10 g de lechuga.
+
+## 1423. Sándwich de pavo y aguacate, listo para consumir
+
+`sandwich-pavo-aguacate` · Pan y tostadas · 1 ración de 160 g · 5 min · por ración: 292 kcal, P 13,4 g, C 30,9 g, G 11,6 g
+
+**Ingredientes** (lote de 160 g cocinado)
+
+- 60 g · Pan de molde blanco, envasado
+- 40 g · Jamón de pavo o pechuga de pavo en loncha
+- 40 g · Aguacate, pulpa sin piel, sin hueso, crudo
+- 20 g · Tomate redondo, crudo
+
+**Preparación**
+
+1. Aplasta 40 g de aguacate y úntalo en 60 g de pan de molde.
+2. Rellénalo con 40 g de pavo y 20 g de tomate en rodajas.
+
+## 1424. Sándwich mixto con huevo frito (croque madame), cocinado
+
+`croque-madame` · Pan y tostadas · 1 ración de 180 g · 15 min · por ración: 430 kcal, P 22,5 g, C 32 g, G 22,9 g
+
+**Ingredientes** (lote de 180 g cocinado)
+
+- 60 g · Pan de molde blanco, envasado
+- 30 g · Jamón de pavo o pechuga de pavo en loncha
+- 30 g · Queso fundido en lonchas
+- 60 g · Huevo crudo
+- 10 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Pon 30 g de pavo y 30 g de queso entre 60 g de pan de molde (2 rebanadas).
+2. Unta el pan por fuera con 10 g de mantequilla y dóralo en una sartén 3 minutos por cada lado.
+3. Fríe 60 g de huevo (1 huevo) y ponlo encima.
+
+## 1425. Wrap de pollo césar, listo para consumir
+
+`wrap-pollo-cesar` · Pan y tostadas · 1 ración de 180 g · 15 min · por ración: 393 kcal, P 27,3 g, C 33,3 g, G 15,7 g
+
+**Ingredientes** (lote de 180 g cocinado)
+
+- 60 g · Tortilla suave (para rellenar), de trigo
+- 80 g · Pollo, pechuga sin piel cruda
+- 30 g · Lechuga, cruda
+- 10 g · Queso Parmesano
+- 15 g · Salsa Cásar, envasada
+
+**Preparación**
+
+1. Haz 80 g de pechuga de pollo a la plancha y córtala en tiras.
+2. Calienta 60 g de tortilla de trigo.
+3. Rellénala con 30 g de lechuga, el pollo, 10 g de parmesano en lascas y 15 g de salsa césar, y enróllala.
+
+## 1426. Wrap de atún con maíz, listo para consumir
+
+`wrap-atun` · Pan y tostadas · 1 ración de 190 g · 5 min · por ración: 404 kcal, P 17,6 g, C 37,1 g, G 19,8 g
+
+**Ingredientes** (lote de 190 g cocinado)
+
+- 60 g · Tortilla suave (para rellenar), de trigo
+- 50 g · Atún al aceite de girasol, deshilachado, en conserva, escurrido
+- 20 g · Lechuga, cruda
+- 30 g · Tomate redondo, crudo
+- 20 g · Maíz dulce, en conserva, escurrido
+- 10 g · Mayonesa (70% grasa mín.), envasada
+
+**Preparación**
+
+1. Calienta 60 g de tortilla de trigo.
+2. Rellénala con 20 g de lechuga, 30 g de tomate, 50 g de atún escurrido, 20 g de maíz y 10 g de mayonesa.
+3. Enróllala bien apretada.
+
+## 1427. Wrap de falafel con yogur, listo para consumir
+
+`wrap-falafel` · Pan y tostadas · 1 ración de 210 g · 15 min · por ración: 379 kcal, P 11,9 g, C 48,1 g, G 13,6 g
+
+**Ingredientes** (lote de 210 g cocinado)
+
+- 60 g · Tortilla suave (para rellenar), de trigo
+- 80 g · Falafel o croqueta de garbanzo y/o haba, envasado
+- 20 g · Lechuga, cruda
+- 30 g · Tomate redondo, crudo
+- 20 g · Yogur o leche fermentada, natural
+
+**Preparación**
+
+1. Calienta 80 g de falafel en el horno o la sartén.
+2. Calienta 60 g de tortilla de trigo.
+3. Rellénala con 20 g de lechuga, 30 g de tomate, el falafel y 20 g de yogur, y enróllala.
+
+## 1428. Tosta de queso de cabra con cebolla caramelizada, lista para consumir
+
+`tosta-cabra-cebolla` · Pan y tostadas · 1 ración de 140 g · 30 min · por ración: 371 kcal, P 13,1 g, C 43,1 g, G 15,5 g
+
+**Ingredientes** (lote de 140 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Queso de cabra bûche
+- 50 g · Cebolla, cruda
+- 5 g · Aceite de oliva virgen extra
+- 5 g · Azúcar blanco
+
+**Preparación**
+
+1. Pocha 50 g de cebolla en pluma en 5 g de aceite a fuego muy suave 20 minutos. Añade 5 g de azúcar los últimos 5 minutos.
+2. Tuesta 60 g de pan.
+3. Cubre con la cebolla y 40 g de queso de cabra y gratina 3 minutos.
+
+## 1429. Tosta de pisto con huevo de codorniz, lista para consumir
+
+`tosta-pisto-codorniz` · Pan y tostadas · 1 ración de 160 g · 25 min · por ración: 293 kcal, P 8,5 g, C 37,7 g, G 11,4 g
+
+**Ingredientes** (lote de 160 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Calabacín, pulpa y piel, crudo
+- 30 g · Tomate redondo, crudo
+- 20 g · Pimiento verde, crudo
+- 8 g · Aceite de oliva virgen extra
+- 20 g · Huevo de codorniz, crudo
+
+**Preparación**
+
+1. Pica 50 g de calabacín y 20 g de pimiento verde y pochalos en 6 g del aceite 10 minutos. Añade 30 g de tomate rallado y cocina 5 minutos.
+2. Fríe 20 g de huevos de codorniz (2 huevos) en el resto del aceite.
+3. Tuesta 60 g de pan y cúbrelo con el pisto y los huevos.
+
+## 1430. Pan blanco casero, horneado
+
+`pan-blanco-casero` · Pan y tostadas · 8 raciones de 98 g · 180 min · por ración: 231 kcal, P 5,7 g, C 46,2 g, G 1,9 g
+
+**Ingredientes** (lote de 780 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T55 (para pan)
+- 330 g · Agua del grifo
+- 10 g · Levadura de panadero fresca
+- 10 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Disuelve 10 g de levadura en 330 g de agua templada.
+2. Mezcla con 500 g de harina de fuerza, la sal y 10 g de aceite y amasa 10 minutos, hasta que la masa esté lisa y elástica.
+3. Deja reposar tapada 1 hora y media, hasta que doble su volumen.
+4. Dale forma de hogaza o barra, colócala en una bandeja y deja que crezca 45 minutos.
+5. Haz unos cortes y hornea a 220 °C con un recipiente con agua en el horno 35 minutos. Deja que se enfríe en una rejilla.
+
+*Notas:* Una ración son unos 100 g.
+
+## 1431. Minihamburguesas con queso, cocinadas
+
+`mini-hamburguesas` · Pan y tostadas · 3 raciones de 123 g · 20 min · por ración: 325 kcal, P 19,5 g, C 26,2 g, G 14,8 g
+
+**Ingredientes** (lote de 370 g cocinado)
+
+- 150 g · Pan para hamburguesa o perrito caliente (bun), envasado
+- 200 g · Vacuno, carne picada 15 % MG, cruda
+- 40 g · Queso fundido en lonchas
+- 20 g · Ketchup, envasado
+
+**Preparación**
+
+1. Forma 6 minihamburguesas con 200 g de carne picada.
+2. Hazlas a la plancha 2 minutos por cada lado y pon encima 40 g de queso repartido.
+3. Tuesta 150 g de panecillos pequeños y monta las hamburguesas con 20 g de ketchup.
+
+*Notas:* Salen 6: una ración son 2.
+
+## 1432. Pizza de pan de pita, horneada
+
+`pizza-pita` · Pan y tostadas · 1 ración de 180 g · 15 min · por ración: 365 kcal, P 18,5 g, C 49,6 g, G 9 g
+
+**Ingredientes** (lote de 180 g cocinado)
+
+- 100 g · Pan de pita
+- 30 g · Tomate, pelado, en conserva, escurrido
+- 40 g · Mozzarella de leche de vaca
+- 20 g · Jamón de pavo o pechuga de pavo en loncha
+
+**Preparación**
+
+1. Precalienta el horno a 220 °C.
+2. Unta 100 g de pan de pita con 30 g de tomate triturado.
+3. Cubre con 20 g de pavo y 40 g de mozzarella.
+4. Hornéala 8 minutos.
+
+## 1433. Tortos de maíz asturianos, fritos
+
+`tortos-maiz` · Pan y tostadas · 6 raciones de 93 g · 30 min · por ración: 271 kcal, P 2,8 g, C 40,4 g, G 10,7 g
+
+**Ingredientes** (lote de 560 g cocinado)
+
+- 300 g · Harina de maíz
+- 300 g · Agua del grifo
+- 60 g · Aceite de girasol
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Mezcla 300 g de harina de maíz con 300 g de agua templada y la sal hasta tener una masa que no se pegue.
+2. Forma bolas de unos 90 g y aplánalas con las manos hasta 0,5 cm.
+3. Fríelos en aceite caliente 2 minutos por cada lado, hasta que se inflen y doren. Escúrrelos.
+
+*Notas:* Se sirven con picadillo, huevo o cabrales, que no están incluidos. Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1434. Bocadillo de pechuga de pavo y tomate, listo para consumir
+
+`bocadillo-pavo-tomate` · Pan y tostadas · 1 ración de 193 g · 5 min · por ración: 389 kcal, P 19 g, C 59,7 g, G 7,4 g
+
+**Ingredientes** (lote de 193 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Jamón de pavo o pechuga de pavo en loncha
+- 40 g · Tomate redondo, crudo
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Abre 100 g de pan, unta 40 g de tomate rallado y 5 g de aceite.
+2. Rellénalo con 50 g de pechuga de pavo.
+
+## 1435. Bocadillo de huevo frito, listo para consumir
+
+`bocadillo-huevo-frito` · Pan y tostadas · 1 ración de 162 g · 10 min · por ración: 461 kcal, P 16 g, C 58,4 g, G 17,3 g
+
+**Ingredientes** (lote de 162 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 60 g · Huevo crudo
+- 10 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Fríe 60 g de huevo (1 huevo) en 10 g de aceite.
+2. Abre 100 g de pan y mete el huevo dentro.
+
+## 1436. Bocadillo de panceta, listo para consumir
+
+`bocadillo-panceta` · Pan y tostadas · 1 ración de 144 g · 15 min · por ración: 448 kcal, P 18,3 g, C 58,9 g, G 14,7 g
+
+**Ingredientes** (lote de 144 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 60 g · Panceta al natural, cruda
+
+**Preparación**
+
+1. Haz 60 g de panceta en lonchas a la plancha hasta que esté dorada y crujiente.
+2. Abre 100 g de pan y rellénalo con la panceta.
+
+## 1437. Bocadillo de salmón ahumado y aguacate, listo para consumir
+
+`bocadillo-salmon-aguacate` · Pan y tostadas · 1 ración de 178 g · 5 min · por ración: 442 kcal, P 17,8 g, C 58,3 g, G 13,8 g
+
+**Ingredientes** (lote de 178 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Salmón ahumado
+- 40 g · Aguacate, pulpa sin piel, sin hueso, crudo
+
+**Preparación**
+
+1. Aplasta 40 g de aguacate y úntalo en 100 g de pan.
+2. Rellénalo con 40 g de salmón ahumado.
+
+## 1438. Bocadillo de pollo al curry, listo para consumir
+
+`bocadillo-pollo-curry` · Pan y tostadas · 1 ración de 236 g · 15 min · por ración: 473 kcal, P 34,6 g, C 71,1 g, G 3,8 g
+
+**Ingredientes** (lote de 236 g cocinado)
+
+- 120 g · Pan blanco (p. ej. baguette, hogaza)
+- 100 g · Pollo, pechuga sin piel cruda
+- 20 g · Yogur o leche fermentada, natural
+- 2 g · Curry, polvo
+- 15 g · Lechuga, cruda
+
+**Preparación**
+
+1. Haz 100 g de pechuga de pollo a la plancha y córtala en tiras.
+2. Mezcla 20 g de yogur con 2 g de curry y mézclalo con el pollo.
+3. Abre 120 g de pan y rellénalo con 15 g de lechuga y el pollo.
+
+## 1439. Bocadillo de ensaladilla rusa, listo para consumir
+
+`bocadillo-ensaladilla` · Pan y tostadas · 1 ración de 201 g · 30 min · por ración: 510 kcal, P 13,4 g, C 69,2 g, G 18,6 g
+
+**Ingredientes** (lote de 201 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 60 g · Patata, sin piel, cruda
+- 20 g · Mayonesa (70% grasa mín.), envasada
+- 15 g · Atún al aceite de girasol, deshilachado, en conserva, escurrido
+- 10 g · Zanahoria, cruda
+
+**Preparación**
+
+1. Cuece 60 g de patata y 10 g de zanahoria en dados 15 minutos. Deja que se enfríen.
+2. Mézclalas con 15 g de atún escurrido y 20 g de mayonesa.
+3. Abre 100 g de pan y rellénalo con la ensaladilla.
+
+## 1440. Bocadillo de chorizo y queso, listo para consumir
+
+`bocadillo-chorizo-queso` · Pan y tostadas · 1 ración de 160 g · 3 min · por ración: 506 kcal, P 20,5 g, C 59,8 g, G 19,5 g
+
+**Ingredientes** (lote de 160 g cocinado)
+
+- 100 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Chorizo
+- 20 g · Queso fundido en lonchas
+
+**Preparación**
+
+1. Abre 100 g de pan y rellénalo con 40 g de chorizo en rodajas y 20 g de queso en lonchas.
+
+## 1441. Tosta de sardinas con tomate, lista para consumir
+
+`tosta-sardina-tomate` · Pan y tostadas · 1 ración de 129 g · 5 min · por ración: 267 kcal, P 14,5 g, C 36 g, G 6,7 g
+
+**Ingredientes** (lote de 129 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Sardina, en aceite de oliva, en conserva, escurrida
+- 30 g · Tomate redondo, crudo
+
+**Preparación**
+
+1. Tuesta 60 g de pan y unta 30 g de tomate rallado.
+2. Cubre con 40 g de sardinas en conserva escurridas.
+
+## 1442. Tosta de anchoas con queso de untar, lista para consumir
+
+`tosta-anchoas-queso` · Pan y tostadas · 1 ración de 95 g · 5 min · por ración: 248 kcal, P 9 g, C 35,8 g, G 7,1 g
+
+**Ingredientes** (lote de 95 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 10 g · Anchoa, filetes, salados, al aceite, semiconserva, escurridos
+- 25 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+
+**Preparación**
+
+1. Tuesta 60 g de pan y úntalo con 25 g de queso de untar.
+2. Cubre con 10 g de anchoas.
+
+## 1443. Tosta de morcilla con manzana, lista para consumir
+
+`tosta-morcilla-manzana` · Pan y tostadas · 1 ración de 130 g · 15 min · por ración: 381 kcal, P 11,2 g, C 38,7 g, G 19,4 g
+
+**Ingredientes** (lote de 130 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Morcilla negra, para cocinar
+- 30 g · Manzana, pulpa sin piel, cruda (promedio)
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 30 g de manzana en láminas y dóralas en 5 g de aceite 3 minutos.
+2. Dora 50 g de morcilla en rodajas en la misma sartén 2 minutos por cada lado.
+3. Tuesta 60 g de pan y cúbrelo con la morcilla y la manzana.
+
+## 1444. Tosta de champiñones al ajillo, lista para consumir
+
+`tosta-champinones` · Pan y tostadas · 1 ración de 128 g · 15 min · por ración: 264 kcal, P 6,8 g, C 37 g, G 9,2 g
+
+**Ingredientes** (lote de 128 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 80 g · Champiñón de París o champiñón cultivado, crudo
+- 3 g · Ajo, crudo
+- 8 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Lamina 80 g de champiñones.
+2. Dora 3 g de ajo laminado en 8 g de aceite y saltea los champiñones 5 minutos.
+3. Tuesta 60 g de pan y cúbrelo con los champiñones.
+
+*Notas:* Ajusta la sal al gusto.
+
+## 1445. Tosta de berenjena con queso de cabra y miel, lista para consumir
+
+`tosta-berenjena-cabra` · Pan y tostadas · 1 ración de 144 g · 15 min · por ración: 333 kcal, P 11,3 g, C 40,7 g, G 12,9 g
+
+**Ingredientes** (lote de 144 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 60 g · Berenjena, cruda
+- 30 g · Queso de cabra bûche
+- 5 g · Miel
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 60 g de berenjena en rodajas y hazlas a la plancha con 5 g de aceite 3 minutos por cada lado.
+2. Tuesta 60 g de pan, cúbrelo con la berenjena y 30 g de queso de cabra y gratina 3 minutos.
+3. Riega con 5 g de miel.
+
+## 1446. Montadito de pollo con alioli, listo para consumir
+
+`montadito-pollo-alioli` · Pan y tostadas · 1 ración de 100 g · 15 min · por ración: 269 kcal, P 16 g, C 29,7 g, G 8,9 g
+
+**Ingredientes** (lote de 100 g cocinado)
+
+- 50 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Pollo, pechuga sin piel cruda
+- 10 g · Mayonesa (70% grasa mín.), envasada
+- 1 g · Ajo, crudo
+
+**Preparación**
+
+1. Haz 50 g de pechuga de pollo a la plancha y córtala en tiras.
+2. Machaca 1 g de ajo y mézclalo con 10 g de mayonesa.
+3. Abre 50 g de pan, úntalo con el alioli y rellénalo con el pollo.
+
+## 1447. Montadito de tortilla de patatas, listo para consumir
+
+`montadito-tortilla` · Pan y tostadas · 1 ración de 96 g · 30 min · por ración: 254 kcal, P 7,3 g, C 29,8 g, G 11 g
+
+**Ingredientes** (lote de 96 g cocinado)
+
+- 40 g · Pan blanco (p. ej. baguette, hogaza)
+- 40 g · Patata, sin piel, cruda
+- 25 g · Huevo crudo
+- 8 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 40 g de patata en láminas finas y fríela en 8 g de aceite a fuego suave 12 minutos.
+2. Mézclala con 25 g de huevo batido y cuaja una tortilla pequeña.
+3. Ponla sobre 40 g de pan.
+
+*Notas:* Lo normal es hacer una tortilla entera y cortar porciones.
+
+## 1448. Tosta de pulpo con patata y pimentón, lista para consumir
+
+`tosta-pulpo-patata` · Pan y tostadas · 1 ración de 135 g · 15 min · por ración: 309 kcal, P 12,4 g, C 42,1 g, G 9,3 g
+
+**Ingredientes** (lote de 135 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Pulpo, crudo
+- 40 g · Patata, sin piel, cruda
+- 8 g · Aceite de oliva virgen extra
+- 1 g · Pimentón, polvo
+
+**Preparación**
+
+1. Cuece 40 g de patata en rodajas 12 minutos.
+2. Corta 50 g de pulpo cocido en rodajas.
+3. Tuesta 60 g de pan y cúbrelo con la patata y el pulpo.
+4. Riega con 8 g de aceite y espolvorea 1 g de pimentón.
+
+*Notas:* Los 50 g son de pulpo ya cocido; cocerlo en casa lleva 40 minutos más.
+
+## 1449. Tosta de bacalao con tomate, lista para consumir
+
+`tosta-bacalao-tomate` · Pan y tostadas · 1 ración de 133 g · 15 min · por ración: 288 kcal, P 14,2 g, C 36 g, G 9,2 g
+
+**Ingredientes** (lote de 133 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Bacalao, crudo
+- 30 g · Tomate redondo, crudo
+- 8 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Desmiga 50 g de bacalao desalado y saltéalo en 8 g de aceite 3 minutos.
+2. Tuesta 60 g de pan y unta 30 g de tomate rallado.
+3. Cubre con el bacalao.
+
+*Notas:* El bacalao se desala 24–48 horas cambiando el agua; no cuenta en el tiempo.
+
+## 1450. Tosta de setas con jamón, lista para consumir
+
+`tosta-setas-jamon` · Pan y tostadas · 1 ración de 130 g · 15 min · por ración: 296 kcal, P 11,2 g, C 36,7 g, G 10,9 g
+
+**Ingredientes** (lote de 130 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 70 g · Champiñón, todos los tipos, crudo
+- 15 g · Jamón seco Serrano
+- 8 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Saltea 70 g de setas troceadas en 8 g de aceite 5 minutos.
+2. Añade 15 g de jamón en taquitos y saltea 1 minuto.
+3. Tuesta 60 g de pan y cúbrelo con las setas.
+
+## 1451. Tostada con queso fresco batido y miel, lista para consumir
+
+`tostada-queso-fresco-miel` · Pan y tostadas · 1 ración de 119 g · 5 min · por ración: 229 kcal, P 8,7 g, C 45,3 g, G 0,9 g
+
+**Ingredientes** (lote de 119 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 50 g · Queso blanco, natural, 0 % MG
+- 10 g · Miel
+
+**Preparación**
+
+1. Tuesta 60 g de pan.
+2. Úntalo con 50 g de queso batido y riega con 10 g de miel.
+
+## 1452. Tostada con crema de cacahuete y fresas, lista para consumir
+
+`tostada-cacahuete-fresas` · Pan y tostadas · 1 ración de 130 g · 5 min · por ración: 318 kcal, P 9,7 g, C 41,4 g, G 11,3 g
+
+**Ingredientes** (lote de 130 g cocinado)
+
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+- 20 g · Crema de cacahuete o pasta de cacahuete
+- 50 g · Fresa, cruda
+
+**Preparación**
+
+1. Tuesta 60 g de pan.
+2. Úntalo con 20 g de crema de cacahuete y cubre con 50 g de fresas en láminas.
+
+## 1453. Bollos preñados de chorizo, horneados
+
+`bollos-prenados` · Pan y tostadas · 8 raciones de 90 g · 150 min · por ración: 279 kcal, P 9 g, C 37,2 g, G 9,8 g
+
+**Ingredientes** (lote de 719 g cocinado)
+
+- 400 g · Harina de trigo tierno o trigo T55 (para pan)
+- 230 g · Agua del grifo
+- 10 g · Levadura de panadero fresca
+- 20 g · Aceite de oliva virgen extra
+- 7 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 150 g · Chorizo
+
+**Preparación**
+
+1. Disuelve 10 g de levadura en 230 g de agua templada. Mézclala con 400 g de harina, 20 g de aceite y la sal y amasa 10 minutos. Deja reposar 1 hora.
+2. Corta 150 g de chorizo en 8 trozos.
+3. Divide la masa en 8 bolas, aplánalas, pon un trozo de chorizo en cada una y ciérralas.
+4. Deja que crezcan 40 minutos y hornéalos a 200 °C 20 minutos.
+
+*Notas:* Típicos de La Rioja y Asturias. Una ración es un bollo (unos 90 g).
+
+## 1454. Galletas saladas de queso, horneadas
+
+`galletas-queso` · Pan y tostadas · 12 raciones de 26 g · 45 min · por ración: 141 kcal, P 3,7 g, C 9,7 g, G 9,6 g
+
+**Ingredientes** (lote de 315 g cocinado)
+
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Queso Parmesano
+
+**Preparación**
+
+1. Mezcla 150 g de harina con 100 g de parmesano rallado y 100 g de mantequilla fría en dados hasta tener una masa.
+2. Forma un cilindro y déjalo en la nevera 30 minutos.
+3. Córtalo en rodajas finas y hornéalas a 180 °C 12 minutos.
+
+*Notas:* Una ración son unos 26 g.
+
+## 1455. Grisines caseros, horneados
+
+`grisines-caseros` · Pan y tostadas · 12 raciones de 31 g · 90 min · por ración: 97 kcal, P 1,8 g, C 16 g, G 2,7 g
+
+**Ingredientes** (lote de 366 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 140 g · Agua del grifo
+- 30 g · Aceite de oliva virgen extra
+- 5 g · Levadura de panadero fresca
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Disuelve 5 g de levadura en 140 g de agua templada. Mézclala con 250 g de harina, 30 g de aceite y la sal y amasa. Deja reposar 45 minutos.
+2. Divide la masa en 24 trozos y estíralos en palitos finos.
+3. Hornéalos a 200 °C 15 minutos, hasta que estén dorados y crujientes.
+
+*Notas:* Una ración son 2 grisines (unos 30 g).
+
+## 1456. Pan naan casero, horneado
+
+`naan-casero` · Pan y tostadas · 6 raciones de 75 g · 90 min · por ración: 212 kcal, P 4,9 g, C 39,1 g, G 3,5 g
+
+**Ingredientes** (lote de 448 g cocinado)
+
+- 300 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Yogur o leche fermentada, natural
+- 80 g · Agua del grifo
+- 5 g · Levadura de panadero fresca
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Disuelve 5 g de levadura en 80 g de agua templada. Mézclala con 300 g de harina, 100 g de yogur y la sal y amasa. Deja reposar 1 hora.
+2. Divide en 6 bolas y estíralas en óvalos.
+3. Hazlos en una sartén muy caliente sin aceite 2 minutos por cada lado, hasta que se inflen y tengan manchas tostadas.
+4. Píntalos con 20 g de mantequilla fundida.
+
+*Notas:* Una ración es un naan (unos 75 g).
+
+## 1457. Croque monsieur, cocinado
+
+`croque-monsieur` · Pan y tostadas · 1 ración de 152 g · 15 min · por ración: 366 kcal, P 15,9 g, C 33,3 g, G 18,1 g
+
+**Ingredientes** (lote de 152 g cocinado)
+
+- 60 g · Pan de molde blanco, envasado
+- 30 g · Jamón de pavo o pechuga de pavo en loncha
+- 30 g · Queso fundido en lonchas
+- 10 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 30 g · Leche entera, UHT
+
+**Preparación**
+
+1. Pon 30 g de pavo y la mitad de 30 g de queso entre 60 g de pan de molde.
+2. Unta el pan por fuera con 10 g de mantequilla y dóralo en una sartén 3 minutos por cada lado.
+3. Cubre con el resto del queso mezclado con 30 g de leche y gratina 3 minutos.
+
+*Notas:* Tradicionalmente lleva bechamel por encima; aquí se simplifica con leche y queso.
+
+## 1458. Hamburguesa doble con queso y beicon, cocinada
+
+`hamburguesa-doble` · Pan y tostadas · 1 ración de 391 g · 20 min · por ración: 1029 kcal, P 72,5 g, C 44,4 g, G 60,9 g
+
+**Ingredientes** (lote de 391 g cocinado)
+
+- 80 g · Pan para hamburguesa o perrito caliente (bun), envasado
+- 250 g · Vacuno, carne picada 15 % MG, cruda
+- 40 g · Queso Cheddar
+- 30 g · Panceta ahumada, cruda
+- 15 g · Lechuga, cruda
+- 30 g · Tomate redondo, crudo
+- 15 g · Ketchup, envasado
+
+**Preparación**
+
+1. Forma 2 hamburguesas con 250 g de carne picada y hazlas a la plancha 3 minutos por cada lado. Pon 20 g de cheddar sobre cada una al final.
+2. Dora 30 g de panceta ahumada.
+3. Tuesta 80 g de pan y monta con 15 g de ketchup, 15 g de lechuga, 30 g de tomate, las hamburguesas y la panceta.
+
+## 1459. Bocadillo de cerdo desmechado a la barbacoa, listo para consumir
+
+`sandwich-pulled-pork` · Pan y tostadas · 1 ración de 255 g · 15 min · por ración: 605 kcal, P 37,1 g, C 48,5 g, G 27,2 g
+
+**Ingredientes** (lote de 255 g cocinado)
+
+- 80 g · Pan para hamburguesa o perrito caliente (bun), envasado
+- 150 g · Cerdo, paletilla, descarnada, desgrasada, deshuesada, cruda
+- 30 g · Salsa barbecue, envasada
+- 30 g · Repollo verde, crudo
+- 10 g · Mayonesa (70% grasa mín.), envasada
+
+**Preparación**
+
+1. Calienta 150 g de cerdo desmechado (ya cocinado) con 30 g de salsa barbacoa.
+2. Corta 30 g de repollo en tiras finas y mézclalo con 10 g de mayonesa.
+3. Tuesta 80 g de pan y rellénalo con la carne y la ensalada de col.
+
+*Notas:* El cerdo desmechado se hace aparte (ver «Cerdo desmechado a la barbacoa»).
+
+## 1460. Pan de almendra bajo en hidratos, horneado
+
+`pan-keto-almendra` · Pan y tostadas · 8 raciones de 51 g · 50 min · por ración: 241 kcal, P 8,6 g, C 2,6 g, G 20,8 g
+
+**Ingredientes** (lote de 405 g cocinado)
+
+- 200 g · Almendra, pelada, sin sal añadida
+- 200 g · Huevo crudo
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Bate 200 g de huevo (4 huevos) con 50 g de mantequilla fundida.
+3. Añade 200 g de almendra molida y 10 g de levadura y mezcla.
+4. Vierte en un molde alargado y hornea 35 minutos.
+
+*Notas:* Una ración son unos 50 g. Ajusta la sal al gusto.
+
+## 1461. Sándwich de crema de cacao y plátano, listo para consumir
+
+`sandwich-cacao-platano` · Pan y tostadas · 1 ración de 130 g · 3 min · por ración: 321 kcal, P 5,8 g, C 51,7 g, G 9,3 g
+
+**Ingredientes** (lote de 130 g cocinado)
+
+- 60 g · Pan de molde blanco, envasado
+- 20 g · Crema para untar de chocolate y avellana
+- 50 g · Plátano, pulpa sin piel, cruda
+
+**Preparación**
+
+1. Unta 60 g de pan de molde con 20 g de crema de cacao.
+2. Rellénalo con 50 g de plátano en rodajas.
+
+## 1462. Canapés de salmón ahumado y queso, listos para consumir
+
+`canapes-salmon` · Pan y tostadas · 4 raciones de 45 g · 15 min · por ración: 106 kcal, P 5,4 g, C 10,4 g, G 4,5 g
+
+**Ingredientes** (lote de 180 g cocinado)
+
+- 80 g · Pan de molde blanco, envasado
+- 40 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 60 g · Salmón ahumado
+
+**Preparación**
+
+1. Quita la corteza a 80 g de pan de molde y corta cada rebanada en cuatro.
+2. Tuéstalos ligeramente.
+3. Úntalos con 40 g de queso de untar y cubre con 60 g de salmón ahumado.
+
+*Notas:* Salen unos 12 canapés: una ración son 3.
