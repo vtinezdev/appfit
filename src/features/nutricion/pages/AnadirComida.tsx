@@ -52,10 +52,13 @@ import CambiarAlimentoSheet from '../components/CambiarAlimentoSheet'
 import EscanerCodigo from '../components/EscanerCodigo'
 import Medidas from './Medidas'
 import Button from '../../../shared/components/Button'
-import { Input, Select } from '../../../shared/components/Input'
+import { Input } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { revisionModificada } from '../lib/borradorComida'
 import { faltaDelDia } from '../lib/cerrarDia'
+import ListGroup from '../../../shared/components/ListGroup'
+import ListRow from '../../../shared/components/ListRow'
+import SelectorComida from '../components/SelectorComida'
 
 interface Props {
   fecha: string
@@ -325,10 +328,10 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
               </ul>
             </details>
           </section>
-        ) : !soloTipica && <div className="flex flex-wrap items-center justify-between gap-3">
-          <label className="flex min-w-0 items-center gap-2"><Icon name="utensils" size={20} className="shrink-0 text-fg-muted" /><Select aria-label="Comida del día" value={comida} onChange={e => setComida(e.target.value as Comida)} className="w-auto max-w-full" tone="surface">{COMIDAS.map(c => <option key={c.valor} value={c.valor}>{c.label}</option>)}</Select></label>
-          <p className="text-caption text-fg-muted">{formatFriendly(fecha)}</p>
-          {planificar && <p className="w-full text-caption text-fg-muted">Se guarda en el Plan: no cuenta hasta que, ese día, pulses «Lo he comido».</p>}
+        ) : !soloTipica && <div className="space-y-2">
+          <SelectorComida valor={comida} onChange={setComida} />
+          {fecha !== todayISO() && <p className="text-caption text-fg-muted">{formatFriendly(fecha)}</p>}
+          {planificar && <p className="text-caption text-fg-muted">Se guarda en el Plan: no cuenta hasta que, ese día, pulses «Lo he comido».</p>}
         </div>}
 
           {items === null && (
@@ -341,13 +344,17 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                   <DescribirComida texto={texto} onTextoChange={setTexto} onInterpretar={interpretar} cargando={local.cargando} error={local.error} onVerMedidas={() => setVerMedidas(true)} titulo={soloTipica ? '¿Qué sueles comer?' : planificar ? '¿Qué vas a comer?' : undefined} />
                   {!platoDestino && !soloTipica && <>
                     {tipicaCreada && <p role="status" className="text-body-sm text-fg-muted">Comida típica guardada. Ya la tienes a mano.</p>}
-                    <ComidasTipicas fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} onVerTodas={() => setVerTipicas(true)} />
+                    <ComidasTipicas tarjetas fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} onVerTodas={() => setVerTipicas(true)} />
                     <EncajanConLoQueFalta comida={comida} fecha={fecha} falta={falta ?? null} onElegirAlimento={elegirRapido} onElegirTipica={setTipicaElegida}
                       onElegirCombinacion={(propuestos) => { setErrorGuardar(null); abrirRevision(propuestos.map((p) => itemDesdeElegible(p.alimento, p.gramos))) }} />
+                    <ListGroup aria-label="Más formas de añadir">
+                      <li><ListRow onClick={() => { setTipicaCreada(false); setCreandoTipica(true) }}><span aria-hidden className="icono-pastilla shrink-0 text-fg-muted"><Icon name="plus" size={20} /></span><span className="min-w-0 flex-1 text-body text-fg">Nueva comida típica</span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" /></ListRow></li>
+                      <li><ListRow onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}><span aria-hidden className="icono-pastilla shrink-0 text-fg-muted"><Icon name="zap" size={20} /></span><span className="min-w-0 flex-1 text-body text-fg">Solo registrar calorías</span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" /></ListRow></li>
+                    </ListGroup>
                   </>}
                 </>}
                 {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)} />}
-                {!platoDestino && !soloTipica && <div className="border-t border-line pt-3">
+                {!platoDestino && !soloTipica && metodo !== 'describir' && <div className="border-t border-line pt-3">
                   <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}>Solo registrar calorías</Button>
                 </div>}
               </div>

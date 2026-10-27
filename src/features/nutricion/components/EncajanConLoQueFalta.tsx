@@ -81,9 +81,15 @@ export default function EncajanConLoQueFalta({ comida, fecha, falta, onElegirAli
 
   return (
     <section aria-label="Encajan con lo que te falta" className="space-y-2">
-      <Button variant={abierto ? 'primary' : 'secondary'} size="sm" aria-expanded={abierto} aria-controls={listaId} onClick={() => setAbierto((v) => !v)}>
-        <Icon name="flag" size={16} />Encajan con lo que te falta
-      </Button>
+      <button type="button" aria-expanded={abierto} aria-controls={listaId} onClick={() => setAbierto((v) => !v)}
+        className="app-button flex min-h-touch w-full items-center gap-3 rounded-md border border-line bg-surface p-3 text-left enabled:hover:bg-surface-muted">
+        <span aria-hidden className="icono-pastilla shrink-0 text-accent-strong"><Icon name="flag" size={20} /></span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-body font-semibold text-fg">Encajan con lo que te falta</span>
+          <span className="tabular block text-caption text-fg-muted">Ideas para {formatInt(Math.round(falta.kcal))} kcal que te quedan</span>
+        </span>
+        <Icon name={abierto ? 'chevron-up' : 'chevron-down'} size={18} className="shrink-0 text-fg-subtle" />
+      </button>
       {abierto && <div id={listaId} className="space-y-stack">
         <p className="tabular text-body-sm text-fg-muted">{frasePendiente(falta)} {limite < falta.kcal ? `Cada propuesta, hasta ${formatInt(limite)} kcal, para que te quede para el resto del día.` : 'Sin pasarte de las kcal, los carbohidratos ni la grasa que te quedan.'}</p>
         {propuestas.fijas.length > 0 && <div className="space-y-1">
