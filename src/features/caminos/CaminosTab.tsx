@@ -161,8 +161,8 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
       avisarError(r.id === actual.ruta.id ? `Ya vas por ${r.nombre}.` : `${r.nombre} es más corta que lo que llevas en esta ruta: elígela al llegar.`)
     }
   }
-  // Por hacer: las rutas que aún no has terminado nunca, por colección.
-  const porHacer = (col: ColeccionRuta) => RUTAS.filter((r) => r.coleccion === col && !veces.has(r.id))
+  // Por hacer: las rutas que aún no has terminado nunca, por colección, sin la que llevas ahora.
+  const porHacer = (col: ColeccionRuta) => RUTAS.filter((r) => r.coleccion === col && !veces.has(r.id) && r.id !== actual.ruta.id)
   const pendientes = COLECCIONES.reduce((n, col) => n + porHacer(col).length, 0)
 
   return <div className={`space-y-section ${marco}`}>
