@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Button from '../../../shared/components/Button'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
 import Icon from '../../../shared/components/Icon'
-import { Input } from '../../../shared/components/Input'
+import { DecimalInput, Input, Textarea } from '../../../shared/components/Input'
 import ModalPage from '../../../shared/components/ModalPage'
 import NumberStepper from '../../../shared/components/NumberStepper'
 import SectionHeader from '../../../shared/components/SectionHeader'
@@ -19,17 +19,20 @@ import { useInterpretarLocal } from '../hooks/useInterpretarLocal'
 import { esCategoriaAlimento, type CategoriaAlimento } from '../lib/catalogo/categorias'
 import { faltanValores, itemDesdeElegible, medidaPendiente, type AlimentoElegible, type ItemRevision } from '../lib/alimentos'
 import { macrosPorGramos, resumenMacros } from '../lib/nutrition'
-import { ingredienteDeItem, itemDeIngrediente, pesoCrudoTotal, por100DeReceta, validarReceta } from '../lib/recetas'
+import { gramosPorRacion, ingredienteDeItem, itemDeIngrediente, limpiarPasos, NOTAS_MAX_CARACTERES, pesoCrudoTotal, por100DeReceta, validarReceta } from '../lib/recetas'
 import Medidas from '../pages/Medidas'
 import AlimentosRapidos from './AlimentosRapidos'
 import CambiarAlimentoSheet from './CambiarAlimentoSheet'
 import DescribirComida from './DescribirComida'
 import ItemRevisionRow from './ItemRevisionRow'
+import PasosReceta, { pasoNuevo, type PasoEditable } from './PasosReceta'
 import SelectorCategoria from './SelectorCategoria'
 
 interface Props {
   /** Sin receta: se crea una nueva. */
   receta?: Receta
+  /** Abre con la sección Preparación a la vista (el «Añadir preparación» de la ficha). */
+  irAPreparacion?: boolean
   onClose: () => void
 }
 
@@ -37,7 +40,7 @@ interface Props {
  * Crear o editar una receta casera con el mismo flujo de ingredientes que «Añadir comida» (describir o buscar,
  * y revisar cada ingrediente), más el peso cocinado. Guardar crea o actualiza el alimento propio de la receta.
  */
-export default function EditorReceta({ receta, onClose }: Props) {
+export default function EditorReceta({ receta, irAPreparacion = false, onClose }: Props) {
   const [nombre, setNombre] = useState(receta?.nombre ?? '')
   const [categoriaElegida, setCategoria] = useState<CategoriaAlimento | null>(null)
   // La categoría vive en el alimento de la receta; si no tiene (o es nueva), se propone «Platos preparados».
@@ -56,14 +59,24 @@ export default function EditorReceta({ receta, onClose }: Props) {
   const [ocupado, setOcupado] = useState(false)
   const [borrando, setBorrando] = useState(false)
   const [conservar, setConservar] = useState<'si' | 'no'>('si')
+  const [raciones, setRaciones] = useState(receta?.raciones ?? 1)
+  const [tiempo, setTiempo] = useState<number | undefined>(receta?.tiempoMin)
+  const [pasos, setPasos] = useState<PasoEditable[]>(() => receta?.pasos?.map((t) => pasoNuevo(t)) ?? (irAPreparacion ? [pasoNuevo()] : []))
+  const [notas, setNotas] = useState(receta?.notas ?? '')
+  const preparacionRef = useRef<HTMLElement>(null)
   const local = useInterpretarLocal()
+
+  useEffect(() => {
+    if (irAPreparacion) preparacionRef.current?.scrollIntoView({ block: 'start' })
+  }, [irAPreparacion])
 
   const ingredientes = items.map(ingredienteDeItem)
   const crudo = pesoCrudoTotal(ingredientes)
   // Mientras no se toque, el peso cocinado propuesto es el crudo (el cocinado suele pesar distinto: se edita).
   const pesoCocinado = peso ?? crudo
   const por100 = por100DeReceta(ingredientes, pesoCocinado)
-  const invalida = validarReceta(nombre, ingredientes, pesoCocinado)
+  const preparacion = { raciones, tiempoMin: tiempo === undefined ? undefined : Math.round(tiempo), pasos: limpiarPasos(pasos.map((p) => p.texto)), notas }
+  const invalida = validarReceta(nombre, ingredientes, pesoCocinado, preparacion)
   const bloqueado = items.some((it) => !it.nombre.trim() || faltanValores(it) || medidaPendiente(it))
 
   function anadir(nuevos: ItemRevision[]) {
@@ -83,7 +96,7 @@ export default function EditorReceta({ receta, onClose }: Props) {
     setOcupado(true)
     setError(null)
     try {
-      const datos = { nombre, ingredientes, pesoCocinadoG: pesoCocinado, categoria }
+      const datos = { nombre, ingredientes, pesoCocinadoG: pesoCocinado, categoria, ...preparacion }
       if (receta) await recetasRepo.actualizar(receta.id, datos)
       else await recetasRepo.crear(datos)
       onClose()
@@ -161,6 +174,22 @@ export default function EditorReceta({ receta, onClose }: Props) {
             </div>
           </section>
         )}
+
+        <section ref={preparacionRef} aria-label="Preparación" className="scroll-mt-4 space-y-stack border-t border-line pt-3">
+          <SectionHeader variant="section">Preparación</SectionHeader>
+          <div className="flex flex-wrap items-end gap-x-4 gap-y-3">
+            <div className="space-y-1">
+              <p className="text-label text-fg-muted">Raciones</p>
+              <NumberStepper label="raciones" value={raciones} min={1} onChange={(v) => setRaciones(Math.max(1, Math.round(v)))} />
+            </div>
+            <label className="block w-32 space-y-1"><span className="text-label text-fg-muted">Tiempo (min)</span>
+              <DecimalInput tone="surface" value={tiempo} placeholder="Opcional" onChange={setTiempo} /></label>
+          </div>
+          {items.length > 0 && raciones > 1 && <p className="tabular text-caption text-fg-muted">Cada ración, {formatNumber(gramosPorRacion({ pesoCocinadoG: pesoCocinado, raciones }), 0)} g cocinados.</p>}
+          <PasosReceta pasos={pasos} onChange={setPasos} />
+          <label className="block space-y-1"><span className="text-label text-fg-muted">Notas</span>
+            <Textarea tone="surface" rows={3} maxLength={NOTAS_MAX_CARACTERES} value={notas} placeholder="Trucos, cómo se conserva… (opcional)" onChange={(e) => setNotas(e.target.value)} /></label>
+        </section>
 
         {receta && (
           <section aria-label="Borrar receta" className="space-y-2 border-t border-line pt-3">

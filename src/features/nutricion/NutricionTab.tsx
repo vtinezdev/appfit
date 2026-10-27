@@ -32,7 +32,8 @@ const VISTAS: { valor: Vista; label: string }[] = [
   { valor: 'alimentos', label: 'Alimentos' },
 ]
 
-export default function NutricionTab({ onVerReferencia, anadirInicial, fechaInicial }: { onVerReferencia?: (id: NutrienteId) => void; /** Abre Añadir comida en esa comida al montar (desde Inicio). */ anadirInicial?: Comida
+export default function NutricionTab({ onVerReferencia, onIrARecetas, anadirInicial, fechaInicial }: { onVerReferencia?: (id: NutrienteId) => void
+  /** Prototipo: acceso al destino Recetas desde la cabecera. */ onIrARecetas?: () => void; /** Abre Añadir comida en esa comida al montar (desde Inicio). */ anadirInicial?: Comida
   /** Abre el diario en ese día (el «Ver en Nutrición» del calendario de Progreso, B14). */ fechaInicial?: string }) {
   const [vista, setVista] = useState<Vista>('hoy')
   const hoy = useHoy()
@@ -111,7 +112,10 @@ export default function NutricionTab({ onVerReferencia, anadirInicial, fechaInic
 
   return (
     <div className="space-y-3 px-page pt-5">
-      <PageHeader title="Nutrición" action={<IconButton icon="plus" label="Añadir comida" variant="secondary" onClick={() => abrirAnadir()} />} />
+      <PageHeader title="Nutrición" action={<div className="flex items-center gap-2">
+        {onIrARecetas && <IconButton icon="recetario" label="Recetas" variant="ghost" onClick={onIrARecetas} />}
+        <IconButton icon="plus" label="Añadir comida" variant="secondary" onClick={() => abrirAnadir()} />
+      </div>} />
       <ViewTabs label="Vistas de nutrición" nivel="principal" opciones={VISTAS} valor={vista} onChange={setVista}>
       {vista === 'hoy' && <Suspense fallback={<LoadingState />}><Hoy fecha={fecha} onFechaChange={setFecha} onEditarEntry={editarEntry} onEditarPlato={(plato) => { setPlatoEditar(plato); setMostrarAnadir(true) }} onAnadir={abrirAnadir} onCrearTipica={comida => abrirAnadir(comida, true)} onVerReferencia={onVerReferencia} onVerPlan={() => setVista('plan')} /></Suspense>}
       {vista === 'plan' && <Suspense fallback={<LoadingState />}><Plan hoy={hoy} onAnadir={abrirPlanificar} /></Suspense>}

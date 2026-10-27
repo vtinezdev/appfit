@@ -2719,3 +2719,24 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 **Cómo:** sin código. Plan en `docs/plan-recetas-2026-10-26.md`: fase 1 con un prototipo en una rama sin fusionar (campos opcionales `raciones`, `pasos`, `tiempoMin` y `notas`; ficha de lectura; destino en la rejilla; cuatro recetas de prueba con capturas), decisiones para Víctor y fase 2 si la aprueba. Entrada en `roadmap.md` § Ideas sin empezar. Cierre de la sesión 12 en `docs/progreso/sesion-12/`.
 
 **Verificación:** solo documentación; `npm run test` y `npm run build` correctos.
+
+## 249. Prototipo de recetas con preparación (2026-10-27)
+
+**Qué:** fase 1 del plan de recetas en la rama `feat/recetas-prototipo`, sin fusionar.
+- Campos opcionales `raciones`, `pasos`, `tiempoMin` y `notas` en `Receta`, sin versión nueva de Dexie (mismo criterio que el ADR 022).
+- Lógica por ración y escalado de ingredientes en `lib/recetas.ts`.
+- Sección Preparación en el editor y ficha de lectura `FichaReceta` con Registrar y Planificar.
+- Destino `recetas` en la rejilla (8 secciones, dos filas de 4) y acceso desde la cabecera de Nutrición.
+- Cuatro recetas de prueba en `scripts/ui/validar-recetas.cjs`.
+
+Víctor ve las capturas y aprueba seguir, con estas decisiones:
+- una sola pantalla Recetas, a la que se llega por la rejilla y por Nutrición;
+- lo que aporta, por ración y por 100 g;
+- registrar una ración estándar con gramos editables;
+- lista de la compra con los ingredientes en proporción a lo planificado.
+
+Además amplía el alcance a un recetario con las 1.552 recetas del catálogo de típicos, con pasos escritos con texto propio por tandas de ~100. La siguiente sesión la hará con Sonnet.
+
+**Cómo:** inventario y decisiones en `docs/plan-recetas-2026-10-26.md` (§ Qué quedó hecho en la fase 1, § Decisiones y § Handoff, etapas 1–4). Los 357 ingredientes del recetario ya están en el paquete CIQUAL del móvil. El plan de la sesión 12 solo estaba en su rama de sesión: se trae a esta con su commit. Los documentos vivos se actualizarán en la etapa 3, al cerrar la implementación. Cierre de la sesión 13 en `docs/progreso/sesion-13/`.
+
+**Verificación:** `npm run test` (2.941) y `npm run build` correctos. `validar-recetas.cjs` correcto a 320/375/430 en claro y oscuro: overflow, 44 px, inputs de 16 px y la entrada registrada (120 g, 217 kcal). Sin probar: el teclado del iPhone en los pasos y el texto al 200 %.

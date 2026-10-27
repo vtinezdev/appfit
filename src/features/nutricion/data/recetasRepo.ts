@@ -5,10 +5,10 @@ import { db } from '../../../shared/db/db'
 import type { MealItem, Receta } from '../../../shared/db/types'
 import { normalizeName } from '../../../shared/lib/text'
 import { esCategoriaAlimento, type CategoriaAlimento } from '../lib/catalogo/categorias'
-import { por100DeReceta, validarReceta } from '../lib/recetas'
+import { limpiarPasos, por100DeReceta, validarReceta, type Preparacion } from '../lib/recetas'
 import { NombreDuplicadoError } from './foodsRepo'
 
-export interface RecetaInput {
+export interface RecetaInput extends Preparacion {
   nombre: string
   ingredientes: MealItem[]
   pesoCocinadoG: number
@@ -19,7 +19,7 @@ export interface RecetaInput {
 /** Categoría que se propone para una receta nueva o para una cuyo alimento aún no tiene. */
 export const CATEGORIA_RECETA_POR_DEFECTO: CategoriaAlimento = 'Platos preparados'
 
-/** La receta no es válida (nombre, ingredientes o peso). El mensaje se puede mostrar tal cual. */
+/** La receta no es válida (nombre, ingredientes, peso o preparación). El mensaje se puede mostrar tal cual. */
 export class RecetaInvalidaError extends Error {}
 
 export function listar(): Promise<Receta[]> {
@@ -35,8 +35,18 @@ function valoresFood(datos: RecetaInput) {
   return { kcal100: v.kcal100, prot100: v.prot100, carb100: v.carb100, grasa100: v.grasa100, ...(v.nutrientes ? { nutrientes: v.nutrientes } : {}), categoria: datos.categoria }
 }
 
+/**
+ * Preparación tal como se guarda: pasos sin vacíos y notas recortadas; lo que falta queda `undefined`, que en
+ * `update` borra el campo (así se puede quitar el tiempo o las notas).
+ */
+function preparacionDe(datos: RecetaInput): { raciones: number | undefined; pasos: string[] | undefined; tiempoMin: number | undefined; notas: string | undefined } {
+  const pasos = limpiarPasos(datos.pasos ?? [])
+  const notas = datos.notas?.trim()
+  return { raciones: datos.raciones, pasos: pasos.length ? pasos : undefined, tiempoMin: datos.tiempoMin, notas: notas || undefined }
+}
+
 function validar(datos: RecetaInput) {
-  const error = validarReceta(datos.nombre, datos.ingredientes, datos.pesoCocinadoG) ?? (esCategoriaAlimento(datos.categoria) ? null : 'Elige una categoría para la receta.')
+  const error = validarReceta(datos.nombre, datos.ingredientes, datos.pesoCocinadoG, preparacionDe(datos)) ?? (esCategoriaAlimento(datos.categoria) ? null : 'Elige una categoría para la receta.')
   if (error) throw new RecetaInvalidaError(error)
 }
 
@@ -49,7 +59,8 @@ export async function crear(datos: RecetaInput): Promise<number> {
     if (await db.foods.where('nombreNorm').equals(nombreNorm).first()) throw new NombreDuplicadoError(nombre)
     const ahora = Date.now()
     const foodId = await db.foods.add({ nombre, nombreNorm, ...valoresFood(datos), fuente: 'manual', updatedAt: ahora })
-    return db.recetas.add({ nombre, nombreNorm, ingredientes: datos.ingredientes, pesoCocinadoG: datos.pesoCocinadoG, foodId, createdAt: ahora, updatedAt: ahora })
+    const preparacion = Object.fromEntries(Object.entries(preparacionDe(datos)).filter(([, v]) => v !== undefined)) as Preparacion
+    return db.recetas.add({ nombre, nombreNorm, ingredientes: datos.ingredientes, pesoCocinadoG: datos.pesoCocinadoG, ...preparacion, foodId, createdAt: ahora, updatedAt: ahora })
   })
 }
 
@@ -76,7 +87,7 @@ export async function actualizar(id: number, datos: RecetaInput): Promise<void> 
     let foodId = receta.foodId
     if (await db.foods.get(foodId)) await db.foods.put({ id: foodId, ...valores })
     else foodId = await db.foods.add(valores)
-    await db.recetas.update(id, { nombre, nombreNorm, ingredientes: datos.ingredientes, pesoCocinadoG: datos.pesoCocinadoG, foodId, updatedAt: ahora })
+    await db.recetas.update(id, { nombre, nombreNorm, ingredientes: datos.ingredientes, pesoCocinadoG: datos.pesoCocinadoG, ...preparacionDe(datos), foodId, updatedAt: ahora })
   })
 }
 

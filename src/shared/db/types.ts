@@ -191,6 +191,14 @@ export interface Receta {
   ingredientes: MealItem[]
   pesoCocinadoG: number
   foodId: number
+  /** Raciones que salen del peso cocinado (entero ≥ 1; sin él, 1). Opcional y sin índice: sin versión nueva de Dexie. */
+  raciones?: number
+  /** Pasos de la preparación, en orden; nunca vacíos. */
+  pasos?: string[]
+  /** Tiempo total en minutos. */
+  tiempoMin?: number
+  /** Trucos, conservación… */
+  notas?: string
   createdAt: number
   updatedAt: number
 }

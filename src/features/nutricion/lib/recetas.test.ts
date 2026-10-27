@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { MealItem } from '../../../shared/db/types'
 import { itemDesdeElegible } from './alimentos'
-import { ingredienteDeItem, itemDeIngrediente, pesoCrudoTotal, por100DeReceta, validarReceta } from './recetas'
+import { escalarIngredientes, gramosPorRacion, ingredienteDeItem, itemDeIngrediente, limpiarPasos, pesoCrudoTotal, por100DeReceta, racionesDe, textoRaciones, textoTiempo, valoresPorRacion, validarReceta } from './recetas'
 
 const arroz: MealItem = { nombre: 'Arroz', gramos: 200, kcal: 700, prot: 14, carb: 156, grasa: 2, nutrientes: { fibra: 2, sal: 0 } }
 const pollo: MealItem = { nombre: 'Pollo', gramos: 300, kcal: 330, prot: 69, carb: 0, grasa: 4, nutrientes: { fibra: 0 } }
@@ -43,5 +43,49 @@ describe('validarReceta', () => {
     expect(validarReceta('G', [], 500)).toMatch(/ingrediente/)
     expect(validarReceta('G', [{ ...arroz, gramos: 0 }], 500)).toMatch(/cantidad/)
     expect(validarReceta('G', [arroz], 0)).toMatch(/peso/)
+  })
+})
+
+describe('preparación', () => {
+  it('validarReceta: raciones enteras de 1 a 50, pasos, tiempo y notas con límite', () => {
+    expect(validarReceta('G', [arroz], 500, { raciones: 4, pasos: ['Hervir'], tiempoMin: 30, notas: 'Aguanta 3 días' })).toBeNull()
+    expect(validarReceta('G', [arroz], 500, { raciones: 0 })).toMatch(/raciones/)
+    expect(validarReceta('G', [arroz], 500, { raciones: 2.5 })).toMatch(/raciones/)
+    expect(validarReceta('G', [arroz], 500, { raciones: 51 })).toMatch(/raciones/)
+    expect(validarReceta('G', [arroz], 500, { pasos: ['x'.repeat(1001)] })).toMatch(/paso/)
+    expect(validarReceta('G', [arroz], 500, { pasos: Array(41).fill('x') })).toMatch(/pasos/)
+    expect(validarReceta('G', [arroz], 500, { tiempoMin: 0 })).toMatch(/tiempo/)
+    expect(validarReceta('G', [arroz], 500, { notas: 'x'.repeat(2001) })).toMatch(/notas/)
+  })
+  it('racionesDe: sin campo o imposible, 1', () => {
+    expect(racionesDe({})).toBe(1)
+    expect(racionesDe({ raciones: 0 })).toBe(1)
+    expect(racionesDe({ raciones: 4 })).toBe(4)
+  })
+  it('gramos y valores por ración salen del peso cocinado', () => {
+    const receta = { ingredientes: [arroz, pollo], pesoCocinadoG: 800, raciones: 4 }
+    expect(gramosPorRacion(receta)).toBe(200)
+    // 128,8 kcal/100 g × 200 g
+    expect(valoresPorRacion(receta)).toMatchObject({ kcal: 257.6, prot: 20.8, carb: 39, grasa: 1.6 })
+    // Receta antigua: una ración es todo el peso cocinado
+    expect(valoresPorRacion({ ingredientes: [arroz, pollo], pesoCocinadoG: 800 }).kcal).toBe(1030.4)
+  })
+  it('escalarIngredientes multiplica cantidades y aporte; misma ración o base imposible, igual', () => {
+    expect(escalarIngredientes([arroz], 4, 2)[0]).toMatchObject({ gramos: 100, kcal: 350, prot: 7, carb: 78, grasa: 1 })
+    expect(escalarIngredientes([arroz], 4, 6)[0].gramos).toBe(300)
+    expect(escalarIngredientes([arroz], 4, 4)).toEqual([arroz])
+    expect(escalarIngredientes([arroz], 0, 4)).toEqual([arroz])
+  })
+  it('limpiarPasos quita espacios y pasos vacíos', () => {
+    expect(limpiarPasos(['  Batir ', '', '   ', 'Cuajar'])).toEqual(['Batir', 'Cuajar'])
+  })
+})
+
+describe('textos', () => {
+  it('tiempo en minutos y horas', () => {
+    expect([10, 60, 75, 120].map(textoTiempo)).toEqual(['10 min', '1 h', '1 h 15 min', '2 h'])
+  })
+  it('raciones en singular y plural', () => {
+    expect([1, 4, 1.5].map(textoRaciones)).toEqual(['1 ración', '4 raciones', '1,5 raciones'])
   })
 })

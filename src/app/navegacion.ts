@@ -6,6 +6,7 @@ import { moduloActivo } from '../shared/lib/modulos'
 export const DESTINOS = [
   { key: 'inicio', label: 'Inicio', icon: 'home' },
   { key: 'nutricion', label: 'Nutrición', icon: 'utensils' },
+  { key: 'recetas', label: 'Recetas', icon: 'recetario' }, // prototipo: también se entra desde la cabecera de Nutrición
   { key: 'gym', label: 'Entreno', icon: 'dumbbell' }, // un solo nombre visible para la sección (título, Inicio y navegación)
   { key: 'social', label: 'Social', icon: 'comentario' }, // solo con cuenta configurada (ADR 040)
   { key: 'perfil', label: 'Perfil', icon: 'user' },
@@ -18,7 +19,7 @@ export const DESTINOS = [
 export type Tab = (typeof DESTINOS)[number]['key']
 
 /** La rejilla de secciones (ADR 043, 058, 060), en orden de lectura. Social solo con cuenta configurada. */
-export const EN_SECCIONES: readonly Tab[] = ['inicio', 'perfil', 'nutricion', 'gym', 'progreso', 'social', 'ajustes']
+export const EN_SECCIONES: readonly Tab[] = ['inicio', 'perfil', 'nutricion', 'recetas', 'gym', 'progreso', 'social', 'ajustes']
 
 /** Destinos fuera de la rejilla de secciones y la sección desde la que se entra: es la que queda marcada mientras se está en ellos. */
 const DENTRO_DE: Partial<Record<Tab, Tab>> = {
@@ -30,14 +31,14 @@ const DENTRO_DE: Partial<Record<Tab, Tab>> = {
 export const seccionDe = (tab: Tab): Tab => DENTRO_DE[tab] ?? tab
 
 /**
- * Destinos de la rejilla de secciones que no se muestran: Social sin cuenta configurada (ADR 040), los módulos apagados (B9) y
+ * Destinos de la rejilla de secciones que no se muestran: Social sin cuenta configurada (ADR 040), los módulos apagados (B9, Recetas va con Nutrición) y
  * Progreso con Cumbres, Caminos, Ritmo y Vitrina ocultos en Ajustes.
  * Entreno se queda mientras quede el gimnasio o las actividades.
  */
 export function destinosOcultos(s: Pick<Settings, 'modulos' | 'gamificacionVisible'> | undefined, social: boolean): Tab[] {
   const ocultos: Tab[] = []
   if (!social) ocultos.push('social')
-  if (!moduloActivo(s, 'nutricion')) ocultos.push('nutricion')
+  if (!moduloActivo(s, 'nutricion')) ocultos.push('nutricion', 'recetas')
   if (!moduloActivo(s, 'gym') && !moduloActivo(s, 'actividades')) ocultos.push('gym')
   if (s?.gamificacionVisible === false) ocultos.push('progreso')
   return ocultos
