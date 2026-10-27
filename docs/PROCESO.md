@@ -2798,3 +2798,13 @@ Después, Víctor plantea que al añadir comida no se distingue una receta de un
 **Cómo:** entradas en `tipicos/recetas.json` (masa común de harina, aceite de oliva, anís y azúcar; criterio AppFit, sin transcribir cantidades de ninguna fuente) y pasos propios en `tipicos/preparaciones.json`. CIQUAL no tiene cabello de ángel: se calcula como calabaza espagueti cocida con azúcar y canela. El paquete sigue siendo 2026-10-28; pasa de 1972 a 1975 filas, y el cambio de filas basta para que el móvil lo reimporte.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 255. Recetas: tanda 5 de preparaciones (2026-10-27)
+
+**Qué:** Víctor confirma que todo va bien y pide seguir con las tandas. Se escriben los pasos de los 100 platos preparados siguientes en el orden de `recetas.json`. Son platos asiáticos, mexicanos y de otras cocinas, tápers de comida preparada, regionales (empedrat, esqueixada, berza jerezana, all i pebre…), guisos de carne y pescado, arroces y pasta. En total hay 503 recetas con pasos.
+
+**Cómo:**
+- Texto propio en `tipicos/preparaciones.json`, con los criterios de `tipicos/LEEME.md` § Preparaciones. Las notas avisan del bacalao desalado, el aceite retenido al freír, los acompañamientos que no están incluidos y el pescado crudo congelado antes.
+- Añadir pasos no cambia el número de filas. Por eso el paquete pasa a la versión 2026-10-29, para que el móvil lo reimporte.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.

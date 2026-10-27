@@ -1,6 +1,6 @@
 # Típicos: catálogo ampliado y límites
 
-`npm run catalogo:tipicos` genera por defecto la versión 2026-10-28 (con las preparaciones de `preparaciones.json`).
+`npm run catalogo:tipicos` genera por defecto la versión 2026-10-29 (con las preparaciones de `preparaciones.json`).
 También admite `npm run catalogo:tipicos -- AAAA-MM-DD`. Node 24,
 sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 
@@ -1129,9 +1129,11 @@ Gastronomía ni de ninguna otra fuente. Criterios:
   por uso, y lo que se reparte en piezas (croquetas, albóndigas) dice cuántas.
 - Imperativo de tú, cifras en dígitos y unidades del sistema métrico.
 
-Tandas escritas (400 recetas): la 1 (100 habituales: tortillas, legumbres,
+Tandas escritas (500 recetas, más los tres pastissets): la 1 (100 habituales: tortillas, legumbres,
 arroces y pasta, guisos de carne y pescado, verduras, cremas, ensaladas, salsas
 básicas y postres caseros) y la 2 (100 más del mismo repertorio), revisadas por
 Víctor con muestras en la app; la 3 y la 4 (200 platos preparados siguientes en
 el orden de `recetas.json`: regionales, tapas, bocadillos y sándwiches, cocidos,
-ensaladas y platos de diario) con el mismo criterio.
+ensaladas y platos de diario) con el mismo criterio, y la 5 (100 platos
+preparados más: asiáticos, mexicanos y de otras cocinas, tápers de comida
+preparada, regionales, guisos de carne y pescado, arroces y pasta).
