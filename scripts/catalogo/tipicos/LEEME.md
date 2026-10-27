@@ -1,6 +1,6 @@
 # Típicos: catálogo ampliado y límites
 
-`npm run catalogo:tipicos` genera por defecto la versión 2026-10-27 (con las preparaciones de `preparaciones.json`).
+`npm run catalogo:tipicos` genera por defecto la versión 2026-10-28 (con las preparaciones de `preparaciones.json`).
 También admite `npm run catalogo:tipicos -- AAAA-MM-DD`. Node 24,
 sin dependencias nuevas. Lógica pura en tipicosLib.ts; E/S en tipicos.ts.
 

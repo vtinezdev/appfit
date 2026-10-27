@@ -162,3 +162,18 @@ export function nombrePlatoDe(vista: Pick<RecetaVista, 'nombre'>, variante?: Pic
 }
 
 export const NOMBRE_VARIANTE_MAX = 60
+
+/**
+ * El recetario AppFit para la pantalla Recetas: los que coinciden con la consulta (todas sus palabras, al principio
+ * de alguna del nombre), primero los que ya tienen pasos y después por nombre.
+ */
+export function filtrarRecetario<T extends Pick<CatalogFood, 'nombre' | 'receta'>>(platos: readonly T[], consulta: string): T[] {
+  const palabras = normalizeName(consulta).split(/\s+/).filter(Boolean)
+  const coincide = (nombre: string) => {
+    if (palabras.length === 0) return true
+    const delNombre = normalizeName(nombre).split(/[^a-z0-9ñ]+/).filter(Boolean)
+    return palabras.every((p) => delNombre.some((w) => w.startsWith(p)))
+  }
+  const conPasos = (p: T) => (p.receta?.pasos?.length ? 0 : 1)
+  return platos.filter((p) => coincide(p.nombre)).sort((a, b) => conPasos(a) - conPasos(b) || a.nombre.localeCompare(b.nombre, 'es'))
+}

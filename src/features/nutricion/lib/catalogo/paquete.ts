@@ -47,6 +47,12 @@ export interface RecetaFila {
   notas?: string
 }
 
+/**
+ * Lo que esta app sabe leer del paquete. Súbelo al aprender a leer un campo nuevo (2: `extra.receta`): las fuentes
+ * importadas por una app anterior (que lo ignoraba) se reimportan aunque su versión no cambie.
+ */
+export const LECTURA_CATALOGO = 2
+
 /** Fuente de los ingredientes de las recetas de típicos. */
 const FUENTE_INGREDIENTES = 'ciqual'
 

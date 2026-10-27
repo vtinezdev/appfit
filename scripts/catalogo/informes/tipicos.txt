@@ -1,4 +1,4 @@
-Típicos 2026-10-27 · CIQUAL 2025-es2
+Típicos 2026-10-28 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
 Vía 2 (directos): 420; excluidos por energía: salvado-avena-cocido
 Vía 3 (recetas): 1552, con preparación escrita: 400; total: 1972

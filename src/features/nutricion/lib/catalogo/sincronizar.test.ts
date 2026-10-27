@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { db } from '../../../../shared/db/db'
 import type { CatalogFood, CatalogSource } from '../../../../shared/db/types'
 import * as catalogRepo from '../../data/catalogRepo'
+import { LECTURA_CATALOGO } from './paquete'
 import { crearSincronizador } from './sincronizar'
 
 beforeEach(async () => {
@@ -41,7 +42,7 @@ function servidor(archivos: Record<string, unknown>) {
 }
 
 function instalada(version: string): CatalogSource {
-  return { id: 'ciqual', version, importadoAt: 1, licencia: 'L', atribucion: 'A', filas: 2 }
+  return { id: 'ciqual', version, importadoAt: 1, licencia: 'L', atribucion: 'A', filas: 2, lectura: LECTURA_CATALOGO }
 }
 
 function crear(archivos: Record<string, unknown>, instaladas: CatalogSource[] = []) {
@@ -63,6 +64,16 @@ describe('sincronizar', () => {
     expect(fetchJson).toHaveBeenCalledTimes(1)
     expect(fetchJson).toHaveBeenCalledWith('/catalogo/manifest.json', { sinCache: true })
     expect(importarFuente).not.toHaveBeenCalled()
+  })
+
+  it('reimporta la misma versión si la importó una app que leía menos (sin las recetas de típicos)', async () => {
+    const { lectura: _, ...deUnaAppAnterior } = instalada('v1')
+    const { sincronizar, importarFuente } = crear({
+      '/catalogo/manifest.json': manifest('v1'),
+      '/catalogo/ciqual-v1.json': paquete('v1'),
+    }, [deUnaAppAnterior])
+    expect((await sincronizar()).actualizadas).toEqual([{ id: 'ciqual', version: 'v1', filas: 2 }])
+    expect(importarFuente.mock.calls[0][0].lectura).toBe(LECTURA_CATALOGO)
   })
 
   it('reimporta una ampliación del mismo día si cambia el número de filas, sin usar caché', async () => {
@@ -91,6 +102,7 @@ describe('sincronizar', () => {
       licencia: 'Licence Ouverte Etalab 2.0',
       atribucion: 'ANSES, Ciqual',
       filas: 2,
+      lectura: LECTURA_CATALOGO,
     })
     expect(foods.map((f) => f.id)).toEqual(['ciqual:1', 'ciqual:2'])
     expect(foods.every((f) => f.version === 'v1' && f.importadoAt === 777)).toBe(true)

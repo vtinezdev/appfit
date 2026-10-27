@@ -4,7 +4,6 @@ import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
-import { EmptyState } from '../../../shared/components/StateMessage'
 import { formatInt } from '../../../shared/lib/format'
 import * as recetasRepo from '../data/recetasRepo'
 import { por100DeReceta, textoRaciones, textoTiempo, valoresPorRacion } from '../lib/recetas'
@@ -23,7 +22,7 @@ export default function ListaRecetas() {
   return (
     <div className="space-y-stack">
       <Button variant="secondary" block onClick={() => setCreando(true)}><Icon name="plus" size={18} />Nueva receta</Button>
-      {recetas?.length === 0 && <EmptyState icon="recetario" title="Aún no hay recetas">Crea una receta con sus ingredientes, su peso cocinado y cómo se prepara: se convierte en un alimento con sus valores por ración y por 100 g.</EmptyState>}
+      {recetas?.length === 0 && <p className="text-body-sm text-fg-muted">Aún no has creado ninguna. Una receta tuya guarda sus ingredientes, su peso cocinado y cómo se prepara, y se registra como un alimento con sus valores por ración.</p>}
       {recetas && recetas.length > 0 && (
         <ListGroup aria-label="Tus recetas">
           {recetas.map((r) => {

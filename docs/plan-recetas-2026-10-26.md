@@ -130,7 +130,12 @@ Orden sugerido: 1 → 2 → etapa 2 (recetario en el móvil) → 3 y 4, enseñan
 - `HojaReceta` y `PreguntaVariante` en Añadir comida; lógica en `lib/variantes.ts`; datos en `recetasRepo.vista` / `itemsDeIngredientes` y `variantesRepo`; tabla `variantesReceta` (Dexie v15, backup y copia cifrada).
 - Concretado al implementar (pendiente en la decisión anterior): **una variante y «Solo esta vez» se registran como un plato con sus ingredientes** («Receta · Variante», «Receta · con cambios»), no como una entrada única, para no crear alimentos ocultos y que se vea qué cambió. La normal sigue siendo una sola entrada.
 - Validación en navegador: `scripts/ui/validar-recetas-anadir.cjs` (320/375/430, claro y oscuro).
-- Falta de la etapa 2: el «Recetario AppFit» en la pantalla Recetas (lista con buscador y `FichaReceta` de solo lectura con pasos) y «Copiar a mis recetas».
+- Falta de la etapa 2: «Copiar a mis recetas».
+
+**Hecho después de fusionar (2026-10-27, PR siguiente):** al probarlo, Víctor no veía las recetas del catálogo como recetas y la pantalla Recetas decía «Aún no hay recetas».
+- Causa de lo primero: la app anterior (aún en caché) importó el paquete nuevo ignorando `extra.receta` y lo marcó como al día. Ahora `CatalogSource.lectura` fuerza una reimportación cuando la app sabe leer más.
+- Pantalla Recetas con «Tus recetas» y «Recetario AppFit» (buscador; `FichaReceta` de solo lectura para las del catálogo, registrar en raciones o gramos).
+- Alias «arroz al horno valenciano» para el arroz al horno; paquete de típicos 2026-10-28.
 
 ### Etapa 3 — Mis recetas (decisiones 2–5) y cierre
 Puntos 1–5 de § Fase 2 de abajo, más las decisiones 2–5: quitar la vista Alimentos → Recetas, lista por ración, selector «Por ración / Por 100 g», gramos editables al registrar e ingredientes proporcionales en la lista de la compra (también para recetas del catálogo).

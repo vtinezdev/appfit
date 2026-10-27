@@ -101,6 +101,11 @@ export interface CatalogSource {
   licencia: string
   atribucion: string
   filas: number
+  /**
+   * Qué sabía leer la app que importó la fuente (`LECTURA_CATALOGO`). Ausente = antes de las recetas de típicos.
+   * Una app que lee campos nuevos reimporta lo que importó una anterior aunque la versión no cambie. Sin índice.
+   */
+  lectura?: number
 }
 
 /** Nombre personal para mostrar un alimento en Nutrición. `id` es la clave estable de un `FoodRef`. */
