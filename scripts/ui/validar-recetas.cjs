@@ -96,6 +96,11 @@ async function main() {
         page.on('pageerror', e => errores.push(e.message))
         await page.goto(origen)
         await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()
+        // Sin recetas tuyas: estado vacío con sus dos salidas.
+        await navegar(page, 'Recetas')
+        await page.getByText('Aún no tienes recetas', { exact: true }).waitFor()
+        await page.getByRole('button', { name: 'Ver las de AppFit', exact: true }).waitFor()
+        await captura(page, `${etiqueta}-vacio`)
         await sembrar(page)
 
         // Rejilla de secciones con Recetas: ocho secciones, dos filas de cuatro.
@@ -116,6 +121,12 @@ async function main() {
         await page.getByRole('heading', { name: 'Recetas', level: 1 }).waitFor()
         await page.getByRole('list', { name: 'Tus recetas' }).getByRole('button').nth(3).waitFor()
         await captura(page, `${etiqueta}-lista`)
+        // Pestaña AppFit: buscador con el total y filtro «Con pasos»; se vuelve a Tuyas.
+        await page.getByRole('tab', { name: 'AppFit', exact: true }).click()
+        await page.getByRole('searchbox', { name: 'Buscar en el recetario AppFit' }).or(page.getByText('El recetario aún no está descargado')).waitFor()
+        await captura(page, `${etiqueta}-appfit`)
+        await page.getByRole('tab', { name: 'Tuyas', exact: true }).click()
+        await page.getByRole('list', { name: 'Tus recetas' }).waitFor()
 
         // Larga: arriba y abajo.
         let ficha = await abrirReceta(page, 'Lentejas estofadas')
@@ -123,11 +134,11 @@ async function main() {
         // Recalcular para 2 raciones: la mitad.
         await ficha.getByRole('button', { name: 'Reducir raciones', exact: true }).click()
         await ficha.getByRole('button', { name: 'Reducir raciones', exact: true }).click()
-        await ficha.getByText('Recalculado para 2 raciones').waitFor()
+        await ficha.getByText('para 4 raciones', { exact: true }).waitFor()
         assert.ok(await ficha.getByRole('list', { name: 'Ingredientes' }).getByRole('listitem').filter({ hasText: 'Lentejas pardinas' }).getByText('160 g').isVisible())
         await ficha.getByRole('list', { name: 'Ingredientes' }).getByRole('listitem').filter({ hasText: 'Pimentón' }).scrollIntoViewIfNeeded()
         await captura(page, `${etiqueta}-ficha-larga-ingredientes`)
-        await ficha.getByRole('region', { name: 'Notas' }).scrollIntoViewIfNeeded()
+        await ficha.getByText(/Están más ricas al día siguiente/).scrollIntoViewIfNeeded()
         await captura(page, `${etiqueta}-ficha-larga-abajo`)
 
         // Editor con pasos.
@@ -164,7 +175,7 @@ async function main() {
         await captura(page, `${etiqueta}-registrar`)
         await hoja.getByRole('button', { name: /^Registrar · \d+ kcal$/ }).click()
         await hoja.waitFor({ state: 'detached' })
-        await ficha.getByRole('status').getByText(/Registrado: 1 ración · Cena · Hoy/).waitFor()
+        await ficha.getByRole('status').getByText(/Registrado · 1 ración · Cena · Hoy/).waitFor()
         const entrada = await page.evaluate(async () => {
           const { todayISO } = await import('/src/shared/lib/dates.ts')
           return (await (await import('/src/features/nutricion/data/entriesRepo.ts')).delDia(todayISO())).map(e => ({ nombre: e.nombre, comida: e.comida, gramos: e.gramos, kcal: e.kcal }))
