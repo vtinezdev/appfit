@@ -1,6 +1,6 @@
 # Preparaciones de las recetas de típicos
 
-1462 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
+1555 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
 
 ## 1. Tortilla de patatas, con cebolla, cuajada
 
@@ -30698,3 +30698,1522 @@
 3. Úntalos con 40 g de queso de untar y cubre con 60 g de salmón ahumado.
 
 *Notas:* Salen unos 12 canapés: una ración son 3.
+
+## 1463. Chocolate a la taza, casero, cocido
+
+`chocolate-taza` · Bebidas · 5 raciones de 230 g · 20 min · por ración: 351 kcal, P 8,9 g, C 39,5 g, G 17,1 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 1000 g · Leche entera, UHT
+- 150 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 25 g · Almidón de maíz o fécula de maíz
+- 50 g · Azúcar blanco
+
+**Preparación**
+
+1. Calienta 800 g de la leche con 150 g de chocolate troceado y 50 g de azúcar, removiendo, hasta que el chocolate se funda.
+2. Disuelve 25 g de maicena en el resto de la leche fría.
+3. Añádela al chocolate y cuece a fuego suave 3 o 4 minutos, sin dejar de remover, hasta que espese.
+
+*Notas:* Una ración es una taza de unos 230 g. Ideal con churros, que no están incluidos.
+
+## 1464. Leche merengada, casera, lista para consumir
+
+`leche-merengada` · Bebidas · 5 raciones de 230 g · 30 min · por ración: 256 kcal, P 8,3 g, C 39,7 g, G 7,2 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 1000 g · Leche entera, UHT
+- 150 g · Azúcar blanco
+- 60 g · Huevo, clara, cruda
+- 2 g · Canela, polvo
+
+**Preparación**
+
+1. Calienta 1.000 g de leche con 120 g del azúcar y una rama de canela (o la canela en polvo) sin que hierva. Deja que se enfríe y guárdala en la nevera.
+2. Monta 60 g de claras a punto de nieve con el resto del azúcar.
+3. Mézclalas con la leche fría con movimientos envolventes.
+4. Sírvela muy fría o semicongelada, con canela por encima.
+
+*Notas:* Lleva clara cruda: usa huevos muy frescos o pasteurizados.
+
+## 1465. Granizado de limón, casero, listo para consumir
+
+`granizado-limon` · Bebidas · 5 raciones de 230 g · 20 min · por ración: 174 kcal, P 0,2 g, C 41,1 g, G 0,1 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 700 g · Agua del grifo
+- 250 g · Zumo de limón, casero
+- 200 g · Azúcar blanco
+
+**Preparación**
+
+1. Calienta 300 g del agua con 200 g de azúcar hasta que se disuelva.
+2. Añade el resto del agua y 250 g de zumo de limón.
+3. Congélalo en un recipiente plano, rascándolo con un tenedor cada 30 minutos durante 3 horas, hasta que tenga textura de granizado.
+
+*Notas:* La congelación no cuenta en el tiempo. Una ración son unos 230 g.
+
+## 1466. Limonada, casera, lista para consumir
+
+`limonada-casera` · Bebidas · 4 raciones de 258 g · 10 min · por ración: 91 kcal, P 0,2 g, C 20,9 g, G 0,1 g
+
+**Ingredientes** (lote de 1030 g cocinado)
+
+- 800 g · Agua del grifo
+- 150 g · Zumo de limón, casero
+- 80 g · Azúcar blanco
+
+**Preparación**
+
+1. Disuelve 80 g de azúcar en un poco del agua templada.
+2. Añade el resto del agua y 150 g de zumo de limón.
+3. Sírvela muy fría, con hielo.
+
+*Notas:* El hielo no cuenta en el peso. Una ración son unos 250 g.
+
+## 1467. Tinto de verano con gaseosa, listo para consumir
+
+`tinto-verano-gaseosa` · Bebidas alcohólicas · 4 raciones de 250 g · 3 min · por ración: 95 kcal, P 0,3 g, C 0,1 g, G 0,4 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 500 g · Vino tinto
+- 500 g · Limonada gaseosa (refresco), sin azúcares añadidos, con edulcorantes
+
+**Preparación**
+
+1. Mezcla 500 g de vino tinto con 500 g de gaseosa en una jarra con hielo.
+2. Sirve enseguida, con una rodaja de limón si quieres.
+
+*Notas:* El hielo no cuenta en el peso. Una ración son 250 g.
+
+## 1468. Tinto de verano con limón, listo para consumir
+
+`tinto-verano-limon` · Bebidas alcohólicas · 4 raciones de 250 g · 3 min · por ración: 136 kcal, P 0,3 g, C 10,3 g, G 0,4 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 500 g · Vino tinto
+- 500 g · Limonada gaseosa (refresco), con azúcar
+
+**Preparación**
+
+1. Mezcla 500 g de vino tinto con 500 g de refresco de limón en una jarra con hielo.
+2. Sirve enseguida.
+
+*Notas:* El hielo no cuenta en el peso. Una ración son 250 g.
+
+## 1469. Calimocho, listo para consumir
+
+`calimocho` · Bebidas alcohólicas · 4 raciones de 250 g · 3 min · por ración: 145 kcal, P 0,3 g, C 12,5 g, G 0,4 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 500 g · Vino tinto
+- 500 g · Cola, con azúcar
+
+**Preparación**
+
+1. Mezcla 500 g de vino tinto con 500 g de refresco de cola en una jarra con hielo.
+2. Sirve enseguida.
+
+*Notas:* El hielo no cuenta en el peso. Una ración son 250 g.
+
+## 1470. Rebujito, con vino blanco seco, listo para consumir
+
+`rebujito` · Bebidas alcohólicas · 4 raciones de 250 g · 3 min · por ración: 99 kcal, P 0,2 g, C 14,5 g, G 0 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 300 g · Vino blanco seco
+- 700 g · Limonada gaseosa (refresco), con azúcar
+
+**Preparación**
+
+1. Mezcla 300 g de vino blanco seco (manzanilla o fino) con 700 g de refresco de limón en una jarra con hielo y hierbabuena.
+2. Sirve enseguida.
+
+*Notas:* El hielo no cuenta en el peso. Una ración son 250 g.
+
+## 1471. Carajillo de coñac, listo para consumir
+
+`carajillo` · Bebidas alcohólicas · 1 ración de 90 g · 5 min · por ración: 71 kcal, P 0,2 g, C 1 g, G 0,1 g
+
+**Ingredientes** (lote de 90 g cocinado)
+
+- 60 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 30 g · Aguardiente de vino tipo armañac o coñac
+
+**Preparación**
+
+1. Calienta 30 g de coñac en una taza (o flambéalo un momento con unos granos de café).
+2. Añade 60 g de café expreso recién hecho.
+
+## 1472. Agua de Valencia, lista para consumir
+
+`agua-valencia` · Bebidas alcohólicas · 4 raciones de 230 g · 10 min · por ración: 213 kcal, P 0,9 g, C 13,6 g, G 0,2 g
+
+**Ingredientes** (lote de 920 g cocinado)
+
+- 500 g · Champán
+- 300 g · Zumo de naranja, fresco
+- 50 g · Vodka
+- 50 g · Ginebra
+- 20 g · Azúcar blanco
+
+**Preparación**
+
+1. En una jarra con hielo, mezcla 300 g de zumo de naranja con 20 g de azúcar hasta que se disuelva.
+2. Añade 50 g de vodka y 50 g de ginebra.
+3. Completa con 500 g de cava muy frío y remueve suavemente.
+
+*Notas:* El hielo no cuenta en el peso. Una ración son unos 230 g.
+
+## 1473. Café bombón, listo para consumir
+
+`cafe-bombon` · Bebidas · 1 ración de 70 g · 3 min · por ración: 101 kcal, P 2,4 g, C 17,4 g, G 2,5 g
+
+**Ingredientes** (lote de 70 g cocinado)
+
+- 40 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 30 g · Leche condensada azucarada, entera
+
+**Preparación**
+
+1. Pon 30 g de leche condensada en un vaso pequeño de cristal.
+2. Vierte encima 40 g de café expreso con cuidado, para que no se mezclen las capas.
+
+## 1474. Café con leche y azúcar, listo para consumir
+
+`cafe-leche-azucar` · Bebidas · 1 ración de 208 g · 3 min · por ración: 103 kcal, P 3,8 g, C 14 g, G 3,8 g
+
+**Ingredientes** (lote de 208 g cocinado)
+
+- 100 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 100 g · Leche entera, UHT
+- 8 g · Azúcar blanco
+
+**Preparación**
+
+1. Prepara 100 g de café y calienta 100 g de leche.
+2. Mézclalos y endulza con 8 g de azúcar.
+
+## 1475. Café cortado, listo para consumir
+
+`cortado` · Bebidas · 1 ración de 60 g · 3 min · por ración: 16 kcal, P 0,8 g, C 1,4 g, G 0,8 g
+
+**Ingredientes** (lote de 60 g cocinado)
+
+- 40 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 20 g · Leche entera, UHT
+
+**Preparación**
+
+1. Prepara 40 g de café expreso.
+2. Añade 20 g de leche caliente.
+
+## 1476. Batido de fresa, casero, listo para consumir
+
+`batido-fresa` · Bebidas · 2 raciones de 210 g · 5 min · por ración: 147 kcal, P 4,8 g, C 20,5 g, G 4,7 g
+
+**Ingredientes** (lote de 420 g cocinado)
+
+- 250 g · Leche entera, UHT
+- 150 g · Fresa, cruda
+- 20 g · Azúcar blanco
+
+**Preparación**
+
+1. Lava 150 g de fresas y quítales el rabito.
+2. Tritúralas con 250 g de leche fría y 20 g de azúcar hasta que quede espumoso.
+
+## 1477. Batido de plátano, casero, listo para consumir
+
+`batido-platano` · Bebidas · 2 raciones de 195 g · 5 min · por ración: 158 kcal, P 5,1 g, C 23,8 g, G 4,7 g
+
+**Ingredientes** (lote de 390 g cocinado)
+
+- 250 g · Leche entera, UHT
+- 130 g · Plátano, pulpa sin piel, cruda
+- 10 g · Azúcar blanco
+
+**Preparación**
+
+1. Pela 130 g de plátano.
+2. Tritúralo con 250 g de leche fría y 10 g de azúcar.
+
+## 1478. Batido de chocolate, casero, listo para consumir
+
+`batido-chocolate` · Bebidas · 1 ración de 275 g · 5 min · por ración: 260 kcal, P 11 g, C 28,1 g, G 11,1 g
+
+**Ingredientes** (lote de 275 g cocinado)
+
+- 250 g · Leche entera, UHT
+- 10 g · Cacao, sin azúcares añadidos, polvo soluble
+- 15 g · Azúcar blanco
+
+**Preparación**
+
+1. Tritura o bate 250 g de leche fría con 10 g de cacao y 15 g de azúcar hasta que esté espumoso.
+
+## 1479. Zumo de naranja con azúcar, listo para consumir
+
+`zumo-naranja-casero` · Bebidas · 1 ración de 260 g · 5 min · por ración: 152 kcal, P 1,8 g, C 33 g, G 0,5 g
+
+**Ingredientes** (lote de 260 g cocinado)
+
+- 250 g · Zumo de naranja, fresco
+- 10 g · Azúcar blanco
+
+**Preparación**
+
+1. Exprime naranjas hasta tener 250 g de zumo.
+2. Añade 10 g de azúcar y remueve.
+
+## 1480. Gin tonic, listo para consumir
+
+`gin-tonic` · Bebidas alcohólicas · 1 ración de 250 g · 3 min · por ración: 199 kcal, P 0 g, C 16,6 g, G 0 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 50 g · Ginebra
+- 200 g · Tónica o bitter, azucarada
+
+**Preparación**
+
+1. Llena un vaso alto de hielo.
+2. Añade 50 g de ginebra.
+3. Completa con 200 g de tónica muy frío y remueve suavemente.
+4. Añade una piel de limón o de lima.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1481. Ron con cola, listo para consumir
+
+`ron-cola` · Bebidas alcohólicas · 1 ración de 250 g · 3 min · por ración: 197 kcal, P 0 g, C 20 g, G 0 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 50 g · Ron
+- 200 g · Cola, con azúcar
+
+**Preparación**
+
+1. Llena un vaso alto de hielo.
+2. Añade 50 g de ron.
+3. Completa con 200 g de refresco de cola muy frío y remueve suavemente.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1482. Whisky con cola, listo para consumir
+
+`whisky-cola` · Bebidas alcohólicas · 1 ración de 250 g · 3 min · por ración: 206 kcal, P 0 g, C 20,1 g, G 0 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 50 g · Whisky
+- 200 g · Cola, con azúcar
+
+**Preparación**
+
+1. Llena un vaso alto de hielo.
+2. Añade 50 g de whisky.
+3. Completa con 200 g de refresco de cola muy frío y remueve suavemente.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1483. Mojito, listo para consumir
+
+`mojito` · Bebidas alcohólicas · 1 ración de 250 g · 5 min · por ración: 188 kcal, P 0,3 g, C 16 g, G 0,1 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 50 g · Ron
+- 30 g · Zumo de limón, casero
+- 15 g · Azúcar blanco
+- 5 g · Menta, fresca
+- 150 g · Agua mineral, embotellada, con gas (promedio)
+
+**Preparación**
+
+1. En un vaso, maja 5 g de hojas de menta con 15 g de azúcar y 30 g de zumo de lima o limón, sin romper demasiado las hojas.
+2. Llena el vaso de hielo picado y añade 50 g de ron.
+3. Completa con 150 g de agua con gas y remueve.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1484. Sangría de vino blanco, casera, lista para consumir
+
+`sangria-blanca` · Bebidas alcohólicas · 6 raciones de 242 g · 15 min · por ración: 114 kcal, P 0,5 g, C 10,9 g, G 0 g
+
+**Ingredientes** (lote de 1450 g cocinado)
+
+- 750 g · Vino blanco seco
+- 150 g · Zumo de naranja, fresco
+- 50 g · Azúcar blanco
+- 500 g · Limonada gaseosa (refresco), sin azúcares añadidos, con edulcorantes
+
+**Preparación**
+
+1. En una jarra, disuelve 50 g de azúcar en 150 g de zumo de naranja.
+2. Añade 750 g de vino blanco y deja que repose en la nevera 1 hora.
+3. Antes de servir, añade 500 g de gaseosa y hielo.
+
+*Notas:* El hielo no cuenta en el peso. El reposo no cuenta en el tiempo. Una ración son unos 240 g.
+
+## 1485. Leche de pantera, lista para consumir
+
+`leche-pantera` · Bebidas alcohólicas · 1 ración de 210 g · 5 min · por ración: 271 kcal, P 5,3 g, C 17,3 g, G 5,4 g
+
+**Ingredientes** (lote de 210 g cocinado)
+
+- 150 g · Leche entera, UHT
+- 50 g · Ginebra
+- 10 g · Azúcar blanco
+- 0,5 g · Canela, polvo
+
+**Preparación**
+
+1. Mezcla 150 g de leche fría con 10 g de azúcar hasta que se disuelva.
+2. Añade 50 g de ginebra y sirve con hielo y canela por encima.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1486. Té con leche, listo para consumir
+
+`te-leche` · Bebidas · 1 ración de 230 g · 5 min · por ración: 22 kcal, P 1,1 g, C 2 g, G 1,1 g
+
+**Ingredientes** (lote de 230 g cocinado)
+
+- 200 g · Té negro, infusionado, sin azúcares añadidos
+- 30 g · Leche entera, UHT
+
+**Preparación**
+
+1. Infusiona una bolsita de té negro en 200 g de agua recién hervida 3 o 4 minutos.
+2. Añade 30 g de leche.
+
+## 1487. Infusión con miel, lista para consumir
+
+`infusion-miel` · Bebidas · 1 ración de 210 g · 5 min · por ración: 35 kcal, P 0,1 g, C 8,6 g, G 0 g
+
+**Ingredientes** (lote de 210 g cocinado)
+
+- 200 g · Infusión de hierbas, sin azúcares añadidos
+- 10 g · Miel
+
+**Preparación**
+
+1. Infusiona la bolsita o las hierbas en 200 g de agua recién hervida 5 minutos.
+2. Endulza con 10 g de miel.
+
+## 1488. Batido de frutas con yogur, casero, listo para consumir
+
+`batido-frutas-yogur` · Bebidas · 1 ración de 325 g · 5 min · por ración: 185 kcal, P 6,5 g, C 31,1 g, G 2,7 g
+
+**Ingredientes** (lote de 325 g cocinado)
+
+- 100 g · Plátano, pulpa sin piel, cruda
+- 100 g · Fresa, cruda
+- 125 g · Yogur o leche fermentada, natural
+
+**Preparación**
+
+1. Pela 100 g de plátano y lava 100 g de fresas.
+2. Tritúralos con 125 g de yogur hasta que quede fino.
+
+## 1489. Batido de leche con plátano y avena, casero, listo para consumir
+
+`batido-proteico-casero` · Bebidas · 1 ración de 460 g · 5 min · por ración: 399 kcal, P 18,6 g, C 60,9 g, G 7,9 g
+
+**Ingredientes** (lote de 460 g cocinado)
+
+- 300 g · Leche semidesnatada, UHT
+- 120 g · Plátano, pulpa sin piel, cruda
+- 40 g · Avena, cruda
+
+**Preparación**
+
+1. Pela 120 g de plátano.
+2. Tritúralo con 300 g de leche y 40 g de copos de avena hasta que quede fino.
+
+## 1490. Leche con galletas, lista para consumir
+
+`leche-galletas` · Bebidas · 1 ración de 280 g · 3 min · por ración: 251 kcal, P 10,9 g, C 35 g, G 7,5 g
+
+**Ingredientes** (lote de 280 g cocinado)
+
+- 250 g · Leche semidesnatada, UHT
+- 30 g · Galleta seca natural
+
+**Preparación**
+
+1. Calienta o sirve fría 250 g de leche.
+2. Moja en ella 30 g de galletas.
+
+## 1491. Leche con cacao soluble y galletas, lista para consumir
+
+`leche-cacao-galletas` · Bebidas · 1 ración de 295 g · 3 min · por ración: 310 kcal, P 12 g, C 45,5 g, G 8,5 g
+
+**Ingredientes** (lote de 295 g cocinado)
+
+- 250 g · Leche semidesnatada, UHT
+- 5 g · Cacao, sin azúcares añadidos, polvo soluble
+- 10 g · Azúcar blanco
+- 30 g · Galleta seca natural
+
+**Preparación**
+
+1. Disuelve 5 g de cacao y 10 g de azúcar en 250 g de leche.
+2. Sírvela con 30 g de galletas.
+
+## 1492. Leche con cacao soluble, lista para consumir
+
+`leche-cacao-soluble` · Bebidas · 1 ración de 265 g · 3 min · por ración: 218 kcal, P 9,8 g, C 23,3 g, G 9,5 g
+
+**Ingredientes** (lote de 265 g cocinado)
+
+- 250 g · Leche entera, UHT
+- 15 g · Polvo de chocolate para bebida, azucarado
+
+**Preparación**
+
+1. Disuelve 15 g de cacao soluble azucarado en 250 g de leche fría o caliente.
+
+## 1493. Leche semidesnatada con cacao soluble, lista para consumir
+
+`leche-semi-cacao` · Bebidas · 1 ración de 265 g · 3 min · por ración: 176 kcal, P 9,8 g, C 23,8 g, G 4,5 g
+
+**Ingredientes** (lote de 265 g cocinado)
+
+- 250 g · Leche semidesnatada, UHT
+- 15 g · Polvo de chocolate para bebida, azucarado
+
+**Preparación**
+
+1. Disuelve 15 g de cacao soluble azucarado en 250 g de leche semidesnatada fría o caliente.
+
+## 1494. Café solo con azúcar, listo para consumir
+
+`cafe-solo-azucar` · Bebidas · 1 ración de 58 g · 3 min · por ración: 35 kcal, P 0,2 g, C 8,6 g, G 0,1 g
+
+**Ingredientes** (lote de 58 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 8 g · Azúcar blanco
+
+**Preparación**
+
+1. Prepara 50 g de café expreso.
+2. Endulza con 8 g de azúcar.
+
+## 1495. Café con hielo y azúcar, listo para consumir
+
+`cafe-hielo` · Bebidas · 1 ración de 138 g · 5 min · por ración: 35 kcal, P 0,2 g, C 8,6 g, G 0,1 g
+
+**Ingredientes** (lote de 138 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 8 g · Azúcar blanco
+- 80 g · Agua del grifo
+
+**Preparación**
+
+1. Prepara 50 g de café expreso y endúlzalo con 8 g de azúcar en caliente.
+2. Viértelo sobre un vaso con hielo (80 g).
+
+*Notas:* El hielo cuenta como 80 g de agua al fundirse.
+
+## 1496. Capuchino, listo para consumir
+
+`capuchino` · Bebidas · 1 ración de 200 g · 5 min · por ración: 100 kcal, P 5,4 g, C 7,8 g, G 5,5 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 150 g · Leche entera, UHT
+
+**Preparación**
+
+1. Prepara 50 g de café expreso.
+2. Calienta 150 g de leche y móntala con espumador o batidor hasta que tenga espuma.
+3. Viértela sobre el café, dejando la espuma arriba.
+
+## 1497. Café con bebida de avena, listo para consumir
+
+`cafe-leche-avena` · Bebidas · 1 ración de 200 g · 3 min · por ración: 65 kcal, P 0,6 g, C 12,3 g, G 1,8 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 150 g · Bebida de avena, natural, sin azúcares añadidos, no enriquecida, envasada
+
+**Preparación**
+
+1. Prepara 50 g de café y calienta 150 g de bebida de avena.
+2. Mézclalos.
+
+## 1498. Café con bebida de soja, listo para consumir
+
+`cafe-leche-soja` · Bebidas · 1 ración de 200 g · 3 min · por ración: 72 kcal, P 5 g, C 4,9 g, G 3,1 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 150 g · Bebida de soja, envasada (promedio)
+
+**Preparación**
+
+1. Prepara 50 g de café y calienta 150 g de bebida de soja.
+2. Mézclalos.
+
+## 1499. Café moca con nata, listo para consumir
+
+`cafe-moca` · Bebidas · 1 ración de 240 g · 5 min · por ración: 240 kcal, P 8,1 g, C 21,1 g, G 13,2 g
+
+**Ingredientes** (lote de 240 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 150 g · Leche entera, UHT
+- 10 g · Cacao, sin azúcares añadidos, polvo soluble
+- 10 g · Azúcar blanco
+- 20 g · Nata montada, bajo presión, UHT
+
+**Preparación**
+
+1. Calienta 150 g de leche y disuelve en ella 10 g de cacao y 10 g de azúcar.
+2. Añade 50 g de café expreso.
+3. Cubre con 20 g de nata montada.
+
+## 1500. Café frappé, listo para consumir
+
+`cafe-frappe` · Bebidas · 1 ración de 295 g · 5 min · por ración: 160 kcal, P 5,4 g, C 22,8 g, G 5,5 g
+
+**Ingredientes** (lote de 295 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 150 g · Leche entera, UHT
+- 15 g · Azúcar blanco
+- 80 g · Agua del grifo
+
+**Preparación**
+
+1. Prepara 50 g de café expreso y deja que se enfríe.
+2. Bátelo con 150 g de leche fría, 15 g de azúcar y 80 g de hielo hasta que quede espumoso.
+
+*Notas:* El hielo cuenta como 80 g de agua.
+
+## 1501. Granizado de café, listo para consumir
+
+`granizado-cafe` · Bebidas · 3 raciones de 153 g · 15 min · por ración: 88 kcal, P 0,4 g, C 21,5 g, G 0,3 g
+
+**Ingredientes** (lote de 460 g cocinado)
+
+- 400 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 60 g · Azúcar blanco
+
+**Preparación**
+
+1. Prepara 400 g de café y disuelve en él 60 g de azúcar.
+2. Deja que se enfríe y congélalo en un recipiente plano, rascándolo con un tenedor cada 30 minutos durante 3 horas.
+
+*Notas:* La congelación no cuenta en el tiempo. Una ración son unos 150 g.
+
+## 1502. Café irlandés, listo para consumir
+
+`cafe-irlandes` · Bebidas alcohólicas · 1 ración de 200 g · 5 min · por ración: 240 kcal, P 1 g, C 14,6 g, G 8,7 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 120 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 40 g · Whisky
+- 10 g · Azúcar blanco
+- 30 g · Nata montada, bajo presión, UHT
+
+**Preparación**
+
+1. Calienta 40 g de whisky con 10 g de azúcar en una copa, sin que hierva.
+2. Añade 120 g de café caliente.
+3. Cubre con 30 g de nata montada, vertiéndola con cuidado sobre el dorso de una cuchara.
+
+## 1503. Té helado con limón casero, listo para consumir
+
+`te-helado-limon` · Bebidas · 2 raciones de 225 g · 15 min · por ración: 65 kcal, P 0 g, C 15,8 g, G 0 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 400 g · Té negro, infusionado, sin azúcares añadidos
+- 30 g · Azúcar blanco
+- 20 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Infusiona té negro en 400 g de agua recién hervida 4 minutos.
+2. Disuelve 30 g de azúcar y añade 20 g de zumo de limón.
+3. Deja que se enfríe y sírvelo con hielo.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1504. Té chai con leche, listo para consumir
+
+`chai-latte` · Bebidas · 1 ración de 313 g · 10 min · por ración: 142 kcal, P 5,3 g, C 18 g, G 5,4 g
+
+**Ingredientes** (lote de 313 g cocinado)
+
+- 150 g · Té negro, infusionado, sin azúcares añadidos
+- 150 g · Leche entera, UHT
+- 10 g · Azúcar blanco
+- 1 g · Canela, polvo
+- 2 g · Jengibre, raíz fresca
+
+**Preparación**
+
+1. Infusiona té negro en 150 g de agua con 2 g de jengibre en láminas y 1 g de canela 5 minutos.
+2. Calienta 150 g de leche con 10 g de azúcar y móntala un poco.
+3. Cuela el té y mézclalo con la leche.
+
+## 1505. Leche caliente con miel, lista para consumir
+
+`leche-miel` · Bebidas · 1 ración de 265 g · 5 min · por ración: 211 kcal, P 8,9 g, C 24,3 g, G 9 g
+
+**Ingredientes** (lote de 265 g cocinado)
+
+- 250 g · Leche entera, UHT
+- 15 g · Miel
+
+**Preparación**
+
+1. Calienta 250 g de leche sin que hierva.
+2. Endulza con 15 g de miel.
+
+## 1506. Smoothie de frutos rojos con yogur, listo para consumir
+
+`smoothie-frutos-rojos` · Bebidas · 1 ración de 335 g · 5 min · por ración: 184 kcal, P 6,5 g, C 27,8 g, G 3 g
+
+**Ingredientes** (lote de 335 g cocinado)
+
+- 100 g · Fresa, cruda
+- 50 g · Frambuesa, cruda
+- 50 g · Arándano, crudo
+- 125 g · Yogur o leche fermentada, natural
+- 10 g · Miel
+
+**Preparación**
+
+1. Tritura 100 g de fresas, 50 g de frambuesas y 50 g de arándanos con 125 g de yogur y 10 g de miel hasta que quede fino.
+
+## 1507. Smoothie verde de espinacas, manzana y plátano, listo para consumir
+
+`smoothie-verde` · Bebidas · 2 raciones de 235 g · 5 min · por ración: 95 kcal, P 1,5 g, C 20,5 g, G 0,4 g
+
+**Ingredientes** (lote de 470 g cocinado)
+
+- 30 g · Espinaca, cruda
+- 150 g · Manzana, pulpa sin piel, cruda (promedio)
+- 100 g · Plátano, pulpa sin piel, cruda
+- 80 g · Pepino, pulpa y piel, crudo
+- 10 g · Zumo de limón, casero
+- 100 g · Agua del grifo
+
+**Preparación**
+
+1. Lava 30 g de espinacas. Pela 150 g de manzana y 100 g de plátano y trocéalos con 80 g de pepino.
+2. Tritúralo todo con 100 g de agua fría y 10 g de zumo de limón hasta que quede fino.
+
+## 1508. Batido de mango con leche, listo para consumir
+
+`batido-mango` · Bebidas · 2 raciones de 205 g · 5 min · por ración: 156 kcal, P 4,1 g, C 24,1 g, G 3,9 g
+
+**Ingredientes** (lote de 410 g cocinado)
+
+- 200 g · Mango, pulpa sin piel, sin hueso, cruda
+- 200 g · Leche entera, UHT
+- 10 g · Azúcar blanco
+
+**Preparación**
+
+1. Pela 200 g de mango y trocéalo.
+2. Tritúralo con 200 g de leche fría y 10 g de azúcar.
+
+## 1509. Cerveza con gaseosa (clara), lista para consumir
+
+`clara-gaseosa` · Bebidas alcohólicas · 1 ración de 330 g · 2 min · por ración: 79 kcal, P 0,8 g, C 6,3 g, G 0 g
+
+**Ingredientes** (lote de 330 g cocinado)
+
+- 200 g · Cerveza estándar (4-5° de alcohol)
+- 130 g · Limonada gaseosa (refresco), sin azúcares añadidos, con edulcorantes
+
+**Preparación**
+
+1. Vierte 200 g de cerveza fría en un vaso.
+2. Completa con 130 g de gaseosa.
+
+## 1510. Michelada, lista para consumir
+
+`michelada` · Bebidas alcohólicas · 1 ración de 381 g · 5 min · por ración: 141 kcal, P 1,7 g, C 11,8 g, G 0,1 g
+
+**Ingredientes** (lote de 381 g cocinado)
+
+- 330 g · Cerveza estándar (4-5° de alcohol)
+- 20 g · Zumo de limón, casero
+- 30 g · Zumo de tomate, 100 % zumo (promedio)
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Moja el borde de un vaso con limón y pásalo por la sal.
+2. Pon en el vaso hielo, 20 g de zumo de limón y 30 g de zumo de tomate.
+3. Completa con 330 g de cerveza fría.
+
+*Notas:* El hielo no cuenta en el peso. Tradicionalmente lleva salsa picante y salsa Worcestershire.
+
+## 1511. Vermut con sifón, listo para consumir
+
+`vermut-sifon` · Bebidas alcohólicas · 1 ración de 130 g · 2 min · por ración: 137 kcal, P 0,1 g, C 11,3 g, G 0 g
+
+**Ingredientes** (lote de 130 g cocinado)
+
+- 100 g · Aperitivo a base de vino o vermut
+- 30 g · Agua mineral, embotellada, con gas (promedio)
+
+**Preparación**
+
+1. Pon hielo y una rodaja de naranja en un vaso.
+2. Añade 100 g de vermut y completa con 30 g de sifón.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1512. Spritz de cava con aperitivo amargo, listo para consumir
+
+`spritz` · Bebidas alcohólicas · 1 ración de 180 g · 3 min · por ración: 151 kcal, P 0,3 g, C 8 g, G 0 g
+
+**Ingredientes** (lote de 180 g cocinado)
+
+- 90 g · Champán
+- 60 g · Aperitivo a base de vino o vermut
+- 30 g · Agua mineral, embotellada, con gas (promedio)
+
+**Preparación**
+
+1. Llena una copa de vino de hielo.
+2. Añade 90 g de cava, 60 g de aperitivo amargo y 30 g de agua con gas.
+3. Decora con una rodaja de naranja.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1513. Vodka con zumo de naranja (destornillador), listo para consumir
+
+`vodka-naranja` · Bebidas alcohólicas · 1 ración de 200 g · 3 min · por ración: 192 kcal, P 1,1 g, C 13,8 g, G 0,3 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Vodka
+- 150 g · Zumo de naranja, fresco
+
+**Preparación**
+
+1. Llena un vaso alto de hielo.
+2. Añade 50 g de vodka.
+3. Completa con 150 g de zumo de naranja muy frío y remueve suavemente.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1514. Vodka con refresco de limón, listo para consumir
+
+`vodka-limon` · Bebidas alcohólicas · 1 ración de 200 g · 3 min · por ración: 175 kcal, P 0 g, C 12,3 g, G 0 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Vodka
+- 150 g · Limonada gaseosa (refresco), con azúcar
+
+**Preparación**
+
+1. Llena un vaso alto de hielo.
+2. Añade 50 g de vodka.
+3. Completa con 150 g de refresco de limón muy frío y remueve suavemente.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1515. Ginebra con refresco de limón, lista para consumir
+
+`ginebra-limon` · Bebidas alcohólicas · 1 ración de 200 g · 3 min · por ración: 182 kcal, P 0 g, C 12,3 g, G 0 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Ginebra
+- 150 g · Limonada gaseosa (refresco), con azúcar
+
+**Preparación**
+
+1. Llena un vaso alto de hielo.
+2. Añade 50 g de ginebra.
+3. Completa con 150 g de refresco de limón muy frío y remueve suavemente.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1516. Piña colada, lista para consumir
+
+`pina-colada` · Bebidas alcohólicas · 1 ración de 240 g · 5 min · por ración: 340 kcal, P 1,6 g, C 27,1 g, G 11,6 g
+
+**Ingredientes** (lote de 240 g cocinado)
+
+- 50 g · Ron
+- 120 g · Zumo de piña, 100 % zumo
+- 60 g · Leche de coco
+- 10 g · Azúcar blanco
+
+**Preparación**
+
+1. Tritura 50 g de ron, 120 g de zumo de piña, 60 g de leche de coco y 10 g de azúcar con hielo picado hasta que quede cremoso.
+2. Sírvela en un vaso alto.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1517. Caipiroska, lista para consumir
+
+`caipiroska` · Bebidas alcohólicas · 1 ración de 165 g · 5 min · por ración: 201 kcal, P 0,4 g, C 16,2 g, G 0,1 g
+
+**Ingredientes** (lote de 165 g cocinado)
+
+- 50 g · Vodka
+- 40 g · Limón verde o lima, pulpa sin piel, sin pepitas, cruda
+- 15 g · Azúcar blanco
+- 60 g · Agua del grifo
+
+**Preparación**
+
+1. Corta 40 g de lima en gajos y májala en un vaso con 15 g de azúcar.
+2. Llena el vaso de hielo picado (unos 60 g) y añade 50 g de vodka.
+3. Remueve bien.
+
+*Notas:* El hielo cuenta como 60 g de agua.
+
+## 1518. Daiquiri, listo para consumir
+
+`daiquiri` · Bebidas alcohólicas · 1 ración de 135 g · 5 min · por ración: 167 kcal, P 0,3 g, C 10,7 g, G 0,1 g
+
+**Ingredientes** (lote de 135 g cocinado)
+
+- 50 g · Ron
+- 25 g · Limón verde o lima, pulpa sin piel, sin pepitas, cruda
+- 10 g · Azúcar blanco
+- 50 g · Agua del grifo
+
+**Preparación**
+
+1. Pon en una coctelera 50 g de ron, 25 g de zumo de lima, 10 g de azúcar y hielo.
+2. Agita con fuerza y cuela en una copa fría.
+
+*Notas:* El hielo aporta unos 50 g de agua al agitar.
+
+## 1519. Ron con refresco de limón, listo para consumir
+
+`ron-limon` · Bebidas alcohólicas · 1 ración de 200 g · 3 min · por ración: 167 kcal, P 0 g, C 12,3 g, G 0 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Ron
+- 150 g · Limonada gaseosa (refresco), con azúcar
+
+**Preparación**
+
+1. Llena un vaso alto de hielo.
+2. Añade 50 g de ron.
+3. Completa con 150 g de refresco de limón muy frío y remueve suavemente.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1520. Ginebra con zumo de naranja, lista para consumir
+
+`ginebra-naranja` · Bebidas alcohólicas · 1 ración de 200 g · 3 min · por ración: 200 kcal, P 1,1 g, C 13,8 g, G 0,3 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Ginebra
+- 150 g · Zumo de naranja, fresco
+
+**Preparación**
+
+1. Llena un vaso alto de hielo.
+2. Añade 50 g de ginebra.
+3. Completa con 150 g de zumo de naranja muy frío y remueve suavemente.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1521. Bloody Mary, listo para consumir
+
+`bloody-mary` · Bebidas alcohólicas · 1 ración de 211 g · 5 min · por ración: 160 kcal, P 1,4 g, C 5,8 g, G 0,2 g
+
+**Ingredientes** (lote de 211 g cocinado)
+
+- 50 g · Vodka
+- 150 g · Zumo de tomate, 100 % zumo (promedio)
+- 10 g · Zumo de limón, casero
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Llena un vaso alto de hielo.
+2. Añade 50 g de vodka, 150 g de zumo de tomate, 10 g de zumo de limón y la sal.
+3. Remueve y decora con un tallo de apio si quieres.
+
+*Notas:* El hielo no cuenta en el peso. Tradicionalmente lleva salsa Worcestershire, tabasco y pimienta.
+
+## 1522. Sangría de cava, lista para consumir
+
+`sangria-cava` · Bebidas alcohólicas · 4 raciones de 208 g · 15 min · por ración: 156 kcal, P 0,9 g, C 15,5 g, G 0,2 g
+
+**Ingredientes** (lote de 830 g cocinado)
+
+- 500 g · Champán
+- 100 g · Zumo de naranja, fresco
+- 30 g · Azúcar blanco
+- 100 g · Melocotón, pulpa sin piel, sin hueso, crudo (promedio)
+- 100 g · Fresa, cruda
+
+**Preparación**
+
+1. Trocea 100 g de melocotón y 100 g de fresas.
+2. Mézclalos en una jarra con 100 g de zumo de naranja y 30 g de azúcar y deja macerar 30 minutos en la nevera.
+3. Añade 500 g de cava muy frío y hielo justo antes de servir.
+
+*Notas:* El hielo no cuenta en el peso. Una ración son unos 210 g.
+
+## 1523. Vino caliente especiado, listo para consumir
+
+`vino-caliente` · Bebidas alcohólicas · 4 raciones de 213 g · 20 min · por ración: 234 kcal, P 0,6 g, C 22,1 g, G 0,6 g
+
+**Ingredientes** (lote de 850 g cocinado)
+
+- 750 g · Vino tinto
+- 80 g · Azúcar blanco
+- 100 g · Naranja, pulpa sin piel, sin pepitas, cruda
+- 3 g · Canela, polvo
+
+**Preparación**
+
+1. Pon 750 g de vino tinto en un cazo con 80 g de azúcar, 100 g de naranja en rodajas y la canela.
+2. Caliéntalo a fuego suave 10 minutos, sin que hierva.
+3. Cuélalo y sírvelo caliente.
+
+*Notas:* Al calentarlo sin hervir conserva casi todo el alcohol. Una ración son unos 210 g.
+
+## 1524. Café con bebida de almendra, listo para consumir
+
+`cafe-leche-almendra` · Bebidas · 1 ración de 200 g · 3 min · por ración: 57 kcal, P 1,8 g, C 1,7 g, G 4,9 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 150 g · Bebida de almendra, envasada (promedio)
+
+**Preparación**
+
+1. Prepara 50 g de café y calienta 150 g de bebida de almendra.
+2. Mézclalos.
+
+## 1525. Café con leche desnatada, listo para consumir
+
+`cafe-leche-desnatada` · Bebidas · 1 ración de 200 g · 3 min · por ración: 55 kcal, P 5,6 g, C 8,1 g, G 0,1 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 150 g · Leche desnatada, UHT
+
+**Preparación**
+
+1. Prepara 50 g de café y calienta 150 g de leche desnatada.
+2. Mézclalos.
+
+## 1526. Café con leche semidesnatada sin lactosa, listo para consumir
+
+`cafe-leche-sin-lactosa` · Bebidas · 1 ración de 200 g · 3 min · por ración: 70 kcal, P 5,4 g, C 7,6 g, G 2,1 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 150 g · Leche semidesnatada (o con contenido en materia grasa ligeramente inferior), UHT, reducida en lactosa
+
+**Preparación**
+
+1. Prepara 50 g de café y calienta 150 g de leche semidesnatada sin lactosa.
+2. Mézclalos.
+
+## 1527. Leche desnatada con cacao soluble, lista para consumir
+
+`leche-desnatada-cacao` · Bebidas · 1 ración de 265 g · 3 min · por ración: 143 kcal, P 10 g, C 23,8 g, G 0,5 g
+
+**Ingredientes** (lote de 265 g cocinado)
+
+- 250 g · Leche desnatada, UHT
+- 15 g · Polvo de chocolate para bebida, azucarado
+
+**Preparación**
+
+1. Disuelve 15 g de cacao soluble azucarado en 250 g de leche desnatada fría o caliente.
+
+## 1528. Té con miel y limón, listo para consumir
+
+`te-miel-limon` · Bebidas · 1 ración de 270 g · 5 min · por ración: 39 kcal, P 0,1 g, C 9,2 g, G 0 g
+
+**Ingredientes** (lote de 270 g cocinado)
+
+- 250 g · Té negro, infusionado, sin azúcares añadidos
+- 10 g · Miel
+- 10 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Infusiona té negro en 250 g de agua recién hervida 3 o 4 minutos.
+2. Añade 10 g de miel y 10 g de zumo de limón.
+
+## 1529. Batido de plátano y crema de cacahuete, listo para consumir
+
+`batido-cacahuete-platano` · Bebidas · 1 ración de 370 g · 5 min · por ración: 335 kcal, P 14,3 g, C 35,7 g, G 14,6 g
+
+**Ingredientes** (lote de 370 g cocinado)
+
+- 250 g · Leche semidesnatada, UHT
+- 100 g · Plátano, pulpa sin piel, cruda
+- 20 g · Crema de cacahuete o pasta de cacahuete
+
+**Preparación**
+
+1. Pela 100 g de plátano.
+2. Tritúralo con 250 g de leche y 20 g de crema de cacahuete.
+
+## 1530. Lassi de mango, listo para consumir
+
+`lassi-mango` · Bebidas · 2 raciones de 230 g · 5 min · por ración: 152 kcal, P 6,1 g, C 22,3 g, G 3,3 g
+
+**Ingredientes** (lote de 460 g cocinado)
+
+- 250 g · Yogur o leche fermentada, natural
+- 150 g · Mango, pulpa sin piel, sin hueso, cruda
+- 10 g · Azúcar blanco
+- 50 g · Leche entera, UHT
+
+**Preparación**
+
+1. Pela 150 g de mango y trocéalo.
+2. Tritúralo con 250 g de yogur, 50 g de leche y 10 g de azúcar hasta que quede fino.
+3. Sírvelo muy frío.
+
+## 1531. Granizado de fresa casero, listo para consumir
+
+`granizado-fresa` · Bebidas · 3 raciones de 193 g · 20 min · por ración: 117 kcal, P 0,6 g, C 26,1 g, G 0,3 g
+
+**Ingredientes** (lote de 580 g cocinado)
+
+- 300 g · Fresa, cruda
+- 60 g · Azúcar blanco
+- 200 g · Agua del grifo
+- 20 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Tritura 300 g de fresas con 60 g de azúcar, 200 g de agua y 20 g de zumo de limón.
+2. Cuélalo si quieres quitar las pepitas.
+3. Congélalo en un recipiente plano, rascándolo con un tenedor cada 30 minutos durante 3 horas.
+
+*Notas:* La congelación no cuenta en el tiempo. Una ración son unos 190 g.
+
+## 1532. Café con leche y galletas María, listo para consumir
+
+`cafe-leche-galletas` · Bebidas · 1 ración de 230 g · 3 min · por ración: 232 kcal, P 7,5 g, C 30,3 g, G 9 g
+
+**Ingredientes** (lote de 230 g cocinado)
+
+- 50 g · Café expreso, no instantáneo, sin azúcares añadidos, listo para beber
+- 150 g · Leche entera, UHT
+- 30 g · Galleta seca natural
+
+**Preparación**
+
+1. Prepara 50 g de café y calienta 150 g de leche.
+2. Sírvelo con 30 g de galletas María para mojar.
+
+## 1533. Smoothie de mango y plátano, listo para consumir
+
+`smoothie-mango-platano` · Bebidas · 2 raciones de 238 g · 5 min · por ración: 161 kcal, P 5,1 g, C 25,7 g, G 3,2 g
+
+**Ingredientes** (lote de 475 g cocinado)
+
+- 150 g · Mango, pulpa sin piel, sin hueso, cruda
+- 100 g · Plátano, pulpa sin piel, cruda
+- 125 g · Yogur o leche fermentada, natural
+- 100 g · Leche entera, UHT
+
+**Preparación**
+
+1. Pela 150 g de mango y 100 g de plátano.
+2. Tritúralos con 125 g de yogur y 100 g de leche.
+
+## 1534. Batido de fresa y plátano, listo para consumir
+
+`batido-fresa-platano` · Bebidas · 2 raciones de 250 g · 5 min · por ración: 151 kcal, P 5,4 g, C 20,4 g, G 4,9 g
+
+**Ingredientes** (lote de 500 g cocinado)
+
+- 150 g · Fresa, cruda
+- 100 g · Plátano, pulpa sin piel, cruda
+- 250 g · Leche entera, UHT
+
+**Preparación**
+
+1. Lava 150 g de fresas y pela 100 g de plátano.
+2. Tritúralos con 250 g de leche fría.
+
+## 1535. Smoothie de piña y espinacas, listo para consumir
+
+`smoothie-pina-espinacas` · Bebidas · 2 raciones de 235 g · 5 min · por ración: 93 kcal, P 1,3 g, C 20,2 g, G 0,5 g
+
+**Ingredientes** (lote de 470 g cocinado)
+
+- 200 g · Piña, pulpa sin piel, cruda
+- 40 g · Espinaca, cruda
+- 80 g · Plátano, pulpa sin piel, cruda
+- 150 g · Agua del grifo
+
+**Preparación**
+
+1. Pela y trocea 200 g de piña y 80 g de plátano. Lava 40 g de espinacas.
+2. Tritúralo todo con 150 g de agua fría hasta que quede fino.
+
+## 1536. Batido de kéfir con frutos rojos, listo para consumir
+
+`batido-kefir-frutos-rojos` · Bebidas · 2 raciones de 225 g · 5 min · por ración: 120 kcal, P 4,8 g, C 12,7 g, G 4,7 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 250 g · Kéfir de leche
+- 100 g · Fresa, cruda
+- 50 g · Frambuesa, cruda
+- 50 g · Arándano, crudo
+
+**Preparación**
+
+1. Tritura 250 g de kéfir con 100 g de fresas, 50 g de frambuesas y 50 g de arándanos.
+
+## 1537. Smoothie de melocotón y yogur, listo para consumir
+
+`smoothie-melocoton` · Bebidas · 1 ración de 335 g · 5 min · por ración: 185 kcal, P 6,2 g, C 33 g, G 2,7 g
+
+**Ingredientes** (lote de 335 g cocinado)
+
+- 200 g · Melocotón, pulpa sin piel, sin hueso, crudo (promedio)
+- 125 g · Yogur o leche fermentada, natural
+- 10 g · Miel
+
+**Preparación**
+
+1. Pela 200 g de melocotón y trocéalo.
+2. Tritúralo con 125 g de yogur y 10 g de miel.
+
+## 1538. Batido de dátiles y plátano, listo para consumir
+
+`batido-datiles-platano` · Bebidas · 1 ración de 390 g · 5 min · por ración: 364 kcal, P 10,6 g, C 57,6 g, G 9,4 g
+
+**Ingredientes** (lote de 390 g cocinado)
+
+- 250 g · Leche entera, UHT
+- 40 g · Dátil, pulpa y piel, sin hueso, deshidratado
+- 100 g · Plátano, pulpa sin piel, cruda
+
+**Preparación**
+
+1. Remoja 40 g de dátiles sin hueso en agua caliente 5 minutos y escúrrelos.
+2. Tritúralos con 100 g de plátano y 250 g de leche.
+
+## 1539. Smoothie de kiwi y manzana, listo para consumir
+
+`smoothie-kiwi-manzana` · Bebidas · 2 raciones de 205 g · 5 min · por ración: 86 kcal, P 0,9 g, C 17,3 g, G 0,6 g
+
+**Ingredientes** (lote de 410 g cocinado)
+
+- 150 g · Kiwi, pulpa sin piel, con pepitas, cruda
+- 150 g · Manzana, pulpa sin piel, cruda (promedio)
+- 100 g · Agua del grifo
+- 10 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Pela 150 g de kiwi y 150 g de manzana y trocéalos.
+2. Tritúralos con 100 g de agua fría y 10 g de zumo de limón.
+
+## 1540. Batido verde de pepino, apio y manzana, listo para consumir
+
+`batido-verde-pepino-apio` · Bebidas · 2 raciones de 283 g · 5 min · por ración: 65 kcal, P 1,3 g, C 13,2 g, G 0,4 g
+
+**Ingredientes** (lote de 565 g cocinado)
+
+- 200 g · Pepino, pulpa y piel, crudo
+- 100 g · Apio rama, crudo
+- 150 g · Manzana, pulpa sin piel, cruda (promedio)
+- 15 g · Zumo de limón, casero
+- 100 g · Agua del grifo
+
+**Preparación**
+
+1. Trocea 200 g de pepino, 100 g de apio y 150 g de manzana pelada.
+2. Tritúralos con 100 g de agua fría y 15 g de zumo de limón.
+3. Cuélalo si lo quieres más fino.
+
+## 1541. Leche caliente con canela, lista para consumir
+
+`leche-canela` · Bebidas · 1 ración de 261 g · 5 min · por ración: 204 kcal, P 8,8 g, C 22,2 g, G 9 g
+
+**Ingredientes** (lote de 261 g cocinado)
+
+- 250 g · Leche entera, UHT
+- 10 g · Azúcar blanco
+- 1 g · Canela, polvo
+
+**Preparación**
+
+1. Calienta 250 g de leche con 10 g de azúcar y la canela sin que hierva.
+2. Sírvela caliente.
+
+## 1542. Leche dorada con cúrcuma (golden milk), lista para consumir
+
+`golden-milk` · Bebidas · 1 ración de 265 g · 10 min · por ración: 204 kcal, P 9,1 g, C 21,6 g, G 9,1 g
+
+**Ingredientes** (lote de 265 g cocinado)
+
+- 250 g · Leche entera, UHT
+- 3 g · Cúrcuma, polvo
+- 2 g · Jengibre, raíz fresca
+- 10 g · Miel
+
+**Preparación**
+
+1. Calienta 250 g de leche con 3 g de cúrcuma y 2 g de jengibre rallado, sin que hierva, 5 minutos.
+2. Cuélala y endulza con 10 g de miel.
+
+*Notas:* Tradicionalmente lleva una pizca de pimienta negra.
+
+## 1543. Chocolate caliente con nata, listo para consumir
+
+`chocolate-caliente-nata` · Bebidas · 1 ración de 270 g · 10 min · por ración: 424 kcal, P 9,6 g, C 38,2 g, G 25,6 g
+
+**Ingredientes** (lote de 270 g cocinado)
+
+- 200 g · Leche entera, UHT
+- 30 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 10 g · Azúcar blanco
+- 30 g · Nata montada, bajo presión, UHT
+
+**Preparación**
+
+1. Calienta 200 g de leche con 30 g de chocolate troceado y 10 g de azúcar, removiendo, hasta que se funda.
+2. Sírvelo con 30 g de nata montada por encima.
+
+## 1544. Infusión de jengibre y limón con miel, lista para consumir
+
+`infusion-jengibre-limon` · Bebidas · 1 ración de 285 g · 15 min · por ración: 41 kcal, P 0,2 g, C 8,9 g, G 0,1 g
+
+**Ingredientes** (lote de 285 g cocinado)
+
+- 250 g · Agua del grifo
+- 10 g · Jengibre, raíz fresca
+- 15 g · Zumo de limón, casero
+- 10 g · Miel
+
+**Preparación**
+
+1. Cuece 10 g de jengibre en láminas en 250 g de agua 10 minutos.
+2. Cuela y añade 15 g de zumo de limón y 10 g de miel.
+
+## 1545. Ponche de leche y huevo casero, listo para consumir
+
+`ponche-leche-huevo` · Bebidas · 3 raciones de 203 g · 20 min · por ración: 250 kcal, P 8,9 g, C 28,3 g, G 11,3 g
+
+**Ingredientes** (lote de 609 g cocinado)
+
+- 500 g · Leche entera, UHT
+- 60 g · Huevo, yema, cruda
+- 60 g · Azúcar blanco
+- 1 g · Canela, polvo
+
+**Preparación**
+
+1. Bate 60 g de yemas con 60 g de azúcar hasta que blanqueen.
+2. Calienta 500 g de leche con la canela.
+3. Vierte la leche poco a poco sobre las yemas y cuece a fuego muy suave, removiendo, hasta que espese un poco, sin que hierva.
+4. Sírvelo caliente o frío.
+
+*Notas:* Versión sin alcohol del ponche navideño. Una ración son unos 200 g.
+
+## 1546. Bebida de avena caliente con cacao, lista para consumir
+
+`avena-caliente-cacao` · Bebidas · 1 ración de 270 g · 5 min · por ración: 181 kcal, P 3 g, C 30,6 g, G 4,8 g
+
+**Ingredientes** (lote de 270 g cocinado)
+
+- 250 g · Bebida de avena, natural, sin azúcares añadidos, no enriquecida, envasada
+- 10 g · Cacao, sin azúcares añadidos, polvo soluble
+- 10 g · Azúcar blanco
+
+**Preparación**
+
+1. Calienta 250 g de bebida de avena.
+2. Disuelve en ella 10 g de cacao y 10 g de azúcar.
+
+## 1547. Mojito sin alcohol, listo para consumir
+
+`mojito-sin-alcohol` · Bebidas · 1 ración de 260 g · 5 min · por ración: 78 kcal, P 0,6 g, C 16,5 g, G 0,1 g
+
+**Ingredientes** (lote de 260 g cocinado)
+
+- 40 g · Limón verde o lima, pulpa sin piel, sin pepitas, cruda
+- 15 g · Azúcar blanco
+- 5 g · Menta, fresca
+- 200 g · Agua mineral, embotellada, con gas (promedio)
+
+**Preparación**
+
+1. En un vaso, maja 5 g de hojas de menta con 15 g de azúcar y 40 g de lima en gajos.
+2. Llena el vaso de hielo picado.
+3. Completa con 200 g de agua con gas y remueve.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1548. Piña colada sin alcohol, lista para consumir
+
+`pina-colada-sin-alcohol` · Bebidas · 1 ración de 220 g · 5 min · por ración: 239 kcal, P 1,7 g, C 30,7 g, G 11,7 g
+
+**Ingredientes** (lote de 220 g cocinado)
+
+- 150 g · Zumo de piña, 100 % zumo
+- 60 g · Leche de coco
+- 10 g · Azúcar blanco
+
+**Preparación**
+
+1. Tritura 150 g de zumo de piña, 60 g de leche de coco y 10 g de azúcar con hielo picado hasta que quede cremoso.
+
+*Notas:* El hielo no cuenta en el peso.
+
+## 1549. Cóctel San Francisco sin alcohol, listo para consumir
+
+`san-francisco` · Bebidas · 1 ración de 195 g · 5 min · por ración: 144 kcal, P 1 g, C 32,5 g, G 0,3 g
+
+**Ingredientes** (lote de 195 g cocinado)
+
+- 80 g · Zumo de naranja, fresco
+- 80 g · Zumo de piña, 100 % zumo
+- 20 g · Zumo de limón, casero
+- 15 g · Azúcar blanco
+
+**Preparación**
+
+1. Pon en una coctelera 80 g de zumo de naranja, 80 g de zumo de piña, 20 g de zumo de limón y 15 g de azúcar (o granadina) con hielo.
+2. Agita y sirve en un vaso con hielo.
+
+*Notas:* El hielo no cuenta en el peso. Tradicionalmente lleva granadina en lugar de azúcar.
+
+## 1550. Limonada de fresa casera, lista para consumir
+
+`limonada-fresa` · Bebidas · 4 raciones de 218 g · 10 min · por ración: 77 kcal, P 0,3 g, C 17,6 g, G 0,1 g
+
+**Ingredientes** (lote de 870 g cocinado)
+
+- 150 g · Fresa, cruda
+- 60 g · Zumo de limón, casero
+- 60 g · Azúcar blanco
+- 600 g · Agua del grifo
+
+**Preparación**
+
+1. Tritura 150 g de fresas con 60 g de azúcar y 60 g de zumo de limón.
+2. Mézclalo con 600 g de agua fría y cuélalo si quieres.
+3. Sírvela con hielo.
+
+*Notas:* El hielo no cuenta en el peso. Una ración son unos 220 g.
+
+## 1551. Sangría sin alcohol, lista para consumir
+
+`sangria-sin-alcohol` · Bebidas · 4 raciones de 200 g · 15 min · por ración: 91 kcal, P 0,7 g, C 20,8 g, G 0,3 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 400 g · Zumo de uva, 100 % zumo
+- 200 g · Limonada gaseosa (refresco), sin azúcares añadidos, con edulcorantes
+- 100 g · Naranja, pulpa sin piel, sin pepitas, cruda
+- 100 g · Melocotón, pulpa sin piel, sin hueso, crudo (promedio)
+
+**Preparación**
+
+1. Trocea 100 g de naranja y 100 g de melocotón.
+2. Mézclalos en una jarra con 400 g de zumo de uva y deja macerar 30 minutos en la nevera.
+3. Añade 200 g de gaseosa y hielo antes de servir.
+
+*Notas:* El hielo no cuenta en el peso. Una ración son 200 g.
+
+## 1552. Martini seco, listo para consumir
+
+`martini-seco` · Bebidas alcohólicas · 1 ración de 70 g · 3 min · por ración: 173 kcal, P 0 g, C 1,1 g, G 0 g
+
+**Ingredientes** (lote de 70 g cocinado)
+
+- 60 g · Ginebra
+- 10 g · Aperitivo a base de vino o vermut
+
+**Preparación**
+
+1. Pon hielo en un vaso mezclador con 60 g de ginebra y 10 g de vermut seco.
+2. Remueve 30 segundos y cuela en una copa de cóctel fría.
+3. Decora con una aceituna o una piel de limón.
+
+## 1553. Mimosa (cava con zumo de naranja), lista para consumir
+
+`mimosa` · Bebidas alcohólicas · 1 ración de 175 g · 2 min · por ración: 110 kcal, P 0,8 g, C 8,3 g, G 0,2 g
+
+**Ingredientes** (lote de 175 g cocinado)
+
+- 100 g · Champán
+- 75 g · Zumo de naranja, fresco
+
+**Preparación**
+
+1. Vierte 75 g de zumo de naranja frío en una copa.
+2. Completa con 100 g de cava muy frío.
+
+## 1554. Whisky sour, listo para consumir
+
+`whisky-sour` · Bebidas alcohólicas · 1 ración de 105 g · 5 min · por ración: 200 kcal, P 1,7 g, C 15,7 g, G 0,1 g
+
+**Ingredientes** (lote de 105 g cocinado)
+
+- 50 g · Whisky
+- 25 g · Zumo de limón, casero
+- 15 g · Azúcar blanco
+- 15 g · Huevo, clara, cruda
+
+**Preparación**
+
+1. Pon en una coctelera 50 g de whisky, 25 g de zumo de limón, 15 g de azúcar y 15 g de clara.
+2. Agita sin hielo 15 segundos para que espume, añade hielo y agita otra vez.
+3. Cuela en un vaso con hielo.
+
+*Notas:* Lleva clara cruda: usa huevos pasteurizados si hay dudas.
+
+## 1555. Batido de queso batido y fresas, listo para consumir
+
+`batido-queso-frutos-rojos` · Bebidas · 2 raciones de 225 g · 5 min · por ración: 102 kcal, P 10,2 g, C 11 g, G 1,5 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 200 g · Queso blanco, natural, 0 % MG
+- 150 g · Leche semidesnatada, UHT
+- 100 g · Fresa, cruda
+
+**Preparación**
+
+1. Tritura 200 g de queso batido con 150 g de leche y 100 g de fresas hasta que quede fino.

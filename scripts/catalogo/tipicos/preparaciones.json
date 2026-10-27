@@ -16648,5 +16648,914 @@
       "Úntalos con 40 g de queso de untar y cubre con 60 g de salmón ahumado."
     ],
     "notas": "Salen unos 12 canapés: una ración son 3."
+  },
+  {
+    "id": "chocolate-taza",
+    "raciones": 5,
+    "tiempoMin": 20,
+    "pasos": [
+      "Calienta 800 g de la leche con 150 g de chocolate troceado y 50 g de azúcar, removiendo, hasta que el chocolate se funda.",
+      "Disuelve 25 g de maicena en el resto de la leche fría.",
+      "Añádela al chocolate y cuece a fuego suave 3 o 4 minutos, sin dejar de remover, hasta que espese."
+    ],
+    "notas": "Una ración es una taza de unos 230 g. Ideal con churros, que no están incluidos."
+  },
+  {
+    "id": "leche-merengada",
+    "raciones": 5,
+    "tiempoMin": 30,
+    "pasos": [
+      "Calienta 1.000 g de leche con 120 g del azúcar y una rama de canela (o la canela en polvo) sin que hierva. Deja que se enfríe y guárdala en la nevera.",
+      "Monta 60 g de claras a punto de nieve con el resto del azúcar.",
+      "Mézclalas con la leche fría con movimientos envolventes.",
+      "Sírvela muy fría o semicongelada, con canela por encima."
+    ],
+    "notas": "Lleva clara cruda: usa huevos muy frescos o pasteurizados."
+  },
+  {
+    "id": "granizado-limon",
+    "raciones": 5,
+    "tiempoMin": 20,
+    "pasos": [
+      "Calienta 300 g del agua con 200 g de azúcar hasta que se disuelva.",
+      "Añade el resto del agua y 250 g de zumo de limón.",
+      "Congélalo en un recipiente plano, rascándolo con un tenedor cada 30 minutos durante 3 horas, hasta que tenga textura de granizado."
+    ],
+    "notas": "La congelación no cuenta en el tiempo. Una ración son unos 230 g."
+  },
+  {
+    "id": "limonada-casera",
+    "raciones": 4,
+    "tiempoMin": 10,
+    "pasos": [
+      "Disuelve 80 g de azúcar en un poco del agua templada.",
+      "Añade el resto del agua y 150 g de zumo de limón.",
+      "Sírvela muy fría, con hielo."
+    ],
+    "notas": "El hielo no cuenta en el peso. Una ración son unos 250 g."
+  },
+  {
+    "id": "tinto-verano-gaseosa",
+    "raciones": 4,
+    "tiempoMin": 3,
+    "pasos": [
+      "Mezcla 500 g de vino tinto con 500 g de gaseosa en una jarra con hielo.",
+      "Sirve enseguida, con una rodaja de limón si quieres."
+    ],
+    "notas": "El hielo no cuenta en el peso. Una ración son 250 g."
+  },
+  {
+    "id": "tinto-verano-limon",
+    "raciones": 4,
+    "tiempoMin": 3,
+    "pasos": [
+      "Mezcla 500 g de vino tinto con 500 g de refresco de limón en una jarra con hielo.",
+      "Sirve enseguida."
+    ],
+    "notas": "El hielo no cuenta en el peso. Una ración son 250 g."
+  },
+  {
+    "id": "calimocho",
+    "raciones": 4,
+    "tiempoMin": 3,
+    "pasos": [
+      "Mezcla 500 g de vino tinto con 500 g de refresco de cola en una jarra con hielo.",
+      "Sirve enseguida."
+    ],
+    "notas": "El hielo no cuenta en el peso. Una ración son 250 g."
+  },
+  {
+    "id": "rebujito",
+    "raciones": 4,
+    "tiempoMin": 3,
+    "pasos": [
+      "Mezcla 300 g de vino blanco seco (manzanilla o fino) con 700 g de refresco de limón en una jarra con hielo y hierbabuena.",
+      "Sirve enseguida."
+    ],
+    "notas": "El hielo no cuenta en el peso. Una ración son 250 g."
+  },
+  {
+    "id": "carajillo",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Calienta 30 g de coñac en una taza (o flambéalo un momento con unos granos de café).",
+      "Añade 60 g de café expreso recién hecho."
+    ]
+  },
+  {
+    "id": "agua-valencia",
+    "raciones": 4,
+    "tiempoMin": 10,
+    "pasos": [
+      "En una jarra con hielo, mezcla 300 g de zumo de naranja con 20 g de azúcar hasta que se disuelva.",
+      "Añade 50 g de vodka y 50 g de ginebra.",
+      "Completa con 500 g de cava muy frío y remueve suavemente."
+    ],
+    "notas": "El hielo no cuenta en el peso. Una ración son unos 230 g."
+  },
+  {
+    "id": "cafe-bombon",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Pon 30 g de leche condensada en un vaso pequeño de cristal.",
+      "Vierte encima 40 g de café expreso con cuidado, para que no se mezclen las capas."
+    ]
+  },
+  {
+    "id": "cafe-leche-azucar",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Prepara 100 g de café y calienta 100 g de leche.",
+      "Mézclalos y endulza con 8 g de azúcar."
+    ]
+  },
+  {
+    "id": "cortado",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Prepara 40 g de café expreso.",
+      "Añade 20 g de leche caliente."
+    ]
+  },
+  {
+    "id": "batido-fresa",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Lava 150 g de fresas y quítales el rabito.",
+      "Tritúralas con 250 g de leche fría y 20 g de azúcar hasta que quede espumoso."
+    ]
+  },
+  {
+    "id": "batido-platano",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 130 g de plátano.",
+      "Tritúralo con 250 g de leche fría y 10 g de azúcar."
+    ]
+  },
+  {
+    "id": "batido-chocolate",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tritura o bate 250 g de leche fría con 10 g de cacao y 15 g de azúcar hasta que esté espumoso."
+    ]
+  },
+  {
+    "id": "zumo-naranja-casero",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Exprime naranjas hasta tener 250 g de zumo.",
+      "Añade 10 g de azúcar y remueve."
+    ]
+  },
+  {
+    "id": "gin-tonic",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Llena un vaso alto de hielo.",
+      "Añade 50 g de ginebra.",
+      "Completa con 200 g de tónica muy frío y remueve suavemente.",
+      "Añade una piel de limón o de lima."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "ron-cola",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Llena un vaso alto de hielo.",
+      "Añade 50 g de ron.",
+      "Completa con 200 g de refresco de cola muy frío y remueve suavemente."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "whisky-cola",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Llena un vaso alto de hielo.",
+      "Añade 50 g de whisky.",
+      "Completa con 200 g de refresco de cola muy frío y remueve suavemente."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "mojito",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "En un vaso, maja 5 g de hojas de menta con 15 g de azúcar y 30 g de zumo de lima o limón, sin romper demasiado las hojas.",
+      "Llena el vaso de hielo picado y añade 50 g de ron.",
+      "Completa con 150 g de agua con gas y remueve."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "sangria-blanca",
+    "raciones": 6,
+    "tiempoMin": 15,
+    "pasos": [
+      "En una jarra, disuelve 50 g de azúcar en 150 g de zumo de naranja.",
+      "Añade 750 g de vino blanco y deja que repose en la nevera 1 hora.",
+      "Antes de servir, añade 500 g de gaseosa y hielo."
+    ],
+    "notas": "El hielo no cuenta en el peso. El reposo no cuenta en el tiempo. Una ración son unos 240 g."
+  },
+  {
+    "id": "leche-pantera",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Mezcla 150 g de leche fría con 10 g de azúcar hasta que se disuelva.",
+      "Añade 50 g de ginebra y sirve con hielo y canela por encima."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "te-leche",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Infusiona una bolsita de té negro en 200 g de agua recién hervida 3 o 4 minutos.",
+      "Añade 30 g de leche."
+    ]
+  },
+  {
+    "id": "infusion-miel",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Infusiona la bolsita o las hierbas en 200 g de agua recién hervida 5 minutos.",
+      "Endulza con 10 g de miel."
+    ]
+  },
+  {
+    "id": "batido-frutas-yogur",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 100 g de plátano y lava 100 g de fresas.",
+      "Tritúralos con 125 g de yogur hasta que quede fino."
+    ]
+  },
+  {
+    "id": "batido-proteico-casero",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 120 g de plátano.",
+      "Tritúralo con 300 g de leche y 40 g de copos de avena hasta que quede fino."
+    ]
+  },
+  {
+    "id": "leche-galletas",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Calienta o sirve fría 250 g de leche.",
+      "Moja en ella 30 g de galletas."
+    ]
+  },
+  {
+    "id": "leche-cacao-galletas",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Disuelve 5 g de cacao y 10 g de azúcar en 250 g de leche.",
+      "Sírvela con 30 g de galletas."
+    ]
+  },
+  {
+    "id": "leche-cacao-soluble",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Disuelve 15 g de cacao soluble azucarado en 250 g de leche fría o caliente."
+    ]
+  },
+  {
+    "id": "leche-semi-cacao",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Disuelve 15 g de cacao soluble azucarado en 250 g de leche semidesnatada fría o caliente."
+    ]
+  },
+  {
+    "id": "cafe-solo-azucar",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Prepara 50 g de café expreso.",
+      "Endulza con 8 g de azúcar."
+    ]
+  },
+  {
+    "id": "cafe-hielo",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Prepara 50 g de café expreso y endúlzalo con 8 g de azúcar en caliente.",
+      "Viértelo sobre un vaso con hielo (80 g)."
+    ],
+    "notas": "El hielo cuenta como 80 g de agua al fundirse."
+  },
+  {
+    "id": "capuchino",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Prepara 50 g de café expreso.",
+      "Calienta 150 g de leche y móntala con espumador o batidor hasta que tenga espuma.",
+      "Viértela sobre el café, dejando la espuma arriba."
+    ]
+  },
+  {
+    "id": "cafe-leche-avena",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Prepara 50 g de café y calienta 150 g de bebida de avena.",
+      "Mézclalos."
+    ]
+  },
+  {
+    "id": "cafe-leche-soja",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Prepara 50 g de café y calienta 150 g de bebida de soja.",
+      "Mézclalos."
+    ]
+  },
+  {
+    "id": "cafe-moca",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Calienta 150 g de leche y disuelve en ella 10 g de cacao y 10 g de azúcar.",
+      "Añade 50 g de café expreso.",
+      "Cubre con 20 g de nata montada."
+    ]
+  },
+  {
+    "id": "cafe-frappe",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Prepara 50 g de café expreso y deja que se enfríe.",
+      "Bátelo con 150 g de leche fría, 15 g de azúcar y 80 g de hielo hasta que quede espumoso."
+    ],
+    "notas": "El hielo cuenta como 80 g de agua."
+  },
+  {
+    "id": "granizado-cafe",
+    "raciones": 3,
+    "tiempoMin": 15,
+    "pasos": [
+      "Prepara 400 g de café y disuelve en él 60 g de azúcar.",
+      "Deja que se enfríe y congélalo en un recipiente plano, rascándolo con un tenedor cada 30 minutos durante 3 horas."
+    ],
+    "notas": "La congelación no cuenta en el tiempo. Una ración son unos 150 g."
+  },
+  {
+    "id": "cafe-irlandes",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Calienta 40 g de whisky con 10 g de azúcar en una copa, sin que hierva.",
+      "Añade 120 g de café caliente.",
+      "Cubre con 30 g de nata montada, vertiéndola con cuidado sobre el dorso de una cuchara."
+    ]
+  },
+  {
+    "id": "te-helado-limon",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Infusiona té negro en 400 g de agua recién hervida 4 minutos.",
+      "Disuelve 30 g de azúcar y añade 20 g de zumo de limón.",
+      "Deja que se enfríe y sírvelo con hielo."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "chai-latte",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Infusiona té negro en 150 g de agua con 2 g de jengibre en láminas y 1 g de canela 5 minutos.",
+      "Calienta 150 g de leche con 10 g de azúcar y móntala un poco.",
+      "Cuela el té y mézclalo con la leche."
+    ]
+  },
+  {
+    "id": "leche-miel",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Calienta 250 g de leche sin que hierva.",
+      "Endulza con 15 g de miel."
+    ]
+  },
+  {
+    "id": "smoothie-frutos-rojos",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tritura 100 g de fresas, 50 g de frambuesas y 50 g de arándanos con 125 g de yogur y 10 g de miel hasta que quede fino."
+    ]
+  },
+  {
+    "id": "smoothie-verde",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Lava 30 g de espinacas. Pela 150 g de manzana y 100 g de plátano y trocéalos con 80 g de pepino.",
+      "Tritúralo todo con 100 g de agua fría y 10 g de zumo de limón hasta que quede fino."
+    ]
+  },
+  {
+    "id": "batido-mango",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 200 g de mango y trocéalo.",
+      "Tritúralo con 200 g de leche fría y 10 g de azúcar."
+    ]
+  },
+  {
+    "id": "clara-gaseosa",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Vierte 200 g de cerveza fría en un vaso.",
+      "Completa con 130 g de gaseosa."
+    ]
+  },
+  {
+    "id": "michelada",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Moja el borde de un vaso con limón y pásalo por la sal.",
+      "Pon en el vaso hielo, 20 g de zumo de limón y 30 g de zumo de tomate.",
+      "Completa con 330 g de cerveza fría."
+    ],
+    "notas": "El hielo no cuenta en el peso. Tradicionalmente lleva salsa picante y salsa Worcestershire."
+  },
+  {
+    "id": "vermut-sifon",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Pon hielo y una rodaja de naranja en un vaso.",
+      "Añade 100 g de vermut y completa con 30 g de sifón."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "spritz",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Llena una copa de vino de hielo.",
+      "Añade 90 g de cava, 60 g de aperitivo amargo y 30 g de agua con gas.",
+      "Decora con una rodaja de naranja."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "vodka-naranja",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Llena un vaso alto de hielo.",
+      "Añade 50 g de vodka.",
+      "Completa con 150 g de zumo de naranja muy frío y remueve suavemente."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "vodka-limon",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Llena un vaso alto de hielo.",
+      "Añade 50 g de vodka.",
+      "Completa con 150 g de refresco de limón muy frío y remueve suavemente."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "ginebra-limon",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Llena un vaso alto de hielo.",
+      "Añade 50 g de ginebra.",
+      "Completa con 150 g de refresco de limón muy frío y remueve suavemente."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "pina-colada",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tritura 50 g de ron, 120 g de zumo de piña, 60 g de leche de coco y 10 g de azúcar con hielo picado hasta que quede cremoso.",
+      "Sírvela en un vaso alto."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "caipiroska",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Corta 40 g de lima en gajos y májala en un vaso con 15 g de azúcar.",
+      "Llena el vaso de hielo picado (unos 60 g) y añade 50 g de vodka.",
+      "Remueve bien."
+    ],
+    "notas": "El hielo cuenta como 60 g de agua."
+  },
+  {
+    "id": "daiquiri",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pon en una coctelera 50 g de ron, 25 g de zumo de lima, 10 g de azúcar y hielo.",
+      "Agita con fuerza y cuela en una copa fría."
+    ],
+    "notas": "El hielo aporta unos 50 g de agua al agitar."
+  },
+  {
+    "id": "ron-limon",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Llena un vaso alto de hielo.",
+      "Añade 50 g de ron.",
+      "Completa con 150 g de refresco de limón muy frío y remueve suavemente."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "ginebra-naranja",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Llena un vaso alto de hielo.",
+      "Añade 50 g de ginebra.",
+      "Completa con 150 g de zumo de naranja muy frío y remueve suavemente."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "bloody-mary",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Llena un vaso alto de hielo.",
+      "Añade 50 g de vodka, 150 g de zumo de tomate, 10 g de zumo de limón y la sal.",
+      "Remueve y decora con un tallo de apio si quieres."
+    ],
+    "notas": "El hielo no cuenta en el peso. Tradicionalmente lleva salsa Worcestershire, tabasco y pimienta."
+  },
+  {
+    "id": "sangria-cava",
+    "raciones": 4,
+    "tiempoMin": 15,
+    "pasos": [
+      "Trocea 100 g de melocotón y 100 g de fresas.",
+      "Mézclalos en una jarra con 100 g de zumo de naranja y 30 g de azúcar y deja macerar 30 minutos en la nevera.",
+      "Añade 500 g de cava muy frío y hielo justo antes de servir."
+    ],
+    "notas": "El hielo no cuenta en el peso. Una ración son unos 210 g."
+  },
+  {
+    "id": "vino-caliente",
+    "raciones": 4,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pon 750 g de vino tinto en un cazo con 80 g de azúcar, 100 g de naranja en rodajas y la canela.",
+      "Caliéntalo a fuego suave 10 minutos, sin que hierva.",
+      "Cuélalo y sírvelo caliente."
+    ],
+    "notas": "Al calentarlo sin hervir conserva casi todo el alcohol. Una ración son unos 210 g."
+  },
+  {
+    "id": "cafe-leche-almendra",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Prepara 50 g de café y calienta 150 g de bebida de almendra.",
+      "Mézclalos."
+    ]
+  },
+  {
+    "id": "cafe-leche-desnatada",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Prepara 50 g de café y calienta 150 g de leche desnatada.",
+      "Mézclalos."
+    ]
+  },
+  {
+    "id": "cafe-leche-sin-lactosa",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Prepara 50 g de café y calienta 150 g de leche semidesnatada sin lactosa.",
+      "Mézclalos."
+    ]
+  },
+  {
+    "id": "leche-desnatada-cacao",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Disuelve 15 g de cacao soluble azucarado en 250 g de leche desnatada fría o caliente."
+    ]
+  },
+  {
+    "id": "te-miel-limon",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Infusiona té negro en 250 g de agua recién hervida 3 o 4 minutos.",
+      "Añade 10 g de miel y 10 g de zumo de limón."
+    ]
+  },
+  {
+    "id": "batido-cacahuete-platano",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 100 g de plátano.",
+      "Tritúralo con 250 g de leche y 20 g de crema de cacahuete."
+    ]
+  },
+  {
+    "id": "lassi-mango",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 150 g de mango y trocéalo.",
+      "Tritúralo con 250 g de yogur, 50 g de leche y 10 g de azúcar hasta que quede fino.",
+      "Sírvelo muy frío."
+    ]
+  },
+  {
+    "id": "granizado-fresa",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Tritura 300 g de fresas con 60 g de azúcar, 200 g de agua y 20 g de zumo de limón.",
+      "Cuélalo si quieres quitar las pepitas.",
+      "Congélalo en un recipiente plano, rascándolo con un tenedor cada 30 minutos durante 3 horas."
+    ],
+    "notas": "La congelación no cuenta en el tiempo. Una ración son unos 190 g."
+  },
+  {
+    "id": "cafe-leche-galletas",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Prepara 50 g de café y calienta 150 g de leche.",
+      "Sírvelo con 30 g de galletas María para mojar."
+    ]
+  },
+  {
+    "id": "smoothie-mango-platano",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 150 g de mango y 100 g de plátano.",
+      "Tritúralos con 125 g de yogur y 100 g de leche."
+    ]
+  },
+  {
+    "id": "batido-fresa-platano",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Lava 150 g de fresas y pela 100 g de plátano.",
+      "Tritúralos con 250 g de leche fría."
+    ]
+  },
+  {
+    "id": "smoothie-pina-espinacas",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela y trocea 200 g de piña y 80 g de plátano. Lava 40 g de espinacas.",
+      "Tritúralo todo con 150 g de agua fría hasta que quede fino."
+    ]
+  },
+  {
+    "id": "batido-kefir-frutos-rojos",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tritura 250 g de kéfir con 100 g de fresas, 50 g de frambuesas y 50 g de arándanos."
+    ]
+  },
+  {
+    "id": "smoothie-melocoton",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 200 g de melocotón y trocéalo.",
+      "Tritúralo con 125 g de yogur y 10 g de miel."
+    ]
+  },
+  {
+    "id": "batido-datiles-platano",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Remoja 40 g de dátiles sin hueso en agua caliente 5 minutos y escúrrelos.",
+      "Tritúralos con 100 g de plátano y 250 g de leche."
+    ]
+  },
+  {
+    "id": "smoothie-kiwi-manzana",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 150 g de kiwi y 150 g de manzana y trocéalos.",
+      "Tritúralos con 100 g de agua fría y 10 g de zumo de limón."
+    ]
+  },
+  {
+    "id": "batido-verde-pepino-apio",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Trocea 200 g de pepino, 100 g de apio y 150 g de manzana pelada.",
+      "Tritúralos con 100 g de agua fría y 15 g de zumo de limón.",
+      "Cuélalo si lo quieres más fino."
+    ]
+  },
+  {
+    "id": "leche-canela",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Calienta 250 g de leche con 10 g de azúcar y la canela sin que hierva.",
+      "Sírvela caliente."
+    ]
+  },
+  {
+    "id": "golden-milk",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Calienta 250 g de leche con 3 g de cúrcuma y 2 g de jengibre rallado, sin que hierva, 5 minutos.",
+      "Cuélala y endulza con 10 g de miel."
+    ],
+    "notas": "Tradicionalmente lleva una pizca de pimienta negra."
+  },
+  {
+    "id": "chocolate-caliente-nata",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Calienta 200 g de leche con 30 g de chocolate troceado y 10 g de azúcar, removiendo, hasta que se funda.",
+      "Sírvelo con 30 g de nata montada por encima."
+    ]
+  },
+  {
+    "id": "infusion-jengibre-limon",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Cuece 10 g de jengibre en láminas en 250 g de agua 10 minutos.",
+      "Cuela y añade 15 g de zumo de limón y 10 g de miel."
+    ]
+  },
+  {
+    "id": "ponche-leche-huevo",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Bate 60 g de yemas con 60 g de azúcar hasta que blanqueen.",
+      "Calienta 500 g de leche con la canela.",
+      "Vierte la leche poco a poco sobre las yemas y cuece a fuego muy suave, removiendo, hasta que espese un poco, sin que hierva.",
+      "Sírvelo caliente o frío."
+    ],
+    "notas": "Versión sin alcohol del ponche navideño. Una ración son unos 200 g."
+  },
+  {
+    "id": "avena-caliente-cacao",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Calienta 250 g de bebida de avena.",
+      "Disuelve en ella 10 g de cacao y 10 g de azúcar."
+    ]
+  },
+  {
+    "id": "mojito-sin-alcohol",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "En un vaso, maja 5 g de hojas de menta con 15 g de azúcar y 40 g de lima en gajos.",
+      "Llena el vaso de hielo picado.",
+      "Completa con 200 g de agua con gas y remueve."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "pina-colada-sin-alcohol",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tritura 150 g de zumo de piña, 60 g de leche de coco y 10 g de azúcar con hielo picado hasta que quede cremoso."
+    ],
+    "notas": "El hielo no cuenta en el peso."
+  },
+  {
+    "id": "san-francisco",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pon en una coctelera 80 g de zumo de naranja, 80 g de zumo de piña, 20 g de zumo de limón y 15 g de azúcar (o granadina) con hielo.",
+      "Agita y sirve en un vaso con hielo."
+    ],
+    "notas": "El hielo no cuenta en el peso. Tradicionalmente lleva granadina en lugar de azúcar."
+  },
+  {
+    "id": "limonada-fresa",
+    "raciones": 4,
+    "tiempoMin": 10,
+    "pasos": [
+      "Tritura 150 g de fresas con 60 g de azúcar y 60 g de zumo de limón.",
+      "Mézclalo con 600 g de agua fría y cuélalo si quieres.",
+      "Sírvela con hielo."
+    ],
+    "notas": "El hielo no cuenta en el peso. Una ración son unos 220 g."
+  },
+  {
+    "id": "sangria-sin-alcohol",
+    "raciones": 4,
+    "tiempoMin": 15,
+    "pasos": [
+      "Trocea 100 g de naranja y 100 g de melocotón.",
+      "Mézclalos en una jarra con 400 g de zumo de uva y deja macerar 30 minutos en la nevera.",
+      "Añade 200 g de gaseosa y hielo antes de servir."
+    ],
+    "notas": "El hielo no cuenta en el peso. Una ración son 200 g."
+  },
+  {
+    "id": "martini-seco",
+    "raciones": 1,
+    "tiempoMin": 3,
+    "pasos": [
+      "Pon hielo en un vaso mezclador con 60 g de ginebra y 10 g de vermut seco.",
+      "Remueve 30 segundos y cuela en una copa de cóctel fría.",
+      "Decora con una aceituna o una piel de limón."
+    ]
+  },
+  {
+    "id": "mimosa",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Vierte 75 g de zumo de naranja frío en una copa.",
+      "Completa con 100 g de cava muy frío."
+    ]
+  },
+  {
+    "id": "whisky-sour",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pon en una coctelera 50 g de whisky, 25 g de zumo de limón, 15 g de azúcar y 15 g de clara.",
+      "Agita sin hielo 15 segundos para que espume, añade hielo y agita otra vez.",
+      "Cuela en un vaso con hielo."
+    ],
+    "notas": "Lleva clara cruda: usa huevos pasteurizados si hay dudas."
+  },
+  {
+    "id": "batido-queso-frutos-rojos",
+    "raciones": 2,
+    "tiempoMin": 5,
+    "pasos": [
+      "Tritura 200 g de queso batido con 150 g de leche y 100 g de fresas hasta que quede fino."
+    ]
   }
 ]

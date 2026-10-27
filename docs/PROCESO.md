@@ -2938,3 +2938,14 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 **Cómo:** pasos cortos, una ración por unidad. Los que usan una elaboración previa lo dicen en las notas (pulpo cocido, bacalao desalado, cerdo desmechado, carnes del puchero).
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 266. Recetas: tanda 16, el recetario completo (2026-10-27)
+
+**Qué:** pasos de las 93 bebidas: cafés, batidos y smoothies, zumos, combinados y cócteles, y bebidas calientes. Con esta tanda, **las 1.555 recetas del catálogo de típicos tienen preparación**.
+
+**Cómo:**
+- Los combinados de vaso largo comparten una plantilla.
+- El hielo no cuenta en el peso, salvo en el frappé, el café con hielo y la caipiroska, cuya formulación lo incluye como agua.
+- Las bebidas con clara o yema crudas lo avisan.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos y ninguna receta de `recetas.json` queda sin preparación. `npm run test` y `npm run build` correctos.
