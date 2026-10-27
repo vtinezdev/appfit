@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import Ayuda from '../shared/components/Ayuda'
 import { IconButton } from '../shared/components/Button'
+import Icon, { type IconName } from '../shared/components/Icon'
 import Interruptor from '../shared/components/Interruptor'
 import ListGroup from '../shared/components/ListGroup'
 import { updateSettings } from '../shared/db/settings'
 import type { Settings } from '../shared/db/types'
 import * as creatinaRepo from '../features/inicio/data/creatinaRepo'
-import { AL_APAGAR, MODULOS, moduloActivo, moverTarjeta, NOMBRE_MODULO, NOMBRE_TARJETA, ordenTarjetas, tarjetaVisible } from '../shared/lib/modulos'
+import { AL_APAGAR, MODULOS, moduloActivo, moverTarjeta, NOMBRE_MODULO, NOMBRE_TARJETA, ordenTarjetas, tarjetaVisible, type TarjetaInicio } from '../shared/lib/modulos'
 
 const ERROR = 'No se ha podido guardar el ajuste. Inténtalo de nuevo.'
 const AL_APAGAR_CREATINA = 'Al activarla, su tarjeta sale en Inicio; la dosis y la fase de carga se ajustan en Ajustes › Creatina. Apagarla conserva tus tomas.'
@@ -15,6 +16,9 @@ const AL_APAGAR_CREATINA = 'Al activarla, su tarjeta sale en Inicio; la dosis y 
  * Ajustes › «Lo que usas» (B9): qué módulos se ven, con lo que pasa al apagarlos, y el orden de las tarjetas de Inicio.
  * Ocultar nunca borra datos. Cada elección se guarda al tocarla.
  */
+/** Icono de cada tarjeta de Inicio en «Ordenar Inicio». */
+const ICONO_TARJETA: Record<TarjetaInicio, IconName> = { energia: 'utensils', progreso: 'mountain', metas: 'trophy', registros: 'scale', creatina: 'zap', entreno: 'dumbbell' }
+
 export default function ModulosAjustes({ settings, onError }: { settings: Settings; onError: (mensaje: string) => void }) {
   const guardar = (patch: Partial<Omit<Settings, 'id'>>) => { updateSettings(patch).catch(() => onError(ERROR)) }
   // El orden se lleva también aquí: dos toques seguidos no esperan a que vuelva la lectura de los ajustes.
@@ -64,18 +68,21 @@ export default function ModulosAjustes({ settings, onError }: { settings: Settin
 
     <section aria-labelledby="ordenar-inicio" className="space-y-2">
       <h3 id="ordenar-inicio" className="text-title text-fg">Ordenar Inicio</h3>
+      <p className="px-1 text-caption text-fg-muted">De arriba abajo, como salen en Inicio.</p>
       <ListGroup aria-label="Tarjetas de Inicio" pie="Los avisos y la revisión del lunes van siempre arriba.">
         {orden.map((t, i) => {
           const visible = tarjetaVisible(actual, t)
-          return <li key={t} className="flex min-h-touch items-center gap-2 py-1">
+          // Punto 25: cada tarjeta con su icono y su puesto; las ocultas, atenuadas y con por qué.
+          return <li key={t} className="flex min-h-touch items-center gap-3 py-1">
+            <span aria-hidden className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-surface-muted text-fg ${visible ? '' : 'opacity-50'}`}><Icon name={ICONO_TARJETA[t]} size={18} /></span>
             <span className={`min-w-0 flex-1 ${visible ? '' : 'opacity-50'}`}>
               <span className="block break-words text-body-sm font-semibold text-fg">{NOMBRE_TARJETA[t]}</span>
               {!visible && <span className="block text-caption text-fg-muted">Oculta con su módulo</span>}
               {visible && t === 'metas' && <span className="block text-caption text-fg-muted">Solo con alguna meta en curso</span>}
             </span>
-            <IconButton icon="chevron-left" className="rotate-90" variant="ghost" size="sm" label={`Subir ${NOMBRE_TARJETA[t]}`} disabled={i === 0}
+            <IconButton icon="chevron-up" variant="ghost" size="sm" label={`Subir ${NOMBRE_TARJETA[t]}`} disabled={i === 0}
               onClick={() => mover(t, -1)} />
-            <IconButton icon="chevron-right" className="rotate-90" variant="ghost" size="sm" label={`Bajar ${NOMBRE_TARJETA[t]}`} disabled={i === orden.length - 1}
+            <IconButton icon="chevron-down" variant="ghost" size="sm" label={`Bajar ${NOMBRE_TARJETA[t]}`} disabled={i === orden.length - 1}
               onClick={() => mover(t, 1)} />
           </li>
         })}

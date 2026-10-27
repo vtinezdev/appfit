@@ -1,14 +1,11 @@
 import { formatNumber } from '../../../shared/lib/format'
-import type { ReactNode } from 'react'
+import SeccionReferencia, { AvisoReferencia } from './SeccionReferencia'
 import { AVISO_ORIENTATIVO, ECUACIONES, KCAL_POR_KG, METODO_TMB, NIVELES_ACTIVIDAD, SUELO_KCAL } from '../../perfil/lib/energia'
 import { enlaceFuente, FUENTES_ENERGIA } from '../../perfil/lib/fuentesEnergia'
 import { ALTURA_MAX, ALTURA_MIN, EDAD_AVISO, EDAD_MAX, EDAD_MIN } from '../../perfil/lib/validacionPerfil'
 
 const AVISO_COMPLETO = 'Estimación orientativa basada en ecuaciones poblacionales (error típico ±10 %). No es una prescripción médica ni sirve para menores de 18 años, embarazo o lactancia, enfermedades que alteran el metabolismo o trastornos de la conducta alimentaria: en esos casos, consulta a un profesional sanitario. Ajusta según la evolución real de tu peso.'
 
-function Seccion({ titulo, children }: { titulo: string; children: ReactNode }) {
-  return <section className="space-y-2 border-t border-line pt-4"><h3 className="text-title font-semibold text-fg">{titulo}</h3>{children}</section>
-}
 
 const signo = (n: number) => (n < 0 ? '−' : '+')
 function formula(id: 'mifflin' | 'rozaShizgal', sexo: 'hombre' | 'mujer') {
@@ -19,11 +16,13 @@ function formula(id: 'mifflin' | 'rozaShizgal', sexo: 'hombre' | 'mujer') {
 
 /** Metodología y fuentes de la estimación energética. Es la única explicación larga; Perfil enlaza aquí. */
 export default function EnergiaReferencias() {
-  return <div className="space-y-section text-body-sm text-fg-muted">
-    <p>{AVISO_COMPLETO}</p>
-    <p>La estimación se calcula siempre en tu dispositivo con los datos de Perfil y tu último pesaje. No se envía nada a ningún servidor; los enlaces de las fuentes solo se abren cuando los pulsas.</p>
+  return <div className="space-y-stack text-body-sm text-fg-muted">
+    <AvisoReferencia>
+      <p>{AVISO_COMPLETO}</p>
+      <p className="text-fg-muted">Se calcula en tu móvil con tus datos de Perfil y tu último pesaje; no se envía nada.</p>
+    </AvisoReferencia>
 
-    <Seccion titulo="Gasto en reposo (TMB)">
+    <SeccionReferencia titulo="Gasto en reposo (TMB)" resumen="La media de dos ecuaciones (Mifflin-St Jeor y Roza-Shizgal) con tu sexo, edad, altura y peso.">
       <p>AppFit calcula la media de {formatNumber(METODO_TMB.ecuaciones.length)} ecuaciones: Mifflin-St Jeor (1990) y Harris-Benedict revisada por Roza y Shizgal (1984). Ninguna publicación valida esa media como ecuación propia: es un criterio de AppFit apoyado en dos ecuaciones citadas, no un método publicado. Con datos habituales, Roza-Shizgal da unas decenas de kcal más que Mifflin, así que la media queda entre las dos.</p>
       <ul className="space-y-2">
         {(['mifflin', 'rozaShizgal'] as const).map((id) => <li key={id} className="space-y-1">
@@ -34,9 +33,9 @@ export default function EnergiaReferencias() {
       </ul>
       <p>Mifflin-St Jeor se obtuvo con 498 adultos sanos de 19 a 78 años (calorimetría indirecta) y la revisión sistemática de Frankenfield (2005) la señala como la más fiable de las comparadas. Harris-Benedict (1918–1919) usó 239 personas en Boston y sobreestima en población actual; Roza-Shizgal (337 personas) mejora el ajuste con la misma estructura y es la que se usa aquí. La ecuación de Henry/Oxford (2005), que usa EFSA para valores poblacionales, y las de Cunningham o Katch-McArdle, que necesitan la masa magra, no se usan: no se pide ni se guarda composición corporal.</p>
       <p>Las ecuaciones son binarias (hombre o mujer) y se calculan en kg, cm y años cumplidos desde tu fecha de nacimiento. En deportistas con mucha masa muscular pueden quedarse cortas (ten Haaf y Weijs, 2014).</p>
-    </Seccion>
+    </SeccionReferencia>
 
-    <Seccion titulo="Factor de actividad: ¿cuánto deporte haces?">
+    <SeccionReferencia titulo="Factor de actividad: ¿cuánto deporte haces?" resumen={`Gasto en reposo × un factor de ${formatNumber(Math.min(...Object.values(NIVELES_ACTIVIDAD).map((n) => n.factor)), 3)} a ${formatNumber(Math.max(...Object.values(NIVELES_ACTIVIDAD).map((n) => n.factor)), 3)} según cuánto deporte haces.`}>
       <p>Gasto diario = gasto en reposo × factor. Los cinco niveles se atribuyen al manual de McArdle, Katch y Katch (1996) y son una convención de uso extendido, no un método validado: no se ha podido comprobar la edición concreta ni localizar una derivación experimental publicada.</p>
       <ul className="divide-y divide-line border-y border-line">
         {Object.values(NIVELES_ACTIVIDAD).map((n) => <li key={n.etiqueta} className="flex items-start justify-between gap-3 py-2">
@@ -45,9 +44,9 @@ export default function EnergiaReferencias() {
         </li>)}
       </ul>
       <p>Como contexto oficial, FAO/OMS/UNU (2004) agrupa la actividad física (PAL) en 1,40–1,69, 1,70–1,99 y 2,00–2,40, y EFSA (2013) usa 1,4, 1,6, 1,8 y 2,0. FAO considera que un PAL inferior a 1,40 solo es propio de personas encamadas: los dos primeros niveles pueden quedarse cortos para quien no entrena pero camina o trabaja de pie. El factor mide el deporte, no el resto del día.</p>
-    </Seccion>
+    </SeccionReferencia>
 
-    <Seccion titulo="Ajuste según tu objetivo">
+    <SeccionReferencia titulo="Ajuste según tu objetivo" resumen="Definición resta y volumen suma de 200 a 600 kcal al día.">
       <p>Definición resta y volumen suma entre 200 y 600 kcal al día, en pasos de 100, según elijas (por defecto 400). Mantenimiento no ajusta. El rango lo fija AppFit; la literatura solo es contexto:</p>
       <ul className="list-disc space-y-1 pl-5">
         <li>NICE: un déficit de unas 600 kcal/día equivale a unos 0,5 kg por semana (coincide con el máximo de AppFit).</li>
@@ -55,9 +54,9 @@ export default function EnergiaReferencias() {
         <li>Slater et al. (2019): empezar con +1.500–2.000 kJ/día (unas 360–480 kcal); Iraki et al. (2019): +10–20 % y ganancias de 0,25–0,5 % del peso por semana.</li>
       </ul>
       <p>El ritmo que se muestra es orientativo: kcal × 7 / {formatNumber(KCAL_POR_KG)} kg por semana. Hall (2008) advierte de que {formatNumber(KCAL_POR_KG)} kcal por kg es una aproximación que pierde validez con el tiempo. En definición, si el ritmo supera el 1 % del peso por semana se avisa, sin bloquear.</p>
-    </Seccion>
+    </SeccionReferencia>
 
-    <Seccion titulo="Límites de prudencia">
+    <SeccionReferencia titulo="Límites de prudencia" resumen={`Nunca por debajo de tu gasto en reposo ni de ${formatNumber(SUELO_KCAL)} kcal; solo para adultos.`}>
       <ul className="list-disc space-y-1 pl-5">
         <li>Con un IMC inferior a 18,5 (bajo peso según la OMS) no se calcula déficit: se muestra el mantenimiento.</li>
         <li>El objetivo nunca baja de tu gasto en reposo ni de {formatNumber(SUELO_KCAL)} kcal. Es un criterio de prudencia de AppFit, no un dato científico; {formatNumber(SUELO_KCAL)} kcal es el umbral de las dietas de muy bajo valor calórico, que NICE no recomienda sin supervisión.</li>
@@ -65,13 +64,13 @@ export default function EnergiaReferencias() {
         <li>Altura entre {formatNumber(ALTURA_MIN)} y {formatNumber(ALTURA_MAX)} cm y peso entre 20 y 300 kg: son controles de plausibilidad de la entrada, no afirmaciones clínicas.</li>
       </ul>
       <p>El objetivo se redondea a 10 kcal: la ecuación no tiene más precisión que eso.</p>
-    </Seccion>
+    </SeccionReferencia>
 
-    <Seccion titulo="Cómo se usa en la app">
+    <SeccionReferencia titulo="Cómo se usa en la app" resumen="Las calorías de Hoy, Resumen, Inicio y Ajustes salen de aquí.">
       <p>Con perfil completo y objetivo elegido, las calorías de Hoy, Resumen, Inicio y Ajustes salen de Perfil y se recalculan al registrar un peso, cambiar un dato o cumplir años. Los macros conservan el reparto en % de Ajustes y, si la proteína por kg está activa y hay peso, la proteína sale de gramos por kg × peso (ver «Proteína y agua»). Sin perfil completo siguen tus objetivos de Ajustes. Cada día guarda el objetivo que tenía cuando registraste comida o cambiaste tus datos ese día; los días sin registro se comparan con el objetivo vigente. En Perfil se guardan solo la fecha de nacimiento, el sexo, la altura, la actividad y el objetivo; el peso sale de tus pesajes y lo demás se deriva al leer. El backup JSON incluye la fecha de nacimiento.</p>
-    </Seccion>
+    </SeccionReferencia>
 
-    <Seccion titulo="Fuentes">
+    <SeccionReferencia titulo="Fuentes" resumen={`${formatNumber(FUENTES_ENERGIA.length)} publicaciones, con su enlace y para qué se usa cada una.`}>
       <ul className="space-y-3">
         {FUENTES_ENERGIA.map((f) => {
           const url = enlaceFuente(f)
@@ -84,6 +83,6 @@ export default function EnergiaReferencias() {
         })}
       </ul>
       <p>{AVISO_ORIENTATIVO}.</p>
-    </Seccion>
+    </SeccionReferencia>
   </div>
 }

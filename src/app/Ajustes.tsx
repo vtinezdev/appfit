@@ -17,7 +17,11 @@ import { planDeSemana } from '../features/ritmo/lib/plan'
 import CreatinaAjustes from '../features/inicio/components/CreatinaAjustes'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { ErrorState, LoadingState } from '../shared/components/StateMessage'
+import Ayuda from '../shared/components/Ayuda'
 import Button, { IconButton } from '../shared/components/Button'
+import Card from '../shared/components/Card'
+import Interruptor from '../shared/components/Interruptor'
+import NumberStepper from '../shared/components/NumberStepper'
 import Disclosure from '../shared/components/Disclosure'
 import Icon from '../shared/components/Icon'
 import ListGroup from '../shared/components/ListGroup'
@@ -28,8 +32,7 @@ import { getFondoPref, getThemePref, setFondoPref, setThemePref, type FondoPref,
 import ConfirmacionDestructiva from '../shared/components/ConfirmacionDestructiva'
 import PageHeader from '../shared/components/PageHeader'
 import { UMBRAL_BACKUP_POR_DEFECTO } from '../shared/lib/recordatorioBackup'
-import { formatAgua, objetivoAguaPorDefecto, resolverObjetivoAgua, validarObjetivoAgua } from '../features/inicio/lib/agua'
-import { Input } from '../shared/components/Input'
+import { formatAgua, objetivoAguaPorDefecto, partesAgua, resolverObjetivoAgua, validarObjetivoAgua } from '../features/inicio/lib/agua'
 import { descargarCsv, TABLAS_CSV, type TablaCsv } from '../shared/lib/exportarCsv'
 import AlmacenamientoAjustes from './AlmacenamientoAjustes'
 import CuentaAjustes, { ResumenCuenta } from '../features/cuenta/components/CuentaAjustes'
@@ -42,6 +45,16 @@ import { GRUPOS_AJUSTES, OPCIONES_FONDO, OPCIONES_TEMA, resumenAjustes, SECCIONE
  * vista, con «Volver» que devuelve el foco a la fila. `seccionInicial` abre una directamente (avisos de Inicio, Cumbres…);
  * `enfocarReferencias` devuelve el foco a la fila Referencias al volver de ella.
  */
+/** Pasos de una tarea, cada uno con su número en un círculo. */
+function PasosNumerados({ pasos }: { pasos: string[] }) {
+  return <ol className="space-y-3">
+    {pasos.map((p, i) => <li key={p} className="flex items-start gap-3">
+      <span aria-hidden className="tabular flex h-7 w-7 shrink-0 items-center justify-center rounded-pill bg-surface-muted text-caption font-semibold text-fg">{i + 1}</span>
+      <span className="min-w-0 pt-0.5 text-body-sm text-fg">{p}</span>
+    </li>)}
+  </ol>
+}
+
 export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias, enfocarReferencias = false }: { seccionInicial?: SeccionAjustes; onIrAPerfil?: () => void; onIrAReferencias?: () => void; enfocarReferencias?: boolean }) {
   const settings = useLiveQuery(() => getSettings(), [])
   const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(todayISO()), [])
@@ -52,11 +65,11 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
   /** Fila del índice que recupera el foco al volver de su sección. */
   const [volverA, setVolverA] = useState<SeccionAjustes | null>(null)
   const [focoReferencias, setFocoReferencias] = useState(enfocarReferencias)
-  const [aguaTexto, setAguaTexto] = useState<string | null>(null)
   const [tema, setTema] = useState<ThemePref>(getThemePref)
   const [fondo, setFondo] = useState<FondoPref>(getFondoPref)
   const [errorBorrado, setErrorBorrado] = useState<string | null>(null)
   const [errorAjuste, setErrorAjuste] = useState<string | null>(null)
+  const [plataforma, setPlataforma] = useState<'iphone' | 'android'>(() => (/iPhone|iPad|Macintosh/.test(navigator.userAgent) ? 'iphone' : 'android'))
   const [mensaje, setMensaje] = useState<string | null>(null)
   const [errorBackup, setErrorBackup] = useState<string | null>(null)
   const [backupPendiente, setBackupPendiente] = useState<{ texto: string; comidas: number } | null>(null)
@@ -226,44 +239,41 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
       updateSettings({ objetivos }).then(() => actualizarObjetivoHoy(todayISO(), 'ajustes')).catch(() => setErrorAjuste('No se han podido guardar los objetivos. Inténtalo de nuevo.'))
     }} />,
 
+    // Punto 27: el objetivo en grande, de dónde sale y un selector de ±250 ml; la explicación, tras la «i».
     agua: () => {
       const recomendado = objetivoAguaPorDefecto(sexo)
       const errorAgua = 'No se ha podido guardar el objetivo de agua.'
-      return <div className="space-y-2">
-        <label className="flex items-center justify-between gap-3">
-          <span className="text-body-sm font-medium text-fg">Objetivo diario (ml)</span>
-          <Input type="number" inputMode="numeric" enterKeyHint="done" className="tabular no-spin w-28 text-right" placeholder={recomendado !== null ? String(recomendado) : 'Sin objetivo'}
-            value={aguaTexto ?? (settings.aguaObjetivoMl ?? '')}
-            onChange={(e) => {
-              setAguaTexto(e.target.value)
-              const v = validarObjetivoAgua(Number(e.target.value))
-              if (e.target.value !== '' && v !== null) guardar({ aguaObjetivoMl: v }, errorAgua)
-            }}
-            onBlur={() => setAguaTexto(null)} />
-        </label>
-        <NotaAmpliable resumen={efectivoAgua ? (efectivoAgua.origen === 'efsa' ? `Ahora: ${formatAgua(efectivoAgua.ml)}, el recomendado según tu sexo en Perfil.` : `Ahora: ${formatAgua(efectivoAgua.ml)}, el que has fijado tú.`) : 'Sin objetivo: Inicio solo muestra lo que bebes.'}>
-          <p>{efectivoAgua ? '' : 'Indica tu sexo en Perfil para ver el recomendado o escribe uno. '}El recomendado parte de la ingesta adecuada de EFSA (2010) para adultos; detalles en Referencias › Proteína y agua.</p>
-        </NotaAmpliable>
-        {settings.aguaObjetivoMl !== undefined && <Button variant="subtle" size="sm" onClick={() => { setAguaTexto(null); guardar({ aguaObjetivoMl: undefined }, errorAgua) }}>Usar el recomendado</Button>}
+      const actual = efectivoAgua?.ml ?? recomendado ?? 2000
+      return <div className="space-y-stack">
+        <Card className="space-y-4">
+          <div className="relative pr-10">
+            <div className="absolute -right-2 -top-2"><Ayuda titulo="Objetivo de agua">
+              <p>El recomendado parte de la ingesta adecuada de agua de EFSA (2010) para adultos, según tu sexo en Perfil; detalles en Referencias › Proteína y agua.</p>
+              <p>Si fijas uno tuyo, manda el tuyo. Inicio te enseña lo que bebes frente a él.</p>
+            </Ayuda></div>
+            <p className="text-rotulo text-fg-muted">Objetivo diario</p>
+            {efectivoAgua
+              ? <p className="flex items-baseline gap-1.5"><span className="tabular font-numeric text-metric text-fg">{partesAgua(efectivoAgua.ml).valor}</span><span className="text-body text-fg-muted">{partesAgua(efectivoAgua.ml).unidad}</span></p>
+              : <p className="text-title text-fg">Sin objetivo</p>}
+            <p className="text-caption text-fg-muted">{efectivoAgua ? (efectivoAgua.origen === 'efsa' ? 'El recomendado según tu sexo en Perfil' : 'El que has fijado tú') : 'Indica tu sexo en Perfil o fija uno aquí.'}</p>
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
+            <span className="text-body-sm text-fg">Cambiar</span>
+            <NumberStepper label="Objetivo diario de agua (ml)" value={actual} step={250} min={500} suffix="ml"
+              onChange={(ml) => { const v = validarObjetivoAgua(ml); if (v !== null) guardar({ aguaObjetivoMl: v }, errorAgua) }} />
+          </div>
+          {settings.aguaObjetivoMl !== undefined && recomendado !== null && <Button variant="ghost" size="sm" onClick={() => guardar({ aguaObjetivoMl: undefined }, errorAgua)}>Volver al recomendado ({formatAgua(recomendado)})</Button>}
+        </Card>
       </div>
     },
 
     creatina: () => <CreatinaAjustes settings={settings} />,
 
-    entreno: () => <div className="space-y-stack">
-      <div className="space-y-1">
-        <SegmentedControl label="Sonido al terminar el descanso" valor={settings.sonidoDescanso === false ? 'no' : 'si'}
-          onChange={(v) => guardar({ sonidoDescanso: v === 'si' })}
-          opciones={[{ valor: 'si', label: 'Con sonido' }, { valor: 'no', label: 'Sin sonido' }]} />
-        <NotaAmpliable resumen="Un pitido corto, solo con la app abierta."><p>iOS no permite vibrar ni avisar en segundo plano sin notificaciones.</p></NotaAmpliable>
-      </div>
-      <div className="space-y-1">
-        <SegmentedControl label="Preguntar el RIR al completar una serie" valor={settings.rirAlCompletar === false ? 'no' : 'si'}
-          onChange={(v) => guardar({ rirAlCompletar: v === 'si' })}
-          opciones={[{ valor: 'si', label: 'Preguntar RIR' }, { valor: 'no', label: 'No preguntar' }]} />
-        <NotaAmpliable resumen="Se pregunta al marcar cada serie."><p>Son las repeticiones que te quedaban en reserva. Siempre puedes anotarlo tocando su celda.</p></NotaAmpliable>
-      </div>
-    </div>,
+    // Punto 28: dos interruptores en una lista, con lo que hacen en su misma fila.
+    entreno: () => <ListGroup aria-label="Entreno" pie="iOS no deja vibrar ni avisar en segundo plano sin notificaciones: el pitido suena solo con la app abierta.">
+      <li><Interruptor label="Sonido al terminar el descanso" detalle="Un pitido corto, con la app abierta" activo={settings.sonidoDescanso !== false} onChange={(v) => guardar({ sonidoDescanso: v })} /></li>
+      <li><Interruptor label="Preguntar el RIR al completar una serie" detalle="Las repeticiones que te quedaban; también se anota tocando su celda" activo={settings.rirAlCompletar !== false} onChange={(v) => guardar({ rirAlCompletar: v })} /></li>
+    </ListGroup>,
 
     gamificacion: () => <GamificacionAjustes settings={settings} onError={setErrorAjuste} />,
 
@@ -282,49 +292,47 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
 
     actualizaciones: () => <ActualizacionesAjustes />,
 
+    // Punto 31: añadir la app en una tarjeta, con los pasos numerados del móvil elegido; lo demás, recogido.
     instalacion: () => <div className="space-y-section">
-      <section aria-label="Añadir a la pantalla de inicio" className="space-y-2">
-        <h3 className="text-title text-fg">Añade la app a tu pantalla de inicio</h3>
+      <Card className="space-y-4">
+        <div className="flex items-start gap-3">
+          <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent text-accent-on"><Icon name="download" size={20} /></span>
+          <div className="min-w-0"><h3 className="text-title text-fg">Añade AppFit a tu pantalla de inicio</h3><p className="text-body-sm text-fg-muted">Se abre como una app y funciona sin conexión.</p></div>
+        </div>
         <InstalarApp />
-        <h4 className="text-body font-semibold text-fg">Android</h4>
-        <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
-          <li>Abre el enlace de AppFit en Chrome.</li>
-          <li>Pulsa «Instalar AppFit» si aparece, o abre el menú del navegador y elige «Instalar aplicación» o «Añadir a pantalla de inicio».</li>
-          <li>Confirma la instalación y abre AppFit desde su icono.</li>
-        </ol>
-        <p className="text-body-sm text-fg-muted">Si usas otro navegador, la opción puede tener otro nombre. Instala desde el navegador donde guardaste tus registros; para cambiar de navegador o móvil, lleva una copia de seguridad.</p>
-        <h4 className="text-body font-semibold text-fg">iPhone y iPad</h4>
-        <p className="text-body-sm text-fg-muted">Si ya registraste comidas en Safari, exporta primero una copia.</p>
-        <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
-          <li>Abre el enlace de AppFit en Safari.</li>
-          <li>Pulsa «Compartir» y elige «Añadir a pantalla de inicio».</li>
-          <li>Abre AppFit desde el nuevo acceso de tu pantalla de inicio.</li>
-        </ol>
-      </section>
-      <section aria-label="Trasladar registros de Safari" className="space-y-2">
-        <h3 className="text-title text-fg">¿Ya registraste comidas en Safari?</h3>
-        {cuentaDisponible && <p className="text-body-sm text-fg-muted">Con una cuenta es más fácil: créala en Safari (Ajustes › Cuenta) y entra con ella en el nuevo acceso. Tus registros se traen solos.</p>}
-        <p className="text-body-sm text-fg-muted">{cuentaDisponible ? 'Sin cuenta, lleva' : 'En iPhone, los registros de Safari pueden guardarse por separado. Lleva'} una copia al nuevo acceso:</p>
-        <ol className="list-decimal space-y-2 pl-5 text-body-sm text-fg-muted">
-          <li>En Safari, abre el enlace original y entra en Ajustes › Copias de seguridad.</li>
-          <li>Pulsa «Exportar» y guarda el archivo. Si todavía no has añadido el acceso, haz esta copia primero.</li>
-          <li>Abre AppFit desde la pantalla de inicio y entra en Ajustes › Copias de seguridad.</li>
-          <li>Pulsa «Importar», elige el archivo y confirma «Importar copia».</li>
-        </ol>
-        <p className="text-body-sm font-medium">Después, abre siempre AppFit desde el mismo acceso de la pantalla de inicio.</p>
-        <Button variant="secondary" block onClick={() => abrir('copias')}>Ir a Copias de seguridad</Button>
-      </section>
-      <section aria-label="Pistas" className="space-y-2">
-        <h3 className="text-title text-fg">Pistas</h3>
-        <Disclosure title="Ayuda para registrar un entreno">
+        <SegmentedControl label="Tu móvil" valor={plataforma} onChange={setPlataforma} opciones={[{ valor: 'iphone', label: 'iPhone y iPad' }, { valor: 'android', label: 'Android' }]} />
+        <PasosNumerados pasos={plataforma === 'iphone'
+          ? ['Abre el enlace de AppFit en Safari.', 'Pulsa «Compartir» y elige «Añadir a pantalla de inicio».', 'Abre AppFit desde el nuevo icono.']
+          : ['Abre el enlace de AppFit en Chrome.', 'Pulsa «Instalar AppFit» o, en el menú, «Instalar aplicación».', 'Abre AppFit desde su icono.']} />
+        <p className="border-t border-line pt-3 text-caption text-fg-muted">{plataforma === 'iphone'
+          ? 'Si ya registraste comidas en Safari, lleva antes una copia (abajo).'
+          : 'Instala desde el navegador donde guardaste tus registros; para cambiar de navegador o de móvil, lleva una copia.'}</p>
+      </Card>
+      <ListGroup aria-label="Más ayuda">
+        <li><Disclosure title="¿Ya registraste comidas en Safari?">
+          <div className="space-y-3">
+            {cuentaDisponible && <p className="text-body-sm text-fg-muted">Con una cuenta es más fácil: créala en Safari (Ajustes › Cuenta) y entra con ella desde el icono. Tus registros se traen solos. Sin cuenta, lleva una copia:</p>}
+            <PasosNumerados pasos={[
+              'En Safari, abre el enlace y entra en Ajustes › Copias de seguridad.',
+              'Pulsa «Exportar» y guarda el archivo.',
+              'Abre AppFit desde la pantalla de inicio y entra en Ajustes › Copias de seguridad.',
+              'Pulsa «Importar», elige el archivo y confirma «Importar copia».',
+            ]} />
+            <p className="text-caption text-fg-muted">Después, abre siempre AppFit desde el mismo icono.</p>
+            <Button variant="secondary" block onClick={() => abrir('copias')}>Ir a Copias de seguridad</Button>
+          </div>
+        </Disclosure></li>
+        <li><Disclosure title="Ayuda para registrar un entreno">
           <div className="space-y-3">{(['entreno-series', 'entreno-rir', 'entreno-progresion', 'entreno-gimnasio'] as const).map(id => <p key={id} className="text-body-sm text-fg-muted">{PISTAS[id]}</p>)}</div>
-        </Disclosure>
-        <p className="text-body-sm text-fg-muted">Algunas pantallas explican cómo se usan la primera vez que entras.</p>
-        <Button variant="secondary" disabled={!settings.pistasVistas?.length} onClick={() => {
+        </Disclosure></li>
+        <li><button type="button" disabled={!settings.pistasVistas?.length} onClick={() => {
           setMensaje(null)
           updateSettings({ pistasVistas: undefined }).then(() => setMensaje('Las pistas volverán a salir.')).catch(() => setErrorAjuste('No se ha podido guardar el ajuste. Inténtalo de nuevo.'))
-        }}>Volver a ver las pistas</Button>
-      </section>
+        }} className="app-button flex min-h-touch w-full items-center gap-3 py-3 text-left disabled:opacity-50">
+          <span className="min-w-0 flex-1"><span className="block text-body-sm font-semibold text-fg">Volver a ver las pistas</span><span className="block text-caption text-fg-muted">{settings.pistasVistas?.length ? 'Las explicaciones de la primera vez saldrán otra vez' : 'Aún no has cerrado ninguna'}</span></span>
+          <Icon name="sparkles" size={18} className="shrink-0 text-fg-subtle" />
+        </button></li>
+      </ListGroup>
     </div>,
 
     cuenta: () => <CuentaAjustes />,

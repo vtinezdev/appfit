@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import Button from '../shared/components/Button'
+import Card from '../shared/components/Card'
+import Disclosure from '../shared/components/Disclosure'
+import Icon from '../shared/components/Icon'
 import { Textarea } from '../shared/components/Input'
+import ListGroup from '../shared/components/ListGroup'
 import { ErrorState } from '../shared/components/StateMessage'
 import { crearDiagnostico, ultimoErrorDiagnostico } from '../shared/lib/diagnostico'
 
@@ -22,21 +26,39 @@ export default function DiagnosticoAjustes() {
   const texto = crearDiagnostico(datos, pasos)
   async function copiar() {
     setError(''); setMensaje('')
-    try { await navigator.clipboard.writeText(texto); setMensaje('Diagnóstico copiado. Puedes pegarlo donde comuniques el problema.') }
+    try { await navigator.clipboard.writeText(texto); setMensaje('Informe copiado. Pégalo en el mensaje o correo en el que cuentes el problema.') }
     catch { setError('No se ha podido copiar automáticamente. Selecciona el texto del diagnóstico y cópialo con el menú de tu dispositivo.') }
   }
-  return <div className="space-y-stack">
-    <p className="text-body-sm text-fg-muted">Describe qué estabas haciendo, qué esperabas y qué ocurrió. Revisa el informe antes de copiarlo. No se envía automáticamente.</p>
-    <label className="block space-y-1"><span className="text-label text-fg-muted">Pasos para reproducir el problema</span>
-      <Textarea aria-label="Pasos para reproducir el problema" rows={5} maxLength={4000} value={pasos} onChange={e => { setPasos(e.target.value); setMensaje('') }} placeholder="1. Abrí… 2. Pulsé… Esperaba… Ocurrió…" />
-    </label>
-    <p className="text-caption text-fg-muted">El diagnóstico técnico no incluye tus registros, cuenta, mensajes de error ni ubicación. Evita escribir datos personales en los pasos.</p>
-    <Button variant="secondary" onClick={() => { setDatos(entorno()); setMensaje(''); setError('') }}>Actualizar datos del diagnóstico</Button>
-    <label className="block space-y-1"><span className="text-label text-fg-muted">Diagnóstico para revisar y copiar</span>
-      <Textarea aria-label="Diagnóstico para revisar y copiar" readOnly rows={12} value={texto} onFocus={e => e.currentTarget.select()} />
-    </label>
-    <Button block onClick={() => { void copiar() }}>Copiar diagnóstico</Button>
-    {mensaje && <p role="status" className="text-body-sm text-fg-muted">{mensaje}</p>}
-    {error && <ErrorState>{error}</ErrorState>}
+  // Punto 32: qué hace, en una tarjeta, y los tres pasos numerados; el informe técnico, recogido hasta que se quiera ver.
+  const paso = (n: number, titulo: string) => <h3 className="flex items-center gap-3 text-body font-semibold text-fg">
+    <span aria-hidden className="tabular flex h-7 w-7 shrink-0 items-center justify-center rounded-pill bg-surface-muted text-caption font-semibold">{n}</span>{titulo}
+  </h3>
+  return <div className="space-y-section">
+    <Card tone="muted" className="flex items-start gap-3">
+      <Icon name="info" size={20} className="mt-0.5 shrink-0 text-fg-muted" />
+      <p className="min-w-0 text-body-sm text-fg">Prepara un informe con lo que te ha pasado y unos datos técnicos (versión, navegador, pantalla y último error) para que lo envíes tú. No se envía nada solo.</p>
+    </Card>
+    <section className="space-y-2">
+      {paso(1, 'Cuenta qué ha pasado')}
+      <Textarea aria-label="Qué ha pasado" rows={5} maxLength={4000} value={pasos} onChange={e => { setPasos(e.target.value); setMensaje('') }} placeholder="Qué estabas haciendo, qué esperabas y qué ocurrió" />
+      <p className="text-caption text-fg-muted">Evita escribir datos personales.</p>
+    </section>
+    <section className="space-y-2">
+      {paso(2, 'Revisa el informe')}
+      <ListGroup aria-label="Informe" pie="No incluye tus registros, tu cuenta, mensajes ni ubicación.">
+        <li><Disclosure title="Ver el informe completo">
+          <div className="space-y-3">
+            <Textarea aria-label="Diagnóstico para revisar y copiar" readOnly rows={12} value={texto} onFocus={e => e.currentTarget.select()} />
+            <Button variant="secondary" size="sm" onClick={() => { setDatos(entorno()); setMensaje(''); setError('') }}>Actualizar datos técnicos</Button>
+          </div>
+        </Disclosure></li>
+      </ListGroup>
+    </section>
+    <section className="space-y-2">
+      {paso(3, 'Cópialo y envíalo')}
+      <Button block onClick={() => { void copiar() }}>Copiar informe</Button>
+      {mensaje && <p role="status" className="text-body-sm text-fg-muted">{mensaje}</p>}
+      {error && <ErrorState>{error}</ErrorState>}
+    </section>
   </div>
 }
