@@ -12,9 +12,10 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 | Estado, hilo, comodines, vueltas e hitos | `lib/ritmo.ts`: `calcularRitmo`, `estadoDeSemana`, `semanaRitmo` | — (puro) |
 | Pausas | `lib/pausas.ts`: `pausaDeSemana`, `pausaActiva`, `anadirPausa`, `terminarPausa`, `quitarPausa`, `validarPausa`, `describirPausa` | — (puro) |
 | Textos | `lib/textos.ts`: `cifrasSemana`, `textoHilo`, `faltaParaCumplir`, `textoEstado` | — (puro) |
+| Calendario e hitos | `lib/calendario.ts`: `semanasDelAnio`, `mesesDelAnio`, `partesSemana`; `lib/hitos.ts`: `pistaHitos` | — (puro) |
 | Escrituras de pausas | `data/pausasRepo.ts`: `pausar`, `reanudar`, `borrar`, `restaurar` (devuelven las pausas de antes, para «Deshacer») | `settings.pausas` (lectura y escritura en una transacción) |
 | Lecturas | `experiencia/hooks/useExperiencia` (`leerExperiencia`): Ritmo se calcula dentro de `calcularExperiencia` (`resultado.ritmo`) | ver [experiencia.md](experiencia.md) |
-| Página (Inicio › Ritmo) | `RitmoTab.tsx` (diferida), `components/DiasSemana`, `components/CalendarioSemanas`, `components/PausarSheet` | — |
+| Página (Progreso › Semana) | `RitmoTab.tsx` (diferida; `debajoDeSemana` y `trasSemana` para lo que Progreso pone dentro), `components/SemanaCuadros` (también en la revisión semanal), `components/CalendarioSemanas`, `components/PausarSheet`; `DiasSemana` queda para Social | — |
 | Tesela de Inicio | `inicio/components/AccesoProgreso` | `useVitrina` (incluye Ritmo) |
 | Sello en la revisión semanal | `inicio/components/RevisionSemanal` | `useExperiencia` + `semanaRitmo` |
 
@@ -46,14 +47,14 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 - **Inicio**, tesela «Ritmo» bajo la energía: las semanas de hilo («Hilo actual»). Abre Ritmo.
 - **Ritmo** (desde su tesela de Inicio; «‹ Inicio» vuelve con el foco en la tesela):
   - banda «En pausa» con «Reanudar hoy», si hay una pausa activa;
-  - «Esta semana»: estado por ahora, días, cifras y lo que falta;
-  - «Hilo»: cuatro `Metric` (hilo actual, mejor hilo, comodines «1 de 2» con cuánto falta para otro, semanas cumplidas y vueltas);
-  - «Semanas»: el calendario del año (`CalendarioSemanas`), en filas de 13 semanas, como un mapa de calor en grafito (de vacía, gris de superficie, a cumplida, grafito sólido), con leyenda, flechas de año y el desplegable con el estado de cada semana en texto. En el desplegable, cada semana cerrada con algún entreno o día con comidas (`lib/ritmo.tieneRevision`) es una fila entera con chevrón que abre su revisión semanal (`inicio/components/RevisionSemanal`, diferida, con «← Ritmo» y las flechas de semana), aunque en Inicio ya se cerrara; la actual, las futuras y las que no tienen nada son texto. Al cerrarla el foco vuelve a la fila. Las celdas del calendario siguen siendo decorativas (demasiado pequeñas para tocarlas);
-  - «Hitos»;
+  - «Esta semana» (en Progreso, con «Cómo funciona» en su título): estado por ahora y el hilo, los siete días en dos filas de cuadros (`SemanaCuadros`: mancuerna los días con entreno, cubiertos los días con comidas, hoy en negrita y los futuros atenuados), lo que falta y las cifras; debajo, lo que pone Progreso (las casillas de Cumbres, Caminos y Vitrina) y, tras la sección, las metas;
+  - «Hilo»: una ficha de 2 × 2 con cuatro `Metric` (hilo actual, mejor hilo, comodines «1 de 2» con cuánto falta para otro, semanas cumplidas y vueltas);
+  - «Semanas» (punto 19, opción C4 tras varias vistas previas): el calendario del año (`CalendarioSemanas`): una barra por semana desde el mes de tus primeros registros hasta la actual, todas igual de altas y partidas en dos (`partesSemana`): arriba se llena en acento con los entrenos del plan y abajo en tinta con los días con comidas (sin nutrición, solo entrenos); en pausa, borde discontinuo; sin datos, solo el contorno; la actual, con anillo; los meses debajo. Encima, la leyenda de las dos mitades y cuántas semanas hay de cada estado; flechas de año y el desplegable con el estado de cada semana en texto. En el desplegable, cada semana cerrada con algún entreno o día con comidas (`lib/ritmo.tieneRevision`) es una fila entera con chevrón que abre su revisión semanal (`inicio/components/RevisionSemanal`, diferida, con «← Ritmo» y las flechas de semana), aunque en Inicio ya se cerrara; la actual, las futuras y las que no tienen nada son texto. Al cerrarla el foco vuelve a la fila. Las celdas del calendario siguen siendo decorativas (demasiado pequeñas para tocarlas);
+  - «Hitos» (punto 20): una pista con un tramo por hito (`pistaHitos`), lleno hasta las semanas cumplidas, check en los logrados (con su fecha) y trofeo en el siguiente («Próximo: 4 semanas cumplidas · Llevas 3 semanas · faltan 1»); su «i» explica que cuentan las semanas cumplidas en total y que son los niveles del logro «Semanas cumplidas» de la Vitrina;
   - «Pausas», con «Pausar» y borrado inmediato con «Deshacer»;
   - la «i» de la cabecera abre «Cómo funciona Ritmo» (`components/ComoFuncionaRitmo`): cómo se juzga cada semana (estado con su regla), el hilo y los comodines, y las pausas.
 - **Pausar** (Sheet): qué se pausa (todo o solo entreno), motivo (vacaciones, enfermedad, lesión, viaje u otro), desde y hasta (opcional). Los errores van en línea.
-- **Revisión semanal**: al principio, una card «Ritmo» con el estado de la semana revisada, sus cifras y el hilo.
+- **Revisión semanal**: al principio, la semana de un vistazo con el estado de Ritmo, el hilo y los mismos cuadros (`SemanaCuadros`).
 - Ocultar la gamificación en Ajustes quita las teselas de Inicio y el sello.
 
-Al ampliar texto, los cuadros y puntos de `DiasSemana` se limitan al ancho de cada día; el selector de año de `CalendarioSemanas` sitúa el año bajo las flechas cuando hay menos de 16 rem de lectura.
+Al ampliar texto, los cuadros de `SemanaCuadros` se limitan al ancho de cada día; el selector de año de `CalendarioSemanas` sitúa el año bajo las flechas cuando hay menos de 16 rem de lectura.
