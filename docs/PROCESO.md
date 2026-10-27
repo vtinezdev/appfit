@@ -2903,3 +2903,18 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 - Los flanes avisan si el caramelo del molde no está en la formulación, y los postres con huevo crudo lo dicen.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 263. Recetas: tanda 13 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas de bollería, galletas y pasteles. En total hay 1.287 recetas con pasos. Entran:
+- dulces de sartén (rosquillas, pestiños, buñuelos, porras, torrijas, orejas, flores);
+- roscón, ensaimada y bollos de levadura;
+- tartas frías y horneadas, bizcochos y galletas;
+- dulces regionales (sobaos, quesada, carbayones, casadielles, piononos, miguelitos, fartons, flaó).
+
+**Cómo:**
+- Los bizcochos de batido comparten una plantilla de pasos.
+- Las raciones son por pieza o por porción de tarta.
+- En los dulces fritos, las notas avisan del aceite que se queda en la masa.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.

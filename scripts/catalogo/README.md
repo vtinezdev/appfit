@@ -126,8 +126,8 @@ campo opcional: una app antigua lo ignora): `{ peso, ing: [[idCIQUAL, gramos]…
 raciones?, min?, pasos?, notas? }`, con la preparación solo si está escrita. Toda
 fila de receta lleva `nutrientes` (aunque sea `{}`), porque `extra` va detrás. La
 app la valida (`lib/catalogo/paquete.ts`, mismos límites) y la guarda en
-`CatalogFood.receta` con ingredientes `ciqual:<id>`. Con 1.187 preparaciones el
-paquete pasa de unos 330 KB a 1.050 KB sin comprimir (de 77 a 245 KB con gzip); los
+`CatalogFood.receta` con ingredientes `ciqual:<id>`. Con 1.287 preparaciones el
+paquete pasa de unos 330 KB a 1.090 KB sin comprimir (de 77 a 256 KB con gzip); los
 valores por 100 g no cambian. Las filas no cambian al añadir pasos, así que cada
 tanda publica una versión nueva del paquete para que el móvil lo reimporte.
 

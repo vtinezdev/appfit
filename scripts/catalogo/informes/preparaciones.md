@@ -1,6 +1,6 @@
 # Preparaciones de las recetas de típicos
 
-1187 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
+1287 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
 
 ## 1. Tortilla de patatas, con cebolla, cuajada
 
@@ -25376,3 +25376,2197 @@
 2. Cuécela en el microondas a máxima potencia 7 u 8 minutos, dándole la vuelta a mitad, hasta que esté blanda.
 
 *Notas:* Sin aceite ni sal.
+
+## 1188. Rosquillas, caseras, fritas
+
+`rosquillas-caseras` · Galletas, bollería y pasteles · 30 raciones de 32 g · 60 min · por ración: 138 kcal, P 2,2 g, C 19 g, G 5,7 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 180 g · Azúcar blanco
+- 150 g · Huevo crudo
+- 100 g · Leche entera, UHT
+- 150 g · Aceite de oliva virgen extra
+- 16 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Bate 150 g de huevo (3 huevos) con 180 g de azúcar. Añade 100 g de leche y 50 g del aceite.
+2. Añade poco a poco 500 g de harina mezclada con 16 g de levadura química y amasa hasta tener una masa blanda que no se pegue.
+3. Forma rosquillas con las manos aceitadas.
+4. Fríelas en aceite caliente, no muy fuerte, 2 minutos por cada lado, hasta que estén doradas. Escúrrelas.
+
+*Notas:* Salen unas 30 rosquillas: una ración es una (unos 32 g). Los 100 g de aceite que faltan son los que retienen al freír.
+
+## 1189. Pestiños, fritos
+
+`pestinos` · Galletas, bollería y pasteles · 30 raciones de 29 g · 75 min · por ración: 146 kcal, P 1,5 g, C 16,9 g, G 7,6 g
+
+**Ingredientes** (lote de 880 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 120 g · Vino blanco seco
+- 220 g · Aceite de oliva virgen extra
+- 10 g · Sésamo, grano
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 150 g · Miel
+
+**Preparación**
+
+1. Calienta 120 g del aceite con 10 g de sésamo, deja que se temple y mézclalo con 120 g de vino blanco y la sal.
+2. Añade 500 g de harina y amasa hasta tener una masa lisa. Déjala reposar 30 minutos.
+3. Estírala muy fina, corta cuadrados de 8 cm y dobla dos puntas opuestas hacia el centro, pegándolas.
+4. Fríelos en el resto del aceite caliente hasta que estén dorados. Escúrrelos.
+5. Báñalos en 150 g de miel templada con un poco de agua.
+
+*Notas:* Salen unos 30 pestiños: una ración es uno (unos 30 g). Los 100 g de aceite de fritura son los que retienen.
+
+## 1190. Buñuelos de viento, sin relleno, fritos
+
+`bunuelos-viento` · Galletas, bollería y pasteles · 10 raciones de 55 g · 45 min · por ración: 190 kcal, P 3,9 g, C 13,5 g, G 13,2 g
+
+**Ingredientes** (lote de 550 g cocinado)
+
+- 250 g · Agua del grifo
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 200 g · Huevo crudo
+- 20 g · Azúcar blanco
+- 1 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 70 g · Aceite de girasol
+
+**Preparación**
+
+1. Calienta 250 g de agua con 50 g de mantequilla, la sal y 20 g de azúcar.
+2. Cuando hierva, echa de golpe 150 g de harina y remueve hasta que la masa se despegue del cazo. Deja templar.
+3. Añade 200 g de huevo (4 huevos) de uno en uno, batiendo hasta que se absorba cada uno.
+4. Fríe cucharaditas de masa en aceite templado (unos 160 °C): se hinchan y se dan la vuelta solas. Escúrrelos.
+
+*Notas:* Salen unos 40 buñuelos: una ración son 4 (unos 55 g). Los 70 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1191. Porras, fritas
+
+`porras` · Galletas, bollería y pasteles · 10 raciones de 100 g · 60 min · por ración: 311 kcal, P 4,6 g, C 37 g, G 15,5 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T55 (para pan)
+- 600 g · Agua del grifo
+- 10 g · Levadura de panadero fresca
+- 8 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 150 g · Aceite de girasol
+
+**Preparación**
+
+1. Disuelve 10 g de levadura en 600 g de agua templada con la sal.
+2. Añade 500 g de harina y mezcla hasta tener una masa pegajosa y lisa. Déjala reposar tapada 30 minutos.
+3. Mete la masa en una churrera o manga con boquilla gruesa.
+4. Fríe tiras largas en espiral en aceite muy caliente 3 o 4 minutos, dándoles la vuelta. Escúrrelas y córtalas.
+
+*Notas:* Una ración son unos 100 g (2 porras). Los 150 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1192. Roscón de Reyes, sin relleno, horneado
+
+`roscon-reyes` · Galletas, bollería y pasteles · 10 raciones de 92 g · 240 min · por ración: 357 kcal, P 7,4 g, C 53 g, G 12 g
+
+**Ingredientes** (lote de 920 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T55 (para pan)
+- 120 g · Leche entera, UHT
+- 150 g · Azúcar blanco
+- 120 g · Huevo crudo
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 25 g · Levadura de panadero fresca
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 30 g · Almendra, pelada, sin sal añadida
+
+**Preparación**
+
+1. Mezcla 25 g de levadura con un poco de los 120 g de leche templada y 50 g de harina; deja que fermente 20 minutos.
+2. Mezcla el resto de la harina, 120 g del azúcar, 100 g de huevo, el resto de la leche y la sal. Añade la masa madre y amasa 10 minutos. Incorpora 100 g de mantequilla blanda y amasa hasta que esté lisa.
+3. Deja reposar tapada 2 horas, hasta que doble su volumen.
+4. Forma una rosca, colócala en una bandeja y deja que vuelva a crecer 1 hora.
+5. Píntala con el resto del huevo, decora con 30 g de almendras laminadas y el resto del azúcar humedecido y hornéala a 180 °C 20 minutos.
+
+*Notas:* Tradicionalmente lleva agua de azahar y fruta escarchada. Una ración son unos 90 g.
+
+## 1193. Roscón de Reyes, relleno de nata, horneado
+
+`roscon-reyes-nata` · Galletas, bollería y pasteles · 14 raciones de 97 g · 260 min · por ración: 350 kcal, P 5,9 g, C 41,8 g, G 17,2 g
+
+**Ingredientes** (lote de 1360 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T55 (para pan)
+- 120 g · Leche entera, UHT
+- 190 g · Azúcar blanco
+- 120 g · Huevo crudo
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 25 g · Levadura de panadero fresca
+- 3 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 30 g · Almendra, pelada, sin sal añadida
+- 400 g · Nata, 30 % MG, fluida, UHT
+
+**Preparación**
+
+1. Prepara el roscón como el normal: masa con 500 g de harina, 120 g de leche, 150 g del azúcar, 120 g de huevo, 100 g de mantequilla, 25 g de levadura y la sal; dos levados y 20 minutos de horno a 180 °C.
+2. Deja que se enfríe del todo.
+3. Monta 400 g de nata muy fría con el resto del azúcar (40 g).
+4. Corta el roscón por la mitad en horizontal, rellénalo con la nata y vuelve a taparlo. Guárdalo en la nevera.
+
+*Notas:* Una ración son unos 95 g.
+
+## 1194. Ensaimada, horneada
+
+`ensaimada` · Galletas, bollería y pasteles · 10 raciones de 90 g · 300 min · por ración: 334 kcal, P 6 g, C 50,1 g, G 11,5 g
+
+**Ingredientes** (lote de 900 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T55 (para pan)
+- 130 g · Azúcar blanco
+- 100 g · Huevo crudo
+- 200 g · Agua del grifo
+- 25 g · Levadura de panadero fresca
+- 100 g · Manteca de cerdo
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Disuelve 25 g de levadura en 200 g de agua templada. Mézclala con 500 g de harina, 130 g de azúcar, 100 g de huevo (2 huevos) y la sal y amasa 15 minutos hasta que esté muy elástica.
+2. Deja reposar 1 hora.
+3. Divide la masa y estírala muy fina, casi transparente. Úntala con 100 g de manteca blanda.
+4. Enróllala en un cilindro y luego en espiral. Deja que crezca 4 horas o toda la noche.
+5. Hornéala a 180 °C 20 minutos y espolvoréala con azúcar glas.
+
+*Notas:* Una ración son unos 90 g. El levado largo no cuenta en el tiempo.
+
+## 1195. Torrijas de vino, fritas
+
+`torrijas-vino` · Galletas, bollería y pasteles · 10 raciones de 130 g · 40 min · por ración: 353 kcal, P 6,2 g, C 44,2 g, G 12,3 g
+
+**Ingredientes** (lote de 1300 g cocinado)
+
+- 500 g · Pan blanco (p. ej. baguette, hogaza)
+- 500 g · Vino tinto
+- 150 g · Azúcar blanco
+- 3 g · Canela, polvo
+- 150 g · Huevo crudo
+- 100 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Corta 500 g de pan del día anterior en rebanadas de 2 cm.
+2. Calienta 500 g de vino tinto con 100 g del azúcar.
+3. Empapa las rebanadas en el vino, pásalas por 150 g de huevo (3 huevos) batido y fríelas en aceite caliente hasta que estén doradas.
+4. Escúrrelas y rebózalas en el resto del azúcar mezclado con 3 g de canela.
+
+*Notas:* Una ración es una torrija grande (unos 130 g). Parte del vino se queda en el plato. Los 100 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1196. Filloas, caseras, cocinadas
+
+`filloas` · Galletas, bollería y pasteles · 10 raciones de 90 g · 40 min · por ración: 164 kcal, P 6,4 g, C 21,6 g, G 5,6 g
+
+**Ingredientes** (lote de 900 g cocinado)
+
+- 500 g · Leche entera, UHT
+- 200 g · Huevo crudo
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Agua del grifo
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Bate 500 g de leche, 200 g de huevo (4 huevos), 100 g de agua y la sal. Añade 250 g de harina y bate hasta que no queden grumos. Deja reposar 30 minutos.
+2. Unta una sartén con un poco de los 20 g de mantequilla y caliéntala.
+3. Vierte un cazo de masa, extiéndela muy fina y cuécela 1 minuto por cada lado.
+4. Repite hasta acabar la masa.
+
+*Notas:* Salen unas 20 filloas: una ración son 2. Se toman con azúcar o miel, que no están incluidos.
+
+## 1197. Tarta de la abuela, lista para consumir
+
+`tarta-abuela` · Galletas, bollería y pasteles · 12 raciones de 125 g · 60 min · por ración: 364 kcal, P 6,2 g, C 47,6 g, G 16 g
+
+**Ingredientes** (lote de 1500 g cocinado)
+
+- 300 g · Galleta seca natural
+- 800 g · Leche entera, UHT
+- 150 g · Azúcar blanco
+- 60 g · Almidón de maíz o fécula de maíz
+- 80 g · Huevo, yema, cruda
+- 200 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Prepara unas natillas espesas: calienta 700 g de la leche, bate 80 g de yemas con 150 g de azúcar y 60 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese.
+2. Para la cobertura, funde 200 g de chocolate con 50 g de mantequilla.
+3. Moja 300 g de galletas en leche (aparte, de la que no queda) y forma una capa en una fuente.
+4. Alterna capas de galletas y crema y termina con galletas.
+5. Cubre con el chocolate y deja en la nevera al menos 4 horas.
+
+*Notas:* La leche para mojar las galletas apenas cuenta. El reposo en la nevera no cuenta en el tiempo.
+
+## 1198. Brazo de gitano de crema, horneado
+
+`brazo-gitano` · Galletas, bollería y pasteles · 10 raciones de 100 g · 60 min · por ración: 236 kcal, P 6,6 g, C 39,7 g, G 5,6 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 250 g · Huevo crudo
+- 250 g · Azúcar blanco
+- 120 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 400 g · Leche entera, UHT
+- 60 g · Huevo, yema, cruda
+- 40 g · Almidón de maíz o fécula de maíz
+
+**Preparación**
+
+1. Para la crema, calienta 300 g de leche. Bate 60 g de yemas con 100 g del azúcar y 40 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese. Deja que se enfríe.
+2. Precalienta el horno a 200 °C. Bate 250 g de huevo (5 huevos) con el resto del azúcar hasta que triplique su volumen.
+3. Añade 120 g de harina tamizada con movimientos envolventes y extiende la masa en una bandeja con papel, de 1 cm.
+4. Hornéala 8 o 10 minutos. Dale la vuelta sobre un paño húmedo, quita el papel y enróllala en caliente.
+5. Desenróllala, extiende la crema y vuelve a enrollarla.
+
+## 1199. Sobaos, caseros, horneados
+
+`sobaos` · Galletas, bollería y pasteles · 12 raciones de 79 g · 45 min · por ración: 344 kcal, P 4,5 g, C 37,1 g, G 19,5 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 250 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 250 g · Azúcar blanco
+- 250 g · Huevo crudo
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 8 g · Levadura química o polvo de hornear
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 190 °C.
+2. Bate 250 g de mantequilla blanda con 250 g de azúcar hasta que esté cremosa.
+3. Añade 250 g de huevo (5 huevos) de uno en uno y luego 250 g de harina tamizada con 8 g de levadura y la sal.
+4. Reparte en cápsulas de papel rectangulares y hornea 20 minutos.
+
+*Notas:* Salen unos 12 sobaos: una ración es uno (unos 80 g). Tradicionalmente llevan ralladura de limón y un chorrito de ron.
+
+## 1200. Buñuelos de calabaza, fritos
+
+`bunuelos-calabaza` · Galletas, bollería y pasteles · 12 raciones de 79 g · 120 min · por ración: 234 kcal, P 3,4 g, C 31,1 g, G 10,3 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 400 g · Calabaza, cruda
+- 400 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 25 g · Levadura de panadero fresca
+- 100 g · Agua del grifo
+- 120 g · Aceite de girasol
+- 50 g · Azúcar blanco
+
+**Preparación**
+
+1. Cuece 400 g de calabaza pelada y hazla puré. Deja que se temple.
+2. Disuelve 25 g de levadura en 100 g de agua templada, mézclala con el puré y 400 g de harina hasta tener una masa pegajosa. Déjala reposar 1 hora.
+3. Con las manos mojadas, haz bolas con un agujero en el centro y fríelas en aceite caliente hasta que estén doradas.
+4. Escúrrelas y espolvoréalas con 50 g de azúcar.
+
+*Notas:* Típicos de Valencia en Fallas. Una ración son unos 80 g. Los 120 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1201. Tortas de aceite, horneadas
+
+`torta-aceite` · Galletas, bollería y pasteles · 9 raciones de 100 g · 90 min · por ración: 414 kcal, P 5,2 g, C 56,3 g, G 18 g
+
+**Ingredientes** (lote de 900 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Aceite de oliva virgen extra
+- 120 g · Azúcar blanco
+- 200 g · Agua del grifo
+- 15 g · Levadura de panadero fresca
+- 15 g · Sésamo, grano
+- 5 g · Hinojo, grano
+- 5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Calienta 150 g de aceite y tuesta 15 g de sésamo y 5 g de matalahúva o hinojo 30 segundos. Deja que se temple.
+2. Disuelve 15 g de levadura en 200 g de agua templada. Mézclala con 500 g de harina, el aceite con las semillas, 70 g del azúcar y la sal y amasa. Deja reposar 45 minutos.
+3. Divide en bolas de 100 g y estíralas muy finas.
+4. Espolvoréalas con el resto del azúcar y hornéalas a 200 °C 10 o 12 minutos, hasta que estén doradas y crujientes.
+
+*Notas:* Salen unas 9 tortas: una ración es una (100 g).
+
+## 1202. Quesada pasiega, horneada
+
+`quesada-pasiega` · Galletas, bollería y pasteles · 8 raciones de 100 g · 60 min · por ración: 294 kcal, P 6,9 g, C 28,3 g, G 17 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 300 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 200 g · Huevo crudo
+- 150 g · Azúcar blanco
+- 80 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 60 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Leche entera, UHT
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Bate 300 g de queso fresco con 200 g de huevo (4 huevos), 150 g de azúcar, 60 g de mantequilla fundida y 100 g de leche.
+3. Añade 80 g de harina y mezcla hasta que no queden grumos.
+4. Vierte en un molde engrasado y hornea 40 minutos, hasta que esté dorada por encima.
+
+*Notas:* Tradicionalmente lleva ralladura de limón, canela y se hace con queso de leche cruda.
+
+## 1203. Bizcocho borracho, listo para consumir
+
+`bizcocho-borracho` · Galletas, bollería y pasteles · 10 raciones de 100 g · 60 min · por ración: 250 kcal, P 5,1 g, C 47,4 g, G 3,1 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 300 g · Huevo crudo
+- 350 g · Azúcar blanco
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 200 g · Agua del grifo
+- 100 g · Vino dulce
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Bate 300 g de huevo (6 huevos) con 150 g del azúcar hasta que triplique su volumen.
+2. Añade 150 g de harina tamizada con movimientos envolventes y hornéalo en un molde rectangular 25 minutos.
+3. Cuece 200 g de agua con el resto del azúcar 5 minutos y añade 100 g de vino dulce.
+4. Corta el bizcocho en cuadrados, emborráchalo con el almíbar caliente y deja que lo absorba.
+
+*Notas:* Típico de Guadalajara. Una ración son 100 g.
+
+## 1204. Orejas de carnaval, fritas
+
+`orejas-carnaval` · Galletas, bollería y pasteles · 25 raciones de 33 g · 60 min · por ración: 158 kcal, P 2,4 g, C 17,9 g, G 8,4 g
+
+**Ingredientes** (lote de 820 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Huevo crudo
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Leche entera, UHT
+- 150 g · Aceite de oliva virgen extra
+- 60 g · Azúcar blanco
+
+**Preparación**
+
+1. Mezcla 500 g de harina con 100 g de huevo, 50 g de mantequilla fundida y 100 g de leche y amasa hasta que esté lisa. Deja reposar 30 minutos.
+2. Estírala muy fina y córtala en rectángulos o formas de oreja.
+3. Fríelas en aceite caliente unos segundos por cada lado, hasta que se hinchen y doren.
+4. Escúrrelas y espolvoréalas con 60 g de azúcar.
+
+*Notas:* Una ración son unos 33 g. Los 150 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1205. Tejas de almendra, horneadas
+
+`tejas-almendra` · Galletas, bollería y pasteles · 20 raciones de 21 g · 30 min · por ración: 106 kcal, P 2,3 g, C 9,7 g, G 6 g
+
+**Ingredientes** (lote de 420 g cocinado)
+
+- 150 g · Almendra, pelada, sin sal añadida
+- 150 g · Azúcar blanco
+- 100 g · Huevo, clara, cruda
+- 40 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Mezcla 150 g de azúcar con 100 g de clara, 40 g de harina y 50 g de mantequilla fundida.
+3. Añade 150 g de almendra laminada.
+4. Haz montoncitos finos en una bandeja con papel y hornéalos 8 o 10 minutos, hasta que los bordes estén dorados.
+5. En caliente, ponlas sobre un rodillo para que se curven.
+
+*Notas:* Una ración son 1 o 2 tejas (unos 21 g).
+
+## 1206. Carquiñolis, horneados
+
+`carquinolis` · Galletas, bollería y pasteles · 25 raciones de 33 g · 60 min · por ración: 152 kcal, P 3,7 g, C 20,1 g, G 5,7 g
+
+**Ingredientes** (lote de 820 g cocinado)
+
+- 250 g · Almendra, pelada, sin sal añadida
+- 250 g · Azúcar blanco
+- 100 g · Huevo crudo
+- 300 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 8 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Mezcla 300 g de harina, 250 g de azúcar, 8 g de levadura y 100 g de huevo (2 huevos). Añade 250 g de almendras enteras.
+3. Forma barras de 4 cm de ancho y hornéalas 25 minutos.
+4. Córtalas en caliente en rodajas de 1 cm y hornéalas 10 minutos más para que se sequen.
+
+*Notas:* Una ración son unos 33 g.
+
+## 1207. Tarta de chocolate, casera, horneada
+
+`tarta-chocolate` · Galletas, bollería y pasteles · 8 raciones de 93 g · 50 min · por ración: 442 kcal, P 6,5 g, C 41,6 g, G 26,9 g
+
+**Ingredientes** (lote de 740 g cocinado)
+
+- 200 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 150 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 150 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 100 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 20 g · Cacao, sin azúcares añadidos, polvo soluble
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Funde 200 g de chocolate con 150 g de mantequilla.
+3. Bate 200 g de huevo (4 huevos) con 150 g de azúcar y añade el chocolate.
+4. Incorpora 100 g de harina y 20 g de cacao tamizados.
+5. Vierte en un molde engrasado y hornea 25 minutos: el centro debe quedar algo húmedo.
+
+## 1208. Tarta de limón con merengue, casera, horneada
+
+`tarta-limon` · Galletas, bollería y pasteles · 10 raciones de 90 g · 90 min · por ración: 297 kcal, P 5,6 g, C 41,5 g, G 11,6 g
+
+**Ingredientes** (lote de 900 g cocinado)
+
+- 200 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 230 g · Azúcar blanco
+- 150 g · Huevo crudo
+- 60 g · Huevo, yema, cruda
+- 150 g · Zumo de limón, casero
+- 30 g · Almidón de maíz o fécula de maíz
+- 90 g · Huevo, clara, cruda
+
+**Preparación**
+
+1. Mezcla 200 g de harina con 100 g de mantequilla fría y 30 g del azúcar, añade 50 g de huevo y forma una masa. Forra un molde, pincha la base y hornéala a 180 °C 15 minutos.
+2. Para la crema, bate 100 g de huevo y 60 g de yemas con 120 g del azúcar, 150 g de zumo de limón y 30 g de maicena. Cuece a fuego suave, removiendo, hasta que espese.
+3. Vierte la crema sobre la base.
+4. Monta 90 g de claras a punto de nieve con el resto del azúcar (80 g) y cubre la tarta.
+5. Gratina 3 o 4 minutos, hasta que el merengue se dore.
+
+*Notas:* Tradicionalmente lleva también ralladura de limón.
+
+## 1209. Profiteroles con chocolate, caseros, horneados
+
+`profiteroles-chocolate` · Galletas, bollería y pasteles · 10 raciones de 90 g · 70 min · por ración: 322 kcal, P 5,8 g, C 21,8 g, G 23,2 g
+
+**Ingredientes** (lote de 900 g cocinado)
+
+- 250 g · Agua del grifo
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Huevo crudo
+- 300 g · Nata, 30 % MG, fluida, UHT
+- 40 g · Azúcar blanco
+- 100 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+
+**Preparación**
+
+1. Calienta 250 g de agua con 100 g de mantequilla. Cuando hierva, echa 150 g de harina de golpe y remueve hasta que se despegue.
+2. Deja templar y añade 250 g de huevo (5 huevos) de uno en uno.
+3. Haz bolitas con una manga en una bandeja y hornéalas a 200 °C 25 minutos, sin abrir el horno. Deja que se enfríen.
+4. Monta 250 g de la nata con 40 g de azúcar y rellena los profiteroles.
+5. Funde 100 g de chocolate con el resto de la nata y báñalos.
+
+*Notas:* Salen unos 30 profiteroles: una ración son 3.
+
+## 1210. Cruasán mixto de jamón y queso, listo para consumir
+
+`croissant-mixto` · Galletas, bollería y pasteles · 1 ración de 108 g · 10 min · por ración: 337 kcal, P 12,6 g, C 30,1 g, G 18 g
+
+**Ingredientes** (lote de 108 g cocinado)
+
+- 60 g · Croissant ordinario, artesanal
+- 25 g · Jamón cocido, superior
+- 25 g · Queso fundido en lonchas
+
+**Preparación**
+
+1. Abre un cruasán de 60 g por la mitad.
+2. Rellénalo con 25 g de jamón cocido y 25 g de queso en lonchas.
+3. Caliéntalo en una sandwichera o en el horno 5 minutos, hasta que el queso se funda.
+
+## 1211. Bizcocho de naranja casero, horneado
+
+`bizcocho-naranja` · Galletas, bollería y pasteles · 10 raciones de 82 g · 60 min · por ración: 312 kcal, P 4,8 g, C 40,7 g, G 14,2 g
+
+**Ingredientes** (lote de 820 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 200 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 120 g · Aceite de girasol
+- 150 g · Zumo de naranja, fresco
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.
+2. Bate 200 g de huevo (4 huevos) con 200 g de azúcar hasta que blanquee y doble su volumen.
+3. Añade 120 g de aceite, 150 g de zumo de naranja y mezcla.
+4. Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.
+5. Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar.
+
+*Notas:* Tradicionalmente lleva ralladura de naranja.
+
+## 1212. Bizcocho de manzana casero, horneado
+
+`bizcocho-manzana` · Galletas, bollería y pasteles · 10 raciones de 100 g · 60 min · por ración: 302 kcal, P 5,1 g, C 41,4 g, G 12,6 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 180 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 100 g · Aceite de girasol
+- 100 g · Leche entera, UHT
+- 300 g · Manzana, pulpa sin piel, cruda (promedio)
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.
+2. Bate 200 g de huevo (4 huevos) con 180 g de azúcar hasta que blanquee y doble su volumen.
+3. Añade 100 g de aceite, 100 g de leche y mezcla.
+4. Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.
+5. Pela 300 g de manzana; ralla la mitad y mézclala con la masa, y corta la otra mitad en láminas para cubrirla.
+6. Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar.
+
+## 1213. Tarta de zanahoria con crema de queso, horneada
+
+`tarta-zanahoria` · Galletas, bollería y pasteles · 14 raciones de 99 g · 80 min · por ración: 382 kcal, P 5 g, C 37,2 g, G 23,3 g
+
+**Ingredientes** (lote de 1380 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 300 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 180 g · Aceite de girasol
+- 300 g · Zanahoria, cruda
+- 60 g · Nuez, grano, deshidratada
+- 5 g · Canela, polvo
+- 10 g · Levadura química o polvo de hornear
+- 200 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Ralla 300 g de zanahoria y pica 60 g de nueces.
+2. Bate 200 g de huevo (4 huevos) con 250 g del azúcar y 180 g de aceite.
+3. Añade 250 g de harina, 10 g de levadura y 5 g de canela tamizados, la zanahoria y las nueces.
+4. Hornea en un molde de 24 cm 45 minutos y deja que se enfríe.
+5. Bate 200 g de queso de untar con 50 g de mantequilla y el resto del azúcar (50 g) y cubre la tarta.
+
+## 1214. Galletas caseras con pepitas de chocolate (cookies), horneadas
+
+`cookies-chocolate` · Galletas, bollería y pasteles · 25 raciones de 33 g · 35 min · por ración: 170 kcal, P 1,7 g, C 20,8 g, G 8,6 g
+
+**Ingredientes** (lote de 820 g cocinado)
+
+- 280 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 170 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 200 g · Azúcar blanco
+- 50 g · Huevo crudo
+- 200 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 5 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Bate 170 g de mantequilla blanda con 200 g de azúcar. Añade 50 g de huevo (1 huevo pequeño).
+3. Añade 280 g de harina con 5 g de levadura y 200 g de chocolate troceado.
+4. Haz bolas de unos 35 g, colócalas separadas en una bandeja y aplástalas un poco.
+5. Hornéalas 10 o 12 minutos: salen blandas y se endurecen al enfriarse.
+
+*Notas:* Salen unas 25 galletas: una ración es una (unos 33 g).
+
+## 1215. Galletas caseras de avena, horneadas
+
+`galletas-avena` · Galletas, bollería y pasteles · 20 raciones de 27 g · 40 min · por ración: 128 kcal, P 2,5 g, C 15,5 g, G 6 g
+
+**Ingredientes** (lote de 540 g cocinado)
+
+- 200 g · Avena, cruda
+- 100 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 120 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 120 g · Azúcar blanco
+- 50 g · Huevo crudo
+- 4 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Bate 120 g de mantequilla blanda con 120 g de azúcar y 50 g de huevo (1 huevo pequeño).
+3. Añade 200 g de copos de avena, 100 g de harina y 4 g de levadura.
+4. Haz bolitas, aplánalas en una bandeja y hornéalas 12 o 14 minutos, hasta que estén doradas.
+
+*Notas:* Una ración es una galleta de unos 27 g.
+
+## 1216. Pan de plátano (banana bread) casero, horneado
+
+`banana-bread` · Galletas, bollería y pasteles · 10 raciones de 85 g · 70 min · por ración: 262 kcal, P 3,9 g, C 39,3 g, G 9,6 g
+
+**Ingredientes** (lote de 850 g cocinado)
+
+- 400 g · Plátano, pulpa sin piel, cruda
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 120 g · Azúcar blanco
+- 100 g · Huevo crudo
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 8 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.
+2. Bate 100 g de huevo (2 huevos) con 120 g de azúcar hasta que blanquee y doble su volumen.
+3. Añade 100 g de mantequilla fundida, 400 g de plátano muy maduro aplastado y mezcla.
+4. Incorpora 250 g de harina tamizada con 8 g de levadura química, con movimientos envolventes.
+5. Vierte en el molde y hornea 50 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar.
+
+*Notas:* Se hornea en molde alargado.
+
+## 1217. Muffins de arándanos caseros, horneados
+
+`muffins-arandanos` · Galletas, bollería y pasteles · 12 raciones de 67 g · 40 min · por ración: 227 kcal, P 3,4 g, C 30,6 g, G 9,8 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Azúcar blanco
+- 100 g · Huevo crudo
+- 150 g · Leche entera, UHT
+- 100 g · Aceite de girasol
+- 150 g · Arándano, crudo
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C.
+2. Mezcla 250 g de harina, 150 g de azúcar y 10 g de levadura.
+3. En otro cuenco, bate 100 g de huevo (2 huevos), 150 g de leche y 100 g de aceite.
+4. Junta las dos mezclas sin batir demasiado y añade 150 g de arándanos.
+5. Reparte en 12 cápsulas y hornea 20 minutos.
+
+*Notas:* Salen 12 muffins: una ración es uno.
+
+## 1218. Pudin de pan casero, horneado
+
+`pudin-pan` · Galletas, bollería y pasteles · 10 raciones de 115 g · 70 min · por ración: 194 kcal, P 6,8 g, C 30,2 g, G 4,9 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 200 g · Pan blanco (p. ej. baguette, hogaza)
+- 750 g · Leche entera, UHT
+- 200 g · Huevo crudo
+- 150 g · Azúcar blanco
+
+**Preparación**
+
+1. Precalienta el horno a 170 °C. Carameliza un molde (el caramelo no está incluido en la formulación).
+2. Remoja 200 g de pan en 750 g de leche caliente 10 minutos y tritúralo.
+3. Añade 200 g de huevo (4 huevos) y 150 g de azúcar y mezcla.
+4. Vierte en el molde y cuece al baño maría 50 minutos. Deja que se enfríe antes de desmoldar.
+
+## 1219. Tarta de queso fría sin horno, lista para consumir
+
+`tarta-queso-sin-horno` · Galletas, bollería y pasteles · 12 raciones de 96 g · 40 min · por ración: 318 kcal, P 4,6 g, C 21,7 g, G 23,5 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 400 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 400 g · Nata, 30 % MG, fluida, UHT
+- 120 g · Azúcar blanco
+- 12 g · Gelatina, seca
+- 150 g · Galleta seca natural
+- 75 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Tritura 150 g de galletas, mézclalas con 75 g de mantequilla fundida y forma la base en un molde desmontable. Guárdalo en la nevera.
+2. Hidrata 12 g de gelatina en agua fría 5 minutos.
+3. Calienta 400 g de nata con 120 g de azúcar, disuelve la gelatina escurrida y añade 400 g de queso de untar, batiendo.
+4. Vierte sobre la base y deja cuajar en la nevera al menos 6 horas.
+
+*Notas:* Se sirve con mermelada, que no está incluida. El reposo en la nevera no cuenta en el tiempo.
+
+## 1220. Tarta de tres chocolates, lista para consumir
+
+`tarta-tres-chocolates` · Galletas, bollería y pasteles · 16 raciones de 106 g · 60 min · por ración: 297 kcal, P 4,5 g, C 20,9 g, G 21,6 g
+
+**Ingredientes** (lote de 1700 g cocinado)
+
+- 150 g · Galleta seca natural
+- 75 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 100 g · Chocolate con leche, tableta
+- 600 g · Leche entera, UHT
+- 600 g · Nata, 30 % MG, fluida, UHT
+- 60 g · Azúcar blanco
+- 15 g · Gelatina, seca
+
+**Preparación**
+
+1. Tritura 150 g de galletas con 75 g de mantequilla fundida y forma la base en un molde desmontable.
+2. Hidrata 15 g de gelatina en agua fría y divídela en tres.
+3. Para cada capa, calienta 200 g de leche y 200 g de nata con 20 g de azúcar y un tercio de la gelatina. Funde en la primera 100 g de chocolate negro, en la segunda 100 g de chocolate con leche y deja la tercera blanca.
+4. Vierte la capa negra y deja que cuaje 30 minutos en la nevera antes de verter la siguiente.
+5. Deja la tarta en la nevera al menos 4 horas.
+
+*Notas:* Tradicionalmente la tercera capa lleva chocolate blanco; aquí es nata y leche. El reposo en la nevera no cuenta en el tiempo.
+
+## 1221. Casadielles rellenas de nuez, fritas
+
+`casadielles` · Galletas, bollería y pasteles · 12 raciones de 57 g · 75 min · por ración: 292 kcal, P 3,5 g, C 25,3 g, G 18,7 g
+
+**Ingredientes** (lote de 680 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 60 g · Vino blanco seco
+- 60 g · Agua del grifo
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 150 g · Nuez, grano, deshidratada
+- 100 g · Azúcar blanco
+- 20 g · Vino dulce
+- 80 g · Aceite de girasol
+
+**Preparación**
+
+1. Mezcla 250 g de harina con 50 g de mantequilla, 60 g de vino blanco, 60 g de agua y la sal. Amasa y deja reposar 30 minutos.
+2. Pica 150 g de nueces y mézclalas con 100 g de azúcar y 20 g de vino dulce.
+3. Estira la masa fina, corta rectángulos, pon relleno y ciérralos en forma de empanadilla alargada.
+4. Fríelos en aceite caliente hasta que estén dorados y escúrrelos.
+
+*Notas:* Dulce asturiano. Una ración es una casadiella (unos 57 g). Los 80 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1222. Piononos de Santa Fe, listos para consumir
+
+`piononos` · Galletas, bollería y pasteles · 16 raciones de 51 g · 75 min · por ración: 127 kcal, P 3,2 g, C 22,2 g, G 2,8 g
+
+**Ingredientes** (lote de 820 g cocinado)
+
+- 200 g · Huevo crudo
+- 260 g · Azúcar blanco
+- 80 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Agua del grifo
+- 250 g · Leche entera, UHT
+- 60 g · Huevo, yema, cruda
+- 25 g · Almidón de maíz o fécula de maíz
+
+**Preparación**
+
+1. Para la crema, calienta 200 g de la leche. Bate 60 g de yemas con 60 g de azúcar y 25 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese.
+2. Precalienta el horno a 200 °C. Bate 200 g de huevo (4 huevos) con 100 g del azúcar hasta que triplique su volumen. Añade 80 g de harina y extiende en una bandeja.
+3. Hornea 8 minutos y deja que se temple.
+4. Cuece el resto del azúcar con 100 g de agua y empapa la plancha con el almíbar.
+5. Extiéndela con un poco de crema, enróllala, córtala en piezas, ponlas de pie y cúbrelas con el resto de la crema quemada.
+
+*Notas:* Dulce de Santa Fe (Granada). Una ración es un pionono (unos 50 g).
+
+## 1223. Palmeras de hojaldre caseras, horneadas
+
+`palmeras-hojaldre` · Galletas, bollería y pasteles · 10 raciones de 44 g · 35 min · por ración: 189 kcal, P 2,1 g, C 25,1 g, G 8,7 g
+
+**Ingredientes** (lote de 440 g cocinado)
+
+- 400 g · Masa de hojaldre, grasa vegetal, envasada, cruda
+- 80 g · Azúcar blanco
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Espolvorea la mesa con la mitad de 80 g de azúcar y estira 400 g de hojaldre encima.
+2. Espolvorea el resto del azúcar y dobla los dos lados largos hacia el centro, dos veces, hasta que se toquen.
+3. Corta en rodajas de 1 cm y colócalas separadas en una bandeja.
+4. Hornéalas 12 minutos, dales la vuelta y hornéalas 5 minutos más, hasta que se caramelicen.
+
+*Notas:* Una ración es una palmera (unos 44 g).
+
+## 1224. Miguelitos de La Roda, listos para consumir
+
+`miguelitos` · Galletas, bollería y pasteles · 10 raciones de 70 g · 50 min · por ración: 205 kcal, P 3,7 g, C 26 g, G 9,5 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 300 g · Masa de hojaldre, grasa vegetal, envasada, cruda
+- 300 g · Leche entera, UHT
+- 70 g · Huevo, yema, cruda
+- 90 g · Azúcar blanco
+- 30 g · Almidón de maíz o fécula de maíz
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Corta 300 g de hojaldre en cuadrados y hornéalos 15 minutos.
+2. Para la crema, calienta 250 g de la leche. Bate 70 g de yemas con 90 g de azúcar y 30 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese. Deja que se enfríe.
+3. Abre los hojaldres por la mitad y rellénalos con la crema.
+4. Espolvoréalos con azúcar glas.
+
+*Notas:* Típicos de La Roda (Albacete). Una ración es un miguelito (unos 70 g).
+
+## 1225. Coca de Sant Joan casera, horneada
+
+`coca-sant-joan` · Galletas, bollería y pasteles · 8 raciones de 110 g · 180 min · por ración: 406 kcal, P 8,3 g, C 61,7 g, G 13,3 g
+
+**Ingredientes** (lote de 880 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Azúcar blanco
+- 100 g · Huevo crudo
+- 150 g · Leche entera, UHT
+- 80 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 20 g · Levadura de panadero fresca
+- 30 g · Piñón
+
+**Preparación**
+
+1. Disuelve 20 g de levadura en 150 g de leche templada.
+2. Mezcla 500 g de harina, 100 g de azúcar, la mitad de 100 g de huevo y la leche y amasa. Añade 80 g de mantequilla blanda y amasa hasta que esté lisa.
+3. Deja reposar 1 hora y media.
+4. Estira en forma ovalada, píntala con el resto del huevo, espolvorea 30 g de piñones y deja que crezca 45 minutos.
+5. Hornea a 180 °C 20 minutos.
+
+*Notas:* Tradicionalmente lleva crema, fruta confitada y azúcar por encima. Una ración son 110 g.
+
+## 1226. Bizcocho fit de avena y plátano, horneado
+
+`bizcocho-avena-platano` · Galletas, bollería y pasteles · 8 raciones de 88 g · 55 min · por ración: 177 kcal, P 7,5 g, C 26,3 g, G 3,9 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 200 g · Avena, cruda
+- 300 g · Plátano, pulpa sin piel, cruda
+- 150 g · Huevo crudo
+- 100 g · Leche semidesnatada, UHT
+- 8 g · Levadura química o polvo de hornear
+- 40 g · Miel
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.
+2. Bate 150 g de huevo (3 huevos) con 40 g de miel hasta que blanquee y doble su volumen.
+3. Añade 300 g de plátano aplastado, 100 g de leche semidesnatada y mezcla.
+4. Incorpora 200 g de copos de avena triturados tamizada con 8 g de levadura química, con movimientos envolventes.
+5. Vierte en el molde y hornea 35 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar.
+
+*Notas:* Sin azúcar añadido aparte de la miel.
+
+## 1227. Muffins fit de avena y arándanos, horneados
+
+`muffins-avena-arandanos` · Galletas, bollería y pasteles · 8 raciones de 68 g · 35 min · por ración: 111 kcal, P 6,6 g, C 15,9 g, G 1,6 g
+
+**Ingredientes** (lote de 540 g cocinado)
+
+- 150 g · Avena, cruda
+- 200 g · Huevo, clara, cruda
+- 125 g · Yogur o leche fermentada, natural
+- 100 g · Arándano, crudo
+- 30 g · Miel
+- 6 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Tritura 150 g de copos de avena hasta hacer harina.
+3. Mezcla 200 g de claras, 125 g de yogur y 30 g de miel. Añade la avena y 6 g de levadura.
+4. Añade 100 g de arándanos y reparte en 8 cápsulas.
+5. Hornea 22 minutos.
+
+*Notas:* Salen 8 muffins: una ración es uno.
+
+## 1228. Frixuelos asturianos, cocinados
+
+`frixuelos` · Galletas, bollería y pasteles · 3 raciones de 157 g · 30 min · por ración: 319 kcal, P 10,7 g, C 44,3 g, G 10,8 g
+
+**Ingredientes** (lote de 470 g cocinado)
+
+- 125 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Leche entera, UHT
+- 100 g · Huevo crudo
+- 25 g · Azúcar blanco
+- 15 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Bate 100 g de huevo (2 huevos) con 250 g de leche y 125 g de harina hasta que no queden grumos. Deja reposar 15 minutos.
+2. Unta una sartén con un poco de los 15 g de mantequilla.
+3. Haz frixuelos finos, 1 minuto por cada lado.
+4. Espolvoréalos con 25 g de azúcar.
+
+*Notas:* Salen unos 9 frixuelos: una ración son 3.
+
+## 1229. Paparajotes, fritos
+
+`paparajotes` · Galletas, bollería y pasteles · 5 raciones de 100 g · 30 min · por ración: 310 kcal, P 6,5 g, C 35,2 g, G 15,6 g
+
+**Ingredientes** (lote de 500 g cocinado)
+
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 200 g · Leche entera, UHT
+- 100 g · Huevo crudo
+- 50 g · Azúcar blanco
+- 5 g · Levadura química o polvo de hornear
+- 60 g · Aceite de girasol
+- 2 g · Canela, polvo
+
+**Preparación**
+
+1. Bate 100 g de huevo (2 huevos) con 200 g de leche, 50 g de azúcar, 150 g de harina y 5 g de levadura hasta tener una masa fina.
+2. Lava hojas de limonero y pásalas por la masa (las hojas no se comen).
+3. Fríelas en aceite caliente 1 o 2 minutos y escúrrelas.
+4. Espolvoréalos con 2 g de canela mezclada con azúcar.
+
+*Notas:* Dulce murciano: se come la masa y se deja la hoja. Una ración son unos 100 g. Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1230. Tortitas de plátano y huevo, cocinadas
+
+`tortitas-platano-huevo` · Galletas, bollería y pasteles · 1 ración de 200 g · 15 min · por ración: 272 kcal, P 14,1 g, C 23,7 g, G 13,2 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 120 g · Plátano, pulpa sin piel, cruda
+- 100 g · Huevo crudo
+- 3 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Aplasta 120 g de plátano muy maduro.
+2. Bate 100 g de huevo (2 huevos pequeños) y mézclalo con el plátano.
+3. Haz tortitas pequeñas en una sartén antiadherente untada con 3 g de aceite, 2 minutos por cada lado.
+
+## 1231. Bartolillos rellenos de crema, fritos
+
+`bartolillos` · Galletas, bollería y pasteles · 10 raciones de 76 g · 75 min · por ración: 259 kcal, P 3,7 g, C 28,1 g, G 14,2 g
+
+**Ingredientes** (lote de 760 g cocinado)
+
+- 200 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 40 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 50 g · Vino blanco seco
+- 30 g · Agua del grifo
+- 300 g · Leche entera, UHT
+- 60 g · Huevo, yema, cruda
+- 90 g · Azúcar blanco
+- 25 g · Almidón de maíz o fécula de maíz
+- 80 g · Aceite de girasol
+
+**Preparación**
+
+1. Mezcla 200 g de harina, 40 g de mantequilla, 50 g de vino blanco y 30 g de agua y amasa. Deja reposar 30 minutos.
+2. Para la crema, calienta 250 g de la leche. Bate 60 g de yemas con 90 g de azúcar y 25 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese. Deja que se enfríe.
+3. Estira la masa fina, corta triángulos, rellénalos de crema y ciérralos.
+4. Fríelos en aceite caliente hasta que estén dorados.
+
+*Notas:* Dulce madrileño. Una ración son unos 75 g. Los 80 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1232. Flores de Semana Santa, fritas
+
+`flores-fritas` · Galletas, bollería y pasteles · 12 raciones de 54 g · 40 min · por ración: 197 kcal, P 3,6 g, C 22,8 g, G 10,1 g
+
+**Ingredientes** (lote de 650 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Huevo crudo
+- 250 g · Leche entera, UHT
+- 70 g · Azúcar blanco
+- 100 g · Aceite de girasol
+
+**Preparación**
+
+1. Bate 100 g de huevo (2 huevos) con 250 g de leche, 250 g de harina y 20 g del azúcar hasta tener una masa fina.
+2. Calienta el aceite con el molde de flor dentro.
+3. Moja el molde caliente en la masa sin cubrirlo por arriba y mételo en el aceite; la flor se suelta sola. Fríela hasta que esté dorada.
+4. Escúrrelas y espolvoréalas con el resto del azúcar.
+
+*Notas:* Una ración son 1 o 2 flores (unos 55 g). Los 100 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1233. Mantecadas de Astorga, horneadas
+
+`mantecadas-astorga` · Galletas, bollería y pasteles · 12 raciones de 75 g · 45 min · por ración: 344 kcal, P 4,5 g, C 37 g, G 19,5 g
+
+**Ingredientes** (lote de 900 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Azúcar blanco
+- 250 g · Huevo crudo
+- 250 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 5 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Bate 250 g de mantequilla blanda con 250 g de azúcar hasta que esté cremosa.
+3. Añade 250 g de huevo (5 huevos) de uno en uno y luego 250 g de harina con 5 g de levadura.
+4. Reparte en cápsulas de papel cuadradas, espolvorea azúcar y hornea 20 minutos.
+
+*Notas:* Salen unas 12: una ración es una (unos 75 g).
+
+## 1234. Rosquillas listas de San Isidro, horneadas
+
+`rosquillas-listas` · Galletas, bollería y pasteles · 20 raciones de 33 g · 60 min · por ración: 129 kcal, P 2,4 g, C 20,6 g, G 3,9 g
+
+**Ingredientes** (lote de 650 g cocinado)
+
+- 300 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Huevo crudo
+- 180 g · Azúcar blanco
+- 60 g · Aceite de oliva virgen extra
+- 5 g · Hinojo, grano
+- 8 g · Levadura química o polvo de hornear
+- 30 g · Huevo, clara, cruda
+- 5 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Bate 150 g de huevo (3 huevos) con 80 g del azúcar y 60 g de aceite. Añade 5 g de anís en grano, 300 g de harina y 8 g de levadura y amasa.
+3. Forma rosquillas y hornéalas 20 minutos.
+4. Monta 30 g de clara con el resto del azúcar y 5 g de zumo de limón hasta tener un glaseado y báñalas.
+
+*Notas:* Típicas de San Isidro. Una ración es una rosquilla (unos 32 g).
+
+## 1235. Fartons, horneados
+
+`fartons` · Galletas, bollería y pasteles · 10 raciones de 77 g · 150 min · por ración: 282 kcal, P 5,4 g, C 46,5 g, G 7,9 g
+
+**Ingredientes** (lote de 770 g cocinado)
+
+- 400 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Leche entera, UHT
+- 150 g · Azúcar blanco
+- 100 g · Huevo crudo
+- 60 g · Aceite de girasol
+- 20 g · Levadura de panadero fresca
+
+**Preparación**
+
+1. Disuelve 20 g de levadura en 150 g de leche templada.
+2. Mezcla 400 g de harina, 150 g de azúcar, 100 g de huevo (2 huevos) y 60 g de aceite con la leche y amasa. Deja reposar 1 hora.
+3. Forma barritas alargadas de unos 15 cm y déjalas crecer 45 minutos.
+4. Hornéalas a 180 °C 15 minutos.
+5. Espolvoréalas con azúcar glas.
+
+*Notas:* Se mojan en horchata. Una ración es un fartón (unos 77 g).
+
+## 1236. Carbayones, horneados
+
+`carbayones` · Galletas, bollería y pasteles · 10 raciones de 70 g · 60 min · por ración: 318 kcal, P 6,1 g, C 37,1 g, G 15,4 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 300 g · Masa de hojaldre, grasa vegetal, envasada, cruda
+- 150 g · Almendra, pelada, sin sal añadida
+- 230 g · Azúcar blanco
+- 100 g · Huevo crudo
+- 10 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Precalienta el horno a 190 °C. Forra moldes pequeños alargados con 300 g de hojaldre.
+2. Mezcla 150 g de almendra molida, 130 g del azúcar y 100 g de huevo (2 huevos) y rellena los moldes.
+3. Hornéalos 20 minutos.
+4. Cuece el resto del azúcar con 10 g de zumo de limón y un poco de agua hasta tener un glaseado y báñalos.
+
+*Notas:* Dulce de Oviedo. Una ración es un carbayón (unos 70 g).
+
+## 1237. Roscos fritos de anís, fritos
+
+`roscos-fritos-anis` · Galletas, bollería y pasteles · 20 raciones de 38 g · 60 min · por ración: 174 kcal, P 2,6 g, C 20,7 g, G 8,9 g
+
+**Ingredientes** (lote de 760 g cocinado)
+
+- 400 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Huevo crudo
+- 100 g · Azúcar blanco
+- 100 g · Leche entera, UHT
+- 80 g · Aceite de oliva virgen extra
+- 80 g · Aceite de girasol
+- 5 g · Hinojo, grano
+- 8 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Calienta 80 g de aceite de oliva con 5 g de anís en grano y deja que se temple.
+2. Bate 100 g de huevo (2 huevos) con 100 g de azúcar, 100 g de leche y el aceite. Añade 400 g de harina y 8 g de levadura y amasa.
+3. Forma roscos y fríelos en aceite de girasol caliente hasta que estén dorados. Escúrrelos.
+
+*Notas:* Una ración es un rosco (unos 38 g). Los 80 g de girasol son los que retienen al freír.
+
+## 1238. Hojaldrinas, horneadas
+
+`hojaldrinas` · Galletas, bollería y pasteles · 20 raciones de 24 g · 60 min · por ración: 113 kcal, P 1,1 g, C 12,2 g, G 6,4 g
+
+**Ingredientes** (lote de 470 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 125 g · Manteca de cerdo
+- 60 g · Vino blanco seco
+- 30 g · Zumo de naranja, fresco
+- 50 g · Azúcar blanco
+
+**Preparación**
+
+1. Mezcla 250 g de harina con 125 g de manteca, 60 g de vino blanco y 30 g de zumo de naranja hasta tener una masa. Déjala en la nevera 30 minutos.
+2. Estírala a 1,5 cm y corta rectángulos.
+3. Hornéalos a 180 °C 20 minutos.
+4. Espolvoréalos con 50 g de azúcar (glas) en caliente.
+
+*Notas:* Dulce navideño. Una ración es una hojaldrina (unos 24 g).
+
+## 1239. Tarta de queso vasca (estilo La Viña), horneada
+
+`tarta-queso-vasca` · Galletas, bollería y pasteles · 12 raciones de 158 g · 75 min · por ración: 450 kcal, P 9,5 g, C 30,5 g, G 32,2 g
+
+**Ingredientes** (lote de 1900 g cocinado)
+
+- 1000 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 300 g · Azúcar blanco
+- 300 g · Huevo crudo
+- 500 g · Nata, 30 % MG, fluida, UHT
+- 20 g · Harina de trigo tierno o trigo T45 (para pastelería)
+
+**Preparación**
+
+1. Precalienta el horno a 210 °C. Forra un molde de 24 cm con papel de horno arrugado, sobresaliendo.
+2. Bate 1.000 g de queso de untar a temperatura ambiente con 300 g de azúcar.
+3. Añade 300 g de huevo (6 huevos) de uno en uno, 500 g de nata y 20 g de harina tamizada.
+4. Hornéala 45–55 minutos: debe quedar muy dorada por fuera y temblorosa en el centro.
+5. Deja que se enfríe del todo antes de cortarla.
+
+*Notas:* Mejor de un día para otro, en la nevera.
+
+## 1240. Alfajores de maicena con dulce de leche, listos para consumir
+
+`alfajores-maicena` · Galletas, bollería y pasteles · 12 raciones de 52 g · 60 min · por ración: 240 kcal, P 2,6 g, C 34 g, G 10,2 g
+
+**Ingredientes** (lote de 620 g cocinado)
+
+- 150 g · Almidón de maíz o fécula de maíz
+- 100 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 70 g · Azúcar blanco
+- 40 g · Huevo, yema, cruda
+- 200 g · Dulce de leche
+- 20 g · Coco, pulpa, deshidratada
+
+**Preparación**
+
+1. Bate 100 g de mantequilla con 70 g de azúcar y 40 g de yemas. Añade 150 g de maicena y 100 g de harina y amasa. Deja reposar 30 minutos.
+2. Estira a 0,5 cm y corta círculos de 5 cm.
+3. Hornéalos a 170 °C 10 minutos, sin que se doren. Deja que se enfríen: son muy frágiles.
+4. Une las galletas de dos en dos con 200 g de dulce de leche y pasa el borde por 20 g de coco rallado.
+
+*Notas:* Salen unos 12 alfajores: una ración es uno (unos 52 g).
+
+## 1241. Mug cake de avena y cacao, cocinado
+
+`mug-cake-avena` · Galletas, bollería y pasteles · 1 ración de 180 g · 5 min · por ración: 330 kcal, P 17,7 g, C 36,4 g, G 10,7 g
+
+**Ingredientes** (lote de 180 g cocinado)
+
+- 40 g · Avena, cruda
+- 50 g · Huevo crudo
+- 50 g · Leche semidesnatada, UHT
+- 10 g · Cacao, sin azúcares añadidos, polvo soluble
+- 2 g · Levadura química o polvo de hornear
+- 50 g · Plátano, pulpa sin piel, cruda
+
+**Preparación**
+
+1. Aplasta 50 g de plátano en una taza grande.
+2. Añade 50 g de huevo, 50 g de leche, 40 g de copos de avena, 10 g de cacao y 2 g de levadura y mezcla.
+3. Cuécelo en el microondas a máxima potencia 2 minutos.
+
+## 1242. Gofres de avena, cocinados
+
+`gofres-avena` · Galletas, bollería y pasteles · 1 ración de 230 g · 15 min · por ración: 484 kcal, P 29,1 g, C 49,5 g, G 16,6 g
+
+**Ingredientes** (lote de 230 g cocinado)
+
+- 80 g · Avena, cruda
+- 100 g · Huevo crudo
+- 80 g · Leche semidesnatada, UHT
+- 3 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Tritura 80 g de copos de avena hasta hacer harina.
+2. Bate 100 g de huevo (2 huevos pequeños) con 80 g de leche, la avena y 3 g de levadura.
+3. Cuécelos en una gofrera caliente engrasada 4 minutos.
+
+## 1243. Caracolas de canela glaseadas (cinnamon rolls), horneadas
+
+`caracolas-canela` · Galletas, bollería y pasteles · 12 raciones de 90 g · 180 min · por ración: 315 kcal, P 5,5 g, C 46,1 g, G 11,6 g
+
+**Ingredientes** (lote de 1080 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Leche entera, UHT
+- 120 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 150 g · Azúcar blanco
+- 50 g · Huevo crudo
+- 20 g · Levadura de panadero fresca
+- 10 g · Canela, polvo
+- 100 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+
+**Preparación**
+
+1. Disuelve 20 g de levadura en 250 g de leche templada. Mézclala con 500 g de harina, 50 g del azúcar, 50 g de huevo y 60 g de la mantequilla y amasa. Deja reposar 1 hora.
+2. Estírala en un rectángulo, úntala con el resto de la mantequilla blanda y espolvorea 70 g del azúcar con 10 g de canela.
+3. Enróllala, córtala en 12 rodajas y colócalas en un molde. Deja que crezcan 45 minutos.
+4. Hornéalas a 180 °C 25 minutos.
+5. Mezcla 100 g de queso de untar con el resto del azúcar (30 g) y cúbrelas en caliente.
+
+*Notas:* Salen 12 caracolas: una ración es una (90 g).
+
+## 1244. Donuts caseros glaseados, fritos
+
+`donuts-caseros` · Galletas, bollería y pasteles · 14 raciones de 75 g · 180 min · por ración: 311 kcal, P 4,7 g, C 41,2 g, G 13,8 g
+
+**Ingredientes** (lote de 1050 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Leche entera, UHT
+- 180 g · Azúcar blanco
+- 60 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Huevo crudo
+- 20 g · Levadura de panadero fresca
+- 120 g · Aceite de girasol
+
+**Preparación**
+
+1. Disuelve 20 g de levadura en 250 g de leche templada. Mézclala con 500 g de harina, 80 g del azúcar, 100 g de huevo y 60 g de mantequilla y amasa. Deja reposar 1 hora y media.
+2. Estira a 1,5 cm y corta aros con dos cortapastas.
+3. Deja que crezcan 45 minutos.
+4. Fríelos en aceite a 170 °C 1 minuto por cada lado y escúrrelos.
+5. Báñalos en un glaseado de 100 g de azúcar glas con unas gotas de agua.
+
+*Notas:* Salen unos 14 donuts: una ración es uno (75 g). Los 120 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1245. Berlinas rellenas de crema, fritas
+
+`berlinas-crema` · Galletas, bollería y pasteles · 14 raciones de 104 g · 180 min · por ración: 310 kcal, P 6,1 g, C 38,5 g, G 14,4 g
+
+**Ingredientes** (lote de 1450 g cocinado)
+
+- 400 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 200 g · Leche entera, UHT
+- 60 g · Azúcar blanco
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Huevo crudo
+- 15 g · Levadura de panadero fresca
+- 100 g · Aceite de girasol
+- 500 g · Leche entera, UHT
+- 80 g · Huevo, yema, cruda
+- 100 g · Azúcar blanco
+- 40 g · Almidón de maíz o fécula de maíz
+
+**Preparación**
+
+1. Disuelve 15 g de levadura en 200 g de leche templada. Mézclala con 400 g de harina, 60 g de azúcar, 100 g de huevo y 50 g de mantequilla y amasa. Deja reposar 1 hora y media.
+2. Forma bolas de 50 g y deja que crezcan 45 minutos.
+3. Fríelas en aceite a 170 °C 2 minutos por cada lado y escúrrelas.
+4. Prepara la crema: calienta 400 g de leche, bate 80 g de yemas con 100 g de azúcar y 40 g de maicena disuelta en 100 g de leche fría, junta todo y cuece hasta que espese.
+5. Rellena las berlinas con una manga cuando estén frías.
+
+*Notas:* Salen unas 14: una ración es una (unos 100 g). Los 100 g de aceite son los que retienen al freír; en la sartén hace falta más.
+
+## 1246. Napolitanas de chocolate caseras, horneadas
+
+`napolitanas-chocolate-caseras` · Galletas, bollería y pasteles · 8 raciones de 76 g · 35 min · por ración: 332 kcal, P 4,7 g, C 34,4 g, G 18,9 g
+
+**Ingredientes** (lote de 610 g cocinado)
+
+- 500 g · Masa de hojaldre, grasa vegetal, envasada, cruda
+- 120 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 30 g · Huevo crudo
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Estira 500 g de hojaldre y corta 8 rectángulos.
+2. Pon en cada uno 15 g de chocolate en barritas y enróllalos.
+3. Píntalos con 30 g de huevo batido.
+4. Hornéalos 18 minutos, hasta que estén dorados.
+
+*Notas:* Salen 8: una ración es una (unos 76 g).
+
+## 1247. Napolitanas de crema caseras, horneadas
+
+`napolitanas-crema-caseras` · Galletas, bollería y pasteles · 8 raciones de 98 g · 50 min · por ración: 315 kcal, P 5,1 g, C 36,7 g, G 16 g
+
+**Ingredientes** (lote de 780 g cocinado)
+
+- 500 g · Masa de hojaldre, grasa vegetal, envasada, cruda
+- 250 g · Leche entera, UHT
+- 40 g · Huevo, yema, cruda
+- 50 g · Azúcar blanco
+- 20 g · Almidón de maíz o fécula de maíz
+
+**Preparación**
+
+1. Prepara la crema: calienta 200 g de la leche, bate 40 g de yemas con 50 g de azúcar y 20 g de maicena disuelta en el resto de la leche, junta todo y cuece hasta que espese. Deja que se enfríe.
+2. Precalienta el horno a 200 °C. Estira 500 g de hojaldre y corta 8 rectángulos.
+3. Pon crema en cada uno y enróllalos.
+4. Hornéalos 18 minutos, hasta que estén dorados.
+
+*Notas:* Salen 8: una ración es una (unos 97 g).
+
+## 1248. Cruasanes caseros, horneados
+
+`cruasanes-caseros` · Galletas, bollería y pasteles · 14 raciones de 68 g · 300 min · por ración: 291 kcal, P 4,2 g, C 31,8 g, G 16 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 200 g · Leche entera, UHT
+- 50 g · Azúcar blanco
+- 15 g · Levadura de panadero fresca
+- 10 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+- 50 g · Huevo crudo
+
+**Preparación**
+
+1. Mezcla 500 g de harina, 50 g de azúcar, la sal, 15 g de levadura y 200 g de leche y amasa. Envuelve la masa y guárdala en la nevera 1 hora.
+2. Aplana 250 g de mantequilla fría en un cuadrado. Estira la masa, envuelve la mantequilla y haz 3 pliegues dobles, dejando reposar 30 minutos en la nevera entre cada uno.
+3. Estira la masa a 4 mm, corta triángulos largos y enróllalos desde la base.
+4. Deja que crezcan 2 horas a temperatura ambiente.
+5. Píntalos con 50 g de huevo batido y hornéalos a 200 °C 15 minutos.
+
+*Notas:* Salen unos 14: una ración es uno (unos 68 g).
+
+## 1249. Magdalenas de chocolate caseras, horneadas
+
+`magdalenas-chocolate` · Galletas, bollería y pasteles · 12 raciones de 63 g · 40 min · por ración: 291 kcal, P 4,3 g, C 28,4 g, G 17,5 g
+
+**Ingredientes** (lote de 760 g cocinado)
+
+- 200 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 180 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 180 g · Aceite de girasol
+- 30 g · Cacao, sin azúcares añadidos, polvo soluble
+- 60 g · Leche entera, UHT
+- 8 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 220 °C.
+2. Bate 200 g de huevo (4 huevos) con 180 g de azúcar hasta que blanquee. Añade 180 g de aceite y 60 g de leche.
+3. Incorpora 200 g de harina, 30 g de cacao y 8 g de levadura tamizados.
+4. Reparte en cápsulas, deja reposar la masa 15 minutos en la nevera y hornea a 200 °C 15 minutos.
+
+*Notas:* Salen unas 12: una ración es una (unos 63 g).
+
+## 1250. Bizcocho de limón casero, horneado
+
+`bizcocho-limon` · Galletas, bollería y pasteles · 10 raciones de 80 g · 60 min · por ración: 313 kcal, P 5,1 g, C 39,9 g, G 14,5 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 200 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 120 g · Aceite de girasol
+- 100 g · Leche entera, UHT
+- 30 g · Zumo de limón, casero
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.
+2. Bate 200 g de huevo (4 huevos) con 200 g de azúcar hasta que blanquee y doble su volumen.
+3. Añade 120 g de aceite, 100 g de leche y 30 g de zumo de limón y mezcla.
+4. Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.
+5. Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar.
+
+*Notas:* Tradicionalmente lleva ralladura de limón.
+
+## 1251. Bizcocho marmolado casero, horneado
+
+`bizcocho-marmolado` · Galletas, bollería y pasteles · 10 raciones de 82 g · 60 min · por ración: 325 kcal, P 5,5 g, C 40,2 g, G 15,4 g
+
+**Ingredientes** (lote de 820 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 200 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 150 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Leche entera, UHT
+- 20 g · Cacao, sin azúcares añadidos, polvo soluble
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.
+2. Bate 200 g de huevo (4 huevos) con 200 g de azúcar hasta que blanquee y doble su volumen.
+3. Añade 150 g de mantequilla fundida, 100 g de leche y mezcla.
+4. Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.
+5. Separa un tercio de la masa y mézclalo con 20 g de cacao.
+6. Alterna en el molde cucharadas de las dos masas y dibuja vetas con un palillo.
+7. Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar.
+
+## 1252. Tarta de queso con galletas de chocolate, lista para consumir
+
+`tarta-galletas-chocolate-queso` · Galletas, bollería y pasteles · 12 raciones de 88 g · 40 min · por ración: 303 kcal, P 4,4 g, C 21,9 g, G 21,8 g
+
+**Ingredientes** (lote de 1060 g cocinado)
+
+- 200 g · Galleta de chocolate rellena (emparedado) sabor vainilla, redonda, blanca y negra
+- 60 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 400 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 300 g · Nata, 30 % MG, fluida, UHT
+- 100 g · Azúcar blanco
+- 12 g · Gelatina, seca
+
+**Preparación**
+
+1. Tritura 200 g de galletas de chocolate rellenas con 60 g de mantequilla fundida y forma la base en un molde desmontable.
+2. Hidrata 12 g de gelatina en agua fría 5 minutos.
+3. Calienta 300 g de nata con 100 g de azúcar, disuelve la gelatina escurrida y añade 400 g de queso de untar, batiendo.
+4. Vierte sobre la base y deja cuajar en la nevera al menos 6 horas.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1253. Tarta de yogur fría, lista para consumir
+
+`tarta-yogur` · Galletas, bollería y pasteles · 12 raciones de 93 g · 40 min · por ración: 238 kcal, P 4,4 g, C 21,9 g, G 14,6 g
+
+**Ingredientes** (lote de 1110 g cocinado)
+
+- 375 g · Yogur o leche fermentada, natural
+- 200 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 200 g · Nata, 30 % MG, fluida, UHT
+- 120 g · Azúcar blanco
+- 12 g · Gelatina, seca
+- 150 g · Galleta seca natural
+- 60 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Tritura 150 g de galletas con 60 g de mantequilla fundida y forma la base en un molde desmontable.
+2. Hidrata 12 g de gelatina en agua fría 5 minutos.
+3. Calienta 200 g de nata con 120 g de azúcar y disuelve la gelatina. Mezcla con 375 g de yogur y 200 g de queso de untar.
+4. Vierte sobre la base y deja cuajar en la nevera al menos 6 horas.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1254. Coulant de chocolate casero, horneado
+
+`coulant-casero` · Galletas, bollería y pasteles · 6 raciones de 100 g · 30 min · por ración: 450 kcal, P 7,2 g, C 40,3 g, G 28,2 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 200 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 200 g · Huevo crudo
+- 100 g · Azúcar blanco
+- 50 g · Harina de trigo tierno o trigo T45 (para pastelería)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C y engrasa 6 moldes individuales.
+2. Funde 200 g de chocolate con 100 g de mantequilla.
+3. Bate 200 g de huevo (4 huevos) con 100 g de azúcar y añade el chocolate. Incorpora 50 g de harina.
+4. Reparte en los moldes y hornéalos 8 o 9 minutos: deben quedar líquidos por dentro.
+5. Desmóldalos enseguida.
+
+*Notas:* Se puede preparar la masa y guardarla en la nevera; entonces se hornea 1 o 2 minutos más.
+
+## 1255. Lionesas rellenas de nata, horneadas
+
+`lionesas-nata` · Galletas, bollería y pasteles · 12 raciones de 88 g · 70 min · por ración: 254 kcal, P 4,5 g, C 15,9 g, G 19,1 g
+
+**Ingredientes** (lote de 1050 g cocinado)
+
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 250 g · Agua del grifo
+- 250 g · Huevo crudo
+- 400 g · Nata, 30 % MG, fluida, UHT
+- 60 g · Azúcar blanco
+
+**Preparación**
+
+1. Calienta 250 g de agua con 100 g de mantequilla. Cuando hierva, echa 150 g de harina de golpe y remueve hasta que se despegue.
+2. Deja templar y añade 250 g de huevo (5 huevos) de uno en uno.
+3. Haz bolas con una manga y hornéalas a 200 °C 25 minutos, sin abrir el horno. Deja que se enfríen.
+4. Monta 400 g de nata con 60 g de azúcar y rellénalas.
+
+*Notas:* Salen unas 24 lionesas: una ración son 2.
+
+## 1256. Tarta de calabaza, horneada
+
+`tarta-calabaza` · Galletas, bollería y pasteles · 10 raciones de 115 g · 90 min · por ración: 305 kcal, P 6,4 g, C 41,2 g, G 12,4 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 500 g · Calabaza, cruda
+- 370 g · Leche condensada azucarada, entera
+- 100 g · Huevo crudo
+- 5 g · Canela, polvo
+- 200 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 30 g · Azúcar blanco
+
+**Preparación**
+
+1. Mezcla 200 g de harina, 100 g de mantequilla fría y 30 g de azúcar con un poco de agua y forma una masa. Forra un molde y hornéala a 180 °C 12 minutos.
+2. Cuece 500 g de calabaza pelada y hazla puré. Escúrrelo bien.
+3. Mezcla el puré con 370 g de leche condensada, 100 g de huevo (2 huevos) y 5 g de canela.
+4. Vierte sobre la base y hornea 45 minutos, hasta que cuaje. Deja que se enfríe.
+
+*Notas:* Es la pumpkin pie.
+
+## 1257. Tortitas de avena con queso batido y plátano, cocinadas
+
+`pancakes-avena-queso-batido` · Galletas, bollería y pasteles · 1 ración de 280 g · 15 min · por ración: 367 kcal, P 28,9 g, C 48,2 g, G 4,6 g
+
+**Ingredientes** (lote de 280 g cocinado)
+
+- 100 g · Queso blanco, natural, 0 % MG
+- 60 g · Avena, cruda
+- 100 g · Huevo, clara, cruda
+- 50 g · Plátano, pulpa sin piel, cruda
+
+**Preparación**
+
+1. Tritura 60 g de copos de avena.
+2. Mézclalos con 100 g de claras y 100 g de queso batido.
+3. Haz tortitas en una sartén antiadherente, 2 minutos por cada lado.
+4. Sírvelas con 50 g de plátano en rodajas.
+
+## 1258. Tortitas con sirope de arce, cocinadas
+
+`tortitas-sirope` · Galletas, bollería y pasteles · 3 raciones de 167 g · 25 min · por ración: 392 kcal, P 9,7 g, C 62,9 g, G 10,9 g
+
+**Ingredientes** (lote de 500 g cocinado)
+
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Leche entera, UHT
+- 60 g · Huevo crudo
+- 20 g · Azúcar blanco
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 6 g · Levadura química o polvo de hornear
+- 60 g · Jarabe de arce
+
+**Preparación**
+
+1. Bate 60 g de huevo (1 huevo) con 250 g de leche y 20 g de mantequilla fundida.
+2. Añade 150 g de harina, 20 g de azúcar y 6 g de levadura y mezcla sin batir demasiado.
+3. Haz tortitas en una sartén antiadherente caliente, 2 minutos por cada lado, hasta que salgan burbujas y se doren.
+4. Sírvelas con 60 g de sirope de arce.
+
+*Notas:* Salen unas 9 tortitas: una ración son 3.
+
+## 1259. Cañas de hojaldre rellenas de crema, horneadas
+
+`canas-crema` · Galletas, bollería y pasteles · 10 raciones de 76 g · 50 min · por ración: 225 kcal, P 3,9 g, C 26,8 g, G 11,1 g
+
+**Ingredientes** (lote de 760 g cocinado)
+
+- 400 g · Masa de hojaldre, grasa vegetal, envasada, cruda
+- 300 g · Leche entera, UHT
+- 50 g · Huevo, yema, cruda
+- 60 g · Azúcar blanco
+- 25 g · Almidón de maíz o fécula de maíz
+
+**Preparación**
+
+1. Prepara la crema: calienta 250 g de la leche, bate 50 g de yemas con 60 g de azúcar y 25 g de maicena disuelta en el resto de la leche, junta todo y cuece hasta que espese. Deja que se enfríe.
+2. Precalienta el horno a 200 °C. Corta 400 g de hojaldre en tiras de 2 cm y enróllalas en espiral alrededor de moldes de caña.
+3. Hornéalas 15 minutos y quita los moldes cuando se templen.
+4. Rellénalas con la crema.
+
+*Notas:* Salen unas 10 cañas: una ración es una (76 g).
+
+## 1260. Brazo de gitano de chocolate y nata, listo para consumir
+
+`brazo-gitano-chocolate` · Galletas, bollería y pasteles · 10 raciones de 80 g · 45 min · por ración: 270 kcal, P 5 g, C 28,6 g, G 14,7 g
+
+**Ingredientes** (lote de 800 g cocinado)
+
+- 200 g · Huevo crudo
+- 160 g · Azúcar blanco
+- 80 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 20 g · Cacao, sin azúcares añadidos, polvo soluble
+- 300 g · Nata, 30 % MG, fluida, UHT
+- 100 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Bate 200 g de huevo (4 huevos) con 120 g del azúcar hasta que triplique su volumen.
+2. Añade 80 g de harina y 20 g de cacao tamizados y extiende la masa en una bandeja con papel. Hornéala 8 minutos.
+3. Dale la vuelta sobre un paño, enróllala en caliente y deja que se enfríe.
+4. Monta 200 g de la nata con el resto del azúcar, rellena el brazo y enróllalo.
+5. Funde 100 g de chocolate con el resto de la nata y cúbrelo.
+
+## 1261. Mostachones de almendra, horneados
+
+`mostachones` · Galletas, bollería y pasteles · 18 raciones de 25 g · 30 min · por ración: 106 kcal, P 2,6 g, C 15,2 g, G 3,5 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Almendra, pelada, sin sal añadida
+- 150 g · Azúcar blanco
+- 100 g · Huevo crudo
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Muele 100 g de almendras.
+2. Bate 100 g de huevo (2 huevos) con 150 g de azúcar. Añade la almendra y 150 g de harina.
+3. Haz montoncitos con una manga sobre papel de horno y hornéalos 12 minutos.
+
+*Notas:* Dulce de Utrera. Una ración son unos 25 g.
+
+## 1262. Mona de Pascua, horneada
+
+`mona-pascua` · Galletas, bollería y pasteles · 8 raciones de 104 g · 180 min · por ración: 378 kcal, P 8,4 g, C 61,3 g, G 10,4 g
+
+**Ingredientes** (lote de 830 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Azúcar blanco
+- 150 g · Huevo crudo
+- 60 g · Aceite de oliva virgen extra
+- 20 g · Levadura de panadero fresca
+- 100 g · Leche entera, UHT
+- 5 g · Hinojo, grano
+
+**Preparación**
+
+1. Disuelve 20 g de levadura en 100 g de leche templada.
+2. Mezcla 500 g de harina, 100 g de azúcar, 100 g de huevo, 60 g de aceite, 5 g de anís en grano y la leche y amasa. Deja reposar 1 hora y media.
+3. Forma roscas o figuras y deja que crezcan 1 hora.
+4. Píntalas con el resto del huevo y hornéalas a 180 °C 25 minutos.
+
+*Notas:* Tradicionalmente lleva un huevo duro encima, que no está incluido. Una ración son unos 100 g.
+
+## 1263. Flaó ibicenco, horneado
+
+`flao` · Galletas, bollería y pasteles · 10 raciones de 115 g · 75 min · por ración: 372 kcal, P 8,5 g, C 40,8 g, G 19,1 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 60 g · Manteca de cerdo
+- 5 g · Hinojo, grano
+- 500 g · Queso fresco o especialidad quesera no madurada, natural, para untar, en bandeja, no reducido en grasa
+- 250 g · Huevo crudo
+- 200 g · Azúcar blanco
+- 3 g · Menta, fresca
+
+**Preparación**
+
+1. Mezcla 250 g de harina con 60 g de manteca, 5 g de anís en grano y un poco de agua y amasa. Forra un molde de 24 cm.
+2. Bate 500 g de queso fresco con 250 g de huevo (5 huevos), 200 g de azúcar y 3 g de hierbabuena picada.
+3. Vierte sobre la masa.
+4. Hornea a 180 °C 45 minutos y deja que se enfríe.
+
+*Notas:* Tarta de queso típica de Ibiza.
+
+## 1264. Crepes con fresas y miel, cocinadas
+
+`crepes-fruta` · Galletas, bollería y pasteles · 2 raciones de 159 g · 25 min · por ración: 223 kcal, P 8,2 g, C 35 g, G 5 g
+
+**Ingredientes** (lote de 317 g cocinado)
+
+- 60 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 120 g · Leche entera, UHT
+- 50 g · Huevo crudo
+- 100 g · Fresa, cruda
+- 15 g · Miel
+
+**Preparación**
+
+1. Bate 50 g de huevo con 120 g de leche y 60 g de harina hasta que no queden grumos.
+2. Haz 4 crepes finas en una sartén antiadherente, 1 minuto por cada lado.
+3. Rellénalas con 100 g de fresas en láminas y 15 g de miel.
+
+## 1265. Bizcocho de aceite de oliva, horneado
+
+`bizcocho-aceite-oliva` · Galletas, bollería y pasteles · 10 raciones de 80 g · 60 min · por ración: 339 kcal, P 5,1 g, C 39,8 g, G 17,5 g
+
+**Ingredientes** (lote de 801 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 200 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 150 g · Aceite de oliva virgen extra
+- 100 g · Leche entera, UHT
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.
+2. Bate 200 g de huevo (4 huevos) con 200 g de azúcar hasta que blanquee y doble su volumen.
+3. Añade 150 g de aceite de oliva, 100 g de leche y mezcla.
+4. Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.
+5. Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar.
+
+## 1266. Muffins de chocolate caseros, horneados
+
+`muffins-chocolate` · Galletas, bollería y pasteles · 12 raciones de 65 g · 40 min · por ración: 275 kcal, P 4,4 g, C 33,8 g, G 13 g
+
+**Ingredientes** (lote de 783 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Azúcar blanco
+- 100 g · Huevo crudo
+- 150 g · Leche entera, UHT
+- 100 g · Aceite de girasol
+- 30 g · Cacao, sin azúcares añadidos, polvo soluble
+- 100 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C.
+2. Mezcla 250 g de harina, 150 g de azúcar, 30 g de cacao y 10 g de levadura.
+3. En otro cuenco, bate 100 g de huevo (2 huevos), 150 g de leche y 100 g de aceite.
+4. Junta las dos mezclas sin batir demasiado y añade 100 g de chocolate troceado.
+5. Reparte en 12 cápsulas y hornea 20 minutos.
+
+*Notas:* Salen 12 muffins: una ración es uno.
+
+## 1267. Bizcocho de frutos secos, horneado
+
+`bizcocho-frutos-secos` · Galletas, bollería y pasteles · 10 raciones de 77 g · 60 min · por ración: 378 kcal, P 6,8 g, C 38,3 g, G 21,3 g
+
+**Ingredientes** (lote de 774 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 180 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 120 g · Aceite de girasol
+- 60 g · Nuez, grano, deshidratada
+- 60 g · Almendra, pelada, sin sal añadida
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.
+2. Bate 200 g de huevo (4 huevos) con 180 g de azúcar hasta que blanquee y doble su volumen.
+3. Añade 120 g de aceite y mezcla.
+4. Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.
+5. Pica 60 g de nueces y 60 g de almendras y añádelas a la masa.
+6. Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar.
+
+## 1268. Bizcocho de calabaza, horneado
+
+`bizcocho-calabaza` · Galletas, bollería y pasteles · 10 raciones de 83 g · 60 min · por ración: 278 kcal, P 4,3 g, C 38,3 g, G 11,7 g
+
+**Ingredientes** (lote de 830 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Calabaza, cruda
+- 180 g · Azúcar blanco
+- 150 g · Huevo crudo
+- 100 g · Aceite de girasol
+- 3 g · Canela, polvo
+- 10 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.
+2. Bate 150 g de huevo (3 huevos) con 180 g de azúcar hasta que blanquee y doble su volumen.
+3. Añade 100 g de aceite, 250 g de calabaza rallada fina y mezcla.
+4. Incorpora 250 g de harina y 3 g de canela tamizada con 10 g de levadura química, con movimientos envolventes.
+5. Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar.
+
+## 1269. Trenza de crema de cacao, horneada
+
+`trenza-chocolate` · Galletas, bollería y pasteles · 10 raciones de 81 g · 150 min · por ración: 315 kcal, P 5,7 g, C 46,4 g, G 11,4 g
+
+**Ingredientes** (lote de 814 g cocinado)
+
+- 400 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 180 g · Leche entera, UHT
+- 60 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 60 g · Azúcar blanco
+- 60 g · Huevo crudo
+- 15 g · Levadura de panadero fresca
+- 150 g · Crema para untar de chocolate y avellana
+
+**Preparación**
+
+1. Disuelve 15 g de levadura en 180 g de leche templada. Mézclala con 400 g de harina, 60 g de azúcar, 60 g de huevo y 60 g de mantequilla y amasa. Deja reposar 1 hora.
+2. Estira la masa en un rectángulo y úntala con 150 g de crema de cacao.
+3. Enróllala, córtala por la mitad a lo largo y trenza las dos tiras con el corte hacia arriba.
+4. Deja que crezca 40 minutos y hornéala a 180 °C 25 minutos.
+
+*Notas:* Una ración son unos 80 g.
+
+## 1270. Tarta de almendra y naranja sin harina, horneada
+
+`tarta-almendra-naranja` · Galletas, bollería y pasteles · 8 raciones de 96 g · 120 min · por ración: 351 kcal, P 10,9 g, C 29,7 g, G 19,5 g
+
+**Ingredientes** (lote de 765 g cocinado)
+
+- 250 g · Almendra, pelada, sin sal añadida
+- 200 g · Azúcar blanco
+- 250 g · Huevo crudo
+- 200 g · Naranja, pulpa sin piel, sin pepitas, cruda
+
+**Preparación**
+
+1. Cuece 200 g de naranja entera (con piel, sin pepitas) en agua 1 hora. Escúrrela y tritúrala.
+2. Precalienta el horno a 180 °C.
+3. Bate 250 g de huevo (5 huevos) con 200 g de azúcar y añade el puré de naranja y 250 g de almendra molida.
+4. Hornea en un molde engrasado 45 minutos.
+
+*Notas:* Sin harina. La formulación cuenta la pulpa de naranja; la piel cocida aporta poco más.
+
+## 1271. Tarta de coco, horneada
+
+`tarta-coco` · Galletas, bollería y pasteles · 10 raciones de 89 g · 60 min · por ración: 300 kcal, P 7,5 g, C 23,4 g, G 19 g
+
+**Ingredientes** (lote de 892 g cocinado)
+
+- 200 g · Coco, pulpa, deshidratada
+- 370 g · Leche condensada azucarada, entera
+- 200 g · Huevo crudo
+- 200 g · Leche entera, UHT
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Bate 200 g de huevo (4 huevos) con 370 g de leche condensada y 200 g de leche.
+3. Añade 200 g de coco rallado.
+4. Hornea en un molde engrasado 40 minutos, hasta que esté dorada.
+
+## 1272. Tarta de chocolate sin horno, lista para consumir
+
+`tarta-chocolate-sin-horno` · Galletas, bollería y pasteles · 10 raciones de 87 g · 40 min · por ración: 377 kcal, P 4,3 g, C 26,8 g, G 27,6 g
+
+**Ingredientes** (lote de 870 g cocinado)
+
+- 200 g · Galleta seca natural
+- 80 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 200 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 400 g · Nata, 30 % MG, fluida, UHT
+- 8 g · Gelatina, seca
+
+**Preparación**
+
+1. Tritura 200 g de galletas con 80 g de mantequilla fundida y forma la base en un molde desmontable.
+2. Hidrata 8 g de gelatina en agua fría 5 minutos.
+3. Calienta 400 g de nata, funde en ella 200 g de chocolate y la gelatina escurrida.
+4. Vierte sobre la base y deja cuajar en la nevera al menos 6 horas.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1273. Tarta de piña invertida, horneada
+
+`tarta-pina-invertida` · Galletas, bollería y pasteles · 10 raciones de 93 g · 60 min · por ración: 308 kcal, P 4,4 g, C 39,1 g, G 14,7 g
+
+**Ingredientes** (lote de 931 g cocinado)
+
+- 200 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 200 g · Azúcar blanco
+- 200 g · Huevo crudo
+- 150 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 300 g · Piña, pulpa sin piel, cruda
+- 8 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C. Con 50 g del azúcar haz un caramelo en el fondo del molde y coloca encima 300 g de piña en rodajas.
+2. Bate 150 g de mantequilla blanda con el resto del azúcar. Añade 200 g de huevo (4 huevos).
+3. Incorpora 200 g de harina con 8 g de levadura.
+4. Vierte sobre la piña y hornea 40 minutos. Desmóldala en caliente, dándole la vuelta.
+
+## 1274. Tarta de plátano y hojaldre, horneada
+
+`tarta-platano-hojaldre` · Galletas, bollería y pasteles · 8 raciones de 97 g · 40 min · por ración: 255 kcal, P 2,7 g, C 34,6 g, G 11,4 g
+
+**Ingredientes** (lote de 774 g cocinado)
+
+- 300 g · Masa de hojaldre, grasa vegetal, envasada, cruda
+- 500 g · Plátano, pulpa sin piel, cruda
+- 50 g · Azúcar blanco
+- 30 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Estira 300 g de hojaldre en una bandeja y pínchalo.
+2. Cubre con 500 g de plátano en rodajas.
+3. Espolvorea 50 g de azúcar y reparte 30 g de mantequilla en trocitos.
+4. Hornea 25 minutos, hasta que el hojaldre esté dorado y el plátano caramelizado.
+
+## 1275. Galletas de avena y plátano, horneadas
+
+`galletas-avena-platano` · Galletas, bollería y pasteles · 10 raciones de 28 g · 25 min · por ración: 93 kcal, P 3,6 g, C 15,1 g, G 1,4 g
+
+**Ingredientes** (lote de 280 g cocinado)
+
+- 200 g · Avena, cruda
+- 200 g · Plátano, pulpa sin piel, cruda
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Aplasta 200 g de plátano muy maduro y mézclalo con 200 g de copos de avena.
+3. Haz montoncitos en una bandeja con papel y aplánalos.
+4. Hornéalos 15 minutos.
+
+*Notas:* Sin azúcar añadido. Una ración es una galleta de unos 28 g.
+
+## 1276. Galletas de jengibre, horneadas
+
+`galletas-jengibre` · Galletas, bollería y pasteles · 20 raciones de 29 g · 50 min · por ración: 128 kcal, P 1,6 g, C 19,8 g, G 4,5 g
+
+**Ingredientes** (lote de 576 g cocinado)
+
+- 300 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Azúcar blanco
+- 80 g · Miel
+- 10 g · Jengibre, raíz fresca
+- 50 g · Huevo crudo
+
+**Preparación**
+
+1. Bate 100 g de mantequilla con 100 g de azúcar y 80 g de miel. Añade 50 g de huevo y 10 g de jengibre rallado.
+2. Añade 300 g de harina y amasa. Deja la masa en la nevera 30 minutos.
+3. Estírala a 5 mm y corta figuras.
+4. Hornéalas a 180 °C 10 minutos.
+
+*Notas:* Una ración es una galleta de unos 29 g.
+
+## 1277. Pastas de té con almendra, horneadas
+
+`pastas-te-almendra` · Galletas, bollería y pasteles · 20 raciones de 28 g · 45 min · por ración: 150 kcal, P 2,3 g, C 15 g, G 8,7 g
+
+**Ingredientes** (lote de 567 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 150 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Azúcar blanco
+- 80 g · Almendra, pelada, sin sal añadida
+- 50 g · Huevo crudo
+
+**Preparación**
+
+1. Bate 150 g de mantequilla con 100 g de azúcar. Añade 50 g de huevo.
+2. Añade 250 g de harina y 80 g de almendra molida.
+3. Forma pastas con una manga o con las manos, y pon media almendra encima si quieres.
+4. Hornéalas a 180 °C 12 minutos.
+
+*Notas:* Una ración son 1 o 2 pastas (unos 28 g).
+
+## 1278. Galletas de limón, horneadas
+
+`galletas-limon` · Galletas, bollería y pasteles · 18 raciones de 27 g · 45 min · por ración: 128 kcal, P 1,6 g, C 16,2 g, G 6,1 g
+
+**Ingredientes** (lote de 490 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 125 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Azúcar blanco
+- 50 g · Huevo crudo
+- 20 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Bate 125 g de mantequilla con 100 g de azúcar. Añade 50 g de huevo y 20 g de zumo de limón.
+2. Añade 250 g de harina y amasa. Deja la masa en la nevera 30 minutos.
+3. Estírala y corta galletas.
+4. Hornéalas a 180 °C 10 minutos.
+
+*Notas:* Tradicionalmente llevan ralladura de limón. Una ración es una galleta de unos 27 g.
+
+## 1279. Galletas de canela, horneadas
+
+`galletas-canela` · Galletas, bollería y pasteles · 18 raciones de 28 g · 45 min · por ración: 133 kcal, P 1,6 g, C 17,4 g, G 6,2 g
+
+**Ingredientes** (lote de 498 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 125 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 120 g · Azúcar blanco
+- 8 g · Canela, polvo
+- 50 g · Huevo crudo
+
+**Preparación**
+
+1. Bate 125 g de mantequilla con 120 g de azúcar. Añade 50 g de huevo.
+2. Añade 250 g de harina y 8 g de canela y amasa. Deja la masa en la nevera 30 minutos.
+3. Estírala y corta galletas.
+4. Hornéalas a 180 °C 10 minutos.
+
+*Notas:* Una ración es una galleta de unos 28 g.
+
+## 1280. Galletas de crema de cacahuete, horneadas
+
+`galletas-cacahuete` · Galletas, bollería y pasteles · 15 raciones de 27 g · 25 min · por ración: 152 kcal, P 4,1 g, C 12,9 g, G 8,9 g
+
+**Ingredientes** (lote de 405 g cocinado)
+
+- 250 g · Crema de cacahuete o pasta de cacahuete
+- 150 g · Azúcar blanco
+- 50 g · Huevo crudo
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Mezcla 250 g de crema de cacahuete con 150 g de azúcar y 50 g de huevo.
+3. Haz bolitas, colócalas en una bandeja y aplástalas con un tenedor haciendo cruces.
+4. Hornéalas 10 minutos: salen blandas y se endurecen al enfriarse.
+
+*Notas:* Sin harina. Una ración es una galleta de unos 27 g.
+
+## 1281. Bizcochos de soletilla caseros, horneados
+
+`bizcochos-soletilla-caseros` · Galletas, bollería y pasteles · 12 raciones de 28 g · 30 min · por ración: 86 kcal, P 2,8 g, C 14,7 g, G 1,7 g
+
+**Ingredientes** (lote de 340 g cocinado)
+
+- 200 g · Huevo crudo
+- 100 g · Azúcar blanco
+- 100 g · Harina de trigo tierno o trigo T45 (para pastelería)
+
+**Preparación**
+
+1. Precalienta el horno a 190 °C. Separa 200 g de huevo (4 huevos).
+2. Monta las claras con 50 g del azúcar. Bate las yemas con el resto del azúcar.
+3. Junta las dos mezclas y añade 100 g de harina tamizada con movimientos envolventes.
+4. Haz bastones con una manga en una bandeja con papel y hornéalos 10 minutos.
+
+*Notas:* Salen unos 24: una ración son 2 (28 g).
+
+## 1282. Crumble de frutos rojos, horneado
+
+`crumble-frutos-rojos` · Galletas, bollería y pasteles · 8 raciones de 101 g · 50 min · por ración: 235 kcal, P 3 g, C 32,8 g, G 9,2 g
+
+**Ingredientes** (lote de 808 g cocinado)
+
+- 300 g · Fresa, cruda
+- 150 g · Frambuesa, cruda
+- 150 g · Arándano, crudo
+- 120 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 80 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 100 g · Azúcar blanco
+- 50 g · Avena, cruda
+
+**Preparación**
+
+1. Precalienta el horno a 190 °C. Pon 300 g de fresas troceadas, 150 g de frambuesas y 150 g de arándanos en una fuente.
+2. Mezcla 120 g de harina, 100 g de azúcar, 50 g de copos de avena y 80 g de mantequilla fría con los dedos hasta que parezca arena gruesa.
+3. Cubre la fruta con la mezcla.
+4. Hornea 35 minutos, hasta que esté dorado.
+
+## 1283. Crepes Suzette, cocinadas
+
+`crepe-suzette` · Galletas, bollería y pasteles · 4 raciones de 153 g · 40 min · por ración: 354 kcal, P 7,8 g, C 40,7 g, G 17,4 g
+
+**Ingredientes** (lote de 612 g cocinado)
+
+- 100 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Leche entera, UHT
+- 100 g · Huevo crudo
+- 60 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 60 g · Azúcar blanco
+- 150 g · Zumo de naranja, fresco
+
+**Preparación**
+
+1. Bate 100 g de huevo (2 huevos pequeños) con 250 g de leche y 100 g de harina. Haz 8 crepes finas con un poco de la mantequilla.
+2. En una sartén, funde el resto de la mantequilla con 60 g de azúcar hasta que caramelice.
+3. Añade 150 g de zumo de naranja y cuece 3 minutos.
+4. Dobla las crepes en cuatro y caliéntalas en la salsa.
+
+*Notas:* Tradicionalmente se flambean con licor de naranja.
+
+## 1284. Strudel de manzana, horneado
+
+`strudel-manzana` · Galletas, bollería y pasteles · 8 raciones de 111 g · 60 min · por ración: 232 kcal, P 2,6 g, C 39,1 g, G 7 g
+
+**Ingredientes** (lote de 891 g cocinado)
+
+- 200 g · Masa filo o phyllo, cruda
+- 600 g · Manzana, pulpa sin piel, cruda (promedio)
+- 80 g · Azúcar blanco
+- 50 g · Uva pasa
+- 3 g · Canela, polvo
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 30 g · Pan rallado
+
+**Preparación**
+
+1. Precalienta el horno a 190 °C. Pela 600 g de manzanas y córtalas en láminas finas.
+2. Mézclalas con 80 g de azúcar, 50 g de pasas y 3 g de canela.
+3. Extiende 200 g de masa filo pintando cada hoja con mantequilla fundida y espolvorea 30 g de pan rallado.
+4. Reparte la manzana, enrolla y pinta con el resto de la mantequilla.
+5. Hornea 35 minutos, hasta que esté dorado.
+
+## 1285. Tortitas con beicon y sirope de arce, cocinadas
+
+`pancakes-bacon-sirope` · Galletas, bollería y pasteles · 3 raciones de 173 g · 30 min · por ración: 427 kcal, P 14,2 g, C 53,6 g, G 16,9 g
+
+**Ingredientes** (lote de 518 g cocinado)
+
+- 150 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Leche entera, UHT
+- 60 g · Huevo crudo
+- 20 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 80 g · Panceta ahumada, cruda
+- 50 g · Jarabe de arce
+
+**Preparación**
+
+1. Dora 80 g de panceta ahumada en lonchas hasta que esté crujiente.
+2. Bate 60 g de huevo con 250 g de leche y 20 g de mantequilla fundida. Añade 150 g de harina y mezcla.
+3. Haz tortitas en una sartén caliente, 2 minutos por cada lado.
+4. Sírvelas con la panceta y 50 g de sirope de arce.
+
+*Notas:* Ajusta la sal: la panceta ya aporta.
+
+## 1286. Bizcocho vegano, horneado
+
+`bizcocho-vegano` · Galletas, bollería y pasteles · 8 raciones de 88 g · 55 min · por ración: 329 kcal, P 3,7 g, C 47,6 g, G 13,4 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 250 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 180 g · Azúcar blanco
+- 250 g · Bebida de soja, envasada (promedio)
+- 100 g · Aceite de girasol
+- 10 g · Levadura química o polvo de hornear
+- 5 g · Vinagre de vino tinto
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Mezcla 250 g de bebida de soja con 5 g de vinagre y deja reposar 5 minutos.
+3. Añade 180 g de azúcar y 100 g de aceite.
+4. Incorpora 250 g de harina con 10 g de levadura.
+5. Hornea en un molde engrasado 40 minutos.
+
+*Notas:* Sin huevo ni lácteos.
+
+## 1287. Gofres de chocolate caseros, cocinados
+
+`gofres-chocolate` · Galletas, bollería y pasteles · 6 raciones de 95 g · 30 min · por ración: 272 kcal, P 7,2 g, C 35 g, G 11 g
+
+**Ingredientes** (lote de 568 g cocinado)
+
+- 200 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Leche entera, UHT
+- 100 g · Huevo crudo
+- 50 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 20 g · Cacao, sin azúcares añadidos, polvo soluble
+- 40 g · Azúcar blanco
+- 8 g · Levadura química o polvo de hornear
+
+**Preparación**
+
+1. Bate 100 g de huevo (2 huevos pequeños) con 250 g de leche y 50 g de mantequilla fundida.
+2. Añade 200 g de harina, 20 g de cacao, 40 g de azúcar y 8 g de levadura y mezcla.
+3. Cuécelos en una gofrera caliente 4 minutos.
+
+*Notas:* Salen unos 6 gofres: una ración es uno.

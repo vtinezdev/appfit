@@ -13627,5 +13627,1216 @@
       "Cuécela en el microondas a máxima potencia 7 u 8 minutos, dándole la vuelta a mitad, hasta que esté blanda."
     ],
     "notas": "Sin aceite ni sal."
+  },
+  {
+    "id": "rosquillas-caseras",
+    "raciones": 30,
+    "tiempoMin": 60,
+    "pasos": [
+      "Bate 150 g de huevo (3 huevos) con 180 g de azúcar. Añade 100 g de leche y 50 g del aceite.",
+      "Añade poco a poco 500 g de harina mezclada con 16 g de levadura química y amasa hasta tener una masa blanda que no se pegue.",
+      "Forma rosquillas con las manos aceitadas.",
+      "Fríelas en aceite caliente, no muy fuerte, 2 minutos por cada lado, hasta que estén doradas. Escúrrelas."
+    ],
+    "notas": "Salen unas 30 rosquillas: una ración es una (unos 32 g). Los 100 g de aceite que faltan son los que retienen al freír."
+  },
+  {
+    "id": "pestinos",
+    "raciones": 30,
+    "tiempoMin": 75,
+    "pasos": [
+      "Calienta 120 g del aceite con 10 g de sésamo, deja que se temple y mézclalo con 120 g de vino blanco y la sal.",
+      "Añade 500 g de harina y amasa hasta tener una masa lisa. Déjala reposar 30 minutos.",
+      "Estírala muy fina, corta cuadrados de 8 cm y dobla dos puntas opuestas hacia el centro, pegándolas.",
+      "Fríelos en el resto del aceite caliente hasta que estén dorados. Escúrrelos.",
+      "Báñalos en 150 g de miel templada con un poco de agua."
+    ],
+    "notas": "Salen unos 30 pestiños: una ración es uno (unos 30 g). Los 100 g de aceite de fritura son los que retienen."
+  },
+  {
+    "id": "bunuelos-viento",
+    "raciones": 10,
+    "tiempoMin": 45,
+    "pasos": [
+      "Calienta 250 g de agua con 50 g de mantequilla, la sal y 20 g de azúcar.",
+      "Cuando hierva, echa de golpe 150 g de harina y remueve hasta que la masa se despegue del cazo. Deja templar.",
+      "Añade 200 g de huevo (4 huevos) de uno en uno, batiendo hasta que se absorba cada uno.",
+      "Fríe cucharaditas de masa en aceite templado (unos 160 °C): se hinchan y se dan la vuelta solas. Escúrrelos."
+    ],
+    "notas": "Salen unos 40 buñuelos: una ración son 4 (unos 55 g). Los 70 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "porras",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Disuelve 10 g de levadura en 600 g de agua templada con la sal.",
+      "Añade 500 g de harina y mezcla hasta tener una masa pegajosa y lisa. Déjala reposar tapada 30 minutos.",
+      "Mete la masa en una churrera o manga con boquilla gruesa.",
+      "Fríe tiras largas en espiral en aceite muy caliente 3 o 4 minutos, dándoles la vuelta. Escúrrelas y córtalas."
+    ],
+    "notas": "Una ración son unos 100 g (2 porras). Los 150 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "roscon-reyes",
+    "raciones": 10,
+    "tiempoMin": 240,
+    "pasos": [
+      "Mezcla 25 g de levadura con un poco de los 120 g de leche templada y 50 g de harina; deja que fermente 20 minutos.",
+      "Mezcla el resto de la harina, 120 g del azúcar, 100 g de huevo, el resto de la leche y la sal. Añade la masa madre y amasa 10 minutos. Incorpora 100 g de mantequilla blanda y amasa hasta que esté lisa.",
+      "Deja reposar tapada 2 horas, hasta que doble su volumen.",
+      "Forma una rosca, colócala en una bandeja y deja que vuelva a crecer 1 hora.",
+      "Píntala con el resto del huevo, decora con 30 g de almendras laminadas y el resto del azúcar humedecido y hornéala a 180 °C 20 minutos."
+    ],
+    "notas": "Tradicionalmente lleva agua de azahar y fruta escarchada. Una ración son unos 90 g."
+  },
+  {
+    "id": "roscon-reyes-nata",
+    "raciones": 14,
+    "tiempoMin": 260,
+    "pasos": [
+      "Prepara el roscón como el normal: masa con 500 g de harina, 120 g de leche, 150 g del azúcar, 120 g de huevo, 100 g de mantequilla, 25 g de levadura y la sal; dos levados y 20 minutos de horno a 180 °C.",
+      "Deja que se enfríe del todo.",
+      "Monta 400 g de nata muy fría con el resto del azúcar (40 g).",
+      "Corta el roscón por la mitad en horizontal, rellénalo con la nata y vuelve a taparlo. Guárdalo en la nevera."
+    ],
+    "notas": "Una ración son unos 95 g."
+  },
+  {
+    "id": "ensaimada",
+    "raciones": 10,
+    "tiempoMin": 300,
+    "pasos": [
+      "Disuelve 25 g de levadura en 200 g de agua templada. Mézclala con 500 g de harina, 130 g de azúcar, 100 g de huevo (2 huevos) y la sal y amasa 15 minutos hasta que esté muy elástica.",
+      "Deja reposar 1 hora.",
+      "Divide la masa y estírala muy fina, casi transparente. Úntala con 100 g de manteca blanda.",
+      "Enróllala en un cilindro y luego en espiral. Deja que crezca 4 horas o toda la noche.",
+      "Hornéala a 180 °C 20 minutos y espolvoréala con azúcar glas."
+    ],
+    "notas": "Una ración son unos 90 g. El levado largo no cuenta en el tiempo."
+  },
+  {
+    "id": "torrijas-vino",
+    "raciones": 10,
+    "tiempoMin": 40,
+    "pasos": [
+      "Corta 500 g de pan del día anterior en rebanadas de 2 cm.",
+      "Calienta 500 g de vino tinto con 100 g del azúcar.",
+      "Empapa las rebanadas en el vino, pásalas por 150 g de huevo (3 huevos) batido y fríelas en aceite caliente hasta que estén doradas.",
+      "Escúrrelas y rebózalas en el resto del azúcar mezclado con 3 g de canela."
+    ],
+    "notas": "Una ración es una torrija grande (unos 130 g). Parte del vino se queda en el plato. Los 100 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "filloas",
+    "raciones": 10,
+    "tiempoMin": 40,
+    "pasos": [
+      "Bate 500 g de leche, 200 g de huevo (4 huevos), 100 g de agua y la sal. Añade 250 g de harina y bate hasta que no queden grumos. Deja reposar 30 minutos.",
+      "Unta una sartén con un poco de los 20 g de mantequilla y caliéntala.",
+      "Vierte un cazo de masa, extiéndela muy fina y cuécela 1 minuto por cada lado.",
+      "Repite hasta acabar la masa."
+    ],
+    "notas": "Salen unas 20 filloas: una ración son 2. Se toman con azúcar o miel, que no están incluidos."
+  },
+  {
+    "id": "tarta-abuela",
+    "raciones": 12,
+    "tiempoMin": 60,
+    "pasos": [
+      "Prepara unas natillas espesas: calienta 700 g de la leche, bate 80 g de yemas con 150 g de azúcar y 60 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese.",
+      "Para la cobertura, funde 200 g de chocolate con 50 g de mantequilla.",
+      "Moja 300 g de galletas en leche (aparte, de la que no queda) y forma una capa en una fuente.",
+      "Alterna capas de galletas y crema y termina con galletas.",
+      "Cubre con el chocolate y deja en la nevera al menos 4 horas."
+    ],
+    "notas": "La leche para mojar las galletas apenas cuenta. El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "brazo-gitano",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Para la crema, calienta 300 g de leche. Bate 60 g de yemas con 100 g del azúcar y 40 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese. Deja que se enfríe.",
+      "Precalienta el horno a 200 °C. Bate 250 g de huevo (5 huevos) con el resto del azúcar hasta que triplique su volumen.",
+      "Añade 120 g de harina tamizada con movimientos envolventes y extiende la masa en una bandeja con papel, de 1 cm.",
+      "Hornéala 8 o 10 minutos. Dale la vuelta sobre un paño húmedo, quita el papel y enróllala en caliente.",
+      "Desenróllala, extiende la crema y vuelve a enrollarla."
+    ]
+  },
+  {
+    "id": "sobaos",
+    "raciones": 12,
+    "tiempoMin": 45,
+    "pasos": [
+      "Precalienta el horno a 190 °C.",
+      "Bate 250 g de mantequilla blanda con 250 g de azúcar hasta que esté cremosa.",
+      "Añade 250 g de huevo (5 huevos) de uno en uno y luego 250 g de harina tamizada con 8 g de levadura y la sal.",
+      "Reparte en cápsulas de papel rectangulares y hornea 20 minutos."
+    ],
+    "notas": "Salen unos 12 sobaos: una ración es uno (unos 80 g). Tradicionalmente llevan ralladura de limón y un chorrito de ron."
+  },
+  {
+    "id": "bunuelos-calabaza",
+    "raciones": 12,
+    "tiempoMin": 120,
+    "pasos": [
+      "Cuece 400 g de calabaza pelada y hazla puré. Deja que se temple.",
+      "Disuelve 25 g de levadura en 100 g de agua templada, mézclala con el puré y 400 g de harina hasta tener una masa pegajosa. Déjala reposar 1 hora.",
+      "Con las manos mojadas, haz bolas con un agujero en el centro y fríelas en aceite caliente hasta que estén doradas.",
+      "Escúrrelas y espolvoréalas con 50 g de azúcar."
+    ],
+    "notas": "Típicos de Valencia en Fallas. Una ración son unos 80 g. Los 120 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "torta-aceite",
+    "raciones": 9,
+    "tiempoMin": 90,
+    "pasos": [
+      "Calienta 150 g de aceite y tuesta 15 g de sésamo y 5 g de matalahúva o hinojo 30 segundos. Deja que se temple.",
+      "Disuelve 15 g de levadura en 200 g de agua templada. Mézclala con 500 g de harina, el aceite con las semillas, 70 g del azúcar y la sal y amasa. Deja reposar 45 minutos.",
+      "Divide en bolas de 100 g y estíralas muy finas.",
+      "Espolvoréalas con el resto del azúcar y hornéalas a 200 °C 10 o 12 minutos, hasta que estén doradas y crujientes."
+    ],
+    "notas": "Salen unas 9 tortas: una ración es una (100 g)."
+  },
+  {
+    "id": "quesada-pasiega",
+    "raciones": 8,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Bate 300 g de queso fresco con 200 g de huevo (4 huevos), 150 g de azúcar, 60 g de mantequilla fundida y 100 g de leche.",
+      "Añade 80 g de harina y mezcla hasta que no queden grumos.",
+      "Vierte en un molde engrasado y hornea 40 minutos, hasta que esté dorada por encima."
+    ],
+    "notas": "Tradicionalmente lleva ralladura de limón, canela y se hace con queso de leche cruda."
+  },
+  {
+    "id": "bizcocho-borracho",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C. Bate 300 g de huevo (6 huevos) con 150 g del azúcar hasta que triplique su volumen.",
+      "Añade 150 g de harina tamizada con movimientos envolventes y hornéalo en un molde rectangular 25 minutos.",
+      "Cuece 200 g de agua con el resto del azúcar 5 minutos y añade 100 g de vino dulce.",
+      "Corta el bizcocho en cuadrados, emborráchalo con el almíbar caliente y deja que lo absorba."
+    ],
+    "notas": "Típico de Guadalajara. Una ración son 100 g."
+  },
+  {
+    "id": "orejas-carnaval",
+    "raciones": 25,
+    "tiempoMin": 60,
+    "pasos": [
+      "Mezcla 500 g de harina con 100 g de huevo, 50 g de mantequilla fundida y 100 g de leche y amasa hasta que esté lisa. Deja reposar 30 minutos.",
+      "Estírala muy fina y córtala en rectángulos o formas de oreja.",
+      "Fríelas en aceite caliente unos segundos por cada lado, hasta que se hinchen y doren.",
+      "Escúrrelas y espolvoréalas con 60 g de azúcar."
+    ],
+    "notas": "Una ración son unos 33 g. Los 150 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "tejas-almendra",
+    "raciones": 20,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Mezcla 150 g de azúcar con 100 g de clara, 40 g de harina y 50 g de mantequilla fundida.",
+      "Añade 150 g de almendra laminada.",
+      "Haz montoncitos finos en una bandeja con papel y hornéalos 8 o 10 minutos, hasta que los bordes estén dorados.",
+      "En caliente, ponlas sobre un rodillo para que se curven."
+    ],
+    "notas": "Una ración son 1 o 2 tejas (unos 21 g)."
+  },
+  {
+    "id": "carquinolis",
+    "raciones": 25,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Mezcla 300 g de harina, 250 g de azúcar, 8 g de levadura y 100 g de huevo (2 huevos). Añade 250 g de almendras enteras.",
+      "Forma barras de 4 cm de ancho y hornéalas 25 minutos.",
+      "Córtalas en caliente en rodajas de 1 cm y hornéalas 10 minutos más para que se sequen."
+    ],
+    "notas": "Una ración son unos 33 g."
+  },
+  {
+    "id": "tarta-chocolate",
+    "raciones": 8,
+    "tiempoMin": 50,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Funde 200 g de chocolate con 150 g de mantequilla.",
+      "Bate 200 g de huevo (4 huevos) con 150 g de azúcar y añade el chocolate.",
+      "Incorpora 100 g de harina y 20 g de cacao tamizados.",
+      "Vierte en un molde engrasado y hornea 25 minutos: el centro debe quedar algo húmedo."
+    ]
+  },
+  {
+    "id": "tarta-limon",
+    "raciones": 10,
+    "tiempoMin": 90,
+    "pasos": [
+      "Mezcla 200 g de harina con 100 g de mantequilla fría y 30 g del azúcar, añade 50 g de huevo y forma una masa. Forra un molde, pincha la base y hornéala a 180 °C 15 minutos.",
+      "Para la crema, bate 100 g de huevo y 60 g de yemas con 120 g del azúcar, 150 g de zumo de limón y 30 g de maicena. Cuece a fuego suave, removiendo, hasta que espese.",
+      "Vierte la crema sobre la base.",
+      "Monta 90 g de claras a punto de nieve con el resto del azúcar (80 g) y cubre la tarta.",
+      "Gratina 3 o 4 minutos, hasta que el merengue se dore."
+    ],
+    "notas": "Tradicionalmente lleva también ralladura de limón."
+  },
+  {
+    "id": "profiteroles-chocolate",
+    "raciones": 10,
+    "tiempoMin": 70,
+    "pasos": [
+      "Calienta 250 g de agua con 100 g de mantequilla. Cuando hierva, echa 150 g de harina de golpe y remueve hasta que se despegue.",
+      "Deja templar y añade 250 g de huevo (5 huevos) de uno en uno.",
+      "Haz bolitas con una manga en una bandeja y hornéalas a 200 °C 25 minutos, sin abrir el horno. Deja que se enfríen.",
+      "Monta 250 g de la nata con 40 g de azúcar y rellena los profiteroles.",
+      "Funde 100 g de chocolate con el resto de la nata y báñalos."
+    ],
+    "notas": "Salen unos 30 profiteroles: una ración son 3."
+  },
+  {
+    "id": "croissant-mixto",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Abre un cruasán de 60 g por la mitad.",
+      "Rellénalo con 25 g de jamón cocido y 25 g de queso en lonchas.",
+      "Caliéntalo en una sandwichera o en el horno 5 minutos, hasta que el queso se funda."
+    ]
+  },
+  {
+    "id": "bizcocho-naranja",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.",
+      "Bate 200 g de huevo (4 huevos) con 200 g de azúcar hasta que blanquee y doble su volumen.",
+      "Añade 120 g de aceite, 150 g de zumo de naranja y mezcla.",
+      "Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.",
+      "Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar."
+    ],
+    "notas": "Tradicionalmente lleva ralladura de naranja."
+  },
+  {
+    "id": "bizcocho-manzana",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.",
+      "Bate 200 g de huevo (4 huevos) con 180 g de azúcar hasta que blanquee y doble su volumen.",
+      "Añade 100 g de aceite, 100 g de leche y mezcla.",
+      "Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.",
+      "Pela 300 g de manzana; ralla la mitad y mézclala con la masa, y corta la otra mitad en láminas para cubrirla.",
+      "Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar."
+    ]
+  },
+  {
+    "id": "tarta-zanahoria",
+    "raciones": 14,
+    "tiempoMin": 80,
+    "pasos": [
+      "Precalienta el horno a 180 °C. Ralla 300 g de zanahoria y pica 60 g de nueces.",
+      "Bate 200 g de huevo (4 huevos) con 250 g del azúcar y 180 g de aceite.",
+      "Añade 250 g de harina, 10 g de levadura y 5 g de canela tamizados, la zanahoria y las nueces.",
+      "Hornea en un molde de 24 cm 45 minutos y deja que se enfríe.",
+      "Bate 200 g de queso de untar con 50 g de mantequilla y el resto del azúcar (50 g) y cubre la tarta."
+    ]
+  },
+  {
+    "id": "cookies-chocolate",
+    "raciones": 25,
+    "tiempoMin": 35,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Bate 170 g de mantequilla blanda con 200 g de azúcar. Añade 50 g de huevo (1 huevo pequeño).",
+      "Añade 280 g de harina con 5 g de levadura y 200 g de chocolate troceado.",
+      "Haz bolas de unos 35 g, colócalas separadas en una bandeja y aplástalas un poco.",
+      "Hornéalas 10 o 12 minutos: salen blandas y se endurecen al enfriarse."
+    ],
+    "notas": "Salen unas 25 galletas: una ración es una (unos 33 g)."
+  },
+  {
+    "id": "galletas-avena",
+    "raciones": 20,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Bate 120 g de mantequilla blanda con 120 g de azúcar y 50 g de huevo (1 huevo pequeño).",
+      "Añade 200 g de copos de avena, 100 g de harina y 4 g de levadura.",
+      "Haz bolitas, aplánalas en una bandeja y hornéalas 12 o 14 minutos, hasta que estén doradas."
+    ],
+    "notas": "Una ración es una galleta de unos 27 g."
+  },
+  {
+    "id": "banana-bread",
+    "raciones": 10,
+    "tiempoMin": 70,
+    "pasos": [
+      "Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.",
+      "Bate 100 g de huevo (2 huevos) con 120 g de azúcar hasta que blanquee y doble su volumen.",
+      "Añade 100 g de mantequilla fundida, 400 g de plátano muy maduro aplastado y mezcla.",
+      "Incorpora 250 g de harina tamizada con 8 g de levadura química, con movimientos envolventes.",
+      "Vierte en el molde y hornea 50 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar."
+    ],
+    "notas": "Se hornea en molde alargado."
+  },
+  {
+    "id": "muffins-arandanos",
+    "raciones": 12,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 200 °C.",
+      "Mezcla 250 g de harina, 150 g de azúcar y 10 g de levadura.",
+      "En otro cuenco, bate 100 g de huevo (2 huevos), 150 g de leche y 100 g de aceite.",
+      "Junta las dos mezclas sin batir demasiado y añade 150 g de arándanos.",
+      "Reparte en 12 cápsulas y hornea 20 minutos."
+    ],
+    "notas": "Salen 12 muffins: una ración es uno."
+  },
+  {
+    "id": "pudin-pan",
+    "raciones": 10,
+    "tiempoMin": 70,
+    "pasos": [
+      "Precalienta el horno a 170 °C. Carameliza un molde (el caramelo no está incluido en la formulación).",
+      "Remoja 200 g de pan en 750 g de leche caliente 10 minutos y tritúralo.",
+      "Añade 200 g de huevo (4 huevos) y 150 g de azúcar y mezcla.",
+      "Vierte en el molde y cuece al baño maría 50 minutos. Deja que se enfríe antes de desmoldar."
+    ]
+  },
+  {
+    "id": "tarta-queso-sin-horno",
+    "raciones": 12,
+    "tiempoMin": 40,
+    "pasos": [
+      "Tritura 150 g de galletas, mézclalas con 75 g de mantequilla fundida y forma la base en un molde desmontable. Guárdalo en la nevera.",
+      "Hidrata 12 g de gelatina en agua fría 5 minutos.",
+      "Calienta 400 g de nata con 120 g de azúcar, disuelve la gelatina escurrida y añade 400 g de queso de untar, batiendo.",
+      "Vierte sobre la base y deja cuajar en la nevera al menos 6 horas."
+    ],
+    "notas": "Se sirve con mermelada, que no está incluida. El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "tarta-tres-chocolates",
+    "raciones": 16,
+    "tiempoMin": 60,
+    "pasos": [
+      "Tritura 150 g de galletas con 75 g de mantequilla fundida y forma la base en un molde desmontable.",
+      "Hidrata 15 g de gelatina en agua fría y divídela en tres.",
+      "Para cada capa, calienta 200 g de leche y 200 g de nata con 20 g de azúcar y un tercio de la gelatina. Funde en la primera 100 g de chocolate negro, en la segunda 100 g de chocolate con leche y deja la tercera blanca.",
+      "Vierte la capa negra y deja que cuaje 30 minutos en la nevera antes de verter la siguiente.",
+      "Deja la tarta en la nevera al menos 4 horas."
+    ],
+    "notas": "Tradicionalmente la tercera capa lleva chocolate blanco; aquí es nata y leche. El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "casadielles",
+    "raciones": 12,
+    "tiempoMin": 75,
+    "pasos": [
+      "Mezcla 250 g de harina con 50 g de mantequilla, 60 g de vino blanco, 60 g de agua y la sal. Amasa y deja reposar 30 minutos.",
+      "Pica 150 g de nueces y mézclalas con 100 g de azúcar y 20 g de vino dulce.",
+      "Estira la masa fina, corta rectángulos, pon relleno y ciérralos en forma de empanadilla alargada.",
+      "Fríelos en aceite caliente hasta que estén dorados y escúrrelos."
+    ],
+    "notas": "Dulce asturiano. Una ración es una casadiella (unos 57 g). Los 80 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "piononos",
+    "raciones": 16,
+    "tiempoMin": 75,
+    "pasos": [
+      "Para la crema, calienta 200 g de la leche. Bate 60 g de yemas con 60 g de azúcar y 25 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese.",
+      "Precalienta el horno a 200 °C. Bate 200 g de huevo (4 huevos) con 100 g del azúcar hasta que triplique su volumen. Añade 80 g de harina y extiende en una bandeja.",
+      "Hornea 8 minutos y deja que se temple.",
+      "Cuece el resto del azúcar con 100 g de agua y empapa la plancha con el almíbar.",
+      "Extiéndela con un poco de crema, enróllala, córtala en piezas, ponlas de pie y cúbrelas con el resto de la crema quemada."
+    ],
+    "notas": "Dulce de Santa Fe (Granada). Una ración es un pionono (unos 50 g)."
+  },
+  {
+    "id": "palmeras-hojaldre",
+    "raciones": 10,
+    "tiempoMin": 35,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Espolvorea la mesa con la mitad de 80 g de azúcar y estira 400 g de hojaldre encima.",
+      "Espolvorea el resto del azúcar y dobla los dos lados largos hacia el centro, dos veces, hasta que se toquen.",
+      "Corta en rodajas de 1 cm y colócalas separadas en una bandeja.",
+      "Hornéalas 12 minutos, dales la vuelta y hornéalas 5 minutos más, hasta que se caramelicen."
+    ],
+    "notas": "Una ración es una palmera (unos 44 g)."
+  },
+  {
+    "id": "miguelitos",
+    "raciones": 10,
+    "tiempoMin": 50,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Corta 300 g de hojaldre en cuadrados y hornéalos 15 minutos.",
+      "Para la crema, calienta 250 g de la leche. Bate 70 g de yemas con 90 g de azúcar y 30 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese. Deja que se enfríe.",
+      "Abre los hojaldres por la mitad y rellénalos con la crema.",
+      "Espolvoréalos con azúcar glas."
+    ],
+    "notas": "Típicos de La Roda (Albacete). Una ración es un miguelito (unos 70 g)."
+  },
+  {
+    "id": "coca-sant-joan",
+    "raciones": 8,
+    "tiempoMin": 180,
+    "pasos": [
+      "Disuelve 20 g de levadura en 150 g de leche templada.",
+      "Mezcla 500 g de harina, 100 g de azúcar, la mitad de 100 g de huevo y la leche y amasa. Añade 80 g de mantequilla blanda y amasa hasta que esté lisa.",
+      "Deja reposar 1 hora y media.",
+      "Estira en forma ovalada, píntala con el resto del huevo, espolvorea 30 g de piñones y deja que crezca 45 minutos.",
+      "Hornea a 180 °C 20 minutos."
+    ],
+    "notas": "Tradicionalmente lleva crema, fruta confitada y azúcar por encima. Una ración son 110 g."
+  },
+  {
+    "id": "bizcocho-avena-platano",
+    "raciones": 8,
+    "tiempoMin": 55,
+    "pasos": [
+      "Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.",
+      "Bate 150 g de huevo (3 huevos) con 40 g de miel hasta que blanquee y doble su volumen.",
+      "Añade 300 g de plátano aplastado, 100 g de leche semidesnatada y mezcla.",
+      "Incorpora 200 g de copos de avena triturados tamizada con 8 g de levadura química, con movimientos envolventes.",
+      "Vierte en el molde y hornea 35 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar."
+    ],
+    "notas": "Sin azúcar añadido aparte de la miel."
+  },
+  {
+    "id": "muffins-avena-arandanos",
+    "raciones": 8,
+    "tiempoMin": 35,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Tritura 150 g de copos de avena hasta hacer harina.",
+      "Mezcla 200 g de claras, 125 g de yogur y 30 g de miel. Añade la avena y 6 g de levadura.",
+      "Añade 100 g de arándanos y reparte en 8 cápsulas.",
+      "Hornea 22 minutos."
+    ],
+    "notas": "Salen 8 muffins: una ración es uno."
+  },
+  {
+    "id": "frixuelos",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Bate 100 g de huevo (2 huevos) con 250 g de leche y 125 g de harina hasta que no queden grumos. Deja reposar 15 minutos.",
+      "Unta una sartén con un poco de los 15 g de mantequilla.",
+      "Haz frixuelos finos, 1 minuto por cada lado.",
+      "Espolvoréalos con 25 g de azúcar."
+    ],
+    "notas": "Salen unos 9 frixuelos: una ración son 3."
+  },
+  {
+    "id": "paparajotes",
+    "raciones": 5,
+    "tiempoMin": 30,
+    "pasos": [
+      "Bate 100 g de huevo (2 huevos) con 200 g de leche, 50 g de azúcar, 150 g de harina y 5 g de levadura hasta tener una masa fina.",
+      "Lava hojas de limonero y pásalas por la masa (las hojas no se comen).",
+      "Fríelas en aceite caliente 1 o 2 minutos y escúrrelas.",
+      "Espolvoréalos con 2 g de canela mezclada con azúcar."
+    ],
+    "notas": "Dulce murciano: se come la masa y se deja la hoja. Una ración son unos 100 g. Los 60 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "tortitas-platano-huevo",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Aplasta 120 g de plátano muy maduro.",
+      "Bate 100 g de huevo (2 huevos pequeños) y mézclalo con el plátano.",
+      "Haz tortitas pequeñas en una sartén antiadherente untada con 3 g de aceite, 2 minutos por cada lado."
+    ]
+  },
+  {
+    "id": "bartolillos",
+    "raciones": 10,
+    "tiempoMin": 75,
+    "pasos": [
+      "Mezcla 200 g de harina, 40 g de mantequilla, 50 g de vino blanco y 30 g de agua y amasa. Deja reposar 30 minutos.",
+      "Para la crema, calienta 250 g de la leche. Bate 60 g de yemas con 90 g de azúcar y 25 g de maicena disuelta en el resto de la leche, junta todo y cuece removiendo hasta que espese. Deja que se enfríe.",
+      "Estira la masa fina, corta triángulos, rellénalos de crema y ciérralos.",
+      "Fríelos en aceite caliente hasta que estén dorados."
+    ],
+    "notas": "Dulce madrileño. Una ración son unos 75 g. Los 80 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "flores-fritas",
+    "raciones": 12,
+    "tiempoMin": 40,
+    "pasos": [
+      "Bate 100 g de huevo (2 huevos) con 250 g de leche, 250 g de harina y 20 g del azúcar hasta tener una masa fina.",
+      "Calienta el aceite con el molde de flor dentro.",
+      "Moja el molde caliente en la masa sin cubrirlo por arriba y mételo en el aceite; la flor se suelta sola. Fríela hasta que esté dorada.",
+      "Escúrrelas y espolvoréalas con el resto del azúcar."
+    ],
+    "notas": "Una ración son 1 o 2 flores (unos 55 g). Los 100 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "mantecadas-astorga",
+    "raciones": 12,
+    "tiempoMin": 45,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Bate 250 g de mantequilla blanda con 250 g de azúcar hasta que esté cremosa.",
+      "Añade 250 g de huevo (5 huevos) de uno en uno y luego 250 g de harina con 5 g de levadura.",
+      "Reparte en cápsulas de papel cuadradas, espolvorea azúcar y hornea 20 minutos."
+    ],
+    "notas": "Salen unas 12: una ración es una (unos 75 g)."
+  },
+  {
+    "id": "rosquillas-listas",
+    "raciones": 20,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Bate 150 g de huevo (3 huevos) con 80 g del azúcar y 60 g de aceite. Añade 5 g de anís en grano, 300 g de harina y 8 g de levadura y amasa.",
+      "Forma rosquillas y hornéalas 20 minutos.",
+      "Monta 30 g de clara con el resto del azúcar y 5 g de zumo de limón hasta tener un glaseado y báñalas."
+    ],
+    "notas": "Típicas de San Isidro. Una ración es una rosquilla (unos 32 g)."
+  },
+  {
+    "id": "fartons",
+    "raciones": 10,
+    "tiempoMin": 150,
+    "pasos": [
+      "Disuelve 20 g de levadura en 150 g de leche templada.",
+      "Mezcla 400 g de harina, 150 g de azúcar, 100 g de huevo (2 huevos) y 60 g de aceite con la leche y amasa. Deja reposar 1 hora.",
+      "Forma barritas alargadas de unos 15 cm y déjalas crecer 45 minutos.",
+      "Hornéalas a 180 °C 15 minutos.",
+      "Espolvoréalas con azúcar glas."
+    ],
+    "notas": "Se mojan en horchata. Una ración es un fartón (unos 77 g)."
+  },
+  {
+    "id": "carbayones",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 190 °C. Forra moldes pequeños alargados con 300 g de hojaldre.",
+      "Mezcla 150 g de almendra molida, 130 g del azúcar y 100 g de huevo (2 huevos) y rellena los moldes.",
+      "Hornéalos 20 minutos.",
+      "Cuece el resto del azúcar con 10 g de zumo de limón y un poco de agua hasta tener un glaseado y báñalos."
+    ],
+    "notas": "Dulce de Oviedo. Una ración es un carbayón (unos 70 g)."
+  },
+  {
+    "id": "roscos-fritos-anis",
+    "raciones": 20,
+    "tiempoMin": 60,
+    "pasos": [
+      "Calienta 80 g de aceite de oliva con 5 g de anís en grano y deja que se temple.",
+      "Bate 100 g de huevo (2 huevos) con 100 g de azúcar, 100 g de leche y el aceite. Añade 400 g de harina y 8 g de levadura y amasa.",
+      "Forma roscos y fríelos en aceite de girasol caliente hasta que estén dorados. Escúrrelos."
+    ],
+    "notas": "Una ración es un rosco (unos 38 g). Los 80 g de girasol son los que retienen al freír."
+  },
+  {
+    "id": "hojaldrinas",
+    "raciones": 20,
+    "tiempoMin": 60,
+    "pasos": [
+      "Mezcla 250 g de harina con 125 g de manteca, 60 g de vino blanco y 30 g de zumo de naranja hasta tener una masa. Déjala en la nevera 30 minutos.",
+      "Estírala a 1,5 cm y corta rectángulos.",
+      "Hornéalos a 180 °C 20 minutos.",
+      "Espolvoréalos con 50 g de azúcar (glas) en caliente."
+    ],
+    "notas": "Dulce navideño. Una ración es una hojaldrina (unos 24 g)."
+  },
+  {
+    "id": "tarta-queso-vasca",
+    "raciones": 12,
+    "tiempoMin": 75,
+    "pasos": [
+      "Precalienta el horno a 210 °C. Forra un molde de 24 cm con papel de horno arrugado, sobresaliendo.",
+      "Bate 1.000 g de queso de untar a temperatura ambiente con 300 g de azúcar.",
+      "Añade 300 g de huevo (6 huevos) de uno en uno, 500 g de nata y 20 g de harina tamizada.",
+      "Hornéala 45–55 minutos: debe quedar muy dorada por fuera y temblorosa en el centro.",
+      "Deja que se enfríe del todo antes de cortarla."
+    ],
+    "notas": "Mejor de un día para otro, en la nevera."
+  },
+  {
+    "id": "alfajores-maicena",
+    "raciones": 12,
+    "tiempoMin": 60,
+    "pasos": [
+      "Bate 100 g de mantequilla con 70 g de azúcar y 40 g de yemas. Añade 150 g de maicena y 100 g de harina y amasa. Deja reposar 30 minutos.",
+      "Estira a 0,5 cm y corta círculos de 5 cm.",
+      "Hornéalos a 170 °C 10 minutos, sin que se doren. Deja que se enfríen: son muy frágiles.",
+      "Une las galletas de dos en dos con 200 g de dulce de leche y pasa el borde por 20 g de coco rallado."
+    ],
+    "notas": "Salen unos 12 alfajores: una ración es uno (unos 52 g)."
+  },
+  {
+    "id": "mug-cake-avena",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Aplasta 50 g de plátano en una taza grande.",
+      "Añade 50 g de huevo, 50 g de leche, 40 g de copos de avena, 10 g de cacao y 2 g de levadura y mezcla.",
+      "Cuécelo en el microondas a máxima potencia 2 minutos."
+    ]
+  },
+  {
+    "id": "gofres-avena",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Tritura 80 g de copos de avena hasta hacer harina.",
+      "Bate 100 g de huevo (2 huevos pequeños) con 80 g de leche, la avena y 3 g de levadura.",
+      "Cuécelos en una gofrera caliente engrasada 4 minutos."
+    ]
+  },
+  {
+    "id": "caracolas-canela",
+    "raciones": 12,
+    "tiempoMin": 180,
+    "pasos": [
+      "Disuelve 20 g de levadura en 250 g de leche templada. Mézclala con 500 g de harina, 50 g del azúcar, 50 g de huevo y 60 g de la mantequilla y amasa. Deja reposar 1 hora.",
+      "Estírala en un rectángulo, úntala con el resto de la mantequilla blanda y espolvorea 70 g del azúcar con 10 g de canela.",
+      "Enróllala, córtala en 12 rodajas y colócalas en un molde. Deja que crezcan 45 minutos.",
+      "Hornéalas a 180 °C 25 minutos.",
+      "Mezcla 100 g de queso de untar con el resto del azúcar (30 g) y cúbrelas en caliente."
+    ],
+    "notas": "Salen 12 caracolas: una ración es una (90 g)."
+  },
+  {
+    "id": "donuts-caseros",
+    "raciones": 14,
+    "tiempoMin": 180,
+    "pasos": [
+      "Disuelve 20 g de levadura en 250 g de leche templada. Mézclala con 500 g de harina, 80 g del azúcar, 100 g de huevo y 60 g de mantequilla y amasa. Deja reposar 1 hora y media.",
+      "Estira a 1,5 cm y corta aros con dos cortapastas.",
+      "Deja que crezcan 45 minutos.",
+      "Fríelos en aceite a 170 °C 1 minuto por cada lado y escúrrelos.",
+      "Báñalos en un glaseado de 100 g de azúcar glas con unas gotas de agua."
+    ],
+    "notas": "Salen unos 14 donuts: una ración es uno (75 g). Los 120 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "berlinas-crema",
+    "raciones": 14,
+    "tiempoMin": 180,
+    "pasos": [
+      "Disuelve 15 g de levadura en 200 g de leche templada. Mézclala con 400 g de harina, 60 g de azúcar, 100 g de huevo y 50 g de mantequilla y amasa. Deja reposar 1 hora y media.",
+      "Forma bolas de 50 g y deja que crezcan 45 minutos.",
+      "Fríelas en aceite a 170 °C 2 minutos por cada lado y escúrrelas.",
+      "Prepara la crema: calienta 400 g de leche, bate 80 g de yemas con 100 g de azúcar y 40 g de maicena disuelta en 100 g de leche fría, junta todo y cuece hasta que espese.",
+      "Rellena las berlinas con una manga cuando estén frías."
+    ],
+    "notas": "Salen unas 14: una ración es una (unos 100 g). Los 100 g de aceite son los que retienen al freír; en la sartén hace falta más."
+  },
+  {
+    "id": "napolitanas-chocolate-caseras",
+    "raciones": 8,
+    "tiempoMin": 35,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Estira 500 g de hojaldre y corta 8 rectángulos.",
+      "Pon en cada uno 15 g de chocolate en barritas y enróllalos.",
+      "Píntalos con 30 g de huevo batido.",
+      "Hornéalos 18 minutos, hasta que estén dorados."
+    ],
+    "notas": "Salen 8: una ración es una (unos 76 g)."
+  },
+  {
+    "id": "napolitanas-crema-caseras",
+    "raciones": 8,
+    "tiempoMin": 50,
+    "pasos": [
+      "Prepara la crema: calienta 200 g de la leche, bate 40 g de yemas con 50 g de azúcar y 20 g de maicena disuelta en el resto de la leche, junta todo y cuece hasta que espese. Deja que se enfríe.",
+      "Precalienta el horno a 200 °C. Estira 500 g de hojaldre y corta 8 rectángulos.",
+      "Pon crema en cada uno y enróllalos.",
+      "Hornéalos 18 minutos, hasta que estén dorados."
+    ],
+    "notas": "Salen 8: una ración es una (unos 97 g)."
+  },
+  {
+    "id": "cruasanes-caseros",
+    "raciones": 14,
+    "tiempoMin": 300,
+    "pasos": [
+      "Mezcla 500 g de harina, 50 g de azúcar, la sal, 15 g de levadura y 200 g de leche y amasa. Envuelve la masa y guárdala en la nevera 1 hora.",
+      "Aplana 250 g de mantequilla fría en un cuadrado. Estira la masa, envuelve la mantequilla y haz 3 pliegues dobles, dejando reposar 30 minutos en la nevera entre cada uno.",
+      "Estira la masa a 4 mm, corta triángulos largos y enróllalos desde la base.",
+      "Deja que crezcan 2 horas a temperatura ambiente.",
+      "Píntalos con 50 g de huevo batido y hornéalos a 200 °C 15 minutos."
+    ],
+    "notas": "Salen unos 14: una ración es uno (unos 68 g)."
+  },
+  {
+    "id": "magdalenas-chocolate",
+    "raciones": 12,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 220 °C.",
+      "Bate 200 g de huevo (4 huevos) con 180 g de azúcar hasta que blanquee. Añade 180 g de aceite y 60 g de leche.",
+      "Incorpora 200 g de harina, 30 g de cacao y 8 g de levadura tamizados.",
+      "Reparte en cápsulas, deja reposar la masa 15 minutos en la nevera y hornea a 200 °C 15 minutos."
+    ],
+    "notas": "Salen unas 12: una ración es una (unos 63 g)."
+  },
+  {
+    "id": "bizcocho-limon",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.",
+      "Bate 200 g de huevo (4 huevos) con 200 g de azúcar hasta que blanquee y doble su volumen.",
+      "Añade 120 g de aceite, 100 g de leche y 30 g de zumo de limón y mezcla.",
+      "Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.",
+      "Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar."
+    ],
+    "notas": "Tradicionalmente lleva ralladura de limón."
+  },
+  {
+    "id": "bizcocho-marmolado",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.",
+      "Bate 200 g de huevo (4 huevos) con 200 g de azúcar hasta que blanquee y doble su volumen.",
+      "Añade 150 g de mantequilla fundida, 100 g de leche y mezcla.",
+      "Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.",
+      "Separa un tercio de la masa y mézclalo con 20 g de cacao.",
+      "Alterna en el molde cucharadas de las dos masas y dibuja vetas con un palillo.",
+      "Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar."
+    ]
+  },
+  {
+    "id": "tarta-galletas-chocolate-queso",
+    "raciones": 12,
+    "tiempoMin": 40,
+    "pasos": [
+      "Tritura 200 g de galletas de chocolate rellenas con 60 g de mantequilla fundida y forma la base en un molde desmontable.",
+      "Hidrata 12 g de gelatina en agua fría 5 minutos.",
+      "Calienta 300 g de nata con 100 g de azúcar, disuelve la gelatina escurrida y añade 400 g de queso de untar, batiendo.",
+      "Vierte sobre la base y deja cuajar en la nevera al menos 6 horas."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "tarta-yogur",
+    "raciones": 12,
+    "tiempoMin": 40,
+    "pasos": [
+      "Tritura 150 g de galletas con 60 g de mantequilla fundida y forma la base en un molde desmontable.",
+      "Hidrata 12 g de gelatina en agua fría 5 minutos.",
+      "Calienta 200 g de nata con 120 g de azúcar y disuelve la gelatina. Mezcla con 375 g de yogur y 200 g de queso de untar.",
+      "Vierte sobre la base y deja cuajar en la nevera al menos 6 horas."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "coulant-casero",
+    "raciones": 6,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 200 °C y engrasa 6 moldes individuales.",
+      "Funde 200 g de chocolate con 100 g de mantequilla.",
+      "Bate 200 g de huevo (4 huevos) con 100 g de azúcar y añade el chocolate. Incorpora 50 g de harina.",
+      "Reparte en los moldes y hornéalos 8 o 9 minutos: deben quedar líquidos por dentro.",
+      "Desmóldalos enseguida."
+    ],
+    "notas": "Se puede preparar la masa y guardarla en la nevera; entonces se hornea 1 o 2 minutos más."
+  },
+  {
+    "id": "lionesas-nata",
+    "raciones": 12,
+    "tiempoMin": 70,
+    "pasos": [
+      "Calienta 250 g de agua con 100 g de mantequilla. Cuando hierva, echa 150 g de harina de golpe y remueve hasta que se despegue.",
+      "Deja templar y añade 250 g de huevo (5 huevos) de uno en uno.",
+      "Haz bolas con una manga y hornéalas a 200 °C 25 minutos, sin abrir el horno. Deja que se enfríen.",
+      "Monta 400 g de nata con 60 g de azúcar y rellénalas."
+    ],
+    "notas": "Salen unas 24 lionesas: una ración son 2."
+  },
+  {
+    "id": "tarta-calabaza",
+    "raciones": 10,
+    "tiempoMin": 90,
+    "pasos": [
+      "Mezcla 200 g de harina, 100 g de mantequilla fría y 30 g de azúcar con un poco de agua y forma una masa. Forra un molde y hornéala a 180 °C 12 minutos.",
+      "Cuece 500 g de calabaza pelada y hazla puré. Escúrrelo bien.",
+      "Mezcla el puré con 370 g de leche condensada, 100 g de huevo (2 huevos) y 5 g de canela.",
+      "Vierte sobre la base y hornea 45 minutos, hasta que cuaje. Deja que se enfríe."
+    ],
+    "notas": "Es la pumpkin pie."
+  },
+  {
+    "id": "pancakes-avena-queso-batido",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Tritura 60 g de copos de avena.",
+      "Mézclalos con 100 g de claras y 100 g de queso batido.",
+      "Haz tortitas en una sartén antiadherente, 2 minutos por cada lado.",
+      "Sírvelas con 50 g de plátano en rodajas."
+    ]
+  },
+  {
+    "id": "tortitas-sirope",
+    "raciones": 3,
+    "tiempoMin": 25,
+    "pasos": [
+      "Bate 60 g de huevo (1 huevo) con 250 g de leche y 20 g de mantequilla fundida.",
+      "Añade 150 g de harina, 20 g de azúcar y 6 g de levadura y mezcla sin batir demasiado.",
+      "Haz tortitas en una sartén antiadherente caliente, 2 minutos por cada lado, hasta que salgan burbujas y se doren.",
+      "Sírvelas con 60 g de sirope de arce."
+    ],
+    "notas": "Salen unas 9 tortitas: una ración son 3."
+  },
+  {
+    "id": "canas-crema",
+    "raciones": 10,
+    "tiempoMin": 50,
+    "pasos": [
+      "Prepara la crema: calienta 250 g de la leche, bate 50 g de yemas con 60 g de azúcar y 25 g de maicena disuelta en el resto de la leche, junta todo y cuece hasta que espese. Deja que se enfríe.",
+      "Precalienta el horno a 200 °C. Corta 400 g de hojaldre en tiras de 2 cm y enróllalas en espiral alrededor de moldes de caña.",
+      "Hornéalas 15 minutos y quita los moldes cuando se templen.",
+      "Rellénalas con la crema."
+    ],
+    "notas": "Salen unas 10 cañas: una ración es una (76 g)."
+  },
+  {
+    "id": "brazo-gitano-chocolate",
+    "raciones": 10,
+    "tiempoMin": 45,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Bate 200 g de huevo (4 huevos) con 120 g del azúcar hasta que triplique su volumen.",
+      "Añade 80 g de harina y 20 g de cacao tamizados y extiende la masa en una bandeja con papel. Hornéala 8 minutos.",
+      "Dale la vuelta sobre un paño, enróllala en caliente y deja que se enfríe.",
+      "Monta 200 g de la nata con el resto del azúcar, rellena el brazo y enróllalo.",
+      "Funde 100 g de chocolate con el resto de la nata y cúbrelo."
+    ]
+  },
+  {
+    "id": "mostachones",
+    "raciones": 18,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 180 °C. Muele 100 g de almendras.",
+      "Bate 100 g de huevo (2 huevos) con 150 g de azúcar. Añade la almendra y 150 g de harina.",
+      "Haz montoncitos con una manga sobre papel de horno y hornéalos 12 minutos."
+    ],
+    "notas": "Dulce de Utrera. Una ración son unos 25 g."
+  },
+  {
+    "id": "mona-pascua",
+    "raciones": 8,
+    "tiempoMin": 180,
+    "pasos": [
+      "Disuelve 20 g de levadura en 100 g de leche templada.",
+      "Mezcla 500 g de harina, 100 g de azúcar, 100 g de huevo, 60 g de aceite, 5 g de anís en grano y la leche y amasa. Deja reposar 1 hora y media.",
+      "Forma roscas o figuras y deja que crezcan 1 hora.",
+      "Píntalas con el resto del huevo y hornéalas a 180 °C 25 minutos."
+    ],
+    "notas": "Tradicionalmente lleva un huevo duro encima, que no está incluido. Una ración son unos 100 g."
+  },
+  {
+    "id": "flao",
+    "raciones": 10,
+    "tiempoMin": 75,
+    "pasos": [
+      "Mezcla 250 g de harina con 60 g de manteca, 5 g de anís en grano y un poco de agua y amasa. Forra un molde de 24 cm.",
+      "Bate 500 g de queso fresco con 250 g de huevo (5 huevos), 200 g de azúcar y 3 g de hierbabuena picada.",
+      "Vierte sobre la masa.",
+      "Hornea a 180 °C 45 minutos y deja que se enfríe."
+    ],
+    "notas": "Tarta de queso típica de Ibiza."
+  },
+  {
+    "id": "crepes-fruta",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Bate 50 g de huevo con 120 g de leche y 60 g de harina hasta que no queden grumos.",
+      "Haz 4 crepes finas en una sartén antiadherente, 1 minuto por cada lado.",
+      "Rellénalas con 100 g de fresas en láminas y 15 g de miel."
+    ]
+  },
+  {
+    "id": "bizcocho-aceite-oliva",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.",
+      "Bate 200 g de huevo (4 huevos) con 200 g de azúcar hasta que blanquee y doble su volumen.",
+      "Añade 150 g de aceite de oliva, 100 g de leche y mezcla.",
+      "Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.",
+      "Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar."
+    ]
+  },
+  {
+    "id": "muffins-chocolate",
+    "raciones": 12,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 200 °C.",
+      "Mezcla 250 g de harina, 150 g de azúcar, 30 g de cacao y 10 g de levadura.",
+      "En otro cuenco, bate 100 g de huevo (2 huevos), 150 g de leche y 100 g de aceite.",
+      "Junta las dos mezclas sin batir demasiado y añade 100 g de chocolate troceado.",
+      "Reparte en 12 cápsulas y hornea 20 minutos."
+    ],
+    "notas": "Salen 12 muffins: una ración es uno."
+  },
+  {
+    "id": "bizcocho-frutos-secos",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.",
+      "Bate 200 g de huevo (4 huevos) con 180 g de azúcar hasta que blanquee y doble su volumen.",
+      "Añade 120 g de aceite y mezcla.",
+      "Incorpora 250 g de harina tamizada con 10 g de levadura química, con movimientos envolventes.",
+      "Pica 60 g de nueces y 60 g de almendras y añádelas a la masa.",
+      "Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar."
+    ]
+  },
+  {
+    "id": "bizcocho-calabaza",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C y engrasa un molde de 22–24 cm.",
+      "Bate 150 g de huevo (3 huevos) con 180 g de azúcar hasta que blanquee y doble su volumen.",
+      "Añade 100 g de aceite, 250 g de calabaza rallada fina y mezcla.",
+      "Incorpora 250 g de harina y 3 g de canela tamizada con 10 g de levadura química, con movimientos envolventes.",
+      "Vierte en el molde y hornea 40 minutos, hasta que al pinchar salga limpio. Deja que se temple antes de desmoldar."
+    ]
+  },
+  {
+    "id": "trenza-chocolate",
+    "raciones": 10,
+    "tiempoMin": 150,
+    "pasos": [
+      "Disuelve 15 g de levadura en 180 g de leche templada. Mézclala con 400 g de harina, 60 g de azúcar, 60 g de huevo y 60 g de mantequilla y amasa. Deja reposar 1 hora.",
+      "Estira la masa en un rectángulo y úntala con 150 g de crema de cacao.",
+      "Enróllala, córtala por la mitad a lo largo y trenza las dos tiras con el corte hacia arriba.",
+      "Deja que crezca 40 minutos y hornéala a 180 °C 25 minutos."
+    ],
+    "notas": "Una ración son unos 80 g."
+  },
+  {
+    "id": "tarta-almendra-naranja",
+    "raciones": 8,
+    "tiempoMin": 120,
+    "pasos": [
+      "Cuece 200 g de naranja entera (con piel, sin pepitas) en agua 1 hora. Escúrrela y tritúrala.",
+      "Precalienta el horno a 180 °C.",
+      "Bate 250 g de huevo (5 huevos) con 200 g de azúcar y añade el puré de naranja y 250 g de almendra molida.",
+      "Hornea en un molde engrasado 45 minutos."
+    ],
+    "notas": "Sin harina. La formulación cuenta la pulpa de naranja; la piel cocida aporta poco más."
+  },
+  {
+    "id": "tarta-coco",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Bate 200 g de huevo (4 huevos) con 370 g de leche condensada y 200 g de leche.",
+      "Añade 200 g de coco rallado.",
+      "Hornea en un molde engrasado 40 minutos, hasta que esté dorada."
+    ]
+  },
+  {
+    "id": "tarta-chocolate-sin-horno",
+    "raciones": 10,
+    "tiempoMin": 40,
+    "pasos": [
+      "Tritura 200 g de galletas con 80 g de mantequilla fundida y forma la base en un molde desmontable.",
+      "Hidrata 8 g de gelatina en agua fría 5 minutos.",
+      "Calienta 400 g de nata, funde en ella 200 g de chocolate y la gelatina escurrida.",
+      "Vierte sobre la base y deja cuajar en la nevera al menos 6 horas."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "tarta-pina-invertida",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 180 °C. Con 50 g del azúcar haz un caramelo en el fondo del molde y coloca encima 300 g de piña en rodajas.",
+      "Bate 150 g de mantequilla blanda con el resto del azúcar. Añade 200 g de huevo (4 huevos).",
+      "Incorpora 200 g de harina con 8 g de levadura.",
+      "Vierte sobre la piña y hornea 40 minutos. Desmóldala en caliente, dándole la vuelta."
+    ]
+  },
+  {
+    "id": "tarta-platano-hojaldre",
+    "raciones": 8,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Estira 300 g de hojaldre en una bandeja y pínchalo.",
+      "Cubre con 500 g de plátano en rodajas.",
+      "Espolvorea 50 g de azúcar y reparte 30 g de mantequilla en trocitos.",
+      "Hornea 25 minutos, hasta que el hojaldre esté dorado y el plátano caramelizado."
+    ]
+  },
+  {
+    "id": "galletas-avena-platano",
+    "raciones": 10,
+    "tiempoMin": 25,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Aplasta 200 g de plátano muy maduro y mézclalo con 200 g de copos de avena.",
+      "Haz montoncitos en una bandeja con papel y aplánalos.",
+      "Hornéalos 15 minutos."
+    ],
+    "notas": "Sin azúcar añadido. Una ración es una galleta de unos 28 g."
+  },
+  {
+    "id": "galletas-jengibre",
+    "raciones": 20,
+    "tiempoMin": 50,
+    "pasos": [
+      "Bate 100 g de mantequilla con 100 g de azúcar y 80 g de miel. Añade 50 g de huevo y 10 g de jengibre rallado.",
+      "Añade 300 g de harina y amasa. Deja la masa en la nevera 30 minutos.",
+      "Estírala a 5 mm y corta figuras.",
+      "Hornéalas a 180 °C 10 minutos."
+    ],
+    "notas": "Una ración es una galleta de unos 29 g."
+  },
+  {
+    "id": "pastas-te-almendra",
+    "raciones": 20,
+    "tiempoMin": 45,
+    "pasos": [
+      "Bate 150 g de mantequilla con 100 g de azúcar. Añade 50 g de huevo.",
+      "Añade 250 g de harina y 80 g de almendra molida.",
+      "Forma pastas con una manga o con las manos, y pon media almendra encima si quieres.",
+      "Hornéalas a 180 °C 12 minutos."
+    ],
+    "notas": "Una ración son 1 o 2 pastas (unos 28 g)."
+  },
+  {
+    "id": "galletas-limon",
+    "raciones": 18,
+    "tiempoMin": 45,
+    "pasos": [
+      "Bate 125 g de mantequilla con 100 g de azúcar. Añade 50 g de huevo y 20 g de zumo de limón.",
+      "Añade 250 g de harina y amasa. Deja la masa en la nevera 30 minutos.",
+      "Estírala y corta galletas.",
+      "Hornéalas a 180 °C 10 minutos."
+    ],
+    "notas": "Tradicionalmente llevan ralladura de limón. Una ración es una galleta de unos 27 g."
+  },
+  {
+    "id": "galletas-canela",
+    "raciones": 18,
+    "tiempoMin": 45,
+    "pasos": [
+      "Bate 125 g de mantequilla con 120 g de azúcar. Añade 50 g de huevo.",
+      "Añade 250 g de harina y 8 g de canela y amasa. Deja la masa en la nevera 30 minutos.",
+      "Estírala y corta galletas.",
+      "Hornéalas a 180 °C 10 minutos."
+    ],
+    "notas": "Una ración es una galleta de unos 28 g."
+  },
+  {
+    "id": "galletas-cacahuete",
+    "raciones": 15,
+    "tiempoMin": 25,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Mezcla 250 g de crema de cacahuete con 150 g de azúcar y 50 g de huevo.",
+      "Haz bolitas, colócalas en una bandeja y aplástalas con un tenedor haciendo cruces.",
+      "Hornéalas 10 minutos: salen blandas y se endurecen al enfriarse."
+    ],
+    "notas": "Sin harina. Una ración es una galleta de unos 27 g."
+  },
+  {
+    "id": "bizcochos-soletilla-caseros",
+    "raciones": 12,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 190 °C. Separa 200 g de huevo (4 huevos).",
+      "Monta las claras con 50 g del azúcar. Bate las yemas con el resto del azúcar.",
+      "Junta las dos mezclas y añade 100 g de harina tamizada con movimientos envolventes.",
+      "Haz bastones con una manga en una bandeja con papel y hornéalos 10 minutos."
+    ],
+    "notas": "Salen unos 24: una ración son 2 (28 g)."
+  },
+  {
+    "id": "crumble-frutos-rojos",
+    "raciones": 8,
+    "tiempoMin": 50,
+    "pasos": [
+      "Precalienta el horno a 190 °C. Pon 300 g de fresas troceadas, 150 g de frambuesas y 150 g de arándanos en una fuente.",
+      "Mezcla 120 g de harina, 100 g de azúcar, 50 g de copos de avena y 80 g de mantequilla fría con los dedos hasta que parezca arena gruesa.",
+      "Cubre la fruta con la mezcla.",
+      "Hornea 35 minutos, hasta que esté dorado."
+    ]
+  },
+  {
+    "id": "crepe-suzette",
+    "raciones": 4,
+    "tiempoMin": 40,
+    "pasos": [
+      "Bate 100 g de huevo (2 huevos pequeños) con 250 g de leche y 100 g de harina. Haz 8 crepes finas con un poco de la mantequilla.",
+      "En una sartén, funde el resto de la mantequilla con 60 g de azúcar hasta que caramelice.",
+      "Añade 150 g de zumo de naranja y cuece 3 minutos.",
+      "Dobla las crepes en cuatro y caliéntalas en la salsa."
+    ],
+    "notas": "Tradicionalmente se flambean con licor de naranja."
+  },
+  {
+    "id": "strudel-manzana",
+    "raciones": 8,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 190 °C. Pela 600 g de manzanas y córtalas en láminas finas.",
+      "Mézclalas con 80 g de azúcar, 50 g de pasas y 3 g de canela.",
+      "Extiende 200 g de masa filo pintando cada hoja con mantequilla fundida y espolvorea 30 g de pan rallado.",
+      "Reparte la manzana, enrolla y pinta con el resto de la mantequilla.",
+      "Hornea 35 minutos, hasta que esté dorado."
+    ]
+  },
+  {
+    "id": "pancakes-bacon-sirope",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Dora 80 g de panceta ahumada en lonchas hasta que esté crujiente.",
+      "Bate 60 g de huevo con 250 g de leche y 20 g de mantequilla fundida. Añade 150 g de harina y mezcla.",
+      "Haz tortitas en una sartén caliente, 2 minutos por cada lado.",
+      "Sírvelas con la panceta y 50 g de sirope de arce."
+    ],
+    "notas": "Ajusta la sal: la panceta ya aporta."
+  },
+  {
+    "id": "bizcocho-vegano",
+    "raciones": 8,
+    "tiempoMin": 55,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Mezcla 250 g de bebida de soja con 5 g de vinagre y deja reposar 5 minutos.",
+      "Añade 180 g de azúcar y 100 g de aceite.",
+      "Incorpora 250 g de harina con 10 g de levadura.",
+      "Hornea en un molde engrasado 40 minutos."
+    ],
+    "notas": "Sin huevo ni lácteos."
+  },
+  {
+    "id": "gofres-chocolate",
+    "raciones": 6,
+    "tiempoMin": 30,
+    "pasos": [
+      "Bate 100 g de huevo (2 huevos pequeños) con 250 g de leche y 50 g de mantequilla fundida.",
+      "Añade 200 g de harina, 20 g de cacao, 40 g de azúcar y 8 g de levadura y mezcla.",
+      "Cuécelos en una gofrera caliente 4 minutos."
+    ],
+    "notas": "Salen unos 6 gofres: una ración es uno."
   }
 ]
