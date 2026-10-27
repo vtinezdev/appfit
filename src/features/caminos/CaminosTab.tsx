@@ -7,8 +7,8 @@ import Icon from '../../shared/components/Icon'
 import ListGroup from '../../shared/components/ListGroup'
 import Metric from '../../shared/components/Metric'
 import PageHeader from '../../shared/components/PageHeader'
-import ProgressBar from '../../shared/components/ProgressBar'
 import SectionHeader from '../../shared/components/SectionHeader'
+import SegmentedControl from '../../shared/components/SegmentedControl'
 import { EmptyState, LoadingState } from '../../shared/components/StateMessage'
 import type { ConfigCaminos, RutaPropia } from '../../shared/db/types'
 import { useAviso } from '../../shared/hooks/useAviso'
@@ -19,19 +19,18 @@ import CambiarRutaSheet from './components/CambiarRutaSheet'
 import ComoSeAvanza from './components/ComoSeAvanza'
 import EditorRuta from './components/EditorRuta'
 import MapaRuta from './components/MapaRuta'
-import PasosCaminos from './components/PasosCaminos'
 import ListaRutas from './components/ListaRutas'
+import PasosCaminos from './components/PasosCaminos'
+import TarjetaRuta from './components/TarjetaRuta'
 import TrazadoCamino from './components/TrazadoCamino'
 import * as caminosRepo from './data/caminosRepo'
 import { useCaminos } from './hooks/useCaminos'
 import {
-  cambiarRuta, confirmarRuta, diasDeExpedicion, empezar, etapaActual, finalesDeEtapa, metrosEntre, nombreExpedicion, rutasParaCambiar, vecesTerminada, vecesTexto,
+  cambiarRuta, confirmarRuta, diasDeExpedicion, empezar, etapaActual, metrosEntre, nombreExpedicion, rutasParaCambiar, vecesTerminada,
 } from './lib/caminos'
 import { metrosRuta, NOMBRE_COLECCION, NOTA_COLECCION, RUTAS, type ColeccionRuta, type Ruta } from './lib/rutas'
 import { esRutaPropia, idDeRutaPropia, posicionEnRutaPropia, PREFIJO, puntosDe } from './lib/rutasPropias'
 
-/** Etapas por delante que se enseñan fuera del desplegable. */
-const PROXIMAS = 3
 const COLECCIONES: ColeccionRuta[] = ['santiago', 'mundo', 'literatura', 'fantasia']
 
 const diasTexto = (n: number) => (n === 1 ? '1 día' : `${formatInt(n)} días`)
@@ -65,6 +64,7 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
   const estado = useCaminos(hoy)
   const { avisar, avisarError, toast } = useAviso()
   const [cambiando, setCambiando] = useState<'cambiar' | 'llegada' | false>(elegirAlEntrar ? 'llegada' : false)
+  const [lista, setLista] = useState<'pendientes' | 'hechos'>('pendientes')
   const [aperturas, setAperturas] = useState(0)
   const [editor, setEditor] = useState<{ ruta?: RutaPropia; n: number } | null>(null)
 
@@ -128,12 +128,10 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
   const enMapa = propiaActual ? posicionEnRutaPropia(propiaActual, actual.metros) : null
   const etapa = etapaActual(actual)
   const total = metrosRuta(actual.ruta)
-  const finales = finalesDeEtapa(actual.ruta)
   const lunes = startOfWeek(hoy)
   const metrosSemana = metrosEntre(c.tramos, lunes, addDays(lunes, 6))
   const opciones = rutasParaCambiar(c, rutasPropias)
   const veces = vecesTerminada(c)
-  const proximas = actual.ruta.etapas.map((e, i) => ({ ...e, i })).filter(({ i }) => actual.etapas[i] === null).slice(0, PROXIMAS)
 
   async function cambiarA(r: Ruta) {
     const nueva = config && c ? cambiarRuta(config, c, r.id, rutasPropias) : null
@@ -143,26 +141,6 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
     avisar({ mensaje: `Ahora recorres ${r.nombre}`, onDeshacer: deshacer(antes) })
   }
 
-  // Cada etapa en una línea de tiempo: hecha (check en acento), la actual (anillo) o por delante (gris), con su llegada o lo que falta.
-  const filaEtapa = (i: number, ultima: boolean) => {
-    const marca = actual.etapas[i]
-    const enCurso = i === etapa.indice && !marca
-    return <li key={i} className="flex gap-3">
-      <span aria-hidden className="flex flex-col items-center">
-        <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-pill ${marca ? 'bg-accent text-accent-on' : enCurso ? 'border-2 border-accent-strong bg-surface text-accent-strong' : 'bg-surface-muted text-fg-subtle'}`}>
-          {marca ? <Icon name="check" size={14} /> : <span className="tabular text-caption font-semibold">{formatInt(i + 1)}</span>}
-        </span>
-        {!ultima && <span className="w-px flex-1 bg-line-strong" />}
-      </span>
-      <span className={`flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-3 ${ultima ? '' : 'pb-4'}`}>
-        <span className="min-w-0">
-          <span className={`block break-words text-body ${marca || enCurso ? 'font-semibold text-fg' : 'text-fg-muted'}`}>{actual.ruta.etapas[i].hasta}</span>
-          <span className="tabular block text-caption text-fg-muted">Etapa {formatInt(i + 1)} · {kmTexto(Math.round(actual.ruta.etapas[i].km * 1000))}</span>
-        </span>
-        <span className="tabular shrink-0 text-body-sm text-fg-muted">{marca ? formatFriendly(marca.fecha) : `Faltan ${kmTexto(finales[i] - actual.metros)}`}</span>
-      </span>
-    </li>
-  }
   const ultimaCompletada = c.completadas.at(-1)
   const sugerida = !c.actualElegida && ultimaCompletada ? actual.ruta : null
 
@@ -176,8 +154,19 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
   }
   const abrirRutas = (modo: 'cambiar' | 'llegada') => { setAperturas((n) => n + 1); setCambiando(modo) }
 
+  async function elegirDeLista(r: Ruta) {
+    try {
+      await cambiarA(r)
+    } catch {
+      avisarError(r.id === actual.ruta.id ? `Ya vas por ${r.nombre}.` : `${r.nombre} es más corta que lo que llevas en esta ruta: elígela al llegar.`)
+    }
+  }
+  // Por hacer: las rutas que aún no has terminado nunca, por colección.
+  const porHacer = (col: ColeccionRuta) => RUTAS.filter((r) => r.coleccion === col && !veces.has(r.id))
+  const pendientes = COLECCIONES.reduce((n, col) => n + porHacer(col).length, 0)
+
   return <div className={`space-y-section ${marco}`}>
-    <PageHeader incrustada={incrustada} title="Caminos" volver={volver} overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
+    {!incrustada && <PageHeader title="Caminos" volver={volver} />}
 
     {sugerida && ultimaCompletada && <Card className="space-y-3">
       <div className="flex items-start gap-3">
@@ -195,68 +184,44 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
       </div>
     </Card>}
 
-    <Card className="space-y-4">
-      <div>
-        <p className="text-rotulo text-fg-muted">{sugerida ? 'Sugerida' : 'Ruta actual'}</p>
-        <h2 className="break-words text-heading text-fg">{nombreExpedicion(actual)}</h2>
-        <p className="break-words text-body-sm text-fg-muted">{actual.ruta.zona} · desde {actual.ruta.desde}</p>
-      </div>
-      {propiaActual && enMapa
-        ? <MapaRuta puntos={puntosDe(propiaActual)} recorrido={enMapa.recorrido} posicion={enMapa.posicion} label={`${actual.ruta.nombre}: ${formatKm(actual.metros)} de ${kmTexto(total)}, por la etapa hacia ${etapa.hasta}`} />
-        : <TrazadoCamino expedicion={actual} />}
-      <Metric valor={formatKm(actual.metros)} unidad={`de ${kmTexto(total)}`} />
-      {/* La etapa en curso en su recuadro, con su barra. */}
-      <div className="space-y-2 rounded-md bg-surface-muted p-3">
-        <p className="tabular text-rotulo text-fg-muted">Etapa {formatInt(etapa.indice + 1)} de {formatInt(actual.ruta.etapas.length)}</p>
-        <p className="break-words text-body font-semibold text-fg">{etapa.desde} → {etapa.hasta}</p>
-        <ProgressBar value={etapa.recorridos} goal={etapa.total} label={`Etapa hacia ${etapa.hasta}`} valueText={`${formatKm(etapa.recorridos)} de ${kmTexto(etapa.total)}`} />
-        <p className="tabular text-caption text-fg-muted">{formatKm(etapa.recorridos)} de {kmTexto(etapa.total)}</p>
-      </div>
-      <ul aria-label="Esta ruta" className="flex flex-wrap gap-2">
-        <li className="tabular inline-flex items-center gap-1.5 rounded-pill bg-surface-muted px-3 py-1 text-body-sm text-fg"><Icon name="footprints" size={14} />{metrosSemana > 0 ? `+${kmTexto(metrosSemana)} esta semana` : 'Nada aún esta semana'}</li>
-        <li className="tabular inline-flex items-center gap-1.5 rounded-pill bg-surface-muted px-3 py-1 text-body-sm text-fg"><Icon name="flag" size={14} />{sellosTexto(actual.sellos.length)}</li>
-      </ul>
-      {opciones.length > 0 && !sugerida && <Button variant="secondary" size="sm" onClick={() => abrirRutas('cambiar')}>Cambiar de ruta</Button>}
-    </Card>
+    <TarjetaRuta actual={actual} sugerida={!!sugerida} metrosSemana={metrosSemana} ayuda={comoFunciona}
+      mapa={propiaActual && enMapa ? <MapaRuta puntos={puntosDe(propiaActual)} recorrido={enMapa.recorrido} posicion={enMapa.posicion} label={`${actual.ruta.nombre}: ${formatKm(actual.metros)} de ${kmTexto(total)}, por la etapa hacia ${etapa.hasta}`} /> : undefined}
+      onCambiar={opciones.length > 0 && !sugerida ? () => abrirRutas('cambiar') : undefined} />
 
     {pasos}
 
-    <section aria-label="Etapas" className="space-y-stack">
-      <SectionHeader variant="section">Etapas</SectionHeader>
-      <Card>
-        <ol aria-label={`Próximas etapas de ${actual.ruta.nombre}`}>{proximas.map(({ i }, n) => filaEtapa(i, n === proximas.length - 1))}</ol>
-      </Card>
-      {actual.ruta.etapas.length > PROXIMAS && <Disclosure title={`Todas las etapas (${formatInt(actual.ruta.etapas.length)})`}>
-        <ol className="pt-2" aria-label={`Etapas de ${actual.ruta.nombre}`}>{actual.ruta.etapas.map((_, i) => filaEtapa(i, i === actual.ruta.etapas.length - 1))}</ol>
-      </Disclosure>}
-    </section>
-
-    <section aria-label="Tu viaje" className="space-y-stack">
-      <SectionHeader variant="section">Tu viaje</SectionHeader>
-      <Card padded={false} className="grid grid-cols-2 overflow-hidden">
-        <div className="min-w-0 border-r border-line px-card py-3"><Metric size="title" label="Rutas" valor={c.completadas.length} caption={`${formatInt(veces.size)} de ${formatInt(RUTAS.length)} distintas`} /></div>
-        <div className="min-w-0 px-card py-3"><Metric size="title" label="Recorridos" valor={formatKm(c.metrosTotales)} unidad="km" caption={desdeTexto(c.inicio, hoy)} /></div>
-      </Card>
-    </section>
-
-    <section aria-label="Sugeridas" className="space-y-stack">
-      <SectionHeader variant="section">Sugeridas</SectionHeader>
-      <ListGroup aria-label="Rutas sugeridas" pie="Al llegar eliges la siguiente; si no, sigue la primera.">
-        {c.siguientes.map((r, i) => <li key={`${r.id}-${i}`} className="flex min-h-touch items-center justify-between gap-3 py-2">
-          <span className="min-w-0">
-            <span className="block break-words text-body font-medium text-fg">{r.nombre}{i === 0 && <span className="ml-2 text-caption font-normal text-fg-muted">La primera</span>}</span>
-            <span className="block break-words text-body-sm text-fg-muted">{r.zona}{veces.has(r.id) ? ` · hecha ${vecesTexto(veces.get(r.id) ?? 0)}` : ''}</span>
-          </span>
-          <span className="tabular shrink-0 text-body-sm text-fg-muted">{kmTexto(metrosRuta(r))}</span>
-        </li>)}
-      </ListGroup>
-    </section>
-
-    <section aria-label="Mis caminos" className="space-y-stack">
-      <SectionHeader variant="section">Mis caminos</SectionHeader>
-      {c.completadas.length === 0
-        ? <EmptyState>Aún ninguno. Al llegar, la ruta queda aquí con su fecha, lo que tardaste y los sellos de su credencial.</EmptyState>
-        : <ListGroup aria-label="Rutas terminadas">
+    {/* Caminos: los que te quedan por hacer (con crear, las sugeridas y todas) y los terminados (con tus números). */}
+    <section aria-label="Caminos" className="space-y-stack">
+      <SectionHeader variant="section">Caminos</SectionHeader>
+      <SegmentedControl label="Qué caminos" valor={lista} onChange={setLista}
+        opciones={[{ valor: 'pendientes', label: 'Por hacer' }, { valor: 'hechos', label: `Terminados${c.completadas.length ? ` (${formatInt(c.completadas.length)})` : ''}` }]} />
+      {lista === 'pendientes' ? <div className="space-y-section">
+        <div className="space-y-stack">
+          <Button variant="secondary" block onClick={() => abrirEditor()}><Icon name="route" size={18} />Crear una ruta</Button>
+          {rutasPropias.length > 0 && <ListGroup aria-label="Tus rutas" pie={NOTA_COLECCION.propia}><ListaRutas rutas={rutasPropias} veces={veces} onElegir={(r) => { void elegirDeLista(r) }} onEditar={(r) => abrirEditor(propiaDe(r))} /></ListGroup>}
+        </div>
+        <section aria-label="Sugeridas" className="space-y-stack">
+          <p className="text-rotulo text-fg-muted">Sugeridas</p>
+          <ListGroup aria-label="Rutas sugeridas" pie="Al llegar eliges la siguiente; si no, sigue la primera.">
+            <ListaRutas rutas={c.siguientes.slice(0, 3)} sugerida={c.siguientes[0]?.id} veces={veces} onElegir={(r) => { void elegirDeLista(r) }} />
+          </ListGroup>
+        </section>
+        {pendientes > 0 && <Disclosure title={`Todas las que te faltan (${formatInt(pendientes)})`}>
+          <div className="space-y-section pt-2">
+            {COLECCIONES.filter((col) => porHacer(col).length > 0).map((col) => <section key={col} aria-label={NOMBRE_COLECCION[col]} className="space-y-stack">
+              <p className="text-rotulo text-fg-muted">{NOMBRE_COLECCION[col]}</p>
+              <ListGroup aria-label={NOMBRE_COLECCION[col]}><ListaRutas rutas={porHacer(col)} onElegir={(r) => { void elegirDeLista(r) }} /></ListGroup>
+            </section>)}
+          </div>
+        </Disclosure>}
+      </div> : <div className="space-y-stack">
+        <Card padded={false} className="grid grid-cols-2 overflow-hidden">
+          <div className="min-w-0 border-r border-line px-card py-3"><Metric size="title" label="Rutas" valor={c.completadas.length} caption={`${formatInt(veces.size)} de ${formatInt(RUTAS.length)} distintas`} /></div>
+          <div className="min-w-0 px-card py-3"><Metric size="title" label="Recorridos" valor={formatKm(c.metrosTotales)} unidad="km" caption={desdeTexto(c.inicio, hoy)} /></div>
+        </Card>
+        {c.completadas.length === 0
+          ? <EmptyState>Aún ninguno. Al llegar, la ruta queda aquí con su fecha, lo que tardaste y los sellos de su credencial.</EmptyState>
+          : <ListGroup aria-label="Rutas terminadas">
           {[...c.completadas].reverse().map((x) => {
             const dias = diasDeExpedicion(x)
             return <li key={`${x.ruta.id}-${x.vez}`} className="flex min-h-touch items-center gap-3 py-2">
@@ -269,10 +234,8 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
             </li>
           })}
         </ListGroup>}
+      </div>}
     </section>
-
-    {tusRutas((r) => abrirEditor(propiaDe(r)), false)}
-
 
     {editorRuta}
     <CambiarRutaSheet key={`cambiar-${aperturas}`} open={cambiando === 'cambiar' || (cambiando === 'llegada' && !!sugerida)} onClose={() => setCambiando(false)} actual={actual} opciones={opciones} veces={veces} onElegir={cambiarA}
