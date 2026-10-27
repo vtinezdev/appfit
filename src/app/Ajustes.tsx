@@ -14,14 +14,11 @@ import CatalogoAjustes from '../features/nutricion/components/CatalogoAjustes'
 import GamificacionAjustes from '../features/ritmo/components/GamificacionAjustes'
 import ModulosAjustes from './ModulosAjustes'
 import { planDeSemana } from '../features/ritmo/lib/plan'
-import CreatinaAjustes from '../features/inicio/components/CreatinaAjustes'
 import ObjetivosAjustes from '../features/nutricion/components/ObjetivosAjustes'
 import { ErrorState, LoadingState } from '../shared/components/StateMessage'
-import Ayuda from '../shared/components/Ayuda'
 import Button, { IconButton } from '../shared/components/Button'
 import Card from '../shared/components/Card'
 import Interruptor from '../shared/components/Interruptor'
-import NumberStepper from '../shared/components/NumberStepper'
 import Disclosure from '../shared/components/Disclosure'
 import Icon from '../shared/components/Icon'
 import ListGroup from '../shared/components/ListGroup'
@@ -32,7 +29,6 @@ import { getFondoPref, getThemePref, setFondoPref, setThemePref, type FondoPref,
 import ConfirmacionDestructiva from '../shared/components/ConfirmacionDestructiva'
 import PageHeader from '../shared/components/PageHeader'
 import { UMBRAL_BACKUP_POR_DEFECTO } from '../shared/lib/recordatorioBackup'
-import { formatAgua, objetivoAguaPorDefecto, partesAgua, resolverObjetivoAgua, validarObjetivoAgua } from '../features/inicio/lib/agua'
 import { descargarCsv, TABLAS_CSV, type TablaCsv } from '../shared/lib/exportarCsv'
 import AlmacenamientoAjustes from './AlmacenamientoAjustes'
 import CuentaAjustes, { ResumenCuenta } from '../features/cuenta/components/CuentaAjustes'
@@ -59,7 +55,6 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
   const settings = useLiveQuery(() => getSettings(), [])
   const vigentes = useLiveQuery(() => perfilRepo.objetivosVigentes(todayISO()), [])
   const hayDatos = useLiveQuery(hayDatosGuardados, [])
-  const sexo = useLiveQuery(async () => (await perfilRepo.getPerfil()).sexo, [])
   const [seccion, setSeccion] = useState<SeccionAjustes | null>(seccionInicial ?? null)
   const [enfocarTitulo, setEnfocarTitulo] = useState(seccionInicial !== undefined)
   /** Fila del índice que recupera el foco al volver de su sección. */
@@ -188,9 +183,8 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
   const guardar = (patch: Parameters<typeof updateSettings>[0], error = 'No se ha podido guardar el ajuste. Inténtalo de nuevo.') => {
     updateSettings(patch).catch(() => setErrorAjuste(error))
   }
-  const efectivoAgua = resolverObjetivoAgua(settings.aguaObjetivoMl, sexo)
   const datosResumen = {
-    settings, objetivos: vigentes, aguaMl: efectivoAgua?.ml ?? null, tema, fondo,
+    settings, objetivos: vigentes, tema, fondo,
     entrenosPlan: planDeSemana(settings.planSemanal, startOfWeek(todayISO())).entrenos,
   }
 
@@ -211,7 +205,7 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
         <PageHeader title="Ajustes" />
         {GRUPOS_AJUSTES.map((g) => <section key={g.nombre} aria-labelledby={`ajustes-${g.nombre}`} className="space-y-2">
           <h2 id={`ajustes-${g.nombre}`} className="px-1 text-rotulo text-fg-muted">{g.nombre}</h2>
-          <ListGroup>{g.secciones.filter((id) => (id !== 'cuenta' || cuentaDisponible) && (id !== 'creatina' || settings.creatina?.activa === true)).map((id) => fila(id))}</ListGroup>
+          <ListGroup>{g.secciones.filter((id) => (id !== 'cuenta' || cuentaDisponible)).map((id) => fila(id))}</ListGroup>
         </section>)}
         {onIrAReferencias && <section aria-labelledby="ajustes-saber-mas" className="space-y-2">
           <h2 id="ajustes-saber-mas" className="px-1 text-rotulo text-fg-muted">Saber más</h2>
@@ -239,35 +233,6 @@ export default function Ajustes({ seccionInicial, onIrAPerfil, onIrAReferencias,
       updateSettings({ objetivos }).then(() => actualizarObjetivoHoy(todayISO(), 'ajustes')).catch(() => setErrorAjuste('No se han podido guardar los objetivos. Inténtalo de nuevo.'))
     }} />,
 
-    // Punto 27: el objetivo en grande, de dónde sale y un selector de ±250 ml; la explicación, tras la «i».
-    agua: () => {
-      const recomendado = objetivoAguaPorDefecto(sexo)
-      const errorAgua = 'No se ha podido guardar el objetivo de agua.'
-      const actual = efectivoAgua?.ml ?? recomendado ?? 2000
-      return <div className="space-y-stack">
-        <Card className="space-y-4">
-          <div className="relative pr-10">
-            <div className="absolute -right-2 -top-2"><Ayuda titulo="Objetivo de agua">
-              <p>El recomendado parte de la ingesta adecuada de agua de EFSA (2010) para adultos, según tu sexo en Perfil; detalles en Referencias › Proteína y agua.</p>
-              <p>Si fijas uno tuyo, manda el tuyo. Inicio te enseña lo que bebes frente a él.</p>
-            </Ayuda></div>
-            <p className="text-rotulo text-fg-muted">Objetivo diario</p>
-            {efectivoAgua
-              ? <p className="flex items-baseline gap-1.5"><span className="tabular font-numeric text-metric text-fg">{partesAgua(efectivoAgua.ml).valor}</span><span className="text-body text-fg-muted">{partesAgua(efectivoAgua.ml).unidad}</span></p>
-              : <p className="text-title text-fg">Sin objetivo</p>}
-            <p className="text-caption text-fg-muted">{efectivoAgua ? (efectivoAgua.origen === 'efsa' ? 'El recomendado según tu sexo en Perfil' : 'El que has fijado tú') : 'Indica tu sexo en Perfil o fija uno aquí.'}</p>
-          </div>
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
-            <span className="text-body-sm text-fg">Cambiar</span>
-            <NumberStepper label="Objetivo diario de agua (ml)" value={actual} step={250} min={500} suffix="ml"
-              onChange={(ml) => { const v = validarObjetivoAgua(ml); if (v !== null) guardar({ aguaObjetivoMl: v }, errorAgua) }} />
-          </div>
-          {settings.aguaObjetivoMl !== undefined && recomendado !== null && <Button variant="ghost" size="sm" onClick={() => guardar({ aguaObjetivoMl: undefined }, errorAgua)}>Volver al recomendado ({formatAgua(recomendado)})</Button>}
-        </Card>
-      </div>
-    },
-
-    creatina: () => <CreatinaAjustes settings={settings} />,
 
     // Punto 28: dos interruptores en una lista, con lo que hacen en su misma fila.
     entreno: () => <ListGroup aria-label="Entreno" pie="iOS no deja vibrar ni avisar en segundo plano sin notificaciones: el pitido suena solo con la app abierta.">

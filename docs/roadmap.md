@@ -74,6 +74,10 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 
 Nueve bloques acordados (PROCESO §246 en adelante). Hechos los bloques 1 a 6; siguen el 7 (Ajustes: 25, 26–31, 33, 32) al 9.
 
+Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de acabar la sesión:
+- **Añadir comida**: mejorar la pantalla de añadir comida, sobre todo la ficha que se abre al añadir un alimento.
+- **Proponer un alimento**: un botón cerca de Nutrición o de Añadir comida para que cualquiera mande un alimento que falta y le llegue a Víctor para añadirlo al catálogo, como «Comunicar un problema» pero de alimentos. Depende de decidir cómo llegan esos avisos (punto 32).
+
 ## Ideas sin empezar
 
 Social:

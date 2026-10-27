@@ -10,7 +10,7 @@ import * as creatinaRepo from '../features/inicio/data/creatinaRepo'
 import { AL_APAGAR, MODULOS, moduloActivo, moverTarjeta, NOMBRE_MODULO, NOMBRE_TARJETA, ordenTarjetas, tarjetaVisible, type TarjetaInicio } from '../shared/lib/modulos'
 
 const ERROR = 'No se ha podido guardar el ajuste. Inténtalo de nuevo.'
-const AL_APAGAR_CREATINA = 'Al activarla, su tarjeta sale en Inicio; la dosis y la fase de carga se ajustan en Ajustes › Creatina. Apagarla conserva tus tomas.'
+const AL_APAGAR_CREATINA = 'Al activarla, su tarjeta sale en Inicio; la dosis y la fase de carga se ajustan al tocarla. Apagarla conserva tus tomas.'
 
 /**
  * Ajustes › «Lo que usas» (B9): qué módulos se ven, con lo que pasa al apagarlos, y el orden de las tarjetas de Inicio.
@@ -68,7 +68,6 @@ export default function ModulosAjustes({ settings, onError }: { settings: Settin
 
     <section aria-labelledby="ordenar-inicio" className="space-y-2">
       <h3 id="ordenar-inicio" className="text-title text-fg">Ordenar Inicio</h3>
-      <p className="px-1 text-caption text-fg-muted">De arriba abajo, como salen en Inicio.</p>
       <ListGroup aria-label="Tarjetas de Inicio" pie="Los avisos y la revisión del lunes van siempre arriba.">
         {orden.map((t, i) => {
           const visible = tarjetaVisible(actual, t)

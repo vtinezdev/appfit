@@ -22,7 +22,7 @@ export default function ProteinaAguaReferencias() {
 
     <SeccionReferencia titulo="Objetivo de agua" resumen={`${formatNumber((objetivoAguaPorDefecto('hombre') ?? 0) / 1000, 1)} L de bebida (hombre) y ${formatNumber((objetivoAguaPorDefecto('mujer') ?? 0) / 1000, 1)} L (mujer), a partir de EFSA.`}>
       <p>EFSA (2010) fija una ingesta adecuada de agua total de {formatNumber(2.5, 1)} L/día para hombres y {formatNumber(2.0, 1)} L/día para mujeres adultos. Esa cifra incluye el agua de los alimentos y solo vale para temperatura moderada y actividad física moderada: el calor y el ejercicio aumentan la necesidad.</p>
-      <p>AppFit propone como objetivo de bebida {formatNumber((objetivoAguaPorDefecto('hombre') ?? 0) / 1000, 1)} L (hombre) y {formatNumber((objetivoAguaPorDefecto('mujer') ?? 0) / 1000, 1)} L (mujer) según el sexo de Perfil: descuenta un 20 % por la humedad de los alimentos. Ese 20 % es un criterio de AppFit, no una cifra de EFSA. Sin sexo en Perfil no hay objetivo, y lo que escribas en Ajustes manda sobre el recomendado.</p>
+      <p>AppFit propone como objetivo de bebida {formatNumber((objetivoAguaPorDefecto('hombre') ?? 0) / 1000, 1)} L (hombre) y {formatNumber((objetivoAguaPorDefecto('mujer') ?? 0) / 1000, 1)} L (mujer) según el sexo de Perfil: descuenta un 20 % por la humedad de los alimentos. Ese 20 % es un criterio de AppFit, no una cifra de EFSA. Sin sexo en Perfil no hay objetivo, y el que fijes en Inicio (toca la tarjeta de Agua) manda sobre el recomendado.</p>
     </SeccionReferencia>
 
     <SeccionReferencia titulo="Fuentes y qué se ha comprobado" resumen={`${formatNumber(FUENTES_PROTEINA_AGUA.length)} publicaciones, con lo que se ha comprobado de cada una.`}>

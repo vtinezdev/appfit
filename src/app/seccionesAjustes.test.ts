@@ -4,7 +4,6 @@ import { GRUPOS_AJUSTES, resumenAjustes, SECCIONES_AJUSTES, type DatosResumen, t
 const base: DatosResumen = {
   settings: { id: 1, objetivos: { kcal: 2400, prot: 150, carb: 280, grasa: 70 } },
   objetivos: { kcal: 2400, prot: 150, carb: 280, grasa: 70 },
-  aguaMl: 2500,
   tema: 'system',
   fondo: 'curvas',
   entrenosPlan: 3,
@@ -23,19 +22,16 @@ describe('índice de Ajustes', () => {
     expect(resumenAjustes('apariencia', base)).toBe('Sistema · Fondo curvas')
     expect(resumenAjustes('entreno', base)).toBe('Con sonido · Pregunta el RIR')
     expect(resumenAjustes('gamificacion', base)).toBe('Con nutrición · 3 entrenos por semana')
-    expect(resumenAjustes('creatina', base)).toBe('Desactivada')
     expect(resumenAjustes('copias', base)).toBe('Aún sin copia exportada')
   })
 
   it('refleja los valores no por defecto', () => {
     const d: DatosResumen = {
-      ...base, aguaMl: null, entrenosPlan: 1,
-      settings: { ...base.settings, sonidoDescanso: false, rirAlCompletar: false, gamificacionConNutricion: false, creatina: { activa: true } },
+      ...base, entrenosPlan: 1,
+      settings: { ...base.settings, sonidoDescanso: false, rirAlCompletar: false, gamificacionConNutricion: false },
     }
-    expect(resumenAjustes('agua', d)).toBe('Sin objetivo')
     expect(resumenAjustes('entreno', d)).toBe('Sin sonido · Sin preguntar el RIR')
     expect(resumenAjustes('gamificacion', d)).toBe('Solo entreno · 1 entreno por semana')
-    expect(resumenAjustes('creatina', d)).toBe('Activada')
     expect(resumenAjustes('gamificacion', { ...d, settings: { ...d.settings, gamificacionVisible: false } })).toBe('Ocultos')
   })
 })
