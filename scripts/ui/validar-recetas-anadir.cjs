@@ -156,8 +156,19 @@ async function main() {
       assert.equal(await ficha.getByRole('button', { name: 'Editar', exact: true }).count(), 0)
       await ficha.getByRole('region', { name: 'Preparación' }).evaluate(e => e.scrollIntoView({ block: 'start' }))
       await captura(page, `${colorScheme}-8-ficha-recetario`)
+
+      // Copiar a mis recetas: la ficha pasa a la copia, editable, y sale en «Tus recetas».
+      await ficha.getByRole('button', { name: 'Copiar a mis recetas', exact: true }).click()
+      await ficha.getByText(/^Copiada a tus recetas/).waitFor()
+      await ficha.getByText(/^Tuya · 6 raciones/).waitFor()
+      await ficha.getByRole('button', { name: 'Editar', exact: true }).waitFor()
+      await ficha.getByRole('button', { name: 'Editar', exact: true }).scrollIntoViewIfNeeded()
+      await captura(page, `${colorScheme}-11-copiada`)
+      await page.keyboard.press('Escape')
+      await ficha.waitFor({ state: 'detached' })
+      await page.getByRole('region', { name: 'Tus recetas' }).getByText('Arroz al horno, horneado', { exact: true }).waitFor()
       assert.deepEqual(errores, [])
-      console.log(`OK ${colorScheme}: recetas en Buscar, hoja, variante «Sin chorizo» guardada y registrada, receta propia registrada.`)
+      console.log(`OK ${colorScheme}: recetas en Buscar, hoja, variante «Sin chorizo» guardada y registrada, receta propia registrada, receta del recetario copiada.`)
       } catch (e) {
         await page.screenshot({ path: path.join(salida, `${colorScheme}-fallo.png`) })
         throw e

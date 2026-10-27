@@ -1,6 +1,6 @@
 # Plan: recetas con preparación (prototipo)
 
-Fecha: 2026-10-26. Estado (2026-10-27): **etapas 1, 2b y 4 hechas y etapa 2 a medias**: las 1.555 recetas del catálogo tienen pasos y llegan al móvil con su formulación y preparación; recetas marcadas en Buscar, hoja de receta, «Cambiar ingredientes» y variantes (ver § Etapa 2b, Hecho). **Fase 1 hecha** en la rama `feat/recetas-prototipo` (sin fusionar). Víctor ha visto las capturas y **aprueba seguir**, con las decisiones de abajo; además amplía el alcance al **recetario del catálogo** (las 1.552 recetas de típicos), con pasos escritos por tandas. La siguiente sesión empieza por § Handoff.
+Fecha: 2026-10-26. Estado (2026-10-27): **etapas 1, 2, 2b y 4 hechas; falta la 3**: las 1.555 recetas del catálogo tienen pasos y llegan al móvil con su formulación y preparación; recetas marcadas en Buscar, hoja de receta, «Cambiar ingredientes» y variantes (ver § Etapa 2b, Hecho). **Fase 1 hecha** en la rama `feat/recetas-prototipo` (sin fusionar). Víctor ha visto las capturas y **aprueba seguir**, con las decisiones de abajo; además amplía el alcance al **recetario del catálogo** (las 1.552 recetas de típicos), con pasos escritos por tandas. La siguiente sesión empieza por § Handoff.
 
 ## Mensaje para abrir la siguiente sesión (con Sonnet: `/model sonnet`)
 
@@ -130,7 +130,7 @@ Orden sugerido: 1 → 2 → etapa 2 (recetario en el móvil) → 3 y 4, enseñan
 - `HojaReceta` y `PreguntaVariante` en Añadir comida; lógica en `lib/variantes.ts`; datos en `recetasRepo.vista` / `itemsDeIngredientes` y `variantesRepo`; tabla `variantesReceta` (Dexie v15, backup y copia cifrada).
 - Concretado al implementar (pendiente en la decisión anterior): **una variante y «Solo esta vez» se registran como un plato con sus ingredientes** («Receta · Variante», «Receta · con cambios»), no como una entrada única, para no crear alimentos ocultos y que se vea qué cambió. La normal sigue siendo una sola entrada.
 - Validación en navegador: `scripts/ui/validar-recetas-anadir.cjs` (320/375/430, claro y oscuro).
-- Falta de la etapa 2: «Copiar a mis recetas».
+- Falta de la etapa 2: «Copiar a mis recetas». **Hecho (2026-10-27):** botón en la ficha del recetario AppFit; crea la receta propia (con «(copia)» si el nombre ya existe) y la ficha pasa a la copia, editable.
 
 **Hecho después de fusionar (2026-10-27, PR siguiente):** al probarlo, Víctor no veía las recetas del catálogo como recetas y la pantalla Recetas decía «Aún no hay recetas».
 - Causa de lo primero: la app anterior (aún en caché) importó el paquete nuevo ignorando `extra.receta` y lo marcó como al día. Ahora `CatalogSource.lectura` fuerza una reimportación cuando la app sabe leer más.

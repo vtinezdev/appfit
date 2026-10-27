@@ -75,3 +75,35 @@ describe('variantesRepo', () => {
     expect(await db.variantesReceta.count()).toBe(0)
   })
 })
+
+describe('copiar del catálogo a tus recetas', () => {
+  const lentejas = catalogo('tipicos:lentejas', 'Lentejas con chorizo, estofadas', {
+    categoria: 'Platos preparados',
+    receta: { pesoFinalG: 2500, ingredientes: [{ catalogId: 'ciqual:1', gramos: 400 }], raciones: 6, tiempoMin: 70, pasos: ['Lava las lentejas.'], notas: 'Mejor de un día para otro.' },
+  })
+
+  it('crea una receta propia con los ingredientes, el peso y la preparación del plato', async () => {
+    await db.catalogFoods.bulkAdd([lentejas, catalogo('ciqual:1', 'Lenteja, seca')])
+    const id = await recetasRepo.copiarDelCatalogo('tipicos:lentejas')
+    const receta = (await recetasRepo.obtener(id))!
+    expect(receta).toMatchObject({ nombre: 'Lentejas con chorizo, estofadas', pesoCocinadoG: 2500, raciones: 6, tiempoMin: 70, pasos: ['Lava las lentejas.'], notas: 'Mejor de un día para otro.' })
+    expect(receta.ingredientes).toEqual([{ catalogId: 'ciqual:1', nombre: 'Lenteja, seca', gramos: 400, kcal: 1320, prot: 96, carb: 200, grasa: 6 }])
+    expect(await db.foods.get(receta.foodId)).toMatchObject({ categoria: 'Platos preparados', kcal100: 52.8, fuente: 'manual' })
+  })
+
+  it('si ya tienes un alimento con ese nombre, la copia se numera', async () => {
+    await db.catalogFoods.bulkAdd([lentejas, catalogo('ciqual:1', 'Lenteja, seca')])
+    await recetasRepo.copiarDelCatalogo('tipicos:lentejas')
+    const otra = (await recetasRepo.obtener(await recetasRepo.copiarDelCatalogo('tipicos:lentejas')))!
+    expect(otra.nombre).toBe('Lentejas con chorizo, estofadas (copia)')
+    expect(await db.recetas.count()).toBe(2)
+  })
+
+  it('sin categoría válida usa la de platos preparados; un plato que no es receta es un error', async () => {
+    await db.catalogFoods.bulkAdd([{ ...lentejas, categoria: 'Otra cosa' }, catalogo('ciqual:1', 'Lenteja, seca')])
+    const receta = (await recetasRepo.obtener(await recetasRepo.copiarDelCatalogo('tipicos:lentejas')))!
+    expect((await db.foods.get(receta.foodId))!.categoria).toBe('Platos preparados')
+    await expect(recetasRepo.copiarDelCatalogo('ciqual:1')).rejects.toThrow(recetasRepo.RecetaInvalidaError)
+  })
+})
+

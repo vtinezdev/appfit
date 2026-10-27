@@ -7,7 +7,7 @@ import type { MealItem, Receta } from '../../../shared/db/types'
 import { normalizeName } from '../../../shared/lib/text'
 import { esCategoriaAlimento, type CategoriaAlimento } from '../lib/catalogo/categorias'
 import { elegibleDeFood, itemDesdeElegible, mismosValores, por100DesdeEntrada, type ItemRevision } from '../lib/alimentos'
-import { itemDeIngrediente, limpiarPasos, por100DeReceta, validarReceta, type Preparacion } from '../lib/recetas'
+import { itemDeIngrediente, limpiarPasos, nombreLibre, por100DeReceta, validarReceta, type Preparacion } from '../lib/recetas'
 import { vistaDeRecetaCatalogo, vistaDeRecetaPropia, type RecetaVista } from '../lib/variantes'
 import * as catalogRepo from './catalogRepo'
 import { NombreDuplicadoError } from './foodsRepo'
@@ -99,6 +99,24 @@ export async function crear(datos: RecetaInput): Promise<number> {
     const foodId = await db.foods.add({ nombre, nombreNorm, ...valoresFood(datos), fuente: 'manual', updatedAt: ahora })
     const preparacion = Object.fromEntries(Object.entries(preparacionDe(datos)).filter(([, v]) => v !== undefined)) as Preparacion
     return db.recetas.add({ nombre, nombreNorm, ingredientes: datos.ingredientes, pesoCocinadoG: datos.pesoCocinadoG, ...preparacion, foodId, createdAt: ahora, updatedAt: ahora })
+  })
+}
+
+/**
+ * Copia un plato del recetario AppFit en tus recetas: sus ingredientes (snapshot con `catalogId`), peso final,
+ * raciones, tiempo, pasos y notas, con la categoría del plato. Si ya tienes un alimento con ese nombre, la copia se
+ * llama «… (copia)». Devuelve el id de la receta nueva; el plato del catálogo no cambia.
+ */
+export async function copiarDelCatalogo(catalogId: string): Promise<number> {
+  const [plato, v] = await Promise.all([catalogRepo.obtener(catalogId), vista({ tipo: 'catalog', id: catalogId })])
+  if (!plato || !v) throw new RecetaInvalidaError('Esta receta ya no está en el catálogo.')
+  const ocupados = new Set(await db.foods.where('nombreNorm').startsWith(normalizeName(v.nombre)).keys() as string[])
+  return crear({
+    nombre: nombreLibre(v.nombre, ocupados),
+    categoria: esCategoriaAlimento(plato.categoria) ? plato.categoria : CATEGORIA_RECETA_POR_DEFECTO,
+    ingredientes: v.ingredientes, pesoCocinadoG: v.pesoCocinadoG,
+    ...(v.raciones ? { raciones: v.raciones } : {}), ...(v.tiempoMin ? { tiempoMin: v.tiempoMin } : {}),
+    ...(v.pasos ? { pasos: v.pasos } : {}), ...(v.notas ? { notas: v.notas } : {}),
   })
 }
 

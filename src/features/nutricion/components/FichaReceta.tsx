@@ -36,17 +36,21 @@ const gramosTexto = (g: number) => formatNumber(g, g < 10 ? 1 : 0)
 /**
  * Ficha de lectura de una receta: lo que aporta por ración (y por 100 g), los ingredientes para las raciones que se
  * quieran, los pasos y las notas. Desde aquí se registra o planifica (raciones o gramos) y, si es tuya, se edita.
- * Las del recetario AppFit no se editan: se cambian con variantes al añadir comida.
+ * Las del recetario AppFit no se editan: se cambian con variantes al añadir comida o con «Copiar a mis recetas», que
+ * crea una receta tuya igual y pasa a enseñarla (ya editable).
  */
 export default function FichaReceta({ recetaId, catalogId, onClose }: Props) {
+  // Tras «Copiar a mis recetas», la ficha enseña la copia.
+  const [copiaId, setCopiaId] = useState<number | null>(null)
+  const idPropia = copiaId ?? recetaId
   const datos = useLiveQuery(async () => {
-    if (recetaId !== undefined) {
-      const receta = await recetasRepo.obtener(recetaId)
+    if (idPropia !== undefined) {
+      const receta = await recetasRepo.obtener(idPropia)
       return receta ? { receta, vista: vistaDeRecetaPropia(receta) } : null
     }
-    const vista = await recetasRepo.vista({ tipo: 'catalog', id: catalogId })
+    const vista = await recetasRepo.vista({ tipo: 'catalog', id: catalogId! })
     return vista ? { receta: undefined, vista } : null
-  }, [recetaId, catalogId])
+  }, [idPropia, catalogId])
   const [racionesVista, setRacionesVista] = useState<number | null>(null)
   const [editando, setEditando] = useState<false | 'todo' | 'preparacion'>(false)
   const [accion, setAccion] = useState<Accion | null>(null)
@@ -56,6 +60,8 @@ export default function FichaReceta({ recetaId, catalogId, onClose }: Props) {
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [hecho, setHecho] = useState<string | null>(null)
+  const [copiando, setCopiando] = useState(false)
+  const [errorCopia, setErrorCopia] = useState<string | null>(null)
 
   // Borrada desde el editor (o ya no está en el catálogo): la ficha ya no tiene nada que enseñar.
   useEffect(() => { if (datos === null) onClose() }, [datos, onClose])
@@ -103,6 +109,21 @@ export default function FichaReceta({ recetaId, catalogId, onClose }: Props) {
     }
   }
 
+  async function copiar() {
+    if (copiando || catalogId === undefined) return
+    setCopiando(true)
+    setErrorCopia(null)
+    try {
+      setCopiaId(await recetasRepo.copiarDelCatalogo(catalogId))
+      setRacionesVista(null)
+      setHecho('Copiada a tus recetas. Ya puedes editarla y cambiar sus pasos.')
+    } catch (e) {
+      setErrorCopia(e instanceof recetasRepo.RecetaInvalidaError ? e.message : 'No se ha podido copiar. Inténtalo de nuevo.')
+    } finally {
+      setCopiando(false)
+    }
+  }
+
   const detalles = [
     propia ? 'Tuya' : 'Recetario AppFit',
     vista.raciones ? textoRaciones(vista.raciones) : null,
@@ -113,11 +134,14 @@ export default function FichaReceta({ recetaId, catalogId, onClose }: Props) {
   return (
     <ModalPage title="Receta" onClose={onClose}
       footer={<div className="space-y-2">
+        {errorCopia && <ErrorState>{errorCopia}</ErrorState>}
         {hecho && <p role="status" className="flex items-start gap-2 text-body-sm text-fg"><Icon name="check" size={16} className="mt-0.5 shrink-0 text-accent-strong" /><span className="min-w-0 break-words">{hecho}</span></p>}
         <Button size="lg" block onClick={() => abrir('registrar')}>{gRacion !== null ? 'Registrar una ración' : 'Registrar'}</Button>
-        <div className="flex gap-2">
-          <Button variant="secondary" className="flex-1" onClick={() => abrir('planificar')}><Icon name="calendar" size={18} />Planificar</Button>
-          {propia && <Button variant="secondary" className="flex-1" onClick={() => setEditando('todo')}><Icon name="pencil" size={18} />Editar</Button>}
+        <div className="flex flex-wrap gap-2">
+          <Button variant="secondary" className="flex-auto whitespace-nowrap" onClick={() => abrir('planificar')}><Icon name="calendar" size={18} />Planificar</Button>
+          {propia
+            ? <Button variant="secondary" className="flex-auto whitespace-nowrap" onClick={() => setEditando('todo')}><Icon name="pencil" size={18} />Editar</Button>
+            : <Button variant="secondary" className="flex-auto whitespace-nowrap" loading={copiando} onClick={copiar}><Icon name="copy" size={18} />Copiar a mis recetas</Button>}
         </div>
       </div>}>
       <div className="space-y-section">

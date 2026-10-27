@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { MealItem } from '../../../shared/db/types'
 import { elegibleDeCatalogo, elegibleDeFood, itemDesdeElegible, kcalPorRacion } from './alimentos'
-import { escalarIngredientes, gramosPorRacion, infoReceta, marcarRecetasPropias, ingredienteDeItem, itemDeIngrediente, limpiarPasos, pesoCrudoTotal, por100DeReceta, racionesDe, textoRaciones, textoTiempo, valoresPorRacion, validarReceta } from './recetas'
+import { escalarIngredientes, gramosPorRacion, infoReceta, marcarRecetasPropias, ingredienteDeItem, itemDeIngrediente, limpiarPasos, nombreLibre, pesoCrudoTotal, por100DeReceta, racionesDe, textoRaciones, textoTiempo, valoresPorRacion, validarReceta } from './recetas'
 
 const arroz: MealItem = { nombre: 'Arroz', gramos: 200, kcal: 700, prot: 14, carb: 156, grasa: 2, nutrientes: { fibra: 2, sal: 0 } }
 const pollo: MealItem = { nombre: 'Pollo', gramos: 300, kcal: 330, prot: 69, carb: 0, grasa: 4, nutrientes: { fibra: 0 } }
@@ -111,3 +111,14 @@ describe('recetas en las listas para elegir', () => {
   })
 })
 
+describe('nombreLibre', () => {
+  it('conserva el nombre si está libre y numera las copias si no', () => {
+    expect(nombreLibre(' Lentejas ', new Set())).toBe('Lentejas')
+    expect(nombreLibre('Lentejas', new Set(['lentejas']))).toBe('Lentejas (copia)')
+    expect(nombreLibre('Lentejas', new Set(['lentejas', 'lentejas (copia)', 'lentejas (copia 2)']))).toBe('Lentejas (copia 3)')
+  })
+  it('compara sin mayúsculas ni tildes', () => {
+    expect(nombreLibre('Crema de calabacín', new Set(['crema de calabacin']))).toBe('Crema de calabacín (copia)')
+    expect(nombreLibre('Arroz Al Horno', new Set(['arroz al horno']))).toBe('Arroz Al Horno (copia)')
+  })
+})
