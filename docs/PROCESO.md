@@ -2888,3 +2888,18 @@ En los platos combinados, la formulación no lleva sal y las notas lo dicen.
 - La cebolla caramelizada y los chips van por ración de acompañamiento.
 
 **Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 262. Recetas: tanda 12 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas más. En total hay 1.187 recetas con pasos. Entran:
+- dulces navideños y conventuales (polvorones, turrones, mazapán, yemas, huesos de santo, panellets);
+- flanes, natillas, mousses y helados caseros;
+- yogures y fruta preparada;
+- salsas caseras (vizcaína, almendras, chimichurri, tzatziki, picada…);
+- las últimas verduras y guarniciones.
+
+**Cómo:**
+- Los dulces van por pieza (unos 25 g) y las salsas, por cucharada o uso.
+- Los flanes avisan si el caramelo del molde no está en la formulación, y los postres con huevo crudo lo dicen.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.

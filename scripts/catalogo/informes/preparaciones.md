@@ -1,6 +1,6 @@
 # Preparaciones de las recetas de típicos
 
-1087 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
+1187 recetas. Generado con `npm run catalogo:preparaciones`; no editar a mano.
 
 ## 1. Tortilla de patatas, con cebolla, cuajada
 
@@ -23534,3 +23534,1845 @@
 3. Repártelas en bandejas sin que se solapen y hornéalas 25 minutos, dándoles la vuelta a mitad, hasta que estén crujientes.
 
 *Notas:* Vigílalas al final: se queman enseguida.
+
+## 1088. Polvorones, horneados
+
+`polvorones` · Dulces y chocolate · 40 raciones de 25 g · 90 min · por ración: 137 kcal, P 1,6 g, C 14,8 g, G 7,7 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Manteca de cerdo
+- 200 g · Azúcar blanco
+- 100 g · Almendra, pelada, sin sal añadida
+- 5 g · Canela, polvo
+
+**Preparación**
+
+1. Tuesta 500 g de harina en una sartén o en el horno a 150 °C 20 minutos, removiendo, hasta que tome un color crema. Deja que se enfríe.
+2. Tuesta 100 g de almendras y muélelas fino.
+3. Mezcla la harina, la almendra, 200 g de azúcar molido y 5 g de canela. Añade 250 g de manteca a temperatura ambiente y amasa solo hasta que se una.
+4. Estira la masa a 1,5 cm, corta los polvorones y colócalos en una bandeja.
+5. Hornéalos a 180 °C 15 minutos. Déjalos enfriar del todo antes de moverlos: se rompen en caliente.
+
+*Notas:* Salen unos 40: una ración es un polvorón (25 g).
+
+## 1089. Mantecados, horneados
+
+`mantecados` · Dulces y chocolate · 40 raciones de 23 g · 80 min · por ración: 122 kcal, P 1,1 g, C 14,6 g, G 6,5 g
+
+**Ingredientes** (lote de 920 g cocinado)
+
+- 500 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 250 g · Manteca de cerdo
+- 200 g · Azúcar blanco
+- 5 g · Canela, polvo
+- 10 g · Sésamo, grano
+
+**Preparación**
+
+1. Tuesta 500 g de harina en el horno a 150 °C 20 minutos, removiendo. Deja que se enfríe.
+2. Mezcla la harina con 200 g de azúcar molido y 5 g de canela. Añade 250 g de manteca a temperatura ambiente y amasa solo hasta que se una.
+3. Estira la masa a 1,5 cm, corta los mantecados y espolvoréalos con 10 g de sésamo.
+4. Hornéalos a 180 °C 15 minutos y déjalos enfriar del todo antes de moverlos.
+
+*Notas:* Salen unos 40: una ración es un mantecado (23 g).
+
+## 1090. Panellets de piñones, horneados
+
+`panellets` · Dulces y chocolate · 50 raciones de 25 g · 90 min · por ración: 128 kcal, P 2,9 g, C 9,7 g, G 8,1 g
+
+**Ingredientes** (lote de 1250 g cocinado)
+
+- 500 g · Almendra, pelada, sin sal añadida
+- 400 g · Azúcar blanco
+- 200 g · Boniato, crudo
+- 50 g · Huevo crudo
+- 200 g · Piñón
+
+**Preparación**
+
+1. Cuece 200 g de boniato hasta que esté tierno, pélalo y hazlo puré. Deja que se enfríe.
+2. Mézclalo con 500 g de almendra molida y 400 g de azúcar hasta tener una masa que no se pegue (mazapán). Déjala reposar en la nevera 1 hora.
+3. Forma bolitas de unos 20 g.
+4. Pásalas por la clara de 50 g de huevo (1 huevo) batido y rebózalas en 200 g de piñones, apretando. Píntalas con la yema.
+5. Hornéalas a 200 °C 10 o 12 minutos, hasta que los piñones estén dorados.
+
+*Notas:* Salen unos 60 panellets: una ración son 25 g. El reposo en la nevera no cuenta en el tiempo.
+
+## 1091. Turrón duro de almendra, casero, cocido
+
+`turron-duro` · Dulces y chocolate · 32 raciones de 30 g · 60 min · por ración: 161 kcal, P 4,1 g, C 12,1 g, G 9,8 g
+
+**Ingredientes** (lote de 960 g cocinado)
+
+- 600 g · Almendra, pelada, sin sal añadida
+- 250 g · Miel
+- 130 g · Azúcar blanco
+- 20 g · Huevo, clara, cruda
+
+**Preparación**
+
+1. Tuesta 600 g de almendras enteras en el horno a 170 °C 12 minutos.
+2. Calienta 250 g de miel y 130 g de azúcar a fuego suave, removiendo, hasta que se disuelva y espese (unos 125 °C).
+3. Monta 20 g de clara a punto de nieve y añádela a la miel poco a poco, sin dejar de remover a fuego muy suave, 10 minutos.
+4. Añade las almendras, mezcla y vierte en un molde forrado con papel. Aprieta, cubre con papel y pon peso encima.
+5. Deja que se enfríe y endurezca al menos 12 horas antes de cortarlo.
+
+*Notas:* Una ración son 30 g. El reposo no cuenta en el tiempo.
+
+## 1092. Turrón blando de almendra, casero, cocido
+
+`turron-blando` · Dulces y chocolate · 32 raciones de 31 g · 50 min · por ración: 164 kcal, P 4,4 g, C 11,1 g, G 10,5 g
+
+**Ingredientes** (lote de 980 g cocinado)
+
+- 640 g · Almendra, pelada, sin sal añadida
+- 180 g · Miel
+- 150 g · Azúcar blanco
+- 30 g · Huevo, clara, cruda
+
+**Preparación**
+
+1. Tuesta 640 g de almendras y muélelas hasta hacer una pasta que empiece a soltar aceite.
+2. Calienta 180 g de miel y 150 g de azúcar a fuego suave hasta que se disuelva.
+3. Monta 30 g de clara a punto de nieve y mézclala con la miel.
+4. Añade la pasta de almendra y remueve a fuego suave 10 minutos, hasta que espese.
+5. Vierte en un molde forrado con papel, alisa y deja reposar 24 horas.
+
+*Notas:* Una ración son 30 g. El reposo no cuenta en el tiempo.
+
+## 1093. Salsa de almendras, casera, cocinada
+
+`salsa-almendras` · Salsas y condimentos · 8 raciones de 63 g · 30 min · por ración: 142 kcal, P 2,7 g, C 4,1 g, G 11,6 g
+
+**Ingredientes** (lote de 500 g cocinado)
+
+- 80 g · Almendra, pelada, sin sal añadida
+- 40 g · Pan blanco (p. ej. baguette, hogaza)
+- 10 g · Ajo, crudo
+- 50 g · Aceite de oliva virgen extra
+- 100 g · Vino blanco seco
+- 0,1 g · Azafrán
+- 300 g · Agua del grifo
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Fríe 80 g de almendras, 40 g de pan y 10 g de ajo en 50 g de aceite hasta que estén dorados.
+2. Májalos o tritúralos con 0,1 g de azafrán y un poco del agua.
+3. Ponlos en un cazo con 100 g de vino blanco, el resto de los 300 g de agua y la sal.
+4. Cuece 10 minutos, hasta que espese.
+
+*Notas:* Una ración son unos 60 g, para acompañar carne, pescado o albóndigas.
+
+## 1094. Salsa vizcaína, casera, cocinada
+
+`salsa-vizcaina` · Salsas y condimentos · 8 raciones de 75 g · 90 min · por ración: 115 kcal, P 1,5 g, C 7,5 g, G 8,3 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 600 g · Cebolla, cruda
+- 200 g · Pimiento rojo, crudo
+- 200 g · Tomate redondo, crudo
+- 10 g · Ajo, crudo
+- 10 g · Pimentón, polvo
+- 60 g · Aceite de oliva virgen extra
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 600 g de cebolla, 200 g de pimiento rojo y 10 g de ajo y pochalos en 60 g de aceite a fuego muy suave 1 hora, hasta que la cebolla esté muy blanda.
+2. Añade 200 g de tomate rallado y cocina 15 minutos.
+3. Retira del fuego, añade 10 g de pimentón y la sal.
+4. Tritúrala y pásala por un colador.
+
+*Notas:* Una ración son unos 75 g. Tradicionalmente lleva pimiento choricero en lugar de pimentón.
+
+## 1095. Cuajada de oveja con miel, lista para consumir
+
+`cuajada-miel` · Yogures y postres lácteos · 1 ración de 140 g · 5 min · por ración: 178 kcal, P 7,2 g, C 17,9 g, G 8,8 g
+
+**Ingredientes** (lote de 140 g cocinado)
+
+- 125 g · Leche de oveja, entera
+- 15 g · Miel
+
+**Preparación**
+
+1. Sirve 125 g de cuajada de oveja con 15 g de miel por encima.
+
+*Notas:* La cuajada casera se hace con leche de oveja y cuajo; la formulación usa leche de oveja como base.
+
+## 1096. Fresas con nata, listas para consumir
+
+`fresas-nata` · Yogures y postres lácteos · 1 ración de 200 g · 10 min · por ración: 205 kcal, P 2 g, C 14,3 g, G 14,5 g
+
+**Ingredientes** (lote de 200 g cocinado)
+
+- 150 g · Fresa, cruda
+- 50 g · Nata montada, bajo presión, UHT
+
+**Preparación**
+
+1. Lava 150 g de fresas, quítales el rabito y córtalas por la mitad.
+2. Sírvelas con 50 g de nata montada por encima.
+
+## 1097. Dulce de membrillo, casero, cocido
+
+`membrillo` · Dulces y chocolate · 46 raciones de 30 g · 90 min · por ración: 82 kcal, P 0,1 g, C 20,1 g, G 0 g
+
+**Ingredientes** (lote de 1400 g cocinado)
+
+- 1000 g · Membrillo, crudo
+- 800 g · Azúcar blanco
+
+**Preparación**
+
+1. Lava 1.000 g de membrillos, pélalos, quítales el corazón y trocéalos.
+2. Cuécelos en agua 20 minutos, hasta que estén tiernos. Escúrrelos y tritúralos.
+3. Pésalos y pon el puré en una cazuela con 800 g de azúcar.
+4. Cuece a fuego suave 40 minutos, removiendo sin parar, hasta que tome color rojizo y se despegue del fondo.
+5. Vierte en moldes y deja que cuaje 24 horas.
+
+*Notas:* Una ración son 30 g. El agua de cocción se tira. El reposo no cuenta en el tiempo.
+
+## 1098. Mazapán, casero, horneado
+
+`mazapan` · Dulces y chocolate · 38 raciones de 25 g · 40 min · por ración: 131 kcal, P 2,9 g, C 13 g, G 6,9 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 500 g · Almendra, pelada, sin sal añadida
+- 450 g · Azúcar blanco
+- 30 g · Huevo, clara, cruda
+
+**Preparación**
+
+1. Mezcla 500 g de almendra molida fina con 450 g de azúcar molido.
+2. Añade 30 g de clara y amasa hasta tener una pasta que no se pegue. Déjala reposar en la nevera 1 hora.
+3. Forma figuritas de unos 25 g.
+4. Píntalas con un poco de agua y gratínalas a 250 °C 3 o 4 minutos, solo hasta que se doren por arriba.
+
+*Notas:* Una ración es una figurita de 25 g. El reposo en la nevera no cuenta en el tiempo.
+
+## 1099. Yemas de Santa Teresa, caseras, cocinadas
+
+`yemas-santa-teresa` · Dulces y chocolate · 20 raciones de 20 g · 50 min · por ración: 77 kcal, P 1,9 g, C 10,1 g, G 3,2 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 240 g · Huevo, yema, cruda
+- 200 g · Azúcar blanco
+- 100 g · Agua del grifo
+- 1 g · Canela, polvo
+
+**Preparación**
+
+1. Cuece 200 g de azúcar con 100 g de agua y 1 g de canela 5 minutos, hasta tener un almíbar.
+2. Bate 240 g de yemas y añade el almíbar templado poco a poco.
+3. Cuece a fuego muy suave, removiendo sin parar, 10 minutos, hasta que espese y se despegue del cazo.
+4. Deja que se enfríe y forma bolitas de unos 20 g. Rebózalas en azúcar glas si quieres.
+
+*Notas:* Una ración es una yema de 20 g.
+
+## 1100. Arroz con leche semidesnatada, casero, cocido
+
+`arroz-leche-semi` · Yogures y postres lácteos · 7 raciones de 200 g · 60 min · por ración: 226 kcal, P 7,5 g, C 42,3 g, G 2,9 g
+
+**Ingredientes** (lote de 1400 g cocinado)
+
+- 1200 g · Leche semidesnatada, UHT
+- 150 g · Arroz blanco, crudo
+- 120 g · Azúcar blanco
+- 1 g · Canela, polvo
+
+**Preparación**
+
+1. Pon 1.200 g de leche semidesnatada con la canela en rama (o 1 g en polvo al final) a calentar.
+2. Cuando hierva, añade 150 g de arroz y cuece a fuego muy suave 45 minutos, removiendo a menudo.
+3. Añade 120 g de azúcar y cuece 5 minutos más.
+4. Deja que se enfríe y espolvorea canela.
+
+## 1101. Higos con nueces, listos para consumir
+
+`higos-nuez` · Dulces y chocolate · 1 ración de 150 g · 5 min · por ración: 294 kcal, P 5,4 g, C 18,3 g, G 20,6 g
+
+**Ingredientes** (lote de 150 g cocinado)
+
+- 120 g · Higo, crudo
+- 30 g · Nuez, grano, deshidratada
+
+**Preparación**
+
+1. Abre 120 g de higos frescos y rellénalos o sírvelos con 30 g de nueces.
+
+## 1102. Castañas con leche, cocidas
+
+`castanas-leche` · Yogures y postres lácteos · 5 raciones de 260 g · 60 min · por ración: 316 kcal, P 7,9 g, C 50,1 g, G 7,9 g
+
+**Ingredientes** (lote de 1300 g cocinado)
+
+- 400 g · Castaña, cruda
+- 900 g · Leche entera, UHT
+- 60 g · Azúcar blanco
+- 1 g · Canela, polvo
+
+**Preparación**
+
+1. Haz un corte a 400 g de castañas y cuécelas 5 minutos. Pélalas en caliente, quitando también la piel interior.
+2. Cuécelas en 900 g de leche con la canela a fuego suave 40 minutos, hasta que estén tiernas.
+3. Añade 60 g de azúcar y cuece 5 minutos más.
+
+*Notas:* Postre gallego; se toma caliente o templado.
+
+## 1103. Naranja con miel y canela, lista para consumir
+
+`naranja-miel-canela` · Dulces y chocolate · 1 ración de 215 g · 5 min · por ración: 135 kcal, P 1,7 g, C 28,5 g, G 0,6 g
+
+**Ingredientes** (lote de 215 g cocinado)
+
+- 200 g · Naranja, pulpa sin piel, sin pepitas, cruda
+- 15 g · Miel
+- 0,5 g · Canela, polvo
+
+**Preparación**
+
+1. Pela 200 g de naranja y córtala en rodajas.
+2. Riégala con 15 g de miel y espolvorea 0,5 g de canela.
+
+## 1104. Arroz blanco con aceite de oliva y sal, cocido
+
+`arroz-blanco-aove` · Cereales, arroz y pasta · 1 ración de 290 g · 20 min · por ración: 397 kcal, P 7,1 g, C 77,9 g, G 5,8 g
+
+**Ingredientes** (lote de 290 g cocinado)
+
+- 100 g · Arroz blanco, crudo
+- 200 g · Agua del grifo
+- 5 g · Aceite de oliva virgen extra
+- 2 g · Ajo, crudo
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Dora 2 g de ajo en 5 g de aceite.
+2. Añade 100 g de arroz, remueve 1 minuto y vierte 200 g de agua con la sal.
+3. Tapa y cuece a fuego suave 15 minutos. Deja reposar 5 minutos.
+
+## 1105. Arroz integral con aceite de oliva y sal, cocido
+
+`arroz-integral-aove` · Cereales, arroz y pasta · 1 ración de 290 g · 45 min · por ración: 395 kcal, P 7 g, C 71,4 g, G 7,8 g
+
+**Ingredientes** (lote de 290 g cocinado)
+
+- 100 g · Arroz integral, crudo
+- 220 g · Agua del grifo
+- 5 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 100 g de arroz integral con 220 g de agua y la sal, tapado, 35 minutos a fuego suave.
+2. Deja reposar 5 minutos y aliña con 5 g de aceite.
+
+*Notas:* Si el arroz necesita más agua, añádela: lo que no absorba se tira.
+
+## 1106. Pasta cocida con aceite de oliva, cocida
+
+`pasta-cocida-aove` · Cereales, arroz y pasta · 1 ración de 236 g · 15 min · por ración: 409 kcal, P 12 g, C 72,7 g, G 6,6 g
+
+**Ingredientes** (lote de 236 g cocinado)
+
+- 100 g · Pasta seca, estándar, cruda
+- 130 g · Agua del grifo
+- 5 g · Aceite de oliva virgen extra
+- 1,5 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Cuece 100 g de pasta en agua hirviendo con sal el tiempo del paquete.
+2. Escúrrela (absorbe unos 130 g de agua) y aliña con 5 g de aceite.
+
+*Notas:* La sal es la que absorbe la pasta del agua de cocción.
+
+## 1107. Yogur natural con miel, listo para consumir
+
+`yogur-miel` · Yogures y postres lácteos · 1 ración de 140 g · 2 min · por ración: 112 kcal, P 4,9 g, C 17,7 g, G 2,1 g
+
+**Ingredientes** (lote de 140 g cocinado)
+
+- 125 g · Yogur o leche fermentada, natural
+- 15 g · Miel
+
+**Preparación**
+
+1. Sirve 125 g de yogur natural con 15 g de miel por encima.
+
+## 1108. Yogur natural con nueces y miel, listo para consumir
+
+`yogur-nueces-miel` · Yogures y postres lácteos · 1 ración de 155 g · 2 min · por ración: 219 kcal, P 6,9 g, C 18,7 g, G 12,2 g
+
+**Ingredientes** (lote de 155 g cocinado)
+
+- 125 g · Yogur o leche fermentada, natural
+- 15 g · Nuez, grano, deshidratada
+- 15 g · Miel
+
+**Preparación**
+
+1. Sirve 125 g de yogur natural con 15 g de nueces troceadas y 15 g de miel por encima.
+
+## 1109. Huesos de santo, listos para consumir
+
+`huesos-santo` · Dulces y chocolate · 30 raciones de 24 g · 120 min · por ración: 114 kcal, P 2,4 g, C 13,1 g, G 5,4 g
+
+**Ingredientes** (lote de 720 g cocinado)
+
+- 250 g · Almendra, pelada, sin sal añadida
+- 370 g · Azúcar blanco
+- 50 g · Agua del grifo
+- 120 g · Huevo, yema, cruda
+
+**Preparación**
+
+1. Muele muy fino 250 g de almendras y mézclalas con 250 g del azúcar y un poco de agua hasta tener un mazapán. Déjalo reposar 1 hora.
+2. Estíralo muy fino, córtalo en rectángulos y enróllalos alrededor de palitos. Sécalos en el horno a 100 °C 15 minutos.
+3. Para el relleno, cuece el resto del azúcar con el resto del agua 5 minutos. Añade 120 g de yemas y remueve a fuego muy suave hasta que espese.
+4. Quita los palitos y rellena los huesos con la crema de yema.
+
+*Notas:* Una ración son 2 huesos (unos 25 g). Tradicionalmente se bañan en fondant.
+
+## 1110. Crema pastelera, casera, cocida
+
+`crema-pastelera` · Yogures y postres lácteos · 8 raciones de 90 g · 25 min · por ración: 157 kcal, P 4,1 g, C 22,6 g, G 5,6 g
+
+**Ingredientes** (lote de 720 g cocinado)
+
+- 500 g · Leche entera, UHT
+- 100 g · Huevo, yema, cruda
+- 120 g · Azúcar blanco
+- 40 g · Almidón de maíz o fécula de maíz
+
+**Preparación**
+
+1. Calienta 400 g de la leche.
+2. Bate 100 g de yemas con 120 g de azúcar y 40 g de maicena disuelta en el resto de la leche fría.
+3. Vierte la leche caliente sobre la mezcla, removiendo, y vuelve al fuego.
+4. Cuece a fuego suave removiendo sin parar 3 o 4 minutos, hasta que espese. Cubre con film a piel y deja que se enfríe.
+
+*Notas:* Para rellenar o como postre: una ración son unos 90 g. Tradicionalmente se aromatiza con piel de limón.
+
+## 1111. Manzana asada con azúcar, horneada
+
+`manzana-asada` · Frutas · 1 ración de 170 g · 40 min · por ración: 180 kcal, P 0,6 g, C 33,8 g, G 4,6 g
+
+**Ingredientes** (lote de 170 g cocinado)
+
+- 200 g · Manzana, pulpa sin piel, cruda (promedio)
+- 10 g · Azúcar blanco
+- 5 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Precalienta el horno a 190 °C. Quita el corazón a una manzana de 200 g sin atravesarla.
+2. Rellena el hueco con 10 g de azúcar y 5 g de mantequilla.
+3. Hornéala en una fuente con un poco de agua 30 minutos, hasta que esté blanda.
+
+## 1112. Bol de yogur con granola y fruta, listo para consumir
+
+`bol-yogur-granola` · Yogures y postres lácteos · 1 ración de 255 g · 5 min · por ración: 305 kcal, P 8,8 g, C 44,4 g, G 8,6 g
+
+**Ingredientes** (lote de 255 g cocinado)
+
+- 125 g · Yogur o leche fermentada, natural
+- 40 g · Granola crujiente con frutas, con o sin frutos secos y/o semillas, no enriquecida
+- 60 g · Fresa, cruda
+- 10 g · Miel
+- 20 g · Arándano, crudo
+
+**Preparación**
+
+1. Pon 125 g de yogur en un cuenco.
+2. Añade 40 g de granola, 60 g de fresas troceadas y 20 g de arándanos.
+3. Riega con 10 g de miel.
+
+## 1113. Mousse de chocolate, casera, lista para consumir
+
+`mousse-chocolate` · Yogures y postres lácteos · 6 raciones de 93 g · 30 min · por ración: 313 kcal, P 7,6 g, C 24,4 g, G 20 g
+
+**Ingredientes** (lote de 560 g cocinado)
+
+- 200 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 240 g · Huevo crudo
+- 40 g · Azúcar blanco
+- 100 g · Nata, 30 % MG, fluida, UHT
+
+**Preparación**
+
+1. Funde 200 g de chocolate al baño maría y deja que se temple.
+2. Separa 240 g de huevo (4 huevos). Añade las yemas al chocolate, una a una.
+3. Monta 100 g de nata. Monta las claras a punto de nieve con 40 g de azúcar.
+4. Mezcla la nata con el chocolate y luego las claras con movimientos envolventes.
+5. Repártela en copas y guárdala en la nevera al menos 4 horas.
+
+*Notas:* Lleva huevo crudo: usa huevos muy frescos o pasteurizados. El reposo en la nevera no cuenta en el tiempo.
+
+## 1114. Flan de café, casero, cocido
+
+`flan-cafe` · Yogures y postres lácteos · 8 raciones de 119 g · 70 min · por ración: 179 kcal, P 7,6 g, C 22,8 g, G 6,4 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 600 g · Leche entera, UHT
+- 300 g · Huevo crudo
+- 150 g · Azúcar blanco
+- 8 g · Café, polvo soluble
+
+**Preparación**
+
+1. Carameliza un molde (el caramelo no está incluido en la formulación).
+2. Calienta 600 g de leche y disuelve en ella 8 g de café soluble.
+3. Bate 300 g de huevo (5 huevos) con 150 g de azúcar y añade la leche poco a poco.
+4. Vierte en el molde y cuece al baño maría en el horno a 170 °C 50 minutos, hasta que cuaje.
+5. Deja que se enfríe y guárdalo en la nevera antes de desmoldar.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1115. Gelatina de frutas, casera, lista para consumir
+
+`gelatina-frutas` · Yogures y postres lácteos · 5 raciones de 120 g · 20 min · por ración: 60 kcal, P 1,8 g, C 12,9 g, G 0,1 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 500 g · Agua del grifo
+- 60 g · Azúcar blanco
+- 10 g · Gelatina, seca
+- 80 g · Fresa, cruda
+
+**Preparación**
+
+1. Hidrata 10 g de gelatina en un poco del agua fría 5 minutos.
+2. Calienta el resto del agua con 60 g de azúcar, sin que hierva, y disuelve la gelatina.
+3. Reparte 80 g de fresas troceadas en moldes y cubre con el líquido.
+4. Deja cuajar en la nevera al menos 4 horas.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1116. Fruta troceada con zumo de naranja, lista para consumir
+
+`macedonia-zumo` · Frutas · 3 raciones de 183 g · 15 min · por ración: 104 kcal, P 1,3 g, C 22,4 g, G 0,5 g
+
+**Ingredientes** (lote de 550 g cocinado)
+
+- 150 g · Manzana, pulpa sin piel, cruda (promedio)
+- 150 g · Plátano, pulpa sin piel, cruda
+- 100 g · Fresa, cruda
+- 150 g · Zumo de naranja, fresco
+
+**Preparación**
+
+1. Pela y trocea 150 g de manzana, 150 g de plátano y 100 g de fresas.
+2. Mézclalas con 150 g de zumo de naranja.
+3. Guárdala en la nevera hasta servir.
+
+## 1117. Yogur natural con frutos secos, listo para consumir
+
+`yogur-frutos-secos` · Yogures y postres lácteos · 1 ración de 150 g · 2 min · por ración: 228 kcal, P 9,3 g, C 7,4 g, G 16,7 g
+
+**Ingredientes** (lote de 150 g cocinado)
+
+- 125 g · Yogur o leche fermentada, natural
+- 10 g · Nuez, grano, deshidratada
+- 15 g · Almendra, pelada, sin sal añadida
+
+**Preparación**
+
+1. Sirve 125 g de yogur natural con 10 g de nueces y 15 g de almendras troceadas.
+
+## 1118. Yogur natural con fruta troceada, listo para consumir
+
+`yogur-fruta` · Yogures y postres lácteos · 1 ración de 225 g · 5 min · por ración: 124 kcal, P 5,6 g, C 18,2 g, G 2,4 g
+
+**Ingredientes** (lote de 225 g cocinado)
+
+- 125 g · Yogur o leche fermentada, natural
+- 50 g · Plátano, pulpa sin piel, cruda
+- 50 g · Fresa, cruda
+
+**Preparación**
+
+1. Trocea 50 g de plátano y 50 g de fresas.
+2. Mézclalas con 125 g de yogur natural.
+
+## 1119. Aceitunas aliñadas caseras, listas para consumir
+
+`aceitunas-alinadas` · Salsas y condimentos · 10 raciones de 33 g · 10 min · por ración: 60 kcal, P 0,4 g, C 0,4 g, G 6 g
+
+**Ingredientes** (lote de 330 g cocinado)
+
+- 300 g · Aceituna verde, en salmuera, escurrida
+- 10 g · Ajo, crudo
+- 10 g · Aceite de oliva virgen extra
+- 10 g · Vinagre de vino tinto
+- 1 g · Orégano, deshidratado
+- 1 g · Tomillo, deshidratado
+
+**Preparación**
+
+1. Escurre 300 g de aceitunas y machácalas un poco si quieres.
+2. Mézclalas con 10 g de ajo laminado, 10 g de aceite, 10 g de vinagre, 1 g de orégano y 1 g de tomillo.
+3. Déjalas macerar al menos 1 día en la nevera, removiendo de vez en cuando.
+
+*Notas:* Una ración son unos 30 g. El macerado no cuenta en el tiempo.
+
+## 1120. Nachos con queso cheddar, listos para consumir
+
+`nachos-queso` · Snacks salados · 2 raciones de 80 g · 10 min · por ración: 326 kcal, P 8 g, C 31,9 g, G 17,8 g
+
+**Ingredientes** (lote de 160 g cocinado)
+
+- 100 g · Patatas chips de maíz o tortilla chips, al natural
+- 40 g · Queso Cheddar
+- 20 g · Tomate redondo, crudo
+
+**Preparación**
+
+1. Coloca 100 g de totopos en una fuente.
+2. Cubre con 40 g de cheddar rallado y gratina 4 minutos, hasta que se funda.
+3. Sirve con 20 g de tomate picado por encima.
+
+## 1121. Mousse de limón casera, lista para consumir
+
+`mousse-limon` · Yogures y postres lácteos · 8 raciones de 111 g · 15 min · por ración: 302 kcal, P 4,7 g, C 28,4 g, G 18,7 g
+
+**Ingredientes** (lote de 885 g cocinado)
+
+- 370 g · Leche condensada azucarada, entera
+- 400 g · Nata, 30 % MG, fluida, UHT
+- 120 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Monta 400 g de nata.
+2. Mezcla 370 g de leche condensada con 120 g de zumo de limón: espesa enseguida.
+3. Añade la nata con movimientos envolventes.
+4. Repártela en copas y guárdala en la nevera al menos 2 horas.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1122. Helado casero de vainilla, listo para consumir
+
+`helado-vainilla-casero` · Yogures y postres lácteos · 10 raciones de 95 g · 60 min · por ración: 202 kcal, P 4,2 g, C 18,4 g, G 12,5 g
+
+**Ingredientes** (lote de 950 g cocinado)
+
+- 500 g · Leche entera, UHT
+- 250 g · Nata, 30 % MG, fluida, UHT
+- 120 g · Huevo, yema, cruda
+- 150 g · Azúcar blanco
+
+**Preparación**
+
+1. Calienta 500 g de leche y 250 g de nata (con una vaina de vainilla abierta, si tienes).
+2. Bate 120 g de yemas con 150 g de azúcar y añade la leche caliente poco a poco.
+3. Cuece a fuego muy suave, removiendo, hasta que la crema cubra la cuchara, sin que hierva. Cuela y deja que se enfríe.
+4. Congélala, batiéndola cada 30 minutos durante 3 horas para que no cristalice (o usa una heladera).
+
+*Notas:* Una ración son unos 95 g (una bola grande). La congelación no cuenta en el tiempo.
+
+## 1123. Helado casero de chocolate, listo para consumir
+
+`helado-chocolate-casero` · Yogures y postres lácteos · 10 raciones de 97 g · 60 min · por ración: 212 kcal, P 4,7 g, C 18,9 g, G 12,8 g
+
+**Ingredientes** (lote de 970 g cocinado)
+
+- 500 g · Leche entera, UHT
+- 250 g · Nata, 30 % MG, fluida, UHT
+- 100 g · Huevo, yema, cruda
+- 150 g · Azúcar blanco
+- 40 g · Cacao, sin azúcares añadidos, polvo soluble
+
+**Preparación**
+
+1. Calienta 500 g de leche y 250 g de nata y disuelve 40 g de cacao.
+2. Bate 100 g de yemas con 150 g de azúcar y añade la leche caliente poco a poco.
+3. Cuece a fuego muy suave, removiendo, hasta que la crema espese un poco, sin que hierva. Deja que se enfríe.
+4. Congélala, batiéndola cada 30 minutos durante 3 horas (o usa una heladera).
+
+*Notas:* Una ración son unos 95 g. La congelación no cuenta en el tiempo.
+
+## 1124. Flan de coco casero, cuajado
+
+`flan-coco` · Yogures y postres lácteos · 10 raciones de 115 g · 70 min · por ración: 250 kcal, P 7,8 g, C 24,1 g, G 13,4 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 500 g · Leche entera, UHT
+- 370 g · Leche condensada azucarada, entera
+- 200 g · Huevo crudo
+- 100 g · Coco, pulpa, deshidratada
+
+**Preparación**
+
+1. Carameliza un molde (el caramelo no está incluido en la formulación).
+2. Bate 200 g de huevo (4 huevos) con 370 g de leche condensada, 500 g de leche y 100 g de coco rallado.
+3. Vierte en el molde y cuece al baño maría en el horno a 170 °C 55 minutos.
+4. Deja que se enfríe y guárdalo en la nevera antes de desmoldar.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1125. Sémola con leche casera, cocida
+
+`semola-leche` · Yogures y postres lácteos · 6 raciones de 175 g · 20 min · por ración: 215 kcal, P 7,4 g, C 32,4 g, G 6,2 g
+
+**Ingredientes** (lote de 1050 g cocinado)
+
+- 1000 g · Leche entera, UHT
+- 80 g · Sémola de trigo duro, cruda
+- 90 g · Azúcar blanco
+- 3 g · Canela, polvo
+
+**Preparación**
+
+1. Calienta 1.000 g de leche con la canela y 90 g de azúcar.
+2. Cuando hierva, añade 80 g de sémola en forma de lluvia, removiendo con varillas.
+3. Cuece a fuego suave 8 minutos, removiendo, hasta que espese.
+4. Sírvela templada o fría con canela por encima.
+
+## 1126. Gachas dulces (poleá) con picatostes, cocidas
+
+`gachas-dulces` · Yogures y postres lácteos · 6 raciones de 192 g · 30 min · por ración: 296 kcal, P 7,8 g, C 40,8 g, G 11,2 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 1000 g · Leche entera, UHT
+- 80 g · Harina de trigo tierno o trigo T45 (para pastelería)
+- 100 g · Azúcar blanco
+- 30 g · Aceite de oliva virgen extra
+- 3 g · Canela, polvo
+- 60 g · Pan blanco (p. ej. baguette, hogaza)
+
+**Preparación**
+
+1. Corta 60 g de pan en dados y fríelos en 30 g de aceite hasta que estén dorados. Sácalos.
+2. En el mismo aceite, tuesta 80 g de harina 2 minutos.
+3. Añade poco a poco 1.000 g de leche, removiendo, y 100 g de azúcar.
+4. Cuece a fuego suave 10 minutos, hasta que espese. Sirve con los picatostes y la canela.
+
+*Notas:* Postre andaluz (poleá); tradicionalmente lleva matalahúva y piel de limón.
+
+## 1127. Compota de pera casera, cocida
+
+`compota-pera` · Dulces y chocolate · 6 raciones de 167 g · 40 min · por ración: 149 kcal, P 0,7 g, C 33,9 g, G 0,5 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 1000 g · Pera, pulpa y piel, cruda
+- 80 g · Azúcar blanco
+- 200 g · Agua del grifo
+- 3 g · Canela, polvo
+
+**Preparación**
+
+1. Pela 1.000 g de peras, quítales el corazón y trocéalas.
+2. Cuécelas con 200 g de agua, 80 g de azúcar y la canela, tapadas, 25 minutos.
+3. Aplástalas o tritúralas según la textura que quieras.
+
+## 1128. Yogur con avena y fresas, listo para consumir
+
+`yogur-avena-frutos-rojos` · Yogures y postres lácteos · 1 ración de 280 g · 5 min · por ración: 288 kcal, P 13 g, C 41,7 g, G 5,6 g
+
+**Ingredientes** (lote de 280 g cocinado)
+
+- 150 g · Yogur o leche fermentada, natural
+- 40 g · Avena, cruda
+- 80 g · Fresa, cruda
+- 10 g · Miel
+
+**Preparación**
+
+1. Mezcla 150 g de yogur con 40 g de copos de avena.
+2. Añade 80 g de fresas troceadas y 10 g de miel.
+
+*Notas:* Si lo dejas en la nevera desde la noche anterior, la avena se ablanda.
+
+## 1129. Yogur con muesli, listo para consumir
+
+`yogur-muesli` · Yogures y postres lácteos · 1 ración de 165 g · 2 min · por ración: 236 kcal, P 8,3 g, C 30,7 g, G 7,8 g
+
+**Ingredientes** (lote de 165 g cocinado)
+
+- 125 g · Yogur o leche fermentada, natural
+- 40 g · Muesli (promedio)
+
+**Preparación**
+
+1. Mezcla 125 g de yogur con 40 g de muesli.
+
+## 1130. Pudin de chía con leche y miel, listo para consumir
+
+`pudin-chia` · Yogures y postres lácteos · 1 ración de 250 g · 10 min · por ración: 310 kcal, P 13,7 g, C 21,3 g, G 15,5 g
+
+**Ingredientes** (lote de 250 g cocinado)
+
+- 40 g · Chía, semilla, seca
+- 200 g · Leche semidesnatada, UHT
+- 10 g · Miel
+
+**Preparación**
+
+1. Mezcla 40 g de semillas de chía con 200 g de leche semidesnatada y 10 g de miel.
+2. Remueve otra vez a los 5 minutos para que no se apelmace.
+3. Déjalo en la nevera al menos 4 horas, hasta que espese.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1131. Plátano con crema de cacahuete, listo para consumir
+
+`platano-crema-cacahuete` · Dulces y chocolate · 1 ración de 140 g · 2 min · por ración: 234 kcal, P 5,8 g, C 27,1 g, G 10,6 g
+
+**Ingredientes** (lote de 140 g cocinado)
+
+- 120 g · Plátano, pulpa sin piel, cruda
+- 20 g · Crema de cacahuete o pasta de cacahuete
+
+**Preparación**
+
+1. Pela 120 g de plátano y córtalo en rodajas.
+2. Úntalas o sírvelas con 20 g de crema de cacahuete.
+
+## 1132. Tofu a la plancha con soja, cocinado
+
+`tofu-plancha-soja` · Alternativas vegetales · 1 ración de 190 g · 15 min · por ración: 343 kcal, P 27,5 g, C 6 g, G 22 g
+
+**Ingredientes** (lote de 190 g cocinado)
+
+- 200 g · Tofu natural, envasado
+- 5 g · Aceite de oliva virgen extra
+- 10 g · Salsa de soja, envasada
+
+**Preparación**
+
+1. Escurre 200 g de tofu, sécalo con papel y córtalo en lonchas.
+2. Dóralas en 5 g de aceite 3 minutos por cada lado.
+3. Añade 10 g de salsa de soja y dales la vuelta para que se impregnen.
+
+## 1133. Revuelto de tofu con verduras, cocinado
+
+`revuelto-tofu` · Alternativas vegetales · 1 ración de 330 g · 15 min · por ración: 491 kcal, P 34,6 g, C 12,5 g, G 31,7 g
+
+**Ingredientes** (lote de 330 g cocinado)
+
+- 250 g · Tofu natural, envasado
+- 50 g · Cebolla, cruda
+- 50 g · Pimiento verde, crudo
+- 1 g · Cúrcuma, polvo
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 50 g de cebolla y 50 g de pimiento verde y sofríelos en 10 g de aceite 6 minutos.
+2. Desmenuza 250 g de tofu con un tenedor y añádelo con 1 g de cúrcuma y la sal.
+3. Saltea 4 minutos, hasta que esté caliente.
+
+## 1134. Pan de Calatrava, cuajado
+
+`pan-calatrava` · Yogures y postres lácteos · 10 raciones de 145 g · 75 min · por ración: 230 kcal, P 8,1 g, C 32,3 g, G 7,7 g
+
+**Ingredientes** (lote de 1450 g cocinado)
+
+- 1000 g · Leche entera, UHT
+- 300 g · Huevo crudo
+- 200 g · Azúcar blanco
+- 100 g · Galleta seca natural
+
+**Preparación**
+
+1. Carameliza un molde (el caramelo no está incluido en la formulación).
+2. Trocea 100 g de galletas o bizcocho y repártelos en el molde.
+3. Bate 300 g de huevo (5 huevos) con 200 g de azúcar y 1.000 g de leche y viértelo encima.
+4. Cuece al baño maría en el horno a 170 °C 55 minutos.
+5. Deja que se enfríe y guárdalo en la nevera antes de desmoldar.
+
+*Notas:* Postre murciano, parecido al pudin. El reposo en la nevera no cuenta en el tiempo.
+
+## 1135. Compota de Navidad con frutas secas y vino, cocida
+
+`compota-navidad` · Dulces y chocolate · 10 raciones de 170 g · 50 min · por ración: 224 kcal, P 1,5 g, C 47,3 g, G 0,6 g
+
+**Ingredientes** (lote de 1700 g cocinado)
+
+- 150 g · Ciruela pasa, sin hueso, deshidratada
+- 150 g · Albaricoque, deshuesado, deshidratado
+- 100 g · Higo, deshidratado
+- 100 g · Uva pasa
+- 300 g · Manzana, pulpa sin piel, cruda (promedio)
+- 300 g · Pera, pulpa y piel, cruda
+- 300 g · Vino tinto
+- 100 g · Azúcar blanco
+- 3 g · Canela, polvo
+- 500 g · Agua del grifo
+
+**Preparación**
+
+1. Pela y trocea 300 g de manzana y 300 g de pera.
+2. Ponlas en una cazuela con 150 g de ciruelas pasas, 150 g de orejones, 100 g de higos secos y 100 g de pasas.
+3. Añade 300 g de vino tinto, 500 g de agua, 100 g de azúcar y la canela.
+4. Cuece a fuego suave 35 minutos, hasta que la fruta esté tierna y el líquido se reduzca.
+
+*Notas:* Se toma caliente o fría.
+
+## 1136. Turrón de coco casero, listo para consumir
+
+`turron-coco-casero` · Dulces y chocolate · 20 raciones de 30 g · 40 min · por ración: 152 kcal, P 1,6 g, C 13,5 g, G 9,7 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 250 g · Coco, pulpa, deshidratada
+- 250 g · Azúcar blanco
+- 100 g · Huevo, yema, cruda
+- 50 g · Agua del grifo
+
+**Preparación**
+
+1. Cuece 250 g de azúcar con 50 g de agua 5 minutos.
+2. Retira del fuego, añade 100 g de yemas y 250 g de coco rallado y mezcla.
+3. Vuelve al fuego muy suave 5 minutos, removiendo.
+4. Pasa la mezcla a un molde forrado con papel, aprieta y deja que se enfríe.
+5. Si quieres, quema la superficie con azúcar.
+
+*Notas:* Una ración son 30 g.
+
+## 1137. Trufas de chocolate caseras, listas para consumir
+
+`trufas-chocolate` · Dulces y chocolate · 15 raciones de 23 g · 30 min · por ración: 113 kcal, P 1,3 g, C 7,3 g, G 8,3 g
+
+**Ingredientes** (lote de 345 g cocinado)
+
+- 200 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 100 g · Nata, 30 % MG, fluida, UHT
+- 30 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 20 g · Cacao, sin azúcares añadidos, polvo soluble
+
+**Preparación**
+
+1. Calienta 100 g de nata y viértela sobre 200 g de chocolate troceado. Remueve hasta que se funda.
+2. Añade 30 g de mantequilla y mezcla.
+3. Deja que se enfríe en la nevera 2 horas.
+4. Forma bolitas de unos 20 g y rebózalas en 20 g de cacao.
+
+*Notas:* Una ración son 1 o 2 trufas (unos 23 g). El reposo en la nevera no cuenta en el tiempo.
+
+## 1138. Paté de aceitunas negras (olivada), listo para consumir
+
+`olivada` · Salsas y condimentos · 10 raciones de 25 g · 10 min · por ración: 73 kcal, P 0,6 g, C 0,1 g, G 7,5 g
+
+**Ingredientes** (lote de 253 g cocinado)
+
+- 200 g · Aceituna negra, en salmuera, escurrida
+- 40 g · Aceite de oliva virgen extra
+- 10 g · Anchoa, filetes, salados, al aceite, semiconserva, escurridos
+- 3 g · Ajo, crudo
+
+**Preparación**
+
+1. Escurre 200 g de aceitunas negras deshuesadas.
+2. Tritúralas con 10 g de anchoas y 3 g de ajo.
+3. Añade 40 g de aceite poco a poco sin dejar de triturar.
+
+*Notas:* Una ración son unos 25 g, untada en pan, que no está incluido.
+
+## 1139. Tzatziki (salsa de yogur y pepino), listo para consumir
+
+`tzatziki` · Salsas y condimentos · 8 raciones de 50 g · 15 min · por ración: 31 kcal, P 1,4 g, C 2 g, G 1,8 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 250 g · Yogur o leche fermentada, natural
+- 150 g · Pepino, pulpa y piel, crudo
+- 5 g · Ajo, crudo
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Eneldo, fresco
+
+**Preparación**
+
+1. Ralla 150 g de pepino, sálalo un poco y déjalo escurrir 10 minutos. Aprieta para quitarle el agua.
+2. Mézclalo con 250 g de yogur, 5 g de ajo rallado, 2 g de eneldo picado y 10 g de aceite.
+3. Guárdalo en la nevera hasta servir.
+
+*Notas:* Una ración son unos 50 g. Mejor con yogur griego.
+
+## 1140. Pico de gallo, listo para consumir
+
+`pico-gallo` · Salsas y condimentos · 6 raciones de 69 g · 15 min · por ración: 16 kcal, P 0,5 g, C 2,7 g, G 0,2 g
+
+**Ingredientes** (lote de 415 g cocinado)
+
+- 300 g · Tomate redondo, crudo
+- 80 g · Cebolla, cruda
+- 10 g · Cilantro, fresco
+- 20 g · Limón verde o lima, pulpa sin piel, sin pepitas, cruda
+- 5 g · Chile, crudo
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica en dados pequeños 300 g de tomate y 80 g de cebolla.
+2. Pica 10 g de cilantro y 5 g de guindilla.
+3. Mézclalo todo con 20 g de zumo de lima y la sal.
+
+*Notas:* Una ración son unos 70 g.
+
+## 1141. Chimichurri, listo para consumir
+
+`chimichurri` · Salsas y condimentos · 14 raciones de 19 g · 10 min · por ración: 100 kcal, P 0,2 g, C 0,4 g, G 10,7 g
+
+**Ingredientes** (lote de 272 g cocinado)
+
+- 50 g · Perejil, fresco
+- 10 g · Ajo, crudo
+- 5 g · Orégano, deshidratado
+- 150 g · Aceite de oliva virgen extra
+- 50 g · Vinagre de vino tinto
+- 3 g · Chile, crudo
+- 4 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica muy fino 50 g de perejil y 10 g de ajo y 3 g de guindilla.
+2. Mézclalos con 5 g de orégano, la sal, 50 g de vinagre y 150 g de aceite.
+3. Déjalo reposar al menos 1 hora.
+
+*Notas:* Una ración son unos 20 g (una cucharada), para carnes a la brasa.
+
+## 1142. Salsa de queso azul casera, cocinada
+
+`salsa-queso-azul` · Salsas y condimentos · 6 raciones de 47 g · 10 min · por ración: 162 kcal, P 4 g, C 1,2 g, G 15,7 g
+
+**Ingredientes** (lote de 280 g cocinado)
+
+- 100 g · Queso Roquefort (queso de oveja)
+- 200 g · Nata, 30 % MG, fluida, UHT
+
+**Preparación**
+
+1. Calienta 200 g de nata a fuego suave.
+2. Añade 100 g de roquefort desmenuzado y remueve hasta que se funda, sin que hierva.
+
+*Notas:* Una ración son unos 45 g. No lleva sal: el queso ya la aporta.
+
+## 1143. Salsa de pimienta casera, cocinada
+
+`salsa-pimienta-casera` · Salsas y condimentos · 5 raciones de 46 g · 15 min · por ración: 156 kcal, P 1 g, C 1,9 g, G 14,6 g
+
+**Ingredientes** (lote de 230 g cocinado)
+
+- 200 g · Nata, 30 % MG, fluida, UHT
+- 30 g · Aguardiente de vino tipo armañac o coñac
+- 5 g · Pimienta negra, polvo
+- 15 g · Mantequilla con 80 % de grasa mínimo, sin sal
+
+**Preparación**
+
+1. Funde 15 g de mantequilla y tuesta 5 g de pimienta molida gruesa 30 segundos.
+2. Añade 30 g de coñac y deja que se evapore.
+3. Añade 200 g de nata y cuece 4 minutos, hasta que espese.
+
+*Notas:* Una ración son unos 45 g.
+
+## 1144. Salsa de setas con nata casera, cocinada
+
+`salsa-setas-casera` · Salsas y condimentos · 6 raciones de 67 g · 20 min · por ración: 124 kcal, P 1,6 g, C 2,5 g, G 11,8 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 200 g · Champiñón, todos los tipos, crudo
+- 200 g · Nata, 30 % MG, fluida, UHT
+- 50 g · Cebolla, cruda
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Pica 50 g de cebolla y pochala en 10 g de aceite 5 minutos.
+2. Añade 200 g de setas troceadas y la sal y saltea 6 minutos.
+3. Vierte 200 g de nata y cuece 4 minutos.
+
+*Notas:* Una ración son unos 65 g.
+
+## 1145. Salsa de miel y mostaza casera, lista para consumir
+
+`salsa-miel-mostaza-casera` · Salsas y condimentos · 8 raciones de 20 g · 5 min · por ración: 74 kcal, P 0,6 g, C 5,6 g, G 5,4 g
+
+**Ingredientes** (lote de 160 g cocinado)
+
+- 50 g · Mostaza
+- 50 g · Miel
+- 50 g · Mayonesa (70% grasa mín.), envasada
+- 10 g · Zumo de limón, casero
+
+**Preparación**
+
+1. Mezcla 50 g de mostaza, 50 g de miel, 50 g de mayonesa y 10 g de zumo de limón hasta que esté homogénea.
+
+*Notas:* Una ración son unos 20 g.
+
+## 1146. Ajada gallega, cocinada
+
+`ajada` · Salsas y condimentos · 8 raciones de 18 g · 10 min · por ración: 119 kcal, P 0,3 g, C 0,6 g, G 12,7 g
+
+**Ingredientes** (lote de 145 g cocinado)
+
+- 100 g · Aceite de oliva virgen extra
+- 15 g · Ajo, crudo
+- 10 g · Pimentón, polvo
+- 20 g · Vinagre de vino tinto
+
+**Preparación**
+
+1. Dora 15 g de ajo laminado en 100 g de aceite.
+2. Retira del fuego y añade 10 g de pimentón, removiendo para que no se queme.
+3. Añade 20 g de vinagre.
+
+*Notas:* Salsa gallega para pescado cocido y patatas. Una ración son unos 18 g.
+
+## 1147. Salsa de cacahuete (satay), lista para consumir
+
+`salsa-cacahuete` · Salsas y condimentos · 10 raciones de 26 g · 10 min · por ración: 91 kcal, P 2,7 g, C 3,5 g, G 7,1 g
+
+**Ingredientes** (lote de 260 g cocinado)
+
+- 100 g · Crema de cacahuete o pasta de cacahuete
+- 30 g · Salsa de soja, envasada
+- 100 g · Leche de coco
+- 15 g · Limón verde o lima, pulpa sin piel, sin pepitas, cruda
+- 15 g · Miel
+
+**Preparación**
+
+1. Calienta 100 g de crema de cacahuete con 100 g de leche de coco, removiendo.
+2. Añade 30 g de salsa de soja, 15 g de zumo de lima y 15 g de miel.
+3. Aclara con un poco de agua si está espesa.
+
+*Notas:* Una ración son unos 25 g.
+
+## 1148. Salsa rosa casera, lista para consumir
+
+`salsa-rosa-casera` · Salsas y condimentos · 10 raciones de 22 g · 5 min · por ración: 111 kcal, P 0,3 g, C 1,8 g, G 11,2 g
+
+**Ingredientes** (lote de 220 g cocinado)
+
+- 150 g · Mayonesa (70% grasa mín.), envasada
+- 50 g · Ketchup, envasado
+- 15 g · Zumo de naranja, fresco
+- 5 g · Aguardiente de vino tipo armañac o coñac
+
+**Preparación**
+
+1. Mezcla 150 g de mayonesa con 50 g de ketchup.
+2. Añade 15 g de zumo de naranja y 5 g de coñac.
+
+*Notas:* Una ración son unos 22 g.
+
+## 1149. Caramelo líquido casero, cocinado
+
+`caramelo-liquido` · Dulces y chocolate · 10 raciones de 21 g · 15 min · por ración: 80 kcal, P 0 g, C 19,9 g, G 0 g
+
+**Ingredientes** (lote de 210 g cocinado)
+
+- 200 g · Azúcar blanco
+- 50 g · Agua del grifo
+
+**Preparación**
+
+1. Pon 200 g de azúcar en un cazo con 50 g de agua.
+2. Cuece a fuego medio sin remover hasta que tome color dorado oscuro.
+3. Úsalo enseguida para caramelizar moldes o guárdalo en un bote.
+
+*Notas:* Una ración son unos 20 g. Cuidado: quema mucho.
+
+## 1150. Picada catalana, lista para consumir
+
+`picada-catalana` · Salsas y condimentos · 6 raciones de 24 g · 15 min · por ración: 131 kcal, P 3 g, C 4,4 g, G 10,6 g
+
+**Ingredientes** (lote de 145 g cocinado)
+
+- 50 g · Almendra, pelada, sin sal añadida
+- 30 g · Avellana, sin sal añadida
+- 10 g · Ajo, crudo
+- 30 g · Pan blanco (p. ej. baguette, hogaza)
+- 5 g · Perejil, fresco
+- 20 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Fríe 30 g de pan en 20 g de aceite hasta que esté dorado.
+2. Tuesta 50 g de almendras y 30 g de avellanas.
+3. Maja en un mortero 10 g de ajo, los frutos secos, el pan y 5 g de perejil, con un poco de agua o caldo.
+
+*Notas:* Se añade al final de guisos para espesarlos. Una ración son unos 25 g.
+
+## 1151. Salsa de pimientos del piquillo con nata, cocinada
+
+`salsa-piquillos` · Salsas y condimentos · 5 raciones de 58 g · 20 min · por ración: 90 kcal, P 0,9 g, C 3,1 g, G 8,1 g
+
+**Ingredientes** (lote de 290 g cocinado)
+
+- 200 g · Pimiento rojo, crudo
+- 100 g · Nata, 30 % MG, fluida, UHT
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Escurre 200 g de pimientos del piquillo y saltéalos en 10 g de aceite 3 minutos.
+2. Añade 100 g de nata y la sal y cuece 3 minutos.
+3. Tritúrala hasta que quede fina.
+
+*Notas:* Una ración son unos 60 g. La formulación usa pimiento rojo crudo.
+
+## 1152. Brochetas de fruta fresca, listas para consumir
+
+`brochetas-fruta` · Dulces y chocolate · 3 raciones de 150 g · 15 min · por ración: 76 kcal, P 1 g, C 15,7 g, G 0,4 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 100 g · Fresa, cruda
+- 100 g · Piña, pulpa sin piel, cruda
+- 100 g · Plátano, pulpa sin piel, cruda
+- 100 g · Melón miel o melón honeydew, pulpa sin piel, sin pepitas, cruda
+- 50 g · Kiwi, pulpa sin piel, con pepitas, cruda
+
+**Preparación**
+
+1. Trocea 100 g de fresas, 100 g de piña, 100 g de plátano, 100 g de melón y 50 g de kiwi.
+2. Ensártalos alternando colores en palitos de brocheta.
+
+## 1153. Piña asada con canela, asada
+
+`pina-asada-canela` · Dulces y chocolate · 2 raciones de 165 g · 25 min · por ración: 126 kcal, P 0,6 g, C 28,7 g, G 0,6 g
+
+**Ingredientes** (lote de 330 g cocinado)
+
+- 400 g · Piña, pulpa sin piel, cruda
+- 10 g · Azúcar blanco
+- 2 g · Canela, polvo
+
+**Preparación**
+
+1. Corta 400 g de piña en rodajas.
+2. Espolvoréalas con 10 g de azúcar y 2 g de canela.
+3. Ásalas a la plancha o en el horno a 220 °C 10 minutos, hasta que se caramelicen.
+
+## 1154. Plátano a la plancha con miel, cocinado
+
+`platano-plancha-miel` · Dulces y chocolate · 1 ración de 140 g · 10 min · por ración: 185 kcal, P 1,5 g, C 33,9 g, G 4,5 g
+
+**Ingredientes** (lote de 140 g cocinado)
+
+- 130 g · Plátano, pulpa sin piel, cruda
+- 5 g · Mantequilla con 80 % de grasa mínimo, sin sal
+- 10 g · Miel
+
+**Preparación**
+
+1. Pela 130 g de plátano y ábrelo por la mitad a lo largo.
+2. Dóralo en 5 g de mantequilla 2 minutos por cada lado.
+3. Sírvelo con 10 g de miel.
+
+## 1155. Fresas con yogur natural, listas para consumir
+
+`fresas-yogur` · Yogures y postres lácteos · 1 ración de 275 g · 5 min · por ración: 115 kcal, P 5,7 g, C 14,4 g, G 2,6 g
+
+**Ingredientes** (lote de 275 g cocinado)
+
+- 150 g · Fresa, cruda
+- 125 g · Yogur o leche fermentada, natural
+
+**Preparación**
+
+1. Lava 150 g de fresas y córtalas.
+2. Sírvelas con 125 g de yogur natural.
+
+## 1156. Fresas bañadas en chocolate, listas para consumir
+
+`fresas-chocolate` · Dulces y chocolate · 2 raciones de 115 g · 30 min · por ración: 117 kcal, P 1,6 g, C 13,7 g, G 5,3 g
+
+**Ingredientes** (lote de 230 g cocinado)
+
+- 200 g · Fresa, cruda
+- 30 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+
+**Preparación**
+
+1. Lava y seca muy bien 200 g de fresas, con el rabito.
+2. Funde 30 g de chocolate al baño maría.
+3. Moja cada fresa hasta la mitad y déjalas sobre papel hasta que el chocolate endurezca.
+
+## 1157. Kiwi con yogur y miel, listo para consumir
+
+`kiwi-yogur` · Yogures y postres lácteos · 1 ración de 235 g · 5 min · por ración: 157 kcal, P 5,7 g, C 24,6 g, G 2,7 g
+
+**Ingredientes** (lote de 235 g cocinado)
+
+- 100 g · Kiwi, pulpa sin piel, con pepitas, cruda
+- 125 g · Yogur o leche fermentada, natural
+- 10 g · Miel
+
+**Preparación**
+
+1. Pela 100 g de kiwi y córtalo en dados.
+2. Sírvelo con 125 g de yogur y 10 g de miel.
+
+## 1158. Ensalada de frutas con yogur, lista para consumir
+
+`ensalada-frutas-yogur` · Yogures y postres lácteos · 2 raciones de 263 g · 15 min · por ración: 139 kcal, P 3,8 g, C 25,5 g, G 1,6 g
+
+**Ingredientes** (lote de 525 g cocinado)
+
+- 100 g · Manzana, pulpa sin piel, cruda (promedio)
+- 100 g · Plátano, pulpa sin piel, cruda
+- 100 g · Naranja, pulpa sin piel, sin pepitas, cruda
+- 100 g · Fresa, cruda
+- 125 g · Yogur o leche fermentada, natural
+
+**Preparación**
+
+1. Pela y trocea 100 g de manzana, 100 g de plátano, 100 g de naranja y 100 g de fresas.
+2. Mézclalas y sírvelas con 125 g de yogur por encima.
+
+## 1159. Melocotón en almíbar casero, cocido
+
+`melocoton-almibar-casero` · Dulces y chocolate · 6 raciones de 167 g · 40 min · por ración: 159 kcal, P 0,9 g, C 37,9 g, G 0,4 g
+
+**Ingredientes** (lote de 1000 g cocinado)
+
+- 800 g · Melocotón, pulpa sin piel, sin hueso, crudo (promedio)
+- 150 g · Azúcar blanco
+- 300 g · Agua del grifo
+
+**Preparación**
+
+1. Pela 800 g de melocotones, pártelos por la mitad y quítales el hueso.
+2. Cuece 300 g de agua con 150 g de azúcar 5 minutos.
+3. Añade los melocotones y cuécelos a fuego suave 15 minutos.
+4. Deja que se enfríen en el almíbar.
+
+*Notas:* Parte del almíbar no se come; los valores lo cuentan todo.
+
+## 1160. Manzana con canela al microondas, cocinada
+
+`manzana-canela-microondas` · Dulces y chocolate · 1 ración de 170 g · 10 min · por ración: 105 kcal, P 0,6 g, C 24,1 g, G 0,4 g
+
+**Ingredientes** (lote de 170 g cocinado)
+
+- 200 g · Manzana, pulpa sin piel, cruda (promedio)
+- 1 g · Canela, polvo
+
+**Preparación**
+
+1. Lava una manzana de 200 g y quítale el corazón.
+2. Córtala en gajos, espolvorea 1 g de canela y cuécela en el microondas tapada 4 o 5 minutos, hasta que esté blanda.
+
+## 1161. Sorbete de mango casero, listo para consumir
+
+`sorbete-mango` · Dulces y chocolate · 6 raciones de 108 g · 20 min · por ración: 113 kcal, P 0,5 g, C 25,3 g, G 0,3 g
+
+**Ingredientes** (lote de 650 g cocinado)
+
+- 500 g · Mango, pulpa sin piel, sin hueso, cruda
+- 80 g · Azúcar blanco
+- 20 g · Zumo de limón, casero
+- 60 g · Agua del grifo
+
+**Preparación**
+
+1. Pela 500 g de mango y trocéalo.
+2. Cuece 60 g de agua con 80 g de azúcar 2 minutos y deja que se enfríe.
+3. Tritura el mango con el almíbar y 20 g de zumo de limón.
+4. Congélalo, batiéndolo cada 30 minutos durante 3 horas (o usa una heladera).
+
+*Notas:* Una ración son unos 110 g. La congelación no cuenta en el tiempo.
+
+## 1162. Polos de yogur y frutos rojos caseros, listos para consumir
+
+`polos-yogur-fruta` · Yogures y postres lácteos · 5 raciones de 76 g · 15 min · por ración: 44 kcal, P 2,1 g, C 6 g, G 1 g
+
+**Ingredientes** (lote de 380 g cocinado)
+
+- 250 g · Yogur o leche fermentada, natural
+- 80 g · Fresa, cruda
+- 40 g · Frambuesa, cruda
+- 15 g · Miel
+
+**Preparación**
+
+1. Tritura 80 g de fresas y 40 g de frambuesas con 15 g de miel.
+2. Mézclalo a medias con 250 g de yogur, dejando vetas.
+3. Reparte en moldes de polo y congela al menos 4 horas.
+
+*Notas:* Salen unos 5 polos. La congelación no cuenta en el tiempo.
+
+## 1163. Mousse de fresa casera, lista para consumir
+
+`mousse-fresa` · Yogures y postres lácteos · 6 raciones de 115 g · 30 min · por ración: 197 kcal, P 2,4 g, C 17,8 g, G 12,7 g
+
+**Ingredientes** (lote de 690 g cocinado)
+
+- 300 g · Fresa, cruda
+- 250 g · Nata, 30 % MG, fluida, UHT
+- 80 g · Azúcar blanco
+- 8 g · Gelatina, seca
+- 60 g · Agua del grifo
+
+**Preparación**
+
+1. Hidrata 8 g de gelatina en 60 g de agua fría 5 minutos y disuélvela calentándola un poco.
+2. Tritura 300 g de fresas con 80 g de azúcar y mézclalas con la gelatina.
+3. Monta 250 g de nata y mézclala con el puré con movimientos envolventes.
+4. Repártela en copas y deja que cuaje en la nevera al menos 4 horas.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1164. Crema de mango con yogur, lista para consumir
+
+`crema-mango` · Yogures y postres lácteos · 2 raciones de 223 g · 10 min · por ración: 171 kcal, P 3,3 g, C 32,3 g, G 1,5 g
+
+**Ingredientes** (lote de 445 g cocinado)
+
+- 300 g · Mango, pulpa sin piel, sin hueso, cruda
+- 125 g · Yogur o leche fermentada, natural
+- 20 g · Miel
+
+**Preparación**
+
+1. Pela 300 g de mango y trocéalo.
+2. Tritúralo con 125 g de yogur y 20 g de miel.
+3. Sírvela fría.
+
+## 1165. Fruta con chocolate fundido, lista para consumir
+
+`fondue-chocolate-fruta` · Dulces y chocolate · 3 raciones de 167 g · 20 min · por ración: 244 kcal, P 2,8 g, C 30,7 g, G 11,2 g
+
+**Ingredientes** (lote de 500 g cocinado)
+
+- 150 g · Fresa, cruda
+- 150 g · Plátano, pulpa sin piel, cruda
+- 100 g · Piña, pulpa sin piel, cruda
+- 80 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 20 g · Nata, 30 % MG, fluida, UHT
+
+**Preparación**
+
+1. Trocea 150 g de fresas, 150 g de plátano y 100 g de piña.
+2. Funde 80 g de chocolate con 20 g de nata al baño maría.
+3. Moja la fruta en el chocolate con palitos.
+
+## 1166. Compota de manzana sin azúcar, cocida
+
+`compota-manzana-sin-azucar` · Dulces y chocolate · 3 raciones de 173 g · 30 min · por ración: 86 kcal, P 0,5 g, C 19,8 g, G 0,3 g
+
+**Ingredientes** (lote de 520 g cocinado)
+
+- 500 g · Manzana, pulpa sin piel, cruda (promedio)
+- 100 g · Agua del grifo
+
+**Preparación**
+
+1. Pela 500 g de manzanas, quítales el corazón y trocéalas.
+2. Cuécelas con 100 g de agua, tapadas, 20 minutos.
+3. Aplástalas o tritúralas.
+
+*Notas:* Sirve como postre o para bebés a partir de 6 meses.
+
+## 1167. Papilla de frutas con galleta, lista para consumir
+
+`papilla-frutas` · Dulces y chocolate · 1 ración de 315 g · 10 min · por ración: 255 kcal, P 3,3 g, C 52,4 g, G 2,5 g
+
+**Ingredientes** (lote de 315 g cocinado)
+
+- 100 g · Plátano, pulpa sin piel, cruda
+- 100 g · Pera, pulpa y piel, cruda
+- 100 g · Zumo de naranja, fresco
+- 15 g · Galleta seca natural
+
+**Preparación**
+
+1. Pela y trocea 100 g de plátano y 100 g de pera.
+2. Tritúralos con 100 g de zumo de naranja y 15 g de galleta hasta que quede fino.
+
+*Notas:* Para bebés, mejor recién hecha.
+
+## 1168. Provoleta a la plancha, cocinada
+
+`provoleta` · Quesos · 2 raciones de 90 g · 15 min · por ración: 365 kcal, P 25,7 g, C 0,3 g, G 29,1 g
+
+**Ingredientes** (lote de 180 g cocinado)
+
+- 200 g · Queso Provolone
+- 2 g · Orégano, deshidratado
+- 5 g · Aceite de oliva virgen extra
+
+**Preparación**
+
+1. Calienta una sartén de hierro o una plancha muy caliente.
+2. Pon 200 g de provolone en una rodaja gruesa y dórala 2 o 3 minutos por cada lado, hasta que tenga costra y esté blanda por dentro.
+3. Sírvela con 2 g de orégano y 5 g de aceite.
+
+## 1169. Bolitas energéticas de dátil y avena, listas para consumir
+
+`bolitas-energeticas` · Dulces y chocolate · 12 raciones de 26 g · 20 min · por ración: 99 kcal, P 2,8 g, C 13,6 g, G 3 g
+
+**Ingredientes** (lote de 315 g cocinado)
+
+- 100 g · Avena, cruda
+- 150 g · Dátil, pulpa y piel, sin hueso, deshidratado
+- 50 g · Crema de cacahuete o pasta de cacahuete
+- 15 g · Cacao, sin azúcares añadidos, polvo soluble
+
+**Preparación**
+
+1. Tritura 150 g de dátiles sin hueso hasta hacer una pasta.
+2. Añade 100 g de copos de avena, 50 g de crema de cacahuete y 15 g de cacao y mezcla.
+3. Forma unas 12 bolitas y guárdalas en la nevera.
+
+*Notas:* Una ración es una bolita de unos 26 g.
+
+## 1170. Queso fresco batido 0 % con fruta y miel, listo para consumir
+
+`queso-batido-fruta` · Yogures y postres lácteos · 1 ración de 335 g · 5 min · por ración: 187 kcal, P 15,5 g, C 27,5 g, G 0,6 g
+
+**Ingredientes** (lote de 335 g cocinado)
+
+- 200 g · Queso blanco, natural, 0 % MG
+- 100 g · Fresa, cruda
+- 25 g · Plátano, pulpa sin piel, cruda
+- 10 g · Miel
+
+**Preparación**
+
+1. Pon 200 g de queso batido 0 % en un cuenco.
+2. Añade 100 g de fresas y 25 g de plátano troceados y 10 g de miel.
+
+## 1171. Helado de plátano y cacao (nice cream), listo para consumir
+
+`helado-platano` · Dulces y chocolate · 2 raciones de 155 g · 10 min · por ración: 151 kcal, P 2,8 g, C 30,1 g, G 1,5 g
+
+**Ingredientes** (lote de 310 g cocinado)
+
+- 300 g · Plátano, pulpa sin piel, cruda
+- 10 g · Cacao, sin azúcares añadidos, polvo soluble
+
+**Preparación**
+
+1. Pela 300 g de plátano maduro, córtalo en rodajas y congélalo al menos 6 horas.
+2. Tritura el plátano congelado con 10 g de cacao hasta que quede cremoso como un helado.
+3. Sírvelo enseguida.
+
+*Notas:* La congelación no cuenta en el tiempo.
+
+## 1172. Crème brûlée casera, horneada
+
+`creme-brulee` · Yogures y postres lácteos · 6 raciones de 113 g · 60 min · por ración: 372 kcal, P 4,9 g, C 19,9 g, G 30,3 g
+
+**Ingredientes** (lote de 680 g cocinado)
+
+- 500 g · Nata, 30 % MG, fluida, UHT
+- 120 g · Huevo, yema, cruda
+- 100 g · Azúcar blanco
+
+**Preparación**
+
+1. Precalienta el horno a 150 °C. Calienta 500 g de nata.
+2. Bate 120 g de yemas con 80 g del azúcar y añade la nata caliente poco a poco.
+3. Reparte en cazuelitas y hornéalas al baño maría 40 minutos, hasta que cuajen pero tiemblen en el centro.
+4. Deja que se enfríen en la nevera. Antes de servir, espolvorea el resto del azúcar y quémalo con un soplete.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1173. Flan de leche condensada casero, cuajado
+
+`flan-leche-condensada` · Yogures y postres lácteos · 10 raciones de 115 g · 70 min · por ración: 212 kcal, P 7,8 g, C 29,3 g, G 7,2 g
+
+**Ingredientes** (lote de 1150 g cocinado)
+
+- 370 g · Leche condensada azucarada, entera
+- 500 g · Leche entera, UHT
+- 250 g · Huevo crudo
+- 60 g · Azúcar blanco
+
+**Preparación**
+
+1. Con 60 g de azúcar haz un caramelo y viértelo en el fondo de un molde.
+2. Bate 250 g de huevo (5 huevos pequeños) con 370 g de leche condensada y 500 g de leche.
+3. Vierte en el molde y cuece al baño maría en el horno a 170 °C 55 minutos.
+4. Deja que se enfríe y guárdalo en la nevera antes de desmoldar.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1174. Flan de chocolate casero, cuajado
+
+`flan-chocolate` · Yogures y postres lácteos · 8 raciones de 109 g · 70 min · por ración: 194 kcal, P 6,2 g, C 21,9 g, G 8,8 g
+
+**Ingredientes** (lote de 870 g cocinado)
+
+- 500 g · Leche entera, UHT
+- 200 g · Huevo crudo
+- 100 g · Azúcar blanco
+- 100 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+
+**Preparación**
+
+1. Carameliza un molde (el caramelo no está incluido en la formulación).
+2. Calienta 500 g de leche y funde en ella 100 g de chocolate.
+3. Bate 200 g de huevo (4 huevos) con 100 g de azúcar y añade la leche poco a poco.
+4. Vierte en el molde y cuece al baño maría en el horno a 170 °C 50 minutos.
+5. Deja que se enfríe y guárdalo en la nevera antes de desmoldar.
+
+*Notas:* El reposo en la nevera no cuenta en el tiempo.
+
+## 1175. Natillas caseras con galleta, listas para consumir
+
+`natillas-galleta` · Yogures y postres lácteos · 8 raciones de 133 g · 30 min · por ración: 200 kcal, P 6 g, C 26,5 g, G 7,8 g
+
+**Ingredientes** (lote de 1060 g cocinado)
+
+- 800 g · Leche entera, UHT
+- 100 g · Huevo, yema, cruda
+- 100 g · Azúcar blanco
+- 30 g · Almidón de maíz o fécula de maíz
+- 60 g · Galleta seca natural
+- 2 g · Canela, polvo
+
+**Preparación**
+
+1. Calienta 600 g de la leche (con una rama de canela y piel de limón, si tienes).
+2. Bate 100 g de yemas con 100 g de azúcar y 30 g de maicena disuelta en el resto de la leche fría.
+3. Vierte la leche caliente poco a poco y vuelve al fuego. Cuece a fuego suave removiendo hasta que espese, sin que hierva.
+4. Reparte en cuencos, pon una galleta encima de cada uno (60 g en total) y espolvorea 2 g de canela.
+
+## 1176. Copa de mousse de chocolate con nata, lista para consumir
+
+`copa-chocolate-nata` · Yogures y postres lácteos · 4 raciones de 108 g · 30 min · por ración: 361 kcal, P 6,1 g, C 20,5 g, G 27,8 g
+
+**Ingredientes** (lote de 430 g cocinado)
+
+- 100 g · Chocolate negro, 40 por ciento cacao y superior, para repostería, tableta
+- 200 g · Nata, 30 % MG, fluida, UHT
+- 100 g · Huevo crudo
+- 20 g · Azúcar blanco
+- 30 g · Nata montada, bajo presión, UHT
+
+**Preparación**
+
+1. Funde 100 g de chocolate al baño maría.
+2. Separa 100 g de huevo (2 huevos pequeños). Añade las yemas al chocolate.
+3. Monta 200 g de nata. Monta las claras con 20 g de azúcar.
+4. Mezcla la nata con el chocolate y luego las claras con movimientos envolventes. Reparte en copas y deja en la nevera 4 horas.
+5. Sirve con 30 g de nata montada por encima.
+
+*Notas:* Lleva huevo crudo: usa huevos muy frescos o pasteurizados. El reposo en la nevera no cuenta en el tiempo.
+
+## 1177. Arroz con leche de coco, cocido
+
+`arroz-leche-coco` · Yogures y postres lácteos · 6 raciones de 183 g · 50 min · por ración: 352 kcal, P 6,5 g, C 43,8 g, G 16,6 g
+
+**Ingredientes** (lote de 1100 g cocinado)
+
+- 150 g · Arroz blanco, crudo
+- 400 g · Leche de coco
+- 600 g · Leche entera, UHT
+- 100 g · Azúcar blanco
+- 3 g · Canela, polvo
+
+**Preparación**
+
+1. Calienta 600 g de leche y 400 g de leche de coco con la canela.
+2. Añade 150 g de arroz y cuece a fuego muy suave 40 minutos, removiendo a menudo.
+3. Añade 100 g de azúcar y cuece 5 minutos más.
+
+## 1178. Melocotón con vino tinto, cocido
+
+`melocoton-vino` · Dulces y chocolate · 4 raciones de 175 g · 30 min · por ración: 164 kcal, P 1 g, C 27,2 g, G 0,6 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 500 g · Melocotón, pulpa sin piel, sin hueso, crudo (promedio)
+- 250 g · Vino tinto
+- 60 g · Azúcar blanco
+- 2 g · Canela, polvo
+
+**Preparación**
+
+1. Pela 500 g de melocotones y córtalos en gajos.
+2. Cuece 250 g de vino tinto con 60 g de azúcar y la canela 5 minutos.
+3. Añade el melocotón y cuécelo 10 minutos. Deja que se enfríe en el vino.
+
+*Notas:* Parte del vino no se come; los valores lo cuentan todo.
+
+## 1179. Bienmesabe canario, listo para consumir
+
+`bienmesabe-canario` · Dulces y chocolate · 15 raciones de 40 g · 40 min · por ración: 188 kcal, P 4,4 g, C 18,2 g, G 10,2 g
+
+**Ingredientes** (lote de 600 g cocinado)
+
+- 250 g · Almendra, pelada, sin sal añadida
+- 250 g · Azúcar blanco
+- 80 g · Huevo, yema, cruda
+- 100 g · Agua del grifo
+- 2 g · Canela, polvo
+
+**Preparación**
+
+1. Cuece 250 g de azúcar con 100 g de agua 5 minutos, hasta tener un almíbar.
+2. Muele fino 250 g de almendras y añádelas con la canela; cuece 5 minutos.
+3. Retira del fuego, deja templar un poco y añade 80 g de yemas, removiendo.
+4. Vuelve al fuego muy suave 3 minutos, sin que hierva. Deja que se enfríe.
+
+*Notas:* Una ración son unos 40 g. Tradicionalmente lleva ralladura de limón.
+
+## 1180. Goxua, listo para consumir
+
+`goxua` · Yogures y postres lácteos · 5 raciones de 140 g · 40 min · por ración: 327 kcal, P 5,7 g, C 34 g, G 18,7 g
+
+**Ingredientes** (lote de 700 g cocinado)
+
+- 200 g · Nata, 30 % MG, fluida, UHT
+- 80 g · Azúcar blanco
+- 300 g · Leche entera, UHT
+- 60 g · Huevo, yema, cruda
+- 25 g · Almidón de maíz o fécula de maíz
+- 60 g · Galleta seca natural
+
+**Preparación**
+
+1. Haz una crema pastelera: calienta 250 g de la leche, bate 60 g de yemas con 40 g del azúcar y 25 g de maicena disuelta en el resto de la leche fría, junta todo y cuece removiendo hasta que espese. Deja que se enfríe.
+2. Monta 200 g de nata con 20 g del azúcar.
+3. Desmenuza 60 g de galletas (o bizcocho) en el fondo de unas copas.
+4. Cubre con la nata y luego con la crema.
+5. Espolvorea el resto del azúcar y quémalo con un soplete.
+
+*Notas:* Postre vasco; tradicionalmente lleva bizcocho borracho.
+
+## 1181. Almendrados, horneados
+
+`almendrados` · Dulces y chocolate · 18 raciones de 25 g · 30 min · por ración: 134 kcal, P 3,3 g, C 12,3 g, G 7,3 g
+
+**Ingredientes** (lote de 450 g cocinado)
+
+- 250 g · Almendra, pelada, sin sal añadida
+- 200 g · Azúcar blanco
+- 60 g · Huevo, clara, cruda
+
+**Preparación**
+
+1. Precalienta el horno a 170 °C. Muele 250 g de almendras.
+2. Mézclalas con 200 g de azúcar y 60 g de clara hasta tener una pasta.
+3. Forma bolitas de 25 g, colócalas en una bandeja con papel y aplánalas un poco.
+4. Hornéalas 12 o 15 minutos, hasta que estén doradas por fuera.
+
+*Notas:* Una ración es un almendrado de 25 g.
+
+## 1182. Coquitos de coco, horneados
+
+`coquitos` · Dulces y chocolate · 16 raciones de 25 g · 30 min · por ración: 133 kcal, P 1,7 g, C 10,3 g, G 9 g
+
+**Ingredientes** (lote de 400 g cocinado)
+
+- 200 g · Coco, pulpa, deshidratada
+- 150 g · Azúcar blanco
+- 100 g · Huevo crudo
+
+**Preparación**
+
+1. Precalienta el horno a 180 °C.
+2. Mezcla 200 g de coco rallado, 150 g de azúcar y 100 g de huevo (2 huevos pequeños).
+3. Forma montoncitos con una cuchara sobre una bandeja con papel.
+4. Hornéalos 15 minutos, hasta que estén dorados por fuera.
+
+*Notas:* Una ración es un coquito de 25 g.
+
+## 1183. Espinacas con piñones y pasas, cocinadas
+
+`espinacas-pinones-pasas` · Verduras y hortalizas · 3 raciones de 153 g · 20 min · por ración: 195 kcal, P 5,7 g, C 12,7 g, G 12 g
+
+**Ingredientes** (lote de 458 g cocinado)
+
+- 500 g · Espinaca, cruda
+- 20 g · Piñón
+- 30 g · Uva pasa
+- 20 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Remoja 30 g de pasas en agua templada 10 minutos.
+2. Tuesta 20 g de piñones en 20 g de aceite 1 minuto.
+3. Añade 500 g de espinacas por tandas, las pasas escurridas y la sal y saltea 4 minutos.
+
+*Notas:* Plato catalán (espinacs a la catalana).
+
+## 1184. Endibias a la plancha, cocinadas
+
+`endibias-plancha` · Verduras y hortalizas · 2 raciones de 177 g · 15 min · por ración: 101 kcal, P 2,4 g, C 5,6 g, G 8,1 g
+
+**Ingredientes** (lote de 354 g cocinado)
+
+- 400 g · Endibia, cruda
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Parte 400 g de endibias por la mitad a lo largo.
+2. Úntalas con 15 g de aceite y la sal.
+3. Hazlas en una plancha caliente con el corte hacia abajo 5 minutos y 2 minutos por el otro lado.
+
+## 1185. Zanahorias asadas con miel, asadas
+
+`zanahorias-asadas-miel` · Verduras y hortalizas · 3 raciones de 143 g · 40 min · por ración: 117 kcal, P 1,4 g, C 14,1 g, G 5,5 g
+
+**Ingredientes** (lote de 430 g cocinado)
+
+- 500 g · Zanahoria, cruda
+- 20 g · Miel
+- 15 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Pela 500 g de zanahorias y córtalas en bastones.
+2. Mézclalas con 15 g de aceite, 20 g de miel y la sal.
+3. Ásalas 30 minutos, dándoles la vuelta a mitad.
+
+## 1186. Remolacha asada, asada
+
+`remolacha-asada` · Verduras y hortalizas · 3 raciones de 128 g · 70 min · por ración: 97 kcal, P 2,7 g, C 10,5 g, G 3,7 g
+
+**Ingredientes** (lote de 384 g cocinado)
+
+- 500 g · Remolacha, cruda
+- 10 g · Aceite de oliva virgen extra
+- 2 g · Sal blanca alimentaria, no yodada, no fluorada (marina, ígnea o de roca)
+
+**Preparación**
+
+1. Precalienta el horno a 200 °C. Lava 500 g de remolachas y envuélvelas en papel de aluminio.
+2. Ásalas 1 hora, hasta que estén tiernas al pincharlas.
+3. Pélalas, córtalas en gajos y aliña con 10 g de aceite y la sal.
+
+## 1187. Patata asada al microondas, cocinada
+
+`patata-microondas` · Patatas y tubérculos · 1 ración de 255 g · 10 min · por ración: 240 kcal, P 6 g, C 48,6 g, G 0,3 g
+
+**Ingredientes** (lote de 255 g cocinado)
+
+- 300 g · Patata, sin piel, cruda
+
+**Preparación**
+
+1. Lava una patata de 300 g y pínchala varias veces con un tenedor.
+2. Cuécela en el microondas a máxima potencia 7 u 8 minutos, dándole la vuelta a mitad, hasta que esté blanda.
+
+*Notas:* Sin aceite ni sal.

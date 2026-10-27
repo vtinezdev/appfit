@@ -12544,5 +12544,1088 @@
       "Repártelas en bandejas sin que se solapen y hornéalas 25 minutos, dándoles la vuelta a mitad, hasta que estén crujientes."
     ],
     "notas": "Vigílalas al final: se queman enseguida."
+  },
+  {
+    "id": "polvorones",
+    "raciones": 40,
+    "tiempoMin": 90,
+    "pasos": [
+      "Tuesta 500 g de harina en una sartén o en el horno a 150 °C 20 minutos, removiendo, hasta que tome un color crema. Deja que se enfríe.",
+      "Tuesta 100 g de almendras y muélelas fino.",
+      "Mezcla la harina, la almendra, 200 g de azúcar molido y 5 g de canela. Añade 250 g de manteca a temperatura ambiente y amasa solo hasta que se una.",
+      "Estira la masa a 1,5 cm, corta los polvorones y colócalos en una bandeja.",
+      "Hornéalos a 180 °C 15 minutos. Déjalos enfriar del todo antes de moverlos: se rompen en caliente."
+    ],
+    "notas": "Salen unos 40: una ración es un polvorón (25 g)."
+  },
+  {
+    "id": "mantecados",
+    "raciones": 40,
+    "tiempoMin": 80,
+    "pasos": [
+      "Tuesta 500 g de harina en el horno a 150 °C 20 minutos, removiendo. Deja que se enfríe.",
+      "Mezcla la harina con 200 g de azúcar molido y 5 g de canela. Añade 250 g de manteca a temperatura ambiente y amasa solo hasta que se una.",
+      "Estira la masa a 1,5 cm, corta los mantecados y espolvoréalos con 10 g de sésamo.",
+      "Hornéalos a 180 °C 15 minutos y déjalos enfriar del todo antes de moverlos."
+    ],
+    "notas": "Salen unos 40: una ración es un mantecado (23 g)."
+  },
+  {
+    "id": "panellets",
+    "raciones": 50,
+    "tiempoMin": 90,
+    "pasos": [
+      "Cuece 200 g de boniato hasta que esté tierno, pélalo y hazlo puré. Deja que se enfríe.",
+      "Mézclalo con 500 g de almendra molida y 400 g de azúcar hasta tener una masa que no se pegue (mazapán). Déjala reposar en la nevera 1 hora.",
+      "Forma bolitas de unos 20 g.",
+      "Pásalas por la clara de 50 g de huevo (1 huevo) batido y rebózalas en 200 g de piñones, apretando. Píntalas con la yema.",
+      "Hornéalas a 200 °C 10 o 12 minutos, hasta que los piñones estén dorados."
+    ],
+    "notas": "Salen unos 60 panellets: una ración son 25 g. El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "turron-duro",
+    "raciones": 32,
+    "tiempoMin": 60,
+    "pasos": [
+      "Tuesta 600 g de almendras enteras en el horno a 170 °C 12 minutos.",
+      "Calienta 250 g de miel y 130 g de azúcar a fuego suave, removiendo, hasta que se disuelva y espese (unos 125 °C).",
+      "Monta 20 g de clara a punto de nieve y añádela a la miel poco a poco, sin dejar de remover a fuego muy suave, 10 minutos.",
+      "Añade las almendras, mezcla y vierte en un molde forrado con papel. Aprieta, cubre con papel y pon peso encima.",
+      "Deja que se enfríe y endurezca al menos 12 horas antes de cortarlo."
+    ],
+    "notas": "Una ración son 30 g. El reposo no cuenta en el tiempo."
+  },
+  {
+    "id": "turron-blando",
+    "raciones": 32,
+    "tiempoMin": 50,
+    "pasos": [
+      "Tuesta 640 g de almendras y muélelas hasta hacer una pasta que empiece a soltar aceite.",
+      "Calienta 180 g de miel y 150 g de azúcar a fuego suave hasta que se disuelva.",
+      "Monta 30 g de clara a punto de nieve y mézclala con la miel.",
+      "Añade la pasta de almendra y remueve a fuego suave 10 minutos, hasta que espese.",
+      "Vierte en un molde forrado con papel, alisa y deja reposar 24 horas."
+    ],
+    "notas": "Una ración son 30 g. El reposo no cuenta en el tiempo."
+  },
+  {
+    "id": "salsa-almendras",
+    "raciones": 8,
+    "tiempoMin": 30,
+    "pasos": [
+      "Fríe 80 g de almendras, 40 g de pan y 10 g de ajo en 50 g de aceite hasta que estén dorados.",
+      "Májalos o tritúralos con 0,1 g de azafrán y un poco del agua.",
+      "Ponlos en un cazo con 100 g de vino blanco, el resto de los 300 g de agua y la sal.",
+      "Cuece 10 minutos, hasta que espese."
+    ],
+    "notas": "Una ración son unos 60 g, para acompañar carne, pescado o albóndigas."
+  },
+  {
+    "id": "salsa-vizcaina",
+    "raciones": 8,
+    "tiempoMin": 90,
+    "pasos": [
+      "Pica 600 g de cebolla, 200 g de pimiento rojo y 10 g de ajo y pochalos en 60 g de aceite a fuego muy suave 1 hora, hasta que la cebolla esté muy blanda.",
+      "Añade 200 g de tomate rallado y cocina 15 minutos.",
+      "Retira del fuego, añade 10 g de pimentón y la sal.",
+      "Tritúrala y pásala por un colador."
+    ],
+    "notas": "Una ración son unos 75 g. Tradicionalmente lleva pimiento choricero en lugar de pimentón."
+  },
+  {
+    "id": "cuajada-miel",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Sirve 125 g de cuajada de oveja con 15 g de miel por encima."
+    ],
+    "notas": "La cuajada casera se hace con leche de oveja y cuajo; la formulación usa leche de oveja como base."
+  },
+  {
+    "id": "fresas-nata",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Lava 150 g de fresas, quítales el rabito y córtalas por la mitad.",
+      "Sírvelas con 50 g de nata montada por encima."
+    ]
+  },
+  {
+    "id": "membrillo",
+    "raciones": 46,
+    "tiempoMin": 90,
+    "pasos": [
+      "Lava 1.000 g de membrillos, pélalos, quítales el corazón y trocéalos.",
+      "Cuécelos en agua 20 minutos, hasta que estén tiernos. Escúrrelos y tritúralos.",
+      "Pésalos y pon el puré en una cazuela con 800 g de azúcar.",
+      "Cuece a fuego suave 40 minutos, removiendo sin parar, hasta que tome color rojizo y se despegue del fondo.",
+      "Vierte en moldes y deja que cuaje 24 horas."
+    ],
+    "notas": "Una ración son 30 g. El agua de cocción se tira. El reposo no cuenta en el tiempo."
+  },
+  {
+    "id": "mazapan",
+    "raciones": 38,
+    "tiempoMin": 40,
+    "pasos": [
+      "Mezcla 500 g de almendra molida fina con 450 g de azúcar molido.",
+      "Añade 30 g de clara y amasa hasta tener una pasta que no se pegue. Déjala reposar en la nevera 1 hora.",
+      "Forma figuritas de unos 25 g.",
+      "Píntalas con un poco de agua y gratínalas a 250 °C 3 o 4 minutos, solo hasta que se doren por arriba."
+    ],
+    "notas": "Una ración es una figurita de 25 g. El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "yemas-santa-teresa",
+    "raciones": 20,
+    "tiempoMin": 50,
+    "pasos": [
+      "Cuece 200 g de azúcar con 100 g de agua y 1 g de canela 5 minutos, hasta tener un almíbar.",
+      "Bate 240 g de yemas y añade el almíbar templado poco a poco.",
+      "Cuece a fuego muy suave, removiendo sin parar, 10 minutos, hasta que espese y se despegue del cazo.",
+      "Deja que se enfríe y forma bolitas de unos 20 g. Rebózalas en azúcar glas si quieres."
+    ],
+    "notas": "Una ración es una yema de 20 g."
+  },
+  {
+    "id": "arroz-leche-semi",
+    "raciones": 7,
+    "tiempoMin": 60,
+    "pasos": [
+      "Pon 1.200 g de leche semidesnatada con la canela en rama (o 1 g en polvo al final) a calentar.",
+      "Cuando hierva, añade 150 g de arroz y cuece a fuego muy suave 45 minutos, removiendo a menudo.",
+      "Añade 120 g de azúcar y cuece 5 minutos más.",
+      "Deja que se enfríe y espolvorea canela."
+    ]
+  },
+  {
+    "id": "higos-nuez",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Abre 120 g de higos frescos y rellénalos o sírvelos con 30 g de nueces."
+    ]
+  },
+  {
+    "id": "castanas-leche",
+    "raciones": 5,
+    "tiempoMin": 60,
+    "pasos": [
+      "Haz un corte a 400 g de castañas y cuécelas 5 minutos. Pélalas en caliente, quitando también la piel interior.",
+      "Cuécelas en 900 g de leche con la canela a fuego suave 40 minutos, hasta que estén tiernas.",
+      "Añade 60 g de azúcar y cuece 5 minutos más."
+    ],
+    "notas": "Postre gallego; se toma caliente o templado."
+  },
+  {
+    "id": "naranja-miel-canela",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 200 g de naranja y córtala en rodajas.",
+      "Riégala con 15 g de miel y espolvorea 0,5 g de canela."
+    ]
+  },
+  {
+    "id": "arroz-blanco-aove",
+    "raciones": 1,
+    "tiempoMin": 20,
+    "pasos": [
+      "Dora 2 g de ajo en 5 g de aceite.",
+      "Añade 100 g de arroz, remueve 1 minuto y vierte 200 g de agua con la sal.",
+      "Tapa y cuece a fuego suave 15 minutos. Deja reposar 5 minutos."
+    ]
+  },
+  {
+    "id": "arroz-integral-aove",
+    "raciones": 1,
+    "tiempoMin": 45,
+    "pasos": [
+      "Cuece 100 g de arroz integral con 220 g de agua y la sal, tapado, 35 minutos a fuego suave.",
+      "Deja reposar 5 minutos y aliña con 5 g de aceite."
+    ],
+    "notas": "Si el arroz necesita más agua, añádela: lo que no absorba se tira."
+  },
+  {
+    "id": "pasta-cocida-aove",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Cuece 100 g de pasta en agua hirviendo con sal el tiempo del paquete.",
+      "Escúrrela (absorbe unos 130 g de agua) y aliña con 5 g de aceite."
+    ],
+    "notas": "La sal es la que absorbe la pasta del agua de cocción."
+  },
+  {
+    "id": "yogur-miel",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Sirve 125 g de yogur natural con 15 g de miel por encima."
+    ]
+  },
+  {
+    "id": "yogur-nueces-miel",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Sirve 125 g de yogur natural con 15 g de nueces troceadas y 15 g de miel por encima."
+    ]
+  },
+  {
+    "id": "huesos-santo",
+    "raciones": 30,
+    "tiempoMin": 120,
+    "pasos": [
+      "Muele muy fino 250 g de almendras y mézclalas con 250 g del azúcar y un poco de agua hasta tener un mazapán. Déjalo reposar 1 hora.",
+      "Estíralo muy fino, córtalo en rectángulos y enróllalos alrededor de palitos. Sécalos en el horno a 100 °C 15 minutos.",
+      "Para el relleno, cuece el resto del azúcar con el resto del agua 5 minutos. Añade 120 g de yemas y remueve a fuego muy suave hasta que espese.",
+      "Quita los palitos y rellena los huesos con la crema de yema."
+    ],
+    "notas": "Una ración son 2 huesos (unos 25 g). Tradicionalmente se bañan en fondant."
+  },
+  {
+    "id": "crema-pastelera",
+    "raciones": 8,
+    "tiempoMin": 25,
+    "pasos": [
+      "Calienta 400 g de la leche.",
+      "Bate 100 g de yemas con 120 g de azúcar y 40 g de maicena disuelta en el resto de la leche fría.",
+      "Vierte la leche caliente sobre la mezcla, removiendo, y vuelve al fuego.",
+      "Cuece a fuego suave removiendo sin parar 3 o 4 minutos, hasta que espese. Cubre con film a piel y deja que se enfríe."
+    ],
+    "notas": "Para rellenar o como postre: una ración son unos 90 g. Tradicionalmente se aromatiza con piel de limón."
+  },
+  {
+    "id": "manzana-asada",
+    "raciones": 1,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 190 °C. Quita el corazón a una manzana de 200 g sin atravesarla.",
+      "Rellena el hueco con 10 g de azúcar y 5 g de mantequilla.",
+      "Hornéala en una fuente con un poco de agua 30 minutos, hasta que esté blanda."
+    ]
+  },
+  {
+    "id": "bol-yogur-granola",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pon 125 g de yogur en un cuenco.",
+      "Añade 40 g de granola, 60 g de fresas troceadas y 20 g de arándanos.",
+      "Riega con 10 g de miel."
+    ]
+  },
+  {
+    "id": "mousse-chocolate",
+    "raciones": 6,
+    "tiempoMin": 30,
+    "pasos": [
+      "Funde 200 g de chocolate al baño maría y deja que se temple.",
+      "Separa 240 g de huevo (4 huevos). Añade las yemas al chocolate, una a una.",
+      "Monta 100 g de nata. Monta las claras a punto de nieve con 40 g de azúcar.",
+      "Mezcla la nata con el chocolate y luego las claras con movimientos envolventes.",
+      "Repártela en copas y guárdala en la nevera al menos 4 horas."
+    ],
+    "notas": "Lleva huevo crudo: usa huevos muy frescos o pasteurizados. El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "flan-cafe",
+    "raciones": 8,
+    "tiempoMin": 70,
+    "pasos": [
+      "Carameliza un molde (el caramelo no está incluido en la formulación).",
+      "Calienta 600 g de leche y disuelve en ella 8 g de café soluble.",
+      "Bate 300 g de huevo (5 huevos) con 150 g de azúcar y añade la leche poco a poco.",
+      "Vierte en el molde y cuece al baño maría en el horno a 170 °C 50 minutos, hasta que cuaje.",
+      "Deja que se enfríe y guárdalo en la nevera antes de desmoldar."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "gelatina-frutas",
+    "raciones": 5,
+    "tiempoMin": 20,
+    "pasos": [
+      "Hidrata 10 g de gelatina en un poco del agua fría 5 minutos.",
+      "Calienta el resto del agua con 60 g de azúcar, sin que hierva, y disuelve la gelatina.",
+      "Reparte 80 g de fresas troceadas en moldes y cubre con el líquido.",
+      "Deja cuajar en la nevera al menos 4 horas."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "macedonia-zumo",
+    "raciones": 3,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pela y trocea 150 g de manzana, 150 g de plátano y 100 g de fresas.",
+      "Mézclalas con 150 g de zumo de naranja.",
+      "Guárdala en la nevera hasta servir."
+    ]
+  },
+  {
+    "id": "yogur-frutos-secos",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Sirve 125 g de yogur natural con 10 g de nueces y 15 g de almendras troceadas."
+    ]
+  },
+  {
+    "id": "yogur-fruta",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Trocea 50 g de plátano y 50 g de fresas.",
+      "Mézclalas con 125 g de yogur natural."
+    ]
+  },
+  {
+    "id": "aceitunas-alinadas",
+    "raciones": 10,
+    "tiempoMin": 10,
+    "pasos": [
+      "Escurre 300 g de aceitunas y machácalas un poco si quieres.",
+      "Mézclalas con 10 g de ajo laminado, 10 g de aceite, 10 g de vinagre, 1 g de orégano y 1 g de tomillo.",
+      "Déjalas macerar al menos 1 día en la nevera, removiendo de vez en cuando."
+    ],
+    "notas": "Una ración son unos 30 g. El macerado no cuenta en el tiempo."
+  },
+  {
+    "id": "nachos-queso",
+    "raciones": 2,
+    "tiempoMin": 10,
+    "pasos": [
+      "Coloca 100 g de totopos en una fuente.",
+      "Cubre con 40 g de cheddar rallado y gratina 4 minutos, hasta que se funda.",
+      "Sirve con 20 g de tomate picado por encima."
+    ]
+  },
+  {
+    "id": "mousse-limon",
+    "raciones": 8,
+    "tiempoMin": 15,
+    "pasos": [
+      "Monta 400 g de nata.",
+      "Mezcla 370 g de leche condensada con 120 g de zumo de limón: espesa enseguida.",
+      "Añade la nata con movimientos envolventes.",
+      "Repártela en copas y guárdala en la nevera al menos 2 horas."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "helado-vainilla-casero",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Calienta 500 g de leche y 250 g de nata (con una vaina de vainilla abierta, si tienes).",
+      "Bate 120 g de yemas con 150 g de azúcar y añade la leche caliente poco a poco.",
+      "Cuece a fuego muy suave, removiendo, hasta que la crema cubra la cuchara, sin que hierva. Cuela y deja que se enfríe.",
+      "Congélala, batiéndola cada 30 minutos durante 3 horas para que no cristalice (o usa una heladera)."
+    ],
+    "notas": "Una ración son unos 95 g (una bola grande). La congelación no cuenta en el tiempo."
+  },
+  {
+    "id": "helado-chocolate-casero",
+    "raciones": 10,
+    "tiempoMin": 60,
+    "pasos": [
+      "Calienta 500 g de leche y 250 g de nata y disuelve 40 g de cacao.",
+      "Bate 100 g de yemas con 150 g de azúcar y añade la leche caliente poco a poco.",
+      "Cuece a fuego muy suave, removiendo, hasta que la crema espese un poco, sin que hierva. Deja que se enfríe.",
+      "Congélala, batiéndola cada 30 minutos durante 3 horas (o usa una heladera)."
+    ],
+    "notas": "Una ración son unos 95 g. La congelación no cuenta en el tiempo."
+  },
+  {
+    "id": "flan-coco",
+    "raciones": 10,
+    "tiempoMin": 70,
+    "pasos": [
+      "Carameliza un molde (el caramelo no está incluido en la formulación).",
+      "Bate 200 g de huevo (4 huevos) con 370 g de leche condensada, 500 g de leche y 100 g de coco rallado.",
+      "Vierte en el molde y cuece al baño maría en el horno a 170 °C 55 minutos.",
+      "Deja que se enfríe y guárdalo en la nevera antes de desmoldar."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "semola-leche",
+    "raciones": 6,
+    "tiempoMin": 20,
+    "pasos": [
+      "Calienta 1.000 g de leche con la canela y 90 g de azúcar.",
+      "Cuando hierva, añade 80 g de sémola en forma de lluvia, removiendo con varillas.",
+      "Cuece a fuego suave 8 minutos, removiendo, hasta que espese.",
+      "Sírvela templada o fría con canela por encima."
+    ]
+  },
+  {
+    "id": "gachas-dulces",
+    "raciones": 6,
+    "tiempoMin": 30,
+    "pasos": [
+      "Corta 60 g de pan en dados y fríelos en 30 g de aceite hasta que estén dorados. Sácalos.",
+      "En el mismo aceite, tuesta 80 g de harina 2 minutos.",
+      "Añade poco a poco 1.000 g de leche, removiendo, y 100 g de azúcar.",
+      "Cuece a fuego suave 10 minutos, hasta que espese. Sirve con los picatostes y la canela."
+    ],
+    "notas": "Postre andaluz (poleá); tradicionalmente lleva matalahúva y piel de limón."
+  },
+  {
+    "id": "compota-pera",
+    "raciones": 6,
+    "tiempoMin": 40,
+    "pasos": [
+      "Pela 1.000 g de peras, quítales el corazón y trocéalas.",
+      "Cuécelas con 200 g de agua, 80 g de azúcar y la canela, tapadas, 25 minutos.",
+      "Aplástalas o tritúralas según la textura que quieras."
+    ]
+  },
+  {
+    "id": "yogur-avena-frutos-rojos",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Mezcla 150 g de yogur con 40 g de copos de avena.",
+      "Añade 80 g de fresas troceadas y 10 g de miel."
+    ],
+    "notas": "Si lo dejas en la nevera desde la noche anterior, la avena se ablanda."
+  },
+  {
+    "id": "yogur-muesli",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Mezcla 125 g de yogur con 40 g de muesli."
+    ]
+  },
+  {
+    "id": "pudin-chia",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Mezcla 40 g de semillas de chía con 200 g de leche semidesnatada y 10 g de miel.",
+      "Remueve otra vez a los 5 minutos para que no se apelmace.",
+      "Déjalo en la nevera al menos 4 horas, hasta que espese."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "platano-crema-cacahuete",
+    "raciones": 1,
+    "tiempoMin": 2,
+    "pasos": [
+      "Pela 120 g de plátano y córtalo en rodajas.",
+      "Úntalas o sírvelas con 20 g de crema de cacahuete."
+    ]
+  },
+  {
+    "id": "tofu-plancha-soja",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Escurre 200 g de tofu, sécalo con papel y córtalo en lonchas.",
+      "Dóralas en 5 g de aceite 3 minutos por cada lado.",
+      "Añade 10 g de salsa de soja y dales la vuelta para que se impregnen."
+    ]
+  },
+  {
+    "id": "revuelto-tofu",
+    "raciones": 1,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pica 50 g de cebolla y 50 g de pimiento verde y sofríelos en 10 g de aceite 6 minutos.",
+      "Desmenuza 250 g de tofu con un tenedor y añádelo con 1 g de cúrcuma y la sal.",
+      "Saltea 4 minutos, hasta que esté caliente."
+    ]
+  },
+  {
+    "id": "pan-calatrava",
+    "raciones": 10,
+    "tiempoMin": 75,
+    "pasos": [
+      "Carameliza un molde (el caramelo no está incluido en la formulación).",
+      "Trocea 100 g de galletas o bizcocho y repártelos en el molde.",
+      "Bate 300 g de huevo (5 huevos) con 200 g de azúcar y 1.000 g de leche y viértelo encima.",
+      "Cuece al baño maría en el horno a 170 °C 55 minutos.",
+      "Deja que se enfríe y guárdalo en la nevera antes de desmoldar."
+    ],
+    "notas": "Postre murciano, parecido al pudin. El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "compota-navidad",
+    "raciones": 10,
+    "tiempoMin": 50,
+    "pasos": [
+      "Pela y trocea 300 g de manzana y 300 g de pera.",
+      "Ponlas en una cazuela con 150 g de ciruelas pasas, 150 g de orejones, 100 g de higos secos y 100 g de pasas.",
+      "Añade 300 g de vino tinto, 500 g de agua, 100 g de azúcar y la canela.",
+      "Cuece a fuego suave 35 minutos, hasta que la fruta esté tierna y el líquido se reduzca."
+    ],
+    "notas": "Se toma caliente o fría."
+  },
+  {
+    "id": "turron-coco-casero",
+    "raciones": 20,
+    "tiempoMin": 40,
+    "pasos": [
+      "Cuece 250 g de azúcar con 50 g de agua 5 minutos.",
+      "Retira del fuego, añade 100 g de yemas y 250 g de coco rallado y mezcla.",
+      "Vuelve al fuego muy suave 5 minutos, removiendo.",
+      "Pasa la mezcla a un molde forrado con papel, aprieta y deja que se enfríe.",
+      "Si quieres, quema la superficie con azúcar."
+    ],
+    "notas": "Una ración son 30 g."
+  },
+  {
+    "id": "trufas-chocolate",
+    "raciones": 15,
+    "tiempoMin": 30,
+    "pasos": [
+      "Calienta 100 g de nata y viértela sobre 200 g de chocolate troceado. Remueve hasta que se funda.",
+      "Añade 30 g de mantequilla y mezcla.",
+      "Deja que se enfríe en la nevera 2 horas.",
+      "Forma bolitas de unos 20 g y rebózalas en 20 g de cacao."
+    ],
+    "notas": "Una ración son 1 o 2 trufas (unos 23 g). El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "olivada",
+    "raciones": 10,
+    "tiempoMin": 10,
+    "pasos": [
+      "Escurre 200 g de aceitunas negras deshuesadas.",
+      "Tritúralas con 10 g de anchoas y 3 g de ajo.",
+      "Añade 40 g de aceite poco a poco sin dejar de triturar."
+    ],
+    "notas": "Una ración son unos 25 g, untada en pan, que no está incluido."
+  },
+  {
+    "id": "tzatziki",
+    "raciones": 8,
+    "tiempoMin": 15,
+    "pasos": [
+      "Ralla 150 g de pepino, sálalo un poco y déjalo escurrir 10 minutos. Aprieta para quitarle el agua.",
+      "Mézclalo con 250 g de yogur, 5 g de ajo rallado, 2 g de eneldo picado y 10 g de aceite.",
+      "Guárdalo en la nevera hasta servir."
+    ],
+    "notas": "Una ración son unos 50 g. Mejor con yogur griego."
+  },
+  {
+    "id": "pico-gallo",
+    "raciones": 6,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pica en dados pequeños 300 g de tomate y 80 g de cebolla.",
+      "Pica 10 g de cilantro y 5 g de guindilla.",
+      "Mézclalo todo con 20 g de zumo de lima y la sal."
+    ],
+    "notas": "Una ración son unos 70 g."
+  },
+  {
+    "id": "chimichurri",
+    "raciones": 14,
+    "tiempoMin": 10,
+    "pasos": [
+      "Pica muy fino 50 g de perejil y 10 g de ajo y 3 g de guindilla.",
+      "Mézclalos con 5 g de orégano, la sal, 50 g de vinagre y 150 g de aceite.",
+      "Déjalo reposar al menos 1 hora."
+    ],
+    "notas": "Una ración son unos 20 g (una cucharada), para carnes a la brasa."
+  },
+  {
+    "id": "salsa-queso-azul",
+    "raciones": 6,
+    "tiempoMin": 10,
+    "pasos": [
+      "Calienta 200 g de nata a fuego suave.",
+      "Añade 100 g de roquefort desmenuzado y remueve hasta que se funda, sin que hierva."
+    ],
+    "notas": "Una ración son unos 45 g. No lleva sal: el queso ya la aporta."
+  },
+  {
+    "id": "salsa-pimienta-casera",
+    "raciones": 5,
+    "tiempoMin": 15,
+    "pasos": [
+      "Funde 15 g de mantequilla y tuesta 5 g de pimienta molida gruesa 30 segundos.",
+      "Añade 30 g de coñac y deja que se evapore.",
+      "Añade 200 g de nata y cuece 4 minutos, hasta que espese."
+    ],
+    "notas": "Una ración son unos 45 g."
+  },
+  {
+    "id": "salsa-setas-casera",
+    "raciones": 6,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pica 50 g de cebolla y pochala en 10 g de aceite 5 minutos.",
+      "Añade 200 g de setas troceadas y la sal y saltea 6 minutos.",
+      "Vierte 200 g de nata y cuece 4 minutos."
+    ],
+    "notas": "Una ración son unos 65 g."
+  },
+  {
+    "id": "salsa-miel-mostaza-casera",
+    "raciones": 8,
+    "tiempoMin": 5,
+    "pasos": [
+      "Mezcla 50 g de mostaza, 50 g de miel, 50 g de mayonesa y 10 g de zumo de limón hasta que esté homogénea."
+    ],
+    "notas": "Una ración son unos 20 g."
+  },
+  {
+    "id": "ajada",
+    "raciones": 8,
+    "tiempoMin": 10,
+    "pasos": [
+      "Dora 15 g de ajo laminado en 100 g de aceite.",
+      "Retira del fuego y añade 10 g de pimentón, removiendo para que no se queme.",
+      "Añade 20 g de vinagre."
+    ],
+    "notas": "Salsa gallega para pescado cocido y patatas. Una ración son unos 18 g."
+  },
+  {
+    "id": "salsa-cacahuete",
+    "raciones": 10,
+    "tiempoMin": 10,
+    "pasos": [
+      "Calienta 100 g de crema de cacahuete con 100 g de leche de coco, removiendo.",
+      "Añade 30 g de salsa de soja, 15 g de zumo de lima y 15 g de miel.",
+      "Aclara con un poco de agua si está espesa."
+    ],
+    "notas": "Una ración son unos 25 g."
+  },
+  {
+    "id": "salsa-rosa-casera",
+    "raciones": 10,
+    "tiempoMin": 5,
+    "pasos": [
+      "Mezcla 150 g de mayonesa con 50 g de ketchup.",
+      "Añade 15 g de zumo de naranja y 5 g de coñac."
+    ],
+    "notas": "Una ración son unos 22 g."
+  },
+  {
+    "id": "caramelo-liquido",
+    "raciones": 10,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pon 200 g de azúcar en un cazo con 50 g de agua.",
+      "Cuece a fuego medio sin remover hasta que tome color dorado oscuro.",
+      "Úsalo enseguida para caramelizar moldes o guárdalo en un bote."
+    ],
+    "notas": "Una ración son unos 20 g. Cuidado: quema mucho."
+  },
+  {
+    "id": "picada-catalana",
+    "raciones": 6,
+    "tiempoMin": 15,
+    "pasos": [
+      "Fríe 30 g de pan en 20 g de aceite hasta que esté dorado.",
+      "Tuesta 50 g de almendras y 30 g de avellanas.",
+      "Maja en un mortero 10 g de ajo, los frutos secos, el pan y 5 g de perejil, con un poco de agua o caldo."
+    ],
+    "notas": "Se añade al final de guisos para espesarlos. Una ración son unos 25 g."
+  },
+  {
+    "id": "salsa-piquillos",
+    "raciones": 5,
+    "tiempoMin": 20,
+    "pasos": [
+      "Escurre 200 g de pimientos del piquillo y saltéalos en 10 g de aceite 3 minutos.",
+      "Añade 100 g de nata y la sal y cuece 3 minutos.",
+      "Tritúrala hasta que quede fina."
+    ],
+    "notas": "Una ración son unos 60 g. La formulación usa pimiento rojo crudo."
+  },
+  {
+    "id": "brochetas-fruta",
+    "raciones": 3,
+    "tiempoMin": 15,
+    "pasos": [
+      "Trocea 100 g de fresas, 100 g de piña, 100 g de plátano, 100 g de melón y 50 g de kiwi.",
+      "Ensártalos alternando colores en palitos de brocheta."
+    ]
+  },
+  {
+    "id": "pina-asada-canela",
+    "raciones": 2,
+    "tiempoMin": 25,
+    "pasos": [
+      "Corta 400 g de piña en rodajas.",
+      "Espolvoréalas con 10 g de azúcar y 2 g de canela.",
+      "Ásalas a la plancha o en el horno a 220 °C 10 minutos, hasta que se caramelicen."
+    ]
+  },
+  {
+    "id": "platano-plancha-miel",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Pela 130 g de plátano y ábrelo por la mitad a lo largo.",
+      "Dóralo en 5 g de mantequilla 2 minutos por cada lado.",
+      "Sírvelo con 10 g de miel."
+    ]
+  },
+  {
+    "id": "fresas-yogur",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Lava 150 g de fresas y córtalas.",
+      "Sírvelas con 125 g de yogur natural."
+    ]
+  },
+  {
+    "id": "fresas-chocolate",
+    "raciones": 2,
+    "tiempoMin": 30,
+    "pasos": [
+      "Lava y seca muy bien 200 g de fresas, con el rabito.",
+      "Funde 30 g de chocolate al baño maría.",
+      "Moja cada fresa hasta la mitad y déjalas sobre papel hasta que el chocolate endurezca."
+    ]
+  },
+  {
+    "id": "kiwi-yogur",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pela 100 g de kiwi y córtalo en dados.",
+      "Sírvelo con 125 g de yogur y 10 g de miel."
+    ]
+  },
+  {
+    "id": "ensalada-frutas-yogur",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Pela y trocea 100 g de manzana, 100 g de plátano, 100 g de naranja y 100 g de fresas.",
+      "Mézclalas y sírvelas con 125 g de yogur por encima."
+    ]
+  },
+  {
+    "id": "melocoton-almibar-casero",
+    "raciones": 6,
+    "tiempoMin": 40,
+    "pasos": [
+      "Pela 800 g de melocotones, pártelos por la mitad y quítales el hueso.",
+      "Cuece 300 g de agua con 150 g de azúcar 5 minutos.",
+      "Añade los melocotones y cuécelos a fuego suave 15 minutos.",
+      "Deja que se enfríen en el almíbar."
+    ],
+    "notas": "Parte del almíbar no se come; los valores lo cuentan todo."
+  },
+  {
+    "id": "manzana-canela-microondas",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Lava una manzana de 200 g y quítale el corazón.",
+      "Córtala en gajos, espolvorea 1 g de canela y cuécela en el microondas tapada 4 o 5 minutos, hasta que esté blanda."
+    ]
+  },
+  {
+    "id": "sorbete-mango",
+    "raciones": 6,
+    "tiempoMin": 20,
+    "pasos": [
+      "Pela 500 g de mango y trocéalo.",
+      "Cuece 60 g de agua con 80 g de azúcar 2 minutos y deja que se enfríe.",
+      "Tritura el mango con el almíbar y 20 g de zumo de limón.",
+      "Congélalo, batiéndolo cada 30 minutos durante 3 horas (o usa una heladera)."
+    ],
+    "notas": "Una ración son unos 110 g. La congelación no cuenta en el tiempo."
+  },
+  {
+    "id": "polos-yogur-fruta",
+    "raciones": 5,
+    "tiempoMin": 15,
+    "pasos": [
+      "Tritura 80 g de fresas y 40 g de frambuesas con 15 g de miel.",
+      "Mézclalo a medias con 250 g de yogur, dejando vetas.",
+      "Reparte en moldes de polo y congela al menos 4 horas."
+    ],
+    "notas": "Salen unos 5 polos. La congelación no cuenta en el tiempo."
+  },
+  {
+    "id": "mousse-fresa",
+    "raciones": 6,
+    "tiempoMin": 30,
+    "pasos": [
+      "Hidrata 8 g de gelatina en 60 g de agua fría 5 minutos y disuélvela calentándola un poco.",
+      "Tritura 300 g de fresas con 80 g de azúcar y mézclalas con la gelatina.",
+      "Monta 250 g de nata y mézclala con el puré con movimientos envolventes.",
+      "Repártela en copas y deja que cuaje en la nevera al menos 4 horas."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "crema-mango",
+    "raciones": 2,
+    "tiempoMin": 10,
+    "pasos": [
+      "Pela 300 g de mango y trocéalo.",
+      "Tritúralo con 125 g de yogur y 20 g de miel.",
+      "Sírvela fría."
+    ]
+  },
+  {
+    "id": "fondue-chocolate-fruta",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Trocea 150 g de fresas, 150 g de plátano y 100 g de piña.",
+      "Funde 80 g de chocolate con 20 g de nata al baño maría.",
+      "Moja la fruta en el chocolate con palitos."
+    ]
+  },
+  {
+    "id": "compota-manzana-sin-azucar",
+    "raciones": 3,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pela 500 g de manzanas, quítales el corazón y trocéalas.",
+      "Cuécelas con 100 g de agua, tapadas, 20 minutos.",
+      "Aplástalas o tritúralas."
+    ],
+    "notas": "Sirve como postre o para bebés a partir de 6 meses."
+  },
+  {
+    "id": "papilla-frutas",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Pela y trocea 100 g de plátano y 100 g de pera.",
+      "Tritúralos con 100 g de zumo de naranja y 15 g de galleta hasta que quede fino."
+    ],
+    "notas": "Para bebés, mejor recién hecha."
+  },
+  {
+    "id": "provoleta",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Calienta una sartén de hierro o una plancha muy caliente.",
+      "Pon 200 g de provolone en una rodaja gruesa y dórala 2 o 3 minutos por cada lado, hasta que tenga costra y esté blanda por dentro.",
+      "Sírvela con 2 g de orégano y 5 g de aceite."
+    ]
+  },
+  {
+    "id": "bolitas-energeticas",
+    "raciones": 12,
+    "tiempoMin": 20,
+    "pasos": [
+      "Tritura 150 g de dátiles sin hueso hasta hacer una pasta.",
+      "Añade 100 g de copos de avena, 50 g de crema de cacahuete y 15 g de cacao y mezcla.",
+      "Forma unas 12 bolitas y guárdalas en la nevera."
+    ],
+    "notas": "Una ración es una bolita de unos 26 g."
+  },
+  {
+    "id": "queso-batido-fruta",
+    "raciones": 1,
+    "tiempoMin": 5,
+    "pasos": [
+      "Pon 200 g de queso batido 0 % en un cuenco.",
+      "Añade 100 g de fresas y 25 g de plátano troceados y 10 g de miel."
+    ]
+  },
+  {
+    "id": "helado-platano",
+    "raciones": 2,
+    "tiempoMin": 10,
+    "pasos": [
+      "Pela 300 g de plátano maduro, córtalo en rodajas y congélalo al menos 6 horas.",
+      "Tritura el plátano congelado con 10 g de cacao hasta que quede cremoso como un helado.",
+      "Sírvelo enseguida."
+    ],
+    "notas": "La congelación no cuenta en el tiempo."
+  },
+  {
+    "id": "creme-brulee",
+    "raciones": 6,
+    "tiempoMin": 60,
+    "pasos": [
+      "Precalienta el horno a 150 °C. Calienta 500 g de nata.",
+      "Bate 120 g de yemas con 80 g del azúcar y añade la nata caliente poco a poco.",
+      "Reparte en cazuelitas y hornéalas al baño maría 40 minutos, hasta que cuajen pero tiemblen en el centro.",
+      "Deja que se enfríen en la nevera. Antes de servir, espolvorea el resto del azúcar y quémalo con un soplete."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "flan-leche-condensada",
+    "raciones": 10,
+    "tiempoMin": 70,
+    "pasos": [
+      "Con 60 g de azúcar haz un caramelo y viértelo en el fondo de un molde.",
+      "Bate 250 g de huevo (5 huevos pequeños) con 370 g de leche condensada y 500 g de leche.",
+      "Vierte en el molde y cuece al baño maría en el horno a 170 °C 55 minutos.",
+      "Deja que se enfríe y guárdalo en la nevera antes de desmoldar."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "flan-chocolate",
+    "raciones": 8,
+    "tiempoMin": 70,
+    "pasos": [
+      "Carameliza un molde (el caramelo no está incluido en la formulación).",
+      "Calienta 500 g de leche y funde en ella 100 g de chocolate.",
+      "Bate 200 g de huevo (4 huevos) con 100 g de azúcar y añade la leche poco a poco.",
+      "Vierte en el molde y cuece al baño maría en el horno a 170 °C 50 minutos.",
+      "Deja que se enfríe y guárdalo en la nevera antes de desmoldar."
+    ],
+    "notas": "El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "natillas-galleta",
+    "raciones": 8,
+    "tiempoMin": 30,
+    "pasos": [
+      "Calienta 600 g de la leche (con una rama de canela y piel de limón, si tienes).",
+      "Bate 100 g de yemas con 100 g de azúcar y 30 g de maicena disuelta en el resto de la leche fría.",
+      "Vierte la leche caliente poco a poco y vuelve al fuego. Cuece a fuego suave removiendo hasta que espese, sin que hierva.",
+      "Reparte en cuencos, pon una galleta encima de cada uno (60 g en total) y espolvorea 2 g de canela."
+    ]
+  },
+  {
+    "id": "copa-chocolate-nata",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Funde 100 g de chocolate al baño maría.",
+      "Separa 100 g de huevo (2 huevos pequeños). Añade las yemas al chocolate.",
+      "Monta 200 g de nata. Monta las claras con 20 g de azúcar.",
+      "Mezcla la nata con el chocolate y luego las claras con movimientos envolventes. Reparte en copas y deja en la nevera 4 horas.",
+      "Sirve con 30 g de nata montada por encima."
+    ],
+    "notas": "Lleva huevo crudo: usa huevos muy frescos o pasteurizados. El reposo en la nevera no cuenta en el tiempo."
+  },
+  {
+    "id": "arroz-leche-coco",
+    "raciones": 6,
+    "tiempoMin": 50,
+    "pasos": [
+      "Calienta 600 g de leche y 400 g de leche de coco con la canela.",
+      "Añade 150 g de arroz y cuece a fuego muy suave 40 minutos, removiendo a menudo.",
+      "Añade 100 g de azúcar y cuece 5 minutos más."
+    ]
+  },
+  {
+    "id": "melocoton-vino",
+    "raciones": 4,
+    "tiempoMin": 30,
+    "pasos": [
+      "Pela 500 g de melocotones y córtalos en gajos.",
+      "Cuece 250 g de vino tinto con 60 g de azúcar y la canela 5 minutos.",
+      "Añade el melocotón y cuécelo 10 minutos. Deja que se enfríe en el vino."
+    ],
+    "notas": "Parte del vino no se come; los valores lo cuentan todo."
+  },
+  {
+    "id": "bienmesabe-canario",
+    "raciones": 15,
+    "tiempoMin": 40,
+    "pasos": [
+      "Cuece 250 g de azúcar con 100 g de agua 5 minutos, hasta tener un almíbar.",
+      "Muele fino 250 g de almendras y añádelas con la canela; cuece 5 minutos.",
+      "Retira del fuego, deja templar un poco y añade 80 g de yemas, removiendo.",
+      "Vuelve al fuego muy suave 3 minutos, sin que hierva. Deja que se enfríe."
+    ],
+    "notas": "Una ración son unos 40 g. Tradicionalmente lleva ralladura de limón."
+  },
+  {
+    "id": "goxua",
+    "raciones": 5,
+    "tiempoMin": 40,
+    "pasos": [
+      "Haz una crema pastelera: calienta 250 g de la leche, bate 60 g de yemas con 40 g del azúcar y 25 g de maicena disuelta en el resto de la leche fría, junta todo y cuece removiendo hasta que espese. Deja que se enfríe.",
+      "Monta 200 g de nata con 20 g del azúcar.",
+      "Desmenuza 60 g de galletas (o bizcocho) en el fondo de unas copas.",
+      "Cubre con la nata y luego con la crema.",
+      "Espolvorea el resto del azúcar y quémalo con un soplete."
+    ],
+    "notas": "Postre vasco; tradicionalmente lleva bizcocho borracho."
+  },
+  {
+    "id": "almendrados",
+    "raciones": 18,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 170 °C. Muele 250 g de almendras.",
+      "Mézclalas con 200 g de azúcar y 60 g de clara hasta tener una pasta.",
+      "Forma bolitas de 25 g, colócalas en una bandeja con papel y aplánalas un poco.",
+      "Hornéalas 12 o 15 minutos, hasta que estén doradas por fuera."
+    ],
+    "notas": "Una ración es un almendrado de 25 g."
+  },
+  {
+    "id": "coquitos",
+    "raciones": 16,
+    "tiempoMin": 30,
+    "pasos": [
+      "Precalienta el horno a 180 °C.",
+      "Mezcla 200 g de coco rallado, 150 g de azúcar y 100 g de huevo (2 huevos pequeños).",
+      "Forma montoncitos con una cuchara sobre una bandeja con papel.",
+      "Hornéalos 15 minutos, hasta que estén dorados por fuera."
+    ],
+    "notas": "Una ración es un coquito de 25 g."
+  },
+  {
+    "id": "espinacas-pinones-pasas",
+    "raciones": 3,
+    "tiempoMin": 20,
+    "pasos": [
+      "Remoja 30 g de pasas en agua templada 10 minutos.",
+      "Tuesta 20 g de piñones en 20 g de aceite 1 minuto.",
+      "Añade 500 g de espinacas por tandas, las pasas escurridas y la sal y saltea 4 minutos."
+    ],
+    "notas": "Plato catalán (espinacs a la catalana)."
+  },
+  {
+    "id": "endibias-plancha",
+    "raciones": 2,
+    "tiempoMin": 15,
+    "pasos": [
+      "Parte 400 g de endibias por la mitad a lo largo.",
+      "Úntalas con 15 g de aceite y la sal.",
+      "Hazlas en una plancha caliente con el corte hacia abajo 5 minutos y 2 minutos por el otro lado."
+    ]
+  },
+  {
+    "id": "zanahorias-asadas-miel",
+    "raciones": 3,
+    "tiempoMin": 40,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Pela 500 g de zanahorias y córtalas en bastones.",
+      "Mézclalas con 15 g de aceite, 20 g de miel y la sal.",
+      "Ásalas 30 minutos, dándoles la vuelta a mitad."
+    ]
+  },
+  {
+    "id": "remolacha-asada",
+    "raciones": 3,
+    "tiempoMin": 70,
+    "pasos": [
+      "Precalienta el horno a 200 °C. Lava 500 g de remolachas y envuélvelas en papel de aluminio.",
+      "Ásalas 1 hora, hasta que estén tiernas al pincharlas.",
+      "Pélalas, córtalas en gajos y aliña con 10 g de aceite y la sal."
+    ]
+  },
+  {
+    "id": "patata-microondas",
+    "raciones": 1,
+    "tiempoMin": 10,
+    "pasos": [
+      "Lava una patata de 300 g y pínchala varias veces con un tenedor.",
+      "Cuécela en el microondas a máxima potencia 7 u 8 minutos, dándole la vuelta a mitad, hasta que esté blanda."
+    ],
+    "notas": "Sin aceite ni sal."
   }
 ]
