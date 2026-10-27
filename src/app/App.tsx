@@ -50,6 +50,8 @@ export default function App() {
   /** Progreso (B12): la pestaña con la que se abre y, si se entró por una tesela de Inicio, cuál (para «‹ Inicio» y el foco). */
   const [vistaProgreso, setVistaProgreso] = useState<VistaProgreso | undefined>(undefined)
   const [teselaOrigen, setTeselaOrigen] = useState<DestinoProgreso | undefined>(undefined)
+  /** Al venir de la hoja de llegada de Caminos: Progreso › Caminos con la lista de rutas abierta. */
+  const [elegirRuta, setElegirRuta] = useState(false)
   const scrollRef = useRef<HTMLElement>(null)
   const entrenoActivo = useLiveQuery(() => workoutsRepo.activo(), [])
   /** Si el entreno en curso ocupa Entreno. Salir de la pantalla lo minimiza; la barra sobre la navegación lo vuelve a abrir. */
@@ -62,6 +64,7 @@ export default function App() {
 
   function navegar(siguiente: Tab) {
     setSeccionAjustes(undefined)
+    setElegirRuta(false)
     setReferenciaInicial(undefined)
     setAnadirInicial(undefined)
     setFechaNutricion(undefined)
@@ -101,6 +104,13 @@ export default function App() {
     setVistaProgreso(vistaDeTesela(desde))
     setTeselaOrigen(desde)
   }
+  /** «Elegir próxima ruta» de la hoja de llegada: Caminos con la lista de rutas abierta, sin «‹ Inicio». */
+  function abrirEleccionRuta() {
+    navegar('progreso')
+    setVistaProgreso('caminos')
+    setTeselaOrigen(undefined)
+    setElegirRuta(true)
+  }
   /** «‹ Inicio» de Progreso: vuelve con el foco en la tesela por la que se entró. */
   function volverAInicio(desde: DestinoProgreso) {
     navegar('inicio')
@@ -124,7 +134,7 @@ export default function App() {
         {tab === 'nutricion' && <Suspense fallback={<LoadingState />}><NutricionTab anadirInicial={anadirInicial} fechaInicial={fechaNutricion} onVerReferencia={id => { abrirReferencias('nutricion'); setReferenciaInicial(id) }} /></Suspense>}
         {tab === 'gym' && <Suspense fallback={<LoadingState />}><GymTab seccionInicial={seccionEntreno} entrenoAbierto={entrenoAbierto} onAbrirEntreno={() => setEntrenoAbierto(true)} onMinimizarEntreno={() => setEntrenoAbierto(false)} /></Suspense>}
         {tab === 'perfil' && <Suspense fallback={<LoadingState />}><PerfilTab onVerMetodo={() => { abrirReferencias('perfil'); setAreaReferencias('energia') }} /></Suspense>}
-        {tab === 'progreso' && <Suspense fallback={<LoadingState />}><ProgresoTab key={`${vistaProgreso ?? 'semana'}-${teselaOrigen ?? ''}`} vistaInicial={vistaProgreso} onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} onIrANutricion={(f) => { navegar('nutricion'); setFechaNutricion(f) }} onVolver={teselaOrigen ? () => volverAInicio(teselaOrigen) : undefined} /></Suspense>}
+        {tab === 'progreso' && <Suspense fallback={<LoadingState />}><ProgresoTab key={`${vistaProgreso ?? 'semana'}-${teselaOrigen ?? ''}-${elegirRuta}`} vistaInicial={vistaProgreso} elegirRuta={elegirRuta} onIrAAjustes={() => irAAjustes('gamificacion')} onIrAActividades={() => irAEntreno('actividades')} onIrANutricion={(f) => { navegar('nutricion'); setFechaNutricion(f) }} onVolver={teselaOrigen ? () => volverAInicio(teselaOrigen) : undefined} /></Suspense>}
         {tab === 'social' && <Suspense fallback={<LoadingState />}><SocialTab onIrAAmigos={abrirAmigos} onIrAGym={abrirEntreno} onIrACuenta={() => irAAjustes('cuenta')} /></Suspense>}
         {tab === 'amigos' && <Suspense fallback={<LoadingState />}><AmigosTab anadirInicial={anadirAmigo} onIrACuenta={() => irAAjustes('cuenta')} onVolver={() => navegar('social')} /></Suspense>}
         {tab === 'ajustes' && <Suspense fallback={<LoadingState />}><Ajustes seccionInicial={seccionAjustes} onIrAPerfil={() => navegar('perfil')} onIrAReferencias={() => abrirReferencias('ajustes')} enfocarReferencias={focoVuelta === 'referencias'} /></Suspense>}
@@ -133,7 +143,7 @@ export default function App() {
       </main>
       </div>
       {/* Nuevos logros, en la pantalla en la que se consigan; con el entreno en curso abierto, al terminarlo. */}
-      {!(tab === 'gym' && entrenoAbierto && entrenoActivo) && <Suspense fallback={null}><CelebracionLogros /></Suspense>}
+      {!(tab === 'gym' && entrenoAbierto && entrenoActivo) && <Suspense fallback={null}><CelebracionLogros onElegirRuta={abrirEleccionRuta} /></Suspense>}
       <BottomNav tab={tab} onChange={navegar} ocultos={ocultos}
         encima={entrenoMinimizado && <EntrenoMinimizado key={entrenoMinimizado.id} workout={entrenoMinimizado} onAbrir={abrirEntreno} />} />
     </div>

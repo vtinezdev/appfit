@@ -257,3 +257,15 @@ export function caminoDeActividad(r: ResultadoCaminos, actividadId: number): Cam
 export function progresoTexto(x: Expedicion): string {
   return `${formatKm(x.metros)} de ${kmTexto(metrosRuta(x.ruta))}`
 }
+
+/**
+ * La llegada que hay que celebrar (punto 4): la última ruta terminada, si la actual aún es la sugerida (no se ha elegido
+ * la siguiente), llegó hace como mucho `dias` días y su clave no está en `vistas`. `null` si no hay ninguna.
+ */
+export function llegadaPorCelebrar(r: ResultadoCaminos | null | undefined, vistas: readonly string[], hoy: string, dias: number): { clave: string; llegada: Expedicion } | null {
+  const ultima = r?.completadas.at(-1)
+  if (!r || r.actualElegida || !ultima?.llegada) return null
+  if (diasEntre(ultima.llegada.fecha, hoy) > dias) return null
+  const clave = `llegada:${ultima.ruta.id}#${ultima.vez}@${ultima.llegada.fecha}`
+  return vistas.includes(clave) ? null : { clave, llegada: ultima }
+}

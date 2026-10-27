@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Actividad } from '../../../shared/db/types'
 import {
-  caminoDeActividad, calcularCaminos, cambiarRuta, confirmarRuta, diasDeExpedicion, empezar, etapaActual, finalesDeEtapa, metrosEntre,
+  caminoDeActividad, calcularCaminos, cambiarRuta, confirmarRuta, diasDeExpedicion, llegadaPorCelebrar, empezar, etapaActual, finalesDeEtapa, metrosEntre,
   nombreExpedicion, progresoTexto, rutaDe, rutasParaCambiar, vecesTerminada,
 } from './caminos'
 import { metrosRuta, RUTAS, rutaDe as rutaPorId } from './rutas'
@@ -108,6 +108,22 @@ describe('al llegar', () => {
     const otra = cambiarRuta(config, r, 'frances')!
     expect(calcularCaminos(acts, otra, HOY)!.actual).toMatchObject({ metros: 3_500 })
     expect(calcularCaminos(acts, otra, HOY)!.actual.ruta.id).toBe('frances')
+  })
+})
+
+describe('llegada por celebrar', () => {
+  const config = empezar('2026-10-05', 'ingles')
+  const acts = [act('2026-10-05', 115)]
+  const r = calcularCaminos(acts, config, HOY)!
+
+  it('la última llegada, mientras no se elija la siguiente, sea reciente y no se haya visto', () => {
+    const l = llegadaPorCelebrar(r, [], '2026-10-08', 7)!
+    expect(l.clave).toBe('llegada:ingles#1@2026-10-05')
+    expect(l.llegada.ruta.id).toBe('ingles')
+    expect(llegadaPorCelebrar(r, [l.clave], '2026-10-08', 7)).toBeNull()
+    expect(llegadaPorCelebrar(r, [], '2026-10-20', 7)).toBeNull() // hace más de una semana
+    expect(llegadaPorCelebrar(calcularCaminos(acts, confirmarRuta(config, r), HOY), [], '2026-10-08', 7)).toBeNull() // ya elegida
+    expect(llegadaPorCelebrar(calcularCaminos([act('2026-10-05', 10)], config, HOY), [], '2026-10-08', 7)).toBeNull() // sin llegar
   })
 })
 

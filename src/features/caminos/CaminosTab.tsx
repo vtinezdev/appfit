@@ -50,19 +50,21 @@ interface Props {
   onVolver?: () => void
   /** Como pestaña de Progreso (B12): sin márgenes de página ni título visible. */
   incrustada?: boolean
+  /** Viene de la hoja de llegada: abre la lista para elegir la próxima ruta (si aún está por elegir). */
+  elegirAlEntrar?: boolean
 }
 
 /**
  * Caminos (desde Inicio): la ruta actual con sus etapas, la credencial, la semana, los pasos, las siguientes y las terminadas.
  * Avanza con los km de las actividades (caminar, correr y senderismo) y de los pasos desde el día en que se elige la primera ruta.
  */
-export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, incrustada = false }: Props) {
+export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, incrustada = false, elegirAlEntrar = false }: Props) {
   const volver = onVolver && !incrustada ? { etiqueta: 'Inicio', onVolver } : undefined
   const marco = incrustada ? '' : 'px-page pt-5'
   const hoy = todayISO()
   const estado = useCaminos(hoy)
   const { avisar, avisarError, toast } = useAviso()
-  const [cambiando, setCambiando] = useState<'cambiar' | 'llegada' | false>(false)
+  const [cambiando, setCambiando] = useState<'cambiar' | 'llegada' | false>(elegirAlEntrar ? 'llegada' : false)
   const [aperturas, setAperturas] = useState(0)
   const [editor, setEditor] = useState<{ ruta?: RutaPropia; n: number } | null>(null)
 
@@ -273,7 +275,7 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
 
 
     {editorRuta}
-    <CambiarRutaSheet key={`cambiar-${aperturas}`} open={cambiando !== false} onClose={() => setCambiando(false)} actual={actual} opciones={opciones} veces={veces} onElegir={cambiarA}
+    <CambiarRutaSheet key={`cambiar-${aperturas}`} open={cambiando === 'cambiar' || (cambiando === 'llegada' && !!sugerida)} onClose={() => setCambiando(false)} actual={actual} opciones={opciones} veces={veces} onElegir={cambiarA}
       llegada={cambiando === 'llegada' ? { onCrear: () => { setCambiando(false); abrirEditor() } } : undefined} />
     {toast}
   </div>

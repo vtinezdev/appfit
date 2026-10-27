@@ -34,6 +34,8 @@ interface Props {
   onIrAActividades: () => void
   /** «Ver en Nutrición» de un día del calendario (B14). */
   onIrANutricion: (fecha: string) => void
+  /** Viene de la hoja de llegada: Caminos abre la lista para elegir la próxima ruta. */
+  elegirRuta?: boolean
 }
 
 /**
@@ -73,7 +75,7 @@ function EstaSemana({ onIr }: { onIr: (v: VistaProgreso) => void }) {
  * esta semana, las metas (B13) y Ritmo (con su calendario, que abre las revisiones). Las páginas de siempre se montan como vistas
  * (`incrustada`). Sin Actividades (B9), Caminos no sale.
  */
-export default function ProgresoTab({ vistaInicial = 'semana', onVolver, onIrAAjustes, onIrAActividades, onIrANutricion }: Props) {
+export default function ProgresoTab({ vistaInicial = 'semana', onVolver, onIrAAjustes, onIrAActividades, onIrANutricion, elegirRuta = false }: Props) {
   const [calendario, setCalendario] = useState(false)
   const settings = useLiveQuery(() => getSettings(), [])
   const vistas = vistasProgreso({ actividades: moduloActivo(settings, 'actividades') })
@@ -88,7 +90,7 @@ export default function ProgresoTab({ vistaInicial = 'semana', onVolver, onIrAAj
         <Suspense fallback={<LoadingState />}>
           {vista === 'semana' && <RitmoTab incrustada onIrAAjustes={onIrAAjustes} debajoDeSemana={<EstaSemana onIr={setVista} />} trasSemana={<MetasVista />} />}
           {vista === 'cumbres' && <CumbresTab incrustada onIrAAjustes={onIrAAjustes} />}
-          {vista === 'caminos' && <CaminosTab incrustada onIrAAjustes={onIrAAjustes} onIrAActividades={onIrAActividades} />}
+          {vista === 'caminos' && <CaminosTab incrustada onIrAAjustes={onIrAAjustes} onIrAActividades={onIrAActividades} elegirAlEntrar={elegirRuta} />}
           {vista === 'vitrina' && <VitrinaTab incrustada onIrAAjustes={onIrAAjustes} />}
         </Suspense>
       </ViewTabs>
