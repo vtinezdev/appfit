@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import Avatar from '../../../shared/components/Avatar'
 import Badge from '../../../shared/components/Badge'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
@@ -22,6 +21,9 @@ import GestionarComunidad from './GestionarComunidad'
 import PublicacionesPersona from './PublicacionesPersona'
 import ListaFeed from './ListaFeed'
 import Card from '../../../shared/components/Card'
+import ImagenComunidad from './ImagenComunidad'
+import ElegirImagenComunidad from './ElegirImagenComunidad'
+import { nombreImagenComunidad, type ImagenComunidad as IdImagenComunidad } from '../lib/imagenComunidad'
 
 interface Props { onCambio?: () => void; descubrirInicial?: boolean; onError: (mensaje: string) => void; onDentro?: (dentro: boolean) => void }
 
@@ -63,7 +65,7 @@ export default function Comunidades({ onError, descubrirInicial = false, onCambi
           return <li key={c.id} className="flex flex-wrap items-center gap-x-2">
             <ListRow className="min-w-0 flex-1 basis-56" onClick={() => { setElegida(c); if(c.unida) void cargarSocial().then(s => s.verComunidad(c.id)).catch(() => undefined) }}>
               <span className="flex min-w-0 items-center gap-3">
-                <Avatar nombre={c.nombre} forma="cuadrado" />
+                <ImagenComunidad nombre={c.nombre} imagen={c.imagen} />
                 <span className="min-w-0"><span className="block break-words text-body font-semibold text-fg">{c.nombre}</span>{c.descripcion && <span className="line-clamp-2 block break-words text-body-sm text-fg-muted">{c.descripcion}</span>}<span className="block text-caption text-fg-muted">{formatInt(c.miembros)} {c.miembros === 1 ? 'miembro' : 'miembros'}{c.soloCreadorPublica ? ' · Solo publica el creador' : ''}</span></span>
               </span>
               {c.unida && (nuevas > 0 ? <Badge tone="accent" className="shrink-0">{formatInt(nuevas)} {nuevas === 1 ? 'nueva' : 'nuevas'}</Badge> : <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />)}
@@ -84,18 +86,23 @@ function CrearComunidad({ onClose, onCreada }: { onClose: () => void; onCreada: 
   const [soloCreadorPublica, setSoloCreadorPublica] = useState(false)
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [imagen, setImagen] = useState<IdImagenComunidad | null>(null)
+  const [eligiendo, setEligiendo] = useState(false)
+  const capacidades = useConsulta(async () => (await cargarSocial()).capacidades(), 0)
   async function enviar(e: FormEvent) {
     e.preventDefault(); if (ocupado) return
     const invalido = validarComunidad(nombre, descripcion)
     if (invalido) { setError(invalido); return }
     setOcupado(true); setError(null)
     try {
-      const id = idPara([nombre.trim(), descripcion.trim(), soloCreadorPublica])
-      await (await cargarSocial()).crearComunidad(id, nombre.trim(), descripcion.trim(), soloCreadorPublica)
-      onCreada({ id, nombre: nombre.trim(), descripcion: descripcion.trim(), miembros: 1, unida: true, mia: true, soloCreadorPublica }); onClose()
+      const id = idPara([nombre.trim(), descripcion.trim(), soloCreadorPublica, imagen])
+      await (await cargarSocial()).crearComunidad(id, nombre.trim(), descripcion.trim(), soloCreadorPublica, imagen)
+      onCreada({ id, nombre: nombre.trim(), descripcion: descripcion.trim(), miembros: 1, unida: true, mia: true, soloCreadorPublica, imagen }); onClose()
     } catch (e) { setError(e instanceof Error ? e.message : 'No se ha podido crear la comunidad.') } finally { setOcupado(false) }
   }
-  return <Sheet open title="Crear comunidad" onClose={() => { if (!ocupado) onClose() }}>
+  return <Sheet open title={eligiendo ? 'Imagen de la comunidad' : 'Crear comunidad'} onBeforeClose={() => !ocupado} onClose={() => { if (!ocupado) onClose() }}
+    footer={eligiendo ? <Button block onClick={() => setEligiendo(false)}>Hecho</Button> : undefined}>
+    {eligiendo ? <ElegirImagenComunidad nombre={nombre || 'Comunidad'} imagen={imagen} onChange={setImagen} /> :
     <form className="space-y-stack" onSubmit={enviar} noValidate>
       <Campo etiqueta="Nombre de la comunidad"><Input value={nombre} maxLength={MAX_NOMBRE_COMUNIDAD} onChange={e => setNombre(e.target.value)} /></Campo>
       <Campo etiqueta="Descripción"><Textarea rows={3} value={descripcion} maxLength={MAX_DESCRIPCION_COMUNIDAD} onChange={e => setDescripcion(e.target.value)} /></Campo>
@@ -105,14 +112,18 @@ function CrearComunidad({ onClose, onCreada }: { onClose: () => void; onCreada: 
           <option value="creador">Solo yo, como creador</option>
         </Select>
       </Campo>
+      {capacidades.datos?.imagenesComunidades && <div className="space-y-2">
+        <div className="flex items-center gap-3"><ImagenComunidad nombre={nombre || 'Comunidad'} imagen={imagen} /><p className="min-w-0 break-words text-body-sm text-fg">{nombreImagenComunidad(imagen)}</p></div>
+        <Button variant="secondary" block disabled={ocupado} onClick={() => setEligiendo(true)}>Elegir imagen</Button>
+      </div>}
       <p className="text-body-sm text-fg-muted">Cualquier persona con perfil social podrá encontrarla y unirse. Las publicaciones las verán sus miembros.</p>
       {error && <ErrorState>{error}</ErrorState>}
       <Button type="submit" variant="primary" block loading={ocupado}>Crear comunidad</Button>
-    </form>
+    </form>}
   </Sheet>
 }
 
-type TareaComunidad = 'editar' | 'gestionar' | 'denunciar'
+type TareaComunidad = 'editar' | 'gestionar' | 'denunciar' | 'imagen'
 
 function DetalleComunidad({ comunidad, onVolver, onError, onCambio }: Props & { comunidad: Comunidad; onVolver: () => void }) {
   const [persona, setPersona] = useState<{ alias: string; nombre: string | null } | null>(null)
@@ -127,6 +138,7 @@ function DetalleComunidad({ comunidad, onVolver, onError, onCambio }: Props & { 
   const [error, setError] = useState<string | null>(null)
   const [version, setVersion] = useState(0)
   const gestion = useConsulta(async () => (await cargarSocial()).gestionComunidad(c.id), `${c.unida}-${version}`)
+  const capacidades = useConsulta(async () => (await cargarSocial()).capacidades(), 0)
   async function cambiar(accion: 'unirse' | 'salir' | 'borrar') {
     if (ocupado) return
     setOcupado(true); setError(null)
@@ -155,7 +167,7 @@ function DetalleComunidad({ comunidad, onVolver, onError, onCambio }: Props & { 
       {/* Con el texto ampliado, el nombre baja bajo el escudo en lugar de estrecharse a una letra por línea. */}
       <div className="flex items-start gap-1">
       <div className="flex min-w-0 flex-1 flex-wrap items-start gap-3">
-        <Avatar nombre={c.nombre} forma="cuadrado" tamano="lg" />
+        <ImagenComunidad nombre={c.nombre} imagen={c.imagen} tamano="lg" />
         <div className="min-w-0 flex-1 basis-32 space-y-1">
           <h2 className="break-words text-heading text-fg">{c.nombre}</h2>
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption text-fg-muted">
@@ -193,6 +205,7 @@ function DetalleComunidad({ comunidad, onVolver, onError, onCambio }: Props & { 
         {menu.borrar ? <ConfirmacionDestructiva mensaje="Se borrarán esta comunidad y todas sus publicaciones, reacciones y comentarios. No se puede deshacer." confirmar="Borrar comunidad" ocupado={ocupado} onCancelar={() => setMenu({ open: true, borrar: false })} onConfirmar={() => void cambiar('borrar')} />
           : <>
             {c.mia && <Button variant="secondary" block aria-haspopup="dialog" onClick={() => elegir('editar')}>{c.descripcion ? 'Editar descripción' : 'Añadir descripción'}</Button>}
+            {c.mia && capacidades.datos?.imagenesComunidades && <Button variant="secondary" block aria-haspopup="dialog" onClick={() => elegir('imagen')}>Cambiar imagen</Button>}
             {modera && <Button variant="secondary" block aria-haspopup="dialog" onClick={() => elegir('gestionar')}>Gestionar comunidad</Button>}
             {c.unida && !c.mia && <Button variant="secondary" block loading={ocupado} onClick={() => void cambiar('salir')}>Salir de la comunidad</Button>}
             {!c.mia && <Button variant="secondary" block aria-haspopup="dialog" onClick={() => elegir('denunciar')}>Denunciar comunidad</Button>}
@@ -205,9 +218,29 @@ function DetalleComunidad({ comunidad, onVolver, onError, onCambio }: Props & { 
       onAnadido={() => { setC(a => ({ ...a, miembros: a.miembros + 1 })); setVersion(v => v + 1); onCambio?.() }} />}
     {persona && <PublicacionesPersona onCambio={() => setVersion(v => v + 1)} persona={persona} comunidad={c.id} volver={c.nombre} onClose={() => setPersona(null)} />}
     {tarea === 'editar' && <EditarDescripcion comunidad={c} onClose={() => setTarea(null)} onGuardada={descripcion => setC(a => ({ ...a, descripcion }))} />}
+    {tarea === 'imagen' && <EditarImagenComunidad comunidad={c} onClose={() => setTarea(null)} onGuardada={imagen => { setC(a => ({ ...a, imagen })); onCambio?.() }} />}
     {editor && <CrearPublicacion comunidad={c} onClose={() => setEditor(false)} onPublicada={() => setVersion(v => v + 1)} />}
     {tarea === 'denunciar' && <Sheet open title="Denunciar comunidad" onClose={() => setTarea(null)}><FormDenuncia onCancelar={() => setTarea(null)} onEnviar={async (motivo, detalle) => { await (await cargarSocial()).denunciarComunidad(c.id, motivo, detalle); setTarea(null); setDenunciada(true) }} /></Sheet>}
   </section>
+}
+
+function EditarImagenComunidad({ comunidad, onClose, onGuardada }: { comunidad: Comunidad; onClose: () => void; onGuardada: (imagen: IdImagenComunidad | null) => void }) {
+  const [imagen, setImagen] = useState<IdImagenComunidad | null>(comunidad.imagen ?? null)
+  const [ocupado, setOcupado] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  async function guardar() {
+    if (ocupado) return
+    setOcupado(true); setError(null)
+    try {
+      await (await cargarSocial()).editarImagenComunidad(comunidad.id, imagen)
+      onGuardada(imagen); onClose()
+    } catch (e) { setError(e instanceof Error ? e.message : 'No se ha podido guardar la imagen.') }
+    finally { setOcupado(false) }
+  }
+  return <Sheet open title="Imagen de la comunidad" onBeforeClose={() => !ocupado} onClose={() => { if (!ocupado) onClose() }}
+    footer={<div className="space-y-2">{error && <ErrorState>{error}</ErrorState>}<Button block loading={ocupado} onClick={() => void guardar()}>Guardar imagen</Button></div>}>
+    <ElegirImagenComunidad nombre={comunidad.nombre} imagen={imagen} onChange={setImagen} disabled={ocupado} />
+  </Sheet>
 }
 
 function EditarDescripcion({ comunidad, onClose, onGuardada }: { comunidad: Comunidad; onClose: () => void; onGuardada: (descripcion: string) => void }) {

@@ -10,6 +10,7 @@ import { leerComunidad, type Comunidad } from '../lib/comunidad'
 import { leerComunidadesSuspendidas, leerDenuncias, leerSuspendidos } from '../lib/moderacion'
 import { leerAvataresExclusivos } from '../lib/avatar'
 import { leerCompanias } from '../lib/compania'
+import { leerImagenComunidad } from '../lib/imagenComunidad'
 
 /** Se carga con `import()` desde `social/servicio.ts`: comparte cliente (y sesión) con la cuenta. */
 
@@ -92,7 +93,15 @@ export function crearSocialSupabase(url: string, clave: string): Social {
     desbloquear: (alias) => rpc('desbloquear', { p_alias: alias }),
     publicar: (id, fecha, resumen, comunidad) => rpc(comunidad ? 'publicar_comunidad' : 'publicar', { p_id: id, p_tipo: resumen.tipo, p_fecha: new Date(fecha).toISOString(), p_resumen: resumen, ...(comunidad ? { p_comunidad: comunidad } : {}) }),
     comunidades: async (busqueda, soloMias) => ((await rpc<unknown[]>('comunidades', { p_busqueda: busqueda, p_solo_mias: soloMias })) ?? []).map(leerComunidad).filter((c): c is Comunidad => c !== null),
-    crearComunidad: (id, nombre, descripcion, soloCreadorPublica = false) => rpc('crear_comunidad', { p_id: id, p_nombre: nombre, p_descripcion: descripcion, p_solo_creador_publica: soloCreadorPublica }),
+    crearComunidad: (id, nombre, descripcion, soloCreadorPublica = false, imagen = null) => {
+      const args = { p_id: id, p_nombre: nombre, p_descripcion: descripcion, p_solo_creador_publica: soloCreadorPublica }
+      if (imagen !== null && !leerImagenComunidad(imagen)) return Promise.reject(new SocialError('Elige una imagen del catálogo de comunidades.', 'imagen_comunidad_no_valida'))
+      return imagen === null ? rpc('crear_comunidad', args) : escritura('crear_comunidad_con_imagen', { ...args, p_imagen: imagen }, 'Las imágenes de comunidades aún no están disponibles. Inténtalo más tarde.')
+    },
+    editarImagenComunidad: (id, imagen) => {
+      if (imagen !== null && !leerImagenComunidad(imagen)) return Promise.reject(new SocialError('Elige una imagen del catálogo de comunidades.', 'imagen_comunidad_no_valida'))
+      return escritura('editar_imagen_comunidad', { p_id: id, p_imagen: imagen }, 'Las imágenes de comunidades aún no están disponibles. Inténtalo más tarde.')
+    },
     unirseComunidad: (id) => rpc('unirse_comunidad', { p_id: id }),
     salirComunidad: (id) => rpc('salir_comunidad', { p_id: id }),
     editarDescripcionComunidad: (id, descripcion) => rpc('editar_descripcion_comunidad', { p_id: id, p_descripcion: descripcion }),

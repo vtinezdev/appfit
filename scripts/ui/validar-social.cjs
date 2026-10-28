@@ -65,14 +65,20 @@ async function main() {
           const { db } = await import('/src/shared/db/db.ts')
           const { updateSettings } = await import('/src/shared/db/settings.ts')
           const { todayISO, addDays } = await import('/src/shared/lib/dates.ts')
-          await updateSettings({ gamificacionVisible: true, gamificacionConNutricion: true })
+          // Sembrar todo antes de activar la Vitrina: no celebrar estados intermedios del fixture.
+          await updateSettings({ gamificacionVisible: false, gamificacionConNutricion: true })
           await db.exercises.add({ id: 1, nombre: 'Press de prueba', nombreNorm: 'press de prueba', grupo: 'pecho', primaryMuscles: ['pecho'], secondaryMuscles: ['triceps'] })
           for (let i = 0; i < 10; i++) {
             const inicio = new Date(`${addDays(todayISO(), i - 9)}T07:00:00`).getTime()
             await db.workouts.add({ id: i + 1, inicio, fin: inicio + 3600000 })
             for (let s = 0; s < 5; s++) await db.sets.add({ workoutId: i + 1, exerciseId: 1, orden: s, reps: 8, peso: 40 + i, createdAt: inicio })
           }
+          await updateSettings({ gamificacionVisible: true })
         })
+        // El fixture consigue piezas de la Vitrina; cerrarlas antes de capturar el backup y navegar.
+        const celebracion = page.getByRole('dialog').filter({ has: page.getByRole('button', { name: 'Genial', exact: true }) })
+        await celebracion.getByRole('button', { name: 'Genial', exact: true }).click()
+        await celebracion.waitFor({ state: 'detached' })
         if (c.grande) await page.addStyleTag({ content: 'html { font-size: 200% !important }' })
         const antes = await registros(page)
 
@@ -198,6 +204,7 @@ async function main() {
         await vista.getByRole('button', { name: 'Publicar', exact: true }).click(); await vista.waitFor({ state: 'detached' })
         await principal.getByText('Anuncio del creador', { exact: true }).waitFor()
         // El editor global filtra comunidades ajenas restringidas, también para adjuntar entrenos/logros.
+        await principal.getByRole('button', { name: 'Comunidades', exact: true }).click()
         await page.getByRole('tab', { name: 'Siguiendo', exact: true }).click()
         await principal.getByRole('button', { name: 'Comparte algo con tus seguidores', exact: true }).click()
         const destinos = page.getByRole('dialog', { name: 'Crear publicación', exact: true }).getByRole('combobox', { name: 'Publicar para', exact: true })

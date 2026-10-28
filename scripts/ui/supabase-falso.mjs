@@ -10,6 +10,12 @@
 // futuro y un `user`) antes de recargar. Tras `simular_admin` con `{ p_admin: true }`, la sesión es de un
 // administrador (0017): ve Moderación con cuatro denuncias de ejemplo y puede borrar, suspender y añadir a comunidades. No sustituye a supabase/pruebas/social.sql, que prueba el SQL de verdad.
 import http from 'node:http'
+import { readFileSync } from 'node:fs'
+
+const IDS_IMAGENES_COMUNIDAD = new Set(JSON.parse(readFileSync(new URL('../comunidades/fuentes.json', import.meta.url), 'utf8')).lotes.flatMap(l => l.elementos.map(e => e.id)))
+let IMAGENES_COMUNIDADES = true
+const exigirImagenesComunidades = () => { if (!IMAGENES_COMUNIDADES) throw { status: 404, body: { code: 'PGRST202', message: 'Could not find community images RPC' } } }
+const validarImagenComunidad = imagen => { if (imagen !== null && !IDS_IMAGENES_COMUNIDAD.has(imagen)) throw err('imagen_comunidad_no_valida') }
 
 const YO = 'yo'
 const silencios = new Set()
@@ -124,6 +130,7 @@ const denunciasFalsas = [
 
 const rpc = {
   simular_reinicio: () => {
+    IMAGENES_COMUNIDADES = true
     EXCLUSIVO = false
     silencios.clear(); vistosComunidad.clear(); deportivos.clear(); deportivos.set('jon', deportivoJon()); avataresCatalogo.clear(); avataresCatalogo.set('lucia', 'paisaje.cumbre'); moderadores.clear(); idsAnimos.clear()
     for (const [mapa, filas] of [[perfiles,inicial.perfiles],[seg,inicial.seg],[publicaciones,inicial.publicaciones],[comunidades,inicial.comunidades]]) { mapa.clear(); for (const [k,v] of filas) mapa.set(k,structuredClone(v)) }
@@ -135,7 +142,7 @@ const rpc = {
   },
   comunidades: ({ p_busqueda, p_solo_mias }) => {
     exigir()
-    return [...comunidades].filter(([id,c]) => !c.suspendida && !bloq(YO,c.creador) && (!p_solo_mias || miembros.has(`${id}|${YO}`)) && c.nombre.toLowerCase().includes((p_busqueda || '').toLowerCase())).map(([id,c]) => ({ id, nombre: c.nombre, descripcion: c.descripcion, miembros: [...miembros].filter(m=>m.startsWith(`${id}|`)).length, unida: miembros.has(`${id}|${YO}`), mia: c.creador === YO, solo_creador_publica: c.solo_creador_publica === true }))
+    return [...comunidades].filter(([id,c]) => !c.suspendida && !bloq(YO,c.creador) && (!p_solo_mias || miembros.has(`${id}|${YO}`)) && c.nombre.toLowerCase().includes((p_busqueda || '').toLowerCase())).map(([id,c]) => ({ id, nombre: c.nombre, descripcion: c.descripcion, miembros: [...miembros].filter(m=>m.startsWith(`${id}|`)).length, unida: miembros.has(`${id}|${YO}`), mia: c.creador === YO, solo_creador_publica: c.solo_creador_publica === true, ...(IMAGENES_COMUNIDADES ? { imagen: c.imagen ?? null } : {}) }))
   },
   crear_comunidad: ({ p_id, p_nombre, p_descripcion, p_solo_creador_publica = false }) => {
     exigir()
@@ -143,6 +150,25 @@ const rpc = {
     if ([...comunidades.values()].some(c => c.nombre.toLowerCase() === p_nombre.toLowerCase())) throw err('comunidad_ocupada')
     comunidades.set(p_id,{ nombre:p_nombre, descripcion:p_descripcion, creador:YO, solo_creador_publica: p_solo_creador_publica }); miembros.add(`${p_id}|${YO}`); return null
   },
+  crear_comunidad_con_imagen: args => {
+    exigir(); exigirImagenesComunidades(); validarImagenComunidad(args.p_imagen)
+    if (comunidades.has(args.p_id)) {
+      const c = comunidades.get(args.p_id)
+      if (c.creador === YO && (c.solo_creador_publica === true) === args.p_solo_creador_publica) return null
+      throw err('comunidad_no_valida')
+    }
+    rpc.crear_comunidad(args)
+    comunidades.get(args.p_id).imagen = args.p_imagen
+    return null
+  },
+  editar_imagen_comunidad: ({ p_id, p_imagen }) => {
+    exigir(); exigirImagenesComunidades(); validarImagenComunidad(p_imagen)
+    const c = comunidades.get(p_id)
+    if (!c || c.creador !== YO || c.suspendida) throw err('no_encontrado')
+    c.imagen = p_imagen
+    return null
+  },
+  simular_imagenes_comunidades: ({ p_disponibles }) => { IMAGENES_COMUNIDADES = p_disponibles === true; return null },
   unirse_comunidad: ({p_id}) => { exigir(); if(!comunidades.has(p_id)) throw err('no_encontrado'); miembros.add(`${p_id}|${YO}`); return null },
   salir_comunidad: ({p_id}) => { exigir(); if(comunidades.get(p_id)?.creador===YO) throw err('creador_no_puede_salir'); miembros.delete(`${p_id}|${YO}`); return null },
   editar_descripcion_comunidad: ({p_id,p_descripcion}) => { exigir(); const c=comunidades.get(p_id); if(c?.creador!==YO) throw err('no_encontrado'); if((p_descripcion??'').trim().length>300) throw err('comunidad_no_valida'); c.descripcion=(p_descripcion??'').trim(); return null },
@@ -279,7 +305,7 @@ const rpc = {
   simular_suspension: () => { perfiles.get(YO).suspendido=true;return null },
   gestion_comunidad: ({p_id})=>{exigir();const c=comunidades.get(p_id);if(!c||bloq(YO,c.creador))throw err('no_encontrado');const creador=c.creador===YO;return {modera:modera(p_id),creador,reglas:c.reglas??'',bienvenida:c.bienvenida??'',miembros:modera(p_id)?[...perfiles].filter(([id])=>miembros.has(`${p_id}|${id}`)).map(([id,p])=>({alias:p.alias,nombre:p.nombre,creador:c.creador===id,moderador:moderadores.has(`${p_id}|${id}`),yo:id===YO})):[]}},
   gestionar_comunidad: ({p_id,p_accion,p_alias,p_texto})=>{exigir();const c=comunidades.get(p_id);if(!c||!modera(p_id)||(p_accion!=='expulsar'&&c.creador!==YO))throw err('no_encontrado');if(p_accion==='reglas'||p_accion==='bienvenida')c[p_accion]=p_texto;else{const id=otro(p_alias);if(!miembros.has(`${p_id}|${id}`)||id===YO||id===c.creador)throw err('no_encontrado');if(p_accion==='transferir'){c.creador=id;moderadores.delete(`${p_id}|${id}`)}else if(p_accion==='expulsar')miembros.delete(`${p_id}|${id}`);else if(p_accion==='nombrar')moderadores.add(`${p_id}|${id}`);else if(p_accion==='revocar')moderadores.delete(`${p_id}|${id}`)}return null},
-  social_capacidades: () => { exigir(); return { camposOpcionales: true, imagenesPublicacion: true, detallesEjercicio: true, rutinaCompartida: true, semanaRitmo: true, semanaCompania: true } },
+  social_capacidades: () => { exigir(); return { camposOpcionales: true, imagenesPublicacion: true, detallesEjercicio: true, rutinaCompartida: true, semanaRitmo: true, semanaCompania: true, ...(IMAGENES_COMUNIDADES ? { imagenesComunidades: true } : {}) } },
   perfil_deportivo: ({p_alias,p_comunidad})=>{exigir();const id=idDe(p_alias);if(!id||bloq(YO,id))throw err('no_encontrado');if(p_comunidad&&!miembros.has(`${p_comunidad}|${YO}`))throw err('no_miembro');const pe=perfiles.get(id),de=deportivos.get(id)??{bio:'',disciplinas:[],destacados:[],logros:[],avatarId:null};const visibles=[...publicaciones].filter(([,p])=>p.autor===id&&(p_comunidad?p.comunidad===p_comunidad:!p.comunidad&&puedeVer(id)));return {...de,alias:pe.alias,nombre:pe.nombre,publicadas:visibles.length,destacados:visibles.filter(([pid])=>de.destacados.includes(pid)).map(([id,p])=>({id,resumen:p.resumen})),avatar:visibles.find(([pid])=>pid===de.avatarId)?.[1].resumen??null}},
   editar_perfil_deportivo: ({p_bio,p_disciplinas,p_destacados,p_avatar})=>{exigir();if(p_bio.length>160||p_disciplinas.length>3||p_destacados.length>3)throw err('perfil_deportivo_no_valido');deportivos.set(YO,{bio:p_bio,disciplinas:p_disciplinas,destacados:p_destacados,avatarId:p_avatar});return null},
   // 0016: hasta tres medallas de logro distintas, sin publicar.

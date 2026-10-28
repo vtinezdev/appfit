@@ -10,6 +10,6 @@ Con el monograma en grafito, dos personas con las mismas iniciales tienen la mis
 - **Se ve como el nombre.** El avatar de catálogo se lee donde se lea el alias (sin bloqueo ni suspensión), también en comunidades, porque no revela más que lo que la persona elige enseñar. El logro publicado que se eligiera antes (0012/0014) se sigue viendo, con la visibilidad de su publicación, hasta que se elige uno del catálogo.
 - **Se elige en una hoja.** En Editar perfil, la cara actual y «Cambiar avatar» abren la hoja «Avatar» con las pestañas Paisajes · Disciplinas · Logros. Se guarda con «Guardar perfil», como el resto del perfil.
 
-El color lo elige cada persona; sigue sin haber un color asignado automáticamente a cada una. Las comunidades conservan su monograma en un cuadrado invertido.
+El color lo elige cada persona; sigue sin haber un color asignado automáticamente a cada una. Las comunidades conservaron su monograma en un cuadrado invertido; [ADR 062](062-imagen-de-comunidad.md) añade su catálogo propio de lugares y mantiene ese monograma como alternativa.
 
 Implementación y flujos: [Social](../features/social.md#avatar); piezas visuales: [DESIGN-SYSTEM](../DESIGN-SYSTEM.md).

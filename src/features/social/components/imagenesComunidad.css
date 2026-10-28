@@ -1,0 +1,6 @@
+/* El tamaño del arte sigue los tokens de Avatar, también al ampliar el texto: se reducen columnas, no las imágenes. */
+.imagenes-comunidad-rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--avatar-lg) + var(--space-page) * 2)), 1fr));
+  gap: var(--space-stack);
+}

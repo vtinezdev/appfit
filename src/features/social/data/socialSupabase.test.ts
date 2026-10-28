@@ -39,7 +39,7 @@ describe('destinatario y funciones de comunidad', () => {
   it('filtra comunidades mal formadas y pide solo las mías para elegir audiencia', async () => {
     const c = { id: 'grupo', nombre: 'Entreno', descripcion: '', miembros: 1, unida: true, mia: false }
     rpc.mockResolvedValueOnce({ data: [c, {}, null], error: null })
-    expect(await social().comunidades('fuerza', true)).toEqual([{ ...c, soloCreadorPublica: false }])
+    expect(await social().comunidades('fuerza', true)).toEqual([{ ...c, soloCreadorPublica: false, imagen: null }])
     expect(rpc).toHaveBeenLastCalledWith('comunidades', { p_busqueda: 'fuerza', p_solo_mias: true })
   })
   it('mantiene los ids al reintentar crear y no pide tablas directamente', async () => {
@@ -60,6 +60,21 @@ describe('destinatario y funciones de comunidad', () => {
 describe('contratos de las nuevas RPC', () => {
   beforeEach(() => rpc.mockResolvedValue({ data: [], error: null }))
   const social = () => crearSocialSupabase('https://appfit-pruebas.invalid', 'publica-falsa')
+  it('crea con imagen en una sola RPC y edita o vuelve a las iniciales sin subir archivos', async () => {
+    await social().crearComunidad('grupo', 'Campamento', 'Rutas juntos', false, 'lugar.campamento')
+    expect(rpc).toHaveBeenLastCalledWith('crear_comunidad_con_imagen', { p_id: 'grupo', p_nombre: 'Campamento', p_descripcion: 'Rutas juntos', p_solo_creador_publica: false, p_imagen: 'lugar.campamento' })
+    await social().editarImagenComunidad('grupo', 'lugar.refugio')
+    expect(rpc).toHaveBeenLastCalledWith('editar_imagen_comunidad', { p_id: 'grupo', p_imagen: 'lugar.refugio' })
+    await social().editarImagenComunidad('grupo', null)
+    expect(rpc).toHaveBeenLastCalledWith('editar_imagen_comunidad', { p_id: 'grupo', p_imagen: null })
+  })
+  it('sin la migración conserva el error específico y nunca crea primero una comunidad a medias', async () => {
+    rpc.mockReset(); rpc.mockResolvedValue({ data: null, error: { code: 'PGRST202' } })
+    await expect(social().crearComunidad('grupo', 'Campamento', '', false, 'lugar.campamento')).rejects.toThrow('Las imágenes de comunidades aún no están disponibles')
+    expect(rpc).toHaveBeenCalledTimes(1)
+    expect(rpc).not.toHaveBeenCalledWith('crear_comunidad', expect.anything())
+    await expect(social().editarImagenComunidad('grupo', null)).rejects.toThrow('Las imágenes de comunidades aún no están disponibles')
+  })
   it('envía el cursor completo sin redondear microsegundos y mantiene el ámbito de comunidad', async () => {
     const antes={ fecha: '2026-10-18T10:00:00.123456+00:00', id: 'uuid-ultimo' }
     await social().feed(antes)
