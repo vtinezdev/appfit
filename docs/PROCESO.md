@@ -3183,3 +3183,15 @@ Plan: `docs/plan-retoques-2026-10-28.md`. Víctor vio tres opciones en capturas 
 - `AvisoActualizacion` pasa de fila a botón redondo de 44 px en la `action` de la cabecera: `check` al día, `download` con un punto de acento si hay actualización, `info` en lo demás. El texto queda en `aria-label` («Actualizaciones. App al día», el mismo que buscan los recorridos) y en `title`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Capturas en Chromium a 320/375/430 px en claro y oscuro: sin scroll horizontal y el botón a 44 × 44 px. Sin iPhone real.
+
+## 290. Retoques de la revisión, bloque B: Perfil (2026-10-28)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor eligió sobre capturas: Actividad en ámbar (opción B), quitar las frases sueltas y la hoja de medidas en casillas (R2).
+
+- Perfil sin overline («Tus datos para estimar tu energía diaria»).
+- Nuevo token de datos `actividad` (ámbar dorado: 184 118 0 en claro, 240 184 40 en oscuro) para el tramo y la rayita de Actividad en «Tu energía diaria». El ámbar de la preview se acercaba demasiado a la grasa (ΔE 8,6): se desplazó hacia el dorado hasta pasar ΔE ≥ 10 frente a `fat` y `kcal`, ya en `contrast.test.ts` junto al relleno ≥ 3 sobre surface.
+- «Estimación orientativa, no una prescripción médica» pasa de línea bajo la Card a la «i» de «Tu energía diaria».
+- Medidas corporales: fuera el párrafo del estado vacío; sin medidas, la ficha muestra las seis zonas con «—», que abren el registro. Hoja «Registrar medidas» en casillas: fecha como pastilla con el selector nativo encima (`etiquetaFechaMedida` en `lib/medidas`, con test), una casilla por zona con cifra grande, unidad y «Última: …»/«Sin medir», y la explicación tras la «i».
+- `Sheet` gana `accion` (a la derecha del título).
+
+**Verificación:** `npm run test` (3.051) y `npm run build` correctos. `validar-mejoras-uso.cjs` y `auditoria-interfaz.cjs` en Chromium correctos. Capturas en Chromium a 320/375 px en claro y oscuro: sin scroll horizontal, fecha a 44 px y campos a 16 px o más; la «i» abre su hoja encima. Sin iPhone real (selector de fecha nativo y teclado decimal por probar).

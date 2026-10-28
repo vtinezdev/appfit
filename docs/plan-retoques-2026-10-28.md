@@ -16,7 +16,7 @@ Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, ex
 2. **Actualizaciones / «App al día»**: se ve suelto. Integrarlo (o mostrarlo solo cuando haya algo que hacer).
    - Código: `features/inicio/InicioTab.tsx`, `shared/pwa/`, `app/ActualizacionesAjustes.tsx`.
 
-## Bloque B — Perfil
+## Bloque B — Perfil · **hecho** (ámbar, sin frases, R2; PROCESO §290)
 
 1. Quitar la frase bajo el título de Perfil: «Tus datos para estimar tu energía diaria».
 2. **Medidas corporales**: quitar el texto de debajo; esa explicación pasa a un botón (i) en la pantalla de registrar.
@@ -58,4 +58,5 @@ Al terminar A–F, recorrer todas las secciones y quitar o recolocar (botón (i)
 
 ## Preguntas abiertas para Víctor
 
-- B3 pantalla de registrar medidas: qué no gusta (se resolverá con la preview del bloque B).
+Ninguna por ahora.
+

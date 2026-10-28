@@ -31,6 +31,8 @@
   --c-protein: 85 77 160;
   --c-carbs: 2 113 122;
   --c-fat: 148 86 62;
+  /* Parte de la energía diaria que sale de la actividad (Perfil): ámbar, separado de grasa y de kcal. */
+  --c-actividad: 184 118 0;
   --c-goal: var(--c-text-primary);
   /* Una familia, tres voces: lectura a ancho normal, títulos negros condensados rectos, cifras en cursiva condensada. */
   --font-sans: 'Saira', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -250,6 +252,7 @@
   --c-protein: 170 167 244;
   --c-carbs: 124 205 214;
   --c-fat: 219 162 140;
+  --c-actividad: 240 184 40;
   /* Más clara que las cards (38 39 44): la tarjeta de entreno sigue siendo la principal también en oscuro. */
   --c-training: 48 50 43;
   --c-on-training: 244 247 238;

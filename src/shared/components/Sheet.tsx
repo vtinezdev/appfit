@@ -14,6 +14,8 @@ interface Props {
   title?: string
   /** Debajo del título: de qué trata la hoja (el alimento o la receta que se registra…). */
   subtitle?: string
+  /** A la derecha del título: la «i» (`Ayuda`) con lo que explica la hoja, en lugar de un texto suelto. */
+  accion?: ReactNode
   children: ReactNode
   /** Acciones persistentes en formularios largos; fuera del scroll del contenido. */
   footer?: ReactNode
@@ -27,7 +29,7 @@ interface Props {
  * mantiene el foco dentro y lo devuelve al elemento que lo abrió.
  * Las salidas iniciadas aquí animan antes de `onClose`; open=false también anima, desmontar directamente no.
  */
-export default function Sheet({ id, open, onClose, onExited, title, subtitle, children, footer, onBeforeClose }: Props) {
+export default function Sheet({ id, open, onClose, onExited, title, subtitle, accion, children, footer, onBeforeClose }: Props) {
   const { mounted, visible, close } = useOverlayPresence(open, onClose)
   const requestClose = () => {
     if (onBeforeClose?.() === false) return false
@@ -110,7 +112,9 @@ export default function Sheet({ id, open, onClose, onExited, title, subtitle, ch
         </div>
         <div className="sheet-content min-h-0 flex-1 overflow-y-auto overscroll-contain">
           <div className="px-card pb-card">
-            {title && <h2 id={titleId} className={`break-words text-title text-fg ${subtitle ? '' : 'mb-3'}`}>{title}</h2>}
+            {title && (accion
+              ? <div className={`flex items-center justify-between gap-2 ${subtitle ? '' : 'mb-3'}`}><h2 id={titleId} className="min-w-0 break-words text-title text-fg">{title}</h2>{accion}</div>
+              : <h2 id={titleId} className={`break-words text-title text-fg ${subtitle ? '' : 'mb-3'}`}>{title}</h2>)}
             {subtitle && <p className="mb-3 break-words text-body-sm text-fg-muted">{subtitle}</p>}
             {children}
           </div>

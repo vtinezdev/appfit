@@ -46,7 +46,7 @@ describe('resultado de energía por estados', () => {
     expect(html).toContain('Gasto diario estimado')
     expect(html).toContain('Elige tu objetivo')
   })
-  it('completo: objetivo, sus tres partes con barra, aviso fijo y el cálculo tras la «i»', () => {
+  it('completo: objetivo, sus tres partes con barra y el cálculo (con el aviso) tras la «i»', () => {
     const html = resultado(COMPLETO, 80)
     expect(html).toContain('2.420')
     expect(html).toContain('En reposo')
@@ -54,7 +54,8 @@ describe('resultado de energía por estados', () => {
     expect(html).toContain('× 1,55 · moderado')
     expect(html).toContain('−400')
     expect(html.match(/style="width:/g)).toHaveLength(3)
-    expect(html).toContain('Estimación orientativa, no una prescripción médica')
+    expect(html).not.toContain('Estimación orientativa, no una prescripción médica')
+    expect(html).toContain('bg-actividad')
     expect(html).toContain('aria-label="Qué es Tu energía diaria"')
   })
   it('IMC bajo con definición: mantenimiento con aviso', () => {

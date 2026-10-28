@@ -170,7 +170,7 @@ const TEXT: [string, string][] = [
   ['text-primary', 'muscle-1'], ['text-primary', 'muscle-2'], ['text-primary', 'muscle-3'],
   ['on-muscle-4', 'muscle-4'], ['on-muscle-5', 'muscle-5'],
 ]
-const FILLS = ['kcal', 'protein', 'carbs', 'fat']
+const FILLS = ['kcal', 'protein', 'carbs', 'fat', 'actividad']
 // Insignias de la Liga, de Bronce a Élite: relleno siempre acompañado del nombre de la liga.
 const LIGAS = ['liga-bronce', 'liga-plata', 'liga-oro', 'liga-zafiro', 'liga-rubi', 'liga-elite']
 
@@ -218,7 +218,7 @@ const hueGap = (a: readonly number[], b: readonly number[]) => {
 
 // Jerarquía cromática: cada rol se distingue de los que comparten pantalla con él.
 describe.each([['claro', light], ['oscuro', dark]])('roles distinguibles (%s)', (_name, t) => {
-  it.each([['protein', 'carbs'], ['protein', 'fat'], ['carbs', 'fat'], ['kcal', 'fat']])('%s y %s ≥ 10', (a, b) => expect(deltaE(t[a], t[b])).toBeGreaterThanOrEqual(10))
+  it.each([['protein', 'carbs'], ['protein', 'fat'], ['carbs', 'fat'], ['kcal', 'fat'], ['actividad', 'fat'], ['actividad', 'kcal']])('%s y %s ≥ 10', (a, b) => expect(deltaE(t[a], t[b])).toBeGreaterThanOrEqual(10))
   // Naranja y rojo son vecinos: borrar se desplaza a carmín y siempre va con texto/icono (ADR 020).
   it('acción textual y borrar ≥ 8', () => expect(deltaE(t['accent-strong'], t.destructive)).toBeGreaterThanOrEqual(8))
   // kcal comparte a propósito la familia del acento (ADR 020, ADR 035): mismo tono aunque en claro sea más oscuro para rellenar sobre blanco.

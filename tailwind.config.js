@@ -30,6 +30,7 @@ export default {
       protein: c('protein'),
       carbs: c('carbs'),
       fat: c('fat'),
+      actividad: c('actividad'), // la actividad en la energía diaria de Perfil
       goal: c('goal'),
     },
     fontFamily: { sans: 'var(--font-sans)', display: 'var(--font-display)', numeric: 'var(--font-numeric)' },
