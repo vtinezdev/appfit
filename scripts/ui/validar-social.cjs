@@ -418,9 +418,10 @@ async function main() {
         await gestion.getByRole('textbox',{name:'Bienvenida',exact:true}).fill('Bienvenidos al grupo de entreno.')
         await gestion.getByRole('button',{name:'Guardar reglas y bienvenida',exact:true}).click();await gestion.waitFor({state:'detached'})
         await principal.getByRole('button',{name:/^Nuestro grupo de entreno/}).click()
-        await principal.getByRole('button',{name:'Antes de publicar',exact:true}).click()
+        await principal.getByRole('tab',{name:'Sobre ella',exact:true}).click()
         await principal.getByText('Nos apoyamos y respetamos el ritmo de cada persona.',{exact:true}).waitFor()
         await principal.getByText('Bienvenidos al grupo de entreno.',{exact:true}).waitFor()
+        await principal.getByRole('button',{name:'Comunidades',exact:true}).click()
         await principal.getByRole('tab',{name:'Siguiendo',exact:true}).click()
         if(caso==='375-light') {
           await social(page)
