@@ -91,9 +91,10 @@ export default function Historial({ onAbrir }: { onAbrir: (id: number) => void }
                 const records = contexto ? recordsDeEntreno(w.id, workouts, contexto.todas).length : 0
                 return <li key={w.id} data-sesion={w.id}>
                   <ListRow onClick={() => onAbrir(w.id)}>
-                    <span className="flex min-w-0 flex-1 items-center gap-3">
+                    {/* Con el texto ampliado, el título baja bajo el día en vez de quedarse sin ancho. */}
+                    <span className="flex min-w-0 flex-1 flex-wrap items-center gap-3">
                       <DiaSesion inicio={w.inicio} />
-                      <span className="min-w-0">
+                      <span className="min-w-0 flex-1 basis-24">
                         <span className="sr-only">{formatFechaHora(w.inicio)}: </span>
                         <span className="block break-words text-body font-semibold text-fg">{titulo(w)}</span>
                         {/* El gimnasio, solo si no es el habitual (el de casi todas). */}

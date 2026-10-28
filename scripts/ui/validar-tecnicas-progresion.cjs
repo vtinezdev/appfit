@@ -207,7 +207,7 @@ async function main() {
       await page.getByText('Sesión guardada en el historial', { exact: true }).waitFor()
       await page.getByRole('button', { name: 'Volver a Entreno', exact: true }).click()
       await page.getByRole('tab', { name: 'Historial', exact: true }).click()
-      await page.getByRole('list', { name: 'Entrenos terminados del mes', exact: true }).getByRole('button').filter({ hasText: 'Fuerza' }).click()
+      await page.getByRole('region', { name: 'Sesiones del mes', exact: true }).locator('li[data-sesion]').getByRole('button').filter({ hasText: 'Fuerza' }).click()
       await page.getByText('Solo negativas', { exact: false }).first().waitFor()
       await check(page, `${tag}-historial`)
       await page.getByRole('button', { name: 'Editar', exact: true }).click()

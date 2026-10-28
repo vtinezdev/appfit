@@ -46,10 +46,11 @@ export default function SesionesEjercicio({ filas, unidad, nombre }: { filas: Fi
           const f = filas[i]
           const { record, cambio, ancho } = marcas[i]
           const fecha = new Date(f.inicio)
-          return <li key={f.id} className="flex min-h-touch items-center gap-3 py-2"
+          // Con el texto ampliado, la barra y la cifra bajan a otra línea.
+          return <li key={f.id} className="flex min-h-touch flex-wrap items-center gap-x-3 gap-y-1 py-2"
             aria-label={`${formatFechaHora(f.inicio)}${f.gimnasio ? `, ${f.gimnasio}` : ''}. Mejor serie: ${f.mejor}. ${formatNumber(f.valor, 1)} ${unidad}${cambio ? `, ${conSigno(cambio)} frente a la anterior` : ''}${record ? '. Récord' : ''}`}>
             <span aria-hidden className="w-12 shrink-0 text-body-sm font-semibold text-fg">{fecha.getDate()} <span className="font-normal text-fg-muted">{fecha.toLocaleDateString('es-ES', { weekday: 'short' }).replace('.', '')}</span></span>
-            <span aria-hidden className="tabular min-w-0 flex-1 break-words text-body-sm text-fg-muted">{f.mejor}{f.gimnasio ? ` · ${f.gimnasio}` : ''}</span>
+            <span aria-hidden className="tabular min-w-0 flex-1 basis-24 break-words text-body-sm text-fg-muted">{f.mejor}{f.gimnasio ? ` · ${f.gimnasio}` : ''}</span>
             <span aria-hidden className="h-1.5 w-12 shrink-0 overflow-hidden rounded-pill bg-surface-muted">
               <span className={`block h-full rounded-pill ${record ? 'bg-accent-strong' : 'bg-line-strong'}`} style={{ width: `${ancho}%` }} />
             </span>

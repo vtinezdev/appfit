@@ -177,9 +177,10 @@ export default function Progreso() {
           {visibles.map(r => {
             const ex = nombres.get(r.exerciseId)
             if (!ex) return null
-            return <li key={r.exerciseId}><ListRow onClick={() => elegirYEnfocar(r.exerciseId)}>
+            // Con el texto ampliado, la línea y la flecha bajan en vez de dejar sin ancho al nombre.
+            return <li key={r.exerciseId}><ListRow className="flex-wrap" onClick={() => elegirYEnfocar(r.exerciseId)}>
               <MiniaturaEjercicio catalogId={ex.catalogId} />
-              <span className="min-w-0 flex-1">
+              <span className="min-w-0 flex-1 basis-32">
                 <span className="block break-words text-body font-semibold text-fg">{ex.nombre}</span>
                 <span className="tabular block break-words text-caption text-fg-muted">{textoMejorSerie(r.ultima.mejor, r.modo)} · {formatDiaMes(r.ultima.inicio)}</span>
               </span>

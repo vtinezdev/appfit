@@ -149,7 +149,7 @@ export default function MetasVista() {
               <span aria-hidden className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-surface-muted text-fg-muted"><Icon name={e.icono} size={18} /></span>
               <span className="min-w-0 flex-1 space-y-1">
                 <span className="flex flex-wrap items-baseline justify-between gap-x-2">
-                  <span className="break-words text-body-sm font-semibold text-fg">{e.titulo}</span>
+                  <span className="min-w-0 break-words text-body-sm font-semibold text-fg">{e.titulo}</span>
                   <span className="tabular text-caption text-fg-muted">{e.detalle}</span>
                 </span>
                 <span aria-hidden className="block h-1.5 overflow-hidden rounded-pill bg-surface-muted"><span className="block h-full rounded-pill bg-fg-subtle" style={{ width: `${e.pct}%` }} /></span>

@@ -24,6 +24,18 @@ const etiquetaSemana = (lunes: string) => {
   return `Semana del ${d} ${MESES_ABREV[m - 1]}`
 }
 
+/** Las semanas visibles agrupadas por mes, en orden: cada tramo es un mes (1–12) y cuántas semanas suyas se ven. */
+function tramosDeMes(lunes: readonly string[]): { mes: number; semanas: number }[] {
+  const tramos: { mes: number; semanas: number }[] = []
+  for (const l of lunes) {
+    const mes = Number(l.slice(5, 7))
+    const ultimo = tramos.at(-1)
+    if (ultimo?.mes === mes) ultimo.semanas++
+    else tramos.push({ mes, semanas: 1 })
+  }
+  return tramos
+}
+
 /**
  * Una semana como barra partida en dos (punto 19, C4): arriba se llena en acento con los entrenos del plan y abajo en
  * tinta con los días con comidas (los mismos colores que los cuadros de la semana). Todas igual de altas; en pausa, borde
@@ -81,10 +93,10 @@ export default function CalendarioSemanas({ ritmo, hoy, onVerRevision }: { ritmo
         <div className="flex h-28 gap-0.5">
           {visibles.map((l) => <Barra key={l} s={porLunes.get(l)} actual={l === lunesActual} />)}
         </div>
+        {/* Cada mes ocupa el ancho de sus semanas (como mucho 2 rem por barra), así su nombre cabe también con el texto ampliado. */}
         <div aria-hidden className="flex h-4 gap-0.5">
-          {visibles.map((l, i) => <span key={l} className="relative min-w-0 max-w-8 flex-1">
-            {(i === 0 || l.slice(5, 7) !== visibles[i - 1].slice(5, 7)) && <span className="absolute left-0 top-0 whitespace-nowrap text-caption text-fg-muted">{MESES_ABREV[Number(l.slice(5, 7)) - 1]}</span>}
-          </span>)}
+          {tramosDeMes(visibles).map(({ mes, semanas: n }, i) => <span key={`${mes}-${i}`} className="min-w-0 truncate text-caption text-fg-muted"
+            style={{ flex: `${n} 1 0%`, maxWidth: `calc(${n} * 2rem + ${n - 1} * 0.125rem)` }}>{MESES_ABREV[mes - 1]}</span>)}
         </div>
       </div>}
       {conDatos.length > 0 && <Disclosure title={`Semanas de ${anio}`}>

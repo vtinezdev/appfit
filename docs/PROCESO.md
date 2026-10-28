@@ -3124,3 +3124,31 @@ Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real c
 **Cómo:** `Comunidades` avisa con `onDentro` de que hay una comunidad abierta y `SocialTab` oculta «Primeros pasos» y las pestañas con `ViewTabs.sinPestanas` (nuevo: oculta la fila sin desmontar el panel, así la comunidad abierta no se pierde). `DetalleComunidad`: «‹ Comunidades», portada en Card (escudo, nombre, miembros y quién publica con iconos, «…», descripción, «Eres miembro» y «Publicar»), y pestañas Publicaciones · Sobre ella; sin unirse, una tarjeta con «Unirme a la comunidad» y la bienvenida y las reglas. El «…» sale también sin ser miembro (antes «Denunciar comunidad» era un botón suelto). Documentos: `features/social.md`, `DESIGN-SYSTEM.md` y `roadmap.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5174` con el Supabase falso (una copia con más miembros, publicaciones, reglas y bienvenida) a 320 y 375 px en ambos temas: dentro, Sobre ella y sin unirse; sin scroll horizontal. `scripts/ui/validar-social.cjs` adaptado (la bienvenida y las reglas, en «Sobre ella»; volver con «Comunidades»), pero no llega a ese paso: se queda al empezar en la hoja de bienvenida de la app («Genial»), que el script no cierra; es anterior a este cambio.
+
+## 287. CI del PR: recorridos de navegador al día (2026-10-28)
+
+**Qué:** al abrir el PR de esta rama, los recorridos de navegador de la CI (`qa.yml`, trabajo «navegador») fallaban porque buscaban pantallas que el documento de mejoras había cambiado, y el texto al 200 % desbordaba en varias piezas nuevas.
+
+**Cómo:**
+- **Scripts de `scripts/ui/`**:
+  - `auditoria-comun.cerrarCelebraciones`: un `addLocatorHandler` cierra la hoja de logros nuevos («Genial»), que sale en cualquier pantalla. También en los scripts que crean su propia página.
+  - Sesiones del Historial, por semana (`region` «Sesiones del mes», filas `li[data-sesion]`).
+  - Progreso por ejercicio, como lista con buscador.
+  - Categoría de Buscar, en la hoja «Filtrar y ordenar».
+  - Evolución del agua, en barras con su texto accesible.
+  - Medidas corporales, en casillas que abren su hoja.
+  - Guardado local, que solo avisa si falla.
+  - Comunicar un problema, en tres pasos.
+  - Gasto observado, con la «i» y el interruptor.
+- **Desbordes con el texto al 200 %**:
+  - Fila de sesión del Historial (`DiaSesion` crece y el título baja).
+  - Filas de Por ejercicio y de las sesiones de un ejercicio.
+  - Cabecera de la liga.
+  - Nombres de mes del calendario de Ritmo (cada mes ocupa sus semanas).
+  - Hitos de semanas.
+  - Ejemplos de metas.
+  - Cuadros de la semana (Ritmo, Entreno y creatina, que encogen con su columna hasta 2 rem).
+  - Casillas de Tus datos.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Los ocho pasos del trabajo «navegador» pasan en Chromium en local: `test:ui`, `test:ui:responsive`, `test:ui:uso`, correcciones, pulido, mejoras pendientes, datos y offline. Firefox y WebKit solo en la CI.
+

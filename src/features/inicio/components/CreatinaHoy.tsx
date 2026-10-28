@@ -124,9 +124,9 @@ export default function CreatinaHoy({ hoy }: { hoy: string }) {
           <ol className="grid grid-cols-7 gap-1">{semana.map((fecha) => {
             const dow = parseISODate(fecha).getDay()
             const tomada = marcados.has(fecha)
-            return <li key={fecha} className="flex flex-col items-center gap-1">
+            return <li key={fecha} className="flex min-w-0 flex-col items-center gap-1">
               <span aria-hidden className={`text-caption ${fecha === hoy ? 'font-bold text-fg' : 'text-fg-muted'}`}>{LETRAS[dow]}</span>
-              <span aria-hidden className={`tabular flex h-9 w-9 items-center justify-center rounded-pill text-caption font-semibold ${tomada ? 'bg-accent text-accent-on' : `bg-surface-muted text-fg-subtle ${fecha === hoy ? 'border-2 border-dashed border-line-strong' : ''}`}`}>
+              <span aria-hidden className={`tabular flex aspect-square w-full max-w-9 items-center justify-center rounded-pill text-caption font-semibold ${tomada ? 'bg-accent text-accent-on' : `bg-surface-muted text-fg-subtle ${fecha === hoy ? 'border-2 border-dashed border-line-strong' : ''}`}`}>
                 {tomada ? <Icon name="check" size={16} /> : Number(fecha.slice(8, 10))}
               </span>
               <span className="sr-only">{NOMBRES_DIA[dow]} {Number(fecha.slice(8, 10))}{fecha === hoy ? ' (hoy)' : ''}: {tomada ? 'tomada' : 'sin marcar'}</span>

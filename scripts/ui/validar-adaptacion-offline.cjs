@@ -8,6 +8,7 @@ async function main() {
   const context = await browser.newContext({ ...devices['Pixel 7'], reducedMotion: 'reduce' })
   try {
     const page = await context.newPage()
+    await page.addLocatorHandler(page.getByRole('button', { name: 'Genial', exact: true }), async (boton) => { await boton.click() })
     const errores = []
     page.on('pageerror', error => errores.push(error.message))
     await page.goto('http://appfit-test.localhost:5174')
@@ -30,12 +31,10 @@ async function main() {
     await page.getByRole('button', { name: 'Añadir 250 ml de agua', exact: true }).click()
     await page.getByRole('button', { name: /^Agua/ }).first().click()
     const agua = page.getByRole('dialog', { name: 'Agua', exact: true })
-    await agua.getByRole('img', { name: /agua en ml/ }).waitFor()
-    await agua.locator('.recharts-wrapper').waitFor()
-    await agua.getByRole('button', { name: 'Ver datos de agua', exact: true }).click()
-    assert.equal(await agua.getByRole('table').getByRole('row').count(), 2)
+    // La evolución del agua son barras por día (bloque 7 del documento de mejoras), con la media en su texto accesible.
+    await agua.getByRole('img', { name: /^Agua de los últimos 7 días: media de / }).waitFor()
     assert.deepEqual(errores, [])
-    console.log('Producción: pesaje conservado, recarga offline y nueve destinos y gráfica de agua abiertos por primera vez sin conexión: correcto.')
+    console.log('Producción: pesaje conservado, recarga offline y nueve destinos y evolución del agua abiertos por primera vez sin conexión: correcto.')
   } finally { await context.close(); await browser.close() }
 }
 main().catch(error => { console.error(error); process.exitCode = 1 })

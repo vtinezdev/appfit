@@ -136,7 +136,7 @@ async function main() {
 
         // Historial: cada fila empieza por su gimnasio y el póster lo nombra. Progreso abre en el habitual y ofrece Gym Playa.
         await page.getByRole('tab', { name: 'Historial', exact: true }).click()
-        const filas = page.getByRole('list', { name: 'Entrenos terminados del mes', exact: true }).getByRole('button')
+        const filas = page.getByRole('region', { name: 'Sesiones del mes', exact: true }).locator('li[data-sesion]').getByRole('button')
         await filas.first().filter({ hasText: 'Gym Playa del Arenal con nombre largo · Pierna y pecho' }).waitFor()
         await filas.nth(1).filter({ hasText: 'Basic-Fit Centro · Pierna y pecho' }).waitFor()
         await capture(page, `${tag}-historial-lista`)

@@ -41,8 +41,8 @@ function Casilla({ d, onEditar, className }: { d: Dato; onEditar: (campo: CampoE
   return <button type="button" data-campo={d.campo} onClick={() => onEditar(d.campo)} aria-label={`${d.etiqueta}: ${d.valor ?? d.accion}${d.detalle ? `, ${d.detalle}` : ''}`}
     className={`app-button flex min-h-touch min-w-0 flex-col items-start gap-1 px-card py-3 text-left ${className}`}>
     <span className="text-rotulo text-fg-muted">{d.etiqueta}</span>
-    <span className={`tabular break-words ${d.valor ? 'text-title text-fg' : 'text-body font-semibold text-accent-strong'}`}>{d.valor ?? d.accion}</span>
-    {d.detalle && <span className="break-words text-caption text-fg-muted">{d.detalle}</span>}
+    <span className={`tabular max-w-full break-words ${d.valor ? 'text-title text-fg' : 'text-body font-semibold text-accent-strong'}`}>{d.valor ?? d.accion}</span>
+    {d.detalle && <span className="max-w-full break-words text-caption text-fg-muted">{d.detalle}</span>}
   </button>
 }
 

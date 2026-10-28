@@ -142,8 +142,9 @@ export default function RitmoTab({ onIrAAjustes, onVolver, incrustada = false, d
           <p className="text-title text-fg">{pista.siguiente ? `Próximo: ${formatInt(pista.siguiente.semanas)} semanas cumplidas` : 'Todos los hitos logrados'}</p>
           <p className="tabular text-body-sm text-fg-muted">{pista.siguiente ? `Llevas ${semanasTexto(ritmo.cumplidas)} · faltan ${formatInt(pista.siguiente.faltan)}` : `${semanasTexto(ritmo.cumplidas)} cumplidas`}</p>
         </div>
-        <ol aria-label="Hitos de semanas cumplidas" className="grid grid-cols-4 gap-1">
-          {pista.tramos.map((t) => <li key={t.semanas} className="min-w-0 space-y-2">
+        {/* Cuatro por fila; con el texto ampliado bajan a otra fila en vez de apretar el trofeo. */}
+        <ol aria-label="Hitos de semanas cumplidas" className="flex flex-wrap gap-1">
+          {pista.tramos.map((t) => <li key={t.semanas} className="min-w-0 flex-1 basis-14 space-y-2">
             <span aria-hidden className="flex items-center gap-1">
               <span className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-pill bg-surface-muted"><span className="block h-full rounded-pill bg-accent-strong" style={{ width: `${t.relleno * 100}%` }} /></span>
               <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-pill ${t.estado === 'logrado' ? 'bg-accent text-accent-on' : t.estado === 'siguiente' ? 'border-2 border-accent-strong text-accent-strong' : 'bg-surface-muted text-fg-subtle'}`}>

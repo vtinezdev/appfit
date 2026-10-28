@@ -47,9 +47,9 @@ export default function SemanaEntreno({ onAbrirSesion }: { onAbrirSesion: (id: n
       <ol className="grid grid-cols-7 gap-1" aria-label="Días de esta semana">
         {dias.map((d, i) => {
           const hecho = entrenados.has(d)
-          return <li key={d} className="flex flex-col items-center gap-1">
+          return <li key={d} className="flex min-w-0 flex-col items-center gap-1">
             <span aria-hidden className={`text-caption ${d === hoy ? 'font-bold text-fg' : 'text-fg-muted'}`}>{LETRAS[i]}</span>
-            <span aria-hidden className={`flex h-9 w-9 items-center justify-center rounded-md ${hecho ? 'bg-accent text-accent-on' : d > hoy ? 'border border-dashed border-line-strong' : 'bg-surface-muted'} ${d === hoy && !hecho ? 'border-2 border-fg' : ''}`}>
+            <span aria-hidden className={`flex aspect-square w-full max-w-9 items-center justify-center rounded-md ${hecho ? 'bg-accent text-accent-on' : d > hoy ? 'border border-dashed border-line-strong' : 'bg-surface-muted'} ${d === hoy && !hecho ? 'border-2 border-fg' : ''}`}>
               {hecho && <Icon name="check" size={18} />}
             </span>
             <span className="sr-only">{NOMBRES[i]}{d === hoy ? ' (hoy)' : ''}: {hecho ? 'entrenado' : d > hoy ? 'por llegar' : 'sin entreno'}</span>
