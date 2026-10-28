@@ -1,0 +1,472 @@
+{
+  "version": 1,
+  "dimension": 256,
+  "calidad": 88,
+  "lotes": [
+    {
+      "archivo": "lote-01.png",
+      "sha256": "214a6bff1f44294bae0d820eb5710804cbae38e7810e68b22d5a73ffeb353172",
+      "columnas": 3,
+      "filas": 2,
+      "elementos": [
+        {
+          "id": "lugar.campamento",
+          "nombre": "Campamento",
+          "deporte": "Senderismo",
+          "grupo": "aire-libre",
+          "busqueda": [
+            "ruta",
+            "rutas",
+            "trekking",
+            "excursion",
+            "senderismo"
+          ],
+          "columna": 0,
+          "fila": 0
+        },
+        {
+          "id": "lugar.refugio",
+          "nombre": "El refugio",
+          "deporte": "Montaña",
+          "grupo": "aire-libre",
+          "busqueda": [
+            "montanismo",
+            "cumbres",
+            "alpinismo"
+          ],
+          "columna": 1,
+          "fila": 0
+        },
+        {
+          "id": "lugar.pista",
+          "nombre": "La pista",
+          "deporte": "Carrera",
+          "grupo": "aire-libre",
+          "busqueda": [
+            "atletismo",
+            "running",
+            "correr",
+            "trail"
+          ],
+          "columna": 2,
+          "fila": 0
+        },
+        {
+          "id": "lugar.gimnasio",
+          "nombre": "El gimnasio",
+          "deporte": "Pesas",
+          "grupo": "entrenamiento",
+          "busqueda": [
+            "musculacion",
+            "gimnasio",
+            "halterofilia",
+            "powerlifting"
+          ],
+          "columna": 0,
+          "fila": 1
+        },
+        {
+          "id": "lugar.jardin",
+          "nombre": "El jardín",
+          "deporte": "Yoga",
+          "grupo": "entrenamiento",
+          "busqueda": [
+            "bienestar",
+            "movilidad",
+            "estiramientos"
+          ],
+          "columna": 1,
+          "fila": 1
+        },
+        {
+          "id": "lugar.embarcadero",
+          "nombre": "El embarcadero",
+          "deporte": "Remo",
+          "grupo": "agua",
+          "busqueda": [
+            "remo"
+          ],
+          "columna": 2,
+          "fila": 1
+        }
+      ]
+    },
+    {
+      "archivo": "lote-02.png",
+      "sha256": "0457556127c3b81dd1083f794a81eb0d4ab5ae9d6a895159b8c656d8158565e0",
+      "columnas": 3,
+      "filas": 2,
+      "elementos": [
+        {
+          "id": "lugar.sala-fuerza",
+          "nombre": "La sala de fuerza",
+          "deporte": "Kettlebell",
+          "grupo": "entrenamiento",
+          "busqueda": [],
+          "columna": 0,
+          "fila": 0
+        },
+        {
+          "id": "lugar.parque-barras",
+          "nombre": "El parque de barras",
+          "deporte": "Calistenia",
+          "grupo": "entrenamiento",
+          "busqueda": [
+            "street workout"
+          ],
+          "columna": 1,
+          "fila": 0
+        },
+        {
+          "id": "lugar.box",
+          "nombre": "El box",
+          "deporte": "Funcional",
+          "grupo": "entrenamiento",
+          "busqueda": [
+            "crossfit",
+            "hyrox",
+            "cross training"
+          ],
+          "columna": 2,
+          "fila": 0
+        },
+        {
+          "id": "lugar.estudio",
+          "nombre": "El estudio",
+          "deporte": "Pilates",
+          "grupo": "entrenamiento",
+          "busqueda": [],
+          "columna": 0,
+          "fila": 1
+        },
+        {
+          "id": "lugar.sala-baile",
+          "nombre": "La sala de baile",
+          "deporte": "Baile",
+          "grupo": "entrenamiento",
+          "busqueda": [
+            "danza",
+            "ballet",
+            "zumba"
+          ],
+          "columna": 1,
+          "fila": 1
+        },
+        {
+          "id": "lugar.patio",
+          "nombre": "El patio",
+          "deporte": "Comba",
+          "grupo": "entrenamiento",
+          "busqueda": [
+            "saltar cuerda"
+          ],
+          "columna": 2,
+          "fila": 1
+        }
+      ]
+    },
+    {
+      "archivo": "lote-03.png",
+      "sha256": "b27d79f0d0481c7e04d3de4ad5da2e9e3f03830b5d0f1280e2ee9d2bd79762f9",
+      "columnas": 3,
+      "filas": 2,
+      "elementos": [
+        {
+          "id": "lugar.paseo",
+          "nombre": "El paseo",
+          "deporte": "Caminar",
+          "grupo": "aire-libre",
+          "busqueda": [
+            "pasear",
+            "caminata",
+            "marcha"
+          ],
+          "columna": 0,
+          "fila": 0
+        },
+        {
+          "id": "lugar.carretera",
+          "nombre": "La carretera",
+          "deporte": "Ciclismo",
+          "grupo": "aire-libre",
+          "busqueda": [
+            "bici",
+            "bicicleta",
+            "carretera"
+          ],
+          "columna": 1,
+          "fila": 0
+        },
+        {
+          "id": "lugar.sendero",
+          "nombre": "El sendero",
+          "deporte": "Bici de montaña",
+          "grupo": "aire-libre",
+          "busqueda": [
+            "mtb",
+            "btt",
+            "enduro"
+          ],
+          "columna": 2,
+          "fila": 0
+        },
+        {
+          "id": "lugar.rocodromo",
+          "nombre": "El rocódromo",
+          "deporte": "Escalada",
+          "grupo": "aire-libre",
+          "busqueda": [
+            "boulder",
+            "bulder"
+          ],
+          "columna": 0,
+          "fila": 1
+        },
+        {
+          "id": "lugar.estacion",
+          "nombre": "La estación",
+          "deporte": "Esquí",
+          "grupo": "nieve",
+          "busqueda": [
+            "ski"
+          ],
+          "columna": 1,
+          "fila": 1
+        },
+        {
+          "id": "lugar.snowpark",
+          "nombre": "El snowpark",
+          "deporte": "Snowboard",
+          "grupo": "nieve",
+          "busqueda": [
+            "snow"
+          ],
+          "columna": 2,
+          "fila": 1
+        }
+      ]
+    },
+    {
+      "archivo": "lote-04.png",
+      "sha256": "f2f39e1ecba94bbeba369b358ed67bd01054d44f59a82dbd03a58a8dde7e1533",
+      "columnas": 3,
+      "filas": 2,
+      "elementos": [
+        {
+          "id": "lugar.campo",
+          "nombre": "El campo",
+          "deporte": "Fútbol",
+          "grupo": "equipo",
+          "busqueda": [
+            "soccer",
+            "futbol sala"
+          ],
+          "columna": 0,
+          "fila": 0
+        },
+        {
+          "id": "lugar.cancha",
+          "nombre": "La cancha",
+          "deporte": "Baloncesto",
+          "grupo": "equipo",
+          "busqueda": [
+            "basket",
+            "basketball"
+          ],
+          "columna": 1,
+          "fila": 0
+        },
+        {
+          "id": "lugar.red-playa",
+          "nombre": "La red de playa",
+          "deporte": "Voleibol",
+          "grupo": "equipo",
+          "busqueda": [
+            "voley",
+            "volley",
+            "voleibol playa"
+          ],
+          "columna": 2,
+          "fila": 0
+        },
+        {
+          "id": "lugar.pabellon",
+          "nombre": "El pabellón",
+          "deporte": "Balonmano",
+          "grupo": "equipo",
+          "busqueda": [],
+          "columna": 0,
+          "fila": 1
+        },
+        {
+          "id": "lugar.palos",
+          "nombre": "Los palos",
+          "deporte": "Rugby",
+          "grupo": "equipo",
+          "busqueda": [],
+          "columna": 1,
+          "fila": 1
+        },
+        {
+          "id": "lugar.pista-hockey",
+          "nombre": "La pista de hockey",
+          "deporte": "Hockey",
+          "grupo": "equipo",
+          "busqueda": [],
+          "columna": 2,
+          "fila": 1
+        }
+      ]
+    },
+    {
+      "archivo": "lote-05.png",
+      "sha256": "64142cca28d989b05196249094b2a204839565e0e8b4435b64bc38a9f35c2d92",
+      "columnas": 3,
+      "filas": 2,
+      "elementos": [
+        {
+          "id": "lugar.pista-cristal",
+          "nombre": "La pista de cristal",
+          "deporte": "Pádel",
+          "grupo": "raqueta",
+          "busqueda": [],
+          "columna": 0,
+          "fila": 0
+        },
+        {
+          "id": "lugar.tierra-batida",
+          "nombre": "La tierra batida",
+          "deporte": "Tenis",
+          "grupo": "raqueta",
+          "busqueda": [],
+          "columna": 1,
+          "fila": 0
+        },
+        {
+          "id": "lugar.sala-raquetas",
+          "nombre": "La sala de raquetas",
+          "deporte": "Bádminton",
+          "grupo": "raqueta",
+          "busqueda": [],
+          "columna": 2,
+          "fila": 0
+        },
+        {
+          "id": "lugar.club-mesa",
+          "nombre": "El club de mesa",
+          "deporte": "Tenis de mesa",
+          "grupo": "raqueta",
+          "busqueda": [
+            "ping pong",
+            "ping-pong"
+          ],
+          "columna": 0,
+          "fila": 1
+        },
+        {
+          "id": "lugar.ring",
+          "nombre": "El ring",
+          "deporte": "Boxeo",
+          "grupo": "combate",
+          "busqueda": [
+            "boxing"
+          ],
+          "columna": 1,
+          "fila": 1
+        },
+        {
+          "id": "lugar.dojo",
+          "nombre": "El dojo",
+          "deporte": "Artes marciales",
+          "grupo": "combate",
+          "busqueda": [
+            "judo",
+            "karate",
+            "taekwondo",
+            "jiu jitsu",
+            "aikido",
+            "lucha"
+          ],
+          "columna": 2,
+          "fila": 1
+        }
+      ]
+    },
+    {
+      "archivo": "lote-06.png",
+      "sha256": "bf58bcf6b3bee44e3b3b5e5c4ecec3de5f5f8c027227ec3be4c94191630e9042",
+      "columnas": 3,
+      "filas": 2,
+      "elementos": [
+        {
+          "id": "lugar.piscina",
+          "nombre": "La piscina",
+          "deporte": "Natación",
+          "grupo": "agua",
+          "busqueda": [],
+          "columna": 0,
+          "fila": 0
+        },
+        {
+          "id": "lugar.bahia",
+          "nombre": "La bahía",
+          "deporte": "Aguas abiertas",
+          "grupo": "agua",
+          "busqueda": [
+            "nadar",
+            "natacion mar"
+          ],
+          "columna": 1,
+          "fila": 0
+        },
+        {
+          "id": "lugar.orilla",
+          "nombre": "La orilla",
+          "deporte": "Kayak",
+          "grupo": "agua",
+          "busqueda": [
+            "piraguismo",
+            "canoa"
+          ],
+          "columna": 2,
+          "fila": 0
+        },
+        {
+          "id": "lugar.caseta-tablas",
+          "nombre": "La caseta de tablas",
+          "deporte": "Surf",
+          "grupo": "agua",
+          "busqueda": [
+            "bodyboard",
+            "paddle surf"
+          ],
+          "columna": 0,
+          "fila": 1
+        },
+        {
+          "id": "lugar.puerto",
+          "nombre": "El puerto",
+          "deporte": "Vela",
+          "grupo": "agua",
+          "busqueda": [
+            "navegacion"
+          ],
+          "columna": 1,
+          "fila": 1
+        },
+        {
+          "id": "lugar.transicion",
+          "nombre": "La transición",
+          "deporte": "Triatlón",
+          "grupo": "agua",
+          "busqueda": [
+            "duatlon",
+            "triatlon"
+          ],
+          "columna": 2,
+          "fila": 1
+        }
+      ]
+    }
+  ]
+}
