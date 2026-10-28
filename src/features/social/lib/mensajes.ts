@@ -19,6 +19,7 @@ export const MENSAJES_SOCIAL: Record<string, string> = {
   publicacion_no_valida: 'No se ha podido publicar. Inténtalo de nuevo.',
   comunidad_no_valida: 'Revisa el nombre y la descripción de la comunidad.',
   comunidad_ocupada: 'Ya hay una comunidad con ese nombre. Elige otro.',
+  imagen_comunidad_no_valida: 'Elige una imagen del catálogo de comunidades.',
   no_miembro: 'Únete a la comunidad para ver y compartir publicaciones.',
   perfil_deportivo_no_valido: 'Revisa la biografía, las disciplinas y los logros destacados de tu perfil.',
   avatar_no_valido: 'Ese avatar no está en el catálogo. Elige otro.',

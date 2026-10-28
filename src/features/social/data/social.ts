@@ -4,6 +4,7 @@ import type { Resumen, ResumenLogro } from '../lib/publicacion'
 import type { Avatar, AvatarExclusivo } from '../lib/avatar'
 import type { Persona } from '../lib/relacion'
 import type { Comunidad } from '../lib/comunidad'
+import type { ImagenComunidad } from '../lib/imagenComunidad'
 import type { Companias } from '../lib/compania'
 import type { AccionDenuncia, ComunidadSuspendida, Denuncia, Suspendido } from '../lib/moderacion'
 
@@ -37,7 +38,9 @@ export interface Social {
   /** `id` lo genera la app: repetirlo (un reintento) no duplica. `fecha`: ms del inicio. */
   publicar(id: string, fecha: number, resumen: Resumen, comunidad?: string): Promise<void>
   comunidades(busqueda: string, soloMias: boolean): Promise<Comunidad[]>
-  crearComunidad(id: string, nombre: string, descripcion: string, soloCreadorPublica?: boolean): Promise<void>
+  crearComunidad(id: string, nombre: string, descripcion: string, soloCreadorPublica?: boolean, imagen?: ImagenComunidad | null): Promise<void>
+  /** Solo el creador. `null` conserva las iniciales; requiere 0028. */
+  editarImagenComunidad(id: string, imagen: ImagenComunidad | null): Promise<void>
   unirseComunidad(id: string): Promise<void>
   salirComunidad(id: string): Promise<void>
   editarDescripcionComunidad(id: string, descripcion: string): Promise<void>
@@ -75,7 +78,7 @@ export interface Social {
    * (0022); sin ella no se ofrece compartir una rutina. `semanaRitmo`: acepta publicaciones de semana (0023).
    * `semanaCompania`: existe la semana en compañía (0024); sin ella no aparece.
    */
-  capacidades(): Promise<{ camposOpcionales: boolean; imagenesPublicacion?: boolean; detallesEjercicio?: boolean; rutinaCompartida?: boolean; semanaRitmo?: boolean; semanaCompania?: boolean }>
+  capacidades(): Promise<{ camposOpcionales: boolean; imagenesPublicacion?: boolean; detallesEjercicio?: boolean; rutinaCompartida?: boolean; semanaRitmo?: boolean; semanaCompania?: boolean; imagenesComunidades?: boolean }>
   avisos(): Promise<Avisos>
   marcarAvisosVistos(): Promise<void>
   /**
