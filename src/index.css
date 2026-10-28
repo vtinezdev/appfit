@@ -273,11 +273,15 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .semana-dia[aria-current='date'] .semana-num { background: rgb(var(--c-text-primary)); color: rgb(var(--c-bg)); }
 .semana-dia[data-hoy='true'] .semana-num { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 /* Calendario del historial: día entrenado relleno con la rampa según su volumen en el mes; hoy con anillo exterior.
-   Rejilla de días mientras cada día quepa con su objetivo táctil (7 × 44 px + huecos = 20 rem: móviles de 360 px o más);
-   más estrecho (320 px o texto ampliado) pasa a lista. */
+   Rejilla de días mientras cada día quepa con su objetivo táctil (7 × 44 px + huecos de 2 px = 20 rem); el cuerpo de la
+   tarjeta mide 314 px en un móvil de 360 px (borde y 2 px de margen), así que ahí los huecos pasan a 1 px (7 × 44 + 6 =
+   314 px) en vez de pasar a lista. Más estrecho (320 px o texto ampliado) pasa a lista. */
 .calendario-entrenos { container: entrenos / inline-size; }
 .cal-lista { display: none; }
 @container entrenos (width < 20rem) {
+  .calendario-entrenos .cal-grid { gap: 1px; }
+}
+@container entrenos (width < 19.625rem) {
   .cal-vista-mes { display: none; }
   .cal-lista { display: block; }
 }

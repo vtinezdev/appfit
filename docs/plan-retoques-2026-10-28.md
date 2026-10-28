@@ -1,6 +1,6 @@
 # Plan: retoques de la revisión del 28 de octubre
 
-Fecha: 2026-10-28. Estado: **en curso** (A, B y C hechos). Rama: `claude/optimistic-pascal-vvpdvx` (sale de `master` e incluye `feat/recetas-sin-textos-sueltos`, que no estaba fusionada). Víctor ha repasado la app después de muchas actualizaciones y anota lo que no le convence. El bloque G (repaso de frases sueltas en toda la app) va al final.
+Fecha: 2026-10-28. Estado: **en curso** (A, B y C fusionados en `master` con la #185; D hecho). Rama: `claude/optimistic-pascal-vvpdvx`, reiniciada desde `master` tras fusionar la #185. Víctor ha repasado la app después de muchas actualizaciones y anota lo que no le convence. El bloque G (repaso de frases sueltas en toda la app) va al final.
 
 ## Forma de trabajar (decisión de Víctor)
 
@@ -34,7 +34,7 @@ Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, ex
 4. **«Proponer un alimento» también en Escribir** (anotado el 2026-10-28): hoy solo sale en Buscar cuando no aparece lo que buscas. Al escribir una comida y pulsar «Revisar alimentos», si una línea no encuentra alimento, que en la revisión aparezca también esa opción para esa línea (con el texto escrito como punto de partida).
    - Código: `nutricion/components/ProponerAlimentoSheet.tsx`, `DescribirComida.tsx`, `pages/AnadirComida.tsx` (revisión).
 
-## Bloque D — Entreno
+## Bloque D — Entreno · **hecho** (D2; PROCESO §298)
 
 1. **Historial → calendario**: meterlo dentro de una tarjeta.
 

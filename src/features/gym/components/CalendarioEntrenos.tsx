@@ -1,4 +1,5 @@
 import { IconButton } from '../../../shared/components/Button'
+import Card from '../../../shared/components/Card'
 import { desplazarPeriodo, esPeriodoActual, etiquetaPeriodo, parseISODate } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import type { DiaCalendario } from '../lib/calendarioEntrenos'
@@ -6,19 +7,27 @@ import type { DiaCalendario } from '../lib/calendarioEntrenos'
 const DIAS = ['L', 'M', 'X', 'J', 'V', 'S', 'D']
 const fechaLarga = (iso: string) => parseISODate(iso).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
 
-/** Mes con los días entrenados rellenos según su volumen (rampa muscular) y hoy con contorno. Tocar un día entrenado lo abre. */
+/**
+ * Mes con los días entrenados rellenos según su volumen (rampa muscular) y hoy con contorno. Tocar un día entrenado lo abre.
+ * Va en una tarjeta: el mes como cabecera (con las flechas) y la leyenda del volumen como pie.
+ */
 export default function CalendarioEntrenos({ mes, semanas, onMes, onDia }: {
   mes: string
   semanas: DiaCalendario[][]
   onMes: (mes: string) => void
   onDia: (dia: DiaCalendario) => void
 }) {
-  return <section aria-label="Calendario de entrenos" className="calendario-entrenos space-y-2">
-    <div className="flex items-center justify-between gap-2">
+  return <Card padded={false} className="overflow-hidden"><section aria-label="Calendario de entrenos">
+    <div className="flex items-center gap-1 border-b border-line py-2 pl-card pr-2">
+      <div className="min-w-0 flex-1">
+        <p className="text-rotulo text-fg-muted">Calendario</p>
+        <h2 className="break-words text-title text-fg first-letter:uppercase" aria-live="polite">{etiquetaPeriodo('mes', mes)}</h2>
+      </div>
       <IconButton icon="chevron-left" label="Mes anterior" variant="ghost" onClick={() => onMes(desplazarPeriodo('mes', mes, -1))} />
-      <h2 className="min-w-0 text-center text-title text-fg first-letter:uppercase" aria-live="polite">{etiquetaPeriodo('mes', mes)}</h2>
       <IconButton icon="chevron-right" label="Mes siguiente" variant="ghost" disabled={esPeriodoActual('mes', mes)} onClick={() => onMes(desplazarPeriodo('mes', mes, 1))} />
     </div>
+    {/* El contenedor de la consulta es el cuerpo (2 px a cada lado y el borde de la tarjeta): la rejilla sigue cabiendo desde los móviles de 360 px. */}
+    <div className="calendario-entrenos px-0.5 pt-3">
     <div className="cal-vista-mes space-y-2">
     <div className="cal-grid" aria-hidden="true">{DIAS.map(d => <span key={d} className="text-center text-caption text-fg-muted">{d}</span>)}</div>
     <ul className="cal-grid" aria-label={`Días de ${etiquetaPeriodo('mes', mes)}`}>
@@ -34,11 +43,11 @@ export default function CalendarioEntrenos({ mes, semanas, onMes, onDia }: {
         </li>
       })}
     </ul>
-    <div className="flex items-center justify-end gap-2 text-caption text-fg-muted" aria-hidden="true">
+    <div className="-mx-0.5 flex items-center gap-2 border-t border-line px-card py-2.5 text-caption text-fg-muted" aria-hidden="true">
       <span>Menos volumen</span><span className="flex gap-1">{[1, 2, 3, 4, 5].map(n => <span key={n} className="muscle-swatch" data-level={n} />)}</span><span>Más</span>
     </div>
     </div>
-    <div className="cal-lista">
+    <div className="cal-lista px-3 pb-2">
       <p className="text-caption text-fg-muted">Días entrenados del mes</p>
       <ul className="divide-y divide-line" aria-label="Días entrenados">
         {semanas.flat().filter(d => d.delMes && d.workoutIds.length > 0).map(d => <li key={d.fecha}>
@@ -50,5 +59,6 @@ export default function CalendarioEntrenos({ mes, semanas, onMes, onDia }: {
       </ul>
       {!semanas.flat().some(d => d.delMes && d.workoutIds.length > 0) && <p className="py-2 text-body-sm text-fg-muted">Sin entrenos este mes.</p>}
     </div>
-  </section>
+    </div>
+  </section></Card>
 }

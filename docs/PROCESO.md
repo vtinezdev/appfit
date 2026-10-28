@@ -3255,3 +3255,12 @@ El check «navegador» fallaba de forma intermitente, y también en `master` tra
 - Sin cambios en la app.
 
 **Verificación:** en local (Chromium), correctos `auditoria-entreno`, `auditoria-interfaz`, `validar-correcciones-auditoria`, `validar-pulido-auditoria`, `validar-mejoras-pendientes`, `auditoria-datos`, `validar-mejoras-uso` y `validar-recetas`. WebKit y Firefox solo en CI.
+
+## 298. Retoques de la revisión, bloque D: calendario del historial en una tarjeta (2026-10-28)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor eligió D2 sobre capturas: el calendario de Entreno › Historial va en una tarjeta, con el mes como cabecera y la leyenda como pie, como las tarjetas de «Sesiones del mes» de debajo.
+
+- `CalendarioEntrenos`: `Card` sin padding con cabecera (rótulo «Calendario», mes en `title`, flechas a la derecha, `border-line` abajo), la rejilla en un cuerpo con 2 px de margen y la leyenda «Menos volumen ··· Más» como pie con `border-line`.
+- El contenedor de la consulta pasa al cuerpo. Con el borde de la tarjeta, un móvil de 360 px deja 314 px: en vez de pasar a lista (antes cabía en rejilla), los huecos bajan a 1 px por debajo de 20 rem y la lista empieza por debajo de 19,625 rem. Las celdas siguen a 44 px.
+
+**Verificación:** `npm run test` (3.099) y `npm run build` correctos. En Chromium: `auditoria-entreno`, `validar-mejoras-uso` y `auditoria-interfaz` correctos; capturas a 320 (lista), 360, 375 y 430 px (rejilla) en claro y oscuro, sin scroll horizontal y con los días a 44 px. Sin iPhone real.
