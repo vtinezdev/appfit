@@ -70,6 +70,20 @@ async function sembrar(page) {
     await (await import('/src/features/inicio/data/pesosRepo.ts')).registrar(hoy, 72.5)
     await (await import('/src/features/nutricion/data/entriesRepo.ts')).anadirRapida({ fecha: hoy, comida: 'desayuno', nombre: 'Comida sintética de auditoría con un nombre largo para comprobar el espacio de lectura', kcal: 1234, prot: 92, carb: 130, grasa: 39 })
   })
+  await marcarLogrosVistos(page)
+}
+
+// Lo que consiguen los datos sembrados queda visto: si no, la hoja de nuevos logros (CelebracionLogros) se abre cuando
+// la Vitrina termina de calcularse, a veces en mitad de otra hoja o de un «Atrás», y el recorrido falla de forma intermitente.
+async function marcarLogrosVistos(page) {
+  await page.evaluate(async () => {
+    const { leerVitrina } = await import('/src/features/vitrina/hooks/leerVitrina.ts')
+    const { piezasConseguidas } = await import('/src/features/vitrina/lib/logros.ts')
+    const { marcarVistos } = await import('/src/features/vitrina/data/logrosVistosRepo.ts')
+    const { todayISO } = await import('/src/shared/lib/dates.ts')
+    const estado = await leerVitrina(todayISO())
+    if (estado.visible) await marcarVistos(piezasConseguidas(estado.vitrina.logros).map(p => p.clave))
+  })
 }
 
 async function captura(page, nombre) {
@@ -104,4 +118,4 @@ async function geometria(page, etiqueta) {
 }
 
 function informe(nombre, datos) { fs.writeFileSync(path.join(salida, `${nombre}.json`), JSON.stringify(datos, null, 2)) }
-module.exports = { cerrarCelebraciones, assert, fs, path, playwright, ORIGEN, salida, lanzar, contexto, abrir, datos, sembrar, captura, geometria, informe, navegar }
+module.exports = { cerrarCelebraciones, marcarLogrosVistos, assert, fs, path, playwright, ORIGEN, salida, lanzar, contexto, abrir, datos, sembrar, captura, geometria, informe, navegar }

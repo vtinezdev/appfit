@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { medidasDeBorrador, resumenMedidas, validarMedida } from './medidas'
+import { medidasDeBorrador, resumenMedidas, validarMedida, etiquetaFechaMedida } from './medidas'
 
 describe('validarMedida', () => {
   it('acepta rangos plausibles y redondea a 1 decimal', () => {
@@ -35,5 +35,13 @@ describe('resumenMedidas', () => {
   })
   it('sin medidas, todo vacío', () => {
     expect(resumenMedidas([]).every((c) => c.ultimo === null)).toBe(true)
+  })
+})
+
+describe('etiquetaFechaMedida', () => {
+  it('hoy y ayer con el día; otra fecha con el año', () => {
+    expect(etiquetaFechaMedida('2026-10-28', '2026-10-28')).toBe('Hoy, 28 oct')
+    expect(etiquetaFechaMedida('2026-10-27', '2026-10-28')).toBe('Ayer, 27 oct')
+    expect(etiquetaFechaMedida('2025-10-03', '2026-10-28')).toBe('3 oct 2025')
   })
 })

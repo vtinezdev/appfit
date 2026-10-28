@@ -8,6 +8,7 @@ import {
   etiquetaPeriodo,
   fechasPeriodo,
   formatDiaMes,
+  formatRotuloDia,
   formatFechaHora,
   formatFechaHoraConDia,
   formatShort,
@@ -74,6 +75,11 @@ describe('formato', () => {
     expect(formatDiaMes(new Date(2026, 9, 3, 8, 21).getTime())).toBe('3 oct')
     expect(formatFechaHora(ts)).toBe('19 sep · 08:06')
     expect(formatFechaHoraConDia(ts)).toBe('sáb 19 sep · 08:06')
+  })
+
+  it('formatRotuloDia: día de la semana entero y fecha corta', () => {
+    expect(formatRotuloDia('2026-10-28')).toBe('miércoles · 28 oct')
+    expect(formatRotuloDia('2026-11-01')).toBe('domingo · 1 nov')
   })
 })
 

@@ -144,15 +144,16 @@ async function main() {
       const descartar = page.getByRole('button', { name: 'Descartar', exact: true })
       if (await descartar.count()) await descartar.click()
 
-      // Pantalla Recetas: tus recetas y el recetario AppFit con buscador y ficha de solo lectura.
+      // Pantalla Recetas: tus recetas y el recetario AppFit (pestañas) con buscador y ficha de solo lectura.
       await navegar(page, 'Recetas')
-      const recetario = page.getByRole('region', { name: 'Recetario AppFit' })
+      await page.getByRole('tab', { name: 'AppFit', exact: true }).click()
+      const recetario = page.getByRole('main')
       await recetario.getByRole('searchbox', { name: 'Buscar en el recetario AppFit' }).fill('arroz al horno')
       await recetario.getByText('Arroz al horno, horneado', { exact: true }).waitFor()
       await captura(page, `${colorScheme}-7-recetario`)
       await recetario.getByText('Arroz al horno, horneado', { exact: true }).click()
       const ficha = page.getByRole('dialog', { name: 'Receta', exact: true })
-      await ficha.getByText(/Recetario AppFit · 6 raciones/).waitFor()
+      await ficha.getByText('AppFit', { exact: true }).waitFor()
       assert.equal(await ficha.getByRole('button', { name: 'Editar', exact: true }).count(), 0)
       await ficha.getByRole('region', { name: 'Preparación' }).evaluate(e => e.scrollIntoView({ block: 'start' }))
       await captura(page, `${colorScheme}-8-ficha-recetario`)
@@ -160,13 +161,14 @@ async function main() {
       // Copiar a mis recetas: la ficha pasa a la copia, editable, y sale en «Tus recetas».
       await ficha.getByRole('button', { name: 'Copiar a mis recetas', exact: true }).click()
       await ficha.getByText(/^Copiada a tus recetas/).waitFor()
-      await ficha.getByText(/^Tuya · 6 raciones/).waitFor()
+      await ficha.getByText('Tuya', { exact: true }).waitFor()
       await ficha.getByRole('button', { name: 'Editar', exact: true }).waitFor()
       await ficha.getByRole('button', { name: 'Editar', exact: true }).scrollIntoViewIfNeeded()
       await captura(page, `${colorScheme}-11-copiada`)
       await page.keyboard.press('Escape')
       await ficha.waitFor({ state: 'detached' })
-      await page.getByRole('region', { name: 'Tus recetas' }).getByText('Arroz al horno, horneado', { exact: true }).waitFor()
+      await page.getByRole('tab', { name: 'Tuyas', exact: true }).click()
+      await page.getByRole('list', { name: 'Tus recetas' }).getByText('Arroz al horno, horneado', { exact: true }).waitFor()
       assert.deepEqual(errores, [])
       console.log(`OK ${colorScheme}: recetas en Buscar, hoja, variante «Sin chorizo» guardada y registrada, receta propia registrada, receta del recetario copiada.`)
       } catch (e) {

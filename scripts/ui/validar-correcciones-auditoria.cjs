@@ -33,7 +33,7 @@ async function motor(nombre) {
       await page.getByRole('button', { name: 'Deshacer', exact: true }).waitFor()
       await page.clock.setSystemTime(new Date('2026-10-21T22:01:00Z'))
       await page.evaluate(() => { document.dispatchEvent(new Event('visibilitychange')); window.dispatchEvent(new Event('focus')) })
-      await page.getByText(/^jueves, 22 de octubre$/i).waitFor()
+      await page.getByText(/^jueves · 22 oct$/i).waitFor()
       await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
       await page.getByRole('button', { name: 'Añadir 250 ml de agua', exact: true }).click()
       await page.getByRole('button', { name: 'Registrar peso', exact: true }).click()

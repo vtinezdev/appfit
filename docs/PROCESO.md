@@ -3191,3 +3191,67 @@ Tras confirmar 0028 en Supabase, Víctor autoriza publicar el cliente. Se prepar
 **Cómo:** `lib/progreso.historialPorVariante` agrupa las series terminadas del ejercicio como los récords (`acumularComparables`) y calcula `historialEjercicio` de cada grupo, la variante usada más recientemente primero; `nombreVarianteRecords` la nombra (modo si no es externa, Bilateral/Unilateral, agarre, descenso y gimnasio con su nombre). `FichaEjercicio` pinta un bloque por variante con su título, última vez y récords.
 
 **Verificación:** `npm run test` (3.052 tests) y `npm run build` correctos. Recorrido de navegador provisional (no guardado) con un remo prono, supino y unilateral: tres bloques en orden, sin scroll horizontal, en 320/375/430 claro/oscuro y 375 con texto al 200 %.
+
+## 293. Recetas: menos textos sueltos (2026-10-27)
+
+**Qué:** Víctor no quería frases sueltas por la pantalla de recetas. A partir de unas maquetas con opciones, eligió:
+- Pantalla Recetas en pestañas Tuyas / AppFit, con «+» en el título.
+- Ficha con los datos dentro de la tarjeta.
+- Hoja Registrar con el nombre de subtítulo.
+
+**Cómo:**
+- `RecetasTab`: `PageHeader` con IconButton «Nueva receta» y `ViewTabs` principal. Fuera el overline.
+- `ListaRecetas` acepta `sinBotonNueva` y `vacio`. En Alimentos sigue igual, pero su vacío pasa a `EmptyState`.
+- `RecetarioAppFit`: la cifra va en el placeholder del buscador («Buscar entre 1.555 recetas…»). Fuera el párrafo y el «Sin pasos todavía» de cada fila. Nuevo filtro «Todas / Con pasos» (`SegmentedControl`).
+- Nuevo `components/DatosReceta`: raciones, tiempo y peso con iconos en las filas.
+- `FichaReceta`:
+  - Badge de procedencia sobre el nombre.
+  - Card con Raciones / Tiempo / Cocinado (el tiempo, cifra y unidad aparte para que quepa a 320 px), kcal por ración con las de 100 g al lado y macros.
+  - Ingredientes en Card con el contador en la cabecera.
+  - «para N raciones» junto a Preparación, en lugar de «Recalculado…» y «Cantidades para».
+  - Notas como última línea de la preparación.
+  - La confirmación sustituye 4 s al botón principal.
+- `Sheet` gana `subtitle`. La hoja Registrar/Planificar lo usa para el nombre y cambia la línea de macros por tres `Metric`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. `validar-recetas.cjs` (adaptado, con el vacío y la pestaña AppFit) correcto a 320/375/430 px en claro y oscuro. `validar-recetas-anadir.cjs` (adaptado a las pestañas) correcto en claro y oscuro.
+
+## 294. Retoques de la revisión, bloque A: cabecera de Inicio (2026-10-28)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor vio tres opciones en capturas y eligió la 1: la fecha y el estado de las actualizaciones dejan de ser líneas sueltas.
+
+- `PageHeader` gana `rotulo` (texto corto encima del título, `text-rotulo` `fg-muted`). Inicio lo usa para la fecha: `formatRotuloDia` en `shared/lib/dates` («miércoles · 28 oct», en mayúsculas por el estilo).
+- `AvisoActualizacion` pasa de fila a botón redondo de 44 px en la `action` de la cabecera: `check` al día, `download` con un punto de acento si hay actualización, `info` en lo demás. El texto queda en `aria-label` («Actualizaciones. App al día», el mismo que buscan los recorridos) y en `title`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Capturas en Chromium a 320/375/430 px en claro y oscuro: sin scroll horizontal y el botón a 44 × 44 px. Sin iPhone real.
+
+## 295. Retoques de la revisión, bloque B: Perfil (2026-10-28)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor eligió sobre capturas: Actividad en ámbar (opción B), quitar las frases sueltas y la hoja de medidas en casillas (R2).
+
+- Perfil sin overline («Tus datos para estimar tu energía diaria»).
+- Nuevo token de datos `actividad` (ámbar dorado: 184 118 0 en claro, 240 184 40 en oscuro) para el tramo y la rayita de Actividad en «Tu energía diaria». El ámbar de la preview se acercaba demasiado a la grasa (ΔE 8,6): se desplazó hacia el dorado hasta pasar ΔE ≥ 10 frente a `fat` y `kcal`, ya en `contrast.test.ts` junto al relleno ≥ 3 sobre surface.
+- «Estimación orientativa, no una prescripción médica» pasa de línea bajo la Card a la «i» de «Tu energía diaria».
+- Medidas corporales: fuera el párrafo del estado vacío; sin medidas, la ficha muestra las seis zonas con «—», que abren el registro. Hoja «Registrar medidas» en casillas: fecha como pastilla con el selector nativo encima (`etiquetaFechaMedida` en `lib/medidas`, con test), una casilla por zona con cifra grande, unidad y «Última: …»/«Sin medir», y la explicación tras la «i».
+- `Sheet` gana `accion` (a la derecha del título).
+
+**Verificación:** `npm run test` (3.051) y `npm run build` correctos. `validar-mejoras-uso.cjs` y `auditoria-interfaz.cjs` en Chromium correctos. Capturas en Chromium a 320/375 px en claro y oscuro: sin scroll horizontal, fecha a 44 px y campos a 16 px o más; la «i» abre su hoja encima. Sin iPhone real (selector de fecha nativo y teclado decimal por probar).
+
+## 296. Retoques de la revisión, bloque C: Nutrición (2026-10-28)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor eligió sobre capturas: C1 y C4 tal cual, «Cómo queda tu día» O1 y el recetario L2 con «Filtrar» junto al buscador en lugar de chips, y sin el filtro «Con pasos» (ya todas tienen pasos).
+
+- C1: el pie de cada comida del Diario (`ComidaSection`, `.meal-macros`) usa las pastillas de Buscar («● P 92 g»); sigue siendo un `dl` con los nombres completos para lectores de pantalla. La ficha de receta y la hoja Registrar/Planificar conservan sus `Metric` (ahí el macro es el dato principal).
+- C2: `ComoQuedaTuDia` (revisión y hoja Cantidad) en una tarjeta `surface-muted` con el título dentro; cada fila dice «llevas +suma de objetivo» con lo que suma en una pastilla `surface`, así que se quita la leyenda «Lo que llevas / Lo que añades»; el carril de las barras pasa a `surface`.
+- C3: `FilaReceta` compartida por Tuyas y el recetario: icono de la categoría, nombre con kcal a la derecha, raciones/tiempo y `PastillasMacros` por ración. El recetario cambia el `SegmentedControl` «Todas / Con pasos» por «Filtrar» (orden y categorías presentes) y pone «Recetas N» encima de la lista; el buscador pasa a «Buscar receta…» (el total ya no cabía a 320/375 px). `FiltrosBusquedaSheet` gana `categorias` y exporta `BotonFiltrar`, `FiltrosActivos` y `filtrosActivos`, que también usa Buscar. Lógica en `lib/variantes`: `racionRecetario`, `ordenarRecetario`, `categoriasRecetario` (con tests); `recetasRepo.listarConCategoria`.
+- C4: en la revisión, un alimento escrito que no se encuentra ofrece «Propónselo a AppFit» (si el envío está disponible), con lo escrito como nombre (`ItemRevisionRow.proponer.test.tsx`).
+
+**Verificación:** `npm run test` y `npm run build` correctos. En Chromium: `validar-recetas`, `validar-registros-comida`, `validar-mejoras-uso` y `auditoria-interfaz` correctos; capturas a 320/375 px en claro y oscuro sin scroll horizontal. `validar-recetas-anadir`, `validar-tarjetas-comidas` y `validar-registro-visual` ya fallaban antes de este bloque (buscan el título «Recetas» sin su número y el `select` «Comida del día» que quitó el rediseño de Añadir comida); no están en CI. «Propónselo a AppFit» no se ha visto en navegador (sin Supabase en local), solo en el test. Sin iPhone real.
+
+## 297. CI de la PR: la celebración de logros, fuera de los recorridos (2026-10-28)
+
+El check «navegador» fallaba de forma intermitente, y también en `master` tras la #186: en `validar-mejoras-pendientes` no aparecía la barra en el detalle del logro «Hilo» (cada vez en un caso distinto), y en un relanzamiento `validar-correcciones-auditoria` › `webkit-borrador` no encontraba «Descartar». Causa común: los datos sembrados (entrenos de los últimos días) consiguen piezas de la Vitrina y `CelebracionLogros` abre la hoja de nuevos logros cuando la Vitrina termina de calcularse, a veces encima del detalle de un logro o en mitad de un «Atrás»; el manejador que la cierra con «Genial» llegaba tarde o se llevaba la otra capa. En local, justo antes de abrir la Vitrina había 8 piezas por celebrar.
+
+- `auditoria-comun.sembrar` marca como vistas las piezas conseguidas (`marcarLogrosVistos`, que exporta) y `validar-mejoras-pendientes` lo llama tras sembrar sus entrenos; comprueba además que no queda ninguna celebración al entrar en la Vitrina.
+- Sin cambios en la app.
+
+**Verificación:** en local (Chromium), correctos `auditoria-entreno`, `auditoria-interfaz`, `validar-correcciones-auditoria`, `validar-pulido-auditoria`, `validar-mejoras-pendientes`, `auditoria-datos`, `validar-mejoras-uso` y `validar-recetas`. WebKit y Firefox solo en CI.

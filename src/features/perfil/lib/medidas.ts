@@ -1,6 +1,7 @@
 // Medidas corporales (cm y %). Lógica pura; los datos viven en `medidasRepo`.
 // No confundir con «Medidas caseras» de Nutrición (cucharadas, vasos…).
 import type { Medida } from '../../../shared/db/types'
+import { addDays, formatDiaMes, parseISODate } from '../../../shared/lib/dates'
 
 export type CampoMedida = 'cintura' | 'cadera' | 'pecho' | 'brazo' | 'muslo' | 'grasaPct'
 
@@ -59,4 +60,13 @@ export function resumenMedidas(medidas: Pick<Medida, 'fecha' | CampoMedida>[]): 
     const previo = con[1]?.[campo]
     return { campo, etiqueta, unidad, ultimo, variacion: ultimo && previo !== undefined ? Math.round((ultimo.valor - previo) * 10) / 10 : null }
   })
+}
+
+/** Fecha de la hoja de registro, en el botón compacto: «Hoy, 28 oct», «Ayer, 27 oct» o «3 oct 2025». */
+export function etiquetaFechaMedida(fecha: string, hoy: string): string {
+  const d = parseISODate(fecha)
+  const diaMes = formatDiaMes(d.getTime())
+  if (fecha === hoy) return `Hoy, ${diaMes}`
+  if (fecha === addDays(hoy, -1)) return `Ayer, ${diaMes}`
+  return `${diaMes} ${d.getFullYear()}`
 }

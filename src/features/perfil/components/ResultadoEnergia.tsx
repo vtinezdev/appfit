@@ -50,9 +50,9 @@ function textoObjetivo(e: EnergiaOk): string {
   return e.ritmo ? `${objetivo} · unos ${formatSigned(e.ritmo.kgSemana * 1000)} g por semana` : objetivo
 }
 
-/** Color de cada parte, el mismo en la barra y en la leyenda: el gasto en grises y el ajuste en el color de la energía. */
+/** Color de cada parte, el mismo en la barra y en la leyenda: el reposo en gris, la actividad en ámbar y el ajuste en el color de la energía. */
 const COLOR_TRAMO: Record<EstiloTramo, string> = {
-  reposo: 'bg-fg-muted', actividad: 'bg-fg-subtle', observado: 'bg-fg-muted', superavit: 'bg-kcal', deficit: 'border border-dashed border-fg-subtle',
+  reposo: 'bg-fg-muted', actividad: 'bg-actividad', observado: 'bg-fg-muted', superavit: 'bg-kcal', deficit: 'border border-dashed border-fg-subtle',
 }
 
 /**
@@ -145,7 +145,7 @@ function ComoSeCalcula({ e, onVerMetodo }: { e: EnergiaOk; onVerMetodo: () => vo
       <p className="tabular text-title text-fg">{formatSigned(e.ritmo.kgSemana * 1000)} g <span className="text-body-sm font-normal text-fg-muted">por semana · {e.ritmo.pctPesoSemana > 0 ? '+' : '−'}{formatNumber(Math.abs(e.ritmo.pctPesoSemana), 1)} % del peso</span></p>
       <p className="text-caption text-fg-muted">Con {formatNumber(KCAL_POR_KG)} kcal por kg (Hall, 2008). Pierde validez con el tiempo: ajusta según tu peso real.</p>
     </div>}
-    <p className="text-caption">Nunca baja de {formatNumber(SUELO_KCAL)} kcal ni de tu gasto en reposo (criterio de prudencia de AppFit).</p>
+    <p className="text-caption">{AVISO_ORIENTATIVO}. Nunca baja de {formatNumber(SUELO_KCAL)} kcal ni de tu gasto en reposo (criterio de prudencia de AppFit).</p>
     <Button variant="ghost" size="sm" onClick={onVerMetodo}>Ver método y fuentes<Icon name="chevron-right" size={16} /></Button>
   </Ayuda>
 }
@@ -173,6 +173,5 @@ export default function ResultadoEnergia({ energia, onElegirObjetivo, onVerMetod
         {energia.avisos.map((a) => <p key={a.tipo} className="flex items-start gap-2 text-body-sm text-warning"><Icon name="alert" size={16} className="mt-0.5" /><span className="min-w-0">{a.texto}</span></p>)}
       </>}
     </Card>
-    <p className="px-1 text-caption text-fg-muted">{AVISO_ORIENTATIVO}.</p>
   </section>
 }
