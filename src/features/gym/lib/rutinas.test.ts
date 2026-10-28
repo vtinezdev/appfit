@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ErrorSustitucion, ordenParaEmpezar, resumenRutina, sustituirEnRutina } from './rutinas'
+import { ErrorSustitucion, ejecucionDeRutina, ejecucionEnRutina, ordenParaEmpezar, resumenRutina, sustituirEnRutina, textoVarianteRutina } from './rutinas'
 import { cuandoFue } from './workout'
 
 describe('resumenRutina', () => {
@@ -44,9 +44,37 @@ describe('sustituirEnRutina', () => {
     expect(sustituirEnRutina({ id: 2, nombre: 'B', exerciseIds: [3], objetivos: {} }, 3, 4)).toEqual({ id: 2, nombre: 'B', exerciseIds: [4] })
   })
 
+  it('el nuevo no hereda el agarre ni la ejecución del sustituido', () => {
+    const conVariante = { id: 3, nombre: 'C', exerciseIds: [3, 5], agarres: { 5: { orientacion: 'supino' as const } }, ejecuciones: { 3: 'lados' as const, 5: 'lados' as const } }
+    expect(sustituirEnRutina(conVariante, 5, 9)).toEqual({ id: 3, nombre: 'C', exerciseIds: [3, 9], ejecuciones: { 3: 'lados' } })
+  })
+
   it('no sustituye si el nuevo ya está o el viejo ya no', () => {
     expect(() => sustituirEnRutina(r, 5, 7)).toThrow(ErrorSustitucion)
     expect(() => sustituirEnRutina(r, 4, 9)).toThrow(ErrorSustitucion)
     expect(sustituirEnRutina(r, 5, 5)).toBe(r)
+  })
+})
+
+describe('variante de un ejercicio en la rutina', () => {
+  const habitualLados = { ejecucion: 'lados' as const, agarre: { orientacion: 'neutro' as const } }
+  it('la ejecución de la rutina manda; sin elegir, la habitual (la antigua «ambos iguales» es unilateral)', () => {
+    expect(ejecucionEnRutina({ ejecuciones: { 1: 'bilateral' } }, 1, habitualLados)).toBe('bilateral')
+    expect(ejecucionEnRutina({}, 1, habitualLados)).toBe('lados')
+    expect(ejecucionEnRutina({}, 1, { ejecucion: 'unilateral', kgUnilateral: 'total' })).toBe('lados')
+    expect(ejecucionEnRutina({}, 1)).toBe('bilateral')
+  })
+  it('la sesión empieza con la habitual cambiada en lo que elige la rutina; sin elegir nada, sin configuración', () => {
+    expect(ejecucionDeRutina({}, 1, habitualLados)).toBeUndefined()
+    expect(ejecucionDeRutina({ ejecuciones: { 1: 'bilateral' } }, 1, habitualLados)).toEqual({ ejecucion: 'bilateral', agarre: { orientacion: 'neutro' } })
+    expect(ejecucionDeRutina({ ejecuciones: { 1: 'lados' } }, 1)).toEqual({ ejecucion: 'lados' })
+    expect(ejecucionDeRutina({ agarres: { 1: null } }, 1, habitualLados)).toEqual({ ejecucion: 'lados', agarre: undefined })
+    expect(ejecucionDeRutina({ agarres: { 1: { orientacion: 'supino' } }, ejecuciones: { 1: 'lados' } }, 1, { ejecucion: 'unilateral', kgUnilateral: 'total' }))
+      .toEqual({ ejecucion: 'lados', agarre: { orientacion: 'supino' } })
+  })
+  it('texto del botón de variante', () => {
+    expect(textoVarianteRutina('lados', 'Supino', true)).toBe('Unilateral · Supino')
+    expect(textoVarianteRutina('bilateral', '', true)).toBe('Bilateral · agarre sin especificar')
+    expect(textoVarianteRutina('bilateral', '', false)).toBe('Bilateral')
   })
 })

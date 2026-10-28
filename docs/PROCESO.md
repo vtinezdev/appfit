@@ -3152,7 +3152,6 @@ Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real c
 
 **Verificación:** `npm run test` y `npm run build` correctos. Los ocho pasos del trabajo «navegador» pasan en Chromium en local: `test:ui`, `test:ui:responsive`, `test:ui:uso`, correcciones, pulido, mejoras pendientes, datos y offline. Firefox y WebKit solo en la CI.
 
-
 ## 288. Imágenes del catálogo de comunidades (2026-10-28)
 
 Sobre `origin/master` `1944461` (PR #183), incorporadas las 36 imágenes de lugares compartidos aprobadas por Víctor: WebP locales de 256 × 256, 258 850 bytes en total. Catálogo con ID `lugar.<slug>`, búsqueda y siete grupos; `ImagenComunidad` mantiene el recuadro y tamaños actuales y conserva iniciales para una imagen ausente, desconocida o fallida. Se usa en lista y portada sin modificar avatares personales.
@@ -3170,3 +3169,25 @@ Víctor confirma que ha ejecutado el SQL de imágenes de comunidades en el proye
 ## 290. Publicación de las imágenes de comunidades (2026-10-28)
 
 Tras confirmar 0028 en Supabase, Víctor autoriza publicar el cliente. Se prepara una PR desde `feat/catalogo-imagenes-comunidades` hacia `master`, con el catálogo de 36 imágenes y sus flujos de creación/edición. La publicación sigue el build de Cloudflare conectado a `master`, conservando sus variables de Supabase. Las comprobaciones locales previas están en §288; el resultado remoto se consulta en la PR y el despliegue, sin confundirlo con la confirmación de SQL de §289.
+
+## 291. Ejecución en las rutinas y récords unilaterales (2026-10-28)
+
+**Qué:** Víctor pidió poder dejar fijado en una rutina si un ejercicio es bilateral o unilateral (solo se podía fijar el agarre) y que cada variante tuviera sus propios récords. Los récords ya se separaban por variante (`claveComparacion`: ejecución, agarre, técnica y gimnasio de máquina), pero al revisarlo apareció un fallo: las series unilaterales por lados nunca contaban para récords.
+
+**Cómo:**
+- `Routine.ejecuciones?: Record<number, 'bilateral' | 'lados'>`, opcional y sin índice (sin versión de Dexie ni de backup). `routinesRepo.guardar` lo filtra a los ejercicios de la rutina y lo valida; `guardarDesdeEntreno` lo toma de la sesión (`rutinaDesdeEntreno`).
+- `lib/rutinas`: `ejecucionEnRutina` (la elegida o la habitual), `ejecucionDeRutina` (la configuración con la que empieza la sesión: la habitual con lo que la rutina elige; sustituye al bucle de `workoutsRepo.crearSeriesObjetivo`) y `textoVarianteRutina`. `sustituirEnRutina` no hereda la ejecución.
+- Precarga: `seriesUltimaSesion`, `ultimaEfectiva` y `ultimoCalentamiento` aceptan la ejecución; con ella fijada en la rutina se busca primero la última vez que se hizo así y, si nunca, la última sin filtrar.
+- `EditorRutina`: «Variante de …» con la ejecución (SegmentedControl) para todos los ejercicios y el agarre para los que lo admiten. `DetalleRutina`: insignia «Unilateral».
+- Récords (`gym/lib/records`): el filtro de series válidas miraba `s.peso`, que en las series por lados es 0 (los kg van en cada lado), así que ninguna serie unilateral con carga externa contaba en récords, muro de la Vitrina, historial del ejercicio ni estancamiento de la Liga. Ahora mira `pesoComparable`. Al recalcularse, pueden aparecer récords antiguos de series unilaterales (y su experiencia).
+- `scripts/ui/validar-agarres.cjs` al día (abrir la rutina desde su tarjeta, fila del selector con el botón de ficha) y con la ejecución unilateral de la rutina.
+
+**Verificación:** `npm run test` (3.050 tests) y `npm run build` correctos. `validar-agarres.cjs` pasa en los ocho contextos (320/375/430 claro/oscuro, 1440, 375 con texto al 200 %).
+
+## 292. Récords de cada variante en la ficha del ejercicio (2026-10-28)
+
+**Qué:** la sección «Tú» de la ficha de un ejercicio solo enseñaba la variante básica (bilateral, sin agarre): quien hacía el remo solo en supino o unilateral no veía nada. Víctor pidió ver los récords de cada variante.
+
+**Cómo:** `lib/progreso.historialPorVariante` agrupa las series terminadas del ejercicio como los récords (`acumularComparables`) y calcula `historialEjercicio` de cada grupo, la variante usada más recientemente primero; `nombreVarianteRecords` la nombra (modo si no es externa, Bilateral/Unilateral, agarre, descenso y gimnasio con su nombre). `FichaEjercicio` pinta un bloque por variante con su título, última vez y récords.
+
+**Verificación:** `npm run test` (3.052 tests) y `npm run build` correctos. Recorrido de navegador provisional (no guardado) con un remo prono, supino y unilateral: tres bloques en orden, sin scroll horizontal, en 320/375/430 claro/oscuro y 375 con texto al 200 %.

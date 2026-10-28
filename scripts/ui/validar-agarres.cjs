@@ -8,7 +8,7 @@ const output = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-agarres-ui'
 fs.mkdirSync(output, { recursive: true })
 const reports = []
 const dialog = (page, name) => page.getByRole('dialog', { name, exact: true })
-const row = (page, name) => dialog(page, 'Añadir ejercicio').locator('li').filter({ has: page.getByText(name, { exact: true }) }).getByRole('button')
+const row = (page, name) => dialog(page, 'Añadir ejercicio').locator('li').filter({ has: page.getByText(name, { exact: true }) }).getByRole('button').first()
 async function snapshot(page) {
   return page.evaluate(async () => {
     const { exportarBackup } = await import('/src/shared/lib/backup.ts')
@@ -88,15 +88,25 @@ async function main() {
         const e = b.exercises.find(e => e.catalogId === 'appfit:jalon-pecho')
         const r = b.routines.find(r => r.nombre === 'Agarres UI')
         assert.deepEqual(r.agarres[e.id], { accesorio: 'barra', orientacion: 'prono', anchura: 'ancho' })
-        // Editar la rutina conserva el nombre del ejercicio y permite cambiar su agarre.
-        await page.getByRole('button', { name: 'Editar Agarres UI', exact: true }).click()
-        await page.getByRole('button', { name: /^Agarre de Jalón al pecho:/ }).click()
+        assert.equal(r.ejecuciones, undefined)
+        // Editar la rutina conserva el nombre del ejercicio y permite cambiar su variante: ejecución y agarre.
+        await page.getByRole('button', { name: /Agarres UI/ }).first().click()
+        await page.getByRole('button', { name: 'Editar', exact: true }).click()
+        await page.getByRole('button', { name: 'Variante de Jalón al pecho: Bilateral · Prono · Ancho · Barra', exact: true }).click()
         const editor = dialog(page, 'Editar rutina')
+        const ejecucion = editor.getByRole('radiogroup', { name: 'Ejecución de Jalón al pecho', exact: true })
+        assert.equal(await ejecucion.getByRole('radio', { name: 'Bilateral', exact: true }).getAttribute('aria-checked'), 'true')
+        await ejecucion.getByRole('radio', { name: 'Unilateral', exact: true }).click()
         await editor.getByRole('button', { name: 'Supino', exact: true }).click()
         await editor.getByRole('button', { name: 'Medio', exact: true }).click()
+        await editor.getByRole('button', { name: /^Variante de Jalón al pecho: Unilateral · Supino/ }).waitFor()
         await check(page, `${tag}-rutina`)
         await editor.getByRole('button', { name: 'Guardar', exact: true }).click()
         await editor.waitFor({ state: 'detached' })
+        assert.equal((await snapshot(page)).routines.find(x => x.id === r.id).ejecuciones[e.id], 'lados')
+        await page.getByRole('region', { name: 'Ejercicios', exact: true }).getByText('Unilateral', { exact: true }).waitFor()
+        await check(page, `${tag}-detalle-rutina`)
+        await page.getByRole('button', { name: 'Rutinas', exact: true }).click()
         await page.getByRole('tab', { name: 'Empezar', exact: true }).click()
         await page.getByRole('button', { name: 'Empezar Agarres UI', exact: true }).click()
         await page.getByRole('button', { name: 'Añadir serie', exact: true }).click()
@@ -105,6 +115,8 @@ async function main() {
         const active = b.workouts.find(w => w.fin === undefined)
         const series = b.sets.filter(s => s.workoutId === active.id)
         assert.deepEqual(series[0].agarre, { accesorio: 'barra', orientacion: 'supino', anchura: 'medio' })
+        assert.equal(series[0].ejecucion, 'lados')
+        await page.getByRole('button', { name: /^Ejecución de Jalón al pecho: Unilateral/ }).waitFor()
         // Cambiar la sesión no reescribe la rutina ni el habitual.
         await page.getByRole('button', { name: /^Agarre de Jalón al pecho:/ }).click()
         const variant = dialog(page, 'Variante · Jalón al pecho')

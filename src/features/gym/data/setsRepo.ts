@@ -4,7 +4,7 @@ import { aplicarEjecucion, ejecucionSerieNueva, validarSerie, tieneReps, convenc
 import { esPorTiempo, tieneDatos, valoresPorTiempo, type ConSegundos } from '../lib/tiempo'
 import Dexie from 'dexie'
 import { db } from '../../../shared/db/db'
-import type { Agarre, SetEntry } from '../../../shared/db/types'
+import type { Agarre, EjecucionRutina, SetEntry } from '../../../shared/db/types'
 import { siguienteOrden, valoresNuevaSerie } from '../lib/workout'
 import * as exercisesRepo from './exercisesRepo'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
@@ -27,25 +27,28 @@ export function delEjercicio(exerciseId: number): Promise<SetEntry[]> {
 /** Filtro de gimnasio: sin él, cualquiera; `{ gimnasioId: undefined }`, solo el habitual (ADR 054). */
 export type FiltroGimnasio = { gimnasioId?: number }
 
-/** Última serie efectiva (no de calentamiento) del ejercicio, de cualquier entreno (o de ese gimnasio). Solo lectura. */
-export function ultimaEfectiva(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio): Promise<SetEntry | undefined> {
-  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId))).first()
+/** Serie bilateral o unilateral (por lados o, en el histórico, «ambos iguales»), para precargar con la ejecución de una rutina. */
+const conEjecucion = (s: SetEntry, ejecucion?: EjecucionRutina) => ejecucion === undefined || (s.ejecucion === 'lados' || s.ejecucion === 'unilateral' ? 'lados' : 'bilateral') === ejecucion
+
+/** Última serie efectiva (no de calentamiento) del ejercicio, de cualquier entreno (o de ese gimnasio, o con esa ejecución). Solo lectura. */
+export function ultimaEfectiva(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio, ejecucion?: EjecucionRutina): Promise<SetEntry | undefined> {
+  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId)) && conEjecucion(s, ejecucion)).first()
 }
 
 /**
- * Series del ejercicio en su última sesión (la de la última efectiva realizada, con ese agarre y en ese gimnasio, si se
- * indican): las realizadas y convencionales, calentamientos incluidos. Para precargar una rutina serie a serie. Solo lectura.
+ * Series del ejercicio en su última sesión (la de la última efectiva realizada, con ese agarre, en ese gimnasio y con esa
+ * ejecución, si se indican): las realizadas y convencionales, calentamientos incluidos. Para precargar una rutina serie a serie. Solo lectura.
  */
-export async function seriesUltimaSesion(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio): Promise<SetEntry[]> {
-  const comparable = (s: SetEntry) => s.realizada !== false && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId))
+export async function seriesUltimaSesion(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio, ejecucion?: EjecucionRutina): Promise<SetEntry[]> {
+  const comparable = (s: SetEntry) => s.realizada !== false && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId)) && conEjecucion(s, ejecucion)
   const ultima = await db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && comparable(s)).first()
   if (!ultima) return []
   return db.sets.where('workoutId').equals(ultima.workoutId).filter((s) => s.exerciseId === exerciseId && comparable(s)).toArray()
 }
 
-/** La última serie de calentamiento del ejercicio (con ese agarre y en ese gimnasio, si se indican). */
-export function ultimoCalentamiento(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio): Promise<SetEntry | undefined> {
-  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo === 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId))).first()
+/** La última serie de calentamiento del ejercicio (con ese agarre, en ese gimnasio y con esa ejecución, si se indican). */
+export function ultimoCalentamiento(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio, ejecucion?: EjecucionRutina): Promise<SetEntry | undefined> {
+  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo === 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId)) && conEjecucion(s, ejecucion)).first()
 }
 
 /**

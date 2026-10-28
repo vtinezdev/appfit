@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
 import * as routinesRepo from '../data/routinesRepo'
-import type { ObjetivoEjercicio } from '../../../shared/db/types'
+import type { EjecucionRutina, ObjetivoEjercicio } from '../../../shared/db/types'
 import Sheet from '../../../shared/components/Sheet'
 import Button, { IconButton } from '../../../shared/components/Button'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
+import SegmentedControl from '../../../shared/components/SegmentedControl'
 import Icon from '../../../shared/components/Icon'
 import { Input } from '../../../shared/components/Input'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -16,6 +17,7 @@ import SelectorEjercicios from './SelectorEjercicios'
 import { admiteElegirAgarre, textoAgarre } from '../lib/agarres'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { moverElemento } from '../lib/workout'
+import { ejecucionEnRutina, textoVarianteRutina } from '../lib/rutinas'
 import { separar, superserieDe, superseriesDe, superseriesValidas, unirConSiguiente } from '../lib/superseries'
 
 interface Props {
@@ -26,11 +28,11 @@ interface Props {
   onBorrada?: () => void
 }
 
-/** Hoja de edición de una rutina: nombre, ejercicios (orden, agarre y objetivo), guardar y borrar. */
+/** Hoja de edición de una rutina: nombre, ejercicios (orden, variante y objetivo), guardar y borrar. */
 export default function EditorRutina({ inicial, onClose, onBorrada }: Props) {
   const [abierta, setAbierta] = useState(true)
   const [editando, setEditando] = useState(inicial)
-  const [editandoAgarre, setEditandoAgarre] = useState<number | null>(null)
+  const [editandoVariante, setEditandoVariante] = useState<number | null>(null)
   const [seleccionando, setSeleccionando] = useState(false)
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false)
   const [ocupado, setOcupado] = useState(false)
@@ -75,8 +77,9 @@ export default function EditorRutina({ inicial, onClose, onBorrada }: Props) {
 
   function quitarEjercicio(id: number) {
     const { [id]: _agarre, ...agarres } = editando.agarres ?? {}
+    const { [id]: _ejecucion, ...ejecuciones } = editando.ejecuciones ?? {}
     const { [id]: _quitado, ...objetivos } = editando.objetivos ?? {}
-    setEditando({ ...editando, exerciseIds: editando.exerciseIds.filter((e) => e !== id), objetivos, agarres })
+    setEditando({ ...editando, exerciseIds: editando.exerciseIds.filter((e) => e !== id), objetivos, agarres, ejecuciones })
   }
 
   // Superseries (A21): las que siguen juntas en este orden; al guardar se quitan las que no.
@@ -129,7 +132,10 @@ export default function EditorRutina({ inicial, onClose, onBorrada }: Props) {
 
         <div className="space-y-1">
           {editando.exerciseIds.map((id, i) => {
-            const nombre = exerciseMap.get(id)?.nombre ?? 'ejercicio'
+            const ejercicio = exerciseMap.get(id)
+            const nombre = ejercicio?.nombre ?? 'ejercicio'
+            const ejecucion = ejecucionEnRutina(editando, id, ejercicio?.ejecucionHabitual)
+            const conAgarre = !!ejercicio && (admiteElegirAgarre(ejercicio) || !!editando.agarres?.[id])
             const siguiente = editando.exerciseIds[i + 1]
             const unidaConSiguiente = superserieDe(pares, id)?.[0] === id
             const libre = siguiente !== undefined && !superserieDe(pares, id) && !superserieDe(pares, siguiente)
@@ -143,12 +149,18 @@ export default function EditorRutina({ inicial, onClose, onBorrada }: Props) {
                   <IconButton icon="chevron-right" label={`Bajar ${nombre}`} variant="ghost" size="sm" className="rotate-90" disabled={i === editando.exerciseIds.length - 1} onClick={() => moverEjercicio(i, 1)} />
                   <IconButton icon="close" label={`Quitar ${nombre}`} variant="ghost" size="sm" onClick={() => quitarEjercicio(id)} />
                 </div>
-                {exerciseMap.has(id) && (admiteElegirAgarre(exerciseMap.get(id)!) || editando.agarres?.[id]) && <div className="space-y-3 py-2">
-                  <Button variant="ghost" size="sm" className="max-w-full break-words text-left" onClick={() => setEditandoAgarre(editandoAgarre === id ? null : id)} aria-expanded={editandoAgarre === id}>
-                    Agarre de {nombre}: {textoAgarre(editando.agarres?.[id]) || 'Sin especificar'}
+                {ejercicio && <div className="space-y-3 py-2">
+                  <Button variant="ghost" size="sm" className="max-w-full break-words text-left" onClick={() => setEditandoVariante(editandoVariante === id ? null : id)} aria-expanded={editandoVariante === id}>
+                    Variante de {nombre}: {textoVarianteRutina(ejecucion, textoAgarre(editando.agarres?.[id]), conAgarre)}
                   </Button>
-                  {editandoAgarre === id && <CamposAgarre ejercicio={exerciseMap.get(id)!} valor={editando.agarres?.[id] ?? undefined}
-                    onChange={agarre => setEditando({ ...editando, agarres: { ...editando.agarres, [id]: agarre ?? null } })} />}
+                  {editandoVariante === id && <>
+                    <SegmentedControl label={`Ejecución de ${nombre}`} valor={ejecucion}
+                      onChange={(v: EjecucionRutina) => setEditando({ ...editando, ejecuciones: { ...editando.ejecuciones, [id]: v } })}
+                      opciones={[{ valor: 'bilateral', label: 'Bilateral' }, { valor: 'lados', label: 'Unilateral' }]} />
+                    {ejecucion === 'lados' && <p className="text-caption text-fg-muted">Una fila por lado, con los kg de cada lado.</p>}
+                    {conAgarre && <CamposAgarre ejercicio={ejercicio} valor={editando.agarres?.[id] ?? undefined}
+                      onChange={agarre => setEditando({ ...editando, agarres: { ...editando.agarres, [id]: agarre ?? null } })} />}
+                  </>}
                 </div>}
                 <ObjetivoRutina nombre={nombre} objetivo={editando.objetivos?.[id]} onChange={(o) => cambiarObjetivo(id, o)} />
                 {(unidaConSiguiente || libre) && <Button variant="ghost" size="sm" className="max-w-full break-words text-left" aria-pressed={unidaConSiguiente} onClick={() => alternarSuperserie(id)}>

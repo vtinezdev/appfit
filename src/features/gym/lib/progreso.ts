@@ -2,7 +2,9 @@ import { claveComparacion, repsComparables, pesoComparable } from './ejecucion'
 import type { ModoCarga, SetEntry, Workout } from '../../../shared/db/types'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { formatDiaMes } from '../../../shared/lib/dates'
-import { modoCarga } from './carga'
+import { MODOS_CARGA, modoCarga } from './carga'
+import { textoAgarre } from './agarres'
+import { textoGimnasio } from './gimnasios'
 import { efectivas, epley1RM, volumenSets } from './workout'
 import { acumularComparables, claveGrupo } from './records'
 import type { SerieEjecucion } from './ejecucion'
@@ -250,6 +252,38 @@ export function historialEjercicio(series: SetEntry[], workouts: Pick<Workout, '
     total: todas.length,
     records: recordsVigentes(todas, modo, conRM, referencia.peso),
   }
+}
+
+export interface HistorialVariante extends HistorialEjercicio {
+  /** Clave del grupo comparable (`records.claveGrupo`). */
+  clave: string
+  /** Nombre de la variante (`nombreVarianteRecords`). */
+  nombre: string
+}
+
+/**
+ * Historial y récords vigentes de cada variante del ejercicio con sesiones terminadas: las mismas variantes que los récords
+ * (modo de carga, ejecución, agarre, tempo y, en máquinas, gimnasio). La usada más recientemente, primero.
+ */
+export function historialPorVariante(series: SetEntry[], workouts: Pick<Workout, 'id' | 'inicio' | 'fin'>[], exerciseId: number, gimnasios?: ReadonlyMap<number, string>, n = 1): HistorialVariante[] {
+  const terminadas = new Set(workouts.filter(w => w.fin !== undefined).map(w => w.id))
+  const grupos = acumularComparables(new Map(), series.filter(s => s.exerciseId === exerciseId && terminadas.has(s.workoutId)))
+  const out: HistorialVariante[] = []
+  for (const [clave, [serie]] of grupos) {
+    // Sin peso de referencia: no hay «Más reps con…» de una serie concreta.
+    const h = historialEjercicio(series, workouts, { ...serie, peso: undefined }, Number.POSITIVE_INFINITY, n)
+    if (h) out.push({ ...h, clave, nombre: nombreVarianteRecords(serie, gimnasios) })
+  }
+  return out.sort((a, b) => b.sesiones[0].inicio - a.sesiones[0].inicio || a.clave.localeCompare(b.clave))
+}
+
+/** «Bilateral · Supino», «Unilateral · Neutro · Gym Playa», «Peso corporal · Bilateral», «Unilateral · solo izquierda». */
+export function nombreVarianteRecords(s: Partial<SerieEjecucion>, gimnasios?: ReadonlyMap<number, string>): string {
+  const lados = s.ejecucion === 'lados' && !(s.lados?.izquierda && s.lados?.derecha) ? ` · solo ${s.lados?.izquierda ? 'izquierda' : 'derecha'}` : ''
+  const ejecucion = !s.ejecucion || s.ejecucion === 'bilateral' ? 'Bilateral' : s.ejecucion === 'unilateral' && s.kgUnilateral === 'total' ? 'Unilateral · kg totales' : `Unilateral${lados}`
+  const modo = modoCarga(s)
+  return [modo !== 'externa' ? MODOS_CARGA[modo] : '', ejecucion, textoAgarre(s.agarre), s.excentricaSeg ? `Descenso ${formatNumber(s.excentricaSeg)} s` : '',
+    s.gimnasioId !== undefined ? textoGimnasio(s.gimnasioId, gimnasios) : ''].filter(Boolean).join(' · ')
 }
 
 /** El récord vigente de cada tipo y la primera sesión en que se logró; las reps, con el peso de la serie de referencia si ya se usó. */

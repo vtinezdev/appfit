@@ -3,7 +3,7 @@ import { db } from '../../../shared/db/db'
 import { recomendarProgresion } from '../lib/progresion'
 import { aplicarEjecucion, validarEjecucion, validarSerie, claveComparacion, convencional, ejecucionSerieNueva, ejecucionVigente, tieneReps } from '../lib/ejecucion'
 import { esPorTiempo, tieneDatos, valoresPorTiempo } from '../lib/tiempo'
-import type { ConfiguracionEjecucion, ConfiguracionCarga, Routine, SetEntry, Workout, WorkoutExerciseMuscles } from '../../../shared/db/types'
+import type { ConfiguracionEjecucion, ConfiguracionCarga, EjecucionRutina, Routine, SetEntry, Workout, WorkoutExerciseMuscles } from '../../../shared/db/types'
 import { aplicarConfiguracionCarga, validarConfiguracionCarga } from '../lib/carga'
 import { toISODate } from '../../../shared/lib/dates'
 import { crearSnapshotMuscular } from '../lib/cargaMuscular'
@@ -11,6 +11,7 @@ import { ordenEjerciciosSesion, previasPorSerie, siguienteOrden, tiemposAlTermin
 import { previaEnGimnasio, seriesUltimaSesion, ultimaEfectiva, ultimoCalentamiento } from './setsRepo'
 import { dependeDeMaquina, gimnasioDeSerie, sinKg } from '../lib/gimnasios'
 import { ejerciciosDelEntreno, seriesParaRepetir } from '../lib/repetirEntreno'
+import { ejecucionDeRutina } from '../lib/rutinas'
 import { ordenTrasSustituir } from '../lib/sustituir'
 import * as exercisesRepo from './exercisesRepo'
 import { sustituirEjercicio as sustituirEnRutinaRepo } from './routinesRepo'
@@ -65,11 +66,9 @@ async function crearSeriesObjetivo(workoutId: number, routineId: number, base = 
   const rutina = await db.routines.get(routineId)
   if (!rutina) return
   const ejecuciones: NonNullable<Workout['ejecucionesEjercicios']> = {}
-  for (const [key, agarre] of Object.entries(rutina.agarres ?? {})) {
-    const exerciseId = Number(key)
-    if (!rutina.exerciseIds.includes(exerciseId)) continue
-    const habitual = (await db.exercises.get(exerciseId))?.ejecucionHabitual
-    const config = { ...ejecucionVigente(habitual ?? { ejecucion: 'bilateral' }), agarre: agarre ?? undefined }
+  for (const exerciseId of rutina.exerciseIds) {
+    const config = ejecucionDeRutina(rutina, exerciseId, (await db.exercises.get(exerciseId))?.ejecucionHabitual)
+    if (!config) continue
     validarEjecucion(config)
     ejecuciones[exerciseId] = config
   }
@@ -82,15 +81,21 @@ async function crearSeriesObjetivo(workoutId: number, routineId: number, base = 
     const ejercicio = await db.exercises.get(exerciseId)
     const config = ejecuciones[exerciseId] ?? ejercicio?.ejecucionHabitual
     const agarre = config ? config.agarre ?? null : undefined
-    // `previaEnGimnasio` devuelve lo de su última búsqueda, así que `sesion` queda con las series de ese mismo gimnasio.
-    let sesion: SetEntry[] = []
-    const ultimaSesion = await previaEnGimnasio(exerciseId, gimnasioId, async g => {
-      sesion = await seriesUltimaSesion(exerciseId, agarre, g)
-      return sesion.find(s => s.tipo !== 'calentamiento')
-    })
-    const efectiva = ultimaSesion.previa ? ultimaSesion : await previaEnGimnasio(exerciseId, gimnasioId, g => ultimaEfectiva(exerciseId, agarre, g))
+    const buscarPrevias = async (ejecucion?: EjecucionRutina) => {
+      // `previaEnGimnasio` devuelve lo de su última búsqueda, así que `sesion` queda con las series de ese mismo gimnasio.
+      let sesion: SetEntry[] = []
+      const ultimaSesion = await previaEnGimnasio(exerciseId, gimnasioId, async g => {
+        sesion = await seriesUltimaSesion(exerciseId, agarre, g, ejecucion)
+        return sesion.find(s => s.tipo !== 'calentamiento')
+      })
+      return { ejecucion, sesion, efectiva: ultimaSesion.previa ? ultimaSesion : await previaEnGimnasio(exerciseId, gimnasioId, g => ultimaEfectiva(exerciseId, agarre, g, ejecucion)) }
+    }
+    // Con la ejecución fijada en la rutina, se copia de la última vez que se hizo así; si nunca, de la última (y se vacía al aplicarla).
+    const fija = rutina.ejecuciones?.[exerciseId]
+    const conFija = fija ? await buscarPrevias(fija) : undefined
+    const { ejecucion: ejecucionPrevia, sesion, efectiva } = conFija?.efectiva.previa ? conFija : await buscarPrevias()
     const pares = previasPorSerie(sesion, objetivo.calentamientos ?? 0, objetivo.series)
-    const sinPar = pares.calentamientos.some(c => !c) ? await previaEnGimnasio(exerciseId, gimnasioId, g => ultimoCalentamiento(exerciseId, agarre, g)) : undefined
+    const sinPar = pares.calentamientos.some(c => !c) ? await previaEnGimnasio(exerciseId, gimnasioId, g => ultimoCalentamiento(exerciseId, agarre, g, ejecucionPrevia)) : undefined
     const respaldoCalentamiento = sinPar?.previa ? sinPar : { ...efectiva, previa: pares.efectivas[0] ?? efectiva.previa }
     const pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(base))).last())?.kg
     const valoresDe = ({ previa, sinKg: vaciar, gimnasioId }: Awaited<ReturnType<typeof previaEnGimnasio>>) => {

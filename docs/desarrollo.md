@@ -214,7 +214,7 @@ Víctor confirmó la ejecución de `supabase/migrations/0007_comunidades_solo_cr
 
 `supabase/migrations/0008_editar_descripcion_comunidad.sql` se ejecuta tras 0007 en el SQL Editor y antes de desplegar «Editar descripción»; Víctor confirmó su ejecución en el proyecto real el 2026-10-16. Es una transacción completa y solo añade un RPC. `supabase/pruebas/comunidades_editar_descripcion.sql` termina con `PRUEBAS_EDITAR_DESCRIPCION_OK` y hace rollback. `scripts/ui/validar-social.cjs` y `supabase-falso.mjs` cubren la edición.
 
-`node scripts/ui/validar-agarres.cjs` recorre la elección previa, restricciones de cuerda/V/barra, volver sin escritura, edición por rutina, herencia sin objetivos, cambio de sesión sin modificar rutina/habitual, neutro fijo, alta directa sin agarres y recarga con histórico conservado. Matriz 320/375/430 claro/oscuro, escritorio y 375 con texto al 200 %/Reduce Motion, solo en el origen efímero. Capturas e informe en `/tmp/appfit-agarres-ui`; filtros `APPFIT_UI_CASE`/`APPFIT_UI_OUTPUT`.
+`node scripts/ui/validar-agarres.cjs` recorre la elección previa, restricciones de cuerda/V/barra, volver sin escritura, edición por rutina (ejecución unilateral y agarre, con su insignia en el detalle y filas I/D al empezarla), herencia sin objetivos, cambio de sesión sin modificar rutina/habitual, neutro fijo, alta directa sin agarres y recarga con histórico conservado. Matriz 320/375/430 claro/oscuro, escritorio y 375 con texto al 200 %/Reduce Motion, solo en el origen efímero. Capturas e informe en `/tmp/appfit-agarres-ui`; filtros `APPFIT_UI_CASE`/`APPFIT_UI_OUTPUT`.
 
 ### Validación de tamaños y Android
 
