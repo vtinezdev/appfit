@@ -72,7 +72,12 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 
 ## Mejoras de la app (documento de Víctor, 2026-10-26)
 
-Nueve bloques acordados (PROCESO §270 en adelante). Hechos los bloques 1 a 7, del 8 el punto 22 (interior de una comunidad) y el 9 (Recetas: 13), que se hizo aparte con las recetas con preparación (PROCESO §248 a §269). Quedan el 23 (imagen de cada comunidad: Víctor creará sus avatares) y el 21 (objetivos de comunidad, más adelante).
+Nueve bloques acordados (PROCESO §270 en adelante). Hechos los bloques 1 a 7, del 8 el punto 22 (interior de una comunidad) y el 9 (Recetas: 13), que se hizo aparte con las recetas con preparación (PROCESO §248 a §269). Quedan:
+- **23, imagen de cada comunidad**: Víctor crea los avatares; plan y handoff en [plan-avatares-comunidades.md](plan-avatares-comunidades.md).
+- **21, objetivos de comunidad**: más adelante.
+- **Escribir** (Añadir comida): Víctor quiere mejorar más cómo funciona.
+- **Pastillas de Buscar**: a 375 px la de grasa baja a otra línea cuando las cifras son largas.
+- **`scripts/ui/validar-social.cjs`**: se queda en la hoja de bienvenida («Genial»), que no cierra.
 
 Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de acabar la sesión:
 - **Añadir comida**: mejorar la pantalla de añadir comida, sobre todo la ficha que se abre al añadir un alimento.
