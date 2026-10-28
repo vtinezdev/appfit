@@ -525,7 +525,12 @@ export interface Routine {
   objetivos?: Record<number, ObjetivoEjercicio>
   /** Agarre elegido en esta rutina; null = sin especificar, independiente del habitual. */
   agarres?: Record<number, Agarre | null>
+  /** Ejecución elegida en esta rutina: bilateral o una fila por lado; ausente = la habitual del ejercicio. */
+  ejecuciones?: Record<number, EjecucionRutina>
 }
+
+/** Las ejecuciones que se ofrecen hoy («ambos lados iguales» ya no: `lib/ejecucion.ejecucionVigente`). */
+export type EjecucionRutina = 'bilateral' | 'lados'
 
 export interface ObjetivoEjercicio {
   series: number

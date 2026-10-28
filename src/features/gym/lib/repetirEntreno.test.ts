@@ -77,7 +77,15 @@ describe('rutinaDesdeEntreno', () => {
       exerciseIds: [2, 1],
       objetivos: { 1: { series: 3, repsMin: 8, repsMax: 10, calentamientos: 1 }, 2: { series: 1, repsMin: 12, repsMax: 12 } },
       agarres: { 2: { accesorio: 'cuerda' } },
+      ejecuciones: { 2: 'bilateral' },
     })
+  })
+
+  it('la ejecución de la sesión pasa a la rutina; sin elegirla, unilateral si sus series lo eran', () => {
+    const lados = { ejecucion: 'lados' as const, reps: 0, lados: { izquierda: { reps: 8, peso: 10 }, derecha: { reps: 8, peso: 10 } } }
+    const sets = [serie(1, 0, lados), serie(2, 0), serie(3, 0, { ejecucion: 'unilateral', kgUnilateral: 'lado' }), serie(4, 0)]
+    const r = rutinaDesdeEntreno({ ejecucionesEjercicios: { 4: { ejecucion: 'unilateral', kgUnilateral: 'total' } } }, sets)
+    expect(r.ejecuciones).toEqual({ 1: 'lados', 3: 'lados', 4: 'lados' })
   })
 
   it('las series por lados aportan las reps de cada lado', () => {

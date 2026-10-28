@@ -56,7 +56,7 @@ export default function EjecucionEjercicio({ open, onClose, ejercicio, actual, o
         </div>
         <CamposAgarre ejercicio={ejercicio} valor={valor.agarre} disabled={ocupado} onChange={agarre => setValor(c => ({ ...c, agarre }))} />
         <label className="flex min-h-touch items-center gap-3 text-body-sm"><input type="checkbox" checked={habitual} disabled={ocupado} onChange={e => setHabitual(e.target.checked)} />Recordar para próximas sesiones</label>
-        {habitual && <p className="text-caption text-fg-muted">Las rutinas que tienen un agarre elegido conservarán ese agarre.</p>}
+        {habitual && <p className="text-caption text-fg-muted">Las rutinas con una ejecución o un agarre elegidos los conservarán.</p>}
         {error && <ErrorState>{error}</ErrorState>}
       </div>
     </Sheet>
