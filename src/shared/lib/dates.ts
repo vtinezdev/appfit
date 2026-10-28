@@ -83,6 +83,14 @@ export function formatDiaMes(ts: number): string {
   return `${d.getDate()} ${MESES_ABREV[d.getMonth()]}`
 }
 
+const DIAS_LARGOS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
+
+/** Rótulo del día en la cabecera de Inicio: «miércoles · 28 oct» (se muestra en mayúsculas). */
+export function formatRotuloDia(iso: string): string {
+  const d = parseISODate(iso)
+  return `${DIAS_LARGOS[d.getDay()]} · ${d.getDate()} ${MESES_ABREV[d.getMonth()]}`
+}
+
 /** Un momento concreto en una lista: «3 oct · 08:21» (historial de entrenos, sesiones de un ejercicio). */
 export function formatFechaHora(ts: number): string {
   const d = new Date(ts)

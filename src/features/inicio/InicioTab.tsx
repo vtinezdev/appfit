@@ -4,7 +4,7 @@ import PageHeader from '../../shared/components/PageHeader'
 import { LoadingState } from '../../shared/components/StateMessage'
 import { actualizarObjetivoHoy } from '../perfil/data/objetivosDiaRepo'
 import { objetivosDe } from '../perfil/data/objetivosDiaRepo'
-import { addDays, parseISODate, todayISO } from '../../shared/lib/dates'
+import { addDays, formatRotuloDia, todayISO } from '../../shared/lib/dates'
 import { useAviso } from '../../shared/hooks/useAviso'
 import * as entriesRepo from '../nutricion/data/entriesRepo'
 import { sumMacros } from '../nutricion/lib/nutrition'
@@ -83,7 +83,6 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
   const [tuPeriodoAbierto, setTuPeriodoAbierto] = useState(false)
 
   const tendencia = pesos ? tendenciaPeso(pesos, hoy) : null
-  const fechaLarga = parseISODate(hoy).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
 
   async function anadirAgua() {
     const fecha = todayISO()
@@ -156,8 +155,7 @@ export default function InicioTab({ onIrANutricion, onAnadirComida, onIrAGym, on
 
   return (
     <div className="inicio-layout space-y-section px-page pt-5">
-      <PageHeader overline={fechaLarga} title="Hoy" />
-      <AvisoActualizacion onRevisar={onRevisarActualizaciones} />
+      <PageHeader rotulo={formatRotuloDia(hoy)} title="Hoy" action={<AvisoActualizacion onRevisar={onRevisarActualizaciones} />} />
       {ayudaInicial}
       <AvisoBackup onExportar={onExportarCopia} onRevisarCuenta={onRevisarCuenta} />
       <AvisoAmigos onIrAAmigos={onIrAAmigos} onIrASocial={onIrASocial} />

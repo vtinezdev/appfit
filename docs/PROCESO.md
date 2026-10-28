@@ -3174,3 +3174,12 @@ Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real c
 - `Sheet` gana `subtitle`. La hoja Registrar/Planificar lo usa para el nombre y cambia la línea de macros por tres `Metric`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. `validar-recetas.cjs` (adaptado, con el vacío y la pestaña AppFit) correcto a 320/375/430 px en claro y oscuro. `validar-recetas-anadir.cjs` (adaptado a las pestañas) correcto en claro y oscuro.
+
+## 289. Retoques de la revisión, bloque A: cabecera de Inicio (2026-10-28)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor vio tres opciones en capturas y eligió la 1: la fecha y el estado de las actualizaciones dejan de ser líneas sueltas.
+
+- `PageHeader` gana `rotulo` (texto corto encima del título, `text-rotulo` `fg-muted`). Inicio lo usa para la fecha: `formatRotuloDia` en `shared/lib/dates` («miércoles · 28 oct», en mayúsculas por el estilo).
+- `AvisoActualizacion` pasa de fila a botón redondo de 44 px en la `action` de la cabecera: `check` al día, `download` con un punto de acento si hay actualización, `info` en lo demás. El texto queda en `aria-label` («Actualizaciones. App al día», el mismo que buscan los recorridos) y en `title`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Capturas en Chromium a 320/375/430 px en claro y oscuro: sin scroll horizontal y el botón a 44 × 44 px. Sin iPhone real.

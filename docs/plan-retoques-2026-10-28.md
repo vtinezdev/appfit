@@ -10,7 +10,7 @@ Fecha: 2026-10-28. Estado: **apuntado, sin empezar**. Rama: `claude/optimistic-p
 
 Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, explicaciones o textos de estado vacío que flotan sin pertenecer a nada). Si la explicación hace falta, va detrás de un botón de información (i) o dentro de la acción; si no, se quita.
 
-## Bloque A — Inicio
+## Bloque A — Inicio · **hecho** (opción 1, PROCESO §289)
 
 1. **El día** (la cabecera o tarjeta del día): se ve suelto. Rehacerlo para que esté integrado.
 2. **Actualizaciones / «App al día»**: se ve suelto. Integrarlo (o mostrarlo solo cuando haya algo que hacer).

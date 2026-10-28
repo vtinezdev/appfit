@@ -6,6 +6,8 @@ interface Props {
   title: string
   /** Contexto debajo del título (fecha, saludo…). */
   overline?: string
+  /** Rótulo corto encima del título, en mayúsculas (la fecha de Inicio). */
+  rotulo?: string
   /** Acción a la derecha (IconButton, Button ghost…). */
   action?: ReactNode
   /** Secciones anidadas (Cumbres desde Inicio, Referencias desde Ajustes…): «‹ Inicio» encima del título. */
@@ -18,7 +20,7 @@ interface Props {
 }
 
 /** Cabecera deportiva: título display y contexto. Una por pestaña. */
-export default function PageHeader({ title, overline, action, volver, incrustada = false }: Props) {
+export default function PageHeader({ title, overline, rotulo, action, volver, incrustada = false }: Props) {
   if (incrustada) return (
     <header className="flex min-h-touch flex-wrap items-center justify-between gap-3">
       <div className="min-w-0 flex-1">
@@ -34,6 +36,7 @@ export default function PageHeader({ title, overline, action, volver, incrustada
         <Button variant="ghost" size="sm" className="-ml-3" onClick={volver.onVolver}><Icon name="arrow-left" size={18} />{volver.etiqueta}</Button>
       </div>}
       <div className="page-header-main min-w-0 flex-1">
+        {rotulo && <p className="mb-1 text-rotulo text-fg-muted">{rotulo}</p>}
         <h1 className="break-words text-display text-fg">{title}</h1>
         {overline && <p className="mt-1 text-body-sm text-fg-muted first-letter:uppercase">{overline}</p>}
       </div>

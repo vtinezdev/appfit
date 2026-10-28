@@ -2,13 +2,16 @@ import Icon from './Icon'
 import { useActualizaciones } from '../pwa/useActualizaciones'
 import { textoActualizacion } from '../pwa/version'
 
-/** Estado pequeño y acceso a la explicación; no interrumpe lo que se esté registrando. */
+/**
+ * Estado de las actualizaciones como botón redondo en la cabecera de Inicio: ✓ al día, descarga con un punto de acento
+ * si hay una pendiente, «i» en lo demás. Abre la explicación; no interrumpe lo que se esté registrando.
+ */
 export default function AvisoActualizacion({ onRevisar }: { onRevisar: () => void }) {
   const estado = useActualizaciones()
-  return <button type="button" onClick={onRevisar} aria-label={`Actualizaciones. ${textoActualizacion(estado)}`}
-    className="app-button flex min-h-touch w-full items-center gap-2 rounded-md text-left text-caption text-fg-muted">
-    <Icon name={estado.hayActualizacion ? 'download' : estado.fase === 'al-dia' ? 'check' : 'info'} size={18} className="shrink-0" />
-    <span className="min-w-0 flex-1 break-words">{textoActualizacion(estado)}</span>
-    <Icon name="chevron-right" size={16} className="shrink-0" />
+  const texto = textoActualizacion(estado)
+  return <button type="button" onClick={onRevisar} aria-label={`Actualizaciones. ${texto}`} title={texto}
+    className="app-button relative inline-flex h-touch w-touch shrink-0 items-center justify-center rounded-pill border border-line/60 bg-surface text-fg-muted shadow-control hover:bg-surface-muted enabled:active:opacity-70">
+    <Icon name={estado.hayActualizacion ? 'download' : estado.fase === 'al-dia' ? 'check' : 'info'} size={20} />
+    {estado.hayActualizacion && <span aria-hidden className="absolute right-2 top-2 h-2.5 w-2.5 rounded-pill bg-accent ring-2 ring-surface" />}
   </button>
 }
