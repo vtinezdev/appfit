@@ -2,7 +2,7 @@
 // cómo se agrupan y qué hay que comprar. Las planificadas viven en su tabla (ADR 059) y no cuentan en nada hasta
 // «Lo he comido».
 import { claveRef, refDe } from '../../../shared/db/foodRef'
-import type { Comida, Planificada } from '../../../shared/db/types'
+import type { Comida, MealItem, Planificada } from '../../../shared/db/types'
 import { addDays, diasEntre, formatFriendly, parseISODate, startOfWeek } from '../../../shared/lib/dates'
 import { formatInt, formatNumber } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
@@ -94,21 +94,64 @@ export interface ArticuloCompra {
   gramos: number
   /** Cuántas veces sale en lo planificado. */
   veces: number
+  /** Recetas planificadas de las que sale como ingrediente (vacío si se planificó tal cual). */
+  recetas: string[]
+}
+
+/** Una fila para la lista: una planificada o un ingrediente de una receta planificada (`receta`, su nombre). */
+export type FilaCompra = Pick<Planificada, 'foodId' | 'catalogId' | 'nombre' | 'gramos' | 'rapida'> & { receta?: string }
+
+/** Lo que hace falta de una receta para comprar sus ingredientes: el lote entero y su peso cocinado. */
+export interface RecetaCompra {
+  nombre: string
+  ingredientes: readonly MealItem[]
+  pesoCocinadoG: number
+}
+
+/** El agua del grifo de una receta no se compra (las aguas embotelladas sí). */
+const AGUA_DEL_GRIFO = 'ciqual:18066'
+const esAguaDelGrifo = (i: Pick<MealItem, 'catalogId' | 'nombre'>) => i.catalogId === AGUA_DEL_GRIFO || normalizeName(i.nombre) === 'agua del grifo'
+
+const claveDe = (f: Pick<FilaCompra, 'foodId' | 'catalogId'>): string | undefined => {
+  try {
+    const ref = refDe(f)
+    return ref ? claveRef(ref) : undefined
+  } catch {
+    return undefined // Una fila que incumple el invariante de `foodRef` se trata por su nombre.
+  }
 }
 
 /**
- * La lista de la compra de unas planificadas: gramos sumados por alimento (por su referencia o, sin ella, por el nombre),
- * sin las «kcal rápidas» (no son un alimento) ni filas sin gramos. Ordenada por nombre.
+ * Cambia cada planificada que es una receta (`recetas`: clave de referencia → receta) por sus ingredientes en crudo,
+ * en proporción a lo planificado: gramos planificados / peso cocinado × gramos de cada ingrediente. Sin el agua del
+ * grifo. El resto de filas pasan tal cual.
  */
-export function listaCompra(filas: readonly Planificada[]): ArticuloCompra[] {
+export function expandirRecetas(filas: readonly FilaCompra[], recetas: ReadonlyMap<string, RecetaCompra>): FilaCompra[] {
+  return filas.flatMap((f) => {
+    const clave = f.rapida ? undefined : claveDe(f)
+    const receta = clave ? recetas.get(clave) : undefined
+    if (!receta || !(receta.pesoCocinadoG > 0) || !(f.gramos > 0)) return [f]
+    const factor = f.gramos / receta.pesoCocinadoG
+    return receta.ingredientes
+      .filter((i) => !i.rapida && !esAguaDelGrifo(i))
+      .map((i) => ({ ...(i.foodId !== undefined ? { foodId: i.foodId } : {}), ...(i.catalogId !== undefined ? { catalogId: i.catalogId } : {}), nombre: i.nombre, gramos: i.gramos * factor, receta: receta.nombre }))
+  })
+}
+
+/**
+ * La lista de la compra de unas planificadas (con las recetas ya cambiadas por sus ingredientes, ver
+ * `expandirRecetas`): gramos sumados por alimento (por su referencia o, sin ella, por el nombre), sin las «kcal
+ * rápidas» (no son un alimento) ni filas sin gramos. Ordenada por nombre.
+ */
+export function listaCompra(filas: readonly FilaCompra[]): ArticuloCompra[] {
   const porClave = new Map<string, ArticuloCompra>()
   for (const f of filas) {
     if (f.rapida || !(f.gramos > 0)) continue
-    const ref = refDe(f)
-    const clave = ref ? claveRef(ref) : `nombre:${normalizeName(f.nombre)}`
-    const a = porClave.get(clave) ?? { clave, nombre: f.nombre, gramos: 0, veces: 0 }
+    const clave = claveDe(f) ?? `nombre:${normalizeName(f.nombre)}`
+    const a = porClave.get(clave) ?? { clave, nombre: f.nombre, gramos: 0, veces: 0, recetas: [] }
     a.gramos += f.gramos
     a.veces += 1
+    if (f.receta && !a.recetas.includes(f.receta)) a.recetas.push(f.receta)
     porClave.set(clave, a)
   }
   return [...porClave.values()].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'))
@@ -141,8 +184,9 @@ export function alternarMarca(marcadas: readonly string[], clave: string): strin
   return marcadas.includes(clave) ? marcadas.filter((c) => c !== clave) : [...marcadas, clave]
 }
 
-/** Gramos para leer en la lista: «350 g» o, desde 1 kg, «1,2 kg». */
+/** Gramos para leer en la lista: «350 g», desde 1 kg «1,2 kg» y, por debajo de 1 g (una pizca de una receta), «menos de 1 g». */
 export function cantidadCompra(gramos: number): string {
+  if (gramos < 0.5) return 'menos de 1 g'
   return gramos >= 1000 ? `${formatNumber(gramos / 1000, 1)} kg` : `${formatInt(Math.round(gramos))} g`
 }
 

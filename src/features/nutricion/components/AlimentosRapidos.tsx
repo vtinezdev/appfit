@@ -5,6 +5,8 @@ import type { Comida } from '../../../shared/db/types'
 import { todayISO } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import * as foodsRepo from '../data/foodsRepo'
+import * as recetasRepo from '../data/recetasRepo'
+import { marcarRecetasPropias } from '../lib/recetas'
 import type { AlimentoElegible } from '../lib/alimentos'
 import { IconButton } from '../../../shared/components/Button'
 import { SearchInput } from '../../../shared/components/Input'
@@ -48,7 +50,10 @@ export default function AlimentosRapidos({ comida, onElegir, onEscanear, onCrear
   const nombreCategoria = categoria === 'sin' ? 'Sin categoría' : categoria
   const nombreOrden = ORDENES_BUSQUEDA.find((o) => o.valor === orden)!.label
   const hoy = todayISO()
-  const frecuentes = useLiveQuery(() => foodsRepo.frecuentes({ comida, hoy }), [comida, hoy])
+  const frecuentes = useLiveQuery(async () => {
+    const usados = await foodsRepo.frecuentes({ comida, hoy })
+    return marcarRecetasPropias(usados, await recetasRepo.porAlimentos(usados.flatMap((a) => (a.ref.tipo === 'user' ? [a.ref.id] : []))))
+  }, [comida, hoy])
 
   if (frecuentes === undefined) return <LoadingState>Cargando alimentos…</LoadingState>
 

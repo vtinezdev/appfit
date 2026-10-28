@@ -1,20 +1,27 @@
 # Sesión 12 — Qué hicimos y por qué
 
-Empezaste preguntando si seguía en la app la recomendación de lo que te falta para cumplir tus calorías y macros del día. Seguía: era el chip «Encajan con lo que te falta» de Buscar. Pero solo miraba proteína y calorías, y proponía cosas como «400 g de champiñones». Lo cambiamos en tres pasos, y ya está en la app.
+En esta sesión ampliamos mucho los alimentos, retocamos Entreno, cambiamos el menú de secciones y dimos más peso al Plan de Nutrición. Al final hablamos de las recetas y dejamos preparado un prototipo para la próxima sesión.
 
-## Qué notarás al añadir comida
+## Qué notarás
 
-- **Ahora está en Escribir**, la pestaña que se abre al pulsar Añadir comida, debajo de tus comidas típicas. Ya no está en Buscar.
-- **Mira los cuatro macros.** Nunca te propone algo que te pase de las calorías que te quedan, ni de los carbohidratos o la grasa (con un pequeño margen). Si ya vas pasado de grasa, solo te propone cosas que casi no tienen.
-- **Usa tus cantidades de siempre.** Cada alimento sale con la cantidad que sueles apuntar de él. Si no cabe, la reduce, pero nunca por debajo de media ración.
-- **Dos bloques:**
-  - **Con lo que sueles comer**, que no cambia: tus comidas típicas que encajan y combinaciones de dos de tus alimentos habituales, como pollo con arroz.
-  - **Otras opciones**, que cambian con **«Sugerir otras»**: ideas nuevas (atún, pavo, skyr, garbanzos…), solo de tipos de comida que ya apuntas, y alimentos tuyos sueltos.
-- **Del tamaño de una comida.** En la cena, o si te quedan 600 kcal o menos, la propuesta puede cubrir todo lo que te falta. Si no, como mucho la mitad (y nunca menos de 600 kcal), para que te quede para el resto del día. La frase de arriba lo dice.
-- **Al tocar una propuesta:** una comida típica se abre para revisarla, una combinación abre la revisión con los dos alimentos para que ajustes las cantidades, y un alimento suelto abre la hoja de gramos.
+- **Muchos más alimentos y platos al buscar.** Hay casi 2.000 platos y alimentos típicos de España. La mayoría se han calculado como recetas a partir de ingredientes de la tabla oficial francesa (CIQUAL). Unos pocos, como embutidos, quesos o productos de supermercado, llevan valores orientativos sacados de etiquetas y webs. Después se quitaron los que estaban repetidos.
+- **Entreno**:
+  - Al empezar una rutina, cada serie se rellena con la serie que le corresponde de la última vez, y no todas con la última.
+  - En un entreno pasado, los récords salen dentro de cada ejercicio.
+  - La imagen del entreno es vertical y enseña los ejercicios, la mejor serie y las medallas conseguidas.
+- **El menú de secciones** (botón de los cuatro puntos) es ahora una rejilla en lugar de la media luna, porque a 320 px quedaba demasiado alta.
+- **Nutrición**:
+  - Hay una pestaña **Plan** para planificar cualquier día con la lista de la compra de la semana.
+  - En Escribir, **«Encajan con lo que te falta»** propone combinaciones para cerrar el día sin pasarte de ningún macro. Cada propuesta tiene el tamaño de una comida.
+- **Pasos**: se pueden apuntar por semanas, y hay una tarjeta de Pasos en Inicio, al lado del agua.
+
+## Recetas: lo que decidiste
+
+Las recetas ya existen (Alimentos → Recetas), pero solo sirven para calcular kcal y macros. Quieres que también expliquen cómo se preparan y que se pueda llegar a ellas desde el menú de secciones y desde Nutrición. Decidiste empezar solo por **tus propias recetas** y, antes de construirlo de verdad, ver un **prototipo con unas cuantas recetas de prueba**. Con eso decidirás si sigue adelante. El plan está en `docs/plan-recetas-2026-10-26.md`, con el mensaje para abrir la próxima sesión.
 
 ## Lo que queda
 
-- Úsalo unos días con tus comidas reales y dime si el límite de 600 kcal, las ideas o el orden te encajan. Son números fáciles de cambiar.
-- Si ves parejas raras (en la prueba salían ideas con «Tostadas con aceite»), se pueden emparejar solo con alimentos de esa misma comida.
-- Falta probarlo en tu iPhone.
+- Prototipo de recetas (próxima sesión).
+- Algunos nombres de alimentos esperan a una actualización del catálogo francés.
+- Siguen pendientes las fotos de progreso y las expediciones de comunidad (de la sesión anterior).
+- Hay cosas que solo se pueden comprobar en tu iPhone. Están en el roadmap.

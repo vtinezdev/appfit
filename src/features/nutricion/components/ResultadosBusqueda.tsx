@@ -7,9 +7,11 @@ import { formatInt } from '../../../shared/lib/format'
 import { envioDisponible } from '../../cuenta/mensajes'
 import * as catalogRepo from '../data/catalogRepo'
 import * as foodsRepo from '../data/foodsRepo'
+import * as recetasRepo from '../data/recetasRepo'
 import { useBusquedaCatalogo } from '../hooks/useBusquedaCatalogo'
 import { elegibleDeFood, type AlimentoElegible } from '../lib/alimentos'
 import { ordenarElegibles, type OrdenBusqueda } from '../lib/ordenBusqueda'
+import { marcarRecetasPropias } from '../lib/recetas'
 import ListaElegibles from './ListaElegibles'
 import ProponerAlimentoSheet from './ProponerAlimentoSheet'
 
@@ -54,18 +56,26 @@ function NoEsta({ busqueda, onCrear, onProponer }: { busqueda: string; onCrear: 
 }
 
 /**
- * Resultados de buscar un alimento (funciona sin conexión): primero tus alimentos y después el catálogo, cada grupo en
- * su tarjeta, en el orden elegido y, al final, «¿No está?».
+ * Resultados de buscar un alimento (funciona sin conexión): las recetas (tuyas y del catálogo), tus alimentos y los del catálogo,
+ * cada grupo en su tarjeta, en el orden elegido y, al final, «¿No está?».
  */
 export default function ResultadosBusqueda({ busqueda, onElegir, frecuentes, categoria = 'todas', onCrear, orden = 'relevancia' }: Props) {
   const buscando = busqueda.trim() !== ''
-  const propios = useLiveQuery(async () => (buscando ? filtrarPorCategoria(await foodsRepo.buscar(busqueda), categoria).map(elegibleDeFood) : undefined), [busqueda, categoria])
+  const propios = useLiveQuery(async () => {
+    if (!buscando) return undefined
+    const foods = filtrarPorCategoria(await foodsRepo.buscar(busqueda), categoria)
+    return marcarRecetasPropias(foods.map(elegibleDeFood), await recetasRepo.porAlimentos(foods.map((f) => f.id)))
+  }, [busqueda, categoria])
   const enCatalogo = useLiveQuery(() => catalogRepo.contar(), [])
   const catalogo = useBusquedaCatalogo(busqueda, undefined, frecuentes, categoria)
   const [proponiendo, setProponiendo] = useState<string | null>(null)
 
   if (!buscando) return null
 
+  // Recetas (tuyas primero) en su propio grupo, para que no se confundan con los alimentos sueltos.
+  const recetas = [...(propios ?? []), ...catalogo.alimentos].filter((a) => a.receta)
+  const alimentosPropios = propios?.filter((a) => !a.receta) ?? []
+  const alimentosCatalogo = catalogo.alimentos.filter((a) => !a.receta)
   const listo = propios !== undefined && !catalogo.pendiente
   const total = (propios?.length ?? 0) + catalogo.alimentos.length
   const catalogoVacio = enCatalogo === 0
@@ -77,18 +87,25 @@ export default function ResultadosBusqueda({ busqueda, onElegir, frecuentes, cat
         {listo ? `${total} resultados` : ''}
       </p>
 
-      {propios && propios.length > 0 && (
+      {recetas.length > 0 && (
         <div className="space-y-2">
-          <TituloResultados texto="Tus alimentos" n={propios.length} />
-          <ListaElegibles alimentos={ordenarElegibles(propios, orden)} onElegir={onElegir} consulta={busqueda} />
+          <TituloResultados texto="Recetas" n={recetas.length} />
+          <ListaElegibles alimentos={ordenarElegibles(recetas, orden)} onElegir={onElegir} consulta={busqueda} />
         </div>
       )}
 
-      {catalogo.alimentos.length > 0 && (
+      {alimentosPropios.length > 0 && (
         <div className="space-y-2">
-          <TituloResultados texto="Catálogo" n={catalogo.alimentos.length} />
+          <TituloResultados texto="Tus alimentos" n={alimentosPropios.length} />
+          <ListaElegibles alimentos={ordenarElegibles(alimentosPropios, orden)} onElegir={onElegir} consulta={busqueda} />
+        </div>
+      )}
+
+      {alimentosCatalogo.length > 0 && (
+        <div className="space-y-2">
+          <TituloResultados texto="Catálogo" n={alimentosCatalogo.length} />
           {catalogo.corregida && <p className="text-caption text-fg-subtle">Resultados para «{catalogo.corregida}»</p>}
-          <ListaElegibles alimentos={ordenarElegibles(catalogo.alimentos, orden)} onElegir={onElegir} consulta={catalogo.corregida ?? busqueda} />
+          <ListaElegibles alimentos={ordenarElegibles(alimentosCatalogo, orden)} onElegir={onElegir} consulta={catalogo.corregida ?? busqueda} />
         </div>
       )}
 

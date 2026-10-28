@@ -1,6 +1,6 @@
 # Catálogo de alimentos: tubería offline
 
-Convierte fuentes públicas en paquetes JSON estáticos (`public/catalogo/`) que la app descarga sola. No forma parte del build ni de la app; se ejecuta a mano (Node 24, sin dependencias, type stripping). Criterio: **prefiero 3.000 alimentos fiables a 30.000 dudosos**. Nunca se inventa un valor nutricional: si no hay fuente fiable, el alimento no entra.
+Convierte fuentes públicas en paquetes JSON estáticos (`public/catalogo/`) que la app descarga sola. No forma parte del build ni de la app; se ejecuta a mano (Node 24, sin dependencias, type stripping). Criterio: **prefiero 3.000 alimentos fiables a 30.000 dudosos**. Nunca se inventa un valor nutricional: si no hay fuente, el alimento no entra. Excepción decidida por Víctor (2026-10-26): alimentos españoles sin fuente oficial accesible entran en `tipicos` con un valor típico AppFit estimado de varias etiquetas y webs, con las URL consultadas (ver `tipicos/LEEME.md`).
 
 ```
 raw/ (ignorado por git) ─► ciqual.ts / off.ts (E/S) ─► ciqualLib.ts / offLib.ts (puros: normalizar, categorizar, deduplicar)
@@ -16,7 +16,7 @@ Lo que hace la app con los paquetes (sincronización, búsqueda, ranking, errata
 | Fuente | Qué aporta | Licencia | Obtenida |
 |---|---|---|---|
 | **CIQUAL 2025** (ANSES) | 3.323 alimentos genéricos, por 100 g | Licence Ouverte Etalab 2.0 | archivos del 2025-11-03 (publicada el 2025-11-19) |
-| **Alimentos y platos AppFit** (`tipicos`) | Complementos genéricos y recetas calculadas desde CIQUAL | Etalab 2.0, CC0, OGL v3 y formulaciones MIT | paquete 2026-10-25, 285 filas |
+| **Alimentos y platos AppFit** (`tipicos`) | Complementos genéricos, recetas calculadas desde CIQUAL (con su formulación y, si está escrita, su preparación) y valores de referencia AppFit de alimentos españoles | Etalab 2.0, CC0, OGL v3 y formulaciones/valores/preparaciones AppFit MIT | paquete 2026-10-31, 1975 filas |
 | **Open Food Facts, selección España** (`offes`) | 3.000 productos de marca populares, por 100 g o 100 ml | **ODbL 1.0** (contenidos DbCL) | volcado del 2026-09-30 |
 
 Atribuciones (ya en `manifest.json`): «Fuente: ANSES, Table de composition nutritionnelle des aliments Ciqual 2025 (https://ciqual.anses.fr), Licence Ouverte Etalab 2.0. Nombres traducidos al español.» y «Contiene datos de Open Food Facts (openfoodfacts.org), disponibles bajo la Open Database License (ODbL)…». **`public/catalogo/offes-*.json` es ODbL aunque el código del repo sea MIT.**
@@ -106,6 +106,30 @@ alias desde Nutrición, también offline tras importar. Una ampliación del mism
 día con distinto número de filas fuerza la reimportación sin caché; los cambios
 de contenido que conserven el recuento deben publicarse con nueva versión.
 El buscador se refresca cuando termina la importación sin volver a escribir.
+
+### Recetas y preparaciones en el paquete
+
+`tipicos/preparaciones.json` añade a las recetas de `tipicos/recetas.json` cómo se
+cocinan, sin tocar sus formulaciones: una lista de
+`{ id, raciones, tiempoMin, pasos: string[], notas? }`, donde `id` es el de la
+receta. Límites iguales a los de las recetas propias de la app (raciones enteras
+1–50, tiempo 1–2.880 min, 1–40 pasos de ≤ 1.000 caracteres, notas ≤ 2.000; sin
+textos vacíos ni con espacios sobrantes, sin ids repetidos ni campos extra).
+Lógica pura en `preparacionesLib.ts`; `catalogo:validar` la ejecuta.
+`npm run catalogo:preparaciones` valida y escribe el listado legible
+`informes/preparaciones.md` (ingredientes del lote con nombre CIQUAL, valores por
+ración y pasos; avisa si el peso final supera la suma de ingredientes). Criterio
+de redacción: `tipicos/LEEME.md`.
+
+`catalogo:tipicos` publica cada receta en `extra.receta` de su fila (formato 2,
+campo opcional: una app antigua lo ignora): `{ peso, ing: [[idCIQUAL, gramos]…],
+raciones?, min?, pasos?, notas? }`, con la preparación solo si está escrita. Toda
+fila de receta lleva `nutrientes` (aunque sea `{}`), porque `extra` va detrás. La
+app la valida (`lib/catalogo/paquete.ts`, mismos límites) y la guarda en
+`CatalogFood.receta` con ingredientes `ciqual:<id>`. Con las 1.555 preparaciones el
+paquete pasa de unos 330 KB a 1.160 KB sin comprimir (de 77 a 271 KB con gzip); los
+valores por 100 g no cambian. Las filas no cambian al añadir pasos, así que cada
+tanda publica una versión nueva del paquete para que el móvil lo reimporte.
 
 Regresión de importación/búsqueda real: `scripts/integracion/tipicosBusqueda.test.ts`.
 Navegador aislado con una descarga demorada y búsquedas offline:

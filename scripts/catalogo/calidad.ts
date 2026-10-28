@@ -173,6 +173,12 @@ export function validarConjunto(alimentos: AlimentoCalidad[], tipo: TipoFuente):
 
 // ───────────────────────── Paquetes publicados ─────────────────────────
 
+/**
+ * Receta de una fila de típicos: peso final del lote, ingredientes `[idExterno CIQUAL, gramos]` y, si ya tiene
+ * preparación escrita (`tipicos/preparaciones.json`), raciones, tiempo (`min`), pasos y notas.
+ */
+export interface RecetaFila { peso: number; ing: [string, number][]; raciones?: number; min?: number; pasos?: string[]; notas?: string }
+
 /** Fila de un paquete de formato 2 (ver `ciqualLib.ts`), en la forma mínima que se necesita aquí. */
 export type FilaPaquete = [
   string,
@@ -184,7 +190,7 @@ export type FilaPaquete = [
   number,
   number,
   Partial<Record<ClaveExtra, number>>?,
-  { alias?: string[]; marca?: string; gtin?: string; ml?: 1; oculto?: 1; secundario?: 1 }?,
+  { alias?: string[]; marca?: string; gtin?: string; ml?: 1; oculto?: 1; secundario?: 1; receta?: RecetaFila }?,
 ]
 
 export interface PaqueteCalidad {

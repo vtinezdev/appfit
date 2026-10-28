@@ -22,7 +22,9 @@ Esta carpeta guarda un registro por sesión de trabajo. Cada vez que se cierra u
 - [`sesion-09/`](./sesion-09/) — Categoría obligatoria en cada alimento, con iconos propios por familia, filtro y revisión en Alimentos y reparto «Por categoría» en el Resumen (PR #36).
 - [`sesion-10/`](./sesion-10/) — Parte social: Social en la barra (feed, ánimos, comentarios, avisos) y Amigos en Más (perfil, seguir, bloquear, denunciar), publicar entrenos y actividades, cuenta sin copia y limpieza de espacio en Supabase (ADR 040).
 - [`sesion-11/`](./sesion-11/) — Plan de evolución: carril A completo salvo A15 (espera el piloto de A14) y carril B de B9 a B16 (módulos, Progreso, metas, calendario, tu mes, comidas planificadas); queda B17, pendiente de la decisión D13.
-- [`sesion-12/`](./sesion-12/) — «Encajan con lo que te falta» pasa a Escribir y propone con los cuatro macros: raciones habituales, típicas y combinaciones estables, ideas nuevas con «Sugerir otras» y propuestas del tamaño de una comida (PR #169).
+- [`sesion-12/`](./sesion-12/) — Catálogo de típicos (1.972 filas), rutinas precargadas serie a serie, rejilla de secciones, Plan con lista de la compra, «Encajan con lo que te falta» y pasos por semana; plan del prototipo de recetas.
+- [`sesion-13/`](./sesion-13/) — Prototipo de recetas con preparación (rama `feat/recetas-prototipo`, sin fusionar), decisiones de Víctor y handoff del recetario del catálogo con pasos por tandas.
+- [`sesion-14/`](./sesion-14/) — «Encajan con lo que te falta» pasa a Escribir y propone con los cuatro macros: raciones habituales, típicas y combinaciones estables, ideas nuevas con «Sugerir otras» y propuestas del tamaño de una comida (PR #169). Se cerró en otra rama a la vez que la 12 y la 13; al juntarlas pasó a ser la 14.
 
 ## Convención para cerrar una sesión («cierra la sesión»)
 

@@ -2681,7 +2681,319 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` (2.844) y `npm run build` correctos, con tests de `paraUnaPropuesta` y de una propuesta a mediodía frente a la cena. Chromium en `appfit-test.localhost:5173` a 375 px: en la comida, con 1.020 kcal por delante, todas las propuestas quedan en 600 kcal o menos.
 
-## 246. Mejoras de la app, bloque 1: hojas en iPhone y regla de textos de ayuda (2026-10-26)
+## 246. Típicos españoles añadidos a mano (2026-10-26)
+
+**Qué:** Víctor quiere más alimentos y platos en Nutrición; las fuentes con licencia abierta ya están aprovechadas, así que pide ampliar a mano con lo típico de España y fusionar duplicados después. Se añaden 110 platos al paquete `tipicos` (285 → 395 filas, versión 2026-10-26): cuchara, arroces, huevos, carnes, pescados, ensaladas, tapas y bocadillos, salsas, dulces y bebidas.
+
+**Cómo:** sin inventar valores. Cada plato es una receta AppFit (ingredientes CIQUAL en gramos netos y peso final estimado) que la tubería convierte en nutrientes, como las 61 recetas anteriores. `tipicosLib.calcularReceta` admite ahora cualquier categoría AppFit (antes solo «Platos preparados») e ingredientes en conserva, envasados o fiambres; los ya cocinados siguen bloqueados. Tests nuevos en `tipicosLib.test.ts` y nueve búsquedas más en `scripts/integracion/tipicosBusqueda.test.ts`. Detalle, sustituciones y límites en `scripts/catalogo/tipicos/LEEME.md`; lista revisable en `scripts/catalogo/informes/tipicos-espanoles-2026-10-26.csv`.
+
+**Verificación:** `catalogo:tipicos`, `catalogo:validar`, `npm run test` y `npm run build` correctos. Las formulaciones no se han contrastado con pesadas reales ni con recetas concretas. Pendiente: la fusión de duplicados con CIQUAL/OFF que Víctor ha anunciado.
+
+**Segunda tanda (mismo día):** Víctor pide seguir ampliando. 129 recetas más con el mismo método (395 → 524 filas): cuchara, arroces y pasta, huevos, carnes, pescados, tapas y bocadillos, verduras, salsas, postres y bebidas. Seis búsquedas más en la regresión. Sin cambios de código. Detalle en `tipicos/LEEME.md` § Segunda tanda.
+
+**Tercera tanda y alimentos sueltos (mismo día):** Víctor pide seguir y añadir alimentos sueltos. 75 recetas más (31 básicos a la española con aceite de oliva, como huevo frito o pechuga a la plancha, y 44 platos) y 38 alimentos sueltos (embutidos, cortes ibéricos, quesos españoles, panes, aperitivos, horchata) con una fuente nueva `AppFit`: el entorno no llega a USDA/CoFID/CIQUAL y BEDCA no permite reproducir su tabla, así que Víctor acepta valores no oficiales. Son valores típicos estimados de varias etiquetas y webs (búsqueda web), con las URL en `directos.csv`; `leerDirectos` acepta `AppFit` solo con `fuentes=` y el validador exige coherencia energética. Referencias en la app avisa de que son orientativos. 524 → 637 filas. Después, 30 alimentos sueltos más por la misma vía (embutidos, quesos, conservas de mar, dulces navideños y bollería envasados, snacks): 637 → 667 filas. Y 24 más (frutos secos, dulces, conservas de mar y envasados): 667 → 691. Después, 20 alimentos comunes que faltaban en CIQUAL (proteína en polvo y productos proteicos, carne de supermercado, gulas, cacao soluble, isotónica, ñoquis, atún en aceite de oliva, crema de verduras): 691 → 711. Y 20 comunes más (verduras y setas de temporada, paraguayo, pescados de lonja, cabrito, magret, té frío, salsa rosa, digestive, gusanitos, queso rallado, pan de espelta, piparras, choricero): 711 → 731. La búsqueda web llegó al límite de la sesión a mitad de tanda y se completó al restablecerse; no se tomaron valores de webs que reproducen BEDCA. Sexta tanda: 19 huecos reales tras contrastar una lista amplia con CIQUAL (muchos «faltantes» son solo de nombre y esperan los alias es3): 731 → 750. Y 43 recetas más (menú del día, internacionales habituales, desayunos y recetas de gimnasio, postres): 750 → 793.
+
+
+**Diez tandas más (mismo día):** Víctor pide «como 10 veces» más. 793 → 1.027 filas: 30 platos caseros, 30 bocadillos, tostadas y meriendas, 28 tapas y raciones, 30 cenas ligeras, verduras y ensaladas, 23 postres y repostería, 24 platos internacionales habituales, 25 bebidas, cafés y cócteles y 19 recetas de gimnasio y táper (todas recetas CIQUAL), más 16 sueltos de supermercado y 9 quesos y embutidos regionales con fuente `AppFit` (URLs en notas). Se descartan los que ya estaban o trae CIQUAL (fumet de pescado, rulo de cabra, brownie, crepes, perrito caliente…) y los quesos sin valores fiables fuera de tablas derivadas de BEDCA. Ocho búsquedas más en la regresión (pinchos morunos, bravioli, vichyssoise, banana bread, tres delicias, kebab, colacao, galletas María). Sin cambios de código. `npm run test` (2.832), `npm run build` y `catalogo:validar` correctos tras cada tanda.
+
+**Otras diez tandas (mismo día):** Víctor pide otras diez. 1.027 → 1.194 filas: 25 platos regionales, 21 desayunos y meriendas, 21 pescados y mariscos, 21 carnes, 20 arroces y pastas, 17 vegetarianos y veganos, 14 de comida rápida casera y 13 dulces festivos y regionales (recetas CIQUAL), más 9 sueltos de supermercado y 6 de mercado con fuente `AppFit`. Descartados por estar ya en CIQUAL (cardo, fumet, chuleta de cordero a la plancha, seitán, tempeh, salsa teriyaki…), por falta de un ingrediente fiel (bocadillo de salchichón: el de CIQUAL es cocido) o por falta de valores completos (gelatina sin azúcar, carabinero, quisquilla, pichón, ñora). Ocho búsquedas más en la regresión. Sin cambios de código. `npm run test`, `npm run build` y `catalogo:validar` correctos tras cada tanda.
+
+**Tandas 21 a 30 (mismo día):** Víctor pide otras diez. 1.194 → 1.347 filas, todas recetas CIQUAL: 18 cucharas, sopas y cremas, 16 platos de huevo, 15 ensaladas y entrantes fríos, 17 guarniciones, 14 salsas caseras, 15 platos latinoamericanos, 16 postres de fruta y helados, 13 de dieta blanda y purés infantiles, 15 de brasa y barbacoa y 14 snacks caseros. Corrección: la pizza barbacoa usa ahora la «Salsa barbecue» de CIQUAL; los sueltos AppFit «Salsa barbacoa» y «Salsa César» quedan como candidatos a fusionar con las de CIQUAL. Ocho búsquedas más en la regresión. Sin cambios de código. `npm run test`, `npm run build` y `catalogo:validar` correctos tras cada tanda.
+
+**Tandas 31 a 50 (mismo día):** Víctor pide otras diez y, al terminar, otras diez más. 1.347 → 1.604 filas: cocina asiática (18), mediterránea, italiana y de Oriente Medio (19), bocadillos y wraps (16), tapas (15), caza y carnes de fiesta (13), panes y bollería (13), pescados (16), postres y tartas (12), bebidas y cócteles (15), tápers y recetas fit (14), verduras rellenas y gratinados (12), arroces (11), legumbres (10), sopas y cremas (11), ensaladas (12), comida infantil (10), platos regionales (14), dulces tradicionales (7) y platos combinados (12), todas recetas CIQUAL, más 7 platos envasados con fuente `AppFit`. Descartados el confit de pato (sin dato de grasa absorbida), las alcachofas en aceite (sin valores) y lo que ya trae CIQUAL (ossobuco, bourguignon, merengue, crema quemada). Ocho búsquedas más en la regresión. Sin cambios de código. `npm run test`, `npm run build` y `catalogo:validar` correctos tras cada tanda.
+
+**Tandas 51 a 100 (mismo día):** Víctor pide otras 50. 1.604 → 1.999 filas (395 recetas CIQUAL nuevas): carnes, pescados y mariscos, huevos, verduras, patatas, pastas, arroces, legumbres, sopas, ensaladas, bocadillos y tostas, desayunos, bollería, postres, galletas, dulces de fruta, bebidas, salsas, aperitivos, cocinas extranjeras (mexicana, italiana, asiática, india y árabe, francesa, estadounidense), vegetariano, vegano, alto en proteína, bajo en hidratos, infantil, Navidad, Semana Santa, verano y cocina regional. El peso final de estas tandas se calcula con un factor de cocción sobre la suma de ingredientes. Incidencia: desde la tanda 80 la construcción quedó bloqueada por un nombre sin estado válido («…, tostadas») y el script de tandas no lo detectó, así que esas tandas confirmaron `recetas.json` sin regenerar el paquete (los tests pasaban contra el paquete anterior). Se corrige el nombre, se sustituye el anacardo tostado (ingrediente cocinado) por almendra cruda en la pasta con crema y se regenera el paquete con las 21 tandas pendientes. Duplicados detectados para la fusión: baklava (CIQUAL ya lo trae). Siete búsquedas más en la regresión. Sin cambios de código.
+
+## 247. Fusión de duplicados del catálogo de típicos (2026-10-26)
+
+**Qué:** Víctor pide fusionar los duplicados que dejaron las tandas manuales. 1.999 → 1.972 filas: 11 platos repetidos dentro de típicos se quedan en una sola fila (la de fuente oficial CoFID o la más antigua) con el nombre de la eliminada como alias, y 16 estimaciones AppFit que CIQUAL ya cubre se quitan. Casero y envasado, estados y variantes (con o sin azúcar, entero o desnatado, integral) se conservan. La salsa barbacoa AppFit pasa a «Salsa barbacoa envasada».
+
+**Cómo:** detector de casi duplicados ad hoc (nombre normalizado sin estados ni palabras vacías, similitud ≥ 0,6, mismo estado) y revisión manual de cada par; criterio y lista en `scripts/catalogo/tipicos/LEEME.md` § Fusión de duplicados. Ninguna fila eliminada estaba publicada en `master` (paquete 2026-10-25), así que se quitan en lugar de ocultarse; la construcción se comprobó contra ese paquete publicado. Dos búsquedas más en la regresión («sopa juliana», «pollo cacciatora»). Sin cambios de código.
+
+**Verificación:** `catalogo:tipicos`, `catalogo:validar`, `npm run test` y `npm run build` correctos. Pendiente: los alias que necesitan filas de CIQUAL («salsa barbacoa» → «Salsa barbecue», «salsa César» → «Salsa Cásar») esperan a reconstruir CIQUAL es3.
+
+## 248. Plan de recetas con preparación (2026-10-26)
+
+**Qué:** Víctor propone una sección de recetas con lo que aportan (kcal y macros) y cómo se preparan, accesible desde la rejilla de secciones y desde Nutrición. Las recetas ya existen como calculadora (ADR 022). Decide empezar solo por las recetas propias y hacer primero un prototipo con recetas de prueba antes de decidir si se implementa.
+
+**Cómo:** sin código. Plan en `docs/plan-recetas-2026-10-26.md`: fase 1 con un prototipo en una rama sin fusionar (campos opcionales `raciones`, `pasos`, `tiempoMin` y `notas`; ficha de lectura; destino en la rejilla; cuatro recetas de prueba con capturas), decisiones para Víctor y fase 2 si la aprueba. Entrada en `roadmap.md` § Ideas sin empezar. Cierre de la sesión 12 en `docs/progreso/sesion-12/`.
+
+**Verificación:** solo documentación; `npm run test` y `npm run build` correctos.
+
+## 249. Prototipo de recetas con preparación (2026-10-27)
+
+**Qué:** fase 1 del plan de recetas en la rama `feat/recetas-prototipo`, sin fusionar.
+- Campos opcionales `raciones`, `pasos`, `tiempoMin` y `notas` en `Receta`, sin versión nueva de Dexie (mismo criterio que el ADR 022).
+- Lógica por ración y escalado de ingredientes en `lib/recetas.ts`.
+- Sección Preparación en el editor y ficha de lectura `FichaReceta` con Registrar y Planificar.
+- Destino `recetas` en la rejilla (8 secciones, dos filas de 4) y acceso desde la cabecera de Nutrición.
+- Cuatro recetas de prueba en `scripts/ui/validar-recetas.cjs`.
+
+Víctor ve las capturas y aprueba seguir, con estas decisiones:
+- una sola pantalla Recetas, a la que se llega por la rejilla y por Nutrición;
+- lo que aporta, por ración y por 100 g;
+- registrar una ración estándar con gramos editables;
+- lista de la compra con los ingredientes en proporción a lo planificado.
+
+Además amplía el alcance a un recetario con las 1.552 recetas del catálogo de típicos, con pasos escritos con texto propio por tandas de ~100. La siguiente sesión la hará con Sonnet.
+
+**Cómo:** inventario y decisiones en `docs/plan-recetas-2026-10-26.md` (§ Qué quedó hecho en la fase 1, § Decisiones y § Handoff, etapas 1–4). Los 357 ingredientes del recetario ya están en el paquete CIQUAL del móvil. El plan de la sesión 12 solo estaba en su rama de sesión: se trae a esta con su commit. Los documentos vivos se actualizarán en la etapa 3, al cerrar la implementación. Cierre de la sesión 13 en `docs/progreso/sesion-13/`.
+
+**Verificación:** `npm run test` (2.941) y `npm run build` correctos. `validar-recetas.cjs` correcto a 320/375/430 en claro y oscuro: overflow, 44 px, inputs de 16 px y la entrada registrada (120 g, 217 kcal). Sin probar: el teclado del iPhone en los pasos y el texto al 200 %.
+
+## 250. Preparaciones del recetario: formato y tandas 1–4 (2026-10-27)
+
+**Qué:** etapa 1 del plan de recetas, en la rama `feat/recetas-prototipo`, sin fusionar. Formato `scripts/catalogo/tipicos/preparaciones.json` (`{ id, raciones, tiempoMin, pasos, notas? }`, separado de `recetas.json`), su validación y 400 recetas del catálogo de típicos con pasos de texto propio: las tandas 1 y 2 (Víctor las vio en la ficha del prototipo con tres recetas sembradas en `appfit-test.localhost` y pidió seguir) y las tandas 3 y 4, los 200 platos preparados siguientes en el orden de `recetas.json`.
+
+**Cómo:** `preparacionesLib.ts` (validación y listado Markdown, lógica pura con tests) y `preparaciones.ts` (`npm run catalogo:preparaciones` → `informes/preparaciones.md`). `catalogo:validar` incluye las preparaciones. Los límites coinciden con los de `nutricion/lib/recetas.ts`; lo comprueba `scripts/integracion/preparacionesLimites.test.ts`, fuera de `scripts/catalogo` porque el typecheck `nodenext` de los scripts no admite los imports sin extensión de la app. Criterios de redacción en `tipicos/LEEME.md` § Preparaciones. El listado avisa de cuatro recetas con peso final mayor que la suma de ingredientes (paisana, salmorejo, tarta de Santiago, ajoblanco), que se dejan para Víctor sin tocar `recetas.json`.
+
+**Verificación:** `npm run test` y `npm run build` correctos; `catalogo:validar` OK con 400 preparaciones. Pendiente: las preguntas abiertas del plan (pesos finales y cifras de los pasos frente al selector de raciones).
+
+Después, Víctor plantea que al añadir comida no se distingue una receta de un alimento suelto y que querría ver y cambiar los ingredientes de una receta. Decide (plan § Decisiones, segunda ronda, 8–13): recetas marcadas en Buscar, hoja de receta al elegirla, versión normal con pasos fijos para sus cantidades, y cambios que preguntan entre «Solo esta vez» y «Guardar como variante». Las variantes solo se eligen dentro de la hoja de la receta. Queda como etapa 2b, sin código todavía.
+
+## 251. Recetas al añadir comida y variantes (2026-10-27)
+
+**Qué:** etapa 2b del plan de recetas (decisiones 8–13) y la parte de datos de la etapa 2, en la rama `feat/recetas-prototipo`.
+- Las 1.552 recetas de típicos viajan en el paquete con su formulación y, las 400 escritas, con su preparación.
+- Buscar distingue recetas de alimentos.
+- Elegir una receta abre su hoja (normal o variantes, raciones y gramos, ingredientes).
+- «Cambiar ingredientes» pregunta al guardar entre «Solo esta vez» y «Guardar como variante».
+
+**Cómo:**
+- Paquete: `extra.receta` (`tipicosLib.calcularReceta` con la preparación; validado en `lib/catalogo/paquete.ts`), sin versión de Dexie porque es un campo opcional de `catalogFoods`.
+- Variantes: tabla nueva `variantesReceta` (Dexie v15, test de migración, `TABLAS_USUARIO` y backup opcional).
+- Lógica pura en `lib/variantes.ts`; UI en `HojaReceta`, `PreguntaVariante` y `AnadirComida`.
+- Una variante (y «Solo esta vez») se registra como un plato con sus ingredientes; la normal, como un alimento. Así no se crean alimentos ocultos.
+- Detalle en `docs/features/nutricion.md`, `docs/datos.md` (invariante 20) y el plan (§ Etapa 2b, Hecho).
+
+**Verificación:** `npm run test` y `npm run build` correctos. `validar-recetas-anadir.cjs` correcto a 320/375/430 en claro y oscuro: grupos en Buscar, hoja, variante «Sin chorizo» guardada, registrada y elegible otra vez, y receta propia registrada; sin scroll horizontal, controles de 44 px e inputs de 16 px. Sin probar en el iPhone.
+
+## 252. Recetario en la pantalla Recetas y reimportación del catálogo (2026-10-27)
+
+**Qué:** tras fusionar la PR de recetas, Víctor vio en el móvil «Lentejas con calabaza» como un alimento normal y la pantalla Recetas vacía. Se arreglan las dos cosas: el catálogo se reimporta cuando una app anterior lo importó sin las recetas, y la pantalla Recetas enseña el recetario AppFit (1.552 recetas, 400 con pasos) debajo de las tuyas. Además, el arroz al horno se encuentra también como «arroz al horno valenciano».
+
+**Cómo:**
+- La sincronización solo comparaba versión y filas. Tras el despliegue, la app vieja (con el Service Worker anterior) descargó el paquete 2026-10-27, ignoró `extra.receta` (las claves desconocidas se ignoran por compatibilidad) y lo dio por instalado; la app nueva lo veía al día.
+- Ahora `CatalogSource.lectura` (opcional, sin versión de Dexie: el catálogo no va en el backup) guarda qué sabía leer la app que importó cada fuente, y `sincronizar` reimporta si es menor que `LECTURA_CATALOGO` (2). Cualquier campo nuevo del paquete que la app aprenda a leer sube ese número.
+- `RecetarioAppFit` y `FichaReceta`, ahora para recetas propias y del catálogo. El paquete de típicos pasa a 2026-10-28 por el alias nuevo.
+- Detalle en `docs/features/nutricion.md` y el plan.
+
+**Verificación:** `npm run test` y `npm run build` correctos. `validar-recetas-anadir.cjs` (ahora también recetario y ficha de solo lectura) y `validar-recetas.cjs` correctos en claro y oscuro. La comprobación final de la receta propia mira la entrada guardada en lugar del texto del diario, que a veces no estaba en pantalla.
+
+## 253. Recetas también al escribir la comida (2026-10-27)
+
+**Qué:** Víctor escribía «arroz al horno» en Escribir y la revisión lo trataba como un alimento suelto, mientras que en Buscar se abría su hoja de receta. Ahora:
+- una sola receta escrita abre su hoja directamente;
+- con más alimentos, la fila de la receta se marca y abre la misma hoja, y lo elegido sustituye a la fila (la receta con sus gramos, una variante o sus ingredientes);
+- sin cantidad, una receta escrita empieza con una ración.
+
+**Cómo:** `OrigenItem.receta` (lo pone `itemDesdeElegible`; el intérprete marca también las recetas propias) y `recetaDeItem` en `lib/alimentos.ts`; `ItemRevisionRow` con `onAbrirReceta`; `HojaReceta` con `gramosIniciales` y `onQuitar`; `AnadirComida` (`sustituirFila`, `abrirRecetaDeFila`). Detalle en `docs/features/nutricion.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos; `validar-recetas-anadir.cjs` con los dos casos de Escribir a 320 y 375 px, en claro y oscuro.
+
+## 254. Pastissets (2026-10-27)
+
+**Qué:** Víctor pide los pastissets, dulce típico catalán, en sus sabores habituales. Se añaden tres recetas al catálogo de típicos, con sus pasos: «Pastissets sin relleno», «de cabello de ángel» y «de chocolate» (24 por lote, una ración es un pastisset). Se encuentran también por «pastissets de Tortosa», «de cabell d'àngel» y «de xocolata».
+
+**Cómo:** entradas en `tipicos/recetas.json` (masa común de harina, aceite de oliva, anís y azúcar; criterio AppFit, sin transcribir cantidades de ninguna fuente) y pasos propios en `tipicos/preparaciones.json`. CIQUAL no tiene cabello de ángel: se calcula como calabaza espagueti cocida con azúcar y canela. El paquete sigue siendo 2026-10-28; pasa de 1972 a 1975 filas, y el cambio de filas basta para que el móvil lo reimporte.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 255. Recetas: tanda 5 de preparaciones (2026-10-27)
+
+**Qué:** Víctor confirma que todo va bien y pide seguir con las tandas. Se escriben los pasos de los 100 platos preparados siguientes en el orden de `recetas.json`. Son platos asiáticos, mexicanos y de otras cocinas, tápers de comida preparada, regionales (empedrat, esqueixada, berza jerezana, all i pebre…), guisos de carne y pescado, arroces y pasta. En total hay 503 recetas con pasos.
+
+**Cómo:**
+- Texto propio en `tipicos/preparaciones.json`, con los criterios de `tipicos/LEEME.md` § Preparaciones. Las notas avisan del bacalao desalado, el aceite retenido al freír, los acompañamientos que no están incluidos y el pescado crudo congelado antes.
+- Añadir pasos no cambia el número de filas. Por eso el paquete pasa a la versión 2026-10-29, para que el móvil lo reimporte.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 256. Recetas: tanda 6 de preparaciones (2026-10-27)
+
+**Qué:** se escriben los pasos de los 100 platos preparados siguientes. En total hay 603 recetas con pasos. Entran:
+- platos vegetarianos y veganos (hamburguesas de legumbres, curry de lentejas, berenjenas a la parmesana…) y pizzas caseras;
+- guisos y legumbres (garbanzos con callos, olla podrida, marmitako de salmón…), cremas y sopas, ensaladas y entrantes;
+- cocina latinoamericana (empanadas, lomo saltado, ají de gallina, pupusas…) y asiática (ramen, bibimbap, curry japonés, biryani, pho…);
+- platos de dieta blanda y triturados infantiles.
+
+**Cómo:**
+- Texto propio en `tipicos/preparaciones.json`, con los criterios de siempre.
+- Las notas dicen qué ingrediente clásico no está en la formulación (ají amarillo, pasta de curry, dashi) y cómo se aproxima.
+- Los triturados infantiles no llevan sal. Los patés y el hummus van por ración untable.
+- El paquete pasa a la versión 2026-10-30 para que el móvil lo reimporte.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 257. Recetas: tanda 7 de preparaciones (2026-10-27)
+
+**Qué:** pasos de los 100 platos preparados siguientes. En total hay 703 recetas con pasos. Entran:
+- cocina italiana, griega y de Oriente Medio (coq au vin, arancini, caponata, spanakopita, mjadara, harira…);
+- croquetas y tapas;
+- pescados en salsa y bacalaos (a la riojana, Gomes de Sá, dorado);
+- tápers, verduras rellenas, arroces, legumbres, cremas, ensaladas y platos combinados.
+
+Víctor pide no fusionar hasta terminar todas las tandas. Desde esta tanda van juntas en la rama `feat/recetas-tandas`.
+
+**Cómo:** igual que la tanda 6. El paquete sigue en la versión 2026-10-30, que aún no está publicada.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 258. Recetas: tanda 8 de preparaciones (2026-10-27)
+
+**Qué:** pasos de los 100 platos preparados siguientes. En total hay 803 recetas con pasos. Entran:
+- regionales (mojete, alboronía, garbanzada canaria, pochas, raxo, frit mallorquín, sorropotún, mar i muntanya);
+- platos combinados de bar;
+- guisos de pollo, cerdo, ternera, conejo y cordero, y pescados al horno;
+- patatas guisadas, pasta, arroces, legumbres, sopas, ensaladas y tex-mex.
+
+En los platos combinados, la formulación no lleva sal y las notas lo dicen.
+
+**Cómo:** igual que las tandas anteriores, en la rama `feat/recetas-tandas`.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 259. Recetas: tanda 9 de preparaciones (2026-10-27)
+
+**Qué:** pasos de los 84 platos preparados que faltaban. Con esta tanda, todos los «Platos preparados» del catálogo tienen pasos: 887 recetas en total. Entran:
+- risottos y pizzas;
+- cocina asiática, india y marroquí, y platos anglosajones (fish and chips, shepherd's pie, clam chowder);
+- vegetarianos y triturados infantiles;
+- regionales (tortillitas de bacalao, soldaditos de Pavía, gurullos, pitu de caleya, cocido lebaniego, olleta, arroz brut, puchero canario, tiznao…).
+
+**Cómo:** igual que las tandas anteriores, en la rama `feat/recetas-tandas`.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 260. Recetas: tanda 10 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas de las categorías Carnes, Pescados y Mariscos. En total hay 987 recetas con pasos. Entran:
+- piezas a la plancha con aceite de oliva;
+- brasas y parrilladas, asados, escabeches;
+- frituras (calamares a la andaluza, gambas a la gabardina, pijotas…);
+- guisos de pollo, cerdo, cordero, caza y pescado.
+
+**Cómo:**
+- Las piezas sueltas a la plancha (150 g con 5 g de aceite) comparten una plantilla de pasos.
+- Las notas dicen cuándo los gramos son con hueso o con concha. En los escabeches avisan de que parte del aceite queda en el líquido.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 261. Recetas: tanda 11 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas más: el resto de carnes, pescados y mariscos, los huevos y tortillas, y casi todas las verduras y patatas. En total hay 1.087 recetas con pasos.
+
+**Cómo:** igual que la tanda 10.
+- Las piezas sueltas tienen una ración de lo que pesan (un huevo, una pieza a la plancha).
+- La cebolla caramelizada y los chips van por ración de acompañamiento.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 262. Recetas: tanda 12 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas más. En total hay 1.187 recetas con pasos. Entran:
+- dulces navideños y conventuales (polvorones, turrones, mazapán, yemas, huesos de santo, panellets);
+- flanes, natillas, mousses y helados caseros;
+- yogures y fruta preparada;
+- salsas caseras (vizcaína, almendras, chimichurri, tzatziki, picada…);
+- las últimas verduras y guarniciones.
+
+**Cómo:**
+- Los dulces van por pieza (unos 25 g) y las salsas, por cucharada o uso.
+- Los flanes avisan si el caramelo del molde no está en la formulación, y los postres con huevo crudo lo dicen.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 263. Recetas: tanda 13 de preparaciones (2026-10-27)
+
+**Qué:** pasos de 100 recetas de bollería, galletas y pasteles. En total hay 1.287 recetas con pasos. Entran:
+- dulces de sartén (rosquillas, pestiños, buñuelos, porras, torrijas, orejas, flores);
+- roscón, ensaimada y bollos de levadura;
+- tartas frías y horneadas, bizcochos y galletas;
+- dulces regionales (sobaos, quesada, carbayones, casadielles, piononos, miguelitos, fartons, flaó).
+
+**Cómo:**
+- Los bizcochos de batido comparten una plantilla de pasos.
+- Las raciones son por pieza o por porción de tarta.
+- En los dulces fritos, las notas avisan del aceite que se queda en la masa.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 264. Recetas: tanda 14 de preparaciones (2026-10-27)
+
+**Qué:** pasos de las 82 recetas que quedaban fuera de pan y bebidas. En total hay 1.369 recetas con pasos. Entran:
+- desayunos de avena y cereales;
+- salsas y dips;
+- snacks y papillas;
+- las últimas recetas sueltas de cada categoría (migas de harina, carne mechada, lomo en manteca, pantxineta, coca de patata, perrunillas…).
+
+**Cómo:** igual que las tandas anteriores.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 265. Recetas: tanda 15 de preparaciones (2026-10-27)
+
+**Qué:** pasos de las 93 recetas de «Pan y tostadas»: tostadas, bocadillos, sándwiches, tostas y montaditos, wraps, hamburguesas y panes caseros (focaccia, naan, grisines, bollos preñados). En total hay 1.462 recetas con pasos. Solo faltan las bebidas.
+
+**Cómo:** pasos cortos, una ración por unidad. Los que usan una elaboración previa lo dicen en las notas (pulpo cocido, bacalao desalado, cerdo desmechado, carnes del puchero).
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos. `npm run test` y `npm run build` correctos.
+
+## 266. Recetas: tanda 16, el recetario completo (2026-10-27)
+
+**Qué:** pasos de las 93 bebidas: cafés, batidos y smoothies, zumos, combinados y cócteles, y bebidas calientes. Con esta tanda, **las 1.555 recetas del catálogo de típicos tienen preparación**.
+
+**Cómo:**
+- Los combinados de vaso largo comparten una plantilla.
+- El hielo no cuenta en el peso, salvo en el frappé, el café con hielo y la caipiroska, cuya formulación lo incluye como agua.
+- Las bebidas con clara o yema crudas lo avisan.
+
+**Verificación:** `npm run catalogo:validar` sin problemas; el listado de preparaciones solo conserva los cuatro avisos de peso ya conocidos y ninguna receta de `recetas.json` queda sin preparación. `npm run test` y `npm run build` correctos.
+
+## 267. Recetas: «Copiar a mis recetas» (2026-10-27)
+
+**Qué:** las recetas del recetario AppFit no se editan. Desde su ficha, «Copiar a mis recetas» crea una receta tuya igual, con ingredientes, peso final, raciones, tiempo, pasos, notas y categoría. La ficha pasa a enseñar la copia, que ya se puede editar.
+
+**Cómo:**
+- `recetasRepo.copiarDelCatalogo` lee el plato y su vista resuelta y crea la receta con `crear`. Los ingredientes se guardan como snapshot con `catalogId`, igual que en una receta hecha a mano con alimentos del catálogo.
+- Si ya tienes un alimento con ese nombre, la copia se numera con `lib/recetas.nombreLibre`: «… (copia)», «… (copia 2)».
+- Una categoría que no sea de AppFit pasa a «Platos preparados».
+- Las variantes del plato no se copian.
+- En `FichaReceta`, la fila Planificar / Copiar salta de línea si no cabe, para que el texto no se parta a 320 px.
+
+**Verificación:** tests de `nombreLibre` y de la copia (datos, numeración, categoría por defecto y error si no es receta); `npm run test` y `npm run build` correctos. `validar-recetas-anadir.cjs` copia una receta del recetario y comprueba que la ficha pasa a «Tuya» con Editar y que aparece en «Tus recetas»: correcto a 320, 375 y 430 px, en claro y oscuro.
+
+## 268. Recetas: ingredientes en la lista de la compra (2026-10-27)
+
+**Qué:** antes, una receta planificada salía en la lista de la compra como plato entero («Lentejas… 800 g»). Ahora sale por sus ingredientes en crudo, en proporción a lo planificado: 2 raciones de una receta de 6 ponen un tercio de cada ingrediente. Funciona igual para las recetas propias y para las del recetario AppFit, y los ingredientes se suman con lo planificado suelto. Cada artículo dice «Para: …» con las recetas de las que sale. El agua del grifo no sale.
+
+**Cómo:**
+- `recetasRepo.paraCompra` (solo lectura) busca las recetas entre las planificadas.
+- `lib/planificadas.expandirRecetas` (pura) cambia cada receta por sus ingredientes: gramos planificados / peso cocinado × gramos del ingrediente.
+- `listaCompra` suma como antes y apunta las recetas de cada artículo. `cantidadCompra` lee «menos de 1 g» las pizcas (azafrán, especias).
+- Las categorías salen de los ingredientes, así que cada uno va a su grupo.
+- Las marcas de comprado siguen usando la clave del alimento.
+
+**Verificación:** tests de la expansión (proporción, sin agua, suma con lo suelto, recetas de las que sale, lo que no es receta pasa tal cual) y de `paraCompra`; `npm run test` y `npm run build` correctos. Nuevo `scripts/ui/validar-compra-recetas.cjs`: planifica 2 raciones del arroz al horno y comprueba «Arroz blanco, crudo · 133 g · Para: Arroz al horno, horneado», sin el agua ni el plato entero. Correcto a 320, 375 y 430 px, en claro y oscuro.
+
+## 269. Recetas: pesos finales que no cuadraban (2026-10-27)
+
+**Qué:** cuatro recetas del catálogo pesaban al final más que la suma de sus ingredientes. Eso es imposible sin agua de fuera de la lista. Se corrigen con criterio AppFit:
+- salmorejo, 1.250 → 1.200 g;
+- ajoblanco, 1.300 → 1.180 g;
+- tarta de Santiago, 950 → 800 g;
+- tortilla paisana, 1.300 → 1.150 g.
+
+Sus kcal por 100 g suben en proporción. Por ejemplo, la tarta de Santiago pasa de 370 a 439. Con esto queda cerrado el plan de recetas.
+
+**Cómo:**
+- `tipicosLib.calcularReceta` rechaza ahora un peso final mayor que la suma de ingredientes, con test. El listado de preparaciones ya no tiene ningún aviso.
+- Las referencias de los cuatro platos explican la corrección.
+- El paquete de típicos pasa a la versión 2026-10-31 para que el móvil lo reimporte: las filas no cambian, pero sí sus valores.
+
+**Verificación:** `npm run catalogo:validar` sin problemas y 0 avisos en `informes/preparaciones.md`. `npm run test` y `npm run build` correctos.
+
+## 270. Mejoras de la app, bloque 1: hojas en iPhone y regla de textos de ayuda (2026-10-26)
 
 **Qué:** primer bloque del documento de mejoras de Víctor (40 puntos, nueve bloques). Puntos 1 y 8: bajo las hojas (Apuntar pasos, Registrar medidas) y bajo el resto de pantallas quedaba en el iPhone una franja vacía del alto de la barra de estado, y el campo de fecha se salía de su columna. Puntos 12 y 24: Víctor aprueba con una vista previa la regla de textos de ayuda (explicación tras una «i», consecuencia como pie del grupo, lo demás fuera) y que Creatina se active en «Lo que usas» (punto 7).
 
@@ -2689,7 +3001,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas: «Lo que usas» sin scroll horizontal y hoja de la «i». La franja inferior es un comportamiento de WebKit en la app instalada que no se reproduce en Chromium: falta comprobarla en el iPhone. `scripts/ui/validar-creatina.cjs` sigue buscando la casilla «Activar Creatina» de Ajustes › Creatina, sin adaptar.
 
-## 247. Mejoras de la app, bloque 2: entreno en curso, pantalla final y nuevos logros (2026-10-26)
+## 271. Mejoras de la app, bloque 2: entreno en curso, pantalla final y nuevos logros (2026-10-26)
 
 **Qué:** puntos 34, 35, 36, 37 y 5 del documento de mejoras, con vista previa aprobada por Víctor. Descanso como chip con hoja y sin «Guardado en este dispositivo» salvo error (34); borrar una serie deslizándola, también en la pista de las series (35); corregir la duración al terminar (36); «Hoy» con iconos y sin las subidas de nivel muscular, que Víctor no quiere ahí (37); y una hoja de nuevos logros que sale en la pantalla en la que se consiga cada pieza (5). Pregunta de Víctor: la imagen para compartir sí lleva los logros del entreno, como medallas (los de constancia semanal, sin entreno, no).
 
@@ -2697,7 +3009,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas con datos sintéticos: chip y hoja de descanso, deslizar para borrar, duración en la hoja de Terminar, pantalla final con «Hoy» sin Cuerpo, hoja de 4 logros sobre la pantalla final, hoja de «Treinta mil» en Inicio al apuntar 31.000 pasos, ninguna hoja al recargar ni por logros antiguos, e imagen descargada con tres medallas; sin scroll horizontal. Sin probar en iPhone: el gesto de deslizar sobre los campos de la serie (frente al scroll y la selección de texto en Safari).
 
-## 248. Imagen para compartir: ligas en cada ejercicio, «Hoy» con iconos y todo cabe (2026-10-26)
+## 272. Imagen para compartir: ligas en cada ejercicio, «Hoy» con iconos y todo cabe (2026-10-26)
 
 **Qué:** Víctor pide ver la imagen de un entreno que lo consigue todo (récords, ligas, logros, cumbre, hito de entrenos). Con un caso sintético de esos se ve que de seis cambios de liga solo salía uno, que el gimnasio no salía al terminar y que la imagen no comprobaba el espacio. Decisiones de Víctor, con vista previa: título más pequeño siempre, la liga con su insignia en la fila de cada ejercicio, «Hoy» con iconos como en pantalla, quitar el muñeco cuando no cabe y reorganizar los ejercicios si hay demasiado; también en la imagen del historial.
 
@@ -2705,7 +3017,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos, con tests del modo compacto, del límite del pie y de la liga en la fila. Imágenes descargadas en Chromium (`appfit-test.localhost:5173`) con datos sintéticos: entreno normal (con muñeco), el nº 25 con 10 récords, 4 logros, 6 cambios de liga y la cumbre del Aneto (sin muñeco), el mismo con 10 ejercicios (una línea y «y 2 ejercicios más») y la del historial con las insignias. Sin probar en el iPhone: «Compartir…» con la imagen nueva.
 
-## 249. Mejoras de la app, bloque 3: pestaña Entreno (2026-10-26)
+## 273. Mejoras de la app, bloque 3: pestaña Entreno (2026-10-26)
 
 **Qué:** puntos 14, 15, 16 y 17 del documento de mejoras, tras dos rondas de vista previa con Víctor. 14: en Empezar, en lugar de «Último entreno», «Esta semana» (días entrenados frente al plan y el último entreno en una fila). 15: las sesiones del mes por semana, con la semana dentro de su tarjeta y «Músculos» para sus series por grupo; cada sesión con el día en un cuadro, su rutina o sus grupos y sus récords; sin la sección «Semana» aparte. 16: «Por ejercicio» con miniaturas, buscador, filtros por grupo y los 6 primeros; sin el desplegable de ejercicios. 17: la barra de tres tramos en lugar de los puntos de la liga, «Hace tiempo que no los haces» como grupo con su pie y sin la frase suelta. Del 40 queda hecho lo aprobado en la primera ronda (las cifras clave dentro de la tarjeta de la gráfica); la lista de sesiones queda pendiente de elegir entre barras y tabla (`docs/roadmap.md`).
 
@@ -2713,15 +3025,15 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas con un historial sintético de 15 semanas (ejercicios del catálogo, dos gimnasios y ejercicios abandonados): Empezar, Historial con su hoja de semana, Progreso con búsqueda y filtros, Ligas desplegadas y detalle de un ejercicio, sin scroll horizontal. Sin probar en iPhone ni con los datos reales.
 
-## 250. Mejoras de la app, punto 40: sesiones de un ejercicio (2026-10-26)
+## 274. Mejoras de la app, punto 40: sesiones de un ejercicio (2026-10-26)
 
-**Qué:** la lista de sesiones del detalle de un ejercicio (Entreno › Progreso) que quedó pendiente en §249. Víctor compara tres formas con vista previa (barras grandes, tabla y mixta) y elige la mixta: por meses, una línea por sesión con el día, la mejor serie, una barra corta frente a las demás y la cifra con su cambio; trofeo en las que superan a todas las anteriores; las 8 últimas y «Ver las N sesiones».
+**Qué:** la lista de sesiones del detalle de un ejercicio (Entreno › Progreso) que quedó pendiente en §273. Víctor compara tres formas con vista previa (barras grandes, tabla y mixta) y elige la mixta: por meses, una línea por sesión con el día, la mejor serie, una barra corta frente a las demás y la cifra con su cambio; trofeo en las que superan a todas las anteriores; las 8 últimas y «Ver las N sesiones».
 
 **Cómo:** `components/SesionesEjercicio` (solo la forma elegida) y `lib/progreso.marcasSesiones` (récord, cambio y ancho de barra; con test). Documentos: `features/gym.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas con 15 sesiones de press banca: tres meses, 8 a la vista y «Ver las 15 sesiones», sin scroll horizontal. Sin probar en iPhone.
 
-## 251. Mejoras de la app, bloque 4: Nutrición e Inicio (2026-10-26)
+## 275. Mejoras de la app, bloque 4: Nutrición e Inicio (2026-10-26)
 
 **Qué:** puntos 3, 11 y 2 del documento de mejoras, con vista previa. 3: separadores entre las pestañas principales (Entreno y Nutrición). 11: la adherencia del Resumen en una tarjeta con su explicación tras la «i», y «Lo que más aporta» en una sola lista con selector calorías/proteína y barras. 2: la revisión semanal empieza con «la semana de un vistazo» (sustituye a la tarjeta de Ritmo en texto): dos filas de cuadros por día, entreno (mancuerna) y comidas (cubiertos; destellos en un cheat day), sin leyenda, a petición de Víctor para que las comidas se vean igual que el entreno; cada bloque en su tarjeta con icono, el cambio en una pastilla neutra, barras en las cifras frente a objetivo y los récords en una lista corta por ejercicio.
 
@@ -2729,7 +3041,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con 21 días sintéticos de comidas, pesos y agua (con objetivo y un cheat day) y 15 semanas de entrenos: pestañas, Resumen y revisión semanal, sin scroll horizontal. Sin probar en iPhone ni con los datos reales.
 
-## 252. Mejoras de la app, bloque 5: Perfil (2026-10-26)
+## 276. Mejoras de la app, bloque 5: Perfil (2026-10-26)
 
 **Qué:** puntos 9 y 10 del documento de mejoras, tras cuatro vueltas de vista previa (la última, una página con la pestaña entera para recorrerla con scroll). 9: «Tu energía diaria» con el ritmo junto al objetivo, una barra con sus partes (reposo, actividad y el ajuste del objetivo) y una columna por parte, y «Tu día en macros»; el gasto observado como estimado frente a observado, con los requisitos en barras y un interruptor. 10: «Tus datos» como ficha de cuatro casillas para el cuerpo y una lista con icono para el plan. Además, a petición de Víctor («mejóralo un poco más»): las medidas corporales en casillas con su cambio y su evolución al tocarlas, el historial en una fila con su hoja, y las dos «i» (energía y gasto observado) rehechas como cuenta visual en lugar de texto.
 
@@ -2737,7 +3049,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con un perfil en volumen, 21 días de comidas y pesajes y tres registros de medidas: página entera, las dos «i», la evolución de la cintura y el historial; sin scroll horizontal. Sin probar en iPhone ni con los datos reales (definición y gasto observado disponible, solo con tests).
 
-## 253. Mejoras de la app, bloque 6: Progreso y Caminos (2026-10-28)
+## 277. Mejoras de la app, bloque 6: Progreso y Caminos (2026-10-28)
 
 **Qué:** puntos 18, 19, 20, 4 y 6 del documento de mejoras, cada uno con varias vueltas de vista previa (páginas para recorrer cada pantalla con scroll y comparar opciones). 18: Progreso › Semana empieza por la semana de Ritmo con los cuadros de la revisión semanal y, dentro, las casillas de Cumbres, Caminos y Vitrina; Metas se explica (su «i» y, sin metas, tres ejemplos con su barra) y, a petición de Víctor, la meta en curso más cerca de cumplirse sale en Inicio. 19: tras comparar filas por mes, barras, anillos, lista y diez estilos de barra, Víctor elige barras iguales partidas en dos (entrenos arriba, comidas abajo). 20: los hitos son las semanas cumplidas en total (los niveles del logro de la Vitrina), ahora en una pista con el próximo. 4: los km que sobran al llegar pasan a la siguiente ruta, también hacia atrás (decisión de Víctor), y al llegar se elige la siguiente en una hoja en cualquier pantalla y en Caminos. 6: la card de la ruta con paradas, etapas desplegables y credencial; Pasos en una card sin título; Caminos con el título centrado y «Por hacer» (crear, tus caminos y los de la app en desplegables por grupo) y «Terminados» (repetir; por tipos desde 10 caminos terminados, solo los que tengan alguno).
 
@@ -2745,7 +3057,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con 15 semanas de entrenos, 21 días de comidas, 10 semanas de salidas, metas y llegadas sintéticas (una reciente para la hoja y diez para los grupos de terminados): sin scroll horizontal. Sin probar en iPhone ni con los datos reales; con los de Víctor, la ruta en curso avanzará lo que sobró en llegadas anteriores y, si la puso la app, pedirá elegir la siguiente.
 
-## 254. Mejoras de la app, bloque 7: Ajustes y Referencias (2026-10-28)
+## 278. Mejoras de la app, bloque 7: Ajustes y Referencias (2026-10-28)
 
 **Qué:** puntos 25 a 33 del documento de mejoras, con tres vueltas de vista previa. Ajustes sin frases sueltas: Ordenar Inicio con iconos y flechas; Objetivos diarios con las calorías en grande, la barra del reparto y los macros en lista; Entreno y Cumbres/Caminos/Ritmo/Vitrina con interruptores que dicen lo que hacen; Actualizaciones, Primeros pasos y Comunicar un problema en tarjetas con pasos numerados; Referencias con iconos, avisos en recuadro y secciones plegables con resumen. A petición de Víctor, tras la primera vuelta: Creatina deja Ajustes y todo lo suyo (fase de carga incluida, que no encontraba) vive en la hoja de su tarjeta de Inicio, con los últimos 7 días como círculos y la fase de carga sin recuadro; el objetivo de agua pasa a la hoja de Agua, con la evolución en barras frente al objetivo; y Energía y objetivo empieza con el cálculo en cuatro pasos con tus cifras, enseña cada paso de forma visual y pliega la bibliografía. Comunicar un problema sigue sin enviarse a ningún sitio: falta que Víctor decida adónde llega (correo o Supabase), lo mismo que «Proponer un alimento», que añadió al roadmap junto a mejorar Añadir comida.
 
@@ -2753,7 +3065,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con datos sintéticos (perfil en volumen, 21 días de comidas, agua y pesajes, Creatina activada con y sin fase de carga): sin scroll horizontal. Sin probar en iPhone. `scripts/ui/validar-creatina.cjs` sigue sin adaptar (busca la casilla de Ajustes › Creatina, que ya no existe).
 
-## 255. Mensajes al creador: «Comunicar un problema» envía (2026-10-28)
+## 279. Mensajes al creador: «Comunicar un problema» envía (2026-10-28)
 
 **Qué:** Víctor elige recibir los mensajes dentro de la app, en Supabase, en vez de por correo. «Comunicar un problema» pasa de «Cópialo y envíalo» a «Envíalo»: «Enviar» manda lo que la persona ha contado y el informe técnico que puede revisar antes; «Copiar informe» sigue debajo. Con o sin cuenta; con sesión, va asociado a ella (lo dice el pie). La misma vía servirá para «Proponer un alimento».
 
@@ -2761,7 +3073,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. La migración (dos veces seguidas) y `supabase/pruebas/mensajes_creador.sql` pasan en PostgreSQL 16 local con un `auth` mínimo; `anon` puede enviar pero no leer ni insertar directamente. Chromium en `appfit-test.localhost:5173` con Supabase simulado (la RPC interceptada): vacío, freno del servidor y enviado, sin scroll horizontal. **Pendiente:** Víctor ejecuta 0027 en el SQL Editor; hasta entonces «Enviar» dice que no se ha podido enviar.
 
-## 256. Añadir comida, página 1: Escribir (2026-10-28)
+## 280. Añadir comida, página 1: Escribir (2026-10-28)
 
 **Qué:** Víctor pide mejorar Añadir comida «página por página», en funcionalidad y en lo visual (y, antes de acabar la sesión, «Proponer un alimento»). Para Escribir comparó en la app real tres opciones acumulativas (A ordenada, B con «Te queda hoy» y frecuentes como botones, C con lo que entiende mientras escribes) y, sobre la A, dos mejoras (A2 con iconos y tarjetas ricas, A3 además más clara). Elige la A3: la comida en cuatro casillas con icono y sin «Hoy» suelto; el campo sin «Un alimento por línea» y «Revisar» solo con texto; las comidas típicas en tarjetas con kcal, iconos y barra de macros; «Encajan con lo que te falta» como tarjeta; «Nueva comida típica» y «Solo registrar calorías» en una lista con iconos. B y C quedan fuera.
 
@@ -2769,7 +3081,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas, vacío y con texto: sin scroll horizontal. A 320 px las pestañas Escribir · Buscar · Escanear pasan a dos líneas, como antes; queda para la página de Buscar. Los scripts antiguos de `scripts/ui/` que eligen la comida con el desplegable «Comida del día» (`validar-platos`, `validar-comidas-tipicas`, `validar-registro-visual`…) quedan sin adaptar.
 
-## 257. Añadir comida, página 2: Buscar y «Proponer un alimento» (2026-10-28)
+## 281. Añadir comida, página 2: Buscar y «Proponer un alimento» (2026-10-28)
 
 **Qué:** tres vueltas de opciones en la app real (A–C, D–F y G–I). Víctor elige la I con un cambio: una tarjeta por grupo de resultados con, en cada fila, el nombre en dos partes, la fuente y las pastillas de kcal, P, C y G (lo que le gustó de las tarjetas sueltas, sin separarlas), y para ordenar un único botón tipo filtro que abre las opciones (más/menos proteína, menos/más kcal, menos hidratos, menos grasa) en vez de tres botones fijos. Las categorías pasan de desplegable a botones con icono. Al final de los resultados, «¿No está?»: crearlo tú o proponérselo a AppFit, que es el «Proponer un alimento» que pidió.
 
@@ -2777,7 +3089,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con Supabase simulado: resultados, hoja de ordenar, «Más proteína», «¿No está?», proponer (el mensaje enviado lleva solo nombre, marca y nota escritos) y «Créalo tú»; sin scroll horizontal. A 320 px las pestañas Escribir · Buscar · Escanear siguen en dos líneas. Para que la propuesta llegue hay que ejecutar 0027.
 
-## 258. Buscar: «Filtrar» junto al buscador (2026-10-28)
+## 282. Buscar: «Filtrar» junto al buscador (2026-10-28)
 
 **Qué:** a Víctor no le gusta «Ordenar» en su propia línea. Compara tres colocaciones en la app real (J: botón de ordenar al principio de la fila de categorías; K: un solo «Filtrar» junto al buscador con orden y categoría en una hoja; L: la fila de categorías con «Filtrar» como primer botón) y elige la K. Desaparece la fila de categorías de Buscar; lo puesto se ve y se quita como pastillas bajo el buscador.
 
@@ -2785,7 +3097,7 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas: resultados, hoja y filtrado con categoría y «Más proteína»; sin scroll horizontal.
 
-## 259. Añadir comida, página 3: la hoja Cantidad (2026-10-28)
+## 283. Añadir comida, página 3: la hoja Cantidad (2026-10-28)
 
 **Qué:** la hoja que sale al elegir un alimento. Víctor compara en la app real A (más clara: cabecera con icono, kcal de la cantidad con macros y cantidades de un toque), B (A + «Cómo queda tu día») y C (B + más nutrientes) y elige la B. Pregunta por las recetas: una receta casera dice sus ingredientes y peso cocinado, propone toda, la mitad y un cuarto de la receta y cuenta cuánto de cada ingrediente va en esa cantidad; le gusta en las dos. También pregunta por qué Escribir se ve distinto: Escribir pasa por la revisión (varios alimentos, correcciones, alimentos nuevos), que es la página 4 y se igualará a esta hoja.
 
@@ -2793,11 +3105,11 @@ Víctor quiere que la imagen de «Guardar imagen» cuente más del entreno: los 
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con un frecuente, unos huevos del catálogo y una receta de prueba (la mitad, ingredientes abiertos): sin scroll horizontal.
 
-## 260. 0027 ejecutada (2026-10-28)
+## 284. 0027 ejecutada (2026-10-28)
 
 Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real con «Success». Desde ahora «Comunicar un problema» y «Proponer un alimento» llegan a `mensajes_creador` (Table Editor). Sin probar aún un envío real desde el móvil.
 
-## 261. Añadir comida, página 4: la revisión (2026-10-28)
+## 285. Añadir comida, página 4: la revisión (2026-10-28)
 
 **Qué:** lo que sale al pulsar «Revisar N alimentos». Tres vueltas en la app real: A (como la hoja Cantidad), B (A + «Cómo queda tu día») y C (B + aviso de lo pendiente); luego D y E sobre la B, con lo que pidió Víctor (que no se abra nada solo y lo que falta salga en rojo, menos cosas al abrir un alimento y unos detalles mejores); luego F, G y H, y por último I, J y L para hacer las filas más bonitas. Elige la D con los detalles en una hoja y «Cómo queda tu día» desplegable; las demás quedan para más adelante.
 
@@ -2805,7 +3117,7 @@ Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real c
 
 **Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con «200 g de arroz, 2 huevos, medio aguacate, un poco de salsa rara»: lista, día desplegado, arroz abierto, salsa abierta, sus detalles y, tras escribir sus valores, la etiqueta pasa a «Elige su categoría»; sin scroll horizontal.
 
-## 262. Mejoras de la app, bloque 8: dentro de una comunidad (2026-10-28)
+## 286. Mejoras de la app, bloque 8: dentro de una comunidad (2026-10-28)
 
 **Qué:** punto 22 (mejorar el interior de una comunidad). Víctor compara en la app real, con Supabase simulado, A (portada en tarjeta), B (centrada con pestañas) y C (compacta con compositor) y elige la A con las pestañas de la B. El punto 23 (foto o avatar de comunidad) queda pendiente: Víctor creará los avatares.
 

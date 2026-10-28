@@ -1,38 +1,29 @@
 # Sesión 12 — Resumen técnico
 
-Estado al cierre (2026-10-26): `master` en `5a373c3` ([PR #169](https://github.com/vtinezdev/appfit/pull/169), squash), sin PR abiertos de esta sesión ni avisos programados. Tests (2.853 / 247 archivos) y `npm run build` en verde tras fusionar `master`; el CI (`pruebas-y-build`, `navegador`, Workers Builds) pasó. Detalle en PROCESO §243–§245 y en [nutricion.md](../../features/nutricion.md) § «Cerrar el día».
+Estado al cierre (2026-10-26): `master` en `f1e43ae` (PR #170). Desde el cierre de la sesión 11 (PR #161) se fusionaron los PR #162, #164 y #170. Detalle de cada cambio en PROCESO §235–§248. Este cierre solo añade documentación: el plan de recetas, este resumen y §248.
 
 ## Qué se hizo
 
-- **«Encajan con lo que te falta» (B10) pasa de Buscar a Escribir** (§243): botón bajo las comidas típicas (`components/EncajanConLoQueFalta`). No sale en «Añadir ingredientes» ni al crear una comida típica. `AlimentosRapidos` pierde `falta` y su `onElegir` ya no recibe gramos.
-- **Propuestas con los cuatro macros, combinaciones e ideas** (§244): nuevo `lib/cerrarDia.ts`, que sustituye `encajanConLoQueFalta`/`faltaDelDia` de `alimentos.ts`.
-  - `faltaDelDia` (cuatro macros, excesos en negativo) y `hayHueco` (150 kcal y 10 g de proteína o 20 g de carbohidratos).
-  - `cabe`: kcal estrictas; carbohidratos y grasa con 5 g de margen.
-  - `huecoRestante`: ordena, con la proteína al doble.
-  - `racionesHabituales`: mediana de 60 días, a 5 g; 100 g por defecto.
-  - `proponer` → `{ fijas, ideas, sueltos }`. Las raciones bajan juntas hasta caber, sin pasar de la mitad. Cada idea sale una vez y no si repite un frecuente con otro nombre (`repiteFrecuente`, por la palabra principal).
-  - `tanda` para «Sugerir otras».
-  - `IDEAS`: 26 ids de CIQUAL con ración; un test comprueba que existen en el catálogo y tienen categoría.
-- **Datos**: `foodsRepo.paraCerrarDia({ comida, hoy })` devuelve los frecuentes con su ración y las ideas de las categorías registradas (`ideasPara`). Las típicas salen de `comidasTipicasRepo.listar`. Sin cambios de esquema ni de backup.
-- **Al elegir**: una típica abre `AplicarPlantillaSheet`; una combinación, la revisión (`abrirRevision` con `itemDesdeElegible`); un alimento solo, la hoja de gramos (`elegirRapido`).
-- **Tamaño de una comida** (§245): `paraUnaPropuesta(falta, comida)`. En la cena o con `KCAL_SIN_LIMITE` (600) o menos, todo lo que queda. Si no, `max(mitad, 600)`, para evitar el salto entre 600 y 700 kcal. Lo pendiente de cada macro se escala igual.
-
-## Validación
-
-- Tests nuevos en `lib/cerrarDia.test.ts` (45) y `data/foodsRepo.test.ts` (`paraCerrarDia`).
-- Chromium en `appfit-test.localhost:5173` con un script del scratchpad (ya no existe):
-  - datos sintéticos que se esperan a que cargue el catálogo (unas 6.300 filas);
-  - 320/375/430 px en ambos temas;
-  - abrir, «Sugerir otras» y elegir una combinación;
-  - sin overflow, controles de 44 px o más y sin errores.
-- La variante de §245 solo se probó a 375 px en claro. Sin iPhone ni texto al 200 %.
+- **Catálogo** (§235, §246, §247; PR #162 y #170):
+  - Paquete `tipicos` integrado en la búsqueda de Nutrición.
+  - Ampliado a mano de 285 a 1.999 filas y, tras fusionar duplicados, 1.972. Son recetas CIQUAL y sueltos con fuente `AppFit` (valores orientativos con URL).
+  - Método, tandas y criterios de fusión: `scripts/catalogo/tipicos/LEEME.md`.
+- **Entreno**:
+  - Rutinas precargadas serie a serie desde la última sesión (§236, PR #164).
+  - Récords dentro de cada ejercicio en el detalle del historial (§239).
+  - Imagen del entreno en 9:16, con ejercicios, mejor serie y medallas (§240).
+- **Navegación**: la media luna se equilibró (§237) y después se sustituyó por la rejilla de secciones (§238, ADR 060).
+- **Nutrición**:
+  - Pestaña Plan con la lista de la compra por semanas (§241).
+  - «Encajan con lo que te falta» pasa a Escribir, con los cuatro macros, combinaciones e ideas (§243, §244). Cada propuesta tiene el tamaño de una comida (§245).
+- **Pasos**: pasos por semana y tarjeta Pasos en Inicio (§242).
+- **Recetas con preparación** (§248, sin código): plan en [`docs/plan-recetas-2026-10-26.md`](../../plan-recetas-2026-10-26.md).
 
 ## Cómo continuar
 
-- **Con datos reales**, Víctor tiene que ver si encajan:
-  - el umbral de 600 kcal (`KCAL_SIN_LIMITE`);
-  - la lista `IDEAS`;
-  - el peso de la proteína en `huecoRestante`.
-- **Mejora posible si salen parejas raras** (en la prueba, ideas con «Tostadas con aceite»): emparejar las ideas solo con frecuentes de esa comida. Anotado en `roadmap.md`.
-- **Trabajo en paralelo:** con otras sesiones, la bitácora choca en el número de §. Al fusionar `master`, la entrada ajena se queda y las propias se renumeran.
-- **Rama `claude/pensive-ramanujan-ej1p8s`:** tras la fusión por squash, se puso al día con un merge de `master`, porque no se permitía el force-push. Su contenido es igual a `master` más este resumen.
+- **Recetas**: abrir la sesión con el mensaje del plan.
+  - Fase 1: prototipo en `feat/recetas-prototipo` con cuatro recetas de prueba y capturas. No se fusiona.
+  - Víctor decide después si sigue (fase 2) o se descarta.
+- **Catálogo**: los alias que necesitan filas de CIQUAL («salsa barbacoa», «salsa César») esperan a reconstruir CIQUAL es3 (§247).
+- **Siguen pendientes**: B17 (fotos de progreso, decisión D13) y A15 (piloto de A14). Ver el resumen de la sesión 11 y `roadmap.md`.
+- **Pendiente de probar en el iPhone real**: anotado en `roadmap.md`.

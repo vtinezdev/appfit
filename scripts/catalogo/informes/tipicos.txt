@@ -1,14 +1,15 @@
-Típicos 2026-10-25 · CIQUAL 2025-es2
+Típicos 2026-10-31 · CIQUAL 2025-es2
 Vía 1: ver auditoria-ciqual.txt. Alias en CSV pendientes de reconstruir es3 (XML compo incompleto).
-Vía 2 (directos): 224; excluidos por energía: salvado-avena-cocido
-Vía 3 (recetas): 61; total: 285
-Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 240; pendientes: 260.
+Vía 2 (directos): 420; excluidos por energía: salvado-avena-cocido
+Vía 3 (recetas): 1555, con preparación escrita: 1555; total: 1975
+Objetivo previo: 500 adicionales. Ampliación actual por categorías y alimentos cotidianos, según petición de 2026-10-25. Añadidos frente al lote inicial de 45: 1930; pendientes: 0.
 Referencias RAG localizadas: 251; NO cuentan como filas publicadas.
 Alcance pendiente: objetivo NO alcanzado; referencias individuales y rendimientos deben revisarse antes de incorporar más platos.
 Fuentes directas: USDA SR Legacy April 2018 (CC0) y UK CoFID 2021 (Open Government Licence v3.0). No se transforma sodio en sal. CIQUAL es3 sigue pendiente del XML compo completo.
 USDA: 57 directos aceptados
 CoFID: 167 directos aceptados
-Reparto por categoría: Carnes: 28; Legumbres: 11; Cereales, arroz y pasta: 9; Frutos secos y semillas: 5; Pan y tostadas: 8; Quesos: 5; Cereales de desayuno y barritas: 2; Patatas y tubérculos: 6; Verduras y hortalizas: 1; Pescados: 4; Platos preparados: 171; Galletas, bollería y pasteles: 12; Salsas y condimentos: 11; Mariscos: 2; Frutas: 10
+AppFit: 196 directos aceptados
+Reparto por categoría: Carnes: 105; Legumbres: 14; Cereales, arroz y pasta: 17; Frutos secos y semillas: 7; Pan y tostadas: 107; Quesos: 32; Cereales de desayuno y barritas: 21; Patatas y tubérculos: 20; Verduras y hortalizas: 59; Pescados: 68; Platos preparados: 982; Galletas, bollería y pasteles: 136; Salsas y condimentos: 59; Mariscos: 31; Frutas: 16; Embutidos y fiambres: 26; Snacks salados: 11; Bebidas: 67; Dulces y chocolate: 56; Yogures y postres lácteos: 53; Otros: 3; Leche y nata: 1; Alternativas vegetales: 7; Bebidas alcohólicas: 31; Huevos: 46
 Referencias culinarias: 25 recetas iniciales con cita general pendiente de contraste individual, 2 mezclas crudas con balance íntegro y 34 referencias individuales leídas de RAG/RTVE. Los pesos finales de las recetas cocinadas son objetivos AppFit, no mediciones experimentales.
 Preparaciones: 12 directos adicionales, 4 USDA y 8 CoFID. Rebozado/enharinado/empanado, piel y aceite identificados. Métodos ya existentes en CIQUAL no se duplican. Alias de pollo/pavo empanados pendientes en CSV (es3). Sin fuente específica para freidora de aire.
 Lote cotidiano: 39 valores directos CoFID 2021, sin formular recetas nuevas de AppFit. 40 candidatos revisados: macedonia descartada por cobertura CIQUAL 13134; alias pendiente en CSV. Las 117 filas anteriores permanecen intactas.
@@ -17,76 +18,74 @@ Lote pescado/aves y clásicos: 20 directos CoFID y 4 recetas AppFit con referenc
 Lote de salsas, guisos y repostería: 29 directos CoFID, sin cálculos nuevos AppFit. Bechamel/yogur caseros, Saboya, éclair, baba y coq au vin ya cubiertos se descartan; solo una salsa de tomate CoFID. Las 212 filas anteriores permanecen intactas.
 Lote de pizzas: 14 directos (13 USDA y 1 CoFID). Hawaiana y variantes de masa/cobertura identificadas, sin marcas ni nuevos rendimientos AppFit. Restauración rápida estadounidense se identifica como tal. Las 241 filas anteriores permanecen intactas; ver auditoria-ciqual.txt para los descartes.
 Lote variado: 30 directos CoFID (10 frutas, 6 panes, 7 verduras/guarniciones, 3 mar/pescado, 2 crepes sin relleno y 2 mezclas de cacahuetes). Pan de ajo y salmón en costra pendientes de confirmar el estado final, registrados sin fuente. Sin rendimientos nuevos AppFit ni alias nuevos CIQUAL. Las 255 filas anteriores permanecen intactas; descartes en auditoria-ciqual.txt.
+Lote manual de típicos españoles (2026-10-26): 110 recetas AppFit calculadas desde CIQUAL (legumbres, arroces, huevos, carnes, pescados, ensaladas, bocadillos, salsas, dulces y bebidas), sin referencia individual. Admiten conservas, envasados y fiambres como ingredientes y cualquier categoría AppFit. Avisos energéticos de bebidas con alcohol esperados (CIQUAL no guarda el alcohol). Las 285 filas anteriores permanecen intactas.
+Segunda tanda manual (2026-10-26): 129 recetas AppFit más (cuchara, arroces y pasta, huevos, carnes, pescados, tapas y bocadillos, verduras, salsas, postres y bebidas). Caballa al horno descartada por cubrirla CIQUAL 26019. Las 395 filas anteriores permanecen intactas.
+Tercera tanda manual (2026-10-26): 75 recetas AppFit (31 básicos a la española y 44 platos regionales, dulces y bebidas).
+Alimentos sueltos AppFit (2026-10-26): valores típicos estimados a partir de etiquetado de productos y webs nutricionales, NO fuente oficial; URL consultadas en directos.csv. Embutidos, cortes ibéricos, quesos españoles, panes, aperitivos y horchata.
+Segunda tanda de alimentos sueltos AppFit: 30 más (embutidos, quesos, conservas de mar, dulces navideños y bollería envasados, snacks y miel de caña). Pipas descartadas: CIQUAL 15045 las cubre.
+Tercera tanda de alimentos sueltos AppFit: 24 más (frutos secos y aperitivos, dulces navideños y bollería, conservas de mar, platos, postres y salsas envasados). Donuts, mortadela, garrapiñadas, gazpacho y arroz con leche envasados ya están en CIQUAL.
+Cuarta tanda de alimentos sueltos AppFit: 20 alimentos comunes (proteína en polvo, skyr, yogur, batido, barrita, pan y leche proteicos; carne picada mixta, burger meat, salchichas frescas, cinta de lomo; gulas, cacao soluble, isotónica, ñoquis, atún claro en aceite de oliva y crema de verduras envasada).
+Quinta tanda de alimentos sueltos AppFit: 20 comunes más (acelga en hoja, borraja, ajetes, níscalos, seta de cardo, paraguayo, rosada, besugo, palometa, corvina, cabrito, magret de pato, té frío, salsa rosa, digestive, gusanitos, queso rallado, pan de espelta, piparras y choricero seco). Valores de webs que reproducen BEDCA descartados.
+Sexta tanda de alimentos sueltos AppFit: 19 (bacalao desalado, nécora, percebes, huevas de erizo, cordero lechal, perdiz, pitaya, kumquat, caldo de pollo de brik, gominolas, sriracha, romesco, salsa picante, natas vegetales, queso vegetal, bocados de proteína vegetal, crema de arroz y harina de avena).
+Cuarta tanda de recetas AppFit (43): primeros y segundos de menú del día, platos internacionales habituales (carbonara, César, poke, fajitas…), desayunos y recetas de gimnasio (claras, tortitas de avena) y postres.
 Sin factores de rendimiento/retención USDA. Se conserva la suma de nutrientes de los ingredientes.
 
 AVISOS calidad.ts:
 tipicos:salvado-avena-cocido: 40 kcal declaradas frente a 72 esperadas (4P+4C+9G+2fibra); diferencia -32
+tipicos:tinto-verano-gaseosa: 38.1 kcal declaradas frente a 3 esperadas (4P+4C+9G+2fibra); diferencia +35
+tipicos:tinto-verano-limon: 54.4 kcal declaradas frente a 19 esperadas (4P+4C+9G+2fibra); diferencia +35
+tipicos:calimocho: 57.9 kcal declaradas frente a 23 esperadas (4P+4C+9G+2fibra); diferencia +35
+tipicos:rebujito: 39.7 kcal declaradas frente a 24 esperadas (4P+4C+9G+2fibra); diferencia +16
+tipicos:carajillo: 78.3 kcal declaradas frente a 7 esperadas (4P+4C+9G+2fibra); diferencia +72
+tipicos:agua-valencia: 92.6 kcal declaradas frente a 26 esperadas (4P+4C+9G+2fibra); diferencia +66
+tipicos:peras-vino: 119.2 kcal declaradas frente a 94 esperadas (4P+4C+9G+2fibra); diferencia +25
+tipicos:gin-tonic: 79.5 kcal declaradas frente a 27 esperadas (4P+4C+9G+2fibra); diferencia +53
+tipicos:ron-cola: 78.9 kcal declaradas frente a 32 esperadas (4P+4C+9G+2fibra); diferencia +47
+tipicos:whisky-cola: 82.5 kcal declaradas frente a 32 esperadas (4P+4C+9G+2fibra); diferencia +51
+tipicos:mojito: 75.3 kcal declaradas frente a 26 esperadas (4P+4C+9G+2fibra); diferencia +49
+tipicos:sangria-blanca: 47.2 kcal declaradas frente a 19 esperadas (4P+4C+9G+2fibra); diferencia +28
+tipicos:leche-pantera: 128.8 kcal declaradas frente a 66 esperadas (4P+4C+9G+2fibra); diferencia +62
+tipicos:cafe-irlandes: 120 kcal declaradas frente a 72 esperadas (4P+4C+9G+2fibra); diferencia +48
+tipicos:clara-gaseosa: 23.8 kcal declaradas frente a 9 esperadas (4P+4C+9G+2fibra); diferencia +15
+tipicos:michelada: 37 kcal declaradas frente a 14 esperadas (4P+4C+9G+2fibra); diferencia +23
+tipicos:vermut-sifon: 105.4 kcal declaradas frente a 35 esperadas (4P+4C+9G+2fibra); diferencia +70
+tipicos:spritz: 83.7 kcal declaradas frente a 19 esperadas (4P+4C+9G+2fibra); diferencia +65
+tipicos:vodka-naranja: 96.1 kcal declaradas frente a 32 esperadas (4P+4C+9G+2fibra); diferencia +64
+tipicos:vodka-limon: 87.3 kcal declaradas frente a 25 esperadas (4P+4C+9G+2fibra); diferencia +62
+tipicos:ginebra-limon: 91 kcal declaradas frente a 25 esperadas (4P+4C+9G+2fibra); diferencia +66
+tipicos:pina-colada: 141.6 kcal declaradas frente a 93 esperadas (4P+4C+9G+2fibra); diferencia +49
+tipicos:caipiroska: 121.6 kcal declaradas frente a 42 esperadas (4P+4C+9G+2fibra); diferencia +79
+tipicos:daiquiri: 123.5 kcal declaradas frente a 34 esperadas (4P+4C+9G+2fibra); diferencia +89
+tipicos:ron-limon: 83.3 kcal declaradas frente a 25 esperadas (4P+4C+9G+2fibra); diferencia +58
+tipicos:ginebra-naranja: 99.9 kcal declaradas frente a 32 esperadas (4P+4C+9G+2fibra); diferencia +68
+tipicos:bloody-mary: 76 kcal declaradas frente a 15 esperadas (4P+4C+9G+2fibra); diferencia +61
+tipicos:sangria-cava: 75.2 kcal declaradas frente a 33 esperadas (4P+4C+9G+2fibra); diferencia +42
+tipicos:vino-caliente: 110.1 kcal declaradas frente a 47 esperadas (4P+4C+9G+2fibra); diferencia +63
+tipicos:melocoton-vino: 93.6 kcal declaradas frente a 70 esperadas (4P+4C+9G+2fibra); diferencia +24
+tipicos:martini-seco: 246.7 kcal declaradas frente a 6 esperadas (4P+4C+9G+2fibra); diferencia +240
+tipicos:mimosa: 62.7 kcal declaradas frente a 22 esperadas (4P+4C+9G+2fibra); diferencia +41
+tipicos:whisky-sour: 190.7 kcal declaradas frente a 68 esperadas (4P+4C+9G+2fibra); diferencia +123
 
 DUPLICADOS CIQUAL / OFF (solo informativos salvo exactos CIQUAL):
 ciqual: arroz-basmati-integral-crudo → 9102 Arroz integral, crudo (casi)
+offes: atun-claro-aceite-oliva → 3560071175665 Atún claro en aceite de oliva (casi)
+offes: atun-claro-aceite-oliva → 8480000180025 Atún claro en aceite de oliva (casi)
 offes: tortilla-patatas-con-cebolla → 8480000808950 Tortilla De Patatas Con Cebolla (casi)
+offes: callos-madrilena → 8402001011474 Callos a la Madrileña (casi)
+offes: sofrito-tomate → 0000084103291 Sofrito casero de tomate y cebolla (casi)
+offes: torta-aceite → 8410637115671 Tortas de Aceite (casi)
+offes: arroz-pollo → 8402001008740 Arroz con pollo (casi)
+offes: tequenos → 8480000134134 Tequeños de Queso (casi)
+offes: tempura-verduras → 8480000613004 Tempura de verduras (casi)
+offes: galletas-canela → 8480000144300 Galletas de canela (casi)
 
 SIN FUENTE (no publicados; pendiente de verificar fuente o receta completa):
 sin fuente: morro de cerdo cocido
 sin fuente: carrillada de cerdo
-sin fuente: secreto ibérico
-sin fuente: presa ibérica
-sin fuente: pluma ibérica
 sin fuente: lagarto ibérico
-sin fuente: torreznos
-sin fuente: chicharrones
 sin fuente: papada de cerdo cocida
-sin fuente: rabo de toro
-sin fuente: callos a la madrileña
 sin fuente: criadillas
-sin fuente: chorizo fresco
-sin fuente: salchichón español
-sin fuente: lomo embuchado
-sin fuente: sobrasada
-sin fuente: fuet
-sin fuente: cecina
-sin fuente: morcilla de Burgos
-sin fuente: morcilla de cebolla
-sin fuente: butifarra
-sin fuente: botillo
-sin fuente: jamón ibérico de bellota
-sin fuente: cabeza de jabalí
-sin fuente: manchego semicurado
-sin fuente: manchego curado
-sin fuente: manchego viejo
-sin fuente: tetilla
-sin fuente: cabrales
-sin fuente: idiazábal
-sin fuente: mahón
-sin fuente: torta del Casar
-sin fuente: queso fresco de Burgos
-sin fuente: San Simón
-sin fuente: majorero
-sin fuente: zamorano
-sin fuente: cocido madrileño
-sin fuente: fabada
-sin fuente: paella valenciana
 sin fuente: paella de marisco
 sin fuente: arroz negro
-sin fuente: fideuá
-sin fuente: ensaladilla rusa
-sin fuente: empanada gallega
-sin fuente: flamenquín
-sin fuente: marmitako
-sin fuente: migas
-sin fuente: sopa castellana
-sin fuente: pimientos de Padrón fritos
-sin fuente: boquerones en vinagre
-sin fuente: mollete
-sin fuente: picos
-sin fuente: regañás
-sin fuente: porras
-sin fuente: magdalenas tradicionales
-sin fuente: ensaimada
-sin fuente: roscón
-sin fuente: polvorones
-sin fuente: mantecados
-sin fuente: turrón duro español
-sin fuente: turrón blando español
 sin fuente: pan de ajo y hierbas listo para consumir (CoFID retail sin estado tras calentar confirmado)
 sin fuente: salmón en costra de masa cocinado (CoFID retail sin estado tras cocinar confirmado)

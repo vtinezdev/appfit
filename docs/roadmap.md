@@ -72,7 +72,7 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 
 ## Mejoras de la app (documento de Víctor, 2026-10-26)
 
-Nueve bloques acordados (PROCESO §246 en adelante). Hechos los bloques 1 a 7 y, del 8, el punto 22 (interior de una comunidad). Quedan el 23 (imagen de cada comunidad: Víctor creará sus avatares), el 21 (objetivos de comunidad, más adelante) y el bloque 9 (Recetas: 13).
+Nueve bloques acordados (PROCESO §270 en adelante). Hechos los bloques 1 a 7, del 8 el punto 22 (interior de una comunidad) y el 9 (Recetas: 13), que se hizo aparte con las recetas con preparación (PROCESO §248 a §269). Quedan el 23 (imagen de cada comunidad: Víctor creará sus avatares) y el 21 (objetivos de comunidad, más adelante).
 
 Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de acabar la sesión:
 - **Añadir comida**: mejorar la pantalla de añadir comida, sobre todo la ficha que se abre al añadir un alimento.

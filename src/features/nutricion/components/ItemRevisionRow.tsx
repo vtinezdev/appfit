@@ -28,6 +28,11 @@ interface Props {
   /** El ítem creará un alimento propio: se muestra (y exige) su categoría. */
   pedirCategoria?: boolean
   editarInicial?: boolean
+  /**
+   * El ítem es una receta: tocarlo abre su hoja (versión, cantidad, ingredientes) en lugar del editor de alimento.
+   * Quitarla o cambiarla se hace desde esa hoja.
+   */
+  onAbrirReceta?: () => void
 }
 function textoProcedencia(item: ItemRevision): string | undefined {
   switch (procedencia(item)) {
@@ -50,9 +55,10 @@ function SelectorMedida({ medida, onElegir }: { medida: MedidaAmbigua; onElegir:
 /**
  * Un alimento de la revisión: icono, nombre en dos partes con su fuente, kcal y gramos, y sus macros en pastillas. Nada
  * se abre solo: lo que le falta sale en rojo (`pendienteRevision`). Abierto, solo la cantidad y Cambiar, Detalles y
- * Quitar (sin encontrar: buscar otro, escribir sus valores o quitarlo); los detalles van en una hoja.
+ * Quitar (sin encontrar: buscar otro, escribir sus valores o quitarlo); los detalles van en una hoja. Una receta no se
+ * despliega: tocarla abre su hoja (`onAbrirReceta`).
  */
-export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado, pedirCategoria, editarInicial = false }: Props) {
+export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, aviso, nombreCorto, onCambioNombreCorto, nombreCortoBloqueado, pedirCategoria, editarInicial = false, onAbrirReceta }: Props) {
   const aporte = macrosPorGramos(item, item.gramos)
   const [abierto, setAbierto] = useState(editarInicial)
   const [verDetalles, setVerDetalles] = useState(false)
@@ -65,23 +71,29 @@ export default function ItemRevisionRow({ item, onChange, onQuitar, onCambiar, a
   const sinEncontrar = !!item.sinCoincidencia && faltanValores(item)
   const nombre = item.nombre || 'alimento'
   // Al cerrarlo, la cantidad estimada ya se ha visto: deja de marcarse.
-  const alternar = () => { if (abierto && item.gramosEstimados) onChange({ gramosEstimados: false }); setAbierto(!abierto) }
+  const alternar = () => {
+    if (onAbrirReceta) { onAbrirReceta(); return }
+    if (abierto && item.gramosEstimados) onChange({ gramosEstimados: false })
+    setAbierto(!abierto)
+  }
+  const lineaReceta = onAbrirReceta && `Receta · ${item.origen.receta?.info.origen === 'tuya' ? 'Tuya' : 'AppFit'} · toca para ver`
   const cerrarDetalles = () => { setVerDetalles(false); onCambioNombreCorto?.(false) }
 
   return <div className="relative min-w-0 px-card py-3">
     {pendiente && <span aria-hidden className="absolute inset-y-0 left-0 w-1 bg-destructive" />}
-    <button type="button" aria-label={`Editar ${nombre}`} aria-expanded={abierto} aria-controls={editorId} onClick={alternar}
+    <button type="button" aria-label={onAbrirReceta ? `Ver receta ${nombre}` : `Editar ${nombre}`} aria-expanded={onAbrirReceta ? undefined : abierto} aria-controls={onAbrirReceta ? undefined : editorId} onClick={alternar}
       className="flex w-full items-start gap-3 text-left">
-      <span aria-hidden className="icono-pastilla shrink-0 text-fg-muted">{icono ? <Icon name={icono} size={18} /> : <span className="text-body-sm font-semibold">{(item.nombre || '?').slice(0, 1).toLocaleUpperCase('es')}</span>}</span>
+      <span aria-hidden className="icono-pastilla shrink-0 text-fg-muted">{onAbrirReceta ? <Icon name="recetario" size={18} /> : icono ? <Icon name={icono} size={18} /> : <span className="text-body-sm font-semibold">{(item.nombre || '?').slice(0, 1).toLocaleUpperCase('es')}</span>}</span>
       <span className="min-w-0 flex-1">
         <span className="line-clamp-2 block break-words text-body font-semibold text-fg">{cabeza}</span>
-        {(detalle || fuente) && <span className="line-clamp-1 block break-words text-caption text-fg-muted">{[detalle, fuente].filter(Boolean).join(' · ')}</span>}
+        {lineaReceta ? <span className="block break-words text-caption font-medium text-fg-muted">{lineaReceta}</span>
+          : (detalle || fuente) && <span className="line-clamp-1 block break-words text-caption text-fg-muted">{[detalle, fuente].filter(Boolean).join(' · ')}</span>}
       </span>
       <span className="tabular shrink-0 text-right">
         <span className="block"><span className="font-numeric text-title text-fg">{formatInt(Math.round(aporte.kcal))}</span><span className="text-caption text-fg-muted"> kcal</span></span>
         <span className="mt-1 inline-block rounded-pill border border-line-strong px-2 py-0.5 text-caption font-semibold text-fg">{medidaPendiente(item) ? 'Elige cantidad' : `${formatNumber(item.gramos, 1)} g`}</span>
       </span>
-      <Icon name="chevron-down" size={18} className={`mt-1 shrink-0 text-fg-subtle transition-transform duration-short ${abierto ? 'rotate-180' : ''}`} />
+      <Icon name={onAbrirReceta ? 'chevron-right' : 'chevron-down'} size={18} className={`mt-1 shrink-0 text-fg-subtle transition-transform duration-short ${abierto ? 'rotate-180' : ''}`} />
     </button>
     <div aria-hidden className="mt-2 pl-12"><PastillasMacros macros={aporte} compactas /></div>
     {pendiente && <p className="mt-2 pl-12"><span className="inline-flex items-center gap-1 rounded-pill border border-destructive px-2 py-0.5 text-caption font-semibold text-destructive"><Icon name="alert" size={14} />{pendiente}</span></p>}

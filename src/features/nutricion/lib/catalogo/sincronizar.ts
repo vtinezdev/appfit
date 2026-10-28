@@ -1,10 +1,11 @@
 // Sincroniza el catálogo local con el paquete publicado en `/catalogo/`: descarga el manifest, y por cada fuente
-// cuya versión o número de filas difiera de la instalada descarga, valida, convierte e importa. Las dependencias se inyectan para
+// cuya versión o número de filas difiera de la instalada, o que importó una app que leía menos (`LECTURA_CATALOGO`),
+// descarga, valida, convierte e importa. Las dependencias se inyectan para
 // poder probarlo sin red ni base de datos; al final se exporta la versión cableada que usa la app.
 // Todos los `fetch` ocurren fuera de las transacciones (ninguna función de aquí abre una).
 import type { CatalogFood, CatalogSource } from '../../../../shared/db/types'
 import * as catalogRepo from '../../data/catalogRepo'
-import { aCatalogFoods, validarManifest, validarPaquete } from './paquete'
+import { aCatalogFoods, LECTURA_CATALOGO, validarManifest, validarPaquete } from './paquete'
 
 const RUTA = '/catalogo/'
 
@@ -44,7 +45,8 @@ export function crearSincronizador(deps: DependenciasSincronizacion): () => Prom
 
     for (const entrada of manifest.fuentes) {
       const instalada = instaladas.get(entrada.id)
-      if (instalada?.version === entrada.version && instalada.filas === entrada.filas) {
+      // Una app anterior pudo importar esta misma versión ignorando campos que esta sí lee (las recetas de típicos).
+      if (instalada?.version === entrada.version && instalada.filas === entrada.filas && (instalada.lectura ?? 1) >= LECTURA_CATALOGO) {
         resultado.alDia.push(entrada.id)
         continue
       }
@@ -66,6 +68,7 @@ export function crearSincronizador(deps: DependenciasSincronizacion): () => Prom
           licencia: entrada.licencia,
           atribucion: entrada.atribucion,
           filas: foods.length,
+          lectura: LECTURA_CATALOGO,
         },
         foods,
       )

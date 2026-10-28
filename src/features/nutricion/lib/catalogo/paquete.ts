@@ -6,7 +6,7 @@
 // Un cliente con la app antigua (Service Worker sin actualizar) rechazará un paquete de formato 2 y lo
 // reintentará en el siguiente arranque, cuando `autoUpdate` ya haya instalado la app nueva.
 import { catalogId, normalizarGtin } from '../../../../shared/db/foodRef'
-import type { CatalogFood } from '../../../../shared/db/types'
+import type { CatalogFood, RecetaCatalogo } from '../../../../shared/db/types'
 import { normalizeName, tokenizar } from '../../../../shared/lib/text'
 
 export type ClaveNutriente = 'fibra' | 'azucares' | 'sal' | 'agSat'
@@ -30,7 +30,31 @@ export interface ExtraFila {
   oculto?: 1
   /** Va detrás de los demás al buscar. */
   secundario?: 1
+  /** Solo en típicos: la receta del plato (ver `RecetaFila`). */
+  receta?: RecetaFila
 }
+
+/**
+ * Receta de un plato de típicos: peso final del lote, ingredientes `[idExterno de CIQUAL, gramos]` y, si ya está
+ * escrita, la preparación (raciones, minutos, pasos y notas). Los límites son los de las recetas propias.
+ */
+export interface RecetaFila {
+  peso: number
+  ing: [string, number][]
+  raciones?: number
+  min?: number
+  pasos?: string[]
+  notas?: string
+}
+
+/**
+ * Lo que esta app sabe leer del paquete. Súbelo al aprender a leer un campo nuevo (2: `extra.receta`): las fuentes
+ * importadas por una app anterior (que lo ignoraba) se reimportan aunque su versión no cambie.
+ */
+export const LECTURA_CATALOGO = 2
+
+/** Fuente de los ingredientes de las recetas de típicos. */
+const FUENTE_INGREDIENTES = 'ciqual'
 
 export type TipoPaquete = 'generico' | 'marca'
 
@@ -118,7 +142,44 @@ function validarExtra(x: unknown, tipo: TipoPaquete, dondeId: string): ExtraFila
   }
   if (x.oculto !== undefined) extra.oculto = indicador(x.oculto, `${dondeId}, oculto`)
   if (x.secundario !== undefined) extra.secundario = indicador(x.secundario, `${dondeId}, secundario`)
+  if (x.receta !== undefined) extra.receta = validarRecetaFila(x.receta, `${dondeId}, receta`)
   return extra
+}
+
+function entero(x: unknown, min: number, max: number, donde: string): number {
+  if (typeof x !== 'number' || !Number.isInteger(x) || x < min || x > max) throw new Error(`${donde}: se esperaba un entero de ${min} a ${max}`)
+  return x
+}
+
+function validarRecetaFila(x: unknown, donde: string): RecetaFila {
+  if (!esObjeto(x)) throw new Error(`${donde}: se esperaba un objeto`)
+  const peso = numero(x.peso, `${donde}, peso`)
+  if (peso <= 0) throw new Error(`${donde}, peso: debe ser mayor que 0`)
+  if (!Array.isArray(x.ing) || x.ing.length === 0) throw new Error(`${donde}: faltan los ingredientes`)
+  const ing = x.ing.map((i: unknown, j): [string, number] => {
+    if (!Array.isArray(i) || i.length !== 2) throw new Error(`${donde}, ingrediente ${j + 1}: se esperaba [id, gramos]`)
+    const gramos = numero(i[1], `${donde}, ingrediente ${j + 1}`)
+    if (gramos <= 0) throw new Error(`${donde}, ingrediente ${j + 1}: gramos mayores que 0`)
+    return [texto(i[0], `${donde}, ingrediente ${j + 1}`), gramos]
+  })
+  const receta: RecetaFila = { peso, ing }
+  if (x.raciones !== undefined) receta.raciones = entero(x.raciones, 1, 50, `${donde}, raciones`)
+  if (x.min !== undefined) receta.min = entero(x.min, 1, 2880, `${donde}, min`)
+  if (x.pasos !== undefined) {
+    if (!Array.isArray(x.pasos) || x.pasos.length > 40) throw new Error(`${donde}, pasos: se esperaba una lista de hasta 40`)
+    receta.pasos = x.pasos.map((p: unknown, j) => texto(p, `${donde}, paso ${j + 1}`))
+  }
+  if (x.notas !== undefined) receta.notas = texto(x.notas, `${donde}, notas`)
+  return receta
+}
+
+function recetaCatalogo(r: RecetaFila): RecetaCatalogo {
+  const receta: RecetaCatalogo = { pesoFinalG: r.peso, ingredientes: r.ing.map(([id, gramos]) => ({ catalogId: catalogId(FUENTE_INGREDIENTES, id), gramos })) }
+  if (r.raciones !== undefined) receta.raciones = r.raciones
+  if (r.min !== undefined) receta.tiempoMin = r.min
+  if (r.pasos?.length) receta.pasos = r.pasos
+  if (r.notas) receta.notas = r.notas
+  return receta
 }
 
 /** Valida el `manifest.json`. Lanza un `Error` con el motivo si no cumple el formato 1. */
@@ -235,6 +296,7 @@ export function aCatalogFoods(paquete: Paquete, importadoAt: number): CatalogFoo
     if (gtin) food.gtin = gtin
     if (extra?.ml) food.ml = true
     if (extra?.secundario) food.secundario = true
+    if (extra?.receta) food.receta = recetaCatalogo(extra.receta)
     return food
   })
 }

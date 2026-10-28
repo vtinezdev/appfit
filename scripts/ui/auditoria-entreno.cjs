@@ -77,7 +77,8 @@ async function caso(nombre) {
       await campos().getByLabel(/^Repeticiones, serie 1/).fill('0')
       await campos().getByLabel(/^Repeticiones, serie 1/).blur()
       await esperarSerie('s.reps === 0','incompleta')
-      assert.ok(await campos().getByRole('button',{name:'Completar serie 1 de Press banca',exact:true}).isDisabled())
+      // La serie ya está guardada; la pantalla la refleja un instante después (useLiveQuery): se espera al botón.
+      await campos().getByRole('button',{name:'Completar serie 1 de Press banca',exact:true,disabled:true}).waitFor({timeout:5000})
       await campos().getByLabel(/^Repeticiones, serie 1/).fill('12')
     })
     await comprobar('error de escritura de serie visible, rollback y reintento', async () => {

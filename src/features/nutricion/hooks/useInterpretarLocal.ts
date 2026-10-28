@@ -5,6 +5,8 @@ import type { Porcion } from '../../../shared/db/types'
 import * as catalogRepo from '../data/catalogRepo'
 import * as foodsRepo from '../data/foodsRepo'
 import * as porcionesRepo from '../data/porcionesRepo'
+import * as recetasRepo from '../data/recetasRepo'
+import { marcarRecetasPropias } from '../lib/recetas'
 import { elegibleDeCatalogo, elegibleDeFood, itemDesdeElegible, itemSinCoincidencia, type AlimentoElegible, type ItemRevision } from '../lib/alimentos'
 import { elegirPorcion, mapaFormasPorciones, type CandidataPorcion } from '../lib/interprete/porciones'
 import { preferidoDe } from '../lib/catalogo/preferidos'
@@ -61,9 +63,19 @@ async function interpretarParte(parte: ParteComida, porciones: Porcion[]): Promi
   const propia = await porcionPropia(parte, porciones)
   if (propia) {
     const otras = [...(mejor ? [mejor] : []), ...alternativas].filter((a) => claveRef(a.ref) !== claveRef(propia.elegible.ref)).slice(0, 5)
-    return itemDesdeElegible(propia.elegible, propia.gramos, { gramosEstimados: false, alternativas: otras })
+    return itemDesdeElegible(await conReceta(propia.elegible), propia.gramos, { gramosEstimados: false, alternativas: otras })
   }
-  return mejor ? itemDesdeElegible(mejor, gramos, extra) : itemSinCoincidencia(parte.nombre, gramos, extra)
+  if (!mejor) return itemSinCoincidencia(parte.nombre, gramos, extra)
+  const elegido = await conReceta(mejor)
+  // Una receta sin cantidad dicha empieza con una ración (como al elegirla en Buscar), no con los 100 g genéricos.
+  const racionReceta = elegido.receta?.gramosRacion
+  return itemDesdeElegible(elegido, estimados && !medida && racionReceta ? Math.round(racionReceta) : gramos, extra)
+}
+
+/** Un alimento propio que es el de una receta se marca como receta (los del catálogo ya lo traen). */
+async function conReceta(a: AlimentoElegible): Promise<AlimentoElegible> {
+  if (a.ref.tipo !== 'user' || a.receta) return a
+  return marcarRecetasPropias([a], await recetasRepo.porAlimentos([a.ref.id]))[0]
 }
 
 /** Interpreta una frase completa con tus raciones propias; vacío si no reconoce ningún alimento. */

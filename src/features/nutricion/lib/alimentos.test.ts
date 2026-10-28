@@ -15,6 +15,7 @@ import {
   filtrarAlimentos,
   itemDeProductoIncompleto,
   itemDesdeElegible,
+  recetaDeItem,
   itemSinCoincidencia,
   medidaPendiente,
   pendienteRevision,
@@ -379,5 +380,20 @@ describe('coherenciaEnergetica', () => {
 
   it('bebidas con alcohol: el alcohol no se registra y avisan (el texto lo explica)', () => {
     expect(coherenciaEnergetica(v(83, 0.1, 2.6, 0))).toEqual({ esperadas: 11 }) // vino tinto
+  })
+})
+
+describe('recetaDeItem', () => {
+  const plato = elegibleDeCatalogo({ id: 'tipicos:arroz-al-horno', fuente: 'tipicos', idExterno: 'arroz-al-horno', nombre: 'Arroz al horno, horneado', nombreNorm: 'arroz al horno, horneado', tok: [], tipo: 'generico', kcal100: 172, prot100: 6, carb100: 20, grasa100: 7, version: 'v', importadoAt: 0, receta: { pesoFinalG: 2300, ingredientes: [], raciones: 6 } })
+  it('un ítem de una receta conserva su referencia para abrir su hoja', () => {
+    const item = itemDesdeElegible(plato, 383)
+    expect(recetaDeItem(item)).toMatchObject({ ref: { tipo: 'catalog', id: 'tipicos:arroz-al-horno' }, nombre: 'Arroz al horno, horneado', kcal100: 172, receta: { origen: 'appfit', raciones: 6 } })
+  })
+  it('deja de ser la receta si se cambia el nombre o los valores; un alimento normal no lo es', () => {
+    const item = itemDesdeElegible(plato, 383)
+    expect(recetaDeItem({ ...item, nombre: 'Arroz de la abuela' })).toBeUndefined()
+    expect(recetaDeItem({ ...item, kcal100: 150 })).toBeUndefined()
+    expect(recetaDeItem({ ...item, gramos: 500 })).toBeDefined()
+    expect(recetaDeItem(itemDesdeElegible({ ...plato, receta: undefined }, 100))).toBeUndefined()
   })
 })
