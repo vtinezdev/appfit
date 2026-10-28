@@ -23,7 +23,7 @@ import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import { textoAgarre } from '../lib/agarres'
 import { musculosRutina, sesionesRutina, ultimaVezEjercicios } from '../lib/fichaRutina'
 import { textoCalentamientos, textoObjetivo } from '../lib/objetivos'
-import { resumenRutina } from '../lib/rutinas'
+import { ejecucionEnRutina, resumenRutina } from '../lib/rutinas'
 import { formatDuracion } from '../lib/workout'
 
 // Diferido: la geometría de los muñecos no entra en el arranque.
@@ -130,6 +130,7 @@ export default function DetalleRutina({ routineId, enCurso, onVolver, onEmpezado
             const objetivo = r.objetivos?.[id]
             const calentamientos = objetivo && textoCalentamientos(objetivo)
             const agarre = textoAgarre(r.agarres?.[id])
+            const unilateral = ejecucionEnRutina(r, id, ex.ejecucionHabitual) === 'lados'
             return <li key={id}>
               <Card padded={false} className="flex flex-wrap items-start gap-3 px-4 py-3">
                 <span className="relative shrink-0">
@@ -141,6 +142,7 @@ export default function DetalleRutina({ routineId, enCurso, onVolver, onEmpezado
                   <span className="flex flex-wrap gap-1.5">
                     <Badge>{objetivo ? `${textoObjetivo(objetivo)} reps` : 'Sin objetivo'}</Badge>
                     {calentamientos && <Badge>{calentamientos}</Badge>}
+                    {unilateral && <Badge>Unilateral</Badge>}
                     {agarre && <Badge>{agarre}</Badge>}
                   </span>
                   <span className="tabular block break-words text-body-sm text-fg-muted">

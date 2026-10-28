@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as exercisesRepo from '../data/exercisesRepo'
+import * as gimnasiosRepo from '../data/gimnasiosRepo'
 import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import Icon from '../../../shared/components/Icon'
@@ -16,7 +17,7 @@ import { CATALOGO_POR_ID, EQUIPAMIENTO } from '../lib/catalogoEjercicios'
 import type { FichaTecnica } from '../lib/fichasEjercicios'
 import { nivelesFicha, textoMusculosFicha } from '../lib/fichaTecnica'
 import { MUSCULOS } from '../lib/musculos'
-import { historialEjercicio, textoMejorSerie } from '../lib/progreso'
+import { historialPorVariante, textoMejorSerie } from '../lib/progreso'
 import { useFiguraMapa } from '../hooks/useFiguraMapa'
 import MiniaturaEjercicio from './MiniaturaEjercicio'
 
@@ -31,7 +32,7 @@ interface Props {
 
 /**
  * Ficha de técnica de un ejercicio del catálogo (ENT-09): imagen, muñeco con sus músculos (principales en alto,
- * secundarios en medio), material, tres claves y dos errores comunes («claves de AppFit»), tu última vez y tus récords
+ * secundarios en medio), material, tres claves y dos errores comunes («claves de AppFit»), tu última vez y tus récords de cada variante
  * si lo has hecho y alternativas del mismo músculo (las de «Sustituir»), que abren su propia ficha. Solo lectura.
  */
 export default function FichaEjercicio({ catalogId: inicial, onClose }: Props) {
@@ -43,14 +44,15 @@ export default function FichaEjercicio({ catalogId: inicial, onClose }: Props) {
   useEffect(() => { if (catalogId !== inicial) arriba.current?.scrollIntoView({ block: 'start' }) }, [catalogId, inicial])
   const locales = useLiveQuery(() => exercisesRepo.listar(), [])
   const local = locales?.find(e => e.catalogId === catalogId)
-  const datos = useLiveQuery(async () => local ? { exerciseId: local.id, sets: await setsRepo.delEjercicio(local.id), workouts: await workoutsRepo.terminados() } : null, [local?.id])
+  const datos = useLiveQuery(async () => local ? { exerciseId: local.id, sets: await setsRepo.delEjercicio(local.id), workouts: await workoutsRepo.terminados(),
+    gimnasios: new Map((await gimnasiosRepo.listar()).map(g => [g.id, g.nombre])) } : null, [local?.id])
   useEffect(() => { void import('../lib/fichasEjercicios').then(m => setFichas(m.FICHAS)) }, [])
 
   const c = CATALOGO_POR_ID.get(catalogId)
   if (!c) return null
   const ficha = fichas?.[catalogId.replace(/^appfit:/, '')]
   // Al cambiar a una alternativa, la consulta anterior sigue un momento: solo vale si es de este ejercicio.
-  const historial = local && datos?.exerciseId === local.id ? historialEjercicio(datos.sets, datos.workouts, { exerciseId: local.id }, Number.POSITIVE_INFINITY, 1) : null
+  const variantes = local && datos?.exerciseId === local.id ? historialPorVariante(datos.sets, datos.workouts, local.id, datos.gimnasios) : []
   const base: Exercise = local ?? { id: 0, nombre: c.name, nombreNorm: '', grupo: MUSCULOS[c.primaryMuscles[0]], catalogId: c.id, primaryMuscles: c.primaryMuscles, secondaryMuscles: c.secondaryMuscles, equipment: c.equipment }
   const otras = locales ? alternativas(base, locales, new Map(), { sustituir: true, hechos: new Set() }).filter(a => a.catalogId).slice(0, 4) : []
   const material = c.equipment.map(q => EQUIPAMIENTO[q]).join(', ')
@@ -91,20 +93,24 @@ export default function FichaEjercicio({ catalogId: inicial, onClose }: Props) {
           <p className="text-caption text-fg-muted">Claves de AppFit: orientativas, no sustituyen a quien te entrena. Si algo duele, para.</p>
         </> : <p className="text-body-sm text-fg-muted">Este ejercicio aún no tiene claves escritas.</p>}
 
-        {historial && <section aria-label="Tu historial" className="space-y-stack">
+        {variantes.length > 0 && <section aria-label="Tu historial" className="space-y-stack">
           <SectionHeader variant="section">Tú</SectionHeader>
-          <dl className="divide-y divide-line border-y border-line">
-            <div className="flex min-h-touch items-center justify-between gap-3 py-2">
-              <dt className="text-body-sm text-fg-muted">Última vez</dt>
-              <dd className="text-right"><span className="tabular block text-body-sm font-semibold text-fg">{textoMejorSerie(historial.sesiones[0].mejor, historial.modo)}</span>
-                <span className="tabular block text-caption text-fg-muted">{formatDiaMes(historial.sesiones[0].inicio)}</span></dd>
-            </div>
-            {historial.records.map(r => <div key={r.etiqueta} className="flex min-h-touch items-center justify-between gap-3 py-2">
-              <dt className="min-w-0 break-words text-body-sm text-fg-muted">{r.etiqueta}</dt>
-              <dd className="text-right"><span className="tabular block text-body-sm font-semibold text-fg">{r.texto}</span>
-                <span className="tabular block text-caption text-fg-muted">{formatDiaMes(r.inicio)}</span></dd>
-            </div>)}
-          </dl>
+          {variantes.length > 1 && <p className="text-body-sm text-fg-muted">Cada variante tiene sus propios récords.</p>}
+          {variantes.map(v => <div key={v.clave} className="space-y-1">
+            <h3 className="break-words text-rotulo text-fg-muted">{v.nombre}</h3>
+            <dl className="divide-y divide-line border-y border-line">
+              <div className="flex min-h-touch items-center justify-between gap-3 py-2">
+                <dt className="text-body-sm text-fg-muted">Última vez</dt>
+                <dd className="text-right"><span className="tabular block text-body-sm font-semibold text-fg">{textoMejorSerie(v.sesiones[0].mejor, v.modo)}</span>
+                  <span className="tabular block text-caption text-fg-muted">{formatDiaMes(v.sesiones[0].inicio)}</span></dd>
+              </div>
+              {v.records.map(r => <div key={r.etiqueta} className="flex min-h-touch items-center justify-between gap-3 py-2">
+                <dt className="min-w-0 break-words text-body-sm text-fg-muted">{r.etiqueta}</dt>
+                <dd className="text-right"><span className="tabular block text-body-sm font-semibold text-fg">{r.texto}</span>
+                  <span className="tabular block text-caption text-fg-muted">{formatDiaMes(r.inicio)}</span></dd>
+              </div>)}
+            </dl>
+          </div>)}
         </section>}
 
         {otras.length > 0 && <section aria-label="Alternativas" className="space-y-stack">

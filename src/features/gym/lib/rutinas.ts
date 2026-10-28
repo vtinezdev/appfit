@@ -1,4 +1,5 @@
-import type { Exercise, Routine, Workout } from '../../../shared/db/types'
+import type { ConfiguracionEjecucion, EjecucionRutina, Exercise, Routine, Workout } from '../../../shared/db/types'
+import { ejecucionVigente } from './ejecucion'
 import { superseriesDe, type Superserie } from './superseries'
 
 export interface ResumenRutina {
@@ -48,12 +49,36 @@ export function sustituirEnRutina(r: Routine, de: number, a: number): Routine {
   const objetivo = r.objetivos?.[de]
   const resto = Object.fromEntries(Object.entries(r.objetivos ?? {}).filter(([k]) => Number(k) !== de))
   const objetivos = objetivo ? { ...resto, [a]: objetivo } : resto
-  const { objetivos: _anteriores, agarres: _agarres, ...base } = r
+  const { objetivos: _anteriores, agarres: _agarres, ejecuciones: _ejecuciones, ...base } = r
+  // Agarre y ejecución son de ese ejercicio: el nuevo empieza con los suyos habituales.
   const agarres = Object.fromEntries(Object.entries(r.agarres ?? {}).filter(([k]) => Number(k) !== de))
-  const conAgarres = Object.keys(agarres).length ? { agarres } : {}
+  const ejecuciones = Object.fromEntries(Object.entries(r.ejecuciones ?? {}).filter(([k]) => Number(k) !== de))
+  const conAgarres = { ...(Object.keys(agarres).length ? { agarres } : {}), ...(Object.keys(ejecuciones).length ? { ejecuciones } : {}) }
   const exerciseIds = r.exerciseIds.map((id) => (id === de ? a : id))
   // La superserie (A21) sigue al ejercicio: el nuevo ocupa su sitio en el par.
   const pares = superseriesDe(r)
   const conPares = pares.length ? { superseries: pares.map(p => p.map(id => (id === de ? a : id)) as unknown as Superserie) } : {}
   return (Object.keys(objetivos).length ? { ...base, exerciseIds, objetivos, ...conAgarres, ...conPares } : { ...base, exerciseIds, ...conAgarres, ...conPares }) as Routine
+}
+
+/** Bilateral o una fila por lado: la elegida en la rutina o, si no, la habitual del ejercicio. */
+export function ejecucionEnRutina(r: Pick<Routine, 'ejecuciones'>, exerciseId: number, habitual?: ConfiguracionEjecucion): EjecucionRutina {
+  return r.ejecuciones?.[exerciseId] ?? (habitual && ejecucionVigente(habitual).ejecucion === 'lados' ? 'lados' : 'bilateral')
+}
+
+/**
+ * Variante con la que empieza la sesión un ejercicio de la rutina: la habitual con la ejecución y el agarre que la rutina
+ * elija. `undefined` si la rutina no elige ninguno de los dos (manda la habitual, como en una sesión libre).
+ */
+export function ejecucionDeRutina(r: Pick<Routine, 'agarres' | 'ejecuciones'>, exerciseId: number, habitual?: ConfiguracionEjecucion): ConfiguracionEjecucion | undefined {
+  const conAgarre = Object.hasOwn(r.agarres ?? {}, exerciseId), ejecucion = r.ejecuciones?.[exerciseId]
+  if (!conAgarre && !ejecucion) return undefined
+  const base = ejecucionVigente(habitual ?? { ejecucion: 'bilateral' })
+  return { ...base, ...(ejecucion ? { ejecucion } : {}), ...(conAgarre ? { agarre: r.agarres![exerciseId] ?? undefined } : {}) }
+}
+
+/** «Unilateral · Supino», «Bilateral · agarre sin especificar» (si el ejercicio admite elegirlo) o «Bilateral». */
+export function textoVarianteRutina(ejecucion: EjecucionRutina, agarre: string, admiteAgarre: boolean): string {
+  const lateralidad = ejecucion === 'lados' ? 'Unilateral' : 'Bilateral'
+  return agarre ? `${lateralidad} · ${agarre}` : admiteAgarre ? `${lateralidad} · agarre sin especificar` : lateralidad
 }

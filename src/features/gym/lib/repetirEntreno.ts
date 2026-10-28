@@ -1,4 +1,5 @@
-import type { Agarre, DatosLado, ObjetivoEjercicio, Routine, SetEntry, Workout } from '../../../shared/db/types'
+import type { Agarre, DatosLado, EjecucionRutina, ObjetivoEjercicio, Routine, SetEntry, Workout } from '../../../shared/db/types'
+import { ejecucionVigente } from './ejecucion'
 import { CALENTAMIENTOS_MAX, sanearObjetivo, SERIES_MAX } from './objetivos'
 import { ordenEjerciciosSesion } from './workout'
 
@@ -56,13 +57,15 @@ function repsDe(s: Pick<SetEntry, 'reps' | 'ejecucion' | 'lados'>): number[] {
 
 /**
  * Una rutina con lo que se hizo un día: los ejercicios en su orden y, para cada uno, un objetivo con las series
- * efectivas, el rango de repeticiones (de la menor a la mayor de esas series) y sus calentamientos; y el agarre elegido
- * en la sesión. Un ejercicio sin series efectivas con repeticiones queda sin objetivo.
+ * efectivas, el rango de repeticiones (de la menor a la mayor de esas series) y sus calentamientos; y la ejecución y el
+ * agarre elegidos en la sesión (sin elegir, unilateral si sus series lo eran). Un ejercicio sin series efectivas con
+ * repeticiones queda sin objetivo.
  */
-export function rutinaDesdeEntreno(w: Sesion & Pick<Workout, 'ejecucionesEjercicios'>, sets: SetEntry[]): Pick<Routine, 'exerciseIds' | 'objetivos' | 'agarres'> {
+export function rutinaDesdeEntreno(w: Sesion & Pick<Workout, 'ejecucionesEjercicios'>, sets: SetEntry[]): Pick<Routine, 'exerciseIds' | 'objetivos' | 'agarres' | 'ejecuciones'> {
   const exerciseIds = ejerciciosDelEntreno(w, sets)
   const objetivos: Record<number, ObjetivoEjercicio> = {}
   const agarres: Record<number, Agarre | null> = {}
+  const ejecuciones: Record<number, EjecucionRutina> = {}
   for (const exerciseId of exerciseIds) {
     const hechas = seriesHechas(sets, exerciseId)
     const efectivas = hechas.filter(s => s.tipo !== 'calentamiento')
@@ -72,10 +75,14 @@ export function rutinaDesdeEntreno(w: Sesion & Pick<Workout, 'ejecucionesEjercic
       objetivos[exerciseId] = sanearObjetivo({ series: Math.min(SERIES_MAX, efectivas.length), repsMin: Math.min(...reps), repsMax: Math.max(...reps),
         ...(calentamientos ? { calentamientos } : {}) })
     }
-    const agarre = w.ejecucionesEjercicios?.[exerciseId]?.agarre
+    const config = w.ejecucionesEjercicios?.[exerciseId]
+    const agarre = config?.agarre
     if (agarre) agarres[exerciseId] = agarre
+    const ejecucion = config ? ejecucionVigente(config).ejecucion : efectivas.some(s => s.ejecucion === 'lados' || s.ejecucion === 'unilateral') ? 'lados' : undefined
+    if (ejecucion === 'bilateral' || ejecucion === 'lados') ejecuciones[exerciseId] = ejecucion
   }
   return { exerciseIds,
     ...(Object.keys(objetivos).length ? { objetivos } : {}),
-    ...(Object.keys(agarres).length ? { agarres } : {}) }
+    ...(Object.keys(agarres).length ? { agarres } : {}),
+    ...(Object.keys(ejecuciones).length ? { ejecuciones } : {}) }
 }

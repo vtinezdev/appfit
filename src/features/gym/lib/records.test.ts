@@ -26,6 +26,21 @@ describe('detectarRecords', () => {
   it('un ejercicio por separado de otro', () => {
     expect(detectarRecords([s(2, 500, 5)], [s(1, 100, 5)])).toEqual([])
   })
+  it('cada variante tiene sus récords: un agarre no pisa a otro, ni unilateral a bilateral', () => {
+    const conAgarre = (peso: number, orientacion: 'prono' | 'supino') => ({ ...s(1, peso, 8), agarre: { orientacion } })
+    const porLados = (peso: number) => ({ ...s(1, 0, 0), ejecucion: 'lados' as const, lados: { izquierda: { reps: 8, peso }, derecha: { reps: 8, peso } } })
+    const tipos = (r: ReturnType<typeof detectarRecords>) => r.map(x => [x.tipo, x.anterior])
+    // Supino con menos kg que el prono de antes, pero más que el supino de antes: récord solo frente al supino.
+    const supino = detectarRecords([conAgarre(50, 'supino')], [conAgarre(70, 'prono'), conAgarre(45, 'supino')])
+    expect(supino.map(x => [x.tipo, x.valor, x.variante])).toEqual([['peso', 50, 'Supino'], ['1rm', 63.3, 'Supino']])
+    // Un supino más pesado que todo el prono no compite con el prono; sin supino antes, no hay récord.
+    expect(detectarRecords([conAgarre(90, 'supino')], [conAgarre(70, 'prono')])).toEqual([])
+    expect(tipos(detectarRecords([conAgarre(75, 'prono')], [conAgarre(90, 'supino'), conAgarre(70, 'prono')]))).toEqual([['peso', 70], ['1rm', 88.7]])
+    // Unilateral y bilateral, igual.
+    expect(detectarRecords([porLados(30)], [s(1, 60, 8)])).toEqual([])
+    expect(tipos(detectarRecords([s(1, 65, 8)], [porLados(40), s(1, 60, 8)]))).toEqual([['peso', 60], ['1rm', 76]])
+    expect(tipos(detectarRecords([porLados(32)], [porLados(30), s(1, 60, 8)]))).toEqual([['peso', 30]])
+  })
   it('una máquina de otro gimnasio no compite con la del habitual, sino con la de ese gimnasio', () => {
     const fuera = (peso: number, gimnasioId: number) => ({ ...s(1, peso, 5), gimnasioId })
     expect(detectarRecords([fuera(150, 2)], [s(1, 100, 5)])).toEqual([])

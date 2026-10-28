@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { epley1RM } from './workout'
-import { cifrasClave, datosProgreso, marcasSesiones, historialEjercicio, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, resumenVariantes, tendenciaVariante, textoMejorSerie, trazoMini } from './progreso'
+import { cifrasClave, datosProgreso, marcasSesiones, historialEjercicio, historialPorVariante, nombreVarianteRecords, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, resumenVariantes, tendenciaVariante, textoMejorSerie, trazoMini } from './progreso'
 import type { SetEntry } from '../../../shared/db/types'
 
 const s = (id: number, over: Partial<SetEntry>): SetEntry => ({ id, workoutId: 1, exerciseId: 1, reps: 8, peso: 20, orden: id, createdAt: id, ...over })
@@ -156,6 +156,36 @@ describe('historial del ejercicio en la sesión', () => {
     expect(historialEjercicio(series, ws, { exerciseId: 1, gimnasioId: 7 }, 9000)).toBeNull()
     expect(historialEjercicio(series, ws, { exerciseId: 3 }, 9000)).toBeNull()
     expect(historialEjercicio(series, ws, { exerciseId: 1 }, 1000)).toBeNull()
+  })
+})
+
+describe('historial por variante (ficha del ejercicio)', () => {
+  const ws = [1, 2, 3, 4, 5].map(id => ({ id, inicio: id * 1000, fin: id * 1000 + 500 })).concat({ id: 6, inicio: 6000, fin: undefined as unknown as number })
+  const supino = { orientacion: 'supino' as const }, prono = { orientacion: 'prono' as const }
+  const lados = (peso: number) => ({ ejecucion: 'lados' as const, reps: 0, peso: 0, lados: { izquierda: { reps: 10, peso }, derecha: { reps: 10, peso } } })
+  const series = [
+    s(1, { workoutId: 1, peso: 70, agarre: prono }), s(2, { workoutId: 2, peso: 55, agarre: supino }), s(3, { workoutId: 4, peso: 60, agarre: supino }),
+    s(4, { workoutId: 3, ...lados(24) }), s(5, { workoutId: 5, ...lados(22), gimnasioId: 7 }),
+    // Sin terminar, de otro ejercicio o sin hacer: fuera.
+    s(6, { workoutId: 6, peso: 200, agarre: prono }), s(7, { workoutId: 1, exerciseId: 2, peso: 300 }), s(8, { workoutId: 2, peso: 99, agarre: supino, realizada: false }),
+  ]
+  it('una entrada por variante con sus récords, sin mezclar agarres, lados ni gimnasios; la más reciente primero', () => {
+    const v = historialPorVariante(series, ws, 1, new Map([[7, 'Gym Playa']]))
+    expect(v.map(x => [x.nombre, x.records[0].texto])).toEqual([
+      ['Unilateral · Gym Playa', '22 kg × 10'],
+      ['Bilateral · Supino', '60 kg × 8'],
+      ['Unilateral', '24 kg × 10'],
+      ['Bilateral · Prono', '70 kg × 8'],
+    ])
+    expect(v[1].records.map(r => r.etiqueta)).toEqual(['Peso máximo', '1RM estimado'])
+    expect(v[1].sesiones).toHaveLength(1)
+    expect(historialPorVariante(series, ws, 3)).toEqual([])
+  })
+  it('nombre de la variante', () => {
+    expect(nombreVarianteRecords({})).toBe('Bilateral')
+    expect(nombreVarianteRecords({ modoCarga: 'lastre', ejecucion: 'lados', lados: { izquierda: { reps: 5, peso: 10 } }, agarre: { orientacion: 'neutro', anchura: 'ancho' } }))
+      .toBe('Corporal + lastre · Unilateral · solo izquierda · Neutro · Ancho')
+    expect(nombreVarianteRecords({ ejecucion: 'unilateral', kgUnilateral: 'total', excentricaSeg: 3, gimnasioId: 9 })).toBe('Unilateral · kg totales · Descenso 3 s · Otro gimnasio')
   })
 })
 

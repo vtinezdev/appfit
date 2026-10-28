@@ -22,15 +22,20 @@ export function obtener(id: number): Promise<Routine | undefined> {
 }
 
 /** Crea la rutina si no trae `id`, o la actualiza. Devuelve su id. */
-export function guardar({ id, nombre, exerciseIds, objetivos, agarres, superseries }: RoutineInput): Promise<number> {
+export function guardar({ id, nombre, exerciseIds, objetivos, agarres, ejecuciones, superseries }: RoutineInput): Promise<number> {
   return db.transaction('rw', db.routines, async () => {
     const anterior = id ? await db.routines.get(id) : undefined
-    const vigentes = objetivos && Object.fromEntries(Object.entries(objetivos).filter(([k]) => exerciseIds.includes(Number(k))))
+    const deLaRutina = <T>(r: Record<number, T> | undefined) => r && Object.fromEntries(Object.entries(r).filter(([k]) => exerciseIds.includes(Number(k)))) as Record<number, T>
+    const vigentes = deLaRutina(objetivos)
     const fuente = agarres ?? anterior?.agarres
-    const elegidos = fuente && Object.fromEntries(Object.entries(fuente).filter(([k]) => exerciseIds.includes(Number(k))))
+    const elegidos = deLaRutina(fuente)
     for (const agarre of Object.values(elegidos ?? {})) if (agarre) validarEjecucion({ ejecucion: 'bilateral', agarre })
+    const fuenteEjecuciones = ejecuciones ?? anterior?.ejecuciones
+    const ejecucionesElegidas = deLaRutina(fuenteEjecuciones)
+    validarEjecucionesRutina(ejecucionesElegidas)
     const datos = { nombre, exerciseIds, objetivos: vigentes && Object.keys(vigentes).length ? vigentes : undefined,
       ...(fuente !== undefined ? { agarres: elegidos && Object.keys(elegidos).length ? elegidos : undefined } : {}),
+      ...(fuenteEjecuciones !== undefined ? { ejecuciones: ejecucionesElegidas && Object.keys(ejecucionesElegidas).length ? ejecucionesElegidas : undefined } : {}),
       // Solo los pares que siguen juntos en este orden; sin ninguno, el campo se quita.
       ...(superseries !== undefined ? { superseries: superseriesValidas(superseries, exerciseIds).length ? superseriesValidas(superseries, exerciseIds) : undefined } : {}) }
     if (id) { await db.routines.update(id, datos); return id }
@@ -111,12 +116,17 @@ export function guardarDesdeEntreno(workoutId: number, nombre: string): Promise<
     const rutina = rutinaDesdeEntreno(w, await db.sets.where('workoutId').equals(workoutId).toArray())
     if (!rutina.exerciseIds.length) throw new RutinaVacia('Este entreno no tiene ejercicios que guardar.')
     for (const agarre of Object.values(rutina.agarres ?? {})) if (agarre) validarEjecucion({ ejecucion: 'bilateral', agarre })
+    validarEjecucionesRutina(rutina.ejecuciones)
     const libre = nombreLibre(nombre.trim() || 'Rutina', (await db.routines.toArray()).map((r) => r.nombre))
     return db.routines.add({ nombre: libre, ...rutina })
   })
 }
 
 export class RutinaVacia extends Error {}
+
+function validarEjecucionesRutina(ejecuciones: Routine['ejecuciones']): void {
+  for (const e of Object.values(ejecuciones ?? {})) if (e !== 'bilateral' && e !== 'lados') throw new Error('Selecciona una ejecución válida.')
+}
 
 /** Borra varias rutinas a la vez (deshacer lo guardado con el creador). */
 export async function borrarVarias(ids: number[]): Promise<void> {

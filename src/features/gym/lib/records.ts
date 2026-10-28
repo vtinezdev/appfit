@@ -23,7 +23,8 @@ export interface RecordEjercicio {
   setId?: number
 }
 
-const validas = (s: Serie) => esEfectiva(s) && convencional(s) && repsComparables(s) > 0 && (s.ejecucion !== 'lados' || partesTramo(s).every(p => p.peso === partesTramo(s)[0].peso)) && (modoCarga(s) === 'externa' ? s.peso > 0 : s.peso >= 0)
+// Por lados, los kg van en cada lado (`peso` de la serie queda a 0): se mira la carga ya normalizada.
+const validas = (s: Serie) => esEfectiva(s) && convencional(s) && repsComparables(s) > 0 && (s.ejecucion !== 'lados' || partesTramo(s).every(p => p.peso === partesTramo(s)[0].peso)) && (modoCarga(s) === 'externa' ? pesoComparable(s) > 0 : pesoComparable(s) >= 0)
 
 /** Series comparables agrupadas por ejercicio y variante (clave de `claveComparacion`), con reps y kg normalizados. */
 export type GruposComparables = Map<string, Serie[]>
