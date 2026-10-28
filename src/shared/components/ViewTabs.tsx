@@ -11,10 +11,12 @@ interface Props<T extends string> {
   nivel?: 'principal' | 'secundario'
   /** Acción hermana de las pestañas (p. ej. escanear); no se presenta como una vista seleccionable. */
   accion?: ReactNode
+  /** Una subpágina abierta dentro del panel (p. ej. una comunidad): oculta las pestañas sin desmontar el panel. */
+  sinPestanas?: boolean
   children: ReactNode
 }
 /** Pestañas de navegación, con panel asociado y teclado completo. */
-export default function ViewTabs<T extends string>({ opciones, valor, onChange, label, nivel = 'secundario', accion, children }: Props<T>) {
+export default function ViewTabs<T extends string>({ opciones, valor, onChange, label, nivel = 'secundario', accion, sinPestanas = false, children }: Props<T>) {
   const principal = nivel === 'principal'
   const id = useId()
   const lista = useRef<HTMLDivElement>(null)
@@ -39,7 +41,7 @@ export default function ViewTabs<T extends string>({ opciones, valor, onChange, 
   const elegir = (next: T) => { if (next !== valor) haptic(); onChange(next) }
   return (
     <div>
-      <div className={accion ? 'flex flex-wrap items-start gap-1' : undefined}>
+      <div hidden={sinPestanas} className={accion ? 'flex flex-wrap items-start gap-1' : undefined}>
       <div ref={lista} role="tablist" aria-label={label} className={`app-tabs relative flex min-w-0 ${accion ? 'flex-1 basis-48' : ''} ${principal ? 'app-tabs-principal rounded-md border border-line bg-surface p-1' : ''}`}>
         <span className="tab-indicator" aria-hidden />
         {opciones.map((o, i) => (
@@ -59,7 +61,7 @@ export default function ViewTabs<T extends string>({ opciones, valor, onChange, 
       </div>
       {accion}
       </div>
-      <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-${valor}`} tabIndex={0} className="pt-4"><div key={valor} className="view-arrival">{children}</div></div>
+      <div id={`${id}-panel`} role={sinPestanas ? undefined : 'tabpanel'} aria-labelledby={sinPestanas ? undefined : `${id}-${valor}`} tabIndex={sinPestanas ? undefined : 0} className={sinPestanas ? undefined : 'pt-4'}><div key={valor} className="view-arrival">{children}</div></div>
     </div>
   )
 }
