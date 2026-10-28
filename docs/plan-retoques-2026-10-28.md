@@ -31,6 +31,9 @@ Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, ex
 3. **Libro / Recetas**: de primeras hay muchas frases sueltas («Lo que aportan y cómo se preparan», «Aún no has creado ninguna. Una receta tuya guarda sus ingredientes, su peso cocinado y cómo se prepara»…) y la lista se ve monótona (todos los ítems iguales).
    - Punto de partida: lo de `feat/recetas-sin-textos-sueltos` (commit `3ef64ab`: pestañas Tuyas/AppFit, «+» en la cabecera, estado vacío con acciones, filas con raciones y tiempo), ya incluido en esta rama. La preview parte de ahí.
 
+4. **«Proponer un alimento» también en Escribir** (anotado el 2026-10-28): hoy solo sale en Buscar cuando no aparece lo que buscas. Al escribir una comida y pulsar «Revisar alimentos», si una línea no encuentra alimento, que en la revisión aparezca también esa opción para esa línea (con el texto escrito como punto de partida).
+   - Código: `nutricion/components/ProponerAlimentoSheet.tsx`, `DescribirComida.tsx`, `pages/AnadirComida.tsx` (revisión).
+
 ## Bloque D — Entreno
 
 1. **Historial → calendario**: meterlo dentro de una tarjeta.
