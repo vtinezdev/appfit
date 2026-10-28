@@ -1,4 +1,5 @@
 import { formatInt } from '../../../shared/lib/format'
+import { leerImagenComunidad, type ImagenComunidad } from './imagenComunidad'
 
 export const MAX_NOMBRE_COMUNIDAD = 60
 export const MAX_DESCRIPCION_COMUNIDAD = 300
@@ -11,6 +12,7 @@ export interface Comunidad {
   unida: boolean
   mia: boolean
   soloCreadorPublica: boolean
+  imagen?: ImagenComunidad | null
 }
 
 export function puedePublicarEnComunidad(c: Comunidad): boolean {
@@ -32,5 +34,5 @@ export function leerComunidad(x: unknown): Comunidad | null {
   if (typeof c.id !== 'string' || !c.id || typeof c.nombre !== 'string' || typeof c.descripcion !== 'string') return null
   if (validarComunidad(c.nombre, c.descripcion) || typeof c.miembros !== 'number' || !Number.isSafeInteger(c.miembros) || c.miembros < 0) return null
   if (c.solo_creador_publica !== undefined && typeof c.solo_creador_publica !== 'boolean') return null
-  return { id: c.id, nombre: c.nombre, descripcion: c.descripcion, miembros: c.miembros, unida: c.unida === true, mia: c.mia === true, soloCreadorPublica: c.solo_creador_publica === true }
+  return { id: c.id, nombre: c.nombre, descripcion: c.descripcion, miembros: c.miembros, unida: c.unida === true, mia: c.mia === true, soloCreadorPublica: c.solo_creador_publica === true, imagen: leerImagenComunidad(c.imagen) }
 }

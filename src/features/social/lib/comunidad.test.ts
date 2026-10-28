@@ -16,7 +16,7 @@ describe('comunidades', () => {
   })
   it('descarta respuestas inválidas y elimina campos adicionales', () => {
     const c = { id: 'grupo', nombre: 'Entreno', descripcion: 'Para todos', miembros: 3, unida: true, mia: false }
-    expect(leerComunidad({ ...c, creador: 'privado' })).toEqual({ ...c, soloCreadorPublica: false })
+    expect(leerComunidad({ ...c, creador: 'privado' })).toEqual({ ...c, soloCreadorPublica: false, imagen: null })
     for (const dato of [{ miembros: -1 }, { miembros: '3' }, { miembros: 1.5 }, { id: '' }, { nombre: '' }]) expect(leerComunidad({ ...c, ...dato })).toBeNull()
     expect(leerComunidad(null)).toBeNull()
   })
@@ -25,6 +25,13 @@ describe('comunidades', () => {
     expect(leerComunidad(c)?.soloCreadorPublica).toBe(false)
     expect(leerComunidad({ ...c, solo_creador_publica: true })?.soloCreadorPublica).toBe(true)
     expect(leerComunidad({ ...c, solo_creador_publica: 'false' })).toBeNull()
+  })
+  it('lee la imagen conocida y conserva comunidades antiguas, futuras o con una imagen no válida', () => {
+    const c = { id: 'grupo', nombre: 'Entreno', descripcion: '', miembros: 1 }
+    expect(leerComunidad({ ...c, imagen: 'lugar.campamento' })?.imagen).toBe('lugar.campamento')
+    for (const imagen of [undefined, null, 'lugar.futuro', 'paisaje.cumbre', 'https://ejemplo.com/foto.webp', 42, {}]) {
+      expect(leerComunidad({ ...c, imagen })?.imagen).toBeNull()
+    }
   })
   it('solo permite publicar a miembros y, si se restringe, a su creador', () => {
     const c = { id: 'grupo', nombre: 'Actualizaciones', descripcion: '', miembros: 2, unida: true, mia: false, soloCreadorPublica: false }

@@ -73,7 +73,7 @@ La ampliación de publicaciones libres, logros compartidos, comunidades y mapa m
 ## Mejoras de la app (documento de Víctor, 2026-10-26)
 
 Nueve bloques acordados (PROCESO §270 en adelante). Hechos los bloques 1 a 7, del 8 el punto 22 (interior de una comunidad) y el 9 (Recetas: 13), que se hizo aparte con las recetas con preparación (PROCESO §248 a §269). Quedan:
-- **23, imagen de cada comunidad**: Víctor crea los avatares; plan y handoff en [plan-avatares-comunidades.md](plan-avatares-comunidades.md).
+- **23, imagen de cada comunidad**: implementadas las 36 imágenes aprobadas, selección al crear y cambio por el creador ([ADR 062](decisiones/062-imagen-de-comunidad.md)). Víctor confirma 0028 en Supabase con seis `true` el 2026-10-28; pendiente la prueba con cuentas reales.
 - **21, objetivos de comunidad**: más adelante.
 - **Escribir** (Añadir comida): Víctor quiere mejorar más cómo funciona.
 - **Pastillas de Buscar**: a 375 px la de grasa baja a otra línea cuando las cifras son largas.

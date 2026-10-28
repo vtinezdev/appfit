@@ -3152,8 +3152,25 @@ Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real c
 
 **Verificación:** `npm run test` y `npm run build` correctos. Los ocho pasos del trabajo «navegador» pasan en Chromium en local: `test:ui`, `test:ui:responsive`, `test:ui:uso`, correcciones, pulido, mejoras pendientes, datos y offline. Firefox y WebKit solo en la CI.
 
+## 288. Imágenes del catálogo de comunidades (2026-10-28)
 
-## 288. Ejecución en las rutinas y récords unilaterales (2026-10-28)
+Sobre `origin/master` `1944461` (PR #183), incorporadas las 36 imágenes de lugares compartidos aprobadas por Víctor: WebP locales de 256 × 256, 258 850 bytes en total. Catálogo con ID `lugar.<slug>`, búsqueda y siete grupos; `ImagenComunidad` mantiene el recuadro y tamaños actuales y conserva iniciales para una imagen ausente, desconocida o fallida. Se usa en lista y portada sin modificar avatares personales.
+
+Selección al crear dentro de la misma Sheet, con «Hecho» para volver al formulario; desde «Más acciones», cambio por el creador tras la salida del menú. Borrador hasta guardar, cancelar sin escritura, error y reintento sin perder la selección, alternativa de iniciales. La capacidad `imagenesComunidades` oculta los controles mientras el servidor no tenga la migración, conservando el cliente anterior de creación.
+
+0028 añade `comunidades.imagen`, validación cerrada, creación atómica con membresía e imagen, edición solo por el creador activo y lectura con los filtros anteriores. El reintento de creación no duplica ni revierte ediciones posteriores. **Pendiente de que Víctor ejecute 0028 en Supabase real, después de 0027; no se ha ejecutado SQL remoto ni publicado.** ADR 062, documentación social, diseño, desarrollo, roadmap y handoff actualizados.
+
+Validación: 264 archivos / 3075 tests en verde; build PWA correcto. Todas las migraciones y suites SQL, incluida `comunidades_imagen.sql`, pasan en PostgreSQL 17 temporal. El recorrido nuevo de navegador pasa a 320/375/430 px en claro/oscuro y a 375 con texto al 200 %: crear y reintentar con el mismo ID, cambiar, cancelar, volver a iniciales, recarga, permisos visibles y ausencia de 0028. Las 36 imágenes se emiten sin cambios, están en CacheStorage y se decodifican offline desde el build de producción. Regresión social existente en 375 claro correcta tras adaptar su fixture para cerrar la celebración de logros y volver desde el detalle antes de pulsar Siguiendo. Capturas de lista, portada, selector y creación con datos ficticios.
+
+## 289. 0028 confirmada en Supabase (2026-10-28)
+
+Víctor confirma que ha ejecutado el SQL de imágenes de comunidades en el proyecto real y que las seis comprobaciones devuelven `true`. Actualizados el estado de Social, ADR 062, roadmap y handoff. La sesión no ha ejecutado SQL remoto. Los cambios del cliente siguen locales, pendientes de commit/publicación y de la prueba con cuentas reales en la versión publicada.
+
+## 290. Publicación de las imágenes de comunidades (2026-10-28)
+
+Tras confirmar 0028 en Supabase, Víctor autoriza publicar el cliente. Se prepara una PR desde `feat/catalogo-imagenes-comunidades` hacia `master`, con el catálogo de 36 imágenes y sus flujos de creación/edición. La publicación sigue el build de Cloudflare conectado a `master`, conservando sus variables de Supabase. Las comprobaciones locales previas están en §288; el resultado remoto se consulta en la PR y el despliegue, sin confundirlo con la confirmación de SQL de §289.
+
+## 291. Ejecución en las rutinas y récords unilaterales (2026-10-28)
 
 **Qué:** Víctor pidió poder dejar fijado en una rutina si un ejercicio es bilateral o unilateral (solo se podía fijar el agarre) y que cada variante tuviera sus propios récords. Los récords ya se separaban por variante (`claveComparacion`: ejecución, agarre, técnica y gimnasio de máquina), pero al revisarlo apareció un fallo: las series unilaterales por lados nunca contaban para récords.
 
@@ -3167,7 +3184,7 @@ Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real c
 
 **Verificación:** `npm run test` (3.050 tests) y `npm run build` correctos. `validar-agarres.cjs` pasa en los ocho contextos (320/375/430 claro/oscuro, 1440, 375 con texto al 200 %).
 
-## 289. Récords de cada variante en la ficha del ejercicio (2026-10-28)
+## 292. Récords de cada variante en la ficha del ejercicio (2026-10-28)
 
 **Qué:** la sección «Tú» de la ficha de un ejercicio solo enseñaba la variante básica (bilateral, sin agarre): quien hacía el remo solo en supino o unilateral no veía nada. Víctor pidió ver los récords de cada variante.
 

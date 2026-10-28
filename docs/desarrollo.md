@@ -268,3 +268,11 @@ Para este cliente ejecutar manualmente **0009–0013 después de 0008 y antes de
 ### Regresión del catálogo ampliado
 
 `node scripts/ui/validar-tipicos.cjs` usa un perfil nuevo en appfit-test.localhost:5173, demora la descarga de típicos y comprueba que «pizza hawaiana» aparece en Nutrición al terminar sin volver a escribir. Busca después croquetas, lombarda, pan con germen de trigo y nigiri sin conexión. Requiere Vite, Playwright y Chromium; no toca datos del perfil habitual ni APIs externas.
+
+### Imágenes de comunidades (0028)
+
+Después de 0027, Víctor ejecuta manualmente `supabase/migrations/0028_comunidades_imagen.sql` en el SQL Editor del proyecto real. La sesión de implementación no ejecuta SQL remoto. La app nueva tolera la migración pendiente: lee las comunidades antiguas y crea con las iniciales, sin ofrecer el selector hasta recibir `imagenesComunidades: true`.
+
+`node scripts/sql/validar-social.mjs` descubre la migración y `supabase/pruebas/comunidades_imagen.sql` automáticamente. El recorrido `node scripts/ui/validar-imagenes-comunidades.cjs` usa Vite en `appfit-test.localhost:5174` y Supabase falso en 54329, con `VITE_SUPABASE_URL=http://127.0.0.1:54329` y `VITE_SUPABASE_PUBLISHABLE_KEY=falsa`. Comprueba creación atómica, fallos/reintentos, cambios, cancelar, iniciales, recarga y ausencia de la capacidad en 320/375/430 y texto al 200 % en ambos temas. `APPFIT_UI_CASE` filtra un caso y `APPFIT_UI_OUTPUT` cambia la carpeta de capturas. No ejecutar simultáneamente dos recorridos que reinicien el Supabase falso compartido.
+
+El build PWA se comprueba con `node scripts/comunidades/validar-build.cjs`, después de servir `dist` en `appfit-test.localhost:5175`: valida por huella los 36 recursos emitidos, su precaché y decodificación offline. Este ensayo no requiere cuenta ni Supabase.
