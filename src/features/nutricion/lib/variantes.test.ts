@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { CatalogFood, MealItem, Receta } from '../../../shared/db/types'
-import { aLote, diferencias, filtrarRecetario, gramosRacion, ingredientesPara, mismaComposicion, nombrePlatoDe, nombrePropuesto, pesoCocinadoVariante, por100De, varianteIgual, vistaDeRecetaCatalogo, vistaDeRecetaPropia } from './variantes'
+import { aLote, categoriasRecetario, diferencias, filtrarRecetario, ordenarRecetario, racionRecetario, gramosRacion, ingredientesPara, mismaComposicion, nombrePlatoDe, nombrePropuesto, pesoCocinadoVariante, por100De, varianteIgual, vistaDeRecetaCatalogo, vistaDeRecetaPropia } from './variantes'
 
 const ing = (catalogId: string, nombre: string, gramos: number, kcal100: number): MealItem => ({ catalogId, nombre, gramos, kcal: (kcal100 * gramos) / 100, prot: 0, carb: 0, grasa: 0 })
 const lenteja = ing('ciqual:1', 'Lenteja, seca (promedio)', 400, 330)
@@ -80,3 +80,22 @@ describe('recetario AppFit', () => {
   })
 })
 
+describe('recetario AppFit: ración, orden y categorías', () => {
+  const plato = (nombre: string, kcal100: number, prot100: number, raciones: number | undefined, categoria: string) =>
+    ({ nombre, kcal100, prot100, carb100: 10, grasa100: 5, categoria, receta: { pesoFinalG: 800, ingredientes: [], ...(raciones ? { raciones } : {}) } })
+  const tortilla = plato('Tortilla', 200, 8, 4, 'Platos preparados')
+  const bizcocho = plato('Bizcocho', 400, 6, 8, 'Galletas, bollería y pasteles')
+  const pan = plato('Pan', 250, 9, undefined, 'Pan y tostadas')
+  it('por ración si la tiene; si no, por 100 g', () => {
+    expect(racionRecetario(tortilla)).toEqual({ kcal: 400, prot: 16, carb: 20, grasa: 10, porRacion: true })
+    expect(racionRecetario(pan)).toEqual({ kcal: 250, prot: 9, carb: 10, grasa: 5, porRacion: false })
+  })
+  it('ordena por lo que aporta una ración; «relevancia» no cambia el orden', () => {
+    expect(ordenarRecetario([tortilla, bizcocho, pan], 'menos-kcal').map((p) => p.nombre)).toEqual(['Pan', 'Tortilla', 'Bizcocho'])
+    expect(ordenarRecetario([tortilla, bizcocho, pan], 'mas-proteina').map((p) => p.nombre)).toEqual(['Tortilla', 'Pan', 'Bizcocho'])
+    expect(ordenarRecetario([tortilla, bizcocho, pan], 'relevancia').map((p) => p.nombre)).toEqual(['Tortilla', 'Bizcocho', 'Pan'])
+  })
+  it('categorías presentes en el orden de siempre', () => {
+    expect(categoriasRecetario([bizcocho, tortilla, pan, tortilla])).toEqual(['Pan y tostadas', 'Galletas, bollería y pasteles', 'Platos preparados'])
+  })
+})

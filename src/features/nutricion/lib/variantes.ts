@@ -6,6 +6,8 @@ import type { CatalogFood, MealItem, Receta, VarianteReceta } from '../../../sha
 import { formatNumber, round1 } from '../../../shared/lib/format'
 import { normalizeName } from '../../../shared/lib/text'
 import type { Por100 } from './alimentos'
+import { CATEGORIAS_ALIMENTO, type CategoriaAlimento } from './catalogo/categorias'
+import { ordenarElegibles, type OrdenBusqueda } from './ordenBusqueda'
 import { macrosPorGramos } from './nutrition'
 import { pesoCrudoTotal, por100DeReceta, racionesDe } from './recetas'
 
@@ -176,4 +178,26 @@ export function filtrarRecetario<T extends Pick<CatalogFood, 'nombre' | 'receta'
   }
   const conPasos = (p: T) => (p.receta?.pasos?.length ? 0 : 1)
   return platos.filter((p) => coincide(p.nombre)).sort((a, b) => conPasos(a) - conPasos(b) || a.nombre.localeCompare(b.nombre, 'es'))
+}
+
+type PlatoRecetario = Pick<CatalogFood, 'kcal100' | 'prot100' | 'carb100' | 'grasa100' | 'receta'>
+
+/** Lo que aporta una ración de una receta del catálogo (por 100 g si no tiene raciones) y si es por ración. */
+export function racionRecetario(p: PlatoRecetario): { kcal: number; prot: number; carb: number; grasa: number; porRacion: boolean } {
+  const r = p.receta
+  const porRacion = !!r?.raciones && r.raciones > 0
+  const f = porRacion ? r!.pesoFinalG / r!.raciones! / 100 : 1
+  return { kcal: p.kcal100 * f, prot: p.prot100 * f, carb: p.carb100 * f, grasa: p.grasa100 * f, porRacion }
+}
+
+/** «Filtrar» del recetario: ordena por lo que aporta una ración, con el mismo orden que Buscar (estable). */
+export function ordenarRecetario<T extends PlatoRecetario>(platos: readonly T[], orden: OrdenBusqueda): T[] {
+  const valores = platos.map((p) => { const r = racionRecetario(p); return { p, kcal100: r.kcal, prot100: r.prot, carb100: r.carb, grasa100: r.grasa } })
+  return ordenarElegibles(valores, orden).map((v) => v.p)
+}
+
+/** Las categorías que tiene alguna receta del recetario, en el orden de siempre (las que ofrece «Filtrar»). */
+export function categoriasRecetario(platos: readonly Pick<CatalogFood, 'categoria'>[]): CategoriaAlimento[] {
+  const hay = new Set(platos.map((p) => p.categoria))
+  return CATEGORIAS_ALIMENTO.filter((c) => hay.has(c))
 }

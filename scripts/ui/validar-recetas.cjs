@@ -121,7 +121,7 @@ async function main() {
         await page.getByRole('heading', { name: 'Recetas', level: 1 }).waitFor()
         await page.getByRole('list', { name: 'Tus recetas' }).getByRole('button').nth(3).waitFor()
         await captura(page, `${etiqueta}-lista`)
-        // Pestaña AppFit: buscador con el total y filtro «Con pasos»; se vuelve a Tuyas.
+        // Pestaña AppFit: buscador con «Filtrar» y el total encima de la lista; se vuelve a Tuyas.
         await page.getByRole('tab', { name: 'AppFit', exact: true }).click()
         await page.getByRole('searchbox', { name: 'Buscar en el recetario AppFit' }).or(page.getByText('El recetario aún no está descargado')).waitFor()
         await captura(page, `${etiqueta}-appfit`)

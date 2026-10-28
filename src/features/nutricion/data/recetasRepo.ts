@@ -31,6 +31,13 @@ export function listar(): Promise<Receta[]> {
   return db.recetas.orderBy('nombreNorm').toArray()
 }
 
+/** Las recetas con la categoría actual de su alimento (para el icono de la lista). Solo lectura. */
+export async function listarConCategoria(): Promise<(Receta & { categoria?: string })[]> {
+  const recetas = await listar()
+  const foods = await db.foods.bulkGet(recetas.map((r) => r.foodId))
+  return recetas.map((r, i) => ({ ...r, categoria: foods[i]?.categoria }))
+}
+
 export function obtener(id: number): Promise<Receta | undefined> {
   return db.recetas.get(id)
 }

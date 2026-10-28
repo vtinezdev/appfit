@@ -75,8 +75,10 @@ export function CantidadesRapidas({ clave, nombre, ml = false, gramos, onGramos,
 }
 
 /**
- * «Cómo queda tu día»: cuatro barras (kcal, proteína, hidratos, grasa) con lo que llevas ese día en gris y lo que se
- * añade en su color, frente al objetivo del día (al planificar, frente a lo planificado). Sin objetivo no se pinta.
+ * «Cómo queda tu día», en una tarjeta `surface-muted` con su título dentro: cuatro barras (kcal, proteína, hidratos,
+ * grasa) con lo que llevas ese día en gris y lo que se añade en su color, frente al objetivo del día (al planificar,
+ * frente a lo planificado). Cada fila dice cuánto suma esto («1.742 +104 de 2.200»), así que no hace falta leyenda.
+ * Sin objetivo no se pinta.
  */
 export function ComoQuedaTuDia({ aporte, fecha, planificar = false, plegable = false }: { aporte: Macros3 & { kcal: number }; fecha: string; planificar?: boolean; plegable?: boolean }) {
   const [abierto, setAbierto] = useState(!plegable)
@@ -95,35 +97,39 @@ export function ComoQuedaTuDia({ aporte, fecha, planificar = false, plegable = f
   ]
   const kcalTotal = dia.llevas.kcal + aporte.kcal
   const pasado = kcalTotal > dia.objetivo.kcal
-  return <section aria-labelledby={`${id}-t`} className="space-y-3">
+  return <section aria-labelledby={`${id}-t`} className="space-y-3 rounded-lg bg-surface-muted px-card py-3">
     {plegable
-      ? <button type="button" aria-expanded={abierto} aria-controls={id} onClick={() => setAbierto(!abierto)} className="app-button flex min-h-touch w-full items-center justify-between gap-3 border-y border-line py-2 text-left">
+      ? <button type="button" aria-expanded={abierto} aria-controls={id} onClick={() => setAbierto(!abierto)} className="app-button flex min-h-touch w-full items-center justify-between gap-3 text-left">
           <span className="min-w-0">
             <span id={`${id}-t`} className="block text-rotulo text-fg-muted">Cómo queda tu día</span>
             <span className={`tabular block text-body-sm ${pasado ? 'font-semibold text-warning' : 'text-fg'}`}>{formatInt(Math.round(kcalTotal))} de {formatInt(Math.round(dia.objetivo.kcal))} kcal{pasado ? ' · te pasas' : ''}</span>
           </span>
-          <Icon name="chevron-down" size={18} className={`shrink-0 text-fg-subtle transition-transform duration-short ${abierto ? 'rotate-180' : ''}`} />
+          <Icon name="chevron-down" size={18} className={`shrink-0 text-fg-muted transition-transform duration-short ${abierto ? 'rotate-180' : ''}`} />
         </button>
       : <h3 id={`${id}-t`} className="text-rotulo text-fg-muted">Cómo queda tu día</h3>}
     <div id={id} hidden={!abierto} className="space-y-3">
-    <ul className="space-y-2">
+    <ul className="space-y-3">
       {filas.map((f) => {
         const llevas = Math.min(100, (f.llevas / f.objetivo) * 100)
         const suma = Math.max(0, Math.min(100 - llevas, (f.suma / f.objetivo) * 100))
         const total = f.llevas + f.suma
+        const anade = Math.round(f.suma)
         return <li key={f.label} className="space-y-1">
           <span className="flex items-baseline justify-between gap-2 text-caption">
             <span className="text-fg">{f.label}</span>
-            <span className={`tabular ${total > f.objetivo ? 'font-semibold text-warning' : 'text-fg-muted'}`}>{formatInt(Math.round(total))}{f.unidad} de {formatInt(Math.round(f.objetivo))}{f.unidad}</span>
+            <span className={`tabular ${total > f.objetivo ? 'font-semibold text-warning' : 'text-fg-muted'}`}>
+              {formatInt(Math.round(f.llevas))}
+              {anade > 0 && <> <span className="rounded-pill bg-surface px-1.5 font-semibold text-fg">+{formatInt(anade)}</span><span className="sr-only"> con esto</span></>}
+              {' '}de {formatInt(Math.round(f.objetivo))}{f.unidad}
+            </span>
           </span>
-          <span aria-hidden className="flex h-2 w-full overflow-hidden rounded-pill bg-surface-muted">
+          <span aria-hidden className="flex h-2 w-full overflow-hidden rounded-pill bg-surface">
             <span className="bg-fg-subtle" style={{ width: `${llevas}%` }} />
             <span className={f.color} style={{ width: `${suma}%` }} />
           </span>
         </li>
       })}
     </ul>
-    <p className="flex items-center gap-3 text-caption text-fg-muted"><span className="flex items-center gap-1"><span aria-hidden className="h-2 w-3 rounded-pill bg-fg-subtle" />Lo que llevas</span><span className="flex items-center gap-1"><span aria-hidden className="h-2 w-3 rounded-pill bg-protein" />Lo que añades</span></p>
     </div>
   </section>
 }

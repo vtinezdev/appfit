@@ -3195,3 +3195,14 @@ Plan: `docs/plan-retoques-2026-10-28.md`. Víctor eligió sobre capturas: Activi
 - `Sheet` gana `accion` (a la derecha del título).
 
 **Verificación:** `npm run test` (3.051) y `npm run build` correctos. `validar-mejoras-uso.cjs` y `auditoria-interfaz.cjs` en Chromium correctos. Capturas en Chromium a 320/375 px en claro y oscuro: sin scroll horizontal, fecha a 44 px y campos a 16 px o más; la «i» abre su hoja encima. Sin iPhone real (selector de fecha nativo y teclado decimal por probar).
+
+## 291. Retoques de la revisión, bloque C: Nutrición (2026-10-28)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor eligió sobre capturas: C1 y C4 tal cual, «Cómo queda tu día» O1 y el recetario L2 con «Filtrar» junto al buscador en lugar de chips, y sin el filtro «Con pasos» (ya todas tienen pasos).
+
+- C1: el pie de cada comida del Diario (`ComidaSection`, `.meal-macros`) usa las pastillas de Buscar («● P 92 g»); sigue siendo un `dl` con los nombres completos para lectores de pantalla. La ficha de receta y la hoja Registrar/Planificar conservan sus `Metric` (ahí el macro es el dato principal).
+- C2: `ComoQuedaTuDia` (revisión y hoja Cantidad) en una tarjeta `surface-muted` con el título dentro; cada fila dice «llevas +suma de objetivo» con lo que suma en una pastilla `surface`, así que se quita la leyenda «Lo que llevas / Lo que añades»; el carril de las barras pasa a `surface`.
+- C3: `FilaReceta` compartida por Tuyas y el recetario: icono de la categoría, nombre con kcal a la derecha, raciones/tiempo y `PastillasMacros` por ración. El recetario cambia el `SegmentedControl` «Todas / Con pasos» por «Filtrar» (orden y categorías presentes) y pone «Recetas N» encima de la lista; el buscador pasa a «Buscar receta…» (el total ya no cabía a 320/375 px). `FiltrosBusquedaSheet` gana `categorias` y exporta `BotonFiltrar`, `FiltrosActivos` y `filtrosActivos`, que también usa Buscar. Lógica en `lib/variantes`: `racionRecetario`, `ordenarRecetario`, `categoriasRecetario` (con tests); `recetasRepo.listarConCategoria`.
+- C4: en la revisión, un alimento escrito que no se encuentra ofrece «Propónselo a AppFit» (si el envío está disponible), con lo escrito como nombre (`ItemRevisionRow.proponer.test.tsx`).
+
+**Verificación:** `npm run test` y `npm run build` correctos. En Chromium: `validar-recetas`, `validar-registros-comida`, `validar-mejoras-uso` y `auditoria-interfaz` correctos; capturas a 320/375 px en claro y oscuro sin scroll horizontal. `validar-recetas-anadir`, `validar-tarjetas-comidas` y `validar-registro-visual` ya fallaban antes de este bloque (buscan el título «Recetas» sin su número y el `select` «Comida del día» que quitó el rediseño de Añadir comida); no están en CI. «Propónselo a AppFit» no se ha visto en navegador (sin Supabase en local), solo en el test. Sin iPhone real.

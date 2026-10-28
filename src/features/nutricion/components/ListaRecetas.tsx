@@ -3,14 +3,12 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import Button from '../../../shared/components/Button'
 import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
-import ListRow from '../../../shared/components/ListRow'
 import { EmptyState } from '../../../shared/components/StateMessage'
-import { formatInt } from '../../../shared/lib/format'
 import * as recetasRepo from '../data/recetasRepo'
 import { por100DeReceta, valoresPorRacion } from '../lib/recetas'
-import DatosReceta from './DatosReceta'
 import EditorReceta from './EditorReceta'
 import FichaReceta from './FichaReceta'
+import FilaReceta from './FilaReceta'
 
 interface Props {
   /** Quien crea la receta está fuera (el «+» de la cabecera de Recetas): la lista no pone su botón «Nueva receta». */
@@ -24,7 +22,7 @@ interface Props {
  * Recetas y en Alimentos › Recetas.
  */
 export default function ListaRecetas({ sinBotonNueva = false, vacio }: Props) {
-  const recetas = useLiveQuery(() => recetasRepo.listar(), [])
+  const recetas = useLiveQuery(() => recetasRepo.listarConCategoria(), [])
   const [abierta, setAbierta] = useState<number | null>(null)
   const [creando, setCreando] = useState(false)
 
@@ -37,18 +35,10 @@ export default function ListaRecetas({ sinBotonNueva = false, vacio }: Props) {
           {recetas.map((r) => {
             // Las recetas sin raciones (anteriores a la preparación) siguen mostrando su valor por 100 g.
             const conRaciones = r.raciones !== undefined
-            const kcal = conRaciones ? valoresPorRacion(r).kcal : por100DeReceta(r.ingredientes, r.pesoCocinadoG).kcal100
-            return (
-              <li key={r.id}>
-                <ListRow onClick={() => setAbierta(r.id)} className="flex-wrap">
-                  <div className="min-w-0 flex-1 basis-40">
-                    <p className="break-words text-body font-medium text-fg">{r.nombre}</p>
-                    <DatosReceta raciones={r.raciones} tiempoMin={r.tiempoMin} pesoG={conRaciones ? undefined : r.pesoCocinadoG} />
-                  </div>
-                  <p className="tabular shrink-0 text-right text-fg"><span className="text-body font-semibold">{formatInt(kcal)}</span> <span className="text-caption text-fg-muted">{conRaciones ? 'kcal/rac.' : 'kcal/100 g'}</span></p>
-                </ListRow>
-              </li>
-            )
+            const p = por100DeReceta(r.ingredientes, r.pesoCocinadoG)
+            const aporte = conRaciones ? valoresPorRacion(r) : { kcal: p.kcal100, prot: p.prot100, carb: p.carb100, grasa: p.grasa100 }
+            return <li key={r.id}><FilaReceta nombre={r.nombre} categoria={r.categoria} aporte={aporte} porRacion={conRaciones} raciones={r.raciones} tiempoMin={r.tiempoMin}
+              pesoG={conRaciones ? undefined : r.pesoCocinadoG} onClick={() => setAbierta(r.id)} /></li>
           })}
         </ListGroup>
       )}

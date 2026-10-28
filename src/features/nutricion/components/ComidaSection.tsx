@@ -108,10 +108,11 @@ export default function ComidaSection({ comida, titulo, entries, nombresCortos, 
               ),
             )}
           </ul>
-          <dl aria-label={`Macros de ${comidaMinus}`} className="meal-macros flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 pb-3 pt-2">
-            {[{ macro: MACROS.prot, valor: totales.prot }, { macro: MACROS.carbs, valor: totales.carb }, { macro: MACROS.fat, valor: totales.grasa }].map(({ macro, valor }) => <div key={macro.short} className="flex min-w-0 flex-wrap items-baseline gap-x-1 text-caption">
-              <dt className="flex items-center gap-1"><span aria-hidden className={`h-1 w-1 shrink-0 rounded-pill ${macro.bg}`} /><span className="sr-only">{macro.label}</span><span aria-hidden className="font-semibold text-fg-muted">{macro.short}</span></dt>
-              <dd className="tabular min-w-0 break-words font-semibold text-fg">{formatInt(valor)} <span className="font-normal text-fg-muted">g</span></dd>
+          {/* Las mismas pastillas que Buscar y Añadir comida («● P 92 g»), como lista de definiciones para lectores de pantalla. */}
+          <dl aria-label={`Macros de ${comidaMinus}`} className="meal-macros flex flex-wrap items-center gap-1.5 px-4 pb-3 pt-2">
+            {[{ macro: MACROS.prot, valor: totales.prot }, { macro: MACROS.carbs, valor: totales.carb }, { macro: MACROS.fat, valor: totales.grasa }].map(({ macro, valor }) => <div key={macro.short} className="tabular flex items-center gap-1 rounded-pill bg-surface-muted px-2 py-0.5 text-caption text-fg">
+              <dt className="flex items-center gap-1"><span aria-hidden className={`h-2 w-2 shrink-0 rounded-pill ${macro.bg}`} /><span className="sr-only">{macro.label}</span><span aria-hidden>{macro.short}</span></dt>
+              <dd>{formatInt(valor)} g</dd>
             </div>)}
           </dl>
         </> : <p className="px-4 py-3 text-caption text-fg-muted">Sin alimentos todavía.</p>}

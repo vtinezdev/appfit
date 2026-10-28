@@ -1,6 +1,6 @@
 # Plan: retoques de la revisión del 28 de octubre
 
-Fecha: 2026-10-28. Estado: **apuntado, sin empezar**. Rama: `claude/optimistic-pascal-vvpdvx` (sale de `master` e incluye `feat/recetas-sin-textos-sueltos`, que no estaba fusionada). Víctor ha repasado la app después de muchas actualizaciones y anota lo que no le convence. El bloque G (repaso de frases sueltas en toda la app) va al final.
+Fecha: 2026-10-28. Estado: **en curso** (A, B y C hechos). Rama: `claude/optimistic-pascal-vvpdvx` (sale de `master` e incluye `feat/recetas-sin-textos-sueltos`, que no estaba fusionada). Víctor ha repasado la app después de muchas actualizaciones y anota lo que no le convence. El bloque G (repaso de frases sueltas en toda la app) va al final.
 
 ## Forma de trabajar (decisión de Víctor)
 
@@ -24,7 +24,7 @@ Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, ex
 4. **Tu energía diaria**: hoy reposo y actividad comparten color y el volumen va en otro. Que **actividad** tenga su propio color (tres colores: reposo, actividad, volumen). Cuidar contraste en ambos temas (`contrast.test.ts`).
    - Código: `features/perfil/PerfilTab.tsx`, `features/perfil/components/MedidasCorporales.tsx`, `features/referencias/components/EnergiaReferencias.tsx`.
 
-## Bloque C — Nutrición
+## Bloque C — Nutrición · **hecho** (C1, O1, L2 con «Filtrar», C4; PROCESO §291)
 
 1. **Macros iguales en todas partes**: en Buscar, bajo cada alimento, kcal · P · C · G se ven de una forma; usar esa misma forma en la pantalla principal de Nutrición y en cualquier otro sitio con macros (idealmente un único componente compartido).
 2. **«Cómo queda tu día»** en la revisión al añadir escribiendo (debajo de «Total de la comida»): **no cambia el contenido**, solo cómo se ve. Hoy es un desplegable con línea arriba y abajo («CÓMO QUEDA TU DÍA / 712 de 3.010 kcal» y chevron), cuatro barras (Kcal, Proteína, Hidratos, Grasa: lo que llevas en gris + lo que añades en el color del macro) y una leyenda «Lo que llevas / Lo que añades» suelta al pie. Se ve suelto respecto a «Total de la comida» y al «Guardar como comida típica». Previews con varias opciones.
