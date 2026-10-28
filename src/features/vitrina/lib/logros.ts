@@ -619,3 +619,35 @@ export function porRareza(nuevos: readonly NuevoLogro[]): NuevoLogro[] {
   const rareza = ({ logro, nivel }: NuevoLogro) => (logro.oculto ? Infinity : nivel ?? 1)
   return [...nuevos].sort((a, b) => rareza(b) - rareza(a))
 }
+
+/** Días hacia atrás en los que una pieza aún se celebra: lo antiguo (de antes de esta versión, de registros atrasados o de
+ * cuando la gamificación estaba oculta) no llena la pantalla de golpe. */
+export const DIAS_CELEBRAR = 7
+
+export interface PiezaConseguida { clave: string; fecha: string; nuevo: NuevoLogro }
+
+/**
+ * Cada pieza conseguida con una clave estable para recordar si ya se celebró: «racha:2» (nivel 2) o, en los repetibles,
+ * «meta@2026-10-26#0» (fecha y orden dentro del día, para que borrar una vez anterior no confunda las siguientes).
+ */
+export function piezasConseguidas(logros: readonly Logro[]): PiezaConseguida[] {
+  return logros.flatMap((logro) => {
+    const niveles = logro.niveles.flatMap((n, i) => (n ? [{ clave: `${logro.id}:${i + 1}`, fecha: n.fecha, nuevo: { logro, nivel: i + 1 } }] : []))
+    const porDia = new Map<string, number>()
+    const veces = (logro.veces ?? []).map((v) => {
+      const k = porDia.get(v.fecha) ?? 0
+      porDia.set(v.fecha, k + 1)
+      return { clave: `${logro.id}@${v.fecha}#${k}`, fecha: v.fecha, nuevo: { logro, nivel: null } }
+    })
+    return [...niveles, ...veces]
+  })
+}
+
+/** Las piezas recientes que aún no se han celebrado, las más especiales primero. */
+export function piezasPorCelebrar(logros: readonly Logro[], vistos: readonly string[], hoy: string, dias = DIAS_CELEBRAR): PiezaConseguida[] {
+  const ya = new Set(vistos)
+  const desde = addDays(hoy, -(dias - 1))
+  const piezas = piezasConseguidas(logros).filter((p) => !ya.has(p.clave) && p.fecha >= desde && p.fecha <= hoy)
+  const orden = porRareza(piezas.map((p) => p.nuevo))
+  return orden.map((n) => piezas.find((p) => p.nuevo === n)!)
+}

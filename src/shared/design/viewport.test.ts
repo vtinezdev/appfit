@@ -1,7 +1,24 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { initViewport } from './viewport'
+import { altoVisible, initViewport } from './viewport'
 
 afterEach(() => vi.unstubAllGlobals())
+
+describe('altoVisible', () => {
+  const iphone = { ancho: 393, alto: 852 }
+  it('en la PWA de iOS sin teclado ocupa la pantalla entera aunque iOS informe de menos', () => {
+    expect(altoVisible({ alto: 793, standaloneIOS: true, pantalla: iphone, horizontal: false })).toBe(852)
+    expect(altoVisible({ alto: 340, standaloneIOS: true, pantalla: iphone, horizontal: true })).toBe(393)
+  })
+  it('con el teclado abierto conserva el alto visible', () => {
+    expect(altoVisible({ alto: 500, standaloneIOS: true, pantalla: iphone, horizontal: false })).toBe(500)
+  })
+  it('fuera de la PWA de iOS no toca el alto', () => {
+    expect(altoVisible({ alto: 793, standaloneIOS: false, pantalla: iphone, horizontal: false })).toBe(793)
+  })
+  it('nunca encoge un alto mayor que la pantalla', () => {
+    expect(altoVisible({ alto: 900, standaloneIOS: true, pantalla: iphone, horizontal: false })).toBe(900)
+  })
+})
 
 describe('zona visible de la app', () => {
   function entorno(conViewport = true) {

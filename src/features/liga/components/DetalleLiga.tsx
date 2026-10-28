@@ -15,12 +15,13 @@ export default function DetalleLiga({ liga: l, ejercicio, hoy, tituloId, manteni
   const basico = !!ejercicio && esBasico(ejercicio)
   const ciclos = l.ciclos.length
   return <>
-    <div className="flex items-center gap-3">
+    {/* Con el texto ampliado, el nombre y las semanas bajan bajo la insignia. */}
+    <div className="flex flex-wrap items-center gap-3">
       <InsigniaLiga liga={l.division.liga} size={48} />
-      <div className="min-w-0 space-y-1">
+      <div className="min-w-0 flex-1 basis-32 space-y-1">
         <h3 id={tituloId} className="text-label text-fg-muted">Liga</h3>
         <p className="break-words text-heading text-fg">{l.division.nombre}</p>
-        {l.division.semana > 0 && <p className="flex items-center gap-2 text-caption text-fg-muted">
+        {l.division.semana > 0 && <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-caption text-fg-muted">
           <SemanasLiga semana={l.division.semana} /><span className="tabular">{textoSemanaDeLiga(l.division)}</span>
         </p>}
       </div>

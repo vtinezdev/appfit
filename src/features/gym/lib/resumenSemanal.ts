@@ -57,3 +57,21 @@ export function resumenSemanal(lunes: string, domingo: string, workouts: Workout
     .sort((a, b) => b.series - a.series || a.nombre.localeCompare(b.nombre, 'es'))
   return { sesiones: delPeriodo.length, duracionMs, series, volumen, porMusculo, sinClasificar }
 }
+
+/**
+ * Los grupos más trabajados de una sesión («Pecho y tríceps»), para nombrar en el historial un entreno sin rutina: series
+ * efectivas por músculo principal (los secundarios no nombran un entreno). `null` si ninguna serie está clasificada.
+ */
+export function gruposDeSesion(w: Workout, sets: SetEntry[], exercises: Exercise[], max = 2): string | null {
+  const propias = sets.filter((s) => s.workoutId === w.id)
+  const clasificacion = new Map((w.muscleSnapshot ?? crearSnapshotMuscular(propias, exercises)).exercises.map((e) => [e.exerciseId, e]))
+  const zonas = new Set<string>(ZONAS_MUSCULARES)
+  const cuenta = new Map<ZonaMuscular, number>()
+  for (const s of propias) {
+    if (!esEfectiva(s) || !(s.reps > 0)) continue
+    for (const m of new Set(clasificacion.get(s.exerciseId)?.primaryMuscles ?? [])) if (zonas.has(m)) cuenta.set(m as ZonaMuscular, (cuenta.get(m as ZonaMuscular) ?? 0) + 1)
+  }
+  const nombres = [...cuenta].sort((a, b) => b[1] - a[1] || MUSCULOS[a[0]].localeCompare(MUSCULOS[b[0]], 'es')).slice(0, max).map(([m]) => MUSCULOS[m])
+  if (!nombres.length) return null
+  return [nombres[0], ...nombres.slice(1).map((n) => n.toLowerCase())].join(' y ')
+}

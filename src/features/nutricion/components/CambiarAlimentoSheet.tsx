@@ -2,11 +2,10 @@ import FiltroCategoriaBusqueda from './FiltroCategoriaBusqueda'
 import { filtrarPorCategoria, type FiltroCategoria } from '../lib/repartoCategorias'
 import { useState } from 'react'
 import { SearchInput } from '../../../shared/components/Input'
-import SectionHeader from '../../../shared/components/SectionHeader'
 import Sheet from '../../../shared/components/Sheet'
 import type { AlimentoElegible, ItemRevision } from '../lib/alimentos'
 import ListaElegibles from './ListaElegibles'
-import ResultadosBusqueda from './ResultadosBusqueda'
+import ResultadosBusqueda, { TituloResultados } from './ResultadosBusqueda'
 
 interface Props {
   /** El ítem que se cambia; `null` cierra el sheet. */
@@ -38,8 +37,8 @@ export default function CambiarAlimentoSheet({ item, onElegir, onClose }: Props)
         />
         <FiltroCategoriaBusqueda valor={categoria} onChange={setCategoria} />
         {busqueda.trim() === '' && alternativas.length > 0 && (
-          <div className="space-y-1">
-            <SectionHeader variant="section">Otras opciones</SectionHeader>
+          <div className="space-y-2">
+            <TituloResultados texto="Otras opciones" />
             <ListaElegibles
               alimentos={alternativas}
               onElegir={(a) => {

@@ -1,4 +1,3 @@
-import PreparacionAlimento from '../components/PreparacionAlimento'
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import type { Comida, Entry, MealItem, VarianteReceta } from '../../../shared/db/types'
@@ -7,8 +6,6 @@ import { objetivosDe } from '../../perfil/data/objetivosDiaRepo'
 import ModalPage from '../../../shared/components/ModalPage'
 import ViewTabs from '../../../shared/components/ViewTabs'
 import Icon from '../../../shared/components/Icon'
-import NumberStepper from '../../../shared/components/NumberStepper'
-import SectionHeader from '../../../shared/components/SectionHeader'
 import Disclosure from '../../../shared/components/Disclosure'
 import Sheet from '../../../shared/components/Sheet'
 import * as entriesRepo from '../data/entriesRepo'
@@ -30,6 +27,7 @@ import {
   itemDesdeElegible,
   itemSinCoincidencia,
   medidaPendiente,
+  pendienteRevision,
   recetaDeItem,
   por100DesdeEntrada,
   validarKcalRapidas,
@@ -41,7 +39,7 @@ import { formatInt, formatNumber } from '../../../shared/lib/format'
 import type { Plato } from '../lib/platos'
 import { normalizeName } from '../../../shared/lib/text'
 import { COMIDAS, nombreComida } from '../lib/comidas'
-import { macrosPorGramos, resumenMacros, sumMacros } from '../lib/nutrition'
+import { macrosPorGramos, sumMacros } from '../lib/nutrition'
 import AplicarPlantillaSheet from '../components/AplicarPlantillaSheet'
 import ComidasTipicas from '../components/ComidasTipicas'
 import ComidasTipicasSheet from '../components/ComidasTipicasSheet'
@@ -59,10 +57,15 @@ import { ingredienteDeItem } from '../lib/recetas'
 import { aLote, diferencias, ingredientesPara, nombrePlatoDe, nombrePropuesto, pesoCocinadoVariante, varianteIgual } from '../lib/variantes'
 import Medidas from './Medidas'
 import Button from '../../../shared/components/Button'
-import { Input, Select } from '../../../shared/components/Input'
+import { Input } from '../../../shared/components/Input'
 import { EmptyState, ErrorState } from '../../../shared/components/StateMessage'
 import { revisionModificada } from '../lib/borradorComida'
 import { faltaDelDia } from '../lib/cerrarDia'
+import ListGroup from '../../../shared/components/ListGroup'
+import ListRow from '../../../shared/components/ListRow'
+import SelectorComida from '../components/SelectorComida'
+import CantidadAlimento from '../components/CantidadAlimento'
+import { ComoQuedaTuDia, PastillasMacros } from '../components/PiezasCantidad'
 
 interface Props {
   fecha: string
@@ -422,9 +425,8 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
   }
 
   const totales = items ? sumMacros(items.map((it) => macrosPorGramos(it, it.gramos))) : null
-  const aporteRapido = gramosRapido ? macrosPorGramos(gramosRapido.alimento, gramosRapido.gramos) : null
   const kcalTotales = totales ? Math.round(totales.kcal) : 0
-  const kcalRapido = aporteRapido ? Math.round(aporteRapido.kcal) : 0
+  const pendientes = items ? items.filter((it) => pendienteRevision(it, !entryEditar)).length : 0
 
   return (
     <ModalPage title={descartar ? '¿Descartar los cambios?' : soloTipica ? 'Nueva comida típica' : entryEditar ? 'Editar alimento' : platoDestino ? 'Añadir ingredientes' : planificar ? 'Planificar comida' : 'Añadir comida'} closeLabel="Cancelar" onClose={onClose} busy={ocupado}
@@ -467,10 +469,10 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
               </ul>
             </details>
           </section>
-        ) : !soloTipica && <div className="flex flex-wrap items-center justify-between gap-3">
-          <label className="flex min-w-0 items-center gap-2"><Icon name="utensils" size={20} className="shrink-0 text-fg-muted" /><Select aria-label="Comida del día" value={comida} onChange={e => setComida(e.target.value as Comida)} className="w-auto max-w-full" tone="surface">{COMIDAS.map(c => <option key={c.valor} value={c.valor}>{c.label}</option>)}</Select></label>
-          <p className="text-caption text-fg-muted">{formatFriendly(fecha)}</p>
-          {planificar && <p className="w-full text-caption text-fg-muted">Se guarda en el Plan: no cuenta hasta que, ese día, pulses «Lo he comido».</p>}
+        ) : !soloTipica && <div className="space-y-2">
+          <SelectorComida valor={comida} onChange={setComida} />
+          {fecha !== todayISO() && <p className="text-caption text-fg-muted">{formatFriendly(fecha)}</p>}
+          {planificar && <p className="text-caption text-fg-muted">Se guarda en el Plan: no cuenta hasta que, ese día, pulses «Lo he comido».</p>}
         </div>}
 
           {items === null && (
@@ -483,13 +485,17 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                   <DescribirComida texto={texto} onTextoChange={setTexto} onInterpretar={interpretar} cargando={local.cargando} error={local.error} onVerMedidas={() => setVerMedidas(true)} titulo={soloTipica ? '¿Qué sueles comer?' : planificar ? '¿Qué vas a comer?' : undefined} />
                   {!platoDestino && !soloTipica && <>
                     {tipicaCreada && <p role="status" className="text-body-sm text-fg-muted">Comida típica guardada. Ya la tienes a mano.</p>}
-                    <ComidasTipicas fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} onVerTodas={() => setVerTipicas(true)} />
+                    <ComidasTipicas tarjetas fecha={fecha} onElegir={setTipicaElegida} onCrear={() => { setTipicaCreada(false); setCreandoTipica(true) }} onVerTodas={() => setVerTipicas(true)} />
                     <EncajanConLoQueFalta comida={comida} fecha={fecha} falta={falta ?? null} onElegirAlimento={elegirRapido} onElegirTipica={setTipicaElegida}
                       onElegirCombinacion={(propuestos) => { setErrorGuardar(null); abrirRevision(propuestos.map((p) => itemDesdeElegible(p.alimento, p.gramos))) }} />
+                    <ListGroup aria-label="Más formas de añadir">
+                      <li><ListRow onClick={() => { setTipicaCreada(false); setCreandoTipica(true) }}><span aria-hidden className="icono-pastilla shrink-0 text-fg-muted"><Icon name="plus" size={20} /></span><span className="min-w-0 flex-1 text-body text-fg">Nueva comida típica</span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" /></ListRow></li>
+                      <li><ListRow onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}><span aria-hidden className="icono-pastilla shrink-0 text-fg-muted"><Icon name="zap" size={20} /></span><span className="min-w-0 flex-1 text-body text-fg">Solo registrar calorías</span><Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" /></ListRow></li>
+                    </ListGroup>
                   </>}
                 </>}
-                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)} />}
-                {!platoDestino && !soloTipica && <div className="border-t border-line pt-3">
+                {metodo === 'buscar' && <AlimentosRapidos comida={comida} onElegir={(alimento) => elegirRapido(alimento, 100)} onCrear={(nombre) => { setErrorGuardar(null); abrirRevision([itemSinCoincidencia(nombre.charAt(0).toLocaleUpperCase('es') + nombre.slice(1), 100)]) }} />}
+                {!platoDestino && !soloTipica && metodo !== 'describir' && <div className="border-t border-line pt-3">
                   <Button variant="ghost" size="sm" className="-ml-3" onClick={() => { setKcalRapidas({ nombre: '', kcal: 0, prot: 0, carb: 0, grasa: 0 }); setErrorRapida(null) }}>Solo registrar calorías</Button>
                 </div>}
               </div>
@@ -499,7 +505,8 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           {items !== null && totales && (
             <div className="animate-fade-in space-y-section">
               <section aria-label={items.length === 1 ? 'Alimento' : 'Alimentos'} className="space-y-1">
-                <SectionHeader variant="section">{items.length === 1 ? 'Alimento' : `Alimentos · ${formatInt(items.length)}`}</SectionHeader>
+                <h3 className="flex items-baseline gap-2 text-rotulo text-fg-muted">{items.length === 1 ? 'Alimento' : 'Alimentos'}<span className="tabular">{formatInt(items.length)}</span></h3>
+                {pendientes > 0 && <p className="flex items-center gap-2 text-body-sm font-semibold text-destructive"><Icon name="alert" size={18} className="shrink-0" />{pendientes === 1 ? '1 alimento necesita algo: tócalo' : `${formatInt(pendientes)} alimentos necesitan algo: tócalos`}</p>}
                 <div className="divide-y divide-line overflow-hidden rounded-lg border border-line bg-surface">
                   {items.length === 0 && <EmptyState title="La revisión está vacía">Añade otro alimento o vuelve a interpretar tu descripción.</EmptyState>}
                   {items.map((item, i) => (
@@ -520,10 +527,11 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
                   ))}
                 </div>
               </section>
-              <div className="space-y-1">
-                <p className="flex flex-wrap items-baseline justify-between gap-3"><span className="text-body-sm text-fg-muted">Total de la comida</span><span className="tabular text-title font-semibold text-fg">{formatInt(kcalTotales)} <span className="text-caption font-normal text-fg-muted">kcal</span></span></p>
-                <p className="tabular text-caption text-fg-muted">{resumenMacros(totales)}</p>
+              <div className="space-y-2">
+                <p className="flex flex-wrap items-baseline justify-between gap-3"><span className="text-rotulo text-fg-muted">Total de la comida</span><span className="tabular"><span className="font-numeric text-heading text-fg">{formatInt(kcalTotales)}</span><span className="text-caption text-fg-muted"> kcal</span></span></p>
+                <PastillasMacros macros={totales} />
               </div>
+              {!entryEditar && <ComoQuedaTuDia aporte={totales} fecha={fecha} planificar={planificar} plegable />}
               {entryEditar && alimentoDeLaEntrada && (
                 <label className="flex min-h-touch items-center gap-3 px-1 text-body-sm text-fg-muted">
                   <input type="checkbox" checked={aplicarAlAlimento} onChange={(e) => setAplicarAlAlimento(e.target.checked)} className="h-5 w-5 shrink-0 accent-accent" />
@@ -604,24 +612,7 @@ export default function AnadirComida({ fecha, entryEditar, platoDestino, comidaI
           {errorRapido && <ErrorState>{errorRapido}</ErrorState>}
           <Button block loading={guardandoRapido} onClick={confirmarRapido}>{platoDestino || soloTipica || anadiendo ? 'Revisar alimento' : planificar ? 'Planificar' : 'Añadir'}</Button>
         </div>}>
-        {gramosRapido && aporteRapido && (
-          <div className="space-y-5">
-            <h3 className="break-words text-title text-fg">{gramosRapido.alimento.nombre}</h3>
-            <PreparacionAlimento nombre={gramosRapido.alimento.nombre} explicar />
-            <div className="text-center">
-              <p className="flex items-baseline justify-center gap-1.5 text-fg">
-                <span className="tabular text-display">{formatInt(kcalRapido)}</span>
-                <span className="text-body text-fg-muted">kcal</span>
-              </p>
-              <p className="tabular mt-1 text-body-sm text-fg-subtle">
-                {resumenMacros(aporteRapido)} · {formatInt(gramosRapido.alimento.kcal100)} kcal por 100 {gramosRapido.alimento.ml ? 'ml' : 'g'}
-              </p>
-            </div>
-            <div className="flex justify-center">
-              <NumberStepper label={gramosRapido.alimento.ml ? 'mililitros' : 'gramos'} value={gramosRapido.gramos} onChange={(v) => setGramosRapido({ ...gramosRapido, gramos: v })} step={10} suffix={gramosRapido.alimento.ml ? 'ml' : 'g'} />
-            </div>
-          </div>
-        )}
+        {gramosRapido && <CantidadAlimento alimento={gramosRapido.alimento} gramos={gramosRapido.gramos} onGramos={(v) => setGramosRapido({ ...gramosRapido, gramos: v })} fecha={fecha} planificar={planificar} />}
       </Sheet>
 
       <HojaReceta alimento={recetaElegida} accion={recetaDeFila !== null ? 'Usar en la comida' : `${planificar ? 'Planificar en' : 'Añadir a'} ${nombreComida(comida).toLowerCase()}`}

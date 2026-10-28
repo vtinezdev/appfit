@@ -46,15 +46,16 @@ describe('resultado de energía por estados', () => {
     expect(html).toContain('Gasto diario estimado')
     expect(html).toContain('Elige tu objetivo')
   })
-  it('completo: objetivo, cadena de 3 filas, aviso fijo y método', () => {
+  it('completo: objetivo, sus tres partes con barra, aviso fijo y el cálculo tras la «i»', () => {
     const html = resultado(COMPLETO, 80)
     expect(html).toContain('2.420')
-    expect(html).toContain('Gasto en reposo (media de 2 ecuaciones)')
+    expect(html).toContain('En reposo')
+    expect(html).toContain('Media de 2 ecuaciones')
     expect(html).toContain('× 1,55 · moderado')
     expect(html).toContain('−400')
+    expect(html.match(/style="width:/g)).toHaveLength(3)
     expect(html).toContain('Estimación orientativa, no una prescripción médica')
-    expect(html).toContain('Cómo se ha calculado')
-    expect(html).toContain('Ver método y fuentes')
+    expect(html).toContain('aria-label="Qué es Tu energía diaria"')
   })
   it('IMC bajo con definición: mantenimiento con aviso', () => {
     const html = resultado(COMPLETO, 55)

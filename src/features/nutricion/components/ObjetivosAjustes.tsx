@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Button from '../../../shared/components/Button'
-import Disclosure from '../../../shared/components/Disclosure'
+import Card from '../../../shared/components/Card'
+import Icon from '../../../shared/components/Icon'
+import ListGroup from '../../../shared/components/ListGroup'
 import { Input } from '../../../shared/components/Input'
 import type { Objetivos } from '../../../shared/db/types'
 import { MACROS } from '../../../shared/design/macros'
@@ -21,11 +23,10 @@ interface Props {
   onGuardar: (objetivos: Objetivos) => void
 }
 
-const CAMPOS = [
-  { campo: 'kcal', label: 'Calorías (kcal)', macro: MACROS.kcal },
-  { campo: 'prot', label: 'Proteína (g)', macro: MACROS.prot },
-  { campo: 'carb', label: 'Carbohidratos (g)', macro: MACROS.carbs },
-  { campo: 'grasa', label: 'Grasa (g)', macro: MACROS.fat },
+const MACROS_FILAS = [
+  { campo: 'prot', macro: MACROS.prot },
+  { campo: 'carb', macro: MACROS.carbs },
+  { campo: 'grasa', macro: MACROS.fat },
 ] as const
 
 /** Campo que se está tecleando, con los objetivos que había al empezar (los demás se recalculan desde ahí). */
@@ -49,68 +50,58 @@ export default function ObjetivosAjustes({ objetivos, origen = 'manual', onIrAPe
     if (texto !== '') onGuardar(reajustar(base, campo, Number(texto)))
   }
 
+  const campoInput = (campo: keyof Objetivos, etiqueta: string, clase = 'w-24') => <Input
+    type="number" inputMode="numeric" enterKeyHint="done" aria-label={etiqueta}
+    value={edicion?.campo === campo ? edicion.texto : mostrados[campo]}
+    onFocus={() => setEdicion({ campo, texto: String(objetivos[campo]), base: objetivos })}
+    onChange={(e) => teclear(campo, e.target.value, edicion?.campo === campo ? edicion.base : objetivos)}
+    onBlur={() => setEdicion(null)}
+    onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+    className={`tabular no-spin text-right ${clase}`} />
+
+  // Punto 26: las calorías en grande, el reparto en una barra y cada macro en su fila; la regla de ajuste, como pie.
   return (
     <section aria-label="Objetivos diarios" className="space-y-stack">
-      <div className="space-y-3">
-      {CAMPOS.map(({ campo, label, macro }) => kcalDePerfil && campo === 'kcal' ? (
-        <div key={campo} className="space-y-1">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-body-sm font-medium text-fg">{label}</span>
-            <span className="tabular text-body font-semibold text-fg">{formatInt(mostrados.kcal)}</span>
+      <Card className="space-y-4">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-rotulo text-fg-muted">Calorías al día</p>
+            {kcalDePerfil
+              ? <p className="flex items-baseline gap-1.5"><span className="tabular font-numeric text-metric text-fg">{formatInt(mostrados.kcal)}</span><span className="text-body text-fg-muted">kcal</span></p>
+              : <div className="pt-1">{campoInput('kcal', 'Calorías (kcal)', 'w-32')}</div>}
+            {kcalDePerfil && <p className="text-caption text-fg-muted">Calculadas en Perfil</p>}
           </div>
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-caption text-fg-muted">Calculado en Perfil</p>
-            {onIrAPerfil && <Button variant="ghost" size="sm" className="shrink-0" onClick={onIrAPerfil}>Ir a Perfil</Button>}
-          </div>
+          {kcalDePerfil && onIrAPerfil && <Button variant="ghost" size="sm" className="shrink-0" onClick={onIrAPerfil}>Ir a Perfil<Icon name="chevron-right" size={16} /></Button>}
         </div>
-      ) : proteinaPorKg && campo === 'prot' ? (
-        <div key={campo} className="space-y-1">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-body-sm font-medium text-fg">{label}</span>
-            <span className="tabular text-body font-semibold text-fg">{formatInt(mostrados.prot)}</span>
-          </div>
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-caption text-fg-muted">{formatNumber(proteinaPorKg.gPorKg, 1)} g/kg × {formatNumber(proteinaPorKg.pesoKg, 1)} kg · calculada en Perfil</p>
-            {onIrAPerfil && <Button variant="ghost" size="sm" className="shrink-0" onClick={onIrAPerfil}>Ir a Perfil</Button>}
-          </div>
-        </div>
-      ) : (
-        <label key={campo} className="flex flex-wrap items-center justify-between gap-3">
-          <span className="text-body-sm font-medium text-fg">{label}</span>
-          <span className="flex max-w-full flex-wrap items-center gap-3">
-            {campo !== 'kcal' && (
-              <span className="tabular flex w-12 items-center justify-end gap-1 text-caption text-fg-muted"><span aria-hidden className={`h-1.5 w-1.5 shrink-0 rounded-pill ${macro.bg}`} />{dist[campo]} %</span>
-            )}
-            <Input
-              type="number"
-              inputMode="numeric"
-              enterKeyHint="done"
-              value={edicion?.campo === campo ? edicion.texto : mostrados[campo]}
-              onFocus={() => setEdicion({ campo, texto: String(objetivos[campo]), base: objetivos })}
-              onChange={(e) => teclear(campo, e.target.value, edicion?.campo === campo ? edicion.base : objetivos)}
-              onBlur={() => setEdicion(null)}
-              onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
-              className="tabular no-spin w-24 text-right"
-            />
+        <div className="space-y-2">
+          <span aria-hidden className="flex h-3 gap-0.5 overflow-hidden rounded-pill">
+            {MACROS_FILAS.map((m) => <span key={m.campo} className={`h-full ${m.macro.bg}`} style={{ width: `${dist[m.campo]}%` }} />)}
           </span>
-        </label>
-      ))}
-      <p className="text-caption text-fg-muted">Los cambios se guardan automáticamente.</p>
-      {descuadrados ? (
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-caption text-fg-subtle">
-            Los macros suman {formatInt(kcalDeMacros(objetivos))} kcal, no {formatInt(objetivos.kcal)}.
+          <p className="tabular flex flex-wrap gap-x-3 gap-y-1 text-caption text-fg-muted">
+            {MACROS_FILAS.map((m) => <span key={m.campo} className="flex items-center gap-1"><span aria-hidden className={`h-2 w-2 rounded-pill ${m.macro.bg}`} />{m.macro.label} {dist[m.campo]} %</span>)}
           </p>
-          <Button variant="ghost" size="sm" className="shrink-0" onClick={() => onGuardar(cuadrarObjetivos(objetivos))}>
-            Cuadrar
-          </Button>
         </div>
-      ) : (
-        <Disclosure title="Cómo se ajustan los objetivos"><p className="text-body-sm text-fg-muted">
-          {kcalDePerfil ? 'Las calorías salen de tu Perfil. Si cambias un macro, los otros dos se ajustan para seguir sumando las mismas calorías.' : 'Si cambias las calorías, los macros mantienen su reparto. Si cambias un macro, los otros dos se ajustan para seguir sumando las mismas calorías.'}
-        </p></Disclosure>
-      )}
-      </div>
+      </Card>
+      <ListGroup aria-label="Macros" pie={kcalDePerfil
+        ? 'Se guardan solos. Si cambias un macro, los otros dos se ajustan para sumar las mismas calorías.'
+        : 'Se guardan solos. Si cambias las calorías, los macros mantienen su reparto; si cambias un macro, los otros dos se ajustan.'}>
+        {MACROS_FILAS.map(({ campo, macro }) => <li key={campo} className="flex min-h-touch flex-wrap items-center gap-3 py-2">
+          <span aria-hidden className={`h-3 w-3 shrink-0 rounded-pill ${macro.bg}`} />
+          <span className="min-w-0 flex-1">
+            <span className="block text-body text-fg">{macro.label}</span>
+            <span className="tabular block break-words text-caption text-fg-muted">
+              {proteinaPorKg && campo === 'prot' ? `${formatNumber(proteinaPorKg.gPorKg, 1)} g/kg × ${formatNumber(proteinaPorKg.pesoKg, 1)} kg, en Perfil` : `${dist[campo]} % de las calorías`}
+            </span>
+          </span>
+          {proteinaPorKg && campo === 'prot'
+            ? <span className="tabular text-body font-semibold text-fg">{formatInt(mostrados.prot)} <span className="text-caption font-normal text-fg-muted">g</span></span>
+            : <span className="flex items-center gap-1.5">{campoInput(campo, `${macro.label} (g)`, 'w-20')}<span className="text-caption text-fg-muted">g</span></span>}
+        </li>)}
+      </ListGroup>
+      {descuadrados && <div className="flex items-center justify-between gap-3">
+        <p className="text-caption text-fg-subtle">Los macros suman {formatInt(kcalDeMacros(objetivos))} kcal, no {formatInt(objetivos.kcal)}.</p>
+        <Button variant="ghost" size="sm" className="shrink-0" onClick={() => onGuardar(cuadrarObjetivos(objetivos))}>Cuadrar</Button>
+      </div>}
     </section>
   )
 }

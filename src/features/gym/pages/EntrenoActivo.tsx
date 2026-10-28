@@ -21,7 +21,8 @@ import { recordsTiempo } from '../lib/tiempo'
 import SelectorEjercicios from '../components/SelectorEjercicios'
 import type { SeleccionEjercicio } from '../lib/selectorEjercicios'
 import { trabajoMuscularWorkout } from '../lib/cargaMuscular'
-import { efectivas, formatHora, moverElemento, ordenEjerciciosSesion, seriesSinMarcar, volumenSets } from '../lib/workout'
+import { efectivas, formatDuracion, formatHora, minutosEntre, moverElemento, ordenEjerciciosSesion, seriesSinMarcar, volumenSets } from '../lib/workout'
+import NumberStepper from '../../../shared/components/NumberStepper'
 import { formatInt } from '../../../shared/lib/format'
 import Sheet from '../../../shared/components/Sheet'
 import Button, { IconButton } from '../../../shared/components/Button'
@@ -36,7 +37,7 @@ import { bloquesSesion, separar, siguienteEnRonda, sinDescanso, superserieDe, su
 import { RestClock, WorkoutClock } from '../components/WorkoutClock'
 import type { WorkoutSummary } from '../components/WorkoutFinished'
 import { ErrorState } from '../../../shared/components/StateMessage'
-import Disclosure from '../../../shared/components/Disclosure'
+import ChipAjuste from '../components/ChipAjuste'
 import { useQuitarEjercicio } from '../hooks/useQuitarEjercicio'
 import { todayISO } from '../../../shared/lib/dates'
 import { useLigasSesion } from '../../liga/hooks/useLigasSesion'
@@ -80,6 +81,8 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   const [feedback, setFeedback] = useState('')
   const [finishError, setFinishError] = useState<string | null>(null)
   const [restConfigOpen, setRestConfigOpen] = useState(false)
+  /** Duración corregida en la hoja de Terminar (minutos); `null`, la del reloj. */
+  const [duracionMin, setDuracionMin] = useState<number | null>(null)
   const [descartando, setDescartando] = useState(false)
   const [notas, setNotas] = useState(workout.notas ?? '')
   /** Propuesta de descanso bajo el ejercicio de la primera serie marcada sin temporizador (ENT-14). */
@@ -90,7 +93,6 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
   const [desplegados, setDesplegados] = useState<ReadonlySet<number>>(() => new Set())
   const notasGuardadas = useRef(workout.notas ?? '')
   const temporizadorNotas = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const restConfig = useRef<HTMLDivElement>(null)
   const cabecera = useRef<HTMLElement>(null)
   /** Al completar un ejercicio, el siguiente pendiente al que bajar (`n` repite el salto aunque sea el mismo). */
   const [irA, setIrA] = useState<{ exId: number; n: number } | null>(null)
@@ -290,7 +292,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
       await Promise.all(pendingWrites.current.values())
       if (!await guardarNotas()) throw new Error('No se han podido guardar las notas.')
       await guardado.esperar()
-      const finished = await workoutsRepo.terminar(workout.id!, sessionActual.current.completed, marcarTodas)
+      const finished = await workoutsRepo.terminar(workout.id!, sessionActual.current.completed, marcarTodas, duracionMin)
       const saved = finished.sets
       const guardadasEfectivas = efectivas(saved)
       clearSession(workout.id!)
@@ -299,7 +301,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         [...allSets.filter(s => s.workoutId !== workout.id), ...saved])
       onFinished({
         titulo: routine?.nombre ?? 'Entreno libre',
-        inicio: workout.inicio,
+        inicio: finished.workout.inicio,
         fin: finished.workout.fin ?? Date.now(),
         sets: guardadasEfectivas.length,
         volume: volumenSets(saved),
@@ -308,6 +310,7 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         nombres: Object.fromEntries(exercises.map(e => [e.id, e.nombre])),
         catalogIds: Object.fromEntries(exercises.map(e => [e.id, e.catalogId])),
         workoutId: workout.id,
+        gimnasioId: finished.workout.gimnasioId,
         recordsTiempo: recordsTiempo(saved, allSets.filter(s => s.workoutId !== workout.id)),
       })
     } catch {
@@ -469,30 +472,29 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
         </div>
       </div>}
 
-      <section aria-label="Gimnasio" className="flex flex-wrap items-center gap-2">
+      {/* Gimnasio y descanso, como ajustes de la sesión con su valor a la vista. */}
+      <section aria-label="Ajustes de la sesión" className="flex flex-wrap items-center gap-2">
         <ChipGimnasio gimnasioId={workout.gimnasioId} disabled={guardando || quitando} onElegir={cambiarGimnasio} />
+        <ChipAjuste label="Descanso entre series" icon="timer" texto={session.restSeconds ? `Descanso ${session.restSeconds} s` : 'Sin descanso'}
+          apagado={!session.restSeconds} onClick={() => setRestConfigOpen(true)} />
       </section>
-      <section aria-label="Descanso entre series" className="space-y-2">
-          <div ref={restConfig}><Disclosure title={`Descanso: ${session.restSeconds ? `${session.restSeconds} s` : 'sin temporizador'}`} open={restConfigOpen} onChange={setRestConfigOpen}>
-            <div className="space-y-3">
-              <SegmentedControl label="Duración del descanso" size="sm" valor={String(session.restSeconds)} onChange={value => {
-                setSession(previous => ({ ...previous, restSeconds: Number(value), restEndsAt: null }))
-                guardarDescansoHabitual(Number(value))
-                setRestConfigOpen(false)
-                requestAnimationFrame(() => restConfig.current?.querySelector('button')?.focus({ preventScroll: true }))
-              }} opciones={[{ valor: '0', label: 'No' }, { valor: '60', label: '60 s' }, { valor: '90', label: '90 s' }, { valor: '120', label: '120 s' }]} />
-              <p className="text-caption text-fg-muted">Los ejercicios con descanso propio en la rutina usan ese tiempo.</p>
-            </div>
-          </Disclosure></div>
-      </section>
+      <Sheet open={restConfigOpen} onClose={() => setRestConfigOpen(false)} title="Descanso entre series">
+        <div className="space-y-3">
+          <SegmentedControl label="Duración del descanso" valor={String(session.restSeconds)} onChange={value => {
+            setSession(previous => ({ ...previous, restSeconds: Number(value), restEndsAt: null }))
+            guardarDescansoHabitual(Number(value))
+            setRestConfigOpen(false)
+          }} opciones={[{ valor: '0', label: 'No' }, { valor: '60', label: '60 s' }, { valor: '90', label: '90 s' }, { valor: '120', label: '120 s' }]} />
+          <p className="text-caption text-fg-muted">Los ejercicios con descanso propio en la rutina usan ese tiempo.</p>
+        </div>
+      </Sheet>
       <p role="status" className="sr-only">{feedback}</p>
 
-      <section aria-label="Guardado local" className="space-y-1">
-        <p role="status" className={`text-caption ${errores ? 'text-destructive' : 'text-fg-muted'}`}>
-          {errores ? 'Hay cambios que no se han podido guardar en este dispositivo.' : guardando || pendientes || notas !== notasGuardadas.current ? 'Guardando en este dispositivo…' : 'Guardado en este dispositivo'}
-        </p>
-        {errores > 0 && <Button variant="secondary" size="sm" disabled={pendientes > 0} onClick={() => { void guardado.reintentar() }}>Reintentar guardado</Button>}
-      </section>
+      {/* Guardar en el móvil es lo normal: solo se avisa si algo falla. */}
+      {errores > 0 && <section aria-label="Guardado local" className="space-y-1">
+        <p role="status" className="text-caption text-destructive">Hay cambios que no se han podido guardar en este dispositivo.</p>
+        <Button variant="secondary" size="sm" disabled={pendientes > 0} onClick={() => { void guardado.reintentar() }}>Reintentar guardado</Button>
+      </section>}
       <Pista id="entreno-series" />
 
       <div ref={listRef} className="space-y-stack">
@@ -536,6 +538,14 @@ export default function EntrenoActivo({ workout, onFinished, onMinimizar }: Prop
                   <p className="text-body-sm text-fg-muted">Las series sin marcar se guardan como pendientes: no suman volumen ni cuentan para récords ni progreso.{sinMarcar.sinReps > 0 && ' Las que no tienen repeticiones se quedan pendientes igualmente.'}</p>
                 </div>
               : <p className="text-body-sm text-fg-muted">Se guardarán las {currentSets.length} series registradas. Solo las marcadas constarán como realizadas; las demás quedan pendientes y no se usan para recomendar progresión.</p>}
+          {/* Duración: la del reloj, o corregida si se olvidó empezar o parar el entreno. */}
+          {currentSets.length > 0 && <div className="flex min-h-touch flex-wrap items-center justify-between gap-3 border-y border-line py-2">
+            <span className="text-body-sm font-semibold text-fg">Duración</span>
+            {duracionMin === null
+              ? <Button variant="ghost" size="sm" onClick={() => setDuracionMin(minutosEntre(workout.inicio, Date.now()))}>
+                  <span className="tabular">{formatDuracion(Date.now() - workout.inicio)}</span><span className="text-fg-muted">· Cambiar</span></Button>
+              : <NumberStepper label="duración en minutos" suffix="min" min={1} step={5} value={duracionMin} onChange={setDuracionMin} />}
+          </div>}
           {finishError && <ErrorState>{finishError}</ErrorState>}
           {currentSets.length === 0
             ? <Button block size="lg" variant="danger" loading={guardando} onClick={descartar}>Descartar entreno</Button>

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
+import Ayuda from '../../../shared/components/Ayuda'
 import Button, { IconButton } from '../../../shared/components/Button'
+import Card from '../../../shared/components/Card'
 import Campo from '../../../shared/components/Campo'
 import Icon from '../../../shared/components/Icon'
 import { DecimalInput, Input, Select } from '../../../shared/components/Input'
@@ -90,6 +92,13 @@ function HojaMeta({ hoja, hoy, onClose, onGuardada }: { hoja: Hoja; hoy: string;
   )
 }
 
+/** Ejemplos de la tarjeta sin metas: uno de cada tipo, con una barra a medias para ver cómo se sigue. */
+const EJEMPLOS = [
+  { icono: 'trophy', titulo: 'Press banca 100 kg', detalle: '85 de 100 kg', pct: 85 },
+  { icono: 'route', titulo: '80 km en noviembre', detalle: '32 de 80 km', pct: 40 },
+  { icono: 'calendar', titulo: '12 semanas cumplidas', detalle: '7 de 12', pct: 58 },
+] as const
+
 /**
  * Metas personales (B13) en Progreso › Semana: récord de un ejercicio, km de un mes o semanas cumplidas, con su barra y el
  * plazo. Cumplir una da la pieza «Meta cumplida» en la Vitrina. Si pasa el plazo: «Sin cumplir · ¿Cambiar fecha?», sin rojo.
@@ -116,11 +125,39 @@ export default function MetasVista() {
 
   return (
     <section aria-labelledby="metas" className="space-y-stack">
-      <SectionHeader variant="section" action={<Button variant="ghost" size="sm" onClick={() => abrir({ modo: 'nueva' })}><Icon name="plus" size={16} />Nueva meta</Button>}>
+      <SectionHeader variant="section" action={<span className="flex items-center">
+        <Ayuda titulo="Metas">
+          <p>Una meta es un objetivo que te pones tú. La app sigue tu progreso con lo que ya registras, sin que apuntes nada más.</p>
+          <ul className="list-disc space-y-1 pl-5">
+            <li><span className="font-semibold text-fg">Récord de un ejercicio</span>: llegar a un peso en un ejercicio, como press banca a 100 kg.</li>
+            <li><span className="font-semibold text-fg">Km de un mes</span>: andar o correr unos km en un mes, con tus actividades.</li>
+            <li><span className="font-semibold text-fg">Semanas cumplidas</span>: cumplir el plan de Ritmo un número de semanas.</li>
+          </ul>
+          <p>Cuenta lo que hagas desde que la creas. Puedes ponerle plazo o no; si pasa sin cumplirla, queda como «Sin cumplir» y puedes cambiar la fecha. Al cumplirla, ganas la pieza «Meta cumplida» en la Vitrina.</p>
+          <p>Nunca son de tu peso corporal.</p>
+        </Ayuda>
+        {metas.length > 0 && <Button variant="ghost" size="sm" onClick={() => abrir({ modo: 'nueva' })}><Icon name="plus" size={16} />Nueva meta</Button>}
+      </span>}>
         <span id="metas">Metas</span>
       </SectionHeader>
       {metas.length === 0
-        ? <p className="text-body-sm text-fg-muted">Un récord de un ejercicio, los km de un mes o semanas cumplidas, con plazo si quieres. Al cumplirla, una pieza en la Vitrina.</p>
+        // Sin metas: qué es una meta con tres ejemplos de verdad (título, de qué tipo y una barra a medias) y el botón para la primera.
+        ? <Card className="space-y-4">
+          <p className="text-body-sm text-fg">Un objetivo tuyo que la app sigue sola con lo que registras. Por ejemplo:</p>
+          <ul aria-label="Ejemplos de metas" className="space-y-3">
+            {EJEMPLOS.map((e) => <li key={e.titulo} className="flex items-center gap-3">
+              <span aria-hidden className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-surface-muted text-fg-muted"><Icon name={e.icono} size={18} /></span>
+              <span className="min-w-0 flex-1 space-y-1">
+                <span className="flex flex-wrap items-baseline justify-between gap-x-2">
+                  <span className="min-w-0 break-words text-body-sm font-semibold text-fg">{e.titulo}</span>
+                  <span className="tabular text-caption text-fg-muted">{e.detalle}</span>
+                </span>
+                <span aria-hidden className="block h-1.5 overflow-hidden rounded-pill bg-surface-muted"><span className="block h-full rounded-pill bg-fg-subtle" style={{ width: `${e.pct}%` }} /></span>
+              </span>
+            </li>)}
+          </ul>
+          <Button variant="secondary" size="sm" onClick={() => abrir({ modo: 'nueva' })}><Icon name="plus" size={16} />Crear mi primera meta</Button>
+        </Card>
         : <ListGroup aria-label="Tus metas">
           {metas.map((e) => {
             const plazo = textoPlazo(e)

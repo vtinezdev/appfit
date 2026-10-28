@@ -115,6 +115,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
   const etiquetaAvisos = ['Avisos', nuevos > 0 && `${formatInt(nuevos)} ${nuevos === 1 ? 'nuevo' : 'nuevos'}`, solicitudes > 0 && `${formatInt(solicitudes)} ${solicitudes === 1 ? 'solicitud' : 'solicitudes'}`,
     invitaciones > 0 && `${formatInt(invitaciones)} ${invitaciones === 1 ? 'invitación' : 'invitaciones'}`].filter(Boolean).join(', ')
   const [versionCompania, setVersionCompania] = useState(0)
+  const [dentroComunidad, setDentroComunidad] = useState(false)
   const vistas: { valor: Vista; label: string }[] = [
     { valor: 'todo', label: 'Siguiendo' },
     { valor: 'comunidades', label: 'Comunidades' },
@@ -139,9 +140,9 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
         </button>
       </div>} />
 
-      <PrimerosPasosSocial version={version} onCodigo={() => onIrAAmigos(true)} onComunidades={() => { setDescubrir(v => v + 1); setVista('comunidades') }} onEntreno={id => id ? setEntreno(id) : onIrAGym()} onError={avisarError} />
+      {!dentroComunidad && <PrimerosPasosSocial version={version} onCodigo={() => onIrAAmigos(true)} onComunidades={() => { setDescubrir(v => v + 1); setVista('comunidades') }} onEntreno={id => id ? setEntreno(id) : onIrAGym()} onError={avisarError} />}
 
-      <ViewTabs opciones={vistas} valor={vista} onChange={cambiarVista} label="Publicaciones">
+      <ViewTabs opciones={vistas} valor={vista} onChange={cambiarVista} label="Publicaciones" sinPestanas={dentroComunidad}>
         {vista === 'todo' ? (
           <div className="space-y-stack">
             <SemanaCompania version={versionCompania} onRespondida={avisos.recargar} onAmigos={() => onIrAAmigos()} onError={avisarError} />
@@ -156,7 +157,7 @@ function Social({ perfil, onIrAAmigos, onIrAGym, onPerfilCambiado }: Pick<Props,
                 </EmptyState>
               } />
           </div>
-        ) : <Comunidades onCambio={() => setVersion(v => v + 1)} key={descubrir} descubrirInicial={descubrir > 0} onError={avisarError} />}
+        ) : <Comunidades onCambio={() => setVersion(v => v + 1)} key={descubrir} descubrirInicial={descubrir > 0} onError={avisarError} onDentro={setDentroComunidad} />}
       </ViewTabs>
 
       {avisosAbiertos.n > 0 && (

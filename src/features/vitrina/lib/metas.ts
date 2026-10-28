@@ -166,3 +166,12 @@ export function validarMeta(m: NuevaMeta, hoy: string, mejorActual = 0): string 
 export function mejorCarga(sets: readonly SetEntry[], exerciseId: number): number {
   return sets.filter((s) => s.exerciseId === exerciseId && s.realizada !== false).reduce((m, s) => Math.max(m, cargaSerie(s)), 0)
 }
+
+/**
+ * Metas en curso para la tarjeta de Inicio: sin las cumplidas ni las que pasaron su plazo, de la más cerca de cumplirse a
+ * la más lejos (a igualdad, el orden guardado). Vacía si no hay ninguna: entonces la tarjeta no sale.
+ */
+export function metasEnCurso(estados: readonly EstadoMeta[]): EstadoMeta[] {
+  return estados.filter((e) => !e.cumplida && !e.sinCumplir).map((e, i) => ({ e, i, p: proporcionMeta(e) }))
+    .sort((a, b) => b.p - a.p || a.i - b.i).map(({ e }) => e)
+}

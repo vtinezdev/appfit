@@ -1,12 +1,13 @@
 // Caminos: se recorre una ruta real o de ficción tras otra con los kilómetros de las actividades (caminar, correr y
 // senderismo) y de los pasos apuntados (`pasos.ts`), desde el día en que se elige la primera. Derivado como Cumbres: nada se acumula ni se guarda salvo las
 // rutas elegidas (`Settings.caminos`), así que respeta la edición retroactiva. Sin plazo y sin poder fallar. Al llegar,
-// los metros que sobran no pasan a la siguiente (como en Cumbres). Las rutas se pueden repetir: no se acaban.
+// los metros que sobran pasan a la siguiente (decisión de Víctor, punto 4), que se elige al llegar (si no, la sugerida).
+// Las rutas se pueden repetir: no se acaban.
 import type { Actividad, ConfigCaminos } from '../../../shared/db/types'
 import { diasEntre } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import { formatKm, kmTexto } from '../../actividades/lib/actividad'
-import { metrosRuta, RUTAS, rutaDe as rutaOficial, type Ruta } from './rutas'
+import { metrosRuta, RUTAS, rutaDe as rutaOficial, type ColeccionRuta, type Ruta } from './rutas'
 
 /** Rutas que se enseñan después de la actual. */
 export const SIGUIENTES = 5
@@ -26,6 +27,8 @@ export interface Expedicion {
   desde: string
   /** Metros recorridos (nunca más que la ruta). */
   metros: number
+  /** Metros que sobraron al llegar al final de la anterior y con los que empezó esta (0 en la primera). */
+  arrastrados: number
   /** Cuándo se llegó al final de cada etapa, por índice (las que faltan, sin marca). */
   etapas: (Marca | null)[]
   llegada: Marca | null
@@ -33,7 +36,7 @@ export interface Expedicion {
   sellos: string[]
 }
 
-/** Metros que avanzó cada actividad o los pasos de un día (los que sobran al llegar se descartan). */
+/** Metros que avanzó cada actividad o los pasos de un día en una expedición (si llegó, lo que sobra es otro tramo en la siguiente). */
 export interface TramoRecorrido extends Marca {
   metros: number
   /** Índice de la expedición en `expediciones`. */
@@ -46,6 +49,8 @@ export interface ResultadoCaminos {
   expediciones: Expedicion[]
   actual: Expedicion
   completadas: Expedicion[]
+  /** Si la ruta actual la eligió la persona (o es la primera); si no, es la sugerida tras una llegada, a la espera de elegir. */
+  actualElegida: boolean
   siguientes: Ruta[]
   metrosTotales: number
   /** En orden cronológico. */
@@ -105,14 +110,15 @@ export function calcularCaminos(
     avances.push({ marca: { fecha: a.fecha, actividadId: a.id }, metros: Math.round(a.distanciaM) })
   }
   for (; d < dias.length; d++) avances.push({ marca: { fecha: dias[d].fecha, actividadId: null }, metros: dias[d].metros })
-  // Cada avance termina como mucho una ruta (lo que sobra se pierde): no puede haber más capítulos que avances.
-  const orden = rutaDe(config.ruta, avances.length + 1, propias)
+  // Normalmente cada avance termina como mucho una ruta; si lo que sobra termina otra, la lista se alarga.
+  let orden = rutaDe(config.ruta, avances.length + 1, propias)
   const veces = new Map<string, number>()
   const nueva = (i: number, desde: string): Expedicion => {
+    if (i >= orden.length) orden = rutaDe(config.ruta, orden.length * 2, propias)
     const ruta = orden[i]
     const vez = (veces.get(ruta.id) ?? 0) + 1
     veces.set(ruta.id, vez)
-    return { ruta, vez, desde, metros: 0, etapas: ruta.etapas.map(() => null), llegada: null, sellos: [] }
+    return { ruta, vez, desde, metros: 0, arrastrados: 0, etapas: ruta.etapas.map(() => null), llegada: null, sellos: [] }
   }
   let i = 0
   let actual = nueva(0, config.inicio)
@@ -122,19 +128,25 @@ export function calcularCaminos(
   let metrosTotales = 0
 
   for (const { marca, metros: avance } of avances) {
-    const total = finales[finales.length - 1]
-    const metros = Math.min(avance, total - actual.metros)
-    actual.metros += metros
-    metrosTotales += metros
-    tramos.push({ ...marca, metros, expedicion: i })
-    if (actual.sellos[actual.sellos.length - 1] !== marca.fecha) actual.sellos.push(marca.fecha)
-    finales.forEach((fin, j) => { if (actual.etapas[j] === null && actual.metros >= fin) actual.etapas[j] = marca })
-    if (actual.metros >= total) {
-      actual.llegada = marca
-      i += 1
-      actual = nueva(i, marca.fecha)
-      finales = finalesDeEtapa(actual.ruta)
-      expediciones.push(actual)
+    let resto = avance
+    // Lo que sobra al llegar sigue en la siguiente ruta, con la misma marca (la siguiente empieza ese día).
+    while (resto > 0) {
+      const total = finales[finales.length - 1]
+      const metros = Math.min(resto, total - actual.metros)
+      resto -= metros
+      actual.metros += metros
+      metrosTotales += metros
+      tramos.push({ ...marca, metros, expedicion: i })
+      if (actual.sellos[actual.sellos.length - 1] !== marca.fecha) actual.sellos.push(marca.fecha)
+      finales.forEach((fin, j) => { if (actual.etapas[j] === null && actual.metros >= fin) actual.etapas[j] = marca })
+      if (actual.metros >= total) {
+        actual.llegada = marca
+        i += 1
+        actual = nueva(i, marca.fecha)
+        actual.arrastrados = resto
+        finales = finalesDeEtapa(actual.ruta)
+        expediciones.push(actual)
+      }
     }
   }
 
@@ -143,6 +155,7 @@ export function calcularCaminos(
     expediciones,
     actual,
     completadas: expediciones.filter((x) => x.llegada !== null),
+    actualElegida: i < config.ruta.length,
     siguientes: rutaDe(config.ruta, i + 1 + SIGUIENTES, propias).slice(i + 1),
     metrosTotales,
     tramos,
@@ -159,6 +172,11 @@ export function empezar(hoy: string, rutaId: string): ConfigCaminos {
 /** Rutas por las que se puede cambiar la actual: cualquier otra (también las hechas y las propias) más larga que lo ya recorrido. */
 export function rutasParaCambiar(r: ResultadoCaminos, propias: readonly Ruta[] = []): Ruta[] {
   return [...propias, ...RUTAS].filter((x) => x.id !== r.actual.ruta.id && metrosRuta(x) > r.actual.metros)
+}
+
+/** Se queda con la ruta sugerida tras una llegada: deja de estar «a la espera de elegir». */
+export function confirmarRuta(config: ConfigCaminos, r: ResultadoCaminos): ConfigCaminos {
+  return { ...config, ruta: [...r.completadas.map((c) => c.ruta.id), r.actual.ruta.id] }
 }
 
 /** Cambia la ruta actual por otra (conserva lo recorrido). Las terminadas no cambian. `null` si no se puede. */
@@ -238,4 +256,34 @@ export function caminoDeActividad(r: ResultadoCaminos, actividadId: number): Cam
 /** «82,4 de 113,8 km». */
 export function progresoTexto(x: Expedicion): string {
   return `${formatKm(x.metros)} de ${kmTexto(metrosRuta(x.ruta))}`
+}
+
+/**
+ * La llegada que hay que celebrar (punto 4): la última ruta terminada, si la actual aún es la sugerida (no se ha elegido
+ * la siguiente), llegó hace como mucho `dias` días y su clave no está en `vistas`. `null` si no hay ninguna.
+ */
+export function llegadaPorCelebrar(r: ResultadoCaminos | null | undefined, vistas: readonly string[], hoy: string, dias: number): { clave: string; llegada: Expedicion } | null {
+  const ultima = r?.completadas.at(-1)
+  if (!r || r.actualElegida || !ultima?.llegada) return null
+  if (diasEntre(ultima.llegada.fecha, hoy) > dias) return null
+  const clave = `llegada:${ultima.ruta.id}#${ultima.vez}@${ultima.llegada.fecha}`
+  return vistas.includes(clave) ? null : { clave, llegada: ultima }
+}
+
+/** Caminos terminados a partir de los que «Terminados» se separa por tipos (decisión de Víctor). */
+export const UMBRAL_GRUPOS_TERMINADOS = 10
+
+/** Orden de los grupos de caminos: los tuyos primero y después las colecciones de la app. */
+export const ORDEN_GRUPOS: readonly ColeccionRuta[] = ['propia', 'santiago', 'mundo', 'literatura', 'fantasia']
+
+/**
+ * Terminados agrupados por tipo de camino (punto 6): `null` mientras haya menos de `UMBRAL_GRUPOS_TERMINADOS` caminos
+ * terminados (contando las repeticiones), y entonces solo los tipos que tengan alguno, en `ORDEN_GRUPOS`. Cada grupo, con
+ * una expedición por ruta (la última vez), de la más reciente a la más antigua.
+ */
+export function gruposTerminados(r: Pick<ResultadoCaminos, 'completadas'>): { coleccion: ColeccionRuta; expediciones: Expedicion[] }[] | null {
+  if (r.completadas.length < UMBRAL_GRUPOS_TERMINADOS) return null
+  const unicas = [...r.completadas].reverse().filter((x, i, todas) => todas.findIndex((y) => y.ruta.id === x.ruta.id) === i)
+  return ORDEN_GRUPOS.map((coleccion) => ({ coleccion, expediciones: unicas.filter((x) => x.ruta.coleccion === coleccion) }))
+    .filter((g) => g.expediciones.length > 0)
 }

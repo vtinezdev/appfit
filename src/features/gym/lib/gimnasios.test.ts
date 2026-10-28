@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { SetEntry } from '../../../shared/db/types'
-import { dependeDeMaquina, enGimnasio, gimnasioDeSerie, nombresGimnasios, notaPrimeraVez, primeraVez, sinKg, textoGimnasio, validarNombreGimnasio, validarNombreHabitual } from './gimnasios'
+import { dependeDeMaquina, enGimnasio, gimnasioDelPoster, gimnasioDeSerie, nombresGimnasios, notaPrimeraVez, primeraVez, sinKg, textoGimnasio, validarNombreGimnasio, validarNombreHabitual } from './gimnasios'
 
 describe('dependeDeMaquina', () => {
   it('máquina, polea y smith dependen del gimnasio; barra, mancuernas y corporal no', () => {
@@ -37,6 +37,9 @@ describe('nombre del habitual', () => {
   it('se muestra si se puso; vacío vuelve a «Gimnasio habitual»', () => {
     expect(textoGimnasio(undefined, new Map(), 'Basic-Fit Centro')).toBe('Basic-Fit Centro')
     expect(textoGimnasio(undefined, new Map(), '  ')).toBe('Gimnasio habitual')
+    // En el póster, el habitual sin nombre no se dice; con nombre, sí.
+    expect(gimnasioDelPoster('Gimnasio habitual')).toBeUndefined()
+    expect(gimnasioDelPoster('Basic-Fit Centro')).toBe('Basic-Fit Centro')
     expect(textoGimnasio(2, new Map([[2, 'Gym Playa']]), 'Basic-Fit Centro')).toBe('Gym Playa')
   })
   it('no repite el nombre de otro gimnasio, ni otro gimnasio el suyo', () => {

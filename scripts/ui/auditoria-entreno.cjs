@@ -154,7 +154,7 @@ async function caso(nombre) {
     await comprobar('historial editable conserva borrador de notas ante fallo', async () => {
       await page.getByRole('button',{name:'Volver a Entreno',exact:true}).click()
       await page.getByRole('tab',{name:'Historial',exact:true}).click()
-      await page.getByRole('list',{name:'Entrenos terminados del mes',exact:true}).getByRole('button').first().click()
+      await page.getByRole('region', { name: 'Sesiones del mes', exact: true }).locator('li[data-sesion]').getByRole('button').first().click()
       await page.getByRole('button',{name:'Editar',exact:true}).click()
       await page.evaluate(async()=>{
         const {db}=await import('/src/shared/db/db.ts')

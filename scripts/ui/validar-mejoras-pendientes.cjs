@@ -52,9 +52,9 @@ async function perfilYVitrina(ctx, id, grande) {
   const semanas = await gasto.getByRole('list', { name: 'Pesajes por semana', exact: true }).getByRole('listitem').allInnerTexts()
   assert.deepEqual(semanas.map(t => t.match(/(\d) de 2/)[1]), ['2', '1', '0', '3'])
   assert.equal(await gasto.getByRole('progressbar', { name: 'Días con comidas', exact: true }).getAttribute('aria-valuenow'), '18')
-  const explicacion = gasto.getByRole('button', { name: 'Cómo se calcula y sus límites', exact: true })
-  assert.equal(await explicacion.getAttribute('aria-expanded'), 'false')
-  await gasto.getByRole('radio', { name: 'Usar el estimado', exact: true }).waitFor()
+  // Cómo se calcula, tras la «i» (bloque 5 del documento de mejoras); el uso, con un interruptor.
+  await gasto.getByRole('button', { name: 'Qué es Gasto observado', exact: true }).waitFor()
+  assert.equal(await gasto.getByRole('switch', { name: /^Usar el gasto observado/ }).getAttribute('aria-checked'), 'false')
   await gasto.scrollIntoViewIfNeeded()
   await limpio(page, 'gasto-requisitos')
   await captura(page, `${id}-gasto-requisitos`)
@@ -126,6 +126,7 @@ async function primerosPasos(browser, c, id) {
   const ctx = await browser.newContext({ viewport: { width: c.width, height: 812 }, colorScheme: c.theme, locale: 'es-ES', timezoneId: 'Europe/Madrid', reducedMotion: 'reduce', serviceWorkers: 'block' })
   try {
     const page = await ctx.newPage(), errores = []
+    await qa.cerrarCelebraciones(page)
     page.on('pageerror', e => errores.push(e.message))
     await page.request.post(`${API}simular_reinicio`, { data: {} })
     await page.request.post(`${API}crear_perfil`, { data: { p_alias: 'yo_prueba', p_nombre: 'Persona de prueba', p_acepto: true } })

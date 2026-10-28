@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import type { Actividad } from '../../../shared/db/types'
+import type { Expedicion } from './caminos'
 import {
-  caminoDeActividad, calcularCaminos, cambiarRuta, diasDeExpedicion, empezar, etapaActual, finalesDeEtapa, metrosEntre,
+  caminoDeActividad, calcularCaminos, cambiarRuta, confirmarRuta, diasDeExpedicion, gruposTerminados, llegadaPorCelebrar, empezar, etapaActual, finalesDeEtapa, metrosEntre,
   nombreExpedicion, progresoTexto, rutaDe, rutasParaCambiar, vecesTerminada,
 } from './caminos'
 import { metrosRuta, RUTAS, rutaDe as rutaPorId } from './rutas'
@@ -52,7 +53,7 @@ describe('calcularCaminos', () => {
     const a1 = act('2026-10-05', 20)
     const a2 = act('2026-10-05', 10)
     const a3 = act('2026-10-08', 50)
-    const a4 = act('2026-10-12', 40) // llega con 8,5 km de más, que se pierden
+    const a4 = act('2026-10-12', 40) // llega con 8,5 km de más, que pasan a la siguiente
     const r = calcularCaminos([a4, a3, a2, a1], empezar('2026-10-05', 'ingles'), HOY)!
     const x = r.expediciones[0]
     expect(x.etapas.map((m) => m?.actividadId)).toEqual([a2.id, a3.id, a3.id, a4.id, a4.id])
@@ -61,9 +62,10 @@ describe('calcularCaminos', () => {
     expect(diasDeExpedicion(x)).toBe(8)
     expect(r.completadas).toHaveLength(1)
     expect(r.actual.ruta.id).toBe(RUTAS[1].id)
-    expect(r.actual.metros).toBe(0)
-    expect(r.metrosTotales).toBe(111_500)
-    expect(caminoDeActividad(r, a4.id)).toMatchObject({ metros: 31_500, llegadas: [x] })
+    expect(r.actual).toMatchObject({ metros: 8_500, arrastrados: 8_500, desde: '2026-10-12', sellos: ['2026-10-12'] })
+    expect(r.actualElegida).toBe(false)
+    expect(r.metrosTotales).toBe(120_000)
+    expect(caminoDeActividad(r, a4.id)).toMatchObject({ metros: 40_000, llegadas: [x] })
     expect(caminoDeActividad(r, a3.id).etapas.map((e) => e.indice)).toEqual([1, 2])
     expect(metrosEntre(r.tramos, '2026-10-05', '2026-10-05')).toBe(30_000)
   })
@@ -85,6 +87,62 @@ describe('etapa actual', () => {
   it('al empezar, desde la salida', () => {
     const r = calcularCaminos([], empezar('2026-10-05', 'ingles'), HOY)!
     expect(etapaActual(r.actual)).toMatchObject({ indice: 0, desde: 'Ferrol', hasta: 'Pontedeume', recorridos: 0 })
+  })
+})
+
+describe('al llegar', () => {
+  it('si lo que sobra termina otra ruta, sigue en la de después', () => {
+    const r = calcularCaminos([act('2026-10-05', 160)], { inicio: '2026-10-05', ruta: ['ingles', 'inca'] }, HOY)!
+    expect(r.completadas.map((x) => x.ruta.id)).toEqual(['ingles', 'inca'])
+    expect(r.actual).toMatchObject({ metros: 3_500, arrastrados: 3_500 })
+    expect(r.metrosTotales).toBe(160_000)
+  })
+
+  it('confirmar la sugerida la deja elegida; cambiarla conserva lo que sobró', () => {
+    const config = empezar('2026-10-05', 'ingles')
+    const acts = [act('2026-10-05', 115)]
+    const r = calcularCaminos(acts, config, HOY)!
+    expect(r.actualElegida).toBe(false)
+    const confirmada = confirmarRuta(config, r)
+    expect(confirmada.ruta).toEqual(['ingles', r.actual.ruta.id])
+    expect(calcularCaminos(acts, confirmada, HOY)!.actualElegida).toBe(true)
+    const otra = cambiarRuta(config, r, 'frances')!
+    expect(calcularCaminos(acts, otra, HOY)!.actual).toMatchObject({ metros: 3_500 })
+    expect(calcularCaminos(acts, otra, HOY)!.actual.ruta.id).toBe('frances')
+  })
+})
+
+describe('llegada por celebrar', () => {
+  const config = empezar('2026-10-05', 'ingles')
+  const acts = [act('2026-10-05', 115)]
+  const r = calcularCaminos(acts, config, HOY)!
+
+  it('la última llegada, mientras no se elija la siguiente, sea reciente y no se haya visto', () => {
+    const l = llegadaPorCelebrar(r, [], '2026-10-08', 7)!
+    expect(l.clave).toBe('llegada:ingles#1@2026-10-05')
+    expect(l.llegada.ruta.id).toBe('ingles')
+    expect(llegadaPorCelebrar(r, [l.clave], '2026-10-08', 7)).toBeNull()
+    expect(llegadaPorCelebrar(r, [], '2026-10-20', 7)).toBeNull() // hace más de una semana
+    expect(llegadaPorCelebrar(calcularCaminos(acts, confirmarRuta(config, r), HOY), [], '2026-10-08', 7)).toBeNull() // ya elegida
+    expect(llegadaPorCelebrar(calcularCaminos([act('2026-10-05', 10)], config, HOY), [], '2026-10-08', 7)).toBeNull() // sin llegar
+  })
+})
+
+describe('terminados por tipos', () => {
+  const exp = (id: string, coleccion: string, fecha: string) => ({ ruta: { id, coleccion }, llegada: { fecha, actividadId: 1 } }) as unknown as Expedicion
+
+  it('menos de 10 terminados: sin grupos', () => {
+    expect(gruposTerminados({ completadas: Array.from({ length: 9 }, (_, i) => exp(`r${i}`, 'santiago', `2026-01-${10 + i}`)) })).toBeNull()
+  })
+
+  it('desde 10: solo los tipos con alguno, tuyos primero, una fila por ruta (la última vez)', () => {
+    const completadas = [
+      ...Array.from({ length: 6 }, (_, i) => exp(`s${i % 3}`, 'santiago', `2026-02-${10 + i}`)),
+      ...Array.from({ length: 4 }, (_, i) => exp(`propia:${i}`, 'propia', `2026-03-${10 + i}`)),
+    ]
+    const g = gruposTerminados({ completadas })!
+    expect(g.map((x) => x.coleccion)).toEqual(['propia', 'santiago'])
+    expect(g[1].expediciones.map((x) => [x.ruta.id, x.llegada?.fecha])).toEqual([['s2', '2026-02-15'], ['s1', '2026-02-14'], ['s0', '2026-02-13']])
   })
 })
 
@@ -124,10 +182,11 @@ describe('pasos en el motor', () => {
     expect(caminoDeActividad(r, a1.id).metros).toBe(20_000)
   })
 
-  it('unos pasos pueden terminar la ruta; lo que sobra se pierde', () => {
+  it('unos pasos pueden terminar la ruta; lo que sobra pasa a la siguiente', () => {
     const r = calcularCaminos([act('2026-10-05', 110)], { inicio: '2026-10-05', ruta: ['ingles', 'fisterra'] }, HOY, [], [{ fecha: '2026-10-05', metros: 4_000 }])!
     expect(r.completadas[0].llegada).toEqual({ fecha: '2026-10-05', actividadId: null })
-    expect(r.tramos.at(-1)?.metros).toBe(1_500)
-    expect(r.actual).toMatchObject({ metros: 0, desde: '2026-10-05' })
+    expect(r.tramos.slice(-2).map((t) => [t.expedicion, t.metros])).toEqual([[0, 1_500], [1, 2_500]])
+    expect(r.actual).toMatchObject({ metros: 2_500, arrastrados: 2_500, desde: '2026-10-05' })
+    expect(r.actualElegida).toBe(true) // fisterra estaba elegida
   })
 })

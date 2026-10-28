@@ -45,6 +45,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - Actividades y Caminos (§123, [ADR 037](decisiones/037-actividades-y-caminos.md)): recorridos en Edge emulado a 320/375/430 px en ambos temas con GPS simulado; sin probar en iPhone: grabar con el GPS real (permiso de ubicación en la PWA instalada, Wake Lock en Safari, qué pasa al bloquear la pantalla y volver, batería y precisión de la altitud), importar un GPX desde Archivos (Strava, Wikiloc, el reloj) y los selectores nativos de fecha y hora en la hoja. Con datos reales: si 10 m por km y 3 días por semana se sienten bien en Cumbres y si los km de las rutas cuadran con lo que se anda.
 - Rutas propias de Caminos (§124): recorridas en Edge emulado a 320/375/430 px; sin probar en iPhone el buscador de pueblos con el teclado, los campos de km y la descarga de la lista de pueblos en la PWA instalada (y luego sin conexión).
 - Plan de comidas y lista de la compra (B16, §234 y §241): recorridos en Chromium a 320/375/430 px en ambos temas; sin probar en iPhone el Plan, las casillas de la lista ni «Copiar lo que falta» al portapapeles desde la PWA instalada.
+- «Encajan con lo que te falta» en Escribir (§243–§245): recorrido en Chromium a 320/375/430 px en ambos temas; sin probar en iPhone ni con texto al 200 %. Con datos reales, comprobar si encajan el umbral de 600 kcal (`KCAL_SIN_LIMITE`), la lista `IDEAS` y el orden; si salen parejas raras (una idea con un frecuente de otra comida), emparejar las ideas solo con frecuentes de esa comida.
 - Revisión semanal en Inicio (§95): recorrida en Edge emulado a 320/375/430 px en ambos temas y con texto al 200 %; sin probar en iPhone (tacto de «Hecho»/«Ver revisión» y página modal con safe areas).
 
 ## Limitaciones conocidas
@@ -68,6 +69,19 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 - `scripts/ui/validar-*.cjs` se han adaptado a la barra de pestañas (§97) sin ejecutarlos: siguen apuntando a `/usr/bin/chromium` y conservan otros selectores anteriores.
 
 La ampliación de publicaciones libres, logros compartidos, comunidades y mapa muscular está implementada. Víctor confirmó la ejecución correcta de `0006_comunidades_y_publicaciones.sql` en el proyecto real el 2026-10-16; las pruebas con cuentas reales de esta ampliación siguen pendientes. Ver [Social](features/social.md).
+
+## Mejoras de la app (documento de Víctor, 2026-10-26)
+
+Nueve bloques acordados (PROCESO §270 en adelante). Hechos los bloques 1 a 7, del 8 el punto 22 (interior de una comunidad) y el 9 (Recetas: 13), que se hizo aparte con las recetas con preparación (PROCESO §248 a §269). Quedan:
+- **23, imagen de cada comunidad**: Víctor crea los avatares; plan y handoff en [plan-avatares-comunidades.md](plan-avatares-comunidades.md).
+- **21, objetivos de comunidad**: más adelante.
+- **Escribir** (Añadir comida): Víctor quiere mejorar más cómo funciona.
+- **Pastillas de Buscar**: a 375 px la de grasa baja a otra línea cuando las cifras son largas.
+- **`scripts/ui/validar-social.cjs`**: se queda en la hoja de bienvenida («Genial»), que no cierra.
+
+Añadidos por Víctor durante el bloque 7, para después de cerrarlo y antes de acabar la sesión:
+- **Añadir comida**: mejorar la pantalla de añadir comida, sobre todo la ficha que se abre al añadir un alimento.
+- **Proponer un alimento**: un botón cerca de Nutrición o de Añadir comida para que cualquiera mande un alimento que falta y le llegue a Víctor para añadirlo al catálogo, como «Comunicar un problema» pero de alimentos. Hecho en Buscar («¿No está?» › «Propónselo a AppFit»), por la misma vía que «Comunicar un problema» ([ADR 061](decisiones/061-mensajes-al-creador.md)).
 
 ## Ideas sin empezar
 

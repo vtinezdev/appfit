@@ -20,9 +20,16 @@ async function contexto(browser, opciones = {}) {
   return context
 }
 
+// La hoja de nuevos logros (punto 5 del documento de mejoras) sale en cualquier pantalla cuando los datos sembrados
+// consiguen piezas: se cierra sola para que no tape lo que cada recorrido pulsa.
+async function cerrarCelebraciones(page) {
+  await page.addLocatorHandler(page.getByRole('button', { name: 'Genial', exact: true }), async (boton) => { await boton.click() })
+}
+
 async function abrir(context) {
   const page = await context.newPage()
   page.setDefaultTimeout(20000)
+  await cerrarCelebraciones(page)
   const errores = []
   const red = []
   page.on('pageerror', error => errores.push(error.message))
@@ -97,4 +104,4 @@ async function geometria(page, etiqueta) {
 }
 
 function informe(nombre, datos) { fs.writeFileSync(path.join(salida, `${nombre}.json`), JSON.stringify(datos, null, 2)) }
-module.exports = { assert, fs, path, playwright, ORIGEN, salida, lanzar, contexto, abrir, datos, sembrar, captura, geometria, informe, navegar }
+module.exports = { cerrarCelebraciones, assert, fs, path, playwright, ORIGEN, salida, lanzar, contexto, abrir, datos, sembrar, captura, geometria, informe, navegar }

@@ -94,6 +94,15 @@ export async function frecuentes({ comida, hoy, dias = VENTANA_FRECUENTES_DIAS, 
 }
 
 /**
+ * Tu ración habitual de un alimento (por su `claveRef`): la mediana de los gramos registrados en los últimos 60 días;
+ * sin registros, `undefined`.
+ */
+export async function racionHabitual(clave: string, hoy: string): Promise<number | undefined> {
+  const entries = await db.entries.where('fecha').between(addDays(hoy, -(VENTANA_HABITOS_DIAS - 1)), hoy, true, true).toArray()
+  return racionesHabituales(entries, { hoy }).get(clave)
+}
+
+/**
  * Datos de «Cerrar el día» (B10): tus frecuentes de esa comida con su ración habitual y las ideas del catálogo
  * (`IDEAS`) de las categorías que registras. Las ideas que el catálogo no tenga cargadas no salen.
  */

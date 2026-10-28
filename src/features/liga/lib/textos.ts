@@ -90,3 +90,9 @@ export function textoAscenso(a: Ascenso): string {
 export function ascensoDestacado(a: Ascenso): boolean {
   return a.de.liga !== a.a.liga
 }
+
+/** Los cambios de liga de un entreno para su imagen: la liga (su insignia), el texto corto y si solo empieza en Bronce. */
+export function ligasDeImagen(ascensos: readonly Ascenso[]): { exerciseId: number; liga: NonNullable<Division['liga']>; texto: string; empieza: boolean }[] {
+  return ascensos.filter((a) => ascensoDestacado(a) && a.a.liga)
+    .map((a) => ({ exerciseId: a.exerciseId, liga: a.a.liga!, texto: textoAscenso(a).split(':')[0], empieza: a.de.paso === 0 }))
+}

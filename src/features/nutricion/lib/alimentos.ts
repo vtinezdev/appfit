@@ -204,6 +204,20 @@ export function faltaCategoria(item: ItemRevision): boolean {
   return creaAlimentoNuevo(item) && !esCategoriaAlimento(item.categoria)
 }
 
+/**
+ * Lo que le falta a un ítem de la revisión, como etiqueta corta para marcarlo en rojo; `null` si está listo. Las cuatro
+ * primeras impiden guardar; «Revisa la cantidad» avisa de unos gramos puestos por defecto. `pedirCategoria`: si al
+ * guardar se pide categoría a los alimentos nuevos.
+ */
+export function pendienteRevision(item: ItemRevision, pedirCategoria = false): string | null {
+  if (faltanValores(item)) return 'Faltan sus valores'
+  if (!item.nombre.trim()) return 'Ponle nombre'
+  if (medidaPendiente(item)) return 'Elige la cantidad'
+  if (pedirCategoria && faltaCategoria(item)) return 'Elige su categoría'
+  if (item.gramosEstimados) return 'Revisa la cantidad'
+  return null
+}
+
 /** true si al guardar este ítem se corregirán los valores de un alimento ya guardado (para avisar en la revisión). */
 export function actualizaAlimentoGuardado(item: ItemRevision): boolean {
   return item.origen.guardado && normalizeName(item.nombre) === item.origen.nombreNorm && !mismosValores(item, item.origen.valores)

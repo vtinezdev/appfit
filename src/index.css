@@ -125,6 +125,13 @@ input, select, textarea, button {
 input, select, textarea { scroll-margin-block: 1rem; }
 /* Algunos controles nativos (fecha/select en Android) tienen un mínimo intrínseco mayor que su columna. */
 input, select, textarea { max-width: 100%; min-width: 0; }
+/* Safari iOS pinta fecha y hora como una píldora nativa centrada, con un ancho mínimo propio que desborda su columna. */
+input[type='date'], input[type='time'], input[type='datetime-local'], input[type='month'] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+}
+input::-webkit-date-and-time-value { text-align: left; margin: 0; }
 button, input, select, textarea { touch-action: manipulation; }
 button { overflow-wrap: anywhere; }
 button:disabled { cursor: default; }
@@ -368,6 +375,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
   border-radius: var(--radius-sm); background: rgb(var(--c-surface-muted));
 }
 .app-tabs-principal .tab-indicator::after { inset: auto auto 0.25rem 50%; height: 3px; }
+/* Separadores entre las pestañas principales (punto 3): una línea fina entre dos que no estén elegidas. */
+.app-tabs-principal .app-tab + .app-tab::before { content: ''; position: absolute; left: 0; top: 30%; bottom: 30%; width: 1px; background: rgb(var(--c-border-strong)); transition: opacity var(--dur-short) var(--ease-standard); }
+.app-tabs-principal .app-tab[aria-selected='true']::before, .app-tabs-principal .app-tab[aria-selected='true'] + .app-tab::before { opacity: 0; }
 .app-segmented { gap: 0; }
 .segment-indicator {
   position: absolute; top: 4px; bottom: 4px; left: 4px;

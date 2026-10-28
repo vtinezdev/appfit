@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import Ayuda from '../../../shared/components/Ayuda'
 import Button from '../../../shared/components/Button'
+import Card from '../../../shared/components/Card'
 import Disclosure from '../../../shared/components/Disclosure'
 import FilaDeslizable from '../../../shared/components/FilaDeslizable'
-import ListGroup from '../../../shared/components/ListGroup'
-import SectionHeader from '../../../shared/components/SectionHeader'
+import Icon from '../../../shared/components/Icon'
 import type { Aviso } from '../../../shared/hooks/useAviso'
 import { formatFriendly } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
@@ -16,10 +17,8 @@ import HojaPasos from './HojaPasos'
 import HojaSemanaPasos from './HojaSemanaPasos'
 import HojaZancada from './HojaZancada'
 
-/** Días que se ven fuera del desplegable. */
-const RECIENTES = 7
 
-const ORIGEN_ZANCADA: Record<Zancada['origen'], string> = { propia: 'la tuya', altura: 'por tu altura', defecto: 'sin tu altura en Perfil' }
+const ORIGEN_ZANCADA: Record<Zancada['origen'], string> = { propia: 'La tuya', altura: 'Por tu altura', defecto: 'Sin tu altura en Perfil' }
 
 interface Props {
   hoy: string
@@ -94,24 +93,41 @@ export default function PasosCaminos({ hoy, inicio, aportes, zancada, zancadaEst
     </FilaDeslizable>
   </li>
 
-  return <section aria-label="Pasos" className="space-y-stack">
-    <SectionHeader variant="section">Pasos</SectionHeader>
-    <p className="break-words text-body-sm text-fg-muted">
-      Apunta los que marca tu móvil{inicio === undefined ? '; avanzan tu Camino desde que eliges la primera ruta' : ''}. Lo que ya esté en tus actividades del día no cuenta dos veces.
-    </p>
-    {dias.length > 0 && <ListGroup aria-label="Pasos apuntados">{dias.slice(0, RECIENTES).map(fila)}</ListGroup>}
-    {dias.length > RECIENTES && <Disclosure title={`Todos los días (${formatInt(dias.length)})`}>
-      <ul className="app-list-flat divide-y divide-line" aria-label="Todos los días con pasos">{dias.slice(RECIENTES).map(fila)}</ul>
-    </Disclosure>}
-    <Button variant="secondary" size="sm" onClick={() => abrir(deHoy !== undefined ? { fecha: hoy, pasos: deHoy } : undefined)}>
-      {deHoy !== undefined ? 'Cambiar los de hoy' : 'Apuntar los de hoy'}
-    </Button>
-    {dias.length > 0 && <Button variant="ghost" size="sm" onClick={() => abrir()}>Apuntar otro día</Button>}
-    <Button variant="ghost" size="sm" onClick={() => { setSemanaN(Date.now()); setSemanaAbierta(true) }}>Apuntar una semana</Button>
-    <div className="flex min-h-touch items-center justify-between gap-3">
-      <span className="tabular min-w-0 break-words text-body-sm text-fg-muted">Zancada de {formatInt(zancada.cm)} cm, {ORIGEN_ZANCADA[zancada.origen]}</span>
-      <Button variant="subtle" size="sm" onClick={() => { setZancadaN(Date.now()); setZancadaAbierta(true) }}>Cambiar</Button>
-    </div>
+  // Una tarjeta sin título (punto 6): el símbolo de pasos y lo de hoy, apuntar hoy u otros días, la zancada y los días apuntados.
+  return <section aria-label="Pasos">
+    <Card padded={false}>
+      <div className="flex items-center gap-3 px-card pt-card">
+        <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-surface-muted text-fg"><Icon name="footprints" size={20} /></span>
+        <span className="min-w-0 flex-1">
+          <span className="tabular block break-words text-body font-semibold text-fg">{deHoy !== undefined ? `Hoy, ${pasosTexto(deHoy)}` : 'Sin pasos apuntados hoy'}</span>
+          <span className="block break-words text-caption text-fg-muted">Los que marca tu móvil</span>
+        </span>
+        <Ayuda titulo="Pasos">
+          <p>Apunta los pasos que marca tu móvil{inicio === undefined ? '; avanzan tu Camino desde que eliges la primera ruta' : ''}.</p>
+          <p>Lo que ya esté en tus actividades del día no cuenta dos veces: solo avanza lo que sobra de los pasos sobre ellas.</p>
+          <p>Los pasos se pasan a km con tu zancada.</p>
+        </Ayuda>
+      </div>
+      <div className="flex flex-wrap gap-2 px-card pt-3">
+        <Button variant="secondary" size="sm" onClick={() => abrir(deHoy !== undefined ? { fecha: hoy, pasos: deHoy } : undefined)}>{deHoy !== undefined ? 'Cambiar los de hoy' : 'Apuntar los de hoy'}</Button>
+        <Button variant="ghost" size="sm" onClick={() => { setSemanaN(Date.now()); setSemanaAbierta(true) }}>Una semana</Button>
+        {dias.length > 0 && <Button variant="ghost" size="sm" onClick={() => abrir()}>Otro día</Button>}
+      </div>
+      <ul className="mt-3 divide-y divide-line border-t border-line px-card">
+        {/* La zancada, como fila: toda ella abre su hoja. */}
+        <li><button type="button" aria-haspopup="dialog" onClick={() => { setZancadaN(Date.now()); setZancadaAbierta(true) }} className="app-button flex min-h-touch w-full items-center gap-3 py-2 text-left">
+          <span className="min-w-0 flex-1">
+            <span className="block text-body-sm text-fg">Zancada</span>
+            <span className="block break-words text-caption text-fg-muted">{ORIGEN_ZANCADA[zancada.origen]}</span>
+          </span>
+          <span className="tabular shrink-0 text-body-sm font-semibold text-fg">{formatInt(zancada.cm)} cm</span>
+          <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
+        </button></li>
+        {dias.length > 0 && <li className="py-1"><Disclosure title={`Días apuntados (${formatInt(dias.length)})`}>
+          <ul className="app-list-flat divide-y divide-line" aria-label="Días con pasos">{dias.map(fila)}</ul>
+        </Disclosure></li>}
+      </ul>
+    </Card>
 
     {hoja && <HojaPasos key={hoja.n} open={hojaAbierta} onClose={() => setHojaAbierta(false)} hoy={hoy} editando={hoja.editando} apuntados={apuntados}
       zancadaCm={zancada.cm} onGuardar={guardar} />}

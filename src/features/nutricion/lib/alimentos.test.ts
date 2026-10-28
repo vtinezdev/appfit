@@ -18,6 +18,7 @@ import {
   recetaDeItem,
   itemSinCoincidencia,
   medidaPendiente,
+  pendienteRevision,
   mismosValores,
   NOMBRE_RAPIDA_POR_DEFECTO,
   por100DesdeEntrada,
@@ -25,6 +26,7 @@ import {
   rankFrecuentes,
   validarKcalRapidas,
   type AlimentoElegible,
+  type ItemRevision,
 } from './alimentos'
 
 const PLATANO: Food = {
@@ -310,6 +312,30 @@ describe('categoría en la revisión', () => {
   it('un producto incompleto lleva la categoría que dio Open Food Facts, si es válida', () => {
     expect(itemDeProductoIncompleto('Galletas', { kcal100: 480 }, 'Galletas, bollería y pasteles').categoria).toBe('Galletas, bollería y pasteles')
     expect(itemDeProductoIncompleto('Galletas', { kcal100: 480 }, 'otra')).not.toHaveProperty('categoria')
+  })
+})
+
+describe('pendienteRevision', () => {
+  const listo = itemDesdeElegible(elegibleDeFood(PLATANO), 120)
+
+  it('un alimento completo no tiene nada pendiente', () => {
+    expect(pendienteRevision(listo)).toBeNull()
+    expect(pendienteRevision(listo, true)).toBeNull()
+  })
+
+  it('marca lo que impide guardar, primero los valores', () => {
+    const nuevo = itemSinCoincidencia('salsa rara', 20)
+    expect(pendienteRevision(nuevo, true)).toBe('Faltan sus valores')
+    expect(pendienteRevision({ ...nuevo, kcal100: 300 }, true)).toBe('Elige su categoría')
+    expect(pendienteRevision({ ...nuevo, kcal100: 300 })).toBeNull()
+    expect(pendienteRevision({ ...listo, nombre: '  ' })).toBe('Ponle nombre')
+    const medida = { opciones: [5, 15] } as unknown as ItemRevision['medida']
+    expect(pendienteRevision({ ...listo, medida })).toBe('Elige la cantidad')
+  })
+
+  it('avisa de los gramos puestos por defecto', () => {
+    expect(pendienteRevision({ ...listo, gramosEstimados: true })).toBe('Revisa la cantidad')
+    expect(pendienteRevision({ ...listo, gramosEstimados: false })).toBeNull()
   })
 })
 

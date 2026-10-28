@@ -13,15 +13,13 @@ import { formatHora, resumenUltimoEntreno } from '../lib/workout'
 interface Props {
   /** Lleva a Entreno. Sin él no hay acción (Gym ya es la pantalla de destino). */
   onAbrir?: () => void
-  /** Solo el último entreno terminado, aunque haya uno en curso (Gym enseña el entreno activo aparte). */
-  soloUltimo?: boolean
 }
 
 /**
  * Entreno en Gym: el entreno en curso («En curso desde 18:05») o, si no hay, el último terminado
  * (cuándo, duración, ejercicios y volumen). Solo lee datos que ya existen; la lógica está en `resumenUltimoEntreno`.
  */
-export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
+export default function TarjetaEntreno({ onAbrir }: Props) {
   const activo = useLiveQuery(async () => ((await workoutsRepo.activo()) ?? null), [])
   const ultimo = useLiveQuery(async () => {
     const w = await workoutsRepo.ultimoTerminado()
@@ -31,7 +29,7 @@ export default function TarjetaEntreno({ onAbrir, soloUltimo = false }: Props) {
   if (activo === undefined || ultimo === undefined) return null
   const resumen = ultimo ? resumenUltimoEntreno(ultimo.workout, ultimo.sets) : null
 
-  if (activo && !soloUltimo) {
+  if (activo) {
     return (
       <Card className="training-surface">
         <section aria-label="Entreno en curso" className="space-y-stack">

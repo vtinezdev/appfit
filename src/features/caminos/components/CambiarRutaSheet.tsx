@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import Button from '../../../shared/components/Button'
+import Icon from '../../../shared/components/Icon'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
 import { kmTexto } from '../../actividades/lib/actividad'
@@ -14,10 +16,15 @@ interface Props {
   veces: ReadonlyMap<string, number>
   /** Guarda el cambio; si falla, el error se muestra en la hoja. */
   onElegir: (r: Ruta) => Promise<void>
+  /** Tras una llegada (punto 4): «Elige tu próxima ruta», con lo que sobró, y el acceso al creador de rutas. */
+  llegada?: { onCrear: () => void }
 }
 
-/** Cambiar la ruta actual por otra más larga que lo ya recorrido, que se conserva; también una ya hecha o una propia. */
-export default function CambiarRutaSheet({ open, onClose, actual, opciones, veces, onElegir }: Props) {
+/**
+ * Cambiar la ruta actual por otra más larga que lo ya recorrido, que se conserva; también una ya hecha o una propia. Tras
+ * una llegada, la misma hoja sirve para elegir la próxima, con un acceso a crear una ruta propia.
+ */
+export default function CambiarRutaSheet({ open, onClose, actual, opciones, veces, onElegir, llegada }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [guardando, setGuardando] = useState(false)
 
@@ -33,11 +40,14 @@ export default function CambiarRutaSheet({ open, onClose, actual, opciones, vece
     }
   }
 
-  return <Sheet open={open} onClose={onClose} title="Cambiar de ruta">
+  return <Sheet open={open} onClose={onClose} title={llegada ? 'Elige tu próxima ruta' : 'Cambiar de ruta'}>
     <div className="space-y-stack">
       <p className="break-words text-body-sm text-fg-muted">
-        {actual.metros > 0 ? `Conservas los ${kmTexto(actual.metros)} recorridos en ${actual.ruta.nombre}: aparecen las rutas más largas que eso. ` : ''}Puedes repetir una que ya hayas hecho.
+        {llegada
+          ? `${actual.metros > 0 ? `Los ${kmTexto(actual.metros)} que llevas desde la llegada cuentan para la que elijas. ` : ''}Puedes repetir una que ya hayas hecho o crear la tuya.`
+          : `${actual.metros > 0 ? `Conservas los ${kmTexto(actual.metros)} recorridos en ${actual.ruta.nombre}: aparecen las rutas más largas que eso. ` : ''}Puedes repetir una que ya hayas hecho.`}
       </p>
+      {llegada && <Button variant="secondary" block onClick={llegada.onCrear}><Icon name="route" size={18} />Crear una ruta</Button>}
       {error && <ErrorState>{error}</ErrorState>}
       {opciones.length === 0
         ? <p className="text-body-sm text-fg-muted">No queda otra ruta por la que cambiarla.</p>

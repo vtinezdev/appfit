@@ -192,7 +192,7 @@ describe('orden de ejercicios de la sesión', () => {
   })
 })
 
-import { combinarFechaHora, minutosEntre } from './workout'
+import { combinarFechaHora, minutosEntre, tiemposAlTerminar } from './workout'
 
 describe('fecha y duración de un entreno editado', () => {
   it('combina fecha y hora locales y rechaza valores imposibles', () => {
@@ -206,6 +206,13 @@ describe('fecha y duración de un entreno editado', () => {
   it('minutosEntre redondea y nunca baja de 1', () => {
     expect(minutosEntre(0, 3_600_000)).toBe(60)
     expect(minutosEntre(0, 10)).toBe(1)
+  })
+  it('tiemposAlTerminar: sin corregir, el reloj; más corto, termina antes; más largo, empezó antes', () => {
+    const inicio = 1_000_000, ahora = inicio + 90 * 60000
+    expect(tiemposAlTerminar(inicio, ahora, null)).toEqual({ inicio, fin: ahora })
+    expect(tiemposAlTerminar(inicio, ahora, 60)).toEqual({ inicio, fin: inicio + 60 * 60000 })
+    expect(tiemposAlTerminar(inicio, ahora, 120)).toEqual({ inicio: ahora - 120 * 60000, fin: ahora })
+    expect(tiemposAlTerminar(inicio, ahora, 0)).toEqual({ inicio, fin: inicio + 60000 })
   })
 })
 

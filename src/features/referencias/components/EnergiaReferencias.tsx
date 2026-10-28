@@ -1,13 +1,76 @@
-import { formatNumber } from '../../../shared/lib/format'
 import type { ReactNode } from 'react'
-import { AVISO_ORIENTATIVO, ECUACIONES, KCAL_POR_KG, METODO_TMB, NIVELES_ACTIVIDAD, SUELO_KCAL } from '../../perfil/lib/energia'
+import { useLiveQuery } from 'dexie-react-hooks'
+import Card from '../../../shared/components/Card'
+import Disclosure from '../../../shared/components/Disclosure'
+import Icon, { type IconName } from '../../../shared/components/Icon'
+import { todayISO } from '../../../shared/lib/dates'
+import { formatInt, formatNumber } from '../../../shared/lib/format'
+import { estadoEnergetico } from '../../perfil/data/perfilRepo'
+import { pasosEnergia } from '../lib/pasosEnergia'
+import SeccionReferencia, { AvisoReferencia } from './SeccionReferencia'
+import { AVISO_ORIENTATIVO, ECUACIONES, formatSigned, IMC_BAJO_PESO, INTENSIDADES_KCAL, KCAL_POR_KG, METODO_TMB, NIVELES_ACTIVIDAD, SUELO_KCAL, type EnergiaOk } from '../../perfil/lib/energia'
 import { enlaceFuente, FUENTES_ENERGIA } from '../../perfil/lib/fuentesEnergia'
 import { ALTURA_MAX, ALTURA_MIN, EDAD_AVISO, EDAD_MAX, EDAD_MIN } from '../../perfil/lib/validacionPerfil'
 
-const AVISO_COMPLETO = 'Estimación orientativa basada en ecuaciones poblacionales (error típico ±10 %). No es una prescripción médica ni sirve para menores de 18 años, embarazo o lactancia, enfermedades que alteran el metabolismo o trastornos de la conducta alimentaria: en esos casos, consulta a un profesional sanitario. Ajusta según la evolución real de tu peso.'
 
-function Seccion({ titulo, children }: { titulo: string; children: ReactNode }) {
-  return <section className="space-y-2 border-t border-line pt-4"><h3 className="text-title font-semibold text-fg">{titulo}</h3>{children}</section>
+
+/** Lo que pasa a ser opcional: la bibliografía de cada sección, plegada. */
+const Apoyo = ({ children }: { children: ReactNode }) => <Disclosure title="En qué se apoya"><div className="space-y-2 text-body-sm text-fg-muted">{children}</div></Disclosure>
+
+/** Una cifra en una casilla: rótulo arriba y valor grande. */
+function Casilla({ rotulo, valor, unidad, destacada = false }: { rotulo: string; valor: string; unidad?: string; destacada?: boolean }) {
+  return <div className={`min-w-0 rounded-md p-3 ${destacada ? 'bg-accent-subtle' : 'bg-surface-muted'}`}>
+    <p className="break-words text-caption text-fg-muted">{rotulo}</p>
+    <p className="tabular flex flex-wrap items-baseline gap-1"><span className="font-numeric text-heading text-fg">{valor}</span>{unidad && <span className="text-caption text-fg-muted">{unidad}</span>}</p>
+  </div>
+}
+
+/**
+ * Cabecera de la página: el objetivo en cuatro pasos numerados, cada uno con su regla y, con perfil completo, tu cifra a la
+ * derecha. Los mismos números encabezan las secciones de debajo.
+ */
+function CuatroPasos({ e }: { e: EnergiaOk | null }) {
+  const pasos = pasosEnergia(e)
+  return <Card className="space-y-3">
+    <div>
+      <p className="text-rotulo text-fg-muted">{e ? 'Tu cálculo' : 'El cálculo'}</p>
+      <h2 className="text-title text-fg">Cómo sale tu objetivo</h2>
+    </div>
+    <ol className="space-y-3">
+      {pasos.map((p, i) => <li key={p.titulo} className="flex gap-3">
+        <span aria-hidden className="tabular flex h-7 w-7 shrink-0 items-center justify-center rounded-pill bg-surface-muted text-caption font-semibold text-fg">{formatInt(i + 1)}</span>
+        <span className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-3">
+          <span className="min-w-0">
+            <span className="block text-body-sm font-semibold text-fg">{p.titulo}</span>
+            <span className="block break-words text-caption text-fg-muted">{p.regla}</span>
+          </span>
+          {p.tuyo && <span className={`tabular shrink-0 text-body-sm ${i === pasos.length - 1 ? 'font-semibold text-fg' : 'text-fg'}`}>{p.tuyo}</span>}
+        </span>
+      </li>)}
+    </ol>
+    {!e && <p className="border-t border-line pt-3 text-caption text-fg-muted">Completa tu Perfil para ver aquí tus cifras.</p>}
+  </Card>
+}
+
+/** Regla del ajuste: de −600 a +600 kcal, con las zonas de definición y volumen y, con perfil, tu marca. */
+function ReglaAjuste({ ajuste }: { ajuste: number | null }) {
+  const max = Math.max(...INTENSIDADES_KCAL)
+  const min = Math.min(...INTENSIDADES_KCAL)
+  const x = (kcal: number) => `${((kcal + max) / (2 * max)) * 100}%`
+  return <div className="space-y-1 pt-6">
+    <div className="relative h-3 rounded-pill bg-surface-muted">
+      <span aria-hidden className="absolute inset-y-0 rounded-pill bg-fg-subtle" style={{ left: x(-max), width: `${((max - min) / (2 * max)) * 100}%` }} />
+      <span aria-hidden className="absolute inset-y-0 rounded-pill bg-fg-subtle" style={{ left: x(min), width: `${((max - min) / (2 * max)) * 100}%` }} />
+      <span aria-hidden className="absolute -inset-y-1 w-0.5 -translate-x-1/2 bg-fg" style={{ left: x(0) }} />
+      {ajuste !== null && <span aria-hidden className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-pill border-2 border-surface bg-accent" style={{ left: x(Math.max(-max, Math.min(max, ajuste))) }} />}
+      {ajuste !== null && <span aria-hidden className="absolute -top-6 -translate-x-1/2 whitespace-nowrap rounded-pill bg-accent px-2 text-caption font-semibold text-accent-on" style={{ left: x(Math.max(-max, Math.min(max, ajuste))) }}>Tú</span>}
+    </div>
+    <div className="tabular grid grid-cols-3 text-caption text-fg-muted">
+      <span>Definición<br />−{formatInt(max)} a −{formatInt(min)}</span>
+      <span className="text-center">Mantener<br />0</span>
+      <span className="text-right">Volumen<br />+{formatInt(min)} a +{formatInt(max)}</span>
+    </div>
+  </div>
 }
 
 const signo = (n: number) => (n < 0 ? '−' : '+')
@@ -17,61 +80,100 @@ function formula(id: 'mifflin' | 'rozaShizgal', sexo: 'hombre' | 'mujer') {
   return `${c.constante < 0 ? '−' : ''}${n(c.constante)} ${signo(c.kg)} ${n(c.kg)}·kg ${signo(c.cm)} ${n(c.cm)}·cm ${signo(c.anio)} ${n(c.anio)}·años`
 }
 
-/** Metodología y fuentes de la estimación energética. Es la única explicación larga; Perfil enlaza aquí. */
+/**
+ * Metodología y fuentes de la estimación energética (punto 33): arriba el cálculo en cuatro pasos con tus cifras y, en cada
+ * sección, lo visual primero (las dos ecuaciones, la escala de factores, la regla del ajuste, los límites) y la bibliografía
+ * plegada en «En qué se apoya». Es la única explicación larga; Perfil enlaza aquí.
+ */
 export default function EnergiaReferencias() {
-  return <div className="space-y-section text-body-sm text-fg-muted">
-    <p>{AVISO_COMPLETO}</p>
-    <p>La estimación se calcula siempre en tu dispositivo con los datos de Perfil y tu último pesaje. No se envía nada a ningún servidor; los enlaces de las fuentes solo se abren cuando los pulsas.</p>
+  const estado = useLiveQuery(() => estadoEnergetico(todayISO()), [])
+  const e = estado?.energia.estado === 'ok' ? estado.energia : null
+  const kcal = (n: number) => formatInt(Math.round(n))
+  const LIMITES: { icono: IconName; texto: string }[] = [
+    { icono: 'alert', texto: `Nunca menos de ${formatInt(SUELO_KCAL)} kcal` },
+    { icono: 'scale', texto: 'Nunca por debajo de tu gasto en reposo' },
+    { icono: 'stop', texto: `Con IMC bajo ${formatNumber(IMC_BAJO_PESO, 1)}, sin déficit` },
+    { icono: 'user', texto: `Solo adultos, de ${formatInt(EDAD_MIN)} a ${formatInt(EDAD_MAX)} años` },
+  ]
+  return <div className="space-y-stack text-body-sm text-fg-muted">
+    <CuatroPasos e={e} />
 
-    <Seccion titulo="Gasto en reposo (TMB)">
-      <p>AppFit calcula la media de {formatNumber(METODO_TMB.ecuaciones.length)} ecuaciones: Mifflin-St Jeor (1990) y Harris-Benedict revisada por Roza y Shizgal (1984). Ninguna publicación valida esa media como ecuación propia: es un criterio de AppFit apoyado en dos ecuaciones citadas, no un método publicado. Con datos habituales, Roza-Shizgal da unas decenas de kcal más que Mifflin, así que la media queda entre las dos.</p>
-      <ul className="space-y-2">
-        {(['mifflin', 'rozaShizgal'] as const).map((id) => <li key={id} className="space-y-1">
-          <p className="font-semibold text-fg">{ECUACIONES[id].nombre}</p>
-          <p className="tabular break-words">Hombre: {formula(id, 'hombre')}</p>
-          <p className="tabular break-words">Mujer: {formula(id, 'mujer')}</p>
+    <AvisoReferencia>
+      <p>Orientativo (error típico ±10 %), no una prescripción médica. Ajusta según cómo cambia tu peso.</p>
+      <p className="text-fg-muted">No sirve para menores de 18 años, embarazo o lactancia, enfermedades que alteran el metabolismo ni trastornos de la conducta alimentaria: consulta a un profesional sanitario.</p>
+    </AvisoReferencia>
+
+    <SeccionReferencia titulo="1 · Gasto en reposo" resumen="La media de dos ecuaciones con tu sexo, edad, altura y peso.">
+      <div className="grid grid-cols-2 gap-2">
+        {METODO_TMB.ecuaciones.map((id) => <Casilla key={id} rotulo={ECUACIONES[id].nombre} valor={e ? kcal(e.tmb.parciales[id]) : '—'} unidad={e ? 'kcal' : undefined} />)}
+      </div>
+      <Casilla rotulo={e ? 'Media: tu gasto en reposo' : 'AppFit usa la media de las dos'} valor={e ? kcal(e.tmb.valor) : '½ + ½'} unidad={e ? 'kcal' : undefined} destacada />
+      <Disclosure title="Las fórmulas">
+        <ul className="space-y-2">
+          {(['mifflin', 'rozaShizgal'] as const).map((id) => <li key={id} className="space-y-1">
+            <p className="font-semibold text-fg">{ECUACIONES[id].nombre}</p>
+            <p className="tabular break-words">Hombre: {formula(id, 'hombre')}</p>
+            <p className="tabular break-words">Mujer: {formula(id, 'mujer')}</p>
+          </li>)}
+        </ul>
+      </Disclosure>
+      <Apoyo>
+        <p>Mifflin-St Jeor (1990) se obtuvo con 498 adultos sanos de 19 a 78 años y la revisión de Frankenfield (2005) la señala como la más fiable. Harris-Benedict (1918–1919) sobreestima en población actual; la revisión de Roza y Shizgal (1984) mejora el ajuste. La media de las dos es un criterio de AppFit, no un método publicado.</p>
+        <p>No se usan Henry/Oxford (la de EFSA) ni Cunningham o Katch-McArdle, que piden masa magra: no se guarda composición corporal. Son ecuaciones binarias (hombre o mujer) y en deportistas muy musculados pueden quedarse cortas (ten Haaf y Weijs, 2014).</p>
+      </Apoyo>
+    </SeccionReferencia>
+
+    <SeccionReferencia titulo="2 · Factor de actividad" resumen={`Tu gasto en reposo × un factor de ${formatNumber(Math.min(...Object.values(NIVELES_ACTIVIDAD).map((n) => n.factor)), 3)} a ${formatNumber(Math.max(...Object.values(NIVELES_ACTIVIDAD).map((n) => n.factor)), 3)}, según cuánto deporte haces.`}>
+      <ul className="space-y-1">
+        {Object.entries(NIVELES_ACTIVIDAD).map(([id, n]) => {
+          const tuyo = e?.actividad === id
+          return <li key={id} className={`flex items-center justify-between gap-3 rounded-md px-3 py-2 ${tuyo ? 'bg-accent-subtle' : ''}`}>
+            <span className="min-w-0"><span className="block font-semibold text-fg">{n.etiqueta}{tuyo ? ' · tú' : ''}</span><span className="block text-caption">{n.descripcion}</span></span>
+            <span className="tabular shrink-0 font-semibold text-fg">× {formatNumber(n.factor, 3)}</span>
+          </li>
+        })}
+      </ul>
+      <Apoyo>
+        <p>Los cinco niveles se atribuyen a McArdle, Katch y Katch (1996): una convención muy usada, no un método validado.</p>
+        <p>Como contexto, FAO/OMS/UNU (2004) y EFSA (2013) usan niveles de actividad de 1,4 a 2,4. Los dos primeros niveles pueden quedarse cortos para quien camina mucho o trabaja de pie; el gasto observado de Perfil lo corrige con tus datos.</p>
+      </Apoyo>
+    </SeccionReferencia>
+
+    <SeccionReferencia titulo="3 · Ajuste según tu objetivo" resumen={`Definición resta y volumen suma de ${formatInt(Math.min(...INTENSIDADES_KCAL))} a ${formatInt(Math.max(...INTENSIDADES_KCAL))} kcal al día.`}>
+      <ReglaAjuste ajuste={e && e.objetivoAplicado ? e.ajusteKcal : null} />
+      <div className="grid grid-cols-2 gap-2">
+        <Casilla rotulo="Tu ajuste" valor={e && e.objetivoAplicado ? formatSigned(e.ajusteKcal) : '—'} unidad={e && e.objetivoAplicado ? 'kcal' : undefined} />
+        <Casilla rotulo="Ritmo aproximado" valor={e?.ritmo ? `${e.ritmo.kgSemana > 0 ? '+' : e.ritmo.kgSemana < 0 ? '−' : ''}${formatNumber(Math.abs(e.ritmo.kgSemana), 2)}` : '—'} unidad={e?.ritmo ? 'kg/semana' : undefined} />
+      </div>
+      <Apoyo>
+        <p>Ritmo = kcal × 7 / {formatInt(KCAL_POR_KG)} kg por semana. En definición, por encima del 1 % del peso por semana avisa, sin bloquear.</p>
+        <p>El rango lo fija AppFit; la literatura es contexto. NICE: unas 600 kcal/día menos son unos 0,5 kg por semana. Helms et al. (2014) y Garthe et al. (2011): perder un 0,5–1 % del peso por semana conserva mejor el músculo. Slater et al. (2019) e Iraki et al. (2019): en volumen, unas 360–480 kcal más o un 10–20 %.</p>
+        <p>Hall (2008): {formatInt(KCAL_POR_KG)} kcal por kg es una aproximación que pierde validez con el tiempo.</p>
+      </Apoyo>
+    </SeccionReferencia>
+
+    <SeccionReferencia titulo="4 · Límites de prudencia" resumen={`Nunca por debajo de tu gasto en reposo ni de ${formatInt(SUELO_KCAL)} kcal; solo para adultos.`}>
+      <ul className="grid grid-cols-2 gap-2">
+        {LIMITES.map((l) => <li key={l.texto} className="flex min-w-0 flex-col gap-2 rounded-md bg-surface-muted p-3">
+          <Icon name={l.icono} size={20} className="text-fg-muted" />
+          <span className="break-words text-body-sm font-semibold text-fg">{l.texto}</span>
         </li>)}
       </ul>
-      <p>Mifflin-St Jeor se obtuvo con 498 adultos sanos de 19 a 78 años (calorimetría indirecta) y la revisión sistemática de Frankenfield (2005) la señala como la más fiable de las comparadas. Harris-Benedict (1918–1919) usó 239 personas en Boston y sobreestima en población actual; Roza-Shizgal (337 personas) mejora el ajuste con la misma estructura y es la que se usa aquí. La ecuación de Henry/Oxford (2005), que usa EFSA para valores poblacionales, y las de Cunningham o Katch-McArdle, que necesitan la masa magra, no se usan: no se pide ni se guarda composición corporal.</p>
-      <p>Las ecuaciones son binarias (hombre o mujer) y se calculan en kg, cm y años cumplidos desde tu fecha de nacimiento. En deportistas con mucha masa muscular pueden quedarse cortas (ten Haaf y Weijs, 2014).</p>
-    </Seccion>
+      <Apoyo>
+        <p>Son criterios de prudencia de AppFit, no datos científicos. {formatInt(SUELO_KCAL)} kcal es el umbral de las dietas de muy bajo valor calórico, que NICE no recomienda sin supervisión; un IMC por debajo de 18,5 es bajo peso según la OMS. Por encima de {formatInt(EDAD_AVISO)} años se calcula con aviso, fuera de la muestra de las ecuaciones.</p>
+        <p>Altura de {formatInt(ALTURA_MIN)} a {formatInt(ALTURA_MAX)} cm y peso de 20 a 300 kg son controles de la entrada. El objetivo se redondea a 10 kcal.</p>
+      </Apoyo>
+    </SeccionReferencia>
 
-    <Seccion titulo="Factor de actividad: ¿cuánto deporte haces?">
-      <p>Gasto diario = gasto en reposo × factor. Los cinco niveles se atribuyen al manual de McArdle, Katch y Katch (1996) y son una convención de uso extendido, no un método validado: no se ha podido comprobar la edición concreta ni localizar una derivación experimental publicada.</p>
-      <ul className="divide-y divide-line border-y border-line">
-        {Object.values(NIVELES_ACTIVIDAD).map((n) => <li key={n.etiqueta} className="flex items-start justify-between gap-3 py-2">
-          <span className="min-w-0"><span className="block font-semibold text-fg">{n.etiqueta}</span><span className="block">{n.descripcion}</span></span>
-          <span className="tabular shrink-0 font-semibold text-fg">× {formatNumber(n.factor, 3)}</span>
-        </li>)}
-      </ul>
-      <p>Como contexto oficial, FAO/OMS/UNU (2004) agrupa la actividad física (PAL) en 1,40–1,69, 1,70–1,99 y 2,00–2,40, y EFSA (2013) usa 1,4, 1,6, 1,8 y 2,0. FAO considera que un PAL inferior a 1,40 solo es propio de personas encamadas: los dos primeros niveles pueden quedarse cortos para quien no entrena pero camina o trabaja de pie. El factor mide el deporte, no el resto del día.</p>
-    </Seccion>
-
-    <Seccion titulo="Ajuste según tu objetivo">
-      <p>Definición resta y volumen suma entre 200 y 600 kcal al día, en pasos de 100, según elijas (por defecto 400). Mantenimiento no ajusta. El rango lo fija AppFit; la literatura solo es contexto:</p>
+    <SeccionReferencia titulo="Cómo se usa en la app" resumen="Tus calorías de Hoy, Resumen e Inicio salen de aquí y se recalculan solas.">
       <ul className="list-disc space-y-1 pl-5">
-        <li>NICE: un déficit de unas 600 kcal/día equivale a unos 0,5 kg por semana (coincide con el máximo de AppFit).</li>
-        <li>Helms et al. (2014): perder entre el 0,5 y el 1 % del peso por semana para conservar músculo; Garthe et al. (2011): 0,7 % por semana conservó mejor la masa magra que 1,4 %.</li>
-        <li>Slater et al. (2019): empezar con +1.500–2.000 kJ/día (unas 360–480 kcal); Iraki et al. (2019): +10–20 % y ganancias de 0,25–0,5 % del peso por semana.</li>
+        <li>Con el perfil completo, tus calorías salen de aquí y se recalculan al pesarte, cambiar un dato o cumplir años.</li>
+        <li>Los macros siguen tu reparto de Objetivos diarios; la proteína, por kg si la tienes activa.</li>
+        <li>Se calcula en tu móvil: no se envía nada.</li>
       </ul>
-      <p>El ritmo que se muestra es orientativo: kcal × 7 / {formatNumber(KCAL_POR_KG)} kg por semana. Hall (2008) advierte de que {formatNumber(KCAL_POR_KG)} kcal por kg es una aproximación que pierde validez con el tiempo. En definición, si el ritmo supera el 1 % del peso por semana se avisa, sin bloquear.</p>
-    </Seccion>
+    </SeccionReferencia>
 
-    <Seccion titulo="Límites de prudencia">
-      <ul className="list-disc space-y-1 pl-5">
-        <li>Con un IMC inferior a 18,5 (bajo peso según la OMS) no se calcula déficit: se muestra el mantenimiento.</li>
-        <li>El objetivo nunca baja de tu gasto en reposo ni de {formatNumber(SUELO_KCAL)} kcal. Es un criterio de prudencia de AppFit, no un dato científico; {formatNumber(SUELO_KCAL)} kcal es el umbral de las dietas de muy bajo valor calórico, que NICE no recomienda sin supervisión.</li>
-        <li>Solo para adultos: se exige una edad de {formatNumber(EDAD_MIN)} a {formatNumber(EDAD_MAX)} años. Por encima de {formatNumber(EDAD_AVISO)} años se calcula con aviso, porque queda fuera de la muestra de las ecuaciones.</li>
-        <li>Altura entre {formatNumber(ALTURA_MIN)} y {formatNumber(ALTURA_MAX)} cm y peso entre 20 y 300 kg: son controles de plausibilidad de la entrada, no afirmaciones clínicas.</li>
-      </ul>
-      <p>El objetivo se redondea a 10 kcal: la ecuación no tiene más precisión que eso.</p>
-    </Seccion>
-
-    <Seccion titulo="Cómo se usa en la app">
-      <p>Con perfil completo y objetivo elegido, las calorías de Hoy, Resumen, Inicio y Ajustes salen de Perfil y se recalculan al registrar un peso, cambiar un dato o cumplir años. Los macros conservan el reparto en % de Ajustes y, si la proteína por kg está activa y hay peso, la proteína sale de gramos por kg × peso (ver «Proteína y agua»). Sin perfil completo siguen tus objetivos de Ajustes. Cada día guarda el objetivo que tenía cuando registraste comida o cambiaste tus datos ese día; los días sin registro se comparan con el objetivo vigente. En Perfil se guardan solo la fecha de nacimiento, el sexo, la altura, la actividad y el objetivo; el peso sale de tus pesajes y lo demás se deriva al leer. El backup JSON incluye la fecha de nacimiento.</p>
-    </Seccion>
-
-    <Seccion titulo="Fuentes">
+    <SeccionReferencia titulo="Fuentes" resumen={`${formatNumber(FUENTES_ENERGIA.length)} publicaciones, con su enlace y para qué se usa cada una.`}>
       <ul className="space-y-3">
         {FUENTES_ENERGIA.map((f) => {
           const url = enlaceFuente(f)
@@ -84,6 +186,6 @@ export default function EnergiaReferencias() {
         })}
       </ul>
       <p>{AVISO_ORIENTATIVO}.</p>
-    </Seccion>
+    </SeccionReferencia>
   </div>
 }

@@ -1,5 +1,6 @@
 // Acceso a la tabla `agua`: los ml bebidos por día (`&fecha`). Las lecturas no escriben nunca.
 import { db } from '../../../shared/db/db'
+import { updateSettings } from '../../../shared/db/settings'
 import type { Agua } from '../../../shared/db/types'
 import { validarTomaAgua } from '../lib/agua'
 
@@ -46,4 +47,9 @@ export function quitarUltima(fecha: string): Promise<number | undefined> {
     else await db.agua.update(fila.id, { tomas: resto, ml: resto.reduce((a, t) => a + t, 0) })
     return ultima
   })
+}
+
+/** Fija el objetivo diario de bebida (ya validado) o, con `undefined`, vuelve al recomendado por sexo. */
+export function fijarObjetivo(ml: number | undefined): Promise<void> {
+  return updateSettings({ aguaObjetivoMl: ml }).then(() => undefined)
 }

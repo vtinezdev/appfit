@@ -2,9 +2,12 @@ import TendenciaRegistros from '../../../shared/components/TendenciaRegistros'
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Button, { IconButton } from '../../../shared/components/Button'
-import Disclosure from '../../../shared/components/Disclosure'
-import { Input, Select } from '../../../shared/components/Input'
+import Card from '../../../shared/components/Card'
+import Cambio from '../../../shared/components/Cambio'
+import Icon from '../../../shared/components/Icon'
 import ListGroup from '../../../shared/components/ListGroup'
+import ListRow from '../../../shared/components/ListRow'
+import { Input } from '../../../shared/components/Input'
 import SectionHeader from '../../../shared/components/SectionHeader'
 import Sheet from '../../../shared/components/Sheet'
 import { ErrorState } from '../../../shared/components/StateMessage'
@@ -21,11 +24,15 @@ function textoMedida(m: Medida): string {
   return CAMPOS_MEDIDA.filter((c) => m[c.campo] !== undefined).map((c) => `${c.etiqueta} ${formatNumber(m[c.campo]!, 1)} ${c.unidad}`).join(' · ')
 }
 
-/** Medidas corporales (cm y %): último valor y variación por campo, registro en una Sheet e historial con borrado y «Deshacer». */
+/**
+ * Medidas corporales (cm y %): una ficha con el último valor y el cambio de cada zona (al tocarla, su evolución en una
+ * Sheet), registro en otra Sheet e historial con borrado y «Deshacer».
+ */
 export default function MedidasCorporales() {
   const medidas = useLiveQuery(() => medidasRepo.todas(), [])
   const { avisar, avisarError, toast } = useAviso()
-  const [campo, setCampo] = useState<CampoMedida>('cintura')
+  const [evolucion, setEvolucion] = useState<CampoMedida | null>(null)
+  const [historial, setHistorial] = useState(false)
   const [abierta, setAbierta] = useState(false)
   const [aperturas, setAperturas] = useState(0)
   const [fecha, setFecha] = useState(todayISO())
@@ -33,7 +40,9 @@ export default function MedidasCorporales() {
   const [error, setError] = useState<string | null>(null)
   const [guardando, setGuardando] = useState(false)
   const resumen = resumenMedidas(medidas ?? [])
-  const hayAlguna = resumen.some((r) => r.ultimo !== null)
+  const conValor = resumen.filter((r) => r.ultimo !== null)
+  const hayAlguna = conValor.length > 0
+  const campoEvolucion = CAMPOS_MEDIDA.find((c) => c.campo === evolucion)
 
   function abrir() {
     setAperturas((n) => n + 1)
@@ -64,6 +73,8 @@ export default function MedidasCorporales() {
   async function borrar(m: Medida) {
     try {
       const borrada = await medidasRepo.borrar(m.id)
+      // El aviso con «Deshacer» va bajo las hojas: se cierra el historial para que se vea.
+      setHistorial(false)
       if (borrada) avisar({ mensaje: `Medidas del ${fechaCorta(borrada.fecha)} borradas`, onDeshacer: () => medidasRepo.restaurar(borrada) })
     } catch {
       avisarError('No se han podido borrar las medidas. Inténtalo de nuevo.')
@@ -73,30 +84,41 @@ export default function MedidasCorporales() {
   return <section aria-label="Medidas corporales" className="space-y-stack">
     <SectionHeader variant="section" action={<Button variant="ghost" size="sm" onClick={abrir}>Registrar</Button>}>Medidas corporales</SectionHeader>
     {!hayAlguna ? <p className="text-body-sm text-fg-muted">Cintura, cadera, pecho, brazo, muslo y grasa corporal. Registra las que quieras seguir; todo se queda en este dispositivo.</p> : (
-      <ListGroup aria-label="Última medida de cada zona">
-        {resumen.filter((r) => r.ultimo).map((r) => <li key={r.campo} className="flex min-h-touch flex-wrap items-center justify-between gap-3 py-2">
-          <span className="min-w-0 flex-1 basis-24"><span className="block break-words text-body text-fg">{r.etiqueta}</span><span className="block text-caption text-fg-muted">{fechaCorta(r.ultimo!.fecha)}</span></span>
-          <span className="tabular min-w-0 max-w-full flex-1 basis-32 break-words text-right"><span className="text-body font-semibold text-fg">{formatNumber(r.ultimo!.valor, 1)} <span className="font-normal text-fg-muted">{r.unidad}</span></span>
-            {r.variacion !== null && <span className="block text-caption text-fg-muted">{r.variacion === 0 ? 'Sin cambios' : `${r.variacion < 0 ? '−' : '+'}${formatNumber(Math.abs(r.variacion), 1)} ${r.unidad}`} desde la anterior</span>}</span>
-        </li>)}
-      </ListGroup>
+      // Una casilla por zona medida: su último valor y el cambio desde la anterior; al tocarla, su evolución.
+      <Card padded={false} className="overflow-hidden">
+        <ul aria-label="Última medida de cada zona" className="grid grid-cols-2">
+          {conValor.map((r, i) => <li key={r.campo} className={`min-w-0 border-line ${i % 2 === 0 ? 'border-r' : ''} ${i < conValor.length - (conValor.length % 2 === 0 ? 2 : 1) ? 'border-b' : ''}`}>
+            <button type="button" aria-haspopup="dialog" onClick={() => setEvolucion(r.campo)}
+              className="app-button flex min-h-touch w-full min-w-0 flex-col items-start gap-1 px-card py-3 text-left">
+              <span className="text-rotulo text-fg-muted">{r.etiqueta}</span>
+              <span className="tabular break-words text-title text-fg">{formatNumber(r.ultimo!.valor, 1)} <span className="text-body font-normal text-fg-muted">{r.unidad}</span></span>
+              {r.variacion !== null
+                ? <Cambio diferencia={r.variacion} texto={r.variacion === 0 ? 'Sin cambios' : `${r.variacion < 0 ? '−' : '+'}${formatNumber(Math.abs(r.variacion), 1)} ${r.unidad}`} frente="desde la medida anterior" />
+                : <span className="text-caption text-fg-muted">{fechaCorta(r.ultimo!.fecha)}</span>}
+            </button>
+          </li>)}
+        </ul>
+      </Card>
     )}
-    {hayAlguna && <Disclosure title="Evolución de las medidas">
-      <div className="space-y-3">
-        <label className="block space-y-1"><span className="text-label text-fg-muted">Medida que quieres ver</span>
-          <Select aria-label="Medida que quieres ver" value={campo} onChange={e => setCampo(e.target.value as CampoMedida)}>{CAMPOS_MEDIDA.map(c => <option key={c.campo} value={c.campo}>{c.etiqueta} ({c.unidad})</option>)}</Select>
-        </label>
-        <TendenciaRegistros puntos={(medidas ?? []).filter(m => m[campo] !== undefined).map(m => ({ fecha: m.fecha, valor: m[campo]! }))} unidad={CAMPOS_MEDIDA.find(c => c.campo === campo)!.unidad} titulo={CAMPOS_MEDIDA.find(c => c.campo === campo)!.etiqueta.toLowerCase()} />
-      </div>
-    </Disclosure>}
-    {!!medidas?.length && <Disclosure title={`Historial (${formatNumber(medidas.length)})`}>
+    {campoEvolucion && <Sheet open onClose={() => setEvolucion(null)} title={campoEvolucion.etiqueta}>
+      <TendenciaRegistros puntos={(medidas ?? []).filter(m => m[campoEvolucion.campo] !== undefined).map(m => ({ fecha: m.fecha, valor: m[campoEvolucion.campo]! }))}
+        unidad={campoEvolucion.unidad} titulo={campoEvolucion.etiqueta.toLowerCase()} />
+    </Sheet>}
+    {!!medidas?.length && <ListGroup pie={`Última medición: ${fechaCorta(medidas[0].fecha)}.`}>
+      <li><ListRow aria-haspopup="dialog" onClick={() => setHistorial(true)}>
+        <span className="min-w-0 flex-1 break-words text-body text-fg">Historial</span>
+        <span className="tabular shrink-0 text-body-sm text-fg-muted">{formatNumber(medidas.length)} {medidas.length === 1 ? 'registro' : 'registros'}</span>
+        <Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
+      </ListRow></li>
+    </ListGroup>}
+    {historial && !!medidas?.length && <Sheet open onClose={() => setHistorial(false)} title="Historial de medidas">
       <ul className="divide-y divide-line" aria-label="Historial de medidas">
         {medidas.map((m) => <li key={m.id} className="flex min-h-touch items-center justify-between gap-2 py-1">
           <span className="min-w-0"><span className="block text-body-sm font-medium text-fg">{fechaCorta(m.fecha)}</span><span className="tabular block break-words text-caption text-fg-muted">{textoMedida(m)}</span></span>
           <IconButton icon="trash" variant="ghost" size="sm" label={`Borrar medidas del ${fechaCorta(m.fecha)}`} onClick={() => borrar(m)} />
         </li>)}
       </ul>
-    </Disclosure>}
+    </Sheet>}
 
     <Sheet key={aperturas} open={abierta} onClose={() => setAbierta(false)} title="Registrar medidas"
       footer={<div className="space-y-2">{error && <ErrorState>{error}</ErrorState>}<Button block loading={guardando} onClick={guardar}>Guardar</Button></div>}>

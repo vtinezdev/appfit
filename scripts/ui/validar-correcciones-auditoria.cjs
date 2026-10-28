@@ -25,6 +25,7 @@ async function motor(nombre) {
   try {
     await probar(browser, nombre, 'medianoche', {}, async ctx => {
       const page = await ctx.newPage()
+      await qa.cerrarCelebraciones(page)
       await page.clock.install({ time: new Date('2026-10-21T21:59:00Z') }) // 23:59 en Madrid.
       await page.goto(qa.ORIGEN)
       await page.getByRole('button', { name: 'Registrar peso', exact: true }).waitFor()

@@ -216,9 +216,27 @@ export interface DatosRevision {
   exercises: Exercise[]
 }
 
+/** Lo que pasó cada día de la semana, para la tira de días de la revisión (punto 2). */
+export interface DiaRevision {
+  fecha: string
+  /** Algún entreno terminado ese día. */
+  entreno: boolean
+  /** Alguna comida registrada. */
+  comidas: boolean
+  cheat: boolean
+}
+
+/** Los 7 días de la semana con entreno, comidas y cheat day. */
+export function diasRevision(semana: Semana, entries: Pick<Entry, 'fecha'>[], workouts: Pick<Workout, 'inicio' | 'fin'>[], cheatDays: ReadonlySet<string>): DiaRevision[] {
+  const conComidas = new Set(entries.map((e) => e.fecha))
+  const conEntreno = new Set(workouts.filter((w) => w.fin !== undefined).map((w) => toISODate(new Date(w.inicio))))
+  return semana.fechas.map((fecha) => ({ fecha, entreno: conEntreno.has(fecha), comidas: conComidas.has(fecha), cheat: cheatDays.has(fecha) }))
+}
+
 export interface Revision {
   semana: Semana
   hayDatos: boolean
+  dias: DiaRevision[]
   peso: BloquePeso
   nutricion: BloqueNutricion
   entreno: BloqueEntreno
@@ -237,6 +255,7 @@ export function calcularRevision(lunes: string, datos: DatosRevision, hoy: strin
   return {
     semana,
     hayDatos: hayDatosSemana(semana, datos),
+    dias: diasRevision(semana, datos.entries, datos.workouts, datos.cheatDays ?? new Set()),
     peso: bloquePeso(semana, anterior, datos.pesos),
     nutricion: bloqueNutricion(semana, anterior, datos.entries, datos.objetivos, hoy, datos.cheatDays),
     entreno: bloqueEntreno(semana, anterior, datos.workouts, datos.sets, datos.exercises),

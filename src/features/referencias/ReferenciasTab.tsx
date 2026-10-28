@@ -10,11 +10,17 @@ import ListGroup from '../../shared/components/ListGroup'
 import ListRow from '../../shared/components/ListRow'
 import Disclosure from '../../shared/components/Disclosure'
 import { EmptyState, LoadingState } from '../../shared/components/StateMessage'
+import Card from '../../shared/components/Card'
+import type { IconName } from '../../shared/components/Icon'
 import ReferenciaNutrienteContenido from './components/ReferenciaNutrienteContenido'
+import { AvisoReferencia } from './components/SeccionReferencia'
 import EnergiaReferencias from './components/EnergiaReferencias'
 import ProteinaAguaReferencias from './components/ProteinaAguaReferencias'
 import { AREAS_REFERENCIAS, FUENTES_CATALOGO, GRUPOS_ALIMENTARIOS, RECOMENDACIONES_ALIMENTARIAS, SOBRE_LOS_DATOS, type AreaReferencias } from './lib/contenidoReferencias'
 import { formatNumber } from '../../shared/lib/format'
+
+/** Icono de cada apartado en el índice. */
+const ICONO_AREA: Record<AreaReferencias, IconName> = { catalogo: 'utensils', objetivos: 'flag', energia: 'zap', 'proteina-agua': 'droplet', alimentarias: 'carrito', datos: 'info' }
 
 export default function ReferenciasTab({ nutrienteInicial, areaInicial, salida }: { nutrienteInicial?: NutrienteId; areaInicial?: AreaReferencias; salida?: { etiqueta: string; onVolver: () => void } }) {
   const [area, setArea] = useState<AreaReferencias | null>(areaInicial ?? (nutrienteInicial ? 'objetivos' : null))
@@ -46,7 +52,8 @@ export default function ReferenciasTab({ nutrienteInicial, areaInicial, salida }
     {!area ? <div ref={indexRef}>
       <ListGroup aria-label="Áreas de referencias">
         {AREAS_REFERENCIAS.map(a => <li key={a.id}><ListRow data-area={a.id} onClick={() => { setArea(a.id); setEnfocarTitulo(true) }}>
-          <span className="min-w-0 space-y-1"><span className="block break-words text-title font-semibold">{a.nombre}</span><span className="block text-body-sm text-fg-muted">{a.resumen}</span></span>
+          <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-surface-muted text-fg"><Icon name={ICONO_AREA[a.id]} size={20} /></span>
+          <span className="min-w-0 flex-1 space-y-0.5"><span className="block break-words text-body font-semibold text-fg">{a.nombre}</span><span className="block text-caption text-fg-muted">{a.resumen}</span></span>
           <Icon name="chevron-right" size={20} className="text-fg-muted" />
         </ListRow></li>)}
       </ListGroup>
@@ -55,16 +62,16 @@ export default function ReferenciasTab({ nutrienteInicial, areaInicial, salida }
         <IconButton icon="arrow-left" label="Volver a Referencias" variant="ghost" onClick={volver} />
         <h2 ref={tituloRef} tabIndex={-1} className="min-w-0 break-words text-heading font-bold text-fg outline-none">{nombre}</h2>
       </div>
-      {area === 'catalogo' && <div className="space-y-section text-body-sm text-fg-muted">
-        <p>Calorías, proteínas, hidratos y grasas proceden de los valores disponibles en estas fuentes. Fibra, azúcares, sal y grasas saturadas pueden faltar en algunos alimentos.</p>
-        {FUENTES_CATALOGO.map(f => <section key={f.id} className="space-y-2 border-t border-line pt-4">
-          <h3 className="text-title font-semibold text-fg">{f.nombre}</h3><p>{f.descripcion}</p><p>{f.licencia}</p>
-          <a href={f.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-touch items-center font-semibold text-accent-strong underline">Consultar {f.nombre}</a>
-        </section>)}
-        <p>Las cifras describen el alimento de la fuente, no una medición de tu plato. Variedad, preparación y etiquetado pueden cambiar los valores reales.</p>
+      {area === 'catalogo' && <div className="space-y-stack text-body-sm text-fg-muted">
+        <AvisoReferencia><p>Calorías, proteínas, hidratos y grasas salen de estas fuentes. Fibra, azúcares, sal y grasas saturadas pueden faltar en algunos alimentos.</p></AvisoReferencia>
+        {FUENTES_CATALOGO.map(f => <Card key={f.id} className="space-y-2">
+          <h3 className="text-title text-fg">{f.nombre}</h3><p>{f.descripcion}</p><p className="text-caption">{f.licencia}</p>
+          <a href={f.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-touch items-center gap-1 font-semibold text-accent-strong">Consultar {f.nombre}<Icon name="chevron-right" size={16} /></a>
+        </Card>)}
+        <p className="px-1 text-caption">Las cifras describen el alimento de la fuente, no una medición de tu plato. Variedad, preparación y etiquetado pueden cambiar los valores reales.</p>
       </div>}
       {area === 'objetivos' && <div ref={referenciasRef} className="space-y-3">
-        <p className="text-body-sm text-fg-muted">Calorías y macros son tus objetivos: las calorías pueden salir de tu Perfil y los macros se editan en Ajustes. Los demás nutrientes usan referencias generales para adultos; consulta el criterio de cada uno.</p>
+        <AvisoReferencia><p>Calorías y macros son tus objetivos (las calorías pueden salir de tu Perfil; los macros se editan en Ajustes). Los demás nutrientes usan referencias generales para adultos: toca uno para ver su criterio.</p></AvisoReferencia>
         {!vigentes ? <LoadingState /> : IDS_NUTRIENTES.map(id => {
           const referencia = referenciaNutricional(id, vigentes, vigentes.origen)
           return <div key={id} data-referencia={id}><Disclosure title={`${referencia.nombre} · ${textoReferencia(referencia)}`} open={abierto === id} onChange={open => setAbierto(open ? id : null)}>
@@ -80,7 +87,7 @@ export default function ReferenciasTab({ nutrienteInicial, areaInicial, salida }
           <p className="text-body font-semibold text-fg">{r.minimo !== undefined && formatNumber(r.minimo, 1)}{r.minimo !== undefined && r.maximo !== undefined && '–'}{r.maximo !== undefined && formatNumber(r.maximo, 1)} {r.unidad}/{r.periodo === 'dia' ? 'día' : 'semana'}</p>
           <p className="text-body-sm text-fg-muted">{r.descripcion}</p><p className="text-body-sm text-fg-muted">Fuente: {r.fuente.nombre}</p>
         </section>)}</div>)}
-      {area === 'datos' && <div className="space-y-section">{SOBRE_LOS_DATOS.map(d => <section key={d.titulo} className="space-y-2"><h3 className="text-title font-semibold text-fg">{d.titulo}</h3><p className="text-body-sm text-fg-muted">{d.texto}</p></section>)}</div>}
+      {area === 'datos' && <ListGroup aria-label="Sobre los datos">{SOBRE_LOS_DATOS.map(d => <li key={d.titulo} className="space-y-1 py-3"><h3 className="text-body font-semibold text-fg">{d.titulo}</h3><p className="text-body-sm text-fg-muted">{d.texto}</p></li>)}</ListGroup>}
     </>}
   </div>
 }

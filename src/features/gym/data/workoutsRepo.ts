@@ -7,7 +7,7 @@ import type { ConfiguracionEjecucion, ConfiguracionCarga, Routine, SetEntry, Wor
 import { aplicarConfiguracionCarga, validarConfiguracionCarga } from '../lib/carga'
 import { toISODate } from '../../../shared/lib/dates'
 import { crearSnapshotMuscular } from '../lib/cargaMuscular'
-import { ordenEjerciciosSesion, previasPorSerie, siguienteOrden, valoresNuevaSerie } from '../lib/workout'
+import { ordenEjerciciosSesion, previasPorSerie, siguienteOrden, tiemposAlTerminar, valoresNuevaSerie } from '../lib/workout'
 import { previaEnGimnasio, seriesUltimaSesion, ultimaEfectiva, ultimoCalentamiento } from './setsRepo'
 import { dependeDeMaquina, gimnasioDeSerie, sinKg } from '../lib/gimnasios'
 import { ejerciciosDelEntreno, seriesParaRepetir } from '../lib/repetirEntreno'
@@ -315,7 +315,8 @@ export function obtener(id: number): Promise<Workout | undefined> {
  * Cierre y clasificación coherentes con las series guardadas; idempotente ante un doble cierre. Con `marcarTodas`
  * (lo elige la persona al terminar, nunca se infiere) también quedan hechas las no marcadas que tengan repeticiones.
  */
-export function terminar(id: number, confirmadas?: number[], marcarTodas = false): Promise<{ workout: Workout; sets: SetEntry[] }> {
+/** `minutos`: la duración corregida al terminar (`lib/workout.tiemposAlTerminar`); sin ella, la del reloj. */
+export function terminar(id: number, confirmadas?: number[], marcarTodas = false, minutos: number | null = null): Promise<{ workout: Workout; sets: SetEntry[] }> {
   return db.transaction('rw', db.workouts, db.exercises, db.sets, async () => {
     const workout = await db.workouts.get(id)
     if (!workout) throw new Error('El entrenamiento ya no está disponible.')
@@ -328,9 +329,9 @@ export function terminar(id: number, confirmadas?: number[], marcarTodas = false
       sets = sets.map(s => ({ ...s, realizada: hecha(s) }))
     }
     const muscleSnapshot = crearSnapshotMuscular(sets, await db.exercises.toArray())
-    const fin = Date.now()
-    await db.workouts.update(id, { fin, muscleSnapshot })
-    return { workout: { ...workout, fin, muscleSnapshot }, sets }
+    const { inicio, fin } = tiemposAlTerminar(workout.inicio, Date.now(), minutos)
+    await db.workouts.update(id, { inicio, fin, muscleSnapshot })
+    return { workout: { ...workout, inicio, fin, muscleSnapshot }, sets }
   })
 }
 

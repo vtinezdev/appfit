@@ -2992,3 +2992,163 @@ Sus kcal por 100 g suben en proporción. Por ejemplo, la tarta de Santiago pasa 
 - El paquete de típicos pasa a la versión 2026-10-31 para que el móvil lo reimporte: las filas no cambian, pero sí sus valores.
 
 **Verificación:** `npm run catalogo:validar` sin problemas y 0 avisos en `informes/preparaciones.md`. `npm run test` y `npm run build` correctos.
+
+## 270. Mejoras de la app, bloque 1: hojas en iPhone y regla de textos de ayuda (2026-10-26)
+
+**Qué:** primer bloque del documento de mejoras de Víctor (40 puntos, nueve bloques). Puntos 1 y 8: bajo las hojas (Apuntar pasos, Registrar medidas) y bajo el resto de pantallas quedaba en el iPhone una franja vacía del alto de la barra de estado, y el campo de fecha se salía de su columna. Puntos 12 y 24: Víctor aprueba con una vista previa la regla de textos de ayuda (explicación tras una «i», consecuencia como pie del grupo, lo demás fuera) y que Creatina se active en «Lo que usas» (punto 7).
+
+**Cómo:** `design/viewport.altoVisible` (puro, con tests): en la PWA de iOS (`navigator.standalone`), sin teclado (menos de 120 px por debajo de la pantalla), el shell y las capas miden la pantalla entera; con teclado, el alto visible de siempre. Fuera de iOS no cambia. `index.css`: fecha y hora sin la apariencia nativa de Safari (`appearance: none`, valor alineado a la izquierda), así caben en su columna. Primitives nuevos `Ayuda` e `Interruptor` y `pie` en `ListGroup`. «Lo que usas» pasa a una tarjeta de interruptores con la «i» de lo que pasa al ocultar cada módulo y «Ordenar Inicio» a tarjeta con pie. Creatina: interruptor en «Lo que usas»; Ajustes › Creatina pierde su casilla y sale del índice mientras está desactivada; `modulos.tarjetaVisible` oculta su tarjeta si no está activa. Documentos: `DESIGN-SYSTEM.md` (Textos de ayuda, Interruptor, Ayuda, pie), `features/inicio.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas: «Lo que usas» sin scroll horizontal y hoja de la «i». La franja inferior es un comportamiento de WebKit en la app instalada que no se reproduce en Chromium: falta comprobarla en el iPhone. `scripts/ui/validar-creatina.cjs` sigue buscando la casilla «Activar Creatina» de Ajustes › Creatina, sin adaptar.
+
+## 271. Mejoras de la app, bloque 2: entreno en curso, pantalla final y nuevos logros (2026-10-26)
+
+**Qué:** puntos 34, 35, 36, 37 y 5 del documento de mejoras, con vista previa aprobada por Víctor. Descanso como chip con hoja y sin «Guardado en este dispositivo» salvo error (34); borrar una serie deslizándola, también en la pista de las series (35); corregir la duración al terminar (36); «Hoy» con iconos y sin las subidas de nivel muscular, que Víctor no quiere ahí (37); y una hoja de nuevos logros que sale en la pantalla en la que se consiga cada pieza (5). Pregunta de Víctor: la imagen para compartir sí lleva los logros del entreno, como medallas (los de constancia semanal, sin entreno, no).
+
+**Cómo:** `ChipAjuste` admite icono; el Disclosure del descanso pasa a chip y Sheet. `PanelEjercicio` envuelve la fila de cada serie en `FilaDeslizable`. `lib/workout.tiemposAlTerminar` (puro, con test) y `workoutsRepo.terminar(…, minutos)`. `HitosSesion` con icono por tipo y texto partido en «lo conseguido» y «de qué»; `TipoHito` y `DatosHitos` pierden `cuerpo`/`subidas` (el bloque «Cuerpo» y el muñeco siguen). Logros: `vitrina/lib/logros.piezasConseguidas` y `piezasPorCelebrar` (con tests), `data/logrosVistosRepo` (con test), `Settings.logrosVistos` (opcional, sin versión de Dexie), `components/NuevosLogrosSheet` y `CelebracionLogros`, montado de forma diferida en `app/App` salvo con el entreno en curso abierto. Documentos: `features/gym.md`, `features/vitrina.md`, `datos.md`, `DESIGN-SYSTEM.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas con datos sintéticos: chip y hoja de descanso, deslizar para borrar, duración en la hoja de Terminar, pantalla final con «Hoy» sin Cuerpo, hoja de 4 logros sobre la pantalla final, hoja de «Treinta mil» en Inicio al apuntar 31.000 pasos, ninguna hoja al recargar ni por logros antiguos, e imagen descargada con tres medallas; sin scroll horizontal. Sin probar en iPhone: el gesto de deslizar sobre los campos de la serie (frente al scroll y la selección de texto en Safari).
+
+## 272. Imagen para compartir: ligas en cada ejercicio, «Hoy» con iconos y todo cabe (2026-10-26)
+
+**Qué:** Víctor pide ver la imagen de un entreno que lo consigue todo (récords, ligas, logros, cumbre, hito de entrenos). Con un caso sintético de esos se ve que de seis cambios de liga solo salía uno, que el gimnasio no salía al terminar y que la imagen no comprobaba el espacio. Decisiones de Víctor, con vista previa: título más pequeño siempre, la liga con su insignia en la fila de cada ejercicio, «Hoy» con iconos como en pantalla, quitar el muñeco cuando no cabe y reorganizar los ejercicios si hay demasiado; también en la imagen del historial.
+
+**Cómo:** `lib/posterImagen`: `componer` (todo menos muñeco y pie) con un `Modo` (a lo ancho o en una línea, y cuántos ejercicios); `svgPoster` elige el primero que acaba sobre el pie. Título a 88 px. `EjercicioPoster` lleva `exerciseId` y `liga` (insignia, texto, `empieza`). «Hoy» con `icono` (trazos de `Icon`, `trazoIcono`) y `fichaEntreno.partesHito` (compartida con `HitosSesion`). `liga/lib/textos.ligasDeImagen` (con test) para `WorkoutFinished` y `DetalleEntreno` (que ahora lee `useLigas`); `PosterImagen` pinta `IconoLiga` ocultas. `WorkoutSummary.gimnasioId` y `gimnasios.gimnasioDelPoster` (con test). Documento: `features/gym.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos, con tests del modo compacto, del límite del pie y de la liga en la fila. Imágenes descargadas en Chromium (`appfit-test.localhost:5173`) con datos sintéticos: entreno normal (con muñeco), el nº 25 con 10 récords, 4 logros, 6 cambios de liga y la cumbre del Aneto (sin muñeco), el mismo con 10 ejercicios (una línea y «y 2 ejercicios más») y la del historial con las insignias. Sin probar en el iPhone: «Compartir…» con la imagen nueva.
+
+## 273. Mejoras de la app, bloque 3: pestaña Entreno (2026-10-26)
+
+**Qué:** puntos 14, 15, 16 y 17 del documento de mejoras, tras dos rondas de vista previa con Víctor. 14: en Empezar, en lugar de «Último entreno», «Esta semana» (días entrenados frente al plan y el último entreno en una fila). 15: las sesiones del mes por semana, con la semana dentro de su tarjeta y «Músculos» para sus series por grupo; cada sesión con el día en un cuadro, su rutina o sus grupos y sus récords; sin la sección «Semana» aparte. 16: «Por ejercicio» con miniaturas, buscador, filtros por grupo y los 6 primeros; sin el desplegable de ejercicios. 17: la barra de tres tramos en lugar de los puntos de la liga, «Hace tiempo que no los haces» como grupo con su pie y sin la frase suelta. Del 40 queda hecho lo aprobado en la primera ronda (las cifras clave dentro de la tarjeta de la gráfica); la lista de sesiones queda pendiente de elegir entre barras y tabla (`docs/roadmap.md`).
+
+**Cómo:** `components/SemanaEntreno`, `DiaSesion` y `SemanaGymSheet` (sustituye a `ResumenSemanalGym`); `lib/resumenSemanal.gruposDeSesion` y `lib/listaProgreso` (`familiaDe`, `filtrarPorEjercicio`, `familiasPresentes`), con tests; `GymTab` pasa `onAbrirSesion` a `GymHome` y el detalle abierto desde Empezar vuelve a Empezar; `TarjetaEntreno` pierde `soloUltimo`; `LigasLista` y `SemanasLiga`. Documentos: `features/gym.md`, `features/liga.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas con un historial sintético de 15 semanas (ejercicios del catálogo, dos gimnasios y ejercicios abandonados): Empezar, Historial con su hoja de semana, Progreso con búsqueda y filtros, Ligas desplegadas y detalle de un ejercicio, sin scroll horizontal. Sin probar en iPhone ni con los datos reales.
+
+## 274. Mejoras de la app, punto 40: sesiones de un ejercicio (2026-10-26)
+
+**Qué:** la lista de sesiones del detalle de un ejercicio (Entreno › Progreso) que quedó pendiente en §273. Víctor compara tres formas con vista previa (barras grandes, tabla y mixta) y elige la mixta: por meses, una línea por sesión con el día, la mejor serie, una barra corta frente a las demás y la cifra con su cambio; trofeo en las que superan a todas las anteriores; las 8 últimas y «Ver las N sesiones».
+
+**Cómo:** `components/SesionesEjercicio` (solo la forma elegida) y `lib/progreso.marcasSesiones` (récord, cambio y ancho de barra; con test). Documentos: `features/gym.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 375 px en ambos temas con 15 sesiones de press banca: tres meses, 8 a la vista y «Ver las 15 sesiones», sin scroll horizontal. Sin probar en iPhone.
+
+## 275. Mejoras de la app, bloque 4: Nutrición e Inicio (2026-10-26)
+
+**Qué:** puntos 3, 11 y 2 del documento de mejoras, con vista previa. 3: separadores entre las pestañas principales (Entreno y Nutrición). 11: la adherencia del Resumen en una tarjeta con su explicación tras la «i», y «Lo que más aporta» en una sola lista con selector calorías/proteína y barras. 2: la revisión semanal empieza con «la semana de un vistazo» (sustituye a la tarjeta de Ritmo en texto): dos filas de cuadros por día, entreno (mancuerna) y comidas (cubiertos; destellos en un cheat day), sin leyenda, a petición de Víctor para que las comidas se vean igual que el entreno; cada bloque en su tarjeta con icono, el cambio en una pastilla neutra, barras en las cifras frente a objetivo y los récords en una lista corta por ejercicio.
+
+**Cómo:** `index.css` (`.app-tabs-principal`, separadores); `nutricion/components/AdherenciaResumen`; `inicio/lib/revisionSemanal.diasRevision` y `Revision.dias` (con test); `inicio/components/RevisionSemanal` (`SemanaDeUnVistazo`, `RecordsSemana`, `Bloque`, `Cambio`; deja de usar `RecordsSesion`). Documentos: `features/inicio.md`, `features/nutricion.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con 21 días sintéticos de comidas, pesos y agua (con objetivo y un cheat day) y 15 semanas de entrenos: pestañas, Resumen y revisión semanal, sin scroll horizontal. Sin probar en iPhone ni con los datos reales.
+
+## 276. Mejoras de la app, bloque 5: Perfil (2026-10-26)
+
+**Qué:** puntos 9 y 10 del documento de mejoras, tras cuatro vueltas de vista previa (la última, una página con la pestaña entera para recorrerla con scroll). 9: «Tu energía diaria» con el ritmo junto al objetivo, una barra con sus partes (reposo, actividad y el ajuste del objetivo) y una columna por parte, y «Tu día en macros»; el gasto observado como estimado frente a observado, con los requisitos en barras y un interruptor. 10: «Tus datos» como ficha de cuatro casillas para el cuerpo y una lista con icono para el plan. Además, a petición de Víctor («mejóralo un poco más»): las medidas corporales en casillas con su cambio y su evolución al tocarlas, el historial en una fila con su hoja, y las dos «i» (energía y gasto observado) rehechas como cuenta visual en lugar de texto.
+
+**Cómo:** `perfil/lib/tramosEnergia` (con test); `ResultadoEnergia` (`Composicion`, `Reparto`, `Paso`, `ComoSeCalcula` en `Ayuda`), `GastoObservadoCard` (`Interruptor`, tramos por semana, `ComoSeCalcula`), `DatosPerfil` (`Casilla`), `MedidasCorporales`; `PerfilTab` lee también `objetivosVigentes`. `shared/components/Cambio` sale de la revisión semanal. Documentos: `features/perfil.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con un perfil en volumen, 21 días de comidas y pesajes y tres registros de medidas: página entera, las dos «i», la evolución de la cintura y el historial; sin scroll horizontal. Sin probar en iPhone ni con los datos reales (definición y gasto observado disponible, solo con tests).
+
+## 277. Mejoras de la app, bloque 6: Progreso y Caminos (2026-10-28)
+
+**Qué:** puntos 18, 19, 20, 4 y 6 del documento de mejoras, cada uno con varias vueltas de vista previa (páginas para recorrer cada pantalla con scroll y comparar opciones). 18: Progreso › Semana empieza por la semana de Ritmo con los cuadros de la revisión semanal y, dentro, las casillas de Cumbres, Caminos y Vitrina; Metas se explica (su «i» y, sin metas, tres ejemplos con su barra) y, a petición de Víctor, la meta en curso más cerca de cumplirse sale en Inicio. 19: tras comparar filas por mes, barras, anillos, lista y diez estilos de barra, Víctor elige barras iguales partidas en dos (entrenos arriba, comidas abajo). 20: los hitos son las semanas cumplidas en total (los niveles del logro de la Vitrina), ahora en una pista con el próximo. 4: los km que sobran al llegar pasan a la siguiente ruta, también hacia atrás (decisión de Víctor), y al llegar se elige la siguiente en una hoja en cualquier pantalla y en Caminos. 6: la card de la ruta con paradas, etapas desplegables y credencial; Pasos en una card sin título; Caminos con el título centrado y «Por hacer» (crear, tus caminos y los de la app en desplegables por grupo) y «Terminados» (repetir; por tipos desde 10 caminos terminados, solo los que tengan alguno).
+
+**Cómo:** `ritmo/components/SemanaCuadros` (sale de la revisión), `ritmo/lib/calendario` (`mesesDelAnio`, `partesSemana`) e `hitos` (`pistaHitos`), con tests; `RitmoTab` con `debajoDeSemana`/`trasSemana`; `CalendarioSemanas` reescrito; `ProgresoTab.EstaSemana`; `MetasVista`; `vitrina/lib/metas.metasEnCurso` (con test) e `inicio/components/AccesoMetas`; `shared/lib/modulos` (tarjeta `metas`, `ordenTarjetas` coloca las nuevas tras su anterior). Caminos: `lib/caminos` (lo sobrante pasa, `actualElegida`, `confirmarRuta`, `llegadaPorCelebrar`, `gruposTerminados`; tests), `LlegadaRutaSheet` desde `CelebracionLogros`, `App`/`ProgresoTab` con `elegirRuta`, `CambiarRutaSheet` con modo llegada, `TarjetaRuta`, `GruposCaminos`, `PasosCaminos` en card y `CaminosTab` reorganizado. Documentos: `features/caminos.md`, `ritmo.md`, `progreso.md`, `inicio.md`, `vitrina.md`, `datos.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con 15 semanas de entrenos, 21 días de comidas, 10 semanas de salidas, metas y llegadas sintéticas (una reciente para la hoja y diez para los grupos de terminados): sin scroll horizontal. Sin probar en iPhone ni con los datos reales; con los de Víctor, la ruta en curso avanzará lo que sobró en llegadas anteriores y, si la puso la app, pedirá elegir la siguiente.
+
+## 278. Mejoras de la app, bloque 7: Ajustes y Referencias (2026-10-28)
+
+**Qué:** puntos 25 a 33 del documento de mejoras, con tres vueltas de vista previa. Ajustes sin frases sueltas: Ordenar Inicio con iconos y flechas; Objetivos diarios con las calorías en grande, la barra del reparto y los macros en lista; Entreno y Cumbres/Caminos/Ritmo/Vitrina con interruptores que dicen lo que hacen; Actualizaciones, Primeros pasos y Comunicar un problema en tarjetas con pasos numerados; Referencias con iconos, avisos en recuadro y secciones plegables con resumen. A petición de Víctor, tras la primera vuelta: Creatina deja Ajustes y todo lo suyo (fase de carga incluida, que no encontraba) vive en la hoja de su tarjeta de Inicio, con los últimos 7 días como círculos y la fase de carga sin recuadro; el objetivo de agua pasa a la hoja de Agua, con la evolución en barras frente al objetivo; y Energía y objetivo empieza con el cálculo en cuatro pasos con tus cifras, enseña cada paso de forma visual y pliega la bibliografía. Comunicar un problema sigue sin enviarse a ningún sitio: falta que Víctor decida adónde llega (correo o Supabase), lo mismo que «Proponer un alimento», que añadió al roadmap junto a mejorar Añadir comida.
+
+**Cómo:** `app/ModulosAjustes`, `nutricion/components/ObjetivosAjustes`, `app/Ajustes` (sin las secciones `agua` y `creatina`), `ritmo/components/GamificacionAjustes`, `app/ActualizacionesAjustes`, `app/DiagnosticoAjustes`, `referencias/components/SeccionReferencia` (`AvisoReferencia`, `SeccionReferencia`) y `ReferenciasTab`. `inicio/components/CreatinaHoy` absorbe `CreatinaAjustes` (borrado); `AguaSheet` con el objetivo (`aguaRepo.fijarObjetivo`) y `EvolucionAgua` + `lib/barrasAgua` (con test); `referencias/lib/pasosEnergia` (con test) y `EnergiaReferencias` reescrita (lee `perfilRepo.estadoEnergetico`). Documentos: `features/inicio.md`, `nutricion.md`, `referencias.md`, `arquitectura.md`, `datos.md`, `DESIGN-SYSTEM.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con datos sintéticos (perfil en volumen, 21 días de comidas, agua y pesajes, Creatina activada con y sin fase de carga): sin scroll horizontal. Sin probar en iPhone. `scripts/ui/validar-creatina.cjs` sigue sin adaptar (busca la casilla de Ajustes › Creatina, que ya no existe).
+
+## 279. Mensajes al creador: «Comunicar un problema» envía (2026-10-28)
+
+**Qué:** Víctor elige recibir los mensajes dentro de la app, en Supabase, en vez de por correo. «Comunicar un problema» pasa de «Cópialo y envíalo» a «Envíalo»: «Enviar» manda lo que la persona ha contado y el informe técnico que puede revisar antes; «Copiar informe» sigue debajo. Con o sin cuenta; con sesión, va asociado a ella (lo dice el pie). La misma vía servirá para «Proponer un alimento».
+
+**Cómo:** migración `0027_mensajes_creador.sql`: tabla privada `mensajes_creador` (sin permisos para la app; se lee en el panel de Supabase) y la función `enviar_mensaje_creador` (también para `anon`), que valida tamaños y frena a 5 por cuenta y hora y 300 en total por hora. Cliente: `cuenta/mensajes.ts` y `cuenta/data/mensajesSupabase` (diferido, con test de errores). `app/DiagnosticoAjustes` con «Enviar», el aviso «Enviado» y el error en línea. [ADR 061](decisiones/061-mensajes-al-creador.md); regla de red en `CLAUDE.md`, `arquitectura.md`, `features/cuenta.md` (cómo leerlos) y `README.md` (privacidad).
+
+**Verificación:** `npm run test` y `npm run build` correctos. La migración (dos veces seguidas) y `supabase/pruebas/mensajes_creador.sql` pasan en PostgreSQL 16 local con un `auth` mínimo; `anon` puede enviar pero no leer ni insertar directamente. Chromium en `appfit-test.localhost:5173` con Supabase simulado (la RPC interceptada): vacío, freno del servidor y enviado, sin scroll horizontal. **Pendiente:** Víctor ejecuta 0027 en el SQL Editor; hasta entonces «Enviar» dice que no se ha podido enviar.
+
+## 280. Añadir comida, página 1: Escribir (2026-10-28)
+
+**Qué:** Víctor pide mejorar Añadir comida «página por página», en funcionalidad y en lo visual (y, antes de acabar la sesión, «Proponer un alimento»). Para Escribir comparó en la app real tres opciones acumulativas (A ordenada, B con «Te queda hoy» y frecuentes como botones, C con lo que entiende mientras escribes) y, sobre la A, dos mejoras (A2 con iconos y tarjetas ricas, A3 además más clara). Elige la A3: la comida en cuatro casillas con icono y sin «Hoy» suelto; el campo sin «Un alimento por línea» y «Revisar» solo con texto; las comidas típicas en tarjetas con kcal, iconos y barra de macros; «Encajan con lo que te falta» como tarjeta; «Nueva comida típica» y «Solo registrar calorías» en una lista con iconos. B y C quedan fuera.
+
+**Cómo:** `nutricion/components/SelectorComida` (nuevo, grupo de radio con `indicePorTecla`); `DescribirComida` (Medidas en la esquina, Revisar condicional; también en Añadir otro alimento y en recetas); `ComidasTipicas` con `tarjetas`; `EncajanConLoQueFalta` con su botón como tarjeta; `AnadirComida`. Documentos: `features/nutricion.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas, vacío y con texto: sin scroll horizontal. A 320 px las pestañas Escribir · Buscar · Escanear pasan a dos líneas, como antes; queda para la página de Buscar. Los scripts antiguos de `scripts/ui/` que eligen la comida con el desplegable «Comida del día» (`validar-platos`, `validar-comidas-tipicas`, `validar-registro-visual`…) quedan sin adaptar.
+
+## 281. Añadir comida, página 2: Buscar y «Proponer un alimento» (2026-10-28)
+
+**Qué:** tres vueltas de opciones en la app real (A–C, D–F y G–I). Víctor elige la I con un cambio: una tarjeta por grupo de resultados con, en cada fila, el nombre en dos partes, la fuente y las pastillas de kcal, P, C y G (lo que le gustó de las tarjetas sueltas, sin separarlas), y para ordenar un único botón tipo filtro que abre las opciones (más/menos proteína, menos/más kcal, menos hidratos, menos grasa) en vez de tres botones fijos. Las categorías pasan de desplegable a botones con icono. Al final de los resultados, «¿No está?»: crearlo tú o proponérselo a AppFit, que es el «Proponer un alimento» que pidió.
+
+**Cómo:** `lib/ordenBusqueda` (`ordenarElegibles`, `partesNombre`) y `lib/propuestaAlimento` (`errorPropuesta`, `mensajePropuesta`), con tests; `FiltroCategoriaBusqueda` (chips con icono), `ListaElegibles` (tarjeta, resaltado, pastillas), `OrdenarBusqueda` (botón y hoja), `ResultadosBusqueda` (títulos con cuántos, Ordenar, «¿No está?»), `ProponerAlimentoSheet` (envía con `cuenta/mensajes.enviarAlCreador`, tipo `alimento`); `AlimentosRapidos`, `CambiarAlimentoSheet` y `AnadirComida` (`onCrear` abre la revisión con el nombre). Icono nuevo `ordenar`. Documentos: `features/nutricion.md`, `features/cuenta.md`, `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con Supabase simulado: resultados, hoja de ordenar, «Más proteína», «¿No está?», proponer (el mensaje enviado lleva solo nombre, marca y nota escritos) y «Créalo tú»; sin scroll horizontal. A 320 px las pestañas Escribir · Buscar · Escanear siguen en dos líneas. Para que la propuesta llegue hay que ejecutar 0027.
+
+## 282. Buscar: «Filtrar» junto al buscador (2026-10-28)
+
+**Qué:** a Víctor no le gusta «Ordenar» en su propia línea. Compara tres colocaciones en la app real (J: botón de ordenar al principio de la fila de categorías; K: un solo «Filtrar» junto al buscador con orden y categoría en una hoja; L: la fila de categorías con «Filtrar» como primer botón) y elige la K. Desaparece la fila de categorías de Buscar; lo puesto se ve y se quita como pastillas bajo el buscador.
+
+**Cómo:** `FiltrosBusquedaSheet` (nuevo), `AlimentosRapidos` (botón «Filtrar», recuento, pastillas, orden y categoría), `ResultadosBusqueda` recibe `orden` (sin botón propio); fuera `OrdenarBusqueda`. Icono nuevo `filtro`. Cambiar alimento conserva las categorías en fila. Documentos: `features/nutricion.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas: resultados, hoja y filtrado con categoría y «Más proteína»; sin scroll horizontal.
+
+## 283. Añadir comida, página 3: la hoja Cantidad (2026-10-28)
+
+**Qué:** la hoja que sale al elegir un alimento. Víctor compara en la app real A (más clara: cabecera con icono, kcal de la cantidad con macros y cantidades de un toque), B (A + «Cómo queda tu día») y C (B + más nutrientes) y elige la B. Pregunta por las recetas: una receta casera dice sus ingredientes y peso cocinado, propone toda, la mitad y un cuarto de la receta y cuenta cuánto de cada ingrediente va en esa cantidad; le gusta en las dos. También pregunta por qué Escribir se ve distinto: Escribir pasa por la revisión (varios alimentos, correcciones, alimentos nuevos), que es la página 4 y se igualará a esta hoja.
+
+**Cómo:** `components/CantidadAlimento` (nuevo) sustituye el contenido de la hoja en `AnadirComida`; `lib/opcionesCantidad` (con tests); lecturas `foodsRepo.racionHabitual` y `recetasRepo.deAlimento`. Arreglo de paso: los botones elegidos dentro de una hoja (Filtrar y Cantidad) van en tinta, porque `selected` es blanco sobre la hoja blanca. Documentos: `features/nutricion.md`, `datos.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con un frecuente, unos huevos del catálogo y una receta de prueba (la mitad, ingredientes abiertos): sin scroll horizontal.
+
+## 284. 0027 ejecutada (2026-10-28)
+
+Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real con «Success». Desde ahora «Comunicar un problema» y «Proponer un alimento» llegan a `mensajes_creador` (Table Editor). Sin probar aún un envío real desde el móvil.
+
+## 285. Añadir comida, página 4: la revisión (2026-10-28)
+
+**Qué:** lo que sale al pulsar «Revisar N alimentos». Tres vueltas en la app real: A (como la hoja Cantidad), B (A + «Cómo queda tu día») y C (B + aviso de lo pendiente); luego D y E sobre la B, con lo que pidió Víctor (que no se abra nada solo y lo que falta salga en rojo, menos cosas al abrir un alimento y unos detalles mejores); luego F, G y H, y por último I, J y L para hacer las filas más bonitas. Elige la D con los detalles en una hoja y «Cómo queda tu día» desplegable; las demás quedan para más adelante.
+
+**Cómo:** `ItemRevisionRow` reescrita (sin el editor antiguo): fila con icono, nombre en dos partes y fuente, kcal, gramos y pastillas; lo pendiente con `alimentos.pendienteRevision` (nueva, con tests) en etiqueta y franja rojas; abierta, `CantidadesRapidas` y Cambiar · Detalles · Quitar, o, sin encontrar, buscar otro, escribir sus valores o quitar. `DetallesAlimento` (nuevo) en una hoja. `PiezasCantidad` (nuevo) reúne `PastillasMacros`, `BarraReparto`, `CantidadesRapidas` y `ComoQuedaTuDia` (con `plegable`), y `CantidadAlimento` pasa a usarlas. `foodsRepo.racionHabitual` recibe la clave en vez de la referencia. `AnadirComida`: rótulo con recuento, línea de pendientes, total en una línea y «Cómo queda tu día» plegado. Se pierde el aporte de fibra, azúcares, sal y saturadas para la cantidad dentro de Detalles (siguen los valores por 100 g). Documentos: `features/nutricion.md` y `DESIGN-SYSTEM.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5173` a 320 y 375 px en ambos temas con «200 g de arroz, 2 huevos, medio aguacate, un poco de salsa rara»: lista, día desplegado, arroz abierto, salsa abierta, sus detalles y, tras escribir sus valores, la etiqueta pasa a «Elige su categoría»; sin scroll horizontal.
+
+## 286. Mejoras de la app, bloque 8: dentro de una comunidad (2026-10-28)
+
+**Qué:** punto 22 (mejorar el interior de una comunidad). Víctor compara en la app real, con Supabase simulado, A (portada en tarjeta), B (centrada con pestañas) y C (compacta con compositor) y elige la A con las pestañas de la B. El punto 23 (foto o avatar de comunidad) queda pendiente: Víctor creará los avatares.
+
+**Cómo:** `Comunidades` avisa con `onDentro` de que hay una comunidad abierta y `SocialTab` oculta «Primeros pasos» y las pestañas con `ViewTabs.sinPestanas` (nuevo: oculta la fila sin desmontar el panel, así la comunidad abierta no se pierde). `DetalleComunidad`: «‹ Comunidades», portada en Card (escudo, nombre, miembros y quién publica con iconos, «…», descripción, «Eres miembro» y «Publicar»), y pestañas Publicaciones · Sobre ella; sin unirse, una tarjeta con «Unirme a la comunidad» y la bienvenida y las reglas. El «…» sale también sin ser miembro (antes «Denunciar comunidad» era un botón suelto). Documentos: `features/social.md`, `DESIGN-SYSTEM.md` y `roadmap.md`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Chromium en `appfit-test.localhost:5174` con el Supabase falso (una copia con más miembros, publicaciones, reglas y bienvenida) a 320 y 375 px en ambos temas: dentro, Sobre ella y sin unirse; sin scroll horizontal. `scripts/ui/validar-social.cjs` adaptado (la bienvenida y las reglas, en «Sobre ella»; volver con «Comunidades»), pero no llega a ese paso: se queda al empezar en la hoja de bienvenida de la app («Genial»), que el script no cierra; es anterior a este cambio.
+
+## 287. CI del PR: recorridos de navegador al día (2026-10-28)
+
+**Qué:** al abrir el PR de esta rama, los recorridos de navegador de la CI (`qa.yml`, trabajo «navegador») fallaban porque buscaban pantallas que el documento de mejoras había cambiado, y el texto al 200 % desbordaba en varias piezas nuevas.
+
+**Cómo:**
+- **Scripts de `scripts/ui/`**:
+  - `auditoria-comun.cerrarCelebraciones`: un `addLocatorHandler` cierra la hoja de logros nuevos («Genial»), que sale en cualquier pantalla. También en los scripts que crean su propia página.
+  - Sesiones del Historial, por semana (`region` «Sesiones del mes», filas `li[data-sesion]`).
+  - Progreso por ejercicio, como lista con buscador.
+  - Categoría de Buscar, en la hoja «Filtrar y ordenar».
+  - Evolución del agua, en barras con su texto accesible.
+  - Medidas corporales, en casillas que abren su hoja.
+  - Guardado local, que solo avisa si falla.
+  - Comunicar un problema, en tres pasos.
+  - Gasto observado, con la «i» y el interruptor.
+- **Desbordes con el texto al 200 %**:
+  - Fila de sesión del Historial (`DiaSesion` crece y el título baja).
+  - Filas de Por ejercicio y de las sesiones de un ejercicio.
+  - Cabecera de la liga.
+  - Nombres de mes del calendario de Ritmo (cada mes ocupa sus semanas).
+  - Hitos de semanas.
+  - Ejemplos de metas.
+  - Cuadros de la semana (Ritmo, Entreno y creatina, que encogen con su columna hasta 2 rem).
+  - Casillas de Tus datos.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Los ocho pasos del trabajo «navegador» pasan en Chromium en local: `test:ui`, `test:ui:responsive`, `test:ui:uso`, correcciones, pulido, mejoras pendientes, datos y offline. Firefox y WebKit solo en la CI.
+

@@ -1,8 +1,7 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import Avatar from '../../../shared/components/Avatar'
 import Badge from '../../../shared/components/Badge'
 import Button, { IconButton } from '../../../shared/components/Button'
-import Disclosure from '../../../shared/components/Disclosure'
 import Icon from '../../../shared/components/Icon'
 import Campo from '../../../shared/components/Campo'
 import ConfirmacionDestructiva from '../../../shared/components/ConfirmacionDestructiva'
@@ -22,11 +21,12 @@ import FormDenuncia from './FormDenuncia'
 import GestionarComunidad from './GestionarComunidad'
 import PublicacionesPersona from './PublicacionesPersona'
 import ListaFeed from './ListaFeed'
+import Card from '../../../shared/components/Card'
 
-interface Props { onCambio?: () => void; descubrirInicial?: boolean; onError: (mensaje: string) => void }
+interface Props { onCambio?: () => void; descubrirInicial?: boolean; onError: (mensaje: string) => void; onDentro?: (dentro: boolean) => void }
 
 /** Descubrir comunidades y unirse sin seguir a sus miembros. El contenido se abre después de unirse. */
-export default function Comunidades({ onError, descubrirInicial = false, onCambio }: Props) {
+export default function Comunidades({ onError, descubrirInicial = false, onCambio, onDentro }: Props) {
   const [vista, setVista] = useState<'mias' | 'descubrir'>(descubrirInicial ? 'descubrir' : 'mias')
   const [busqueda, setBusqueda] = useState('')
   const [consulta, setConsulta] = useState('')
@@ -43,6 +43,7 @@ export default function Comunidades({ onError, descubrirInicial = false, onCambi
     catch (e) { onError(e instanceof Error ? e.message : 'No se ha podido unir a la comunidad.') }
     finally { setUniendo(null) }
   }
+  useEffect(() => { onDentro?.(elegida !== null); return () => onDentro?.(false) }, [elegida, onDentro])
   if (elegida) return <DetalleComunidad onCambio={onCambio} comunidad={elegida} onError={onError} onVolver={() => { setElegida(null); refrescar() }} />
   return <div className="space-y-stack">
     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -141,38 +142,50 @@ function DetalleComunidad({ comunidad, onVolver, onError, onCambio }: Props & { 
   const elegir = (t: TareaComunidad) => { siguiente.current = t; setMenu(m => ({ ...m, open: false })) }
   const modera = gestion.datos?.modera === true
   const hayNormas = Boolean(gestion.datos?.bienvenida || gestion.datos?.reglas || c.soloCreadorPublica)
-  const hayAcciones = c.mia || modera || c.unida
+  const [pestana, setPestana] = useState<'publicaciones' | 'sobre'>('publicaciones')
+  const quienPublica = c.soloCreadorPublica ? 'Publica el creador' : 'Todos publican'
+  const normas = <div className="space-y-section">
+    {gestion.datos?.bienvenida && <section className="space-y-1"><h3 className="text-rotulo text-fg-muted">Bienvenida</h3><p className="whitespace-pre-wrap break-words text-body text-fg">{gestion.datos.bienvenida}</p></section>}
+    {gestion.datos?.reglas && <section className="space-y-1"><h3 className="text-rotulo text-fg-muted">Reglas</h3><p className="whitespace-pre-wrap break-words text-body text-fg">{gestion.datos.reglas}</p></section>}
+    {c.soloCreadorPublica && <p className="text-body-sm text-fg-muted">Solo quien creó esta comunidad puede publicar. Todos los miembros pueden comentar y dar ánimo.</p>}
+  </div>
   return <section aria-label="Comunidad" className="space-y-stack">
-    <Button variant="ghost" size="sm" className="-ml-3" onClick={onVolver}><Icon name="arrow-left" size={18} />Comunidades</Button>
-    {/* Con el texto ampliado, el nombre baja bajo el escudo en lugar de estrecharse a una letra por línea. */}
-    <div className="flex flex-wrap items-start gap-3">
-      <Avatar nombre={c.nombre} forma="cuadrado" tamano="lg" />
-      <div className="min-w-0 flex-1 basis-40 space-y-1">
-        <h2 className="break-words text-heading text-fg">{c.nombre}</h2>
-        <p className="text-caption text-fg-muted">{formatInt(c.miembros)} {c.miembros === 1 ? 'miembro' : 'miembros'} · {c.soloCreadorPublica ? 'Solo publica el creador' : 'Todos pueden publicar'}</p>
+    <Button variant="ghost" size="sm" className="-ml-3" onClick={onVolver}><Icon name="chevron-left" size={18} />Comunidades</Button>
+    <Card className="space-y-4">
+      {/* Con el texto ampliado, el nombre baja bajo el escudo en lugar de estrecharse a una letra por línea. */}
+      <div className="flex items-start gap-1">
+      <div className="flex min-w-0 flex-1 flex-wrap items-start gap-3">
+        <Avatar nombre={c.nombre} forma="cuadrado" tamano="lg" />
+        <div className="min-w-0 flex-1 basis-32 space-y-1">
+          <h2 className="break-words text-heading text-fg">{c.nombre}</h2>
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption text-fg-muted">
+            <span className="inline-flex items-center gap-1"><Icon name="users" size={14} />{formatInt(c.miembros)} {c.miembros === 1 ? 'miembro' : 'miembros'}</span>
+            <span className="inline-flex items-center gap-1"><Icon name="pencil" size={14} />{quienPublica}</span>
+          </p>
+        </div>
       </div>
-      {hayAcciones && <IconButton icon="more" label="Más acciones de la comunidad" variant="ghost" aria-haspopup="dialog" onClick={() => { setError(null); setMenu({ open: true, borrar: false }) }} />}
-    </div>
-    {c.descripcion && <p className="whitespace-pre-wrap break-words text-body-sm text-fg-muted">{c.descripcion}</p>}
-    {c.unida ? <div className="flex flex-wrap items-center gap-2">
-      <p className="inline-flex min-h-touch items-center gap-2 rounded-md bg-surface-muted px-4 text-body-sm font-semibold text-fg"><Icon name="check" size={18} className="text-success" />{c.mia ? 'Creada por ti' : 'Miembro'}</p>
-      {puedePublicarEnComunidad(c) && <Button variant="secondary" aria-haspopup="dialog" onClick={() => setEditor(true)}><Icon name="plus" size={18} />Publicar</Button>}
-    </div> : <div className="space-y-2">
-      <p className="text-body-sm text-fg-muted">Únete para ver y compartir publicaciones con los miembros.</p>
-      <Button variant="secondary" loading={ocupado} onClick={() => void cambiar('unirse')}>Unirme a la comunidad</Button>
-    </div>}
-    {hayNormas && <Disclosure title={c.unida ? 'Antes de publicar' : 'Bienvenida y reglas'}>
-      <div className="space-y-stack">
-        {gestion.datos?.bienvenida && <p className="whitespace-pre-wrap break-words text-body-sm text-fg">{gestion.datos.bienvenida}</p>}
-        {gestion.datos?.reglas && <div className="space-y-1"><h3 className="text-label text-fg-muted">Reglas de la comunidad</h3><p className="whitespace-pre-wrap break-words text-body-sm text-fg">{gestion.datos.reglas}</p></div>}
-        {c.soloCreadorPublica && <p className="text-body-sm text-fg-muted">Solo quien creó esta comunidad puede publicar. Todos los miembros pueden comentar y dar ánimo.</p>}
+        <IconButton icon="more" label="Más acciones de la comunidad" variant="ghost" aria-haspopup="dialog" onClick={() => { setError(null); setMenu({ open: true, borrar: false }) }} />
       </div>
-    </Disclosure>}
+      {c.descripcion && <p className="whitespace-pre-wrap break-words text-body text-fg">{c.descripcion}</p>}
+      {c.unida && <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
+        <Badge tone="accent"><Icon name="check" size={14} />{c.mia ? 'Creada por ti' : 'Eres miembro'}</Badge>
+        {puedePublicarEnComunidad(c) && <Button variant="primary" size="sm" aria-haspopup="dialog" onClick={() => setEditor(true)}><Icon name="plus" size={18} />Publicar</Button>}
+      </div>}
+    </Card>
     {gestion.estado === 'error' && <ErrorState>{gestion.error}</ErrorState>}
     {error && !menu.open && <ErrorState>{error}</ErrorState>}
     {denunciada && <p role="status" className="text-body-sm text-fg-muted">Denuncia enviada. La revisaremos.</p>}
-    {c.unida && <ListaFeed puedoModerar={modera} comunidad={c.id} onAbrirPersona={setPersona} version={`${c.id}-${version}`} onError={onError} cargar={async antes => (await cargarSocial()).publicacionesComunidad(c.id, antes)} vacio={<EmptyState title="Aún no hay publicaciones">{puedePublicarEnComunidad(c) ? 'Comparte la primera con la comunidad.' : 'Aquí verás las publicaciones de quien creó la comunidad.'}</EmptyState>} />}
-    {!c.mia && !c.unida && <Button variant="ghost" size="sm" className="-ml-3" onClick={() => setTarea('denunciar')}>Denunciar comunidad</Button>}
+    {!c.unida ? <>
+      <Card tone="muted" className="space-y-3">
+        <p className="text-body-sm text-fg">Únete para ver y compartir publicaciones con los miembros.</p>
+        <Button variant="primary" block loading={ocupado} onClick={() => void cambiar('unirse')}>Unirme a la comunidad</Button>
+      </Card>
+      {hayNormas && normas}
+    </> : <ViewTabs label="Comunidad" valor={pestana} onChange={setPestana} opciones={[{ valor: 'publicaciones', label: 'Publicaciones' }, { valor: 'sobre', label: 'Sobre ella' }]}>
+      {pestana === 'publicaciones'
+        ? <ListaFeed puedoModerar={modera} comunidad={c.id} onAbrirPersona={setPersona} version={`${c.id}-${version}`} onError={onError} cargar={async antes => (await cargarSocial()).publicacionesComunidad(c.id, antes)} vacio={<EmptyState title="Aún no hay publicaciones">{puedePublicarEnComunidad(c) ? 'Comparte la primera con la comunidad.' : 'Aquí verás las publicaciones de quien creó la comunidad.'}</EmptyState>} />
+        : hayNormas ? normas : <EmptyState title="Sin bienvenida ni reglas">{c.mia ? 'Añádelas desde «Gestionar comunidad», en el «…».' : 'Quien creó la comunidad aún no las ha escrito.'}</EmptyState>}
+    </ViewTabs>}
 
     <Sheet open={menu.open} onClose={() => setMenu(m => ({ ...m, open: false }))} title={menu.borrar ? 'Borrar comunidad' : c.nombre}
       onExited={() => { const t = siguiente.current; siguiente.current = null; if (t) setTarea(t) }}>

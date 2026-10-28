@@ -35,6 +35,11 @@ export function obtener(id: number): Promise<Receta | undefined> {
   return db.recetas.get(id)
 }
 
+/** La receta de la que sale un alimento propio, si la hay. Solo lectura. */
+export function deAlimento(foodId: number): Promise<Receta | undefined> {
+  return db.recetas.where('foodId').equals(foodId).first()
+}
+
 /**
  * La receta que hay detrás de un alimento elegido: la propia cuyo `Food` es ese, o el plato del catálogo con su
  * receta y sus ingredientes resueltos. `null` si no es una receta (o le falta algún ingrediente). Solo lectura.

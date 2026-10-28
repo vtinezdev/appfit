@@ -19,7 +19,10 @@ interface Props {
   accion?: string
 }
 
-/** Texto libre (escrito o dictado con el micrófono del teclado) que se interpreta en el dispositivo, sin conexión. */
+/**
+ * Texto libre (escrito o dictado con el micrófono del teclado) que se interpreta en el dispositivo, sin conexión. Un
+ * alimento por línea (lo enseña el ejemplo); «Medidas» en la esquina del campo y «Revisar» solo con algo escrito.
+ */
 export default function DescribirComida({ texto, onTextoChange, onInterpretar, cargando, error, onVerMedidas, onEscanear, titulo = '¿Qué has comido?', accion }: Props) {
   const partes = parsear(texto)
   return (
@@ -36,15 +39,12 @@ export default function DescribirComida({ texto, onTextoChange, onInterpretar, c
         className="border-0 bg-transparent p-1 shadow-none"
         disabled={cargando}
       />
-      <div className="flex flex-wrap items-center justify-between gap-x-2">
-        <p className="text-caption text-fg-muted">Un alimento por línea</p>
-        <Button variant="subtle" size="sm" onClick={onVerMedidas} aria-label="Medidas que se entienden"><Icon name="info" size={16} />Medidas</Button>
+      <div className="flex justify-end"><Button variant="subtle" size="sm" onClick={onVerMedidas} aria-label="Medidas que se entienden"><Icon name="info" size={16} />Medidas</Button></div>
       </div>
-      </div>
-      <Button onClick={onInterpretar} disabled={partes.length === 0} loading={cargando} block>
+      {(partes.length > 0 || cargando) && <Button onClick={onInterpretar} disabled={partes.length === 0} loading={cargando} block>
         {cargando ? 'Preparando revisión…' : accion ?? (partes.length > 0 ? `Revisar ${formatInt(partes.length)} ${partes.length === 1 ? 'alimento' : 'alimentos'}` : 'Revisar alimentos')}
         {!cargando && <Icon name="chevron-right" size={18} />}
-      </Button>
+      </Button>}
       {onEscanear && <Button variant="secondary" block onClick={onEscanear} disabled={cargando}>
         <Icon name="barcode" size={20} />
         Escanear producto

@@ -3,17 +3,14 @@ import type { Objetivos, Settings } from '../shared/db/types'
 import type { FondoPref, ThemePref } from '../shared/design/theme'
 import { formatDiaMes } from '../shared/lib/dates'
 import { formatInt } from '../shared/lib/format'
-import { formatAgua } from '../features/inicio/lib/agua'
 import { conNutricionEfectiva, MODULOS, moduloActivo, NOMBRE_MODULO } from '../shared/lib/modulos'
 
 /** Ajustes es un índice: cada sección abre su propia vista. */
-export type SeccionAjustes = 'modulos' | 'objetivos' | 'agua' | 'creatina' | 'entreno' | 'gamificacion' | 'apariencia' | 'actualizaciones' | 'instalacion' | 'cuenta' | 'copias' | 'catalogo' | 'diagnostico' | 'borrar'
+export type SeccionAjustes = 'modulos' | 'objetivos' | 'entreno' | 'gamificacion' | 'apariencia' | 'actualizaciones' | 'instalacion' | 'cuenta' | 'copias' | 'catalogo' | 'diagnostico' | 'borrar'
 
 export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: IconName }> = {
   modulos: { nombre: 'Lo que usas', icon: 'secciones' },
   objetivos: { nombre: 'Objetivos diarios', icon: 'flag' },
-  agua: { nombre: 'Agua', icon: 'droplet' },
-  creatina: { nombre: 'Creatina', icon: 'zap' },
   entreno: { nombre: 'Entreno', icon: 'dumbbell' },
   gamificacion: { nombre: 'Cumbres, Caminos, Ritmo y Vitrina', icon: 'mountain' },
   apariencia: { nombre: 'Apariencia', icon: 'moon' },
@@ -28,7 +25,7 @@ export const SECCIONES_AJUSTES: Record<SeccionAjustes, { nombre: string; icon: I
 
 /** Bloques del índice, por tema. «Borrar registros» va aparte, al final. */
 export const GRUPOS_AJUSTES: { nombre: string; secciones: SeccionAjustes[] }[] = [
-  { nombre: 'Tú', secciones: ['modulos', 'objetivos', 'agua', 'creatina'] },
+  { nombre: 'Tú', secciones: ['modulos', 'objetivos'] },
   { nombre: 'Entreno', secciones: ['entreno', 'gamificacion'] },
   { nombre: 'App', secciones: ['apariencia', 'actualizaciones', 'instalacion', 'diagnostico'] },
   { nombre: 'Tus datos', secciones: ['cuenta', 'copias', 'catalogo'] },
@@ -40,8 +37,6 @@ export const OPCIONES_FONDO: { valor: FondoPref; label: string }[] = [{ valor: '
 export interface DatosResumen {
   settings: Settings
   objetivos: Objetivos
-  /** Objetivo de agua efectivo (ml) o `null` sin objetivo. */
-  aguaMl: number | null
   tema: ThemePref
   fondo: FondoPref
   /** Entrenos del plan de esta semana. */
@@ -62,8 +57,6 @@ export function resumenAjustes(seccion: SeccionAjustes, d: DatosResumen): string
       return apagados.length === 0 ? 'Todo activo' : `Sin ${apagados.map((m) => NOMBRE_MODULO[m].toLowerCase()).join(', ')}`
     }
     case 'objetivos': return `${formatInt(d.objetivos.kcal)} kcal · ${formatInt(d.objetivos.prot)} g de proteína`
-    case 'agua': return d.aguaMl === null ? 'Sin objetivo' : `${formatAgua(d.aguaMl)} al día`
-    case 'creatina': return s.creatina?.activa ? 'Activada' : 'Desactivada'
     case 'entreno': return `${s.sonidoDescanso === false ? 'Sin sonido' : 'Con sonido'} · ${s.rirAlCompletar === false ? 'Sin preguntar el RIR' : 'Pregunta el RIR'}`
     case 'gamificacion':
       if (s.gamificacionVisible === false) return 'Ocultos'
@@ -74,7 +67,7 @@ export function resumenAjustes(seccion: SeccionAjustes, d: DatosResumen): string
     case 'cuenta': return ''
     case 'copias': return s.ultimaExportacion === undefined ? 'Aún sin copia exportada' : `Última: ${formatDiaMes(s.ultimaExportacion)}`
     case 'catalogo': return 'Fuentes, licencias y actualización'
-    case 'diagnostico': return 'Preparar y copiar un diagnóstico'
+    case 'diagnostico': return 'Cuenta lo que ha fallado'
     case 'borrar': return 'Todo lo guardado en este móvil'
   }
 }
