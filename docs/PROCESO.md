@@ -3152,3 +3152,25 @@ Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real c
 
 **Verificación:** `npm run test` y `npm run build` correctos. Los ocho pasos del trabajo «navegador» pasan en Chromium en local: `test:ui`, `test:ui:responsive`, `test:ui:uso`, correcciones, pulido, mejoras pendientes, datos y offline. Firefox y WebKit solo en la CI.
 
+## 288. Recetas: menos textos sueltos (2026-10-27)
+
+**Qué:** Víctor no quería frases sueltas por la pantalla de recetas. A partir de unas maquetas con opciones, eligió:
+- Pantalla Recetas en pestañas Tuyas / AppFit, con «+» en el título.
+- Ficha con los datos dentro de la tarjeta.
+- Hoja Registrar con el nombre de subtítulo.
+
+**Cómo:**
+- `RecetasTab`: `PageHeader` con IconButton «Nueva receta» y `ViewTabs` principal. Fuera el overline.
+- `ListaRecetas` acepta `sinBotonNueva` y `vacio`. En Alimentos sigue igual, pero su vacío pasa a `EmptyState`.
+- `RecetarioAppFit`: la cifra va en el placeholder del buscador («Buscar entre 1.555 recetas…»). Fuera el párrafo y el «Sin pasos todavía» de cada fila. Nuevo filtro «Todas / Con pasos» (`SegmentedControl`).
+- Nuevo `components/DatosReceta`: raciones, tiempo y peso con iconos en las filas.
+- `FichaReceta`:
+  - Badge de procedencia sobre el nombre.
+  - Card con Raciones / Tiempo / Cocinado (el tiempo, cifra y unidad aparte para que quepa a 320 px), kcal por ración con las de 100 g al lado y macros.
+  - Ingredientes en Card con el contador en la cabecera.
+  - «para N raciones» junto a Preparación, en lugar de «Recalculado…» y «Cantidades para».
+  - Notas como última línea de la preparación.
+  - La confirmación sustituye 4 s al botón principal.
+- `Sheet` gana `subtitle`. La hoja Registrar/Planificar lo usa para el nombre y cambia la línea de macros por tres `Metric`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. `validar-recetas.cjs` (adaptado, con el vacío y la pestaña AppFit) correcto a 320/375/430 px en claro y oscuro. `validar-recetas-anadir.cjs` (adaptado a las pestañas) correcto en claro y oscuro.
