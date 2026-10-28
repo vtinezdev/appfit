@@ -3166,3 +3166,11 @@ Víctor ejecuta `0027_mensajes_creador.sql` en el SQL Editor del proyecto real c
 - `scripts/ui/validar-agarres.cjs` al día (abrir la rutina desde su tarjeta, fila del selector con el botón de ficha) y con la ejecución unilateral de la rutina.
 
 **Verificación:** `npm run test` (3.050 tests) y `npm run build` correctos. `validar-agarres.cjs` pasa en los ocho contextos (320/375/430 claro/oscuro, 1440, 375 con texto al 200 %).
+
+## 289. Récords de cada variante en la ficha del ejercicio (2026-10-28)
+
+**Qué:** la sección «Tú» de la ficha de un ejercicio solo enseñaba la variante básica (bilateral, sin agarre): quien hacía el remo solo en supino o unilateral no veía nada. Víctor pidió ver los récords de cada variante.
+
+**Cómo:** `lib/progreso.historialPorVariante` agrupa las series terminadas del ejercicio como los récords (`acumularComparables`) y calcula `historialEjercicio` de cada grupo, la variante usada más recientemente primero; `nombreVarianteRecords` la nombra (modo si no es externa, Bilateral/Unilateral, agarre, descenso y gimnasio con su nombre). `FichaEjercicio` pinta un bloque por variante con su título, última vez y récords.
+
+**Verificación:** `npm run test` (3.052 tests) y `npm run build` correctos. Recorrido de navegador provisional (no guardado) con un remo prono, supino y unilateral: tres bloques en orden, sin scroll horizontal, en 320/375/430 claro/oscuro y 375 con texto al 200 %.
