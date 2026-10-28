@@ -93,8 +93,11 @@ async function perfilYVitrina(ctx, id, grande) {
       for (let s = 0; s < 6; s++) await db.sets.add({ workoutId, exerciseId, orden: s, reps: 8, peso: 40 + i, createdAt: inicio + s })
     }
   })
+  // Lo que consiguen esos entrenos queda visto, para que la hoja de nuevos logros no se abra encima del detalle.
+  await qa.marcarLogrosVistos(page)
   const antesVitrina = await datos(page)
   await navegar(page, 'Vitrina')
+  assert.equal(await page.getByRole('button', { name: 'Genial', exact: true }).count(), 0, 'sin celebración pendiente')
   const proximos = page.getByRole('region', { name: 'Próximos logros', exact: true })
   await proximos.waitFor()
   const filas = proximos.getByRole('list', { name: 'Logros cerca del siguiente nivel', exact: true }).getByRole('button')

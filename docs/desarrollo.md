@@ -256,6 +256,8 @@ Para este cliente ejecutar manualmente **0009–0013 después de 0008 y antes de
 
 ### Regresión de correcciones de auditoría (22 de octubre, §182)
 
+`auditoria-comun.sembrar` deja vistas las piezas de la Vitrina que consiguen sus datos (`marcarLogrosVistos`): si no, la hoja de nuevos logros se abre sola en cuanto la Vitrina termina de calcularse, a veces encima de otra hoja o en mitad de un «Atrás», y el recorrido falla de forma intermitente. Un recorrido que siembre de otra forma y no quiera la celebración debe llamarlo también.
+
 `node scripts/ui/validar-correcciones-auditoria.cjs` comprueba medianoche/reanudación con reloj controlado, fecha de agua/peso y Deshacer, seguimiento de hoy frente a fecha histórica y tarea abierta, salida/revisión/descarte de comida sin escrituras, fallo de apertura real de IndexedDB con reintento y backup intacto, y error de lectura capturado por el límite de errores. Añade objetivos y rutina de Empezar a 320 claro/375 oscuro al 200 %/430 claro; comprueba geometría, campos y datos intactos. Usa `auditoria-comun`, contextos efímeros y únicamente el origen de pruebas. Incluido en QA; `APPFIT_AUDIT_BROWSERS`, `APPFIT_UI_CASE` y `APPFIT_UI_OUTPUT` permiten seleccionar motor/caso/evidencias. La validación local usa Chromium; no acredita hardware físico. Los recorridos de registro visual y platos confirman ahora explícitamente Descartar al cancelar revisiones pendientes.
 
 ### Pulido visual de auditoría · primer bloque (§182)

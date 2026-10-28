@@ -3246,3 +3246,12 @@ Plan: `docs/plan-retoques-2026-10-28.md`. Víctor eligió sobre capturas: C1 y C
 - C4: en la revisión, un alimento escrito que no se encuentra ofrece «Propónselo a AppFit» (si el envío está disponible), con lo escrito como nombre (`ItemRevisionRow.proponer.test.tsx`).
 
 **Verificación:** `npm run test` y `npm run build` correctos. En Chromium: `validar-recetas`, `validar-registros-comida`, `validar-mejoras-uso` y `auditoria-interfaz` correctos; capturas a 320/375 px en claro y oscuro sin scroll horizontal. `validar-recetas-anadir`, `validar-tarjetas-comidas` y `validar-registro-visual` ya fallaban antes de este bloque (buscan el título «Recetas» sin su número y el `select` «Comida del día» que quitó el rediseño de Añadir comida); no están en CI. «Propónselo a AppFit» no se ha visto en navegador (sin Supabase en local), solo en el test. Sin iPhone real.
+
+## 297. CI de la PR: la celebración de logros, fuera de los recorridos (2026-10-28)
+
+El check «navegador» fallaba de forma intermitente, y también en `master` tras la #186: en `validar-mejoras-pendientes` no aparecía la barra en el detalle del logro «Hilo» (cada vez en un caso distinto), y en un relanzamiento `validar-correcciones-auditoria` › `webkit-borrador` no encontraba «Descartar». Causa común: los datos sembrados (entrenos de los últimos días) consiguen piezas de la Vitrina y `CelebracionLogros` abre la hoja de nuevos logros cuando la Vitrina termina de calcularse, a veces encima del detalle de un logro o en mitad de un «Atrás»; el manejador que la cierra con «Genial» llegaba tarde o se llevaba la otra capa. En local, justo antes de abrir la Vitrina había 8 piezas por celebrar.
+
+- `auditoria-comun.sembrar` marca como vistas las piezas conseguidas (`marcarLogrosVistos`, que exporta) y `validar-mejoras-pendientes` lo llama tras sembrar sus entrenos; comprueba además que no queda ninguna celebración al entrar en la Vitrina.
+- Sin cambios en la app.
+
+**Verificación:** en local (Chromium), correctos `auditoria-entreno`, `auditoria-interfaz`, `validar-correcciones-auditoria`, `validar-pulido-auditoria`, `validar-mejoras-pendientes`, `auditoria-datos`, `validar-mejoras-uso` y `validar-recetas`. WebKit y Firefox solo en CI.
