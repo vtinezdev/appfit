@@ -5,6 +5,7 @@
  */
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
+const { EventEmitter, once } = require('node:events')
 let pw
 try { pw = require('playwright') } catch { pw = require('playwright-core') }
 const { navegar } = require('./navegar.cjs')
@@ -17,7 +18,13 @@ const CONTRASENA = 'contraseña de prueba'
 
 /** Estado del «servidor» compartido por todos los contextos de un caso. */
 function servidorFalso() {
-  return { copia: null, revisiones: [], llamadas: [] }
+  return { copia: null, revisiones: [], llamadas: [], cambios: new EventEmitter() }
+}
+
+async function esperarRevision(srv, revision) {
+  while ((srv.revisiones.at(-1) ?? 0) < revision) {
+    await once(srv.cambios, 'revision', { signal: AbortSignal.timeout(30_000) })
+  }
 }
 
 const jwt = (payload) => ['{"alg":"HS256","typ":"JWT"}', JSON.stringify(payload)].map((s) => Buffer.from(s).toString('base64url')).join('.') + '.firma'
@@ -44,6 +51,7 @@ async function simularSupabase(context, srv) {
       if (base !== actual) return json(null)
       srv.copia = { revision: actual + 1, actualizada: new Date().toISOString(), datos, claves: claves ?? srv.copia.claves }
       srv.revisiones.push(srv.copia.revision)
+      srv.cambios.emit('revision')
       return json(srv.copia.revision)
     }
     if (url.pathname === '/rest/v1/rpc/actualizar_claves') {
@@ -146,9 +154,8 @@ async function caso(browser, { width, theme }) {
   // Guardar ahora sube los cambios.
   await anadirComida(a.page, 'Lentejas')
   await cuenta.getByRole('button', { name: 'Guardar ahora' }).click()
-  await a.page.waitForFunction(() => true)
   await cuenta.getByText('Copia guardada ahora mismo.').waitFor()
-  for (let i = 0; i < 20 && srv.revisiones.length < 2; i++) await a.page.waitForTimeout(100)
+  await esperarRevision(srv, 2)
   assert.deepEqual(srv.revisiones, [1, 2])
 
   // Móvil B con datos propios: entrar, contraseña incorrecta, elegir la copia de la nube.
@@ -182,11 +189,15 @@ async function caso(browser, { width, theme }) {
   // Conflicto: A y B cambian; B sube primero, A queda en conflicto y lo resuelve desde Inicio.
   await anadirComida(b.page, 'Ensalada')
   await cuenta.getByRole('button', { name: 'Guardar ahora' }).click()
-  for (let i = 0; i < 30 && srv.revisiones.length < 3; i++) await b.page.waitForTimeout(100)
+  await esperarRevision(srv, 3)
   await anadirComida(a.page, 'Paella')
   cuenta = a.page.getByRole('region', { name: 'Cuenta', exact: true }).last()
   await cuenta.getByRole('button', { name: 'Guardar ahora' }).click()
   await cuenta.getByRole('button', { name: 'Elegir qué copia se queda' }).waitFor()
+  // Si la sincronización automática cambió el botón durante el clic, la hoja puede estar abierta.
+  // Cerrarla permite comprobar el aviso de Inicio y volver a resolver desde él.
+  await a.page.keyboard.press('Escape')
+  await a.page.getByRole('dialog', { name: '¿Qué datos se quedan?' }).waitFor({ state: 'hidden' })
   await navegar(a.page, 'Inicio')
   const aviso = a.page.getByRole('region', { name: 'Recordatorio de copia de seguridad' })
   await aviso.getByText('Elige qué copia se queda').waitFor()
