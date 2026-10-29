@@ -89,7 +89,7 @@ export default function CumbresTab({ onIrAAjustes, onVolver, incrustada = false 
 
   if (!c || !config) {
     return <div className={`space-y-section ${marco}`}>
-      <PageHeader incrustada={incrustada} title="Cumbres" volver={volver} overline="Montañas reales con lo que entrenas" action={comoFunciona} />
+      <PageHeader incrustada={incrustada} title="Cumbres" volver={volver} action={comoFunciona} />
       <Card className="space-y-3">
         <PerfilMontana expedicion={{ montana: MONTANAS[0], metros: 0 }} variante="tarjeta" decorativo />
         <p className="break-words text-body text-fg">Cada entreno, récord, kilómetro andado{conNutricion ? ', comida registrada' : ''} y semana cumplida te sube metros. Elige la primera montaña: empiezas hoy desde el nivel del mar, sin plazo.</p>
@@ -127,7 +127,7 @@ export default function CumbresTab({ onIrAAjustes, onVolver, incrustada = false 
   }
 
   return <div className={`space-y-section ${marco}`}>
-    <PageHeader incrustada={incrustada} title="Cumbres" volver={volver} overline="Montañas reales con lo que entrenas" action={comoFunciona} />
+    <PageHeader incrustada={incrustada} title="Cumbres" volver={volver} action={comoFunciona} />
 
     <Card className="space-y-3">
       <div>

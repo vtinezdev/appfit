@@ -216,7 +216,7 @@ export default function Progreso() {
     </div>}
     {!!exerciseId && variantes.length > 1 && <TarjetasVariante variantes={variantes} elegida={variante} onElegir={clave => { setVarianteElegida(clave); setGimnasioElegido(TODOS) }} />}
     {!exerciseId && conLigas && ligas.visible && exercises && <LigasLista ligas={ligas.ligas} nombres={new Map(exercises.map(e => [e.id, e.nombre]))} hoy={hoy} onElegir={elegirYEnfocar} />}
-    {!exerciseId && resumenes?.length === 0 && <EmptyState icon="dumbbell" title="Sigue tu evolución">Termina un entreno y aquí verás cada ejercicio con su mejor serie y cómo va.</EmptyState>}
+    {!exerciseId && resumenes?.length === 0 && <EmptyState icon="dumbbell" title="Sigue tu evolución" />}
     {!!exerciseId && !ultimo && bloqueLiga}
     {!!exerciseId && !ultimo && <EmptyState title="Aún sin sesiones terminadas">Termina un entreno con este tipo de carga para comparar resultados.</EmptyState>}
     {!!exerciseId && ultimo && cifras && <>

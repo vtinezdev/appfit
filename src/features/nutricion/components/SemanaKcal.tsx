@@ -52,7 +52,6 @@ export default function SemanaKcal({ fecha, hoy, dias, onFecha, acciones, nota, 
       <IconButton icon="chevron-right" label="Semana siguiente" variant="ghost" disabled={esPeriodoActual('semana', fecha)} onClick={() => onFecha(siguiente > hoy ? hoy : siguiente)} />
       {acciones}
     </div>
-    <p className="semana-deslizar text-caption text-fg-muted">Desliza la semana para ver todos los días.</p>
     <div ref={scroll} className="semana-scroll">
     <ul className="semana-kcal" aria-label="Días de la semana">
       {(dias ?? []).map(d => {

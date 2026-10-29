@@ -253,8 +253,6 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
    El día elegido, número en grafito sólido; hoy, subrayado. */
 .semana-kcal { width: max(100%, calc(7 * var(--touch-target) + 1.5rem)); display: grid; grid-template-columns: repeat(7, minmax(var(--touch-target), 1fr)); gap: .25rem; }
 .semana-scroll { position: relative; overflow-x: auto; padding-block: .25rem; }
-.semana-deslizar { display: none; }
-@container semana (max-width: 21rem) { .semana-deslizar { display: block; } }
 .semana-diario { container: semana / inline-size; }
 .calendario-ritmo { container: calendario-ritmo / inline-size; }
 @container calendario-ritmo (max-width: 16rem) {

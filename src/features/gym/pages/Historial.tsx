@@ -43,7 +43,7 @@ export default function Historial({ onAbrir }: { onAbrir: (id: number) => void }
     return { rutinas: new Map((await routinesRepo.listar()).map((r) => [r.id, r.nombre])), porWorkout, todas, ejercicios: await exercisesRepo.listar() }
   }, [])
   if (workouts === undefined) return <LoadingState />
-  if (workouts.length === 0) return <EmptyState icon="dumbbell" title="Sin entrenos todavía">Cuando termines un entreno aparecerá aquí.</EmptyState>
+  if (workouts.length === 0) return <EmptyState icon="dumbbell" title="Sin entrenos todavía" />
 
   const semanas = calendarioMes(mes, workouts, id => volumenSets(contexto?.porWorkout.get(id) ?? []), todayISO())
   const diasMes = new Set(monthDates(mes))

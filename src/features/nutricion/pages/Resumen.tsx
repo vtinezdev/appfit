@@ -71,7 +71,7 @@ export default function Resumen({ onVerReferencia }: { onVerReferencia?: (id: Nu
           <IconButton icon="chevron-right" label="Periodo siguiente" variant="ghost" onClick={() => setFechaAncla(desplazarPeriodo(rango, fechaAncla, 1))} disabled={esPeriodoActual(rango, fechaAncla)} />
         </div>
       </div>
-      {!diasRegistrados ? <EmptyState icon="utensils" title="Un periodo por registrar">{notaCheat ? `Solo hay cheat days (${notaCheat}). Las medias aparecerán cuando añadas comidas en otros días.` : 'Las medias y tendencias aparecerán cuando añadas comidas en estas fechas.'}</EmptyState> : (
+      {!diasRegistrados ? <EmptyState icon="utensils" title="Un periodo por registrar">{notaCheat && `Solo hay cheat days (${notaCheat}). Las medias aparecerán cuando añadas comidas en otros días.`}</EmptyState> : (
         <>
           {/* El mismo panel que el Diario: kcal, barra y macros con las mismas piezas, en una card. */}
           <section aria-label="Media diaria">

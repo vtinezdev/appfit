@@ -143,7 +143,7 @@ export default function MetasVista() {
       {metas.length === 0
         // Sin metas: qué es una meta con tres ejemplos de verdad (título, de qué tipo y una barra a medias) y el botón para la primera.
         ? <Card className="space-y-4">
-          <p className="text-body-sm text-fg">Un objetivo tuyo que la app sigue sola con lo que registras. Por ejemplo:</p>
+          <p className="text-rotulo text-fg-muted">Por ejemplo</p>
           <ul aria-label="Ejemplos de metas" className="space-y-3">
             {EJEMPLOS.map((e) => <li key={e.titulo} className="flex items-center gap-3">
               <span aria-hidden className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-surface-muted text-fg-muted"><Icon name={e.icono} size={18} /></span>

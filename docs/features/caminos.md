@@ -8,7 +8,7 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 
 | Pieza | Archivo | Datos |
 |---|---|---|
-| Rutas, colecciones y fuentes | `lib/rutas.ts`: `RUTAS` (en el orden de la ruta sugerida), `NOMBRE_COLECCION`, `NOTA_COLECCION`, `metrosRuta`, `rutaDe`, `FUENTE_RUTAS` | — (puro) |
+| Rutas, colecciones y fuentes | `lib/rutas.ts`: `RUTAS` (en el orden de la ruta sugerida), `NOMBRE_COLECCION`, `NOTA_COLECCION` (solo en «Cómo funciona», bloque «Las colecciones»; las listas no llevan nota), `metrosRuta`, `rutaDe`, `FUENTE_RUTAS` | — (puro) |
 | Motor y lecturas | `lib/caminos.ts`: `calcularCaminos`, `rutaDe`, `finalesDeEtapa`, `empezar`, `rutasParaCambiar`, `cambiarRuta`, `confirmarRuta`, `llegadaPorCelebrar`, `gruposTerminados` (`UMBRAL_GRUPOS_TERMINADOS`, `ORDEN_GRUPOS`), `vecesTerminada`, `nombreExpedicion`, `etapaActual`, `metrosEntre`, `diasDeExpedicion`, `caminoDeActividad`, `llegadaReciente`, `progresoTexto` | — (puro; usa las actividades terminadas) |
 | Escritura | `data/caminosRepo.ts`: `guardar` y `guardarZancada` (devuelven la anterior, para «Deshacer») | `settings.caminos`, `settings.zancadaCm` |
 | Pasos | `lib/pasos.ts`: `zancadaEstimadaCm`, `zancadaDe`, `metrosDePasos`, `leerPasos`, `leerCifraPasos`, `validarPasos`, `validarZancada`, `aportesDePasos`, `pasosTexto`, `diaTexto`; `lib/semanaPasos.ts` (la semana de una vez): `diasDeSemana`, `ultimaSemana`, `repartirPasos`, `borradorInicial`, `conTotal`, `conDia`, `leerSemana`, `sustituye`, `pasosDeSemana`, `mensajeSemana`; `data/pasosRepo.ts` (`todos`, `guardar`, `borrar`, `restaurar`, `guardarSemana`, `restaurarSemana`); `components/PasosCaminos`, `HojaPasos`, `HojaSemanaPasos`, `HojaZancada` | `pasos` |

@@ -62,7 +62,7 @@ async function motor(nombre) {
         await page.getByRole('tab', { name: 'Alimentos', exact: true }).click()
         await page.getByRole('radio', { name: 'Alimentos', exact: true }).waitFor()
         await page.getByRole('radio', { name: 'Recetas', exact: true }).click()
-        await page.getByText('Platos con ingredientes y valores calculados.', { exact: true }).waitFor()
+        await page.locator('[role="radio"][aria-checked="true"]', { hasText: 'Recetas' }).waitFor()
         assert.deepEqual((await geometria(page, 'mis-alimentos')).overflow, [])
         await page.getByRole('tab', { name: 'Diario', exact: true }).click()
         assert.deepEqual(await datos(page), antes, 'navegar y consultar no escribe datos')

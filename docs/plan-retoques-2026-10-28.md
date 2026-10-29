@@ -1,6 +1,6 @@
 # Plan: retoques de la revisión del 28 de octubre
 
-Fecha: 2026-10-28. Estado: **en curso** (A, B y C fusionados en `master` con la #185; D hecho). Rama: `claude/optimistic-pascal-vvpdvx`, reiniciada desde `master` tras fusionar la #185. Víctor ha repasado la app después de muchas actualizaciones y anota lo que no le convence. El bloque G (repaso de frases sueltas en toda la app) va al final.
+Fecha: 2026-10-28. Estado: **hecho** (A, B y C fusionados en `master` con la #185; D, E, F y G hechos). Rama: `claude/optimistic-pascal-vvpdvx`, reiniciada desde `master` tras fusionar la #185. Víctor ha repasado la app después de muchas actualizaciones y anota lo que no le convence. El bloque G (repaso de frases sueltas en toda la app) va al final.
 
 ## Forma de trabajar (decisión de Víctor)
 
@@ -52,7 +52,7 @@ Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, ex
 1. En la ventanita de logros nuevos, poder **compartir el logro en Social** (además de lo que ya haga `CompartirLogro`). Publicación a propósito de la persona, dentro de lo permitido por `docs/features/social.md`; reutilizar lo que ya existe (`social/components/VitrinaPublicacion.tsx`).
    - Código: `features/vitrina/components/NuevosLogros.tsx`, `CompartirLogro.tsx`.
 
-## Bloque G — Repaso final de frases sueltas
+## Bloque G — Repaso final de frases sueltas · **hecho** (inventario aprobado; PROCESO §302)
 
 Al terminar A–F, recorrer todas las secciones y quitar o recolocar (botón (i), dentro de la acción o en el estado vacío con acción) cualquier texto suelto. Hacer primero un inventario con capturas para que Víctor lo apruebe.
 

@@ -30,7 +30,7 @@ import {
   cambiarRuta, confirmarRuta, diasDeExpedicion, empezar, etapaActual, gruposTerminados, metrosEntre, nombreExpedicion, rutasParaCambiar, vecesTerminada,
   type Expedicion,
 } from './lib/caminos'
-import { metrosRuta, NOMBRE_COLECCION, NOTA_COLECCION, RUTAS, type ColeccionRuta, type Ruta } from './lib/rutas'
+import { metrosRuta, NOMBRE_COLECCION, RUTAS, type ColeccionRuta, type Ruta } from './lib/rutas'
 import { aRuta, esRutaPropia, idDeRutaPropia, posicionEnRutaPropia, PREFIJO, puntosDe } from './lib/rutasPropias'
 
 const COLECCIONES: ColeccionRuta[] = ['santiago', 'mundo', 'literatura', 'fantasia']
@@ -91,7 +91,6 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
     }} />
   const tusRutas = (alElegir: (r: Ruta) => void, conEditar: boolean) => <section aria-label="Tus rutas" className="space-y-stack">
     <SectionHeader variant="section">Tus rutas</SectionHeader>
-    <p className="break-words text-body-sm text-fg-muted">{rutasPropias.length ? NOTA_COLECCION.propia : 'Crea una ruta entre dos lugares de España, como Tarragona – Valencia, con paradas por el camino.'}</p>
     {rutasPropias.length > 0 && <ListGroup aria-label="Tus rutas"><ListaRutas rutas={rutasPropias} onElegir={alElegir} onEditar={conEditar ? (r) => abrirEditor(propiaDe(r)) : undefined} /></ListGroup>}
     <Button variant="secondary" size="sm" onClick={() => abrirEditor()}>Crear ruta</Button>
   </section>
@@ -111,7 +110,7 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
 
   if (!c || !config) {
     return <div className={`space-y-section ${marco}`}>
-      <PageHeader incrustada={incrustada} title="Caminos" volver={volver} overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
+      <PageHeader incrustada={incrustada} title="Caminos" volver={volver} action={comoFunciona} />
       <Card className="space-y-3">
         <TrazadoCamino expedicion={{ ruta: RUTAS[0], metros: 0 }} decorativo />
         <p className="break-words text-body text-fg">Recorre rutas reales y de libro con los km que caminas y corres, y con tus pasos. Elige la primera: empiezas hoy, sin plazo.</p>
@@ -120,7 +119,6 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
       {tusRutas(empezarCon, true)}
       {COLECCIONES.map((col) => <section key={col} aria-label={NOMBRE_COLECCION[col]} className="space-y-stack">
         <SectionHeader variant="section">{NOMBRE_COLECCION[col]}</SectionHeader>
-        <p className="break-words text-body-sm text-fg-muted">{NOTA_COLECCION[col]}</p>
         <ListGroup aria-label={NOMBRE_COLECCION[col]}><ListaRutas rutas={RUTAS.filter((r) => r.coleccion === col)} sugerida={RUTAS[0].id} onElegir={empezarCon} /></ListGroup>
       </section>)}
       {pasos}

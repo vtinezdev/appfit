@@ -87,7 +87,7 @@ export default function RitmoTab({ onIrAAjustes, onVolver, incrustada = false, d
   }
 
   return <div className={`space-y-section ${marco}`}>
-    {!incrustada && <PageHeader title="Ritmo" volver={volver} overline="Tu constancia semana a semana" action={comoFunciona} />}
+    {!incrustada && <PageHeader title="Ritmo" volver={volver} action={comoFunciona} />}
 
     {activa && <Card tone="muted" className="space-y-3">
       <p className="text-title text-fg">En pausa</p>

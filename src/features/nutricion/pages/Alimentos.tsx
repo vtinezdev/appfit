@@ -95,7 +95,6 @@ export default function Alimentos() {
     <div className="space-y-section">
       <SegmentedControl label="Mis alimentos" opciones={VISTAS} valor={vista} onChange={setVista} />
 
-      <p className="text-body-sm text-fg-muted">{vista === 'alimentos' ? 'Ingredientes y productos con sus valores nutricionales.' : vista === 'tipicas' ? 'Tus combinaciones, listas para añadir a cualquier comida.' : 'Platos con ingredientes y valores calculados.'}</p>
       {vista === 'alimentos' && (
         <div className="space-y-stack">
           <div className="flex items-center gap-2">
@@ -136,7 +135,7 @@ export default function Alimentos() {
           )}
           {filtroVigente === 'sin' && <p className="text-body-sm text-fg-muted">Abre cada alimento y elige su categoría. Al guardarlo sale de esta lista y su historial pasa a contar en esa categoría.</p>}
 
-          {filtrados?.length === 0 && <EmptyState icon="utensils" title={busqueda.trim() || filtroVigente !== 'todas' ? 'Sin coincidencias' : 'Aún no hay alimentos'}>{busqueda.trim() || filtroVigente !== 'todas' ? 'Prueba con otro nombre o con otra categoría.' : 'Los alimentos que crees o edites aparecerán aquí.'}</EmptyState>}
+          {filtrados?.length === 0 && <EmptyState icon="utensils" title={busqueda.trim() || filtroVigente !== 'todas' ? 'Sin coincidencias' : 'Aún no hay alimentos'}>{(busqueda.trim() || filtroVigente !== 'todas') && 'Prueba con otro nombre o con otra categoría.'}</EmptyState>}
           {filtrados && filtrados.length > 0 && (
             <ListGroup aria-label="Tus alimentos">
               {filtrados.map((f) => (

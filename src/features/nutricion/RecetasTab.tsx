@@ -28,7 +28,7 @@ export default function RecetasTab() {
                     <Button onClick={() => setCreando(true)}><Icon name="plus" size={18} />Nueva receta</Button>
                     <Button variant="secondary" onClick={() => setVista('appfit')}>Ver las de AppFit</Button>
                   </div>
-                }>Guarda tus platos y regístralos por raciones.</EmptyState>
+                } />
               } />
             : <RecetarioAppFit />}
         </div>

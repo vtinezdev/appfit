@@ -34,7 +34,7 @@ export default function VitrinaTab({ onIrAAjustes, onVolver, incrustada = false 
   }
 
   return <div className={`space-y-3 ${marco}`}>
-    <PageHeader incrustada={incrustada} title="Vitrina" volver={volver} overline="Lo que has conseguido, con su fecha" action={<ComoFunciona nombre="Vitrina"><ComoFuncionaVitrina conNutricion={estado.conNutricion} /></ComoFunciona>} />
+    <PageHeader incrustada={incrustada} title="Vitrina" volver={volver} action={<ComoFunciona nombre="Vitrina"><ComoFuncionaVitrina conNutricion={estado.conNutricion} /></ComoFunciona>} />
     <ViewTabs label="Vistas de la Vitrina" valor={vista} onChange={setVista}
       opciones={[{ valor: 'logros', label: 'Logros' }, { valor: 'records', label: 'Récords' }, { valor: 'colecciones', label: 'Colecciones' }]}>
       <div className="pt-4">

@@ -3291,3 +3291,18 @@ Plan: `docs/plan-retoques-2026-10-28.md`. Víctor aprobó F1 sobre capturas.
 - `CompartirLogro` gana `forma` (`boton` de siempre, `pie`, `icono`) y reutiliza `CrearPublicacion` con el logro adjunto; al publicar, el botón pasa a «Compartido» (✓) y queda desactivado, sin cerrar la hoja.
 
 **Verificación:** `npm run test` (3.103) y `npm run build` correctos. Recorrido con el Supabase falso (5174) a 320/375 px en claro y oscuro: una pieza y tres, «Compartir» → «Ver vista previa» → «Publicar», una sola publicación enviada (`publicar`) y el botón en «Compartido». `validar-mejoras-pendientes` con Social activo: correcto salvo `social-plegado` al 200 %, que ya fallaba sin este cambio (en CI Social se omite).
+
+## 302. Retoques de la revisión, bloque G: repaso de frases sueltas (2026-10-29)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Inventario de textos sueltos en `fg-muted` (con y sin datos, 375 px) que Víctor aprobó.
+
+- Fuera los lemas bajo el título de Cumbres, Caminos, Vitrina, Ritmo y Referencias, y «Desliza la semana para ver todos los días» (Diario y Plan, con su CSS `.semana-deslizar`).
+- Plan: la nota de «Lo he comido» pasa a una «i» (`Ayuda` «Planificar») junto al título del día.
+- Caminos: sin la frase bajo «Tus rutas» ni la nota de cada colección; las notas (`NOTA_COLECCION`) van al bloque «Las colecciones» de «Cómo funciona».
+- Metas sin ninguna: la frase de introducción queda en un rótulo «Por ejemplo».
+- Estados vacíos solo con título y acción: recetas, rutinas, historial y progreso de Entreno, Resumen (salvo la nota de cheat days), Mis alimentos (salvo «Prueba con otro nombre…» al buscar) y Actividades. Mis alimentos pierde la descripción de cada vista.
+- Resumen: los gramos del reparto de macros, en `PastillasMacros`.
+- Se quedan: el pie de privacidad de Perfil, el aviso de copia de Inicio, las tarjetas de inicio de Cumbres y Caminos, el pie de Ajustes y la pista de deslizar del Diario.
+- `validar-pulido-auditoria` esperaba la descripción de Recetas en Mis alimentos: ahora espera el SegmentedControl en «Recetas».
+
+**Verificación:** `npm run test` (3.103) y `npm run build` correctos. En Chromium, los recorridos del trabajo `navegador` de CI (`test:ui`, `responsive`, `uso`, `validar-correcciones-auditoria`, `validar-pulido-auditoria`, `validar-mejoras-pendientes`) correctos. El inventario repetido solo encuentra los textos que se quedan.
