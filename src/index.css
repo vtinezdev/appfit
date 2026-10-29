@@ -217,6 +217,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .muscle-progreso { max-width: var(--muscle-progreso-width); }
 /* Inicio: minigráfica del peso y vaso del agua. Datos neutros (texto atenuado), sin acento. */
 .mini-grafica { height: auto; overflow: visible; }
+/* Récords de la Vitrina: la minigráfica solo si deja ancho al nombre (no a 320 px ni con el texto ampliado). */
+.records-lista { container: records / inline-size; }
+@container records (width < 18rem) { .record-grafica { display: none; } }
 .mini-grafica-linea { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .mini-grafica-punto { fill: rgb(var(--c-text-primary)); stroke: rgb(var(--c-surface)); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
 /* Relleno plano bajo la línea (sin degradado): da cuerpo al tramo sin competir con ella. */

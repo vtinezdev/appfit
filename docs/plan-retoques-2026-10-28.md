@@ -38,7 +38,7 @@ Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, ex
 
 1. **Historial → calendario**: meterlo dentro de una tarjeta.
 
-## Bloque E — Progreso · E1 (B) y E2 **hechos** (PROCESO §299); E3 en previews
+## Bloque E — Progreso · **hecho** (E1 B y E2: PROCESO §299; E3 R4: §300)
 
 1. **Cumbres**: la lista de dónde salen los metros crece sin fin (cada récord añade una fila). Lo único fijo: **nada de una lista o desplegable infinito**. Se valoran varias opciones en preview.
    - Código: `features/cumbres/components/FilasMetros.tsx`, `ComoSeSube.tsx`.

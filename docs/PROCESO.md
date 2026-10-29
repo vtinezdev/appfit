@@ -3273,3 +3273,12 @@ Plan: `docs/plan-retoques-2026-10-28.md`. E1: Víctor eligió la opción B sobre
 - **E2 · Caminos:** «Crear una ruta» desde «Elige tu próxima ruta» deja la ruta nueva como la actual al guardarla, con «Deshacer». `EditorRuta.onHecho` devuelve el id creado y `CaminosTab.recorrerCreada` aplica `cambiarRuta` con la ruta nueva. Si algo falla, la ruta queda creada y un error en línea lo dice.
 
 **Verificación:** `npm run test` (3.100) y `npm run build` correctos. En Chromium, `auditoria-interfaz` y `validar-mejoras-uso` correctos. Recorrido a mano de E2: ruta propia terminada → «Elegir próxima ruta» → «Crear una ruta» (Reus – Cambrils) → guardar → `caminos.ruta` = `[propia:1, propia:2]` y aviso «Ruta creada. Ahora recorres Reus – Cambrils». Capturas de E1 a 320/375 px en claro y oscuro, sin scroll horizontal. `validar-insignias` ya fallaba antes (busca el antiguo botón «Más»); no está en CI.
+
+## 300. Retoques de la revisión, bloque E3: Récords con su evolución (2026-10-29)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Ni R1–R3 ni la primera tanda convencieron a Víctor; de la segunda (R4–R6) eligió R4: cada récord con su evolución y lo que ha mejorado.
+
+- `muroRecords` añade a cada ejercicio `evolucion` (la mejor serie de la marca principal en cada una de las últimas `SESIONES_EVOLUCION` = 10 sesiones) y `mejora` (la marca vigente frente a la primera de ellas; en asistencia, cuánta ayuda menos; `null` si no ha mejorado). `trazadoEvolucion` dibuja la línea (invertida en asistencia). Tests en `vitrina.test.ts`.
+- `RecordsVista`: fila con nombre, fecha corta y 1RM; minigráfica (las clases de la de Inicio); marca en grande y la mejora en `accent-strong`. Por debajo de 18 rem de lista (320 px, texto ampliado) se oculta la minigráfica. La «i» de la Vitrina explica la línea y la cifra.
+
+**Verificación:** `npm run test` (3.103) y `npm run build` correctos; `auditoria-interfaz` en Chromium correcto. Capturas a 320 (sin minigráfica) y 375 px en claro y oscuro, sin scroll horizontal.

@@ -9,7 +9,7 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 | Pieza | Archivo | Datos |
 |---|---|---|
 | Logros | `lib/logros.ts`: `calcularLogros`, `nivelDe`, `conseguido`, `ultimaVez`, `siguienteUmbral`, `recuentoPiezas`, `proximosLogros`, `logrosDeEntreno`, `porRareza` (los ocultos y los niveles altos primero; la imagen del entreno enseña los cuatro primeros) | — (puro; usa el resultado de la [experiencia](experiencia.md), su Ritmo, Cumbres, las actividades, Caminos, la Liga, el Herbario y el volumen de cada entreno, que prepara `lib/vitrina.ts`) |
-| Muro de récords | `lib/muro.ts`: `muroRecords`, `describirMarca` | — (puro; reutiliza `gym/lib/records.acumularComparables`) |
+| Muro de récords | `lib/muro.ts`: `muroRecords` (con `evolucion` y `mejora`, `SESIONES_EVOLUCION`), `describirMarca`, `trazadoEvolucion` | — (puro; reutiliza `gym/lib/records.acumularComparables`) |
 | Atlas | `lib/atlas.ts`: `gruposDeEntreno`, `calcularAtlas` (cada dominado, con el entreno de su tercera sesión) | — (puro; snapshot muscular de cada entreno o la clasificación actual) |
 | Herbario | `nutricion/lib/herbario.ts`: `plantaDeEntrada`, `plantasDistintas`, `herbarioPorSemana` (día en que se llega a 30 y a 50) | — (puro; categoría con `repartoCategorias.categoriaDeEntrada`) |
 | Todo junto | `lib/vitrina.ts`: `calcularVitrina` | — |
@@ -107,6 +107,8 @@ La mejor marca vigente de cada ejercicio y variante (ejecución, agarre, técnic
 - 1RM estimado (Epley, solo bilateral con carga externa y sin tempo);
 - repeticiones con el peso corporal;
 - menor asistencia.
+
+Cada fila (opción R4 de Víctor) lleva el nombre y la variante, la fecha de la marca principal («Hoy», «27 oct») y el 1RM si lo hay; una minigráfica de la mejor serie de esa marca en cada una de las últimas 10 sesiones (`evolucion`; en asistencia, invertida para que subir sea mejorar); y, a la derecha, la marca en grande con lo que ha mejorado desde la primera de esas sesiones debajo («+17,5 kg», «+2 reps», «−9 kg» de asistencia; `mejora`, sin nada si no ha mejorado). La «i» de la Vitrina lo explica. Con la lista estrecha (320 px o texto ampliado) la minigráfica se oculta.
 
 Se ordena por la marca más reciente; muestra 15 y «Ver más ejercicios».
 
