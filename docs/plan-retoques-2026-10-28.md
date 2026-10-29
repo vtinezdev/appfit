@@ -47,7 +47,7 @@ Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, ex
 3. **Vitrina → Récords**: no convence la pestaña entera. Previews con varias direcciones y Víctor elige.
    - Código: `features/vitrina/components/RecordsVista.tsx`.
 
-## Bloque F — Logros
+## Bloque F — Logros · **hecho** (F1; PROCESO §301)
 
 1. En la ventanita de logros nuevos, poder **compartir el logro en Social** (además de lo que ya haga `CompartirLogro`). Publicación a propósito de la persona, dentro de lo permitido por `docs/features/social.md`; reutilizar lo que ya existe (`social/components/VitrinaPublicacion.tsx`).
    - Código: `features/vitrina/components/NuevosLogros.tsx`, `CompartirLogro.tsx`.

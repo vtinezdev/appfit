@@ -3282,3 +3282,12 @@ Plan: `docs/plan-retoques-2026-10-28.md`. Ni R1–R3 ni la primera tanda convenc
 - `RecordsVista`: fila con nombre, fecha corta y 1RM; minigráfica (las clases de la de Inicio); marca en grande y la mejora en `accent-strong`. Por debajo de 18 rem de lista (320 px, texto ampliado) se oculta la minigráfica. La «i» de la Vitrina explica la línea y la cifra.
 
 **Verificación:** `npm run test` (3.103) y `npm run build` correctos; `auditoria-interfaz` en Chromium correcto. Capturas a 320 (sin minigráfica) y 375 px en claro y oscuro, sin scroll horizontal.
+
+## 301. Retoques de la revisión, bloque F: compartir desde la hoja de nuevos logros (2026-10-29)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor aprobó F1 sobre capturas.
+
+- `NuevosLogrosSheet`: con una pieza, «Compartir» junto a «Genial» en el pie (los dos del mismo ancho); con varias, un botón de compartir al final de cada fila. Solo con cuenta y perfil de Social (`SiPuedePublicar`); sin ellos, la hoja queda como antes.
+- `CompartirLogro` gana `forma` (`boton` de siempre, `pie`, `icono`) y reutiliza `CrearPublicacion` con el logro adjunto; al publicar, el botón pasa a «Compartido» (✓) y queda desactivado, sin cerrar la hoja.
+
+**Verificación:** `npm run test` (3.103) y `npm run build` correctos. Recorrido con el Supabase falso (5174) a 320/375 px en claro y oscuro: una pieza y tres, «Compartir» → «Ver vista previa» → «Publicar», una sola publicación enviada (`publicar`) y el botón en «Compartido». `validar-mejoras-pendientes` con Social activo: correcto salvo `social-plegado` al 200 %, que ya fallaba sin este cambio (en CI Social se omite).
