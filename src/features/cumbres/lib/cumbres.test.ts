@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { EventoXp } from '../../experiencia/lib/experiencia'
 import {
   calcularCumbres, cambiarMontana, cuandoFue, cumbreDeSesion, diasDeExpedicion, empezar, hitosDe,
-  metrosEntre, montanasParaCambiar, nombreExpedicion, progresoTexto, rutaDe, SIGUIENTES, vecesCoronada,
+  metrosEntre, metrosPorTipo, montanasParaCambiar, nombreExpedicion, progresoTexto, rutaDe, SIGUIENTES, vecesCoronada,
 } from './cumbres'
 import { COLECCIONES, MONTANAS, montanaDe } from './montanas'
 import { puntoEnLadera, trazadoSilueta, yDeFraccion } from './perfil'
@@ -169,6 +169,18 @@ describe('lecturas', () => {
 
   it('metros de un periodo', () => {
     expect(metrosEntre(r.tramos, '2026-10-06', '2026-10-12')).toBe(1300)
+  })
+
+  it('de dónde salen: por tipo, con los metros que de verdad subieron', () => {
+    expect(metrosPorTipo(r.tramos, '2026-10-06', '2026-10-12')).toEqual([
+      { tipo: 'registro', veces: 1, metros: 1200 },
+      { tipo: 'entreno', veces: 1, metros: 100 },
+    ])
+    // El entreno del día 14 solo sube 54 m hasta la cima: cuenta eso, no sus 100 de XP.
+    const todo = metrosPorTipo(r.tramos, '2026-10-06', '2026-10-14')
+    expect(todo).toEqual([{ tipo: 'registro', veces: 2, metros: 3250 }, { tipo: 'entreno', veces: 2, metros: 154 }])
+    expect(todo.reduce((a, t) => a + t.metros, 0)).toBe(metrosEntre(r.tramos, '2026-10-06', '2026-10-14'))
+    expect(metrosPorTipo(r.tramos, '2026-10-20', '2026-10-26')).toEqual([])
   })
 
   it('hitos de la montaña, con la cumbre al final', () => {

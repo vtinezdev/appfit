@@ -29,8 +29,8 @@ interface Props {
   /** La ruta está en el viaje de Caminos: no se puede borrar. */
   enUso?: boolean
   onClose: () => void
-  /** Tras guardar o borrar, con el mensaje para el aviso. */
-  onHecho: (mensaje: string) => void
+  /** Tras guardar o borrar, con el mensaje para el aviso; al crear, también el id de la ruta nueva. */
+  onHecho: (mensaje: string, creada?: number) => void
 }
 
 function LugarElegido({ punto, onCambiar, etiqueta }: { punto: PuntoRuta; onCambiar: () => void; etiqueta: string }) {
@@ -106,9 +106,10 @@ export default function EditorRuta({ ruta, enUso = false, onClose, onHecho }: Pr
     setOcupado(true)
     setError(null)
     try {
-      if (ruta) await rutasPropiasRepo.actualizar(ruta.id, borrador)
-      else await rutasPropiasRepo.crear(borrador)
-      onHecho(ruta ? 'Ruta guardada' : `Ruta creada: ${borrador.nombre.trim()}`)
+      if (ruta) {
+        await rutasPropiasRepo.actualizar(ruta.id, borrador)
+        onHecho('Ruta guardada')
+      } else onHecho(`Ruta creada: ${borrador.nombre.trim()}`, await rutasPropiasRepo.crear(borrador))
     } catch (e) {
       setError(e instanceof rutasPropiasRepo.RutaPropiaInvalida ? e.message : 'No se ha podido guardar la ruta. Inténtalo de nuevo.')
       setOcupado(false)

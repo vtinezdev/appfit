@@ -3264,3 +3264,12 @@ Plan: `docs/plan-retoques-2026-10-28.md`. Víctor eligió D2 sobre capturas: el 
 - El contenedor de la consulta pasa al cuerpo. Con el borde de la tarjeta, un móvil de 360 px deja 314 px: en vez de pasar a lista (antes cabía en rejilla), los huecos bajan a 1 px por debajo de 20 rem y la lista empieza por debajo de 19,625 rem. Las celdas siguen a 44 px.
 
 **Verificación:** `npm run test` (3.099) y `npm run build` correctos. En Chromium: `auditoria-entreno`, `validar-mejoras-uso` y `auditoria-interfaz` correctos; capturas a 320 (lista), 360, 375 y 430 px (rejilla) en claro y oscuro, sin scroll horizontal y con los días a 44 px. Sin iPhone real.
+
+## 299. Retoques de la revisión, bloque E (E1 y E2): Cumbres y Caminos (2026-10-29)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. E1: Víctor eligió la opción B sobre capturas. E2 es comportamiento, sin preview. E3 (Récords) sigue en previews.
+
+- **E1 · Cumbres:** «Cada día», que crecía con cada día y cada récord, pasa a «De dónde salen». Es una Card con «Semana / Mes / Todo» y los metros por tipo con su barra; el detalle día a día va en la hoja «Cada día» («Ver cada día»), con los 14 días y «Ver más días» de antes. `TramoSubido` gana `tipo` (lo pone `calcularCumbres`) y `metrosPorTipo` suma tramos, así que cuadra con «Subidos» y con lo que se pierde al hacer cumbre (test con el entreno que sube 54 de sus 100 m).
+- **E2 · Caminos:** «Crear una ruta» desde «Elige tu próxima ruta» deja la ruta nueva como la actual al guardarla, con «Deshacer». `EditorRuta.onHecho` devuelve el id creado y `CaminosTab.recorrerCreada` aplica `cambiarRuta` con la ruta nueva. Si algo falla, la ruta queda creada y un error en línea lo dice.
+
+**Verificación:** `npm run test` (3.100) y `npm run build` correctos. En Chromium, `auditoria-interfaz` y `validar-mejoras-uso` correctos. Recorrido a mano de E2: ruta propia terminada → «Elegir próxima ruta» → «Crear una ruta» (Reus – Cambrils) → guardar → `caminos.ruta` = `[propia:1, propia:2]` y aviso «Ruta creada. Ahora recorres Reus – Cambrils». Capturas de E1 a 320/375 px en claro y oscuro, sin scroll horizontal. `validar-insignias` ya fallaba antes (busca el antiguo botón «Más»); no está en CI.

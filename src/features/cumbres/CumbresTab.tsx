@@ -6,10 +6,13 @@ import ListGroup from '../../shared/components/ListGroup'
 import Metric from '../../shared/components/Metric'
 import PageHeader from '../../shared/components/PageHeader'
 import SectionHeader from '../../shared/components/SectionHeader'
+import SegmentedControl from '../../shared/components/SegmentedControl'
+import Sheet from '../../shared/components/Sheet'
+import Icon from '../../shared/components/Icon'
 import { EmptyState, LoadingState } from '../../shared/components/StateMessage'
 import type { ConfigCumbres } from '../../shared/db/types'
 import { useAviso } from '../../shared/hooks/useAviso'
-import { addDays, formatFriendly, startOfWeek, todayISO } from '../../shared/lib/dates'
+import { addDays, formatFriendly, startOfMonth, startOfWeek, todayISO } from '../../shared/lib/dates'
 import { formatInt } from '../../shared/lib/format'
 import {
   entrenoHoy, textoEntrenoHoy, XP, XP_ACTIVIDAD, xpPorDia,
@@ -23,13 +26,17 @@ import PerfilMontana from './components/PerfilMontana'
 import * as cumbresRepo from './data/cumbresRepo'
 import { useCumbres } from './hooks/useCumbres'
 import {
-  cambiarMontana, diasDeExpedicion, empezar, hitosDe, metrosEntre, metrosTexto, montanasParaCambiar,
-  nombreExpedicion, vecesCoronada, vecesTexto,
+  cambiarMontana, diasDeExpedicion, empezar, hitosDe, metrosEntre, metrosPorTipo, metrosTexto, montanasParaCambiar,
+  NOMBRE_TIPO, nombreExpedicion, vecesCoronada, vecesTexto,
 } from './lib/cumbres'
 import { MONTANAS, type Montana } from './lib/montanas'
 
-/** Días con metros que se muestran de entrada y en cada «Ver más días». */
+/** Días con metros que se muestran de entrada y en cada «Ver más días» (en la hoja «Cada día»). */
 const DIAS_POR_PAGINA = 14
+
+type Periodo = 'semana' | 'mes' | 'todo'
+const PERIODOS: { valor: Periodo; label: string }[] = [{ valor: 'semana', label: 'Semana' }, { valor: 'mes', label: 'Mes' }, { valor: 'todo', label: 'Todo' }]
+const SIN_METROS: Record<Periodo, string> = { semana: 'Esta semana aún no has subido.', mes: 'Este mes aún no has subido.', todo: 'Aún no has subido nada.' }
 
 const diasTexto = (n: number) => (n === 1 ? '1 día' : `${formatInt(n)} días`)
 
@@ -40,8 +47,8 @@ function desdeTexto(inicio: string, hoy: string): string {
 }
 
 /**
- * Cumbres (desde Inicio): la montaña actual con su perfil y sus hitos, la semana frente al plan, los metros de cada día con su
- * porqué, las siguientes y las coronadas (también las repetidas).
+ * Cumbres (desde Inicio): la montaña actual con su perfil y sus hitos, la semana frente al plan, de dónde salen los metros
+ * (por tipo en la semana, el mes o todo; cada día con su porqué en una hoja), las siguientes y las coronadas (también las repetidas).
  */
 export default function CumbresTab({ onIrAAjustes, onVolver, incrustada = false }: { onIrAAjustes: () => void; onVolver?: () => void
   /** Como pestaña de Progreso (B12): sin márgenes de página ni título visible. */
@@ -54,6 +61,8 @@ export default function CumbresTab({ onIrAAjustes, onVolver, incrustada = false 
   const [cambiando, setCambiando] = useState(false)
   const [aperturas, setAperturas] = useState(0)
   const [diasVisibles, setDiasVisibles] = useState(DIAS_POR_PAGINA)
+  const [periodo, setPeriodo] = useState<Periodo>('semana')
+  const [cadaDia, setCadaDia] = useState(false)
 
   if (!estado) return <div className={marco}><LoadingState /></div>
   if (!estado.visible) {
@@ -107,6 +116,7 @@ export default function CumbresTab({ onIrAAjustes, onVolver, incrustada = false 
   ].filter(Boolean)
   // Solo los días desde el inicio: lo anterior no sube.
   const dias = xpPorDia(r).filter((d) => d.fecha >= c.inicio)
+  const tipos = metrosPorTipo(c.tramos, periodo === 'semana' ? lunes : periodo === 'mes' ? startOfMonth(hoy) : c.inicio, hoy)
 
   async function cambiarA(m: Montana) {
     const nueva = config && c ? cambiarMontana(config, c, m.id) : null
@@ -179,11 +189,30 @@ export default function CumbresTab({ onIrAAjustes, onVolver, incrustada = false 
       </div>
     </section>
 
-    <section aria-label="Metros de cada día" className="space-y-stack">
-      <SectionHeader variant="section">Cada día</SectionHeader>
+    <section aria-label="De dónde salen los metros" className="space-y-stack">
+      <SectionHeader variant="section">De dónde salen</SectionHeader>
       {dias.length === 0
         ? <EmptyState>Aún no has subido nada. Termina un entreno{conNutricion ? ', registra una comida' : ''} o sal a caminar y aparecerá aquí con su porqué.</EmptyState>
-        : <>
+        : <Card className="space-y-3">
+          <SegmentedControl label="Periodo" opciones={PERIODOS} valor={periodo} onChange={setPeriodo} />
+          {tipos.length === 0
+            ? <p className="text-body-sm text-fg-muted">{SIN_METROS[periodo]}</p>
+            : <ul aria-label="Metros por tipo" className="space-y-3">
+              {tipos.map((t) => <li key={t.tipo} className="space-y-1">
+                <span className="flex items-baseline justify-between gap-3">
+                  <span className="min-w-0 break-words text-body font-medium text-fg">{NOMBRE_TIPO[t.tipo]} <span className="tabular text-caption font-normal text-fg-muted">· {formatInt(t.veces)}</span></span>
+                  <span className="tabular shrink-0 text-body font-semibold text-fg">+{metrosTexto(t.metros)}</span>
+                </span>
+                <span aria-hidden className="flex h-2 overflow-hidden rounded-pill bg-surface-muted"><span className="bg-fg" style={{ width: `${(t.metros / tipos[0].metros) * 100}%` }} /></span>
+              </li>)}
+            </ul>}
+          <button type="button" aria-haspopup="dialog" onClick={() => { setDiasVisibles(DIAS_POR_PAGINA); setCadaDia(true) }}
+            className="app-button flex min-h-touch w-full items-center justify-between gap-3 border-t border-line pt-3 text-left text-body-sm font-semibold text-fg">
+            Ver cada día<Icon name="chevron-right" size={18} className="shrink-0 text-fg-subtle" />
+          </button>
+        </Card>}
+      <Sheet open={cadaDia} onClose={() => setCadaDia(false)} title="Cada día">
+        <div className="space-y-section">
           {dias.slice(0, diasVisibles).map((d) => <section key={d.fecha} aria-label={formatFriendly(d.fecha)} className="space-y-2">
             <h3 className="flex flex-wrap items-baseline justify-between gap-x-3 px-1">
               <span className="text-body-sm font-semibold text-fg">{formatFriendly(d.fecha)}</span>
@@ -194,7 +223,8 @@ export default function CumbresTab({ onIrAAjustes, onVolver, incrustada = false 
             </ListGroup>
           </section>)}
           {dias.length > diasVisibles && <Button variant="subtle" block onClick={() => setDiasVisibles((v) => v + DIAS_POR_PAGINA)}>Ver más días</Button>}
-        </>}
+        </div>
+      </Sheet>
     </section>
 
     <section aria-label="Siguientes" className="space-y-stack">
