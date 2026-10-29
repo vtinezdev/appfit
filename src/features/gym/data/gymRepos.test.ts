@@ -82,6 +82,24 @@ describe('workoutsRepo.terminados', () => {
 })
 
 describe('setsRepo', () => {
+  it('precarga solo las series históricas realizadas, pero conserva la copia entre pendientes de la sesión actual', async () => {
+    const exerciseId = await exercisesRepo.obtenerOCrear('Press banca')
+    await db.workouts.bulkPut([{ id: 1, inicio: 100, fin: 200 }, { id: 2, inicio: 300 }])
+    await db.sets.bulkPut([
+      { id: 1, workoutId: 1, exerciseId, orden: 0, reps: 10, peso: 40, realizada: true, createdAt: 101 },
+      { id: 2, workoutId: 1, exerciseId, orden: 1, reps: 8, peso: 100, realizada: false, createdAt: 102 },
+      { id: 3, workoutId: 1, exerciseId, orden: 2, reps: 12, peso: 20, tipo: 'calentamiento', createdAt: 103 },
+      { id: 4, workoutId: 1, exerciseId, orden: 3, reps: 12, peso: 50, tipo: 'calentamiento', realizada: false, createdAt: 104 },
+    ])
+    expect((await setsRepo.ultimaEfectiva(exerciseId))?.id).toBe(1)
+    expect((await setsRepo.ultimoCalentamiento(exerciseId))?.id).toBe(3)
+    const id = await setsRepo.agregar(2, exerciseId, 301)
+    expect(await db.sets.get(id)).toMatchObject({ peso: 40, reps: 10 })
+    await setsRepo.actualizar(id, { peso: 45, reps: 8 })
+    const siguiente = await setsRepo.agregar(2, exerciseId, 302)
+    expect(await db.sets.get(siguiente)).toMatchObject({ peso: 45, reps: 8 })
+  })
+
   async function preparar() {
     const workoutId = await workoutsRepo.empezar()
     const exerciseId = await exercisesRepo.obtenerOCrear('Sentadilla')
@@ -98,6 +116,7 @@ describe('setsRepo', () => {
     const { workoutId, exerciseId } = await preparar()
     const id = await setsRepo.agregar(workoutId, exerciseId)
     await setsRepo.actualizar(id, { reps: 5, peso: 100 })
+    await setsRepo.confirmar(id, true)
     await workoutsRepo.terminar(workoutId)
     const otro = await workoutsRepo.empezar()
     const nueva = await setsRepo.agregar(otro, exerciseId)
@@ -199,6 +218,7 @@ describe('entrenos: descartar, pasado, edición', () => {
     const previo = await workoutsRepo.crearPasado({ inicio: 1, fin: 2 })
     const s = await setsRepo.agregar(previo, ex, 5)
     await setsRepo.actualizar(s, { reps: 6, peso: 50 })
+    await setsRepo.confirmar(s, true)
     const rid = await routinesRepo.guardar({ nombre: 'Empuje', exerciseIds: [ex], objetivos: { [ex]: { series: 3, repsMin: 6, repsMax: 10 } } })
     const w = await workoutsRepo.empezar(rid)
     const sets = await setsRepo.delWorkout(w)
@@ -210,8 +230,10 @@ describe('entrenos: descartar, pasado, edición', () => {
     const previo = await workoutsRepo.crearPasado({ inicio: 1, fin: 2 })
     const cal = await setsRepo.agregar(previo, ex, 5)
     await setsRepo.actualizar(cal, { reps: 12, peso: 30, tipo: 'calentamiento' })
+    await setsRepo.confirmar(cal, true)
     const s = await setsRepo.agregar(previo, ex, 6)
     await setsRepo.actualizar(s, { reps: 6, peso: 50 })
+    await setsRepo.confirmar(s, true)
     const rid = await routinesRepo.guardar({ nombre: 'Empuje', exerciseIds: [ex], objetivos: { [ex]: { series: 2, repsMin: 6, repsMax: 10, calentamientos: 2 } } })
     const sets = await setsRepo.delWorkout(await workoutsRepo.empezar(rid))
     expect(sets.sort((a, b) => a.orden - b.orden).map((x) => [x.tipo, x.reps, x.peso, x.orden])).toEqual([

@@ -13,7 +13,7 @@ import { formatInt } from '../../../shared/lib/format'
 import * as foodsRepo from '../data/foodsRepo'
 import * as planificadasRepo from '../data/planificadasRepo'
 import * as recetasRepo from '../data/recetasRepo'
-import { agruparCompra, alternarMarca, cantidadCompra, expandirRecetas, listaCompra, nombreSemana, rangoSemana, textoListaCompra } from '../lib/planificadas'
+import { agruparCompra, cantidadCompra, expandirRecetas, listaCompra, nombreSemana, rangoSemana, textoListaCompra } from '../lib/planificadas'
 
 type Modo = 'semana' | 'dias'
 const OPCIONES_MODO: { valor: Modo; label: string }[] = [{ valor: 'semana', label: 'Toda la semana' }, { valor: 'dias', label: 'Elegir días' }]
@@ -45,14 +45,13 @@ export default function ListaCompra({ hoy, lunes, onClose }: { hoy: string; lune
   function marcar(clave: string) {
     if (!datos) return
     setError(null)
-    planificadasRepo.guardarMarcasCompra(alternarMarca(datos.marcadas, clave)).catch(() => setError('No se ha podido guardar la marca. Inténtalo de nuevo.'))
+    planificadasRepo.alternarMarcaCompra(clave).catch(() => setError('No se ha podido guardar la marca. Inténtalo de nuevo.'))
   }
 
   function desmarcarTodo() {
     if (!datos) return
     setError(null)
-    const visibles = new Set(datos.articulos.map((a) => a.clave))
-    planificadasRepo.guardarMarcasCompra(datos.marcadas.filter((c) => !visibles.has(c))).catch(() => setError('No se ha podido desmarcar. Inténtalo de nuevo.'))
+    planificadasRepo.desmarcarCompra(datos.articulos.map((a) => a.clave)).catch(() => setError('No se ha podido desmarcar. Inténtalo de nuevo.'))
   }
 
   function copiar() {

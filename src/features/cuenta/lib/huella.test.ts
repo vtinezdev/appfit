@@ -17,4 +17,12 @@ describe('huellaBackup', () => {
     expect(h).toMatch(/^[0-9a-f]{64}$/)
     expect(await huellaBackup(copia('x', 101))).not.toBe(h)
   })
+
+  it('conserva las huellas guardadas por las versiones anteriores', async () => {
+    const b = copia('2026-10-29T10:00:00Z')
+    const { exportedAt: _, ...contenido } = b
+    const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(contenido)))
+    const anterior = Array.from(new Uint8Array(bytes), x => x.toString(16).padStart(2, '0')).join('')
+    expect(await huellaBackup(b)).toBe(anterior)
+  })
 })

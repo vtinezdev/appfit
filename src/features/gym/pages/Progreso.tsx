@@ -6,7 +6,7 @@ import * as setsRepo from '../data/setsRepo'
 import * as workoutsRepo from '../data/workoutsRepo'
 import * as routinesRepo from '../data/routinesRepo'
 import { useNombresGimnasio } from '../hooks/useNombresGimnasio'
-import { MAX_LINEAS_GIMNASIO, cifrasClave, datosProgreso, resumenVariantes, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, textoMejorSerie, trazoMini, type MetricaProgreso } from '../lib/progreso'
+import { MAX_LINEAS_GIMNASIO, cifrasClave, datosProgreso, modosConSesiones, resumenVariantes, filasPorGimnasio, gimnasiosConSesiones, resumenEjercicios, textoMejorSerie, trazoMini, type MetricaProgreso } from '../lib/progreso'
 import { MODOS_CARGA, modoCarga } from '../lib/carga'
 import { ayudaCifras } from '../lib/ayudaCifras'
 import type { ModoCarga } from '../../../shared/db/types'
@@ -103,7 +103,7 @@ export default function Progreso() {
   const ligas = useLigas(hoy)
   const tituloRef = useRef<HTMLHeadingElement>(null)
   const modos = [...new Set((sets ?? []).map(modoCarga))]
-  const modo = modoElegido && modos.includes(modoElegido) ? modoElegido : modos[0] ?? 'externa'
+  const modo = modoElegido && modos.includes(modoElegido) ? modoElegido : modosConSesiones(sets ?? [], workouts ?? [])[0] ?? modos[0] ?? 'externa'
   // El gimnasio no es variante: es otra dimensión de la gráfica (una línea por gimnasio, o solo uno).
   // Una tarjeta por variante con sesiones terminadas, la de más sesiones primero (abre en ella).
   const variantes = resumenVariantes(sets ?? [], workouts ?? [], modo)
@@ -283,7 +283,7 @@ export default function Progreso() {
       </Card>
       <section aria-label="Sesiones" className="space-y-stack">
         <SectionHeader variant="section">Sesiones</SectionHeader>
-        <SesionesEjercicio nombre={ejercicio?.nombre ?? 'este ejercicio'} unidad={unidad}
+        <SesionesEjercicio nombre={ejercicio?.nombre ?? 'este ejercicio'} unidad={unidad} menorEsMejor={metrica === 'asistencia'}
           filas={[...datos].reverse().map(d => ({ id: d.workoutId, inicio: d.inicio, mejor: textoMejorSerie(d.mejor, modo), valor: d[metrica] ?? 0, ...(todosLosGimnasios ? { gimnasio: nombreGimnasio(d.gimnasioId) } : {}) }))} />
       </section>
       <Sheet open={ayuda} onClose={() => setAyuda(false)} title="Qué significa cada cifra">

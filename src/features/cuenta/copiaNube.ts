@@ -1,4 +1,5 @@
 import type { BackupV3 } from '../../shared/lib/backup'
+import { BackupCambiadoError } from '../../shared/lib/contenidoBackup'
 import { toISODate } from '../../shared/lib/dates'
 import { crearClaves, cifrarCopia, desenvolver, descifrarCopia, envolver, generarCodigoRecuperacion, normalizarCodigo, sinExportar, type ClavesNube } from './lib/cifrado'
 import { decidirCopia, decidirVinculo, type Vinculo } from './lib/decision'
@@ -47,7 +48,8 @@ export interface Dependencias {
   nube: () => Promise<Nube>
   dispositivo: AlmacenDispositivo
   exportar: () => Promise<BackupV3>
-  importar: (json: string) => Promise<void>
+  /** Compara `esperado` y sustituye en la misma transacción; devuelve la foto importada, no una lectura posterior. */
+  importar: (json: string, esperado?: BackupV3) => Promise<BackupV3>
   hayDatos: () => Promise<boolean>
   borrarDatos: () => Promise<void>
   /** Sin sesión guardada no se carga la nube (supabase-js) al arrancar. */
@@ -203,7 +205,7 @@ export class CopiaNube {
             this.poner({ fase: 'perdida' })
             return
           }
-          await this.restaurar(copia, vinculo.dek)
+          await this.restaurar(copia, vinculo.dek, backup)
         } else if (accion === 'conflicto') {
           await this.d.dispositivo.actualizar({ conflicto: true })
           this.poner({ fase: 'conflicto' })
@@ -211,6 +213,11 @@ export class CopiaNube {
           this.poner({ fase: 'perdida' })
         }
       } catch (e) {
+        if (e instanceof BackupCambiadoError) {
+          await this.d.dispositivo.actualizar({ conflicto: true })
+          this.poner({ fase: 'conflicto' })
+          return
+        }
         this.fallo(e, huella !== vinculo.huella)
       }
     })
@@ -227,14 +234,14 @@ export class CopiaNube {
   }
 
   /** Sustituye los datos de este dispositivo por la copia y devuelve la huella de lo que ha quedado. */
-  private async importarCopia(copia: CopiaRemota, dek: CryptoKey): Promise<string> {
-    await this.d.importar(await descifrarCopia(copia.datos, dek))
-    return huellaBackup(await this.d.exportar())
+  private async importarCopia(copia: CopiaRemota, dek: CryptoKey, esperado?: BackupV3): Promise<string> {
+    const importada = await this.d.importar(await descifrarCopia(copia.datos, dek), esperado)
+    return huellaBackup(importada)
   }
 
   /** Con el dispositivo ya vinculado: trae la copia y deja anotado que ya están iguales. */
-  private async restaurar(copia: CopiaRemota, dek: CryptoKey) {
-    const huella = await this.importarCopia(copia, dek)
+  private async restaurar(copia: CopiaRemota, dek: CryptoKey, esperado?: BackupV3) {
+    const huella = await this.importarCopia(copia, dek, esperado)
     const ultimaCopia = this.ahora()
     await this.d.dispositivo.actualizar({ revision: copia.revision, huella, ultimaCopia, conflicto: undefined })
     this.poner({ fase: 'al-dia', ultimaCopia })

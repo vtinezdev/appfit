@@ -8,6 +8,11 @@ beforeEach(async () => {
 })
 
 describe('routinesRepo.guardarCompartida', () => {
+  it.each([{ orientacion: 'supino' as const }, null])('conserva el agarre elegido o la decisión explícita de no especificarlo: %j', async agarre => {
+    const id = await routinesRepo.guardarCompartida('Espalda adaptada', [{ seleccion: { tipo: 'catalogo', catalogId: 'appfit:jalon-pecho', agarre } }])
+    const r = (await routinesRepo.obtener(id))!
+    expect(r.agarres).toEqual({ [r.exerciseIds[0]]: agarre })
+  })
   it('guarda la estructura con los ejercicios elegidos, reutiliza los que ya tienes y da un nombre libre', async () => {
     const banca = await db.exercises.add({ nombre: 'Press banca', nombreNorm: normalizeName('Press banca'), grupo: 'Pecho', catalogId: 'appfit:press-banca' })
     await routinesRepo.guardar({ nombre: 'Torso A', exerciseIds: [] })
