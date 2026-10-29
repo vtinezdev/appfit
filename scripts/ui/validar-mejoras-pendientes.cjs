@@ -148,6 +148,8 @@ async function primerosPasos(browser, c, id) {
     await plegar.getByText('1 de 3', { exact: true }).waitFor()
     assert.equal(await plegar.getAttribute('aria-expanded'), 'false')
     assert.equal(await page.getByRole('button', { name: /^Únete a una comunidad/ }).count(), 0, 'plegado al entrar')
+    // El feed carga aparte de Primeros pasos: medir también la semana compartida, incluso al 200 %.
+    await page.getByRole('list', { name: 'Días de la semana', exact: true }).waitFor()
     await limpio(page, 'social-plegado')
     await captura(page, `${id}-social-plegado`)
     await plegar.click()

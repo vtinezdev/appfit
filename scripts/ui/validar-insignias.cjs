@@ -2,7 +2,7 @@
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const { chromium } = require('playwright')
-const { navegar } = require('./navegar.cjs')
+const { navegar, cerrarCelebraciones, marcarLogrosVistos } = require('./auditoria-comun.cjs')
 const fixture = JSON.parse(fs.readFileSync('src/test/fixtures/backup-v1.json', 'utf8'))
 const output = process.env.APPFIT_UI_OUTPUT || '/tmp/appfit-insignias'
 fs.mkdirSync(output, { recursive: true })
@@ -43,6 +43,7 @@ async function main() {
       const context = await browser.newContext({ viewport: { width: c.width, height: 932 }, timezoneId: 'Europe/Madrid', colorScheme: c.theme, reducedMotion: c.large ? 'reduce' : 'no-preference', serviceWorkers: 'block' })
       try {
         const page = await context.newPage(), errores = []
+        await cerrarCelebraciones(page)
         page.on('pageerror', e => errores.push(e.message))
         await page.goto('http://appfit-test.localhost:5173')
         await page.getByRole('navigation', { name: 'Navegación principal' }).waitFor()
@@ -70,13 +71,13 @@ async function main() {
           localStorage.setItem('appfit:theme', theme); document.documentElement.dataset.theme = theme
         }, { fixture, theme: c.theme })
         if (c.large) await page.addStyleTag({ content: 'html { font-size: 200% !important; }' })
+        await marcarLogrosVistos(page)
         const antes = await backup(page)
-        await page.getByRole('navigation').getByRole('button', { name: 'Más', exact: true }).click()
-        await page.getByRole('dialog', { name: 'Más', exact: true }).getByRole('button', { name: /^Vitrina\b/ }).click()
+        await navegar(page, 'Vitrina')
         await page.getByRole('heading', { name: 'Vitrina', exact: true }).waitFor()
         const principal = page.locator('main')
         await principal.getByRole('region', { name: 'Ocultos', exact: true }).waitFor()
-        assert.equal(await principal.locator('svg.app-insignia').count(), 55)
+        assert.equal(await principal.locator('.logros-rejilla svg.app-insignia').count(), 59)
         const ocultos = principal.getByRole('region', { name: 'Ocultos', exact: true })
         const cerrados = ocultos.locator('li').filter({ hasText: 'Logro oculto' })
         const dibujos = await cerrados.evaluateAll(filas => filas.map(l => l.querySelector('svg').outerHTML.replace(/id="[^"]+"/g, 'id="ID"').replace(/url\(#[^)]+\)/g, 'url(#ID)')))
@@ -120,10 +121,10 @@ async function main() {
           window.__insigniasPrueba = { root, host, render, pendientes }
         })
         const galeria = page.locator('#insignias-prueba')
-        await galeria.getByText('140 piezas', { exact: false }).waitFor()
+        await galeria.getByText('152 piezas', { exact: false }).waitFor()
         await galeria.getByRole('region', { name: 'Nuevo en la Vitrina' }).waitFor()
-        assert.ok(await galeria.getByRole('region', { name: 'Ligas', exact: true }).locator('svg.app-insignia').count() > 0, 'ascensos con insignia')
-        assert.ok(await galeria.getByRole('region', { name: 'Nuevo en la Vitrina' }).locator('svg.app-insignia').count() > 0, 'nuevos logros con insignia')
+        await galeria.getByRole('region', { name: 'Ligas', exact: true }).locator('svg.app-insignia').first().waitFor()
+        await galeria.getByRole('region', { name: 'Nuevo en la Vitrina' }).locator('svg.app-insignia').first().waitFor()
         await comprobar(page, galeria, `${tag}-conseguidos`)
         for (const grupo of ['Entreno', 'Constancia', 'Cumbres', 'Caminos', 'Nutrición', 'Ocultos']) {
           const seccion = galeria.getByRole('region', { name: grupo, exact: true })
@@ -134,7 +135,7 @@ async function main() {
         await comprobar(page, galeria, `${tag}-pendientes`)
         assert.deepEqual(await backup(page), antes)
         assert.deepEqual(errores, [])
-        informe.push({ caso: tag, logros: 55, ligas: 6, correcto: true })
+        informe.push({ caso: tag, logros: 59, ligas: 6, correcto: true })
         console.log(`${tag}: correcto`)
       } finally { await context.close() }
     }

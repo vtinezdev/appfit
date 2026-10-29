@@ -234,7 +234,7 @@ Inicio usa container queries: con al menos 40 rem de lectura, energía y progres
 
 La capa de secciones también sigue el viewport visible. Bajo 28 rem de alto o 18 rem de ancho de su contenedor, la órbita pasa a una rejilla adaptable con scroll y cierre persistente; los umbrales responden al texto ampliado. Conserva foco, Escape y Atrás de `useModalLayer`.
 
-La semana del diario reorganiza días y título bajo 16 rem de lectura. Las métricas de resumen de entreno/actividad usan `.metric-grid`, con columnas que se ajustan al texto. Los indicadores decorativos de Ritmo caben en su columna y su selector de año pasa a dos filas cuando falta ancho.
+La semana del diario reorganiza días y título bajo 16 rem de lectura. Las métricas de resumen de entreno/actividad usan `.metric-grid`, con columnas que se ajustan al texto. Los indicadores decorativos de Ritmo caben en su columna y su selector de año pasa a dos filas cuando falta ancho. En la semana compartida de Social, los círculos también encogen con su columna (`aspect-square w-full max-w-6`), conservando los siete días sin solaparse al ampliar el texto.
 
 Con poco alto disponible, la cabecera y el footer de ModalPage tienen límites proporcionales y scroll propio para conservar acceso al contenido y a las acciones con teclado y texto ampliado.
 
