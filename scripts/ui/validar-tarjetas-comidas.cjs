@@ -88,7 +88,7 @@ async function main() {
         await page.getByRole('dialog', { name: 'Acciones del plato', exact: true }).waitFor({ state: 'detached' })
         await page.getByRole('button', { name: 'Añadir a cena', exact: true }).click()
         const anadir = page.getByRole('dialog', { name: 'Añadir comida', exact: true })
-        assert.equal(await anadir.getByRole('combobox', { name: 'Comida del día', exact: true }).inputValue(), 'cena')
+        await anadir.getByRole('radiogroup', { name: 'Comida del día', exact: true }).getByRole('radio', { name: 'Cena', exact: true, checked: true }).waitFor()
         await anadir.getByRole('button', { name: 'Cancelar', exact: true }).click()
         await anadir.waitFor({ state: 'detached' })
         await page.getByRole('button', { name: 'Comidas típicas de cena', exact: true }).click()

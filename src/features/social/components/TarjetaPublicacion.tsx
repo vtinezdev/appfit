@@ -134,8 +134,8 @@ const DIAS_SEMANA = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sáb
 function DiasSemana({ r }: { r: ResumenSemana }) {
   if (r.estado !== 'semana' || !r.dias) return r.estado === 'retomando' && r.entrenos ? <p className="tabular text-body-sm text-fg-muted">{`${formatInt(r.entrenos)} ${r.entrenos === 1 ? 'entreno' : 'entrenos'} esta semana`}</p> : null
   return <ol aria-label="Días de la semana" className="grid grid-cols-7 gap-1">
-    {r.dias.map((hecho, i) => <li key={i} className="grid justify-items-center gap-1">
-      <span aria-hidden className={`block h-6 w-6 rounded-pill ${hecho ? 'bg-accent' : 'border border-line-strong'}`} />
+    {r.dias.map((hecho, i) => <li key={i} className="grid min-w-0 justify-items-center gap-1">
+      <span aria-hidden className={`block aspect-square w-full max-w-6 rounded-pill ${hecho ? 'bg-accent' : 'border border-line-strong'}`} />
       <span aria-hidden className="text-caption text-fg-muted">{DIAS_SEMANA[i][0] === 'M' && i === 2 ? 'X' : DIAS_SEMANA[i][0]}</span>
       <span className="sr-only">{`${DIAS_SEMANA[i]}: ${hecho ? 'entreno' : 'sin entreno'}`}</span>
     </li>)}

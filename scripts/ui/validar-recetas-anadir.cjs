@@ -15,7 +15,6 @@ const alto = { 320: 568, 375: 812, 430: 932 }[ancho] || 812
 async function captura(page, nombre) {
   await page.evaluate(() => document.fonts.ready)
   await page.evaluate(() => Promise.all(document.getAnimations().filter(a => a.effect?.getTiming().iterations !== Infinity).map(a => a.finished.catch(() => {}))))
-  await page.waitForTimeout(250)
   const problemas = await page.evaluate(() => {
     const visibles = [...document.querySelectorAll('button,input,[role="dialog"]')].filter(e => e.getClientRects().length && !e.closest('[inert]'))
     return {
@@ -56,14 +55,15 @@ async function main() {
       await page.getByRole('tab', { name: 'Buscar', exact: true }).click()
       const buscar = page.getByRole('searchbox', { name: 'Buscar en tus alimentos y en el catálogo' })
       await buscar.fill('lentejas')
-      const recetas = page.getByRole('heading', { name: 'Recetas', exact: true })
+      const recetas = page.getByRole('heading', { name: /^Recetas \d+$/ })
       await recetas.waitFor()
-      await page.getByText('Lentejas con chorizo, estofadas', { exact: true }).waitFor()
-      await page.getByText('Receta · Tuya · 4 raciones', { exact: true }).waitFor()
+      await page.getByRole('button', { name: /^Lentejas con chorizo AppFit estofadas Receta/ }).waitFor()
+      const propia = page.getByRole('button', { name: /^Lentejas de la abuela Tuya Receta/ })
+      await propia.getByText('Receta · 4 raciones · por ración', { exact: true }).waitFor()
       await captura(page, `${colorScheme}-1-buscar`)
 
       // Hoja de una receta del catálogo con preparación: una ración de 417 g.
-      await page.getByText('Lentejas con chorizo, estofadas', { exact: true }).click()
+      await page.getByRole('button', { name: /^Lentejas con chorizo AppFit estofadas Receta/ }).click()
       const hoja = page.getByRole('dialog', { name: 'Receta', exact: true })
       await hoja.getByText('Receta · AppFit · 6 raciones · 1 h 10 min', { exact: true }).waitFor()
       await hoja.getByText(/417 g cocinados/).waitFor()
@@ -93,7 +93,7 @@ async function main() {
       await page.getByRole('main').getByRole('button', { name: /^Añadir/ }).first().click()
       await page.getByRole('tab', { name: 'Buscar', exact: true }).click()
       await page.getByRole('searchbox', { name: 'Buscar en tus alimentos y en el catálogo' }).fill('lentejas con chorizo')
-      await page.getByText('Lentejas con chorizo, estofadas', { exact: true }).click()
+      await page.getByRole('button', { name: /^Lentejas con chorizo AppFit estofadas Receta/ }).click()
       const hoja2 = page.getByRole('dialog', { name: 'Receta', exact: true })
       await hoja2.getByRole('radio', { name: /Sin chorizo/ }).click()
       await captura(page, `${colorScheme}-6-hoja-variante`)

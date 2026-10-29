@@ -33,6 +33,31 @@ Los comandos de todos los días están en `CLAUDE.md` § Comandos. Los scripts, 
 
 Los recorridos `scripts/ui/validar-*.cjs` necesitan Vite en 5173 y Playwright + Chromium fuera del proyecto (no son dependencias de la PWA): Playwright resoluble por Node (p. ej. `NODE_PATH=<carpeta>/node_modules`) y Chromium en `/usr/bin/chromium` o el ejecutable que indique `APPFIT_CHROMIUM` (en Windows vale Edge). Los scripts resuelven `appfit-test.localhost` a `127.0.0.1`: si Vite escucha solo en IPv6, arrancarlo con `npm run dev -- --host 127.0.0.1`.
 
+Para los recorridos de nutrición e insignias, arranca Vite en una terminal y ejecuta los scripts en otra:
+
+```bash
+npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
+```
+
+```bash
+node scripts/ui/validar-tarjetas-comidas.cjs
+node scripts/ui/validar-registro-visual.cjs
+node scripts/ui/validar-recetas-anadir.cjs
+node scripts/ui/validar-insignias.cjs
+```
+
+Usan contextos efímeros en `appfit-test.localhost:5173`, nunca el origen con datos reales. Tarjetas y registro recorren 320/375/430 px en ambos temas y 375 px oscuro al 200 %; insignias añade el 200 % en ambos temas. Recetas recorre ambos temas a 375 px; `APPFIT_UI_WIDTH=320` o `430` cambia el ancho. `APPFIT_UI_OUTPUT` elige la carpeta de capturas y `APPFIT_UI_CASE` filtra un caso (en recetas, `light` o `dark`; en los otros, por ejemplo `375-light`). El selector de comida se comprueba como grupo de radios; la navegación de secciones se comparte en `scripts/ui/navegar.cjs`. Las esperas se apoyan en elementos, atributos o datos, sin pausas fijas.
+
+`validar-mejoras-pendientes.cjs` comprueba Perfil, Vitrina y los primeros pasos de Social. Para incluir Social, conserva el Vite de 5173 y arranca además, en otras terminales:
+
+```bash
+node scripts/ui/supabase-falso.mjs
+VITE_SUPABASE_URL=http://127.0.0.1:54329 VITE_SUPABASE_PUBLISHABLE_KEY=falsa npm run dev -- --host 127.0.0.1 --port 5174 --strictPort
+node scripts/ui/validar-mejoras-pendientes.cjs
+```
+
+Sin el Supabase falso, el script informa de que omite Social. Con él recorre también ambos temas al 200 % y espera la semana compartida antes de medir el feed. El puerto 5174 no puede alojar a la vez este Vite y el preview de producción de las pruebas offline; detén uno antes de arrancar el otro (o indica otro Vite Social con `APPFIT_UI_SOCIAL_URL`).
+
 `node scripts/ui/validar-mejoras-entreno.cjs` valida el selector de RIR (al completar, 5+, quitar y fallo de escritura con error en la hoja), menor tamaño de cifra y Reps/Kg/RIR/✓ alineados en móvil normal, nota actual/última nota sin copia, corporal con/sin pesaje, lastre/asistencia, precarga, Deshacer con metadatos, recarga/cierre/historial, Progreso por modo y ocultar todas/una curva, y Consumo/Objetivo en Nutrición. Incluye fallo/reintento de nota con IndexedDB en un contexto; ocho contextos efímeros en el origen aislado: 320/375/430 × claro/oscuro, 375 texto al 200%/Reduce Motion y 1440 oscuro. Comprueba overflow/targets y que consultar gráficas no escribe datos. Informe/capturas en `/tmp/appfit-mejoras-entreno`; `APPFIT_UI_CASE`/`APPFIT_UI_OUTPUT` filtran caso/destino. Chromium emulado, sin dispositivos físicos. Tests de cálculo, comparabilidad, rollback, snapshots/notas y export/import en `gym/lib/carga`, `progreso` y `data/notasCarga`.
 
 `node scripts/ui/validar-quitar-ejercicio.cjs` valida «Quitar de este entreno» (menú del ejercicio) en activo e historial, Deshacer con ids/valores/clasificación/marcas originales, rutina y otras sesiones intactas, omisión tras recargar, reañadir desde el selector, doble toque y rollback ante fallo de IndexedDB. Incluye ejercicio de rutina sin series y eliminación de todos los paneles con retorno de foco a Añadir ejercicio. Ocho contextos efímeros en `appfit-test.localhost:5173`: 320/375/430 px en ambos temas, 375 px con texto al 200%/Reduce Motion y escritorio 1440 px. Capturas/informe en `/tmp/appfit-quitar-ejercicio`; `APPFIT_UI_CASE`/`APPFIT_UI_OUTPUT` filtran caso/destino. Emulación Chromium, sin dispositivos físicos.
