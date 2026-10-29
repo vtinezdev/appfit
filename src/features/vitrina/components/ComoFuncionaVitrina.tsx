@@ -2,6 +2,7 @@ import { BloqueComoFunciona, ListaComoFunciona } from '../../../shared/component
 import { formatInt } from '../../../shared/lib/format'
 import { PLANTAS_SEMANA } from '../../nutricion/lib/herbario'
 import { SESIONES_DOMINADO } from '../lib/atlas'
+import { SESIONES_EVOLUCION } from '../lib/muro'
 
 /** Las reglas de la Vitrina, para la página «Cómo funciona»: logros, récords y colecciones. */
 export default function ComoFuncionaVitrina({ conNutricion }: { conNutricion: boolean }) {
@@ -18,6 +19,7 @@ export default function ComoFuncionaVitrina({ conNutricion }: { conNutricion: bo
         <li>Solo cuentan las series efectivas de entrenos terminados.</li>
         <li>Cada variante (ejecución, agarre, técnica) y tipo de carga tiene su propia marca.</li>
         <li>El 1RM es una estimación con la fórmula de Epley.</li>
+        <li>La línea de cada ejercicio es su mejor serie en cada una de tus últimas {formatInt(SESIONES_EVOLUCION)} sesiones; la cifra de debajo de la marca, cuánto ha mejorado desde la primera de ellas (en asistencia, cuánta ayuda menos).</li>
       </ListaComoFunciona>
     </BloqueComoFunciona>
 

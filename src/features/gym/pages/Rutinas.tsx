@@ -60,7 +60,7 @@ export default function Rutinas({ enCurso, onEmpezado, onAbrirRutina }: Props) {
         <Button variant="subtle" className="flex-1 basis-36" onClick={() => setMisEjercicios(true)}>Mis ejercicios</Button>
       </div>
 
-      {rutinas?.length === 0 && <EmptyState icon="dumbbell" title="Todavía no tienes rutinas">Crea una para empezar tus entrenos con los ejercicios ya elegidos.</EmptyState>}
+      {rutinas?.length === 0 && <EmptyState icon="dumbbell" title="Todavía no tienes rutinas" />}
       {rutinas && rutinas.length > 0 && (
         <ul aria-label="Tus rutinas" className="space-y-stack">
           {rutinas.map((r) => <li key={r.id}>

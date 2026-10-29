@@ -25,7 +25,17 @@ export interface MuroEjercicio {
   marcas: Marca[]
   /** Fecha de la marca más reciente, para ordenar. */
   ultima: string
+  /** La marca principal (la primera) en cada una de las últimas `SESIONES_EVOLUCION` sesiones: su mejor serie, en orden. */
+  evolucion: number[]
+  /**
+   * Cuánto ha mejorado la marca principal desde la primera sesión de `evolucion` (en asistencia, cuánta menos);
+   * `null` con menos de dos sesiones o si no ha mejorado.
+   */
+  mejora: number | null
 }
+
+/** Sesiones que dibuja la minigráfica de cada récord. */
+export const SESIONES_EVOLUCION = 10
 
 type SerieMuro = SetEntry
 
@@ -42,12 +52,32 @@ function mejor(series: SerieMuro[], valor: (s: SerieMuro) => number, fechaDe: (s
 }
 
 /**
+ * La marca principal sesión a sesión (las últimas `SESIONES_EVOLUCION`) y cuánto ha mejorado la vigente desde la primera
+ * de ellas: más peso, más lastre o más repeticiones; en asistencia, menos peso de ayuda.
+ */
+function evolucionDe(series: SerieMuro[], principal: Marca, inicio: (s: SerieMuro) => number): Pick<MuroEjercicio, 'evolucion' | 'mejora'> {
+  const menor = principal.tipo === 'asistencia'
+  const valor = (s: SerieMuro) => (principal.tipo === 'reps' ? s.reps : s.peso)
+  const porSesion = new Map<number, { inicio: number; valor: number }>()
+  for (const s of series) {
+    const v = valor(s)
+    if (!(v > 0) && !(menor && v === 0)) continue
+    const previa = porSesion.get(s.workoutId)
+    if (!previa || (menor ? v < previa.valor : v > previa.valor)) porSesion.set(s.workoutId, { inicio: inicio(s), valor: v })
+  }
+  const evolucion = [...porSesion.values()].sort((a, b) => a.inicio - b.inicio).slice(-SESIONES_EVOLUCION).map((x) => x.valor)
+  const diferencia = evolucion.length < 2 ? 0 : Math.round((menor ? evolucion[0] - principal.valor : principal.valor - evolucion[0]) * 100) / 100
+  return { evolucion, mejora: diferencia > 0 ? diferencia : null }
+}
+
+/**
  * Mejores marcas de cada ejercicio y variante en los entrenos terminados: peso máximo (kg externos o lastre),
  * 1RM estimado (bilateral con carga externa, sin tempo), repeticiones con el peso corporal y la menor asistencia.
  * De la marca más reciente a la más antigua.
  */
 export function muroRecords(workouts: readonly Pick<Workout, 'id' | 'inicio' | 'fin'>[], sets: readonly SetEntry[], gimnasios?: ReadonlyMap<number, string>): MuroEjercicio[] {
   const fechaDe = new Map(workouts.filter((w) => w.fin !== undefined).map((w) => [w.id, toISODate(new Date(w.inicio))]))
+  const inicioDe = new Map(workouts.map((w) => [w.id, w.inicio]))
   const grupos = acumularComparables(new Map(), sets.filter((s) => fechaDe.has(s.workoutId)))
   const fecha = (s: SerieMuro) => fechaDe.get(s.workoutId) ?? ''
   const muro: MuroEjercicio[] = []
@@ -63,7 +93,8 @@ export function muroRecords(workouts: readonly Pick<Workout, 'id' | 'inicio' | '
     if (modo === 'asistencia') add('asistencia', mejor(ss, (s) => s.peso, fecha, true))
     if (!marcas.length) continue
     const variante = contextoSerie(primera, gimnasios)
-    muro.push({ exerciseId: primera.exerciseId, modo, ...(variante ? { variante } : {}), marcas, ultima: marcas.reduce((a, m) => (m.fecha > a ? m.fecha : a), '') })
+    muro.push({ exerciseId: primera.exerciseId, modo, ...(variante ? { variante } : {}), marcas, ultima: marcas.reduce((a, m) => (m.fecha > a ? m.fecha : a), ''),
+      ...evolucionDe(ss, marcas[0], (s) => inicioDe.get(s.workoutId) ?? 0) })
   }
   return muro.sort((a, b) => b.ultima.localeCompare(a.ultima) || a.exerciseId - b.exerciseId)
 }
@@ -76,4 +107,18 @@ export function describirMarca(m: Marca, modo: ModoCarga): { nombre: string; val
   if (m.tipo === '1rm') return { nombre: '1RM estimado', valor: kg(m.valor), fecha }
   if (m.tipo === 'reps') return { nombre: 'Repeticiones', valor: formatNumber(m.valor), fecha }
   return { nombre: 'Menor asistencia', valor: kg(m.valor), fecha }
+}
+
+/**
+ * Trazo de la minigráfica de un récord en un lienzo de `ancho` × `alto`: un punto por sesión, repartidos a lo ancho, e y
+ * ceñida a su mínimo y máximo. Con `invertir` (asistencia), arriba es menos, para que subir sea siempre mejorar.
+ * Con menos de dos sesiones no hay gráfica.
+ */
+export function trazadoEvolucion(valores: readonly number[], { ancho = 64, alto = 28, margen = 3, invertir = false } = {}): { d: string; ultimo: { x: number; y: number } } | null {
+  if (valores.length < 2) return null
+  const [min, max] = [Math.min(...valores), Math.max(...valores)]
+  const x = (i: number) => margen + (i / (valores.length - 1)) * (ancho - 2 * margen)
+  const y = (v: number) => (max === min ? alto / 2 : margen + ((invertir ? v - min : max - v) / (max - min)) * (alto - 2 * margen))
+  const xy = valores.map((v, i) => [Math.round(x(i) * 10) / 10, Math.round(y(v) * 10) / 10] as const)
+  return { d: xy.map(([px, py], i) => `${i ? 'L' : 'M'}${px} ${py}`).join(''), ultimo: { x: xy[xy.length - 1][0], y: xy[xy.length - 1][1] } }
 }

@@ -29,7 +29,7 @@ export default function ListaRecetas({ sinBotonNueva = false, vacio }: Props) {
   return (
     <div className="space-y-stack">
       {!sinBotonNueva && <Button variant="secondary" block onClick={() => setCreando(true)}><Icon name="plus" size={18} />Nueva receta</Button>}
-      {recetas?.length === 0 && (vacio ?? <EmptyState icon="recetario" title="Aún no tienes recetas">Guarda tus platos y regístralos por raciones.</EmptyState>)}
+      {recetas?.length === 0 && (vacio ?? <EmptyState icon="recetario" title="Aún no tienes recetas" />)}
       {recetas && recetas.length > 0 && (
         <ListGroup aria-label="Tus recetas">
           {recetas.map((r) => {

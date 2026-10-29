@@ -1,5 +1,5 @@
 import { MACROS } from '../../../shared/design/macros'
-import { formatInt } from '../../../shared/lib/format'
+import { PastillasMacros } from './PiezasCantidad'
 import { distribucionPCG, type Macros } from '../lib/nutrition'
 
 interface Props {
@@ -14,7 +14,7 @@ const TRAMOS = [
 
 /**
  * Reparto de kcal de una comida entre proteína, carbohidratos y grasa: barra fina segmentada (un tramo por macro,
- * con un pequeño hueco) y debajo los gramos. La letra va con el color del macro y el reparto también se dice en
+ * con un pequeño hueco) y debajo los gramos en pastillas, como en el resto de Nutrición. El reparto también se dice en
  * texto (aria-label), así que el color no es el único indicador. Sin macros (solo kcal rápidas) no se dibuja.
  */
 export default function FranjaMacros({ macros }: Props) {
@@ -30,14 +30,7 @@ export default function FranjaMacros({ macros }: Props) {
           <div key={t.key} className={`h-full min-w-0 rounded-pill ${t.macro.bg}`} style={{ width: `${dist[t.campo]}%` }} />
         ))}
       </div>
-      <p className="tabular mt-2 text-caption text-fg-muted">
-        {TRAMOS.map((t, i) => (
-          <span key={t.key}>
-            {i > 0 && ' · '}
-            <span className={`font-semibold ${t.macro.text}`}>{t.macro.short}</span> {formatInt(macros[t.campo])} g
-          </span>
-        ))}
-      </p>
+      <div className="mt-2"><PastillasMacros macros={macros} /></div>
     </div>
   )
 }

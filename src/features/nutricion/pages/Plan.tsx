@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import Anillo from '../../../shared/components/Anillo'
+import Ayuda from '../../../shared/components/Ayuda'
 import Button, { IconButton } from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
@@ -92,7 +93,6 @@ export default function Plan({ hoy, onAnadir }: Props) {
           </h2>
           <IconButton icon="chevron-right" label="Semana siguiente" variant="ghost" onClick={() => irASemana(addDays(lunes, 7))} />
         </div>
-        <p className="semana-deslizar text-caption text-fg-muted">Desliza la semana para ver todos los días.</p>
         <div className="semana-scroll">
           <ul className="semana-kcal" aria-label="Días de la semana">
             {(datos?.dias ?? []).map((d) => {
@@ -115,7 +115,10 @@ export default function Plan({ hoy, onAnadir }: Props) {
         <section aria-label="Día planificado" className="space-y-2">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div className="min-w-0 flex-1 basis-40">
-              <h2 className="break-words text-title text-fg first-letter:uppercase">{tituloDia}</h2>
+              <div className="flex items-center gap-1">
+                <h2 className="min-w-0 break-words text-title text-fg first-letter:uppercase">{tituloDia}</h2>
+                <Ayuda titulo="Planificar"><p>Lo planificado no cuenta en el Diario hasta que, ese día, pulses «Lo he comido».</p></Ayuda>
+              </div>
               <p className="tabular text-body-sm text-fg-muted"><span className="font-semibold text-fg">{formatInt(totales.kcal)}</span>{objetivo > 0 ? ` de ${formatInt(objetivo)}` : ''} kcal planificadas</p>
             </div>
             <Button variant="secondary" size="sm" onClick={() => setLista(true)}><Icon name="carrito" size={18} />Lista de la compra</Button>
@@ -150,7 +153,6 @@ export default function Plan({ hoy, onAnadir }: Props) {
             </Card>
           </section>
         })}
-        <p className="text-caption text-fg-muted">Lo planificado no cuenta en el Diario hasta que, ese día, pulses «Lo he comido».</p>
       </>}
 
       {lista && <ListaCompra hoy={hoy} lunes={lunes} onClose={() => setLista(false)} />}

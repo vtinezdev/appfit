@@ -3255,3 +3255,54 @@ El check «navegador» fallaba de forma intermitente, y también en `master` tra
 - Sin cambios en la app.
 
 **Verificación:** en local (Chromium), correctos `auditoria-entreno`, `auditoria-interfaz`, `validar-correcciones-auditoria`, `validar-pulido-auditoria`, `validar-mejoras-pendientes`, `auditoria-datos`, `validar-mejoras-uso` y `validar-recetas`. WebKit y Firefox solo en CI.
+
+## 298. Retoques de la revisión, bloque D: calendario del historial en una tarjeta (2026-10-28)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor eligió D2 sobre capturas: el calendario de Entreno › Historial va en una tarjeta, con el mes como cabecera y la leyenda como pie, como las tarjetas de «Sesiones del mes» de debajo.
+
+- `CalendarioEntrenos`: `Card` sin padding con cabecera (rótulo «Calendario», mes en `title`, flechas a la derecha, `border-line` abajo), la rejilla en un cuerpo con 2 px de margen y la leyenda «Menos volumen ··· Más» como pie con `border-line`.
+- El contenedor de la consulta pasa al cuerpo. Con el borde de la tarjeta, un móvil de 360 px deja 314 px: en vez de pasar a lista (antes cabía en rejilla), los huecos bajan a 1 px por debajo de 20 rem y la lista empieza por debajo de 19,625 rem. Las celdas siguen a 44 px.
+
+**Verificación:** `npm run test` (3.099) y `npm run build` correctos. En Chromium: `auditoria-entreno`, `validar-mejoras-uso` y `auditoria-interfaz` correctos; capturas a 320 (lista), 360, 375 y 430 px (rejilla) en claro y oscuro, sin scroll horizontal y con los días a 44 px. Sin iPhone real.
+
+## 299. Retoques de la revisión, bloque E (E1 y E2): Cumbres y Caminos (2026-10-29)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. E1: Víctor eligió la opción B sobre capturas. E2 es comportamiento, sin preview. E3 (Récords) sigue en previews.
+
+- **E1 · Cumbres:** «Cada día», que crecía con cada día y cada récord, pasa a «De dónde salen». Es una Card con «Semana / Mes / Todo» y los metros por tipo con su barra; el detalle día a día va en la hoja «Cada día» («Ver cada día»), con los 14 días y «Ver más días» de antes. `TramoSubido` gana `tipo` (lo pone `calcularCumbres`) y `metrosPorTipo` suma tramos, así que cuadra con «Subidos» y con lo que se pierde al hacer cumbre (test con el entreno que sube 54 de sus 100 m).
+- **E2 · Caminos:** «Crear una ruta» desde «Elige tu próxima ruta» deja la ruta nueva como la actual al guardarla, con «Deshacer». `EditorRuta.onHecho` devuelve el id creado y `CaminosTab.recorrerCreada` aplica `cambiarRuta` con la ruta nueva. Si algo falla, la ruta queda creada y un error en línea lo dice.
+
+**Verificación:** `npm run test` (3.100) y `npm run build` correctos. En Chromium, `auditoria-interfaz` y `validar-mejoras-uso` correctos. Recorrido a mano de E2: ruta propia terminada → «Elegir próxima ruta» → «Crear una ruta» (Reus – Cambrils) → guardar → `caminos.ruta` = `[propia:1, propia:2]` y aviso «Ruta creada. Ahora recorres Reus – Cambrils». Capturas de E1 a 320/375 px en claro y oscuro, sin scroll horizontal. `validar-insignias` ya fallaba antes (busca el antiguo botón «Más»); no está en CI.
+
+## 300. Retoques de la revisión, bloque E3: Récords con su evolución (2026-10-29)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Ni R1–R3 ni la primera tanda convencieron a Víctor; de la segunda (R4–R6) eligió R4: cada récord con su evolución y lo que ha mejorado.
+
+- `muroRecords` añade a cada ejercicio `evolucion` (la mejor serie de la marca principal en cada una de las últimas `SESIONES_EVOLUCION` = 10 sesiones) y `mejora` (la marca vigente frente a la primera de ellas; en asistencia, cuánta ayuda menos; `null` si no ha mejorado). `trazadoEvolucion` dibuja la línea (invertida en asistencia). Tests en `vitrina.test.ts`.
+- `RecordsVista`: fila con nombre, fecha corta y 1RM; minigráfica (las clases de la de Inicio); marca en grande y la mejora en `accent-strong`. Por debajo de 18 rem de lista (320 px, texto ampliado) se oculta la minigráfica. La «i» de la Vitrina explica la línea y la cifra.
+
+**Verificación:** `npm run test` (3.103) y `npm run build` correctos; `auditoria-interfaz` en Chromium correcto. Capturas a 320 (sin minigráfica) y 375 px en claro y oscuro, sin scroll horizontal.
+
+## 301. Retoques de la revisión, bloque F: compartir desde la hoja de nuevos logros (2026-10-29)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Víctor aprobó F1 sobre capturas.
+
+- `NuevosLogrosSheet`: con una pieza, «Compartir» junto a «Genial» en el pie (los dos del mismo ancho); con varias, un botón de compartir al final de cada fila. Solo con cuenta y perfil de Social (`SiPuedePublicar`); sin ellos, la hoja queda como antes.
+- `CompartirLogro` gana `forma` (`boton` de siempre, `pie`, `icono`) y reutiliza `CrearPublicacion` con el logro adjunto; al publicar, el botón pasa a «Compartido» (✓) y queda desactivado, sin cerrar la hoja.
+
+**Verificación:** `npm run test` (3.103) y `npm run build` correctos. Recorrido con el Supabase falso (5174) a 320/375 px en claro y oscuro: una pieza y tres, «Compartir» → «Ver vista previa» → «Publicar», una sola publicación enviada (`publicar`) y el botón en «Compartido». `validar-mejoras-pendientes` con Social activo: correcto salvo `social-plegado` al 200 %, que ya fallaba sin este cambio (en CI Social se omite).
+
+## 302. Retoques de la revisión, bloque G: repaso de frases sueltas (2026-10-29)
+
+Plan: `docs/plan-retoques-2026-10-28.md`. Inventario de textos sueltos en `fg-muted` (con y sin datos, 375 px) que Víctor aprobó.
+
+- Fuera los lemas bajo el título de Cumbres, Caminos, Vitrina, Ritmo y Referencias, y «Desliza la semana para ver todos los días» (Diario y Plan, con su CSS `.semana-deslizar`).
+- Plan: la nota de «Lo he comido» pasa a una «i» (`Ayuda` «Planificar») junto al título del día.
+- Caminos: sin la frase bajo «Tus rutas» ni la nota de cada colección; las notas (`NOTA_COLECCION`) van al bloque «Las colecciones» de «Cómo funciona».
+- Metas sin ninguna: la frase de introducción queda en un rótulo «Por ejemplo».
+- Estados vacíos solo con título y acción: recetas, rutinas, historial y progreso de Entreno, Resumen (salvo la nota de cheat days), Mis alimentos (salvo «Prueba con otro nombre…» al buscar) y Actividades. Mis alimentos pierde la descripción de cada vista.
+- Resumen: los gramos del reparto de macros, en `PastillasMacros`.
+- Se quedan: el pie de privacidad de Perfil, el aviso de copia de Inicio, las tarjetas de inicio de Cumbres y Caminos, el pie de Ajustes y la pista de deslizar del Diario.
+- `validar-pulido-auditoria` esperaba la descripción de Recetas en Mis alimentos: ahora espera el SegmentedControl en «Recetas».
+
+**Verificación:** `npm run test` (3.103) y `npm run build` correctos. En Chromium, los recorridos del trabajo `navegador` de CI (`test:ui`, `responsive`, `uso`, `validar-correcciones-auditoria`, `validar-pulido-auditoria`, `validar-mejoras-pendientes`) correctos. El inventario repetido solo encuentra los textos que se quedan.

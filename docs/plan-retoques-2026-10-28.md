@@ -1,6 +1,6 @@
 # Plan: retoques de la revisión del 28 de octubre
 
-Fecha: 2026-10-28. Estado: **en curso** (A, B y C hechos). Rama: `claude/optimistic-pascal-vvpdvx` (sale de `master` e incluye `feat/recetas-sin-textos-sueltos`, que no estaba fusionada). Víctor ha repasado la app después de muchas actualizaciones y anota lo que no le convence. El bloque G (repaso de frases sueltas en toda la app) va al final.
+Fecha: 2026-10-28. Estado: **hecho** (A, B y C fusionados en `master` con la #185; D, E, F y G hechos). Rama: `claude/optimistic-pascal-vvpdvx`, reiniciada desde `master` tras fusionar la #185. Víctor ha repasado la app después de muchas actualizaciones y anota lo que no le convence. El bloque G (repaso de frases sueltas en toda la app) va al final.
 
 ## Forma de trabajar (decisión de Víctor)
 
@@ -34,11 +34,11 @@ Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, ex
 4. **«Proponer un alimento» también en Escribir** (anotado el 2026-10-28): hoy solo sale en Buscar cuando no aparece lo que buscas. Al escribir una comida y pulsar «Revisar alimentos», si una línea no encuentra alimento, que en la revisión aparezca también esa opción para esa línea (con el texto escrito como punto de partida).
    - Código: `nutricion/components/ProponerAlimentoSheet.tsx`, `DescribirComida.tsx`, `pages/AnadirComida.tsx` (revisión).
 
-## Bloque D — Entreno
+## Bloque D — Entreno · **hecho** (D2; PROCESO §298)
 
 1. **Historial → calendario**: meterlo dentro de una tarjeta.
 
-## Bloque E — Progreso
+## Bloque E — Progreso · **hecho** (E1 B y E2: PROCESO §299; E3 R4: §300)
 
 1. **Cumbres**: la lista de dónde salen los metros crece sin fin (cada récord añade una fila). Lo único fijo: **nada de una lista o desplegable infinito**. Se valoran varias opciones en preview.
    - Código: `features/cumbres/components/FilasMetros.tsx`, `ComoSeSube.tsx`.
@@ -47,12 +47,12 @@ Criterio general que repite Víctor: **nada de frases sueltas** (subtítulos, ex
 3. **Vitrina → Récords**: no convence la pestaña entera. Previews con varias direcciones y Víctor elige.
    - Código: `features/vitrina/components/RecordsVista.tsx`.
 
-## Bloque F — Logros
+## Bloque F — Logros · **hecho** (F1; PROCESO §301)
 
 1. En la ventanita de logros nuevos, poder **compartir el logro en Social** (además de lo que ya haga `CompartirLogro`). Publicación a propósito de la persona, dentro de lo permitido por `docs/features/social.md`; reutilizar lo que ya existe (`social/components/VitrinaPublicacion.tsx`).
    - Código: `features/vitrina/components/NuevosLogros.tsx`, `CompartirLogro.tsx`.
 
-## Bloque G — Repaso final de frases sueltas
+## Bloque G — Repaso final de frases sueltas · **hecho** (inventario aprobado; PROCESO §302)
 
 Al terminar A–F, recorrer todas las secciones y quitar o recolocar (botón (i), dentro de la acción o en el estado vacío con acción) cualquier texto suelto. Hacer primero un inventario con capturas para que Víctor lo apruebe.
 

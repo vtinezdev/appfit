@@ -1,6 +1,8 @@
 import { BloqueComoFunciona, ListaComoFunciona } from '../../../shared/components/ComoFunciona'
 import Disclosure from '../../../shared/components/Disclosure'
-import { FUENTE_RUTAS } from '../lib/rutas'
+import { FUENTE_RUTAS, NOMBRE_COLECCION, NOTA_COLECCION, type ColeccionRuta } from '../lib/rutas'
+
+const COLECCIONES = Object.keys(NOMBRE_COLECCION) as ColeccionRuta[]
 
 /** Las reglas de Caminos, para la página «Cómo funciona». */
 export default function ComoSeAvanza() {
@@ -26,6 +28,12 @@ export default function ComoSeAvanza() {
       <ListaComoFunciona>
         <li>Una web app no puede leer los pasos de Salud ni de Google Fit: se apuntan a mano, un total por día.</li>
         <li>La zancada se estima por tu altura (0,415 × la altura; 0,413 en mujeres), como hacen los podómetros. Si conoces la tuya, cámbiala.</li>
+      </ListaComoFunciona>
+    </BloqueComoFunciona>
+
+    <BloqueComoFunciona titulo="Las colecciones">
+      <ListaComoFunciona>
+        {COLECCIONES.map((col) => <li key={col}><span className="font-semibold text-fg">{NOMBRE_COLECCION[col]}:</span> {NOTA_COLECCION[col].charAt(0).toLowerCase()}{NOTA_COLECCION[col].slice(1)}.</li>)}
       </ListaComoFunciona>
     </BloqueComoFunciona>
 

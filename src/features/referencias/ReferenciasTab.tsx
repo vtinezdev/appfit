@@ -48,7 +48,7 @@ export default function ReferenciasTab({ nutrienteInicial, areaInicial, salida }
   }
   const nombre = AREAS_REFERENCIAS.find(a => a.id === area)?.nombre
   return <div className="space-y-section px-page pt-5">
-    <PageHeader title="Referencias" overline="Criterios y procedencia de los datos." volver={salida} />
+    <PageHeader title="Referencias" volver={salida} />
     {!area ? <div ref={indexRef}>
       <ListGroup aria-label="Áreas de referencias">
         {AREAS_REFERENCIAS.map(a => <li key={a.id}><ListRow data-area={a.id} onClick={() => { setArea(a.id); setEnfocarTitulo(true) }}>

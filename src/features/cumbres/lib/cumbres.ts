@@ -41,6 +41,8 @@ export interface Expedicion {
 /** Metros que subió cada XP (los que sobran al hacer cumbre se descartan). */
 export interface TramoSubido extends Marca {
   metros: number
+  /** De dónde sale: el tipo del evento que lo subió (`metrosPorTipo`). */
+  tipo: EventoXp['tipo']
   /** Índice de la expedición en `expediciones`. */
   expedicion: number
 }
@@ -112,7 +114,7 @@ export function calcularCumbres(eventos: readonly EventoXp[], config: ConfigCumb
     const metros = Math.min(e.xp, altitud - antes)
     actual.metros += metros
     metrosTotales += metros
-    tramos.push({ ...marca, metros, expedicion: i })
+    tramos.push({ ...marca, metros, tipo: e.tipo, expedicion: i })
     for (let h = (Math.floor(antes / METROS_POR_HITO) + 1) * METROS_POR_HITO; h <= actual.metros && h < altitud; h += METROS_POR_HITO) {
       actual.hitos.push({ ...marca, metros: h })
     }
@@ -174,6 +176,34 @@ export function nombreExpedicion(x: Expedicion): string {
 /** Metros subidos entre dos fechas, ambas incluidas. */
 export function metrosEntre(tramos: readonly TramoSubido[], desde: string, hasta: string): number {
   return tramos.reduce((a, t) => (t.fecha >= desde && t.fecha <= hasta ? a + t.metros : a), 0)
+}
+
+/** Cuánto subió un tipo de evento en un periodo: cuántas veces sumó y los metros que de verdad subieron. */
+export interface MetrosDeTipo {
+  tipo: EventoXp['tipo']
+  veces: number
+  metros: number
+}
+
+/** Nombre de cada tipo en «De dónde salen». */
+export const NOMBRE_TIPO: Record<EventoXp['tipo'], string> = {
+  entreno: 'Entrenos', record: 'Récords', actividad: 'Actividades', registro: 'Días registrados', proteina: 'Proteína', semana: 'Semanas cumplidas',
+}
+
+/**
+ * De dónde salen los metros de un periodo (ambas fechas incluidas): por tipo, de más a menos metros. Usa los tramos, así
+ * que cuadra con `metrosEntre` (lo que se pierde al hacer cumbre no cuenta). Los tipos sin metros no salen.
+ */
+export function metrosPorTipo(tramos: readonly TramoSubido[], desde: string, hasta: string): MetrosDeTipo[] {
+  const porTipo = new Map<EventoXp['tipo'], MetrosDeTipo>()
+  for (const t of tramos) {
+    if (t.fecha < desde || t.fecha > hasta || !(t.metros > 0)) continue
+    const m = porTipo.get(t.tipo) ?? { tipo: t.tipo, veces: 0, metros: 0 }
+    m.veces += 1
+    m.metros += t.metros
+    porTipo.set(t.tipo, m)
+  }
+  return [...porTipo.values()].sort((a, b) => b.metros - a.metros)
 }
 
 export interface HitoMontana {

@@ -24,13 +24,14 @@ import PasosCaminos from './components/PasosCaminos'
 import TarjetaRuta from './components/TarjetaRuta'
 import TrazadoCamino from './components/TrazadoCamino'
 import * as caminosRepo from './data/caminosRepo'
+import * as rutasPropiasRepo from './data/rutasPropiasRepo'
 import { useCaminos } from './hooks/useCaminos'
 import {
   cambiarRuta, confirmarRuta, diasDeExpedicion, empezar, etapaActual, gruposTerminados, metrosEntre, nombreExpedicion, rutasParaCambiar, vecesTerminada,
   type Expedicion,
 } from './lib/caminos'
-import { metrosRuta, NOMBRE_COLECCION, NOTA_COLECCION, RUTAS, type ColeccionRuta, type Ruta } from './lib/rutas'
-import { esRutaPropia, idDeRutaPropia, posicionEnRutaPropia, PREFIJO, puntosDe } from './lib/rutasPropias'
+import { metrosRuta, NOMBRE_COLECCION, RUTAS, type ColeccionRuta, type Ruta } from './lib/rutas'
+import { aRuta, esRutaPropia, idDeRutaPropia, posicionEnRutaPropia, PREFIJO, puntosDe } from './lib/rutasPropias'
 
 const COLECCIONES: ColeccionRuta[] = ['santiago', 'mundo', 'literatura', 'fantasia']
 
@@ -66,7 +67,8 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
   const [cambiando, setCambiando] = useState<'cambiar' | 'llegada' | false>(elegirAlEntrar ? 'llegada' : false)
   const [lista, setLista] = useState<'pendientes' | 'hechos'>('pendientes')
   const [aperturas, setAperturas] = useState(0)
-  const [editor, setEditor] = useState<{ ruta?: RutaPropia; n: number } | null>(null)
+  /** `trasLlegada`: se crea desde «Elige tu próxima ruta», así que la ruta nueva pasa a ser la actual al guardarla. */
+  const [editor, setEditor] = useState<{ ruta?: RutaPropia; n: number; trasLlegada?: boolean } | null>(null)
 
   if (!estado) return <div className={marco}><LoadingState /></div>
   if (!estado.visible) {
@@ -80,12 +82,15 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
 
   const { caminos: c, config, propias, rutasPropias } = estado
   const propiaDe = (r: Ruta) => (esRutaPropia(r.id) ? propias.find((p) => p.id === Number(r.id.slice(PREFIJO.length))) : undefined)
-  const abrirEditor = (ruta?: RutaPropia) => setEditor({ ruta, n: Date.now() })
+  const abrirEditor = (ruta?: RutaPropia, trasLlegada = false) => setEditor({ ruta, n: Date.now(), trasLlegada })
   const editorRuta = editor && <EditorRuta key={editor.n} ruta={editor.ruta} enUso={!!editor.ruta && !!config?.ruta.includes(idDeRutaPropia(editor.ruta.id))}
-    onClose={() => setEditor(null)} onHecho={(mensaje) => { setEditor(null); avisar({ mensaje }) }} />
+    onClose={() => setEditor(null)} onHecho={(mensaje, creada) => {
+      setEditor(null)
+      if (editor.trasLlegada && creada !== undefined) void recorrerCreada(creada)
+      else avisar({ mensaje })
+    }} />
   const tusRutas = (alElegir: (r: Ruta) => void, conEditar: boolean) => <section aria-label="Tus rutas" className="space-y-stack">
     <SectionHeader variant="section">Tus rutas</SectionHeader>
-    <p className="break-words text-body-sm text-fg-muted">{rutasPropias.length ? NOTA_COLECCION.propia : 'Crea una ruta entre dos lugares de España, como Tarragona – Valencia, con paradas por el camino.'}</p>
     {rutasPropias.length > 0 && <ListGroup aria-label="Tus rutas"><ListaRutas rutas={rutasPropias} onElegir={alElegir} onEditar={conEditar ? (r) => abrirEditor(propiaDe(r)) : undefined} /></ListGroup>}
     <Button variant="secondary" size="sm" onClick={() => abrirEditor()}>Crear ruta</Button>
   </section>
@@ -105,7 +110,7 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
 
   if (!c || !config) {
     return <div className={`space-y-section ${marco}`}>
-      <PageHeader incrustada={incrustada} title="Caminos" volver={volver} overline="Rutas reales y de ficción con tus km" action={comoFunciona} />
+      <PageHeader incrustada={incrustada} title="Caminos" volver={volver} action={comoFunciona} />
       <Card className="space-y-3">
         <TrazadoCamino expedicion={{ ruta: RUTAS[0], metros: 0 }} decorativo />
         <p className="break-words text-body text-fg">Recorre rutas reales y de libro con los km que caminas y corres, y con tus pasos. Elige la primera: empiezas hoy, sin plazo.</p>
@@ -114,7 +119,6 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
       {tusRutas(empezarCon, true)}
       {COLECCIONES.map((col) => <section key={col} aria-label={NOMBRE_COLECCION[col]} className="space-y-stack">
         <SectionHeader variant="section">{NOMBRE_COLECCION[col]}</SectionHeader>
-        <p className="break-words text-body-sm text-fg-muted">{NOTA_COLECCION[col]}</p>
         <ListGroup aria-label={NOMBRE_COLECCION[col]}><ListaRutas rutas={RUTAS.filter((r) => r.coleccion === col)} sugerida={RUTAS[0].id} onElegir={empezarCon} /></ListGroup>
       </section>)}
       {pasos}
@@ -132,6 +136,20 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
   const metrosSemana = metrosEntre(c.tramos, lunes, addDays(lunes, 6))
   const opciones = rutasParaCambiar(c, rutasPropias)
   const veces = vecesTerminada(c)
+
+  /** La ruta recién creada al terminar otra pasa a ser la actual (con «Deshacer»); si algo falla, queda creada sin más. */
+  async function recorrerCreada(id: number) {
+    try {
+      const propia = await rutasPropiasRepo.obtener(id)
+      if (!propia || !config || !c) throw new Error('Ruta no disponible')
+      const ruta = aRuta(propia)
+      const nueva = cambiarRuta(config, c, ruta.id, [...rutasPropias, ruta])
+      if (!nueva) throw new Error('Ruta no válida')
+      avisar({ mensaje: `Ruta creada. Ahora recorres ${ruta.nombre}`, onDeshacer: deshacer(await caminosRepo.guardar(nueva)) })
+    } catch {
+      avisarError('La ruta se ha creado, pero no se ha podido empezar. Elígela en «Tus rutas».')
+    }
+  }
 
   async function cambiarA(r: Ruta) {
     const nueva = config && c ? cambiarRuta(config, c, r.id, rutasPropias) : null
@@ -251,7 +269,7 @@ export default function CaminosTab({ onIrAAjustes, onIrAActividades, onVolver, i
 
     {editorRuta}
     <CambiarRutaSheet key={`cambiar-${aperturas}`} open={cambiando === 'cambiar' || (cambiando === 'llegada' && !!sugerida)} onClose={() => setCambiando(false)} actual={actual} opciones={opciones} veces={veces} onElegir={cambiarA}
-      llegada={cambiando === 'llegada' ? { onCrear: () => { setCambiando(false); abrirEditor() } } : undefined} />
+      llegada={cambiando === 'llegada' ? { onCrear: () => { setCambiando(false); abrirEditor(undefined, true) } } : undefined} />
     {toast}
   </div>
 }

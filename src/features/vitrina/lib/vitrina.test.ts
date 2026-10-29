@@ -9,7 +9,7 @@ import type { EventoXp } from '../../experiencia/lib/experiencia'
 import { calcularCumbres, empezar } from '../../cumbres/lib/cumbres'
 import { calcularCaminos } from '../../caminos/lib/caminos'
 import { MONTANAS } from '../../cumbres/lib/montanas'
-import { describirMarca, muroRecords } from './muro'
+import { describirMarca, muroRecords, SESIONES_EVOLUCION, trazadoEvolucion } from './muro'
 import { calcularVitrina } from './vitrina'
 
 let id = 1
@@ -52,6 +52,42 @@ describe('muro de récords', () => {
     expect(b.marcas).toEqual([{ tipo: 'peso', valor: 80, fecha: '2026-10-01' }, { tipo: '1rm', valor: 101.3, fecha: '2026-10-05' }])
     expect(muro.find((m) => m.exerciseId === fondos)!.marcas).toEqual([{ tipo: 'reps', valor: 14, fecha: '2026-10-05' }])
     expect(describirMarca(b.marcas[0], b.modo)).toMatchObject({ nombre: 'Peso máximo', valor: '80 kg' })
+  })
+
+  it('evolución: la mejor serie de cada una de las últimas sesiones y lo que ha mejorado desde la primera', () => {
+    const sentadilla = ejercicio('cuadriceps').id
+    const dominadas = ejercicio('dorsales').id
+    const asistida = ejercicio('dorsales').id
+    const es = Array.from({ length: SESIONES_EVOLUCION + 2 }, (_, i) => entreno(addDays('2026-09-01', i * 3), [
+      { exerciseId: sentadilla, peso: 60 + i * 2.5 }, { exerciseId: sentadilla, peso: 50 },
+      { exerciseId: dominadas, peso: 0, reps: i < 5 ? 6 : 8, modoCarga: 'corporal' },
+      { exerciseId: asistida, peso: 30 - i, modoCarga: 'asistencia' },
+    ]))
+    const muro = muroRecords(es.map((e) => e.workout), es.flatMap((e) => e.sets))
+    const s = muro.find((m) => m.exerciseId === sentadilla)!
+    // Las 10 últimas de 12: de 65 a 87,5 kg; la marca (87,5) ha subido 22,5 kg desde la primera de ellas.
+    expect(s.evolucion).toHaveLength(SESIONES_EVOLUCION)
+    expect(s.evolucion[0]).toBe(65)
+    expect(s.evolucion.at(-1)).toBe(87.5)
+    expect(s.mejora).toBe(22.5)
+    expect(muro.find((m) => m.exerciseId === dominadas)!.mejora).toBe(2)
+    // En asistencia, mejorar es necesitar menos: de 28 kg a 19 kg de ayuda.
+    expect(muro.find((m) => m.exerciseId === asistida)!.mejora).toBe(9)
+  })
+
+  it('trazado de la minigráfica: repartido a lo ancho, ceñido a su rango y, en asistencia, al revés', () => {
+    expect(trazadoEvolucion([50])).toBeNull()
+    expect(trazadoEvolucion([60, 70, 80], { ancho: 64, alto: 28, margen: 3 })).toEqual({ d: 'M3 25L32 14L61 3', ultimo: { x: 61, y: 3 } })
+    expect(trazadoEvolucion([30, 25, 20], { ancho: 64, alto: 28, margen: 3, invertir: true })!.ultimo).toEqual({ x: 61, y: 3 })
+    expect(trazadoEvolucion([40, 40])!.d).toBe('M3 14L61 14')
+  })
+
+  it('sin mejora con una sola sesión o si la marca no ha subido', () => {
+    const remo = ejercicio('dorsales').id
+    const una = [entreno('2026-10-01', [{ exerciseId: remo, peso: 50 }])]
+    expect(muroRecords(una.map((e) => e.workout), una.flatMap((e) => e.sets))[0]).toMatchObject({ evolucion: [50], mejora: null })
+    const iguales = [entreno('2026-10-01', [{ exerciseId: remo, peso: 50 }]), entreno('2026-10-03', [{ exerciseId: remo, peso: 45 }])]
+    expect(muroRecords(iguales.map((e) => e.workout), iguales.flatMap((e) => e.sets))[0]).toMatchObject({ evolucion: [50, 45], mejora: null })
   })
 })
 

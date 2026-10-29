@@ -217,6 +217,9 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .muscle-progreso { max-width: var(--muscle-progreso-width); }
 /* Inicio: minigráfica del peso y vaso del agua. Datos neutros (texto atenuado), sin acento. */
 .mini-grafica { height: auto; overflow: visible; }
+/* Récords de la Vitrina: la minigráfica solo si deja ancho al nombre (no a 320 px ni con el texto ampliado). */
+.records-lista { container: records / inline-size; }
+@container records (width < 18rem) { .record-grafica { display: none; } }
 .mini-grafica-linea { fill: none; stroke: rgb(var(--c-text-secondary)); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .mini-grafica-punto { fill: rgb(var(--c-text-primary)); stroke: rgb(var(--c-surface)); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
 /* Relleno plano bajo la línea (sin degradado): da cuerpo al tramo sin competir con ella. */
@@ -250,8 +253,6 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
    El día elegido, número en grafito sólido; hoy, subrayado. */
 .semana-kcal { width: max(100%, calc(7 * var(--touch-target) + 1.5rem)); display: grid; grid-template-columns: repeat(7, minmax(var(--touch-target), 1fr)); gap: .25rem; }
 .semana-scroll { position: relative; overflow-x: auto; padding-block: .25rem; }
-.semana-deslizar { display: none; }
-@container semana (max-width: 21rem) { .semana-deslizar { display: block; } }
 .semana-diario { container: semana / inline-size; }
 .calendario-ritmo { container: calendario-ritmo / inline-size; }
 @container calendario-ritmo (max-width: 16rem) {
@@ -273,11 +274,15 @@ input[type='checkbox'] { min-width: 20px; min-height: 20px; }
 .semana-dia[aria-current='date'] .semana-num { background: rgb(var(--c-text-primary)); color: rgb(var(--c-bg)); }
 .semana-dia[data-hoy='true'] .semana-num { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 /* Calendario del historial: día entrenado relleno con la rampa según su volumen en el mes; hoy con anillo exterior.
-   Rejilla de días mientras cada día quepa con su objetivo táctil (7 × 44 px + huecos = 20 rem: móviles de 360 px o más);
-   más estrecho (320 px o texto ampliado) pasa a lista. */
+   Rejilla de días mientras cada día quepa con su objetivo táctil (7 × 44 px + huecos de 2 px = 20 rem); el cuerpo de la
+   tarjeta mide 314 px en un móvil de 360 px (borde y 2 px de margen), así que ahí los huecos pasan a 1 px (7 × 44 + 6 =
+   314 px) en vez de pasar a lista. Más estrecho (320 px o texto ampliado) pasa a lista. */
 .calendario-entrenos { container: entrenos / inline-size; }
 .cal-lista { display: none; }
 @container entrenos (width < 20rem) {
+  .calendario-entrenos .cal-grid { gap: 1px; }
+}
+@container entrenos (width < 19.625rem) {
   .cal-vista-mes { display: none; }
   .cal-lista { display: block; }
 }

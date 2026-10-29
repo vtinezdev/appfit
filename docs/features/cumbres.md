@@ -9,7 +9,7 @@ Desde B12 ([ADR 058](../decisiones/058-destino-progreso.md)) la página se ve co
 | Pieza | Archivo | Datos |
 |---|---|---|
 | Montañas, colecciones y fuentes de las altitudes | `lib/montanas.ts`: `MONTANAS` (en el orden de la ruta sugerida), `COLECCIONES`, `montanaDe`, `FUENTE_ALTITUDES` | — (puro) |
-| Motor y lecturas | `lib/cumbres.ts`: `calcularCumbres`, `rutaDe`, `SIGUIENTES`, `empezar`, `montanasParaCambiar`, `cambiarMontana`, `vecesCoronada`, `nombreExpedicion`, `metrosEntre`, `hitosDe`, `diasDeExpedicion`, `cumbreDeSesion`, `cumbreReciente`, `cuandoFue`, `progresoTexto` | — (puro; usa los `eventos` de `calcularExperiencia`) |
+| Motor y lecturas | `lib/cumbres.ts`: `calcularCumbres`, `rutaDe`, `SIGUIENTES`, `empezar`, `montanasParaCambiar`, `cambiarMontana`, `vecesCoronada`, `nombreExpedicion`, `metrosEntre`, `metrosPorTipo` (con `NOMBRE_TIPO`; cada tramo lleva el `tipo` de su evento), `hitosDe`, `diasDeExpedicion`, `cumbreDeSesion`, `cumbreReciente`, `cuandoFue`, `progresoTexto` | — (puro; usa los `eventos` de `calcularExperiencia`) |
 | Geometría del perfil | `lib/perfil.ts`: `trazadoSilueta`, `puntoEnLadera`, `yDeFraccion` | — (puro) |
 | Escritura | `data/cumbresRepo.ts`: `guardar` (devuelve la anterior, para «Deshacer») | `settings.cumbres` |
 | Lecturas | `hooks/leerCumbres.ts`: `leerCumbres` (experiencia + Cumbres; también para `leerVitrina`); `hooks/useCumbres.ts`: `useCumbres`, su parte del lector compartido (`experiencia/hooks/useProgreso`) | `leerExperiencia` y `settings` |
@@ -51,7 +51,7 @@ Fuentes (comprobadas el 11 y el 12 de octubre de 2026): Instituto Geográfico Na
   - «Hitos» (fecha o lo que falta);
   - «Esta semana»: entrenos y días registrados frente al plan, días con actividad que suman (de 3), metros subidos y lo que falta para cumplirla (+150 m);
   - «Tu expedición»: cumbres (las repetidas cuentan) con «N de 22 montañas», y metros subidos desde el inicio;
-  - «Cada día»: los metros de cada día desde el inicio con su porqué (`FilasMetros`, también los entrenos y las actividades que no suben y el motivo), 14 días y «Ver más días»;
+  - «De dónde salen» (opción B de Víctor, en vez de la lista de días que no acababa): una Card con «Semana / Mes / Todo» (`SegmentedControl`; semana desde el lunes, mes natural, todo desde el inicio) y una fila por tipo (entrenos, récords, actividades, días registrados, proteína, semanas cumplidas) con cuántas veces sumó, sus metros y una barra frente al tipo que más subió (`metrosPorTipo`: suma tramos, así que cuadra con «Subidos» y no cuenta lo que se pierde al hacer cumbre). «Ver cada día» abre la hoja «Cada día»: los metros de cada día desde el inicio con su porqué (`FilasMetros`, también los entrenos y las actividades que no suben y el motivo), 14 días y «Ver más días»;
   - «Siguientes»: las 5 próximas de la ruta, con «coronada N veces» si ya se subió;
   - «Mis cumbres»: fecha y días de cada expedición, también las repetidas;
   - la «i» de la cabecera abre «Cómo funciona Cumbres» (`components/ComoSeSube` en `ComoFunciona`): qué sube metros como lista de reglas con su valor, qué no cuenta, límites, la ruta y las fuentes en un desplegable.

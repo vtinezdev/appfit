@@ -103,7 +103,7 @@ export default function ActividadesHome({ onAbrir }: { onAbrir: (id: number) => 
         </section>
 
         {meses.length === 0
-          ? <EmptyState icon="footprints" title="Aún no hay actividades">Graba una salida, importa el GPX, TCX o FIT de tu reloj o de Strava, o apúntala a mano.</EmptyState>
+          ? <EmptyState icon="footprints" title="Aún no hay actividades" />
           : meses.map((m) => <section key={m.mes} aria-label={nombreMes(`${m.mes}-01`)} className="space-y-stack">
             <SectionHeader variant="section">{nombreMes(`${m.mes}-01`)}</SectionHeader>
             <ListGroup aria-label={`Actividades de ${nombreMes(`${m.mes}-01`).toLowerCase()}`}>
