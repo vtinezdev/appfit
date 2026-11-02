@@ -3315,3 +3315,12 @@ Víctor: en el calendario de semanas (Progreso › Ritmo) no se veía cuántos e
 - `ritmo/lib/calendario.partesSemana` (fracción) pasa a `rayasSemana` (`{ hechas, total }`), con test. La fila de barras sube de `h-28` a `h-32` para que las 7 rayas de comidas respiren.
 
 **Verificación:** `npm run test` (3.103) y `npm run build` correctos; captura a 375 px en ambos temas.
+
+## 304. PWA de iOS: el botón de secciones ya no queda cortado (2026-11-02)
+
+Víctor, con una captura en Ritmo (iPhone de 430 pt): la app acababa unos 64 pt antes del borde de la pantalla, con una franja vacía abajo, y el botón de secciones salía cortado. El arreglo anterior (commit f9f6ae3) (`altoVisible`) solo rellenaba diferencias de menos de 120 px y seguía el `offsetTop` que diera iOS.
+
+- `shared/design/viewport`: `abreTeclado` (campo de texto, área de texto o editable enfocado). En la PWA de iOS sin teclado posible, la app ocupa la pantalla entera falte lo que falte y `--viewport-top` es 0; con teclado, como antes.
+- Se recalcula también en `focusin`, `focusout` (en el siguiente frame), `pageshow` y al volver a primer plano, porque iOS no siempre avisa con un `resize`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Sin iPhone en la sesión: no probado en el dispositivo.
