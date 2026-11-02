@@ -43,6 +43,21 @@ describe('mejor serie y cifras clave', () => {
 
 describe('lista de ejercicios de Progreso', () => {
   const ws = [{ id: 1, inicio: 100, fin: 200 }, { id: 2, inicio: 300, fin: 400 }, { id: 3, inicio: 500 }]
+  it.each([
+    { realizada: false, agarre: { orientacion: 'prono' as const } },
+    { tipo: 'calentamiento' as const, modoCarga: 'lastre' as const },
+    { workoutId: 3, modoCarga: 'corporal' as const },
+    { reps: 0, modoCarga: 'asistencia' as const },
+  ])('una primera serie no representable no oculta las sesiones válidas: %j', primera => {
+    const r = resumenEjercicios([s(1, primera), s(2, { workoutId: 2, peso: 50, reps: 10, agarre: { orientacion: 'supino' } })], ws)
+    expect(r).toHaveLength(1)
+    expect(r[0]).toMatchObject({ exerciseId: 1, modo: 'externa', sesiones: 1, ultima: { workoutId: 2, pesoMax: 50 } })
+  })
+
+  it('la lista abre con la variante de más sesiones, como las tarjetas del detalle', () => {
+    const r = resumenEjercicios([s(1, { agarre: { orientacion: 'prono' } }), s(2, { agarre: { orientacion: 'supino' }, peso: 50 }), s(3, { workoutId: 2, agarre: { orientacion: 'supino' }, peso: 60 })], ws)
+    expect(r[0]).toMatchObject({ sesiones: 2, ultima: { pesoMax: 60 } })
+  })
   it('cada ejercicio con sesiones terminadas, su última mejor serie y su tendencia; el más reciente primero', () => {
     const r = resumenEjercicios([
       s(1, { peso: 80, reps: 5 }), s(2, { workoutId: 2, peso: 85, reps: 5 }), s(3, { workoutId: 3, peso: 90, reps: 5 }),
@@ -190,6 +205,14 @@ describe('historial por variante (ficha del ejercicio)', () => {
 })
 
 describe('sesiones de un ejercicio (punto 40)', () => {
+  it('menos asistencia es mejor: trofeo, color y barra con el sentido correcto, sin invertir el signo del cambio', () => {
+    const mejora = marcasSesiones([20, 30], true)
+    expect(mejora[0]).toMatchObject({ record: true, cambio: -10, mejora: true })
+    expect(mejora[0].ancho).toBeGreaterThan(mejora[1].ancho)
+    expect(marcasSesiones([30, 20], true)[0]).toMatchObject({ record: false, cambio: 10, mejora: false })
+    expect(marcasSesiones([0, 10], true)[0]).toMatchObject({ record: true, cambio: -10, mejora: true })
+    expect(marcasSesiones([20, 20], true)[0]).toMatchObject({ record: false, cambio: 0, mejora: null })
+  })
   it('récord si supera a todas las anteriores, cambio frente a la anterior y barra con base bajo la peor', () => {
     const m = marcasSesiones([100, 95, 98, 90])
     expect(m.map((x) => x.record)).toEqual([true, false, true, false])

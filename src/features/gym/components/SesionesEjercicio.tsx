@@ -26,9 +26,9 @@ const conSigno = (v: number) => `${v > 0 ? '+' : '−'}${formatNumber(Math.abs(v
  * con el día, la mejor serie, una barra corta frente a las demás y la cifra con su cambio frente a la anterior; el trofeo
  * cuando supera a todas las anteriores. Se lee como una tabla y se ve la progresión. Las últimas, hasta «Ver las N sesiones».
  */
-export default function SesionesEjercicio({ filas, unidad, nombre }: { filas: FilaSesionEjercicio[]; unidad: string; nombre: string }) {
+export default function SesionesEjercicio({ filas, unidad, nombre, menorEsMejor = false }: { filas: FilaSesionEjercicio[]; unidad: string; nombre: string; menorEsMejor?: boolean }) {
   const [todas, setTodas] = useState(false)
-  const marcas = marcasSesiones(filas.map(f => f.valor))
+  const marcas = marcasSesiones(filas.map(f => f.valor), menorEsMejor)
   const meses: { clave: string; nombre: string; indices: number[] }[] = []
   ;(todas ? filas : filas.slice(0, PRIMERAS)).forEach((f, i) => {
     const d = new Date(f.inicio)
@@ -44,7 +44,7 @@ export default function SesionesEjercicio({ filas, unidad, nombre }: { filas: Fi
       <ListGroup aria-label={`Sesiones de ${nombre} en ${m.nombre}`}>
         {m.indices.map(i => {
           const f = filas[i]
-          const { record, cambio, ancho } = marcas[i]
+          const { record, cambio, mejora, ancho } = marcas[i]
           const fecha = new Date(f.inicio)
           // Con el texto ampliado, la barra y la cifra bajan a otra línea.
           return <li key={f.id} className="flex min-h-touch flex-wrap items-center gap-x-3 gap-y-1 py-2"
@@ -56,7 +56,7 @@ export default function SesionesEjercicio({ filas, unidad, nombre }: { filas: Fi
             </span>
             <span aria-hidden className="tabular w-20 shrink-0 text-right">
               <span className="flex items-center justify-end gap-1 text-body-sm font-semibold text-fg">{record && <Icon name="trophy" size={14} className="text-accent-strong" />}{formatNumber(f.valor, 1)}<span className="font-normal text-fg-muted">{unidad}</span></span>
-              {cambio !== null && cambio !== 0 && <span className={`block text-caption ${cambio > 0 ? 'text-success' : 'text-fg-muted'}`}>{conSigno(cambio)}</span>}
+              {cambio !== null && cambio !== 0 && <span className={`block text-caption ${mejora ? 'text-success' : 'text-fg-muted'}`}>{conSigno(cambio)}</span>}
             </span>
           </li>
         })}

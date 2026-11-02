@@ -24,6 +24,27 @@ async function datos() { const b = await exportarBackup(); delete (b as Partial<
 const delEntreno = async () => (await db.sets.where('workoutId').equals(1).sortBy('id'))
 
 describe('sustituir un ejercicio en la sesión', () => {
+  it.each([{ orientacion: 'supino' as const }, null])('usa el agarre elegido al sustituir, también en la rutina, y Deshacer conserva el estado anterior: %j', async agarre => {
+    await preparar([{ id: 3, exerciseId: 1, orden: 0, reps: 8, peso: 80, realizada: false }])
+    await db.exercises.update(3, { ejecucionHabitual: { ejecucion: 'bilateral', agarre: { orientacion: 'prono' } } })
+    await db.workouts.update(1, { ejecucionesEjercicios: { 2: { ejecucion: 'bilateral', agarre: { orientacion: 'neutro' } } } })
+    const antes = await datos()
+    const c = await repo.sustituirEnSesion(1, 1, { tipo: 'local', id: 3, agarre }, true)
+    expect((await db.sets.get(3))?.agarre).toEqual(agarre ?? undefined)
+    expect((await db.workouts.get(1))?.ejecucionesEjercicios?.[3]?.agarre).toEqual(agarre ?? undefined)
+    expect((await db.routines.get(1))?.agarres?.[3]).toEqual(agarre)
+    expect((await db.exercises.get(3))?.ejecucionHabitual?.agarre).toEqual({ orientacion: 'prono' })
+    await repo.deshacerSustitucion(c)
+    expect(await datos()).toEqual(antes)
+  })
+
+  it('Deshacer no pisa un cambio de variante posterior a la sustitución', async () => {
+    await preparar([{ id: 3, exerciseId: 1, orden: 0, reps: 8, peso: 80, realizada: false }])
+    const c = await repo.sustituirEnSesion(1, 1, { tipo: 'local', id: 3, agarre: { orientacion: 'supino' } })
+    await repo.configurarEjecucion(1, 3, { ejecucion: 'bilateral', agarre: { orientacion: 'neutro' } })
+    await repo.deshacerSustitucion(c)
+    expect((await db.workouts.get(1))?.ejecucionesEjercicios?.[3]?.agarre).toEqual({ orientacion: 'neutro' })
+  })
   it('solo pasan las series sin hacer, con sus reps y los kg de la última vez del nuevo; deshacer lo deja exacto', async () => {
     await preparar([
       { id: 1, exerciseId: 1, orden: 0, reps: 12, peso: 20, tipo: 'calentamiento', realizada: true },

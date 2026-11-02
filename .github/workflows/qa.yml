@@ -103,6 +103,7 @@ jobs:
           paso npm run test:ui:responsive
           paso npm run test:ui:uso
           paso node scripts/ui/validar-correcciones-auditoria.cjs
+          paso node scripts/ui/validar-correcciones-auditoria-general.cjs
           paso node scripts/ui/validar-pulido-auditoria.cjs
           paso node scripts/ui/validar-mejoras-pendientes.cjs
           paso node scripts/ui/auditoria-datos.cjs

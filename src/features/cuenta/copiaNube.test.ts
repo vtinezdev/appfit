@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { migrarBackup, type BackupV3 } from '../../shared/lib/backup'
+import { BackupCambiadoError, contenidoBackup } from '../../shared/lib/contenidoBackup'
 import type { Entry } from '../../shared/db/types'
 import { ServidorFalso } from '../../test/fixtures/nubeFalsa'
 import { CopiaNube, type AlmacenDispositivo } from './copiaNube'
@@ -13,6 +14,7 @@ class Movil {
   vinculo: VinculoDispositivo | undefined
   copia: CopiaNube
   nube: Nube
+  despuesDeImportar?: () => void
 
   constructor(servidor: ServidorFalso, ahora?: () => number) {
     const nube = servidor.nube()
@@ -27,7 +29,13 @@ class Movil {
       nube: async () => nube,
       dispositivo,
       exportar: async () => this.backup(),
-      importar: async (json) => { this.comidas = (JSON.parse(json) as BackupV3).entries.map((e) => e.nombre) },
+      importar: async (json, esperado) => {
+        if (esperado && contenidoBackup(this.backup()) !== contenidoBackup(esperado)) throw new BackupCambiadoError()
+        this.comidas = (JSON.parse(json) as BackupV3).entries.map((e) => e.nombre)
+        const importada = this.backup()
+        this.despuesDeImportar?.()
+        return importada
+      },
       hayDatos: async () => this.comidas.length > 0,
       borrarDatos: async () => { this.comidas = [] },
       iteraciones: 1000,
@@ -262,6 +270,40 @@ describe('dos móviles con la misma cuenta', () => {
     return { a, b }
   }
 
+  it('conserva lo escrito durante una descarga automática y pide resolver el conflicto', async () => {
+    const { a, b } = await dosMoviles()
+    a.comidas.push('Lentejas'); await a.copia.sincronizar()
+    let descargar!: () => void, continuar!: () => void
+    const descargando = new Promise<void>(r => { descargar = r })
+    const permiso = new Promise<void>(r => { continuar = r })
+    const leer = b.nube.leerCopia.bind(b.nube)
+    b.nube.leerCopia = async () => { descargar(); await permiso; return leer() }
+    const sincronizando = b.copia.sincronizar({ comprobarNube: true })
+    await descargando
+    b.comidas.push('Comida guardada durante la descarga'); b.copia.marcarPendiente()
+    continuar(); await sincronizando
+    expect(b.comidas).toEqual(['Tortilla', 'Comida guardada durante la descarga'])
+    expect(b.fase).toBe('conflicto')
+    expect(b.vinculo?.conflicto).toBe(true)
+    await b.copia.sincronizar()
+    expect([...servidor.copias.values()][0].revision).toBe(2)
+    await b.copia.resolverConflicto('subir')
+    await a.copia.sincronizar({ comprobarNube: true })
+    expect(a.comidas).toEqual(b.comidas)
+  })
+
+  it('una escritura posterior a importar no queda incluida en la huella de la copia remota', async () => {
+    const { a, b } = await dosMoviles()
+    a.comidas.push('Lentejas'); await a.copia.sincronizar()
+    b.despuesDeImportar = () => { b.comidas.push('Escritura posterior a la importación') }
+    await b.copia.sincronizar({ comprobarNube: true })
+    b.despuesDeImportar = undefined
+    await b.copia.sincronizar()
+    expect([...servidor.copias.values()][0].revision).toBe(3)
+    await a.copia.sincronizar({ comprobarNube: true })
+    expect(a.comidas).toEqual(['Tortilla', 'Lentejas', 'Escritura posterior a la importación'])
+  })
+
   it('lo que sube uno lo trae el otro si no tiene cambios', async () => {
     const { a, b } = await dosMoviles()
     a.comidas.push('Lentejas')
@@ -371,7 +413,7 @@ describe('cuenta', () => {
       nube: async () => { cargada = true; return servidor.nube() },
       dispositivo: { leer: async () => undefined, guardar: async () => {}, actualizar: async () => {}, borrar: async () => {} },
       exportar: async () => new Movil(servidor).backup(),
-      importar: async () => {},
+      importar: async () => new Movil(servidor).backup(),
       hayDatos: async () => false,
       borrarDatos: async () => {},
       haySesionGuardada: () => false,

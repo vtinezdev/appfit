@@ -32,7 +32,7 @@ const conEjecucion = (s: SetEntry, ejecucion?: EjecucionRutina) => ejecucion ===
 
 /** Última serie efectiva (no de calentamiento) del ejercicio, de cualquier entreno (o de ese gimnasio, o con esa ejecución). Solo lectura. */
 export function ultimaEfectiva(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio, ejecucion?: EjecucionRutina): Promise<SetEntry | undefined> {
-  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo !== 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId)) && conEjecucion(s, ejecucion)).first()
+  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.realizada !== false && s.tipo !== 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId)) && conEjecucion(s, ejecucion)).first()
 }
 
 /**
@@ -48,7 +48,7 @@ export async function seriesUltimaSesion(exerciseId: number, agarre?: Agarre | n
 
 /** La última serie de calentamiento del ejercicio (con ese agarre, en ese gimnasio y con esa ejecución, si se indican). */
 export function ultimoCalentamiento(exerciseId: number, agarre?: Agarre | null, gimnasio?: FiltroGimnasio, ejecucion?: EjecucionRutina): Promise<SetEntry | undefined> {
-  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.tipo === 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId)) && conEjecucion(s, ejecucion)).first()
+  return db.sets.where('[exerciseId+createdAt]').between([exerciseId, Dexie.minKey], [exerciseId, Dexie.maxKey]).reverse().filter((s) => s.realizada !== false && s.tipo === 'calentamiento' && convencional(s) && (agarre === undefined || claveAgarre(s.agarre) === claveAgarre(agarre)) && (!gimnasio || enGimnasio(s, gimnasio.gimnasioId)) && conEjecucion(s, ejecucion)).first()
 }
 
 /**

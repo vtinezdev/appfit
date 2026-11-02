@@ -440,6 +440,7 @@ export interface Sustitucion {
   creadas: number[]
   orden: Pick<Workout, 'ordenEjercicios' | 'ejerciciosOmitidos'> & ConSuperseries
   rutina?: Routine
+  ejecucionNueva?: { anterior?: ConfiguracionEjecucion; aplicada: ConfiguracionEjecucion }
 }
 
 /**
@@ -461,7 +462,9 @@ export function sustituirEnSesion(workoutId: number, de: number, seleccion: Sele
     const delAnterior = sets.filter(s => s.exerciseId === de).sort((a, b) => a.orden - b.orden)
     const movidas = delAnterior.filter(s => s.realizada !== true)
     const ejercicio = await db.exercises.get(nuevo)
-    const configurada = w.ejecucionesEjercicios?.[nuevo] ?? ejercicio?.ejecucionHabitual
+    const anterior = w.ejecucionesEjercicios?.[nuevo] ?? ejercicio?.ejecucionHabitual
+    const configurada = seleccion.agarre !== undefined ? { ...(anterior ?? { ejecucion: 'bilateral' as const }), agarre: seleccion.agarre ?? undefined } : anterior
+    const ejecucionNueva = seleccion.agarre !== undefined && configurada ? { anterior: w.ejecucionesEjercicios?.[nuevo], aplicada: configurada } : undefined
     const carga = w.cargasEjercicios?.[nuevo]
     const pesoCorporal = (await db.pesos.where('fecha').belowOrEqual(toISODate(new Date(w.inicio))).last())?.kg
     let orden = siguienteOrden(sets.filter(s => s.exerciseId === nuevo))
@@ -495,11 +498,12 @@ export function sustituirEnSesion(workoutId: number, de: number, seleccion: Sele
     // Si el nuevo ocupa el sitio del anterior, también ocupa su sitio en la superserie (A21).
     const pares = superseriesDe(w)
     await db.workouts.update(workoutId, {
+      ...(ejecucionNueva ? { ejecucionesEjercicios: { ...w.ejecucionesEjercicios, [nuevo]: ejecucionNueva.aplicada } } : {}),
       ordenEjercicios: ordenTrasSustituir(visibles, de, nuevo, deSigue),
       ejerciciosOmitidos: omitidos.length ? omitidos : undefined,
       ...(!deSigue && pares.some(p => p.includes(de)) ? { superseries: pares.map(p => p.map(id => (id === de ? nuevo : id)) as unknown as Superserie) } : {}),
     })
-    return { workoutId, de, nuevo, movidas, creadas, orden: { ordenEjercicios: w.ordenEjercicios, ejerciciosOmitidos: w.ejerciciosOmitidos, superseries: pares.length ? pares : undefined }, ...(rutina ? { rutina } : {}) }
+    return { workoutId, de, nuevo, movidas, creadas, orden: { ordenEjercicios: w.ordenEjercicios, ejerciciosOmitidos: w.ejerciciosOmitidos, superseries: pares.length ? pares : undefined }, ...(rutina ? { rutina } : {}), ...(ejecucionNueva ? { ejecucionNueva } : {}) }
   })
 }
 
@@ -510,7 +514,15 @@ export function deshacerSustitucion(c: Sustitucion): Promise<void> {
     if (!w) throw new Error('El entreno ya no está disponible.')
     await db.sets.bulkDelete(c.creadas)
     await db.sets.bulkPut(c.movidas)
-    await db.workouts.update(c.workoutId, { ordenEjercicios: c.orden.ordenEjercicios, ejerciciosOmitidos: c.orden.ejerciciosOmitidos, ...{ superseries: c.orden.superseries } })
+    const ejecuciones = { ...w.ejecucionesEjercicios }
+    const cambio = c.ejecucionNueva
+    const restaurarEjecucion = cambio && JSON.stringify(ejecuciones[c.nuevo]) === JSON.stringify(cambio.aplicada)
+    if (cambio && restaurarEjecucion) {
+      if (cambio.anterior) ejecuciones[c.nuevo] = cambio.anterior
+      else delete ejecuciones[c.nuevo]
+    }
+    await db.workouts.update(c.workoutId, { ordenEjercicios: c.orden.ordenEjercicios, ejerciciosOmitidos: c.orden.ejerciciosOmitidos, ...{ superseries: c.orden.superseries },
+      ...(restaurarEjecucion ? { ejecucionesEjercicios: Object.keys(ejecuciones).length ? ejecuciones : undefined } : {}) })
     if (c.rutina) await db.routines.put(c.rutina)
   })
 }

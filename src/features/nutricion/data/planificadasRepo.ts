@@ -7,7 +7,7 @@ import { getSettings, updateSettings } from '../../../shared/db/settings'
 import type { Comida, Entry, MealItem, Planificada } from '../../../shared/db/types'
 import type { ItemGuardado, KcalRapidasDraft } from '../lib/alimentos'
 import { macrosPorGramos } from '../lib/nutrition'
-import { sePuedePlanificar } from '../lib/planificadas'
+import { alternarMarca, sePuedePlanificar } from '../lib/planificadas'
 import { entradasDesdePlantilla, type DestinoPlantilla } from '../lib/plantillas'
 import * as foodsRepo from './foodsRepo'
 import * as nombresAlimentosRepo from './nombresAlimentosRepo'
@@ -161,4 +161,19 @@ export async function marcasCompra(): Promise<string[]> {
 
 export async function guardarMarcasCompra(claves: string[]): Promise<void> {
   await updateSettings({ compraMarcada: claves.length ? claves : undefined })
+}
+
+/** Alterna sobre las marcas actuales: dos toques seguidos no se calculan desde el mismo render. */
+export function alternarMarcaCompra(clave: string): Promise<void> {
+  return db.transaction('rw', db.settings, async () => {
+    await guardarMarcasCompra(alternarMarca(await marcasCompra(), clave))
+  })
+}
+
+/** Quita solo los artículos visibles, conservando las marcas de otras listas o filtros. */
+export function desmarcarCompra(claves: readonly string[]): Promise<void> {
+  return db.transaction('rw', db.settings, async () => {
+    const visibles = new Set(claves)
+    await guardarMarcasCompra((await marcasCompra()).filter(clave => !visibles.has(clave)))
+  })
 }

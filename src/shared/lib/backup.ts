@@ -1,5 +1,6 @@
 import { db, TABLAS_USUARIO } from '../db/db'
 import { conDefaults } from '../db/settings'
+import { BackupCambiadoError, contenidoBackup } from './contenidoBackup'
 import type { Actividad, Agua, CheatDay, DiaPasos, Entry, Exercise, Food, Gimnasio, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Planificada, Porcion, Receta, Routine, RutaPropia, SetEntry, Settings, Suplemento, VarianteReceta, Workout } from '../db/types'
 
 /**
@@ -196,8 +197,10 @@ export function migrarBackup(raw: unknown): BackupV3 {
 /**
  * Sustituye todos los datos locales por los del backup: vacía **todas las tablas de usuario** (también las que el backup
  * no trae, pero no el catálogo) y las rellena. Los ajustes vienen del backup, completados con los valores por defecto.
+ * Con `esperado`, solo importa si los datos siguen iguales: comprobación y reemplazo son atómicos. Devuelve la foto
+ * importada para anotar la huella sin incluir escrituras que lleguen después de la transacción.
  */
-export async function importarBackup(json: string): Promise<void> {
+export async function importarBackup(json: string, esperado?: BackupV3): Promise<BackupV3> {
   let data: unknown
   try {
     data = JSON.parse(json)
@@ -206,7 +209,10 @@ export async function importarBackup(json: string): Promise<void> {
   }
   const backup = migrarBackup(data)
 
-  await db.transaction('rw', usuarioTablas(), async () => {
+  return db.transaction('rw', usuarioTablas(), async () => {
+    // La comprobación y el reemplazo comparten el bloqueo de escritura de todas las tablas, también entre pestañas.
+    // Solo se espera a Dexie: ni la red ni el cifrado se ejecutan dentro de esta transacción.
+    if (esperado && contenidoBackup(await exportarBackup()) !== contenidoBackup(esperado)) throw new BackupCambiadoError()
     await Promise.all(usuarioTablas().map((t) => t.clear()))
     for (const t of TABLAS_OBLIGATORIAS) {
       if (t !== 'settings') await db.table(t).bulkAdd(backup[t])
@@ -220,6 +226,8 @@ export async function importarBackup(json: string): Promise<void> {
     const fechaCopia = Date.parse(backup.exportedAt)
     if (Number.isFinite(fechaCopia)) ajustes.ultimaExportacion = fechaCopia
     await db.settings.put(ajustes)
+    // Foto de lo que se ha importado: una escritura posterior no puede colarse en su huella de sincronización.
+    return exportarBackup()
   })
 }
 

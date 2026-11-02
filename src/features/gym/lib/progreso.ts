@@ -117,17 +117,24 @@ function metricaPorDefecto(modo: ModoCarga, datos: SesionProgreso[]): MetricaPro
   return modo === 'lastre' ? 'pesoMax' : modo === 'asistencia' ? 'asistencia' : 'reps'
 }
 
+/** Modos que tienen al menos una serie realizada y representable de una sesión terminada. */
+export function modosConSesiones(series: SetEntry[], workouts: Pick<Workout, 'id' | 'fin'>[]): ModoCarga[] {
+  const terminados = new Set(workouts.filter(w => w.fin !== undefined).map(w => w.id))
+  return [...new Set(efectivas(series).filter(s => terminados.has(s.workoutId) && repsComparables(s) > 0 && !s.bajadas?.length).map(modoCarga))]
+}
+
 /**
  * Lista de Progreso antes de elegir ejercicio: cada ejercicio con sesiones terminadas, con el mismo modo y variante que
- * abriría su gráfica (los primeros registrados), su última mejor serie y los últimos `n` valores. Más reciente primero.
+ * abriría su gráfica (primer modo con sesiones válidas y variante con más sesiones), su última mejor serie y los últimos `n` valores. Más reciente primero.
  */
 export function resumenEjercicios(series: SetEntry[], workouts: Pick<Workout, 'id' | 'inicio' | 'fin' | 'gimnasioId'>[], n = 8): ResumenEjercicioProgreso[] {
   const porEjercicio = new Map<number, SetEntry[]>()
   for (const s of series) porEjercicio.set(s.exerciseId, [...(porEjercicio.get(s.exerciseId) ?? []), s])
   const out: ResumenEjercicioProgreso[] = []
   for (const [exerciseId, ss] of porEjercicio) {
-    const modo = modoCarga(ss[0])
-    const variante = ss.filter(s => modoCarga(s) === modo && !s.bajadas?.length).map(claveVariante)[0]
+    const modo = modosConSesiones(ss, workouts)[0]
+    if (!modo) continue
+    const variante = resumenVariantes(ss, workouts, modo)[0]?.clave
     // Una sola línea: la del habitual si hay sesiones allí; si no, la del primer gimnasio (las máquinas no se mezclan).
     const todas = datosProgreso(ss, workouts, modo, variante)
     const datos = todas.filter(d => d.gimnasioId === gimnasiosConSesiones(todas)[0])
@@ -322,13 +329,17 @@ function recordsVigentes(sesiones: { inicio: number; ss: MejorSerie[] }[], modo:
  * si supera a todas las anteriores (récord), el cambio frente a la anterior (`null` en la primera) y el ancho de su barra
  * (8–100 %), que parte un poco por debajo de la peor sesión para ver las diferencias sin exagerarlas.
  */
-export function marcasSesiones(valores: readonly number[]): { record: boolean; cambio: number | null; ancho: number }[] {
+export function marcasSesiones(valores: readonly number[], menorEsMejor = false): { record: boolean; cambio: number | null; mejora: boolean | null; ancho: number }[] {
   const max = Math.max(...valores)
   const min = Math.min(...valores)
   const base = Math.max(0, min - (max - min || max) * 0.25)
-  return valores.map((v, i) => ({
-    record: i < valores.length - 1 && valores.slice(i + 1).every((anterior) => v > anterior),
-    cambio: i < valores.length - 1 ? v - valores[i + 1] : null,
-    ancho: Math.max(8, ((v - base) / Math.max(1e-9, max - base)) * 100),
-  }))
+  return valores.map((v, i) => {
+    const cambio = i < valores.length - 1 ? v - valores[i + 1] : null
+    return {
+      record: i < valores.length - 1 && valores.slice(i + 1).every((anterior) => menorEsMejor ? v < anterior : v > anterior),
+      cambio,
+      mejora: cambio === null || cambio === 0 ? null : menorEsMejor ? cambio < 0 : cambio > 0,
+      ancho: Math.max(8, (((menorEsMejor ? max + min - v : v) - base) / Math.max(1e-9, max - base)) * 100),
+    }
+  })
 }

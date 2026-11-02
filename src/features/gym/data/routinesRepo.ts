@@ -93,15 +93,17 @@ export function guardarCompartida(nombre: string, ejercicios: { seleccion: Selec
   return db.transaction('rw', db.routines, db.exercises, async () => {
     const exerciseIds: number[] = []
     const objetivos: NonNullable<Routine['objetivos']> = {}
+    const agarres: NonNullable<Routine['agarres']> = {}
     for (const { seleccion, objetivo } of ejercicios) {
       const id = await resolverSeleccion(seleccion)
       if (exerciseIds.includes(id)) continue
       exerciseIds.push(id)
       if (objetivo) objetivos[id] = sanearObjetivo(objetivo)
+      if (seleccion.agarre !== undefined) agarres[id] = seleccion.agarre
     }
     if (!exerciseIds.length) throw new RutinaVacia('Elige al menos un ejercicio para guardar la rutina.')
     const libre = nombreLibre(nombre.trim() || 'Rutina', (await db.routines.toArray()).map((r) => r.nombre))
-    return db.routines.add({ nombre: libre, exerciseIds, ...(Object.keys(objetivos).length ? { objetivos } : {}) })
+    return db.routines.add({ nombre: libre, exerciseIds, ...(Object.keys(objetivos).length ? { objetivos } : {}), ...(Object.keys(agarres).length ? { agarres } : {}) })
   })
 }
 

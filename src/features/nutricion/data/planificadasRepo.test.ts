@@ -95,4 +95,20 @@ describe('planificadasRepo', () => {
     await planificadasRepo.guardarMarcasCompra([])
     expect(await planificadasRepo.marcasCompra()).toEqual([])
   })
+
+  it('dos marcas simultáneas conservan ambos artículos y el resto de ajustes', async () => {
+    const { updateSettings, getSettings } = await import('../../../shared/db/settings')
+    await updateSettings({ aguaObjetivoMl: 2500, compraMarcada: undefined })
+    await Promise.all([planificadasRepo.alternarMarcaCompra('user:1'), planificadasRepo.alternarMarcaCompra('user:2')])
+    expect((await planificadasRepo.marcasCompra()).sort()).toEqual(['user:1', 'user:2'])
+    expect((await getSettings()).aguaObjetivoMl).toBe(2500)
+    await Promise.all([planificadasRepo.alternarMarcaCompra('user:1'), planificadasRepo.alternarMarcaCompra('user:1')])
+    expect((await planificadasRepo.marcasCompra()).sort()).toEqual(['user:1', 'user:2'])
+  })
+
+  it('desmarcar una lista no borra marcas concurrentes de otros artículos', async () => {
+    await planificadasRepo.guardarMarcasCompra(['user:1'])
+    await Promise.all([planificadasRepo.alternarMarcaCompra('user:2'), planificadasRepo.desmarcarCompra(['user:1'])])
+    expect(await planificadasRepo.marcasCompra()).toEqual(['user:2'])
+  })
 })
