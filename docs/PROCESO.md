@@ -3306,3 +3306,12 @@ Plan: `docs/plan-retoques-2026-10-28.md`. Inventario de textos sueltos en `fg-mu
 - `validar-pulido-auditoria` esperaba la descripción de Recetas en Mis alimentos: ahora espera el SegmentedControl en «Recetas».
 
 **Verificación:** `npm run test` (3.103) y `npm run build` correctos. En Chromium, los recorridos del trabajo `navegador` de CI (`test:ui`, `responsive`, `uso`, `validar-correcciones-auditoria`, `validar-pulido-auditoria`, `validar-mejoras-pendientes`) correctos. El inventario repetido solo encuentra los textos que se quedan.
+
+## 303. Ritmo: las barras de «Semanas» en rayas (2026-11-02)
+
+Víctor: en el calendario de semanas (Progreso › Ritmo) no se veía cuántos entrenos y días con comidas llevaba cada semana, solo cuánto se llenaba.
+
+- Cada mitad de la barra se parte en rayas: arriba una por entreno del plan, abajo una por día con comidas del plan; se llenan de abajo arriba las hechas (lo de más no cuenta). Sin plan de entrenos, una raya llena.
+- `ritmo/lib/calendario.partesSemana` (fracción) pasa a `rayasSemana` (`{ hechas, total }`), con test. La fila de barras sube de `h-28` a `h-32` para que las 7 rayas de comidas respiren.
+
+**Verificación:** `npm run test` (3.103) y `npm run build` correctos; captura a 375 px en ambos temas.

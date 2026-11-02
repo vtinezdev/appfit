@@ -6,7 +6,7 @@ import ListGroup from '../../../shared/components/ListGroup'
 import ListRow from '../../../shared/components/ListRow'
 import { startOfWeek } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
-import { mesesDelAnio, partesSemana, semanasDelAnio } from '../lib/calendario'
+import { mesesDelAnio, rayasSemana, semanasDelAnio, type Rayas } from '../lib/calendario'
 import { tieneRevision, type EstadoSemana, type ResultadoRitmo, type SemanaRitmo } from '../lib/ritmo'
 import { cifrasSemana, textoEstado } from '../lib/textos'
 
@@ -37,18 +37,19 @@ function tramosDeMes(lunes: readonly string[]): { mes: number; semanas: number }
 }
 
 /**
- * Una semana como barra partida en dos (punto 19, C4): arriba se llena en acento con los entrenos del plan y abajo en
- * tinta con los días con comidas (los mismos colores que los cuadros de la semana). Todas igual de altas; en pausa, borde
- * discontinuo; sin datos (antes de empezar o por delante), solo el contorno. La semana en curso lleva anillo.
+ * Una semana como barra partida en dos (punto 19, C4): arriba, una raya por entreno del plan y abajo, una por día con
+ * comidas, llenas de abajo arriba las hechas (en acento y en tinta, los mismos colores que los cuadros de la semana), para
+ * contarlas de un vistazo. Todas igual de altas; en pausa, borde discontinuo; sin datos (antes de empezar o por delante),
+ * solo el contorno. La semana en curso lleva anillo.
  */
 function Barra({ s, actual }: { s: SemanaRitmo | undefined; actual: boolean }) {
   const anillo = actual ? 'ring-2 ring-fg ring-offset-1 ring-offset-surface' : ''
   if (!s || enPausa(s)) return <span className={`h-full min-w-0 max-w-8 flex-1 rounded-sm border ${s ? 'border-dashed border-line-strong' : 'border-line'} ${anillo}`} />
-  const { entreno, comidas } = partesSemana(s)
-  const mitad = (parte: number, color: string) => <span className="flex min-h-0 flex-1 items-end overflow-hidden rounded-sm bg-surface-muted">
-    <span className={`block w-full ${color}`} style={{ height: `${parte * 100}%` }} />
+  const { entreno, comidas } = rayasSemana(s)
+  const mitad = ({ hechas, total }: Rayas, color: string) => <span className="flex min-h-0 flex-1 flex-col-reverse gap-0.5">
+    {Array.from({ length: total }, (_, i) => <span key={i} className={`block min-h-0 flex-1 rounded-sm ${i < hechas ? color : 'bg-surface-muted'}`} />)}
   </span>
-  return <span className={`flex h-full min-w-0 max-w-8 flex-1 flex-col gap-0.5 rounded-sm ${anillo}`}>
+  return <span className={`flex h-full min-w-0 max-w-8 flex-1 flex-col gap-1 rounded-sm ${anillo}`}>
     {mitad(entreno, 'bg-accent')}
     {comidas !== null && mitad(comidas, 'bg-fg')}
   </span>
@@ -90,7 +91,7 @@ export default function CalendarioSemanas({ ritmo, hoy, onVerRevision }: { ritmo
       </p>
       {visibles.length > 0 && <div role="img" className="space-y-1"
         aria-label={`${anio}: ${formatInt(cuenta('cumplida'))} semanas cumplidas, ${formatInt(cuenta('parcial'))} parciales, ${formatInt(cuenta('presente'))} presentes y ${formatInt(cuenta('vacia'))} vacías`}>
-        <div className="flex h-28 gap-0.5">
+        <div className="flex h-32 gap-0.5">
           {visibles.map((l) => <Barra key={l} s={porLunes.get(l)} actual={l === lunesActual} />)}
         </div>
         {/* Cada mes ocupa el ancho de sus semanas (como mucho 2 rem por barra), así su nombre cabe también con el texto ampliado. */}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mesesDelAnio, partesSemana, semanasDelAnio } from './calendario'
+import { mesesDelAnio, rayasSemana, semanasDelAnio } from './calendario'
 
 describe('calendario de semanas', () => {
   it('las semanas de un año empiezan en su primer lunes', () => {
@@ -18,10 +18,10 @@ describe('calendario de semanas', () => {
     expect(mesesDelAnio(2025, '2026-10-27').flatMap((m) => m.semanas)).toEqual(semanasDelAnio(2025))
   })
 
-  it('partes de la semana: lo hecho frente al plan, sin pasar de 1; sin nutrición, sin mitad de comidas', () => {
+  it('rayas de la semana: una por entreno y por día del plan, llenas las hechas sin pasar del plan; sin nutrición, sin comidas', () => {
     const plan = { entrenos: 3, diasRegistro: 5 }
-    expect(partesSemana({ entrenos: 2, diasRegistrados: 6, plan })).toEqual({ entreno: 2 / 3, comidas: 1 })
-    expect(partesSemana({ entrenos: 4, diasRegistrados: null, plan })).toEqual({ entreno: 1, comidas: null })
-    expect(partesSemana({ entrenos: 0, diasRegistrados: 0, plan: { entrenos: 0, diasRegistro: 5 } })).toEqual({ entreno: 1, comidas: 0 })
+    expect(rayasSemana({ entrenos: 2, diasRegistrados: 6, plan })).toEqual({ entreno: { hechas: 2, total: 3 }, comidas: { hechas: 5, total: 5 } })
+    expect(rayasSemana({ entrenos: 4, diasRegistrados: null, plan })).toEqual({ entreno: { hechas: 3, total: 3 }, comidas: null })
+    expect(rayasSemana({ entrenos: 0, diasRegistrados: 0, plan: { entrenos: 0, diasRegistro: 5 } })).toEqual({ entreno: { hechas: 1, total: 1 }, comidas: { hechas: 0, total: 5 } })
   })
 })
