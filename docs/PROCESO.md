@@ -3336,3 +3336,12 @@ Víctor, con una captura en Ritmo (iPhone de 430 pt): la app acababa unos 64 pt 
 - Se recalcula también en `focusin`, `focusout` (en el siguiente frame), `pageshow` y al volver a primer plano, porque iOS no siempre avisa con un `resize`.
 
 **Verificación:** `npm run test` y `npm run build` correctos. Sin iPhone en la sesión: no probado en el dispositivo.
+
+## 307. CI `navegador`: dos recorridos que dependían de la fecha y de la velocidad (2026-11-02)
+
+En la PR de §305–306 el trabajo `navegador` falló por dos motivos ajenos al cambio (reproducidos también con master):
+
+- `auditoria-comun.sembrar` creaba las sesiones de gym hace 4 y 2 días: a primeros de mes caían en el mes anterior y «Sesiones del mes» salía vacío (`test:ui:responsive`). Ahora quedan siempre dentro del mes en curso.
+- `validar-correcciones-auditoria` › almacenamiento hacía fallar las lecturas de `entries` antes de abrir la rejilla; en un runner lento Inicio repetía una consulta, la app entera pasaba a la pantalla de error y la rejilla se desmontaba antes del toque (reproducido con la CPU ×6). El fallo se arma ahora en el mismo paso que el toque en «Nutrición».
+
+**Verificación:** los nueve recorridos del trabajo `navegador` correctos en local (Chromium); el caso de almacenamiento, también con la CPU ×6.
