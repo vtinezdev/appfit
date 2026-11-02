@@ -23,11 +23,15 @@ export function mesesDelAnio(anio: number, hoy: string): { mes: number; semanas:
   return meses
 }
 
+/** Una mitad de la barra: cuántas rayas tiene (el plan) y cuántas van llenas (lo hecho, sin pasar del plan). */
+export interface Rayas { hechas: number; total: number }
+
 /**
- * Las dos mitades de la barra de una semana (punto 19, C4): qué parte del plan de entrenos y de días con comidas se
- * hizo, de 0 a 1 (lo de más no cuenta). `comidas` es `null` si la nutrición no cuenta esa semana.
+ * Las dos mitades de la barra de una semana (punto 19, C4), partidas en rayas: una por entreno del plan y una por día con
+ * comidas del plan, llenas las hechas (lo de más no cuenta). Sin plan de entrenos, una sola raya llena. `comidas` es `null`
+ * si la nutrición no cuenta esa semana.
  */
-export function partesSemana(s: { entrenos: number; diasRegistrados: number | null; plan: { entrenos: number; diasRegistro: number } }): { entreno: number; comidas: number | null } {
-  const parte = (hecho: number, plan: number) => (plan <= 0 ? 1 : Math.min(1, hecho / plan))
-  return { entreno: parte(s.entrenos, s.plan.entrenos), comidas: s.diasRegistrados === null ? null : parte(s.diasRegistrados, s.plan.diasRegistro) }
+export function rayasSemana(s: { entrenos: number; diasRegistrados: number | null; plan: { entrenos: number; diasRegistro: number } }): { entreno: Rayas; comidas: Rayas | null } {
+  const rayas = (hecho: number, plan: number): Rayas => (plan <= 0 ? { hechas: 1, total: 1 } : { hechas: Math.min(plan, Math.max(0, hecho)), total: plan })
+  return { entreno: rayas(s.entrenos, s.plan.entrenos), comidas: s.diasRegistrados === null ? null : rayas(s.diasRegistrados, s.plan.diasRegistro) }
 }

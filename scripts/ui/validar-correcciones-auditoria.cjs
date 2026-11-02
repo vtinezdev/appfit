@@ -116,9 +116,16 @@ async function motor(nombre) {
         const { db } = await import('/src/shared/db/db.ts')
         const proto = Object.getPrototypeOf(db.entries.where('fecha').equals('2026-10-22'))
         const original = proto.toArray
-        proto.toArray = function (...args) { return this._ctx.table.name === 'entries' ? Promise.reject(new Error('Fallo sintético de lectura')) : original.apply(this, args) }
+        window.__falloLectura = false // Se arma justo al elegir Nutrición (abajo).
+        proto.toArray = function (...args) { return window.__falloLectura && this._ctx.table.name === 'entries' ? Promise.reject(new Error('Fallo sintético de lectura')) : original.apply(this, args) }
       })
-      await navegar(page, 'Nutrición')
+      // El fallo se arma con la rejilla ya abierta, justo antes de elegir Nutrición: armado antes, una consulta de Inicio que
+      // se repite (en un runner lento) tumbaba la app entera y desmontaba la rejilla antes del toque.
+      await page.getByRole('navigation', { name: 'Navegación principal' }).getByRole('button', { name: 'Secciones', exact: true }).click()
+      const destino = page.getByRole('dialog', { name: 'Secciones', exact: true }).getByRole('button', { name: 'Nutrición', exact: true })
+      await destino.waitFor()
+      // En el mismo paso, sin dejar a Inicio repetir una consulta entre medias.
+      await destino.evaluate((boton) => { window.__falloLectura = true; boton.click() })
       await page.getByRole('heading', { name: 'No se ha podido mostrar la pantalla', exact: true }).waitFor()
       await page.getByRole('button', { name: 'Recargar AppFit', exact: true }).waitFor()
     })

@@ -3318,3 +3318,30 @@ Los seis hallazgos AG-01–06 se corrigen en `feat/correcciones-auditoria-genera
 - Pruebas unitarias de regresión y `validar-correcciones-auditoria-general` en QA (ocho configuraciones, incluido texto al 200 %, IndexedDB y cifrado reales con nube en memoria). `validar-cuenta` sustituye las pausas fijas por eventos de revisión y espera el cierre de la hoja antes de navegar a Inicio si el estado cambió durante el clic. Documentación de datos, Cuenta, Entreno, Nutrición y desarrollo actualizada. Sin cambios de esquema, formato de backup ni SQL de Supabase.
 
 **Verificación:** `npm run test` (266 archivos, 3.124 pruebas) y `npm run build`, correctos. `test:ui`, `test:ui:responsive`, `test:ui:uso`, `validar-correcciones-auditoria` y `validar-pulido-auditoria` en Chromium, Firefox y WebKit; `validar-mejoras-pendientes` (sin Social, como en CI), `auditoria-datos` y `test:ui:offline`, correctos. `validar-correcciones-auditoria-general`: ocho configuraciones correctas en Chromium, con claro/oscuro y texto al 200 %. `validar-cuenta`: seis configuraciones correctas con dos dispositivos y Supabase interceptado. `node --check` de los dos scripts modificados y `git diff --check`, correctos. No se probaron correo, SQL/RLS ni dispositivos físicos.
+
+## 305. Ritmo: las barras de «Semanas» en rayas (2026-11-02)
+
+Víctor: en el calendario de semanas (Progreso › Ritmo) no se veía cuántos entrenos y días con comidas llevaba cada semana, solo cuánto se llenaba.
+
+- Cada mitad de la barra se parte en rayas: arriba una por entreno del plan, abajo una por día con comidas del plan; se llenan de abajo arriba las hechas (lo de más no cuenta). Sin plan de entrenos, una raya llena.
+- `ritmo/lib/calendario.partesSemana` (fracción) pasa a `rayasSemana` (`{ hechas, total }`), con test. La fila de barras sube de `h-28` a `h-32` para que las 7 rayas de comidas respiren.
+
+**Verificación:** `npm run test` (3.103) y `npm run build` correctos; captura a 375 px en ambos temas.
+
+## 306. PWA de iOS: el botón de secciones ya no queda cortado (2026-11-02)
+
+Víctor, con una captura en Ritmo (iPhone de 430 pt): la app acababa unos 64 pt antes del borde de la pantalla, con una franja vacía abajo, y el botón de secciones salía cortado. El arreglo anterior (commit f9f6ae3) (`altoVisible`) solo rellenaba diferencias de menos de 120 px y seguía el `offsetTop` que diera iOS.
+
+- `shared/design/viewport`: `abreTeclado` (campo de texto, área de texto o editable enfocado). En la PWA de iOS sin teclado posible, la app ocupa la pantalla entera falte lo que falte y `--viewport-top` es 0; con teclado, como antes.
+- Se recalcula también en `focusin`, `focusout` (en el siguiente frame), `pageshow` y al volver a primer plano, porque iOS no siempre avisa con un `resize`.
+
+**Verificación:** `npm run test` y `npm run build` correctos. Sin iPhone en la sesión: no probado en el dispositivo.
+
+## 307. CI `navegador`: dos recorridos que dependían de la fecha y de la velocidad (2026-11-02)
+
+En la PR de §305–306 el trabajo `navegador` falló por dos motivos ajenos al cambio (reproducidos también con master):
+
+- `auditoria-comun.sembrar` creaba las sesiones de gym hace 4 y 2 días: a primeros de mes caían en el mes anterior y «Sesiones del mes» salía vacío (`test:ui:responsive`). Ahora quedan siempre dentro del mes en curso.
+- `validar-correcciones-auditoria` › almacenamiento hacía fallar las lecturas de `entries` antes de abrir la rejilla; en un runner lento Inicio repetía una consulta, la app entera pasaba a la pantalla de error y la rejilla se desmontaba antes del toque (reproducido con la CPU ×6). El fallo se arma ahora en el mismo paso que el toque en «Nutrición».
+
+**Verificación:** los nueve recorridos del trabajo `navegador` correctos en local (Chromium); el caso de almacenamiento, también con la CPU ×6.

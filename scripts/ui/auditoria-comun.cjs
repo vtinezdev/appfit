@@ -59,8 +59,11 @@ async function sembrar(page) {
     const wr = await import('/src/features/gym/data/workoutsRepo.ts')
     const sr = await import('/src/features/gym/data/setsRepo.ts')
     const exerciseId = await ex.obtenerOCrear('Press banca')
+    // Dentro del mes en curso, para que salgan en «Sesiones del mes»: a primeros de mes, horas tras el día 1 en vez de días.
+    const ahora = new Date()
+    const inicioMes = new Date(ahora.getFullYear(), ahora.getMonth(), 1).getTime()
     for (const dias of [4, 2]) {
-      const fin = Date.now() - dias * 86400000
+      const fin = Math.min(Date.now() - 60000, Math.max(Date.now() - dias * 86400000, inicioMes + (7 - dias) * 3600000))
       const id = await wr.crearPasado({ inicio: fin - 3600000, fin })
       const sid = await sr.agregar(id, exerciseId, fin - 1800000)
       await sr.actualizar(sid, { reps: 12, peso: dias === 4 ? 60 : 65 })
