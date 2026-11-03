@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import backupV1 from '../../test/fixtures/backup-v1.json?raw'
 import { db } from '../db/db'
 import type { CatalogFood } from '../db/types'
-import { BackupError, borrarTodosLosDatos, exportarBackup, importarBackup, migrarBackup } from './backup'
+import { BackupError, borrarTodosLosDatos, exportarBackup, nombreArchivoBackup, importarBackup, migrarBackup } from './backup'
 
 beforeEach(async () => {
   await Promise.all(db.tables.map((t) => t.clear()))
@@ -381,5 +381,11 @@ describe('backup de pasos', () => {
     expect((await db.settings.get(1))?.zancadaCm).toBe(74)
     await importarBackup(backupV1)
     expect(await db.pasos.count()).toBe(0)
+  })
+})
+
+describe('nombreArchivoBackup', () => {
+  it('lleva el día local, también pasada la medianoche (en UTC aún sería el día anterior)', () => {
+    expect(nombreArchivoBackup(new Date(2026, 10, 3, 0, 30))).toBe('appfit-backup-2026-11-03.json')
   })
 })

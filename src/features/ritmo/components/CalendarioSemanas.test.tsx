@@ -28,3 +28,14 @@ describe('CalendarioSemanas › revisiones', () => {
     expect(render()).not.toContain('Ver revisión')
   })
 })
+
+describe('CalendarioSemanas › cambio de año', () => {
+  it('del 1 al 3 de enero abre en el año de la semana en curso (la que empezó en diciembre), no en uno vacío', () => {
+    const hoy = '2027-01-02' // sábado; su semana empieza el lunes 28 de diciembre de 2026
+    const r = calcularRitmo({ hoy, diasEntreno: new Set(['2026-12-21', '2026-12-28']), diasRegistro: null })
+    const html = renderToStaticMarkup(<CalendarioSemanas ritmo={r} hoy={hoy} />)
+    expect(html).toContain('>2026<')
+    expect(html).toContain('Semana del 28 dic')
+    expect(html).toMatch(/aria-label="Año siguiente"[^>]*disabled/)
+  })
+})

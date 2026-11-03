@@ -3345,3 +3345,15 @@ En la PR de §305–306 el trabajo `navegador` falló por dos motivos ajenos al 
 - `validar-correcciones-auditoria` › almacenamiento hacía fallar las lecturas de `entries` antes de abrir la rejilla; en un runner lento Inicio repetía una consulta, la app entera pasaba a la pantalla de error y la rejilla se desmontaba antes del toque (reproducido con la CPU ×6). El fallo se arma ahora en el mismo paso que el toque en «Nutrición».
 
 **Verificación:** los nueve recorridos del trabajo `navegador` correctos en local (Chromium); el caso de almacenamiento, también con la CPU ×6.
+
+## 308. Auditoría de bugs y lógica (2026-11-03)
+
+Víctor pidió una auditoría general centrada en bugs y lógica, corrigiendo lo que saliera. Revisado: fechas y tiempo en todo `src/` (fechas UTC tomadas como locales, días de 86.400.000 ms, `new Date('YYYY-MM-DD')`), Ritmo, experiencia, revisión semanal, gasto observado, recetas y variantes, planificadas y lista de la compra, objetivos congelados, entreno en curso (`workoutsRepo`: empezar, repetir, terminar, quitar y restaurar ejercicio), borrados con «Deshacer» y el backup. Además, un barrido en Chromium de todos los destinos y pestañas con los datos sembrados, con el reloj de hoy y el del 2 ene 2027, buscando `NaN`, `undefined`, `Infinity` o `null` en pantalla: ninguno.
+
+- **Ritmo › Semanas, del 1 al 3 de enero:** el calendario abría en el año nuevo y salía vacío (0 en todo), sin la semana en curso, que empezó en diciembre. Ahora abre (y no deja pasar) del año del lunes de la semana en curso. Test en `CalendarioSemanas.test.tsx`.
+- **Nombre del backup:** llevaba el día en UTC (`toISOString`): de medianoche a la 1 o las 2 salía la fecha de ayer. `nombreArchivoBackup` usa el día local, con test.
+- **Publicaciones de entreno o actividad:** el día de las insignias de la Vitrina salía en UTC (uno pasada la medianoche caía en el anterior). Ahora es el local; los logros siguen con su día guardado a las 12:00 UTC.
+
+Sin cambiar (por decisión o por bajo impacto): muchos componentes leen `todayISO()` al pintar en vez de `useHoy` (solo se notaría con la app abierta al pasar la medianoche y sin volver a pintarse); `escalarIngredientes` ya no se usa fuera de sus tests.
+
+**Verificación:** `npm run test` (266 archivos, 3.129 pruebas) y `npm run build` correctos.

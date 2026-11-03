@@ -1,6 +1,7 @@
 import { db, TABLAS_USUARIO } from '../db/db'
 import { conDefaults } from '../db/settings'
 import { BackupCambiadoError, contenidoBackup } from './contenidoBackup'
+import { toISODate } from './dates'
 import type { Actividad, Agua, CheatDay, DiaPasos, Entry, Exercise, Food, Gimnasio, Meal, Medida, NombreAlimento, NotaMedida, ObjetivoDia, Peso, Planificada, Porcion, Receta, Routine, RutaPropia, SetEntry, Settings, Suplemento, VarianteReceta, Workout } from '../db/types'
 
 /**
@@ -129,13 +130,17 @@ export async function exportarBackup(): Promise<BackupV3> {
   })
 }
 
+/** «appfit-backup-2026-11-03.json» con el día local: en UTC, de medianoche a la 1 o las 2 (España) llevaría el de ayer. */
+export function nombreArchivoBackup(ahora: Date = new Date()): string {
+  return `appfit-backup-${toISODate(ahora)}.json`
+}
+
 export function descargarBackup(data: BackupV3): void {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
-  const fecha = new Date().toISOString().slice(0, 10)
   a.href = url
-  a.download = `appfit-backup-${fecha}.json`
+  a.download = nombreArchivoBackup()
   a.click()
   URL.revokeObjectURL(url)
 }
