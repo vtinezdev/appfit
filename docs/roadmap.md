@@ -10,7 +10,7 @@
 
 **Parte social:** Social (feed, ánimos, comentarios, avisos) y Amigos (perfil y personas) fusionados en `master` el 2026-10-15 ([ADR 040](decisiones/040-parte-social.md), [social](features/social.md)). Pendiente antes de abrirlo a desconocidos: la fase 6 (condiciones de uso, política de privacidad con el consentimiento y los 16 años, ficha de datos de Google Play, revisión por alguien que sepa de protección de datos) y la 7 (prueba en iPhone y Android). Plan y estado en [`social.md`](social.md).
 
-**Publicación:** abrir la app a otras personas (gratis, Google Play para Android y PWA para iPhone) tiene su plan en [`despliegue.md`](despliegue.md). Va después del rediseño visual.
+**Publicación:** abrir la app a otras personas (gratis, Google Play para Android y PWA para iPhone) tiene su plan en [`despliegue.md`](despliegue.md). Endurecimiento hecho (2026-11-03, [`seguridad.md`](seguridad.md)). Siguiente: **nombre y logo** (candidatos en `progreso/sesion-16/resumen-tecnico.md`), después el dominio y el resto de pasos de § Preparación para Google Play. Pendiente de Víctor sin esperar al dominio: 2FA en las cuentas, Security Advisor y caducidad del código en Supabase, correo de la app y cuenta de Play.
 
 ## Pendientes de la auditoría de compatibilidad
 
@@ -25,6 +25,7 @@
 
 ## Pendiente de probar en el iPhone real
 
+- Botón de secciones sin cortar en la PWA instalada (§306, `shared/design/viewport`): la app debe llegar al borde inferior también tras cerrar el teclado o volver de segundo plano.
 Según los registros de sesión, sin confirmar todavía (preguntar a Víctor antes de darlo por hecho):
 - Rediseño completo (§51): safe areas, teclado y tacto en iOS/Android reales. Chromium cubre tamaños/temas/foco/scroll y viewport reducido, no reproduce el teclado real de WebKit.
 - Catálogo: tiempo de importación (~6.300 filas) y de búsqueda en Safari/WebKit.
@@ -50,6 +51,7 @@ Según los registros de sesión, sin confirmar todavía (preguntar a Víctor ant
 
 ## Limitaciones conocidas
 
+- Muchas pantallas leen `todayISO()` al pintar en vez de `useHoy`: con la app abierta al pasar la medianoche, alguna puede mostrar el día anterior hasta volver a pintarse (auditoría §308; bajo impacto). `nutricion/lib/recetas.escalarIngredientes` ya no se usa fuera de sus tests.
 - Fichas de técnica (ENT-09, A12): los textos de los 268 ejercicios los redactó AppFit sin fuente citada y están pendientes de la revisión de Víctor; la imagen de la ficha es la miniatura de 192 px ampliada a 160 px, falta la de 384 px (necesita los originales de `scripts/ejercicios/ia/`).
 - Ilustraciones de ejercicios: las 268 definiciones actuales tienen ilustración propia (IA; lotes 1–67, con 64 altas de gimnasio/calistenia/pilates el 2026-10-17). Al añadir ejercicios se amplían `scripts/ejercicios/ilustraciones.json` y `mapeo.json`; la tubería conserva las miniaturas aunque falten los originales. Ver `scripts/ejercicios/README.md` y la [revisión del catálogo](historico/revision-ejercicios-2026-10-17.md).
 - Perfil: los factores de actividad (1,2–1,9) se atribuyen a McArdle, Katch y Katch (1996) sin haber verificado la edición ni una derivación experimental; la cifra de 600 kcal/día de NICE procede de CG189 y no se ha cotejado en NG246. La media de Mifflin y Roza-Shizgal es criterio de AppFit, no un método publicado. Los scripts `scripts/ui/validar-*.cjs` adaptados a Perfil no se han ejecutado (rutas fijas a `/usr/bin/chromium` y al puerto 5174); el recorrido se probó con un script propio en Edge (PROCESO §74).
