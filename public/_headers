@@ -1,0 +1,15 @@
+# Cabeceras de seguridad que Cloudflare añade a cada respuesta (docs/seguridad.md). Lo vigila
+# src/shared/seguridad/cabeceras.test.ts, y `npm run preview` las aplica también (vite.config.ts), así que los recorridos
+# de navegador de la CI fallan si la política de contenido bloquea algo que la app necesita.
+#
+# Content-Security-Policy: solo se ejecuta y se carga lo del propio origen. Fuera de él, solo Open Food Facts (el código
+# de barras al escanear) y Supabase (cuenta, copia cifrada y Social). 'wasm-unsafe-eval' es para el lector de códigos
+# (zxing en WebAssembly); 'unsafe-inline' en estilos, para los `style` que React pone en los elementos.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://world.openfoodfacts.org https://*.supabase.co wss://*.supabase.co; media-src 'self' data: blob:; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Cross-Origin-Opener-Policy: same-origin
+  Permissions-Policy: camera=(self), geolocation=(self), microphone=(), payment=(), usb=(), serial=(), bluetooth=(), hid=(), midi=(), display-capture=()

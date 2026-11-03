@@ -3357,3 +3357,16 @@ Víctor pidió una auditoría general centrada en bugs y lógica, corrigiendo lo
 Sin cambiar (por decisión o por bajo impacto): muchos componentes leen `todayISO()` al pintar en vez de `useHoy` (solo se notaría con la app abierta al pasar la medianoche y sin volver a pintarse); `escalarIngredientes` ya no se usa fuera de sus tests.
 
 **Verificación:** `npm run test` (266 archivos, 3.129 pruebas) y `npm run build` correctos.
+
+## 309. Preparación para Google Play: endurecimiento (2026-11-03)
+
+Víctor quiere preparar la app para Google Play (App Store, más adelante), sobre todo en seguridad. Nombre, logo y dominio aún sin decidir: se hace solo lo que no depende de ellos.
+
+- `public/_headers`: CSP (scripts solo del origen y WebAssembly; red solo al origen, Open Food Facts y Supabase; sin marcos), HSTS, `nosniff`, `X-Frame-Options`, `Referrer-Policy: no-referrer`, COOP y `Permissions-Policy` (cámara y ubicación solo la app; micrófono y el resto, nadie). `npm run preview` las aplica (`vite.config.ts`).
+- El script del tema inicial sale de `index.html` a `public/tema-inicial.js`, para no permitir scripts en línea; `validar-actualizaciones` busca ahora la entrada en `/assets/`.
+- Guardián `src/shared/seguridad/cabeceras.test.ts` y recorrido `scripts/ui/validar-seguridad.cjs` (CI): todos los destinos sin violaciones de la CSP, el WebAssembly del escáner compila, Open Food Facts y Supabase permitidos y un origen cualquiera bloqueado.
+- CI: `npm audit --omit=dev --audit-level=high`.
+- Supabase revisado (21 tablas con RLS, funciones con `search_path` y ejecución revocada a `anon`): sin cambios.
+- Documentos: `seguridad.md` (nuevo), `despliegue.md` § Preparación para Google Play (pasos de Víctor y los que dependen del dominio), `arquitectura.md`, `desarrollo.md` y `CLAUDE.md`.
+
+**Verificación:** `npm run test` (267 archivos, 3.134 pruebas) y `npm run build` correctos; `validar-seguridad`, `test:ui:offline` y `validar-actualizaciones` (dos builds) correctos en Chromium.

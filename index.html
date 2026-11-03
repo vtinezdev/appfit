@@ -12,14 +12,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="AppFit" />
     <title>AppFit</title>
-    <script>
-      // Evita el parpadeo de tema antes de que cargue React (misma lógica que shared/design/theme.ts).
-      try {
-        var p = localStorage.getItem('appfit-theme')
-        var dark = p === 'dark' || (p !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)
-        document.documentElement.dataset.theme = dark ? 'dark' : 'light'
-      } catch (e) {}
-    </script>
+    <!-- Tema antes de React, sin parpadeo. En un archivo (no en línea) para que la CSP no tenga que permitir scripts en línea. -->
+    <script src="/tema-inicial.js"></script>
   </head>
   <body>
     <div id="root"></div>
