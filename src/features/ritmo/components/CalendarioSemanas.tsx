@@ -61,11 +61,12 @@ function Barra({ s, actual }: { s: SemanaRitmo | undefined; actual: boolean }) {
  * cada semana en texto; en las cerradas con algo registrado, la fila entera abre su revisión semanal (`onVerRevision`), con chevrón.
  */
 export default function CalendarioSemanas({ ritmo, hoy, onVerRevision }: { ritmo: ResultadoRitmo; hoy: string; onVerRevision?: (lunes: string) => void }) {
-  const anioActual = Number(hoy.slice(0, 4))
+  const lunesActual = startOfWeek(hoy)
+  // El año de la semana en curso: del 1 al 3 de enero puede seguir siendo la última de diciembre.
+  const anioActual = Number(lunesActual.slice(0, 4))
   const primero = ritmo.semanas.length ? Number(ritmo.semanas[0].lunes.slice(0, 4)) : anioActual
   const [anio, setAnio] = useState(anioActual)
   const porLunes = new Map(ritmo.semanas.map((s) => [s.lunes, s]))
-  const lunesActual = startOfWeek(hoy)
   const semanas = semanasDelAnio(anio)
   const conDatos = semanas.map((l) => porLunes.get(l)).filter((s): s is SemanaRitmo => s !== undefined)
   const cuenta = (e: EstadoSemana) => conDatos.filter((s) => s.estado === e && (s.cerrada || e !== 'vacia') && !enPausa(s)).length

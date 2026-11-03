@@ -2,7 +2,7 @@ import { lazy, Suspense, useId, useLayoutEffect, useRef, useState, type ReactNod
 import Button from '../../../shared/components/Button'
 import Card from '../../../shared/components/Card'
 import Icon from '../../../shared/components/Icon'
-import { formatFechaHoraConDia, formatFriendly } from '../../../shared/lib/dates'
+import { formatFechaHoraConDia, formatFriendly, toISODate } from '../../../shared/lib/dates'
 import { formatInt } from '../../../shared/lib/format'
 import { duracionTexto, formatKm, formatRitmo, ritmoSegPorKm } from '../../actividades/lib/actividad'
 import IconoLogro from '../../vitrina/components/IconoLogro'
@@ -177,8 +177,9 @@ export default function TarjetaPublicacion({ resumen: r, fecha, cabecera, creada
   const [detalle, setDetalle] = useState(false)
   const idDetalle = useId()
   const previa = !creada
-  // Los logros solo guardan el día: no inventar una hora de obtención ni desplazarlo al cambiar de zona horaria.
-  const dia = new Date(fecha).toISOString().slice(0, 10)
+  // Los logros solo guardan el día (a las 12:00 UTC): no inventar una hora de obtención ni desplazarlo al cambiar de zona
+  // horaria. Un entreno o una actividad guardan su instante: su día es el local (en UTC, uno pasada la medianoche caía en el anterior).
+  const dia = r.tipo === 'logro' ? new Date(fecha).toISOString().slice(0, 10) : toISODate(new Date(fecha))
   const etiqueta = etiquetaPublicacion(r, fecha, creada)
   // Lo que solo está al desplegar: los ejercicios (con su liga y sus series) y los nombres de lo nuevo en la Vitrina.
   const hayDetalle = (r.tipo === 'entreno' && (r.ejercicios.length > 0 || r.ligas.length > 0 || r.logros.length > 0)) || r.tipo === 'rutina'

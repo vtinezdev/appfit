@@ -13,6 +13,7 @@ Estado actual del código. El porqué de las decisiones de base está en `decisi
   - cargar la lista de pueblos de España (`/lugares/espana.json`, del propio origen) al crear o editar una ruta propia de Caminos;
   - con cuenta: Supabase (`*.supabase.co`) para entrar con el código del email y subir o traer la copia, **ya cifrada en el móvil**. El service worker no cachea estas llamadas. El correo con el código lo envía Supabase por el SMTP de Brevo; la app no habla con Brevo.
   - con o sin cuenta, solo al pulsar «Enviar»: Supabase para los mensajes al creador (`cuenta/mensajes`, tabla privada `mensajes_creador`, [ADR 061](decisiones/061-mensajes-al-creador.md)), con el texto revisado en pantalla.
+- Las cabeceras de seguridad (`public/_headers`, [seguridad](seguridad.md)) imponen esta lista en el navegador: la política de contenido (CSP) solo deja conectar con el propio origen, Open Food Facts y Supabase.
 - El resto funciona sin conexión. El GPS de las actividades (`navigator.geolocation`) es local: la ubicación no sale del móvil y el recorrido se dibuja sin mapas ni teselas de ningún servicio ([ADR 037](decisiones/037-actividades-y-caminos.md)).
 
 ## Capas y dependencias
@@ -23,7 +24,7 @@ src/main.tsx ─► src/app/ ─► src/features/* ─► src/shared/
 
 | Capa | Contiene | Puede importar |
 |---|---|---|
-| `shared/` | `db/` (esquema Dexie, tipos, `settings.ts`, `foodRef.ts`), `lib/` (`dates`, `format`, `text`, `backup`), `design/` (tokens y su JS), `components/` (primitives), `hooks/useAviso`, `hooks/useModalLayer` | solo `shared/` (nunca `features/` ni `app/`) |
+| `shared/` | `db/` (esquema Dexie, tipos, `settings.ts`, `foodRef.ts`), `lib/` (`dates`, `format`, `text`, `backup`), `design/` (tokens y su JS), `components/` (primitives), `hooks/useAviso`, `hooks/useModalLayer`, `seguridad/` (test guardián de las cabeceras) | solo `shared/` (nunca `features/` ni `app/`) |
 | `features/<x>/data/` | repositorios `*Repo.ts`: los **únicos** que tocan `db` | `shared/` |
 | `features/<x>/lib/` | lógica pura con tests (sin React ni `db`) | `shared/`, otras `lib/` |
 | `features/<x>/hooks/` | acciones asíncronas y estado de UI (p. ej. búsqueda con espera entre teclas) | `data/`, `lib/`, `shared/` |

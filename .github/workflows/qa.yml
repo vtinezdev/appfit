@@ -19,6 +19,9 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # Dependencias que llegan al móvil con vulnerabilidades conocidas de gravedad alta o crítica: la PR no pasa.
+      - name: Auditoría de dependencias
+        run: npm audit --omit=dev --audit-level=high
       - run: npm run test
       - run: npm run build
 
@@ -108,6 +111,7 @@ jobs:
           paso node scripts/ui/validar-mejoras-pendientes.cjs
           paso node scripts/ui/auditoria-datos.cjs
           paso npm run test:ui:offline
+          paso node scripts/ui/validar-seguridad.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

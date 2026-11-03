@@ -19,7 +19,7 @@ Catálogo (`npm run catalogo:*`): `scripts/catalogo/README.md`. Despliegue y res
 
 ```
 src/app/            shell: App (router casero con useState, sin URLs), BottomNav, Ajustes
-src/shared/         db/ (esquema Dexie, tipos, ajustes) · lib/ (fechas, formato, texto, backup) · design/ (tokens, guard)
+src/shared/         db/ (esquema Dexie, tipos, ajustes) · lib/ (fechas, formato, texto, backup) · design/ (tokens, guard) · seguridad/ (guardián de cabeceras)
                     · pwa/ (estado y aplicación de actualizaciones) · components/ (primitives) · hooks/ (useAviso, useModalLayer)
 src/features/       inicio/ · nutricion/ · gym/ · actividades/ · perfil/ · referencias/ · experiencia/ · cumbres/ · caminos/ · ritmo/ · vitrina/ · progreso/ · liga/ · cuenta/ · social/ — <X>Tab, pages/, components/, data/ (repos), lib/ (lógica pura)
 src/test/           setup-db.ts (fake-indexeddb) y fixtures/
@@ -40,7 +40,7 @@ Dónde está cada cosa: `docs/arquitectura.md` y `docs/features/<feature>.md`.
 **Código**
 - Lógica de negocio en funciones puras con tests colocados al lado (`*.test.ts`); los componentes solo componen.
 - Imports relativos, sin alias.
-- Red: solo los estáticos, el catálogo y los metadatos de versión del propio origen, Open Food Facts con el código de barras y, con cuenta, Supabase con la copia **ya cifrada** y, en Amigos, solo el perfil social (alias, nombre, a quién sigues) y lo que la persona publique a propósito, y lo que envíe al creador desde «Comunicar un problema» o «Proponer un alimento» (ADR 061) (nada más sale en claro del móvil; el GPS de las actividades es local y el recorrido se dibuja sin mapas). Ningún servicio externo nuevo sin preguntar.
+- Red: solo los estáticos, el catálogo y los metadatos de versión del propio origen, Open Food Facts con el código de barras y, con cuenta, Supabase con la copia **ya cifrada** y, en Amigos, solo el perfil social (alias, nombre, a quién sigues) y lo que la persona publique a propósito, y lo que envíe al creador desde «Comunicar un problema» o «Proponer un alimento» (ADR 061) (nada más sale en claro del móvil; el GPS de las actividades es local y el recorrido se dibuja sin mapas). Ningún servicio externo nuevo sin preguntar; si se aprueba, va también en la CSP de `public/_headers` (`docs/seguridad.md`).
 
 **UI** (identidad en `DESIGN.md`; implementación en `docs/DESIGN-SYSTEM.md`: lee la sección que toque)
 - Nada de colores, tamaños, radios ni cifras sin formato sueltos, ni emojis como iconos: tokens + primitives. Lo vigilan `shared/design/guard.test.ts` y `contrast.test.ts`.
@@ -70,6 +70,7 @@ Los documentos vivos describen el estado actual y cada tema vive en uno solo. Si
 | `docs/features/nutricion.md`, `gym.md`, `actividades.md`, `inicio.md`, `perfil.md`, `referencias.md`, `experiencia.md`, `cumbres.md`, `caminos.md`, `ritmo.md`, `vitrina.md`, `progreso.md`, `liga.md`, `cuenta.md`, `social.md` | flujos de cada feature y dónde vive su lógica | cambia un flujo o dónde vive su lógica |
 | `DESIGN.md` | identidad, intención y criterios de producto | cambia la dirección visual |
 | `docs/DESIGN-SYSTEM.md` | implementación: tokens, primitives y patrones | cambian tokens, primitives o patrones |
+| `docs/seguridad.md` | cabeceras de seguridad y CSP, revisión de Supabase, dependencias, pendientes de endurecimiento | cambian la red permitida, los permisos del navegador, las cabeceras o el servidor |
 | `docs/desarrollo.md` | requisitos, tests, pruebas en navegador, Git/PR, despliegue, uso de Claude Code | cambian comandos, flujo de trabajo o despliegue |
 | `scripts/catalogo/README.md` | fuentes y licencias del catálogo, formato de paquete, tubería | cambia la tubería, una fuente o el formato |
 | `docs/decisiones/` | el porqué de las decisiones de base vigentes (un ADR por archivo) | se toma o se revierte una decisión duradera |

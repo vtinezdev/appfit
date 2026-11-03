@@ -14,7 +14,7 @@ const versionB = JSON.parse(fs.readFileSync(path.join(b, 'version.json')))
 assert.notEqual(versionA.id, versionB.id, 'las dos builds deben tener distinta identidad')
 fs.mkdirSync(salida, { recursive: true })
 let raiz = a, bloquearDescarga = false
-const entradaB = fs.readFileSync(path.join(b, 'index.html'), 'utf8').match(/src="([^"]+\.js)"/)[1]
+const entradaB = fs.readFileSync(path.join(b, 'index.html'), 'utf8').match(/src="(\/assets\/[^"]+\.js)"/)[1]
 const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2' }
 const server = http.createServer((req, res) => {
   const ruta = decodeURIComponent(new URL(req.url, BASE).pathname)

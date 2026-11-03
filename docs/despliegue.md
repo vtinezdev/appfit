@@ -1,6 +1,6 @@
 # Plan de publicación (octubre 2026)
 
-Plan para abrir AppFit a otras personas, acordado con Víctor el 2026-10-12. Es un plan, no la fuente de verdad: lo que se implemente se documenta en su documento vivo y aquí solo cambia el estado. Cuando esté hecho, este archivo pasa a `docs/historico/`. El despliegue técnico actual (Cloudflare Workers) está en `desarrollo.md` § Despliegue; aquí se trata de **publicar** la app para el público.
+Plan para abrir AppFit a otras personas, acordado con Víctor el 2026-10-12. Los pasos de Google Play, en § Preparación para Google Play. Es un plan, no la fuente de verdad: lo que se implemente se documenta en su documento vivo y aquí solo cambia el estado. Cuando esté hecho, este archivo pasa a `docs/historico/`. El despliegue técnico actual (Cloudflare Workers) está en `desarrollo.md` § Despliegue; aquí se trata de **publicar** la app para el público.
 
 Orden: primero el rediseño visual y los últimos retoques (sesión aparte); después, este plan. Nada se empieza sin que Víctor lo pida.
 
@@ -61,6 +61,45 @@ Orden: primero el rediseño visual y los últimos retoques (sesión aparte); des
    - El código de la cuenta se envía por Brevo (SMTP propio en Supabase, ya configurado) desde un Gmail, y puede caer en spam. Antes de publicar: comprar un dominio **solo para el correo**, autenticarlo en Brevo o Resend y cambiar los datos SMTP en Supabase. La app sigue en `appfit.vtinez-dev.workers.dev`: los datos de IndexedDB van ligados a ese origen. La política de privacidad debe nombrar a Brevo (recibe el email para enviar el código).
 5. **Idioma.** Solo español y catálogo de España: el mercado inicial es España.
 6. **Infraestructura.** Cloudflare solo sirve estáticos y Open Food Facts recibe una consulta por escaneo desde la IP de cada usuario, así que, en principio, más usuarios no cambian el coste (0 €). Comprobarlo con el plan de Cloudflare si el tráfico crece.
+
+## Preparación para Google Play (noviembre 2026)
+
+Estado a 2026-11-03: hecho el endurecimiento que no depende del dominio (`seguridad.md`). El nombre, el logo y el dominio aún no están decididos, y casi todo lo de Play depende de ellos, así que va en orden.
+
+### 1. Ya hecho (en el código)
+
+- Cabeceras de seguridad y política de contenido (CSP) en `public/_headers`, probadas en la CI (`seguridad.md`).
+- Auditoría de dependencias en la CI.
+- Revisión de Supabase: RLS y permisos de las funciones, sin cambios necesarios.
+
+### 2. Ahora, sin esperar al dominio (Víctor)
+
+1. **Verificación en dos pasos (2FA)** en GitHub, Cloudflare, Supabase y la cuenta de Google con la que se abrirá Play Console. Con una app de códigos (Google Authenticator, 1Password…), mejor que con SMS. Guardar los códigos de recuperación.
+2. **Supabase:** Advisors › Security Advisor › ejecutar, y pasarme los avisos si sale alguno. En Authentication › Email, bajar la caducidad del código (*Email OTP expiration*) de 3600 a 600 s.
+3. **Correo de la app:** crear el buzón dedicado (será el contacto público de la ficha de Play).
+4. **Cuenta de desarrollador de Play:** se puede abrir ya (25 $, verificación de identidad, puede tardar días). Al crearla, elegir cuenta **personal**.
+
+### 3. Al decidir nombre, logo y dominio
+
+1. Comprar el dominio y conectarlo al Worker `appfit` de Cloudflare (Settings › Domains & Routes). Mantener `appfit.vtinez-dev.workers.dev` funcionando un tiempo y avisar en la app de que hay que pasar los datos con una copia de seguridad (los datos van ligados a la dirección).
+2. Nombre, iconos (incluido uno *maskable* propio, con margen de seguridad) y descripción del manifest (`vite.config.ts`; hoy dice «uso personal»).
+3. Correo con el dominio (Brevo o Resend) y cambiar el SMTP en Supabase (§ Trabajo pendiente, punto 4).
+4. HSTS con `includeSubDomains` en `_headers`.
+
+### 4. Empaquetar para Android (TWA)
+
+1. **Nombre del paquete** (definitivo, no se cambia nunca): p. ej. `es.<dominio>.app`.
+2. Generar el proyecto Android con **Bubblewrap** (o PWABuilder) a partir del manifest del dominio definitivo. Lo preparo yo cuando haya dominio.
+3. **Firma:** activar *Play App Signing* (Google guarda la clave con la que se firma la app). Nosotros solo guardamos la *clave de subida* (upload key): el archivo `.jks` y su contraseña van a un gestor de contraseñas, con una copia fuera del ordenador. **Nunca** al repositorio.
+4. Servir `/.well-known/assetlinks.json` con la huella SHA-256 de la clave de firma de Play (Play Console › Configuración › Integridad de la app). Sin él, la app se abre con la barra de direcciones de Chrome. Lo añado yo con la huella.
+5. Probar el `.aab` en un Android real (§ Trabajo pendiente, punto 2).
+
+### 5. Ficha y formularios de Play Console
+
+- **Política de privacidad** y **página para borrar la cuenta**, con URL pública en el dominio (las redacto yo a partir de `seguridad.md`, `features/cuenta.md` y `features/social.md`).
+- **Seguridad de los datos:** sin cuenta no se recoge nada; con cuenta, email y copia cifrada (el servidor no puede leerla); Social, lo publicado. Cifrado en tránsito (HTTPS) y borrado desde la app.
+- **Declaración de app de salud**, clasificación de contenido (cuestionario) y público objetivo (mayores de 18 o 16: decidirlo).
+- **Prueba cerrada:** 12 testers o más durante 14 días seguidos antes de producción (§ Requisitos de Google Play).
 
 ## Monetización (para más adelante, solo si funciona)
 

@@ -2,12 +2,27 @@ import react from '@vitejs/plugin-react'
 import { configDefaults, defineConfig } from 'vitest/config'
 import { VitePWA } from 'vite-plugin-pwa'
 import { randomUUID } from 'node:crypto'
+import { readFileSync } from 'node:fs'
+
+/**
+ * Las cabeceras de `public/_headers` (las que aplica Cloudflare en producción) para `npm run preview`: así los recorridos de
+ * navegador sobre la build prueban la app con la misma política de seguridad. Solo el bloque `/*`, que es el único.
+ */
+function cabecerasDeProduccion(): Record<string, string> {
+  const cabeceras: Record<string, string> = {}
+  for (const linea of readFileSync(new URL('./public/_headers', import.meta.url), 'utf8').split('\n')) {
+    const m = /^\s+([A-Za-z-]+):\s*(.+)$/.exec(linea)
+    if (m) cabeceras[m[1]] = m[2].trim()
+  }
+  return cabeceras
+}
 
 // La página y el fichero remoto comparten el mismo identificador, también en builds sin commit nuevo.
 const versionApp = { id: process.env.APPFIT_BUILD_ID ?? randomUUID(), fecha: new Date().toISOString() }
 
 export default defineConfig({
   define: { __APP_VERSION__: JSON.stringify(versionApp) },
+  preview: { headers: cabecerasDeProduccion() },
   plugins: [
     react(),
     {
